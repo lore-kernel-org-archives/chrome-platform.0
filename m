@@ -1,50 +1,46 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC632CA2
-	for <chrome-platform@lists.linux.dev>; Thu, 27 Jan 2022 01:59:06 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id o11so1415062pjf.0
-        for <chrome-platform@lists.linux.dev>; Wed, 26 Jan 2022 17:59:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DD429CA
+	for <chrome-platform@lists.linux.dev>; Thu, 27 Jan 2022 03:06:30 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id v74so1447262pfc.1
+        for <chrome-platform@lists.linux.dev>; Wed, 26 Jan 2022 19:06:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=3GFLFPcC+bi0kn9hGKkkl3a/+Bvg4fCt0af+T2OF+Ng=;
-        b=GSfqPeOdRikTAsFSmLGUoF8iwk9otUGYBcN1yQ/IgSjUK9iMzeKY0uKgW3TGU+NPUE
-         yQ3s5TGJcR2VziVPFPDvRQ5uKz+WcJGA2paZM9RsLY/jHO0srojX6K58NiS9oQH8xIHV
-         h0i+ceDnK1kDRyjmz7V/j9SAz9HQ1XIH+sVCqWCZ7mxe2yLK71ZG/pCYOUB3L7rVibP/
-         5KZO4ut22yOJjrrSjDfQurSt7MsvPkbYULYTUq9FWb5m09TCwGiYYlMA0qAe21Tc0qxJ
-         R4E70qsPC7Y3tpgV6KI5NqcXR83hIjjN0rKmfG7EA9j3WcrdlYH9NJ0EPzwiEqzrsoNz
-         UV/g==
+        bh=xYVfPUL0HT1HfQJFKeNSl4bObGkqhbPgG9tLiL2+h0I=;
+        b=SevtvM6HXv4iELfguL2woPmkXMhHim46mAMmEMP0q6swAdgF3maZrrxh7ag/mAqgtQ
+         fs0kaH8z4VsggKzgszjxuUkMbKcs4jS0Or+6m8POYqNVdFGvDiSQv7INQEh8MxDaxFgG
+         ceM0M/Q6a7lvHOtxEkys7RebrKO+MbZww0SG0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=3GFLFPcC+bi0kn9hGKkkl3a/+Bvg4fCt0af+T2OF+Ng=;
-        b=b1dCJ30HCJL9L9P+p+o0uwzC2aoZ7sZp4c0DFKa5/kONGeUu26KAhEJFR32RoZlYt5
-         zQ3gp8DXyBx/Xv+TIVMdyauYUuFdnzL6RbAinYGuIyvw7Z1L6m4hhPNVF13J/R9ZG2Zk
-         ekDlqaKdSG/nnoN0dzLeJiznKlQakti+cK3khe9iqlzA+9UjcCQ8idxhQhWJB0NROLnL
-         Cd0qAnL11dNoRxBABW90GjqjsWCXi15zbSxO4sh6h1/2SOf0NRgaMkzbNgdpqdN9JkNN
-         XQv2bDZbko2/Flsl6EPC6etZtRD16lwZ7Z/Pb1RhOLHA80xvldVDgRWPfd/v0vwu+pPc
-         OpXw==
-X-Gm-Message-State: AOAM533ircO31WTo6gYhS8yOAWFdYpEyJlCcJ06DuWmT+wQ4GHRgApCP
-	C37qCuNhQQeUfUifAgI3FBkKoA==
-X-Google-Smtp-Source: ABdhPJzn+kR0m6Mwsx2Lqd1H0Lj6nsc2zGlOFUsvqF6qo0DEjA8pX/GyG2wJU+z4wFBwv+57VNIzcA==
-X-Received: by 2002:a17:903:11c9:: with SMTP id q9mr1545989plh.36.1643248745144;
-        Wed, 26 Jan 2022 17:59:05 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:7499:b258:18ee:819f])
-        by smtp.gmail.com with ESMTPSA id l23sm17954421pgj.20.2022.01.26.17.59.02
+        bh=xYVfPUL0HT1HfQJFKeNSl4bObGkqhbPgG9tLiL2+h0I=;
+        b=CqqWuyUcdz0U42vG8DA9ldCtSub5JMjAe6l+FUtg0eVjn6XiP78eCyjs7c7Rc5RTzT
+         jOM/MhpL2Ro+e1YVUIRkjV9xCcF+LE9QWgiYUdAfCdU5VEZO06Sj/vE1xcwtat8KmTrN
+         Qe0/L2BB/FOIzXg2YR9AghsV6K36FCG27fVic5iA0IGhYyzX3/HAEkDlBtjNZ5bzXkK+
+         MRVhnvndSyaeKqi4KTR+Q5SR1Aw+so4j7q2c0FAs/HS9h2q95MUBMOImplr99oliWUm8
+         UttROnqOhPq9etyBR3wUx/DzPppt7tdpAYibsO18tLEK/ld+wP6iUFBLGrPjyQhv2mkx
+         j2Cw==
+X-Gm-Message-State: AOAM531xbM13pIiYN67jhG2Ywk3e0+wcBx6+B5fbD8vLb83kOSPc4R+K
+	GKawCjPZHyw2HEcE2C7TF/PxHg==
+X-Google-Smtp-Source: ABdhPJxNgTkHGV0XJmVs+u0EOP88+mW/sUh/5JAiRbI/CRrRnDtWpSf/IZyBLhy76fCDUJwpYVNiKA==
+X-Received: by 2002:a63:c51:: with SMTP id 17mr1307984pgm.491.1643252790168;
+        Wed, 26 Jan 2022 19:06:30 -0800 (PST)
+Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id v13sm3316200pfi.201.2022.01.26.19.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jan 2022 17:59:03 -0800 (PST)
-Date: Wed, 26 Jan 2022 17:58:57 -0800
-From: Benson Leung <bleung@google.com>
-To: Benson Leung <bleung@chromium.org>, cychiang@chromium.org,
-	groeck@chromium.org
+        Wed, 26 Jan 2022 19:06:29 -0800 (PST)
+Date: Thu, 27 Jan 2022 03:06:28 +0000
+From: Prashant Malani <pmalani@chromium.org>
+To: Benson Leung <bleung@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	pmalani@chromium.org, tzungbi@google.com
+	bleung@google.com
 Subject: Re: [PATCH] MAINTAINERS: platform-chrome: Add new
  chrome-platform@lists.linux.dev list
-Message-ID: <YfH8YSuX+GICPPyJ@google.com>
+Message-ID: <YfIMNC2zE2kyhSuP@chromium.org>
 References: <20220126222233.2852280-1-bleung@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -52,44 +48,31 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QYJETpWnJahCqHhM"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220126222233.2852280-1-bleung@chromium.org>
 
+Hi Benson,
 
---QYJETpWnJahCqHhM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 26, 2022 at 02:22:33PM -0800, Benson Leung wrote:
+On Jan 26 14:22, Benson Leung wrote:
 > Signed-off-by: Benson Leung <bleung@chromium.org>
-
-Attention to cychiang@ and groeck@ who are both listed as M and R below.
-
-Be advised there is a new chrome-platform mailing list spun up.
-https://lore.kernel.org/chrome-platform/
-
-Thanks,
-Benson
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
 
 > ---
 >  MAINTAINERS | 5 +++++
 >  1 file changed, 5 insertions(+)
->=20
+> 
 > diff --git a/MAINTAINERS b/MAINTAINERS
 > index ea3e6c914384..cad7b0fff9f4 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
 > @@ -4537,6 +4537,7 @@ F:	drivers/input/touchscreen/chipone_icn8505.c
-> =20
+>  
 >  CHROME HARDWARE PLATFORM SUPPORT
 >  M:	Benson Leung <bleung@chromium.org>
 > +L:	chrome-platform@lists.linux.dev
 >  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
-ux.git
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
 >  F:	drivers/platform/chrome/
 > @@ -4544,6 +4545,7 @@ F:	drivers/platform/chrome/
 >  CHROMEOS EC CODEC DRIVER
@@ -108,41 +91,19 @@ ux.git
 >  F:	drivers/power/supply/cros_usbpd-charger.c
 >  N:	cros_ec
 > @@ -4558,11 +4561,13 @@ N:	cros-ec
-> =20
+>  
 >  CHROMEOS EC USB TYPE-C DRIVER
 >  M:	Prashant Malani <pmalani@chromium.org>
 > +L:	chrome-platform@lists.linux.dev
 >  S:	Maintained
 >  F:	drivers/platform/chrome/cros_ec_typec.c
-> =20
+>  
 >  CHROMEOS EC USB PD NOTIFY DRIVER
 >  M:	Prashant Malani <pmalani@chromium.org>
 > +L:	chrome-platform@lists.linux.dev
 >  S:	Maintained
 >  F:	drivers/platform/chrome/cros_usbpd_notify.c
 >  F:	include/linux/platform_data/cros_usbpd_notify.h
-> --=20
+> -- 
 > 2.35.0.rc0.227.g00780c9af4-goog
->=20
-
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org
-
---QYJETpWnJahCqHhM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCYfH8YQAKCRBzbaomhzOw
-wivMAQCLpmCgTDVvn9/ELenRMd82kPM9A5Fuo1cmUim1kDr/qgEAgtoXh/T4Oy9b
-WaZcSuqOtPOfmxC6qT8jMkZGmyoSwwE=
-=oPCa
------END PGP SIGNATURE-----
-
---QYJETpWnJahCqHhM--
+> 

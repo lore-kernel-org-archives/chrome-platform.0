@@ -1,118 +1,66 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9E229CA
-	for <chrome-platform@lists.linux.dev>; Tue,  1 Feb 2022 18:29:59 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id r65so53518245ybc.11
-        for <chrome-platform@lists.linux.dev>; Tue, 01 Feb 2022 10:29:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2F82CA6;
+	Tue,  1 Feb 2022 15:44:03 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id x13so16616893vsl.10;
+        Tue, 01 Feb 2022 07:44:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=I7jVNfxfiR6L9cpor2lIeHYS68RLOhT6ui7FFhcZWz8=;
-        b=DE+IbdQ63PDvuuuh9gJIWrSsywRKD8r77zIfVu8whigf/Ly1xuNWc66zIh1s30fhb5
-         dJinz/fjR2Eno8I8Mm6DoNhea7xR51a5wbnq4XVYC2VAvphzzzIJVJKyIHlZ/VqTfE0e
-         w8/+D7iv7bwBy4BKrKOGSoR3LxqqyLNZVFP+c=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=XlaBX5xf2kC2PYFh91EO4ufBvcLkfsBOS665OsIpRa9DQkpb7u+LxrdpNGJzxoAnJ0
+         6Zrb97yEFwak4wNM5a0BjH3AdPWqIlAwjxrNKkSzysr8CFAIoYhUPvJm6Qcznt67FGJa
+         7c9Sj9fxgdbh2vhCp424CZvvJ1UrpoZyojJwNagTfy7FdayiBCXf6mVeEEvxUs5vhht/
+         f371R1RqGkTBAQFf/gEHEAhojKs0nS5FarjH5vHJG+n5BYFkMvHQorqXLR+d0iWDZ/HK
+         EHDUCIDj5zcbSEABUPNFWoSmIlD5wghMJe3kzeG7eFpipQf7kXFiZVWg4C44VU3TC3nw
+         cf+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=I7jVNfxfiR6L9cpor2lIeHYS68RLOhT6ui7FFhcZWz8=;
-        b=ne4Bj8JgV0YCQj6bVgEnCWzzXNJ5KWJd7etOoXGi5+ky0cDaQmMRj1YfkGeHmWzqZM
-         k/On+AHW9WAsGtwzwvHQoTdxSFa3pxvZuhwkkI3HCKXJOnFzzZIa9iTUl1KYr7HI53OR
-         1wTF1cpE175TFYvpKNbw2Ahqkr/Hts2O7Acm4Vlo9aP16WJBHJYGT9V0f2r/0sf+dMyL
-         2/xRWHlaGo5fdxFKahPwNyYcBkjiZeUU7JcXPb71EQNb7esb4d9yugtYg6wlJj2EIj1W
-         UWNE/VRW1kQEWx+aSjqG+6b0malSWpBhJnxOS92ADpdH6KKwJgk++/McGxIM3tAVnnYe
-         IYig==
-X-Gm-Message-State: AOAM532P3jaGbZoLyH9hWOtGNq9Jd6gG3Br2nkCscdEEKYepUIOH/rHT
-	+8r6Q26RESrjosB/L3Pa8jp6iJvWHb0hTZE3cpsrkg==
-X-Google-Smtp-Source: ABdhPJwPxuDKdBHh2HvzjmJlvoYFjqoLZkyj4AU5NDzGKsornYRfx+d/FQCt96plRhZ/ajyaShJX1vAIstG2jAjhfXE=
-X-Received: by 2002:a25:ad14:: with SMTP id y20mr28247979ybi.155.1643740198548;
- Tue, 01 Feb 2022 10:29:58 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=zGWqDVvgo3fGsbJUB2qbvIbUvH3FmLFGHUe7O4oCMYpBJrFkJCMIFK//PeeEY27dNW
+         FJVH1D5lPoQIz/HYt1J6kvF3pumRsxJkVeDU4C+xGHfUTDHjzdDZ8Uq1yx/0rOlveP4T
+         OqlidV41qr9eNTbit0xjltpYkU8QE+ls6bENMCclSvCx05KpvL/Ar/ZVXM88n0WgBAsY
+         +GroZfSt5PL4L5Ci1iO9pDFt2A7B9n4uPRi28XozFi78gmHfKEqDBDz/U38CEePTzvPV
+         YgTe9grvQVGyD4R9AUGkfYdVM7kI6c1zcD0gfTmAfx1A0Sbc6mrVYsNFvC/PZCbJDXyr
+         C0EA==
+X-Gm-Message-State: AOAM532vhLytiotCRPAVTS3NkTMQHmEYmql1TzuqJLZI0zqU5xd8LK1I
+	GvHOROknFivWqBaI3vJmXBH7IStEIbb3TxGL5j4yUdNuUQuRxbH4ZY2xgQ==
+X-Google-Smtp-Source: ABdhPJwhlWLLV81lekh4LZE/fQYhJPXbW4owMGw7muEEAo0II3hymR3KzIUfuse9+LlQjTToAGFxAtsFrBNFhnqhg+w=
+X-Received: by 2002:a67:ca0d:: with SMTP id z13mr10443702vsk.9.1643730242915;
+ Tue, 01 Feb 2022 07:44:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220126190219.3095419-1-pmalani@chromium.org>
- <20220126230411.nn2illij4wbpdm4q@eve> <YfHUXtJPU77wtCPb@chromium.org> <20220201121745.r4dbilp3fpqhjuty@eve>
-In-Reply-To: <20220201121745.r4dbilp3fpqhjuty@eve>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 1 Feb 2022 10:29:47 -0800
-Message-ID: <CACeCKadF3Yn-DvE+fgVPDq84K0VO-L-5j8UxOEk3zZGpkDFixg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_ec_typec: Check for EC device
-To: Alyssa Ross <hi@alyssa.is>
-Cc: linux-kernel@vger.kernel.org, Tzung-Bi Shih <tzungbi@google.com>, 
-	Benson Leung <bleung@chromium.org>, Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
-	Guenter Roeck <groeck@chromium.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	chrome-platform@lists.linux.dev
+From: sanita retan <sanitaretan@gmail.com>
+Date: Tue, 1 Feb 2022 16:43:50 +0100
+Message-ID: <CABLemWhTUqqM=_vEScEc6i=rEAnhtUrQm6-XQOgAxrr3A8p5Qg@mail.gmail.com>
+Subject: subscribe
+To: sanitaretan@gmail.com
+Cc: chrome-platform+subscribe@lists.linux.dev, chrome-platform@lists.linux.dev, 
+	connman+subscribe@lists.linux.dev, connman@lists.linux.dev, 
+	containers+subscribe@lists.linux.dev, containers@lists.linux.dev, 
+	ell+subscribe@lists.linux.dev, ell@lists.linux.dev, 
+	iwd+subscribe@lists.linux.dev, iwd@lists.linux.dev, 
+	ksummit+subscribe@lists.linux.dev, ksummit@lists.linux.dev, 
+	landlock+subscribe@lists.linux.dev, landlock@lists.linux.dev, 
+	linux-coco+subscribe@lists.linux.dev, linux-coco@lists.linux.dev, 
+	linux-staging+subscribe@lists.linux.dev, linux-staging@lists.linux.dev, 
+	linux-sunxi+subscribe@lists.linux.dev, linux-sunxi@lists.linux.dev, 
+	llvm+subscribe@lists.linux.dev, llvm@lists.linux.dev, 
+	mhi+subscribe@lists.linux.dev, mhi@lists.linux.dev, 
+	mptcp+subscribe@lists.linux.dev, mptcp@lists.linux.dev, 
+	ntb+subscribe@lists.linux.dev, ntb@lists.linux.dev, 
+	ntfs3+subscribe@lists.linux.dev, ntfs3@lists.linux.dev, 
+	nvdimm+subscribe@lists.linux.dev, nvdimm@lists.linux.dev, 
+	ofono+subscribe@lists.linux.dev, ofono@lists.linux.dev, 
+	patches+subscribe@lists.linux.dev, patches@lists.linux.dev, 
+	regressions+subscribe@lists.linux.dev, regressions@lists.linux.dev, 
+	linux-somesuch@lists.linux.dev, postmaster@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Alyssa,
-
-On Tue, Feb 1, 2022 at 4:17 AM Alyssa Ross <hi@alyssa.is> wrote:
->
-> Hi Prashant,
->
-> On Wed, Jan 26, 2022 at 11:08:14PM +0000, Prashant Malani wrote:
-> > Hi Alyssa,
-> >
-> > On Jan 26 23:04, Alyssa Ross wrote:
-> > > On Wed, Jan 26, 2022 at 07:02:20PM +0000, Prashant Malani wrote:
-> > > > The Type C ACPI device on older Chromebooks is not generated correc=
-tly
-> > > > (since their EC firmware doesn't support the new commands required)=
-. In
-> > > > such cases, the crafted ACPI device doesn't have an EC parent, and =
-it is
-> > > > therefore not useful (it shouldn't be generated in the first place =
-since
-> > > > the EC firmware doesn't support any of the Type C commands).
-> > > >
-> > > > To handle devices which use these older firmware revisions, check f=
-or
-> > > > the parent EC device handle, and fail the probe if it's not found.
-> > > >
-> > > > Fixes: fdc6b21e2444 ("platform/chrome: Add Type C connector class d=
-river")
-> > > > Reported-by: Alyssa Ross <hi@alyssa.is>
-> > > > Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
-> > > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > > > ---
-> > > > Hi Alyssa, could you kindly test this with your existing setup? Tha=
-nks!
-> > >
-> > > Hi Prashant, I'm happy to test, but I'm on vacation until the end of =
-the
-> > > week so probably won't get a chance before Monday.
-> >
-> > No worries, whenever you get the chance is fine.
-> >
-> > >
-> > > I'm guessing I should be testing with latest upstream coreboot (now t=
-hat
-> > > your fix there has been applied)?
-> >
-> > You should use the coreboot with which you discovered the crash, so the
-> > one which *doesn't* contain the fix.
->
-> I applied this patch to Linux 5.17-rc2 and tested with the
-> coreboot_tiano-eve-mrchromebox-20210806.rom firmware.
->
-> The Oops has been replaced with
-> "cros-ec-typec: GOOG0014:00: couldn't find parent EC device".
-> My laptop now reboots correctly =E2=80=94 the hang on reboot is gone.
->
-> The cros_ec_typec driver ends up being loaded, but no devices are bound
-> to it.  This differs from the behaviour with upstream coreboot
-> (cabf9e33a7), where cros_ec_typec does not end up being loaded.
->
-> Assuming all that's the intended behaviour:
-
-Yep, that's WAI. Thanks a lot for testing this, and yes, we'll be sure
-to reach out
-for future help with validating changes.
-
-Best regards,
+subscribe

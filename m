@@ -1,82 +1,84 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CD12C80
-	for <chrome-platform@lists.linux.dev>; Mon,  7 Feb 2022 21:41:42 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id om7so1050854pjb.5
-        for <chrome-platform@lists.linux.dev>; Mon, 07 Feb 2022 13:41:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA932F2E
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Feb 2022 03:13:27 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id a88-20020a25a1e1000000b00615c588ab22so32871768ybi.3
+        for <chrome-platform@lists.linux.dev>; Mon, 07 Feb 2022 19:13:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=s/hl0O9rqFd7bKBt/Qe/w/3MyowDWns3Oab/XTzbE6A=;
-        b=OWIX7hGJb7sr/BycqGl/565lOe5WzmuzxWaEf+NxhZTIsTw/cUwFyXL5+5oz6CBGbc
-         aX95wrOMhy++t4NUbmWC4EkVBiqP3BebTj5kmifMoxuwB9x+WJIwDNpf6SGPrxAmOWO/
-         JQDwMJWZJbyXLgQJCdl62alITB9Ft0WuWh2LY=
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=AIZ/knnwAKeb/BKuZaLULYu/UPf7imccggwpo1VmmoU=;
+        b=LRooLhjfDEzbuItD6IuJxZtuFd26gy99kjvMR6fLnHJe5dJr66zdonhVpSyoBXoFG1
+         zfRPUxZGwOw25mdUxklh9s+EUPyUDJ75Vb1CdWTLTZsfU7GK05kBLH7MPuPoC1ujna/H
+         FIitNTZshopGp7U/Oj54x9chdeILa5PJg0gUpzn8CoiKew8B7Mzol01sLojS7LmXT6ui
+         Il68t5PWrfcrMRGy6256bhpt8HKmW/K2K+Kt+t3xIzXn1QOIlJYjYaGFV5CiPk17YXB2
+         KE00qodHkjqzfvEBOOTU6m1WsHdRd+anCIUXIYsYb9ztIoUhI07zvNkuYKqkBMiID1uY
+         5Hqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=s/hl0O9rqFd7bKBt/Qe/w/3MyowDWns3Oab/XTzbE6A=;
-        b=Jqs2EyxpLIYxjHWbYWEqNjOvs0hczp/BAvtBci9T5/Iva1kB5H9BFipoYic+3SdT7Z
-         6ZIYVMhTYD1mwD9c3HrKdVUDZO9zL641PN4pf6c6B3IgCKZNpHvauQsOVTVkzUgqHpfm
-         oB8qxjhpGebAKdqL27LQr6HslagveUybJU2x5ei/0LUGMWFbrNYaLit1XFjie9lt+yow
-         Pgy4SzJ9UmdkCnBLVC6kfXo/OeXihb0u2UkNhYfKRwF0KE8Die7RBNVbtAROCjZmZlt4
-         zmtvkRJ9Onf3Yes3o99qBket1RTqxNpUCgGDj6r8dXT5egOvQX+j+LQjyUnINxjIN9pk
-         bd9g==
-X-Gm-Message-State: AOAM5331KhMm9ZvtcGp7UrcncyBJsDdDic9lsIBg9a4wMsesClXFigOV
-	gUmm5PkGhRKRZxwssqB+IPuHVFYscubenA==
-X-Google-Smtp-Source: ABdhPJyeEBlPmpFICFq2NN4b0ydlmQv/nNFJsYMLBjte8XvejLtZ8GQK+u74wDQefVudR8Zv6j1KGw==
-X-Received: by 2002:a17:902:8f8e:: with SMTP id z14mr1601969plo.28.1644270101643;
-        Mon, 07 Feb 2022 13:41:41 -0800 (PST)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id s9sm9268010pgm.76.2022.02.07.13.41.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 13:41:41 -0800 (PST)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org
-Cc: Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev (open list:CHROMEOS EC USB TYPE-C DRIVER)
-Subject: [PATCH 4/4] platform/chrome: cros_ec_typec: Update mux flags during partner removal
-Date: Mon,  7 Feb 2022 21:40:30 +0000
-Message-Id: <20220207214026.1526151-5-pmalani@chromium.org>
-X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
-In-Reply-To: <20220207214026.1526151-1-pmalani@chromium.org>
-References: <20220207214026.1526151-1-pmalani@chromium.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=AIZ/knnwAKeb/BKuZaLULYu/UPf7imccggwpo1VmmoU=;
+        b=40pnForHL6fHQ0VB6jAGtcHvXcjmsMplFaMBXnrzTxHt6eMkms9xJxiDrloMOuzDDP
+         4C/GIT4mk/6+larXcZokybQkQCo880bacstjAt7qiKZgqbT9HTAz2PM5v09dwxOf2+DA
+         we0QJWwBk2gWpZTSPxkrhhCNe/zREHZsicdp0FfrPpD58LL05WqX2FjoXHAisWein4Ru
+         5m+l3SUfwwYPoRGSW0wQE5P7A5a8HF2Zbu4P0CHo8qvUbuGMaY5QsRS15e9ZHm1qokcF
+         +QInYaykWmZLm0Z8Xy3G3dpRDHKlXPLUQfV+0N9yaFPwGhUay8cJlGcN5Me8ZUhx8pCG
+         6ozQ==
+X-Gm-Message-State: AOAM5306rdXy3B8gUh69MIN5z8wDxyD96VjvzihcjjDOA25QeAkUCyfw
+	UnIYJFuuOPhFR+7K+9QbtU4acOCfolel
+X-Google-Smtp-Source: ABdhPJzzFjsZhO0447mYnQrzEUxP6u2E7S74KuYeOZ8nSpGEuuSAJs0p+hEcd5fdvF05cSubltgQWz3J3tIV
+X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:d041:828a:7048:cfc9])
+ (user=tzungbi job=sendgmr) by 2002:a81:a781:: with SMTP id
+ e123mr3110938ywh.63.1644290005913; Mon, 07 Feb 2022 19:13:25 -0800 (PST)
+Date: Tue,  8 Feb 2022 11:12:42 +0800
+Message-Id: <20220208031242.227563-1-tzungbi@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+Subject: [PATCH] MAINTAINERS: update cros_ec_codec maintainers
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: broonie@kernel.org, cychiang@chromium.org, bleung@chromium.org
+Cc: alsa-devel@alsa-project.org, tzungbi@google.com, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-In cros_typec_remove_partner(), we call
-cros_typec_usb_disconnect_state() which sets the switches/muxes to be in
-a disconnected state. This also happens in cros_typec_configure_mux().
-However, unlike there, here the mux_flags variable hasn't been updated
-to reflect that a disconnection has occurred. Update the flag here
-accordingly.
+Updates cros_ec_codec maintainers.
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/sound/google,cros-ec-codec.yaml          | 1 +
+ MAINTAINERS                                                      | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 164c82f537dd..ce37b6abe69f 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -228,6 +228,7 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
- 	cros_typec_unregister_altmodes(typec, port_num, true);
+diff --git a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+index 77adbebed824..c3e9f3485449 100644
+--- a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
++++ b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+@@ -8,6 +8,7 @@ title: Audio codec controlled by ChromeOS EC
  
- 	cros_typec_usb_disconnect_state(port);
-+	port->mux_flags = USB_PD_MUX_NONE;
+ maintainers:
+   - Cheng-Yi Chiang <cychiang@chromium.org>
++  - Tzung-Bi Shih <tzungbi@google.com>
  
- 	typec_unregister_partner(port->partner);
- 	port->partner = NULL;
+ description: |
+   Google's ChromeOS EC codec is a digital mic codec provided by the
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 568152aa9973..a1f4fd15e770 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4573,6 +4573,7 @@ F:	drivers/platform/chrome/
+ 
+ CHROMEOS EC CODEC DRIVER
+ M:	Cheng-Yi Chiang <cychiang@chromium.org>
++M:	Tzung-Bi Shih <tzungbi@google.com>
+ R:	Guenter Roeck <groeck@chromium.org>
+ L:	chrome-platform@lists.linux.dev
+ S:	Maintained
 -- 
 2.35.0.263.gb82422642f-goog
 

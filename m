@@ -1,80 +1,165 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C752F2C
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Feb 2022 06:15:24 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id e145so26889173yba.12
-        for <chrome-platform@lists.linux.dev>; Mon, 07 Feb 2022 22:15:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930C12F25
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Feb 2022 11:15:47 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id z17so3571588plb.9
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 03:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I8+dQJhsjqqbxKuceiXCXbyjwpL8VMS5N/fsdGvmZH0=;
-        b=OgWTF52eBDySkOlE6VvK0QUJlyMrcqpuR5p2rp5xD7iDxchWUWAm021yvSJN6vk++c
-         qmL5N2DDvvVTz3LVAEBvh4BmWE5iu2IGdjfnxLN722L81snTdYxUT5ngwJDmKrc/4beE
-         pW+jx1nZPWn/0NThjLMQ4pSpZhdQhfDasokok=
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nts6pat0vQjRviFxoqz7LZiRn4EHIdbpX0j0LRxea20=;
+        b=R60U7X5J2OlS8+v9MEix+EqNwaaFwzIOe5+O8urPw6QPT2uWnKgZGtL0fCrR8n36vR
+         TdkXib3vUAEoNqROCOwtMlW8WNZLtp+lXHdW2/GSeA+Cnirv0Uo8j8XopwdAmp7xtl15
+         tT4z+VRNXr7HhlQgNup+6KeIWWzoZNCz0q32LNkECxcXBPhIjwkygpRerTA8LPTfXamz
+         cjkllkdIEFLXTQ+XLeRZW++XRMJDpYkRWEoqQEYeNyXDzf/XodvHe0zKN/ehFb2y71yI
+         4I4HpnEzFdwW7fwjYIAfhYhFeEYAgxuWbqwx/oaIKHynA1+o3SAnGchuguOkoovn83yd
+         Rcgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I8+dQJhsjqqbxKuceiXCXbyjwpL8VMS5N/fsdGvmZH0=;
-        b=mMKb0jBpZ/sVdw2rzg8ouxRQR64IxWtZC/cTZk5kP5F6XiWmKQssP0wIiErczUQ/bx
-         pOZ2ok+krE10TBWS/jrpT9Z45hGuBSM5SEPvxkTsLauljqICCKTIZQyew8gOOBe4fcX9
-         m5kAlEBMdOAL0fEbPPeNm44K5DOGzICAG0vxrtRcYLL3jndFqEMrCJkekgCzBd5uE4WC
-         tkHBHrJPF9jT2C2Owf0qNgVXXa8i+ffS+iR8w6JbWF4wsdj93l+SKVzGtkHccJjUYjDo
-         lSc9po60jFVBoDNOZA6wA1Mq+n4Rtjj9evOwYyvfrn30b0WYoHVrNQVTfXPTxBYqZSKs
-         H3RA==
-X-Gm-Message-State: AOAM533SRc8+PHpNLN4TdnImUvH3rIiippcWcBK8IIoy5DzAr8BVHcak
-	wby6hrYWgYjKbAhN9Pn0b7nE31gmw2chhR3E2EQXAjThk7I83Q==
-X-Google-Smtp-Source: ABdhPJwb83sfyn4nAn4uchT/JF8O2drzC/LsS7VmMws6TjmKzUL7JJM+Sr3zPKZYK+tf7SPUsEoc9jmVmQhaB+Kntt8=
-X-Received: by 2002:a25:ae25:: with SMTP id a37mr3201580ybj.646.1644300923353;
- Mon, 07 Feb 2022 22:15:23 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nts6pat0vQjRviFxoqz7LZiRn4EHIdbpX0j0LRxea20=;
+        b=Rs/lEaCpoKzl4J30YxePSOdohxAB+qJ4sAdpWzn9Ry35xky8hvelAe2GzWDKD6wPCb
+         NZNG0gZJMlBdX6ukOMWed27QIg0ONVcpKsaf674i1eVUAx4JOJ0UFQ2xu/4YZOLMril3
+         nzRZKypa2FWuE1H/GypsPp6yM5JNzU8WG7IfxPksFcBvVxCloRqIacfhDugJvXKZ0+gK
+         5BwKFRN8fdJzlg4cnsy5A5x9NlcdlFTN3aOi3PYpIuFmOEXf/5gLW8YsflcvLoVk/t0d
+         xupXIgxfIQZyx6FlzNFZRkqsHpNfs9zzsA/racA3qXC+PTDePP40gnopNMUz4VpKaQcc
+         2Mrg==
+X-Gm-Message-State: AOAM5316SahqRD1H2wKEowknWajkdNHLYxFBWFN/w1YDkVE81yRn8jfY
+	Tjek8KzFTD45Ftt7HA5n0pmQYiMQi738iw==
+X-Google-Smtp-Source: ABdhPJxF1jz83ZwPBrZQMpvwS+VB0vF+H77JAun+Ge1PUomjjmkQnamWYMgx4zs8LdpeQiNAxF4gAw==
+X-Received: by 2002:a17:902:e888:: with SMTP id w8mr854290plg.109.1644318946664;
+        Tue, 08 Feb 2022 03:15:46 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:4b6f:f14d:be50:86a])
+        by smtp.gmail.com with ESMTPSA id s139sm1101533pfc.152.2022.02.08.03.15.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 03:15:46 -0800 (PST)
+Date: Tue, 8 Feb 2022 19:15:43 +0800
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Configure muxes at
+ start of port update
+Message-ID: <YgJQ30D8nc4LWvUy@google.com>
+References: <20220207214026.1526151-1-pmalani@chromium.org>
+ <20220207214026.1526151-4-pmalani@chromium.org>
+ <YgIBv2SQdwXm7RLt@google.com>
+ <CACeCKaezRNgsqrq3QJ1ViHjYScFrjpC-kCaYmE8kOXCcW9MRrw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220207214026.1526151-1-pmalani@chromium.org>
- <20220207214026.1526151-5-pmalani@chromium.org> <YgIB8N6fjxWcKK9/@google.com>
-In-Reply-To: <YgIB8N6fjxWcKK9/@google.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Mon, 7 Feb 2022 22:15:12 -0800
-Message-ID: <CACeCKafPyaT9-raroFh-UTunq93Yvh-uPb29oF9NbGZRZjv=Yw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] platform/chrome: cros_ec_typec: Update mux flags
- during partner removal
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: linux-kernel@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACeCKaezRNgsqrq3QJ1ViHjYScFrjpC-kCaYmE8kOXCcW9MRrw@mail.gmail.com>
 
-Hi Tzung-Bi,
+On Mon, Feb 07, 2022 at 10:12:10PM -0800, Prashant Malani wrote:
+> On Mon, Feb 7, 2022 at 9:38 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+> > On Mon, Feb 07, 2022 at 09:40:28PM +0000, Prashant Malani wrote:
+> > > There are situations where the mux state reported by the Embedded
+> > > Controller (EC), might lag the partner "connected" state. So, the mux
+> > > state might still suggest that a partner is connected, while the PD
+> > > "connected" state, being in Try.SNK (for example) suggests that the
+> > > partner is disconnected.
+> > >
+> > > In such a scenario, we will end up sending a disconnect command to the
+> > > mux driver, followed by a connect command, since the mux is configured
+> > > later. Avoid this by configuring the mux before
+> > > registering/disconnecting a partner.
+> >
+> > I failed to understand the description.  It looks like some protocol details.
+> > Could you provide some brief explanation in the commit message?
+> 
+> I'm not sure how else I can better elaborate on this in the commit message than
+> as currently stated.
+> Since the EC is an independent controller, the mux state *can* lag the
+> "connected" state.
+> So, as described in the commit message, when a disconnect happens, we could have
+> a disconnect (since PD_CTRL contains the "connected state") followed
+> by a configure_mux
+> with the mux state still suggesting a connected device (the drivers
+> which implement the
+> mux/switch controls can misconstrue the old mux state) which results
+> in a connect. This
+> patch eliminates that.
 
-Thanks for reviewing the series.
+Pardon me if I ask, I am trying to understand why reorder the function calls
+in cros_typec_port_update() can fix the issue.  And I am wondering if the
+issue has fixed by the 4th patch in the series.
 
-On Mon, Feb 7, 2022 at 9:38 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
->
-> On Mon, Feb 07, 2022 at 09:40:30PM +0000, Prashant Malani wrote:
-> > In cros_typec_remove_partner(), we call
-> > cros_typec_usb_disconnect_state() which sets the switches/muxes to be in
-> > a disconnected state. This also happens in cros_typec_configure_mux().
-> > However, unlike there, here the mux_flags variable hasn't been updated
-> > to reflect that a disconnection has occurred. Update the flag here
-> > accordingly.
->
-> It is fine (at least to me) usually.
->
-> Since you would need to respin the series anyway, s/Update/Updates/.
+To make sure I understand the issue correctly, imaging a "disconnect" event
+in cros_typec_port_update() originally:
 
-Again, "update" is fine. Please see:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+a. Get pd_ctrl via EC_CMD_USB_PD_CONTROL[1].
 
-Quoting from the above: " Describe your changes in imperative mood,"
+b. Call cros_typec_remove_partner() in cros_typec_set_port_params_v1()[2].
+Is it the "disconnect" you were referring in the example?
 
-So, imperative usage is actually preferred, and "updates/makes" is discouraged.
+c. Get mux info via EC_CMD_USB_PD_MUX_INFO.
+Did you mean the mux info might be stale which is "partner connected"?
 
-(I grabbed an older version of the documentation in my other replies,
-but the description is the same).
+d. Call cros_typec_enable_dp() in cros_typec_configure_mux()[3].
+Does it result in another connect?
 
-Thanks!
+[1]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_typec.c#L955
+[2]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_typec.c#L628
+[3]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_typec.c#L548
+
+If the above understanding is correct, the patch fixes it by moving step b to
+the last.  As a result, it won't have a "disconnect" -> "connect" transition.
+
+Further questions:
+
+- If mux info from step c would be stale, won't it exit earlier in [4]?
+
+[4]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_typec.c#L986
+
+- The 4th patch[5] sets mux_flags to USB_PD_MUX_NONE.  If it won't exit earlier
+  from previous question, won't it fall into [6]?
+
+[5]: https://patchwork.kernel.org/project/chrome-platform/patch/20220207214026.1526151-5-pmalani@chromium.org/
+[6]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_typec.c#L523
+
+> > > @@ -965,6 +965,11 @@ static int cros_typec_port_update(struct cros_typec_data *typec, int port_num)
+> > >       if (ret < 0)
+> > >               return ret;
+> > >
+> > > +     /* Update the switches if they exist, according to requested state */
+> > > +     ret = cros_typec_configure_mux(typec, port_num, &resp);
+> > > +     if (ret)
+> > > +             dev_warn(typec->dev, "Configure muxes failed, err = %d\n", ret);
+> >
+> > It used the fact that the function returns `ret` at the end.  After the move,
+> > the block is no longer the last thing before function returns.
+> >
+> > Does it make more sense to return earlier if cros_typec_configure_mux() fails?
+> > Does the rest of code need to be executed even if cros_typec_configure_mux()
+> > fails?
+> 
+> Yes, it should still be executed (we still need to update the port
+> state). That is why the return is eliminated.
+
+Got it, as long as it is intended.
+
+> > > @@ -980,11 +985,6 @@ static int cros_typec_port_update(struct cros_typec_data *typec, int port_num)
+> > >       if (typec->typec_cmd_supported)
+> > >               cros_typec_handle_status(typec, port_num);
+> > >
+> > > -     /* Update the switches if they exist, according to requested state */
+> > > -     ret = cros_typec_configure_mux(typec, port_num, &resp);
+> > > -     if (ret)
+> > > -             dev_warn(typec->dev, "Configure muxes failed, err = %d\n", ret);
+> > > -
+> > >       return ret;
+> >
+> > If the function decides to return earlier, it can be `return 0;`.
+> Sure, I can change this in the next version
+
+No, I guess you would like to leave it as is to propagate return value from
+cros_typec_configure_mux().

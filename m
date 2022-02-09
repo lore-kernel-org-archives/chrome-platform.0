@@ -1,56 +1,103 @@
 Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CB42F21
-	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 06:09:11 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id y6so3122681ybc.5
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 22:09:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC6F2F25
+	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 09:05:07 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id y6so4053493ybc.5
+        for <chrome-platform@lists.linux.dev>; Wed, 09 Feb 2022 01:05:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AStNDph4mSfGlj2UV9A+YAMf9CSCtJksjJC273y7bE8=;
-        b=DAJe80EHdC18p4x6DAP53gYb6Eq5exHIL5T21YOySBTY4YVZ9w3Yc+42ZCqMQAfpy0
-         rjtm+9CylkXFHpTv19XU4iccjyNh3AMivNxIGu1EUH2XsgSsDNcsyKtS49t0NiZZjb54
-         mOGs79+nwscPt41kzonDddWkI12mVeqYIyhTQ=
+        bh=IPF0PjuZF19JidGX9B02b4KeSaFHazqRUzXT4U3ZGOo=;
+        b=Q7RX2xsVwtzySD8bB3ppxCCCC35bwPle8mNdnUYSw6B7hTXWTmcu+xxx34B095S5GP
+         gUZaBRcI22uTSfhknWNHyIpRmF71Szon+ZHRmIhk2qfsCP8r8iE1Ib5AvUXqPb8ANFv9
+         6zzOrfnR2w//SA4hnga+TZXQ+k2WqDAYqaTgE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AStNDph4mSfGlj2UV9A+YAMf9CSCtJksjJC273y7bE8=;
-        b=gRnzQOcTCNBKnw/zvHTOCduzDQoSLocICRT2cDswsd3shXJVugzH6YJovpiPGDc5IN
-         StkOtZwpFFh7PrLm9rj91A4Ree9gz03DwYH7zutVfJpcBxjeGpyWCEnEtX1TwP2bEgj3
-         3dC3GxEYrd14Py96Lk0qTrjlaSeKpoRnnXL16bJ1OGTvxy2iZeHhDpPnylmtptPtFKyU
-         IdvuGv3arGyhtue8RYWzib4tRv7/HNQAoTcdvQjqKthBC5wwb35GuTEdT51lhJjdB2c3
-         Eh+Lod1f5TXunT2x9g6bdA3AFFc6zVclE84nRYKXmYFJ9RyoeD+Yr2eb5bPdIMu2IRE6
-         hFGw==
-X-Gm-Message-State: AOAM531V8C61wMAXEClJ+7bkHsIMvFbtdUkzwPaUSG2AdjX4xeGjV6qM
-	CA4YSGWa/J8Jq/mh6BxVfRhZt2BPOgtMY/mPfEZhQg==
-X-Google-Smtp-Source: ABdhPJw2rUKhDlmROg69Bu0Imj+eWwESykwGsu0nsCBANoG4VTjumd7fa29v8xPeHA6iaMSRpdceabLve1aeEKScW1w=
-X-Received: by 2002:a81:af1f:: with SMTP id n31mr641851ywh.350.1644386949750;
- Tue, 08 Feb 2022 22:09:09 -0800 (PST)
+        bh=IPF0PjuZF19JidGX9B02b4KeSaFHazqRUzXT4U3ZGOo=;
+        b=XqKICOz2TIXDVuLDO1gnTw0yuz5ZOv7likgsNMduRDvPEeeWh9Qms8G2+529QMFpz0
+         69gXCtaI+UhMiLl8X8x0qJM3Irw/EK6ouxtbPwDh6fM/ZmKGuGSDntWPhN/9CZ+TM0Wc
+         31yGQhEgHh6McccdeEfI2cpbcol8H6e0jnbjYKr0SbzWhTUxwPPCOWnODj+wd4qz/xOP
+         8RuA81ftFF9FfQzhWZBor4NARtGKc5yTbCeAKge+WDSOfInk1DlW+UX9gTDFbnDvnvcy
+         JEDv4PAdL4oejoQqMAB8SRoYchVovJYCHzfdiEXRxcQ/d6NvYvQm2csv0iNhzrkunFvb
+         kUyQ==
+X-Gm-Message-State: AOAM5306udjlPf2mO7dUXYBTFCYY85L888s16cOy3v9nl59hGqCvtb3h
+	uUqinB8FSsLhg/6Y/8KinrF1+5FsJ6kCKn/OHZYSag==
+X-Google-Smtp-Source: ABdhPJzXzw01hWj9cS/+Efn3FknC2m6fGl1/vOpHEF2QbGtMrXYty9/sHmbp9NaeGCwEPm1kzf5WEwHA60h+EZhGeqQ=
+X-Received: by 2002:a81:e245:: with SMTP id z5mr1106749ywl.282.1644397506236;
+ Wed, 09 Feb 2022 01:05:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220209045035.380615-1-tzungbi@google.com> <20220209045035.380615-5-tzungbi@google.com>
-In-Reply-To: <20220209045035.380615-5-tzungbi@google.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 8 Feb 2022 22:08:59 -0800
-Message-ID: <CACeCKaeRz2D-DdPRHbrvywTMr2w-MPuGZ+-mBhNtWCapgm=ZXw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] platform/chrome: cros_ec: don't initialize `err`
- in cros_ec_register()
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+References: <20220208031242.227563-1-tzungbi@google.com> <YgLC8trl9L30Ofwn@google.com>
+In-Reply-To: <YgLC8trl9L30Ofwn@google.com>
+From: Cheng-yi Chiang <cychiang@chromium.org>
+Date: Wed, 9 Feb 2022 17:04:39 +0800
+Message-ID: <CAFv8NwK2Bd-guWPE+Uub1x0zguPHZBxZALDmLiurthq-KJKgPg@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: update cros_ec_codec maintainers
+To: Benson Leung <bleung@google.com>
+Cc: Tzung-Bi Shih <tzungbi@google.com>, broonie@kernel.org, bleung@chromium.org, 
+	alsa-devel@alsa-project.org, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-
-On Tue, Feb 8, 2022 at 8:51 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+On Wed, Feb 9, 2022 at 3:22 AM Benson Leung <bleung@google.com> wrote:
 >
-> `err` in cros_ec_register() doesn't need to be initialized.
+> Hi Tzung-Bi,
+>
+> On Tue, Feb 08, 2022 at 11:12:42AM +0800, Tzung-Bi Shih wrote:
+> > Updates cros_ec_codec maintainers.
+> >
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+>
+> Acked-By: Benson Leung <bleung@chromium.org>
+Acked-By: Cheng-Yi Chiang <cychiang@chromium.org>
 
-What is the issue with it being initialized to 0? This doesn't strike
-me as necessary.
+Thanks Tzungbi!
+>
+> > ---
+> >  .../devicetree/bindings/sound/google,cros-ec-codec.yaml          | 1 +
+> >  MAINTAINERS                                                      | 1 +
+> >  2 files changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+> > index 77adbebed824..c3e9f3485449 100644
+> > --- a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+> > @@ -8,6 +8,7 @@ title: Audio codec controlled by ChromeOS EC
+> >
+> >  maintainers:
+> >    - Cheng-Yi Chiang <cychiang@chromium.org>
+> > +  - Tzung-Bi Shih <tzungbi@google.com>
+> >
+> >  description: |
+> >    Google's ChromeOS EC codec is a digital mic codec provided by the
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 568152aa9973..a1f4fd15e770 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -4573,6 +4573,7 @@ F:      drivers/platform/chrome/
+> >
+> >  CHROMEOS EC CODEC DRIVER
+> >  M:   Cheng-Yi Chiang <cychiang@chromium.org>
+> > +M:   Tzung-Bi Shih <tzungbi@google.com>
+> >  R:   Guenter Roeck <groeck@chromium.org>
+> >  L:   chrome-platform@lists.linux.dev
+> >  S:   Maintained
+> > --
+> > 2.35.0.263.gb82422642f-goog
+> >
+>
+> --
+> Benson Leung
+> Staff Software Engineer
+> Chrome OS Kernel
+> Google Inc.
+> bleung@google.com
+> Chromium OS Project
+> bleung@chromium.org

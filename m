@@ -1,57 +1,52 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3DB2F23
-	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 03:31:54 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id i21so481851pfd.13
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 19:31:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE8B2F23
+	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 03:32:11 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id e28so1972282pfj.5
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 19:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Nm1MhDiI7ACoH1isbwKzuaKIm3CJ2CO2yAwTgo4zGJk=;
-        b=kwyPIA8EWByHJHhMVfppWnBxtF3QcD13PaBI5rdfaENrQgBWfvqL6YSlZtQwhmJq0Z
-         tuhPmt+oprwxq0EInA4/+brjf6wHfqUB+32bl1xSbtGxsLyBUqDfdybaphiUqddncfHG
-         Mbo2jEmUnPagMQ756cNld1u4eOu25tlL8zIQXDfPYtjsJF+Tp64LoODMZNozk+n9erLa
-         jWMlNGkhbN417gsgV3u184szVbtzZzRsa6i9YbEVUT2mOyl0ARtaeI1erWzTdBar8O0M
-         ylpSW0v8lAEraRaZ+mdiL3frPXTxOtStqKdXNmcUrbV4vQAhC7qxu2JM4bKtMB6LcEVZ
-         Fz9A==
+        bh=U3YWRJiOX6r2DiP9iWkoebtSk7wb9LQgDyPaYKJpHzg=;
+        b=nXjf/f5LQhRawIBVlV+uE2HRNSdBDqb1TVkY42Ucyl1AFQmJYizT78Mo0V0i+FRlJX
+         rkXkKyZSaZlcW4b7o4vnjdFAzIGsQGWZtTQ7/n2MDm3LOZgspH4jaup9YKX7Wx3zDbR3
+         juZ78ajOOZPzoQDNqX6MLmJvQWkpMBlyfbem9XPtvyItr240K06KEWR9y9RDRFM9UwDD
+         /e8srRI7OVqLv/UhiVxWE+OcLqZ8CcEnoPei08wnD8RIWMa3AOL1Zqhoer3LI2XKwnZL
+         AAYXEaEfFaasSmXgNlKy3+Lj+QEo70qkWiARvzdtca4LrlUlK247CO0X+6C1oTXh2ih3
+         Qa6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Nm1MhDiI7ACoH1isbwKzuaKIm3CJ2CO2yAwTgo4zGJk=;
-        b=y45z+HWeHPbAfc9SyjMwq1CoHwkTSaWEPpMWzlO3WVTlGQuIk9ybAi1/mPavnElWqp
-         i2vN9OCkBtflpsP6Nlam3jlf+c8AlikKg4s/lbnWlJOmzOQaiPJWOPzwyFwjEDDvxwSi
-         N+1F7kQb8PcoXuoVZsu4e3lvUZwTIpUlf245RsrxoUdxh4gWAS56TWl4cOMv3dFbsxlS
-         p71F9N68eCFWn3utTkQ3KJLltqhErm8UbLxUus3N9WnHbFDQSz3Wh/VuDfncXk9G0/Qw
-         mGM13JqIKFm4TArWEhGdRQYyq+Wn6PBdRvDxxPJfoAKfuuux1o9A0icav1AwMVlDM8g7
-         QWtw==
-X-Gm-Message-State: AOAM531EM9iSJ8yao8fOasopEIZ5XryRbx7uDUaEQLcCmRJ8EZhQksH/
-	bbErFSbgZNciSSkMf21A7AuDYg==
-X-Google-Smtp-Source: ABdhPJzrgWHaTE7DCxTP2Ukf5PB8XE7cA8htaCjEpV284mIxWtbOGk1GuU5hQRMvjPNu/XXWb5KUdw==
-X-Received: by 2002:a05:6a00:1c5e:: with SMTP id s30mr284243pfw.43.1644377513631;
-        Tue, 08 Feb 2022 19:31:53 -0800 (PST)
+        bh=U3YWRJiOX6r2DiP9iWkoebtSk7wb9LQgDyPaYKJpHzg=;
+        b=H8IIUS7KOQF9/t8Lwv1WaqLAb6hZb/rvr/4LAYQ86jWFzwcP7Ma/xuKfvzSHbLLXB1
+         pKsN/oFWd5Zn+xgcD3YmcOhk2IhV28bZ76fZ1MNzLXAKCaUC506SZfMCcFzMIxyFDM5s
+         yMPxSAtnAQurb+TR24j8xtEcHQ6olI+wFnPghkgSKrcstprXR0Q5nCJRKX/EUkV5wdFT
+         /UV5SRxIdS814JfNQX5GKC8k/2oxxi3rXhPrWCOIW95gD3YpL1ioSzHQlLI/1JSI9WHl
+         aZQxQp5Xv7BQLGTxaET3hVkjMIF5ANjNfdXMFY6cedkSOeoc7JWDu3NWrsYbLSaUm8La
+         8Gvg==
+X-Gm-Message-State: AOAM530/3779elg5P7yhGfRKLVq1kJck6GOpd3m/KXxPHKiyqNU1qBQW
+	SH8HmUYROR2d8drYhvsWRpPUSHQc7Mm7JA==
+X-Google-Smtp-Source: ABdhPJy7m6DpHFgJiKhMcyEac2ifKifQfKmXJnjw5v0c9O67wVpVHjnzSDcZixIVJaVAmGOKe1cPxw==
+X-Received: by 2002:a63:2c92:: with SMTP id s140mr372406pgs.448.1644377530580;
+        Tue, 08 Feb 2022 19:32:10 -0800 (PST)
 Received: from google.com ([2401:fa00:1:10:4b6f:f14d:be50:86a])
-        by smtp.gmail.com with ESMTPSA id nl12sm4827508pjb.1.2022.02.08.19.31.52
+        by smtp.gmail.com with ESMTPSA id y15sm17012526pfi.87.2022.02.08.19.32.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 19:31:53 -0800 (PST)
-Date: Wed, 9 Feb 2022 11:31:50 +0800
+        Tue, 08 Feb 2022 19:32:10 -0800 (PST)
+Date: Wed, 9 Feb 2022 11:32:07 +0800
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Configure muxes at
- start of port update
-Message-ID: <YgM1pjwN2MHaMQCJ@google.com>
-References: <20220207214026.1526151-1-pmalani@chromium.org>
- <20220207214026.1526151-4-pmalani@chromium.org>
- <YgIBv2SQdwXm7RLt@google.com>
- <CACeCKaezRNgsqrq3QJ1ViHjYScFrjpC-kCaYmE8kOXCcW9MRrw@mail.gmail.com>
- <YgJQ30D8nc4LWvUy@google.com>
- <CACeCKaf4+jxSkKFqx9g3YSPWj-FkbL=jrmHE3YEu7oU0ySPJ4Q@mail.gmail.com>
- <CACeCKadujMj4pJqf_jNNmO4UkQinw9QNu_MXe5zkTySUn6R=dw@mail.gmail.com>
+	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>,
+	Guenter Roeck <groeck@chromium.org>
+Subject: Re: [PATCH v2 1/4] platform/chrome: cros_ec_typec: Move mux flag
+ checks
+Message-ID: <YgM1t3aJPwMbhEQt@google.com>
+References: <20220208184721.1697194-1-pmalani@chromium.org>
+ <20220208184721.1697194-2-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -60,34 +55,12 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACeCKadujMj4pJqf_jNNmO4UkQinw9QNu_MXe5zkTySUn6R=dw@mail.gmail.com>
+In-Reply-To: <20220208184721.1697194-2-pmalani@chromium.org>
 
-On Tue, Feb 08, 2022 at 02:58:51PM -0800, Prashant Malani wrote:
-> On Tue, Feb 8, 2022 at 10:35 AM Prashant Malani <pmalani@chromium.org> wrote:
-> > In general, I think you may benefit from reading:
-> > - The entire cros_ec_typec driver
-> > - The EC Type C state machine [2] and interfaces [3][4]
-> >
-> > The above 2 will help understand how this entire stack works. Without
-> > it, it is challenging
-> > to process the flow (just from code review).
-> >
-> > If you have further questions our would like to better understand the
-> > drivers, feel free to reach
-> > out to me over IM/email. I don't think public list code review is the
-> > best option for this
-> > sort of explanation.
-> >
-> > [1] https://elixir.bootlin.com/linux/latest/source/drivers/platform/chrome/cros_ec_typec.c#L549
-> > [2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/usbc/
-> > [3] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/driver/usb_mux/usb_mux.c
-> > [4] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/usb_pd_host_cmd.c
+On Tue, Feb 08, 2022 at 06:47:18PM +0000, Prashant Malani wrote:
+> Move mux and role flag checks inside of cros_typec_configure_mux(),
+> which is a more logical location for them.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Thanks for the link pointers.  It would take me some time to understand the
-background for reviewing the patch though.
-
-But in general, I would suggest to change the title for a stronger signal
-that it fixes something (per [1]).  Otherwise, the title and the description
-in cover letter looks like a move refactor.
-
-[1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220207214026.1526151-4-pmalani@chromium.org/#24727676
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>

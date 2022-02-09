@@ -1,70 +1,100 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3B22C9C
-	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 03:32:32 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id e28so1973593pfj.5
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 19:32:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C202F23
+	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 03:42:09 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id y129so2367199ybe.7
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 19:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GOQ0sWfM4FjwKkl33/hNhQ8lpkr9qvoQNXOdfZoCGy4=;
-        b=WPh+JZAupBRMfuEu+D0pwyvzDFFX2NJCAoSOCCWQY+6t/ldquzG3RHI7/JWZGyQRL6
-         e27N96UhOUznbX4Y6v3TO/ES3k7XZKupg6PrNvOAJd4yUlz4Z17JwkMvC7cs4EGVkaoX
-         4HJFcQ3I+gkEgMhvujrfc/e64hKNNB26SLuBnYBPWyAKEKCPwSmzK4qroViO9xXNw5Zp
-         hAJ2sRdkv0I610ubtyoyf5X+lpG5oXvCvsqBf6SLMuxjMIruVcpoVxe6xaxcEN+GTLmb
-         dg4U8hSC+7xN9EtudaCVc60tZpjJV5Wi/D3p8Oac+Yj6D3FfnjyATGsODsZwd22wAKPX
-         +EQA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CnPuieAA45R+Cn7cQOpi068J2AYd/JgSUtDlGNknSQI=;
+        b=AZnwjfRshXyPzqPIPPOZIBwXE2OBB4TSrGQFToT0R0Wu4pzLEYJsDVs4oqb2JDdI2b
+         NeQPh3dKpSqjUmhkIiEdUcdC2WLGHHYULSJfRHoCj+J0nyHK9KzthFi386KJOowopwvZ
+         00fFIXDuuJiUp0TZD2Sdh8n1KE2SAwXh0+i+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GOQ0sWfM4FjwKkl33/hNhQ8lpkr9qvoQNXOdfZoCGy4=;
-        b=0lw0BaW29je6/Oa/N7iKjATWSPlGJo+BErEpk9EyGUQNslrL0lOr75FQ3pl8R3ArvU
-         7gjBeV/xhP8Jy2miD4n9Zp9avb43iFlpXrTld+DWWdPnQn4qzjOZ7uiTjmXsWMLPN2G0
-         WCoswje3VDNsBEOyYsHJHSRmKIlLodZU5RC6Rn6/Qemm6551/0nVxvJSu3zo2oxBYqcZ
-         QO94YGHYddV+iDftAtogG51bYC5crhydSspFA7a3CgY1GqppbjkLxPwNsZ+Enhwa9ZGD
-         vAL7mDpQ8LKm2K+Vj3YsP7mEDZNdHUo23Oz8iU+OOIPSqx+eVNOcIToOT+VS2yhv/Gpw
-         ISFw==
-X-Gm-Message-State: AOAM531GcIma+dy3Lnh9yFl2dV2TLERz3eufKAhJOyrTxScBFdyWNMxU
-	uS6p0E1KcddmkT8t+6oRyAGhbg==
-X-Google-Smtp-Source: ABdhPJz51Gwp5ZjbgRK9o+938031p99GlYbBhM3IxPTtiQ0jNOjrMfO/AhFmHZFU+kutJ57icCkOEA==
-X-Received: by 2002:a63:6a06:: with SMTP id f6mr364233pgc.576.1644377551404;
-        Tue, 08 Feb 2022 19:32:31 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:4b6f:f14d:be50:86a])
-        by smtp.gmail.com with ESMTPSA id y193sm18393977pfb.7.2022.02.08.19.32.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 19:32:31 -0800 (PST)
-Date: Wed, 9 Feb 2022 11:32:28 +0800
-From: Tzung-Bi Shih <tzungbi@google.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH v2 4/4] platform/chrome: cros_ec_typec: Update mux flags
- during partner removal
-Message-ID: <YgM1zM7Vpn/FlHv7@google.com>
-References: <20220208184721.1697194-1-pmalani@chromium.org>
- <20220208184721.1697194-5-pmalani@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CnPuieAA45R+Cn7cQOpi068J2AYd/JgSUtDlGNknSQI=;
+        b=YUcwQI0Y/2wJ0hVdfEiGzeF/ztQjISrhEilYaAgb9Cy+wseyVu/7G+zSeO9fmaFSem
+         YqA0r2Svw9MvCx8ww8symBR+xKF/gnvDLf38N79A8W+7l+7M4TFgjBH2+lSvID6Zmvjd
+         nYqm9y4KkfOu0vhd5yO7imGkJiutJ8E/Xyv2g/AzyIYhGBDF+kdV/9bxz7hL8D+2EWUW
+         Hz/RJH+WXuOIsiZBKJYbuu2wiPVxl+ZHC2t3sUwpbAdcxp8kfXn3VJpmr+9S7g42xllU
+         YZW6BkIr9a1orow+mVZgL+wg4H2a270NvXqlyDWkBOspWZz5u4PXiTStoSIhywMfEL+B
+         cW3w==
+X-Gm-Message-State: AOAM533Y2Mat8mEwEfwN5U7S1rAuHLuPwyjFKyCCPRYfk/N+1QtdNdrC
+	RhnJMQTEAoA5Nmu6njYueHneHrphAoHIpUqef6JCJw==
+X-Google-Smtp-Source: ABdhPJy4AuPuBilZB61l9fPeAtLlFGVf2W2h4Ha6zFYFfX08a8Ah4rVomwclUlKHdtLJRVjmPUVCKLciLbTpFwKoUPo=
+X-Received: by 2002:a81:34d7:: with SMTP id b206mr290747ywa.489.1644378128857;
+ Tue, 08 Feb 2022 19:42:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220208184721.1697194-5-pmalani@chromium.org>
+References: <20220207214026.1526151-1-pmalani@chromium.org>
+ <20220207214026.1526151-4-pmalani@chromium.org> <YgIBv2SQdwXm7RLt@google.com>
+ <CACeCKaezRNgsqrq3QJ1ViHjYScFrjpC-kCaYmE8kOXCcW9MRrw@mail.gmail.com>
+ <YgJQ30D8nc4LWvUy@google.com> <CACeCKaf4+jxSkKFqx9g3YSPWj-FkbL=jrmHE3YEu7oU0ySPJ4Q@mail.gmail.com>
+ <CACeCKadujMj4pJqf_jNNmO4UkQinw9QNu_MXe5zkTySUn6R=dw@mail.gmail.com> <YgM1pjwN2MHaMQCJ@google.com>
+In-Reply-To: <YgM1pjwN2MHaMQCJ@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 8 Feb 2022 19:41:58 -0800
+Message-ID: <CACeCKafm3o2Ht3F0njQZ+JptDM=yZMpi0qUS=DR07LiCC_O4Ww@mail.gmail.com>
+Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Configure muxes at
+ start of port update
+To: Tzung-Bi Shih <tzungbi@google.com>
+Cc: linux-kernel@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 08, 2022 at 06:47:24PM +0000, Prashant Malani wrote:
-> In cros_typec_remove_partner(), we call
-> cros_typec_usb_disconnect_state() which sets the switches/muxes to be in
-> a disconnected state. This also happens in cros_typec_configure_mux().
-> However, unlike there, here the mux_flags variable hasn't been updated
-> to reflect that a disconnection has occurred. Update the flag here
-> accordingly.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+On Tue, Feb 8, 2022 at 7:31 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+>
+> On Tue, Feb 08, 2022 at 02:58:51PM -0800, Prashant Malani wrote:
+> > On Tue, Feb 8, 2022 at 10:35 AM Prashant Malani <pmalani@chromium.org> wrote:
+> > > In general, I think you may benefit from reading:
+> > > - The entire cros_ec_typec driver
+> > > - The EC Type C state machine [2] and interfaces [3][4]
+> > >
+> > > The above 2 will help understand how this entire stack works. Without
+> > > it, it is challenging
+> > > to process the flow (just from code review).
+> > >
+> > > If you have further questions our would like to better understand the
+> > > drivers, feel free to reach
+> > > out to me over IM/email. I don't think public list code review is the
+> > > best option for this
+> > > sort of explanation.
+> > >
+> > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/platform/chrome/cros_ec_typec.c#L549
+> > > [2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/usbc/
+> > > [3] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/driver/usb_mux/usb_mux.c
+> > > [4] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/usb_pd_host_cmd.c
+>
+> Thanks for the link pointers.  It would take me some time to understand the
+> background for reviewing the patch though.
+>
+> But in general, I would suggest to change the title for a stronger signal
+> that it fixes something (per [1]).  Otherwise, the title and the description
+> in cover letter looks like a move refactor.
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
+I'm hesitant to use the term "fix" in the title; IMO the commit
+message describes the potential race involved.
+Since it is an unlikely edge case, brought about by limitations in how
+the EC updates its state,
+I'd like to avoid assigning it a "Fixes" label  too.
+
+I can perhaps add some info to the cover letter, but I don't think
+that alone is worth a v3.
+I'll let this series hang for a few days; if there are other comments
+which necessitate a respin, I'll
+reword the cover letter.
+
+-Prashant
+
+>
+> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220207214026.1526151-4-pmalani@chromium.org/#24727676

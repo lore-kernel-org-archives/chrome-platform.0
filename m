@@ -1,102 +1,186 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4932C80
-	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 04:51:06 +0000 (UTC)
-Received: by mail-pj1-f73.google.com with SMTP id bj11-20020a17090b088b00b001b8ba3e7ce7so2994826pjb.2
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 20:51:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E392F21
+	for <chrome-platform@lists.linux.dev>; Wed,  9 Feb 2022 05:11:38 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id g205-20020a2552d6000000b0061e1843b8edso1408597ybb.18
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Feb 2022 21:11:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=w/FmSJt4q0EBOhTIs5yfalWe7onSq3OGyk5zwTrCxMM=;
-        b=E5VSI6zb/Cx1lAfNoS+227jAzLKcmnPWMxyUTsNtqpX1UIXpb8Y+qijNHTfnWqwMCH
-         JZmC+EhkQlisU2VimqaLKeXbGjFFC4k6X2q6M6lHSX/uhniZO9DM8Ced9Ax7Rh9GiXCL
-         c7ZP57sbr+q5UuMn+BLQIgfMnxFVl7PJvH/RyrQPJ5o6SsLMy5ljclGU36UopQASAtVF
-         fx3OlJO/GairO4s3ZSpAmYoq8UhStC2+EpDC285FodunvKz9j5wEeIEuidnYoKr+1KGE
-         znMvu6holwajHZva3RsfaBK/0KKNjyvfeVMsjh/2m3YqLik7OHHYf2QCkdPkZtv9Oipy
-         tfjw==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=Cna2HlQGqwxmAqlvcQnVN0/MaPqKJG7oMkmFC9eYLOw=;
+        b=V5/CRseVq2wXnLUtrPvL1kBbxF16V/xww8j6u8h4CiH6lRKwhGpVH+zRi1erd75pKu
+         nxllmp7gS3+dRkXHTYv1ssdiKi4P997uY0H/xLk0LaqF0YOiGonghHrqnVoaW1HUspfn
+         EDUi5hckK8U3u5iRHgrDXIIKKKMfBSiP7+01Ci537vh2lmJ+p1F1X46ZUODciembeg2b
+         Yw4mnw9MkjgTb1A4aMwc1zyJFKS4XidN0Cxbsyh04rUIunMKaanhP5vly+YJF8ZPvtoq
+         BrSGj3/9NI3UPjqh7IO/7aw8B5HdF5p5E+zicU5TTT78AGR6cSAgmrBKTwY5HEb466j8
+         83Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=w/FmSJt4q0EBOhTIs5yfalWe7onSq3OGyk5zwTrCxMM=;
-        b=EGPpofeDxUb9dlzvxtQp+vRWM7u4SyU2VBDXmqo/X08p4TMBaj1WfOcCH2iL7V6qJ8
-         SyUfcksF0CJyORo1euKZXBmc/EJIYY0WQ6BDTIja+bnLWjGiSSWC1aQ/rL0iSNpd1sD9
-         ZXGcR4tnSwbomFFJD3q5zv/8N+XmYyM4BjDSuO1ThDLO7JpkmN1EV2/fAtXQGYdYF0lb
-         x0cuLWLB5JwCovSi5VO9uMEascl8xGoX/4AOdLx43+LsBJjWdlKUKTuZFUj4RRDc2jzW
-         qPCsfZtH2qV+pI4NTOdwsJSnD17ArVLofRRx2YS3EP7oC1SOz+pGO3mulhmCqF0S9g4j
-         gCgA==
-X-Gm-Message-State: AOAM533xGb+v+8UEy5eEX5o01pRDRJ5G056W+lQGk+TWAE1vGRLf31ZW
-	ij8oD8ZLbg0UlNkr9p20Luzy1VIMhqAv
-X-Google-Smtp-Source: ABdhPJx7RMkh8rtj5s/zxdPCY68SRTxtjuZoMZkiVHH5NL0si/DyWbWI6acc1OJ9J/edxMvxfzM50uKxMdqO
-X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:4b6f:f14d:be50:86a])
- (user=tzungbi job=sendgmr) by 2002:a17:902:f711:: with SMTP id
- h17mr776132plo.26.1644382265741; Tue, 08 Feb 2022 20:51:05 -0800 (PST)
-Date: Wed,  9 Feb 2022 12:50:35 +0800
-In-Reply-To: <20220209045035.380615-1-tzungbi@google.com>
-Message-Id: <20220209045035.380615-7-tzungbi@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=Cna2HlQGqwxmAqlvcQnVN0/MaPqKJG7oMkmFC9eYLOw=;
+        b=41OQhX4WYhIfMZzs0lnxrH6mDI+VLTXApopAgHOzZ7E4FJOz3oGXVT1URgVd8VYNRV
+         cvK8+7IaKFEIwoKXuY3/4pYbmrhm7JXz5AJZ32/Tiqo6b8th/k9399frxmxJXpL3Aefj
+         zeozcGf5ycp0qg39dUTJw8mgkiWsbk78jEkCoEYQzHjqQhqxkLoxyqGOX/6Sk6dMwsCA
+         KqANOEnN+lp9vrvb0IDMIbJDGgZxc+Ku99E+oN0L5b0ydpwTWxIIGVFEaLbDFi6eFBod
+         smUPnqPmUGx45G72YhXd1TFBDz9eXzpRclYkGuj+BuAZbyzns98NBxjhilibJg6lSJq8
+         gOWw==
+X-Gm-Message-State: AOAM531snWyDu6RINtaPvpFcpGhQqR7kqxcoD9KOE7frbjMXxYvfqyF3
+	fqezxr9Zvc030dlSPbVzbmsi3m9dwthH
+X-Google-Smtp-Source: ABdhPJyQkrGDQcm94s0dBnXDu2cTZ4aJxPIDfwFRlhVAC4AaXJpqeGtHAELu4BVxlUkdeohGgoS5gpBccD0I
+X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:ee29:8b32:75bc:44ec])
+ (user=tzungbi job=sendgmr) by 2002:a25:2086:: with SMTP id
+ g128mr623442ybg.759.1644383497254; Tue, 08 Feb 2022 21:11:37 -0800 (PST)
+Date: Wed,  9 Feb 2022 13:11:30 +0800
+Message-Id: <20220209051130.386175-1-tzungbi@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20220209045035.380615-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
-Subject: [PATCH v2 6/6] platform/chrome: cros_ec: append newline to all logs
+Subject: [RESEND PATCH v2] platform/chrome: cros_ec_debugfs: detach log reader
+ wq from devm
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: bleung@chromium.org, groeck@chromium.org
 Cc: chrome-platform@lists.linux.dev, tzungbi@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-To be consistent, append newline ("\n") to all logs.
+Debugfs console_log uses devm memory (e.g. debug_info in
+cros_ec_console_log_poll()).  However, lifecycles of device and debugfs
+are independent.  An use-after-free issue is observed if userland
+program operates the debugfs after the memory has been freed.
+
+The call trace:
+ do_raw_spin_lock
+ _raw_spin_lock_irqsave
+ remove_wait_queue
+ ep_unregister_pollwait
+ ep_remove
+ do_epoll_ctl
+
+A Python example to reproduce the issue:
+... import select
+... p = select.epoll()
+... f = open('/sys/kernel/debug/cros_scp/console_log')
+... p.register(f, select.POLLIN)
+... p.poll(1)
+[(4, 1)]                    # 4=fd, 1=select.POLLIN
+
+[ shutdown cros_scp at the point ]
+
+... p.poll(1)
+[(4, 16)]                   # 4=fd, 16=select.POLLHUP
+... p.unregister(f)
+
+An use-after-free issue raises here.  It called epoll_ctl with
+EPOLL_CTL_DEL which in turn to use the workqueue in the devm (i.e.
+log_wq).
+
+Detaches log reader's workqueue from devm to make sure it is persistent
+even if the device has been removed.
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/platform/chrome/cros_ec.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+As for 2 other related cases I could image:
 
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 008dc2fc5066..426314e4b7f6 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -213,7 +213,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
- 						IRQF_TRIGGER_LOW | IRQF_ONESHOT,
- 						"chromeos-ec", ec_dev);
- 		if (err) {
--			dev_err(dev, "Failed to request IRQ %d: %d",
-+			dev_err(dev, "Failed to request IRQ %d: %d\n",
- 				ec_dev->irq, err);
- 			return err;
+Case 1. userland program opens the debugfs after the device has been removed
+
+ENOENT.  cros_ec_debugfs_remove() calls debugfs_remove_recursive().
+
+Case 2. userland program is reading when the device is removing
+
+If the userland program is waiting in cros_ec_console_log_read(), the device
+removal will wait for it.
+
+See the calling stack for the case:
+ wait_for_completion
+ __debugfs_file_removed
+ remove_one
+ simple_recursive_removal
+ debugfs_remove
+ cros_ec_debugfs_remove
+ platform_drv_remove
+ device_release_driver_internal
+ device_release_driver
+ bus_remove_device
+ device_del
+ platform_device_del
+ platform_device_unregister
+
+Changes from v1:
+- rebase to next-20211029.
+- change the commit messages.
+
+ drivers/platform/chrome/cros_ec_debugfs.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 272c89837d74..0dbceee87a4b 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -25,6 +25,9 @@
+ 
+ #define CIRC_ADD(idx, size, value)	(((idx) + (value)) & ((size) - 1))
+ 
++/* waitqueue for log readers */
++static DECLARE_WAIT_QUEUE_HEAD(cros_ec_debugfs_log_wq);
++
+ /**
+  * struct cros_ec_debugfs - EC debugging information.
+  *
+@@ -33,7 +36,6 @@
+  * @log_buffer: circular buffer for console log information
+  * @read_msg: preallocated EC command and buffer to read console log
+  * @log_mutex: mutex to protect circular buffer
+- * @log_wq: waitqueue for log readers
+  * @log_poll_work: recurring task to poll EC for new console log data
+  * @panicinfo_blob: panicinfo debugfs blob
+  */
+@@ -44,7 +46,6 @@ struct cros_ec_debugfs {
+ 	struct circ_buf log_buffer;
+ 	struct cros_ec_command *read_msg;
+ 	struct mutex log_mutex;
+-	wait_queue_head_t log_wq;
+ 	struct delayed_work log_poll_work;
+ 	/* EC panicinfo */
+ 	struct debugfs_blob_wrapper panicinfo_blob;
+@@ -107,7 +108,7 @@ static void cros_ec_console_log_work(struct work_struct *__work)
+ 			buf_space--;
  		}
-@@ -264,7 +264,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
- 	 */
- 	err = cros_ec_sleep_event(ec_dev, 0);
- 	if (err < 0)
--		dev_dbg(ec_dev->dev, "Error %d clearing sleep event to ec",
-+		dev_dbg(ec_dev->dev, "Error %d clearing sleep event to ec\n",
- 			err);
  
- 	if (ec_dev->mkbp_event_supported) {
-@@ -337,7 +337,7 @@ int cros_ec_suspend(struct cros_ec_device *ec_dev)
+-		wake_up(&debug_info->log_wq);
++		wake_up(&cros_ec_debugfs_log_wq);
+ 	}
  
- 	ret = cros_ec_sleep_event(ec_dev, sleep_event);
- 	if (ret < 0)
--		dev_dbg(ec_dev->dev, "Error %d sending suspend event to ec",
-+		dev_dbg(ec_dev->dev, "Error %d sending suspend event to ec\n",
- 			ret);
+ 	mutex_unlock(&debug_info->log_mutex);
+@@ -141,7 +142,7 @@ static ssize_t cros_ec_console_log_read(struct file *file, char __user *buf,
  
- 	if (device_may_wakeup(dev))
-@@ -382,7 +382,7 @@ int cros_ec_resume(struct cros_ec_device *ec_dev)
+ 		mutex_unlock(&debug_info->log_mutex);
  
- 	ret = cros_ec_sleep_event(ec_dev, sleep_event);
- 	if (ret < 0)
--		dev_dbg(ec_dev->dev, "Error %d sending resume event to ec",
-+		dev_dbg(ec_dev->dev, "Error %d sending resume event to ec\n",
- 			ret);
+-		ret = wait_event_interruptible(debug_info->log_wq,
++		ret = wait_event_interruptible(cros_ec_debugfs_log_wq,
+ 					CIRC_CNT(cb->head, cb->tail, LOG_SIZE));
+ 		if (ret < 0)
+ 			return ret;
+@@ -173,7 +174,7 @@ static __poll_t cros_ec_console_log_poll(struct file *file,
+ 	struct cros_ec_debugfs *debug_info = file->private_data;
+ 	__poll_t mask = 0;
  
- 	if (ec_dev->wake_enabled)
+-	poll_wait(file, &debug_info->log_wq, wait);
++	poll_wait(file, &cros_ec_debugfs_log_wq, wait);
+ 
+ 	mutex_lock(&debug_info->log_mutex);
+ 	if (CIRC_CNT(debug_info->log_buffer.head,
+@@ -377,7 +378,6 @@ static int cros_ec_create_console_log(struct cros_ec_debugfs *debug_info)
+ 	debug_info->log_buffer.tail = 0;
+ 
+ 	mutex_init(&debug_info->log_mutex);
+-	init_waitqueue_head(&debug_info->log_wq);
+ 
+ 	debugfs_create_file("console_log", S_IFREG | 0444, debug_info->dir,
+ 			    debug_info, &cros_ec_console_log_fops);
 -- 
 2.35.0.263.gb82422642f-goog
 

@@ -1,91 +1,154 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001FE2F28
-	for <chrome-platform@lists.linux.dev>; Thu, 10 Feb 2022 03:11:42 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id p6so469877plf.10
-        for <chrome-platform@lists.linux.dev>; Wed, 09 Feb 2022 19:11:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A38C627
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 01:48:47 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id z16so4742771pfh.3
+        for <chrome-platform@lists.linux.dev>; Sun, 13 Feb 2022 17:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rwtTJPAlzjrk6k7AFsCR2v9W/lrykO+f5Ngu1AoU0UM=;
-        b=M81mm4bVgal4WsC1Rinuyy6QZmdxsCffFr2cuNshEJfKzYhauSzZ9yTJnmAzHDPMnD
-         rSywrxA0mofpoKqUhc00vyofd0wKC5kyYUvGp1xa8JqKSVotgMDNZyCv/7iHQFQtwL2X
-         ANzBrq12ALSWVsvEer4e2THG6xbYRHZFcoMNg/1fEjoKF71PjcjQye7JbDSb7aICKbsA
-         sGbV4r80POBTqCVkgZmf/D+9xDan3PsE+ucSqinw+v5Ys/RQNsMPnJNPtWbCtmVc+Etb
-         WPE+diYf1KmAQIqtGTSa7dgkGJsW4ACZ2HBb2UDgtRbMN1LOhq7SiszFzsLUu/Psflkb
-         PUyA==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GZi2a4c2Jxa4BMeSk+Zmf4PjSVvBkZeBTKVe1UpGOyc=;
+        b=Oixljf7Y4Rc4hsV5RQnXgzw6w/IPLzae3N5/ib4Q+arZrU6I4tr29e7MUBwWpyslVW
+         mrZ8F56F0mypAXenhZLboqC/gqKVaf2XoOuGrRIlx2wIcNNuu87Xq0QMy8xNOAPxHYU3
+         KxRbiYdLSvBBvYMWzxS2Wt9pLOs/lL8ksgbp5auTSHoDvnO3hHhzHfFyyV1pR/PwoZhI
+         PBE+eQH26THiWKJd0G+ARAkwSvPX5OcM41WRIWfvHpGOEQDu90BcbWbw2CH1rUUTtgpA
+         GnY0zZF92NaVWA7zNReuNM7yC6ycEqrvGWlr4HsStogYnzMEqk2BAhglA93LozJmXaGM
+         H+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rwtTJPAlzjrk6k7AFsCR2v9W/lrykO+f5Ngu1AoU0UM=;
-        b=PPcDVSM8beUJ6IOK7s7bd08sUJ2NGDQ1ZEWJdB8BNwbFS5vzvHAXtpjg4KW/fD225W
-         wIldxcrzqw0iZk9BHHCZozL9Wc8oq2YEfs1zbn1rYOztktuWstMw1aM55AP9UwLdY4Xl
-         bbe8JQBt6MSInttqO/rLnbwm2gvV31p6CeZ7LwhdkFQ+wJuLNrByB6h2jamVRcDGz2zo
-         vmJK35Od5doULxHW6HmeAHmho/+NAdQBB1z/IxeExZmtCb/zQ1ZkVQLtg+0V5y8BakVq
-         Volhiqw5fTUA10is2qNN5+jbCiNbBNcowjqwAC7KEDGMlSpHALVAjBgUqqiBRUoG9SqJ
-         iDoA==
-X-Gm-Message-State: AOAM533M8Yjn7ONOU1f4YgUhnNcrEsgsKT2e5vs2TXCjKEtfqkxPaQUK
-	+8dcF+yDceGjbDYJxnKf/eJ3Ow==
-X-Google-Smtp-Source: ABdhPJwBkZw6F8n3KA+ugeyrPklhH1SgnVM3vv+trNZ50QMp4uRMcZkq0UjV1BkteudYyAOGh4WI/g==
-X-Received: by 2002:a17:90b:1806:: with SMTP id lw6mr567968pjb.124.1644462701922;
-        Wed, 09 Feb 2022 19:11:41 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:ee29:8b32:75bc:44ec])
-        by smtp.gmail.com with ESMTPSA id q11sm23157638pfk.149.2022.02.09.19.11.40
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GZi2a4c2Jxa4BMeSk+Zmf4PjSVvBkZeBTKVe1UpGOyc=;
+        b=6jxNYtPdJn+z7cWyx3J94uBdvGavWKso1x8uqZ7XEWwaMSgiIObLvdM0tEsq1TmD+5
+         vAGeFfCADMpNZk8GjrBiJLB5rmk3hCuX8PxbNsk3YY4WCCBTsfC0BRfW6rezZ4y8azpW
+         XmEqB64vxB5wZuPlkFiIg0rq0lUnUjwPD7Bm9gsW+pnfugr7QwxdwY03WjzDZ2AIpqG2
+         6N+Bj8UFOn5RnvdCkRBCPOATG5EwkYiVp+idD1cByLjWXkl3K0J5uyl010TT+2m/IvZi
+         ngfH2fwcd7+9jjmBPc/g4epLPYMR2RLYamMnvhwj7V4I/IbT+gD9IN0f5nWiesf9MD8S
+         Mj3Q==
+X-Gm-Message-State: AOAM530qA/NgPFEy2zguBYHIWxrG80tuzwcb4HzNCkMzZykEVO8wtnl2
+	jKwDV7bv9yyp0YkALu/HPPG3vw==
+X-Google-Smtp-Source: ABdhPJyVbgZq7AFilr/qbRUu5X7MgQByixiKeGtzVaE4n3F7z1+ittFaB3Nw8616WEg7V+oHaXMoFw==
+X-Received: by 2002:a63:c156:: with SMTP id p22mr9819599pgi.215.1644803326515;
+        Sun, 13 Feb 2022 17:48:46 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:78cf:362f:f9d8:32f])
+        by smtp.gmail.com with ESMTPSA id a9sm24379552pgb.56.2022.02.13.17.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 19:11:41 -0800 (PST)
-Date: Thu, 10 Feb 2022 11:11:39 +0800
+        Sun, 13 Feb 2022 17:48:46 -0800 (PST)
+Date: Mon, 14 Feb 2022 09:48:43 +0800
 From: Tzung-Bi Shih <tzungbi@google.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: bleung@chromium.org, groeck@chromium.org,
+To: Sami Kyostila <skyostil@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, bleung@chromium.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org, evanbenn@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: Re: [RESEND PATCH v2] platform/chrome: cros_ec_debugfs: detach log
- reader wq from devm
-Message-ID: <YgSCaxROG+8kpznR@google.com>
-References: <20220209051130.386175-1-tzungbi@google.com>
- <CACeCKadXU+pX=3m5d6SMnx4pxpRpgsCWN15HhOUpxocTadKFtQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] platform/chrome: add a driver for HPS
+Message-ID: <Ygm0+3S/Q+JHzzxB@google.com>
+References: <20220207013613.1150783-1-skyostil@chromium.org>
+ <20220207013613.1150783-2-skyostil@chromium.org>
+ <YgSli/6HuZ+i+2gb@google.com>
+ <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CACeCKadXU+pX=3m5d6SMnx4pxpRpgsCWN15HhOUpxocTadKFtQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com>
 
-On Wed, Feb 09, 2022 at 01:30:14PM -0800, Prashant Malani wrote:
-> On Tue, Feb 8, 2022 at 9:11 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
-> > +/* waitqueue for log readers */
-> > +static DECLARE_WAIT_QUEUE_HEAD(cros_ec_debugfs_log_wq);
-> 
-> Hmm, I'm always wary of introducing statics to address races like this.
-> 
-> Doesn't re-ordering cros_ec_debugfs_remove() avoid the race? :
-> diff --git a/drivers/platform/chrome/cros_ec_debugfs.c
-> b/drivers/platform/chrome/cros_ec_debugfs.c
-> index 272c89837d74..80bd898c3271 100644
-> --- a/drivers/platform/chrome/cros_ec_debugfs.c
-> +++ b/drivers/platform/chrome/cros_ec_debugfs.c
-> @@ -485,8 +485,8 @@ static int cros_ec_debugfs_remove(struct
-> platform_device *pd)
->  {
->         struct cros_ec_dev *ec = dev_get_drvdata(pd->dev.parent);
-> 
-> -       debugfs_remove_recursive(ec->debug_info->dir);
->         cros_ec_cleanup_console_log(ec->debug_info);
-> +       debugfs_remove_recursive(ec->debug_info->dir);
-> 
->         return 0;
->  }
+Hi,
 
-I have tested the patch and it doesn't help.  The issue is: cros_ec_debugfs
-provides a wait queue to fs at [1]; fs remembers the address at [2].  The wait
-queue is in devm memory.  After the memory has freed (i.e. the device has
-removed), fs still gets chance to access the memory (e.g. [3] in the case).
+Left some follow-up questions before going for the v4.  Please also cc the
+following patches to <chrome-platform@lists.linux.dev> in case we would
+overlook them from LKML.
 
-[1]: https://elixir.bootlin.com/linux/v5.17-rc3/source/drivers/platform/chrome/cros_ec_debugfs.c#L176
-[2]: https://elixir.bootlin.com/linux/v5.17-rc3/source/fs/eventpoll.c#L1256
-[3]: https://elixir.bootlin.com/linux/v5.17-rc3/source/fs/eventpoll.c#L550
+On Fri, Feb 11, 2022 at 08:08:45PM +1100, Sami Kyostila wrote:
+> ( to 10. helmik. 2022 klo 16.41 Tzung-Bi Shih (tzungbi@google.com) kirjoitti:
+> >
+> > On Mon, Feb 07, 2022 at 12:36:13PM +1100, Sami Kyöstilä wrote:
+> > > When loaded, the driver exports the sensor to userspace through a
+> > > character device. This device only supports power management, i.e.,
+> > > communication with the sensor must be done through regular I2C
+> > > transmissions from userspace.
+> > >
+> > > Power management is implemented by enabling the respective power GPIO
+> > > while at least one userspace process holds an open fd on the character
+> > > device. By default, the device is powered down if there are no active
+> > > clients.
+> > >
+> > > Note that the driver makes no effort to preserve the state of the sensor
+> > > between power down and power up events. Userspace is responsible for
+> > > reinitializing any needed state once power has been restored.
+> >
+> > It's weird.  If most of the thing is done by userspace programs, couldn't it
+> > set the power GPIO via userspace interface (e.g. [1]) too?
+> 
+> I agree that's a little unusual, but there are some good reasons for
+> this to be in the kernel. First, it lets us turn HPS off during system
+> suspend -- which I'm not sure how you'd do from userspace. Second, it
+> avoids the need to give write access to the entire GPIO chip to the
+> hpsd userspace daemon. We just need a single line, while the
+> controller in this case has a total of 360 gpios. Finally, HPS also
+> has an interrupt line, and we're planning to let it wake up the host,
+> which I also believe needs to be done in the kernel.
+
+What prevents it from implementing the I2C communication in kernel?
+
+Did you investigate if there are any existing frameworks for HPS
+(e.g. drivers/iio/)?  I am wondering if kernel already has some abstract code
+for HPS.
+
+Only found one via:
+$ git grep 'human presence sensor'
+drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h: [...]
+
+> > > +static void hps_unload(void *drv_data)
+> > > +{
+> > > +     struct hps_drvdata *hps = drv_data;
+> > > +
+> > > +     hps_set_power(hps, true);
+> >
+> > Why does it need to set to true when device removing?
+> 
+> By default, HPS is powered on when the system starts and before the
+> driver is loaded. We want to restore it to that default state here.
+> This is needed for example for automated testing, where we can unbind
+> the driver to make sure HPS stays powered.
+
+Echo to the idea of previous comment: does kernel have any frameworks for HPS?
+"HPS is powered on when the system starts" sounds like a chip specific
+implementation.
+
+> > > +static int hps_suspend(struct device *dev)
+> > > +{
+> > > +     struct i2c_client *client = to_i2c_client(dev);
+> > > +     struct hps_drvdata *hps = i2c_get_clientdata(client);
+> > > +
+> > > +     hps_set_power(hps, false);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int hps_resume(struct device *dev)
+> > > +{
+> > > +     struct i2c_client *client = to_i2c_client(dev);
+> > > +     struct hps_drvdata *hps = i2c_get_clientdata(client);
+> > > +
+> > > +     hps_set_power(hps, true);
+> > > +     return 0;
+> > > +}
+> >
+> > Does it need to save the old state before suspending?  Instead of turning on
+> > the power after every resumes.
+> 
+> No, the runtime pm system makes sure suspend and resume are only
+> called when needed. For example, if someone has an open reference to
+> the device when the system goes to sleep, suspend and resume are
+> called appropriately. If HPS was already suspended, then neither
+> entrypoint gets called when going to sleep or waking up.
+
+It uses UNIVERSAL_DEV_PM_OPS() which also sets for .suspend() and .resume().
+OTOH, the documentation suggests it has deprecated (see include/linux/pm.h).

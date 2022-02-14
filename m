@@ -1,203 +1,76 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85707D
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:47:03 +0000 (UTC)
-Received: by mail-vs1-f41.google.com with SMTP id p7so6827447vsg.2
-        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=taYksPnVY5pJMwk/HmGJeKrRSkkr8l0mG1ddKJHLIxU=;
-        b=gDwReEsv4bRWkypdgtNevukZVJtaSNxvBz+u0Yw5m0e/vMDEW3Ri+dMr/5otM2H5cT
-         VQt3mdpWhZ6LI7n6dIRWmuNuAVERxe4Y1XBGXk37P9FyFTsht5AxtL+9S7khi6iHjzuq
-         NfkD82F47injCkpVRuBv1o5Rzh0raNtB5Yxoc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=taYksPnVY5pJMwk/HmGJeKrRSkkr8l0mG1ddKJHLIxU=;
-        b=sbRhD1ubEkTghJ/XAX7UazdmbwPLMZzdSMttnz0oEo8KvEedwzlfwuK5FUgzxPE9ex
-         deKhXbEMk7hgf+wG8t2Kjk437wMbZ1dSjjOmV2reA0I0eN+ydQICB2Q5VL5qh9wgb4Pt
-         LgMg9mVcdB1Q1roFEgGwgcFkJo/M0qiZYT+ILlymKDbMpWUe37oWhiSmDKCoMyi+IHIb
-         CFaeP2NGVYOlGI6cSzJa5EgoGdgcqyZUHsfUNK+WQRpkfy/CuekpFlGUvsKFapj2E1ve
-         PcFJJj3zl0nreyNNj1ar7aiB27X899I1mryfGDRU4/PbgHBzAH4qUpWkdj2E4adMHARh
-         mYCg==
-X-Gm-Message-State: AOAM532fgL5mE/OWXcxWq4kYZJDskQxs0bI9wGV41V0P2JMb0sar12SW
-	0UGE5EC6VnKTu6wJEMrlilx3MoWHPjGzGCXnGZga4vFz6ygqXJUd
-X-Google-Smtp-Source: ABdhPJxJOdIX0vpaF+uFKtQuKc3o75TuUPkGnPVJi23kP9It44Ga/9ZpiDKwRpjvZKTfd2YngKDP9eXTFgKmoS3TYGE=
-X-Received: by 2002:a67:1a81:: with SMTP id a123mr3553687vsa.67.1644828422333;
- Mon, 14 Feb 2022 00:47:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CFB7A
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 15:22:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: kholk11)
+	with ESMTPSA id B9F721F43C7E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644852118;
+	bh=++yhPFmxmu7cGPsZh0XYgN78QVE2RIZcqQXV+giWu/g=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=b8ErAXCrUOAmvdnYHnh9/TxFOeLgasc/OLxHbRMM1zQ/zlxEzejaSK1qeTdyYD4Hl
+	 VZlYXyxVjnI4DZ/Xh055bjRtWNKDpG1G93djseSI44c1eklumetK6NNzTm1iUC2Fr7
+	 oYzqii2rNUiKLEcbUu7h6ECBL92PPGGWR+BbTTo2REQGJdEzOPgGtaHjRVSpg25Dsr
+	 YqQ5hCOcAqY2fBfrt8YAhUJogmiZS8fges/P8ZXf/9Rqm1S41LYpxSokBnUKwMjtzv
+	 FukrgWTubzRznrWKmqjJ+xQfIMZM6EMidHbKXoi9aSSFI+wZHKDTf2HRuMwjwsnNvv
+	 V5za4SkH7koqA==
+Message-ID: <5aacbf47-9ab5-d1d7-cdde-d338d531bc7b@collabora.com>
+Date: Mon, 14 Feb 2022 16:21:54 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220207013613.1150783-1-skyostil@chromium.org>
- <20220207013613.1150783-2-skyostil@chromium.org> <YgSli/6HuZ+i+2gb@google.com>
- <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com> <Ygm0+3S/Q+JHzzxB@google.com>
-In-Reply-To: <Ygm0+3S/Q+JHzzxB@google.com>
-From: Sami Kyostila <skyostil@chromium.org>
-Date: Mon, 14 Feb 2022 19:46:50 +1100
-Message-ID: <CAPuLcztqUaDWtgYe0KX0VWUMi8DLiO0a5Js4PCck9zH7=h+qCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] platform/chrome: add a driver for HPS
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, bleung@chromium.org, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, evanbenn@chromium.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 2/4] arm64: dts: mt8183: align Google CROS EC PWM node
+ name with dtschema
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>, Douglas Anderson <dianders@chromium.org>,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
+ <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ma 14. helmik. 2022 klo 12.48 Tzung-Bi Shih (tzungbi@google.com) kirjoitti:
->
-> Hi,
->
-> Left some follow-up questions before going for the v4.  Please also cc th=
-e
-> following patches to <chrome-platform@lists.linux.dev> in case we would
-> overlook them from LKML.
+Il 14/02/22 09:19, Krzysztof Kozlowski ha scritto:
+> dtschema expects PWM node name to be a generic "pwm".  This also matches
+> Devicetree specification requirements about generic node names.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
-Thank you, I appreciate the feedback!
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
->
-> On Fri, Feb 11, 2022 at 08:08:45PM +1100, Sami Kyostila wrote:
-> > ( to 10. helmik. 2022 klo 16.41 Tzung-Bi Shih (tzungbi@google.com) kirj=
-oitti:
-> > >
-> > > On Mon, Feb 07, 2022 at 12:36:13PM +1100, Sami Ky=C3=B6stil=C3=A4 wro=
-te:
-> > > > When loaded, the driver exports the sensor to userspace through a
-> > > > character device. This device only supports power management, i.e.,
-> > > > communication with the sensor must be done through regular I2C
-> > > > transmissions from userspace.
-> > > >
-> > > > Power management is implemented by enabling the respective power GP=
-IO
-> > > > while at least one userspace process holds an open fd on the charac=
-ter
-> > > > device. By default, the device is powered down if there are no acti=
-ve
-> > > > clients.
-> > > >
-> > > > Note that the driver makes no effort to preserve the state of the s=
-ensor
-> > > > between power down and power up events. Userspace is responsible fo=
-r
-> > > > reinitializing any needed state once power has been restored.
-> > >
-> > > It's weird.  If most of the thing is done by userspace programs, coul=
-dn't it
-> > > set the power GPIO via userspace interface (e.g. [1]) too?
-> >
-> > I agree that's a little unusual, but there are some good reasons for
-> > this to be in the kernel. First, it lets us turn HPS off during system
-> > suspend -- which I'm not sure how you'd do from userspace. Second, it
-> > avoids the need to give write access to the entire GPIO chip to the
-> > hpsd userspace daemon. We just need a single line, while the
-> > controller in this case has a total of 360 gpios. Finally, HPS also
-> > has an interrupt line, and we're planning to let it wake up the host,
-> > which I also believe needs to be done in the kernel.
->
-> What prevents it from implementing the I2C communication in kernel?
->
-> Did you investigate if there are any existing frameworks for HPS
-> (e.g. drivers/iio/)?  I am wondering if kernel already has some abstract =
-code
-> for HPS.
->
-> Only found one via:
-> $ git grep 'human presence sensor'
-> drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h: [...]
+> ---
+>   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> index 8f7bf33f607d..2d7a193272ae 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> @@ -92,7 +92,7 @@ volume_up {
+>   };
+>   
+>   &cros_ec {
+> -	cros_ec_pwm: ec-pwm {
+> +	cros_ec_pwm: pwm {
+>   		compatible = "google,cros-ec-pwm";
+>   		#pwm-cells = <1>;
+>   		status = "disabled";
 
-Yes, we did look into some existing mechanisms in the kernel this
-could fit into. HID was probably the closest fit since the spec has
-been recently expanded with human presence sensing (in fact, the first
-revision of this driver was HID-based[1]), but a few reasons made it a
-poor fit:
-
-1. Our HPS hardware doesn't use the HID-I2C wire protocol, so we'd
-still need a bespoke I2C communication layer.
-
-2. HPS uses a somewhat complex multi-stage firmware update process,
-and we didn't feel comfortable trying to push that down into the
-kernel at this point.
-
-3. The feature set of HPS is still evolving, so this doesn't seem like
-the right time to bake specific functionality into a syscall
-interface.
-
-I also had a quick look at iio, but it felt a bit overkill for the
-very small amount of data HPS generates.
-
-My feeling is that HID-I2C is probably the right long term fit, but
-it'll take some time (and HW iterations) to get there. Earlier in the
-patch series we discussed an intermediate step where we make it
-possible to expose individual I2C devices to userspace through
-separate device nodes, which will help reduce the attack surface of
-giving userspace write access to the entire I2C bus just for HPS.
-
-[1] go/hps-kernel-driver (sorry for the internal link)
-
-> > > > +static void hps_unload(void *drv_data)
-> > > > +{
-> > > > +     struct hps_drvdata *hps =3D drv_data;
-> > > > +
-> > > > +     hps_set_power(hps, true);
-> > >
-> > > Why does it need to set to true when device removing?
-> >
-> > By default, HPS is powered on when the system starts and before the
-> > driver is loaded. We want to restore it to that default state here.
-> > This is needed for example for automated testing, where we can unbind
-> > the driver to make sure HPS stays powered.
->
-> Echo to the idea of previous comment: does kernel have any frameworks for=
- HPS?
-> "HPS is powered on when the system starts" sounds like a chip specific
-> implementation.
-
-True, that's more of an implementation detail of our system rather
-than any hard guarantee. I'll change this to save and restore the
-power state that was there before the driver got loaded.
-
-> > > > +static int hps_suspend(struct device *dev)
-> > > > +{
-> > > > +     struct i2c_client *client =3D to_i2c_client(dev);
-> > > > +     struct hps_drvdata *hps =3D i2c_get_clientdata(client);
-> > > > +
-> > > > +     hps_set_power(hps, false);
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int hps_resume(struct device *dev)
-> > > > +{
-> > > > +     struct i2c_client *client =3D to_i2c_client(dev);
-> > > > +     struct hps_drvdata *hps =3D i2c_get_clientdata(client);
-> > > > +
-> > > > +     hps_set_power(hps, true);
-> > > > +     return 0;
-> > > > +}
-> > >
-> > > Does it need to save the old state before suspending?  Instead of tur=
-ning on
-> > > the power after every resumes.
-> >
-> > No, the runtime pm system makes sure suspend and resume are only
-> > called when needed. For example, if someone has an open reference to
-> > the device when the system goes to sleep, suspend and resume are
-> > called appropriately. If HPS was already suspended, then neither
-> > entrypoint gets called when going to sleep or waking up.
->
-> It uses UNIVERSAL_DEV_PM_OPS() which also sets for .suspend() and .resume=
-().
-> OTOH, the documentation suggests it has deprecated (see include/linux/pm.=
-h).
-
-Thanks, I think I missed this distinction between .suspend/resume()
-and .runtime_suspend/resume(). As far as I can tell it shouldn't make
-a difference in practice since we are just toggling a GPIO pin, but
-I'll nevertheless fix it for consistency.
-
-- Sami

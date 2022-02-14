@@ -1,154 +1,79 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A38C627
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 01:48:47 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id z16so4742771pfh.3
-        for <chrome-platform@lists.linux.dev>; Sun, 13 Feb 2022 17:48:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00377E4
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 05:37:25 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id b64-20020a256743000000b0061e169a5f19so31452959ybc.11
+        for <chrome-platform@lists.linux.dev>; Sun, 13 Feb 2022 21:37:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GZi2a4c2Jxa4BMeSk+Zmf4PjSVvBkZeBTKVe1UpGOyc=;
-        b=Oixljf7Y4Rc4hsV5RQnXgzw6w/IPLzae3N5/ib4Q+arZrU6I4tr29e7MUBwWpyslVW
-         mrZ8F56F0mypAXenhZLboqC/gqKVaf2XoOuGrRIlx2wIcNNuu87Xq0QMy8xNOAPxHYU3
-         KxRbiYdLSvBBvYMWzxS2Wt9pLOs/lL8ksgbp5auTSHoDvnO3hHhzHfFyyV1pR/PwoZhI
-         PBE+eQH26THiWKJd0G+ARAkwSvPX5OcM41WRIWfvHpGOEQDu90BcbWbw2CH1rUUTtgpA
-         GnY0zZF92NaVWA7zNReuNM7yC6ycEqrvGWlr4HsStogYnzMEqk2BAhglA93LozJmXaGM
-         H+ig==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=+1SwCE06M0PNqBLEJTg15X5eH7+oSoSSFiekI+9wl9s=;
+        b=VtTPVXxfex/1ySP2MQUCDrrLGS4bgo8o9gYa4yfPriMLozUesvzfOHPU9JNcSROXnZ
+         3PTCEKlwxO3xEnbzXHfcKoos8ott/okgb3eO4UDDb5Hgq0fnhYoRMEpSqFV4Pk277fJ2
+         +Nd5BHsBrYrOtYE1oe1F8NmnJOOYyYSzhBm7iowqdEfANVP0pk9K8G9JaIhlJe7ZekSu
+         9kpEwoQssXCR1UvrZQT5zNlJ5DF4OJ8uwRFWNzYIWYAWuZKd0QjWbKpL/zmBkd6fQkMq
+         a41bVuN0Wgd7EduqWuld4iSyG2TgCW8/AfcO5jxg3moU1H+YUcIzzZAWiUed0xbe9ykr
+         0LPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=GZi2a4c2Jxa4BMeSk+Zmf4PjSVvBkZeBTKVe1UpGOyc=;
-        b=6jxNYtPdJn+z7cWyx3J94uBdvGavWKso1x8uqZ7XEWwaMSgiIObLvdM0tEsq1TmD+5
-         vAGeFfCADMpNZk8GjrBiJLB5rmk3hCuX8PxbNsk3YY4WCCBTsfC0BRfW6rezZ4y8azpW
-         XmEqB64vxB5wZuPlkFiIg0rq0lUnUjwPD7Bm9gsW+pnfugr7QwxdwY03WjzDZ2AIpqG2
-         6N+Bj8UFOn5RnvdCkRBCPOATG5EwkYiVp+idD1cByLjWXkl3K0J5uyl010TT+2m/IvZi
-         ngfH2fwcd7+9jjmBPc/g4epLPYMR2RLYamMnvhwj7V4I/IbT+gD9IN0f5nWiesf9MD8S
-         Mj3Q==
-X-Gm-Message-State: AOAM530qA/NgPFEy2zguBYHIWxrG80tuzwcb4HzNCkMzZykEVO8wtnl2
-	jKwDV7bv9yyp0YkALu/HPPG3vw==
-X-Google-Smtp-Source: ABdhPJyVbgZq7AFilr/qbRUu5X7MgQByixiKeGtzVaE4n3F7z1+ittFaB3Nw8616WEg7V+oHaXMoFw==
-X-Received: by 2002:a63:c156:: with SMTP id p22mr9819599pgi.215.1644803326515;
-        Sun, 13 Feb 2022 17:48:46 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:78cf:362f:f9d8:32f])
-        by smtp.gmail.com with ESMTPSA id a9sm24379552pgb.56.2022.02.13.17.48.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Feb 2022 17:48:46 -0800 (PST)
-Date: Mon, 14 Feb 2022 09:48:43 +0800
-From: Tzung-Bi Shih <tzungbi@google.com>
-To: Sami Kyostila <skyostil@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, bleung@chromium.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org, evanbenn@chromium.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 1/1] platform/chrome: add a driver for HPS
-Message-ID: <Ygm0+3S/Q+JHzzxB@google.com>
-References: <20220207013613.1150783-1-skyostil@chromium.org>
- <20220207013613.1150783-2-skyostil@chromium.org>
- <YgSli/6HuZ+i+2gb@google.com>
- <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=+1SwCE06M0PNqBLEJTg15X5eH7+oSoSSFiekI+9wl9s=;
+        b=TCcFemB1XwEBwnvSzkphFJIkD3vnzMOWJwH4VK/nvX95MH/yPV+FBqtOwbbaj25pvi
+         gHSJn9puPN38lut120HM+0uG5Dw/WJ4/WCEONg9NyzXExUNYuD8egAyLEU4wXlSSaaHG
+         ooEzHsmb55We0RkLnJU8+qomEDNIrIVtaS5Jhrgcrvn+UupZC+OiRB34v8l0FgRmy9Xz
+         bzoIfTETOehcNEwYAzlxPI/4eJrl0QHTa8h60heCjC2ay45vhZakFQxlKjI8XSX8pL8h
+         pmIU2Bllj66/JS4XVLOZ7w8SwU0gPejdVO/mZBSlZRY58XvV5s9/klFVB9gqZaYx68B7
+         bXkw==
+X-Gm-Message-State: AOAM533vIbJOEBqcRj8x4w2fSS+wVGiPvbsbpBDK/MmJ9gvhRac4rx+M
+	EgpFlBDEXy6gigmHd+DxfPHfzp4jGA5r
+X-Google-Smtp-Source: ABdhPJzLlnCyP8MR7Ka8mTntsMrSfWdMHHSSskLUEwG3JprtOu25ulTVq/KOFZQzyJJoH9evqR6maA8J1aHF
+X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:f315:f92d:e3d3:2539])
+ (user=tzungbi job=sendgmr) by 2002:a25:900e:: with SMTP id
+ s14mr10446908ybl.338.1644817044881; Sun, 13 Feb 2022 21:37:24 -0800 (PST)
+Date: Mon, 14 Feb 2022 13:36:41 +0800
+Message-Id: <20220214053646.3088298-1-tzungbi@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+Subject: [PATCH 0/5] platform/chrome: cros_kbd_led_backlight: add EC PWM backend
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org
+Cc: chrome-platform@lists.linux.dev, tzungbi@google.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+The series adds EC PWM as an backend option for ChromeOS keyboard LED
+backlight.
 
-Left some follow-up questions before going for the v4.  Please also cc the
-following patches to <chrome-platform@lists.linux.dev> in case we would
-overlook them from LKML.
+The 1st patch reorder the headers alphabetically.
 
-On Fri, Feb 11, 2022 at 08:08:45PM +1100, Sami Kyostila wrote:
-> ( to 10. helmik. 2022 klo 16.41 Tzung-Bi Shih (tzungbi@google.com) kirjoitti:
-> >
-> > On Mon, Feb 07, 2022 at 12:36:13PM +1100, Sami Kyöstilä wrote:
-> > > When loaded, the driver exports the sensor to userspace through a
-> > > character device. This device only supports power management, i.e.,
-> > > communication with the sensor must be done through regular I2C
-> > > transmissions from userspace.
-> > >
-> > > Power management is implemented by enabling the respective power GPIO
-> > > while at least one userspace process holds an open fd on the character
-> > > device. By default, the device is powered down if there are no active
-> > > clients.
-> > >
-> > > Note that the driver makes no effort to preserve the state of the sensor
-> > > between power down and power up events. Userspace is responsible for
-> > > reinitializing any needed state once power has been restored.
-> >
-> > It's weird.  If most of the thing is done by userspace programs, couldn't it
-> > set the power GPIO via userspace interface (e.g. [1]) too?
-> 
-> I agree that's a little unusual, but there are some good reasons for
-> this to be in the kernel. First, it lets us turn HPS off during system
-> suspend -- which I'm not sure how you'd do from userspace. Second, it
-> avoids the need to give write access to the entire GPIO chip to the
-> hpsd userspace daemon. We just need a single line, while the
-> controller in this case has a total of 360 gpios. Finally, HPS also
-> has an interrupt line, and we're planning to let it wake up the host,
-> which I also believe needs to be done in the kernel.
+The 2nd patch separates the ACPI backend as an independent option.
 
-What prevents it from implementing the I2C communication in kernel?
+The 3rd patch is the DT binding document for the proposed compatible string.
 
-Did you investigate if there are any existing frameworks for HPS
-(e.g. drivers/iio/)?  I am wondering if kernel already has some abstract code
-for HPS.
+The 4th patch supports OF match.
 
-Only found one via:
-$ git grep 'human presence sensor'
-drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h: [...]
+The 5th patch adds EC PWM as another backend option.
 
-> > > +static void hps_unload(void *drv_data)
-> > > +{
-> > > +     struct hps_drvdata *hps = drv_data;
-> > > +
-> > > +     hps_set_power(hps, true);
-> >
-> > Why does it need to set to true when device removing?
-> 
-> By default, HPS is powered on when the system starts and before the
-> driver is loaded. We want to restore it to that default state here.
-> This is needed for example for automated testing, where we can unbind
-> the driver to make sure HPS stays powered.
+Tzung-Bi Shih (5):
+  platform/chrome: cros_kbd_led_backlight: sort headers alphabetically
+  platform/chrome: cros_kbd_led_backlight: separate ACPI backend
+  dt-bindings: add google,cros-kbd-led-backlight
+  platform/chrome: cros_kbd_led_backlight: support OF match
+  platform/chrome: cros_kbd_led_backlight: support EC PWM backend
 
-Echo to the idea of previous comment: does kernel have any frameworks for HPS?
-"HPS is powered on when the system starts" sounds like a chip specific
-implementation.
+ .../chrome/google,cros-kbd-led-backlight.yaml |  35 +++
+ .../bindings/mfd/google,cros-ec.yaml          |   3 +
+ drivers/platform/chrome/Kconfig               |  14 +-
+ .../platform/chrome/cros_kbd_led_backlight.c  | 218 ++++++++++++++++--
+ 4 files changed, 247 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-kbd-led-backlight.yaml
 
-> > > +static int hps_suspend(struct device *dev)
-> > > +{
-> > > +     struct i2c_client *client = to_i2c_client(dev);
-> > > +     struct hps_drvdata *hps = i2c_get_clientdata(client);
-> > > +
-> > > +     hps_set_power(hps, false);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int hps_resume(struct device *dev)
-> > > +{
-> > > +     struct i2c_client *client = to_i2c_client(dev);
-> > > +     struct hps_drvdata *hps = i2c_get_clientdata(client);
-> > > +
-> > > +     hps_set_power(hps, true);
-> > > +     return 0;
-> > > +}
-> >
-> > Does it need to save the old state before suspending?  Instead of turning on
-> > the power after every resumes.
-> 
-> No, the runtime pm system makes sure suspend and resume are only
-> called when needed. For example, if someone has an open reference to
-> the device when the system goes to sleep, suspend and resume are
-> called appropriately. If HPS was already suspended, then neither
-> entrypoint gets called when going to sleep or waking up.
+-- 
+2.35.1.265.g69c8d7142f-goog
 
-It uses UNIVERSAL_DEV_PM_OPS() which also sets for .suspend() and .resume().
-OTOH, the documentation suggests it has deprecated (see include/linux/pm.h).

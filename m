@@ -1,106 +1,203 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F396F7A
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:58 +0000 (UTC)
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A33F24055B
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1644826797;
-	bh=o/YgTPBdxwkk76YIPJfDwO9KLR8OIlu6EoGrWBDU/GQ=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=EwTyN5N67UAQHLpprepPlAdArEoxH9FHAtFV+b2v/8mCpJO9jzmVzcILyPM1QfAbE
-	 mcYvaKAxFLktyuhN6d8z+h5Ije00wbvaMxqdQcusXQUlfOszPBuuMobs1BrXaKaANb
-	 9dlfmVgYjSoQt2dKnfeJ/ZSY+y1qzxVO9Fjhv7VR++Dy8m0dWIbJnuE5jhsBzkGIA1
-	 n+qAYg2y5g/hq71m0WQZbiuHAxmVjasQzBlAgOptKuU9jy81ta9rak5q4puZxmImiQ
-	 QzRXART7ckrtwQCvBQSSU96TSsvUzC9xC0sKw2KEQYTwjoP0Ah9DwcJioZJ7+YEa0R
-	 8mDjyxKbwq3Dg==
-Received: by mail-ej1-f69.google.com with SMTP id mp5-20020a1709071b0500b0069f2ba47b20so5418587ejc.19
-        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:19:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85707D
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:47:03 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id p7so6827447vsg.2
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=taYksPnVY5pJMwk/HmGJeKrRSkkr8l0mG1ddKJHLIxU=;
+        b=gDwReEsv4bRWkypdgtNevukZVJtaSNxvBz+u0Yw5m0e/vMDEW3Ri+dMr/5otM2H5cT
+         VQt3mdpWhZ6LI7n6dIRWmuNuAVERxe4Y1XBGXk37P9FyFTsht5AxtL+9S7khi6iHjzuq
+         NfkD82F47injCkpVRuBv1o5Rzh0raNtB5Yxoc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=o/YgTPBdxwkk76YIPJfDwO9KLR8OIlu6EoGrWBDU/GQ=;
-        b=BPSN/Tnc1M3Y40XXFQA+MDDCcT7FRMhdKGViXHlyUnO0qU4Zulaqk0AbP7vca1Y9/K
-         zk8HlVI4guSg6zfOtAyIbUbNly9BVADEOWWefuL9HtARLMp4Bye4c8NPQPmjUEDYPRbp
-         pEufEk42m0TJm9hmeedFJ/Jhu2uRaRaX6+QqyC8CFWj4UTui2T+sInJiRacSi77yU9Rd
-         GQezEELk20tGFdTf4urQEhTI7jM+CWWUTv35dTJNmCF926ZRN3GNWEmIIP5mNIOqCGYE
-         LGnoe3HfucKB4vCLSlhMIClkwT/N5IL9uDdt62mNDElCR7p+nPnUjAg/8AkYlQBbKeyd
-         aOyw==
-X-Gm-Message-State: AOAM532GQ+EhX8lWLEbtj3vWJFjZ/DZF4bT6DSD5wbhV2GbPWIBtlMFL
-	+Mxmf0OIZYcMQ3BKholJXIz2bPY8CUYKyAi4adwac5fEvA+8tieg0nlOjtyXQkztg+DiF5DWlfL
-	68zD2my6XLOGLr7tLTjOe7Zuak2RANJbeV0WQ8a5nB0J3ZA==
-X-Received: by 2002:a17:907:6091:: with SMTP id ht17mr10718081ejc.607.1644826797380;
-        Mon, 14 Feb 2022 00:19:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkFPJeiJWjmWYMYKnbVg1bBwxgaPTZV+oh4RSUxGNA67GTozBuexvPDdoyT1VdY/d6fUhgGw==
-X-Received: by 2002:a17:907:6091:: with SMTP id ht17mr10718069ejc.607.1644826797215;
-        Mon, 14 Feb 2022 00:19:57 -0800 (PST)
-Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id b20sm2022941ede.23.2022.02.14.00.19.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 00:19:56 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To: Lee Jones <lee.jones@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Douglas Anderson <dianders@chromium.org>,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: [PATCH 4/4] arm64: dts: rk3399: align Google CROS EC PWM node name with dtschema
-Date: Mon, 14 Feb 2022 09:19:16 +0100
-Message-Id: <20220214081916.162014-5-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
-References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=taYksPnVY5pJMwk/HmGJeKrRSkkr8l0mG1ddKJHLIxU=;
+        b=sbRhD1ubEkTghJ/XAX7UazdmbwPLMZzdSMttnz0oEo8KvEedwzlfwuK5FUgzxPE9ex
+         deKhXbEMk7hgf+wG8t2Kjk437wMbZ1dSjjOmV2reA0I0eN+ydQICB2Q5VL5qh9wgb4Pt
+         LgMg9mVcdB1Q1roFEgGwgcFkJo/M0qiZYT+ILlymKDbMpWUe37oWhiSmDKCoMyi+IHIb
+         CFaeP2NGVYOlGI6cSzJa5EgoGdgcqyZUHsfUNK+WQRpkfy/CuekpFlGUvsKFapj2E1ve
+         PcFJJj3zl0nreyNNj1ar7aiB27X899I1mryfGDRU4/PbgHBzAH4qUpWkdj2E4adMHARh
+         mYCg==
+X-Gm-Message-State: AOAM532fgL5mE/OWXcxWq4kYZJDskQxs0bI9wGV41V0P2JMb0sar12SW
+	0UGE5EC6VnKTu6wJEMrlilx3MoWHPjGzGCXnGZga4vFz6ygqXJUd
+X-Google-Smtp-Source: ABdhPJxJOdIX0vpaF+uFKtQuKc3o75TuUPkGnPVJi23kP9It44Ga/9ZpiDKwRpjvZKTfd2YngKDP9eXTFgKmoS3TYGE=
+X-Received: by 2002:a67:1a81:: with SMTP id a123mr3553687vsa.67.1644828422333;
+ Mon, 14 Feb 2022 00:47:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220207013613.1150783-1-skyostil@chromium.org>
+ <20220207013613.1150783-2-skyostil@chromium.org> <YgSli/6HuZ+i+2gb@google.com>
+ <CAPuLczuizJkwHsKo+W3MEjX7T_fHXApVyou3BuMH_aAQfyk1Vg@mail.gmail.com> <Ygm0+3S/Q+JHzzxB@google.com>
+In-Reply-To: <Ygm0+3S/Q+JHzzxB@google.com>
+From: Sami Kyostila <skyostil@chromium.org>
+Date: Mon, 14 Feb 2022 19:46:50 +1100
+Message-ID: <CAPuLcztqUaDWtgYe0KX0VWUMi8DLiO0a5Js4PCck9zH7=h+qCQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] platform/chrome: add a driver for HPS
+To: Tzung-Bi Shih <tzungbi@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, bleung@chromium.org, arnd@arndb.de, 
+	gregkh@linuxfoundation.org, evanbenn@chromium.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-dtschema expects PWM node name to be a generic "pwm".  This also matches
-Devicetree specification requirements about generic node names.
+ma 14. helmik. 2022 klo 12.48 Tzung-Bi Shih (tzungbi@google.com) kirjoitti:
+>
+> Hi,
+>
+> Left some follow-up questions before going for the v4.  Please also cc th=
+e
+> following patches to <chrome-platform@lists.linux.dev> in case we would
+> overlook them from LKML.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you, I appreciate the feedback!
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-index 9b2c679f5eca..3355fb90fa54 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-@@ -462,7 +462,7 @@ ap_i2c_tp: &i2c5 {
- };
- 
- &cros_ec {
--	cros_ec_pwm: ec-pwm {
-+	cros_ec_pwm: pwm {
- 		compatible = "google,cros-ec-pwm";
- 		#pwm-cells = <1>;
- 	};
--- 
-2.32.0
+>
+> On Fri, Feb 11, 2022 at 08:08:45PM +1100, Sami Kyostila wrote:
+> > ( to 10. helmik. 2022 klo 16.41 Tzung-Bi Shih (tzungbi@google.com) kirj=
+oitti:
+> > >
+> > > On Mon, Feb 07, 2022 at 12:36:13PM +1100, Sami Ky=C3=B6stil=C3=A4 wro=
+te:
+> > > > When loaded, the driver exports the sensor to userspace through a
+> > > > character device. This device only supports power management, i.e.,
+> > > > communication with the sensor must be done through regular I2C
+> > > > transmissions from userspace.
+> > > >
+> > > > Power management is implemented by enabling the respective power GP=
+IO
+> > > > while at least one userspace process holds an open fd on the charac=
+ter
+> > > > device. By default, the device is powered down if there are no acti=
+ve
+> > > > clients.
+> > > >
+> > > > Note that the driver makes no effort to preserve the state of the s=
+ensor
+> > > > between power down and power up events. Userspace is responsible fo=
+r
+> > > > reinitializing any needed state once power has been restored.
+> > >
+> > > It's weird.  If most of the thing is done by userspace programs, coul=
+dn't it
+> > > set the power GPIO via userspace interface (e.g. [1]) too?
+> >
+> > I agree that's a little unusual, but there are some good reasons for
+> > this to be in the kernel. First, it lets us turn HPS off during system
+> > suspend -- which I'm not sure how you'd do from userspace. Second, it
+> > avoids the need to give write access to the entire GPIO chip to the
+> > hpsd userspace daemon. We just need a single line, while the
+> > controller in this case has a total of 360 gpios. Finally, HPS also
+> > has an interrupt line, and we're planning to let it wake up the host,
+> > which I also believe needs to be done in the kernel.
+>
+> What prevents it from implementing the I2C communication in kernel?
+>
+> Did you investigate if there are any existing frameworks for HPS
+> (e.g. drivers/iio/)?  I am wondering if kernel already has some abstract =
+code
+> for HPS.
+>
+> Only found one via:
+> $ git grep 'human presence sensor'
+> drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h: [...]
 
+Yes, we did look into some existing mechanisms in the kernel this
+could fit into. HID was probably the closest fit since the spec has
+been recently expanded with human presence sensing (in fact, the first
+revision of this driver was HID-based[1]), but a few reasons made it a
+poor fit:
+
+1. Our HPS hardware doesn't use the HID-I2C wire protocol, so we'd
+still need a bespoke I2C communication layer.
+
+2. HPS uses a somewhat complex multi-stage firmware update process,
+and we didn't feel comfortable trying to push that down into the
+kernel at this point.
+
+3. The feature set of HPS is still evolving, so this doesn't seem like
+the right time to bake specific functionality into a syscall
+interface.
+
+I also had a quick look at iio, but it felt a bit overkill for the
+very small amount of data HPS generates.
+
+My feeling is that HID-I2C is probably the right long term fit, but
+it'll take some time (and HW iterations) to get there. Earlier in the
+patch series we discussed an intermediate step where we make it
+possible to expose individual I2C devices to userspace through
+separate device nodes, which will help reduce the attack surface of
+giving userspace write access to the entire I2C bus just for HPS.
+
+[1] go/hps-kernel-driver (sorry for the internal link)
+
+> > > > +static void hps_unload(void *drv_data)
+> > > > +{
+> > > > +     struct hps_drvdata *hps =3D drv_data;
+> > > > +
+> > > > +     hps_set_power(hps, true);
+> > >
+> > > Why does it need to set to true when device removing?
+> >
+> > By default, HPS is powered on when the system starts and before the
+> > driver is loaded. We want to restore it to that default state here.
+> > This is needed for example for automated testing, where we can unbind
+> > the driver to make sure HPS stays powered.
+>
+> Echo to the idea of previous comment: does kernel have any frameworks for=
+ HPS?
+> "HPS is powered on when the system starts" sounds like a chip specific
+> implementation.
+
+True, that's more of an implementation detail of our system rather
+than any hard guarantee. I'll change this to save and restore the
+power state that was there before the driver got loaded.
+
+> > > > +static int hps_suspend(struct device *dev)
+> > > > +{
+> > > > +     struct i2c_client *client =3D to_i2c_client(dev);
+> > > > +     struct hps_drvdata *hps =3D i2c_get_clientdata(client);
+> > > > +
+> > > > +     hps_set_power(hps, false);
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int hps_resume(struct device *dev)
+> > > > +{
+> > > > +     struct i2c_client *client =3D to_i2c_client(dev);
+> > > > +     struct hps_drvdata *hps =3D i2c_get_clientdata(client);
+> > > > +
+> > > > +     hps_set_power(hps, true);
+> > > > +     return 0;
+> > > > +}
+> > >
+> > > Does it need to save the old state before suspending?  Instead of tur=
+ning on
+> > > the power after every resumes.
+> >
+> > No, the runtime pm system makes sure suspend and resume are only
+> > called when needed. For example, if someone has an open reference to
+> > the device when the system goes to sleep, suspend and resume are
+> > called appropriately. If HPS was already suspended, then neither
+> > entrypoint gets called when going to sleep or waking up.
+>
+> It uses UNIVERSAL_DEV_PM_OPS() which also sets for .suspend() and .resume=
+().
+> OTOH, the documentation suggests it has deprecated (see include/linux/pm.=
+h).
+
+Thanks, I think I missed this distinction between .suspend/resume()
+and .runtime_suspend/resume(). As far as I can tell it shouldn't make
+a difference in practice since we are just toggling a GPIO pin, but
+I'll nevertheless fix it for consistency.
+
+- Sami

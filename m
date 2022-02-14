@@ -1,275 +1,107 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2BA7E4
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 05:37:46 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id a15-20020a17090ad80f00b001b8a1e1da50so11344689pjv.6
-        for <chrome-platform@lists.linux.dev>; Sun, 13 Feb 2022 21:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=29uHVdHAQSqiT8vvfXqlsD57wZoWh7bXiS10RQ7W7Qg=;
-        b=Pr0sIocwVERST9JG5yNYFzh4bfH0oj29aF92lMVCUeQOm5sHkFEyreYdobAZHbm+fl
-         yoZIypGvnAv5RfDCLvM/pLGbDC4x0obhy9+lnxLPI5zUEzjeypIr9E28KbcI4AeFqjJu
-         ZeWzJay7J/rvPFUygr8T5Jl+7ceUQ7RCI3sZJK1Vqi2yfFkBynrs9FPgUcW3KegJdiPg
-         ESxlTYktuJa4Gwj08a7M7G61QWkd6KA6+UCFSEMm6Ox+k6MmkjO8CFPRxQ8xtb5ldNAr
-         g6r6P4K5nvWlvrYrCJBurEVE4CIehOCiipVhujNJzPHQzoUwAUPSxafHl7bZMF/mcdX2
-         SLHA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BF97A
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:53 +0000 (UTC)
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 4FAE940518
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1644826792;
+	bh=twEcMK7D4MpQMmFx/xz45Xek8jdGQn3r+1Fp5P1lKZI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=TeG/jb3lwXluq02uJzsB4g9rDDLf951RPp4W9Ai2gjjj95POLOsRyAPZ+bRtMR5Go
+	 FPH7nI1mF1W3j1dggfdnAaIcr5Gzfld/EckrP+ClVCC8JQWKXNw9Fews2Dg7kTy+Eb
+	 Pa5CnT0pezzQEb3JDGxRPIweXCP0k6XlCOcyyvg7KXxg4eC9o39uh93oXkyMJaa7mB
+	 fhXZAgSoeIiLpDMKLlHHQ/7N9QcrG2PH6Zp97O17ajgw3+wIWrqQBp3lrfP0TBcxuQ
+	 vOpmJs52ztMtpbqkbZbsTBkH6yrdVVbaIpRynKxitqS87VxAnN4+b3c/3mhipur7vy
+	 mv6Rja+7WhByg==
+Received: by mail-ej1-f71.google.com with SMTP id kw5-20020a170907770500b006ba314a753eso5464142ejc.21
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:19:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=29uHVdHAQSqiT8vvfXqlsD57wZoWh7bXiS10RQ7W7Qg=;
-        b=s4doXSzJNSTjfZkXzm7zCT6hmDHvguf/mePXR22U8ArgE1dFUCJF7WN2VGuZ6odAKr
-         tGsG+/up3Zkb8SRVDOIX61lVm6QOoRM9M/Ehx7xwO/TGhqujNqr2GVMe6cqHlFuO3hbx
-         yA4l4lhXbiNJavhkCgilIpuYAhE8/ufaScQO+qr1LjOe4BtzrbY8JyTdJkNWch8PYECy
-         EV+m8m2SFy9MGPykMcUpmxR9tF97NUoORgqo5KMt9LeySYHDKoH6HnhaLyCn/Rtp7ahn
-         waftGFV+YIz7aBJS0OqZaMgYEgm1Rkn+IqGN6wKMFH0qSvGBM0iuEefb/aKzpp9Rsbb/
-         1u9A==
-X-Gm-Message-State: AOAM53326GREFPB50wyS475mXXdpiwDb+yMF9kNAw1kmgjqupNsS4AKu
-	HrDyMxw4f37/WYi61NIprXZbBoyWdOl/
-X-Google-Smtp-Source: ABdhPJxKNKGdvDYl8ykS+dHO1ASu06EfmVMuaH4MZLhystWtVyLkcNMLBCQkNjLLUXLqBRdA9t3NMsHsmNHz
-X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:f315:f92d:e3d3:2539])
- (user=tzungbi job=sendgmr) by 2002:a62:ce06:: with SMTP id
- y6mr1345902pfg.85.1644817066460; Sun, 13 Feb 2022 21:37:46 -0800 (PST)
-Date: Mon, 14 Feb 2022 13:36:46 +0800
-In-Reply-To: <20220214053646.3088298-1-tzungbi@google.com>
-Message-Id: <20220214053646.3088298-6-tzungbi@google.com>
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=twEcMK7D4MpQMmFx/xz45Xek8jdGQn3r+1Fp5P1lKZI=;
+        b=UlEKW/60rYxan38Usy+ibBKS+vPU4HvbJbEHOMRUt+ufsAwngVgUnasM9t80JL4ZND
+         H+ueKv6fzqvlIcjuGH4s8S+Ezl41PKV89ezJMecJXcGlRBPjqoM3i0cwqo1meayYR3l/
+         SOLSnxAsrkg14zXNYXedpAp+hrs18dPY4m0Z/irdqNAXWow1OvbwblkevfnqmA9Oczxf
+         iR3xymqa8oirazinhVanQn1cCROvm2Y2wkQGpW2bGhLaO/TIykpYuONKkFdUkJisgLp4
+         GtCFQMI/fNbxfDBPZmo7wg7EahOV7aDjo5djH46VD5R8lwB6Es1IL6U0kZa6jAfUCVz9
+         D6jQ==
+X-Gm-Message-State: AOAM531O0gqHDcioaXcRB1NgHqwzVepPRoJHAUMmfu3dv4Mdsqp+um9u
+	BYV2KIY8Jqtxqq6g5/p6uLMY4liJQ01WIXmcOZ6eQAyFph65euoFwApTSnshQhmzfMKzKyeqMqE
+	XfYBJjLzneEPm4CdOxJ2EAPK7vdW8sE+FbJ3zi/MJQwcj+Q==
+X-Received: by 2002:a05:6402:490:: with SMTP id k16mr14100034edv.204.1644826791991;
+        Mon, 14 Feb 2022 00:19:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2KcC8ZeDmmjUgfK6kq1aeD1UrtI7pu7omHRR58fZiRCylZRo2PHSaI/KjoBiBhqpeH5FfTA==
+X-Received: by 2002:a05:6402:490:: with SMTP id k16mr14100021edv.204.1644826791865;
+        Mon, 14 Feb 2022 00:19:51 -0800 (PST)
+Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id b20sm2022941ede.23.2022.02.14.00.19.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 00:19:51 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To: Lee Jones <lee.jones@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Douglas Anderson <dianders@chromium.org>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH 0/4] mfd/pwm: dt-bindings: google,cros-ec: include generic pwm schema
+Date: Mon, 14 Feb 2022 09:19:12 +0100
+Message-Id: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20220214053646.3088298-1-tzungbi@google.com>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [PATCH 5/5] platform/chrome: cros_kbd_led_backlight: support EC PWM backend
-From: Tzung-Bi Shih <tzungbi@google.com>
-To: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org
-Cc: chrome-platform@lists.linux.dev, tzungbi@google.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-EC PWM backend uses EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT and
-EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT for setting and getting the brightness
-respectively.
+Hi,
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
----
- drivers/platform/chrome/Kconfig               |   6 +
- .../platform/chrome/cros_kbd_led_backlight.c  | 126 +++++++++++++++---
- 2 files changed, 117 insertions(+), 15 deletions(-)
+DTS patches are independent. Not tested, but I really hope no downstream kernel
+depends on pwm node naming... If it does, please change it to compatible. :)
 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 3f74679a556c..298a49550857 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -142,6 +142,12 @@ config CROS_KBD_LED_BACKLIGHT_ACPI
- 	help
- 	  ChromeOS keyboard backlight ACPI backend.
- 
-+config CROS_KBD_LED_BACKLIGHT_EC_PWM
-+	tristate "ChromeOS keyboard backlight EC PWM backend"
-+	depends on CROS_EC && CROS_KBD_LED_BACKLIGHT
-+	help
-+	  ChromeOS keyboard backlight EC PWM backend.
-+
- config CROS_EC_CHARDEV
- 	tristate "ChromeOS EC miscdevice"
- 	depends on MFD_CROS_EC_DEV
-diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-index ba853e55d29a..d655cf5bc960 100644
---- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-+++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-@@ -11,9 +11,16 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- 
-+struct keyboard_led_private {
-+	struct led_classdev cdev;
-+	struct cros_ec_device *ec;
-+};
-+
- /**
-  * struct keyboard_led_drvdata - keyboard LED driver data.
-  * @init:			Init function.
-@@ -39,6 +46,8 @@ struct keyboard_led_drvdata {
- 	enum led_brightness max_brightness;
- };
- 
-+#define KEYBOARD_BACKLIGHT_MAX 100
-+
- #if IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_ACPI)
- 
- /* Keyboard LED ACPI Device must be defined in firmware */
-@@ -46,8 +55,6 @@ struct keyboard_led_drvdata {
- #define ACPI_KEYBOARD_BACKLIGHT_READ	ACPI_KEYBOARD_BACKLIGHT_DEVICE ".KBQC"
- #define ACPI_KEYBOARD_BACKLIGHT_WRITE	ACPI_KEYBOARD_BACKLIGHT_DEVICE ".KBCM"
- 
--#define ACPI_KEYBOARD_BACKLIGHT_MAX		100
--
- static void keyboard_led_set_brightness_acpi(struct led_classdev *cdev,
- 					     enum led_brightness brightness)
- {
-@@ -106,7 +113,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
- 	.init = keyboard_led_init_acpi,
- 	.brightness_set = keyboard_led_set_brightness_acpi,
- 	.brightness_get = keyboard_led_get_brightness_acpi,
--	.max_brightness = ACPI_KEYBOARD_BACKLIGHT_MAX,
-+	.max_brightness = KEYBOARD_BACKLIGHT_MAX,
- };
- 
- #else /* IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_ACPI) */
-@@ -122,10 +129,97 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
- 
- #endif /* IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_ACPI) */
- 
-+#if IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM)
-+
-+static int
-+keyboard_led_set_brightness_blocking_ec_pwm(struct led_classdev *cdev,
-+					    enum led_brightness brightness)
-+{
-+	struct {
-+		struct cros_ec_command msg;
-+		struct ec_params_pwm_set_keyboard_backlight params;
-+	} __packed buf;
-+	struct ec_params_pwm_set_keyboard_backlight *params = &buf.params;
-+	struct cros_ec_command *msg = &buf.msg;
-+	struct keyboard_led_private *private =
-+		container_of(cdev, struct keyboard_led_private, cdev);
-+
-+	memset(&buf, 0, sizeof(buf));
-+
-+	msg->version = 0;
-+	msg->command = EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT;
-+	msg->insize = 0;
-+	msg->outsize = sizeof(*params);
-+
-+	params->percent = brightness;
-+
-+	return cros_ec_cmd_xfer_status(private->ec, msg);
-+}
-+
-+static enum led_brightness
-+keyboard_led_get_brightness_ec_pwm(struct led_classdev *cdev)
-+{
-+	struct {
-+		struct cros_ec_command msg;
-+		struct ec_response_pwm_get_keyboard_backlight resp;
-+	} __packed buf;
-+	struct ec_response_pwm_get_keyboard_backlight *resp = &buf.resp;
-+	struct cros_ec_command *msg = &buf.msg;
-+	struct keyboard_led_private *private =
-+		container_of(cdev, struct keyboard_led_private, cdev);
-+	int ret;
-+
-+	memset(&buf, 0, sizeof(buf));
-+
-+	msg->version = 0;
-+	msg->command = EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT;
-+	msg->insize = sizeof(*resp);
-+	msg->outsize = 0;
-+
-+	ret = cros_ec_cmd_xfer_status(private->ec, msg);
-+	if (ret < 0)
-+		return ret;
-+
-+	return resp->percent;
-+}
-+
-+static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
-+{
-+	struct keyboard_led_private *private = platform_get_drvdata(pdev);
-+
-+	private->ec = dev_get_drvdata(pdev->dev.parent);
-+	if (!private->ec) {
-+		dev_err(&pdev->dev, "no parent EC device\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
-+	.init = keyboard_led_init_ec_pwm,
-+	.brightness_set_blocking = keyboard_led_set_brightness_blocking_ec_pwm,
-+	.brightness_get = keyboard_led_get_brightness_ec_pwm,
-+	.max_brightness = KEYBOARD_BACKLIGHT_MAX,
-+};
-+
-+#else /* IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM) */
-+
-+static int keyboard_led_init_ec_pwm_null(struct platform_device *pdev)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
-+	.init = keyboard_led_init_ec_pwm_null,
-+};
-+
-+#endif /* IS_ENABLED(CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM) */
-+
- static int keyboard_led_probe(struct platform_device *pdev)
- {
--	struct led_classdev *cdev;
- 	const struct keyboard_led_drvdata *drvdata;
-+	struct keyboard_led_private *private;
- 	int error;
- 
- 	drvdata = acpi_device_get_match_data(&pdev->dev);
-@@ -135,24 +229,25 @@ static int keyboard_led_probe(struct platform_device *pdev)
- 			return -EINVAL;
- 	}
- 
-+	private = devm_kzalloc(&pdev->dev, sizeof(*private), GFP_KERNEL);
-+	if (!private)
-+		return -ENOMEM;
-+	platform_set_drvdata(pdev, private);
-+
- 	if (drvdata->init) {
- 		error = drvdata->init(pdev);
- 		if (error)
- 			return error;
- 	}
- 
--	cdev = devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
--	if (!cdev)
--		return -ENOMEM;
--
--	cdev->name = "chromeos::kbd_backlight";
--	cdev->flags |= LED_CORE_SUSPENDRESUME;
--	cdev->max_brightness = drvdata->max_brightness;
--	cdev->brightness_set = drvdata->brightness_set;
--	cdev->brightness_set_blocking = drvdata->brightness_set_blocking;
--	cdev->brightness_get = drvdata->brightness_get;
-+	private->cdev.name = "chromeos::kbd_backlight";
-+	private->cdev.flags |= LED_CORE_SUSPENDRESUME;
-+	private->cdev.max_brightness = drvdata->max_brightness;
-+	private->cdev.brightness_set = drvdata->brightness_set;
-+	private->cdev.brightness_set_blocking = drvdata->brightness_set_blocking;
-+	private->cdev.brightness_get = drvdata->brightness_get;
- 
--	error = devm_led_classdev_register(&pdev->dev, cdev);
-+	error = devm_led_classdev_register(&pdev->dev, &private->cdev);
- 	if (error)
- 		return error;
- 
-@@ -168,6 +263,7 @@ MODULE_DEVICE_TABLE(acpi, keyboard_led_acpi_match);
- static const struct of_device_id keyboard_led_of_match[] = {
- 	{
- 		.compatible = "google,cros-kbd-led-backlight",
-+		.data = &keyboard_led_drvdata_ec_pwm,
- 	},
- 	{}
- };
+Best regards,
+Krzysztof
+
+Krzysztof Kozlowski (4):
+  dt-bindings: pwm: google,cros-ec: include generic pwm schema
+  arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
+  arm64: dts: qcom: align Google CROS EC PWM node name with dtschema
+  arm64: dts: rk3399: align Google CROS EC PWM node name with dtschema
+
+ Documentation/devicetree/bindings/mfd/google,cros-ec.yaml    | 4 ++++
+ .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml          | 5 ++++-
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi       | 2 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi                 | 2 +-
+ arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts   | 2 +-
+ arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi               | 2 +-
+ arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi               | 2 +-
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                   | 2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi      | 2 +-
+ 9 files changed, 15 insertions(+), 8 deletions(-)
+
 -- 
-2.35.1.265.g69c8d7142f-goog
+2.32.0
 

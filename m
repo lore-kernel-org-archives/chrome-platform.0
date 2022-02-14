@@ -1,50 +1,50 @@
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECD77FA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F396F7A
 	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:58 +0000 (UTC)
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id AEE1E40520
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:56 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A33F24055B
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 08:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1644826796;
-	bh=EbCeV0x/sMs+Jsxt5g9p8vtgK7tOVPzaf7TxkPV9Qwo=;
+	s=20210705; t=1644826797;
+	bh=o/YgTPBdxwkk76YIPJfDwO9KLR8OIlu6EoGrWBDU/GQ=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=YTGyysoi7/EX7GpmevTv0P8buQzccWWhfkjSPdPniMpIkcE2k8RwHNfykd9dkJOl4
-	 tDlfIYvNYvPwW70swf6k4QWdIDkNcmrRPFQ2vppOAWmpUqU/VtUlB4o+xRqvTWyJFh
-	 O8A18uh8Y5W7ncBcjwxLXoaswF6HOd/iWQENOGIe14tw0DVHTN4MlxwzPGxRc9TsWr
-	 j3RKCuh/IKICi9QSogGh1ZUEYQHTmN9eQ0IfVOC8rpz23iohSuchUuDE7iGCWiqHNX
-	 3bspGZ0FxumDA8yGOqCinvyxskYo1Wtv6DAbKB/o4UYLNDur2+gujgTXlO+RHtkeTr
-	 BbD/QDO4YqwFQ==
-Received: by mail-ej1-f70.google.com with SMTP id q3-20020a17090676c300b006a9453c33b0so5440518ejn.13
-        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:19:56 -0800 (PST)
+	b=EwTyN5N67UAQHLpprepPlAdArEoxH9FHAtFV+b2v/8mCpJO9jzmVzcILyPM1QfAbE
+	 mcYvaKAxFLktyuhN6d8z+h5Ije00wbvaMxqdQcusXQUlfOszPBuuMobs1BrXaKaANb
+	 9dlfmVgYjSoQt2dKnfeJ/ZSY+y1qzxVO9Fjhv7VR++Dy8m0dWIbJnuE5jhsBzkGIA1
+	 n+qAYg2y5g/hq71m0WQZbiuHAxmVjasQzBlAgOptKuU9jy81ta9rak5q4puZxmImiQ
+	 QzRXART7ckrtwQCvBQSSU96TSsvUzC9xC0sKw2KEQYTwjoP0Ah9DwcJioZJ7+YEa0R
+	 8mDjyxKbwq3Dg==
+Received: by mail-ej1-f69.google.com with SMTP id mp5-20020a1709071b0500b0069f2ba47b20so5418587ejc.19
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Feb 2022 00:19:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EbCeV0x/sMs+Jsxt5g9p8vtgK7tOVPzaf7TxkPV9Qwo=;
-        b=tk3Gd9Kt4VIZR03HsM34/CWGZw24IIeLrbTSl1VRZHD2f7qpkOWJC/IL0NVgHWMhJQ
-         Epq0VKwOkN7H0zFlbdf9qzjleQwWUlL9emOFo0O2LrNi3EMIkNDA0s5x+deUZqUqdEic
-         vE5atlAqFHWn9yDy47HxSZPtcsuJKpjkrS17PzyYaWYywn++CX0kO7pwAL/Q6Yd3+Ii0
-         FdPTqwJFi8076WUx+X1rvMQUlV3WI1e1SC3jIBnjOaANZ1duedsF/JE78urhh3JLwXs/
-         6RzV7JjFOOb1rMaGOtDkt9x088jWaZkCIdbOYRg7lEME1F+3eAI215Y5VOd16l+nvzCB
-         D4lw==
-X-Gm-Message-State: AOAM532OqB9KoN4Z7tDQD/nuVjcFOKLiZcncou9GMZSfRTEATsCoPSCj
-	r3JhIyKBgew3UU91WRWOCN6uKwMJLfXghe6WqDhdZ4JEPUBjcFQkwHu70G3uVazvxHppVsKefjS
-	Krg5WHrKHifI5C8so7+cWNNnA22U4GMiFlsVXmO/rS1BVzg==
-X-Received: by 2002:a17:907:608f:: with SMTP id ht15mr10447786ejc.498.1644826796184;
-        Mon, 14 Feb 2022 00:19:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxuUtAFxe/AINzxrq5NNy+IKE6ovx3e9DkEU19VgsoD3pIeaS61uCEwn2sfqcNpphQUr0Ojgw==
-X-Received: by 2002:a17:907:608f:: with SMTP id ht15mr10447762ejc.498.1644826796018;
-        Mon, 14 Feb 2022 00:19:56 -0800 (PST)
+        bh=o/YgTPBdxwkk76YIPJfDwO9KLR8OIlu6EoGrWBDU/GQ=;
+        b=BPSN/Tnc1M3Y40XXFQA+MDDCcT7FRMhdKGViXHlyUnO0qU4Zulaqk0AbP7vca1Y9/K
+         zk8HlVI4guSg6zfOtAyIbUbNly9BVADEOWWefuL9HtARLMp4Bye4c8NPQPmjUEDYPRbp
+         pEufEk42m0TJm9hmeedFJ/Jhu2uRaRaX6+QqyC8CFWj4UTui2T+sInJiRacSi77yU9Rd
+         GQezEELk20tGFdTf4urQEhTI7jM+CWWUTv35dTJNmCF926ZRN3GNWEmIIP5mNIOqCGYE
+         LGnoe3HfucKB4vCLSlhMIClkwT/N5IL9uDdt62mNDElCR7p+nPnUjAg/8AkYlQBbKeyd
+         aOyw==
+X-Gm-Message-State: AOAM532GQ+EhX8lWLEbtj3vWJFjZ/DZF4bT6DSD5wbhV2GbPWIBtlMFL
+	+Mxmf0OIZYcMQ3BKholJXIz2bPY8CUYKyAi4adwac5fEvA+8tieg0nlOjtyXQkztg+DiF5DWlfL
+	68zD2my6XLOGLr7tLTjOe7Zuak2RANJbeV0WQ8a5nB0J3ZA==
+X-Received: by 2002:a17:907:6091:: with SMTP id ht17mr10718081ejc.607.1644826797380;
+        Mon, 14 Feb 2022 00:19:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwkFPJeiJWjmWYMYKnbVg1bBwxgaPTZV+oh4RSUxGNA67GTozBuexvPDdoyT1VdY/d6fUhgGw==
+X-Received: by 2002:a17:907:6091:: with SMTP id ht17mr10718069ejc.607.1644826797215;
+        Mon, 14 Feb 2022 00:19:57 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id b20sm2022941ede.23.2022.02.14.00.19.55
+        by smtp.gmail.com with ESMTPSA id b20sm2022941ede.23.2022.02.14.00.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 00:19:55 -0800 (PST)
+        Mon, 14 Feb 2022 00:19:56 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Lee Jones <lee.jones@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -66,9 +66,9 @@ To: Lee Jones <lee.jones@linaro.org>,
 	linux-mediatek@lists.infradead.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-rockchip@lists.infradead.org
-Subject: [PATCH 3/4] arm64: dts: qcom: align Google CROS EC PWM node name with dtschema
-Date: Mon, 14 Feb 2022 09:19:15 +0100
-Message-Id: <20220214081916.162014-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 4/4] arm64: dts: rk3399: align Google CROS EC PWM node name with dtschema
+Date: Mon, 14 Feb 2022 09:19:16 +0100
+Message-Id: <20220214081916.162014-5-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
 References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
@@ -85,78 +85,22 @@ Devicetree specification requirements about generic node names.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi               | 2 +-
- arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts | 2 +-
- arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi             | 2 +-
- arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi             | 2 +-
- arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                 | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-index 78296ed6fd29..732e1181af48 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-@@ -637,7 +637,7 @@ cros_ec: ec@0 {
- 		pinctrl-0 = <&ap_ec_int_l>;
- 		spi-max-frequency = <3000000>;
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+index 9b2c679f5eca..3355fb90fa54 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+@@ -462,7 +462,7 @@ ap_i2c_tp: &i2c5 {
+ };
  
--		cros_ec_pwm: ec-pwm {
-+		cros_ec_pwm: pwm {
- 			compatible = "google,cros-ec-pwm";
- 			#pwm-cells = <1>;
- 		};
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts b/arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts
-index af46a60b4b98..1779d96c30f6 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r0.dts
-@@ -705,7 +705,7 @@ cros_ec: ec@0 {
- 		pinctrl-0 = <&ap_ec_int_l>;
- 		spi-max-frequency = <3000000>;
- 
--		cros_ec_pwm: ec-pwm {
-+		cros_ec_pwm: pwm {
- 			compatible = "google,cros-ec-pwm";
- 			#pwm-cells = <1>;
- 		};
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-index 7c22f0b062be..dc17f2079695 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-@@ -421,7 +421,7 @@ cros_ec: ec@0 {
- 		pinctrl-0 = <&ap_ec_int_l>;
- 		spi-max-frequency = <3000000>;
- 
--		cros_ec_pwm: ec-pwm {
-+		cros_ec_pwm: pwm {
- 			compatible = "google,cros-ec-pwm";
- 			#pwm-cells = <1>;
- 		};
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi b/arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi
-index 0896a6151817..a7c346aa3b02 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi
-@@ -20,7 +20,7 @@ cros_ec: ec@0 {
- 		pinctrl-0 = <&ap_ec_int_l>;
- 		spi-max-frequency = <3000000>;
- 
--		cros_ec_pwm: ec-pwm {
-+		cros_ec_pwm: pwm {
- 			compatible = "google,cros-ec-pwm";
- 			#pwm-cells = <1>;
- 		};
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-index 4a6285a25f77..e7e4cc5936aa 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-@@ -708,7 +708,7 @@ cros_ec: ec@0 {
- 		pinctrl-0 = <&ec_ap_int_l>;
- 		spi-max-frequency = <3000000>;
- 
--		cros_ec_pwm: ec-pwm {
-+		cros_ec_pwm: pwm {
- 			compatible = "google,cros-ec-pwm";
- 			#pwm-cells = <1>;
- 		};
+ &cros_ec {
+-	cros_ec_pwm: ec-pwm {
++	cros_ec_pwm: pwm {
+ 		compatible = "google,cros-ec-pwm";
+ 		#pwm-cells = <1>;
+ 	};
 -- 
 2.32.0
 

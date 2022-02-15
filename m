@@ -1,71 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373067C
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 20:00:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D2518C340F0;
-	Tue, 15 Feb 2022 20:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1644955210;
-	bh=LFNzfqzNtzmGiRgBnQ4XF12E9lVTAhw8nlzOmkh3Rms=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=gHbl0Y3buX8jPK+Ti8Z/BGnMI6GM8YTNDxc0BdK9QVdBRHWoMNhqgI6hwcylUu+Mo
-	 aBXCoCCKCUYUAedlXfVvMPSQWLJ0nMMpM3j6HVaRuYKThUcL/QACupZhkarftQ+EbV
-	 hD+PiJfvkfWHVHAUUx7CVytQeFN7cgc6V0E6dHDm2oIFJU74AeOgIrSvQnvOBuQESg
-	 nLZg402uU3Sga4Bq4L90PcGKVpxQ9XZD7lvSCeCEQW0aWOpvm56HSnaHkZr3YVPCFZ
-	 pWdWAT9zB188OAyukYFERcJER73WKIsSouoiOEiQt9B6iCoa8JlFpkiZJopJZAXBh4
-	 uJ14FShcN5LFg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B8B07E6D458;
-	Tue, 15 Feb 2022 20:00:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A291876
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 21:40:03 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id y129so119701ybe.7
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 13:40:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xbMJm7hnRfVeoW3ssL5uNjXBrArVR9+9S+WXU8n9WHY=;
+        b=XmzYqRbQK5ZIObORf+XLTWpGL7FcrNaHNiL54QSrT9M45FB6IeZQXznx4MLmeHwHDw
+         Yxfd6KhhDAHrL8nNXz18aid9Lr0EWfIknhMGxw3Ytur/QGpTAn5idgayMzDeS7qCJZi9
+         9l/o6KagDFC8Boe/ctzYGXEuJpBOPVQt0MK8o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xbMJm7hnRfVeoW3ssL5uNjXBrArVR9+9S+WXU8n9WHY=;
+        b=Ya05xe8iU8VLzgRCOJqf3SJt7fMTwXwaNy6m5bUeWDk07xDHSjVyWwCZvCeEexM/Io
+         zuOdQLC1JZ+KBjqbwdSTAkLBMxKj0eodboVTJvPbsSM7sH1Z00LnLiauQDfLPIAN8Npk
+         gKhfjoIWvGfo9xtBpPWgzHlgwRzrg+IGTvDemEVyaiJ1vyQNXMLgVKLRlXKiwfffd681
+         /sVy4HLJ/3lDvcJxRaRaehUvUZ/bhoEdx/Q+pVEwqcUsJ3qfP/1CUX+o41qQQTugIHh6
+         7yWU3uV4VzdJBrkwPsYz40/Sb6cS1aOYIXK1bR4sveRWGP/4ngzce7ro7t4kfeQSZLIF
+         Vhmg==
+X-Gm-Message-State: AOAM531D1F9HTH2weAWiYb0GaFUIBB2/fnse5yMuEZKyV1dw7CTbm3/S
+	qzfNU1ytwGmz1KFEAtCMNRBDax/7az1oZBfhe32xRw==
+X-Google-Smtp-Source: ABdhPJyUaCP0goIGw2/lZsYGbhwEyaszsmmHpVqHbadGQ7/boqkC+6G6zQxe4QMLQfskJmr2AQm7d+86eftKozy8CFA=
+X-Received: by 2002:a81:d84b:: with SMTP id n11mr842751ywl.235.1644961202529;
+ Tue, 15 Feb 2022 13:40:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/4] platform/chrome: cros_ec_typec: Reorganize mux
- configuration
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <164495521075.19688.3105207399888394248.git-patchwork-notify@kernel.org>
-Date: Tue, 15 Feb 2022 20:00:10 +0000
-References: <20220208184721.1697194-1-pmalani@chromium.org>
-In-Reply-To: <20220208184721.1697194-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
- chrome-platform@lists.linux.dev, groeck@chromium.org
+References: <20220209095703.517608-1-tzungbi@google.com> <20220209095703.517608-2-tzungbi@google.com>
+In-Reply-To: <20220209095703.517608-2-tzungbi@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 15 Feb 2022 13:39:51 -0800
+Message-ID: <CACeCKadu0f04Mip8R1OgucfN5GvU9RBEbgq6RQZiVWAePxZChA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] platform/chrome: cros_ec: fix error handling in cros_ec_register()
+To: Tzung-Bi Shih <tzungbi@google.com>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+On Feb 09 17:56, Tzung-Bi Shih wrote:
+> Fix cros_ec_register() to unregister platform devices if
+> blocking_notifier_chain_register() fails.
+>
+> Also use the single exit path to handle the platform device
+> unregistration.
+>
+> Fixes: 42cd0ab476e2 ("platform/chrome: cros_ec: Query EC protocol version if EC transitions between RO/RW")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+> ---
+> Changes from v2:
+> (https://patchwork.kernel.org/project/chrome-platform/patch/20220209045035.380615-2-tzungbi@google.com/)
+> - Fix grammar error in commit message.
+> - Change the code that don't rely on zeroed memory.
+> - Remove unnecessary `if` checks before calling platform_device_unregister().
+>
+> Changes from v1:
+> (https://lore.kernel.org/lkml/20220125101527.1812887-1-tzungbi@google.com/T/#u)
+> - Use imperative mood in commit message.
+> - Use IS_ERR_OR_NULL() in 1st patch.
+>
+>  drivers/platform/chrome/cros_ec.c | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index fc5aa1525d13..15f599d721a1 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -245,18 +245,16 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+>               if (IS_ERR(ec_dev->pd)) {
+>                       dev_err(ec_dev->dev,
+>                               "Failed to create CrOS PD platform device\n");
+> -                     platform_device_unregister(ec_dev->ec);
+> -                     return PTR_ERR(ec_dev->pd);
+> +                     err = PTR_ERR(ec_dev->pd);
+> +                     goto exit;
+>               }
+>       }
+>
+>       if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
+>               err = devm_of_platform_populate(dev);
+>               if (err) {
+> -                     platform_device_unregister(ec_dev->pd);
+> -                     platform_device_unregister(ec_dev->ec);
+>                       dev_err(dev, "Failed to register sub-devices\n");
+> -                     return err;
+> +                     goto exit;
+>               }
+>       }
+>
+> @@ -278,7 +276,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+>               err = blocking_notifier_chain_register(&ec_dev->event_notifier,
+>                                                     &ec_dev->notifier_ready);
+>               if (err)
+> -                     return err;
+> +                     goto exit;
+>       }
+>
+>       dev_info(dev, "Chrome EC device registered\n");
+> @@ -291,6 +289,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+>               cros_ec_irq_thread(0, ec_dev);
+>
+>       return 0;
+> +exit:
+> +     if (ec_dev->max_passthru)
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Prashant Malani <pmalani@chromium.org>:
-
-On Tue,  8 Feb 2022 18:47:16 +0000 you wrote:
-> This is a short series that reorganizes when mux configuration occurs
-> during Type C port updates. The first 2 patches are minor refactors
-> which move some of the mux update logic to within
-> cros_typec_configure_mux(). The third patch moves
-> cros_typec_configure_mux() itself to be earlier in
-> cros_typec_port_update().
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2,1/4] platform/chrome: cros_ec_typec: Move mux flag checks
-    https://git.kernel.org/chrome-platform/c/53a0023c6450
-  - [v2,2/4] platform/chrome: cros_ec_typec: Get mux state inside configure_mux
-    https://git.kernel.org/chrome-platform/c/0d8495dc0321
-  - [v2,3/4] platform/chrome: cros_ec_typec: Configure muxes at start of port update
-    https://git.kernel.org/chrome-platform/c/af34f115b3b7
-  - [v2,4/4] platform/chrome: cros_ec_typec: Update mux flags during partner removal
-    https://git.kernel.org/chrome-platform/c/b579f139e470
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+This just complicates things, by depending on another variable. Just initialize
+ec_dev->pd and ec_dev->ec to NULL at the beginning instead.
 
 
+> +             platform_device_unregister(ec_dev->pd);
+> +     platform_device_unregister(ec_dev->ec);
+> +     return err;
+>  }
+>  EXPORT_SYMBOL(cros_ec_register);
+>
+> --
+> 2.35.0.263.gb82422642f-goog
+>
+
+-Prashant

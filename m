@@ -1,115 +1,89 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537D71B87
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 23:30:27 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id 124so775645ybn.11
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 15:30:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258541844
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 01:07:55 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id y6so1368392ybc.5
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 17:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=EzHCJ85sRrlahQIyrQcbvfA6P+M37pNHrlrF2bva2nk=;
-        b=hAXfkB+gvnygZ7ZWzrx7cu7fvBjolhNKBBNBqTMv4Ehm8bbvbVBmPGubfq+y/e+WtF
-         HOMvSIOyCBoPVqORduFx9VfRTTKk0n5Z2yqNrBW1JV6I6V4TNk4xdGEtBUxzX2gv/0Fr
-         zv2jYrZlT5WT7cl5lxQ4YElLC9on3a/scdbbM=
+        bh=Gdo2wMqVpSAdD+zCmIMcGNIMzTWzh5NTL76ARqezIx8=;
+        b=Ww8D8K/75iMW3dHvAAL6WPDwe4Prx6rT+2xLKp9rXnuSOtx+l2QJXsaVB/SwbYg/+M
+         Z7wbTLe7BGUdnXX/ShQagv8KUwTszxZxpu9HpSR4t7atu7in/AnJfqZ3TZJMm9wOJOJx
+         RBEmFv7WsgBHZkCDAqD4AYK8cy+CocxjGCsZo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EzHCJ85sRrlahQIyrQcbvfA6P+M37pNHrlrF2bva2nk=;
-        b=RZnLtMP9fuSgvt25rmbFibNe5vlqjRj8zJKdukhKMCU9i4d/kWF8F265rWmoLQevPg
-         Kly8v2Xf3S5QIZgQXmwTeb6Nu+sHp78xl6j/MeVUgoLRYX2JunCjk6qSQzh53mQXHqkm
-         8LUvbjJUupGrtF+ipzH4bTz+9WpZyKE0xX1UeFe2vpmCCc5MlMvPuo1Bxmiy7CQT3Qzo
-         MxPwjWqisze1tr+Ujd7WfdXcX/dr5kyMr26TeLBtfbMP38fdAWJXAus7rfPW6UlGj5/d
-         /hPRyeeRToBNGa/r3NmuwCqYyCTsRm5uEd0iy3+4eGBIl2MY+8T6dyJHngd9NnnvdZxS
-         HZVA==
-X-Gm-Message-State: AOAM532UzoBKX8vCXdJnAuDh8VDLWXlmK58ht6Lf7m1lvb54sZGsxDHs
-	nzP/BqrfE9JggTfXgqzcpnOohgR11rQP0ejpCWFcrg==
-X-Google-Smtp-Source: ABdhPJxaJn7O0gfOGt86qqZvZlADfDAIJpLSWHbRAHDBvh6DLR1H5qpPcB5qfFWhTvKuSXsnj3OE75SbDABWs8uIXwg=
-X-Received: by 2002:a0d:c885:0:b0:2d0:df6a:fe95 with SMTP id
- k127-20020a0dc885000000b002d0df6afe95mr71313ywd.325.1644967826186; Tue, 15
- Feb 2022 15:30:26 -0800 (PST)
+        bh=Gdo2wMqVpSAdD+zCmIMcGNIMzTWzh5NTL76ARqezIx8=;
+        b=wzG2WY16yCMqczRpdoMEo4PCg/riGJndkUfZ3WomE8gMB2/C7OfQ9QBAF/ACfYqSob
+         wLePdrfYI5Sx9eEhPrkRj1Ow2PxAhCMpvvuWx5wWZducUDK/jGor4ZmbZlnSdgsgwrdk
+         LGu7YQ2S70ZNoCyAuas10ROmKzTLrQyqUmDMFWOTUDrw6WowwvCmV9RwyjsNpzNP5g7A
+         gsMTnLHaPKLpuqviWWuc9kD+ze8Ohwu9Gl3bEvHk5XT4rc+qNE4PJ44mCX7V+xGvg1AX
+         D3jWQYztixy8Au6LwZOUL2S6gaWxlaub+nljFcCkXKo3VXgzyf7UwZP9jjY8xGCFrqQ6
+         +60A==
+X-Gm-Message-State: AOAM5315h8q1nwNE8A8gbaTQWehqmkrQ+OrRLe+SBIN6SrUokil1VbYK
+	JyrgWCCfFM2UWs35FDCmmVSeGdZvKPnj7EEnJz2L+Q==
+X-Google-Smtp-Source: ABdhPJxuqlrEkWx6stDEdSDZ8HL3YwOgd1BHIjMLBEBZFFx6ufynLBZ7kjZdREr8CGCjhnKmcvuu0kpHF+e0UfOlSCI=
+X-Received: by 2002:a81:9212:0:b0:2d0:ccb0:a8b0 with SMTP id
+ j18-20020a819212000000b002d0ccb0a8b0mr380811ywg.235.1644973674233; Tue, 15
+ Feb 2022 17:07:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <620c300a.1c69fb81.8d64d.b89c@mx.google.com>
-In-Reply-To: <620c300a.1c69fb81.8d64d.b89c@mx.google.com>
+References: <20220209045035.380615-1-tzungbi@google.com> <20220209045035.380615-4-tzungbi@google.com>
+ <CACeCKad4hs3WMt_fVQHdwOGF3xW8boKKOKsF8xR4o8q8-0jxnA@mail.gmail.com> <YgOLLmLKQWNyjvr1@google.com>
+In-Reply-To: <YgOLLmLKQWNyjvr1@google.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 15 Feb 2022 15:30:14 -0800
-Message-ID: <CACeCKafyDBmEg_GLas9Xj3X3WM1Qd3DGhsBCNXDj5L_inDTARw@mail.gmail.com>
-Subject: Re: chrome-platform/for-kernelci sleep: 7 runs, 1 regressions (v5.17-rc1-8-g981d3de32cfb)
-To: "kernelci.org bot" <bot@kernelci.org>
-Cc: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io, 
-	chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org, 
-	groeck@chromium.org
+Date: Tue, 15 Feb 2022 17:07:43 -0800
+Message-ID: <CACeCKadSTq22aN1mwpT2re5dcA0J+GW7R8=gg4no5MB6j9m+Bw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] platform/chrome: cros_ec: determine `wake_enabled`
+ in cros_ec_suspend()
+To: Tzung-Bi Shih <tzungbi@google.com>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-I don't believe grunt has the ACPI device (or rather, it shouldn't),
-so I don't think this regression is related to the mux patches just
-merged [1]
+On Wed, Feb 9, 2022 at 1:36 AM Tzung-Bi Shih <tzungbi@google.com> wrote:
+>
+> On Tue, Feb 08, 2022 at 10:05:58PM -0800, Prashant Malani wrote:
+> > On Tue, Feb 8, 2022 at 8:50 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+> > >
+> > > `wake_enabled` indicates cros_ec_resume() needs to call
+> > > disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
+> > >
+> > > Determine `wake_enabled` in cros_ec_suspend() instead of
+> > > reset-after-used in cros_ec_resume().
+> > It sounds like we can accomplish the same thing as this patch by either:
+> > - Initializing ec_dev->wake_enabled = false during cros_ec_register()
+>
+> This doesn't sound like a good idea.  Value of device_may_wakeup(dev) changes
+> during runtime.  It should check in cros_ec_suspend() instead of in
+> cros_ec_register().
 
-[1] https://lore.kernel.org/chrome-platform/164495521075.19688.3105207399888394248.git-patchwork-notify@kernel.org/T/#t
+Hmm, I'm pretty sure it shouldn't change for Cros EC. In any case, I'm
+not suggesting
+moving the check away from cros_ec_suspend(), just the initialization
+of the flag.
 
-I will wait for another day in case kernel CI folks have any
-objections, before moving this to for-next...
+>
+> > or
+> > - Setting ec_dev->wake_enabled = false just before the
+> > device_may_wakeup(dev) check.
+>
+> Did you mean:
+>
+> ec_dev->wake_enabled = false;
+> if (device_may_wakeup(dev))
+>         ec_dev->wake_enabled = !enable_irq_wake(ec_dev->irq);
+>
+> If so, this way is suboptimal to me.  ec_dev->wake_enabled can be written
+> once; however, it is written twice if device_may_wakeup(dev) is true.
 
-Thanks!
-
-On Tue, Feb 15, 2022 at 2:58 PM kernelci.org bot <bot@kernelci.org> wrote:
->
-> chrome-platform/for-kernelci sleep: 7 runs, 1 regressions (v5.17-rc1-8-g981d3de32cfb)
->
-> Regressions Summary
-> -------------------
->
-> platform           | arch   | lab           | compiler | defconfig                    | regressions
-> -------------------+--------+---------------+----------+------------------------------+------------
-> hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1
->
->   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v5.17-rc1-8-g981d3de32cfb/plan/sleep/
->
->   Test:     sleep
->   Tree:     chrome-platform
->   Branch:   for-kernelci
->   Describe: v5.17-rc1-8-g981d3de32cfb
->   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
->   SHA:      981d3de32cfb74afd48d44805b8f5943a1723aa0
->
->
-> Test Regressions
-> ----------------
->
->
-> platform           | arch   | lab           | compiler | defconfig                    | regressions
-> -------------------+--------+---------------+----------+------------------------------+------------
-> hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1
->
->   Details:     https://kernelci.org/test/plan/id/620c20e6a59bf7860ac62985
->
->   Results:     22 PASS, 1 FAIL, 0 SKIP
->   Full config: x86_64_defconfig+x86-chromebook
->   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
->   Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v5.17-rc1-8-g981d3de32cfb/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/sleep-hp-11A-G6-EE-grunt.txt
->   HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v5.17-rc1-8-g981d3de32cfb/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/sleep-hp-11A-G6-EE-grunt.html
->   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20220204.0/amd64/rootfs.cpio.gz
->
->
->   * sleep.rtcwake-freeze-2: https://kernelci.org/test/case/id/620c20e6a59bf7860ac6298f
->         new failure (last pass: v5.17-rc1-4-g5c223bb92642)
->
->     2022-02-15T21:52:26.548061  <6>[   34.072441] r8152 2-4:1.0 eth0: carrier on
->     2022-02-15T21:52:26.551777  rtcwake: assuming RTC uses UTC ...
->     2022-02-15T21:52:26.554735  rtcwake: wakeup from \"freeze\" using rtc0 at Tue Feb 15 21:52:32 2022
->     2022-02-15T21:52:26.561516  <6>[   34.080269] PM: suspend entry (deep)
->     2022-02-15T21:52:26.564602  <6>[   34.094053] Filesystems sync: 0.000 seconds
->     2022-02-15T21:52:26.574302  <6>[   34.098694] Freezing user space processes ... (elapsed 0.001 seconds) done.
->     2022-02-15T21:52:26.577533  <6>[   34.107429] OOM killer disabled.
->     2022-02-15T21:52:27.554041  <6>[   34.110918] Freezing remaining freezable tasks ... (elapsed 1.013 seconds) done.
->     2022-02-15T21:52:27.560836  <6>[   35.087741] printk: Suspending console(s) (use no_console_suspend to debug)
->     2022-02-15T21:52:27.662521
->     ... (1143 line(s) more)
->
+I don't think it is a concern on any modern computer hardware, and
+seems more readable to me, but
+it's up to you.

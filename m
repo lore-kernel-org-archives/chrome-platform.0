@@ -1,53 +1,52 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E351FA9
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 02:31:36 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id x11so867951pll.10
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 18:31:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6941844
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 04:11:44 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id v13-20020a17090ac90d00b001b87bc106bdso5300295pjt.4
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 20:11:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=tMSwIfjOv1Uyh0Rn8c3FPvnNt2awh1M6+sjpagFNNPs=;
-        b=MrvjeIXCQ0Ol/ZNcfXLD9ryra3Lxo0LuahOeXNhhVa8XVLk1mUyCn13YOkRJMEu7rU
-         /IiaUHNDr77cLli/X5P8Akq/dF6VCwimLY3cWD9peCVXcnFV56IY9C7gNqaju6Y/YLy3
-         eWTGx5T7KUECG4JNaraqfYDi4uVSFg/kF5Iv+0n6BeHzpnTgQ2e9eIrsYZF3XfWZ3GhB
-         WuEwHitGwU6yPS5Z7i9bu7dfGGKty0EU7dChAqeZ/QpqjScnH0TkUWB4Mm5UyxLYNufD
-         qI3yU6sUDxkiD/3h9BfUlAfCRDkDWa7tEV0xEIg4ifAS6TMM+5ZGqlOi2GdVTXx1/dcO
-         Nq9Q==
+        bh=PsQRJos1x7+gzTmfGxoBBhgjdDt8Hj3LByN10gLeeQY=;
+        b=ZJx3gg8GGDueeZSZE8cCgxVSVBJMTDTqqA/WrNlyM7DcREsGAo2sYQowhnIUNXDLvI
+         b5mM5uNgp+MfS7eJyXq+fCGi8yXpel8HrxuGc+LLC51PbVFbR5mEPqhYZI4QPVwXYmfI
+         zkwmjBh9rNG7MuHbD0epjqGc2EnnyZZ7EJX6P7w+SXUJdxeOea6/uFdwM2jNSohdTwYF
+         KrJb2nDjnK6i1Dw+g6kCMJO4om64bBegovr1T2SRwQoBxOTD+pc4itWzilX3vhuC7Rko
+         rV/kycK/VVQN0BpdvDVSx+kSF4LYNFxqp2ziWpPKLqH7/yoTdBXtDxwjqkcujwqfH32j
+         AOaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=tMSwIfjOv1Uyh0Rn8c3FPvnNt2awh1M6+sjpagFNNPs=;
-        b=4xXLo4ugSDBBNG2C2aOSpWntUVuT5rDoYMznsQXMGjLlzqsnA2Ffa0sFU+hmas06xR
-         4O4xzNPCzCyii5/iXitHtMzCxfaahm13ROd8AmlOX+hw9fwGeb/YbF9mrpoTC/wjmOds
-         6x4W/4g4Jl5Ka3kUgSk0UtRe6vfU4YNTiEdjBWEuz1lGhForeavCkZjS05NfikhNacOs
-         A/pzwh4VfkBHjpuE8XfRASrXeF0cbckM2jubwDeR+xzMYiPTFo9kdgEI0FOl3osWzU0r
-         HvEVJFxjtj7rsd20AxMfiAhi+8y0ujQW2TLpIwH6t7Q3mAT9aEknCW7Do6ejbCrWcP8R
-         drzQ==
-X-Gm-Message-State: AOAM532w9VI80z2Q8+LMUJ0dBAlJWUL8Mr4yjHZXWuA8sOB9RzFuROPM
-	iA8Gfz+4g8ASeGX+0pxFaYCVNw==
-X-Google-Smtp-Source: ABdhPJyU2ukSn0pACLz1YQlEvjfxSBDTqZwAmjsrkqyhGVLNZmkSRDuKwLpWoQymGsMeVVJJ0nyyig==
-X-Received: by 2002:a17:902:82c7:b0:14f:252d:67e7 with SMTP id u7-20020a17090282c700b0014f252d67e7mr777069plz.27.1644978695666;
-        Tue, 15 Feb 2022 18:31:35 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:adf7:46e7:cef5:ba49])
-        by smtp.gmail.com with ESMTPSA id 7sm18442035pjo.45.2022.02.15.18.31.33
+        bh=PsQRJos1x7+gzTmfGxoBBhgjdDt8Hj3LByN10gLeeQY=;
+        b=z+U8MXcaATKMPZwt83GP8pSgrf7KiiZBbYTUGKMtcL/nj82ps3uv2xdgu5cupwnFHG
+         WHscpQjgYd4cQOcWjBDpZFBzRBFarWnP7htZWTYVfxf2ViWvf5DUtNYgn1a5BD5a5Uff
+         Len8s+T7jaLOk2QEPs6YZ0xrEjzukD2/V6S9QhPVW+yL602GytJRNMH0Ik3/ayljz0jT
+         AZgB5LcDAGppNzY9/d0DImUx4ngRP2BB/1VyU/6bcFnd+vMNgLEW31+a5iNKdhTTatnw
+         azKgNyc0P2gPO2mMYPG0XCXZSDKvSwFpNlVppRuI7KdywltsGR+wB0E1jtL5d4Pgl81a
+         Xs8g==
+X-Gm-Message-State: AOAM530W95SN4SNpt0cdzPVVw+Avx+MJYGtnSx8GQaIOX0UGwEVci627
+	Mv8crkrGk3X9xkvMn+25wKbEUg==
+X-Google-Smtp-Source: ABdhPJxwGMtIpk7Cz5bd4WKUQIgsdGQJD5hrfiuorZaXn4bh0kVIfqthGFtet4ErAxF0GSkdMSxU1A==
+X-Received: by 2002:a17:902:e74b:b0:14d:ce80:a9c5 with SMTP id p11-20020a170902e74b00b0014dce80a9c5mr997640plf.157.1644984703325;
+        Tue, 15 Feb 2022 20:11:43 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:8ce7:5b2:9787:1a0b])
+        by smtp.gmail.com with ESMTPSA id k16sm42411502pfu.140.2022.02.15.20.11.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 18:31:35 -0800 (PST)
-Date: Wed, 16 Feb 2022 10:31:32 +0800
+        Tue, 15 Feb 2022 20:11:42 -0800 (PST)
+Date: Wed, 16 Feb 2022 12:11:40 +0800
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: Prashant Malani <pmalani@chromium.org>
-Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] platform/chrome: cros_kbd_led_backlight: support OF
- match
-Message-ID: <YgxiBO7jDtyhWwlb@google.com>
-References: <20220214053646.3088298-1-tzungbi@google.com>
- <20220214053646.3088298-5-tzungbi@google.com>
- <CACeCKac+b1Rp6bZFALn=sbh8gkJbWeKTC=8bdzp+-90pgq=wSw@mail.gmail.com>
+Cc: bleung@chromium.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 1/6] platform/chrome: cros_ec: fix error handling in
+ cros_ec_register()
+Message-ID: <Ygx5fAZ6gMCxeatA@google.com>
+References: <20220209095703.517608-1-tzungbi@google.com>
+ <20220209095703.517608-2-tzungbi@google.com>
+ <CACeCKadu0f04Mip8R1OgucfN5GvU9RBEbgq6RQZiVWAePxZChA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -56,41 +55,14 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACeCKac+b1Rp6bZFALn=sbh8gkJbWeKTC=8bdzp+-90pgq=wSw@mail.gmail.com>
+In-Reply-To: <CACeCKadu0f04Mip8R1OgucfN5GvU9RBEbgq6RQZiVWAePxZChA@mail.gmail.com>
 
-On Tue, Feb 15, 2022 at 05:10:04PM -0800, Prashant Malani wrote:
-> On Sun, Feb 13, 2022 at 9:37 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
-> > diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> > index 814f2b74c602..ba853e55d29a 100644
-> > --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-> > +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/kernel.h>
-> >  #include <linux/leds.h>
-> >  #include <linux/module.h>
-> > +#include <linux/of_device.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/slab.h>
-> >
-> > @@ -128,8 +129,11 @@ static int keyboard_led_probe(struct platform_device *pdev)
-> >         int error;
-> >
-> >         drvdata = acpi_device_get_match_data(&pdev->dev);
-> > -       if (!drvdata)
-> > -               return -EINVAL;
-> > +       if (!drvdata) {
-> > +               drvdata = of_device_get_match_data(&pdev->dev);
-> > +               if (!drvdata)
-> > +                       return -EINVAL;
-> > +       }
+On Tue, Feb 15, 2022 at 01:39:51PM -0800, Prashant Malani wrote:
+> On Feb 09 17:56, Tzung-Bi Shih wrote:
+> > +exit:
+> > +     if (ec_dev->max_passthru)
 > 
-> I'm not familiar with this driver, so can't do a full review, but
-> shouldn't device_get_match_data()
-> from property.h [1] be able to handle both DT and ACPI cases?
-> 
-> [1]: https://elixir.bootlin.com/linux/v5.17-rc4/source/include/linux/property.h
+> This just complicates things, by depending on another variable. Just initialize
+> ec_dev->pd and ec_dev->ec to NULL at the beginning instead.
 
-Yes, it does[2][3].  Thanks for the feedback, will fix it in next version.
-
-[2]: https://elixir.bootlin.com/linux/v5.17-rc4/source/drivers/of/property.c#L1474
-[3]: https://elixir.bootlin.com/linux/v5.17-rc4/source/drivers/acpi/property.c#L1386
+Ack, will fix in the next version.

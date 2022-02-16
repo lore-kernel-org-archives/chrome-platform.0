@@ -1,89 +1,114 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258541844
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 01:07:55 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id y6so1368392ybc.5
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 17:07:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7E11844
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 01:10:16 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id p19so1371952ybc.6
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 17:10:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Gdo2wMqVpSAdD+zCmIMcGNIMzTWzh5NTL76ARqezIx8=;
-        b=Ww8D8K/75iMW3dHvAAL6WPDwe4Prx6rT+2xLKp9rXnuSOtx+l2QJXsaVB/SwbYg/+M
-         Z7wbTLe7BGUdnXX/ShQagv8KUwTszxZxpu9HpSR4t7atu7in/AnJfqZ3TZJMm9wOJOJx
-         RBEmFv7WsgBHZkCDAqD4AYK8cy+CocxjGCsZo=
+        bh=kEAvnISlAgpQaUg6TOaHvEbXUrTyCqH15xyEbDSJWp0=;
+        b=ZUZR+o7NNuMwO1tDYO+QNJg+NoAX33xWhrua8Z8KDMfC2GLtSZdyUBrn9hqmZc011V
+         H9AOPKO1ShSUjtslz814QmDGdWyq4XsFxbPx9NTsbv9s9VZzqH4Rb7d+mDBITNARApIB
+         ztT+jp2GyBVb3rGGQap/Dk+L7wisatjFXx0T8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Gdo2wMqVpSAdD+zCmIMcGNIMzTWzh5NTL76ARqezIx8=;
-        b=wzG2WY16yCMqczRpdoMEo4PCg/riGJndkUfZ3WomE8gMB2/C7OfQ9QBAF/ACfYqSob
-         wLePdrfYI5Sx9eEhPrkRj1Ow2PxAhCMpvvuWx5wWZducUDK/jGor4ZmbZlnSdgsgwrdk
-         LGu7YQ2S70ZNoCyAuas10ROmKzTLrQyqUmDMFWOTUDrw6WowwvCmV9RwyjsNpzNP5g7A
-         gsMTnLHaPKLpuqviWWuc9kD+ze8Ohwu9Gl3bEvHk5XT4rc+qNE4PJ44mCX7V+xGvg1AX
-         D3jWQYztixy8Au6LwZOUL2S6gaWxlaub+nljFcCkXKo3VXgzyf7UwZP9jjY8xGCFrqQ6
-         +60A==
-X-Gm-Message-State: AOAM5315h8q1nwNE8A8gbaTQWehqmkrQ+OrRLe+SBIN6SrUokil1VbYK
-	JyrgWCCfFM2UWs35FDCmmVSeGdZvKPnj7EEnJz2L+Q==
-X-Google-Smtp-Source: ABdhPJxuqlrEkWx6stDEdSDZ8HL3YwOgd1BHIjMLBEBZFFx6ufynLBZ7kjZdREr8CGCjhnKmcvuu0kpHF+e0UfOlSCI=
-X-Received: by 2002:a81:9212:0:b0:2d0:ccb0:a8b0 with SMTP id
- j18-20020a819212000000b002d0ccb0a8b0mr380811ywg.235.1644973674233; Tue, 15
- Feb 2022 17:07:54 -0800 (PST)
+        bh=kEAvnISlAgpQaUg6TOaHvEbXUrTyCqH15xyEbDSJWp0=;
+        b=L6sSYGU9nbSmK7kv7wVge0MohYSmfcbljjYqpHPH52NoajHPQKvLPg6gA3ztBGo1PX
+         cy+u+CFZ9KN73bCqIQjtZJy7EmZergjbnfoAtfPUHq4LXzB1f1LCLRzK77ZBT5uTg6Xl
+         Yesp4kKe+uyoH7nGXYSLR7Mhb8URUNKdNPXQA7LoHr1sIXo6m0fzUzWYKws1seuAyRfv
+         Mw4C48rJmiicuZG+Kn2qOclG5iZU3DwSVvJkoJq4SK1SWzzUwaThfuPJbrB4AOKIbQ0k
+         ayuQOCITMVYabkti9eC2KPbGeFr9rAq9lFdIg6DRKVoFkOnOhaK4OoMa+JILbY7qi17z
+         I5pA==
+X-Gm-Message-State: AOAM532DLg29hQZ8ZtrhBAebKsq40Rewx7L1sX5jHNE4iYdtlStF0bkH
+	3pIBN2DU9oC/KczutmNbgOyGsZntL0NiDqYz+anHlP+pg3iaJw==
+X-Google-Smtp-Source: ABdhPJyS++e5nIEG75PGyCAX0dVZV5d5K6bZd+I14kU4jBkU/7L3RVTaVSVHXVvfqzU4/OQusykc2yuGOrZm/jYCf0Y=
+X-Received: by 2002:a05:6902:108:b0:621:165e:5c1e with SMTP id
+ o8-20020a056902010800b00621165e5c1emr307818ybh.204.1644973815876; Tue, 15 Feb
+ 2022 17:10:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220209045035.380615-1-tzungbi@google.com> <20220209045035.380615-4-tzungbi@google.com>
- <CACeCKad4hs3WMt_fVQHdwOGF3xW8boKKOKsF8xR4o8q8-0jxnA@mail.gmail.com> <YgOLLmLKQWNyjvr1@google.com>
-In-Reply-To: <YgOLLmLKQWNyjvr1@google.com>
+References: <20220214053646.3088298-1-tzungbi@google.com> <20220214053646.3088298-5-tzungbi@google.com>
+In-Reply-To: <20220214053646.3088298-5-tzungbi@google.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 15 Feb 2022 17:07:43 -0800
-Message-ID: <CACeCKadSTq22aN1mwpT2re5dcA0J+GW7R8=gg4no5MB6j9m+Bw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] platform/chrome: cros_ec: determine `wake_enabled`
- in cros_ec_suspend()
+Date: Tue, 15 Feb 2022 17:10:04 -0800
+Message-ID: <CACeCKac+b1Rp6bZFALn=sbh8gkJbWeKTC=8bdzp+-90pgq=wSw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] platform/chrome: cros_kbd_led_backlight: support OF match
 To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 9, 2022 at 1:36 AM Tzung-Bi Shih <tzungbi@google.com> wrote:
+On Sun, Feb 13, 2022 at 9:37 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
 >
-> On Tue, Feb 08, 2022 at 10:05:58PM -0800, Prashant Malani wrote:
-> > On Tue, Feb 8, 2022 at 8:50 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
-> > >
-> > > `wake_enabled` indicates cros_ec_resume() needs to call
-> > > disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
-> > >
-> > > Determine `wake_enabled` in cros_ec_suspend() instead of
-> > > reset-after-used in cros_ec_resume().
-> > It sounds like we can accomplish the same thing as this patch by either:
-> > - Initializing ec_dev->wake_enabled = false during cros_ec_register()
+> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+> ---
+>  .../platform/chrome/cros_kbd_led_backlight.c    | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
 >
-> This doesn't sound like a good idea.  Value of device_may_wakeup(dev) changes
-> during runtime.  It should check in cros_ec_suspend() instead of in
-> cros_ec_register().
+> diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
+> index 814f2b74c602..ba853e55d29a 100644
+> --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
+> +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/leds.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>
+> @@ -128,8 +129,11 @@ static int keyboard_led_probe(struct platform_device *pdev)
+>         int error;
+>
+>         drvdata = acpi_device_get_match_data(&pdev->dev);
+> -       if (!drvdata)
+> -               return -EINVAL;
+> +       if (!drvdata) {
+> +               drvdata = of_device_get_match_data(&pdev->dev);
+> +               if (!drvdata)
+> +                       return -EINVAL;
+> +       }
 
-Hmm, I'm pretty sure it shouldn't change for Cros EC. In any case, I'm
-not suggesting
-moving the check away from cros_ec_suspend(), just the initialization
-of the flag.
+I'm not familiar with this driver, so can't do a full review, but
+shouldn't device_get_match_data()
+from property.h [1] be able to handle both DT and ACPI cases?
+
+[1]: https://elixir.bootlin.com/linux/v5.17-rc4/source/include/linux/property.h
 
 >
-> > or
-> > - Setting ec_dev->wake_enabled = false just before the
-> > device_may_wakeup(dev) check.
+>         if (drvdata->init) {
+>                 error = drvdata->init(pdev);
+> @@ -161,10 +165,19 @@ static const struct acpi_device_id keyboard_led_acpi_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(acpi, keyboard_led_acpi_match);
 >
-> Did you mean:
+> +static const struct of_device_id keyboard_led_of_match[] = {
+> +       {
+> +               .compatible = "google,cros-kbd-led-backlight",
+> +       },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, keyboard_led_of_match);
+> +
+>  static struct platform_driver keyboard_led_driver = {
+>         .driver         = {
+>                 .name   = "chromeos-keyboard-leds",
+>                 .acpi_match_table = ACPI_PTR(keyboard_led_acpi_match),
+> +               .of_match_table = of_match_ptr(keyboard_led_of_match),
+>         },
+>         .probe          = keyboard_led_probe,
+>  };
+> --
+> 2.35.1.265.g69c8d7142f-goog
 >
-> ec_dev->wake_enabled = false;
-> if (device_may_wakeup(dev))
->         ec_dev->wake_enabled = !enable_irq_wake(ec_dev->irq);
 >
-> If so, this way is suboptimal to me.  ec_dev->wake_enabled can be written
-> once; however, it is written twice if device_may_wakeup(dev) is true.
-
-I don't think it is a concern on any modern computer hardware, and
-seems more readable to me, but
-it's up to you.

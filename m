@@ -1,108 +1,84 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A941FD7
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 05:47:21 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id p5so2714361ybd.13
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 21:47:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8091FD8
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 05:55:25 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id bt13so2900785ybb.2
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Feb 2022 21:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=elu8Ka2cZem2k4zQRGJEv65TLQWlji0lH04NXcgaWoI=;
-        b=LVuSa+60cggKNTvJ1zIakxD1VIAn5f/pbblK/YjQD5LI7TD31BHIqZ24c6BKqeGFCI
-         OaEmU2yh7N6fQW6FBGELn61X/aBcQctz+GZJlD44yKuQ8BpCCCk9taP4fVgo/fJyMHo+
-         exJd028Ht/JAdX4P236LDPuuUXUe1VYdLdI4Q=
+        bh=rPx4UDA0xjlooJ4eCu99HX2L927DwDwAQ03WVkuhsXI=;
+        b=dg5+0W532VSUwgWEbDzf9brHWJTYLQTw2QQOtwrEAQVNJMLcebAiNXsP3dzqnILxGw
+         6pRbbcP18G1cRUWRp1/iPY/O7CH6jV2B4PVwe2yEQmmirD7b6Sy3go9Xi55rHLWzFcTg
+         G7cnIsrm3Pgy6sOAu8zkjGKGkp6lU97Pw7jWE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=elu8Ka2cZem2k4zQRGJEv65TLQWlji0lH04NXcgaWoI=;
-        b=HdWvwubsUASN5iC197tcoXo6NKYTkYqmeB0XuwHhXYeA6OP2BOEAKzOPUz27sDQVy+
-         N3jW/Eh2v5yCPSQ9gS8AYjsrh77GHWGrVY6XrSBp7MzjP4JEtznF8+iI5mJAJaQ8wh7A
-         KC9//wAvSovI4OwQcixSqQ1TrNB2rAdcEQeev+hJC/dtiFVWHcF5fpt/OlUeCWcjcVPz
-         y51wj5tYZYDUtvI+NgRVz6ZhVf74tlj8Q6nNdPXrjFJwpMxOstKLYhedxdow37CyhDRj
-         V3DcPSAVeldmzUF/OQ99k+6bKkaI22GXnepiRDXDGE0p77goa892Rp4jH+pFWCi7kmST
-         GKkQ==
-X-Gm-Message-State: AOAM530BsbiNyfcogofE1WvR7d7pCjLZxizP0LApKd9o3QJQocJyoQBC
-	VWr6Jgg+H+BNRTgB8nsCTTle72EuSCB61zXyf6IWCg==
-X-Google-Smtp-Source: ABdhPJwHGG5NOl9rUjmJ5FIROtsaZzXi5k/xwDtwVPIUKH4MttQH+YypSdaXae9uXC3An9ibKfa1nMBwNwSdBnnhYtI=
-X-Received: by 2002:a25:8b0a:0:b0:61a:4aab:3e78 with SMTP id
- i10-20020a258b0a000000b0061a4aab3e78mr880886ybl.619.1644990440308; Tue, 15
- Feb 2022 21:47:20 -0800 (PST)
+        bh=rPx4UDA0xjlooJ4eCu99HX2L927DwDwAQ03WVkuhsXI=;
+        b=iPuXUjzRL9kbyRTZAPh9wxjrBEPlE+8DNDtanLdw0MItN61DQlg7N7yCtlEhOT0Jsp
+         TD7SYriA4MTWS06MULktkx/yeX5K1fhlQhhtNVBOWoePwZ8cnsKNhos+IaJ+fYmQlkcb
+         bUfWqBjQEBBTEYzybKPmj1J7/zRE6lGsUt3FS7AV+27XppO4rEQ3gyFni/9W1zbmOqri
+         wW7yejTdhl/kQqqV05OJEs7SaPbUpcYrt7CW0HFZqGwfPMH6u3zdnK1eCs/b6LkluA/V
+         0Nf3Spm4/LhLf7dRF7G3Miky9izaUgrlzUeRYO5VizB4jWdtey7PqUQiwqpy8XNUJ1wj
+         LCrw==
+X-Gm-Message-State: AOAM533+mXmQ07v8IfBukc8jhkBl5mOyPanPaUNs+cb359lMV9zMfrKw
+	l+0rLjKN323FAR1jrnJoeud5+EcAK6TYrc37TRuz+A==
+X-Google-Smtp-Source: ABdhPJwpwMxSPePQhJTEcjbn9jHJBysTp8pZalQQ+krL7pMp5+uRqYLh7Ta4hN07ITmssmOyI11J8GIjc0NptEFQP40=
+X-Received: by 2002:a81:a148:0:b0:2d0:7177:5f2b with SMTP id
+ y69-20020a81a148000000b002d071775f2bmr1140657ywg.182.1644990924592; Tue, 15
+ Feb 2022 21:55:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220216043639.3839185-1-tzungbi@google.com> <20220216043639.3839185-4-tzungbi@google.com>
-In-Reply-To: <20220216043639.3839185-4-tzungbi@google.com>
+References: <20220209045035.380615-1-tzungbi@google.com> <20220209045035.380615-4-tzungbi@google.com>
+ <CACeCKad4hs3WMt_fVQHdwOGF3xW8boKKOKsF8xR4o8q8-0jxnA@mail.gmail.com>
+ <YgOLLmLKQWNyjvr1@google.com> <CACeCKadSTq22aN1mwpT2re5dcA0J+GW7R8=gg4no5MB6j9m+Bw@mail.gmail.com>
+ <Ygx53F0bziAWceqJ@google.com>
+In-Reply-To: <Ygx53F0bziAWceqJ@google.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 15 Feb 2022 21:47:09 -0800
-Message-ID: <CACeCKacKtJ50b2TuuhcVYPq0Fd0unVJdMuNDk1PLNK_r2JHZ+A@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] platform/chrome: cros_ec: initialize
- `wake_enabled` in cros_ec_register()
+Date: Tue, 15 Feb 2022 21:55:13 -0800
+Message-ID: <CACeCKaduGaq-s-XO7FZ1Hin6Nr15_v_6-KUmbO-F+MWDu-gWMg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] platform/chrome: cros_ec: determine `wake_enabled`
+ in cros_ec_suspend()
 To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 15, 2022 at 8:37 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+On Tue, Feb 15, 2022 at 8:13 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
 >
-> `wake_enabled` indicates cros_ec_resume() needs to call
-> disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
->
-> Initialize `wake_enabled` in cros_ec_register() and determine the flag
-> in cros_ec_suspend() instead of reset-after-used in cros_ec_resume().
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+> On Tue, Feb 15, 2022 at 05:07:43PM -0800, Prashant Malani wrote:
+> > On Wed, Feb 9, 2022 at 1:36 AM Tzung-Bi Shih <tzungbi@google.com> wrote:
+> > >
+> > > On Tue, Feb 08, 2022 at 10:05:58PM -0800, Prashant Malani wrote:
+> > > > On Tue, Feb 8, 2022 at 8:50 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
+> > > > >
+> > > > > `wake_enabled` indicates cros_ec_resume() needs to call
+> > > > > disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
+> > > > >
+> > > > > Determine `wake_enabled` in cros_ec_suspend() instead of
+> > > > > reset-after-used in cros_ec_resume().
+> > > > It sounds like we can accomplish the same thing as this patch by either:
+> > > > - Initializing ec_dev->wake_enabled = false during cros_ec_register()
+> > >
+> > > This doesn't sound like a good idea.  Value of device_may_wakeup(dev) changes
+> > > during runtime.  It should check in cros_ec_suspend() instead of in
+> > > cros_ec_register().
+Actually, circling back to this (apologies), can you provide an
+example of this changing during runtime?
+I'm not aware of one, but I could be omitting some use cases that you
+might be familiar with.
 
-One minor thing to consider, but regardless:
-
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
-
-> ---
-> Changes from v3:
-> (https://patchwork.kernel.org/project/chrome-platform/patch/20220209095703.517608-4-tzungbi@google.com/)
-> - Change the patch title.
-> - Simplify by initializing wake_enabled in cros_ec_register().
+> >
+> > Hmm, I'm pretty sure it shouldn't change for Cros EC. In any case, I'm
+> > not suggesting
+> > moving the check away from cros_ec_suspend(), just the initialization
+> > of the flag.
 >
-> No changes from v2.
->
-> Changes from v1:
-> (https://lore.kernel.org/lkml/20220125101527.1812887-1-tzungbi@google.com/T/#u)
-> - Use imperative mood in commit message.
->
->  drivers/platform/chrome/cros_ec.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-> index 25cd8df6e7b0..b6604a9ab315 100644
-> --- a/drivers/platform/chrome/cros_ec.c
-> +++ b/drivers/platform/chrome/cros_ec.c
-> @@ -191,6 +191,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
->         ec_dev->max_passthru = 0;
->         ec_dev->ec = NULL;
->         ec_dev->pd = NULL;
-> +       ec_dev->wake_enabled = false;
->
->         ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
->         if (!ec_dev->din)
-> @@ -383,10 +384,9 @@ int cros_ec_resume(struct cros_ec_device *ec_dev)
->                 dev_dbg(ec_dev->dev, "Error %d sending resume event to ec",
->                         ret);
->
-> -       if (ec_dev->wake_enabled) {
-> +       if (ec_dev->wake_enabled)
->                 disable_irq_wake(ec_dev->irq);
-> -               ec_dev->wake_enabled = 0;
-> -       }
-> +
-
-Better to leave it as is, and ensure "wake_enabled" is cleared after resume?
-Will result in a smaller diff.
-
-I'll leave it up to you.
-
--Prashant
+> Got it.  I misunderstood.  Let's go this direction.  Will fix in the next
+> version.

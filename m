@@ -1,42 +1,42 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5170D23AC
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 08:03:28 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id a12-20020a056902056c00b0061dc0f2a94aso2724451ybt.6
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 00:03:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819FC23AC
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 08:03:32 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id b12-20020a056902030c00b0061d720e274aso2636676ybs.20
+        for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 00:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=1aDHrU0OAcezWyAKSlCofgKbepJMdH6+ryrRYnqT3dM=;
-        b=m3Sv/VM/AlkzDd57mYih9LNc5rNzE8uBAoQF+vV9+aWQnFJQxTji5+HbY31hng1WA5
-         GCfsFP2zAmvphqMab7UKlG9U8RmvsUoBFfyluy0WN4Rg42Mo1fETKvNiR2BV2XnbLHis
-         ipuYLauO9EQ5q0Tu+OIPQ13DpfgOOV+5S8sN2N9/u1AVAuaeGzcwJQ26ADm0om3OOLWU
-         teAGfdXE+N6iv9PgAywSz729pqw4xhin4KNIjb5EELI91ItE3uC0SZKhjKajM1KmF4r9
-         HOWw35rpM9zkF7lUqa7L1VTycERYigL6dK+tTvgsXMl8ZZUMEX5m5V0nT4O/brE9LKrg
-         bCAg==
+        bh=SE1MVdE6VYYgYy0YdvS/4bDSsAOzBU2OrOAH/ZUOnFg=;
+        b=oeGfckUJe6Fgl8bC2ziCgYFPG71l9XmLh+g9L4Yq4ppJfmoLfhqaRT7PhyCF92nQa8
+         4j96bF3sQyGxNkZO/f1cnd1NQ909E/VE6a9nhLAA77BAfpEnT37UN2A9eC49FdNvXi6R
+         cPuzJXe8hRvI79/fT5VfcPQInUsduFGfWbrkcYbuDfDdbB6CVUtn9XdHp8qzDc6X7oVG
+         WtOts4TH2CYXrGzhymjUWttuElJqDwNCNmUf3GiuoB/I3rrg3YaZncqrSi6s6m5EixfI
+         9j2uLGPci4eqhqDXA+YsoAXY9Wh3tZRmCib2wcZRL+Et7EiEZ2SGmN7Wsl77xLlbx0yT
+         7jfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=1aDHrU0OAcezWyAKSlCofgKbepJMdH6+ryrRYnqT3dM=;
-        b=b8JDRyxPfYIS94h5eKAUmST6qfeoNBdTOsEvkIF90b0EHeHUNijsyQRHF00HsBu6v8
-         JB39onyrAynizIVOnjg1sj0lMG3ylgysZHyj0k1x/7kIjSSBrlWtTqBaXsUq89GsX9JT
-         DYTvrNmdUbm6eR9YAOrEwduyl5zb1wpRu+nkTvZd7Iyv3SdAdSCYHlw/DQJkLKARShGw
-         /b+A3tiX9/o01xasOP7JVSDRSZmewl65ZPbRMk4HuWc5lyvebUM97qQr6ABrSBVm834x
-         OD6RdJjarresM2cN9DkSstrgBlpLxEw+fzzNs99P2ED3xye4u7D8tRDsXDzrcXzdOzWD
-         YTuQ==
-X-Gm-Message-State: AOAM532xAMBcDvZ0HqNSDk7nTeF9YAOEcajKJuRewNEMtdOJVYz+HM15
-	tpIvvREgTA3H2UzmjRI0o0Cm5WPJZf/u
-X-Google-Smtp-Source: ABdhPJwnL3ty0rYB/mTS6ohebP4mDHDFhYi+THLa6qb0jeK6tO/c5ZPJ75AyiazmV9ig+lSOTxgPMQ+iQI11
+        bh=SE1MVdE6VYYgYy0YdvS/4bDSsAOzBU2OrOAH/ZUOnFg=;
+        b=hIx+ohMuHS8GZm9zZBhM2I/5J4fmxF+eTW/R+RzKyDP2XI4+B9sKCvlYziS/dnXhfE
+         ET5siyrQFKvipVm2y8kFtdfiHvNnmhMGKY3hJEEZfimo+UBBaUgZYt+f9Z4pBaaRKxmw
+         VaZMKWkfSB/rEc6YzZNez4Yg/nTgd7osBKFI0OGFLINwOpK4hvfmUkTjz6a6iQ4/z6gJ
+         Jqd8CkSbSDl0SFGBs5QvmcPNE2erZLAc1asLHExeouDEExMsNKFDOYH/iK6Q00C2vPfb
+         zjXHjli1Y/WENAk3JtomQSznEY9ao+RXO3BpQsWx0MFvSvVMF6W3GG4ZygF+sgG4noCk
+         9vAg==
+X-Gm-Message-State: AOAM532vWM4jLfo6+tUAGN4pfgpW2c/vjEUe++2i86EcQpL0ZxUC+/WR
+	/fTWfFe3e/Q0ibkhiNs2L03Bb9juJXFz
+X-Google-Smtp-Source: ABdhPJxMKIQf7axeUM4rmevbTIpLdf4pXF/mgLIQe7ZVC5J4o0olbRMFcXkad1Mnde1GqBRBGMAZayKoyZu7
 X-Received: from tzungbi-z840.tpe.corp.google.com ([2401:fa00:1:10:8ce7:5b2:9787:1a0b])
- (user=tzungbi job=sendgmr) by 2002:a25:1402:0:b0:61a:9815:b84b with SMTP id
- 2-20020a251402000000b0061a9815b84bmr1121925ybu.573.1644998607466; Wed, 16 Feb
- 2022 00:03:27 -0800 (PST)
-Date: Wed, 16 Feb 2022 16:03:03 +0800
+ (user=tzungbi job=sendgmr) by 2002:a81:7707:0:b0:2d0:dc96:5729 with SMTP id
+ s7-20020a817707000000b002d0dc965729mr1398343ywc.37.1644998611613; Wed, 16 Feb
+ 2022 00:03:31 -0800 (PST)
+Date: Wed, 16 Feb 2022 16:03:04 +0800
 In-Reply-To: <20220216080306.3864163-1-tzungbi@google.com>
-Message-Id: <20220216080306.3864163-3-tzungbi@google.com>
+Message-Id: <20220216080306.3864163-4-tzungbi@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -45,64 +45,65 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20220216080306.3864163-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [PATCH v5 2/5] platform/chrome: cros_ec: remove unused variable `was_wake_device`
+Subject: [PATCH v5 3/5] platform/chrome: cros_ec: determine `wake_enabled` in cros_ec_suspend()
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: bleung@chromium.org, groeck@chromium.org
 Cc: chrome-platform@lists.linux.dev, pmalani@chromium.org, tzungbi@google.com, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
+`wake_enabled` indicates cros_ec_resume() needs to call
+disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
+
+Determine `wake_enabled` in cros_ec_suspend() instead of
+reset-after-used in cros_ec_resume().
+
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
-No changes from v3 and v4.
+Changes from v4:
+(https://patchwork.kernel.org/project/chrome-platform/patch/20220216043639.3839185-4-tzungbi@google.com/)
+- Undo changes from v3; rollback to v2.
 
-Changes from v2:
-(https://patchwork.kernel.org/project/chrome-platform/patch/20220209045035.380615-3-tzungbi@google.com/)
-- Add pmalani's R-b tag.
-- Remove redundant commit message.
+Changes from v3:
+(https://patchwork.kernel.org/project/chrome-platform/patch/20220209095703.517608-4-tzungbi@google.com/)
+- Change the patch title.
+- Simplify by initializing wake_enabled in cros_ec_register().
+
+No changes from v2.
 
 Changes from v1:
 (https://lore.kernel.org/lkml/20220125101527.1812887-1-tzungbi@google.com/T/#u)
 - Use imperative mood in commit message.
 
- drivers/platform/chrome/cros_ec.c           | 1 -
- include/linux/platform_data/cros_ec_proto.h | 3 ---
- 2 files changed, 4 deletions(-)
+ drivers/platform/chrome/cros_ec.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index ff2a24b0c611..25cd8df6e7b0 100644
+index 25cd8df6e7b0..a013fbceeb03 100644
 --- a/drivers/platform/chrome/cros_ec.c
 +++ b/drivers/platform/chrome/cros_ec.c
-@@ -344,7 +344,6 @@ int cros_ec_suspend(struct cros_ec_device *ec_dev)
+@@ -342,6 +342,8 @@ int cros_ec_suspend(struct cros_ec_device *ec_dev)
+ 
+ 	if (device_may_wakeup(dev))
  		ec_dev->wake_enabled = !enable_irq_wake(ec_dev->irq);
++	else
++		ec_dev->wake_enabled = false;
  
  	disable_irq(ec_dev->irq);
--	ec_dev->was_wake_device = ec_dev->wake_enabled;
  	ec_dev->suspended = true;
+@@ -383,10 +385,9 @@ int cros_ec_resume(struct cros_ec_device *ec_dev)
+ 		dev_dbg(ec_dev->dev, "Error %d sending resume event to ec",
+ 			ret);
  
- 	return 0;
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index df3c78c92ca2..c65971ec90ea 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -76,8 +76,6 @@ struct cros_ec_command {
-  * struct cros_ec_device - Information about a ChromeOS EC device.
-  * @phys_name: Name of physical comms layer (e.g. 'i2c-4').
-  * @dev: Device pointer for physical comms device
-- * @was_wake_device: True if this device was set to wake the system from
-- *                   sleep at the last suspend.
-  * @cros_class: The class structure for this device.
-  * @cmd_readmem: Direct read of the EC memory-mapped region, if supported.
-  *     @offset: Is within EC_LPC_ADDR_MEMMAP region.
-@@ -137,7 +135,6 @@ struct cros_ec_device {
- 	/* These are used by other drivers that want to talk to the EC */
- 	const char *phys_name;
- 	struct device *dev;
--	bool was_wake_device;
- 	struct class *cros_class;
- 	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
- 			   unsigned int bytes, void *dest);
+-	if (ec_dev->wake_enabled) {
++	if (ec_dev->wake_enabled)
+ 		disable_irq_wake(ec_dev->irq);
+-		ec_dev->wake_enabled = 0;
+-	}
++
+ 	/*
+ 	 * Let the mfd devices know about events that occur during
+ 	 * suspend. This way the clients know what to do with them.
 -- 
 2.35.1.265.g69c8d7142f-goog
 

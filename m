@@ -1,118 +1,92 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E14938F4
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Feb 2022 02:22:00 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id p23so3742129pgj.2
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Feb 2022 18:22:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8563B28
+	for <chrome-platform@lists.linux.dev>; Thu, 17 Feb 2022 16:59:46 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id z2so4406986iow.8
+        for <chrome-platform@lists.linux.dev>; Thu, 17 Feb 2022 08:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=l2wDoQKYuNxljocz4UAEvWSyuBrgmqvYiOg3RhZ22sY=;
-        b=SU/DICxPj/U3ZSlhmSelDtgozNYgEtWejBOTojQQ7I3RSnCuaa0dLkMd/sb/Hhu5if
-         XaDrZReyDf4qPeW2q2hTxFRCvrMSWKMbJy7I3XrXKwWlnmVIpK+oqNZNA7FR0w/P0C38
-         r7GdHdhLYXdE0NhwfNrgnFm+n2jBqJEWB9EIw=
+        d=howett-net.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WlPBHZSe/TPAnLSNPlhYDZrx8BkXEH/TLQNmJ832ryY=;
+        b=MrNmC5lGaUo6j48SsWF/GdQYjSnCgojo7us0cqh7BpkBagDq1NXlKDLLL7KjRXqs0E
+         KFEsHO+bqjzV7nq8gYEPKOKVSHVjxAUZ2H1w6qMu4lYIViJY6FNn6bbtwlYyx9Z2GsLv
+         30C3k4luQhVZzGced+WWNorvKwLftsqqM7/dTVIM+2MN4cIcaFrHb/wzqfoHavXgWZoj
+         bSCEohTq8GHhJJKPCcIRr/P1tCqFSC/0Wx6g+Hbx+1aQmK36KSI24JllsR3eXfykmNE6
+         XrCDL/OdVudSXneOcxoiUqSIVKWbEzcRrqKOQE7ldZ9amokyYaJwdD51HRTuFr6e3Dye
+         E/kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=l2wDoQKYuNxljocz4UAEvWSyuBrgmqvYiOg3RhZ22sY=;
-        b=WmlUBBX3CR2mh7ARXT1zCEg7Qlc8D9qOAhRBhlQyDkelbUuWbJSM4ORrEX+58cpVdp
-         2NZJRcxr0R5WoGE5/E9kkUMkFD8dpdVQ9vCE0Bfzq6CEJzbJgJLIE+OeOARrBXi/Pprm
-         jn7h+Ha5vcm9QuXHh573CbSNpLonMD/ZyCMI5gaHLSoI1VuxdzIa2gTCoHCtKPAPGPoC
-         PhHLYuFaAoOaxeCS3Mm3TKTY3AohjuorxaQPC5vbXQRXq1PyOmT+Yphj9KT/ovjcG5y1
-         7JO9vG4lZ5pRvsukqXXoWQNalMDrNWsUBknCmkN0gLoOz7YLHhSz1QVvDR+DeY8wl2Lq
-         5/0g==
-X-Gm-Message-State: AOAM531exE7165EJe483mK6RgRZFgF0XJ2wBrj0WfndNtlTDWpHosm7L
-	o3gEjVxg2qLuXbJAt2F+lLx6iNeo7HklNw==
-X-Google-Smtp-Source: ABdhPJyq97MyXix4mwZYBk16SX0okICsB1fPbw+C3Th6ZyTMCMGMxgzmoXJ5l5B2Qja16/wzhhdCrw==
-X-Received: by 2002:aa7:9112:0:b0:4e1:3b6:683 with SMTP id 18-20020aa79112000000b004e103b60683mr962375pfh.63.1645064519953;
-        Wed, 16 Feb 2022 18:21:59 -0800 (PST)
-Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id l13sm6409461pgs.16.2022.02.16.18.21.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WlPBHZSe/TPAnLSNPlhYDZrx8BkXEH/TLQNmJ832ryY=;
+        b=u0kTcnRBLMumVWFCLb68ieZtwFwYlFo2fzTXbmE3mwiMNBzBYf5slem7oPMxx+OiIY
+         Dun2qZOnPIC2izPrDDlek4+NG9F5Yqv5O36MpANY+Pgm0MXzz3T/JFOWi2TY+2L2QBxT
+         T63nmuPk91CrkywucdyZnJiBEaCZLWuzi4MSZKHsFcmP1gn/UzkMXKkdQyS5y2h8hJvX
+         /xZqRsxogaPjsaZ6L4fwlXZlcr/B+3V4l7QRayHgYOcXT2tIhdQRyJy2gUicoalgmPhe
+         k8rNoWrWa9QadqKJ7jDqCI5BaZ9/a5LtarbPeCnk6PbA082wBsBMoj5Gy6dqQr1xZslC
+         649g==
+X-Gm-Message-State: AOAM5313j0b0HHwYsB2sw+5/d9k5v0BtlzMLqExWeoyxxZSGLK7B5R1K
+	qGOzghC2flxGohQq+W5y4SKnR9IwFVz2GIrb
+X-Google-Smtp-Source: ABdhPJx9cWrRBgIJMkbbL1r55IWU/EeOdaUMabrEmvg8Y5I96bPPgZtqfKoIn/JjwQ9U9bNbbPVTnw==
+X-Received: by 2002:a02:cc55:0:b0:311:bd14:fe74 with SMTP id i21-20020a02cc55000000b00311bd14fe74mr2538408jaq.84.1645117185163;
+        Thu, 17 Feb 2022 08:59:45 -0800 (PST)
+Received: from rigel.delfino.n.howett.net ([2600:1700:df50:a7cf::725])
+        by smtp.googlemail.com with ESMTPSA id a15sm2108346ilq.24.2022.02.17.08.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 18:21:59 -0800 (PST)
-Date: Thu, 17 Feb 2022 02:21:58 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] platform/chrome: cros_ec: determine
- `wake_enabled` in cros_ec_suspend()
-Message-ID: <Yg2xRup53gP39SBs@chromium.org>
-References: <20220216080306.3864163-1-tzungbi@google.com>
- <20220216080306.3864163-4-tzungbi@google.com>
+        Thu, 17 Feb 2022 08:59:44 -0800 (PST)
+From: "Dustin L. Howett" <dustin@howett.net>
+To: chrome-platform@lists.linux.dev
+Cc: Benson Leung <bleung@chromium.org>,
+	Aseda Aboagye <aaboagye@chromium.org>,
+	Tzung-Bi Shih <tzungbi@google.com>,
+	Michael Niksa <michael.niksa@live.com>,
+	"Dustin L. Howett" <dustin@howett.net>
+Subject: [PATCH v3 0/2] platform/chrome: add support for the Framework Laptop
+Date: Thu, 17 Feb 2022 10:59:28 -0600
+Message-Id: <20220217165930.15081-1-dustin@howett.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220216080306.3864163-4-tzungbi@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Feb 16 16:03, Tzung-Bi Shih wrote:
-> `wake_enabled` indicates cros_ec_resume() needs to call
-> disable_irq_wake() to undo enable_irq_wake() in cros_ec_suspend().
-> 
-> Determine `wake_enabled` in cros_ec_suspend() instead of
-> reset-after-used in cros_ec_resume().
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+This series adds support for the Framework Laptop to the cros_ec LPC
+driver.
 
-I don't see what is the issue with reset-after-use here, as long as the
-variable is initialized correctly. This patch strikes me as larger than
-it really needs to me. Anyway, FWIW:
+The Framework Laptop is a non-Chromebook laptop that uses the ChromeOS
+Embedded Controller. Since the machine was designed to present a more
+normal device profile, it does not report all 512 I/O ports that are
+typically used by cros_ec_lpcs. Because of this, changes to the driver's
+port reservation scheme were required.
 
-Reviewed-by: Prashant Malani <pmalani@chromiu.org>
+Since this EC driver probes the MEC range first, and uses only the MEC
+range if that probe succeeds[^1], we can get by without requesting the
+entire port range required by non-MEC embedded controllers until
+absolutely necessary.
 
-> ---
-> Changes from v4:
-> (https://patchwork.kernel.org/project/chrome-platform/patch/20220216043639.3839185-4-tzungbi@google.com/)
-> - Undo changes from v3; rollback to v2.
-> 
-> Changes from v3:
-> (https://patchwork.kernel.org/project/chrome-platform/patch/20220209095703.517608-4-tzungbi@google.com/)
-> - Change the patch title.
-> - Simplify by initializing wake_enabled in cros_ec_register().
-> 
-> No changes from v2.
-> 
-> Changes from v1:
-> (https://lore.kernel.org/lkml/20220125101527.1812887-1-tzungbi@google.com/T/#u)
-> - Use imperative mood in commit message.
-> 
->  drivers/platform/chrome/cros_ec.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-> index 25cd8df6e7b0..a013fbceeb03 100644
-> --- a/drivers/platform/chrome/cros_ec.c
-> +++ b/drivers/platform/chrome/cros_ec.c
-> @@ -342,6 +342,8 @@ int cros_ec_suspend(struct cros_ec_device *ec_dev)
->  
->  	if (device_may_wakeup(dev))
->  		ec_dev->wake_enabled = !enable_irq_wake(ec_dev->irq);
-> +	else
-> +		ec_dev->wake_enabled = false;
->  
->  	disable_irq(ec_dev->irq);
->  	ec_dev->suspended = true;
-> @@ -383,10 +385,9 @@ int cros_ec_resume(struct cros_ec_device *ec_dev)
->  		dev_dbg(ec_dev->dev, "Error %d sending resume event to ec",
->  			ret);
->  
-> -	if (ec_dev->wake_enabled) {
-> +	if (ec_dev->wake_enabled)
->  		disable_irq_wake(ec_dev->irq);
-> -		ec_dev->wake_enabled = 0;
-> -	}
-> +
->  	/*
->  	 * Let the mfd devices know about events that occur during
->  	 * suspend. This way the clients know what to do with them.
-> -- 
-> 2.35.1.265.g69c8d7142f-goog
-> 
+[^1]: this includes "memory mapped" read - where the traditional LPC EC
+requires I/O ports 0x900-0x9FF, the MEC EC multiplexes reads/writes
+over the same eight ports, 0x800-0x807.
+
+Changes in v2:
+  - Cleaned up the commit subjects per request.
+Changes in v3:
+  - Sync'd cros_ec_commands.h with the EC changelist at
+    https://chromium-review.googlesource.com/c/chromiumos/platform/ec/+/3460548
+
+Dustin L. Howett (2):
+  platform/chrome: cros_ec_lpcs: detect the Framework Laptop
+  platform/chrome: cros_ec_lpcs: reserve the MEC LPC I/O ports first
+
+ drivers/platform/chrome/cros_ec_lpc.c          | 47 ++++++++++++++-----
+ include/linux/platform_data/cros_ec_commands.h | 10 ++--
+ 2 files changed, 41 insertions(+), 16 deletions(-)
+
+-- 
+2.34.1
+

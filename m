@@ -1,95 +1,87 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110DC1878
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 12:52:01 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id p184-20020a1c29c1000000b0037f76d8b484so1186744wmp.5
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 04:52:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872921373
+	for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 20:54:14 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id j3-20020a9d7683000000b005aeed94f4e9so2210876otl.6
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 12:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1y26t3z5KmogzVzaRXh0xZ8+wk/glRrMhjsYhZ6NNpI=;
-        b=l2A1dmVsQ69rlhJLpwmjB2fa5bCE62/fs+1myFe5KswaVzqgXHDHZY7BxwuN52LfTn
-         ymTtWt2+ah81VG9+r5VUl5lNt2WVOVR6Tq11NsK8KqEpv9JqtUt2MDK5I/tWDCl9RnPj
-         vdgtWMbOrNX+Mmjry8sGIgAq5kCtZ+cnHNaZTQXMvjzd5SYbmelX7LpVgIgWahuqvk4D
-         RHlYhGzcC/oZ/IaL80XYnes0EJhMDujLWZPB1eKIAS4TjUxGK9P8pOwIMdElCbMzRA0k
-         ZFCpcCz0AgM4QtJKVREFOeObRlFPS6X3vG+EaQs7fne0jrOwx6In2PQ01gHTP9i4ro4X
-         /FrA==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=w7kYYicECLFYqJJp06iUhZt+dZdvmlULZGafsy+TJYY=;
+        b=jZEz+rzkZ3qSK3QIGheoWaMmA3vav7COKy6XwkN2b1xZlR8w8uHw9DU+hsfVrKT2A1
+         U+nJo9oYUOhKL2bluBtJc7uA2lL279nyzDvXpMQrF6jfqgRTzBzicWt8M5L7O24AeScr
+         c3tANUX7ruj1tgsLIYaMxWfWfMHGFsBUoBh3oTqvs+HCxFWt0HI6kAvxv59aVIEjm5qB
+         DHNii3B4lT65JyRyop8S4Ye+rYq8DgmRA7P6XT51vRvnKyAkiODRXBDabFIs6jRMkJ4R
+         /Dzfvtw98dOOGyzT0mdluTBhkcSOBAFD5TjzwdK2k/Xz3Fluj/VsS40oZVY+YfhRh8J7
+         CwLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1y26t3z5KmogzVzaRXh0xZ8+wk/glRrMhjsYhZ6NNpI=;
-        b=pYyXM3Al5M3QU6G3Q6OF3eoz2KmjkWZPS5J72Tjz57V7juQq5x/juFKUtWHwHS4ekg
-         /nbDy8GfucWvdXP/XeFMs3P39Bd/mql4qoqT/80K2SfGvvqCS50fcksF/UIn2IYF9Apn
-         /TU5QbI8ng0KJl4v26P8/PxBOK6198fQkydq7UpPzqvldJcGjCHJcmLZr6HBvzEPMUfu
-         +AqoAmLZH/aT7mYPXfLSbUOevS2UlCKinPJnzhcwU5Ra/jkBewbveQi8G4H1wGGaNaqY
-         2GCYgtsEbhtXvgDxd05R7SZp/K68ezrTc7M6g5hEvxhUSfCZbkm1sYZ4eHjT1oCIsUZU
-         FR7A==
-X-Gm-Message-State: AOAM53279hxLei99lS9sQGOvEjLobPnka9HGm5pKMQrC4QfIEIM9+OGA
-	ZIkXdwYJeHnq7OfRbZr5GrH8zw==
-X-Google-Smtp-Source: ABdhPJxx0eBVNp8nFphGUFZsIuvZMVUId0v9AZP4IrgzocOtHXpv/ScIaresc8g3bEGwUO/d7+aBPg==
-X-Received: by 2002:a05:600c:4f83:b0:37c:d057:3efe with SMTP id n3-20020a05600c4f8300b0037cd0573efemr11320753wmq.143.1645707120272;
-        Thu, 24 Feb 2022 04:52:00 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id c6sm2538733wmb.25.2022.02.24.04.51.59
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=w7kYYicECLFYqJJp06iUhZt+dZdvmlULZGafsy+TJYY=;
+        b=cDAkMZ6dJFQ4eHwyaEOMdnxY4XmE0OXSbCR3H6EKDsRko1A7kwQ+8qPLR6lyYACuiu
+         9EEN9W7v5n+K5NrC7qkWny0aAuMHdMAWn3L3KuDyhQdxCRF9QWnpvXm3YU1Tvpvrn86K
+         xjmsNJ6eXqFuLibES43uOEFHpMVIsq3qLqvi6c5MzCAh52K8tKajfTuRmSZoao2skip3
+         PBIoPlkYkhNxB9DFrUUtuqxDZI3lIaUXVewUcvlqqXuHCz4aJp30IQb0AyPJkoe9Paev
+         s1x+d+IMcP4ZpjhIKrEYqHfl4Hmt2IBYaQFlGCLhsfuk40lZt3943VNvbC4MnQh0fZhm
+         FR6w==
+X-Gm-Message-State: AOAM533o68eE31HexizdYzNn/jw6/Z57qHbb7iWdltr0XtMS2dZCzwL/
+	KppBMxO2GqpsntwPIhuACdRlYg==
+X-Google-Smtp-Source: ABdhPJwqpinof7vCzpo3JsDgvR8WPsKLX9v8AOxpnybjdBazfy5rwg4vCIHUvilq1nJfyHr4S8hplQ==
+X-Received: by 2002:a05:6830:1098:b0:5af:a452:2f17 with SMTP id y24-20020a056830109800b005afa4522f17mr1620669oto.175.1645736053623;
+        Thu, 24 Feb 2022 12:54:13 -0800 (PST)
+Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
+        by smtp.gmail.com with ESMTPSA id c8-20020a4ad788000000b0031ce69b1640sm191259oou.10.2022.02.24.12.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 04:51:59 -0800 (PST)
-Date: Thu, 24 Feb 2022 12:51:57 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
+        Thu, 24 Feb 2022 12:54:13 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: linux-rockchip@lists.infradead.org,
+	Lee Jones <lee.jones@linaro.org>,
+	linux-mediatek@lists.infradead.org,
 	Douglas Anderson <dianders@chromium.org>,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 1/4] dt-bindings: pwm: google,cros-ec: include generic
- pwm schema
-Message-ID: <Yhd/bXqehm98C/Jo@google.com>
-References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
- <20220214081916.162014-2-krzysztof.kozlowski@canonical.com>
- <Yhd9CjAbI7MJu56L@orome>
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Benson Leung <bleung@chromium.org>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-msm@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: (subset) [PATCH 3/4] arm64: dts: qcom: align Google CROS EC PWM node name with dtschema
+Date: Thu, 24 Feb 2022 14:54:00 -0600
+Message-Id: <164573604161.1471031.3877884989605040071.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220214081916.162014-4-krzysztof.kozlowski@canonical.com>
+References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com> <20220214081916.162014-4-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yhd9CjAbI7MJu56L@orome>
 
-On Thu, 24 Feb 2022, Thierry Reding wrote:
-
-> On Mon, Feb 14, 2022 at 09:19:13AM +0100, Krzysztof Kozlowski wrote:
-> > Include generic pwm.yaml schema, which enforces PWM node naming.  Keep
-> > the old name in bindings as deprecated.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > ---
-> >  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml    | 4 ++++
-> >  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml          | 5 ++++-
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
+On Mon, 14 Feb 2022 09:19:15 +0100, Krzysztof Kozlowski wrote:
+> dtschema expects PWM node name to be a generic "pwm".  This also matches
+> Devicetree specification requirements about generic node names.
 > 
-> Applied, thanks.
+> 
 
-Super, thanks T.
+Applied, thanks!
 
+[3/4] arm64: dts: qcom: align Google CROS EC PWM node name with dtschema
+      commit: 1e49defb863638cde53e48805747271f80f9abec
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Bjorn Andersson <bjorn.andersson@linaro.org>

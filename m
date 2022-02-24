@@ -1,53 +1,52 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9FC185D
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 11:44:33 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id v21so2566160wrv.5
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 03:44:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91D2A3C
+	for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 12:41:52 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id p20so2719288ljo.0
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Feb 2022 04:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=By0koPKvfxcMR4uami4q6nEo7H/plZ6B7hXdRpr9zos=;
-        b=i8qMcPf1Q3mE5GCDoGg5rN2z7KNR4v1QkWzdeaMyW3k3kXIOY/PIZZoO6jIzrS9GXf
-         N9J6MgxVHAl8cKqQeyfCQQDG4qPlkD5aYJCyfFSPkTwQNcaQ9gYSWj1kbxmzh8jUh+4o
-         WC4u08jO9c1zBuBLLsiQa8Spwvz7ssr2B3BAWulYxl4FnxeAYyvP13FtiYVEawCyqc0q
-         +yzoQlx6Y4aTL5/fh1nHkgZbx5plCCjmpVTf1t+MWsHwZBuivtQnySk8fM3G6A5NiXCZ
-         sXHHBvZ4aTdUjMWeM2AYEuCPcWqA5p7ojUQdIZHcKCaRG/P808wP/zP8G+Ji2NOxc4zc
-         g81g==
+         :content-disposition:in-reply-to:user-agent;
+        bh=E5f8dBX9uhibFNXc6Mel3BGvbrzQlLZqBC/+F9B6bsQ=;
+        b=CBBYk42iKlTLvyHt5Xq2ne+Y0e3NUaMKxkDJol/Ow7dWi+5ZYXMcvM9MdQK73/NORp
+         T+BOY3vS9a2hi11zs635mbkkRppxjdt/dg+Bdg9ArhX4+rU77Jw9pFIV2ibqQ8USy9xS
+         qtiT3jgd3eiMwgJX6quH+RmSRvAsKwkwZhs4PIMdZD+YyF1QrR9Ky5rv0NUwHvdIiPue
+         ZCKE5eJ2gef7FuFM2Aw9+xympbHTikCZezopD/yoeQXNC/8o+KtjhRY3tHYrMZ9AxR8e
+         EdfiaPKqmc2vVfOm0GsHJyw54yC8x1uBleNJRyfRsWIbsQ0UO1+VXpZaul59L01GAWfP
+         +45A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=By0koPKvfxcMR4uami4q6nEo7H/plZ6B7hXdRpr9zos=;
-        b=lNN2IzyGldQ9rXdVOAFJ3VM9CF+cU6SWA6Srzq7MChXF7An9U58TNPwEjWNCljyPeu
-         zdsEDPEjjjo5eoJ/4SkvijJvBRZUxeqd6UFC7B5nbV45HX6q7YqeDaEsMLCuFC32FATA
-         oQ4EyhOy1mHooRv6H4jx3ObiqJYfONuAD6iiJVHwMZ8lGfMBJO5+4tpNS901YaxCFkHP
-         FwJuxXdyuVo6D2fjM0obcrucAfRPfmrS2NErK7Cy9lMECIjYyv9qiR1OrGtKrmWSbEjI
-         TTTjcjPZEuXC5iWO2+/KsQ+/MW3pOG2IR8I2gewYoJpcvyyiN7PrYMxO9bTm0IcQ5NCy
-         rv8A==
-X-Gm-Message-State: AOAM533V991kamZQSby8DY8zLv/uNNf9CH/Ia3YXcbgcy7b2ItAzyZWS
-	Rbnevnpvbe+S3D+B9ZVUNMEj6w==
-X-Google-Smtp-Source: ABdhPJxFyXliu42yySrAeEXNzyWqVzug0J0Iti33/VcWEhV2LbIEmmE4MOW6ths5lINZk21h7SfROw==
-X-Received: by 2002:a05:6000:186d:b0:1ea:8e14:21c5 with SMTP id d13-20020a056000186d00b001ea8e1421c5mr1880571wri.635.1645703071405;
-        Thu, 24 Feb 2022 03:44:31 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id u14sm3164913wmq.41.2022.02.24.03.44.30
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=E5f8dBX9uhibFNXc6Mel3BGvbrzQlLZqBC/+F9B6bsQ=;
+        b=JDqngXXN8arKAldlRE60pM8zljdkj16CzY2JkTNyUrAFBMZxGczzCZUsuN2gKYGZnG
+         XiVAr174AM1ZPfgA2NFll8J5QZh9HgmE2n7Npa94l3Dg+7okrD02jlRE+twIO5lSC3K5
+         JpOSnvuNpEYhuv9LHfOKtHMz/FaNBYA5MSbAgWDFRmS3loUzsQAvZNcWbctkVvVWoNZc
+         m7GosP0w4lFWxmZfDjfsO4Q8UHv1hFVGzvZRzvd9WxQVkDZ6YgSkEvBYtwmvh0JlbiKc
+         dmZJtdg84E5UNUAfzVJw3fSDtFmhDE6QHf1HUpHj88AuFQSGM99SbfZ9VdD7aoRL0AIY
+         byGg==
+X-Gm-Message-State: AOAM530tsgNgpmJhmHGOHkEgd7gFn/P+alT/XmI/89Pe2jEqvFo3Rm9p
+	/FwQsyOB0/aKbdR7+rPpaS8=
+X-Google-Smtp-Source: ABdhPJyCMH/RlCAdlrNo3h6tSANXMSZcYbwRf4yH6eMeEeqgfqSEBkyLJXNTX8aJ9hmjt8Se3GKG3A==
+X-Received: by 2002:a2e:8795:0:b0:246:485b:9a2f with SMTP id n21-20020a2e8795000000b00246485b9a2fmr1882695lji.283.1645706510643;
+        Thu, 24 Feb 2022 04:41:50 -0800 (PST)
+Received: from orome (p200300e41f0a6900000000000000043a.dip0.t-ipconnect.de. [2003:e4:1f0a:6900::43a])
+        by smtp.gmail.com with ESMTPSA id p3sm199599lfr.179.2022.02.24.04.41.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 03:44:31 -0800 (PST)
-Date: Thu, 24 Feb 2022 11:44:28 +0000
-From: Lee Jones <lee.jones@linaro.org>
+        Thu, 24 Feb 2022 04:41:49 -0800 (PST)
+Date: Thu, 24 Feb 2022 13:41:46 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+Cc: Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	Andy Gross <agross@kernel.org>,
 	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
 	Douglas Anderson <dianders@chromium.org>,
 	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
@@ -56,75 +55,59 @@ Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
 	linux-rockchip@lists.infradead.org
 Subject: Re: [PATCH 1/4] dt-bindings: pwm: google,cros-ec: include generic
  pwm schema
-Message-ID: <YhdvnCnXbzFz63ys@google.com>
+Message-ID: <Yhd9CjAbI7MJu56L@orome>
 References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
- <3248917.W5uN0jUHDo@phil>
- <YhdXyBvAbdHzc4gH@google.com>
- <1817486.VeUe9BSz9F@phil>
- <ad6e347b-a25b-5309-2a6a-8fd3faba256c@canonical.com>
+ <20220214081916.162014-2-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="QoKhDQpat5OJfaIh"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ad6e347b-a25b-5309-2a6a-8fd3faba256c@canonical.com>
+In-Reply-To: <20220214081916.162014-2-krzysztof.kozlowski@canonical.com>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 
-On Thu, 24 Feb 2022, Krzysztof Kozlowski wrote:
 
-> On 24/02/2022 11:06, Heiko Stuebner wrote:
-> > Am Donnerstag, 24. Februar 2022, 11:02:48 CET schrieb Lee Jones:
-> >> On Wed, 23 Feb 2022, Heiko Stuebner wrote:
-> >>
-> >>> Hi Lee,
-> >>>
-> >>> Am Mittwoch, 23. Februar 2022, 10:16:01 CET schrieb Lee Jones:
-> >>>> On Mon, 14 Feb 2022, Krzysztof Kozlowski wrote:
-> >>>>
-> >>>>> Include generic pwm.yaml schema, which enforces PWM node naming.  Keep
-> >>>>> the old name in bindings as deprecated.
-> >>>>>
-> >>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> >>>>> ---
-> >>>>>  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml    | 4 ++++
-> >>>>
-> >>>> Acked-by: Lee Jones <lee.jones@linaro.org>
-> >>>
-> >>> what is your expectation regarding this patch?
-> >>>
-> >>> Are you planning to merge it or are you expecting this to go through
-> >>> some other tree?
-> >>>
-> >>> The binding-change here is backward-comaptible in that the old
-> >>> node-name is still in it, only marked as deprecated, so in theory
-> >>> this patch should be able to be applied on its own without
-> >>> causing defects.
-> >>
-> >> In an ideal world, it would be broken up and I would take the MFD
-> >> part.   Is that possible or are there dependencies?
-> > 
-> > That is also what Krzysztof had in mind - see his reply to patch4.
-> > Binding going through the MFD tree and soc maintainers applying
-> > the individual dts patches.
-> > 
-> > As written the binding change is backward compatible, so no harm.
-> > 
-> > I was just confused by the "Acked-by" and wanted to clarify how you
-> > see it ;-)
-> >
-> 
-> The bindings patch should not be split more, but itself can be taken
-> alone. DTS patches can go via SoC maintainer trees.
+--QoKhDQpat5OJfaIh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So in answer to Heiko's question, either Thierry, Rob or I can take
-the patch.  I'm not overly fussed which.  If I am to take it, I need
-Thierry's go-ahead and info on whether he requires a PR or not.
+On Mon, Feb 14, 2022 at 09:19:13AM +0100, Krzysztof Kozlowski wrote:
+> Include generic pwm.yaml schema, which enforces PWM node naming.  Keep
+> the old name in bindings as deprecated.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml    | 4 ++++
+>  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml          | 5 ++++-
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Applied, thanks.
+
+Thierry
+
+--QoKhDQpat5OJfaIh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIXfQoACgkQ3SOs138+
+s6Hy0hAAjDWtz6200YMgIRd4aeQNFbETpimnMUmcjdEmd6wj3sRaVpeNuUPuL+Fw
+gSyLLpv9GSqgrr6JxAAMgULmUciu+l1+mC1DePxqw/xUOvY8pR5fCugKBDFT42ie
+7A1D7I+5hGVgNihA/IV9Ia29GcjEA3Hwb1v9JOtuzYZw8ds/G9SDXUyAUCaIlOJk
+9Rfk2JKCcq8/eKE/SM5NWUPWncIekGnmovibZ8JlcwyrOkkyRZp5nZ+NgK7u17SJ
+Ybo2hJX5g/ZxWxGNu707jCsIoSrfwexKVWBDYVwTFGHKzsT05N75Z28pTbpmsPoj
+ZYsck1jN1rYmBVLoW9kYy0+kb7Hx3982BTQv8f0Yt72fy1ijwCLfYaXcekCw3sge
+IvBrZIaIzyy+bjKNFJwmdXY03rang2bbeBUmCNtWu+EP+Z3TkIyk3ZoTD6RQs/Pr
+9KP7XPRAhqk7Ch0xpLxmFfNarAy14ydyz9vDKxAd4f2Dt9qhTYV0k1OV2CMEARbh
+g9hCdAAF0OaOkUEa1G58nkKeS4mcQfLN3mR1OsGijYdkgqXw9WMn1KCmblrHfQAj
+12siFOxkWcjU3sQRpnBpiHm7qnxShKST6Rgb6t2IrsMizUaP6es8my0rrFAMy81Y
+748NAi0Oyz39/Vft51iRggSYY5G4d1c/NiPzuAro4LSKVgY/q6s=
+=jFME
+-----END PGP SIGNATURE-----
+
+--QoKhDQpat5OJfaIh--

@@ -1,115 +1,120 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gateway31.websitewelcome.com (gateway31.websitewelcome.com [192.185.143.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66152FAF
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 07:25:05 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id h23so1017345wrb.8
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 00:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=8BgdaLCDN6ytbgA7o8PQn3N09wAKTlqYsotJMbZ94HQ=;
-        b=t7PLX2bnFJvh2OuH8ldQ3pGj0uGpLjvI9yGGDUiqTDd7SSumcM4cnuTcNRyMpaRwAC
-         h5HtFuQ/ZdMrdt2qM+73TPfgoqxj+IcVeFIA256djzYWu7ghKi5saQi0lFK3vl71MPD1
-         02oa4G8StCr3dhefjZqhhiTuzY/JBONjGDmZTPnsxwlf2yb1U/mztbaxUu2ndWHRXc7q
-         +WWXFgf4jFI/4r3oUahqOe+JpxT03Ep9hmPGg3S83ztNt8A2YPQqgPIjE09lYpOjIBT9
-         4GMdGjAX1+hIFKtm0KnIyuYypZghIOV5P6DTbMmIVJ5HufNysqVkMaEI/nklElepRLn4
-         Edaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=8BgdaLCDN6ytbgA7o8PQn3N09wAKTlqYsotJMbZ94HQ=;
-        b=7Yw4pbvg6/H1vBSP9yQQ4VWiAKpxN/AuwhxWtXzSK70WHP+PZXDB26esmvsQQde96c
-         crNp+2LI4FaiV1c98+a5jYV76mt5ken41VF/Fg1uuFgYpoHC4L960jOp4rVOVff+ptcs
-         YKFapCf4OlwnwlvwlYiunBi79yOvffyeY06Q3bTaiT2N5qqU6MIUnw/HZxFHaIMcx7iw
-         dtxtzIb6uXxDmIMYQmWJLQcqmYP1JSWHHeolX50AUMq9GbzmpfySD4ykx+J2lPrv0CSr
-         zX5oWQlBAAjg1KJO8n2TfvVj/5f6Plwya6xnOktqTRn5O7/by1PvlNNE87fV+Q9iajgL
-         4NLg==
-X-Gm-Message-State: AOAM532GzrJMdcNml2TdAbS1BE/J0BKxwAHvKeZlPc8eweE0jY1Aocka
-	MyE7Y4IPBhfPsminNyR6q7+nzw==
-X-Google-Smtp-Source: ABdhPJwUBkwggjNof9CJhQ+Bfj+6ZOtK4GoDq5/024E6T6MIY1EyUUZpVIGGx2JSQ6fwq8YH99lWww==
-X-Received: by 2002:adf:e38f:0:b0:1f0:3383:77d9 with SMTP id e15-20020adfe38f000000b001f0338377d9mr22651010wrm.599.1647415504002;
-        Wed, 16 Mar 2022 00:25:04 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id p14-20020a5d59ae000000b00203dcc87d39sm1559468wrr.54.2022.03.16.00.25.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 00:25:03 -0700 (PDT)
-Date: Wed, 16 Mar 2022 07:25:01 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Craig Hesling <hesling@chromium.org>,
-	Tom Hughes <tomhughes@chromium.org>,
-	Alexandru M Stan <amstan@chromium.org>
-Subject: Re: [PATCH 1/2] dt-bindings: mfd: Add ChromeOS fingerprint binding
-Message-ID: <YjGQzeIz7kGPOV1H@google.com>
-References: <20220314232214.4183078-1-swboyd@chromium.org>
- <20220314232214.4183078-2-swboyd@chromium.org>
- <e7f9466e-03c9-7754-0dc6-a04823d1047a@canonical.com>
- <YjB0JOKysPpg2KGF@google.com>
- <9ec3c26a-3b85-4bea-5a5b-de9ac570cfca@canonical.com>
- <YjB46Sq3IwvgR8MB@google.com>
- <CAE-0n51uDh2Cf_wGpAVH1t=T0A1eTT=+KU3WMtxtyPL3kLDAdA@mail.gmail.com>
- <YjC1OLsB8/JXLEzF@google.com>
- <CAE-0n511YyyfXoCOKpzm3ca0-sE9_wpby31XDu-eGQts=-kV2Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A081F38F5
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 19:13:37 +0000 (UTC)
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+	by gateway31.websitewelcome.com (Postfix) with ESMTP id 34AAE4AD60
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 13:49:48 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with SMTP
+	id UYiRnWjmsRnrrUYiSn1PST; Wed, 16 Mar 2022 13:49:48 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=8ZZMJMbNtgYc56X67LL9KdeIFKoyOX1wV88R9FlIc0I=; b=EfTfWx9izJAciLjkn5M67lD8I8
+	xzCbZQxSN0Y6em7MI8lWnpKAffip0diTrz2K1u7hJrl7X37LFv/bGI59UxNt4mVmFyIz8at33mzkj
+	fNsRwhDN0QeHJWaeKcPkpfBjeLheJFKAqf9AsT/abdAkAxoRUMJoDryyGFmJi+XRVisEqSfdM1Np5
+	EE1P9/7fmjumR7mtgUx+g1uA3Kq6JTVMb9XBK92FEtS4T7U6uA52TOTXLjduNTWw+PRZ2WzQTTjIF
+	DSk3SvkanjTjyxwlzSuj9jJ9ZwLX4VcCdMskh27AipX7jVa155m1v8vlQnpKlTXz8YU1ajIHLVkL5
+	nD+YLQBw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57502 helo=localhost)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@roeck-us.net>)
+	id 1nUYiR-00474M-CN; Wed, 16 Mar 2022 18:49:47 +0000
+From: Guenter Roeck <linux@roeck-us.net>
+To: chrome-platform@lists.linux.dev
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rajat Jain <rajatja@google.com>
+Subject: [PATCH] MAINTAINERS: Add chrome-platform@lists.linux.dev to all Chrome OS entries
+Date: Wed, 16 Mar 2022 11:49:45 -0700
+Message-Id: <20220316184945.452379-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE-0n511YyyfXoCOKpzm3ca0-sE9_wpby31XDu-eGQts=-kV2Q@mail.gmail.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nUYiR-00474M-CN
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57502
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 3
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 
-On Tue, 15 Mar 2022, Stephen Boyd wrote:
+Add the chrome-platform@lists.linux.dev mailing list to all Chrome OS
+maintainer entries to ensure that people copy the list when submitting
+Chrome OS specific patches. This also helps ensuring that patches are
+available in a patchwork instance.
 
-> Quoting Lee Jones (2022-03-15 08:48:08)
-> > On Tue, 15 Mar 2022, Stephen Boyd wrote:
-> >
-> > > Quoting Lee Jones (2022-03-15 04:30:49)
-> > > > It's tough to say from what I was sent above.
-> > > >
-> > > > But yes, sounds like it.
-> > > >
-> > > > We do not want any device 'functionality' in MFD ideally.
-> > > >
-> > >
-> > > I put it next to the existing cros-ec binding. The existing binding is
-> > > there because of historical reasons as far as I know. Otherwise it
-> > > didn't seem MFD related so I didn't Cc mfd maintainer/list. New file
-> > > additions don't usually conflict with anything and this is in the
-> > > bindings directory so the driver side maintainer would be picking up the
-> > > binding.
-> >
-> > That's not how it works unfortunately.
-> >
-> > This file is located in the MFD bindings directory, so I would be
-> > picking it up (if it ends up staying here).
-> 
-> The way it works is arbitrary 
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Rajat Jain <rajatja@google.com>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Correct.
-
-> and up to maintainer's choice.
-
-Which *should* be reflected in MAINTAINERS and by extension
-get_maintainer.pl.  As is the case here.  :)
-
-> I'll move it out of the mfd directory :)
-
-That does sound like a good solution, thanks Stephen.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e127c2fb08a7..bc275698e7c2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4541,6 +4541,7 @@ F:	drivers/input/touchscreen/chipone_icn8505.c
+ 
+ CHROME HARDWARE PLATFORM SUPPORT
+ M:	Benson Leung <bleung@chromium.org>
++L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
+ F:	drivers/platform/chrome/
+@@ -4549,6 +4550,7 @@ CHROMEOS EC CODEC DRIVER
+ M:	Cheng-Yi Chiang <cychiang@chromium.org>
+ M:	Tzung-Bi Shih <tzungbi@google.com>
+ R:	Guenter Roeck <groeck@chromium.org>
++L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+ F:	sound/soc/codecs/cros_ec_codec.*
+@@ -4556,6 +4558,7 @@ F:	sound/soc/codecs/cros_ec_codec.*
+ CHROMEOS EC SUBDRIVERS
+ M:	Benson Leung <bleung@chromium.org>
+ R:	Guenter Roeck <groeck@chromium.org>
++L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ F:	drivers/power/supply/cros_usbpd-charger.c
+ N:	cros_ec
+@@ -4563,11 +4566,13 @@ N:	cros-ec
+ 
+ CHROMEOS EC USB TYPE-C DRIVER
+ M:	Prashant Malani <pmalani@chromium.org>
++L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ F:	drivers/platform/chrome/cros_ec_typec.c
+ 
+ CHROMEOS EC USB PD NOTIFY DRIVER
+ M:	Prashant Malani <pmalani@chromium.org>
++L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ F:	drivers/platform/chrome/cros_usbpd_notify.c
+ F:	include/linux/platform_data/cros_usbpd_notify.h
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.35.1
+

@@ -1,53 +1,51 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E854A2F3F
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 00:58:18 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id o23so1447152pgk.13
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 17:58:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A042F36
+	for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 00:58:19 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id t5so5544304pfg.4
+        for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iVaSiMrGUBcuxr+BXheMhCpTwOTEdY3UKmynqOZB7GE=;
-        b=laiMa1UGEj7YbxyVRZ7aUO9i2EcvkGLOGcVqw5do55ZZ0ighV06QEkme6Dd7iBf3nF
-         qSL3a1C7XNtfO27iCLFd13f3TDzDZJC9+J7gM6ug1YOavfLB/h5sFsrmO/JLPkOXn7vM
-         FkrYbi7f5hydijrpe6WfdHplPq9VFdm15W61Y=
+        bh=ozEwxbhS5CJ9GBcAAvnujKd841/J1GSZd5stO5HqEjg=;
+        b=lo0d5tF/rK43t4wYULaadPTcwiYjzT503duKa/wadkni0wAlDUtkjc3hBPNwZ651jb
+         pylYMJmLs0li6nZfG46yutukJ5dpRILnAC/cCyy9fDEBTGaCwRuI7uV2QeM2xKP61NlS
+         Ls3/+5hGfssJMzw2v0cYQE7gzcQ3KR50+CbbI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iVaSiMrGUBcuxr+BXheMhCpTwOTEdY3UKmynqOZB7GE=;
-        b=2efmjGLabBNu255+OsgzppvM2uvOOP2fD3rNhrYJmKpf41BDJpIp6Rdf6fFfpI0Iju
-         TP/2x6KmcJZvP66A+6rSNY8o2hQExhJWgyjD9HWp8SukFWhp7gd5WTsUZoJS5U/Wt+XL
-         05R2SECpsemSiSfiG9v5mnJCppM+c7oQvHN/mj3X0wUC7n4D9FbbH32vvweGOS4fQQDJ
-         JaR2DfyI7UhIOnvLDVa27Z0pd50KxNlzrULgaZmNgZlVhOcnhIPp1u1S/PvduMDSt2g6
-         oMUY3LfiiGTAlTnVm7YUONbFxOhRISg0JAXZZwa1Z26xFbqhHrYIvd12l3bKe6z64Bvm
-         +59w==
-X-Gm-Message-State: AOAM530JH5EqGce+C8NVHqfzDRJF5qQpyAm0Mx0fuh2E4B8r+5ZGnghL
-	qLTlYk7GyhKhkKn4AlA4o9gHjyUEluT+6Q==
-X-Google-Smtp-Source: ABdhPJw5GSVzk93O9AbsNKLeH45njGoSIqITsaIK4AQ+v4ZD3t8POB/0cPylVtYlqcqNRymomj4wGw==
-X-Received: by 2002:a05:6a00:1146:b0:4c9:ede0:725a with SMTP id b6-20020a056a00114600b004c9ede0725amr2144828pfm.35.1647478698387;
-        Wed, 16 Mar 2022 17:58:18 -0700 (PDT)
+        bh=ozEwxbhS5CJ9GBcAAvnujKd841/J1GSZd5stO5HqEjg=;
+        b=MBmIDK2N/opst12aeMOUYBPmOiCN87OQuxGGnrP65feOEHyXBuV1C45C7fdM+dcmY3
+         86zWkmAaJel2uLB0D/hcln5x75BGEVvkmJ2Zm0eQ/MF4YHWkYU978P2CQZ6W6rs3awbn
+         uBjHj1/WfJ1qh/ktscHAV3cTiRAmTx6edDWedDKj1W79DFYlTpssBCiGQZ7qM9JWHbB6
+         xnMRWM0vY4iEMAqODE8fSCaLNdH21B7qWfiu1COY/jWgjPCFFMA2fHBt/4215O6XwY0a
+         z8FVVdqnwAV/DTZ9UwLVsT6yNkk5yfhbkUIlv+CQ88buL34xFPwiUEBkdmiMAT//0NDl
+         oqOQ==
+X-Gm-Message-State: AOAM5333Na0eX+ftS/0uNX3Fce5wKi200vQpG290i4w3Lid828GQXZ4T
+	FKBopXJjHeamxnRTSuHgDdTcbQ==
+X-Google-Smtp-Source: ABdhPJzkyu8es5VniOnUk80gazU+n+K2q/wh9W4obuf9K7sJsU0VfFzQ6S1sX/59tsvUJfjVj8kQ4g==
+X-Received: by 2002:aa7:9ac5:0:b0:4f6:a2e1:6073 with SMTP id x5-20020aa79ac5000000b004f6a2e16073mr2534018pfp.52.1647478699424;
+        Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:dec5:e3f8:cbd7:f5a7])
-        by smtp.gmail.com with ESMTPSA id l20-20020a056a00141400b004f65cedfb09sm4433445pfu.48.2022.03.16.17.58.17
+        by smtp.gmail.com with ESMTPSA id l20-20020a056a00141400b004f65cedfb09sm4433445pfu.48.2022.03.16.17.58.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 17:58:18 -0700 (PDT)
+        Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Benson Leung <bleung@chromium.org>
 Cc: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
 	Guenter Roeck <groeck@chromium.org>,
 	Douglas Anderson <dianders@chromium.org>,
 	Craig Hesling <hesling@chromium.org>,
 	Tom Hughes <tomhughes@chromium.org>,
 	Alexandru M Stan <amstan@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v2 1/3] dt-bindings: chrome: Add ChromeOS fingerprint binding
-Date: Wed, 16 Mar 2022 17:58:12 -0700
-Message-Id: <20220317005814.2496302-2-swboyd@chromium.org>
+Subject: [PATCH v2 2/3] platform/chrome: cros_ec_spi: Match cros-ec-fp compatible
+Date: Wed, 16 Mar 2022 17:58:13 -0700
+Message-Id: <20220317005814.2496302-3-swboyd@chromium.org>
 X-Mailer: git-send-email 2.35.1.723.g4982287a31-goog
 In-Reply-To: <20220317005814.2496302-1-swboyd@chromium.org>
 References: <20220317005814.2496302-1-swboyd@chromium.org>
@@ -59,11 +57,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a binding to describe the fingerprint processor found on Chromebooks
-with a fingerprint sensor.
+Add the fingerprint cros-ec compatible and spi_device_id so that we can probe
+fingerprint devices.
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: <devicetree@vger.kernel.org>
 Cc: Guenter Roeck <groeck@chromium.org>
 Cc: Douglas Anderson <dianders@chromium.org>
 Cc: Craig Hesling <hesling@chromium.org>
@@ -72,101 +68,28 @@ Cc: Alexandru M Stan <amstan@chromium.org>
 Cc: Tzung-Bi Shih <tzungbi@kernel.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- .../bindings/chrome/google,cros-ec-fp.yaml    | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+ drivers/platform/chrome/cros_ec_spi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
-new file mode 100644
-index 000000000000..ba4212e6b583
---- /dev/null
-+++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/chrome/google,cros-ec-fp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ChromeOS Embedded Fingerprint Controller
-+
-+description:
-+  Google's ChromeOS embedded fingerprint controller is a device which
-+  implements fingerprint functionality such as unlocking a Chromebook
-+  without typing a password.
-+
-+maintainers:
-+  - Tom Hughes <tomhughes@chromium.org>
-+
-+properties:
-+  compatible:
-+    const: google,cros-ec-fp
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 3000000
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reset-gpios: true
-+  boot0-gpios:
-+    maxItems: 1
-+    description: Assert for bootloader mode.
-+
-+  vdd-supply: true
-+
-+  google,cros-ec-spi-pre-delay:
-+    description:
-+      This property specifies the delay in usecs between the
-+      assertion of the CS and the first clock pulse.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - default: 0
-+      - minimum: 0
-+
-+  google,cros-ec-spi-msg-delay:
-+    description:
-+      This property specifies the delay in usecs between messages.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - default: 0
-+      - minimum: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - reset-gpios
-+  - boot0-gpios
-+  - vdd-supply
-+  - spi-max-frequency
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+      #address-cells = <0x1>;
-+      #size-cells = <0x0>;
-+      ec@0 {
-+        compatible = "google,cros-ec-fp";
-+        reg = <0>;
-+        interrupt-parent = <&gpio_controller>;
-+        interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
-+        spi-max-frequency = <3000000>;
-+        google,cros-ec-spi-msg-delay = <37>;
-+        google,cros-ec-spi-pre-delay = <5>;
-+        reset-gpios = <&gpio_controller 5 GPIO_ACTIVE_LOW>;
-+        boot0-gpios = <&gpio_controller 10 GPIO_ACTIVE_HIGH>;
-+        vdd-supply = <&pp3300_fp_mcu>;
-+      };
-+    };
-+...
+diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+index 14c4046fa04d..d0f9496076d6 100644
+--- a/drivers/platform/chrome/cros_ec_spi.c
++++ b/drivers/platform/chrome/cros_ec_spi.c
+@@ -813,12 +813,14 @@ static SIMPLE_DEV_PM_OPS(cros_ec_spi_pm_ops, cros_ec_spi_suspend,
+ 			 cros_ec_spi_resume);
+ 
+ static const struct of_device_id cros_ec_spi_of_match[] = {
++	{ .compatible = "google,cros-ec-fp", },
+ 	{ .compatible = "google,cros-ec-spi", },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, cros_ec_spi_of_match);
+ 
+ static const struct spi_device_id cros_ec_spi_id[] = {
++	{ "cros-ec-fp", 0 },
+ 	{ "cros-ec-spi", 0 },
+ 	{ }
+ };
 -- 
 https://chromeos.dev
 

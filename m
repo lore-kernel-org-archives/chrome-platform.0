@@ -1,38 +1,38 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A042F36
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 00:58:19 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id t5so5544304pfg.4
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDA92F3F
+	for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 00:58:21 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id z16so5557076pfh.3
+        for <chrome-platform@lists.linux.dev>; Wed, 16 Mar 2022 17:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ozEwxbhS5CJ9GBcAAvnujKd841/J1GSZd5stO5HqEjg=;
-        b=lo0d5tF/rK43t4wYULaadPTcwiYjzT503duKa/wadkni0wAlDUtkjc3hBPNwZ651jb
-         pylYMJmLs0li6nZfG46yutukJ5dpRILnAC/cCyy9fDEBTGaCwRuI7uV2QeM2xKP61NlS
-         Ls3/+5hGfssJMzw2v0cYQE7gzcQ3KR50+CbbI=
+        bh=Z1n9UVVKMRQXDGbxIDzUh2jfKVbWO78ULBsARLp7tcY=;
+        b=jfxExfhHKLLo+nlGGwg/kE8Wp98nbRHDe7mpV6j9ryWVuWNtR5aVsotE7/Y+oBCKrU
+         TSlfbZSGBsJgcuxaFYUd76kKS3SAAYiW9XaHU0b2oEdS57zl/AFIJUdv5NJ9tP/q47MG
+         UN6RbggXW88VoY+3jOyluiBheLsz+/pqAt4CU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ozEwxbhS5CJ9GBcAAvnujKd841/J1GSZd5stO5HqEjg=;
-        b=MBmIDK2N/opst12aeMOUYBPmOiCN87OQuxGGnrP65feOEHyXBuV1C45C7fdM+dcmY3
-         86zWkmAaJel2uLB0D/hcln5x75BGEVvkmJ2Zm0eQ/MF4YHWkYU978P2CQZ6W6rs3awbn
-         uBjHj1/WfJ1qh/ktscHAV3cTiRAmTx6edDWedDKj1W79DFYlTpssBCiGQZ7qM9JWHbB6
-         xnMRWM0vY4iEMAqODE8fSCaLNdH21B7qWfiu1COY/jWgjPCFFMA2fHBt/4215O6XwY0a
-         z8FVVdqnwAV/DTZ9UwLVsT6yNkk5yfhbkUIlv+CQ88buL34xFPwiUEBkdmiMAT//0NDl
-         oqOQ==
-X-Gm-Message-State: AOAM5333Na0eX+ftS/0uNX3Fce5wKi200vQpG290i4w3Lid828GQXZ4T
-	FKBopXJjHeamxnRTSuHgDdTcbQ==
-X-Google-Smtp-Source: ABdhPJzkyu8es5VniOnUk80gazU+n+K2q/wh9W4obuf9K7sJsU0VfFzQ6S1sX/59tsvUJfjVj8kQ4g==
-X-Received: by 2002:aa7:9ac5:0:b0:4f6:a2e1:6073 with SMTP id x5-20020aa79ac5000000b004f6a2e16073mr2534018pfp.52.1647478699424;
-        Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
+        bh=Z1n9UVVKMRQXDGbxIDzUh2jfKVbWO78ULBsARLp7tcY=;
+        b=RUG24hUm+2jSDDAscLZS3+EciiU2pAEuU/NUJoYTdG/nqRkWxf8pY6HiBWIOrqb4LX
+         CincbZHAoPzNQzHD/rW81QE2oyzOnpK5uy26ua5QItjItSPBCved3wPGn94LTuoHbMoL
+         Jnyq2nsIbh0Oy709kzxB55WQTYODbRMDubzq6BOrWcQWGyQtmXo19s1iBCSd5gA5+/o+
+         YIKFJ9bM/80DgOV/o+ptrsdm7vuOs4pcUZWxL7AEVlfDux5RrqFWYDXmT8cPist12nbh
+         CqXDe1dI2YKefKVAoSZkSYNF+mIsL4kYC9KNnLa7oYARZezjTulBVRJYmJpNxEgnohrA
+         Jc9g==
+X-Gm-Message-State: AOAM533lOQICwuCEyzv7y6ft5EpJx39NL+AfjAlqdE+b2uvQwYHTRIuI
+	D5rpdWbfWMigQm63ULtIdzK4Uw==
+X-Google-Smtp-Source: ABdhPJwS+9f+tcwKXhz47Sw1tD3D6y77gcriRiKA8DMzgNiPiuYcnTfpw9IDP0DyDkMLvXrtVFWTng==
+X-Received: by 2002:a05:6a00:2131:b0:4f7:b6da:9ed0 with SMTP id n17-20020a056a00213100b004f7b6da9ed0mr2254839pfj.69.1647478700537;
+        Wed, 16 Mar 2022 17:58:20 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:dec5:e3f8:cbd7:f5a7])
-        by smtp.gmail.com with ESMTPSA id l20-20020a056a00141400b004f65cedfb09sm4433445pfu.48.2022.03.16.17.58.18
+        by smtp.gmail.com with ESMTPSA id l20-20020a056a00141400b004f65cedfb09sm4433445pfu.48.2022.03.16.17.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 17:58:19 -0700 (PDT)
+        Wed, 16 Mar 2022 17:58:20 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Benson Leung <bleung@chromium.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Tom Hughes <tomhughes@chromium.org>,
 	Alexandru M Stan <amstan@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v2 2/3] platform/chrome: cros_ec_spi: Match cros-ec-fp compatible
-Date: Wed, 16 Mar 2022 17:58:13 -0700
-Message-Id: <20220317005814.2496302-3-swboyd@chromium.org>
+Subject: [PATCH v2 3/3] platform/chrome: cros_ec_spi: Boot fingerprint processor during probe
+Date: Wed, 16 Mar 2022 17:58:14 -0700
+Message-Id: <20220317005814.2496302-4-swboyd@chromium.org>
 X-Mailer: git-send-email 2.35.1.723.g4982287a31-goog
 In-Reply-To: <20220317005814.2496302-1-swboyd@chromium.org>
 References: <20220317005814.2496302-1-swboyd@chromium.org>
@@ -57,8 +57,12 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the fingerprint cros-ec compatible and spi_device_id so that we can probe
-fingerprint devices.
+Add gpio control to this driver so that the fingerprint device can be
+booted if the BIOS isn't doing it already. This eases bringup of new
+hardware as we don't have to wait for the BIOS to be ready, supports
+kexec where the GPIOs may not be configured by the previous boot stage,
+and is all around good hygiene because we control GPIOs for this device
+from the device driver.
 
 Cc: Guenter Roeck <groeck@chromium.org>
 Cc: Douglas Anderson <dianders@chromium.org>
@@ -68,28 +72,90 @@ Cc: Alexandru M Stan <amstan@chromium.org>
 Cc: Tzung-Bi Shih <tzungbi@kernel.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_spi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/platform/chrome/cros_ec_spi.c | 42 +++++++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-index 14c4046fa04d..d0f9496076d6 100644
+index d0f9496076d6..13d413a2fe46 100644
 --- a/drivers/platform/chrome/cros_ec_spi.c
 +++ b/drivers/platform/chrome/cros_ec_spi.c
-@@ -813,12 +813,14 @@ static SIMPLE_DEV_PM_OPS(cros_ec_spi_pm_ops, cros_ec_spi_suspend,
- 			 cros_ec_spi_resume);
+@@ -4,6 +4,7 @@
+ // Copyright (C) 2012 Google, Inc
  
- static const struct of_device_id cros_ec_spi_of_match[] = {
-+	{ .compatible = "google,cros-ec-fp", },
- 	{ .compatible = "google,cros-ec-spi", },
- 	{ /* sentinel */ },
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -77,6 +78,8 @@ struct cros_ec_spi {
+ 	unsigned int start_of_msg_delay;
+ 	unsigned int end_of_msg_delay;
+ 	struct kthread_worker *high_pri_worker;
++	struct gpio_desc *boot0;
++	struct gpio_desc *reset;
  };
- MODULE_DEVICE_TABLE(of, cros_ec_spi_of_match);
  
- static const struct spi_device_id cros_ec_spi_id[] = {
-+	{ "cros-ec-fp", 0 },
- 	{ "cros-ec-spi", 0 },
- 	{ }
- };
+ typedef int (*cros_ec_xfer_fn_t) (struct cros_ec_device *ec_dev,
+@@ -690,7 +693,7 @@ static int cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+ 	return cros_ec_xfer_high_pri(ec_dev, ec_msg, do_cros_ec_cmd_xfer_spi);
+ }
+ 
+-static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
++static int cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
+ {
+ 	struct device_node *np = dev->of_node;
+ 	u32 val;
+@@ -703,6 +706,37 @@ static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
+ 	ret = of_property_read_u32(np, "google,cros-ec-spi-msg-delay", &val);
+ 	if (!ret)
+ 		ec_spi->end_of_msg_delay = val;
++
++	if (!of_device_is_compatible(np, "google,cros-ec-fp"))
++		return 0;
++
++	ec_spi->boot0 = devm_gpiod_get(dev, "boot0", 0);
++	if (IS_ERR(ec_spi->boot0))
++		return PTR_ERR(ec_spi->boot0);
++
++	ec_spi->reset = devm_gpiod_get(dev, "reset", 0);
++	if (IS_ERR(ec_spi->reset))
++		return PTR_ERR(ec_spi->reset);
++
++	/*
++	 * Take the FPMCU out of reset and wait for it to boot if it's in
++	 * bootloader mode or held in reset. This isn't the normal flow because
++	 * typically the BIOS has already powered on the device to avoid the
++	 * multi-second delay waiting for the FPMCU to boot and be responsive.
++	 */
++	if (gpiod_get_value(ec_spi->boot0) || gpiod_get_value(ec_spi->reset)) {
++		/* Boot0 is sampled on reset deassertion */
++		gpiod_set_value(ec_spi->boot0, 0);
++		gpiod_set_value(ec_spi->reset, 1);
++		usleep_range(1000, 2000);
++		gpiod_set_value(ec_spi->reset, 0);
++
++		/* Wait for boot; there isn't a "boot done" signal */
++		dev_info(dev, "Waiting for FPMCU to boot\n");
++		msleep(2000);
++	}
++
++	return 0;
+ }
+ 
+ static void cros_ec_spi_high_pri_release(void *worker)
+@@ -754,8 +788,10 @@ static int cros_ec_spi_probe(struct spi_device *spi)
+ 	if (!ec_dev)
+ 		return -ENOMEM;
+ 
+-	/* Check for any DT properties */
+-	cros_ec_spi_dt_probe(ec_spi, dev);
++	/* Check for any DT properties and boot FPMCU if applicable */
++	err = cros_ec_spi_dt_probe(ec_spi, dev);
++	if (err)
++		return err;
+ 
+ 	spi_set_drvdata(spi, ec_dev);
+ 	ec_dev->dev = dev;
 -- 
 https://chromeos.dev
 

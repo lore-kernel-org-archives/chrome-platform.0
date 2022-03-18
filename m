@@ -1,198 +1,90 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA25510E
-	for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 18:00:32 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id j2so17275175ybu.0
-        for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 11:00:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A14E15A0
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 20:49:22 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id d10so19188759eje.10
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 13:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DeVydUkA460G24f/qbyy3CSPbaRzmIObCdc2rLBWOhQ=;
-        b=kNLz5wGk8HzaKB2i8WCjUFoyhxgxG13GPtfVJZPTvgm+l2JnpQtmNhlkxg9sz00CgU
-         0KKNb9i/ASceW7z79RygD78SykhgXYXX82u+zI+5yqZk9Lr00kYB3dgtUGfMIfucp8N+
-         ptDSFpctuhKbL9T7KBQGwOmjoyThRx/aZD7CfrMJ5qd2tvY9XYA36RO6Mu7P8QSAZPev
-         lpF5jpNJLCKCjJDe8NJDs78pMnVWoBhW4ED2Iv3mheFhfA6DX6KPV/12czkw94Oi2sdj
-         NajWYcRFPdi6qQUyR8IWujgXTNMEzn8QIHA1PtV12PFJ/gB0OV5ZgsEUXzd8ujgQ1ITf
-         j5Xw==
+        bh=+MSb82c7wemn5s39BmM23Oln72hevPicxsN1r5ivL6U=;
+        b=CA1hCCYL0BQ05YK0J1CPDJmoLh2ESsCRnFcUnRyOfupdkOao9Ca/nbVo4HSzLXwCSI
+         Vrqmw5nsHFAhl5WYnCZuOBc2nEZJef8k8cWy8urUgt3WrrA3POPVaETGqdFAxiq2WVwy
+         Z6F8q64+iOK3GE3gc0n++Gw5aW3gmufktvl6Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DeVydUkA460G24f/qbyy3CSPbaRzmIObCdc2rLBWOhQ=;
-        b=gtZPYOgCrnHqI28b3EfYgFH+aqfe/5CrOXevp4Qwa5mdAtbBX58LKt6iz8nGrKhbbU
-         eLky2dgYLk4VMnpBXPRBxvIKlV2ctKVAMWAOGXmvhu2OQaxPvejkmtQviSdCeG6EOht9
-         mgVv8hRSP2px0wg9sZgqTB72yBSkDWN9DzRGcujnULRVVTIB1U6CEQ9qzydKC4w/tuvq
-         Mt5L248fJysixhV1/SJu0zLiAlIWNHhkeJolUiDVOkIs1Axsmv0eOCCbfj1/XUohKpEW
-         C4fNhFxkRmshu6lL3/LiyIywJJ+UVd8PQHsiTTPThQB6/lDmONZbZy1zl0b3ljoL6eRV
-         9brg==
-X-Gm-Message-State: AOAM530SZTZYKjDR59ZpDZFLG6Av5pcGrWx36Rx4UXeqR+atNapMmMre
-	A7zlOPJioVoN/61dlZKCvmFzLR83sFBOjxm6jzdZKQ==
-X-Google-Smtp-Source: ABdhPJxloxkv7YJ7jLIIoQ4BZKbMRZOulDLN9cUOA1MyU+5B/vqxzqfdZffImI8Pyd4ZWJmqXXZ2Iu68RjixZLhrlAQ=
-X-Received: by 2002:a25:e697:0:b0:629:1f4a:5a3c with SMTP id
- d145-20020a25e697000000b006291f4a5a3cmr11004844ybh.228.1647626430198; Fri, 18
- Mar 2022 11:00:30 -0700 (PDT)
+        bh=+MSb82c7wemn5s39BmM23Oln72hevPicxsN1r5ivL6U=;
+        b=Kkt0LRKzc49v8iK1zwlVCfcDUHDJAb77n2T8NokjZkVS8THFcF92en9d8ZpaEk0ofW
+         yeHZ/b0oV+sw+5h3X0bkVrdWwW9YAxPTOkCdcZP7INvq20xxuoNA8WWqtYAjftwrGFzy
+         FFP3Otew6PT+hTe5Pjx+oTfix0+ifb9VnjwsYsV0BoQMtPzsojjjnn2JaKViMv+IxeeP
+         AryJNll+2FedeHxcVC91RNnz3zXkqiPwlWX1cg0cNRQ7TRYK0xxO44OfRxrgyVcQq7Tn
+         Yo4cSQ3D/yT0Js3ztVDvDAqOgb/PKkUXa6utGdZVx+Np/pk7PlZuL1+dso/BKV5xVWfR
+         q4Yw==
+X-Gm-Message-State: AOAM533qFDJrFSb07KhkRub4/6Nho2sfThDBf7wgBqryNddWnRmxuohx
+	1aIEDIX6F3mRvPOmRNlpKJLE5+ZPHpxGNW7MRqQ=
+X-Google-Smtp-Source: ABdhPJy7nWxZOeeHGb2/oGtdB9EajzDxe8IcaeHFwL+18vt861jS9suN+Oayh7YofIfgipWnHmHUPg==
+X-Received: by 2002:a17:907:d8b:b0:6df:d4a4:9d07 with SMTP id go11-20020a1709070d8b00b006dfd4a49d07mr418052ejc.10.1647636560230;
+        Fri, 18 Mar 2022 13:49:20 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id u19-20020a17090617d300b006cea86ca384sm4027502eje.40.2022.03.18.13.49.19
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 13:49:19 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id l1-20020a05600c4f0100b00389645443d2so5374231wmq.2
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 13:49:19 -0700 (PDT)
+X-Received: by 2002:a05:600c:19d1:b0:389:7772:b21b with SMTP id
+ u17-20020a05600c19d100b003897772b21bmr17513788wmq.118.1647636558601; Fri, 18
+ Mar 2022 13:49:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220318165422.686848-1-linux@roeck-us.net> <CAC0y+AjJxRGE570hTAq4WEtFrWa71e9q_h4xyN_52o4b9G_r2g@mail.gmail.com>
-In-Reply-To: <CAC0y+AjJxRGE570hTAq4WEtFrWa71e9q_h4xyN_52o4b9G_r2g@mail.gmail.com>
-From: Daisuke Nojiri <dnojiri@google.com>
-Date: Fri, 18 Mar 2022 11:00:19 -0700
-Message-ID: <CAC0y+Ah+261R8LMMZOExjBMjOXcqkw5h4AyZCFSU093=7wxqqw@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: Re-introduce cros_ec_cmd_xfer and use
- it for ioctls
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>, Daisuke Nojiri <dnojiri@chromium.org>, 
-	Rob Barnes <robbarnes@google.com>, Rajat Jain <rajatja@google.com>, 
-	Brian Norris <briannorris@chromium.org>, Parth Malkan <parthmalkan@google.com>
+References: <20220318015451.2869388-1-swboyd@chromium.org> <20220318015451.2869388-2-swboyd@chromium.org>
+In-Reply-To: <20220318015451.2869388-2-swboyd@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 18 Mar 2022 13:49:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WV+rssDpUdq0fVuVKf4b7DwTsFgodAX8wi-eLEoxTa3g@mail.gmail.com>
+Message-ID: <CAD=FV=WV+rssDpUdq0fVuVKf4b7DwTsFgodAX8wi-eLEoxTa3g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: chrome: Add ChromeOS fingerprint binding
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+	chrome-platform@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
+	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Matthias Kaehlcke <mka@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-The comment looks good to me. The rest also looks good to me (based on
-the FROMLIST patch on Gerrit).
+Hi,
 
-Reviewed-by: Daisuke Nojiri <dnojiri@chromium.org>
-On Fri, Mar 18, 2022 at 10:50 AM Daisuke Nojiri <dnojiri@google.com> wrote:
+On Thu, Mar 17, 2022 at 6:54 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> The comment looks good to me. The rest also looks good to me (based on the FROMLIST patch on Gerrit).
->
-> On Fri, Mar 18, 2022 at 9:56 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> Commit 413dda8f2c6f ("platform/chrome: cros_ec_chardev: Use
->> cros_ec_cmd_xfer_status helper") inadvertendly changed the userspace ABI.
->> Previously, cros_ec ioctls would only report errors if the EC communication
->> failed, and otherwise return success and the result of the EC
->> communication. An EC command execution failure was reported in the EC
->> response field. The above mentioned commit changed this behavior, and the
->> ioctl itself would fail. This breaks userspace commands trying to analyze
->> the EC command execution error since the actual EC command response is no
->> longer reported to userspace.
->>
->> Fix the problem by re-introducing the cros_ec_cmd_xfer() helper, and use it
->> to handle ioctl messages.
->>
->> Fixes: 413dda8f2c6f ("platform/chrome: cros_ec_chardev: Use cros_ec_cmd_xfer_status helper")
->> Cc: Daisuke Nojiri <dnojiri@chromium.org>
->> Cc: Rob Barnes <robbarnes@google.com>
->> Cc: Rajat Jain <rajatja@google.com>
->> Cc: Brian Norris <briannorris@chromium.org>
->> Cc: Parth Malkan <parthmalkan@google.com>
->> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->> ---
->> v2: Updated comments / return value description. No functional change.
->>
->>  drivers/platform/chrome/cros_ec_chardev.c   |  2 +-
->>  drivers/platform/chrome/cros_ec_proto.c     | 50 +++++++++++++++++----
->>  include/linux/platform_data/cros_ec_proto.h |  3 ++
->>  3 files changed, 45 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
->> index e0bce869c49a..fd33de546aee 100644
->> --- a/drivers/platform/chrome/cros_ec_chardev.c
->> +++ b/drivers/platform/chrome/cros_ec_chardev.c
->> @@ -301,7 +301,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct cros_ec_dev *ec, void __user *arg)
->>         }
->>
->>         s_cmd->command += ec->cmd_offset;
->> -       ret = cros_ec_cmd_xfer_status(ec->ec_dev, s_cmd);
->> +       ret = cros_ec_cmd_xfer(ec->ec_dev, s_cmd);
->>         /* Only copy data to userland if data was received. */
->>         if (ret < 0)
->>                 goto exit;
->> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
->> index c4caf2e2de82..ac1419881ff3 100644
->> --- a/drivers/platform/chrome/cros_ec_proto.c
->> +++ b/drivers/platform/chrome/cros_ec_proto.c
->> @@ -560,22 +560,28 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
->>  EXPORT_SYMBOL(cros_ec_query_all);
->>
->>  /**
->> - * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
->> + * cros_ec_cmd_xfer() - Send a command to the ChromeOS EC.
->>   * @ec_dev: EC device.
->>   * @msg: Message to write.
->>   *
->> - * Call this to send a command to the ChromeOS EC. This should be used instead of calling the EC's
->> - * cmd_xfer() callback directly. It returns success status only if both the command was transmitted
->> - * successfully and the EC replied with success status.
->> + * Call this to send a command to the ChromeOS EC. This should be used instead
->> + * of calling the EC's cmd_xfer() callback directly. This function does not
->> + * convert EC command execution error codes to Linux error codes. Most
->> + * in-kernel users will want to use cros_ec_cmd_xfer_status() instead since
->> + * that function implements the conversion.
->>   *
->>   * Return:
->> - * >=0 - The number of bytes transferred
->> - * <0 - Linux error code
->> + * >0 - EC command was executed successfully. The return value is the number
->> + *      of bytes returned by the EC (excluding the header).
->> + * =0 - EC communication was successful. EC command execution results are
->> + *      reported in msg->result. The result will be EC_RES_SUCCESS if the
->> + *      command was executed successfully or report an EC command execution
->> + *      error.
->> + * <0 - EC communication error. Return value is the Linux error code.
->>   */
->> -int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
->> -                           struct cros_ec_command *msg)
->> +int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
->>  {
->> -       int ret, mapped;
->> +       int ret;
->>
->>         mutex_lock(&ec_dev->lock);
->>         if (ec_dev->proto_version == EC_PROTO_VERSION_UNKNOWN) {
->> @@ -616,6 +622,32 @@ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
->>         ret = send_command(ec_dev, msg);
->>         mutex_unlock(&ec_dev->lock);
->>
->> +       return ret;
->> +}
->> +EXPORT_SYMBOL(cros_ec_cmd_xfer);
->> +
->> +/**
->> + * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
->> + * @ec_dev: EC device.
->> + * @msg: Message to write.
->> + *
->> + * Call this to send a command to the ChromeOS EC. This should be used instead of calling the EC's
->> + * cmd_xfer() callback directly. It returns success status only if both the command was transmitted
->> + * successfully and the EC replied with success status.
->> + *
->> + * Return:
->> + * >=0 - The number of bytes transferred.
->> + * <0 - Linux error code
->> + */
->> +int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
->> +                           struct cros_ec_command *msg)
->> +{
->> +       int ret, mapped;
->> +
->> +       ret = cros_ec_cmd_xfer(ec_dev, msg);
->> +       if (ret < 0)
->> +               return ret;
->> +
->>         mapped = cros_ec_map_error(msg->result);
->>         if (mapped) {
->>                 dev_dbg(ec_dev->dev, "Command result (err: %d [%d])\n",
->> diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
->> index df3c78c92ca2..16931569adce 100644
->> --- a/include/linux/platform_data/cros_ec_proto.h
->> +++ b/include/linux/platform_data/cros_ec_proto.h
->> @@ -216,6 +216,9 @@ int cros_ec_prepare_tx(struct cros_ec_device *ec_dev,
->>  int cros_ec_check_result(struct cros_ec_device *ec_dev,
->>                          struct cros_ec_command *msg);
->>
->> +int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
->> +                    struct cros_ec_command *msg);
->> +
->>  int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
->>                             struct cros_ec_command *msg);
->>
->> --
->> 2.35.1
->>
+> Add a binding to describe the fingerprint processor found on Chromebooks
+> with a fingerprint sensor.
+
+It might be worth mentioning that previously these fingerprint devices
+were described using "google,cros-ec-spi" just to provide context?
+
+
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Craig Hesling <hesling@chromium.org>
+> Cc: Tom Hughes <tomhughes@chromium.org>
+> Cc: Alexandru M Stan <amstan@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  .../bindings/chrome/google,cros-ec-fp.yaml    | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>

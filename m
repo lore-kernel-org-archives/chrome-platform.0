@@ -1,78 +1,101 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD7F4A9F
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 21:46:29 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id l4-20020a17090a49c400b001c6840df4a3so2898416pjm.0
-        for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 14:46:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A303715AC
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Mar 2022 01:54:53 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id mr5-20020a17090b238500b001c67366ae93so4750923pjb.4
+        for <chrome-platform@lists.linux.dev>; Thu, 17 Mar 2022 18:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4nG1tjL8NLMsT4cMgggdZFwaJZ01TiYbAaXgC6uFDB0=;
-        b=LshajC2/xAr2200yH3KNZOFjlWNSOShPGCyj+JvOZlsPXiXdfNYvHCsJmCx9wYXKWU
-         1xbGadWUjt6wR82iYphWGcVUpnqF1AHTmD7X/qcs8F1nJAxiFkVv5qZWhRJ/VAeOkzse
-         KCZydwVP5PxIHu+aZMT4mWdVcqMwmDGY4efBM=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yxBIhyBEiFAgJKygaBubKQqJRvLxov0I5kEUPytrKfg=;
+        b=WD5W3/fIsPgoTeHB0lZ/uXeTTgKgmcA9bCns//Gj0j+EyV0fU/LfNz8OO3QC3dh8HN
+         UGd85scVmHjhJbT6mtBGyPIl8bgmnzYiKbaVSr8yZp1J8ZKJTxl31DNziR2QJbuXFg44
+         02U8Ev9jUnkIfk6No6xYbBV21t0VKBUT25KiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4nG1tjL8NLMsT4cMgggdZFwaJZ01TiYbAaXgC6uFDB0=;
-        b=KcTC0lydtjW07YJW8AWdCeVOFuGpIpE973bEhzgDqDhrX4x/4CsTTiDicfTOouEiyg
-         QVeloX4gcj2aBiNva82ofOufLC2BLlyDFRhORrxX1HNTtP9aoXGg0KAHuScyTvb08Fgc
-         WPRiIcqyC07P/DWMczQslRanN9w0zcSQSY4bqHcMnipYcgKcWGYSnoOCjmZdmoVzbjN4
-         6u3XLbfJ+ke4cTlyoBGwzYOMR+HxNt47StbdEjutv3dSDLtdMMCvcKVceJE/O17HP0jK
-         VDWOK8BsnayLp5TVzAyNtdAIV8pQLlpPwrSjUw7BRQbv9YAHJuGKBguS5SUre3XRki/n
-         W9KA==
-X-Gm-Message-State: AOAM530yy5Y4geWv4KC0F9PJg6gfq2rNC5HGW+cNeM8eJwi1boAClkzg
-	spR6bVSDCDGr5RRlhrhBWDfhJQ==
-X-Google-Smtp-Source: ABdhPJz4qlnmPCz+FBLPosA30YBgzzO1nOPfvrAYzZv2zyeVEcZnwOe+NpoMwJLbpb6lrP1paknYYQ==
-X-Received: by 2002:a17:902:c40e:b0:151:a83a:540c with SMTP id k14-20020a170902c40e00b00151a83a540cmr6960279plk.10.1647553589534;
-        Thu, 17 Mar 2022 14:46:29 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:ae74:932d:af6a:6079])
-        by smtp.gmail.com with UTF8SMTPSA id h22-20020a056a001a5600b004f7c17b291asm7718766pfv.87.2022.03.17.14.46.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Mar 2022 14:46:29 -0700 (PDT)
-Date: Thu, 17 Mar 2022 14:46:27 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yxBIhyBEiFAgJKygaBubKQqJRvLxov0I5kEUPytrKfg=;
+        b=8Mb0S1rt3xHQ0eNC5llM+GOL06jenGqhHszG0XzSOnfKe8wcEGCP46mBVpgtLGj32X
+         khoY9+oGuUMwV6tXI5t/Y/lM2fxx5++8m1bZ6XS8YhQLlhy1mI9i+YpA7Ioe9gP9+N5p
+         X21RzzZJ8aaKlOpvuZHbXdRDVZz+O7ADQSqH6W+RUtffr8TNVe9D4okDefPkSxNOvEod
+         FkMuLBAomzOh3uSyplIF7+5mBQvegMGoBmJtNkqZVveo9W0W95HEGKSZzc/hDnJRTro8
+         PcPjPjfH5UECqdasnUAKHZusEuPOnK9Wre7ZWzMX4SU6kwMPBzV2v8Y0fPzvkmSOucN/
+         dOVA==
+X-Gm-Message-State: AOAM532Ei/6yfZSmOeg+u8IexQ8WeqNnOX358uJycjd4CElplw9UDi0g
+	O/6VB5DGrUX3aOh5vAjnFN6Wzg==
+X-Google-Smtp-Source: ABdhPJzeWkYn3YRTNXiVy9jq/jxHPBPwqdVFOCPMSFezW6Lfd5nhL4ppj1XX9OB13gwnZ/g2PT2lCw==
+X-Received: by 2002:a17:90b:789:b0:1bc:293c:1445 with SMTP id l9-20020a17090b078900b001bc293c1445mr19014934pjz.111.1647568493095;
+        Thu, 17 Mar 2022 18:54:53 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:49cf:7701:359e:b28f])
+        by smtp.gmail.com with ESMTPSA id u10-20020a056a00124a00b004f783abfa0esm8050201pfi.28.2022.03.17.18.54.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Mar 2022 18:54:52 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
 	Guenter Roeck <groeck@chromium.org>,
 	Douglas Anderson <dianders@chromium.org>,
 	Craig Hesling <hesling@chromium.org>,
 	Tom Hughes <tomhughes@chromium.org>,
 	Alexandru M Stan <amstan@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_spi: Boot fingerprint
- processor during probe
-Message-ID: <YjOsM1aRzpAiPErC@google.com>
-References: <20220317005814.2496302-1-swboyd@chromium.org>
- <20220317005814.2496302-4-swboyd@chromium.org>
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>
+Subject: [PATCH v3 0/3] Update cros-ec-spi for fingerprint devices
+Date: Thu, 17 Mar 2022 18:54:47 -0700
+Message-Id: <20220318015451.2869388-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220317005814.2496302-4-swboyd@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 16, 2022 at 05:58:14PM -0700, Stephen Boyd wrote:
-> Add gpio control to this driver so that the fingerprint device can be
-> booted if the BIOS isn't doing it already. This eases bringup of new
-> hardware as we don't have to wait for the BIOS to be ready, supports
-> kexec where the GPIOs may not be configured by the previous boot stage,
-> and is all around good hygiene because we control GPIOs for this device
-> from the device driver.
-> 
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Craig Hesling <hesling@chromium.org>
-> Cc: Tom Hughes <tomhughes@chromium.org>
-> Cc: Alexandru M Stan <amstan@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+This patch series introduces a DT binding for chromeos fingerprint
+devices and then implements support to boot those processors during
+driver probe if the BIOS hasn't done it already.
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Changes from v2 (https://lore.kernel.org/r/20220317005814.2496302-1-swboyd@chromium.org):
+ * Dropped cros-ec spi dt properties that aren't of use right now
+ * Picked up tags
+
+Changes from v1 (https://lore.kernel.org/r/20220314232214.4183078-1-swboyd@chromium.org):
+ * Properly do the boot sequence
+ * Add a message that we're booting and delaying a while
+ * Fix typo in commit text
+ * Change binding to not spell out reset-gpios and indicate that boot0
+   is about asserting boot mode
+ * Split device id to different patch as it's a different topic from
+   booting
+
+Stephen Boyd (3):
+  dt-bindings: chrome: Add ChromeOS fingerprint binding
+  platform/chrome: cros_ec_spi: Match cros-ec-fp compatible
+  platform/chrome: cros_ec_spi: Boot fingerprint processor during probe
+
+ .../bindings/chrome/google,cros-ec-fp.yaml    | 66 +++++++++++++++++++
+ drivers/platform/chrome/cros_ec_spi.c         | 44 ++++++++++++-
+ 2 files changed, 107 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: <devicetree@vger.kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Craig Hesling <hesling@chromium.org>
+Cc: Tom Hughes <tomhughes@chromium.org>
+Cc: Alexandru M Stan <amstan@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Matthias Kaehlcke <mka@chromium.org>
+
+base-commit: ffb217a13a2eaf6d5bd974fc83036a53ca69f1e2
+-- 
+https://chromeos.dev
+

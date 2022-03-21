@@ -1,38 +1,38 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9371D369
-	for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 14:32:32 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id q8so9604053wrc.0
-        for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 07:32:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE26369
+	for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 14:32:34 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id p9so20929294wra.12
+        for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 07:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Rz2kPyhob/Zn4b4eynOw/6UOyfstxjJm01L/htyIYCc=;
-        b=J9iqLc21143U4IqrHGZbl43PU2GcDIexyXwwfNg978gKFJ++vuXmJOnT4lv/HRd0dA
-         KhTJ0wFqyMYnKGSo+Arx6XL89qwnqi9YDs2QkCF+5rUz9Zcj2NNdqny+c19uCLiJ12S/
-         BBYe8FQDOdmnbZHKvEmOoX2I+hnhW61pr2jZ4=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jPNbf4VBXaKauQrD5GdOw/7C1sM2aDR3HnxDjhZ0elg=;
+        b=K04KZ2llvCIBVjpLXRbj+FItZXFlk4ZVLcXMU/n3uOzyXQkjIt2p8UQRjAN1JRYeHw
+         odN5bc3b7y61QwvNr5Voo9HYGe+n6sUBYkPIHRCLkL2b8MpipkOPtqLac92fMqy93U/2
+         9Xve7ZthNZPcBZUKdMEkBljxtgCh7T6f6FGbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Rz2kPyhob/Zn4b4eynOw/6UOyfstxjJm01L/htyIYCc=;
-        b=FYMKWpLX3xTcUPddlgsEDUX0xxQ5EhbFlkHCi/jynOHpFmkD2aqWMyNL5/DLf2wnyS
-         S/WOC1A0P9O1lMY3feFKAoxPFf3ThSqvi3LfvejBG+ly7UXzMS74XOa2BCjLYYRKhANv
-         ac/nGBQSPBoIsw5WQvp+gGkp9+oC0KlXVts0SowUqsFXLA0/Hte/KFXnHCeJNyEnIik/
-         pxGUNz1QcsBz9RrlQKXezQP6CzxMpYbjbxOwpCxy48VYYZ4Qwx5Z7KslI79/UFK4slhT
-         kl/lsxg7OS9wV0FPjNuwVLYPim0LjDpKHTOKBIB4Gym0Zxu7nsCbRnq5q6R+tM1eDztu
-         HY3A==
-X-Gm-Message-State: AOAM531FwG3KBUS42vQI01VZFS7AwHMfKvZo+EYEysXN2z/JM0uCmNy/
-	bwanvkbIu9UAyjZ588T6Qe/Evw==
-X-Google-Smtp-Source: ABdhPJwlF27a1NJ6xMacbGdjU1rd5N8lVS4V0IPQ+1pI4C3wPK4QyQWn/uHzsmotIgUqlAj4AnT7RQ==
-X-Received: by 2002:adf:f281:0:b0:203:e3a2:de5d with SMTP id k1-20020adff281000000b00203e3a2de5dmr18548830wro.598.1647873150811;
-        Mon, 21 Mar 2022 07:32:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jPNbf4VBXaKauQrD5GdOw/7C1sM2aDR3HnxDjhZ0elg=;
+        b=hcgejUBkePF+cF7hTZXkoDwZvq5tklOC1osZdLyPhwFuBQcSBKMqNsNvZ/6MW3gQYU
+         S/UKwTZxVvYlOfvpojHC5UGv+Bgi19/zidXoG8/BoTThe6L0QIWk52+6Z4Lch5a4wKaE
+         f3svdOafPpkB9ZRTOy9lQVwhwx9UCQ8ZiLjjCnwAsIkFItL6/pGjwaOdhkglxs1T/ZOw
+         LP987SY81uDv43gUwcjqkGecQqvr7/MS1RT85M5yMej35VgF2+/fl4yRkB21AEwWsv49
+         ENDI4rMDjCScDQy7v+QPRGcFrgjvFTpKMbkSpiDj3ldRKpujThW49L7ZcZi8/INX+O8J
+         Po2g==
+X-Gm-Message-State: AOAM5335cbvGQM3CXhzeB/Ti19hqfGySj4H6/AkHHjEKe3CAFYsSA1Ee
+	wP9H3JfeEqK8g2OA9ofpOdiL0g==
+X-Google-Smtp-Source: ABdhPJxAUNMAkxYkB4uOST35byIe9LqZT6SPgd/wDbe3ZFo/1vnlqpEDwMr6f9llJhrZuMausBRxrg==
+X-Received: by 2002:adf:ea06:0:b0:203:ed67:6093 with SMTP id q6-20020adfea06000000b00203ed676093mr15652317wrm.596.1647873152722;
+        Mon, 21 Mar 2022 07:32:32 -0700 (PDT)
 Received: from fabiobaltieri-linux.lan ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id u11-20020a05600c19cb00b00389efe9c512sm19092793wmq.23.2022.03.21.07.32.29
+        by smtp.gmail.com with ESMTPSA id u11-20020a05600c19cb00b00389efe9c512sm19092793wmq.23.2022.03.21.07.32.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Mar 2022 07:32:30 -0700 (PDT)
+        Mon, 21 Mar 2022 07:32:32 -0700 (PDT)
 From: Fabio Baltieri <fabiobaltieri@chromium.org>
 To: Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>
@@ -45,10 +45,12 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Fabio Baltieri <fabiobaltieri@chromium.org>
-Subject: [PATCH 0/4] Add channel type support to pwm-cros-ec
-Date: Mon, 21 Mar 2022 14:32:18 +0000
-Message-Id: <20220321143222.2523373-1-fabiobaltieri@chromium.org>
+Subject: [PATCH 1/4] dt-bindings: add mfd/cros_ec definitions
+Date: Mon, 21 Mar 2022 14:32:19 +0000
+Message-Id: <20220321143222.2523373-2-fabiobaltieri@chromium.org>
 X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
+In-Reply-To: <20220321143222.2523373-1-fabiobaltieri@chromium.org>
+References: <20220321143222.2523373-1-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,47 +59,39 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Add a dt-bindings include file for cros_ec devicetree definition, define
+a pair of special purpose PWM channels in it.
 
-The ChromiumOS EC PWM host command protocol supports specifying the
-requested PWM by type rather than channel. [1]
-
-This series adds support for specifying PWM by type rather than channel
-number in the pwm-cros-ec driver, which abstracts the node definitions
-from the actual hardware configuration from the kernel perspective,
-aligns the API with the one used by the bootloader, and allows removing
-some dtsi overrides.
-
-Tested on a sc7180-trogdor board, but on a version based on an older
-kernel, so this exact series is build only tested.
-
-[1] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/pwm.c;l=24
-[2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/depthcharge/src/drivers/ec/cros/ec.c;l=1271-1273
-
-Fabio Baltieri (4):
-  dt-bindings: add mfd/cros_ec definitions
-  drivers: pwm: pwm-cros-ec: add channel type support
-  dt-bindings: update google,cros-ec-pwm documentation
-  arm64: dts: address cros-ec-pwm channels by type
-
- .../bindings/pwm/google,cros-ec-pwm.yaml      |  6 ++
- .../mt8183-kukui-jacuzzi-fennel-sku1.dts      |  4 +-
- .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  3 +-
- .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
- .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |  4 -
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  8 +-
- .../arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  6 +-
- .../arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi |  3 +-
- arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |  6 +-
- .../boot/dts/rockchip/rk3399-gru-bob.dts      |  4 -
- .../dts/rockchip/rk3399-gru-chromebook.dtsi   |  4 +-
- .../boot/dts/rockchip/rk3399-gru-kevin.dts    |  4 -
- arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi  |  1 +
- drivers/pwm/pwm-cros-ec.c                     | 80 +++++++++++++++----
- include/dt-bindings/mfd/cros_ec.h             | 18 +++++
- 15 files changed, 113 insertions(+), 39 deletions(-)
+Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+---
+ include/dt-bindings/mfd/cros_ec.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
  create mode 100644 include/dt-bindings/mfd/cros_ec.h
 
+diff --git a/include/dt-bindings/mfd/cros_ec.h b/include/dt-bindings/mfd/cros_ec.h
+new file mode 100644
+index 000000000000..e02414eae622
+--- /dev/null
++++ b/include/dt-bindings/mfd/cros_ec.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * DTS binding definitions used for the Chromium OS Embedded Controller.
++ *
++ * Copyright (c) 2022 The Chromium OS Authors. All rights reserved.
++ */
++
++#ifndef _DT_BINDINGS_MFD_CROS_EC_H
++#define _DT_BINDINGS_MFD_CROS_EC_H
++
++/* Typed channel for keyboard backlight. */
++#define CROS_EC_PWM_DT_KB_LIGHT		0
++/* Typed channel for display backlight. */
++#define CROS_EC_PWM_DT_DISPLAY_LIGHT	1
++/* Number of typed channels. */
++#define CROS_EC_PWM_DT_COUNT		2
++
++#endif
 -- 
 2.35.1.894.gb6a874cedc-goog
 

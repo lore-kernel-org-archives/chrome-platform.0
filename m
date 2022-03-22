@@ -1,67 +1,90 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9037A
-	for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 01:40:55 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id j83so18153924oih.6
-        for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 18:40:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39594C64
+	for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 12:07:24 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id p184-20020a1c29c1000000b0037f76d8b484so1458706wmp.5
+        for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 05:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=6cy5E/85aL5JmF2pjEIWOn8cdkPn4kZuLVsVcwh0VCw=;
-        b=ZG2mTl4hRiPGIsQOCem02L1efR0uk4lEtDZ2klTX+4ywa0MAPregei5qmLCo3RwkSm
-         TmHLpM7DRwjVbB6rphkHqPT5E1uK82uOJOw2YOU7pszylbs0rmkL77FKtvslchjITSZ7
-         6jhrRzZbyHRcpoDjgRH+ImYAQ6OBKYpPbdKTo=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=e3ViaRO1Rr2sI+l49irYHhSyo75k9Je9Jgyertt2k5E=;
+        b=GgC5/8cQ71t5bSlOD9BnaRPBc608es5k4URD9kvqaEkT5DWFsenaaorsTuFWteaFEd
+         hpAgAGB6IWCH2dJaavSJ8jFwayIZcsQp1IRPc0iau+6hitpeD+xeFMSCkcUaPvtQGyIw
+         AWVLJ3L+lhqEBpo73QXJIPEoxkhP5agkIxkUU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=6cy5E/85aL5JmF2pjEIWOn8cdkPn4kZuLVsVcwh0VCw=;
-        b=4kwiX4NbReRmeer2dgjCEbipUhAP5kb7yADJqEkeSNCqpEShr5iUfb0j37KsLauCdW
-         N1VzaHNavRYp0aRJhoyJu4uawHVNMGjFsTGdyW2uV14T7dh0OHOvgTlMutpTkiCCGVhG
-         g5ettnJS17OYVnO6KcYkWo9b/R3YP/+4qj7xVZq+SafDViNOv7C/HDNBO3CZGWYmZEx6
-         XOp5ckbiLtWTUBGB9qfyYiWbANa8kq95Wr0IzYxdPKjZtBhltKWWOh1JX8MBf8F5Ru17
-         M2scZX6cNjLmMpNDLJBCJu8zvV8EnOP4AuSdOquoc9wd1orxDa1mkrG6WVlXKN0gLOWx
-         HrAQ==
-X-Gm-Message-State: AOAM530G109C1BSLN5ek7RGTAUif24Qp/iYbFvsiqtZz6d4vX+HwCYIl
-	LTrhmw1zbxZgSBfj3XTgrkE+FyNWGyJQK0dq76dx2A==
-X-Google-Smtp-Source: ABdhPJw/+VAE25qRttG0wCMfm6qrIFot8Qt6PjAcz4RU30vU3l71cCaYqSwzmv5nHPkBwcOJjVsoFQFVl9pP99Ke9k8=
-X-Received: by 2002:aca:a9c8:0:b0:2da:45b6:b796 with SMTP id
- s191-20020acaa9c8000000b002da45b6b796mr903174oie.193.1647913254705; Mon, 21
- Mar 2022 18:40:54 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 22 Mar 2022 02:40:54 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=e3ViaRO1Rr2sI+l49irYHhSyo75k9Je9Jgyertt2k5E=;
+        b=sfE2PtYF7A9Otg66eFobOoNTtOb4PPmJt6i2hjFntPOcdARZpV68WTVqvfoGBScmxg
+         zqs46LKbhu0nHfS/eNF21T4G+fJAEd/zU20TK1WTKL7ResB2NxRNtlqW0I7nzC2EE1WK
+         +VK/R9QdHYF4RYqaCx7Btw0zAxBM/TG7iC0iRwZzcM5nsyW+jTfGm+LFqsi+p3KKiuWV
+         C7zfeAnf8Y+XU8bS4ghjAeRb0A2v4bQ3roQIiAk4MK4MFJy238f93l4J7myVkrdlQElK
+         VHuTpX7U1NB6NLZsUT0cJ7NtEcdiMxFsTigoOUa3trSVAcGa5RRGO9tI1oBXYf5T3VZd
+         vtXQ==
+X-Gm-Message-State: AOAM5310Atkox8lPqkmQV7RTRPbAbqsxfJFENy3PZqN7k/PPgflUVoyl
+	qx63yD/NKTrvdqO5CNcgewvICw==
+X-Google-Smtp-Source: ABdhPJzzDktpUdftxhms3YkoLwxzADyuJj5fnu5TzuR25YBbuhb6hxkCKVsQ1/mv6cY18+N8sYJWbw==
+X-Received: by 2002:a5d:6da9:0:b0:204:16b9:ce7d with SMTP id u9-20020a5d6da9000000b0020416b9ce7dmr6518191wrs.293.1647950842504;
+        Tue, 22 Mar 2022 05:07:22 -0700 (PDT)
+Received: from google.com ([37.228.205.1])
+        by smtp.gmail.com with ESMTPSA id m28-20020a05600c3b1c00b0038cb3e1773asm1704764wms.44.2022.03.22.05.07.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Mar 2022 05:07:21 -0700 (PDT)
+Date: Tue, 22 Mar 2022 12:07:19 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+	chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: add mfd/cros_ec definitions
+Message-ID: <Yjm797USkb6nUGXq@google.com>
+References: <20220321143222.2523373-1-fabiobaltieri@chromium.org>
+ <20220321143222.2523373-2-fabiobaltieri@chromium.org>
+ <2942ea7a-3e23-7df1-daff-c266a82682fb@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YjknOFMere5DG5He@robh.at.kernel.org>
-References: <20220321191100.1993-1-swboyd@chromium.org> <20220321191100.1993-2-swboyd@chromium.org>
- <YjknOFMere5DG5He@robh.at.kernel.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 22 Mar 2022 02:40:54 +0100
-Message-ID: <CAE-0n52o+XsyzF5GzRQ9piPYnntBTtpo+t1b6bChT-iUVg=aFg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: chrome: Add ChromeOS fingerprint binding
-To: Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
-	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
-	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Matthias Kaehlcke <mka@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2942ea7a-3e23-7df1-daff-c266a82682fb@kernel.org>
 
-Quoting Rob Herring (2022-03-21 18:32:40)
-> On Mon, Mar 21, 2022 at 12:10:57PM -0700, Stephen Boyd wrote:
-> > Add a binding to describe the fingerprint processor found on Chromebooks
-> > with a fingerprint sensor. Previously we've been describing this with
-> > the google,cros-ec-spi binding but it lacks gpio and regulator control
-> > used during firmware flashing.
->
-> Then 'google,cros-ec-spi' should be a fallback?
+On Mon, Mar 21, 2022 at 04:46:49PM +0100, Krzysztof Kozlowski wrote:
+> On 21/03/2022 15:32, Fabio Baltieri wrote:
+> > Add a dt-bindings include file for cros_ec devicetree definition, define
+> > a pair of special purpose PWM channels in it.
+> > 
+> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> > ---
+> >  include/dt-bindings/mfd/cros_ec.h | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >  create mode 100644 include/dt-bindings/mfd/cros_ec.h
+> > 
+> > diff --git a/include/dt-bindings/mfd/cros_ec.h b/include/dt-bindings/mfd/cros_ec.h
+> > new file mode 100644
+> > index 000000000000..e02414eae622
+> > --- /dev/null
+> > +++ b/include/dt-bindings/mfd/cros_ec.h
+> > @@ -0,0 +1,18 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> 
+> Same license as for bindings (GPL-2.0-only OR BSD-2-Clause), unless you
+> cannot (is it a derivative work?).
 
-Sure that's fine. Then the second patch isn't needed either.
+Ack, it's not, will change in v2, thanks!
+
+> 
+> 
+> Best regards,
+> Krzysztof
+
+-- 
+Fabio Baltieri

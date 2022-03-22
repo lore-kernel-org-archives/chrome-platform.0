@@ -1,188 +1,151 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6D2612C
-	for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 20:21:09 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so20577643ooj.2
-        for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 13:21:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=rTgOdADcnyA0BCO1fGE2kUoGWJ9SsEVRiwdwRn3Fb6c=;
-        b=AhNakQxvOVXeCx1Cgds6Dytg2l8lD1vKr6Pm3GAz20BKTaZ7o6VjQLV4fw/HhCP4B+
-         W6NwSfTtjf88xC58ukNRqHbJw2bios24bNn6RcqBLFxRyRc7CsShxDe8HA73i7bElBs+
-         Mgy483QkjW+4BS8vL2r9ouJZAgfLeDI5VfJM4=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E597A
+	for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 01:32:43 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id b188so18119881oia.13
+        for <chrome-platform@lists.linux.dev>; Mon, 21 Mar 2022 18:32:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=rTgOdADcnyA0BCO1fGE2kUoGWJ9SsEVRiwdwRn3Fb6c=;
-        b=z/aeBpH6eybp1VoQIUUihJxQATrnTNaPAxDvGh/++AxitaM3ev9t/bp7u+CxjtE81e
-         wqvn0jpJP2lcxtBaFAd45cq4yc/9r8iITSMBzGyYECa7ybADKzuSNA+ld3X/7I0j1hEy
-         qGZ6MnCBymZafYoO4K8uKQeF9EIz6tff0ZBXRdDpUOdrWwWjFE4F8g8luqz67FUg4Ren
-         9na1KDlvqP+u3VrpSKs9NUasJMf8fnwbxBIzA5xnrhwS60R9X+SbFz2L0JXBbQKMW5rx
-         wl0Furxq8JRjK/OrgjlJqLsa2ORdL9vYpwUFLWiU5F/stwLFhcUMivZBx2PELPQ3Zr1N
-         s1Ww==
-X-Gm-Message-State: AOAM531C5a5M/2728ItdnUWnQk0+B90C5W7EoeqohUqEq2f3XnrcuU/z
-	3IMDEXtrZgzHZPZpCaUUdc6vD+fqjd5mw1BaA6InGA==
-X-Google-Smtp-Source: ABdhPJwVF4OGh6TxCwRLL/ziqe2qhaQ39b1sTK5A1AiZYkfEHUO2iXvoRk+rkXUkPTzLxNZEfeeIn2jzi4QRNeCqzzE=
-X-Received: by 2002:a05:6870:b69c:b0:dd:b74b:4099 with SMTP id
- cy28-20020a056870b69c00b000ddb74b4099mr320082oab.193.1647894068295; Mon, 21
- Mar 2022 13:21:08 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 21 Mar 2022 21:21:07 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=H9pYjXD74yJgRzh7QlanadwSjljKEdkZYPjwglF/fI8=;
+        b=1MIecF0oBAxAIL8phuWW8mFEWEQdnb9BNd0AQfy9/Umbfa362O90qs6yYEZYcNS03r
+         SiTdaMIboaACdTHRvDwiWsElFZItAzTbXwmXSc6L37f/2TDAorXbmZG/GUuPNU9a7Prx
+         O+uncfccJRgqXgpoi7OMxlTF/X9ZYeRqUkaomOKIe9Aog6oSJVHZklVKhesC8+bxoCKT
+         Z41vb8Sl3QBGB4vG2r4+CmQJIP1nqbMasJuV1hnSfixrhw6hMWKi3eew0Lrhda9c4VF4
+         XxsgQa/6hJMWFehrMse7OevnzkR0WPtBUlAZleVjsUvL8uiQGQa9/vi1RL55txY9acNJ
+         JkLA==
+X-Gm-Message-State: AOAM530L4wTfwJOA8Lr/q186Tv102Ra9s8n0S383uiM9vZHk/x/dssBw
+	Zd2SZXUJXqnBP0Q4vlDtTw==
+X-Google-Smtp-Source: ABdhPJzmvRCe53/YOGzXdHoJihtboRpJXSIwrracAfHLjj8c7Z2nEObal3TmOqYYfC+C1o7sIY3r5w==
+X-Received: by 2002:a05:6808:20a7:b0:2da:5fcb:29b2 with SMTP id s39-20020a05680820a700b002da5fcb29b2mr1003263oiw.82.1647912762406;
+        Mon, 21 Mar 2022 18:32:42 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z1-20020a056870514100b000da196da21csm6811854oak.26.2022.03.21.18.32.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Mar 2022 18:32:41 -0700 (PDT)
+Received: (nullmailer pid 915913 invoked by uid 1000);
+	Tue, 22 Mar 2022 01:32:40 -0000
+Date: Mon, 21 Mar 2022 20:32:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>
+Subject: Re: [PATCH v4 1/3] dt-bindings: chrome: Add ChromeOS fingerprint
+ binding
+Message-ID: <YjknOFMere5DG5He@robh.at.kernel.org>
+References: <20220321191100.1993-1-swboyd@chromium.org>
+ <20220321191100.1993-2-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=UXeJVVbJhdcoCc8iUESZ-Vz07iY-yt1OY3EM9m7T-axw@mail.gmail.com>
-References: <20220321191100.1993-1-swboyd@chromium.org> <20220321191100.1993-4-swboyd@chromium.org>
- <CAD=FV=UXeJVVbJhdcoCc8iUESZ-Vz07iY-yt1OY3EM9m7T-axw@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 21 Mar 2022 21:21:07 +0100
-Message-ID: <CAE-0n53UXmNZ9GUfh0A+F3NyJd2QqDL1GFaf-FtaJ2EidzBMeA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] platform/chrome: cros_ec_spi: Boot fingerprint
- processor during probe
-To: Doug Anderson <dianders@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
-	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Matthias Kaehlcke <mka@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220321191100.1993-2-swboyd@chromium.org>
 
-Quoting Doug Anderson (2022-03-21 13:04:20)
-> Hi,
->
-> On Mon, Mar 21, 2022 at 12:11 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Add gpio control to this driver so that the fingerprint device can be
-> > booted if the BIOS isn't doing it already. This eases bringup of new
-> > hardware as we don't have to wait for the BIOS to be ready, supports
-> > kexec where the GPIOs may not be configured by the previous boot stage,
-> > and is all around good hygiene because we control GPIOs for this device
-> > from the device driver.
-> >
-> > Cc: Guenter Roeck <groeck@chromium.org>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Craig Hesling <hesling@chromium.org>
-> > Cc: Tom Hughes <tomhughes@chromium.org>
-> > Cc: Alexandru M Stan <amstan@chromium.org>
-> > Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> > Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > ---
-> >  drivers/platform/chrome/cros_ec_spi.c | 42 +++++++++++++++++++++++++--
-> >  1 file changed, 39 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-> > index 51b64b392c51..92518f90f86e 100644
-> > --- a/drivers/platform/chrome/cros_ec_spi.c
-> > +++ b/drivers/platform/chrome/cros_ec_spi.c
-> > @@ -4,6 +4,7 @@
-> >  // Copyright (C) 2012 Google, Inc
-> >
-> >  #include <linux/delay.h>
-> > +#include <linux/gpio/consumer.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> > @@ -690,11 +691,13 @@ static int cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
-> >         return cros_ec_xfer_high_pri(ec_dev, ec_msg, do_cros_ec_cmd_xfer_spi);
-> >  }
-> >
-> > -static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
-> > +static int cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
-> >  {
-> >         struct device_node *np = dev->of_node;
-> >         u32 val;
-> >         int ret;
-> > +       struct gpio_desc *boot0;
-> > +       struct gpio_desc *reset;
-> >
-> >         ret = of_property_read_u32(np, "google,cros-ec-spi-pre-delay", &val);
-> >         if (!ret)
-> > @@ -703,6 +706,37 @@ static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
-> >         ret = of_property_read_u32(np, "google,cros-ec-spi-msg-delay", &val);
-> >         if (!ret)
-> >                 ec_spi->end_of_msg_delay = val;
-> > +
-> > +       if (!of_device_is_compatible(np, "google,cros-ec-fp"))
-> > +               return 0;
-> > +
-> > +       boot0 = devm_gpiod_get(dev, "boot0", 0);
->
-> I think that the last parameter to devm_gpiod_get() is better
-> described by "GPIOD_ASIS", right? Same for the other one below.
+On Mon, Mar 21, 2022 at 12:10:57PM -0700, Stephen Boyd wrote:
+> Add a binding to describe the fingerprint processor found on Chromebooks
+> with a fingerprint sensor. Previously we've been describing this with
+> the google,cros-ec-spi binding but it lacks gpio and regulator control
+> used during firmware flashing.
 
-Yes, 0 is GPIOD_ASIS.
+Then 'google,cros-ec-spi' should be a fallback?
 
->
->
-> > +       if (IS_ERR(boot0))
-> > +               return PTR_ERR(boot0);
-> > +
-> > +       reset = devm_gpiod_get(dev, "reset", 0);
-> > +       if (IS_ERR(reset))
-> > +               return PTR_ERR(reset);
-> > +
-> > +       /*
-> > +        * Take the FPMCU out of reset and wait for it to boot if it's in
-> > +        * bootloader mode or held in reset. This isn't the normal flow because
-> > +        * typically the BIOS has already powered on the device to avoid the
-> > +        * multi-second delay waiting for the FPMCU to boot and be responsive.
-> > +        */
-> > +       if (gpiod_get_value(boot0) || gpiod_get_value(reset)) {
->
-> I believe that the above two calls are illegal as documented. The file
-> `Documentation/driver-api/gpio/consumer.rst` says that if you use
-> `GPIOD_ASIS` to get the GPIO that "The direction must be set later
-> with one of the dedicated functions.". The "must" there is important.
->
-> Oh, and further down it appears to be even more explicit and says "Be
-> aware that there is no default direction for GPIOs. Therefore, **using
-> a GPIO without setting its direction first is illegal and will result
-> in undefined behavior!**".
->
-> I assume that "get" counts as using?
->
-> I think this sorta gets into some of the limitations of the GPIO APIs
-> in Linux that try to make sure that they work on a "lowest common
-> denominator" GPIO controller. I don't think they promise that
-> "get_value" while in output mode is legal across all GPIO controllers.
->
-> Maybe a solution is to at least add a comment saying that the code
-> will only work on GPIO controllers that will let you get the value
-> back if it's an output?
+> 
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Cc: Craig Hesling <hesling@chromium.org>
+> Cc: Tom Hughes <tomhughes@chromium.org>
+> Cc: Alexandru M Stan <amstan@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  .../bindings/chrome/google,cros-ec-fp.yaml    | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+> new file mode 100644
+> index 000000000000..b7fbaaa94d65
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/chrome/google,cros-ec-fp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ChromeOS Embedded Fingerprint Controller
+> +
+> +description:
+> +  Google's ChromeOS embedded fingerprint controller is a device which
+> +  implements fingerprint functionality such as unlocking a Chromebook
+> +  without typing a password.
+> +
+> +maintainers:
+> +  - Tom Hughes <tomhughes@chromium.org>
+> +
+> +properties:
+> +  compatible:
+> +    const: google,cros-ec-fp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    maximum: 3000000
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios: true
 
-Ugh, yeah. I don't have a good way to detect that it is already booted
-by the BIOS then, besides adding some other DT property that can
-indicate we need to boot it, like "google,needs-boot", or have a
-different compatible string for this device when it is powered off.
+maxItems: 1
 
-Or we could try to communicate with the device and if it fails to
-respond we get the gpios and do the boot sequence before giving up on
-probe. I don't see much value in that though so I'm leaning towards
-dropping this patch.
-
->
->
-> > +               /* Boot0 is sampled on reset deassertion */
-> > +               gpiod_set_value(boot0, 0);
-> > +               gpiod_set_value(reset, 1);
->
-> Those two calls are almost certainly illegal / not guaranteed to work
-> without setting a direction, at least in the general case. Luckily I
-> think it's easy to just change both of them to
-> "gpiod_direction_output", which takes a value.
->
-> Actually, even on Qualcomm hardware I don't think those will work if
-> the boot direction was input, will they? They'll set the value that
-> _will_ be driven but won't cause it to actually be driven, right?
->
-
-Correct.
+> +  boot0-gpios:
+> +    maxItems: 1
+> +    description: Assert for bootloader mode.
+> +
+> +  vdd-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset-gpios
+> +  - boot0-gpios
+> +  - vdd-supply
+> +  - spi-max-frequency
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +      #address-cells = <0x1>;
+> +      #size-cells = <0x0>;
+> +      ec@0 {
+> +        compatible = "google,cros-ec-fp";
+> +        reg = <0>;
+> +        interrupt-parent = <&gpio_controller>;
+> +        interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+> +        spi-max-frequency = <3000000>;
+> +        reset-gpios = <&gpio_controller 5 GPIO_ACTIVE_LOW>;
+> +        boot0-gpios = <&gpio_controller 10 GPIO_ACTIVE_HIGH>;
+> +        vdd-supply = <&pp3300_fp_mcu>;
+> +      };
+> +    };
+> +...
+> -- 
+> https://chromeos.dev
+> 
+> 

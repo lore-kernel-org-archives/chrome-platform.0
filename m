@@ -1,91 +1,69 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC0EC64
-	for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 12:19:36 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id v2-20020a7bcb42000000b0037b9d960079so2107942wmj.0
-        for <chrome-platform@lists.linux.dev>; Tue, 22 Mar 2022 05:19:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F74123DA
+	for <chrome-platform@lists.linux.dev>; Fri, 25 Mar 2022 15:40:34 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id t21so3652475oie.11
+        for <chrome-platform@lists.linux.dev>; Fri, 25 Mar 2022 08:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ykocWOAz0Uq+UDyAgiBZ8KQwD5sPDMIaIusCx46+2Ks=;
-        b=kKY+qozz/qcYG+/WjZpLBwTWsZ5tYB8zXlI70JV8xHO0EZdrLRb7kZRqQpLv1AKLeE
-         V+ah86LXYoSNB33ep5SGvLR9hA81Yxkx4CMt8bv6tX4ZZaLpnDpmKrWXjhG9uQiAalg6
-         S80CRpCoCzGXB/IyUuz30WFr39JPiBlgTtiJo=
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=D+jLkCpaZNDCy/uHdMrqvNgmVKMmoKiEpprLxsWBcrk=;
+        b=WBMTOJnlOcFnH70i8g1Z6BQViSEKTHEq/JyckGw+LCen6SAQFfxSLY90bsZOQGT++Q
+         nPQ1kRnmegekXItS+NyN2cZnYsT4bcgYYUcAmvnTsFmmFyNWgFtPfCsf2CrfGmDnzHD7
+         6GJhJIbuezWeKdL9cDaz14ZtbczF4ms9wTV7M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ykocWOAz0Uq+UDyAgiBZ8KQwD5sPDMIaIusCx46+2Ks=;
-        b=IhiNeUPT74IgeLoQVoVjP/5haX0MWabpHPu5GQ1e1DhwPSN1rqaNmNo1kCTgGFDHrw
-         2D0CC5AeXfyBIXno/69PG7l/6rFZhn+JIJ4cLBQPWo7Anp3Y1F7HIsQmDiUal7vTIi1A
-         Iw4WEa7ufoqOdt4aONTvU+DdvUuFsEV5XkrDsFXKedxKkitjlUDYA0PqW2UWe5Li25Im
-         YPJBm2Oe+OJr5wcDXdWAuJq5kDm/cebwFrerpSWzGAeadtEloo/joAmTsm/9Pqn4fHKA
-         wd0C1XirK1lesZS5yoE5Dbwa1kQCo9ocx3r2KU9vdJocier6OBnLVeagygYjV9F3uERl
-         MdZw==
-X-Gm-Message-State: AOAM531EpQY77blg4NEPjq51pzbBd+AFsk920r3lsyXSUZd4HfpnX0et
-	T1D2jROeFZ1itKukyUY6iIaIhw==
-X-Google-Smtp-Source: ABdhPJyFLwDH5nAIAcJ9p0nfgQAFOIKhSm1IVpSDXY9TL57Dd6kWriAXvFvzHaFUdFaXQn45mmhONA==
-X-Received: by 2002:a1c:e908:0:b0:38c:782c:2a62 with SMTP id q8-20020a1ce908000000b0038c782c2a62mr3433024wmc.135.1647951574957;
-        Tue, 22 Mar 2022 05:19:34 -0700 (PDT)
-Received: from google.com ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id l13-20020adfbd8d000000b002040daf5dffsm9233464wrh.18.2022.03.22.05.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 05:19:34 -0700 (PDT)
-Date: Tue, 22 Mar 2022 12:19:32 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] dt-bindings: update google,cros-ec-pwm documentation
-Message-ID: <Yjm+1ON8o5y/qcKG@google.com>
-References: <20220321143222.2523373-1-fabiobaltieri@chromium.org>
- <20220321143222.2523373-4-fabiobaltieri@chromium.org>
- <09b4b714-4fb5-f2af-5a88-b48cbff35b7d@kernel.org>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=D+jLkCpaZNDCy/uHdMrqvNgmVKMmoKiEpprLxsWBcrk=;
+        b=oR7tdKgwP8621NbPHoEJWDcPFU8YJPaKQ41QyZoFxF/jTK4g0sQCWckVShMyw45QQm
+         huBU+SmZvUoY2DbqEREwDj/AnegNRJwFkXLvrM85J48AIS+yfUa9WjkRK/KUwrmBpVsg
+         PjO/RpWxo8U0An02wwxW4hxRwz0gqsoHjBjfDt1Sn0e/qIMTFDVkneVugx4tk7CXd0np
+         qwxPqdXSXk7VE3TqKI2WxwUufYQsxoHaFDgZffdjYLka2HIxudWpTRvD5Z2/qNDJA+m4
+         H4JhtEySjOsIB7v3FgD7kayTGnpHLs+uadyZZJrBMpqSzvecCp/RTH623HwW6eYKGwWt
+         41Lg==
+X-Gm-Message-State: AOAM530cJYkloq9u3ZM/525lwqV3a/nkm5u9yAqjpZOOIdoHe4TYkODd
+	6pRLs46fAfho+ZZLP15wYrPkqnYprVHWK8ZsVNCt5w==
+X-Google-Smtp-Source: ABdhPJzHLYq1n0oMw/ZrH7LYQF2eWCeFDmwwVx7wahLFhNpTjgHMpkRd/MVfGx7ajwKra2C02IMCHnunrXRCl3BK0Bo=
+X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
+ n62-20020acabd41000000b002ecff42814fmr5566847oif.63.1648222833524; Fri, 25
+ Mar 2022 08:40:33 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 25 Mar 2022 10:40:33 -0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <09b4b714-4fb5-f2af-5a88-b48cbff35b7d@kernel.org>
+In-Reply-To: <YjknOFMere5DG5He@robh.at.kernel.org>
+References: <20220321191100.1993-1-swboyd@chromium.org> <20220321191100.1993-2-swboyd@chromium.org>
+ <YjknOFMere5DG5He@robh.at.kernel.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 25 Mar 2022 10:40:33 -0500
+Message-ID: <CAE-0n532uGx+VstUEt9ZC+_6Tg6_HsaJAsKn1p02Q3qV9XqEPA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: chrome: Add ChromeOS fingerprint binding
+To: Rob Herring <robh@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
+	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
+	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Matthias Kaehlcke <mka@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 21, 2022 at 04:47:54PM +0100, Krzysztof Kozlowski wrote:
-> On 21/03/2022 15:32, Fabio Baltieri wrote:
-> > Update google,cros-ec-pwm node documentation to mention the
-> > google,use_pwm_type property.
-> > 
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-> > index 4cfbffd8414a..2224e8e07029 100644
-> > --- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-> > +++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-> > @@ -19,6 +19,12 @@ description: |
-> >  properties:
-> >    compatible:
-> >      const: google,cros-ec-pwm
-> > +
-> > +  google,use_pwm_type:
-> 
-> Hyphens, not underscores.
+Quoting Rob Herring (2022-03-21 18:32:40)
+> On Mon, Mar 21, 2022 at 12:10:57PM -0700, Stephen Boyd wrote:
+> > Add a binding to describe the fingerprint processor found on Chromebooks
+> > with a fingerprint sensor. Previously we've been describing this with
+> > the google,cros-ec-spi binding but it lacks gpio and regulator control
+> > used during firmware flashing.
+>
+> Then 'google,cros-ec-spi' should be a fallback?
 
-Oh thanks, will change for v2.
-
-> 
-> 
-> Best regards,
-> Krzysztof
-
--- 
-Fabio Baltieri
+How do I describe that in the schema without causing google,cros-ec.yaml
+to jump in and complain that there are unknown properties? Do I need to
+combine these two schemas and then have conditional properties?

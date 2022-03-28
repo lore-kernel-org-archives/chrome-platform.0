@@ -1,82 +1,101 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D607C;
-	Mon, 28 Mar 2022 08:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2327C
+	for <chrome-platform@lists.linux.dev>; Mon, 28 Mar 2022 08:55:12 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id i26so5988153uap.6
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Mar 2022 01:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1648456211;
-  x=1679992211;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6lodqU722XqqMCnjzMd3/cpwy1KHIQLMRjx1NSCdEKA=;
-  b=XAmZvhXBenZfQv/0ZlWrqduYQsJ6FgkBouxBW6IQH3ep0wt8o/75MpOQ
-   zo1B+OAV4l/N4DaV6umlMRMkga7MKrA0V6U/WQC6DtYg2EFW0AZti7Mad
-   OeKj6x9k/vLbR2x6VP8WdAu7EnS2XvMrUujvPpb3HMg4YW7aZrgVYY6lP
-   koxkwJzigbhbOLG88flhTDJyzy0iCiNLTNK+Y46FQ9CZstF1aKhEoeCDH
-   8oy72hGHFeHRomhgx6VSjMB5RNw2ntMCBw9B3+yQkScqRaxFo/chA1M6T
-   KwbEDu3LDMhAxoGAp4XOv3Uo0BHaG1ahEqJnCWQyc5XYMvYU+LDTMdVoa
-   g==;
-Date: Mon, 28 Mar 2022 10:28:58 +0200
-From: Jesper Nilsson <jesper.nilsson@axis.com>
-To: Ansuel Smith <ansuelsmth@gmail.com>
-CC: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-actions@lists.infradead.org"
-	<linux-actions@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-omap@vger.kernel.org"
-	<linux-omap@vger.kernel.org>, "linux-amlogic@lists.infradead.org"
-	<linux-amlogic@lists.infradead.org>, linux-arm-kernel
-	<linux-arm-kernel@axis.com>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-rpi-kernel@lists.infradead.org"
-	<linux-rpi-kernel@lists.infradead.org>, "chrome-platform@lists.linux.dev"
-	<chrome-platform@lists.linux.dev>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-samsung-soc@vger.kernel.org"
-	<linux-samsung-soc@vger.kernel.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>, "kernel@dh-electronics.com"
-	<kernel@dh-electronics.com>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-oxnas@groups.io"
-	<linux-oxnas@groups.io>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-unisoc@lists.infradead.org"
-	<linux-unisoc@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "linux-realtek-soc@lists.infradead.org"
-	<linux-realtek-soc@lists.infradead.org>
-Subject: Re: [RFC PATCH 1/1] ARM/arm64: categorize dts in arm dir and fix
- dependency in arm64
-Message-ID: <20220328082858.GJ7371@axis.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <20220328000915.15041-2-ansuelsmth@gmail.com>
+        d=0x0f.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XVsPS/VhdyaBsd9atLVudcFUKqEC9P8EvF6rDaB8yFU=;
+        b=OSqpQCrlKuq1ygWxipYT3Of9HBAb88KQ9TOJlYuLb2/hGVpSDprsgb6uWgqbh3hh98
+         vsxGCoSmwwbiMb/1jrmEDn1hHoeY6N21aXGTFcL6mzAPwPSpbGdasPKMR7/lx8tM8Dcu
+         zDqMOBhm8ZczDMkDasuHpB7m/C5XBna2TilwA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XVsPS/VhdyaBsd9atLVudcFUKqEC9P8EvF6rDaB8yFU=;
+        b=GCY2VVxViEnOTJrQq1ynwsSfqdTlfWEjpZuduqrbmbwH27kX4ruDwrQBJJBzYfi1xG
+         G3qqIm8gsMCMdWhKHrtNFnR/lWYKqg+w1hUmSgxCK/gTtkaj5g3DpFIsJRn2SS6zBw9J
+         6JyTu1VJWNcTHM6OZAT3KTgbqGRwTIaN+UKWXAcO2L0PoRS0CGrMLp6dV6FPweEe+j8z
+         S/AHn7koqJWHrUNrnJ1j7RvenItxzIdh63ZZcGjwT9qSCFir2qGMC8k/hc5nfwBjDclX
+         FKXYZ0nNezqCyVfQqx9Nik3kEzRFlpqwWO1ZGRRZBcJwEGRSda+5cb2oDZF0fvlKUUdT
+         SBeg==
+X-Gm-Message-State: AOAM530GxKTeIrvgue6bFI7wdaoMQD6lCnCrSvh9/YhLcaHKj0bYSD5c
+	wMZkZGn8TGLBfVlnQggiqBb8sb4ype6XyNjGOkh7lg==
+X-Google-Smtp-Source: ABdhPJyfvYib4PeBvldMr45WaNJUn9d0szw+m4r3gQvhxDYWf7h78gUBTUR4Tz9aV7SCUvVQadsOTy78MLEja6PP/v4=
+X-Received: by 2002:ab0:2695:0:b0:352:5fc9:4132 with SMTP id
+ t21-20020ab02695000000b003525fc94132mr9194787uao.29.1648457711122; Mon, 28
+ Mar 2022 01:55:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220328000915.15041-2-ansuelsmth@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+In-Reply-To: <20220328000915.15041-1-ansuelsmth@gmail.com>
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Mon, 28 Mar 2022 17:55:00 +0900
+Message-ID: <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To: Ansuel Smith <ansuelsmth@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, DTML <devicetree@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-actions@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com, 
+	linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	kernel@dh-electronics.com, linux-mediatek@lists.infradead.org, 
+	openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-oxnas@groups.io, 
+	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ansuel,
+Hi Ansuel
 
-On Mon, Mar 28, 2022 at 02:09:15AM +0200, Ansuel Smith wrote:
-> - Categorize every dts in arm directory in subdirectory
-> - Fix Makefile to address for the arm subdirectory
-> - Fix any arm64 dependency
-> [...]
->  arch/arm/boot/dts/axix/Makefile               |    3 +
->  .../boot/dts/{ => axix}/artpec6-devboard.dts  |    0
->  arch/arm/boot/dts/{ => axix}/artpec6.dtsi     |    0
+On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+>
+> Hi,
+> as the title say, the intention of this ""series"" is to finally categorize
+> the ARM dts directory in subdirectory for each oem.
 
-All ARTPEC platforms should be in a directory called "axis".
-Otherwise LGTM.
+While I agree with this change and think it's for the good (browsing
+the ARM dts directory at the moment is frustrating..) I think
+buildroot and others need to be told about this as it'll potentially
+break their kernel build scripting for ARM and probably messes up the
+configs they have for existing boards.
 
-Thanks!
+>  arch/arm/boot/dts/mstart/Makefile             |   10 +
+>  .../mstar-infinity-breadbee-common.dtsi       |    0
+>  .../mstar-infinity-msc313-breadbee_crust.dts  |    0
+>  .../{ => mstart}/mstar-infinity-msc313.dtsi   |    0
+>  .../boot/dts/{ => mstart}/mstar-infinity.dtsi |    0
+>  .../mstar-infinity2m-ssd201-som2d01.dtsi      |    0
+>  ...nfinity2m-ssd202d-100ask-dongshanpione.dts |    0
+>  .../mstar-infinity2m-ssd202d-miyoo-mini.dts   |    0
+>  .../mstar-infinity2m-ssd202d-ssd201htv2.dts   |    0
+>  .../mstar-infinity2m-ssd202d-unitv2.dts       |    0
+>  ...sd202d-wirelesstag-ido-sbc2d06-v1b-22w.dts |    0
+>  ...ity2m-ssd202d-wirelesstag-ido-som2d01.dtsi |    0
+>  .../mstar-infinity2m-ssd202d.dtsi             |    0
+>  .../mstar-infinity2m-ssd20xd.dtsi             |    0
+>  .../dts/{ => mstart}/mstar-infinity2m.dtsi    |    0
+>  .../mstar-infinity3-msc313e-breadbee.dts      |    0
+>  .../{ => mstart}/mstar-infinity3-msc313e.dtsi |    0
+>  .../dts/{ => mstart}/mstar-infinity3.dtsi     |    0
+>  .../mstar-mercury5-ssc8336n-midrived08.dts    |    0
+>  .../{ => mstart}/mstar-mercury5-ssc8336n.dtsi |    0
+>  .../boot/dts/{ => mstart}/mstar-mercury5.dtsi |    0
+>  arch/arm/boot/dts/{ => mstart}/mstar-v7.dtsi  |    0
 
-/^JN - Jesper Nilsson
--- 
-               Jesper Nilsson -- jesper.nilsson@axis.com
+s/mstart/mstar/
+
+Cheers,
+
+Daniel

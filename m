@@ -1,111 +1,103 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F664366;
-	Mon, 28 Mar 2022 14:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476077; x=1680012077;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=VaqwPhIAZMiCAzmDNrI7SdWa+IUS+mL0d3qNstUEY67SLWMyLE0U4Pub
-   PapEn4XCe8QVHXAmgjoO9F9aXLgVXYCdkRs33oClErXvFSslphLZ//Zfr
-   7Ykl/LFOuUThn9UtiaKRZjjvnRjCTh1Y2gseHjrsxSGpKeOacECgZFyaT
-   eKMgGHxZCYVBV3Ds8QCiRjZ6kXBuRAesmUz2KDRlP+cipiCHtsgKRp3XZ
-   gajLTBUbcDxwMm6YIjx0RODsLnAkACkYGw4Yb9iqyjKxysx37geBoekXh
-   LB8ZuYv/pFgaBDbW05SD2lsg5YgU/5qu4gW3eD5ZASdpgVTLYhb16KaWw
-   w==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935295"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 28 Mar 2022 16:00:05 +0200
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Mon, 28 Mar 2022 16:00:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476005; x=1680012005;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=WuV252Nu+GZzN74VzCmlspBKd0dca8X2+xSzsUDOC+VBkSdAcRJKkpz9
-   V6ZhUvtyzJXo40EU/KoKsnsMA+udDgpFrmJjA0OOrI8Du6AE/IqQXvbD0
-   l7/oi3cIclt6kdqSsBk62dD3jTXzpYH4IITmDIWCq1j5VlQdR/7ht0rkB
-   UzXa+gf9sB2fMmE9Y4BJg30hxvVMBs2s+cV3pKJsYN741b+m12/z4LAVK
-   Ghd0BfGmPSMkfRYy9LlDPSTztxPRWJXf02LYJ3AALa7lqL+bNoPBea5QD
-   q3OLZ+wYdDSKr/JtyC5EC84xkLnc6lGkLWsLSzPCKdl/McKEhN7OLwWQj
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935294"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 20160280065;
-	Mon, 28 Mar 2022 16:00:04 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc: Ansuel Smith <ansuelsmth@gmail.com>, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-Subject: Re: (EXT) Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Date: Mon, 28 Mar 2022 16:00:02 +0200
-Message-ID: <2100132.irdbgypaU6@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <YkG2RPrtPaBNXb7a@latitude>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <YkG2RPrtPaBNXb7a@latitude>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2ED163;
+	Tue, 29 Mar 2022 00:24:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id AA157580367;
+	Mon, 28 Mar 2022 20:24:01 -0400 (EDT)
+Received: from imap49 ([10.202.2.99])
+  by compute5.internal (MEProxy); Mon, 28 Mar 2022 20:24:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; bh=YVcOcYXKVU4PEK
+	ENIKD3lZlfbqMF8OkXUPWQPtT0ZzA=; b=GV8iKIgkifB/LyajStlhIzzaA2PqSU
+	rEPGZBnWRziuDMlxEaU3fjhl0DHmyiueo1E3rsDwPrq1dyaythjr8LeJ4NZ3kmFH
+	v7J0UO7b64vG5VRtrXZ/OicN/3vDmtLy+M6As/zf5/EYH2TO2OF+YIkppderpdcN
+	ocuY8KYW/dUFglcgTgXnC/6f5bvCH2TNkniwuNDGczxXDBDNnP2nHRX3u9u0y3Go
+	2HHhDpJUS8OMLXTkUmRtrROlDXASYpEdp57tTxY7G7Ci6RHcafVgGiKZGpjbHNDZ
+	//P9ySL7tvarTkKke+QN7H1PCcvhD3CsMcxHphO+TJq7W+71Q2wgIxYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=YVcOcYXKVU4PEKENIKD3lZlfbqMF8OkXUPWQPtT0Z
+	zA=; b=MfUF/QO1w2kk8LobJGDnDjGmGT9HUgvaIsBRcZJH4NP16C60y/NJslTt7
+	orhhkgHh49rbOiH30mg+9nD++QY3WWgzSB2sDT9Qr4nBx6DPKrUBtQOsEMz/dHsj
+	tnZTX8+5b3lvOKKTTCyQClpi0fsj22EquswXftZXPkMfoj2QCv1jAapgIQLAxfMF
+	S0z3hjnx7eO2S93c8UZottn5LmdiG0YcFFuK5zB8/ar7yCvc0Jy0dFV5KjDfSzzb
+	3LrydgytiTwdKd8S3tKaPDcolfNGWpjEyPMA80KKZ8LEsNOU94avhhnY8yVPYBI+
+	z15/ibq45vK+JxVduu76w45M0nzjQ==
+X-ME-Sender: <xms:oFFCYs9K0yagZswp7rFBq_h4vFfHgzOKyc_TzBu90N89g92vvi8M3A>
+    <xme:oFFCYkvw9h1jnh95ii6UH3c9xPcsfcQHqQiMHfK2AbFZHDfMquci3iY3KqTCG7jHE
+    woyrhqOfmB1RNSngg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehkedgfedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
+    kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:oVFCYiAKjCQA5Zb05U61crJ5MlOJCJLgZQqyWNA7a6PSqL49ds9rcQ>
+    <xmx:oVFCYsd7HLs87jVXkH1pk4ddv_005tSApo64HS9hBsjced9RxeZQlg>
+    <xmx:oVFCYhNCDSxTTbHGsk6l4iYUYPZLYU9gbpl7DI-t2s9QTshCOjdDqA>
+    <xmx:oVFCYjVxoE5j7ipqETgwLEOiheaMjFzqbcptYMrhCgrHpWjYJYVlwQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id E057EF6043F; Mon, 28 Mar 2022 20:24:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4911-g925b585eab-fm-20220323.003-g925b585e
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Message-Id: <d5e6c96b-5882-4602-93cb-b08a65bfa37e@www.fastmail.com>
+In-Reply-To: <D9AFAC3C-46CA-4C40-8559-FD6934411CAB@goldelico.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <YkG2RPrtPaBNXb7a@latitude>
+ <D9AFAC3C-46CA-4C40-8559-FD6934411CAB@goldelico.com>
+Date: Tue, 29 Mar 2022 10:53:40 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ "Ansuel Smith" <ansuelsmth@gmail.com>
+Cc: "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ "OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Linux-OMAP <linux-omap@vger.kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
+ linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
+ linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+ linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
+ linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-
-Am Montag, 28. M=E4rz 2022, 15:21:08 CEST schrieb Jonathan Neusch=E4fer:
-> * PGP Signed by an unknown key
->=20
-> On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
-> > Hi,
-> > as the title say, the intention of this ""series"" is to finally
-> > categorize
-> > the ARM dts directory in subdirectory for each oem.
->=20
-> [...]
->=20
-> > [1] https://gist.github.com/Ansuel/47c49925ee7ef4b1dd035afc74679ab5
-> > [2] https://gist.github.com/Ansuel/19f61f1e583c49407ce35c10e770fbe0
->=20
-> Nice idea, thank you!
->=20
-> A few notes on categorization below.
-> [...]
-> >  create mode 100644 arch/arm/boot/dts/freescale/Makefile
->=20
-> Freescale has been part of NXP for a while, so it might make sense to
-> merge the freescale and nxp directories. I can't speak for
-> NXP-the-company, so that's just my view as a bystander.
-
-Please don't mix the names for arm and arm64. It's very confusing if the=20
-vendor directory is named differently for each architecture.
-
->[...]
-> >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
->=20
-> armv7-m.dtsi is a bit confusing, because it contains a few devices at
-> fixed addresses, so it looks vendor-specific at a first glance into the
-> file. However, if it is actually as vendor-neutral as the name implies,
-> I think it should live dts/ directly, rather than in vendor
-> subdirectories.
-
-This seems to be some generic devices common for all ARMv7M CPUs used in=20
-Cortex-M CPUs. It's also used by some stm32 .dtsi.
-
-Best regards,
-Alexander
 
 
 
+On Tue, 29 Mar 2022, at 00:20, H. Nikolaus Schaller wrote:
+>> Am 28.03.2022 um 15:21 schrieb Jonathan Neusch=C3=A4fer <j.neuschaefe=
+r@gmx.net>:
+>>=20
+>> Or maybe bcm instead of broadcom. Not sure which is preferred by
+>> Broadcom people.
+>
+> Maybe it should always follow the list of vendor prefixes as we are=20
+> talking about DTS?
+
++1 (if we're actually going to do this). That would neuter most the=20
+mistakes and discussion and can be extracted from the dts files=20
+themselves.
+
+Andrew

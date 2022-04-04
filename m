@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A5E7C
-	for <chrome-platform@lists.linux.dev>; Mon,  4 Apr 2022 17:02:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58778C34112;
-	Mon,  4 Apr 2022 17:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3337C
+	for <chrome-platform@lists.linux.dev>; Mon,  4 Apr 2022 17:14:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ECDF9C34111;
+	Mon,  4 Apr 2022 17:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649091720;
-	bh=YISYXXxoAD17WcxlmzCJ3mnM23WX0zpwVW60yCzPmQ8=;
+	s=k20201202; t=1649092462;
+	bh=wrP0SyB7Pn2vzcNCKaCbDRANKEUMVJ6hSr1sVkXhkzw=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=poeecA4hteXyJG8MbL8NaV8xPS6O9EBoqfosWl2v2yZzD3Ub46yIKsQrytD0nf1Bj
-	 Dti7YqFLKqjgJcG4BWhL8aXymFqNJfRGj51R8sgcZRuktbkMT+WZRywEAhbm3nc5/Y
-	 VgWVVNHy8IyzwHnY2tbbTaEVs8+f3mhHQlv28veJ+VdRM9Y48Ao4KrK4kSGL01fz4U
-	 TW3+dKpSbEzdLkA70vYLGqChUAYyv7+rzOGpuzBQlvro8ZcljRxrsBRLypZQiIHNHB
-	 YfAVJXbrW87UdIKuHnV9wqtFnyExrX9I6AN+ykHoSVmHjgGnmSgCDNN3WMiPausy8g
-	 uoKm+XzJ9h2nQ==
+	b=oPiUrM31gA4mkDsI+K2461RktHKfZBFcMziZ6I9qu/A6NE2QCq78hZWRUBb5Fg4fw
+	 b6FM7VfLwhUA9vS07pT9w3VHHZ18g1yR6E/rB/0GEBJcSJmL4GWTnGQZVwUy57XXev
+	 M7oNh8UxblMu2rCP2ypozxmVrfU34ywyUHOEFVt4OpLmZNO7FlDflZYm3CovGZpYea
+	 9clHL5D3+SWyX0xVT7aGd7aomuv6ELlFGArE2gylAxtAJBwUrzh0aMYcXFpnStqT3J
+	 vWaBtjkt1e7Pe4NoR3jEwx+XdQ1YOsdjE3rUSP1u0LnvQlp21QjDU8ON+nryHCdHLB
+	 vZuiNmjQJ8L4g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3820FE85D53;
-	Mon,  4 Apr 2022 17:02:00 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D182CE85D53;
+	Mon,  4 Apr 2022 17:14:21 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -29,8 +29,8 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [GIT PULL] chrome-platform changes for v5.18
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <164909172022.14329.16783451358670227711.git-patchwork-notify@kernel.org>
-Date: Mon, 04 Apr 2022 17:02:00 +0000
+ <164909246185.14329.16960316742222597465.git-patchwork-notify@kernel.org>
+Date: Mon, 04 Apr 2022 17:14:21 +0000
 References: <YkekVRh9Ixdfa5qL@google.com>
 In-Reply-To: <YkekVRh9Ixdfa5qL@google.com>
 To: Benson Leung <bleung@google.com>
@@ -40,7 +40,7 @@ Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org,
 
 Hello:
 
-This pull request was applied to chrome-platform/linux.git (for-kernelci)
+This pull request was applied to chrome-platform/linux.git (for-next)
 by Linus Torvalds <torvalds@linux-foundation.org>:
 
 On Fri, 1 Apr 2022 18:18:13 -0700 you wrote:

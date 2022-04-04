@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3337C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7122F51
 	for <chrome-platform@lists.linux.dev>; Mon,  4 Apr 2022 17:14:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ECDF9C34111;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3919C3410F;
 	Mon,  4 Apr 2022 17:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1649092462;
-	bh=wrP0SyB7Pn2vzcNCKaCbDRANKEUMVJ6hSr1sVkXhkzw=;
+	bh=RvGj2Q18LJfQT9XlPp3IkvaWjSaTqyvITK0kRJD8u9Q=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=oPiUrM31gA4mkDsI+K2461RktHKfZBFcMziZ6I9qu/A6NE2QCq78hZWRUBb5Fg4fw
-	 b6FM7VfLwhUA9vS07pT9w3VHHZ18g1yR6E/rB/0GEBJcSJmL4GWTnGQZVwUy57XXev
-	 M7oNh8UxblMu2rCP2ypozxmVrfU34ywyUHOEFVt4OpLmZNO7FlDflZYm3CovGZpYea
-	 9clHL5D3+SWyX0xVT7aGd7aomuv6ELlFGArE2gylAxtAJBwUrzh0aMYcXFpnStqT3J
-	 vWaBtjkt1e7Pe4NoR3jEwx+XdQ1YOsdjE3rUSP1u0LnvQlp21QjDU8ON+nryHCdHLB
-	 vZuiNmjQJ8L4g==
+	b=UXPYPaMHgSRwaVFvCkHj2vb20E9SLLRr7qYSmd1t2Pp64ld5EJLNs6jp6f6syeEJ3
+	 O2tjaIF+Jles/YBIhjLBLdjEHvDwg4bv9Q/1++Ro5JHPWrdlOA3yx6U+Mta/6YtM5t
+	 oA8Fs2sopE/LDLB0XfZUsrXovAv9VDP334L6x0PtooO3iE42BCnKpFrlvwj5g5ZLSa
+	 OVQXxQTJwDHuME0PD3rRb8Kt27OOvFoVEjchpbQQOuUJU8obz4vaJ8dFFKckzVjDuL
+	 bBLZZ2Rq89wtyoMtfekJ6zngldJQVsYtOmg1jjOuhlzaaPMny1ZgKR0kmYxUFYbhTT
+	 ZjYkpjbHMRh7g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D182CE85D53;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C68F5E85AE7;
 	Mon,  4 Apr 2022 17:14:21 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,37 +26,49 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [GIT PULL] chrome-platform changes for v5.18
+Subject: Re: [PATCH 0/4] mfd/pwm: dt-bindings: google,cros-ec: include generic pwm
+ schema
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <164909246185.14329.16960316742222597465.git-patchwork-notify@kernel.org>
+ <164909246180.14329.3397709419938843373.git-patchwork-notify@kernel.org>
 Date: Mon, 04 Apr 2022 17:14:21 +0000
-References: <YkekVRh9Ixdfa5qL@google.com>
-In-Reply-To: <YkekVRh9Ixdfa5qL@google.com>
-To: Benson Leung <bleung@google.com>
-Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org,
- bleung@kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, tzungbi@kernel.org
+References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: lee.jones@linaro.org, robh+dt@kernel.org, bleung@chromium.org,
+ groeck@chromium.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, matthias.bgg@gmail.com, agross@kernel.org,
+ bjorn.andersson@linaro.org, heiko@sntech.de, dianders@chromium.org,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org
 
 Hello:
 
-This pull request was applied to chrome-platform/linux.git (for-next)
-by Linus Torvalds <torvalds@linux-foundation.org>:
+This series was applied to chrome-platform/linux.git (for-next)
+by Heiko Stuebner <heiko@sntech.de>:
 
-On Fri, 1 Apr 2022 18:18:13 -0700 you wrote:
-> Hi Linus,
+On Mon, 14 Feb 2022 09:19:12 +0100 you wrote:
+> Hi,
 > 
-> Here's chrome-platform's changes for v5.18-rc1.
+> DTS patches are independent. Not tested, but I really hope no downstream kernel
+> depends on pwm node naming... If it does, please change it to compatible. :)
 > 
-> Of note, the last two commits of this PR had to be reworded (actually just
-> the second to last one) since it hit linux-next for a minor commit message
-> fixup. Content wise, the two are the same as they are on linux-next right now.
+> Best regards,
+> Krzysztof
 > 
 > [...]
 
 Here is the summary with links:
-  - [GIT,PULL] chrome-platform changes for v5.18
-    https://git.kernel.org/chrome-platform/c/02d4f8a3e05b
+  - [1/4] dt-bindings: pwm: google,cros-ec: include generic pwm schema
+    https://git.kernel.org/chrome-platform/c/6b94ee669e8a
+  - [2/4] arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
+    (no matching commit)
+  - [3/4] arm64: dts: qcom: align Google CROS EC PWM node name with dtschema
+    https://git.kernel.org/chrome-platform/c/1e49defb8636
+  - [4/4] arm64: dts: rk3399: align Google CROS EC PWM node name with dtschema
+    https://git.kernel.org/chrome-platform/c/a0024f55eb5b
 
 You are awesome, thank you!
 -- 

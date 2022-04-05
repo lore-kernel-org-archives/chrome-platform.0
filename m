@@ -1,148 +1,107 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072CB15A3
-	for <chrome-platform@lists.linux.dev>; Tue,  5 Apr 2022 05:43:59 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id f10so10012102plr.6
-        for <chrome-platform@lists.linux.dev>; Mon, 04 Apr 2022 22:43:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A756C17D3
+	for <chrome-platform@lists.linux.dev>; Tue,  5 Apr 2022 10:48:39 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id x31so11694905pfh.9
+        for <chrome-platform@lists.linux.dev>; Tue, 05 Apr 2022 03:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LTGszWw0LQHjXPz9j0i9y0VywPVU6bUFiHI/ZnFZLEY=;
-        b=LDOc6/pBGmBnSVnCrhAbJJvjXFcXVkznBKd3B0lboUELwjzCR8FkhkHfwZxSOc1QiO
-         gLZexCbYEasQqcdEWZZtwVfDFDnspepq+Ygr+WeRTXljbgEywAcWi+Zhu/NXWNj6dkx9
-         CdxlAV+vCZ5eOazCyuJ6CPlvB5yStMNC0tJ9GvvDbHQEH6skKw26YuM/Dbkq+OLExq+Y
-         Vsu4A85cwsBwiqJCBNqNsyNKWu6oxtosOKmNK33Kqp1xoGZamkHpPiZVlXKEZipMyjY1
-         Vr1em+PY90nyKGcTCPrXIb+Gn0B2e3cl0cb3zmnkztunD330Cr/1c/pKSiHyWmxFQJHb
-         FmoA==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=AMUydYl0p0BPPRyhri/+Xsk8my4BLNpNJYGVKbe9kPc=;
+        b=I/oj5WVrqbHTDYRiEjnxijmri7DJG9Sx7OUxMdr2k9u8uVaSN3lo6yx1Q38zNc2TLD
+         5Ny5IuDCwNmubtv4SzTErVusg6EVuQWf8eDfR+zK/7w4oiUqEdsUMKOP72mYZEG4/sk+
+         F7a7bY7+tsdQ7VNf7g5rfLCDHyQaAhnflJyeEwVtsYqUtcFkYOKtORxcM2QUJKgnz/C7
+         l5ASP/pJlSx8OOpIBG3X7ebMPjnS+blxLR333qLCB5dMbHT2DmGT7z5mfnrHVkboouEO
+         uiRt0GGxVOyUHWnxxjve1pgmlMHrX+juJtwxlFdrMT5iQmQrDUcDQFnF8GAWZr2x5RLZ
+         5Ntw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LTGszWw0LQHjXPz9j0i9y0VywPVU6bUFiHI/ZnFZLEY=;
-        b=rl4EDH1abwZf09IxE0gyh2LV86xeSFmH4Cf8bRpmY2/jYeER0VvBS+UvI2bDrEuxkI
-         6jO3B9SUWSBBLhNtR8ltMLPfBU3XKups924pIKC7x2s2siOqbkNV5W5uQRXX/lopVdDD
-         z/WO7XhKkVxOAZF7Q2Z/zJ7QhlscX9RtoOdtbX4kEAy4nqJpt8ITIk0QVW+27afNSkc/
-         Z0ok9/Ap92Hw4T1inCN35LUeADqWLk0vwVPtzeBAHOIHkyOrUykOjZs0q7d75TRW9xKG
-         DHamM3EICNNg5X5utYrRWo+Hog4toL8stSzwUmAytBpE1wktQuy4BcG+qmu1ut/aoKb1
-         msTQ==
-X-Gm-Message-State: AOAM533ZrYOjtStFh4wwIclSc5PlLStK2vWOmR9oqAv5Xa87cI2Gqcx4
-	W9Si0d9pV/sQTHdGJD5sekc=
-X-Google-Smtp-Source: ABdhPJzY4J7Qs+0O+4UZC3AJL/k0yAkGEsiu6kn7Qs/c2LwL66bIP4r+PtbdI0W40Ehd8UqNJ7QiZw==
-X-Received: by 2002:a17:902:7887:b0:156:788a:56d1 with SMTP id q7-20020a170902788700b00156788a56d1mr1869856pll.110.1649137439413;
-        Mon, 04 Apr 2022 22:43:59 -0700 (PDT)
-Received: from [192.168.66.3] ([157.82.194.15])
-        by smtp.gmail.com with ESMTPSA id j7-20020a056a00130700b004b9f7cd94a4sm14054920pfu.56.2022.04.04.22.43.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 22:43:58 -0700 (PDT)
-Message-ID: <e04a5a51-10cb-3015-2e3e-44a6f6348d06@gmail.com>
-Date: Tue, 5 Apr 2022 14:43:53 +0900
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=AMUydYl0p0BPPRyhri/+Xsk8my4BLNpNJYGVKbe9kPc=;
+        b=PaoVFV4s1apwOs0kTedfCIz/VHheJO/fHG4SA/PU4aEpaRsn0OfYyKie/4huo++NoV
+         yk65tHNMDVzp/q0cj7c9KmCwDNesYHdG4ApXZMRW2U1vCMZ4SLwSWBnjAElz24AadCgo
+         UUZ7rHa6Q2zn3TKFSSd8gVk88+7jOG2jUq/CrvvYxbKjKyaHK3E14W0U1ZrDNF1nAZig
+         lxObDf/Qx1iN9hQfOM431ZBp3xG9q+LBTLyDUILC2WpMaCVUZbhgKQ5KXuzRNI2Y/6ss
+         uJgWD9FY4LkFa06ZZ97+6+bOyjFflp0eZrUZhImNBB2H5j4pEC/oC7JYlbmf/H1QGO+4
+         TGHw==
+X-Gm-Message-State: AOAM530zZAniIvgxkTXdX2df/BNyLYgrd/vbRBmEZf38WGJvLZ/qmjd0
+	AeyS24sPPaziTbWRQACRCaXEJA==
+X-Google-Smtp-Source: ABdhPJxVWJmLXfK2RlAAlzNPJWazF2ZAEEhQY6iMSQkFF+B4Kw8+58cJRs+vN1eHJLZl70bXNBFvTw==
+X-Received: by 2002:a05:6a00:a8b:b0:4e1:52db:9e5c with SMTP id b11-20020a056a000a8b00b004e152db9e5cmr3067742pfl.38.1649155719049;
+        Tue, 05 Apr 2022 03:48:39 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d16-20020a056a00245000b004f771b48736sm15964045pfj.194.2022.04.05.03.48.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 03:48:38 -0700 (PDT)
+Message-ID: <624c1e86.1c69fb81.351f6.95d8@mx.google.com>
+Date: Tue, 05 Apr 2022 03:48:38 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
-Content-Language: en-US
-To: Guenter Roeck <groeck@google.com>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- chrome-platform@lists.linux.dev, Prashant Malani <pmalani@chromium.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
- <CABXOdTe9u_DW=NZM1-J120Gu1gibDy8SsgHP3bJwwLsE_iuLAQ@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CABXOdTe9u_DW=NZM1-J120Gu1gibDy8SsgHP3bJwwLsE_iuLAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v5.18-rc1-1-gbf84b10d9901d
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.18-rc1-1-gbf84b10d9901d)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On 2022/04/05 10:57, Guenter Roeck wrote:
-> On Sun, Apr 3, 2022 at 9:11 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> The EC driver may not be initialized when cros_typec_probe is called,
->> particulary when CONFIG_CROS_EC_CHARDEV=m.
->>
-> 
-> Does this cause a crash ? If so, do you have a crash log ?
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.18-rc1=
+-1-gbf84b10d9901d)
 
-It indeed caused a crash but I don't have a log because I couldn't get a 
-serial console. Adding dev_error calls revealed ec_dev in 
-cros_typec_probe can be NULL if CONFIG_CROS_EC_CHARDEV=m.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.18-rc1-1-gbf84b10d9901d/
 
-> 
-> Reason for asking is that I saw the following crash, and it would be
-> good to know if the problem is the same.
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.18-rc1-1-gbf84b10d9901d
+Git Commit: bf84b10d9901ded51d33411499079ce64e0c4ae7
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-This is just a guess, but I don't think it is unlikely.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-The call trace indicates it dereferenced a NULL pointer in 
-cros_ec_command, which is directly called by cros_typec_probe.
+Detailed per-defconfig build reports:
 
-At the source level, cros_ec_command is directly called just once in 
-cros_typec_probe, which dereferences typec->ec. typec->ec is however 
-already used by cros_typec_get_cmd_version so it would never trigger a 
-NULL dereference. Therefore, the crash should have happened in an 
-inlined function.
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
-cros_ec_command is called by cros_typec_get_cmd_version and 
-cros_ec_check_features. cros_ec_check_features, which dereferenced NULL 
-on my laptop, is called twice and unlikely to be inlined. 
-cros_typec_get_cmd_version is called only once and is more likely to be 
-inlined and thus the cause of the Oops in your crash. (By the way, the 
-possibility of inlining would also make comparing call traces 
-meaningless due to compiler/kernel version variances.)
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
 
-This is just a guess anyway so you may disassemble your kernel build to 
-know if it is same or not, which I think should be straightforward enough.
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
 
-Regards,
-Akihiko Odaki
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
 
-> 
-> <1>[    6.651137] #PF: error_code(0x0002) - not-present page
-> <6>[    6.651139] PGD 0 P4D 0
-> <4>[    6.651143] Oops: 0002 [#1] PREEMPT SMP NOPTI
-> <4>[    6.651146] CPU: 0 PID: 1656 Comm: udevd Tainted: G     U
->      5.4.163-17384-g99ca1c60d20c #1
-> <4>[    6.651147] Hardware name: HP Lantis/Lantis, BIOS
-> Google_Lantis.13606.204.0 05/26/2021
-> <4>[    6.651152] RIP: 0010:mutex_lock+0x2b/0x3c
-> ...
-> <4>[    6.651174] Call Trace:
-> <4>[    6.651180]  cros_ec_cmd_xfer+0x22/0xc1
-> <4>[    6.651183]  cros_ec_cmd_xfer_status+0x19/0x59
-> <4>[    6.651185]  cros_ec_command+0x82/0xc3
-> <4>[    6.651189]  cros_typec_probe+0x8a/0x5a2 [cros_ec_typec]
-> 
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> 
-> Not sure if this is the best solution, but I don't know a better one.
-> 
-> Reviewed-by: Guenter Roeck <groeck@chromium.org>
-> 
->> ---
->>   drivers/platform/chrome/cros_ec_typec.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
->> index 4bd2752c0823..7cb2e35c4ded 100644
->> --- a/drivers/platform/chrome/cros_ec_typec.c
->> +++ b/drivers/platform/chrome/cros_ec_typec.c
->> @@ -1084,6 +1084,9 @@ static int cros_typec_probe(struct platform_device *pdev)
->>          }
->>
->>          ec_dev = dev_get_drvdata(&typec->ec->ec->dev);
->> +       if (!ec_dev)
->> +               return -EPROBE_DEFER;
->> +
->>          typec->typec_cmd_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_CMD);
->>          typec->needs_mux_ack = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK);
->>
->> --
->> 2.35.1
->>
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
 
+---
+For more info write to <info@kernelci.org>

@@ -1,116 +1,109 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882342570
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 17:23:16 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id f3so6072992pfe.2
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Apr 2022 10:23:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BEE258F
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 18:52:11 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id ot30so12666435ejb.12
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Apr 2022 11:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DFecdRo1OcDJL+E53AYAzBMzke472lhEFN6Lut7X4Ts=;
-        b=RR0h+gY5cOptCFHpbs2kfVqhRd2qnjomTxAX3aw6Z2qukKffYeou0GZ7qiZMXepddM
-         Mdetx+EF5JkUPT1QcKOq7Z8Ce+cYwUQOcv+2b6w4ghfO8gVfSm80kV6smnGW1SQB56lJ
-         q5rsQJHhIz1/1UnwQqwflKnteNhxueIt55HPQJiUJdG3h+Ud4w4uY1lnQIP2l/XlTcA8
-         e+qxhc6VeDth+AaDhNEFM8E5Tp84A2zcvd985556vxoZaohNr47+QJA5015Vq1wS3KGa
-         jUpAHcZ6HJz4g6RxhpX/vo5K+SGTpnzk0PH+pY00W7xEdnnq00YucTWDWjBWIf9JiOjf
-         bgTA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g/s/dz2/6Hbj/5UtThLNXvWjhjgt6+Hm9DR6vV4CONg=;
+        b=rO+QJDYo4qa4mxnut16LDPVa7HWgESnE+x4Rqbq2g2UOsuWrmh31lhxhnpzvoYWWQl
+         FrSRWhasf8ZEQY3BNvb7+gh9l99lHrP0TjtzN9a6OE/xjRjG3aclJucJoqYsxSN/3CZu
+         AyadrhhfR80zu9y8aAK+sQIQKKd9JIXiTi6UKOjOTYEGyOoG8266IgDy1Zt3n3QbN9L0
+         pXR1w3Rq5Gu37DTo/VV5IoFiByzk5f9aWGlV86CNogTN14OJukPMiz+c95aKdP+bm1jk
+         QNcvnou1kZZKWBnagB6iFK/D/WJNavHNOdBJIgcLfgUi+6FjrI0Aymlezlc5NfkMNYQZ
+         +YZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DFecdRo1OcDJL+E53AYAzBMzke472lhEFN6Lut7X4Ts=;
-        b=3auERhkN7O+tKXR7Ztmk8U7g0b9xQ9dQbzo23IkuAl70e6cP1ipg1oYklqk5ZhxvoH
-         pp6LH7zTm+4BcoygBAKpUKsjMyw5Bx/mSe8if0ct/lyHXGxBbLxTfuvOOC5ceN+hKXms
-         jRx1eNOBReJo0wNRIvdBPYs4YscREWNF2/Kz81pwAQcdI2Tx5nAR868aqhddva4XSKq8
-         3ilyXtezzCgAZobJJvhueKEb9/AayTpRURE805tG0DASboMgAo4rH7dMCwBkNDCBT304
-         2Q2RvKs+lfNJnerdoeTd+40TCLZxnV0K8tsJJywRs4oZeDPiFyDW//cey1+7jD9gKEVg
-         N2pA==
-X-Gm-Message-State: AOAM532XAQuF1gsCldiAuepfqdq6QDH8cKYT2TNaHFXVhz221EzEEQB+
-	ZKMbgd3IhHhQHlv7/2iNMy6qYCqkqY4=
-X-Google-Smtp-Source: ABdhPJxYiR0NcIeHKJJ/5fG4QYKdRPTuU7O5K/S9aM2IXV5B9pWF/vjBEHR94NW+9djC/DDGTvUATw==
-X-Received: by 2002:a62:84d3:0:b0:4fa:72e2:1c64 with SMTP id k202-20020a6284d3000000b004fa72e21c64mr15392218pfd.29.1649352196013;
-        Thu, 07 Apr 2022 10:23:16 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
-        by smtp.gmail.com with ESMTPSA id y16-20020a637d10000000b00381268f2c6fsm19720585pgc.4.2022.04.07.10.23.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 10:23:15 -0700 (PDT)
-Message-ID: <e14f1964-2692-df77-35ac-78236fc84ee2@gmail.com>
-Date: Fri, 8 Apr 2022 02:23:12 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g/s/dz2/6Hbj/5UtThLNXvWjhjgt6+Hm9DR6vV4CONg=;
+        b=apP6gNeoM3jlYR6F9ktWWwKmRXmXW+bZslt+6+iCA2Qk73znUPtR0xghLSAFnxOqt+
+         v+Urp+LrMqJqQ1ogdO9HMq0/6IrNGA8TbJuyf6Zb2T5W/+HNzZtKA8JheVyqYg4waWGW
+         93hZWAyAp+5w+/N3jeHrRco30y6TZuoVWSeQiucwao6BPigCdwqhp59zgJxrzRRggmz2
+         3gmpd7ey2r2bqip+0sBp8NyMJEbyLplUW+5Xsx5NE/QzUKvavnL/fTGemtL8HtkFgxG9
+         QiXeA3fAxAXSrBj+rWrbvOzNMmgzbClXyOSm/xJXeX5VH8ASXchVca2955N1lgQMRT3S
+         O2Bg==
+X-Gm-Message-State: AOAM531CzufH0pTeNSUnncpdJKkMj6pTGXPmksg4xfJONhD+c2gs3PoA
+	vH+WZS2SK8FZSfsyqaToiUmcZz6bujkmHWZC+8SVjQ==
+X-Google-Smtp-Source: ABdhPJzgbJVlisvjBS51N0wr4zk/Q8qQ6PPM7JBdbT91ANkpCzM4cQaeLhz3HQmcJQPf/oGBXpcz3UAJWrZc4DTBU6A=
+X-Received: by 2002:a17:906:300f:b0:6e0:b38d:777d with SMTP id
+ 15-20020a170906300f00b006e0b38d777dmr14920373ejz.189.1649357529432; Thu, 07
+ Apr 2022 11:52:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
-Content-Language: en-US
-To: Benson Leung <bleung@google.com>
-Cc: Guenter Roeck <groeck@google.com>, Prashant Malani
- <pmalani@chromium.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
 References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
- <Yk4DGZfpYbK8dofL@chromium.org>
- <CABXOdTcY3w56hc7kWsDLxKU-c6fCLYt_jigK13tKjjm9OHi2+w@mail.gmail.com>
- <033c1ec4-4bee-a689-140c-9694dfee435b@gmail.com>
- <CABXOdTet5ynSXf94qMimobJF4LLzHc89cVbwJ5NuAz8G6jmVdQ@mail.gmail.com>
- <0fdba110-8743-3b2d-cb30-3a89b7cfa592@gmail.com>
- <Yk8atphiUdlU0gPO@google.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+ <Yk4DGZfpYbK8dofL@chromium.org> <CABXOdTcY3w56hc7kWsDLxKU-c6fCLYt_jigK13tKjjm9OHi2+w@mail.gmail.com>
+ <033c1ec4-4bee-a689-140c-9694dfee435b@gmail.com> <CABXOdTet5ynSXf94qMimobJF4LLzHc89cVbwJ5NuAz8G6jmVdQ@mail.gmail.com>
+ <0fdba110-8743-3b2d-cb30-3a89b7cfa592@gmail.com> <Yk8atphiUdlU0gPO@google.com>
 In-Reply-To: <Yk8atphiUdlU0gPO@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Guenter Roeck <groeck@google.com>
+Date: Thu, 7 Apr 2022 11:51:58 -0700
+Message-ID: <CABXOdTeAN201fA5FMT1jhOmooNHmvkZPdjnwMM=5j-btovF+3Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
+To: Benson Leung <bleung@google.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, Prashant Malani <pmalani@chromium.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2022/04/08 2:09, Benson Leung wrote:
+On Thu, Apr 7, 2022 at 10:09 AM Benson Leung <bleung@google.com> wrote:
+>
 > Hi Akihiko,
-> 
+>
 > On Fri, Apr 08, 2022 at 02:03:52AM +0900, Akihiko Odaki wrote:
->> If I read the code correctly, the registration itself happens synchronously
->> and platform_device_register_data() always returns a non-NULL value unless
->> it returns -ENOMEM. The driver, however, can be asynchronously bound and
->> dev_get_drvdata(&typec->ec->ec->dev) can return NULL as the consequence. It
->> would have a call trace like the following when scheduling asynchronous
->> driver binding:
->> platform_device_register_data()
->> platform_device_register_resndata()
->> platform_device_register_full()
->> -  This always creates and returns platform_device.
->> platform_device_add()
->> - This adds the created platform_device.
->> device_add()
->> bus_probe_device()
->> device_initial_probe()
->> __device_attach()
->> - This schedules asynchronous probing.
->>
->> typec->ec->ec should be pointing to the correct platform_device as the
->> patched driver works without Oops on my computer. It is not NULL at least.
-> 
+> > If I read the code correctly, the registration itself happens synchronously
+> > and platform_device_register_data() always returns a non-NULL value unless
+> > it returns -ENOMEM. The driver, however, can be asynchronously bound and
+> > dev_get_drvdata(&typec->ec->ec->dev) can return NULL as the consequence. It
+> > would have a call trace like the following when scheduling asynchronous
+> > driver binding:
+> > platform_device_register_data()
+> > platform_device_register_resndata()
+> > platform_device_register_full()
+> > -  This always creates and returns platform_device.
+> > platform_device_add()
+> > - This adds the created platform_device.
+> > device_add()
+> > bus_probe_device()
+> > device_initial_probe()
+> > __device_attach()
+> > - This schedules asynchronous probing.
+> >
+> > typec->ec->ec should be pointing to the correct platform_device as the
+> > patched driver works without Oops on my computer. It is not NULL at least.
+>
 > Can you provide more information about your test computer in this case?
-> 
+>
 > Is it a Chromebook running stock firmware (if so, please let us know which
 > model, and which firmware version it is running).
 > In the past, we've also gotten some reports from people running MrChromebox
 > custom firmware on older Chromebooks which have exposed other bugs in
 > this driver.
-> 
+>
+
+I think we should be able to reproduce the problem by configuring
+CONFIG_CROS_EC_CHARDEV=m on any Chromebook supporting Type C.
+
+Guenter
+
 > Let us know if that's the case here, and where we can get that firmware.
-
-My computer is Lenovo ThinkPad C13 Yoga Chromebook. It is running the 
-stock firmware. The firmware was updated by running the following 
-command on Google Chrome OS Version 99.0.4844.86 (Official Build) (64-Bit):
-chromeos-firmwareupdate --mode=recovery
-
-Regards,
-Akihiko Odaki
-
-> 
+>
 > Thanks,
 > Benson
-> 
-
+>
+> --
+> Benson Leung
+> Staff Software Engineer
+> Chrome OS Kernel
+> Google Inc.
+> bleung@google.com
+> Chromium OS Project
+> bleung@chromium.org

@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C4B20E0
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 01:15:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0942DC385A7;
-	Thu,  7 Apr 2022 01:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4229220E0
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 01:16:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410CEC385A1;
+	Thu,  7 Apr 2022 01:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649294111;
-	bh=DhR6AeTKiLjq/3nWP2sq4FthZdkWvOrag8B25MAR0RQ=;
+	s=k20201202; t=1649294161;
+	bh=S/Zdde9w7eGhMCb2EOeDau2/KI1ORtneBg9rdIFvyok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GRQj+p0W/lRL5x6O+b+BV6AEazcKNUw8FShuX5flZbFmM38YeBOvsHK+aRiY8glA6
-	 YBO6uSQfdCu3N542R1bkEDCtK/CrNXsftP4eHD6aSqg8ZOdLF51xvyqET8+RYrah/J
-	 4raOVjH9LfiGVuTnTTDPxhJKNZkUlizlpLuTXS/gf3U2mHGZa9y9ySwVRpHqx0Y+si
-	 94tEEVcd+p0tI4NzrZkLsRx6iH1ZriUO19d0X5LuHV+lnMTsRGkh2wALsC6jY3ZLZ2
-	 rn4sOjaOBmgDwRYKKWq5rBQWsHBu+1Sd8dWJb1sZWE+ldaz37eFF5WjKJYlJdOpUWI
-	 KxTKw2OM5go+w==
+	b=lnviVo36HLRF9L+fKVYcLroICDTebQvTvDU2WpUaXXGPA0xXNLI3/UDRSFgral0Ky
+	 UoPJ9Gel352z3M0zCZztMb8tvJKww7a1s0vKTk2+DicFn748jiLSh7lwjHt4WxNtIF
+	 6UwmUqknkyZo3tIWeAoJ+MT4cT7RcWTwRLJrUi7cqFYCgTPapRICUrt0Ad+3oXQmqM
+	 mDpwMvYxP5g8MFG1C/M+vIOEXS6he0IdHQrZcNJssPckxzStuf4b8dheLFMYc2U3vt
+	 mAh0Y0hjK9Ygi8zUwaYB3mlxlQQpZGPPQcxQlU5zOUHkGoa2tGXEW8TUrxo1VFNfB7
+	 ChCn/U2UbKImQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Tzung-Bi Shih <tzungbi@google.com>,
 	Benson Leung <bleung@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 22/25] platform/chrome: cros_ec_debugfs: detach log reader wq from devm
-Date: Wed,  6 Apr 2022 21:14:10 -0400
-Message-Id: <20220407011413.114662-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 14/17] platform/chrome: cros_ec_debugfs: detach log reader wq from devm
+Date: Wed,  6 Apr 2022 21:15:18 -0400
+Message-Id: <20220407011521.115014-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011413.114662-1-sashal@kernel.org>
-References: <20220407011413.114662-1-sashal@kernel.org>
+In-Reply-To: <20220407011521.115014-1-sashal@kernel.org>
+References: <20220407011521.115014-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 272c89837d74..0dbceee87a4b 100644
+index 6ae484989d1f..c4b57e1df192 100644
 --- a/drivers/platform/chrome/cros_ec_debugfs.c
 +++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -25,6 +25,9 @@
+@@ -26,6 +26,9 @@
  
  #define CIRC_ADD(idx, size, value)	(((idx) + (value)) & ((size) - 1))
  
@@ -100,7 +100,7 @@ index 272c89837d74..0dbceee87a4b 100644
  /**
   * struct cros_ec_debugfs - EC debugging information.
   *
-@@ -33,7 +36,6 @@
+@@ -34,7 +37,6 @@
   * @log_buffer: circular buffer for console log information
   * @read_msg: preallocated EC command and buffer to read console log
   * @log_mutex: mutex to protect circular buffer
@@ -108,7 +108,7 @@ index 272c89837d74..0dbceee87a4b 100644
   * @log_poll_work: recurring task to poll EC for new console log data
   * @panicinfo_blob: panicinfo debugfs blob
   */
-@@ -44,7 +46,6 @@ struct cros_ec_debugfs {
+@@ -45,7 +47,6 @@ struct cros_ec_debugfs {
  	struct circ_buf log_buffer;
  	struct cros_ec_command *read_msg;
  	struct mutex log_mutex;
@@ -116,7 +116,7 @@ index 272c89837d74..0dbceee87a4b 100644
  	struct delayed_work log_poll_work;
  	/* EC panicinfo */
  	struct debugfs_blob_wrapper panicinfo_blob;
-@@ -107,7 +108,7 @@ static void cros_ec_console_log_work(struct work_struct *__work)
+@@ -108,7 +109,7 @@ static void cros_ec_console_log_work(struct work_struct *__work)
  			buf_space--;
  		}
  
@@ -125,7 +125,7 @@ index 272c89837d74..0dbceee87a4b 100644
  	}
  
  	mutex_unlock(&debug_info->log_mutex);
-@@ -141,7 +142,7 @@ static ssize_t cros_ec_console_log_read(struct file *file, char __user *buf,
+@@ -142,7 +143,7 @@ static ssize_t cros_ec_console_log_read(struct file *file, char __user *buf,
  
  		mutex_unlock(&debug_info->log_mutex);
  
@@ -134,7 +134,7 @@ index 272c89837d74..0dbceee87a4b 100644
  					CIRC_CNT(cb->head, cb->tail, LOG_SIZE));
  		if (ret < 0)
  			return ret;
-@@ -173,7 +174,7 @@ static __poll_t cros_ec_console_log_poll(struct file *file,
+@@ -174,7 +175,7 @@ static __poll_t cros_ec_console_log_poll(struct file *file,
  	struct cros_ec_debugfs *debug_info = file->private_data;
  	__poll_t mask = 0;
  
@@ -143,7 +143,7 @@ index 272c89837d74..0dbceee87a4b 100644
  
  	mutex_lock(&debug_info->log_mutex);
  	if (CIRC_CNT(debug_info->log_buffer.head,
-@@ -377,7 +378,6 @@ static int cros_ec_create_console_log(struct cros_ec_debugfs *debug_info)
+@@ -359,7 +360,6 @@ static int cros_ec_create_console_log(struct cros_ec_debugfs *debug_info)
  	debug_info->log_buffer.tail = 0;
  
  	mutex_init(&debug_info->log_mutex);

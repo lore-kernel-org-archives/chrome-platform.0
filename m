@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523B117F3
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 01:11:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F38C385A1;
-	Thu,  7 Apr 2022 01:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E42A20E0
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 01:12:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C697C385A3;
+	Thu,  7 Apr 2022 01:12:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649293892;
+	s=k20201202; t=1649293966;
 	bh=DhR6AeTKiLjq/3nWP2sq4FthZdkWvOrag8B25MAR0RQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PgXCFHMXRunaPbzi0jgEo4S1unF3c0YJA7lQe/9A2gkJt8j+Q8sEL32S3rr/u2GBl
-	 REjkC39yxbLEVSnx8oNZwZ3ICKqrhRh6+mKrsEYnOKjg6w9XkxCNkjVJ9zzqKZmRhz
-	 OgeaxOoHpwmK9DPly0z2hZbajtV+S0+60CIMdAQE46ShB4r1LYtgHRAJK+1KTHlYQs
-	 qUqW2rIGQEZ59sL7BPOlY10xHHLr9NqFfOIccPlm3++cxYy8NJHCa7upws7/wJ0jkD
-	 SsaDmx8WnZvBYj9h3EZZ2ih1Mf486Lj2Ncx5EL367ItZgV4EisFhA4gKTYk/CfHnH/
-	 hVTJXt6RJ5nKg==
+	b=unk4V3OFY3nsSzcGAnFwaWwGfxBPuedQzCD0vC4JV39pGxMsWDn+s5JToEij2NwzG
+	 +ntmvEbTivmt5Qbnm0GzRSGd5kYpzijPuLZueQJjxY03luODx4+hVJ69fiZOGywxB0
+	 Y9ZsJZYM1fkmAemSYu05HsB7Afikwgen85sUBXvZeLL9ZKz1TOs06Bfla6nyunXI1z
+	 jlJBVDo8VgBzF/LJK5XQ5Zgq1EJvnzdGWj0BWjzpkzyPC3rQAfxWWn8leVSLNiSPpe
+	 sj0HnvZssKm+qHh3E09IcMdvRkHahHipBAYYbCGKN91Wt39qf9gXUZxHGYrr298GZB
+	 e2SIHvPr2lEkA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Tzung-Bi Shih <tzungbi@google.com>,
 	Benson Leung <bleung@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 28/31] platform/chrome: cros_ec_debugfs: detach log reader wq from devm
-Date: Wed,  6 Apr 2022 21:10:26 -0400
-Message-Id: <20220407011029.113321-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 27/30] platform/chrome: cros_ec_debugfs: detach log reader wq from devm
+Date: Wed,  6 Apr 2022 21:11:37 -0400
+Message-Id: <20220407011140.113856-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011029.113321-1-sashal@kernel.org>
-References: <20220407011029.113321-1-sashal@kernel.org>
+In-Reply-To: <20220407011140.113856-1-sashal@kernel.org>
+References: <20220407011140.113856-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>

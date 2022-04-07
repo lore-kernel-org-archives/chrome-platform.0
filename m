@@ -1,138 +1,104 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D91C20E0
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 01:16:40 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id h19so4102912pfv.1
-        for <chrome-platform@lists.linux.dev>; Wed, 06 Apr 2022 18:16:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCB02563
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Apr 2022 14:38:59 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id k124-20020a1ca182000000b0038c9cf6e2a6so3846330wme.0
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Apr 2022 07:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XEH2/iJSIuFDfccdM1u0P17EAr+Um5R1hy9qLgtDR4M=;
-        b=OA772vpHfAHBIugPh/XQtfpHmDsxqkQi1/UBaoCG494fupS3OiR5177KLxWxK+Anul
-         kVBwCein30GC1DSn9oNgOdwt/4xuUnFmA83pb9Oy1XlrpC7mrRwculkEPmkgorr7Nvw3
-         FxUpTqtK+QFzZ7EwGcFWcBL+vJ9AZiCQyYyPRqYOXlqVLzp2Xz0w8OJWK2Tnd84fpF4b
-         eVYFEZGYjNCZ/TWfirUGtKstsDJ1e8mtg1Y1LInzT9rNq5LxsXEsLlTBXEIykz6I1BMS
-         hH8z9FSKXAEWAIwM5IamgQQ3kd3OZhSm6JhdSg6ppXJDixVNwrOInkzAexuVe6NuE0QY
-         P4Aw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+HrqUl2stcAnQOvkV/cLC8sh1bdsuE9uaYRM3SC8TAI=;
+        b=QC/NBWbz8s242GqiqGVCxZjqkf65n2BOMSMdySwx5OMCnmpmfgmy2Gl0mqkViPk58A
+         B0hFl228YREAAGFp1bTWTBF48v9/vcamAwhlivD7F9RoAWhkxTVUUszkElVwniFp+KSW
+         153YOYtKLxloRx116E1JbzBPjjKXbUaIisB8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XEH2/iJSIuFDfccdM1u0P17EAr+Um5R1hy9qLgtDR4M=;
-        b=fWrgF46OtYo6KZ/zdtT3eXLk5BaFWX4/4LxYg7vWId35kCmE6VQX0M0h/O0gN+uMdL
-         yTjOCWttkR0MWKNVbCCEIP1lua9tZeotNui7A7LymZZqDiXZmTdVRrZQSlPix6BNn3ZS
-         SXtu3oWQIpD4Z+xrY3Hq+5BDiz8GupOtdsfoRIgsJQY6jMKxU+f8LLLk1AX77oWR5gq1
-         QUXRLWcCDg/gc0PLYa0DSsTGbMuXgm3XLR5j+e9wBwo3CuuKZnv4MQk/nyF9cuqzgnv3
-         ofC8xMCHoi+35ysQ/MRioOfRRxzBCwx0L+IvBQsQ6lkxFxNLMf66wjV7x9Ui8hkE3BgI
-         rojA==
-X-Gm-Message-State: AOAM533qQwjP5kVYCF2TKxNWkiaWt6tYPWwYRZsFduUapW0vhaoSEtes
-	nljVqzGn1fMR5VWrbqDaGw8=
-X-Google-Smtp-Source: ABdhPJxeut6cNaSvd6pF6Lvv5nTN8xCifWxFyWzc6LiaKMmh7lwfZfm9eAReqpDY1PNuJQjaIqoOHw==
-X-Received: by 2002:a05:6a00:1488:b0:4fa:ac61:8b11 with SMTP id v8-20020a056a00148800b004faac618b11mr12031950pfu.58.1649294199390;
-        Wed, 06 Apr 2022 18:16:39 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
-        by smtp.gmail.com with ESMTPSA id i187-20020a62c1c4000000b004faafada2ffsm21107363pfg.204.2022.04.06.18.16.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Apr 2022 18:16:38 -0700 (PDT)
-Message-ID: <033c1ec4-4bee-a689-140c-9694dfee435b@gmail.com>
-Date: Thu, 7 Apr 2022 10:16:34 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+HrqUl2stcAnQOvkV/cLC8sh1bdsuE9uaYRM3SC8TAI=;
+        b=hnbP3EUFJ5dkPj7HseXd3GMFHJogZKCg86jDnAp/PmCTcjCFKlJg6vNUVBnV5IT+M8
+         Bz8DIhnrOqlTnbhU/1THU5HYk2oItvonLhtTfc9Se39kqJIS0pQAxQ1rC+s9/CnoJd5A
+         Zb4vhtGXPfnacqFBJBnFIYo/4A5RlmeatSVKx/7Za5/Vh6VtqqrPL7JC4zV2Qy0X2yiq
+         XH9HqnOej45AaTWet0q90CHEgXb/7Guir3oktcTGpOgMteshdbJKJ30yBpGZpITXztlc
+         Do4OVK90gkCSO/ldEl9co+3Bw3gnFjLHezncVC4r5dHYo4hS1iZ0YGBjbm8/u9elzwec
+         PQXg==
+X-Gm-Message-State: AOAM531gCM6u+dpQlXWWXBUhyflE262BT8tIeOhY+BcfvSKXsxwBIP1l
+	xUegMAS++mJe9ZOG3uoNooQjlg==
+X-Google-Smtp-Source: ABdhPJxSm1o4AJPWmwSiOwXUcoOrfrDDoE6QavOVO+5QTW+urJsTAfmBJCV6RwoUxCRXXNUmmjXF1A==
+X-Received: by 2002:a1c:f605:0:b0:37b:b5de:89a0 with SMTP id w5-20020a1cf605000000b0037bb5de89a0mr12345916wmc.88.1649342337820;
+        Thu, 07 Apr 2022 07:38:57 -0700 (PDT)
+Received: from google.com ([37.228.205.1])
+        by smtp.gmail.com with ESMTPSA id bg8-20020a05600c3c8800b0038e4c5967besm7983010wmb.3.2022.04.07.07.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 07:38:57 -0700 (PDT)
+Date: Thu, 7 Apr 2022 14:38:55 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee.jones@linaro.org>, chrome-platform@lists.linux.dev,
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] dt-bindings: update google,cros-ec-pwm
+ documentation
+Message-ID: <Yk73f9yyxy5LBC+V@google.com>
+References: <20220331125818.3776912-1-fabiobaltieri@chromium.org>
+ <20220331125818.3776912-4-fabiobaltieri@chromium.org>
+ <Yk20uTE/Vdm2c6jI@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
-Content-Language: en-US
-To: Guenter Roeck <groeck@google.com>, Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
- <Yk4DGZfpYbK8dofL@chromium.org>
- <CABXOdTcY3w56hc7kWsDLxKU-c6fCLYt_jigK13tKjjm9OHi2+w@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CABXOdTcY3w56hc7kWsDLxKU-c6fCLYt_jigK13tKjjm9OHi2+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yk20uTE/Vdm2c6jI@robh.at.kernel.org>
 
-On 2022/04/07 6:32, Guenter Roeck wrote:
-> On Wed, Apr 6, 2022 at 2:16 PM Prashant Malani <pmalani@chromium.org> wrote:
->>
->> Hi Akihiko,
->>
->> Thanks for the patch.
->>
->> On Apr 04 13:11, Akihiko Odaki wrote:
->>> The EC driver may not be initialized when cros_typec_probe is called,
->>> particulary when CONFIG_CROS_EC_CHARDEV=m.
->>>
->>> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->>> ---
->>>   drivers/platform/chrome/cros_ec_typec.c | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
->>> index 4bd2752c0823..7cb2e35c4ded 100644
->>> --- a/drivers/platform/chrome/cros_ec_typec.c
->>> +++ b/drivers/platform/chrome/cros_ec_typec.c
->>> @@ -1084,6 +1084,9 @@ static int cros_typec_probe(struct platform_device *pdev)
->>>        }
->>>
->>>        ec_dev = dev_get_drvdata(&typec->ec->ec->dev);
->>> +     if (!ec_dev)
->>> +             return -EPROBE_DEFER;
->>> +
->>
->> Just a quick check: are you still seeing this issue with 5.18-rc1, which
->> contains a null check for the parent EC device [1] ?
+Hi Rob,
 
-Yes, I'm seeing this problem with the check.
-
->>
+On Wed, Apr 06, 2022 at 10:41:45AM -0500, Rob Herring wrote:
+> On Thu, Mar 31, 2022 at 12:58:17PM +0000, Fabio Baltieri wrote:
+> > Update google,cros-ec-pwm node documentation to mention the
+> > google,use_pwm_type property.
+> > 
+> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> > ---
+> >  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+> > index 4cfbffd8414a..9c895c990ed8 100644
+> > --- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+> > +++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+> > @@ -19,6 +19,12 @@ description: |
+> >  properties:
+> >    compatible:
+> >      const: google,cros-ec-pwm
+> > +
+> > +  google,use-pwm-type:
+> > +    description:
+> > +      Use PWM types (CROS_EC_PWM_DT_<...>) instead of generic channels.
+> > +    type: boolean
 > 
-> I may be missing something, but from the context I suspect this may
-> make the problem worse. My understanding was that the problem was seen
-> specifically if CONFIG_CROS_EC_CHARDEV=m. In that situation, it
-> appears that the parent EC device does _not yet_ exist. If the driver
-> returns -ENODEV in that situation, it will never be instantiated. The
-> big question for me is why the type C device is instantiated in the
-> first place if the parent EC device does not [yet] exist. I have not
-> been able to identify the code path where this happens. >
-> There is a similar problem with other EC child devices which are also
-> sometimes instantiated even though the parent EC device does not exist
-> (ie dev_get_drvdata(pdev->dev.parent) returns NULL). That can happen
-> if the parent EC device instantiation fails because of EC
-> communication errors (see https://b.corp.google.com/issues/228118385
-> for examples [sorry, internal only, I can't make it public]). I think
-> we need to track down why that happens and prevent child devices from
-> being instantiated in the first place instead of trying to work around
-> the problem in the child drivers.
+> Either do a new compatible string if the cell interpretation is mutually 
+> exclusive (channel number vs. type) or split the number space for the 
+> 1st cell between type and channel number. IOW, set a bit (31?) to 
+> signify the number is a type, not a channel.
 
-Well, I think you have two misunderstanding.
+Split the number space was my first (tentative) implementation as well,
+but it turns out that the PWM subsystem really wants channels to be
+zero-based[1], so I don't think flags or bitmasks are really an option.
 
-1. The parent exists and dev_get_drvdata(pdev->dev.parent) returns 
-non-NULL value. However, dev_get_drvdata(&typec->ec->ec->dev) returns 
-NULL. (Yes, that is confusing.) I'm wondering 
-dev_get_drvdata(pdev->dev.parent) returned NULL in the following crash 
-log but it would be a problem distinct from what is handled with my patch:
-https://lore.kernel.org/lkml/CABXOdTe9u_DW=NZM1-J120Gu1gibDy8SsgHP3bJwwLsE_iuLAQ@mail.gmail.com/
+New compatible sounds good though, I'll rework a v3 with that change.
 
-2. My patch returns -EPROBE_DEFER instead of -ENODEV and I confirmed it 
-will eventually be instantiated.
+Thanks!
+Fabio
 
-Regards,
-Akihiko Odaki
+[1] https://elixir.bootlin.com/linux/v5.17/source/drivers/pwm/core.c#L423
 
-> 
-> Guenter
-> 
->> Thanks,
->>
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/platform/chrome?id=ffebd90532728086007038986900426544e3df4e
-
+-- 
+Fabio Baltieri

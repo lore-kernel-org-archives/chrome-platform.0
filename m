@@ -1,53 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F36B7B
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 09:43:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF48AC385A7;
-	Thu, 14 Apr 2022 09:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649929435;
-	bh=2VEUl2b/E+/ehMm5zJhVjkhVugGOJDikH5pjjHrToHc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YVanonr7eaz0DbDLIDgytLPSFW+4gUelB6wkSp6tl/Q2lEfJlNzAEVq8T3CtiJgEL
-	 i20yCgxKDm5dNlLzOJgFB/WdN7o6JC9Oa9NspF1d6S7P/KujfiIplTOXTUaMxdGWcc
-	 f7TXz6zYhHPXY3n19pjVqzNUac234T3kIEgVReRGOfZlBdHABfUGTYXn1iQm+f2Vhc
-	 8WShPDrJyHLA9xNZjxvp4qCYFQKKiIub5jsRAXqibViDRCidHbRMR86CxW5Ddxviiz
-	 izUwxvvt27n+PRb7gTrxoAlW1/dPmYRBLC4tSSrv3l1bHF5oCACxcgzF2ulQJuvxuV
-	 4SpK+XHwj8G9Q==
-Date: Thu, 14 Apr 2022 17:43:51 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2263817C8
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 12:20:13 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id k13so5190543oiw.1
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 05:20:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=xGrPDaLTatvDRaAzhvLwefpB2hL2dRTZUI93t0u/qVg=;
+        b=VGdBXHEPg62bSUdLK1VnGv3uTirs8vx3mCLqMKmnlT1P54jta+3EhX36IJ4vhc8EFi
+         H6LHSVQwBH0YDU6ws4da5xW0jfL1nzF6ousVq5dKplGbIq3T3Rhu4GSzqA6xv/vRJSem
+         143MXbUBG95woc+amHl/IwIz9ux4ICo6LALqG0bR4Cmdm6MDInwnUYjBCrvKQflgg3gP
+         rQj7GmUc3KZxm7VdQxpwUEoP4Qt+AqPJdVxvXvANFdK04MuafSwQlzEN9LiwPgVXKI0m
+         cfYPlaW/LbQd/WVM+GDMIs473HLHHqFCtJQnQ8+n45KBH/7C/p86tPInEAqjlg3jxBLM
+         jowA==
+X-Gm-Message-State: AOAM533AvZW0AHefNtmbZBV763P24zfXi5jrTsaRslQH9pvPtzVYXBRJ
+	cdZnk6qcNG2CeXY9ZxFBUA==
+X-Google-Smtp-Source: ABdhPJz1GwFXvOT+FtK2fL+VEtZ6FpkS42FsXeP7N6c56vV3yFsB0DBcu2XqAACbZmkE7DIbMHS2gg==
+X-Received: by 2002:a05:6808:179f:b0:2fa:54a:e47c with SMTP id bg31-20020a056808179f00b002fa054ae47cmr1123593oib.131.1649938812152;
+        Thu, 14 Apr 2022 05:20:12 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d20-20020a056830005400b005b22a187045sm681531otp.11.2022.04.14.05.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 05:20:11 -0700 (PDT)
+Received: (nullmailer pid 1698376 invoked by uid 1000);
+	Thu, 14 Apr 2022 12:20:09 -0000
+From: Rob Herring <robh@kernel.org>
 To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] pwm: pwm-cros-ec: add channel type support
-Message-ID: <Ylfs1yhYsFOUwKv4@google.com>
-References: <20220414092831.3717684-1-fabiobaltieri@chromium.org>
- <20220414092831.3717684-3-fabiobaltieri@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung <bleung@chromium.org>, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev
+In-Reply-To: <20220414092831.3717684-4-fabiobaltieri@chromium.org>
+References: <20220414092831.3717684-1-fabiobaltieri@chromium.org> <20220414092831.3717684-4-fabiobaltieri@chromium.org>
+Subject: Re: [PATCH v4 3/4] dt-bindings: update google,cros-ec-pwm documentation
+Date: Thu, 14 Apr 2022 07:20:09 -0500
+Message-Id: <1649938809.993469.1698375.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414092831.3717684-3-fabiobaltieri@chromium.org>
 
-On Thu, Apr 14, 2022 at 09:28:29AM +0000, Fabio Baltieri wrote:
-> Add support for EC_PWM_TYPE_DISPLAY_LIGHT and EC_PWM_TYPE_KB_LIGHT pwm
-> types to the PWM cros_ec_pwm driver. This allows specifying one of these
-> PWM channel by functionality, and let the EC firmware pick the correct
-> channel, thus abstracting the hardware implementation from the kernel
-> driver.
-> 
-> To use it, define the node with the "google,cros-ec-pwm-type"
-> compatible.
+On Thu, 14 Apr 2022 09:28:30 +0000, Fabio Baltieri wrote:
+> Update google,cros-ec-pwm node documentation to mention the
+> google,cros-ec-pwm-type compatible.
 > 
 > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> ---
+>  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml      | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml:27:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml:30:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+

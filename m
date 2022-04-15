@@ -1,105 +1,82 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8A715A7
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 19:24:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 123-20020a1c1981000000b0038b3616a71aso3850729wmz.4
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 12:24:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED457B
+	for <chrome-platform@lists.linux.dev>; Fri, 15 Apr 2022 00:32:55 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id q3so6016687plg.3
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Apr 2022 17:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TzIdGf0orlPzlsnGm4d1/wOp9Ug675hNbMOMT58Ay5o=;
-        b=anV+lLXHdPoCvNvo4uqR9yVnraezCiI/gR7f3+/73+6+e/d+CvXkykdbFlf45Cak9p
-         yT/StOCyPW9e06boapRmdlJRlJoo9WnJYC5nAZfit00iz+WieHSZA23/C1Ws48LVJH7I
-         o3k9PJAs5zpKNhfC1/M859nQEVYjTW6pQhAYA=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pbmJlQ5qR1kbE+0/nE9kjO/1skZ6I73pg5jrM6AR8pU=;
+        b=i4xp4OxhcZ40oUwcpgza1kp7fp5COsqzWZ/fhqpFqeTDyND88jjZOs+776yAiDWpKk
+         B9M3ZfUFcIjIWKLuCC2Yey72mJ6TjNlCg4V3mPRLH0UbkP1rspoq+I9fn7B+asSqDFul
+         JL9zYGoSQC/6hPIJFRLXwy0BMt+Q+fVwC1/lc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TzIdGf0orlPzlsnGm4d1/wOp9Ug675hNbMOMT58Ay5o=;
-        b=VBpYEsXfzoYetOARCHlS/ZPbpGjseiwv3KycRlS/WKxgEJGP8JL0bRYFlZaE8RliO7
-         bGhs4URRvNkLZC09hppAHHGZOETVqgdT1/m/80qzC7J8lrjk6cfJWCrDIQR3j4LjTBnJ
-         e49rUPc0wLdO6JVW5eRqy4I8o6sA6vpoq/ROjZw3yZRltv/VrJ/+oNR95uJQfQ557Rdo
-         deuJtmSwkKQyDEbsJdJWuCBAi1ugo3uxefCLOR02/+2UUUW39s7DdhpAE380JdeVXppC
-         t0rL1WFNXqN8V9DTqPgxyzHCdGPY3oUo+MTVjd39wj1lGesjyFFMxAAHtcJreqWYi9uB
-         FoYw==
-X-Gm-Message-State: AOAM532fKdfH1l9ne4r5XK6wWIIrV9hwh2pW0HFTRxEU/b9ttaAMIpYP
-	oKIAwieJUpuCpBDrU+0bR0/c8w==
-X-Google-Smtp-Source: ABdhPJxgazeepxjQX/HIuYCUv+KWXKHE1HKC70Rms9bSy5mDaYHGosh9IMV8XRSLBN/aN4BdLq7q8w==
-X-Received: by 2002:a05:600c:1e85:b0:38c:ef05:ba5d with SMTP id be5-20020a05600c1e8500b0038cef05ba5dmr74515wmb.119.1649964268274;
-        Thu, 14 Apr 2022 12:24:28 -0700 (PDT)
-Received: from google.com ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id v13-20020adfe28d000000b0020375f27a5asm2608680wri.4.2022.04.14.12.24.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pbmJlQ5qR1kbE+0/nE9kjO/1skZ6I73pg5jrM6AR8pU=;
+        b=pS+Pgb46PaPLsWWgy1zCLbQ4dtnqLzVeWkXVrg/Do419qlRGuy2t6TUcz/LI2rODUw
+         5KIRijKuAAZVlO1d8HGltK/+SZjy65RVk7MrHiRpU5HM5FTYhDRaLU8Xka6LVzXSYzxR
+         zngS6S2YEVUO/7Q972kun9ArWD9AooBKUgkcWSJYh9U3hjSTY4OmzHgb9C1Tl0kBcEcy
+         +jHrdMcskZvYor5uIQv4y9QQtW4kSCROLhkrBRfZjbvWMnQcSZujdh+9DVpT0CiwPgde
+         YEUgdkwkuh2J8CGZOZJn4knk0fje73dGLGCQV7+O4+Qnc07XTHVYHtb5iYNNyrQ4GICQ
+         kL5g==
+X-Gm-Message-State: AOAM5301tjYG6wH3HMYrFXRGnFNE0NdBPseaOiV5ppExHzGZ/omYc8TS
+	JwYuHXaD+JaZG22jfi9EDiytDw==
+X-Google-Smtp-Source: ABdhPJwpLciy5kX+80ADH/58xXbGxA3ukoZ2ddhMynp/EA/S9RnXSUcbCCLEUDTX2HYLh/N1aPdMWw==
+X-Received: by 2002:a17:902:e0c9:b0:158:9b65:aab with SMTP id e9-20020a170902e0c900b001589b650aabmr11948591pla.18.1649982775315;
+        Thu, 14 Apr 2022 17:32:55 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:e3e0:734:f81a:d2c1])
+        by smtp.gmail.com with ESMTPSA id p12-20020a63ab0c000000b00381f7577a5csm2830187pgf.17.2022.04.14.17.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 12:24:27 -0700 (PDT)
-Date: Thu, 14 Apr 2022 19:24:25 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 14 Apr 2022 17:32:54 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
 	Lee Jones <lee.jones@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v4 3/4] dt-bindings: update google,cros-ec-pwm
- documentation
-Message-ID: <Ylh06cG7bII6rG77@google.com>
-References: <20220414092831.3717684-1-fabiobaltieri@chromium.org>
- <20220414092831.3717684-4-fabiobaltieri@chromium.org>
- <1649938809.993469.1698375.nullmailer@robh.at.kernel.org>
+Subject: [PATCH 0/3] platform/chrome: Only register PCHG if present
+Date: Thu, 14 Apr 2022 17:32:50 -0700
+Message-Id: <20220415003253.1973106-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.36.0.rc0.470.gd361397f0d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1649938809.993469.1698375.nullmailer@robh.at.kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 14, 2022 at 07:20:09AM -0500, Rob Herring wrote:
-> On Thu, 14 Apr 2022 09:28:30 +0000, Fabio Baltieri wrote:
-> > Update google,cros-ec-pwm node documentation to mention the
-> > google,cros-ec-pwm-type compatible.
-> > 
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml      | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml:27:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml:30:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> 
-> dtschema/dtc warnings/errors:
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/patch/
-> 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
+I see a printk when booting on chromebooks that don't have the
+PCHG device. This series extracts the count function from the PCHG
+driver and uses it in the mfd driver to skip registration of the PCHG
+device if there aren't any charger ports. This gets rid of the message
+at boot and removes one struct device from my system.
 
-Missed out on that, will fix and resend.
+Stephen Boyd (3):
+  platform/chrome: cros_ec_proto: Add peripheral charger count API
+  mfd: cros_ec_dev: Only register PCHG device if present
+  power: supply: PCHG: Use cros_ec_pchg_port_count()
 
-Thanks!
+ drivers/mfd/cros_ec_dev.c                     | 16 ++++++++++
+ drivers/platform/chrome/cros_ec_proto.c       | 31 +++++++++++++++++++
+ .../power/supply/cros_peripheral_charger.c    | 29 +----------------
+ include/linux/platform_data/cros_ec_proto.h   |  1 +
+ 4 files changed, 49 insertions(+), 28 deletions(-)
 
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
-> 
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: <chrome-platform@lists.linux.dev>
 
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-Fabio Baltieri
+https://chromeos.dev
+

@@ -1,53 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D664C;
-	Mon, 18 Apr 2022 03:26:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC29DC385A4;
-	Mon, 18 Apr 2022 03:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAAD7A
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 60399C385A8;
+	Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650252391;
-	bh=7VisAQYT0TzWPffMkMB/kVe4K1ubWTvxLSBrs0/+ROY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cXVkw523LDbp3mJYn6LWdh79yMXv1Zb2dhfUM1ardW33A+TTV8qLZA0v8nSnbZeNJ
-	 watw1LKxYVaFX+WOaqc0R6TrMnmkwYCidhED+LD9UdiYdlNtC78575BVfU7CysxHOk
-	 2ivmI9zXW7NqUzdut6hRWc3D6ob22zLieUEycZBEXAg+frxfpJNWYdJAacTuZYVSYB
-	 I7/U1IneA79UU+ejBcrL60U3GOAL+WROqc0cj5ZKJIRJueCvW3StXS+MC4xt49ES2/
-	 zGza6Ufzn5XewW+DzvcKBYo+aZJ00ze1Xsbg21KUS6QatDmq8qVoPtDwVglM8vgADA
-	 6lEL2p5SXFoOQ==
-Date: Mon, 18 Apr 2022 11:26:27 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 3/3] power: supply: PCHG: Use cros_ec_pchg_port_count()
-Message-ID: <YlzaYye4xOZDb11A@google.com>
-References: <20220415003253.1973106-1-swboyd@chromium.org>
- <20220415003253.1973106-4-swboyd@chromium.org>
+	s=k20201202; t=1650268212;
+	bh=ga7xLfokYNMZba70us1wB2gwefrjq7mHcQBLqW5ODXE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=fanSXq80gZHqV1YtSrMEDsbt9bOBiEiAPREtuGFITjLvsr91hHwDnf85uRjlYICsA
+	 4A+eCKB+F6vME5OJP92bbbtXQaO6mxfwMP28DZfkFDg6MgxcIxLLdW4j02Lh7YFNVM
+	 Ggkm5fcVsc7n/X8aXR9EE+XZsvdZyb90XIlLvPmmNApCEJa5fZj/xqE15LNuJ6Pk+D
+	 Ry3B48D5JOzvGYKwc+KI0D/Iop4lgX/0Go8vDueUKWvjoPyEYcX9Oyb/vLSOF7Dmt3
+	 6b0FIr4cChnNbtfnNJo6ATMwcPPIB/apKZL/lg4VYrSDTdee5wusCAvtPYvIllFwNM
+	 s7EaVUTF4GKfQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4427CE8DD61;
+	Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220415003253.1973106-4-swboyd@chromium.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 0/5] platform/chrome: cros_ec: miscellaneous cleanups
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165026821227.18816.2084357824072322300.git-patchwork-notify@kernel.org>
+Date: Mon, 18 Apr 2022 07:50:12 +0000
+References: <20220216080306.3864163-1-tzungbi@google.com>
+In-Reply-To: <20220216080306.3864163-1-tzungbi@google.com>
+To: Tzung-Bi Shih <tzungbi@google.com>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, linux-kernel@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 05:32:53PM -0700, Stephen Boyd wrote:
-> Use the common function cros_ec_pchg_port_count() now that we only
-> register this device when there are a non-zero number of peripheral
-> charger ports.
+Hello:
+
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Wed, 16 Feb 2022 16:03:01 +0800 you wrote:
+> The 1st patch fixes unhandled undos in error handling path.
 > 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daisuke Nojiri <dnojiri@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> The rest of patches cleans drivers/platform/chrome/cros_ec.c.
+> 
+> Changes from v4:
+> (https://patchwork.kernel.org/project/chrome-platform/cover/20220216043639.3839185-1-tzungbi@google.com/)
+> - Rollback the 3rd patch to older version.
+> 
+> [...]
 
-Share the same comment with the 1st patch in the series,
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Here is the summary with links:
+  - [v5,1/5] platform/chrome: cros_ec: fix error handling in cros_ec_register()
+    https://git.kernel.org/chrome-platform/c/2cd01bd6b117
+  - [v5,2/5] platform/chrome: cros_ec: remove unused variable `was_wake_device`
+    https://git.kernel.org/chrome-platform/c/f47a6113f4e8
+  - [v5,3/5] platform/chrome: cros_ec: determine `wake_enabled` in cros_ec_suspend()
+    https://git.kernel.org/chrome-platform/c/9fbe967d4e6e
+  - [v5,4/5] platform/chrome: cros_ec: sort header inclusion alphabetically
+    https://git.kernel.org/chrome-platform/c/5781a33098c6
+  - [v5,5/5] platform/chrome: cros_ec: append newline to all logs
+    https://git.kernel.org/chrome-platform/c/8d4668064cce
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

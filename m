@@ -1,73 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAAD7A
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60399C385A8;
-	Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650268212;
-	bh=ga7xLfokYNMZba70us1wB2gwefrjq7mHcQBLqW5ODXE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=fanSXq80gZHqV1YtSrMEDsbt9bOBiEiAPREtuGFITjLvsr91hHwDnf85uRjlYICsA
-	 4A+eCKB+F6vME5OJP92bbbtXQaO6mxfwMP28DZfkFDg6MgxcIxLLdW4j02Lh7YFNVM
-	 Ggkm5fcVsc7n/X8aXR9EE+XZsvdZyb90XIlLvPmmNApCEJa5fZj/xqE15LNuJ6Pk+D
-	 Ry3B48D5JOzvGYKwc+KI0D/Iop4lgX/0Go8vDueUKWvjoPyEYcX9Oyb/vLSOF7Dmt3
-	 6b0FIr4cChnNbtfnNJo6ATMwcPPIB/apKZL/lg4VYrSDTdee5wusCAvtPYvIllFwNM
-	 s7EaVUTF4GKfQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4427CE8DD61;
-	Mon, 18 Apr 2022 07:50:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57677A4D
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 19:43:09 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id z2so11468658oic.6
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 12:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=APMNQ0VOd3gUC3vflkGQPEv7QJLULTgT7Cf+XJq4PlU=;
+        b=XIQ67C2JubBiGYT+sCav370KSdQQ0bmY05YMHN0a10iR1OWGIcXTCmayqgBXnTYPQk
+         FOwWwAGoUuk33NgFGo8LjQyIIyR+8jFfppCZU5nDw3CvMdgPWzfJsRJKhc8GVY2CRfWa
+         pvHjnN+sm1b8cNeSwNOmUffZLIiuAsbhlHf7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=APMNQ0VOd3gUC3vflkGQPEv7QJLULTgT7Cf+XJq4PlU=;
+        b=jpea1V3RSCkF07rdyVyg8ZgexFrqk3uPgIj5udXOkD7m9UlFx6ohjciYq+Y8LsVSdW
+         GM4tnWEHQZz17sCdrIJrk0r/NddjhEUT+nTY0d1s9Y3HgojC8NfBPuV/kCJAiBRsan75
+         MWMibGWMVzqcv9LYVsrBKiHT98QmkpGRulKCmnsPUeGllmKWsfp3LQX1JujFMY7YWYUc
+         NPfRisWJn/NwxGDuMP1xUXwKERa/Hrs7XE6HW4+AQWmy1N5JVq1dkhVNnnDTDSovMIMd
+         K6GQ1ZB8a2hlGs7tnS/8LqG1taf20+Xldde1j/an0ObVKXutpaeR48+aZX9S0W1GNy3w
+         D2Bg==
+X-Gm-Message-State: AOAM5314JWimD99F1Ke69EK4806iCU6morqGCkznOc12zaDSqb7FYGJ2
+	223fKgHqDdPUA/xWk6TqKMh41gJ0tNV2ZZMnCZL52g==
+X-Google-Smtp-Source: ABdhPJxz8/mVSXcDfE357Co4lqCJlK4Bq5DrL7FdoTy7mcDP2lYRYO9puha9GdELIR/9mRNaIG7PKesE2HH4+iorsaA=
+X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
+ n62-20020acabd41000000b002ecff42814fmr5836497oif.63.1650310988401; Mon, 18
+ Apr 2022 12:43:08 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 18 Apr 2022 12:43:07 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5 0/5] platform/chrome: cros_ec: miscellaneous cleanups
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165026821227.18816.2084357824072322300.git-patchwork-notify@kernel.org>
-Date: Mon, 18 Apr 2022 07:50:12 +0000
-References: <20220216080306.3864163-1-tzungbi@google.com>
-In-Reply-To: <20220216080306.3864163-1-tzungbi@google.com>
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- pmalani@chromium.org, linux-kernel@vger.kernel.org
+In-Reply-To: <YlzZr/UElg690/ru@google.com>
+References: <20220415003253.1973106-1-swboyd@chromium.org> <20220415003253.1973106-2-swboyd@chromium.org>
+ <YlzZr/UElg690/ru@google.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 18 Apr 2022 12:43:07 -0700
+Message-ID: <CAE-0n50Kp4PkMqvOR=eAXMYctEv1J_ziRtjKL_mDR_zrS0apzw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_proto: Add peripheral
+ charger count API
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>, 
+	Daisuke Nojiri <dnojiri@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Quoting Tzung-Bi Shih (2022-04-17 20:23:27)
+> On Thu, Apr 14, 2022 at 05:32:51PM -0700, Stephen Boyd wrote:
+> > Add a peripheral charger count API similar to the one implemented in the
+> > ChromeOS PCHG driver so we can use it to decide whether or not to
+> > register the PCHG device in the cros_ec MFD driver.
+> >
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Daisuke Nojiri <dnojiri@chromium.org>
+> > Cc: Benson Leung <bleung@chromium.org>
+> > Cc: Guenter Roeck <groeck@chromium.org>
+> > Cc: <chrome-platform@lists.linux.dev>
+> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>
+> With a minor comment about the naming,
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Cool thanks.
 
-On Wed, 16 Feb 2022 16:03:01 +0800 you wrote:
-> The 1st patch fixes unhandled undos in error handling path.
-> 
-> The rest of patches cleans drivers/platform/chrome/cros_ec.c.
-> 
-> Changes from v4:
-> (https://patchwork.kernel.org/project/chrome-platform/cover/20220216043639.3839185-1-tzungbi@google.com/)
-> - Rollback the 3rd patch to older version.
-> 
-> [...]
+>
+> > diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+> > index df3c78c92ca2..8f5781bc2d7a 100644
+> > --- a/include/linux/platform_data/cros_ec_proto.h
+> > +++ b/include/linux/platform_data/cros_ec_proto.h
+> > @@ -230,6 +230,7 @@ u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
+> >  bool cros_ec_check_features(struct cros_ec_dev *ec, int feature);
+> >
+> >  int cros_ec_get_sensor_count(struct cros_ec_dev *ec);
+> > +unsigned int cros_ec_pchg_port_count(struct cros_ec_dev *ec);
+>
+> I wonder if "cros_ec_get_pchg_port_count" would be a better name for the API.
 
-Here is the summary with links:
-  - [v5,1/5] platform/chrome: cros_ec: fix error handling in cros_ec_register()
-    https://git.kernel.org/chrome-platform/c/2cd01bd6b117
-  - [v5,2/5] platform/chrome: cros_ec: remove unused variable `was_wake_device`
-    https://git.kernel.org/chrome-platform/c/f47a6113f4e8
-  - [v5,3/5] platform/chrome: cros_ec: determine `wake_enabled` in cros_ec_suspend()
-    https://git.kernel.org/chrome-platform/c/9fbe967d4e6e
-  - [v5,4/5] platform/chrome: cros_ec: sort header inclusion alphabetically
-    https://git.kernel.org/chrome-platform/c/5781a33098c6
-  - [v5,5/5] platform/chrome: cros_ec: append newline to all logs
-    https://git.kernel.org/chrome-platform/c/8d4668064cce
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Sure. I left out 'get' even though it's similar to
+cros_ec_get_sensor_count() because it seemed redundant. We can't "set"
+the port count. Anyway, I don't really care so I'll leave it up to cros
+maintainers.

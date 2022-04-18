@@ -1,91 +1,119 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57677A4D
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 19:43:09 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id z2so11468658oic.6
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 12:43:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306803D62
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 23:08:42 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id j71so8040189pge.11
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 16:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=APMNQ0VOd3gUC3vflkGQPEv7QJLULTgT7Cf+XJq4PlU=;
-        b=XIQ67C2JubBiGYT+sCav370KSdQQ0bmY05YMHN0a10iR1OWGIcXTCmayqgBXnTYPQk
-         FOwWwAGoUuk33NgFGo8LjQyIIyR+8jFfppCZU5nDw3CvMdgPWzfJsRJKhc8GVY2CRfWa
-         pvHjnN+sm1b8cNeSwNOmUffZLIiuAsbhlHf7w=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Pl4a1fMymhH/XaPiTy1w0Dc08PXzaBVwflpLSOoW8Yk=;
+        b=jy1VZlNcq/9U5Ar0F5s7yclwR/2ytq2kRRt4Ot66e+/0Rjaq862/Zkd9XN88f4dXsF
+         UUgCogzKzwuZt0iOzB+5xfW6FC+NLWYzAs6P5wItYRAb6fcHWKkRHSLtPZxo0HtkF+/z
+         EXs89xdD8yLcudimZPW2W7TGRJpdOCmg9Nw8I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=APMNQ0VOd3gUC3vflkGQPEv7QJLULTgT7Cf+XJq4PlU=;
-        b=jpea1V3RSCkF07rdyVyg8ZgexFrqk3uPgIj5udXOkD7m9UlFx6ohjciYq+Y8LsVSdW
-         GM4tnWEHQZz17sCdrIJrk0r/NddjhEUT+nTY0d1s9Y3HgojC8NfBPuV/kCJAiBRsan75
-         MWMibGWMVzqcv9LYVsrBKiHT98QmkpGRulKCmnsPUeGllmKWsfp3LQX1JujFMY7YWYUc
-         NPfRisWJn/NwxGDuMP1xUXwKERa/Hrs7XE6HW4+AQWmy1N5JVq1dkhVNnnDTDSovMIMd
-         K6GQ1ZB8a2hlGs7tnS/8LqG1taf20+Xldde1j/an0ObVKXutpaeR48+aZX9S0W1GNy3w
-         D2Bg==
-X-Gm-Message-State: AOAM5314JWimD99F1Ke69EK4806iCU6morqGCkznOc12zaDSqb7FYGJ2
-	223fKgHqDdPUA/xWk6TqKMh41gJ0tNV2ZZMnCZL52g==
-X-Google-Smtp-Source: ABdhPJxz8/mVSXcDfE357Co4lqCJlK4Bq5DrL7FdoTy7mcDP2lYRYO9puha9GdELIR/9mRNaIG7PKesE2HH4+iorsaA=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr5836497oif.63.1650310988401; Mon, 18
- Apr 2022 12:43:08 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 18 Apr 2022 12:43:07 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Pl4a1fMymhH/XaPiTy1w0Dc08PXzaBVwflpLSOoW8Yk=;
+        b=GUrJLR8VLmCguq+aktaW7KhPsBtW1VKuBYi6o2Q/t0pVEQ8ObKTf+TzOu7TrWqpjvo
+         U5R61Q2y2lVwXmhecXk1L2vGV+piapHZi+r+M6lQ2HgehKhtEoxTy/BkzwoKgKK/TF3P
+         YhaSzMYFCsyyJzP4wKqORagRXBRIZxCRUy0g1BU4oLwRdE+EPHLv99whJlLs0zFDQfWZ
+         AyFduLpTAlm402FB/3mniJ7R2iZNGp3qealjt6KV6+KlJrm2USfusBUli5H6zPX7HToX
+         +XX02s1OiF5gGXQB9iVlJ+aSCdMC6aSKuMm/+AJ2PAUFusn8z6Ppo81JCSfHtMyZyTiv
+         5wBw==
+X-Gm-Message-State: AOAM530DUpcpHNfhI5kpakZxJTypX4/c4XbaxR8K0xVFrTV5/HarrzYz
+	2QdGXFgRmA31Kz2OKUFpDjEIkQ==
+X-Google-Smtp-Source: ABdhPJzrMMgiVgnGS1tb2dOQcYsLll9fc4XWRYNTU66SXevGjIRh1B/3P0/A/mZpsI05/pWOguDuNg==
+X-Received: by 2002:aa7:9ad8:0:b0:50a:49e1:164c with SMTP id x24-20020aa79ad8000000b0050a49e1164cmr14593991pfp.8.1650323321628;
+        Mon, 18 Apr 2022 16:08:41 -0700 (PDT)
+Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id y9-20020a62ce09000000b0050a6516573esm6959461pfg.67.2022.04.18.16.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 16:08:41 -0700 (PDT)
+Date: Mon, 18 Apr 2022 23:08:39 +0000
+From: Prashant Malani <pmalani@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_proto: Add peripheral
+ charger count API
+Message-ID: <Yl3vd4kfgwJXMs/w@chromium.org>
+References: <20220415003253.1973106-1-swboyd@chromium.org>
+ <20220415003253.1973106-2-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YlzZr/UElg690/ru@google.com>
-References: <20220415003253.1973106-1-swboyd@chromium.org> <20220415003253.1973106-2-swboyd@chromium.org>
- <YlzZr/UElg690/ru@google.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 18 Apr 2022 12:43:07 -0700
-Message-ID: <CAE-0n50Kp4PkMqvOR=eAXMYctEv1J_ziRtjKL_mDR_zrS0apzw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_proto: Add peripheral
- charger count API
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>, 
-	Daisuke Nojiri <dnojiri@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220415003253.1973106-2-swboyd@chromium.org>
 
-Quoting Tzung-Bi Shih (2022-04-17 20:23:27)
-> On Thu, Apr 14, 2022 at 05:32:51PM -0700, Stephen Boyd wrote:
-> > Add a peripheral charger count API similar to the one implemented in the
-> > ChromeOS PCHG driver so we can use it to decide whether or not to
-> > register the PCHG device in the cros_ec MFD driver.
-> >
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > Cc: Daisuke Nojiri <dnojiri@chromium.org>
-> > Cc: Benson Leung <bleung@chromium.org>
-> > Cc: Guenter Roeck <groeck@chromium.org>
-> > Cc: <chrome-platform@lists.linux.dev>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->
-> With a minor comment about the naming,
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Hey Stephen,
 
-Cool thanks.
+On Apr 14 17:32, Stephen Boyd wrote:
+> Add a peripheral charger count API similar to the one implemented in the
+> ChromeOS PCHG driver so we can use it to decide whether or not to
+> register the PCHG device in the cros_ec MFD driver.
+> 
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daisuke Nojiri <dnojiri@chromium.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/platform/chrome/cros_ec_proto.c     | 31 +++++++++++++++++++++
+>  include/linux/platform_data/cros_ec_proto.h |  1 +
+>  2 files changed, 32 insertions(+)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index c4caf2e2de82..42269703ca6c 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -832,6 +832,37 @@ bool cros_ec_check_features(struct cros_ec_dev *ec, int feature)
+>  }
+>  EXPORT_SYMBOL_GPL(cros_ec_check_features);
+>  
+> +/**
+> + * cros_ec_pchg_port_count() - Return the number of peripheral charger ports.
+> + * @ec: EC device.
+> + *
+> + * Return: Number of peripheral charger ports, or 0 in case of error.
+> + */
+> +unsigned int cros_ec_pchg_port_count(struct cros_ec_dev *ec)
+> +{
+> +	struct cros_ec_command *msg;
+> +	const struct ec_response_pchg_count *rsp;
+> +	struct cros_ec_device *ec_dev = ec->ec_dev;
+> +	int ret, count = 0;
+> +
+> +	msg = kzalloc(sizeof(*msg) + sizeof(*rsp), GFP_KERNEL);
+> +	if (!msg)
+> +		return 0;
+> +
+> +	msg->command = EC_CMD_PCHG_COUNT + ec->cmd_offset;
+> +	msg->insize = sizeof(*rsp);
+> +
+> +	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
+> +	if (ret >= 0) {
+> +		rsp = (const struct ec_response_pchg_count *)msg->data;
+> +		count = rsp->port_count;
+> +	}
+> +	kfree(msg);
 
->
-> > diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-> > index df3c78c92ca2..8f5781bc2d7a 100644
-> > --- a/include/linux/platform_data/cros_ec_proto.h
-> > +++ b/include/linux/platform_data/cros_ec_proto.h
-> > @@ -230,6 +230,7 @@ u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
-> >  bool cros_ec_check_features(struct cros_ec_dev *ec, int feature);
-> >
-> >  int cros_ec_get_sensor_count(struct cros_ec_dev *ec);
-> > +unsigned int cros_ec_pchg_port_count(struct cros_ec_dev *ec);
->
-> I wonder if "cros_ec_get_pchg_port_count" would be a better name for the API.
+Can we use the wrapper function cros_ec_command() [1] here, which does
+the kzalloc and msg construction?
 
-Sure. I left out 'get' even though it's similar to
-cros_ec_get_sensor_count() because it seemed redundant. We can't "set"
-the port count. Anyway, I don't really care so I'll leave it up to cros
-maintainers.
+Best regards,
+
+-Prashant
+
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/platform/chrome/cros_ec_proto.c#L914

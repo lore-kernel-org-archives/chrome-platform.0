@@ -1,73 +1,88 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010FB3D61
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 23:29:16 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id t15so8739642oie.1
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 16:29:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F0D3D61
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 23:31:59 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id s137so21643472pgs.5
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 16:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=fnGr53ll8S7dG883IEeM0scEHRuR6/64FgMBnWIr8nE=;
-        b=R+chdkm07WDUmBdNNWTZY4DCcpGBLLK3l1gkE7+beL5tg8tEW0mNPAJlfv3h6VpRqa
-         hREevAo2QcF6sO51GnlLz4jjZNvnHfFK7/vz7FgDeiHcJ7ydpJYnIfuIXIdiMO+Uyk9O
-         QwXUUDnQ5rMWI5yTPpRQYpi0oXzKIwWfzc4BE=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=u9HwDSu3jkL7GJkxdCGm5YU8ByJmgH0nknQ3b6eIwRs=;
+        b=k0TMbaYzoa+OpneeXjXULYrDQlTSjIF+F3LakzftsYDwdrmPYjl/VyFfYJI2HfdCGA
+         OT+k+eak3/T/cCFkYLP8k4W8e88ZFlObRsuM6NogdC6+D3Vpidz4HLP/TAiPtNXyIQoI
+         Yl0YWKbPRXDAvLag5neYUgdEm0xLQJ2AVw9Mo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=fnGr53ll8S7dG883IEeM0scEHRuR6/64FgMBnWIr8nE=;
-        b=EZmLp8xn5iRavxIa3Zy84RZEvRwdjUl4QgTRydXGbEcftC4f5FARgtVw9NTGWGMKTj
-         e8jZJ5fGU94iSKfhoAMfWetvcFZEy8C24dsN7zYd8g71ENACQBBkncg4T7MmhrHbAqQJ
-         0ITbTdED8XB+rJ31A/l6aEGrf0TU+tAvk90UILQt8Gr/OLj+JKifbh4oW50ecxm7P8W+
-         fwP7jcFXnxPJipyrf3Taj0vLTTkEyceWt6mABsy+wBmATd58uRkUODhDMw2uZZk6YIEI
-         W6r42l5YXIWVzZvkmliLOQECJbvBSKFzH55qBqOPiLN6eR10DJDFUROHp6BDA3nd9xnm
-         YePw==
-X-Gm-Message-State: AOAM531pxfoH1zCWhSolAFBbtgYEb89ifp24q3i2lbgonw9EOxjyUarl
-	wcF0nWFQIH7PhqjS/BMOKG7TbZS5BIFdv2Y0X1gMLg==
-X-Google-Smtp-Source: ABdhPJxMMIspQN15t5a3pLyxGSFKCn1ePl9kulWUC69ipdxaKBN7DSnhvNpkkFk0BeDV4jrv9qJGDAXy3HuVcYX/MUU=
-X-Received: by 2002:a05:6808:10d4:b0:2fa:5fa6:e9c4 with SMTP id
- s20-20020a05680810d400b002fa5fa6e9c4mr5863218ois.193.1650324556139; Mon, 18
- Apr 2022 16:29:16 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 18 Apr 2022 16:29:15 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=u9HwDSu3jkL7GJkxdCGm5YU8ByJmgH0nknQ3b6eIwRs=;
+        b=RM+V0o3yPQIbrMHTphVpoy9oBFtnhO9IxYtxPkLqct0gKUsN+lVjmFvTXwNG9vNRm0
+         TCVk+1neDi0pK4alAIzAJosabdS1nOrhUHZcX20h75lHpkQeknYvxuURviCkD+8HO33a
+         J1CyWbTBWC9sgBqiuBQha8WraGmpGZh7qL3Z+5RweAzHi02LSJpz6Ln/gUOLXzYZIY3c
+         DjHDNnZ+XhgE+x+AjNM0lyKE7+bDNUEaesqt7vPVZkOwZYVzhqyPCSSORdF5E0AMm6gm
+         3PcYX4QrpDTs5jC8/p9vlc8A+1dLc3V2GrVLjKDxlKoJBp5AeXcxF+oyqPKjRLT1hGIW
+         CTpQ==
+X-Gm-Message-State: AOAM530rI6k1sKzoDJMtOVQ8pX31QLOC37ut+1tVM34oOK7L1xCdeqkT
+	jxboI2unfl+ZXRr9VYk7WK8jGQ==
+X-Google-Smtp-Source: ABdhPJwxK5PaPInu/IR4v+tY4NZnK4X/5TSAG8oOcafdt4PbOYXt5YvZ4a1LKPMfOXWyZcuYYlyz5g==
+X-Received: by 2002:a05:6a00:2391:b0:50a:3ea9:e84d with SMTP id f17-20020a056a00239100b0050a3ea9e84dmr14999727pfc.21.1650324719179;
+        Mon, 18 Apr 2022 16:31:59 -0700 (PDT)
+Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id k10-20020a056a00168a00b004f7e2a550ccsm14283141pfc.78.2022.04.18.16.31.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 16:31:58 -0700 (PDT)
+Date: Mon, 18 Apr 2022 23:31:57 +0000
+From: Prashant Malani <pmalani@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_proto: Add peripheral
+ charger count API
+Message-ID: <Yl307fUo09z2/M+w@chromium.org>
+References: <20220415003253.1973106-1-swboyd@chromium.org>
+ <20220415003253.1973106-2-swboyd@chromium.org>
+ <Yl3vd4kfgwJXMs/w@chromium.org>
+ <CAE-0n53N1k_b9vWJ84nBdm9sxpYV3o4-FLJQM1HGqEhQsdr19A@mail.gmail.com>
+ <Yl3ykMvfCaQlQ7t9@chromium.org>
+ <CAE-0n51PX1SgqiB5vgoOLunkrxiWxH2O=jCCM5gNL97O8Ltt4Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <Yl3ykMvfCaQlQ7t9@chromium.org>
-References: <20220415003253.1973106-1-swboyd@chromium.org> <20220415003253.1973106-2-swboyd@chromium.org>
- <Yl3vd4kfgwJXMs/w@chromium.org> <CAE-0n53N1k_b9vWJ84nBdm9sxpYV3o4-FLJQM1HGqEhQsdr19A@mail.gmail.com>
- <Yl3ykMvfCaQlQ7t9@chromium.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 18 Apr 2022 16:29:15 -0700
-Message-ID: <CAE-0n51PX1SgqiB5vgoOLunkrxiWxH2O=jCCM5gNL97O8Ltt4Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_proto: Add peripheral
- charger count API
-To: Prashant Malani <pmalani@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, Lee Jones <lee.jones@linaro.org>, 
-	Daisuke Nojiri <dnojiri@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n51PX1SgqiB5vgoOLunkrxiWxH2O=jCCM5gNL97O8Ltt4Q@mail.gmail.com>
 
-Quoting Prashant Malani (2022-04-18 16:21:52)
-> On Apr 18 16:16, Stephen Boyd wrote:
+On Apr 18 16:29, Stephen Boyd wrote:
+> Quoting Prashant Malani (2022-04-18 16:21:52)
+> > On Apr 18 16:16, Stephen Boyd wrote:
+> > >
+> > > Sure. I take it that I can drop this function entirely then?
 > >
-> > Sure. I take it that I can drop this function entirely then?
->
-> Yeah, if it's a simple response, should be fine.
->
-> > BTW, why is
-> > that function name the same as a struct name? It confuses my ctags.
->
-> Yeahhh, didn't think about ctags... :/
-> Topic for another series: probably can be renamed to cros_ec_cmd() (just to keep ctags happy) ?
->
+> > Yeah, if it's a simple response, should be fine.
+> >
+> > > BTW, why is
+> > > that function name the same as a struct name? It confuses my ctags.
+> >
+> > Yeahhh, didn't think about ctags... :/
+> > Topic for another series: probably can be renamed to cros_ec_cmd() (just to keep ctags happy) ?
+> >
+> 
+> But then there'll be two cros_ec_cmd() because there's a
+> cros-ec-regulator. Fun! :)
 
-But then there'll be two cros_ec_cmd() because there's a
-cros-ec-regulator. Fun! :)
+Ugh :S
+
+I think we can get rid of that one; it looks to be the same as this
+one :)
+
+
+I'll write up a cleanup series if it all looks OK.
+

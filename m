@@ -1,131 +1,69 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AFE81D
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 00:22:21 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id i24-20020a17090adc1800b001cd5529465aso779910pjv.0
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Apr 2022 17:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/T3Gfhb5CSWhS7QaQyFowl3g2EEqiZwzzNcN5K4b934=;
-        b=mr5hjsKLWIaVgCMHEJew99IYxMNEuaOWASs5DrU5g9iF9JUPbyLmBJrgEFkHYXV5mB
-         Ywc8DKuhcX/wLw8r1PlYG4VOgA9xdCdouf9XkQEutQpiYY/5Ge9Lya6T5n7gBwABKK4K
-         5ADNap9+GO8fzEL/0xBODMvWl1xvRKFCS4mQk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/T3Gfhb5CSWhS7QaQyFowl3g2EEqiZwzzNcN5K4b934=;
-        b=TM6nZX5/B92DV1tXrrK1HAiD5/jB2/quTThY19K+jNsk4rOy1sib/UG73MuvdF3iLc
-         33xAQbNqzxRJWzt/bk4Y2ILNPsQIN67vEvrDENRotD6nFooy4X/bdhvkjMOqc8iLdvyf
-         wDEXXjfr/PHSRZzKE+oTXDNzHPXYzQ53UiXPRKNezkXAxwp+lCoiSBS6ClQHkmQgB2DX
-         8pmFLbcy5NMw9pcLq0f1NP9RIe3aGaj21hcihYqRuRrtMyO9hfzO67Rq5q5x65cqx7lT
-         wVhyo+Zq8mSRvX1lpdFierbLmwQBRLc1lQDU4VFLOsDo0rVYRyEodJiZCYS5Xh25bBFM
-         TZZg==
-X-Gm-Message-State: AOAM533SXAI3GrMf7p3jaikSOL+4YQ7DxS7XrXSANfSWk8oyVpCitdO6
-	pE6QKbKYQI4aeXOQq5yv7iCadQ==
-X-Google-Smtp-Source: ABdhPJz1Uune6rls+uYCQI8xlokCjnbrs+GKB5C70SiB731oO+AVHbTwXu6E34kzN8S1R/sAPKlcWw==
-X-Received: by 2002:a17:902:d70a:b0:158:7f07:e7c9 with SMTP id w10-20020a170902d70a00b001587f07e7c9mr13176936ply.109.1650327740972;
-        Mon, 18 Apr 2022 17:22:20 -0700 (PDT)
-Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id ay13-20020a056a00300d00b0050a5af3fbc7sm8685963pfb.220.2022.04.18.17.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 17:22:20 -0700 (PDT)
-Date: Tue, 19 Apr 2022 00:22:19 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2] mfd: cros_ec_dev: Only register PCHG device if present
-Message-ID: <Yl4Au/O/am/ZbX9J@chromium.org>
-References: <20220419000408.3202635-1-swboyd@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C23A23
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 03:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 369B8C385A8;
+	Tue, 19 Apr 2022 03:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1650339012;
+	bh=r//ufWO4fvNfizfxS4vuRz+uxWC37f5ihVH/4Y4xBAE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Xtc7k0+NbNf3WdkIynN4Xt+VJBtCOe1o+m2nWwP8M2VnfPZzVcxMhVLerZcThCfNs
+	 h0uU9ti6oALFYdH5rbIpKFSECHSK7DuY5od+77aHaKAbmeWnZW6tizpEdzL4Ldeo7m
+	 CPiT0iC7L5CW1vmFMvbtwNu0Hc6j1fdM3iIg7rqWBja9HugFgCtuQec9xAvFjufzjo
+	 zt0aAWGKsgzo+NIP8JSqytPU2wTG6mL9uQPXFURnTEge9Q110En38IqtPWVuWkYQQw
+	 xVnUKILVrXdunYHe+ZfQ9Z/zM3shej1+9zDrQVvT2sUDwQm61N/HQ1tn/sQpRglGMa
+	 OHx7ke62GwOgw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 16B7AE8DD61;
+	Tue, 19 Apr 2022 03:30:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419000408.3202635-1-swboyd@chromium.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] platform/chrome: Re-introduce cros_ec_cmd_xfer and use it
+ for ioctls
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165033901208.10174.13978945686641197234.git-patchwork-notify@kernel.org>
+Date: Tue, 19 Apr 2022 03:30:12 +0000
+References: <20220318165422.686848-1-linux@roeck-us.net>
+In-Reply-To: <20220318165422.686848-1-linux@roeck-us.net>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dnojiri@chromium.org, robbarnes@google.com,
+ rajatja@google.com, briannorris@chromium.org, parthmalkan@google.com
 
-Hey Stephen,
+Hello:
 
-On Apr 18 17:04, Stephen Boyd wrote:
-> Don't create a device for the peripheral charger (PCHG) if there aren't
-> any peripheral charger ports. This removes a device on most ChromeOS
-> systems, because the peripheral charger functionality isn't always
-> present.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Fri, 18 Mar 2022 09:54:22 -0700 you wrote:
+> Commit 413dda8f2c6f ("platform/chrome: cros_ec_chardev: Use
+> cros_ec_cmd_xfer_status helper") inadvertendly changed the userspace ABI.
+> Previously, cros_ec ioctls would only report errors if the EC communication
+> failed, and otherwise return success and the result of the EC
+> communication. An EC command execution failure was reported in the EC
+> response field. The above mentioned commit changed this behavior, and the
+> ioctl itself would fail. This breaks userspace commands trying to analyze
+> the EC command execution error since the actual EC command response is no
+> longer reported to userspace.
 > 
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Daisuke Nojiri <dnojiri@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-FWIW:
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
+> [...]
 
-> ---
-> 
-> Changes from v1 (https://lore.kernel.org/r/20220415003253.1973106-1-swboyd@chromium.org):
->  * Use cros_ec_command()
->  * Drop the other patches that aren't needed anymore
-> 
->  drivers/mfd/cros_ec_dev.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index 546feef851ab..596731caf407 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -114,6 +114,9 @@ static const struct mfd_cell cros_ec_platform_cells[] = {
->  	{ .name = "cros-ec-chardev", },
->  	{ .name = "cros-ec-debugfs", },
->  	{ .name = "cros-ec-sysfs", },
-> +};
-> +
-> +static const struct mfd_cell cros_ec_pchg_cells[] = {
->  	{ .name = "cros-ec-pchg", },
->  };
->  
-> @@ -137,6 +140,7 @@ static int ec_device_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct cros_ec_platform *ec_platform = dev_get_platdata(dev);
->  	struct cros_ec_dev *ec = kzalloc(sizeof(*ec), GFP_KERNEL);
-> +	struct ec_response_pchg_count pchg_count;
->  	int i;
->  
->  	if (!ec)
-> @@ -242,6 +246,21 @@ static int ec_device_probe(struct platform_device *pdev)
->  		}
->  	}
->  
-> +	/*
-> +	 * The PCHG device cannot be detected by sending EC_FEATURE_GET_CMD, but
-> +	 * it can be detected by querying the number of peripheral chargers.
-> +	 */
-> +	retval = cros_ec_command(ec->ec_dev, 0, EC_CMD_PCHG_COUNT, NULL, 0,
-> +				 &pchg_count, sizeof(pchg_count));
-> +	if (retval >= 0 && pchg_count.port_count) {
-> +		retval = mfd_add_hotplug_devices(ec->dev,
-> +					cros_ec_pchg_cells,
-> +					ARRAY_SIZE(cros_ec_pchg_cells));
-> +		if (retval)
-> +			dev_warn(ec->dev, "failed to add pchg: %d\n",
-> +				 retval);
-Tiny nit: Can this fit in 1 line (100 chars[1])?
+Here is the summary with links:
+  - [v2] platform/chrome: Re-introduce cros_ec_cmd_xfer and use it for ioctls
+    https://git.kernel.org/chrome-platform/c/57b888ca2541
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-BR,
-
--Prashant
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144

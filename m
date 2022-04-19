@@ -1,73 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD4EA23
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 03:30:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 81D95C385A7;
-	Tue, 19 Apr 2022 03:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650339013;
-	bh=21CBbwpI9yRTaLJ2TyxV5OxxAzfXsUtVmBkixNOLo8g=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=B/XFTcI7znLKhiAkcbTY6X+9T7eh31Loir3fsXrLdvOT2sYywBE53Z+dFJjhqqspz
-	 LpWiC4Mjd2YIJpAbwlgXXyqS5PQzo0UraRn49Eezfw2NaTYdd6bc3e/Iyhz2oLLkBf
-	 11x5ErJ94irM92ukeylYrMrbcam9hOdCb2Ow5954ziLhKgRiZSCI6YxTtz1s1DubAV
-	 GWfwVSjXQTvf31Ffu0Vdh9/Qr10p8wSO1XYdyhEEJLEID0vmBYhk7sQM3c3MnFHXPf
-	 7OQf1xVMKxauqZvRSnKzZEKSIKge6d4WnKfTSxcTjLY7UPyLjT5euyT6NCL02G4r5+
-	 Q9ASXICsHPK4Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D0ACEAC09C;
-	Tue, 19 Apr 2022 03:30:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0D2ECA
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 10:12:31 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id b15so20593614edn.4
+        for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 03:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6YIh3HDPztean2NUp4hEk/5KOUaDqmdwW5sVxL2kVTo=;
+        b=rBaRAPk3AqWA19QNZAYo+MvnfyKVAXmMzDjvfxy3awdYBFUjJDIWchT/uoTa2lA/MB
+         t3li31ngEqo03wKDbvw8LAOv1yBoOBt6+QholcPsrxhmjRiJy/BNE6Pz81qIWA2uowW9
+         yyDTHs9EyS+BhjseTzNCJgcEdeWnf3Oqqh/f/4UJQz1uGRvSIB57/76S5PQ00R7BmicR
+         YJ+wXaEppdTpEJhnUBj6rjf5ex2MOlpNzvWV2tgfhxJ02lP58q+4+BgHjqnR+zyb6PA+
+         TJo1dnPANE4XQltS95X9dsjNYDJZQCP2ejYEQeCTCv0C8WBzc4J6pS5gkLHjooVGE72q
+         B4OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6YIh3HDPztean2NUp4hEk/5KOUaDqmdwW5sVxL2kVTo=;
+        b=vg7O1ohoMO20Ave2gyt7w9pjPowaidaowLGn1DvXvGv3UJsnDTLZiz/49iocx6Bf6I
+         oO+SaOCecqkoH5ZCi/k8Wg+wEmG2LwlsuVeke09beEBrVOpCxLYrnSEftp9LofXTumm2
+         YP1fN5tkk1bjgNiMyEtsDeaItAQUv0eHqxPpOOb46eeNnRfwfnmJ+eaSB44+wSgRLnRr
+         xSb6BgVh5B3FI1kJNux0dMqy70RYu4zqXLMhbYR+Jkebn6g/Tn4dBLkC1+leekmD7YNy
+         T8/+Lj6noK9JMKT84aRJbOC7SVAfSFKO8zCOqoUHq92TkFrpQG7Tl5pnJf8dCKtuwWjV
+         Qv8Q==
+X-Gm-Message-State: AOAM5307kuE3yiepLZK+YXk1ltZ9f9GT7GCaQErEEMZOKEa7VIMpg846
+	EzpdHm1aSPc44m4T5ZngSv4oDQ==
+X-Google-Smtp-Source: ABdhPJzzS0g9hBuwjfOsu4N4YsswKBvUI+7x79YPwkoHM+EZQ0AKr3/TO+o5s/RZeAxjY2G/d8x7DA==
+X-Received: by 2002:a05:6402:350d:b0:419:547f:134a with SMTP id b13-20020a056402350d00b00419547f134amr16773920edd.405.1650363149990;
+        Tue, 19 Apr 2022 03:12:29 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id v21-20020a1709064e9500b006e8973a14d0sm5581177eju.174.2022.04.19.03.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Apr 2022 03:12:29 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Benson Leung <bleung@chromium.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Guenter Roeck <groeck@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-arm-msm@vger.kernel.org,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH 2/4] arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
+Date: Tue, 19 Apr 2022 12:12:25 +0200
+Message-Id: <165036314213.180327.2519068046721343173.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
+References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com> <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5 0/5] platform/chrome: cros_ec: miscellaneous cleanups
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165033901344.10174.596989152159519892.git-patchwork-notify@kernel.org>
-Date: Tue, 19 Apr 2022 03:30:13 +0000
-References: <20220216080306.3864163-1-tzungbi@google.com>
-In-Reply-To: <20220216080306.3864163-1-tzungbi@google.com>
-To: Tzung-Bi Shih <tzungbi@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- pmalani@chromium.org, linux-kernel@vger.kernel.org
 
-Hello:
-
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Wed, 16 Feb 2022 16:03:01 +0800 you wrote:
-> The 1st patch fixes unhandled undos in error handling path.
+On Mon, 14 Feb 2022 09:19:14 +0100, Krzysztof Kozlowski wrote:
+> dtschema expects PWM node name to be a generic "pwm".  This also matches
+> Devicetree specification requirements about generic node names.
 > 
-> The rest of patches cleans drivers/platform/chrome/cros_ec.c.
 > 
-> Changes from v4:
-> (https://patchwork.kernel.org/project/chrome-platform/cover/20220216043639.3839185-1-tzungbi@google.com/)
-> - Rollback the 3rd patch to older version.
-> 
-> [...]
 
-Here is the summary with links:
-  - [v5,1/5] platform/chrome: cros_ec: fix error handling in cros_ec_register()
-    https://git.kernel.org/chrome-platform/c/2cd01bd6b117
-  - [v5,2/5] platform/chrome: cros_ec: remove unused variable `was_wake_device`
-    https://git.kernel.org/chrome-platform/c/f47a6113f4e8
-  - [v5,3/5] platform/chrome: cros_ec: determine `wake_enabled` in cros_ec_suspend()
-    https://git.kernel.org/chrome-platform/c/9fbe967d4e6e
-  - [v5,4/5] platform/chrome: cros_ec: sort header inclusion alphabetically
-    https://git.kernel.org/chrome-platform/c/5781a33098c6
-  - [v5,5/5] platform/chrome: cros_ec: append newline to all logs
-    https://git.kernel.org/chrome-platform/c/8d4668064cce
+Applied, thanks!
 
-You are awesome, thank you!
+[2/4] arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
+      commit: 559d2104bff0c9a6379db652136d30836859252e
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>

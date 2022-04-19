@@ -1,89 +1,107 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0D2ECA
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 10:12:31 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id b15so20593614edn.4
-        for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 03:12:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41186ED8
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 12:16:32 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id o5so15249644pjr.0
+        for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 05:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6YIh3HDPztean2NUp4hEk/5KOUaDqmdwW5sVxL2kVTo=;
-        b=rBaRAPk3AqWA19QNZAYo+MvnfyKVAXmMzDjvfxy3awdYBFUjJDIWchT/uoTa2lA/MB
-         t3li31ngEqo03wKDbvw8LAOv1yBoOBt6+QholcPsrxhmjRiJy/BNE6Pz81qIWA2uowW9
-         yyDTHs9EyS+BhjseTzNCJgcEdeWnf3Oqqh/f/4UJQz1uGRvSIB57/76S5PQ00R7BmicR
-         YJ+wXaEppdTpEJhnUBj6rjf5ex2MOlpNzvWV2tgfhxJ02lP58q+4+BgHjqnR+zyb6PA+
-         TJo1dnPANE4XQltS95X9dsjNYDJZQCP2ejYEQeCTCv0C8WBzc4J6pS5gkLHjooVGE72q
-         B4OQ==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=ayEwnBd5aqxIQWWsQgtaNfd9m4PNsGk+OYOBrBmZd5Y=;
+        b=J1lY8uIeudNKmkNHPKd4R+hEkl5TRWWNIbLmhRXqznZQ0AF1zQPHi2ChV0djw0k50j
+         gnftNGazdZ7D+qX1pmYESWLYAFV0zwWBzael2N9K2wrbxNihe3RWwQ8p8cJCiXVgUzE5
+         H/2UUhC8W36jFRs7axbS3QrFt/J2vqfpvBWPCJZfSs2oCwl3qcI5c0b8FFCOFbnisPVY
+         iieuu6er+Uqx+3zKfi1+Sg5p7SWpl+lhBtGAt2S5O7JKA9XfjSDqNTsvgxw07HHsInMs
+         TQGJvyan5JKCShEe0dGYvMeGi51eCJGCRj5gZB5UKH+khuZN1zompN3l4v04pzfbVCRh
+         64HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6YIh3HDPztean2NUp4hEk/5KOUaDqmdwW5sVxL2kVTo=;
-        b=vg7O1ohoMO20Ave2gyt7w9pjPowaidaowLGn1DvXvGv3UJsnDTLZiz/49iocx6Bf6I
-         oO+SaOCecqkoH5ZCi/k8Wg+wEmG2LwlsuVeke09beEBrVOpCxLYrnSEftp9LofXTumm2
-         YP1fN5tkk1bjgNiMyEtsDeaItAQUv0eHqxPpOOb46eeNnRfwfnmJ+eaSB44+wSgRLnRr
-         xSb6BgVh5B3FI1kJNux0dMqy70RYu4zqXLMhbYR+Jkebn6g/Tn4dBLkC1+leekmD7YNy
-         T8/+Lj6noK9JMKT84aRJbOC7SVAfSFKO8zCOqoUHq92TkFrpQG7Tl5pnJf8dCKtuwWjV
-         Qv8Q==
-X-Gm-Message-State: AOAM5307kuE3yiepLZK+YXk1ltZ9f9GT7GCaQErEEMZOKEa7VIMpg846
-	EzpdHm1aSPc44m4T5ZngSv4oDQ==
-X-Google-Smtp-Source: ABdhPJzzS0g9hBuwjfOsu4N4YsswKBvUI+7x79YPwkoHM+EZQ0AKr3/TO+o5s/RZeAxjY2G/d8x7DA==
-X-Received: by 2002:a05:6402:350d:b0:419:547f:134a with SMTP id b13-20020a056402350d00b00419547f134amr16773920edd.405.1650363149990;
-        Tue, 19 Apr 2022 03:12:29 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id v21-20020a1709064e9500b006e8973a14d0sm5581177eju.174.2022.04.19.03.12.28
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=ayEwnBd5aqxIQWWsQgtaNfd9m4PNsGk+OYOBrBmZd5Y=;
+        b=P/HfsHNVezF+aTbqucoyOGrfh5adBu49QlxmnlcE45o76jQKZNYdbR5zXwRo6bgyws
+         4PV+o9Z4gkxTTeHcJITuGtpM0q23OSWzmv9deaStf2Boniqct2hdGF0SLwTF7CuzQAou
+         kbhriz7CSEr78DhyhvoFgAXoQd6UJDokkF+xOOATO1+w4J4CYAQJLP/56GGSGP9Wh5rc
+         IX76Ki2nQWQi3EZErYR1efUU6Gcft0eMNzC7rToFiTZJGGGCpHbH/QsX0f+vTeGUwxFQ
+         2HbStoRpbaso/QgtXPeTvh5NA7qZN3E1tdUf+VDNCvl88WDJ4n/zVCGvyf+ouc9af3XX
+         teJg==
+X-Gm-Message-State: AOAM532zV1KNyIj6Y6aImi2A0Lnicafz+WciMXUXUKjEYD/l2JL0tvOQ
+	yHAiHwH7UstI+9ZKwVyXZ500nA==
+X-Google-Smtp-Source: ABdhPJzGjspUmqvM90MUqf2VNdcqWIRnVxbK9Y+aMmgKKwLRVH4zBrUT1XlClfuMWZI582TlvF2SJA==
+X-Received: by 2002:a17:902:6847:b0:158:fd26:1b97 with SMTP id f7-20020a170902684700b00158fd261b97mr9289834pln.17.1650370591704;
+        Tue, 19 Apr 2022 05:16:31 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id b13-20020a056a00114d00b004c122b90703sm16884831pfm.27.2022.04.19.05.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 03:12:29 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Andy Gross <agross@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Benson Leung <bleung@chromium.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-arm-msm@vger.kernel.org,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH 2/4] arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
-Date: Tue, 19 Apr 2022 12:12:25 +0200
-Message-Id: <165036314213.180327.2519068046721343173.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
-References: <20220214081916.162014-1-krzysztof.kozlowski@canonical.com> <20220214081916.162014-3-krzysztof.kozlowski@canonical.com>
+        Tue, 19 Apr 2022 05:16:31 -0700 (PDT)
+Message-ID: <625ea81f.1c69fb81.40a06.6888@mx.google.com>
+Date: Tue, 19 Apr 2022 05:16:31 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v5.18-rc1-7-g27d5486ca020b
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.18-rc1-7-g27d5486ca020b)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Mon, 14 Feb 2022 09:19:14 +0100, Krzysztof Kozlowski wrote:
-> dtschema expects PWM node name to be a generic "pwm".  This also matches
-> Devicetree specification requirements about generic node names.
-> 
-> 
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.18-rc1=
+-7-g27d5486ca020b)
 
-Applied, thanks!
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.18-rc1-7-g27d5486ca020b/
 
-[2/4] arm64: dts: mt8183: align Google CROS EC PWM node name with dtschema
-      commit: 559d2104bff0c9a6379db652136d30836859252e
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.18-rc1-7-g27d5486ca020b
+Git Commit: 27d5486ca020b03d12410d03fddd7403dee7fc2f
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

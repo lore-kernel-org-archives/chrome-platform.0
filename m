@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951291365
-	for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 09:10:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F9D0C385A8;
-	Wed, 20 Apr 2022 09:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3291373
+	for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 10:50:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 10D7CC385A8;
+	Wed, 20 Apr 2022 10:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650445811;
-	bh=11pfjz1i2MS42xR7uvvDnDe7JxVoRfoPmLnKDExZ3Dc=;
+	s=k20201202; t=1650451812;
+	bh=lDXrcIhmwRkt0SoBQSq31ilCNPvYUV3Ka7JEeaJkBYQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ckTqUZryaTng3rCKHFe97gt9yNXMk3QrKYyKS1V0Qcx/fpvCTgI0wesrhA9G2y3om
-	 +AtmyJAcPmTqAhvMY6j3OAqzDkOZ/5QCHns/1iZC0YJb3dq6jv3SIIbsB1tQ/ceWyX
-	 0slT9md2Ri+CG+LBl+OC3YgSDuOkoPj4b+6t3NfD5lu81OQ0lmwl/9inhsdRCsF3Sq
-	 Yr4B4V4nCB+HK5ZowIeMxp5jy737BqaV0JxfwODGiBtGYY8oP0dq+SX2MoopSBUr5Q
-	 tEecNlxwdrS0utn5sop+wH+5Pijv5HpIGrhsK50OnKnmv3xettCtmudySrHRt+Q/g+
-	 QnjO74qT4JaLg==
+	b=b8P+jObYZqjxupBrlHKoHEx2qtERNAh5plgNRJggXSWWfBJwv2E3wzWKeUQZJRO83
+	 EKCMKgX6gQ+2Rhw087fg/MlKjfFBK0E4tJNVYxtfdM0qLGr5NUm8LhYg3gFKV6k7l0
+	 wdSkIYtILMtQ6VYjsAFxOoAuwHUzCbgQmUyuTJ+x4WGZVtiHsrx2uzIxMr3fxIrY8P
+	 fbnUe48fEBhAr8cwUF6ZC3jX/ixdwm+Dr2/afaoYx2O4WHJynktovsj+lCHh4R1HW0
+	 XcqNVOYT396n/636JeOF2Is36SvDMZls45fBwfwgTp15xCkFtYTI7sppFvhHKrWS/g
+	 bGsXTH4gJOOGA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 244A9E8DD85;
-	Wed, 20 Apr 2022 09:10:11 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E9F89E8DD85;
+	Wed, 20 Apr 2022 10:50:11 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -26,40 +26,34 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] platform/chrome: Re-introduce cros_ec_cmd_xfer and use it
- for ioctls
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <165044581114.11968.7352761617264023399.git-patchwork-notify@kernel.org>
-Date: Wed, 20 Apr 2022 09:10:11 +0000
-References: <20220318165422.686848-1-linux@roeck-us.net>
-In-Reply-To: <20220318165422.686848-1-linux@roeck-us.net>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, dnojiri@chromium.org, robbarnes@google.com,
- rajatja@google.com, briannorris@chromium.org, parthmalkan@google.com
+ <165045181194.29490.17184763637444609886.git-patchwork-notify@kernel.org>
+Date: Wed, 20 Apr 2022 10:50:11 +0000
+References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Fri, 18 Mar 2022 09:54:22 -0700 you wrote:
-> Commit 413dda8f2c6f ("platform/chrome: cros_ec_chardev: Use
-> cros_ec_cmd_xfer_status helper") inadvertendly changed the userspace ABI.
-> Previously, cros_ec ioctls would only report errors if the EC communication
-> failed, and otherwise return success and the result of the EC
-> communication. An EC command execution failure was reported in the EC
-> response field. The above mentioned commit changed this behavior, and the
-> ioctl itself would fail. This breaks userspace commands trying to analyze
-> the EC command execution error since the actual EC command response is no
-> longer reported to userspace.
+On Mon,  4 Apr 2022 13:11:01 +0900 you wrote:
+> The EC driver may not be initialized when cros_typec_probe is called,
+> particulary when CONFIG_CROS_EC_CHARDEV=m.
 > 
-> [...]
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
 Here is the summary with links:
-  - [v2] platform/chrome: Re-introduce cros_ec_cmd_xfer and use it for ioctls
-    https://git.kernel.org/chrome-platform/c/57b888ca2541
+  - platform/chrome: cros_ec_typec: Check for EC driver
+    https://git.kernel.org/chrome-platform/c/cce465a867bc
 
 You are awesome, thank you!
 -- 

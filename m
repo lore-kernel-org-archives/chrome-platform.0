@@ -1,274 +1,126 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEE31867
-	for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 17:55:38 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id ll10so2627770pjb.5
-        for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 10:55:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0881867
+	for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 18:12:50 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id l127so2698924pfl.6
+        for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 11:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W7Xq3UJH3qMZxLkQAcnpRNWA6G5CMmkPBBfWKoowgzU=;
-        b=Ajyn322Z12V0rJvJXWWTcaLARY63PnCr9NVHtOH9xff2nsXP6otqyeYCAHxYEaEYbO
-         icygtpIBozeNkVBsB8+OwixJl9JIZi5FuSuSAM7Q6Nls/zg029eY8zD9nP0SbhZ0AFGv
-         JcnrMuzM7W2v4iYa+ZPyPpJJ5ca0lpVRlVNNM=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=8a3xCL3xQgHjaO+6pjARlSJsYVYuwRr6jA65x1yDBWo=;
+        b=XJKdB/8WusllpfI6azjlmp3AH4FC3vSjYfC+mYPSnrwzE7pKKgiOBN5iQqLQ5P4A0B
+         IsTnBv8jv20mcs+FDxzXCcb+ffsauDuPHuPzcfWWC5s7QNvhMDjjHU2ip7NyiqV160lA
+         jJiPWKk6pXvm3tgK2LmhbdluXoMgYIG/pNMg/8OC0zS9YSCOY8FYyfnfAXdsqdyAU2w2
+         OX0PK7Y30RbcDsvbbmsuQWNB1uecB1QgPQlRr/rDxwN/c7WKzYq44uc20TYchE++yBg4
+         UQmNtfsOy8BF4dx9cr6Lacc8A+UKdWBtMvXTqrw13QR6pmsKLTPjkYwXQ0L5tXtNRrhA
+         Lg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W7Xq3UJH3qMZxLkQAcnpRNWA6G5CMmkPBBfWKoowgzU=;
-        b=GHOXetIF74tmWcNno1DFUcgywpSIouXL5kODsPxiKjIkW1yzWZWfvOX8OwT2B3NL+M
-         k+WyoDIheQt7803zxW3Ntva8F3/nMTUFDL6a+6jknbzUFtJOzL8fzkGraHuHlFgtDJIa
-         0MRW+5a2hWjOSOBlYg7sOMlR6lStIrJXrxhHmRxz8Pod6hbeJO357JGLGxpXLiEuWbgC
-         em9rQqyh4HJRntNzpGQOJo4WPUvK+NJWjPX9+dnoUPr/Wsov9JrNf9eTW2RSUEarSQ3V
-         yOTouOINk4a43xR5hACyQ3lZvROCw3hQLK00e6IAu1SHD7GNwzIWitnZjec8o46ONgQZ
-         OGCA==
-X-Gm-Message-State: AOAM531Rra7QF05+fm0A7eVZobFGO5xslgACR425kUzXgymUk8lYT1mj
-	oKBhYblwwUM4Cmg/ag/oewHQ5A==
-X-Google-Smtp-Source: ABdhPJwGdoo2DKbawMenjEAKnCXvHj/MNoEW31/sQtannMm66Fj+1WjrwM+hRvkFHK7zTZbAk2V8UA==
-X-Received: by 2002:a17:902:7c0f:b0:157:962:c184 with SMTP id x15-20020a1709027c0f00b001570962c184mr21635232pll.111.1650477338373;
-        Wed, 20 Apr 2022 10:55:38 -0700 (PDT)
-Received: from chromium.org (164.135.233.35.bc.googleusercontent.com. [35.233.135.164])
-        by smtp.gmail.com with ESMTPSA id ay33-20020a056a00302100b00508374700b9sm19618740pfb.166.2022.04.20.10.55.37
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=8a3xCL3xQgHjaO+6pjARlSJsYVYuwRr6jA65x1yDBWo=;
+        b=pwk6Cs2qJcatD1LUxK28jthq/7y76u+LFZoE55QbIvKAjoEjYCIJ92lcq+5g+8cIE/
+         CogcJcAdGOznHzSCc8yI852npW1L4978PDfmh/78RFJ5Rq72Udbxg4K8DoLU+BDOSAZJ
+         PqD9aAwCnAYxljcpnPugiBZGZwxPFYDozEREpubPa4KDHEDfjLO+lkPssea78z+HoRX1
+         oK2keooVDf5X7FhFlfbLc5PydkswJgh3dD4XoU/ChnlUyjxo7+aXATi1RYNedlnrjlmQ
+         mRhjVnW+E8SbFVVzJneJA9NEduULuf13cVmQXHOTcCqzXkvw6KC86EQRllI8ld3xfqPF
+         hjpA==
+X-Gm-Message-State: AOAM531pOTW2HCoqYDgSJEq83lMC7tFKe2lvmmaMey+hQu9uN7EsJLMm
+	2rQ2DlPeEERQZTMp5DQLBDzCXg==
+X-Google-Smtp-Source: ABdhPJzql3Js5LjRufYCuvdHS+pCOy2kddtN3/+E3HwqmtCy2drCZhd6MfyP+ZZpGBM6ruUBi6hrDQ==
+X-Received: by 2002:a63:4c4b:0:b0:3aa:4af8:9ab8 with SMTP id m11-20020a634c4b000000b003aa4af89ab8mr6789879pgl.430.1650478369810;
+        Wed, 20 Apr 2022 11:12:49 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id p34-20020a056a000a2200b004cd49fc15e5sm22731871pfh.59.2022.04.20.11.12.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 10:55:37 -0700 (PDT)
-Date: Wed, 20 Apr 2022 17:55:35 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v5 2/4] pwm: pwm-cros-ec: add channel type support
-Message-ID: <YmBJF2//wGjKA7I9@chromium.org>
-References: <20220420141556.681212-1-fabiobaltieri@chromium.org>
- <20220420141556.681212-3-fabiobaltieri@chromium.org>
+        Wed, 20 Apr 2022 11:12:49 -0700 (PDT)
+Message-ID: <62604d21.1c69fb81.fe749.44cb@mx.google.com>
+Date: Wed, 20 Apr 2022 11:12:49 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420141556.681212-3-fabiobaltieri@chromium.org>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v5.18-rc1-8-gc881e7385cfa8
+X-Kernelci-Report-Type: test
+Subject: chrome-platform/for-kernelci baseline: 56 runs,
+ 1 regressions (v5.18-rc1-8-gc881e7385cfa8)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Apr 20 14:15, Fabio Baltieri wrote:
-> Add support for EC_PWM_TYPE_DISPLAY_LIGHT and EC_PWM_TYPE_KB_LIGHT pwm
-> types to the PWM cros_ec_pwm driver. This allows specifying one of these
-> PWM channel by functionality, and let the EC firmware pick the correct
-> channel, thus abstracting the hardware implementation from the kernel
-> driver.
-> 
-> To use it, define the node with the "google,cros-ec-pwm-type"
-> compatible.
-> 
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
->  drivers/pwm/pwm-cros-ec.c | 82 ++++++++++++++++++++++++++++++++-------
->  1 file changed, 67 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-> index 5e29d9c682c3..7f10f56c3eb6 100644
-> --- a/drivers/pwm/pwm-cros-ec.c
-> +++ b/drivers/pwm/pwm-cros-ec.c
-> @@ -12,17 +12,21 @@
->  #include <linux/pwm.h>
->  #include <linux/slab.h>
->  
-> +#include <dt-bindings/mfd/cros_ec.h>
-> +
->  /**
->   * struct cros_ec_pwm_device - Driver data for EC PWM
->   *
->   * @dev: Device node
->   * @ec: Pointer to EC device
->   * @chip: PWM controller chip
-> + * @use_pwm_type: Use PWM types instead of generic channels
->   */
->  struct cros_ec_pwm_device {
->  	struct device *dev;
->  	struct cros_ec_device *ec;
->  	struct pwm_chip chip;
-> +	bool use_pwm_type;
->  };
->  
->  /**
-> @@ -58,14 +62,31 @@ static void cros_ec_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
->  	kfree(channel);
->  }
->  
-> -static int cros_ec_pwm_set_duty(struct cros_ec_device *ec, u8 index, u16 duty)
-> +static int cros_ec_dt_type_to_pwm_type(u8 dt_index, u8 *pwm_type)
->  {
-> +	switch (dt_index) {
-> +	case CROS_EC_PWM_DT_KB_LIGHT:
-> +		*pwm_type = EC_PWM_TYPE_KB_LIGHT;
-> +		return 0;
-> +	case CROS_EC_PWM_DT_DISPLAY_LIGHT:
-> +		*pwm_type = EC_PWM_TYPE_DISPLAY_LIGHT;
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int cros_ec_pwm_set_duty(struct cros_ec_pwm_device *ec_pwm, u8 index,
-> +				u16 duty)
-> +{
-> +	struct cros_ec_device *ec = ec_pwm->ec;
->  	struct {
->  		struct cros_ec_command msg;
->  		struct ec_params_pwm_set_duty params;
->  	} __packed buf;
->  	struct ec_params_pwm_set_duty *params = &buf.params;
->  	struct cros_ec_command *msg = &buf.msg;
-> +	int ret;
->  
->  	memset(&buf, 0, sizeof(buf));
->  
-> @@ -75,14 +96,25 @@ static int cros_ec_pwm_set_duty(struct cros_ec_device *ec, u8 index, u16 duty)
->  	msg->outsize = sizeof(*params);
->  
->  	params->duty = duty;
-> -	params->pwm_type = EC_PWM_TYPE_GENERIC;
-> -	params->index = index;
-> +
-> +	if (ec_pwm->use_pwm_type) {
-> +		ret = cros_ec_dt_type_to_pwm_type(index, &params->pwm_type);
-> +		if (ret) {
-> +			dev_err(ec->dev, "Invalid PWM type index: %d\n", index);
-> +			return ret;
-> +		}
-> +		params->index = 0;
-> +	} else {
-> +		params->pwm_type = EC_PWM_TYPE_GENERIC;
-> +		params->index = index;
-> +	}
->  
->  	return cros_ec_cmd_xfer_status(ec, msg);
->  }
->  
-> -static int cros_ec_pwm_get_duty(struct cros_ec_device *ec, u8 index)
-> +static int cros_ec_pwm_get_duty(struct cros_ec_pwm_device *ec_pwm, u8 index)
->  {
-> +	struct cros_ec_device *ec = ec_pwm->ec;
->  	struct {
->  		struct cros_ec_command msg;
->  		union {
-> @@ -102,8 +134,17 @@ static int cros_ec_pwm_get_duty(struct cros_ec_device *ec, u8 index)
->  	msg->insize = sizeof(*resp);
->  	msg->outsize = sizeof(*params);
->  
-> -	params->pwm_type = EC_PWM_TYPE_GENERIC;
-> -	params->index = index;
-> +	if (ec_pwm->use_pwm_type) {
-> +		ret = cros_ec_dt_type_to_pwm_type(index, &params->pwm_type);
-> +		if (ret) {
-> +			dev_err(ec->dev, "Invalid PWM type index: %d\n", index);
-> +			return ret;
-> +		}
-> +		params->index = 0;
-> +	} else {
-> +		params->pwm_type = EC_PWM_TYPE_GENERIC;
-> +		params->index = index;
-> +	}
->  
->  	ret = cros_ec_cmd_xfer_status(ec, msg);
->  	if (ret < 0)
-> @@ -133,7 +174,7 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->  	 */
->  	duty_cycle = state->enabled ? state->duty_cycle : 0;
->  
-> -	ret = cros_ec_pwm_set_duty(ec_pwm->ec, pwm->hwpwm, duty_cycle);
-> +	ret = cros_ec_pwm_set_duty(ec_pwm, pwm->hwpwm, duty_cycle);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -149,7 +190,7 @@ static void cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->  	struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
->  	int ret;
->  
-> -	ret = cros_ec_pwm_get_duty(ec_pwm->ec, pwm->hwpwm);
-> +	ret = cros_ec_pwm_get_duty(ec_pwm, pwm->hwpwm);
->  	if (ret < 0) {
->  		dev_err(chip->dev, "error getting initial duty: %d\n", ret);
->  		return;
-> @@ -204,13 +245,13 @@ static const struct pwm_ops cros_ec_pwm_ops = {
->   * of PWMs it supports directly, so we have to read the pwm duty cycle for
->   * subsequent channels until we get an error.
->   */
-> -static int cros_ec_num_pwms(struct cros_ec_device *ec)
-> +static int cros_ec_num_pwms(struct cros_ec_pwm_device *ec_pwm)
->  {
->  	int i, ret;
->  
->  	/* The index field is only 8 bits */
->  	for (i = 0; i <= U8_MAX; i++) {
-> -		ret = cros_ec_pwm_get_duty(ec, i);
-> +		ret = cros_ec_pwm_get_duty(ec_pwm, i);
->  		/*
->  		 * We look for SUCCESS, INVALID_COMMAND, or INVALID_PARAM
->  		 * responses; everything else is treated as an error.
-> @@ -236,6 +277,7 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
->  {
->  	struct cros_ec_device *ec = dev_get_drvdata(pdev->dev.parent);
->  	struct device *dev = &pdev->dev;
-> +	struct device_node *np = pdev->dev.of_node;
->  	struct cros_ec_pwm_device *ec_pwm;
->  	struct pwm_chip *chip;
->  	int ret;
-> @@ -251,17 +293,26 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
->  	chip = &ec_pwm->chip;
->  	ec_pwm->ec = ec;
->  
-> +	if (of_device_is_compatible(np, "google,cros-ec-pwm-type"))
-> +		ec_pwm->use_pwm_type = true;
+chrome-platform/for-kernelci baseline: 56 runs, 1 regressions (v5.18-rc1-8-=
+gc881e7385cfa8)
 
-Isn't it possible to just use an optional boolean property
-(for example: "use-pwm-type") instead of defining a new compatible
-string?
+Regressions Summary
+-------------------
 
-> +
->  	/* PWM chip */
->  	chip->dev = dev;
->  	chip->ops = &cros_ec_pwm_ops;
->  	chip->of_xlate = cros_ec_pwm_xlate;
->  	chip->of_pwm_n_cells = 1;
-> -	ret = cros_ec_num_pwms(ec);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Couldn't find PWMs: %d\n", ret);
-> -		return ret;
-> +
-> +	if (ec_pwm->use_pwm_type) {
-> +		chip->npwm = CROS_EC_PWM_DT_COUNT;
-> +	} else {
-> +		ret = cros_ec_num_pwms(ec_pwm);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Couldn't find PWMs: %d\n", ret);
-> +			return ret;
-> +		}
-> +		chip->npwm = ret;
->  	}
-> -	chip->npwm = ret;
-> +
->  	dev_dbg(dev, "Probed %u PWMs\n", chip->npwm);
->  
->  	ret = pwmchip_add(chip);
-> @@ -288,6 +339,7 @@ static int cros_ec_pwm_remove(struct platform_device *dev)
->  #ifdef CONFIG_OF
->  static const struct of_device_id cros_ec_pwm_of_match[] = {
->  	{ .compatible = "google,cros-ec-pwm" },
-> +	{ .compatible = "google,cros-ec-pwm-type" },
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, cros_ec_pwm_of_match);
-> -- 
-> 2.36.0.rc0.470.gd361397f0d-goog
-> 
-> 
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v5.18-rc1-8-gc881e7385cfa8/plan/baseline/
+
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v5.18-rc1-8-gc881e7385cfa8
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      c881e7385cfa84b27f1489446176aff8a9fb3e8c =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6260420c244adc8242ae06c1
+
+  Results:     88 PASS, 4 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.18-rc1-8-gc881e7385cfa8/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.18-rc1-8-gc881e7385cfa8/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220411.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
+/6260420d244adc8242ae06e3
+        failing since 15 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, first=
+ fail: v5.18-rc1-1-gbf84b10d9901d)
+
+    2022-04-20T17:25:24.425960  /lava-6134102/1/../bin/lava-test-case
+    2022-04-20T17:25:24.436994  <8>[   33.830525] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+ =20

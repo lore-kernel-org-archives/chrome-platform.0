@@ -1,78 +1,127 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from server1.logicreplaceserver.com (server1.logicreplaceserver.com [198.244.208.125])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473241374
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 18:26:38 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id h8so32567392ybj.11
-        for <chrome-platform@lists.linux.dev>; Tue, 19 Apr 2022 11:26:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1mruETChJ0+tCEUKHTvZNud81HPLW0aPJc6Xrf5tnGg=;
-        b=DsydkwpauFoZTteJsIEF/bGMn90fgQ9Nl47j1EELbxIjezLoZaBSF1/6UiUAJ0xmTZ
-         /rj1G5jk60dBo4UVM2DgPIR6Vvan/PqzmeB6xOVwQeeE8PYz2WtSq1McY6N65diPpefa
-         nAXHC1F8wbCTiYkwaIc8RZnhHY25UEX7C0bnrr/xJ95MNOXRvlc0YXBKz0duc1XPV+dW
-         44AkXitfLvlHw2fzAtfAmQe+hCRMaIfProSkZ1Ok1LmTPwUfIZwFjyenRj6afmw4QjFs
-         QE2OTQDnzWvTe1fb7XOp93EUJvVWXPYnf62b/6t+FzTu61oqhNT2ln41XNrxF0swOiHJ
-         bP1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1mruETChJ0+tCEUKHTvZNud81HPLW0aPJc6Xrf5tnGg=;
-        b=Nkch9QcY4cORJWXpacvSn4y742ujnK8YfSD5+Csi/TOhkWbWd3lfM3bzWMi6PqEavI
-         1cQ+lRw5piVoD5XI+cAGIDP+i2kD9spVaiGlGtSgmohx8+FA3Ox5c4MAl8KytoIPrkTC
-         O+y9P/tn7d9DkTcf4tieMReOXjsQVlDQQfja5nugmfqduLJP5pOiDbk46mZQJCjONsNH
-         bwmQs53qkTyFj4BeqmMV1N8j70KhFvh0HKOQksB90iO7CH7J/sWQFgYPMoNsFfjua0oQ
-         3nT1CQkmbWniNe77DkK885Tqd9DzRupv7FrvbwPg3z0NIOPdsjWvzTD+tqEqoT+OrzqN
-         wtmw==
-X-Gm-Message-State: AOAM531fCTh6lLdsWpNNVQK+CzZmymWgVgKEIz7Jt4YKQkeWqvidrsjF
-	Tzm95UfikwVxECxjq/j7djezCqnXiJ1tuZZGHVwTew==
-X-Google-Smtp-Source: ABdhPJwIvBSWGeaTpciFQdI7H/y4cHsr0V/oV6NhWT9Ndt5EVDGgE7d9NetVo5AN6D6ckF93iOwY98PK6jBB0w1E5J0=
-X-Received: by 2002:a25:d08a:0:b0:641:daac:ff82 with SMTP id
- h132-20020a25d08a000000b00641daacff82mr16009141ybg.643.1650392797011; Tue, 19
- Apr 2022 11:26:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C3010F0
+	for <chrome-platform@lists.linux.dev>; Wed, 20 Apr 2022 08:14:25 +0000 (UTC)
+Received: from mailnull by server1.logicreplaceserver.com with local (Exim 4.95)
+	id 1nh5Td-000bzK-IZ
+	for chrome-platform@lists.linux.dev;
+	Wed, 20 Apr 2022 09:14:17 +0100
+X-Failed-Recipients: info@mt.lr-dev.com,
+  jeca@logicreplace.com
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@server1.logicreplaceserver.com>
+To: chrome-platform@lists.linux.dev
+References: <625918748262f@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1650442457-eximdsn-1013087545
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220419000408.3202635-1-swboyd@chromium.org> <Yl4Au/O/am/ZbX9J@chromium.org>
- <CAE-0n507D9W5BFfG2vXqN1cqvnrQKLbLw7YejGb5_kH+7X62sw@mail.gmail.com> <CACeCKac83uiwdAf2RWqc9DxEft2+BSBn5Kp5PMR23UGKJyk5KQ@mail.gmail.com>
-In-Reply-To: <CACeCKac83uiwdAf2RWqc9DxEft2+BSBn5Kp5PMR23UGKJyk5KQ@mail.gmail.com>
-From: Daisuke Nojiri <dnojiri@google.com>
-Date: Tue, 19 Apr 2022 11:26:25 -0700
-Message-ID: <CAC0y+Ajf2GTG=ir=gu9T5Q1TXBHMC5qzzA_MEzWAvW5D71Yv8g@mail.gmail.com>
-Subject: Re: [PATCH v2] mfd: cros_ec_dev: Only register PCHG device if present
-To: Prashant Malani <pmalani@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, Lee Jones <lee.jones@linaro.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, patches@lists.linux.dev, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Daisuke Nojiri <dnojiri@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1nh5Td-000bzK-IZ@server1.logicreplaceserver.com>
+Date: Wed, 20 Apr 2022 09:14:17 +0100
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server1.logicreplaceserver.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: server1.logicreplaceserver.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: server1.logicreplaceserver.com: mailnull
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-The patch v2 looks good to me.
+--1650442457-eximdsn-1013087545
+Content-type: text/plain; charset=us-ascii
+
+This message was created automatically by mail delivery software.
+
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
+
+  info@mt.lr-dev.com
+    host mt.lr-dev.com [51.89.228.47]
+    SMTP error from remote mail server after initial connection:
+    451 Temporary local problem - please try later:
+    retry timeout exceeded
+  jeca@logicreplace.com
+    host _dc-mx.5bf3870e7dde.logicreplace.com [109.203.109.139]
+    SMTP error from remote mail server after initial connection:
+    451 Temporary local problem - please try later:
+    retry timeout exceeded
+
+--1650442457-eximdsn-1013087545
+Content-type: message/delivery-status
+
+Reporting-MTA: dns; server1.logicreplaceserver.com
+
+Action: failed
+Final-Recipient: rfc822;jeca@logicreplace.com
+Status: 5.0.0
+Remote-MTA: dns; _dc-mx.5bf3870e7dde.logicreplace.com
+Diagnostic-Code: smtp; 451 Temporary local problem - please try later: retry timeout exceeded
+
+Action: failed
+Final-Recipient: rfc822;info@mt.lr-dev.com
+Status: 5.0.0
+Remote-MTA: dns; mt.lr-dev.com
+Diagnostic-Code: smtp; 451 Temporary local problem - please try later: retry timeout exceeded
+
+--1650442457-eximdsn-1013087545
+Content-type: message/rfc822
+
+Return-path: <chrome-platform@lists.linux.dev>
+Received: from motocros by server1.logicreplaceserver.com with local (Exim 4.95)
+	(envelope-from <chrome-platform@lists.linux.dev>)
+	id 1nfFy8-00ADra-KB;
+	Fri, 15 Apr 2022 08:02:12 +0100
+To: info@mt.lr-dev.com, jeca@logicreplace.com
+Subject: =?utf-8?Q?FW:_[#15451]:_?=
+X-PHP-Script: www.motocrosstracks.com/index.php for 178.20.55.18
+X-PHP-Originating-Script: 1016:Email.php
+User-Agent: CodeIgniter
+Date: Fri, 15 Apr 2022 08:02:12 +0100
+From: <chrome-platform@lists.linux.dev>
+Reply-To: "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
+X-Sender: chrome-platform@lists.linux.dev
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: <625918748262f@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+A web form was submitted on MotocrossTracks.com.
+
+---------------------------------------------
+
+Dear 💛 Have you ever tried this sex game before? GIVE IT A TRY:
+https://cutt.us/2tLQy?0tb 💛,
+
+Thank you for making contact MotocrossTracks.com. We will respond as soon as
+possible.
+
+	Ticket ID: 15451
+	Subject: Contact
+	Name: 💛 Have you ever tried this sex game before? GIVE IT A TRY:
+https://cutt.us/2tLQy?0tb 💛
+	Email: chrome-platform@lists.linux.dev
+	Phone Number: 911160405701
+
+Message:
+---------------------------------------------
+
+vtjhkh
+
+---------------------------------------------
+
+Thank you,
+
+MotocrossTracks.com
+http://www.motocrosstracks.com
 
 
-On Tue, Apr 19, 2022 at 7:59 AM Prashant Malani <pmalani@chromium.org> wrote:
->
-> On Tue, Apr 19, 2022 at 7:55 AM Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Quoting Prashant Malani (2022-04-18 17:22:19)
-> > > On Apr 18 17:04, Stephen Boyd wrote:
-> > > > +             retval = mfd_add_hotplug_devices(ec->dev,
-> > > > +                                     cros_ec_pchg_cells,
-> > > > +                                     ARRAY_SIZE(cros_ec_pchg_cells));
-> > > > +             if (retval)
-> > > > +                     dev_warn(ec->dev, "failed to add pchg: %d\n",
-> > > > +                              retval);
-> > > Tiny nit: Can this fit in 1 line (100 chars[1])?
-> > >
-> >
-> > I'm matching the style of other lines in this file (this is copy
-> > pasta). I'll let the maintainer decide what to do.
->
-> Quite a bit of that code predates the char limit update, but OK.
+--1650442457-eximdsn-1013087545--

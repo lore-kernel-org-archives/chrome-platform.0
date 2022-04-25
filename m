@@ -1,55 +1,55 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4141876
-	for <chrome-platform@lists.linux.dev>; Thu, 21 Apr 2022 09:42:08 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id l62-20020a1c2541000000b0038e4570af2fso3007461wml.5
-        for <chrome-platform@lists.linux.dev>; Thu, 21 Apr 2022 02:42:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5904C7A;
+	Mon, 25 Apr 2022 03:47:07 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id s137so12344416pgs.5;
+        Sun, 24 Apr 2022 20:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=0yXHl14GebthFX/4q8vFlgAn+eeNsYrrbHgBxCI2AJc=;
-        b=PCuH7UlDQOyj48i14Z266yG+aLau1hwaMh7lH6YHwPlc17CnCdJWTBSd1+emL5takK
-         dzgULroFgBiAI4BM4V0OqtiAPI2YYNHMp0PXfsyYiGpjqMqL0sAgKpQdtSF3nt05c4/5
-         1ucMZ+M4WcDPEnRDqHW0xX3yzQ1yz7H75we34=
+        bh=7VhljdC5qfgvF8YkpQHi5caMI2K36nYGNnMwDGsYTi4=;
+        b=PLJQOMoBO2sR0lbBytKX+x7YhWEmudhd6tkz1e0TrsQQhULjx++oJMZBbvkoeraHC9
+         GXOUe7XeiXg7WQmzb/Fzq4r99noiAAr0b0tTsPq3Lh0YDE/MZ1NBHrmLsjmY99IVxQYI
+         Xswdw1cHjnQ4CDHMUELJV4e5TBeJfxk4PwnASI+dq80Yt4WoV0GRfacTgWJ0Dpxjomz7
+         nReMFscLp28UFfVU3cr0iigUYQW4CFOGqds+ZPAA5bhvfN5yyymEhSXQxzeKO/gr9tAj
+         vgyWi/BsG6EE7zzSBSID0RLUYb01vRZqkQq5lJ/T2eBKcXAhl7oxG1milmieGth+opj8
+         svZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=0yXHl14GebthFX/4q8vFlgAn+eeNsYrrbHgBxCI2AJc=;
-        b=RAXjF4MT0qC7kOff0gQS4tBoRytxcwVPvF2gnZ11qrnolrwnZxapK/xAi+4Ay011tQ
-         sBQdnVl2nHC22OIbV2N1ALf1ZVAoKz38YeArYwIppo4y3l9mP6hb0UQ8GeuK/0uy1IdR
-         gknxy2hsRZWnGwE2TULRk14AHUGaern2vCyM9N2DMeIlQfnUWFqOe6jQ4GbhlVfGBPCX
-         CJry8pc2V0G6VJHIEWnc/ZFmvEL69IOdM/aUVH1PfR+psZfd1Q2bxXinrb7oZTSY3Btr
-         xK5LYtOYZmogTW6J2jxEF926X8FoVUaREmla8Kn+yHctGzuFDIE618LpNZbcqKUTaH/+
-         2dNA==
-X-Gm-Message-State: AOAM531RXpbJU00BQJrrfv3dX683jbwFyOp2Q7F4xoe/kE253p/J6BAL
-	owaVMCXCgdu02nvaDOS+FphQEw==
-X-Google-Smtp-Source: ABdhPJyqb2oKcJsapd9rS/jO2PdOz193HZ8hY3oYOAqaRaGui3U+l6BiwXgjSBkeSK+NVj/HgwdVJQ==
-X-Received: by 2002:a05:600c:a03:b0:38c:f953:ae13 with SMTP id z3-20020a05600c0a0300b0038cf953ae13mr7689258wmp.99.1650534126589;
-        Thu, 21 Apr 2022 02:42:06 -0700 (PDT)
-Received: from google.com ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id y6-20020a05600015c600b0020a8f950471sm2300348wry.115.2022.04.21.02.42.04
+        bh=7VhljdC5qfgvF8YkpQHi5caMI2K36nYGNnMwDGsYTi4=;
+        b=ObDP4iFariJA2EuD0KWa8GKvECrhvrr3WuESPPc9e24VRAQQy+CFH833NLo9Yw3V+i
+         PQJVTVKMMUlJ7IpYQbxMZUlhWfFL2RQc7xiV+HVRFd78Do7Xup6kYXGnrI6Ea1DYrZlT
+         fHzQX2o9ZXJCB2HsJ8KeRcrCCQnnkaM6ovvHkDNjk+/BwmmfRFtcT4rUDL+puc4ag6f0
+         AL+DyNN0etg47wKuEkh5nrp8KfqYXDt0etyuBcUE54u4fwKhiZNgD8N/XNKpulTJsny/
+         a26eSGLy0mHLkaV+hXVpfIXNsQtv4YG+wdegYH9KJabzcGelniKyLHTCF3FQV1C8d4Wv
+         34yQ==
+X-Gm-Message-State: AOAM531KZa0bbLH4TpiUMtPEYQPCHgXLC6ayVvxrGguLCw3OPRAW8hhr
+	+beTTDbI+L7nbfZQkZhjLpA=
+X-Google-Smtp-Source: ABdhPJyzITr4L56y2maJflc4flrw3rp7brBf35hCOREn6LkiCOJKjLCoM5NRBv3jnt8R81I7BCISGA==
+X-Received: by 2002:a05:6a00:856:b0:50a:431b:c298 with SMTP id q22-20020a056a00085600b0050a431bc298mr16683814pfk.75.1650858426733;
+        Sun, 24 Apr 2022 20:47:06 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
+        by smtp.gmail.com with ESMTPSA id 9-20020a631449000000b003aabd688921sm8025285pgu.13.2022.04.24.20.47.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 02:42:05 -0700 (PDT)
-Date: Thu, 21 Apr 2022 09:42:03 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v5 2/4] pwm: pwm-cros-ec: add channel type support
-Message-ID: <YmEm63zrdQ3q/ooW@google.com>
-References: <20220420141556.681212-1-fabiobaltieri@chromium.org>
- <20220420141556.681212-3-fabiobaltieri@chromium.org>
- <YmBJF2//wGjKA7I9@chromium.org>
- <YmEXKMYMGstCGBZv@google.com>
- <CACeCKacnUm3MfOsP96H+AxoSkdkxS4ixb9sMNmyc9GaLgw+t8Q@mail.gmail.com>
+        Sun, 24 Apr 2022 20:47:05 -0700 (PDT)
+Date: Sun, 24 Apr 2022 20:47:03 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Re: [PATCH 1/2] Input: cros-ec-keyb: Only register keyboard if
+ rows/columns exist
+Message-ID: <YmYZt7WQC17aE1fS@google.com>
+References: <20220413033334.1514008-1-swboyd@chromium.org>
+ <20220413033334.1514008-2-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -58,249 +58,72 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACeCKacnUm3MfOsP96H+AxoSkdkxS4ixb9sMNmyc9GaLgw+t8Q@mail.gmail.com>
+In-Reply-To: <20220413033334.1514008-2-swboyd@chromium.org>
 
-On Thu, Apr 21, 2022 at 01:52:02AM -0700, Prashant Malani wrote:
-> On Thu, Apr 21, 2022 at 1:34 AM Fabio Baltieri
-> <fabiobaltieri@chromium.org> wrote:
-> >
-> > On Wed, Apr 20, 2022 at 05:55:35PM +0000, Prashant Malani wrote:
-> > > On Apr 20 14:15, Fabio Baltieri wrote:
-> > > > Add support for EC_PWM_TYPE_DISPLAY_LIGHT and EC_PWM_TYPE_KB_LIGHT pwm
-> > > > types to the PWM cros_ec_pwm driver. This allows specifying one of these
-> > > > PWM channel by functionality, and let the EC firmware pick the correct
-> > > > channel, thus abstracting the hardware implementation from the kernel
-> > > > driver.
-> > > >
-> > > > To use it, define the node with the "google,cros-ec-pwm-type"
-> > > > compatible.
-> > > >
-> > > > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > > > Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > > > ---
-> > > >  drivers/pwm/pwm-cros-ec.c | 82 ++++++++++++++++++++++++++++++++-------
-> > > >  1 file changed, 67 insertions(+), 15 deletions(-)
-> > > >
-> > > > diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-> > > > index 5e29d9c682c3..7f10f56c3eb6 100644
-> > > > --- a/drivers/pwm/pwm-cros-ec.c
-> > > > +++ b/drivers/pwm/pwm-cros-ec.c
-> > > > @@ -12,17 +12,21 @@
-> > > >  #include <linux/pwm.h>
-> > > >  #include <linux/slab.h>
-> > > >
-> > > > +#include <dt-bindings/mfd/cros_ec.h>
-> > > > +
-> > > >  /**
-> > > >   * struct cros_ec_pwm_device - Driver data for EC PWM
-> > > >   *
-> > > >   * @dev: Device node
-> > > >   * @ec: Pointer to EC device
-> > > >   * @chip: PWM controller chip
-> > > > + * @use_pwm_type: Use PWM types instead of generic channels
-> > > >   */
-> > > >  struct cros_ec_pwm_device {
-> > > >     struct device *dev;
-> > > >     struct cros_ec_device *ec;
-> > > >     struct pwm_chip chip;
-> > > > +   bool use_pwm_type;
-> > > >  };
-> > > >
-> > > >  /**
-> > > > @@ -58,14 +62,31 @@ static void cros_ec_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-> > > >     kfree(channel);
-> > > >  }
-> > > >
-> > > > -static int cros_ec_pwm_set_duty(struct cros_ec_device *ec, u8 index, u16 duty)
-> > > > +static int cros_ec_dt_type_to_pwm_type(u8 dt_index, u8 *pwm_type)
-> > > >  {
-> > > > +   switch (dt_index) {
-> > > > +   case CROS_EC_PWM_DT_KB_LIGHT:
-> > > > +           *pwm_type = EC_PWM_TYPE_KB_LIGHT;
-> > > > +           return 0;
-> > > > +   case CROS_EC_PWM_DT_DISPLAY_LIGHT:
-> > > > +           *pwm_type = EC_PWM_TYPE_DISPLAY_LIGHT;
-> > > > +           return 0;
-> > > > +   default:
-> > > > +           return -EINVAL;
-> > > > +   }
-> > > > +}
-> > > > +
-> > > > +static int cros_ec_pwm_set_duty(struct cros_ec_pwm_device *ec_pwm, u8 index,
-> > > > +                           u16 duty)
-> > > > +{
-> > > > +   struct cros_ec_device *ec = ec_pwm->ec;
-> > > >     struct {
-> > > >             struct cros_ec_command msg;
-> > > >             struct ec_params_pwm_set_duty params;
-> > > >     } __packed buf;
-> > > >     struct ec_params_pwm_set_duty *params = &buf.params;
-> > > >     struct cros_ec_command *msg = &buf.msg;
-> > > > +   int ret;
-> > > >
-> > > >     memset(&buf, 0, sizeof(buf));
-> > > >
-> > > > @@ -75,14 +96,25 @@ static int cros_ec_pwm_set_duty(struct cros_ec_device *ec, u8 index, u16 duty)
-> > > >     msg->outsize = sizeof(*params);
-> > > >
-> > > >     params->duty = duty;
-> > > > -   params->pwm_type = EC_PWM_TYPE_GENERIC;
-> > > > -   params->index = index;
-> > > > +
-> > > > +   if (ec_pwm->use_pwm_type) {
-> > > > +           ret = cros_ec_dt_type_to_pwm_type(index, &params->pwm_type);
-> > > > +           if (ret) {
-> > > > +                   dev_err(ec->dev, "Invalid PWM type index: %d\n", index);
-> > > > +                   return ret;
-> > > > +           }
-> > > > +           params->index = 0;
-> > > > +   } else {
-> > > > +           params->pwm_type = EC_PWM_TYPE_GENERIC;
-> > > > +           params->index = index;
-> > > > +   }
-> > > >
-> > > >     return cros_ec_cmd_xfer_status(ec, msg);
-> > > >  }
-> > > >
-> > > > -static int cros_ec_pwm_get_duty(struct cros_ec_device *ec, u8 index)
-> > > > +static int cros_ec_pwm_get_duty(struct cros_ec_pwm_device *ec_pwm, u8 index)
-> > > >  {
-> > > > +   struct cros_ec_device *ec = ec_pwm->ec;
-> > > >     struct {
-> > > >             struct cros_ec_command msg;
-> > > >             union {
-> > > > @@ -102,8 +134,17 @@ static int cros_ec_pwm_get_duty(struct cros_ec_device *ec, u8 index)
-> > > >     msg->insize = sizeof(*resp);
-> > > >     msg->outsize = sizeof(*params);
-> > > >
-> > > > -   params->pwm_type = EC_PWM_TYPE_GENERIC;
-> > > > -   params->index = index;
-> > > > +   if (ec_pwm->use_pwm_type) {
-> > > > +           ret = cros_ec_dt_type_to_pwm_type(index, &params->pwm_type);
-> > > > +           if (ret) {
-> > > > +                   dev_err(ec->dev, "Invalid PWM type index: %d\n", index);
-> > > > +                   return ret;
-> > > > +           }
-> > > > +           params->index = 0;
-> > > > +   } else {
-> > > > +           params->pwm_type = EC_PWM_TYPE_GENERIC;
-> > > > +           params->index = index;
-> > > > +   }
-> > > >
-> > > >     ret = cros_ec_cmd_xfer_status(ec, msg);
-> > > >     if (ret < 0)
-> > > > @@ -133,7 +174,7 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > > >      */
-> > > >     duty_cycle = state->enabled ? state->duty_cycle : 0;
-> > > >
-> > > > -   ret = cros_ec_pwm_set_duty(ec_pwm->ec, pwm->hwpwm, duty_cycle);
-> > > > +   ret = cros_ec_pwm_set_duty(ec_pwm, pwm->hwpwm, duty_cycle);
-> > > >     if (ret < 0)
-> > > >             return ret;
-> > > >
-> > > > @@ -149,7 +190,7 @@ static void cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> > > >     struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
-> > > >     int ret;
-> > > >
-> > > > -   ret = cros_ec_pwm_get_duty(ec_pwm->ec, pwm->hwpwm);
-> > > > +   ret = cros_ec_pwm_get_duty(ec_pwm, pwm->hwpwm);
-> > > >     if (ret < 0) {
-> > > >             dev_err(chip->dev, "error getting initial duty: %d\n", ret);
-> > > >             return;
-> > > > @@ -204,13 +245,13 @@ static const struct pwm_ops cros_ec_pwm_ops = {
-> > > >   * of PWMs it supports directly, so we have to read the pwm duty cycle for
-> > > >   * subsequent channels until we get an error.
-> > > >   */
-> > > > -static int cros_ec_num_pwms(struct cros_ec_device *ec)
-> > > > +static int cros_ec_num_pwms(struct cros_ec_pwm_device *ec_pwm)
-> > > >  {
-> > > >     int i, ret;
-> > > >
-> > > >     /* The index field is only 8 bits */
-> > > >     for (i = 0; i <= U8_MAX; i++) {
-> > > > -           ret = cros_ec_pwm_get_duty(ec, i);
-> > > > +           ret = cros_ec_pwm_get_duty(ec_pwm, i);
-> > > >             /*
-> > > >              * We look for SUCCESS, INVALID_COMMAND, or INVALID_PARAM
-> > > >              * responses; everything else is treated as an error.
-> > > > @@ -236,6 +277,7 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
-> > > >  {
-> > > >     struct cros_ec_device *ec = dev_get_drvdata(pdev->dev.parent);
-> > > >     struct device *dev = &pdev->dev;
-> > > > +   struct device_node *np = pdev->dev.of_node;
-> > > >     struct cros_ec_pwm_device *ec_pwm;
-> > > >     struct pwm_chip *chip;
-> > > >     int ret;
-> > > > @@ -251,17 +293,26 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
-> > > >     chip = &ec_pwm->chip;
-> > > >     ec_pwm->ec = ec;
-> > > >
-> > > > +   if (of_device_is_compatible(np, "google,cros-ec-pwm-type"))
-> > > > +           ec_pwm->use_pwm_type = true;
-> > >
-> > > Isn't it possible to just use an optional boolean property
-> > > (for example: "use-pwm-type") instead of defining a new compatible
-> > > string?
-> >
-> > Yeah that's what I did originally but Rob suggested to use a new
-> > compatible instead:
-> >
-> > https://lore.kernel.org/chrome-platform/Yk20uTE%2FVdm2c6jI@robh.at.kernel.org/
+Hi Stephen,
+
+On Tue, Apr 12, 2022 at 08:33:33PM -0700, Stephen Boyd wrote:
+> If the device is a detachable, we may still probe this device because
+> there are some button switches, e.g. volume buttons and power buttons,
+> registered by this driver. Let's allow the device node to be missing row
+> and column device properties to indicate that the keyboard matrix
+> shouldn't be registered. This removes an input device on Trogdor devices
+> such as Wormdingler that don't have a matrix keyboard, but still have
+> power and volume buttons. That helps userspace understand there isn't
+> a keyboard present when the detachable keyboard is disconnected.
 > 
-> Thanks for the context. I suppose one could use the "split number
-> space" suggestion mentioned there,
-> and still be able to supply the right arguments for
-> pwm_request_from_chip() (since we're the ones
-> supplying the argument via of_xlate). But, if the DT maintainer is
-> alright with a new compatible, then
-> of course you should go with whatever works for you.
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+> 
+> I tried to use mkbp info to query the number of rows and columns, but my
+> EC firmware doesn't have commit 8505881ed0b9 ("mkbp: Separate MKBP_INFO
+> host command from the keyboard driver") so it always returns 8 and 13
+> for the rows and columns. Sigh. With updated firmware we could query it,
+> or we could rely on DT like we do already.
+> 
+> Originally I was setting the properties to 0, but
+> matrix_keypad_parse_properties() spits out an error message in that case
+> and so it seems better to delete the properties and check for their
+> existence instead. Another alternative would be to change the compatible
+> to be "google,cros-ec-keyb-switches" or something that indicates there
+> are only switches and no matrix keyboard.
+> 
+>  drivers/input/keyboard/cros_ec_keyb.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index 6534dfca60b4..ac9a953bff02 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -537,6 +537,15 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+>  	u32 key_pos;
+>  	unsigned int row, col, scancode, n_physmap;
+>  
+> +	/*
+> +	 * No rows and columns? There isn't a matrix but maybe there are
+> +	 * switches to register in cros_ec_keyb_register_bs() because this is a
+> +	 * detachable device.
+> +	 */
+> +	if (!device_property_read_bool(dev, "keypad,num-rows") &&
+> +	    !device_property_read_bool(dev, "keypad,num-cols"))
 
-Right, that would work for masking out the number space, but then you'd
-end up with an incoherent chips->npwm which is used all over the core
-pwm code (including the debugfs stuff), so to be coherent there I think
-we have to have something at probe time and can't mix it up.
+Why are we abusing device_property_read_bool() for properties that are
+not flags instead of using device_property_present()?
 
-> > > > +
-> > > >     /* PWM chip */
-> > > >     chip->dev = dev;
-> > > >     chip->ops = &cros_ec_pwm_ops;
-> > > >     chip->of_xlate = cros_ec_pwm_xlate;
-> > > >     chip->of_pwm_n_cells = 1;
-> > > > -   ret = cros_ec_num_pwms(ec);
-> > > > -   if (ret < 0) {
-> > > > -           dev_err(dev, "Couldn't find PWMs: %d\n", ret);
-> > > > -           return ret;
-> > > > +
-> > > > +   if (ec_pwm->use_pwm_type) {
-> > > > +           chip->npwm = CROS_EC_PWM_DT_COUNT;
-> > > > +   } else {
-> > > > +           ret = cros_ec_num_pwms(ec_pwm);
-> > > > +           if (ret < 0) {
-> > > > +                   dev_err(dev, "Couldn't find PWMs: %d\n", ret);
-> > > > +                   return ret;
-> > > > +           }
-> > > > +           chip->npwm = ret;
-> > > >     }
-> > > > -   chip->npwm = ret;
-> > > > +
-> > > >     dev_dbg(dev, "Probed %u PWMs\n", chip->npwm);
-> > > >
-> > > >     ret = pwmchip_add(chip);
-> > > > @@ -288,6 +339,7 @@ static int cros_ec_pwm_remove(struct platform_device *dev)
-> > > >  #ifdef CONFIG_OF
-> > > >  static const struct of_device_id cros_ec_pwm_of_match[] = {
-> > > >     { .compatible = "google,cros-ec-pwm" },
-> > > > +   { .compatible = "google,cros-ec-pwm-type" },
-> > > >     {},
-> > > >  };
-> > > >  MODULE_DEVICE_TABLE(of, cros_ec_pwm_of_match);
-> > > > --
-> > > > 2.36.0.rc0.470.gd361397f0d-goog
-> > > >
-> > > >
-> >
-> > --
-> > Fabio Baltieri
+> +		return 0;
+> +
+>  	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
+>  	if (err)
+>  		return err;
+> -- 
+> https://chromeos.dev
+> 
+
+Thanks.
 
 -- 
-Fabio Baltieri
+Dmitry

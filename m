@@ -1,87 +1,105 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652037E
-	for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 14:02:19 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id i5so6565446wrc.13
-        for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 07:02:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840E4646
+	for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 14:18:15 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id s21so10994615wrb.8
+        for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 07:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Q2GTfUc7VLX7J3kb7UZo3L6hgl7G3SCi+Soy09ZT8/Q=;
-        b=V16PSVQfUB/Or3B+sTPWN0OESvTLnOXJvVItFoiiWr+i+XWczhhBYVqK0CQKrBFUPV
-         2nQrPeuHneJbpozsMrqjc0knwusbWrNPFgRqv28DbmGNIILbFLlzBHm98vIKW6Pp1XT1
-         S//6Kt+IKv+px8Q76JYBkx1Hxff3JHR3cKMP0=
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=QSMHNNrnsR8koCz4I/MAVE7jHgZ2vngvdAnPvXcE8V4=;
+        b=eF1ZX99hrvwLGKFjWE2bHa7BOo4o0mgiL/eES/8mpJX35PfkcVvjN/iGyFrlng7SBO
+         FgDcCp8z180yemEF8GvoPl59axKEttX2xhP7wLwPpYZGkbbUFz1vuOCIzwX0GJRodj0F
+         LZkyXAfnvOJ4/ry/8fwIDtyeTNIYunqEFKimy5fukW5ZLU6ml7KmraiLnZOMFtkHxr/I
+         8ziCWAPPYkmfOOqhFD3LQQG3JAYCz5G6Bd07ooNr7WkXCx9+PS4S9HNt1doYS6mi0bvj
+         bza/jgka4UtlgK14BJDPisJspfCq6jEhznRqtDRAwiWmMUXHmVFdB3YpQwmux3/Uv3G/
+         2JDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Q2GTfUc7VLX7J3kb7UZo3L6hgl7G3SCi+Soy09ZT8/Q=;
-        b=epVN4bpvZZB8PkNAykjN1jp8dabvwKZBMbrHZGb3V/a81pZqz9VIRX7De+Az5mhU3C
-         YW+lnpJ4Ax+yC17iawEG7dk95vul5Hq33lEaI3zqEYiVzmJ7unLX28nUGVArjJREA1uu
-         ET4OMonDs0lkj2vNmmbn5DDZvApuT77gLQrc/xz4XN6wlPN4fyOeLkfAusp9p3znONlO
-         UNeZGWh1A+ocVV+n3iA2CPHI/uUwGhuKiLev9EOKKjqKRxeMhyVV5caefdjKpAF/IQkB
-         xybgx2ApYusYLHtGEsn7DBeLpYsIGjzpZ+NX08abVXczjJNWTOO3eMBOLgfvaQ3OVcWY
-         J4kg==
-X-Gm-Message-State: AOAM531TblgvQsFTgA/dKT/OJJ0nXtdrMIsXsLZY5mKRX0tkeJI6iMoc
-	03V+u66l781SpYv4b2wo6a7iZQ==
-X-Google-Smtp-Source: ABdhPJxic/QZR2BhX6akoIU8RQ/B3yNQzrr038cwGWxQtu13ObaIie5wUl501AIceUw/M1p5EPN2Vg==
-X-Received: by 2002:adf:e346:0:b0:205:97d0:50db with SMTP id n6-20020adfe346000000b0020597d050dbmr18586212wrj.257.1650981737632;
-        Tue, 26 Apr 2022 07:02:17 -0700 (PDT)
-Received: from google.com ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id j13-20020a05600c190d00b00393ee555683sm5414256wmq.27.2022.04.26.07.02.16
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=QSMHNNrnsR8koCz4I/MAVE7jHgZ2vngvdAnPvXcE8V4=;
+        b=cc/kr6RmF3sZN06JexQLrdxw21Ey0PSxIte7LxcUSNyWqD9qaVlk7xKGwzWnz8kSO5
+         DupHWHhHYhi9P6K9VujqJCSBsw7CwcITZ/uvxXz0HVqzEOEDogPQgAgUWgF19iUCR1bb
+         NJDW7sgIYi1DqVTNczOTsv7lu4tMpQ1uYoy8ke7rbhIOcv0hgA5kcjpGvx1durg9gW+J
+         DKmT0wEfUw+5BDfTyTEOGoyjlWquIM2sPDbWlsqWb5MGWv2aNOT1WkFM0R8kakvpeZ/W
+         nsm7KIpGZLYdx07rLNMNQ88qwEJw/+nHcnpBFqKPgqE7kzeuuALrRLBQtqudTGfIOy6n
+         MZCw==
+X-Gm-Message-State: AOAM532JmeR+uW6ENRaemKAUteok2Ol3M2WaTvcLpHXDcyOVfN/vjtKV
+	ktu3jAeTXRI1zvVou/UD7aCPFQ==
+X-Google-Smtp-Source: ABdhPJw68HazkcGoyCsJQjRqFg3wV2ekNgFAHyBXGKpvoB4V9/rxPcE/2CSldmD2q5Z6eFQk3rS66A==
+X-Received: by 2002:adf:f346:0:b0:20a:c23f:fb14 with SMTP id e6-20020adff346000000b0020ac23ffb14mr18701627wrp.25.1650982693829;
+        Tue, 26 Apr 2022 07:18:13 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id r3-20020a5d6c63000000b0020a94e82a3dsm11969254wrz.64.2022.04.26.07.18.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 07:02:17 -0700 (PDT)
-Date: Tue, 26 Apr 2022 14:02:15 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>, chrome-platform@lists.linux.dev,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] dt-bindings: update google,cros-ec-pwm
- documentation
-Message-ID: <Ymf7Z/BJQSWO6pjE@google.com>
-References: <20220420141556.681212-1-fabiobaltieri@chromium.org>
- <20220420141556.681212-4-fabiobaltieri@chromium.org>
- <YmcZn8mWQveT5HzT@robh.at.kernel.org>
+        Tue, 26 Apr 2022 07:18:13 -0700 (PDT)
+Date: Tue, 26 Apr 2022 15:18:11 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Daisuke Nojiri <dnojiri@google.com>
+Cc: Prashant Malani <pmalani@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	patches@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2] mfd: cros_ec_dev: Only register PCHG device if present
+Message-ID: <Ymf/I4WAF8CmEqQM@google.com>
+References: <20220419000408.3202635-1-swboyd@chromium.org>
+ <Yl4Au/O/am/ZbX9J@chromium.org>
+ <CAE-0n507D9W5BFfG2vXqN1cqvnrQKLbLw7YejGb5_kH+7X62sw@mail.gmail.com>
+ <CACeCKac83uiwdAf2RWqc9DxEft2+BSBn5Kp5PMR23UGKJyk5KQ@mail.gmail.com>
+ <CAC0y+Ajf2GTG=ir=gu9T5Q1TXBHMC5qzzA_MEzWAvW5D71Yv8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YmcZn8mWQveT5HzT@robh.at.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAC0y+Ajf2GTG=ir=gu9T5Q1TXBHMC5qzzA_MEzWAvW5D71Yv8g@mail.gmail.com>
 
-On Mon, Apr 25, 2022 at 04:58:55PM -0500, Rob Herring wrote:
-> On Wed, Apr 20, 2022 at 02:15:55PM +0000, Fabio Baltieri wrote:
-> > Update google,cros-ec-pwm node documentation to mention the
-> > google,cros-ec-pwm-type compatible.
-> 
-> It would be good if the subject provided some clue what the update is. 
-> Every change is an update. And all bindings are 'documentation' so 
-> that can be dropped.
+On Tue, 19 Apr 2022, Daisuke Nojiri wrote:
 
-Fair enough, I'll reword the subject and send a v6.
+> The patch v2 looks good to me.
 
-> 
-> > 
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml      | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> In any case,
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
+Please place your reply in-line. Top posting is generally frowned upon.
 
-Thanks!
+Also, please reply with a *-by (Reviewed-by in this case).
+
+LGTMs do not carry any weight and will not be applied with the patch.
+
+Thanks.
+
+> On Tue, Apr 19, 2022 at 7:59 AM Prashant Malani <pmalani@chromium.org> wrote:
+> >
+> > On Tue, Apr 19, 2022 at 7:55 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Prashant Malani (2022-04-18 17:22:19)
+> > > > On Apr 18 17:04, Stephen Boyd wrote:
+> > > > > +             retval = mfd_add_hotplug_devices(ec->dev,
+> > > > > +                                     cros_ec_pchg_cells,
+> > > > > +                                     ARRAY_SIZE(cros_ec_pchg_cells));
+> > > > > +             if (retval)
+> > > > > +                     dev_warn(ec->dev, "failed to add pchg: %d\n",
+> > > > > +                              retval);
+> > > > Tiny nit: Can this fit in 1 line (100 chars[1])?
+> > > >
+> > >
+> > > I'm matching the style of other lines in this file (this is copy
+> > > pasta). I'll let the maintainer decide what to do.
+> >
+> > Quite a bit of that code predates the char limit update, but OK.
 
 -- 
-Fabio Baltieri
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog

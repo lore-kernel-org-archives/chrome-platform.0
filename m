@@ -1,38 +1,38 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7469EC9
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 10:04:32 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id q23so6059119wra.1
-        for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 03:04:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0BDECB
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 10:04:34 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id j15so6067605wrb.2
+        for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 03:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IGhXnVH0ggOkw3OApNhk6r1wBoAuFoy4h6Is9/5uMkc=;
-        b=eVRmZnZEGzasLOjDwCJhqMfwLwbT5pTUBZz6prR0DxyB7mVpuF5mXRRscz37OTa6Z6
-         IWgu+Ynv9/cl2cdN4wSHOsVXgZJVCwTcuqwymlKwTuIvCSftKXKEsqQ9zbfpbJSLV5az
-         hKI1onvYoOUpIqh1c5R75pCR06jDSYjWNR99w=
+        bh=e3gOCTIIDp+zo/s2ci9K8aggty1O76+cuFFTSEagk90=;
+        b=YaOedmJnA8pY2cyQ24b0YKt7sRDTe+kV9929GThrJYh9OCqHH5tqbhRVkE8iUUaZFT
+         02GfBaHh6ze/FLcdR8qSIwcWO0UP6SsHPjAo1ZbRkXvcljpk7CtsN05YDr1MVBtFAruB
+         RN0oxGbwbuEH/o4ajSCTBwo6ewZw8D1IyNQnM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IGhXnVH0ggOkw3OApNhk6r1wBoAuFoy4h6Is9/5uMkc=;
-        b=PfT16d0LS9qQNDhn6ugd8Z4IPI5YME4DXo5vKC4sGo9eAXpmmmOiux0fu4eGIdTlov
-         RimbcSq74IMko8XXRdEb0o9Cl46DR//e+s8tiU/Fnz2cHPmKFYLwX86tJDh7zJUj9cv/
-         gwcNYh6n23nOd3pGopRuG0KsQV51LXI6h8qfyP4CuvCFiBUZ2HbXjtO3dj0JlIgKEaR1
-         bp/mcNuapHEvSUM1vFo68ilF4Kj/RtHoYaWzBsHTzjvRvIE1eHQd5x/f8Y06OcXuLve4
-         EclgEX+oe/n7VFm3PdH5OSB8cRz8B9w63hkumL3Cm8Gvzho/+VaB+ORc/ZDd7RAvCEZf
-         RkPw==
-X-Gm-Message-State: AOAM5314eoDWKWHdNqfmqaVowXgyPhFZyFUSbfWS9TwNfO8VsZhh3peH
-	iw9CK26GLwyB5i2CTeL4HQYbPA==
-X-Google-Smtp-Source: ABdhPJzjbUoBwlDopMyW33l1lxY0cYudO9Yi5cAIdOYzcQJ+ApQfht6chf1e6HDKMOFqWFP1chBB4g==
-X-Received: by 2002:a5d:620c:0:b0:20a:b1dc:eabe with SMTP id y12-20020a5d620c000000b0020ab1dceabemr24962689wru.711.1651140271218;
-        Thu, 28 Apr 2022 03:04:31 -0700 (PDT)
+        bh=e3gOCTIIDp+zo/s2ci9K8aggty1O76+cuFFTSEagk90=;
+        b=uZoQyWLsOGSg59zFTxM61HVmfPAplH7Iix5ycM8JTRlbIk6oZZpm0SCkuQ+ZTqKKBK
+         cYHEs90NwgQ0nT3qHkMoYgt6OklDS4HWoh5jvP3Q1Jp1nf/bRiO23QnJlNyG+pNkTM/d
+         OZ4l8WKISQucn7U0p5DJ1Cdpz3ypQc1V3dcL1JAIAJQtCLRpwO29o2+yudZ/F47qecUI
+         V4JthyEriQq37GnfdsCcibia8NyhKJmzkXHKChZOLU1F5cZoYy9hMDkPmSUDCtVk5pci
+         26X7dO+AMn/Gvu1mKTjMWCCgR1h0BQ67IFZy1vfku4oqBzo/gqSuJUvxG4xxNwIC2XRC
+         OGBA==
+X-Gm-Message-State: AOAM533CmUPOYrDqh22yzWnCP10WUWC0tROD0Pem4gEU6WIuQT9g6E23
+	5qEihvdByfg2hBmQuHaAoQ+TLg==
+X-Google-Smtp-Source: ABdhPJwFHT5999/FCNS998YMaSCMGhbKS8KtT1+JqembRRJyw3StMCJIcMEH0bHB3M9aYi1zeefucA==
+X-Received: by 2002:adf:fe84:0:b0:20a:dc0b:4f2d with SMTP id l4-20020adffe84000000b0020adc0b4f2dmr15695694wrr.229.1651140273120;
+        Thu, 28 Apr 2022 03:04:33 -0700 (PDT)
 Received: from fabiobaltieri-linux.lan ([37.228.205.1])
-        by smtp.gmail.com with ESMTPSA id v5-20020a5d6785000000b0020a792848eesm15080449wru.82.2022.04.28.03.04.30
+        by smtp.gmail.com with ESMTPSA id v5-20020a5d6785000000b0020a792848eesm15080449wru.82.2022.04.28.03.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 03:04:30 -0700 (PDT)
+        Thu, 28 Apr 2022 03:04:32 -0700 (PDT)
 From: Fabio Baltieri <fabiobaltieri@chromium.org>
 To: Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>
@@ -46,9 +46,9 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	Fabio Baltieri <fabiobaltieri@chromium.org>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 1/4] dt-bindings: add mfd/cros_ec definitions
-Date: Thu, 28 Apr 2022 10:04:18 +0000
-Message-Id: <20220428100421.247471-2-fabiobaltieri@chromium.org>
+Subject: [PATCH v6 3/4] dt-bindings: google,cros-ec-pwm: add the new -type compatible
+Date: Thu, 28 Apr 2022 10:04:20 +0000
+Message-Id: <20220428100421.247471-4-fabiobaltieri@chromium.org>
 X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
 In-Reply-To: <20220428100421.247471-1-fabiobaltieri@chromium.org>
 References: <20220428100421.247471-1-fabiobaltieri@chromium.org>
@@ -60,40 +60,35 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a dt-bindings include file for cros_ec devicetree definition, define
-a pair of special purpose PWM channels in it.
+Update google,cros-ec-pwm node documentation to mention the
+google,cros-ec-pwm-type compatible as a valid alternative.
 
 Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- include/dt-bindings/mfd/cros_ec.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 include/dt-bindings/mfd/cros_ec.h
+ .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml      | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/include/dt-bindings/mfd/cros_ec.h b/include/dt-bindings/mfd/cros_ec.h
-new file mode 100644
-index 000000000000..3b29cd049578
---- /dev/null
-+++ b/include/dt-bindings/mfd/cros_ec.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-+/*
-+ * DTS binding definitions used for the Chromium OS Embedded Controller.
-+ *
-+ * Copyright (c) 2022 The Chromium OS Authors. All rights reserved.
-+ */
+diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+index 7ab6912a845f..c8577bdf6c94 100644
+--- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+@@ -21,7 +21,14 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: google,cros-ec-pwm
++    oneOf:
++      - description: PWM controlled using EC_PWM_TYPE_GENERIC channels.
++        items:
++          - const: google,cros-ec-pwm
++      - description: PWM controlled using CROS_EC_PWM_DT_<...> types.
++        items:
++          - const: google,cros-ec-pwm-type
 +
-+#ifndef _DT_BINDINGS_MFD_CROS_EC_H
-+#define _DT_BINDINGS_MFD_CROS_EC_H
-+
-+/* Typed channel for keyboard backlight. */
-+#define CROS_EC_PWM_DT_KB_LIGHT		0
-+/* Typed channel for display backlight. */
-+#define CROS_EC_PWM_DT_DISPLAY_LIGHT	1
-+/* Number of typed channels. */
-+#define CROS_EC_PWM_DT_COUNT		2
-+
-+#endif
+   "#pwm-cells":
+     description: The cell specifies the PWM index.
+     const: 1
 -- 
 2.36.0.rc2.479.g8af0fa9b8e-goog
 

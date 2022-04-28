@@ -1,93 +1,133 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1320E647
-	for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 14:19:41 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id j15so12448588wrb.2
-        for <chrome-platform@lists.linux.dev>; Tue, 26 Apr 2022 07:19:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E4FEC2
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 10:04:31 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id d5so6046872wrb.6
+        for <chrome-platform@lists.linux.dev>; Thu, 28 Apr 2022 03:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=QS3yKNM0q2pZDAHA1IFWy/K8h6RY8QsWB8BvPEu/8J8=;
-        b=hs8cD1vdRbGuUkUUDGWzBPd9FczxSWGXeA1xWmjjUAtpoizXH2ALAV++G3+yJzLgAO
-         rfISoueXGrD1jFeIAhNyayqRQDISTsgBsufDc7XLL5pj8Opxkm0+0hQ/rSiiS4MFw6cp
-         gq+M98jsTo9TR+j+oYPxX4Qvo1TfZyD90upEgVlwdTA1vqTZf6BMMwhjUAs0D4y4YXce
-         XfUe5XnCcOFElrdDsIhYqZEW6Hns6Pnbeas+h9/4LttctEIxkJEZ5YoXthGLdzhhwhHl
-         dmFSPwgf5X53q1Y1/pZY77HbOSxkI+BnWxVu397XEesiuG0BlJpVtg2w3oRz2d6Smt5V
-         /a9w==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SbMt1g6aoE0Bg5dwfqmFelsLQshOG2+YZf5M70rMj8Q=;
+        b=eDHxmC6WsUWOrWLtgePXgUyYSARbuIpxRXqT83D+MT5KWhvRUkaRmVEDHIEuZK6a6/
+         SgTx+6aOSj/uNyNwjy/w0C3vfP21G+btolT7n89mozDMEnkZh8KaR3J9AXZiiTGeDpff
+         fWPJ6oduu0twIwFmfkUv8PsBJskvta0iFptbM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=QS3yKNM0q2pZDAHA1IFWy/K8h6RY8QsWB8BvPEu/8J8=;
-        b=DeGTEzq3BXRuklJp9BPChsuHizScUtW+a3MDlB180KAXFFkj5AD6jyO4LFpdJK6wMI
-         UAEAJP0kyyUz5g8pHRr2tk9yDunO4POB4+v65nmVo/pmy2L40NPJj9bzi0pe/MpNhGy4
-         RNMNHuT5H8A8QX+48KMgXX+Tm0b6M6iuYrMP6TYnshkpY7cKKylgilQyL/1ib8r2k+Dc
-         yMxxc0yEiYS2jj8NzzxicgQQ9ZqlRBfPwR0K+Vexo99Y04g2lCLXR+2UK+silLSJ0RBX
-         TSl9ykPhIa5BGDFarUaSBxQJqSHVe5xISAPi1t6whhntSvksOGCg2hlMPrA2d1xU/M2v
-         Q5Sw==
-X-Gm-Message-State: AOAM530w6oAN5oirNCBnq0xWoCXlDD97CUzO8VaG0pSiEonHnqXQTizV
-	JeDg2o/ycGFiQigOVdkC8XXvog==
-X-Google-Smtp-Source: ABdhPJxUgN7DLQYxCIIGBi53Jg9tpP9jWKFpfG7stGDElrwVpEw0+ekD5kQwtkL9ceflCvkm8ZwRqg==
-X-Received: by 2002:adf:db11:0:b0:20a:bfd2:8557 with SMTP id s17-20020adfdb11000000b0020abfd28557mr18597013wri.485.1650982779415;
-        Tue, 26 Apr 2022 07:19:39 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b00393ea3bab42sm6412842wmq.19.2022.04.26.07.19.38
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SbMt1g6aoE0Bg5dwfqmFelsLQshOG2+YZf5M70rMj8Q=;
+        b=uT9z3J2oQg8ig26fgZJNpEySlo3063EanG01FYGKoBIzAbQYUqoEUHkFL4fTYg/GgJ
+         qEzAmCDCpzfQ19nzfJKolCWAuZRMqgnl2CyyKjPQ6JxYe0pcTIifzXSI9+7a5JfofioO
+         1qssYCSGnzDE5d5kIXeIuL/lh57H9ei5F08LliNrhffVSK9s8Tkh2d49u9i8chS8O/G4
+         4uK2GR5eAbBzagjMsSkW9AsDqqtx4nx8s4jw0VTDA3s0bRTgcBAAexbJoyx2ojL952Tz
+         d6ZI1htd0iqO29RiUgK+UwRTeEz1oQ5a6v3qhdqX+eEyVA7MtRzkHv/TblXbMHcgKMFN
+         d1iQ==
+X-Gm-Message-State: AOAM533yeSyYtewuMBLRkIuzKr8IoTU2oKjYIKYzvMyLMSZKoJwx5eni
+	DocCfspjdR8ALwckxEcGI1Ap/HQ0XnTgCQ==
+X-Google-Smtp-Source: ABdhPJyqFzeu7gO4jIJIJSD11VQmMog/KOSnjjmdVpYp4MOAqrZyPlPZSH+cTzEL0sYYjh71p4fM7Q==
+X-Received: by 2002:a5d:4f08:0:b0:20a:ddfe:bd99 with SMTP id c8-20020a5d4f08000000b0020addfebd99mr15546448wru.339.1651140270334;
+        Thu, 28 Apr 2022 03:04:30 -0700 (PDT)
+Received: from fabiobaltieri-linux.lan ([37.228.205.1])
+        by smtp.gmail.com with ESMTPSA id v5-20020a5d6785000000b0020a792848eesm15080449wru.82.2022.04.28.03.04.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 07:19:39 -0700 (PDT)
-Date: Tue, 26 Apr 2022 15:19:37 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	Prashant Malani <pmalani@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2] mfd: cros_ec_dev: Only register PCHG device if present
-Message-ID: <Ymf/ecKnqfkE5OOE@google.com>
-References: <20220419000408.3202635-1-swboyd@chromium.org>
+        Thu, 28 Apr 2022 03:04:29 -0700 (PDT)
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee.jones@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fabio Baltieri <fabiobaltieri@chromium.org>
+Subject: [PATCH v6 0/4] Add channel type support to pwm-cros-ec
+Date: Thu, 28 Apr 2022 10:04:17 +0000
+Message-Id: <20220428100421.247471-1-fabiobaltieri@chromium.org>
+X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220419000408.3202635-1-swboyd@chromium.org>
 
-On Mon, 18 Apr 2022, Stephen Boyd wrote:
+Hi,
 
-> Don't create a device for the peripheral charger (PCHG) if there aren't
-> any peripheral charger ports. This removes a device on most ChromeOS
-> systems, because the peripheral charger functionality isn't always
-> present.
-> 
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Daisuke Nojiri <dnojiri@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
-> 
-> Changes from v1 (https://lore.kernel.org/r/20220415003253.1973106-1-swboyd@chromium.org):
->  * Use cros_ec_command()
->  * Drop the other patches that aren't needed anymore
-> 
->  drivers/mfd/cros_ec_dev.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+The ChromiumOS EC PWM host command protocol supports specifying the
+requested PWM by type rather than channel. [1]
 
-Applied, thanks.
+This series adds support for specifying PWM by type rather than channel
+number in the pwm-cros-ec driver, which abstracts the node definitions
+from the actual hardware configuration from the kernel perspective,
+aligns the API with the one used by the bootloader, and allows removing
+some dtsi overrides.
+
+Tested on a sc7180-trogdor board, build tested on x86.
+
+Changes from v5:
+(https://patchwork.kernel.org/project/chrome-platform/list/?series=633811)
+- reworded the binding patch commit subject
+- added one more review tag
+
+Changes from v4:
+(https://patchwork.kernel.org/project/chrome-platform/list/?series=632212)
+- fixed wrong indentation in the devietree file on patch 3
+- added review and ack tags from the previous run
+
+Changes from v3:
+(https://patchwork.kernel.org/project/chrome-platform/list/?series=631131)
+- actually reworded patch 2 commit description
+- reworked patch 2 to use of_device_is_compatible() instead of compatible .data
+
+Changes from v2:
+(https://patchwork.kernel.org/project/chrome-platform/list/?series=627837)
+- reworded patch 2 commit description
+- reworked the driver and dt documentation to use a new compatible rather than
+  boolean property
+- dropped the comment about build test only, tested on actual hardware
+  (trogdor), build test on x86 (with CONFIG_OF=n).
+
+Changes from v1:
+(https://patchwork.kernel.org/project/chrome-platform/list/?series=625182)
+- fixed the dt include file license
+- fixed the property name (s/_/-/)
+- rebased on current linus tree (few dts files changed from a soc tree
+  pull, so patch 4 needs a recent base to apply correctly)
+
+[1] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/common/pwm.c;l=24
+[2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/depthcharge/src/drivers/ec/cros/ec.c;l=1271-1273
+
+Fabio Baltieri (4):
+  dt-bindings: add mfd/cros_ec definitions
+  pwm: pwm-cros-ec: add channel type support
+  dt-bindings: google,cros-ec-pwm: add the new -type compatible
+  arm64: dts: address cros-ec-pwm channels by type
+
+ .../bindings/pwm/google,cros-ec-pwm.yaml      |  9 +-
+ .../mt8183-kukui-jacuzzi-fennel-sku1.dts      |  4 +-
+ .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  4 +-
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
+ .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |  4 -
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  9 +-
+ .../qcom/sc7280-herobrine-herobrine-r0.dts    |  7 +-
+ .../arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  7 +-
+ .../arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi |  4 +-
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |  7 +-
+ .../boot/dts/rockchip/rk3399-gru-bob.dts      |  4 -
+ .../dts/rockchip/rk3399-gru-chromebook.dtsi   |  5 +-
+ .../boot/dts/rockchip/rk3399-gru-kevin.dts    |  4 -
+ arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi  |  1 +
+ drivers/pwm/pwm-cros-ec.c                     | 82 +++++++++++++++----
+ include/dt-bindings/mfd/cros_ec.h             | 18 ++++
+ 16 files changed, 121 insertions(+), 49 deletions(-)
+ create mode 100644 include/dt-bindings/mfd/cros_ec.h
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.36.0.rc2.479.g8af0fa9b8e-goog
+

@@ -1,90 +1,92 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65778110B
-	for <chrome-platform@lists.linux.dev>; Fri, 29 Apr 2022 14:33:55 +0000 (UTC)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TDrlcA015641;
-	Fri, 29 Apr 2022 14:33:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=+Pd3boeYYOqUdToIy6lpJJ2YBcwWkKSMUxL2UvbDusM=;
- b=jy/AZOkP5pR8OEbp47xBou8kq4fXALC1Y/IAHBDP/ofiGbqD+S0ZG/D///8nJ3VEPvD5
- QqIFHOdPVboJvIhxh2P7b3zSMe54Gyzz0L3mXNagi1qXweZj96zUNZ1QE26kdpGltuqQ
- GYmaJpmV10x2FNjoeMxPI2i/HkvdLDDbFiy5fedCCZvuuEfvmxnGV1yUp3bBv0mpLuR4
- POaO+DlwbAIlFoqA8T556XRMa5tFUZr2dRkZ19XBp/J4Cb7q/pVrdG6f4St+eQrMIY7W
- IzRbdSYI71QI6Xs/Fk76khJ8oMkTpFs8h6W19dD0+/EN+8S8g4ur+gV/8IY0nWJ8ydD9 xA== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqnke5168-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Apr 2022 14:33:48 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-	by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TEJtGC027048;
-	Fri, 29 Apr 2022 14:33:45 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-	by ppma06fra.de.ibm.com with ESMTP id 3fm8qhqc7b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Apr 2022 14:33:45 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TEKYc152887860
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 Apr 2022 14:20:34 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 747F811C050;
-	Fri, 29 Apr 2022 14:33:43 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 416B211C04A;
-	Fri, 29 Apr 2022 14:33:42 +0000 (GMT)
-Received: from sig-9-145-61-57.uk.ibm.com (unknown [9.145.61.57])
-	by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Fri, 29 Apr 2022 14:33:42 +0000 (GMT)
-Message-ID: <650c9fdc613a6af952e513650a03fa4f2392abb7.camel@linux.ibm.com>
-Subject: Re: [PATCH 22/37] platform: add HAS_IOPORT dependencies
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Benson Leung
-	 <bleung@chromium.org>,
-        "open list:CHROME HARDWARE PLATFORM SUPPORT"
-	 <chrome-platform@lists.linux.dev>
-Date: Fri, 29 Apr 2022 16:33:41 +0200
-In-Reply-To: <20220429135108.2781579-39-schnelle@linux.ibm.com>
-References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
-	 <20220429135108.2781579-39-schnelle@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12CF1FAA
+	for <chrome-platform@lists.linux.dev>; Fri, 29 Apr 2022 23:31:14 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id d15so8410341plh.2
+        for <chrome-platform@lists.linux.dev>; Fri, 29 Apr 2022 16:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9YgscAPmkdXZdvGItBkARoN39El7k5vd+0X9bZIsm5A=;
+        b=KmAugV8D8y1df2eVDeWevN4/iD84DGOM8cNKf2bLCx5dR+9pytBdoDJY8NaKCN/bpm
+         4YWdnvT77Gjnx+W7GzD5V38U1PiwXjZMClOjfR+QN6nFNmmw0nN1h5qC9iPb6pfgNdDK
+         faZR9HqrO1iNLv7lbv7EuNZ8eFUp6DgrLLgzk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9YgscAPmkdXZdvGItBkARoN39El7k5vd+0X9bZIsm5A=;
+        b=5YavhAkiOwawnGjepXHy7fP+wogq4TkSlrY0bnK6RjDoKaCeA60M3sxc5loT4Juirb
+         UzcRnCXjBJk1BKCsBzZSkwy1AF26VpPYzCtYPqFksrvQl7r0qM5U2a8ve/DLAhk0Vo0T
+         bwvGT8jkFWW4NKBqCGmRRh9XJD7a1WaWtkPWqgEuKM/3o9iSS8PbU6hU7vSNo8msEfpb
+         qquZdOHbwY9pgvH4q9RQUtiIjwrhNSiZrprXdV7/Cu8My6GMP7Nf6h1Am6aPaQdWT4zv
+         oRztnwXZezzKxxk9F3ZxfYKN4lbP1Fj6kSx9uaaYr75x3adh2leFRsFbmUQYrcQn0Zib
+         qp/g==
+X-Gm-Message-State: AOAM530ks4cn1SPQJGPKD5w4dSRNXD86ZreN1MrJ6CIYoZvhOG2Ivoct
+	8EbEl/6EQTRM/X5JhvNxNA8bMA==
+X-Google-Smtp-Source: ABdhPJxY44iFfukhQ8UWK7Y9QYQdpA1U3pRUTpzNyjs/fGYqLlp0a0KtfPcanGdAuptsnq82S1XbrQ==
+X-Received: by 2002:a17:90a:c302:b0:1bd:14ff:15 with SMTP id g2-20020a17090ac30200b001bd14ff0015mr6436842pjt.19.1651275074332;
+        Fri, 29 Apr 2022 16:31:14 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:5172:14b3:3687:1fb0])
+        by smtp.gmail.com with ESMTPSA id i24-20020aa78b58000000b0050dc762818esm223037pfd.104.2022.04.29.16.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 16:31:13 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	chrome-platform@lists.linux.dev,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	"Joseph S. Barrera III" <joebar@chromium.org>
+Subject: [PATCH v2 0/2] Input: cros-ec-keyb: Better matrixless support
+Date: Fri, 29 Apr 2022 16:31:10 -0700
+Message-Id: <20220429233112.2851665-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 44rwOHhZbc5TXRQ25VZ7qiTaZzMokL5_
-X-Proofpoint-GUID: 44rwOHhZbc5TXRQ25VZ7qiTaZzMokL5_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-29_07,2022-04-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=469 bulkscore=0
- malwarescore=0 suspectscore=0 impostorscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204290080
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2022-04-29 at 15:50 +0200, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-> not being declared. We thus need to add HAS_IOPORT as dependency for
-> those drivers using them.
-> 
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
+This is a followup to my previous patch[1] that skips keyboard registration
+when the matrix properties aren't present. This adds a compatible string
+for this scenario so we can ease existing DTBs over to the new design.
 
-Sorry everyone. I sent this as PATCH in error while preparing to sent
-the same series as RFC. Since e-mail has no remote delete and I lack a
-time machine let's just all pretend you only got the RFC.
+Changes from v1 (https://lore.kernel.org/r/20220427203026.828183-1-swboyd@chromium.org):
+ * Better enforcement of properties in DT binding
+ * Skip registration by means of adding compatible to device id list
+
+Stephen Boyd (2):
+  dt-bindings: google,cros-ec-keyb: Introduce switches only compatible
+  Input: cros-ec-keyb - skip keyboard registration for switches
+    compatible
+
+ .../bindings/input/google,cros-ec-keyb.yaml   | 95 +++++++++++++++++--
+ drivers/input/keyboard/cros_ec_keyb.c         | 15 ++-
+ 2 files changed, 102 insertions(+), 8 deletions(-)
+
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: <devicetree@vger.kernel.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: "Joseph S. Barrera III" <joebar@chromium.org>
+
+[1] https://lore.kernel.org/all/20220425210726.3813477-1-swboyd@chromium.org/
+
+base-commit: 4352e23a7ff2f8a4ff229dd1283ed2f2b708ec51
+-- 
+https://chromeos.dev
 

@@ -1,44 +1,44 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4534E7B
-	for <chrome-platform@lists.linux.dev>; Fri, 29 Apr 2022 13:51:42 +0000 (UTC)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TDAab1015911;
-	Fri, 29 Apr 2022 13:51:37 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EB27B
+	for <chrome-platform@lists.linux.dev>; Fri, 29 Apr 2022 13:51:50 +0000 (UTC)
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TCc4e6016905;
+	Fri, 29 Apr 2022 13:51:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
  bh=bsnoYaCxcP6yUiJWmu0WIZU/5X+rJ9IzWoxXls9WFFs=;
- b=rU2YH484KzyNdxXrJITxrxFIe8kLx00bN0BSIT0ob6FnkOtbblTTeUcGQD2I/E3RvoCZ
- fTWNLwG7saqr61RKTKAmbwnXgU0NI2Q+Lwy5bzCOyfFN2MrbH1y/R2cPPB9ThlPqbVkb
- H5nQ5AJ8YFgBpSzEywgZW/qAcpZ4Yvr2gQ/VM2EEQTUsnTAP6j+I8JuJJ95irtSy9nRd
- HF1feOkNig9XWEa0UUQGqLUCC4vf0TAAr6dO9DQ7iap6lEcSd1fVIpfO9Ab/AnbRH2tK
- 3+uXLfGGb4rKMyQjaz425vypO39TvSJJy4Uq5Pjav6X5BsLmggvWRa/UafgobsaYyJM9 kw== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqtdnd8ay-1
+ b=pflSrtABJWUVIxNMnch6wQF9To4KyKo7kIIY40+gcZ3dHVU5J+lc3mWVU5awVGNqS3nS
+ 19xLh8indDER4en+P/nSwOxIBlDzDZxqjGNiv2+JuyEA5aPSxnk4XUlXqhss8dbmcXlo
+ /3cQeSuKIdsQhspwM6dIqErRlAfiBsqdZZhPLY7s5rIT4S+mHVxuK97XEPcB464sf6Zc
+ wMPcqOtuIEIafSPckeClSfN1mkV/p+uXBvQtcrhdEdRB5tI0cRYg9+XJvbFlTv0awEuY
+ blQgU7XQcCDbY3LsnTKE7B+vjht6n5q3zPTFAvdzMXoN8JnSqQJMglfZTt8tlxjcOMls Qw== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqqtnsuq3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Apr 2022 13:51:36 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDQlvn014243;
-	Fri, 29 Apr 2022 13:51:34 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-	by ppma04ams.nl.ibm.com with ESMTP id 3fm93916wp-1
+	Fri, 29 Apr 2022 13:51:40 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+	by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDS1BU025967;
+	Fri, 29 Apr 2022 13:51:38 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+	by ppma05fra.de.ibm.com with ESMTP id 3fm938yag9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Apr 2022 13:51:34 +0000
+	Fri, 29 Apr 2022 13:51:38 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TDcNU149938796
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TDpZ9X15008044
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 Apr 2022 13:38:23 GMT
+	Fri, 29 Apr 2022 13:51:35 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 50C6B4C044;
-	Fri, 29 Apr 2022 13:51:32 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B90BC4C040;
+	Fri, 29 Apr 2022 13:51:35 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0AFC64C040;
-	Fri, 29 Apr 2022 13:51:32 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 72E6F4C04A;
+	Fri, 29 Apr 2022 13:51:35 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
 	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Fri, 29 Apr 2022 13:51:31 +0000 (GMT)
+	Fri, 29 Apr 2022 13:51:35 +0000 (GMT)
 From: Niklas Schnelle <schnelle@linux.ibm.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,9 +46,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
         Benson Leung <bleung@chromium.org>,
         chrome-platform@lists.linux.dev (open list:CHROME HARDWARE PLATFORM SUPPORT)
-Subject: [PATCH 22/37] platform: add HAS_IOPORT dependencies
-Date: Fri, 29 Apr 2022 15:50:36 +0200
-Message-Id: <20220429135108.2781579-39-schnelle@linux.ibm.com>
+Subject: [RFC v2 26/39] platform: add HAS_IOPORT dependencies
+Date: Fri, 29 Apr 2022 15:50:43 +0200
+Message-Id: <20220429135108.2781579-46-schnelle@linux.ibm.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220429135108.2781579-1-schnelle@linux.ibm.com>
 References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
@@ -60,14 +60,14 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: o8WtM_XB3PH4AGoTEbS1VXLb64fLX7Ku
-X-Proofpoint-ORIG-GUID: o8WtM_XB3PH4AGoTEbS1VXLb64fLX7Ku
+X-Proofpoint-ORIG-GUID: EA4jbLDcCsqf0lwrM3l98xAtoxb0RX3a
+X-Proofpoint-GUID: EA4jbLDcCsqf0lwrM3l98xAtoxb0RX3a
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-04-29_06,2022-04-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
- mlxlogscore=793 clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 clxscore=1015 mlxlogscore=706
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2204290078
 

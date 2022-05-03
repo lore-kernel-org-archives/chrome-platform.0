@@ -1,93 +1,89 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF85D33CE
-	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 19:00:34 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id s131so19146430oie.1
-        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 12:00:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A6833CF
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 19:02:23 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id z19so20880061edx.9
+        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 12:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=sTwtLayt8lSmwFDwuP2xr78Bezhh6psTt6A0s7o6o54=;
-        b=ZL64jD3/KfRtxkUsZsMBA2i8ivzG5MZTHTOoiIVfGr4Ec4kMCqf5T5NaRNtr/0JDVI
-         TmM+l93APN8yXga262FNK0V1PE1Z9dXb5uWY5SVOcyZAnD+K9ADawpGdHw+9U3cAiT7a
-         JD95WlfPU1wAkrstXIwAhfu+Y3QrkiO7kC7kQ=
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=GhPVwEXFQlelT1ahoVdVsco/ScoxIkg+GwxOC7eOaEc=;
+        b=fDLZyyRvAVx2uEW7lTQEdGpwpsEEMgifXHx1C9/rgxLbrANjCct8AdZwl/Qu6HnS3c
+         ST8BJSWUC4PeNzfvHcS4SzTosKYkqRVV1q/PLeQU6ZYP/i0TluoWpLUJ/nAwZpga0VP+
+         9I9oRIM1y0bq1B+ykLn4cCL2mgQgsLWbYCjCBe1R5ka08KFb6H/k8fk60AiINMewytvH
+         5yFp0efCueZ7dSZ+hlAwfjSB/l3TM0CR9eT6GQXZXsPdUe0cKH47Dt7A50+5JbBCt00h
+         VX0JrvhM8HjEG4VrxQVhkuMOVjnLP+JYM6dE1qSgWF473zICXaZud9XySu3acZ+v6yQ+
+         k8UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=sTwtLayt8lSmwFDwuP2xr78Bezhh6psTt6A0s7o6o54=;
-        b=4vI5NAtUHb2SQHZU00u76hW510pK2suFSD+ySA2LdAWE4ggAHxnUMfIlJfikvoFe9z
-         WUEiDAH+LyCQb07QpwdgKst9iyzvP3ISX/TUjSUiMj6chnn1XNvI6KmYtryOzxs/qiis
-         vHWLBcWEoHt5j3Xc1CV5Y9FIaAKNUX696AA8vqldO8lupAN+GNf74LEgaQVKwD5Miquf
-         7HcCjiZcI8DsNcw8MepRbINo8Pdgu1dQAn4QryC7sjEyktc6CmWrA20CXeRMC+ZL1Bv5
-         TiilEp2UXQoUHnP2cUr4VIUhfbvDo1+bWVAzzFzA6+RBdWMZXKt/CVeLUr/O9ntLq3x7
-         Z84A==
-X-Gm-Message-State: AOAM531hz3Z1uUOsu9O32WuqIR2OJMr29yLjl6AvcZjDciFhyMjfCkz5
-	Aspm1pvLuvXsSmLi37CqoP9cXABjZN+2iEQ0v2Pi7Q==
-X-Google-Smtp-Source: ABdhPJyoZVlr00aiP72F5GUeMpviqWaBNJ9GclCz9NF9x+6N/PBIUr0SmkirKve0fuXCbNOFIVsJBrojpRhd5w1GKGs=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr2540169oif.63.1651604434059; Tue, 03
- May 2022 12:00:34 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 May 2022 15:00:33 -0400
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=GhPVwEXFQlelT1ahoVdVsco/ScoxIkg+GwxOC7eOaEc=;
+        b=ENrONmkz/qOf/upHQmpgm1D2ijqOmXmLXOxG2iFFyXLdUFvnzafq6XNC21sWa4AYdz
+         PyeMabzvHnRpAYgc9ewfDNWIANat1qdU2wnDfjHPAw655+zevRBqWWlkLcJtZMTrUuAG
+         NEs+Kl3llL2MRvTNJV7qsKlnlZo17tEMyvt7iyPnqDeillfjU1Y+1khKE8Y/FhZDZ09n
+         OQOdGfRs+n88cAcfF1L9e5k1XavSmUhPtM3X1l/dFCgIKAjoB0TliNQwR7dF62mTCTEO
+         NQFYPCxasGD+05GvsAjkvZTEVChE19mFRkP0scfis22+XZ38R4kNMz50BBlevSgiXnTB
+         14Dw==
+X-Gm-Message-State: AOAM530psDa23gYSCFSqszCzm5QPm592I7Uf06iqGBn/3jwtJR2NAyUk
+	mTJIn+8sdECF+qL2QUbAs2H0Ow==
+X-Google-Smtp-Source: ABdhPJyUSOv9kitRm7ExswRN8j6l5yHt0jx+r/ntr8DNAq2Hp2E0qOX+pl3n3b+8w7WVKhKXNuKfVg==
+X-Received: by 2002:a05:6402:2714:b0:427:b9bb:a179 with SMTP id y20-20020a056402271400b00427b9bba179mr14199065edd.102.1651604541458;
+        Tue, 03 May 2022 12:02:21 -0700 (PDT)
+Received: from [192.168.0.207] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id ig11-20020a1709072e0b00b006f3ef214e2dsm5061552ejc.147.2022.05.03.12.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 12:02:21 -0700 (PDT)
+Message-ID: <ee8416a3-64da-bd03-6a88-978fb095cbea@linaro.org>
+Date: Tue, 3 May 2022 21:02:19 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2280875f-fbd8-0dfd-5a0a-1d7fceb856e4@linaro.org>
-References: <20220503042242.3597561-1-swboyd@chromium.org> <20220503042242.3597561-2-swboyd@chromium.org>
- <2280875f-fbd8-0dfd-5a0a-1d7fceb856e4@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 3 May 2022 15:00:33 -0400
-Message-ID: <CAE-0n50oGX8jBzfNjYFj01nZkuYbk6ZPsqDj89-zqxHhib=vaw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
 Subject: Re: [PATCH v3 1/2] dt-bindings: google,cros-ec-keyb: Introduce
  switches only compatible
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	chrome-platform@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Douglas Anderson <dianders@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	"Joseph S. Barrera III" <joebar@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ chrome-platform@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, Hsin-Yi Wang
+ <hsinyi@chromium.org>, "Joseph S. Barrera III" <joebar@chromium.org>
+References: <20220503042242.3597561-1-swboyd@chromium.org>
+ <20220503042242.3597561-2-swboyd@chromium.org>
+ <2280875f-fbd8-0dfd-5a0a-1d7fceb856e4@linaro.org>
+ <CAE-0n50oGX8jBzfNjYFj01nZkuYbk6ZPsqDj89-zqxHhib=vaw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAE-0n50oGX8jBzfNjYFj01nZkuYbk6ZPsqDj89-zqxHhib=vaw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Quoting Krzysztof Kozlowski (2022-05-03 08:42:39)
-> On 03/05/2022 06:22, Stephen Boyd wrote:
-> > If the ChromeOS board is a detachable, this cros-ec-keyb device won't
-> > have a matrix keyboard but it may have some button switches, e.g. volume
-> > buttons and power buttons. The driver still registers a keyboard though
-> > and that leads to userspace confusion around where the keyboard is.
->
-> (...)
->
-> >
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: google,cros-ec-keyb
-> > +then:
-> > +  allOf:
-> > +    - $ref: "/schemas/input/matrix-keymap.yaml#"
-> > +  required:
-> > +    - keypad,num-rows
-> > +    - keypad,num-columns
-> > +    - linux,keymap
->
-> else:
->   properties:
->     function-row-phsymap: false
->     google,needs-ghost-filter: false
->
-> Because these are not valid for the non-matrix-keyboard case, right?
->
+On 03/05/2022 21:00, Stephen Boyd wrote:
+>> else:
+>>   properties:
+>>     function-row-phsymap: false
+>>     google,needs-ghost-filter: false
+>>
+>> Because these are not valid for the non-matrix-keyboard case, right?
+>>
+> 
+> Yes, but they also depend on linux,keymap so they're not possible to
+> set because the matrix-keymap.yaml schema defines linux,keymap and that
+> is only included if google,cros-ec-keyb is present.
 
-Yes, but they also depend on linux,keymap so they're not possible to
-set because the matrix-keymap.yaml schema defines linux,keymap and that
-is only included if google,cros-ec-keyb is present.
+Ah, right, I missed that one.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof

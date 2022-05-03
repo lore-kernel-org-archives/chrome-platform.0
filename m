@@ -1,68 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EC517D2
-	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 06:10:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E3C00C385A9;
-	Tue,  3 May 2022 06:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651558211;
-	bh=HXy4UD09FYE1pmDLrZ26LIwNp/UMgssrfKcPLZiY5rY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Rw4Duu/PqY5cU789wC8k7rUbcsTvCP+DclJO5/S2UXXi1cwC/gOFARtWANX69b3QP
-	 3LYHdkBvEfJT7fuUcyajfTKfdriJqr8kwdDbCYIIyXo+KYPYIM2OFA7YPYbWI4roLM
-	 NgWzrBBFy/9PGw2TZUXIY0fcy4nYZe5fSh6dFxZOmeGIFVcfhjWzYomHYiFIab8RSM
-	 IAWqj+QTahtl5Jts3F5PxIvC3Ggazim/yBv1dS5av3bqvg+Jktr5O0DXKU9dbFv7zw
-	 UrB1QM7IufPNNS3UkI1iiuCT2PDdWFIYPq6gqtxaI9GUybq4A6Od1uK4qsE0V2r8GA
-	 TpC8dulu/yzRQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C7D55E6D402;
-	Tue,  3 May 2022 06:10:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from mail.77msk.ru (mail.77msk.ru [84.204.203.133])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F7182F2B
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 12:08:11 +0000 (UTC)
+Received: from mail.77msk.ru (gatekeeper.domain007.com [192.168.2.20])
+	by hermes.domain007.com (Postfix) with ESMTP id 4C8C7D5A149
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 13:55:08 +0300 (MSK)
+Received: from asda.co.uk (unknown [20.97.211.134])
+	by gatekeeper.domain007.com (Postfix) with ESMTPSA id E0FDB32009F
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 13:55:07 +0300 (MSK)
+Reply-To: sales@asdaa.uk
+From: ASDA Stores Limited <Hanes.Thomas2365@asda.co.uk>
+To: chrome-platform@lists.linux.dev
+Subject: Procurement order from ASDA
+Date: 03 May 2022 10:55:07 +0000
+Message-ID: <20220503091903.92CA4876E8030DB7@asda.co.uk>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 0/2] platform/chrome: add support for the Framework Laptop
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165155821181.3023.17779177591961421064.git-patchwork-notify@kernel.org>
-Date: Tue, 03 May 2022 06:10:11 +0000
-References: <20220217165930.15081-1-dustin@howett.net>
-In-Reply-To: <20220217165930.15081-1-dustin@howett.net>
-To: Dustin L. Howett <dustin@howett.net>
-Cc: chrome-platform@lists.linux.dev, bleung@chromium.org,
- aaboagye@chromium.org, tzungbi@google.com, michael.niksa@live.com
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.102.4 at hermes
+X-Virus-Status: Clean
 
-Hello:
+Dear chrome-platform
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Thu, 17 Feb 2022 10:59:28 -0600 you wrote:
-> This series adds support for the Framework Laptop to the cros_ec LPC
-> driver.
-> 
-> The Framework Laptop is a non-Chromebook laptop that uses the ChromeOS
-> Embedded Controller. Since the machine was designed to present a more
-> normal device profile, it does not report all 512 I/O ports that are
-> typically used by cros_ec_lpcs. Because of this, changes to the driver's
-> port reservation scheme were required.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v3,1/2] platform/chrome: cros_ec_lpcs: detect the Framework Laptop
-    https://git.kernel.org/chrome-platform/c/6a5d778edaa3
-  - [v3,2/2] platform/chrome: cros_ec_lpcs: reserve the MEC LPC I/O ports first
-    https://git.kernel.org/chrome-platform/c/c9bc1a0ef9f6
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+We are interested in having some of your hot selling product in=20
+our stores and outlets spread all over United Kingdom, Northern=20
+Island and Africa. ASDA Stores Limited is one of the highest-
+ranking Wholesale & Retail outlets in the United Kingdom. 
+=20=20
+We shall furnish our detailed company profile in our next=20
+correspondent. However, it would be appreciated if you can send=20
+us your catalog through email to learn more about your company's=20
+products and wholesale quote. It is hopeful that we can start a=20
+viable long-lasting business relationship (partnership) with you.=20=20
+  
+=20=20
+Your prompt response would be delightfully appreciated. 
+=20=20
+Best Wishes=20
+  
+=20=20
+Hanes S. Thomas=20
+Procurement Office.=20
+ASDA Stores Limited=20
+Tel:  + 44 - 7451271650=20
+WhatsApp: + 44 =E2=80=93 7441440360=20
+Website: www.asda.co.uk

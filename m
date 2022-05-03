@@ -1,58 +1,58 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6223209
-	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 15:09:22 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id y3so33977633ejo.12
-        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 08:09:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA9B3209
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 15:09:27 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id g23so20183862edy.13
+        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 08:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7tccEYmP1Up3dLXDN+1M0rIsKvh0911h46EMldmvN7I=;
-        b=b9ShGJ5SZTplKe0QbTIy+x0O2zCSuwbYR2O/20m2BPYhSQDrLmIGDywLO0FRQQrwcH
-         Ly89HKMYQuR7uMZPvGFDet7K7qr1mGKyVs/NixIsXhg6ywD3joeB7yiiDXuwPkVn61HR
-         yH5tjEQ+qoNKZohYEhk8radCiM3/+7F2b2k8U=
+        bh=EW58m2+b9sI8zBQxJJNwiRm2NLx6RkDOvMaweiiKwJI=;
+        b=kP0sjsAoi+T8Qd0UDI0pKRBJxpP0ihheGFQgxyMYs9AHtJ6sFLwBIzKvl2ZQUnbF61
+         9n91OBEICBk2fREjbLlMG0LW3/mcvUaEjToNI49hAKWzZMxSTcWX8bjxpDW+dzkEKpcP
+         63+I/QdvJSIPvl8JSQmUqWaKUnY52tyVnfi3A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7tccEYmP1Up3dLXDN+1M0rIsKvh0911h46EMldmvN7I=;
-        b=aXX72KXyXoLiDRi/F6ru+2MVPN7wfEtcxrLcIeAeb4KuUebMSyjcI8PiAqT7IopCSg
-         NH0oDLBwDIsVho2vlf7APDgB5EPBOjC4KAUEJMsT0jr+zHzHHthNy9OdsH3Bysbr/BKz
-         SgcZDcJpacHwpNfExHbkG0c6VxThWHvUbMT6xw/5UQWcBPjQOsQskSHX9xNTUXTmUoEz
-         6dQ58fyMfml+e3jh5nWS7HGsHZN7l7mrSa4PuLzAqjYMttw3cViELQTZjbSBStvZN4ot
-         yYC24MkP+vgn/jK/a6/uGzq3vxxchH9RnUzcmCKFhKRs51Ckqfx3DpJfGXvo7Jj1HHak
-         E4ag==
-X-Gm-Message-State: AOAM533bUKq1bhgK+Qnr0fDOy8fYdpbhW9NED/ko//k8OEBFHlr10vcf
-	rNJRA8YS1xp4EDgHjDIovt/+hh50XiFqqxfj
-X-Google-Smtp-Source: ABdhPJyh1s64D8UJWwlY7zBJex6xzjlzeEsjKH0SwjRdRDbBIxDYUqQHpMpXzcYm16YaKb7gxf37OQ==
-X-Received: by 2002:a17:907:3f9b:b0:6f4:4407:a421 with SMTP id hr27-20020a1709073f9b00b006f44407a421mr9964048ejc.557.1651590560021;
-        Tue, 03 May 2022 08:09:20 -0700 (PDT)
+        bh=EW58m2+b9sI8zBQxJJNwiRm2NLx6RkDOvMaweiiKwJI=;
+        b=D7o4pUip6deN2SHgMI9fyWtwrubUBCt04rXs1B0u1/o6RVgYWL+NjunIR0zH2adPlm
+         RwzcTl7TiClIQq1j8KzpYV2lHdXoMbbbJ6wnYXZt/FVI5o6MlDg9m6D9z53Vk2AwbevL
+         R3ED+yr4jvzOGcEiT4QWloHLASgk8r7d8x7z8l7Uec4HprpPb2qYHAWO6DUfIvh4OEVz
+         C8sHPojC/GO1uc+dhCqejC2jscGc1I2dI3UoH5FcFSsfeZer5jmiyUOicd2yro7l96m/
+         /LT5jUlBEl+xjXG2d04H6jRz6sJQqKpvxQjbNAImn5081qA963ERSe4ThYs1kC9oy5mT
+         tt2g==
+X-Gm-Message-State: AOAM533guIU0u1iTPc7XuESo7SwTmq7te61dU9CWk6s8+Tc/WMhL00hb
+	mtVVIRe5uPW7zoZfrz4FTqi3XQAkW5VMXr9I
+X-Google-Smtp-Source: ABdhPJwzb3nIRUgY5UIE2H/Ur2zCIw40sB0kNhkjtEcBKrz8HfT7hMWmLfjyBCzoemx96yOlNO5Lzg==
+X-Received: by 2002:a05:6402:1d90:b0:425:dd36:447c with SMTP id dk16-20020a0564021d9000b00425dd36447cmr18661440edb.347.1651590565723;
+        Tue, 03 May 2022 08:09:25 -0700 (PDT)
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id l16-20020a056402125000b0041d527833b9sm8031984edw.3.2022.05.03.08.09.17
+        by smtp.gmail.com with ESMTPSA id f8-20020a50fc88000000b0042617ba63b6sm7958374edq.64.2022.05.03.08.09.23
         for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 08:09:17 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id o12-20020a1c4d0c000000b00393fbe2973dso1564500wmh.2
-        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 08:09:17 -0700 (PDT)
-X-Received: by 2002:a7b:c4c8:0:b0:394:26c5:b79e with SMTP id
- g8-20020a7bc4c8000000b0039426c5b79emr3744035wmk.15.1651590556954; Tue, 03 May
- 2022 08:09:16 -0700 (PDT)
+        Tue, 03 May 2022 08:09:24 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id m62so10051673wme.5
+        for <chrome-platform@lists.linux.dev>; Tue, 03 May 2022 08:09:23 -0700 (PDT)
+X-Received: by 2002:a05:600c:4e44:b0:394:46b4:7b0e with SMTP id
+ e4-20020a05600c4e4400b0039446b47b0emr3671832wmq.29.1651590563205; Tue, 03 May
+ 2022 08:09:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220503042242.3597561-1-swboyd@chromium.org> <20220503042242.3597561-2-swboyd@chromium.org>
-In-Reply-To: <20220503042242.3597561-2-swboyd@chromium.org>
+References: <20220503042242.3597561-1-swboyd@chromium.org> <20220503042242.3597561-3-swboyd@chromium.org>
+In-Reply-To: <20220503042242.3597561-3-swboyd@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 3 May 2022 08:09:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V8kfRYidvQRmx_XmGm8X3XHR_GxTkKvxkqUHdqJ5CMNg@mail.gmail.com>
-Message-ID: <CAD=FV=V8kfRYidvQRmx_XmGm8X3XHR_GxTkKvxkqUHdqJ5CMNg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: google,cros-ec-keyb: Introduce
- switches only compatible
+Date: Tue, 3 May 2022 08:09:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XDHwOeQOFevwH9rfd=UN9OcEoOS=HeydYnNAZMUdCaBQ@mail.gmail.com>
+Message-ID: <CAD=FV=XDHwOeQOFevwH9rfd=UN9OcEoOS=HeydYnNAZMUdCaBQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] Input: cros-ec-keyb - skip keyboard registration
+ w/o cros-ec-keyb compatible
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, LKML <linux-kernel@vger.kernel.org>, 
 	patches@lists.linux.dev, chrome-platform@lists.linux.dev, 
@@ -66,18 +66,72 @@ Hi,
 
 On Mon, May 2, 2022 at 9:22 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> @@ -113,3 +135,56 @@ examples:
->              /* UP      LEFT    */
->              0x070b0067 0x070c0069>;
->      };
-> +
-> +  - |
-> +    keyboard-controller {
-> +        compatible = "google,cros-ec-keyb-switches", "google,cros-ec-keyb";
-> +        /* Matrix keymap properties are allowed but ignored */
+> In commit 4352e23a7ff2 ("Input: cros-ec-keyb - only register keyboard if
+> rows/columns exist") we skipped registration of the keyboard if the
+> row/columns property didn't exist, but that has a slight problem for
+> existing DTBs. The DTBs have the rows/columns properties, so removing
+> the properties to indicate only switches exist makes this keyboard
+> driver fail to probe, resulting in broken power and volume buttons. Ease
+> the migration of existing DTBs by skipping keyboard registration if the
+> google,cros-ec-keyb-switches compatible exists.
+>
+> The end result is that new DTBs can either choose to remove the matrix
+> keymap properties or leave them in place and add this new compatible
+> indicating the matrix keyboard properties should be ignored. Existing
+> DTBs will continue to work, but they will keep registering the keyboard
+> that does nothing. To fix that problem we can add this extra compatible
+> to existing devicetrees and the keyboard will stop being registered.
+> Finally, if google,cros-ec-keyb is missing then this driver won't even
+> attempt to register the matrix keyboard. Of course, this driver won't
+> probe until this patch is applied in that scenario, but that's OK. This
+> last case is likely only going to be used by new devicetrees created
+> after this commit.
+>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+> Cc: "Joseph S. Barrera III" <joebar@chromium.org>
+> Fixes: 4352e23a7ff2 ("Input: cros-ec-keyb - only register keyboard if rows/columns exist")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/input/keyboard/cros_ec_keyb.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index eef909e52e23..04c550aaf897 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -536,14 +536,11 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+>         u32 *physmap;
+>         u32 key_pos;
+>         unsigned int row, col, scancode, n_physmap;
+> +       bool register_keyboard;
+>
+> -       /*
+> -        * No rows and columns? There isn't a matrix but maybe there are
+> -        * switches to register in cros_ec_keyb_register_bs() because
+> -        * this is a detachable device.
+> -        */
+> -       if (!device_property_present(dev, "keypad,num-rows") &&
+> -           !device_property_present(dev, "keypad,num-cols"))
+> +       /* Skip matrix registration if no keyboard */
+> +       register_keyboard = device_get_match_data(dev);
+> +       if (!register_keyboard)
+>                 return 0;
 
-nit: s/allowed/required/
+I'm a little on the fence about the local variable. It could have been
+shorter as:
 
-This now looks reasonable and well explained to me.
+/* Skip matrix registration if no keyboard */
+if (!device_get_match_data(dev))
+
+...but I guess the "register_keyboard" maybe makes it more a little
+more obvious?
+
+In any case, I'm happy either way:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>

@@ -1,57 +1,24 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F082417CF
-	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 04:22:46 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id t13so13155192pgn.8
-        for <chrome-platform@lists.linux.dev>; Mon, 02 May 2022 21:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tux7WYlsKE3Hq3fiB6Pez4Xrgas8WZHOglEDZjg0C84=;
-        b=a8eWepEHVXn0N7ve8g/bgltGF8cABUVPILjuiNhkT/nVxbeEkKEUcmkEQw3VfRSneX
-         UlhDPlAnUfJ8cKB1FsfBPVEstleAdKOoEJGJBc3OuB7gsdevY0kvPK7b74f4HwwRe3c7
-         MZspjnhDFicVVMjNhqn0/RnSeXJsHbYQ2p4oY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tux7WYlsKE3Hq3fiB6Pez4Xrgas8WZHOglEDZjg0C84=;
-        b=GZtOVXn8gtuPg0nPcXufOuI77mUlI0xIM8caDE7li+eD4wkH7bRC3nmGtwSjX9m4fM
-         byTZ7F0gBM2F71pIsaz4iCc06RDw7fOf/Az+5kymECka4fHDperzm5JNfgp7OJadWZTl
-         eyQk2rQ0CHYkKNnHIvSb4kuFMu5rtst/VB5FsGO3PJlQQEk5+rb/gqXbHbkS2w//BTjm
-         ViaaYnyUmmVCh3avfBfgJ8boXDvXbvUQmLZEm4Hd96LgiSoxp8sjRZqiXiopYvURHr0d
-         LamhDBp5OGKOEpkrstX/K75Q4LmPoILCE/53wem4+DM+n0d8Ee1ch5mhfGOls3Tt0ZPt
-         nY7A==
-X-Gm-Message-State: AOAM533NqF3CDU1giFQZ7aPepq5Jc/7XS/Xi2j6EwTzG+KPpApHbzrkY
-	Sh/Lz1KLacbbdo80lmH9nXmp6g==
-X-Google-Smtp-Source: ABdhPJxrHlY8qyqCB+kcBtapjPpKOfc0Zgh79O+cfNMkFARQfd5ekl97fu/c4glge5mZaQ5Pu2DqOg==
-X-Received: by 2002:a62:a211:0:b0:50d:cdb2:87f4 with SMTP id m17-20020a62a211000000b0050dcdb287f4mr13382836pff.63.1651551766498;
-        Mon, 02 May 2022 21:22:46 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:15e:c760:9a04:7fbe])
-        by smtp.gmail.com with ESMTPSA id p11-20020a170902e34b00b0015e8d4eb24asm5390223plc.148.2022.05.02.21.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 21:22:46 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	"Joseph S. Barrera III" <joebar@chromium.org>
-Subject: [PATCH v3 2/2] Input: cros-ec-keyb - skip keyboard registration w/o cros-ec-keyb compatible
-Date: Mon,  2 May 2022 21:22:41 -0700
-Message-Id: <20220503042242.3597561-3-swboyd@chromium.org>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-In-Reply-To: <20220503042242.3597561-1-swboyd@chromium.org>
-References: <20220503042242.3597561-1-swboyd@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EC517D2
+	for <chrome-platform@lists.linux.dev>; Tue,  3 May 2022 06:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3C00C385A9;
+	Tue,  3 May 2022 06:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1651558211;
+	bh=HXy4UD09FYE1pmDLrZ26LIwNp/UMgssrfKcPLZiY5rY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Rw4Duu/PqY5cU789wC8k7rUbcsTvCP+DclJO5/S2UXXi1cwC/gOFARtWANX69b3QP
+	 3LYHdkBvEfJT7fuUcyajfTKfdriJqr8kwdDbCYIIyXo+KYPYIM2OFA7YPYbWI4roLM
+	 NgWzrBBFy/9PGw2TZUXIY0fcy4nYZe5fSh6dFxZOmeGIFVcfhjWzYomHYiFIab8RSM
+	 IAWqj+QTahtl5Jts3F5PxIvC3Ggazim/yBv1dS5av3bqvg+Jktr5O0DXKU9dbFv7zw
+	 UrB1QM7IufPNNS3UkI1iiuCT2PDdWFIYPq6gqtxaI9GUybq4A6Od1uK4qsE0V2r8GA
+	 TpC8dulu/yzRQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C7D55E6D402;
+	Tue,  3 May 2022 06:10:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -59,81 +26,43 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 0/2] platform/chrome: add support for the Framework Laptop
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165155821181.3023.17779177591961421064.git-patchwork-notify@kernel.org>
+Date: Tue, 03 May 2022 06:10:11 +0000
+References: <20220217165930.15081-1-dustin@howett.net>
+In-Reply-To: <20220217165930.15081-1-dustin@howett.net>
+To: Dustin L. Howett <dustin@howett.net>
+Cc: chrome-platform@lists.linux.dev, bleung@chromium.org,
+ aaboagye@chromium.org, tzungbi@google.com, michael.niksa@live.com
 
-In commit 4352e23a7ff2 ("Input: cros-ec-keyb - only register keyboard if
-rows/columns exist") we skipped registration of the keyboard if the
-row/columns property didn't exist, but that has a slight problem for
-existing DTBs. The DTBs have the rows/columns properties, so removing
-the properties to indicate only switches exist makes this keyboard
-driver fail to probe, resulting in broken power and volume buttons. Ease
-the migration of existing DTBs by skipping keyboard registration if the
-google,cros-ec-keyb-switches compatible exists.
+Hello:
 
-The end result is that new DTBs can either choose to remove the matrix
-keymap properties or leave them in place and add this new compatible
-indicating the matrix keyboard properties should be ignored. Existing
-DTBs will continue to work, but they will keep registering the keyboard
-that does nothing. To fix that problem we can add this extra compatible
-to existing devicetrees and the keyboard will stop being registered.
-Finally, if google,cros-ec-keyb is missing then this driver won't even
-attempt to register the matrix keyboard. Of course, this driver won't
-probe until this patch is applied in that scenario, but that's OK. This
-last case is likely only going to be used by new devicetrees created
-after this commit.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: <devicetree@vger.kernel.org>
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: "Joseph S. Barrera III" <joebar@chromium.org>
-Fixes: 4352e23a7ff2 ("Input: cros-ec-keyb - only register keyboard if rows/columns exist")
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/input/keyboard/cros_ec_keyb.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+On Thu, 17 Feb 2022 10:59:28 -0600 you wrote:
+> This series adds support for the Framework Laptop to the cros_ec LPC
+> driver.
+> 
+> The Framework Laptop is a non-Chromebook laptop that uses the ChromeOS
+> Embedded Controller. Since the machine was designed to present a more
+> normal device profile, it does not report all 512 I/O ports that are
+> typically used by cros_ec_lpcs. Because of this, changes to the driver's
+> port reservation scheme were required.
+> 
+> [...]
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index eef909e52e23..04c550aaf897 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -536,14 +536,11 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	u32 *physmap;
- 	u32 key_pos;
- 	unsigned int row, col, scancode, n_physmap;
-+	bool register_keyboard;
- 
--	/*
--	 * No rows and columns? There isn't a matrix but maybe there are
--	 * switches to register in cros_ec_keyb_register_bs() because
--	 * this is a detachable device.
--	 */
--	if (!device_property_present(dev, "keypad,num-rows") &&
--	    !device_property_present(dev, "keypad,num-cols"))
-+	/* Skip matrix registration if no keyboard */
-+	register_keyboard = device_get_match_data(dev);
-+	if (!register_keyboard)
- 		return 0;
- 
- 	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
-@@ -718,8 +715,13 @@ static int cros_ec_keyb_remove(struct platform_device *pdev)
- 
- #ifdef CONFIG_OF
- static const struct of_device_id cros_ec_keyb_of_match[] = {
--	{ .compatible = "google,cros-ec-keyb" },
--	{},
-+	{
-+		/* Must be first */
-+		.compatible = "google,cros-ec-keyb",
-+		.data = (void *)true
-+	},
-+	{ .compatible = "google,cros-ec-keyb-switches" },
-+	{}
- };
- MODULE_DEVICE_TABLE(of, cros_ec_keyb_of_match);
- #endif
+Here is the summary with links:
+  - [v3,1/2] platform/chrome: cros_ec_lpcs: detect the Framework Laptop
+    https://git.kernel.org/chrome-platform/c/6a5d778edaa3
+  - [v3,2/2] platform/chrome: cros_ec_lpcs: reserve the MEC LPC I/O ports first
+    https://git.kernel.org/chrome-platform/c/c9bc1a0ef9f6
+
+You are awesome, thank you!
 -- 
-https://chromeos.dev
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

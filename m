@@ -1,133 +1,144 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from server.euro-space.net (server.euro-space.net [87.117.250.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819FC29A1;
-	Fri,  6 May 2022 18:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651860236; x=1683396236;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8fFvGdzoG/rA8+1UZY/4PHel/cIyIvtKdIsOtXJKLw8=;
-  b=ghje38WhRgbP2/XSTxhc5nHUP9IhisnGwxZcliu6lD3GK3yxohg/D9dX
-   /oViruOyKQWDIco09YYXk9CElF0gcwRQLEhPb7nG4FyCI3UnRIckzrvKP
-   NIX4PMtSRtRCaFtopDuCXKP93Ek/sgSL6PevBC9Mi35bflbx74Ybz8n3a
-   jy1ETV/oqqdJH3tXouzrrRJSbV/fTKmX0Pffr79GgmxJR8mXSsUVTrNlH
-   PkmBelg18w2MQVvUyrDXxZUKdZcg4SkuXh9b+xzpLuMyvQXhSO8iuEOVE
-   2swLKLJq+bDzy+mQvHLTUudHgLud7uGvDsY/KJPaY5/p6s9pbhHKzGsZJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="293748768"
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
-   d="scan'208";a="293748768"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2022 11:03:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
-   d="scan'208";a="735870259"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 06 May 2022 11:03:24 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nn2IV-000DjU-Ps;
-	Fri, 06 May 2022 18:03:23 +0000
-Date: Sat, 7 May 2022 02:02:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
-	Mark Gross <markgross@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	usama.anjum@collabora.com,
-	Collabora Kernel ML <kernel@collabora.com>, groeck@chromium.org,
-	dtor@chromium.org, gwendal@chromium.org, vbendeb@chromium.org,
-	andy@infradead.org, Ayman Bagabas <ayman.bagabas@gmail.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	=?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-	Darren Hart <dvhart@infradead.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jeremy Soller <jeremy@system76.com>, Mattias Jacobsson <2pi@mok.nu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Rajat Jain <rajatja@google.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v9] platform/chrome: Add ChromeOS ACPI device driver
-Message-ID: <202205070117.SW4TyTN4-lkp@intel.com>
-References: <YnTw/iQ1Asjjmsb9@debian-BULLSEYE-live-builder-AMD64>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2CB1879
+	for <chrome-platform@lists.linux.dev>; Sun,  8 May 2022 21:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=birdec.com;
+	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+	Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=enKuQ8Lxz3Vmf8dpbbmnpEMeOx7tjLz+buX9syc5yZ4=; b=sukxMNUG1Ojoy7irTnr/sFq6Qx
+	hmL+VR8IC1lmHDBuncP/m0KfvOB7QzgcoCs+1vHIOjiXXEOW/++GlPkHM/Ibx+1jHXLFecAT8YlJh
+	1q8wxC35N3WxiGqkjB7Er/vW2qRa0syY1VE1o65qbu7tixJTABkuFL02uSz9Xajp5vqroI8mtPumn
+	XRy/w8RXBIflyAMN16lz8YPd4nTUI2TqmVYkbem3z7myeN4vKoqtUHwkqx8jbkL1QE4bY+ZKLpi9x
+	QrkXBNTqDHcsR9Tovp/cpj1YHPczYKREFsIcfJ4PBgWcrI7RX9qXPO+BN8tKHxbRzGQKNISkCExBj
+	lYKP74Sg==;
+Received: from dynamic-176-002-223-001.176.2.pool.telefonica.de ([176.2.223.1]:38050 helo=localhost.localdomain)
+	by server.euro-space.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <kmarinushkin@birdec.com>)
+	id 1nnnbj-00037D-Py;
+	Sun, 08 May 2022 21:34:23 +0100
+Subject: Re: [PATCH 01/38] ASoC: soc-component: Add comment for the endianness
+ flag
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, codrin.ciubotariu@microchip.com, lars@metafoo.de,
+ cychiang@chromium.org, tzungbi@google.com, bleung@chromium.org,
+ matthias.bgg@gmail.com, oder_chiou@realtek.com,
+ steven.eckhoff.opensource@gmail.com, srinivas.kandagatla@linaro.org,
+ alexandre.belloni@bootlin.com, kuninori.morimoto.gx@renesas.com,
+ jiaxin.yu@mediatek.com, alsa-devel@alsa-project.org,
+ chrome-platform@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ patches@opensource.cirrus.com
+References: <20220504170905.332415-1-ckeepax@opensource.cirrus.com>
+ <20220504170905.332415-2-ckeepax@opensource.cirrus.com>
+From: Kirill Marinushkin <kmarinushkin@birdec.com>
+Message-ID: <ec86bdc6-b3c4-e595-02c8-e0687c442fd3@birdec.com>
+Date: Sun, 8 May 2022 22:34:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnTw/iQ1Asjjmsb9@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <20220504170905.332415-2-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.euro-space.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - birdec.com
+X-Get-Message-Sender-Via: server.euro-space.net: authenticated_id: kmarinushkin@birdec.com
+X-Authenticated-Sender: server.euro-space.net: kmarinushkin@birdec.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-From-Rewrite: unmodified, already matched
 
-Hi Muhammad,
+Hello Charles,
 
-I love your patch! Perhaps something to improve:
+In the [PATCH 00/38] of this patch set, you write:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on chrome-platform/for-next v5.18-rc5 next-20220506]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+ > 2) Devices behind non-audio buses, SPI just moves bits and doesn't
+ > really define an endian for audio data on the bus. Thus it seems the
+ > CODEC probably can care about the endian. The only devices that fall
+ > into this group (mostly for AoV) are: rt5514-spi.c, rt5677-spi.c,
+ > cros_ec_codec.c (only the AoV).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/platform-chrome-Add-ChromeOS-ACPI-device-driver/20220506-175951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20220507/202205070117.SW4TyTN4-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004fb787698440a387750db7f8028e7cb14cfc)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4f6407962feddc57bc7c80e5b29d5d339a1dba6c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/platform-chrome-Add-ChromeOS-ACPI-device-driver/20220506-175951
-        git checkout 4f6407962feddc57bc7c80e5b29d5d339a1dba6c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/chrome/
+ From my experience with some PCM codecs by TI, they can not care about the
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+endianness. For example, in driver [1], if I allow BE format as well, 
+and configure
 
-All warnings (new ones prefixed by >>):
+the sound card to use BE, it will not work. I have no sound with BE.
 
->> drivers/platform/chrome/chromeos_acpi.c:254:5: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
-                            (ARRAY_SIZE(chromeos_acpi_all_groups) - 2), chromeos_acpi_gpio_groups);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   1 warning generated.
+In these cases, the codec HW supports *only* LE. That's why their 
+`snd_soc_dai_driver`
+
+structures provide only LE in the `format` field.
+
+If such drivers specify `endianness = 1`, then `soc-core` will extend 
+their supported
+
+formats with BE counter-parts, see [2]. AFAIU, it will have the same 
+effect, as if the
+
+drivers themselves provided their formats in both LE | BE.
 
 
-vim +254 drivers/platform/chrome/chromeos_acpi.c
+I don't think adding `endianness = 1` to such codecs will work as expected.
 
-   244	
-   245	static int chromeos_acpi_device_probe(struct platform_device *pdev)
-   246	{
-   247		chromeos_acpi_gpio_groups = get_gpio_pkg_num(&pdev->dev);
-   248	
-   249		/* If platform has more GPIO attribute groups than the number of
-   250		 * groups this driver supports, give out a warning message.
-   251		 */
-   252		if (chromeos_acpi_gpio_groups > (ARRAY_SIZE(chromeos_acpi_all_groups) - 2))
-   253			dev_warn(&(pdev->dev), "Only %ld GPIO attr groups supported by the driver out of total %d.\n",
- > 254				 (ARRAY_SIZE(chromeos_acpi_all_groups) - 2), chromeos_acpi_gpio_groups);
-   255		return 0;
-   256	}
-   257	
+Unfortunately, I don't have an easy access to HW today, to confirm or 
+disprove
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+this understanding.
+
+
+Best regards,
+
+Kirill
+
+---
+
+[1] 
+https://elixir.bootlin.com/linux/latest/source/sound/soc/codecs/pcm3060.c#L189
+
+[2] 
+https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-core.c#L2540
+
+
+On 5/4/22 7:08 PM, Charles Keepax wrote:
+> Add a comment to make the purpose of the endianness flag on the
+> snd_soc_component structure more clear.
+>
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+>   include/sound/soc-component.h | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
+> index 766dc6f009c0b..5a764c3099d3e 100644
+> --- a/include/sound/soc-component.h
+> +++ b/include/sound/soc-component.h
+> @@ -169,6 +169,15 @@ struct snd_soc_component_driver {
+>   	unsigned int idle_bias_on:1;
+>   	unsigned int suspend_bias_off:1;
+>   	unsigned int use_pmdown_time:1; /* care pmdown_time at stop */
+> +	/*
+> +	 * Indicates that the component does not care about the endianness of
+> +	 * PCM audio data and the core will ensure that both LE and BE variants
+> +	 * of each used format are present. Typically this is because the
+> +	 * component sits behind a bus that abstracts away the endian of the
+> +	 * original data, ie. one for which the transmission endian is defined
+> +	 * (I2S/SLIMbus/SoundWire), or the concept of endian doesn't exist (PDM,
+> +	 * analogue).
+> +	 */
+>   	unsigned int endianness:1;
+>   	unsigned int non_legacy_dai_naming:1;
+>   

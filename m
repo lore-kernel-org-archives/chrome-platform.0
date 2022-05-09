@@ -1,144 +1,105 @@
-Received: from server.euro-space.net (server.euro-space.net [87.117.250.226])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2CB1879
-	for <chrome-platform@lists.linux.dev>; Sun,  8 May 2022 21:01:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=birdec.com;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
-	Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=enKuQ8Lxz3Vmf8dpbbmnpEMeOx7tjLz+buX9syc5yZ4=; b=sukxMNUG1Ojoy7irTnr/sFq6Qx
-	hmL+VR8IC1lmHDBuncP/m0KfvOB7QzgcoCs+1vHIOjiXXEOW/++GlPkHM/Ibx+1jHXLFecAT8YlJh
-	1q8wxC35N3WxiGqkjB7Er/vW2qRa0syY1VE1o65qbu7tixJTABkuFL02uSz9Xajp5vqroI8mtPumn
-	XRy/w8RXBIflyAMN16lz8YPd4nTUI2TqmVYkbem3z7myeN4vKoqtUHwkqx8jbkL1QE4bY+ZKLpi9x
-	QrkXBNTqDHcsR9Tovp/cpj1YHPczYKREFsIcfJ4PBgWcrI7RX9qXPO+BN8tKHxbRzGQKNISkCExBj
-	lYKP74Sg==;
-Received: from dynamic-176-002-223-001.176.2.pool.telefonica.de ([176.2.223.1]:38050 helo=localhost.localdomain)
-	by server.euro-space.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <kmarinushkin@birdec.com>)
-	id 1nnnbj-00037D-Py;
-	Sun, 08 May 2022 21:34:23 +0100
-Subject: Re: [PATCH 01/38] ASoC: soc-component: Add comment for the endianness
- flag
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, codrin.ciubotariu@microchip.com, lars@metafoo.de,
- cychiang@chromium.org, tzungbi@google.com, bleung@chromium.org,
- matthias.bgg@gmail.com, oder_chiou@realtek.com,
- steven.eckhoff.opensource@gmail.com, srinivas.kandagatla@linaro.org,
- alexandre.belloni@bootlin.com, kuninori.morimoto.gx@renesas.com,
- jiaxin.yu@mediatek.com, alsa-devel@alsa-project.org,
- chrome-platform@lists.linux.dev, linux-mediatek@lists.infradead.org,
- patches@opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329087B
+	for <chrome-platform@lists.linux.dev>; Mon,  9 May 2022 08:38:42 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2496VW3e001166;
+	Mon, 9 May 2022 03:37:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=36HXijmydYE4zY1or9WwEGwBGzA/Xuz1kNxpjRTbtcQ=;
+ b=Cklqhy702Q0ZFNrwkaxYr5GIHrrmUl8XzgHm+DRCZunh30jsRdGYCtMnEjzWbOqGef04
+ qpBdZy+nm89bNuZSiORPXjUGbtxDsdzEqLCPmoUxveGjGgo4fh3oFxJUjDMRjBhARh6U
+ xUMragOqFRtnl2qUlwlphzpc9/3HJPv7E5e0Uie6w/xC+9gc/qEHr1BA5oBIfM+gSVNW
+ znPvtO9URWfc06ONWxIF3EOfY1W0LNheQ50avR/tM00WW5wSgS0jyOOtPjzK2WruZOL+
+ 9jkYy16mqSW4derTugfO19YuGERAf+VjGozwKimHt0ivEY9Kqcy1QvXlHMTHJcVgk7oM rQ== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3fwn6ntddq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 09 May 2022 03:37:30 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 9 May
+ 2022 09:37:29 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Mon, 9 May 2022 09:37:29 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 1C9F0B10;
+	Mon,  9 May 2022 08:37:29 +0000 (UTC)
+Date: Mon, 9 May 2022 08:37:29 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Kirill Marinushkin <kmarinushkin@birdec.com>
+CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <codrin.ciubotariu@microchip.com>, <lars@metafoo.de>,
+        <cychiang@chromium.org>, <tzungbi@google.com>, <bleung@chromium.org>,
+        <matthias.bgg@gmail.com>, <oder_chiou@realtek.com>,
+        <steven.eckhoff.opensource@gmail.com>,
+        <srinivas.kandagatla@linaro.org>, <alexandre.belloni@bootlin.com>,
+        <kuninori.morimoto.gx@renesas.com>, <jiaxin.yu@mediatek.com>,
+        <alsa-devel@alsa-project.org>, <chrome-platform@lists.linux.dev>,
+        <linux-mediatek@lists.infradead.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 01/38] ASoC: soc-component: Add comment for the
+ endianness flag
+Message-ID: <20220509083729.GX38351@ediswmail.ad.cirrus.com>
 References: <20220504170905.332415-1-ckeepax@opensource.cirrus.com>
  <20220504170905.332415-2-ckeepax@opensource.cirrus.com>
-From: Kirill Marinushkin <kmarinushkin@birdec.com>
-Message-ID: <ec86bdc6-b3c4-e595-02c8-e0687c442fd3@birdec.com>
-Date: Sun, 8 May 2022 22:34:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ <ec86bdc6-b3c4-e595-02c8-e0687c442fd3@birdec.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220504170905.332415-2-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.euro-space.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - birdec.com
-X-Get-Message-Sender-Via: server.euro-space.net: authenticated_id: kmarinushkin@birdec.com
-X-Authenticated-Sender: server.euro-space.net: kmarinushkin@birdec.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ec86bdc6-b3c4-e595-02c8-e0687c442fd3@birdec.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: t50DEXpTLvmQxPAQqhw5qQCpY1C6gaNp
+X-Proofpoint-GUID: t50DEXpTLvmQxPAQqhw5qQCpY1C6gaNp
+X-Proofpoint-Spam-Reason: safe
 
-Hello Charles,
+On Sun, May 08, 2022 at 10:34:12PM +0200, Kirill Marinushkin wrote:
+> In the [PATCH 00/38] of this patch set, you write:
+> > 2) Devices behind non-audio buses, SPI just moves bits and doesn't
+> > really define an endian for audio data on the bus. Thus it seems the
+> > CODEC probably can care about the endian. The only devices that fall
+> > into this group (mostly for AoV) are: rt5514-spi.c, rt5677-spi.c,
+> > cros_ec_codec.c (only the AoV).
+> 
+> From my experience with some PCM codecs by TI, they can not care about the
+> endianness. For example, in driver [1], if I allow BE format as
+> well, and configure
+> the sound card to use BE, it will not work. I have no sound with BE.
+> In these cases, the codec HW supports *only* LE. That's why their
+> `snd_soc_dai_driver`
+> structures provide only LE in the `format` field.
+> If such drivers specify `endianness = 1`, then `soc-core` will
+> extend their supported
+> formats with BE counter-parts, see [2]. AFAIU, it will have the same
+> effect, as if the
+> drivers themselves provided their formats in both LE | BE.
+> 
+> I don't think adding `endianness = 1` to such codecs will work as expected.
+> Unfortunately, I don't have an easy access to HW today, to confirm
+> or disprove
+> this understanding.
+> 
 
-In the [PATCH 00/38] of this patch set, you write:
+This sounds like an error on the CPU side of the DAI link rather
+than the CODEC side of the DAI link. The formats that will be
+supported on the link are the union of the CPU and CODEC supported
+formats, ie. a format must be supported on both for the DAI to
+support it.
 
- > 2) Devices behind non-audio buses, SPI just moves bits and doesn't
- > really define an endian for audio data on the bus. Thus it seems the
- > CODEC probably can care about the endian. The only devices that fall
- > into this group (mostly for AoV) are: rt5514-spi.c, rt5677-spi.c,
- > cros_ec_codec.c (only the AoV).
+The CPU I2S hardware should be sending out the bits in the same
+order regardless of if the data you feed it is BE or LE, as I2S
+specifies an ordering for the bits. If this is not the case then
+the host I2S controller is claiming to support an endian it does
+not, and the problem should be fixed on that side by removing the
+supported endian.
 
- From my experience with some PCM codecs by TI, they can not care about the
-
-endianness. For example, in driver [1], if I allow BE format as well, 
-and configure
-
-the sound card to use BE, it will not work. I have no sound with BE.
-
-In these cases, the codec HW supports *only* LE. That's why their 
-`snd_soc_dai_driver`
-
-structures provide only LE in the `format` field.
-
-If such drivers specify `endianness = 1`, then `soc-core` will extend 
-their supported
-
-formats with BE counter-parts, see [2]. AFAIU, it will have the same 
-effect, as if the
-
-drivers themselves provided their formats in both LE | BE.
-
-
-I don't think adding `endianness = 1` to such codecs will work as expected.
-
-Unfortunately, I don't have an easy access to HW today, to confirm or 
-disprove
-
-this understanding.
-
-
-Best regards,
-
-Kirill
-
----
-
-[1] 
-https://elixir.bootlin.com/linux/latest/source/sound/soc/codecs/pcm3060.c#L189
-
-[2] 
-https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-core.c#L2540
-
-
-On 5/4/22 7:08 PM, Charles Keepax wrote:
-> Add a comment to make the purpose of the endianness flag on the
-> snd_soc_component structure more clear.
->
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->   include/sound/soc-component.h | 9 +++++++++
->   1 file changed, 9 insertions(+)
->
-> diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-> index 766dc6f009c0b..5a764c3099d3e 100644
-> --- a/include/sound/soc-component.h
-> +++ b/include/sound/soc-component.h
-> @@ -169,6 +169,15 @@ struct snd_soc_component_driver {
->   	unsigned int idle_bias_on:1;
->   	unsigned int suspend_bias_off:1;
->   	unsigned int use_pmdown_time:1; /* care pmdown_time at stop */
-> +	/*
-> +	 * Indicates that the component does not care about the endianness of
-> +	 * PCM audio data and the core will ensure that both LE and BE variants
-> +	 * of each used format are present. Typically this is because the
-> +	 * component sits behind a bus that abstracts away the endian of the
-> +	 * original data, ie. one for which the transmission endian is defined
-> +	 * (I2S/SLIMbus/SoundWire), or the concept of endian doesn't exist (PDM,
-> +	 * analogue).
-> +	 */
->   	unsigned int endianness:1;
->   	unsigned int non_legacy_dai_naming:1;
->   
+Thanks,
+Charles

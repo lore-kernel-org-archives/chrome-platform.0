@@ -1,140 +1,295 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5771E23C2
-	for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 08:54:38 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24A5TVOj021012;
-	Tue, 10 May 2022 03:53:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=nKGRBqzibSjez+vkONFFLwJr7PwxcpIyPYxlptEvWM0=;
- b=J+FbisA9A5Ze1z9aIrpEfHLUTg2gVXj7H7bSN4nrbhkPEBboTmt3Eui6mhY1FcfWo3wg
- 0ja8/ZGMBTxBAf6RHoIxDsSdWKDymtUu2voXPGzoF029dQVFZaXPgKdvvgnygoWIQZhs
- EzZM2VuXgaAkLLBopTuUdtrrTTYGBym1gl0nbwUXAVuBK8gd6C4vmfaubAS1Bkrwcozz
- R6C4LwavDOL8wUkzOacujJn6OSpm1G4Wj9Ha213yUycjW+hELkniZ6MRMsTYjvzzAVKh
- v2l2bEhj1d1Uux/LmR373M2GHfgDKffMkq2KPWQQSVz4+cHVAo30bqwsFW8g+ztEs+Iy bA== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3fwn6nuthy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 10 May 2022 03:53:25 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 10 May
- 2022 09:53:24 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Tue, 10 May 2022 09:53:24 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E3A4411D1;
-	Tue, 10 May 2022 08:53:23 +0000 (UTC)
-Date: Tue, 10 May 2022 08:53:23 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Kirill Marinushkin <kmarinushkin@birdec.com>
-CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <codrin.ciubotariu@microchip.com>, <lars@metafoo.de>,
-        <cychiang@chromium.org>, <tzungbi@google.com>, <bleung@chromium.org>,
-        <matthias.bgg@gmail.com>, <oder_chiou@realtek.com>,
-        <steven.eckhoff.opensource@gmail.com>,
-        <srinivas.kandagatla@linaro.org>, <alexandre.belloni@bootlin.com>,
-        <kuninori.morimoto.gx@renesas.com>, <jiaxin.yu@mediatek.com>,
-        <alsa-devel@alsa-project.org>, <chrome-platform@lists.linux.dev>,
-        <linux-mediatek@lists.infradead.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 01/38] ASoC: soc-component: Add comment for the
- endianness flag
-Message-ID: <20220510085323.GA38351@ediswmail.ad.cirrus.com>
-References: <20220504170905.332415-1-ckeepax@opensource.cirrus.com>
- <20220504170905.332415-2-ckeepax@opensource.cirrus.com>
- <ec86bdc6-b3c4-e595-02c8-e0687c442fd3@birdec.com>
- <20220509083729.GX38351@ediswmail.ad.cirrus.com>
- <901cb995-4a82-741e-00ea-a1c0b22ae749@birdec.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB6523C2
+	for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 09:33:58 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id z2so30148745ejj.3
+        for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 02:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NAwbEC4wzGeiHM+S/1u+kwGWnI+5JuwTP+pjO73dBAo=;
+        b=p6gYd+2SfPJEv/0eDykmObWhP5R0Oa5G8I1HeJXOxDjPZxBVgGLBp0IkNwJNjeUcXW
+         blODB5FDbkg/+fyfAbtVb9qRSOSroLyU0jITU5BgN5pqRT4u7PxEZIBiTP6U34hrW04l
+         0nXKnk1gmGpO3NJHH0OFIviPjAU0w/05kRcZuZT8FdR5XmO5D4bIYyGyANk6jrMO1yl9
+         VyRhMC6jD0AXb21Qsx/fQduAUI0cUS1qKAV1jW5GhSPfYjVLsM/T6bqL9i4Aly2yqABW
+         PGRt3HEQX/NjtcruVWo/qtX0BoteejiCfjCmJEGzitVrlPPx3MyNRtPrLU6bn60i/QWl
+         VKQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NAwbEC4wzGeiHM+S/1u+kwGWnI+5JuwTP+pjO73dBAo=;
+        b=v+XGWOxJUacIeXZrTiQ8QF7Vpw6FpcviMqUumwY3DiK96f7fViBQqFJMqDlQBB+7fD
+         cTOWDCfkXlSKalySIWZks5xwCuQXJ5AVqeV+3b64ged8d5IRYkrbr8c6hp+0QBsFqBbR
+         q3wGUeCNRIQGXzoYW6ADY02Xn6AKIb/YgaSjHNfKeqAXGOh7pT0IkTd9TJ5WuSq8A3pl
+         dRKppozfC2ozlV1b6QI2ONo8JGpaM6frcyxDO5AuxnIUWwN+gES4d9WctpZIxoklcIRy
+         5RdKGN9uP+SaPUOVItuT2A4NejDzYrC3vK/e5IXCHQbwLtn0Dfb5hxtJTy6EaCGRkoks
+         E19A==
+X-Gm-Message-State: AOAM530jrsvc5c2Lck8eSaiWVSSjwQlnvJzlHkU940Zz6TiY601VGxPE
+	CPk48APnG/Ze6aIdM+25FYV1NSd+nE35DDUuRNM=
+X-Google-Smtp-Source: ABdhPJw/AvobqN/Ev8vcO4HJVN+jByJDjFJCVqMuTZRITKINfAdGiNbO3Wd3t9RvUEupzEZH4eCa6CZu7gTqoRbfB2E=
+X-Received: by 2002:a17:907:628e:b0:6d9:c6fa:6168 with SMTP id
+ nd14-20020a170907628e00b006d9c6fa6168mr18469874ejc.132.1652175236457; Tue, 10
+ May 2022 02:33:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <901cb995-4a82-741e-00ea-a1c0b22ae749@birdec.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: Ji6ym588hfSzcX_mLm0yOhu-5A0irDxe
-X-Proofpoint-GUID: Ji6ym588hfSzcX_mLm0yOhu-5A0irDxe
-X-Proofpoint-Spam-Reason: safe
+References: <YnoJ0k6eIUiwjXSZ@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <YnoJ0k6eIUiwjXSZ@debian-BULLSEYE-live-builder-AMD64>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 10 May 2022 11:33:19 +0200
+Message-ID: <CAHp75Vd574LCnEq-KX=WHnnDyrjZgGu6W9wNEbnw79FBpyx=Lw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v11] platform/chrome: Add ChromeOS ACPI device driver
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Enric Balletbo i Serra <eballetbo@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Collabora Kernel ML <kernel@collabora.com>, 
+	Guenter Roeck <groeck@chromium.org>, Dmitry Torokhov <dtor@chromium.org>, 
+	Gwendal Grignou <gwendal@chromium.org>, vbendeb@chromium.org, 
+	Andy Shevchenko <andy@infradead.org>, Ayman Bagabas <ayman.bagabas@gmail.com>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>, 
+	Darren Hart <dvhart@infradead.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Jeremy Soller <jeremy@system76.com>, Mattias Jacobsson <2pi@mok.nu>, 
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Rajat Jain <rajatja@google.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Platform Driver <platform-driver-x86@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	ACPI Devel Maling List <linux-acpi@vger.kernel.org>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 09, 2022 at 09:22:42PM +0200, Kirill Marinushkin wrote:
-> On 5/9/22 10:37 AM, Charles Keepax wrote:
-> >On Sun, May 08, 2022 at 10:34:12PM +0200, Kirill Marinushkin wrote:
-> >This sounds like an error on the CPU side of the DAI link rather
-> >than the CODEC side of the DAI link. The formats that will be
-> >supported on the link are the union of the CPU and CODEC supported
-> >formats, ie. a format must be supported on both for the DAI to
-> >support it.
-> 
-> Yes, agree, both sides of the DAI link should provide only
-> endianness they support.
-> 
-> This works currently, but, from my understending, it will break,
-> after we set `endianness = 1`.
+On Tue, May 10, 2022 at 8:44 AM Muhammad Usama Anjum
+<usama.anjum@collabora.com> wrote:
+>
+> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>
+> The x86 Chromebooks have the ChromeOS ACPI device. This driver attaches
+> to the ChromeOS ACPI device and exports the values reported by ACPI in a
+> sysfs directory. This data isn't present in ACPI tables when read
+> through ACPI tools, hence a driver is needed to do it. The driver gets
+> data from firmware using the ACPI component of the kernel. The ACPI values
+> are presented in string form (numbers as decimal values) or binary
+> blobs, and can be accessed as the contents of the appropriate read only
+> files in the standard ACPI device's sysfs directory tree. This data is
+> consumed by the ChromeOS user space.
 
-It will break if the CPU side claims it supports endians which it
-doesn't which I believe is what you have in your system.
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
 
-> As soon as we start setting `endianness = 1`, the function
-> `convert_endianness_formats()` will extend LE to (LE | BE), right?
+You can use --cc parameter to `git send-email` instead of putting
+these lines in the commit message.
 
-Correct.
+...
 
-> If so, setting `endianness = 1` is the source of an error, right?
+> +#define DEV_ATTR(_var, _name)                                  \
+> +       static struct device_attribute dev_attr_##_var =        \
+> +               __ATTR(_name, 0444, chromeos_first_level_attr_show, NULL);
+> +
 
-No, potentially it exposes an error but it is not the source of the
-error. Endian should have no meaning once you cross an I2S bus.
+Why not ATTR_RO()?
 
-> >If this is not the case then
-> >the host I2S controller is claiming to support an endian it does
-> >not, and the problem should be fixed on that side by removing the
-> >supported endian.
-> 
-> I think we have a misundersanding of my example.
-> 
-> In my example, i don't mean, that my CPU part of the DAI link is broken.
+...
 
-Why are you sure the CPU part of the DAI link isn't broken? I2S
-defines the order bits should be sent out on the bus, this means if
-the CPU side recieves big endian or little endian data it doesn't
-matter, the actual bus signals should be identical in both cases.
-If only one endian works the actual signals on the bus must have
-been different depending on which endian you played in which case
-the host side doesn't match the I2S specification.
+> +#define GPIO_ATTR_GROUP(_group, _name, _num)                                           \
+> +       static umode_t attr_is_visible_gpio_##_num(struct kobject *kobj,                \
+> +                                                  struct attribute *attr, int n)       \
+> +       {                                                                               \
+> +               if (_num < chromeos_acpi_gpio_groups)                                   \
+> +                       return attr->mode;                                              \
 
-My point is that what you are seeing is exactly what you get if
-your CPU DAI claimed to support both big and little endian but
-just puts that data directly out on the bus, rather than adapting
-to the endian of data it receives.
+> +               else                                                                    \
 
-And to be fair this is exactly what I am trying to tackle with this
-series. The fact we have so many CODECs that are incorrectly not
-specifying the endianness flag means that it is very easy for the
-host side guys to do testing and not realise that the CODEC is the
-one limiting the supported endians on the DAI link and thus miss
-they have claimed to support endians they don't.
+Redundant.
 
-I believe you are right that there is a reasonable chance will see
-some breakage after these patches, but that breakage should be
-exposing host side bugs which we need to fix anyway.
+> +                       return 0;                                                       \
+> +       }                                                                               \
+> +       static ssize_t chromeos_attr_show_gpio_##_num(struct device *dev,               \
+> +                                                     struct device_attribute *attr,    \
+> +                                                     char *buf)                        \
+> +       {                                                                               \
+> +               char name[ACPI_ATTR_NAME_LEN + 1];                                      \
+> +               int ret, num;                                                           \
+> +                                                                                       \
+> +               ret = parse_attr_name(attr->attr.name, name, &num);                     \
+> +               if (ret)                                                                \
+> +                       return ret;                                                     \
 
-> What i tried to demonstrate - is that if i set the unsupported
-> endianness, i wouldn't expect that "the CODEC probably can care
-> about the endian", as the message in [PATCH 00/38] suggests.
+> +               ret = chromeos_acpi_evaluate_method(dev, _num, num, name, buf);         \
+> +               if (ret < 0)                                                            \
+> +                       ret = 0;                                                        \
 
-That comment in my original post was in respect to CODECs that
-recieve/transmit audio directly over a SPI bus rather than a
-normal audio bus. The is no standard governing how audio data is
-transmitted over the SPI bus, thus endian could be important,
-although I need to do some more work to analyse how people are
-using these links. Often they are implemented effectively as a
-CPU side DAI anyway.
+Below I saw the same code, why is the error ignored?
 
-Thanks,
-Charles
+> +               return ret;                                                             \
+> +       }                                                                               \
+> +       static struct device_attribute dev_attr_0_##_group =                            \
+> +               __ATTR(GPIO.0, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+> +       static struct device_attribute dev_attr_1_##_group =                            \
+> +               __ATTR(GPIO.1, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+> +       static struct device_attribute dev_attr_2_##_group =                            \
+> +               __ATTR(GPIO.2, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+> +       static struct device_attribute dev_attr_3_##_group =                            \
+> +               __ATTR(GPIO.3, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+> +                                                                                       \
+> +       static struct attribute *attrs_##_group[] = {                                   \
+> +               &dev_attr_0_##_group.attr,                                              \
+> +               &dev_attr_1_##_group.attr,                                              \
+> +               &dev_attr_2_##_group.attr,                                              \
+> +               &dev_attr_3_##_group.attr,                                              \
+> +               NULL                                                                    \
+> +       };                                                                              \
+> +       static const struct attribute_group attr_group_##_group = {                     \
+> +               .name = _name,                                                          \
+> +               .is_visible = attr_is_visible_gpio_##_num,                              \
+
+> +               .attrs = attrs_##_group                                                 \
+
+Keep a comma here.
+
+> +       };
+
+> +               // select sub element inside this package
+
+Seems you have different comment styles over the same file. Please,
+use /* ... */ here which seems what you wanted.
+
+...
+
+> +static int parse_attr_name(const char *name, char *attr_name, int *attr_num)
+> +{
+> +       int ret = 0;
+> +
+> +       strscpy(attr_name, name, ACPI_ATTR_NAME_LEN + 1);
+> +
+> +       if (strlen(name) > ACPI_ATTR_NAME_LEN)
+
+This seems strange, esp. taking into account that strscpy() returns that.
+
+int ret;
+
+ret = strscpy(...);
+if (ret == -E2BIG)
+  return kstrtoint(...);
+
+return 0;
+
+> +               ret = kstrtoint(&name[ACPI_ATTR_NAME_LEN + 1], 0, attr_num);
+> +
+> +       return ret;
+> +}
+
+...
+
+> +static ssize_t chromeos_first_level_attr_show(struct device *dev,
+> +                                 struct device_attribute *attr,
+> +                                 char *buf)
+> +{
+> +       char attr_name[ACPI_ATTR_NAME_LEN + 1];
+> +       int ret, attr_num = 0;
+> +
+> +       ret = parse_attr_name(attr->attr.name, attr_name, &attr_num);
+> +       if (ret)
+> +               return 0;
+
+> +       ret = chromeos_acpi_evaluate_method(dev, attr_num, 0, attr_name, buf);
+> +       if (ret < 0)
+> +               ret = 0;
+
+Why is the error not reported?
+
+> +       return ret;
+> +}
+
+...
+
+> +static unsigned int get_gpio_pkg_num(struct device *dev)
+> +{
+> +       struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+> +       acpi_status status;
+> +       unsigned int count = 0;
+> +       char *name = "GPIO";
+> +
+> +       status = acpi_evaluate_object(ACPI_HANDLE(dev), name, NULL, &output);
+> +       if (ACPI_FAILURE(status)) {
+> +               dev_err(dev, "failed to retrieve %s. %s\n", name, acpi_format_exception(status));
+> +               return count;
+> +       }
+> +
+> +       if (((union acpi_object *)output.pointer)->type == ACPI_TYPE_PACKAGE)
+> +               count = ((union acpi_object *)output.pointer)->package.count;
+
+Instead of doing ugly castings here, just use a temporary variable of
+the correct type.
+
+> +       kfree(output.pointer);
+> +       return count;
+> +}
+
+...
+
+> +/* Every platform can have different number of GPIO attribute groups.
+
+a different
+
+> + * Define upper limit groups. At run time, the platform decides to show
+> + * the present number of groups only, others are hidden.
+> + */
+
+Comment style, see below.
+
+...
+
+> +static int chromeos_acpi_device_probe(struct platform_device *pdev)
+> +{
+> +       chromeos_acpi_gpio_groups = get_gpio_pkg_num(&pdev->dev);
+
+> +       /* If platform has more GPIO attribute groups than the number of
+
+If the platform
+
+> +        * groups this driver supports, give out a warning message.
+> +        */
+
+/*
+ * This style is for network subsystem, we use
+ * this one.
+ */
+
+> +       if (chromeos_acpi_gpio_groups > (ARRAY_SIZE(chromeos_acpi_all_groups) - 2))
+> +               dev_warn(&(pdev->dev), "Only %u GPIO attr groups supported by the driver out of total %u.\n",
+
+In both lines too many parentheses.
+
+> +                        (unsigned int)(ARRAY_SIZE(chromeos_acpi_all_groups) - 2),
+
+Oh la la, instead of doing ugly castings, use proper specifiers, i.e. %zu.
+
+> +                        chromeos_acpi_gpio_groups);
+> +       return 0;
+> +}
+
+...
+
+> +static struct platform_driver chromeos_acpi_device_driver = {
+> +       .probe = chromeos_acpi_device_probe,
+> +       .driver = {
+> +               .name = KBUILD_MODNAME,
+> +               .dev_groups = chromeos_acpi_all_groups,
+
+> +               .acpi_match_table = ACPI_PTR(chromeos_device_ids)
+
+ACPI_PTR in most cases is not only useless, but might give a compiler warning.
+
+> +       }
+> +};
+
+--
+With Best Regards,
+Andy Shevchenko

@@ -1,149 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565657B
-	for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 11:13:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DBFC385C6;
-	Tue, 10 May 2022 11:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40E22F4E
+	for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 23:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7988EC385D1;
+	Tue, 10 May 2022 23:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652181222;
-	bh=yY35YDk9RI0PBtv75HOzfwiJh95q25x5cV9WWHxl4EE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qCo58HqPanRTwnk/T8AsGRSAJIXwBMYOzPGekrW8HFKapMQdZ51y7Gfu22/f3wDa8
-	 YX8TsrAV8HG/6acmRSOif8EW7PuQ3PCbQoeSoTrkndGaLXxSMem7CHz/w0dA1Lbe+3
-	 5m3n7UJDTqx1xaaCF2UagutMu8hHD72qqfqvaSM44l11B2STki1A7KCMxh9IYGx9L0
-	 Q8erj5tt71wLZJM6ywAg4tVqUjFA0Trhgz0MQHOnSOhHjIkWwPNwiF6+NfY1jO24EZ
-	 8tXGXDToprqOFL/2RtaeVd2ab0dNXc8dKIScOuqRuCzcQyMwBEbpNK3KlqmmMm1qCd
-	 89Cx3RByetuxA==
-From: Mark Brown <broonie@kernel.org>
-To: ckeepax@opensource.cirrus.com
-Cc: chrome-platform@lists.linux.dev, steven.eckhoff.opensource@gmail.com, jiaxin.yu@mediatek.com, patches@opensource.cirrus.com, lgirdwood@gmail.com, codrin.ciubotariu@microchip.com, matthias.bgg@gmail.com, kmarinushkin@birdec.com, cychiang@chromium.org, lars@metafoo.de, tzungbi@google.com, bleung@chromium.org, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, alsa-devel@alsa-project.org, oder_chiou@realtek.com, linux-mediatek@lists.infradead.org, alexandre.belloni@bootlin.com, srinivas.kandagatla@linaro.org
-In-Reply-To: <20220504170905.332415-1-ckeepax@opensource.cirrus.com>
-References: <20220504170905.332415-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 00/38] Clean up usage of the endianness flag
-Message-Id: <165218121671.43065.13246450134508582073.b4-ty@kernel.org>
-Date: Tue, 10 May 2022 12:13:36 +0100
+	s=k20201202; t=1652223613;
+	bh=vQk/tlyARgZHNELY8paWFui+GUv2OmVVZzpuEgTWJnc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=CvOFhFdtbwbVJsUZnLyB/7+BH6OtsL8E8KNHsFimZFtdAxzYCipupRdZnkW773Gj2
+	 70IV8O2UBIbcGREO7PCvdoNUls8voZSMm0KBUNWJ0xMVP289EVl6fD6TvujdETc4Po
+	 3uZrDt5B7DWHWGihZFM9smuie9CHt/E4GlyaE7OJZyQWwIay+o2bbfk9G0dY49sOPW
+	 1aDxhCh1ehX2oUSOtbU/3K7AjCjksKbvIKuMylnfmjx6D0Sx9Vp+77mGZkoQ1wfoii
+	 BeSubHAN5mv+8jzjLVoZN+GJMThCsMK2q+aTnMmSWAVRw+hMExI3ez7YZ+Ad2VWhGT
+	 wc4j1g2oAn3mQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5BBC0F03930;
+	Tue, 10 May 2022 23:00:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165222361336.23551.5993886315130688709.git-patchwork-notify@kernel.org>
+Date: Tue, 10 May 2022 23:00:13 +0000
+References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org
 
-On Wed, 4 May 2022 18:08:27 +0100, Charles Keepax wrote:
-> Before componentisation any part registered as a CODEC would have
-> automatically supported both little and big endian, ie. the core
-> would duplicate any supported LE or BE PCM format to support the other
-> endian as well. As componentisation removed the distinction between
-> CODEC drivers and platform drivers, a flag was added to specify
-> if this behaviour is required for a particular component. However,
-> as most systems tend to use little endian the absence of the flag
-> is rarely noticed. Also the naming of the flag "endianness" is a
-> little unobvious as to if it should be applied to a particular
-> component.
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Prashant Malani <pmalani@chromium.org>:
+
+On Mon,  4 Apr 2022 13:11:01 +0900 you wrote:
+> The EC driver may not be initialized when cros_typec_probe is called,
+> particulary when CONFIG_CROS_EC_CHARDEV=m.
 > 
-> [...]
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Applied to
+Here is the summary with links:
+  - platform/chrome: cros_ec_typec: Check for EC driver
+    https://git.kernel.org/chrome-platform/c/7464ff8bf2d7
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks!
 
-[01/38] ASoC: soc-component: Add comment for the endianness flag
-        commit: 5c832efdbf8651e2800a0169a870786bd85ee230
-[02/38] ASoC: atmel-pdmic: Remove endianness flag on pdmic component
-        commit: 52857c3baa0e5ddeba7b2c84e56bb71c9674e048
-[03/38] ASoC: atmel-classd: Remove endianness flag on class d component
-        commit: 0104d52a6a69b06b0e8167f7c1247e8c76aca070
-[04/38] ASoC: cs4270: Remove redundant big endian formats
-        commit: 99a4b91ae967d22158d3f4d4f9564ac63295930e
-[05/38] ASoC: cs42l51: Remove redundant big endian formats
-        commit: 2bf1e87b9338e8986f78b675a201f7f02a3c43d5
-[06/38] ASoC: cs4349: Remove redundant big endian formats
-        commit: 8a85e2fca6476968f8558163b95c2df38930e523
-[07/38] ASoC: hdmi-codec: Remove redundant big endian formats
-        commit: 6edfed8f2cce012e87277c8a1786a2de7d5cae35
-[08/38] ASoC: sta32x: Remove redundant big endian formats
-        commit: a9b5bef89a68ec45ec198e2d316cd8b9b9bf6655
-[09/38] ASoC: sta350: Remove redundant big endian formats
-        commit: 2ac5b98284b3744514dcf75909a3bb3c3d5ab7d4
-[10/38] ASoC: hdac_hda: Add endianness flag in snd_soc_component_driver
-        commit: 1324cd8d14f06ff933c825ca5a51139604bc6b97
-[11/38] ASoC: max98504: Add endianness flag in snd_soc_component_driver
-        commit: a0556e3ad0c40359d5fa3dc72de14ad2efb9dfda
-[12/38] ASoC: adau1372: Add endianness flag in snd_soc_component_driver
-        commit: ac6f26c18f2d231e4006b2f12e0e46aeb6430cbb
-[13/38] ASoC: cs4234: Add endianness flag in snd_soc_component_driver
-        commit: de88ca441a3066668cae62741a52042f0273d364
-[14/38] ASoC: cs35l41: Add endianness flag in snd_soc_component_driver
-        commit: f0688b567fb88ba7636e87a5daed8a175275aa2e
-[15/38] ASoC: cx2072x: Add endianness flag in snd_soc_component_driver
-        commit: 1c3cbc1dacecdb427b693992f1a05b5837b33a70
-[16/38] ASoC: lochnagar: Add endianness flag in snd_soc_component_driver
-        commit: ba7328f31cd508964cf2a0b62edfb0b8339c1e77
-[17/38] ASoC: mt6351: Add endianness flag in snd_soc_component_driver
-        commit: 39723d3493edd60ed41f9891391d4335b65547b9
-[18/38] ASoC: mt6358: Add endianness flag in snd_soc_component_driver
-        commit: a5f956e221e92a0e93f036651cdab80a2eb6bb18
-[19/38] ASoC: mt6359: Add endianness flag in snd_soc_component_driver
-        commit: d990af7422761fa58713e2f56664f7c8c2bf6383
-[20/38] ASoC: mt6660: Add endianness flag in snd_soc_component_driver
-        commit: 8044910bc28e06e0dc0194f160118e00964d8b6a
-[21/38] ASoC: pcm3060: Add endianness flag in snd_soc_component_driver
-        commit: f0488349c1183a3a524434958d909f38628e1d4b
-[22/38] ASoC: rt1019: Add endianness flag in snd_soc_component_driver
-        commit: 3816069538d54a9c45345f45b569bb2e42846561
-[23/38] ASoC: rt9120: Add endianness flag in snd_soc_component_driver
-        commit: 80827c123f2a5f5e0fbcc6cb33b102666acec08e
-[24/38] ASoC: tlv320adc3xxx: Add endianness flag in snd_soc_component_driver
-        commit: f5e0084b5beed00f11fb7cd1e90b8b91fcd06e9f
-[25/38] ASoC: tscs454: Add endianness flag in snd_soc_component_driver
-        commit: ff69ec96b87dccb3a29edef8cec5d4fefbbc2055
-[26/38] ASoC: cros_ec_codec: Add endianness flag in i2s_rx_component_driver
-        commit: cfacadbdca23f1a8d9c5db2a8f1bb3c6a1dd4dd8
-[27/38] ASoC: wcd934x: Add endianness flag in snd_soc_component_driver
-        commit: 6b1b1579aa9879bbf729f75c386cb3c932b1f5b3
-[28/38] ASoC: wcd9335: Add endianness flag in snd_soc_component_driver
-        commit: e230b1b1819f2941b8b31174a3839388641920f8
-[29/38] ASoC: rt700: Add endianness flag in snd_soc_component_driver
-        commit: 4982fc1def317febc74398e839dab2a4059692fa
-[30/38] ASoC: rt711: Add endianness flag in snd_soc_component_driver
-        commit: 33f06beac3ade10834a82ad4105dcd91d4b00d61
-[31/38] ASoC: rt711-sdca: Add endianness flag in snd_soc_component_driver
-        commit: 3e50a5001055d79c04ea1c79fe4b4ff937a3339c
-[32/38] ASoC: rt715: Add endianness flag in snd_soc_component_driver
-        commit: 1a6750123b5d2f05200fb55633b32c81c840f681
-[33/38] ASoC: rt715-sdca: Add endianness flag in snd_soc_component_driver
-        commit: e8f4ddcb33de9b1eaf74d150234a2cd07dddcfad
-[34/38] ASoC: rt1308-sdw: Add endianness flag in snd_soc_component_driver
-        commit: 9b536b34693c8ab9caf0612bf4fdbc09fd51f126
-[35/38] ASoC: rt1316-sdw: Add endianness flag in snd_soc_component_driver
-        commit: 7fb6f48351c896fc6c18f9d3e7b0b4fb689e73cb
-[36/38] ASoC: wcd938x: Add endianness flag in snd_soc_component_driver
-        commit: ff7f9aa523d1699663cbeec4b0e69aaeab5e6bba
-[37/38] ASoC: wsa881x: Add endianness flag in snd_soc_component_driver
-        commit: 96bc59d097047a8a013cb77b2a1215cc4877fa96
-[38/38] ASoC: sdw-mockup: Add endianness flag in snd_soc_component_driver
-        commit: e2d61f6255a26a09d4fe2458fa93a33a71db1024
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark

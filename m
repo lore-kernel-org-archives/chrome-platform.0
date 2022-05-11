@@ -1,84 +1,190 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EB617C4
-	for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 08:54:51 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d25so1397360pfo.10
-        for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 01:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
-        b=oWFC3+tjFWuEzvrTD6PLpUDog2crstg0UDDK7T5h63Ev/TycWAdosWnW3B8xZx+Ii9
-         pXeL8gStKi3H726nItUKPwvf3bK6BqVfeAR9w9JpaHikJk4HmVr+RQuzq9FsK+QOATHZ
-         +eX6J+/X1EQF9VA6fWroiYEy7V9q4n40m6SMq+1qYQbd/uo9IY1IjAGYhXzBv/P40oaU
-         u6bcuxKjUiLb9ElQ3gWbpPVaH9/ZMDvJ12XhEut73/QxTQr9p5ah/H5v/OTUvKhQ+X7e
-         6rUc6LGrU4YtZcS05UjWlmL8Jq9rmLiDaD20TIO7VfNzVLUr6Q5kfzsx5oQiU6Ou1RSv
-         tNtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
-        b=24I+4MhLvuo2v9sQvBKKkMB4FsO0FYMqoC/HcFquJG63l5OoDRd4cgf+sMbcrWay0Z
-         m7Vls7pe0wGLopK4qG1YM6Cp1E6bW2qrqAXn5Eu4WCYPbyVMIF8mWlIzuGK9qy4k5D0U
-         hDsBZVXRs/I89DfVpwcZXkZfFaFec4S5REUDxMioP/mcJOxy5cerBhs+ZdPvBw/Hhe39
-         GlVDcGgE1cssMqZzAV8kANOyOs6LxcdJ24WcT4kWG9gBRgPtERf2G24yv7EgggfS6OP4
-         6FxegqYLLBdt7MqomuIDys9jYmh1RDptHGcZ0v5wVzuVAMAt5zgNkVcpzlTolftvWf2R
-         tnAw==
-X-Gm-Message-State: AOAM531uzhwbWaVbI5iRAVHgyOsxRjaK36/RF6uc2PW+WphxBHx70WG5
-	c6/F4FqhVyCDzPUtmZokrZg1Ug==
-X-Google-Smtp-Source: ABdhPJx/bnrxyo+MiOlZiVhC8KX3b6hkIYIcaQnvbU8nuJP5jgO8L6bFg7hbYAuoTjK+jW0KjksrZw==
-X-Received: by 2002:a65:6297:0:b0:3db:4820:2867 with SMTP id f23-20020a656297000000b003db48202867mr239308pgv.503.1652259290924;
-        Wed, 11 May 2022 01:54:50 -0700 (PDT)
-Received: from localhost.localdomain ([180.217.250.247])
-        by smtp.gmail.com with ESMTPSA id e2-20020a056a00162200b0050dc7628136sm1118590pfc.16.2022.05.11.01.54.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 01:54:50 -0700 (PDT)
-From: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-To: hverkuil-cisco@xs4all.nl
-Cc: mchehab@kernel.org,
-	bleung@chromium.org,
-	groeck@chromium.org,
-	scott_chao@wistron.corp-partner.google.com,
-	zhuohao@chromium.org,
-	linux-media@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: platform: Add moli to the match table
-Date: Wed, 11 May 2022 16:54:42 +0800
-Message-Id: <20220511085442.23915-1-scott_chao@wistron.corp-partner.google.com>
-X-Mailer: git-send-email 2.36.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506EE2F43
+	for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 15:59:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: usama.anjum)
+	with ESMTPSA id F0E6E1F41720
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1652284760;
+	bh=JQ6HdYH9HaMCjw2/dzr/tOM16K501dak4z60cc1ZykY=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=KNGvZVnG5pMiE8Utp5gcEaS8cUQTgJ9S8uF7Hli0BhK/lKJPjNXFvBRxIjG+ZoLHb
+	 rhc2GromAoJx2M9tCfKJvyJp5uGE5rhlqLmbYTEpUqhXfnZA/SuelhrPq7PxXZZ2fE
+	 1y62AIMulgwoeS3cKUdjYmreBBaK3WCHaWLvkgOJoPkbJgOhZzJyzurGWHIZBjjahe
+	 gwj20WjmXJPjAc8Q5BGoGCDnCYSlZ0foEq0rioYpu2JdKDRJNk0wcAQyeW3qGY+Osx
+	 fFkQ31tZTqjjdD1TV6uCgcZKe94uF3kVRxVtJdndKhA+woeXmd8egj+txOJaHirB8j
+	 nk1E7XqdyvT4Q==
+Message-ID: <8bd83f45-5278-e817-3f65-88fafd0ad3f4@collabora.com>
+Date: Wed, 11 May 2022 20:59:07 +0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Subject: Re: [PATCH RESEND v11] platform/chrome: Add ChromeOS ACPI device
+ driver
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: usama.anjum@collabora.com, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Len Brown <lenb@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Mark Gross <markgross@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Enric Balletbo i Serra <eballetbo@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Guenter Roeck <groeck@chromium.org>, Dmitry Torokhov <dtor@chromium.org>,
+ Gwendal Grignou <gwendal@chromium.org>, vbendeb@chromium.org,
+ Andy Shevchenko <andy@infradead.org>, Ayman Bagabas
+ <ayman.bagabas@gmail.com>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>, =?UTF-8?Q?Bla=c5=be_Hrastnik?=
+ <blaz@mxxn.io>, Darren Hart <dvhart@infradead.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Jeremy Soller <jeremy@system76.com>, Mattias Jacobsson <2pi@mok.nu>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Rajat Jain <rajatja@google.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Platform Driver <platform-driver-x86@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ chrome-platform@lists.linux.dev
+References: <YnoJ0k6eIUiwjXSZ@debian-BULLSEYE-live-builder-AMD64>
+ <CAHp75Vd574LCnEq-KX=WHnnDyrjZgGu6W9wNEbnw79FBpyx=Lw@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAHp75Vd574LCnEq-KX=WHnnDyrjZgGu6W9wNEbnw79FBpyx=Lw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Google Moli device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+Hi Andy,
 
-Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
----
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thank you for reviewing.
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 8c8d8fc5e63e..25dc7309beab 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
- 	/* Google Brask */
- 	{ "Google", "Brask", "0000:00:02.0", "Port B" },
-+	/* Google Moli */
-+	{ "Google", "Moli", "0000:00:02.0", "Port B" },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+On 5/10/22 2:33 PM, Andy Shevchenko wrote:
+> On Tue, May 10, 2022 at 8:44 AM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>
+>> The x86 Chromebooks have the ChromeOS ACPI device. This driver attaches
+>> to the ChromeOS ACPI device and exports the values reported by ACPI in a
+>> sysfs directory. This data isn't present in ACPI tables when read
+>> through ACPI tools, hence a driver is needed to do it. The driver gets
+>> data from firmware using the ACPI component of the kernel. The ACPI values
+>> are presented in string form (numbers as decimal values) or binary
+>> blobs, and can be accessed as the contents of the appropriate read only
+>> files in the standard ACPI device's sysfs directory tree. This data is
+>> consumed by the ChromeOS user space.
+> 
+>> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>> Cc: Hans de Goede <hdegoede@redhat.com>
+> 
+> You can use --cc parameter to `git send-email` instead of putting
+> these lines in the commit message.
+> 
+> ...
+> 
+>> +#define DEV_ATTR(_var, _name)                                  \
+>> +       static struct device_attribute dev_attr_##_var =        \
+>> +               __ATTR(_name, 0444, chromeos_first_level_attr_show, NULL);
+>> +
+> 
+> Why not ATTR_RO()?
+It'll not work as attribute name has . in it.
+
+> 
+> ...
+> 
+>> +#define GPIO_ATTR_GROUP(_group, _name, _num)                                           \
+>> +       static umode_t attr_is_visible_gpio_##_num(struct kobject *kobj,                \
+>> +                                                  struct attribute *attr, int n)       \
+>> +       {                                                                               \
+>> +               if (_num < chromeos_acpi_gpio_groups)                                   \
+>> +                       return attr->mode;                                              \
+> 
+>> +               else                                                                    \
+> 
+> Redundant.
+We are deciding on run time that how many GPIO attribute groups need to
+be shown. chromeos_acpi_gpio_groups is set at run time. I don't see why
+`else` can be redundant here.
+
+> 
+>> +                       return 0;                                                       \
+>> +       }                                                                               \
+>> +       static ssize_t chromeos_attr_show_gpio_##_num(struct device *dev,               \
+>> +                                                     struct device_attribute *attr,    \
+>> +                                                     char *buf)                        \
+>> +       {                                                                               \
+>> +               char name[ACPI_ATTR_NAME_LEN + 1];                                      \
+>> +               int ret, num;                                                           \
+>> +                                                                                       \
+>> +               ret = parse_attr_name(attr->attr.name, name, &num);                     \
+>> +               if (ret)                                                                \
+>> +                       return ret;                                                     \
+> 
+>> +               ret = chromeos_acpi_evaluate_method(dev, _num, num, name, buf);         \
+>> +               if (ret < 0)                                                            \
+>> +                       ret = 0;                                                        \
+> 
+> Below I saw the same code, why is the error ignored?
+> 
+I'll return the error in both places.
+
+>> +               return ret;                                                             \
+>> +       }                                                                               \
+>> +       static struct device_attribute dev_attr_0_##_group =                            \
+>> +               __ATTR(GPIO.0, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+>> +       static struct device_attribute dev_attr_1_##_group =                            \
+>> +               __ATTR(GPIO.1, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+>> +       static struct device_attribute dev_attr_2_##_group =                            \
+>> +               __ATTR(GPIO.2, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+>> +       static struct device_attribute dev_attr_3_##_group =                            \
+>> +               __ATTR(GPIO.3, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
+>> +                                                                                       \
+>> +       static struct attribute *attrs_##_group[] = {                                   \
+>> +               &dev_attr_0_##_group.attr,                                              \
+>> +               &dev_attr_1_##_group.attr,                                              \
+>> +               &dev_attr_2_##_group.attr,                                              \
+>> +               &dev_attr_3_##_group.attr,                                              \
+>> +               NULL                                                                    \
+>> +       };                                                                              \
+>> +       static const struct attribute_group attr_group_##_group = {                     \
+>> +               .name = _name,                                                          \
+>> +               .is_visible = attr_is_visible_gpio_##_num,                              \
+> 
+>> +               .attrs = attrs_##_group                                                 \
+> 
+> Keep a comma here.
+Is there any particular reason for it? If there is, I'll add commas to
+all the structures.
+...
+> 
+> ...
+> 
+>> +static int parse_attr_name(const char *name, char *attr_name, int *attr_num)
+>> +{
+>> +       int ret = 0;
+>> +
+>> +       strscpy(attr_name, name, ACPI_ATTR_NAME_LEN + 1);
+>> +
+>> +       if (strlen(name) > ACPI_ATTR_NAME_LEN)
+> 
+> This seems strange, esp. taking into account that strscpy() returns that.
+> 
+> int ret;
+> 
+> ret = strscpy(...);
+> if (ret == -E2BIG)
+>   return kstrtoint(...);
+> 
+> return 0;
+This is very nice way to do it. I'll update.
+...
+
 -- 
-2.36.1
-
+Muhammad Usama Anjum

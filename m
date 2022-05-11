@@ -1,113 +1,107 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B893D9F
-	for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 23:04:12 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id c1-20020a17090a558100b001dca2694f23so427659pji.3
-        for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 16:04:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CC515A2
+	for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 00:17:29 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id s16so362432pgs.3
+        for <chrome-platform@lists.linux.dev>; Tue, 10 May 2022 17:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rpOOu3yloX9+o7QmB4b1fha0WPYoksvLJ9prqiOWMZA=;
-        b=k00JKarFFBjlfYD+r85hwLg0trPXVpQEixLbgrBOuMBzDyi5b/kKU+CffB5c5ibqTD
-         zxjGv7Zvu0lj5MfTWUoTgBkOspD19gvDGY+tGud+fgVwBXnUHjjkvby3B8BN9MveLS+P
-         S6eZZopSzUB+t2aSvRryNcQnFK9X6XbfLNlJQ=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Pu0XOt3md/+QHEH0odz8Kb0LzaQgmlJPQFA+XbLmYmo=;
+        b=xEHd0bCmbHMX0QcYw1sdvKSceoNVlMU53emfH1LNRlXY+LWZMOhwmYaSgTENMkW7Kx
+         ax1MeUOkiz2ygLCyUH3CZhNg1fAUrCJIdb5ynTvt0DcmlOZ3aPn+xMOIPsmNsA/LqT52
+         /3xPNsbt0Bwl2m2eGWUvMWGL9dv73iX+qtoGyksCFOVaY0A/fHVinX/FR2kzT2OStmuo
+         1h8rX3cQSgu+YHl9zVW2Ykyo7cG1I2J4zfGAFx/93jFXpLHH5EdwBrS0oefLo7CI0aIn
+         ugmBboWrArwifWJ3bpv4VtuszvgCMkJ2NGuKGj9SDhRBMaW4aTCzZGh03Quw7Z26IirU
+         3rmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rpOOu3yloX9+o7QmB4b1fha0WPYoksvLJ9prqiOWMZA=;
-        b=V/bayJIXQXvm6IOqN05cCEgN9T+tIu6Tp0uKGlfdvH+NZZM1IIWLbDPpGPrtI8q+n8
-         okRwc73n7iA16Gb4j6449b+RBxalyCXJHDDYZzGog6tv/+5zlqcDmxfcVbYbOJOrcSLa
-         FiOQi+ZjSSYcPxMC+ysJB7t87l89k34Qu1mtAYRZk/JOFjmT0XzI7yxlDwdJszR6cuRw
-         B09Ujs1dZmLP76yzd/+1VPURD9e0Ti9z5OdaQpJ6o91ljW3sq+kPJLmbmUOhH2K3JKhi
-         X9zeOBvSq6Xz90pwvrLMSMzym346RkyUEmkYGtSj57F3jmwrhg4/lSOVNzXHT9DWv/1F
-         pZZw==
-X-Gm-Message-State: AOAM53095QvDDTsktiy9sBROiVFIDcGygB1dOKxrtnAXaV8YzUWx4NQ6
-	+MLf+oPnh0xEcMuk7bB4aQgnwg==
-X-Google-Smtp-Source: ABdhPJxEnJFubfWfGEANXo2HCxGCKtq5R1uXvOZ5g1XB3spi/HvrHYO1LvgE8enCGq/BukKn6rfDMw==
-X-Received: by 2002:a17:902:e881:b0:15e:93ac:41ba with SMTP id w1-20020a170902e88100b0015e93ac41bamr22642097plg.160.1652223851502;
-        Tue, 10 May 2022 16:04:11 -0700 (PDT)
-Received: from chromium.org (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id 137-20020a62178f000000b0050d4d156362sm97625pfx.1.2022.05.10.16.04.10
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Pu0XOt3md/+QHEH0odz8Kb0LzaQgmlJPQFA+XbLmYmo=;
+        b=bAt9smXFRlqkEj3/E+dw9M6SvJIhe8HLQxbyVb9Uc4zRAZrLyY1rP1HZ6RQ3dpkmp4
+         nXTIDV7k1FDwoxdp2Xz0E2CGFUSSMddYyw/JO0jDPPSwGpvZqdYQwMM+a+1DTufXqw3K
+         uNdEulI7Yc8Ua+6HndIX4CnrD1KjghqI7Fo4USZyTWplV3lEsoaNprXWXKtEC2KkZVRL
+         Cf345j/uYNyTfqHGC+4Dy2OXRGU8BRnI+VF4FkjYRbQVzrYZBHy4y7JBK7bG+PZ2RPWF
+         wUd2j1MVGwgVM0SQo6A/eGE46tIEJxFVk8raOXBHRlPTVlzdStZDKukZZnH5Gu9drP7e
+         Ktag==
+X-Gm-Message-State: AOAM5335sgojah8B8Gu26jOfPNMWy+mMswh0NVHoCSmpXwmmyAB1YMLP
+	3hNonowxAH2APqdlG9SyEqRsvQ==
+X-Google-Smtp-Source: ABdhPJyNngUd3085y3JMPqVlFhv4zijQiT/tXlEslGRZGVPOcN73JGL754IQM5DxjqX5kwxVOYXqww==
+X-Received: by 2002:a65:52cb:0:b0:3c6:82f4:a01 with SMTP id z11-20020a6552cb000000b003c682f40a01mr14143453pgp.282.1652228249014;
+        Tue, 10 May 2022 17:17:29 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d14-20020a621d0e000000b0050dc76281b0sm131501pfd.138.2022.05.10.17.17.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 16:04:11 -0700 (PDT)
-Date: Tue, 10 May 2022 23:04:09 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	"Joseph S. Barrera III" <joebar@chromium.org>
-Subject: Re: [PATCH v4 0/2] Input: cros-ec-keyb: Better matrixless support
-Message-ID: <Ynrvadrl/P/6CrMQ@chromium.org>
-References: <20220503204212.3907925-1-swboyd@chromium.org>
+        Tue, 10 May 2022 17:17:28 -0700 (PDT)
+Message-ID: <627b0098.1c69fb81.a4864.07d5@mx.google.com>
+Date: Tue, 10 May 2022 17:17:28 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503204212.3907925-1-swboyd@chromium.org>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v5.18-rc1-10-gecc9e81aff49
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.18-rc1-10-gecc9e81aff49)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Dmitry,
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.18-rc1=
+-10-gecc9e81aff49)
 
-On May 03 13:42, Stephen Boyd wrote:
-> This is a followup to my previous patch[1] that skips keyboard registration
-> when the matrix properties aren't present. This adds a compatible string
-> for this scenario so we can ease existing DTBs over to the new design.
-> 
-> Changes from v3 (https://lore.kernel.org/r/20220503042242.3597561-1-swboyd@chromium.org):
->  * s/register_keyboard/has_keyboard/
->  * Pick up review tags
->  * Indicate properties are required in example #2 in yaml file
-> 
-> Changes from v2 (https://lore.kernel.org/r/20220429233112.2851665-1-swboyd@chromium.org):
->  * Drop rows/cols check now that compatible schema handles it
->  * Make binding require rows,cols,keymap for cros-ec-keyb compatible
-> 
-> Changes from v1 (https://lore.kernel.org/r/20220427203026.828183-1-swboyd@chromium.org):
->  * Better enforcement of properties in DT binding
->  * Skip registration by means of adding compatible to device id list
-> 
-> Stephen Boyd (2):
->   dt-bindings: google,cros-ec-keyb: Introduce switches only compatible
->   Input: cros-ec-keyb - skip keyboard registration w/o cros-ec-keyb
->     compatible
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.18-rc1-10-gecc9e81aff49/
 
-Do these need input maintainers Acked-by? Also, should these go through
-the chrome-platform branch?
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.18-rc1-10-gecc9e81aff49
+Git Commit: ecc9e81aff497d77e77430ac0ed1fa9ee1142a49
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Thanks,
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
--Prashant 
-> 
->  .../bindings/input/google,cros-ec-keyb.yaml   | 87 +++++++++++++++++--
->  drivers/input/keyboard/cros_ec_keyb.c         | 19 ++--
->  2 files changed, 91 insertions(+), 15 deletions(-)
-> 
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-> Cc: "Joseph S. Barrera III" <joebar@chromium.org>
-> 
-> [1] https://lore.kernel.org/all/20220425210726.3813477-1-swboyd@chromium.org/
-> 
-> base-commit: 4352e23a7ff2f8a4ff229dd1283ed2f2b708ec51
-> -- 
-> https://chromeos.dev
-> 
-> 
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

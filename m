@@ -1,38 +1,27 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E415B17D3
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 10:34:25 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id j6so9260185ejc.13
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 03:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YxUnFLs6d2OKV6JAgbcUVcwMXEjoVcwHta+WKOf3uyA=;
-        b=hwKygiKy5Gq/aeQSoZnC7lGlu44MYxTEdxTM7YAVst2Hr0cd3wU7Sy0bcVfPvJrrgD
-         EwaIVfv/hJKpnUDYGEAlwXP67Kq3c64yvFmNw4G2CCSY//zzeAklxN4QwjQmLSJKkSH/
-         B8ntVoH8BoY0e7bSY+9c0AMbsO/mlkQ1F8aQNPcpE8HxlT/j4GzYY9aTPtRL9e+8yEKa
-         IOVWrR53Wm1lyjbgrWM2WyxAMMdiJ++tY/1UXpSDmwrfecet7h0L6Lw3L+z3jYuTeMpe
-         K1CNoI5K23tZFHCHtuzSiVm/OxNIcI2xU6yAKUjeSNQR4aGcOVRZXtDcV443MAOrh4RC
-         WFZQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F98C17D3
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 10:51:15 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id x17so9018395ybj.3
+        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 03:51:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YxUnFLs6d2OKV6JAgbcUVcwMXEjoVcwHta+WKOf3uyA=;
-        b=3lW287hsdNfdR+KclNOBYt4eHjQBjS2/eo3SA2iqm8ZTRlnOFYaxN3qkCPA+13Owhc
-         5FnnfYhTttXOkRm3qKGeC4xl9YU/VfnvJevQV8cyKtz55Ity6y3VwXULO+FP6CnXpCOv
-         O9+RWah8mj0BbLbE0hsEljDRd9bMiWfBJzM8cyq9RdsHKJFOYxHQJl9O2ZhvaPOspVkb
-         bRSbq0MMiyH4MiTMo2cidI9H5P85jGO5G0LqkEbg2ml+ZLkGI9NYvbqXCcTcFZwgSZEm
-         VUIEwMmuaBqoPokN5Y7pU07xRampvCK6xR7/SEvt4tQjju4HLOSgCRO6jBfDsQE47K9J
-         gk8w==
-X-Gm-Message-State: AOAM533DNyWIo8onmj6OPdETxCoWOgFxawjlYAMW85m9JHSJpleE9vQC
-	VRsJlNjtoHP0CC8a2/6y0KABDGhwbikm3wyAaJQ=
-X-Google-Smtp-Source: ABdhPJyXbDZwvfW8c4kosCjARWOnEgS89ySqoUcsB5cTJbdXGy0+51R1i8zFfvTaoyMAifairnH0MHx9uMtt8aB6axA=
-X-Received: by 2002:a17:907:3e8c:b0:6f4:4fdb:6f24 with SMTP id
- hs12-20020a1709073e8c00b006f44fdb6f24mr29282944ejc.44.1652351663577; Thu, 12
- May 2022 03:34:23 -0700 (PDT)
+        bh=bvkc/5xcgtS0G/lszVNVFQYj2Ci65ZlPIQoUua69cVo=;
+        b=49vFjPp8w77N9JSDOfeg0HvOVKB9GrwykZgGZ44ingKq++0OgGBSrU8nqxwawpS/ut
+         xFUUGsuyYmuG3B9hBkTExDF5AYjY4iA0SmzbOAuHqNYvdvi9Nx8FhZtCKGPOcL8ucwpp
+         GDD2t7vjlicUZJrxfveVTNlt7Mnmxz82/hnWhYQlFJo95+Zv4Aov0q9dOjB05JY64++i
+         4cIJa6Tdpqtk6GAzPDPQ6Uil4Gib++GhosEiim0Rz2RFg/wD49JHxAiY/DWRlN0/ZC2F
+         L9+fMWqYhbbnYWd5xAPhzrb0jb29xOITfP6pI7KWKEGIE817id3F/AXBoSxvlavJxr8N
+         4MrQ==
+X-Gm-Message-State: AOAM533D94o7mWZQ7L0IVdS+fy1itH+L5exYIXgrsMPRgF47oRafxf4b
+	TMsqbQ7Bz3sM58iVlwyGdEC97++gjF7Yk8dg3LA=
+X-Google-Smtp-Source: ABdhPJxIcISSxN5wkMYvUSqnsUc2aciZLx/hDIlBPNDBAM9OIXe0zv+d86g7MCmhvLu7+VEIfXrXZYzFMF+M4BNzAWw=
+X-Received: by 2002:a25:3795:0:b0:648:fa25:5268 with SMTP id
+ e143-20020a253795000000b00648fa255268mr29583990yba.153.1652352674159; Thu, 12
+ May 2022 03:51:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -41,9 +30,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <YnycZaoBPF89t/qF@debian-BULLSEYE-live-builder-AMD64>
 In-Reply-To: <YnycZaoBPF89t/qF@debian-BULLSEYE-live-builder-AMD64>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 12 May 2022 12:33:46 +0200
-Message-ID: <CAHp75VfbcS1Br2ry3gAwXDPag-U6aAR4TbrNz0Kp7Q9s9zreqQ@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 12 May 2022 12:51:03 +0200
+Message-ID: <CAJZ5v0iw2izuDOmZhS=sHMFV=F=cWWR598na3oE3tTuFS+FmbA@mail.gmail.com>
 Subject: Re: [PATCH v12] platform/chrome: Add ChromeOS ACPI device driver
 To: Muhammad Usama Anjum <usama.anjum@collabora.com>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -78,17 +67,14 @@ On Thu, May 12, 2022 at 7:34 AM Muhammad Usama Anjum
 > blobs, and can be accessed as the contents of the appropriate read only
 > files in the standard ACPI device's sysfs directory tree. This data is
 > consumed by the ChromeOS user space.
-
-Thanks for update, looks good to me
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-Couple of the same nit-picks below in case you want to address them
-now (it's minor and you may do it later, as you wish).
-
+>
 > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 > Co-developed-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 > Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
 > ---
 > Changes in v12:
 > - Use one type of correct commenting style
@@ -776,12 +762,8 @@ now (it's minor and you may do it later, as you wish).
 > +               ret = parse_attr_name(attr->attr.name, name, &num);                     \
 > +               if (ret)                                                                \
 > +                       return ret;                                                     \
-
 > +               ret = chromeos_acpi_evaluate_method(dev, _num, num, name, buf);         \
 > +               return ret;                                                             \
-
-It can be now return chromeos_acpi_evaluate_method(...);
-
 > +       }                                                                               \
 > +       static struct device_attribute dev_attr_0_##_group =                            \
 > +               __ATTR(GPIO.0, 0444, chromeos_attr_show_gpio_##_num, NULL);             \
@@ -878,12 +860,8 @@ It can be now return chromeos_acpi_evaluate_method(...);
 > +       ret = parse_attr_name(attr->attr.name, attr_name, &attr_num);
 > +       if (ret)
 > +               return 0;
-
 > +       ret = chromeos_acpi_evaluate_method(dev, attr_num, 0, attr_name, buf);
 > +       return ret;
-
-Ditto.
-
 > +}
 > +
 > +static unsigned int get_gpio_pkg_num(struct device *dev)
@@ -1004,8 +982,3 @@ Ditto.
 > --
 > 2.30.2
 >
-
-
--- 
-With Best Regards,
-Andy Shevchenko

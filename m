@@ -1,63 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C25633E5
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 17:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E8A58C34116;
-	Thu, 12 May 2022 17:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652376015;
-	bh=+7AtIdZR9osN4t5qyhi4RgNDEqKiuehscGpR7C12g9M=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Yy+IEW+keTgP53+Wup42Fq4NvSlCd8SaASd7pyQ+sAnRZVDyXAJcpY5taGya6eh0n
-	 rM+gC2PaBAqC8l3u06r4iSRsoYJX+CLT+FM4tFre9xhzAB5at6NrYhtR0NX4CxEygw
-	 8OskA3qWhpcZ8abN+1WP58dPq2D9Og19Y5drh6HInXe0JKs8gB1MFxfG2JVCfbEIfy
-	 nGYnzw5vDk9GVwBLpT7iJQCiuluDffKbezuzzYAWNeLNIF+QNfQwTWHvQM8/8LSE27
-	 qHssxtmcfjM+5MEXs3oktPEIlmHrJS09l98mhPsNDDdlLoKcTSdrEYi6mSBaNmiNWJ
-	 YEt5kBZcvGCIQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CFBD1F03937;
-	Thu, 12 May 2022 17:20:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B4833F7
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 18:58:04 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id 31-20020a9d0822000000b00605f1807664so3359979oty.3
+        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 11:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=Zhd0MG3OMKsxCCS0DxHYWS6OhXTHRYI9udewsQ9wKKA=;
+        b=a5lZ//ec8iMYjwZDAFJviLOlhtuK/zOhkJ8yY1fP9EOuCDN7H/DKHGYMZLTVmLaSbH
+         7zDVMTp4gtAb4CDJ1R3EfmEKDkhQHR8HOMF8u/8PtjJUzecXveh/v9O18YV7oMq+yfQB
+         7+9QKdmKM/AnFBuJIvt9RolrCx3FNraGV4Zl4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=Zhd0MG3OMKsxCCS0DxHYWS6OhXTHRYI9udewsQ9wKKA=;
+        b=dtThu+I7z8j7DfARO0HuVur5v0++vpeyz41MQ8dNYYlaWCYYgkO5s/zvzYT84lS0WH
+         HYda74IzzoijVGRg2xWtdkQn14P2caSHZ4F+DsPIn1SuAuR9UwgayWJu+k4Mvw0VIfCc
+         8MC6ICVT8eHAu2dY37kv3GD75T2/RVphcfXbLUGzedBjOE+ZHRr7E0i5EOj3km+gFTVC
+         9KsvmLbXrMKXN+5D3TWVlZ+P/C3UIt2gT6kCyYd6Bh87veHolZrNDTam2j80HZlhg6FK
+         vc/aJKIfQnL8Z8y9y/bXBUZAhTnBqHzhDIciLExLZw6MaZovo4YXtXjtwNrcVqq5/DG/
+         JRKQ==
+X-Gm-Message-State: AOAM533DZdCJefgPCaCSzmfHH+0L2ZhqDiLb3K9DXt+iw7KsgpivETx8
+	6qysohR7wRQxUYnyR2DcgAvrmJt8NKOiqSN06iG6Fw==
+X-Google-Smtp-Source: ABdhPJzuIqTTJcobedsUUMtgNSQxvFm+eNCNAvbYJtV/SGE93UY7OwlQcTO+QqsTxk2XA3PsD5OaOpa6i/+EQ/taytI=
+X-Received: by 2002:a05:6830:13ce:b0:606:702b:87f0 with SMTP id
+ e14-20020a05683013ce00b00606702b87f0mr535356otq.159.1652381883398; Thu, 12
+ May 2022 11:58:03 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 12 May 2022 11:58:02 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165237601584.19682.12247816211484032812.git-patchwork-notify@kernel.org>
-Date: Thu, 12 May 2022 17:20:15 +0000
-References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20220404041101.6276-1-akihiko.odaki@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org
+In-Reply-To: <Ynzf5jEIECLmELK7@google.com>
+References: <20220429233112.2851665-1-swboyd@chromium.org> <20220429233112.2851665-2-swboyd@chromium.org>
+ <CAD=FV=VX8EEgkeLgKwyKvjztcjbA8UhKOUpTr-sS1_Ec=QcWbA@mail.gmail.com>
+ <CAKdAkRSOtAD6u_cwKhHeMLgz5dC2hfPvVvqmj+17b4i-nspfgg@mail.gmail.com>
+ <CAE-0n50Y8tZD9Djn9TVaAiHxehFJ2cZKZ1Z09piDk47uw3nK+Q@mail.gmail.com> <Ynzf5jEIECLmELK7@google.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 12 May 2022 11:58:02 -0700
+Message-ID: <CAE-0n50+obQ5qgPNPtUY=OmTgU9bZQ3hNw+MaG9Wi3SQSc-i4A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: google,cros-ec-keyb: Introduce
+ switches only compatible
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+	patches@lists.linux.dev, chrome-platform@lists.linux.dev, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, "Joseph S. Barrera III" <joebar@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Quoting Dmitry Torokhov (2022-05-12 03:22:30)
+> Hi Stephen,
+>
+> Sorry for the delay with my response.
+>
+> On Mon, May 02, 2022 at 01:41:33PM -0700, Stephen Boyd wrote:
+> > Quoting Dmitry Torokhov (2022-05-02 10:43:06)
+> > > On Mon, May 2, 2022 at 10:00 AM Doug Anderson <dianders@chromium.org> wrote:
+> > > >
+> > > > That goes against the recently landed commit 4352e23a7ff2 ("Input:
+> > > > cros-ec-keyb - only register keyboard if rows/columns exist") but
+> > > > perhaps we should just _undo_ that that since it landed pretty
+> > > > recently and say that the truly supported way to specify that you only
+> > > > have keyboards/switches is with the compatible.
+> > > >
+> > > > What do you think?
+> > >
+> > > I am sorry, I am still confused on what exactly we are trying to solve
+> > > here? Having a device with the new device tree somehow run an older
+> > > kernel and fail? Why exactly do we care about this case?
+> >
+> > Yes, we're trying to solve the problem where a new device tree is used
+> > with an older kernel because it doesn't have the driver patch to only
+> > create an input device for the matrix when rows/columns properties are
+> > present. Otherwise applying that devicetree patch to an older kernel
+> > will break bisection.
+>
+> Well, my recommendation here would be: "do not do that". How exactly
+> will you get new DTS into a device with older kernel, and why would you
+> do that?
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+It's about easing the transition to a new programming model of the
+driver. We could "not do that" and consciously decide to only use new
+DTBs with new kernels. Or we could take this multiple compatible
+approach and things work with all combinations. I'd like to make
+transitions smooth so introducing a second compatible string is the
+solution for that.
 
-On Mon,  4 Apr 2022 13:11:01 +0900 you wrote:
-> The EC driver may not be initialized when cros_typec_probe is called,
-> particulary when CONFIG_CROS_EC_CHARDEV=m.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 3 +++
->  1 file changed, 3 insertions(+)
+Another "what if" scenario is that the rows/columns properties should
+have been required per the DT binding all along. If they were required
+to begin with, I wouldn't have been able to make them optional without
+introducing a new compatible string that the schema keyed off of to
+figure out that they're optional sometimes.
 
-Here is the summary with links:
-  - platform/chrome: cros_ec_typec: Check for EC driver
-    https://git.kernel.org/chrome-platform/c/7464ff8bf2d7
+>
+>
+> >
+> > > We have
+> > > implemented the notion that without rows/columns properties we will
+> > > not be creating input device for the matrix portion, all older devices
+> > > should have it defined, so the newer driver is compatible with them...
+> > >
+> >
+> > Agreed, that solves half the problem. This new compatible eases
+> > integration so that devicetrees can say they're compatible with the old
+> > binding that _requires_ the rows/column properties. By making the driver
+> > change we loosened that requirement, but the binding should have been
+> > making the properties required at the start because it fails to bind
+> > otherwise.
+> >
+> > My interpretation of what Doug is saying is that we should maintain that
+> > requirement that rows/columns exists if the original compatible
+> > google,cros-ec-keyb is present and use the new compatible to indicate
+> > that there are switches. Combining the two compatibles means there's
+> > switches and a matrix keyboard, having only the switches compatible
+> > means only switches, and having only the keyboard compatible means only
+> > matrix keyboard.
+> >
+> > It sounds OK to me.
+>
+> Have we solved module loading in the presence of multiple compatibles?
+> IIRC we only ever try to load module on the first compatible, so you'd
+> be breaking autoloading cros-ec-keyb on these older kernels. I think the
+> cure that is being proposed is worse than the disease.
+>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+The first compatible is still cros-ec-keyb in the driver though? Or you
+mean the first compatible in the node? I'm not aware of this problem at
+all but I can certainly test out a fake node and module and see if it
+gets autoloaded.

@@ -1,27 +1,38 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F98C17D3
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 10:51:15 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id x17so9018395ybj.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 03:51:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DED018D
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 14:49:21 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id ch13so10668577ejb.12
+        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 07:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hJ6VUZzoDkfLtMcSKZ/xAZwNEeznBOTpJcMR80gxEaE=;
+        b=LRIQIHKu955VeYwToItCjxGLldJS5DLVoFa29OQIZSgbolaU8+C8xioMoIq0dhfLPk
+         sgfG1GYN+qp5/NKTuAtbTrjp110Ohx2KeN5ZIs2hAXiu+0HUnaCGuCf5MBo6LvF7Xo+f
+         mUXzCFo1KuV4qNubb5z9EUkF+Vlmszp2jdbfR2oSBCP0zCo0dr+yP4N1KF1FC05rFRaL
+         Df3wvM21k1GNwrG3GqCW/qDERtRBrMLS9AFMQChchyCfwNlFICyMtxl6B3baBsorj+HX
+         RS9OYWXiasEOdSGdNyn60FCk1YyV9hpmXClRgrbD0NZ8RZBgY99h8ZaG3M9FXbJo+Bnu
+         YhXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bvkc/5xcgtS0G/lszVNVFQYj2Ci65ZlPIQoUua69cVo=;
-        b=49vFjPp8w77N9JSDOfeg0HvOVKB9GrwykZgGZ44ingKq++0OgGBSrU8nqxwawpS/ut
-         xFUUGsuyYmuG3B9hBkTExDF5AYjY4iA0SmzbOAuHqNYvdvi9Nx8FhZtCKGPOcL8ucwpp
-         GDD2t7vjlicUZJrxfveVTNlt7Mnmxz82/hnWhYQlFJo95+Zv4Aov0q9dOjB05JY64++i
-         4cIJa6Tdpqtk6GAzPDPQ6Uil4Gib++GhosEiim0Rz2RFg/wD49JHxAiY/DWRlN0/ZC2F
-         L9+fMWqYhbbnYWd5xAPhzrb0jb29xOITfP6pI7KWKEGIE817id3F/AXBoSxvlavJxr8N
-         4MrQ==
-X-Gm-Message-State: AOAM533D94o7mWZQ7L0IVdS+fy1itH+L5exYIXgrsMPRgF47oRafxf4b
-	TMsqbQ7Bz3sM58iVlwyGdEC97++gjF7Yk8dg3LA=
-X-Google-Smtp-Source: ABdhPJxIcISSxN5wkMYvUSqnsUc2aciZLx/hDIlBPNDBAM9OIXe0zv+d86g7MCmhvLu7+VEIfXrXZYzFMF+M4BNzAWw=
-X-Received: by 2002:a25:3795:0:b0:648:fa25:5268 with SMTP id
- e143-20020a253795000000b00648fa255268mr29583990yba.153.1652352674159; Thu, 12
- May 2022 03:51:14 -0700 (PDT)
+        bh=hJ6VUZzoDkfLtMcSKZ/xAZwNEeznBOTpJcMR80gxEaE=;
+        b=neWdb6EltjE3GElB7VBeqYCb5ph3YprLgfs6WUeN0LDFKsWPzvKFZB9WAOi1W9hZok
+         0z+vbbradZ+s0xPiQFzXD0CGraotsa5QRrmws3aPyks/vuvvnSkQqLOQdjCamFE1/nRK
+         pwrdOhGCwVNoL0fd2exFaMJibck6s13wtXOGjOZh5bjqFP6tE7TOGLyJZUG++l2KmVzI
+         xm0KmBMxhERsbwok4ZDBj/p0Brr+J/sOSYUqw9BqGYQaimUXCDkH+b441klTPmZCX12q
+         HAXEyiyZEw0tNEJDTQXfzjOR7S5Rt9EOTS1jce2kigPl4gDUd1AMFz9PIu8ALhheVZWO
+         7d5A==
+X-Gm-Message-State: AOAM531bPzaVchnm9EJzSiiX2P0Jwo7pqHxlEkJw9o6EXGoIJUNJxYOe
+	qnptNNmwLtV9yYlpNxEID9wK/3G+ZwXKASZ+UmMx8w==
+X-Google-Smtp-Source: ABdhPJw/k0tkdptYkUwJJLZnkbBu9+HvvEkq7/HRxeGED7/f+Gs7uThckD7oBZDoG4FKp5b04Jm7xIagSCmKcWlEz8c=
+X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
+ nc6-20020a1709071c0600b006dfb257cbb3mr220276ejc.631.1652366959202; Thu, 12
+ May 2022 07:49:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -30,9 +41,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <YnycZaoBPF89t/qF@debian-BULLSEYE-live-builder-AMD64>
 In-Reply-To: <YnycZaoBPF89t/qF@debian-BULLSEYE-live-builder-AMD64>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 12 May 2022 12:51:03 +0200
-Message-ID: <CAJZ5v0iw2izuDOmZhS=sHMFV=F=cWWR598na3oE3tTuFS+FmbA@mail.gmail.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Thu, 12 May 2022 07:49:07 -0700
+Message-ID: <CABXOdTc_vJ7poJRAWLBw7hkFOsVmu9q_75qyJK-SfdF7yWstgw@mail.gmail.com>
 Subject: Re: [PATCH v12] platform/chrome: Add ChromeOS ACPI device driver
 To: Muhammad Usama Anjum <usama.anjum@collabora.com>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -48,12 +59,12 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Rajat Jain <rajatja@google.com>, 
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
 	Platform Driver <platform-driver-x86@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
 	ACPI Devel Maling List <linux-acpi@vger.kernel.org>, 
 	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 12, 2022 at 7:34 AM Muhammad Usama Anjum
+On Wed, May 11, 2022 at 10:34 PM Muhammad Usama Anjum
 <usama.anjum@collabora.com> wrote:
 >
 > From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
@@ -73,7 +84,7 @@ On Thu, May 12, 2022 at 7:34 AM Muhammad Usama Anjum
 > Co-developed-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 > Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
 > Changes in v12:

@@ -1,99 +1,63 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504E433C2
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 15:20:36 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id n10so10936411ejk.5
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 08:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LSVMi3sIF030EU435n7TSz+80CX0XXIOGq6LT9c1iJs=;
-        b=R93hpC55nIrmmOwCv9ozgHF6+ZEnHvkBliQAm+PzjJ4fRxcR9juR4MHn1tg0IZlYnP
-         CnQQh8Snsq7U3+rULyhqoiz6ewotSFb6k/70frKD9FgAmPUEXNDgHCmE/oxf4DpP8f5D
-         IBXQ/CfEcH2+c2yK7DrvTsPyCchAC3lE46gfrRIGfS2p659nmV/QAxG+5p3JnZ7EyOSR
-         HqmpNvG18HLlgazoMmkwGhjOcarZiv4QymzOCYa/SFtOgOSLbYJGOsd8/MfvIjM9rJ+W
-         L2ds0d3chFwZnUa4ex//ufhmLgYweHJ3dVMPse4gNyK1LA6iB1xuJzP+BJAJZvJHQTLI
-         vNmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LSVMi3sIF030EU435n7TSz+80CX0XXIOGq6LT9c1iJs=;
-        b=Xmi1BH2SmxiRrq+n6LQ4Y3ze7jWYeY82e8yBgxlOTHf1IK1sYi+93WirrDgbIWlOM6
-         8KkvSPpJb13bD79n+THkRM6VwetK1m9tEWZbUPvh0LBS4R30X5qxHRyiPr9yWrt0w032
-         vi6FCHByIVJfZCdndJOyuGQbJQF4WIBanH7xqqEO2Mm5qvr5CMwEoKw1I2X3A4i500T6
-         GBqyw7/AboZkbtIiq23DY+YqfqGWpZkgw60sWh1cVpQXmEz/pNJCXN4cYqkVDX/CwB1a
-         nHTYp7Wkd+OngzhrbKKHItfQ+Ijz9jHs8lZeTUL86hJFDrAwFZhqZWIFWiDsHAMxbE8I
-         bHdg==
-X-Gm-Message-State: AOAM530tHzHv/IWn0VD6bvggYJTY2/VapQeoapHaCFOVT7uYZ9wUJGDp
-	6V55J4eNYgFKBHfwHYPqn7cpqPLF/dQUtGlQo+xlgg==
-X-Google-Smtp-Source: ABdhPJyfOvuHWuBNEzCDaf6KWjVCW5+Yh5xV+7u/r/xrZNVTzYvg+dpYbastpgLiZn/zH67ln5iDNrujvtfmyJbpnMI=
-X-Received: by 2002:a17:906:58d4:b0:6f4:cebd:c4b with SMTP id
- e20-20020a17090658d400b006f4cebd0c4bmr385389ejs.492.1652368834342; Thu, 12
- May 2022 08:20:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C25633E5
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 17:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E8A58C34116;
+	Thu, 12 May 2022 17:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652376015;
+	bh=+7AtIdZR9osN4t5qyhi4RgNDEqKiuehscGpR7C12g9M=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Yy+IEW+keTgP53+Wup42Fq4NvSlCd8SaASd7pyQ+sAnRZVDyXAJcpY5taGya6eh0n
+	 rM+gC2PaBAqC8l3u06r4iSRsoYJX+CLT+FM4tFre9xhzAB5at6NrYhtR0NX4CxEygw
+	 8OskA3qWhpcZ8abN+1WP58dPq2D9Og19Y5drh6HInXe0JKs8gB1MFxfG2JVCfbEIfy
+	 nGYnzw5vDk9GVwBLpT7iJQCiuluDffKbezuzzYAWNeLNIF+QNfQwTWHvQM8/8LSE27
+	 qHssxtmcfjM+5MEXs3oktPEIlmHrJS09l98mhPsNDDdlLoKcTSdrEYi6mSBaNmiNWJ
+	 YEt5kBZcvGCIQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CFBD1F03937;
+	Thu, 12 May 2022 17:20:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220512013921.164637-1-swboyd@chromium.org> <20220512013921.164637-2-swboyd@chromium.org>
-In-Reply-To: <20220512013921.164637-2-swboyd@chromium.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Thu, 12 May 2022 08:20:23 -0700
-Message-ID: <CABXOdTe9KAs8conb-LNh09dqZLkbuuhtxFirwtvZaeO=agfROQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: cros-ec: Fix a typo in description
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Rob Herring <robh+dt@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	patches@lists.linux.dev, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" <devicetree@vger.kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, 
-	Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
-	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
-	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Check for EC driver
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165237601584.19682.12247816211484032812.git-patchwork-notify@kernel.org>
+Date: Thu, 12 May 2022 17:20:15 +0000
+References: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220404041101.6276-1-akihiko.odaki@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org
 
-On Wed, May 11, 2022 at 6:39 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> A 's/pf/of/' on rpmsg-name description.
->
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Craig Hesling <hesling@chromium.org>
-> Cc: Tom Hughes <tomhughes@chromium.org>
-> Cc: Alexandru M Stan <amstan@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Matthias Kaehlcke <mka@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Hello:
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+This patch was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
 
+On Mon,  4 Apr 2022 13:11:01 +0900 you wrote:
+> The EC driver may not be initialized when cros_typec_probe is called,
+> particulary when CONFIG_CROS_EC_CHARDEV=m.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 > ---
->  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index d1f53bd449f7..99eda9ab0651 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -61,7 +61,7 @@ properties:
->    mediatek,rpmsg-name:
->      description:
->        Must be defined if the cros-ec is a rpmsg device for a Mediatek
-> -      ARM Cortex M4 Co-processor. Contains the name pf the rpmsg
-> +      ARM Cortex M4 Co-processor. Contains the name of the rpmsg
->        device. Used to match the subnode to the rpmsg device announced by
->        the SCP.
->      $ref: "/schemas/types.yaml#/definitions/string"
-> --
-> https://chromeos.dev
->
+>  drivers/platform/chrome/cros_ec_typec.c | 3 +++
+>  1 file changed, 3 insertions(+)
+
+Here is the summary with links:
+  - platform/chrome: cros_ec_typec: Check for EC driver
+    https://git.kernel.org/chrome-platform/c/7464ff8bf2d7
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

@@ -1,148 +1,111 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED483FF5
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 23:45:00 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id z2so13163428ejj.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 16:45:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C420C3FF4
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 23:46:23 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-deb9295679so8627315fac.6
+        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 16:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6tUe0F63ZYrn0Y1fh/u+GXJuGNWxIjIBVNzjlEOaooc=;
-        b=UcB1On1JxLd4Xr6oYtsXWZupWxYqMCZH1DBzRfH5Xtc4P7FFr1vR6KaXACJwSe1f/g
-         KvqeAf29DU3OTlhjJ5j9Hh/gjB7I2d4tZVR10BKtMkVIaQP0pXjgWy/sN2EtFKps8mL6
-         Y+T5mwgLwBToRztodmGegISZ3vYDIqtuHQ3is=
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=CCXk4aGiQyCTAljD0WBKOYV+IYE8EXr1rYTSu6VFgtI=;
+        b=FFyemYPiqGMWq2J42zvVIy56OVbEqIuNlxuncSVPaNxNIIJ5ZycERdzKRulHFGsJEr
+         oumADnP6plIx6csRjg0toODmGtxNF15v1tIvtE34hTfIWKIZI4lQPYRCfz+j1TgnixOx
+         LQc4iQyXWPoOM+4Sw9q+M3yt1yefAvrCDz8Gs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6tUe0F63ZYrn0Y1fh/u+GXJuGNWxIjIBVNzjlEOaooc=;
-        b=gNC6lFaLaaiHa7XpdZX40yb2jog3bfSGbXX780s63nGno0GBZsYwTQ6VzhjWARfMi+
-         mfYsySY7a71P+rIDh6HQdpGsF1rpl/3bshEDTUDNMYW6VhWvwsGcgrGaQirxo53be0ok
-         HMY8kGeV+wM1SMB75sJMY5nOSP4BMT538O4HLAv4hpMtb7Sd6h6TCei6lufCf1JNV2Nq
-         z30oesAi3VPqQusUMwRPBtReZN9+kwf/wLbEzteZ/Jwjn7N9wYKlzOn/w0nZnsJdRZxG
-         XqxZjDwkQ3D6iy0azW+GEj9R8zr6KqOOdOq0ZdPCAqKtHorQ6dTka6YHBWBeKA4sj7Pk
-         WD0Q==
-X-Gm-Message-State: AOAM53212LflUPv4hf7fncbHHRuthIS8+U/Cfqo+r2UK2POifKTJ1hiv
-	L8XV4wwDZG52eE4bd4Sy0qn6MW24SovvFamy9QU=
-X-Google-Smtp-Source: ABdhPJz9dMVRmnKauxUdGW7sHVdb2Mg8NY7acJhzzZGS+Oua7CqeTmrClPzgHNw00jdcqnONIy11Wg==
-X-Received: by 2002:a17:906:dc93:b0:6f4:6a27:41ed with SMTP id cs19-20020a170906dc9300b006f46a2741edmr1987182ejc.36.1652399099166;
-        Thu, 12 May 2022 16:44:59 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
-        by smtp.gmail.com with ESMTPSA id b18-20020a056402279200b0042617ba63b1sm205640ede.59.2022.05.12.16.44.56
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 May 2022 16:44:57 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso6050498wma.0
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 16:44:56 -0700 (PDT)
-X-Received: by 2002:a7b:c4c8:0:b0:394:26c5:b79e with SMTP id
- g8-20020a7bc4c8000000b0039426c5b79emr1988820wmk.15.1652399096143; Thu, 12 May
- 2022 16:44:56 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=CCXk4aGiQyCTAljD0WBKOYV+IYE8EXr1rYTSu6VFgtI=;
+        b=CAxQP/8iR5i/yG3obf0DKX+Po/sAVaeEpLyDH6dB/FXkUlB2wCQoneGPZGZmYx+wqr
+         jR3QQ8/3bzbjPJ44WUAvOdB+Zx/FJGQcnGKovgnTx1euM1tpkGjq7YObQRX8cB76pqqt
+         wE43jUcD20VG4llmZGX0YnDzLDGQzTQNjW975enEbrj+tPT/FBasmFyMWgo/dRpvfQWt
+         wAdRPpCrZT/wrYYVea76+84KnH93k0ms2zPoAeP0oacd5+BgZWblDCX+I38nWghZXlod
+         9BQfm7q4guCIVY2u5WDAmhSTSUndppRgoZ+wBqfEsDyH/3BN7wQy5DsRIdvsHfR+7VjP
+         IlZw==
+X-Gm-Message-State: AOAM5311wG2ExQ1cMjMVwwJvAvtPjF51P6uK0l4G814a8ZEEVHuzLn4P
+	SqmxzC+T06wW/1FSgrSnjwDOqQ7fE2sAEAKPzQ0LmA==
+X-Google-Smtp-Source: ABdhPJx6v0KgMb/jRnx6/Krbb322vnBPBMhicMUGbwrtS2/aRy1hFLrReMk71FzK8VJf5Kfd6+nfPastJffMlxFFYcA=
+X-Received: by 2002:a05:6870:558e:b0:e1:db7c:26aa with SMTP id
+ n14-20020a056870558e00b000e1db7c26aamr1255109oao.63.1652399182819; Thu, 12
+ May 2022 16:46:22 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 12 May 2022 16:46:22 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220512013921.164637-1-swboyd@chromium.org> <20220512013921.164637-3-swboyd@chromium.org>
-In-Reply-To: <20220512013921.164637-3-swboyd@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 May 2022 16:44:44 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XfmU1GhXZPvUMoh9dqs8iei6s+0gu6Mve-aQ33A+7m3g@mail.gmail.com>
-Message-ID: <CAD=FV=XfmU1GhXZPvUMoh9dqs8iei6s+0gu6Mve-aQ33A+7m3g@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] dt-bindings: cros-ec: Reorganize property availability
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Rob Herring <robh+dt@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	patches@lists.linux.dev, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, 
-	Guenter Roeck <groeck@chromium.org>, Craig Hesling <hesling@chromium.org>, 
-	Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
+In-Reply-To: <Yn2YvIFNhaz5GmfI@google.com>
+References: <20220429233112.2851665-1-swboyd@chromium.org> <20220429233112.2851665-2-swboyd@chromium.org>
+ <CAD=FV=VX8EEgkeLgKwyKvjztcjbA8UhKOUpTr-sS1_Ec=QcWbA@mail.gmail.com>
+ <CAKdAkRSOtAD6u_cwKhHeMLgz5dC2hfPvVvqmj+17b4i-nspfgg@mail.gmail.com>
+ <CAE-0n50Y8tZD9Djn9TVaAiHxehFJ2cZKZ1Z09piDk47uw3nK+Q@mail.gmail.com>
+ <Ynzf5jEIECLmELK7@google.com> <CAE-0n50+obQ5qgPNPtUY=OmTgU9bZQ3hNw+MaG9Wi3SQSc-i4A@mail.gmail.com>
+ <CAE-0n52WVNru5fnyaB_7wcBOk4twL0Q92YpRbd40-o6ZBmbXWQ@mail.gmail.com> <Yn2YvIFNhaz5GmfI@google.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 12 May 2022 16:46:22 -0700
+Message-ID: <CAE-0n52ofANUWOY5h=Jjy5SYv=bnxO3xyN4cm3qGVRYmDtkNBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: google,cros-ec-keyb: Introduce
+ switches only compatible
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+	patches@lists.linux.dev, chrome-platform@lists.linux.dev, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, "Joseph S. Barrera III" <joebar@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-
-On Wed, May 11, 2022 at 6:39 PM Stephen Boyd <swboyd@chromium.org> wrote:
+Quoting Dmitry Torokhov (2022-05-12 16:31:08)
+> On Thu, May 12, 2022 at 01:11:39PM -0700, Stephen Boyd wrote:
+> > Quoting Stephen Boyd (2022-05-12 11:58:02)
+> > > Quoting Dmitry Torokhov (2022-05-12 03:22:30)
+> > > >
+> > > > Have we solved module loading in the presence of multiple compatibles?
+> > > > IIRC we only ever try to load module on the first compatible, so you'd
+> > > > be breaking autoloading cros-ec-keyb on these older kernels. I think the
+> > > > cure that is being proposed is worse than the disease.
+> > > >
+> > >
+> > > The first compatible is still cros-ec-keyb in the driver though? Or you
+> > > mean the first compatible in the node? I'm not aware of this problem at
+> > > all but I can certainly test out a fake node and module and see if it
+> > > gets autoloaded.
+> >
+> > I can't get this test module to fail to load no matter what I do. I
+> > commented out the second match table entry, and kept it there and
+> > removed 'vendor,switch-compat' from the DTS. Module still autoloads.
+> >
 >
-> Various properties in the cros-ec binding only apply to different
-> compatible strings. For example, the interrupts and reg property are
-> required for all cros-ec devices except for the rpmsg version. Add some
-> conditions to update the availability of properties so that they can't
-> be used with compatibles that don't support them.
+> Ah, indeed, if the module contains both compatibles we will load it. It
+> is broken when we have 2 or more modules and DT lists several
+> compatibles for a device.
 >
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Craig Hesling <hesling@chromium.org>
-> Cc: Tom Hughes <tomhughes@chromium.org>
-> Cc: Alexandru M Stan <amstan@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Matthias Kaehlcke <mka@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../bindings/mfd/google,cros-ec.yaml          | 39 +++++++++++++------
->  1 file changed, 27 insertions(+), 12 deletions(-)
+> OK, it looks like you feel very strongly regarding having a dedicated
+> compatible. In this case please make sure that the compatible's behavior
+> is properly documented (i.e. google,cros-ec-keyb compatible does not
+> imply that there are *NO* switches, and users having buttons and
+> switches in addition to matrix keys can also use google,cros-ec-keyb as
+> a compatible for their device). We also need to mention that with the
+> 2nd compatible the device still can report key/button events, it is
+> simply that there is no matrix component. Should we call the other
+> compatible google,cros-ec-bs?
+
+;)
+
+I think I covered that in v3 of this series[1].
+
 >
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index 99eda9ab0651..409ecef967ce 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -148,18 +148,33 @@ patternProperties:
->  required:
->    - compatible
->
-> -if:
-> -  properties:
-> -    compatible:
-> -      contains:
-> -        enum:
-> -          - google,cros-ec-i2c
-> -          - google,cros-ec-rpmsg
-> -then:
-> -  properties:
-> -    google,cros-ec-spi-pre-delay: false
-> -    google,cros-ec-spi-msg-delay: false
-> -    spi-max-frequency: false
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          not:
-> +            contains:
-> +              const: google,cros-ec-spi
-> +    then:
-> +      properties:
-> +        controller-data: false
-> +        google,cros-ec-spi-pre-delay: false
-> +        google,cros-ec-spi-msg-delay: false
-> +        spi-max-frequency: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          not:
-> +            contains:
-> +              const: google,cros-ec-rpmsg
-> +    then:
-> +      properties:
-> +        mediatek,rpmsg-name: false
-> +
-> +      required:
-> +        - reg
-> +        - interrupts
+> We should also abort binding the device if it specifies the new
+> compatible, but EC does not report any buttons or switches.
 
-Is it worth having an "else" clause here? to explicitly make
-"mediatek,rpmsg-name" required for mediatek?
+Sure. I don't have that done in v3 so I can respin the patch series to
+fail probe if there aren't any switches and the cros-ec-keyb-switches
+compatible is present. Can you take a quick glance at v3 and let me know
+if anything else is needed?
 
-In any case, this seems right from my (albeit) limited yaml knowledge
-and seems like an improvement.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+[1] https://lore.kernel.org/all/20220503042242.3597561-1-swboyd@chromium.org/

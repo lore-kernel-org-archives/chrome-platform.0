@@ -1,127 +1,99 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F5E33C2
-	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 15:14:22 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id g6so10922997ejw.1
-        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 08:14:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504E433C2
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 15:20:36 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id n10so10936411ejk.5
+        for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 08:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/u1HiPt6El83plNrSLkAGuBjrIwscqUyOaYLijW4+kI=;
-        b=SGkOEfmBRXouNoqxzf6hPYzUe+KKDSEXHdMYqMrIEyzQFtBEzUh9yE60B9BjPMv1/3
-         CAModw8CHTSfruh9dwdt1oia1svoMbOwNkrl9k+Yza4G8NLgXzpfjaUHbQpc3NHCP6lt
-         rOgvN9cSwKIobkpbUP4MLiaODRYyX/mFODpHMdGoqo91z6WYKQuo0kaail8HWNLJFm7r
-         oEpoQXCcqo78YwnbCfV9c2RI995O0O1Usj61Cwh2Fzr6QkAS5WnNq39piWiv0Bi6GHQ6
-         ZdsrIJwijClhQ3OG4QmV8m++5nK0NqSwYLC8B7bbxPTlvhVzYij43k7ccFd2a1pUvoOt
-         n8tA==
+        bh=LSVMi3sIF030EU435n7TSz+80CX0XXIOGq6LT9c1iJs=;
+        b=R93hpC55nIrmmOwCv9ozgHF6+ZEnHvkBliQAm+PzjJ4fRxcR9juR4MHn1tg0IZlYnP
+         CnQQh8Snsq7U3+rULyhqoiz6ewotSFb6k/70frKD9FgAmPUEXNDgHCmE/oxf4DpP8f5D
+         IBXQ/CfEcH2+c2yK7DrvTsPyCchAC3lE46gfrRIGfS2p659nmV/QAxG+5p3JnZ7EyOSR
+         HqmpNvG18HLlgazoMmkwGhjOcarZiv4QymzOCYa/SFtOgOSLbYJGOsd8/MfvIjM9rJ+W
+         L2ds0d3chFwZnUa4ex//ufhmLgYweHJ3dVMPse4gNyK1LA6iB1xuJzP+BJAJZvJHQTLI
+         vNmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/u1HiPt6El83plNrSLkAGuBjrIwscqUyOaYLijW4+kI=;
-        b=M7UIIjLao2UoMO++Jja3kzm771G50XLCve9P4bbPQWxIShbzgaTWmUxS+5VPhYJiZR
-         KVZaDfXhbujeD09YFRdOV20PBKXVZDmMhY26tNrsD8uL+6OEh8Kh7a7SCw9Zd0dD9Nbr
-         AOOJPONgIuXEz+B52ipQhV7bXXdaLtfnJtGoFok5W7I7+8krHTpn8YS8sq+DfL7ktWmW
-         FrKN0lDy9zRR7EjwazyJll/hN9hxd7nWkAJWWgkw2iYBeZjodUM+6U+dXs1C3jZgbe8B
-         +9TFhSGf2MTAukkoIMLeZqowwGNjIVwx/Xa4a/UimjHHNFQH7vguOLd4TZ2yVth8I6Wv
-         2EYw==
-X-Gm-Message-State: AOAM531XpZQLeUKY0qmxmXRJulM1fvYeC0a1B8POyyMhXSNqquNejeGF
-	6Lak67qJZ/6q3XlK5Ge0oUeVO7Wu1PtF4nTjuGIhpQ==
-X-Google-Smtp-Source: ABdhPJw5m0z/CmdfOhU+dqZxjqaMKJpcftWxfCERbCQDYh902+JstuqmfCHNkwRS3wN+w5yo2i3h7F5TFysGsE9liUo=
-X-Received: by 2002:a17:907:8a17:b0:6f4:4b56:f550 with SMTP id
- sc23-20020a1709078a1700b006f44b56f550mr357869ejc.720.1652368461187; Thu, 12
- May 2022 08:14:21 -0700 (PDT)
+        bh=LSVMi3sIF030EU435n7TSz+80CX0XXIOGq6LT9c1iJs=;
+        b=Xmi1BH2SmxiRrq+n6LQ4Y3ze7jWYeY82e8yBgxlOTHf1IK1sYi+93WirrDgbIWlOM6
+         8KkvSPpJb13bD79n+THkRM6VwetK1m9tEWZbUPvh0LBS4R30X5qxHRyiPr9yWrt0w032
+         vi6FCHByIVJfZCdndJOyuGQbJQF4WIBanH7xqqEO2Mm5qvr5CMwEoKw1I2X3A4i500T6
+         GBqyw7/AboZkbtIiq23DY+YqfqGWpZkgw60sWh1cVpQXmEz/pNJCXN4cYqkVDX/CwB1a
+         nHTYp7Wkd+OngzhrbKKHItfQ+Ijz9jHs8lZeTUL86hJFDrAwFZhqZWIFWiDsHAMxbE8I
+         bHdg==
+X-Gm-Message-State: AOAM530tHzHv/IWn0VD6bvggYJTY2/VapQeoapHaCFOVT7uYZ9wUJGDp
+	6V55J4eNYgFKBHfwHYPqn7cpqPLF/dQUtGlQo+xlgg==
+X-Google-Smtp-Source: ABdhPJyfOvuHWuBNEzCDaf6KWjVCW5+Yh5xV+7u/r/xrZNVTzYvg+dpYbastpgLiZn/zH67ln5iDNrujvtfmyJbpnMI=
+X-Received: by 2002:a17:906:58d4:b0:6f4:cebd:c4b with SMTP id
+ e20-20020a17090658d400b006f4cebd0c4bmr385389ejs.492.1652368834342; Thu, 12
+ May 2022 08:20:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220512083627.885338-1-tzungbi@kernel.org> <20220512083627.885338-7-tzungbi@kernel.org>
-In-Reply-To: <20220512083627.885338-7-tzungbi@kernel.org>
+References: <20220512013921.164637-1-swboyd@chromium.org> <20220512013921.164637-2-swboyd@chromium.org>
+In-Reply-To: <20220512013921.164637-2-swboyd@chromium.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Thu, 12 May 2022 08:14:10 -0700
-Message-ID: <CABXOdTftq_Gbf5UmYCLEfm00xJusm-ZaWnQt9KEhb7U-mY_1Pw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] platform/chrome: cros_ec_spi: drop BUG_ON()
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
+Date: Thu, 12 May 2022 08:20:23 -0700
+Message-ID: <CABXOdTe9KAs8conb-LNh09dqZLkbuuhtxFirwtvZaeO=agfROQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: cros-ec: Fix a typo in description
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Rob Herring <robh+dt@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	patches@lists.linux.dev, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" <devicetree@vger.kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, 
+	Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
+	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
+	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 12, 2022 at 1:37 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+On Wed, May 11, 2022 at 6:39 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> It is overkill to crash the kernel if the `din` buffer is going to full
-> or overflow.
+> A 's/pf/of/' on rpmsg-name description.
 >
-> Drop the BUG_ON() and return -EINVAL instead.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-Wonder if the return code should be -EPROTO instead, but I don't have
-a strong opinion.
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Craig Hesling <hesling@chromium.org>
+> Cc: Tom Hughes <tomhughes@chromium.org>
+> Cc: Alexandru M Stan <amstan@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
 Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
->  drivers/platform/chrome/cros_ec_spi.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
+>  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-> index 589f18e9537d..0a938f317adc 100644
-> --- a/drivers/platform/chrome/cros_ec_spi.c
-> +++ b/drivers/platform/chrome/cros_ec_spi.c
-> @@ -160,7 +160,8 @@ static int receive_n_bytes(struct cros_ec_device *ec_dev, u8 *buf, int n)
->         struct spi_message msg;
->         int ret;
->
-> -       BUG_ON(buf - ec_dev->din + n > ec_dev->din_size);
-> +       if (buf - ec_dev->din + n > ec_dev->din_size)
-> +               return -EINVAL;
->
->         memset(&trans, 0, sizeof(trans));
->         trans.cs_change = 1;
-> @@ -197,7 +198,8 @@ static int cros_ec_spi_receive_packet(struct cros_ec_device *ec_dev,
->         unsigned long deadline;
->         int todo;
->
-> -       BUG_ON(ec_dev->din_size < EC_MSG_PREAMBLE_COUNT);
-> +       if (ec_dev->din_size < EC_MSG_PREAMBLE_COUNT)
-> +               return -EINVAL;
->
->         /* Receive data until we see the header byte */
->         deadline = jiffies + msecs_to_jiffies(EC_MSG_DEADLINE_MS);
-> @@ -237,7 +239,8 @@ static int cros_ec_spi_receive_packet(struct cros_ec_device *ec_dev,
->          * start of our buffer
->          */
->         todo = end - ++ptr;
-> -       BUG_ON(todo < 0 || todo > ec_dev->din_size);
-> +       if (todo < 0 || todo > ec_dev->din_size)
-> +               return -EINVAL;
->         todo = min(todo, need_len);
->         memmove(ec_dev->din, ptr, todo);
->         ptr = ec_dev->din + todo;
-> @@ -305,7 +308,8 @@ static int cros_ec_spi_receive_response(struct cros_ec_device *ec_dev,
->         unsigned long deadline;
->         int todo;
->
-> -       BUG_ON(ec_dev->din_size < EC_MSG_PREAMBLE_COUNT);
-> +       if (ec_dev->din_size < EC_MSG_PREAMBLE_COUNT)
-> +               return -EINVAL;
->
->         /* Receive data until we see the header byte */
->         deadline = jiffies + msecs_to_jiffies(EC_MSG_DEADLINE_MS);
-> @@ -345,7 +349,8 @@ static int cros_ec_spi_receive_response(struct cros_ec_device *ec_dev,
->          * start of our buffer
->          */
->         todo = end - ++ptr;
-> -       BUG_ON(todo < 0 || todo > ec_dev->din_size);
-> +       if (todo < 0 || todo > ec_dev->din_size)
-> +               return -EINVAL;
->         todo = min(todo, need_len);
->         memmove(ec_dev->din, ptr, todo);
->         ptr = ec_dev->din + todo;
+> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> index d1f53bd449f7..99eda9ab0651 100644
+> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> @@ -61,7 +61,7 @@ properties:
+>    mediatek,rpmsg-name:
+>      description:
+>        Must be defined if the cros-ec is a rpmsg device for a Mediatek
+> -      ARM Cortex M4 Co-processor. Contains the name pf the rpmsg
+> +      ARM Cortex M4 Co-processor. Contains the name of the rpmsg
+>        device. Used to match the subnode to the rpmsg device announced by
+>        the SCP.
+>      $ref: "/schemas/types.yaml#/definitions/string"
 > --
-> 2.36.0.512.ge40c2bad7a-goog
+> https://chromeos.dev
 >

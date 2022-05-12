@@ -1,109 +1,120 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4D02F25
-	for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 17:41:09 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id y21so3462805edo.2
-        for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 10:41:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6A3190
+	for <chrome-platform@lists.linux.dev>; Thu, 12 May 2022 01:39:23 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id qe3-20020a17090b4f8300b001dc24e4da73so4816963pjb.1
+        for <chrome-platform@lists.linux.dev>; Wed, 11 May 2022 18:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2Ke+AGfzv6tvoEFSxFKuURhI7WvGdekzVHjZqAbbO8s=;
-        b=G9wqQwuFFHa1lknmirIg8grgSmlGhY4vOMeTI7ajMbQFOkPDfAjxkC53pYWGPJ2cZF
-         JYFgcz/9NdUz5O/wqsbhfPi2zN/aY/XE8j2tiIE+GNsGbyuPFnW8P1tp2iJW3pJ7hdxQ
-         0IWMmg6WoVXdfvmSzYuR0vhQNDCC0PHJKULu799/jK8hUupfLZ4wSeZ7OW6yle+knuIx
-         wKXck2gICgiHyMkOEoopjNhzgzuCsUiXl0Fc8RjVEZqu59KvypFwP3AWHlhIyW+2eUvJ
-         9/csBr94Q6HkyJhoRRrkcPuuXe8cn9wJZuWneLmHD2vUIG70ZoAZdfhxmnMfAxo/8/s1
-         RtmQ==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m9ERJPHY7kNCC9Xfh4Q+AkiSYUdqRfKbbcRRUQeYgLE=;
+        b=Z06Ja5WZl9m0TF+V4ASWgDlsqd8133ZXTovokih+muSLVR2g8+24M1+IN9QdAR3N3U
+         e2o/Gub2GRardsqIPiwc276hWMs29fQ4zNng8YvaeC9UVArnkPSS0g9E+qvSD4FT18/v
+         SlDiN2pU7okZ+ZA9o2sy+z15nLlkycNMpCipk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2Ke+AGfzv6tvoEFSxFKuURhI7WvGdekzVHjZqAbbO8s=;
-        b=ogktzJ+s9VdrKi36S/Tc0x/2iaWA+ziyoTA5vjz3UKsyESl2O9vL7iyd8mQ60roErn
-         +/dM6KrIT4XCk1GseiX+xn+6VgbKIEKR5Ry6ufuPsEL81KBlOYqvDFT7hsmOptcpR5sh
-         tbMsiYVtdliOsoiIvENaznT6X7nxWAnFKHBQhHWirXTaL81cUGXqUpLv6TwVzbwtCKk3
-         tK231ZjMil1YBR307wc1E6mF5yxi83wS7i7QcEPdTDTVpVcAe8thnPOhGxsBAJMprAlb
-         6nQI9sSJwGKue20vaPYe9/fhGoHt4deEu8Gx2hdc8wNi7J5PU+OS3d3qqNpLcnP4ISOd
-         j7pw==
-X-Gm-Message-State: AOAM532KEkSgaEW1v2Bb735QcZQEWzYp0bKNbnNcnmOTP2R0m9tVJ9D3
-	/OXq2EAJCBAlSEBqg6Euo/nPUjZ+cUtEXuVwV9o=
-X-Google-Smtp-Source: ABdhPJypHOUVtZ/mWQM6O1I1uprLxF37dkIpuFfu2UGbONcylK6L0+EILGXJ8zFdWrxtLQMY1Q94ZDxv7qrd1l5g0T4=
-X-Received: by 2002:a05:6402:1d4c:b0:427:d1f5:3a41 with SMTP id
- dz12-20020a0564021d4c00b00427d1f53a41mr29873435edb.218.1652290868261; Wed, 11
- May 2022 10:41:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m9ERJPHY7kNCC9Xfh4Q+AkiSYUdqRfKbbcRRUQeYgLE=;
+        b=Yc8PgxNOMaquroZdfIzh1aflasfuOXr8QQpCITkkD5u5yl0lrMTUnF92trrBTCZWzu
+         aK2uJHHY0LolOfd9xJe9NvrQjn1mjvjWpKiL9bKe9DUKAjrR4PADdmxdavhy8oMTL+Cs
+         rGHQdU/XbgsQLPOpyCEdcshajiE9IR+1gcdzGPwBmkH+59NTlMlbMTmUQdt8Z5NKitnj
+         7ceo/4nr3ClgRRaZfG+7pq701kwoB6fk8pBbV1lEMoKc5bm+hIoAEBfRIiIzqY/nDOPp
+         DQKXePFk7jFTnpXv8K73uisga6yqmgGFVfEPdZrBQr/KUSR6vvQ3Zj7Sp1+62lhrHVpk
+         D+Sg==
+X-Gm-Message-State: AOAM532VOqjbrT/tx0HIjG5g8BiK77+SkrL5q8Ks+Slls78RHPtrUm3X
+	S7je1sgxo2lTxsDyXqsAu0UHLA==
+X-Google-Smtp-Source: ABdhPJzQSFqqWRopUsS9Ny2+LAOvm0JvWTV+LFjBFcsxtSZ6UTSfRFIbkBy2cP3F0lMN/eiotWHAtw==
+X-Received: by 2002:a17:902:d3c6:b0:15f:186a:69f0 with SMTP id w6-20020a170902d3c600b0015f186a69f0mr14901445plb.144.1652319563296;
+        Wed, 11 May 2022 18:39:23 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:193f:f17a:ab0d:1f83])
+        by smtp.gmail.com with ESMTPSA id b7-20020a170902d50700b0015e8d4eb2cfsm2614766plg.281.2022.05.11.18.39.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 18:39:22 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Craig Hesling <hesling@chromium.org>,
+	Tom Hughes <tomhughes@chromium.org>,
+	Alexandru M Stan <amstan@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH v5 0/3] dt-bindings: cros-ec: Update for fingerprint devices
+Date: Wed, 11 May 2022 18:39:18 -0700
+Message-Id: <20220512013921.164637-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.36.0.512.ge40c2bad7a-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YnoJ0k6eIUiwjXSZ@debian-BULLSEYE-live-builder-AMD64>
- <CAHp75Vd574LCnEq-KX=WHnnDyrjZgGu6W9wNEbnw79FBpyx=Lw@mail.gmail.com> <8bd83f45-5278-e817-3f65-88fafd0ad3f4@collabora.com>
-In-Reply-To: <8bd83f45-5278-e817-3f65-88fafd0ad3f4@collabora.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 11 May 2022 19:40:31 +0200
-Message-ID: <CAHp75VcQYncfCv-2GE0a0e=0iOLBC6wMvoH8pFCirN3NyLzdhw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v11] platform/chrome: Add ChromeOS ACPI device driver
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Enric Balletbo i Serra <eballetbo@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Collabora Kernel ML <kernel@collabora.com>, 
-	Guenter Roeck <groeck@chromium.org>, Dmitry Torokhov <dtor@chromium.org>, 
-	Gwendal Grignou <gwendal@chromium.org>, vbendeb@chromium.org, 
-	Andy Shevchenko <andy@infradead.org>, Ayman Bagabas <ayman.bagabas@gmail.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>, 
-	Darren Hart <dvhart@infradead.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jeremy Soller <jeremy@system76.com>, Mattias Jacobsson <2pi@mok.nu>, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Rajat Jain <rajatja@google.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	Platform Driver <platform-driver-x86@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	ACPI Devel Maling List <linux-acpi@vger.kernel.org>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 11, 2022 at 5:59 PM Muhammad Usama Anjum
-<usama.anjum@collabora.com> wrote:
-> On 5/10/22 2:33 PM, Andy Shevchenko wrote:
-> > On Tue, May 10, 2022 at 8:44 AM Muhammad Usama Anjum
-> > <usama.anjum@collabora.com> wrote:
+This patch series introduces a DT binding for chromeos fingerprint
+devices. The first two patches tighten up the existing binding and the
+final patch introduces the fingerprint binding. As there aren't any
+driver patches this can probably go directly through the DT binding tree
+if Lee can ack the patches. Or go through mfd tree if DT maintainers
+ack/review.
 
-...
+Changes from v4 (https://lore.kernel.org/r/20220321191100.1993-1-swboyd@chromium.org):
+ * Drop last patch that implemented driver logic
+ * Drop second to last patch because it's not really needed until
+   compatible is used.
+ * Rolled cros-ec-spi into cros-ec-fp compatible to get all the pieces
 
-> >> +       static struct attribute *attrs_##_group[] = {                                   \
-> >> +               &dev_attr_0_##_group.attr,                                              \
-> >> +               &dev_attr_1_##_group.attr,                                              \
-> >> +               &dev_attr_2_##_group.attr,                                              \
-> >> +               &dev_attr_3_##_group.attr,                                              \
-> >> +               NULL                                                                    \
+Changes from v3 (https://lore.kernel.org/r/20220318015451.2869388-1-swboyd@chromium.org):
+ * Drop spi_device_id because it isn't used
+ * Dropped struct members for gpios
+ * Picked up tags
 
-(1)
+Changes from v2 (https://lore.kernel.org/r/20220317005814.2496302-1-swboyd@chromium.org):
+ * Dropped cros-ec spi dt properties that aren't of use right now
+ * Picked up tags
 
-> >> +       };                                                                              \
-> >> +       static const struct attribute_group attr_group_##_group = {                     \
-> >> +               .name = _name,                                                          \
-> >> +               .is_visible = attr_is_visible_gpio_##_num,                              \
-> >
-> >> +               .attrs = attrs_##_group                                                 \
-> >
-> > Keep a comma here.
+Changes from v1 (https://lore.kernel.org/r/20220314232214.4183078-1-swboyd@chromium.org):
+ * Properly do the boot sequence
+ * Add a message that we're booting and delaying a while
+ * Fix typo in commit text
+ * Change binding to not spell out reset-gpios and indicate that boot0
+   is about asserting boot mode
+ * Split device id to different patch as it's a different topic from
+   booting
 
-> Is there any particular reason for it?
+Stephen Boyd (3):
+  dt-bindings: cros-ec: Fix a typo in description
+  dt-bindings: cros-ec: Reorganize property availability
+  dt-bindings: cros-ec: Add ChromeOS fingerprint binding
 
-Yes, if it's not a terminator entry, like (1), the comma would help to
-avoid unneeded churm in the future in case someone wants to add
-another initialization member.
+ .../bindings/mfd/google,cros-ec.yaml          | 121 ++++++++++++++----
+ 1 file changed, 99 insertions(+), 22 deletions(-)
 
-> If there is, I'll add commas to
-> all the structures.
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: <devicetree@vger.kernel.org>
+Cc: <chrome-platform@lists.linux.dev>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Craig Hesling <hesling@chromium.org>
+Cc: Tom Hughes <tomhughes@chromium.org>
+Cc: Alexandru M Stan <amstan@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Matthias Kaehlcke <mka@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Lee Jones <lee.jones@linaro.org>
 
-It depends if it is a terminator entry or not, so please check
-carefully where to add and where not (the latter example is (1) where
-comma is not needed and theoretically might add a confusion).
-
+base-commit: ffb217a13a2eaf6d5bd974fc83036a53ca69f1e2
 -- 
-With Best Regards,
-Andy Shevchenko
+https://chromeos.dev
+

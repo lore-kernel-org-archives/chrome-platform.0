@@ -1,91 +1,107 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058F07A;
-	Fri, 13 May 2022 19:07:31 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id x8so4902480pgr.4;
-        Fri, 13 May 2022 12:07:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3382FB3
+	for <chrome-platform@lists.linux.dev>; Fri, 13 May 2022 19:15:06 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id iq10so8912271pjb.0
+        for <chrome-platform@lists.linux.dev>; Fri, 13 May 2022 12:15:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=G3htLal0R9JQlgB8aBD9qwg4j1ycq7FYDSReJvI/Ejs=;
-        b=dfoLW4YM0AL0o2UMe/CAZsp0ISgrY14Zpen78cfYOkTh8uiK+/vttAkAdjMkk/14xy
-         SkHEqwzygwbVdVYpB555V9s9B6LdrIpute6MioCLvnm4zn/4aCE4V34hLSOJKiPZEH+R
-         DFOjPcVRQFQnqsrdSXpx5st7CfN3wgRoeo66SCZ2MsAPcKVK09+EUZwdQ1TVd5XyEBMC
-         SfrmwLrwsouxzDDbrSsOz7sCUraI2aloN27/WaQAnF+PV6AHKAsXlLwW6VniVR3wJm4M
-         EKV7KGQjAAewxj/+rPb1dBJrHkfcD601mRjyL0gdY5uh88LU338L/CUBP39wKlPeUH5a
-         T8Fw==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=2u6LhwEQjHncR6iDng+YF4EwdQdmn4d4IRt3EYqFVTc=;
+        b=1alLERPKElJ1QKw35XmTMofYPk4Xc0XSet5ZyGS66118pN3TxHhFQl+7d2WnBBKncv
+         u5xUlyEJKYDHJINEe6IY+tBdyAIuTYd1Qw9ZFj6rK89RuoYCU8c4LdmajubG9X62sz9w
+         CNd0+oH16DpkNkCz1hNCm4UIC+/w2vHnwsSPCe/o0gri9aDJ+rbL6UwVA32ZtkGku/lW
+         5GLnPc/ejF7Jyir6NM6VNlxs4KLWW77/i2j3aAoUQz1zxrVBtPNuazlM6eSxf3G5nDKW
+         CRJToGfxE94IgwqlI3zZ2c6t2BhtnxPl+S0OGSZ3CPCTw5gzDsLg8pt47FfaVGC2kyAH
+         M3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=G3htLal0R9JQlgB8aBD9qwg4j1ycq7FYDSReJvI/Ejs=;
-        b=0mVWeWAgSGUV3X7hk9D1pPnp+KrL73OC1cqclR3HqpsraqskcoH9eV4uCeuE0gvlzx
-         Dc7hH5Rd/pwqzkqywrvkY5nm2nopsypvBEcJy7IQOAQzqZ30HtKSmLUA6A4U35wANwHF
-         VXr5CVT/TNfNbHztubgMX/cdA26YPD3jkSzoRUCtL3OceLDSIgCOSzuau4XHGo6Rk236
-         uHtn99enXBOvgXzo/EozgaqTrLQGfkOQvjtYyyU5ckFBF54v8SQtqXMVp9uflkqJ//Y/
-         +6tAODDobAsTqSnWMISuRW7d18hMduxybsY6/5L1VFXmE83eO7o+ppMwR9te/uuWhEP2
-         O9TQ==
-X-Gm-Message-State: AOAM533HmHdYtMo3/Pn6osZt4xI1kh7AsTwlz6u9Z2L4xAQWpbKkciKk
-	jnxgiC6a6kvl5llREi2+sHM=
-X-Google-Smtp-Source: ABdhPJzfFpaq1WOaqP10V9tGZ0QOROH6rY7aqAt6vYrrlF/byY/Hs88Xuipqk5G/jy3te8LF32mFpA==
-X-Received: by 2002:a63:6989:0:b0:3c2:3c19:d661 with SMTP id e131-20020a636989000000b003c23c19d661mr5119901pgc.352.1652468851245;
-        Fri, 13 May 2022 12:07:31 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:8d3c:fa63:aaf0:6c4e])
-        by smtp.gmail.com with ESMTPSA id p7-20020a17090a428700b001dcc0cb262asm1948027pjg.17.2022.05.13.12.07.29
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=2u6LhwEQjHncR6iDng+YF4EwdQdmn4d4IRt3EYqFVTc=;
+        b=1BepGYkBycPgcH+KlpL+eYHe+rb104DfubMrp9hQFpqenRI7V8/5tWhisVose3RUGW
+         hFjqTL/V6FN6bM3TMpJkIxzTbuvCJuEs07iS0QV0gygP6dj735kMFJrFrbDjvhvz6xnV
+         xJoMXw6ilSo/L2B4m3yNWurnv3Y02NF9fhorE4apBrfzZlDHesyXhgFXY2Qa2kVrSd6a
+         h9as4dTaE0sQRQIdrj3EmWglz4Pwu+SyKv+IlcHDivNlwCCAO7GFP0mfadwvY+x+SRwL
+         2bRWXjFFusz87UMcXeuZT7US3tkNAzVjSp95nh749ieDUNh3lRaLNqMMAcTeCbDwz8O0
+         A9Nw==
+X-Gm-Message-State: AOAM5333Bxk3Kvo9LxUXU7ZnDXTvxta068guNORK+01yzv//TCjS2Nf7
+	OJOtB+p2ZWHnHT6zhu8emAKAsA==
+X-Google-Smtp-Source: ABdhPJwjPYwGw4KL4M/WgoB/5tec9YagBb9EtOmCYPF6KAc79b6p5jC1zaMnJKRPUqfT5D2lLJNbJg==
+X-Received: by 2002:a17:902:d1cd:b0:15d:1483:6ed6 with SMTP id g13-20020a170902d1cd00b0015d14836ed6mr6459936plb.58.1652469305838;
+        Fri, 13 May 2022 12:15:05 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u1-20020a1709026e0100b0015e8d4eb1c0sm2283724plk.10.2022.05.13.12.15.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 May 2022 12:07:29 -0700 (PDT)
-Date: Fri, 13 May 2022 12:07:27 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	"Joseph S. Barrera III" <joebar@chromium.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: google,cros-ec-keyb: Introduce
- switches only compatible
-Message-ID: <Yn6sb1mzXuGyPZeR@google.com>
-References: <20220429233112.2851665-2-swboyd@chromium.org>
- <CAD=FV=VX8EEgkeLgKwyKvjztcjbA8UhKOUpTr-sS1_Ec=QcWbA@mail.gmail.com>
- <CAKdAkRSOtAD6u_cwKhHeMLgz5dC2hfPvVvqmj+17b4i-nspfgg@mail.gmail.com>
- <CAE-0n50Y8tZD9Djn9TVaAiHxehFJ2cZKZ1Z09piDk47uw3nK+Q@mail.gmail.com>
- <Ynzf5jEIECLmELK7@google.com>
- <CAE-0n50+obQ5qgPNPtUY=OmTgU9bZQ3hNw+MaG9Wi3SQSc-i4A@mail.gmail.com>
- <CAE-0n52WVNru5fnyaB_7wcBOk4twL0Q92YpRbd40-o6ZBmbXWQ@mail.gmail.com>
- <Yn2YvIFNhaz5GmfI@google.com>
- <CAE-0n52ofANUWOY5h=Jjy5SYv=bnxO3xyN4cm3qGVRYmDtkNBQ@mail.gmail.com>
- <CAE-0n53VqYBP1Pq14ju5GWZ6VcKNS-DwLnM-1J_4Z3HExpMU1g@mail.gmail.com>
+        Fri, 13 May 2022 12:15:05 -0700 (PDT)
+Message-ID: <627eae39.1c69fb81.b65ee.5f9b@mx.google.com>
+Date: Fri, 13 May 2022 12:15:05 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n53VqYBP1Pq14ju5GWZ6VcKNS-DwLnM-1J_4Z3HExpMU1g@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v5.18-rc1-11-g6c942e3f424f
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.18-rc1-11-g6c942e3f424f)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Thu, May 12, 2022 at 04:53:13PM -0700, Stephen Boyd wrote:
-> Quoting Stephen Boyd (2022-05-12 16:46:22)
-> >
-> > I think I covered that in v3 of this series[1].
-> 
-> Even better, see v4
-> 
-> https://lore.kernel.org/all/20220503204212.3907925-1-swboyd@chromium.org/
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.18-rc1=
+-11-g6c942e3f424f)
 
-I guess I was looking for the explicit verbage for when a particular
-compatible has or can be used, and I do not believe I see it in either
-the 3rd or the 4th version posted. I see some comments in the example
-section, but I do not think it is enough.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.18-rc1-11-g6c942e3f424f/
 
-Thanks.
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.18-rc1-11-g6c942e3f424f
+Git Commit: 6c942e3f424f0a31417cb333bbb933517b313715
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
--- 
-Dmitry
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

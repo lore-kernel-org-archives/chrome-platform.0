@@ -1,108 +1,91 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DCE323F
-	for <chrome-platform@lists.linux.dev>; Fri, 13 May 2022 13:20:49 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id ks9so16265147ejb.2
-        for <chrome-platform@lists.linux.dev>; Fri, 13 May 2022 06:20:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058F07A;
+	Fri, 13 May 2022 19:07:31 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id x8so4902480pgr.4;
+        Fri, 13 May 2022 12:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MD83ziJ2Qho4XkX8bpjsM8c+Xp4pjhuVQvUvmAtS3rE=;
-        b=TUxDegrLBh1U0MnPtFzTADDsXSPEGhcUswvbfcvpQuBefZd31V7+cHEyDPsnW3OZ0f
-         0xdwW8VJYLh1lAHGUVtCZbqKE3H17sxyE8Jej3wrPitNnrv8cKzUf2Do318YNFvMndhn
-         H8HbOgmsH5zA37wRuaZVlGWWTreTM6159bmhDo+zx81D4CWs036ujwfg5IJyWt5IWtLB
-         FDpmj4f6QPts3veFDiEqL0GisQF1dI0ITml4FEAD/dTfGyw5czclB+19WIs8wPTT3wrO
-         DAfLJ0pbzKTBcQ9OMmsNPuFuQhW8ZVMte89ztEky/fSog+/evVqYW+816VRggyGXa2yK
-         Tg2Q==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=G3htLal0R9JQlgB8aBD9qwg4j1ycq7FYDSReJvI/Ejs=;
+        b=dfoLW4YM0AL0o2UMe/CAZsp0ISgrY14Zpen78cfYOkTh8uiK+/vttAkAdjMkk/14xy
+         SkHEqwzygwbVdVYpB555V9s9B6LdrIpute6MioCLvnm4zn/4aCE4V34hLSOJKiPZEH+R
+         DFOjPcVRQFQnqsrdSXpx5st7CfN3wgRoeo66SCZ2MsAPcKVK09+EUZwdQ1TVd5XyEBMC
+         SfrmwLrwsouxzDDbrSsOz7sCUraI2aloN27/WaQAnF+PV6AHKAsXlLwW6VniVR3wJm4M
+         EKV7KGQjAAewxj/+rPb1dBJrHkfcD601mRjyL0gdY5uh88LU338L/CUBP39wKlPeUH5a
+         T8Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MD83ziJ2Qho4XkX8bpjsM8c+Xp4pjhuVQvUvmAtS3rE=;
-        b=pegGtDVjvJKlHAoPhMx1OQGarUjs+ST6UUyj9K5gsTdxSPnOeo6xHPXHcmUqpVehZC
-         9244OrdDp4PfgyqJwWtpJdx/tn8odLmWKuTpXrkI50yp7XM7+H+jUpYZSlQw2Xps8Uy8
-         Dem/Zuptud+d1ryy1fEAfA6jTBIjuxsdSVecl2+uyX46zWgxcqxKi1mdIy8xlXbNjRFo
-         Z7nWOI/cF5YRcGxqUA8SZZ0sljD0HSZ36k2kvrH5WAJ+ATlDcUZl6WL7htoWeUA7J9FB
-         7rKQbuxIwuitdvj07WNLESY97p6jZqKSTKeenI9VCPgXLwFwICAtph9La7zi4hQ70RkC
-         x1BQ==
-X-Gm-Message-State: AOAM530vxpJUCK11/PyqkNUNnUsXl6uWCng2Wj7y8po2BAaVkXbSIO6o
-	uhtKCa6lJYUf2dd75q+kcr1xALKrguNQQ9vHonCJ0Q==
-X-Google-Smtp-Source: ABdhPJyYK4iU2XE2q/feN2S81RszcBQn11ZAXji1miavcqol3at/RK4ph3hAXXaGtPJjcephZQMoRbvwq5nlbjGz3d4=
-X-Received: by 2002:a17:906:58d4:b0:6f4:cebd:c4b with SMTP id
- e20-20020a17090658d400b006f4cebd0c4bmr4222200ejs.492.1652448047829; Fri, 13
- May 2022 06:20:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G3htLal0R9JQlgB8aBD9qwg4j1ycq7FYDSReJvI/Ejs=;
+        b=0mVWeWAgSGUV3X7hk9D1pPnp+KrL73OC1cqclR3HqpsraqskcoH9eV4uCeuE0gvlzx
+         Dc7hH5Rd/pwqzkqywrvkY5nm2nopsypvBEcJy7IQOAQzqZ30HtKSmLUA6A4U35wANwHF
+         VXr5CVT/TNfNbHztubgMX/cdA26YPD3jkSzoRUCtL3OceLDSIgCOSzuau4XHGo6Rk236
+         uHtn99enXBOvgXzo/EozgaqTrLQGfkOQvjtYyyU5ckFBF54v8SQtqXMVp9uflkqJ//Y/
+         +6tAODDobAsTqSnWMISuRW7d18hMduxybsY6/5L1VFXmE83eO7o+ppMwR9te/uuWhEP2
+         O9TQ==
+X-Gm-Message-State: AOAM533HmHdYtMo3/Pn6osZt4xI1kh7AsTwlz6u9Z2L4xAQWpbKkciKk
+	jnxgiC6a6kvl5llREi2+sHM=
+X-Google-Smtp-Source: ABdhPJzfFpaq1WOaqP10V9tGZ0QOROH6rY7aqAt6vYrrlF/byY/Hs88Xuipqk5G/jy3te8LF32mFpA==
+X-Received: by 2002:a63:6989:0:b0:3c2:3c19:d661 with SMTP id e131-20020a636989000000b003c23c19d661mr5119901pgc.352.1652468851245;
+        Fri, 13 May 2022 12:07:31 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:8d3c:fa63:aaf0:6c4e])
+        by smtp.gmail.com with ESMTPSA id p7-20020a17090a428700b001dcc0cb262asm1948027pjg.17.2022.05.13.12.07.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 May 2022 12:07:29 -0700 (PDT)
+Date: Fri, 13 May 2022 12:07:27 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Doug Anderson <dianders@chromium.org>,
+	LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
+	chrome-platform@lists.linux.dev,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	"Joseph S. Barrera III" <joebar@chromium.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: google,cros-ec-keyb: Introduce
+ switches only compatible
+Message-ID: <Yn6sb1mzXuGyPZeR@google.com>
+References: <20220429233112.2851665-2-swboyd@chromium.org>
+ <CAD=FV=VX8EEgkeLgKwyKvjztcjbA8UhKOUpTr-sS1_Ec=QcWbA@mail.gmail.com>
+ <CAKdAkRSOtAD6u_cwKhHeMLgz5dC2hfPvVvqmj+17b4i-nspfgg@mail.gmail.com>
+ <CAE-0n50Y8tZD9Djn9TVaAiHxehFJ2cZKZ1Z09piDk47uw3nK+Q@mail.gmail.com>
+ <Ynzf5jEIECLmELK7@google.com>
+ <CAE-0n50+obQ5qgPNPtUY=OmTgU9bZQ3hNw+MaG9Wi3SQSc-i4A@mail.gmail.com>
+ <CAE-0n52WVNru5fnyaB_7wcBOk4twL0Q92YpRbd40-o6ZBmbXWQ@mail.gmail.com>
+ <Yn2YvIFNhaz5GmfI@google.com>
+ <CAE-0n52ofANUWOY5h=Jjy5SYv=bnxO3xyN4cm3qGVRYmDtkNBQ@mail.gmail.com>
+ <CAE-0n53VqYBP1Pq14ju5GWZ6VcKNS-DwLnM-1J_4Z3HExpMU1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220513044143.1045728-1-tzungbi@kernel.org> <20220513044143.1045728-8-tzungbi@kernel.org>
-In-Reply-To: <20220513044143.1045728-8-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Fri, 13 May 2022 06:20:36 -0700
-Message-ID: <CABXOdTft-YJHJNiw2xnigHsySOjJ1dDwFoQwXDiMADN5O2Loog@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] platform/chrome: cros_ec_spi: drop BUG_ON() if
- `din` isn't large enough
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n53VqYBP1Pq14ju5GWZ6VcKNS-DwLnM-1J_4Z3HExpMU1g@mail.gmail.com>
 
-On Thu, May 12, 2022 at 9:42 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> It is overkill to crash the kernel if the `din` buffer is going to full
-> or overflow.
->
-> Drop the BUG_ON() and return -EINVAL instead.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Thu, May 12, 2022 at 04:53:13PM -0700, Stephen Boyd wrote:
+> Quoting Stephen Boyd (2022-05-12 16:46:22)
+> >
+> > I think I covered that in v3 of this series[1].
+> 
+> Even better, see v4
+> 
+> https://lore.kernel.org/all/20220503204212.3907925-1-swboyd@chromium.org/
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+I guess I was looking for the explicit verbage for when a particular
+compatible has or can be used, and I do not believe I see it in either
+the 3rd or the 4th version posted. I see some comments in the example
+section, but I do not think it is enough.
 
-> ---
-> Changes from v1:
-> - Separate from the original 6th patch.
->
->  drivers/platform/chrome/cros_ec_spi.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-> index 5264615f46af..7360b3ff6e4f 100644
-> --- a/drivers/platform/chrome/cros_ec_spi.c
-> +++ b/drivers/platform/chrome/cros_ec_spi.c
-> @@ -160,7 +160,8 @@ static int receive_n_bytes(struct cros_ec_device *ec_dev, u8 *buf, int n)
->         struct spi_message msg;
->         int ret;
->
-> -       BUG_ON(buf - ec_dev->din + n > ec_dev->din_size);
-> +       if (buf - ec_dev->din + n > ec_dev->din_size)
-> +               return -EINVAL;
->
->         memset(&trans, 0, sizeof(trans));
->         trans.cs_change = 1;
-> @@ -197,7 +198,8 @@ static int cros_ec_spi_receive_packet(struct cros_ec_device *ec_dev,
->         unsigned long deadline;
->         int todo;
->
-> -       BUG_ON(ec_dev->din_size < EC_MSG_PREAMBLE_COUNT);
-> +       if (ec_dev->din_size < EC_MSG_PREAMBLE_COUNT)
-> +               return -EINVAL;
->
->         /* Receive data until we see the header byte */
->         deadline = jiffies + msecs_to_jiffies(EC_MSG_DEADLINE_MS);
-> @@ -304,7 +306,8 @@ static int cros_ec_spi_receive_response(struct cros_ec_device *ec_dev,
->         unsigned long deadline;
->         int todo;
->
-> -       BUG_ON(ec_dev->din_size < EC_MSG_PREAMBLE_COUNT);
-> +       if (ec_dev->din_size < EC_MSG_PREAMBLE_COUNT)
-> +               return -EINVAL;
->
->         /* Receive data until we see the header byte */
->         deadline = jiffies + msecs_to_jiffies(EC_MSG_DEADLINE_MS);
-> --
-> 2.36.0.550.gb090851708-goog
->
+Thanks.
+
+-- 
+Dmitry

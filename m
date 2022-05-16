@@ -1,43 +1,78 @@
-Received: from yodobashi.com (unknown [106.75.240.95])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92F437A
-	for <chrome-platform@lists.linux.dev>; Sun, 15 May 2022 14:17:40 +0000 (UTC)
-Sender: info@yodobashi.com
-Date: Sun, 15 May 2022 22:17:27 +0800
-From: "yodobashi.com" <mail@yodobashi.com>
-To: <chrome-platform@lists.linux.dev>
-Subject: =?gb2312?B?peilyaXQpbelyaXDpcils6Xgo7qhuKSqv82YlMfpiPOhuYnkuPzSwA==?=
-	=?gb2312?B?7m3K3Li2pM6ktN9CvWogcnBqbXFhenliemgy?=
-Message-ID: <20220515221740278603@yodobashi.com>
-X-mailer: Foxmail 6, 13, 102, 15 [cn]
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C3F813
+	for <chrome-platform@lists.linux.dev>; Mon, 16 May 2022 01:50:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D6E7C34100;
+	Mon, 16 May 2022 01:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652665812;
+	bh=jKN9jck8Cg4KOGCMfWWvP4ssROBon9ITJfnmgvrhoso=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AWyTTFpfS8wz7J0MElpBgEKOdKrp6Yjd/crGpWxKcnne/5o7cMqYk5+LmiRJqKP+g
+	 P7JIgzdRl7e6hhPO0cmx9SMKp1UyLz6ZOhTgs0M2xX2YJvL5TP0wKSbq80UkJG4U8+
+	 XgimDq6ydh7d2Ha1yH7aQrzoX+7vRv2s+e1FJDOREevY+D62ZIHwyK0y+8grNAy+Qc
+	 gCb2PYXT+FeI1E4oFw3k9T4B3JUSDgNEjmWc0VXAQRV9/NEaC6hCTuS262258m8qO2
+	 Y5V0kD9lj9R06lsEhfM9IkinqKn2XRqqjKR4CWefkg53I2YdDnBXPT5Fi+jtM2J/WU
+	 BfT3ZA8vEKSJw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 13A7DF0383D;
+	Mon, 16 May 2022 01:50:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="gb2312"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v13] platform/chrome: Add ChromeOS ACPI device driver
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165266581207.6997.10229505003935532310.git-patchwork-notify@kernel.org>
+Date: Mon, 16 May 2022 01:50:12 +0000
+References: <Yn4OKYrtV35Dv+nd@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <Yn4OKYrtV35Dv+nd@debian-BULLSEYE-live-builder-AMD64>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: rafael@kernel.org, lenb@kernel.org, hdegoede@redhat.com,
+ markgross@kernel.org, bleung@chromium.org, eballetbo@gmail.com,
+ gregkh@linuxfoundation.org, kernel@collabora.com, groeck@chromium.org,
+ dtor@chromium.org, gwendal@chromium.org, vbendeb@chromium.org,
+ andy@infradead.org, ayman.bagabas@gmail.com, benjamin.tissoires@redhat.com,
+ blaz@mxxn.io, dvhart@infradead.org, dmitry.torokhov@gmail.com,
+ jeremy@system76.com, 2pi@mok.nu, mchehab+samsung@kernel.org,
+ rajatja@google.com, srinivas.pandruvada@linux.intel.com,
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, rafael.j.wysocki@intel.com,
+ chrome-platform@lists.linux.dev
 
-ofah9qG4pKq/zZiUx+mI86G5ieS4/NLA7m3K3Li2pM6ktN9CvWqh9qH2DQqjqKSzpM6l4algpeuk
-z6GixeTQxYyf08OkzqWipcml7KW5pMfF5NDFpLWk7KTGpKSk3qS5o6kNCg0KDQql6KXJpdClt6XJ
-pcOlyKWzpeCk8qS0wPvTw6SkpL+kwKStoaKkoqTqpKykyKSmpLSktqSkpN6kuaGjDQqkqr/NmJSk
-zqSqv82YlMfpiPOJ5Lj8yta+QaStpPKkqqSzpMqkpKTepLekv6GjDQrE2sjdpM6ktLRf1Uqk8qSq
-7oqkpKSkpL+kt6TepLmhow0Ko6il0aW5pe+pYKXJpM+horHtyr6kt6TGpKqk6qTepLuk86OpDQoN
-CqG+ieS4/Iydz/OkzrvhhlRJRKG/DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0Ku+GGVElEoaE6oaFjaHJvbWUtcGxhdGZvcm1AbGlz
-dHMubGludXguZGV2DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQ0KDQqh8YnkuPyktaTspL+kqr/NmJTH6YjzIA0KLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCuuK1JK3rLrF
-DQrI1dbQpM6ktN9CvWrPyOuK1JK3rLrFDQoNCqS0tcflaMfpiPOkz6Giz8LTm6G4pKq/zZiUjJ/T
-w6XaqWCluKG5pKuk6aS0tF/VSqSvpMCktaSkoaMNCg0KoaGoi6Sqv82YlIyf08Ol2qlgpbgNCmh0
-dHBzOi8vcy55YW0uY29tL3c5M2E3DQoNCqH5pLOkzqXhqWCl68TayN2ky9DEpKKkv6TqpM6kyqSk
-iPa6z6TPoaKkqsrWyv2kx6S5pKyhoqXopcml0KW3P6XJpcOlyD+ls6XgpKqGlqSkus+k76S7t5m/
-2qTY1sG8saS030K9aqTypKruiqSkpKSkv6S3pN6kuaGjDQoNCg0KpLOkzqXhqWCl66TPoaLF5NDF
-jJ/Tw6TOpaKlyaXspbmkx8Xk0MWktaTspMakpKTepLmhow0KpKrK1sr9pPKkqpLspLGkpKS/pLek
-3qS5pKyhoqSzpM6l4algpeukzsTayN2ky6TEpKSkxqTOpKqGlqSkus+k76S7pM/PwtObpM7fQr1q
-z8ik3qTHpKruiqSkpKSkv6S3pN6kuaGjDQoNCqXopcml0KW3pcmlw6XIpbOl4CCkqoaWpKS6z6Tv
-pLu3mb/aDQpFbWFpbDogaW5mb0B5b2RvYmFzaGkuY29tDQoNCkNvcHlyaWdodDIwMjIgWW9kb2Jh
-c2hpIENhbWVyYSBDby4sTHRkLg0KDQogDQo=
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Fri, 13 May 2022 12:52:09 +0500 you wrote:
+> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> 
+> The x86 Chromebooks have the ChromeOS ACPI device. This driver attaches
+> to the ChromeOS ACPI device and exports the values reported by ACPI in a
+> sysfs directory. This data isn't present in ACPI tables when read
+> through ACPI tools, hence a driver is needed to do it. The driver gets
+> data from firmware using the ACPI component of the kernel. The ACPI values
+> are presented in string form (numbers as decimal values) or binary
+> blobs, and can be accessed as the contents of the appropriate read only
+> files in the standard ACPI device's sysfs directory tree. This data is
+> consumed by the ChromeOS user space.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v13] platform/chrome: Add ChromeOS ACPI device driver
+    https://git.kernel.org/chrome-platform/c/0a4cad9c11ad
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 

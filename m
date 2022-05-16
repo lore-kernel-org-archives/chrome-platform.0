@@ -1,77 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F4BA2A
-	for <chrome-platform@lists.linux.dev>; Mon, 16 May 2022 02:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E3D13C34115;
-	Mon, 16 May 2022 02:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652667015;
-	bh=swuw51O1x2bA/U6rRhQ7wcVLkX/uGaV02Fh03ESd894=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=it6SWEOPCPW8jz2QgX6KPm0O6AQhVDStdonay1ZslnodTkL1/zXiJPXJZsX6V2Sfm
-	 qcZGjP1Uqkwl09oxeA0qCBEP3LlD8/t2JZkPz+W13axwt9Jshkz2HFDKppZxBNQEVT
-	 Fw6Jp8Ttu85viKJL8wnPPg0BXB9XpHYwNWTJ5+ksfuofvsplEZq9jZn/6B5roTgF+F
-	 Ajw7Wuw4mmL807pEPmngb01ulrgA09zdIQtGq9Piv+Iaue1cJScVipO6uKsoE/Kd14
-	 /xS6q3SbB9V5bCXtevFfjRX710QdJbxdWLwxDdgb+yjPJs8nbuSEhSwAiaDIoKirR3
-	 A4NxYfiRblA+g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C5504F03939;
-	Mon, 16 May 2022 02:10:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A745810E0;
+	Mon, 16 May 2022 15:15:58 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id l16so18976820oil.6;
+        Mon, 16 May 2022 08:15:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rpyUOc+Ph8OhqWWweb6POPRF3kJtOe+oRe+i16xzVGk=;
+        b=a4hGGK/2W5id1hdic8WDwpwhHCMgit2LSyaPMqUv9ms3AplCm1OsQopjLXTwZGO4aP
+         7bKc30d9xDEXSTojC4HuCYYwY5qa+/4yLcm2zHI0G6YiFj9Cuzf2U5NOBp1btM53BWxf
+         OS1S7RoJ50ccwRAUMEnwelO7z48HCV7NZousqPIJ9v/4lIhwFDWfC9bBdax1Y5I6N2/S
+         gwVLhPZCI4yco53mgf1c/xVo6aZ7kHxJ1wZ9LYRoq6v/1mtyYyZ8XH3RWQ312wE8FyHs
+         RbfumVyv7aVVAEahzuw26StaaYQRvyH/IXNuZXspYsK5O7b6RrYmrixFFqCXvReVIYJl
+         aA6A==
+X-Gm-Message-State: AOAM5320lqQBZkN7O6fcm0oJXAqYcRXMr31L8auggwDioWW6zlX+cW1g
+	Juzkv9D4PlwnSfPaZ0+SUw==
+X-Google-Smtp-Source: ABdhPJx45RNkA2fwa4orCPJKw9hv/GNXxlNUhflyL24Pmr7ALmc9zOAHfZdEUnGx1c2vqPLz4LvIvg==
+X-Received: by 2002:a05:6808:de1:b0:326:c5dc:dc28 with SMTP id g33-20020a0568080de100b00326c5dcdc28mr8145783oic.108.1652714157711;
+        Mon, 16 May 2022 08:15:57 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l21-20020a4ae395000000b0035eb4e5a6bcsm4174094oov.18.2022.05.16.08.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 08:15:57 -0700 (PDT)
+Received: (nullmailer pid 2660144 invoked by uid 1000);
+	Mon, 16 May 2022 15:15:56 -0000
+Date: Mon, 16 May 2022 10:15:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v5 1/3] dt-bindings: cros-ec: Fix a typo in description
+Message-ID: <20220516151556.GA2659134-robh@kernel.org>
+References: <20220512013921.164637-1-swboyd@chromium.org>
+ <20220512013921.164637-2-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/7] platform/chrome: get rid of BUG_ON()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165266701479.14602.4419757446992775203.git-patchwork-notify@kernel.org>
-Date: Mon, 16 May 2022 02:10:14 +0000
-References: <20220513044143.1045728-1-tzungbi@kernel.org>
-In-Reply-To: <20220513044143.1045728-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512013921.164637-2-swboyd@chromium.org>
 
-Hello:
-
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Fri, 13 May 2022 12:41:36 +0800 you wrote:
-> The series gets rid of BUG_ON()s in drivers/platform/chrome/.  Most of them
-> can be replaced by returning proper return code.
+On Wed, May 11, 2022 at 06:39:19PM -0700, Stephen Boyd wrote:
+> A 's/pf/of/' on rpmsg-name description.
 > 
-> The 2nd patch makes callers of cros_ec_prepare_tx() to take care of the
-> return code.
-> 
-> The 3rd patch turns cros_ec_prepare_tx() to return error code if any.
-> 
-> [...]
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Craig Hesling <hesling@chromium.org>
+> Cc: Tom Hughes <tomhughes@chromium.org>
+> Cc: Alexandru M Stan <amstan@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here is the summary with links:
-  - [v2,1/7] platform/chrome: cros_ec_proto: drop unneeded BUG_ON() in prepare_packet()
-    https://git.kernel.org/chrome-platform/c/42701e7c0cd2
-  - [v2,2/7] platform/chrome: correct cros_ec_prepare_tx() usage
-    https://git.kernel.org/chrome-platform/c/71d3ae7fb640
-  - [v2,3/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_prepare_tx()
-    https://git.kernel.org/chrome-platform/c/c2dcb1b06053
-  - [v2,4/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_get_host_event()
-    https://git.kernel.org/chrome-platform/c/20a264c97bc8
-  - [v2,5/7] platform/chrome: cros_ec_i2c: drop BUG_ON() in cros_ec_pkt_xfer_i2c()
-    https://git.kernel.org/chrome-platform/c/8bff946c4199
-  - [v2,6/7] platform/chrome: cros_ec_spi: drop unneeded BUG_ON()
-    https://git.kernel.org/chrome-platform/c/ddec8e9e90ce
-  - [v2,7/7] platform/chrome: cros_ec_spi: drop BUG_ON() if `din` isn't large enough
-    https://git.kernel.org/chrome-platform/c/bbd43a37ec7a
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Acked-by: Rob Herring <robh@kernel.org>

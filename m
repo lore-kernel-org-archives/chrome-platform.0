@@ -1,124 +1,154 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E05C1FAB
-	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 14:48:14 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id d22so1977201plr.9
-        for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 07:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=Oy4JKXnimfkiSrzdBXFumR+o8eRVj+KTX1tbfm5GzRI=;
-        b=0f8VGXpKJ5GoUkAK9KwOSh1AJMsYi+qwsH/uEmhB0Fq9KSFvZvDHLb/4mgAsxlg868
-         5f6HnhOl1Y+4Eqx1elsmOIqAHUsIuCSnjfjZnA1R657bwtDedQmM8I5tNPSxbsyM+fWl
-         4GsKZcDiiwXzZ6FPMs1yYk6PJ9I24pWIjKFvEVh8JjK7psl/JZ9KL4zfndgJOm22Heoz
-         bI7EYkOOPv6OVfJ48xnMtfFbLOvzJVR8kyMYIRJhdnsW7/dykdhPAbcIsRjh8rPOh3lF
-         rNqDaJis9an+H4ZKTQ/8gUbCpZ4MbZXcA65fjaLL/e502bFaYV/VObW9oakb+5xgCw3/
-         7zMw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1464A1FAB;
+	Wed, 18 May 2022 16:13:51 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id r1so3233499oie.4;
+        Wed, 18 May 2022 09:13:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=Oy4JKXnimfkiSrzdBXFumR+o8eRVj+KTX1tbfm5GzRI=;
-        b=GJrA+2PbE+KV9wNVUpoNrwgsZm7CzpcmRW2BDNiWWv4hUQlFWkcQ/kZcYmAwUXMELQ
-         msvBj3TGFHOq/akpq3amUu2rhEP73FioAgKF7F+ArU8Yscb0/+Ev/Q885o3RdGCOV179
-         WnK/cqUBB9mdjxjjgPophgGJG4IF99oOTtXjjuhdUzJYacY7/TYUYaFGmk+yX6pPx2/o
-         KnO/5F2FbIGvp33gU6uZcltT7fBLfakP6k59EpcXz6Vl1I80mIzQoIFN0SK8cK/0Awaw
-         RyADVC+mPED3atH48VcMjXunUm6E8tIfwIHQuHOMEFG+k+SYDhOW4Ss32XKPjadiirSd
-         5L+Q==
-X-Gm-Message-State: AOAM532V4UkljjQWNEpyJnH6f+CE7/uJAtxvwwZjby0el+qzJ7FzIiOm
-	ess7WEabNx20AOSGEWwHRnRkOTo/WJ970vq8cjU=
-X-Google-Smtp-Source: ABdhPJwI2pMGFo9+j0MB/pEk5ykjp1BYrDigzVz9NvJ9LD2snoyVViepyYqV69Chgy0dlPbSa6hWgg==
-X-Received: by 2002:a17:902:da8b:b0:15e:c0e8:d846 with SMTP id j11-20020a170902da8b00b0015ec0e8d846mr100492plx.34.1652885293598;
-        Wed, 18 May 2022 07:48:13 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id v18-20020a62c312000000b0050dc762817csm1974274pfg.86.2022.05.18.07.48.13
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eMRzRjNkhQaoss3LUukTdqhzCy7CcmpSVBk5VUCkb9s=;
+        b=NJ9ppQcIdgSAIJCSzTygKorrnj66XPXUmyBaVgwbjz+zLzaNegbRgfAx5UucBBIsU6
+         5WRGoblWLzi4U5BAwCbk3ubrX/dCWh5eb00e2VWTai/Ggd8DQm0J4CDSHDeBQ61L3PRd
+         AcGinj5b1xmVz0qGXnO4eVXZAD5CoxwvB3pEhAuNb3uBuTMXhS+96rtqa1u0hQgocRsS
+         hC7A9/Ql61YwfMTfJfeyKhL0Pjy9IW8OGoU7WWCAuHI7+sGmraawbrvXycxqSatRQpdD
+         DqNG5/g0GgfxuAOAClUdabDP6FPoHIQB8fRHXRDoCtL2wxNUktkFM/1itYAZim3yceme
+         7FCw==
+X-Gm-Message-State: AOAM533Y5lk6MAZ9trPMCj80f84fAeFB/1rcEbgf9Of7+l7ioE1TWH2G
+	Ei5c1u+W/61yYamNzok8dA==
+X-Google-Smtp-Source: ABdhPJyM9gwyKZVov5+zkaUB7f6qEXaq1g8vl/n6jJMV9V/BxktLQUhEiUx2l0QFmP2O5mN//53iXA==
+X-Received: by 2002:a05:6808:130b:b0:326:d1ff:b56f with SMTP id y11-20020a056808130b00b00326d1ffb56fmr405915oiv.222.1652890431032;
+        Wed, 18 May 2022 09:13:51 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d5-20020a056870e24500b000e90544b79fsm1127031oac.41.2022.05.18.09.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 07:48:13 -0700 (PDT)
-Message-ID: <6285072d.1c69fb81.dcb27.4abc@mx.google.com>
-Date: Wed, 18 May 2022 07:48:13 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 18 May 2022 09:13:49 -0700 (PDT)
+Received: (nullmailer pid 3422741 invoked by uid 1000);
+	Wed, 18 May 2022 16:13:48 -0000
+Date: Wed, 18 May 2022 11:13:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v5 3/3] dt-bindings: cros-ec: Add ChromeOS fingerprint
+ binding
+Message-ID: <20220518161348.GC3302100-robh@kernel.org>
+References: <20220512013921.164637-1-swboyd@chromium.org>
+ <20220512013921.164637-4-swboyd@chromium.org>
+ <20220516152003.GB2659134-robh@kernel.org>
+ <CAE-0n53p1mKME=vfed2SB7UXrg9K+-vbp6JPHJBchJc-Pp1Hgg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.18-rc1-20-g13ee26318d722
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 88 runs,
- 1 regressions (v5.18-rc1-20-g13ee26318d722)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n53p1mKME=vfed2SB7UXrg9K+-vbp6JPHJBchJc-Pp1Hgg@mail.gmail.com>
 
-chrome-platform/for-kernelci baseline: 88 runs, 1 regressions (v5.18-rc1-20=
--g13ee26318d722)
+On Mon, May 16, 2022 at 12:23:03PM -0700, Stephen Boyd wrote:
+> Quoting Rob Herring (2022-05-16 08:20:03)
+> > On Wed, May 11, 2022 at 06:39:21PM -0700, Stephen Boyd wrote:
+> > > diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > index 409ecef967ce..e5fe60beb9fe 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > @@ -19,15 +19,19 @@ description:
+> > >  properties:
+> > >    compatible:
+> > >      oneOf:
+> > > -      - description:
+> > > -          For implementations of the EC is connected through I2C.
+> > > -        const: google,cros-ec-i2c
+> > > -      - description:
+> > > -          For implementations of the EC is connected through SPI.
+> > > -        const: google,cros-ec-spi
+> > > -      - description:
+> > > -          For implementations of the EC is connected through RPMSG.
+> > > -        const: google,cros-ec-rpmsg
+> > > +      # For implementations of the EC is connected through I2C.
+> >
+> > Using 'description' was preferred.
+> 
+> I just learned that I should use anyOf instead of oneOf. Confusing!
 
-Regressions Summary
--------------------
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.18-rc1-20-g13ee26318d722/plan/baseline/
-
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.18-rc1-20-g13ee26318d722
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      13ee26318d722e82ee98801d3db0d51746a8c885 =
+Uhh, no. It can only be one of these entries at a time.
 
 
+> >
+> > > +      - items:
+> > > +          - const: google,cros-ec-i2c
+> > > +      # For implementations of the FPMCU connected through SPI.
+> > > +      - items:
+> > > +          - const: google,cros-ec-fp
+> > > +          - const: google,cros-ec-spi
+> > > +      # For implementations of the EC is connected through SPI.
+> > > +      - items:
+> > > +          - const: google,cros-ec-spi
+> > > +      # For implementations of the EC is connected through RPMSG.
+> > > +      - items:
+> > > +          - const: google,cros-ec-rpmsg
+> > >
+> > >    controller-data:
+> > >      description:
+> > > @@ -176,6 +189,37 @@ allOf:
+> > >          - reg
+> > >          - interrupts
+> > >
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            const: google,cros-ec-fp
+> > > +    then:
+> > > +      properties:
+> > > +        '#address-cells': false
+> > > +        '#size-cells': false
+> > > +        typec: false
+> > > +        ec-pwm: false
+> > > +        keyboard-controller: false
+> > > +        proximity: false
+> > > +        codecs: false
+> > > +        cbas: false
+> > > +
+> > > +      patternProperties:
+> > > +        "^i2c-tunnel[0-9]*$": false
+> > > +        "^regulator@[0-9]+$": false
+> > > +        "^extcon[0-9]*$": false
+> >
+> > Is the list of what's allowed shorter? If so, you could list those
+> > properties and use 'additionalProperties: false'.
+> 
+> Yes.
+> 
+> >
+> > Or maybe this is a sign that this should be a separate schema document.
+> 
+> I couldn't figure that out. I tried to add new properties here but it
+> didn't work.
 
-Test Regressions
----------------- =
+Like this?:
 
+then:
+  properties:
+    allowed-prop-1: true
+    allowed-prop-2: true
+    allowed-prop-3: true
+  additionalProperties: false
 
+> And then when I tried to make a different schema document
+> it complained that the example for google,cros-ec-spi in here had a
+> problem.
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+You probably need a custom 'select' so that both schemas aren't 
+matching. Otherwise a schema is applied if any of the compatible strings 
+match.
 
+> Can properties be defined in this section? 
 
-  Details:     https://kernelci.org/test/plan/id/62850077c19de168fea39bfb
+Yes, but discouraged for vendor specific properties. The if/then should 
+really be just additional constraints.
 
-  Results:     88 PASS, 4 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.18-rc1-20-g13ee26318d722/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/baseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.18-rc1-20-g13ee26318d722/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/baseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220513.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/62850077c19de168fea39c21
-        failing since 43 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, first=
- fail: v5.18-rc1-1-gbf84b10d9901d)
-
-    2022-05-18T14:19:21.362274  /lava-6414468/1/../bin/lava-test-case   =
-
- =20
+Rob

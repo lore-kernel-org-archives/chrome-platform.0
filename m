@@ -1,24 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003C6469B
-	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 05:20:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99320C385A9;
-	Wed, 18 May 2022 05:20:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D007F
+	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 09:18:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E842C385AA;
+	Wed, 18 May 2022 09:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652851212;
-	bh=kiCvi3Y9Ruk6NeR5nmbUThhYrDaGmZQ0zGHEkPrP7hk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=VcEQFdZ4Gfu2ZYOMzrv+U/PbOJdX3S4kDh9BBdHa4oPgwzwT+8r1TuMi45zYVgZSY
-	 X1aJBkGt9HL28d6iyCDUaJIx7GHz7p76eDmES5zZsw6gdITQjgQ5K6fLShKRqrfP5L
-	 994NywM0QMg4RNVaxw36qnKL3zHvP4k2Ryn0DRchv/+tDyyW6lgcLbbdy2nTpa/+nW
-	 Ei4E0cEs1LRIKkEfiW2a7upvXX43KClff0uOXoh3OY0R+X4/JH/5TdqRT6iS8CBa9K
-	 c52zR9XW9UhAGx/XUhlhJ/0UDrmgIl/khWsdh50uZ+O4d5WIqI8Rub6vRdHYV85Php
-	 v5Z0I4YIpM9ww==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7E413F03939;
-	Wed, 18 May 2022 05:20:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1652865511;
+	bh=k+5bOoeP4HkT97sUXYxNDGu/Mgf1f/Xo/QI4gKpyZ8Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LGWlx/5Uae5jMpB1EOF4pSpgE6Fqgc/nCVt+KzblLaxq2Volbi/4UUY/6bvIryHhJ
+	 R9BZreIFsvvf3qCayzZ+TLESM5NppAVLbkd0dzyaNnQ7X8HnLqtmHYBGJHTYqM7+ej
+	 S3X+AO0i/z+WqY2y+A3oG/34Zi6ta47AtETFzIwdUG8flmYjX3rBdQ2C477m1v4mXo
+	 wah9VXooUkD3jqP+q6SxUzPWkQFg98PbtrMED5h89OsT2h5PmON1fqn2ae6Zia/aEF
+	 a7ek7g7p5OfocUnqwh3EK+6c1qznifhqmPwgVvp2RwhP+2T9unBneyzqoGYWKT2wv0
+	 jdTgvx89tUIfw==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	tzungbi@kernel.org,
+	dianders@chromium.org
+Subject: [PATCH 0/4] platform/chrome: cros_ec_proto: add initial Kunit tests
+Date: Wed, 18 May 2022 17:18:10 +0800
+Message-Id: <20220518091814.2028579-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -26,52 +33,45 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/7] platform/chrome: get rid of BUG_ON()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165285121251.18618.3566824062986806050.git-patchwork-notify@kernel.org>
-Date: Wed, 18 May 2022 05:20:12 +0000
-References: <20220513044143.1045728-1-tzungbi@kernel.org>
-In-Reply-To: <20220513044143.1045728-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
 
-Hello:
+The series adds some early Kunit tests for ChromeOS EC protocol.
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+The 2nd patch is a refactor.
 
-On Fri, 13 May 2022 12:41:36 +0800 you wrote:
-> The series gets rid of BUG_ON()s in drivers/platform/chrome/.  Most of them
-> can be replaced by returning proper return code.
-> 
-> The 2nd patch makes callers of cros_ec_prepare_tx() to take care of the
-> return code.
-> 
-> The 3rd patch turns cros_ec_prepare_tx() to return error code if any.
-> 
-> [...]
+The 3rd patch updates code comment.
 
-Here is the summary with links:
-  - [v2,1/7] platform/chrome: cros_ec_proto: drop unneeded BUG_ON() in prepare_packet()
-    https://git.kernel.org/chrome-platform/c/42701e7c0cd2
-  - [v2,2/7] platform/chrome: correct cros_ec_prepare_tx() usage
-    https://git.kernel.org/chrome-platform/c/71d3ae7fb640
-  - [v2,3/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_prepare_tx()
-    https://git.kernel.org/chrome-platform/c/c2dcb1b06053
-  - [v2,4/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_get_host_event()
-    https://git.kernel.org/chrome-platform/c/20a264c97bc8
-  - [v2,5/7] platform/chrome: cros_ec_i2c: drop BUG_ON() in cros_ec_pkt_xfer_i2c()
-    https://git.kernel.org/chrome-platform/c/8bff946c4199
-  - [v2,6/7] platform/chrome: cros_ec_spi: drop unneeded BUG_ON()
-    https://git.kernel.org/chrome-platform/c/ddec8e9e90ce
-  - [v2,7/7] platform/chrome: cros_ec_spi: drop BUG_ON() if `din` isn't large enough
-    https://git.kernel.org/chrome-platform/c/bbd43a37ec7a
+The 1st and 4th patches add Kunit tests.
 
-You are awesome, thank you!
+Use the following example commands to run the Kunit tests:
+$ ./tools/testing/kunit/kunit.py run \
+        --arch=x86_64 \
+        --kconfig_add CONFIG_CHROME_PLATFORMS=y \
+        --kconfig_add CONFIG_CROS_EC=y \
+        cros_ec*
+$ ./tools/testing/kunit/kunit.py run \
+        --arch=arm64 --cross_compile aarch64-linux-gnu- \
+        --kconfig_add CONFIG_CHROME_PLATFORMS=y \
+        --kconfig_add CONFIG_CROS_EC=y \
+        cros_ec*
+
+Tzung-Bi Shih (4):
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_prepare_tx()
+  platform/chrome: cros_ec_proto: factor legacy out from
+    cros_ec_prepare_tx()
+  platform/chrome: cros_ec_proto: update cros_ec_check_result() comment
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_check_result()
+
+ drivers/platform/chrome/Kconfig              |   9 +
+ drivers/platform/chrome/Makefile             |   3 +
+ drivers/platform/chrome/cros_ec_proto.c      |  58 ++---
+ drivers/platform/chrome/cros_ec_proto_test.c | 214 +++++++++++++++++++
+ 4 files changed, 259 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_ec_proto_test.c
+
+
+base-commit: a0e7d2f65fa706a106dae4b52a7cfe48e0ddfdff
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.36.0.550.gb090851708-goog
 

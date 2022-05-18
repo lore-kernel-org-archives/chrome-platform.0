@@ -1,60 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2FB4681
-	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 10:49:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08578C385A5;
-	Wed, 18 May 2022 10:49:55 +0000 (UTC)
-Message-ID: <394bbfb1-9d05-0637-725a-c641bcf2fd45@xs4all.nl>
-Date: Wed, 18 May 2022 12:49:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736BB46B8
+	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 11:34:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F61DC385AA;
+	Wed, 18 May 2022 11:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652873659;
+	bh=L9LSlbkMeoTCZ5teJUzit5o/STvUaaZaTe1JmHGt9So=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FT5ZdUq4wO/dGHCQXxr/Z9ysXmdV2bS0aQ+fnv2b8GC7tNoPV+Xa66RBaJTOxgRmE
+	 yhba7yzAR1+Cgn4BrRZkty9hP3/esmNAufSwGrR0JMB6PE9xxVLZb0fsZ5X2PeCiDa
+	 EigoPlT4O0GPAuw7UnrbpKRr0q2Ul1Q4kdc3DriXizxlgTqsDej0+dSipZDesGnwY9
+	 +xwM8HiJSCAEHdfBQC96H0fC9PcsQVSnbAN166hIx0IqGIMwKWEOlSJiSf097KOigt
+	 HSOyF0ZYW2KD60f/rloxli92Pg90aa8Pzu30TIii/cBJlvsOmHDxv/MiySRe2fnfDx
+	 sDQD21LvzBVbA==
+Date: Wed, 18 May 2022 19:34:15 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org, groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dianders@chromium.org
+Subject: Re: [PATCH] platform/chrome: cros_ec_proto: update
+ cros_ec_check_result() comment
+Message-ID: <YoTZt+7rHC+HMIip@google.com>
+References: <20220517082817.1591526-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] media: platform: Add moli to the match table
-Content-Language: en-US
-To: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-Cc: mchehab@kernel.org, bleung@chromium.org, groeck@chromium.org,
- zhuohao@chromium.org, linux-media@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220511085442.23915-1-scott_chao@wistron.corp-partner.google.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220511085442.23915-1-scott_chao@wistron.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220517082817.1591526-1-tzungbi@kernel.org>
 
-Always mention the driver in the Subject. The current subject suggests
-that this patch makes media/platform-wide changes.
-
-Please post a v2.
-
-Regards,
-
-	Hans
-
-On 5/11/22 10:54, Scott Chao wrote:
-> The Google Moli device uses the same approach as the Google Brask
-> which enables the HDMI CEC via the cros-ec-cec driver.
+On Tue, May 17, 2022 at 04:28:17PM +0800, Tzung-Bi Shih wrote:
+> At first glance, cros_ec_check_result() is quite like cros_ec_map_error().
+> They check for `ec_msg->result` and return corresponding errors.  However,
+> as calling from `pkt_xfer` and `cmd_xfer`, cros_ec_check_result() should
+> not report furthermore errors.  -EAGAIN is the only exception.
 > 
-> Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
->  1 file changed, 2 insertions(+)
+> See [1][2][3] for some known userland programs' code.  The return code
+> from ioctl only denotes the EC communication status.  Userland programs
+> would further analyze the `result` in struct cros_ec_command* for
+> follow-up actions (e.g. [4]).
 > 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 8c8d8fc5e63e..25dc7309beab 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
->  	/* Google Brask */
->  	{ "Google", "Brask", "0000:00:02.0", "Port B" },
-> +	/* Google Moli */
-> +	{ "Google", "Moli", "0000:00:02.0", "Port B" },
->  };
->  
->  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+> To clarify, update the function comment.
+
+Pardon me if it is confusing.  The patch now merged into a series in order to
+make more sense.  Let's ignore the patch and move discussion to [5] if any.
+
+[5]: https://patchwork.kernel.org/project/chrome-platform/patch/20220518091814.2028579-4-tzungbi@kernel.org/

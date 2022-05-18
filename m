@@ -1,131 +1,221 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34457E
-	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 16:31:34 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id kq17so4895186ejb.4
-        for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 09:31:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2B71FCE
+	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 19:56:18 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id z15-20020a9d65cf000000b00605f064482cso2104796oth.6
+        for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 12:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r1oLO7O64SDRDNcmae9yhgZmG0/o3ZbaE07wdLh2WFQ=;
-        b=d3ftFDSE2RnvF12jRgGG+txqJyBd/ppy2FzGUzh8ZdS5XsqYp41rNlyyk0uGlh1kG8
-         8+ipFezXKpEJqt0FbB9RD9nE01cndrmo9l3Z4xO6xhaHoNPhZ6+lHIAAQONJBRnL0XGz
-         jAlRAlMGYgQyvsL7A4D0ExDfDOr4R8T/uMR/R0uZE/X2XsQh4ILJ6XhT11Ve/GNdcrry
-         64MapQem4AuA/rXiRqKblOHsX6Odiz6FjT1AJCslR14QCpdbWGfEfAOFsxcs+rOFpitC
-         uFaSkhgLaE57WMDFBIZHHtJGWCeC5mkKS40RjuiB9x2QpvERtyH1dY6/MuK2JQcqq0sN
-         CGog==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=q6k7TwXQDY275UxkUuTVNtao4TZzazR5moehWbU13Bc=;
+        b=g5/fbsGkOpFvl3DvRZPpEo8jogun8jSOWCLsALy94X/VCP6ncGUUeLsIqnLGqdKEzW
+         P8/cLn9bNiLprBIroXErfdY4WYJFHqO/bdJITBfN50ZhToYrp0ye5UhOb1QKEHoifbq8
+         OKiURvgnNxPbcMitcPLkdDI96p+slNJxk/9w4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r1oLO7O64SDRDNcmae9yhgZmG0/o3ZbaE07wdLh2WFQ=;
-        b=JqLUMme+boTlnktgH3JpMa0ybNlkLrw+5FjNKged5OThPwawZdWPXNxOCFUNy/f8/q
-         zd1gs1heGJdstJ4LfJQDp/pvas40vX1eofQ/cbqr3wfZnZ7MEv9WHY/y2+y97TZ6jM93
-         3QvLchlGIDjFRT6hwLOmZNBVbiYCa3ZxqsH3ROoX7yMJjer4s7dDzMoyXvfi91321hU+
-         Lp9keHVbAyJZzqV2zQm1Zhe/iNt0pmm4LIUgQpxufUyW6KvWRfQDhqQ0yALGokXgpPko
-         kd1cYJYmDBH5gRv+SqHWSvFqfmcGxvDx35wzdYkNqaLc7a//Gxz7Nl7P35wlBDyhRmwL
-         kFUQ==
-X-Gm-Message-State: AOAM533vRR4RJVtMQQGWa0Szy5LiOdcasrs8vK0lHI+iKn6K4INffTfS
-	2bDqNJcNUI7tYOG+lITyDZKZLTaBMpL8D/ywVAZqhA==
-X-Google-Smtp-Source: ABdhPJxeTSwGbl7FGSVnCs22tbEzqpLymMjcjO0LZv2ZWelzkkszQjknqK4mMIFHEeBmZVCFBtcARPNbd052uiFrKNw=
-X-Received: by 2002:a17:907:6ea2:b0:6fe:6da9:5d2a with SMTP id
- sh34-20020a1709076ea200b006fe6da95d2amr377345ejc.189.1652891492792; Wed, 18
- May 2022 09:31:32 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=q6k7TwXQDY275UxkUuTVNtao4TZzazR5moehWbU13Bc=;
+        b=Wism5i1n08oi4HzRP+EjWCAkifxzKHVWKvzeF1P46E+L6Hs/TEn8nKQcRPzQKqOy6o
+         LtK7/oP0olZlpPt1GEtog5y12G88T4TIyzHWAlsUnzGbBTWLTvCvl5HR1Ts7BHyKN4+G
+         IYlP4JAwLAxrvNfYf/zQaTZrFSLxUzBIPrIGe1ba/14d2wvUweTIiS2QJg5cmGVTKxuR
+         6LPhL8KYPS9w9JliS/7ONudKkh/vvfZXSTt3XHcxipgeBfVoRQdTVxCWJJiU90ACpNHT
+         POtrGgun6w98pCo4eaBTcaH7iMKZldX1R7emWfnwKwCqFcerVIyrVSBzH4knhVqKDiiD
+         k/Tg==
+X-Gm-Message-State: AOAM533cz3Rq1rXi4/4zrauMQPNO4oUGvpflzCC3jCW8xPSjQiZHP2Cj
+	/8Mz4DRAREJuUfAYgqBiA6Ym2PjotmXW0IncEN0GsA==
+X-Google-Smtp-Source: ABdhPJwLifvJOWX3yKWzLoGN0MnHOdrbsoJrvUWC4w9Xr9cAvIQorp5Y2A947/vh4RjZprkumyYkzxKdHOHmmWcv7uE=
+X-Received: by 2002:a05:6830:13ce:b0:606:702b:87f0 with SMTP id
+ e14-20020a05683013ce00b00606702b87f0mr541140otq.159.1652903777929; Wed, 18
+ May 2022 12:56:17 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 18 May 2022 12:56:17 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220518091814.2028579-1-tzungbi@kernel.org> <20220518091814.2028579-5-tzungbi@kernel.org>
-In-Reply-To: <20220518091814.2028579-5-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 18 May 2022 09:31:21 -0700
-Message-ID: <CABXOdTdUtP+7CLHfpUh+zJ7ho+MduEiMYRtMK5JNnzaY8bCWdw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] platform/chrome: cros_ec_proto: add Kunit tests for cros_ec_check_result()
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>, 
-	Doug Anderson <dianders@chromium.org>
+In-Reply-To: <20220518161348.GC3302100-robh@kernel.org>
+References: <20220512013921.164637-1-swboyd@chromium.org> <20220512013921.164637-4-swboyd@chromium.org>
+ <20220516152003.GB2659134-robh@kernel.org> <CAE-0n53p1mKME=vfed2SB7UXrg9K+-vbp6JPHJBchJc-Pp1Hgg@mail.gmail.com>
+ <20220518161348.GC3302100-robh@kernel.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 18 May 2022 12:56:17 -0700
+Message-ID: <CAE-0n53CMwtCY6XqYRXBpY5g21cFKyr8BF34t79JfK3dKg8cEg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] dt-bindings: cros-ec: Add ChromeOS fingerprint binding
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	devicetree@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, 
+	Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
+	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
+	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 18, 2022 at 2:18 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+Quoting Rob Herring (2022-05-18 09:13:48)
+> On Mon, May 16, 2022 at 12:23:03PM -0700, Stephen Boyd wrote:
+> > Quoting Rob Herring (2022-05-16 08:20:03)
+> > > On Wed, May 11, 2022 at 06:39:21PM -0700, Stephen Boyd wrote:
+> > > > diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > index 409ecef967ce..e5fe60beb9fe 100644
+> > > > --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > +      - items:
+> > > > +          - const: google,cros-ec-i2c
+> > > > +      # For implementations of the FPMCU connected through SPI.
+> > > > +      - items:
+> > > > +          - const: google,cros-ec-fp
+> > > > +          - const: google,cros-ec-spi
+> > > > +      # For implementations of the EC is connected through SPI.
+> > > > +      - items:
+> > > > +          - const: google,cros-ec-spi
+> > > > +      # For implementations of the EC is connected through RPMSG.
+> > > > +      - items:
+> > > > +          - const: google,cros-ec-rpmsg
+> > > >
+> > > >    controller-data:
+> > > >      description:
+> > > > @@ -176,6 +189,37 @@ allOf:
+> > > >          - reg
+> > > >          - interrupts
+> > > >
+> > > > +  - if:
+> > > > +      properties:
+> > > > +        compatible:
+> > > > +          contains:
+> > > > +            const: google,cros-ec-fp
+> > > > +    then:
+> > > > +      properties:
+> > > > +        '#address-cells': false
+> > > > +        '#size-cells': false
+> > > > +        typec: false
+> > > > +        ec-pwm: false
+> > > > +        keyboard-controller: false
+> > > > +        proximity: false
+> > > > +        codecs: false
+> > > > +        cbas: false
+> > > > +
+> > > > +      patternProperties:
+> > > > +        "^i2c-tunnel[0-9]*$": false
+> > > > +        "^regulator@[0-9]+$": false
+> > > > +        "^extcon[0-9]*$": false
+> > >
+> > > Is the list of what's allowed shorter? If so, you could list those
+> > > properties and use 'additionalProperties: false'.
+> >
+> > Yes.
+> >
+> > >
+> > > Or maybe this is a sign that this should be a separate schema document.
+> >
+> > I couldn't figure that out. I tried to add new properties here but it
+> > didn't work.
 >
-> cros_ec_check_result() is used to check if the EC communication success but
-> EC responded EC_RES_IN_PROGRESS.  It should return 0 even if EC wasn't
-> happy about the host command.
+> Like this?:
 >
-> Add Kunit tests for cros_ec_check_result().
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> then:
+>   properties:
+>     allowed-prop-1: true
+>     allowed-prop-2: true
+>     allowed-prop-3: true
+>   additionalProperties: false
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+It doesn't seem to combine constraints?
 
-> ---
->  drivers/platform/chrome/cros_ec_proto_test.c | 41 ++++++++++++++++++++
->  1 file changed, 41 insertions(+)
+I get this error:
+
+	Documentation/devicetree/bindings/mfd/google,cros-ec.example.dt.yaml:
+	ec@0: Additional properties are not allowed ('$nodename' was unexpected)
+
+
+with this interdiff. I added the spi properties to reduce the additional
+properties that aren't allowed.
+
+---8<----
+diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+index 04b847fd5070..d47c7a273026 100644
+--- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
++++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+@@ -18,24 +18,21 @@ description:
+
+ properties:
+   compatible:
+-    anyOf:
++    oneOf:
+       - description:
+           For implementations of the EC connected through I2C.
+-      - items:
+-          - const: google,cros-ec-i2c
++        const: google,cros-ec-i2c
+       - description:
+           For implementations of the FPMCU connected through SPI.
+-      - items:
++        items:
+           - const: google,cros-ec-fp
+           - const: google,cros-ec-spi
+       - description:
+           For implementations of the EC connected through SPI.
+-      - items:
+-          - const: google,cros-ec-spi
++        const: google,cros-ec-spi
+       - description:
+           For implementations of the EC connected through RPMSG.
+-      - items:
+-          - const: google,cros-ec-rpmsg
++        const: google,cros-ec-rpmsg
+
+   controller-data:
+     description:
+@@ -200,19 +197,14 @@ allOf:
+             const: google,cros-ec-fp
+     then:
+       properties:
+-        '#address-cells': false
+-        '#size-cells': false
+-        typec: false
+-        ec-pwm: false
+-        keyboard-controller: false
+-        proximity: false
+-        codecs: false
+-        cbas: false
+-
+-      patternProperties:
+-        "^i2c-tunnel[0-9]*$": false
+-        "^regulator@[0-9]+$": false
+-        "^extcon[0-9]*$": false
++        reset-gpios: true
++        boot0-gpios: true
++        vdd-supply: true
++        interrupts: true
++        compatible: true
++        reg: true
++        spi-max-frequency: true
++      additionalProperties: false
+
+       required:
+         - reset-gpios
+
 >
-> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-> index 61abb18ac00b..25c4fca5c165 100644
-> --- a/drivers/platform/chrome/cros_ec_proto_test.c
-> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
-> @@ -132,6 +132,46 @@ static void cros_ec_proto_test_prepare_tx_bad_msg_outsize(struct kunit *test)
->         KUNIT_EXPECT_EQ(test, ret, -EINVAL);
->  }
+> > And then when I tried to make a different schema document
+> > it complained that the example for google,cros-ec-spi in here had a
+> > problem.
 >
-> +static void cros_ec_proto_test_check_result(struct kunit *test)
-> +{
-> +       struct cros_ec_proto_test_priv *priv = test->priv;
-> +       struct cros_ec_device *ec_dev = &priv->ec_dev;
-> +       struct cros_ec_command *msg = priv->msg;
-> +       int ret, i;
-> +       static enum ec_status status[] = {
-> +               EC_RES_SUCCESS,
-> +               EC_RES_INVALID_COMMAND,
-> +               EC_RES_ERROR,
-> +               EC_RES_INVALID_PARAM,
-> +               EC_RES_ACCESS_DENIED,
-> +               EC_RES_INVALID_RESPONSE,
-> +               EC_RES_INVALID_VERSION,
-> +               EC_RES_INVALID_CHECKSUM,
-> +               EC_RES_UNAVAILABLE,
-> +               EC_RES_TIMEOUT,
-> +               EC_RES_OVERFLOW,
-> +               EC_RES_INVALID_HEADER,
-> +               EC_RES_REQUEST_TRUNCATED,
-> +               EC_RES_RESPONSE_TOO_BIG,
-> +               EC_RES_BUS_ERROR,
-> +               EC_RES_BUSY,
-> +               EC_RES_INVALID_HEADER_VERSION,
-> +               EC_RES_INVALID_HEADER_CRC,
-> +               EC_RES_INVALID_DATA_CRC,
-> +               EC_RES_DUP_UNAVAILABLE,
-> +       };
-> +
-> +       for (i = 0; i < ARRAY_SIZE(status); ++i) {
-> +               msg->result = status[i];
-> +               ret = cros_ec_check_result(ec_dev, msg);
-> +               KUNIT_EXPECT_EQ(test, ret, 0);
-> +       }
-> +
-> +       msg->result = EC_RES_IN_PROGRESS;
-> +       ret = cros_ec_check_result(ec_dev, msg);
-> +       KUNIT_EXPECT_EQ(test, ret, -EAGAIN);
-> +}
-> +
->  static int cros_ec_proto_test_init(struct kunit *test)
->  {
->         struct cros_ec_proto_test_priv *priv;
-> @@ -159,6 +199,7 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
->         KUNIT_CASE(cros_ec_proto_test_prepare_tx_legacy_bad_msg_outsize),
->         KUNIT_CASE(cros_ec_proto_test_prepare_tx_normal),
->         KUNIT_CASE(cros_ec_proto_test_prepare_tx_bad_msg_outsize),
-> +       KUNIT_CASE(cros_ec_proto_test_check_result),
->         {}
->  };
+> You probably need a custom 'select' so that both schemas aren't
+> matching. Otherwise a schema is applied if any of the compatible strings
+> match.
+
+I see. Maybe that's better vs. jamming it all into one file.
+
 >
-> --
-> 2.36.0.550.gb090851708-goog
+> > Can properties be defined in this section?
 >
+> Yes, but discouraged for vendor specific properties. The if/then should
+> really be just additional constraints.
+
+Ok.

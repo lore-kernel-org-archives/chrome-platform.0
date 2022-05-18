@@ -1,24 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6726C1366
-	for <chrome-platform@lists.linux.dev>; Tue, 17 May 2022 10:23:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDF8C385B8;
-	Tue, 17 May 2022 10:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1652783033;
-	bh=rReOvOmhDEHjFGqHgf89jVP6b2wbvBVISjGbIlFVMfU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691B44690
+	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 03:56:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5C9C385AA;
+	Wed, 18 May 2022 03:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652846160;
+	bh=HdoByi/zUhr+JLFYPlfgIYQGec1a21OZIoDG/tTTYtA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ax+B0LvHN+fGTU2qRbOnMAeBdyPtqmbOWfX91NMKl4fyZ30ALqFs/H4jGul7dNMsH
-	 Giy0aYr0b7toT8SaD8XiFejt3j8hpPGPX2kKHCVqiM0QALP6zwBGLCjp7WlZFO+OBa
-	 32lZwWUakuJ4cNHG9qOqvnO9Hdtz9Uo0eBy/AtHQ=
-Date: Tue, 17 May 2022 12:23:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=ZWFnKVyh8Be2jF5K2H8hThsO6wQ3G8KT5xsDUz70vKDlEGUYG/MDgECp90jx5GDu6
+	 RSnnwXt4hzh8+7PVRNzMq+q/2qtS4Z+B90P2pjNscQGb1c4JKPnAcwtQyGhQcqZFjQ
+	 BAkqT5/RSP2FgU5bVlNluFlnJrxWZKMbtnueJUeIFXG2Ad3UmiuSBxKMkhaTmOnVmc
+	 +V1CxDTUsCYPwiYdw3Idg5ui/AZZv+jS7r/nmuX5lEsdHlABBSgKstUD5x3p65bgio
+	 U67kgY2tzjrFHFxDrY6B6J9biUpfUAfquzsp7pqsjWAXnZEFY22LOuBFAC0g0krkhF
+	 ehMFhkcwQtK0Q==
+Date: Wed, 18 May 2022 11:55:56 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Yuanjun Gong <ruc_gongyuanjun@163.com>
 Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH 1/1] platform/chrome: check *dest of memcpy
-Message-ID: <YoN3su+KZFwjypXc@kroah.com>
+Message-ID: <YoRuTN3q2WqruIaR@google.com>
 References: <20220517095521.6897-1-ruc_gongyuanjun@163.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -43,48 +46,6 @@ On Tue, May 17, 2022 at 05:55:21PM +0800, Yuanjun Gong wrote:
 > ...}
 > 
 > Don't do memcpy if indata is NULL.
-> 
-> Signed-off-by: Gong Yuanjun <ruc_gongyuanjun@163.com>
-> ---
->  drivers/platform/chrome/cros_ec_proto.c | 2 +-
->  drivers/regulator/cros-ec-regulator.c   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index c4caf2e2de82..da175c57cff7 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -938,7 +938,7 @@ int cros_ec_command(struct cros_ec_device *ec_dev,
->  	if (ret < 0)
->  		goto error;
->  
-> -	if (insize)
-> +	if (indata && insize)
->  		memcpy(indata, msg->data, insize);
->  error:
->  	kfree(msg);
-> diff --git a/drivers/regulator/cros-ec-regulator.c b/drivers/regulator/cros-ec-regulator.c
-> index c4754f3cf233..1c7ff085e492 100644
-> --- a/drivers/regulator/cros-ec-regulator.c
-> +++ b/drivers/regulator/cros-ec-regulator.c
-> @@ -44,7 +44,7 @@ static int cros_ec_cmd(struct cros_ec_device *ec, u32 version, u32 command,
->  	if (ret < 0)
->  		goto cleanup;
->  
-> -	if (insize)
-> +	if (indata && insize)
->  		memcpy(indata, msg->data, insize);
->  
->  cleanup:
-> -- 
-> 2.17.1
-> 
 
-<formletter>
-
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
-
-</formletter>
+The fix makes less sense to me.  Did you find somewhere that `indata` is NULL
+but `insize` is not 0?

@@ -1,84 +1,77 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8598E469A;
-	Wed, 18 May 2022 05:06:15 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so939559pjq.2;
-        Tue, 17 May 2022 22:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XRlsgT/DhPOQs8SJOPJpABXkZ441U4eTkofnVJR9/V0=;
-        b=gw/mDhni92fmwnaUg618f+wzz9908yL+rd0nTfay+zsDORoQHW22NvfLKAWGLdocYI
-         ommPn3F8OsYjdazmSfOyHjrf3LwEgRY4Y2rnLKwYYcs5CK0HGeUPuEZh9S20VkfMTW1B
-         B3T421gBglYuMNX4n9TnJ/30ew4Pbwfn7bncxPSQ7RQDLmS9oIvY8Ti5xT91S9cg7BvO
-         K84zAVxzTu6AlF5YLNRYW28XRhBoVmQs5L1SFBh1VNx6qvQEwW3FfxIuDNFSC9p7f3js
-         0dIjldDLL4uc8Je7UgD370y0I0TH69ZdarTkKj61y/VVvsc3IDEmwtxZvpGCuCbDHeXy
-         2x/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XRlsgT/DhPOQs8SJOPJpABXkZ441U4eTkofnVJR9/V0=;
-        b=1gGC7M7yXSgOgwqJldxCx1LcmyYjg1gg7WfUn/+MwZ2UsNqcggm4K6qncoZ0MYUElH
-         g1S1L0ZB5HzUCS9N8IR9t+iafBVUhZHycRVHPtXXI8fzcL9U3MP+GtJY80P7rxxEJs8B
-         dKAmZxeJPR+iztbwj205PaKpxh6DJgbEn1WallCisrFLyT9EZtKHn2x3RvJw1H1BsNxA
-         N/oYo2k7QppJ8Rz/wk6Zz2a+Lrr6woCTzT5FjCwCMcv+z92ICPa34/CEZ/fKzzt4ZoAm
-         MHwz6vu1fXSuMVNkRPhPkrdpL9lrlxJslAxuKCQhgpsic5V+7ydElLk+LTHc36F1nVCR
-         t4aw==
-X-Gm-Message-State: AOAM531/iKozZbOJc2/yq/8L/ikHY8Nz/ZItNCOswKeYkF4cY14xT9Pz
-	5aDJ/QUggRODZEWJww6EDME=
-X-Google-Smtp-Source: ABdhPJz/Ts716RSWDtwDnqjE6nbvnA/HhsrFs7hdFknU2JjN18U3m/JtJ62iHxHnqxMXAPX8m5gm2A==
-X-Received: by 2002:a17:902:ccc2:b0:15f:4acc:f202 with SMTP id z2-20020a170902ccc200b0015f4accf202mr25153827ple.3.1652850374886;
-        Tue, 17 May 2022 22:06:14 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:556b:348:b181:320f])
-        by smtp.gmail.com with ESMTPSA id l17-20020a629111000000b005180cf8f8c2sm651052pfe.169.2022.05.17.22.06.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 22:06:14 -0700 (PDT)
-Date: Tue, 17 May 2022 22:06:11 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	"Joseph S. Barrera III" <joebar@chromium.org>
-Subject: Re: [PATCH v5 0/2] Input: cros-ec-keyb: Better matrixless support
-Message-ID: <YoR+w7CSqN0aAE5b@google.com>
-References: <20220516183452.942008-1-swboyd@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003C6469B
+	for <chrome-platform@lists.linux.dev>; Wed, 18 May 2022 05:20:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99320C385A9;
+	Wed, 18 May 2022 05:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652851212;
+	bh=kiCvi3Y9Ruk6NeR5nmbUThhYrDaGmZQ0zGHEkPrP7hk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=VcEQFdZ4Gfu2ZYOMzrv+U/PbOJdX3S4kDh9BBdHa4oPgwzwT+8r1TuMi45zYVgZSY
+	 X1aJBkGt9HL28d6iyCDUaJIx7GHz7p76eDmES5zZsw6gdITQjgQ5K6fLShKRqrfP5L
+	 994NywM0QMg4RNVaxw36qnKL3zHvP4k2Ryn0DRchv/+tDyyW6lgcLbbdy2nTpa/+nW
+	 Ei4E0cEs1LRIKkEfiW2a7upvXX43KClff0uOXoh3OY0R+X4/JH/5TdqRT6iS8CBa9K
+	 c52zR9XW9UhAGx/XUhlhJ/0UDrmgIl/khWsdh50uZ+O4d5WIqI8Rub6vRdHYV85Php
+	 v5Z0I4YIpM9ww==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7E413F03939;
+	Wed, 18 May 2022 05:20:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220516183452.942008-1-swboyd@chromium.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/7] platform/chrome: get rid of BUG_ON()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165285121251.18618.3566824062986806050.git-patchwork-notify@kernel.org>
+Date: Wed, 18 May 2022 05:20:12 +0000
+References: <20220513044143.1045728-1-tzungbi@kernel.org>
+In-Reply-To: <20220513044143.1045728-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-Hi Stephen,
+Hello:
 
-On Mon, May 16, 2022 at 11:34:50AM -0700, Stephen Boyd wrote:
-> This is a followup to my previous patch[1] that skips keyboard registration
-> when the matrix properties aren't present. This adds a compatible string
-> for this scenario so we can ease existing DTBs over to the new design.
+This series was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-As discussed offlist I massaged the binding and the driver code a bit
-and applied it to an immutable branch off v5.17:
+On Fri, 13 May 2022 12:41:36 +0800 you wrote:
+> The series gets rid of BUG_ON()s in drivers/platform/chrome/.  Most of them
+> can be replaced by returning proper return code.
+> 
+> The 2nd patch makes callers of cros_ec_prepare_tx() to take care of the
+> return code.
+> 
+> The 3rd patch turns cros_ec_prepare_tx() to return error code if any.
+> 
+> [...]
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git ib/5.17-cros-ec-keyb
+Here is the summary with links:
+  - [v2,1/7] platform/chrome: cros_ec_proto: drop unneeded BUG_ON() in prepare_packet()
+    https://git.kernel.org/chrome-platform/c/42701e7c0cd2
+  - [v2,2/7] platform/chrome: correct cros_ec_prepare_tx() usage
+    https://git.kernel.org/chrome-platform/c/71d3ae7fb640
+  - [v2,3/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_prepare_tx()
+    https://git.kernel.org/chrome-platform/c/c2dcb1b06053
+  - [v2,4/7] platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_get_host_event()
+    https://git.kernel.org/chrome-platform/c/20a264c97bc8
+  - [v2,5/7] platform/chrome: cros_ec_i2c: drop BUG_ON() in cros_ec_pkt_xfer_i2c()
+    https://git.kernel.org/chrome-platform/c/8bff946c4199
+  - [v2,6/7] platform/chrome: cros_ec_spi: drop unneeded BUG_ON()
+    https://git.kernel.org/chrome-platform/c/ddec8e9e90ce
+  - [v2,7/7] platform/chrome: cros_ec_spi: drop BUG_ON() if `din` isn't large enough
+    https://git.kernel.org/chrome-platform/c/bbd43a37ec7a
 
-that you can share with DTS maintainer(s) to accelerate DTS conversions.
-
-I also dropped the original patch as it did not make it to Linus' tree
-yet.
-
-Thanks.
-
+You are awesome, thank you!
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

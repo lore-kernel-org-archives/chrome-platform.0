@@ -1,107 +1,134 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E0323D6
-	for <chrome-platform@lists.linux.dev>; Thu, 19 May 2022 11:51:35 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso5011579pjb.3
-        for <chrome-platform@lists.linux.dev>; Thu, 19 May 2022 04:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=nmbvF1u5h/w1aeoegSItwvYYG6T9wzjxTSQKK+gJCy0=;
-        b=BNUoWxMMaddSw6ZmH+8DP/SOk0XVu7A5Om7NwnLwMWTfhk9BviMM84w8JNTBve3PQO
-         Jw/Yi3vrFbKHhnrDnKP+pRmV1pgw54QhMyI9sI1JX6ozBZBpbm7lI52iPp01rDBko2+2
-         5egcQTHy8bnKV3hkOFbRJFN2B02RAf3ymNY8VTg58BY5dNlheYxzOi8LJDKRZfPGVEBO
-         od0ka67p+5w7MQOaqA6rmatUczzZtzmBSVtGOOBHsorDoG/UXLuBSqedGyHcLZkM32Y+
-         BmklmKU+nkDQFo/Q9fyPUklqRsq1JYWsBP2pyNmzkA/quzpPwpZDHpfWbWxQGFh5p1W2
-         J8Hg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFFA29A2;
+	Thu, 19 May 2022 19:48:24 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id n24so7647584oie.12;
+        Thu, 19 May 2022 12:48:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=nmbvF1u5h/w1aeoegSItwvYYG6T9wzjxTSQKK+gJCy0=;
-        b=m5wmT6xqLZCje8GD2h8c7xXNqv5lN44I7eVKaQ6qZEPEVBPkn01MnMEkR7gaO4EQ2A
-         N1swbEjM5HPy1fqIYBCrZ6pZc/QMjDQsgdJFz9wgZ5a9v86uoWTZOOw4E3CyRjhbLDN0
-         nm2NMlXFx4oM46iTlhHgz/6JPJdLpbwI8QzZk21GZFoH05HJBlbNSwzj/1wBOrJiytIG
-         inS904JtGdhOh7EHZ5uffGoolbRbclNFWaovlwyAFhI2L11SqmplfY3J6JDaBhfDHExu
-         8RoZgvHFvUR6zXhlEZO7pIsZDyoxD53cHqt+Pu53vb4xDYBY441hQS0PGchR4zB/mAVw
-         EhUA==
-X-Gm-Message-State: AOAM531gFsvXbf0gpBHEPlSN4QT0oQPyLHh67o929F1paCZ+jcE3VVBK
-	PiRjZbOLAkk1RpoAEninEqiR9w==
-X-Google-Smtp-Source: ABdhPJywf2gssaYi7LCj71woTgDl7ahw0ukgsjQZr9lif9DcGFJtlqA36J/6EwJaPQV2SAKOrdUrVg==
-X-Received: by 2002:a17:902:ed93:b0:161:6e0f:e8a1 with SMTP id e19-20020a170902ed9300b001616e0fe8a1mr4392117plj.102.1652961094505;
-        Thu, 19 May 2022 04:51:34 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 16-20020a621410000000b0050dc762819fsm3875447pfu.121.2022.05.19.04.51.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VIsxZb3blRqHveZZ1vGHzZvKm0j5k9bs5pNXv4/1iRw=;
+        b=4vp6FBhI3qnmoCNqAETCm+nqN2bkXVX5pHKeR4/16WyLQ/mq0gn3H7KkSVK9N59BVD
+         auvjKdSTF2Bsur6D39CPiFFfJCf+TqCi9WTM0fNunF61nIHXoR7o+h0uqY4tGRbJ4S/D
+         OnXfHPLCo4vBlYsYIJowNDID0z5isGWqkN9cHOITXV0BK6M3bBdMTZ+60LDsB9eLA9D7
+         4J1RiXQkHKL3thjklzT3li4OCXBSEJupXmnGRbAg+ggvzbugdmpWe5gmXMlWhp70/vlX
+         A3PGt0jw0KK6FHnQuPYYRb2rWSzWgfsqfmuIILStSPR++YqeME/DjKL4OBLFbHGiN+pn
+         OEsQ==
+X-Gm-Message-State: AOAM530K8NvjMohxklFbrjdoIvsqNhRglCcs2oNdZd14hJ6uqBaBncZ1
+	fCcsX3is6JjIQeKJj9v+og==
+X-Google-Smtp-Source: ABdhPJznjYxOKubyLqrHc8K4JIoqeBTU25Rk4zIlngny0HhJr/+0rpaykQKsYWnr3T8r+X5F4uMRsA==
+X-Received: by 2002:a05:6808:f8a:b0:326:de54:a750 with SMTP id o10-20020a0568080f8a00b00326de54a750mr3381561oiw.272.1652989703540;
+        Thu, 19 May 2022 12:48:23 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d15-20020a056830004f00b0060613c844adsm105593otp.10.2022.05.19.12.48.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 04:51:34 -0700 (PDT)
-Message-ID: <62862f46.1c69fb81.7d29a.9052@mx.google.com>
-Date: Thu, 19 May 2022 04:51:34 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 19 May 2022 12:48:22 -0700 (PDT)
+Received: (nullmailer pid 2081471 invoked by uid 1000);
+	Thu, 19 May 2022 19:48:21 -0000
+Date: Thu, 19 May 2022 14:48:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, Douglas Anderson <dianders@chromium.org>, Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, Benson Leung <bleung@chromium.org>, Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v5 3/3] dt-bindings: cros-ec: Add ChromeOS fingerprint
+ binding
+Message-ID: <20220519194821.GA2071376-robh@kernel.org>
+References: <20220512013921.164637-1-swboyd@chromium.org>
+ <20220512013921.164637-4-swboyd@chromium.org>
+ <20220516152003.GB2659134-robh@kernel.org>
+ <CAE-0n53p1mKME=vfed2SB7UXrg9K+-vbp6JPHJBchJc-Pp1Hgg@mail.gmail.com>
+ <20220518161348.GC3302100-robh@kernel.org>
+ <CAE-0n53CMwtCY6XqYRXBpY5g21cFKyr8BF34t79JfK3dKg8cEg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: build
-X-Kernelci-Kernel: v5.18-rc1-24-g37fbbeb52a2d
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v5.18-rc1-24-g37fbbeb52a2d)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n53CMwtCY6XqYRXBpY5g21cFKyr8BF34t79JfK3dKg8cEg@mail.gmail.com>
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.18-rc1=
--24-g37fbbeb52a2d)
+On Wed, May 18, 2022 at 12:56:17PM -0700, Stephen Boyd wrote:
+> Quoting Rob Herring (2022-05-18 09:13:48)
+> > On Mon, May 16, 2022 at 12:23:03PM -0700, Stephen Boyd wrote:
+> > > Quoting Rob Herring (2022-05-16 08:20:03)
+> > > > On Wed, May 11, 2022 at 06:39:21PM -0700, Stephen Boyd wrote:
+> > > > > diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > > index 409ecef967ce..e5fe60beb9fe 100644
+> > > > > --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > > > > +      - items:
+> > > > > +          - const: google,cros-ec-i2c
+> > > > > +      # For implementations of the FPMCU connected through SPI.
+> > > > > +      - items:
+> > > > > +          - const: google,cros-ec-fp
+> > > > > +          - const: google,cros-ec-spi
+> > > > > +      # For implementations of the EC is connected through SPI.
+> > > > > +      - items:
+> > > > > +          - const: google,cros-ec-spi
+> > > > > +      # For implementations of the EC is connected through RPMSG.
+> > > > > +      - items:
+> > > > > +          - const: google,cros-ec-rpmsg
+> > > > >
+> > > > >    controller-data:
+> > > > >      description:
+> > > > > @@ -176,6 +189,37 @@ allOf:
+> > > > >          - reg
+> > > > >          - interrupts
+> > > > >
+> > > > > +  - if:
+> > > > > +      properties:
+> > > > > +        compatible:
+> > > > > +          contains:
+> > > > > +            const: google,cros-ec-fp
+> > > > > +    then:
+> > > > > +      properties:
+> > > > > +        '#address-cells': false
+> > > > > +        '#size-cells': false
+> > > > > +        typec: false
+> > > > > +        ec-pwm: false
+> > > > > +        keyboard-controller: false
+> > > > > +        proximity: false
+> > > > > +        codecs: false
+> > > > > +        cbas: false
+> > > > > +
+> > > > > +      patternProperties:
+> > > > > +        "^i2c-tunnel[0-9]*$": false
+> > > > > +        "^regulator@[0-9]+$": false
+> > > > > +        "^extcon[0-9]*$": false
+> > > >
+> > > > Is the list of what's allowed shorter? If so, you could list those
+> > > > properties and use 'additionalProperties: false'.
+> > >
+> > > Yes.
+> > >
+> > > >
+> > > > Or maybe this is a sign that this should be a separate schema document.
+> > >
+> > > I couldn't figure that out. I tried to add new properties here but it
+> > > didn't work.
+> >
+> > Like this?:
+> >
+> > then:
+> >   properties:
+> >     allowed-prop-1: true
+> >     allowed-prop-2: true
+> >     allowed-prop-3: true
+> >   additionalProperties: false
+> 
+> It doesn't seem to combine constraints?
+> 
+> I get this error:
+> 
+> 	Documentation/devicetree/bindings/mfd/google,cros-ec.example.dt.yaml:
+> 	ec@0: Additional properties are not allowed ('$nodename' was unexpected)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v5.18-rc1-24-g37fbbeb52a2d/
+That would be a bug or limitation in the tools. We would need to add 
+all the other properties we automatically add as well... I think either 
+leaving it as-is or a separate file is going to be the better route 
+here.
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v5.18-rc1-24-g37fbbeb52a2d
-Git Commit: 37fbbeb52a2d2670a76d8b9445dce2ffa7591a0f
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Detailed per-defconfig build reports:
-
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
-
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
-0 warnings, 0 section mismatches
-
----
-For more info write to <info@kernelci.org>
+Rob

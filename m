@@ -1,67 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C9717D7
-	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 10:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B74B9C385A9;
-	Fri, 20 May 2022 10:48:28 +0000 (UTC)
-Message-ID: <67deb2d6-cb04-ddb3-6c24-14d8ecb31ed9@xs4all.nl>
-Date: Fri, 20 May 2022 12:48:26 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDB017D7
+	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 11:08:41 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id a11so7504753pff.1
+        for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 04:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
+        b=Kj+7Auan4bsUc8KoQwFqczhOJlVHGQfBnGWy608iYQ8110CriJtjyCBAAHB+RWZcHf
+         VhiR/XacCdO7kwRyAap6FDCFM6zbxyX0tcYdJblf2/2p4nZq0Q5zA0qO1KBLu8p+gKTo
+         zl90Y5Mjl4hOI8IDd9Jmf/4tkmKJWBi3qHex7P1eX3/bMPVaHBAaNkNs+jBft20JLJF7
+         qcoROWC7QzVIWsXxCaI/7NSr79rh7jNsCgThmsG+mAKFKRox47W0EABIBgF3K7m+6f0K
+         K3TNXZ//JuZ4vImzp5pVFq2+5TrigPiLzmDK8ds+gMANvPyOqzUScpERuO0yLxCrjQdM
+         K1rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
+        b=Z/vzitDuhuAHdys/grGPx9/O3LQAQTxsQ4uOzKWMVOZb1zUso7SdV9PNVBACov7i+2
+         JswPmxdpy82Ng83uxDY//0oMzg8boGrndAXulCMzyZgXoFzD2b0alfIIIkJQgJEI5KsE
+         D5l9/jF2rRw/FI2eXnfEPWxFOSCQJwD4C46dtZ6b5NfuPosn+OH99h8keHpGJ4kdEExI
+         4argHE6iTtNaKTo3NRZwVyfRNzgTXoNIo19fYSPFesc8BUcStsV/yY21mGStMF3k1aEH
+         /ZVSu4zbX2EbM6ZQYaCNbRmYMWwBsN0gN3lmxcJ+kY1Vhev/WrfTAneehqUyT+Ab2gfp
+         1XKQ==
+X-Gm-Message-State: AOAM5323/+9yHA3mjlVYBItASHGdUm0hagIFFkX5wv9lS/k8vxzjoeHD
+	kkol+/HoMzXkVAe6aENvMcxPww==
+X-Google-Smtp-Source: ABdhPJzaCxARv0TVc1XJwcQ1nIwmAQeK6wnibMcmMKPiqUSE5dM+POfMx56MI0U7lwnC2UEaDu0dFg==
+X-Received: by 2002:a63:680a:0:b0:3c2:7c45:c0ab with SMTP id d10-20020a63680a000000b003c27c45c0abmr8251254pgc.63.1653044920549;
+        Fri, 20 May 2022 04:08:40 -0700 (PDT)
+Received: from localhost.localdomain ([1.200.35.228])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170902ea0400b0015e8d4eb29bsm5530686plg.229.2022.05.20.04.08.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 May 2022 04:08:40 -0700 (PDT)
+From: Scott Chao <scott_chao@wistron.corp-partner.google.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: mchehab@kernel.org,
+	bleung@chromium.org,
+	groeck@chromium.org,
+	zhuohao@chromium.org,
+	linux-media@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Scott Chao <scott_chao@wistron.corp-partner.google.com>
+Subject: [PATCH] [v3] media: platform: cros-ec: Add moli to the match table
+Date: Fri, 20 May 2022 19:08:31 +0800
+Message-Id: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] [v2] media/platform-wide: platform: Add moli to the match
- table
-Content-Language: en-US
-To: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-Cc: mchehab@kernel.org, bleung@chromium.org, groeck@chromium.org,
- zhuohao@chromium.org, linux-media@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220520104253.26054-1-scott_chao@wistron.corp-partner.google.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220520104253.26054-1-scott_chao@wistron.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Huh? The Subject is now *really* bad. I think you misunderstood my comment
-on the original patch.
+The Google Moli device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-"[PATCH] media: platform: foo" suggests a patch touching on many drivers in
-drivers/media/platform. But this patch only touches on a single driver, so:
+Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-"[PATCH] media: platform: cros-ec: foo"
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 8c8d8fc5e63e..25dc7309beab 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
+ 	/* Google Brask */
+ 	{ "Google", "Brask", "0000:00:02.0", "Port B" },
++	/* Google Moli */
++	{ "Google", "Moli", "0000:00:02.0", "Port B" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.36.1
 
-That way the maintainer of that driver will see the name of the driver in the
-subject as well, and might comment upon it.
-
-Regards,
-
-	Hans
-
-On 5/20/22 12:42, Scott Chao wrote:
-> The Google Moli device uses the same approach as the Google Brask
-> which enables the HDMI CEC via the cros-ec-cec driver.
-> 
-> Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 8c8d8fc5e63e..25dc7309beab 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
->  	/* Google Brask */
->  	{ "Google", "Brask", "0000:00:02.0", "Port B" },
-> +	/* Google Moli */
-> +	{ "Google", "Moli", "0000:00:02.0", "Port B" },
->  };
->  
->  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,

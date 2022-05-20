@@ -1,84 +1,113 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDB017D7
-	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 11:08:41 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id a11so7504753pff.1
-        for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 04:08:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F38617D7
+	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 11:31:51 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id gi33so6579147ejc.3
+        for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 04:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
-        b=Kj+7Auan4bsUc8KoQwFqczhOJlVHGQfBnGWy608iYQ8110CriJtjyCBAAHB+RWZcHf
-         VhiR/XacCdO7kwRyAap6FDCFM6zbxyX0tcYdJblf2/2p4nZq0Q5zA0qO1KBLu8p+gKTo
-         zl90Y5Mjl4hOI8IDd9Jmf/4tkmKJWBi3qHex7P1eX3/bMPVaHBAaNkNs+jBft20JLJF7
-         qcoROWC7QzVIWsXxCaI/7NSr79rh7jNsCgThmsG+mAKFKRox47W0EABIBgF3K7m+6f0K
-         K3TNXZ//JuZ4vImzp5pVFq2+5TrigPiLzmDK8ds+gMANvPyOqzUScpERuO0yLxCrjQdM
-         K1rQ==
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+        b=re4Sm8tWAvFHp6bKgAYMf09Z79Kgi3OEdhOIiBZ7/Rn2QXbgu5Ly14y4/nQN7Y/aTo
+         VlgbB9yG7Rlr2cuoabCyBxc2bGDLVKK0lXBLnASl6zsHCcOeA+1KzIBeqFsR+y75i5XZ
+         XvFFiPa9GJ2QyyaAdSmJuFi5RyYukwsFD78F77Gu/KxBhoXO8QeL/xhxXqgh8n2pVQ16
+         5uSsdoWXuRrwj+2ip8smJzRExeR9DRqgQ7nZOdTto/19ei6AXbORk/Mx4Jr1TH0FheIZ
+         Rjk53cTk2OReyJUGfCv97XHsZ5d+q5q5c0jA2xxlOnKUomCD8mRuslxc9zsWStq2ZrCv
+         ptCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=um6Mtxj9hn6MLF0/DG+dua7GL3nWe8jP1xt8gG30nLY=;
-        b=Z/vzitDuhuAHdys/grGPx9/O3LQAQTxsQ4uOzKWMVOZb1zUso7SdV9PNVBACov7i+2
-         JswPmxdpy82Ng83uxDY//0oMzg8boGrndAXulCMzyZgXoFzD2b0alfIIIkJQgJEI5KsE
-         D5l9/jF2rRw/FI2eXnfEPWxFOSCQJwD4C46dtZ6b5NfuPosn+OH99h8keHpGJ4kdEExI
-         4argHE6iTtNaKTo3NRZwVyfRNzgTXoNIo19fYSPFesc8BUcStsV/yY21mGStMF3k1aEH
-         /ZVSu4zbX2EbM6ZQYaCNbRmYMWwBsN0gN3lmxcJ+kY1Vhev/WrfTAneehqUyT+Ab2gfp
-         1XKQ==
-X-Gm-Message-State: AOAM5323/+9yHA3mjlVYBItASHGdUm0hagIFFkX5wv9lS/k8vxzjoeHD
-	kkol+/HoMzXkVAe6aENvMcxPww==
-X-Google-Smtp-Source: ABdhPJzaCxARv0TVc1XJwcQ1nIwmAQeK6wnibMcmMKPiqUSE5dM+POfMx56MI0U7lwnC2UEaDu0dFg==
-X-Received: by 2002:a63:680a:0:b0:3c2:7c45:c0ab with SMTP id d10-20020a63680a000000b003c27c45c0abmr8251254pgc.63.1653044920549;
-        Fri, 20 May 2022 04:08:40 -0700 (PDT)
-Received: from localhost.localdomain ([1.200.35.228])
-        by smtp.gmail.com with ESMTPSA id s4-20020a170902ea0400b0015e8d4eb29bsm5530686plg.229.2022.05.20.04.08.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 04:08:40 -0700 (PDT)
-From: Scott Chao <scott_chao@wistron.corp-partner.google.com>
-To: hverkuil-cisco@xs4all.nl
-Cc: mchehab@kernel.org,
-	bleung@chromium.org,
-	groeck@chromium.org,
-	zhuohao@chromium.org,
-	linux-media@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Scott Chao <scott_chao@wistron.corp-partner.google.com>
-Subject: [PATCH] [v3] media: platform: cros-ec: Add moli to the match table
-Date: Fri, 20 May 2022 19:08:31 +0800
-Message-Id: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
-X-Mailer: git-send-email 2.36.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+        b=0BWrASctiwRdzLH3LMk5qa9Yqsr8cSgvQQtAKu4Adjxrfd0Itc6pohcHAxC5Ml9dXc
+         UK79n+oyKHnok6Ltf0LUzcrSktGsVTqGwcklrHtxVZG9QIR3yIAZ+WZ+Zo0pg0ouUrVH
+         o5/jI5p5/B8Ee/wKn974p7PMV0Vi2LguHbHRuiHZx13AuMpyQ6ZAdldazKH+AveNMx6X
+         iCCHlCUkBf57cb7tSFGHXZDeuza2+UMDpNck9UGZNWqAWA+2W/KSH71B6uHKsbsnYdPg
+         qVYWNfcY9JVh14uB7ZQVF8vEkDJnH39sIfcneQw+eCdHdeMCCFmQJ7czDrj/GzwmXZcx
+         /kmw==
+X-Gm-Message-State: AOAM5321Y08KPFnpOq0T6nQbj++YNepJfqzQ8YU10a5RjiZWV3CXhP0Y
+	x0g9mxBYQM0qK46qVUxNC9xWcWBeJW+k1B4TCubljA==
+X-Google-Smtp-Source: ABdhPJyAADo7d4aXCmDNCVnTVXprJXf99iw8JPsCwtJN6tP2yH5Av5Yx22hVAD/QFIma8grUrwXZC/mCf6Av3T8PJbw=
+X-Received: by 2002:a17:907:6eab:b0:6fe:b5e2:7b0e with SMTP id
+ sh43-20020a1709076eab00b006feb5e27b0emr1053811ejc.736.1653046309443; Fri, 20
+ May 2022 04:31:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220519211411.2200720-1-robh@kernel.org>
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 20 May 2022 13:31:38 +0200
+Message-ID: <CAMRc=McjvTE27BMbN-_W+Fdd7CJcswZQYsB-4N8cj=WfAQ9QOQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+To: Rob Herring <robh@kernel.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Peter Rosin <peda@axentia.se>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Kalle Valo <kvalo@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Sebastian Reichel <sre@kernel.org>, Matt Mackall <mpm@selenic.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, 
+	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Linux Input <linux-input@vger.kernel.org>, 
+	chrome-platform@lists.linux.dev, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
+	linux-pci@vger.kernel.org, Linux PM list <linux-pm@vger.kernel.org>, 
+	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-serial@vger.kernel.org, 
+	Linux-ALSA <alsa-devel@alsa-project.org>, 
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The Google Moli device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+On Thu, May 19, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+>
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
+>  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
+>  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
+>  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
+>  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
+>  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
+>  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
+>  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
+>  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
+>  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
+>  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
+>  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
+>  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
+>  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
+>  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
+>  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
+>  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
+>  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
+>  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
+>  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
+>  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
+>  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
+>  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
+>  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
+>  25 files changed, 55 insertions(+), 8 deletions(-)
+>
 
-Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
----
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+For GPIO:
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 8c8d8fc5e63e..25dc7309beab 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
- 	/* Google Brask */
- 	{ "Google", "Brask", "0000:00:02.0", "Port B" },
-+	/* Google Moli */
-+	{ "Google", "Moli", "0000:00:02.0", "Port B" },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.36.1
-
+Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>

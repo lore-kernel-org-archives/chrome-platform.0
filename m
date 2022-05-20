@@ -1,126 +1,121 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDD533C3
-	for <chrome-platform@lists.linux.dev>; Thu, 19 May 2022 22:49:51 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id a38so3392266pgl.9
-        for <chrome-platform@lists.linux.dev>; Thu, 19 May 2022 15:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2saWhTUkQyJcpgT7NxUB7z/NXdbK6i7lrg+kRf0ua9U=;
-        b=XR8IkIQ/tR5EztT9hnYQ4x7VxP4o4xaG5dTpLJjw9cv9KgR/KLelp6gzgfjHqSDtFa
-         eyOx3SMraPd44sPl7slCZaAIPIx+uRuqYgS/fuDaTNK+jzVC2gOOwyHn3KOJjUt7M0CO
-         w5lPeMFS26r8UJteLxgDLt7VEhRBwUbkjZQz8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2saWhTUkQyJcpgT7NxUB7z/NXdbK6i7lrg+kRf0ua9U=;
-        b=AbZRZ0a94mGsd57STSyc8egRdm0mPe8tNvZqiKF+GNUoiml9boKTE75MBF/+XDyCeO
-         vJJBtmVRspiTMnRNJh5Gt6YJ3uqGHcm2/rf7X6U/cqgPDLBC78SebpeN83g3B4yW4QCL
-         cZD8t8s4y28U+1xR5h7qIT6BiOmnkiBBBGmLX7cQ7v48O+//oK5AitU1PtQ/8y67gd7U
-         6QwLnsFvSOnlCel8Bv5LpB/akZeVCmItwEWcpXvV+Tu99Wn10T5iIf16HntEQNKiDJ4+
-         nydS20SMxKPv/m6yoOOLSAeiujiKOuSIxLbrT7PoLBiUhKQlkkiIgAI4ZyWvgKPeo1Y9
-         TMLg==
-X-Gm-Message-State: AOAM532VbIrMB6usRL+QKK91/Ot8p388W64xNIypn+u34//DapWgGCaK
-	4TXQTzdcKHRSE5A4SX/mlu/jeQ==
-X-Google-Smtp-Source: ABdhPJxer1ytTKqzuWdCAQPhuryAQnKEqKOoHDjZgBuvh+jzhLmIgZvHny5FEURz6eAXn2cn5dwDJg==
-X-Received: by 2002:a05:6a00:24c1:b0:50d:33cf:811f with SMTP id d1-20020a056a0024c100b0050d33cf811fmr7009401pfv.78.1653000590606;
-        Thu, 19 May 2022 15:49:50 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:5332:2096:60a3:3455])
-        by smtp.gmail.com with UTF8SMTPSA id z10-20020a17090a170a00b001dc1e6db7c2sm295791pjd.57.2022.05.19.15.49.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 15:49:49 -0700 (PDT)
-Date: Thu, 19 May 2022 15:49:48 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228B715A9
+	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 04:53:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73763C385A9;
+	Fri, 20 May 2022 04:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1653022403;
+	bh=APGPDdy5nqlALidXofvxDcr/grRV+XFXUdq+7hIgFnU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DMwCVIFwPEg43th+Ec07N5q1FIq7SvUByh3BajNgz7VUy4ECUHHdgiUhKE6xuOkNh
+	 q0Y28OIeHsmPc/ir6DY44uQ+5+TG+Rjcypu/mLzFw9wgV/dBKNyhwWOZH1oEbGqVaa
+	 RCSAhy6b4NBNuk/Lp1pBqoUfAx9wvyQ43+3YtTJAXIZAcpAMSmOXuRA7S8P0XvCdPW
+	 WoyMnB03t5mpdbs9+DoCac5+CztvI0ob3/F0unW7gFkKMaXNLcmmWJDhxGLRkaiF+F
+	 ckqlOcZZ3x56i32XoahQMSzi2TXcf/xtaR8YUdotQ9hlF+GolZY/ggmvnw+W5w5fiQ
+	 tjazeBW1uq9Ow==
+Date: Fri, 20 May 2022 12:53:20 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Matthias Kaehlcke <mka@chromium.org>
 Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
 	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v3 4/5] platform/chrome: cros_kbd_led_backlight: support
- OF match
-Message-ID: <YobJjMmVOv1lBI/y@google.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] platform/chrome: cros_kbd_led_backlight: support
+ EC PWM backend
+Message-ID: <YocewB/lLJhIAuQP@google.com>
 References: <20220321085547.1162312-1-tzungbi@kernel.org>
- <20220321085547.1162312-5-tzungbi@kernel.org>
+ <20220321085547.1162312-6-tzungbi@kernel.org>
+ <YobHVST2Nfn+z8n6@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220321085547.1162312-5-tzungbi@kernel.org>
+In-Reply-To: <YobHVST2Nfn+z8n6@google.com>
 
-On Mon, Mar 21, 2022 at 04:55:46PM +0800, Tzung-Bi Shih wrote:
-> For letting device tree based machines to use the driver, support OF match.
+On Thu, May 19, 2022 at 03:40:21PM -0700, Matthias Kaehlcke wrote:
+> On Mon, Mar 21, 2022 at 04:55:47PM +0800, Tzung-Bi Shih wrote:
+> > +struct keyboard_led_private {
 > 
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Changes from v2:
-> - Add commit message.
-> - Add R-b tag.
-> 
-> Changes from v1:
-> (https://patchwork.kernel.org/project/chrome-platform/patch/20220214053646.3088298-5-tzungbi@google.com/)
-> - Update email address accordingly.
-> - Use device_get_match_data() per review comment in v1.
-> 
->  drivers/platform/chrome/cros_kbd_led_backlight.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> index 05b4f274086b..5cbe27cb4610 100644
-> --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-> +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> @@ -10,7 +10,9 @@
->  #include <linux/kernel.h>
->  #include <linux/leds.h>
->  #include <linux/module.h>
-> +#include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include <linux/slab.h>
->  
->  /**
-> @@ -127,7 +129,7 @@ static int keyboard_led_probe(struct platform_device *pdev)
->  	const struct keyboard_led_drvdata *drvdata;
->  	int error;
->  
-> -	drvdata = acpi_device_get_match_data(&pdev->dev);
-> +	drvdata = device_get_match_data(&pdev->dev);
->  	if (!drvdata)
->  		return -EINVAL;
->  
-> @@ -163,10 +165,21 @@ static const struct acpi_device_id keyboard_led_acpi_match[] = {
->  MODULE_DEVICE_TABLE(acpi, keyboard_led_acpi_match);
->  #endif
->  
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id keyboard_led_of_match[] = {
-> +	{
-> +		.compatible = "google,cros-kbd-led-backlight",
-> +	},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, keyboard_led_of_match);
-> +#endif
-> +
->  static struct platform_driver keyboard_led_driver = {
->  	.driver		= {
->  		.name	= "chromeos-keyboard-leds",
->  		.acpi_match_table = ACPI_PTR(keyboard_led_acpi_match),
-> +		.of_match_table = of_match_ptr(keyboard_led_of_match),
+> Why 'private', isn't this more a 'cros_ec_kdb_bl' or similar?
 
-In patch "[5/5] platform/chrome: cros_kbd_led_backlight: support EC PWM
-backend" [1] you create the 'stubs' keyboard_led_init_ec_pwm_null() and
-keyboard_led_drvdata_ec_pwm when CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM
-isn't set, only to have something to assign to keyboard_led_of_match.data.
-Instead you could assign .of_match_table only if CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM
-is set.
+It is just drvdata.  I would prefer to keep the original prefix
+"keyboard_led_" if you wouldn't have strong opinion.
 
-[1] https://patchwork.kernel.org/project/chrome-platform/patch/20220321085547.1162312-6-tzungbi@kernel.org/
+> > +static int
+> > +keyboard_led_set_brightness_blocking_ec_pwm(struct led_classdev *cdev,
+> > +					    enum led_brightness brightness)
+> 
+> nit: since there is only a blocking version of .set_brightness you could omit
+> 'blocking' in the function name.
 
+Ack, will fix it in next version.
+
+> > +	struct {
+> > +		struct cros_ec_command msg;
+> > +		struct ec_params_pwm_set_keyboard_backlight params;
+> > +	} __packed buf;
+> > +	struct ec_params_pwm_set_keyboard_backlight *params = &buf.params;
+> > +	struct cros_ec_command *msg = &buf.msg;
+> > +	struct keyboard_led_private *private =
+> > +		container_of(cdev, struct keyboard_led_private, cdev);
+> > +
+> > +	memset(&buf, 0, sizeof(buf));
+> > +
+> > +	msg->version = 0;
+> 
+> not strictly needed since you do the memset above, I guess it's
+> fine to keep the assignment if you want to be explicit about the
+> version.
+
+Ack, let's remove them in next version.
+
+> > +static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
+> > +{
+> > +	struct keyboard_led_private *private = platform_get_drvdata(pdev);
+> > +
+> > +	private->ec = dev_get_drvdata(pdev->dev.parent);
+> > +	if (!private->ec) {
+> > +		dev_err(&pdev->dev, "no parent EC device\n");
+> > +		return -EINVAL;
+> > +	}
+> 
+> The only thing this 'init' function does is assigning private->ec. Wouldn't
+> it be clearer to do this directly in probe() from where callback is called?
+> It could be with the condition that the device as a DT node.
+
+No.  The probe() isn't aware of the device is from ACPI or OF.
+
+> Is it actually possible that the keyboard backlight device gets instantiated
+> if there is no EC parent?
+
+It shouldn't be but just in case.
+
+> > +static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+> > +	.init = keyboard_led_init_ec_pwm_null,
+> 
+> Is this really needed?
+> 
+> keyboard_led_probe() checks if .init is assigned before invoking the callback:
+> 
+> 	if (drvdata->init) {
+> 		error = drvdata->init(pdev);
+> 
+> The whole 'else' branch could be eliminated if .of_match_table of the driver
+> only is assigned when CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is set. IMO that
+> would preferable over creating 'stubs'.
+
+CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.  The stubs
+were created to avoid compile errors if CONFIG_OF=y but
+CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n.
+
+However, I just realized it could also have compile errors if CONFIG_OF=n and
+CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=y.  The `keyboard_led_drvdata_ec_pwm` is
+unused.
+
+In any case, I agree with you.  Let's remove the stubs in next version.  I
+would use __maybe_unused for some of them.

@@ -1,113 +1,172 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F38617D7
-	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 11:31:51 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id gi33so6579147ejc.3
-        for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 04:31:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5397E
+	for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 15:29:21 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id y199so8039698pfb.9
+        for <chrome-platform@lists.linux.dev>; Fri, 20 May 2022 08:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
-        b=re4Sm8tWAvFHp6bKgAYMf09Z79Kgi3OEdhOIiBZ7/Rn2QXbgu5Ly14y4/nQN7Y/aTo
-         VlgbB9yG7Rlr2cuoabCyBxc2bGDLVKK0lXBLnASl6zsHCcOeA+1KzIBeqFsR+y75i5XZ
-         XvFFiPa9GJ2QyyaAdSmJuFi5RyYukwsFD78F77Gu/KxBhoXO8QeL/xhxXqgh8n2pVQ16
-         5uSsdoWXuRrwj+2ip8smJzRExeR9DRqgQ7nZOdTto/19ei6AXbORk/Mx4Jr1TH0FheIZ
-         Rjk53cTk2OReyJUGfCv97XHsZ5d+q5q5c0jA2xxlOnKUomCD8mRuslxc9zsWStq2ZrCv
-         ptCw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bQXzIo9ckva6G/ZcC8rPAUx7ZPhN3Zb8y3Z1L1PXiyU=;
+        b=J20PHEYxmRCzb89gR7QlS9bFp98iY/j5yKWxBuFfBqsFeU1LNkOnADp3JoN/L35nQV
+         AXS5CI/ZzUSW/3x52C5ScfNb2XvgSGbHFa2xxoJXWfsXJC6X7A/fOLRaHAKpffUwm771
+         bOf5GbBrEBbFmIoUo+cDa1qb7CWe8Sg2Y4u5E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
-        b=0BWrASctiwRdzLH3LMk5qa9Yqsr8cSgvQQtAKu4Adjxrfd0Itc6pohcHAxC5Ml9dXc
-         UK79n+oyKHnok6Ltf0LUzcrSktGsVTqGwcklrHtxVZG9QIR3yIAZ+WZ+Zo0pg0ouUrVH
-         o5/jI5p5/B8Ee/wKn974p7PMV0Vi2LguHbHRuiHZx13AuMpyQ6ZAdldazKH+AveNMx6X
-         iCCHlCUkBf57cb7tSFGHXZDeuza2+UMDpNck9UGZNWqAWA+2W/KSH71B6uHKsbsnYdPg
-         qVYWNfcY9JVh14uB7ZQVF8vEkDJnH39sIfcneQw+eCdHdeMCCFmQJ7czDrj/GzwmXZcx
-         /kmw==
-X-Gm-Message-State: AOAM5321Y08KPFnpOq0T6nQbj++YNepJfqzQ8YU10a5RjiZWV3CXhP0Y
-	x0g9mxBYQM0qK46qVUxNC9xWcWBeJW+k1B4TCubljA==
-X-Google-Smtp-Source: ABdhPJyAADo7d4aXCmDNCVnTVXprJXf99iw8JPsCwtJN6tP2yH5Av5Yx22hVAD/QFIma8grUrwXZC/mCf6Av3T8PJbw=
-X-Received: by 2002:a17:907:6eab:b0:6fe:b5e2:7b0e with SMTP id
- sh43-20020a1709076eab00b006feb5e27b0emr1053811ejc.736.1653046309443; Fri, 20
- May 2022 04:31:49 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bQXzIo9ckva6G/ZcC8rPAUx7ZPhN3Zb8y3Z1L1PXiyU=;
+        b=tWC8YhsVtHklf7Snh1ZJfHo2BHDvouC3GE7UxHHE5x/ohsiraAfyz7wbYObvhKsgZX
+         qMP3WWMBlU+6VaG0jEyw4bnoOL+UoJtDWmUS8f6IdQKZn3oTYYbLMEGS/TVDXepZwEKy
+         /cA+/kEb5/rCQ4AXtjwEuRy/5FHuhn1+bzl0C/JLMPmaQ1CDz9Iji99TRYCd4cwwC6+/
+         bE2eXJBT4Zx7QDdOtDn1GKIy3JzcyRUr1ty+Qb+uy011yj/N4ww7nPQbOz7dOEizC+/w
+         /udnRoN4ypryzNRLFQtYvfgPlZ1wJ9N5sH4fP7lNUnv/C9pidz4OyvNhqawiv1mqLEIV
+         eXRQ==
+X-Gm-Message-State: AOAM533J1iQU227K/OISs1NXVmSKQ0ilWAIOKAkrEcOtdCeWtIisnyx5
+	UHW9cQe6e9oJoezl7zaMS36YlA==
+X-Google-Smtp-Source: ABdhPJz2G97WiSo4fI9WPH+8M+Zn+mODh4vK9XNKFG5aCH6g5DHAXGRM0OR7/ye5WnneaI42stYMCQ==
+X-Received: by 2002:a05:6a00:2985:b0:510:66a4:375d with SMTP id cj5-20020a056a00298500b0051066a4375dmr10858560pfb.18.1653060561157;
+        Fri, 20 May 2022 08:29:21 -0700 (PDT)
+Received: from localhost ([2620:15c:11a:202:5332:2096:60a3:3455])
+        by smtp.gmail.com with UTF8SMTPSA id a9-20020a170902710900b0015e8d4eb1c6sm5777273pll.16.2022.05.20.08.29.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 May 2022 08:29:20 -0700 (PDT)
+Date: Fri, 20 May 2022 08:29:19 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] platform/chrome: cros_kbd_led_backlight: support
+ EC PWM backend
+Message-ID: <YoezzzLdVfb0K7Ak@google.com>
+References: <20220321085547.1162312-1-tzungbi@kernel.org>
+ <20220321085547.1162312-6-tzungbi@kernel.org>
+ <YobHVST2Nfn+z8n6@google.com>
+ <YocewB/lLJhIAuQP@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220519211411.2200720-1-robh@kernel.org>
-In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 20 May 2022 13:31:38 +0200
-Message-ID: <CAMRc=McjvTE27BMbN-_W+Fdd7CJcswZQYsB-4N8cj=WfAQ9QOQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-To: Rob Herring <robh@kernel.org>
-Cc: devicetree <devicetree@vger.kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Peter Rosin <peda@axentia.se>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Kalle Valo <kvalo@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Sebastian Reichel <sre@kernel.org>, Matt Mackall <mpm@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, 
-	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Linux Input <linux-input@vger.kernel.org>, 
-	chrome-platform@lists.linux.dev, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
-	linux-pci@vger.kernel.org, Linux PM list <linux-pm@vger.kernel.org>, 
-	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-serial@vger.kernel.org, 
-	Linux-ALSA <alsa-devel@alsa-project.org>, 
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YocewB/lLJhIAuQP@google.com>
 
-On Thu, May 19, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
->
-> Now that the schema tools can extract type information for all
-> properties (in order to decode dtb files), finding properties missing
-> any type definition is fairly trivial though not yet automated.
->
-> Fix the various property schemas which are missing a type. Most of these
-> tend to be device specific properties which don't have a vendor prefix.
-> A vendor prefix is how we normally ensure a type is defined.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
->  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
->  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
->  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
->  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
->  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
->  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
->  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
->  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
->  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
->  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
->  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
->  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
->  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
->  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
->  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
->  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
->  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
->  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
->  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
->  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
->  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
->  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
->  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
->  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
->  25 files changed, 55 insertions(+), 8 deletions(-)
->
+On Fri, May 20, 2022 at 12:53:20PM +0800, Tzung-Bi Shih wrote:
+> On Thu, May 19, 2022 at 03:40:21PM -0700, Matthias Kaehlcke wrote:
+> > On Mon, Mar 21, 2022 at 04:55:47PM +0800, Tzung-Bi Shih wrote:
+> > > +struct keyboard_led_private {
+> > 
+> > Why 'private', isn't this more a 'cros_ec_kdb_bl' or similar?
+> 
+> It is just drvdata.
 
-For GPIO:
+The data structure represents an instance of the device, as such it
+is an important part of the driver, drvdata is just a way to attach
+it to the platform device.
 
-Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
+> I would prefer to keep the original prefix "keyboard_led_" if you wouldn't
+> have strong opinion.
+
+I'm fine with 'keyboard_led', but object to the 'private' part. In the
+kernel 'private' fields are typically used when a driver consists of a
+generic part and a device specific part. The driver has a 'private'
+void* field that points to a device specific data structure about which
+the generic driver is agnostic. This data structure is only used by the
+device specific implementation. That isn't the case here, so naming the
+structure anything 'private' is misleading.
+
+> > > +static int
+> > > +keyboard_led_set_brightness_blocking_ec_pwm(struct led_classdev *cdev,
+> > > +					    enum led_brightness brightness)
+> > 
+> > nit: since there is only a blocking version of .set_brightness you could omit
+> > 'blocking' in the function name.
+> 
+> Ack, will fix it in next version.
+> 
+> > > +	struct {
+> > > +		struct cros_ec_command msg;
+> > > +		struct ec_params_pwm_set_keyboard_backlight params;
+> > > +	} __packed buf;
+> > > +	struct ec_params_pwm_set_keyboard_backlight *params = &buf.params;
+> > > +	struct cros_ec_command *msg = &buf.msg;
+> > > +	struct keyboard_led_private *private =
+
+Continuation of the argument above: the variable name 'private' doesn't
+reveal anything about it's nature, something like 'kbd_led' would be much
+clearer.
+
+> > > +		container_of(cdev, struct keyboard_led_private, cdev);
+> > > +
+> > > +	memset(&buf, 0, sizeof(buf));
+> > > +
+> > > +	msg->version = 0;
+> > 
+> > not strictly needed since you do the memset above, I guess it's
+> > fine to keep the assignment if you want to be explicit about the
+> > version.
+> 
+> Ack, let's remove them in next version.
+> 
+> > > +static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
+> > > +{
+> > > +	struct keyboard_led_private *private = platform_get_drvdata(pdev);
+> > > +
+> > > +	private->ec = dev_get_drvdata(pdev->dev.parent);
+> > > +	if (!private->ec) {
+> > > +		dev_err(&pdev->dev, "no parent EC device\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > 
+> > The only thing this 'init' function does is assigning private->ec. Wouldn't
+> > it be clearer to do this directly in probe() from where callback is called?
+> > It could be with the condition that the device as a DT node.
+> 
+> No.  The probe() isn't aware of the device is from ACPI or OF.
+
+But it could be:
+
+	if (pdev->dev.of_node)
+		kbd_led->ec = dev_get_drvdata(pdev->dev.parent);
+
+> > Is it actually possible that the keyboard backlight device gets instantiated
+> > if there is no EC parent?
+> 
+> It shouldn't be but just in case.
+
+If this can only occur due to an error in common kernel frameworks then
+the check should be omitted IMO.
+
+> > > +static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+> > > +	.init = keyboard_led_init_ec_pwm_null,
+> > 
+> > Is this really needed?
+> > 
+> > keyboard_led_probe() checks if .init is assigned before invoking the callback:
+> > 
+> > 	if (drvdata->init) {
+> > 		error = drvdata->init(pdev);
+> > 
+> > The whole 'else' branch could be eliminated if .of_match_table of the driver
+> > only is assigned when CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is set. IMO that
+> > would preferable over creating 'stubs'.
+> 
+> CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.  The stubs
+> were created to avoid compile errors if CONFIG_OF=y but
+> CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n.
+
+Is there functional version of the driver that uses instantiation through the
+device tree if CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n? If not .of_match_table
+should not be assigned.
+
+> However, I just realized it could also have compile errors if CONFIG_OF=n and
+> CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=y.  The `keyboard_led_drvdata_ec_pwm` is
+> unused.
+> 
+> In any case, I agree with you.  Let's remove the stubs in next version.  I
+> would use __maybe_unused for some of them.

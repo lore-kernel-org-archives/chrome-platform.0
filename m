@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9605B629
-	for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 09:08:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9593C34117;
-	Mon, 23 May 2022 09:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60582629
+	for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 09:08:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B158BC3411A;
+	Mon, 23 May 2022 09:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653296931;
-	bh=sPsMNa6xJuOBGkIQpMmbCnLS4e+pUl2hEV+vBFGxYGs=;
+	s=k20201202; t=1653296933;
+	bh=j0siKCr2t3cIHVL6rBUrteD0xCpUE62iGsH1eC3VLAI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=es5fHf3IfoXFFBf4QCe+ASCKKFn9V0es2k6FoFrvTDA98CI05H6v0eKiQEqSaMlXq
-	 yIEU8EXC814Ill8dlmZrFRwYHYgZG6ohpnnukzz1R17oKTTjR02WsJCVsLVUzexFjR
-	 46eBPtWQxgRgqSQVeijmJCzEWdQxqj3sJChpt1GXpJdqGiQOykkxgjwgEIJ6Oo6UPj
-	 MKaf8bg72ahSSo4FfPrTtJ2eJplLj2gOq8yz0fa8lcpRR26ZCbQ7PDNC0Kg+NJCrqU
-	 XyTfKiiCJH0PbfCPh5C4b5C46nSqd8O1CExABwR0kcUJt9uyZSuEXqpIsimpWyQ0w4
-	 lp2qbtBeUrxWw==
+	b=jqCaTQ73ncMw9xmIs8VYv2wtzlXx5fSyGOHnUJ5Hpij46D05mDLnC2zukvvOjkMCh
+	 c7xHhFz4T1lZJQaNDxfafUQ2Y9+AFox4GlGtIpbvYFqgL0Kz6gpWj8DCQaoRZevw1d
+	 XZz/IxelExgPj32+gyjdSlZirrHN56oRPBJPJAE1+1iXqvC4Sfo0hgH+kOwVoOpZ2p
+	 QBiZgfNWfTU1NMLXupfHHIVd5ugRlLS+jGMgain4TzZLpIO9J91mzqAoeBypMtcTnQ
+	 YdfVoR2Kz8FFk20Vwmgm9SwMpkgxaw99nEmZO/xLOquyKGVHlE/Sb7oBvJeQftHAYW
+	 BfmF72QwCVVCw==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org,
@@ -23,11 +23,10 @@ Cc: chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	mka@chromium.org,
 	devicetree@vger.kernel.org,
-	tzungbi@kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH v4 1/5] platform/chrome: cros_kbd_led_backlight: sort headers alphabetically
-Date: Mon, 23 May 2022 17:08:18 +0800
-Message-Id: <20220523090822.3035189-2-tzungbi@kernel.org>
+	tzungbi@kernel.org
+Subject: [PATCH v4 2/5] platform/chrome: cros_kbd_led_backlight: separate ACPI backend
+Date: Mon, 23 May 2022 17:08:19 +0800
+Message-Id: <20220523090822.3035189-3-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 In-Reply-To: <20220523090822.3035189-1-tzungbi@kernel.org>
 References: <20220523090822.3035189-1-tzungbi@kernel.org>
@@ -39,43 +38,173 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To be neat and reduce conflict possibility, sort the headers
-alphabetically.
+cros_kbd_led_backlight uses ACPI_KEYBOARD_BACKLIGHT_WRITE and
+ACPI_KEYBOARD_BACKLIGHT_READ for setting and getting the brightness
+respectively.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Separate ACPI operations for preparing the driver to support other
+backends.
+
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
-No changes from v3.
+Changes from v3:
+- Remove CROS_KBD_LED_BACKLIGHT_ACPI Kconfig.
+- Remove stub function.
 
 Changes from v2:
-- Add commit message.
-- Add R-b tag.
+- Use #ifdef for boolean CONFIG_CROS_KBD_LED_BACKLIGHT_ACPI.
 
 Changes from v1:
 - Update email address accordingly.
+- Use CONFIG_ACPI guard per "kernel test robot <lkp@intel.com>" reported an
+  unused variable issue.
 
- drivers/platform/chrome/cros_kbd_led_backlight.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../platform/chrome/cros_kbd_led_backlight.c  | 82 ++++++++++++++++---
+ 1 file changed, 69 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-index aa409f0201fb..f9587a562bb7 100644
+index f9587a562bb7..a86d664854ae 100644
 --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
 +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-@@ -4,12 +4,12 @@
- // Copyright (C) 2012 Google, Inc.
- 
- #include <linux/acpi.h>
--#include <linux/leds.h>
- #include <linux/delay.h>
- #include <linux/err.h>
--#include <linux/module.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
+@@ -13,6 +13,33 @@
  #include <linux/platform_device.h>
  #include <linux/slab.h>
  
++/**
++ * struct keyboard_led_drvdata - keyboard LED driver data.
++ * @init:			Init function.
++ * @brightness_get:		Get LED brightness level.
++ * @brightness_set:		Set LED brightness level.  Must not sleep.
++ * @brightness_set_blocking:	Set LED brightness level.  It can block the
++ *				caller for the time required for accessing a
++ *				LED device register
++ * @max_brightness:		Maximum brightness.
++ *
++ * See struct led_classdev in include/linux/leds.h for more details.
++ */
++struct keyboard_led_drvdata {
++	int (*init)(struct platform_device *pdev);
++
++	enum led_brightness (*brightness_get)(struct led_classdev *led_cdev);
++
++	void (*brightness_set)(struct led_classdev *led_cdev,
++			       enum led_brightness brightness);
++	int (*brightness_set_blocking)(struct led_classdev *led_cdev,
++				       enum led_brightness brightness);
++
++	enum led_brightness max_brightness;
++};
++
++#ifdef CONFIG_ACPI
++
+ /* Keyboard LED ACPI Device must be defined in firmware */
+ #define ACPI_KEYBOARD_BACKLIGHT_DEVICE	"\\_SB.KBLT"
+ #define ACPI_KEYBOARD_BACKLIGHT_READ	ACPI_KEYBOARD_BACKLIGHT_DEVICE ".KBQC"
+@@ -20,8 +47,8 @@
+ 
+ #define ACPI_KEYBOARD_BACKLIGHT_MAX		100
+ 
+-static void keyboard_led_set_brightness(struct led_classdev *cdev,
+-					enum led_brightness brightness)
++static void keyboard_led_set_brightness_acpi(struct led_classdev *cdev,
++					     enum led_brightness brightness)
+ {
+ 	union acpi_object param;
+ 	struct acpi_object_list input;
+@@ -40,7 +67,7 @@ static void keyboard_led_set_brightness(struct led_classdev *cdev,
+ }
+ 
+ static enum led_brightness
+-keyboard_led_get_brightness(struct led_classdev *cdev)
++keyboard_led_get_brightness_acpi(struct led_classdev *cdev)
+ {
+ 	unsigned long long brightness;
+ 	acpi_status status;
+@@ -56,12 +83,10 @@ keyboard_led_get_brightness(struct led_classdev *cdev)
+ 	return brightness;
+ }
+ 
+-static int keyboard_led_probe(struct platform_device *pdev)
++static int keyboard_led_init_acpi(struct platform_device *pdev)
+ {
+-	struct led_classdev *cdev;
+ 	acpi_handle handle;
+ 	acpi_status status;
+-	int error;
+ 
+ 	/* Look for the keyboard LED ACPI Device */
+ 	status = acpi_get_handle(ACPI_ROOT_OBJECT,
+@@ -73,15 +98,44 @@ static int keyboard_led_probe(struct platform_device *pdev)
+ 		return -ENXIO;
+ 	}
+ 
++	return 0;
++}
++
++static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
++	.init = keyboard_led_init_acpi,
++	.brightness_set = keyboard_led_set_brightness_acpi,
++	.brightness_get = keyboard_led_get_brightness_acpi,
++	.max_brightness = ACPI_KEYBOARD_BACKLIGHT_MAX,
++};
++
++#endif /* CONFIG_ACPI */
++
++static int keyboard_led_probe(struct platform_device *pdev)
++{
++	struct led_classdev *cdev;
++	const struct keyboard_led_drvdata *drvdata;
++	int error;
++
++	drvdata = acpi_device_get_match_data(&pdev->dev);
++	if (!drvdata)
++		return -EINVAL;
++
++	if (drvdata->init) {
++		error = drvdata->init(pdev);
++		if (error)
++			return error;
++	}
++
+ 	cdev = devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
+ 	if (!cdev)
+ 		return -ENOMEM;
+ 
+ 	cdev->name = "chromeos::kbd_backlight";
+-	cdev->max_brightness = ACPI_KEYBOARD_BACKLIGHT_MAX;
+ 	cdev->flags |= LED_CORE_SUSPENDRESUME;
+-	cdev->brightness_set = keyboard_led_set_brightness;
+-	cdev->brightness_get = keyboard_led_get_brightness;
++	cdev->max_brightness = drvdata->max_brightness;
++	cdev->brightness_set = drvdata->brightness_set;
++	cdev->brightness_set_blocking = drvdata->brightness_set_blocking;
++	cdev->brightness_get = drvdata->brightness_get;
+ 
+ 	error = devm_led_classdev_register(&pdev->dev, cdev);
+ 	if (error)
+@@ -90,16 +144,18 @@ static int keyboard_led_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static const struct acpi_device_id keyboard_led_id[] = {
+-	{ "GOOG0002", 0 },
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id keyboard_led_acpi_match[] = {
++	{ "GOOG0002", (kernel_ulong_t)&keyboard_led_drvdata_acpi },
+ 	{ }
+ };
+-MODULE_DEVICE_TABLE(acpi, keyboard_led_id);
++MODULE_DEVICE_TABLE(acpi, keyboard_led_acpi_match);
++#endif
+ 
+ static struct platform_driver keyboard_led_driver = {
+ 	.driver		= {
+ 		.name	= "chromeos-keyboard-leds",
+-		.acpi_match_table = ACPI_PTR(keyboard_led_id),
++		.acpi_match_table = ACPI_PTR(keyboard_led_acpi_match),
+ 	},
+ 	.probe		= keyboard_led_probe,
+ };
 -- 
 2.36.1.124.g0e6072fb45-goog
 

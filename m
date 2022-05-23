@@ -1,258 +1,139 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC992F5E
-	for <chrome-platform@lists.linux.dev>; Sat, 21 May 2022 15:03:45 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id p22so18730692lfo.10
-        for <chrome-platform@lists.linux.dev>; Sat, 21 May 2022 08:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=4qCtL0+bm+n7u/HXMR/ejdT6S5mFrpV8yho83BhRO5s=;
-        b=y5RaZjFHrW8w0QDRcNsylDIFb53EJ2po4JTV2FpNAdkAYoZdu1qF5axrhsPQuGATng
-         IRhb46WEpzowjRCtShPff9kYW6hHmeuNWcNUVWWram5Vsu13pwjOphSj50HlavWfE75o
-         fl8HJqVUjSx8QbwUjbHsCAWiX5BauC0NO2ZKYDPS4ebr9JVbKM3hZESP+xBd6W4RKh33
-         MjPK1gRmYo1vuibvD7RGvzYvB0fQWdgtoSLYcw2VHu54BnbEvJcolLEa1EoGN8BAPKCL
-         xL8v5PmCr8qaYJ68UOqWoeB4NePuVP6tv4mkCntQBpW2qZmf/QlRL9lcpkc3pjzue05U
-         zOAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=4qCtL0+bm+n7u/HXMR/ejdT6S5mFrpV8yho83BhRO5s=;
-        b=Nv2mzjAMsrWB2lrLHCeJQArPcpTuE29XZIineSeI4nCZVDZ/jIQ8NJL1sfB0+7gHz5
-         MM2EFpHyjPYlTuTuMDMAFs40VKTlBG4ux/WsEshhBEC5xmVuhFkKxJgYtRv+PNx7+8gx
-         OwT1ieerhZNM8hcYgQNCxPIqhzoK4tWQ/u1PG4Nw31Fzbd0iI15SW/JwrzBvtiSrEdD1
-         uZtT091OlWV0wP62pkVFPpMi0L1zI2IvcwnNRwQI1wOlDjXbFWrN3VWAlcJ5rn8swnNG
-         tjo2rHeZ/veC2hcf/HledHj3phglA6HGEbjyySP1YW+tOAARYICUnqtLdY97+p8GThT1
-         Dhww==
-X-Gm-Message-State: AOAM530uV6COsdomLhtpRCBwf9BSXcMI6FogN2EokjlfClUAIgqspP87
-	AXSvUMWtepy80qIWCv6Fia1z6A==
-X-Google-Smtp-Source: ABdhPJxtHDtDb6cleVJCc0ulh0XswzEKTSNzq7RDBh7mwPl4obmqj7ZYfKIcfiHfX3+2J00L6fmtSQ==
-X-Received: by 2002:ac2:4f0c:0:b0:477:cb8e:bd8b with SMTP id k12-20020ac24f0c000000b00477cb8ebd8bmr5791149lfr.209.1653145423865;
-        Sat, 21 May 2022 08:03:43 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id p20-20020ac24ed4000000b0047255d210easm1087910lfr.25.2022.05.21.08.03.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 08:03:43 -0700 (PDT)
-Message-ID: <6ae55a29-0b29-f53c-c9bd-fae929f3caf7@linaro.org>
-Date: Sat, 21 May 2022 17:03:41 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AD236C
+	for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 05:34:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8566FC385AA;
+	Mon, 23 May 2022 05:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1653284098;
+	bh=59aObhjNO8Z2LsPLJEv4aHcBY2sHGOp9xKD+PqwFhAw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YUCrrRvA88IECsXfWkp6n3zw/ONyN7raP6WiBgjISWGHfclJomg0wJU3wwXwtf7kc
+	 vTdzHa43QK7IblMUR2hZBk0giWK+VpVN565OPfe1eTLjWgKRfwqxtIoDl8LLby0Th2
+	 iPlA4qiUIUrvaUvmB/8KEi2Af1roL43YRWk7H4perfo/KvYhdiwrVo4e5qDUAXds4e
+	 n10sW7oFjJmrHtnTJl5rYGe6JNO2hjU95DnaZfrzd5Cr7WRq8UhMS45IH6o5J0/Zm7
+	 UlcaoEDxyYVzNOpmZviXOjAPg7/KC1PUjvHMPi2Jid6DmW7uZz04xI2Plr+qrZ4XNg
+	 v9XNcaeHGMHNw==
+Date: Mon, 23 May 2022 13:34:55 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Matthias Kaehlcke <mka@chromium.org>
+Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] platform/chrome: cros_kbd_led_backlight: support
+ EC PWM backend
+Message-ID: <Yosc/6izBDYYKpFC@google.com>
+References: <20220321085547.1162312-1-tzungbi@kernel.org>
+ <20220321085547.1162312-6-tzungbi@kernel.org>
+ <YobHVST2Nfn+z8n6@google.com>
+ <YocewB/lLJhIAuQP@google.com>
+ <YoezzzLdVfb0K7Ak@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Peter Rosin <peda@axentia.se>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Sebastian Reichel <sre@kernel.org>,
- Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-usb@vger.kernel.org
-References: <20220519211411.2200720-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoezzzLdVfb0K7Ak@google.com>
 
-On 19/05/2022 23:14, Rob Herring wrote:
-> Now that the schema tools can extract type information for all
-> properties (in order to decode dtb files), finding properties missing
-> any type definition is fairly trivial though not yet automated.
+On Fri, May 20, 2022 at 08:29:19AM -0700, Matthias Kaehlcke wrote:
+> On Fri, May 20, 2022 at 12:53:20PM +0800, Tzung-Bi Shih wrote:
+> > On Thu, May 19, 2022 at 03:40:21PM -0700, Matthias Kaehlcke wrote:
+> > > On Mon, Mar 21, 2022 at 04:55:47PM +0800, Tzung-Bi Shih wrote:
+> > > > +struct keyboard_led_private {
+> > > 
+> > > Why 'private', isn't this more a 'cros_ec_kdb_bl' or similar?
+> > 
+> > It is just drvdata.
 > 
-> Fix the various property schemas which are missing a type. Most of these
-> tend to be device specific properties which don't have a vendor prefix.
-> A vendor prefix is how we normally ensure a type is defined.
+> The data structure represents an instance of the device, as such it
+> is an important part of the driver, drvdata is just a way to attach
+> it to the platform device.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
->  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
->  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
->  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
->  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
->  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
->  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
->  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
->  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
->  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
->  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
->  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
->  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
->  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
->  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
->  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
->  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
->  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
->  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
->  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
->  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
->  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
->  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
->  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
->  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
->  25 files changed, 55 insertions(+), 8 deletions(-)
+> > I would prefer to keep the original prefix "keyboard_led_" if you wouldn't
+> > have strong opinion.
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> index 7378159e61df..483caf0ce25b 100644
-> --- a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> +++ b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> @@ -17,14 +17,15 @@ properties:
->        - const: hisilicon,hip04-bootwrapper
->  
->    boot-method:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->      description: |
->        Address and size of boot method.
->        [0]: bootwrapper physical address
->        [1]: bootwrapper size
->        [2]: relocation physical address
->        [3]: relocation size
-> -    minItems: 1
-> -    maxItems: 2
-> +    minItems: 2
-> +    maxItems: 4
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> index 3bd670b8e5cd..0b6f5bef120f 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> @@ -58,6 +58,7 @@ properties:
->  
->              properties:
->                data-lines:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
->                  enum: [ 16, 18, 24 ]
->  
->        port@1:
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> index 7749de95ee40..229e3b36ee29 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> @@ -146,6 +146,7 @@ properties:
->        Horizontal sync pulse.
->        0 selects active low, 1 selects active high.
->        If omitted then it is not used by the hardware
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [0, 1]
->  
->    vsync-active:
-> @@ -153,6 +154,7 @@ properties:
->        Vertical sync pulse.
->        0 selects active low, 1 selects active high.
->        If omitted then it is not used by the hardware
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [0, 1]
->  
->    de-active:
-> @@ -160,6 +162,7 @@ properties:
->        Data enable.
->        0 selects active low, 1 selects active high.
->        If omitted then it is not used by the hardware
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [0, 1]
->  
->    pixelclk-active:
-> @@ -169,6 +172,7 @@ properties:
->        sample data on rising edge.
->        Use 1 to drive pixel data on rising edge and
->        sample data on falling edge
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [0, 1]
->  
->    syncclk-active:
-> @@ -179,6 +183,7 @@ properties:
->        sample sync on rising edge of pixel clock.
->        Use 1 to drive sync on rising edge and
->        sample sync on falling edge of pixel clock
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [0, 1]
->  
->    interlaced:
-> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> index 745dd247c409..617aa8c8c03a 100644
-> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> @@ -24,6 +24,7 @@ properties:
->  
->    dsi-lanes:
->      description: Number of DSI lanes to be used must be <3> or <4>
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [3, 4]
->  
->    v3p3-supply:
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> index ca959451557e..1cdc91b3439f 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> @@ -36,6 +36,7 @@ properties:
->  
->    init-delay:
->      description: delay after initialization sequence [ms]
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->  
->    panel-width-mm:
->      description: physical panel width [mm]
-> diff --git a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> index 5fe19fa5f67c..a99e7842ca17 100644
-> --- a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> @@ -26,6 +26,7 @@ properties:
->      const: 2
->  
->    registers-number:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      description: Number of daisy-chained shift registers
->  
->    enable-gpios:
-> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> index e8f137abb03c..aa61fe64be63 100644
-> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> @@ -31,6 +31,7 @@ properties:
->      type: boolean
->  
->    function-row-physmap:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->      minItems: 1
->      maxItems: 15
->      description: |
-> diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> index 6699d5e32dca..9f703bb51e12 100644
-> --- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> +++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> @@ -27,6 +27,10 @@ properties:
->        column and linux key-code. The 32-bit big endian cell is packed as:
->            row << 24 | column << 16 | key-code
->  
-> +  linux,no-autorepeat:
-> +    type: boolean
-> +    description: Disable keyrepeat
+> I'm fine with 'keyboard_led', but object to the 'private' part. In the
+> kernel 'private' fields are typically used when a driver consists of a
+> generic part and a device specific part. The driver has a 'private'
+> void* field that points to a device specific data structure about which
+> the generic driver is agnostic. This data structure is only used by the
+> device specific implementation. That isn't the case here, so naming the
+> structure anything 'private' is misleading.
 
-This should be rather a separate patch - it's documenting a missing
-property, not only a type.
+The struct in the case is device specific.  I don't see a problem to name it
+*private* as there are a lot of more existing examples.
 
-Best regards,
-Krzysztof
+$ grep -R 'struct .*_priv.* {' drivers/
+drivers/pinctrl/bcm/pinctrl-bcm6358.c:struct bcm6358_priv {
+
+$ grep -R 'struct .*_priv.* {' sound/soc/codecs/
+sound/soc/codecs/rt286.c:struct rt286_priv {
+
+I would get rid of the term "private" if it could be confusing.
+
+> > > > +static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct keyboard_led_private *private = platform_get_drvdata(pdev);
+> > > > +
+> > > > +	private->ec = dev_get_drvdata(pdev->dev.parent);
+> > > > +	if (!private->ec) {
+> > > > +		dev_err(&pdev->dev, "no parent EC device\n");
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > 
+> > > The only thing this 'init' function does is assigning private->ec. Wouldn't
+> > > it be clearer to do this directly in probe() from where callback is called?
+> > > It could be with the condition that the device as a DT node.
+> > 
+> > No.  The probe() isn't aware of the device is from ACPI or OF.
+> 
+> But it could be:
+> 
+> 	if (pdev->dev.of_node)
+> 		kbd_led->ec = dev_get_drvdata(pdev->dev.parent);
+
+The 'init' callback isn't only for OF but also ACPI.  I would prefer to keep
+the 'init' function and let probe() have no awareness about them.
+
+> > > Is it actually possible that the keyboard backlight device gets instantiated
+> > > if there is no EC parent?
+> > 
+> > It shouldn't be but just in case.
+> 
+> If this can only occur due to an error in common kernel frameworks then
+> the check should be omitted IMO.
+
+The check is referenced from [1].  I would prefer to keep it instead of
+crashing kernel if anything went wrong.
+
+[1]: https://elixir.bootlin.com/linux/v5.18-rc7/source/drivers/pwm/pwm-cros-ec.c#L244
+
+> 
+> > > > +static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+> > > > +	.init = keyboard_led_init_ec_pwm_null,
+> > > 
+> > > Is this really needed?
+> > > 
+> > > keyboard_led_probe() checks if .init is assigned before invoking the callback:
+> > > 
+> > > 	if (drvdata->init) {
+> > > 		error = drvdata->init(pdev);
+> > > 
+> > > The whole 'else' branch could be eliminated if .of_match_table of the driver
+> > > only is assigned when CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is set. IMO that
+> > > would preferable over creating 'stubs'.
+> > 
+> > CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.  The stubs
+> > were created to avoid compile errors if CONFIG_OF=y but
+> > CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n.
+> 
+> Is there functional version of the driver that uses instantiation through the
+> device tree if CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n? If not .of_match_table
+> should not be assigned.
+
+CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.
+CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is also designed to work with CONFIG_ACPI.

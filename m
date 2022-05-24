@@ -1,128 +1,187 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F19628
-	for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 02:40:36 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id ob14-20020a17090b390e00b001dff2a43f8cso842772pjb.1
-        for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 19:40:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184717C
+	for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 19:52:18 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id z7-20020a17090abd8700b001df78c7c209so3049439pjr.1
+        for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 12:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=vFwUW25lppZ6ubrRrS2YumoNoZolm8AF3iQRxvjwr/c=;
-        b=ODGGM/qdUpUmOh4SQCugxQ7rPaKZFLWYAWLhAK4jx9hDT4znwVIETiggzE52+4vrIV
-         glllScFfCS98R4izNu8Wk7ljZ2FYjPPGONa5iZ+o9kxEivhP0pbhf83C66o0S7HVBK8w
-         8QRDTJnMMefiOuGgdl/ph12I9e1u7IQRe+0om2fAtmc4QEckmCf7iDnEg9pxvyBSDQVn
-         1bPhZHyG5ABe8pUKLCFq8uw5maLBNyU/jwbgs/HK5gCALMxdTJLmVX/RhZvoC5wJGP1p
-         yN5KYtqKlZZu0oaVsP3D+XVtcdjonS5Aa3ApfJsfl3Wa7n+Et6C4+CGWzHYHsZ9ZlLZk
-         7ZdQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=jqoWghnRf4IApUvhfymreoEWbSDArTcoutoZjM72nXw=;
+        b=EO0wzmRiymk1VXgWWvRRc3IHLLstcNdXRpjX+Qa/zhBCeIa2SsovD9R4dbZnORQcKn
+         0PZkzsed6rURkYHuk1sc0+T3gfc+W2e9X472k+b53Yvdk84aAiZALjWq3FaN5kE2PsYu
+         7sH8pkQe344lomsZEo8R5RF/g6Z0uKDLmtsts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=vFwUW25lppZ6ubrRrS2YumoNoZolm8AF3iQRxvjwr/c=;
-        b=6BHzPvi57VSlCebi2gamW8WnMeM5tWFQtQQaL147vtt3qN9iacxurcPJPDj5c++qG4
-         fK4373nbebI9PaQB1axovPMBWXIuUMSOieIhPMSl/Ah3wFpiNnArnyRPgayOqdc2GdMe
-         myarV9376EosEu3hf6jAlQpJcuAFtBzqFBM/WHDEhW7ickDgyd/X62G+PShknRiaFTig
-         GQb7V7+4J23/vQAzxmkBhQbk2QU+N0D53NpQ9vHHAII/Cqfe0DsHbP0JYCaGBxVZSd6O
-         25t9mAjOKaE5sT0dYFRUODG2fSIqRFi1WzDyHVvaellu82Fe9vIrVH1wBoHJHQL1+wOv
-         JVFg==
-X-Gm-Message-State: AOAM531DN9jNXt2G8qbNNwcftwG7f3HVENoT5C1QTn0EEqRf8T4xBB5T
-	tkKSoE6FGqn5UHpU4rmjReAQag==
-X-Google-Smtp-Source: ABdhPJw9QdyUtG2xXwZKQIe4P6bjjid0dvePzOq49XqWbjFtRotDFbRj3mH8n84mDUpiwBhdTIUjYQ==
-X-Received: by 2002:a17:902:b413:b0:15e:e6a8:b3e with SMTP id x19-20020a170902b41300b0015ee6a80b3emr25466769plr.24.1653360036510;
-        Mon, 23 May 2022 19:40:36 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id iw17-20020a170903045100b0015e8d4eb2dfsm5774720plb.297.2022.05.23.19.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 19:40:36 -0700 (PDT)
-Message-ID: <628c45a4.1c69fb81.bd976.dd74@mx.google.com>
-Date: Mon, 23 May 2022 19:40:36 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jqoWghnRf4IApUvhfymreoEWbSDArTcoutoZjM72nXw=;
+        b=nNu9eKMOePzVwH34If8SmL83gfViHgD9bCnlSv0S2DyeMLfW3kEUf5Hsr/FgCeSszK
+         G74nWr4tXimT05OnuO46K+Mx8LGMA6t6bfjLT2L1gB8wZnEzteZhE5w9H1QnOpYCBtno
+         K+Ehs8I+4D2m+SA58ISfyUd+io04LgOHz9VVMxu9rNWspscErI6EmE0QUnPBgnUIi1l6
+         V1OhIEmhnL7Z63NKLcFvkWJQHS05lJw/e6EYzdLv4K3G/p/ylcpa/5l8myBItGu0XJn1
+         4Qlxclqfrfm7UVXVtZvKjt6gdGED3aEi6fHtYKWCPukmQzvcbpvRLl6mU2KKZHeeccKi
+         g3Sw==
+X-Gm-Message-State: AOAM532UAHKcIVU8Yqps9KvKP1MugkqZB5/HNp05Cu7bpKn3EJZKOW4w
+	NtMx8bdQ4SaVrU1N4K1DE6nEIg==
+X-Google-Smtp-Source: ABdhPJxYA5tWQzLCi4DBahLvoLKWqro2fm9zEi8W+x+XadWNi0GLmwBwwM5KV4GMoCy0dGBpiZhVRg==
+X-Received: by 2002:a17:90b:4b90:b0:1e0:1b0:1a1 with SMTP id lr16-20020a17090b4b9000b001e001b001a1mr6348302pjb.70.1653421937516;
+        Tue, 24 May 2022 12:52:17 -0700 (PDT)
+Received: from localhost ([2620:15c:11a:202:d9e2:8472:9ac:8532])
+        by smtp.gmail.com with UTF8SMTPSA id t28-20020a62d15c000000b0050dc762815csm9767703pfl.54.2022.05.24.12.52.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 12:52:17 -0700 (PDT)
+Date: Tue, 24 May 2022 12:52:15 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] platform/chrome: cros_kbd_led_backlight: support
+ EC PWM backend
+Message-ID: <Yo03b5GtGgF/kVb3@google.com>
+References: <20220321085547.1162312-1-tzungbi@kernel.org>
+ <20220321085547.1162312-6-tzungbi@kernel.org>
+ <YobHVST2Nfn+z8n6@google.com>
+ <YocewB/lLJhIAuQP@google.com>
+ <YoezzzLdVfb0K7Ak@google.com>
+ <Yosc/6izBDYYKpFC@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.18-rc1-24-gc2d7e384924d
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 92 runs,
- 1 regressions (v5.18-rc1-24-gc2d7e384924d)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yosc/6izBDYYKpFC@google.com>
 
-chrome-platform/for-kernelci baseline: 92 runs, 1 regressions (v5.18-rc1-24=
--gc2d7e384924d)
+On Mon, May 23, 2022 at 01:34:55PM +0800, Tzung-Bi Shih wrote:
+> On Fri, May 20, 2022 at 08:29:19AM -0700, Matthias Kaehlcke wrote:
+> > On Fri, May 20, 2022 at 12:53:20PM +0800, Tzung-Bi Shih wrote:
+> > > On Thu, May 19, 2022 at 03:40:21PM -0700, Matthias Kaehlcke wrote:
+> > > > On Mon, Mar 21, 2022 at 04:55:47PM +0800, Tzung-Bi Shih wrote:
+> > > > > +struct keyboard_led_private {
+> > > > 
+> > > > Why 'private', isn't this more a 'cros_ec_kdb_bl' or similar?
+> > > 
+> > > It is just drvdata.
+> > 
+> > The data structure represents an instance of the device, as such it
+> > is an important part of the driver, drvdata is just a way to attach
+> > it to the platform device.
+> > 
+> > > I would prefer to keep the original prefix "keyboard_led_" if you wouldn't
+> > > have strong opinion.
+> > 
+> > I'm fine with 'keyboard_led', but object to the 'private' part. In the
+> > kernel 'private' fields are typically used when a driver consists of a
+> > generic part and a device specific part. The driver has a 'private'
+> > void* field that points to a device specific data structure about which
+> > the generic driver is agnostic. This data structure is only used by the
+> > device specific implementation. That isn't the case here, so naming the
+> > structure anything 'private' is misleading.
+> 
+> The struct in the case is device specific.  I don't see a problem to name it
+> *private* as there are a lot of more existing examples.
+> 
+> $ grep -R 'struct .*_priv.* {' drivers/
+> drivers/pinctrl/bcm/pinctrl-bcm6358.c:struct bcm6358_priv {
+> 
+> $ grep -R 'struct .*_priv.* {' sound/soc/codecs/
+> sound/soc/codecs/rt286.c:struct rt286_priv {
+> 
+> I would get rid of the term "private" if it could be confusing.
 
-Regressions Summary
--------------------
+Ok, I hadn't come across that use of 'private' yet, but apparently it's not
+that uncommon. Personally I prefer variables with specific names, but maybe
+for others 'private' just spells out clearly what a struct is about ¯\_(ツ)_/¯
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+> > > > > +static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
+> > > > > +{
+> > > > > +	struct keyboard_led_private *private = platform_get_drvdata(pdev);
+> > > > > +
+> > > > > +	private->ec = dev_get_drvdata(pdev->dev.parent);
+> > > > > +	if (!private->ec) {
+> > > > > +		dev_err(&pdev->dev, "no parent EC device\n");
+> > > > > +		return -EINVAL;
+> > > > > +	}
+> > > > 
+> > > > The only thing this 'init' function does is assigning private->ec. Wouldn't
+> > > > it be clearer to do this directly in probe() from where callback is called?
+> > > > It could be with the condition that the device as a DT node.
+> > > 
+> > > No.  The probe() isn't aware of the device is from ACPI or OF.
+> > 
+> > But it could be:
+> > 
+> > 	if (pdev->dev.of_node)
+> > 		kbd_led->ec = dev_get_drvdata(pdev->dev.parent);
+> 
+> The 'init' callback isn't only for OF but also ACPI.  I would prefer to keep
+> the 'init' function and let probe() have no awareness about them.
 
+Ah ok, then it makes sense, I think my brain conflated this with the unnecessary
+keyboard_led_init_acpi_null stub.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.18-rc1-24-gc2d7e384924d/plan/baseline/
+> > > > Is it actually possible that the keyboard backlight device gets instantiated
+> > > > if there is no EC parent?
+> > > 
+> > > It shouldn't be but just in case.
+> > 
+> > If this can only occur due to an error in common kernel frameworks then
+> > the check should be omitted IMO.
+> 
+> The check is referenced from [1].  I would prefer to keep it instead of
+> crashing kernel if anything went wrong.
+> 
+> [1]: https://elixir.bootlin.com/linux/v5.18-rc7/source/drivers/pwm/pwm-cros-ec.c#L244
 
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.18-rc1-24-gc2d7e384924d
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      c2d7e384924df85db92e45390ef0c00f2b89d9c2 =
+Ok, maybe there are cases where the EC parent could go away. Let's hope it
+doesn't happen after the keyboard backlight got probed :)
 
+> > 
+> > > > > +static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+> > > > > +	.init = keyboard_led_init_ec_pwm_null,
+> > > > 
+> > > > Is this really needed?
+> > > > 
+> > > > keyboard_led_probe() checks if .init is assigned before invoking the callback:
+> > > > 
+> > > > 	if (drvdata->init) {
+> > > > 		error = drvdata->init(pdev);
+> > > > 
+> > > > The whole 'else' branch could be eliminated if .of_match_table of the driver
+> > > > only is assigned when CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is set. IMO that
+> > > > would preferable over creating 'stubs'.
+> > > 
+> > > CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.  The stubs
+> > > were created to avoid compile errors if CONFIG_OF=y but
+> > > CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n.
+> > 
+> > Is there functional version of the driver that uses instantiation through the
+> > device tree if CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM=n? If not .of_match_table
+> > should not be assigned.
+> 
+> CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM and CONFIG_OF are independent.
+> CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM is also designed to work with CONFIG_ACPI.
 
+I understand that CONFIG_CROS_KBD_LED_BACKLIGHT_EC_PWM also works with
+CONFIG_ACPI, but in that case the driver uses .acpi_match_table, not
+.of_match_table. So you wouldn't have to define 'keyboard_led_of_match'
+if you did this:
 
-Test Regressions
----------------- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/628c3a8362fa0b6a19a39bf8
-
-  Results:     88 PASS, 4 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.18-rc1-24-gc2d7e384924d/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/baseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.18-rc1-24-gc2d7e384924d/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/baseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220513.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/628c3a8362fa0b6a19a39c1a
-        failing since 48 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, first=
- fail: v5.18-rc1-1-gbf84b10d9901d)
-
-    2022-05-24T01:52:55.714200  <8>[   32.237568] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-05-24T01:52:56.743469  /lava-6452639/1/../bin/lava-test-case
-    2022-05-24T01:52:56.753311  <8>[   33.278098] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
- =20
+static struct platform_driver keyboard_led_driver = {
+        .driver         = {
+                .name   = "chromeos-keyboard-leds",
+                .acpi_match_table = ACPI_PTR(keyboard_led_acpi_match),
+#ifdef CONFIG_OF
+		.of_match_table = of_match_ptr(keyboard_led_of_match),
+#endif
+        },
+        .probe          = keyboard_led_probe,
+;

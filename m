@@ -1,246 +1,74 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B1E259C
-	for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 16:56:13 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-f189b07f57so19232986fac.1
-        for <chrome-platform@lists.linux.dev>; Mon, 23 May 2022 09:56:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FfAOhZNasQcy6TRDHmB8U+mc653MKDmGV3a61UnarkE=;
-        b=XA/wPBwk/giqGEDA0QGhTvuMeS4WXxMQUaBLu5uj0tb6vrU62TQfdQSjnc3+U4rjAG
-         jHYf2VfIUg6CR0EjOAB30XMTqemjvX3isaeqfR4XQGxNQURAY5EmSd2AtInIVasnD3tn
-         GTJmg/Xylzqn3Ic2GbcruNlyrUcbqz3eQTmMd1N6Wi40/dNxRAU54pSjM0P6o2kSduBq
-         FA5+HrT5b+gocdQV1DBpVDpT3XjVQPK62bTQ9sXNcgyAxuze1Ipur16Anq0bEx5Wxa7V
-         ZPCendFjqqLE4tqAhcNZdWEJXTaAtYKfYwCudaYB1rMCW3no2Tu36G6TBkthu2Psu+KR
-         dO1A==
-X-Gm-Message-State: AOAM533ZtwxvuBlofK8EnCuSxf1bqN0HHoDK6r/uCihS7YGlwGU4eTIx
-	LZ38GJpz4lrs/fpnYfzlFw==
-X-Google-Smtp-Source: ABdhPJzG3ZFQrmj1v1yitS4jTC5DzQZmWnfRLp9MNvhBwUQ6yufF6JdEMRoPfxaQK0q/QMOIiKOBDg==
-X-Received: by 2002:a05:6870:5823:b0:f2:2dfd:8df0 with SMTP id r35-20020a056870582300b000f22dfd8df0mr6004573oap.157.1653324972043;
-        Mon, 23 May 2022 09:56:12 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id eb38-20020a056870a8a600b000edf5a12baasm3976216oab.46.2022.05.23.09.56.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 09:56:11 -0700 (PDT)
-Received: (nullmailer pid 1750116 invoked by uid 1000);
-	Mon, 23 May 2022 16:56:09 -0000
-Date: Mon, 23 May 2022 11:56:09 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Peter Rosin <peda@axentia.se>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Kalle Valo <kvalo@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Sebastian Reichel <sre@kernel.org>, Matt Mackall <mpm@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-media@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-serial@vger.kernel.org, alsa-devel@alsa-project.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-Message-ID: <20220523165609.GA1743214-robh@kernel.org>
-References: <20220519211411.2200720-1-robh@kernel.org>
- <6ae55a29-0b29-f53c-c9bd-fae929f3caf7@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DC4629
+	for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 00:50:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97144C385A9;
+	Tue, 24 May 2022 00:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1653353412;
+	bh=sIp6djcrJ2pYPQ4fWtehEfwz6Acwa99SXz25tU5Ybq0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=JqB70igHpu9tVw5iItH/3qBJabFLpFmkX+okdUv5kk4zcPNsyHTuWDnmtjCZaHeIg
+	 SvAfOfWQhuMlUFiJh2prc82gXvlY8KsVN0Lbzv85CiuBKrmrPXZ9PCNvnSaB+/nhoa
+	 UWDexZKvzZ0oiJKgypXtMiEn4dff60u8bhM4gcLMCjmII1rSvco8U+pJuVxLtoiJb0
+	 j3qgbIbE+0DzmY5zIjL6pD6+k3UESM0ECopvL2eT0OJApcwKLOBYCojvhnmep8aUlf
+	 giPGLI1CaPWxPHpbjyrFAXZCDqNrBxEkzXEtaoPhrl8lCzRMB1OTZfLQ3AN5n4vpbr
+	 I4qSXIu/Qd/Aw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 79E2EF03943;
+	Tue, 24 May 2022 00:50:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ae55a29-0b29-f53c-c9bd-fae929f3caf7@linaro.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 0/5] platform/chrome: cros_kbd_led_backlight: add EC PWM
+ backend
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165335341249.17704.13803710194044994542.git-patchwork-notify@kernel.org>
+Date: Tue, 24 May 2022 00:50:12 +0000
+References: <20220523090822.3035189-1-tzungbi@kernel.org>
+In-Reply-To: <20220523090822.3035189-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ mka@chromium.org, devicetree@vger.kernel.org
 
-On Sat, May 21, 2022 at 05:03:41PM +0200, Krzysztof Kozlowski wrote:
-> On 19/05/2022 23:14, Rob Herring wrote:
-> > Now that the schema tools can extract type information for all
-> > properties (in order to decode dtb files), finding properties missing
-> > any type definition is fairly trivial though not yet automated.
-> > 
-> > Fix the various property schemas which are missing a type. Most of these
-> > tend to be device specific properties which don't have a vendor prefix.
-> > A vendor prefix is how we normally ensure a type is defined.
-> > 
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
-> >  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
-> >  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
-> >  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
-> >  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
-> >  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
-> >  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
-> >  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
-> >  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
-> >  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
-> >  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
-> >  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
-> >  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
-> >  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
-> >  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
-> >  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
-> >  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
-> >  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
-> >  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
-> >  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
-> >  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
-> >  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
-> >  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
-> >  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
-> >  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
-> >  25 files changed, 55 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> > index 7378159e61df..483caf0ce25b 100644
-> > --- a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
-> > @@ -17,14 +17,15 @@ properties:
-> >        - const: hisilicon,hip04-bootwrapper
-> >  
-> >    boot-method:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> >      description: |
-> >        Address and size of boot method.
-> >        [0]: bootwrapper physical address
-> >        [1]: bootwrapper size
-> >        [2]: relocation physical address
-> >        [3]: relocation size
-> > -    minItems: 1
-> > -    maxItems: 2
-> > +    minItems: 2
-> > +    maxItems: 4
-> >  
-> >  required:
-> >    - compatible
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > index 3bd670b8e5cd..0b6f5bef120f 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > @@ -58,6 +58,7 @@ properties:
-> >  
-> >              properties:
-> >                data-lines:
-> > +                $ref: /schemas/types.yaml#/definitions/uint32
-> >                  enum: [ 16, 18, 24 ]
-> >  
-> >        port@1:
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> > index 7749de95ee40..229e3b36ee29 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> > @@ -146,6 +146,7 @@ properties:
-> >        Horizontal sync pulse.
-> >        0 selects active low, 1 selects active high.
-> >        If omitted then it is not used by the hardware
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [0, 1]
-> >  
-> >    vsync-active:
-> > @@ -153,6 +154,7 @@ properties:
-> >        Vertical sync pulse.
-> >        0 selects active low, 1 selects active high.
-> >        If omitted then it is not used by the hardware
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [0, 1]
-> >  
-> >    de-active:
-> > @@ -160,6 +162,7 @@ properties:
-> >        Data enable.
-> >        0 selects active low, 1 selects active high.
-> >        If omitted then it is not used by the hardware
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [0, 1]
-> >  
-> >    pixelclk-active:
-> > @@ -169,6 +172,7 @@ properties:
-> >        sample data on rising edge.
-> >        Use 1 to drive pixel data on rising edge and
-> >        sample data on falling edge
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [0, 1]
-> >  
-> >    syncclk-active:
-> > @@ -179,6 +183,7 @@ properties:
-> >        sample sync on rising edge of pixel clock.
-> >        Use 1 to drive sync on rising edge and
-> >        sample sync on falling edge of pixel clock
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [0, 1]
-> >  
-> >    interlaced:
-> > diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> > index 745dd247c409..617aa8c8c03a 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
-> > @@ -24,6 +24,7 @@ properties:
-> >  
-> >    dsi-lanes:
-> >      description: Number of DSI lanes to be used must be <3> or <4>
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum: [3, 4]
-> >  
-> >    v3p3-supply:
-> > diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> > index ca959451557e..1cdc91b3439f 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> > @@ -36,6 +36,7 @@ properties:
-> >  
-> >    init-delay:
-> >      description: delay after initialization sequence [ms]
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >  
-> >    panel-width-mm:
-> >      description: physical panel width [mm]
-> > diff --git a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> > index 5fe19fa5f67c..a99e7842ca17 100644
-> > --- a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> > +++ b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
-> > @@ -26,6 +26,7 @@ properties:
-> >      const: 2
-> >  
-> >    registers-number:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      description: Number of daisy-chained shift registers
-> >  
-> >    enable-gpios:
-> > diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > index e8f137abb03c..aa61fe64be63 100644
-> > --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > @@ -31,6 +31,7 @@ properties:
-> >      type: boolean
-> >  
-> >    function-row-physmap:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> >      minItems: 1
-> >      maxItems: 15
-> >      description: |
-> > diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> > index 6699d5e32dca..9f703bb51e12 100644
-> > --- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> > +++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> > @@ -27,6 +27,10 @@ properties:
-> >        column and linux key-code. The 32-bit big endian cell is packed as:
-> >            row << 24 | column << 16 | key-code
-> >  
-> > +  linux,no-autorepeat:
-> > +    type: boolean
-> > +    description: Disable keyrepeat
+Hello:
+
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon, 23 May 2022 17:08:17 +0800 you wrote:
+> The series adds EC PWM as an backend option for ChromeOS keyboard LED
+> backlight.
 > 
-> This should be rather a separate patch - it's documenting a missing
-> property, not only a type.
+> The 1st patch reorder the headers alphabetically.
+> 
+> The 2nd patch separates the ACPI backend.
+> 
+> [...]
 
-Yes, I've dropped this hunk while applying.
+Here is the summary with links:
+  - [v4,1/5] platform/chrome: cros_kbd_led_backlight: sort headers alphabetically
+    https://git.kernel.org/chrome-platform/c/a4da30150ab4
+  - [v4,2/5] platform/chrome: cros_kbd_led_backlight: separate ACPI backend
+    (no matching commit)
+  - [v4,3/5] dt-bindings: add google,cros-kbd-led-backlight
+    (no matching commit)
+  - [v4,4/5] platform/chrome: cros_kbd_led_backlight: support OF match
+    (no matching commit)
+  - [v4,5/5] platform/chrome: cros_kbd_led_backlight: support EC PWM backend
+    (no matching commit)
 
-Rob
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

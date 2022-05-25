@@ -1,65 +1,62 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121863D8E
-	for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 21:44:35 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id v15so3161500pgk.11
-        for <chrome-platform@lists.linux.dev>; Tue, 24 May 2022 14:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tdwGjLIYtWqSmu4a56WsblDf3vmkiiXdBBRqZtk4IQA=;
-        b=CuE1tQFSmFVJONeZAL2ThFeB1vwnSfXzq20k9Ovt4tQxLU7TJ23JFm4sQVvfgfOHpO
-         Sa+5HkQjHK3IdvBheLqRfLW1kI03jDepbgOkcxI9o+lvYjSXo2zrKOUfAI3T+u4CxO+b
-         i6o/oSBBJ0Jnzvgq8zHo2W6K+MEnlXla0lLQ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tdwGjLIYtWqSmu4a56WsblDf3vmkiiXdBBRqZtk4IQA=;
-        b=DbCN2fHkWm4RLgwt2W+OKxJLZJSQ6qeEyy0FExw3RIksXpl6m2niP6Z0ed9FtJXVnn
-         gYgSx1MSasB55WszBjhUtV1JUzr0H2Fgphi72wlhstuJW8T70O0EnqbmCf/nIaRh0JqB
-         2B34weLSF8WTyg8JlH2zmrjJO2siszXOtvt3lNDbaD7S1nMvSfi2m+eNP2/FtcMCwara
-         OKURDsyE2E3YviFzd4Yf+mhGUNj3VMuqc8tJKRpCcKiAK10yZoFDHrEO829QUBkOpOmj
-         kKBqT4kpn/9GCOqGUbGj//wR2FQ3ZT6k9EZMPrcfk8Cz+TgGFdVs0hsrBKQurybhpVMB
-         DVbQ==
-X-Gm-Message-State: AOAM533yg8hVmh5HnsVwABdz4sJ1U1l6Q1gAaF70d8D1nGIDYSHT2UG6
-	+3kWYQLBHAW7tf+1gwbivqGTnA==
-X-Google-Smtp-Source: ABdhPJyJSoSMADvSLYVlL/2kUNvKx6n1UYhKgAQ/pEqNXyseFU7Q4J/kE1GmzKPcau1xYFh10SCG7g==
-X-Received: by 2002:a05:6a00:a8b:b0:4cd:6030:4df3 with SMTP id b11-20020a056a000a8b00b004cd60304df3mr30432733pfl.40.1653428675455;
-        Tue, 24 May 2022 14:44:35 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:4d83:f549:9abd:427])
-        by smtp.gmail.com with UTF8SMTPSA id e4-20020a170902e0c400b00161947ecc82sm387777pla.199.2022.05.24.14.44.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 May 2022 14:44:35 -0700 (PDT)
-Date: Tue, 24 May 2022 14:44:33 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37858A38
+	for <chrome-platform@lists.linux.dev>; Wed, 25 May 2022 03:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 431D3C34100;
+	Wed, 25 May 2022 03:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1653449609;
+	bh=/3mCiceS1LkYBHMvE4U6h0kEyWQEeCNrAyqF7kpGXPA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cd8qvEwRO1nrbGI1tUHX75JI0NQ3JjRWVtSlA+v6198CJG867QhtnR+DAvAkASDfQ
+	 OA6uDhZ0pnDP1kG3GARZudKkSyHPaPR3h9XKn/m/rCy4zNi2tgBmPSPsS7h7WFnYIe
+	 MEL3pJHEa3yBcLy+tFoQtA93vn/bxfCEFfiNESUlr5caKK/fOTsW4YhoQChzzEbzdz
+	 5ukyDemvSVcTNpSxHoNllP1b7vJZpXA2VPOfRK54WdkQcgN8XZhGBBiRQIKPrGmzGV
+	 J/fcnYvoTJyDpw3lTLFIE/ecd/Z6puxtf5mdNUFM4/0Qe+mShfnQRrK6ws0pJXU+bj
+	 7yYhzq0Hrt4Yw==
+Date: Wed, 25 May 2022 11:33:25 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Matthias Kaehlcke <mka@chromium.org>
 Cc: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] platform/chrome: cros_kbd_led_backlight: support
- EC PWM backend
-Message-ID: <Yo1RwaTYUtWWfdDg@google.com>
+	devicetree@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v4 4/5] platform/chrome: cros_kbd_led_backlight: support
+ OF match
+Message-ID: <Yo2jhTpsa5Vw4+61@google.com>
 References: <20220523090822.3035189-1-tzungbi@kernel.org>
- <20220523090822.3035189-6-tzungbi@kernel.org>
+ <20220523090822.3035189-5-tzungbi@kernel.org>
+ <Yo07IDqYuQUzeL+N@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220523090822.3035189-6-tzungbi@kernel.org>
+In-Reply-To: <Yo07IDqYuQUzeL+N@google.com>
 
-On Mon, May 23, 2022 at 05:08:22PM +0800, Tzung-Bi Shih wrote:
-> EC PWM backend uses EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT and
-> EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT for setting and getting the brightness
-> respectively.
+On Tue, May 24, 2022 at 01:08:00PM -0700, Matthias Kaehlcke wrote:
+> On Mon, May 23, 2022 at 05:08:21PM +0800, Tzung-Bi Shih wrote:
+> > +#ifdef CONFIG_OF
+> > +static const struct of_device_id keyboard_led_of_match[] = {
+> > +	{
+> > +		.compatible = "google,cros-kbd-led-backlight",
+> > +	},
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, keyboard_led_of_match);
+> > +#endif
+> > +
+> >  static struct platform_driver keyboard_led_driver = {
+> >  	.driver		= {
+> >  		.name	= "chromeos-keyboard-leds",
+> >  		.acpi_match_table = ACPI_PTR(keyboard_led_acpi_match),
+> > +		.of_match_table = of_match_ptr(keyboard_led_of_match),
 > 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> You need to put this assignment inside an '#ifdef CONFIG_OF' block,
+> otherwise the compiler won't find 'keyboard_led_of_match' when
+> CONFIG_OF isn't set.
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-Tested-by: Matthias Kaehlcke <mka@chromium.org>
+It doesn't need as of_match_ptr() already guarded it.

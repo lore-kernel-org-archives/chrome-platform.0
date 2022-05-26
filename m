@@ -1,149 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB2C10EA
-	for <chrome-platform@lists.linux.dev>; Thu, 26 May 2022 01:33:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AB2C34117;
-	Thu, 26 May 2022 01:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590F51875
+	for <chrome-platform@lists.linux.dev>; Thu, 26 May 2022 22:04:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EE3B5C385B8;
+	Thu, 26 May 2022 22:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653528786;
-	bh=pQbwgINLxI21GXXyGtGVeUNfYP2Q2AzNFVmF3Cd0PNM=;
-	h=Date:From:To:Cc:Subject:From;
-	b=pR/NjBZ4wpBqm8YpbrG2oteKBFh9ISJ1Lsqy9sVDxIkoWWhbmk+tjrl0OYyLRwwBc
-	 KPQjrE2ffov3+OnxnTcZC/e6o/Dj2bT0IlUgkeJJa3SLDXc/SaUAKarDYB1FhNHheo
-	 EEnxfmK4ata+XjIFrezl5mgM3PPaPkPGwtUA9YCP6a8xsXbRvqsrEozx2lY1s/U9lR
-	 CsqPYAgwUj3eq1X0kgxy7dU+hnpre9LlGq2PJ1tKGZ9afqdR1cI+6LxswVqQDQToMe
-	 Hxl8tBBduHomnnGRIubC+8bEx5NDb2QW4mwqxxk9DStk8cqqxm3oq+NCcTX4KdZAlB
-	 LITR1wXkHHB4A==
-Date: Thu, 26 May 2022 09:33:02 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: pmalani@chromium.org, bleung@chromium.org, linux-kernel@vger.kernel.org,
-	groeck@chromium.org, tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform changes for v5.19
-Message-ID: <Yo7YztZklByTINZp@google.com>
+	s=k20201202; t=1653602686;
+	bh=3YahBxcqwrlACESTCA7z3PCyV1FncahlTuC/rwvUouY=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=h7wXT+9Bzx7WMvqlD48DS1I4bIyr4yG0YsvlcweLxq34AiCbwlbYGiBSQR5D1QOWr
+	 LlHm40N1wSRXKqv3JunoIsVzc3qvH9ao8VVzLYKxN72f3yTuhjS2BD2E+8ahk4zMrW
+	 0VnNnypgfqFDsuuKlbXrCIv7Uw9kVw+29gehWR/E6ISj9yOsGf1H7nbClxR5RyWFid
+	 +1kq0FBLu32MbfNCIYgdkvCKva22pH2QwXuVZI9pfLKWPQfOY7MyJCHLQQ0IbW7oGK
+	 r6GD8unSAaQqwsDuGnA1HsDsq11+UPt/8I7eg/f0YrJkf3JoWwu/0MJB11gxnuQcGu
+	 OGCuhZJZycycQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DB1A4F03938;
+	Thu, 26 May 2022 22:04:45 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v5.19
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Yo7YztZklByTINZp@google.com>
+References: <Yo7YztZklByTINZp@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <Yo7YztZklByTINZp@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.19
+X-PR-Tracked-Commit-Id: abd4fd43f2af03e2e852e6b1b98faeee9e3eae55
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: f1f88bb51f1ae9d7eec9ef871355dea033bac02d
+Message-Id: <165360268589.24340.12642622200377938586.pr-tracker-bot@kernel.org>
+Date: Thu, 26 May 2022 22:04:45 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, linux-kernel@vger.kernel.org, groeck@chromium.org, tzungbi@kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mIqwI4HpAZfVtEbQ"
-Content-Disposition: inline
 
+The pull request you sent on Thu, 26 May 2022 09:33:02 +0800:
 
---mIqwI4HpAZfVtEbQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.19
 
-Linus,
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/f1f88bb51f1ae9d7eec9ef871355dea033bac02d
 
-Please pull chrome-platform updates for v5.19.
+Thank you!
 
-Thanks,
-TzungBi
-
-
-The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
-
-  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.19
-
-for you to fetch changes up to abd4fd43f2af03e2e852e6b1b98faeee9e3eae55:
-
-  platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions (2022-05-24 08:46:21 +0800)
-
-----------------------------------------------------------------
-chrome platform changes for 5.19
-
-cros_ec:
-* Fix wrong error handling path.
-* Clean-up patches.
-
-cros_ec_chardev:
-* Re-introduce cros_ec_cmd_xfer to fix ABI broken.
-
-cros_ec_lpcs:
-* Support the Framework Laptop.
-
-cros_ec_typec:
-* Fix NULL dereference.
-
-chromeos_acpi:
-* Add ChromeOS ACPI device driver.
-* Fix Sphinx errors when `make htmldocs`.
-
-misc:
-* Drop BUG_ON()s.
-
-----------------------------------------------------------------
-Akihiko Odaki (1):
-      platform/chrome: cros_ec_typec: Check for EC driver
-
-Bagas Sanjaya (2):
-      platform/chrome: Use tables for values lists of ChromeOS ACPI sysfs ABI
-      platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions
-
-Dustin L. Howett (2):
-      platform/chrome: cros_ec_lpcs: detect the Framework Laptop
-      platform/chrome: cros_ec_lpcs: reserve the MEC LPC I/O ports first
-
-Enric Balletbo i Serra (1):
-      platform/chrome: Add ChromeOS ACPI device driver
-
-Guenter Roeck (1):
-      platform/chrome: Re-introduce cros_ec_cmd_xfer and use it for ioctls
-
-Tzung-Bi Shih (12):
-      platform/chrome: cros_ec: fix error handling in cros_ec_register()
-      platform/chrome: cros_ec: remove unused variable `was_wake_device`
-      platform/chrome: cros_ec: determine `wake_enabled` in cros_ec_suspend()
-      platform/chrome: cros_ec: sort header inclusion alphabetically
-      platform/chrome: cros_ec: append newline to all logs
-      platform/chrome: cros_ec_proto: drop unneeded BUG_ON() in prepare_packet()
-      platform/chrome: correct cros_ec_prepare_tx() usage
-      platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_prepare_tx()
-      platform/chrome: cros_ec_proto: drop BUG_ON() in cros_ec_get_host_event()
-      platform/chrome: cros_ec_i2c: drop BUG_ON() in cros_ec_pkt_xfer_i2c()
-      platform/chrome: cros_ec_spi: drop unneeded BUG_ON()
-      platform/chrome: cros_ec_spi: drop BUG_ON() if `din` isn't large enough
-
- .../ABI/testing/sysfs-driver-chromeos-acpi         | 137 ++++++++
- .../firmware-guide/acpi/chromeos-acpi-device.rst   | 363 +++++++++++++++++++++
- Documentation/firmware-guide/acpi/index.rst        |   1 +
- drivers/platform/chrome/Kconfig                    |  11 +
- drivers/platform/chrome/Makefile                   |   1 +
- drivers/platform/chrome/chromeos_acpi.c            | 257 +++++++++++++++
- drivers/platform/chrome/cros_ec.c                  |  36 +-
- drivers/platform/chrome/cros_ec_chardev.c          |   2 +-
- drivers/platform/chrome/cros_ec_i2c.c              |  12 +-
- drivers/platform/chrome/cros_ec_ishtp.c            |   4 +-
- drivers/platform/chrome/cros_ec_lpc.c              |  49 ++-
- drivers/platform/chrome/cros_ec_proto.c            |  63 +++-
- drivers/platform/chrome/cros_ec_rpmsg.c            |   2 +
- drivers/platform/chrome/cros_ec_spi.c              |  15 +-
- drivers/platform/chrome/cros_ec_typec.c            |   3 +
- include/linux/platform_data/cros_ec_commands.h     |  10 +-
- include/linux/platform_data/cros_ec_proto.h        |   6 +-
- 17 files changed, 914 insertions(+), 58 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-chromeos-acpi
- create mode 100644 Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
- create mode 100644 drivers/platform/chrome/chromeos_acpi.c
-
---mIqwI4HpAZfVtEbQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCYo7YywAKCRArxTEGBto8
-9MO5AP0YOKlZzovTiBkkpIvTjEymnWL7BZUUyhsvRZ4nPq2+RwEApP4zGGqHEpWQ
-l78mr0S2+GZ/+L9P9U8h/kLv37rahwE=
-=iNyh
------END PGP SIGNATURE-----
-
---mIqwI4HpAZfVtEbQ--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

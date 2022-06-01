@@ -1,44 +1,44 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAA063D
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:46:49 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id h19so1836466edj.0
-        for <chrome-platform@lists.linux.dev>; Wed, 01 Jun 2022 04:46:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC42163D
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:50:14 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id w27so1807766edl.7
+        for <chrome-platform@lists.linux.dev>; Wed, 01 Jun 2022 04:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=xS22Lp44Ny9t4COxTYX6v7RHBsJp3R38gvuPhap8Xxk=;
-        b=Vdn/A8bcMrep9u5fPo6z2dUQv9j2g8Y38q6W24RAuco0o8ZmtR2X4HrXfSeipCInZv
-         GziXgtzzhIdD+Rffxs0dfyLMnzEJhQKfHlTJNQ5UkuAHUkHvSNhjaoQ+iZZcHaafXISs
-         Q/GdYLaAe/LhlPRYcssTLh1kLuDiSDNCxT7Xm5/dLvfpxKA4m7kTnhyMla688A8TpSyd
-         ETjc2aA53R15ujLw0V8qqlgQ5jN3uzrjWwzdiawaqw3UdOtPRRBlvikMEm7umlEe54Os
-         eEl7yci3R24UScUi7upYPMNosnbr2K9WuZ84XcTBqmo4FQYneoj+dexSxQoVQL50ccjB
-         /Iqw==
+        bh=NCu09c7It8PCgWDIsBdAVtichE5PsFctC0ahaIHP8Xk=;
+        b=KD/GF46y0L9iV/6oC8B0iJGCrA1YOd1ZDr5ZyyRZKnNDXwqFSyH7pMugTFD19FNvuK
+         DLG3zOI1/3Fg4wUPC6NHPSQsy5OZb4b0Gzq06f1NQQgETWqm89FW05A3FR2gVOXq19JI
+         CVJ6LZEFdk42WkWzwgK+DKTWazScy0oP4rYwVZuAJM9xGuHcCJziiPFOQ+DYiY0ziLC9
+         879vFCoj64XlDCsamSFbS8NsBkT6Wd/mB/bfROk0lZwGArhZOmwQjbsMRzUVQWJzSFqQ
+         TKzfvDC846UfKtt8N47ycGDKj/fiFXjMu2XbHSJn7sd2vqALeK2+srAsZBIKPsgY1YKN
+         9Hvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=xS22Lp44Ny9t4COxTYX6v7RHBsJp3R38gvuPhap8Xxk=;
-        b=jTMFPBs5ma5XTP0u6cKz86iXnfSHS9Wvoq6IRle9YM2Up8bcvaEWAj1tAsbcf6M+hO
-         2PFDNMa2Yq5u6gLwRWrHFTZKOit9beQ+lY3kR+MBPUoBNuNcAFrrD4zBi7x+NZ9EIfmA
-         xlGb4SVLC5YYedMP5XluRK6CNZj04CeK6e6EcAZ/ntXHPJZlrEIM9gZX8wq9DBvkAvQL
-         56g+16gH/U9R9OchFBBzsTFGalnHQxuAUR/46aUPhuScC89PFTDMEdAXj9gjEYkMmKBg
-         pNJsEc7JHfnvgOZfd8i283hpPSngar+qE9Jz5N0gN62rezJPpQX+d/Xox0ctr9k2GG+b
-         qu4g==
-X-Gm-Message-State: AOAM531Pz2hk9il29+gBr4n6ZybyFQp45ZaT05d/N2G7Rs+EJnO7S3P8
-	T9WtO0tqSQnLyu59K3vXUbjyyw==
-X-Google-Smtp-Source: ABdhPJz7sWA7VmvSrlhCTYtzkutCkqbYbNVnexW8hgWLjCkRZAmC5rj1rW2ZtfehuZ38O0Py78VTtA==
-X-Received: by 2002:aa7:d59a:0:b0:42d:d14e:598 with SMTP id r26-20020aa7d59a000000b0042dd14e0598mr16574106edq.215.1654084008362;
-        Wed, 01 Jun 2022 04:46:48 -0700 (PDT)
+        bh=NCu09c7It8PCgWDIsBdAVtichE5PsFctC0ahaIHP8Xk=;
+        b=1tTeyv3cA8uNVvmuWcbweqgHjUyoghwKfBlZ5rsuNupGzlLO3vEfbrAnt+l3jqCdBH
+         OuaNjVz3sOHrk1bXKScSEu5XOTE1BXvxUQ7zt53j32q/KTNqL3NY7WnzreQD9pWOG+Hf
+         gcVoAYCIL7jvxvVHd/V0bqD62M+clWSeouyLm5C0TJ0K/X9Z1AxIY02NGBhBXCaJwBK+
+         MZecYnk6mOFqocWgAPhkCXRYY6plaJgfL90IFf1KStmBZv5EwkczHiSsqSak/ULAhp6i
+         V9HbP0ipNscc8JksSitFUa2qU4RvlURrvrBCnXAMytDU9D862wLQSi6Yw+YPhJQu2wmY
+         FWTQ==
+X-Gm-Message-State: AOAM530bSV2x312Ba3uUDnzfMPS8HJS3v1sbQ4fMf7GdCd3IGMugLt1m
+	cxKSgsCHMBoCpzxx9QoH4sRD0g==
+X-Google-Smtp-Source: ABdhPJyELI2heE5E7DXJZNsKABuJGaTaxV4OxNBunIxicg2IcK642ipDPhUCnEa0+rHGU5oepmuQnQ==
+X-Received: by 2002:a05:6402:1851:b0:42d:c904:d73b with SMTP id v17-20020a056402185100b0042dc904d73bmr20563379edy.417.1654084213214;
+        Wed, 01 Jun 2022 04:50:13 -0700 (PDT)
 Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id f11-20020a056402004b00b0042dbc55f6e4sm881774edu.7.2022.06.01.04.46.45
+        by smtp.gmail.com with ESMTPSA id e26-20020a50ec9a000000b0042ad0358c8bsm855792edr.38.2022.06.01.04.50.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 04:46:46 -0700 (PDT)
-Message-ID: <919ca8ee-4b01-e601-714c-26098647d5c7@linaro.org>
-Date: Wed, 1 Jun 2022 13:46:45 +0200
+        Wed, 01 Jun 2022 04:50:12 -0700 (PDT)
+Message-ID: <dd3ea397-fa21-abe5-85ad-b8a4818dc011@linaro.org>
+Date: Wed, 1 Jun 2022 13:50:11 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -47,7 +47,8 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v1 00/15] Add support for MT8195 SCP 2nd core
+Subject: Re: [PATCH v1 01/15] dt-binding: remoteproc: mediatek: Support
+ dual-core SCP
 Content-Language: en-US
 To: Tinghan Shen <tinghan.shen@mediatek.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -68,21 +69,83 @@ Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
  Project_Global_Chrome_Upstream_Group@mediatek.com, weishunc@google.com
 References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+ <20220601112201.15510-2-tinghan.shen@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+In-Reply-To: <20220601112201.15510-2-tinghan.shen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/06/2022 13:21, Tinghan Shen wrote:
-> The MT8195 System Companion Processor(SCP) is a dual-core RISC-V MCU.
-> Current mediatek remoteproc driver only supports bring-up single core 
-> SCP or the 1st core of a dual-core SCP. This series support to bring-up 
-      ^^ this or is confusing a bit.
+> The SCP co-processor is a dual-core RISC-V MCU on MT8195.
+> 
+> Add a new property to identify each core and helps to find drivers
+> through device tree API to cooperate with each other, e.g. boot flow and
+> watchdog timeout flow.
+> 
+> Add a new compatile for the driver of SCP 2nd core.
+> 
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> ---
+>  .../devicetree/bindings/remoteproc/mtk,scp.yaml      | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> index eec3b9c4c713..b181786d9575 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - mediatek,mt8186-scp
+>        - mediatek,mt8192-scp
+>        - mediatek,mt8195-scp
+> +      - mediatek,mt8195-scp-dual
+>  
+>    reg:
+>      description:
+> @@ -57,6 +58,16 @@ properties:
+>    memory-region:
+>      maxItems: 1
+>  
+> +  mediatek,scp-core:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      The property value is a list with 2 items, a core id and a phandle
 
-Does this mean that MT8195 has three RISC-V MCUs?
+uint32, not phandle.
 
-> the 2nd core of a dual-core SCP.
+> +      to the sibling SCP node. 
 
+Skip this. First part is obvious from the schema, second part should be
+described via items.
+
+The core id represents the id of the dts node contains
+> +      this property. The valid values of core id are 0 and 1 for dual-core SCP.
+> +      The phandle of sibling SCP node is used to find the register settings,
+> +      trigger core dependent callback, and invoke rproc API.
+
+Entire description did not help me to understand what's this. So far it
+looks like it is not a hardware property but some programming help, so
+it does not look like properly described in bindings.
+
+> +    maxItems: 1
+
+In description you said - two items.
+
+You need allOf:if:then disallowing this property for other variants.
+
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -115,6 +126,7 @@ examples:
+>          reg-names = "sram", "cfg", "l1tcm";
+>          clocks = <&infracfg CLK_INFRA_SCPSYS>;
+>          clock-names = "main";
+> +        mediatek,scp-core = <0 &scp_dual>;
+
+This looks like phandle, so wrong type.
+>  
+>          cros_ec {
+>              mediatek,rpmsg-name = "cros-ec-rpmsg";
 
 
 Best regards,

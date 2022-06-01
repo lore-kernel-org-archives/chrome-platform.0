@@ -1,50 +1,47 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DFE63D
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:18 +0000 (UTC)
-X-UUID: 17bf1eb0c22d4f76a43a189dd38307f5-20220601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF263E
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:19 +0000 (UTC)
+X-UUID: 5a77fbfa935d4a73a6275b136ae3b29a-20220601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:257e5b34-b647-44bb-bb9e-96140dbf0861,OB:0,LO
-	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,ACT
-	ION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:257e5b34-b647-44bb-bb9e-96140dbf0861,OB:0,LOB:
-	0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,ACT
-	ION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:ae90268a-32d7-4fc0-b2ef-8776ac194f8f,C
-	OID:cf170092d950,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 17bf1eb0c22d4f76a43a189dd38307f5-20220601
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+X-CID-O-INFO: VERSION:1.1.5,REQID:7d44fd19-a9a8-4e18-9fb8-283159bfc891,OB:0,LO
+	B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+	ION:release,TS:-5
+X-CID-META: VersionHash:2a19b09,CLOUDID:a1648f14-f88c-475e-badf-d9ee54230b8f,C
+	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+	,QS:0,BEC:nil
+X-UUID: 5a77fbfa935d4a73a6275b136ae3b29a-20220601
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 2088635505; Wed, 01 Jun 2022 19:22:06 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 53229942; Wed, 01 Jun 2022 19:22:06 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 1 Jun 2022 19:22:05 +0800
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Wed, 1 Jun 2022 19:22:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:05 +0800
+ 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:04 +0800
 From: Tinghan Shen <tinghan.shen@mediatek.com>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
 	<matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung
 	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri
 	<dnojiri@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>,
 	"Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, "Enric
- Balletbo i Serra" <enric.balletbo@collabora.com>, Brian Norris
+	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, Enric
+ Balletbo i Serra <enric.balletbo@collabora.com>, Brian Norris
 	<briannorris@chromium.org>
 CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 07/15] remoteproc: mediatek: Add SCP core 1 reserved memory support
-Date: Wed, 1 Jun 2022 19:21:53 +0800
-Message-ID: <20220601112201.15510-8-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 04/15] remoteproc: mediatek: Add SCP core 1 register definitions
+Date: Wed, 1 Jun 2022 19:21:50 +0800
+Message-ID: <20220601112201.15510-5-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
@@ -57,81 +54,52 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-Reuse the SCP core 0 reserved memory API on SCP core 1.
+Add MT8195 SCP core 1 related register definitions.
 
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- drivers/remoteproc/mtk_common.h   | 2 ++
- drivers/remoteproc/mtk_scp.c      | 6 ++++--
- drivers/remoteproc/mtk_scp_dual.c | 5 +++++
- 3 files changed, 11 insertions(+), 2 deletions(-)
+ drivers/remoteproc/mtk_common.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
-index 2e46be605687..da3ea2243678 100644
+index 73e8adf00de3..2eadb0e696a1 100644
 --- a/drivers/remoteproc/mtk_common.h
 +++ b/drivers/remoteproc/mtk_common.h
-@@ -168,4 +168,6 @@ int scp_stop(struct rproc *rproc);
- int scp_load(struct rproc *rproc, const struct firmware *fw);
- void *scp_da_to_va(struct rproc *rproc, u64 da, size_t len, bool *is_iomem);
- int scp_parse_fw(struct rproc *rproc, const struct firmware *fw);
-+int scp_map_memory_region(struct mtk_scp *scp);
-+void scp_unmap_memory_region(struct mtk_scp *scp);
- #endif
-diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
-index 7b9d12ec2d4f..75d161da0f59 100644
---- a/drivers/remoteproc/mtk_scp.c
-+++ b/drivers/remoteproc/mtk_scp.c
-@@ -747,7 +747,7 @@ void *scp_mapping_dm_addr(struct mtk_scp *scp, u32 mem_addr)
- }
- EXPORT_SYMBOL_GPL(scp_mapping_dm_addr);
+@@ -47,6 +47,7 @@
+ #define MT8192_SCP2SPM_IPC_CLR		0x4094
+ #define MT8192_GIPC_IN_SET		0x4098
+ #define MT8192_HOST_IPC_INT_BIT		BIT(0)
++#define MT8195_HOST_IPC_INT_BIT		BIT(4)
  
--static int scp_map_memory_region(struct mtk_scp *scp)
-+int scp_map_memory_region(struct mtk_scp *scp)
- {
- 	int ret;
+ #define MT8192_CORE0_SW_RSTN_CLR	0x10000
+ #define MT8192_CORE0_SW_RSTN_SET	0x10004
+@@ -60,6 +61,26 @@
  
-@@ -773,8 +773,9 @@ static int scp_map_memory_region(struct mtk_scp *scp)
+ #define MT8195_L1TCM_SRAM_PDN_RESERVED_RSI_BITS		GENMASK(7, 4)
  
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(scp_map_memory_region);
- 
--static void scp_unmap_memory_region(struct mtk_scp *scp)
-+void scp_unmap_memory_region(struct mtk_scp *scp)
- {
- 	if (scp->dram_size == 0)
- 		return;
-@@ -783,6 +784,7 @@ static void scp_unmap_memory_region(struct mtk_scp *scp)
- 			  scp->dma_addr);
- 	of_reserved_mem_device_release(scp->dev);
- }
-+EXPORT_SYMBOL_GPL(scp_unmap_memory_region);
- 
- static int scp_register_ipi(struct platform_device *pdev, u32 id,
- 			    ipi_handler_t handler, void *priv)
-diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
-index e4ada5696bd7..0f932d26f864 100644
---- a/drivers/remoteproc/mtk_scp_dual.c
-+++ b/drivers/remoteproc/mtk_scp_dual.c
-@@ -60,6 +60,10 @@ static int scp_dual_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(scp->reg_base),
- 				     "Failed to parse and map cfg memory\n");
- 
-+	ret = scp_map_memory_region(scp);
-+	if (ret)
-+		return ret;
++#define MT8195_CPU1_SRAM_PD			0x1084
++#define MT8195_SSHUB2APMCU_IPC_SET		0x4088
++#define MT8195_SSHUB2APMCU_IPC_CLR		0x408C
++#define MT8195_CORE1_SW_RSTN_CLR		0x20000
++#define MT8195_CORE1_SW_RSTN_SET		0x20004
++#define MT8195_CORE1_MEM_ATT_PREDEF		0x20008
++#define MT8195_CORE1_WDT_IRQ			0x20030
++#define MT8195_CORE1_WDT_CFG			0x20034
 +
- 	mutex_init(&scp->send_lock);
- 	for (i = 0; i < SCP_IPI_MAX; i++)
- 		mutex_init(&scp->ipi_desc[i].lock);
-@@ -75,6 +79,7 @@ static int scp_dual_remove(struct platform_device *pdev)
- 	struct mtk_scp *scp = platform_get_drvdata(pdev);
- 	int i;
++#define MT8195_SEC_CTRL				0x85000
++#define MT8195_CORE_OFFSET_ENABLE_D		BIT(13)
++#define MT8195_CORE_OFFSET_ENABLE_I		BIT(12)
++#define MT8195_L2TCM_OFFSET_RANGE_0_LOW		0x850b0
++#define MT8195_L2TCM_OFFSET_RANGE_0_HIGH	0x850b4
++#define MT8195_L2TCM_OFFSET			0x850d0
++#define SCP_SRAM_REMAP_LOW			0
++#define SCP_SRAM_REMAP_HIGH			1
++#define SCP_SRAM_REMAP_OFFSET			2
++#define SCP_SRAM_REMAP_SIZE			3
++
+ #define SCP_FW_VER_LEN			32
+ #define SCP_SHARE_BUFFER_SIZE		288
  
-+	scp_unmap_memory_region(scp);
- 	for (i = 0; i < SCP_IPI_MAX; i++)
- 		mutex_destroy(&scp->ipi_desc[i].lock);
- 	mutex_destroy(&scp->send_lock);
 -- 
 2.18.0
 

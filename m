@@ -1,48 +1,50 @@
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFD763F
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:19 +0000 (UTC)
-X-UUID: 131e4688f43a4375a8efce446ab08179-20220601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CB0646
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:20 +0000 (UTC)
+X-UUID: 62499072bd7446e88494232e49fc2887-20220601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:501e9399-13c8-405f-8b90-96a3b6a844ba,OB:0,LO
+X-CID-O-INFO: VERSION:1.1.5,REQID:3adaa018-0038-4699-a42d-4e4d54b3db1c,OB:0,LO
 	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
 	ON:release,TS:0
-X-CID-META: VersionHash:2a19b09,CLOUDID:91648f14-f88c-475e-badf-d9ee54230b8f,C
+X-CID-META: VersionHash:2a19b09,CLOUDID:2f91268a-32d7-4fc0-b2ef-8776ac194f8f,C
 	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
 	,QS:0,BEC:nil
-X-UUID: 131e4688f43a4375a8efce446ab08179-20220601
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+X-UUID: 62499072bd7446e88494232e49fc2887-20220601
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 711226445; Wed, 01 Jun 2022 19:22:05 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1861863262; Wed, 01 Jun 2022 19:22:08 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Wed, 1 Jun 2022 19:22:04 +0800
+ Wed, 1 Jun 2022 19:22:06 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:04 +0800
+ 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:06 +0800
 From: Tinghan Shen <tinghan.shen@mediatek.com>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
 	<matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung
 	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri
 	<dnojiri@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>,
 	"Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, "Enric
- Balletbo i Serra" <enric.balletbo@collabora.com>, Brian Norris
+	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, Enric
+ Balletbo i Serra <enric.balletbo@collabora.com>, Brian Norris
 	<briannorris@chromium.org>
 CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 00/15] Add support for MT8195 SCP 2nd core
-Date: Wed, 1 Jun 2022 19:21:46 +0800
-Message-ID: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 14/15] remoteproc: mediatek: Support rpmsg for SCP core 1
+Date: Wed, 1 Jun 2022 19:22:00 +0800
+Message-ID: <20220601112201.15510-15-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -52,42 +54,88 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-The MT8195 System Companion Processor(SCP) is a dual-core RISC-V MCU.
-Current mediatek remoteproc driver only supports bring-up single core 
-SCP or the 1st core of a dual-core SCP. This series support to bring-up 
-the 2nd core of a dual-core SCP.
+Reuse the rpmsg subdevice flow of SCP core 0 on SCP core 1.
 
-Tinghan Shen (15):
-  dt-binding: remoteproc: mediatek: Support dual-core SCP
-  remoteproc: Kconfig: Add mt8195 SCP dual core configuration
-  remoteproc: mediatek: Support hanlding scp core 1 wdt timeout
-  remoteproc: mediatek: Add SCP core 1 register definitions
-  remoteproc: mediatek: Add SCP core 1 driver for dual-core scp
-  remoteproc: mediatek: Add SCP core 1 rproc operations
-  remoteproc: mediatek: Add SCP core 1 reserved memory support
-  remoteproc: mediatek: Add SCP core 1 interrupt support
-  remoteproc: mediatek: Register SCP core 1 initialization ipi
-  remoteproc: mediatek: Add chip dependent operations for SCP core 1
-  remoteproc: mediatek: Add SCP core 1 SRAM offset
-  remoteproc: mediatek: SCP core 1 as a rproc subdevice
-  remoteproc: mediatek: Wait SCP core 1 probe done
-  remoteproc: mediatek: Support rpmsg for SCP core 1
-  mfd: cros_ec: Add SCP 2nd core as a new CrOS EC MCU
+Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+---
+ drivers/remoteproc/mtk_common.h   | 3 +++
+ drivers/remoteproc/mtk_scp.c      | 6 ++++--
+ drivers/remoteproc/mtk_scp_dual.c | 4 ++++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
- .../bindings/remoteproc/mtk,scp.yaml          |  12 +
- drivers/mfd/cros_ec_dev.c                     |   5 +
- drivers/remoteproc/Kconfig                    |  10 +
- drivers/remoteproc/Makefile                   |   1 +
- drivers/remoteproc/mtk_common.h               |  50 +++
- drivers/remoteproc/mtk_scp.c                  |  92 ++++-
- drivers/remoteproc/mtk_scp_dual.c             | 320 ++++++++++++++++++
- drivers/remoteproc/mtk_scp_subdev.c           | 163 +++++++++
- .../linux/platform_data/cros_ec_commands.h    |   2 +
- include/linux/platform_data/cros_ec_proto.h   |   1 +
- 10 files changed, 644 insertions(+), 12 deletions(-)
- create mode 100644 drivers/remoteproc/mtk_scp_dual.c
- create mode 100644 drivers/remoteproc/mtk_scp_subdev.c
-
+diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
+index 464d013ed6b2..89e2bec0a087 100644
+--- a/drivers/remoteproc/mtk_common.h
++++ b/drivers/remoteproc/mtk_common.h
+@@ -185,4 +185,7 @@ void scp_ipi_handler(struct mtk_scp *scp);
+ 
+ struct rproc_subdev *scp_dual_create_subdev(struct mtk_scp *scp);
+ void scp_dual_destroy_subdev(struct rproc_subdev *subdev);
++
++void scp_add_rpmsg_subdev(struct mtk_scp *scp);
++void scp_remove_rpmsg_subdev(struct mtk_scp *scp);
+ #endif
+diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
+index c7bf0a44ba0d..fbeaa81e914d 100644
+--- a/drivers/remoteproc/mtk_scp.c
++++ b/drivers/remoteproc/mtk_scp.c
+@@ -825,7 +825,7 @@ static struct mtk_rpmsg_info mtk_scp_rpmsg_info = {
+ 	.ns_ipi_id = SCP_IPI_NS_SERVICE,
+ };
+ 
+-static void scp_add_rpmsg_subdev(struct mtk_scp *scp)
++void scp_add_rpmsg_subdev(struct mtk_scp *scp)
+ {
+ 	scp->rpmsg_subdev =
+ 		mtk_rpmsg_create_rproc_subdev(to_platform_device(scp->dev),
+@@ -833,8 +833,9 @@ static void scp_add_rpmsg_subdev(struct mtk_scp *scp)
+ 	if (scp->rpmsg_subdev)
+ 		rproc_add_subdev(scp->rproc, scp->rpmsg_subdev);
+ }
++EXPORT_SYMBOL_GPL(scp_add_rpmsg_subdev);
+ 
+-static void scp_remove_rpmsg_subdev(struct mtk_scp *scp)
++void scp_remove_rpmsg_subdev(struct mtk_scp *scp)
+ {
+ 	if (scp->rpmsg_subdev) {
+ 		rproc_remove_subdev(scp->rproc, scp->rpmsg_subdev);
+@@ -842,6 +843,7 @@ static void scp_remove_rpmsg_subdev(struct mtk_scp *scp)
+ 		scp->rpmsg_subdev = NULL;
+ 	}
+ }
++EXPORT_SYMBOL_GPL(scp_remove_rpmsg_subdev);
+ 
+ static void scp_add_dual_subdev(struct mtk_scp *scp)
+ {
+diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
+index ab62ab54175c..caa57516e083 100644
+--- a/drivers/remoteproc/mtk_scp_dual.c
++++ b/drivers/remoteproc/mtk_scp_dual.c
+@@ -249,6 +249,8 @@ static int scp_dual_probe(struct platform_device *pdev)
+ 	init_waitqueue_head(&scp->run.wq);
+ 	init_waitqueue_head(&scp->ack_wq);
+ 
++	scp_add_rpmsg_subdev(scp);
++
+ 	ret = devm_request_threaded_irq(dev, platform_get_irq(pdev, 0), NULL,
+ 					scp_irq_handler, IRQF_ONESHOT,
+ 					pdev->name, scp);
+@@ -271,6 +273,7 @@ static int scp_dual_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ remove_ipi:
++	scp_remove_rpmsg_subdev(scp);
+ 	scp_ipi_unregister(scp, SCP_IPI_INIT);
+ release_dev_mem:
+ 	scp_unmap_memory_region(scp);
+@@ -286,6 +289,7 @@ static int scp_dual_remove(struct platform_device *pdev)
+ 	struct mtk_scp *scp = platform_get_drvdata(pdev);
+ 	int i;
+ 
++	scp_remove_rpmsg_subdev(scp);
+ 	scp_ipi_unregister(scp, SCP_IPI_INIT);
+ 	scp_unmap_memory_region(scp);
+ 	for (i = 0; i < SCP_IPI_MAX; i++)
 -- 
 2.18.0
 

@@ -1,47 +1,47 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6755920E4
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:21 +0000 (UTC)
-X-UUID: 839328a01c6a44cf9cec18041a05768b-20220601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38F52563
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:22 +0000 (UTC)
+X-UUID: 34aac9a9ae084ceb81e2490911d9a68c-20220601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:52f3b5b2-7de3-43c3-8168-3a338815e645,OB:0,LO
+X-CID-O-INFO: VERSION:1.1.5,REQID:1fa75032-b3d3-4545-ab73-476466c84bd6,OB:0,LO
 	B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
 	ION:release,TS:-5
-X-CID-META: VersionHash:2a19b09,CLOUDID:bb90268a-32d7-4fc0-b2ef-8776ac194f8f,C
+X-CID-META: VersionHash:2a19b09,CLOUDID:bd90268a-32d7-4fc0-b2ef-8776ac194f8f,C
 	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
 	,QS:0,BEC:nil
-X-UUID: 839328a01c6a44cf9cec18041a05768b-20220601
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: 34aac9a9ae084ceb81e2490911d9a68c-20220601
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1353617516; Wed, 01 Jun 2022 19:22:05 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 421798836; Wed, 01 Jun 2022 19:22:05 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Wed, 1 Jun 2022 19:22:05 +0800
+ Wed, 1 Jun 2022 19:22:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:05 +0800
+ 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:04 +0800
 From: Tinghan Shen <tinghan.shen@mediatek.com>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
 	<matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung
 	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri
 	<dnojiri@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>,
 	"Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, Enric
- Balletbo i Serra <enric.balletbo@collabora.com>, Brian Norris
+	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, "Enric
+ Balletbo i Serra" <enric.balletbo@collabora.com>, Brian Norris
 	<briannorris@chromium.org>
 CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 06/15] remoteproc: mediatek: Add SCP core 1 rproc operations
-Date: Wed, 1 Jun 2022 19:21:52 +0800
-Message-ID: <20220601112201.15510-7-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 02/15] remoteproc: Kconfig: Add mt8195 SCP dual core configuration
+Date: Wed, 1 Jun 2022 19:21:48 +0800
+Message-ID: <20220601112201.15510-3-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
@@ -54,125 +54,35 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-The firmware load and boot flow of SCP core 1 is almost the same as the
-SCP core 0 except the accessed registers. Reuse the core 0 rproc operations
-to load and boot SCP core 1.
+MediaTek MT8195 SoC SCP is a dual-core subsystem. Add a remoteproc
+configuration to enable support of the 2nd core.
 
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- drivers/remoteproc/mtk_common.h   |  5 +++++
- drivers/remoteproc/mtk_scp.c      | 15 ++++++++++-----
- drivers/remoteproc/mtk_scp_dual.c |  8 +++++++-
- 3 files changed, 22 insertions(+), 6 deletions(-)
+ drivers/remoteproc/Kconfig | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
-index 2eadb0e696a1..2e46be605687 100644
---- a/drivers/remoteproc/mtk_common.h
-+++ b/drivers/remoteproc/mtk_common.h
-@@ -163,4 +163,9 @@ void scp_memcpy_aligned(void __iomem *dst, const void *src, unsigned int len);
- void scp_ipi_lock(struct mtk_scp *scp, u32 id);
- void scp_ipi_unlock(struct mtk_scp *scp, u32 id);
+diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+index 166019786653..bb2960b4ffbd 100644
+--- a/drivers/remoteproc/Kconfig
++++ b/drivers/remoteproc/Kconfig
+@@ -64,6 +64,16 @@ config MTK_SCP
  
-+int scp_start(struct rproc *rproc);
-+int scp_stop(struct rproc *rproc);
-+int scp_load(struct rproc *rproc, const struct firmware *fw);
-+void *scp_da_to_va(struct rproc *rproc, u64 da, size_t len, bool *is_iomem);
-+int scp_parse_fw(struct rproc *rproc, const struct firmware *fw);
- #endif
-diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
-index 3510c6d0bbc8..7b9d12ec2d4f 100644
---- a/drivers/remoteproc/mtk_scp.c
-+++ b/drivers/remoteproc/mtk_scp.c
-@@ -470,7 +470,7 @@ static int mt8195_scp_before_load(struct mtk_scp *scp)
- 	return 0;
- }
+ 	  It's safe to say N here.
  
--static int scp_load(struct rproc *rproc, const struct firmware *fw)
-+int scp_load(struct rproc *rproc, const struct firmware *fw)
- {
- 	struct mtk_scp *scp = rproc->priv;
- 	struct device *dev = scp->dev;
-@@ -495,8 +495,9 @@ static int scp_load(struct rproc *rproc, const struct firmware *fw)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(scp_load);
- 
--static int scp_parse_fw(struct rproc *rproc, const struct firmware *fw)
-+int scp_parse_fw(struct rproc *rproc, const struct firmware *fw)
- {
- 	struct mtk_scp *scp = rproc->priv;
- 	struct device *dev = scp->dev;
-@@ -512,8 +513,9 @@ static int scp_parse_fw(struct rproc *rproc, const struct firmware *fw)
- 	clk_disable_unprepare(scp->clk);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(scp_parse_fw);
- 
--static int scp_start(struct rproc *rproc)
-+int scp_start(struct rproc *rproc)
- {
- 	struct mtk_scp *scp = (struct mtk_scp *)rproc->priv;
- 	struct device *dev = scp->dev;
-@@ -555,6 +557,7 @@ static int scp_start(struct rproc *rproc)
- 	clk_disable_unprepare(scp->clk);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(scp_start);
- 
- static void *mt8183_scp_da_to_va(struct mtk_scp *scp, u64 da, size_t len)
- {
-@@ -602,12 +605,13 @@ static void *mt8192_scp_da_to_va(struct mtk_scp *scp, u64 da, size_t len)
- 	return NULL;
- }
- 
--static void *scp_da_to_va(struct rproc *rproc, u64 da, size_t len, bool *is_iomem)
-+void *scp_da_to_va(struct rproc *rproc, u64 da, size_t len, bool *is_iomem)
- {
- 	struct mtk_scp *scp = (struct mtk_scp *)rproc->priv;
- 
- 	return scp->data->scp_da_to_va(scp, da, len);
- }
-+EXPORT_SYMBOL_GPL(scp_da_to_va);
- 
- static void mt8183_scp_stop(struct mtk_scp *scp)
- {
-@@ -642,7 +646,7 @@ static void mt8195_scp_stop(struct mtk_scp *scp)
- 	writel(0, scp->reg_base + MT8192_CORE0_WDT_CFG);
- }
- 
--static int scp_stop(struct rproc *rproc)
-+int scp_stop(struct rproc *rproc)
- {
- 	struct mtk_scp *scp = (struct mtk_scp *)rproc->priv;
- 	int ret;
-@@ -659,6 +663,7 @@ static int scp_stop(struct rproc *rproc)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(scp_stop);
- 
- static const struct rproc_ops scp_ops = {
- 	.start		= scp_start,
-diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
-index 7bc08d26f208..e4ada5696bd7 100644
---- a/drivers/remoteproc/mtk_scp_dual.c
-+++ b/drivers/remoteproc/mtk_scp_dual.c
-@@ -12,7 +12,13 @@
- #include "mtk_common.h"
- #include "remoteproc_internal.h"
- 
--static const struct rproc_ops scp_ops;
-+static const struct rproc_ops scp_ops = {
-+	.start		= scp_start,
-+	.stop		= scp_stop,
-+	.load		= scp_load,
-+	.da_to_va	= scp_da_to_va,
-+	.parse_fw	= scp_parse_fw,
-+};
- 
- static int scp_dual_probe(struct platform_device *pdev)
- {
++config MTK_SCP_DUALCORE
++	tristate "MediaTek SCP dual-core support"
++	depends on ARCH_MEDIATEK || COMPILE_TEST
++	depends on MTK_SCP
++	help
++	  Say y here to support bring up the 2nd core of the dual-core version of
++	  MediaTek's SCP via the remote processor framework.
++
++	  It's safe to say N here.
++
+ config OMAP_REMOTEPROC
+ 	tristate "OMAP remoteproc support"
+ 	depends on ARCH_OMAP4 || SOC_OMAP5 || SOC_DRA7XX
 -- 
 2.18.0
 

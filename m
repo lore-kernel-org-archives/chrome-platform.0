@@ -1,128 +1,89 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FD764A
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:21 +0000 (UTC)
-X-UUID: 1d7a2d89b66241b5b091f02f8cc80c50-20220601
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:01ec95b4-5f4d-4ff5-8aa0-667e0da3ca41,OB:10,L
-	OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
-	CTION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:01ec95b4-5f4d-4ff5-8aa0-667e0da3ca41,OB:10,LOB
-	:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
-	CTION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:96648f14-f88c-475e-badf-d9ee54230b8f,C
-	OID:63ea4881c016,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 1d7a2d89b66241b5b091f02f8cc80c50-20220601
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 410243960; Wed, 01 Jun 2022 19:22:07 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Wed, 1 Jun 2022 19:22:05 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:05 +0800
-From: Tinghan Shen <tinghan.shen@mediatek.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung
-	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri
-	<dnojiri@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>,
-	"Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Tinghan Shen <tinghan.shen@mediatek.com>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, Enric
- Balletbo i Serra <enric.balletbo@collabora.com>, Brian Norris
-	<briannorris@chromium.org>
-CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 09/15] remoteproc: mediatek: Register SCP core 1 initialization ipi
-Date: Wed, 1 Jun 2022 19:21:55 +0800
-Message-ID: <20220601112201.15510-10-tinghan.shen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
-References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAA063D
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:46:49 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id h19so1836466edj.0
+        for <chrome-platform@lists.linux.dev>; Wed, 01 Jun 2022 04:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xS22Lp44Ny9t4COxTYX6v7RHBsJp3R38gvuPhap8Xxk=;
+        b=Vdn/A8bcMrep9u5fPo6z2dUQv9j2g8Y38q6W24RAuco0o8ZmtR2X4HrXfSeipCInZv
+         GziXgtzzhIdD+Rffxs0dfyLMnzEJhQKfHlTJNQ5UkuAHUkHvSNhjaoQ+iZZcHaafXISs
+         Q/GdYLaAe/LhlPRYcssTLh1kLuDiSDNCxT7Xm5/dLvfpxKA4m7kTnhyMla688A8TpSyd
+         ETjc2aA53R15ujLw0V8qqlgQ5jN3uzrjWwzdiawaqw3UdOtPRRBlvikMEm7umlEe54Os
+         eEl7yci3R24UScUi7upYPMNosnbr2K9WuZ84XcTBqmo4FQYneoj+dexSxQoVQL50ccjB
+         /Iqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xS22Lp44Ny9t4COxTYX6v7RHBsJp3R38gvuPhap8Xxk=;
+        b=jTMFPBs5ma5XTP0u6cKz86iXnfSHS9Wvoq6IRle9YM2Up8bcvaEWAj1tAsbcf6M+hO
+         2PFDNMa2Yq5u6gLwRWrHFTZKOit9beQ+lY3kR+MBPUoBNuNcAFrrD4zBi7x+NZ9EIfmA
+         xlGb4SVLC5YYedMP5XluRK6CNZj04CeK6e6EcAZ/ntXHPJZlrEIM9gZX8wq9DBvkAvQL
+         56g+16gH/U9R9OchFBBzsTFGalnHQxuAUR/46aUPhuScC89PFTDMEdAXj9gjEYkMmKBg
+         pNJsEc7JHfnvgOZfd8i283hpPSngar+qE9Jz5N0gN62rezJPpQX+d/Xox0ctr9k2GG+b
+         qu4g==
+X-Gm-Message-State: AOAM531Pz2hk9il29+gBr4n6ZybyFQp45ZaT05d/N2G7Rs+EJnO7S3P8
+	T9WtO0tqSQnLyu59K3vXUbjyyw==
+X-Google-Smtp-Source: ABdhPJz7sWA7VmvSrlhCTYtzkutCkqbYbNVnexW8hgWLjCkRZAmC5rj1rW2ZtfehuZ38O0Py78VTtA==
+X-Received: by 2002:aa7:d59a:0:b0:42d:d14e:598 with SMTP id r26-20020aa7d59a000000b0042dd14e0598mr16574106edq.215.1654084008362;
+        Wed, 01 Jun 2022 04:46:48 -0700 (PDT)
+Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id f11-20020a056402004b00b0042dbc55f6e4sm881774edu.7.2022.06.01.04.46.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jun 2022 04:46:46 -0700 (PDT)
+Message-ID: <919ca8ee-4b01-e601-714c-26098647d5c7@linaro.org>
+Date: Wed, 1 Jun 2022 13:46:45 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v1 00/15] Add support for MT8195 SCP 2nd core
+Content-Language: en-US
+To: Tinghan Shen <tinghan.shen@mediatek.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Daisuke Nojiri <dnojiri@chromium.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ "Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Brian Norris <briannorris@chromium.org>
+Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, weishunc@google.com
+References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The SCP core 1 doesn't have vdec/venc functions like SCP core 0.
-Remove usage of venc/vdec parameters.
+On 01/06/2022 13:21, Tinghan Shen wrote:
+> The MT8195 System Companion Processor(SCP) is a dual-core RISC-V MCU.
+> Current mediatek remoteproc driver only supports bring-up single core 
+> SCP or the 1st core of a dual-core SCP. This series support to bring-up 
+      ^^ this or is confusing a bit.
 
-Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
----
- drivers/remoteproc/mtk_scp_dual.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+Does this mean that MT8195 has three RISC-V MCUs?
 
-diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
-index 7bed39722bd5..d4cc15e22640 100644
---- a/drivers/remoteproc/mtk_scp_dual.c
-+++ b/drivers/remoteproc/mtk_scp_dual.c
-@@ -20,6 +20,16 @@ static const struct rproc_ops scp_ops = {
- 	.parse_fw	= scp_parse_fw,
- };
- 
-+static void scp_init_ipi_handler(void *data, unsigned int len, void *priv)
-+{
-+	struct mtk_scp *scp = (struct mtk_scp *)priv;
-+	struct scp_run *run = (struct scp_run *)data;
-+
-+	scp->run.signaled = run->signaled;
-+	strscpy(scp->run.fw_ver, run->fw_ver, SCP_FW_VER_LEN);
-+	wake_up_interruptible(&scp->run.wq);
-+}
-+
- static int scp_dual_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -68,6 +78,13 @@ static int scp_dual_probe(struct platform_device *pdev)
- 	for (i = 0; i < SCP_IPI_MAX; i++)
- 		mutex_init(&scp->ipi_desc[i].lock);
- 
-+	/* register SCP initialization IPI */
-+	ret = scp_ipi_register(scp, SCP_IPI_INIT, scp_init_ipi_handler, scp);
-+	if (ret) {
-+		dev_err(dev, "Failed to register IPI_SCP_INIT\n");
-+		goto release_dev_mem;
-+	}
-+
- 	init_waitqueue_head(&scp->run.wq);
- 	init_waitqueue_head(&scp->ack_wq);
- 
-@@ -77,11 +94,13 @@ static int scp_dual_probe(struct platform_device *pdev)
- 
- 	if (ret) {
- 		dev_err(dev, "failed to request irq\n");
--		goto release_dev_mem;
-+		goto remove_ipi;
- 	}
- 
- 	return 0;
- 
-+remove_ipi:
-+	scp_ipi_unregister(scp, SCP_IPI_INIT);
- release_dev_mem:
- 	scp_unmap_memory_region(scp);
- 	for (i = 0; i < SCP_IPI_MAX; i++)
-@@ -96,6 +115,7 @@ static int scp_dual_remove(struct platform_device *pdev)
- 	struct mtk_scp *scp = platform_get_drvdata(pdev);
- 	int i;
- 
-+	scp_ipi_unregister(scp, SCP_IPI_INIT);
- 	scp_unmap_memory_region(scp);
- 	for (i = 0; i < SCP_IPI_MAX; i++)
- 		mutex_destroy(&scp->ipi_desc[i].lock);
--- 
-2.18.0
+> the 2nd core of a dual-core SCP.
 
+
+
+Best regards,
+Krzysztof

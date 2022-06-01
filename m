@@ -1,31 +1,28 @@
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEB2640
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFD763F
 	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:19 +0000 (UTC)
-X-UUID: 7232c323de6e4d67aee1036127ed6ebd-20220601
+X-UUID: 131e4688f43a4375a8efce446ab08179-20220601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:50f74ee6-8e41-4f4b-a73f-eddef683470e,OB:10,L
-	OB:40,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
-	CTION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:50f74ee6-8e41-4f4b-a73f-eddef683470e,OB:10,LOB
-	:40,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
-	CTION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:c090268a-32d7-4fc0-b2ef-8776ac194f8f,C
-	OID:c5525a130d66,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 7232c323de6e4d67aee1036127ed6ebd-20220601
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+X-CID-O-INFO: VERSION:1.1.5,REQID:501e9399-13c8-405f-8b90-96a3b6a844ba,OB:0,LO
+	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:91648f14-f88c-475e-badf-d9ee54230b8f,C
+	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+	,QS:0,BEC:nil
+X-UUID: 131e4688f43a4375a8efce446ab08179-20220601
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1556151364; Wed, 01 Jun 2022 19:22:06 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 711226445; Wed, 01 Jun 2022 19:22:05 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 1 Jun 2022 19:22:06 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Wed, 1 Jun 2022 19:22:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:06 +0800
+ 15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:04 +0800
 From: Tinghan Shen <tinghan.shen@mediatek.com>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
 	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
@@ -42,12 +39,10 @@ CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 13/15] remoteproc: mediatek: Wait SCP core 1 probe done
-Date: Wed, 1 Jun 2022 19:21:59 +0800
-Message-ID: <20220601112201.15510-14-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 00/15] Add support for MT8195 SCP 2nd core
+Date: Wed, 1 Jun 2022 19:21:46 +0800
+Message-ID: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
-References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,109 +52,42 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-SCP core 1 driver probing must finish before start loading SCP core 1
-image. Add a simple flag checking mechanism when preparing SCP core 1
-subdevice.
+The MT8195 System Companion Processor(SCP) is a dual-core RISC-V MCU.
+Current mediatek remoteproc driver only supports bring-up single core 
+SCP or the 1st core of a dual-core SCP. This series support to bring-up 
+the 2nd core of a dual-core SCP.
 
-Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
----
- drivers/remoteproc/mtk_common.h     |  1 +
- drivers/remoteproc/mtk_scp_dual.c   |  2 ++
- drivers/remoteproc/mtk_scp_subdev.c | 35 ++++++++++++++++++++++++++++-
- 3 files changed, 37 insertions(+), 1 deletion(-)
+Tinghan Shen (15):
+  dt-binding: remoteproc: mediatek: Support dual-core SCP
+  remoteproc: Kconfig: Add mt8195 SCP dual core configuration
+  remoteproc: mediatek: Support hanlding scp core 1 wdt timeout
+  remoteproc: mediatek: Add SCP core 1 register definitions
+  remoteproc: mediatek: Add SCP core 1 driver for dual-core scp
+  remoteproc: mediatek: Add SCP core 1 rproc operations
+  remoteproc: mediatek: Add SCP core 1 reserved memory support
+  remoteproc: mediatek: Add SCP core 1 interrupt support
+  remoteproc: mediatek: Register SCP core 1 initialization ipi
+  remoteproc: mediatek: Add chip dependent operations for SCP core 1
+  remoteproc: mediatek: Add SCP core 1 SRAM offset
+  remoteproc: mediatek: SCP core 1 as a rproc subdevice
+  remoteproc: mediatek: Wait SCP core 1 probe done
+  remoteproc: mediatek: Support rpmsg for SCP core 1
+  mfd: cros_ec: Add SCP 2nd core as a new CrOS EC MCU
 
-diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
-index a5c26e56277d..464d013ed6b2 100644
---- a/drivers/remoteproc/mtk_common.h
-+++ b/drivers/remoteproc/mtk_common.h
-@@ -153,6 +153,7 @@ struct mtk_scp {
- 
- 	struct rproc_subdev *rpmsg_subdev;
- 	struct rproc_subdev *dual_subdev;
-+	int dual_probe_done;
- };
- 
- /**
-diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
-index 90c49716dd39..ab62ab54175c 100644
---- a/drivers/remoteproc/mtk_scp_dual.c
-+++ b/drivers/remoteproc/mtk_scp_dual.c
-@@ -266,6 +266,8 @@ static int scp_dual_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto remove_ipi;
- 
-+	scp->dual_probe_done = 1;
-+
- 	return 0;
- 
- remove_ipi:
-diff --git a/drivers/remoteproc/mtk_scp_subdev.c b/drivers/remoteproc/mtk_scp_subdev.c
-index 197fb207c756..71dc6fcad61a 100644
---- a/drivers/remoteproc/mtk_scp_subdev.c
-+++ b/drivers/remoteproc/mtk_scp_subdev.c
-@@ -20,6 +20,7 @@ static struct mtk_scp *scp_dual_get(struct mtk_scp *scp)
- 	struct device *dev = scp->dev;
- 	struct device_node *np;
- 	struct platform_device *dual_pdev;
-+	struct mtk_scp *scp_dual;
- 
- 	np = of_parse_phandle(dev->of_node, "mediatek,scp-core", SCP_DTS_CORE_REF);
- 	dual_pdev = of_find_device_by_node(np);
-@@ -30,7 +31,11 @@ static struct mtk_scp *scp_dual_get(struct mtk_scp *scp)
- 		return NULL;
- 	}
- 
--	return platform_get_drvdata(dual_pdev);
-+	scp_dual = platform_get_drvdata(dual_pdev);
-+	if (!scp_dual)
-+		put_device(&dual_pdev->dev);
-+
-+	return scp_dual;
- }
- 
- static void scp_dual_put(struct mtk_scp *scp)
-@@ -38,6 +43,33 @@ static void scp_dual_put(struct mtk_scp *scp)
- 	put_device(scp->dev);
- }
- 
-+static int scp_dual_rproc_prepare(struct rproc_subdev *subdev)
-+{
-+	struct scp_subdev_core *subdev_core = to_subdev_core(subdev);
-+	struct mtk_scp *scp = subdev_core->main_scp;
-+	unsigned long timeout;
-+
-+	timeout = jiffies + msecs_to_jiffies(100);
-+	while (1) {
-+		struct mtk_scp *scp_dual = scp_dual_get(scp);
-+
-+		if (scp_dual && scp_dual->dual_probe_done) {
-+			scp_dual_put(scp_dual);
-+			break;
-+		}
-+
-+		if (scp_dual && !scp_dual->dual_probe_done)
-+			scp_dual_put(scp_dual);
-+
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(scp->dev, "scp-dual probe timeout\n");
-+			return -ETIMEDOUT;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int scp_dual_rproc_start(struct rproc_subdev *subdev)
- {
- 	struct scp_subdev_core *subdev_core = to_subdev_core(subdev);
-@@ -111,6 +143,7 @@ struct rproc_subdev *scp_dual_create_subdev(struct mtk_scp *scp)
- 
- 	subdev_core->main_scp = scp;
- 	subdev_core->scp_dual_wdt_timeout = scp_dual_wdt_handler;
-+	subdev_core->subdev.prepare = scp_dual_rproc_prepare;
- 	subdev_core->subdev.start = scp_dual_rproc_start;
- 	subdev_core->subdev.stop = scp_dual_rproc_stop;
- 
+ .../bindings/remoteproc/mtk,scp.yaml          |  12 +
+ drivers/mfd/cros_ec_dev.c                     |   5 +
+ drivers/remoteproc/Kconfig                    |  10 +
+ drivers/remoteproc/Makefile                   |   1 +
+ drivers/remoteproc/mtk_common.h               |  50 +++
+ drivers/remoteproc/mtk_scp.c                  |  92 ++++-
+ drivers/remoteproc/mtk_scp_dual.c             | 320 ++++++++++++++++++
+ drivers/remoteproc/mtk_scp_subdev.c           | 163 +++++++++
+ .../linux/platform_data/cros_ec_commands.h    |   2 +
+ include/linux/platform_data/cros_ec_proto.h   |   1 +
+ 10 files changed, 644 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/remoteproc/mtk_scp_dual.c
+ create mode 100644 drivers/remoteproc/mtk_scp_subdev.c
+
 -- 
 2.18.0
 

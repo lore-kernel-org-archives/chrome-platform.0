@@ -1,23 +1,23 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38F52563
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:22 +0000 (UTC)
-X-UUID: 34aac9a9ae084ceb81e2490911d9a68c-20220601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B26649
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jun 2022 11:22:20 +0000 (UTC)
+X-UUID: ac5e663d48a34bb789d11d8ef291f551-20220601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:1fa75032-b3d3-4545-ab73-476466c84bd6,OB:0,LO
-	B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
-	ION:release,TS:-5
-X-CID-META: VersionHash:2a19b09,CLOUDID:bd90268a-32d7-4fc0-b2ef-8776ac194f8f,C
+X-CID-O-INFO: VERSION:1.1.5,REQID:109751f4-9156-42c6-b2ae-b41d6137d2a7,OB:0,LO
+	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:b990268a-32d7-4fc0-b2ef-8776ac194f8f,C
 	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
 	,QS:0,BEC:nil
-X-UUID: 34aac9a9ae084ceb81e2490911d9a68c-20220601
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+X-UUID: ac5e663d48a34bb789d11d8ef291f551-20220601
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 421798836; Wed, 01 Jun 2022 19:22:05 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 736326214; Wed, 01 Jun 2022 19:22:05 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
  Wed, 1 Jun 2022 19:22:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -25,23 +25,23 @@ Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  15.2.792.3 via Frontend Transport; Wed, 1 Jun 2022 19:22:04 +0800
 From: Tinghan Shen <tinghan.shen@mediatek.com>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
 	<matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>, Benson Leung
 	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri
 	<dnojiri@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>,
 	"Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, "Enric
- Balletbo i Serra" <enric.balletbo@collabora.com>, Brian Norris
+	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, Enric
+ Balletbo i Serra <enric.balletbo@collabora.com>, Brian Norris
 	<briannorris@chromium.org>
 CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v1 02/15] remoteproc: Kconfig: Add mt8195 SCP dual core configuration
-Date: Wed, 1 Jun 2022 19:21:48 +0800
-Message-ID: <20220601112201.15510-3-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 01/15] dt-binding: remoteproc: mediatek: Support dual-core SCP
+Date: Wed, 1 Jun 2022 19:21:47 +0800
+Message-ID: <20220601112201.15510-2-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220601112201.15510-1-tinghan.shen@mediatek.com>
 References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
@@ -54,35 +54,56 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-MediaTek MT8195 SoC SCP is a dual-core subsystem. Add a remoteproc
-configuration to enable support of the 2nd core.
+The SCP co-processor is a dual-core RISC-V MCU on MT8195.
+
+Add a new property to identify each core and helps to find drivers
+through device tree API to cooperate with each other, e.g. boot flow and
+watchdog timeout flow.
+
+Add a new compatile for the driver of SCP 2nd core.
 
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- drivers/remoteproc/Kconfig | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../devicetree/bindings/remoteproc/mtk,scp.yaml      | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
-index 166019786653..bb2960b4ffbd 100644
---- a/drivers/remoteproc/Kconfig
-+++ b/drivers/remoteproc/Kconfig
-@@ -64,6 +64,16 @@ config MTK_SCP
+diff --git a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+index eec3b9c4c713..b181786d9575 100644
+--- a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+@@ -20,6 +20,7 @@ properties:
+       - mediatek,mt8186-scp
+       - mediatek,mt8192-scp
+       - mediatek,mt8195-scp
++      - mediatek,mt8195-scp-dual
  
- 	  It's safe to say N here.
+   reg:
+     description:
+@@ -57,6 +58,16 @@ properties:
+   memory-region:
+     maxItems: 1
  
-+config MTK_SCP_DUALCORE
-+	tristate "MediaTek SCP dual-core support"
-+	depends on ARCH_MEDIATEK || COMPILE_TEST
-+	depends on MTK_SCP
-+	help
-+	  Say y here to support bring up the 2nd core of the dual-core version of
-+	  MediaTek's SCP via the remote processor framework.
++  mediatek,scp-core:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      The property value is a list with 2 items, a core id and a phandle
++      to the sibling SCP node. The core id represents the id of the dts node contains
++      this property. The valid values of core id are 0 and 1 for dual-core SCP.
++      The phandle of sibling SCP node is used to find the register settings,
++      trigger core dependent callback, and invoke rproc API.
++    maxItems: 1
 +
-+	  It's safe to say N here.
-+
- config OMAP_REMOTEPROC
- 	tristate "OMAP remoteproc support"
- 	depends on ARCH_OMAP4 || SOC_OMAP5 || SOC_DRA7XX
+ required:
+   - compatible
+   - reg
+@@ -115,6 +126,7 @@ examples:
+         reg-names = "sram", "cfg", "l1tcm";
+         clocks = <&infracfg CLK_INFRA_SCPSYS>;
+         clock-names = "main";
++        mediatek,scp-core = <0 &scp_dual>;
+ 
+         cros_ec {
+             mediatek,rpmsg-name = "cros-ec-rpmsg";
 -- 
 2.18.0
 

@@ -1,99 +1,93 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8D67E
-	for <chrome-platform@lists.linux.dev>; Thu,  2 Jun 2022 12:02:43 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id z7so5943434edm.13
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Jun 2022 05:02:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50755ED2
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Jun 2022 13:10:54 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id d129so7175136pgc.9
+        for <chrome-platform@lists.linux.dev>; Fri, 03 Jun 2022 06:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=U+8T6fn4T3vaS0Pi2aB2h1k72+HYKHqTINehwyE+Qxw=;
-        b=WgJo3UOrlWF/xukiH2Ku/H4mdceQ13UjCa+NEb9eL5GFxciQb2m/H0biH39C8/iyoC
-         UiorpjyI/JVwc5x53o5eiy8NCi3h6nJmU8Rk9KIT8GaOKNKLmN3LegL1M9r+RA9cnJLX
-         0DJtMJfNukuJqKElDBGjAkXwePDty6ctIvt+5JhABmGuOTBy23VV8UeP7SEl2/bHl96G
-         qy4eTw7224jmjab9pUBps6c0AQd+dXl3i0VGUN8h/6JgRErzSyA58TmBAsJuVvOzjlZd
-         Hxl6dDWlth12mYKgJ/B9bJYwO0pSLB4e1NXvXKd4av+jDkIZf18lh0UHkcX+TqvmV6PI
-         dTMA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ODbT0QmWB07HWQTaFHLu0hivC2LQ/JBbuZ19CEiGVKM=;
+        b=Ujk00q4GB9oPPURMhFVVwAwk0dUMGhQ76fKMOl94E00NDlBzmec8WnG80cYUoPQxDa
+         uyHoSvt7Nv0t7hBT8kV61CzcV9zBn7zHIhctmnhq9VW7SgOApql44cEt9RIyDxd7T7gJ
+         QH71bCiTFsi/K+KKjS9ut10gaB/rQyQklxU4wSxS6jWKjeEswiYC9AvYH28+8tg/wtjm
+         ku2Kc6DdXUkTTtAeOcUJ+0673SS3oIRr7EkHdHOE9A/GFlsT/CqAzSW7hm1Qez17K87g
+         NXkJtFHGc5FF+Rvbicrt5BTGlscw3ZACG5834nzQSkCim2qiCYfjGK3usCH9EjyTwJX3
+         JTvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=U+8T6fn4T3vaS0Pi2aB2h1k72+HYKHqTINehwyE+Qxw=;
-        b=QgLb9V1OjMeFSvPYa1cs3qzeiesZyTe7AgpnAT7ovMSdlqjFF2y+SqONcSwjQQECsI
-         d4kWTnVejFJry3Uc9XX16iXgPYc8PFbUgSC2nJpC/hzRVmtNQUL8b4xl8pDdKCz+knA0
-         gV7p2A5MlNq4QlWbVNtV2u+FgwpkY2xJRipYsdFom6YhrcKmXdEDsDUrs0YuYPmPQTAM
-         5Z8NX8hRs5Y9BuQ6odCfVqUrWpLCC8FEiGVJ44jSPTlgVQ0gEpjnrAGOi8q48Quw40XL
-         6gDgbu6XGmsW4zvBPPjuskARTYJgWiuesiSB5n+woQHzsUhVoItIS3iSqRUJk4FgCn25
-         Dp1Q==
-X-Gm-Message-State: AOAM532ZyllXwbiHd40cpA00v7u9O9Ay70WiQ+P79QnpVdmoCvlUMRAW
-	UKXuT7oNlMS6Onc4yB96YdwoYg==
-X-Google-Smtp-Source: ABdhPJx4oO7YkUav5hDFlqrl3kvMLXszr+upvgPvjdffSEadzOq3Ofn3+ntG6LnID8A7MNz5hB5ENQ==
-X-Received: by 2002:a05:6402:1f0e:b0:42d:e38a:51f7 with SMTP id b14-20020a0564021f0e00b0042de38a51f7mr5117059edb.68.1654171361576;
-        Thu, 02 Jun 2022 05:02:41 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id b8-20020aa7c6c8000000b0042617ba637bsm2480855eds.5.2022.06.02.05.02.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jun 2022 05:02:41 -0700 (PDT)
-Message-ID: <e084e508-d886-3e6c-53ab-1f0b22706964@linaro.org>
-Date: Thu, 2 Jun 2022 14:02:39 +0200
+        bh=ODbT0QmWB07HWQTaFHLu0hivC2LQ/JBbuZ19CEiGVKM=;
+        b=5mOVbAYRVLYHiNMWMCeBeEK5+GLPClf8YzVGvWtc7fWzP42hBsAPegdCPXs7DJH9o8
+         AdMLVApCYEyu1YWPPHRoSH4MmmrJqC3gl+04vqAJPpG8G21OpKn5ZIZ6bx8pwnTAmsdT
+         QKUxexd0Ai/z1f81xKJqt3c6kK2UJDmuhjSctflWcJSU4EDmxAY3tAckbgLdEV81ipJk
+         Mx7KQISrFeydp801V6S0TPmWQmjfBT/lJC9xPpS520gLvhZPZXs7B8kg5QuenAE+VSRu
+         bShy5NXoRY/IIRGecvnk6gGA+66o6/dUHekIdKAY7EsyrNCyEcWe7X+a0fwvrcYW9YdS
+         splw==
+X-Gm-Message-State: AOAM53206F6yMvKLX4ikcsVWsDeshZyoVYRGF+xIs2q19+zxY6ZQyuPh
+	1sCAT4H3oUZkq6kCsGOQNOM=
+X-Google-Smtp-Source: ABdhPJyncMHC8GX1hRGNfDO4RAiZqdv/DEEl//mlI7eR6BEaT34FyQYkwf35dD33khPIgmRlk33AkQ==
+X-Received: by 2002:aa7:8e44:0:b0:50c:fc0e:8d25 with SMTP id d4-20020aa78e44000000b0050cfc0e8d25mr10473724pfr.81.1654261853775;
+        Fri, 03 Jun 2022 06:10:53 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id a3-20020a170903100300b0015ea4173bd6sm5279133plb.195.2022.06.03.06.10.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jun 2022 06:10:53 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Cheng-Yi Chiang <cychiang@chromium.org>,
+	Tzung-Bi Shih <tzungbi@google.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Benson Leung <bleung@chromium.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	chrome-platform@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com
+Subject: [PATCH v2] ASoC: cros_ec_codec: Fix refcount leak in cros_ec_codec_platform_probe
+Date: Fri,  3 Jun 2022 17:10:43 +0400
+Message-Id: <20220603131043.38907-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 01/15] dt-binding: remoteproc: mediatek: Support
- dual-core SCP
-Content-Language: en-US
-To: Tinghan Shen <tinghan.shen@mediatek.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Daisuke Nojiri <dnojiri@chromium.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- "Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Prashant Malani <pmalani@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Brian Norris <briannorris@chromium.org>
-Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- Project_Global_Chrome_Upstream_Group@mediatek.com, weishunc@google.com
-References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
- <20220601112201.15510-2-tinghan.shen@mediatek.com>
- <dd3ea397-fa21-abe5-85ad-b8a4818dc011@linaro.org>
- <3c837acfbefa5b7e23e1121678b5b878f08e4ef2.camel@mediatek.com>
- <476baef8-0255-45ed-85f4-2b9d877c4af1@linaro.org>
- <287d88a62fd13cd762b20faa3e9df826632fe1eb.camel@mediatek.com>
- <45c8050e-16d3-80d6-0799-8b067a38d956@linaro.org>
- <5c614dc0947aba6ce2eb0cdc3055a390da723d08.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <5c614dc0947aba6ce2eb0cdc3055a390da723d08.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/06/2022 13:29, Tinghan Shen wrote:
->> Maybe the hardware property is that one core has its sibling and you
->> provide here that sibling?
-> 
-> Yes, exactly. I'm sorry for misreading your argument.
-> 
-> How about this one,
->    
->   Reference to the sibling SCP core. This is required when 
->   dual-core SCP support is enabled.
+of_parse_phandle() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when not need anymore.
+Add missing of_node_put() to avoid refcount leak.
 
-Yes, sounds good. Thank you.
+Fixes: b6bc07d4360d ("ASoC: cros_ec_codec: support WoV")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+changes in v2:
+- update Fixes tag
+v1 Link: https://lore.kernel.org/r/20220602114529.6303-1-linmq006@gmail.com
+---
+ sound/soc/codecs/cros_ec_codec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
+index 8b0a9c788a26..11e7b3f6d410 100644
+--- a/sound/soc/codecs/cros_ec_codec.c
++++ b/sound/soc/codecs/cros_ec_codec.c
+@@ -995,6 +995,7 @@ static int cros_ec_codec_platform_probe(struct platform_device *pdev)
+ 			dev_dbg(dev, "ap_shm_phys_addr=%#llx len=%#x\n",
+ 				priv->ap_shm_phys_addr, priv->ap_shm_len);
+ 		}
++		of_node_put(node);
+ 	}
+ #endif
+ 
+-- 
+2.25.1
 
-Best regards,
-Krzysztof

@@ -1,43 +1,43 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8CE23A0
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 05:00:56 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id w3so11221282plp.13
-        for <chrome-platform@lists.linux.dev>; Sun, 05 Jun 2022 22:00:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B730C23A0
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 05:01:48 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id s14so11244219plk.8
+        for <chrome-platform@lists.linux.dev>; Sun, 05 Jun 2022 22:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=xfO3ysww8tSdKN4hBAaO8p6lmhuiPMzt6wGj12j+Cnc=;
-        b=GgpJt3MnVBFGo+2Rs0QWt0qY4EhQjd9rWi/63htr3gk70LlRBxNAIevoYRgvAzKHkU
-         MdR3+yV33/CIBhr5DxsDBAwMt6epYB5FGGIopyp9DHB9yIojrZW92vCYWxKa8iNxNP28
-         /r3VNVE8tIkTPW5XcYSYm/j9b1f6NY3Zcv3OuU5UXFug1BQyt+hdsbVYrIzqNYHBBook
-         F1K6W1R0eKiu7G1n1mIOxgU5TPNhpgc8bdvCvXLqqKMAIdiqONahQ5i4PZ54AgJqxp4U
-         PRZA+mJenPYO7k9pP9t4hHcgxSsuEL1YB0mKt0LAnx7tceTVo5TwNWq7JRirqQegDK6w
-         +NrA==
+        bh=gpe96G6Y7SCvTVRzNIr9ZLdbBQA+MwrhL95guq+E/Vk=;
+        b=dd2XyCWCVWKS0Qzxjzpoym44dU0PaAnnN/1up8jonzq49G/8xQ7E4/z56pFSMqRTZk
+         +jEKlVjOAup9Yc9mVlbalT5+90lxfo40JwPEyQqT98WIWMoK+wzddNGcYU7i/U01/rrJ
+         ehHMY3Vnz0G50Sg0mSBrRxiOmoABuEWH+GbRcTp7akif3B0HkrkhCYBAGflSTszPQ4DE
+         UH7JiPkkms6Whc+lRiz3anh6HiO7wbucRXnS+5AE27zUAZQcE64Lc5dHsjTslx5Vt3+O
+         SzegjJKVwhyHwbAZiNJlMO57K/TDhnGYiFy2Fen1NPoLrWiCKWf92ZncdcTkbpm/xIdx
+         lvjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=xfO3ysww8tSdKN4hBAaO8p6lmhuiPMzt6wGj12j+Cnc=;
-        b=Enu2oxOT3Pz3aA6Y4qT+/2BiF1Ay0fTIeXeLV6kUg9Ls1nd5GuAIFEmsho92fedzc0
-         nOBlMNgKxMqgZFeh+ow8neRvV0G9qyj+VjmWR1Dl92O4RduaaUrlDEttdyPI0ILrQdxY
-         9fjPQtKHlpTifR9wkF61MFD2Gjs8j9qZpfcVtC3jUxTiXCyRZ1LuEmRW12wQRHMZ3gJz
-         f5oG7ALKghgFYfLwr6M8N0SW8cHRRZE2HZMPg7SqO03eq6PNh7UgrqoBAirRBzGOTkxK
-         Rs6kcD5jv/fBvf6ppMrlWFOkC4NuolrfWMaEhprqnLO01dMS0N40tnk1jG1UUmFROFEX
-         YIrA==
-X-Gm-Message-State: AOAM530SoBjTkzeaCAr5B1Bbx5dwdhFKsGzZtxyL5DQ2oviaWE/5k7XZ
-	f0Zpv/Yc+GgCxOxerQ+CALe7qXhqllqALVdk
-X-Google-Smtp-Source: ABdhPJwfILGOcydtnZu/i/INYPvUMNVV56udkKLgp6hlpurhzqEFD/XGxrRg/9kRSG5nKZUicqkLMA==
-X-Received: by 2002:a17:902:ecca:b0:166:3e34:4d01 with SMTP id a10-20020a170902ecca00b001663e344d01mr21400530plh.97.1654491654810;
-        Sun, 05 Jun 2022 22:00:54 -0700 (PDT)
+        bh=gpe96G6Y7SCvTVRzNIr9ZLdbBQA+MwrhL95guq+E/Vk=;
+        b=ljmuOsCwW19CuPr+JHFZNj4q6CI2sRIMwQv/ZHCI+A62tpil9OT5/p8rw1Hmhk9NFQ
+         LsNeyiuw4fbOTQj5V2phBZ8JQpCVxEQdwPOzol4PIHMIIQuF/GcOe+K7OTOgrqlhDLYI
+         +H7fYbjr2Oiy+Ou3WUcOc9DoroIkoxc1ZicZpSqF3BIRyXScp0zwdraMGHiJsn87nc5Q
+         mv1We4Th/+1bgXyHc0nwpyn/uqZDvhSKlbHtqgCE3IWF3wzKNAMmzO3uf0TsNu21maYS
+         fPMVdZxvumRZp2Zq1nkREswZgJ2NQqbRoyqsTYt4EEC4SHKamjI+pzyU06M4Ax+5yEya
+         0djw==
+X-Gm-Message-State: AOAM530tHJbDjQOcspfVz0I1NSxj+TdZmsm04XzNWFZNrzU5LhJooYQ9
+	vj1axqXXpOog+48MkuKIfN6MoaHQ1si4Jujz
+X-Google-Smtp-Source: ABdhPJxI8ReW/tNKrifXxItN5rrcBUAsRDgSLJ6bsDph0UsnxEeRXXMD59+YOJeez6EumMSClMHM7g==
+X-Received: by 2002:a17:902:db0a:b0:167:466e:b72c with SMTP id m10-20020a170902db0a00b00167466eb72cmr16315370plx.172.1654491708168;
+        Sun, 05 Jun 2022 22:01:48 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id z2-20020aa79482000000b0051be7ecd733sm5361385pfk.16.2022.06.05.22.00.53
+        by smtp.gmail.com with ESMTPSA id b82-20020a621b55000000b0051ba8b742e4sm9648953pfb.69.2022.06.05.22.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jun 2022 22:00:54 -0700 (PDT)
-Message-ID: <629d8a06.1c69fb81.f9c10.bb5a@mx.google.com>
-Date: Sun, 05 Jun 2022 22:00:54 -0700 (PDT)
+        Sun, 05 Jun 2022 22:01:47 -0700 (PDT)
+Message-ID: <629d8a3b.1c69fb81.3ad16.6191@mx.google.com>
+Date: Sun, 05 Jun 2022 22:01:47 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -46,110 +46,62 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.19-rc1-5-g4a0e708bb23fc
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v5.19-rc1-6-gc1db0861e8d02
 X-Kernelci-Branch: for-kernelci
 X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci sleep: 9 runs,
- 2 regressions (v5.19-rc1-5-g4a0e708bb23fc)
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.19-rc1-6-gc1db0861e8d02)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-kernelci sleep: 9 runs, 2 regressions (v5.19-rc1-5-g4a0=
-e708bb23fc)
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.19-rc1=
+-6-gc1db0861e8d02)
 
-Regressions Summary
--------------------
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.19-rc1-6-gc1db0861e8d02/
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.19-rc1-6-gc1db0861e8d02
+Git Commit: c1db0861e8d025ee5b2e0a83f6691aa9098f2f18
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
+Detailed per-defconfig build reports:
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.19-rc1-5-g4a0e708bb23fc/plan/sleep/
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
-  Test:     sleep
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.19-rc1-5-g4a0e708bb23fc
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      4a0e708bb23fc2fd10c7320b40ab9af2cf619f5f =
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
 
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
 
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
 
-Test Regressions
----------------- =
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
 
-
-
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/629d810b01f62f85dca39bdc
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-5-g4a0e708bb23fc/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep=
--rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-5-g4a0e708bb23fc/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep=
--rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220527.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/629d810b01f62f85dca39bdd
-        new failure (last pass: v5.18-rc1-24-gc2d7e384924d) =
-
- =
-
-
-
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/629d8138bd4bc8421ba39bdb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-5-g4a0e708bb23fc/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep=
--tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-5-g4a0e708bb23fc/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep=
--tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220527.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/629d8138bd4bc8421ba39bdc
-        new failure (last pass: v5.18-rc1-24-gc2d7e384924d) =
-
- =20
+---
+For more info write to <info@kernelci.org>

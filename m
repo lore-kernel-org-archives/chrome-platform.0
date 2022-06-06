@@ -1,238 +1,212 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483C523A0
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 06:29:53 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id p8so11957285pfh.8
-        for <chrome-platform@lists.linux.dev>; Sun, 05 Jun 2022 23:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=EkB6aDnLHJ/G5YT2a+tvpghhZXd+tkam6BvV2bZZ2Sw=;
-        b=STNNEPKoFhIlqmW1Sm4oUV0gf4+8SDspgk2y9iwYOhQJzb4Waa+tXqY1yMx+wPsCOB
-         AlvsullKio3el7S7MYUfsKOJRUHcv59Wa4TVZ1IwaSanT3xR1EztgFEbOIl005+02rgl
-         me/OC0KCo5cmJfdG/EhOEzpzvFX4ej6WYsHaxukcFx0HhhhbXYhLsUS9hW3KykICsdP8
-         C0k1gspZDRId2vXPDbokwX7Uot251/PFudGGSKutd9P4iPebVx1WJlwOPgYsNk+Hj46t
-         O/lyrh/LVrDi8gvYiL83Vz9Fe+lYLzTwjv6KEcIbETC6Ro7mdd4S6zpsSpQBKSjWMiB7
-         RLIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=EkB6aDnLHJ/G5YT2a+tvpghhZXd+tkam6BvV2bZZ2Sw=;
-        b=NCPnJrG4y9z2C5whN8MNpWYiaD8Y8WFVZk+Pq1pWAu71wkBE8ANPK2ZFD/GrhkKAd9
-         IAAroo5W1fmvhHjLR3V8vkPB+v7r0+yNP2H6Ycfdv7d4SncMLYvi2pxTtrPmNluYMM/C
-         HbNJWBvYx2fYoJ/KlK0TI5qPd+YIgoaX4eTq0qLvH18jgDtdy2QXIOg6upYmfDQodfAS
-         QQyDmUndOyJTjTlLb/xMdd1XgugRgWBpldQJHTHLq2oKOr4mRjsMK13wlYU6Ye9xUUUG
-         6R2FC6TvcbOb5vnKMJWZ21nbsDMmpM7E+07HVCOMo3bndy7+wqjdjkeEACmeuLI6sQLF
-         NKvA==
-X-Gm-Message-State: AOAM530PvlL47HydxPYXNRLlMlSunOh0gpXA4c7zhi3XE9tN4ICsWg6r
-	Fi9w/YfHQWxVJMp9w4B8SDN/IQ==
-X-Google-Smtp-Source: ABdhPJxe1IAfhypiBY8HMlYTBG8vTNgQZ7IsO25/Oc4ZAQHSqLayuTDrpATYPqI3GuQDciWFl4edvg==
-X-Received: by 2002:a63:4d08:0:b0:3fd:8436:edb5 with SMTP id a8-20020a634d08000000b003fd8436edb5mr7025257pgb.427.1654496992596;
-        Sun, 05 Jun 2022 23:29:52 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id w125-20020a623083000000b0051b915c1a47sm8708879pfw.113.2022.06.05.23.29.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jun 2022 23:29:51 -0700 (PDT)
-Message-ID: <629d9edf.1c69fb81.285a4.3335@mx.google.com>
-Date: Sun, 05 Jun 2022 23:29:51 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E928D23BD
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 09:23:46 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 900246601F5F;
+	Mon,  6 Jun 2022 10:15:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1654506936;
+	bh=zd8+qvjdsmsp34JFBZwd6faM6nKbL9aSsLtZSO56220=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LhOfStsHWebQlKZ3BiKGtM9N4+JcT5NsjH8/DOzSUZJVnB74ADfj0TAIIL8fYjI2Y
+	 sXD4DMHMvcF2i3eMtJHGq18zP07m2zma5y9CS40y4vZ5ZwfyYHwMJfbgUXJ3JLqsOY
+	 7U1udlsdxcXxNgeQ4f0/LoWB1DUpziOGsZ4zAZ9tb2SFFVJpaGlIiZSlDH0LvIETOR
+	 tGflqhmz94FQBarUEPWSQ2SEy48IosFtp8D4hLje+4VGk0NM3r8CjcButRyBVnnp+c
+	 2kFKinw5wOuioVwRvzcyomHgv2lM1FEFiQlZIEjyQDSu8zl2EFkJ2ibjWCZpecQQyf
+	 wbDcWIXcfl60g==
+Message-ID: <dd12145b-bbb3-b771-b8f7-075ea20bee17@collabora.com>
+Date: Mon, 6 Jun 2022 11:15:32 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.19-rc1-6-gc1db0861e8d02
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
- 4 regressions (v5.19-rc1-6-gc1db0861e8d02)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v1 05/15] remoteproc: mediatek: Add SCP core 1 driver for
+ dual-core scp
+Content-Language: en-US
+To: Tinghan Shen <tinghan.shen@mediatek.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Daisuke Nojiri <dnojiri@chromium.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ "Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Brian Norris <briannorris@chromium.org>
+Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, weishunc@google.com
+References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+ <20220601112201.15510-6-tinghan.shen@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220601112201.15510-6-tinghan.shen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-chrome-platform/for-kernelci cros-ec: 10 runs, 4 regressions (v5.19-rc1-6-g=
-c1db0861e8d02)
+Il 01/06/22 13:21, Tinghan Shen ha scritto:
+> MT8195 SCP is a dual-core processor. The mtk_scp.c driver only controls
+> SCP core 0. This patch adds a basic driver to control the another core.
+> 
+> Core 1 and core 0 of the SCP are housed in the same subsys.They see
+> registers and memory in the same way.
+> 
+> Core 1 of the SCP features its own set of core configuration registers,
+> interrupt controller, timers, and DMAs. The rest of the peripherals
+> in this subsystem are shared by core 0 and core 1.
+> 
+> As for memory, core 1 has its own cache memory, and the SCP SRAM is shared
+> by core 0 and core 1.
+> 
 
-Regressions Summary
--------------------
+Hello Tinghan,
 
-platform          | arch  | lab           | compiler | defconfig           =
-       | regressions
-------------------+-------+---------------+----------+---------------------=
--------+------------
-mt8173-elm-hana   | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chro=
-mebook | 1          =
+checking all the patches that are introducing support for the secondary SCP core,
+it's clear that you're practically reusing *most of* mtk_scp in mtk_scp_dual.
 
-rk3288-veyron-jaq | arm   | lab-collabora | gcc-10   | multi_v7_defconfig  =
-       | 1          =
+I don't think that adding a new configuration option for MTK_SCP_DUALCORE (nor a
+new file just for that) is a good idea... the code is "short enough" so you should
+really just add support for multi-core SCP in mtk_scp.c instead.
 
-rk3399-gru-kevin  | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chro=
-mebook | 1          =
+After doing so, I have a hunch that we'll be able to reduce the size of this
+implementation even more, as I see literally too much common code :-)
 
-tegra124-nyan-big | arm   | lab-collabora | gcc-10   | multi_v7_defconfig  =
-       | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.19-rc1-6-gc1db0861e8d02/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.19-rc1-6-gc1db0861e8d02
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      c1db0861e8d025ee5b2e0a83f6691aa9098f2f18
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform          | arch  | lab           | compiler | defconfig           =
-       | regressions
-------------------+-------+---------------+----------+---------------------=
--------+------------
-mt8173-elm-hana   | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chro=
-mebook | 1          =
+Cheers,
+Angelo
 
 
-  Details:     https://kernelci.org/test/plan/id/629d8aec85ef17e5a3a39c19
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220527.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/629d8aec85ef17e5a3a39c=
-1a
-        new failure (last pass: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =
-
-
-
-platform          | arch  | lab           | compiler | defconfig           =
-       | regressions
-------------------+-------+---------------+----------+---------------------=
--------+------------
-rk3288-veyron-jaq | arm   | lab-collabora | gcc-10   | multi_v7_defconfig  =
-       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/629d8b0a92934e483da39c80
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-=
-ec-rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-=
-ec-rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220527.0/armhf/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/629d8b0a92934e483da39c=
-81
-        failing since 0 day (last pass: v5.18-rc1-24-gc2d7e384924d, first f=
-ail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =
-
-
-
-platform          | arch  | lab           | compiler | defconfig           =
-       | regressions
-------------------+-------+---------------+----------+---------------------=
--------+------------
-rk3399-gru-kevin  | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chro=
-mebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/629d8923ff112ba2a7a39c49
-
-  Results:     4 PASS, 1 FAIL, 14 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220527.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_rtc_abi: https://kernelci.org/test/case/id/629d892=
-3ff112ba2a7a39c4c
-        failing since 0 day (last pass: v5.18-rc1-24-gc2d7e384924d, first f=
-ail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =
-
-
-
-platform          | arch  | lab           | compiler | defconfig           =
-       | regressions
-------------------+-------+---------------+----------+---------------------=
--------+------------
-tegra124-nyan-big | arm   | lab-collabora | gcc-10   | multi_v7_defconfig  =
-       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/629d8b8f8644a111b2a39bd0
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-=
-ec-tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-6-gc1db0861e8d02/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-=
-ec-tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220527.0/armhf/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/629d8b8f8644a111b2a39b=
-d1
-        failing since 0 day (last pass: v5.18-rc1-24-gc2d7e384924d, first f=
-ail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =20
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> ---
+>   drivers/remoteproc/Makefile       |  1 +
+>   drivers/remoteproc/mtk_scp_dual.c | 97 +++++++++++++++++++++++++++++++
+>   2 files changed, 98 insertions(+)
+>   create mode 100644 drivers/remoteproc/mtk_scp_dual.c
+> 
+> diff --git a/drivers/remoteproc/Makefile b/drivers/remoteproc/Makefile
+> index 5478c7cb9e07..84cb687d28da 100644
+> --- a/drivers/remoteproc/Makefile
+> +++ b/drivers/remoteproc/Makefile
+> @@ -15,6 +15,7 @@ obj-$(CONFIG_IMX_REMOTEPROC)		+= imx_rproc.o
+>   obj-$(CONFIG_IMX_DSP_REMOTEPROC)	+= imx_dsp_rproc.o
+>   obj-$(CONFIG_INGENIC_VPU_RPROC)		+= ingenic_rproc.o
+>   obj-$(CONFIG_MTK_SCP)			+= mtk_scp.o mtk_scp_ipi.o
+> +obj-$(CONFIG_MTK_SCP_DUALCORE)		+= mtk_scp_dual.o
+>   obj-$(CONFIG_OMAP_REMOTEPROC)		+= omap_remoteproc.o
+>   obj-$(CONFIG_WKUP_M3_RPROC)		+= wkup_m3_rproc.o
+>   obj-$(CONFIG_DA8XX_REMOTEPROC)		+= da8xx_remoteproc.o
+> diff --git a/drivers/remoteproc/mtk_scp_dual.c b/drivers/remoteproc/mtk_scp_dual.c
+> new file mode 100644
+> index 000000000000..7bc08d26f208
+> --- /dev/null
+> +++ b/drivers/remoteproc/mtk_scp_dual.c
+> @@ -0,0 +1,97 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright (c) 2022 MediaTek Inc.
+> +
+> +#include <linux/err.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include "mtk_common.h"
+> +#include "remoteproc_internal.h"
+> +
+> +static const struct rproc_ops scp_ops;
+> +
+> +static int scp_dual_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *np = dev->of_node;
+> +	struct mtk_scp *scp;
+> +	struct rproc *rproc;
+> +	const char *fw_name = "scp-dual.img";
+> +	int ret, i;
+> +	struct resource *res;
+> +
+> +	ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+> +	if (ret < 0 && ret != -EINVAL)
+> +		return ret;
+> +
+> +	rproc = devm_rproc_alloc(dev, np->name, &scp_ops, fw_name, sizeof(*scp));
+> +	if (!rproc) {
+> +		dev_err(dev, "unable to allocate remoteproc\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	scp = (struct mtk_scp *)rproc->priv;
+> +	scp->rproc = rproc;
+> +	scp->dev = dev;
+> +	platform_set_drvdata(pdev, scp);
+> +
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
+> +	scp->sram_base = devm_ioremap(dev, res->start, resource_size(res));
+> +	if (IS_ERR(scp->sram_base))
+> +		return dev_err_probe(dev, PTR_ERR(scp->sram_base),
+> +				     "Failed to parse and map sram memory\n");
+> +
+> +	scp->sram_size = resource_size(res);
+> +	scp->sram_phys = res->start;
+> +
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cfg");
+> +	scp->reg_base = devm_ioremap(dev, res->start, resource_size(res));
+> +	if (IS_ERR(scp->reg_base))
+> +		return dev_err_probe(dev, PTR_ERR(scp->reg_base),
+> +				     "Failed to parse and map cfg memory\n");
+> +
+> +	mutex_init(&scp->send_lock);
+> +	for (i = 0; i < SCP_IPI_MAX; i++)
+> +		mutex_init(&scp->ipi_desc[i].lock);
+> +
+> +	init_waitqueue_head(&scp->run.wq);
+> +	init_waitqueue_head(&scp->ack_wq);
+> +
+> +	return 0;
+> +}
+> +
+> +static int scp_dual_remove(struct platform_device *pdev)
+> +{
+> +	struct mtk_scp *scp = platform_get_drvdata(pdev);
+> +	int i;
+> +
+> +	for (i = 0; i < SCP_IPI_MAX; i++)
+> +		mutex_destroy(&scp->ipi_desc[i].lock);
+> +	mutex_destroy(&scp->send_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id mtk_scp_dual_of_match[] = {
+> +	{ .compatible = "mediatek,mt8195-scp-dual" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_scp_dual_of_match);
+> +
+> +static struct platform_driver mtk_scp_dual_driver = {
+> +	.probe = scp_dual_probe,
+> +	.remove = scp_dual_remove,
+> +	.driver = {
+> +		.name = "mtk-scp-dual",
+> +		.of_match_table = mtk_scp_dual_of_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(mtk_scp_dual_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("MediaTek SCP dualcore control driver");

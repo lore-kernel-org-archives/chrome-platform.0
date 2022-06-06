@@ -1,63 +1,51 @@
-Received: from smtpbg.qq.com (smtpbg138.qq.com [106.55.201.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA31854
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 02:25:39 +0000 (UTC)
-X-QQ-mid: bizesmtp78t1654482203tle0beb6
-Received: from localhost.localdomain ( [111.9.5.115])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 06 Jun 2022 10:23:15 +0800 (CST)
-X-QQ-SSF: 01000000000000C0G000000A0000000
-X-QQ-FEAT: +i7PuHLNsE4Ix5ht+UHC/ONIXXVUd/otf/Yv16mrkqnK+G62jVoXJSlWlJWhd
-	X1rykKVHwMQL0938fjtP1gXZXFmujcM7soXrJ1EInoHNI0wncGOCGpUYGtjar3npMEcfO4Q
-	XPnFX4vervgv95NsIb+AzH0PJH3Xz8DUG06XOiC+jP7nT8Ik5e+0B+RXblJMdNfcGYx0amf
-	jaseDKKDfPb/KLRHnd/dB6RrbwjEXEA0PzxW066cJYy7KbelysrvHUEGo24uDCECSu1ZoXO
-	CUDSIzGBd+bGnjVC3avnjpaj3C9IMCb2EANxMIHMAEaaqt3SQTPTd/pFN3ktFMt8EJLppVR
-	hmZznRoSgUXJjZAqrI=
-X-QQ-GoodBg: 0
-From: Xiang wangx <wangxiang@cdjrlc.com>
-To: bleung@chromium.org
-Cc: groeck@chromium.org,
-	gustavoars@kernel.org,
-	dustin@howett.net,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: [PATCH] cros_ec_commands: Fix syntax errors in comments
-Date: Mon,  6 Jun 2022 10:23:13 +0800
-Message-Id: <20220606022313.22912-1-wangxiang@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6951FC8
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 03:24:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EEB0C34119;
+	Mon,  6 Jun 2022 03:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654485864;
+	bh=27QfA0HUowPRHp50PZrytVJKom6NrSAJVHItu8R3jHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lvcFToTHkstRhWpP8zzRAtwT4O09ePpK8HGekpw3LbbkO31qHgbzt6f+XtyUX0wyA
+	 Upkatwg5nauh8UM2QzesBlVcMsGR/vOtWBVpC8AQ7EE08dURfEzfG2PAQfmyn3Wsev
+	 fbiAi3oV74RKwRDQyTv0Ao+mF7On+YoFOu+v3y2rwJR3RNstABANHp1SN/96ILPiON
+	 E8aoRDtBzGZ9BnEuJp+MH983c3K/e7h5ieOGtIgCU0lq7G+SWBxJyWELlENqgeq8qP
+	 Yiu9caGxHd3WDJsM/emwZ+t53/hVArkLUxciUrdm/uTeV5OPOQTfX2fckcYnno1Mrm
+	 YoUygv94h4p3Q==
+Date: Mon, 6 Jun 2022 03:24:19 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Miaoqian Lin <linmq006@gmail.com>
+Cc: Cheng-Yi Chiang <cychiang@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: cros_ec_codec: Fix refcount leak in
+ cros_ec_codec_platform_probe
+Message-ID: <Yp1zY39dZDzquBE7@google.com>
+References: <20220603131043.38907-1-linmq006@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220603131043.38907-1-linmq006@gmail.com>
 
-Delete the redundant word 'using'.
+On Fri, Jun 03, 2022 at 05:10:43PM +0400, Miaoqian Lin wrote:
+> of_parse_phandle() returns a node pointer with refcount
+> incremented, we should use of_node_put() on it when not need anymore.
+> Add missing of_node_put() to avoid refcount leak.
+> 
+> Fixes: b6bc07d4360d ("ASoC: cros_ec_codec: support WoV")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 
-Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
----
- include/linux/platform_data/cros_ec_commands.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 8cfa8cfca77e..e59f51c41a1c 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -787,7 +787,7 @@ struct ec_host_response {
-  *
-  * Packets always start with a request or response header.  They are followed
-  * by data_len bytes of data.  If the data_crc_present flag is set, the data
-- * bytes are followed by a CRC-8 of that data, using using x^8 + x^2 + x + 1
-+ * bytes are followed by a CRC-8 of that data, using x^8 + x^2 + x + 1
-  * polynomial.
-  *
-  * Host algorithm when sending a request q:
--- 
-2.36.1
-
-
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

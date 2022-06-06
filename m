@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70417E
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 14:12:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB625C3411F;
-	Mon,  6 Jun 2022 14:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DB67E
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 14:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B06C385A9;
+	Mon,  6 Jun 2022 14:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654524728;
-	bh=zE3keGA2rUQlZAJOsUqxllyR6XVIoHy7R3cjiqJ6oiY=;
+	s=k20201202; t=1654524729;
+	bh=7TiEgNiICfiuJiznG+dnnnYsuwyExFEvzD8fxQfd54M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Dc49kEiYEQhhYYhYviY0kbfSJLnOpf4SyxLam6na0yHt+5ugZX1y4cVji3LeGDRsP
-	 GlnFZFqTUaDgc7iUmhEK8y83uIB3SkKScLHidnHMtqEbX7+D+R8Q6knZfohWGz/T8p
-	 c/gewoW1/RRy0dCrOoB2/aRvpPrAl4JwcjHKe0EJdLkiLra4wZiKdbgt/+GExzD6VC
-	 4S5I4t3UsyA5odYa/F7gZmcnJ/PbdIKg5/Ka4rGYjEzsU+U5UZxwKZ+kFAvThAmwxF
-	 ii26k5VtRPdnXT5kh4nNNi2eqMxwLMcejgGhLurP3lVtmWhc6VMFSa6VOyMGT9g4jR
-	 A97cIpw62VUPw==
+	b=aPG5LCC1R+cUJc/eTyPITmVUkmxNiwDBH0vA1QR/WTiSNunGx96KDlsysLsUX2M8v
+	 hoihExCPUH9tiILDQBM+H6nA6acEOwJyG1RW02lvd1S5o9G5XUHyCXY07yb1rk2dRE
+	 YUvtr5jgaxp6AlGMdYZnmbMAqOXDKJhrNYSrUuXNzDMbkBvf1FTbl5/bIeyeAtkH8J
+	 Dx6dNosK/nMWk4sfuYdNT/qukggdJ5el2QsCJdyRTyL0JOB+AJDu+qf9CcPdprkNyh
+	 S7x54g0djuMshhyQm7WwOJN00N9nvq7iluykJRWcIm19auBi2CNi4J43LXc7nIpXSI
+	 URLjoKMGevdLg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
 Cc: chrome-platform@lists.linux.dev,
 	tzungbi@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 10/13] platform/chrome: cros_ec_proto: arrange get_host_command_version_mask()
-Date: Mon,  6 Jun 2022 14:10:48 +0000
-Message-Id: <20220606141051.285823-11-tzungbi@kernel.org>
+Subject: [PATCH 11/13] platform/chrome: cros_ec_proto: fix get_host_command_version_mask() returns
+Date: Mon,  6 Jun 2022 14:10:49 +0000
+Message-Id: <20220606141051.285823-12-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 In-Reply-To: <20220606141051.285823-1-tzungbi@kernel.org>
 References: <20220606141051.285823-1-tzungbi@kernel.org>
@@ -35,233 +35,190 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- cros_ec_get_host_command_version_mask() is a private (static) function.
-  Rename it to get_host_command_version_mask().
+`mask` of get_host_command_version_mask() is valid only if it returns
+positive number (i.e. sizeof(struct ec_response_get_cmd_versions)).
 
-- Join multiple lines into one if it can fit in 100 columns.
+- Remove the unneeded `ver_mask` initialization.
 
-- Don't show MKBP support version if it doesn't support.
+- Update callers of get_host_command_version_mask() for checking correct
+  return values.
+
+- Add a Kunit test: `ver_mask` has some garbage bytes from
+  previous EC_CMD_GET_NEXT_EVENT but there is no host sleep.
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- drivers/platform/chrome/cros_ec_proto.c      | 26 ++++++----------
- drivers/platform/chrome/cros_ec_proto_test.c | 32 ++++++++++----------
- 2 files changed, 25 insertions(+), 33 deletions(-)
+ drivers/platform/chrome/cros_ec_proto.c      |   8 +-
+ drivers/platform/chrome/cros_ec_proto_test.c | 109 +++++++++++++++++++
+ 2 files changed, 113 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 5f4414f05d66..07b57ea105b6 100644
+index 07b57ea105b6..91c945c9911f 100644
 --- a/drivers/platform/chrome/cros_ec_proto.c
 +++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -400,7 +400,7 @@ static int fill_protocol_info_legacy(struct cros_ec_device *ec_dev)
- }
- 
- /*
-- * cros_ec_get_host_command_version_mask
-+ * get_host_command_version_mask
+@@ -409,7 +409,7 @@ static int fill_protocol_info_legacy(struct cros_ec_device *ec_dev)
+  * @cmd: command to get the version of.
+  * @mask: result when function returns 0.
   *
-  * Get the version mask of a given command.
+- * @return 0 on success, error code otherwise
++ * @return >0 on success, error code otherwise
   *
-@@ -415,16 +415,14 @@ static int fill_protocol_info_legacy(struct cros_ec_device *ec_dev)
+  * LOCKING:
   * the caller has ec_dev->lock mutex or the caller knows there is
-  * no other command in progress.
-  */
--static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
--	u16 cmd, u32 *mask)
-+static int get_host_command_version_mask(struct cros_ec_device *ec_dev, u16 cmd, u32 *mask)
+@@ -454,7 +454,7 @@ static int get_host_command_version_mask(struct cros_ec_device *ec_dev, u16 cmd,
+ int cros_ec_query_all(struct cros_ec_device *ec_dev)
  {
- 	struct ec_params_get_cmd_versions *pver;
- 	struct ec_response_get_cmd_versions *rver;
- 	struct cros_ec_command *msg;
+ 	struct device *dev = ec_dev->dev;
+-	u32 ver_mask = 0;
++	u32 ver_mask;
  	int ret;
  
--	msg = kmalloc(sizeof(*msg) + max(sizeof(*rver), sizeof(*pver)),
--		      GFP_KERNEL);
-+	msg = kmalloc(sizeof(*msg) + max(sizeof(*rver), sizeof(*pver)), GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
- 
-@@ -443,7 +441,6 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
- 	}
- 
- 	kfree(msg);
--
- 	return ret;
- }
- 
-@@ -488,21 +485,16 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
- 		return -ENOMEM;
+ 	/* First try sending with proto v3. */
+@@ -486,7 +486,7 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
  
  	/* Probe if MKBP event is supported */
--	ret = cros_ec_get_host_command_version_mask(ec_dev,
--						    EC_CMD_GET_NEXT_EVENT,
--						    &ver_mask);
--	if (ret < 0 || ver_mask == 0)
-+	ret = get_host_command_version_mask(ec_dev, EC_CMD_GET_NEXT_EVENT, &ver_mask);
-+	if (ret < 0 || ver_mask == 0) {
+ 	ret = get_host_command_version_mask(ec_dev, EC_CMD_GET_NEXT_EVENT, &ver_mask);
+-	if (ret < 0 || ver_mask == 0) {
++	if (ret <= 0 || ver_mask == 0) {
  		ec_dev->mkbp_event_supported = 0;
--	else
-+	} else {
+ 	} else {
  		ec_dev->mkbp_event_supported = fls(ver_mask);
--
--	dev_dbg(ec_dev->dev, "MKBP support version %u\n",
--		ec_dev->mkbp_event_supported - 1);
-+		dev_dbg(ec_dev->dev, "MKBP support version %u\n", ec_dev->mkbp_event_supported - 1);
-+	}
+@@ -495,7 +495,7 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
  
  	/* Probe if host sleep v1 is supported for S0ix failure detection. */
--	ret = cros_ec_get_host_command_version_mask(ec_dev,
--						    EC_CMD_HOST_SLEEP_EVENT,
--						    &ver_mask);
-+	ret = get_host_command_version_mask(ec_dev, EC_CMD_HOST_SLEEP_EVENT, &ver_mask);
- 	ec_dev->host_sleep_v1 = (ret >= 0 && (ver_mask & EC_VER_MASK(1)));
+ 	ret = get_host_command_version_mask(ec_dev, EC_CMD_HOST_SLEEP_EVENT, &ver_mask);
+-	ec_dev->host_sleep_v1 = (ret >= 0 && (ver_mask & EC_VER_MASK(1)));
++	ec_dev->host_sleep_v1 = (ret > 0 && (ver_mask & EC_VER_MASK(1)));
  
  	/* Get host event wake mask. */
+ 	ret = cros_ec_get_host_event_wake_mask(ec_dev, &ec_dev->host_event_wake_mask);
 diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index 22f9322787f4..e2c369765612 100644
+index e2c369765612..7d73aeb99d1d 100644
 --- a/drivers/platform/chrome/cros_ec_proto_test.c
 +++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -217,7 +217,7 @@ static void cros_ec_proto_test_query_all_normal(struct kunit *test)
- 		data->max_request_packet_size = 0xbf;
+@@ -760,6 +760,114 @@ static void cros_ec_proto_test_query_all_no_host_sleep(struct kunit *test)
  	}
+ }
  
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
++static void cros_ec_proto_test_query_all_no_host_sleep2(struct kunit *test)
++{
++	struct cros_ec_proto_test_priv *priv = test->priv;
++	struct cros_ec_device *ec_dev = &priv->ec_dev;
++	struct ec_xfer_mock *mock;
++	int ret;
++
++	/* Set some garbage bytes. */
++	ec_dev->host_sleep_v1 = true;
++
++	/* For fill_protocol_info() without passthru. */
++	{
++		struct ec_response_get_protocol_info *data;
++
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++
++		/*
++		 * Although it doesn't check the value, provides valid sizes so that
++		 * cros_ec_query_all() allocates din and dout correctly.
++		 */
++		data = (struct ec_response_get_protocol_info *)mock->o_data;
++		data->max_request_packet_size = 0xbe;
++		data->max_response_packet_size = 0xef;
++	}
++
++	/* For fill_protocol_info() with passthru. */
++	{
++		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_INVALID_COMMAND,
++						    sizeof(struct ec_response_get_protocol_info));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++	}
++
 +	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		struct ec_response_get_cmd_versions *data;
- 
-@@ -228,7 +228,7 @@ static void cros_ec_proto_test_query_all_normal(struct kunit *test)
- 		data->version_mask = BIT(6) | BIT(5);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
++	{
++		struct ec_response_get_cmd_versions *data;
++
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++
++		/* In order to pollute next get_host_command_version_mask(). */
++		data = (struct ec_response_get_cmd_versions *)mock->o_data;
++		data->version_mask = 0xbeef;
++	}
++
 +	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		struct ec_response_get_cmd_versions *data;
- 
-@@ -288,7 +288,7 @@ static void cros_ec_proto_test_query_all_normal(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, ec_dev->max_passthru, 0xbf - sizeof(struct ec_host_request));
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
++	{
++		mock = cros_kunit_ec_xfer_mock_add(test, 0);
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++	}
++
++	cros_ec_proto_test_query_all_pretest(test);
++	ret = cros_ec_query_all(ec_dev);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++
++	/* For fill_protocol_info() without passthru. */
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_PROTOCOL_INFO);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize,
++				sizeof(struct ec_response_get_protocol_info));
++		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
++	}
++
++	/* For fill_protocol_info() with passthru. */
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.command,
++				EC_CMD_PASSTHRU_OFFSET(CROS_EC_DEV_PD_INDEX) |
++				EC_CMD_GET_PROTOCOL_INFO);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize,
++				sizeof(struct ec_response_get_protocol_info));
++		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
++	}
++
 +	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		struct ec_params_get_cmd_versions *data;
- 
-@@ -307,7 +307,7 @@ static void cros_ec_proto_test_query_all_normal(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, ec_dev->mkbp_event_supported, 7);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_CMD_VERSIONS);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize,
++				sizeof(struct ec_response_get_cmd_versions));
++		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
++	}
++
 +	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		struct ec_params_get_cmd_versions *data;
- 
-@@ -502,7 +502,7 @@ static void cros_ec_proto_test_query_all_no_mkbp(struct kunit *test)
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		struct ec_response_get_cmd_versions *data;
- 
-@@ -543,7 +543,7 @@ static void cros_ec_proto_test_query_all_no_mkbp(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		struct ec_params_get_cmd_versions *data;
- 
-@@ -596,7 +596,7 @@ static void cros_ec_proto_test_query_all_no_mkbp2(struct kunit *test)
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_add(test, 0);
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-@@ -632,7 +632,7 @@ static void cros_ec_proto_test_query_all_no_mkbp2(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		struct ec_params_get_cmd_versions *data;
- 
-@@ -685,14 +685,14 @@ static void cros_ec_proto_test_query_all_no_host_sleep(struct kunit *test)
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_add(test,
- 						   sizeof(struct ec_response_get_cmd_versions));
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		struct ec_response_get_cmd_versions *data;
- 
-@@ -733,7 +733,7 @@ static void cros_ec_proto_test_query_all_no_host_sleep(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_next();
- 		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-@@ -745,7 +745,7 @@ static void cros_ec_proto_test_query_all_no_host_sleep(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_next();
- 		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-@@ -793,14 +793,14 @@ static void cros_ec_proto_test_query_all_default_wake_mask(struct kunit *test)
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_add(test,
- 						   sizeof(struct ec_response_get_cmd_versions));
- 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_add(test,
- 						   sizeof(struct ec_response_get_cmd_versions));
-@@ -844,7 +844,7 @@ static void cros_ec_proto_test_query_all_default_wake_mask(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	/* For get_host_command_version_mask() for MKBP. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_next();
- 		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-@@ -856,7 +856,7 @@ static void cros_ec_proto_test_query_all_default_wake_mask(struct kunit *test)
- 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
- 	}
- 
--	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	/* For get_host_command_version_mask() for host sleep v1. */
- 	{
- 		mock = cros_kunit_ec_xfer_mock_next();
- 		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_CMD_VERSIONS);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize,
++				sizeof(struct ec_response_get_cmd_versions));
++		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
++
++		KUNIT_EXPECT_FALSE(test, ec_dev->host_sleep_v1);
++	}
++}
++
+ static void cros_ec_proto_test_query_all_default_wake_mask(struct kunit *test)
+ {
+ 	struct cros_ec_proto_test_priv *priv = test->priv;
+@@ -941,6 +1049,7 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
+ 	KUNIT_CASE(cros_ec_proto_test_query_all_no_mkbp),
+ 	KUNIT_CASE(cros_ec_proto_test_query_all_no_mkbp2),
+ 	KUNIT_CASE(cros_ec_proto_test_query_all_no_host_sleep),
++	KUNIT_CASE(cros_ec_proto_test_query_all_no_host_sleep2),
+ 	KUNIT_CASE(cros_ec_proto_test_query_all_default_wake_mask),
+ 	{}
+ };
 -- 
 2.36.1.255.ge46751e96f-goog
 

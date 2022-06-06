@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5862E1FC8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5701FD2
 	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E19D7C34115;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 00B5FC3411F;
 	Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654486429;
-	bh=5lMsvTgNqHwId8R4Z7qHKxUwFEmIqu84tPBV+aaRuDQ=;
+	s=k20201202; t=1654486430;
+	bh=Z1pePjgcN1IgrpbJsD0/+cmu5rnSefmSEhf+TUR/2f8=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pMJhDRWAYep1eOF51qKIMIjJOk7+gOMW7/oTZz7Kd6iU9+aYUPadVnOnToeMxjfPy
-	 MU2mFmmV1Ni3eHtvbPpMNWGzITvRhGTggJ1nTyutceflXbZinkmGV6bxJKmYkyQ0RJ
-	 MF5zM6FL4SoKBOnTW9k/VwRGQ4W+nG2fqaWdmV5Jx75ZBs1UJY8gIE/TLSRJ2IJ5Lc
-	 dxisd4xlM6TZhssB0DrPUgcQrO28qNlTbleAzo4ZWuo4BSrjjO15wWqLvKKAuVF+Qr
-	 2YTcsmRrXZZeTT1SOmVjANWHtAudh/fzR3nIIZGW1/6W6A4Hmld9+KbbO3daW5EgBD
-	 QpCfjnyfC//5A==
+	b=UDfMVyxlMJzzDE1U+gqyzxD7JwMea7qrAh7bO+GEfwZxE/nt53JQheED/OClgMR6z
+	 kmbbggwsruNxMkYh/vGf6Vi3ydeHOvD+xemdZvX1AypsCXihdM0uJVLwFZiX922lw5
+	 irbFiIs1VdtTjXnmeHwHvbSgCY7hWbZVp3QVOFZ6oRO9tv+a3SIZv1XTTt+qZRDbnC
+	 /y5uIVa4bl1awvFwAnwalS96qa8AqTzihni5za3Y10UMTmVq4DVIOOxh5CgJNTfwWo
+	 o/0F8i0MMdPEcHGqSv732AJLTO2Ijm9k/IIvRrE2HWj5HlFQVq8FaRk4RSJBg+Mbpf
+	 lg2q1AQp4xpdw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C3244E737E8;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D88EBE737EE;
 	Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,47 +26,36 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 0/4] Add channel type support to pwm-cros-ec
+Subject: Re: [GIT PULL] chrome-platform changes for v5.19
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <165448642979.20111.8721457645475666607.git-patchwork-notify@kernel.org>
+ <165448642988.20111.15410420940660314102.git-patchwork-notify@kernel.org>
 Date: Mon, 06 Jun 2022 03:33:49 +0000
-References: <20220428100421.247471-1-fabiobaltieri@chromium.org>
-In-Reply-To: <20220428100421.247471-1-fabiobaltieri@chromium.org>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: bleung@chromium.org, groeck@chromium.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org, robh+dt@kernel.org,
- chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <Yo7YztZklByTINZp@google.com>
+In-Reply-To: <Yo7YztZklByTINZp@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org,
+ linux-kernel@vger.kernel.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Thierry Reding <thierry.reding@gmail.com>:
+This pull request was applied to chrome-platform/linux.git (for-next)
+by Linus Torvalds <torvalds@linux-foundation.org>:
 
-On Thu, 28 Apr 2022 10:04:17 +0000 you wrote:
-> Hi,
+On Thu, 26 May 2022 09:33:02 +0800 you wrote:
+> Linus,
 > 
-> The ChromiumOS EC PWM host command protocol supports specifying the
-> requested PWM by type rather than channel. [1]
+> Please pull chrome-platform updates for v5.19.
 > 
-> This series adds support for specifying PWM by type rather than channel
-> number in the pwm-cros-ec driver, which abstracts the node definitions
-> from the actual hardware configuration from the kernel perspective,
-> aligns the API with the one used by the bootloader, and allows removing
-> some dtsi overrides.
+> Thanks,
+> TzungBi
 > 
 > [...]
 
 Here is the summary with links:
-  - [v6,1/4] dt-bindings: add mfd/cros_ec definitions
-    https://git.kernel.org/chrome-platform/c/84d0940454a3
-  - [v6,2/4] pwm: pwm-cros-ec: add channel type support
-    https://git.kernel.org/chrome-platform/c/3d593b6e80ad
-  - [v6,3/4] dt-bindings: google,cros-ec-pwm: add the new -type compatible
-    https://git.kernel.org/chrome-platform/c/a48d66d87274
-  - [v6,4/4] arm64: dts: address cros-ec-pwm channels by type
-    (no matching commit)
+  - [GIT,PULL] chrome-platform changes for v5.19
+    https://git.kernel.org/chrome-platform/c/f1f88bb51f1a
 
 You are awesome, thank you!
 -- 

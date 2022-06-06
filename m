@@ -1,51 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6951FC8
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 03:24:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EEB0C34119;
-	Mon,  6 Jun 2022 03:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5862E1FC8
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E19D7C34115;
+	Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654485864;
-	bh=27QfA0HUowPRHp50PZrytVJKom6NrSAJVHItu8R3jHk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lvcFToTHkstRhWpP8zzRAtwT4O09ePpK8HGekpw3LbbkO31qHgbzt6f+XtyUX0wyA
-	 Upkatwg5nauh8UM2QzesBlVcMsGR/vOtWBVpC8AQ7EE08dURfEzfG2PAQfmyn3Wsev
-	 fbiAi3oV74RKwRDQyTv0Ao+mF7On+YoFOu+v3y2rwJR3RNstABANHp1SN/96ILPiON
-	 E8aoRDtBzGZ9BnEuJp+MH983c3K/e7h5ieOGtIgCU0lq7G+SWBxJyWELlENqgeq8qP
-	 Yiu9caGxHd3WDJsM/emwZ+t53/hVArkLUxciUrdm/uTeV5OPOQTfX2fckcYnno1Mrm
-	 YoUygv94h4p3Q==
-Date: Mon, 6 Jun 2022 03:24:19 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Miaoqian Lin <linmq006@gmail.com>
-Cc: Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: cros_ec_codec: Fix refcount leak in
- cros_ec_codec_platform_probe
-Message-ID: <Yp1zY39dZDzquBE7@google.com>
-References: <20220603131043.38907-1-linmq006@gmail.com>
+	s=k20201202; t=1654486429;
+	bh=5lMsvTgNqHwId8R4Z7qHKxUwFEmIqu84tPBV+aaRuDQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=pMJhDRWAYep1eOF51qKIMIjJOk7+gOMW7/oTZz7Kd6iU9+aYUPadVnOnToeMxjfPy
+	 MU2mFmmV1Ni3eHtvbPpMNWGzITvRhGTggJ1nTyutceflXbZinkmGV6bxJKmYkyQ0RJ
+	 MF5zM6FL4SoKBOnTW9k/VwRGQ4W+nG2fqaWdmV5Jx75ZBs1UJY8gIE/TLSRJ2IJ5Lc
+	 dxisd4xlM6TZhssB0DrPUgcQrO28qNlTbleAzo4ZWuo4BSrjjO15wWqLvKKAuVF+Qr
+	 2YTcsmRrXZZeTT1SOmVjANWHtAudh/fzR3nIIZGW1/6W6A4Hmld9+KbbO3daW5EgBD
+	 QpCfjnyfC//5A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C3244E737E8;
+	Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603131043.38907-1-linmq006@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 0/4] Add channel type support to pwm-cros-ec
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165448642979.20111.8721457645475666607.git-patchwork-notify@kernel.org>
+Date: Mon, 06 Jun 2022 03:33:49 +0000
+References: <20220428100421.247471-1-fabiobaltieri@chromium.org>
+In-Reply-To: <20220428100421.247471-1-fabiobaltieri@chromium.org>
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: bleung@chromium.org, groeck@chromium.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, lee.jones@linaro.org, robh+dt@kernel.org,
+ chrome-platform@lists.linux.dev, linux-pwm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Fri, Jun 03, 2022 at 05:10:43PM +0400, Miaoqian Lin wrote:
-> of_parse_phandle() returns a node pointer with refcount
-> incremented, we should use of_node_put() on it when not need anymore.
-> Add missing of_node_put() to avoid refcount leak.
+Hello:
+
+This series was applied to chrome-platform/linux.git (for-next)
+by Thierry Reding <thierry.reding@gmail.com>:
+
+On Thu, 28 Apr 2022 10:04:17 +0000 you wrote:
+> Hi,
 > 
-> Fixes: b6bc07d4360d ("ASoC: cros_ec_codec: support WoV")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> The ChromiumOS EC PWM host command protocol supports specifying the
+> requested PWM by type rather than channel. [1]
+> 
+> This series adds support for specifying PWM by type rather than channel
+> number in the pwm-cros-ec driver, which abstracts the node definitions
+> from the actual hardware configuration from the kernel perspective,
+> aligns the API with the one used by the bootloader, and allows removing
+> some dtsi overrides.
+> 
+> [...]
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Here is the summary with links:
+  - [v6,1/4] dt-bindings: add mfd/cros_ec definitions
+    https://git.kernel.org/chrome-platform/c/84d0940454a3
+  - [v6,2/4] pwm: pwm-cros-ec: add channel type support
+    https://git.kernel.org/chrome-platform/c/3d593b6e80ad
+  - [v6,3/4] dt-bindings: google,cros-ec-pwm: add the new -type compatible
+    https://git.kernel.org/chrome-platform/c/a48d66d87274
+  - [v6,4/4] arm64: dts: address cros-ec-pwm channels by type
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

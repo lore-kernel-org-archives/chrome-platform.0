@@ -1,244 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0CF28FB
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Jun 2022 14:57:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E398C34119;
-	Tue,  7 Jun 2022 14:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60F728FB
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Jun 2022 15:31:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 386CBC34114;
+	Tue,  7 Jun 2022 15:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654613830;
-	bh=BwS0lmRYZxrb8yBXIGN+OmFGJ9VGr15bsAFQoqheMmc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zkf+QKNqZrS/KDoCZusx4wr+w4S8IeJ8+5AfoaxhStD7z6j1/mqMClra9Ib2a/9Ex
-	 fxms/hOKatXWAW6VBH8CmIqUirzFjjEFV2g7MKgSRMK3n3Fk9RpP1L8N1DOjsBCewX
-	 Es2aBt+QcP+RgkB+LiaRYXqUwoczgbMK/IrbBuEgtqqiQ/EApQ5AwUxjYt2LyX+gnT
-	 CwaJWCjxreAIvrqX0IukInMWKzM6bovLfOgheNZ+GznzNib8O7IVmD6HQYaB2v5NVq
-	 j1E45J1Z0uZPSKhvK+mAlxfDvk7x4wtTI/uyVkQFyDThvTZwM2PXsYJfJwbyAiuqUY
-	 ZdHuc6mRb+dWQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	tzungbi@kernel.org
-Subject: [PATCH v2 15/15] platform/chrome: cros_ec_proto: return 0 on getting wake mask success
-Date: Tue,  7 Jun 2022 14:56:39 +0000
-Message-Id: <20220607145639.2362750-16-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220607145639.2362750-1-tzungbi@kernel.org>
-References: <20220607145639.2362750-1-tzungbi@kernel.org>
+	s=k20201202; t=1654615919;
+	bh=QtPDEZX/lUfNyNYpzZuzDGKK7QYK9lQFJFWIUzzL46Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pz1ddRm8iFdRXLn63GZu1ddshUSiTpxMayzVNrE29pXwYA6xHXt2as8MWdrTi65td
+	 DloXlUv4VDQPa9NRZhm/0SK5f2YnJP1W+wr9cxRyWsIa5qVaP4BTE2rVhh8W7mwMGo
+	 K67SNesIvMVyGPP2YgRbFCwusuN1CAEfkMfHeBXrwGzZNFKVAQCj3dxchRGuqzIA53
+	 M+6WblmWyy01eHEaw5wvWqYchWLXlqujYXiYgDSMCqo9l6gbZxUEbI8bQ54tf4XPVZ
+	 BmA/Tkkjl2WKfd9ZE/y/Y8mOnqMwY2WFUkoDZapmAgwLYz/ujsvplD/K2TLYWuwN/n
+	 hwE4QSpypk56g==
+Date: Tue, 7 Jun 2022 16:31:53 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH 1/3] regulator: cros-ec: Use common cros_ec_command()
+Message-ID: <Yp9vadmTaNw3YCk4@sirena.org.uk>
+References: <20220606201825.763788-1-pmalani@chromium.org>
+ <20220606201825.763788-2-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iS67pudl3y0J6t1x"
+Content-Disposition: inline
+In-Reply-To: <20220606201825.763788-2-pmalani@chromium.org>
+X-Cookie: Where's SANDY DUNCAN?
 
-cros_ec_get_host_event_wake_mask() used to return value from
-send_command() which is number of bytes for input payload on success
-(i.e. sizeof(struct ec_response_host_event_mask)).
 
-However, the callers don't need to know how many bytes are available.
+--iS67pudl3y0J6t1x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- Fix cros_ec_get_host_event_wake_mask() to return 0 on success;
-  negative integers on error.
+On Mon, Jun 06, 2022 at 08:18:01PM +0000, Prashant Malani wrote:
+> Reduce code duplication by using the common cros_ec_command() function
+> instead of the locally defined variant.
 
-- Add a Kunit test for guarding if send_command() returns 0 in
-  get_host_event_wake_mask().
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-Changes from v1:
-- Return 0 on success; otherwise, negative intergers.
+--iS67pudl3y0J6t1x
+Content-Type: application/pgp-signature; name="signature.asc"
 
- drivers/platform/chrome/cros_ec_proto.c      |  23 ++--
- drivers/platform/chrome/cros_ec_proto_test.c | 128 +++++++++++++++++++
- 2 files changed, 142 insertions(+), 9 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 9d96ed16244f..04c852aa790b 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -256,18 +256,23 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
- 	msg->insize = sizeof(*r);
- 
- 	ret = send_command(ec_dev, msg);
--	if (ret >= 0) {
--		mapped = cros_ec_map_error(msg->result);
--		if (mapped) {
--			ret = mapped;
--			goto exit;
--		}
-+	if (ret < 0)
-+		goto exit;
-+
-+	mapped = cros_ec_map_error(msg->result);
-+	if (mapped) {
-+		ret = mapped;
-+		goto exit;
- 	}
--	if (ret > 0) {
--		r = (struct ec_response_host_event_mask *)msg->data;
--		*mask = r->mask;
-+
-+	if (ret == 0) {
-+		ret = -EPROTO;
-+		goto exit;
- 	}
- 
-+	r = (struct ec_response_host_event_mask *)msg->data;
-+	*mask = r->mask;
-+	ret = 0;
- exit:
- 	kfree(msg);
- 	return ret;
-diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index af69410f2978..3ee0de337d53 100644
---- a/drivers/platform/chrome/cros_ec_proto_test.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -1406,6 +1406,133 @@ static void cros_ec_proto_test_query_all_default_wake_mask_return_error(struct k
- 	}
- }
- 
-+static void cros_ec_proto_test_query_all_default_wake_mask_return0(struct kunit *test)
-+{
-+	struct cros_ec_proto_test_priv *priv = test->priv;
-+	struct cros_ec_device *ec_dev = &priv->ec_dev;
-+	struct ec_xfer_mock *mock;
-+	int ret;
-+
-+	/* Set some garbage bytes. */
-+	ec_dev->host_event_wake_mask = U32_MAX;
-+
-+	/* For cros_ec_get_proto_info() without passthru. */
-+	{
-+		struct ec_response_get_protocol_info *data;
-+
-+		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+
-+		/*
-+		 * Although it doesn't check the value, provides valid sizes so that
-+		 * cros_ec_query_all() allocates din and dout correctly.
-+		 */
-+		data = (struct ec_response_get_protocol_info *)mock->o_data;
-+		data->max_request_packet_size = 0xbe;
-+		data->max_response_packet_size = 0xef;
-+	}
-+
-+	/* For cros_ec_get_proto_info() with passthru. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_INVALID_COMMAND, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_add(test, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_add(test, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	/* For get_host_event_wake_mask(). */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_add(test, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	cros_ec_proto_test_query_all_pretest(test);
-+	ret = cros_ec_query_all(ec_dev);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+
-+	/* For cros_ec_get_proto_info() without passthru. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_PROTOCOL_INFO);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize,
-+				sizeof(struct ec_response_get_protocol_info));
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
-+	}
-+
-+	/* For cros_ec_get_proto_info() with passthru. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command,
-+				EC_CMD_PASSTHRU_OFFSET(CROS_EC_DEV_PD_INDEX) |
-+				EC_CMD_GET_PROTOCOL_INFO);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize,
-+				sizeof(struct ec_response_get_protocol_info));
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
-+	}
-+
-+	/* For cros_ec_get_host_command_version_mask() for MKBP. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_CMD_VERSIONS);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize,
-+				sizeof(struct ec_response_get_cmd_versions));
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
-+	}
-+
-+	/* For cros_ec_get_host_command_version_mask() for host sleep v1. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_CMD_VERSIONS);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize,
-+				sizeof(struct ec_response_get_cmd_versions));
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(struct ec_params_get_cmd_versions));
-+	}
-+
-+	/* For get_host_event_wake_mask(). */
-+	{
-+		u32 mask;
-+
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_HOST_EVENT_GET_WAKE_MASK);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(struct ec_response_host_event_mask));
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
-+
-+		mask = ec_dev->host_event_wake_mask;
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_LID_CLOSED), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_AC_DISCONNECTED), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_BATTERY_LOW), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_BATTERY_CRITICAL), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_BATTERY), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_PD_MCU), 0);
-+		KUNIT_EXPECT_EQ(test, mask & EC_HOST_EVENT_MASK(EC_HOST_EVENT_BATTERY_STATUS), 0);
-+	}
-+}
-+
- static void cros_ec_proto_test_release(struct device *dev)
- {
- }
-@@ -1471,6 +1598,7 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
- 	KUNIT_CASE(cros_ec_proto_test_query_all_no_host_sleep),
- 	KUNIT_CASE(cros_ec_proto_test_query_all_no_host_sleep_return0),
- 	KUNIT_CASE(cros_ec_proto_test_query_all_default_wake_mask_return_error),
-+	KUNIT_CASE(cros_ec_proto_test_query_all_default_wake_mask_return0),
- 	{}
- };
- 
--- 
-2.36.1.255.ge46751e96f-goog
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKfb2kACgkQJNaLcl1U
+h9AQPQf/Uu+gE9kC6MRHTBinks+o8ic/dH/a5B8gt3pikQzakcC39YMx1/e2mXtI
+rkOUD/bKMEOvWFDSs9U/91kf1cBFwpsET/yII6b3xIpdAz77TsdAfIIRWRbnuKf9
+Y0/JtU9Zh7Li6gwPjiT6fzCDcFJ+v/QlpnWzuLfNVNQ5tCbAxOOIoh2DvqR8KnKy
+mmJKuo8uueBLmos4auWEjbSq3VHceFnMzqDoXeja5Ttkl6B0iEHkY6NrboTS3XTb
+FVJcyi4iD1sRYCf2wopwpkYzLcgDMghu9HaRAUOM73kORH/SDUa23c6jk9SQBKIf
+RgEUErtk/VKy5NfC6yGW8kZWg2J5WA==
+=cPRA
+-----END PGP SIGNATURE-----
 
+--iS67pudl3y0J6t1x--

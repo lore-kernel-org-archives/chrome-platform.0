@@ -1,102 +1,105 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8C228FB
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Jun 2022 14:42:04 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id gl15so21791167ejb.4
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Jun 2022 07:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tUW9diLTesI3roFry1o64Px5gNXnYkvb4K3Brj/FaUM=;
-        b=bA8OX150j85ClhlKoLu/Q6RRRIfNsRqHm+iwi9htMQONv9TwxbRHzCvQxXKghpfdG7
-         sVygQMXAJOQvnDTit6sHGOIsiCxOWZSvY4QW05XrpsUypxslSAGwPgUzNdiARBbQDSUK
-         6bdi/WtcOPqcUV3Yt3VMxolq4lWl35bhWxxTd5uS7qZXRUz7dl5MhmMJFesKyJBL5jW6
-         SzH6TqqKqzoS0pplV5LjhN2AaH9vLSRhQnvUwFhgM3a7xecy9K6fPX7bq2UngCsmt8Zu
-         Mh5VMm//VFU2Bf2gqIN3z0qg+y086l7hfx1jeewU6MrME+0LpHjE9wR6h6aSv4Kq8oKI
-         yoDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tUW9diLTesI3roFry1o64Px5gNXnYkvb4K3Brj/FaUM=;
-        b=Vijm0QQXNYkNnZJ6E6a0TqmorIi1GzPcZGa1lvBnEwZB6vydpsMb8px6W7/a2Fc7KB
-         Q/Jdav1JFcSkhkwhyS4OA/bIuTg1LLGM8UCFQYRFs9hnkFDrx8IPiXh5KPFoPyRjNVUB
-         giajho9t2z36Epwut5YugHK9vF+tc/Wh1M/wOIpZIRxobhABNdaUkeC1vHO0FbVsJUl4
-         mT993AoRaXYkd3o8MNUQmQ9X0Bq8Y5VZn3DCRDl5y4uTobuzDW+yx4I+PxLDyIQ4QQv0
-         gvyw9ojuUgLXt9pMDDJw3bE9uIFGR5jvtaQv3b1f0XS6mMq5qBIs/eHaFRKgG0u69+CO
-         cfMA==
-X-Gm-Message-State: AOAM530TGU/Y/uEXTtFj80f5zoGXVSjQ0c/1HkYxMg2sSoZ34X3DbklP
-	ZMnvAelHz1tGPw85iSThJf3YE9yB52BNOJhhOoKV1w==
-X-Google-Smtp-Source: ABdhPJx43dr01Y8Sr37Uf1HprEWxa+wFWjlbIRhi3oGCU79pp1EpiHwIhDXUEFTRNbQieHln3EPD7tSQ3i0LN75Q3NM=
-X-Received: by 2002:a17:907:1ca8:b0:70c:68ce:dade with SMTP id
- nb40-20020a1709071ca800b0070c68cedademr24194819ejc.723.1654612923085; Tue, 07
- Jun 2022 07:42:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B7128FB
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Jun 2022 14:56:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8538AC385A5;
+	Tue,  7 Jun 2022 14:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654613811;
+	bh=voJ087E4pzciYU59HXk4T750efYW5DhTxnWtymSQi5M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jrarLnHavLeZaHIol8Z6pBwtP+0ngdIfunll6hgNd71e1p7LwBimWVVe+ABFhyltI
+	 m3yvd+O+B21bvorfGrFWqPZn7LQLU8u9ooTgZepMJM+WLkIM3fonciZZeC5OR4jVJK
+	 z/kOgGcbVzkRIt1/cSrzAL2JG3q/73/YxxsOtVDs08Jmbe4Le1WyImHihw0FPX4MFL
+	 GslxoBQWuZSgGkxQt4roJ2mxOAikO5nWHx6bmfEvj+S5eaom8vaZJvCDjjZziH/rXA
+	 EkZ6Qi7Jgl6J2RGW5KBIe1mPZkj4vxOdDP3HsB4IGjV/ER4q3DI+TfuuhDcg4UxVdX
+	 EAsbaNmEts38Q==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	tzungbi@kernel.org
+Subject: [PATCH v2 00/15] platform/chrome: Kunit tests and refactor for cros_ec_query_all()
+Date: Tue,  7 Jun 2022 14:56:24 +0000
+Message-Id: <20220607145639.2362750-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220606201825.763788-1-pmalani@chromium.org> <20220606201825.763788-4-pmalani@chromium.org>
-In-Reply-To: <20220606201825.763788-4-pmalani@chromium.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 7 Jun 2022 07:41:51 -0700
-Message-ID: <CABXOdTeQKPXs5GqGUDusp5S_w0W_Ewzfgge2+_H0nYmUQw3XVw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] platform/chrome: cros_ec_proto: Update size arg types
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Stephen Boyd <swboyd@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Brian Norris <briannorris@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 6, 2022 at 1:20 PM Prashant Malani <pmalani@chromium.org> wrote:
->
-> cros_ec_cmd() takes 2 size arguments. Update them to be of the more
-> appropriate type size_t.
->
-> Suggested-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+The series adds Kunit tests, refactors, and clean-ups for cros_ec_query_all().
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Tzung-Bi Shih (15):
+  platform/chrome: cros_ec_commands: fix compile errors
+-> Fixes compile errors when including cros_ec_commands.h.
 
-> ---
->  drivers/platform/chrome/cros_ec_proto.c     | 4 ++--
->  include/linux/platform_data/cros_ec_proto.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index b6bea183ee28..cefabfe45551 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -958,9 +958,9 @@ int cros_ec_cmd(struct cros_ec_device *ec_dev,
->                 unsigned int version,
->                 int command,
->                 void *outdata,
-> -               int outsize,
-> +               size_t outsize,
->                 void *indata,
-> -               int insize)
-> +               size_t insize)
->  {
->         struct cros_ec_command *msg;
->         int ret;
-> diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-> index 816da4eef3e5..85e29300f63d 100644
-> --- a/include/linux/platform_data/cros_ec_proto.h
-> +++ b/include/linux/platform_data/cros_ec_proto.h
-> @@ -232,7 +232,7 @@ bool cros_ec_check_features(struct cros_ec_dev *ec, int feature);
->  int cros_ec_get_sensor_count(struct cros_ec_dev *ec);
->
->  int cros_ec_cmd(struct cros_ec_device *ec_dev, unsigned int version, int command, void *outdata,
-> -                   int outsize, void *indata, int insize);
-> +                   size_t outsize, void *indata, size_t insize);
->
->  /**
->   * cros_ec_get_time_ns() - Return time in ns.
-> --
-> 2.36.1.255.ge46751e96f-goog
->
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_query_all()
+-> Adds Kunit tests for cros_ec_query_all().  They are baseline tests
+   for the following refactor patches.
+
+  platform/chrome: use macros for passthru indexes
+  platform/chrome: cros_ec_proto: assign buffer size from protocol info
+-> Refactors.
+
+  platform/chrome: cros_ec_proto: remove redundant NULL check
+-> Clean up.
+
+  platform/chrome: cros_ec_proto: use cros_ec_map_error()
+-> Changes the internal return code.
+
+  platform/chrome: cros_ec_proto: separate cros_ec_get_proto_info()
+  platform/chrome: cros_ec_proto: handle empty payload in getting proto
+    info
+  platform/chrome: cros_ec_proto: separate
+    cros_ec_get_proto_info_legacy()
+  platform/chrome: cros_ec_proto: handle empty payload in getting info
+    legacy
+-> Check if send_command() returns negative integer.
+   Call cros_ec_map_error() to see if msg->result isn't EC_RES_SUCCESS.
+   Report -EPROTO if send_command() returns 0.
+
+  platform/chrome: cros_ec: don't allocate `din` and `dout` in
+    cros_ec_register()
+-> Clean up.
+
+  platform/chrome: use krealloc() for `din` and `dout`
+-> Replace devm variant to non-devm.
+
+  platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
+-> Minor fix up.
+
+  platform/chrome: cros_ec_proto: return 0 on getting version mask
+    success
+  platform/chrome: cros_ec_proto: return 0 on getting wake mask success
+-> Conform to kernel convention: return 0 on success;
+   otherwise, negative integers.
+
+ drivers/platform/chrome/Kconfig               |    6 +
+ drivers/platform/chrome/Makefile              |    1 +
+ drivers/platform/chrome/cros_ec.c             |   17 +-
+ drivers/platform/chrome/cros_ec_proto.c       |  318 ++--
+ drivers/platform/chrome/cros_ec_proto_test.c  | 1400 +++++++++++++++++
+ drivers/platform/chrome/cros_ec_trace.h       |    8 +-
+ drivers/platform/chrome/cros_kunit_util.c     |   98 ++
+ drivers/platform/chrome/cros_kunit_util.h     |   36 +
+ .../linux/platform_data/cros_ec_commands.h    |    4 +-
+ include/linux/platform_data/cros_ec_proto.h   |    3 +
+ 10 files changed, 1713 insertions(+), 178 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.c
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.h
+
+Changes from v1:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220606141051.285823-1-tzungbi@kernel.org/)
+- Fix review comments.
+- Split and reorder patches.
+
+-- 
+2.36.1.255.ge46751e96f-goog
+

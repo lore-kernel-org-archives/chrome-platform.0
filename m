@@ -1,231 +1,131 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DA17C
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 12:47:51 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id e9so7958236pju.5
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 05:47:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D447B
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 14:37:24 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id v19so27368751edd.4
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 07:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=2FLYYfHXmlOL38fBWoXmBKr9Z4kb+iD85H4uOHLw03E=;
-        b=DvifVo5b4fIElKHt5BZk0x35D5Qh6WS7qF8k7W5cHYAVwIzrpMOz7ouNhiL6nRrrdV
-         Zc/QFkK0+dYWfSTAKhGo+s+YTS+FvV1DEdexezFmKAOFhdnQLEahC4sehrjeOOanjRSR
-         vg6w45o7sic6KUnhQN1gAUDehKHlTvyoHDuPw+T6OisWrgH1I5FY0mRVgXrMkErUER7z
-         ZTByLLI8ou8qwkqi7P51By4EbC8GUfV1NsQxeAvl+AYAZ5r/x6aTSt+1QI6PXoa9QPnr
-         aX3fkyojFcl4FyBFGbYluLchIOFPhjuLnoFDqzOWa9fMNfXHMMi1do+CJbVAtC7GEHOb
-         Yk4w==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oIgzWiqZ9B5DH/Ah6uNm4nobex6Dnfmxiak8xN0J0Rg=;
+        b=dWpsiqdRek7kuhblNqCkOUDbqDqFCbD401L+uVtIYl+aV6TVlPNqrWftvFHLbeyON5
+         /U5PIaeZPpZd+M8qlIkzZozaULrWD2keeY4M9a31K0N6odL1/my2Qw2YQV8HB8htGDcR
+         +jccJDDPU3uc2BCvmGrl8TA11HMeBCOYGZzZKiEgxnzBlXor0O+x6oND7ZjIBYBTsj6h
+         lt8BNSfH347kyyDE5Ty6IFg6JqKSevWLqGN2FLDmV0r/kE768ujIgSNxcbs4fdtSqcsQ
+         yqjh88Ud3fhocxI54S2Ky5W9BnutWGyl9W9+Xk46rAIi781BoIyGzdJwaob1bhjPzgu8
+         PFdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=2FLYYfHXmlOL38fBWoXmBKr9Z4kb+iD85H4uOHLw03E=;
-        b=G8Y7GVqzYGXNTzz8sjE3zYeGU93rHYbnbA/93Ft8iGAbgGSb2ewvatpO1T0rr+VteK
-         5fYjlR9j2Usm3jaKKRvxg0KxEjywhE4xANU8Ypm762QblbD22SMdAjrV1t1N89/f4URj
-         fycP80bMQQcN99TXUm6Tgu0l/52DfLir/Bs303nNGqZE8ujr9/FJ4C6+IaiNLhshKcRy
-         lWQuKXu0nctGMN5ZXw9pETdlFSwKCpB9AeC3mpH/K0g/p91Hqk0C19ebgnF7TrvfEdWg
-         AQCaW/js0YOp5aWHzXs6XwLwg/oiU1wVpFyRVQceBCW5vlDG7iBWB61+z8bO3yUkaSWg
-         bUxg==
-X-Gm-Message-State: AOAM530kqkLRom876ZHG0WD1d76Ko49y35kRYaDhBZxh2wBhvzjm3Zw6
-	J3KctauSFSXQgJU78WcCbcs1vg==
-X-Google-Smtp-Source: ABdhPJzOpv6QigJGDRWSbovGwkVnaB75YmDnU2psnpZ/HQPZKkNcM+byX6edR7wa3t370GBdHDE8ug==
-X-Received: by 2002:a17:902:8b8b:b0:167:4e55:2dac with SMTP id ay11-20020a1709028b8b00b001674e552dacmr25849851plb.132.1654692470906;
-        Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id i186-20020a626dc3000000b0050dc7628148sm14976614pfc.34.2022.06.08.05.47.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
-Message-ID: <62a09a76.1c69fb81.ff43e.0090@mx.google.com>
-Date: Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oIgzWiqZ9B5DH/Ah6uNm4nobex6Dnfmxiak8xN0J0Rg=;
+        b=m22LonyaGxvLCPZPZZkEF4sxKYh0EFVB7KjsDuxVW9eQaikXij3u/9EmvlaF4dnjCG
+         P9KkRwzQ1Cv2trWoZnlGCcGPlw5cA8w3anjLjjLFz6pYfQnvhNkDiJgWaNY+u5wV+DFj
+         GU2rLS4pTlbAwbX3T3riARExJrik70MFJoV5sfiRNT7GPlTsnD7OGDpssDilPl9gNFwG
+         XoPzozfyrp7kwUvdbRd86Ue1Ok1e1T+ExN4t1+wfZ/Z+fzXzxzbW8lUFKVxUsSfaNJo/
+         kCBnGHEqdOqStx9pxIIydemdVR6/N++8kRc5vdBbapLmdq+p2z6nyvX6mjY1VmrDigmB
+         qBZg==
+X-Gm-Message-State: AOAM532Jd8yemKdfhTKe6ZuAWFTRFWu3ebkqlbq3Ru1k0JN1ejn/Z3vI
+	ek+8CPT8nKMFYQS70xFBh7HLATmPouPXGI3SlQAvuw==
+X-Google-Smtp-Source: ABdhPJyzhAftpT5VLkXR18MJk31HDfd3kIidetYc8tMvuBlBYjURb2buh+BzqLpOLixltJAbgrclTo+rVNXIt604j8k=
+X-Received: by 2002:a05:6402:3688:b0:42d:d3ba:4725 with SMTP id
+ ej8-20020a056402368800b0042dd3ba4725mr40113923edb.212.1654699042272; Wed, 08
+ Jun 2022 07:37:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.19-rc1-9-g2e042d202474
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 14 runs,
- 4 regressions (v5.19-rc1-9-g2e042d202474)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+References: <20220607145639.2362750-1-tzungbi@kernel.org> <20220607145639.2362750-9-tzungbi@kernel.org>
+ <CABXOdTdx7jKLbHa3X7aOz3wUMpwWWHkncfKuRyGzonkA92Rg=w@mail.gmail.com> <YqAGmpdTfZsa7Lux@google.com>
+In-Reply-To: <YqAGmpdTfZsa7Lux@google.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Wed, 8 Jun 2022 07:37:10 -0700
+Message-ID: <CABXOdTexvEoaRvOdoTeoHoGpHqHPPHvJAL8sYSBS4fn7eLkCgA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/15] platform/chrome: cros_ec_proto: handle empty
+ payload in getting proto info
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-chrome-platform/for-kernelci baseline: 14 runs, 4 regressions (v5.19-rc1-9-=
-g2e042d202474)
+On Tue, Jun 7, 2022 at 7:17 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+>
+> On Tue, Jun 07, 2022 at 11:47:56AM -0700, Guenter Roeck wrote:
+> > On Tue, Jun 7, 2022 at 7:57 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> > >
+> > > cros_ec_get_proto_info() expects to receive
+> > > sizeof(struct ec_response_get_protocol_info) from send_command().  The
+> > > payload is valid only if the return value is positive.
+> > >
+> > > Add Kunit tests for returning 0 in send_command() and handle the case in
+> > > cros_ec_get_proto_info().
+> > >
+> > That should be two separate patches.
+>
+> Ack, will separate them in next version.  I put them together because I wrote
+> Kunit test first to make sure the second half takes effect (somehow TDD).
+>
+> Could I still put the Kunit patch first (even if it introduces Kunit test
+> failure)?
+>
 
-Regressions Summary
--------------------
+Sorry, I am running behind with e-mails.
 
-platform                     | arch | lab          | compiler | defconfig  =
-        | regressions
------------------------------+------+--------------+----------+------------=
---------+------------
-at91-sama5d4_xplained        | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
+If you want to, but why not let the fix come first ? If the unit test
+patch is first, mayle add a note after --- indicating that it is
+expected to fail and will be fixed with the next patch.
 
-jetson-tk1                   | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
+Thanks,
+Guenter
 
-sun8i-h2-plus...ch-all-h3-cc | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-sun8i-h2-plus-orangepi-zero  | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.19-rc1-9-g2e042d202474/plan/baseline/
-
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.19-rc1-9-g2e042d202474
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      2e042d202474336c941d8c22a54c60ceb97aa623 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch | lab          | compiler | defconfig  =
-        | regressions
------------------------------+------+--------------+----------+------------=
---------+------------
-at91-sama5d4_xplained        | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62a08f1d1f9b6a1061a39bcd
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-at91-sama5d4_xplained.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-at91-sama5d4_xplained.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220603.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62a08f1d1f9b6a1061a39=
-bce
-        new failure (last pass: v5.19-rc1-6-gc1db0861e8d02) =
-
- =
-
-
-
-platform                     | arch | lab          | compiler | defconfig  =
-        | regressions
------------------------------+------+--------------+----------+------------=
---------+------------
-jetson-tk1                   | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62a0901533b7cd67baa39bda
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220603.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62a0901533b7cd67baa39=
-bdb
-        failing since 2 days (last pass: v5.18-rc1-24-gc2d7e384924d, first =
-fail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =
-
-
-
-platform                     | arch | lab          | compiler | defconfig  =
-        | regressions
------------------------------+------+--------------+----------+------------=
---------+------------
-sun8i-h2-plus...ch-all-h3-cc | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62a090405427b4a66fa39be6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-sun8i-h2-plus-libretech-all-h3-cc.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-sun8i-h2-plus-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220603.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62a090405427b4a66fa39=
-be7
-        new failure (last pass: v5.19-rc1-6-gc1db0861e8d02) =
-
- =
-
-
-
-platform                     | arch | lab          | compiler | defconfig  =
-        | regressions
------------------------------+------+--------------+----------+------------=
---------+------------
-sun8i-h2-plus-orangepi-zero  | arm  | lab-baylibre | gcc-10   | multi_v7_de=
-fconfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62a090400603dd8bbda39bea
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-sun8i-h2-plus-orangepi-zero.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
-e-sun8i-h2-plus-orangepi-zero.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220603.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62a090400603dd8bbda39=
-beb
-        failing since 2 days (last pass: v5.19-rc1-5-g4a0e708bb23fc, first =
-fail: v5.19-rc1-6-gc1db0861e8d02) =
-
- =20
+> >
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> > > No v1.  New in the series.
+> > >
+> > >  drivers/platform/chrome/cros_ec_proto.c      |   5 +
+> > >  drivers/platform/chrome/cros_ec_proto_test.c | 132 +++++++++++++++++++
+> > >  2 files changed, 137 insertions(+)
+> > >
+> > > diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> > > index 893b76703da6..6f5be9e5ede4 100644
+> > > --- a/drivers/platform/chrome/cros_ec_proto.c
+> > > +++ b/drivers/platform/chrome/cros_ec_proto.c
+> > > @@ -314,6 +314,11 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+> > >                 goto exit;
+> > >         }
+> > >
+> > > +       if (ret == 0) {
+> > > +               ret = -EPROTO;
+> > > +               goto exit;
+> > > +       }
+> > > +
+> >
+> > I think you can move that into the if() statement above (which already
+> > checks for ret >=0),
+> > making it a special case of that situation.
+>
+> Nope, there is no "ret >= 0" (you could be confusing with
+> cros_ec_get_host_event_wake_mask()).
+>
+> The result flow roughly like:
+>
+> ret = send_command(...);
+> if (ret < 0)
+>   goto exit;
+>
+> mapped = cros_ec_map_error(...);
+> if (mapped) {
+>   ...
+>   goto exit;
+> }
+>
+> if (ret == 0) {
+>   ...
+>   goto exit;
+> }

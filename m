@@ -1,24 +1,24 @@
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF8217F9
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:36:15 +0000 (UTC)
-X-UUID: 4470ec7dfb57491faada2c210a6babfb-20220608
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BE17B
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:36:16 +0000 (UTC)
+X-UUID: d6de6976b3ba4611902d7eb46160c50d-20220608
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:970d56f0-9126-468c-a77c-e980752fd990,OB:10,L
-	OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
-	TION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:970d56f0-9126-468c-a77c-e980752fd990,OB:10,LOB
-	:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
-	TION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:3e2515e5-2ba2-4dc1-b6c5-11feb6c769e0,C
+X-CID-O-INFO: VERSION:1.1.5,REQID:fdf95160-d3b8-466b-9dce-cb9891f2b2ea,OB:30,L
+	OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
+	CTION:release,TS:95
+X-CID-INFO: VERSION:1.1.5,REQID:fdf95160-d3b8-466b-9dce-cb9891f2b2ea,OB:30,LOB
+	:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
+	CTION:quarantine,TS:95
+X-CID-META: VersionHash:2a19b09,CLOUDID:3f2515e5-2ba2-4dc1-b6c5-11feb6c769e0,C
 	OID:ab9fe7398c47,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 4470ec7dfb57491faada2c210a6babfb-20220608
+X-UUID: d6de6976b3ba4611902d7eb46160c50d-20220608
 Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 676625393; Wed, 08 Jun 2022 16:36:04 +0800
+	with ESMTP id 1726167700; Wed, 08 Jun 2022 16:36:04 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -40,9 +40,9 @@ CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd core of dual-core SCP
-Date: Wed, 8 Jun 2022 16:35:48 +0800
-Message-ID: <20220608083553.8697-5-tinghan.shen@mediatek.com>
+Subject: [PATCH v2 6/9] remoteproc: mediatek: Add SCP core 1 SRAM offset
+Date: Wed, 8 Jun 2022 16:35:50 +0800
+Message-ID: <20220608083553.8697-7-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220608083553.8697-1-tinghan.shen@mediatek.com>
 References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
@@ -55,79 +55,81 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-The mtk_scp.c driver only supports the single core SCP and the
-1st core of a dual-core SCP. This patch extends it for the 2nd core.
+Because SCP core 0 and core 1 both boot from address 0 and have the same
+viewpoint of memory, HW has a set of registers, "SRAM offset", to add
+offset to accessed address for SCP core 1 to solve this problem.
 
-MT8195 SCP is a dual-core MCU. Both cores are housed in the same subsys.
-They have the same viewpoint of registers and memory.
-
-Core 1 of the SCP features its own set of core configuration registers,
-interrupt controller, timers, and DMAs. The rest of the peripherals
-in this subsystem are shared by core 0 and core 1.
-
-As for memory, core 1 has its own cache memory. the SCP SRAM is shared
-by core 0 and core 1.
+The "SRAM offset" configuration is composed by specifying a range and an
+offset. The value of range is from the viewpoint of SCP core 1.
+When SCP core 1 accessing addresses in the configured range, SCP bus
+adds an offset to shift the destination on SCP SRAM. This shift is
+transparent to the software running on SCP core 1.
 
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ drivers/remoteproc/mtk_scp.c | 42 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
-index 3510c6d0bbc8..91b4aefde4ac 100644
+index 731a8094c373..b8a4db581179 100644
 --- a/drivers/remoteproc/mtk_scp.c
 +++ b/drivers/remoteproc/mtk_scp.c
-@@ -23,6 +23,10 @@
- #define MAX_CODE_SIZE 0x500000
- #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
- 
-+#define SCP_CORE_0 0
-+#define SCP_CORE_1 1
-+#define SCP_CORE_SINGLE 0xF
+@@ -505,6 +505,27 @@ static int mt8195_scp_before_load(struct mtk_scp *scp)
+ static int mt8195_scp_dual_before_load(struct mtk_scp *scp)
+ {
+ 	u32 sec_ctrl;
++	struct device *dev = scp->dev;
++	struct device_node *main_np;
++	struct platform_device *main_pdev;
++	struct mtk_scp *scp_core0;
 +
- /**
-  * scp_get() - get a reference to SCP.
-  *
-@@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
- 	struct resource *res;
- 	const char *fw_name = "scp.img";
- 	int ret, i;
-+	u32 core_id = SCP_CORE_SINGLE;
- 
- 	ret = rproc_of_parse_firmware(dev, 0, &fw_name);
- 	if (ret < 0 && ret != -EINVAL)
-@@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
- 	scp->data = of_device_get_match_data(dev);
- 	platform_set_drvdata(pdev, scp);
- 
-+	ret = of_property_read_u32_index(dev->of_node, "mediatek,scp-core", 1, &core_id);
-+	if (ret == 0)
-+		dev_info(dev, "Boot SCP dual core %u\n", core_id);
++	/* Get sram start address from SCP core 0 */
++	main_np = of_parse_phandle(dev->of_node, "mediatek,scp-core", 0);
++	if (!main_np) {
++		dev_warn(dev, "Invalid SCP main core phandle\n");
++		return -EINVAL;
++	}
 +
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
--	scp->sram_base = devm_ioremap_resource(dev, res);
-+	if (core_id == SCP_CORE_1)
-+		scp->sram_base = devm_ioremap(dev, res->start, resource_size(res));
-+	else
-+		scp->sram_base = devm_ioremap_resource(dev, res);
++	main_pdev = of_find_device_by_node(main_np);
++	of_node_put(main_np);
 +
- 	if (IS_ERR(scp->sram_base))
- 		return dev_err_probe(dev, PTR_ERR(scp->sram_base),
- 				     "Failed to parse and map sram memory\n");
-@@ -873,7 +886,12 @@ static int scp_probe(struct platform_device *pdev)
- 		scp->l1tcm_phys = res->start;
- 	}
++	if (!main_pdev) {
++		dev_err(dev, "Cannot find SCP core 0 device\n");
++		return -ENODEV;
++	}
++	scp_core0 = platform_get_drvdata(main_pdev);
++	put_device(&main_pdev->dev);
  
--	scp->reg_base = devm_platform_ioremap_resource_byname(pdev, "cfg");
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cfg");
-+	if (core_id == SCP_CORE_1)
-+		scp->reg_base = devm_ioremap(dev, res->start, resource_size(res));
-+	else
-+		scp->reg_base = devm_ioremap_resource(dev, res);
+ 	scp_sram_power_on(scp->reg_base + MT8195_CPU1_SRAM_PD, 0);
+ 
+@@ -514,6 +535,27 @@ static int mt8195_scp_dual_before_load(struct mtk_scp *scp)
+ 	/* enable MPU for all memory regions */
+ 	writel(0xff, scp->reg_base + MT8195_CORE1_MEM_ATT_PREDEF);
+ 
++	/* The value of SRAM offset range is from the viewpoint of SCP core 1.
++	 * This configuration adds an offset on SCP bus when SCP core 1 accesses SCP SRAM
++	 * to solve the SCP core 0 and core 1 both fetch the 1st instruction from the same
++	 * SRAM address.
++	 *
++	 * Because SCP core 0 and core 1 both boot from address 0, this must be configured
++	 * before boot SCP core 1.
++	 *
++	 * Configure the range of SRAM addresses will be added offset.
++	 */
++	writel(0, scp->reg_base + MT8195_L2TCM_OFFSET_RANGE_0_LOW);
++	writel(scp->sram_size, scp->reg_base + MT8195_L2TCM_OFFSET_RANGE_0_HIGH);
 +
- 	if (IS_ERR(scp->reg_base))
- 		return dev_err_probe(dev, PTR_ERR(scp->reg_base),
- 				     "Failed to parse and map cfg memory\n");
++	/* configure the offset value */
++	writel(scp->sram_phys - scp_core0->sram_phys, scp->reg_base + MT8195_L2TCM_OFFSET);
++
++	/* enable adding sram offset when fetching instruction and data */
++	sec_ctrl = readl(scp->reg_base + MT8195_SEC_CTRL);
++	sec_ctrl |= MT8195_CORE_OFFSET_ENABLE_I | MT8195_CORE_OFFSET_ENABLE_D;
++	writel(sec_ctrl, scp->reg_base + MT8195_SEC_CTRL);
++
+ 	return 0;
+ }
+ 
 -- 
 2.18.0
 

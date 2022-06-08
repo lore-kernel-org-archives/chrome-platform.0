@@ -1,43 +1,43 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9462F36
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 12:04:45 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id e66so18669455pgc.8
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 05:04:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DA17C
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 12:47:51 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id e9so7958236pju.5
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 05:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=BykE/tJVPk1jXosehfd3QMhQkMJctpHUETcVw6rF0WI=;
-        b=sAyyVEMoGGdItixlcqEYTzM8yG2+eFiJGTj8C6cKDhPoupAVit1Rnuwf8H/jlnXVFl
-         EHptrj/FyNinH5VkV4Ek1ikYnBlaQwutjIrAcMxrd5XPxzhmrs1M29lkds4TzRXDRVG9
-         wDfDfXgv+5wy6aBuKOyz5g34Cbf4gesGrSHpS5uCTMGHyR2DKCSh+JHCZz9F64OGOFYJ
-         iTAzlJBHJBzCZY8BP7ChnZwcmFeXetu0H8wIOiBe6OKR+xnwGQvh1lucKF92BlABcW2x
-         fp8R3vBkN9QOdjcV0Hth4N18iKjDoluNWJIeeImikjj5LuPCqBs0BuIlc3yZkeV9HIKB
-         yPBA==
+        bh=2FLYYfHXmlOL38fBWoXmBKr9Z4kb+iD85H4uOHLw03E=;
+        b=DvifVo5b4fIElKHt5BZk0x35D5Qh6WS7qF8k7W5cHYAVwIzrpMOz7ouNhiL6nRrrdV
+         Zc/QFkK0+dYWfSTAKhGo+s+YTS+FvV1DEdexezFmKAOFhdnQLEahC4sehrjeOOanjRSR
+         vg6w45o7sic6KUnhQN1gAUDehKHlTvyoHDuPw+T6OisWrgH1I5FY0mRVgXrMkErUER7z
+         ZTByLLI8ou8qwkqi7P51By4EbC8GUfV1NsQxeAvl+AYAZ5r/x6aTSt+1QI6PXoa9QPnr
+         aX3fkyojFcl4FyBFGbYluLchIOFPhjuLnoFDqzOWa9fMNfXHMMi1do+CJbVAtC7GEHOb
+         Yk4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=BykE/tJVPk1jXosehfd3QMhQkMJctpHUETcVw6rF0WI=;
-        b=h6q0RPf9gs+3nPIEz45QrL3ga44VZTSvHipNIFGv+50IJSbf2TXzyBXUBkIx1YM5Eh
-         PRaQP0fnJYmllNpe5hDn9ITzNYOSd/bTuSWALE1EiJmTI7s7SHEgRaBoSXSx7TXPbnpO
-         I+nvorM+fFES+vMCpyzXVy1KIYF7OUZcjhLEr9pDG9Z+CQ4OITooizizvsK/UZUfeVzG
-         0qfu7Wpvt50Ls5h+Wsgn/bRTfG/wF/fxNhaB6gQt43S+qLHGMgLbEtkYGnVvkLm0dL6L
-         1kw2I1ti40+BF6VlJA/TvjJTcPnw+IKI2EqWHV2Di8RN6uTtLhJAvdT3wKZadD5GdHdC
-         ul0g==
-X-Gm-Message-State: AOAM532aiL7Z2NgChWfj3njIrXineA7i2KwoS5r1eLRJFRCJmYS9fCVL
-	4Qg4RvudN31ulG0ED1dihtvrJA==
-X-Google-Smtp-Source: ABdhPJxppYiAxHLoRBFJcZ9tOSMGVvUP4jKGjT3JTP7xp60ysKiBhCfDJrjPN0Z3bG6BdJkw1R1mng==
-X-Received: by 2002:a63:f244:0:b0:3fd:a384:a5f9 with SMTP id d4-20020a63f244000000b003fda384a5f9mr15176360pgk.354.1654689885289;
-        Wed, 08 Jun 2022 05:04:45 -0700 (PDT)
+        bh=2FLYYfHXmlOL38fBWoXmBKr9Z4kb+iD85H4uOHLw03E=;
+        b=G8Y7GVqzYGXNTzz8sjE3zYeGU93rHYbnbA/93Ft8iGAbgGSb2ewvatpO1T0rr+VteK
+         5fYjlR9j2Usm3jaKKRvxg0KxEjywhE4xANU8Ypm762QblbD22SMdAjrV1t1N89/f4URj
+         fycP80bMQQcN99TXUm6Tgu0l/52DfLir/Bs303nNGqZE8ujr9/FJ4C6+IaiNLhshKcRy
+         lWQuKXu0nctGMN5ZXw9pETdlFSwKCpB9AeC3mpH/K0g/p91Hqk0C19ebgnF7TrvfEdWg
+         AQCaW/js0YOp5aWHzXs6XwLwg/oiU1wVpFyRVQceBCW5vlDG7iBWB61+z8bO3yUkaSWg
+         bUxg==
+X-Gm-Message-State: AOAM530kqkLRom876ZHG0WD1d76Ko49y35kRYaDhBZxh2wBhvzjm3Zw6
+	J3KctauSFSXQgJU78WcCbcs1vg==
+X-Google-Smtp-Source: ABdhPJzOpv6QigJGDRWSbovGwkVnaB75YmDnU2psnpZ/HQPZKkNcM+byX6edR7wa3t370GBdHDE8ug==
+X-Received: by 2002:a17:902:8b8b:b0:167:4e55:2dac with SMTP id ay11-20020a1709028b8b00b001674e552dacmr25849851plb.132.1654692470906;
+        Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id u187-20020a6260c4000000b0051bf9159d2dsm8815419pfb.208.2022.06.08.05.04.44
+        by smtp.gmail.com with ESMTPSA id i186-20020a626dc3000000b0050dc7628148sm14976614pfc.34.2022.06.08.05.47.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 05:04:44 -0700 (PDT)
-Message-ID: <62a0905c.1c69fb81.95968.0f72@mx.google.com>
-Date: Wed, 08 Jun 2022 05:04:44 -0700 (PDT)
+        Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
+Message-ID: <62a09a76.1c69fb81.ff43e.0090@mx.google.com>
+Date: Wed, 08 Jun 2022 05:47:50 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -46,62 +46,186 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: build
+X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v5.19-rc1-9-g2e042d202474
 X-Kernelci-Branch: for-kernelci
 X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v5.19-rc1-9-g2e042d202474)
+Subject: chrome-platform/for-kernelci baseline: 14 runs,
+ 4 regressions (v5.19-rc1-9-g2e042d202474)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.19-rc1=
--9-g2e042d202474)
+chrome-platform/for-kernelci baseline: 14 runs, 4 regressions (v5.19-rc1-9-=
+g2e042d202474)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v5.19-rc1-9-g2e042d202474/
+Regressions Summary
+-------------------
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v5.19-rc1-9-g2e042d202474
-Git Commit: 2e042d202474336c941d8c22a54c60ceb97aa623
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+platform                     | arch | lab          | compiler | defconfig  =
+        | regressions
+-----------------------------+------+--------------+----------+------------=
+--------+------------
+at91-sama5d4_xplained        | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+jetson-tk1                   | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
 
-Detailed per-defconfig build reports:
+sun8i-h2-plus...ch-all-h3-cc | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+sun8i-h2-plus-orangepi-zero  | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v5.19-rc1-9-g2e042d202474/plan/baseline/
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v5.19-rc1-9-g2e042d202474
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      2e042d202474336c941d8c22a54c60ceb97aa623 =
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
-0 warnings, 0 section mismatches
 
----
-For more info write to <info@kernelci.org>
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch | lab          | compiler | defconfig  =
+        | regressions
+-----------------------------+------+--------------+----------+------------=
+--------+------------
+at91-sama5d4_xplained        | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62a08f1d1f9b6a1061a39bcd
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-at91-sama5d4_xplained.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-at91-sama5d4_xplained.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220603.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/62a08f1d1f9b6a1061a39=
+bce
+        new failure (last pass: v5.19-rc1-6-gc1db0861e8d02) =
+
+ =
+
+
+
+platform                     | arch | lab          | compiler | defconfig  =
+        | regressions
+-----------------------------+------+--------------+----------+------------=
+--------+------------
+jetson-tk1                   | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62a0901533b7cd67baa39bda
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220603.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/62a0901533b7cd67baa39=
+bdb
+        failing since 2 days (last pass: v5.18-rc1-24-gc2d7e384924d, first =
+fail: v5.19-rc1-5-g4a0e708bb23fc) =
+
+ =
+
+
+
+platform                     | arch | lab          | compiler | defconfig  =
+        | regressions
+-----------------------------+------+--------------+----------+------------=
+--------+------------
+sun8i-h2-plus...ch-all-h3-cc | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62a090405427b4a66fa39be6
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-sun8i-h2-plus-libretech-all-h3-cc.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-sun8i-h2-plus-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220603.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/62a090405427b4a66fa39=
+be7
+        new failure (last pass: v5.19-rc1-6-gc1db0861e8d02) =
+
+ =
+
+
+
+platform                     | arch | lab          | compiler | defconfig  =
+        | regressions
+-----------------------------+------+--------------+----------+------------=
+--------+------------
+sun8i-h2-plus-orangepi-zero  | arm  | lab-baylibre | gcc-10   | multi_v7_de=
+fconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62a090400603dd8bbda39bea
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-sun8i-h2-plus-orangepi-zero.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+5.19-rc1-9-g2e042d202474/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baselin=
+e-sun8i-h2-plus-orangepi-zero.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220603.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/62a090400603dd8bbda39=
+beb
+        failing since 2 days (last pass: v5.19-rc1-5-g4a0e708bb23fc, first =
+fail: v5.19-rc1-6-gc1db0861e8d02) =
+
+ =20

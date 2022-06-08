@@ -1,92 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74792F39
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 11:08:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6796C3411D;
-	Wed,  8 Jun 2022 11:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654686496;
-	bh=bPnqyf9AZKQ61p03l1ZhTBaGGia2Im8xpRcxv1K85hQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PZJBe4BPctuMS3xI7WkpvRptbond4MxlN5ysPKMwP9R9W9kRHAotuWVmUvzRnzJRq
-	 SC/xUS3w+jQOXbJnC5+BC+hWgHmcJPc8QxIy6CFFk5PH9udZLOiJWVbcjzkBqN7JkN
-	 YgV6C6ggBYYrWIqTb6ursL+OjgrxANfIf6ZVLxwcW5VDLI0ODtJFzZGCjshavQykXX
-	 r6cSE4TlMIvziJ0siULm83x9kM1tyDBFOIgIPYJPBK6k+Cez3lsrLqyp2drdbx8WJy
-	 hpCzS3JJVnCN/znzeU3LhfXjJMzYKxInZ5uFpSvoo3VbNtZV+uVVKp5gxGsf34SkHI
-	 rgPHrV/G4kllw==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 23/23] platform/chrome: cros_ec_proto: handle empty payload in getting wake mask
-Date: Wed,  8 Jun 2022 11:07:34 +0000
-Message-Id: <20220608110734.2928245-24-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220608110734.2928245-1-tzungbi@kernel.org>
-References: <20220608110734.2928245-1-tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9462F36
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 12:04:45 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id e66so18669455pgc.8
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 05:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=BykE/tJVPk1jXosehfd3QMhQkMJctpHUETcVw6rF0WI=;
+        b=sAyyVEMoGGdItixlcqEYTzM8yG2+eFiJGTj8C6cKDhPoupAVit1Rnuwf8H/jlnXVFl
+         EHptrj/FyNinH5VkV4Ek1ikYnBlaQwutjIrAcMxrd5XPxzhmrs1M29lkds4TzRXDRVG9
+         wDfDfXgv+5wy6aBuKOyz5g34Cbf4gesGrSHpS5uCTMGHyR2DKCSh+JHCZz9F64OGOFYJ
+         iTAzlJBHJBzCZY8BP7ChnZwcmFeXetu0H8wIOiBe6OKR+xnwGQvh1lucKF92BlABcW2x
+         fp8R3vBkN9QOdjcV0Hth4N18iKjDoluNWJIeeImikjj5LuPCqBs0BuIlc3yZkeV9HIKB
+         yPBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=BykE/tJVPk1jXosehfd3QMhQkMJctpHUETcVw6rF0WI=;
+        b=h6q0RPf9gs+3nPIEz45QrL3ga44VZTSvHipNIFGv+50IJSbf2TXzyBXUBkIx1YM5Eh
+         PRaQP0fnJYmllNpe5hDn9ITzNYOSd/bTuSWALE1EiJmTI7s7SHEgRaBoSXSx7TXPbnpO
+         I+nvorM+fFES+vMCpyzXVy1KIYF7OUZcjhLEr9pDG9Z+CQ4OITooizizvsK/UZUfeVzG
+         0qfu7Wpvt50Ls5h+Wsgn/bRTfG/wF/fxNhaB6gQt43S+qLHGMgLbEtkYGnVvkLm0dL6L
+         1kw2I1ti40+BF6VlJA/TvjJTcPnw+IKI2EqWHV2Di8RN6uTtLhJAvdT3wKZadD5GdHdC
+         ul0g==
+X-Gm-Message-State: AOAM532aiL7Z2NgChWfj3njIrXineA7i2KwoS5r1eLRJFRCJmYS9fCVL
+	4Qg4RvudN31ulG0ED1dihtvrJA==
+X-Google-Smtp-Source: ABdhPJxppYiAxHLoRBFJcZ9tOSMGVvUP4jKGjT3JTP7xp60ysKiBhCfDJrjPN0Z3bG6BdJkw1R1mng==
+X-Received: by 2002:a63:f244:0:b0:3fd:a384:a5f9 with SMTP id d4-20020a63f244000000b003fda384a5f9mr15176360pgk.354.1654689885289;
+        Wed, 08 Jun 2022 05:04:45 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u187-20020a6260c4000000b0051bf9159d2dsm8815419pfb.208.2022.06.08.05.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 05:04:44 -0700 (PDT)
+Message-ID: <62a0905c.1c69fb81.95968.0f72@mx.google.com>
+Date: Wed, 08 Jun 2022 05:04:44 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v5.19-rc1-9-g2e042d202474
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.19-rc1-9-g2e042d202474)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-cros_ec_get_host_event_wake_mask() expects to receive
-sizeof(struct ec_response_host_event_mask) from send_command().  The
-payload is valid only if the return value is positive.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.19-rc1=
+-9-g2e042d202474)
 
-Return -EPROTO if send_command() returns 0 in
-cros_ec_get_host_event_wake_mask().
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.19-rc1-9-g2e042d202474/
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.19-rc1-9-g2e042d202474
+Git Commit: 2e042d202474336c941d8c22a54c60ceb97aa623
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
 ---
-No v2.  New and separated from the original series.
-
- drivers/platform/chrome/cros_ec_proto.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 68a411e84744..5cbaaba26ff7 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -256,19 +256,23 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
- 	msg->insize = sizeof(*r);
- 
- 	ret = send_command(ec_dev, msg);
--	if (ret >= 0) {
--		mapped = cros_ec_map_error(msg->result);
--		if (mapped) {
--			ret = mapped;
--			goto exit;
--		}
-+	if (ret < 0)
-+		goto exit;
-+
-+	mapped = cros_ec_map_error(msg->result);
-+	if (mapped) {
-+		ret = mapped;
-+		goto exit;
- 	}
--	if (ret > 0) {
--		r = (struct ec_response_host_event_mask *)msg->data;
--		*mask = r->mask;
--		ret = 0;
-+
-+	if (ret == 0) {
-+		ret = -EPROTO;
-+		goto exit;
- 	}
- 
-+	r = (struct ec_response_host_event_mask *)msg->data;
-+	*mask = r->mask;
-+	ret = 0;
- exit:
- 	kfree(msg);
- 	return ret;
--- 
-2.36.1.255.ge46751e96f-goog
-
+For more info write to <info@kernelci.org>

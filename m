@@ -1,51 +1,51 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914AA7B
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 16:20:42 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id q1so42481332ejz.9
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 09:20:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE4D7B
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 16:21:24 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id o7so9177146eja.1
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 09:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RmDceGWW6LP3wfxI3yqcjFMbNeD7K7beSuFUrjXeR0w=;
-        b=UV8kMWLoytR4IJW6CbsB8cH10BvVrj56KVYteRKxaYm1iEX0Nklw33dFypmPPi/PBN
-         vDExHNbxuQigkwpNpt8/nK9uQENDeKsPKU0UFaCFMN22pal+v/hLUGYeAitykRADOVQg
-         2ZA/+OI91ZI8YcT9ssbUq5MwljFBoK6PNRz7G2sv7/WoL/8/Kwp7rkjJMxxb8Rh3DpLy
-         QUOP1K28c8lk61flXWRr0eVbG1gfYhVUpuhmUAa8KPelp/eFt+Y9yq//LOru43+XBsaz
-         9bGCBEQ0rEW/6v2YFq1dOinZzbT0AEZVbb/uZNJ6tMb3gk/l2ZQgqdlWE0TYwuknDKSl
-         4YtA==
+        bh=0c4Gn5I2o58WzgwyMKPBdqh6wLqRLIJsSDMIz4+N3Ok=;
+        b=DItdxYRWi3rvmBKzbNyNp6ydZfygezeGVUwXWW3R4zL3sDQX0eu4zKDMQaTmGD+mfi
+         n6/XUw99yJ9wCdlG9nLmYQbUmnObMKeRMTqJRRg6/x9tB9ASK5DZhZiPytABpzd+FAYG
+         pqqPMawkMLbY5rQyUtJFO+nbAD/q16eFWXwgwdj2cpPUrGf6jqfc0gD1pevDSh1Q/mof
+         yY1MvML2FH95AEVyyulYw76e1dkyms2rvEmHCsi3A6BZP9/t3BXkpBsMWSWRRxhWVOcl
+         oN8Y/LOwTYxAbfYA9Vhoy128wkeXy8dy5pGVOWZJC3dEAnWLEKAsIkYRv7gTBvL1cCpT
+         Dlsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RmDceGWW6LP3wfxI3yqcjFMbNeD7K7beSuFUrjXeR0w=;
-        b=13g+BbLam8Tuy+70R7LZv/uQYglu9M6XkPu7n/Pb8p92IHvgz385KOB0GrpU60KlrU
-         J9H68+rcAoim969AuQCfmrdZiK4sE9Cbt7+ATB5FY6/FbSbo03sfIKgWtBmgxf/mZ731
-         3ag1fOkGm6L1aw20cD5WCzsW928dz6EEmadOfIxcRC415XCkOlQ/7j1f98wdWCdISo/u
-         Pd3WYC2CiBLbe8oi3BRHAG3TwlXDUoKx3ZWXt2IbRQLsttxapGoXeKLyhOiOTc/HF+yl
-         L5x1Be54YA/OLtV7Q6ZdHw2DEeZ3NYxIiDdwmP53+l1iU9CCYA0Oq53oicQvz5pT/Smv
-         Hd3A==
-X-Gm-Message-State: AOAM533yw43DVUUCL7AH5EvUCzMJAdqRDc4IZp2ESFGtxVFFJHJOpwCA
-	KAfxSr1d8YnMdeefp6h+eH7HkPbjktdL8pFzbLC04wBpkmu84Lvf
-X-Google-Smtp-Source: ABdhPJxxoJyx1HvNWhRKyxEg6Po41wCjmAnKE6n1u8PuJGFw1V5vlfYQA9oUqdlunBWPcV6g4JDVqMeo6b8eZIm8lZk=
-X-Received: by 2002:a17:907:8689:b0:6fe:e525:ea9c with SMTP id
- qa9-20020a170907868900b006fee525ea9cmr32584625ejc.720.1654705240639; Wed, 08
- Jun 2022 09:20:40 -0700 (PDT)
+        bh=0c4Gn5I2o58WzgwyMKPBdqh6wLqRLIJsSDMIz4+N3Ok=;
+        b=1O8jFTCdNLCyrtgJHwQoAsYPRHYGJ3nl2DMQbRiNbYD3avwkDeMPSfDuYHI12gqgC0
+         a4awBLVPihVdET/ef61+YBqoI+zWDuGE2E+VfZH9/0gvrGFZRhtz8rvYW6ycVlsRCSod
+         u1u/RpSSFT6uUbFk5fDRGjggxFHfHfIUH/QkmBZkDphmTLBbvcgJ6FZmGJ9zQJZhEuKq
+         nglkOH/sMZbZWwUauJ6VGot/z3lXIKng0qw7UHosOQ+OTZmtd9KhTJNBWIU8WyC4JvSp
+         n414e4rU9UM2B4GWfhYQuq6b2tCYce0N4EzJEQptyNaOi+BdXx0h3nsFDZRGt3yD1G6x
+         DFyg==
+X-Gm-Message-State: AOAM530Bs73t87SXVF9AP/RwQ7HEaEC6tiQCS5AHFZgndCDiT38NTn8q
+	ozEm6NO5TC8gGg8f/9+jxX9ENrWqLa/wl+FHQoBO3yKfg5r3UuIU
+X-Google-Smtp-Source: ABdhPJyF/2uThEWGuPqdkmfGF5GVHZWauHBFomIZVrjEeecusT1Hiy/CdpkwwFC8rio5G1nCAgQ4INubOL4IZiiNMJo=
+X-Received: by 2002:a17:907:1ca8:b0:70c:68ce:dade with SMTP id
+ nb40-20020a1709071ca800b0070c68cedademr29476068ejc.723.1654705282368; Wed, 08
+ Jun 2022 09:21:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220608110734.2928245-1-tzungbi@kernel.org> <20220608110734.2928245-17-tzungbi@kernel.org>
-In-Reply-To: <20220608110734.2928245-17-tzungbi@kernel.org>
+References: <20220608110734.2928245-1-tzungbi@kernel.org> <20220608110734.2928245-18-tzungbi@kernel.org>
+In-Reply-To: <20220608110734.2928245-18-tzungbi@kernel.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Wed, 8 Jun 2022 09:20:29 -0700
-Message-ID: <CABXOdTd76gczEimVxqWFmyHtbjG=dqALcGcudfZJrUd7qKcVfA@mail.gmail.com>
-Subject: Re: [PATCH v3 16/23] platform/chrome: cros_ec_proto: return 0 on
- getting cmd mask success
+Date: Wed, 8 Jun 2022 09:21:10 -0700
+Message-ID: <CABXOdTd=LgPysNBejqF3tGxX2Ze6caSW=DAOrgRo_Y-CaPJJsw@mail.gmail.com>
+Subject: Re: [PATCH v3 17/23] platform/chrome: cros_ec_proto: add Kunit test
+ for getting cmd mask error
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
@@ -54,84 +54,135 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Jun 8, 2022 at 4:08 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> cros_ec_get_host_command_version_mask() used to return value from
-> send_command() which is number of available bytes for input payload on
-> success (i.e. sizeof(struct ec_response_get_cmd_versions)).
+> cros_ec_query_all() uses cros_ec_get_host_command_version_mask() to
+> query the supported MKBP version; cros_ec_get_host_command_version_mask()
+> uses send_command() for transfering the host command.
 >
-> However, the callers don't need to know how many bytes are available.
+> Returning >=0 from send_command() only denotes the transfer was success.
+> cros_ec_get_host_command_version_mask() should check if EC wasn't happy
+> by checking `msg->result`.
 >
-> Don't return number of available bytes.  Instead, return 0 on success;
-> otherwise, negative integers on error.
->
-> Also remove the unneeded `ver_mask` initialization as the callers should
-> take it only if cros_ec_get_host_command_version_mask() returns 0.
-
-Make sure this compiles with W=1. Compilers may think that ver_mask
-may be uninitialized when used.
-
+> Add a Kunit test for returning error in `msg->result` in
+> cros_ec_get_host_command_version_mask().  For the case,
+> cros_ec_query_all() should find the EC device doesn't support MKBP.
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-Otherwise
 
 Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
-> Changes from v2:
-> - Separate Kunit test to another patch.
-> - Rephrase the commit message.
+> No v2.  New and separated from the original series.
 >
-> Changes from v1:
-> - Return 0 on success; otherwise, negative intergers.
+>  drivers/platform/chrome/cros_ec_proto_test.c | 89 ++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
 >
->  drivers/platform/chrome/cros_ec_proto.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index efbabdcb31ae..06bc7db1213e 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -453,6 +453,7 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
->         if (ret > 0) {
->                 rver = (struct ec_response_get_cmd_versions *)msg->data;
->                 *mask = rver->version_mask;
-> +               ret = 0;
+> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+> index ec106d0f5648..eb6d77b95c9f 100644
+> --- a/drivers/platform/chrome/cros_ec_proto_test.c
+> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
+> @@ -892,6 +892,94 @@ static void cros_ec_proto_test_query_all_no_mkbp(struct kunit *test)
 >         }
+>  }
 >
->         kfree(msg);
-> @@ -469,7 +470,7 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
->   */
->  int cros_ec_query_all(struct cros_ec_device *ec_dev)
+> +static void cros_ec_proto_test_query_all_no_mkbp_return_error(struct kunit *test)
+> +{
+> +       struct cros_ec_proto_test_priv *priv = test->priv;
+> +       struct cros_ec_device *ec_dev = &priv->ec_dev;
+> +       struct ec_xfer_mock *mock;
+> +       int ret;
+> +
+> +       /* Set some garbage bytes. */
+> +       ec_dev->mkbp_event_supported = 0xbf;
+> +
+> +       /* For cros_ec_get_proto_info() without passthru. */
+> +       {
+> +               struct ec_response_get_protocol_info *data;
+> +
+> +               mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
+> +               KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+> +
+> +               /*
+> +                * Although it doesn't check the value, provides valid sizes so that
+> +                * cros_ec_query_all() allocates din and dout correctly.
+> +                */
+> +               data = (struct ec_response_get_protocol_info *)mock->o_data;
+> +               data->max_request_packet_size = 0xbe;
+> +               data->max_response_packet_size = 0xef;
+> +       }
+> +
+> +       /* For cros_ec_get_proto_info() with passthru. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_INVALID_COMMAND, 0);
+> +               KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+> +       }
+> +
+> +       /* For cros_ec_get_host_command_version_mask() for MKBP. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_INVALID_COMMAND, 0);
+> +               KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+> +       }
+> +
+> +       cros_ec_proto_test_query_all_pretest(test);
+> +       ret = cros_ec_query_all(ec_dev);
+> +       KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +       /* For cros_ec_get_proto_info() without passthru. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_next();
+> +               KUNIT_EXPECT_PTR_NE(test, mock, NULL);
+> +
+> +               KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_PROTOCOL_INFO);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.insize,
+> +                               sizeof(struct ec_response_get_protocol_info));
+> +               KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
+> +       }
+> +
+> +       /* For cros_ec_get_proto_info() with passthru. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_next();
+> +               KUNIT_EXPECT_PTR_NE(test, mock, NULL);
+> +
+> +               KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.command,
+> +                               EC_CMD_PASSTHRU_OFFSET(CROS_EC_DEV_PD_INDEX) |
+> +                               EC_CMD_GET_PROTOCOL_INFO);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.insize,
+> +                               sizeof(struct ec_response_get_protocol_info));
+> +               KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
+> +       }
+> +
+> +       /* For cros_ec_get_host_command_version_mask() for MKBP. */
+> +       {
+> +               struct ec_params_get_cmd_versions *data;
+> +
+> +               mock = cros_kunit_ec_xfer_mock_next();
+> +               KUNIT_EXPECT_PTR_NE(test, mock, NULL);
+> +
+> +               KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_CMD_VERSIONS);
+> +               KUNIT_EXPECT_EQ(test, mock->msg.insize,
+> +                               sizeof(struct ec_response_get_cmd_versions));
+> +               KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(*data));
+> +
+> +               data = (struct ec_params_get_cmd_versions *)mock->i_data;
+> +               KUNIT_EXPECT_EQ(test, data->cmd, EC_CMD_GET_NEXT_EVENT);
+> +
+> +               KUNIT_EXPECT_EQ(test, ec_dev->mkbp_event_supported, 0);
+> +       }
+> +}
+> +
+>  static void cros_ec_proto_test_query_all_no_host_sleep(struct kunit *test)
 >  {
-> -       u32 ver_mask = 0;
-> +       u32 ver_mask;
->         int ret;
->
->         /* First try sending with proto v3. */
-> @@ -505,9 +506,7 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
->                 return -ENOMEM;
->
->         /* Probe if MKBP event is supported */
-> -       ret = cros_ec_get_host_command_version_mask(ec_dev,
-> -                                                   EC_CMD_GET_NEXT_EVENT,
-> -                                                   &ver_mask);
-> +       ret = cros_ec_get_host_command_version_mask(ec_dev, EC_CMD_GET_NEXT_EVENT, &ver_mask);
->         if (ret < 0 || ver_mask == 0) {
->                 ec_dev->mkbp_event_supported = 0;
->         } else {
-> @@ -517,10 +516,8 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
->         }
->
->         /* Probe if host sleep v1 is supported for S0ix failure detection. */
-> -       ret = cros_ec_get_host_command_version_mask(ec_dev,
-> -                                                   EC_CMD_HOST_SLEEP_EVENT,
-> -                                                   &ver_mask);
-> -       ec_dev->host_sleep_v1 = (ret >= 0 && (ver_mask & EC_VER_MASK(1)));
-> +       ret = cros_ec_get_host_command_version_mask(ec_dev, EC_CMD_HOST_SLEEP_EVENT, &ver_mask);
-> +       ec_dev->host_sleep_v1 = (ret == 0 && (ver_mask & EC_VER_MASK(1)));
->
->         /* Get host event wake mask. */
->         ret = cros_ec_get_host_event_wake_mask(ec_dev, &ec_dev->host_event_wake_mask);
+>         struct cros_ec_proto_test_priv *priv = test->priv;
+> @@ -1185,6 +1273,7 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
+>         KUNIT_CASE(cros_ec_proto_test_query_all_legacy_data_error),
+>         KUNIT_CASE(cros_ec_proto_test_query_all_legacy_return0),
+>         KUNIT_CASE(cros_ec_proto_test_query_all_no_mkbp),
+> +       KUNIT_CASE(cros_ec_proto_test_query_all_no_mkbp_return_error),
+>         KUNIT_CASE(cros_ec_proto_test_query_all_no_host_sleep),
+>         KUNIT_CASE(cros_ec_proto_test_query_all_default_wake_mask_return_error),
+>         {}
 > --
 > 2.36.1.255.ge46751e96f-goog
 >

@@ -1,94 +1,73 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016B67C
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 07:45:02 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id p10so27132022wrg.12
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 00:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=zYZCvqiqKCqFQS+nJc50gw1Yr4dIMS1wiDRUcaifO4U=;
-        b=lxerdrTjKt/1dANFdp46KUeEyXSSVO931aOet5j37ol2P2qpD1l8n6DggHq/ukK8aP
-         lGwvFwb+YvkpScBv1zN1WaxM0uVWerkoY6gGwCqSx9nbwA5hyXR9VmlidZcvxNAKCirG
-         lWdKHh0A5YwNPMbuQJrX/HCY/sFMDpd89cLnDYuJChNHvaaSc/puSpLlHMw7Plzno/EZ
-         wL6OQ1QT9EV1nM4tFDxLVkDEHpi7w4vvi/OVK8GMRPa34znyc8cz/APXBTn3k/78t/Qq
-         cLbE1vcFB3p/LHHFk4u1UqnFnruE8+biFbGknhPzV4lWF/UsYLG9XjWtWC+xQ1PrH2sU
-         n62Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=zYZCvqiqKCqFQS+nJc50gw1Yr4dIMS1wiDRUcaifO4U=;
-        b=FE98+wjiLiIFumlMH1lKovQqy2DbKaYEYKERGCwWx2ITpsIc24aj5tpmXXukEtQ3Uk
-         /HlrlDs+TkIYCr2UMwtpn4ii8jV7HA8O/YxzlEb0zrdeNkFN4kIWQUiHUVF0Hgh6LNkc
-         jmuwUy57eAF24Abgw14zLo9GzJaWv9wTzd3i+8cRRbP4hES1030RagBY7koG+ffc3QZ4
-         6vbRxzDhA4kSzE92DyYPlFC52tVpKPR+O/4QJfmHZ4Zd1Xdsmrnijt64CRyZKQvriR3x
-         U28jsLAPo1bO+qARtDsNIqMP6eOFnwfDUEDIMJ3sQB6LnHdIqJjiw16reRGXneN8cgf3
-         2f8w==
-X-Gm-Message-State: AOAM533xB/rwXzBEY0/VL9Bwk02ladeNjQTWHZmCYjzmyukcHPX4pM8s
-	jrWA5r/gOjcPDW/Zhr0kdZo0dQ==
-X-Google-Smtp-Source: ABdhPJx10VG5yfJ8YtyMSlLzo2jugqwB+3S3m3Sc7F/H+uFDruVt/Zz1xRSkROig33/nIadSYml8qA==
-X-Received: by 2002:a5d:6d8b:0:b0:218:4dc8:293e with SMTP id l11-20020a5d6d8b000000b002184dc8293emr8605935wrs.612.1654674301224;
-        Wed, 08 Jun 2022 00:45:01 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id n27-20020a05600c3b9b00b0039c64d0c4e8sm630005wms.45.2022.06.08.00.45.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 00:45:00 -0700 (PDT)
-Date: Wed, 8 Jun 2022 08:44:58 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
-	Stephen Boyd <swboyd@chromium.org>,
-	Brian Norris <briannorris@chromium.org>,
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH 2/3] platform/chrome: cros_ec_proto: Rename
- cros_ec_command function
-Message-ID: <YqBTeogFDW1tqfZp@google.com>
-References: <20220606201825.763788-1-pmalani@chromium.org>
- <20220606201825.763788-3-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C1C7C
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:20:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A88AC3411E;
+	Wed,  8 Jun 2022 08:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654676413;
+	bh=lUm70LVC7KHrJCC6hJUxHZlVlqipO3QMpVoBtsU8kPI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=lMiE+uzp11EJoTPZBXTfOmHiAUnqhnQWVI+hewqyJ/DhLo6y4ib0KDfj9docE1wKJ
+	 qfmYmrZkDhVU8C0CeV0o8Ssoxu3/cv0dEjrc0vxBzlqPCPT57v3ce0opcCNWx40puU
+	 nI0U01XrnvyDE4WzGPKdnIZ4qR+6U9latffqppIpJ7O3ozC0gLRS8BsO4PsEvCCR/Y
+	 ZCG5hn3+T06Ka1CHFUWVTIgTmqYIJa1W73f9IhUTArqVbY4wB8t7rSNrWqsMfvREdx
+	 HORCicdePEbHpvBOlNg8Dq9hEVzv8PTG0fQwa++LvxAhAXSdKE3mXkXKVdm29JSzkO
+	 MitH9aMad9gMA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6127DE737FA;
+	Wed,  8 Jun 2022 08:20:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220606201825.763788-3-pmalani@chromium.org>
+Subject: Re: [PATCH 0/3] platform/chrome: cros_ec_command() improvements
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165467641339.18526.746439827549226974.git-patchwork-notify@kernel.org>
+Date: Wed, 08 Jun 2022 08:20:13 +0000
+References: <20220606201825.763788-1-pmalani@chromium.org>
+In-Reply-To: <20220606201825.763788-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
+ briannorris@chromium.org, chrome-platform@lists.linux.dev,
+ enric.balletbo@collabora.com, groeck@chromium.org, lee.jones@linaro.org,
+ lgirdwood@gmail.com, broonie@kernel.org, tzungbi@kernel.org
 
-On Mon, 06 Jun 2022, Prashant Malani wrote:
+Hello:
 
-> cros_ec_command() is the name of a function as well as a struct, as such
-> it can confuse indexing tools (like ctags). Avoid this by renaming it to
-> cros_ec_cmd(). Update all the callsites to use the new name.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon,  6 Jun 2022 20:17:59 +0000 you wrote:
+> This is a short series related to cros_ec_command(). The first patch
+> updates a couple of Cros EC regulator callsites to use the common
+> cros_ec_command(). The next couple of patches do a rename and argument
+> type update.
 > 
-> This patch is a find-and-replace, so should not introduce any functional
-> changes.
+> Prashant Malani (3):
+>   regulator: cros-ec: Use common cros_ec_command()
+>   platform/chrome: cros_ec_proto: Rename cros_ec_command function
+>   platform/chrome: cros_ec_proto: Update size arg types
 > 
-> Suggested-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> ---
->  drivers/mfd/cros_ec_dev.c                   |  4 +--
+> [...]
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+Here is the summary with links:
+  - [1/3] regulator: cros-ec: Use common cros_ec_command()
+    https://git.kernel.org/chrome-platform/c/015cd0043503
+  - [2/3] platform/chrome: cros_ec_proto: Rename cros_ec_command function
+    https://git.kernel.org/chrome-platform/c/b1d288d9c3c5
+  - [3/3] platform/chrome: cros_ec_proto: Update size arg types
+    https://git.kernel.org/chrome-platform/c/f87e15fbf6d8
 
->  drivers/platform/chrome/cros_ec_proto.c     | 22 ++++++------
->  drivers/platform/chrome/cros_ec_typec.c     | 39 ++++++++++-----------
->  drivers/platform/chrome/cros_usbpd_notify.c |  4 +--
->  drivers/regulator/cros-ec-regulator.c       | 24 ++++++-------
->  include/linux/platform_data/cros_ec_proto.h |  2 +-
->  6 files changed, 47 insertions(+), 48 deletions(-)
-
+You are awesome, thank you!
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

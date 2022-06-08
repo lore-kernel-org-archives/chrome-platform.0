@@ -1,63 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73857B
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 57A8EC3411F;
-	Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654658145;
-	bh=leK06H80kByDZXtFvXFQDglOtMTwPv2t5xCgjZEd8cc=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=b5GO23W08T/jJK9C2nta5CfhV4ce2Z3JsMapEpDAGjD9a5bZtWSG1A8p+8T9un5lp
-	 fC1BUjNJO0dwnDgjOD+fTxYK1V/u00TPbVw7xcTtjBwbLH4HUtXxewFj5WzQYqollv
-	 zpVIyH/wRAhiOZxO1jQUEXfJpnzDFuPSFLL1nj3karVQaPvubAzbz0qUdI6EOWvH37
-	 51uYbo+6YvkLSc3X8EVxME2IGtHS6b4WkDdzWJ4VwhXx2FAJ96zToCEkqyaMjdXW5x
-	 gwuRWMujSRE6j/EZHVljdCmlsBCJ2N3XRO8nTssTnhvymYQWxoe4ldry50mn+iymRn
-	 xNm1T9gYhcZ1Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 365DFE737EF;
-	Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016B67C
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 07:45:02 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id p10so27132022wrg.12
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 00:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=zYZCvqiqKCqFQS+nJc50gw1Yr4dIMS1wiDRUcaifO4U=;
+        b=lxerdrTjKt/1dANFdp46KUeEyXSSVO931aOet5j37ol2P2qpD1l8n6DggHq/ukK8aP
+         lGwvFwb+YvkpScBv1zN1WaxM0uVWerkoY6gGwCqSx9nbwA5hyXR9VmlidZcvxNAKCirG
+         lWdKHh0A5YwNPMbuQJrX/HCY/sFMDpd89cLnDYuJChNHvaaSc/puSpLlHMw7Plzno/EZ
+         wL6OQ1QT9EV1nM4tFDxLVkDEHpi7w4vvi/OVK8GMRPa34znyc8cz/APXBTn3k/78t/Qq
+         cLbE1vcFB3p/LHHFk4u1UqnFnruE8+biFbGknhPzV4lWF/UsYLG9XjWtWC+xQ1PrH2sU
+         n62Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=zYZCvqiqKCqFQS+nJc50gw1Yr4dIMS1wiDRUcaifO4U=;
+        b=FE98+wjiLiIFumlMH1lKovQqy2DbKaYEYKERGCwWx2ITpsIc24aj5tpmXXukEtQ3Uk
+         /HlrlDs+TkIYCr2UMwtpn4ii8jV7HA8O/YxzlEb0zrdeNkFN4kIWQUiHUVF0Hgh6LNkc
+         jmuwUy57eAF24Abgw14zLo9GzJaWv9wTzd3i+8cRRbP4hES1030RagBY7koG+ffc3QZ4
+         6vbRxzDhA4kSzE92DyYPlFC52tVpKPR+O/4QJfmHZ4Zd1Xdsmrnijt64CRyZKQvriR3x
+         U28jsLAPo1bO+qARtDsNIqMP6eOFnwfDUEDIMJ3sQB6LnHdIqJjiw16reRGXneN8cgf3
+         2f8w==
+X-Gm-Message-State: AOAM533xB/rwXzBEY0/VL9Bwk02ladeNjQTWHZmCYjzmyukcHPX4pM8s
+	jrWA5r/gOjcPDW/Zhr0kdZo0dQ==
+X-Google-Smtp-Source: ABdhPJx10VG5yfJ8YtyMSlLzo2jugqwB+3S3m3Sc7F/H+uFDruVt/Zz1xRSkROig33/nIadSYml8qA==
+X-Received: by 2002:a5d:6d8b:0:b0:218:4dc8:293e with SMTP id l11-20020a5d6d8b000000b002184dc8293emr8605935wrs.612.1654674301224;
+        Wed, 08 Jun 2022 00:45:01 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id n27-20020a05600c3b9b00b0039c64d0c4e8sm630005wms.45.2022.06.08.00.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 00:45:00 -0700 (PDT)
+Date: Wed, 8 Jun 2022 08:44:58 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	Brian Norris <briannorris@chromium.org>,
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH 2/3] platform/chrome: cros_ec_proto: Rename
+ cros_ec_command function
+Message-ID: <YqBTeogFDW1tqfZp@google.com>
+References: <20220606201825.763788-1-pmalani@chromium.org>
+ <20220606201825.763788-3-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] cros_ec_commands: Fix syntax errors in comments
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165465814521.21771.12120211112670021219.git-patchwork-notify@kernel.org>
-Date: Wed, 08 Jun 2022 03:15:45 +0000
-References: <20220606022313.22912-1-wangxiang@cdjrlc.com>
-In-Reply-To: <20220606022313.22912-1-wangxiang@cdjrlc.com>
-To: Xiang wangx <wangxiang@cdjrlc.com>
-Cc: bleung@chromium.org, groeck@chromium.org, gustavoars@kernel.org,
- dustin@howett.net, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20220606201825.763788-3-pmalani@chromium.org>
 
-Hello:
+On Mon, 06 Jun 2022, Prashant Malani wrote:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Mon,  6 Jun 2022 10:23:13 +0800 you wrote:
-> Delete the redundant word 'using'.
+> cros_ec_command() is the name of a function as well as a struct, as such
+> it can confuse indexing tools (like ctags). Avoid this by renaming it to
+> cros_ec_cmd(). Update all the callsites to use the new name.
 > 
-> Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+> This patch is a find-and-replace, so should not introduce any functional
+> changes.
+> 
+> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 > ---
->  include/linux/platform_data/cros_ec_commands.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/mfd/cros_ec_dev.c                   |  4 +--
 
-Here is the summary with links:
-  - cros_ec_commands: Fix syntax errors in comments
-    https://git.kernel.org/chrome-platform/c/8d5976089c97
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-You are awesome, thank you!
+>  drivers/platform/chrome/cros_ec_proto.c     | 22 ++++++------
+>  drivers/platform/chrome/cros_ec_typec.c     | 39 ++++++++++-----------
+>  drivers/platform/chrome/cros_usbpd_notify.c |  4 +--
+>  drivers/regulator/cros-ec-regulator.c       | 24 ++++++-------
+>  include/linux/platform_data/cros_ec_proto.h |  2 +-
+>  6 files changed, 47 insertions(+), 48 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog

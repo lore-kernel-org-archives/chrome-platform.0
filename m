@@ -1,24 +1,24 @@
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3BF7B
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:36:14 +0000 (UTC)
-X-UUID: 3fae24eb0288451aaa567567010c04b8-20220608
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFEC18F
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:36:15 +0000 (UTC)
+X-UUID: 048a3eaa67b9411fa163e65141b652ba-20220608
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:748e5b0f-c1b2-406d-bbb4-984c0dfc7409,OB:0,LO
-	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,ACT
-	ION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:748e5b0f-c1b2-406d-bbb4-984c0dfc7409,OB:0,LOB:
-	0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,ACT
-	ION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:a67c9f7e-c8dc-403a-96e8-6237210dceee,C
-	OID:fb79c90eb831,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+X-CID-O-INFO: VERSION:1.1.5,REQID:cdb083ea-238d-44b5-b0c2-5e1e28fce40f,OB:0,LO
+	B:10,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
+	CTION:release,TS:90
+X-CID-INFO: VERSION:1.1.5,REQID:cdb083ea-238d-44b5-b0c2-5e1e28fce40f,OB:0,LOB:
+	10,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
+	CTION:quarantine,TS:90
+X-CID-META: VersionHash:2a19b09,CLOUDID:b27c9f7e-c8dc-403a-96e8-6237210dceee,C
+	OID:049188456f91,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 3fae24eb0288451aaa567567010c04b8-20220608
+X-UUID: 048a3eaa67b9411fa163e65141b652ba-20220608
 Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
 	(envelope-from <tinghan.shen@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 91494379; Wed, 08 Jun 2022 16:36:03 +0800
+	with ESMTP id 285445624; Wed, 08 Jun 2022 16:36:03 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
@@ -40,10 +40,12 @@ CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v2 0/9] Add support for MT8195 SCP 2nd core
-Date: Wed, 8 Jun 2022 16:35:44 +0800
-Message-ID: <20220608083553.8697-1-tinghan.shen@mediatek.com>
+Subject: [PATCH v2 3/9] remoteproc: mediatek: Add SCP core 1 register definitions
+Date: Wed, 8 Jun 2022 16:35:47 +0800
+Message-ID: <20220608083553.8697-4-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220608083553.8697-1-tinghan.shen@mediatek.com>
+References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -53,31 +55,52 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
 
-The mediatek remoteproc driver currently only allows bringing up a 
-single core SCP, e.g. MT8183. It also only bringing up the 1st 
-core in SoCs with a dual-core SCP, e.g. MT8195. This series support 
-to bring-up the 2nd core of the dual-core SCP.
+Add MT8195 SCP core 1 related register definitions.
 
-Tinghan Shen (9):
-  dt-binding: remoteproc: mediatek: Support dual-core SCP
-  remoteproc: mediatek: Support hanlding scp core 1 wdt timeout
-  remoteproc: mediatek: Add SCP core 1 register definitions
-  remoteproc: mediatek: Support probing for the 2nd core of dual-core
-    SCP
-  remoteproc: mediatek: Add chip dependent operations for SCP core 1
-  remoteproc: mediatek: Add SCP core 1 SRAM offset
-  remoteproc: mediatek: Add SCP core 1 as a rproc subdevice
-  remoteproc: mediatek: Wait SCP core 1 probe done
-  mfd: cros_ec: Add SCP core 1 as a new CrOS EC MCU
+Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+---
+ drivers/remoteproc/mtk_common.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
- .../bindings/remoteproc/mtk,scp.yaml          |  13 +
- drivers/mfd/cros_ec_dev.c                     |   5 +
- drivers/remoteproc/mtk_common.h               |  35 ++
- drivers/remoteproc/mtk_scp.c                  | 322 +++++++++++++++++-
- .../linux/platform_data/cros_ec_commands.h    |   2 +
- include/linux/platform_data/cros_ec_proto.h   |   1 +
- 6 files changed, 375 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
+index 73e8adf00de3..5582f4207fbf 100644
+--- a/drivers/remoteproc/mtk_common.h
++++ b/drivers/remoteproc/mtk_common.h
+@@ -47,6 +47,7 @@
+ #define MT8192_SCP2SPM_IPC_CLR		0x4094
+ #define MT8192_GIPC_IN_SET		0x4098
+ #define MT8192_HOST_IPC_INT_BIT		BIT(0)
++#define MT8195_CORE1_HOST_IPC_INT_BIT	BIT(4)
+ 
+ #define MT8192_CORE0_SW_RSTN_CLR	0x10000
+ #define MT8192_CORE0_SW_RSTN_SET	0x10004
+@@ -60,6 +61,26 @@
+ 
+ #define MT8195_L1TCM_SRAM_PDN_RESERVED_RSI_BITS		GENMASK(7, 4)
+ 
++#define MT8195_CPU1_SRAM_PD			0x1084
++#define MT8195_SSHUB2APMCU_IPC_SET		0x4088
++#define MT8195_SSHUB2APMCU_IPC_CLR		0x408C
++#define MT8195_CORE1_SW_RSTN_CLR		0x20000
++#define MT8195_CORE1_SW_RSTN_SET		0x20004
++#define MT8195_CORE1_MEM_ATT_PREDEF		0x20008
++#define MT8195_CORE1_WDT_IRQ			0x20030
++#define MT8195_CORE1_WDT_CFG			0x20034
++
++#define MT8195_SEC_CTRL				0x85000
++#define MT8195_CORE_OFFSET_ENABLE_D		BIT(13)
++#define MT8195_CORE_OFFSET_ENABLE_I		BIT(12)
++#define MT8195_L2TCM_OFFSET_RANGE_0_LOW		0x850b0
++#define MT8195_L2TCM_OFFSET_RANGE_0_HIGH	0x850b4
++#define MT8195_L2TCM_OFFSET			0x850d0
++#define SCP_SRAM_REMAP_LOW			0
++#define SCP_SRAM_REMAP_HIGH			1
++#define SCP_SRAM_REMAP_OFFSET			2
++#define SCP_SRAM_REMAP_SIZE			3
++
+ #define SCP_FW_VER_LEN			32
+ #define SCP_SHARE_BUFFER_SIZE		288
+ 
 -- 
 2.18.0
 

@@ -1,56 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F293A7C
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 02:17:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3602C34114;
-	Wed,  8 Jun 2022 02:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73857B
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 57A8EC3411F;
+	Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654654656;
-	bh=JbX9uyByw0LnSxHvXxEqaqP/lr8AVeM95L2qB/4wUp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m97Lj18UPzw6bhgJ2Rskd450+GImKwwmJBkIC+Zqc7evsb4wVe/WL6Xnln7XHmsqd
-	 jCzV5/+bCtCSqjzFFI/AAla4sT4xjxF0G6+KQJmr+jovIX/IqTOUASVkVFXeu3pQyK
-	 IxMz7nxy+Y5yrIcdbCqvap2uKpiHdVg4Te/dE8JEUArADTkahQoPNMSmujiO/mbHC2
-	 LH8UsBnywNOm1bq5suQEZb73pN4hw1EMW+p9kO9WEm/0/tUODRNQn3DjR/kRBFgYZd
-	 vgwWm9KvqYJy7XVmFeCnhzLAFItjmEzcsW/NR0dkvYYpEfT3uqdXY7pX7nsWNeq4P0
-	 rt3N6tcZgpVxg==
-Date: Wed, 8 Jun 2022 02:17:33 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Guenter Roeck <groeck@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 15/15] platform/chrome: cros_ec_proto: return 0 on
- getting wake mask success
-Message-ID: <YqAGvRpdUaFb6Vpx@google.com>
-References: <20220607145639.2362750-1-tzungbi@kernel.org>
- <20220607145639.2362750-16-tzungbi@kernel.org>
- <CABXOdTcYD6L6vnfNJwYROo1ynGqkabdbpm8JjvvosjtYGV1xow@mail.gmail.com>
+	s=k20201202; t=1654658145;
+	bh=leK06H80kByDZXtFvXFQDglOtMTwPv2t5xCgjZEd8cc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=b5GO23W08T/jJK9C2nta5CfhV4ce2Z3JsMapEpDAGjD9a5bZtWSG1A8p+8T9un5lp
+	 fC1BUjNJO0dwnDgjOD+fTxYK1V/u00TPbVw7xcTtjBwbLH4HUtXxewFj5WzQYqollv
+	 zpVIyH/wRAhiOZxO1jQUEXfJpnzDFuPSFLL1nj3karVQaPvubAzbz0qUdI6EOWvH37
+	 51uYbo+6YvkLSc3X8EVxME2IGtHS6b4WkDdzWJ4VwhXx2FAJ96zToCEkqyaMjdXW5x
+	 gwuRWMujSRE6j/EZHVljdCmlsBCJ2N3XRO8nTssTnhvymYQWxoe4ldry50mn+iymRn
+	 xNm1T9gYhcZ1Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 365DFE737EF;
+	Wed,  8 Jun 2022 03:15:45 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXOdTcYD6L6vnfNJwYROo1ynGqkabdbpm8JjvvosjtYGV1xow@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] cros_ec_commands: Fix syntax errors in comments
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165465814521.21771.12120211112670021219.git-patchwork-notify@kernel.org>
+Date: Wed, 08 Jun 2022 03:15:45 +0000
+References: <20220606022313.22912-1-wangxiang@cdjrlc.com>
+In-Reply-To: <20220606022313.22912-1-wangxiang@cdjrlc.com>
+To: Xiang wangx <wangxiang@cdjrlc.com>
+Cc: bleung@chromium.org, groeck@chromium.org, gustavoars@kernel.org,
+ dustin@howett.net, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-On Tue, Jun 07, 2022 at 12:12:25PM -0700, Guenter Roeck wrote:
-> On Tue, Jun 7, 2022 at 7:57 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > cros_ec_get_host_event_wake_mask() used to return value from
-> > send_command() which is number of bytes for input payload on success
-> > (i.e. sizeof(struct ec_response_host_event_mask)).
-> >
-> > However, the callers don't need to know how many bytes are available.
-> >
-> > - Fix cros_ec_get_host_event_wake_mask() to return 0 on success;
-> >   negative integers on error.
-> >
-> > - Add a Kunit test for guarding if send_command() returns 0 in
-> >   get_host_event_wake_mask().
-> >
-> Please split into two patches.
+Hello:
 
-Ack.
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon,  6 Jun 2022 10:23:13 +0800 you wrote:
+> Delete the redundant word 'using'.
+> 
+> Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+> ---
+>  include/linux/platform_data/cros_ec_commands.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Here is the summary with links:
+  - cros_ec_commands: Fix syntax errors in comments
+    https://git.kernel.org/chrome-platform/c/8d5976089c97
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446707C
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 02:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110B7C34114;
-	Wed,  8 Jun 2022 02:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE54C7C
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 02:17:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC66C34115;
+	Wed,  8 Jun 2022 02:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654654622;
-	bh=ZqeGTyfh/Ani8+K+9DA5ei1T7FyK6i6XD9rV4VeyryM=;
+	s=k20201202; t=1654654636;
+	bh=dFIQHND7/de6ERt33/EJw1YFoRsUBtTJPGMBARvM1fw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CVw5jD9hmlhBw7cna50eKtb6BeRDtHouoqUONkWwUvYQztv3TxoS0mvnCy9XqEVN+
-	 gH5gWRcVQtW8NoEhTpTp+QlmDyPb3/lbCpAEUWtNqkuNDmkhvYl5DMQQa+4yew+jlq
-	 p1UNiKj4ki0Kfj5RfksRxlDEmjZjX4aUzqAoBczz5Q3sLTnGZl+70w8IKLgnmTH3GZ
-	 m2NhqtJ+O3Tvdjm9Y66iXUZ11vA46jlLN0MhG22GajiM5m91pboCr8f12QVqa4YYn+
-	 Y2QlDuHMd3P6d68y6srF/whAFIiHwnsSIj5XjHgQ5VsRwiaGgFkoU5aoYTueZ6dBnK
-	 agh5XPsIuAP1g==
-Date: Wed, 8 Jun 2022 02:16:58 +0000
+	b=nYSHXrCZEtji0UMMxEA6ZIX76EWxraIEyNwA/Tk6tJAJ5ewGG2PmwN4+EXBHz1EX4
+	 vcfD1HCPwGljjiQ5kYe1rhOUPU4F2kEHrJKKLeCh6M9SJkwr5tP8PnL3fWeOpSV27l
+	 n0Jew4dSxH/FjA8pWHoiBak3gqfnJscuynFcC3i5/YseJTX0Di9CKCWEcGl/PLWZWg
+	 2SfkkbhF26U+YERsW+R02lHSaxt6We1a2uuWsW9Z92bFwHSGE0r1cnw0ORiVBQ8qXp
+	 4uZwzmTJaQaF/hbXpWgmzMwg01pCjbZjuCzL0YLUHahWxN1tZ8fpeaqn9QqUIcVw3F
+	 NaVKcAdQ6YU8A==
+Date: Wed, 8 Jun 2022 02:17:13 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Guenter Roeck <groeck@google.com>
 Cc: bleung@chromium.org, groeck@chromium.org,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/15] platform/chrome: cros_ec_proto: handle empty
- payload in getting proto info
-Message-ID: <YqAGmpdTfZsa7Lux@google.com>
+Subject: Re: [PATCH v2 12/15] platform/chrome: use krealloc() for `din` and
+ `dout`
+Message-ID: <YqAGqZgauTnn76KD@google.com>
 References: <20220607145639.2362750-1-tzungbi@kernel.org>
- <20220607145639.2362750-9-tzungbi@kernel.org>
- <CABXOdTdx7jKLbHa3X7aOz3wUMpwWWHkncfKuRyGzonkA92Rg=w@mail.gmail.com>
+ <20220607145639.2362750-13-tzungbi@kernel.org>
+ <CABXOdTebXS3c823jWYx9r8mU4LwNfhLo833s7_krK4JW0fSgUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,69 +34,53 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABXOdTdx7jKLbHa3X7aOz3wUMpwWWHkncfKuRyGzonkA92Rg=w@mail.gmail.com>
+In-Reply-To: <CABXOdTebXS3c823jWYx9r8mU4LwNfhLo833s7_krK4JW0fSgUw@mail.gmail.com>
 
-On Tue, Jun 07, 2022 at 11:47:56AM -0700, Guenter Roeck wrote:
+On Tue, Jun 07, 2022 at 12:06:23PM -0700, Guenter Roeck wrote:
 > On Tue, Jun 7, 2022 at 7:57 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 > >
-> > cros_ec_get_proto_info() expects to receive
-> > sizeof(struct ec_response_get_protocol_info) from send_command().  The
-> > payload is valid only if the return value is positive.
-> >
-> > Add Kunit tests for returning 0 in send_command() and handle the case in
-> > cros_ec_get_proto_info().
-> >
-> That should be two separate patches.
-
-Ack, will separate them in next version.  I put them together because I wrote
-Kunit test first to make sure the second half takes effect (somehow TDD).
-
-Could I still put the Kunit patch first (even if it introduces Kunit test
-failure)?
-
+> > Use krealloc() to re-allocate `din` and `dout`.  Don't use devm variant
+> > because the two buffers could be re-allocated multiple times during
+> > runtime.  Their life cycles aren't quite aligned to the device's.
 > 
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
-> > No v1.  New in the series.
+> While this saves a few lines of code, it is runtime-expensive:
+> krealloc() copies the old data, which is a waste of time/resources.
+> Maybe it would be better to just use kfree() followed by kzalloc().
+
+Ack.  I wasn't aware of the memcpy().  Let's don't use it.
+
+> > @@ -469,9 +469,9 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
+> >   */
+> >  int cros_ec_query_all(struct cros_ec_device *ec_dev)
+> >  {
+> > -       struct device *dev = ec_dev->dev;
+> >         u32 ver_mask = 0;
+> >         int ret;
+> > +       u8 *din, *dout;
 > >
-> >  drivers/platform/chrome/cros_ec_proto.c      |   5 +
-> >  drivers/platform/chrome/cros_ec_proto_test.c | 132 +++++++++++++++++++
-> >  2 files changed, 137 insertions(+)
-> >
-> > diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> > index 893b76703da6..6f5be9e5ede4 100644
-> > --- a/drivers/platform/chrome/cros_ec_proto.c
-> > +++ b/drivers/platform/chrome/cros_ec_proto.c
-> > @@ -314,6 +314,11 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
-> >                 goto exit;
+> >         /* First try sending with proto v3. */
+> >         if (!cros_ec_get_proto_info(ec_dev, CROS_EC_DEV_EC_INDEX)) {
+> > @@ -492,21 +492,15 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
+> >                 }
 > >         }
 > >
-> > +       if (ret == 0) {
-> > +               ret = -EPROTO;
-> > +               goto exit;
-> > +       }
-> > +
+> > -       devm_kfree(dev, ec_dev->din);
+> > -       devm_kfree(dev, ec_dev->dout);
+> > -
+> > -       ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
+> > -       if (!ec_dev->din) {
+> > -               ret = -ENOMEM;
+> > -               goto exit;
+> > -       }
+> > +       din = krealloc(ec_dev->din, ec_dev->din_size, GFP_KERNEL);
+> > +       if (!din)
+> > +               return -ENOMEM;
 > 
-> I think you can move that into the if() statement above (which already
-> checks for ret >=0),
-> making it a special case of that situation.
+> I would suggest assigning the values directly; the new variables don't
+> really add value.
 
-Nope, there is no "ret >= 0" (you could be confusing with
-cros_ec_get_host_event_wake_mask()).
+checkpatch.pl generated a warning for it.  See [1].
 
-The result flow roughly like:
+Will remove the krealloc()s anyway.
 
-ret = send_command(...);
-if (ret < 0)
-  goto exit;
-
-mapped = cros_ec_map_error(...);
-if (mapped) {
-  ...
-  goto exit;
-}
-
-if (ret == 0) {
-  ...
-  goto exit;
-}
+[1]: https://github.com/torvalds/linux/commit/972fdea2e6ece7578915d386a5447bc78d3fb8b8

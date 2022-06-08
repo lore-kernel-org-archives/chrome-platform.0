@@ -1,51 +1,51 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B297B
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 16:24:27 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id d14so2257246eda.12
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 09:24:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387B27B
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 16:26:39 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id n28so27819208edb.9
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jun 2022 09:26:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wHmSX/+IrCFNegvbLq/KbryGfOKoReahgwi84iPHREk=;
-        b=exlHTD26n1woC75nYXQqD7MSrK1NcMRDeViWnpyM21efKY/9x7ptHc9hL4qoeQkdO1
-         AQ8iLeSnsN5DvPhCnEhnkKAjFAOJHr/RCVkFEg1iCMNfrkBpvF20h055Yxj6QClLkVKG
-         hpbqLAme+/1wb5X8rfHnsDgmRxwlANFef3fm3DCdWWWkKVlefcPO7FZtS3aXcHm9gprA
-         ZJQLQRbsdYtSZEmfoHTlp2RpM+ix4sDpARwADpRARi+pObRWQieQLtxoqxHKVZop0L3S
-         tywQ9+TQ63IrwcbSo3LGJ7eg5FKn2gi7SEZg8yht3/dpG9r04tu8jO7M8/sNEGBCEiic
-         8lnQ==
+        bh=8z7UL87qNPTqb+Q3KPHmVnfDvzgXsjCKSbw/KgXuHW8=;
+        b=nuXw81uWjcRA3iwjIPUWjjPWyYPm5FPGVF8S1Tr25dWvIRloo6TQdefzttqaK/WyEv
+         6DTjUBANjKXLyWZSM7zPGHUDuAx3/9At5QmWNdQzkzuz9W8dBWd2b44Fye14M6JLxX11
+         nCVMKTBomK7opo6KD58DUr+X86bTGm4o+ETeFlELCjTEFfG99b8v9MK7m3HYHmyXZUaj
+         nPA7fuTHuwC9melcOmht9C3Y9GRhqy+Ih4i28GqZA0m8fmfkVju0bAKf+1P1S4kPqU6E
+         /RuufGpmPhphjH38kFkntEU5i4o9MM2/gaogP2sxHEjOI0t4ROZgwDgMQiaWAewu9Doc
+         0YTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wHmSX/+IrCFNegvbLq/KbryGfOKoReahgwi84iPHREk=;
-        b=8DSprTJn3cH5GV5yY16w8zWOWhCdyBgUkeHNniMu4KBYnrRREIT4BfuNr/VfRy2Qjj
-         GcsketgO5sGSshECYeWL2wGdFIxBr9d0iYvYXWe3pb0gmm94GZUsXHq87P766BEiNXcN
-         ZytUKzgRYk4PwwIgFjCNe/8N+BtiHGZO29ezw1s9pml7PWLwYBNGNHs/cvHONHSnjGgE
-         MhfNF6zs0GdG9FCRkvFyqwSCiQHImhE2u2QQpvFQzbEH6vi5x5VSKmLPGnsgumr34OTu
-         5z0NuymxWN4o05Z6WcXGfL0vdL4QTmWa99rSTz+aeEaux/m58MWef8CKz9SkMx80PqhU
-         IHJQ==
-X-Gm-Message-State: AOAM532M8hJHSbSglhjCGCG9mGSI3QT3LzNo56Fu6ZxdeVxpy1RwgrO8
-	FzrQfFFbI1Gbq4CbO2AxhlckiIkprullHtkS6CWqUw==
-X-Google-Smtp-Source: ABdhPJzcgrDqdyNxP5/wE+aC9cCO13ejUBwYztiDOChX/CzbQiemjTtslfL99Zk5TZz6wo8zRhGUgeJ1NYhhNWxaT10=
-X-Received: by 2002:a05:6402:350e:b0:42f:b2c1:9393 with SMTP id
- b14-20020a056402350e00b0042fb2c19393mr29818135edd.11.1654705465508; Wed, 08
- Jun 2022 09:24:25 -0700 (PDT)
+        bh=8z7UL87qNPTqb+Q3KPHmVnfDvzgXsjCKSbw/KgXuHW8=;
+        b=0XMUI4GBvcme682raskRAKy0JaJT61Iz8iKGpXNJ59W8/WEfeX237/qW30AdoEL+Od
+         zNqm8n3v3WsiTRhrYqpx3OutPvp6i0Wzq8zmX/7ZFaeT89XrVu60raax9OeswvJU+Cka
+         Y9xLVs2mq8H/ySm28TPxLljblSHNpbCgTd4HFh/9n60iJ03hWedCiNzYo6OUrGdo6gdr
+         8HvwQrnhyU1Gk8EEO3IoLGZ8ldEfyqRw6F6LdTvxokuuDoy2BQtxqu45gatlxERPuJKy
+         Z6wn1Cc/qD11cGMz+pemYx+gCyZQ8pMaJdGynyPOEAZcLNIBmcZfQ6jG1rtb3YAKVG4l
+         qH/Q==
+X-Gm-Message-State: AOAM530KvoTCOUaJaXdf68xYzQHE6HEf7NyjYJiVzGyZWD083oSw6Nku
+	TubREu4ItIwWbD+EXcOvaXLoyUr/BxjyXNF9db7yqg==
+X-Google-Smtp-Source: ABdhPJyxupeF0svhcBIYgAv9ztnH1682B7s9bQSzLdi2vZpE3OrurGLDRapBZDFAYuEUOVSmacyWBAUNKYvd1z9W3xM=
+X-Received: by 2002:a05:6402:f14:b0:42d:f989:4a21 with SMTP id
+ i20-20020a0564020f1400b0042df9894a21mr40418553eda.168.1654705597304; Wed, 08
+ Jun 2022 09:26:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220608110734.2928245-1-tzungbi@kernel.org> <20220608110734.2928245-21-tzungbi@kernel.org>
-In-Reply-To: <20220608110734.2928245-21-tzungbi@kernel.org>
+References: <20220608110734.2928245-1-tzungbi@kernel.org> <20220608110734.2928245-22-tzungbi@kernel.org>
+In-Reply-To: <20220608110734.2928245-22-tzungbi@kernel.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Wed, 8 Jun 2022 09:24:14 -0700
-Message-ID: <CABXOdTdqguBzxcKWXm+tQJ-XGa_1J26bBJqPLiY7qn4gfn+czg@mail.gmail.com>
-Subject: Re: [PATCH v3 20/23] platform/chrome: cros_ec_proto: handle empty
- payload in getting cmd mask
+Date: Wed, 8 Jun 2022 09:26:26 -0700
+Message-ID: <CABXOdTcoL7f68bqN5L_HSu5rk9+t+jm=-0rzHVGmoMozGro4nQ@mail.gmail.com>
+Subject: Re: [PATCH v3 21/23] platform/chrome: cros_ec_proto: return 0 on
+ getting wake mask success
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
@@ -54,41 +54,50 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Jun 8, 2022 at 4:08 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> cros_ec_get_host_command_version_mask() expects to receive
-> sizeof(struct ec_response_get_cmd_versions) from send_command().  The
-> payload is valid only if the return value is positive.
+> cros_ec_get_host_event_wake_mask() used to return value from
+> send_command() which is number of bytes for input payload on success
+> (i.e. sizeof(struct ec_response_host_event_mask)).
 >
-> Return -EPROTO if send_command() returns 0 in
-> cros_ec_get_host_command_version_mask().
+> However, the callers don't need to know how many bytes are available.
+>
+> Don't return number of available bytes.  Instead, return 0 on success;
+> otherwise, negative integers on error.
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-That answers my previous question.
 
 Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
-> No v2.  New and separated from the original series.
+> Changes from v2:
+> - Separate Kunit test to another patch.
 >
->  drivers/platform/chrome/cros_ec_proto.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> Changes from v1:
+> - Return 0 on success; otherwise, negative intergers.
+>
+>  drivers/platform/chrome/cros_ec_proto.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index 6a5771361383..9e95f9e4b2f8 100644
+> index 9e95f9e4b2f8..68a411e84744 100644
 > --- a/drivers/platform/chrome/cros_ec_proto.c
 > +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -458,6 +458,11 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
->                 goto exit;
+> @@ -236,7 +236,7 @@ EXPORT_SYMBOL(cros_ec_check_result);
+>   *
+>   * @ec_dev: EC device to call
+>   * @msg: message structure to use
+> - * @mask: result when function returns >=0.
+> + * @mask: result when function returns 0.
+>   *
+>   * LOCKING:
+>   * the caller has ec_dev->lock mutex, or the caller knows there is
+> @@ -266,6 +266,7 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
+>         if (ret > 0) {
+>                 r = (struct ec_response_host_event_mask *)msg->data;
+>                 *mask = r->mask;
+> +               ret = 0;
 >         }
 >
-> +       if (ret == 0) {
-> +               ret = -EPROTO;
-> +               goto exit;
-> +       }
-> +
->         rver = (struct ec_response_get_cmd_versions *)msg->data;
->         *mask = rver->version_mask;
->         ret = 0;
+>  exit:
 > --
 > 2.36.1.255.ge46751e96f-goog
 >

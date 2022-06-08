@@ -1,277 +1,139 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E913517F9
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 08:37:26 +0000 (UTC)
-X-UUID: f5c1e9e9b2634d548c8b7d0de3b55509-20220608
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:1a601765-eea6-4ef0-9d17-adc775769923,OB:10,L
-	OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
-	CTION:release,TS:95
-X-CID-INFO: VERSION:1.1.5,REQID:1a601765-eea6-4ef0-9d17-adc775769923,OB:10,LOB
-	:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
-	CTION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09,CLOUDID:b73a15e5-2ba2-4dc1-b6c5-11feb6c769e0,C
-	OID:8f91e81df6c9,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,QS:0,BEC:nil
-X-UUID: f5c1e9e9b2634d548c8b7d0de3b55509-20220608
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 265310191; Wed, 08 Jun 2022 16:37:21 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Wed, 8 Jun 2022 16:36:02 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 8 Jun 2022 16:36:02 +0800
-From: Tinghan Shen <tinghan.shen@mediatek.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Benson Leung <bleung@chromium.org>, Guenter
- Roeck <groeck@chromium.org>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, Daisuke Nojiri <dnojiri@chromium.org>,
-	Kees Cook <keescook@chromium.org>, Tinghan Shen <tinghan.shen@mediatek.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Prashant Malani
-	<pmalani@chromium.org>, Enric Balletbo i Serra <enric.balletbo@collabora.com>
-CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Subject: [PATCH v2 7/9] remoteproc: mediatek: Add SCP core 1 as a rproc subdevice
-Date: Wed, 8 Jun 2022 16:35:51 +0800
-Message-ID: <20220608083553.8697-8-tinghan.shen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220608083553.8697-1-tinghan.shen@mediatek.com>
-References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EA92F39
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jun 2022 11:07:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B14C3411C;
+	Wed,  8 Jun 2022 11:07:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654686468;
+	bh=Y2zEIvkumbtfbZTzLHB/1UeYKWBKqqO+FvV51b/QS4Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q93ItgVV7UeEimtM8LBxDebYZ3C0FZ5gP7ZoLK/rUwN5fjXlJIFI00YFmiL5TfhTU
+	 G4O6owHpiXVtQWo4j20Fn1woa+Fqrma3MdNzFWWyN4TLLiXVj1LR3xdoTQjd3RpjYu
+	 IRgQgjTUYYXhXIru4YZROMPOQ+9lKYBf8VCtG99rTgzYSvum+SjgR6yJhrPyD6wovj
+	 xYfZfXI7cXSfKNgHi9kRZyIXVRsjFcn3Apiact87Rz5s8bX+Sg2WZd8e+2zTA839Av
+	 DodfW/mWPa9lw2KSKv4Svwr/o81OG0ld5YA364i07MIBUqFXDUR0+iDieEI8FBbN12
+	 Tk+9CNQUmmPZA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/23] platform/chrome: Kunit tests and refactor for cros_ec_query_all()
+Date: Wed,  8 Jun 2022 11:07:11 +0000
+Message-Id: <20220608110734.2928245-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 
-Because the clock and SRAM power is controlled by SCP core 0, SCP core 1
-has to be boot after SCP core 0. We use the rproc subdev to achieve this
-purpose.
+The series adds Kunit tests, refactors, and clean-ups for cros_ec_query_all().
 
-The watchdog timeout handler of SCP core 1 is added as part of the rproc
-subdevice. This allows SCP core 0 to handle watchdog timeout coming from
-SCP core 1.
+Tzung-Bi Shih (23):
+  platform/chrome: cros_ec_commands: fix compile errors
+-> Fixes compile errors when including cros_ec_commands.h.
 
-Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
----
- drivers/remoteproc/mtk_common.h |   9 +++
- drivers/remoteproc/mtk_scp.c    | 130 ++++++++++++++++++++++++++++++++
- 2 files changed, 139 insertions(+)
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_query_all()
+-> Adds Kunit tests for cros_ec_query_all().  They are baseline tests
+   for the following refactor patches.  They are designed to pass current
+   code.
 
-diff --git a/drivers/remoteproc/mtk_common.h b/drivers/remoteproc/mtk_common.h
-index 5582f4207fbf..67b41866a100 100644
---- a/drivers/remoteproc/mtk_common.h
-+++ b/drivers/remoteproc/mtk_common.h
-@@ -99,6 +99,14 @@ struct scp_ipi_desc {
- 	void *priv;
- };
- 
-+struct scp_subdev_core {
-+	struct rproc_subdev subdev;
-+	struct mtk_scp *main_scp;
-+	void (*scp_dual_wdt_timeout)(struct mtk_scp *scp, u32 scp_to_host);
-+};
-+
-+#define to_subdev_core(d) container_of(d, struct scp_subdev_core, subdev)
-+
- struct mtk_scp;
- 
- struct mtk_scp_of_data {
-@@ -144,6 +152,7 @@ struct mtk_scp {
- 	size_t dram_size;
- 
- 	struct rproc_subdev *rpmsg_subdev;
-+	struct rproc_subdev *dual_subdev;
- };
- 
- /**
-diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
-index b8a4db581179..d0e9e19e251f 100644
---- a/drivers/remoteproc/mtk_scp.c
-+++ b/drivers/remoteproc/mtk_scp.c
-@@ -244,6 +244,13 @@ static void mt8195_scp_irq_handler(struct mtk_scp *scp)
- 	} else {
- 		if (readl(scp->reg_base + MT8195_SYS_STATUS) & MT8195_CORE1_WDT) {
- 			writel(1, scp->reg_base + MT8195_CORE1_WDT_IRQ);
-+
-+			if (scp->dual_subdev) {
-+				struct scp_subdev_core *subdev_core;
-+
-+				subdev_core = to_subdev_core(scp->dual_subdev);
-+				subdev_core->scp_dual_wdt_timeout(scp, scp_to_host);
-+			}
- 		} else {
- 			writel(1, scp->reg_base + MT8192_CORE0_WDT_IRQ);
- 			scp_wdt_handler(scp, scp_to_host);
-@@ -925,6 +932,118 @@ static void scp_remove_rpmsg_subdev(struct mtk_scp *scp)
- 	}
- }
- 
-+static struct mtk_scp *scp_dual_get(struct mtk_scp *scp)
-+{
-+	struct device *dev = scp->dev;
-+	struct device_node *np;
-+	struct platform_device *dual_pdev;
-+
-+	np = of_parse_phandle(dev->of_node, "mediatek,scp-core", 0);
-+	dual_pdev = of_find_device_by_node(np);
-+	of_node_put(np);
-+
-+	if (!dual_pdev) {
-+		dev_err(dev, "No scp-dual pdev\n");
-+		return NULL;
-+	}
-+
-+	return platform_get_drvdata(dual_pdev);
-+}
-+
-+static void scp_dual_put(struct mtk_scp *scp)
-+{
-+	put_device(scp->dev);
-+}
-+
-+static int scp_dual_rproc_start(struct rproc_subdev *subdev)
-+{
-+	struct scp_subdev_core *subdev_core = to_subdev_core(subdev);
-+	struct mtk_scp *scp_dual;
-+
-+	scp_dual = scp_dual_get(subdev_core->main_scp);
-+	if (!scp_dual)
-+		return -ENODEV;
-+
-+	rproc_boot(scp_dual->rproc);
-+	scp_dual_put(scp_dual);
-+
-+	return 0;
-+}
-+
-+static void scp_dual_rproc_stop(struct rproc_subdev *subdev, bool crashed)
-+{
-+	struct scp_subdev_core *subdev_core = to_subdev_core(subdev);
-+	struct mtk_scp *scp_dual;
-+
-+	scp_dual = scp_dual_get(subdev_core->main_scp);
-+	if (!scp_dual)
-+		return;
-+
-+	rproc_shutdown(scp_dual->rproc);
-+	scp_dual_put(scp_dual);
-+}
-+
-+static void scp_dual_wdt_handler(struct mtk_scp *scp, u32 scp_to_host)
-+{
-+	struct mtk_scp *scp_dual;
-+
-+	scp_dual = scp_dual_get(scp);
-+	if (!scp_dual)
-+		return;
-+
-+	dev_err(scp_dual->dev, "SCP watchdog timeout! 0x%x\n", scp_to_host);
-+	rproc_report_crash(scp_dual->rproc, RPROC_WATCHDOG);
-+	scp_dual_put(scp_dual);
-+}
-+
-+static struct rproc_subdev *scp_dual_create_subdev(struct mtk_scp *scp)
-+{
-+	struct device *dev = scp->dev;
-+	struct scp_subdev_core *subdev_core;
-+	struct device_node *np;
-+
-+	np = of_parse_phandle(dev->of_node, "mediatek,scp-core", 0);
-+	if (!np)
-+		return NULL;
-+
-+	of_node_put(np);
-+
-+	subdev_core = devm_kzalloc(dev, sizeof(*subdev_core), GFP_KERNEL);
-+	if (!subdev_core)
-+		return NULL;
-+
-+	subdev_core->main_scp = scp;
-+	subdev_core->scp_dual_wdt_timeout = scp_dual_wdt_handler;
-+	subdev_core->subdev.start = scp_dual_rproc_start;
-+	subdev_core->subdev.stop = scp_dual_rproc_stop;
-+
-+	return &subdev_core->subdev;
-+}
-+
-+static void scp_dual_destroy_subdev(struct rproc_subdev *subdev)
-+{
-+	struct scp_subdev_core *subdev_core = to_subdev_core(subdev);
-+
-+	devm_kfree(subdev_core->main_scp->dev, subdev_core);
-+}
-+
-+static void scp_add_dual_subdev(struct mtk_scp *scp)
-+{
-+	scp->dual_subdev = scp_dual_create_subdev(scp);
-+
-+	if (scp->dual_subdev)
-+		rproc_add_subdev(scp->rproc, scp->dual_subdev);
-+}
-+
-+static void scp_remove_dual_subdev(struct mtk_scp *scp)
-+{
-+	if (scp->dual_subdev) {
-+		rproc_remove_subdev(scp->rproc, scp->dual_subdev);
-+		scp_dual_destroy_subdev(scp->dual_subdev);
-+		scp->dual_subdev = NULL;
-+	}
-+}
-+
- static int scp_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1014,6 +1133,9 @@ static int scp_probe(struct platform_device *pdev)
- 
- 	scp_add_rpmsg_subdev(scp);
- 
-+	if (core_id == SCP_CORE_0)
-+		scp_add_dual_subdev(scp);
-+
- 	ret = devm_request_threaded_irq(dev, platform_get_irq(pdev, 0), NULL,
- 					scp_irq_handler, IRQF_ONESHOT,
- 					pdev->name, scp);
-@@ -1023,6 +1145,12 @@ static int scp_probe(struct platform_device *pdev)
- 		goto remove_subdev;
- 	}
- 
-+	/* disable auto boot before register rproc.
-+	 * scp core 1 is booted as a subdevice of scp core 0.
-+	 */
-+	if (core_id == SCP_CORE_1)
-+		rproc->auto_boot = false;
-+
- 	ret = rproc_add(rproc);
- 	if (ret)
- 		goto remove_subdev;
-@@ -1030,6 +1158,7 @@ static int scp_probe(struct platform_device *pdev)
- 	return 0;
- 
- remove_subdev:
-+	scp_remove_dual_subdev(scp);
- 	scp_remove_rpmsg_subdev(scp);
- 	scp_ipi_unregister(scp, SCP_IPI_INIT);
- release_dev_mem:
-@@ -1047,6 +1176,7 @@ static int scp_remove(struct platform_device *pdev)
- 	int i;
- 
- 	rproc_del(scp->rproc);
-+	scp_remove_dual_subdev(scp);
- 	scp_remove_rpmsg_subdev(scp);
- 	scp_ipi_unregister(scp, SCP_IPI_INIT);
- 	scp_unmap_memory_region(scp);
+  platform/chrome: use macros for passthru indexes
+  platform/chrome: cros_ec_proto: assign buffer size from protocol info
+-> Refactors.
+
+  platform/chrome: cros_ec_proto: remove redundant NULL check
+-> Clean up.
+
+  platform/chrome: cros_ec_proto: use cros_ec_map_error()
+-> Changes the internal return code.
+
+  platform/chrome: cros_ec_proto: separate cros_ec_get_proto_info()
+-> Move refactor.
+
+  platform/chrome: cros_ec_proto: add Kunit tests for getting proto info
+  platform/chrome: cros_ec_proto: handle empty payload in getting proto
+    info
+-> Test and handle if send_command() returns 0 in cros_ec_get_proto_info().
+
+  platform/chrome: cros_ec_proto: separate
+    cros_ec_get_proto_info_legacy()
+-> Move refactor.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting legacy info
+  platform/chrome: cros_ec_proto: handle empty payload in getting info
+    legacy
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_proto_info_legacy().
+
+  platform/chrome: cros_ec: don't allocate `din` and `dout` in
+    cros_ec_register()
+-> Clean up.
+
+  platform/chrome: don't use devm variants for `din` and `dout`
+-> Replace devm variants to non-devm.
+
+  platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
+-> Minor fix up.
+
+  platform/chrome: cros_ec_proto: return 0 on getting cmd mask success
+-> Conform to kernel convention: return 0 on success;
+   otherwise, negative integers.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting cmd mask
+    error
+  platform/chrome: cros_ec_proto: check `msg->result` in getting cmd
+    mask
+-> Test and handle if `msg->result` isn't EC_RES_SUCCESS in
+   cros_ec_get_host_command_version_mask().
+
+  platform/chrome: cros_ec_proto: add Kunit tests for getting cmd mask
+  platform/chrome: cros_ec_proto: handle empty payload in getting cmd
+    mask
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_host_command_version_mask().
+
+  platform/chrome: cros_ec_proto: return 0 on getting wake mask success
+-> Conform to kernel convention: return 0 on success;
+   otherwise, negative integers.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting wake mask
+  platform/chrome: cros_ec_proto: handle empty payload in getting wake
+    mask
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_host_event_wake_mask().
+
+ drivers/platform/chrome/Kconfig               |    6 +
+ drivers/platform/chrome/Makefile              |    1 +
+ drivers/platform/chrome/cros_ec.c             |   17 +-
+ drivers/platform/chrome/cros_ec_proto.c       |  320 ++--
+ drivers/platform/chrome/cros_ec_proto_test.c  | 1402 +++++++++++++++++
+ drivers/platform/chrome/cros_ec_trace.h       |    8 +-
+ drivers/platform/chrome/cros_kunit_util.c     |   98 ++
+ drivers/platform/chrome/cros_kunit_util.h     |   36 +
+ .../linux/platform_data/cros_ec_commands.h    |    4 +-
+ include/linux/platform_data/cros_ec_proto.h   |    3 +
+ 10 files changed, 1717 insertions(+), 178 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.c
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.h
+
+Changes from v2:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220607145639.2362750-1-tzungbi@kernel.org/)
+- Split patches into smaller pieces.
+
+Changes from v1:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220606141051.285823-1-tzungbi@kernel.org/)
+- Fix review comments.
+- Split and reorder patches.
+
+base-commit: 4319cbd4ed99003e0c981728ab1626c25be7af4a
 -- 
-2.18.0
+2.36.1.255.ge46751e96f-goog
 

@@ -1,73 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32460210B
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 08:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06BFFC34114;
-	Thu,  9 Jun 2022 08:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5345F210B
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 08:50:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C45CC34114;
+	Thu,  9 Jun 2022 08:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654764257;
-	bh=3hObGWWzQZpFXvDPW5fCAcwb9Jy8tx9LjTKwNDUJr1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pK5/r8u4v5tOYCLkflFk6wwMIP0XY8kMSENnRIzo1TkrjWgWLGBoflvpZwkGVOsvL
-	 BKvsiyEvXdC/Xa759LsZnPUZ53DSqrSvcnXhekRSNzUj3a0BDiJzKUxF9AZ2nSdDFN
-	 EXHwZv2CPqKNryZuSmiv/nWSMKvxDs8KlBgVVdCTWMsOhPUgfClHvg9ZDi9v+0T3S1
-	 2ta9TbXecWAEVBl3XfRatCNDUysL3976VCDe5X7N/cbk9kkDbBkq9SEySzLphn4hkm
-	 JhYVGiO2cw8DqdHE2jEwU/PxBlSKYIcVDa3Lp5nyLdLvViZfbgiHvXA4UXECllHh0/
-	 XtoMxTyO2JKBA==
-Date: Thu, 9 Jun 2022 08:44:14 +0000
+	s=k20201202; t=1654764614;
+	bh=OosFH16273fdadkKbi7aHx2sr6aFfpoVmI5r3sGa0PA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j2v1Ll+98oxBHtKDOFMsBfK7Xi0EqzAJmSAXHVN9FKDtRNDpgdLnXmr0ZS4KP2BIb
+	 K9FMsNMiTHpudNbWen0lI1ZjVCdkHP6KNOH2PVxmg7Brpi3DwYvO1QRRjMSoG0l0SO
+	 yF2/BFDFn5P/maQBVc17iiTf6CrveWHjPYdEMRMU4k5R8DXpdqI2kgIwiOdAihAQQi
+	 wd0tHGDAHqHSm9BCnC+jQ0hx8ldTyvJFS+TY0z4OB2eysE3UFOHfomuGqMPlcTnHVg
+	 gxF4z5zJWG+/BMFcYmtKFsiLCU9Zq3pj7cbejIFJsPf00LXbLa8pTsIHgYascpD4nv
+	 /j/F7g73uddrg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Guenter Roeck <groeck@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 16/23] platform/chrome: cros_ec_proto: return 0 on
- getting cmd mask success
-Message-ID: <YqGy3v5Vpb8/79XA@google.com>
-References: <20220608110734.2928245-1-tzungbi@kernel.org>
- <20220608110734.2928245-17-tzungbi@kernel.org>
- <CABXOdTd76gczEimVxqWFmyHtbjG=dqALcGcudfZJrUd7qKcVfA@mail.gmail.com>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/21] platform/chrome: Kunit tests and refactor for cros_ec_query_all()
+Date: Thu,  9 Jun 2022 08:49:36 +0000
+Message-Id: <20220609084957.3684698-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXOdTd76gczEimVxqWFmyHtbjG=dqALcGcudfZJrUd7qKcVfA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 08, 2022 at 09:20:29AM -0700, Guenter Roeck wrote:
-> On Wed, Jun 8, 2022 at 4:08 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > cros_ec_get_host_command_version_mask() used to return value from
-> > send_command() which is number of available bytes for input payload on
-> > success (i.e. sizeof(struct ec_response_get_cmd_versions)).
-> >
-> > However, the callers don't need to know how many bytes are available.
-> >
-> > Don't return number of available bytes.  Instead, return 0 on success;
-> > otherwise, negative integers on error.
-> >
-> > Also remove the unneeded `ver_mask` initialization as the callers should
-> > take it only if cros_ec_get_host_command_version_mask() returns 0.
-> 
-> Make sure this compiles with W=1. Compilers may think that ver_mask
-> may be uninitialized when used.
+The series adds Kunit tests, refactors, and clean-ups for cros_ec_query_all().
 
-If I tested it correctly, it compiles.
+Tzung-Bi Shih (21):
+  platform/chrome: cros_ec_commands: fix compile errors
+-> Fixes compile errors when including cros_ec_commands.h.
 
-$ make mrproper
-$ make allmodconfig
-$ make W=1 drivers/platform/chrome/
-...
-  CC      drivers/platform/chrome/cros_ec_proto.o
-  CC      drivers/platform/chrome/cros_ec_trace.o
-  AR      drivers/platform/chrome/built-in.a
-  CC [M]  drivers/platform/chrome/chromeos_acpi.o
-  CC [M]  drivers/platform/chrome/chromeos_laptop.o
-  CC [M]  drivers/platform/chrome/chromeos_privacy_screen.o
-  CC [M]  drivers/platform/chrome/chromeos_pstore.o
-  CC [M]  drivers/platform/chrome/chromeos_tbmc.o
-  CC [M]  drivers/platform/chrome/cros_ec.o
-...
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_query_all()
+-> Adds Kunit tests for cros_ec_query_all().  They are baseline tests
+   for the following refactor patches.  They are designed to pass current
+   code.
+
+  platform/chrome: use macros for passthru indexes
+  platform/chrome: cros_ec_proto: assign buffer size from protocol info
+-> Refactors.
+
+  platform/chrome: cros_ec_proto: remove redundant NULL check
+-> Clean up.
+
+  platform/chrome: cros_ec_proto: use cros_ec_map_error()
+-> Changes the internal return code.
+
+  platform/chrome: cros_ec_proto: separate cros_ec_get_proto_info()
+-> Move refactor.
+
+  platform/chrome: cros_ec_proto: add Kunit tests for getting proto info
+  platform/chrome: cros_ec_proto: handle empty payload in getting proto
+    info
+-> Test and handle if send_command() returns 0 in cros_ec_get_proto_info().
+
+  platform/chrome: cros_ec_proto: separate
+    cros_ec_get_proto_info_legacy()
+-> Move refactor.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting legacy info
+  platform/chrome: cros_ec_proto: handle empty payload in getting info
+    legacy
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_proto_info_legacy().
+
+  platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
+-> Minor fix up.
+
+  platform/chrome: cros_ec_proto: return 0 on getting cmd mask success
+-> Conform to kernel convention: return 0 on success;
+   otherwise, negative integers.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting cmd mask
+    error
+  platform/chrome: cros_ec_proto: check `msg->result` in getting cmd
+    mask
+-> Test and handle if `msg->result` isn't EC_RES_SUCCESS in
+   cros_ec_get_host_command_version_mask().
+
+  platform/chrome: cros_ec_proto: add Kunit tests for getting cmd mask
+  platform/chrome: cros_ec_proto: handle empty payload in getting cmd
+    mask
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_host_command_version_mask().
+
+  platform/chrome: cros_ec_proto: return 0 on getting wake mask success
+-> Conform to kernel convention: return 0 on success;
+   otherwise, negative integers.
+
+  platform/chrome: cros_ec_proto: add Kunit test for getting wake mask
+  platform/chrome: cros_ec_proto: handle empty payload in getting wake
+    mask
+-> Test and handle if send_command() returns 0 in
+   cros_ec_get_host_event_wake_mask().
+
+ drivers/platform/chrome/Kconfig               |    6 +
+ drivers/platform/chrome/Makefile              |    1 +
+ drivers/platform/chrome/cros_ec.c             |    3 -
+ drivers/platform/chrome/cros_ec_proto.c       |  291 ++--
+ drivers/platform/chrome/cros_ec_proto_test.c  | 1402 +++++++++++++++++
+ drivers/platform/chrome/cros_ec_trace.h       |    8 +-
+ drivers/platform/chrome/cros_kunit_util.c     |   98 ++
+ drivers/platform/chrome/cros_kunit_util.h     |   36 +
+ .../linux/platform_data/cros_ec_commands.h    |    4 +-
+ include/linux/platform_data/cros_ec_proto.h   |    3 +
+ 10 files changed, 1700 insertions(+), 152 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.c
+ create mode 100644 drivers/platform/chrome/cros_kunit_util.h
+
+Changes from v3:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220608110734.2928245-1-tzungbi@kernel.org/)
+- Drop 2 patches regarding `din` and `dout`.  One of them crashes kernel.
+- Fix typo in commit message.
+
+Changes from v2:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220607145639.2362750-1-tzungbi@kernel.org/)
+- Split patches into smaller pieces.
+
+Changes from v1:
+(https://patchwork.kernel.org/project/chrome-platform/cover/20220606141051.285823-1-tzungbi@kernel.org/)
+- Fix review comments.
+- Split and reorder patches.
+
+-- 
+2.36.1.255.ge46751e96f-goog
+

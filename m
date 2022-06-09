@@ -1,93 +1,49 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620C17A
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 05:45:38 +0000 (UTC)
-X-UUID: c52a80f5c538460a9e680ebfb8ec7533-20220609
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:54d230bf-68ea-4de1-8396-6a5264a8b297,OB:0,LO
-	B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:2a19b09,CLOUDID:32f8be7e-c8dc-403a-96e8-6237210dceee,C
-	OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
-	,QS:0,BEC:nil
-X-UUID: c52a80f5c538460a9e680ebfb8ec7533-20220609
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 946602744; Thu, 09 Jun 2022 13:45:32 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 9 Jun 2022 13:45:30 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 9 Jun 2022 13:45:30 +0800
-Message-ID: <ce1bef46497abd1495c2675424ac87db7e519659.camel@mediatek.com>
-Subject: Re: [PATCH v2 0/9] Add support for MT8195 SCP 2nd core
-From: Tinghan Shen <tinghan.shen@mediatek.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Benson Leung <bleung@chromium.org>, Guenter
- Roeck <groeck@chromium.org>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, Daisuke Nojiri <dnojiri@chromium.org>,
-	Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Prashant Malani <pmalani@chromium.org>, "Enric
- Balletbo i Serra" <enric.balletbo@collabora.com>
-CC: <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <weishunc@google.com>
-Date: Thu, 9 Jun 2022 13:45:30 +0800
-In-Reply-To: <20220608083553.8697-1-tinghan.shen@mediatek.com>
-References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C2C7C
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 07:45:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DA6C34114;
+	Thu,  9 Jun 2022 07:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654760711;
+	bh=2LL7+wgynfXqSoybroZDLmD28F35k05LG/4YKWxg6ig=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U3acwFCjdjQ6OEXtnuqNMjF45pE4qMIt3/k1ZOYvk9Jkw07UrLmsGmqlQc1SjPtiL
+	 UL0bOGGad0zLb8TcLC72qe6E1jiHs33vcrilaAofu96KN+mR74SNFsAyp7VfDfoQn/
+	 JE939YUHMOIyM0GlaCxHywQli/BaXd5x5i+c/cdzglJSugiADlaIOm049KAiTi7Ezi
+	 QeZexJdKXMuPio77uB6vjicQIS+ODyTguK0WsbnJxNARn8POAqfrNB9/nkFtG55zYN
+	 8Zi4p2KrfvEx+C6mc9ICdJjniTC1a27cJeqmdoOERkFMgvDQ8VUHpXBvMYCFEoWis6
+	 713CYN6SH5nlg==
+Date: Thu, 9 Jun 2022 07:45:07 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mka@chromium.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] platform/chrome: cros_kbd_led_backlight: separate
+ ACPI backend
+Message-ID: <YqGlA/5CK4lX95ge@google.com>
+References: <20220523090822.3035189-1-tzungbi@kernel.org>
+ <20220523090822.3035189-3-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220523090822.3035189-3-tzungbi@kernel.org>
 
-On Wed, 2022-06-08 at 16:35 +0800, Tinghan Shen wrote:
-> The mediatek remoteproc driver currently only allows bringing up a 
-> single core SCP, e.g. MT8183. It also only bringing up the 1st 
-> core in SoCs with a dual-core SCP, e.g. MT8195. This series support 
-> to bring-up the 2nd core of the dual-core SCP.
-
-Add missing change log.
-
-v1 -> v2:
-1. update dt-binding property description
-2. remove kconfig for scp dual driver
-3. merge mtk_scp_dual.c and mtk_scp_subdev.c to mtk_scp.c
-
-Regards,
-TingHan
-
+On Mon, May 23, 2022 at 05:08:19PM +0800, Tzung-Bi Shih wrote:
+> cros_kbd_led_backlight uses ACPI_KEYBOARD_BACKLIGHT_WRITE and
+> ACPI_KEYBOARD_BACKLIGHT_READ for setting and getting the brightness
+> respectively.
 > 
-> Tinghan Shen (9):
->   dt-binding: remoteproc: mediatek: Support dual-core SCP
->   remoteproc: mediatek: Support hanlding scp core 1 wdt timeout
->   remoteproc: mediatek: Add SCP core 1 register definitions
->   remoteproc: mediatek: Support probing for the 2nd core of dual-core
->     SCP
->   remoteproc: mediatek: Add chip dependent operations for SCP core 1
->   remoteproc: mediatek: Add SCP core 1 SRAM offset
->   remoteproc: mediatek: Add SCP core 1 as a rproc subdevice
->   remoteproc: mediatek: Wait SCP core 1 probe done
->   mfd: cros_ec: Add SCP core 1 as a new CrOS EC MCU
-> 
->  .../bindings/remoteproc/mtk,scp.yaml          |  13 +
->  drivers/mfd/cros_ec_dev.c                     |   5 +
->  drivers/remoteproc/mtk_common.h               |  35 ++
->  drivers/remoteproc/mtk_scp.c                  | 322 +++++++++++++++++-
->  .../linux/platform_data/cros_ec_commands.h    |   2 +
->  include/linux/platform_data/cros_ec_proto.h   |   1 +
->  6 files changed, 375 insertions(+), 3 deletions(-)
-> 
+> Separate ACPI operations for preparing the driver to support other
+> backends.
 
+The patch is the last one in the series that hasn't got a R-b tag.
+
+I have tested the patch on an ADL-P-based chromebook and the keyboard
+backlight works.  Could anyone on the list help to review the patch?

@@ -1,30 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C2C7C
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 07:45:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DA6C34114;
-	Thu,  9 Jun 2022 07:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32460210B
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 08:44:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06BFFC34114;
+	Thu,  9 Jun 2022 08:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654760711;
-	bh=2LL7+wgynfXqSoybroZDLmD28F35k05LG/4YKWxg6ig=;
+	s=k20201202; t=1654764257;
+	bh=3hObGWWzQZpFXvDPW5fCAcwb9Jy8tx9LjTKwNDUJr1M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U3acwFCjdjQ6OEXtnuqNMjF45pE4qMIt3/k1ZOYvk9Jkw07UrLmsGmqlQc1SjPtiL
-	 UL0bOGGad0zLb8TcLC72qe6E1jiHs33vcrilaAofu96KN+mR74SNFsAyp7VfDfoQn/
-	 JE939YUHMOIyM0GlaCxHywQli/BaXd5x5i+c/cdzglJSugiADlaIOm049KAiTi7Ezi
-	 QeZexJdKXMuPio77uB6vjicQIS+ODyTguK0WsbnJxNARn8POAqfrNB9/nkFtG55zYN
-	 8Zi4p2KrfvEx+C6mc9ICdJjniTC1a27cJeqmdoOERkFMgvDQ8VUHpXBvMYCFEoWis6
-	 713CYN6SH5nlg==
-Date: Thu, 9 Jun 2022 07:45:07 +0000
+	b=pK5/r8u4v5tOYCLkflFk6wwMIP0XY8kMSENnRIzo1TkrjWgWLGBoflvpZwkGVOsvL
+	 BKvsiyEvXdC/Xa759LsZnPUZ53DSqrSvcnXhekRSNzUj3a0BDiJzKUxF9AZ2nSdDFN
+	 EXHwZv2CPqKNryZuSmiv/nWSMKvxDs8KlBgVVdCTWMsOhPUgfClHvg9ZDi9v+0T3S1
+	 2ta9TbXecWAEVBl3XfRatCNDUysL3976VCDe5X7N/cbk9kkDbBkq9SEySzLphn4hkm
+	 JhYVGiO2cw8DqdHE2jEwU/PxBlSKYIcVDa3Lp5nyLdLvViZfbgiHvXA4UXECllHh0/
+	 XtoMxTyO2JKBA==
+Date: Thu, 9 Jun 2022 08:44:14 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org, groeck@chromium.org, robh+dt@kernel.org
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mka@chromium.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] platform/chrome: cros_kbd_led_backlight: separate
- ACPI backend
-Message-ID: <YqGlA/5CK4lX95ge@google.com>
-References: <20220523090822.3035189-1-tzungbi@kernel.org>
- <20220523090822.3035189-3-tzungbi@kernel.org>
+To: Guenter Roeck <groeck@google.com>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 16/23] platform/chrome: cros_ec_proto: return 0 on
+ getting cmd mask success
+Message-ID: <YqGy3v5Vpb8/79XA@google.com>
+References: <20220608110734.2928245-1-tzungbi@kernel.org>
+ <20220608110734.2928245-17-tzungbi@kernel.org>
+ <CABXOdTd76gczEimVxqWFmyHtbjG=dqALcGcudfZJrUd7qKcVfA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -33,17 +35,39 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220523090822.3035189-3-tzungbi@kernel.org>
+In-Reply-To: <CABXOdTd76gczEimVxqWFmyHtbjG=dqALcGcudfZJrUd7qKcVfA@mail.gmail.com>
 
-On Mon, May 23, 2022 at 05:08:19PM +0800, Tzung-Bi Shih wrote:
-> cros_kbd_led_backlight uses ACPI_KEYBOARD_BACKLIGHT_WRITE and
-> ACPI_KEYBOARD_BACKLIGHT_READ for setting and getting the brightness
-> respectively.
+On Wed, Jun 08, 2022 at 09:20:29AM -0700, Guenter Roeck wrote:
+> On Wed, Jun 8, 2022 at 4:08 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > cros_ec_get_host_command_version_mask() used to return value from
+> > send_command() which is number of available bytes for input payload on
+> > success (i.e. sizeof(struct ec_response_get_cmd_versions)).
+> >
+> > However, the callers don't need to know how many bytes are available.
+> >
+> > Don't return number of available bytes.  Instead, return 0 on success;
+> > otherwise, negative integers on error.
+> >
+> > Also remove the unneeded `ver_mask` initialization as the callers should
+> > take it only if cros_ec_get_host_command_version_mask() returns 0.
 > 
-> Separate ACPI operations for preparing the driver to support other
-> backends.
+> Make sure this compiles with W=1. Compilers may think that ver_mask
+> may be uninitialized when used.
 
-The patch is the last one in the series that hasn't got a R-b tag.
+If I tested it correctly, it compiles.
 
-I have tested the patch on an ADL-P-based chromebook and the keyboard
-backlight works.  Could anyone on the list help to review the patch?
+$ make mrproper
+$ make allmodconfig
+$ make W=1 drivers/platform/chrome/
+...
+  CC      drivers/platform/chrome/cros_ec_proto.o
+  CC      drivers/platform/chrome/cros_ec_trace.o
+  AR      drivers/platform/chrome/built-in.a
+  CC [M]  drivers/platform/chrome/chromeos_acpi.o
+  CC [M]  drivers/platform/chrome/chromeos_laptop.o
+  CC [M]  drivers/platform/chrome/chromeos_privacy_screen.o
+  CC [M]  drivers/platform/chrome/chromeos_pstore.o
+  CC [M]  drivers/platform/chrome/chromeos_tbmc.o
+  CC [M]  drivers/platform/chrome/cros_ec.o
+...

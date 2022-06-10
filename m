@@ -1,62 +1,73 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C777C
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Jun 2022 20:51:16 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id n11so3512746iod.4
-        for <chrome-platform@lists.linux.dev>; Thu, 09 Jun 2022 13:51:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6UkS4SPS1bXVXetBXdzfxgOMHLZzAndl0YdUye+T98U=;
-        b=eSlsl2zY7ZApnZxMETMpzAySBo3Vex9UKnd/ppTNOp0FNvyXn9SXJBKvxQh/Y7HTLA
-         NU2ehN0HR/f77UBLTAunTpBpwM23reJUBs/YI0aMk+QO/JxN9M37bqH5NyOhzO2Ncnc4
-         TPQt/H4vLiqNRQS/gNLTi4pjju/G7NZg4pZuEw84aNAvcCGKnBQ96sQpcAGVS3rMBVyW
-         p0co8pSgk3PErIvvta4/PoJj2Q07+gShtdVT0F0BWSi2+GtWCdrsytd8dG2iNpxaAaxZ
-         FF92MLXkoRN9tfmDJpRt9YJ0VEgwwXmS7CM1109zQLh3a1cLYHO3P8/8pzhcl2BBMhp5
-         MyTw==
-X-Gm-Message-State: AOAM531laCgCadqfx4ctOOBr2nDDBum15z1Yu8kB/UcESD7SJqKfbffJ
-	QkfOQBgNmPLnf21ecKdv4w==
-X-Google-Smtp-Source: ABdhPJwOVwZeLmYAjjuRwTF1mXzjxf7By9LYuIqGnacWdW2E6Un0R5tJzxy5bnVQ5rBRzs4VUQ+xzA==
-X-Received: by 2002:a5e:c318:0:b0:669:975b:7d06 with SMTP id a24-20020a5ec318000000b00669975b7d06mr4223204iok.199.1654807875963;
-        Thu, 09 Jun 2022 13:51:15 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id b17-20020a026f51000000b0032e71f31487sm9867485jae.31.2022.06.09.13.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 13:51:15 -0700 (PDT)
-Received: (nullmailer pid 78588 invoked by uid 1000);
-	Thu, 09 Jun 2022 20:51:13 -0000
-Date: Thu, 9 Jun 2022 14:51:13 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tinghan Shen <tinghan.shen@mediatek.com>
-Cc: Kees Cook <keescook@chromium.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Project_Global_Chrome_Upstream_Group@mediatek.com, Enric Balletbo i Serra <enric.balletbo@collabora.com>, weishunc@google.com, Sebastian Reichel <sebastian.reichel@collabora.com>, linux-kernel@vger.kernel.org, Daisuke Nojiri <dnojiri@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>, chrome-platform@lists.linux.dev, linux-remoteproc@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Lee Jones <lee.jones@linaro.org>, Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v2 1/9] dt-binding: remoteproc: mediatek: Support
- dual-core SCP
-Message-ID: <20220609205113.GA78534-robh@kernel.org>
-References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
- <20220608083553.8697-2-tinghan.shen@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5677C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 02:30:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 099C1C34115;
+	Fri, 10 Jun 2022 02:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654828214;
+	bh=nVXqSXIUE6uohftT2RTBT4jAMak0WZLr0uQgewGCTxc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=sjq/11OsPT4Uy28zUYUvwpdLhzQ82voU/A9ddhwRN2u5Jehi1Gm57+SsFFCYjPslF
+	 iqu3n7q7B2hMZG5LtUVDRohRxO2T5+Ri7jBXnn31iVJSNxpPD7A2p3DrPVdZbUHIyE
+	 4eRR9Y2AveYSd4aLhcf0T0B6mrHrloLajr+pZc8nnq/6/xEqPMm1Wgy6XlZGbg2RCz
+	 HeDoJhQDskA62UwGXqOly0mj/CGIusDc0GciJ65uutnqcmJB9yBic8lRrq8mtYmorC
+	 eKNK9NfHgPCyO7eg0iRu5roCdwgoJXSilfBrnaexosfOIzVSUA7YKAploZrGdtJr56
+	 pxVNANzSJGUFA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E20DEE737ED;
+	Fri, 10 Jun 2022 02:30:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220608083553.8697-2-tinghan.shen@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/3] platform/chrome: cros_ec_command() improvements
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165482821391.24385.187534597293564020.git-patchwork-notify@kernel.org>
+Date: Fri, 10 Jun 2022 02:30:13 +0000
+References: <20220606201825.763788-1-pmalani@chromium.org>
+In-Reply-To: <20220606201825.763788-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, bleung@chromium.org,
+ briannorris@chromium.org, chrome-platform@lists.linux.dev,
+ enric.balletbo@collabora.com, groeck@chromium.org, lee.jones@linaro.org,
+ lgirdwood@gmail.com, broonie@kernel.org, tzungbi@kernel.org
 
-On Wed, 08 Jun 2022 16:35:45 +0800, Tinghan Shen wrote:
-> The MT8195 SCP co-processor is a dual-core RISC-V MCU.
-> 
-> Add a new property to reference the sibling core and to assign
-> core id to SCP nodes. Also add a new compatile for the driver of
-> SCP 2nd core.
-> 
-> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> ---
->  .../devicetree/bindings/remoteproc/mtk,scp.yaml     | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
+Hello:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This series was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon,  6 Jun 2022 20:17:59 +0000 you wrote:
+> This is a short series related to cros_ec_command(). The first patch
+> updates a couple of Cros EC regulator callsites to use the common
+> cros_ec_command(). The next couple of patches do a rename and argument
+> type update.
+> 
+> Prashant Malani (3):
+>   regulator: cros-ec: Use common cros_ec_command()
+>   platform/chrome: cros_ec_proto: Rename cros_ec_command function
+>   platform/chrome: cros_ec_proto: Update size arg types
+> 
+> [...]
+
+Here is the summary with links:
+  - [1/3] regulator: cros-ec: Use common cros_ec_command()
+    https://git.kernel.org/chrome-platform/c/015cd0043503
+  - [2/3] platform/chrome: cros_ec_proto: Rename cros_ec_command function
+    https://git.kernel.org/chrome-platform/c/b1d288d9c3c5
+  - [3/3] platform/chrome: cros_ec_proto: Update size arg types
+    https://git.kernel.org/chrome-platform/c/f87e15fbf6d8
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

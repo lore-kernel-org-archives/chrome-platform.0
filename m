@@ -1,23 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DB77C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 02:40:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E1EFC3411B;
-	Fri, 10 Jun 2022 02:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654828817;
-	bh=TeQU+C7+kasU+D5PtQZUnBG166WgQJuY+O5xa7YKewI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=J6endfR/Bs4gcJvyIKyC25Cy3ikh3rCJN8/DLFps0xx2jpYbZxFhKk12B7MXuiD/2
-	 PszmR7cXJ9zKl2fN9czFCmAUzN0Ikf8Xo3+WJX7iv4zK+62WePafvMH/oBN7CdvSYW
-	 WaFQBJlSxZd+d0KpvguRnulIGwaEwmfu5lT/e5eFyr2lg9H9ruCj/Z4ALXI324RIkO
-	 xYHr4B+i/uSXjw5LALiCEo6e6xbwap4czZ0hdOcQrlc8DC1X5nRo6lNgyKWpOslbVX
-	 sOuxVsP7Npc8wsEa+Qa3Y1AYvPNj30FQ/3cWoc6OBtlhGqgbcIrlYEPRjzltoHrRk4
-	 G3h3xwkOIhiGA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 83057E737ED;
-	Fri, 10 Jun 2022 02:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B237C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 04:01:30 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id 187so22777983pfu.9
+        for <chrome-platform@lists.linux.dev>; Thu, 09 Jun 2022 21:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=bqbg7Dhls0hFgodzVME4yjWhJnO2qZYs1zLw2ZnxBG8=;
+        b=PyOeBwriaPman98l70k9qd940JSbs9enivAT5VGHKVMUC5I5s+witEjU5+eouoU3pI
+         dZPGIulbKRk83LBVAoAjz+6VbDBTIzQjJSKZEkO4kJjdmsreIXRsaIdncUXqwsq+wtaJ
+         A1dym5sslqkD5BFfztHbfI02NDFwAsbALOhswL7ROlB+agsg3Dq8LfilY3Q1BueOVmG7
+         VPdcm4ckZF1cSG7jleGn50LBAeX9xDSCc4rlnlir7p4Yfb0ffMLbNpgLd6RtrAf6Ku/O
+         DmJ8nRxWWvnQKB7HQsc+AgSiCmKHuM0mhRqNJHMNhFOtWZ1m7ttKnSHAfiYPexzqSwyj
+         gv/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=bqbg7Dhls0hFgodzVME4yjWhJnO2qZYs1zLw2ZnxBG8=;
+        b=kuD8/ODhH3CzfL6MomSNN2FRjtdMjj9el8sRvdk//aSSLSI9w1QIyFhf+nnR6EEK1P
+         QliTdcEVYTAHJj+SIZHNkACU0QxbgpPr0SB9JEc1NKhFdPGpim1zVI3eGulL2R7l7bVS
+         bgAFXcYjglgluno8JtjTQSdcw8MRTEL8HLWDYZfacB0Qf68RXkBw/SzECsNq/knmuBUM
+         Va8lWJEFgGMLXZu9WqIDUFDmaQWK4i5rHBbwvXvS/djr5dhgUd4K61p3iNtgFHqJY+Uv
+         8IVyx7y1B3V6nPFNAaPi2np+cxadty0EjPk+e1O/nSEc8mdjW/uN94ZOlMI5Bt3lL1hj
+         UEjQ==
+X-Gm-Message-State: AOAM530lx7n/hObZhWXpC/ApoDlIIAxGvahpCrcqrx0w8TBuS1uBkvTo
+	FkGuFICgpiHmmsjHDTqp0UT+GQ==
+X-Google-Smtp-Source: ABdhPJwjzYMPaJCRo/5WW6dBzM37ZbbPix3qYPg0Q8CAD5yy5hT5GUcvDBjIuibMNFTegyK9Y5k+iQ==
+X-Received: by 2002:a05:6a00:1344:b0:51b:ed0d:dbbd with SMTP id k4-20020a056a00134400b0051bed0ddbbdmr34231408pfu.45.1654833689749;
+        Thu, 09 Jun 2022 21:01:29 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id p13-20020a170902a40d00b0015f300ed0b7sm17644366plq.76.2022.06.09.21.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 21:01:29 -0700 (PDT)
+Message-ID: <62a2c219.1c69fb81.a4665.32ec@mx.google.com>
+Date: Thu, 09 Jun 2022 21:01:29 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,86 +45,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 00/21] platform/chrome: Kunit tests and refactor for
- cros_ec_query_all()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165482881753.28809.12318333795331235852.git-patchwork-notify@kernel.org>
-Date: Fri, 10 Jun 2022 02:40:17 +0000
-References: <20220609084957.3684698-1-tzungbi@kernel.org>
-In-Reply-To: <20220609084957.3684698-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v5.19-rc1-35-g412b193d93912
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.19-rc1-35-g412b193d93912)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.19-rc1=
+-35-g412b193d93912)
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.19-rc1-35-g412b193d93912/
 
-On Thu,  9 Jun 2022 08:49:36 +0000 you wrote:
-> The series adds Kunit tests, refactors, and clean-ups for cros_ec_query_all().
-> 
-> Tzung-Bi Shih (21):
->   platform/chrome: cros_ec_commands: fix compile errors
-> -> Fixes compile errors when including cros_ec_commands.h.
-> 
->   platform/chrome: cros_ec_proto: add Kunit tests for
->     cros_ec_query_all()
-> -> Adds Kunit tests for cros_ec_query_all().  They are baseline tests
->    for the following refactor patches.  They are designed to pass current
->    code.
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.19-rc1-35-g412b193d93912
+Git Commit: 412b193d93912055f2389500102f4bd75ba9b144
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [v4,01/21] platform/chrome: cros_ec_commands: fix compile errors
-    https://git.kernel.org/chrome-platform/c/ea7f0f777d28
-  - [v4,02/21] platform/chrome: cros_ec_proto: add Kunit tests for cros_ec_query_all()
-    https://git.kernel.org/chrome-platform/c/b99eb596efbd
-  - [v4,03/21] platform/chrome: use macros for passthru indexes
-    https://git.kernel.org/chrome-platform/c/3db0c9e5de7b
-  - [v4,04/21] platform/chrome: cros_ec_proto: assign buffer size from protocol info
-    https://git.kernel.org/chrome-platform/c/e796c0c4b1ad
-  - [v4,05/21] platform/chrome: cros_ec_proto: remove redundant NULL check
-    https://git.kernel.org/chrome-platform/c/8e3991610ba5
-  - [v4,06/21] platform/chrome: cros_ec_proto: use cros_ec_map_error()
-    https://git.kernel.org/chrome-platform/c/93bea2faed63
-  - [v4,07/21] platform/chrome: cros_ec_proto: separate cros_ec_get_proto_info()
-    https://git.kernel.org/chrome-platform/c/b4d0836e8160
-  - [v4,08/21] platform/chrome: cros_ec_proto: add Kunit tests for getting proto info
-    https://git.kernel.org/chrome-platform/c/3e97581ed9a2
-  - [v4,09/21] platform/chrome: cros_ec_proto: handle empty payload in getting proto info
-    https://git.kernel.org/chrome-platform/c/878c36f6caa4
-  - [v4,10/21] platform/chrome: cros_ec_proto: separate cros_ec_get_proto_info_legacy()
-    https://git.kernel.org/chrome-platform/c/a88f79666d14
-  - [v4,11/21] platform/chrome: cros_ec_proto: add Kunit test for getting legacy info
-    https://git.kernel.org/chrome-platform/c/cce5d551809c
-  - [v4,12/21] platform/chrome: cros_ec_proto: handle empty payload in getting info legacy
-    https://git.kernel.org/chrome-platform/c/d394ab5c062a
-  - [v4,13/21] platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
-    https://git.kernel.org/chrome-platform/c/b36f0643ff14
-  - [v4,14/21] platform/chrome: cros_ec_proto: return 0 on getting cmd mask success
-    https://git.kernel.org/chrome-platform/c/f91183aa459a
-  - [v4,15/21] platform/chrome: cros_ec_proto: add Kunit test for getting cmd mask error
-    https://git.kernel.org/chrome-platform/c/a8f77c63baec
-  - [v4,16/21] platform/chrome: cros_ec_proto: check `msg->result` in getting cmd mask
-    https://git.kernel.org/chrome-platform/c/ec5134899335
-  - [v4,17/21] platform/chrome: cros_ec_proto: add Kunit tests for getting cmd mask
-    https://git.kernel.org/chrome-platform/c/8120febafccb
-  - [v4,18/21] platform/chrome: cros_ec_proto: handle empty payload in getting cmd mask
-    https://git.kernel.org/chrome-platform/c/aac29b04dc3f
-  - [v4,19/21] platform/chrome: cros_ec_proto: return 0 on getting wake mask success
-    https://git.kernel.org/chrome-platform/c/d65da5f9bb0a
-  - [v4,20/21] platform/chrome: cros_ec_proto: add Kunit test for getting wake mask
-    https://git.kernel.org/chrome-platform/c/e43772294246
-  - [v4,21/21] platform/chrome: cros_ec_proto: handle empty payload in getting wake mask
-    https://git.kernel.org/chrome-platform/c/cfed691b80dc
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

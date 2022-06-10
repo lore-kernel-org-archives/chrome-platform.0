@@ -1,56 +1,53 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434FE7A
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 19:49:27 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id u8so33469918wrm.13
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 12:49:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30257A
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 19:51:19 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id me5so47440ejb.2
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 12:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=u9muj2CCpJ3bi2OBicnt3vUuhr/462OKXXDNMSoOjkA=;
-        b=nJO3QDlMK8Oo8cC2rEDrsS8zHoFWKSvz9V9tp5Slqj6XFK8gGsnauvl4/5a9Zlujsw
-         CorVf5dfKaQH6teMfzW+hEHcOqhkKmK+dqKhgaSLIk2OjK2OrHpiPiYlnLwU4fkOG5Z5
-         4PmGHwSchAW9lf+n6mIfhoGZyeWAKEIX9r6hS5AcDvGRjX5QHRl7KdZO9iqyazhYBNgz
-         7pfLKuBvFnE/1MuQV2//JtuGP6S3TUo035W5eNVrysQCBRxAgc/0GKH+7gd2XMdw+zE2
-         BOR2sXaNMk/Pkqsivac6peQf8L0kcC+Xa3RD9v9FKZpipTo6kRu9/aVYFutE3X708T/B
-         a27A==
+        bh=bNY4bb5ZsDGbijlscX/zWHp76bvVhoKTJQjCK2gLBow=;
+        b=DTARzN9ZKxLbpM5DnF604iI8/F/84/wIKw08CbQfw05YnVX88YGW6HVfBxQNHvMu4T
+         MLrV3I1t6KM5Qc6HlnyeXHSTGoq8+8DaWtqoRUwsLbX6Mzc8EpX122ha3qRBRoFfEqzN
+         Jk0f/3X9FLtgjhjaqJKanWVijWyNNRgDw6pmj5+2xfApIvc2SRAwOjLitceTonJ4eGE1
+         a1A9wbvVgJFRqD/0S50YXqjQh+yziCS7x5lzFW9SKapPD3uUc9it44OjhImJd8j2+oZt
+         Butz14g0HcCbwqNDkTuGrH/EVS+NkDJB41ZnGmOfym00EegEpO7qNAqhl52gA+RezkJc
+         GTxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=u9muj2CCpJ3bi2OBicnt3vUuhr/462OKXXDNMSoOjkA=;
-        b=RsyOBbhkyWR943om+8uokjs8E/He6xOn6x86Yk9xS0KNa8DOwGRPe+eRqyrdCoHhYw
-         SLGTnwCMAKFejPOnbvDT4DqaCh9rPCZcjkZVUybiQ37ASYi1pQWIzJd9h+0UMshO3M2l
-         S68js639sz/jaaQ82S3WfjyUHW6KEaHZOxm1J9JgKs5Fe5KbxRyBa5I0VKd5WMVV7NTt
-         veLDL5w7d4J1wfIxxngfjs5sz/neM0odxDJRpWjO489yG4ogA0p7ioazAu5Qekb40PUs
-         3nK1pMziMFxfNjbjYhoTkYj9t7/7DQ/eziVCbwo48GVHXzVqcgWlGuuXusEVMePbW7BU
-         pk/A==
-X-Gm-Message-State: AOAM531tC1uuW6c++L0UmNLASznvmnUChgbOhOnP5c/4ouRZIIKmDKt3
-	iW9TsDkOO75oy23aAPPSMKk=
-X-Google-Smtp-Source: ABdhPJw1wyN/M1WFaQFuP+jX/NGTq2GqnLXXrOE71+r/B9uelliduc7dUH3CHihgz35kd6pD213QmQ==
-X-Received: by 2002:adf:d1c6:0:b0:218:51ae:8812 with SMTP id b6-20020adfd1c6000000b0021851ae8812mr21038542wrd.178.1654890565371;
-        Fri, 10 Jun 2022 12:49:25 -0700 (PDT)
+        bh=bNY4bb5ZsDGbijlscX/zWHp76bvVhoKTJQjCK2gLBow=;
+        b=nyCepq+g62kUq6rk9K0FfTzB9R/iNS1+V7fYzUV6o+G57j56LAqbMkoDicrD0ZwYfF
+         m01eGRRM1rs0qvC6P/Te/9DTRAu4JWp8G6diY6VlxzKBDPopdwpN1FhmHeF+QGW58VBD
+         QMp8fsB/K4MdE/cnZqsvhh1sb0WgzUYbUs3iRNZp/E1zMr36NFcQpNbP6Y+s+PVFILZ1
+         EU7FlkEaMvd7NaFSTDDIxrTrwtFKZIqFJ+jQngVa3DtbaUUORwhuwFhddBTIWFWiORB5
+         MDpDPC71lDl7vbxaGlFLAL3S0DD40Cltp1uYGQxk4hMPSR0T/+EABB/3QxVkN7DnQ60Y
+         gsiw==
+X-Gm-Message-State: AOAM5318BFiBPpN5nB6IKyHei4qriypmaZz/q2zvmd5cQSoFWNPn+t9M
+	oZOiGQFKiDAHAj+4J9TenGg=
+X-Google-Smtp-Source: ABdhPJxHRykgXinV3uoaEPm9Ud4a9M4gnh2v3qf5U98udrI7NhTVLe93fDw1Gnx05NF5PsnFjGIIwQ==
+X-Received: by 2002:a17:906:51d6:b0:712:c9:8a1b with SMTP id v22-20020a17090651d600b0071200c98a1bmr10665567ejk.656.1654890677793;
+        Fri, 10 Jun 2022 12:51:17 -0700 (PDT)
 Received: from ?IPv6:2001:a61:136e:3c01:8bd4:cf6f:76f1:a861? ([2001:a61:136e:3c01:8bd4:cf6f:76f1:a861])
-        by smtp.gmail.com with ESMTPSA id g15-20020a05600c4ecf00b0039c4945c753sm4278743wmq.39.2022.06.10.12.49.23
+        by smtp.gmail.com with ESMTPSA id ck16-20020a170906c45000b006feb20b5235sm12715703ejb.84.2022.06.10.12.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jun 2022 12:49:25 -0700 (PDT)
-Message-ID: <a67d3d01824db6376c2f15949021db4f2b6173cb.camel@gmail.com>
-Subject: Re: [PATCH 06/34] iio: adc: ingenic-adc: explicitly add proper
- header files
+        Fri, 10 Jun 2022 12:51:17 -0700 (PDT)
+Message-ID: <d083dd2c7e9e6eefb32124648a06799a9ebe8dfd.camel@gmail.com>
+Subject: Re: [PATCH 34/34] iio: inkern: fix coding style warnings
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
+To: Joe Simmons-Talbott <joetalbott@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
 	 <nuno.sa@analog.com>
-Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas
- <linux-renesas-soc@vger.kernel.org>, "open list:BROADCOM NVRAM DRIVER"
- <linux-mips@vger.kernel.org>, linux-arm Mailing List
- <linux-arm-kernel@lists.infradead.org>, chrome-platform@lists.linux.dev,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, 
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, linux-iio <linux-iio@vger.kernel.org>, 
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, Cai Huoqing
+Cc: linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ chrome-platform@lists.linux.dev, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-mediatek@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm@vger.kernel.org, 
+ linux-iio@vger.kernel.org, openbmc@lists.ozlabs.org, Cai Huoqing
  <cai.huoqing@linux.dev>, Benjamin Fair <benjaminfair@google.com>, Jishnu
  Prakash <quic_jprakash@quicinc.com>, Linus Walleij
  <linus.walleij@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, Alexandre
@@ -58,8 +55,8 @@ Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas
  Andy Gross <agross@kernel.org>, Michael Hennerich
  <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, Benson
  Leung <bleung@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,  Christophe Branchereau
- <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, Arnd
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Christophe Branchereau
+ <cbranchereau@gmail.com>,  Patrick Venture <venture@google.com>, Arnd
  Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer
  <s.hauer@pengutronix.de>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
  Gwendal Grignou <gwendal@chromium.org>, Saravanan Sekar
@@ -68,20 +65,19 @@ Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas
  Thara Gopinath <thara.gopinath@linaro.org>, Avi Fishman
  <avifishman70@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu
  Beznea <claudiu.beznea@microchip.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Tomer Maimon
- <tmaimon77@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,  Jonathan Cameron
- <jic23@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Shawn Guo
- <shawnguo@kernel.org>, Guenter Roeck <groeck@chromium.org>, Fabio Estevam
- <festevam@gmail.com>, Olivier Moysan <olivier.moysan@foss.st.com>, Eugen
- Hristev <eugen.hristev@microchip.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>
-Date: Fri, 10 Jun 2022 21:49:22 +0200
-In-Reply-To: <CAHp75VcU-oV4is_y9=oaOx2ugvTEOy53h2wvbd3-Z9_gv5Y=zA@mail.gmail.com>
+ <kernel@pengutronix.de>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,  Tomer Maimon <tmaimon77@gmail.com>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Jonathan Cameron <jic23@kernel.org>, Zhang
+ Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, Guenter Roeck
+ <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Date: Fri, 10 Jun 2022 21:51:15 +0200
+In-Reply-To: <YqNo6U8r80aNFzUr@spruce>
 References: <20220610084545.547700-1-nuno.sa@analog.com>
-	 <20220610084545.547700-7-nuno.sa@analog.com>
-	 <CAHp75VcU-oV4is_y9=oaOx2ugvTEOy53h2wvbd3-Z9_gv5Y=zA@mail.gmail.com>
+	 <20220610084545.547700-35-nuno.sa@analog.com> <YqNo6U8r80aNFzUr@spruce>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 Precedence: bulk
@@ -92,26 +88,38 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2022-06-10 at 16:45 +0200, Andy Shevchenko wrote:
-> On Fri, Jun 10, 2022 at 10:46 AM Nuno Sá <nuno.sa@analog.com> wrote:
+On Fri, 2022-06-10 at 11:53 -0400, Joe Simmons-Talbott wrote:
+> On Fri, Jun 10, 2022 at 10:45:45AM +0200, Nuno Sá wrote:
+> > Just cosmetics. No functional change intended...
 > > 
-> > Do not trust the fact that iio.h includes of.h which in turn
-> > includes
-> > all the headers we are relying on.
+> > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > ---
+> >  drivers/iio/inkern.c | 64 ++++++++++++++++++++++------------------
+> > ----
+> >  1 file changed, 32 insertions(+), 32 deletions(-)
 > > 
-> > The ultimate goal is to actually drop of.h from iio.h.
+> > diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+> > index 7eb536560ded..526519cefcb9 100644
+> > --- a/drivers/iio/inkern.c
+> > +++ b/drivers/iio/inkern.c
+> > @@ -45,13 +45,13 @@ int iio_map_array_register(struct iio_dev
+> > *indio_dev, struct iio_map *maps)
+> >         int i = 0, ret = 0;
+> >         struct iio_map_internal *mapi;
+> >  
+> > -       if (maps == NULL)
+> > +       if (!maps)
+> >                 return 0;
+> >  
+> >         mutex_lock(&iio_map_list_lock);
+> > -       while (maps[i].consumer_dev_name != NULL) {
+> > +       while (!maps[i].consumer_dev_name) {
 > 
-> ...
-> 
-> >  #include <linux/mod_devicetable.h>
-> >  #include <linux/mutex.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/property.h>
-> > +#include <linux/of.h>
-> 
-> Ordering (from the context I don't see it's messed up already)
+> Shouldn't this be?:
+> while (maps[i].consumer_dev_name) {
 > 
 
-Will double check on v2...
+Ups... Nice catch! I was probably in bot mode already.
 
 - Nuno Sá
+

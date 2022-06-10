@@ -1,51 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8DB7C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 15:06:24 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id me5so53504499ejb.2
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:06:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9647C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 15:07:41 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id g7so1389470eda.3
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=rmSZhFt+L2EkdTfA4PhCKlZgd+Ko2Rb6WSrQZb1cOCI=;
-        b=qCr8IJLDkZnLtvz4aw+Xn5xelUdctRwoMbU2miyXWPJSzLZTJK2NeLG1JzUB9nU2nE
-         5/RMCchvqx1ozjmNfNiBY4sJPZPjH7Ea5MpV7IYxt94+qFzIQuzmrr/zYYAP+dIEnmfQ
-         0fNqjCzWxWfSnGY9kbiR2idz19Ic+Z0cFo4bKxJeyYNHmLilyZVs6SAOptiXPyxSMutY
-         Q7ONB7ISiyNGWXXWBalOU8nD+18nZBZ9WdCwlSDCAAdrCEX08bVOGzs/5dUYND/pccgd
-         ragBkS8mjJZY0gn+bjB5N+tuF1Ez2mGm8CSLoHNzEXhhSe1/Zmu/grPIAqadHgCBJWvt
-         dswQ==
+        bh=kUO2ibunC7H0XDsaHRR1RaXa5+TAT1P54T7nymM8aoY=;
+        b=Km/6uG4N0I1v3nCHQDOVYyGXyKL6LrNTIbysl2MklDB9UNEDZqbo8NqSGO5sAbe1x3
+         1cNbRBqVAX7iALT4cPuZPV2Gy0svte0/yscfFN+g1Ogb2RIQjl6DgOizWWO5fd4eNFOS
+         cFHB/CShwbXerNRbAbMaZARMBkStUWNdpK4AI4NeBMKj0sDM63KFgdNX9P/+Dhd1uRNk
+         FLcTygnXnEYbzwm+r9bTo4ZY2iUckj/9fDrW+Io2qRDuYMft54iHj9QNjGfcRYMVRQ12
+         wfKGJOKpPYgf+b/ciNPTOWTHRSnMg76WfJK7EXdcaCmTVdopl5R4fFUp7H4JdCySKPj5
+         iqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rmSZhFt+L2EkdTfA4PhCKlZgd+Ko2Rb6WSrQZb1cOCI=;
-        b=Qdw5/lFzwJPz9BtBcW2X5kb9dsAoowVdGJNN/OgMMyD/4BY0qVvvVxt8rUNMS/N9e/
-         fI0M+ehd43bL0snwxkyeGuUcjVaeGUE9f9Ihpw5Ft65l2FhTbBvwYlfOAyW8/AWhZMIb
-         q5T4wxcIQ9/3nopiyC/9vlz2NmNqAilRngd/cfGv1XZjhiV9wHii4q1YcH0fFOYNiJnv
-         hpxMOqnmHNXWHyMDYRKEp5v/zUJRrAxgIxsWOiLaMG910SNqz0CJpE6BU+LL9mx2SYzQ
-         5XEAMDpBTJl73NuF3Ebh5HlJja2HxFG6lcoYk8jUwrHNHdHx+20cqdjZ900BBq6GqE2e
-         OCxg==
-X-Gm-Message-State: AOAM530mlcsM7SU7bOFXWvPdMSBQS4ZQzN0SIuadPfCr4MGCj0WH0wli
-	5IW8g5XNDUdNFQ44SbovEFL9/Rg2dH4rtm9MtJs=
-X-Google-Smtp-Source: ABdhPJxLQGYHGj7gcyVcctXCwCgpnEr2cRyaoQ3/TTAEPMeK3HCToHy6/n79bgCvIjvr7StG2KRTs/e28PmBV+zKUAU=
-X-Received: by 2002:a17:906:c7c1:b0:711:d2e9:99d0 with SMTP id
- dc1-20020a170906c7c100b00711d2e999d0mr23093435ejb.639.1654873582571; Fri, 10
- Jun 2022 08:06:22 -0700 (PDT)
+        bh=kUO2ibunC7H0XDsaHRR1RaXa5+TAT1P54T7nymM8aoY=;
+        b=k6P6vq+Pqd1G6Xd2zE3WiGwdEcTbAHQwCoMN0vtzuuii4tn0nS85Qlrbm78Q5ckuYL
+         SRUU4585egm/uggxDdMmKYc8YEDy+1AYX44t8Za+jOsNe2nbcxx0/HMK64n35qydOssR
+         fSNXKv/Uyb+Kk2UHKAWM3tDm+SLRu/E+Q6ThAZJGzVby08ThiqH3sNMskCXCoQFMy6Vf
+         vX7KgC9R3q1OMWmYDp1J6P8/CDmYY0Rb1TzZAmzStpeceu/MmbOE1vvXDDaKw/RhVsRz
+         sBn7Gwg2qFkh1eA6Vu6HhWIVoXpI0q9kUV/EHRTn7EMlM7JdEL6mp75jJg2Q0PAJHNgE
+         pI0g==
+X-Gm-Message-State: AOAM531+aBJVcrhrlrFEo/r/TlZ4rvaoaMmgJFIHGuyQwz4fxHKRRyTE
+	u9a6RHXay+fsUgT8aDoKFd9iip8HsqvYpdEpXnw=
+X-Google-Smtp-Source: ABdhPJxWp2gvN4Nfk2r+vYkXDxxpanl8SYkus08bByYas8UdfPjxgCPUYO0Y8DTxN4CocSeDaFKMLBbwWkQqK48L8Co=
+X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id
+ b1-20020aa7d481000000b0042dd5fdf963mr51786214edr.209.1654873659584; Fri, 10
+ Jun 2022 08:07:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-23-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-23-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-24-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-24-nuno.sa@analog.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Jun 2022 17:05:45 +0200
-Message-ID: <CAHp75VcPoZ4FKTwDN_F76EZAcWYzAe1CHmuRuaP0wg3BgmPtfA@mail.gmail.com>
-Subject: Re: [PATCH 22/34] iio: inkern: only return error codes in
- iio_channel_get_*() APIs
+Date: Fri, 10 Jun 2022 17:07:03 +0200
+Message-ID: <CAHp75VcxZrMM7nHyOYdNMkepbP51Wf4z5botU9ma8+gmn_Lz-w@mail.gmail.com>
+Subject: Re: [PATCH 23/34] iio: inkern: split of_iio_channel_get_by_name()
 To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
 	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
@@ -80,53 +79,125 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
-> APIs like of_iio_channel_get_by_name() and of_iio_channel_get_all() were
-> returning a mix of NULL and error pointers being NULL the way to
-> "notify" that we should do a "system" lookup for channels. This make
-> it very confusing and prone to errors as commit dbbccf7c20bf
-> ("iio: inkern: fix return value in devm_of_iio_channel_get_by_name()")
-> proves. On top of this, patterns like 'if (channel !=3D NULL) return chan=
-nel'
-> were being used where channel could actually be an error code which
-> makes the code hard to read.
+> This change splits of_iio_channel_get_by_name() so that it decouples
+> looking for channels in the current node from looking in it's parents
+> nodes. This will be helpful when moving to fwnode properties where we
+> need to release the handles when looking for channels in parent's nodes.
+>
+> No functional change intended...
 
-...
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
->                 np =3D np->parent;
->                 if (np && !of_get_property(np, "io-channel-ranges", NULL)=
-)
-> -                       return NULL;
-> +                       return chan;
-
-Shouldn't it return a dedicated error code and not some arbitrary one?
-It may be I missed something and chan has a correct error code in this
-case...
-
-...
-
-> +       if (nummaps =3D=3D 0)       /* return -ENODEV to search map table=
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> ---
+>  drivers/iio/inkern.c | 69 ++++++++++++++++++++++++++++----------------
+>  1 file changed, 44 insertions(+), 25 deletions(-)
+>
+> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+> index 31d9c122199a..dde47324b826 100644
+> --- a/drivers/iio/inkern.c
+> +++ b/drivers/iio/inkern.c
+> @@ -211,44 +211,63 @@ static struct iio_channel *of_iio_channel_get(struc=
+t device_node *np, int index)
+>         return ERR_PTR(err);
+>  }
+>
+> +struct iio_channel *__of_iio_channel_get_by_name(struct device_node *np,
+> +                                                const char *name,
+> +                                                bool *parent_lookup)
+> +{
+> +       struct iio_channel *chan;
+> +       int index =3D 0;
+> +
+> +       /*
+> +        * For named iio channels, first look up the name in the
+> +        * "io-channel-names" property.  If it cannot be found, the
+> +        * index will be an error code, and of_iio_channel_get()
+> +        * will fail.
+> +        */
+> +       if (name)
+> +               index =3D of_property_match_string(np, "io-channel-names"=
+, name);
+> +
+> +       chan =3D of_iio_channel_get(np, index);
+> +       if (!IS_ERR(chan) || PTR_ERR(chan) =3D=3D -EPROBE_DEFER) {
+> +               *parent_lookup =3D false;
+> +       } else if (name && index >=3D 0) {
+> +               pr_err("ERROR: could not get IIO channel %pOF:%s(%i)\n",
+> +                      np, name ? name : "", index);
+> +               *parent_lookup =3D false;
+> +       }
+> +
+> +       return chan;
+> +}
+> +
+>  struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
+>                                                const char *name)
+>  {
+>         struct iio_channel *chan;
+> +       bool parent_lookup =3D true;
+>
+>         /* Walk up the tree of devices looking for a matching iio channel=
  */
+> +       chan =3D __of_iio_channel_get_by_name(np, name, &parent_lookup);
+> +       if (!parent_lookup)
+> +               return chan;
+> +
+> +       /*
+> +        * No matching IIO channel found on this node.
+> +        * If the parent node has a "io-channel-ranges" property,
+> +        * then we can try one of its channels.
+> +        */
+> +       np =3D np->parent;
+>         while (np) {
+> -               int index =3D 0;
+> -
+> -               /*
+> -                * For named iio channels, first look up the name in the
+> -                * "io-channel-names" property.  If it cannot be found, t=
+he
+> -                * index will be an error code, and of_iio_channel_get()
+> -                * will fail.
+> -                */
+> -               if (name)
+> -                       index =3D of_property_match_string(np, "io-channe=
+l-names",
+> -                                                        name);
+> -               chan =3D of_iio_channel_get(np, index);
+> -               if (!IS_ERR(chan) || PTR_ERR(chan) =3D=3D -EPROBE_DEFER)
+> +               if (!of_get_property(np, "io-channel-ranges", NULL))
+>                         return chan;
+> -               if (name && index >=3D 0) {
+> -                       pr_err("ERROR: could not get IIO channel %pOF:%s(=
+%i)\n",
+> -                               np, name ? name : "", index);
+> +
+> +               chan =3D __of_iio_channel_get_by_name(np, name, &parent_l=
+ookup);
+> +               if (!parent_lookup)
+>                         return chan;
+> -               }
+>
+> -               /*
+> -                * No matching IIO channel found on this node.
+> -                * If the parent node has a "io-channel-ranges" property,
+> -                * then we can try one of its channels.
+> -                */
+>                 np =3D np->parent;
+> -               if (np && !of_get_property(np, "io-channel-ranges", NULL)=
+)
+> -                       return chan;
+>         }
+>
+> -       return ERR_PTR(-ENODEV);
+> +       return chan;
+>  }
+>  EXPORT_SYMBOL_GPL(of_iio_channel_get_by_name);
+>
+> --
+> 2.36.1
+>
 
-Comment is superfluous, the next line is self-explaining.
-
-> +               return ERR_PTR(-ENODEV);
-
-...
-
-> -               if (channel !=3D NULL)
-> +               if (!IS_ERR(channel) || PTR_ERR(channel) =3D=3D -EPROBE_D=
-EFER)
-
-Btw, in the GPIO library we have a macro or inliner (don't remember)
-that represents such a conditional.
-Perhaps make it (if it's a macro) global, or introduce an inline in IIO?
-
-Okay, it's here:
-https://elixir.bootlin.com/linux/v5.19-rc1/source/drivers/gpio/gpiolib.h#L1=
-79
-
-It's similar, but not the same, so just play with an idea to introduce
-something in this file, maybe it's worth doing this, maybe not.
 
 --=20
 With Best Regards,

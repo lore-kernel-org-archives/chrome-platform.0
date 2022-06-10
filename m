@@ -1,50 +1,51 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BCF7C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 14:45:56 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id o7so20625182eja.1
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 07:45:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4977C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 14:47:56 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id v19so35596311edd.4
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 07:47:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=KoDE34zocTcx3MPzWCnR4QwZS2ytF1uI72CoiLyAcyQ=;
-        b=cPMR1qwhgBciQ4QuFRIqiyeHmWI4Ln4CHN421omnkh7YH9MB7rz/jhyXlDcjROB6tT
-         JiSpoNNM1qEgfFc/7U9Bzbww3hRJhk8lPntDxUJBZ89txLcz/l4eIrftQGXd/SjihNQ3
-         DYhEWO3cPHerQ6tMoyNMwIS+iCRH+4RQ3UEZLVQEmS5QOfbNGv833fIl2ncEf4jXl14U
-         yi4+tL0c+r7c5GU8P4oAYYhsdlfSHRZE9gQECvEhxRs3N2lDYwzDcaqkKjAEBpHjgt9p
-         K0sdA/V/R/iXE5p8XbseNASd66P628xRR1EgKSZHtqMGGV6sRCzr4iT7MWyT+gB6Znn7
-         cYEA==
+        bh=++QT23Kd+FIQRCrQZQe7WTN4LUSOZ4DgBVw4lFAkbv8=;
+        b=YwdpHX6f3Yq7XH6KVuJEH9ag++zBILZ6r8FsafNlXSwCgT0Dl8CqFiXT7KHM8bkxLF
+         Nf3apV6d4L93j7uQRUCQhfPnmHha/4rR3cl4CH0wTu2qP9AubKK84Y1/5SrnrJXh4Ahn
+         IHWXMQweEAe4L6rRNL8hyvGDC+tXkCijuh7kwaC6b4zb2Fi95twp90585Rpk40WBFx5Q
+         muSamB7AY2Fu4ZNvlMLB4lydiKJ0aoWk0nyFA1KImb/1g5oZTCP5Wbi/kMK06kNHl63V
+         +yQuuhfrlNx/YA3zsGLwtnf8allQ3v1lUsyKJ5ydnTMsCuw9LiMm1xrT9pUSobmkyPxj
+         gU/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KoDE34zocTcx3MPzWCnR4QwZS2ytF1uI72CoiLyAcyQ=;
-        b=NZ30Ic/P+BnLV7+foXQdn0CPCxLaj/81rqXMXNsINvJ92D/uh3wFVslirSkNSsIxVG
-         v3wYZ+5Aya+pAX2VQQdMoFGOz5BfjJC4Uv2s1bpdJvSfhYCsf0phl+2bo7LDI0xo2nb6
-         YZ5nhn2ocLsEPW+Exx1nMBhRvloOJFoes26u/UqzxqQQ4KcXCY83WzbyhvNoSw2REi8B
-         x+riLHRdXjxmFMAmIYj369UGgiX4AyxtawqWyla+AiWUmfpsCobRucitmE/714fB931x
-         O272DuHUu7l5MSvLtS0+kLP1LpwSBEzfUPvx5w4slsyOZ1Rw5lnfFq2b0Zc7T4aP+O0m
-         Vpjg==
-X-Gm-Message-State: AOAM530vMpMKsc6cqClvZqm5h4a0iNhyvJnxZj186h8YXGJLbHm9cIpM
-	hZSQ2hfARJnpA8oUI19+KkK5HZxoWBXGLxWB/24=
-X-Google-Smtp-Source: ABdhPJxizt9m4eKBTNu+PJtwHNsl6LS2ZuZ/AzA8lc7FGXQyzDHIdcU8VIdIbeQpqLpHnNiy07ZL4b6rgaPhYce2N3E=
-X-Received: by 2002:a17:906:1193:b0:70d:cf39:a4db with SMTP id
- n19-20020a170906119300b0070dcf39a4dbmr35595214eja.44.1654872354568; Fri, 10
- Jun 2022 07:45:54 -0700 (PDT)
+        bh=++QT23Kd+FIQRCrQZQe7WTN4LUSOZ4DgBVw4lFAkbv8=;
+        b=Gi6IxmGElFFzFm1ww/6a8khPkAkRUXWuUlA9Tn/JBhiqwsgZHnXFifRPl/26O2oE64
+         lGaBYe1y0wVO2BJwgafOABQuYwlwHGAJuEdn/hpbUYATJLm67bXkL7Sv5KBIqthLscxT
+         Z72oRF9brse7MhubpRhFYbIWvCCi4tywXupKQHd9+iHuYx5IOyPkEw9HgLT2ZKSqHZP5
+         lOa+QofhDONHCAzNncMkjYn3TYDi3Lv5CitKYepFg2cvZgBUFA3x9UtdRUFHR1VZs7UD
+         kEzJppg80wD19dEqSeY53d6fha45OgYRG8M6FzH48tvl5kbZajOnJ5khY99x4V9VJAam
+         YNTA==
+X-Gm-Message-State: AOAM5310DglmxZ+N1tvZws7cE/EfyH9SQir1Y02WhZ+LApdkbOcux8v1
+	sPXQ0I3k2HX+V6pQW0fexo0W0YrSo5Pv/WaRCPA=
+X-Google-Smtp-Source: ABdhPJxUxO59q0a4JvFZDrd7A8E4K6/eK/ZjPOa7JqgennKhOjFwPSMHvPp7iEiz3gXgkjUbucymQNwJhKdm75HJnyM=
+X-Received: by 2002:a05:6402:4390:b0:42e:b7e:e9ac with SMTP id
+ o16-20020a056402439000b0042e0b7ee9acmr50565604edc.97.1654872475078; Fri, 10
+ Jun 2022 07:47:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-7-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-7-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-16-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-16-nuno.sa@analog.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Jun 2022 16:45:07 +0200
-Message-ID: <CAHp75VcU-oV4is_y9=oaOx2ugvTEOy53h2wvbd3-Z9_gv5Y=zA@mail.gmail.com>
-Subject: Re: [PATCH 06/34] iio: adc: ingenic-adc: explicitly add proper header files
+Date: Fri, 10 Jun 2022 16:47:16 +0200
+Message-ID: <CAHp75VdCrFa67_k3TJSznT0fzEK3h3+fk0MHpuwM6NBpTQODEw@mail.gmail.com>
+Subject: Re: [PATCH 15/34] iio: humidity: hts221_buffer: explicitly add proper
+ header files
 To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
 	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
@@ -77,7 +78,7 @@ Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kern
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 10, 2022 at 10:46 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+On Fri, Jun 10, 2022 at 10:47 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
 > Do not trust the fact that iio.h includes of.h which in turn includes
 > all the headers we are relying on.
@@ -86,13 +87,14 @@ On Fri, Jun 10, 2022 at 10:46 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 
 ...
 
->  #include <linux/mod_devicetable.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_device.h>
+>  #include <linux/irqreturn.h>
+>  #include <linux/regmap.h>
+>  #include <linux/bitfield.h>
 > +#include <linux/property.h>
-> +#include <linux/of.h>
 
-Ordering (from the context I don't see it's messed up already)
+Yes, I see, but you can make life easier if you try to squeeze to the
+most sorted part. I do not see full context, but here I would put it
+before regmap.h.
 
 --=20
 With Best Regards,

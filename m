@@ -1,33 +1,33 @@
 Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EE57C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE5F7C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:48:18 +0000 (UTC)
 Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A8T34t005277;
-	Fri, 10 Jun 2022 04:47:44 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3ghq33kq6s-1
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A7h8EN005272;
+	Fri, 10 Jun 2022 04:47:57 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3ghq33kq8d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jun 2022 04:47:43 -0400
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 25A8lgWv023245
+	Fri, 10 Jun 2022 04:47:57 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 25A8lt7F027541
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 Jun 2022 04:47:42 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+	Fri, 10 Jun 2022 04:47:55 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 10 Jun 2022 04:47:41 -0400
+ 15.2.986.14; Fri, 10 Jun 2022 04:47:54 -0400
 Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 10 Jun 2022 04:47:41 -0400
+ 15.2.986.14; Fri, 10 Jun 2022 04:47:54 -0400
 Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
  (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 10 Jun 2022 04:47:41 -0400
+ Transport; Fri, 10 Jun 2022 04:47:54 -0400
 Received: from nsa.ad.analog.com ([10.44.3.70])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imif014275;
-	Fri, 10 Jun 2022 04:47:30 -0400
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imih014275;
+	Fri, 10 Jun 2022 04:47:42 -0400
 From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
 To: <linux-imx@nxp.com>, <linux-renesas-soc@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
@@ -96,9 +96,9 @@ CC: Cai Huoqing <cai.huoqing@linux.dev>,
         Eugen Hristev <eugen.hristev@microchip.com>,
         Miquel Raynal
 	<miquel.raynal@bootlin.com>
-Subject: [PATCH 19/34] iio: core: drop of.h from iio.h
-Date: Fri, 10 Jun 2022 10:45:30 +0200
-Message-ID: <20220610084545.547700-20-nuno.sa@analog.com>
+Subject: [PATCH 21/34] iio: inkern: fix return value in devm_of_iio_channel_get_by_name()
+Date: Fri, 10 Jun 2022 10:45:32 +0200
+Message-ID: <20220610084545.547700-22-nuno.sa@analog.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610084545.547700-1-nuno.sa@analog.com>
 References: <20220610084545.547700-1-nuno.sa@analog.com>
@@ -111,46 +111,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: lQT1feDz-2I25J5EKnPPS1Hh_mnUKOO1
-X-Proofpoint-GUID: lQT1feDz-2I25J5EKnPPS1Hh_mnUKOO1
+X-Proofpoint-ORIG-GUID: zGySTyLHzuN506SK7GBBWcpQPn_ZINfL
+X-Proofpoint-GUID: zGySTyLHzuN506SK7GBBWcpQPn_ZINfL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_02,2022-06-09_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=708 phishscore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ mlxlogscore=999 phishscore=0 priorityscore=1501 adultscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 spamscore=0 impostorscore=0 bulkscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2206100031
 
-There is no reason to include OF as we only need to forward declare
-'of_phandle_args'. Previously, some drivers were actually relying on
-this for some headers (those were already fixed).
+of_iio_channel_get_by_name() can either return NULL or an error pointer
+so that only doing IS_ERR() is not enough. Fix it by checking the NULL
+pointer case and return -ENODEV in that case. Note this is done like this
+so that users of the function (which only check for error pointers) do
+not need to be changed. This is not ideal since we are losing error codes
+and as such, in a follow up change, things will be unified so that
+of_iio_channel_get_by_name() only returns error codes.
 
+Fixes: 6e39b145cef7 ("iio: provide of_iio_channel_get_by_name() and devm_ version it")
 Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 ---
- include/linux/iio/iio.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/iio/inkern.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index 4e21a82b3756..d9b4a9ca9a0f 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -11,13 +11,14 @@
- #include <linux/cdev.h>
- #include <linux/slab.h>
- #include <linux/iio/types.h>
--#include <linux/of.h>
- /* IIO TODO LIST */
- /*
-  * Provide means of adjusting timer accuracy.
-  * Currently assumes nano seconds.
-  */
+diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+index 9d87057794fc..87fd2a0d44f2 100644
+--- a/drivers/iio/inkern.c
++++ b/drivers/iio/inkern.c
+@@ -412,6 +412,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
+ 	channel = of_iio_channel_get_by_name(np, channel_name);
+ 	if (IS_ERR(channel))
+ 		return channel;
++	if (!channel)
++		return ERR_PTR(-ENODEV);
  
-+struct of_phandle_args;
-+
- enum iio_shared_by {
- 	IIO_SEPARATE,
- 	IIO_SHARED_BY_TYPE,
+ 	ret = devm_add_action_or_reset(dev, devm_iio_channel_free, channel);
+ 	if (ret)
 -- 
 2.36.1
 

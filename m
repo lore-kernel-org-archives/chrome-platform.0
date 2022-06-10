@@ -1,29 +1,29 @@
 Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4387A
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 12:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4926C7A
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 13:17:18 +0000 (UTC)
 Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A8Ze3Y010624;
-	Fri, 10 Jun 2022 04:45:36 -0400
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A8fbnM010559;
+	Fri, 10 Jun 2022 04:46:04 -0400
 Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3gm00mh1hx-1
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3gm00mh1p3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jun 2022 04:45:36 -0400
+	Fri, 10 Jun 2022 04:46:04 -0400
 Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 25A8jYPp027438
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 25A8k2To027456
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 Jun 2022 04:45:34 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+	Fri, 10 Jun 2022 04:46:02 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
  (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 10 Jun
- 2022 04:45:33 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 10 Jun 2022 04:45:33 -0400
+ 2022 04:46:01 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 10 Jun 2022 04:46:01 -0400
 Received: from nsa.ad.analog.com ([10.44.3.70])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imiN014275;
-	Fri, 10 Jun 2022 04:45:25 -0400
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imiR014275;
+	Fri, 10 Jun 2022 04:45:50 -0400
 From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
 To: <linux-imx@nxp.com>, <linux-renesas-soc@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
@@ -90,9 +90,9 @@ CC: Cai Huoqing <cai.huoqing@linux.dev>,
         Eugen Hristev
 	<eugen.hristev@microchip.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 01/34] iio: adc: ad7606: explicitly add proper header files
-Date: Fri, 10 Jun 2022 10:45:12 +0200
-Message-ID: <20220610084545.547700-2-nuno.sa@analog.com>
+Subject: [PATCH 05/34] iio: adc: imx8qxp-adc: explicitly add proper header files
+Date: Fri, 10 Jun 2022 10:45:16 +0200
+Message-ID: <20220610084545.547700-6-nuno.sa@analog.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610084545.547700-1-nuno.sa@analog.com>
 References: <20220610084545.547700-1-nuno.sa@analog.com>
@@ -105,13 +105,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: mR1xkOVmFu610z7Jttmfjr9CQOxQtSCo
-X-Proofpoint-GUID: mR1xkOVmFu610z7Jttmfjr9CQOxQtSCo
+X-Proofpoint-ORIG-GUID: eVoh9-6XyJ-alub1YM52pYAjk3sNb1Dd
+X-Proofpoint-GUID: eVoh9-6XyJ-alub1YM52pYAjk3sNb1Dd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_02,2022-06-09_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=763 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 mlxlogscore=831 lowpriorityscore=0 suspectscore=0
  bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015 spamscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2206100031
@@ -123,21 +123,21 @@ The ultimate goal is to actually drop of.h from iio.h.
 
 Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 ---
- drivers/iio/adc/ad7606.c | 1 +
+ drivers/iio/adc/imx8qxp-adc.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-index 3b193dc26438..ba24f99523e0 100644
---- a/drivers/iio/adc/ad7606.c
-+++ b/drivers/iio/adc/ad7606.c
-@@ -12,6 +12,7 @@
+diff --git a/drivers/iio/adc/imx8qxp-adc.c b/drivers/iio/adc/imx8qxp-adc.c
+index 901dd8e1b32f..e8c9a69e10eb 100644
+--- a/drivers/iio/adc/imx8qxp-adc.c
++++ b/drivers/iio/adc/imx8qxp-adc.c
+@@ -19,6 +19,7 @@
  #include <linux/interrupt.h>
+ #include <linux/io.h>
  #include <linux/kernel.h>
++#include <linux/mod_devicetable.h>
  #include <linux/module.h>
-+#include <linux/property.h>
- #include <linux/regulator/consumer.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
 -- 
 2.36.1
 

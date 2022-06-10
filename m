@@ -1,51 +1,50 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96BC7C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 14:56:40 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id n28so35643012edb.9
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 07:56:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA62A7C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 14:57:35 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id o7so20684945eja.1
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 07:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=27H3ValQb+HBvUPzRu8Xf/glxEPwy0TQVzU1GqPnVOU=;
-        b=eoLQQvbaXDJR95EC5g5LJ5CxHbAJV47MdiWWQDebUGy9Q4ljUChinzTC65zAyx9+cu
-         P1TKzxsUNIbMO6DgJKWLF02va3yYhlizG8M969o8ytL6wp0eioeV35oB2ovGhpg0HL2J
-         AtE27v900JQInLKWLqxjz95V4dBqhK4TH2d+FpSxvJHnaV2+W4R07LunLSpcHXFduZip
-         CtWpeygUURiujmqCRQx07U09RQlXGX3kfWPB66KuMLyPm04qs+bAtSY+koRjNgs1IcDR
-         1X5UPyx91NZwB8hqYfnf3lsrVd7c+3ZPhRnd7kjLUGHQEmxcvRwvNYyB/XfwXQBjPuch
-         iMdA==
+        bh=FiFiZSOb5fy9Qyr8SrnJ9LwGpGEbO4FbIZTS4c08mfw=;
+        b=mHU8yDAtySOxuZnlqlJbNLpyJN3LBFi9PrnPSFEfeFm7M2jv5fjv8Qf76KtG5ym6pL
+         zkZuCdBdSgbcyNoKtu/B6lszfOt0Fqu8SsJ8CMw5fYM1VNDA/Y+sUBYi+0zJpPpd0xpX
+         GqJnvLd7h8gOjOxHxYZ/XhWYDauZ6ABgtRMVuL/FwV9lajqaalv5jN2AMxSm1u+li79y
+         SOozLN5MSK0xUqb+vCqGOgxuxQhV6pd7co2o75pIOxdiwQ9NIOtUiXyicUlKY7RcEXkx
+         D2hlqs1xCK/BKhcwcnjRNBLBnLizBihH24xIJcCjwlZlIblip3w3rkDylnKfA4zaFT3C
+         1Rhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=27H3ValQb+HBvUPzRu8Xf/glxEPwy0TQVzU1GqPnVOU=;
-        b=oAM0bq9P7PZcRf6nQPu7jxT/A5NvKfanxmyThKcSd6juMK+HcIY+TBereRamFwAGdc
-         lVs1Iqex3EJbhsO/Zafs/o0DKJzUwF5BYU0CnJBUlokaeFr0bDNRvJMMfVn6cifSGQ4E
-         oQ/m9MEaIwsLRTvw1iOL7UCAeLVLmdlM4mdVuHpr7xRP3LEcADlhfgkSJwjs3fgeYdob
-         by1JUoa3fLVDSUhQ2epDC7aTowPvmuWCAbWz/0IIBaj9j0e0yhDs6vL1V3YlkOGAaDbt
-         7EBwm0+69tJGsBkSDDSoL9n4uPBMxse5QSuSKbT2ZnDKD6rcI9/MwThCKk0uojWC79gX
-         N+3w==
-X-Gm-Message-State: AOAM531JiCxoiNOXlhC2/+LMsGCbCtoeSTe2tQbYfstMpaPX8bECvbXc
-	JwMo5ekAH2tDom1oAv8wrY4UBGinR/dt6kCjgis=
-X-Google-Smtp-Source: ABdhPJy+4W6TzW/Fih8FB8596xZDMbGHtv+y8KFgg0s5ncZshszK0PY5LIku4jQLDiOJ5W3CjVR22n6jku9zOiOB+lo=
-X-Received: by 2002:aa7:d303:0:b0:42d:d192:4c41 with SMTP id
- p3-20020aa7d303000000b0042dd1924c41mr52267347edq.178.1654872998983; Fri, 10
- Jun 2022 07:56:38 -0700 (PDT)
+        bh=FiFiZSOb5fy9Qyr8SrnJ9LwGpGEbO4FbIZTS4c08mfw=;
+        b=7F1o+ybuYz9Fijpv1MkkYS/oGuu4K6vubdQ/UP/4Ar2wk2MrUOI+g381cQsHikypi4
+         airz9YLaccUCcnXobQqsApg0oIA7g7UuNYuTyoJ4jIVfeKawaKGz9vu2mjQbsRacdqMJ
+         lO8Dt6ytTCIEx7Ht1D7ElSoeui1Lj6vM3BUrOOjvDWNd6Eg3bzJ7ZmK14iR36hP/Mm7H
+         dUYt9T0dNop6jc/m7BoObbZYZ2c9AuorO8vqWgCiBBO1zdVlGRW0wvbmQxr1PrZX5IOP
+         awAoDIK7w5Cv1QE/kkXoXcjGP10R5/ZEA7kcLwwP0l+hQ3a9iAH0BcOySYmUw8FiYTYH
+         secw==
+X-Gm-Message-State: AOAM532oLv/OadlmG0L6gHZZXsoGKE0jPOzkmkZ0Fud3VIUPl6PdJTSJ
+	Y3OyU51YL2PrZirgUjg52KA8We9u5WWauTg/Lgg=
+X-Google-Smtp-Source: ABdhPJwgw1cdwy7+7BSEWyUuttbgW9nGvtz5OwQueP4zXXWoa6V054VmGJY2Kj9j5Z7jUAiFw2Aa2m1Mt+A03k0tKIs=
+X-Received: by 2002:a17:906:434f:b0:711:eb76:c320 with SMTP id
+ z15-20020a170906434f00b00711eb76c320mr15425618ejm.636.1654873054113; Fri, 10
+ Jun 2022 07:57:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-21-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-21-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-22-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-22-nuno.sa@analog.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Jun 2022 16:56:02 +0200
-Message-ID: <CAHp75VcdwjTYDF2c-StsL7-pLKtV3vGxinX8+1nJydqB_WNXiA@mail.gmail.com>
-Subject: Re: [PATCH 20/34] iio: inkern: only relase the device node when done
- with it
+Date: Fri, 10 Jun 2022 16:56:57 +0200
+Message-ID: <CAHp75VdpAaO1VCy1WxUgR6z2LZ62gE+6Gp5aE=UrYdCqmZtBWw@mail.gmail.com>
+Subject: Re: [PATCH 21/34] iio: inkern: fix return value in devm_of_iio_channel_get_by_name()
 To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
 	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
@@ -80,15 +79,42 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
-> 'of_node_put()' can potentially release the memory pointed to by
-> 'iiospec.np' which would leave us with an invalid pointer (and we would
-> still pass it in 'of_xlate()'). As such, we can only release the node
-> after we are done with it.
+> of_iio_channel_get_by_name() can either return NULL or an error pointer
+> so that only doing IS_ERR() is not enough. Fix it by checking the NULL
+> pointer case and return -ENODEV in that case. Note this is done like this
+> so that users of the function (which only check for error pointers) do
+> not need to be changed. This is not ideal since we are losing error codes
+> and as such, in a follow up change, things will be unified so that
+> of_iio_channel_get_by_name() only returns error codes.
 
-The question you should answer in the commit message is the following:
-"Can an OF node, attached to a struct device, be gone before the
-device itself?" If it so, then patch is good, otherwise there is no
-point in this patch in the first place.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+> Fixes: 6e39b145cef7 ("iio: provide of_iio_channel_get_by_name() and devm_=
+ version it")
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> ---
+>  drivers/iio/inkern.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+> index 9d87057794fc..87fd2a0d44f2 100644
+> --- a/drivers/iio/inkern.c
+> +++ b/drivers/iio/inkern.c
+> @@ -412,6 +412,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(s=
+truct device *dev,
+>         channel =3D of_iio_channel_get_by_name(np, channel_name);
+>         if (IS_ERR(channel))
+>                 return channel;
+> +       if (!channel)
+> +               return ERR_PTR(-ENODEV);
+>
+>         ret =3D devm_add_action_or_reset(dev, devm_iio_channel_free, chan=
+nel);
+>         if (ret)
+> --
+> 2.36.1
+>
+
 
 --=20
 With Best Regards,

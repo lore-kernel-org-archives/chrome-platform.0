@@ -1,29 +1,29 @@
 Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235AE7C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:48:01 +0000 (UTC)
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A5dYLD010569;
-	Fri, 10 Jun 2022 04:47:37 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3197C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:48:14 +0000 (UTC)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A7WKNX005267;
+	Fri, 10 Jun 2022 04:47:50 -0400
 Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3gm00mh20q-1
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3ghq33kq7t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jun 2022 04:47:37 -0400
+	Fri, 10 Jun 2022 04:47:50 -0400
 Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 25A8lZGw027526
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 25A8lnqA027535
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 Jun 2022 04:47:35 -0400
+	Fri, 10 Jun 2022 04:47:49 -0400
 Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
  (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 10 Jun
- 2022 04:47:35 -0400
+ 2022 04:47:48 -0400
 Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
  (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 10 Jun 2022 04:47:34 -0400
+ Transport; Fri, 10 Jun 2022 04:47:48 -0400
 Received: from nsa.ad.analog.com ([10.44.3.70])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imie014275;
-	Fri, 10 Jun 2022 04:47:23 -0400
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 25A8imig014275;
+	Fri, 10 Jun 2022 04:47:36 -0400
 From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
 To: <linux-imx@nxp.com>, <linux-renesas-soc@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
@@ -90,9 +90,9 @@ CC: Cai Huoqing <cai.huoqing@linux.dev>,
         Eugen Hristev
 	<eugen.hristev@microchip.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 18/34] iio: trigger: stm32-lptimer-trigger: explicitly add proper header files
-Date: Fri, 10 Jun 2022 10:45:29 +0200
-Message-ID: <20220610084545.547700-19-nuno.sa@analog.com>
+Subject: [PATCH 20/34] iio: inkern: only relase the device node when done with it
+Date: Fri, 10 Jun 2022 10:45:31 +0200
+Message-ID: <20220610084545.547700-21-nuno.sa@analog.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610084545.547700-1-nuno.sa@analog.com>
 References: <20220610084545.547700-1-nuno.sa@analog.com>
@@ -105,39 +105,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: XaUawEAyaGZU_NQn0A4irsQom7dYsKM1
-X-Proofpoint-GUID: XaUawEAyaGZU_NQn0A4irsQom7dYsKM1
+X-Proofpoint-ORIG-GUID: SkfWEkHBuamWrqTrmnu36au12Kn0EwdD
+X-Proofpoint-GUID: SkfWEkHBuamWrqTrmnu36au12Kn0EwdD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_02,2022-06-09_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=931 lowpriorityscore=0 suspectscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=924 phishscore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2206100031
 
-Do not trust the fact that iio.h includes of.h which in turn includes
-all the headers we are relying on.
+'of_node_put()' can potentially release the memory pointed to by
+'iiospec.np' which would leave us with an invalid pointer (and we would
+still pass it in 'of_xlate()'). As such, we can only release the node
+after we are done with it.
 
-The ultimate goal is to actually drop of.h from iio.h.
-
+Fixes: 17d82b47a215d ("iio: Add OF support")
 Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 ---
- drivers/iio/trigger/stm32-lptimer-trigger.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/iio/inkern.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/trigger/stm32-lptimer-trigger.c b/drivers/iio/trigger/stm32-lptimer-trigger.c
-index af46c10cea92..2e447a3f047d 100644
---- a/drivers/iio/trigger/stm32-lptimer-trigger.c
-+++ b/drivers/iio/trigger/stm32-lptimer-trigger.c
-@@ -11,6 +11,7 @@
+diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+index df74765d33dc..9d87057794fc 100644
+--- a/drivers/iio/inkern.c
++++ b/drivers/iio/inkern.c
+@@ -165,9 +165,10 @@ static int __of_iio_channel_get(struct iio_channel *channel,
  
- #include <linux/iio/timer/stm32-lptim-trigger.h>
- #include <linux/mfd/stm32-lptimer.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
+ 	idev = bus_find_device(&iio_bus_type, NULL, iiospec.np,
+ 			       iio_dev_node_match);
+-	of_node_put(iiospec.np);
+-	if (idev == NULL)
++	if (idev == NULL) {
++		of_node_put(iiospec.np);
+ 		return -EPROBE_DEFER;
++	}
+ 
+ 	indio_dev = dev_to_iio_dev(idev);
+ 	channel->indio_dev = indio_dev;
+@@ -175,6 +176,7 @@ static int __of_iio_channel_get(struct iio_channel *channel,
+ 		index = indio_dev->info->of_xlate(indio_dev, &iiospec);
+ 	else
+ 		index = __of_iio_simple_xlate(indio_dev, &iiospec);
++	of_node_put(iiospec.np);
+ 	if (index < 0)
+ 		goto err_put;
+ 	channel->channel = &indio_dev->channels[index];
 -- 
 2.36.1
 

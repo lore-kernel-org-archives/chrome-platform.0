@@ -1,50 +1,51 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA62A7C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 14:57:35 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id o7so20684945eja.1
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 07:57:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8DB7C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 15:06:24 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id me5so53504499ejb.2
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=FiFiZSOb5fy9Qyr8SrnJ9LwGpGEbO4FbIZTS4c08mfw=;
-        b=mHU8yDAtySOxuZnlqlJbNLpyJN3LBFi9PrnPSFEfeFm7M2jv5fjv8Qf76KtG5ym6pL
-         zkZuCdBdSgbcyNoKtu/B6lszfOt0Fqu8SsJ8CMw5fYM1VNDA/Y+sUBYi+0zJpPpd0xpX
-         GqJnvLd7h8gOjOxHxYZ/XhWYDauZ6ABgtRMVuL/FwV9lajqaalv5jN2AMxSm1u+li79y
-         SOozLN5MSK0xUqb+vCqGOgxuxQhV6pd7co2o75pIOxdiwQ9NIOtUiXyicUlKY7RcEXkx
-         D2hlqs1xCK/BKhcwcnjRNBLBnLizBihH24xIJcCjwlZlIblip3w3rkDylnKfA4zaFT3C
-         1Rhg==
+        bh=rmSZhFt+L2EkdTfA4PhCKlZgd+Ko2Rb6WSrQZb1cOCI=;
+        b=qCr8IJLDkZnLtvz4aw+Xn5xelUdctRwoMbU2miyXWPJSzLZTJK2NeLG1JzUB9nU2nE
+         5/RMCchvqx1ozjmNfNiBY4sJPZPjH7Ea5MpV7IYxt94+qFzIQuzmrr/zYYAP+dIEnmfQ
+         0fNqjCzWxWfSnGY9kbiR2idz19Ic+Z0cFo4bKxJeyYNHmLilyZVs6SAOptiXPyxSMutY
+         Q7ONB7ISiyNGWXXWBalOU8nD+18nZBZ9WdCwlSDCAAdrCEX08bVOGzs/5dUYND/pccgd
+         ragBkS8mjJZY0gn+bjB5N+tuF1Ez2mGm8CSLoHNzEXhhSe1/Zmu/grPIAqadHgCBJWvt
+         dswQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FiFiZSOb5fy9Qyr8SrnJ9LwGpGEbO4FbIZTS4c08mfw=;
-        b=7F1o+ybuYz9Fijpv1MkkYS/oGuu4K6vubdQ/UP/4Ar2wk2MrUOI+g381cQsHikypi4
-         airz9YLaccUCcnXobQqsApg0oIA7g7UuNYuTyoJ4jIVfeKawaKGz9vu2mjQbsRacdqMJ
-         lO8Dt6ytTCIEx7Ht1D7ElSoeui1Lj6vM3BUrOOjvDWNd6Eg3bzJ7ZmK14iR36hP/Mm7H
-         dUYt9T0dNop6jc/m7BoObbZYZ2c9AuorO8vqWgCiBBO1zdVlGRW0wvbmQxr1PrZX5IOP
-         awAoDIK7w5Cv1QE/kkXoXcjGP10R5/ZEA7kcLwwP0l+hQ3a9iAH0BcOySYmUw8FiYTYH
-         secw==
-X-Gm-Message-State: AOAM532oLv/OadlmG0L6gHZZXsoGKE0jPOzkmkZ0Fud3VIUPl6PdJTSJ
-	Y3OyU51YL2PrZirgUjg52KA8We9u5WWauTg/Lgg=
-X-Google-Smtp-Source: ABdhPJwgw1cdwy7+7BSEWyUuttbgW9nGvtz5OwQueP4zXXWoa6V054VmGJY2Kj9j5Z7jUAiFw2Aa2m1Mt+A03k0tKIs=
-X-Received: by 2002:a17:906:434f:b0:711:eb76:c320 with SMTP id
- z15-20020a170906434f00b00711eb76c320mr15425618ejm.636.1654873054113; Fri, 10
- Jun 2022 07:57:34 -0700 (PDT)
+        bh=rmSZhFt+L2EkdTfA4PhCKlZgd+Ko2Rb6WSrQZb1cOCI=;
+        b=Qdw5/lFzwJPz9BtBcW2X5kb9dsAoowVdGJNN/OgMMyD/4BY0qVvvVxt8rUNMS/N9e/
+         fI0M+ehd43bL0snwxkyeGuUcjVaeGUE9f9Ihpw5Ft65l2FhTbBvwYlfOAyW8/AWhZMIb
+         q5T4wxcIQ9/3nopiyC/9vlz2NmNqAilRngd/cfGv1XZjhiV9wHii4q1YcH0fFOYNiJnv
+         hpxMOqnmHNXWHyMDYRKEp5v/zUJRrAxgIxsWOiLaMG910SNqz0CJpE6BU+LL9mx2SYzQ
+         5XEAMDpBTJl73NuF3Ebh5HlJja2HxFG6lcoYk8jUwrHNHdHx+20cqdjZ900BBq6GqE2e
+         OCxg==
+X-Gm-Message-State: AOAM530mlcsM7SU7bOFXWvPdMSBQS4ZQzN0SIuadPfCr4MGCj0WH0wli
+	5IW8g5XNDUdNFQ44SbovEFL9/Rg2dH4rtm9MtJs=
+X-Google-Smtp-Source: ABdhPJxLQGYHGj7gcyVcctXCwCgpnEr2cRyaoQ3/TTAEPMeK3HCToHy6/n79bgCvIjvr7StG2KRTs/e28PmBV+zKUAU=
+X-Received: by 2002:a17:906:c7c1:b0:711:d2e9:99d0 with SMTP id
+ dc1-20020a170906c7c100b00711d2e999d0mr23093435ejb.639.1654873582571; Fri, 10
+ Jun 2022 08:06:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-22-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-22-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-23-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-23-nuno.sa@analog.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Jun 2022 16:56:57 +0200
-Message-ID: <CAHp75VdpAaO1VCy1WxUgR6z2LZ62gE+6Gp5aE=UrYdCqmZtBWw@mail.gmail.com>
-Subject: Re: [PATCH 21/34] iio: inkern: fix return value in devm_of_iio_channel_get_by_name()
+Date: Fri, 10 Jun 2022 17:05:45 +0200
+Message-ID: <CAHp75VcPoZ4FKTwDN_F76EZAcWYzAe1CHmuRuaP0wg3BgmPtfA@mail.gmail.com>
+Subject: Re: [PATCH 22/34] iio: inkern: only return error codes in
+ iio_channel_get_*() APIs
 To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
 	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
@@ -79,42 +80,53 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
-> of_iio_channel_get_by_name() can either return NULL or an error pointer
-> so that only doing IS_ERR() is not enough. Fix it by checking the NULL
-> pointer case and return -ENODEV in that case. Note this is done like this
-> so that users of the function (which only check for error pointers) do
-> not need to be changed. This is not ideal since we are losing error codes
-> and as such, in a follow up change, things will be unified so that
-> of_iio_channel_get_by_name() only returns error codes.
+> APIs like of_iio_channel_get_by_name() and of_iio_channel_get_all() were
+> returning a mix of NULL and error pointers being NULL the way to
+> "notify" that we should do a "system" lookup for channels. This make
+> it very confusing and prone to errors as commit dbbccf7c20bf
+> ("iio: inkern: fix return value in devm_of_iio_channel_get_by_name()")
+> proves. On top of this, patterns like 'if (channel !=3D NULL) return chan=
+nel'
+> were being used where channel could actually be an error code which
+> makes the code hard to read.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+...
 
-> Fixes: 6e39b145cef7 ("iio: provide of_iio_channel_get_by_name() and devm_=
- version it")
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> ---
->  drivers/iio/inkern.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-> index 9d87057794fc..87fd2a0d44f2 100644
-> --- a/drivers/iio/inkern.c
-> +++ b/drivers/iio/inkern.c
-> @@ -412,6 +412,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(s=
-truct device *dev,
->         channel =3D of_iio_channel_get_by_name(np, channel_name);
->         if (IS_ERR(channel))
->                 return channel;
-> +       if (!channel)
+>                 np =3D np->parent;
+>                 if (np && !of_get_property(np, "io-channel-ranges", NULL)=
+)
+> -                       return NULL;
+> +                       return chan;
+
+Shouldn't it return a dedicated error code and not some arbitrary one?
+It may be I missed something and chan has a correct error code in this
+case...
+
+...
+
+> +       if (nummaps =3D=3D 0)       /* return -ENODEV to search map table=
+ */
+
+Comment is superfluous, the next line is self-explaining.
+
 > +               return ERR_PTR(-ENODEV);
->
->         ret =3D devm_add_action_or_reset(dev, devm_iio_channel_free, chan=
-nel);
->         if (ret)
-> --
-> 2.36.1
->
 
+...
+
+> -               if (channel !=3D NULL)
+> +               if (!IS_ERR(channel) || PTR_ERR(channel) =3D=3D -EPROBE_D=
+EFER)
+
+Btw, in the GPIO library we have a macro or inliner (don't remember)
+that represents such a conditional.
+Perhaps make it (if it's a macro) global, or introduce an inline in IIO?
+
+Okay, it's here:
+https://elixir.bootlin.com/linux/v5.19-rc1/source/drivers/gpio/gpiolib.h#L1=
+79
+
+It's similar, but not the same, so just play with an idea to introduce
+something in this file, maybe it's worth doing this, maybe not.
 
 --=20
 With Best Regards,

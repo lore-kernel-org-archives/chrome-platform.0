@@ -1,44 +1,44 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62AF7A
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 19:48:26 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id a15so29281075wrh.2
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 12:48:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434FE7A
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 19:49:27 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id u8so33469918wrm.13
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 12:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=Uw42AgxCz2OX29JjZrfK1zeziXwl4MAn7te6Qnb21ik=;
-        b=VnmBwWKvliqZ17mqAO3YFUhuijHFVCA0X/6JoDEeNmtQ5fuB2ME76Abp7kguBl57K7
-         M9/alivbnhSTovq/B//wCei53pyxQ+HtrJaffG1iGtF9Ndaudu7kcr9ovspAlwBkBSrl
-         Qk8wAlB8QCS5xW3y97CMGT7D89Ky4udjBupXK19Q8pH4R+6TZMpKLOBEkE6ub91Xaf7Y
-         S7oL2lI6/EzqlSBNis27lv8/Z8dTYnHGhUC0YHRirC4Dqxm1vVmg/6fapPeKzP00VvFU
-         tNNMy6jrpva6Bk+UcwypSwoLQSKLiQbVV7FbXXq9G/VEvyzMlVefQmke6B2XscRqIWLl
-         voDA==
+        bh=u9muj2CCpJ3bi2OBicnt3vUuhr/462OKXXDNMSoOjkA=;
+        b=nJO3QDlMK8Oo8cC2rEDrsS8zHoFWKSvz9V9tp5Slqj6XFK8gGsnauvl4/5a9Zlujsw
+         CorVf5dfKaQH6teMfzW+hEHcOqhkKmK+dqKhgaSLIk2OjK2OrHpiPiYlnLwU4fkOG5Z5
+         4PmGHwSchAW9lf+n6mIfhoGZyeWAKEIX9r6hS5AcDvGRjX5QHRl7KdZO9iqyazhYBNgz
+         7pfLKuBvFnE/1MuQV2//JtuGP6S3TUo035W5eNVrysQCBRxAgc/0GKH+7gd2XMdw+zE2
+         BOR2sXaNMk/Pkqsivac6peQf8L0kcC+Xa3RD9v9FKZpipTo6kRu9/aVYFutE3X708T/B
+         a27A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Uw42AgxCz2OX29JjZrfK1zeziXwl4MAn7te6Qnb21ik=;
-        b=a0T7CPeqesO9WAT4Qp4u7teWnU2EiT+etDfrDE3gvS2Dc26WLmbuxA71GMnTNEqoaT
-         xEMGcQrtirjy1jqeuGRAW5FGLhDYcEg+egn+21oawgPKGMCrSkDCDV8t/iYqSppgLH9L
-         PGdfKVpRBQGEwmnJYGpb59d2RchqUFlG1wkFMPcjAcxNE9s/y7YcfSBm+cfAe5r9SfH0
-         iGx5Ypqepc2NR9OlvsZ0IoYcxgDBWrZiZsfP6E4PRy99rYR3Y4/u/aXqTFU+wYLiSmTD
-         qnY45OU3RgXRU6sxcYynKnohxGVrmsr5PMJWIFsBnLkMfh/c9Gq/ntyqj8/N0RITakXz
-         9mDw==
-X-Gm-Message-State: AOAM530i9wV1758jvMt7bYRBT+uTIkCUw0TKjW8+794lqMi7Jx1/68tP
-	OQFj2vA/OGQdi3xZOrVrXEQ=
-X-Google-Smtp-Source: ABdhPJy5G62/5XmSgGYkKL4gT5Hd/Ethb/qClZrbwW5M3Zb4SLtoP92M/h2fB9W3tywpi7sFv5O92A==
-X-Received: by 2002:a5d:5983:0:b0:218:519e:78a5 with SMTP id n3-20020a5d5983000000b00218519e78a5mr20645990wri.718.1654890504947;
-        Fri, 10 Jun 2022 12:48:24 -0700 (PDT)
+        bh=u9muj2CCpJ3bi2OBicnt3vUuhr/462OKXXDNMSoOjkA=;
+        b=RsyOBbhkyWR943om+8uokjs8E/He6xOn6x86Yk9xS0KNa8DOwGRPe+eRqyrdCoHhYw
+         SLGTnwCMAKFejPOnbvDT4DqaCh9rPCZcjkZVUybiQ37ASYi1pQWIzJd9h+0UMshO3M2l
+         S68js639sz/jaaQ82S3WfjyUHW6KEaHZOxm1J9JgKs5Fe5KbxRyBa5I0VKd5WMVV7NTt
+         veLDL5w7d4J1wfIxxngfjs5sz/neM0odxDJRpWjO489yG4ogA0p7ioazAu5Qekb40PUs
+         3nK1pMziMFxfNjbjYhoTkYj9t7/7DQ/eziVCbwo48GVHXzVqcgWlGuuXusEVMePbW7BU
+         pk/A==
+X-Gm-Message-State: AOAM531tC1uuW6c++L0UmNLASznvmnUChgbOhOnP5c/4ouRZIIKmDKt3
+	iW9TsDkOO75oy23aAPPSMKk=
+X-Google-Smtp-Source: ABdhPJw1wyN/M1WFaQFuP+jX/NGTq2GqnLXXrOE71+r/B9uelliduc7dUH3CHihgz35kd6pD213QmQ==
+X-Received: by 2002:adf:d1c6:0:b0:218:51ae:8812 with SMTP id b6-20020adfd1c6000000b0021851ae8812mr21038542wrd.178.1654890565371;
+        Fri, 10 Jun 2022 12:49:25 -0700 (PDT)
 Received: from ?IPv6:2001:a61:136e:3c01:8bd4:cf6f:76f1:a861? ([2001:a61:136e:3c01:8bd4:cf6f:76f1:a861])
-        by smtp.gmail.com with ESMTPSA id x3-20020a5d6503000000b002103136623esm257905wru.85.2022.06.10.12.48.22
+        by smtp.gmail.com with ESMTPSA id g15-20020a05600c4ecf00b0039c4945c753sm4278743wmq.39.2022.06.10.12.49.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jun 2022 12:48:24 -0700 (PDT)
-Message-ID: <25e286370d34419c3fc32a75896d5bfebc4128ea.camel@gmail.com>
-Subject: Re: [PATCH 22/34] iio: inkern: only return error codes in
- iio_channel_get_*() APIs
+        Fri, 10 Jun 2022 12:49:25 -0700 (PDT)
+Message-ID: <a67d3d01824db6376c2f15949021db4f2b6173cb.camel@gmail.com>
+Subject: Re: [PATCH 06/34] iio: adc: ingenic-adc: explicitly add proper
+ header files
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
 	 <nuno.sa@analog.com>
@@ -77,11 +77,11 @@ Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas
  <festevam@gmail.com>, Olivier Moysan <olivier.moysan@foss.st.com>, Eugen
  Hristev <eugen.hristev@microchip.com>, Miquel Raynal
  <miquel.raynal@bootlin.com>
-Date: Fri, 10 Jun 2022 21:48:22 +0200
-In-Reply-To: <CAHp75VcPoZ4FKTwDN_F76EZAcWYzAe1CHmuRuaP0wg3BgmPtfA@mail.gmail.com>
+Date: Fri, 10 Jun 2022 21:49:22 +0200
+In-Reply-To: <CAHp75VcU-oV4is_y9=oaOx2ugvTEOy53h2wvbd3-Z9_gv5Y=zA@mail.gmail.com>
 References: <20220610084545.547700-1-nuno.sa@analog.com>
-	 <20220610084545.547700-23-nuno.sa@analog.com>
-	 <CAHp75VcPoZ4FKTwDN_F76EZAcWYzAe1CHmuRuaP0wg3BgmPtfA@mail.gmail.com>
+	 <20220610084545.547700-7-nuno.sa@analog.com>
+	 <CAHp75VcU-oV4is_y9=oaOx2ugvTEOy53h2wvbd3-Z9_gv5Y=zA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 Precedence: bulk
@@ -92,74 +92,26 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2022-06-10 at 17:05 +0200, Andy Shevchenko wrote:
-> On Fri, Jun 10, 2022 at 10:48 AM Nuno Sá <nuno.sa@analog.com> wrote:
+On Fri, 2022-06-10 at 16:45 +0200, Andy Shevchenko wrote:
+> On Fri, Jun 10, 2022 at 10:46 AM Nuno Sá <nuno.sa@analog.com> wrote:
 > > 
-> > APIs like of_iio_channel_get_by_name() and of_iio_channel_get_all()
-> > were
-> > returning a mix of NULL and error pointers being NULL the way to
-> > "notify" that we should do a "system" lookup for channels. This
-> > make
-> > it very confusing and prone to errors as commit dbbccf7c20bf
-> > ("iio: inkern: fix return value in
-> > devm_of_iio_channel_get_by_name()")
-> > proves. On top of this, patterns like 'if (channel != NULL) return
-> > channel'
-> > were being used where channel could actually be an error code which
-> > makes the code hard to read.
+> > Do not trust the fact that iio.h includes of.h which in turn
+> > includes
+> > all the headers we are relying on.
+> > 
+> > The ultimate goal is to actually drop of.h from iio.h.
 > 
 > ...
 > 
-> >                 np = np->parent;
-> >                 if (np && !of_get_property(np, "io-channel-ranges",
-> > NULL))
-> > -                       return NULL;
-> > +                       return chan;
+> >  #include <linux/mod_devicetable.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/property.h>
+> > +#include <linux/of.h>
 > 
-> Shouldn't it return a dedicated error code and not some arbitrary
-> one?
-> It may be I missed something and chan has a correct error code in
-> this
-> case...
+> Ordering (from the context I don't see it's messed up already)
 > 
 
-Since in this case we won't look for channels in the parent device, I'm
-just honoring the code returned by 'of_iio_channel_get()'.
-
-> ...
-> 
-> > +       if (nummaps == 0)       /* return -ENODEV to search map
-> > table */
-> 
-> Comment is superfluous, the next line is self-explaining.
-> 
-
-Well, I agree. I just kept as it was on the original code. Can hapilly
-remove it if no one objects against it.
-
-> > +               return ERR_PTR(-ENODEV);
-> 
-> ...
-> 
-> > -               if (channel != NULL)
-> > +               if (!IS_ERR(channel) || PTR_ERR(channel) == -
-> > EPROBE_DEFER)
-> 
-> Btw, in the GPIO library we have a macro or inliner (don't remember)
-> that represents such a conditional.
-> Perhaps make it (if it's a macro) global, or introduce an inline in
-> IIO?
-> 
-> Okay, it's here:
-> https://elixir.bootlin.com/linux/v5.19-rc1/source/drivers/gpio/gpiolib.h#L179
-> 
-> It's similar, but not the same, so just play with an idea to
-> introduce
-> something in this file, maybe it's worth doing this, maybe not.
-> 
-
-I would also argue that could be something done after this series gets
-applied...
+Will double check on v2...
 
 - Nuno Sá
-

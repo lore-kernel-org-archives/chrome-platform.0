@@ -1,204 +1,84 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9647C
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 15:07:41 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id g7so1389470eda.3
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:07:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1947C
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 15:08:32 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id s12so46842816ejx.3
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jun 2022 08:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kUO2ibunC7H0XDsaHRR1RaXa5+TAT1P54T7nymM8aoY=;
-        b=Km/6uG4N0I1v3nCHQDOVYyGXyKL6LrNTIbysl2MklDB9UNEDZqbo8NqSGO5sAbe1x3
-         1cNbRBqVAX7iALT4cPuZPV2Gy0svte0/yscfFN+g1Ogb2RIQjl6DgOizWWO5fd4eNFOS
-         cFHB/CShwbXerNRbAbMaZARMBkStUWNdpK4AI4NeBMKj0sDM63KFgdNX9P/+Dhd1uRNk
-         FLcTygnXnEYbzwm+r9bTo4ZY2iUckj/9fDrW+Io2qRDuYMft54iHj9QNjGfcRYMVRQ12
-         wfKGJOKpPYgf+b/ciNPTOWTHRSnMg76WfJK7EXdcaCmTVdopl5R4fFUp7H4JdCySKPj5
-         iqZQ==
+         :cc;
+        bh=t05rvtsB/T3sOZN/4oJBFLGvWKQGNZBpJYVRSJjTMno=;
+        b=QBgLYzCMOcGXBskoo8CH8F9b+PjZdO6A7JHFiWkk9vy30p0XOTBjcpmq/XxqLyIvpx
+         qpV5cwbBvb94yD8E5BwejzUTO6JTtAetpoxI7m60ywdr89eAC3KaNR4R8KBhZrkwysAt
+         DwHVXLm/0mquHHk1ccKpFe/nqWnQ+NBIIH0gHmxZlV8BPM1DZ82XW1XR59LoWnVb5dnw
+         fhcXXFnMfWQeI9WxTHdSyWFY6D0zKhoYJQKJbtHlMVijEAluyILwi3p7jZRJoy4uqt/A
+         OFYbLcWavSBNiT5aIbrBVyMGPNrSl2ovmRkJUcO3HiAFvNQK2Qvq3gxouc4Lw6Dgg3MJ
+         MFAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kUO2ibunC7H0XDsaHRR1RaXa5+TAT1P54T7nymM8aoY=;
-        b=k6P6vq+Pqd1G6Xd2zE3WiGwdEcTbAHQwCoMN0vtzuuii4tn0nS85Qlrbm78Q5ckuYL
-         SRUU4585egm/uggxDdMmKYc8YEDy+1AYX44t8Za+jOsNe2nbcxx0/HMK64n35qydOssR
-         fSNXKv/Uyb+Kk2UHKAWM3tDm+SLRu/E+Q6ThAZJGzVby08ThiqH3sNMskCXCoQFMy6Vf
-         vX7KgC9R3q1OMWmYDp1J6P8/CDmYY0Rb1TzZAmzStpeceu/MmbOE1vvXDDaKw/RhVsRz
-         sBn7Gwg2qFkh1eA6Vu6HhWIVoXpI0q9kUV/EHRTn7EMlM7JdEL6mp75jJg2Q0PAJHNgE
-         pI0g==
-X-Gm-Message-State: AOAM531+aBJVcrhrlrFEo/r/TlZ4rvaoaMmgJFIHGuyQwz4fxHKRRyTE
-	u9a6RHXay+fsUgT8aDoKFd9iip8HsqvYpdEpXnw=
-X-Google-Smtp-Source: ABdhPJxWp2gvN4Nfk2r+vYkXDxxpanl8SYkus08bByYas8UdfPjxgCPUYO0Y8DTxN4CocSeDaFKMLBbwWkQqK48L8Co=
-X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id
- b1-20020aa7d481000000b0042dd5fdf963mr51786214edr.209.1654873659584; Fri, 10
- Jun 2022 08:07:39 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=t05rvtsB/T3sOZN/4oJBFLGvWKQGNZBpJYVRSJjTMno=;
+        b=nvx9m581PSfv5id15Bg+9i25jN6fW5FdsRnwDe1MqQ6AkpILiw4czB8GKNNHU4TIVV
+         QHnORCmPwjFuxppCQ4dPLS8IbceuZB/kl/5iIl8Abzk90+Je1xGJ/7heIIFUfqy0CeUY
+         aYYAMI18H8h3iSchQQX+Aoy4scGdQufEcde/RyZ62CXUXLJB4TnOrQ5xMTayRuLpJmLI
+         jN6D6hGFjUbT20NTdFi9WcSxKmY2B1a7SCEoccmxT0mB0v33iFdPbnOtvpLkBJeMXrvB
+         IqAjujAjN5Hh+7pgMfnsmjmvOMe0BhUF3x32zxZn2H6VZoggcevrFzhycQXt/EolvOHy
+         qngg==
+X-Gm-Message-State: AOAM531zPo7b/T1uPc+CG+BZxSapKJDOo+IOWdU/9AQ8gEGvATwqki3+
+	Lz8GjW2U1J54/qfkJyQUkqB3TtUNKt7/blqa0GBEwg==
+X-Google-Smtp-Source: ABdhPJyHurq1FK1Va943z8vc88m5ROrIH3Wy0ceSIRu1hWNJ8zRBuVzOLJVlASYN21jD/QmGSSRdGMM2rEtdISLRJOo=
+X-Received: by 2002:a17:906:4d50:b0:70d:afd4:1e63 with SMTP id
+ b16-20020a1709064d5000b0070dafd41e63mr37489536ejv.618.1654873710284; Fri, 10
+ Jun 2022 08:08:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-24-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-24-nuno.sa@analog.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Jun 2022 17:07:03 +0200
-Message-ID: <CAHp75VcxZrMM7nHyOYdNMkepbP51Wf4z5botU9ma8+gmn_Lz-w@mail.gmail.com>
-Subject: Re: [PATCH 23/34] iio: inkern: split of_iio_channel_get_by_name()
-To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc: dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, chrome-platform@lists.linux.dev, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, linux-iio <linux-iio@vger.kernel.org>, 
-	OpenBMC Maillist <openbmc@lists.ozlabs.org>, Cai Huoqing <cai.huoqing@linux.dev>, 
-	Benjamin Fair <benjaminfair@google.com>, Jishnu Prakash <quic_jprakash@quicinc.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Amit Kucheria <amitk@kernel.org>, 
-	Andy Gross <agross@kernel.org>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Haibo Chen <haibo.chen@nxp.com>, Benson Leung <bleung@chromium.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Christophe Branchereau <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Gwendal Grignou <gwendal@chromium.org>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Thara Gopinath <thara.gopinath@linaro.org>, Avi Fishman <avifishman70@gmail.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20220610133342.3735012-1-ajye_huang@compal.corp-partner.google.com>
+In-Reply-To: <20220610133342.3735012-1-ajye_huang@compal.corp-partner.google.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 10 Jun 2022 08:08:17 -0700
+Message-ID: <CABXOdTe8=mADxxPdbLrmvhwn-FJcZvt1aeqP+tK8gq=0foJzNA@mail.gmail.com>
+Subject: Re: [PATCH v1] media: platform: cros-ec: Add kinox to the match table
+To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Zhuohao Lee <zhuohao@chromium.org>, linux-media@vger.kernel.org, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+On Fri, Jun 10, 2022 at 6:34 AM Ajye Huang
+<ajye_huang@compal.corp-partner.google.com> wrote:
 >
-> This change splits of_iio_channel_get_by_name() so that it decouples
-> looking for channels in the current node from looking in it's parents
-> nodes. This will be helpful when moving to fwnode properties where we
-> need to release the handles when looking for channels in parent's nodes.
+> The Google Kinox device uses the same approach as the Google Brask
+> which enables the HDMI CEC via the cros-ec-cec driver.
 >
-> No functional change intended...
+> Signed-off-by: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 > ---
->  drivers/iio/inkern.c | 69 ++++++++++++++++++++++++++++----------------
->  1 file changed, 44 insertions(+), 25 deletions(-)
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-> index 31d9c122199a..dde47324b826 100644
-> --- a/drivers/iio/inkern.c
-> +++ b/drivers/iio/inkern.c
-> @@ -211,44 +211,63 @@ static struct iio_channel *of_iio_channel_get(struc=
-t device_node *np, int index)
->         return ERR_PTR(err);
->  }
+> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> index 8c8d8fc5e63e..093aa4fc6692 100644
+> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> @@ -217,6 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+>         { "Google", "Fizz", "0000:00:02.0", "Port B" },
+>         /* Google Brask */
+>         { "Google", "Brask", "0000:00:02.0", "Port B" },
+> +       /* Google Kinox */
+> +       { "Google", "Kinox", "0000:00:02.0", "Port B" },
+>  };
 >
-> +struct iio_channel *__of_iio_channel_get_by_name(struct device_node *np,
-> +                                                const char *name,
-> +                                                bool *parent_lookup)
-> +{
-> +       struct iio_channel *chan;
-> +       int index =3D 0;
-> +
-> +       /*
-> +        * For named iio channels, first look up the name in the
-> +        * "io-channel-names" property.  If it cannot be found, the
-> +        * index will be an error code, and of_iio_channel_get()
-> +        * will fail.
-> +        */
-> +       if (name)
-> +               index =3D of_property_match_string(np, "io-channel-names"=
-, name);
-> +
-> +       chan =3D of_iio_channel_get(np, index);
-> +       if (!IS_ERR(chan) || PTR_ERR(chan) =3D=3D -EPROBE_DEFER) {
-> +               *parent_lookup =3D false;
-> +       } else if (name && index >=3D 0) {
-> +               pr_err("ERROR: could not get IIO channel %pOF:%s(%i)\n",
-> +                      np, name ? name : "", index);
-> +               *parent_lookup =3D false;
-> +       }
-> +
-> +       return chan;
-> +}
-> +
->  struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
->                                                const char *name)
->  {
->         struct iio_channel *chan;
-> +       bool parent_lookup =3D true;
->
->         /* Walk up the tree of devices looking for a matching iio channel=
- */
-> +       chan =3D __of_iio_channel_get_by_name(np, name, &parent_lookup);
-> +       if (!parent_lookup)
-> +               return chan;
-> +
-> +       /*
-> +        * No matching IIO channel found on this node.
-> +        * If the parent node has a "io-channel-ranges" property,
-> +        * then we can try one of its channels.
-> +        */
-> +       np =3D np->parent;
->         while (np) {
-> -               int index =3D 0;
-> -
-> -               /*
-> -                * For named iio channels, first look up the name in the
-> -                * "io-channel-names" property.  If it cannot be found, t=
-he
-> -                * index will be an error code, and of_iio_channel_get()
-> -                * will fail.
-> -                */
-> -               if (name)
-> -                       index =3D of_property_match_string(np, "io-channe=
-l-names",
-> -                                                        name);
-> -               chan =3D of_iio_channel_get(np, index);
-> -               if (!IS_ERR(chan) || PTR_ERR(chan) =3D=3D -EPROBE_DEFER)
-> +               if (!of_get_property(np, "io-channel-ranges", NULL))
->                         return chan;
-> -               if (name && index >=3D 0) {
-> -                       pr_err("ERROR: could not get IIO channel %pOF:%s(=
-%i)\n",
-> -                               np, name ? name : "", index);
-> +
-> +               chan =3D __of_iio_channel_get_by_name(np, name, &parent_l=
-ookup);
-> +               if (!parent_lookup)
->                         return chan;
-> -               }
->
-> -               /*
-> -                * No matching IIO channel found on this node.
-> -                * If the parent node has a "io-channel-ranges" property,
-> -                * then we can try one of its channels.
-> -                */
->                 np =3D np->parent;
-> -               if (np && !of_get_property(np, "io-channel-ranges", NULL)=
-)
-> -                       return chan;
->         }
->
-> -       return ERR_PTR(-ENODEV);
-> +       return chan;
->  }
->  EXPORT_SYMBOL_GPL(of_iio_channel_get_by_name);
->
+>  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 > --
-> 2.36.1
+> 2.25.1
 >
-
-
---=20
-With Best Regards,
-Andy Shevchenko

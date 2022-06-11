@@ -1,93 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51471A21
-	for <chrome-platform@lists.linux.dev>; Sat, 11 Jun 2022 15:41:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3327C34116;
-	Sat, 11 Jun 2022 15:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654962099;
-	bh=WarFohc9AefJgaCIQlkHm40D8Wfs78SeRMzjeAKfx4M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kEAxk8HVupWHd5I6Rj3KedDoeCuYF35epsuBXMhaICxi8INQwZtjIZMawVF8FvqtL
-	 JPcIuigeGH61rUyJFpIQ1APrwxcyg8DSF3EgKwOxHckL1YXY7xOVDHIdeOu5tzXVgq
-	 DkivCQ5HeT/G1bmC2YkjnLQeQ0BkJ1l5mnty48UCr5Tm0t3mxhiMb6yEOioh5dcz33
-	 caK4CH3CSp1ReI734M0SGWDo4Q37NAu1Qq3WDwqs6+W9WhI3FwIshlZ9sSmhctKfxt
-	 My8E4nxFNF+Ywe8ZGhtM8D6WeWRNRXgT+gplAgEQAtHoXXgPawUVc8mFYOo9J7E/Ie
-	 Bi1QYaLlMhxLA==
-Date: Sat, 11 Jun 2022 16:50:38 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, dl-linux-imx
- <linux-imx@nxp.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-arm
- Mailing List <linux-arm-kernel@lists.infradead.org>,
- chrome-platform@lists.linux.dev, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, "moderated list:ARM/Mediatek SoC
- support\"         <linux-mediatek@lists.infradead.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, linux-iio <linux-iio@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, Cai Huoqing
- <cai.huoqing@linux.dev>, Benjamin Fair <benjaminfair@google.com>, Jishnu
- Prakash <quic_jprakash@quicinc.com>, Linus Walleij
- <linus.walleij@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Amit Kucheria <amitk@kernel.org>,
- Andy Gross <agross@kernel.org>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, Benson
- Leung <bleung@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Christophe Branchereau
- <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, Arnd
- Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Gwendal Grignou <gwendal@chromium.org>, Saravanan Sekar
- <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Thara
- Gopinath <thara.gopinath@linaro.org>, Avi Fishman <avifishman70@gmail.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Tomer Maimon
- <tmaimon77@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Zhang Rui
- <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, Guenter Roeck
- <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 00/34] make iio inkern interface firmware agnostic
-Message-ID: <20220611165038.669dd8e4@jic23-huawei>
-In-Reply-To: <CAHp75VevzkT-WYz=BiWhDAETx==Sswe-rYCo_qxy7vyL2qRwVA@mail.gmail.com>
-References: <20220610084545.547700-1-nuno.sa@analog.com>
-	<CAHp75VfhRoDupB2rFS+hg1zFN3=8RhnBcXrg0O72bKJYQz+8Kg@mail.gmail.com>
-	<CAHp75VevzkT-WYz=BiWhDAETx==Sswe-rYCo_qxy7vyL2qRwVA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFEB7F1
+	for <chrome-platform@lists.linux.dev>; Sat, 11 Jun 2022 22:01:32 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id b8so2891207edj.11
+        for <chrome-platform@lists.linux.dev>; Sat, 11 Jun 2022 15:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dNvZMKbt+7/Kf7YBjNNI5bE9XcnXeFt+vWqBn00F0RE=;
+        b=BavePnvBNEsyNXtcZaLBDnP8bcFQNxj3xyZaoBRF7UUU0pp6X7CX8we+nL7XD2td5K
+         CVcJH6mNbpjv817NTr+DzsKFeUVYkswE3RWmwtP2aLdPXaa0kIa62ieX9TwYAj9nxEGc
+         uDarGbZy4+zjPxmy6+EPIywGZBvrrNKBKX6h6ymU3/Rao1qLsw8hb6B/8oPLMkw5JLu6
+         CIZGJ+vmcjnZahIoA1VlQekqhJr4wSoc8cbkhUp1lNqmh+gXb5kNBR5+sr8ZgySadMFd
+         DJhjUrsoGFSkQjpCAUwUR0uHLTxidMSMP9HGVjewTue32YtMcIwl5SHFrVWaI39o73+O
+         Nm2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dNvZMKbt+7/Kf7YBjNNI5bE9XcnXeFt+vWqBn00F0RE=;
+        b=i9O4zYaYHQHbPCG8U+yCNB24YV0p/SZg8Yc6hOp5oi0clAniCHbvN316H67h7Wj49X
+         ZvKJudimG+jk9HJq8AeIkMd4Th2WT63tFCpE0/kBb169OoRvk9XYTOMAKv4ht8/Ymoak
+         uiDAMPBbBKSSf8NnUCXXpvk0bR1XTND3iWU7lowGtVcBF290Pkpz4EjSoQc/wvwExA+C
+         0bDrkBjt2HqELK3RFtEYxZOVgZs7ceSDWo2zsL2u9JI+vzGPRNQnfzDLVz335IyTmGcS
+         ZFhuL3CafcqKTRKzEOq0iOGu+ZipjW9tzkvzvzWVhvdU8OKA7VRQqUDmuVQ5MwIN96gR
+         q4Og==
+X-Gm-Message-State: AOAM533b1GZb3ueVV1foYgSPoq+YDjiEdxf+1OxgVX/zMZXN6A0mIhmh
+	YaZq2+9HKliWwCWV2lx3tOz7r9hvLpVYeczGQwNuXg==
+X-Google-Smtp-Source: ABdhPJwn+ijlsUn+/3pWRnVD3NDV7vYFGdrXQC+5hntomqS18em7SoRsgYGeer5IoRv1xjaubpTHmvI1b8x/+Y70rRA=
+X-Received: by 2002:a05:6402:2405:b0:431:6ef1:e2a with SMTP id
+ t5-20020a056402240500b004316ef10e2amr34447712eda.26.1654984891012; Sat, 11
+ Jun 2022 15:01:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220611061825.4119270-1-swboyd@chromium.org>
+In-Reply-To: <20220611061825.4119270-1-swboyd@chromium.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Sat, 11 Jun 2022 15:01:20 -0700
+Message-ID: <CABXOdTf8oFN-_SKuY0hxXSSkpdGU4MzV1t290TB3TqAOLVqrig@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Always expose last resume result
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	patches@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, Evan Green <evgreen@chromium.org>, 
+	Rajat Jain <rajatja@chromium.org>, Matthias Kaehlcke <mka@chromium.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 10 Jun 2022 17:28:24 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+On Fri, Jun 10, 2022 at 11:18 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> The last resume result exposing logic in cros_ec_sleep_event()
+> incorrectly requires S0ix support, which doesn't work on ARM based
+> systems where S0ix doesn't exist. That's because cros_ec_sleep_event()
+> only reports the last resume result when the EC indicates the last sleep
+> event was an S0ix resume. On ARM systems, the last sleep event is always
+> S3 resume, but the EC can still detect sleep hang events in case some
+> other part of the AP is blocking sleep.
+>
+> Always expose the last resume result if the EC supports it so that this
+> works on all devices regardless of S0ix support. This fixes sleep hang
+> detection on ARM based chromebooks like Trogdor.
+>
+> Cc: Evan Green <evgreen@chromium.org>
+> Cc: Rajat Jain <rajatja@chromium.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+> Fixes: 7235560ac77a ("platform/chrome: Add support for v1 of host sleep event")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-> On Fri, Jun 10, 2022 at 4:48 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Fri, Jun 10, 2022 at 10:45 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrot=
-e: =20
->=20
-> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com> =20
->=20
-> Ditto for patches 26-34.
->=20
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-I'm fine with all the patches I haven't commented on, but some
-of the generic fwnode conversions are complex as such things go, so
-more eyes on them and the core changes would be great.
-
-Thanks,
-
-Jonathan
-
-
+> ---
+>
+> Changes from v1 (https://lore.kernel.org/r/20220610223703.3387691-1-swboyd@chromium.org):
+>  * Fixed typo
+>
+>  drivers/platform/chrome/cros_ec.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index b3e94cdf7d1a..3abef9747482 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -135,10 +135,10 @@ static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
+>         buf.msg.command = EC_CMD_HOST_SLEEP_EVENT;
+>
+>         ret = cros_ec_cmd_xfer_status(ec_dev, &buf.msg);
+> -
+> -       /* For now, report failure to transition to S0ix with a warning. */
+> +       /* Report failure to transition to system wide suspend with a warning. */
+>         if (ret >= 0 && ec_dev->host_sleep_v1 &&
+> -           (sleep_event == HOST_SLEEP_EVENT_S0IX_RESUME)) {
+> +           (sleep_event == HOST_SLEEP_EVENT_S0IX_RESUME ||
+> +            sleep_event == HOST_SLEEP_EVENT_S3_RESUME)) {
+>                 ec_dev->last_resume_result =
+>                         buf.u.resp1.resume_response.sleep_transitions;
+>
+>
+> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> --
+> https://chromeos.dev
+>

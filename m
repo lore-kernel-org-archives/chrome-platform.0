@@ -1,146 +1,122 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620F5110D
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Jun 2022 07:22:28 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id j2so3794754qvp.9
-        for <chrome-platform@lists.linux.dev>; Mon, 13 Jun 2022 00:22:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B391396
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Jun 2022 15:40:10 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-fe023ab520so8845041fac.10
+        for <chrome-platform@lists.linux.dev>; Mon, 13 Jun 2022 08:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=t8GkcF/AscIjmYX1Ft+2LOWOMCGcc3ou443uyI/gHgM=;
-        b=lgYBehJwnc7p76Sp7QYODbs+eJsn9x/aAZca0AhE5KDXVc2emmsRxjtpfkhG0ym3jF
-         +YmyjmCo8KwGowRdjt9uIvuUoTlmDmEhKvtAV4CSG4hTEjA91HAM5qlNsrTQS1SRX91R
-         LFvp/Mktzkcb1CVjqHCgBxNr9WvYpOAxf+96MGlGzCOnNiSwu1/E0KM1WiGropKJpSPJ
-         I1FGxJQBE5G5ow1BWz+8k8tlsSYxFVWF+sox/Wak2AzR/lG0tAdRt9KAZDThpdGND1Zh
-         2o8Dtj8SUUB+OwaZDXw05iMGYlfFzStAu7j7cL8cCzdwPXdi8qQXd8eBti7wRpJI/O1K
-         B+xQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BGAIi+/Ft53DX8CUrCtDAbQTz9ZPUzipX2JK4m40Fyc=;
+        b=RPluaBvzdSvJ5njD15mxkw0ob6qmuyOBJo1hMaQ2AFBjUq++UqkyqjMZzoFpoAhmIr
+         ec01sWqSFKsJB6FZgwGP7drgPr4gYSWF10aZZIvHqpTM4uKuRPArOtlTZ65e2oWlcIJc
+         0gAKcSwnh35acodyjWgGJzwhHUz3FRGrcu+tA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=t8GkcF/AscIjmYX1Ft+2LOWOMCGcc3ou443uyI/gHgM=;
-        b=DZvx9UicjBVciETeM949UynZAIS2E0Mwlwi38gHgCxBb+zqofzigO4lgoQxk4fR4LM
-         ymVu+ThBRMQJ+6N9pfrSj82xke3iOMIpr3UOjM1ZB8/+YngOt6/TMSRkwqRcbJQE7TXS
-         Wq0vZxhXIC6/9QPLXLHy73GQqip0l19S22EX6MrQ2x1co7GPosbuyK4If9b9dlDWgJLx
-         r+e7lU3IofqrU19wQeA63oM3N0UfAwbDK+OEZto0gL2pGzG4PFuyCUQh30avx/w9r7iR
-         DpIEHu2hwSIvIxqjnLlBQVzZOaNcdWPaPy1a11PZJHaoMg4lr2IRzj4ePtntwuAV29ua
-         3lGw==
-X-Gm-Message-State: AOAM531Mha3TV+PEzFj4hYa03UPVfutOp188S5NdF8X/a/KdJesyUY9R
-	dPMXPzxKAFZmkWV/M1v0/44=
-X-Google-Smtp-Source: ABdhPJzJwQGuL0izMZeZrCmNmnxm8u/ohN3iHcmN+Ftx1/l43JyjW+szv6Fscr1wrYk++4pmje2xJg==
-X-Received: by 2002:ad4:5b81:0:b0:465:ded8:780 with SMTP id 1-20020ad45b81000000b00465ded80780mr45550533qvp.119.1655104947222;
-        Mon, 13 Jun 2022 00:22:27 -0700 (PDT)
-Received: from p200300f6ef062c0090c03b551078f99d.dip0.t-ipconnect.de (p200300f6ef062c0090c03b551078f99d.dip0.t-ipconnect.de. [2003:f6:ef06:2c00:90c0:3b55:1078:f99d])
-        by smtp.gmail.com with ESMTPSA id y6-20020a05622a004600b002f9399ccefasm4637163qtw.34.2022.06.13.00.22.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 00:22:26 -0700 (PDT)
-Message-ID: <d1d465f2e828642f30bc8a2bdd49e89fdfed7caf.camel@gmail.com>
-Subject: Re: [PATCH 34/34] iio: inkern: fix coding style warnings
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Joe Simmons-Talbott <joetalbott@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>, NXP Linux Team <linux-imx@nxp.com>, Linux-Renesas
- <linux-renesas-soc@vger.kernel.org>, "open list:BROADCOM NVRAM DRIVER"
- <linux-mips@vger.kernel.org>, Linux ARM
- <linux-arm-kernel@lists.infradead.org>,  chrome-platform@lists.linux.dev,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-mediatek@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, linux-iio@vger.kernel.org, 
- openbmc@lists.ozlabs.org, Cai Huoqing <cai.huoqing@linux.dev>, Benjamin
- Fair <benjaminfair@google.com>, Jishnu Prakash <quic_jprakash@quicinc.com>,
- Linus Walleij <linus.walleij@linaro.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Amit
- Kucheria <amitk@kernel.org>, Andy Gross <agross@kernel.org>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>,
- Benson Leung <bleung@chromium.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Christophe Branchereau <cbranchereau@gmail.com>, Patrick Venture
- <venture@google.com>, Arnd Bergmann <arnd@arndb.de>, Nancy Yuen
- <yuenn@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, Daniel Lezcano
- <daniel.lezcano@linaro.org>,  Gwendal Grignou <gwendal@chromium.org>,
- Saravanan Sekar <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
-  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Paul Cercueil
- <paul@crapouillou.net>, Thara Gopinath <thara.gopinath@linaro.org>, Avi
- Fishman <avifishman70@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Matthias Brugger
- <matthias.bgg@gmail.com>,  Tomer Maimon <tmaimon77@gmail.com>, Bjorn
- Andersson <bjorn.andersson@linaro.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Jonathan Cameron <jic23@kernel.org>, Zhang
- Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, Guenter Roeck
- <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Mon, 13 Jun 2022 09:23:16 +0200
-In-Reply-To: <CAMuHMdXtLQOo2fiTHA-CBgWZE0hbPVUzv77sKrf_Qz8oHp7bkA@mail.gmail.com>
-References: <20220610084545.547700-1-nuno.sa@analog.com>
-	 <20220610084545.547700-35-nuno.sa@analog.com> <YqNo6U8r80aNFzUr@spruce>
-	 <d083dd2c7e9e6eefb32124648a06799a9ebe8dfd.camel@gmail.com>
-	 <CAMuHMdXtLQOo2fiTHA-CBgWZE0hbPVUzv77sKrf_Qz8oHp7bkA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BGAIi+/Ft53DX8CUrCtDAbQTz9ZPUzipX2JK4m40Fyc=;
+        b=rX2FA/RZFgn0LEl98t5tw2vZKXZm4d1yva5z96+74ZTyWAaRPsi9I7I9XNZbYStzmh
+         gq/fGYK+rP66AwjewtNwjaDDhKu6eM3sqygv/QQI9uYIh5E6KPv+fDOYojYenkl1M/Rb
+         NidH4DbEP1CESdsWZD5CgqRwNVja8b9A0M/J38mzLF4OCbxtbqkRcKTsyaS2tShisxRR
+         qo+rkKL6U1QQPkjscA52fFHqHBJEBVB+EwDy8RfA60mZGECBzisIarkJNjeDUfYubuaI
+         2jWxyVHx2o9va+yV1BQ/6b/RvIE2XJ6voJrGnVKTXWpHwrHf2t/CWiqHo/QbEqsnuOwS
+         bi2A==
+X-Gm-Message-State: AJIora/NAFDsek3rBTbhFEJi263dTZTmWdRP8AKXd8YXfSEDBbyNqgAr
+	U0gFso0Ge6jee/s8/XHfdoXs6QQncJXavA==
+X-Google-Smtp-Source: AGRyM1tuPt13VGJ/8fpGOVkPhi8rdaeu3JRUgj5cBBT1TVh/uNbhn6djFMjvWAdpt8cRyMI8UdF5mQ==
+X-Received: by 2002:a05:6870:231f:b0:da:c15:fd43 with SMTP id w31-20020a056870231f00b000da0c15fd43mr158640oao.135.1655134809479;
+        Mon, 13 Jun 2022 08:40:09 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com. [209.85.160.49])
+        by smtp.gmail.com with ESMTPSA id n3-20020a0568301e8300b0060603221281sm3542476otr.81.2022.06.13.08.40.08
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jun 2022 08:40:08 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-100eb6f7782so8904375fac.2
+        for <chrome-platform@lists.linux.dev>; Mon, 13 Jun 2022 08:40:08 -0700 (PDT)
+X-Received: by 2002:a05:6870:5247:b0:fb:2e60:26c6 with SMTP id
+ o7-20020a056870524700b000fb2e6026c6mr157351oai.241.1655134808192; Mon, 13 Jun
+ 2022 08:40:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20220611061825.4119270-1-swboyd@chromium.org>
+In-Reply-To: <20220611061825.4119270-1-swboyd@chromium.org>
+From: Evan Green <evgreen@chromium.org>
+Date: Mon, 13 Jun 2022 08:39:32 -0700
+X-Gmail-Original-Message-ID: <CAE=gft7ZJ3PP=A8FMUs1O6FnRacjrceeYzeoJ8_9q5AffuLBPw@mail.gmail.com>
+Message-ID: <CAE=gft7ZJ3PP=A8FMUs1O6FnRacjrceeYzeoJ8_9q5AffuLBPw@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Always expose last resume result
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, Rajat Jain <rajatja@chromium.org>, 
+	Matthias Kaehlcke <mka@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 2022-06-12 at 19:39 +0200, Geert Uytterhoeven wrote:
-> Hi Nuno,
->=20
-> On Fri, Jun 10, 2022 at 9:52 PM Nuno S=C3=A1 <noname.nuno@gmail.com>
-> wrote:
-> > On Fri, 2022-06-10 at 11:53 -0400, Joe Simmons-Talbott wrote:
-> > > On Fri, Jun 10, 2022 at 10:45:45AM +0200, Nuno S=C3=A1 wrote:
-> > > > Just cosmetics. No functional change intended...
-> > > >=20
-> > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
->=20
-> > > > --- a/drivers/iio/inkern.c
-> > > > +++ b/drivers/iio/inkern.c
-> > > > @@ -45,13 +45,13 @@ int iio_map_array_register(struct iio_dev
-> > > > *indio_dev, struct iio_map *maps)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i =3D 0, ret =3D 0;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_map_internal =
-*mapi;
-> > > >=20
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (maps =3D=3D NULL)
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!maps)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&iio_map_list=
-_lock);
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (maps[i].consumer_dev_n=
-ame !=3D NULL) {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (!maps[i].consumer_dev_=
-name) {
-> > >=20
-> > > Shouldn't this be?:
-> > > while (maps[i].consumer_dev_name) {
-> >=20
-> > Ups... Nice catch! I was probably in bot mode already.
->=20
-> When making a change with no functional change intended, it is always
-> a good idea to compare the generated assembler before/after.=C2=A0 I.e.
->=20
-> =C2=A0=C2=A0=C2=A0 make drivers/iio/inkern.s
-> =C2=A0=C2=A0=C2=A0 mv drivers/iio/inkern.s drivers/iio/inkern.s.orig
-> =C2=A0=C2=A0=C2=A0 [make your change]
-> =C2=A0=C2=A0=C2=A0 make drivers/iio/inkern.s
-> =C2=A0=C2=A0=C2=A0 diff -u drivers/iio/inkern.s{.orig,}
->=20
+On Fri, Jun 10, 2022 at 11:18 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> The last resume result exposing logic in cros_ec_sleep_event()
+> incorrectly requires S0ix support, which doesn't work on ARM based
+> systems where S0ix doesn't exist. That's because cros_ec_sleep_event()
+> only reports the last resume result when the EC indicates the last sleep
+> event was an S0ix resume. On ARM systems, the last sleep event is always
+> S3 resume, but the EC can still detect sleep hang events in case some
+> other part of the AP is blocking sleep.
+>
+> Always expose the last resume result if the EC supports it so that this
+> works on all devices regardless of S0ix support. This fixes sleep hang
+> detection on ARM based chromebooks like Trogdor.
+>
+> Cc: Evan Green <evgreen@chromium.org>
+> Cc: Rajat Jain <rajatja@chromium.org>
+> Cc: Matthias Kaehlcke <mka@chromium.org>
+> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+> Fixes: 7235560ac77a ("platform/chrome: Add support for v1 of host sleep event")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-Ah thx... That's indeed a good idea!
+I looked at the EC code for firmware-hatch-12669.B, which is I think
+the oldest board shipping the suspend_transitions support, and saw
+that it correctly initializes resume_response.sleep_transitions for
+both S0IX_RESUME and S3_RESUME. I think that mitigates my only concern
+that we might be interpreting garbage sleep_transitions from the EC on
+some older platforms. So,
 
-- Nuno S=C3=A1
+Reviewed-by: Evan Green <evgreen@chromium.org>
 
-
-
-
+> ---
+>
+> Changes from v1 (https://lore.kernel.org/r/20220610223703.3387691-1-swboyd@chromium.org):
+>  * Fixed typo
+>
+>  drivers/platform/chrome/cros_ec.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index b3e94cdf7d1a..3abef9747482 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -135,10 +135,10 @@ static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
+>         buf.msg.command = EC_CMD_HOST_SLEEP_EVENT;
+>
+>         ret = cros_ec_cmd_xfer_status(ec_dev, &buf.msg);
+> -
+> -       /* For now, report failure to transition to S0ix with a warning. */
+> +       /* Report failure to transition to system wide suspend with a warning. */
+>         if (ret >= 0 && ec_dev->host_sleep_v1 &&
+> -           (sleep_event == HOST_SLEEP_EVENT_S0IX_RESUME)) {
+> +           (sleep_event == HOST_SLEEP_EVENT_S0IX_RESUME ||
+> +            sleep_event == HOST_SLEEP_EVENT_S3_RESUME)) {
+>                 ec_dev->last_resume_result =
+>                         buf.u.resp1.resume_response.sleep_transitions;
+>
+>
+> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> --
+> https://chromeos.dev
+>

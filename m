@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4B2184A
-	for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 07:10:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E54B2C341C4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F14D469D
+	for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 07:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4268C3411E;
 	Tue, 14 Jun 2022 07:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1655190612;
-	bh=a+jljbykEK1/cv1zJmGA3xTVFZeB8bGpDaitAJUbIXM=;
+	bh=dmLK/nv/5tU6QIzmumMJ4+PJxQGt6Fs+tQ8YqCoef9s=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XYKewKzHe7SzKLB88pbO3MTStTlEelGormP1XvSk6MCfRRyajWHqdd7n6a7SL55nW
-	 HG3hl2XFprPoHCX3vZC6oGAaqCXMJSJ4GGMD5OerMQ8VXSBtYWaihjh7xiQ5s6oO24
-	 sNgfZaPGCMum8AgM12J8Lv7l2FLmgyCAhA4h8HzV9r4XFSH+EQ1x6ey8gnzKmZY9xl
-	 pd0k9ClVjS8VV9SQ6+dzcU4iAFWzt6vSTnCiadI4TGIgzBjxDQFJDblRyI6BuiGwnD
-	 xMRgSrOTFvjmrmtafTJ0Ihp5aj4irrg9vv+NcGilM/dONaFhiyMd76N8oAhk1EDAfv
-	 WuBB9vgYheuLw==
+	b=FqEpGazLYG99s1qJxLIHyH4zTvbzTDn059Jh0jCEFv+ZaBJ2xpavrA85h6p4lH2DA
+	 knaQNUZjB2Iv5epJQMt9Gm1gL6islj4pW++kmBjKKKpXx8CjJOirLEi55Ri6tHkRMs
+	 pKRI51E/dzXk8MXj8XXbdddQKIMOdADMAWEkqcNSsbMq+/XJlVwhG/z3r0n10y8Pug
+	 enuWSk7H4NfL8gdALQAHgW6ICSKaoVLvHuswp0hh1PXmOVcipOit95WEb8oLMgkVQq
+	 4JxfppspLPpcpI/LpdmOZlEUhw9CLl/DKPnp5ngOpNItN55niGyrSUZbjSb3T8pL/0
+	 3l72SkyBm2Tdw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CE93DE6D482;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A88F3FD99FF;
 	Tue, 14 Jun 2022 07:10:12 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -30,7 +30,7 @@ Subject: Re: [PATCH][next] platform/chrome: Fix spelling mistake "unknwon" ->
  "unknown"
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <165519061284.15395.5656439783900073779.git-patchwork-notify@kernel.org>
+ <165519061268.15395.1045812031095952804.git-patchwork-notify@kernel.org>
 Date: Tue, 14 Jun 2022 07:10:12 +0000
 References: <20220614064909.47804-1-colin.i.king@gmail.com>
 In-Reply-To: <20220614064909.47804-1-colin.i.king@gmail.com>
@@ -40,7 +40,7 @@ Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
 On Tue, 14 Jun 2022 07:49:09 +0100 you wrote:

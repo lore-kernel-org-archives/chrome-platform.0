@@ -1,24 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE4F46A3;
-	Tue, 14 Jun 2022 08:20:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B945C3411B;
-	Tue, 14 Jun 2022 08:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655194813;
-	bh=8MsNyz+yGakuP3pzPHffPGmJE0ToLHr30QsOg7vXY2Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=mzHMPLVwayVfkeCnBje6+v3ta/o1SmwQvMoS5uaKdZyjQsRLVvjwn0wGsQcntAEpp
-	 mZZL/19d/BC8MGBgs1qX0b8F5bg7EXC7pUb9y0jvUAF0kQ2nwAaf0vEKjnz0+lr68+
-	 skgG5qW5RFne+xUtZKl4yBx+VEB7pOjY/my/KFNBnSAuXw/I0097kpJlFqKOTP+7yb
-	 03AofCZuy835X6RGfccPsGXlBK9nAO2u/YzX2zsZSxO9BUHBWYN1QIloSp8NcQOfce
-	 W9AExj7H8yShPhUaKjoqUlEsnYmNIXsE7czYIifck9EFIlXOyOshl3f0UjbYD25vtJ
-	 /jT+3BwI4LBTg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 56678E6D482;
-	Tue, 14 Jun 2022 08:20:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3B11FC1
+	for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 19:51:46 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id f65so9426716pgc.7
+        for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 12:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2w3cw6QyV5W4ckRn4xpfe5uPFSmcbBCuI4xeqnurwz4=;
+        b=G4JiB1ndRniiJ+4Y32AhhgixsTU9L+tauaWfipSoo2+jJTyRjnlU+83RyDNQAjp9Wk
+         WaLFgyDse9jNN3bPgOPJag4MQMg9xEL5tcAOuXQggX+nGSFVC/x919Ybrc8MFoHrSyeq
+         yQhTYgHkDTAmVYKW2I7Q2FvGTc+an10Hw4f3A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2w3cw6QyV5W4ckRn4xpfe5uPFSmcbBCuI4xeqnurwz4=;
+        b=3eGLFA4LszbRHrpkcKxNK2SVVW//0D4H2KcgzCGPsDYGp2PwHoace6aGwBoZBQtK0b
+         SXIsZQvdiGEaFFjkJULuNL+92bhw74Jei5CfMpmNPG/PcaJODoh9NyDqYyXcybfm/oeY
+         HZZ7U9+7d6OatpSdQgHuI1B2pPBD48sTRsRS1JFLkV5uSEwtccBJ3FyZWdLV/nW5DsEN
+         C1ZWErHiVsn5pe4mi+aP6iN8YGshZIyJVLlOpmCQpScYXSwFBfAknJO69GrodI2YC8Y/
+         ClRmX9t/LZvET6+gEQL3PFfJYVlRjiXi2V1N79+Qt4jcOd40w3AMlAmpkHJwsk9PbKVi
+         nu7g==
+X-Gm-Message-State: AOAM533aKZfQeGQKYXxCucqT8RfbQC+fGs20CSLCS9JIL/NRTZbMp37F
+	Ooa/+RFwgMSEr8TlDKkutn+Maw==
+X-Google-Smtp-Source: ABdhPJwgIhMeRmRqmykxCqA3+kGYsQRsHDqhsNpzowYN0ya0k2yp8EHb0e6cPWYLt1THYYKy56LpZQ==
+X-Received: by 2002:a63:d57:0:b0:3fd:ac2b:75aa with SMTP id 23-20020a630d57000000b003fdac2b75aamr5750872pgn.533.1655236306228;
+        Tue, 14 Jun 2022 12:51:46 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:82ae:1136:b202:95da])
+        by smtp.gmail.com with ESMTPSA id s21-20020a170902b19500b0015e8d4eb29csm7625484plr.230.2022.06.14.12.51.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 12:51:45 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Craig Hesling <hesling@chromium.org>,
+	Tom Hughes <tomhughes@chromium.org>,
+	Alexandru M Stan <amstan@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH v6 0/2] dt-bindings: cros-ec: Update for fingerprint devices
+Date: Tue, 14 Jun 2022 12:51:42 -0700
+Message-Id: <20220614195144.2794796-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -26,42 +60,71 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] platform/chrome: cros_ec: Always expose last resume result
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165519481335.20230.14481630033176207455.git-patchwork-notify@kernel.org>
-Date: Tue, 14 Jun 2022 08:20:13 +0000
-References: <20220614075726.2729987-1-swboyd@chromium.org>
-In-Reply-To: <20220614075726.2729987-1-swboyd@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: bleung@chromium.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, groeck@chromium.org,
- chrome-platform@lists.linux.dev, rajatja@chromium.org, mka@chromium.org,
- hsinyi@chromium.org, tzungbi@kernel.org, evgreen@chromium.org
 
-Hello:
+This patch series introduces a DT binding for chromeos fingerprint
+devices. The first patches tightens up the existing cros-ec binding and
+the second patch introduces the fingerprint binding. As there aren't any
+driver patches this can probably go directly through the chrome platform
+tree if Lee can ack the mfd partfs.
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Changes from v5 (https://lore.kernel.org/r/20220512013921.164637-1-swboyd@chromium.org):
+ * Split out to different binding file again, while using 'select'
+ * Fixed examples to have required interrupts property for cros-ec-spi
 
-On Tue, 14 Jun 2022 00:57:26 -0700 you wrote:
-> The last resume result exposing logic in cros_ec_sleep_event()
-> incorrectly requires S0ix support, which doesn't work on ARM based
-> systems where S0ix doesn't exist. That's because cros_ec_sleep_event()
-> only reports the last resume result when the EC indicates the last sleep
-> event was an S0ix resume. On ARM systems, the last sleep event is always
-> S3 resume, but the EC can still detect sleep hang events in case some
-> other part of the AP is blocking sleep.
-> 
-> [...]
+Changes from v4 (https://lore.kernel.org/r/20220321191100.1993-1-swboyd@chromium.org):
+ * Drop last patch that implemented driver logic
+ * Drop second to last patch because it's not really needed until
+   compatible is used.
+ * Rolled cros-ec-spi into cros-ec-fp compatible to get all the pieces
 
-Here is the summary with links:
-  - [v3] platform/chrome: cros_ec: Always expose last resume result
-    https://git.kernel.org/chrome-platform/c/74bb746407bf
+Changes from v3 (https://lore.kernel.org/r/20220318015451.2869388-1-swboyd@chromium.org):
+ * Drop spi_device_id because it isn't used
+ * Dropped struct members for gpios
+ * Picked up tags
 
-You are awesome, thank you!
+Changes from v2 (https://lore.kernel.org/r/20220317005814.2496302-1-swboyd@chromium.org):
+ * Dropped cros-ec spi dt properties that aren't of use right now
+ * Picked up tags
+
+Changes from v1 (https://lore.kernel.org/r/20220314232214.4183078-1-swboyd@chromium.org):
+ * Properly do the boot sequence
+ * Add a message that we're booting and delaying a while
+ * Fix typo in commit text
+ * Change binding to not spell out reset-gpios and indicate that boot0
+   is about asserting boot mode
+ * Split device id to different patch as it's a different topic from
+   booting
+
+Stephen Boyd (2):
+  dt-bindings: cros-ec: Reorganize property availability
+  dt-bindings: cros-ec: Add ChromeOS fingerprint binding
+
+ .../bindings/chrome/google,cros-ec-fp.yaml    | 97 +++++++++++++++++++
+ .../bindings/chrome/google,cros-ec-typec.yaml |  1 +
+ .../bindings/extcon/extcon-usbc-cros-ec.yaml  |  1 +
+ .../i2c/google,cros-ec-i2c-tunnel.yaml        |  1 +
+ .../bindings/mfd/google,cros-ec.yaml          | 38 ++++++--
+ .../bindings/pwm/google,cros-ec-pwm.yaml      |  1 +
+ .../regulator/google,cros-ec-regulator.yaml   |  1 +
+ .../bindings/sound/google,cros-ec-codec.yaml  |  1 +
+ 8 files changed, 132 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: <devicetree@vger.kernel.org>
+Cc: <chrome-platform@lists.linux.dev>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Craig Hesling <hesling@chromium.org>
+Cc: Tom Hughes <tomhughes@chromium.org>
+Cc: Alexandru M Stan <amstan@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Matthias Kaehlcke <mka@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Lee Jones <lee.jones@linaro.org>
+
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+https://chromeos.dev
 

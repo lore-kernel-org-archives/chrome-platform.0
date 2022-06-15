@@ -1,172 +1,101 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AD43D99
-	for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 20:50:39 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id c2so17896909edf.5
-        for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 13:50:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79253FDF
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 22:28:33 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id l4so11585057pgh.13
+        for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 15:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/ZXBUIxqBm6uyxBilji48aCf+mfxOLYDgSX9YlArqBA=;
-        b=AFFih5W0o5aUzvDXTiceCSYg5SE+KN4Yx/De279r5ciZaqpBDyOcqdcdiC/LzqV8X7
-         PnPCsy33DMFoDcZ7lX5DenjOwjeThgwf0pGPiQEXOQItddk3Tlgedzx2cbX0jUNvLB3w
-         sQ1VEU9OpHcvPRde5hjUjGOVAQf2t6G+9qNUpMIfhW+FWNkET5vk2prshkwnufPPgtnE
-         XjynoDPD6y9WLVXlrYy1kvocieuQnhn8FhZUbWJo6uHGqHanWuzqhopJrvo8sUzSSex5
-         W16BuQjhUbt4tVZ3SaoojwtiDamYTkHE5UnPO7ToVWD+YS+3Vur7hYHI99lH3fYB7luI
-         KBCg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=8/weqrWLdTCxYp+xRg9dVyfKZZLo+VyTWNnyjrQ9VzQ=;
+        b=DNfSC2OQC20pNMiFXxu7jTPTLrLEPeQrh+SAy/0Q1mA77E3PnvWxQmtQP8/jvU5Py2
+         Gi/3Tx0sxP6kVTRl38ygQTvgij8+U23PmlJFqmCUJJHrq9Hz1dib1PFqsPxebZU+YYOv
+         3AaV84lbm1RzqTxtGuBNS93KelCn0Kd3xlXw43QrL+6P3tcwCaKstH6FYrmP5IY/jVVw
+         KaXxmqm1qExb+ivFCF8ewVJsGJXEeQ+SDcZcqfABuGojOZGy0kEBFUDtp7fucIWSLdQj
+         2LIIgjzAPAgH2vgoygfHlk1Zb3CHnOd2jY97tjT9wfqj+mCfX1Gh/qM/TfhH3Q+bcn+K
+         2lmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/ZXBUIxqBm6uyxBilji48aCf+mfxOLYDgSX9YlArqBA=;
-        b=dyhLXYm+Sj0bf8g2JnQuQhIe4R0Dq8K1wozZTs/JErNoMzPf2r6iJ1gVm0jbFTrlKS
-         s+zXZEyHO5B9XWS9OO1mDvasg7bRqLWerAd7Er1+8MI1efsgK5UKuTNGrS7LJvaeTzHW
-         bpKhJ+z87Qbe0qg5Xz4gZbZtAF4GYIVwuzuAnf6MZhtsYjWffNeT+845WccajY07Fu5q
-         Gwsu0KbH2CdJ0ayX89mZ9XgEF6sKbXU8NfOiGa1AuUEO+1tDw6nxGHexvJy51cKFEfSf
-         RZkWur97JqxW5dhp/eziW+SZVps/NWs3uibFeiaBCJIhX3NVkXNrqPPFc0bGIEGhpRO7
-         TLxA==
-X-Gm-Message-State: AJIora9ljqT7DM3kSk8ZlQ+NyYJpudf8tToPfAmNeBYOV7flBpcq78Cv
-	9DGcnvy5B9oTDtv0uCGTjZbmcof3tkoCVlVeucVrqOUq9hZo3hLc
-X-Google-Smtp-Source: AGRyM1ssS+sc685rYaHH2KgSnyCXAfvHgnC+e/hU1VF6fIg3/zRUdW2cKIeWjcO13qpLymSmg3T/6J3aZ8/+k+qRu8Q=
-X-Received: by 2002:a05:6402:3688:b0:42d:d3ba:4725 with SMTP id
- ej8-20020a056402368800b0042dd3ba4725mr2144623edb.212.1655326237916; Wed, 15
- Jun 2022 13:50:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=8/weqrWLdTCxYp+xRg9dVyfKZZLo+VyTWNnyjrQ9VzQ=;
+        b=LP1Bq/wVnEuGFy1Mk69ODHEiDTLtuulSeNbECOmSCPSSJk49VDXJc3RmRqqIrPheMO
+         5owe+9F5NiECXH7mocTuUaoJeC0MJTrmLQv4H2Y70nWFD0jBSWX+SG0hoUqcEWvWz5kI
+         DxdAjcsCHM6QhXyViBNzu8lIu5K8jMyQKk0k0X9CppNGvNLd8jjj7ZvdufoTz2TQ7Y1l
+         o4/+bkBWhXRJ7ptIRpwvLbZO244ghyBrCZxVYtmcm3iMmWBxwuJX6NIF+h3MU9DkGiix
+         QmehEHJaA291Ti6bIN1n90dix6urpBFG/db9jPzS4i3IqNIpFlJdJ3agURCWXKlbVZEr
+         7zVw==
+X-Gm-Message-State: AJIora/DR9sctlekhsiTBoTXQZ8ga3tWbl4HNsD8u7245wSIs/CBJD0m
+	Wo3v3fHPTu/Z2cTRRtDGEpT69oC/s2NNmwKG
+X-Google-Smtp-Source: AGRyM1sOMaKdIw9hmLLTrY/C7UCLm3+pdaat8cUZjTXdT1K47ax0eQQnPwBc9fefe8un8iuDBsUjhg==
+X-Received: by 2002:a05:6a00:4504:b0:51b:f04e:a130 with SMTP id cw4-20020a056a00450400b0051bf04ea130mr1806302pfb.52.1655332113127;
+        Wed, 15 Jun 2022 15:28:33 -0700 (PDT)
+Received: from google.com ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id g18-20020a170902d1d200b0016782c55790sm117330plb.232.2022.06.15.15.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 15:28:32 -0700 (PDT)
+Date: Wed, 15 Jun 2022 23:28:29 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Tinghan Shen <tinghan.shen@mediatek.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Brian Norris <briannorris@chromium.org>,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	weishunc@google.com
+Subject: Re: [PATCH v1 15/15] mfd: cros_ec: Add SCP core 1 as a new CrOS EC
+ MCU
+Message-ID: <YqpdDeD5DA5byI0B@google.com>
+References: <20220601112201.15510-1-tinghan.shen@mediatek.com>
+ <20220601112201.15510-16-tinghan.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220615051248.1628156-1-tzungbi@kernel.org> <20220615051248.1628156-6-tzungbi@kernel.org>
-In-Reply-To: <20220615051248.1628156-6-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 15 Jun 2022 13:50:26 -0700
-Message-ID: <CABXOdTeYf=KsaMeEMOcevRjitvkLDKPeTELfDSmCxyG0OWWjgQ@mail.gmail.com>
-Subject: Re: [PATCH 05/11] platform/chrome: cros_ec_proto: separate cros_ec_wait_until_complete()
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220601112201.15510-16-tinghan.shen@mediatek.com>
 
-On Tue, Jun 14, 2022 at 10:13 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> EC returns EC_RES_IN_PROGRESS if the host command needs more time to
-> complete.  Whenever receives the return code, cros_ec_send_command()
-> sends EC_CMD_GET_COMMS_STATUS to query the command status.
->
-> Separate cros_ec_wait_until_complete() from cros_ec_send_command().
-> It sends EC_CMD_GET_COMMS_STATUS and waits until the previous command
-> was completed, or encountered error, or timed out.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Wed, 01 Jun 2022, Tinghan Shen wrote:
+
+> MT8195 System Companion Processors(SCP) is a dual-core RISC-V MCU.
+> Add a new cros feature id to represent the SCP 2nd core.
+> 
+> The 1st core is referred to as 'core 0', and the 2nd core is referred
+> to as 'core 1'.
+> 
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 > ---
->  drivers/platform/chrome/cros_ec_proto.c | 75 ++++++++++++-------------
->  1 file changed, 36 insertions(+), 39 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index 0cec013be3d3..466ecb063bd6 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -134,53 +134,50 @@ static int cros_ec_xfer_command(struct cros_ec_device *ec_dev, struct cros_ec_co
->         return ret;
->  }
->
-> -static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
-> +static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *result)
->  {
-> -       int ret = cros_ec_xfer_command(ec_dev, msg);
-> +       struct cros_ec_command *msg;
-> +       struct ec_response_get_comms_status *status;
-> +       int ret = 0, i;
-> +
-> +       msg = kzalloc(sizeof(*msg) + sizeof(*status), GFP_KERNEL);
-> +       if (!msg)
-> +               return -ENOMEM;
->
-> -       if (msg->result == EC_RES_IN_PROGRESS) {
-> -               int i;
-> -               struct cros_ec_command *status_msg;
-> -               struct ec_response_get_comms_status *status;
-> +       msg->command = EC_CMD_GET_COMMS_STATUS;
-> +       msg->insize = sizeof(*status);
->
-> -               status_msg = kmalloc(sizeof(*status_msg) + sizeof(*status),
-> -                                    GFP_KERNEL);
-> -               if (!status_msg)
-> -                       return -ENOMEM;
-> +       status = (struct ec_response_get_comms_status *)msg->data;
->
-> -               status_msg->version = 0;
-> -               status_msg->command = EC_CMD_GET_COMMS_STATUS;
-> -               status_msg->insize = sizeof(*status);
-> -               status_msg->outsize = 0;
-> +       /* Query the EC's status until it's no longer busy or we encounter an error. */
-> +       for (i = 0; i < EC_COMMAND_RETRIES; ++i) {
-> +               usleep_range(10000, 11000);
->
-> -               /*
-> -                * Query the EC's status until it's no longer busy or
-> -                * we encounter an error.
-> -                */
-> -               for (i = 0; i < EC_COMMAND_RETRIES; i++) {
-> -                       usleep_range(10000, 11000);
-> -
-> -                       trace_cros_ec_request_start(status_msg);
-> -                       ret = (*xfer_fxn)(ec_dev, status_msg);
-> -                       trace_cros_ec_request_done(status_msg, ret);
+>  drivers/mfd/cros_ec_dev.c                      | 5 +++++
+>  include/linux/platform_data/cros_ec_commands.h | 2 ++
+>  include/linux/platform_data/cros_ec_proto.h    | 1 +
+>  3 files changed, 8 insertions(+)
 
-I'll have to spend more time on this; I don't immediately see (from
-the diff) the replacement for the traces, and I don't see what
-happened with xfer_fxn.
+Applied, thanks.
 
-Guenter
-
-> -                       if (ret == -EAGAIN)
-> -                               continue;
-> -                       if (ret < 0)
-> -                               break;
-> -
-> -                       msg->result = status_msg->result;
-> -                       if (status_msg->result != EC_RES_SUCCESS)
-> -                               break;
-> -
-> -                       status = (struct ec_response_get_comms_status *)
-> -                                status_msg->data;
-> -                       if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
-> -                               break;
-> -               }
-> +               ret = cros_ec_xfer_command(ec_dev, msg);
-> +               if (ret == -EAGAIN)
-> +                       continue;
-> +               if (ret < 0)
-> +                       break;
-> +
-> +               *result = msg->result;
-> +               if (msg->result != EC_RES_SUCCESS)
-> +                       break;
->
-> -               kfree(status_msg);
-> +               if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
-> +                       break;
->         }
->
-> +       kfree(msg);
-> +       return ret;
-> +}
-> +
-> +static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
-> +{
-> +       int ret = cros_ec_xfer_command(ec_dev, msg);
-> +
-> +       if (msg->result == EC_RES_IN_PROGRESS)
-> +               ret = cros_ec_wait_until_complete(ec_dev, &msg->result);
-> +
->         return ret;
->  }
->
-> --
-> 2.36.1.476.g0c4daa206d-goog
->
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog

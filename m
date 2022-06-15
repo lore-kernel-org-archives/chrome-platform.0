@@ -1,139 +1,95 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856683D97
-	for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 22:41:53 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id p1so7624302ilj.9
-        for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 15:41:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9+kyzNbwL34JPEo3iqbzLbGd9UuckbxCXwZqzQQStRo=;
-        b=kxZU4O5oWw0x6pDNeXPLnBAGs3Pgu48222c3blJk4xg8T3aZUo/tY4zJCYU8/9SHJc
-         eqFiPRvDdjVxZPzHJ4Yr1mmtdWKKKeoKPFWWqMd1kR8Gw7kAq7NIgJhcIPmbG1qZz4OM
-         yE/QC1aP/kCMscfKbNeK6lvJBePdJir4T9S6g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9+kyzNbwL34JPEo3iqbzLbGd9UuckbxCXwZqzQQStRo=;
-        b=2WzAkgDjuOcAeO34CmHejLN9ikgnwfnOucW1zF+te2hnCdHbFSVPANWvrQKB5Rng6g
-         vWpU1SPYwn2BVFSHGtKzZkVdSekpbgiK8mvE7NHHsl3KgadJu9mZ+5BqRM0hlf4kF/I3
-         aYII37icXlspZk/FcaKttFdDB4fRe3YHrbRcdIkWnxLcgXPWykv5D7mQGJx1uo8vroz8
-         tVnnUNevYUOimnSBKpAuAVn0di9sViT3tqxs1Ye32NC9rebqALrM/YHbEwdOv8X6aPxw
-         x6JRAHSLjOtZhKdOjFgU5uqZHWmt2DJ0xQ+0TChCq3u/rlyySr0m/4UlhyWmwV3xmFi8
-         VeWg==
-X-Gm-Message-State: AJIora/DIrB5pdCjLScDSgSznsSK9ualayfdgV1kiJI2Uxoj3vBi2/xn
-	pO3wkak8RAnMK7dPSkCbRSr2tQT9W5HYNzNj
-X-Google-Smtp-Source: AGRyM1tQOacTMyXkF9oO/ja0vHAtzgH6nI4xEYq7IlmUn3KXT8e1QYuUJ/AhREb8saTcLJ27gyGLkQ==
-X-Received: by 2002:a05:6e02:12ce:b0:2d3:de67:9f96 with SMTP id i14-20020a056e0212ce00b002d3de679f96mr4559654ilm.261.1655246512632;
-        Tue, 14 Jun 2022 15:41:52 -0700 (PDT)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
-        by smtp.gmail.com with ESMTPSA id m28-20020a02a15c000000b00331850520c1sm5448606jah.120.2022.06.14.15.41.52
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 15:41:52 -0700 (PDT)
-Received: by mail-io1-f44.google.com with SMTP id q11so10935854iod.8
-        for <chrome-platform@lists.linux.dev>; Tue, 14 Jun 2022 15:41:52 -0700 (PDT)
-X-Received: by 2002:a02:c6c4:0:b0:333:ecb2:fc7f with SMTP id
- r4-20020a02c6c4000000b00333ecb2fc7fmr3785042jan.184.1655246512053; Tue, 14
- Jun 2022 15:41:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019C77C
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 05:13:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0205C34115;
+	Wed, 15 Jun 2022 05:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655269983;
+	bh=49EG9xEaXpkgOIcZrB2XUN9zAkDIcNJTAWZ7hH+D/Zo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=roEfoD4Bpl/Yv1A+ollNbp2sgyzQoxmZ6cb+yueRVG7ykB+poUeW5cAvYMFG2iP40
+	 FlUdXD84jhxJ+FZW6gtBjokIDe843f9Evv2vJGskf308HdFit9opYetK7EvPVltPsj
+	 hcLc0kwsNArCxdJQ/e6EY//dj6xEONtDKFXhIwVwpJagNMN3eNqPqxZpMDAI+9oawh
+	 XjAtm5SO2B3O2zA3Bl5rTgPKo8jKqIRpKM8gYhCzQJebN2R4J5MNyP1Wnh0eSsJfpL
+	 JoTg9tPwaJMzGA1xjqzxlpqgkhs1BLOieAZCGeXljDtv+J0MuQzbrGsmK0l9FbEsfx
+	 ayTEnXpIxBrnQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] platform/chrome: Kunit tests and refactor for cros_ec_cmd_xfer()
+Date: Wed, 15 Jun 2022 05:12:37 +0000
+Message-Id: <20220615051248.1628156-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220614195144.2794796-1-swboyd@chromium.org> <20220614195144.2794796-2-swboyd@chromium.org>
-In-Reply-To: <20220614195144.2794796-2-swboyd@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 14 Jun 2022 15:41:38 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WUnMCj2GmMy2xRG8WOba1O4jzkXeUrrUic71eEA0aZrw@mail.gmail.com>
-Message-ID: <CAD=FV=WUnMCj2GmMy2xRG8WOba1O4jzkXeUrrUic71eEA0aZrw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] dt-bindings: cros-ec: Reorganize property availability
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
-	patches@lists.linux.dev, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, chrome-platform@lists.linux.dev, 
-	Guenter Roeck <groeck@chromium.org>, Craig Hesling <hesling@chromium.org>, 
-	Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The first 5 patches add Kunit tests and refactors for cros_ec_cmd_xfer().
 
-On Tue, Jun 14, 2022 at 12:51 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Various properties in the cros-ec binding only apply to different
-> compatible strings. For example, the interrupts and reg property are
-> required for all cros-ec devices except for the rpmsg version. Add some
-> conditions to update the availability of properties so that they can't
-> be used with compatibles that don't support them.
->
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Craig Hesling <hesling@chromium.org>
-> Cc: Tom Hughes <tomhughes@chromium.org>
-> Cc: Alexandru M Stan <amstan@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Matthias Kaehlcke <mka@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../bindings/chrome/google,cros-ec-typec.yaml |  1 +
->  .../bindings/extcon/extcon-usbc-cros-ec.yaml  |  1 +
->  .../i2c/google,cros-ec-i2c-tunnel.yaml        |  1 +
->  .../bindings/mfd/google,cros-ec.yaml          | 29 +++++++++++++------
->  .../bindings/pwm/google,cros-ec-pwm.yaml      |  1 +
->  .../regulator/google,cros-ec-regulator.yaml   |  1 +
->  .../bindings/sound/google,cros-ec-codec.yaml  |  1 +
->  7 files changed, 26 insertions(+), 9 deletions(-)
-
-slight nit that from reading the subject of this patch I'd expect that
-it was a no-op. Just a reorganization / cleanup. In fact, it actually
-is more than a no-op. It enforces restrictions that should probably
-have always been enforced. I think it'd be better if the subject was
-something like "tighten property requirements" or something like that.
+The last 6 patches change the behavior a bit by altering return codes.
 
 
-> @@ -158,12 +154,27 @@ allOf:
->                - google,cros-ec-rpmsg
->      then:
->        properties:
-> +        controller-data: false
->          google,cros-ec-spi-pre-delay: false
->          google,cros-ec-spi-msg-delay: false
->          spi-max-frequency: false
->      else:
->        $ref: /schemas/spi/spi-peripheral-props.yaml
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          not:
-> +            contains:
-> +              const: google,cros-ec-rpmsg
-> +    then:
-> +      properties:
-> +        mediatek,rpmsg-name: false
-> +
-> +      required:
-> +        - reg
-> +        - interrupts
+Asynchronous mechanism in EC protocol:
+EC returns EC_RES_IN_PROGRESS if the host command needs more time to complete.
+It saves the result into `saved_result` once the command completed[1].
 
-slight nit that think it would be easier to understand this bottom
-section if you made the "SPI" and "RPMSG" sections more symmetric to
-each other. I think it would be easy to just change the SPI one to say
-"not SPI" instead of explicitly listing "i2c" and "rpmsg".
+By design, AP should send another command EC_CMD_RESEND_RESPONSE for getting
+the result from the previous pending command[2].  The mechanism was only
+designed for commands that don't need responses[3].
 
-In any case, this overall looks pretty nice to me. My two requests are
-both pretty small nits, so either with or without fixing them:
+However, the kernel code doesn't have such logic when dealing with
+EC_RES_IN_PROGRESS.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+The series doesn't fix it but leave it as is.  I doubt there is no existing
+use case.
+
+[1]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#113
+[2]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#748
+[3]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#126
+
+
+Return value overridden in cros_ec_send_command() if asynchronous:
+By original intention, cros_ec_send_command() returns number of available
+bytes of input payload.
+
+When it falls into asynchronous path (i.e. EC_RES_IN_PROGRESS), both return
+value and `msg->result` will be overridden by the subsequent
+EC_CMD_GET_COMMS_STATUS.
+
+The series doesn't fix it but leave it as is.
+
+Tzung-Bi Shih (11):
+  platform/chrome: cros_ec_proto: add "cros_ec_" prefix to
+    send_command()
+  platform/chrome: cros_ec_proto: add Kunit tests for cros_ec_cmd_xfer()
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_send_command()
+  platform/chrome: cros_ec_proto: separate cros_ec_xfer_command()
+  platform/chrome: cros_ec_proto: separate cros_ec_wait_until_complete()
+  platform/chrome: cros_ec_proto: change Kunit expectation when timed
+    out
+  platform/chrome: cros_ec_proto: return -EAGAIN when retries timed out
+  platform/chrome: cros_ec_proto: change Kunit expectation for EC errors
+  platform/chrome: cros_ec_proto: return standard error codes for EC
+    errors
+  platform/chrome: cros_ec_proto: add Kunit test for empty payload
+  platform/chrome: cros_ec_proto: return -EPROTO if empty payload
+
+ drivers/platform/chrome/cros_ec_proto.c      | 106 +++--
+ drivers/platform/chrome/cros_ec_proto_test.c | 443 +++++++++++++++++++
+ drivers/platform/chrome/cros_kunit_util.c    |  20 +
+ drivers/platform/chrome/cros_kunit_util.h    |   4 +
+ 4 files changed, 527 insertions(+), 46 deletions(-)
+
+-- 
+2.36.1.476.g0c4daa206d-goog
+

@@ -1,92 +1,137 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7074D7A
-	for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 14:27:44 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id p13so20855329ybm.1
-        for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 07:27:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3D17A
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 16:34:38 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id v1so24276123ejg.13
+        for <chrome-platform@lists.linux.dev>; Wed, 15 Jun 2022 09:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=M0lG3b8vfMcZ/7Ka36O1ZxSsUemkOvvlFAQXkpVQ4QpCs+1BTt67QSw4HKiQD5WOcb
-         52snuFlKH/21oU1OKHImIEHhsr/qfhoQOlanFV+m4TeEl8ICjJe2Sd491tUIQIDSw5Bq
-         xHExXe7XqUhLlIhXKD4i9kKCqB5PLrMMw5aIrSuv673UinrPE2m5a9fMdvB5OZ6CYFIq
-         /u1FbiRcfzMPM33M1qWbZlUZBeX0dAiMnD8nksss+jrH8U5wAD3bdbqxbououS4Wce5+
-         si5vaEILsaJTJRlA5Tvc5IU5RHPyGLfiWb4X0xjPRiEJMgOmZeod+1F/8J2LCdxK/urt
-         bp3Q==
+         :cc;
+        bh=3/x9Jvq5dHmh9cUcCuKN+pT3+uf0i+wFTmORu8d97Fo=;
+        b=TWW7VRdLrHKJ1iGN0l0ePcy/m0THG+JXj3S/GhTbGYCso/nw5e5tyv7vFpbHbjsE5v
+         tKMQGrsaIOa9PqjeZrVrp6rIPgYD2lPeqsC+RRNCNDqK7qFaK/ZaviVWvt/yYCvtfRf4
+         Q+XBCb1UT9EKD+Dnurnfl8JiCGGRL3v9YYhtuZpBle7tkK+be4NYftO5WgVFrYOIrDSO
+         UtqZVYgmla9YZQd48ijbDoX1XQdBVghmkZ6fFEwrx9Q9UZ+SYMh0zUmdzJoPSAuJa6xB
+         H3owJnermjhwpXm7yH8MC0uGXy6LtlALsFHqDdh+PanY8PULCqkXEaaKeKfFP9UiSaMR
+         rixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=YK27Czns9DQMSno7nPkqgZ7su7+VVLICIA7iih4NahYEMYBDkwFB6h3xzQNNyU+DWM
-         GtBudAQTO2e6z500XwhWg7RKHTv3jYtdPS8RkLBQsjYq4hOQKAhXWQdSho9Oyq5j26a8
-         SDY4V0/fnmo1QyeQOHi9Oli+ChtG4R0tjYPa8j/EZ/vLTVry15806p1IzwUcJ0uKnoOU
-         K2bPhYnHdq8CDM6C1pJNCJicDHjBS0EIuefBu/VFx2DfvnzVL7JwGiuMOuMGdVxnJ69Q
-         J5WIcXhEYoNlugmVIUQ7etxe81WLF3fROz/EeWC5DZhHfTXQv2Ac72beGNGGlMqXpMR6
-         GwCw==
-X-Gm-Message-State: AJIora+mLWmqi5EbNjp/q4zXRHLOx+JuTm7lchIfJUVeHdm7TQiOQtom
-	DxNDh46NPAg3/y+14sAM8rmcwYlN0IjgxJH7no/eow==
-X-Google-Smtp-Source: AGRyM1t0twq2NH5TwVMffJ95BCvjUqTPe1/bY9PSUuCjeVYRJKVWPPGecH5Bnr87yp5uioRcTcWI/9qkOUV49rzlV5c=
-X-Received: by 2002:a25:8387:0:b0:664:7589:27b9 with SMTP id
- t7-20020a258387000000b00664758927b9mr86691ybk.291.1655303263361; Wed, 15 Jun
- 2022 07:27:43 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=3/x9Jvq5dHmh9cUcCuKN+pT3+uf0i+wFTmORu8d97Fo=;
+        b=rzLBtmpqRYXa7lYL9ejRSw8KlEWmg5gX5E0PVnqO5uG2rPdYABOZLDBWOiFOzHCUoK
+         Ykw2RHni15KJBFfuNEsOxdfycUGSBF1l2sPa4QhpbdKnYiRUiDXpzSYVmpuH/hFJJnEF
+         Dk4LfqskRolMEDA0t+cS3KIh90cVQlfRanJt23mQM+BI9myobfyTVDHb/rLNJ9rd6hDy
+         oX5fXHn6fQuUlmBUTDKG/jA9+hYYQVe1KTVc0PRxmgOiR+QzDmK3q2xltnbwLdY7ZBjW
+         CxZuZ/BOdkJxrYUdtjXR97KdLzxFzJ0lu6tWC+lolnUTWbyruA56A04oel2GxxX/SGh+
+         /rrw==
+X-Gm-Message-State: AJIora9W/6Lsm0tgyenPzhigFbi7t8CI/+LU8XUdpCfjswG/90Q1yDfc
+	106TZoqNDQka7Js0B1LwEus+A6hB4qyZ4F8zOgHI0w==
+X-Google-Smtp-Source: AGRyM1tAqHis1A5Tbkl367ddK/r4jr9DNZifQrUFw3AoCvEF2MjQRPabIQ77VzOdqm1l7Ew0c93LJHDLrnt1+XqmILo=
+X-Received: by 2002:a17:906:85cb:b0:70b:ffb4:b0e with SMTP id
+ i11-20020a17090685cb00b0070bffb40b0emr546815ejy.533.1655310876651; Wed, 15
+ Jun 2022 09:34:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-30-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-30-nuno.sa@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Jun 2022 16:27:32 +0200
-Message-ID: <CACRpkdYtBY9bWevrWNL+mXz8LbsdDEFmGvrmPQ85Mn=yZ=FyHg@mail.gmail.com>
-Subject: Re: [PATCH 29/34] iio: adc: qcom-pm8xxx-xoadc: convert to device properties
-To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc: linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, Cai Huoqing <cai.huoqing@linux.dev>, 
-	Benjamin Fair <benjaminfair@google.com>, Jishnu Prakash <quic_jprakash@quicinc.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Amit Kucheria <amitk@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Benson Leung <bleung@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Christophe Branchereau <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Gwendal Grignou <gwendal@chromium.org>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Thara Gopinath <thara.gopinath@linaro.org>, Avi Fishman <avifishman70@gmail.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20220615051248.1628156-1-tzungbi@kernel.org> <20220615051248.1628156-2-tzungbi@kernel.org>
+In-Reply-To: <20220615051248.1628156-2-tzungbi@kernel.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Wed, 15 Jun 2022 09:34:25 -0700
+Message-ID: <CABXOdTdrJ9pWvr-Fyt-pvcjiat_NhkWyiNysaofN2ggVO=_k_g@mail.gmail.com>
+Subject: Re: [PATCH 01/11] platform/chrome: cros_ec_proto: add "cros_ec_"
+ prefix to send_command()
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 10, 2022 at 10:49 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
-
-> Make the conversion to firmware agnostic device properties. As part of
-> the conversion the IIO inkern interface 'of_xlate()' is also converted to
-> 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and hence OF
-> dependencies from IIO.
+On Tue, Jun 14, 2022 at 10:13 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> To be neat, add "cros_ec_" prefix to static function send_command().
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-Yours,
-Linus Walleij
+> ---
+>  drivers/platform/chrome/cros_ec_proto.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index 6923ea4401e5..b02fd1414e52 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -107,8 +107,7 @@ static int prepare_tx_legacy(struct cros_ec_device *ec_dev,
+>         return EC_MSG_TX_PROTO_BYTES + msg->outsize;
+>  }
+>
+> -static int send_command(struct cros_ec_device *ec_dev,
+> -                       struct cros_ec_command *msg)
+> +static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+>  {
+>         int ret;
+>         int (*xfer_fxn)(struct cros_ec_device *ec, struct cros_ec_command *msg);
+> @@ -255,7 +254,7 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
+>         msg->command = EC_CMD_HOST_EVENT_GET_WAKE_MASK;
+>         msg->insize = sizeof(*r);
+>
+> -       ret = send_command(ec_dev, msg);
+> +       ret = cros_ec_send_command(ec_dev, msg);
+>         if (ret < 0)
+>                 goto exit;
+>
+> @@ -295,7 +294,7 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+>         msg->command = EC_CMD_PASSTHRU_OFFSET(devidx) | EC_CMD_GET_PROTOCOL_INFO;
+>         msg->insize = sizeof(*info);
+>
+> -       ret = send_command(ec_dev, msg);
+> +       ret = cros_ec_send_command(ec_dev, msg);
+>         /*
+>          * Send command once again when timeout occurred.
+>          * Fingerprint MCU (FPMCU) is restarted during system boot which
+> @@ -304,7 +303,7 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+>          * attempt because we waited at least EC_MSG_DEADLINE_MS.
+>          */
+>         if (ret == -ETIMEDOUT)
+> -               ret = send_command(ec_dev, msg);
+> +               ret = cros_ec_send_command(ec_dev, msg);
+>
+>         if (ret < 0) {
+>                 dev_dbg(ec_dev->dev,
+> @@ -376,7 +375,7 @@ static int cros_ec_get_proto_info_legacy(struct cros_ec_device *ec_dev)
+>         params = (struct ec_params_hello *)msg->data;
+>         params->in_data = 0xa0b0c0d0;
+>
+> -       ret = send_command(ec_dev, msg);
+> +       ret = cros_ec_send_command(ec_dev, msg);
+>         if (ret < 0) {
+>                 dev_dbg(ec_dev->dev, "EC failed to respond to v2 hello: %d\n", ret);
+>                 goto exit;
+> @@ -453,7 +452,7 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
+>         pver = (struct ec_params_get_cmd_versions *)msg->data;
+>         pver->cmd = cmd;
+>
+> -       ret = send_command(ec_dev, msg);
+> +       ret = cros_ec_send_command(ec_dev, msg);
+>         if (ret < 0)
+>                 goto exit;
+>
+> @@ -634,7 +633,7 @@ int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+>                 }
+>         }
+>
+> -       ret = send_command(ec_dev, msg);
+> +       ret = cros_ec_send_command(ec_dev, msg);
+>         mutex_unlock(&ec_dev->lock);
+>
+>         return ret;
+> --
+> 2.36.1.476.g0c4daa206d-goog
+>

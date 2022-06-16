@@ -1,50 +1,50 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F236228E4
-	for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 13:15:58 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id x38so2119028ybd.9
-        for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 06:15:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBCC28E4
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 13:16:46 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id v81so2185944ybe.0
+        for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 06:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
         bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=PZJxPerUVnWQ+ZJJXabeQPCvU+odG2XM/cCiTR2s9bg1u+Kq80JX5ApFI/RzXK0+5N
-         91YSIyl3oArnIPhPglVuZa3e9yXet958I4d/aO29mbsfdc4wxqC+2Ha3GHxRa7P+C/W0
-         /MeUW3hhtK1/8mt84BKomTg927useCl9wQUSKU9FmvhKIMrNLBmnrhUc6Q4NF8cAc8mk
-         ISrwiouIgmkW9h2OrdhUIyQlvlxunlAeC03V1t+VlOn4UBEozATF/u6cpGazZNV0c/oJ
-         OgqMMNyBlhjXRfOdGukXu/bRFb/aQF/PlDjPiPinMUucqHC6ndgFmuTlQ5RWfPsM5sUQ
-         QFyA==
+        b=hfe7mj1KZcI8jwu/+nrNcYUQkpbisjdMGB5MdUDVHZURXKTI0fpPSwYzVJTSQIvUQj
+         mQ+FkQDUQOvueZPXCdzZ+WEb9CVEmydueaKmiNl4EduEP7G5KldCbqyuT6DrH619ltMs
+         SiQd+lbSkJ/2ztzapTtqInm6GdRXCWf5M7sFxt2WgQ72hgoUmjnoNNk2kM6AO8hHEKNE
+         9YK5KNalKb6+DMnwTXh0W8DordCVtz41PW0ZjsKXzkeRiewzu8ZSaBVNIEHFdWdQ6ziQ
+         lQIpZXEuEWineyu9YQb+gIhoNcGOJyB0hu2Lyui1EO16WO1/xuKLHNgfFYiihKSzkXkW
+         MS6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
         bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=veG1yiT4UB1yVhyD/o5q9c7o8tpQp384W6ULcF7D7cOsL8iFtKL2qyG4zT9eMiG0zP
-         xfc+2boMKnRyPnlVnRjhYhH/JH3b1NL+461ZCqqVq48DggqS1Gi+9dVarddc5D2KICzU
-         ZNXMotFhP9jetPesK7hagfFEVB2cGnoZfQ8cFdXuioNXXHCAsiAPVVV42PATK22ddwHl
-         2fFe4gspcBuxoygvFLNs2q42FR90ftpfn+qp4BWd4EU1AulptCh0TvOZVSLocrhrn4nx
-         ORFH41lK2I4P6PXOOmXZO+S4+Q6lcJeEcSoyK95PnbQSEz4jgLE6YSNDDGvanNlZEZO/
-         04xA==
-X-Gm-Message-State: AJIora+xm1gox/o6I2skrzhhdO7fT4syPVSdiZYpTUmdx3k9SmisOc0S
-	EmeI2VogRlpKXD/wO8qfoFSMcQeGZ+6qedoW+BbY9g==
-X-Google-Smtp-Source: AGRyM1tKpRdJdPfQy0oaslWa7sXFz+A5JxujSmEL8Ch+XWKV8Tm8gJp6YIJusqmVvKOdq2xVRX8SI1z84IJEfDM3b38=
-X-Received: by 2002:a25:3417:0:b0:664:aab3:7c44 with SMTP id
- b23-20020a253417000000b00664aab37c44mr5143357yba.533.1655385357716; Thu, 16
- Jun 2022 06:15:57 -0700 (PDT)
+        b=rJKNqsOJDBKtyEtfA0aNTXJLs4yFoxeEV6pSJdtMhaJ4xuuZpTF//2v8KlbpqIpbQV
+         J8Q4A6XMUd9sg23KiJIhe1KmgfN9neo1k3IuZqSQ5+1iPKc0LndaBhngDQ1d2TcSsJ0N
+         7XsSR8PFZeiQZNc0wEawDufirXXY2WCaqDKwBnpbz0/22Dnvg5spxZdlJ0A6kH7Ed9tR
+         MxM4GRqtH/lV4xq1GCPL7pJ0eWdLG/knqseItoYCFAz7ovFio4XvnSmRtz7kZZzuysjf
+         jjXI7jOKO+YzYtIo0Zjv03GgYs2pPLg4St2ZVV7UShLDiBzGx+ri5y8iSBaXMWcnqUoT
+         GVcA==
+X-Gm-Message-State: AJIora8nFXlu1ntro7qUfxyfk9+fqr02WFb4K68ALZ615GHUTD0YPQCX
+	Z0n4gPcoI0XvTd3oy/Bmak4eEXi4T3FO2d2MiIJllg==
+X-Google-Smtp-Source: AGRyM1uSi6CDKxBHFMyZRQ8/7cL0ndy869mFvAGFrCTYZ+gYNuQVO0PO7I97kA8jFrTxg7Fugxfs5Adf3pgP5atidCY=
+X-Received: by 2002:a25:2642:0:b0:664:c89e:b059 with SMTP id
+ m63-20020a252642000000b00664c89eb059mr5336121ybm.369.1655385405187; Thu, 16
+ Jun 2022 06:16:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-31-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-31-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-32-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-32-nuno.sa@analog.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 16 Jun 2022 15:15:46 +0200
-Message-ID: <CACRpkdbTkyd0zwXU-7O-n3HejHhY+Vg-QKuSpatZ+O0QPgqbag@mail.gmail.com>
-Subject: Re: [PATCH 30/34] iio: adc: qcom-spmi-vadc: convert to device properties
+Date: Thu, 16 Jun 2022 15:16:34 +0200
+Message-ID: <CACRpkdY4DMPwkxTGdyj31YsS=xCv7vv7Zwp5Awy3aNRgUMZcfw@mail.gmail.com>
+Subject: Re: [PATCH 31/34] iio: adc: qcom-spmi-adc5: convert to device properties
 To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc: linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org, 
 	linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 

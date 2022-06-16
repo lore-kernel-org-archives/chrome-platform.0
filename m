@@ -1,92 +1,43 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBCC28E4
-	for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 13:16:46 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id v81so2185944ybe.0
-        for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 06:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=hfe7mj1KZcI8jwu/+nrNcYUQkpbisjdMGB5MdUDVHZURXKTI0fpPSwYzVJTSQIvUQj
-         mQ+FkQDUQOvueZPXCdzZ+WEb9CVEmydueaKmiNl4EduEP7G5KldCbqyuT6DrH619ltMs
-         SiQd+lbSkJ/2ztzapTtqInm6GdRXCWf5M7sFxt2WgQ72hgoUmjnoNNk2kM6AO8hHEKNE
-         9YK5KNalKb6+DMnwTXh0W8DordCVtz41PW0ZjsKXzkeRiewzu8ZSaBVNIEHFdWdQ6ziQ
-         lQIpZXEuEWineyu9YQb+gIhoNcGOJyB0hu2Lyui1EO16WO1/xuKLHNgfFYiihKSzkXkW
-         MS6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=rJKNqsOJDBKtyEtfA0aNTXJLs4yFoxeEV6pSJdtMhaJ4xuuZpTF//2v8KlbpqIpbQV
-         J8Q4A6XMUd9sg23KiJIhe1KmgfN9neo1k3IuZqSQ5+1iPKc0LndaBhngDQ1d2TcSsJ0N
-         7XsSR8PFZeiQZNc0wEawDufirXXY2WCaqDKwBnpbz0/22Dnvg5spxZdlJ0A6kH7Ed9tR
-         MxM4GRqtH/lV4xq1GCPL7pJ0eWdLG/knqseItoYCFAz7ovFio4XvnSmRtz7kZZzuysjf
-         jjXI7jOKO+YzYtIo0Zjv03GgYs2pPLg4St2ZVV7UShLDiBzGx+ri5y8iSBaXMWcnqUoT
-         GVcA==
-X-Gm-Message-State: AJIora8nFXlu1ntro7qUfxyfk9+fqr02WFb4K68ALZ615GHUTD0YPQCX
-	Z0n4gPcoI0XvTd3oy/Bmak4eEXi4T3FO2d2MiIJllg==
-X-Google-Smtp-Source: AGRyM1uSi6CDKxBHFMyZRQ8/7cL0ndy869mFvAGFrCTYZ+gYNuQVO0PO7I97kA8jFrTxg7Fugxfs5Adf3pgP5atidCY=
-X-Received: by 2002:a25:2642:0:b0:664:c89e:b059 with SMTP id
- m63-20020a252642000000b00664c89eb059mr5336121ybm.369.1655385405187; Thu, 16
- Jun 2022 06:16:45 -0700 (PDT)
+Received: from yodobashi.com (unknown [106.75.252.240])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D363D2CA4
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Jun 2022 17:00:24 +0000 (UTC)
+Sender: info@yodobashi.com
+Date: Fri, 17 Jun 2022 01:00:12 +0800
+From: "yodobashi.com" <admin@yodobashi.com>
+To: <chrome-platform@lists.linux.dev>
+Subject: =?gb2312?B?peilyaXQpbelyaXDpcils6Xgo7qhuKSqv82YlMfpiPOhuaXRpbml7w==?=
+	=?gb2312?B?qWClyYnkuPykzt9CvWo=?=
+Message-ID: <20220617010025238800@yodobashi.com>
+X-mailer: Foxmail 6, 13, 102, 15 [cn]
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-32-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-32-nuno.sa@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 16 Jun 2022 15:16:34 +0200
-Message-ID: <CACRpkdY4DMPwkxTGdyj31YsS=xCv7vv7Zwp5Awy3aNRgUMZcfw@mail.gmail.com>
-Subject: Re: [PATCH 31/34] iio: adc: qcom-spmi-adc5: convert to device properties
-To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc: linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, Cai Huoqing <cai.huoqing@linux.dev>, 
-	Benjamin Fair <benjaminfair@google.com>, Jishnu Prakash <quic_jprakash@quicinc.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Amit Kucheria <amitk@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Benson Leung <bleung@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Christophe Branchereau <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Gwendal Grignou <gwendal@chromium.org>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Thara Gopinath <thara.gopinath@linaro.org>, Avi Fishman <avifishman70@gmail.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On Fri, Jun 10, 2022 at 10:49 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+ofah9qH2obikqr/NmJTH6Yjzobml0aW5pe+pYKXJieS4/KTO30K9aqH2ofah9g0Ko6iks6TOpeGp
+YKXrpM+hosXk0MWMn9PDpM6loqXJpeyluaTHxeTQxaS1pOykxqSkpN6kuaOpDQoNCqSqv82YlKTO
+pKq/zZiUx+mI84nkuPzK1r5BpK2k8qSqpLOkyqSkpN6kt6S/oaMNCsTayN2kzqS0tF/VSqTypKru
+iqSkpKSkv6S3pN6kuaGjDQqjqKXRpbml76lgpcmkz6Gise3KvqS3pMakqqTqpN6ku6Tzo6kNCg0K
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0NCqG+ieS4/Iydz/OkzrvhhlSl0aW5pe+pYKXJob8NCrvhhlRJRKGhOqGhY2hyb21lLXBsYXRm
+b3JtQGxpc3RzLmxpbnV4LmRldg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCg0KofGJ5Lj8pLWk7KS/pKq/zZiUx+mI8yANCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQrr
+itSSt6y6xQ0KyNXW0KTOpLTfQr1qz8jritSSt6y6xQ0KDQqktLXH5WjH6YjzpM+hos/C05uhuKSq
+v82YlIyf08Ol2qlgpbihuaSrpOmktLRf1Uqkr6TApLWkpKGjDQoNCqiLpKq/zZiUjJ/Tw6XaqWCl
+uA0KaHR0cHM6Ly93d3cteW9kb2Jhc2gtY29tLmxpb25zd2F5dGVjaC5zaXRlDQoNCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQqh+aSz
+pM6l4algpevE2sjdpMvQxKSipL+k6qTOpMqkpIj2us+kz6GipKrK1sr9pMekuaSsoaKl6KXJpdCl
+tz+lyaXDpcg/pbOl4KSqhpakpLrPpO+ku7eZv9qk2NbBvLGktN9CvWqk8qSq7oqkpKSkpL+kt6Te
+pLmhow0KDQqks6TOpeGpYKXrpM+hosXk0MWMn9PDpM6loqXJpeyluaTHxeTQxaS1pOykxqSkpN6k
+uaGjDQqkqsrWyv2k8qSqkuyksaSkpL+kt6TepLmkrKGipLOkzqXhqWCl66TOxNrI3aTLpMSkpKTG
+pM6kqoaWpKS6z6TvpLukz8/C05ukzt9CvWrPyKTepMekqu6KpKSkpKS/pLek3qS5oaMNCg0Kpeil
+yaXQpbelyaXDpcils6XgIKSqhpakpLrPpO+ku7eZv9oNCkVtYWlsOiBpbmZvQHlvZG9iYXNoaS5j
+b20NCg0KDQpDb3B5cmlnaHQyMDIyIFlvZG9iYXNoaSBDYW1lcmEgQ28uLEx0ZC4NCg==
 
-> Make the conversion to firmware agnostic device properties. As part of
-> the conversion the IIO inkern interface 'of_xlate()' is also converted to
-> 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and hence OF
-> dependencies from IIO.
->
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij

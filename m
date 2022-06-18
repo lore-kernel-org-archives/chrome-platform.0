@@ -1,524 +1,188 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07013201
-	for <chrome-platform@lists.linux.dev>; Fri, 17 Jun 2022 16:52:47 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25HD2D4h027682;
-	Fri, 17 Jun 2022 17:59:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=F8ZlprZcEA0IdQfoERzQKZmzhv3x747ABVMdW/D2/Qk=;
- b=LAttdVjX2WVLH9ToVlCA6fFzXv+vSFkAY4VAXA35jr1NHusfPMve1a2fNUAdryKXRzUM
- wXeR6QriEffZLA+A7pR3x6xh/TBESKeAi1CFqvlWDrnzZwIqCAGsWMWCREK6fdQF/Shx
- oA+/wz4pisHSZeXblekpXpbldqaGaZrC85xKtXx+R+nOQ5jBCQeF2AkPCoUkkM5FLT7x
- 9TbzTLkolhIn7qDTZ0QVtSNGwEYGYyXSDO1DtAtqWp72Y9ty+IRCl5C6z9gMpq7X6Ugb
- ThkkES9/iPUXIARYl5n0JAjkLA/3MeQMy5Ydn97JTg95+H/iwhtv/qa8CmO6xB8BsUSJ Mw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gqd187hvh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jun 2022 17:59:01 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5DCD710002A;
-	Fri, 17 Jun 2022 17:58:56 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2A1DD231500;
-	Fri, 17 Jun 2022 17:58:56 +0200 (CEST)
-Received: from [10.252.21.28] (10.75.127.49) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Fri, 17 Jun
- 2022 17:58:52 +0200
-Message-ID: <5a292a46-71d0-a078-f92f-158deb58a764@foss.st.com>
-Date: Fri, 17 Jun 2022 17:58:51 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0FB7B
+	for <chrome-platform@lists.linux.dev>; Sat, 18 Jun 2022 13:54:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A83C3411A;
+	Sat, 18 Jun 2022 13:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655560474;
+	bh=pEznlvbLCZMIZNrAGFvIthCC7BXrhairfIEqdywRBMA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GxhaPL32MMwD2706Sgr0GI/8Mp639UZnJ/ycF0FAHU3CsKxLwYzNMZLBY46ng/Cl6
+	 cA2tu+QHDcQ8szJt/XGkInJSooj3a8X6Z1+plT7627KxxpiLc29CdY5kWroUwI8a+x
+	 hooq9bpCJ0AR9emay7LD7rtZfEpWlUKjW/+2wuflJJ8FqazBIbIKr+lZJFjX5Q55nJ
+	 tiMMkcQQQ6AkUozXeP6350UGS9sK9EWEJVaxD1Gi+gcvZcYiKq9bE9qvY2Sl8Ib6BE
+	 oLDu0po4j9wgXmjAX9w74l2+KupzYd9kZ4nW7FUXvm5f6jOVFEW79O2m2kE4U8KvNx
+	 YWwjBtPyUuy9w==
+Date: Sat, 18 Jun 2022 15:03:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, dl-linux-imx <linux-imx@nxp.com>, Linux-Renesas
+ <linux-renesas-soc@vger.kernel.org>, "open list:BROADCOM NVRAM DRIVER"
+ <linux-mips@vger.kernel.org>, linux-arm Mailing List
+ <linux-arm-kernel@lists.infradead.org>, chrome-platform@lists.linux.dev,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, "moderated
+ list:ARM/Mediatek SoC support\"        
+ <linux-mediatek@lists.infradead.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, linux-iio <linux-iio@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, Cai Huoqing
+ <cai.huoqing@linux.dev>, Benjamin Fair <benjaminfair@google.com>, Jishnu
+ Prakash <quic_jprakash@quicinc.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Amit Kucheria <amitk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, Benson
+ Leung <bleung@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Christophe Branchereau
+ <cbranchereau@gmail.com>, Patrick Venture <venture@google.com>, Arnd
+ Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Gwendal Grignou <gwendal@chromium.org>, Saravanan Sekar
+ <sravanhome@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Thara
+ Gopinath <thara.gopinath@linaro.org>, Avi Fishman <avifishman70@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Tomer Maimon
+ <tmaimon77@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Zhang Rui
+ <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>, Guenter Roeck
+ <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Eugen Hristev <eugen.hristev@microchip.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH 20/34] iio: inkern: only relase the device node when
+ done with it
+Message-ID: <20220618150340.64e639df@jic23-huawei>
+In-Reply-To: <5e81f73b996de80445c2e905c44ebb18c63a739b.camel@gmail.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com>
+	<20220610084545.547700-21-nuno.sa@analog.com>
+	<CAHp75VcdwjTYDF2c-StsL7-pLKtV3vGxinX8+1nJydqB_WNXiA@mail.gmail.com>
+	<ef73aa5801ae1c8078e6a930f22feb6214038176.camel@gmail.com>
+	<20220611155902.2a5a7738@jic23-huawei>
+	<5e81f73b996de80445c2e905c44ebb18c63a739b.camel@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 32/34] iio: adc: stm32-adc: convert to device properties
-Content-Language: en-US
-To: Jonathan Cameron <jic23@kernel.org>,
-        =?UTF-8?Q?Nuno_S=c3=a1?=
-	<nuno.sa@analog.com>
-CC: <linux-imx@nxp.com>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <chrome-platform@lists.linux.dev>,
-        Lad Prabhakar
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, Cai Huoqing
-	<cai.huoqing@linux.dev>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Jishnu
- Prakash <quic_jprakash@quicinc.com>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>,
-        Amit Kucheria <amitk@kernel.org>, Andy
- Gross <agross@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Haibo Chen <haibo.chen@nxp.com>, Benson Leung <bleung@chromium.org>,
-        "Rafael
- J. Wysocki" <rafael@kernel.org>,
-        Alexandre Belloni
-	<alexandre.belloni@bootlin.com>,
-        Christophe Branchereau
-	<cbranchereau@gmail.com>,
-        Patrick Venture <venture@google.com>, Arnd Bergmann
-	<arnd@arndb.de>,
-        Nancy Yuen <yuenn@google.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Gwendal
- Grignou <gwendal@chromium.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Tali
- Perry <tali.perry1@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Thara Gopinath
-	<thara.gopinath@linaro.org>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Lorenzo
- Bianconi <lorenzo@kernel.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Andy Shevchenko
-	<andy.shevchenko@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomer
- Maimon <tmaimon77@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Zhang Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Fabio
- Estevam <festevam@gmail.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Miquel Raynal
-	<miquel.raynal@bootlin.com>
-References: <20220610084545.547700-1-nuno.sa@analog.com>
- <20220610084545.547700-33-nuno.sa@analog.com>
- <20220611164745.3e99b730@jic23-huawei>
-From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-In-Reply-To: <20220611164745.3e99b730@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.49]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-17_10,2022-06-17_01,2022-02-23_01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 6/11/22 17:47, Jonathan Cameron wrote:
-> On Fri, 10 Jun 2022 10:45:43 +0200
-> Nuno Sá <nuno.sa@analog.com> wrote:
-> 
->> Make the conversion to firmware agnostic device properties. As part of
->> the conversion the IIO inkern interface 'of_xlate()' is also converted to
->> 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and hence OF
->> dependencies from IIO.
->>
->> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> 
-> One trivial comment inline. 
-> 
-> In general this particular refactor is complex, so I either want
-> eyes of those familiar with the driver and / or testing or we may want
-> to reduce the scope to just the fwnode_xlate() and leave the more
-> complex conversions for when we can get that testing done.
-> 
-> Let's see if we get the necessary review on this more complex patch.
-> I just don't want us to get stalled by trying to do too much at once!
-> 
-> Jonathan
-> 
-> 
->> ---
->>  drivers/iio/adc/stm32-adc.c | 128 ++++++++++++++++++++----------------
->>  1 file changed, 70 insertions(+), 58 deletions(-)
->>
->> diff --git a/drivers/iio/adc/stm32-adc.c b/drivers/iio/adc/stm32-adc.c
->> index a68ecbda6480..87acef31ace1 100644
->> --- a/drivers/iio/adc/stm32-adc.c
->> +++ b/drivers/iio/adc/stm32-adc.c
->> @@ -21,11 +21,11 @@
->>  #include <linux/io.h>
->>  #include <linux/iopoll.h>
->>  #include <linux/module.h>
->> +#include <linux/mod_devicetable.h>
->>  #include <linux/nvmem-consumer.h>
->>  #include <linux/platform_device.h>
->>  #include <linux/pm_runtime.h>
->> -#include <linux/of.h>
->> -#include <linux/of_device.h>
->> +#include <linux/property.h>
->>  
->>  #include "stm32-adc-core.h"
->>  
->> @@ -1524,8 +1524,8 @@ static int stm32_adc_update_scan_mode(struct iio_dev *indio_dev,
->>  	return ret;
->>  }
->>  
->> -static int stm32_adc_of_xlate(struct iio_dev *indio_dev,
->> -			      const struct of_phandle_args *iiospec)
->> +static int stm32_adc_fwnode_xlate(struct iio_dev *indio_dev,
->> +				  const struct fwnode_reference_args *iiospec)
->>  {
->>  	int i;
->>  
->> @@ -1579,7 +1579,7 @@ static const struct iio_info stm32_adc_iio_info = {
->>  	.hwfifo_set_watermark = stm32_adc_set_watermark,
->>  	.update_scan_mode = stm32_adc_update_scan_mode,
->>  	.debugfs_reg_access = stm32_adc_debugfs_reg_access,
->> -	.of_xlate = stm32_adc_of_xlate,
->> +	.fwnode_xlate = stm32_adc_fwnode_xlate,
->>  };
->>  
->>  static unsigned int stm32_adc_dma_residue(struct stm32_adc *adc)
->> @@ -1776,14 +1776,14 @@ static const struct iio_chan_spec_ext_info stm32_adc_ext_info[] = {
->>  	{},
->>  };
->>  
->> -static int stm32_adc_of_get_resolution(struct iio_dev *indio_dev)
->> +static int stm32_adc_fw_get_resolution(struct iio_dev *indio_dev)
->>  {
->> -	struct device_node *node = indio_dev->dev.of_node;
->> +	struct device *dev = &indio_dev->dev;
->>  	struct stm32_adc *adc = iio_priv(indio_dev);
->>  	unsigned int i;
->>  	u32 res;
->>  
->> -	if (of_property_read_u32(node, "assigned-resolution-bits", &res))
->> +	if (device_property_read_u32(dev, "assigned-resolution-bits", &res))
->>  		res = adc->cfg->adc_info->resolutions[0];
->>  
->>  	for (i = 0; i < adc->cfg->adc_info->num_res; i++)
->> @@ -1867,11 +1867,11 @@ static void stm32_adc_chan_init_one(struct iio_dev *indio_dev,
->>  
->>  static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm32_adc *adc)
->>  {
->> -	struct device_node *node = indio_dev->dev.of_node;
->> +	struct device *dev = &indio_dev->dev;
->>  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->>  	int num_channels = 0, ret;
->>  
->> -	ret = of_property_count_u32_elems(node, "st,adc-channels");
->> +	ret = device_property_count_u32(dev, "st,adc-channels");
->>  	if (ret > adc_info->max_channels) {
->>  		dev_err(&indio_dev->dev, "Bad st,adc-channels?\n");
->>  		return -EINVAL;
->> @@ -1879,18 +1879,17 @@ static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm
->>  		num_channels += ret;
->>  	}
->>  
->> -	ret = of_property_count_elems_of_size(node, "st,adc-diff-channels",
->> -					      sizeof(struct stm32_adc_diff_channel));
->> -	if (ret > adc_info->max_channels) {
->> +	ret = device_property_count_u32(dev, "st,adc-diff-channels");
->> +	if ((ret / 2) > adc_info->max_channels) {
-> hmm. The magic '2' that is introduced here kind of looses some of the meaning
-> that existed for the *_count_elems_of_size()
-> 
-> Perhaps introduce a define or a comment on why it is 2?
+On Mon, 13 Jun 2022 09:20:26 +0200
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 
-Hi Nuno,
+> On Sat, 2022-06-11 at 15:59 +0100, Jonathan Cameron wrote:
+> >=20
+> > +Cc Mark Brown for a query on ordering in device tree based SPI
+> > setup.
+> >=20
+> > On Fri, 10 Jun 2022 22:08:41 +0200
+> > Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+> >  =20
+> > > On Fri, 2022-06-10 at 16:56 +0200, Andy Shevchenko wrote: =20
+> > > > On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com>
+> > > > wrote:=C2=A0  =20
+> > > > >=20
+> > > > > 'of_node_put()' can potentially release the memory pointed to
+> > > > > by
+> > > > > 'iiospec.np' which would leave us with an invalid pointer (and
+> > > > > we
+> > > > > would
+> > > > > still pass it in 'of_xlate()'). As such, we can only release
+> > > > > the
+> > > > > node
+> > > > > after we are done with it.=C2=A0  =20
+> > > >=20
+> > > > The question you should answer in the commit message is the
+> > > > following:
+> > > > "Can an OF node, attached to a struct device, be gone before the
+> > > > device itself?" If it so, then patch is good, otherwise there is
+> > > > no
+> > > > point in this patch in the first place.
+> > > > =C2=A0  =20
+> > >=20
+> > > Yeah, I might be wrong but from a quick look... yes, I think the
+> > > node
+> > > can be gone before the device. Take a look on the spi or i2c
+> > > of_notify
+> > > handling and you can see that the nodes are get/put on the
+> > > add/remove
+> > > notifcation. Meaning that the node lifespan is not really attached
+> > > to
+> > > the device lifespan. If it was, I would expect to see of_node_put()
+> > > on
+> > > the device release() function... =20
+> >=20
+> > I had a look at spi_of_notify() and indeed via
+> > spi_unregister_device()
+> > the node is put just before device_del() so I agree that at first
+> > glance
+> > it seems like there may be a race there against the useage here.
+> > Mark (+CC) out of interest why are the node gets before the
+> > device_add()
+> > in spi_add_device() called from of_register_spi_device() but the
+> > matching
+> > node puts before the device_del() in spi_unregister_device()?
+> > Seems like inconsistent ordering...
+> >=20
+> > Which is not to say we shouldn't fix the IIO usage as this patch
+> > does!
+> >  =20
+>=20
+> Just to add something that came to my attention. In the IIO case, it
+> does not even matter if the parent device has the OF node lifetime
+> "linked" to it (as it actually happens for platform devices). The
+> reason is that iio_dev only has a weak reference to it's parent and (I
+> think) the parent can actually go away while the iio_dev is still
+> around (eg: someone has an open fd to the iio_dev cdev).
 
-Thanks for your patch, please find some remarks below.
+I chased through this as well and agree. The device_del()
+hiding in cdev_device_del() will drop the parent reference on the parent.
 
-First, I agree with Jonathan here. (Just suggesting) Would it be
-possible to keep a reference to the target struct to ease long term
-maintenance ? I'm thinking of:
-sizeof(struct stm32_adc_diff_channel) / sizeof(u32).
-Or possibly a better approach...
+I'm not sure it actually maters much though given almost all of_node
+useage is not tied up with the anything that might be using the iio_dev
+after the iio_device_unregister() call.
 
-> 
->>  		dev_err(&indio_dev->dev, "Bad st,adc-diff-channels?\n");
->>  		return -EINVAL;
->> -	} else if (ret > 0) {
->> -		adc->num_diff = ret;
->> -		num_channels += ret;
->> +	} else if ((ret / 2) > 0) {
->> +		adc->num_diff = ret / 2;
->> +		num_channels += ret / 2;
->>  	}
->>  
->>  	/* Optional sample time is provided either for each, or all channels */
->> -	ret = of_property_count_u32_elems(node, "st,min-sample-time-nsecs");
->> +	ret = device_property_count_u32(dev, "st,min-sample-time-nsecs");
->>  	if (ret > 1 && ret != num_channels) {
->>  		dev_err(&indio_dev->dev, "Invalid st,min-sample-time-nsecs\n");
->>  		return -EINVAL;
->> @@ -1901,21 +1900,20 @@ static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm
->>  
->>  static int stm32_adc_legacy_chan_init(struct iio_dev *indio_dev,
->>  				      struct stm32_adc *adc,
->> -				      struct iio_chan_spec *channels)
->> +				      struct iio_chan_spec *channels,
->> +				      int nchans)
->>  {
->> -	struct device_node *node = indio_dev->dev.of_node;
->>  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->>  	struct stm32_adc_diff_channel diff[STM32_ADC_CH_MAX];
->> +	struct device *dev = &indio_dev->dev;
->>  	u32 num_diff = adc->num_diff;
->>  	int size = num_diff * sizeof(*diff) / sizeof(u32);
->> -	int scan_index = 0, val, ret, i;
->> -	struct property *prop;
->> -	const __be32 *cur;
->> -	u32 smp = 0;
->> +	int scan_index = 0, ret, i;
->> +	u32 smp = 0, nsmps, smps[STM32_ADC_CH_MAX], chans[STM32_ADC_CH_MAX];
->>  
->>  	if (num_diff) {
->> -		ret = of_property_read_u32_array(node, "st,adc-diff-channels",
->> -						 (u32 *)diff, size);
->> +		ret = device_property_read_u32_array(dev, "st,adc-diff-channels",
->> +						     (u32 *)diff, size);
->>  		if (ret) {
->>  			dev_err(&indio_dev->dev, "Failed to get diff channels %d\n", ret);
->>  			return ret;
->> @@ -1936,32 +1934,51 @@ static int stm32_adc_legacy_chan_init(struct iio_dev *indio_dev,
->>  		}
->>  	}
->>  
->> -	of_property_for_each_u32(node, "st,adc-channels", prop, cur, val) {
->> -		if (val >= adc_info->max_channels) {
->> -			dev_err(&indio_dev->dev, "Invalid channel %d\n", val);
->> +	ret = device_property_read_u32_array(dev, "st,adc-channels", chans,
->> +					     nchans);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (i = 0; i < nchans; i++) {
+Maybe there is a race condition somewhere...
 
-Shouldn't use 'i' variable as is.
+>=20
+> > >=20
+> > > Again, I might be wrong and I admit I was not sure about including
+> > > this
+> > > patch because it's a very unlikely scenario even though I think, in
+> > > theory, a possible one. =20
+> >=20
+> > The patch is currently valid even if it's not a 'real' bug.
+> > Given we are doing a put on that device_node, it makes sense for that
+> > to occur after the local use has finished - we shouldn't be relying
+> > on
+> > what happens to be the case for lifetimes today.
+> >=20
+> > Now, I did wonder if any drivers actually use it in their xlate
+> > callbacks.
+> > One does for an error print, so this is potentially real (if very
+> > unlikely!)
+> >=20
+> > This isn't a 'fix' I'd expect to rush in, or necessarily backport to
+> > stable
+> > but I think it's a valid fix.
+> >  =20
+>=20
+> Should I drop the fixes tag?
+>=20
+Keep the tag. It's a fix, just a low priority one.
 
-I tested at my end. There's a bug around here, as the same variable 'i'
-is used already in next for loop. It creates an endless loop, that ends
-up in incrementing scan_index indefinitely until some oops occurs.
+Jonathan
 
-I fixed that locally for quick testing by using another variable.
+> - Nuno S=C3=A1
+>=20
+>=20
+>=20
+>=20
 
-Isn't there a helper to achive this (e.g. like of_property_for_each_u32) ?
-
->> +		if (chans[i] >= adc_info->max_channels) {
->> +			dev_err(&indio_dev->dev, "Invalid channel %d\n",
->> +				chans[i]);
->>  			return -EINVAL;
->>  		}
->>  
->>  		/* Channel can't be configured both as single-ended & diff */
->>  		for (i = 0; i < num_diff; i++) {
->> -			if (val == diff[i].vinp) {
->> -				dev_err(&indio_dev->dev, "channel %d misconfigured\n",	val);
->> +			if (chans[i] == diff[i].vinp) {
->> +				dev_err(&indio_dev->dev, "channel %d misconfigured\n",	chans[i]);
->>  				return -EINVAL;
->>  			}
->>  		}
->> -		stm32_adc_chan_init_one(indio_dev, &channels[scan_index], val,
->> -					0, scan_index, false);
->> +		stm32_adc_chan_init_one(indio_dev, &channels[scan_index],
->> +					chans[i], 0, scan_index, false);
->>  		scan_index++;
->>  	}
->>  
->> +	nsmps = device_property_count_u32(dev, "st,min-sample-time-nsecs");
->> +	if (nsmps) {
->> +		if (nsmps >= nchans)
-
-nit: if (nsmps > nchans)
-
->> +			nsmps = nchans;
-
-There's a bit of redundancy in checking nsmps,
-"st,min-sample-time-nsecs" is already sanitized in
-stm32_adc_get_legacy_chan_count():
-
-/* Optional sample time is provided either for each, or all channels */
-ret = device_property_count_u32(dev, "st,min-sample-time-nsecs");
-if (ret > 1 && ret != num_channels) {
-	dev_err(...
-
-So just sharing my thoughts here:
-- Maybe this could be dropped ?
-  (Thinking loudly) The earliest this gets sanitized, the less un-needed
-initialisations happen before failing?
-- Or the earlier check could be moved here ?
-
-I've no strong opinion.
-
->> +
->> +		ret = device_property_read_u32_array(dev, "st,min-sample-time-nsecs",
->> +						     smps, nsmps);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->>  	for (i = 0; i < scan_index; i++) {
->>  		/*
->> -		 * Using of_property_read_u32_index(), smp value will only be
->> -		 * modified if valid u32 value can be decoded. This allows to
->> -		 * get either no value, 1 shared value for all indexes, or one
->> -		 * value per channel.
->> +		 * This check is used with the above logic so that smp value
->> +		 * will only be modified if valid u32 value can be decoded. This
->> +		 * allows to get either no value, 1 shared value for all indexes,
->> +		 * or one value per channel. The point is to have the same
->> +		 * behavior as 'of_property_read_u32_index()'.
->>  		 */
->> -		of_property_read_u32_index(node, "st,min-sample-time-nsecs", i, &smp);
->> +		if (i < nsmps)
->> +			smp = smps[i];
-
-Minor remark, I'm wondering if using a switch (nsmps) {.. case} or
-similar would help to improve understandabilty / readability ?
-
-Best Regards,
-Fabrice
-
->>  
->>  		/* Prepare sampling time settings */
->>  		stm32_adc_smpr_init(adc, channels[i].channel, smp);
->> @@ -2004,22 +2021,21 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->>  				       struct stm32_adc *adc,
->>  				       struct iio_chan_spec *channels)
->>  {
->> -	struct device_node *node = indio_dev->dev.of_node;
->>  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->> -	struct device_node *child;
->> +	struct fwnode_handle *child;
->>  	const char *name;
->>  	int val, scan_index = 0, ret;
->>  	bool differential;
->>  	u32 vin[2];
->>  
->> -	for_each_available_child_of_node(node, child) {
->> -		ret = of_property_read_u32(child, "reg", &val);
->> +	device_for_each_child_node(&indio_dev->dev, child) {
->> +		ret = fwnode_property_read_u32(child, "reg", &val);
->>  		if (ret) {
->>  			dev_err(&indio_dev->dev, "Missing channel index %d\n", ret);
->>  			goto err;
->>  		}
->>  
->> -		ret = of_property_read_string(child, "label", &name);
->> +		ret = fwnode_property_read_string(child, "label", &name);
->>  		/* label is optional */
->>  		if (!ret) {
->>  			if (strlen(name) >= STM32_ADC_CH_SZ) {
->> @@ -2044,7 +2060,7 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->>  		}
->>  
->>  		differential = false;
->> -		ret = of_property_read_u32_array(child, "diff-channels", vin, 2);
->> +		ret = fwnode_property_read_u32_array(child, "diff-channels", vin, 2);
->>  		/* diff-channels is optional */
->>  		if (!ret) {
->>  			differential = true;
->> @@ -2061,7 +2077,7 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->>  		stm32_adc_chan_init_one(indio_dev, &channels[scan_index], val,
->>  					vin[1], scan_index, differential);
->>  
->> -		ret = of_property_read_u32(child, "st,min-sample-time-ns", &val);
->> +		ret = fwnode_property_read_u32(child, "st,min-sample-time-ns", &val);
->>  		/* st,min-sample-time-ns is optional */
->>  		if (!ret) {
->>  			stm32_adc_smpr_init(adc, channels[scan_index].channel, val);
->> @@ -2079,14 +2095,13 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->>  	return scan_index;
->>  
->>  err:
->> -	of_node_put(child);
->> +	fwnode_handle_put(child);
->>  
->>  	return ret;
->>  }
->>  
->> -static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
->> +static int stm32_adc_chan_fw_init(struct iio_dev *indio_dev, bool timestamping)
->>  {
->> -	struct device_node *node = indio_dev->dev.of_node;
->>  	struct stm32_adc *adc = iio_priv(indio_dev);
->>  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->>  	struct iio_chan_spec *channels;
->> @@ -2096,7 +2111,7 @@ static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
->>  	for (i = 0; i < STM32_ADC_INT_CH_NB; i++)
->>  		adc->int_ch[i] = STM32_ADC_INT_CH_NONE;
->>  
->> -	num_channels = of_get_available_child_count(node);
->> +	num_channels = device_get_child_node_count(&indio_dev->dev);
->>  	/* If no channels have been found, fallback to channels legacy properties. */
->>  	if (!num_channels) {
->>  		legacy = true;
->> @@ -2127,7 +2142,8 @@ static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
->>  		return -ENOMEM;
->>  
->>  	if (legacy)
->> -		ret = stm32_adc_legacy_chan_init(indio_dev, adc, channels);
->> +		ret = stm32_adc_legacy_chan_init(indio_dev, adc, channels,
->> +						 num_channels);
->>  	else
->>  		ret = stm32_adc_generic_chan_init(indio_dev, adc, channels);
->>  	if (ret < 0)
->> @@ -2209,9 +2225,6 @@ static int stm32_adc_probe(struct platform_device *pdev)
->>  	bool timestamping = false;
->>  	int ret;
->>  
->> -	if (!pdev->dev.of_node)
->> -		return -ENODEV;
->> -
->>  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*adc));
->>  	if (!indio_dev)
->>  		return -ENOMEM;
->> @@ -2220,17 +2233,16 @@ static int stm32_adc_probe(struct platform_device *pdev)
->>  	adc->common = dev_get_drvdata(pdev->dev.parent);
->>  	spin_lock_init(&adc->lock);
->>  	init_completion(&adc->completion);
->> -	adc->cfg = (const struct stm32_adc_cfg *)
->> -		of_match_device(dev->driver->of_match_table, dev)->data;
->> +	adc->cfg = device_get_match_data(dev);
->>  
->>  	indio_dev->name = dev_name(&pdev->dev);
->> -	indio_dev->dev.of_node = pdev->dev.of_node;
->> +	device_set_node(&indio_dev->dev, dev_fwnode(&pdev->dev));
->>  	indio_dev->info = &stm32_adc_iio_info;
->>  	indio_dev->modes = INDIO_DIRECT_MODE | INDIO_HARDWARE_TRIGGERED;
->>  
->>  	platform_set_drvdata(pdev, indio_dev);
->>  
->> -	ret = of_property_read_u32(pdev->dev.of_node, "reg", &adc->offset);
->> +	ret = device_property_read_u32(dev, "reg", &adc->offset);
->>  	if (ret != 0) {
->>  		dev_err(&pdev->dev, "missing reg property\n");
->>  		return -EINVAL;
->> @@ -2259,7 +2271,7 @@ static int stm32_adc_probe(struct platform_device *pdev)
->>  		}
->>  	}
->>  
->> -	ret = stm32_adc_of_get_resolution(indio_dev);
->> +	ret = stm32_adc_fw_get_resolution(indio_dev);
->>  	if (ret < 0)
->>  		return ret;
->>  
->> @@ -2276,7 +2288,7 @@ static int stm32_adc_probe(struct platform_device *pdev)
->>  		timestamping = true;
->>  	}
->>  
->> -	ret = stm32_adc_chan_of_init(indio_dev, timestamping);
->> +	ret = stm32_adc_chan_fw_init(indio_dev, timestamping);
->>  	if (ret < 0)
->>  		goto err_dma_disable;
->>  
-> 

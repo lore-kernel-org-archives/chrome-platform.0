@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2251C1FDD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A061FDF
 	for <chrome-platform@lists.linux.dev>; Fri, 24 Jun 2022 04:10:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF3BBC3411C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F30AFC341CB;
 	Fri, 24 Jun 2022 04:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656043812;
-	bh=EBu6ckTNMwf8gEEouQT4wC2duA1lPbCyWbx4zFfY/r0=;
+	s=k20201202; t=1656043813;
+	bh=tqLxnTqX0/YGCvTDapKoLsWJgHuvKkB7+RgaFEymIfM=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ikkV4lslhZAj1J8yHf7RZWuaGNqvg96EGWo61Fa8b605AQJww8caRpbZynV5q1kHk
-	 mUoikyfjx3JDLHtgcoc8Us9bZ5P65q7KZqodmMU3AL2HcrHBAVeWiAyh3QXn+I3/HA
-	 hDQwc+EPuENHsgp/1oWkplqLjgfNfnBM+E+sgH1Iu3bKG1CXhuwcXuAPF53P6UY5f6
-	 w5IkWg9vVgjnRHqwe7BsHJpMaRxhmXRy/Pw+A5/gZNd1C6DJVYclHIzP1+oKwCRbG3
-	 9q50nicEY9SdrDLjVztaCvkZND0qEcfw4lMqF1kZObdXuNYYi8vrOyOwgcD3+Rt474
-	 /M6+gQi7CRZIg==
+	b=IYg0VTPgOL6B7jWoGQ12Z4AXiGr4T33txRg1dofPg6bThxcICEQIEYm+rZ3quMy9R
+	 UbChEmn8DjUXMwja8Uc5FooP5qATqRsDwf5Zxr3oiFTT96W38EJ8BmwgZu96WtW2OY
+	 v/w2eSFPHX9VVhqjnX7yL4hzhZwwUwtWktM806+22VDorsIJhPbSBT9TBXLhQ7HiCU
+	 OF6TSovZRcyMiWIqbNwKfYNhhKn0rinNFkDYctWNnnQ6grhnXS7WhBbeqiIz2nPpYl
+	 Y7PyNVi1PBImg7ezYEvXzYFLaAEiecz8oC6MogAZWCdI5JgDdV4tdtLKWYqoSJ6ix6
+	 I1I/byNjxbYZg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B41FCE737F0;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DD2A3E7BA3C;
 	Fri, 24 Jun 2022 04:10:12 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -29,7 +29,7 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH] platform/chrome: wilco_ec: event: Fix typo in comment
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <165604381273.31124.6187796699911998153.git-patchwork-notify@kernel.org>
+ <165604381290.31124.8764983099563999401.git-patchwork-notify@kernel.org>
 Date: Fri, 24 Jun 2022 04:10:12 +0000
 References: <20220622061442.18242-1-jiangjian@cdjrlc.com>
 In-Reply-To: <20220622061442.18242-1-jiangjian@cdjrlc.com>
@@ -39,7 +39,7 @@ Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
 On Wed, 22 Jun 2022 14:14:42 +0800 you wrote:

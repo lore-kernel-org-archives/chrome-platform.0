@@ -1,158 +1,95 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA824C89;
-	Mon, 27 Jun 2022 21:57:23 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id p128so11086472iof.1;
-        Mon, 27 Jun 2022 14:57:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GByTRovhreeBVcySF/6td5WnIoeUKJH8EVN0W2QYucY=;
-        b=QTXM8K48pKMNA0+jiliWfuquGFSq67fzpg5vrIXVq40oS7OJUeccoz+DB8NetBksyj
-         Od2pfuXA+paFf0qrL0jJcdxGE/F2G+9lPX48Gcg3Cyzh+T6etvfcPGrsGXzFctScP6It
-         8V4nSOsq0myy9+tP1XKav3cJWUKrbIexXWiM6kapiPmCxqmCJ6v/+t7HxlzYr+IgEUBp
-         tTvGe3RhB4/H/7ljGQr+203FNn+V7tmAsOvAEYou4VJ+Vki9SFjzI9g76i8nQ1e7s9g0
-         Kt7A/N3qEmYJp/KW3W6HKIkMESnRrDPRLjpwlBp/nNQO+Z1W9Zfsk4Hm/dAEu7BVbmRt
-         sWyg==
-X-Gm-Message-State: AJIora+392Nfg39oGLKbCjz7WJDP4a6qjcpXCx8UVtFUKL+xTuQxwp5s
-	KMSmM/ZuAQFmT5Og2QQPhA==
-X-Google-Smtp-Source: AGRyM1uMna/0ZhSmeNlsBB7VjCYVusraceaPQMcCVlLmwH+8k6NuzZefhWbziP1Ag2HjwKDfsksPdg==
-X-Received: by 2002:a02:c619:0:b0:339:bc5a:205e with SMTP id i25-20020a02c619000000b00339bc5a205emr9510427jan.184.1656367042314;
-        Mon, 27 Jun 2022 14:57:22 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id h8-20020a92d848000000b002da9f82c703sm956479ilq.5.2022.06.27.14.57.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 14:57:21 -0700 (PDT)
-Received: (nullmailer pid 3036027 invoked by uid 1000);
-	Mon, 27 Jun 2022 21:57:20 -0000
-Date: Mon, 27 Jun 2022 15:57:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, Benson Leung <bleung@chromium.org>, LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v6 2/2] dt-bindings: cros-ec: Add ChromeOS fingerprint
- binding
-Message-ID: <20220627215720.GA3004792-robh@kernel.org>
-References: <20220614195144.2794796-1-swboyd@chromium.org>
- <20220614195144.2794796-3-swboyd@chromium.org>
- <CAD=FV=UU-AENyChCvVAKH709E4hFtgo4Txa8zFDY=JM1UifA0g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D80368
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Jun 2022 02:49:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF26C34115;
+	Tue, 28 Jun 2022 02:49:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656384572;
+	bh=kapU6Nxs9AkJZTcW6yBcZTam6pdoSO1t+eBAIJ0Tozw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mVzg6JI1G6lTdKxqdJWXfeqB9TAdzTiuKu3qXoR/RpT7/35L3H/JwuA5jGcmTsfTo
+	 lYA5THsxxqgt5atpNcR6GlDw2WJuNHWEg+SKyKM/4grXBR2y067btvC7oU2UaqD40H
+	 DYxzIDJMtCeMHeyEjpKDxWNb+5svpOEa+yqTeqAO9S+/RKHVgFBxSqLnbaMI44mEdv
+	 uKXkPQ4+eVN2rPjGibp9CNBZFR0oknz1UWqGKsf/neryz1wQioPNnhv8adaBMWTdLw
+	 P8TxZlK8aUl32NMz7Wi/cqGhxhMEcrscZfYLKrJAGLyFiGo/9fKiOPjXBnsDtOvnf4
+	 sgPclwFRPDY3A==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH 00/11] platform/chrome: Kunit tests and refactor for cros_ec_cmd_xfer()
+Date: Tue, 28 Jun 2022 02:49:02 +0000
+Message-Id: <20220628024913.1755292-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=UU-AENyChCvVAKH709E4hFtgo4Txa8zFDY=JM1UifA0g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 14, 2022 at 03:41:25PM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Tue, Jun 14, 2022 at 12:51 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Add a binding to describe the fingerprint processor found on Chromebooks
-> > with a fingerprint sensor. Previously we've been describing this with
-> > the google,cros-ec-spi binding but it lacks gpio and regulator control
-> > used during firmware flashing.
-> >
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> > Cc: <devicetree@vger.kernel.org>
-> > Cc: <chrome-platform@lists.linux.dev>
-> > Cc: Guenter Roeck <groeck@chromium.org>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Craig Hesling <hesling@chromium.org>
-> > Cc: Tom Hughes <tomhughes@chromium.org>
-> > Cc: Alexandru M Stan <amstan@chromium.org>
-> > Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> > Cc: Matthias Kaehlcke <mka@chromium.org>
-> > Cc: Benson Leung <bleung@chromium.org>
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > ---
-> >  .../bindings/chrome/google,cros-ec-fp.yaml    | 97 +++++++++++++++++++
-> >  .../bindings/mfd/google,cros-ec.yaml          |  9 ++
-> >  2 files changed, 106 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
-> > new file mode 100644
-> > index 000000000000..48c02bd4585c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-fp.yaml
-> > @@ -0,0 +1,97 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/chrome/google,cros-ec-fp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ChromeOS Embedded Fingerprint Controller
-> > +
-> > +description:
-> > +  Google's ChromeOS embedded fingerprint controller is a device which
-> > +  implements fingerprint functionality such as unlocking a Chromebook
-> > +  without typing a password.
-> > +
-> > +maintainers:
-> > +  - Tom Hughes <tomhughes@chromium.org>
-> > +
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: google,cros-ec-spi
-> > +  required:
-> > +    - compatible
-> > +    - boot0-gpios
-> 
-> I've never personally used "select" before and I'm not sure where it's
-> documented. 
+The first 5 patches add Kunit tests and refactors for cros_ec_cmd_xfer().
 
-Documentation/devicetree/bindings/writing-schema.rst
+The last 6 patches change the behavior a bit by altering return codes.
 
-> Without knowing anything, it seems weird to me that in
-> this file we're matching against a compatible that's not
-> google,cros-ec-fp. Randomly grabbing some other example that's similar
-> (panel-lvds.yaml) looks more like what I would have expected. AKA in
-> this file:
-> 
-> select:
->   properties:
->     compatible:
->       contains:
->         const: google,cros-ec-fp
->   required:
->     - compatible
-> 
-> ...and then in the other file:
-> 
-> select:
->   properties:
->     compatible:
->       contains:
->         const: google,cros-ec-spi
 
-What about i2c and rpmsg variants?
+Asynchronous mechanism in EC protocol:
+EC returns EC_RES_IN_PROGRESS if the host command needs more time to complete.
+It saves the result into `saved_result` once the command completed[1].
 
->   not:
->     properties:
->       compatible:
->         contains:
->           const: google,cros-ec-fp
->   required:
->     - compatible
+By design, AP should send another command EC_CMD_RESEND_RESPONSE for getting
+the result from the previous pending command[2].  The mechanism was only
+designed for commands that don't need responses[3].
 
-That is what is needed assuming the binding stands as-is. Otherwise, 
-boot0-gpios erroneously present or missing will give unexpected results.
+However, the kernel code doesn't have such logic when dealing with
+EC_RES_IN_PROGRESS.
 
-If we were starting from scratch, I would say you should just drop 
-'google,cros-ec-spi' from this binding. But I guess you want to preserve 
-compatibility here. In that case, I think all this should be added to 
-the existing doc with an if/then schema for conditional parts. That also 
-avoids defining the common properties twice or moving them to a common, 
-shared schema.
+The series doesn't fix it but leave it as is.  I doubt there is no existing
+use case.
 
-Rob
+[1]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#113
+[2]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#748
+[3]: https://crrev.com/9b80051e01872d8cae86fff999b5d31a0bea985b/common/host_command.c#126
+
+
+Return value overridden in cros_ec_send_command() if asynchronous:
+By original intention, cros_ec_send_command() returns number of available
+bytes of input payload.
+
+When it falls into asynchronous path (i.e. EC_RES_IN_PROGRESS), both return
+value and `msg->result` will be overridden by the subsequent
+EC_CMD_GET_COMMS_STATUS.
+
+The series doesn't fix it but leave it as is.
+
+Tzung-Bi Shih (11):
+  platform/chrome: cros_ec_proto: add "cros_ec_" prefix to
+    send_command()
+  platform/chrome: cros_ec_proto: add Kunit tests for cros_ec_cmd_xfer()
+  platform/chrome: cros_ec_proto: add Kunit tests for
+    cros_ec_send_command()
+  platform/chrome: cros_ec_proto: separate cros_ec_xfer_command()
+  platform/chrome: cros_ec_proto: separate cros_ec_wait_until_complete()
+  platform/chrome: cros_ec_proto: change Kunit expectation when timed
+    out
+  platform/chrome: cros_ec_proto: return -EAGAIN when retries timed out
+  platform/chrome: cros_ec_proto: change Kunit expectation for EC errors
+  platform/chrome: cros_ec_proto: return standard error codes for EC
+    errors
+  platform/chrome: cros_ec_proto: add Kunit test for empty payload
+  platform/chrome: cros_ec_proto: return -EPROTO if empty payload
+
+ drivers/platform/chrome/cros_ec_proto.c      | 106 +++--
+ drivers/platform/chrome/cros_ec_proto_test.c | 443 +++++++++++++++++++
+ drivers/platform/chrome/cros_kunit_util.c    |  20 +
+ drivers/platform/chrome/cros_kunit_util.h    |   4 +
+ 4 files changed, 527 insertions(+), 46 deletions(-)
+
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+

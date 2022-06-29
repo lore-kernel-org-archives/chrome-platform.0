@@ -1,38 +1,38 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6C16D17
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 23:40:11 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id w1-20020a17090a6b8100b001ef26ab992bso1053786pjj.0
-        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 16:40:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99226D17
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 23:40:55 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id m14so15511663plg.5
+        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 16:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QRbeot/MuGcqM6NZGZgB9B0h/YlW+GCV/NmCj8D78sc=;
-        b=DdlpdV5bCDZGoOcRiumEE3M8qO1XA4NR58Hn0k2DAMnCsFQdg1G5MUhFt8XnNZ1xsx
-         IRSTVkMLmB70VB8r5y5sTOiOGihytY/lbwsWejaUtr5+A1GQFaSD3dNfMoU3HQAyWESe
-         SolplSffVxkCIZup4rLOnMVbrDbihKQZ9ThTs=
+        bh=u+kTivI5j4VL0Glhx/QLH7bOjgxInGIflDMjRi1pPSo=;
+        b=QEFE2ZREw7PZn1EHum4nOwGJDD33Zno9d4oJAdexunO9n3X4ns8I0JiPd952564aGh
+         pUTkVJkMbnszCLWtgFppUOO0efR1/WSBye2xzGtE2Vo0MHMNqm1kDLz5nxGrwKtlnuVa
+         2K+3sl2GvDzAi34rgOeBq3XJ8BEzE8ThbSQKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QRbeot/MuGcqM6NZGZgB9B0h/YlW+GCV/NmCj8D78sc=;
-        b=Gbpw2iDJcPoyff3hyr9OC6jYvSh/JFd1HOELCfz0rLkEQZRh5eeh5Di1yoclPkeV+w
-         v6WMWPJqXyERWqvrRnavvvuTyQgl5iKU9BMKpkYBpblQ0UVPgrvt2zZpeEOwF4OxSvKx
-         YJK42MHzXsLs52NG2A6j6xZ9lfvr7rA3pvd/yPy9LlPcdbfMsBWVBUOCRbFrGN2Tkoh+
-         SzZsUmP1kJHoAlew4jwGD/jGjRXBCsvXtpWRDYBsu9WWkmaVEB2XiGZ5PqOdr8ACKYUh
-         AWua81ZulKS0vr9mg7kEUEwAOJQ5qMV+K9eQR1WnTyUXNYafWC6mC3+r3IUBQqCfQtnc
-         9GQw==
-X-Gm-Message-State: AJIora+bKELvK19ywBwdE5T9xMtVnKNpa/v9u0orlE0d0TtF4/zqsDSY
-	cIxbFAxFe8xXJj6KXZX+7rHHvw==
-X-Google-Smtp-Source: AGRyM1sRWxPwy3uGWZPwxBdeXGbZYOch5+sAQm6m3ULiSuqR1NRow9vm5zjBjP3lHcRZcr0OyWqSXA==
-X-Received: by 2002:a17:90a:8413:b0:1ea:ebf4:7079 with SMTP id j19-20020a17090a841300b001eaebf47079mr6862922pjn.48.1656546010854;
-        Wed, 29 Jun 2022 16:40:10 -0700 (PDT)
+        bh=u+kTivI5j4VL0Glhx/QLH7bOjgxInGIflDMjRi1pPSo=;
+        b=rE2TgnB7i+T1Tw1hPEnRQyOBDRhYsgwo29GT9N2hbwHZ2T5krk7Z47EZGcCW30mcmJ
+         LEda71pFD3oBiROIduX6tx2NskyHvP5s3jfBHy/9/GVsAlC4qdJUKIbYQ5DFhEcEKC9T
+         hupkWqB8WE+uq2VLtGm5tc5ku7JFMxXQ+83dFKQK5n5cOt30UfnmzkPJSpqadz5LH7NQ
+         r1jXK977qWIxTtyFmpb9kqUu8kK3V3Z4NzlWX3MqO+HM7406ctaM0j2ZkSJw63L8fUru
+         Hk50Lto6IpsDphLedl7ebvnjSE+4aOJTTcB7OzpeCAXGW6UWi0ZRApT9Fl4spqnsE6m/
+         Z4Mw==
+X-Gm-Message-State: AJIora9BFHxGPo88Yb+Y05MItXHTMHbY431vxYXwDBOOztiwYI9rjXej
+	Zh8qt17KHKkgnwV7/7WoTqmWoA==
+X-Google-Smtp-Source: AGRyM1tMSOGpkv0MQnR98QputkS7ul89O7sMd6eMaC0iC1T1BtHrnytRuMeNSy6cQ+dAfGv3Hch2WA==
+X-Received: by 2002:a17:902:8b87:b0:169:5e5:43de with SMTP id ay7-20020a1709028b8700b0016905e543demr11698212plb.8.1656546055223;
+        Wed, 29 Jun 2022 16:40:55 -0700 (PDT)
 Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id rm1-20020a17090b3ec100b001ed27d132c1sm127305pjb.2.2022.06.29.16.40.09
+        by smtp.gmail.com with ESMTPSA id rm1-20020a17090b3ec100b001ed27d132c1sm127305pjb.2.2022.06.29.16.40.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 16:40:09 -0700 (PDT)
+        Wed, 29 Jun 2022 16:40:54 -0700 (PDT)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc: bleung@chromium.org,
 	Kees Cook <keescook@chromium.org>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 8/9] platform/chrome: cros_ec_typec: Cleanup switch handle return paths
-Date: Wed, 29 Jun 2022 23:32:26 +0000
-Message-Id: <20220629233314.3540377-9-pmalani@chromium.org>
+Subject: [PATCH 9/9] platform/chrome: cros_ec_typec: Get retimer handle
+Date: Wed, 29 Jun 2022 23:32:27 +0000
+Message-Id: <20220629233314.3540377-10-pmalani@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 In-Reply-To: <20220629233314.3540377-1-pmalani@chromium.org>
 References: <20220629233314.3540377-1-pmalani@chromium.org>
@@ -62,34 +62,128 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some of the return paths for the cros_typec_get_switch_handles()
-aren't necessary. Clean up the return paths to only undo the handle
-get's which succeeded.
+Where available, obtain the handle to retimer switch specified via
+firmware, and update the mux configuration callsites to add retimer
+support for supported modes.
 
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 44 +++++++++++++++++++++++--
+ 1 file changed, 41 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 7cb2e35c4ded..39e6fd4491a9 100644
+index 39e6fd4491a9..38c4ac754ea9 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -157,12 +157,10 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 	return 0;
+@@ -20,6 +20,7 @@
+ #include <linux/usb/typec_altmode.h>
+ #include <linux/usb/typec_dp.h>
+ #include <linux/usb/typec_mux.h>
++#include <linux/usb/typec_retimer.h>
+ #include <linux/usb/typec_tbt.h>
+ #include <linux/usb/role.h>
  
+@@ -53,6 +54,7 @@ struct cros_typec_port {
+ 	struct usb_pd_identity c_identity;
+ 	struct typec_switch *ori_sw;
+ 	struct typec_mux *mux;
++	struct typec_retimer *retimer;
+ 	struct usb_role_switch *role_sw;
+ 
+ 	/* Variables keeping track of switch state. */
+@@ -142,6 +144,12 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+ 		goto mux_err;
+ 	}
+ 
++	port->retimer = fwnode_typec_retimer_get(fwnode);
++	if (IS_ERR(port->retimer)) {
++		dev_dbg(dev, "Retimer handle not found.\n");
++		goto retimer_sw_err;
++	}
++
+ 	port->ori_sw = fwnode_typec_switch_get(fwnode);
+ 	if (IS_ERR(port->ori_sw)) {
+ 		dev_dbg(dev, "Orientation switch handle not found.\n");
+@@ -159,6 +167,8 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
  role_sw_err:
--	usb_role_switch_put(port->role_sw);
--ori_sw_err:
  	typec_switch_put(port->ori_sw);
--mux_err:
-+ori_sw_err:
+ ori_sw_err:
++	typec_retimer_put(port->retimer);
++retimer_sw_err:
  	typec_mux_put(port->mux);
--
-+mux_err:
+ mux_err:
  	return -ENODEV;
+@@ -203,6 +213,21 @@ static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int po
+ 	}
  }
  
++/*
++ * Map the Type-C Mux state to retimer state and call the retimer set function. We need this
++ * because we re-use the Type-C mux state for retimers.
++ */
++static int cros_typec_retimer_set(struct typec_retimer  *retimer, struct typec_mux_state state)
++{
++	struct typec_retimer_state rstate = {
++		.alt = state.alt,
++		.mode = state.mode,
++		.data = state.data,
++	};
++
++	return typec_retimer_set(retimer, &rstate);
++}
++
+ static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
+ {
+ 	port->state.alt = NULL;
+@@ -211,6 +236,7 @@ static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
+ 
+ 	usb_role_switch_set_role(port->role_sw, USB_ROLE_NONE);
+ 	typec_switch_set(port->ori_sw, TYPEC_ORIENTATION_NONE);
++	cros_typec_retimer_set(port->retimer, port->state);
+ 
+ 	return typec_mux_set(port->mux, &port->state);
+ }
+@@ -381,9 +407,14 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 
+ static int cros_typec_usb_safe_state(struct cros_typec_port *port)
+ {
++	int ret;
+ 	port->state.mode = TYPEC_STATE_SAFE;
+ 
+-	return typec_mux_set(port->mux, &port->state);
++	ret = cros_typec_retimer_set(port->retimer, port->state);
++	if (!ret)
++		ret = typec_mux_set(port->mux, &port->state);
++
++	return ret;
+ }
+ 
+ /*
+@@ -480,7 +511,11 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
+ 	port->state.data = &dp_data;
+ 	port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
+ 
+-	return typec_mux_set(port->mux, &port->state);
++	ret = cros_typec_retimer_set(port->retimer, port->state);
++	if (!ret)
++		ret = typec_mux_set(port->mux, &port->state);
++
++	return ret;
+ }
+ 
+ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
+@@ -569,7 +604,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+ 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
+ 		port->state.alt = NULL;
+ 		port->state.mode = TYPEC_STATE_USB;
+-		ret = typec_mux_set(port->mux, &port->state);
++
++		ret = cros_typec_retimer_set(port->retimer, port->state);
++		if (!ret)
++			ret = typec_mux_set(port->mux, &port->state);
+ 	} else {
+ 		dev_dbg(typec->dev,
+ 			"Unrecognized mode requested, mux flags: %x\n",
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 

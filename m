@@ -1,70 +1,131 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30437ED
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 07:29:36 +0000 (UTC)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-fb6b4da1dfso20329550fac.4
-        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 00:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=QZQW7+X7qAeWQ0JA11J+Y8+6HrDMvj4CxUzkjuBhZk4=;
-        b=cVHuYXoUBBcO77yyhDnn9dRsLS4jjH7jJT7wBlYKn1PkKTKNe3bZHOH6+8Iz3fG+1s
-         6qvW56SRXka8ShlfNVZhhy9EhuAwPIQBwY0aS6tcz4GMKflhio6xYYKNoesvFk6SOqqu
-         U91f8Mzs5sZidos4K4DovB9CapAukJ/QfoGS8=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9A37EB
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 07:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1656488235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1h0smKgkaQYyMckjg1gEO+92UXCJgyf7f6YfzsCAFg4=;
+	b=Yee1Q7EYn12pBlgOLi2B58zPMomPzdqfKtxSB3qvOJaExRiy99h2saX9jDy9ftjD1JHoex
+	cPfeE4FdB7vfNbdKbOFDOeqkAV9HD5O9jckAZKJfDwWjhQ8YIraRPfHNkD4/I984yzYC3t
+	DBJiHcI8+wWSO8WFW3+9lBICHWH6c5w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-uIdiWNEPNxCIWijEloFNJw-1; Wed, 29 Jun 2022 03:37:12 -0400
+X-MC-Unique: uIdiWNEPNxCIWijEloFNJw-1
+Received: by mail-wm1-f70.google.com with SMTP id 6-20020a1c0206000000b003a02cd754d1so6233463wmc.9
+        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 00:37:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=QZQW7+X7qAeWQ0JA11J+Y8+6HrDMvj4CxUzkjuBhZk4=;
-        b=1PQA4P4TGzKF2G4BXrnLB/TliVhLGqQlLqh4ztfU7ca+cgxIJpC0idrOTbnecWUdJ+
-         5EtV+SV2Fd8H4HhTBrfbXSgDzFN1NkjnBluS7G2BNsk0IRFcDeFRK+Cz/V1Rx357XxbK
-         2i6cMbhhPkpFaoiXi/Syk9jvWEvk4/m+Jj+bPHjkPI5xyfPe9k+gi4QUS+zifCP5LUPQ
-         eVh6EqqJdE4dlnDT3RxQGOYBEV+ilaGFdKaz1Tx+LMdh71nQzXFUWLbkdxDxasnoG4Jg
-         2rA51PrciLG1HwHIcykgDouyV9weZ6WdduFFOJ0h3y73M78i+hZE43m6/zCBUhRBpFvm
-         4oig==
-X-Gm-Message-State: AJIora+wysyQqwB2pByfk/ev6BaVvJjl8XRosYx08m4UEKpeM0woN3qv
-	cQej1DPuF5+CQZP1XTyxzAJsf9lxASNEFl20DpGogg==
-X-Google-Smtp-Source: AGRyM1vaywAXGT5aAjMk6AmlxtgNGPiL57UiTFsOz2mBPdyZOB/WeFYD1oj5i+TmFEv+OrgHcLCr65PRFFZJmJ+4AQU=
-X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
- w1-20020a056870b38100b000fe2004b3b5mr1151175oap.63.1656487775750; Wed, 29 Jun
- 2022 00:29:35 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 29 Jun 2022 02:29:35 -0500
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1h0smKgkaQYyMckjg1gEO+92UXCJgyf7f6YfzsCAFg4=;
+        b=aO3Sz4o83smjZsSQhZB0JN3qWJYdlvjT6GQZbPHUmdEemLgymOGIytyzAgjxSssIQ3
+         od6HOsKXiiDGuFtNUdv9qU+bj2IFYytfspSjNmCbmZDE8sMZrDNgrNQPWnTlsYHHxi30
+         226pZK6F+fk9tDuLAiwY6lvW8NESt21xq2v/rak1MQbka19mzr13y6bODq/JBEtRMJ03
+         MCxfb23lWZYpQgbIaZ+DFpJ8qNZMraUPLXkO//nnLpJPNGgIilIVBuAzTQaL/z7zwo1E
+         TgvwZXQcxHRN+u51QJHWOZ5ajjbvBJJg2pGivYvCegifwriyIs+PCSCO31rEHeDCqJqN
+         63sA==
+X-Gm-Message-State: AJIora/BYaa+L2UqaoZBRAVi6gRNawvG0eTSSFOFsiFV4X8ntdckwsl0
+	kfuMXlK+s8LVGunFkOXN1koIBRcshwO2jJ+7H724FDocWUlaSMz5Xd/GKohLJ7kpgUTbVorh5lb
+	uVanN88wBhnfZPDB8SmQ5A5Z2end3
+X-Received: by 2002:a05:6000:1448:b0:21b:b7db:c40b with SMTP id v8-20020a056000144800b0021bb7dbc40bmr1650260wrx.279.1656488230978;
+        Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vfq7mqFRSJqFJPQOP6rs25Ch1nA7fBeueZwuaRaLaWENw0ay54yTOP4QHXmGLo1NEA4L9c5g==
+X-Received: by 2002:a05:6000:1448:b0:21b:b7db:c40b with SMTP id v8-20020a056000144800b0021bb7dbc40bmr1650238wrx.279.1656488230741;
+        Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id j10-20020a5d448a000000b0021b8c99860asm15832366wrq.115.2022.06.29.00.37.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
+Message-ID: <7654a74e-a410-a8a5-c228-d006dbbc200f@redhat.com>
+Date: Wed, 29 Jun 2022 09:37:08 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220627215720.GA3004792-robh@kernel.org>
-References: <20220614195144.2794796-1-swboyd@chromium.org> <20220614195144.2794796-3-swboyd@chromium.org>
- <CAD=FV=UU-AENyChCvVAKH709E4hFtgo4Txa8zFDY=JM1UifA0g@mail.gmail.com> <20220627215720.GA3004792-robh@kernel.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 29 Jun 2022 02:29:35 -0500
-Message-ID: <CAE-0n53SJbnvyCXhgVWATSs0pKwGqNj9AeVLfNfUUvzR-UxRuA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] dt-bindings: cros-ec: Add ChromeOS fingerprint binding
-To: Doug Anderson <dianders@chromium.org>, Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
-	patches@lists.linux.dev, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Craig Hesling <hesling@chromium.org>, Tom Hughes <tomhughes@chromium.org>, 
-	Alexandru M Stan <amstan@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Matthias Kaehlcke <mka@chromium.org>, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jeremy Kerr <jk@codeconstruct.com.au>
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-staging@lists.linux.dev,
+ kasan-dev@googlegroups.com,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, acpi4asus-user@lists.sourceforge.net,
+ linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org,
+ openipmi-developer@lists.sourceforge.net,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>, netdev@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
+ <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Quoting Rob Herring (2022-06-27 14:57:20)
->
-> If we were starting from scratch, I would say you should just drop
-> 'google,cros-ec-spi' from this binding. But I guess you want to preserve
-> compatibility here. In that case, I think all this should be added to
-> the existing doc with an if/then schema for conditional parts. That also
-> avoids defining the common properties twice or moving them to a common,
-> shared schema.
+On 6/29/22 09:23, Uwe Kleine-König wrote:
+> Hello,
+> 
+> [I dropped nearly all individuals from the Cc: list because various
+> bounces reported to be unhappy about the long (logical) line.]
 >
 
-I had it all combined in a previous version. Let me see if I can merge
-the two together (again) and fix the bugs.
+Yes, it also bounced for me when I tried to reply earlier today.
+
+> diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+> index 1e0fcec7be47..ddfa0bb5d9c9 100644
+> --- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+> @@ -39,13 +39,11 @@ static int ssd130x_i2c_probe(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int ssd130x_i2c_remove(struct i2c_client *client)
+> +static void ssd130x_i2c_remove(struct i2c_client *client)
+>  {
+>  	struct ssd130x_device *ssd130x = i2c_get_clientdata(client);
+>  
+>  	ssd130x_remove(ssd130x);
+> -
+> -	return 0;
+>  }
+>  
+>  static void ssd130x_i2c_shutdown(struct i2c_client *client)
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com> 
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+

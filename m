@@ -1,38 +1,38 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274F246B7
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 23:33:25 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id 68so16758759pgb.10
-        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 16:33:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62F346B7
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 23:33:58 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id b2so8484169plx.7
+        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 16:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NsipExiNrrBArXSMUQqN1JMJ/FxaIb/dWMMG0KzbrOs=;
-        b=SKirdDWUbEM76rroMI+QFGcjo0pejKbbRpxDG17OH945v0BbXptuePFWmUkJdnAjDC
-         S2EtS1whCoRGxKcli1T6cnbE4abqW5bDlGUTDrhNt8ay53FxRSaV/ejtnhfaORpv9NCG
-         reeo1rMi9rtgrltdEO9o+VyWwTH8lMHh0bRjA=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YPvBrV//xUuqj6LVtKW0IZghq4HK6UVU4APO/1fkxmw=;
+        b=BZTUONzka1nFl6diqF5JqLhkJZBbo6b1qtjiHnOVE/DAqkQUHEr3pTP6XHKdouIa4b
+         ExrE2hZBxuLtkGv/RJarUMlCzTqtUuQvTd6eirIQ9VlLrdFqnDrb6f9HfKsAVsTSXz7c
+         ENksoTvac66RkxLAm5MpHftua7B0LY20TxTxg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NsipExiNrrBArXSMUQqN1JMJ/FxaIb/dWMMG0KzbrOs=;
-        b=tjWIRLsLaxyh0GPJMEhkIt89dz1Lm8u5ppmXXPCBCmIi2MijyxCDaRTfJmjsA1TUWn
-         XEge2PpdTK4D5Tpi19ZvVCsHkYOicezI2wjCPptyUwWlzhVEujmZ4i0kFvwB9rzN/HLd
-         OgrJQ0ROQfG5g0mgJ1i+8/cLo2wzjqHNxSE+ZJVFK5tfIRsn6oVlljtRlVrXFamAXpZF
-         kaMTrpzRiRXikPQTAxI6IuA2JFmppKoL1/qNqwGswkyUL5FjudoBTqBIjgLkzBkpLrxL
-         AZK1y+8jabj+sxvabKuIQKg+OhTKXBm7Il/tC8QyTDtCXn7YkrbpHGV2Tovy0itgYXgA
-         6wIw==
-X-Gm-Message-State: AJIora/tWVHSs9T/K5r5AZs7Ai54IZHj6xHx1ip8+iB/Fnq1rFvEa/H0
-	+Tg/5hrFuxj7obhY7pEtOI3k8g==
-X-Google-Smtp-Source: AGRyM1uT9ojCPeeZmZxFDwuVbWK511n55nDUuKeiOFARtW8UIDcnyVk/Bdy/frMbZN1So/MlNR5MRg==
-X-Received: by 2002:a05:6a00:10c3:b0:525:40fe:6e8d with SMTP id d3-20020a056a0010c300b0052540fe6e8dmr12497366pfu.38.1656545604547;
-        Wed, 29 Jun 2022 16:33:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YPvBrV//xUuqj6LVtKW0IZghq4HK6UVU4APO/1fkxmw=;
+        b=atF+43c3Zor4Ahjn/gotmsBV52rmhCbbSluTY7g7ThI3CRnxwHJAZOQ7Vk7cZ1XXIP
+         gqAzDThaALOz4dCo6I41B3EhyzgRQI6w6/ZC2dW2SrfR5s5u3vF1iDd1WeL65NMSKFdi
+         ongJ6fJdd6sBUG2kw5JEBGNlnfk1rEMI6HhEkG9G2yaLQ/C0Das3bnuoHI8OfA4kl/Dw
+         92f5ieRia53F4adcFpLVzBrb8q9g72B6UsV8cGnOsGDl6v3ga6YlOvK4oMWTzYMEODNs
+         xiQpebwkqIsBW/Tmuuk9j7d4qlqKDiZFJeyf+rTnqQ0wtOThWgr7bITFSmdAJweNdcqF
+         avUA==
+X-Gm-Message-State: AJIora+H7g6wjB7fP/o4f1XxE7fgt5m6itZXTLE/3SFR+SsvH/rzCP7P
+	r7WAt1btVXAtTPnqNhZJLbNR7A==
+X-Google-Smtp-Source: AGRyM1sYnSWW72veh6+t3l9ugH/7WBBZXEUjdb9PVYkfdnBeZD0VYMm/wrWc0haaH3EyC4gITSG1aw==
+X-Received: by 2002:a17:902:d548:b0:16b:8c20:c6e2 with SMTP id z8-20020a170902d54800b0016b8c20c6e2mr11446135plf.24.1656545638145;
+        Wed, 29 Jun 2022 16:33:58 -0700 (PDT)
 Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id rm1-20020a17090b3ec100b001ed27d132c1sm127305pjb.2.2022.06.29.16.33.23
+        by smtp.gmail.com with ESMTPSA id rm1-20020a17090b3ec100b001ed27d132c1sm127305pjb.2.2022.06.29.16.33.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 16:33:23 -0700 (PDT)
+        Wed, 29 Jun 2022 16:33:56 -0700 (PDT)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
@@ -46,12 +46,13 @@ Cc: bleung@chromium.org,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Kees Cook <keescook@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 0/9] platform/chrome: Type-C switch driver and Type-C framework updates
-Date: Wed, 29 Jun 2022 23:32:18 +0000
-Message-Id: <20220629233314.3540377-1-pmalani@chromium.org>
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCH 1/9] usb: typec: Add support for retimers
+Date: Wed, 29 Jun 2022 23:32:19 +0000
+Message-Id: <20220629233314.3540377-2-pmalani@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+In-Reply-To: <20220629233314.3540377-1-pmalani@chromium.org>
+References: <20220629233314.3540377-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -60,54 +61,327 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series introduces a retimer class to the USB Type-C framework,
-It also introduces a Chrome EC (Embedded Controller) switch driver which
-registers the aforementioned retimer switches as well as mode-switches.
+Introduce a retimer device class and associated functions that register
+and use retimer "switch" devices. These operate in a manner similar to
+the "mode-switch" and help configure retimers that exist between the
+Type-C connector and host controller(s).
 
-Patch 1 and 2 introduce the retimer class and associated functions to
-the Type-C common code.
+Type C ports can be linked to retimers using firmware node device
+references (again, in a manner similar to "mode-switch").
 
-Patches 3-7 add the cros-typec-switch driver
-
-Patches 8-9 update cros-ec-typec to get and use retimer switch handles
-
-Submission suggestion (as always, open to better suggestions):
-- Patch 1 and 2 can go through the USB repo.
-- Patch 3-9 can go through the chrome-platform repo. Since they depend
-  on patches 1 and 2, we can create an "topic branch" off of
-  usb-next once Patch 1 and 2 are submitted, and then apply Patches 3-9
-  on top of that "topic branch" before merging it back into
-  chrome-platform's for-next branch
-
-Prashant Malani (9):
-  usb: typec: Add support for retimers
-  usb: typec: Add retimer handle to port
-  platform/chrome: Add Type-C mux set command definitions
-  platform/chrome: cros_typec_switch: Add switch driver
-  platform/chrome: cros_typec_switch: Set EC retimer
-  platform/chrome: cros_typec_switch: Add event check
-  platform/chrome: cros_typec_switch: Register mode switches
-  platform/chrome: cros_ec_typec: Cleanup switch handle return paths
-  platform/chrome: cros_ec_typec: Get retimer handle
-
- MAINTAINERS                                   |   1 +
- drivers/platform/chrome/Kconfig               |  11 +
- drivers/platform/chrome/Makefile              |   1 +
- drivers/platform/chrome/cros_ec_typec.c       |  50 ++-
- drivers/platform/chrome/cros_typec_switch.c   | 332 ++++++++++++++++++
- drivers/usb/typec/Makefile                    |   2 +-
- drivers/usb/typec/class.c                     |  17 +-
- drivers/usb/typec/class.h                     |   2 +
- drivers/usb/typec/retimer.c                   | 168 +++++++++
- drivers/usb/typec/retimer.h                   |  15 +
- .../linux/platform_data/cros_ec_commands.h    |  18 +
- include/linux/usb/typec_retimer.h             |  45 +++
- 12 files changed, 653 insertions(+), 9 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_typec_switch.c
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+---
+ drivers/usb/typec/Makefile        |   2 +-
+ drivers/usb/typec/class.c         |   9 +-
+ drivers/usb/typec/class.h         |   1 +
+ drivers/usb/typec/retimer.c       | 168 ++++++++++++++++++++++++++++++
+ drivers/usb/typec/retimer.h       |  15 +++
+ include/linux/usb/typec_retimer.h |  45 ++++++++
+ 6 files changed, 238 insertions(+), 2 deletions(-)
  create mode 100644 drivers/usb/typec/retimer.c
  create mode 100644 drivers/usb/typec/retimer.h
  create mode 100644 include/linux/usb/typec_retimer.h
 
+diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+index 2f174cd3e5df..4955d9af0811 100644
+--- a/drivers/usb/typec/Makefile
++++ b/drivers/usb/typec/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_TYPEC)		+= typec.o
+-typec-y				:= class.o mux.o bus.o pd.o
++typec-y				:= class.o mux.o bus.o pd.o retimer.o
+ typec-$(CONFIG_ACPI)		+= port-mapper.o
+ obj-$(CONFIG_TYPEC)		+= altmodes/
+ obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index bbc46b14f99a..2fa0b3718d23 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -2299,10 +2299,14 @@ static int __init typec_init(void)
+ 	if (ret)
+ 		goto err_unregister_bus;
+ 
+-	ret = class_register(&typec_class);
++	ret = class_register(&typec_retimer_class);
+ 	if (ret)
+ 		goto err_unregister_mux_class;
+ 
++	ret = class_register(&typec_class);
++	if (ret)
++		goto err_unregister_retimer_class;
++
+ 	ret = usb_power_delivery_init();
+ 	if (ret)
+ 		goto err_unregister_class;
+@@ -2312,6 +2316,9 @@ static int __init typec_init(void)
+ err_unregister_class:
+ 	class_unregister(&typec_class);
+ 
++err_unregister_retimer_class:
++	class_unregister(&typec_retimer_class);
++
+ err_unregister_mux_class:
+ 	class_unregister(&typec_mux_class);
+ 
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index b531f9853bc0..1bb1da124109 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -76,6 +76,7 @@ extern const struct device_type typec_port_dev_type;
+ #define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
+ 
+ extern struct class typec_mux_class;
++extern struct class typec_retimer_class;
+ extern struct class typec_class;
+ 
+ #if defined(CONFIG_ACPI)
+diff --git a/drivers/usb/typec/retimer.c b/drivers/usb/typec/retimer.c
+new file mode 100644
+index 000000000000..2fa0aeb9363c
+--- /dev/null
++++ b/drivers/usb/typec/retimer.c
+@@ -0,0 +1,168 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2022 Google LLC
++ *
++ * USB Type-C Retimer support.
++ * Author: Prashant Malani <pmalani@chromium.org>
++ *
++ */
++
++#include <linux/device.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/property.h>
++#include <linux/slab.h>
++
++#include "class.h"
++#include "retimer.h"
++
++static bool dev_name_ends_with(struct device *dev, const char *suffix)
++{
++	const char *name = dev_name(dev);
++	const int name_len = strlen(name);
++	const int suffix_len = strlen(suffix);
++
++	if (suffix_len > name_len)
++		return false;
++
++	return strcmp(name + (name_len - suffix_len), suffix) == 0;
++}
++
++static int retimer_fwnode_match(struct device *dev, const void *fwnode)
++{
++	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-retimer");
++}
++
++static void *typec_retimer_match(struct fwnode_handle *fwnode, const char *id, void *data)
++{
++	struct device *dev  = class_find_device(&typec_retimer_class, NULL, fwnode,
++						retimer_fwnode_match);
++
++	return dev ? to_typec_retimer(dev) : ERR_PTR(-EPROBE_DEFER);
++}
++
++/**
++ * fwnode_typec_retimer_get - Find USB Type-C retimer.
++ * @fwnode: The caller device node.
++ *
++ * Finds a retimer linked to the caller. This function is primarily meant for the
++ * Type-C drivers. Returns a reference to the retimer on success, NULL if no
++ * matching connection was found, or ERR_PTR(-EPROBE_DEFER) when a connection
++ * was found but the retimer has not been enumerated yet.
++ */
++struct typec_retimer *fwnode_typec_retimer_get(struct fwnode_handle *fwnode)
++{
++	struct typec_retimer *retimer;
++
++	retimer = fwnode_connection_find_match(fwnode, "retimer-switch", NULL, typec_retimer_match);
++	if (!IS_ERR_OR_NULL(retimer))
++		WARN_ON(!try_module_get(retimer->dev.parent->driver->owner));
++
++	return retimer;
++}
++EXPORT_SYMBOL_GPL(fwnode_typec_retimer_get);
++
++/**
++ * typec_retimer_put - Release handle to a retimer.
++ * @retimer: USB Type-C Connector Retimer.
++ *
++ * Decrements reference count for @retimer.
++ */
++void typec_retimer_put(struct typec_retimer *retimer)
++{
++	if (!IS_ERR_OR_NULL(retimer)) {
++		module_put(retimer->dev.parent->driver->owner);
++		put_device(&retimer->dev);
++	}
++}
++EXPORT_SYMBOL_GPL(typec_retimer_put);
++
++int typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
++{
++	if (IS_ERR_OR_NULL(retimer))
++		return 0;
++
++	return retimer->set(retimer, state);
++}
++EXPORT_SYMBOL_GPL(typec_retimer_set);
++
++static void typec_retimer_release(struct device *dev)
++{
++	kfree(to_typec_retimer(dev));
++}
++
++static const struct device_type typec_retimer_dev_type = {
++	.name = "retimer_switch",
++	.release = typec_retimer_release,
++};
++
++/**
++ * typec_retimer_register - Register a retimer device.
++ * @parent: Parent device.
++ * @desc: Retimer description.
++ *
++ * Some USB Type-C connectors have their physical lines routed through retimers before they
++ * reach muxes or host controllers. In some cases (for example: using alternate modes)
++ * these retimers need to be reconfigured appropriately. This function registers retimer
++ * switches which route and potentially modify the signals on the Type C physical lines
++ * enroute to the host controllers.
++ */
++struct typec_retimer *
++typec_retimer_register(struct device *parent, const struct typec_retimer_desc *desc)
++{
++	struct typec_retimer *retimer;
++	int ret;
++
++	if (!desc || !desc->set)
++		return ERR_PTR(-EINVAL);
++
++	retimer = kzalloc(sizeof(*retimer), GFP_KERNEL);
++	if (!retimer)
++		return ERR_PTR(-ENOMEM);
++
++	retimer->set = desc->set;
++
++	device_initialize(&retimer->dev);
++	retimer->dev.parent = parent;
++	retimer->dev.fwnode = desc->fwnode;
++	retimer->dev.class = &typec_retimer_class;
++	retimer->dev.type = &typec_retimer_dev_type;
++	retimer->dev.driver_data = desc->drvdata;
++	dev_set_name(&retimer->dev, "%s-retimer",
++		     desc->name ? desc->name : dev_name(parent));
++
++	ret = device_add(&retimer->dev);
++	if (ret) {
++		dev_err(parent, "failed to register retimer (%d)\n", ret);
++		put_device(&retimer->dev);
++		return ERR_PTR(ret);
++	}
++
++	return retimer;
++}
++EXPORT_SYMBOL_GPL(typec_retimer_register);
++
++/**
++ * typec_retimer_unregister - Unregister retimer device.
++ * @retimer: USB Type-C Connector retimer.
++ *
++ * Unregister retimer that was registered with typec_retimer_register().
++ */
++void typec_retimer_unregister(struct typec_retimer *retimer)
++{
++	if (!IS_ERR_OR_NULL(retimer))
++		device_unregister(&retimer->dev);
++}
++EXPORT_SYMBOL_GPL(typec_retimer_unregister);
++
++void *typec_retimer_get_drvdata(struct typec_retimer *retimer)
++{
++	return dev_get_drvdata(&retimer->dev);
++}
++EXPORT_SYMBOL_GPL(typec_retimer_get_drvdata);
++
++struct class typec_retimer_class = {
++	.name = "typec_retimer",
++	.owner = THIS_MODULE,
++};
+diff --git a/drivers/usb/typec/retimer.h b/drivers/usb/typec/retimer.h
+new file mode 100644
+index 000000000000..fa15951d4846
+--- /dev/null
++++ b/drivers/usb/typec/retimer.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __USB_TYPEC_RETIMER__
++#define __USB_TYPEC_RETIMER__
++
++#include <linux/usb/typec_retimer.h>
++
++struct typec_retimer {
++	struct device dev;
++	typec_retimer_set_fn_t set;
++};
++
++#define to_typec_retimer(_dev_) container_of(_dev_, struct typec_retimer, dev)
++
++#endif /* __USB_TYPEC_RETIMER__ */
+diff --git a/include/linux/usb/typec_retimer.h b/include/linux/usb/typec_retimer.h
+new file mode 100644
+index 000000000000..5e036b3360e2
+--- /dev/null
++++ b/include/linux/usb/typec_retimer.h
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __USB_TYPEC_RETIMER
++#define __USB_TYPEC_RETIMER
++
++#include <linux/property.h>
++#include <linux/usb/typec.h>
++
++struct device;
++struct typec_retimer;
++struct typec_altmode;
++struct fwnode_handle;
++
++struct typec_retimer_state {
++	struct typec_altmode *alt;
++	unsigned long mode;
++	void *data;
++};
++
++typedef int (*typec_retimer_set_fn_t)(struct typec_retimer *retimer,
++				      struct typec_retimer_state *state);
++
++struct typec_retimer_desc {
++	struct fwnode_handle *fwnode;
++	typec_retimer_set_fn_t set;
++	const char *name;
++	void *drvdata;
++};
++
++struct typec_retimer *fwnode_typec_retimer_get(struct fwnode_handle *fwnode);
++void typec_retimer_put(struct typec_retimer *retimer);
++int typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state);
++
++static inline struct typec_retimer *typec_retimer_get(struct device *dev)
++{
++	return fwnode_typec_retimer_get(dev_fwnode(dev));
++}
++
++struct typec_retimer *
++typec_retimer_register(struct device *parent, const struct typec_retimer_desc *desc);
++void typec_retimer_unregister(struct typec_retimer *retimer);
++
++void *typec_retimer_get_drvdata(struct typec_retimer *retimer);
++
++#endif /* __USB_TYPEC_RETIMER */
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 

@@ -1,113 +1,113 @@
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net [89.40.174.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D025F3FE6;
-	Wed, 29 Jun 2022 21:55:58 +0000 (UTC)
-Received: from [37.161.29.0] (port=43545 helo=[192.168.131.30])
-	by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <luca@lucaceresoli.net>)
-	id 1o6f6m-000BzC-Qd;
-	Wed, 29 Jun 2022 23:20:25 +0200
-Message-ID: <d682fb60-c254-f89e-5d6d-cdf7aa752939@lucaceresoli.net>
-Date: Wed, 29 Jun 2022 23:20:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274F246B7
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 23:33:25 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id 68so16758759pgb.10
+        for <chrome-platform@lists.linux.dev>; Wed, 29 Jun 2022 16:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NsipExiNrrBArXSMUQqN1JMJ/FxaIb/dWMMG0KzbrOs=;
+        b=SKirdDWUbEM76rroMI+QFGcjo0pejKbbRpxDG17OH945v0BbXptuePFWmUkJdnAjDC
+         S2EtS1whCoRGxKcli1T6cnbE4abqW5bDlGUTDrhNt8ay53FxRSaV/ejtnhfaORpv9NCG
+         reeo1rMi9rtgrltdEO9o+VyWwTH8lMHh0bRjA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NsipExiNrrBArXSMUQqN1JMJ/FxaIb/dWMMG0KzbrOs=;
+        b=tjWIRLsLaxyh0GPJMEhkIt89dz1Lm8u5ppmXXPCBCmIi2MijyxCDaRTfJmjsA1TUWn
+         XEge2PpdTK4D5Tpi19ZvVCsHkYOicezI2wjCPptyUwWlzhVEujmZ4i0kFvwB9rzN/HLd
+         OgrJQ0ROQfG5g0mgJ1i+8/cLo2wzjqHNxSE+ZJVFK5tfIRsn6oVlljtRlVrXFamAXpZF
+         kaMTrpzRiRXikPQTAxI6IuA2JFmppKoL1/qNqwGswkyUL5FjudoBTqBIjgLkzBkpLrxL
+         AZK1y+8jabj+sxvabKuIQKg+OhTKXBm7Il/tC8QyTDtCXn7YkrbpHGV2Tovy0itgYXgA
+         6wIw==
+X-Gm-Message-State: AJIora/tWVHSs9T/K5r5AZs7Ai54IZHj6xHx1ip8+iB/Fnq1rFvEa/H0
+	+Tg/5hrFuxj7obhY7pEtOI3k8g==
+X-Google-Smtp-Source: AGRyM1uT9ojCPeeZmZxFDwuVbWK511n55nDUuKeiOFARtW8UIDcnyVk/Bdy/frMbZN1So/MlNR5MRg==
+X-Received: by 2002:a05:6a00:10c3:b0:525:40fe:6e8d with SMTP id d3-20020a056a0010c300b0052540fe6e8dmr12497366pfu.38.1656545604547;
+        Wed, 29 Jun 2022 16:33:24 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id rm1-20020a17090b3ec100b001ed27d132c1sm127305pjb.2.2022.06.29.16.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 16:33:23 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: bleung@chromium.org,
+	heikki.krogerus@linux.intel.com,
+	Prashant Malani <pmalani@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH 0/9] platform/chrome: Type-C switch driver and Type-C framework updates
+Date: Wed, 29 Jun 2022 23:32:18 +0000
+Message-Id: <20220629233314.3540377-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Wolfram Sang <wsa@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mediatek@lists.infradead.org
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Language: en-US
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This series introduces a retimer class to the USB Type-C framework,
+It also introduces a Chrome EC (Embedded Controller) switch driver which
+registers the aforementioned retimer switches as well as mode-switches.
 
-[keeping only individuals and lists in Cc to avoid bounces]
+Patch 1 and 2 introduce the retimer class and associated functions to
+the Type-C common code.
 
-On 28/06/22 16:03, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored=
-=2E
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This=
+Patches 3-7 add the cros-typec-switch driver
 
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared t=
-o
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Patches 8-9 update cros-ec-typec to get and use retimer switch handles
 
-For versaclock:
+Submission suggestion (as always, open to better suggestions):
+- Patch 1 and 2 can go through the USB repo.
+- Patch 3-9 can go through the chrome-platform repo. Since they depend
+  on patches 1 and 2, we can create an "topic branch" off of
+  usb-next once Patch 1 and 2 are submitted, and then apply Patches 3-9
+  on top of that "topic branch" before merging it back into
+  chrome-platform's for-next branch
 
-> diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock=
-5.c
-> index e7be3e54b9be..657493ecce4c 100644
-> --- a/drivers/clk/clk-versaclock5.c
-> +++ b/drivers/clk/clk-versaclock5.c
-> @@ -1138,7 +1138,7 @@ static int vc5_probe(struct i2c_client *client)
->  	return ret;
->  }
-> =20
-> -static int vc5_remove(struct i2c_client *client)
-> +static void vc5_remove(struct i2c_client *client)
->  {
->  	struct vc5_driver_data *vc5 =3D i2c_get_clientdata(client);
-> =20
-> @@ -1146,8 +1146,6 @@ static int vc5_remove(struct i2c_client *client)
-> =20
->  	if (vc5->chip_info->flags & VC5_HAS_INTERNAL_XTAL)
->  		clk_unregister_fixed_rate(vc5->pin_xin);
-> -
-> -	return 0;
->  }
-> =20
->  static int __maybe_unused vc5_suspend(struct device *dev)
+Prashant Malani (9):
+  usb: typec: Add support for retimers
+  usb: typec: Add retimer handle to port
+  platform/chrome: Add Type-C mux set command definitions
+  platform/chrome: cros_typec_switch: Add switch driver
+  platform/chrome: cros_typec_switch: Set EC retimer
+  platform/chrome: cros_typec_switch: Add event check
+  platform/chrome: cros_typec_switch: Register mode switches
+  platform/chrome: cros_ec_typec: Cleanup switch handle return paths
+  platform/chrome: cros_ec_typec: Get retimer handle
 
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+ MAINTAINERS                                   |   1 +
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ drivers/platform/chrome/cros_ec_typec.c       |  50 ++-
+ drivers/platform/chrome/cros_typec_switch.c   | 332 ++++++++++++++++++
+ drivers/usb/typec/Makefile                    |   2 +-
+ drivers/usb/typec/class.c                     |  17 +-
+ drivers/usb/typec/class.h                     |   2 +
+ drivers/usb/typec/retimer.c                   | 168 +++++++++
+ drivers/usb/typec/retimer.h                   |  15 +
+ .../linux/platform_data/cros_ec_commands.h    |  18 +
+ include/linux/usb/typec_retimer.h             |  45 +++
+ 12 files changed, 653 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_typec_switch.c
+ create mode 100644 drivers/usb/typec/retimer.c
+ create mode 100644 drivers/usb/typec/retimer.h
+ create mode 100644 include/linux/usb/typec_retimer.h
 
---=20
-Luca
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+

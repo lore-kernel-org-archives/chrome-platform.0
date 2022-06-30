@@ -1,48 +1,48 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E684EA2
-	for <chrome-platform@lists.linux.dev>; Thu, 30 Jun 2022 08:27:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E0EEBB
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Jun 2022 10:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656577633; x=1688113633;
+  t=1656584321; x=1688120321;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Qi9li/NCV765ItXQMioKvs0Czkex9a7+A1S0LgmtYeY=;
-  b=BwEjKK1mowEF+BjqYbyPOC7zAvt6oWo1iXgXFMWGQZlVU1IG9nmYrKRg
-   iuKWGWfa/hr/A1Knrbj32zttGyx3ZMY99pEbYGiQGoNnuOJ2gTQC5rLmk
-   6nGHpcU01cfLnDMMHhIlw0BajKAHFO+L5c0E8iMwUCIJsBTvRgW3/TkDJ
-   ETLeKWbs7gxhgTQ9kRmwS361m2NQjMPPp6Pa4T0SApkGLkxBEkMXb5/1R
-   77d+2eGzYVrGfFlu6AksiHvbQF58bPeQnJfUCBgP4zsU0+7/gr947bsUA
-   brkwMTff2iakubdJCeUQy/6it16+nMt/wmWhmd48sxBcMPeOLySFOE8Ei
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="271052691"
+  bh=kPmwEBc1KMTjojvqHZLvMTlSrK6OdbuwU9EWM04xHY4=;
+  b=W3daoP71+atQEBfLPS/6JWnzcCiDeTsDtduxGmwEQk3Gzx/wxJtZo0SK
+   unJVSGq3opZ6wnaMScZSgEY8p/Fyhh/6KRMxA7I4hJHevgbF2UJlyKCaL
+   SQIi4gFHm+g+vnmGGIHSE5V6KCbhmDkwI7ybLIOjSZjPFBrPdk+eie8Bb
+   K+IaNYBAHt2isFdW1qkFbMECiIKtXpvwsCgCkkAuWZkNww8xbqUN2XlSV
+   C1Z9oqUqrlcmEbPlaLmVeKqgcJSCXrog6ZZ7evUYH66dRRX/yb9LRBvuA
+   Ah2MtwL+QIJlKIQFDCCqpSqad+kgHDc2ilb43LBA1uunkNyIdiy0OChYz
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="262107570"
 X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="271052691"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 01:27:12 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="262107570"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 03:18:40 -0700
 X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="733545706"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 30 Jun 2022 01:27:08 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 30 Jun 2022 11:27:07 +0300
-Date: Thu, 30 Jun 2022 11:27:07 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, bleung@chromium.org,
-	Daisuke Nojiri <dnojiri@chromium.org>,
+   d="scan'208";a="541279538"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 03:18:36 -0700
+Received: by lahna (sSMTP sendmail emulation); Thu, 30 Jun 2022 13:18:33 +0300
+Date: Thu, 30 Jun 2022 13:18:33 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev,
+	bleung@chromium.org, Daisuke Nojiri <dnojiri@chromium.org>,
 	"Dustin L. Howett" <dustin@howett.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Kees Cook <keescook@chromium.org>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH 2/9] usb: typec: Add retimer handle to port
-Message-ID: <Yr1eW1gHR7LGP70Y@kuha.fi.intel.com>
+Subject: Re: [PATCH 1/9] usb: typec: Add support for retimers
+Message-ID: <Yr14eZexhvvrWrOS@lahna>
 References: <20220629233314.3540377-1-pmalani@chromium.org>
- <20220629233314.3540377-3-pmalani@chromium.org>
+ <20220629233314.3540377-2-pmalani@chromium.org>
+ <Yr1cN1I14BR6rN3U@kuha.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,68 +51,34 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220629233314.3540377-3-pmalani@chromium.org>
+In-Reply-To: <Yr1cN1I14BR6rN3U@kuha.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
-
-On Wed, Jun 29, 2022 at 11:32:20PM +0000, Prashant Malani wrote:
-> Similar to mux and orientation switch, add a handle for registered
-> retimer to the port, so that it has handles to the various switches
-> connected to it.
+On Thu, Jun 30, 2022 at 11:17:59AM +0300, Heikki Krogerus wrote:
+> On Wed, Jun 29, 2022 at 11:32:19PM +0000, Prashant Malani wrote:
+> > Introduce a retimer device class and associated functions that register
+> > and use retimer "switch" devices. These operate in a manner similar to
+> > the "mode-switch" and help configure retimers that exist between the
+> > Type-C connector and host controller(s).
+> > 
+> > Type C ports can be linked to retimers using firmware node device
+> > references (again, in a manner similar to "mode-switch").
+> > 
+> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 > 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> ---
->  drivers/usb/typec/class.c | 8 ++++++++
->  drivers/usb/typec/class.h | 1 +
->  2 files changed, 9 insertions(+)
+> Cool! This looks really good to me.
 > 
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 2fa0b3718d23..2bc5fbdb25dd 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -12,6 +12,7 @@
->  #include <linux/slab.h>
->  #include <linux/usb/pd_vdo.h>
->  #include <linux/usb/typec_mux.h>
-> +#include <linux/usb/typec_retimer.h>
->  
->  #include "bus.h"
->  #include "class.h"
-> @@ -2249,6 +2250,13 @@ struct typec_port *typec_register_port(struct device *parent,
->  		return ERR_PTR(ret);
->  	}
->  
-> +	port->retimer = typec_retimer_get(&port->dev);
-> +	if (IS_ERR(port->retimer)) {
-> +		ret = PTR_ERR(port->retimer);
-> +		put_device(&port->dev);
-> +		return ERR_PTR(ret);
-> +	}
-> +
->  	ret = device_add(&port->dev);
->  	if (ret) {
->  		dev_err(parent, "failed to register port (%d)\n", ret);
+> I'll add Mika here, just to keep him in the loop. Thunderbolt/USB4 can
+> control the same physical retimers over the SBU line. Right now there
+> is no conflict, but I think we want to later be able to use these
+> devices to upgrade the retimer firmware, and that is something that
+> the Thunderbolt/USB4 already does. So let's keep an eye on this.
+> 
+> I wonder, would it make sense to later make the thunderbolt_retimer
+> devices also part of the device class that's introduced here? I think
+> that way it would be easier to later figure out which
+> thunderbolt_retimer and which retimer_switch represent the same
+> physical retimer. And perhaps it would also be more clear for the user
+> space to have a single device class for the retimers?
 
-I think you need to release the reference with typec_retimer_put() in
-typec_release().
-
-I guess we can look handle this later, but there can actually be two
-onboard retimers for each connector.
-
-thanks,
-
-> diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
-> index 1bb1da124109..97520406929e 100644
-> --- a/drivers/usb/typec/class.h
-> +++ b/drivers/usb/typec/class.h
-> @@ -55,6 +55,7 @@ struct typec_port {
->  	enum typec_orientation		orientation;
->  	struct typec_switch		*sw;
->  	struct typec_mux		*mux;
-> +	struct typec_retimer		*retimer;
->  
->  	const struct typec_capability	*cap;
->  	const struct typec_operations   *ops;
-
--- 
-heikki
+I agree this makes sense.

@@ -1,115 +1,96 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A577B
-	for <chrome-platform@lists.linux.dev>; Thu, 30 Jun 2022 17:16:12 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id v185so25394683ybe.8
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Jun 2022 10:16:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CEA3C1E
+	for <chrome-platform@lists.linux.dev>; Fri,  1 Jul 2022 15:54:28 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-317765eb7ccso21919817b3.13
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Jul 2022 08:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o8689H0UAxz4K3OeSIRtr+YJ/Xi+oP67C+537YTthgw=;
-        b=j9La2LdEFflVgzA2Rowu6dp2UY6aqc8v3FgtGD451eUdnEGBi8rD/KNhAXxKLJrRpc
-         /GnohVyDXhKFZlxjAyiN07Ulvf4ZV21iDtYe2inkkIohq4Z/yKlaUyW9jep0T7UdwBe3
-         /0GmkgbHF5cpsJgpAVcNHmWeAGYebStTf2AB0=
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=nhCCzZMa1NRxw8NA7BhUvRU+X+N/8lSC/+E4poQXxXg=;
+        b=GwgECqQfra9vVYA3QvdkTdaAb2D9IVUyR9uGRyWgTcDgxzxUrHgC3N3VCkF13Kfpea
+         U1iWeRJfXV4EFTbea/73wvzow60RLTEFwKnp6djpYBaBX0iTekhkHv+P0kixnppFKorw
+         En+D7SEVMyjmu8G+Txk6xf30szE+rn5RuV29kAIgsgtpmb+YRmNZBKpe1LJbVtHvKfdV
+         Xy6tRJNeCwUD/ae7wY/cRCuHdCIFq4MbAH746J5m/tTPjjw1amSBk+gOhUg0UXbzrBdB
+         uNrbDhIgcj3TEEwq3XOL+xLQp+Z55B8XvS5W7MhM/RF4TNY3M2HMyhyMczoZVKWtG3bx
+         vReA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o8689H0UAxz4K3OeSIRtr+YJ/Xi+oP67C+537YTthgw=;
-        b=zHlIeNWlVCTdkndro1dTHXB2/magMZp+cBMlWaB6gEuDdgpD89Bnm6XpJFVkP2LqWW
-         liWjY0UkdPAcRW+Gn7FaFFsVp20gwbXkI5Rc5HNoERUX/lKnv3ZhFKyJMa1SMOs/egjW
-         h+mdtcV4gmiIYTRjqeXqGvTrqQMCY0d5YWKZBKAxW86YkzH+xZXbc8uTN0eSqjx5kzeP
-         /wq1mbxjaDD9N/KMSe4lbBSlusruEzLv1/NKXSRTcmsld7vh4gfc6mxJIgyDERzjJDxn
-         vf/9UEk2mGnbFozB4tnSVhgfR9rA7TQcKOle4v2Sp8Y1zOrc08eHPGSRgbmfKd9ZxkHn
-         Edow==
-X-Gm-Message-State: AJIora9MVP1mP+470yj8fXYhKi7JyCy4ebumhLZ8eDV8cwpOb4km0oP1
-	1dMqZB6Y/Rqc/dazHx7F2yCitGii/e0MEDdg94xyuw==
-X-Google-Smtp-Source: AGRyM1vzAQkoR46IuHMPKY/cJIhI/I67AUHel/vX9VgQIYI8WXB81cA8Ur31ZAjWpMDR7uLSh0OqyBpGAkc91RCMG6g=
-X-Received: by 2002:a25:b9c7:0:b0:66c:e02d:9749 with SMTP id
- y7-20020a25b9c7000000b0066ce02d9749mr10919746ybj.494.1656609371601; Thu, 30
- Jun 2022 10:16:11 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=nhCCzZMa1NRxw8NA7BhUvRU+X+N/8lSC/+E4poQXxXg=;
+        b=yWwHqepcdwUHMl9KwUTARTUsoEV/KrNJfzHfyLloaL22NBPS5OX8ghe6HxCw0BQs/c
+         MXZiXKWaRMdVSvhaPDXVY6L/TnY2fQj5Ks8+LxP2OpubePpeEtr+Lo2u0qOYhstMqHqs
+         HCJeCjwp0fNS0vdWuZBsaq4NSWx9tpBBmR64gPJNJslHltHQ5dTf3CHh9wklnhXeHmZ5
+         vfVNqfhQoXNeTVXQkvRqKGYO4tE03OfQIDxXf/tcea4dHTKD+QejyFyWiQ+X61zH/y19
+         x2OtywCpCVS8q42hoXmD8rTmbIrdS6zSBsElI3ZKF/qkCLDfWk9G34WX+A7ZnofdA2Ny
+         SslA==
+X-Gm-Message-State: AJIora9YrtywYKRF1TmpIWNtevLQvXZdRvRaPJv1vriZbDolOKUEM85c
+	VNPEFXqOULuGXesJn28JdS7UPlvn/w==
+X-Google-Smtp-Source: AGRyM1v1m+1kAkaGguGEjtHSsXlrp3OWRf0ZqANHx5xmqifvAHQx6lQWEmGIMGySj89JqO8Q/CqOR0nffA==
+X-Received: from timvp.bld.corp.google.com ([2620:15c:183:200:fb13:9807:34b4:6d59])
+ (user=timvp job=sendgmr) by 2002:a81:8ac6:0:b0:31c:11fe:d215 with SMTP id
+ a189-20020a818ac6000000b0031c11fed215mr17802733ywg.417.1656690867969; Fri, 01
+ Jul 2022 08:54:27 -0700 (PDT)
+Date: Fri,  1 Jul 2022 09:54:23 -0600
+Message-Id: <20220701095421.1.I78ded92e416b55de31975686d34b2058d4761c07@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220629233314.3540377-1-pmalani@chromium.org>
- <20220629233314.3540377-3-pmalani@chromium.org> <Yr1eW1gHR7LGP70Y@kuha.fi.intel.com>
-In-Reply-To: <Yr1eW1gHR7LGP70Y@kuha.fi.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Thu, 30 Jun 2022 10:16:00 -0700
-Message-ID: <CACeCKadQr4m_OK92GmVefJDS4d-3+E2WkW=YzVnoYkbmXzwESw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] usb: typec: Add retimer handle to port
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, bleung@chromium.org, 
-	Daisuke Nojiri <dnojiri@chromium.org>, "Dustin L. Howett" <dustin@howett.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH] platform/chrome: cros_ec: Send host event for prepare/complete
+From: Tim Van Patten <timvp@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: robbarnes@google.com, rrangel@chromium.org, 
+	Tim Van Patten <timvp@google.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-HI Heikki,
+Update cros_ec_lpc_pm_ops to call cros_ec_lpc_suspend() during PM
+.prepare() and cros_ec_lpc_resume() during .complete. This allows the
+EC to log entry/exit of AP's suspend/resume more accurately.
 
-On Thu, Jun 30, 2022 at 1:27 AM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> Hi,
->
-> On Wed, Jun 29, 2022 at 11:32:20PM +0000, Prashant Malani wrote:
-> > Similar to mux and orientation switch, add a handle for registered
-> > retimer to the port, so that it has handles to the various switches
-> > connected to it.
-> >
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > ---
-> >  drivers/usb/typec/class.c | 8 ++++++++
-> >  drivers/usb/typec/class.h | 1 +
-> >  2 files changed, 9 insertions(+)
-> >
-> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> > index 2fa0b3718d23..2bc5fbdb25dd 100644
-> > --- a/drivers/usb/typec/class.c
-> > +++ b/drivers/usb/typec/class.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/usb/pd_vdo.h>
-> >  #include <linux/usb/typec_mux.h>
-> > +#include <linux/usb/typec_retimer.h>
-> >
-> >  #include "bus.h"
-> >  #include "class.h"
-> > @@ -2249,6 +2250,13 @@ struct typec_port *typec_register_port(struct device *parent,
-> >               return ERR_PTR(ret);
-> >       }
-> >
-> > +     port->retimer = typec_retimer_get(&port->dev);
-> > +     if (IS_ERR(port->retimer)) {
-> > +             ret = PTR_ERR(port->retimer);
-> > +             put_device(&port->dev);
-> > +             return ERR_PTR(ret);
-> > +     }
-> > +
-> >       ret = device_add(&port->dev);
-> >       if (ret) {
-> >               dev_err(parent, "failed to register port (%d)\n", ret);
->
-> I think you need to release the reference with typec_retimer_put() in
-> typec_release().
+Signed-off-by: Tim Van Patten <timvp@google.com>
+---
 
-I knew I was forgetting something...
-I'll fix this in v2.
+ drivers/platform/chrome/cros_ec_lpc.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
->
-> I guess we can look handle this later, but there can actually be two
-> onboard retimers for each connector.
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 7677ab3c0ead9..783a0e56bf5f3 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -534,19 +534,24 @@ static int cros_ec_lpc_suspend(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ 
++	dev_info(dev, "Prepare EC suspend\n");
++
+ 	return cros_ec_suspend(ec_dev);
+ }
+ 
+-static int cros_ec_lpc_resume(struct device *dev)
++static void cros_ec_lpc_resume(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ 
+-	return cros_ec_resume(ec_dev);
++	cros_ec_resume(ec_dev);
++
++	dev_info(dev, "EC resume completed\n");
+ }
+ #endif
+ 
+ static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
+-	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
++	.prepare = cros_ec_lpc_suspend,
++	.complete = cros_ec_lpc_resume
+ };
+ 
+ static struct platform_driver cros_ec_lpc_driver = {
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
 
-You're referring to the cascaded case right? OK, I'll bear this in mind for
-later series (right now the EC exposes just 1 interface for retimer).
-
-Thanks,
-
--Prashant

@@ -1,38 +1,38 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144A22F2B
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 22:25:18 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id g4so20858153pgc.1
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Jul 2022 15:25:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA002F2B
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 22:26:09 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id o3-20020a17090a744300b001ef8f7f3dddso165018pjk.3
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Jul 2022 15:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ySuBOD6Wk3XGCffFBEm6ereJYHzD1HhIjVAepmGuLus=;
-        b=m6ML3qwJwRRDJtYpa4OS/Fw81GoVjPL/hGPb6qhjkXcq+fCwMb4vy4uvGrMbf+WRth
-         jX/Z5js7MqHdccR9CPeEJJl1XSOuMsj5FXSnoFIK7SkrHTTwk2U7NKAg0BELARiTE2cP
-         z2MF4eAsYC5dHNgeQozl45zi1dS+QiJJbkPe8=
+        bh=U15qmYXT9GH8TjN1Ut3guN2hyLaKnAjiTAFtYvltatM=;
+        b=QnIsu/zns+A7aL1LdpvG6NIX4YjyjQ5N4RZKvlVq8nxakt02znaMQSjhSi48KGXzJY
+         gWKS93PjxBD+sqRwECfk0eB1+jYFUeZP1uH8ty/nXlj7b6tqwcYg6gzhzvM1UkjkIg6h
+         I6x7S1UFRhTnakk0t8GEKyiFS3C8GX1R4J5Xg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ySuBOD6Wk3XGCffFBEm6ereJYHzD1HhIjVAepmGuLus=;
-        b=R1gJ8RvMKGy7iAFn1loPP2Rh49Npn6UAxLkzs+KnY59MybuTBC0ihQ/NOoCIzuQcMy
-         JXPxYHqMsXpD9/yHv5UAbvRnPfoDLT2G7gArRLE+VuzEM8Up4kNVrP4LgbJTBQx4J1CQ
-         hJ3J9kNA0eantoVCvEWVUAgqWjH5kN9sW2cQSj5yawJc8cjN5iQZmA8ISWHdD5uyszKw
-         4+dr9Cde4g8LPhYfczhvPuTnCoS0VaInij2JulKKTLrL276iCbdB2RpeWdLw4lDWSBFj
-         fxnChQQZPRslCWKeWamivVL+1wmYpF8Hv2doWZ9c7X7l90Vw8qhlf5/8EwCAs9boF9TG
-         68gw==
-X-Gm-Message-State: AJIora9VQ++JX+dEBjJaR3BINeq1M5uS1QZap4BCi5pYRD/qBZCOa2Xr
-	BFnVeiIgth95wee2CCfTFlmeCw==
-X-Google-Smtp-Source: AGRyM1u24A+fgEN+ITg8VBtY7hYsxlZKWWPqKb92e//MBPci4qHIz/AZuFO2WEo1YciLmQx+1g7w8A==
-X-Received: by 2002:a63:4d26:0:b0:411:83dd:2c3 with SMTP id a38-20020a634d26000000b0041183dd02c3mr298378pgb.508.1657232717576;
-        Thu, 07 Jul 2022 15:25:17 -0700 (PDT)
+        bh=U15qmYXT9GH8TjN1Ut3guN2hyLaKnAjiTAFtYvltatM=;
+        b=0IXZ7KD07QEpuG1fVI6pJkZ4fkV7k7E1TSkK0WMDo9WbDhhr/0SVKfbSNBtnRA2kmw
+         nd8owPtWOeb0W6vUcLfNhvfHRVQ4DCJjXn3ERIUjv8ttWSF06EF8wkYhPyMJrZoICkk2
+         q8HQn/nI2DigIWMQuosOe2hQJtsb7Vu/mvXrY1JrQSVEDWy8rZV3Jmwzx7ZhY+Q8nSuk
+         MIhuOkqp6ne+kbWqutZ8mYcyKGLikQY7q7+fEnVKo53uBoQH80INR+9gwvz0Y9jmbDq8
+         pKrOK5j76y43jU3EuX4oVUHXD+xScSF70pxP+bS5Rf/hRdm/5ZcJ/vZxEWzKyC4Wl0A5
+         BdEA==
+X-Gm-Message-State: AJIora9vuEh3YA6RJW0PO5S29ZhZWEBIXaj4W5puJ8Ulf1XdVxhOKKVy
+	b/9JZVKCh61PgB4V2nY4lZqI7w==
+X-Google-Smtp-Source: AGRyM1tGwWrSbLUTuvLlh27HVREzxYeyt55EEOyBrvpGsutFkPg0Kb9f8sySfTse8Q7jNRckhyok6w==
+X-Received: by 2002:a17:90b:2341:b0:1ef:819f:dfc4 with SMTP id ms1-20020a17090b234100b001ef819fdfc4mr7563605pjb.206.1657232769470;
+        Thu, 07 Jul 2022 15:26:09 -0700 (PDT)
 Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id 66-20020a620445000000b005289bfcee91sm5545657pfe.59.2022.07.07.15.25.17
+        by smtp.gmail.com with ESMTPSA id 66-20020a620445000000b005289bfcee91sm5545657pfe.59.2022.07.07.15.26.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 15:25:17 -0700 (PDT)
+        Thu, 07 Jul 2022 15:26:09 -0700 (PDT)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
@@ -40,17 +40,16 @@ To: linux-kernel@vger.kernel.org,
 Cc: bleung@chromium.org,
 	heikki.krogerus@linux.intel.com,
 	Prashant Malani <pmalani@chromium.org>,
-	kernel test robot <lkp@intel.com>,
 	Daisuke Nojiri <dnojiri@chromium.org>,
 	"Dustin L. Howett" <dustin@howett.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v3 6/9] platform/chrome: cros_typec_switch: Add event check
-Date: Thu,  7 Jul 2022 22:20:13 +0000
-Message-Id: <20220707222045.1415417-7-pmalani@chromium.org>
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH v3 7/9] platform/chrome: cros_typec_switch: Register mode switches
+Date: Thu,  7 Jul 2022 22:20:14 +0000
+Message-Id: <20220707222045.1415417-8-pmalani@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 In-Reply-To: <20220707222045.1415417-1-pmalani@chromium.org>
 References: <20220707222045.1415417-1-pmalani@chromium.org>
@@ -62,12 +61,11 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Chrome EC updates Type-C status events when mux set requests from
-the Application Processor (AP) are completed. Add a check to the
-flow of configuring muxes to look for this status done bit, so that
-the driver is aware that the mux set completed successfully or not.
+Register mode switch devices for Type C connectors, when they are
+specified by firmware. These control Type C configuration for any USB
+Type-C mode switches (sometimes known as "muxes") which are controlled
+by the Chrome EC.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
 
@@ -77,110 +75,91 @@ Changes since v2:
 Changes since v1:
 - No changes.
 
- drivers/platform/chrome/cros_typec_switch.c | 72 ++++++++++++++++++++-
- 1 file changed, 70 insertions(+), 2 deletions(-)
+ drivers/platform/chrome/cros_typec_switch.c | 40 +++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index b50ecedce662..7c01957a032d 100644
+index 7c01957a032d..024a2bb146b2 100644
 --- a/drivers/platform/chrome/cros_typec_switch.c
 +++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -7,6 +7,8 @@
-  */
+@@ -15,6 +15,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/usb/typec_altmode.h>
+ #include <linux/usb/typec_dp.h>
++#include <linux/usb/typec_mux.h>
+ #include <linux/usb/typec_retimer.h>
  
- #include <linux/acpi.h>
-+#include <linux/delay.h>
-+#include <linux/jiffies.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-@@ -63,6 +65,40 @@ static int cros_typec_get_mux_state(unsigned long mode, struct typec_altmode *al
- 	return ret;
+ #define DRV_NAME "cros-typec-switch"
+@@ -22,6 +23,7 @@
+ /* Handles and other relevant data required for each port's switches. */
+ struct cros_typec_port {
+ 	int port_num;
++	struct typec_mux_dev *mode_switch;
+ 	struct typec_retimer *retimer;
+ 	struct cros_typec_switch_data *sdata;
+ };
+@@ -147,6 +149,15 @@ static int cros_typec_configure_mux(struct cros_typec_switch_data *sdata, int po
+ 	return -ETIMEDOUT;
  }
  
-+static int cros_typec_send_clear_event(struct cros_typec_switch_data *sdata, int port_num,
-+				       u32 events_mask)
++static int cros_typec_mode_switch_set(struct typec_mux_dev *mode_switch,
++				      struct typec_mux_state *state)
 +{
-+	struct ec_params_typec_control req = {
-+		.port = port_num,
-+		.command = TYPEC_CONTROL_COMMAND_CLEAR_EVENTS,
-+		.clear_events_mask = events_mask,
-+	};
++	struct cros_typec_port *port = typec_mux_get_drvdata(mode_switch);
 +
-+	return cros_ec_command(sdata->ec, 0, EC_CMD_TYPEC_CONTROL, &req,
-+			       sizeof(req), NULL, 0);
++	/* Mode switches have index 0. */
++	return cros_typec_configure_mux(port->sdata, port->port_num, 0, state->mode, state->alt);
 +}
 +
-+static bool cros_typec_check_event(struct cros_typec_switch_data *sdata, int port_num, u32 mask)
-+{
-+	struct ec_response_typec_status resp;
-+	struct ec_params_typec_status req = {
-+		.port = port_num,
-+	};
-+	int ret;
-+
-+	ret = cros_ec_command(sdata->ec, 0, EC_CMD_TYPEC_STATUS, &req, sizeof(req),
-+			      &resp, sizeof(resp));
-+	if (ret < 0) {
-+		dev_warn(sdata->dev, "EC_CMD_TYPEC_STATUS failed for port: %d\n", port_num);
-+		return false;
-+	}
-+
-+	if (resp.events & mask)
-+		return true;
-+
-+	return false;
-+}
-+
- /*
-  * The Chrome EC treats both mode-switches and retimers as "muxes" for the purposes of the
-  * host command API. This common function configures and verifies the retimer/mode-switch
-@@ -71,12 +107,44 @@ static int cros_typec_get_mux_state(unsigned long mode, struct typec_altmode *al
- static int cros_typec_configure_mux(struct cros_typec_switch_data *sdata, int port_num, int index,
- 				    unsigned long mode, struct typec_altmode *alt)
- {
--	int ret = cros_typec_get_mux_state(mode, alt);
-+	unsigned long end;
-+	u32 event_mask;
-+	u8 mux_state;
-+	int ret;
-+
-+	ret = cros_typec_get_mux_state(mode, alt);
-+	if (ret < 0)
-+		return ret;
-+	mux_state = (u8)ret;
- 
-+	/* Clear any old mux set done event. */
-+	if (index == 0)
-+		event_mask = PD_STATUS_EVENT_MUX_0_SET_DONE;
-+	else
-+		event_mask = PD_STATUS_EVENT_MUX_1_SET_DONE;
-+
-+	ret = cros_typec_send_clear_event(sdata, port_num, event_mask);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Send the set command. */
-+	ret = cros_typec_cmd_mux_set(sdata, port_num, index, mux_state);
- 	if (ret < 0)
- 		return ret;
- 
--	return cros_typec_cmd_mux_set(sdata, port_num, index, (u8)ret);
-+	/* Check for the mux set done event. */
-+	end = jiffies + msecs_to_jiffies(1000);
-+	do {
-+		if (cros_typec_check_event(sdata, port_num, event_mask))
-+			return 0;
-+
-+		usleep_range(500, 1000);
-+	} while (time_before(jiffies, end));
-+
-+	dev_err(sdata->dev, "Timed out waiting for mux set done on index: %d, state: %d\n",
-+		index, mux_state);
-+
-+	return -ETIMEDOUT;
- }
- 
  static int cros_typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
+ {
+ 	struct cros_typec_port *port = typec_retimer_get_drvdata(retimer);
+@@ -163,9 +174,27 @@ static void cros_typec_unregister_switches(struct cros_typec_switch_data *sdata)
+ 		if (!sdata->ports[i])
+ 			continue;
+ 		typec_retimer_unregister(sdata->ports[i]->retimer);
++		typec_mux_unregister(sdata->ports[i]->mode_switch);
+ 	}
+ }
+ 
++static int cros_typec_register_mode_switch(struct cros_typec_port *port,
++					   struct fwnode_handle *fwnode)
++{
++	struct typec_mux_desc mode_switch_desc = {
++		.fwnode = fwnode,
++		.drvdata = port,
++		.name = fwnode_get_name(fwnode),
++		.set = cros_typec_mode_switch_set,
++	};
++
++	port->mode_switch = typec_mux_register(port->sdata->dev, &mode_switch_desc);
++	if (IS_ERR(port->mode_switch))
++		return PTR_ERR(port->mode_switch);
++
++	return 0;
++}
++
+ static int cros_typec_register_retimer(struct cros_typec_port *port, struct fwnode_handle *fwnode)
+ {
+ 	struct typec_retimer_desc retimer_desc = {
+@@ -235,6 +264,17 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+ 		}
+ 
+ 		dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
++
++		if (!fwnode_property_read_bool(fwnode, "mode-switch"))
++			continue;
++
++		ret = cros_typec_register_mode_switch(port, fwnode);
++		if (ret) {
++			dev_err(dev, "Mode switch register failed\n");
++			goto err_switch;
++		}
++
++		dev_dbg(dev, "Mode switch registered for index %llu\n", index);
+ 	}
+ 
+ 	return 0;
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 

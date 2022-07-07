@@ -1,103 +1,127 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25F4367
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 02:51:44 +0000 (UTC)
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-31c9a49a1a8so67405777b3.9
-        for <chrome-platform@lists.linux.dev>; Wed, 06 Jul 2022 19:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=7LPSlq7Trkpni6Jiwio8XRfrUDHcOcS9L2wBFBR2Vzo=;
-        b=abzazCQT38DTazMiKkJ2tFav1z5MzZhausH2mwikpoIfOK5eCPul9C4byXwCWzLOXT
-         xhWQL709yuL0pVbkXWaW5K+AjBEWpvihA98fJhwMJn/OIqLAXF6Shi6B+NSxcOw+wHZf
-         pcnPXwc4JBaHkMYDqlIlE7KjNr/uDUgN5443g6weKVY1Z73u+0XxnMPkxh+Imd8V66x7
-         snjGnB4jYIyvwGmkLd6IxcgwES5AtwFd2OBUt6eZsu/RHseCE/L6WO04BAMXge5uscNA
-         UuwnwCqOHx5M8cjTWO77p1d3CrFvCp7ePhNo+QPLwaetw2HcmdKMBnorMsRG2/SIUD+4
-         Q7UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=7LPSlq7Trkpni6Jiwio8XRfrUDHcOcS9L2wBFBR2Vzo=;
-        b=TOXM+0igZgVluE1b0R6LKdIxlzEcEFHfaCinRHmDvxMEAYHmunTRPFofr+fqfu01OM
-         3PFQW+wxBOVYCAzH3L+B7hsEOxsLymDGxu+Qxejx4Qm3BA6zGBbhjR7dF2Vv7TxF/6Tj
-         GgoLVr02cg6u3i4nzL1ZZp9O4sntk6kZt6CPp7oK8WLSZpVpMe0adKyZvpe6JnPNpIe8
-         B+oMtEhSD2c8VNTuqYdKfEvExWObMZZd5mIA0q6XqJkw2k4kOQXAQ8OkXgc1WPNd5siB
-         Whk+nUvn1h8d2xMwyqoJUoLV/yJ7WYszsTPNyH1Ek4P38vsJ/91gvHhx1vOsFxEkYNcc
-         7koA==
-X-Gm-Message-State: AJIora9TyYGBYpiykOLfMNpPnA3hoZb5t6aX7pQZg3SIzMHSIvkQ4X6b
-	21JkdWzuuk/pHJdgczuZ5kcgFYtyHA==
-X-Google-Smtp-Source: AGRyM1sv2sZJGNvWqq79iz8jLwYOOA59LiIbMmIQLBcMUQ60SAqPfvBk+4L77cgS6cOmbTQVOiDruUFRyg==
-X-Received: from timvp.bld.corp.google.com ([2620:15c:183:200:7d77:c591:814b:4db6])
- (user=timvp job=sendgmr) by 2002:a25:3414:0:b0:66e:4752:b055 with SMTP id
- b20-20020a253414000000b0066e4752b055mr21451158yba.40.1657162303830; Wed, 06
- Jul 2022 19:51:43 -0700 (PDT)
-Date: Wed,  6 Jul 2022 20:51:39 -0600
-Message-Id: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F84367
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 04:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657167986; x=1688703986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mUwoibGeugF+/wW/Tc5Uyi0nUEtbEwOV+QQCFB3AJ90=;
+  b=flAewpisXAin/uNlltTMdvMGpFc70ewdBzHGgn3kB6Yek4UN8pHlJIJa
+   +GNTSSJJkn0CWun/4M/4aZWQWI7kpnQhIvSFY+Wobv15vkFypv5kYto0R
+   wHEM0u4WdYsRaDe9L8zZWNeoHT6+mdbNOuO5OsiGmkWUmQ/5LpOUuYDaS
+   tkDgkwP5se2tl8wj9DEf9nO75Lhv6H5xTOt1QPUcUG233oX8WK5+XCo9w
+   G647y2xDrzzw5zC7WU+C1eIf3uroASVKtHYPFGpcZ2RFMiPZ3tCBF18Sa
+   kgl4uq9lSPXSIs5/WqVBxM7ZJqt73JJYHaRdjtToBQQAfstRtmaJ/3mlF
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="284667313"
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; 
+   d="scan'208";a="284667313"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 21:26:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; 
+   d="scan'208";a="661227632"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2022 21:26:22 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o9J5p-000LXW-R8;
+	Thu, 07 Jul 2022 04:26:21 +0000
+Date: Thu, 7 Jul 2022 12:25:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
+Cc: kbuild-all@lists.01.org, bleung@chromium.org,
+	heikki.krogerus@linux.intel.com,
+	Prashant Malani <pmalani@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v2 6/9] platform/chrome: cros_typec_switch: Add event
+ check
+Message-ID: <202207071256.63ElDHIG-lkp@intel.com>
+References: <20220706171601.807042-7-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v2] platform/chrome: cros_ec: Send host event for prepare/complete
-From: Tim Van Patten <timvp@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: rrangel@chromium.org, robbarnes@google.com, 
-	Tim Van Patten <timvp@google.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706171601.807042-7-pmalani@chromium.org>
 
-Update cros_ec_lpc_pm_ops to call cros_ec_lpc_suspend() during PM
-.prepare() and cros_ec_lpc_resume() during .complete. This allows the
-EC to log entry/exit of AP's suspend/resume more accurately.
+Hi Prashant,
 
-Signed-off-by: Tim Van Patten <timvp@google.com>
----
+I love your patch! Perhaps something to improve:
 
-Changes in v2:
-- Include cros_ec_resume() return value in dev_info() output.
-- Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
+[auto build test WARNING on usb/usb-testing]
+[cannot apply to chrome-platform/for-next linus/master balbi-usb/testing/next peter-chen-usb/for-usb-next v5.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- drivers/platform/chrome/cros_ec_lpc.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/platform-chrome-Type-C-switch-driver-and-Type-C-framework-updates/20220707-012614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220707/202207071256.63ElDHIG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/60e03c1b36c0e3533e481b44152faab38448be5b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Prashant-Malani/platform-chrome-Type-C-switch-driver-and-Type-C-framework-updates/20220707-012614
+        git checkout 60e03c1b36c0e3533e481b44152faab38448be5b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/chrome/ kernel/bpf/
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 7677ab3c0ead9..ce49fbc4ed2e1 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -534,19 +534,27 @@ static int cros_ec_lpc_suspend(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
- 
-+	dev_info(dev, "Prepare EC suspend\n");
-+
- 	return cros_ec_suspend(ec_dev);
- }
- 
--static int cros_ec_lpc_resume(struct device *dev)
-+static void cros_ec_lpc_resume(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = cros_ec_resume(ec_dev);
- 
--	return cros_ec_resume(ec_dev);
-+	dev_info(dev, "EC resume completed: ret = %d\n", ret);
- }
- #endif
- 
- static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
--	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
-+#ifdef CONFIG_PM_SLEEP
-+	.prepare = cros_ec_lpc_suspend,
-+	.complete = cros_ec_lpc_resume
-+#endif
- };
- 
- static struct platform_driver cros_ec_lpc_driver = {
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/chrome/cros_typec_switch.c:81:6: warning: no previous prototype for 'cros_typec_check_event' [-Wmissing-prototypes]
+      81 | bool cros_typec_check_event(struct cros_typec_switch_data *sdata, int port_num, u32 mask)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/cros_typec_switch.c:159:6: warning: no previous prototype for 'cros_typec_unregister_switches' [-Wmissing-prototypes]
+     159 | void cros_typec_unregister_switches(struct cros_typec_switch_data *sdata)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/cros_typec_switch.c:170:5: warning: no previous prototype for 'cros_typec_register_retimer' [-Wmissing-prototypes]
+     170 | int cros_typec_register_retimer(struct cros_typec_port *port, struct fwnode_handle *fwnode)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/cros_typec_check_event +81 drivers/platform/chrome/cros_typec_switch.c
+
+    80	
+  > 81	bool cros_typec_check_event(struct cros_typec_switch_data *sdata, int port_num, u32 mask)
+    82	{
+    83		struct ec_response_typec_status resp;
+    84		struct ec_params_typec_status req = {
+    85			.port = port_num,
+    86		};
+    87		int ret;
+    88	
+    89		ret = cros_ec_command(sdata->ec, 0, EC_CMD_TYPEC_STATUS, &req, sizeof(req),
+    90				      &resp, sizeof(resp));
+    91		if (ret < 0) {
+    92			dev_warn(sdata->dev, "EC_CMD_TYPEC_STATUS failed for port: %d\n", port_num);
+    93			return false;
+    94		}
+    95	
+    96		if (resp.events & mask)
+    97			return true;
+    98	
+    99		return false;
+   100	}
+   101	
+
 -- 
-2.37.0.rc0.161.g10f37bed90-goog
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp

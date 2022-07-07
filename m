@@ -1,127 +1,78 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F84367
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 04:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657167986; x=1688703986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mUwoibGeugF+/wW/Tc5Uyi0nUEtbEwOV+QQCFB3AJ90=;
-  b=flAewpisXAin/uNlltTMdvMGpFc70ewdBzHGgn3kB6Yek4UN8pHlJIJa
-   +GNTSSJJkn0CWun/4M/4aZWQWI7kpnQhIvSFY+Wobv15vkFypv5kYto0R
-   wHEM0u4WdYsRaDe9L8zZWNeoHT6+mdbNOuO5OsiGmkWUmQ/5LpOUuYDaS
-   tkDgkwP5se2tl8wj9DEf9nO75Lhv6H5xTOt1QPUcUG233oX8WK5+XCo9w
-   G647y2xDrzzw5zC7WU+C1eIf3uroASVKtHYPFGpcZ2RFMiPZ3tCBF18Sa
-   kgl4uq9lSPXSIs5/WqVBxM7ZJqt73JJYHaRdjtToBQQAfstRtmaJ/3mlF
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="284667313"
-X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; 
-   d="scan'208";a="284667313"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 21:26:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; 
-   d="scan'208";a="661227632"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2022 21:26:22 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o9J5p-000LXW-R8;
-	Thu, 07 Jul 2022 04:26:21 +0000
-Date: Thu, 7 Jul 2022 12:25:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
-Cc: kbuild-all@lists.01.org, bleung@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	Prashant Malani <pmalani@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v2 6/9] platform/chrome: cros_typec_switch: Add event
- check
-Message-ID: <202207071256.63ElDHIG-lkp@intel.com>
-References: <20220706171601.807042-7-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E737C
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 15:32:13 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o9TU3-000658-MR; Thu, 07 Jul 2022 17:32:03 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o9TTx-004yuB-Rg; Thu, 07 Jul 2022 17:32:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o9TU0-003b2C-Om; Thu, 07 Jul 2022 17:32:00 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH] rtc: cros-ec: Only warn once in .remove() about notifier_chain problems
+Date: Thu,  7 Jul 2022 17:31:56 +0200
+Message-Id: <20220707153156.214841-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706171601.807042-7-pmalani@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1118; h=from:subject; bh=rKlwaawf2TlbOMr0njWGxr8U8gq80b14nj+ASRlyR14=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBixvxpDW5qORKcLum5IH306Unj54IwAR+G15wc1Kg8 BjgGeHKJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYsb8aQAKCRDB/BR4rcrsCTdKB/ 4in8/w/fLsSW+nXGzJK7HFCBFcWaoZh0W1TsJCXGP3PA2k0amZLhqggucPgpL0Dve5fpTepE1BBezd go1DI4icruIdDymSwIbkEMn6QS5zB5dTAohbwCaXeEIJCPoxbpwxH0ZB67RRh7g6r40KyVItuKVtI6 Wa/Q4Slp/tjJoh1/34KffSDYlwzWnNGq02TSzMHl2pHOth7vFzbFbDS8iacDhP2G93kTRxOpjrSzuG 4xWFgP32C5AD4C8cAcvYLpzEMtd1txW5LJnkjfWjEAaSrHpyAeywnZcYVQtyp7RuieInm+oWuRZZkd LVyC0Ue8D96gEN9tOlSp6xuVETK88a
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hi Prashant,
+When a remove platform device callback returns an error code, the driver
+core emits an error message ("remove callback returned a non-zero value.
+This will be ignored.\n") and still removes the device. As the driver
+already emits a more specific error message, return 0 to suppress the
+core's error message.
 
-I love your patch! Perhaps something to improve:
+This is a preparation for making platform remove callbacks return void.
 
-[auto build test WARNING on usb/usb-testing]
-[cannot apply to chrome-platform/for-next linus/master balbi-usb/testing/next peter-chen-usb/for-usb-next v5.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/rtc/rtc-cros-ec.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/platform-chrome-Type-C-switch-driver-and-Type-C-framework-updates/20220707-012614
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220707/202207071256.63ElDHIG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/60e03c1b36c0e3533e481b44152faab38448be5b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Prashant-Malani/platform-chrome-Type-C-switch-driver-and-Type-C-framework-updates/20220707-012614
-        git checkout 60e03c1b36c0e3533e481b44152faab38448be5b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/chrome/ kernel/bpf/
+diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+index 70626793ca69..887f5193e253 100644
+--- a/drivers/rtc/rtc-cros-ec.c
++++ b/drivers/rtc/rtc-cros-ec.c
+@@ -375,10 +375,8 @@ static int cros_ec_rtc_remove(struct platform_device *pdev)
+ 	ret = blocking_notifier_chain_unregister(
+ 				&cros_ec_rtc->cros_ec->event_notifier,
+ 				&cros_ec_rtc->notifier);
+-	if (ret) {
++	if (ret)
+ 		dev_err(dev, "failed to unregister notifier\n");
+-		return ret;
+-	}
+ 
+ 	return 0;
+ }
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/chrome/cros_typec_switch.c:81:6: warning: no previous prototype for 'cros_typec_check_event' [-Wmissing-prototypes]
-      81 | bool cros_typec_check_event(struct cros_typec_switch_data *sdata, int port_num, u32 mask)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/chrome/cros_typec_switch.c:159:6: warning: no previous prototype for 'cros_typec_unregister_switches' [-Wmissing-prototypes]
-     159 | void cros_typec_unregister_switches(struct cros_typec_switch_data *sdata)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/chrome/cros_typec_switch.c:170:5: warning: no previous prototype for 'cros_typec_register_retimer' [-Wmissing-prototypes]
-     170 | int cros_typec_register_retimer(struct cros_typec_port *port, struct fwnode_handle *fwnode)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cros_typec_check_event +81 drivers/platform/chrome/cros_typec_switch.c
-
-    80	
-  > 81	bool cros_typec_check_event(struct cros_typec_switch_data *sdata, int port_num, u32 mask)
-    82	{
-    83		struct ec_response_typec_status resp;
-    84		struct ec_params_typec_status req = {
-    85			.port = port_num,
-    86		};
-    87		int ret;
-    88	
-    89		ret = cros_ec_command(sdata->ec, 0, EC_CMD_TYPEC_STATUS, &req, sizeof(req),
-    90				      &resp, sizeof(resp));
-    91		if (ret < 0) {
-    92			dev_warn(sdata->dev, "EC_CMD_TYPEC_STATUS failed for port: %d\n", port_num);
-    93			return false;
-    94		}
-    95	
-    96		if (resp.events & mask)
-    97			return true;
-    98	
-    99		return false;
-   100	}
-   101	
-
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+

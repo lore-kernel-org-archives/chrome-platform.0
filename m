@@ -1,196 +1,116 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5A32F2B
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Jul 2022 22:28:35 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id ju17so11400677pjb.3
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Jul 2022 15:28:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uxGLQrmVdJkUuWt9NFaUI7Z08fb3rgzdHRf9FAvVKgw=;
-        b=nicL//rVudE/er1S99AVCTW5nBDeJ7vX2B4hG7Yv4pliRITYLCOBG47GAOKJC9Fdrd
-         NKb6E0fCTenDvDM5xvYevZDb83lMFGMH3wY/2v2I5siIrOnB9UFwAWvNQHjXDMHbvcgu
-         tTeeaeHmmVY6oBVb60D7cDCb0ghoxnm4qxY6Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uxGLQrmVdJkUuWt9NFaUI7Z08fb3rgzdHRf9FAvVKgw=;
-        b=LPYPAcyNFaAtYvyb14Jiuxs7qBQhXntV62m1DwBDFvOXuluAVeoAhVeayCEUnfytd5
-         Zc6NJUKBkRy5jWpfmaUEMo0llRQXP+EaAVB9CaHwRaF32buRWg3227BJUZy/7W2O9W4S
-         JjvA4ZU6lSWUfP0yiat8xre1ztG6nVxohaNRYmGhSRe1wFb14rKGjSRfU2bc+NOpAO0w
-         T3Vxwq9SHM+z3+MhwK/WceNjzXHN4V6jW+poTBNDso6TOuGHGzIurRS0y3Pwgjvs7jcx
-         1UvNuwKUeJg7FgxB/TYq2KZ84r814DDGfMcNl/TN+aF0aSuO/LyDFzQCWLySZDlDnZfp
-         c41A==
-X-Gm-Message-State: AJIora/QPrd4mxrYoLxEtd4kp4DVxIOwnUMm4C/N1XTMGzXKT1C0voiU
-	3uDmRMxb+vEE+O/UCZUagS6gzozxEbiwRg==
-X-Google-Smtp-Source: AGRyM1uws4QaEh1Qxx+3rORBhlNAIeZ5eYIJkvKt5NX0VItF58Rs/EFwcECalDZoXUEEuTG9aePQZQ==
-X-Received: by 2002:a17:90b:3d86:b0:1ef:9672:f647 with SMTP id pq6-20020a17090b3d8600b001ef9672f647mr135726pjb.198.1657232915530;
-        Thu, 07 Jul 2022 15:28:35 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id 66-20020a620445000000b005289bfcee91sm5545657pfe.59.2022.07.07.15.28.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 15:28:35 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	Prashant Malani <pmalani@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v3 9/9] platform/chrome: cros_ec_typec: Get retimer handle
-Date: Thu,  7 Jul 2022 22:20:16 +0000
-Message-Id: <20220707222045.1415417-10-pmalani@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-In-Reply-To: <20220707222045.1415417-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7917A
+	for <chrome-platform@lists.linux.dev>; Fri,  8 Jul 2022 09:02:02 +0000 (UTC)
+Received: from [192.168.1.103] (31.173.81.246) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 8 Jul 2022
+ 11:46:44 +0300
+Subject: Re: [PATCH v3 2/9] usb: typec: Add retimer handle to port
+To: Prashant Malani <pmalani@chromium.org>, <linux-kernel@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+CC: <bleung@chromium.org>, <heikki.krogerus@linux.intel.com>, Daisuke Nojiri
+	<dnojiri@chromium.org>, "Dustin L. Howett" <dustin@howett.net>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck
+	<groeck@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees
+ Cook <keescook@chromium.org>, Sebastian Reichel
+	<sebastian.reichel@collabora.com>, Tzung-Bi Shih <tzungbi@kernel.org>
 References: <20220707222045.1415417-1-pmalani@chromium.org>
+ <20220707222045.1415417-3-pmalani@chromium.org>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <509bf6fe-4406-c577-aa70-6eb70801e375@omp.ru>
+Date: Fri, 8 Jul 2022 11:46:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220707222045.1415417-3-pmalani@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.81.246]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 07/08/2022 08:32:48
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 171636 [Jul 08 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 493 493 c80a237886b75a8eec705b487193915475443854
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.246 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.246 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	31.173.81.246:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.246
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 07/08/2022 08:34:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 7/8/2022 6:55:00 AM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Where available, obtain the handle to retimer switch specified via
-firmware, and update the mux configuration callsites to add retimer
-support for supported modes.
+Hello!
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+On 7/8/22 1:20 AM, Prashant Malani wrote:
 
-Changes since v2:
-- No changes.
+> Similar to mux and orientation switch, add a handle for registered
+> retimer to the port, so that it has handles to the various switches
+> connected to it.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> ---
+> 
+> Changes since v2:
+> - No changes.
+> 
+> Changes since v1:
+> - Relinquish retimer reference during typec_release.
+> 
+>  drivers/usb/typec/class.c | 9 +++++++++
+>  drivers/usb/typec/class.h | 1 +
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 9062836bb638..f08e32d552b4 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+[...]
+> @@ -2249,6 +2251,13 @@ struct typec_port *typec_register_port(struct device *parent,
+>  		return ERR_PTR(ret);
+>  	}
+>  
+> +	port->retimer = typec_retimer_get(&port->dev);
+> +	if (IS_ERR(port->retimer)) {
+> +		ret = PTR_ERR(port->retimer);
+> +		put_device(&port->dev);
+> +		return ERR_PTR(ret);
 
-Changes since v1:
-- No changes.
+   Why convert it to and fro, and not just return port->retimer?
 
- drivers/platform/chrome/cros_ec_typec.c | 44 +++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 3 deletions(-)
+[...]
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 39e6fd4491a9..38c4ac754ea9 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -20,6 +20,7 @@
- #include <linux/usb/typec_altmode.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_retimer.h>
- #include <linux/usb/typec_tbt.h>
- #include <linux/usb/role.h>
- 
-@@ -53,6 +54,7 @@ struct cros_typec_port {
- 	struct usb_pd_identity c_identity;
- 	struct typec_switch *ori_sw;
- 	struct typec_mux *mux;
-+	struct typec_retimer *retimer;
- 	struct usb_role_switch *role_sw;
- 
- 	/* Variables keeping track of switch state. */
-@@ -142,6 +144,12 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 		goto mux_err;
- 	}
- 
-+	port->retimer = fwnode_typec_retimer_get(fwnode);
-+	if (IS_ERR(port->retimer)) {
-+		dev_dbg(dev, "Retimer handle not found.\n");
-+		goto retimer_sw_err;
-+	}
-+
- 	port->ori_sw = fwnode_typec_switch_get(fwnode);
- 	if (IS_ERR(port->ori_sw)) {
- 		dev_dbg(dev, "Orientation switch handle not found.\n");
-@@ -159,6 +167,8 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- role_sw_err:
- 	typec_switch_put(port->ori_sw);
- ori_sw_err:
-+	typec_retimer_put(port->retimer);
-+retimer_sw_err:
- 	typec_mux_put(port->mux);
- mux_err:
- 	return -ENODEV;
-@@ -203,6 +213,21 @@ static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int po
- 	}
- }
- 
-+/*
-+ * Map the Type-C Mux state to retimer state and call the retimer set function. We need this
-+ * because we re-use the Type-C mux state for retimers.
-+ */
-+static int cros_typec_retimer_set(struct typec_retimer  *retimer, struct typec_mux_state state)
-+{
-+	struct typec_retimer_state rstate = {
-+		.alt = state.alt,
-+		.mode = state.mode,
-+		.data = state.data,
-+	};
-+
-+	return typec_retimer_set(retimer, &rstate);
-+}
-+
- static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
- {
- 	port->state.alt = NULL;
-@@ -211,6 +236,7 @@ static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
- 
- 	usb_role_switch_set_role(port->role_sw, USB_ROLE_NONE);
- 	typec_switch_set(port->ori_sw, TYPEC_ORIENTATION_NONE);
-+	cros_typec_retimer_set(port->retimer, port->state);
- 
- 	return typec_mux_set(port->mux, &port->state);
- }
-@@ -381,9 +407,14 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 
- static int cros_typec_usb_safe_state(struct cros_typec_port *port)
- {
-+	int ret;
- 	port->state.mode = TYPEC_STATE_SAFE;
- 
--	return typec_mux_set(port->mux, &port->state);
-+	ret = cros_typec_retimer_set(port->retimer, port->state);
-+	if (!ret)
-+		ret = typec_mux_set(port->mux, &port->state);
-+
-+	return ret;
- }
- 
- /*
-@@ -480,7 +511,11 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 	port->state.data = &dp_data;
- 	port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
- 
--	return typec_mux_set(port->mux, &port->state);
-+	ret = cros_typec_retimer_set(port->retimer, port->state);
-+	if (!ret)
-+		ret = typec_mux_set(port->mux, &port->state);
-+
-+	return ret;
- }
- 
- static int cros_typec_enable_usb4(struct cros_typec_data *typec,
-@@ -569,7 +604,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
- 		port->state.alt = NULL;
- 		port->state.mode = TYPEC_STATE_USB;
--		ret = typec_mux_set(port->mux, &port->state);
-+
-+		ret = cros_typec_retimer_set(port->retimer, port->state);
-+		if (!ret)
-+			ret = typec_mux_set(port->mux, &port->state);
- 	} else {
- 		dev_dbg(typec->dev,
- 			"Unrecognized mode requested, mux flags: %x\n",
--- 
-2.37.0.rc0.161.g10f37bed90-goog
-
+MBR, Sergey

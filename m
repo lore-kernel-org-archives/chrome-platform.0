@@ -1,122 +1,60 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D9A7A
-	for <chrome-platform@lists.linux.dev>; Fri,  8 Jul 2022 09:39:58 +0000 (UTC)
-Received: from [192.168.1.103] (31.173.81.246) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 8 Jul 2022
- 12:39:49 +0300
-Subject: Re: [PATCH v3 2/9] usb: typec: Add retimer handle to port
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Prashant Malani <pmalani@chromium.org>, <linux-kernel@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-	<bleung@chromium.org>, <heikki.krogerus@linux.intel.com>, Daisuke Nojiri
-	<dnojiri@chromium.org>, "Dustin L. Howett" <dustin@howett.net>, Guenter Roeck
-	<groeck@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees
- Cook <keescook@chromium.org>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, Tzung-Bi Shih <tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FF5635
+	for <chrome-platform@lists.linux.dev>; Fri,  8 Jul 2022 12:38:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C22C341C0;
+	Fri,  8 Jul 2022 12:38:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1657283915;
+	bh=5h6p+C2YCmoTHZKEs1ifkYD/9q78xN4MnVC5rO6q8gI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cT4QujeKTMaCqkogk6RL+mlv917FcMdplNnTbIeFaNVPhWChN79HjaUOQanR73cYx
+	 n1L/IgJYsKT9JuRR1dAnq2JzlXpBxpWVFs7edgFasAV8cIrA1qgfSHuDWrc3FEwUX4
+	 cxUIR+lW2NPni3q7r0g5QlLxMvyti8GnFDCggtFM=
+Date: Fri, 8 Jul 2022 14:38:32 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, bleung@chromium.org,
+	heikki.krogerus@linux.intel.com,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v3 1/9] usb: typec: Add support for retimers
+Message-ID: <YsglSJvB/bvwSGZ2@kroah.com>
 References: <20220707222045.1415417-1-pmalani@chromium.org>
- <20220707222045.1415417-3-pmalani@chromium.org>
- <509bf6fe-4406-c577-aa70-6eb70801e375@omp.ru> <Ysf3F3VvmoqCFj4P@kroah.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <fb07d914-b756-1f9d-b670-4d18e84352bb@omp.ru>
-Date: Fri, 8 Jul 2022 12:39:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ <20220707222045.1415417-2-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <Ysf3F3VvmoqCFj4P@kroah.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.81.246]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 07/08/2022 09:19:09
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 171638 [Jul 08 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 493 493 c80a237886b75a8eec705b487193915475443854
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.246 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.246 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;31.173.81.246:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.246
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/08/2022 09:21:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/8/2022 6:55:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220707222045.1415417-2-pmalani@chromium.org>
 
-On 7/8/22 12:21 PM, Greg Kroah-Hartman wrote:
-[...]
->>> Similar to mux and orientation switch, add a handle for registered
->>> retimer to the port, so that it has handles to the various switches
->>> connected to it.
->>>
->>> Signed-off-by: Prashant Malani <pmalani@chromium.org>
->>> ---
->>>
->>> Changes since v2:
->>> - No changes.
->>>
->>> Changes since v1:
->>> - Relinquish retimer reference during typec_release.
->>>
->>>  drivers/usb/typec/class.c | 9 +++++++++
->>>  drivers/usb/typec/class.h | 1 +
->>>  2 files changed, 10 insertions(+)
->>>
->>> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
->>> index 9062836bb638..f08e32d552b4 100644
->>> --- a/drivers/usb/typec/class.c
->>> +++ b/drivers/usb/typec/class.c
->> [...]
->>> @@ -2249,6 +2251,13 @@ struct typec_port *typec_register_port(struct device *parent,
->>>  		return ERR_PTR(ret);
->>>  	}
->>>  
->>> +	port->retimer = typec_retimer_get(&port->dev);
->>> +	if (IS_ERR(port->retimer)) {
->>> +		ret = PTR_ERR(port->retimer);
->>> +		put_device(&port->dev);
->>> +		return ERR_PTR(ret);
->>
->>    Why convert it to and fro, and not just return port->retimer?
+On Thu, Jul 07, 2022 at 10:20:08PM +0000, Prashant Malani wrote:
+> Introduce a retimer device class and associated functions that register
+> and use retimer "switch" devices. These operate in a manner similar to
+> the "mode-switch" and help configure retimers that exist between the
+> Type-C connector and host controller(s).
 > 
-> That would be a use-after-free as port might now be gone.
-
-   Ah, indeed!
-   It would also ensue an explicit pointer cast...
-
-> thanks,
+> Type C ports can be linked to retimers using firmware node device
+> references (again, in a manner similar to "mode-switch").
 > 
-> greg k-h
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-MBR, Sergey
+As you are adding things to sysfs, do you need to add any
+Documentation/ABI/ entries as well?  I can't see any new sysfs files
+being created here, but explicitly saying so in the changelog here would
+be good.
+
+thanks,
+
+greg k-h

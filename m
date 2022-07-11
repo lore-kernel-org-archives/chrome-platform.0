@@ -1,199 +1,146 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021531FB7
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 07:30:01 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id 70so4093930pfx.1
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 00:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=80XNm89Tlt+6cCcVIZ3c8q5hP69CK6UTNK8HJz+yZjI=;
-        b=hcEXaCBHEunsLe3ab3lDb25v/u8v3zX6C6JnggBTUWLH9s+edsQbb6mU556vl/TgWc
-         /UyZ6HA3UB7rNR3v0rYyx3FFSfIw5qf3IqNDrYHprWd1AXZEwFoZoDO6A/4FI2gWoZIt
-         Sux3ev2g4+ZZAxs6e72sjn4Lq7TAx1uosJ+xQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=80XNm89Tlt+6cCcVIZ3c8q5hP69CK6UTNK8HJz+yZjI=;
-        b=8G1licaYqXgOjowOVq9Ry+t/efhqu1lLeW8wF1zc8bn79xmnyQEzvcdJU3sdZM7uYr
-         AHVSkn+pE5rxyoyk8GRhLQhQZxmg94msZGbBU5xUcPJLoxIp+QbyAdDcVOn9YIz72AD+
-         90n2y5dON0FV0xfrFGwEkoamy4Z8wQYymNotkXXV8cI/d3KwxCsR6m1T+hsaBrnyrgm1
-         i9o3VMjZ2YKpSqXg/gFuqL9oqdxyTiITbrudwBYhVe694HiMeGvZfqqpaXLezjJM4e4y
-         gN7l0YhmQ9AwWQKdAQP1faw6UHdgASUJmK1wZvOcNyd50lvx65LsYDv2pwjFs4cSK5hZ
-         /IEw==
-X-Gm-Message-State: AJIora981SW0UvcluQg54xTg90mS6UU7mRSEgJwmzZdhqqu/FSOMFwvP
-	Xi75yFg1h0yyQCqcNfDh10uaHw==
-X-Google-Smtp-Source: AGRyM1sTzes0KAkaSVhjtzQQAGDlpm33fvxw2hCg0l6U6bI9+jLQe4RpwDaYiOpgzSV2+06xSvSQbA==
-X-Received: by 2002:a63:d711:0:b0:415:c581:2aff with SMTP id d17-20020a63d711000000b00415c5812affmr11912006pgg.278.1657524601493;
-        Mon, 11 Jul 2022 00:30:01 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id z8-20020aa79e48000000b0051bc5f4df1csm4012839pfq.154.2022.07.11.00.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 00:30:01 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	Prashant Malani <pmalani@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v4 9/9] platform/chrome: cros_ec_typec: Get retimer handle
-Date: Mon, 11 Jul 2022 07:23:03 +0000
-Message-Id: <20220711072333.2064341-10-pmalani@chromium.org>
-X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
-In-Reply-To: <20220711072333.2064341-1-pmalani@chromium.org>
-References: <20220711072333.2064341-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4D97A
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 12:39:18 +0000 (UTC)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BCAAMN026688;
+	Mon, 11 Jul 2022 08:38:57 -0400
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h76k6bhxs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Jul 2022 08:38:56 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 26BCctQt045705
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 11 Jul 2022 08:38:55 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 11 Jul
+ 2022 08:38:54 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 11 Jul 2022 08:38:54 -0400
+Received: from nsa.ad.analog.com ([10.44.3.53])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 26BCbVEB011687;
+	Mon, 11 Jul 2022 08:38:45 -0400
+From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To: <linux-arm-msm@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-imx@nxp.com>,
+        <linux-mips@vger.kernel.org>,
+        Lad Prabhakar
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <linux-iio@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+CC: Andy Gross <agross@kernel.org>,
+        Nicolas Ferre
+	<nicolas.ferre@microchip.com>,
+        Benson Leung <bleung@chromium.org>,
+        Matthias
+ Brugger <matthias.bgg@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>, Zhang
+ Rui <rui.zhang@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Eugen
+ Hristev <eugen.hristev@microchip.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Benjamin Fair
+	<benjaminfair@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Fabrice Gasnier
+	<fabrice.gasnier@foss.st.com>,
+        Jishnu Prakash <quic_jprakash@quicinc.com>,
+        Christophe Branchereau <cbranchereau@gmail.com>,
+        Avi Fishman
+	<avifishman70@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Michael
+ Hennerich <Michael.Hennerich@analog.com>,
+        Miquel Raynal
+	<miquel.raynal@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Thara Gopinath
+	<thara.gopinath@linaro.org>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Fabio
+ Estevam <festevam@gmail.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Shawn Guo <shawnguo@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
+        Arnd
+ Bergmann <arnd@arndb.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Patrick
+ Venture <venture@google.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko
+	<andy.shevchenko@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Bjorn Andersson
+	<bjorn.andersson@linaro.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Guenter
+ Roeck <groeck@chromium.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Pengutronix
+ Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v2 06/15] thermal: qcom: qcom-spmi-adc-tm5: convert to IIO fwnode API
+Date: Mon, 11 Jul 2022 14:38:26 +0200
+Message-ID: <20220711123835.811358-7-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220711123835.811358-1-nuno.sa@analog.com>
+References: <20220711123835.811358-1-nuno.sa@analog.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: FFRWcRmTcMI7ad7VGDZdc4Mxr_C8uF4I
+X-Proofpoint-GUID: FFRWcRmTcMI7ad7VGDZdc4Mxr_C8uF4I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-11_18,2022-07-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ mlxlogscore=918 malwarescore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207110054
 
-Where available, obtain the handle to retimer switch specified via
-firmware, and update the mux configuration callsites to add retimer
-support for supported modes.
+Make usage of the new firmware agnostic API
+'devm_of_iio_channel_get_by_name()' to get the IIO channel.
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 ---
+ drivers/thermal/qcom/qcom-spmi-adc-tm5.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes since v3:
-- No changes.
-
-Changes since v2:
-- No changes.
-
-Changes since v1:
-- No changes.
-
- drivers/platform/chrome/cros_ec_typec.c | 44 +++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 39e6fd4491a9..38c4ac754ea9 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -20,6 +20,7 @@
- #include <linux/usb/typec_altmode.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_retimer.h>
- #include <linux/usb/typec_tbt.h>
- #include <linux/usb/role.h>
- 
-@@ -53,6 +54,7 @@ struct cros_typec_port {
- 	struct usb_pd_identity c_identity;
- 	struct typec_switch *ori_sw;
- 	struct typec_mux *mux;
-+	struct typec_retimer *retimer;
- 	struct usb_role_switch *role_sw;
- 
- 	/* Variables keeping track of switch state. */
-@@ -142,6 +144,12 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 		goto mux_err;
+diff --git a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
+index d9c9c975f931..0b8543c627f0 100644
+--- a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
++++ b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
+@@ -825,7 +825,8 @@ static int adc_tm5_get_dt_channel_data(struct adc_tm5_chip *adc_tm,
  	}
+ 	channel->adc_channel = args.args[0];
  
-+	port->retimer = fwnode_typec_retimer_get(fwnode);
-+	if (IS_ERR(port->retimer)) {
-+		dev_dbg(dev, "Retimer handle not found.\n");
-+		goto retimer_sw_err;
-+	}
-+
- 	port->ori_sw = fwnode_typec_switch_get(fwnode);
- 	if (IS_ERR(port->ori_sw)) {
- 		dev_dbg(dev, "Orientation switch handle not found.\n");
-@@ -159,6 +167,8 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- role_sw_err:
- 	typec_switch_put(port->ori_sw);
- ori_sw_err:
-+	typec_retimer_put(port->retimer);
-+retimer_sw_err:
- 	typec_mux_put(port->mux);
- mux_err:
- 	return -ENODEV;
-@@ -203,6 +213,21 @@ static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int po
- 	}
- }
- 
-+/*
-+ * Map the Type-C Mux state to retimer state and call the retimer set function. We need this
-+ * because we re-use the Type-C mux state for retimers.
-+ */
-+static int cros_typec_retimer_set(struct typec_retimer  *retimer, struct typec_mux_state state)
-+{
-+	struct typec_retimer_state rstate = {
-+		.alt = state.alt,
-+		.mode = state.mode,
-+		.data = state.data,
-+	};
-+
-+	return typec_retimer_set(retimer, &rstate);
-+}
-+
- static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
- {
- 	port->state.alt = NULL;
-@@ -211,6 +236,7 @@ static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
- 
- 	usb_role_switch_set_role(port->role_sw, USB_ROLE_NONE);
- 	typec_switch_set(port->ori_sw, TYPEC_ORIENTATION_NONE);
-+	cros_typec_retimer_set(port->retimer, port->state);
- 
- 	return typec_mux_set(port->mux, &port->state);
- }
-@@ -381,9 +407,14 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 
- static int cros_typec_usb_safe_state(struct cros_typec_port *port)
- {
-+	int ret;
- 	port->state.mode = TYPEC_STATE_SAFE;
- 
--	return typec_mux_set(port->mux, &port->state);
-+	ret = cros_typec_retimer_set(port->retimer, port->state);
-+	if (!ret)
-+		ret = typec_mux_set(port->mux, &port->state);
-+
-+	return ret;
- }
- 
- /*
-@@ -480,7 +511,11 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 	port->state.data = &dp_data;
- 	port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
- 
--	return typec_mux_set(port->mux, &port->state);
-+	ret = cros_typec_retimer_set(port->retimer, port->state);
-+	if (!ret)
-+		ret = typec_mux_set(port->mux, &port->state);
-+
-+	return ret;
- }
- 
- static int cros_typec_enable_usb4(struct cros_typec_data *typec,
-@@ -569,7 +604,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
- 		port->state.alt = NULL;
- 		port->state.mode = TYPEC_STATE_USB;
--		ret = typec_mux_set(port->mux, &port->state);
-+
-+		ret = cros_typec_retimer_set(port->retimer, port->state);
-+		if (!ret)
-+			ret = typec_mux_set(port->mux, &port->state);
- 	} else {
- 		dev_dbg(typec->dev,
- 			"Unrecognized mode requested, mux flags: %x\n",
+-	channel->iio = devm_of_iio_channel_get_by_name(adc_tm->dev, node, NULL);
++	channel->iio = devm_fwnode_iio_channel_get_by_name(adc_tm->dev,
++							   of_fwnode_handle(node), NULL);
+ 	if (IS_ERR(channel->iio)) {
+ 		ret = PTR_ERR(channel->iio);
+ 		if (ret != -EPROBE_DEFER)
 -- 
-2.37.0.144.g8ac04bfd2-goog
+2.37.0
 

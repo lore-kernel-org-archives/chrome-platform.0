@@ -1,38 +1,38 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782FF1FB7
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 07:26:51 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id y141so4074248pfb.7
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 00:26:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE641FB7
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 07:27:37 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id o18so4017494pgu.9
+        for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 00:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=g0y3SC6bOT8thGbHuA6qSx7QbiLdoqkXfjgc3hKF3gg=;
-        b=c3L5Jn+qP+R/5L9g7PHJawl1hpB6alX2ytZTd5j3j+amBGnLZB10zsIAqauKvmpCzM
-         2QQcdW3Dd7Z42VjUdyfdAT23UhqSArmiK07vVrzK1whhy8kSXRvA2fD+/7Ql4ii4nkm6
-         nGAVOMnrJMjFCAGVDuRYedHEyw8sk4GJrZ1f0=
+        bh=ltR4ACK7cvdVqSLD7lT3OdzN4AnkmkLPklaRa89XJQM=;
+        b=Pe/Jn/mOYQgAgyY9boCsCzaQh8QhJ1HQMNdF4UX+IR5rGs8Pl/1r9zwDF2BNWNdhx/
+         tRWcpu92DOeSf1exbLAkE1owKuifnx8Cxgp7kvqLpdMiZXx9rBizqH8dRtQ9xT5LrLhe
+         AYblPA6frGhG+CS+o7GAzlTySapuCcrB2r0jI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=g0y3SC6bOT8thGbHuA6qSx7QbiLdoqkXfjgc3hKF3gg=;
-        b=xwxL6rvVXxmCzg0FNvgpNrGtkEDObMkZt08zJ+xzkp5XrKGGihmoJeDKD9KVVBl3SU
-         r3ITt2vmvO+qHS0QSMa3ZryD1TiEWaUPFdj6Tr6P99Oq2NxahNytdmumFN7GLeZgyJqu
-         PAcQw95dMHqsiEsmk5ydznTCbhjtkjXyufBU4boTvb73a9c6Cf73mmUtrnXakEAFCvFj
-         hXyNvhvH2dm6yFePPEf2QQBRBfG29sk8l8eZ4qaVMPn4BK9JJlnCF9Zy88+tTc44+pDk
-         b5uCkbe6Kz1FL0MqBPNdLj0r+cpA/2v+RJLNQLERf76nWLanDLCCWpvraH3kRHzKSZRT
-         X9gA==
-X-Gm-Message-State: AJIora/PHbs6/d230JKN1qQemQpT/q8CNNOdJaGfw5GhwKwj3VAQE9fm
-	hK8AEHjNqDj2qRozP8GIhTWuRg==
-X-Google-Smtp-Source: AGRyM1sqQPx1xTgugrJrpJPcoZCdyIXuaRyfEwl5fR1nVKVbFINK99ftPjb4slaHft/Qx3gTAATIyA==
-X-Received: by 2002:a65:6bca:0:b0:411:f92b:5e39 with SMTP id e10-20020a656bca000000b00411f92b5e39mr15344480pgw.259.1657524410959;
-        Mon, 11 Jul 2022 00:26:50 -0700 (PDT)
+        bh=ltR4ACK7cvdVqSLD7lT3OdzN4AnkmkLPklaRa89XJQM=;
+        b=EZ39clE8KbzUs1tbaBW1Ik8ktwJeGXz1L4XOCCS4zpITfJDqZLOTuT1yGzQ+BtFEpS
+         1ezxbxSCPBWpw/6dr/pj04vZO3379j4NvLexlqyAmY3KSUF62aeG02vhiQwvuYZzDhX5
+         3dUv3UOH1fZBBuQctktr5hY7uPxrM9nkekCHVMl3k9EPdSJ8sg7KgpcZg0BuXz7iJ/F3
+         PBrpKwYVghN9CGcUHfnZ7s9WC2INZYG28CLyOTaqgdybI+zpeyi7XywQLuKMcFGLiSo1
+         m3wrMY8M2vXmu+4pmZn95i22SivItnLWsKmyf6aQNWCVr87FBAes92jjZjFBDC2qlHGI
+         ifjQ==
+X-Gm-Message-State: AJIora+RZcCEgLTTvoyii7wuDQ+71qDnkXlFonADvcNmjKys7B2ItMM1
+	AUgH1L6e3JmGCAywMt0r+sRvBQ==
+X-Google-Smtp-Source: AGRyM1sAX3lU1UhTYLRAmEnvbJ8kmdvvRlGBV4XwrAs1ppKD9Fwbxg+ZWeV+2k8AjBzGsN/gi3VaFA==
+X-Received: by 2002:a63:165c:0:b0:412:6f3a:1b4b with SMTP id 28-20020a63165c000000b004126f3a1b4bmr15220079pgw.98.1657524457024;
+        Mon, 11 Jul 2022 00:27:37 -0700 (PDT)
 Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id z8-20020aa79e48000000b0051bc5f4df1csm4012839pfq.154.2022.07.11.00.26.50
+        by smtp.gmail.com with ESMTPSA id z8-20020aa79e48000000b0051bc5f4df1csm4012839pfq.154.2022.07.11.00.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 00:26:50 -0700 (PDT)
+        Mon, 11 Jul 2022 00:27:36 -0700 (PDT)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
@@ -40,7 +40,6 @@ To: linux-kernel@vger.kernel.org,
 Cc: bleung@chromium.org,
 	heikki.krogerus@linux.intel.com,
 	Prashant Malani <pmalani@chromium.org>,
-	kernel test robot <lkp@intel.com>,
 	Daisuke Nojiri <dnojiri@chromium.org>,
 	"Dustin L. Howett" <dustin@howett.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -49,9 +48,9 @@ Cc: bleung@chromium.org,
 	Kees Cook <keescook@chromium.org>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v4 4/9] platform/chrome: cros_typec_switch: Add switch driver
-Date: Mon, 11 Jul 2022 07:22:58 +0000
-Message-Id: <20220711072333.2064341-5-pmalani@chromium.org>
+Subject: [PATCH v4 5/9] platform/chrome: cros_typec_switch: Set EC retimer
+Date: Mon, 11 Jul 2022 07:22:59 +0000
+Message-Id: <20220711072333.2064341-6-pmalani@chromium.org>
 X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
 In-Reply-To: <20220711072333.2064341-1-pmalani@chromium.org>
 References: <20220711072333.2064341-1-pmalani@chromium.org>
@@ -63,19 +62,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a driver to configure USB Type-C mode switches and retimers
-which are controlled by the Chrome OS EC (Embedded Controller).
-This allows Type-C port drivers, as well as alternate mode drivers to
-configure their relevant mode switches and retimers according to the
-Type-C state they want to achieve.
+Invoke Chrome EC host commands to set EC-controlled retimer switches to
+the state the Type-C framework instructs.
 
-ACPI devices with ID GOOG001A will bind to this driver.
-
-Currently, we only register a retimer switch with a stub set function.
-Subsequent patches will implement the host command set functionality,
-and introduce mode switches.
-
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
 
@@ -83,241 +72,91 @@ Changes since v3:
 - No changes.
 
 Changes since v2:
-- Fixed missing "static" identifier.
-- Removed unnecessary new line for function signature.
+- No changes.
 
 Changes since v1:
 - No changes.
 
- MAINTAINERS                                 |   1 +
- drivers/platform/chrome/Kconfig             |  11 ++
- drivers/platform/chrome/Makefile            |   1 +
- drivers/platform/chrome/cros_typec_switch.c | 170 ++++++++++++++++++++
- 4 files changed, 183 insertions(+)
- create mode 100644 drivers/platform/chrome/cros_typec_switch.c
+ drivers/platform/chrome/cros_typec_switch.c | 56 ++++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7533cb27adc0..35ea91c619b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4752,6 +4752,7 @@ M:	Prashant Malani <pmalani@chromium.org>
- L:	chrome-platform@lists.linux.dev
- S:	Maintained
- F:	drivers/platform/chrome/cros_ec_typec.c
-+F:	drivers/platform/chrome/cros_typec_switch.c
- 
- CHROMEOS EC USB PD NOTIFY DRIVER
- M:	Prashant Malani <pmalani@chromium.org>
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 717299cbccac..c62a514a087f 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -265,6 +265,17 @@ config CHROMEOS_PRIVACY_SCREEN
- 	  this should probably always be built into the kernel to avoid or
- 	  minimize drm probe deferral.
- 
-+config CROS_TYPEC_SWITCH
-+	tristate "ChromeOS EC Type-C Switch Control"
-+	depends on MFD_CROS_EC_DEV && TYPEC
-+	default MFD_CROS_EC_DEV
-+	help
-+	  If you say Y here, you get support for configuring the Chrome OS EC Type C
-+	  muxes and retimers.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called cros_typec_switch.
-+
- source "drivers/platform/chrome/wilco_ec/Kconfig"
- 
- endif # CHROMEOS_PLATFORMS
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index 52f5a2dde8b8..0dcaf6a7ed27 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_CHROMEOS_TBMC)		+= chromeos_tbmc.o
- obj-$(CONFIG_CROS_EC)			+= cros_ec.o
- obj-$(CONFIG_CROS_EC_I2C)		+= cros_ec_i2c.o
- obj-$(CONFIG_CROS_EC_ISHTP)		+= cros_ec_ishtp.o
-+obj-$(CONFIG_CROS_TYPEC_SWITCH)		+= cros_typec_switch.o
- obj-$(CONFIG_CROS_EC_RPMSG)		+= cros_ec_rpmsg.o
- obj-$(CONFIG_CROS_EC_SPI)		+= cros_ec_spi.o
- cros_ec_lpcs-objs			:= cros_ec_lpc.o cros_ec_lpc_mec.o
 diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-new file mode 100644
-index 000000000000..0d319e315d57
---- /dev/null
+index 0d319e315d57..b50ecedce662 100644
+--- a/drivers/platform/chrome/cros_typec_switch.c
 +++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -0,0 +1,170 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright 2022 Google LLC
-+ *
-+ * This driver provides the ability to configure Type C muxes and retimers which are controlled by
-+ * the Chrome OS EC.
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_device.h>
-+#include <linux/usb/typec_retimer.h>
-+
-+#define DRV_NAME "cros-typec-switch"
-+
-+/* Handles and other relevant data required for each port's switches. */
-+struct cros_typec_port {
-+	int port_num;
-+	struct typec_retimer *retimer;
-+	struct cros_typec_switch_data *sdata;
-+};
-+
-+/* Driver-specific data. */
-+struct cros_typec_switch_data {
-+	struct device *dev;
-+	struct cros_ec_device *ec;
-+	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
-+};
-+
-+static int cros_typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
+@@ -9,7 +9,10 @@
+ #include <linux/acpi.h>
+ #include <linux/module.h>
+ #include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
+ #include <linux/platform_device.h>
++#include <linux/usb/typec_altmode.h>
++#include <linux/usb/typec_dp.h>
+ #include <linux/usb/typec_retimer.h>
+ 
+ #define DRV_NAME "cros-typec-switch"
+@@ -28,9 +31,60 @@ struct cros_typec_switch_data {
+ 	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
+ };
+ 
++static int cros_typec_cmd_mux_set(struct cros_typec_switch_data *sdata, int port_num, u8 index,
++				  u8 state)
 +{
-+	return 0;
-+}
-+
-+static void cros_typec_unregister_switches(struct cros_typec_switch_data *sdata)
-+{
-+	int i;
-+
-+	for (i = 0; i < EC_USB_PD_MAX_PORTS; i++) {
-+		if (!sdata->ports[i])
-+			continue;
-+		typec_retimer_unregister(sdata->ports[i]->retimer);
-+	}
-+}
-+
-+static int cros_typec_register_retimer(struct cros_typec_port *port, struct fwnode_handle *fwnode)
-+{
-+	struct typec_retimer_desc retimer_desc = {
-+		.fwnode = fwnode,
-+		.drvdata = port,
-+		.name = fwnode_get_name(fwnode),
-+		.set = cros_typec_retimer_set,
++	struct typec_usb_mux_set params = {
++		.mux_index = index,
++		.mux_flags = state,
 +	};
 +
-+	port->retimer = typec_retimer_register(port->sdata->dev, &retimer_desc);
-+	if (IS_ERR(port->retimer))
-+		return PTR_ERR(port->retimer);
++	struct ec_params_typec_control req = {
++		.port = port_num,
++		.command = TYPEC_CONTROL_COMMAND_USB_MUX_SET,
++		.mux_params = params,
++	};
 +
-+	return 0;
++	return cros_ec_command(sdata->ec, 0, EC_CMD_TYPEC_CONTROL, &req,
++			       sizeof(req), NULL, 0);
 +}
 +
-+static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
++static int cros_typec_get_mux_state(unsigned long mode, struct typec_altmode *alt)
 +{
-+	struct cros_typec_port *port = NULL;
-+	struct device *dev = sdata->dev;
-+	struct fwnode_handle *fwnode;
-+	struct acpi_device *adev;
-+	unsigned long long index;
-+	int ret = 0;
-+	int nports;
++	int ret = -EOPNOTSUPP;
 +
-+	nports = device_get_child_node_count(dev);
-+	if (nports == 0) {
-+		dev_err(dev, "No switch devices found.\n");
-+		return -ENODEV;
-+	}
++	if (mode == TYPEC_STATE_SAFE)
++		ret = USB_PD_MUX_SAFE_MODE;
++	else if (mode == TYPEC_STATE_USB)
++		ret = USB_PD_MUX_USB_ENABLED;
++	else if (alt && alt->svid == USB_TYPEC_DP_SID)
++		ret = USB_PD_MUX_DP_ENABLED;
 +
-+	device_for_each_child_node(dev, fwnode) {
-+		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-+		if (!port) {
-+			ret = -ENOMEM;
-+			goto err_switch;
-+		}
-+
-+		adev = to_acpi_device_node(fwnode);
-+		if (!adev) {
-+			dev_err(fwnode->dev, "Couldn't get ACPI device handle\n");
-+			ret = -ENODEV;
-+			goto err_switch;
-+		}
-+
-+		ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
-+		if (ACPI_FAILURE(ret)) {
-+			dev_err(fwnode->dev, "_ADR wasn't evaluated\n");
-+			ret = -ENODATA;
-+			goto err_switch;
-+		}
-+
-+		if (index < 0 || index >= EC_USB_PD_MAX_PORTS) {
-+			dev_err(fwnode->dev, "Invalid port index number: %llu", index);
-+			ret = -EINVAL;
-+			goto err_switch;
-+		}
-+		port->sdata = sdata;
-+		port->port_num = index;
-+		sdata->ports[index] = port;
-+
-+		ret = cros_typec_register_retimer(port, fwnode);
-+		if (ret) {
-+			dev_err(dev, "Retimer switch register failed\n");
-+			goto err_switch;
-+		}
-+
-+		dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
-+	}
-+
-+	return 0;
-+err_switch:
-+	cros_typec_unregister_switches(sdata);
 +	return ret;
 +}
 +
-+static int cros_typec_switch_probe(struct platform_device *pdev)
++/*
++ * The Chrome EC treats both mode-switches and retimers as "muxes" for the purposes of the
++ * host command API. This common function configures and verifies the retimer/mode-switch
++ * according to the provided setting.
++ */
++static int cros_typec_configure_mux(struct cros_typec_switch_data *sdata, int port_num, int index,
++				    unsigned long mode, struct typec_altmode *alt)
 +{
-+	struct device *dev = &pdev->dev;
-+	struct cros_typec_switch_data *sdata;
++	int ret = cros_typec_get_mux_state(mode, alt);
 +
-+	sdata = devm_kzalloc(dev, sizeof(*sdata), GFP_KERNEL);
-+	if (!sdata)
-+		return -ENOMEM;
++	if (ret < 0)
++		return ret;
 +
-+	sdata->dev = dev;
-+	sdata->ec = dev_get_drvdata(pdev->dev.parent);
-+
-+	platform_set_drvdata(pdev, sdata);
-+
-+	return cros_typec_register_switches(sdata);
++	return cros_typec_cmd_mux_set(sdata, port_num, index, (u8)ret);
 +}
 +
-+static int cros_typec_switch_remove(struct platform_device *pdev)
-+{
-+	struct cros_typec_switch_data *sdata = platform_get_drvdata(pdev);
+ static int cros_typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
+ {
+-	return 0;
++	struct cros_typec_port *port = typec_retimer_get_drvdata(retimer);
 +
-+	cros_typec_unregister_switches(sdata);
-+	return 0;
-+}
-+
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id cros_typec_switch_acpi_id[] = {
-+	{ "GOOG001A", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, cros_typec_switch_acpi_id);
-+#endif
-+
-+static struct platform_driver cros_typec_switch_driver = {
-+	.driver	= {
-+		.name = DRV_NAME,
-+		.acpi_match_table = ACPI_PTR(cros_typec_switch_acpi_id),
-+	},
-+	.probe = cros_typec_switch_probe,
-+	.remove = cros_typec_switch_remove,
-+};
-+
-+module_platform_driver(cros_typec_switch_driver);
-+
-+MODULE_AUTHOR("Prashant Malani <pmalani@chromium.org>");
-+MODULE_DESCRIPTION("Chrome OS EC Type C Switch control");
-+MODULE_LICENSE("GPL");
++	/* Retimers have index 1. */
++	return cros_typec_configure_mux(port->sdata, port->port_num, 1, state->mode, state->alt);
+ }
+ 
+ static void cros_typec_unregister_switches(struct cros_typec_switch_data *sdata)
 -- 
 2.37.0.144.g8ac04bfd2-goog
 

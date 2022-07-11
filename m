@@ -1,172 +1,198 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2108.outbound.protection.outlook.com [40.107.113.108])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D9A7A
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 13:37:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IhYgiju+B7bBQs/1UOpTMFzD35yrQFE/8UqTbXcT8Vomcq7VgecjctsGJgMEKe1bcbnBhm1cnt+LsbqMZ/cxv95b8S9XoD0ZWdndRB8LKkrNJxELKU6xs7tAIWw8D5TbvC6+NttCPrKf21zAvTx2qwQSIFwxVA3R2xTXX83CnmCIuVBWp3uN4cdfzIfixCIkWZzYEviIYYoI1mZc3cvPUrdwFB7BsWWjNxSEeckPV7EntOfUW0wq1S44MtXaxbSD4B8C/Y+VHnJouNcB1RhPbUl0jH4Fcc86Rjq7VQRYpMqtwZj6/oATqjU23Ce37dY+6RjfMRSPfPXaPLy32T27Vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tDK5UzieMdObw9Gp4J8NagMKGkNbKAupqd5Mm97ddY8=;
- b=CawfYV3S/SLHd9FSJJuGQRd+GR+k4EKfFX3c3hnT1GHk3yZQPZYT8zBVD5jjI52g9W7nhx16OBFlYO76P83LJ9Mhs553ygm3vTJQ1f/a8OE2ZreUs1mb9Uvr4dNentBjVzzqNh8nx3tJkBxwS33KmFA6Lgd+kWYbCOkn0g4EuOn0BWc0jJnEi8p77+56az1Bub19u6agQAluPNpNEI8kW5owZMnSo+WAQmpuOtldVvypE9i3/n6WUIKBwTm5uZocRK7/It3kYt7bEDgRVNZwvdfywPCKXeITfLr6HjPM9FkdnzBmNQCGMxvYgIDnNDQyaM6mJ0mDHDU4num5f6gPZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tDK5UzieMdObw9Gp4J8NagMKGkNbKAupqd5Mm97ddY8=;
- b=ER85121dryParzsqU69r6t1Q3wZD1SJKTn22PHFG9MZB/piFjZ1A4zHtPNGlLiUDyYlqD3arbfLWnvNZJIpbQ7ob5BkDc+Pv2sA5uXHOJitLFmq/Lyp0E7Fb5rSUvckoU22S5NL55TtS1qo+4wCbUaXOG3l6K59CUTKLD7zhAH4=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB6913.jpnprd01.prod.outlook.com (2603:1096:400:b8::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Mon, 11 Jul
- 2022 13:37:15 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce%8]) with mapi id 15.20.5417.026; Mon, 11 Jul 2022
- 13:37:15 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: =?utf-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, linux-arm-msm
-	<linux-arm-msm@vger.kernel.org>, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>, "open list:BROADCOM NVRAM DRIVER"
-	<linux-mips@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-iio
-	<linux-iio@vger.kernel.org>, "chrome-platform@lists.linux.dev"
-	<chrome-platform@lists.linux.dev>, linux-arm Mailing List
-	<linux-arm-kernel@lists.infradead.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>, Andy Gross <agross@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Benson Leung
-	<bleung@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>, Tomer
- Maimon <tmaimon77@gmail.com>, Zhang Rui <rui.zhang@intel.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Eugen Hristev <eugen.hristev@microchip.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Benjamin Fair <benjaminfair@google.com>,
-	Nancy Yuen <yuenn@google.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Jishnu Prakash <quic_jprakash@quicinc.com>, Christophe Branchereau
-	<cbranchereau@gmail.com>, Avi Fishman <avifishman70@gmail.com>, Tali Perry
-	<tali.perry1@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>, Claudiu Beznea
-	<claudiu.beznea@microchip.com>, Lars-Peter Clausen <lars@metafoo.de>, Thara
- Gopinath <thara.gopinath@linaro.org>, Cai Huoqing <cai.huoqing@linux.dev>,
-	Fabio Estevam <festevam@gmail.com>, Olivier Moysan
-	<olivier.moysan@foss.st.com>, Shawn Guo <shawnguo@kernel.org>, Haibo Chen
-	<haibo.chen@nxp.com>, Arnd Bergmann <arnd@arndb.de>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Patrick Venture <venture@google.com>, Amit
- Kucheria <amitk@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Gwendal Grignou
-	<gwendal@chromium.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Saravanan Sekar <sravanhome@gmail.com>, Guenter Roeck <groeck@chromium.org>,
-	Jonathan Cameron <jic23@kernel.org>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Linus Walleij <linus.walleij@linaro.org>
-Subject: RE: [PATCH v2 15/15] iio: inkern: fix coding style warnings
-Thread-Topic: [PATCH v2 15/15] iio: inkern: fix coding style warnings
-Thread-Index: AQHYlSh1MmB5hz2fuEC85zhThtwVIa15KP5AgAACIoCAAADZYA==
-Date: Mon, 11 Jul 2022 13:37:15 +0000
-Message-ID:
- <OS0PR01MB59227884F494F5C9DCF936E886879@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220711123835.811358-1-nuno.sa@analog.com>
- <20220711123835.811358-16-nuno.sa@analog.com>
- <CAHp75VcnuAtc+n+nhQ16yP9S-veX2c6ruquSewtPJdcqQwpyAQ@mail.gmail.com>
- <OS0PR01MB592214D4F12E0636DB7B98CD86879@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75Ve1mAj9u3rVU7qseZ-MYw_PDjAAFA+69XeRv_pvEW-ZrQ@mail.gmail.com>
-In-Reply-To:
- <CAHp75Ve1mAj9u3rVU7qseZ-MYw_PDjAAFA+69XeRv_pvEW-ZrQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4300455f-5410-4271-23cf-08da634277b4
-x-ms-traffictypediagnostic: TYCPR01MB6913:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- AEDuIHto4xjVZ+QsjqPgOdUwEexhEBLITJq14iWcDQkgpgnK/D5FXzsTe0R9F6u9cAzxVH+c8aCX+TwA4doJ5svsbtjlAdcjO6QU/fHYk6RU5tQC11KK/y34+8DYY1XorUf7Vse0QwOqbXYygIY2gcxi2XY+Vlm2Z7dkX08/vTS9rjq2IT0h+7FjDhS3dq8p0OsogJ9OzJRr6e1ZYU4bfEbc3a29piduCmJih4HiB+ZreEQleBS5L/i1hWdwydkzegwRI3Z8CMZZm0ds8jwY4Nf9/rd3bZGJr8jO5/dIxt/1THwe+Pbv8mTErBXwIZg9AtWcKJnFXsA+wcqLATWn6pI/FLcaWVMbdZ/4Xc1FPILKK23QBNBx8R/8lmYXGP25/SJMgMTmVHscWk+NJacAF90f68jkMtHanjrXCRMQ1XyvFIEnXRqpi1xx/ezs2hohHtjK4VOMlGOpt9w/ZTBR7wmcGAnBciRu7iY1najGhpBLK6KbqRFdFfaWi4LnQkzLQ9YjR0mEKShcilZmbIkFFIq1KLxIfTZ89t9Lzx24G7QaY++B3u5+VIFxbI7dAwwP9oX2d5Wyr+w5o0INls0XTJKA7HQVGrjRZQHJVd2wSDaDtfxqKY8z6VjKmfL7f3tOoJPH2zKByVEUmsLAowNEdediUimcV9VIueAyj1y46jY7J9onPYpqeym6pLIUh+mLU65vCfhYy4/0Mz7fmld1Hg6oHwkUcSJgF6djlzwQrLaBefpl98XWuugvaqm+y5rmy+pA92ZqG1iZ1IRbe49s8ZNNptG5kGkkD5Xzv5nfr+ALmjpqy8Lx3Nh0f9427kLg
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(86362001)(6506007)(5660300002)(52536014)(4326008)(66556008)(66476007)(41300700001)(478600001)(7696005)(7366002)(4744005)(8936002)(53546011)(7416002)(38070700005)(9686003)(33656002)(7406005)(2906002)(26005)(38100700002)(122000001)(55016003)(71200400001)(83380400001)(76116006)(54906003)(186003)(66946007)(316002)(6916009)(64756008)(8676002)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?czVUd2RhM2NPdElzMWJMbzhYQUdjOWZud0Y5NW94UVA3SFpiZWlFUVB5THlm?=
- =?utf-8?B?MFNseFRhb2NVVXg1WjZqb3NyZDZxWnZTbG9LSlpJcDdnSXhYYllsUHJEdXhH?=
- =?utf-8?B?M25sVjBsdThDY3FWYVVPd1VpTm0vWVYzWkN1T3NMcFJtM2twNm42ZTNneVZ6?=
- =?utf-8?B?SU5VeXRlb1hnM2trelhZcHZCUldXc25jRVo4UzI4aVYxaWx3U3MrS0RXdVR5?=
- =?utf-8?B?SXJ1SE8vTWNHalZxY2FNMi9vdFFPNWlUbjAvaEhHQ2RpT2NYdTgvOTBVUkVn?=
- =?utf-8?B?dSs2WDdDVXl0Zm95MmFUbkJqT2lOdU9TRzgwVm9ocndQYTcyWHYrNnltbFpC?=
- =?utf-8?B?dW5WNUhhT0NEc1N0Vld1aEEzSktOSjhMSm8zRi9JRUp0OU9IcDFUQ3VUa0sy?=
- =?utf-8?B?NG5wcDN2Y0lKL3A4Y3VZR3dyRi9zYmFGSHh3UWhQRWZZQ3N0RXhVQ1Iya0U2?=
- =?utf-8?B?bThML2hqQlF6T0RlK3hVSEdSN2Rxc0JpcEhQMjlhcHlGb3o0NHA5K3dHTElQ?=
- =?utf-8?B?c2d3MmI4N2ZTRjM3OWFWSjZ1U3FMMU1CeFkzZnR6YU5YSitPR0J4UVpNVjMx?=
- =?utf-8?B?OWozaG82VjYxT3k0Y01WK0VsRzBBUVNYcmRORGVoSEdmY29hVXk1SmdlSFRq?=
- =?utf-8?B?QjFNQm5VU1RFc0txZHNSVEFqR3JTM1R6d244cE1EcEkrOUhNYnh2djJJbUZx?=
- =?utf-8?B?aUdUdXlleWdxK0xGaTJUUWNZdVlPcm1tQmhyVzdRdlV4b2FFN0lKMWVMNXNo?=
- =?utf-8?B?cFEzYTNvaGJZUWk0ZTVQSW1WWEJncEhGWkpJT0tZVUVQRDhFSzhyRGpUOG9s?=
- =?utf-8?B?TElTYU03T1ZPSFFaajRQN1o4eU1FZE4yZmJ2WkE5QVpwZ2FpR2kwaSt0WTBS?=
- =?utf-8?B?UkdLTWVBd3lvMDcySE1VSk52b0V2ZHY0K1ZCU1kzd3I2a2FScWtERk9qZlhQ?=
- =?utf-8?B?eEk2dUdsd2tFdWtvNmdnNUN4akk1R0RYQUJJUmUrSjJkdjU5SE1LbGlnWHV0?=
- =?utf-8?B?T3lRYlhidnd2TW5mdHhsNlBuczdTUk1aTUFsYTZxUTBNajRQaS9KbWpSTDNx?=
- =?utf-8?B?YTYyYzYxVExrMHNHSFRGMStwRlYrK3BpR1hFb0FhUTR3RDl0S3ZsMTdBNFQx?=
- =?utf-8?B?NmpkMWpEcGU4Z2VpK2d0cTFhWkU2bHdSRXFvOUtJazRCb0l2dU1YcXIzZlJX?=
- =?utf-8?B?RU10MEtQUlFhcjRVekVMc1JUdWZvc29ucWNOcXBCbUxPUG9QbFJGaWxxc2gv?=
- =?utf-8?B?RVU3UXpXNitMdmN1OE0wd2xBNnFIVW5NZ2tDdzBDR2IvRUVRYTdlWDZ6ZnVu?=
- =?utf-8?B?ZUdybDFMWmtaY1c0T1l1Vko1N1ErVXUrQlNzV0Z1cnNrNmRmMm1admt3Vldx?=
- =?utf-8?B?bDc3WmhENEd6dkdrZFM0YTI4a3FUZitKMUkvWFFmN1hjTW5uZE04TWlqQWpw?=
- =?utf-8?B?VlJDV1cySCtCakxnR2lLczliS2o4Q3kxbFI4T3k2ZEsyZTBoUytRMHAwcmdl?=
- =?utf-8?B?U0RxYWZpWCtZN3phUFFndm56QnlSWDlTaHJFRlphZWJWQ2xzQnhGK2FVUjk0?=
- =?utf-8?B?Nkh1L2dnc1YzV2RyTDhwdGRYdHh6SkwrY3NWdWdqL0c4Y25kMHFmYjBPdnds?=
- =?utf-8?B?a0NOTGgvTVczalZOcWYwTXZZckJIQWo0cC9PazhyTlYralVsZUZnUnVic0lO?=
- =?utf-8?B?TWJXK21uSTlJd281UGdmdDVjSS9jNU8rdUZyVzNLYTd1RUV1bXowdUxZUStJ?=
- =?utf-8?B?OGVrYzRmczRYSHZuUGlBSXNCM2lhZythOU83c1k3Y1N3bmJwZml1TE9OYXE0?=
- =?utf-8?B?Zm8rbGc5RTlPTWV3SzhNZzc4VjYwNVROMkZRRTc5YnFXZTNWWnJkSFRwdkRD?=
- =?utf-8?B?cDJXWTJ6ZGdmUmtyNkx2WWttS1l2RS9nWXFqMW5Wa2FEN3lXMStnM2hFNHJN?=
- =?utf-8?B?UGoraUdwaHYwRFhPdlliWU5ZaEFNODlHaW51dWVBV0k1cEc4ZmFiY1Rna0FN?=
- =?utf-8?B?bGlheXZsZXd6TlAwK083TkxyeHd0M0hLeXdpeStOVisvVys5bGZQUlpWL2Y5?=
- =?utf-8?B?bWpMNGdlSTZnaTlGdjhmYjd6WnRxaE9IalRabG1xakJsbEZjdjdwRDhveVhs?=
- =?utf-8?B?Uytmd1ZIeDQ3UVpFUUM5ZGdiY3JaTnpKYnM5Rkg3SDZOSXFWSlIwLzgvUFV0?=
- =?utf-8?B?OUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3A07A
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 13:51:10 +0000 (UTC)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BBf38I026647;
+	Mon, 11 Jul 2022 08:38:16 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h76k6bhuv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Jul 2022 08:38:15 -0400
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 26BCcEaW000398
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 11 Jul 2022 08:38:14 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 11 Jul
+ 2022 08:38:13 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 11 Jul 2022 08:38:13 -0400
+Received: from nsa.ad.analog.com ([10.44.3.53])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 26BCbVE5011687;
+	Mon, 11 Jul 2022 08:37:33 -0400
+From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To: <linux-arm-msm@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-imx@nxp.com>,
+        <linux-mips@vger.kernel.org>,
+        Lad Prabhakar
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <linux-iio@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+CC: Andy Gross <agross@kernel.org>,
+        Nicolas Ferre
+	<nicolas.ferre@microchip.com>,
+        Benson Leung <bleung@chromium.org>,
+        Matthias
+ Brugger <matthias.bgg@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>, Zhang
+ Rui <rui.zhang@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Eugen
+ Hristev <eugen.hristev@microchip.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Benjamin Fair
+	<benjaminfair@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Fabrice Gasnier
+	<fabrice.gasnier@foss.st.com>,
+        Jishnu Prakash <quic_jprakash@quicinc.com>,
+        Christophe Branchereau <cbranchereau@gmail.com>,
+        Avi Fishman
+	<avifishman70@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Michael
+ Hennerich <Michael.Hennerich@analog.com>,
+        Miquel Raynal
+	<miquel.raynal@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Thara Gopinath
+	<thara.gopinath@linaro.org>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Fabio
+ Estevam <festevam@gmail.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Shawn Guo <shawnguo@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
+        Arnd
+ Bergmann <arnd@arndb.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Patrick
+ Venture <venture@google.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko
+	<andy.shevchenko@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Bjorn Andersson
+	<bjorn.andersson@linaro.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Guenter
+ Roeck <groeck@chromium.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Pengutronix
+ Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v2 00/15] make iio inkern interface firmware agnostic
+Date: Mon, 11 Jul 2022 14:38:20 +0200
+Message-ID: <20220711123835.811358-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.37.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4300455f-5410-4271-23cf-08da634277b4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2022 13:37:15.3006
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 538ML/L2QC4FWfCam53etBivki7rqseDB51hOagVDTVN34ZMl5KklBWYiHphBDV/IgUwCsa2wlOHeRo/8PG0++cpooCw57+PT3mhbndUmAQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6913
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: WcE9hls-TN6poatnPpXjvAc08Rg5Ey-4
+X-Proofpoint-GUID: WcE9hls-TN6poatnPpXjvAc08Rg5Ey-4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-11_18,2022-07-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ mlxlogscore=921 malwarescore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207110054
 
-SGkgQW5keSwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDE1LzE1XSBpaW86IGlua2Vybjog
-Zml4IGNvZGluZyBzdHlsZSB3YXJuaW5ncw0KPiANCj4gT24gTW9uLCBKdWwgMTEsIDIwMjIgYXQg
-MzoyOCBQTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0K
-PiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAxNS8xNV0gaWlvOiBpbmtlcm46IGZpeCBjb2Rp
-bmcgc3R5bGUgd2FybmluZ3MNCj4gPiA+IE9uIE1vbiwgSnVsIDExLCAyMDIyIGF0IDI6NDAgUE0g
-TnVubyBTw6EgPG51bm8uc2FAYW5hbG9nLmNvbT4gd3JvdGU6DQo+IA0KPiAuLi4NCj4gDQo+ID4g
-PiA+IC0gICAgICAgaWYgKG5hbWUgPT0gTlVMTCAmJiBjaGFubmVsX25hbWUgPT0gTlVMTCkNCj4g
-PiA+ID4gKyAgICAgICBpZiAoIW5hbWUgJiYgIWNoYW5uZWxfbmFtZSkNCj4gPiA+ID4gICAgICAg
-ICAgICAgICAgIHJldHVybiBFUlJfUFRSKC1FTk9ERVYpOw0KPiA+ID4NCj4gPiA+IEFmdGVyIHRo
-aXMgY2hhbmdlIGluIHBsYWNlLCBJIHRoaW5rIGl0J3MgYmV0dGVyIHRvIGNvbnZlcnQgaXQgdG8N
-Cj4gPiA+DQo+ID4gPiAgIGlmICghKG5hbWUgfHwgY2hhbm5lbF9uYW1lKSkNCj4gPg0KPiA+IEl0
-IHNob3VsZCBiZSBuYW1lICYmIGNoYW5uZWxfbmFtZQ0KPiA+DQo+ID4gU2VlIGJlbG93Lg0KPiA+
-ICAoISAoIDEgfHwgMCktPiAgKCEgKDEgJiYgMSkNCj4gDQo+IEkgZGlkbid0IGdldCB3aGF0IHlv
-dSBhcmUgaW1wbHlpbmcgaGVyZS4gUGxlYXNlLCBjaGVjayBhZ2FpbiB3aGF0J3MgaW4NCj4gdGhl
-IG9yaWdpbmFsIGNvZGUgYW5kIHdoYXQncyBiZWluZyBzdWdnZXN0ZWQuDQoNCk9rLCB5b3UgYXJl
-IHJpZ2h0LiBJIHdhcyBsb29raW5nIGF0IHRoZSBtb2RpZmllZCBjb2RlLg0KDQpDaGVlcnMsDQpC
-aWp1DQo=
+First version of the series can be found here:=0D
+=0D
+https://lore.kernel.org/linux-iio/20220610084545.547700-1-nuno.sa@analog.co=
+m/=0D
+=0D
+v2 changes:=0D
+=0D
+[1/15]=0D
+  * Fix typo and added more description in the commit message.=0D
+=0D
+[3/15]=0D
+  * Remove superfluous code;=0D
+  * Commit message spell fixes and added more details;=0D
+  * Improved error handling (this is the most significant change in this=0D
+version. More details on the commit message).=0D
+=0D
+[4/15]=0D
+  * Drop the 'ugly' parent_lookup flag. With the new error handling,=0D
+    we can use -ENODEV to infer if we should proceed or not with the=0D
+    lookup.=0D
+=0D
+[5/15]:=0D
+  * Moved some local declarations up so long lines first;=0D
+  * Use 'bus_find_device_by_fwnode()';=0D
+  * Proper ordering in includes.=0D
+  * Adapted error handling in '__fwnode_iio_channel_get_by_name()' taking=0D
+ACPI into account and when 'name' is given but index < 0. It seems that=0D
+ACPI code can actually return -ENOENT with index < 0 for which case we=0D
+should continue the search. Not sure if a check  in ACPI ('if (index < 0)=0D
+return -EINVAL;) like is done in OF would make sense...=0D
+=0D
+[12/15]:=0D
+  * Use 'device_property_count_u64()' to get the number of diff channels.=0D
+So no need for 'magic' divisions by 2 (no idea why I haven't done like=0D
+this in the first place).=0D
+=0D
+[15/15]=0D
+  * Fix wrong conversion of 'if (ptr !=3D NULL)' to 'if (!ptr)'.=0D
+=0D
+Special note for patch 3/15 where -ENODEV is still used despite some talks=
+=0D
+about using -ENOENT and hence, be more in line with firmware code. The=0D
+reason I kept it was to be consistent with the rest of the file. I'd say=0D
+that if we want to move to -ENOENT we should do it in a separate patch=0D
+and for the complete file.=0D
+=0D
+Nuno S=C3=A1 (15):=0D
+  iio: inkern: only release the device node when done with it=0D
+  iio: inkern: fix return value in devm_of_iio_channel_get_by_name()=0D
+  iio: inkern: only return error codes in iio_channel_get_*() APIs=0D
+  iio: inkern: split of_iio_channel_get_by_name()=0D
+  iio: inkern: move to fwnode properties=0D
+  thermal: qcom: qcom-spmi-adc-tm5: convert to IIO fwnode API=0D
+  iio: adc: ingenic-adc: convert to IIO fwnode interface=0D
+  iio: adc: ab8500-gpadc: convert to device properties=0D
+  iio: adc: at91-sama5d2_adc: convert to device properties=0D
+  iio: adc: qcom-pm8xxx-xoadc: convert to device properties=0D
+  iio: adc: qcom-spmi-vadc: convert to device properties=0D
+  iio: adc: qcom-spmi-adc5: convert to device properties=0D
+  iio: adc: stm32-adc: convert to device properties=0D
+  iio: inkern: remove OF dependencies=0D
+  iio: inkern: fix coding style warnings=0D
+=0D
+ drivers/iio/adc/ab8500-gpadc.c           |  27 +--=0D
+ drivers/iio/adc/at91-sama5d2_adc.c       |  30 +--=0D
+ drivers/iio/adc/ingenic-adc.c            |   8 +-=0D
+ drivers/iio/adc/qcom-pm8xxx-xoadc.c      |  58 +++--=0D
+ drivers/iio/adc/qcom-spmi-adc5.c         |  63 +++---=0D
+ drivers/iio/adc/qcom-spmi-vadc.c         |  44 ++--=0D
+ drivers/iio/adc/stm32-adc.c              | 121 +++++-----=0D
+ drivers/iio/inkern.c                     | 271 +++++++++++++----------=0D
+ drivers/thermal/qcom/qcom-spmi-adc-tm5.c |   3 +-=0D
+ include/linux/iio/consumer.h             |  28 +--=0D
+ include/linux/iio/iio.h                  |   8 +-=0D
+ 11 files changed, 347 insertions(+), 314 deletions(-)=0D
+=0D
+-- =0D
+2.37.0=0D
+=0D

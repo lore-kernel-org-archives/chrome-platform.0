@@ -1,43 +1,44 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4647A
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 14:04:31 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id v16so7126308wrd.13
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 07:04:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661A97A
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 14:05:51 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id h17so7214313wrx.0
+        for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 07:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=DIAFLfCCstVMeweX2Ab1siE9p1+/OUf9lkXY0wvZIus=;
-        b=doyN/EGzYQwmb31Qvui4RHoImYKN2mpxrS770rB7oqfTCwtKecAYk7XK5nHAyciB9j
-         nA1APLtNitFKoReEa8OSAA36uhyQeBRn5HCTYGjxKPKrruw1/RVlPVlVw2Rtyl8Tdr+h
-         cQ/iXqqjSrnqPkrGbEyq3ZoVd8/03nR/nA1cD5qcH6XmGBErXPoWjWp43sDJpzR39FEp
-         W0mUeX/ZlJd79U4JcII4j+dn4hWjMQHfmlsXLW5buyknCb71XUrhQGs078ea/zqNArwN
-         ThisRukKDtbypj9of180SnLkYj6JucCgS0In0PztOFDgkKr/2YAXJEs11HdAV+LN89U2
-         Q8lA==
+        bh=OpuAbJzOZmkFVUVRYRfhJb2EZ79ErPrcazI4dJRRIZw=;
+        b=AxqKn1jFCUvR9r8eF6G9LQNJai0j26cooZSTaW/y5LjqtvcEM/8McIf/+yQzlzaUFd
+         LwcEnbV3x0T98SP3+BJlr0dZ/4NoEFEHYkvinYuvlXRJ/rScOUvz84TzCH0CqciB5xr3
+         70JCY+zxyG19vqUL7fnu7cTlKI0FIx088QGgbn+DUglz7JpgcVQ5PpQGbQcOhaZFlPbl
+         Sj/1dCgEulNZFTYu6gtOT+azXEODMFcBsZXMw1Holn5VdIjBppSACDRDbXOOwlKV+GrT
+         gUqBD8ESK3VZeUfDigHKr2IQSaYpAIV6HBehOLe57cJG8VwM+8e6vaZ86/RiS+6W3xCR
+         PgeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=DIAFLfCCstVMeweX2Ab1siE9p1+/OUf9lkXY0wvZIus=;
-        b=A3g1W36rNoS3/IagJFur5LL0PhqurfXCPj5uaSm2eBZMzkBrVJVStlhmK87c+A75Jw
-         FI+E7LBOm2P7KnaqcqON/lXgfsHYHEhRmKb/7HeeOVF1HI+NmIS5zitB8RYN85AUfPby
-         GW75snb2tSV81a5bejAGVLcwsqJpxswvyMWoUaybUvh33Bt+LicaNINEBU8nB7vAATUC
-         5NoDnCEKBAxYguIdYY7JH7Ye9oCfmUdvhRzqM8g+wSbPjjntUonjvY2YriAuo5Fk5lMA
-         /XuaKjMgBcDg5ZKxieXnuPPiJt6BONsgGc/wJ/o+e5JFdRWZPa8P0+eIxUFh96ByFEYV
-         jO3g==
-X-Gm-Message-State: AJIora+i0qXvMtw5c2yq+eh8IOqqQl6M2yOooh+KXF1GgNFMJANy+8QY
-	+2tEVBs7WNzxSmqKYVa/FKM=
-X-Google-Smtp-Source: AGRyM1sfP4B2ggRzwlFtNzE5njlcJb0xyrOh+fqSIvv7emKj99E0h8HP5nFdmlvCbmam0md1QXj4iw==
-X-Received: by 2002:adf:fa04:0:b0:21d:1864:3172 with SMTP id m4-20020adffa04000000b0021d18643172mr18334198wrr.292.1657548270179;
-        Mon, 11 Jul 2022 07:04:30 -0700 (PDT)
+        bh=OpuAbJzOZmkFVUVRYRfhJb2EZ79ErPrcazI4dJRRIZw=;
+        b=zo7iutcXWwOLZtYs0ixKL90J0UJels/R8jerz7VHPKnVMTWLCJ9ybfbkqCEhuVkVqq
+         /kO4lefx7a+y7y/RiZCC7j87q0GUhjBmIKRCVnU364OvsiIfrRPZReKJU18dfjWe/a2Z
+         mkVbHLPpGNnydGh6va3wtxeAzvHNTTTC6BRC/Nj/IPYhsHzZXT481cqmVAYo/gYaQ6ZM
+         UxJDl2wvpOyq0KDCrbObGXCTqMbg5kgVumteN6JlasZjdQI/u+x5dlXHDM5ppupC6sr3
+         //5MHjqKQ7l7XJdaHUMFF2/YOrezNhAGJh8B1cCwaqJ6DnO2gnswb5WEzHBSXpIhagia
+         YOzg==
+X-Gm-Message-State: AJIora+VzFYfCKmyuvQdt27Se91e54+3NM3ZmGe6QZWCdvn+V1rczIY4
+	+vXnXttG+Ux+m0pbA9BrxYg=
+X-Google-Smtp-Source: AGRyM1vjxZ3LaYt2iroYaYC6yqBPM5QdYtXuGkJjk8H9N1njA0MUYRP5ggIbz4O4J7Zmd/vjCEw/YA==
+X-Received: by 2002:adf:f581:0:b0:21d:1e01:e9b7 with SMTP id f1-20020adff581000000b0021d1e01e9b7mr16555540wro.529.1657548349537;
+        Mon, 11 Jul 2022 07:05:49 -0700 (PDT)
 Received: from p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de (p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de. [2003:f6:ef03:6f00:5de6:a4d0:d791:ed01])
-        by smtp.gmail.com with ESMTPSA id c15-20020a5d4f0f000000b0021d8faf57d5sm5849112wru.74.2022.07.11.07.04.27
+        by smtp.gmail.com with ESMTPSA id g1-20020a05600c000100b00397623ff335sm6700494wmc.10.2022.07.11.07.05.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 07:04:29 -0700 (PDT)
-Message-ID: <d060ab80fcf8ede50466069c9021eda97e239fb6.camel@gmail.com>
-Subject: Re: [PATCH v2 15/15] iio: inkern: fix coding style warnings
+        Mon, 11 Jul 2022 07:05:49 -0700 (PDT)
+Message-ID: <bb0aaee46261295e333c02d771a627d3695fdba2.camel@gmail.com>
+Subject: Re: [PATCH v2 03/15] iio: inkern: only return error codes in
+ iio_channel_get_*() APIs
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
 	 <nuno.sa@analog.com>
@@ -77,11 +78,11 @@ Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, OpenBMC Maillist
  Guenter Roeck <groeck@chromium.org>, Jonathan Cameron <jic23@kernel.org>, 
  Pengutronix Kernel Team <kernel@pengutronix.de>, Linus Walleij
  <linus.walleij@linaro.org>
-Date: Mon, 11 Jul 2022 16:05:31 +0200
-In-Reply-To: <CAHp75VcnuAtc+n+nhQ16yP9S-veX2c6ruquSewtPJdcqQwpyAQ@mail.gmail.com>
+Date: Mon, 11 Jul 2022 16:06:50 +0200
+In-Reply-To: <CAHp75VcxcmH5QoheyERAXrUeqMtJidKLBYH1T6dr6vb7yGKqWg@mail.gmail.com>
 References: <20220711123835.811358-1-nuno.sa@analog.com>
-	 <20220711123835.811358-16-nuno.sa@analog.com>
-	 <CAHp75VcnuAtc+n+nhQ16yP9S-veX2c6ruquSewtPJdcqQwpyAQ@mail.gmail.com>
+	 <20220711123835.811358-4-nuno.sa@analog.com>
+	 <CAHp75VcxcmH5QoheyERAXrUeqMtJidKLBYH1T6dr6vb7yGKqWg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.3 
@@ -92,27 +93,57 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-On Mon, 2022-07-11 at 15:15 +0200, Andy Shevchenko wrote:
-> On Mon, Jul 11, 2022 at 2:40 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+On Mon, 2022-07-11 at 15:29 +0200, Andy Shevchenko wrote:
+> On Mon, Jul 11, 2022 at 2:38 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 > >=20
-> > Just cosmetics. No functional change intended...
+> > APIs like of_iio_channel_get_by_name() and of_iio_channel_get_all()
+> > were
+> > returning a mix of NULL and pointers with NULL being the way to
+> > "notify" that we should do a "system" lookup for channels. This
+> > make
+> > it very confusing and prone to errors as commit 9f63cc0921ec
+> > ("iio: inkern: fix return value in
+> > devm_of_iio_channel_get_by_name()")
+> > proves. On top of this, patterns like 'if (channel !=3D NULL) return
+> > channel' were being used where channel could actually be an error
+> > code
+> > which makes the code hard to read.
+> >=20
+> > This change also makes some functional changes on how errors were
+> > being
+> > handled. In the original behavior, even if we get an error like '-
+> > ENOMEM',
+> > we still continue with the search. We should only continue to
+> > lookup for
+> > the channel when it makes sense to do so. Hence, the main error
+> > handling
+> > in 'of_iio_channel_get_by_name()' is changed to the following
+> > logic:
+> >=20
+> > =C2=A0* If a channel 'name' is provided and we do find it via
+> > 'io-channel-names', we should be able to get it. If we get any
+> > error,
+> > we should not proceed with the lookup. Moreover, we should return
+> > an error
+> > so that callers won't proceed with a system lookup.
+> > =C2=A0* If a channel 'name' is provided and we cannot find it ('index <
+> > 0'),
+> > 'of_parse_phandle_with_args()' is expected to fail with '-EINVAL'.
+> > Hence,
+> > we should only continue if we get that error.
+> > =C2=A0* If a channel 'name' is not provided we should only carry on wit=
+h
+> > the
+> > search if 'of_parse_phandle_with_args()' returns '-ENOENT'.
+> >=20
+> > Also note that a system channel lookup is only done if the returned
+> > error code (from 'of_iio_channel_get_by_name()' or
+> > 'of_iio_channel_get_all()' is -ENODEV.
 >=20
-> ...
->=20
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (name =3D=3D NULL && channel_n=
-ame =3D=3D NULL)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!name && !channel_name)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 return ERR_PTR(-ENODEV);
->=20
-> After this change in place, I think it's better to convert it to
->=20
-> =C2=A0 if (!(name || channel_name))
->=20
-> which shows intentions clearer.
+> LGTM (but I might miss something, it's a bit too many conditionals),
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 >=20
 
-No strong feelings from my side so I can do that if a v3 is needed
-(which, most likely, will be needed).
+Agreed. It ended up being more complicated than I thought...
 
 - Nuno S=C3=A1

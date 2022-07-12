@@ -1,194 +1,72 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0053C6AAC
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 21:03:32 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id y141so8502461pfb.7
-        for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+0ouDOTocd4ryU0X2wtR7HE0YSPQPIMij6SMHBNcHvk=;
-        b=BLZ53MiPDohoR1ei9h52qUvtRT/WF5kmx4QSKuD2erEmWx+6e3ziWU7U05ercXjTav
-         3eChHMZ8sUfiAX6yQKVMd0wiSu/2ollOz4MFJ6rBsM9usYVhukHGV0qJZVwLGnEBPER4
-         ObGVuxpGA0fkTbvpESbqnYo9/ouTRnhuf4a4Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+0ouDOTocd4ryU0X2wtR7HE0YSPQPIMij6SMHBNcHvk=;
-        b=HZMIOCSYL738CE7erHAOQ6wqRQUoA/biqWwobH3MPrQW48pDk+jQN0ZKO5KV0KqpFd
-         0XO8Hq6Nxu5G10hZTk7GSgOq4oNvROWs5a50T0rXmSnibWFLlPmKUxzPnb52ZADfYeY6
-         XpXOdTTobVipeLRax09oz5CYquzEAWa6vs60HR90UsnZcD7O/Rb2O+KMIzariGZEX/Wj
-         F0/SqzsLZIKA86mnbMwTGM5hE10NkIjBT0fZLKDpFXTLZgHAhmFn5n7MQiVkFRLuffJG
-         Z9DMlOdNRFinnugWfhxTZS+n3HU6c6eAnzg8uarQ2kIYIdc5SMxBwtIU/z2xWv/zABvZ
-         NODw==
-X-Gm-Message-State: AJIora+do71Q+zE1M1JaqG0oHZIlYGPiZZRG8akkIalx99dRMCdMg2dp
-	PhnVY96BmwcJnF0pgGc9oigrVA==
-X-Google-Smtp-Source: AGRyM1u0KoL3IfGKMxtSveG5Sh8uofJj3OBpq26QBgBnPsYH9QtsVzXuwtRvnEQwyw8tOdbKRO904Q==
-X-Received: by 2002:a05:6a00:170a:b0:52a:d3d4:3852 with SMTP id h10-20020a056a00170a00b0052ad3d43852mr60708pfc.19.1657659812447;
-        Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id a15-20020a170902eccf00b0016bf8048bd2sm7284130plh.175.2022.07.12.14.03.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	Prashant Malani <pmalani@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Register port altmodes
-Date: Tue, 12 Jul 2022 21:03:18 +0000
-Message-Id: <20220712210318.2671292-2-pmalani@chromium.org>
-X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
-In-Reply-To: <20220712210318.2671292-1-pmalani@chromium.org>
-References: <20220712210318.2671292-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93EF6AAC
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 21:45:59 +0000 (UTC)
+Received: from notapiano.myfiosgateway.com (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6416266015C4;
+	Tue, 12 Jul 2022 22:45:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657662358;
+	bh=IHenW9H7ZxGU905n2XgP0AlaR9jUMs4T5Bm5awMEA/0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i0S1jGP6Z+4WBNl/9P4yI8+sBw0TVXK/aXG5IuI0OU3KWL8ENeRUFmFKSBF78nRvG
+	 +Bmj/wnKRxdtOrApL5PW/+p3M/zO7NNY1IjSTVdk7LlpQulTtUgiwe3N79xYGkhnp6
+	 uX+0RYD2nfB+csGoBGthFb7pagjGcS0S4onR8ANu70Qg6oT5w+9KUHLEAYoXb/1UbW
+	 gsZ1kWErQGf2VEHxVDqGNWDvEkX7/KWXLI/6StHctB4g8Qc1qRI/d90GgbUi44dM9Q
+	 K0+nIyJXlEHv7rSwRzpEUyvyHzOXuRjfPFhtmrAr4BrSHif5fvm20OIlUZFGdXi1MU
+	 lKD5ClvT4D9Cw==
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	kernel@collabora.com,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/chrome: cros_ec_typec: Use dev_err_probe on port register fail
+Date: Tue, 12 Jul 2022 17:45:54 -0400
+Message-Id: <20220712214554.545035-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.37.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Instead of using manually managed altmode structs, register the port's
-altmodes with the Type-C framework. This facilitates matching them to
-partner altmodes later.
+The typec_register_port() can fail with EPROBE_DEFER if the endpoint
+node hasn't probed yet. In order to avoid spamming the log with errors
+in that case, log using dev_err_probe().
 
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
 ---
- drivers/platform/chrome/cros_ec_typec.c | 51 +++++++++++++++++++------
- 1 file changed, 40 insertions(+), 11 deletions(-)
+
+ drivers/platform/chrome/cros_ec_typec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index b9848e80f372..e67cccb9ac78 100644
+index d6088ba447af..8c0ca3c128ee 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -25,6 +25,8 @@
+@@ -352,8 +352,8 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
  
- #define DRV_NAME "cros-ec-typec"
+ 		cros_port->port = typec_register_port(dev, cap);
+ 		if (IS_ERR(cros_port->port)) {
+-			dev_err(dev, "Failed to register port %d\n", port_num);
+ 			ret = PTR_ERR(cros_port->port);
++			dev_err_probe(dev, ret, "Failed to register port %d\n", port_num);
+ 			goto unregister_ports;
+ 		}
  
-+#define DP_PORT_VDO	(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D) | DP_CAP_DFP_D)
-+
- /* Supported alt modes. */
- enum {
- 	CROS_EC_ALTMODE_DP = 0,
-@@ -60,7 +62,7 @@ struct cros_typec_port {
- 	uint8_t mux_flags;
- 	uint8_t role;
- 
--	struct typec_altmode port_altmode[CROS_EC_ALTMODE_MAX];
-+	struct typec_altmode *port_altmode[CROS_EC_ALTMODE_MAX];
- 
- 	/* Flag indicating that PD partner discovery data parsing is completed. */
- 	bool sop_disc_done;
-@@ -253,6 +255,14 @@ static void cros_typec_remove_cable(struct cros_typec_data *typec,
- 	port->sop_prime_disc_done = false;
- }
- 
-+static void cros_typec_unregister_port_altmodes(struct cros_typec_port *port)
-+{
-+	int i;
-+
-+	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++)
-+		typec_unregister_altmode(port->port_altmode[i]);
-+}
-+
- static void cros_unregister_ports(struct cros_typec_data *typec)
- {
- 	int i;
-@@ -267,34 +277,49 @@ static void cros_unregister_ports(struct cros_typec_data *typec)
- 		usb_role_switch_put(typec->ports[i]->role_sw);
- 		typec_switch_put(typec->ports[i]->ori_sw);
- 		typec_mux_put(typec->ports[i]->mux);
-+		cros_typec_unregister_port_altmodes(typec->ports[i]);
- 		typec_unregister_port(typec->ports[i]->port);
- 	}
- }
- 
- /*
-- * Fake the alt mode structs until we actually start registering Type C port
-- * and partner alt modes.
-+ * Register port alt modes with known values till we start retrieving
-+ * port capabilities from the EC.
-  */
--static void cros_typec_register_port_altmodes(struct cros_typec_data *typec,
-+static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
- 					      int port_num)
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
-+	struct typec_altmode_desc desc;
-+	struct typec_altmode *amode;
- 
- 	/* All PD capable CrOS devices are assumed to support DP altmode. */
--	port->port_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
--	port->port_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
-+	desc.svid = USB_TYPEC_DP_SID,
-+	desc.mode = USB_TYPEC_DP_MODE,
-+	desc.vdo = DP_PORT_VDO,
-+	amode = typec_port_register_altmode(port->port, &desc);
-+	if (IS_ERR(amode))
-+		return PTR_ERR(amode);
-+	port->port_altmode[CROS_EC_ALTMODE_DP] = amode;
- 
- 	/*
- 	 * Register TBT compatibility alt mode. The EC will not enter the mode
- 	 * if it doesn't support it, so it's safe to register it unconditionally
- 	 * here for now.
- 	 */
--	port->port_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
--	port->port_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
-+	memset(&desc, 0, sizeof(desc));
-+	desc.svid = USB_TYPEC_TBT_SID,
-+	desc.mode = TYPEC_ANY_MODE,
-+	amode = typec_port_register_altmode(port->port, &desc);
-+	if (IS_ERR(amode))
-+		return PTR_ERR(amode);
-+	port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
- 
- 	port->state.alt = NULL;
- 	port->state.mode = TYPEC_STATE_USB;
- 	port->state.data = NULL;
-+
-+	return 0;
- }
- 
- static int cros_typec_init_ports(struct cros_typec_data *typec)
-@@ -361,7 +386,11 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 			dev_dbg(dev, "No switch control for port %d\n",
- 				port_num);
- 
--		cros_typec_register_port_altmodes(typec, port_num);
-+		ret = cros_typec_register_port_altmodes(typec, port_num);
-+		if (ret) {
-+			dev_err(dev, "Failed to register port altmodes\n");
-+			goto unregister_ports;
-+		}
- 
- 		cros_port->disc_data = devm_kzalloc(dev, EC_PROTO2_MAX_RESPONSE_SIZE, GFP_KERNEL);
- 		if (!cros_port->disc_data) {
-@@ -430,7 +459,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
- 		data.enter_vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
- 
- 	if (!port->state.alt) {
--		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_TBT];
-+		port->state.alt = port->port_altmode[CROS_EC_ALTMODE_TBT];
- 		ret = cros_typec_usb_safe_state(port);
- 		if (ret)
- 			return ret;
-@@ -472,7 +501,7 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 	/* Configuration VDO. */
- 	dp_data.conf = DP_CONF_SET_PIN_ASSIGN(pd_ctrl->dp_mode);
- 	if (!port->state.alt) {
--		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_DP];
-+		port->state.alt = port->port_altmode[CROS_EC_ALTMODE_DP];
- 		ret = cros_typec_usb_safe_state(port);
- 		if (ret)
- 			return ret;
 -- 
-2.37.0.144.g8ac04bfd2-goog
+2.37.0
 

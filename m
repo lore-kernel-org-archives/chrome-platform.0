@@ -1,72 +1,96 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93EF6AAC
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 21:45:59 +0000 (UTC)
-Received: from notapiano.myfiosgateway.com (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6416266015C4;
-	Tue, 12 Jul 2022 22:45:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1657662358;
-	bh=IHenW9H7ZxGU905n2XgP0AlaR9jUMs4T5Bm5awMEA/0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=i0S1jGP6Z+4WBNl/9P4yI8+sBw0TVXK/aXG5IuI0OU3KWL8ENeRUFmFKSBF78nRvG
-	 +Bmj/wnKRxdtOrApL5PW/+p3M/zO7NNY1IjSTVdk7LlpQulTtUgiwe3N79xYGkhnp6
-	 uX+0RYD2nfB+csGoBGthFb7pagjGcS0S4onR8ANu70Qg6oT5w+9KUHLEAYoXb/1UbW
-	 gsZ1kWErQGf2VEHxVDqGNWDvEkX7/KWXLI/6StHctB4g8Qc1qRI/d90GgbUi44dM9Q
-	 K0+nIyJXlEHv7rSwRzpEUyvyHzOXuRjfPFhtmrAr4BrSHif5fvm20OIlUZFGdXi1MU
-	 lKD5ClvT4D9Cw==
-From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	kernel@collabora.com,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/chrome: cros_ec_typec: Use dev_err_probe on port register fail
-Date: Tue, 12 Jul 2022 17:45:54 -0400
-Message-Id: <20220712214554.545035-1-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.37.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0F66AAC
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 22:08:12 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id oy13so11877706ejb.1
+        for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 15:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=e6Mh3C+uukR/DWRHXYHxlUK8ZlybYZpRoKWBJ/X1AF4=;
+        b=aU+dJonux1J27uENvyLoPGXSYNfkO6wrAHdlorO59BdNhVvVFTDO8JNMtb7rQTmsrH
+         wkdd8LR2o+pA6+wIp34HmTQHfdOHKkvNk09aempDqPp5U9mIdnanPiy1huOLbovsJiUs
+         gqaW40ygQNPXHFq4tg6Kj0QL+siUkH4D1XsfsAr5koMlq3sbuLWNkXmUK4gsWt7yw2Vm
+         zHcbF+y0IR8unFA0W4amDtmlmKhWxehj6gQM1pSJU+aq2RUBCFMzwgFRR/EeaiumenDb
+         jcP/xEqI3UzjuH1ZPfZPJunbfsSh779A1Z9TdpM+bVOipCWyNFpPLDyvvL5ibtxJctn3
+         4+UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=e6Mh3C+uukR/DWRHXYHxlUK8ZlybYZpRoKWBJ/X1AF4=;
+        b=GEa2IGTvJN5Vo5DN4nZymi9mJ5C3v6Z6vxesdQu8CZLLFBwTXRq4T9XkVQa5C9J9QI
+         /atvIr0NHn1OkAB7dYnR33kKq+uilmlGPyutPGqvZ623Ulph0uGMU57EiUk35bdGsLD1
+         yUwwUpbJ0tB4zAgsWaa3gnMBJa6wQ8wZUXzTIiiJBAENG85AVh/8wunInfXJIDyl7OiK
+         kCw2N/L9jccmcpNCW/Vu+xSiqWLqozVXenmn39Bw/uIvdSF2UoDGmxiCHoL1Lnzgg1Zr
+         ZBGujIXW14FD/A4gwP4fUHo+BPil2f9xBXWOkxrvG3nao0FeFXbz9O8adU/6YmyYawbF
+         H22A==
+X-Gm-Message-State: AJIora+xz7mwcURPRjExzeK1lRGUBsMU1LSeLeG7uUsahy3KSaFPpcqk
+	dCPMn5yfAIMhvcsKYi9TF4w0HepaSiPrCQmXJ9q6IQ==
+X-Google-Smtp-Source: AGRyM1sbMjtnE3khqOzWbs6jH+h1l6uJCY8+VMLsW0fheWtLu5UbaHn/tRGVkDQ7Jqqj79gC4r2wmAh96zyfSzDYhuk=
+X-Received: by 2002:a17:907:2c77:b0:72b:1154:33da with SMTP id
+ ib23-20020a1709072c7700b0072b115433damr265458ejc.27.1657663690831; Tue, 12
+ Jul 2022 15:08:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220712214554.545035-1-nfraprado@collabora.com>
+In-Reply-To: <20220712214554.545035-1-nfraprado@collabora.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 12 Jul 2022 15:07:59 -0700
+Message-ID: <CABXOdTe_Q5fcM_Ffa72V=X5NWv8jZvK_exZ2i3tfCJ_SW3N-XA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Use dev_err_probe on port
+ register fail
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Prashant Malani <pmalani@chromium.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Collabora Kernel ML <kernel@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The typec_register_port() can fail with EPROBE_DEFER if the endpoint
-node hasn't probed yet. In order to avoid spamming the log with errors
-in that case, log using dev_err_probe().
+On Tue, Jul 12, 2022 at 2:46 PM N=C3=ADcolas F. R. A. Prado
+<nfraprado@collabora.com> wrote:
+>
+> The typec_register_port() can fail with EPROBE_DEFER if the endpoint
+> node hasn't probed yet. In order to avoid spamming the log with errors
+> in that case, log using dev_err_probe().
+>
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
----
-
- drivers/platform/chrome/cros_ec_typec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index d6088ba447af..8c0ca3c128ee 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -352,8 +352,8 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 
- 		cros_port->port = typec_register_port(dev, cap);
- 		if (IS_ERR(cros_port->port)) {
--			dev_err(dev, "Failed to register port %d\n", port_num);
- 			ret = PTR_ERR(cros_port->port);
-+			dev_err_probe(dev, ret, "Failed to register port %d\n", port_num);
- 			goto unregister_ports;
- 		}
- 
--- 
-2.37.0
-
+>
+> ---
+>
+>  drivers/platform/chrome/cros_ec_typec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
+hrome/cros_ec_typec.c
+> index d6088ba447af..8c0ca3c128ee 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -352,8 +352,8 @@ static int cros_typec_init_ports(struct cros_typec_da=
+ta *typec)
+>
+>                 cros_port->port =3D typec_register_port(dev, cap);
+>                 if (IS_ERR(cros_port->port)) {
+> -                       dev_err(dev, "Failed to register port %d\n", port=
+_num);
+>                         ret =3D PTR_ERR(cros_port->port);
+> +                       dev_err_probe(dev, ret, "Failed to register port =
+%d\n", port_num);
+>                         goto unregister_ports;
+>                 }
+>
+> --
+> 2.37.0
+>

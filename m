@@ -1,152 +1,402 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CFD4411
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Jul 2022 15:35:54 +0000 (UTC)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BAvb78026643;
-	Mon, 11 Jul 2022 08:38:29 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h76k6bhvx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Jul 2022 08:38:29 -0400
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 26BCcSmK045671
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 11 Jul 2022 08:38:28 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 11 Jul
- 2022 08:38:27 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 11 Jul 2022 08:38:27 -0400
-Received: from nsa.ad.analog.com ([10.44.3.53])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 26BCbVE7011687;
-	Mon, 11 Jul 2022 08:38:17 -0400
-From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-To: <linux-arm-msm@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <linux-imx@nxp.com>,
-        <linux-mips@vger.kernel.org>,
-        Lad Prabhakar
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <linux-iio@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-CC: Andy Gross <agross@kernel.org>,
-        Nicolas Ferre
-	<nicolas.ferre@microchip.com>,
-        Benson Leung <bleung@chromium.org>,
-        Matthias
- Brugger <matthias.bgg@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>, Zhang
- Rui <rui.zhang@intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Eugen
- Hristev <eugen.hristev@microchip.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Benjamin Fair
-	<benjaminfair@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Fabrice Gasnier
-	<fabrice.gasnier@foss.st.com>,
-        Jishnu Prakash <quic_jprakash@quicinc.com>,
-        Christophe Branchereau <cbranchereau@gmail.com>,
-        Avi Fishman
-	<avifishman70@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Michael
- Hennerich <Michael.Hennerich@analog.com>,
-        Miquel Raynal
-	<miquel.raynal@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Thara Gopinath
-	<thara.gopinath@linaro.org>,
-        Cai Huoqing <cai.huoqing@linux.dev>,
-        Fabio
- Estevam <festevam@gmail.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Shawn Guo <shawnguo@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
-        Arnd
- Bergmann <arnd@arndb.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Patrick
- Venture <venture@google.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andy Shevchenko
-	<andy.shevchenko@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Bjorn Andersson
-	<bjorn.andersson@linaro.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Guenter
- Roeck <groeck@chromium.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Pengutronix
- Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 02/15] iio: inkern: fix return value in devm_of_iio_channel_get_by_name()
-Date: Mon, 11 Jul 2022 14:38:22 +0200
-Message-ID: <20220711123835.811358-3-nuno.sa@analog.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220711123835.811358-1-nuno.sa@analog.com>
-References: <20220711123835.811358-1-nuno.sa@analog.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EECB28F0
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 08:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657614394; x=1689150394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UBQDmfwh646pLpC04VZOgWcklUBWO1RHlXCWXV8YZyo=;
+  b=ZFQKM1r4HeMGGGPOpGN+MVnknggXFDZ8NowoXUNyalNc6cXwU8OqEI9r
+   T4pwiV9JZ5UOc4CKdD3EjRrvsqkfEppeySC4siMFLORQ3rg+JJpq+L3Gv
+   oHNbFiJvWp01ySDztUvZhIoECBLS73KP4a/1L0Yb9+94SA2OoiwfQkjLs
+   JoTD4J2jN5ze3Wh1XZzZDK/fYmQ61TPsWGWjV9kXTPIPSXsh25iol/6DL
+   qFKPUc0Qx75A7MM7q3Z3TNvXYzVt8iHQu5vUWgkhloNfemIq9w6Pu0baw
+   4DcfPQGkadcaaVZdRyy/fcUUL287D5GYu1EKr6aFaLk71PxTxRaTa+YLF
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="264663291"
+X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; 
+   d="scan'208";a="264663291"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 01:26:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; 
+   d="scan'208";a="737400677"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 12 Jul 2022 01:26:29 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 12 Jul 2022 11:26:28 +0300
+Date: Tue, 12 Jul 2022 11:26:28 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, bleung@chromium.org,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v4 1/9] usb: typec: Add support for retimers
+Message-ID: <Ys0wNE61Nncb5YZY@kuha.fi.intel.com>
+References: <20220711072333.2064341-1-pmalani@chromium.org>
+ <20220711072333.2064341-2-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: qaJDU5Vqcjzj3zGc9hDASQNFfFavcTPg
-X-Proofpoint-GUID: qaJDU5Vqcjzj3zGc9hDASQNFfFavcTPg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-11_18,2022-07-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 impostorscore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207110054
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711072333.2064341-2-pmalani@chromium.org>
 
-of_iio_channel_get_by_name() can either return NULL or an error pointer
-so that only doing IS_ERR() is not enough. Fix it by checking the NULL
-pointer case and return -ENODEV in that case. Note this is done like this
-so that users of the function (which only check for error pointers) do
-not need to be changed. This is not ideal since we are losing error codes
-and as such, in a follow up change, things will be unified so that
-of_iio_channel_get_by_name() only returns error codes.
+Mon, Jul 11, 2022 at 07:22:55AM +0000, Prashant Malani kirjoitti:
+> Introduce a retimer device class and associated functions that register
+> and use retimer "switch" devices. These operate in a manner similar to
+> the "mode-switch" and help configure retimers that exist between the
+> Type-C connector and host controller(s).
+> 
+> Type C ports can be linked to retimers using firmware node device
+> references (again, in a manner similar to "mode-switch").
+> 
+> There are no new sysfs files being created; there is the new retimer
+> class directory, but there are no class-specific files being created
+> there.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Fixes: 6e39b145cef7 ("iio: provide of_iio_channel_get_by_name() and devm_ version it")
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/iio/inkern.c | 2 ++
- 1 file changed, 2 insertions(+)
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-index 9d87057794fc..87fd2a0d44f2 100644
---- a/drivers/iio/inkern.c
-+++ b/drivers/iio/inkern.c
-@@ -412,6 +412,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
- 	channel = of_iio_channel_get_by_name(np, channel_name);
- 	if (IS_ERR(channel))
- 		return channel;
-+	if (!channel)
-+		return ERR_PTR(-ENODEV);
- 
- 	ret = devm_add_action_or_reset(dev, devm_iio_channel_free, channel);
- 	if (ret)
+> ---
+> 
+> Changes since v3:
+> - Updated Commit message to mention that no new class-specific sysfs
+>   files are being added.
+> 
+> Changes since v2:
+> - No changes.
+> 
+> Changes since v1:
+> - Change class name to "retimer"
+> - Change device type to "typec_retimer".
+> 
+>  drivers/usb/typec/Makefile        |   2 +-
+>  drivers/usb/typec/class.c         |   9 +-
+>  drivers/usb/typec/class.h         |   1 +
+>  drivers/usb/typec/retimer.c       | 168 ++++++++++++++++++++++++++++++
+>  drivers/usb/typec/retimer.h       |  15 +++
+>  include/linux/usb/typec_retimer.h |  45 ++++++++
+>  6 files changed, 238 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/usb/typec/retimer.c
+>  create mode 100644 drivers/usb/typec/retimer.h
+>  create mode 100644 include/linux/usb/typec_retimer.h
+> 
+> diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+> index 2f174cd3e5df..4955d9af0811 100644
+> --- a/drivers/usb/typec/Makefile
+> +++ b/drivers/usb/typec/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_TYPEC)		+= typec.o
+> -typec-y				:= class.o mux.o bus.o pd.o
+> +typec-y				:= class.o mux.o bus.o pd.o retimer.o
+>  typec-$(CONFIG_ACPI)		+= port-mapper.o
+>  obj-$(CONFIG_TYPEC)		+= altmodes/
+>  obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index bbc46b14f99a..9062836bb638 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -2299,10 +2299,14 @@ static int __init typec_init(void)
+>  	if (ret)
+>  		goto err_unregister_bus;
+>  
+> -	ret = class_register(&typec_class);
+> +	ret = class_register(&retimer_class);
+>  	if (ret)
+>  		goto err_unregister_mux_class;
+>  
+> +	ret = class_register(&typec_class);
+> +	if (ret)
+> +		goto err_unregister_retimer_class;
+> +
+>  	ret = usb_power_delivery_init();
+>  	if (ret)
+>  		goto err_unregister_class;
+> @@ -2312,6 +2316,9 @@ static int __init typec_init(void)
+>  err_unregister_class:
+>  	class_unregister(&typec_class);
+>  
+> +err_unregister_retimer_class:
+> +	class_unregister(&retimer_class);
+> +
+>  err_unregister_mux_class:
+>  	class_unregister(&typec_mux_class);
+>  
+> diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+> index b531f9853bc0..43fcf9e37a8c 100644
+> --- a/drivers/usb/typec/class.h
+> +++ b/drivers/usb/typec/class.h
+> @@ -76,6 +76,7 @@ extern const struct device_type typec_port_dev_type;
+>  #define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
+>  
+>  extern struct class typec_mux_class;
+> +extern struct class retimer_class;
+>  extern struct class typec_class;
+>  
+>  #if defined(CONFIG_ACPI)
+> diff --git a/drivers/usb/typec/retimer.c b/drivers/usb/typec/retimer.c
+> new file mode 100644
+> index 000000000000..051eaa7d2899
+> --- /dev/null
+> +++ b/drivers/usb/typec/retimer.c
+> @@ -0,0 +1,168 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2022 Google LLC
+> + *
+> + * USB Type-C Retimer support.
+> + * Author: Prashant Malani <pmalani@chromium.org>
+> + *
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/list.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/property.h>
+> +#include <linux/slab.h>
+> +
+> +#include "class.h"
+> +#include "retimer.h"
+> +
+> +static bool dev_name_ends_with(struct device *dev, const char *suffix)
+> +{
+> +	const char *name = dev_name(dev);
+> +	const int name_len = strlen(name);
+> +	const int suffix_len = strlen(suffix);
+> +
+> +	if (suffix_len > name_len)
+> +		return false;
+> +
+> +	return strcmp(name + (name_len - suffix_len), suffix) == 0;
+> +}
+> +
+> +static int retimer_fwnode_match(struct device *dev, const void *fwnode)
+> +{
+> +	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-retimer");
+> +}
+> +
+> +static void *typec_retimer_match(struct fwnode_handle *fwnode, const char *id, void *data)
+> +{
+> +	struct device *dev  = class_find_device(&retimer_class, NULL, fwnode,
+> +						retimer_fwnode_match);
+> +
+> +	return dev ? to_typec_retimer(dev) : ERR_PTR(-EPROBE_DEFER);
+> +}
+> +
+> +/**
+> + * fwnode_typec_retimer_get - Find USB Type-C retimer.
+> + * @fwnode: The caller device node.
+> + *
+> + * Finds a retimer linked to the caller. This function is primarily meant for the
+> + * Type-C drivers. Returns a reference to the retimer on success, NULL if no
+> + * matching connection was found, or ERR_PTR(-EPROBE_DEFER) when a connection
+> + * was found but the retimer has not been enumerated yet.
+> + */
+> +struct typec_retimer *fwnode_typec_retimer_get(struct fwnode_handle *fwnode)
+> +{
+> +	struct typec_retimer *retimer;
+> +
+> +	retimer = fwnode_connection_find_match(fwnode, "retimer-switch", NULL, typec_retimer_match);
+> +	if (!IS_ERR_OR_NULL(retimer))
+> +		WARN_ON(!try_module_get(retimer->dev.parent->driver->owner));
+> +
+> +	return retimer;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_typec_retimer_get);
+> +
+> +/**
+> + * typec_retimer_put - Release handle to a retimer.
+> + * @retimer: USB Type-C Connector Retimer.
+> + *
+> + * Decrements reference count for @retimer.
+> + */
+> +void typec_retimer_put(struct typec_retimer *retimer)
+> +{
+> +	if (!IS_ERR_OR_NULL(retimer)) {
+> +		module_put(retimer->dev.parent->driver->owner);
+> +		put_device(&retimer->dev);
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(typec_retimer_put);
+> +
+> +int typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
+> +{
+> +	if (IS_ERR_OR_NULL(retimer))
+> +		return 0;
+> +
+> +	return retimer->set(retimer, state);
+> +}
+> +EXPORT_SYMBOL_GPL(typec_retimer_set);
+> +
+> +static void typec_retimer_release(struct device *dev)
+> +{
+> +	kfree(to_typec_retimer(dev));
+> +}
+> +
+> +static const struct device_type typec_retimer_dev_type = {
+> +	.name = "typec_retimer",
+> +	.release = typec_retimer_release,
+> +};
+> +
+> +/**
+> + * typec_retimer_register - Register a retimer device.
+> + * @parent: Parent device.
+> + * @desc: Retimer description.
+> + *
+> + * Some USB Type-C connectors have their physical lines routed through retimers before they
+> + * reach muxes or host controllers. In some cases (for example: using alternate modes)
+> + * these retimers need to be reconfigured appropriately. This function registers retimer
+> + * switches which route and potentially modify the signals on the Type C physical lines
+> + * enroute to the host controllers.
+> + */
+> +struct typec_retimer *
+> +typec_retimer_register(struct device *parent, const struct typec_retimer_desc *desc)
+> +{
+> +	struct typec_retimer *retimer;
+> +	int ret;
+> +
+> +	if (!desc || !desc->set)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	retimer = kzalloc(sizeof(*retimer), GFP_KERNEL);
+> +	if (!retimer)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	retimer->set = desc->set;
+> +
+> +	device_initialize(&retimer->dev);
+> +	retimer->dev.parent = parent;
+> +	retimer->dev.fwnode = desc->fwnode;
+> +	retimer->dev.class = &retimer_class;
+> +	retimer->dev.type = &typec_retimer_dev_type;
+> +	retimer->dev.driver_data = desc->drvdata;
+> +	dev_set_name(&retimer->dev, "%s-retimer",
+> +		     desc->name ? desc->name : dev_name(parent));
+> +
+> +	ret = device_add(&retimer->dev);
+> +	if (ret) {
+> +		dev_err(parent, "failed to register retimer (%d)\n", ret);
+> +		put_device(&retimer->dev);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return retimer;
+> +}
+> +EXPORT_SYMBOL_GPL(typec_retimer_register);
+> +
+> +/**
+> + * typec_retimer_unregister - Unregister retimer device.
+> + * @retimer: USB Type-C Connector retimer.
+> + *
+> + * Unregister retimer that was registered with typec_retimer_register().
+> + */
+> +void typec_retimer_unregister(struct typec_retimer *retimer)
+> +{
+> +	if (!IS_ERR_OR_NULL(retimer))
+> +		device_unregister(&retimer->dev);
+> +}
+> +EXPORT_SYMBOL_GPL(typec_retimer_unregister);
+> +
+> +void *typec_retimer_get_drvdata(struct typec_retimer *retimer)
+> +{
+> +	return dev_get_drvdata(&retimer->dev);
+> +}
+> +EXPORT_SYMBOL_GPL(typec_retimer_get_drvdata);
+> +
+> +struct class retimer_class = {
+> +	.name = "retimer",
+> +	.owner = THIS_MODULE,
+> +};
+> diff --git a/drivers/usb/typec/retimer.h b/drivers/usb/typec/retimer.h
+> new file mode 100644
+> index 000000000000..fa15951d4846
+> --- /dev/null
+> +++ b/drivers/usb/typec/retimer.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __USB_TYPEC_RETIMER__
+> +#define __USB_TYPEC_RETIMER__
+> +
+> +#include <linux/usb/typec_retimer.h>
+> +
+> +struct typec_retimer {
+> +	struct device dev;
+> +	typec_retimer_set_fn_t set;
+> +};
+> +
+> +#define to_typec_retimer(_dev_) container_of(_dev_, struct typec_retimer, dev)
+> +
+> +#endif /* __USB_TYPEC_RETIMER__ */
+> diff --git a/include/linux/usb/typec_retimer.h b/include/linux/usb/typec_retimer.h
+> new file mode 100644
+> index 000000000000..5e036b3360e2
+> --- /dev/null
+> +++ b/include/linux/usb/typec_retimer.h
+> @@ -0,0 +1,45 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __USB_TYPEC_RETIMER
+> +#define __USB_TYPEC_RETIMER
+> +
+> +#include <linux/property.h>
+> +#include <linux/usb/typec.h>
+> +
+> +struct device;
+> +struct typec_retimer;
+> +struct typec_altmode;
+> +struct fwnode_handle;
+> +
+> +struct typec_retimer_state {
+> +	struct typec_altmode *alt;
+> +	unsigned long mode;
+> +	void *data;
+> +};
+> +
+> +typedef int (*typec_retimer_set_fn_t)(struct typec_retimer *retimer,
+> +				      struct typec_retimer_state *state);
+> +
+> +struct typec_retimer_desc {
+> +	struct fwnode_handle *fwnode;
+> +	typec_retimer_set_fn_t set;
+> +	const char *name;
+> +	void *drvdata;
+> +};
+> +
+> +struct typec_retimer *fwnode_typec_retimer_get(struct fwnode_handle *fwnode);
+> +void typec_retimer_put(struct typec_retimer *retimer);
+> +int typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state);
+> +
+> +static inline struct typec_retimer *typec_retimer_get(struct device *dev)
+> +{
+> +	return fwnode_typec_retimer_get(dev_fwnode(dev));
+> +}
+> +
+> +struct typec_retimer *
+> +typec_retimer_register(struct device *parent, const struct typec_retimer_desc *desc);
+> +void typec_retimer_unregister(struct typec_retimer *retimer);
+> +
+> +void *typec_retimer_get_drvdata(struct typec_retimer *retimer);
+> +
+> +#endif /* __USB_TYPEC_RETIMER */
+> -- 
+> 2.37.0.144.g8ac04bfd2-goog
+
 -- 
-2.37.0
-
+heikki

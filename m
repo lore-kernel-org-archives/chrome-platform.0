@@ -1,38 +1,38 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C9E6AAC
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 21:03:28 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id x18-20020a17090a8a9200b001ef83b332f5so382803pjn.0
-        for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 14:03:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0053C6AAC
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 21:03:32 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id y141so8502461pfb.7
+        for <chrome-platform@lists.linux.dev>; Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oXKjVT7u/Vdw6OQapcARzJ8tfeoIWiT56vDmOkl6F3I=;
-        b=OjqqmVzsv0YolRrIIZLjhjdZCq1rmYEBkn8DRiK6Wk0S2y5Ir4mr4pL/27LxVLDmQe
-         aWl1whRFV+vPO/nyLDG9vb6DyCXlGyMboZjjSOMxHQxu6SSTOxqJxPuiMUF5fcOIqBRP
-         4TdCdMZIwKJ6EV9qhTaoX79MbML24W6P0A1MI=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+0ouDOTocd4ryU0X2wtR7HE0YSPQPIMij6SMHBNcHvk=;
+        b=BLZ53MiPDohoR1ei9h52qUvtRT/WF5kmx4QSKuD2erEmWx+6e3ziWU7U05ercXjTav
+         3eChHMZ8sUfiAX6yQKVMd0wiSu/2ollOz4MFJ6rBsM9usYVhukHGV0qJZVwLGnEBPER4
+         ObGVuxpGA0fkTbvpESbqnYo9/ouTRnhuf4a4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oXKjVT7u/Vdw6OQapcARzJ8tfeoIWiT56vDmOkl6F3I=;
-        b=wxdyc1gZF49BaXS+8J/fa6rVhqFrYMV2kzJKDB3VRbnv2gSRd93CsV5nAzn/uuVQNF
-         hEMwbQ4lqPixYrDBO7CNsA3qLyEi9ODwXfjWl3dyr2eol4OFQ2N2Id5dg8IbZm2ra0VP
-         27nbihvpBxq8RnQPWHcIoEBzv6H/x4/oOuRzV5zhH2GhvWSuYHOiRAPgSOn3TsMXNMBM
-         lr6jypw8yLJ+ss+1OoEokKk6vZr2cRy4JO5YNYr140OLEqDbGi676CBBApGOHv756w6T
-         w8BdC+s1mgDyV+Oa8Gv0W5iRicN+vQ1WYEFNxSsyLxzrO7Ied72wWcmgobASV3zA7hjT
-         FRfQ==
-X-Gm-Message-State: AJIora//V/gY2eZOJqkNJRFV1rMkuHGP2bSnaF0O2boB0VF4Xrww3Yr1
-	J0JHYV4WJrEp5+Kmp3uFr3JpT/E++Fud/w==
-X-Google-Smtp-Source: AGRyM1t3A2NeYZ46IZn1+5Gsngitu30LooC617kS/EU05ggoSiWAACIwHprl6NLuRAJwQgmOn5AP2A==
-X-Received: by 2002:a17:90a:eacd:b0:1ef:84c2:418d with SMTP id ev13-20020a17090aeacd00b001ef84c2418dmr6323006pjb.101.1657659808270;
-        Tue, 12 Jul 2022 14:03:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+0ouDOTocd4ryU0X2wtR7HE0YSPQPIMij6SMHBNcHvk=;
+        b=HZMIOCSYL738CE7erHAOQ6wqRQUoA/biqWwobH3MPrQW48pDk+jQN0ZKO5KV0KqpFd
+         0XO8Hq6Nxu5G10hZTk7GSgOq4oNvROWs5a50T0rXmSnibWFLlPmKUxzPnb52ZADfYeY6
+         XpXOdTTobVipeLRax09oz5CYquzEAWa6vs60HR90UsnZcD7O/Rb2O+KMIzariGZEX/Wj
+         F0/SqzsLZIKA86mnbMwTGM5hE10NkIjBT0fZLKDpFXTLZgHAhmFn5n7MQiVkFRLuffJG
+         Z9DMlOdNRFinnugWfhxTZS+n3HU6c6eAnzg8uarQ2kIYIdc5SMxBwtIU/z2xWv/zABvZ
+         NODw==
+X-Gm-Message-State: AJIora+do71Q+zE1M1JaqG0oHZIlYGPiZZRG8akkIalx99dRMCdMg2dp
+	PhnVY96BmwcJnF0pgGc9oigrVA==
+X-Google-Smtp-Source: AGRyM1u0KoL3IfGKMxtSveG5Sh8uofJj3OBpq26QBgBnPsYH9QtsVzXuwtRvnEQwyw8tOdbKRO904Q==
+X-Received: by 2002:a05:6a00:170a:b0:52a:d3d4:3852 with SMTP id h10-20020a056a00170a00b0052ad3d43852mr60708pfc.19.1657659812447;
+        Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
 Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id a15-20020a170902eccf00b0016bf8048bd2sm7284130plh.175.2022.07.12.14.03.27
+        by smtp.gmail.com with ESMTPSA id a15-20020a170902eccf00b0016bf8048bd2sm7284130plh.175.2022.07.12.14.03.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:03:27 -0700 (PDT)
+        Tue, 12 Jul 2022 14:03:32 -0700 (PDT)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
@@ -40,10 +40,12 @@ Cc: bleung@chromium.org,
 	heikki.krogerus@linux.intel.com,
 	Prashant Malani <pmalani@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH 1/2] platform/chrome: cros_ec_typec: Rename port altmode array
-Date: Tue, 12 Jul 2022 21:03:17 +0000
-Message-Id: <20220712210318.2671292-1-pmalani@chromium.org>
+Subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Register port altmodes
+Date: Tue, 12 Jul 2022 21:03:18 +0000
+Message-Id: <20220712210318.2671292-2-pmalani@chromium.org>
 X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
+In-Reply-To: <20220712210318.2671292-1-pmalani@chromium.org>
+References: <20220712210318.2671292-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -52,64 +54,138 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename "p_altmode" to "port_altmode" which is a less ambiguous name for
-the port_altmode struct array.
+Instead of using manually managed altmode structs, register the port's
+altmodes with the Type-C framework. This facilitates matching them to
+partner altmodes later.
 
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 51 +++++++++++++++++++------
+ 1 file changed, 40 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index d6088ba447af..b9848e80f372 100644
+index b9848e80f372..e67cccb9ac78 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -60,8 +60,7 @@ struct cros_typec_port {
+@@ -25,6 +25,8 @@
+ 
+ #define DRV_NAME "cros-ec-typec"
+ 
++#define DP_PORT_VDO	(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D) | DP_CAP_DFP_D)
++
+ /* Supported alt modes. */
+ enum {
+ 	CROS_EC_ALTMODE_DP = 0,
+@@ -60,7 +62,7 @@ struct cros_typec_port {
  	uint8_t mux_flags;
  	uint8_t role;
  
--	/* Port alt modes. */
--	struct typec_altmode p_altmode[CROS_EC_ALTMODE_MAX];
-+	struct typec_altmode port_altmode[CROS_EC_ALTMODE_MAX];
+-	struct typec_altmode port_altmode[CROS_EC_ALTMODE_MAX];
++	struct typec_altmode *port_altmode[CROS_EC_ALTMODE_MAX];
  
  	/* Flag indicating that PD partner discovery data parsing is completed. */
  	bool sop_disc_done;
-@@ -282,16 +281,16 @@ static void cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+@@ -253,6 +255,14 @@ static void cros_typec_remove_cable(struct cros_typec_data *typec,
+ 	port->sop_prime_disc_done = false;
+ }
+ 
++static void cros_typec_unregister_port_altmodes(struct cros_typec_port *port)
++{
++	int i;
++
++	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++)
++		typec_unregister_altmode(port->port_altmode[i]);
++}
++
+ static void cros_unregister_ports(struct cros_typec_data *typec)
+ {
+ 	int i;
+@@ -267,34 +277,49 @@ static void cros_unregister_ports(struct cros_typec_data *typec)
+ 		usb_role_switch_put(typec->ports[i]->role_sw);
+ 		typec_switch_put(typec->ports[i]->ori_sw);
+ 		typec_mux_put(typec->ports[i]->mux);
++		cros_typec_unregister_port_altmodes(typec->ports[i]);
+ 		typec_unregister_port(typec->ports[i]->port);
+ 	}
+ }
+ 
+ /*
+- * Fake the alt mode structs until we actually start registering Type C port
+- * and partner alt modes.
++ * Register port alt modes with known values till we start retrieving
++ * port capabilities from the EC.
+  */
+-static void cros_typec_register_port_altmodes(struct cros_typec_data *typec,
++static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+ 					      int port_num)
+ {
  	struct cros_typec_port *port = typec->ports[port_num];
++	struct typec_altmode_desc desc;
++	struct typec_altmode *amode;
  
  	/* All PD capable CrOS devices are assumed to support DP altmode. */
--	port->p_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
--	port->p_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
-+	port->port_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
-+	port->port_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
+-	port->port_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
+-	port->port_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
++	desc.svid = USB_TYPEC_DP_SID,
++	desc.mode = USB_TYPEC_DP_MODE,
++	desc.vdo = DP_PORT_VDO,
++	amode = typec_port_register_altmode(port->port, &desc);
++	if (IS_ERR(amode))
++		return PTR_ERR(amode);
++	port->port_altmode[CROS_EC_ALTMODE_DP] = amode;
  
  	/*
  	 * Register TBT compatibility alt mode. The EC will not enter the mode
  	 * if it doesn't support it, so it's safe to register it unconditionally
  	 * here for now.
  	 */
--	port->p_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
--	port->p_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
-+	port->port_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
-+	port->port_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
+-	port->port_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
+-	port->port_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
++	memset(&desc, 0, sizeof(desc));
++	desc.svid = USB_TYPEC_TBT_SID,
++	desc.mode = TYPEC_ANY_MODE,
++	amode = typec_port_register_altmode(port->port, &desc);
++	if (IS_ERR(amode))
++		return PTR_ERR(amode);
++	port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
  
  	port->state.alt = NULL;
  	port->state.mode = TYPEC_STATE_USB;
-@@ -431,7 +430,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+ 	port->state.data = NULL;
++
++	return 0;
+ }
+ 
+ static int cros_typec_init_ports(struct cros_typec_data *typec)
+@@ -361,7 +386,11 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 			dev_dbg(dev, "No switch control for port %d\n",
+ 				port_num);
+ 
+-		cros_typec_register_port_altmodes(typec, port_num);
++		ret = cros_typec_register_port_altmodes(typec, port_num);
++		if (ret) {
++			dev_err(dev, "Failed to register port altmodes\n");
++			goto unregister_ports;
++		}
+ 
+ 		cros_port->disc_data = devm_kzalloc(dev, EC_PROTO2_MAX_RESPONSE_SIZE, GFP_KERNEL);
+ 		if (!cros_port->disc_data) {
+@@ -430,7 +459,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
  		data.enter_vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
  
  	if (!port->state.alt) {
--		port->state.alt = &port->p_altmode[CROS_EC_ALTMODE_TBT];
-+		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_TBT];
+-		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_TBT];
++		port->state.alt = port->port_altmode[CROS_EC_ALTMODE_TBT];
  		ret = cros_typec_usb_safe_state(port);
  		if (ret)
  			return ret;
-@@ -473,7 +472,7 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
+@@ -472,7 +501,7 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
  	/* Configuration VDO. */
  	dp_data.conf = DP_CONF_SET_PIN_ASSIGN(pd_ctrl->dp_mode);
  	if (!port->state.alt) {
--		port->state.alt = &port->p_altmode[CROS_EC_ALTMODE_DP];
-+		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_DP];
+-		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_DP];
++		port->state.alt = port->port_altmode[CROS_EC_ALTMODE_DP];
  		ret = cros_typec_usb_safe_state(port);
  		if (ret)
  			return ret;

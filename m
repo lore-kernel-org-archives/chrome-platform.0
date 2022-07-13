@@ -1,60 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A76A15AA
-	for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 02:58:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E3CC3411C;
-	Wed, 13 Jul 2022 02:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657681086;
-	bh=ppGPQRz71SyIIbpVVd2z7ECwSLRj01ZGyLWURlj+GMk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eteu4NCCWfn+jiUzOIs19qru53PJJ87Bxq+f2JvAP/5JrNd9VG2tONn7NsH6d/WpZ
-	 G1oEWQOFSwV4KuhaKZiEgkhUerBhycdNCuwO9faN2XpUm5WIE8HkOnbpmVc/HnL16Q
-	 7G9Ma7xtC3pJhhCEG2l3t6u8He3TqCgu3bGciGhWV9Auia7N5XG1x0ZRddUqnfhayW
-	 wvBSpZMiDl0F8uymLhgiL60tFA8TwvClk4MRVuVieTUBwkynEo09jWpV37/fluQMYe
-	 sDa/yAMnGFJnF22ok3ZWdFAeW+4HtxcOPu4TKqkJwj8MW9kDnCzH+O6ImeUWfwwQ/u
-	 hVagCi1Dg+DFg==
-Date: Wed, 13 Jul 2022 02:58:03 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Tim Van Patten <timvp@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, rrangel@chromium.org,
-	robbarnes@google.com, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Send host event for
- prepare/complete
-Message-ID: <Ys40uw4QIe4fQKA/@google.com>
-References: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E197A
+	for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 08:16:38 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id CE96A6601A33;
+	Wed, 13 Jul 2022 09:16:36 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657700197;
+	bh=R2PxcQlGqCPfLT0tv7PApqY13Oo+XyU+FcKDR3vX5yw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SrFsjNOdbmRGVH79LEvg4jRc+889XWLFYjVaRcA4paF+BEJuUITYvTa1Q73oi6eAj
+	 DYEoW+L82lnMrP9S2bcLNNcnJsxayrJ8MmDr8zI2mrKD3x7zG+5IdChqSyGBZRGL0j
+	 KUobuPxuSGfuw0VLkQvvK9uY8Qd0e/B3wemvujNQIOmgCXD9ZybTi2iN0bKqzk37FA
+	 5yP5dFj7aS1Ku/WCcz46zhMxiyziHBk3LqcrqN2uK2GU0oPDxsdcB62ZrzXs79GUzX
+	 /Sz9361pBfUpDbUIWANo8vMoMjxHIqObbIbmZiCe3tD7RVbgVo7zqGOEq7PXZ9/xd2
+	 sChuVxGgssbgw==
+Message-ID: <16fe2bd2-bc9b-f2a1-8d82-f8f089d36f37@collabora.com>
+Date: Wed, 13 Jul 2022 10:16:33 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Use dev_err_probe on port
+ register fail
+Content-Language: en-US
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Prashant Malani <pmalani@chromium.org>
+Cc: kernel@collabora.com, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220712214554.545035-1-nfraprado@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220712214554.545035-1-nfraprado@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 06, 2022 at 08:51:39PM -0600, Tim Van Patten wrote:
-> Update cros_ec_lpc_pm_ops to call cros_ec_lpc_suspend() during PM
-> .prepare() and cros_ec_lpc_resume() during .complete. This allows the
-> EC to log entry/exit of AP's suspend/resume more accurately.
+Il 12/07/22 23:45, Nícolas F. R. A. Prado ha scritto:
+> The typec_register_port() can fail with EPROBE_DEFER if the endpoint
+> node hasn't probed yet. In order to avoid spamming the log with errors
+> in that case, log using dev_err_probe().
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Please be consistent.  Either way:
-- .prepare and .complete.
-- .prepare() and .complete().
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-The patch doesn't allow EC to log anything.  It makes AP emit more logs.
-
-On the related note, the commit subject is confusing.  The patch doesn't
-send "host event".  "host event" is a terminology when EC wants to notify
-AP something.  Also, s/cros_ec/cros_ec_lpcs/.
-
-> Changes in v2:
-> - Include cros_ec_resume() return value in dev_info() output.
-> - Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
-
-I didn't see concerns in [1] have been addressed.
-
-[1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220701095421.1.I78ded92e416b55de31975686d34b2058d4761c07@changeid/#24920824

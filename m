@@ -1,51 +1,51 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B2F4A00
-	for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 18:16:34 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id ss3so15255063ejc.11
-        for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 11:16:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FFD4A00
+	for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 18:18:46 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id b11so21263157eju.10
+        for <chrome-platform@lists.linux.dev>; Wed, 13 Jul 2022 11:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ncNTnSyyHX2VTcK/5a+3RxtAnZS3Eiu/HYYWKWm5tqk=;
-        b=d+ahix7JcEXFi1nCKUaO270dPP5Gkcbc8fr4FdUEJqZ14KEunHgDh3euSMzf5FShlN
-         SFDKz7Xd7f4Kz0Dpr9CCICsrZ1C5sIJ3V+DTysNAFniDi9omM/KVgs8J8pz4Y1+ysVHl
-         B0AfFrQkGKgoT4WovgJ3nFKpXjmKh9I/3o+sUVb7JW8c8kOGpZfwpGNRBkGMpH83IGed
-         BfkxeRLJqN/3vYwwg4GnlIIElMx82l70UhHfl8lyXzbfgeIMUI1qZgkNsRtLADMQphVo
-         oIY5FwVXb7zi8w/KdUXQo+5uBx43Bq8XRcc3tZhanvJkOjnF4f7YJXiYiUj46F1JjW4u
-         ROkg==
+        bh=MLaLblQd1msZWwY9FiReYrNm7ZLhdWFbMkP58jqCGA8=;
+        b=LBXWbxHrwlSAa2xQU0mbSSLoCYx7g55A+eR9KWl97wN1VeT8uphM+HgXqYIYO4Aur2
+         EdpfiOasKKdceP2dm3EIrp02LI0czYATVPeoJbqXxXkllYv9Qt/SAT5N+e6pT2B3OzZ1
+         XnSFN6xmmOdT972YMzrJ8VNw/5Fzx0hEfCHiXpWdHERP1l/4Ij6ns0YligN0JsPWL+fe
+         yXB2sw3wm7JPANQlMqIDXfs+ubX1zmNFVX2QEqPsHIwyxHTSXlVoQXkll/nTqnYti14k
+         cSm/Z/olJTDzjY9pDEJZOSOik/E3of86mI0HkkUUv3r68LguOz+NysGB4IRQUyclLF2x
+         W8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ncNTnSyyHX2VTcK/5a+3RxtAnZS3Eiu/HYYWKWm5tqk=;
-        b=ae/4KtgxPFPEIIC7Q3osCxHLVHIMTRcjStufpaz3EZnsCakVRyl2oXCgUTAYKw5d9n
-         Bl2ES8Iskwuz+Umj2UcvpCC5xEaY5ih5MaPTX8VhEMpF38oO/nYy3C9Na1BGkbPb85Di
-         vUjsi8tvF4plPGVzmAcd5U1iJCKKAaYE81+Hu+IHlrKY5Dd/A6XO6sRhdSiIORog14Ai
-         d3rcYegengndnlZ/sQORwHAUyTwmXMfsJ3CQJGI/HdRg8T63ZM8boFgO1HMEr79uyUwm
-         blukcF5HlcoZExNhT4EbiXEfeXq2Y+irB5yOYCNIWIOYxwkyQCBXuOa7UBzSgZKWpOW5
-         Pp9Q==
-X-Gm-Message-State: AJIora/qSJ8Zd+CNOsE41FyzWijD1pm4+SQyxBd3YrnlFLGBSZywaCpY
-	2rHMsY0ec7GNsRtkE7fSemcSvW8W7ja/3/1L+ysBUQ==
-X-Google-Smtp-Source: AGRyM1sH0nSfuYL+3mf0INCiKCLD2n9ZcPY/cIny3nLwPEs8TXfhKQaFxML+tKuumf7uEZZqIgpTV07KVdi1L0//cPA=
+        bh=MLaLblQd1msZWwY9FiReYrNm7ZLhdWFbMkP58jqCGA8=;
+        b=N9YFQLMDARcBggxeWwGW77M4uvn1huwnmlQX16MQPOuDZpct0s/PJyD6sgtHgbKQxa
+         ICm/G0B3XbabVXTA3MCgUyiWIAwCPfIwHE+1rOUW6Xu0BpeJmckazbaZn1BmOXpNtdn2
+         wcOe1GSKkqIE4oNHSK17HqeeEejsrQG2EN+4/b6NBfX2x57/r7Ky56Kx0eFuRmuEvWTJ
+         7pycboEdqwJhw4DWTCB7mcTmCAk8XmXmg0sImLNi1KgeVWtjdqn9cquYTaS2k0FRmOUE
+         7LUlqOKThiMwBNxt5jhY2lcDIcMxHEiY/6qUcdhbJ1+4VQlorfVEn+eefk7OOsjlx2vX
+         gzjQ==
+X-Gm-Message-State: AJIora8Db8j8MpVTgTwZiczOUAZVGRBq7hXawKZ3wWO30cGuZNcjOSVW
+	tL8uGcKkW66rOmyGYe0xBMEZ+8NTuz5x1UANqC8HQQ==
+X-Google-Smtp-Source: AGRyM1teizRCFtWFKbPHLS6yIUMTOL2oH8WTlV4P3Mml7SNEMBR21p9JLUZzeig/m9tzX0V1nujmXSJmHdnx6euZw80=
 X-Received: by 2002:a17:907:a06f:b0:72b:564c:465b with SMTP id
- ia15-20020a170907a06f00b0072b564c465bmr4785902ejc.344.1657736192657; Wed, 13
- Jul 2022 11:16:32 -0700 (PDT)
+ ia15-20020a170907a06f00b0072b564c465bmr4793767ejc.344.1657736324173; Wed, 13
+ Jul 2022 11:18:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220628024913.1755292-1-tzungbi@kernel.org> <20220628024913.1755292-7-tzungbi@kernel.org>
-In-Reply-To: <20220628024913.1755292-7-tzungbi@kernel.org>
+References: <20220628024913.1755292-1-tzungbi@kernel.org> <20220628024913.1755292-8-tzungbi@kernel.org>
+In-Reply-To: <20220628024913.1755292-8-tzungbi@kernel.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Wed, 13 Jul 2022 11:16:21 -0700
-Message-ID: <CABXOdTcS25n5u0PyZTC2Exs8wLc1-1WRMTJhgwAjpsbCby_dcg@mail.gmail.com>
-Subject: Re: [RESEND PATCH 06/11] platform/chrome: cros_ec_proto: change Kunit
- expectation when timed out
+Date: Wed, 13 Jul 2022 11:18:32 -0700
+Message-ID: <CABXOdTft0Nu_hJQuXwepBXE3tWZf7jaidGE5mamq_=1Zi4hevg@mail.gmail.com>
+Subject: Re: [RESEND PATCH 07/11] platform/chrome: cros_ec_proto: return
+ -EAGAIN when retries timed out
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
@@ -58,31 +58,32 @@ On Mon, Jun 27, 2022 at 7:49 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 > EC_COMMAND_RETRIES times for sending EC_CMD_GET_COMMS_STATUS,
 > cros_ec_wait_until_complete() doesn't return an error code.
 >
-> Change the expectation to an error code.
+> Return -EAGAIN in the case instead.
+
+Does this make sense, or should it be -ETIMEDOUT ? What does the EC do
+if it is still busy (stuck ?) with executing a command and it gets
+another one ?
+
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-
 > ---
->  drivers/platform/chrome/cros_ec_proto_test.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/platform/chrome/cros_ec_proto.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-> index 64100fd81c6a..fbb872040711 100644
-> --- a/drivers/platform/chrome/cros_ec_proto_test.c
-> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
-> @@ -1870,9 +1870,7 @@ static void cros_ec_proto_test_cmd_xfer_in_progress_retries_status_processing(st
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index 466ecb063bd6..49772a4c5353 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -167,6 +167,9 @@ static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *
+>                         break;
 >         }
 >
->         ret = cros_ec_cmd_xfer(ec_dev, &msg);
-> -       KUNIT_EXPECT_EQ(test, ret, sizeof(struct ec_response_get_comms_status));
-> -
-> -       KUNIT_EXPECT_EQ(test, msg.result, EC_RES_SUCCESS);
-> +       KUNIT_EXPECT_EQ(test, ret, -EAGAIN);
->
->         /* For EC_CMD_GET_COMMS_STATUS EC_COMMAND_RETRIES times. */
->         KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 51);
+> +       if (i >= EC_COMMAND_RETRIES)
+> +               ret = -EAGAIN;
+> +
+>         kfree(msg);
+>         return ret;
+>  }
 > --
 > 2.37.0.rc0.161.g10f37bed90-goog
 >

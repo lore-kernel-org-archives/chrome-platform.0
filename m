@@ -1,135 +1,145 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279E44A19
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 14:29:58 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id fy29so2624986ejc.12
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 07:29:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B7D4A38
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 16:09:49 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id r14so3221115wrg.1
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 09:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1X87mQYG95YA6ZZAAKldNH7qg7++iZIilnL645FgaYE=;
-        b=PTDNmnzInPFykguc6N2+FlL1QMiTDe4AYkk6DNFVUa24DeXwL+7HiVkfBqWKNkUGv+
-         h10SXjpEZiFr6VFocoA1GetnziVXgTZgmdUHXxP1AQGjtpbpTZXOI1JG2FYPp6+WmTAl
-         1hZ2ObiE1+gmVGiT6t8GIp5VSG5vfdeyQy03+5AXgDT4yBWJWveIGxAPloaw0pbn8+fv
-         Hcw9+lZkbxzTckXwE9OiUwUl7p1GpusnJC6UPqLJjVMsuFOV8vlKDTdAJ6JwYrb1Nufk
-         7d4wz2oewvVrJEOcN9qLxF3qc1wumIMmuIX/fCAn/4sZgyKOCAtX7l/JSf3MwN89fkD8
-         mKnA==
+        d=semihalf.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o/feeXuDF17U3RBhITfW4b8xd6jPaKrhz4mQZDocXnE=;
+        b=qstB9JUwN0WNwR+RZEXK8uXWjBMHCoNZLWyXVtp2NScFXwB2tMJ2AA/eSIZWPKSLY2
+         88iD23awwtBYX/Ip7FxVW6GpTRnbF+3npCqPksCBtK8s2GiqPQfyVZtuZLwTPSccDl3t
+         jwTLFXRmMZvXeEnwxwdYZSLD15CHU9HC2M3sC9NxLvIslLwpJZSIk1yDvSPh6HYdirRQ
+         c4otksAWqzzA54BEYImE1T0rOhRNtJApq+KbbqgilXbhY5dwrg1HVEmx/dnPEstD8y7l
+         mLZr9WElpoCMJoxhLs7v0VmQ2L/NsFGCDa0SaTXf4op+ZhckSdp1oS+HRjFfcNFjMTkt
+         ZbpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1X87mQYG95YA6ZZAAKldNH7qg7++iZIilnL645FgaYE=;
-        b=tjAWazVmyTfcr6lyy5U7QDS0vB3H6QDRjFD30ZO3rMSRIwa/hvBOd+WnmrRcWgtHgn
-         JBligW5t1d7tDh5TEaDmG++wSLGhAAQlCAN/kxZ+fCXhxdmo+6T3hfdVeTgYi47JpdF9
-         bpen8UMGlHG4hkot8oYWgf3o+4bRl9QKK4A5ZchSU7vFUHyD2lEpowrIfSqzxup1jaMk
-         xhpGyIPDbBCRa47k3rfmX3AabH9XT1bWRB/oSVnGGKa/GolJcKKoCqRaSq+Cv9zFhhkY
-         PqQ4TDiNI8uqj3zWrQIaoilihuQ95gtPxhJXYvUT0dpeJfw+NM3gOZ6Ud/o4/NyO6tOx
-         jXwQ==
-X-Gm-Message-State: AJIora+2rGk1Yr6l+6Waql/BKgw708YPuQ2pGl4EFOuIUfxeNQXIrRGv
-	8CRNlw16ClJwpBZjYr6vJLgHIHjShJ11rNk+9edKLYx+zNgfyQ==
-X-Google-Smtp-Source: AGRyM1vm6GjtZHoqF4hgzMx23b5BRicpYtS2WOByyw2qG698rE5P4eoixnC2wpbC9PRCXQZPg9NBRFVR38jt6MQYFYE=
-X-Received: by 2002:a17:907:720a:b0:72b:549e:305a with SMTP id
- dr10-20020a170907720a00b0072b549e305amr8680576ejc.691.1657808996109; Thu, 14
- Jul 2022 07:29:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o/feeXuDF17U3RBhITfW4b8xd6jPaKrhz4mQZDocXnE=;
+        b=nxP18BjuIk5hh2v2AN2AK1JFj+jXUxC4Ec5KTKKNTJ+szFKpcdASFDGv9OdANQNOQB
+         iozzerbxUiHqrcugJ0Z/5J9prg2Vvy2mCQfxzl/KAhBT5n0AVPY8qFA45GztaGNrKEMq
+         m/8YjYumEa7EIlmI+MVnCxbuAG4DxND+38KSY8juGesWHeqO7DVsZI4nENVPjhlO+gLi
+         qgdkWFxrY4chrb0RExA9vG4YD+kMt3tS4z3YKV+u/a6MDtB40GR92X84KjJgtef5+0/Q
+         6q2o9OzfLDQRWVjWG+sigoc6+5s0aiScJyBL2q4Jinmhe2FEXmNbOCx28310ZznXqcvi
+         keIQ==
+X-Gm-Message-State: AJIora+hFUfvG6hM8+Ts3vPQAvBp+u5ObEUl5i03oGuwi34KQO8Me8h6
+	Sm/JR4oytBQZMxWT0gkspDjFNA==
+X-Google-Smtp-Source: AGRyM1thQHR7ljDVhTjy0f1PoC9fRTmLcI9qSF5de9HubbXG6CSsf9gMmgud55PZb4IwR9+1Aobk1w==
+X-Received: by 2002:a5d:5451:0:b0:21d:2295:6a05 with SMTP id w17-20020a5d5451000000b0021d22956a05mr8796856wrv.302.1657814987995;
+        Thu, 14 Jul 2022 09:09:47 -0700 (PDT)
+Received: from localhost.localdomain (91-123-191-107.gigainternet.pl. [91.123.191.107])
+        by smtp.gmail.com with ESMTPSA id p13-20020adff20d000000b0020e6ce4dabdsm1846289wro.103.2022.07.14.09.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 09:09:46 -0700 (PDT)
+From: Patryk Duda <pdk@semihalf.com>
+To: Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	upstream@semihalf.com,
+	Patryk Duda <pdk@semihalf.com>
+Subject: [PATCH] platform/chrome: cros_ec_proto: Update version on GET_NEXT_EVENT failure
+Date: Thu, 14 Jul 2022 18:09:51 +0200
+Message-Id: <20220714160951.9364-1-pdk@semihalf.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220628024913.1755292-1-tzungbi@kernel.org> <20220628024913.1755292-6-tzungbi@kernel.org>
- <CABXOdTeC+q-UiPiThqL5MGg-+cGACGW4qLaLKZbmX4M26TvbDg@mail.gmail.com> <Ys+OlrVCy4MkyRnr@google.com>
-In-Reply-To: <Ys+OlrVCy4MkyRnr@google.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Thu, 14 Jul 2022 07:29:45 -0700
-Message-ID: <CABXOdTfJ6x5ePkmj+w21jTX7EOTXZrCd8PwikAJQTfeQmUBxaQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH 05/11] platform/chrome: cros_ec_proto: separate cros_ec_wait_until_complete()
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 13, 2022 at 8:33 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> On Wed, Jul 13, 2022 at 11:15:47AM -0700, Guenter Roeck wrote:
-> > On Mon, Jun 27, 2022 at 7:49 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> > > -static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
-> > > +static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *result)
-> > >  {
-> > > -       int ret = cros_ec_xfer_command(ec_dev, msg);
-> > > +       struct cros_ec_command *msg;
-> > > +       struct ec_response_get_comms_status *status;
-> > > +       int ret = 0, i;
-> > > +
-> > > +       msg = kzalloc(sizeof(*msg) + sizeof(*status), GFP_KERNEL);
-> > > +       if (!msg)
-> > > +               return -ENOMEM;
-> >
-> > AFAICS this is always 24 bytes. I would suggest to allocate it on the
-> > stack to reduce overhead.
->
-> Ack.
->
-> > > +               ret = cros_ec_xfer_command(ec_dev, msg);
-> > > +               if (ret == -EAGAIN)
-> > > +                       continue;
-> > > +               if (ret < 0)
-> > > +                       break;
-> >
-> > With the command allocated on the stack, this can return immediately.
->
-> Nack, the function has no goto labels.  `return ret` follows the loop
-> immediately.  The `break` here doesn't make it to become too complicated.
-> I would prefer to keep it.
+Some EC based devices (e.g. Fingerpint MCU) can jump to RO part of the
+firmware (intentionally or due to device reboot). The RO part doesn't
+change during the device lifecycle, so it won't support newer version
+of EC_CMD_GET_NEXT_EVENT command.
 
-Sorry, you lost me here. The code after the loop does
+Function cros_ec_query_all() is responsible for finding maximum
+supported MKBP event version. It's usually called when the device is
+running RW part of the firmware, so the command version can be
+potentially higher than version supported by the RO.
 
-           kfree(msg);
-           return ret;
+The problem was fixed by updating maximum supported version when the
+device returns EC_RES_INVALID_VERSION (mapped to -ENOPROTOOPT). That way
+the kernel will use highest common version supported by RO and RW.
 
-If kfree() is no longer necessary, only the return statement is left. So break;
-is identical to return ret;. Am I missing something ?
+Fixes: 3300fdd630d4 ("platform/chrome: cros_ec: handle MKBP more events flag")
+Cc: <stable@vger.kernel.org> # 5.10+
+Signed-off-by: Patryk Duda <pdk@semihalf.com>
+---
+When Fingerprint MCU is rebooted (e.g. as a part of tests) it jumps to
+the RO image and performs RW image signature check. If kernel calls
+EC_CMD_GET_NEXT_EVENT FPMCU RO will respond with EC_RES_INVALID_VERSION
+because it's older than RW and supports up to version 1 of the command.
+As a result kernel keeps trying to get MKBP events and effectively
+blocks FPMCU from jumping to RW image.
 
->
-> > > +
-> > > +               *result = msg->result;
-> > > +               if (msg->result != EC_RES_SUCCESS)
-> > > +                       break;
-> >
-> > Again, this can return immediately if the command buffer is on the stack.
->
-> Nack.  See above.
->
-> > > -               kfree(status_msg);
-> > > +               if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
-> > > +                       break;
-> >
-> > Can return immediately.
->
-> Nack.  See above.
->
+Before patch 3300fdd630d4 the driver called version 1 of the command.
+If the device responded with EC_RES_INVALID_VERSION, the driver would
+use version 0 of the command.
 
-Really, for those I think that
-                   return 0;
-would be better and more explicit.
+Best regards,
+Patryk
 
-> > > +       kfree(msg);
-> > > +       return ret;
-> >
-> > What should this return on timeout ?
->
-> It returns either:
-> * -EAGAIN, if cros_ec_xfer_command() returned -EAGAIN
-> * 0, if EC_COMMS_STATUS_PROCESSING flag was on
-> for EC_COMMAND_RETRIES times so far.
->
-> This is a "move" refactor.  I would prefer to keep it as is and change the
-> behavior in later patch.
+ drivers/platform/chrome/cros_ec_proto.c | 32 +++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-Ok.
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index ff767dccdf0f6..0a131045d50a9 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -750,6 +750,7 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 	u8 event_type;
+ 	u32 host_event;
+ 	int ret;
++	u32 ver_mask = 0;
+ 
+ 	/*
+ 	 * Default value for wake_event.
+@@ -771,6 +772,37 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 		return get_keyboard_state_event(ec_dev);
+ 
+ 	ret = get_next_event(ec_dev);
++	/*
++	 * -ENOPROTOOPT is returned when EC returns EC_RES_INVALID_VERSION.
++	 * This can occur when EC based device (e.g. Fingerprint MCU) jumps to
++	 * the RO image which doesn't support newer version of the command. In
++	 * this case we will attempt to update maximum supported version of the
++	 * EC_CMD_GET_NEXT_EVENT.
++	 */
++	if (ret == -ENOPROTOOPT) {
++		dev_dbg(ec_dev->dev,
++			"GET_NEXT_EVENT returned invalid version error.\n");
++		ret = cros_ec_get_host_command_version_mask(ec_dev,
++							EC_CMD_GET_NEXT_EVENT,
++							&ver_mask);
++		if (ret < 0 || ver_mask == 0)
++			/*
++			 * Do not change the MKBP supported version if we can't
++			 * obtain supported version correctly. Please note that
++			 * calling EC_CMD_GET_NEXT_EVENT returned
++			 * EC_RES_INVALID_VERSION which means that the command
++			 * is present.
++			 */
++			return -ENOPROTOOPT;
++
++		ec_dev->mkbp_event_supported = fls(ver_mask);
++		dev_dbg(ec_dev->dev, "MKBP support version changed to %u\n",
++			ec_dev->mkbp_event_supported - 1);
++
++		/* Try to get next event with new MKBP support version set. */
++		ret = get_next_event(ec_dev);
++	}
++
+ 	if (ret <= 0)
+ 		return ret;
+ 
+-- 
+2.31.0
 
-Thanks,
-Guenter

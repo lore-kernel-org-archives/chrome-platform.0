@@ -1,150 +1,84 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9E22F53
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 16:31:38 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id dn9so4364383ejc.7
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 09:31:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8116002
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 17:02:43 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-31caffa4a45so23601997b3.3
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 10:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=p//OL3T6T+iN+FpDjfuUmP5riPz2KYcNknEDuB/63us=;
-        b=HF8nglO6RLS42LhMGPwU417dT3o8bFVVjPZzDZcbanY06ClqopKuBKQQU1LZQUhO5S
-         NEhS+aWaepXdOK0WvU3br7GmA/8ahc2XqAOmWNJ+LFIbL+RcEv2urYKmBw5ajgqOGkeh
-         apYfB5DJYPJq5LTDksliy4vJFF53Ir7RVtrshF8wUK7A1xTELvEProa/y6yELs/e4LY8
-         frplHjzR2nOycNk1RBKZBPcLuBQPOnjMfoqY3Tv+yo2z3BpQYuCcDhyl7sYevwjJr30D
-         tDtvZwENa5izGVrK9Y4Y5+tbAIjm7w7cgNiSAYiIYQsaLhAPt3qGABGzy2VDl5VFQ4E6
-         +uGg==
+        bh=qtK8JWxmh8q5x5mO5HKZTmWYXVBtIH5ikPi8Wy+gYMM=;
+        b=E5mRlU4YdLivxzyaoEtuezS+Jtt7mY/sjICKjY8rfA/5Hio8aVxjqIJ94Gd+8yucJs
+         VnhiykLwDQxlI64fycNCOI4gzCStjgGAnV0vlAIOmg1/v3ECoPqdBat2KOX+fAxTalH1
+         /+7+bFTCU77K/CocLn+YYSABxxeSEYdZ6gF+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p//OL3T6T+iN+FpDjfuUmP5riPz2KYcNknEDuB/63us=;
-        b=bPOPsyit0+TwOovlM2U+8hYFR0JtfZjycLE0+IBr5QyH7Kh3uSqDnNfHUToPnUfll2
-         EXDh329qcs//gEqRBzQg+XL41SR0UNQycCxecqgqsTDcO/nCpvOWZLhmHKXSeoxrUm+k
-         fs/oYsR+G+Zw+8T0gcXTVodFAb18XpM4zBaBBj3kP103G+he3awnk7rtH4SX44q0UzZL
-         6tYEdagodDSEp1SvuaM0DLhTqLVX0CSkc1O2V2NWA5qKczOwZGmJcygZfuba5TqqcyJt
-         9zpcRJDa5CoblY6WsXrYC5QKcpaQp1yATZyrVbE8cywFOM0DSkJ7OJ9sVrCpzktH8G24
-         trbA==
-X-Gm-Message-State: AJIora+naestfTvFLmy5SjL1Me0Tj34jKlb3lY8p8vFiIrWjNSmsFiBe
-	wLK/r7EmZ/bvMPrFr2/d/kOBOqSTzexVvBSwP1lIRh4txlSzVQ==
-X-Google-Smtp-Source: AGRyM1tslEArlUfNDokY8EHUpH/4NgM51Pos2+EKbdCQr9xr2S3BEu6GusHrPhOhK5hSALoSNQmSxnTrARz8rLDib0A=
-X-Received: by 2002:a17:906:9753:b0:722:f1e3:ec27 with SMTP id
- o19-20020a170906975300b00722f1e3ec27mr9415771ejy.355.1657816296819; Thu, 14
- Jul 2022 09:31:36 -0700 (PDT)
+        bh=qtK8JWxmh8q5x5mO5HKZTmWYXVBtIH5ikPi8Wy+gYMM=;
+        b=dIZUdGdyNb1dOFoieEpLOTjHf9cdVi8CfC4omOJ29GJYt5vOw7PjqeaTSiHlO8NQg+
+         Amkeq7hkA7li5Ha/BFjXLRRsvEp1n+aPTsXw5i4EpglOqzCkRnnqrN0sIKJyfQwe4mwh
+         1p40zrpXKrUKmEyCKZHYPja5e8rA5Zl7JT7NSeOm3B+CxG4bPgC6l24OHxYBwxbcYHtR
+         k96LB/k7dtu6L1VsfQOqfXAnmVnOVDjwybb/dms9erqeWY6PsuEXZgRScwv2vCQ3WU9F
+         GOGg10nmHA4z65qdxzqfx/n5B2wlKji/98NiXACKD19MbGV/1XzJmN1KZhY9EB2ltzz1
+         FL4g==
+X-Gm-Message-State: AJIora9YSq4/z0u5xrlcmO0Kbak9db7SavC/F/ct8e94So0lcJI620rL
+	qGOQ/iLgc6HjvFtKVEogNIUZg5dHngwOKGF1IiGX9g==
+X-Google-Smtp-Source: AGRyM1tl9TTfRVYxTb3SUNeA4pfUuj3s8pzE/79IWe7n/UP0VoNGNinQM5IVUwftl0kpeY4bG+r4nvRTrmm38DonMWI=
+X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
+ j129-20020a0dc787000000b0031ba963e1demr10578743ywd.283.1657818162816; Thu, 14
+ Jul 2022 10:02:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220714160951.9364-1-pdk@semihalf.com>
-In-Reply-To: <20220714160951.9364-1-pdk@semihalf.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Thu, 14 Jul 2022 09:31:25 -0700
-Message-ID: <CABXOdTck1VSxf8r-NGW_YCvpMdLe7hx=7sGFzQVH9Ok51hfbQg@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_proto: Update version on
- GET_NEXT_EVENT failure
-To: Patryk Duda <pdk@semihalf.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, upstream@semihalf.com
+References: <20220711072333.2064341-1-pmalani@chromium.org> <YtAkeQ1Do7CuM/PR@kroah.com>
+In-Reply-To: <YtAkeQ1Do7CuM/PR@kroah.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 14 Jul 2022 10:02:32 -0700
+Message-ID: <CACeCKaekD4S93XbYGOia+vuCwc+oRJpcNKVgrxEasa4MDGsSoQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] Type-C switch driver and Type-C framework updates
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, bleung@chromium.org, 
+	heikki.krogerus@linux.intel.com, Daisuke Nojiri <dnojiri@chromium.org>, 
+	"Dustin L. Howett" <dustin@howett.net>, Guenter Roeck <groeck@chromium.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 14, 2022 at 9:09 AM Patryk Duda <pdk@semihalf.com> wrote:
->
-> Some EC based devices (e.g. Fingerpint MCU) can jump to RO part of the
-> firmware (intentionally or due to device reboot). The RO part doesn't
-> change during the device lifecycle, so it won't support newer version
-> of EC_CMD_GET_NEXT_EVENT command.
->
-> Function cros_ec_query_all() is responsible for finding maximum
-> supported MKBP event version. It's usually called when the device is
-> running RW part of the firmware, so the command version can be
-> potentially higher than version supported by the RO.
->
-> The problem was fixed by updating maximum supported version when the
-> device returns EC_RES_INVALID_VERSION (mapped to -ENOPROTOOPT). That way
-> the kernel will use highest common version supported by RO and RW.
->
-> Fixes: 3300fdd630d4 ("platform/chrome: cros_ec: handle MKBP more events flag")
-> Cc: <stable@vger.kernel.org> # 5.10+
-> Signed-off-by: Patryk Duda <pdk@semihalf.com>
+Hi Greg,
 
-Nice catch. That may explain some hung task issues. observed in
-EC_CMD_GET_NEXT_EVENT handling
+On Thu, Jul 14, 2022 at 7:15 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Jul 11, 2022 at 07:22:54AM +0000, Prashant Malani wrote:
+> > This series introduces a retimer class to the USB Type-C framework,
+> > It also introduces a Chrome EC (Embedded Controller) switch driver which
+> > registers the aforementioned retimer switches as well as mode-switches.
+> >
+> > Patch 1 and 2 introduce the retimer class and associated functions to
+> > the Type-C common code.
+> >
+> > Patches 3-7 add the cros-typec-switch driver.
+> >
+> > Patches 8-9 update cros-ec-typec to get and use retimer switch handles.
+> >
+> > Submission suggestion (as always, open to better suggestions):
+> > - Patch 1 and 2 can go through the USB repo.
+> > - Patch 3-9 can go through the chrome-platform repo. Since they depend
+> >   on patches 1 and 2, we can create an "topic branch" off of usb-next
+> >   once Patch 1 and 2 are submitted, and then apply Patches 3-9 on top
+> >   of that "topic branch" before merging it back into chrome-platform's
+> >   for-next branch
+>
+> That's a mess, I can just take all of them into my tree if you want.
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+That works for me. Thanks for taking Patch 1 and 2; it should be fine
+to apply the rest of the patches to your tree too.
 
-> ---
-> When Fingerprint MCU is rebooted (e.g. as a part of tests) it jumps to
-> the RO image and performs RW image signature check. If kernel calls
-> EC_CMD_GET_NEXT_EVENT FPMCU RO will respond with EC_RES_INVALID_VERSION
-> because it's older than RW and supports up to version 1 of the command.
-> As a result kernel keeps trying to get MKBP events and effectively
-> blocks FPMCU from jumping to RW image.
->
-> Before patch 3300fdd630d4 the driver called version 1 of the command.
-> If the device responded with EC_RES_INVALID_VERSION, the driver would
-> use version 0 of the command.
->
-> Best regards,
-> Patryk
->
->  drivers/platform/chrome/cros_ec_proto.c | 32 +++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index ff767dccdf0f6..0a131045d50a9 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -750,6 +750,7 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
->         u8 event_type;
->         u32 host_event;
->         int ret;
-> +       u32 ver_mask = 0;
->
->         /*
->          * Default value for wake_event.
-> @@ -771,6 +772,37 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
->                 return get_keyboard_state_event(ec_dev);
->
->         ret = get_next_event(ec_dev);
-> +       /*
-> +        * -ENOPROTOOPT is returned when EC returns EC_RES_INVALID_VERSION.
-> +        * This can occur when EC based device (e.g. Fingerprint MCU) jumps to
-> +        * the RO image which doesn't support newer version of the command. In
-> +        * this case we will attempt to update maximum supported version of the
-> +        * EC_CMD_GET_NEXT_EVENT.
-> +        */
-> +       if (ret == -ENOPROTOOPT) {
-> +               dev_dbg(ec_dev->dev,
-> +                       "GET_NEXT_EVENT returned invalid version error.\n");
-> +               ret = cros_ec_get_host_command_version_mask(ec_dev,
-> +                                                       EC_CMD_GET_NEXT_EVENT,
-> +                                                       &ver_mask);
-> +               if (ret < 0 || ver_mask == 0)
-> +                       /*
-> +                        * Do not change the MKBP supported version if we can't
-> +                        * obtain supported version correctly. Please note that
-> +                        * calling EC_CMD_GET_NEXT_EVENT returned
-> +                        * EC_RES_INVALID_VERSION which means that the command
-> +                        * is present.
-> +                        */
-> +                       return -ENOPROTOOPT;
-> +
-> +               ec_dev->mkbp_event_supported = fls(ver_mask);
-> +               dev_dbg(ec_dev->dev, "MKBP support version changed to %u\n",
-> +                       ec_dev->mkbp_event_supported - 1);
-> +
-> +               /* Try to get next event with new MKBP support version set. */
-> +               ret = get_next_event(ec_dev);
-> +       }
-> +
->         if (ret <= 0)
->                 return ret;
->
-> --
-> 2.31.0
->
+Best regards,

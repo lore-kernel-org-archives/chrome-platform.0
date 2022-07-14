@@ -1,125 +1,151 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC69D6004
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 18:17:48 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id l11so4559817ybu.13
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 11:17:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE656004
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 18:19:25 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2ef5380669cso25402317b3.9
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 11:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B3qeqoAZABkkxex4KiYw4gyha/XDsYFHqm4XDsEOFxU=;
-        b=pC1AAX1aado9B1UaT2DtNyupW05yhy/5eRqykgggK+WGUU5L4UeuSGqXFGx4RbZySh
-         dT9p+Ioai3Yi1ACl0mYhJpsYADvsSi4dUgfs+nVhTdol+QL5dhfRnhfZOdNW860tylkc
-         7jeURW/gYEvG6ktk8xs87alyuFA/MPujpAYAmwBiIaVtwc0Cle1eUYO9+mdseYj7+zzk
-         1tX6HS2XixG1L4DMfy6tiKgO71fTGLSHN6QyDDNrfh++mhdtcmzF0dsD/2424AW5pdDS
-         29WuttjB+kiZMN51ppzQgb0LhDcsc6s+VBjSeJH+dR56Wkw6EjUcAn0i2j4iOdsIbOPr
-         kXBQ==
+         :cc:content-transfer-encoding;
+        bh=UalPu2ksuWmPhMJk6j/nedFQH4vb0HRRAL+Epn4qbZ8=;
+        b=j4dwcaQHxccsYOFZrXtomfe9hOl6BlVc4DQKsraUI3MJvpEoX61FMcb4nxyZRbRD+y
+         SS1TtWDZUdJE1B+TtUsKSI1GUNUMmsL0zWNYoVVMksVTckyC1IYa0j6SdesEOJHPmkl1
+         KyDzM+uxVRocoJ+TKjPx5nsaU32fQyQrJp+BGkwL6V5QyOccv1GCuQ8REo4/GYhuh0+P
+         KGQxPNRaZzbCGKpY51IBbk0O/s7k931S2m6nM2CVV6ZYSG2TQfWxoKTZjSVLdZ2ydhyP
+         To2+Hn+xOGUPAGEHyAAzB4wlp2oUgyRFggJtIs8CeZjVagrVXZRaQNI+c5LIevh68Vjf
+         M9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B3qeqoAZABkkxex4KiYw4gyha/XDsYFHqm4XDsEOFxU=;
-        b=HNky36XAcyn9n1/ICGPgVjev7itVrgZXM8dBtrAzVeuQOwqdcrrizHhxF45XTNIIFR
-         qx4T4GHC1mh40r57Vo/TRUHviuxJSdYyYuzfsF3nsVILL66gZCPM+HdLUc5qX3W2p0JU
-         IsYHA7MCjeAhJhv8tDjkfgncS27UH1yumzn/Ldi35KcoMxGUL406GAlGaS6GIdeMdkx6
-         0b33hRWfZ7/ssLD1dj6fCG2+UU2dWzGSDuBECijEZxehXj+QkRiy2jLgh9CeYAxxrMXM
-         U5M75XeoH712Qc0TSkjXeKYj+OCMfSe52HghfhdeugA/dV3dH+FoBw+eO3mK7rxIPrAr
-         isqw==
-X-Gm-Message-State: AJIora8ipWLHLY29cbP4Jnddc4hYNJbuoSu324sNMpd1qYp5iPa4tuvv
-	sBHj1GtWMhWiwwqFfWQMysSOtYU5XuI+kuUfN/oxMg==
-X-Google-Smtp-Source: AGRyM1t0uydpjlf/L97dSFwP61Riwo45dZ5AgijM0VdruQu1Yfq+iQyXxWIvfdEym65vsNBK5d1ugq90Qr8uNdpBtE0=
-X-Received: by 2002:a25:8a81:0:b0:65b:9268:2760 with SMTP id
- h1-20020a258a81000000b0065b92682760mr10205017ybl.119.1657822667466; Thu, 14
- Jul 2022 11:17:47 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=UalPu2ksuWmPhMJk6j/nedFQH4vb0HRRAL+Epn4qbZ8=;
+        b=G+K+/L9NRReuwhJ4FKhABebuOzA58Q5ErDaSSmBAI0GopakFdlTChCwhtkztGM/F7T
+         8YRAiThf7UmeiDGzDUXPhSJSR1CzznP1geZyPevaVMd3hf+KtktNbbJo5a5jiFsHbVnf
+         +BpoFyN5y3W5gFzbW1WwCs1H2iThvK5qRB/H95zlrXbtGe38do5Xr48je14GKm8C81nk
+         GGaIYXcZYVdg9BOpcy8XfIeaGuhLlNyXq0dGEZNTUtYllT5ISw7LGGM/MgEFAnGa+B3G
+         FWezjIMp7sVHohmeX97Tc30iJ2pZemHJEFzvCi++nFhKIfq2uv9dN9CawpZeym4jwB3J
+         hAjA==
+X-Gm-Message-State: AJIora/xzP+CeUFO7UkLayuH+pkmESAwjTi4Sz2sy9DDtoK26qGvW3VL
+	L5XtrUlAcvoQJGwSg2Nl7Qp9bnKoAfhOE2ny6x9k4PJg4ELNDA==
+X-Google-Smtp-Source: AGRyM1tyJfI1/uNHge25px5/PLanVAieHbxdM60iopHkkljV0nkYyMuYqzY2eroNzQHCTe3fJ7VxxB7ATKaOGnnw3vY=
+X-Received: by 2002:a81:4427:0:b0:31d:b9ad:4a7c with SMTP id
+ r39-20020a814427000000b0031db9ad4a7cmr10743607ywa.396.1657822763794; Thu, 14
+ Jul 2022 11:19:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220701095421.1.I78ded92e416b55de31975686d34b2058d4761c07@changeid>
- <202207020433.aSSwzWJn-lkp@intel.com> <CANkg5eyrBz9aA+ZTSBz=VeSjufPpEaNPDHNMM83V36gAM4v1VQ@mail.gmail.com>
-In-Reply-To: <CANkg5eyrBz9aA+ZTSBz=VeSjufPpEaNPDHNMM83V36gAM4v1VQ@mail.gmail.com>
+References: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
+ <Ys40uw4QIe4fQKA/@google.com> <CANkg5eyehcECGeDHBEsxR=iOoyMwzkcpvX+oRxy7PJPYLD=VuQ@mail.gmail.com>
+In-Reply-To: <CANkg5eyehcECGeDHBEsxR=iOoyMwzkcpvX+oRxy7PJPYLD=VuQ@mail.gmail.com>
 From: Tim Van Patten <timvp@google.com>
-Date: Thu, 14 Jul 2022 12:17:36 -0600
-Message-ID: <CANkg5ezrCdmLhH6=TS1hOHYMNeYaOCrTPM+t_Rm8-4-DXK0MEQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec: Send host event for prepare/complete
-To: kernel test robot <lkp@intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kbuild-all@lists.01.org, 
-	robbarnes@google.com, rrangel@chromium.org, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev
+Date: Thu, 14 Jul 2022 12:19:12 -0600
+Message-ID: <CANkg5exT1kFr9WBQEGD0=ndH1aJMD3OXmuZ4Obx9JtVDgKS6ow@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Send host event for prepare/complete
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, rrangel@chromium.org, 
+	robbarnes@google.com, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[Resending in plain text mode.]
+[Resending in plain text mode]
 
-Hi Guenter,
+Hi,
 
-The PM subsystem doesn't print out the prepare/complete callbacks, so
-we've added them to keep parity with the rest of the system that has
-this output.
+> Please be consistent.  Either way:
+> - .prepare and .complete.
+> - .prepare() and .complete().
 
+I'll address this in the next version.
 
-On Fri, Jul 1, 2022 at 3:16 PM Tim Van Patten <timvp@google.com> wrote:
+> The patch doesn't allow EC to log anything.  It makes AP emit more logs.
+
+This patch changes when the EC outputs the host command that indicates
+the AP is starting suspend and finishing resume, due to the change (in
+this patch) when the AP sends that host command.   This makes the EC's
+logs more accurate when correlating them with the AP's logs in regards
+to when suspend is started and resume is completed.   Previously,
+those events were sent when suspend/resume were already in progress.
+
+We'd also like to keep the new logs emitted by the AP to make it
+clearer when the AP is starting suspend and completing resume, so we
+can correlate it with the EC logs more easily.   This should aid
+debugging and timing analysis.   Since it only occurs during
+suspend/resume, it shouldn't flood the logs and follows the logging of
+other driver PM functions.
+
+> I didn't see concerns in [1] have been addressed.
+
+I replied to the first email stating why we want to keep the log
+message (and reiterated it above).   What's the correct process to
+indicate we don't want to make the change requested in [1]?
+
+On Wed, Jul 13, 2022 at 12:05 PM Tim Van Patten <timvp@google.com> wrote:
 >
-> Hi Guenter,
+> Hi,
 >
-> The PM subsystem doesn't print out the prepare/complete callbacks, so we've added them to keep parity with the rest of the system that has this output.
+>> Please be consistent.  Either way:
+>> - .prepare and .complete.
+>> - .prepare() and .complete().
 >
-> On Fri, Jul 1, 2022 at 2:40 PM kernel test robot <lkp@intel.com> wrote:
+>
+> I'll address this in the next version.
+>
+>> The patch doesn't allow EC to log anything.  It makes AP emit more logs.
+>
+>
+> This patch changes when the EC outputs the host command that indicates th=
+e AP is starting suspend and finishing resume, due to the change (in this p=
+atch) when the AP sends that host command.   This makes the EC's logs more =
+accurate when correlating them with the AP's logs in regards to when suspen=
+d is started and resume is completed.   Previously, those events were sent =
+when suspend/resume were already in progress.
+>
+> We'd also like to keep the new logs emitted by the AP to make it clearer =
+when the AP is starting suspend and completing resume, so we can correlate =
+it with the EC logs more easily.   This should aid debugging and timing ana=
+lysis.   Since it only occurs during suspend/resume, it shouldn't flood the=
+ logs and follows the logging of other driver PM functions.
+>
+>> I didn't see concerns in [1] have been addressed.
+>
+>
+> I replied to the first email stating why we want to keep the log message =
+(and reiterated it above).   What's the correct process to indicate we don'=
+t want to make the change requested in [1]?
+>
+>
+> On Tue, Jul 12, 2022 at 8:58 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >>
->> Hi Tim,
+>> On Wed, Jul 06, 2022 at 08:51:39PM -0600, Tim Van Patten wrote:
+>> > Update cros_ec_lpc_pm_ops to call cros_ec_lpc_suspend() during PM
+>> > .prepare() and cros_ec_lpc_resume() during .complete. This allows the
+>> > EC to log entry/exit of AP's suspend/resume more accurately.
 >>
->> Thank you for the patch! Yet something to improve:
+>> Please be consistent.  Either way:
+>> - .prepare and .complete.
+>> - .prepare() and .complete().
 >>
->> [auto build test ERROR on chrome-platform/for-next]
->> [also build test ERROR on linus/master v5.19-rc4 next-20220701]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch]
+>> The patch doesn't allow EC to log anything.  It makes AP emit more logs.
 >>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Van-Patten/platform-chrome-cros_ec-Send-host-event-for-prepare-complete/20220701-235602
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
->> config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20220702/202207020433.aSSwzWJn-lkp@intel.com/config)
->> compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
->> reproduce (this is a W=1 build):
->>         # https://github.com/intel-lab-lkp/linux/commit/46055ab1171506ae76daf77f7b880087c8a9119f
->>         git remote add linux-review https://github.com/intel-lab-lkp/linux
->>         git fetch --no-tags linux-review Tim-Van-Patten/platform-chrome-cros_ec-Send-host-event-for-prepare-complete/20220701-235602
->>         git checkout 46055ab1171506ae76daf77f7b880087c8a9119f
->>         # save the config file
->>         mkdir build_dir && cp config build_dir/.config
->>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+>> On the related note, the commit subject is confusing.  The patch doesn't
+>> send "host event".  "host event" is a terminology when EC wants to notif=
+y
+>> AP something.  Also, s/cros_ec/cros_ec_lpcs/.
 >>
->> If you fix the issue, kindly add following tag where applicable
->> Reported-by: kernel test robot <lkp@intel.com>
+>> > Changes in v2:
+>> > - Include cros_ec_resume() return value in dev_info() output.
+>> > - Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
 >>
->> All errors (new ones prefixed by >>):
+>> I didn't see concerns in [1] have been addressed.
 >>
->> >> drivers/platform/chrome/cros_ec_lpc.c:553:20: error: 'cros_ec_lpc_suspend' undeclared here (not in a function); did you mean 'cros_ec_suspend'?
->>      553 |         .prepare = cros_ec_lpc_suspend,
->>          |                    ^~~~~~~~~~~~~~~~~~~
->>          |                    cros_ec_suspend
->> >> drivers/platform/chrome/cros_ec_lpc.c:554:21: error: 'cros_ec_lpc_resume' undeclared here (not in a function); did you mean 'cros_ec_lpc_remove'?
->>      554 |         .complete = cros_ec_lpc_resume
->>          |                     ^~~~~~~~~~~~~~~~~~
->>          |                     cros_ec_lpc_remove
->>
->>
->> vim +553 drivers/platform/chrome/cros_ec_lpc.c
->>
->>    551
->>    552  static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
->>  > 553          .prepare = cros_ec_lpc_suspend,
->>  > 554          .complete = cros_ec_lpc_resume
->>    555  };
->>    556
->>
->> --
->> 0-DAY CI Kernel Test Service
->> https://01.org/lkp
+>> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220701=
+095421.1.I78ded92e416b55de31975686d34b2058d4761c07@changeid/#24920824
 >
 >
 >
@@ -129,6 +155,6 @@ On Fri, Jul 1, 2022 at 3:16 PM Tim Van Patten <timvp@google.com> wrote:
 
 
 
--- 
+--=20
 
 Tim Van Patten | ChromeOS | timvp@google.com | (720) 432-0997

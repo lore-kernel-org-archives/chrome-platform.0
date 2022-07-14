@@ -1,18 +1,18 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CE54A19
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 14:15:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5935BC34114;
-	Thu, 14 Jul 2022 14:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB4F4A19
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 14:15:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0D4C34115;
+	Thu, 14 Jul 2022 14:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1657808112;
-	bh=ufp535Bz6aEEtkB+7zy8idwzIK4dKpRNCbUtNVDlnvM=;
+	s=korg; t=1657808121;
+	bh=qBmZXjqke+b5VZ+6GVDTR3FwyHeU/2fCZ+RRGekqLDs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a4bKW1U7dflUBjmnBNrnhh6KZz0OvWufqHW/NBezlQc2bQgMz3enuGtr97hlif6ad
-	 mMldqC0PuJyMbm91jEKBYbGgQVFMbM4ppIe7vvTfBX6J8kj9h4c12zE7d//x0W1tZx
-	 vQ/9OZuSzXSFuaRC9NTYMvuluTaXyAWPo8iKnH3c=
-Date: Thu, 14 Jul 2022 16:13:13 +0200
+	b=GEDiYXYP9asqFucy4QU2HoBridNPfm2W1ZdfWxhLEfe4bOmpd9AAwoNgiWWWzGjcb
+	 wjhjnM8r5dEYw6UXFu3YPHaAQyFe9BKWmOYC4BFL6Xr1hVElcSD1ZXbHmDJVsjJd2p
+	 2ZTL1TDTdC1Zfqu1Yf8VH/pB5tOwjyqsqbC5KV3U=
+Date: Thu, 14 Jul 2022 16:14:10 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -25,7 +25,7 @@ Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	Kees Cook <keescook@chromium.org>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>
 Subject: Re: [PATCH v4 0/9] Type-C switch driver and Type-C framework updates
-Message-ID: <YtAkeQ1Do7CuM/PR@kroah.com>
+Message-ID: <YtAksiKCuRZXs3fC@kroah.com>
 References: <20220711072333.2064341-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -51,13 +51,8 @@ On Mon, Jul 11, 2022 at 07:22:54AM +0000, Prashant Malani wrote:
 > 
 > Submission suggestion (as always, open to better suggestions):
 > - Patch 1 and 2 can go through the USB repo.
-> - Patch 3-9 can go through the chrome-platform repo. Since they depend
->   on patches 1 and 2, we can create an "topic branch" off of usb-next
->   once Patch 1 and 2 are submitted, and then apply Patches 3-9 on top
->   of that "topic branch" before merging it back into chrome-platform's
->   for-next branch
 
-That's a mess, I can just take all of them into my tree if you want.
+Patches 1 and 2 now in my tree.
 
 thanks,
 

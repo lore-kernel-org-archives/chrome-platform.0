@@ -1,395 +1,67 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66333D76
-	for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 16:58:41 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id k85so6769730ybk.7
-        for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 09:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6TdTlfwy3VaOHhzh3w0gNaUggIvchfGZQp8YCLWV7oY=;
-        b=BeFoKvyI8i2XygR6nvzh7zbxCtLGryeU7dNvVGH7jDZ1PJIBE83e3+PSNvY6ICgEUU
-         q58JAMYx/pm5PMQl4T8enDXIFWvqkymuoPwDcRRpW+OKwyxDlvr3n55AMW3xIbVHVKoC
-         8NanGry13JZTTag8itRIZr767/KfR//ctoGU3qzM7oTXayebuoVcPUn7s3Sp577DPiz6
-         qi48Fa7d6TVSPC8kxFPnxxN8uP5eK/jzPHexK8fxuMloHOSpedJqLcFd2agQd1WYL7Ik
-         DK0FLWqVYDZZb4lwlzcpy9kPNGX7EqvUn99mW8HHZv4YREmATxb/iaO1SXUUPYKdtszu
-         Pghg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6TdTlfwy3VaOHhzh3w0gNaUggIvchfGZQp8YCLWV7oY=;
-        b=SZV8QiKSoL98d9swxquwsJCEmtKHvVImfY3KSyehrATREJVl49LabuWuQgmirbCQ1y
-         G6XbHooXbKFMkwOwQAvxBSgqYmtpwSWr2aH3aa+tojFdf8k+A4+zHbUnOjI563lfH84N
-         iRxaPoWeWdmELfdZu+HLKi/a974h3YGHyjkOCu7TcN6SfJS3iy2ZKTpFx68iEs45po4W
-         dk3qtYZ4MrSX31YuOrSRG1aW7aqQKllmtU/UTGww8z1fJagUogi8LDVhI/frS//Dhj2a
-         VDaG8Hjavf3e/V25am7l6eWuBJG4A/VqP+mVI12IIW+Mq24OnJ/kv1ieCxmHO17OOvJi
-         8i1g==
-X-Gm-Message-State: AJIora833czzXlaj6ZMrfCkqQ0pUoRrL72UtUrBR37tNWKlhf7NClJaK
-	JNOSijZj5AP7K5KYq12Ya/GchLJIvowZ6tDDars=
-X-Google-Smtp-Source: AGRyM1vz/6TKfh7SokVQwLtVlkAQ04xf3jyr6vlrHNLFud++94euqeWrbXjYuq+FWKtOVT/MHqSlYgTvyTdVSt/zQ4w=
-X-Received: by 2002:a5b:44d:0:b0:66f:ad5a:9d0b with SMTP id
- s13-20020a5b044d000000b0066fad5a9d0bmr13586144ybp.79.1657904320602; Fri, 15
- Jul 2022 09:58:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8C73211
+	for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 19:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2551EC341CD;
+	Fri, 15 Jul 2022 19:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657911615;
+	bh=bV6fjVH3Ww1z+2h4N07V4RdxlTmKgMBZ9vWZar4eZSE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=IMro5uied36+7P991NTGMehlq0zfI/V967gNZN4A2RcX8FKt7nGA2yIzsmjsD5btT
+	 HTRezDKkS2gcjLFZKkGsFO16HgA3bErGCxxN6a9cKgXqhV3jV0g3SOnt5IQO4p2VD2
+	 RqnfdJ+38dyYw+uKNwlcH/AqLl5B0R3vWjk0JO51LTI/46RQwKIow9mlcKySLwDJix
+	 J4/ngjePdH0no7WZYGgqUDhOMuFxHEj/1c4dFA74mHeQ3B4XIUBJGWsqWuDqU8u7F9
+	 OS88SOcTXWEDymaR1Ip9oODq+x00FOBec2YQGbWKKnzPlao6F7Skdw60EdchSAI+7K
+	 pkIoiwJCiVw0A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F3333E4522E;
+	Fri, 15 Jul 2022 19:00:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220715122903.332535-1-nuno.sa@analog.com> <20220715122903.332535-16-nuno.sa@analog.com>
-In-Reply-To: <20220715122903.332535-16-nuno.sa@analog.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 15 Jul 2022 18:58:04 +0200
-Message-ID: <CAHp75Vdxa1MvzQ07abNL1LHB8e88tpBW0qmGx7_gY=CxvVxqkA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/15] iio: inkern: fix coding style warnings
-To: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-iio <linux-iio@vger.kernel.org>, 
-	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, chrome-platform@lists.linux.dev, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, Gwendal Grignou <gwendal@chromium.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Saravanan Sekar <sravanhome@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Thara Gopinath <thara.gopinath@linaro.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Benjamin Fair <benjaminfair@google.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Patrick Venture <venture@google.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Benson Leung <bleung@chromium.org>, Nancy Yuen <yuenn@google.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Zhang Rui <rui.zhang@intel.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Christophe Branchereau <cbranchereau@gmail.com>, 
-	Cai Huoqing <cai.huoqing@linux.dev>, Avi Fishman <avifishman70@gmail.com>, 
-	Eugen Hristev <eugen.hristev@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Guenter Roeck <groeck@chromium.org>, Paul Cercueil <paul@crapouillou.net>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Andy Gross <agross@kernel.org>, 
-	Amit Kucheria <amitk@kernel.org>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Haibo Chen <haibo.chen@nxp.com>, Jishnu Prakash <quic_jprakash@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Use dev_err_probe on port
+ register fail
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165791161498.31351.5395252927709441391.git-patchwork-notify@kernel.org>
+Date: Fri, 15 Jul 2022 19:00:14 +0000
+References: <20220712214554.545035-1-nfraprado@collabora.com>
+In-Reply-To: <20220712214554.545035-1-nfraprado@collabora.com>
+To: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_=3Cnfraprado=40collabora=2Ecom?=@ci.codeaurora.org,
+	=?utf-8?q?=3E?=@ci.codeaurora.org
+Cc: pmalani@chromium.org, angelogioacchino.delregno@collabora.com,
+ kernel@collabora.com, bleung@chromium.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 2:30 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
->
-> Just cosmetics. No functional change intended...
+Hello:
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+This patch was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
 
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> ---
->  drivers/iio/inkern.c | 64 ++++++++++++++++++++++----------------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-> index fab951546086..0c9b1561af31 100644
-> --- a/drivers/iio/inkern.c
-> +++ b/drivers/iio/inkern.c
-> @@ -45,13 +45,13 @@ int iio_map_array_register(struct iio_dev *indio_dev,=
- struct iio_map *maps)
->         int i =3D 0, ret =3D 0;
->         struct iio_map_internal *mapi;
->
-> -       if (maps =3D=3D NULL)
-> +       if (!maps)
->                 return 0;
->
->         mutex_lock(&iio_map_list_lock);
-> -       while (maps[i].consumer_dev_name !=3D NULL) {
-> +       while (maps[i].consumer_dev_name) {
->                 mapi =3D kzalloc(sizeof(*mapi), GFP_KERNEL);
-> -               if (mapi =3D=3D NULL) {
-> +               if (!mapi) {
->                         ret =3D -ENOMEM;
->                         goto error_ret;
->                 }
-> @@ -69,7 +69,6 @@ int iio_map_array_register(struct iio_dev *indio_dev, s=
-truct iio_map *maps)
->  }
->  EXPORT_SYMBOL_GPL(iio_map_array_register);
->
-> -
->  /*
->   * Remove all map entries associated with the given iio device
->   */
-> @@ -157,7 +156,7 @@ static int __fwnode_iio_channel_get(struct iio_channe=
-l *channel,
->                 return err;
->
->         idev =3D bus_find_device_by_fwnode(&iio_bus_type, iiospec.fwnode)=
-;
-> -       if (idev =3D=3D NULL) {
-> +       if (!idev) {
->                 fwnode_handle_put(iiospec.fwnode);
->                 return -EPROBE_DEFER;
->         }
-> @@ -190,7 +189,7 @@ static struct iio_channel *fwnode_iio_channel_get(str=
-uct fwnode_handle *fwnode,
->                 return ERR_PTR(-EINVAL);
->
->         channel =3D kzalloc(sizeof(*channel), GFP_KERNEL);
-> -       if (channel =3D=3D NULL)
-> +       if (!channel)
->                 return ERR_PTR(-ENOMEM);
->
->         err =3D __fwnode_iio_channel_get(channel, fwnode, index);
-> @@ -307,7 +306,7 @@ static struct iio_channel *fwnode_iio_channel_get_all=
-(struct device *dev)
->
->         /* NULL terminated array to save passing size */
->         chans =3D kcalloc(nummaps + 1, sizeof(*chans), GFP_KERNEL);
-> -       if (chans =3D=3D NULL)
-> +       if (!chans)
->                 return ERR_PTR(-ENOMEM);
->
->         /* Search for FW matches */
-> @@ -332,7 +331,7 @@ static struct iio_channel *iio_channel_get_sys(const =
-char *name,
->         struct iio_channel *channel;
->         int err;
->
-> -       if (name =3D=3D NULL && channel_name =3D=3D NULL)
-> +       if (!(name || channel_name))
->                 return ERR_PTR(-ENODEV);
->
->         /* first find matching entry the channel map */
-> @@ -347,11 +346,11 @@ static struct iio_channel *iio_channel_get_sys(cons=
-t char *name,
->                 break;
->         }
->         mutex_unlock(&iio_map_list_lock);
-> -       if (c =3D=3D NULL)
-> +       if (!c)
->                 return ERR_PTR(-ENODEV);
->
->         channel =3D kzalloc(sizeof(*channel), GFP_KERNEL);
-> -       if (channel =3D=3D NULL) {
-> +       if (!channel) {
->                 err =3D -ENOMEM;
->                 goto error_no_mem;
->         }
-> @@ -363,7 +362,7 @@ static struct iio_channel *iio_channel_get_sys(const =
-char *name,
->                         iio_chan_spec_from_name(channel->indio_dev,
->                                                 c->map->adc_channel_label=
-);
->
-> -               if (channel->channel =3D=3D NULL) {
-> +               if (!channel->channel) {
->                         err =3D -EINVAL;
->                         goto error_no_chan;
->                 }
-> @@ -455,7 +454,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->         int mapind =3D 0;
->         int i, ret;
->
-> -       if (dev =3D=3D NULL)
-> +       if (!dev)
->                 return ERR_PTR(-EINVAL);
->
->         chans =3D fwnode_iio_channel_get_all(dev);
-> @@ -483,7 +482,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->
->         /* NULL terminated array to save passing size */
->         chans =3D kcalloc(nummaps + 1, sizeof(*chans), GFP_KERNEL);
-> -       if (chans =3D=3D NULL) {
-> +       if (!chans) {
->                 ret =3D -ENOMEM;
->                 goto error_ret;
->         }
-> @@ -497,7 +496,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->                 chans[mapind].channel =3D
->                         iio_chan_spec_from_name(chans[mapind].indio_dev,
->                                                 c->map->adc_channel_label=
-);
-> -               if (chans[mapind].channel =3D=3D NULL) {
-> +               if (!chans[mapind].channel) {
->                         ret =3D -EINVAL;
->                         goto error_free_chans;
->                 }
-> @@ -559,14 +558,14 @@ struct iio_channel *devm_iio_channel_get_all(struct=
- device *dev)
->  EXPORT_SYMBOL_GPL(devm_iio_channel_get_all);
->
->  static int iio_channel_read(struct iio_channel *chan, int *val, int *val=
-2,
-> -       enum iio_chan_info_enum info)
-> +                           enum iio_chan_info_enum info)
->  {
->         int unused;
->         int vals[INDIO_MAX_RAW_ELEMENTS];
->         int ret;
->         int val_len =3D 2;
->
-> -       if (val2 =3D=3D NULL)
-> +       if (!val2)
->                 val2 =3D &unused;
->
->         if (!iio_channel_has_info(chan->channel, info))
-> @@ -578,9 +577,10 @@ static int iio_channel_read(struct iio_channel *chan=
-, int *val, int *val2,
->                                         vals, &val_len, info);
->                 *val =3D vals[0];
->                 *val2 =3D vals[1];
-> -       } else
-> +       } else {
->                 ret =3D chan->indio_dev->info->read_raw(chan->indio_dev,
->                                         chan->channel, val, val2, info);
-> +       }
->
->         return ret;
->  }
-> @@ -591,7 +591,7 @@ int iio_read_channel_raw(struct iio_channel *chan, in=
-t *val)
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -610,7 +610,7 @@ int iio_read_channel_average_raw(struct iio_channel *=
-chan, int *val)
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -624,7 +624,8 @@ int iio_read_channel_average_raw(struct iio_channel *=
-chan, int *val)
->  EXPORT_SYMBOL_GPL(iio_read_channel_average_raw);
->
->  static int iio_convert_raw_to_processed_unlocked(struct iio_channel *cha=
-n,
-> -       int raw, int *processed, unsigned int scale)
-> +                                                int raw, int *processed,
-> +                                                unsigned int scale)
->  {
->         int scale_type, scale_val, scale_val2;
->         int offset_type, offset_val, offset_val2;
-> @@ -657,7 +658,7 @@ static int iio_convert_raw_to_processed_unlocked(stru=
-ct iio_channel *chan,
->         }
->
->         scale_type =3D iio_channel_read(chan, &scale_val, &scale_val2,
-> -                                       IIO_CHAN_INFO_SCALE);
-> +                                     IIO_CHAN_INFO_SCALE);
->         if (scale_type < 0) {
->                 /*
->                  * If no channel scaling is available apply consumer scal=
-e to
-> @@ -702,19 +703,19 @@ static int iio_convert_raw_to_processed_unlocked(st=
-ruct iio_channel *chan,
->  }
->
->  int iio_convert_raw_to_processed(struct iio_channel *chan, int raw,
-> -       int *processed, unsigned int scale)
-> +                                int *processed, unsigned int scale)
->  {
->         struct iio_dev_opaque *iio_dev_opaque =3D to_iio_dev_opaque(chan-=
->indio_dev);
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
->
->         ret =3D iio_convert_raw_to_processed_unlocked(chan, raw, processe=
-d,
-> -                                                       scale);
-> +                                                   scale);
->  err_unlock:
->         mutex_unlock(&iio_dev_opaque->info_exist_lock);
->
-> @@ -729,7 +730,7 @@ int iio_read_channel_attribute(struct iio_channel *ch=
-an, int *val, int *val2,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -755,7 +756,7 @@ int iio_read_channel_processed_scale(struct iio_chann=
-el *chan, int *val,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -833,7 +834,7 @@ int iio_read_avail_channel_raw(struct iio_channel *ch=
-an,
->         int type;
->
->         ret =3D iio_read_avail_channel_attribute(chan, vals, &type, lengt=
-h,
-> -                                        IIO_CHAN_INFO_RAW);
-> +                                              IIO_CHAN_INFO_RAW);
->
->         if (ret >=3D 0 && type !=3D IIO_VAL_INT)
->                 /* raw values are assumed to be IIO_VAL_INT */
-> @@ -917,7 +918,7 @@ int iio_get_channel_type(struct iio_channel *chan, en=
-um iio_chan_type *type)
->         /* Need to verify underlying driver has not gone away */
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -944,7 +945,7 @@ int iio_write_channel_attribute(struct iio_channel *c=
-han, int val, int val2,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -978,9 +979,8 @@ unsigned int iio_get_channel_ext_info_count(struct ii=
-o_channel *chan)
->  }
->  EXPORT_SYMBOL_GPL(iio_get_channel_ext_info_count);
->
-> -static const struct iio_chan_spec_ext_info *iio_lookup_ext_info(
-> -                                               const struct iio_channel =
-*chan,
-> -                                               const char *attr)
-> +static const struct iio_chan_spec_ext_info *
-> +iio_lookup_ext_info(const struct iio_channel *chan, const char *attr)
->  {
->         const struct iio_chan_spec_ext_info *ext_info;
->
-> --
-> 2.37.1
->
+On Tue, 12 Jul 2022 17:45:54 -0400 you wrote:
+> The typec_register_port() can fail with EPROBE_DEFER if the endpoint
+> node hasn't probed yet. In order to avoid spamming the log with errors
+> in that case, log using dev_err_probe().
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> 
+> [...]
+
+Here is the summary with links:
+  - platform/chrome: cros_ec_typec: Use dev_err_probe on port register fail
+    https://git.kernel.org/chrome-platform/c/ce838f7dc795
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---=20
-With Best Regards,
-Andy Shevchenko

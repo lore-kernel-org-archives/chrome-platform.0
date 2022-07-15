@@ -1,103 +1,297 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3EC6035
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 23:33:31 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id e69so5899783ybh.2
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Jul 2022 16:33:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1402F34
+	for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 11:21:25 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id l14so1135133qtv.4
+        for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 04:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MsubRRKvtCvadBkw96fGeeoDLGGa+ZYhx93FS0ltR/w=;
-        b=YvP8snpox2PWYptEwSl8ESwv+ZgXeFv4nLXFKppj9+dpUFX4rNfGFLgC01KC601zFa
-         y+Twc5L9b2BcH4RXMv8NPmHkOsB/ZrDM7JqwUa2nFZHxZncB+PRZNaXOaWDbKFkA0NGR
-         TfWI4WNLDs5wDhRkg/kje3SepMY7lCRvi9Q6U=
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=7aAwPpbyNhMgBtXYplVX7e+e1ZXjzCZEFZQ0/Qp+rZs=;
+        b=XdinAxILUx5V4/TMUwVnHjrF2YH64IZZFeCyINRd3Uc2T7zK5jdlBkPARxgAUQPknQ
+         jCfx0227x6mZ/nJvyEdEOP0X2HcETQpjzcvpoVctcPe8hpu24084l6+Zfq6C9Yp+Pe19
+         LGKjBB+xZcEbyihQC5Jva22iuE9RvoR1T1A0aT5gZbbl2uX8Yfn+4VkAcRNJ2oRqIyBp
+         hvqhsHzhzq2ZXGWh4u48/NdYzataIRkzPk7S3WkMEcPz42YtmZsCcrQ4fU8zYMkCmEb3
+         CBLLe2wOl7idYi+SWFz4xCdXZ1vxsiFpcZo/yuvmbHWMT7smdxKunQKgJNVUdlfCfqdO
+         L3zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MsubRRKvtCvadBkw96fGeeoDLGGa+ZYhx93FS0ltR/w=;
-        b=eYc09ZEodv0qcJo2TQA0ruia2y5Cy14JWgCTUzrXD0+ZP/g/jXvmo8ATP8nnwUYjg6
-         8ALQoHwMV/xO9yP52Ev1KVXeCK/2lGx9pNrXGOnzrsMk1FNm8iV+3HUDkB0JpgxtokhX
-         XSM2cWE6h6DUbMLcstp82a3C4QX8TIHdjkmpd1uv4Ny7RFUMWBD/1lFeP/ynTkk2db/w
-         77IPfM/LnZPfWeB9CNq9J6q0NNYb0pNQPaf7JzhzblPlhPcjMiiTOXlw/Kopg7GkS5b9
-         imq1ErOXVsYU/CiOW37oGr8bK7ntTB49hdmmRgSL5r/YhtYGiGrg9WhKJ9Qbo+zNT/FM
-         yjDw==
-X-Gm-Message-State: AJIora+UzgJSqb/33JfhViKUVzdOuPr/MUn03fp7wIQRx9ZcFW6NqhAX
-	/aFmOkvh9EXs3ocpvVJ0iJyGqCWd8Auz3vh8CZbBQw==
-X-Google-Smtp-Source: AGRyM1vqqsxFwTXVXspgL8oYku3WBLf9OeC8nVz3gPHoLorwgfbUZF5B9XSgQ50NtnwQVC6nk/r/qvZLoTfmXBkKJhw=
-X-Received: by 2002:a25:6913:0:b0:66e:3700:4235 with SMTP id
- e19-20020a256913000000b0066e37004235mr11796546ybc.240.1657841610409; Thu, 14
- Jul 2022 16:33:30 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=7aAwPpbyNhMgBtXYplVX7e+e1ZXjzCZEFZQ0/Qp+rZs=;
+        b=57zamynsI5OGXe5kv0OVU4a/MLwG3VVulo2iRc0zUFaB/bnHeUZbqjhRbbOTHkX16c
+         fHzKGH9fRUDNytIb9eAO3ba2+kzkrQLYGtwiME4NT+xyBZsrB4cmVzynRrfDpIDjSxki
+         BikJpJQZ1w8nvg/ZHEbDHZhmsQmypVlG+e7UGhY7sv9r2wSZ0axq3Jdk/bOF0kVOdQPl
+         jHzsIx/P7Dh5Wn0myKDQcTMk27nspeq7Dl3fdhcazY9vvZB/vuAq0N33UoUyf48MohTz
+         vBKO8VOMCcp1yhtLFY/jQmIBnOMPNKPkYNOhmAvXO/iF9UtDzMN7nzEpgeTbS/pj69G1
+         jlZQ==
+X-Gm-Message-State: AJIora8/0qqdoFtoMxImYuFFUI2XplYrTRmv4FxK5Mz2mXo7GWDaTh60
+	tUq6vXJMv738VdeR5HhAJAU=
+X-Google-Smtp-Source: AGRyM1uAV6CcmfwBUiFodYja+YAI93swdvRkjmOrj/G87DJHG1tvUago8AS2lP01zuUI+2pKWO0gZQ==
+X-Received: by 2002:a05:622a:20f:b0:31e:de95:3cd3 with SMTP id b15-20020a05622a020f00b0031ede953cd3mr944896qtx.458.1657884082996;
+        Fri, 15 Jul 2022 04:21:22 -0700 (PDT)
+Received: from p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de (p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de. [2003:f6:ef03:6f00:5de6:a4d0:d791:ed01])
+        by smtp.gmail.com with ESMTPSA id ay7-20020a05620a178700b006b578ff5dfasm3767112qkb.41.2022.07.15.04.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 04:21:22 -0700 (PDT)
+Message-ID: <83d816f52b3d4194b51b20f31b875055f63cd718.camel@gmail.com>
+Subject: Re: [PATCH v2 13/15] iio: adc: stm32-adc: convert to device
+ properties
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-arm-msm@vger.kernel.org,
+ openbmc@lists.ozlabs.org,  linux-renesas-soc@vger.kernel.org,
+ linux-mediatek@lists.infradead.org,  linux-imx@nxp.com,
+ linux-mips@vger.kernel.org, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-iio@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com
+Cc: Andy Gross <agross@kernel.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,  Benson Leung <bleung@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Tomer Maimon
+ <tmaimon77@gmail.com>, Zhang Rui <rui.zhang@intel.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Eugen Hristev <eugen.hristev@microchip.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Benjamin Fair <benjaminfair@google.com>,
+ Nancy Yuen <yuenn@google.com>, Jishnu Prakash <quic_jprakash@quicinc.com>,
+ Christophe Branchereau <cbranchereau@gmail.com>,  Avi Fishman
+ <avifishman70@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Lars-Peter Clausen <lars@metafoo.de>, Thara
+ Gopinath <thara.gopinath@linaro.org>, Cai Huoqing <cai.huoqing@linux.dev>,
+ Fabio Estevam <festevam@gmail.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Shawn Guo <shawnguo@kernel.org>, Haibo Chen
+ <haibo.chen@nxp.com>, Arnd Bergmann <arnd@arndb.de>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>, Patrick Venture <venture@google.com>, Amit
+ Kucheria <amitk@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Paul Cercueil
+ <paul@crapouillou.net>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Gwendal Grignou
+ <gwendal@chromium.org>,  Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Saravanan Sekar <sravanhome@gmail.com>, Guenter Roeck
+ <groeck@chromium.org>, Jonathan Cameron <jic23@kernel.org>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Linus Walleij
+ <linus.walleij@linaro.org>
+Date: Fri, 15 Jul 2022 13:22:18 +0200
+In-Reply-To: <c4385216-1d9e-34b3-58ea-edf8d9ed4cd8@foss.st.com>
+References: <20220711123835.811358-1-nuno.sa@analog.com>
+	 <20220711123835.811358-14-nuno.sa@analog.com>
+	 <f0f150cf-586f-9f13-81b0-cb95bd0d8f23@foss.st.com>
+	 <ca7dc3801e29ddaa59f868c20d491d15541522d8.camel@gmail.com>
+	 <c4385216-1d9e-34b3-58ea-edf8d9ed4cd8@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
- <CACeCKadV=k5J1ZSG+p8M5iBnX5nXrn-XnK62Nq_op2kJ68+-9w@mail.gmail.com>
- <CANkg5ewRc5zhBtxLhazo8Wsfa3Srj32AwZD9mD=W=Qqpqi7zJQ@mail.gmail.com>
- <CACeCKaer_hacWmLDDMJSK-KFjxqiXV8S1-ydCWGT3mkQVeN-rg@mail.gmail.com> <CANkg5exPZH7LXV93SbAbNPsX2M-kE1yHqDhfk-cB0ywS15pOPQ@mail.gmail.com>
-In-Reply-To: <CANkg5exPZH7LXV93SbAbNPsX2M-kE1yHqDhfk-cB0ywS15pOPQ@mail.gmail.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Thu, 14 Jul 2022 16:33:19 -0700
-Message-ID: <CACeCKafvVATzEqOnkT3-QPyfaTV8baHNKbLy8069-K+P+RPeMg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Send host event for prepare/complete
-To: Tim Van Patten <timvp@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, rrangel@chromium.org, 
-	robbarnes@google.com, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 14, 2022 at 3:17 PM Tim Van Patten <timvp@google.com> wrote:
->
-> Hi,
->
-> > Calling such a theoretical new EC host command from the userspace power manager
-> > would probably accomplish the same thing.
->
-> We investigated something like that internally initially:
-> https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3646238)
->
-> We decided to take this simpler approach instead, since it
-> accomplishes the same goal without requiring new host commands.
+On Wed, 2022-07-13 at 17:48 +0200, Fabrice Gasnier wrote:
+> On 7/12/22 12:33, Nuno S=C3=A1 wrote:
+> > Hi Fabrice,
+> >=20
+> > Nice that someone in ST is looking at this one :)
+>=20
+> Hi Nuno,
+>=20
+> Thank you for taking care of converting all these drivers to device
+> properties, including this one :-).
+>=20
+> >=20
+> > On Mon, 2022-07-11 at 16:04 +0200, Fabrice Gasnier wrote:
+> > > On 7/11/22 14:38, Nuno S=C3=A1 wrote:
+> > > > Make the conversion to firmware agnostic device properties. As
+> > > > part
+> > > > of
+> > > > the conversion the IIO inkern interface 'of_xlate()' is also
+> > > > converted to
+> > > > 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and
+> > > > hence OF
+> > > > dependencies from IIO.
+> > > >=20
+> > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> > > > ---
+> > > > =C2=A0drivers/iio/adc/stm32-adc.c | 121 ++++++++++++++++++++-------=
+-
+> > > > ----
+> > > > ----
+> > > > =C2=A01 file changed, 67 insertions(+), 54 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/iio/adc/stm32-adc.c
+> > > > b/drivers/iio/adc/stm32-
+> > > > adc.c
+> > > > index 3985fe972892..e55859113df8 100644
+> > > > --- a/drivers/iio/adc/stm32-adc.c
+> > > > +++ b/drivers/iio/adc/stm32-adc.c
+> > > > @@ -21,11 +21,11 @@
+> > > > =C2=A0#include <linux/io.h>
+> > > > =C2=A0#include <linux/iopoll.h>
+> > > > =C2=A0#include <linux/module.h>
+> > > > +#include <linux/mod_devicetable.h>
+> > > > =C2=A0#include <linux/nvmem-consumer.h>
+> > > > =C2=A0#include <linux/platform_device.h>
+> > > > =C2=A0#include <linux/pm_runtime.h>
+> > > > -#include <linux/of.h>
+> > > > -#include <linux/of_device.h>
+> > > > +#include <linux/property.h>
+> > > > =C2=A0
+> > > > =C2=A0#include "stm32-adc-core.h"
+> > > > =C2=A0
+> > > > @@ -1530,8 +1530,8 @@ static int
+> > > > stm32_adc_update_scan_mode(struct
+> > > > iio_dev *indio_dev,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > -static int stm32_adc_of_xlate(struct iio_dev *indio_dev,
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct of_phandle_args
+> > > > *iiospec)
+> > > > +static int stm32_adc_fwnode_xlate(struct iio_dev *indio_dev,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct
+> > > > fwnode_reference_args *iiospec)
+> > > > =C2=A0{
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
+> > > > =C2=A0
+> > > > @@ -1585,7 +1585,7 @@ static const struct iio_info
+> > > > stm32_adc_iio_info =3D {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.hwfifo_set_waterma=
+rk =3D stm32_adc_set_watermark,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.update_scan_mode =
+=3D stm32_adc_update_scan_mode,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.debugfs_reg_access=
+ =3D stm32_adc_debugfs_reg_access,
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.of_xlate =3D stm32_adc_=
+of_xlate,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fwnode_xlate =3D stm32_=
+adc_fwnode_xlate,
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > =C2=A0static unsigned int stm32_adc_dma_residue(struct stm32_adc
+> > > > *adc)
+> > > > @@ -1782,14 +1782,14 @@ static const struct
+> > > > iio_chan_spec_ext_info
+> > > > stm32_adc_ext_info[] =3D {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{},
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > -static int stm32_adc_of_get_resolution(struct iio_dev
+> > > > *indio_dev)
+> > > > +static int stm32_adc_fw_get_resolution(struct iio_dev
+> > > > *indio_dev)
+> > > > =C2=A0{
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device_node *node=
+ =3D indio_dev->dev.of_node;
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device *dev =3D &=
+indio_dev->dev;
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct stm32_adc *a=
+dc =3D iio_priv(indio_dev);
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int i;
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 res;
+> > > > =C2=A0
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (of_property_read_u32=
+(node, "assigned-resolution-
+> > > > bits",
+> > > > &res))
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (device_property_read=
+_u32(dev, "assigned-resolution-
+> > > > bits", &res))
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0res =3D adc->cfg->adc_info->resolutions[0];
+> > > > =C2=A0
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (i =3D 0; i < a=
+dc->cfg->adc_info->num_res; i++)
+> > > > @@ -1873,11 +1873,11 @@ static void
+> > > > stm32_adc_chan_init_one(struct
+> > > > iio_dev *indio_dev,
+> > > > =C2=A0
+> > > > =C2=A0static int stm32_adc_get_legacy_chan_count(struct iio_dev
+> > > > *indio_dev, struct stm32_adc *adc)
+> > > > =C2=A0{
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device_node *node=
+ =3D indio_dev->dev.of_node;
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device *dev =3D &=
+indio_dev->dev;
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct stm32_=
+adc_info *adc_info =3D adc->cfg-
+> > > > >adc_info;
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int num_channels =
+=3D 0, ret;
+> > > > =C2=A0
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D of_property_coun=
+t_u32_elems(node, "st,adc-
+> > > > channels");
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D device_property_=
+count_u32(dev, "st,adc-
+> > > > channels");
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret > adc_info-=
+>max_channels) {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev_err(&indio_dev->dev, "Bad st,adc-
+> > > > channels?\n");
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return -EINVAL;
+> > > > @@ -1885,8 +1885,8 @@ static int
+> > > > stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev,
+> > > > struct
+> > > > stm
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0num_channels +=3D ret;
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > > > =C2=A0
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D of_property_coun=
+t_elems_of_size(node, "st,adc-
+> > > > diff-
+> > > > channels",
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct
+> > > > stm32_adc_diff_channel));
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* each st,adc-diff-chan=
+nels is a group of 2 u32 */
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D device_property_=
+count_u64(dev, "st,adc-diff-
+> > > > channels");
+> >=20
+> > Are you fine with this change (still does not have any reference to
+> > the
+> > target struct but the comment might be helpful and there's no magic
+> > 2)?
+>=20
+>=20
+> Since you added that comment, this sounds better. IMHO, This still
+> looks
+> a bit weird. I'd feel more comfortable by using u32 API for a
+> 'uint32-matrix' as defined in dt-bindings.
+> Strictly speaking, something like
+> sizeof(struct stm32_adc_diff_channel) / sizeof(u32) could be used,
+> along
+> with this comment and device_property_count_u32() to make it clear ?
+>=20
 
-- That link discusses updating the existing host command and the EC
-implementations;
-have you investigated adding a command for logging needs and calling it from
-power_manager/powerd directly?
-- That link addresses several busses (UART, SPI etc.) whereas this patch only
-touches LPC. Is this intentional?
+No strong option so I can do as you prefer:
 
->
-> > From the kernel documentation[2], "The prepare phase is meant to
-> > prevent races by preventing new devices from being registered; the PM core
-> > would never know that all the children of a device had been suspended if new
-> > children could be registered at will." and "The method may also prepare the
-> > device or driver in some way for the upcoming system power transition, but
-> > it should not put the device into a low-power state."
-> >
-> > So it seems like an incorrect usage of this callback.
->
-> Why is this usage incorrect?
->
-> Sending the message to the EC is the preparation for the AP to enter
-> the system power transition. For example, it allows the EC to begin
-> watchdogging the AP once the suspend begins and stop once the resume
-> completes. This allows the EC to watchdog the entire process, without
-> any gaps - a beneficial side effect of this change.
+	ret =3D device_property_count_u32();
+	if (ret /=C2=A0
+(sizeof(struct stm32_adc_diff_channel) / sizeof(u32)) > max_chan) {
+		...
+	}
+	...
 
-OK. Is that all it does? Does this not allow the EC itself to enter a
-deep sleep state,
-or put connected peripherals and/or state machines in a low power state??
+Probably it's a good idea to store that sizeof() division in a local
+variable :)
 
-If you're still set on this approach, please update the function names;
-setting the .prepare()/.complete() function pointers to
-cros_ec_lpc_suspend/resume()
-is inconsistent, if those functions aren't being used elsewhere in the file.
+- Nuno S=C3=A1
 
-BR,
-
--Prashant
+> > >=20
+>=20

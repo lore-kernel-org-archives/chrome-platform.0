@@ -1,33 +1,33 @@
 Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A99320F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6292A3211
 	for <chrome-platform@lists.linux.dev>; Fri, 15 Jul 2022 12:29:27 +0000 (UTC)
 Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FA9g54026919;
-	Fri, 15 Jul 2022 08:28:46 -0400
+	by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FA4PiP026958;
+	Fri, 15 Jul 2022 08:28:57 -0400
 Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h9r37te2c-1
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h9r37te3h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Jul 2022 08:28:45 -0400
+	Fri, 15 Jul 2022 08:28:57 -0400
 Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 26FCSgmc061285
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 26FCStPK061302
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 15 Jul 2022 08:28:42 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+	Fri, 15 Jul 2022 08:28:55 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
  ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 15 Jul 2022 08:28:41 -0400
+ 15.2.986.14; Fri, 15 Jul 2022 08:28:55 -0400
 Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 15 Jul 2022 08:28:41 -0400
+ 15.2.986.14; Fri, 15 Jul 2022 08:28:54 -0400
 Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
  (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 15 Jul 2022 08:28:41 -0400
+ Transport; Fri, 15 Jul 2022 08:28:54 -0400
 Received: from nsa.ad.analog.com ([10.44.3.55])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 26FCRxNu001007;
-	Fri, 15 Jul 2022 08:28:01 -0400
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 26FCRxNw001007;
+	Fri, 15 Jul 2022 08:28:44 -0400
 From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
 To: <openbmc@lists.ozlabs.org>, <linux-imx@nxp.com>,
         <linux-stm32@st-md-mailman.stormreply.com>,
@@ -96,88 +96,60 @@ CC: Gwendal Grignou <gwendal@chromium.org>,
         "Haibo
  Chen" <haibo.chen@nxp.com>,
         Jishnu Prakash <quic_jprakash@quicinc.com>
-Subject: [PATCH v3 00/15] make iio inkern interface firmware agnostic
-Date: Fri, 15 Jul 2022 14:28:48 +0200
-Message-ID: <20220715122903.332535-1-nuno.sa@analog.com>
+Subject: [PATCH v3 02/15] iio: inkern: fix return value in devm_of_iio_channel_get_by_name()
+Date: Fri, 15 Jul 2022 14:28:50 +0200
+Message-ID: <20220715122903.332535-3-nuno.sa@analog.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220715122903.332535-1-nuno.sa@analog.com>
+References: <20220715122903.332535-1-nuno.sa@analog.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: 9pc-gto4TH3tPU-dOW4sBqrmMHKhYXJA
-X-Proofpoint-ORIG-GUID: 9pc-gto4TH3tPU-dOW4sBqrmMHKhYXJA
+X-Proofpoint-GUID: tNpkAPJ_T9XUWjCHsHWKQHQh-gHhk_zp
+X-Proofpoint-ORIG-GUID: tNpkAPJ_T9XUWjCHsHWKQHQh-gHhk_zp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-15_04,2022-07-15_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
  malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- spamscore=0 mlxlogscore=967 mlxscore=0 adultscore=0 suspectscore=0
+ spamscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 suspectscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207150054
 
-First version of the series can be found here:=0D
-=0D
-https://lore.kernel.org/linux-iio/20220610084545.547700-1-nuno.sa@analog.co=
-m/=0D
-=0D
-Second version:=0D
-=0D
-https://lore.kernel.org/linux-iio/20220711123835.811358-1-nuno.sa@analog.co=
-m/=0D
-=0D
-v3 changes:=0D
-=0D
-[1/15]:=0D
-  * Improved (spell fixes) commit message.=0D
-=0D
-[13/15]:=0D
-  * Get back to u32 API for 'st,adc-diff-channels' but making it more clear=
-=0D
-what's going on;=0D
-  * Fix infinite loop;=0D
-  * Store number of st,min-sample-time-nsecs properties to avoid=0D
-duplication in sanity checks.=0D
-=0D
-[15/15]=0D
-  * Improved 'if' condition for readability.=0D
-=0D
-(hopefulyl did not forgot any tag)=0D
-=0D
-Nuno S=C3=A1 (15):=0D
-  iio: inkern: only release the device node when done with it=0D
-  iio: inkern: fix return value in devm_of_iio_channel_get_by_name()=0D
-  iio: inkern: only return error codes in iio_channel_get_*() APIs=0D
-  iio: inkern: split of_iio_channel_get_by_name()=0D
-  iio: inkern: move to fwnode properties=0D
-  thermal: qcom: qcom-spmi-adc-tm5: convert to IIO fwnode API=0D
-  iio: adc: ingenic-adc: convert to IIO fwnode interface=0D
-  iio: adc: ab8500-gpadc: convert to device properties=0D
-  iio: adc: at91-sama5d2_adc: convert to device properties=0D
-  iio: adc: qcom-pm8xxx-xoadc: convert to device properties=0D
-  iio: adc: qcom-spmi-vadc: convert to device properties=0D
-  iio: adc: qcom-spmi-adc5: convert to device properties=0D
-  iio: adc: stm32-adc: convert to device properties=0D
-  iio: inkern: remove OF dependencies=0D
-  iio: inkern: fix coding style warnings=0D
-=0D
- drivers/iio/adc/ab8500-gpadc.c           |  27 +--=0D
- drivers/iio/adc/at91-sama5d2_adc.c       |  30 +--=0D
- drivers/iio/adc/ingenic-adc.c            |   8 +-=0D
- drivers/iio/adc/qcom-pm8xxx-xoadc.c      |  58 +++--=0D
- drivers/iio/adc/qcom-spmi-adc5.c         |  63 +++---=0D
- drivers/iio/adc/qcom-spmi-vadc.c         |  44 ++--=0D
- drivers/iio/adc/stm32-adc.c              | 125 ++++++-----=0D
- drivers/iio/inkern.c                     | 271 +++++++++++++----------=0D
- drivers/thermal/qcom/qcom-spmi-adc-tm5.c |   3 +-=0D
- include/linux/iio/consumer.h             |  28 +--=0D
- include/linux/iio/iio.h                  |   8 +-=0D
- 11 files changed, 350 insertions(+), 315 deletions(-)=0D
-=0D
--- =0D
-2.37.1=0D
-=0D
+of_iio_channel_get_by_name() can either return NULL or an error pointer
+so that only doing IS_ERR() is not enough. Fix it by checking the NULL
+pointer case and return -ENODEV in that case. Note this is done like this
+so that users of the function (which only check for error pointers) do
+not need to be changed. This is not ideal since we are losing error codes
+and as such, in a follow up change, things will be unified so that
+of_iio_channel_get_by_name() only returns error codes.
+
+Fixes: 6e39b145cef7 ("iio: provide of_iio_channel_get_by_name() and devm_ version it")
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+---
+ drivers/iio/inkern.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+index 9d87057794fc..87fd2a0d44f2 100644
+--- a/drivers/iio/inkern.c
++++ b/drivers/iio/inkern.c
+@@ -412,6 +412,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
+ 	channel = of_iio_channel_get_by_name(np, channel_name);
+ 	if (IS_ERR(channel))
+ 		return channel;
++	if (!channel)
++		return ERR_PTR(-ENODEV);
+ 
+ 	ret = devm_add_action_or_reset(dev, devm_iio_channel_free, channel);
+ 	if (ret)
+-- 
+2.37.1
+

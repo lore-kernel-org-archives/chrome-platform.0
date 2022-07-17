@@ -1,350 +1,298 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CB8817;
-	Sun, 17 Jul 2022 12:48:07 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 7F4CB1C0003; Sun, 17 Jul 2022 14:35:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1658061351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cBf+jWRDoNQnkPa+e9dAEb6sr2FGwNq/30S0BQ1Xqz8=;
-	b=DbT/eKOBSicA8m6NsmFdT+RnbQvM2Vn99CqENLl4IcBCtH2dDHjIVUoScSV5U33J8BSYOy
-	/vD6BG0WFMtMbK1J5xWQKlxFBPY+q7JqkbZRUIIe9ihV1tKT1I3OgzyeWyb3jetv7WZOoT
-	wereL1OJD8bn2nEednAgBymraZ5gEhE=
-Date: Sun, 17 Jul 2022 14:35:51 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Wolfram Sang <wsa@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-	Sekhar Nori <nsekhar@ti.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Russell King <linux@armlinux.org.uk>, Scott Wood <oss@buserror.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Robin van der Gracht <robin@protonic.nl>,
-	Miguel Ojeda <ojeda@kernel.org>, Corey Minyard <minyard@acm.org>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Luca Ceresoli <luca@lucaceresoli.net>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58A1257A
+	for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 17:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa1;
+	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+	 subject:cc:to:from:from;
+	bh=vrmH6j/pag/TAHd5gacgg6+hIq0bIhmlmYC9SVvEMUk=;
+	b=tur3vjZ7J5oe2xh9gBjsYeCwZv849URfw9ROdiNmQiSlkx0FQYkXfzsaeNFbePNG+TyzDCuniVR3k
+	 pVjTv1kIAJSjnXcn0NaeDCnMKFdBmpdPNQ16pcpfPU67FATNXCLI+7evlJSV0oa3N1rO6d7mndQ77N
+	 JfBqYGnw0ZJzb18en13cKmkcjZzr5D7wnw6lKgbXvPitNf5pIbxUZLNUV1Y2flWr0oqfeqq1IQFh+f
+	 sMXwMRJhbPpMrwV3cLWY/ch5f2BLFyu6dW7WMgkcVf/dgJIT0yI+pE+N7I2p4oOFaxWdZ5pUceTRtK
+	 KL6h8JXqTa6tPM4tz0q/m54ThuLhv1g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed1;
+	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+	 subject:cc:to:from:from;
+	bh=vrmH6j/pag/TAHd5gacgg6+hIq0bIhmlmYC9SVvEMUk=;
+	b=+m/XHXsgtEpjZ5j3R9aVPSvnjjYAZc6JEPKo8LoxlH/6YgxdDvNrg3llrRha5yJ/VYTjnqkt2rIqy
+	 hevrPu3BA==
+X-HalOne-Cookie: da2ff8231e04c1e7940b3ca9b98092ce5455aff1
+X-HalOne-ID: 336b8041-05f8-11ed-823f-d0431ea8bb10
+Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 336b8041-05f8-11ed-823f-d0431ea8bb10;
+	Sun, 17 Jul 2022 17:45:09 +0000 (UTC)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <narmstrong@baylibre.com>,
 	Robert Foss <robert.foss@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Phong LE <ple@baylibre.com>,
-	Adrien Grassein <adrien.grassein@gmail.com>,
-	Peter Senna Tschudin <peter.senna@gmail.com>,
-	Martin Donnelly <martin.donnelly@ge.com>,
-	Martyn Welch <martyn.welch@collabora.co.uk>,
-	Douglas Anderson <dianders@chromium.org>,
-	Stefan Mavrodiev <stefan@olimex.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	George Joseph <george.joseph@fairview5.com>,
-	Juerg Haefliger <juergh@gmail.com>,
-	Riku Voipio <riku.voipio@iki.fi>,
-	Robert Marko <robert.marko@sartura.hr>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Marc Hulsman <m.hulsman@tudelft.nl>,
-	Rudolf Marek <r.marek@assembler.cz>, Peter Rosin <peda@axentia.se>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Dan Robertson <dan@dlrobertson.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Tomasz Duszynski <tduszyns@gmail.com>,
-	Kevin Tsai <ktsai@capellamicro.com>, Crt Mori <cmo@melexis.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Nick Dyer <nick@shmanahar.org>, Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jan-Simon Moeller <jansimon.moeller@gmx.de>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Colin Leroy <colin@colino.net>, Joe Tessler <jrt@google.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Antti Palosaari <crope@iki.fi>, Jasmin Jessich <jasmin@anw.at>,
-	Matthias Schwarzott <zzam@gentoo.org>,
-	Olli Salonen <olli.salonen@iki.fi>,
-	Akihiro Tsukada <tskd08@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Dongchun Zhu <dongchun.zhu@mediatek.com>,
-	Shawn Tu <shawnx.tu@intel.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Ricardo Ribalda <ribalda@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	"Paul J. Murphy" <paul.j.murphy@intel.com>,
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Heungjun Kim <riverful.kim@samsung.com>,
-	Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Jimmy Su <jimmy.su@intel.com>, Arec Kao <arec.kao@intel.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Shunqian Zheng <zhengsq@rock-chips.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Wenyou Yang <wenyou.yang@microchip.com>,
-	Petr Cvek <petrcvekcz@gmail.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mats Randgaard <matrandg@cisco.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Matt Ranostay <matt.ranostay@konsulko.com>,
-	Eduardo Valentin <edubezval@gmail.com>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Robert Jones <rjones@gateworks.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Eric Piel <eric.piel@tremplin-utc.net>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, Andrew Lunn <andrew@lunn.ch>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	George McCollister <george.mccollister@gmail.com>,
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	Charles Gorand <charles.gorand@effinnov.com>,
-	Krzysztof Opasiak <k.opasiak@samsung.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Mark Gross <markgross@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Evgeniy Polyakov <zbr@ioremap.net>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Lucas Tanure <tanureal@opensource.cirrus.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Cai Huoqing <cai.huoqing@linux.dev>,
+	chrome-platform@lists.linux.dev,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	Jitao Shi <jitao.shi@mediatek.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kevin Cernekee <cernekee@chromium.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Philip Chen <philipchen@chromium.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sam Ravnborg <sam@ravnborg.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Lyude Paul <lyude@redhat.com>, Xin Ji <xji@analogixsemi.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Angela Czubak <acz@semihalf.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Alexandru Ardelean <ardeleanalex@gmail.com>,
-	Dmitry Rokosov <DDRokosov@sberdevices.ru>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Daniel Palmer <daniel@0x0f.com>, Haibo Chen <haibo.chen@nxp.com>,
-	Cai Huoqing <cai.huoqing@linux.dev>, Marek Vasut <marex@denx.de>,
-	Jose Cazarin <joseespiriki@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
-	Michael Srba <Michael.Srba@seznam.cz>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Maslov Dmitry <maslovdmitry@seeed.cc>,
-	Jiri Valek - 2N <valek@2n.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Zheyu Ma <zheyuma97@gmail.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Oliver Graute <oliver.graute@kococonnector.com>,
-	Zheng Yongjun <zhengyongjun3@huawei.com>,
-	CGEL ZTE <cgel.zte@gmail.com>, Minghao Chi <chi.minghao@zte.com.cn>,
-	Evgeny Novikov <novikov@ispras.ru>, Sean Young <sean@mess.org>,
-	Kirill Shilimanov <kirill.shilimanov@huawei.com>,
-	Moses Christopher Bollavarapu <mosescb.dev@gmail.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Dongliang Mu <mudongliangabcd@gmail.com>,
-	Colin Ian King <colin.king@intel.com>, lijian <lijian@yulong.com>,
-	Kees Cook <keescook@chromium.org>, Yan Lei <yan_lei@dahuatech.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonas Malaco <jonas@protocubo.io>,
-	wengjianfeng <wengjianfeng@yulong.com>,
-	Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-	Wei Yongjun <weiyongjun1@huawei.com>, Tom Rix <trix@redhat.com>,
-	Yizhuo <yzhai003@ucr.edu>, Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Hector Martin <marcan@marcan.st>,
-	Saranya Gopal <saranya.gopal@intel.com>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	Sing-Han Chen <singhanc@nvidia.com>,
-	Wayne Chang <waynec@nvidia.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Vincent Knecht <vincent.knecht@mailoo.org>,
-	Stephen Kitt <steve@sk2.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Alexey Khoroshilov <khoroshilov@ispras.ru>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Alejandro Tafalla <atafalla@dnyon.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Seven Lee <wtli@nuvoton.com>, Mac Chiang <mac.chiang@intel.com>,
-	David Lin <CTLIN0@nuvoton.com>,
-	Daniel Beer <daniel.beer@igorinstitute.com>,
-	Ricard Wanderlof <ricardw@axis.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Viorel Suman <viorel.suman@nxp.com>,
-	Nicola Lunghi <nick83ola@gmail.com>, Adam Ford <aford173@gmail.com>,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220717123551.GJ14285@duo.ucw.cz>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v1 02/12] drm/bridge: Drop unused drm_bridge_chain functions
+Date: Sun, 17 Jul 2022 19:44:44 +0200
+Message-Id: <20220717174454.46616-3-sam@ravnborg.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
+References: <20220717174454.46616-1-sam@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="T4IYkFBVPN84tP7K"
-Content-Disposition: inline
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
+The drm_bridge_chain_{pre_enable,enable,disable,post_disable} has no
+users left and we have atomic variants that should be used.
+Drop them so they do not gain new users.
 
---T4IYkFBVPN84tP7K
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Adjust a few comments to avoid references to the dropped functions.
 
-Hi!
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+---
+ drivers/gpu/drm/drm_bridge.c | 110 -----------------------------------
+ include/drm/drm_bridge.h     |  28 ---------
+ 2 files changed, 138 deletions(-)
 
-> From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 1545c50fd1c8..bb7fc09267af 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -509,61 +509,6 @@ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_bridge_chain_mode_valid);
+ 
+-/**
+- * drm_bridge_chain_disable - disables all bridges in the encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.disable op for all the bridges in the encoder
+- * chain, starting from the last bridge to the first. These are called before
+- * calling the encoder's prepare op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_disable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-	struct drm_bridge *iter;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+-		if (iter->funcs->disable)
+-			iter->funcs->disable(iter);
+-
+-		if (iter == bridge)
+-			break;
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_disable);
+-
+-/**
+- * drm_bridge_chain_post_disable - cleans up after disabling all bridges in the
+- *				   encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.post_disable op for all the bridges in the
+- * encoder chain, starting from the first bridge to the last. These are called
+- * after completing the encoder's prepare op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_post_disable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (bridge->funcs->post_disable)
+-			bridge->funcs->post_disable(bridge);
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_post_disable);
+-
+ /**
+  * drm_bridge_chain_mode_set - set proposed mode for all bridges in the
+  *			       encoder chain
+@@ -593,61 +538,6 @@ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
+ 
+-/**
+- * drm_bridge_chain_pre_enable - prepares for enabling all bridges in the
+- *				 encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.pre_enable op for all the bridges in the encoder
+- * chain, starting from the last bridge to the first. These are called
+- * before calling the encoder's commit op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-	struct drm_bridge *iter;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+-		if (iter->funcs->pre_enable)
+-			iter->funcs->pre_enable(iter);
+-
+-		if (iter == bridge)
+-			break;
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
+-
+-/**
+- * drm_bridge_chain_enable - enables all bridges in the encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.enable op for all the bridges in the encoder
+- * chain, starting from the first bridge to the last. These are called
+- * after completing the encoder's commit op.
+- *
+- * Note that the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_enable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (bridge->funcs->enable)
+-			bridge->funcs->enable(bridge);
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_enable);
+-
+ /**
+  * drm_atomic_bridge_chain_disable - disables all bridges in the encoder chain
+  * @bridge: bridge control structure
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index dba5d81e3b4a..1eca9c4c3346 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -297,12 +297,6 @@ struct drm_bridge_funcs {
+ 	 * not enable the display link feeding the next bridge in the chain (if
+ 	 * there is one) when this callback is called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_pre_enable. It would be prudent to also provide an
+-	 * implementation of @pre_enable if you are expecting driver calls into
+-	 * &drm_bridge_chain_pre_enable.
+-	 *
+ 	 * The @atomic_pre_enable callback is optional.
+ 	 */
+ 	void (*atomic_pre_enable)(struct drm_bridge *bridge,
+@@ -323,11 +317,6 @@ struct drm_bridge_funcs {
+ 	 * callback must enable the display link feeding the next bridge in the
+ 	 * chain if there is one.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from &drm_bridge_chain_enable.
+-	 * It would be prudent to also provide an implementation of @enable if
+-	 * you are expecting driver calls into &drm_bridge_chain_enable.
+-	 *
+ 	 * The @atomic_enable callback is optional.
+ 	 */
+ 	void (*atomic_enable)(struct drm_bridge *bridge,
+@@ -345,12 +334,6 @@ struct drm_bridge_funcs {
+ 	 * The bridge can assume that the display pipe (i.e. clocks and timing
+ 	 * signals) feeding it is still running when this callback is called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_disable. It would be prudent to also provide an
+-	 * implementation of @disable if you are expecting driver calls into
+-	 * &drm_bridge_chain_disable.
+-	 *
+ 	 * The @atomic_disable callback is optional.
+ 	 */
+ 	void (*atomic_disable)(struct drm_bridge *bridge,
+@@ -370,13 +353,6 @@ struct drm_bridge_funcs {
+ 	 * signals) feeding it is no longer running when this callback is
+ 	 * called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_post_disable.
+-	 * It would be prudent to also provide an implementation of
+-	 * @post_disable if you are expecting driver calls into
+-	 * &drm_bridge_chain_post_disable.
+-	 *
+ 	 * The @atomic_post_disable callback is optional.
+ 	 */
+ 	void (*atomic_post_disable)(struct drm_bridge *bridge,
+@@ -876,13 +852,9 @@ enum drm_mode_status
+ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
+ 			    const struct drm_display_info *info,
+ 			    const struct drm_display_mode *mode);
+-void drm_bridge_chain_disable(struct drm_bridge *bridge);
+-void drm_bridge_chain_post_disable(struct drm_bridge *bridge);
+ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+ 			       const struct drm_display_mode *mode,
+ 			       const struct drm_display_mode *adjusted_mode);
+-void drm_bridge_chain_pre_enable(struct drm_bridge *bridge);
+-void drm_bridge_chain_enable(struct drm_bridge *bridge);
+ 
+ int drm_atomic_bridge_chain_check(struct drm_bridge *bridge,
+ 				  struct drm_crtc_state *crtc_state,
+-- 
+2.34.1
 
-2-4: Acked-by: Pavel Machek <pavel@ucw.cz>
-
-Best regards,
-							Pavel
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---T4IYkFBVPN84tP7K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYtQCJwAKCRAw5/Bqldv6
-8uLoAKCbwzuCGlS9LKQcrBTMJXgap3//dQCfasApR6kyXVLFz8BcHxrPzA1L43I=
-=dhr2
------END PGP SIGNATURE-----
-
---T4IYkFBVPN84tP7K--

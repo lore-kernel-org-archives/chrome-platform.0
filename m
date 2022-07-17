@@ -1,31 +1,31 @@
 Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F0257A
-	for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 17:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4F3257A
+	for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 17:59:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=rsa1;
 	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
 	 subject:cc:to:from:from;
-	bh=k798q7ML9R4Plrb6TqpakxyUbx1g5KWRA3qhCOyn4ek=;
-	b=e4C90Y5+4w0vcw6rF3D2f2kPP3t7AKAHZcUH+DI7+w2S/TiSCVHlJIIDo1BTHWu8uXzcUjI1wRu52
-	 2zJtbAOys8Wv+uhj3pGNnfUOZEh/aY+NUpDDduf4CZ7mHj8+XoRYw2DYuVYiaWYk9eM9m1vqSFoJnJ
-	 MbGBsjKP3B+RERK182PCh3q8+RcvUgJ2bgxltXrqQAZZPOkqIRdhdzcDHFLQf+dsy8+Zf0WFmDf5vT
-	 suoUhkWliBi2VSyuOrwsDNYnBd4E0tI3lJ345y1HAwNMjxKe9UvyirlmZxYr5+qmnk20MXk8HcEv4Z
-	 VVKzfw1WQwbfXSE32Q1WGB1w08q0cLQ==
+	bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
+	b=Owd4TR+EIAcR/w4IS9ir8ZcJOxNC7zfMKnLLOvEYaWyNhBD6xHyXdMeyWVSlHv8yuBoUu6GTdlV0M
+	 +N5PjTde+3Ugkzo3EnTrBclAEoZabbMu5LbWyaFQ2Xqq1dsx+GvCku2SfiQseFlvC9y1szOx/UjCz7
+	 sVDLt2A+KV6QCO4bTytrBcXafvcny+Bw9DonGSumNPJmvm9J4HlydnWkQO0E87ZmJfQsSsjO69Tpe4
+	 X3QqfpcIY1s30KdBaNVnCsaxv1IxTL7VGjS9nDe3aC9eTCv8FRR3uMzBT3QSRCcVccCY4NtCo1BXuQ
+	 0nJuEkYd8XyKOt8aZfKhOB6lxCuNSgg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=ed1;
 	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
 	 subject:cc:to:from:from;
-	bh=k798q7ML9R4Plrb6TqpakxyUbx1g5KWRA3qhCOyn4ek=;
-	b=atAGNS4/GuLbsXt6VCubT00JfzK8dji6XUbvCGx+kiMBvBk+yhcp7ECF/qD3gslmtsoc7xgAbAlme
-	 hMikQjUAw==
-X-HalOne-Cookie: e93fb8437fd3034790c1dedaf93d71e57f69d988
-X-HalOne-ID: 0dd61fc2-05fa-11ed-be7f-d0431ea8bb03
+	bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
+	b=SJAzZOPeRrw1zNoIoWtZEdkJbmL6Ihhfv4xQ6otdBCl2YYmEUOZQyubn0ANmkK9oD5aYtc7xczVbI
+	 J81A1uACg==
+X-HalOne-Cookie: 1e041dfdbe31dc4e91bc574cc7fddbd785b1642b
+X-HalOne-ID: 05046757-05fa-11ed-be7f-d0431ea8bb03
 Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
 	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 0dd61fc2-05fa-11ed-be7f-d0431ea8bb03;
-	Sun, 17 Jul 2022 17:58:25 +0000 (UTC)
+	id 05046757-05fa-11ed-be7f-d0431ea8bb03;
+	Sun, 17 Jul 2022 17:58:11 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -57,13 +57,12 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	Sam Ravnborg <sam@ravnborg.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-Date: Sun, 17 Jul 2022 19:58:01 +0200
-Message-Id: <20220717175801.78668-5-sam@ravnborg.org>
+Subject: [PATCH v1 08/12] drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
+Date: Sun, 17 Jul 2022 19:57:57 +0200
+Message-Id: <20220717175801.78668-1-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
 References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -72,54 +71,47 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add todo in the hope someone will help updating the bridge drivers.
-
-v2:
-  - Updated descriptions in todo.rst
+The implementation of drm_bridge_funcs.mode_fixup is optional
+so there is no need to provide an empty implementation.
+Drop mtk_hdmi_bridge_mode_fixup() so the driver no longer uses the
+deprecated drm_bridge_funcs.mode_fixup() operation.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 10bfb50908d1..fbcc232e0bc1 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index a63b76055f81..7321aa1ee6f0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1293,13 +1293,6 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+ 	return 0;
+ }
  
- Level: Starter
- 
-+Drop use of deprecated operations in bridge drivers
-+--------------------------------------------------
-+
-+&struct drm_bridge_funcs contains a number of deprecated operations
-+which can be replaced by the atomic variants.
-+
-+The following is more or less 1:1 replacements with the arguments
-+and names adjusted:
-+* pre_enable => atomic_pre_enable
-+* enable => atomic_enable
-+* disable => atomic_disable
-+* post_disable => atomic_post_disable
-+
-+* mode_set is no longer required and the implementation shall be merged
-+  with atomic_enable.
-+
-+Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
-+         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+
-+Level: Beginner or intermediate (depending on the driver)
- 
- Core refactorings
- =================
+-static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
+-				       const struct drm_display_mode *mode,
+-				       struct drm_display_mode *adjusted_mode)
+-{
+-	return true;
+-}
+-
+ static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+ 					   struct drm_bridge_state *old_bridge_state)
+ {
+@@ -1399,7 +1392,6 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.attach = mtk_hdmi_bridge_attach,
+-	.mode_fixup = mtk_hdmi_bridge_mode_fixup,
+ 	.atomic_disable = mtk_hdmi_bridge_atomic_disable,
+ 	.atomic_post_disable = mtk_hdmi_bridge_atomic_post_disable,
+ 	.mode_set = mtk_hdmi_bridge_mode_set,
 -- 
 2.34.1
 

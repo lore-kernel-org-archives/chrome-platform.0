@@ -1,31 +1,31 @@
-Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3289F257A
-	for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 17:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB733257A
+	for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 17:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=rsa1;
 	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
 	 subject:cc:to:from:from;
-	bh=WpiIdNNw+YlTh9md/y+SUXBy5qWi7g/wD1nN6Hjb1fc=;
-	b=SjCvmsX9tnzAHlHfFQXP3UhAFt18chTJzMiyXQ+UoMt0QyZf7K0VE1DoIAW1C/Duvc7sWvoumlhce
-	 j2i3Qd7o6D5Q/dk2n0Dz/XxdCpxxtoz2El2RB0bokmhqvF187EjAXnbBMQBG6w9IX0jZK9Gh0mHPlP
-	 O0i0RQm85ZiWrlMs2z8nNBvZSgg0+z75rj9wSxH+oXW+vbKhmj9a8zSkat0T6aaIpCKl3WecyGewmk
-	 7yXtGASEKJ8AcFEoKUTypPWlfwrrgaensGSjEAxYwuUjB/ukU//Ewhm8b5Uyp/fNO2qchgWHM/W8/l
-	 YxgkfgDlNmsmCAMfpdWqRcKDSxFw/jg==
+	bh=Q5AK+4NypIlk8rRS3I711RmXejfY0OnnESySL2cldlE=;
+	b=h+bfBHFSeG2CbL7laYU1YY2xRf6vZMMRMk5qvEAomwTsvBfDLqtntGSkQ9DVsG5VCzhE/TlCDpbRS
+	 neJVUzwik7sUmhoAVmFTXOJbY8kXjBNIIs1i5+3fZ3LZnsGMSqKX+UVW+SANGh7k2nmfI/SB5yj86d
+	 paP/zrB7Rn7Q30OjeHsEIPW3J0lYufB9/6t78mO3XPlgjFEyjfDhOlcTlayHPhErDiKzuDnRknKbj9
+	 /ietNxnf15VZVa7EvobBvv9v0idp2Oq1KKLek7bFj+83PZA4AjxNqS0qWmbk4b6qWOiE0EPVSLAWLj
+	 F2gBFwxUkXOyRGDYStplHVVE6fn+QtA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=ed1;
 	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
 	 subject:cc:to:from:from;
-	bh=WpiIdNNw+YlTh9md/y+SUXBy5qWi7g/wD1nN6Hjb1fc=;
-	b=ZWBPwkyfGgn0kvJgaogmSdBAPG6nzGfyaPcxggdpAs13BTMtZRIg4j7psRs7rpYPlCJi1YhA99Biz
-	 HN2hVycAA==
-X-HalOne-Cookie: 8bc88d894888cda86d4c72cfc609f8fc5424586e
-X-HalOne-ID: 32858be4-05f8-11ed-823f-d0431ea8bb10
+	bh=Q5AK+4NypIlk8rRS3I711RmXejfY0OnnESySL2cldlE=;
+	b=bQm2AFkfu8hxjpuiE8TTBMzELBXKR/wSzafBmVuen8WRQNu21XRea3D9JUrytgKpVLGuhsbs8Jt2e
+	 2sP1etwAA==
+X-HalOne-Cookie: 24d84fb73bff50a580c06332d25b99da2f041561
+X-HalOne-ID: 0a676264-05fa-11ed-be7f-d0431ea8bb03
 Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 32858be4-05f8-11ed-823f-d0431ea8bb10;
-	Sun, 17 Jul 2022 17:45:08 +0000 (UTC)
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 0a676264-05fa-11ed-be7f-d0431ea8bb03;
+	Sun, 17 Jul 2022 17:58:19 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -56,15 +56,14 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Sam Ravnborg <sam@ravnborg.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <a.hajda@samsung.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v1 01/12] drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
-Date: Sun, 17 Jul 2022 19:44:43 +0200
-Message-Id: <20220717174454.46616-2-sam@ravnborg.org>
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v1 11/12] drm/bridge: Drop drm_bridge_funcs.mode_fixup
+Date: Sun, 17 Jul 2022 19:58:00 +0200
+Message-Id: <20220717175801.78668-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
+In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
 References: <20220717174454.46616-1-sam@ravnborg.org>
+ <20220717175801.78668-1-sam@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -73,94 +72,139 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The atomic variants of enable/disable in drm_bridge_funcs are the
-preferred operations - introduce these.
+All users are converted over to drm_bridge_funcs.atomic_check()
+so it is safe to drop the mode_fixup support.
 
-The ps8640 driver used the non-atomic variants of the drm_bridge_chain_pre_enable/
-drm_bridge_chain_post_disable - convert these to the atomic variants.
-
-v2:
-  - Init state operations in drm_bridge_funcs (Laurent)
+Update the comment for atomic_check with relevant parts from mode_fixup.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Cc: Jitao Shi <jitao.shi@mediatek.com>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Philip Chen <philipchen@chromium.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/bridge/parade-ps8640.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_bridge.c |  7 +----
+ include/drm/drm_bridge.h     | 60 ++++++++++--------------------------
+ 2 files changed, 17 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 31e88cb39f8a..bb8076fb8625 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -15,6 +15,7 @@
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index b6f56d8f3547..3f5acb19957c 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -685,10 +685,6 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+ 						  crtc_state, conn_state);
+ 		if (ret)
+ 			return ret;
+-	} else if (bridge->funcs->mode_fixup) {
+-		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+-					       &crtc_state->adjusted_mode))
+-			return -EINVAL;
+ 	}
  
- #include <drm/display/drm_dp_aux_bus.h>
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_mipi_dsi.h>
-@@ -409,7 +410,8 @@ static const struct dev_pm_ops ps8640_pm_ops = {
- 				pm_runtime_force_resume)
- };
+ 	return 0;
+@@ -934,8 +930,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+  * @conn_state: new connector state
+  *
+  * First trigger a bus format negotiation before calling
+- * &drm_bridge_funcs.atomic_check() (falls back on
+- * &drm_bridge_funcs.mode_fixup()) op for all the bridges in the encoder chain,
++ * &drm_bridge_funcs.atomic_check() op for all the bridges in the encoder chain,
+  * starting from the last bridge to the first. These are called before calling
+  * &drm_encoder_helper_funcs.atomic_check()
+  *
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 7496f41535b1..8c93369bcc74 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -106,7 +106,7 @@ struct drm_bridge_funcs {
+ 	 * to look at anything else but the passed-in mode, and validate it
+ 	 * against configuration-invariant hardward constraints. Any further
+ 	 * limits which depend upon the configuration can only be checked in
+-	 * @mode_fixup.
++	 * @atomic_check.
+ 	 *
+ 	 * RETURNS:
+ 	 *
+@@ -116,46 +116,6 @@ struct drm_bridge_funcs {
+ 					   const struct drm_display_info *info,
+ 					   const struct drm_display_mode *mode);
  
--static void ps8640_pre_enable(struct drm_bridge *bridge)
-+static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-@@ -443,7 +445,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
- 	ps_bridge->pre_enabled = true;
- }
- 
--static void ps8640_post_disable(struct drm_bridge *bridge)
-+static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
-+				       struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 
-@@ -521,7 +524,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * EDID, for this chip, we need to do a full poweron, otherwise it will
- 	 * fail.
+-	/**
+-	 * @mode_fixup:
+-	 *
+-	 * This callback is used to validate and adjust a mode. The parameter
+-	 * mode is the display mode that should be fed to the next element in
+-	 * the display chain, either the final &drm_connector or the next
+-	 * &drm_bridge. The parameter adjusted_mode is the input mode the bridge
+-	 * requires. It can be modified by this callback and does not need to
+-	 * match mode. See also &drm_crtc_state.adjusted_mode for more details.
+-	 *
+-	 * This is the only hook that allows a bridge to reject a modeset. If
+-	 * this function passes all other callbacks must succeed for this
+-	 * configuration.
+-	 *
+-	 * The mode_fixup callback is optional. &drm_bridge_funcs.mode_fixup()
+-	 * is not called when &drm_bridge_funcs.atomic_check() is implemented,
+-	 * so only one of them should be provided.
+-	 *
+-	 * NOTE:
+-	 *
+-	 * This function is called in the check phase of atomic modesets, which
+-	 * can be aborted for any reason (including on userspace's request to
+-	 * just check whether a configuration would be possible). Drivers MUST
+-	 * NOT touch any persistent state (hardware or software) or data
+-	 * structures except the passed in @state parameter.
+-	 *
+-	 * Also beware that userspace can request its own custom modes, neither
+-	 * core nor helpers filter modes to the list of probe modes reported by
+-	 * the GETCONNECTOR IOCTL and stored in &drm_connector.modes. To ensure
+-	 * that modes are filtered consistently put any bridge constraints and
+-	 * limits checks into @mode_valid.
+-	 *
+-	 * RETURNS:
+-	 *
+-	 * True if an acceptable configuration is possible, false if the modeset
+-	 * operation should be rejected.
+-	 */
+-	bool (*mode_fixup)(struct drm_bridge *bridge,
+-			   const struct drm_display_mode *mode,
+-			   struct drm_display_mode *adjusted_mode);
+ 	/**
+ 	 * @disable:
+ 	 *
+@@ -466,9 +426,7 @@ struct drm_bridge_funcs {
+ 	 * &drm_bridge_funcs.atomic_check() hooks are called in reverse
+ 	 * order (from the last to the first bridge).
+ 	 *
+-	 * This method is optional. &drm_bridge_funcs.mode_fixup() is not
+-	 * called when &drm_bridge_funcs.atomic_check() is implemented, so only
+-	 * one of them should be provided.
++	 * This method is optional.
+ 	 *
+ 	 * If drivers need to tweak &drm_bridge_state.input_bus_cfg.flags or
+ 	 * &drm_bridge_state.output_bus_cfg.flags it should happen in
+@@ -478,6 +436,20 @@ struct drm_bridge_funcs {
+ 	 * &drm_connector.display_info.bus_flags if the bridge is the last
+ 	 * element in the chain.
+ 	 *
++	 * NOTE:
++	 *
++	 * This function is called in the check phase of atomic modesets, which
++	 * can be aborted for any reason (including on userspace's request to
++	 * just check whether a configuration would be possible). Drivers MUST
++	 * NOT touch any persistent state (hardware or software) or data
++	 * structures except the passed in @state parameter.
++	 *
++	 * Also beware that userspace can request its own custom modes, neither
++	 * core nor helpers filter modes to the list of probe modes reported by
++	 * the GETCONNECTOR IOCTL and stored in &drm_connector.modes. To ensure
++	 * that modes are filtered consistently put any bridge constraints and
++	 * limits checks into @mode_valid.
++	 *
+ 	 * RETURNS:
+ 	 * zero if the check passed, a negative error code otherwise.
  	 */
--	drm_bridge_chain_pre_enable(bridge);
-+	drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
- 
- 	edid = drm_get_edid(connector,
- 			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
-@@ -531,7 +534,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * before, return the chip to its original power state.
- 	 */
- 	if (poweroff)
--		drm_bridge_chain_post_disable(bridge);
-+		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
- 
- 	return edid;
- }
-@@ -546,8 +549,11 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
- 	.detach = ps8640_bridge_detach,
- 	.get_edid = ps8640_bridge_get_edid,
--	.post_disable = ps8640_post_disable,
--	.pre_enable = ps8640_pre_enable,
-+	.atomic_post_disable = ps8640_atomic_post_disable,
-+	.atomic_pre_enable = ps8640_atomic_pre_enable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
- };
- 
- static int ps8640_bridge_get_dsi_resources(struct device *dev, struct ps8640 *ps_bridge)
 -- 
 2.34.1
 

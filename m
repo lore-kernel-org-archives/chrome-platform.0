@@ -1,74 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28105ECC
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 10:48:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD243C341C0;
-	Mon, 18 Jul 2022 10:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4E3ECC
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 10:50:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F26C341C0;
+	Mon, 18 Jul 2022 10:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658141294;
-	bh=JAyGeINuZXCg47n62w2E/ixYwa1Du2XE/Y1lWIoSMdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rW0/T4C6bZMKvYq43tVe+QU8x4NRLisHaxlfXXShlGDeEIGVVBk2C9gkENolyJE3x
-	 ny1EttvNgNb4PgvIymkjkAWl6IcIgndnfFLJnaX9eJFNI5zl47QBo2c7ByJPoobTiX
-	 lhA61sVJBVTaxHMuT11ZJCdCwr91ysfSQzJU7wQ40SrZaWPtKCU5l6GznQnZ0s8VJd
-	 JWhHLqq5XslVJd6Yww7/lrBF+Actmd3Rf5QuLjT0RuNbWHbdYFF9GWpRysSXqNyGEQ
-	 T+ZjULCo7+XoWM3ze1rElnBtDFWrVRRmxakjthoT/8q7oSDY1OoY3s8GjVUKVAv8tP
-	 /7e1Ahui+YoFA==
-Date: Mon, 18 Jul 2022 10:48:11 +0000
+	s=k20201202; t=1658141454;
+	bh=ZOMFxP9OjT6H8eo3v377jvuAkq+xdKfVbWdL9uH1JLw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EY0SGOlMHr3B6knTpfV/e92bUya9mSTekPBHqbgvDorqDP7I9B5H6S4zE7CEZdLJK
+	 ZDttGHXLWPDkKb2TU2Gl2+pvyApZjNQZlQ9mDU7knT93/8casb9GEuyd9+A1j6Jyza
+	 U9gLIMZfx0GX/Qq7ukSzsuLngoUShFb+DChWDaI1yRBbVDa20IVPfwLOSHBZVGXnjs
+	 tuwWz694p5sGk5q/9ZsP7VZBHxbmimZ+MmI7OwMUxsMqKZ2CNkC6ysR/zHOKcUUsfG
+	 KUJQ3orW7WT456s+jB8gWmvt7Fv+ksxWe8oq3zPe9ROfSwkdEVsD6rHS5SmdbXALxO
+	 sYGwuQwWSeVgw==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Guenter Roeck <groeck@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	tzungbi@kernel.org,
 	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: fix build
- warning
-Message-ID: <YtU6a+bIpgpyScsL@google.com>
-References: <20220718061608.2303425-1-tzungbi@kernel.org>
- <CABXOdTeH-q=17QBnCn5NGT5V0QA5SOaTnrWaK+g5F3j4mVp8cA@mail.gmail.com>
+Subject: [PATCH v2] platform/chrome: cros_kbd_led_backlight: fix build warning
+Date: Mon, 18 Jul 2022 10:50:47 +0000
+Message-Id: <20220718105047.2356542-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXOdTeH-q=17QBnCn5NGT5V0QA5SOaTnrWaK+g5F3j4mVp8cA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 17, 2022 at 11:54:31PM -0700, Guenter Roeck wrote:
-> On Sun, Jul 17, 2022 at 11:16 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > drivers/platform/chrome/cros_kbd_led_backlight.c got a new build warning
-> > when using the randconfig in [1]:
-> > >>> warning: unused variable 'keyboard_led_drvdata_ec_pwm'
-> >
-> > The warning happens when CONFIG_CROS_EC is set but CONFIG_OF is not set.
-> > Reproduce:
-> > - mkdir build_dir
-> > - wget [1] -O build_dir/.config
-> > - COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 \
-> >   O=build_dir ARCH=s390 SHELL=/bin/bash drivers/platform/chrome/
-> >
-> 
-> Have you tried the following ?
->     CONFIG_ACPI=y
->     CONFIG_CROS_EC=n
->     CONFIG_OF=y
-> 
-> That should be possible, but with your patch it should now result in a
-> build error because keyboard_led_drvdata_ec_pwm is no longer defined.
+drivers/platform/chrome/cros_kbd_led_backlight.c got a new build warning
+when using the randconfig in [1]:
+>>> warning: unused variable 'keyboard_led_drvdata_ec_pwm'
 
-Hmm, just got another lkp robot's warning about the undeclared symbol.  Will
-fix it by using __maybe_unused in next version.
+The warning happens when CONFIG_CROS_EC is set but CONFIG_OF is not set.
+Reproduce:
+- mkdir build_dir
+- wget [1] -O build_dir/.config
+- COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 \
+  O=build_dir ARCH=s390 SHELL=/bin/bash drivers/platform/chrome/
 
-> Also, with your patch, CONFIG_CROS_EC=y, CONFIG_ACPI=y, and
-> CONFIG_OF=n (ie Intel/AMD systems) would result in the code not being
-> compiled, which would be wrong.
+Fix the warning by using __maybe_unused.  Also use IS_ENABLED() because
+CROS_EC is a tristate.
 
-Intel and AMD systems rely on `keyboard_led_drvdata_acpi` but not
-`keyboard_led_drvdata_ec_pwm` for now.  They shouldn't be affected by the
-patch.
+[1]: https://download.01.org/0day-ci/archive/20220717/202207170538.MR39dw8m-lkp@intel.com/config
 
-In any cases, let's use __maybe_unused in next version.
+Fixes: 40f58143745e ("platform/chrome: cros_kbd_led_backlight: support EC PWM backend")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+Changes from v1 (https://patchwork.kernel.org/project/chrome-platform/patch/20220718061608.2303425-1-tzungbi@kernel.org/):
+- Use __maybe_unused.
+
+ drivers/platform/chrome/cros_kbd_led_backlight.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
+index 5ad41c10412d..793fd3f1015d 100644
+--- a/drivers/platform/chrome/cros_kbd_led_backlight.c
++++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
+@@ -119,7 +119,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
+ 
+ #endif /* CONFIG_ACPI */
+ 
+-#ifdef CONFIG_CROS_EC
++#if IS_ENABLED(CONFIG_CROS_EC)
+ 
+ static int
+ keyboard_led_set_brightness_ec_pwm(struct led_classdev *cdev,
+@@ -180,18 +180,18 @@ static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
++static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+ 	.init = keyboard_led_init_ec_pwm,
+ 	.brightness_set_blocking = keyboard_led_set_brightness_ec_pwm,
+ 	.brightness_get = keyboard_led_get_brightness_ec_pwm,
+ 	.max_brightness = KEYBOARD_BACKLIGHT_MAX,
+ };
+ 
+-#else /* CONFIG_CROS_EC */
++#else /* IS_ENABLED(CONFIG_CROS_EC) */
+ 
+-static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
++static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+ 
+-#endif /* CONFIG_CROS_EC */
++#endif /* IS_ENABLED(CONFIG_CROS_EC) */
+ 
+ static int keyboard_led_probe(struct platform_device *pdev)
+ {
+-- 
+2.37.0.170.g444d1eabd0-goog
+

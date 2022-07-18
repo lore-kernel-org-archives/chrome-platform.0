@@ -1,96 +1,112 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10F93C37
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 21:28:32 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id k19so10203361pll.5
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 14:28:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5675A4A20
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 23:40:11 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id q5so10444288plr.11
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 16:40:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PVcgZzjdK9fjloy6/Y+huhUu52yh6ctU8017XyeNTLM=;
-        b=Sa/S6jwMcJ6vjrfJHhWknnUYuPM+pYaLLPuHmCGsdMeJChAHIeOO5asROW8eyJpcIK
-         ZVPoVHm7j1hKHIePlke4jGYo7O7x8uwE/3WaJKMTh36xmHe8nbBADJz6zFb2Ta/zswfl
-         3tOPxbJzDaNmEuC9x6q48jG3Yo4WXSple2DMI=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=zCvSe/H5GbNdNRYYznvVc3np+AznlIWfS9c2NY5WAB0=;
+        b=mU2+pdxDUcPKt1NEXCFFEUvuF82WMTmQKe7v6artWis5XXfkLJ/fAc9heMSi7p0Nni
+         rS1oDGYwmFaDvhV+FA8srXvCo189/93CYqY3uKjssgDN+c55xcFLJm/9+U1MmEVLAnof
+         xMH3ZeDXrxJAkaaofl/4YpQyVy2bLzlFMXzRsLrMt3hIHAoeMG5y6iSVtbptN2WeDmL2
+         34Uk0kAALR+DgJphHWYTBDJ4ixC9GxujXlDup6dbxY2iz4lRFNgnW54REXTtKBtrTs6a
+         zv7/KDNHW7AT5Q0B6a1nRcjMWMS1aARbMswPcIve+UhdTnMIR4w5qHKpTpkd0xjxuzOF
+         dDew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PVcgZzjdK9fjloy6/Y+huhUu52yh6ctU8017XyeNTLM=;
-        b=7bTQ3xlMeIDRWB4xJg0GEt2Dhp5u4AqlKUjPZ8GpoNpQB37vpfttew3uz8Sipyth37
-         NTSf7wmt2XQiC3q5S1110pfcFtgDv0dNFJfO0ylaDwgq8TJgrVjsxilnVwoewyin5WO0
-         yPAJaMb83anPz9HHPXe9lWTc2xWgUICfImJqtYpsfiBJqWq6vXfbFhqWbPdIHw9maRBy
-         dmXG04XOH7HfVDDdOe59r8/AfctXvoiG8HFT4gpcRfNI57Fro3jkBIC49m2TW8M15TKh
-         IPZk9Tg5NjtlEGetKQ6zz/Ud/WqUovvOC1gFF9N+ukrs5hUc+dt4a9SQGJjj1oNUdubs
-         FuxQ==
-X-Gm-Message-State: AJIora8R5LD0CmTh161VV8MR/Z4ulouTnyk3k72GaVMmfO2a+6GcHyE+
-	KKeRImhC93fUkv9zdAZqat74tg==
-X-Google-Smtp-Source: AGRyM1tKSCH41BB852jsIS5RXGkAx+Hvett+tlV5FCfr3isJIr5ePfcCMhOC36ySIh28Iy2UYPICjA==
-X-Received: by 2002:a17:903:18c:b0:16c:51c6:675d with SMTP id z12-20020a170903018c00b0016c51c6675dmr29737274plg.153.1658179712184;
-        Mon, 18 Jul 2022 14:28:32 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id z9-20020a631909000000b0041992864d69sm8536830pgl.77.2022.07.18.14.28.31
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=zCvSe/H5GbNdNRYYznvVc3np+AznlIWfS9c2NY5WAB0=;
+        b=VCLQGLVmbKZWw8vtNj9SkTZwExBKtAtHKl2Ds60eEt0ABWmPhOrnmIdhxixN+y3J2p
+         x/NEtbdmnvWbYtG7FNzALxRtcZZosgjcZ5fVLj0q/TCj0VCxVtJRD2/UC7+tMC+1TKww
+         0WCcqtvvhS5RZyCb+hBKYJuE4yVJL+vlfv03uxeiJaVIL/stfnavpC9pqvITBSy5GuxJ
+         HX5B4C3+jYqc6a5yZdPPMke5Dr0O76//6CeStDWXEWxkx92c2v8l6fqJ7sk3c0SivRo1
+         8thd8Oinp+xNGVAYXWdwJ6uU3GH2jZpgN2MZR/jsSYD6Ns1nDS2gj7yQMSRIEQs0ZHdx
+         BwNw==
+X-Gm-Message-State: AJIora8KpMy9esTGaejq1xkrvzVcfZXR5HTk1A9WkD/bpaFE94BRNX9K
+	CUMxkkkF8ZghFoP1JKY3h6KCrg==
+X-Google-Smtp-Source: AGRyM1ua9IcjtFYqthUwYSJ06WZALZzsesmGonobenDegxZ3Kf5NG4EZgdo8MtaHf/ppLUZl8qd3Pw==
+X-Received: by 2002:a17:90b:1643:b0:1f0:2094:57db with SMTP id il3-20020a17090b164300b001f0209457dbmr34517449pjb.140.1658187610614;
+        Mon, 18 Jul 2022 16:40:10 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id 124-20020a621982000000b005289ffefe82sm9863430pfz.130.2022.07.18.16.40.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 14:28:31 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	gregkh@linuxfoundation.org,
-	Prashant Malani <pmalani@chromium.org>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] platform/chrome: cros_typec_switch: Add ACPI Kconfig dep
-Date: Mon, 18 Jul 2022 21:27:55 +0000
-Message-Id: <20220718212754.1129257-1-pmalani@chromium.org>
-X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
+        Mon, 18 Jul 2022 16:40:10 -0700 (PDT)
+Message-ID: <62d5ef5a.1c69fb81.79cc6.eb36@mx.google.com>
+Date: Mon, 18 Jul 2022 16:40:10 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v5.19-rc1-41-gc30628bce72f
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 1 failed,
+ 4 passed (v5.19-rc1-41-gc30628bce72f)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Add the ACPI Kconfig dependency that was missed during the initial
-driver submission. Fixes the following compiler errors:
+chrome-platform/for-kernelci build: 5 builds: 1 failed, 4 passed (v5.19-rc1=
+-41-gc30628bce72f)
 
-drivers/platform/chrome/cros_typec_switch.c:93:9: error: call to
-undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not
-support implicit function declarations
- [-Wimplicit-function-declaration]
-   ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.19-rc1-41-gc30628bce72f/
 
-drivers/platform/chrome/cros_typec_switch.c:93:35: error: incomplete
-definition of type 'struct acpi_device'
-   ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.19-rc1-41-gc30628bce72f
+Git Commit: c30628bce72fc72d64c6764aee770e59d727ede3
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Fixes: e54369058f3d ("platform/chrome: cros_typec_switch: Add switch driver")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Build Failure Detected:
+
+arm:
+    multi_v7_defconfig: (gcc-10) FAIL
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 FAIL, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
 ---
-
-Changes since v1:
-- Correct the malformed Reported-by tag. No functional changes.
-(Apologies for the quick respin.)
-
- drivers/platform/chrome/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index c62a514a087f..9d4fc505fa25 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -267,7 +267,7 @@ config CHROMEOS_PRIVACY_SCREEN
- 
- config CROS_TYPEC_SWITCH
- 	tristate "ChromeOS EC Type-C Switch Control"
--	depends on MFD_CROS_EC_DEV && TYPEC
-+	depends on MFD_CROS_EC_DEV && TYPEC && ACPI
- 	default MFD_CROS_EC_DEV
- 	help
- 	  If you say Y here, you get support for configuring the Chrome OS EC Type C
--- 
-2.37.0.170.g444d1eabd0-goog
-
+For more info write to <info@kernelci.org>

@@ -1,142 +1,91 @@
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B221933CC
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 18:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E764C2F24
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 18:56:15 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id v4-20020a17090abb8400b001ef966652a3so19072996pjr.4
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 11:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=1k7ygd7TjVU/0OeLc8vN7pGFtYh4D8DdF58kU5beJu0=;
-	b=VxuZdz71LN8l4OHMA30tuoiK0Nr/nISJyIbR4puSlqXqtLNJ3R9E8Ki5Y/fB//0ToLWnFzY6Ksx2v
-	 q15Tp+N3bjxKD5yb8cNSHhlL3Fn5bRvCp2wA20B/b8kotzJ8eyHD3W0jwgxlwEAS7y8yp9aYUCPRij
-	 D6w4iTRCC6nKQbdz1oAl9YkjdJBz4iHoVhli1MdsAc3QdBqKAH5OIBdeojkex0vvXW5oFokXNW+08W
-	 aIVUQfOp1MMmHhJ2Eo8oeIrL8vAjG4XGjO59HSG5vDKD2i9lhICvJrNx36s5unvTPFFMNLi1SgQk//
-	 otsKVYz1SQ0DcHOoKxmADC+NiOX02UA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=1k7ygd7TjVU/0OeLc8vN7pGFtYh4D8DdF58kU5beJu0=;
-	b=jL/3JsawqxR14ggldJXwk5X9UoFKRKl4/PCzdAI+J8QjN2tXmDPVlJnoASEn5F/EpOlFEotQOERIw
-	 yI/yZMXCA==
-X-HalOne-Cookie: fb423e04bf4d0af1a45399369f4e4409c2acada4
-X-HalOne-ID: 7dbadd68-06c3-11ed-a6c8-d0431ea8a283
-Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 7dbadd68-06c3-11ed-a6c8-d0431ea8a283;
-	Mon, 18 Jul 2022 18:00:22 +0000 (UTC)
-Date: Mon, 18 Jul 2022 20:00:20 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	David Airlie <airlied@linux.ie>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Jitao Shi <jitao.shi@mediatek.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jonas Karlman <jonas@kwiboo.se>, linux-mediatek@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Philip Chen <philipchen@chromium.org>,
-	Robert Foss <robert.foss@linaro.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-Message-ID: <YtWftDRPYcP5p+i1@ravnborg.org>
-References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-5-sam@ravnborg.org>
- <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ImWpl/KKv4UFu4MEO4wU0UdHvw3c0qhUubcZMjHwl1c=;
+        b=ZoiVOL41A6vCsGH0b1L/NLRLJ58R67hAbMBl6a3ujrVpjQ4uRQDZ+b6sOUeVZChAv1
+         Db+5EalLfTpv9YtPjcUskcoveKHKgPRjT7MSTzmSENZn0PUr4iiWciunSBvNuGMSCB8i
+         mS/7dQdFnfsxyyVcx128s5nawZVpZOpiVwKlk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ImWpl/KKv4UFu4MEO4wU0UdHvw3c0qhUubcZMjHwl1c=;
+        b=Xs+kSwJZagGJ/q39uaSXWR9/vVqr9hKedUxBrhe6IFi3wiCx5zLxCTsioJc6qbM/jO
+         n3/MeRyOpzzvtklCv4bTTvxI5REKdOrQM3E5Q3t2Nrndg5hMqc/edxItEN43/TORfseD
+         pQeT12O0IiAiYXD6pOsxjaQkajnaDjpcJBoAFYGFN93p+QnixdoFnnO7GAtABf90vBhD
+         5E0E0Voc8q9IQGvewIaPT9QpRdauk+R5O7ntjUuwbrHlxiQQlU4aTSAmf/BmZhu+qzfs
+         nUzFM6kCpePGt755JNzyTpto1vFjsp8amKjklItRbE3ziMtjLGwl+xQKbnkkYOrpHjbw
+         tPbg==
+X-Gm-Message-State: AJIora8e0k+m+n1wqb9gOaj1XQ/SCZA/YJsKeCnEnayNdAIZ2zgGRGq9
+	sIsE1Ngy9i2yfVjq7XW3Kxu+idcGPadCEw==
+X-Google-Smtp-Source: AGRyM1t8c/cRBGwxbDh8wtrP3JCV2aD79MUsWaVgg+FuCPJnIe4Rl3qht860tDVjt0ZtJy8teE9r9g==
+X-Received: by 2002:a17:902:f092:b0:16c:abb9:f984 with SMTP id p18-20020a170902f09200b0016cabb9f984mr25023585pla.41.1658170575345;
+        Mon, 18 Jul 2022 11:56:15 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id d66-20020a621d45000000b00528669a770esm9791323pfd.90.2022.07.18.11.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 11:56:14 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: bleung@chromium.org,
+	gregkh@linuxfoundation.org,
+	Prashant Malani <pmalani@chromium.org>,
+	"Reported-by : kernel test robot" <lkp@intel.com>
+Subject: [PATCH] platform/chrome: cros_typec_switch: Add ACPI Kconfig dep
+Date: Mon, 18 Jul 2022 18:55:51 +0000
+Message-Id: <20220718185551.1025288-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+Add the ACPI Kconfig dependency that was missed during the initial
+driver submission. Fixes the following compiler errors:
 
-On Mon, Jul 18, 2022 at 11:27:37AM +0100, Dave Stevenson wrote:
-> Hi Sam
-> 
-> On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > Add todo in the hope someone will help updating the bridge drivers.
-> >
-> > v2:
-> >   - Updated descriptions in todo.rst
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 10bfb50908d1..fbcc232e0bc1 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> >  Level: Starter
-> >
-> > +Drop use of deprecated operations in bridge drivers
-> > +--------------------------------------------------
-> > +
-> > +&struct drm_bridge_funcs contains a number of deprecated operations
-> > +which can be replaced by the atomic variants.
-> > +
-> > +The following is more or less 1:1 replacements with the arguments
-> > +and names adjusted:
-> > +* pre_enable => atomic_pre_enable
-> > +* enable => atomic_enable
-> > +* disable => atomic_disable
-> > +* post_disable => atomic_post_disable
-> > +
-> > +* mode_set is no longer required and the implementation shall be merged
-> > +  with atomic_enable.
-> 
-> The dw-mipi-dsi and msm DSI host controller bridge drivers are
-> currently relying on mode_set as a convenient hook to power up the DSI
-> host prior to pre_enable of the bridge chain. Removing it is therefore
-> going to break those.
-> 
-> There is a proposed mechanism to allow for the removal of this hack
-> [1], but it's still waiting on R-B tags and/or discussion from bridge
-> maintainers (gentle nudge as you are one of those maintainers).
-I have over time gained some knowledge of how bridges works and have
-applied a few patches - but the maintainer role belongs to others.
-I just try to help a bit.
+drivers/platform/chrome/cros_typec_switch.c:93:9: error: call to
+undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not
+support implicit function declarations
+ [-Wimplicit-function-declaration]
+   ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
 
-I will review the referenced series - could you then in return
-review this series?
-> 
-> And do you mean merge with atomic_enable, or merge with
-> atomic_pre_enable? atomic_pre_enable would be more applicable for
-> almost all the bridges I'm aware of as they want to be configured
-> before video starts.
-Thanks, yes you are right. I will update the text to refer to
-pre_enable as this is often the right choice. Looking at how many
-bridges who implements mode_set, or are not yet atomic, this will
-take a while before we can drop it.
+drivers/platform/chrome/cros_typec_switch.c:93:35: error: incomplete
+definition of type 'struct acpi_device'
+   ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
 
-	Sam
+Fixes: e54369058f3d ("platform/chrome: cros_typec_switch: Add switch driver")
+Reported-by: Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+---
+ drivers/platform/chrome/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index c62a514a087f..9d4fc505fa25 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -267,7 +267,7 @@ config CHROMEOS_PRIVACY_SCREEN
+ 
+ config CROS_TYPEC_SWITCH
+ 	tristate "ChromeOS EC Type-C Switch Control"
+-	depends on MFD_CROS_EC_DEV && TYPEC
++	depends on MFD_CROS_EC_DEV && TYPEC && ACPI
+ 	default MFD_CROS_EC_DEV
+ 	help
+ 	  If you say Y here, you get support for configuring the Chrome OS EC Type C
+-- 
+2.37.0.170.g444d1eabd0-goog
+

@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97837A47
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 05:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6133CC341CA;
-	Mon, 18 Jul 2022 05:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E4CA47
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 05:10:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B18AC341CE;
+	Mon, 18 Jul 2022 05:10:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658121008;
-	bh=pVG8rW+S0oNjgp6FHgiutzZNiAPcjJzWkFPlQQkw1WQ=;
+	s=k20201202; t=1658121009;
+	bh=fkd2e0BODvoo+pEM/gTsjyNgH9JMUx2Ptnib31kv7Xw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RDQ8O8553aGFHHHoPoseAb6SH31h8CPVPrz+K61bBSYWrAAejRB/0bQ0+q2CMlQi+
-	 LWS59Bm315fRZcZP6u1Th1xEcAoNT+Ur9y7Nm7t+t1IevDGVT3FoqdJ/LVBNTI2lVK
-	 wbDbUxnAtDUOYcdenlR1lCiEkl6YN7JLgk3s/TOB/Nz7DMNnksom61tfPwol9ylICu
-	 OqPMnfvZDD96k8tHj/bx1rNWs04rHrrULBu3BC/YrHJW7E9i0N0yOef24pSEgIa07t
-	 04BElEBkPHdlV336XXNtCqNrWfpd1cY2tMtr7JBCe96fOdnp60Z3WyD9d/OUlJoSVy
-	 5SD0FE4nvlNQQ==
+	b=ey1hG32SqY4uQjvaRSjPGz1NNHTyCtqEdsl/8I2Xaq+DSmmCKOOZQHVD+aEqAwrHY
+	 uKx/iQdbUH38tlhHan+zYxgp/6TT9ZtmwALNVPLrFJq+zQTKq9Oq8QJCm1vQVjcqFN
+	 FjUx36he4LLgfDOhT6MwMp28Aq4dONQ/kHKfQnjn1de05Wwyd8LcXaqLTuQZ+Ox03L
+	 1aQLCwHLuGSgQWxF8HQcflxv8LnGXDe0NETemUO8vSaVuBmfBrT68nNpjmGK+InTD8
+	 g1JAcAlSuEvRiUsURO+cD0lqAuRjLB4aNokdumxRYClNpMpaOTn/IHI+6TleLEPF0t
+	 FfEUsC7WnuGTA==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
 Cc: chrome-platform@lists.linux.dev,
 	tzungbi@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/10] platform/chrome: cros_kunit_util: add default value for `msg->result`
-Date: Mon, 18 Jul 2022 05:09:05 +0000
-Message-Id: <20220718050914.2267370-2-tzungbi@kernel.org>
+Subject: [PATCH v2 02/10] platform/chrome: cros_ec_proto: add "cros_ec_" prefix to send_command()
+Date: Mon, 18 Jul 2022 05:09:06 +0000
+Message-Id: <20220718050914.2267370-3-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
 In-Reply-To: <20220718050914.2267370-1-tzungbi@kernel.org>
 References: <20220718050914.2267370-1-tzungbi@kernel.org>
@@ -35,62 +35,85 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add default value for `msg->result` so that it won't be garbage bytes
-when the mock list is empty.
+To be neat, add "cros_ec_" prefix to static function send_command().
 
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
-No v1.  New in the series.
+Changes from v1:
+- Add R-b tag.
 
- drivers/platform/chrome/cros_kunit_util.c | 7 ++++++-
- drivers/platform/chrome/cros_kunit_util.h | 1 +
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/platform/chrome/cros_ec_proto.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_kunit_util.c
-index e031777dea87..6810d558d462 100644
---- a/drivers/platform/chrome/cros_kunit_util.c
-+++ b/drivers/platform/chrome/cros_kunit_util.c
-@@ -13,6 +13,8 @@
- #include "cros_ec.h"
- #include "cros_kunit_util.h"
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index 6923ea4401e5..b02fd1414e52 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -107,8 +107,7 @@ static int prepare_tx_legacy(struct cros_ec_device *ec_dev,
+ 	return EC_MSG_TX_PROTO_BYTES + msg->outsize;
+ }
  
-+int cros_kunit_ec_xfer_mock_default_result;
-+EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_default_result);
- int cros_kunit_ec_xfer_mock_default_ret;
- EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_default_ret);
- 
-@@ -24,8 +26,10 @@ int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_comman
- 	struct ec_xfer_mock *mock;
- 
- 	mock = list_first_entry_or_null(&cros_kunit_ec_xfer_mock_in, struct ec_xfer_mock, list);
--	if (!mock)
-+	if (!mock) {
-+		msg->result = cros_kunit_ec_xfer_mock_default_result;
- 		return cros_kunit_ec_xfer_mock_default_ret;
-+	}
- 
- 	list_del(&mock->list);
- 
-@@ -89,6 +93,7 @@ EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_next);
- 
- void cros_kunit_mock_reset(void)
+-static int send_command(struct cros_ec_device *ec_dev,
+-			struct cros_ec_command *msg)
++static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
  {
-+	cros_kunit_ec_xfer_mock_default_result = 0;
- 	cros_kunit_ec_xfer_mock_default_ret = 0;
- 	INIT_LIST_HEAD(&cros_kunit_ec_xfer_mock_in);
- 	INIT_LIST_HEAD(&cros_kunit_ec_xfer_mock_out);
-diff --git a/drivers/platform/chrome/cros_kunit_util.h b/drivers/platform/chrome/cros_kunit_util.h
-index 79c4525f873c..79c4f259f2bb 100644
---- a/drivers/platform/chrome/cros_kunit_util.h
-+++ b/drivers/platform/chrome/cros_kunit_util.h
-@@ -23,6 +23,7 @@ struct ec_xfer_mock {
- 	u32 o_data_len;
- };
+ 	int ret;
+ 	int (*xfer_fxn)(struct cros_ec_device *ec, struct cros_ec_command *msg);
+@@ -255,7 +254,7 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
+ 	msg->command = EC_CMD_HOST_EVENT_GET_WAKE_MASK;
+ 	msg->insize = sizeof(*r);
  
-+extern int cros_kunit_ec_xfer_mock_default_result;
- extern int cros_kunit_ec_xfer_mock_default_ret;
+-	ret = send_command(ec_dev, msg);
++	ret = cros_ec_send_command(ec_dev, msg);
+ 	if (ret < 0)
+ 		goto exit;
  
- int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_command *msg);
+@@ -295,7 +294,7 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+ 	msg->command = EC_CMD_PASSTHRU_OFFSET(devidx) | EC_CMD_GET_PROTOCOL_INFO;
+ 	msg->insize = sizeof(*info);
+ 
+-	ret = send_command(ec_dev, msg);
++	ret = cros_ec_send_command(ec_dev, msg);
+ 	/*
+ 	 * Send command once again when timeout occurred.
+ 	 * Fingerprint MCU (FPMCU) is restarted during system boot which
+@@ -304,7 +303,7 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+ 	 * attempt because we waited at least EC_MSG_DEADLINE_MS.
+ 	 */
+ 	if (ret == -ETIMEDOUT)
+-		ret = send_command(ec_dev, msg);
++		ret = cros_ec_send_command(ec_dev, msg);
+ 
+ 	if (ret < 0) {
+ 		dev_dbg(ec_dev->dev,
+@@ -376,7 +375,7 @@ static int cros_ec_get_proto_info_legacy(struct cros_ec_device *ec_dev)
+ 	params = (struct ec_params_hello *)msg->data;
+ 	params->in_data = 0xa0b0c0d0;
+ 
+-	ret = send_command(ec_dev, msg);
++	ret = cros_ec_send_command(ec_dev, msg);
+ 	if (ret < 0) {
+ 		dev_dbg(ec_dev->dev, "EC failed to respond to v2 hello: %d\n", ret);
+ 		goto exit;
+@@ -453,7 +452,7 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
+ 	pver = (struct ec_params_get_cmd_versions *)msg->data;
+ 	pver->cmd = cmd;
+ 
+-	ret = send_command(ec_dev, msg);
++	ret = cros_ec_send_command(ec_dev, msg);
+ 	if (ret < 0)
+ 		goto exit;
+ 
+@@ -634,7 +633,7 @@ int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+ 		}
+ 	}
+ 
+-	ret = send_command(ec_dev, msg);
++	ret = cros_ec_send_command(ec_dev, msg);
+ 	mutex_unlock(&ec_dev->lock);
+ 
+ 	return ret;
 -- 
 2.37.0.170.g444d1eabd0-goog
 

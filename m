@@ -1,51 +1,51 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5091C07
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 13:35:55 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id fy29so20126036ejc.12
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 06:35:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA901C07
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 13:36:48 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id sz17so21245782ejc.9
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 06:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tLZfMItbgnFH20Ojb6+L7ZjShSWcxZycIztS3QeVtXU=;
-        b=RLtIfACKMzTN0tJfrUf3+G0s3unNigLq9BwxSQ0Sj4fwufYxI/xc9A2oZmv/wiOE+N
-         tK0b5hoxVJ+cFZ1H9o82+e4frzQOT+LLX5K54hawsa7IwoD1RBbNZbkAHQoHsatuUsW7
-         w+9xZ1N13eivY/xwrBfFY5krHpPnEkXOelWNK44QMDBzP4pyIsCzjtmbN/yV+glWZgpR
-         nuxtJdmfG5P6aBUFLnbxLJwW4BMjJHY12RcEtfSc74NvdNEQnikayUjN0/zmgFlSFTzG
-         h9W9X/z8z3WSfeI8OaPlsV9Ob6hPd9gKmW0tjQ0dMXDzQsSFjXzJOrHQXZUXBhIH3Y8U
-         bMgQ==
+        bh=nYapis5pL2GsM/+bQ//lPqJxu7xeZJywZkYGhYCVVq8=;
+        b=kQTHiVY/U+LmzL7mCF2q7vhT3/o2VbzKA3dPYLhnZb2iyy4fmiU5txKdA0YA95Vx5Q
+         w50I5ONgoWY1Mz3OGr7/NRfgks2qt9HXU5jn+n5GORo3bnaP0VcCd+Nalz3LFudj+nSb
+         QdZ7BMAf2SOLoTM0cCkydANQ4/GYWRHMuYSXUtE5AmrZmF/ikrteBPDQ4UGFc9J48EFi
+         /Q904GYLhgr5DyUOvHHsYdhznWznbSPx72WW69vp7RcHu6hM9vQALCr0JkTO0KM2LP9/
+         lCdeSNKQW7kcS2da1INtgmU/HzXdW8ZMQ3If3qo+MPF0RAo69pT46Oj37knTGBB/rzhi
+         LErQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tLZfMItbgnFH20Ojb6+L7ZjShSWcxZycIztS3QeVtXU=;
-        b=aOPv2bTX5TvLOdwxcX4CZ/BxwTYAQeGgoM0/YQnY0xisv37W9NTh02hPzvbAyFWfPA
-         wR5KDVrchEhMqnZMSQsJnsNkwzRLJRHb/H+SsAAWpsRzRW/mJmIYtIKXP90DA/7mt6p5
-         UquvPGBXoSSHiTMWPYL4Ei/F1NPvtZIG9XaLNT0b0FmTwnTZveSc/NNMrEBUzNbNjrf0
-         xekYDmC7IWdbKW10RG4SCzGNq2Fd+cAk2fR2CUBWfC8hnBKj4H3M5Zs3cvojKcTOMfi5
-         sj5pp4f57QkBnuFPEUi2/hTVrUqoi9TvpA5qDrRA7Oq04atBDyLolHAfNg7SxVP3ayGI
-         CftA==
-X-Gm-Message-State: AJIora8MqyZWCHC2ep2VTGOpab+OfroKIDEce52mT6fsbwEGZ5n4bYdS
-	R0XK3UD4CTGExrdzNjy3QsVAgRrg1r3+xZRofJvuqg==
-X-Google-Smtp-Source: AGRyM1vVcwbBDP2kEY0e/gmWy62ZPHbdF1a6M5U7XHIIbXVOkWsVPLzxeIK/H2PIsBow6eepKC9XPEzZQCPheFA0o5k=
-X-Received: by 2002:a17:907:6d12:b0:72b:6e70:8c7d with SMTP id
- sa18-20020a1709076d1200b0072b6e708c7dmr27063567ejc.23.1658151353762; Mon, 18
- Jul 2022 06:35:53 -0700 (PDT)
+        bh=nYapis5pL2GsM/+bQ//lPqJxu7xeZJywZkYGhYCVVq8=;
+        b=aW2b4gLuaBjxoO4hQZJz4YT28cQ4LgLV5ZgxOZyNZAkk/IV97idLuA4I374NPi9ady
+         8GGXwAIsHPjYXMNoupwQulSimE3kKi/KXwcMutqSdvjZ14dgumI+IlVG37wnRKkucP/V
+         PNil4z3reLOVdfx3DB9wim6Re9leN8oLBmXz1zhv+Six/DcuWoxMP2au7Hv45EvfA47j
+         vNDy2euyjyniTMPYFK56G9owoe5PrYyUnVYdgpBbwHwtDjcDADFryzNPGfW7WgiYOvh5
+         EhtHVZXzAIP9BAHmJOCmeFlDOkT28/ifF/UEQIw8q8aiwQasUNONDW/t7tOB00aiPxhF
+         VYiw==
+X-Gm-Message-State: AJIora9JndQjJbiNhK4z1KH+elOZceH/VFmtL1ypDHAkilk1rK79Uvhs
+	3MOkVFfbSE1KtoM5dtFeRRXXcNP7kbSczsWIc6Fxyg==
+X-Google-Smtp-Source: AGRyM1tJE/TQhSnBw6G6m1T3lO6O2PQroT28N742q1NQ35QszkOlnDnebdAzXv0b8UdwxOew6qyKyuolj/u5fcPNZ8Y=
+X-Received: by 2002:a17:907:2ce9:b0:72b:30e5:f1bc with SMTP id
+ hz9-20020a1709072ce900b0072b30e5f1bcmr25123323ejc.127.1658151406372; Mon, 18
+ Jul 2022 06:36:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718050914.2267370-1-tzungbi@kernel.org> <20220718050914.2267370-2-tzungbi@kernel.org>
-In-Reply-To: <20220718050914.2267370-2-tzungbi@kernel.org>
+References: <20220718050914.2267370-1-tzungbi@kernel.org> <20220718050914.2267370-10-tzungbi@kernel.org>
+In-Reply-To: <20220718050914.2267370-10-tzungbi@kernel.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Mon, 18 Jul 2022 06:35:42 -0700
-Message-ID: <CABXOdTfYAGapjkPxRC4SbKMKEwCWmrF46aEDFWvsMBqaTuCzPA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] platform/chrome: cros_kunit_util: add default
- value for `msg->result`
+Date: Mon, 18 Jul 2022 06:36:35 -0700
+Message-ID: <CABXOdTcNrNdF_x8x7EVi7HvsJktPHMSLBdcuL=xSu3va-U3=_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 09/10] platform/chrome: cros_ec_proto: add Kunit test
+ for empty payload
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
@@ -54,72 +54,72 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Sun, Jul 17, 2022 at 10:10 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> Add default value for `msg->result` so that it won't be garbage bytes
-> when the mock list is empty.
+> cros_ec_wait_until_complete() sends EC_CMD_GET_COMMS_STATUS which expects
+> to receive sizeof(struct ec_response_get_comms_status) from
+> cros_ec_xfer_command().
+>
+> Add Kunit test and expect to receive an error code when
+> cros_ec_xfer_command() returns 0.
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+
 > ---
-> No v1.  New in the series.
+> No changes from v1.
 >
->  drivers/platform/chrome/cros_kunit_util.c | 7 ++++++-
->  drivers/platform/chrome/cros_kunit_util.h | 1 +
->  2 files changed, 7 insertions(+), 1 deletion(-)
+>  drivers/platform/chrome/cros_ec_proto_test.c | 31 ++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 >
-> diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_kunit_util.c
-> index e031777dea87..6810d558d462 100644
-> --- a/drivers/platform/chrome/cros_kunit_util.c
-> +++ b/drivers/platform/chrome/cros_kunit_util.c
-> @@ -13,6 +13,8 @@
->  #include "cros_ec.h"
->  #include "cros_kunit_util.h"
+> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+> index fbb872040711..d76e09b8a36a 100644
+> --- a/drivers/platform/chrome/cros_ec_proto_test.c
+> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
+> @@ -1934,6 +1934,36 @@ static void cros_ec_proto_test_cmd_xfer_in_progress_return_error(struct kunit *t
+>         KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 2);
+>  }
 >
-> +int cros_kunit_ec_xfer_mock_default_result;
-> +EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_default_result);
-
-Is this needed as a global variable and, if so, does it really have to
-be exported ?
-
->  int cros_kunit_ec_xfer_mock_default_ret;
->  EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_default_ret);
-
-Same here, really, only I didn't notice before.
-
-Thanks,
-Guenter
-
->
-> @@ -24,8 +26,10 @@ int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_comman
->         struct ec_xfer_mock *mock;
->
->         mock = list_first_entry_or_null(&cros_kunit_ec_xfer_mock_in, struct ec_xfer_mock, list);
-> -       if (!mock)
-> +       if (!mock) {
-> +               msg->result = cros_kunit_ec_xfer_mock_default_result;
->                 return cros_kunit_ec_xfer_mock_default_ret;
+> +static void cros_ec_proto_test_cmd_xfer_in_progress_return0(struct kunit *test)
+> +{
+> +       struct cros_ec_proto_test_priv *priv = test->priv;
+> +       struct cros_ec_device *ec_dev = &priv->ec_dev;
+> +       struct ec_xfer_mock *mock;
+> +       int ret;
+> +       struct cros_ec_command msg;
+> +
+> +       memset(&msg, 0, sizeof(msg));
+> +
+> +       ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
+> +
+> +       /* For the first host command to return EC_RES_IN_PROGRESS. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_IN_PROGRESS, 0);
+> +               KUNIT_ASSERT_PTR_NE(test, mock, NULL);
 > +       }
->
->         list_del(&mock->list);
->
-> @@ -89,6 +93,7 @@ EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_next);
->
->  void cros_kunit_mock_reset(void)
+> +
+> +       /* For EC_CMD_GET_COMMS_STATUS. */
+> +       {
+> +               mock = cros_kunit_ec_xfer_mock_add(test, 0);
+> +               KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+> +       }
+> +
+> +       ret = cros_ec_cmd_xfer(ec_dev, &msg);
+> +       KUNIT_EXPECT_EQ(test, ret, -EPROTO);
+> +
+> +       KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 2);
+> +}
+> +
+>  static void cros_ec_proto_test_release(struct device *dev)
 >  {
-> +       cros_kunit_ec_xfer_mock_default_result = 0;
->         cros_kunit_ec_xfer_mock_default_ret = 0;
->         INIT_LIST_HEAD(&cros_kunit_ec_xfer_mock_in);
->         INIT_LIST_HEAD(&cros_kunit_ec_xfer_mock_out);
-> diff --git a/drivers/platform/chrome/cros_kunit_util.h b/drivers/platform/chrome/cros_kunit_util.h
-> index 79c4525f873c..79c4f259f2bb 100644
-> --- a/drivers/platform/chrome/cros_kunit_util.h
-> +++ b/drivers/platform/chrome/cros_kunit_util.h
-> @@ -23,6 +23,7 @@ struct ec_xfer_mock {
->         u32 o_data_len;
+>  }
+> @@ -2013,6 +2043,7 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
+>         KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_retries_status_processing),
+>         KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_xfer_error),
+>         KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_return_error),
+> +       KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_return0),
+>         {}
 >  };
 >
-> +extern int cros_kunit_ec_xfer_mock_default_result;
->  extern int cros_kunit_ec_xfer_mock_default_ret;
->
->  int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_command *msg);
 > --
 > 2.37.0.170.g444d1eabd0-goog
 >

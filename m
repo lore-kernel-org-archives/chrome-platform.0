@@ -1,128 +1,174 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F37B1C07
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 13:28:36 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id ss3so21179724ejc.11
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 06:28:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C15E1C07
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 13:32:42 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id r6so15299547edd.7
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 06:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=C/n/n5N3kD+VrsmUyuuzjShv2vcVv2gHHyO/+4lHckk=;
-        b=jnitDELvhIQNn98ip0Y5Hp8pRAMeVz86v70GtsvJlURkXTKJLUjHBTFfh4s4IcRMB/
-         jjq88+7eKqYZ4iOOmu/EelFQQ331JG3pz3+3qQpyKA4b2xJEgPoxe/UN0nciOQ5qt30P
-         Ykn9KnDorE0PabMG1So+VUu8gAYLM8ZFR9Wqzot3Vt5LDR/u6xf6bnj1uc9Ojn1qADrq
-         dzwMSwjMFSgFECjxLZGVBSjwojkuLNG6b+AC+rjJb/aVItbcm654vO0YZypDbYLlL2QR
-         EVMlcxMwo0pj2RjhKqQa4i7hNAIWItKTN3f+y4zX98gwKGYUCWor9riEDHjYwGYrj/Fe
-         nOlA==
+        bh=jxdmslAnS6b+ZgeZcdk+CdUgW+Roq4pJkkdHVyVREms=;
+        b=We7MIscdIRrGZnQLQX8w+SEF3MfAlePBkfPD/sTbPkMRd2CWtVSsYpqCIV0oFQYcAI
+         ecYRTpYR4EBcl1gIQfQmiE9/fa127fmNDnsl9T1wy/Ez6dGaTORreRb2J5xG8LAdIs/m
+         unMRQm/NWq0E9UqXwFs7GEvq/34P+p8GrysMCaIDh1kYxQYzNH/KNXg19tm9K7tncTA9
+         S4d9vMs8V0D9jIpZ0RVuTV8EQmTmk+cGKnce8jR3gNlQMGNPJaflQ1I0ZeArhNGWtDHR
+         E82iKkc6KdArXlms2mypCriKfow8qo3ZpCgwfQHuDY/V5lekGlFst5fP32UWOogv5Z50
+         627A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C/n/n5N3kD+VrsmUyuuzjShv2vcVv2gHHyO/+4lHckk=;
-        b=thmOQ+PpoLPe3zedeefaGFXXLQswrr4fJzhdZG8XisgKm/AI/Wlz3zvcR9meYWzhYV
-         mF1D6zuS0cJvWrB3Z0b/kIthgknEwgNopTOG5C9GFx/w54nniKXBaNiN6WZ67h3uXm2x
-         gmB8NoGQS4zrLFM19FXQ7E9tF976RMSkJMG07roYjfiM5CL5IvH7a3AduMYvsC3LIMkK
-         yJHCM/1amqNmeE/6aLfux52oDWuGzmMtE+TzlvlTnH0X7j0VJCEKrBJeYMAhEabM/0xU
-         BXk/GxseDCUKu9nR9GDRrq+HYoTc6kDkgARrCHvE55ymYI8fy2/uuNsMSvWzkYsEPuHE
-         JwGw==
-X-Gm-Message-State: AJIora+3zV5WeTmMJHhudI0U4JAp/YF+IACZ38Kvag09Pi17x12FiqgH
-	m8LgP2YSDU0llYcqXxFoYBsL0yhj+2gtE9bWxZcw9w==
-X-Google-Smtp-Source: AGRyM1uIs/IIF7M4Uz/hB54B2qQo3bgDyGR6Ptlf4NxZdXvCR9vs0zvBuOwzrpGC7PGZxl4E2ege5QOU2vKs6yh2dtw=
-X-Received: by 2002:a17:907:2ce9:b0:72b:30e5:f1bc with SMTP id
- hz9-20020a1709072ce900b0072b30e5f1bcmr25093951ejc.127.1658150914271; Mon, 18
- Jul 2022 06:28:34 -0700 (PDT)
+        bh=jxdmslAnS6b+ZgeZcdk+CdUgW+Roq4pJkkdHVyVREms=;
+        b=HbzNyZyRSuBpFf/5OXzJH6FxwWUizPrIW12TGyZDMXq4JKbWtS510hNIVjqsJ7KD9b
+         /evOKG6iLojfmBbZz2Sph6wKrLrXQrsi3GepHRQGORlsrOTrYgTKod8dnZ8c05G/JuBg
+         ZNUxIJWPzkr7/sS+cvYpqWNQvEteDcvdIzTfN+/USiM+mlVbaq3S0n3f4Fdbl1dvEm95
+         vEwP62pI872L+E8NJNjpS7mYGR2qgt42D/gSwfQGgYu/e9iyPyt7DWoj0HGbyuvvoHzS
+         R1GOBVpaIZ1SGy4QW/bQ+WcY26+HMGV7IbnDJOHyBOoxosDEDqdQ/dpT2WymIUmNzxQP
+         EO3Q==
+X-Gm-Message-State: AJIora+j32g4oqtFmkHEBjKdzNUrmktfzm9li7tCO8Vp4mS4Rzepo818
+	XPoE2xgbb+LlCKjF7SI1HsOVvRqi8M399L132WjcsA==
+X-Google-Smtp-Source: AGRyM1tdaHrL02Liizfy/WoYUlXnVDHpuTmmw6s3M3yjcUJL+oyZoOCmrc1wlxobAns/7gkPGV6zySCd9JEMaVKVg/Y=
+X-Received: by 2002:aa7:d389:0:b0:43a:56c0:c863 with SMTP id
+ x9-20020aa7d389000000b0043a56c0c863mr37005948edq.373.1658151160318; Mon, 18
+ Jul 2022 06:32:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718105047.2356542-1-tzungbi@kernel.org>
-In-Reply-To: <20220718105047.2356542-1-tzungbi@kernel.org>
+References: <20220718050914.2267370-1-tzungbi@kernel.org> <20220718050914.2267370-7-tzungbi@kernel.org>
+In-Reply-To: <20220718050914.2267370-7-tzungbi@kernel.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Mon, 18 Jul 2022 06:28:22 -0700
-Message-ID: <CABXOdTdKpqsqajhQzQ1aEp6bsa96ONN6nz9EWZv6jGSuN0_LTA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_kbd_led_backlight: fix build warning
+Date: Mon, 18 Jul 2022 06:32:29 -0700
+Message-ID: <CABXOdTcaJg4NgO1WSxoQHVK84qdDg53RgiWSvvTSX2RSokNFTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] platform/chrome: cros_ec_proto: separate cros_ec_wait_until_complete()
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>
+	linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 18, 2022 at 3:51 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+On Sun, Jul 17, 2022 at 10:10 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> drivers/platform/chrome/cros_kbd_led_backlight.c got a new build warning
-> when using the randconfig in [1]:
-> >>> warning: unused variable 'keyboard_led_drvdata_ec_pwm'
+> EC returns EC_RES_IN_PROGRESS if the host command needs more time to
+> complete.  Whenever receives the return code, cros_ec_send_command()
+> sends EC_CMD_GET_COMMS_STATUS to query the command status.
 >
-> The warning happens when CONFIG_CROS_EC is set but CONFIG_OF is not set.
-> Reproduce:
-> - mkdir build_dir
-> - wget [1] -O build_dir/.config
-> - COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 \
->   O=build_dir ARCH=s390 SHELL=/bin/bash drivers/platform/chrome/
+> Separate cros_ec_wait_until_complete() from cros_ec_send_command().
+> It sends EC_CMD_GET_COMMS_STATUS and waits until the previous command
+> was completed, or encountered error, or timed out.
 >
-> Fix the warning by using __maybe_unused.  Also use IS_ENABLED() because
-> CROS_EC is a tristate.
-
-Is that sufficient ? What happens if CROS_KBD_LED_BACKLIGHT=y and
-CROS_EC=m ? I suspect you might need IS_REACHABLE() instead of
-IS_ENABLED().
-
-Thanks,
-Guenter
-
->
-> [1]: https://download.01.org/0day-ci/archive/20220717/202207170538.MR39dw8m-lkp@intel.com/config
->
-> Fixes: 40f58143745e ("platform/chrome: cros_kbd_led_backlight: support EC PWM backend")
-> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+
 > ---
-> Changes from v1 (https://patchwork.kernel.org/project/chrome-platform/patch/20220718061608.2303425-1-tzungbi@kernel.org/):
-> - Use __maybe_unused.
+> Changes from v1:
+> - Allocate buffer in cros_ec_wait_until_complete() statically.
+> - Use `return ret` instead of `break` to make the intent explicit.
 >
->  drivers/platform/chrome/cros_kbd_led_backlight.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/platform/chrome/cros_ec_proto.c | 74 ++++++++++++-------------
+>  1 file changed, 35 insertions(+), 39 deletions(-)
 >
-> diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> index 5ad41c10412d..793fd3f1015d 100644
-> --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-> +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> @@ -119,7 +119,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
->
->  #endif /* CONFIG_ACPI */
->
-> -#ifdef CONFIG_CROS_EC
-> +#if IS_ENABLED(CONFIG_CROS_EC)
->
->  static int
->  keyboard_led_set_brightness_ec_pwm(struct led_classdev *cdev,
-> @@ -180,18 +180,18 @@ static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
->         return 0;
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index 0cec013be3d3..a6ad7f7956e6 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -134,56 +134,52 @@ static int cros_ec_xfer_command(struct cros_ec_device *ec_dev, struct cros_ec_co
+>         return ret;
 >  }
 >
-> -static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
-> +static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
->         .init = keyboard_led_init_ec_pwm,
->         .brightness_set_blocking = keyboard_led_set_brightness_ec_pwm,
->         .brightness_get = keyboard_led_get_brightness_ec_pwm,
->         .max_brightness = KEYBOARD_BACKLIGHT_MAX,
->  };
->
-> -#else /* CONFIG_CROS_EC */
-> +#else /* IS_ENABLED(CONFIG_CROS_EC) */
->
-> -static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
-> +static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
->
-> -#endif /* CONFIG_CROS_EC */
-> +#endif /* IS_ENABLED(CONFIG_CROS_EC) */
->
->  static int keyboard_led_probe(struct platform_device *pdev)
+> -static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+> +static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *result)
 >  {
+> -       int ret = cros_ec_xfer_command(ec_dev, msg);
+> +       struct {
+> +               struct cros_ec_command msg;
+> +               struct ec_response_get_comms_status status;
+> +       } __packed buf;
+> +       struct cros_ec_command *msg = &buf.msg;
+> +       struct ec_response_get_comms_status *status = &buf.status;
+> +       int ret = 0, i;
+>
+> -       if (msg->result == EC_RES_IN_PROGRESS) {
+> -               int i;
+> -               struct cros_ec_command *status_msg;
+> -               struct ec_response_get_comms_status *status;
+> +       msg->version = 0;
+> +       msg->command = EC_CMD_GET_COMMS_STATUS;
+> +       msg->insize = sizeof(*status);
+> +       msg->outsize = 0;
+>
+> -               status_msg = kmalloc(sizeof(*status_msg) + sizeof(*status),
+> -                                    GFP_KERNEL);
+> -               if (!status_msg)
+> -                       return -ENOMEM;
+> +       /* Query the EC's status until it's no longer busy or we encounter an error. */
+> +       for (i = 0; i < EC_COMMAND_RETRIES; ++i) {
+> +               usleep_range(10000, 11000);
+>
+> -               status_msg->version = 0;
+> -               status_msg->command = EC_CMD_GET_COMMS_STATUS;
+> -               status_msg->insize = sizeof(*status);
+> -               status_msg->outsize = 0;
+> +               ret = cros_ec_xfer_command(ec_dev, msg);
+> +               if (ret == -EAGAIN)
+> +                       continue;
+> +               if (ret < 0)
+> +                       return ret;
+>
+> -               /*
+> -                * Query the EC's status until it's no longer busy or
+> -                * we encounter an error.
+> -                */
+> -               for (i = 0; i < EC_COMMAND_RETRIES; i++) {
+> -                       usleep_range(10000, 11000);
+> -
+> -                       trace_cros_ec_request_start(status_msg);
+> -                       ret = (*xfer_fxn)(ec_dev, status_msg);
+> -                       trace_cros_ec_request_done(status_msg, ret);
+> -                       if (ret == -EAGAIN)
+> -                               continue;
+> -                       if (ret < 0)
+> -                               break;
+> -
+> -                       msg->result = status_msg->result;
+> -                       if (status_msg->result != EC_RES_SUCCESS)
+> -                               break;
+> -
+> -                       status = (struct ec_response_get_comms_status *)
+> -                                status_msg->data;
+> -                       if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
+> -                               break;
+> -               }
+> +               *result = msg->result;
+> +               if (msg->result != EC_RES_SUCCESS)
+> +                       return ret;
+>
+> -               kfree(status_msg);
+> +               if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
+> +                       return ret;
+>         }
+>
+>         return ret;
+>  }
+>
+> +static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+> +{
+> +       int ret = cros_ec_xfer_command(ec_dev, msg);
+> +
+> +       if (msg->result == EC_RES_IN_PROGRESS)
+> +               ret = cros_ec_wait_until_complete(ec_dev, &msg->result);
+> +
+> +       return ret;
+> +}
+> +
+>  /**
+>   * cros_ec_prepare_tx() - Prepare an outgoing message in the output buffer.
+>   * @ec_dev: Device to register.
 > --
 > 2.37.0.170.g444d1eabd0-goog
 >

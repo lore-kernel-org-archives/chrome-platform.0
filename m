@@ -1,123 +1,118 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BBCA42
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 06:54:44 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id bp15so19512688ejb.6
-        for <chrome-platform@lists.linux.dev>; Sun, 17 Jul 2022 23:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9Wf3nz0D32YPk/y25pAQGhDQ1uTDwJ1vjvWzFxFZHho=;
-        b=Ih+9aNjIeLTpADvaHAVyzE/9Uv2qM+Aey4UGoF+VMVge3MFhBt9ewvTNE+mU3yn44w
-         A5+1FZasc2gPR68mlTe/uEt7GAJxFdaQFHktdNPRH6/CFPDR2gXztTpIRPYObF4gitXd
-         TZ1lgSK2X37oA0Z4uZBTiAvU0ArMCukhL9fdmZU6pmPXqi6/diRgxvG2E2VhEHRlxD8f
-         JVzjCoUN12HTHGj9wlPhxSIjxTjitGtAbC2b8GmfcNbE8oFgR3wNCTPQXIDYk110+xt6
-         qUpWOfYlEjgqeGQ4xrS6HZs2IKccJLEUaeG/XOLgKcXo+dM0nWCDyb7olQv49hqFFp2m
-         Md+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9Wf3nz0D32YPk/y25pAQGhDQ1uTDwJ1vjvWzFxFZHho=;
-        b=KbG3Qw5Kvlb2bR7zxzmfxcxUU/fpvTCYo1ECfgx5BFTTQ8Odtj1aUkd8noZnHe7WfM
-         RhQpdoNJEkdMyIRFjEa3/0AH9GZcW2QH4pZ2PpdUj/NcMx3aeD8D+qUDVX6y5f+5KAzD
-         KrhOFmuExYT6rMHsSXr6T9/7Tj3wG151W/03sVJeEZYVzWLFzTi4q5EmO9bqIsP+BFXq
-         HnccWdxM6/iC4D0PB3Y40y8QT+GzecePnPIhLwBIkai1dcskHq1oaOkp4cZuQBemVi8T
-         TcpDAtiGq8vV5mgy43Yj66TGHZhazWs3uT4XtcKTmkGirBxfJiUw9VayVT2ip5GRhnE4
-         u9NA==
-X-Gm-Message-State: AJIora94X3rU8lHlPxNVVs9N4IR2bCnafQ73F2oAhz41Ryf935uakQ++
-	dO4o6vGREFnj/Vb66pzP2x+4KPbF2FmFAvatg/Lk4w==
-X-Google-Smtp-Source: AGRyM1vEW2fHt3QyClItms5lOeJKBbgwfyE4WQDULLAvCf0Qqtqg8io+RzvCaT1lotn0yOTNZGTQJE9IFkzFljFVot0=
-X-Received: by 2002:a17:907:160c:b0:72f:1031:2184 with SMTP id
- hb12-20020a170907160c00b0072f10312184mr9807494ejc.355.1658127282713; Sun, 17
- Jul 2022 23:54:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA6BA28
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Jul 2022 08:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658133454; x=1689669454;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=svJzOs7lLK8VfxKlVR9L8K4CdAyx/d3LOgCV8X0yj/I=;
+  b=WlPfxQsb/3RuuJxbGjhYdWGRAmzBHjfoZLJ6SnyNyZcriRy7JTXSX6eu
+   1qpAGNLx0ARUce432VYfc++R3jag4R9kOW27zX4EeEFvcdYkUE/MiNvKI
+   I5syET6AAN/UinS9fsnenOYZAb63DM3/jw4TKe9OBfCgR5c8hR4EVC/LD
+   uecDAMum5o5tLIUjWKgsIeu0NeGZ2X9+7D/i0bIK6CSWMSVKUbpaAfTqs
+   OR+yFHGw5J/JafNolM4ltunbzFkpiH/QwxMC8yhER3rAz8TTViPHMYTrx
+   Pr7Py0IfdDuXioyyknZLMmsClSMLLzVte7tXxINs5qlSWjQM/gptoCNFD
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="350130031"
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="350130031"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 01:37:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="739385494"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 18 Jul 2022 01:37:31 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 18 Jul 2022 11:37:31 +0300
+Date: Mon, 18 Jul 2022 11:37:31 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	bleung@chromium.org, Guenter Roeck <groeck@chromium.org>
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_typec: Rename port altmode
+ array
+Message-ID: <YtUbyy4j/23XgsIc@kuha.fi.intel.com>
+References: <20220712210318.2671292-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718061608.2303425-1-tzungbi@kernel.org>
-In-Reply-To: <20220718061608.2303425-1-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Sun, 17 Jul 2022 23:54:31 -0700
-Message-ID: <CABXOdTeH-q=17QBnCn5NGT5V0QA5SOaTnrWaK+g5F3j4mVp8cA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: fix build warning
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220712210318.2671292-1-pmalani@chromium.org>
 
-On Sun, Jul 17, 2022 at 11:16 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> drivers/platform/chrome/cros_kbd_led_backlight.c got a new build warning
-> when using the randconfig in [1]:
-> >>> warning: unused variable 'keyboard_led_drvdata_ec_pwm'
->
-> The warning happens when CONFIG_CROS_EC is set but CONFIG_OF is not set.
-> Reproduce:
-> - mkdir build_dir
-> - wget [1] -O build_dir/.config
-> - COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 \
->   O=build_dir ARCH=s390 SHELL=/bin/bash drivers/platform/chrome/
->
+On Tue, Jul 12, 2022 at 09:03:17PM +0000, Prashant Malani wrote:
+> Rename "p_altmode" to "port_altmode" which is a less ambiguous name for
+> the port_altmode struct array.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Have you tried the following ?
-    CONFIG_ACPI=y
-    CONFIG_CROS_EC=n
-    CONFIG_OF=y
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-That should be possible, but with your patch it should now result in a
-build error because keyboard_led_drvdata_ec_pwm is no longer defined.
-
-Also, with your patch, CONFIG_CROS_EC=y, CONFIG_ACPI=y, and
-CONFIG_OF=n (ie Intel/AMD systems) would result in the code not being
-compiled, which would be wrong.
-
-Thanks,
-Guenter
-
-> Fix the warning by hardening the guard condition.  Also use IS_ENABLED()
-> because CROS_EC is a tristate.
->
-> [1]: https://download.01.org/0day-ci/archive/20220717/202207170538.MR39dw8m-lkp@intel.com/config
->
-> Fixes: 40f58143745e ("platform/chrome: cros_kbd_led_backlight: support EC PWM backend")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->  drivers/platform/chrome/cros_kbd_led_backlight.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> index 5ad41c10412d..4a0b2bd004d5 100644
-> --- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-> +++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-> @@ -119,7 +119,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
->
->  #endif /* CONFIG_ACPI */
->
-> -#ifdef CONFIG_CROS_EC
-> +#if IS_ENABLED(CONFIG_CROS_EC) && defined(CONFIG_OF)
->
->  static int
->  keyboard_led_set_brightness_ec_pwm(struct led_classdev *cdev,
-> @@ -187,11 +187,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
->         .max_brightness = KEYBOARD_BACKLIGHT_MAX,
->  };
->
-> -#else /* CONFIG_CROS_EC */
-> -
-> -static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
-> -
-> -#endif /* CONFIG_CROS_EC */
-> +#endif /* IS_ENABLED(CONFIG_CROS_EC) && defined(CONFIG_OF) */
->
->  static int keyboard_led_probe(struct platform_device *pdev)
->  {
-> --
-> 2.37.0.170.g444d1eabd0-goog
->
+>  drivers/platform/chrome/cros_ec_typec.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index d6088ba447af..b9848e80f372 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -60,8 +60,7 @@ struct cros_typec_port {
+>  	uint8_t mux_flags;
+>  	uint8_t role;
+>  
+> -	/* Port alt modes. */
+> -	struct typec_altmode p_altmode[CROS_EC_ALTMODE_MAX];
+> +	struct typec_altmode port_altmode[CROS_EC_ALTMODE_MAX];
+>  
+>  	/* Flag indicating that PD partner discovery data parsing is completed. */
+>  	bool sop_disc_done;
+> @@ -282,16 +281,16 @@ static void cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+>  	struct cros_typec_port *port = typec->ports[port_num];
+>  
+>  	/* All PD capable CrOS devices are assumed to support DP altmode. */
+> -	port->p_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
+> -	port->p_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
+> +	port->port_altmode[CROS_EC_ALTMODE_DP].svid = USB_TYPEC_DP_SID;
+> +	port->port_altmode[CROS_EC_ALTMODE_DP].mode = USB_TYPEC_DP_MODE;
+>  
+>  	/*
+>  	 * Register TBT compatibility alt mode. The EC will not enter the mode
+>  	 * if it doesn't support it, so it's safe to register it unconditionally
+>  	 * here for now.
+>  	 */
+> -	port->p_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
+> -	port->p_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
+> +	port->port_altmode[CROS_EC_ALTMODE_TBT].svid = USB_TYPEC_TBT_SID;
+> +	port->port_altmode[CROS_EC_ALTMODE_TBT].mode = TYPEC_ANY_MODE;
+>  
+>  	port->state.alt = NULL;
+>  	port->state.mode = TYPEC_STATE_USB;
+> @@ -431,7 +430,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+>  		data.enter_vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
+>  
+>  	if (!port->state.alt) {
+> -		port->state.alt = &port->p_altmode[CROS_EC_ALTMODE_TBT];
+> +		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_TBT];
+>  		ret = cros_typec_usb_safe_state(port);
+>  		if (ret)
+>  			return ret;
+> @@ -473,7 +472,7 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
+>  	/* Configuration VDO. */
+>  	dp_data.conf = DP_CONF_SET_PIN_ASSIGN(pd_ctrl->dp_mode);
+>  	if (!port->state.alt) {
+> -		port->state.alt = &port->p_altmode[CROS_EC_ALTMODE_DP];
+> +		port->state.alt = &port->port_altmode[CROS_EC_ALTMODE_DP];
+>  		ret = cros_typec_usb_safe_state(port);
+>  		if (ret)
+>  			return ret;
+> -- 
+> 2.37.0.144.g8ac04bfd2-goog
+
+-- 
+heikki

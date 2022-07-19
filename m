@@ -1,50 +1,50 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7887733CC
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 14:03:58 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id fy29so26229853ejc.12
-        for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 07:03:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C861C3E
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 14:09:16 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id ez10so27358594ejc.13
+        for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 07:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rsrPg7hNziGYnKEMeRo9/Xmgr6YPnnv44viQ9ITtKBs=;
-        b=hcrWa6vWZpuZeT/weDaTEGbN3DEpdRro7xoVb4o+uwLjgB56NzRAi9aBxJOiXo46i8
-         GuWJcq1fTmIxp/+3QbJwr6o2ybN7NhTGX3XkgM6ytZnIjW4ACTOWHNjnCqzUDkI2Dh4b
-         C+f5LKxSjA1g5Kv2ajS/hMk7Bw85wXsXPtZyyBcvlerTzUzmGSvhv4HsmNZHCzS95Npr
-         4J5L862bdMERC4am/H8+8cfLIM2mPz8PcOSQB6wsAZXXkHiNOIEpL1lNjDmVojXCA6rH
-         SnL1eqoIwEphGJ1he9YKX+meZw8/YjBICdb5/EPQyamTZIiJ7v/TLgrFLjO9Sz/jZb5S
-         n1hg==
+        bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
+        b=S4sSw4dPG9SoIscVCdBbw23gLQXegfD1TkIApRxUyVaz4Lk+4tqsgVjhX7TOzjd6Is
+         /5DnmmmSvRPYTOQnlVzVSdPc/EEPWSixLP80fWE5TRy0sVDHHSidsaUXEDv3dmwvt19n
+         wDF6u4wZBZskt7/AQ8kG+73zWr1KFlEQDV/t6r2v/SU5fpBxDgQzRwbhLqatihkNuoQ5
+         TreVDvedfrbpmBjJNp8iihxBQWHqaqEFPuBJvNjcZAw/gisZ5vXx5VZESnFkLl2GOCNL
+         T8QFk5vB1DXMLTK3C2tSP8Lfs+f5/nSrsh+72N8UWxmFfb4/FrAr/QrEi6e+kV9vpiB6
+         mHjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rsrPg7hNziGYnKEMeRo9/Xmgr6YPnnv44viQ9ITtKBs=;
-        b=XVG9HMY54SVQJoh4WHqfw/cGf4wD90GL7hsGBhkmb+Qb6Czgc1qPcSHaQxggLPxVsJ
-         0tvc6ZI4rupYUApxGvre/KPX71aNq4O9rvBn2o/5CSR0SfVM6qc6rd1w9xgxLjWaKny+
-         b7+MteiO86o5Hi0XoPRNy9/sv7K3xdzLgPn0/kAb53wOs5I0jpCeQJpsm3ON0IK7Jikj
-         V9pU7IzXw2EJPAm0DkgVo9N4wu2h+YTk/AmIxFXUGODxToCNU+OiB4v3ogrBB8WEVHu0
-         tMBiCVb/MUfH2uUa0MYhZDySFeOve+xqsC+PTwXk+WoA6l28JhElhLlJTzgR0bbSCOvJ
-         NVow==
-X-Gm-Message-State: AJIora9/uHh2kNLLxJbLy+wDCL16IoSq1+Ein72YGzI5xcgvbXD3Yryt
-	kxioW6KGLnpWBY8C14WT4k8KHC64vkk3f+8syovbhA0SVx9wQ1Bc
-X-Google-Smtp-Source: AGRyM1usGvb/5X/2EHmga3QTDIzhjHhcpsEt1FiyvphTnQ1PPKWozSvoBeBm+WGVDP7skJ/Yhj3i8y0QB3PUqHMHIA4=
+        bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
+        b=j3KdRHfTVvWA9/hcDjsJhnXP4U2rkc510APyNHaF+eAsPUTIKZ847wGauKnboGPD1f
+         GxYE3U+55x6itGRKyXXvBQ//QwHsTbIOjP94z+rko1letoe/qCy+OVSEquEcAnVl2IBJ
+         T6IpzhN+WCjnuTKHBmbizlDBB5nYU2IcP3heyePwXjYDOtOqoim8saayNaijnR9iMfNM
+         u/Fs1yXl3fzoM8/WF7uIjhpyNFmlxhIarsGxT+XY7fNPjGN9JbmWd4WzkvmMxEz6d/8H
+         z6tq5+YPLLCqUA+IcCzCEjngpGOR22Cs/pThxSCLZKxFgCT5h8sDSdDrDJ8CtOOxZ36g
+         6i5A==
+X-Gm-Message-State: AJIora/O+4SneomTRUR/6nq7frE/SxTdGyy7ihGRtaHt8uNjuQ87WUoY
+	WNziV4+0+opMMTu3B+I40m2WN8xB4GUF46AhphUMtQ==
+X-Google-Smtp-Source: AGRyM1udjkXGNICxc5l46Ad38az3eGQyrcMk/c2xHDg4URlYogp6zX3h1ScYex5vj2vhyr7QFOwl7+d/nHFljbt8Hdw=
 X-Received: by 2002:a17:906:5a67:b0:72b:610d:4aa4 with SMTP id
- my39-20020a1709065a6700b0072b610d4aa4mr31426400ejc.294.1658239436732; Tue, 19
- Jul 2022 07:03:56 -0700 (PDT)
+ my39-20020a1709065a6700b0072b610d4aa4mr31450934ejc.294.1658239754935; Tue, 19
+ Jul 2022 07:09:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220717174454.46616-1-sam@ravnborg.org> <20220717174454.46616-7-sam@ravnborg.org>
-In-Reply-To: <20220717174454.46616-7-sam@ravnborg.org>
+References: <20220717174454.46616-1-sam@ravnborg.org> <20220717174454.46616-8-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-8-sam@ravnborg.org>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 19 Jul 2022 15:03:40 +0100
-Message-ID: <CAPY8ntAUS0GMik2=PGeg8209yWjqUxmWV8az=YQczkE-tAw0XQ@mail.gmail.com>
-Subject: Re: [PATCH v1 06/12] drm/bridge: cros-ec-anx7688: Use drm_bridge_funcs.atomic_check
+Date: Tue, 19 Jul 2022 15:08:58 +0100
+Message-ID: <CAPY8ntCk=q1n+bCwJdv5MXbAc8PeRUUrwZ352BW_Ax6d550GKg@mail.gmail.com>
+Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use drm_bridge_funcs.atomic_check
 To: Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
 	Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, 
@@ -63,15 +63,16 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Sun, 17 Jul 2022 at 18:45, Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> Replace the deprecated drm_bridge_funcs.mode_fixup() with
-> drm_bridge_funcs.atomic_check().
->
-> drm_bridge_funcs.atomic_check() requires the atomic state operations,
-> update these to the default implementations.
+> When atomic_check() is defined, then mode_fixup() is ignored,
+> so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
+> Embed the original implementation in the caller and drop the function.
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+(There was a point when drm_bridge_chain_mode_fixup still existed, but
+that's gone/going now).
 
 > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 > Cc: Neil Armstrong <narmstrong@baylibre.com>
@@ -79,95 +80,55 @@ Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: chrome-platform@lists.linux.dev
 > ---
->  drivers/gpu/drm/bridge/cros-ec-anx7688.c | 28 +++++++++++++++---------
->  1 file changed, 18 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/cros-ec-anx7688.c b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> index 0f6d907432e3..fc19ea87926f 100644
-> --- a/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> +++ b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> @@ -5,6 +5,7 @@
->   * Copyright 2020 Google LLC
->   */
->
-> +#include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_print.h>
->  #include <linux/i2c.h>
-> @@ -45,9 +46,10 @@ bridge_to_cros_ec_anx7688(struct drm_bridge *bridge)
->         return container_of(bridge, struct cros_ec_anx7688, bridge);
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 02bd757a8987..b2ab967504af 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
+>                 dev_err(tc->dev, "main link disable error: %d\n", ret);
 >  }
 >
-> -static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
-> -                                             const struct drm_display_mode *mode,
-> -                                             struct drm_display_mode *adjusted_mode)
-> +static int cros_ec_anx7688_bridge_atomic_check(struct drm_bridge *bridge,
-> +                                              struct drm_bridge_state *bridge_state,
-> +                                              struct drm_crtc_state *crtc_state,
-> +                                              struct drm_connector_state *conn_state)
+> -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+> -                                const struct drm_display_mode *mode,
+> -                                struct drm_display_mode *adj)
+> -{
+> -       /* Fixup sync polarities, both hsync and vsync are active low */
+> -       adj->flags = mode->flags;
+> -       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> -       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> -
+> -       return true;
+> -}
+> -
+>  static int tc_common_atomic_check(struct drm_bridge *bridge,
+>                                   struct drm_bridge_state *bridge_state,
+>                                   struct drm_crtc_state *crtc_state,
+>                                   struct drm_connector_state *conn_state,
+>                                   const unsigned int max_khz)
 >  {
->         struct cros_ec_anx7688 *anx = bridge_to_cros_ec_anx7688(bridge);
->         int totalbw, requiredbw;
-> @@ -56,13 +58,13 @@ static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
->         int ret;
->
->         if (!anx->filter)
-> -               return true;
-> +               return 0;
->
->         /* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
->         ret = regmap_bulk_read(anx->regmap, ANX7688_DP_BANDWIDTH_REG, regs, 2);
->         if (ret < 0) {
->                 DRM_ERROR("Failed to read bandwidth/lane count\n");
-> -               return false;
-> +               return ret;
->         }
->         dpbw = regs[0];
->         lanecount = regs[1];
-> @@ -71,28 +73,34 @@ static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
->         if (dpbw > 0x19 || lanecount > 2) {
->                 DRM_ERROR("Invalid bandwidth/lane count (%02x/%d)\n", dpbw,
->                           lanecount);
-> -               return false;
-> +               return -EINVAL;
->         }
->
->         /* Compute available bandwidth (kHz) */
->         totalbw = dpbw * lanecount * 270000 * 8 / 10;
->
->         /* Required bandwidth (8 bpc, kHz) */
-> -       requiredbw = mode->clock * 8 * 3;
-> +       requiredbw = crtc_state->mode.clock * 8 * 3;
->
->         DRM_DEBUG_KMS("DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
->                       totalbw, dpbw, lanecount, requiredbw);
->
->         if (totalbw == 0) {
->                 DRM_ERROR("Bandwidth/lane count are 0, not rejecting modes\n");
-> -               return true;
-> +               return 0;
->         }
->
-> -       return totalbw >= requiredbw;
-> +       if (totalbw < requiredbw)
-> +               return -EINVAL;
+> -       tc_bridge_mode_fixup(bridge, &crtc_state->mode,
+> -                            &crtc_state->adjusted_mode);
+> +       struct drm_display_mode *adj = &crtc_state->adjusted_mode;
 > +
-> +       return 0;
->  }
+> +       /* Fixup sync polarities, both hsync and vsync are active low */
+> +       adj->flags = crtc_state->mode.flags;
+> +       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> +       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
 >
->  static const struct drm_bridge_funcs cros_ec_anx7688_bridge_funcs = {
-> -       .mode_fixup = cros_ec_anx7688_bridge_mode_fixup,
-> +       .atomic_check = cros_ec_anx7688_bridge_atomic_check,
-> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +       .atomic_reset = drm_atomic_helper_bridge_reset,
->  };
->
->  static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
+>         if (crtc_state->adjusted_mode.clock > max_khz)
+>                 return -EINVAL;
+> @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+>         .atomic_check = tc_edp_atomic_check,
+>         .atomic_enable = tc_edp_bridge_atomic_enable,
+>         .atomic_disable = tc_edp_bridge_atomic_disable,
+> -       .mode_fixup = tc_bridge_mode_fixup,
+>         .detect = tc_bridge_detect,
+>         .get_edid = tc_get_edid,
+>         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 > --
 > 2.34.1
 >

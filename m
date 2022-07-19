@@ -1,158 +1,137 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23FF185A
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 10:48:16 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id e15so19031886edj.2
-        for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 03:48:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C75133CC
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 14:00:06 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id fy29so26205435ejc.12
+        for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 07:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
-        b=Q/Szb78YeaaPFs6XH9/IQHBVYt7poFICWO1a+McjynpiY6pG9I1QRhvcjCyZW6vxnT
-         PxrDVy8fqimCTQDCY5vw60fGcwvARB/d+GrfnEURIYrjlYUAu+g4KEelBSEVAkLTon1i
-         BraWKs6Eih7MiBHZXskxv4ylpEKf9Zme+IDLlu/1kv4oyrljN1MqwRfNIWViVXUNrct2
-         u7AiHcXjfoR3SpMsm7PwS6mcOZXhMToPiIVophvCrx4VBf1kYpn4hXZYAEWApydD4tre
-         eQIVXISQIy7ixmTDgFI3pw5O25NGhwF2bp3seoOr71PWiE9pToJ9D/iKflX4V3b20TqG
-         hV0w==
+        bh=OD3NNQx/dnqD+0Cs+fXr4LXV6Ye4MYxeJ4nPZD4GszE=;
+        b=KRbPahA4lFzwgk1dPu0dYjc5HI3Y+D0dxd62DcPU4ogSQZ64caMPwZVzbpx73J5Kc1
+         eaEMkOYtMeTIYH6d3tYbTI31Zpk6YPeEHme+XqB6TB9vweuaBCzadZE54jjqEcIAS/Jf
+         pzYTNENzXg+3E79ccZwG+0AO9oqg2VDxVgFkHvRNiXy7aIvjIH3seHu/ncpcbTZ7PS82
+         gV4Uc4P8NeQN5INx5ZzZSJl5OpV/PcFLmN2hPWUojY2geEaue3bSrIyK7NibMwK9pdcK
+         O1jLIZnNHFsb8ssyIcISmoy2tFgywNjOo7bd37jOZ8uS76xPibNCxglV/JSG62NQzbUF
+         B9ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
-        b=MguOmL0SoujcQYhPjb31NN7IAYc/30DBOrbIpuUYfcy6iUaUMnBl7qDpnvRhkuma+R
-         YdpSn8w35exqaptV0zuT8X0ORbOmPE1YJvHboZ808zOwFDiRA+DJQ9wuJDxqkNvYBAnQ
-         cwDNn8CpFv715mD12k9n/ee3H4vYtQWa2gDTqBGMKhUSyJl7VQZ763ArNihdI3DbMPHV
-         lLvuf6TjM6Xxn1AW3GkPaPVebUgLML8b3I2Xyx7+tHMK9sL8CIAD6IaLsFXPg1T8/Ixb
-         sMP/zF64sbpeHoWa5CH2mV9Uz2wChAnyHjGFoOQd3kWxi4Sv7AkACmV7XooPyXLmCnCq
-         u7uw==
-X-Gm-Message-State: AJIora/rZRcxdh+oDq33bnQXDEpXt5hJupM9a8SYq2WwlfI7oG8r58rh
-	0lX1TjmrTkZaVw6U5GX8Wh+nw9fueFPeBPlfBCbxYQ==
-X-Google-Smtp-Source: AGRyM1ua9YfZzMzY+4okMS9alFUwqOoJ7z9AWWeCobrYmvatBAnyqrolqInpc2mJusYtBC/LbNwM0xE6plFTLrpI0iA=
-X-Received: by 2002:a05:6402:4490:b0:43a:8f5a:d273 with SMTP id
- er16-20020a056402449000b0043a8f5ad273mr42301746edb.6.1658227695061; Tue, 19
- Jul 2022 03:48:15 -0700 (PDT)
+        bh=OD3NNQx/dnqD+0Cs+fXr4LXV6Ye4MYxeJ4nPZD4GszE=;
+        b=0g/r3XL2nZMBhuz+Gkxxw0leGbHgG7rhJLCeIWNA2ClUoFBOMzer+5nhjitEDoh9Kn
+         ZuF4coi4ST941svsH2Xa2zOgYmfAdyurGxiWq756ALRybxtXeh3eNjdmrvUVErGxzfvh
+         boiWiYzbSvUGKWDEXRylFJ99SU7Y+9yKyWXZ6CVBB1dLqu/anu8Hh96I7c84ulyBDB2a
+         q+C97K5KePFrp553t7zkB53FmPmFmlkq4QcDEALxXmQq93FRmJiev3BDMFqJnaHSQ/S2
+         r0XzUP92YlGXFdKaDCtiHjXdwCVMcINjrj0h3tRDBXx7vH4x4j0pwBFg+bM1m/zHjYEE
+         izNA==
+X-Gm-Message-State: AJIora8dY/bQF/RsYr2LWLA3yvc6vCWhLZNiawiZVtfHdxqa4yhui92O
+	msmdJPXRlUWSemaWYt0V04O91iBrU/xIq7eyZAwUGQ==
+X-Google-Smtp-Source: AGRyM1tWkD5ndkU51YMn3Zy/3SBBUnKXW/elXPy0MwiGbgYk7yLn606w46OmkL1nPHs9nxQiSkrrhnOhpxFcOHfz/3U=
+X-Received: by 2002:a17:907:d92:b0:72e:e94d:b675 with SMTP id
+ go18-20020a1709070d9200b0072ee94db675mr21493011ejc.742.1658239204549; Tue, 19
+ Jul 2022 07:00:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220717174454.46616-1-sam@ravnborg.org> <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-5-sam@ravnborg.org> <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
- <YtWftDRPYcP5p+i1@ravnborg.org>
-In-Reply-To: <YtWftDRPYcP5p+i1@ravnborg.org>
+References: <20220717174454.46616-1-sam@ravnborg.org> <20220717174454.46616-6-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-6-sam@ravnborg.org>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 19 Jul 2022 11:47:58 +0100
-Message-ID: <CAPY8ntCGVoNt9AsWb=3ou6x3XUDQ=S-=5-Yrd4HzAOLc+2XvKw@mail.gmail.com>
-Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
+Date: Tue, 19 Jul 2022 14:59:48 +0100
+Message-ID: <CAPY8ntAALp=vtofLjKjEjH89k_fGtLWv9b4L=7fmFZr9+Dd6jg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/12] drm/bridge: sii8620: Use drm_bridge_funcs.atomic_check
 To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, 
-	Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Jitao Shi <jitao.shi@mediatek.com>, Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>, 
-	linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Philip Chen <philipchen@chromium.org>, Robert Foss <robert.foss@linaro.org>, 
-	linux-renesas-soc@vger.kernel.org, 
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, David Airlie <airlied@linux.ie>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+	Philip Chen <philipchen@chromium.org>, linux-renesas-soc@vger.kernel.org, 
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
-	Cai Huoqing <cai.huoqing@linux.dev>
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Cai Huoqing <cai.huoqing@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Sam
-
-On Mon, 18 Jul 2022 at 19:00, Sam Ravnborg <sam@ravnborg.org> wrote:
+On Sun, 17 Jul 2022 at 18:45, Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> Hi Dave,
+> Replace the deprecated drm_bridge_funcs.mode_fixup() with
+> drm_bridge_funcs.atomic_check().
 >
-> On Mon, Jul 18, 2022 at 11:27:37AM +0100, Dave Stevenson wrote:
-> > Hi Sam
-> >
-> > On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >
-> > > Add todo in the hope someone will help updating the bridge drivers.
-> > >
-> > > v2:
-> > >   - Updated descriptions in todo.rst
-> > >
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > ---
-> > >  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
-> > >  1 file changed, 20 insertions(+)
-> > >
-> > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > > index 10bfb50908d1..fbcc232e0bc1 100644
-> > > --- a/Documentation/gpu/todo.rst
-> > > +++ b/Documentation/gpu/todo.rst
-> > > @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> > >
-> > >  Level: Starter
-> > >
-> > > +Drop use of deprecated operations in bridge drivers
-> > > +--------------------------------------------------
-> > > +
-> > > +&struct drm_bridge_funcs contains a number of deprecated operations
-> > > +which can be replaced by the atomic variants.
-> > > +
-> > > +The following is more or less 1:1 replacements with the arguments
-> > > +and names adjusted:
-> > > +* pre_enable => atomic_pre_enable
-> > > +* enable => atomic_enable
-> > > +* disable => atomic_disable
-> > > +* post_disable => atomic_post_disable
-> > > +
-> > > +* mode_set is no longer required and the implementation shall be merged
-> > > +  with atomic_enable.
-> >
-> > The dw-mipi-dsi and msm DSI host controller bridge drivers are
-> > currently relying on mode_set as a convenient hook to power up the DSI
-> > host prior to pre_enable of the bridge chain. Removing it is therefore
-> > going to break those.
-> >
-> > There is a proposed mechanism to allow for the removal of this hack
-> > [1], but it's still waiting on R-B tags and/or discussion from bridge
-> > maintainers (gentle nudge as you are one of those maintainers).
+> drm_bridge_funcs.atomic_check() requires the atomic state operations,
+> update these to the default implementations.
 >
-> I have over time gained some knowledge of how bridges works and have
-> applied a few patches - but the maintainer role belongs to others.
-> I just try to help a bit.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 
-Apologies, I'd misread the text in this patch
-+Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
-+         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-as being that you and Laurent were the bridge maintainers. Colon
-instead of comma :-/
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> I will review the referenced series - could you then in return
-> review this series?
-
-Sure, these look to be within my levels of knowledge.
-
-> >
-> > And do you mean merge with atomic_enable, or merge with
-> > atomic_pre_enable? atomic_pre_enable would be more applicable for
-> > almost all the bridges I'm aware of as they want to be configured
-> > before video starts.
-> Thanks, yes you are right. I will update the text to refer to
-> pre_enable as this is often the right choice. Looking at how many
-> bridges who implements mode_set, or are not yet atomic, this will
-> take a while before we can drop it.
-
-Thanks. That makes more logical sense to me for the majority of cases.
-As to timescales, it always takes longer than ideal to migrate older drivers.
-
-Thanks
-  Dave
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/sil-sii8620.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+> index ab0bce4a988c..b6e5c285c8ea 100644
+> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+> @@ -8,6 +8,7 @@
+>
+>  #include <asm/unaligned.h>
+>
+> +#include <drm/drm_atomic_state_helper.h>
+>  #include <drm/bridge/mhl.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> @@ -2262,26 +2263,30 @@ static enum drm_mode_status sii8620_mode_valid(struct drm_bridge *bridge,
+>         }
+>  }
+>
+> -static bool sii8620_mode_fixup(struct drm_bridge *bridge,
+> -                              const struct drm_display_mode *mode,
+> -                              struct drm_display_mode *adjusted_mode)
+> +static int sii8620_atomic_check(struct drm_bridge *bridge,
+> +                               struct drm_bridge_state *bridge_state,
+> +                               struct drm_crtc_state *crtc_state,
+> +                               struct drm_connector_state *conn_state)
+>  {
+>         struct sii8620 *ctx = bridge_to_sii8620(bridge);
+>
+>         mutex_lock(&ctx->lock);
+>
+> -       ctx->use_packed_pixel = sii8620_is_packing_required(ctx, adjusted_mode);
+> +       ctx->use_packed_pixel = sii8620_is_packing_required(ctx, &crtc_state->adjusted_mode);
+>
+>         mutex_unlock(&ctx->lock);
+>
+> -       return true;
+> +       return 0;
+>  }
+>
+>  static const struct drm_bridge_funcs sii8620_bridge_funcs = {
+>         .attach = sii8620_attach,
+>         .detach = sii8620_detach,
+> -       .mode_fixup = sii8620_mode_fixup,
+> +       .atomic_check = sii8620_atomic_check,
+>         .mode_valid = sii8620_mode_valid,
+> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +       .atomic_reset = drm_atomic_helper_bridge_reset,
+>  };
+>
+>  static int sii8620_probe(struct i2c_client *client,
+> --
+> 2.34.1
+>

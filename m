@@ -1,93 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECF71FBE
-	for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 04:48:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD874C341D1;
-	Wed, 20 Jul 2022 04:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658292501;
-	bh=MQmWDTYK713udR85SfxG0qf+q0PEz6wjgJkPztpfJms=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AKj3ajWncKPkBVXf+fv0MjqWFeg5uD0cyccDsjnsJR2HDbcFj4hiFB1d+a8VPETzF
-	 s5VPboJrQu+Q1a3zgFAN+eTLwRUVizfwo8XQxRAphB1jzZ/EoUIDxLu0d8J5ZhFWdI
-	 cv3NOCB6wUi8TzbAkEeS2mqRdxfGR4wLHbIrOfzRJa9pH+PcVpKCuWGs4nJNB1rzaw
-	 nFusVI10hlcNCp3BU7ffwOUPk0oyfnhSVhN5UIcIZftU591ujB/60lFnWB/IfR9lOu
-	 nmC5H8FcUiXHwrqqx6EMydTh51FMnUEIxiBUBNMIXYaT/2rhKV9hR9bHBPsKH/w6HC
-	 wgii2WvLFOj2g==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	tzungbi@kernel.org
-Subject: [PATCH 2/2] platform/chrome: cros_kunit_util: add default value for `msg->result`
-Date: Wed, 20 Jul 2022 04:47:54 +0000
-Message-Id: <20220720044754.4026295-3-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
-In-Reply-To: <20220720044754.4026295-1-tzungbi@kernel.org>
-References: <20220720044754.4026295-1-tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E7F1FBC
+	for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 05:48:28 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id 23so15453996pgc.8
+        for <chrome-platform@lists.linux.dev>; Tue, 19 Jul 2022 22:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=NLWfxlXytNEMM4zqzO8QhV5LDiy4u7E6BEw6Z1qs7t8=;
+        b=Mr7eteEDCcoOTNXUkbwkNlJlUcCii7vWqVDBWCkNZIRAYHEBZnkgd6ystxUGxztpSq
+         i1TlL+yJSWKOabw+/vOlA67y1xX3yfman6AB2EI1D5I3y0C1aQp5wFym2Pn59AoimT7u
+         rweGrRianHyQ9XM0DI5KRYjP8MWXQTSBbmd1SdfShR3CBQRLT5XL5x4XqAUQHheRubQI
+         FcgNGtxKLWcH29avWvnC/g6aFt+kgsbs7pNF6r/xPUqTLAbH1RsegCSvXJB0/G9VzYIB
+         6b9huDeg+xuSwEdszWXFNVbKPfC9F6CfeotiMc7mElUfE6cd+9kiI1TDq/iJ6j0c6B3y
+         Ss0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=NLWfxlXytNEMM4zqzO8QhV5LDiy4u7E6BEw6Z1qs7t8=;
+        b=l3DUG1XeqOA1Crfwe6xg4Co2bhXzBjVnZqJhA1P9O3ooRUOhSZePkeUGWNkoGR+Hx8
+         G9kFwVkLhRWYODYxScTAhbx5MOZORTW1E5YI7S6J+Zy1gfZphym0cmmPNhLQcuc+9EEv
+         2hM7sT1NhTdHKANXza97rIYTV3N10iM6qoYsr/DSfcNqq+oYywdeNupHx4VQz7QCOtt8
+         vU0c4xo6LvHw0QfXMGOSMMCqoShbnwBRTpurzMoY4iiJfsy9dgRZuzntR/DBzp3oQjOY
+         6jlNMdYKtn/U2V4GyAUK9KhVV1yVr6qHaDCYAVRBCX4q9t0hP32/b5rNedGeagJ5Yqxy
+         twqQ==
+X-Gm-Message-State: AJIora9alIeuvJOKqqL/Yas1mdwi3FWC2T+4JL4kqmIYDxMZXOYtaq26
+	9U9nPTOhNCRU3JGIHc9Dsno+iQ==
+X-Google-Smtp-Source: AGRyM1sU5ph9VAiIe6AGSi6LAap/oDu7mn3hKXZ9N7UJZGRMKtpnSCJ9QwX8ZeajR1KS6x66U5I13w==
+X-Received: by 2002:a63:4d62:0:b0:41a:49fa:2bd3 with SMTP id n34-20020a634d62000000b0041a49fa2bd3mr6693979pgl.393.1658296107645;
+        Tue, 19 Jul 2022 22:48:27 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170902e84c00b0016a111c83cdsm12955985plg.119.2022.07.19.22.48.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jul 2022 22:48:27 -0700 (PDT)
+Message-ID: <62d7972b.1c69fb81.3df78.39aa@mx.google.com>
+Date: Tue, 19 Jul 2022 22:48:27 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v5.19-rc1-58-gad1e2226017a9
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v5.19-rc1-58-gad1e2226017a9)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Add default value for `msg->result` so that it won't be garbage bytes
-when the mock list is empty.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v5.19-rc1=
+-58-gad1e2226017a9)
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v5.19-rc1-58-gad1e2226017a9/
+
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v5.19-rc1-58-gad1e2226017a9
+Git Commit: ad1e2226017a9e56e242029f834a2cfc14f6fa83
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
 ---
- drivers/platform/chrome/cros_kunit_util.c | 6 +++++-
- drivers/platform/chrome/cros_kunit_util.h | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_kunit_util.c
-index 090927d43035..f0fda96b11bd 100644
---- a/drivers/platform/chrome/cros_kunit_util.c
-+++ b/drivers/platform/chrome/cros_kunit_util.c
-@@ -13,6 +13,7 @@
- #include "cros_ec.h"
- #include "cros_kunit_util.h"
- 
-+int cros_kunit_ec_xfer_mock_default_result;
- int cros_kunit_ec_xfer_mock_default_ret;
- int cros_kunit_ec_cmd_xfer_mock_called;
- int cros_kunit_ec_pkt_xfer_mock_called;
-@@ -25,8 +26,10 @@ int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_comman
- 	struct ec_xfer_mock *mock;
- 
- 	mock = list_first_entry_or_null(&cros_kunit_ec_xfer_mock_in, struct ec_xfer_mock, list);
--	if (!mock)
-+	if (!mock) {
-+		msg->result = cros_kunit_ec_xfer_mock_default_result;
- 		return cros_kunit_ec_xfer_mock_default_ret;
-+	}
- 
- 	list_del(&mock->list);
- 
-@@ -112,6 +115,7 @@ int cros_kunit_readmem_mock(struct cros_ec_device *ec_dev, unsigned int offset,
- 
- void cros_kunit_mock_reset(void)
- {
-+	cros_kunit_ec_xfer_mock_default_result = 0;
- 	cros_kunit_ec_xfer_mock_default_ret = 0;
- 	cros_kunit_ec_cmd_xfer_mock_called = 0;
- 	cros_kunit_ec_pkt_xfer_mock_called = 0;
-diff --git a/drivers/platform/chrome/cros_kunit_util.h b/drivers/platform/chrome/cros_kunit_util.h
-index 88134c9f1acf..414002271c9c 100644
---- a/drivers/platform/chrome/cros_kunit_util.h
-+++ b/drivers/platform/chrome/cros_kunit_util.h
-@@ -23,6 +23,7 @@ struct ec_xfer_mock {
- 	u32 o_data_len;
- };
- 
-+extern int cros_kunit_ec_xfer_mock_default_result;
- extern int cros_kunit_ec_xfer_mock_default_ret;
- extern int cros_kunit_ec_cmd_xfer_mock_called;
- extern int cros_kunit_ec_pkt_xfer_mock_called;
--- 
-2.37.0.170.g444d1eabd0-goog
-
+For more info write to <info@kernelci.org>

@@ -1,165 +1,190 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169281FD8
-	for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 07:16:55 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id d7-20020a17090a564700b001f209736b89so1231057pji.0
-        for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 00:16:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2646D4C6D
+	for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 13:01:59 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id x125so16172680vsb.13
+        for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 06:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=RtXso/NG6/FN6oPZrkQolHGYKiRGHQpV3EneOLH4eF4=;
-        b=KulRHJpGyKAqQP/3vNW0RNUAXWI7TCpxE/S/civZfPHjdJtRDjgAC7EXllN4pUT/1+
-         K4UwNQVNazhHkQeb+0TBevlngMvegl7fOsO5fvDEBcrgcGoM4sJP8tmAI6pBWkorD5zB
-         UgL/RxPVPuGrOCtp2AL8uFnUj38CbgVqVMNUzP7YnFxXPB18uLm0m672uvK49ISKzx9Z
-         4jT/o1R14w2lP1Fr1Vx6oIbHS5UCIF2HzmdbI1bUIaAn1peE0DBE2L18ZDPMQWTKHAjH
-         INuSyDOYkCwZrhhSuhFLOg44Cku3WTekcT0oz/JamGjUnnLB44IxJ7ooLHV+1jyx7EMt
-         y/tg==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AW46xL7r4jS0thdYzx3ynnITVHQeuO0nmP7MJbVua4g=;
+        b=UjphxVnACeKxMDkdkSpppTnv3Y5JsowXe3Vk2CQH5ab7IcK0HMW6+PDwch69NTPE90
+         SO31hXKWXClODMcnlsODgiAxn5DdX8L/0AIYR+XNYn7iDUx1eG66e0GYeFqV5oYZU9bI
+         H+KYBUej4MNPzQC5UzbNbHu3aqqLb0vTDmIL1UaCBxqyXkajWxC06U6hmbZcFnll5wgP
+         rQWL2Ih3mDjPeMEidj11cneVolYSWDbVADEnHZlFzxpkgZdJVP/0q2fXOL8THUpxN/Zu
+         P8BmNnmWkk8HuXFF9gWVA1hee3jLUNpjQKE8RhOkqMs2yvAWEi6ehxH0B27Jnl7KPNto
+         jjfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=RtXso/NG6/FN6oPZrkQolHGYKiRGHQpV3EneOLH4eF4=;
-        b=WjBubZAzdyWgvVN9jDGpyZ01x1ZDeUtb1tKX0XwkQkNR5w6jYqYokgLRSF/VhphhWc
-         S3xSp71Qr6w1cCnaRqVRXMh2zAtT6biXNxDFhi+u/42fIz+Q95gYX8/9EGYzXJyrV3K9
-         BIMNWZ5OzoMbVTd28tDXvbx6XfFwvPb428X6H1i4MckS3QAudlZGolozB/gb/FBoy54L
-         7vzRpSa4oHRYDA4fYnrUaUNvJKp+3X4J8rCM3/ajEtyzcTe/5lSPWyzeMugVle20q58P
-         6P8VCrdyg7arrH+8SKzv2V4jN6z8VazaA9g+t0tbGXS2a5UutMTJCcaFzPH9yhHXNY1x
-         M6MA==
-X-Gm-Message-State: AJIora9/ro3Pen0FVcVN4YzI1ANFWbAY0/7KMyXMqXE0hykNXM2UPa2e
-	y3fRrhSaw5DyhaPt/rkJMhh7GQ==
-X-Google-Smtp-Source: AGRyM1uui8iVoJrarb8EpebLQ3Ky876U3RwFlJD0cKJ77A4e7/huj5LnRiXlZo5K3T8toFRzc+wx1g==
-X-Received: by 2002:a17:902:a513:b0:16c:e25e:16b with SMTP id s19-20020a170902a51300b0016ce25e016bmr19460516plq.86.1658301414508;
-        Wed, 20 Jul 2022 00:16:54 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id mz21-20020a17090b379500b001efc46f7eaesm841151pjb.5.2022.07.20.00.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 00:16:53 -0700 (PDT)
-Message-ID: <62d7abe5.1c69fb81.ab190.16bf@mx.google.com>
-Date: Wed, 20 Jul 2022 00:16:53 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AW46xL7r4jS0thdYzx3ynnITVHQeuO0nmP7MJbVua4g=;
+        b=HaolFXNdhKpB4Dj86UoN5HF3qeL8f2tJX4rifGGNMrxdYbQoSFOaXSpoxkKM4A2M8M
+         MZQDUcxJ8WBvIPViyt+RpoSW+Nzyel6bZ6pI4oINaStumfHSvGJNheCvnANtbDt0/SO6
+         P1QgNrmzELf8dts4e/RQUG7H5h7ZLVcIczk3A18eC5Wmt1IIuHmoHx36t5GohDH9/P+0
+         iZks/N/AN/F1XUO1RhznLSUKX6K27RD73tHq+ghnOa1uIkE/c0KG8Fu2fdUuzIkvNrYs
+         hQ2uMglFf8KXfhmAtJx5xkre0ivUdJiHyjJNmNLAEpOTJLNeW+vaG3ILAPDwgW50b2yk
+         1auQ==
+X-Gm-Message-State: AJIora9V4YchVtDBrjSwObq/6KfB+2LTlutFQe8v1TMC5HHk0K8CPzQ8
+	TeVWsgF541sLXCgmOZUo3XD913kBk6OmhwCs3A5KbA==
+X-Google-Smtp-Source: AGRyM1uMt6EDGuK4a9s9RLh37JSOOK05JUZjiWDWMgJ/zX5bCT7ENqOa88xinWs40uClNk1xzyirSW6dovQho84hDns=
+X-Received: by 2002:a05:6102:3d25:b0:357:7f34:2664 with SMTP id
+ i37-20020a0561023d2500b003577f342664mr12451410vsv.45.1658322117639; Wed, 20
+ Jul 2022 06:01:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v5.19-rc1-58-gad1e2226017a9
-Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
- 2 regressions (v5.19-rc1-58-gad1e2226017a9)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+References: <20220720044754.4026295-1-tzungbi@kernel.org> <20220720044754.4026295-2-tzungbi@kernel.org>
+In-Reply-To: <20220720044754.4026295-2-tzungbi@kernel.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Wed, 20 Jul 2022 06:01:46 -0700
+Message-ID: <CABXOdTf-9WWc30WC6r7YjTnp7SGS-skJLTgLUaaqHVcCnx=fYw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] platform/chrome: merge Kunit utils and test cases
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-chrome-platform/for-kernelci cros-ec: 10 runs, 2 regressions (v5.19-rc1-58-=
-gad1e2226017a9)
+On Tue, Jul 19, 2022 at 9:48 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+>
+> Merge CROS_KUNIT and CROS_EC_PROTO_KUNIT_TEST so that when they're built
+> as modules cros_kunit_util doesn't need to export the symbols.
+>
 
-Regressions Summary
--------------------
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v5.19-rc1-58-gad1e2226017a9/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v5.19-rc1-58-gad1e2226017a9
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      ad1e2226017a9e56e242029f834a2cfc14f6fa83
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62d79ffd63fc88238ddaf05c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-58-gad1e2226017a9/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros=
--ec-rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-58-gad1e2226017a9/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros=
--ec-rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220716.0/armhf/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/62d79ffd63fc88238ddaf0=
-5d
-        failing since 44 days (last pass: v5.18-rc1-24-gc2d7e384924d, first=
- fail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =
-
-
-
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62d79d20099547a0d7daf076
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-58-gad1e2226017a9/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros=
--ec-tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-5.19-rc1-58-gad1e2226017a9/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros=
--ec-tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220716.0/armhf/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/62d79d20099547a0d7daf0=
-77
-        failing since 44 days (last pass: v5.18-rc1-24-gc2d7e384924d, first=
- fail: v5.19-rc1-5-g4a0e708bb23fc) =
-
- =20
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  drivers/platform/chrome/Kconfig           | 10 ++--------
+>  drivers/platform/chrome/Makefile          |  5 +++--
+>  drivers/platform/chrome/cros_kunit_util.c | 14 --------------
+>  3 files changed, 5 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+> index cae859f0bc06..c45fb376d653 100644
+> --- a/drivers/platform/chrome/Kconfig
+> +++ b/drivers/platform/chrome/Kconfig
+> @@ -269,17 +269,11 @@ source "drivers/platform/chrome/wilco_ec/Kconfig"
+>
+>  # Kunit test cases
+>  config CROS_KUNIT
+> -       tristate
+> -       help
+> -         ChromeOS Kunit.
+> -
+> -config CROS_EC_PROTO_KUNIT_TEST
+> -       tristate "Kunit tests for ChromeOS EC protocol" if !KUNIT_ALL_TESTS
+> +       tristate "Kunit tests for ChromeOS" if !KUNIT_ALL_TESTS
+>         depends on KUNIT && CROS_EC
+>         default KUNIT_ALL_TESTS
+>         select CROS_EC_PROTO
+> -       select CROS_KUNIT
+>         help
+> -         Kunit tests for the ChromeOS Embedded Controller protocol.
+> +         ChromeOS Kunit tests.
+>
+>  endif # CHROMEOS_PLATFORMS
+> diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+> index a06bc56d12a8..f7e74a845afc 100644
+> --- a/drivers/platform/chrome/Makefile
+> +++ b/drivers/platform/chrome/Makefile
+> @@ -32,5 +32,6 @@ obj-$(CONFIG_CROS_USBPD_NOTIFY)               += cros_usbpd_notify.o
+>  obj-$(CONFIG_WILCO_EC)                 += wilco_ec/
+>
+>  # Kunit test cases
+> -obj-$(CONFIG_CROS_KUNIT)               += cros_kunit_util.o
+> -obj-$(CONFIG_CROS_EC_PROTO_KUNIT_TEST) += cros_ec_proto_test.o
+> +obj-$(CONFIG_CROS_KUNIT)               += cros_kunit.o
+> +cros_kunit-objs                                := cros_kunit_util.o
+> +cros_kunit-objs                                += cros_ec_proto_test.o
+> diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_kunit_util.c
+> index d37c334b416d..090927d43035 100644
+> --- a/drivers/platform/chrome/cros_kunit_util.c
+> +++ b/drivers/platform/chrome/cros_kunit_util.c
+> @@ -14,11 +14,8 @@
+>  #include "cros_kunit_util.h"
+>
+>  int cros_kunit_ec_xfer_mock_default_ret;
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_default_ret);
+>  int cros_kunit_ec_cmd_xfer_mock_called;
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_cmd_xfer_mock_called);
+>  int cros_kunit_ec_pkt_xfer_mock_called;
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_pkt_xfer_mock_called);
+>
+>  static struct list_head cros_kunit_ec_xfer_mock_in;
+>  static struct list_head cros_kunit_ec_xfer_mock_out;
+> @@ -48,27 +45,23 @@ int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_comman
+>
+>         return mock->ret;
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock);
+>
+>  int cros_kunit_ec_cmd_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+>  {
+>         ++cros_kunit_ec_cmd_xfer_mock_called;
+>         return cros_kunit_ec_xfer_mock(ec_dev, msg);
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_cmd_xfer_mock);
+>
+>  int cros_kunit_ec_pkt_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+>  {
+>         ++cros_kunit_ec_pkt_xfer_mock_called;
+>         return cros_kunit_ec_xfer_mock(ec_dev, msg);
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_pkt_xfer_mock);
+>
+>  struct ec_xfer_mock *cros_kunit_ec_xfer_mock_add(struct kunit *test, size_t size)
+>  {
+>         return cros_kunit_ec_xfer_mock_addx(test, size, EC_RES_SUCCESS, size);
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_add);
+>
+>  struct ec_xfer_mock *cros_kunit_ec_xfer_mock_addx(struct kunit *test,
+>                                                   int ret, int result, size_t size)
+> @@ -91,7 +84,6 @@ struct ec_xfer_mock *cros_kunit_ec_xfer_mock_addx(struct kunit *test,
+>
+>         return mock;
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_addx);
+>
+>  struct ec_xfer_mock *cros_kunit_ec_xfer_mock_next(void)
+>  {
+> @@ -103,14 +95,10 @@ struct ec_xfer_mock *cros_kunit_ec_xfer_mock_next(void)
+>
+>         return mock;
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_ec_xfer_mock_next);
+>
+>  int cros_kunit_readmem_mock_offset;
+> -EXPORT_SYMBOL_GPL(cros_kunit_readmem_mock_offset);
+>  u8 *cros_kunit_readmem_mock_data;
+> -EXPORT_SYMBOL_GPL(cros_kunit_readmem_mock_data);
+>  int cros_kunit_readmem_mock_ret;
+> -EXPORT_SYMBOL_GPL(cros_kunit_readmem_mock_ret);
+>
+>  int cros_kunit_readmem_mock(struct cros_ec_device *ec_dev, unsigned int offset,
+>                             unsigned int bytes, void *dest)
+> @@ -121,7 +109,6 @@ int cros_kunit_readmem_mock(struct cros_ec_device *ec_dev, unsigned int offset,
+>
+>         return cros_kunit_readmem_mock_ret;
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_readmem_mock);
+>
+>  void cros_kunit_mock_reset(void)
+>  {
+> @@ -135,6 +122,5 @@ void cros_kunit_mock_reset(void)
+>         cros_kunit_readmem_mock_data = NULL;
+>         cros_kunit_readmem_mock_ret = 0;
+>  }
+> -EXPORT_SYMBOL_GPL(cros_kunit_mock_reset);
+>
+>  MODULE_LICENSE("GPL");
+> --
+> 2.37.0.170.g444d1eabd0-goog
+>

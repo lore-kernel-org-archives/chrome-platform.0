@@ -1,115 +1,83 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2134F4C6D
-	for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 13:02:38 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id d187so16222914vsd.10
-        for <chrome-platform@lists.linux.dev>; Wed, 20 Jul 2022 06:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x1ADlbcOE17NYUMjiVagDfq4PUxtl1uXmumEQgrN0ns=;
-        b=jvD6x40J3yho1JCQqEblcfudZ/i3pFzH6EP0raY01ry+4aGebg1QdnwCVsATMnrGyJ
-         NrQyyemO5XLsKz3yCkJXo/jXEvrgVEyiSjrqK07Wv9mqS1zAajXiw203GIHggPqZEXKm
-         iQyRezph1eQMpSTOu85fh1VHUZh2R/WKMgzx08STdgwYelol59Xuq/C3qjyxIak8Ypam
-         Q/pd3+tvuLpov1NiSb1MZVfrhkNyI93Bal3j+nJdaCSFh1DS2YnDAYpe6WsIAXsHb1B3
-         OyEkUJ1zn87tzp6BBE0Cyjm9XnkHKonjOuogXGDt+2sKSpRdpJ18yZSVaJBRQ78rp3Ka
-         CP1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x1ADlbcOE17NYUMjiVagDfq4PUxtl1uXmumEQgrN0ns=;
-        b=kCkWr6p7zzZ176QG3Z7jXJF0T1GT/ggugqKNJaAoBAX3NzS3rfTnX1Em7KIqgEcqZV
-         lnEY+l8CWCtoF5Q3xNn1bgA4FFe+S7rrndSOFFlkbSUdYk9NtoP61/9FT6QbnwMAS3uH
-         Rg0v7j04nAVsq/dOT17104sY3FOXD6SmP76BsnVY0ay45z2CTJvk78JbB5PdGuehYn9w
-         PDJ+V7SpxyQtbMbwAzWEUYhMIfAb1sgwxp8ddAsFeJDC8YhCIawfYHBE9B77D0IluppF
-         KfzIsGLXrRARgE/xNf91IHM6oxRwX/9wSrn2239/c997tk+Ewp+Tmh8ps3+MGGdF5iJo
-         DCAw==
-X-Gm-Message-State: AJIora9I2sczeNESGGylCf0UiQ2+47YhWr9pi6sSBLuiXkiliHgTCaL8
-	9l5vvKayihfjSSO8XjyErvkuRn/aDyFIAvSBsCR2yQ==
-X-Google-Smtp-Source: AGRyM1utT93d5kWPKobsQR1mFixnWNiywLDzDUUYqbQcLQ2ntUnx4AgebIkC27zZLeUIViUiVAOPEgijG2dG4dOw66w=
-X-Received: by 2002:a05:6102:34d1:b0:357:ee01:3e64 with SMTP id
- a17-20020a05610234d100b00357ee013e64mr4095477vst.70.1658322157067; Wed, 20
- Jul 2022 06:02:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5970528EB
+	for <chrome-platform@lists.linux.dev>; Thu, 21 Jul 2022 08:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 092CAC341CB;
+	Thu, 21 Jul 2022 08:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1658393416;
+	bh=2hebJRVnSw8a/+tmnCngeqcM68rilnEA7AZzAQBYsEU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=GB91xZa0MC2Ehrr2OypFTTPEH2WNHiuF7Ik+bzbOUK6G4FSDuzcnDEHC62TDkHubT
+	 3w+MLrV10rJlr430d/Muz2hOVtiCtDuKfdNIgJ50bLazK6DPADUbUkIcmjAfAXwU1S
+	 UQ5Xs2w36zle7dUnqCqunBFGB69jTfj6I+5lhMuT1S3A455de73xf4uUpygGJNUQHH
+	 DOkFmIhT0vczNFOXt42hDcXg4RXAf5NTX2ayV0vjUIJSJlDUFdBLVi2IrM7yYCOhBr
+	 Hk1SF/oQrrCKsCTc0GtI+c0vW5KJlxzO85dfqpgLoyH/wK9CD+RfUnl8Fecya4UKoP
+	 0BnUD6exKY6og==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E1C32D9DDDD;
+	Thu, 21 Jul 2022 08:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220720044754.4026295-1-tzungbi@kernel.org> <20220720044754.4026295-3-tzungbi@kernel.org>
-In-Reply-To: <20220720044754.4026295-3-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 20 Jul 2022 06:02:26 -0700
-Message-ID: <CABXOdTeC5hNuP_k8Gj-0-2_vCECNJYVkt2qfy23P7tPKfWp3zg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] platform/chrome: cros_kunit_util: add default value
- for `msg->result`
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/7] platform/chrome: cros_ec_proto: add Kunit tests
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165839341592.29073.1350523720863689608.git-patchwork-notify@kernel.org>
+Date: Thu, 21 Jul 2022 08:50:15 +0000
+References: <20220622041040.202737-1-tzungbi@kernel.org>
+In-Reply-To: <20220622041040.202737-1-tzungbi@kernel.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-On Tue, Jul 19, 2022 at 9:48 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> Add default value for `msg->result` so that it won't be garbage bytes
-> when the mock list is empty.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Hello:
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+This series was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-> ---
->  drivers/platform/chrome/cros_kunit_util.c | 6 +++++-
->  drivers/platform/chrome/cros_kunit_util.h | 1 +
->  2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_kunit_util.c
-> index 090927d43035..f0fda96b11bd 100644
-> --- a/drivers/platform/chrome/cros_kunit_util.c
-> +++ b/drivers/platform/chrome/cros_kunit_util.c
-> @@ -13,6 +13,7 @@
->  #include "cros_ec.h"
->  #include "cros_kunit_util.h"
->
-> +int cros_kunit_ec_xfer_mock_default_result;
->  int cros_kunit_ec_xfer_mock_default_ret;
->  int cros_kunit_ec_cmd_xfer_mock_called;
->  int cros_kunit_ec_pkt_xfer_mock_called;
-> @@ -25,8 +26,10 @@ int cros_kunit_ec_xfer_mock(struct cros_ec_device *ec_dev, struct cros_ec_comman
->         struct ec_xfer_mock *mock;
->
->         mock = list_first_entry_or_null(&cros_kunit_ec_xfer_mock_in, struct ec_xfer_mock, list);
-> -       if (!mock)
-> +       if (!mock) {
-> +               msg->result = cros_kunit_ec_xfer_mock_default_result;
->                 return cros_kunit_ec_xfer_mock_default_ret;
-> +       }
->
->         list_del(&mock->list);
->
-> @@ -112,6 +115,7 @@ int cros_kunit_readmem_mock(struct cros_ec_device *ec_dev, unsigned int offset,
->
->  void cros_kunit_mock_reset(void)
->  {
-> +       cros_kunit_ec_xfer_mock_default_result = 0;
->         cros_kunit_ec_xfer_mock_default_ret = 0;
->         cros_kunit_ec_cmd_xfer_mock_called = 0;
->         cros_kunit_ec_pkt_xfer_mock_called = 0;
-> diff --git a/drivers/platform/chrome/cros_kunit_util.h b/drivers/platform/chrome/cros_kunit_util.h
-> index 88134c9f1acf..414002271c9c 100644
-> --- a/drivers/platform/chrome/cros_kunit_util.h
-> +++ b/drivers/platform/chrome/cros_kunit_util.h
-> @@ -23,6 +23,7 @@ struct ec_xfer_mock {
->         u32 o_data_len;
->  };
->
-> +extern int cros_kunit_ec_xfer_mock_default_result;
->  extern int cros_kunit_ec_xfer_mock_default_ret;
->  extern int cros_kunit_ec_cmd_xfer_mock_called;
->  extern int cros_kunit_ec_pkt_xfer_mock_called;
-> --
-> 2.37.0.170.g444d1eabd0-goog
->
+On Wed, 22 Jun 2022 04:10:33 +0000 you wrote:
+> The series add Kunit tests for the rest of exported functions.
+> 
+> The series applies after
+> https://patchwork.kernel.org/project/chrome-platform/cover/20220615051248.1628156-1-tzungbi@kernel.org/.
+> 
+> Tzung-Bi Shih (7):
+>   platform/chrome: cros_ec_proto: add Kunit tests for cmd_xfer_status
+>   platform/chrome: cros_ec_proto: add Kunit test for cros_ec_map_error()
+>   platform/chrome: cros_ec_proto: add Kunit tests for get_next_event
+>   platform/chrome: cros_ec_proto: add Kunit tests for get_host_event
+>   platform/chrome: cros_ec_proto: add Kunit tests for check_features
+>   platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
+>   platform/chrome: cros_ec_proto: add Kunit test for cros_ec_cmd()
+> 
+> [...]
+
+Here is the summary with links:
+  - [1/7] platform/chrome: cros_ec_proto: add Kunit tests for cmd_xfer_status
+    https://git.kernel.org/chrome-platform/c/74bed42fd5fa
+  - [2/7] platform/chrome: cros_ec_proto: add Kunit test for cros_ec_map_error()
+    https://git.kernel.org/chrome-platform/c/1242688fc2f0
+  - [3/7] platform/chrome: cros_ec_proto: add Kunit tests for get_next_event
+    https://git.kernel.org/chrome-platform/c/2b7ed927953f
+  - [4/7] platform/chrome: cros_ec_proto: add Kunit tests for get_host_event
+    https://git.kernel.org/chrome-platform/c/7cb1eb82642b
+  - [5/7] platform/chrome: cros_ec_proto: add Kunit tests for check_features
+    https://git.kernel.org/chrome-platform/c/00238864435f
+  - [6/7] platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
+    https://git.kernel.org/chrome-platform/c/33f0fdba6066
+  - [7/7] platform/chrome: cros_ec_proto: add Kunit test for cros_ec_cmd()
+    https://git.kernel.org/chrome-platform/c/9399b2cb2070
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

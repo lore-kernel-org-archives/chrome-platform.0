@@ -1,63 +1,294 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E481E2590
-	for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 14:44:32 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1EF7F4000E;
-	Tue, 26 Jul 2022 14:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1658846670;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QlIFllD92SV1e0Wm3Ne0TmkhkIkCbI4gUrB2X7fsWJU=;
-	b=h1LOtzYLP3bJ0oRX/LvVFtgvV6W3RBdBrzl1NthytoS8+XadGHfJvUEFOwVKJXZ3GQAY14
-	5HW90FlKQ08/vGp42sh6vZRy/LkFzkIMtwZX5BX098TLDdr/My3yYA2ResSproN7u0qnTS
-	t6EBYePHVWyqkP88r2zUQfFdsBaSRY8uOK5bx3D1RzBrJR3GsayITq7sn90qBiB6xMp393
-	wXo5EztXdZfvc9veoAK1shV1fxKkrUTYa18voTIGOlD06fgS1lmUIE6smcCCXnjVhtdT44
-	uL9xhwO5qyYwgPWcksBxAqnpOGuYiRDlP4GE/9XZl8mgJITFqBkQws+Z28xsXg==
-Date: Tue, 26 Jul 2022 16:44:29 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: a.zummo@towertech.it, bleung@chromium.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: kernel@pengutronix.de, linux-rtc@vger.kernel.org, groeck@chromium.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF1664D
+	for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 23:51:53 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id v185so12443726ioe.11
+        for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 16:51:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=fOAxeBHm7oOWXYpgG8a7LRuvwjtrVNpukeRNTpkkk3Y=;
+        b=fbPYi4h8MO14nv7YRDAOD5DE6p0n2efuOV4Ir3nCNk4KpiK3R2wFcQGaGB3SZFilYw
+         EBaYMDSBME2BYAjukvyQPyBtHsiK6FviLIsRFzH0KBv+VhSzixrN9NEYq3I6KWXFPo+R
+         KrpxrSHF4qgygZ6KEdWPCCfy8PKrHskvRxc3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=fOAxeBHm7oOWXYpgG8a7LRuvwjtrVNpukeRNTpkkk3Y=;
+        b=xk3fmYmkmAxEi5bJL56dwLijpCEUVYOxioasfJMe6k5NZYv+bSC7wItTa4m5OeyCnx
+         58zUdpK2jZ5g+UfBTw3IaOH1H1yoM+/YJPXuvXZkdF335JFsihPYLnsW4i4PU5YFw2Lh
+         wLkgdIWlA/vTXoHWzylWfObX+Dx3EX0hU8a2iKhH8H66xHkYAqQYil1Js0zJNShHxrNO
+         dmzthAiMqsEdaSAeRkfIn/8h5WvyiCvZv2ozMbqO84rj1KscKzZWxZAQQLH8hXu80v7j
+         RwMYJ2AApb/6hvXo7j3Omidws3a5oZ78OqoQzuQDxTe5D075dg2UwlnbFRUgHxFLZqqS
+         zdyQ==
+X-Gm-Message-State: AJIora8Zs5GIZT6czwAwJW3IJCrcPT67lgikOAUwKFR9n8UzV9OMgCoS
+	g+WXJ/iYjXLuEFY/0Vw3xSZdrQ==
+X-Google-Smtp-Source: AGRyM1uqywEVYU5xkfxI9W5IsmTcBeaFgrj/McYDj76Enp+C/0RPGha+hdOXPRBMkJvhRsEu3oSaxw==
+X-Received: by 2002:a05:6638:210b:b0:33f:5635:4c4b with SMTP id n11-20020a056638210b00b0033f56354c4bmr8438265jaj.116.1658879512265;
+        Tue, 26 Jul 2022 16:51:52 -0700 (PDT)
+Received: from jrosenth45.corp.google.com ([100.107.108.177])
+        by smtp.gmail.com with ESMTPSA id a12-20020a92d58c000000b002dc0d743570sm6153108iln.43.2022.07.26.16.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jul 2022 16:51:51 -0700 (PDT)
+From: Jack Rosenthal <jrosenth@chromium.org>
+To: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] rtc: cros-ec: Only warn once in .remove() about
- notifier_chain problems
-Message-ID: <165884664842.3159950.4214538626084209259.b4-ty@bootlin.com>
-References: <20220707153156.214841-1-u.kleine-koenig@pengutronix.de>
+Cc: Jack Rosenthal <jrosenth@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Julius Werner <jwerner@chromium.org>
+Subject: [PATCH] firmware: google: Implement vboot workbuf in sysfs
+Date: Tue, 26 Jul 2022 17:51:15 -0600
+Message-Id: <20220726235115.1184532-1-jrosenth@chromium.org>
+X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220707153156.214841-1-u.kleine-koenig@pengutronix.de>
 
-On Thu, 7 Jul 2022 17:31:56 +0200, Uwe Kleine-König wrote:
-> When a remove platform device callback returns an error code, the driver
-> core emits an error message ("remove callback returned a non-zero value.
-> This will be ignored.\n") and still removes the device. As the driver
-> already emits a more specific error message, return 0 to suppress the
-> core's error message.
-> 
-> This is a preparation for making platform remove callbacks return void.
-> 
-> [...]
+The vboot workbuf is a large data structure exposed by coreboot for
+payloads and the operating system to use.  Existing tools like
+crossystem re-create this structure in userspace by reading the
+deprecated vboot v1 VBSD structure from FDT/ACPI, and translating it
+back to a vboot v2 workbuf.  Since not all data required for vboot v2
+is available in the VBSD structure, crossystem also has to shell out
+to tools like flashrom to fill in the missing bits.
 
-Applied, thanks!
+Since coreboot commit a8bda43, this workbuf is also available in
+CBMEM, and since workbuf struct version 2 (vboot commit ecdca93), this
+data also contains the vboot context, making it useful.  Exposing it
+via sysfs enables tools like crossystem significantly easier access to
+read and manipulate vboot variables.
 
-[1/1] rtc: cros-ec: Only warn once in .remove() about notifier_chain problems
-      commit: 5c9f41443e8d5fbd414ad0dfa8e0996b937d135a
+Link: https://issuetracker.google.com/239604743
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Julius Werner <jwerner@chromium.org>
+Tested-by: Jack Rosenthal <jrosenth@chromium.org>
+Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
+---
+ drivers/firmware/google/Kconfig  |   8 ++
+ drivers/firmware/google/Makefile |   1 +
+ drivers/firmware/google/vboot.c  | 173 +++++++++++++++++++++++++++++++
+ 3 files changed, 182 insertions(+)
+ create mode 100644 drivers/firmware/google/vboot.c
 
-Best regards,
-
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 983e07dc022e..f0e691cb9496 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -67,6 +67,14 @@ config GOOGLE_MEMCONSOLE_COREBOOT
+ 	  the coreboot table.  If found, this log is exported to userland
+ 	  in the file /sys/firmware/log.
+ 
++config GOOGLE_VBOOT_SYSFS
++	tristate "Verified Boot in sysfs"
++	depends on GOOGLE_COREBOOT_TABLE
++	help
++	  This option enables the kernel to search for the Verified Boot
++	  workbuf coreboot table.  If found, the workbuf is exported
++	  to userland in /sys/firmware/vboot.
++
+ config GOOGLE_VPD
+ 	tristate "Vital Product Data"
+ 	depends on GOOGLE_COREBOOT_TABLE
+diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
+index d17caded5d88..f8db06764725 100644
+--- a/drivers/firmware/google/Makefile
++++ b/drivers/firmware/google/Makefile
+@@ -6,6 +6,7 @@ obj-$(CONFIG_GOOGLE_FRAMEBUFFER_COREBOOT)  += framebuffer-coreboot.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
++obj-$(CONFIG_GOOGLE_VBOOT_SYSFS)           += vboot.o
+ 
+ vpd-sysfs-y := vpd.o vpd_decode.o
+ obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
+diff --git a/drivers/firmware/google/vboot.c b/drivers/firmware/google/vboot.c
+new file mode 100644
+index 000000000000..25feb1a33dcd
+--- /dev/null
++++ b/drivers/firmware/google/vboot.c
+@@ -0,0 +1,173 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * vboot.c
++ *
++ * Driver for exporting the vboot workbuf to sysfs.
++ *
++ * Copyright 2022 Google Inc.
++ */
++
++#include <linux/capability.h>
++#include <linux/ctype.h>
++#include <linux/dev_printk.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/kobject.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/sysfs.h>
++
++#include "coreboot_table.h"
++
++#define LB_TAG_VBOOT_WORKBUF 0x34
++
++/* "V2SD" = vb2_shared_data.magic */
++#define VB2_SHARED_DATA_MAGIC 0x44533256
++#define VB2_CONTEXT_MAX_SIZE_V2 192
++#define VB2_CONTEXT_MAX_SIZE_V3 384
++
++struct workbuf {
++	u32 magic;
++	u16 version_major;
++	u16 version_minor;
++	union {
++		/*
++		 * V1 not supported as workbuf and vboot context
++		 * located separately.
++		 */
++		struct {
++			u8 context_padding[VB2_CONTEXT_MAX_SIZE_V2];
++			u32 workbuf_size;
++		} v2;
++		struct {
++			u8 context_padding[VB2_CONTEXT_MAX_SIZE_V3];
++			u32 workbuf_size;
++		} v3;
++	};
++};
++
++static struct kobject *vboot_kobj;
++
++static struct {
++	u8 *buf;
++	u32 size;
++	struct bin_attribute bin_attr;
++} workbuf_info;
++
++static ssize_t workbuf_read(struct file *filp, struct kobject *kobp,
++			    struct bin_attribute *bin_attr, char *buf,
++			    loff_t pos, size_t count)
++{
++	return memory_read_from_buffer(buf, count, &pos, workbuf_info.buf,
++				       workbuf_info.size);
++}
++
++static ssize_t workbuf_write(struct file *filp, struct kobject *kobp,
++			     struct bin_attribute *bin_attr, char *buf,
++			     loff_t pos, size_t count)
++{
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (pos < 0 || pos >= workbuf_info.size)
++		return -EINVAL;
++	if (count > workbuf_info.size - pos)
++		count = workbuf_info.size - pos;
++
++	memcpy(workbuf_info.buf + pos, buf, count);
++	return count;
++}
++
++/*
++ * This function should only be called during initialization -- prior
++ * to workbuf being added to sysfs.  The workbuf can be manipulated
++ * via sysfs, and thus, we should not trust the size in the workbuf
++ * after we've given the user write access to the buffer.
++ */
++static int get_workbuf_size(struct coreboot_device *dev, u32 *size_out)
++{
++	int ret = 0;
++	struct workbuf *workbuf;
++
++	workbuf = memremap(dev->cbmem_ref.cbmem_addr, sizeof(struct workbuf),
++			   MEMREMAP_WB);
++
++	if (workbuf->magic != VB2_SHARED_DATA_MAGIC) {
++		dev_err(dev, "%s: workbuf has invalid magic number\n",
++			__func__);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	switch (workbuf->version_major) {
++	case 2:
++		*size_out = workbuf->v2.workbuf_size;
++		break;
++	case 3:
++		*size_out = workbuf->v3.workbuf_size;
++		break;
++	default:
++		dev_err(dev, "%s: workbuf v%hu.%hu not supported", __func__,
++			workbuf->version_major, workbuf->version_minor);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++exit:
++	memunmap(workbuf);
++	return ret;
++}
++
++static int vboot_probe(struct coreboot_device *dev)
++{
++	int ret;
++
++	vboot_kobj = kobject_create_and_add("vboot", firmware_kobj);
++	if (!vboot_kobj)
++		return -ENOMEM;
++
++	ret = get_workbuf_size(dev, &workbuf_info.size);
++	if (ret)
++		goto exit;
++
++	workbuf_info.buf = memremap(dev->cbmem_ref.cbmem_addr,
++				    workbuf_info.size, MEMREMAP_WB);
++
++	sysfs_bin_attr_init(&workbuf_info.bin_attr);
++	workbuf_info.bin_attr.attr.name = "workbuf";
++	workbuf_info.bin_attr.attr.mode = 0666;
++	workbuf_info.bin_attr.size = workbuf_info.size;
++	workbuf_info.bin_attr.read = workbuf_read;
++	workbuf_info.bin_attr.write = workbuf_write;
++
++	ret = sysfs_create_bin_file(vboot_kobj, &workbuf_info.bin_attr);
++
++exit:
++	if (ret) {
++		kobject_put(vboot_kobj);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void vboot_remove(struct coreboot_device *dev)
++{
++	sysfs_remove_bin_file(vboot_kobj, &workbuf_info.bin_attr);
++	kobject_put(vboot_kobj);
++	memunmap(&workbuf_info.buf);
++}
++
++static struct coreboot_driver vboot_driver = {
++	.probe = vboot_probe,
++	.remove = vboot_remove,
++	.drv = {
++		.name = "vboot",
++	},
++	.tag = LB_TAG_VBOOT_WORKBUF,
++};
++module_coreboot_driver(vboot_driver);
++
++MODULE_AUTHOR("Google, Inc.");
++MODULE_LICENSE("GPL");
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.37.1.359.gd136c6c3e2-goog
+

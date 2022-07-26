@@ -1,68 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E31915A2
-	for <chrome-platform@lists.linux.dev>; Fri, 22 Jul 2022 00:20:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D01C1C341C6;
-	Fri, 22 Jul 2022 00:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658449213;
-	bh=X8kbnXGpRXGFbOgAN4Wdoo6ID5fpTUuvBBGcH0b9Fbk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=thCkp2iBx7BJd3MhJSSgGs1yseXS1E0luD8jsI6QQJSKV9HdcyV1evTxC+6c1mKDR
-	 BqdpNEyJyGn+2H5U5B7tscchFXvseHqjVAxRFJn5/5oJvZtjm9eLyLmMHcrWS/BcD/
-	 ErWoOjg4gByfPGLTVkYHBEvg4PiS6kkfYq+JSLpf6oqGQ0tLWfx9smG1bKcnORdIhR
-	 vpDxyQG50eG6hYjwbJGcOxp7t41pjOduVPghzYopKngOTG87VKfPGawYIALQhbju+o
-	 U7mQlEgPQaoi5Ajl27Lz5eIDErUu0UThURtQAEpawxyCRxVbsHOaDBjZ2cNJmMbAsK
-	 DWt1hXhtJ3ylw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A9172E451BA;
-	Fri, 22 Jul 2022 00:20:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E481E2590
+	for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 14:44:32 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1EF7F4000E;
+	Tue, 26 Jul 2022 14:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1658846670;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QlIFllD92SV1e0Wm3Ne0TmkhkIkCbI4gUrB2X7fsWJU=;
+	b=h1LOtzYLP3bJ0oRX/LvVFtgvV6W3RBdBrzl1NthytoS8+XadGHfJvUEFOwVKJXZ3GQAY14
+	5HW90FlKQ08/vGp42sh6vZRy/LkFzkIMtwZX5BX098TLDdr/My3yYA2ResSproN7u0qnTS
+	t6EBYePHVWyqkP88r2zUQfFdsBaSRY8uOK5bx3D1RzBrJR3GsayITq7sn90qBiB6xMp393
+	wXo5EztXdZfvc9veoAK1shV1fxKkrUTYa18voTIGOlD06fgS1lmUIE6smcCCXnjVhtdT44
+	uL9xhwO5qyYwgPWcksBxAqnpOGuYiRDlP4GE/9XZl8mgJITFqBkQws+Z28xsXg==
+Date: Tue, 26 Jul 2022 16:44:29 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: a.zummo@towertech.it, bleung@chromium.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, linux-rtc@vger.kernel.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] rtc: cros-ec: Only warn once in .remove() about
+ notifier_chain problems
+Message-ID: <165884664842.3159950.4214538626084209259.b4-ty@bootlin.com>
+References: <20220707153156.214841-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/2] platform/chrome: avoid garbage bytes in `msg->result`
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <165844921368.22481.15292709192153390595.git-patchwork-notify@kernel.org>
-Date: Fri, 22 Jul 2022 00:20:13 +0000
-References: <20220720044754.4026295-1-tzungbi@kernel.org>
-In-Reply-To: <20220720044754.4026295-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20220707153156.214841-1-u.kleine-koenig@pengutronix.de>
 
-Hello:
-
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Wed, 20 Jul 2022 04:47:52 +0000 you wrote:
-> The 1st patch merges Kunit utils and test cases.  The idea is basically from
-> the review comment in [1].
+On Thu, 7 Jul 2022 17:31:56 +0200, Uwe Kleine-König wrote:
+> When a remove platform device callback returns an error code, the driver
+> core emits an error message ("remove callback returned a non-zero value.
+> This will be ignored.\n") and still removes the device. As the driver
+> already emits a more specific error message, return 0 to suppress the
+> core's error message.
 > 
-> The 2nd patch fixes that `msg->result` would be garbage bytes if the mock list
-> is empty.  This is separated from previous series [2].
-> 
-> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220718050914.2267370-2-tzungbi@kernel.org/#24944149
-> [2]: https://patchwork.kernel.org/project/chrome-platform/patch/20220718050914.2267370-2-tzungbi@kernel.org/
+> This is a preparation for making platform remove callbacks return void.
 > 
 > [...]
 
-Here is the summary with links:
-  - [1/2] platform/chrome: merge Kunit utils and test cases
-    https://git.kernel.org/chrome-platform/c/f92dd1475b06
-  - [2/2] platform/chrome: cros_kunit_util: add default value for `msg->result`
-    https://git.kernel.org/chrome-platform/c/afef1e1a0223
+Applied, thanks!
 
-You are awesome, thank you!
+[1/1] rtc: cros-ec: Only warn once in .remove() about notifier_chain problems
+      commit: 5c9f41443e8d5fbd414ad0dfa8e0996b937d135a
+
+Best regards,
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

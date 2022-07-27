@@ -1,38 +1,38 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF1664D
-	for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 23:51:53 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id v185so12443726ioe.11
-        for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 16:51:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E914623
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Jul 2022 00:12:42 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id h16so8115424ila.2
+        for <chrome-platform@lists.linux.dev>; Tue, 26 Jul 2022 17:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=fOAxeBHm7oOWXYpgG8a7LRuvwjtrVNpukeRNTpkkk3Y=;
-        b=fbPYi4h8MO14nv7YRDAOD5DE6p0n2efuOV4Ir3nCNk4KpiK3R2wFcQGaGB3SZFilYw
-         EBaYMDSBME2BYAjukvyQPyBtHsiK6FviLIsRFzH0KBv+VhSzixrN9NEYq3I6KWXFPo+R
-         KrpxrSHF4qgygZ6KEdWPCCfy8PKrHskvRxc3E=
+        bh=DocosmU9Kih0cpMr66Xs6WDlyGW3+GYjRnYbNFkWMN0=;
+        b=NWGur+C0j3Nw/dMU+vHao3G7hasFNp8oVPBmdLU74TXTT7+bsLq8GrujVjA0TD7eOL
+         JX4Nw0V8FaKfSu9Y4vNjXP4ffFaUfaDa7hW+GLU5ZMP37np8bro0ZgwbxpbLDOCrXPRE
+         LVhKvW9/I4OzmrU8GCe9Xg4G7P+ZEc4aWEPgc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc;
-        bh=fOAxeBHm7oOWXYpgG8a7LRuvwjtrVNpukeRNTpkkk3Y=;
-        b=xk3fmYmkmAxEi5bJL56dwLijpCEUVYOxioasfJMe6k5NZYv+bSC7wItTa4m5OeyCnx
-         58zUdpK2jZ5g+UfBTw3IaOH1H1yoM+/YJPXuvXZkdF335JFsihPYLnsW4i4PU5YFw2Lh
-         wLkgdIWlA/vTXoHWzylWfObX+Dx3EX0hU8a2iKhH8H66xHkYAqQYil1Js0zJNShHxrNO
-         dmzthAiMqsEdaSAeRkfIn/8h5WvyiCvZv2ozMbqO84rj1KscKzZWxZAQQLH8hXu80v7j
-         RwMYJ2AApb/6hvXo7j3Omidws3a5oZ78OqoQzuQDxTe5D075dg2UwlnbFRUgHxFLZqqS
-         zdyQ==
-X-Gm-Message-State: AJIora8Zs5GIZT6czwAwJW3IJCrcPT67lgikOAUwKFR9n8UzV9OMgCoS
-	g+WXJ/iYjXLuEFY/0Vw3xSZdrQ==
-X-Google-Smtp-Source: AGRyM1uqywEVYU5xkfxI9W5IsmTcBeaFgrj/McYDj76Enp+C/0RPGha+hdOXPRBMkJvhRsEu3oSaxw==
-X-Received: by 2002:a05:6638:210b:b0:33f:5635:4c4b with SMTP id n11-20020a056638210b00b0033f56354c4bmr8438265jaj.116.1658879512265;
-        Tue, 26 Jul 2022 16:51:52 -0700 (PDT)
+        bh=DocosmU9Kih0cpMr66Xs6WDlyGW3+GYjRnYbNFkWMN0=;
+        b=XVJAMCJlufeK2Qp/9zdEGsoVriE3lgFn3WrSRBRcXG4rzllNyDAr9Z3u+Qm+08TT+m
+         5Pz4tdZ0r7IzLjew2IAdQ31AiAphM9rkoDDzAPmHwpQBBEr7jFlwR5pH2w5W+rdfQyIT
+         pkNf5rZgqRJ9g6uwjuynyb947LjrlAsmdMCT6ffYDbpLh7dTfoT6w7Wg81DrC3cWTcY+
+         K6Ks3RzbzixpWBZQeRoziY872+/0WoJjACqAz24VrTYxuLedcydOORbXHQrix4eqU+8u
+         rxnFv8W5lP0MtieSwft/QnhVxUGS2A8HEUPSV433IKUcID/2azVl8L0Mz5BOukBz0tg7
+         9qdg==
+X-Gm-Message-State: AJIora92TAWRX/bQZkkXsbRIWdaHLeRCEZ54pnx/bt7pdQ30+s7vXXbA
+	cjSI3XEsP5S0rhPBdchfUNWqKA==
+X-Google-Smtp-Source: AGRyM1sfQH526VAJg3UdB1E919SRjnpNvpENIAV1y/d52pxfJV3KswI8ZQ+ShUgq10WHNTNzbp4mtw==
+X-Received: by 2002:a05:6e02:1c8e:b0:2dd:470e:3d6f with SMTP id w14-20020a056e021c8e00b002dd470e3d6fmr5432653ill.189.1658880761629;
+        Tue, 26 Jul 2022 17:12:41 -0700 (PDT)
 Received: from jrosenth45.corp.google.com ([100.107.108.177])
-        by smtp.gmail.com with ESMTPSA id a12-20020a92d58c000000b002dc0d743570sm6153108iln.43.2022.07.26.16.51.50
+        by smtp.gmail.com with ESMTPSA id z3-20020a92d183000000b002dae42fa5f2sm6120577ilz.56.2022.07.26.17.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 16:51:51 -0700 (PDT)
+        Tue, 26 Jul 2022 17:12:41 -0700 (PDT)
 From: Jack Rosenthal <jrosenth@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
@@ -40,9 +40,9 @@ Cc: Jack Rosenthal <jrosenth@chromium.org>,
 	Stephen Boyd <swboyd@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Julius Werner <jwerner@chromium.org>
-Subject: [PATCH] firmware: google: Implement vboot workbuf in sysfs
-Date: Tue, 26 Jul 2022 17:51:15 -0600
-Message-Id: <20220726235115.1184532-1-jrosenth@chromium.org>
+Subject: [PATCH v2] firmware: google: Implement vboot workbuf in sysfs
+Date: Tue, 26 Jul 2022 18:12:19 -0600
+Message-Id: <20220727001219.1300288-1-jrosenth@chromium.org>
 X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -75,8 +75,8 @@ Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
 ---
  drivers/firmware/google/Kconfig  |   8 ++
  drivers/firmware/google/Makefile |   1 +
- drivers/firmware/google/vboot.c  | 173 +++++++++++++++++++++++++++++++
- 3 files changed, 182 insertions(+)
+ drivers/firmware/google/vboot.c  | 174 +++++++++++++++++++++++++++++++
+ 3 files changed, 183 insertions(+)
  create mode 100644 drivers/firmware/google/vboot.c
 
 diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
@@ -112,10 +112,10 @@ index d17caded5d88..f8db06764725 100644
  obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
 diff --git a/drivers/firmware/google/vboot.c b/drivers/firmware/google/vboot.c
 new file mode 100644
-index 000000000000..25feb1a33dcd
+index 000000000000..3c1e3d3ea0d9
 --- /dev/null
 +++ b/drivers/firmware/google/vboot.c
-@@ -0,0 +1,173 @@
+@@ -0,0 +1,174 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * vboot.c
@@ -164,7 +164,7 @@ index 000000000000..25feb1a33dcd
 +			u32 workbuf_size;
 +		} v3;
 +	};
-+};
++} __packed;
 +
 +static struct kobject *vboot_kobj;
 +
@@ -212,7 +212,7 @@ index 000000000000..25feb1a33dcd
 +			   MEMREMAP_WB);
 +
 +	if (workbuf->magic != VB2_SHARED_DATA_MAGIC) {
-+		dev_err(dev, "%s: workbuf has invalid magic number\n",
++		dev_err(&dev->dev, "%s: workbuf has invalid magic number\n",
 +			__func__);
 +		ret = -EINVAL;
 +		goto exit;
@@ -226,8 +226,9 @@ index 000000000000..25feb1a33dcd
 +		*size_out = workbuf->v3.workbuf_size;
 +		break;
 +	default:
-+		dev_err(dev, "%s: workbuf v%hu.%hu not supported", __func__,
-+			workbuf->version_major, workbuf->version_minor);
++		dev_err(&dev->dev, "%s: workbuf v%hu.%hu not supported",
++			__func__, workbuf->version_major,
++			workbuf->version_minor);
 +		ret = -EINVAL;
 +		goto exit;
 +	}

@@ -1,404 +1,51 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF8E7F
-	for <chrome-platform@lists.linux.dev>; Mon,  1 Aug 2022 15:26:32 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so12435977pjl.0
-        for <chrome-platform@lists.linux.dev>; Mon, 01 Aug 2022 08:26:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839187F
+	for <chrome-platform@lists.linux.dev>; Mon,  1 Aug 2022 22:15:12 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id a11so6405050wmq.3
+        for <chrome-platform@lists.linux.dev>; Mon, 01 Aug 2022 15:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=xJfKLSPmY28U/Ok/52P+RKMSe0DWiRerNuTSlPksxN0=;
-        b=h80mh2m6ApvPh2eInNLeAGQKgk4KBQTT8m0ULZaSLzmTy9ewTHTfQRMHfVkeuYDIq4
-         i1R3ZO4pg7XC7TIPCahHFPM97y+je5kr0ohCegkJx5MNbhkKlf7digjyaX6U09IgbwX9
-         slPrCPR5k1gd4wvKpbtVSF0qEfVi0SqcFQbVA=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+        b=KkS9Qo1VRpPLirdZBp9VDugwC30AD643a3KZCtTbTTDZ2iNVscA62kiy0dD3sT/JA+
+         7ktfkcoT8qRyRUqJX6hl51/je061gXw/lQ5tQwM9iGVRFUd0gwFkUT3u8oFIo7TZtLjf
+         Hzp820QgI96oq4m8izWoEwEeHz+f1SPSAyggY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=xJfKLSPmY28U/Ok/52P+RKMSe0DWiRerNuTSlPksxN0=;
-        b=NyvD/2hYRmrp+hTT28I7wr9MYGDdloPzPW/VeUNNrwc/e/4v6UtOZn9c6iekJA975J
-         dw8d+u8N2/Iv/B0TUqoh0b/2R7L964noSukEuJOJFL/NI4Eza4mNSJJiSGdJp2ddz4LJ
-         BeQraRiacJGQHrnmCLJlhAb481nawctu6X8sGXa1LSU1pfwxU/aD71e+efYyphKw16jN
-         FU7UBuwl5qKRKGqmvG0UGsK8nCuu39LAyXnwqmYoXpD2g46+wb8Tz7gybeHvjtVOPuz/
-         o2S3HUsp0ako1wkOLUlExQqdRsSBbSQvXhlqu7iSD2u3tFMaSh6kTyMCbphUJSieCdDg
-         P3zw==
-X-Gm-Message-State: ACgBeo1wVbHJOmK9ztXYO0t5OwWLVkQKtdQCfquYqLwmFL2ux1xagOLB
-	hKb2GFsxhskWJCLn+P+eF4EfMQ==
-X-Google-Smtp-Source: AA6agR7x8Y90ojvb01WIIC52Axj4QwT8dLVqIaPD9P7Ojo6Hqa2O2N4uwQwn+i8ZevBDE0TVVzk9rg==
-X-Received: by 2002:a17:902:bf06:b0:16d:1fd7:4d3c with SMTP id bi6-20020a170902bf0600b0016d1fd74d3cmr16855489plb.68.1659367591565;
-        Mon, 01 Aug 2022 08:26:31 -0700 (PDT)
-Received: from jrosenth45.corp.google.com ([2620:0:1000:2514:243d:16b8:9238:5018])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170902b78900b0016ee4b0bd60sm1958393pls.166.2022.08.01.08.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 08:26:30 -0700 (PDT)
-From: Jack Rosenthal <jrosenth@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Jack Rosenthal <jrosenth@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v5] firmware: google: Implement cbmem in sysfs driver
-Date: Mon,  1 Aug 2022 08:26:12 -0700
-Message-Id: <20220801152612.3064269-1-jrosenth@chromium.org>
-X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
-In-Reply-To: <202207301713.q4988FIe-lkp@intel.com>
-References: <202207301713.q4988FIe-lkp@intel.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+        b=VjBRmLbuS497L6I+uAgNcyATEc7Vl91LAIIuIj2ATb1QOxnVPS/oHciU9inQ6tehUb
+         dT33aMoFbI4ssRB/Rg+T/nV+dEYaPE8K7pIVND8TKQQgXlO5SKneXC4rpCzW91SxASgI
+         Mkw9BGLIKaaC0aQKy/sVMaOnNVrHJFs3uu4nl4COEC/Q74lPa16CbtC7DFE0QIbNy0kG
+         /q85RIpEO55puPG3WizCc5yfyUdVFNre6H5OcitN7VZfoRn5/+LeCmwTk3Qx3buOUc6q
+         lj4x2jL/kmRFzQUTFtoMAK+1sitZfJfWMByP9MuWKiR4L5L8UUtX52wCYnH8gxn2XODH
+         Ku3A==
+X-Gm-Message-State: AJIora9PZ+BU2q3YTNXupyjSOqTdZDQL1F5UTTvBHk/ZycCDUSUeMLlR
+	1M7TkY+0aZgYZhg04I588s4JYEqWxlU/WUbcXLDajg==
+X-Google-Smtp-Source: AGRyM1uQtrzzjUTojOce9U1oX4IsLxvEDUtIv9q2DYoehp2Cz8DNp/0ZgjDCAXuc2VNtxvwbNE2CcUP0j7S41z9MIjg=
+X-Received: by 2002:a05:600c:3b29:b0:3a3:1fa6:768 with SMTP id
+ m41-20020a05600c3b2900b003a31fa60768mr12078307wms.193.1659392110731; Mon, 01
+ Aug 2022 15:15:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <202207301713.q4988FIe-lkp@intel.com> <20220801152612.3064269-1-jrosenth@chromium.org>
+In-Reply-To: <20220801152612.3064269-1-jrosenth@chromium.org>
+From: Julius Werner <jwerner@chromium.org>
+Date: Mon, 1 Aug 2022 15:14:58 -0700
+Message-ID: <CAODwPW-eQ-dYvfCGZ13tOzh4gPdLU9ZoFg9joWpRTX22OXa4Ow@mail.gmail.com>
+Subject: Re: [PATCH v5] firmware: google: Implement cbmem in sysfs driver
+To: Jack Rosenthal <jrosenth@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev, 
+	Stephen Boyd <swboyd@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Julius Werner <jwerner@chromium.org>, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-cbmem entries can be read from coreboot table
-0x31 (LB_TAG_CBMEM_ENTRY).  This commit exports access to cbmem
-entries in sysfs under /sys/firmware/coreboot/cbmem-*.
-
-Link: https://issuetracker.google.com/239604743
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Julius Werner <jwerner@chromium.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Tested-by: Jack Rosenthal <jrosenth@chromium.org>
-Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
----
-v5: Corrected documentation warnings reported by kernel test robot.
- .../ABI/testing/sysfs-firmware-coreboot       |  17 ++
- drivers/firmware/google/Kconfig               |   8 +
- drivers/firmware/google/Makefile              |   3 +
- drivers/firmware/google/cbmem.c               | 232 ++++++++++++++++++
- drivers/firmware/google/coreboot_table.h      |  11 +
- 5 files changed, 271 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
- create mode 100644 drivers/firmware/google/cbmem.c
-
-diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
-new file mode 100644
-index 000000000000..2401483bb86c
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
-@@ -0,0 +1,17 @@
-+What:		/sys/firmware/coreboot/
-+Date:		July 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Coreboot-based BIOS firmware provides a variety of information
-+		in CBMEM.  Each CBMEM entry can be found via Coreboot tables.
-+		For each CBMEM entry, the following are exposed:
-+
-+		======= =======================================================
-+		address A hexidecimal value of the memory address the data for
-+			the entry begins at.
-+		size	The size of the data stored.
-+		id	The id corresponding to the entry. A list of ids known
-+			to coreboot can be found in the coreboot source tree at
-+			``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``
-+		mem	A file exposing the raw memory for the entry.
-+		======= =======================================================
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 983e07dc022e..bf8316d1cb31 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -19,6 +19,14 @@ config GOOGLE_SMI
- 	  driver provides an interface for reading and writing NVRAM
- 	  variables.
- 
-+config GOOGLE_CBMEM
-+	tristate "CBMEM entries in sysfs"
-+	depends on GOOGLE_COREBOOT_TABLE
-+	help
-+	  This option enables the kernel to search for Coreboot CBMEM
-+	  entries, and expose the memory for each entry in sysfs under
-+	  /sys/firmware/coreboot.
-+
- config GOOGLE_COREBOOT_TABLE
- 	tristate "Coreboot Table Access"
- 	depends on HAS_IOMEM && (ACPI || OF)
-diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
-index d17caded5d88..8151e323cc43 100644
---- a/drivers/firmware/google/Makefile
-+++ b/drivers/firmware/google/Makefile
-@@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
- 
-+# Must come after coreboot_table.o, as this driver depends on that bus type.
-+obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
-+
- vpd-sysfs-y := vpd.o vpd_decode.o
- obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-new file mode 100644
-index 000000000000..9646a8047742
---- /dev/null
-+++ b/drivers/firmware/google/cbmem.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * cbmem.c
-+ *
-+ * Driver for exporting cbmem entries in sysfs.
-+ *
-+ * Copyright 2022 Google LLC
-+ */
-+
-+#include <linux/ctype.h>
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/kobject.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/sysfs.h>
-+
-+#include "coreboot_table.h"
-+
-+#define LB_TAG_CBMEM_ENTRY 0x31
-+
-+static struct kobject *coreboot_kobj;
-+
-+struct cbmem_entry;
-+struct cbmem_entry_attr {
-+	struct kobj_attribute kobj_attr;
-+	struct cbmem_entry *entry;
-+};
-+
-+struct cbmem_entry {
-+	char *kobj_name;
-+	struct kobject *kobj;
-+	struct coreboot_device *dev;
-+	struct bin_attribute mem_file;
-+	char *mem_file_buf;
-+	struct cbmem_entry_attr address_file;
-+	struct cbmem_entry_attr size_file;
-+	struct cbmem_entry_attr id_file;
-+};
-+
-+static struct cbmem_entry_attr *to_cbmem_entry_attr(struct kobj_attribute *a)
-+{
-+	return container_of(a, struct cbmem_entry_attr, kobj_attr);
-+}
-+
-+static ssize_t cbmem_entry_mem_read(struct file *filp, struct kobject *kobp,
-+				    struct bin_attribute *bin_attr, char *buf,
-+				    loff_t pos, size_t count)
-+{
-+	struct cbmem_entry *entry = bin_attr->private;
-+
-+	return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
-+				       bin_attr->size);
-+}
-+
-+static ssize_t cbmem_entry_mem_write(struct file *filp, struct kobject *kobp,
-+				     struct bin_attribute *bin_attr, char *buf,
-+				     loff_t pos, size_t count)
-+{
-+	struct cbmem_entry *entry = bin_attr->private;
-+
-+	if (pos < 0 || pos >= bin_attr->size)
-+		return -EINVAL;
-+	if (count > bin_attr->size - pos)
-+		count = bin_attr->size - pos;
-+
-+	memcpy(entry->mem_file_buf + pos, buf, count);
-+	return count;
-+}
-+
-+static ssize_t cbmem_entry_address_show(struct kobject *kobj,
-+					struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%llx\n",
-+			  entry_attr->entry->dev->cbmem_entry.address);
-+}
-+
-+static ssize_t cbmem_entry_size_show(struct kobject *kobj,
-+				     struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%x\n",
-+			  entry_attr->entry->dev->cbmem_entry.entry_size);
-+}
-+
-+static ssize_t cbmem_entry_id_show(struct kobject *kobj,
-+				   struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%x\n",
-+			  entry_attr->entry->dev->cbmem_entry.id);
-+}
-+
-+static int cbmem_entry_setup(struct cbmem_entry *entry)
-+{
-+	int ret;
-+
-+	entry->mem_file_buf =
-+		devm_memremap(&entry->dev->dev, entry->dev->cbmem_entry.address,
-+			      entry->dev->cbmem_entry.entry_size, MEMREMAP_WB);
-+	if (!entry->mem_file_buf)
-+		return -ENOMEM;
-+
-+	entry->kobj_name = devm_kasprintf(&entry->dev->dev, GFP_KERNEL,
-+					  "cbmem-%08x",
-+					  entry->dev->cbmem_entry.id);
-+	if (!entry->kobj_name)
-+		return -ENOMEM;
-+
-+	entry->kobj = kobject_create_and_add(entry->kobj_name, coreboot_kobj);
-+	if (!entry->kobj)
-+		return -ENOMEM;
-+
-+	sysfs_bin_attr_init(&entry->mem_file);
-+	entry->mem_file.attr.name = "mem";
-+	entry->mem_file.attr.mode = 0664;
-+	entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
-+	entry->mem_file.read = cbmem_entry_mem_read;
-+	entry->mem_file.write = cbmem_entry_mem_write;
-+	entry->mem_file.private = entry;
-+	ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
-+	if (ret)
-+		goto free_kobj;
-+
-+	sysfs_attr_init(&entry->address_file.kobj_attr.attr);
-+	entry->address_file.kobj_attr.attr.name = "address";
-+	entry->address_file.kobj_attr.attr.mode = 0444;
-+	entry->address_file.kobj_attr.show = cbmem_entry_address_show;
-+	entry->address_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj,
-+				&entry->address_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_mem_file;
-+
-+	sysfs_attr_init(&entry->size_file.kobj_attr.attr);
-+	entry->size_file.kobj_attr.attr.name = "size";
-+	entry->size_file.kobj_attr.attr.mode = 0444;
-+	entry->size_file.kobj_attr.show = cbmem_entry_size_show;
-+	entry->size_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_address_file;
-+
-+	sysfs_attr_init(&entry->id_file.kobj_attr.attr);
-+	entry->id_file.kobj_attr.attr.name = "id";
-+	entry->id_file.kobj_attr.attr.mode = 0444;
-+	entry->id_file.kobj_attr.show = cbmem_entry_id_show;
-+	entry->id_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_size_file;
-+
-+	return 0;
-+
-+free_size_file:
-+	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+free_address_file:
-+	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-+free_mem_file:
-+	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-+free_kobj:
-+	kobject_put(entry->kobj);
-+	return ret;
-+}
-+
-+static int cbmem_entry_probe(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry;
-+
-+	entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
-+	if (!entry)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&dev->dev, entry);
-+	entry->dev = dev;
-+	return cbmem_entry_setup(entry);
-+}
-+
-+static void cbmem_entry_remove(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
-+
-+	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-+	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-+	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+	sysfs_remove_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-+	kobject_put(entry->kobj);
-+}
-+
-+static struct coreboot_driver cbmem_entry_driver = {
-+	.probe = cbmem_entry_probe,
-+	.remove = cbmem_entry_remove,
-+	.drv = {
-+		.name = "cbmem",
-+	},
-+	.tag = LB_TAG_CBMEM_ENTRY,
-+};
-+
-+static int __init cbmem_init(void)
-+{
-+	int ret;
-+
-+	coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
-+	if (!coreboot_kobj)
-+		return -ENOMEM;
-+
-+	ret = coreboot_driver_register(&cbmem_entry_driver);
-+	if (ret) {
-+		kobject_put(coreboot_kobj);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+module_init(cbmem_init);
-+
-+static void __exit cbmem_exit(void)
-+{
-+	kobject_put(coreboot_kobj);
-+	coreboot_driver_unregister(&cbmem_entry_driver);
-+}
-+module_exit(cbmem_exit);
-+
-+MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index beb778674acd..6c03a8852d1b 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -39,6 +39,16 @@ struct lb_cbmem_ref {
- 	u64 cbmem_addr;
- };
- 
-+/* Corresponds to LB_TAG_CBMEM_ENTRY. */
-+struct lb_cbmem_entry {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 address;
-+	u32 entry_size;
-+	u32 id;
-+};
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -65,6 +75,7 @@ struct coreboot_device {
- 	union {
- 		struct coreboot_table_entry entry;
- 		struct lb_cbmem_ref cbmem_ref;
-+		struct lb_cbmem_entry cbmem_entry;
- 		struct lb_framebuffer framebuffer;
- 	};
- };
--- 
-2.37.1.455.g008518b4e5-goog
-
+Reviewed-by: Julius Werner <jwerner@chromium.org>

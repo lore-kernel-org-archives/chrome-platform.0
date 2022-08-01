@@ -1,51 +1,52 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A90E1FB1
-	for <chrome-platform@lists.linux.dev>; Sat, 30 Jul 2022 02:59:11 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id w16so3266771ilh.0
-        for <chrome-platform@lists.linux.dev>; Fri, 29 Jul 2022 19:59:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF8E7F
+	for <chrome-platform@lists.linux.dev>; Mon,  1 Aug 2022 15:26:32 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so12435977pjl.0
+        for <chrome-platform@lists.linux.dev>; Mon, 01 Aug 2022 08:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=55oLKkrP2swszPcawjd+fMgoHyAw1rVMal6LHnUSDsI=;
-        b=XAvlD61DjhYtCUw9NxYZDJ/2pzRCY5K8wCsrwQxRyPVE/EjMW6WU/xv9wI6+dUs7Me
-         LIwQJMCKXrskXg+QMVM19HfUqjqkZblOn0FJxyJhI85Rfo9CX6j17sRFv86eCRyMPHk8
-         pgvoyERlAOqptdhZHFUKF9SXhBlKtq0w8MAgM=
+        bh=xJfKLSPmY28U/Ok/52P+RKMSe0DWiRerNuTSlPksxN0=;
+        b=h80mh2m6ApvPh2eInNLeAGQKgk4KBQTT8m0ULZaSLzmTy9ewTHTfQRMHfVkeuYDIq4
+         i1R3ZO4pg7XC7TIPCahHFPM97y+je5kr0ohCegkJx5MNbhkKlf7digjyaX6U09IgbwX9
+         slPrCPR5k1gd4wvKpbtVSF0qEfVi0SqcFQbVA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=55oLKkrP2swszPcawjd+fMgoHyAw1rVMal6LHnUSDsI=;
-        b=Yw6pDpSv/7PenXhUbtcv/4VFyZf39NhzzJtKFjlU6PqgfGBvRkNLcH3nWrTdzZFq7J
-         O7p80F+K9F2aoAWWvN4GEwoKcYK+q6lwrYTc1YngzEcKu+K6XAF7i6pPpTkQSRlLOltq
-         w4DnvMhQpDi8CvEHfd5A5dyH87wtNoVxWP6m3avbRLSjbHdbiyVVnU8BOHzyMLTAfE38
-         /dD54xWFEsp8rKjs6WcMb8w8EKSC6XWnqAKnVoaJsWz2uoBPrgBOLtUWxBC53O1QuKlP
-         19HKMveGO0CsNSu/yDLX39XkvmmyU75FUmqxZd5Dty8Ct0SsqiQ9TJrZo0YzWLFolRTO
-         t13Q==
-X-Gm-Message-State: AJIora9YNXEzb+aJsjrSZijQne3eE24msn/5Jx4GZBY2/s75YYg/M5kG
-	WDM4csN51CKBS8mEpnuagnrbfw==
-X-Google-Smtp-Source: AGRyM1uglNE8+LFJmCQH5EMmltEry1RnzBxQTb3ldIVgBm/lunf9WPyBHJaig4Nu2lnSzV1e84Evng==
-X-Received: by 2002:a05:6e02:1b8f:b0:2dd:8f33:d8d6 with SMTP id h15-20020a056e021b8f00b002dd8f33d8d6mr2411272ili.81.1659149950378;
-        Fri, 29 Jul 2022 19:59:10 -0700 (PDT)
-Received: from jrosenth45.corp.google.com ([2601:285:8300:c23:c82a:e170:891f:5bf])
-        by smtp.gmail.com with ESMTPSA id v18-20020a056e020f9200b002dbfcfa3233sm2166420ilo.37.2022.07.29.19.59.09
+        bh=xJfKLSPmY28U/Ok/52P+RKMSe0DWiRerNuTSlPksxN0=;
+        b=NyvD/2hYRmrp+hTT28I7wr9MYGDdloPzPW/VeUNNrwc/e/4v6UtOZn9c6iekJA975J
+         dw8d+u8N2/Iv/B0TUqoh0b/2R7L964noSukEuJOJFL/NI4Eza4mNSJJiSGdJp2ddz4LJ
+         BeQraRiacJGQHrnmCLJlhAb481nawctu6X8sGXa1LSU1pfwxU/aD71e+efYyphKw16jN
+         FU7UBuwl5qKRKGqmvG0UGsK8nCuu39LAyXnwqmYoXpD2g46+wb8Tz7gybeHvjtVOPuz/
+         o2S3HUsp0ako1wkOLUlExQqdRsSBbSQvXhlqu7iSD2u3tFMaSh6kTyMCbphUJSieCdDg
+         P3zw==
+X-Gm-Message-State: ACgBeo1wVbHJOmK9ztXYO0t5OwWLVkQKtdQCfquYqLwmFL2ux1xagOLB
+	hKb2GFsxhskWJCLn+P+eF4EfMQ==
+X-Google-Smtp-Source: AA6agR7x8Y90ojvb01WIIC52Axj4QwT8dLVqIaPD9P7Ojo6Hqa2O2N4uwQwn+i8ZevBDE0TVVzk9rg==
+X-Received: by 2002:a17:902:bf06:b0:16d:1fd7:4d3c with SMTP id bi6-20020a170902bf0600b0016d1fd74d3cmr16855489plb.68.1659367591565;
+        Mon, 01 Aug 2022 08:26:31 -0700 (PDT)
+Received: from jrosenth45.corp.google.com ([2620:0:1000:2514:243d:16b8:9238:5018])
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902b78900b0016ee4b0bd60sm1958393pls.166.2022.08.01.08.26.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 19:59:09 -0700 (PDT)
+        Mon, 01 Aug 2022 08:26:30 -0700 (PDT)
 From: Jack Rosenthal <jrosenth@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
 Cc: Jack Rosenthal <jrosenth@chromium.org>,
 	Stephen Boyd <swboyd@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Julius Werner <jwerner@chromium.org>
-Subject: [PATCH v4] firmware: google: Implement cbmem in sysfs driver
-Date: Fri, 29 Jul 2022 20:58:40 -0600
-Message-Id: <20220730025840.2624795-1-jrosenth@chromium.org>
+	Julius Werner <jwerner@chromium.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v5] firmware: google: Implement cbmem in sysfs driver
+Date: Mon,  1 Aug 2022 08:26:12 -0700
+Message-Id: <20220801152612.3064269-1-jrosenth@chromium.org>
 X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
-In-Reply-To: <CAODwPW-JzXXsEANaS+6n695YqriAQ0j0LXm31R2u1OP3MhX9Uw@mail.gmail.com>
-References: <CAODwPW-JzXXsEANaS+6n695YqriAQ0j0LXm31R2u1OP3MhX9Uw@mail.gmail.com>
+In-Reply-To: <202207301713.q4988FIe-lkp@intel.com>
+References: <202207301713.q4988FIe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -62,24 +63,26 @@ Link: https://issuetracker.google.com/239604743
 Cc: Stephen Boyd <swboyd@chromium.org>
 Cc: Guenter Roeck <groeck@chromium.org>
 Cc: Julius Werner <jwerner@chromium.org>
+Reported-by: kernel test robot <lkp@intel.com>
 Tested-by: Jack Rosenthal <jrosenth@chromium.org>
 Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
 ---
- .../ABI/testing/sysfs-firmware-coreboot       |  15 ++
+v5: Corrected documentation warnings reported by kernel test robot.
+ .../ABI/testing/sysfs-firmware-coreboot       |  17 ++
  drivers/firmware/google/Kconfig               |   8 +
  drivers/firmware/google/Makefile              |   3 +
  drivers/firmware/google/cbmem.c               | 232 ++++++++++++++++++
  drivers/firmware/google/coreboot_table.h      |  11 +
- 5 files changed, 269 insertions(+)
+ 5 files changed, 271 insertions(+)
  create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
  create mode 100644 drivers/firmware/google/cbmem.c
 
 diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
 new file mode 100644
-index 000000000000..b91477ee6198
+index 000000000000..2401483bb86c
 --- /dev/null
 +++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,17 @@
 +What:		/sys/firmware/coreboot/
 +Date:		July 2022
 +Contact:	Jack Rosenthal <jrosenth@chromium.org>
@@ -88,13 +91,15 @@ index 000000000000..b91477ee6198
 +		in CBMEM.  Each CBMEM entry can be found via Coreboot tables.
 +		For each CBMEM entry, the following are exposed:
 +
-+		address: A hexidecimal value of the memory address the data for
++		======= =======================================================
++		address A hexidecimal value of the memory address the data for
 +			the entry begins at.
-+		size: The size of the data stored.
-+		id: The id corresponding to the entry. A list of ids known to
-+			coreboot can be found in the coreboot tree at
-+			src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h
-+		mem: A file exposing the raw memory for the entry.
++		size	The size of the data stored.
++		id	The id corresponding to the entry. A list of ids known
++			to coreboot can be found in the coreboot source tree at
++			``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``
++		mem	A file exposing the raw memory for the entry.
++		======= =======================================================
 diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
 index 983e07dc022e..bf8316d1cb31 100644
 --- a/drivers/firmware/google/Kconfig

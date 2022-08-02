@@ -1,193 +1,404 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6157F
-	for <chrome-platform@lists.linux.dev>; Mon,  1 Aug 2022 23:33:46 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id 123so21328363ybv.7
-        for <chrome-platform@lists.linux.dev>; Mon, 01 Aug 2022 16:33:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7AD7F
+	for <chrome-platform@lists.linux.dev>; Tue,  2 Aug 2022 14:04:31 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id y15so13526362plp.10
+        for <chrome-platform@lists.linux.dev>; Tue, 02 Aug 2022 07:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bfwgW/Cs/j3krR3RaLtXmPPIt4zR66/irWtO6+YT90s=;
-        b=DhBf4BwKj1Y7kwHhpaQmCJ68hIimv7LeRFZLPZsM/LhiQBwWjBuG+ZM2f/QZFBWfLv
-         ngq22Ns/PFPx81v2H3T/oF+9M9w3cdMhSYi1wIjtTajftS3yOe8PHvsGzKnFPmUxQH+F
-         u6kzLLItYl6AKCWcr/uhn/kqfpPXgzu+UqfMZaKVcPmyqo2jFCldSnSA4q3XfnBsZl2k
-         IERKJhyiY6PAEEi3pzeUxy+JH4ZJAzLCqgg3SETj3D4Hacien9Nj8l0XlW/a+NIE8ozE
-         goiDhN2jBdbrZymNve5ohXyrYy+Vntlv8b8dT7mRUBHoNLW7m3lfmcYscR/gGlR6MYMa
-         Kzpg==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=h60LT7vOJu8wqSmm/HktHMkQmeA1gQ/DEgCvsUcna1M=;
+        b=npiLFS37AOl37xB+nP8iunASf8ELSxY2kWwEjdptJLDH8bpe2cw9qZO9slMUOS5EOa
+         scWUgoq7wajdkJcWdXR1BcHFxsHQmWKGpfQVjT6Uku7I0URuRhdQbRCD5u+saTgGxwFu
+         xBEqNjIULTRuuT2S7szwQCL4B5L6Wit4AfdOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bfwgW/Cs/j3krR3RaLtXmPPIt4zR66/irWtO6+YT90s=;
-        b=49EZoWpjJmaQ2nN/gcmZxY9L1ObnWDXTIYCD2sEH8ViXRlkkcVI5TBJB0s660viVNS
-         rmJJFiWo0CeVT4AJB5F7W7AGFqQF8jMnNnnXuwTa69Q9YtcYBYCf02SpZiZ5Si2gGmNW
-         lzfvFcsQmflspeVALUjTRno62GAwhMp9wtk87+yF1xylTT3aiNYcuJ1cTrG49TV79IYC
-         xj9/ReLgUyK63JSTzaPLQA6yDM4URMRQdhfGhZlqVuglA6ziAgMMoHQ/JcE8CkIaR8cK
-         wDBN9aZ0oppTOVvFxvx5Y92S06UjXNE7G1ZZDCOL//hiR75+lM/V6dmcU5+YtSmfPrQX
-         AUfg==
-X-Gm-Message-State: ACgBeo17PZv8R8p+IjBnAeohXBZW43UxAs6KEOMeJtQa52lsRn+YmnBg
-	OuZ0q2BgLjaKj62zhWPxt/BftBkesefID/Un6ul8ow==
-X-Google-Smtp-Source: AA6agR7ywohYB/xkSBz811iJCFTsuhFoaJwB6Nna6ZSF1msOkE1HH5b9hmYO0uC+5JMliLxRz1V29HvTtH42caA+e3c=
-X-Received: by 2002:a5b:ecc:0:b0:677:569c:a4e2 with SMTP id
- a12-20020a5b0ecc000000b00677569ca4e2mr3288604ybs.609.1659396825613; Mon, 01
- Aug 2022 16:33:45 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=h60LT7vOJu8wqSmm/HktHMkQmeA1gQ/DEgCvsUcna1M=;
+        b=oQoL9NjtJ7AWExh2+tnBKuf0mSBu16foGlTCYZ2YAqqPPwdlwHrAVNP+u71r8RhqCx
+         igzap1D/+ka+D0MTuue+cl7/3MBra00BVXIIc8CUtpIiEn6clSrjMmJYMj2lCjMK4FIr
+         mM5HlYWwkb/orT9nIk8gm09dmU53xexxaPC6v225NSDI7Ab6SwLRzQwYjpuH4BJmhrJv
+         1/7EL8Pp2PawBc0eHZI2W4V84Am+OXlJ5CMnZUDqbonRPryfG5M3rAbAm2Q+k0VulsRW
+         xUc1+lQhVWRM9ywKZCWUWpCQ9sM/396NxERzFvX+25DAce0ZfKw7iWVBDXb/RLIhAr0m
+         U7Dw==
+X-Gm-Message-State: ACgBeo32my2mGTfF8XaGJL7TDhe2pI73ix4UwzGZyv2gY3Cq/Lam7PhS
+	N0afIopyELt1Zg9lzV5fnksHbQ==
+X-Google-Smtp-Source: AA6agR43oQ7XqbCtRIzCXt06HqHsU/plB9BjAexvDftt+VoalVjFgS6xtm5wemVUOpM/0V+l/Uib9A==
+X-Received: by 2002:a17:902:7fcf:b0:16d:c92b:8ac1 with SMTP id t15-20020a1709027fcf00b0016dc92b8ac1mr21271285plb.74.1659449070364;
+        Tue, 02 Aug 2022 07:04:30 -0700 (PDT)
+Received: from jrosenth45.corp.google.com ([2620:0:1000:5e10:431f:4dea:8126:62a])
+        by smtp.gmail.com with ESMTPSA id c3-20020a656743000000b004161e62a3a5sm9213040pgu.78.2022.08.02.07.04.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 07:04:29 -0700 (PDT)
+From: Jack Rosenthal <jrosenth@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: Jack Rosenthal <jrosenth@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v6] firmware: google: Implement cbmem in sysfs driver
+Date: Tue,  2 Aug 2022 07:03:43 -0700
+Message-Id: <20220802140343.3468976-1-jrosenth@chromium.org>
+X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
+In-Reply-To: <CAODwPW-eQ-dYvfCGZ13tOzh4gPdLU9ZoFg9joWpRTX22OXa4Ow@mail.gmail.com>
+References: <CAODwPW-eQ-dYvfCGZ13tOzh4gPdLU9ZoFg9joWpRTX22OXa4Ow@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid>
- <CACeCKadV=k5J1ZSG+p8M5iBnX5nXrn-XnK62Nq_op2kJ68+-9w@mail.gmail.com>
- <CANkg5ewRc5zhBtxLhazo8Wsfa3Srj32AwZD9mD=W=Qqpqi7zJQ@mail.gmail.com>
- <CACeCKaer_hacWmLDDMJSK-KFjxqiXV8S1-ydCWGT3mkQVeN-rg@mail.gmail.com>
- <CANkg5exPZH7LXV93SbAbNPsX2M-kE1yHqDhfk-cB0ywS15pOPQ@mail.gmail.com> <CACeCKafvVATzEqOnkT3-QPyfaTV8baHNKbLy8069-K+P+RPeMg@mail.gmail.com>
-In-Reply-To: <CACeCKafvVATzEqOnkT3-QPyfaTV8baHNKbLy8069-K+P+RPeMg@mail.gmail.com>
-From: Tim Van Patten <timvp@google.com>
-Date: Mon, 1 Aug 2022 17:33:34 -0600
-Message-ID: <CANkg5ezJS+FHoZcRQNwPEoBRCOrN7WNJiCaBrFKmxDXNtTE5UA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Send host event for prepare/complete
-To: Prashant Malani <pmalani@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, rrangel@chromium.org, 
-	Rob Barnes <robbarnes@google.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+cbmem entries can be read from coreboot table
+0x31 (LB_TAG_CBMEM_ENTRY).  This commit exports access to cbmem
+entries in sysfs under /sys/firmware/coreboot/cbmem-*.
 
-Sorry for the slow reply here, but I wanted to talk with Rob and Raul
-to verify my understanding of the EC/AP behavior, as well as run some
-additional testing.   I'll send out a new version with the updated
-function names, but the rest of the patch is essentially the same.
+Link: https://issuetracker.google.com/239604743
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Reviewed-by: Julius Werner <jwerner@chromium.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Tested-by: Jack Rosenthal <jrosenth@chromium.org>
+Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
+---
+v6: Modified commit message.
+ .../ABI/testing/sysfs-firmware-coreboot       |  17 ++
+ drivers/firmware/google/Kconfig               |   8 +
+ drivers/firmware/google/Makefile              |   3 +
+ drivers/firmware/google/cbmem.c               | 232 ++++++++++++++++++
+ drivers/firmware/google/coreboot_table.h      |  11 +
+ 5 files changed, 271 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
+ create mode 100644 drivers/firmware/google/cbmem.c
 
-> > > Calling such a theoretical new EC host command from the userspace power manager
-> > > would probably accomplish the same thing.
-> >
-> > We investigated something like that internally initially:
-> > https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3646238)
-> >
-> > We decided to take this simpler approach instead, since it
-> > accomplishes the same goal without requiring new host commands.
->
-> - That link discusses updating the existing host command and the EC
-> implementations;
-> have you investigated adding a command for logging needs and calling it from
-> power_manager/powerd directly?
+diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
+new file mode 100644
+index 000000000000..2401483bb86c
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
+@@ -0,0 +1,17 @@
++What:		/sys/firmware/coreboot/
++Date:		July 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		Coreboot-based BIOS firmware provides a variety of information
++		in CBMEM.  Each CBMEM entry can be found via Coreboot tables.
++		For each CBMEM entry, the following are exposed:
++
++		======= =======================================================
++		address A hexidecimal value of the memory address the data for
++			the entry begins at.
++		size	The size of the data stored.
++		id	The id corresponding to the entry. A list of ids known
++			to coreboot can be found in the coreboot source tree at
++			``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``
++		mem	A file exposing the raw memory for the entry.
++		======= =======================================================
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 983e07dc022e..bf8316d1cb31 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -19,6 +19,14 @@ config GOOGLE_SMI
+ 	  driver provides an interface for reading and writing NVRAM
+ 	  variables.
+ 
++config GOOGLE_CBMEM
++	tristate "CBMEM entries in sysfs"
++	depends on GOOGLE_COREBOOT_TABLE
++	help
++	  This option enables the kernel to search for Coreboot CBMEM
++	  entries, and expose the memory for each entry in sysfs under
++	  /sys/firmware/coreboot.
++
+ config GOOGLE_COREBOOT_TABLE
+ 	tristate "Coreboot Table Access"
+ 	depends on HAS_IOMEM && (ACPI || OF)
+diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
+index d17caded5d88..8151e323cc43 100644
+--- a/drivers/firmware/google/Makefile
++++ b/drivers/firmware/google/Makefile
+@@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
+ 
++# Must come after coreboot_table.o, as this driver depends on that bus type.
++obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
++
+ vpd-sysfs-y := vpd.o vpd_decode.o
+ obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
+diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
+new file mode 100644
+index 000000000000..9646a8047742
+--- /dev/null
++++ b/drivers/firmware/google/cbmem.c
+@@ -0,0 +1,232 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * cbmem.c
++ *
++ * Driver for exporting cbmem entries in sysfs.
++ *
++ * Copyright 2022 Google LLC
++ */
++
++#include <linux/ctype.h>
++#include <linux/device.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/kobject.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/sysfs.h>
++
++#include "coreboot_table.h"
++
++#define LB_TAG_CBMEM_ENTRY 0x31
++
++static struct kobject *coreboot_kobj;
++
++struct cbmem_entry;
++struct cbmem_entry_attr {
++	struct kobj_attribute kobj_attr;
++	struct cbmem_entry *entry;
++};
++
++struct cbmem_entry {
++	char *kobj_name;
++	struct kobject *kobj;
++	struct coreboot_device *dev;
++	struct bin_attribute mem_file;
++	char *mem_file_buf;
++	struct cbmem_entry_attr address_file;
++	struct cbmem_entry_attr size_file;
++	struct cbmem_entry_attr id_file;
++};
++
++static struct cbmem_entry_attr *to_cbmem_entry_attr(struct kobj_attribute *a)
++{
++	return container_of(a, struct cbmem_entry_attr, kobj_attr);
++}
++
++static ssize_t cbmem_entry_mem_read(struct file *filp, struct kobject *kobp,
++				    struct bin_attribute *bin_attr, char *buf,
++				    loff_t pos, size_t count)
++{
++	struct cbmem_entry *entry = bin_attr->private;
++
++	return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
++				       bin_attr->size);
++}
++
++static ssize_t cbmem_entry_mem_write(struct file *filp, struct kobject *kobp,
++				     struct bin_attribute *bin_attr, char *buf,
++				     loff_t pos, size_t count)
++{
++	struct cbmem_entry *entry = bin_attr->private;
++
++	if (pos < 0 || pos >= bin_attr->size)
++		return -EINVAL;
++	if (count > bin_attr->size - pos)
++		count = bin_attr->size - pos;
++
++	memcpy(entry->mem_file_buf + pos, buf, count);
++	return count;
++}
++
++static ssize_t cbmem_entry_address_show(struct kobject *kobj,
++					struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%llx\n",
++			  entry_attr->entry->dev->cbmem_entry.address);
++}
++
++static ssize_t cbmem_entry_size_show(struct kobject *kobj,
++				     struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%x\n",
++			  entry_attr->entry->dev->cbmem_entry.entry_size);
++}
++
++static ssize_t cbmem_entry_id_show(struct kobject *kobj,
++				   struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%x\n",
++			  entry_attr->entry->dev->cbmem_entry.id);
++}
++
++static int cbmem_entry_setup(struct cbmem_entry *entry)
++{
++	int ret;
++
++	entry->mem_file_buf =
++		devm_memremap(&entry->dev->dev, entry->dev->cbmem_entry.address,
++			      entry->dev->cbmem_entry.entry_size, MEMREMAP_WB);
++	if (!entry->mem_file_buf)
++		return -ENOMEM;
++
++	entry->kobj_name = devm_kasprintf(&entry->dev->dev, GFP_KERNEL,
++					  "cbmem-%08x",
++					  entry->dev->cbmem_entry.id);
++	if (!entry->kobj_name)
++		return -ENOMEM;
++
++	entry->kobj = kobject_create_and_add(entry->kobj_name, coreboot_kobj);
++	if (!entry->kobj)
++		return -ENOMEM;
++
++	sysfs_bin_attr_init(&entry->mem_file);
++	entry->mem_file.attr.name = "mem";
++	entry->mem_file.attr.mode = 0664;
++	entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
++	entry->mem_file.read = cbmem_entry_mem_read;
++	entry->mem_file.write = cbmem_entry_mem_write;
++	entry->mem_file.private = entry;
++	ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
++	if (ret)
++		goto free_kobj;
++
++	sysfs_attr_init(&entry->address_file.kobj_attr.attr);
++	entry->address_file.kobj_attr.attr.name = "address";
++	entry->address_file.kobj_attr.attr.mode = 0444;
++	entry->address_file.kobj_attr.show = cbmem_entry_address_show;
++	entry->address_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj,
++				&entry->address_file.kobj_attr.attr);
++	if (ret)
++		goto free_mem_file;
++
++	sysfs_attr_init(&entry->size_file.kobj_attr.attr);
++	entry->size_file.kobj_attr.attr.name = "size";
++	entry->size_file.kobj_attr.attr.mode = 0444;
++	entry->size_file.kobj_attr.show = cbmem_entry_size_show;
++	entry->size_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++	if (ret)
++		goto free_address_file;
++
++	sysfs_attr_init(&entry->id_file.kobj_attr.attr);
++	entry->id_file.kobj_attr.attr.name = "id";
++	entry->id_file.kobj_attr.attr.mode = 0444;
++	entry->id_file.kobj_attr.show = cbmem_entry_id_show;
++	entry->id_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
++	if (ret)
++		goto free_size_file;
++
++	return 0;
++
++free_size_file:
++	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++free_address_file:
++	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
++free_mem_file:
++	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
++free_kobj:
++	kobject_put(entry->kobj);
++	return ret;
++}
++
++static int cbmem_entry_probe(struct coreboot_device *dev)
++{
++	struct cbmem_entry *entry;
++
++	entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
++	if (!entry)
++		return -ENOMEM;
++
++	dev_set_drvdata(&dev->dev, entry);
++	entry->dev = dev;
++	return cbmem_entry_setup(entry);
++}
++
++static void cbmem_entry_remove(struct coreboot_device *dev)
++{
++	struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
++
++	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
++	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
++	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++	sysfs_remove_file(entry->kobj, &entry->id_file.kobj_attr.attr);
++	kobject_put(entry->kobj);
++}
++
++static struct coreboot_driver cbmem_entry_driver = {
++	.probe = cbmem_entry_probe,
++	.remove = cbmem_entry_remove,
++	.drv = {
++		.name = "cbmem",
++	},
++	.tag = LB_TAG_CBMEM_ENTRY,
++};
++
++static int __init cbmem_init(void)
++{
++	int ret;
++
++	coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
++	if (!coreboot_kobj)
++		return -ENOMEM;
++
++	ret = coreboot_driver_register(&cbmem_entry_driver);
++	if (ret) {
++		kobject_put(coreboot_kobj);
++		return ret;
++	}
++
++	return 0;
++}
++module_init(cbmem_init);
++
++static void __exit cbmem_exit(void)
++{
++	kobject_put(coreboot_kobj);
++	coreboot_driver_unregister(&cbmem_entry_driver);
++}
++module_exit(cbmem_exit);
++
++MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+index beb778674acd..6c03a8852d1b 100644
+--- a/drivers/firmware/google/coreboot_table.h
++++ b/drivers/firmware/google/coreboot_table.h
+@@ -39,6 +39,16 @@ struct lb_cbmem_ref {
+ 	u64 cbmem_addr;
+ };
+ 
++/* Corresponds to LB_TAG_CBMEM_ENTRY. */
++struct lb_cbmem_entry {
++	u32 tag;
++	u32 size;
++
++	u64 address;
++	u32 entry_size;
++	u32 id;
++};
++
+ /* Describes framebuffer setup by coreboot */
+ struct lb_framebuffer {
+ 	u32 tag;
+@@ -65,6 +75,7 @@ struct coreboot_device {
+ 	union {
+ 		struct coreboot_table_entry entry;
+ 		struct lb_cbmem_ref cbmem_ref;
++		struct lb_cbmem_entry cbmem_entry;
+ 		struct lb_framebuffer framebuffer;
+ 	};
+ };
+-- 
+2.37.1.455.g008518b4e5-goog
 
-That link is the only other investigation we've done.   We don't want
-to add another host command just for logging since we already have one
-that serves our purposes.
-
-> - That link addresses several busses (UART, SPI etc.) whereas this patch only
-> touches LPC. Is this intentional?
-
-Yes, this is intentionally only focusing on the LPC EC. The LPC EC is
-the only one we are interested in, as well as the only one we can
-explicitly test.    The other ECs can be updated in the future if
-necessary, but we don't want to introduce the possibility of unknown
-side effects for platforms we can't verify.
-
-> >
-> > > From the kernel documentation[2], "The prepare phase is meant to
-> > > prevent races by preventing new devices from being registered; the PM core
-> > > would never know that all the children of a device had been suspended if new
-> > > children could be registered at will." and "The method may also prepare the
-> > > device or driver in some way for the upcoming system power transition, but
-> > > it should not put the device into a low-power state."
-> > >
-> > > So it seems like an incorrect usage of this callback.
-> >
-> > Why is this usage incorrect?
-> >
-> > Sending the message to the EC is the preparation for the AP to enter
-> > the system power transition. For example, it allows the EC to begin
-> > watchdogging the AP once the suspend begins and stop once the resume
-> > completes. This allows the EC to watchdog the entire process, without
-> > any gaps - a beneficial side effect of this change.
->
-> OK. Is that all it does? Does this not allow the EC itself to enter a
-> deep sleep state,
-> or put connected peripherals and/or state machines in a low power state??
-
-The only work triggered by host command is starting/stopping the EC's
-watchdogging of the AP. The work of monitoring/manipulating any other
-power states is triggered by interrupts from the power signal changes
-themselves.   To verify this, I removed the host command and EC
-watchdogging and validated that suspend/resume behaves the same.
-
-> If you're still set on this approach, please update the function names;
-> setting the .prepare()/.complete() function pointers to
-> cros_ec_lpc_suspend/resume()
-> is inconsistent, if those functions aren't being used elsewhere in the file.
-
-Done in the next patch version.
-
-The only other thing not mentioned here is the logging that was added.
-
-Here are the log messages without this change:
-[   97.896425] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend+0x0/0x55 @ 4582, parent: PNP0C09:00
-[   97.896427] cros_ec_lpcs GOOG0004:00: acpi_subsys_suspend+0x0/0x55
-returned 0 after 0 usecs
-[   98.021116] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend_late+0x0/0x4e @ 4582, parent: PNP0C09:00
-[   98.021879] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_suspend_late+0x0/0x4e returned 0 after 741 usecs
-[   98.127753] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend_noirq+0x0/0x45 @ 4582, parent: PNP0C09:00
-[   98.127757] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_suspend_noirq+0x0/0x45 returned 0 after 0 usecs
-[  111.216731] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume_noirq+0x0/0x25 @ 4582, parent: PNP0C09:00
-[  111.216746] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_resume_noirq+0x0/0x25 returned 0 after 0 usecs
-[  111.243019] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume_early+0x0/0x67 @ 4582, parent: PNP0C09:00
-[  111.246131] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_resume_early+0x0/0x67 returned 0 after 3035 usecs
-[  111.247008] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume+0x0/0x56 @ 4582, parent: PNP0C09:00
-[  111.247011] cros_ec_lpcs GOOG0004:00: acpi_subsys_resume+0x0/0x56
-returned 0 after 0 usecs
-
-Here are the log messages with the change:
-[ 5510.348705] cros_ec_lpcs GOOG0004:00: Prepare EC suspend
-[ 5510.352958] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend+0x0/0x55 @ 17033, parent: PNP0C09:00
-[ 5510.352960] cros_ec_lpcs GOOG0004:00: acpi_subsys_suspend+0x0/0x55
-returned 0 after 0 usecs
-[ 5510.463143] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend_late+0x0/0x4e @ 17033, parent: PNP0C09:00
-[ 5510.463165] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_suspend_late+0x0/0x4e returned 0 after 16 usecs
-[ 5510.550825] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_suspend_noirq+0x0/0x45 @ 17033, parent: PNP0C09:00
-[ 5510.550828] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_suspend_noirq+0x0/0x45 returned 0 after 0 usecs
-[ 5518.065012] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume_noirq+0x0/0x25 @ 17033, parent: PNP0C09:00
-[ 5518.065036] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_resume_noirq+0x0/0x25 returned 0 after 0 usecs
-[ 5518.089437] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume_early+0x0/0x67 @ 17033, parent: PNP0C09:00
-[ 5518.089455] cros_ec_lpcs GOOG0004:00:
-acpi_subsys_resume_early+0x0/0x67 returned 0 after 0 usecs
-[ 5518.090774] cros_ec_lpcs GOOG0004:00: calling
-acpi_subsys_resume+0x0/0x56 @ 17033, parent: PNP0C09:00
-[ 5518.090784] cros_ec_lpcs GOOG0004:00: acpi_subsys_resume+0x0/0x56
-returned 0 after 6 usecs
-[ 5518.386462] cros_ec_lpcs GOOG0004:00: EC resume completed: ret = 0
-
-PM will call each driver regardless of whether there's anything to do
-(note that the calls "complete" in 0usec), which results in a lot of
-unnecessary output.   However, PM doesn't log .prepare()/.complete()
-calls, so while previously we got the logging for free (due to PM
-performing it for us), we need to add logging to know when the
-.prepare()/.complete() calls are made.   This is why we'd like to keep
-the logging, even if it's in a separate patch.
-
---
-
-Tim Van Patten | ChromeOS | timvp@google.com | (720) 432-0997

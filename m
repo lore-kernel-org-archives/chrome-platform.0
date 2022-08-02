@@ -1,407 +1,151 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8113C7F
-	for <chrome-platform@lists.linux.dev>; Tue,  2 Aug 2022 14:37:30 +0000 (UTC)
-Received: by mail-vk1-f170.google.com with SMTP id w129so7188371vkg.10
-        for <chrome-platform@lists.linux.dev>; Tue, 02 Aug 2022 07:37:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B774F7F
+	for <chrome-platform@lists.linux.dev>; Tue,  2 Aug 2022 15:41:36 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id s14so16053440ljh.0
+        for <chrome-platform@lists.linux.dev>; Tue, 02 Aug 2022 08:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xv2QYkhiYtLuWzVHwGzEipvva9FyuDYr8j72Jote7kk=;
-        b=fLgU3zQCwAxJy7T0IzncWOfNvTntoAJdUr9fKnuaweDFR4ZStWs5k8zT6yvGIDNpKi
-         t8TDeA24/ZAsVlgxvRrTciOuhht0mz8eJUQtmcxZtLXN3k7B/jPGyj27emegX3sdfXR0
-         4GeXU2TXw9ejUnS78b1Ki3OVIDWGI0cWChQ4U5z+zy2NZf3IKjDvulvvx8Q6SihlE0Ln
-         Q4EUxGa2jCsokOv2shvSjuucp7erHcsv1JKC1sUuKUVoxklpLXiyHZMBV3cNoIiRLBVp
-         vzkchwnYDvZyRTHhfEeEOMjPjHnnkqw1L6XPaW90GCnODe/Jsxh9LsmvFis04bN4xFBr
-         XJdw==
+        d=semihalf.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3lh5+NDK8urhSXXnABP31QYe2HngTKZ+2NZLHLYtY/E=;
+        b=VBlTac0+eLNkOx8fS58zP9Gq+9N19XfcbKIcwUGy1r6R//BvK+/12ohliAH9/U7su+
+         axV5laSlVYkKOuorL0lNAjkj87Wwm0T+OdWdmCjbhKNh9sI5+eocDQSfmWP1JGqOH9mW
+         XbiU+kukMK2x/p0auilmuEN2nWoqt1Zcriq0OUYnD33TtkwnWBF8FSGd4f8ZWg71NMSS
+         d7cyejhTVYsBVly1SyQ17qdpU9e7ZtKNyIrKPVNIqs+bJU+UZoTa8Ob+UFgHoME9ddoG
+         1VJKd9Hs8DbvAFjxutvDkdyXGa0s2nlziYRr0VaswnhiPy1V2FoH5ulw9y403y+Vcp0I
+         08ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xv2QYkhiYtLuWzVHwGzEipvva9FyuDYr8j72Jote7kk=;
-        b=OlZqJgLy+Ox7ztZs6N2Da1KBArY1kFUOE1EC+lp053OybRjSBshJRA6ABI60/4c8E0
-         TiiVGhabr+at2OX2rrGY5MiFKiBHabdfjEazOUgdAqk4MpzNhs22wIUZp1xgBZYO0KLy
-         mYg/fOBVHKEbvExfkRCgsl6hRt0LdghqpaGyoGeZzG6DBtLZbnlYmp9u+qV5x/zFQ0Nh
-         W0QqPGXUHdEB7q+oU82nEP6kIbnaIzJahPWkSK6PVrHBzqlli77/YrqR4VoqiWNU35MT
-         6w+Np8lW7ADQfwwKZ8YD6hVvS/rnrmIIM6tcNPq9/74LEaT9bCVkCiIHX4yA0pyc11gn
-         dXQQ==
-X-Gm-Message-State: AJIora+6UYGPpJCIKNNvvjnM7iEXYLqmitrLqe+OUpP/gFNZVh4Gag1i
-	aE729h/dU67IbcdBasC7gs+Ou/FT63zPJ9XH0v0plg==
-X-Google-Smtp-Source: AGRyM1teQUXHaupIffC0dItJXcKq5OKlYDjXQ4a7+y0oGxGjX8Ox02m9kqyvh4G0mpYe/+5abWaWsdL/4IpkC6pGM2U=
-X-Received: by 2002:a1f:1c15:0:b0:376:bd83:7f90 with SMTP id
- c21-20020a1f1c15000000b00376bd837f90mr7724622vkc.15.1659451049186; Tue, 02
- Aug 2022 07:37:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3lh5+NDK8urhSXXnABP31QYe2HngTKZ+2NZLHLYtY/E=;
+        b=nVsWpnHiw0EYJKhfWUjIIHDtlswENwzNildTBFclFxHIuPzJ3qzE5HDi94Gobmz658
+         XL6lBiPGrbZHeavoW3tcFQU2rEMrayBlDEolCbcynfwLCLxF1wzCKftLcVRwfZH2kH7U
+         wBNFnMfaVgbkxhNnx2MPBdT9mCrk0yx3czZgPApMqcQEXdBhZ31dYEDCctwwtSVeEVcf
+         5/psdlq9wHkEz5ZXOIl2MIkQA0AF5FcmR43ddnc1m8Jl+2wDSS+W7/JG2ql7OMygu1Qr
+         FAh7Mx9UlB44wX9x1xXcNUiO8d1lyfU3OHuEurujZICM3N4uBM4d4nfz0PM5YgCp+K3y
+         jCSA==
+X-Gm-Message-State: ACgBeo21jZGiTB54JPmpQppvA9mLhV+If1AGwKVOD63VzquEFm6ElnEi
+	SZIewSZ3z2OwlNe9vTE2DVdJUQ==
+X-Google-Smtp-Source: AA6agR50fbfMJUJUAtcQ10ZD7qqE7NmwLXsIJJMFNvEZ9pCPJGb97G2qFcUkuhmUdZR/nH/XunNUGQ==
+X-Received: by 2002:a2e:a168:0:b0:25e:4dbc:2ac0 with SMTP id u8-20020a2ea168000000b0025e4dbc2ac0mr3437928ljl.187.1659454894796;
+        Tue, 02 Aug 2022 08:41:34 -0700 (PDT)
+Received: from pdkmachine.office.semihalf.net ([83.142.187.84])
+        by smtp.gmail.com with ESMTPSA id p3-20020a2e7403000000b0025e0b9ea91csm1932193ljc.84.2022.08.02.08.41.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 08:41:34 -0700 (PDT)
+From: Patryk Duda <pdk@semihalf.com>
+To: Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@google.com>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	upstream@semihalf.com,
+	Patryk Duda <pdk@semihalf.com>
+Subject: [PATCH v1] platform/chrome: cros_ec_proto: Update version on GET_NEXT_EVENT failure
+Date: Tue,  2 Aug 2022 17:41:28 +0200
+Message-Id: <20220802154128.21175-1-pdk@semihalf.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220714160951.9364-1-pdk@semihalf.com>
+References: <20220714160951.9364-1-pdk@semihalf.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAODwPW-eQ-dYvfCGZ13tOzh4gPdLU9ZoFg9joWpRTX22OXa4Ow@mail.gmail.com>
- <20220802140343.3468976-1-jrosenth@chromium.org>
-In-Reply-To: <20220802140343.3468976-1-jrosenth@chromium.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 2 Aug 2022 07:37:18 -0700
-Message-ID: <CABXOdTccw4hVuSTj-jksy_Rx6ZpUwQ7ttCnP78uRMCPSvZpy9Q@mail.gmail.com>
-Subject: Re: [PATCH v6] firmware: google: Implement cbmem in sysfs driver
-To: Jack Rosenthal <jrosenth@chromium.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
-	"open list:CHROME HARDWARE PLATFORM SUPPORT" <chrome-platform@lists.linux.dev>, Stephen Boyd <swboyd@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Julius Werner <jwerner@chromium.org>, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 2, 2022 at 7:04 AM Jack Rosenthal <jrosenth@chromium.org> wrote:
->
-> cbmem entries can be read from coreboot table
-> 0x31 (LB_TAG_CBMEM_ENTRY).  This commit exports access to cbmem
-> entries in sysfs under /sys/firmware/coreboot/cbmem-*.
->
-> Link: https://issuetracker.google.com/239604743
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Reviewed-by: Julius Werner <jwerner@chromium.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Tested-by: Jack Rosenthal <jrosenth@chromium.org>
-> Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
+Some EC based devices (e.g. Fingerpint MCU) can jump to RO part of the
+firmware (intentionally or due to device reboot). The RO part doesn't
+change during the device lifecycle, so it won't support newer version
+of EC_CMD_GET_NEXT_EVENT command.
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Function cros_ec_query_all() is responsible for finding maximum
+supported MKBP event version. It's usually called when the device is
+running RW part of the firmware, so the command version can be
+potentially higher than version supported by the RO.
 
-> ---
-> v6: Modified commit message.
->  .../ABI/testing/sysfs-firmware-coreboot       |  17 ++
->  drivers/firmware/google/Kconfig               |   8 +
->  drivers/firmware/google/Makefile              |   3 +
->  drivers/firmware/google/cbmem.c               | 232 ++++++++++++++++++
->  drivers/firmware/google/coreboot_table.h      |  11 +
->  5 files changed, 271 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
->  create mode 100644 drivers/firmware/google/cbmem.c
->
-> diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
-> new file mode 100644
-> index 000000000000..2401483bb86c
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
-> @@ -0,0 +1,17 @@
-> +What:          /sys/firmware/coreboot/
-> +Date:          July 2022
-> +Contact:       Jack Rosenthal <jrosenth@chromium.org>
-> +Description:
-> +               Coreboot-based BIOS firmware provides a variety of information
-> +               in CBMEM.  Each CBMEM entry can be found via Coreboot tables.
-> +               For each CBMEM entry, the following are exposed:
-> +
-> +               ======= =======================================================
-> +               address A hexidecimal value of the memory address the data for
-> +                       the entry begins at.
-> +               size    The size of the data stored.
-> +               id      The id corresponding to the entry. A list of ids known
-> +                       to coreboot can be found in the coreboot source tree at
-> +                       ``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``
-> +               mem     A file exposing the raw memory for the entry.
-> +               ======= =======================================================
-> diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-> index 983e07dc022e..bf8316d1cb31 100644
-> --- a/drivers/firmware/google/Kconfig
-> +++ b/drivers/firmware/google/Kconfig
-> @@ -19,6 +19,14 @@ config GOOGLE_SMI
->           driver provides an interface for reading and writing NVRAM
->           variables.
->
-> +config GOOGLE_CBMEM
-> +       tristate "CBMEM entries in sysfs"
-> +       depends on GOOGLE_COREBOOT_TABLE
-> +       help
-> +         This option enables the kernel to search for Coreboot CBMEM
-> +         entries, and expose the memory for each entry in sysfs under
-> +         /sys/firmware/coreboot.
-> +
->  config GOOGLE_COREBOOT_TABLE
->         tristate "Coreboot Table Access"
->         depends on HAS_IOMEM && (ACPI || OF)
-> diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
-> index d17caded5d88..8151e323cc43 100644
-> --- a/drivers/firmware/google/Makefile
-> +++ b/drivers/firmware/google/Makefile
-> @@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
->  obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
->  obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
->
-> +# Must come after coreboot_table.o, as this driver depends on that bus type.
-> +obj-$(CONFIG_GOOGLE_CBMEM)             += cbmem.o
-> +
->  vpd-sysfs-y := vpd.o vpd_decode.o
->  obj-$(CONFIG_GOOGLE_VPD)               += vpd-sysfs.o
-> diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-> new file mode 100644
-> index 000000000000..9646a8047742
-> --- /dev/null
-> +++ b/drivers/firmware/google/cbmem.c
-> @@ -0,0 +1,232 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * cbmem.c
-> + *
-> + * Driver for exporting cbmem entries in sysfs.
-> + *
-> + * Copyright 2022 Google LLC
-> + */
-> +
-> +#include <linux/ctype.h>
-> +#include <linux/device.h>
-> +#include <linux/init.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/kobject.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/sysfs.h>
-> +
-> +#include "coreboot_table.h"
-> +
-> +#define LB_TAG_CBMEM_ENTRY 0x31
-> +
-> +static struct kobject *coreboot_kobj;
-> +
-> +struct cbmem_entry;
-> +struct cbmem_entry_attr {
-> +       struct kobj_attribute kobj_attr;
-> +       struct cbmem_entry *entry;
-> +};
-> +
-> +struct cbmem_entry {
-> +       char *kobj_name;
-> +       struct kobject *kobj;
-> +       struct coreboot_device *dev;
-> +       struct bin_attribute mem_file;
-> +       char *mem_file_buf;
-> +       struct cbmem_entry_attr address_file;
-> +       struct cbmem_entry_attr size_file;
-> +       struct cbmem_entry_attr id_file;
-> +};
-> +
-> +static struct cbmem_entry_attr *to_cbmem_entry_attr(struct kobj_attribute *a)
-> +{
-> +       return container_of(a, struct cbmem_entry_attr, kobj_attr);
-> +}
-> +
-> +static ssize_t cbmem_entry_mem_read(struct file *filp, struct kobject *kobp,
-> +                                   struct bin_attribute *bin_attr, char *buf,
-> +                                   loff_t pos, size_t count)
-> +{
-> +       struct cbmem_entry *entry = bin_attr->private;
-> +
-> +       return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
-> +                                      bin_attr->size);
-> +}
-> +
-> +static ssize_t cbmem_entry_mem_write(struct file *filp, struct kobject *kobp,
-> +                                    struct bin_attribute *bin_attr, char *buf,
-> +                                    loff_t pos, size_t count)
-> +{
-> +       struct cbmem_entry *entry = bin_attr->private;
-> +
-> +       if (pos < 0 || pos >= bin_attr->size)
-> +               return -EINVAL;
-> +       if (count > bin_attr->size - pos)
-> +               count = bin_attr->size - pos;
-> +
-> +       memcpy(entry->mem_file_buf + pos, buf, count);
-> +       return count;
-> +}
-> +
-> +static ssize_t cbmem_entry_address_show(struct kobject *kobj,
-> +                                       struct kobj_attribute *a, char *buf)
-> +{
-> +       struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-> +
-> +       return sysfs_emit(buf, "0x%llx\n",
-> +                         entry_attr->entry->dev->cbmem_entry.address);
-> +}
-> +
-> +static ssize_t cbmem_entry_size_show(struct kobject *kobj,
-> +                                    struct kobj_attribute *a, char *buf)
-> +{
-> +       struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-> +
-> +       return sysfs_emit(buf, "0x%x\n",
-> +                         entry_attr->entry->dev->cbmem_entry.entry_size);
-> +}
-> +
-> +static ssize_t cbmem_entry_id_show(struct kobject *kobj,
-> +                                  struct kobj_attribute *a, char *buf)
-> +{
-> +       struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-> +
-> +       return sysfs_emit(buf, "0x%x\n",
-> +                         entry_attr->entry->dev->cbmem_entry.id);
-> +}
-> +
-> +static int cbmem_entry_setup(struct cbmem_entry *entry)
-> +{
-> +       int ret;
-> +
-> +       entry->mem_file_buf =
-> +               devm_memremap(&entry->dev->dev, entry->dev->cbmem_entry.address,
-> +                             entry->dev->cbmem_entry.entry_size, MEMREMAP_WB);
-> +       if (!entry->mem_file_buf)
-> +               return -ENOMEM;
-> +
-> +       entry->kobj_name = devm_kasprintf(&entry->dev->dev, GFP_KERNEL,
-> +                                         "cbmem-%08x",
-> +                                         entry->dev->cbmem_entry.id);
-> +       if (!entry->kobj_name)
-> +               return -ENOMEM;
-> +
-> +       entry->kobj = kobject_create_and_add(entry->kobj_name, coreboot_kobj);
-> +       if (!entry->kobj)
-> +               return -ENOMEM;
-> +
-> +       sysfs_bin_attr_init(&entry->mem_file);
-> +       entry->mem_file.attr.name = "mem";
-> +       entry->mem_file.attr.mode = 0664;
-> +       entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
-> +       entry->mem_file.read = cbmem_entry_mem_read;
-> +       entry->mem_file.write = cbmem_entry_mem_write;
-> +       entry->mem_file.private = entry;
-> +       ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
-> +       if (ret)
-> +               goto free_kobj;
-> +
-> +       sysfs_attr_init(&entry->address_file.kobj_attr.attr);
-> +       entry->address_file.kobj_attr.attr.name = "address";
-> +       entry->address_file.kobj_attr.attr.mode = 0444;
-> +       entry->address_file.kobj_attr.show = cbmem_entry_address_show;
-> +       entry->address_file.entry = entry;
-> +       ret = sysfs_create_file(entry->kobj,
-> +                               &entry->address_file.kobj_attr.attr);
-> +       if (ret)
-> +               goto free_mem_file;
-> +
-> +       sysfs_attr_init(&entry->size_file.kobj_attr.attr);
-> +       entry->size_file.kobj_attr.attr.name = "size";
-> +       entry->size_file.kobj_attr.attr.mode = 0444;
-> +       entry->size_file.kobj_attr.show = cbmem_entry_size_show;
-> +       entry->size_file.entry = entry;
-> +       ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-> +       if (ret)
-> +               goto free_address_file;
-> +
-> +       sysfs_attr_init(&entry->id_file.kobj_attr.attr);
-> +       entry->id_file.kobj_attr.attr.name = "id";
-> +       entry->id_file.kobj_attr.attr.mode = 0444;
-> +       entry->id_file.kobj_attr.show = cbmem_entry_id_show;
-> +       entry->id_file.entry = entry;
-> +       ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-> +       if (ret)
-> +               goto free_size_file;
-> +
-> +       return 0;
-> +
-> +free_size_file:
-> +       sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-> +free_address_file:
-> +       sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-> +free_mem_file:
-> +       sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-> +free_kobj:
-> +       kobject_put(entry->kobj);
-> +       return ret;
-> +}
-> +
-> +static int cbmem_entry_probe(struct coreboot_device *dev)
-> +{
-> +       struct cbmem_entry *entry;
-> +
-> +       entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
-> +       if (!entry)
-> +               return -ENOMEM;
-> +
-> +       dev_set_drvdata(&dev->dev, entry);
-> +       entry->dev = dev;
-> +       return cbmem_entry_setup(entry);
-> +}
-> +
-> +static void cbmem_entry_remove(struct coreboot_device *dev)
-> +{
-> +       struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
-> +
-> +       sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-> +       sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-> +       sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-> +       sysfs_remove_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-> +       kobject_put(entry->kobj);
-> +}
-> +
-> +static struct coreboot_driver cbmem_entry_driver = {
-> +       .probe = cbmem_entry_probe,
-> +       .remove = cbmem_entry_remove,
-> +       .drv = {
-> +               .name = "cbmem",
-> +       },
-> +       .tag = LB_TAG_CBMEM_ENTRY,
-> +};
-> +
-> +static int __init cbmem_init(void)
-> +{
-> +       int ret;
-> +
-> +       coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
-> +       if (!coreboot_kobj)
-> +               return -ENOMEM;
-> +
-> +       ret = coreboot_driver_register(&cbmem_entry_driver);
-> +       if (ret) {
-> +               kobject_put(coreboot_kobj);
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +module_init(cbmem_init);
-> +
-> +static void __exit cbmem_exit(void)
-> +{
-> +       kobject_put(coreboot_kobj);
-> +       coreboot_driver_unregister(&cbmem_entry_driver);
-> +}
-> +module_exit(cbmem_exit);
-> +
-> +MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-> index beb778674acd..6c03a8852d1b 100644
-> --- a/drivers/firmware/google/coreboot_table.h
-> +++ b/drivers/firmware/google/coreboot_table.h
-> @@ -39,6 +39,16 @@ struct lb_cbmem_ref {
->         u64 cbmem_addr;
->  };
->
-> +/* Corresponds to LB_TAG_CBMEM_ENTRY. */
-> +struct lb_cbmem_entry {
-> +       u32 tag;
-> +       u32 size;
-> +
-> +       u64 address;
-> +       u32 entry_size;
-> +       u32 id;
-> +};
-> +
->  /* Describes framebuffer setup by coreboot */
->  struct lb_framebuffer {
->         u32 tag;
-> @@ -65,6 +75,7 @@ struct coreboot_device {
->         union {
->                 struct coreboot_table_entry entry;
->                 struct lb_cbmem_ref cbmem_ref;
-> +               struct lb_cbmem_entry cbmem_entry;
->                 struct lb_framebuffer framebuffer;
->         };
->  };
-> --
-> 2.37.1.455.g008518b4e5-goog
->
+The problem was fixed by updating maximum supported version when the
+device returns EC_RES_INVALID_VERSION (mapped to -ENOPROTOOPT). That way
+the kernel will use highest common version supported by RO and RW.
+
+Fixes: 3300fdd630d4 ("platform/chrome: cros_ec: handle MKBP more events flag")
+Cc: <stable@vger.kernel.org> # 5.10+
+Signed-off-by: Patryk Duda <pdk@semihalf.com>
+---
+When Fingerprint MCU is rebooted (e.g. as a part of tests) it jumps to
+the RO image and performs RW image signature check. If kernel calls
+EC_CMD_GET_NEXT_EVENT FPMCU RO will respond with EC_RES_INVALID_VERSION
+because it's older than RW and supports up to version 1 of the command.
+As a result kernel keeps trying to get MKBP events and effectively
+blocks FPMCU from jumping to RW image.
+
+Before patch 3300fdd630d4 the driver called version 1 of the command.
+If the device responded with EC_RES_INVALID_VERSION, the driver would
+use version 0 of the command.
+
+Best regards,
+Patryk
+
+v0 -> v1
+- Dropped `ver_mask` initialization.
+
+ drivers/platform/chrome/cros_ec_proto.c | 32 +++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index ff767dccdf0f..c1df8e7e48af 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -750,6 +750,7 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 	u8 event_type;
+ 	u32 host_event;
+ 	int ret;
++	u32 ver_mask;
+ 
+ 	/*
+ 	 * Default value for wake_event.
+@@ -771,6 +772,37 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 		return get_keyboard_state_event(ec_dev);
+ 
+ 	ret = get_next_event(ec_dev);
++	/*
++	 * -ENOPROTOOPT is returned when EC returns EC_RES_INVALID_VERSION.
++	 * This can occur when EC based device (e.g. Fingerprint MCU) jumps to
++	 * the RO image which doesn't support newer version of the command. In
++	 * this case we will attempt to update maximum supported version of the
++	 * EC_CMD_GET_NEXT_EVENT.
++	 */
++	if (ret == -ENOPROTOOPT) {
++		dev_dbg(ec_dev->dev,
++			"GET_NEXT_EVENT returned invalid version error.\n");
++		ret = cros_ec_get_host_command_version_mask(ec_dev,
++							EC_CMD_GET_NEXT_EVENT,
++							&ver_mask);
++		if (ret < 0 || ver_mask == 0)
++			/*
++			 * Do not change the MKBP supported version if we can't
++			 * obtain supported version correctly. Please note that
++			 * calling EC_CMD_GET_NEXT_EVENT returned
++			 * EC_RES_INVALID_VERSION which means that the command
++			 * is present.
++			 */
++			return -ENOPROTOOPT;
++
++		ec_dev->mkbp_event_supported = fls(ver_mask);
++		dev_dbg(ec_dev->dev, "MKBP support version changed to %u\n",
++			ec_dev->mkbp_event_supported - 1);
++
++		/* Try to get next event with new MKBP support version set. */
++		ret = get_next_event(ec_dev);
++	}
++
+ 	if (ret <= 0)
+ 		return ret;
+ 
+-- 
+2.35.1
+

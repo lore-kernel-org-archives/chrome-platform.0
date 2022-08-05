@@ -1,53 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774FC7FF
-	for <chrome-platform@lists.linux.dev>; Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2AFDFC4347C;
-	Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D147C
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Aug 2022 02:40:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B58F0C433D6;
+	Fri,  5 Aug 2022 02:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659662902;
-	bh=+ePxqiBAxJ/ZhuLgdzB/u2Ozgqjq9icjVGgPvaCsGWk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=WBfUCyrGWrmF39kclPrTUvvPBv3j5J72YEYbs7ezXNalxFZtz5CwjiduIIdrc3HpP
-	 otS9Eq8bdwfE2NZchMaCWVPuJKan5HNjZzw4Ixsnw5F/9fUFuMxjCD7490IAbI1qrh
-	 pD3eghhvvv2sAQ5dSO981f3NQCGWxAgbBBP6WIDfl1MUcQUE1Vz/rZwYq8/5pbjEf0
-	 YYZ3iLg9lsVJxBbtSMmGd696ru6pkqRn4mLuqvK83JvLyCgETM6HZFC7DIlVSVG6RL
-	 hOhA+y4G+D8i3f4j1NsVNWsXki9JMOfCV4N0J1NUWrtj4b4TkXQqlQxuSGSld6UTsX
-	 r5ODZjr7P8D6Q==
+	s=k20201202; t=1659667213;
+	bh=rGqPr+ZYa5Fa9SDIlx0KLNnQD/6z8SqgTSiv57flWPw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=alZHoTP15EG0WWNphvOQxyYpbaNuqohYxtoCC3sIoyi3XilpEk4fzcAkICbMNYeLC
+	 H2JQN7LuiHAEJ+tmvtC19V5lY8rh0Zk1iCW1OcLqr/Oix2AEwCO1gCjCjXNRxQYHKZ
+	 NZ0HvQQm9nwyIXRqI19+XZMHqvxf8PPresgfTo+JmVPUNJYBotFzACI09MJ+StkWk9
+	 wJnpe1Qd4ccKwRz+bs6VvyigqP7Vrvemt9R955A8Mbf4oRv4fzcsD7AOK7NOv3NyvD
+	 C5D416LljpRCKUqFCUMWhztR4TyxYWAO/2F/VKjjVkNPLB3A0VJbU/lMna/p92yOxv
+	 xHs6q/JjfhUgA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19CB4C43142;
-	Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
-Subject: Re: [GIT PULL] chrome-platform changes for v5.20
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Yun1yFEsqpF59Tdy@google.com>
-References: <Yun1yFEsqpF59Tdy@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Yun1yFEsqpF59Tdy@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.20
-X-PR-Tracked-Commit-Id: afef1e1a0223623d063a6df51dbc342c9517b948
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5bb3bf24b0aaa76253c77e437b88927a32a10c4e
-Message-Id: <165966290210.8823.10771123517822780293.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Aug 2022 01:28:22 +0000
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 99C49C43140;
+	Fri,  5 Aug 2022 02:40:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1] platform/chrome: cros_ec_proto: Update version on
+ GET_NEXT_EVENT failure
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <165966721362.15379.12989245947386222213.git-patchwork-notify@kernel.org>
+Date: Fri, 05 Aug 2022 02:40:13 +0000
+References: <20220802154128.21175-1-pdk@semihalf.com>
+In-Reply-To: <20220802154128.21175-1-pdk@semihalf.com>
+To: Patryk Duda <pdk@semihalf.com>
+Cc: bleung@chromium.org, groeck@chromium.org, gwendal@google.com,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ upstream@semihalf.com
 
-The pull request you sent on Wed, 3 Aug 2022 04:12:56 +0000:
+Hello:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.20
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5bb3bf24b0aaa76253c77e437b88927a32a10c4e
+On Tue,  2 Aug 2022 17:41:28 +0200 you wrote:
+> Some EC based devices (e.g. Fingerpint MCU) can jump to RO part of the
+> firmware (intentionally or due to device reboot). The RO part doesn't
+> change during the device lifecycle, so it won't support newer version
+> of EC_CMD_GET_NEXT_EVENT command.
+> 
+> Function cros_ec_query_all() is responsible for finding maximum
+> supported MKBP event version. It's usually called when the device is
+> running RW part of the firmware, so the command version can be
+> potentially higher than version supported by the RO.
+> 
+> [...]
 
-Thank you!
+Here is the summary with links:
+  - [v1] platform/chrome: cros_ec_proto: Update version on GET_NEXT_EVENT failure
+    https://git.kernel.org/chrome-platform/c/c2b1dc63ba41
 
+You are awesome, thank you!
 -- 
 Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

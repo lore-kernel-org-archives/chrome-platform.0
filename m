@@ -1,89 +1,53 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1EA6AA2
-	for <chrome-platform@lists.linux.dev>; Thu,  4 Aug 2022 23:14:56 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id j7so1415686wrh.3
-        for <chrome-platform@lists.linux.dev>; Thu, 04 Aug 2022 16:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=UqlbzCJAY8VENrCVMz+v3dILFUlDvFsp0zoGxXFbGcI=;
-        b=Miutd2BoNbFQIGTrdQElo7qVwUmVmzuXCh+XUR7Yq/r3hsQXVGt/UMCp83I70JjSZW
-         51vh73wQ5UbgKHxVkxlmg/DGtkvU1agW9/Aioce/UZEYdLzv7tesUpFcf8yCNpqFvwNz
-         4UgYBqPJIcJs7aUG/GYCOCxQyjtpj25t5vwMY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=UqlbzCJAY8VENrCVMz+v3dILFUlDvFsp0zoGxXFbGcI=;
-        b=KWyTO0vgPXsRbOWvbs4zcSNxnM1moaJzTvTDbXkQdAilL3ly9zUDX/a8tVvceFLOog
-         yTk6H5O3GupmVwsi0d8Rx6XNoLuBaKV1p6skQ83Pa2B6lTkEEbMeTQ2WRiQ/46emEZ2M
-         1YbKfFBqGV5O9U3sYAAhtn3p7raKGErOFydGSkpG1mKzPisw41K0diDd7VhDOvQX1HVz
-         CpHa4oug9rng4zRZu1xJUZv5ilzpDz2C9O4IxlcAFHDuSvTP0eJKR8UzNyNGk/jRgcPv
-         ueY2+62WRAFGsVh9NcENazJBJiaQHCjwuGjtzjpJuMkbuOlcdv7jDgkhMLdOJsvumn5l
-         aJAA==
-X-Gm-Message-State: ACgBeo27lubP5bzFBvYAPyn/2+jjhZi8xJDzDLEPZJR4Ox1WRGNG9VoO
-	gBjAmLEmPrHvtF6RNv2Jfh0heioVTu/UCH53vXBeUA==
-X-Google-Smtp-Source: AA6agR5JyIrjylEqZg67TMMxn/Wb04OVkD08N9V2JPdB3PSyaEC5/ojwg3RaR5Cl1QgNCInOw+EnsSp+TB32Oyce4Lc=
-X-Received: by 2002:adf:fe81:0:b0:21a:3574:ec8e with SMTP id
- l1-20020adffe81000000b0021a3574ec8emr2732465wrr.410.1659654894641; Thu, 04
- Aug 2022 16:14:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774FC7FF
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2AFDFC4347C;
+	Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659662902;
+	bh=+ePxqiBAxJ/ZhuLgdzB/u2Ozgqjq9icjVGgPvaCsGWk=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=WBfUCyrGWrmF39kclPrTUvvPBv3j5J72YEYbs7ezXNalxFZtz5CwjiduIIdrc3HpP
+	 otS9Eq8bdwfE2NZchMaCWVPuJKan5HNjZzw4Ixsnw5F/9fUFuMxjCD7490IAbI1qrh
+	 pD3eghhvvv2sAQ5dSO981f3NQCGWxAgbBBP6WIDfl1MUcQUE1Vz/rZwYq8/5pbjEf0
+	 YYZ3iLg9lsVJxBbtSMmGd696ru6pkqRn4mLuqvK83JvLyCgETM6HZFC7DIlVSVG6RL
+	 hOhA+y4G+D8i3f4j1NsVNWsXki9JMOfCV4N0J1NUWrtj4b4TkXQqlQxuSGSld6UTsX
+	 r5ODZjr7P8D6Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19CB4C43142;
+	Fri,  5 Aug 2022 01:28:22 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v5.20
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Yun1yFEsqpF59Tdy@google.com>
+References: <Yun1yFEsqpF59Tdy@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Yun1yFEsqpF59Tdy@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.20
+X-PR-Tracked-Commit-Id: afef1e1a0223623d063a6df51dbc342c9517b948
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5bb3bf24b0aaa76253c77e437b88927a32a10c4e
+Message-Id: <165966290210.8823.10771123517822780293.pr-tracker-bot@kernel.org>
+Date: Fri, 05 Aug 2022 01:28:22 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <YuuBrUmiRYoaSmPw@google.com> <20220804142856.306032-1-jrosenth@chromium.org>
- <CAE-0n51UcauP1ojoskV9_2+CFPoJrs08jGHVPCZdSA_oXX1zUw@mail.gmail.com>
-In-Reply-To: <CAE-0n51UcauP1ojoskV9_2+CFPoJrs08jGHVPCZdSA_oXX1zUw@mail.gmail.com>
-From: Julius Werner <jwerner@chromium.org>
-Date: Thu, 4 Aug 2022 16:14:43 -0700
-Message-ID: <CAODwPW_mYQ1gcd2Xw5s+7dL2kLcYn-VTxKHUH1iM1V4mn7pT_w@mail.gmail.com>
-Subject: Re: [PATCH v7] firmware: google: Implement cbmem in sysfs driver
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Jack Rosenthal <jrosenth@chromium.org>, chrome-platform@lists.linux.dev, 
-	LKML <linux-kernel@vger.kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Julius Werner <jwerner@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
 
-> Quoting Jack Rosenthal (2022-08-04 07:28:56)
-> > cbmem entries can be read from coreboot table
-> > 0x31 (LB_TAG_CBMEM_ENTRY).  This commit exports access to cbmem
-> > entries in sysfs under /sys/firmware/coreboot/cbmem-*.
-> >
-> > Link: https://issuetracker.google.com/239604743
->
-> Is what you intend to use from here essentially an nvram? If so, it may
-> make more sense to expose just that entry in drivers/nvmem/ as a
-> read-only sort of nvmem.
+The pull request you sent on Wed, 3 Aug 2022 04:12:56 +0000:
 
-No, it is not NV. It's just a normal memory buffer allocated and
-filled by firmware on boot and placed in a region of normal DRAM
-that's marked as reserved.
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/ tags/tag-chrome-platform-for-v5.20
 
-> It isn't clear to me what the structure of this path is. I'd expect to
-> see an entry for each 'address', 'size', 'id', 'mem' with a different
-> What/Date/Contact/Description. If those attributes are all within a
-> directory in sysfs then there could be a top-level description for that
-> as well.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5bb3bf24b0aaa76253c77e437b88927a32a10c4e
 
-CBMEM buffers are used by coreboot for all sorts of things and we
-regularly define new ones. We can't maintain a full list of all IDs in
-kernel sources because it would be a ton of churn for no reason --
-best we could do is to add a link to the ID list in the coreboot repo
-(e.g. https://review.coreboot.org/plugins/gitiles/coreboot/+/refs/heads/master/src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h).
-We really only care about one of these right now and many of them will
-never be relevant to the kernel, but I still thought that while we're
-doing this we might as well provide a generic interface to all of them
-because others may become useful in the future (and then you don't
-have to update the kernel every time you get a new use case for some
-userspace tool wanting to interact with some resident data structure
-from coreboot).
+Thank you!
 
-> Do you need to be able to write cbmem entries?
-
-Yes, see the use case in the bug (using the vboot workbuffer from
-coreboot as a write-through cache for the vboot nvdata on flash).
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

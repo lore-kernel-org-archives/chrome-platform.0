@@ -1,161 +1,257 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD102F2B
-	for <chrome-platform@lists.linux.dev>; Fri,  5 Aug 2022 22:17:24 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id x2-20020a17090ab00200b001f4da5cdc9cso9501735pjq.0
-        for <chrome-platform@lists.linux.dev>; Fri, 05 Aug 2022 15:17:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=ZJtcr9fEhex1ZbEYDZnoQSyBPhqS7q79HP7zTOYQSF8=;
-        b=FljTYTTkjpeuCYnmkCbpOCLALwZfJbnC5bQKGbqsr2ZWzJZodmLrJgX+yf3MZeztLE
-         FWWuR7MuPGkOLeeSKrLii4CnmbfTB8h1xTcgDNJV5cttJ9oI4nuoWl7gXJsSGS+6gQhQ
-         IaL8a72rMqr72M3b1HtHbxfGl3TTu/785Z1/s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=ZJtcr9fEhex1ZbEYDZnoQSyBPhqS7q79HP7zTOYQSF8=;
-        b=yqEbBStPi6mSg0ASLeZt8pAsNgg+Hjiyp09qM4F5OWdLjSA+Q5Dhx+A0g7aj3pIkWW
-         UJgvYRvfGEPh0F7ypLuirbLNdqxhq0TUZho6OvU743znvDth18+66LyEXWLF/mVEBroU
-         FY2f/jbIto2WeiRsAqY9rQ8E4payw5vOi6MvZro6/xYK/gqPQrQ/Xo7VNVk6KlAI4kR1
-         nteI5BgDiQxKVdYWA4wyyg+4KilmiNt8ggPbiUuiBVRxKxtIubS8vhewh47YGndLQX7C
-         iMH93L51MQi0S3q2raq+103xhV5EBeQzn8+RqPh0UCTWzL9G3LJgocZ8awRKV+XtMn/g
-         xsfg==
-X-Gm-Message-State: ACgBeo2xb9p3CREwdTt4mw6lhorsQNMlwyHR06lWQj0S7+l8HcYVFJio
-	FvOJDZnIIzsJZYvzASUADjfFwA==
-X-Google-Smtp-Source: AA6agR5ZCKWJCg6qYS0tP2dZfL9pHJTLa4Wn6fzy1yZcEme+4Ko4oC/h354MUmj2/cT4Y+UYBTcLhQ==
-X-Received: by 2002:a17:90a:b785:b0:1f1:be59:a607 with SMTP id m5-20020a17090ab78500b001f1be59a607mr9456164pjr.84.1659737844220;
-        Fri, 05 Aug 2022 15:17:24 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([98.45.66.167])
-        by smtp.gmail.com with ESMTPSA id b10-20020aa78eca000000b0052dce4edceesm3489164pfr.169.2022.08.05.15.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 15:17:23 -0700 (PDT)
-From: Evan Green <evgreen@chromium.org>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Rajat Jain <rajatja@chromium.org>,
-	Evan Green <evgreen@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Tinghan Shen <tinghan.shen@mediatek.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/chrome: cros_ec: Expose suspend_timeout in debugfs
-Date: Fri,  5 Aug 2022 15:17:17 -0700
-Message-Id: <20220805151551.1.Idd188ff3f9caddebc17ac357a13005f93333c21f@changeid>
-X-Mailer: git-send-email 2.31.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F91C1C2D
+	for <chrome-platform@lists.linux.dev>; Sat,  6 Aug 2022 17:34:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2D9C433C1;
+	Sat,  6 Aug 2022 17:34:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659807297;
+	bh=9V47ZcJgmG3gxd6TEyTt7TnP9+dBJRDESW0GnB21IA4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=a5tQcy+DFx7uHdSBRZBe8UBYx8KBXqwzs/nW7D4FRgNkM8Q2+IRwkC5jBNJGnodVU
+	 /pktq2S6mhhiDE3BaPMJAcUwJJFPCoPEUZnD3tV8cUalTyOfigbqEpZ1mX/jOpO/kN
+	 KBejr9O/cI4JZSmGYMbb7V82Q+3vIulT7QlTNblzsJEn8uxBcFMv3qH95InXcB2fpO
+	 4t3Lpbqm2UzZtcnYr2PAchvHTmy4CkcopHS8xQZAiIl/wmE221mjHJCYCHbznTGDEV
+	 AF5NBgsQlOJ75mJsseG/ctSCNqmKQ2kUjay4hRBaN1uWrrjLn9nHxK0n+p65HQQx6v
+	 Kam7rqGtXsT+A==
+Date: Sat, 6 Aug 2022 18:45:04 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>
+Cc: <openbmc@lists.ozlabs.org>, <linux-imx@nxp.com>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-iio@vger.kernel.org>,
+ <linux-mips@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, <chrome-platform@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, <linux-arm-msm@vger.kernel.org>,
+ Gwendal Grignou <gwendal@chromium.org>, Saravanan Sekar
+ <sravanhome@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>, Tali Perry
+ <tali.perry1@gmail.com>, Thara Gopinath <thara.gopinath@linaro.org>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Benjamin Fair <benjaminfair@google.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Patrick Venture <venture@google.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Benson Leung
+ <bleung@chromium.org>, Nancy Yuen <yuenn@google.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Zhang Rui <rui.zhang@intel.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Christophe Branchereau
+ <cbranchereau@gmail.com>, Cai Huoqing <cai.huoqing@linux.dev>, Avi Fishman
+ <avifishman70@gmail.com>, Eugen Hristev <eugen.hristev@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Lars-Peter Clausen <lars@metafoo.de>, Andy
+ Shevchenko <andy.shevchenko@gmail.com>, Guenter Roeck
+ <groeck@chromium.org>, Paul Cercueil <paul@crapouillou.net>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Andy Gross <agross@kernel.org>, Amit
+ Kucheria <amitk@kernel.org>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Haibo Chen <haibo.chen@nxp.com>, Jishnu
+ Prakash <quic_jprakash@quicinc.com>
+Subject: Re: [PATCH v3 03/15] iio: inkern: only return error codes in
+ iio_channel_get_*() APIs
+Message-ID: <20220806184504.58960bd0@jic23-huawei>
+In-Reply-To: <20220715122903.332535-4-nuno.sa@analog.com>
+References: <20220715122903.332535-1-nuno.sa@analog.com>
+	<20220715122903.332535-4-nuno.sa@analog.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In modern Chromebooks, the embedded controller has a mechanism where
-it will watch a hardware-controlled line that toggles in suspend, and
-wake the system up if an expected sleep transition didn't occur. This
-can be very useful for detecting power management issues where the
-system appears to suspend, but doesn't actually reach its lowest
-expected power states.
+On Fri, 15 Jul 2022 14:28:51 +0200
+Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 
-Sometimes it's useful in debug and test scenarios to be able to control
-the duration of that timeout, or even disable the EC timeout mechanism
-altogether. Add a debugfs control to set the timeout to values other
-than the EC-defined default, for more convenient debug and
-development iteration.
+> APIs like of_iio_channel_get_by_name() and of_iio_channel_get_all() were
+> returning a mix of NULL and pointers with NULL being the way to
+> "notify" that we should do a "system" lookup for channels. This make
+> it very confusing and prone to errors as commit 9f63cc0921ec
+> ("iio: inkern: fix return value in devm_of_iio_channel_get_by_name()")
+> proves. On top of this, patterns like 'if (channel !=3D NULL) return
+> channel' were being used where channel could actually be an error code
+> which makes the code hard to read.
+>=20
+> This change also makes some functional changes on how errors were being
+> handled. In the original behavior, even if we get an error like '-ENOMEM',
+> we still continue with the search. We should only continue to lookup for
+> the channel when it makes sense to do so. Hence, the main error handling
+> in 'of_iio_channel_get_by_name()' is changed to the following logic:
+>=20
+>  * If a channel 'name' is provided and we do find it via
+> 'io-channel-names', we should be able to get it. If we get any error,
+> we should not proceed with the lookup. Moreover, we should return an error
+> so that callers won't proceed with a system lookup.
+>  * If a channel 'name' is provided and we cannot find it ('index < 0'),
+> 'of_parse_phandle_with_args()' is expected to fail with '-EINVAL'. Hence,
+> we should only continue if we get that error.
+>  * If a channel 'name' is not provided we should only carry on with the
+> search if 'of_parse_phandle_with_args()' returns '-ENOENT'.
+>=20
+> Also note that a system channel lookup is only done if the returned
+> error code (from 'of_iio_channel_get_by_name()' or
+> 'of_iio_channel_get_all()' is -ENODEV.
+>=20
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
+Hi Nuno,
 
- Documentation/ABI/testing/debugfs-cros-ec   | 22 +++++++++++++++++++++
- drivers/platform/chrome/cros_ec.c           |  3 ++-
- drivers/platform/chrome/cros_ec_debugfs.c   |  3 +++
- include/linux/platform_data/cros_ec_proto.h |  1 +
- 4 files changed, 28 insertions(+), 1 deletion(-)
+Sorry for delay on getting to this.  Sometimes the most useful work
+on the core gets queued up at the back of my review queue because it's hard=
+er
+than the average driver :)
 
-diff --git a/Documentation/ABI/testing/debugfs-cros-ec b/Documentation/ABI/testing/debugfs-cros-ec
-index 1fe0add99a2a99..8e7e76e6481550 100644
---- a/Documentation/ABI/testing/debugfs-cros-ec
-+++ b/Documentation/ABI/testing/debugfs-cros-ec
-@@ -54,3 +54,25 @@ Description:
- 		this feature.
- 
- 		Output will be in the format: "0x%08x\n".
-+
-+What:		/sys/kernel/debug/<cros-ec-device>/suspend_timeout
-+Date:		August 2022
-+KernelVersion:	6.0
-+Description:
-+		Some ECs have a feature where they will track transitions to the
-+		a hardware-controlled sleep line, such as Intel's SLP_S0 line,
-+		in order to detect cases where a system failed to go into deep
-+		sleep states. The suspend_timeout file controls the amount of
-+		time in milliseconds the EC will wait before declaring a sleep
-+		timeout event and attempting to wake the system.
-+
-+		Supply 0 to use the default value coded into EC firmware. Supply
-+		65535 to disable the EC sleep failure detection mechanism.
-+		Values in between 0 and 65535 indicate the number of
-+		milliseconds the EC should wait after a sleep transition before
-+		declaring a timeout. This includes both the duration after a
-+		sleep command was received but before the hardware line changed,
-+		as well as the duration between when the hardware line changed
-+		and the kernel sent an EC resume command.
-+
-+		Output will be in the format: "%u\n".
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 8aace50d446d65..e8d3e2a29a58f5 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -115,7 +115,7 @@ static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
- 	if (ec_dev->host_sleep_v1) {
- 		buf.u.req1.sleep_event = sleep_event;
- 		buf.u.req1.suspend_params.sleep_timeout_ms =
--				EC_HOST_SLEEP_TIMEOUT_DEFAULT;
-+				ec_dev->suspend_timeout;
- 
- 		buf.msg.outsize = sizeof(buf.u.req1);
- 		if ((sleep_event == HOST_SLEEP_EVENT_S3_RESUME) ||
-@@ -188,6 +188,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
- 	ec_dev->max_passthru = 0;
- 	ec_dev->ec = NULL;
- 	ec_dev->pd = NULL;
-+	ec_dev->suspend_timeout = EC_HOST_SLEEP_TIMEOUT_DEFAULT;
- 
- 	ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
- 	if (!ec_dev->din)
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 0dbceee87a4b1a..530378bd4359dd 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -470,6 +470,9 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
- 	debugfs_create_x32("last_resume_result", 0444, debug_info->dir,
- 			   &ec->ec_dev->last_resume_result);
- 
-+	debugfs_create_u16("suspend_timeout", 0664, debug_info->dir,
-+			   &ec->ec_dev->suspend_timeout);
-+
- 	ec->debug_info = debug_info;
- 
- 	dev_set_drvdata(&pd->dev, ec);
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index 408b29ca4004be..60132444f7daa6 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -169,6 +169,7 @@ struct cros_ec_device {
- 	int event_size;
- 	u32 host_event_wake_mask;
- 	u32 last_resume_result;
-+	u16 suspend_timeout;
- 	ktime_t last_event_time;
- 	struct notifier_block notifier_ready;
- 
--- 
-2.31.0
+Anyhow, only totally trivial stuff in here from me.
+If you don't respin because of other comments, I can clean these up
+whilst applying.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  drivers/iio/inkern.c | 54 +++++++++++++++++++++++++++++++-------------
+>  1 file changed, 38 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
+> index 87fd2a0d44f2..c6f1cfe09bd3 100644
+> --- a/drivers/iio/inkern.c
+> +++ b/drivers/iio/inkern.c
+> @@ -214,7 +214,7 @@ static struct iio_channel *of_iio_channel_get(struct =
+device_node *np, int index)
+>  struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
+>  					       const char *name)
+>  {
+> -	struct iio_channel *chan =3D NULL;
+> +	struct iio_channel *chan;
+> =20
+>  	/* Walk up the tree of devices looking for a matching iio channel */
+>  	while (np) {
+> @@ -231,13 +231,33 @@ struct iio_channel *of_iio_channel_get_by_name(stru=
+ct device_node *np,
+>  							 name);
+>  		chan =3D of_iio_channel_get(np, index);
+>  		if (!IS_ERR(chan) || PTR_ERR(chan) =3D=3D -EPROBE_DEFER)
+> -			break;
+> -		else if (name && index >=3D 0) {
+> -			pr_err("ERROR: could not get IIO channel %pOF:%s(%i)\n",
+> -				np, name ? name : "", index);
+> -			return NULL;
+> +			return chan;
+> +		if (name) {
+> +			if (index >=3D 0) {
+> +				pr_err("ERROR: could not get IIO channel %pOF:%s(%i)\n",
+> +				       np, name, index);
+> +				/*
+> +				 * In this case, we found 'name' in 'io-channel-names'
+> +				 * but somehow we still fail so that we should not proceed
+> +				 * with any other lookup. Hence, explicitly return -EINVAL
+> +				 * (maybe not the better error code) so that the caller
+> +				 * won't do a system lookup.
+> +				 */
+> +				return ERR_PTR(-EINVAL);
+> +			}
+
+Trivial, but wrong comment syntax for IIO + inconsistent with surrounding c=
+omments.
+
+> +			/* If index < 0, then of_parse_phandle_with_args() fails
+> +			 * with -EINVAL which is expected. We should not proceed
+> +			 * if we get any other error.
+> +			 */
+> +			if (PTR_ERR(chan) !=3D -EINVAL)
+> +				return chan;
+> +		} else if (PTR_ERR(chan) !=3D -ENOENT) {
+> +			/*
+> +			 * if !name, then we should only proceed the lookup if
+> +			 * of_parse_phandle_with_args() returns -ENOENT.
+> +			 */
+> +			return chan;
+>  		}
+> -
+
+Try to avoid noise like this + I like this whitespace :)
+
+>  		/*
+>  		 * No matching IIO channel found on this node.
+>  		 * If the parent node has a "io-channel-ranges" property,
+> @@ -245,10 +265,10 @@ struct iio_channel *of_iio_channel_get_by_name(stru=
+ct device_node *np,
+>  		 */
+>  		np =3D np->parent;
+>  		if (np && !of_get_property(np, "io-channel-ranges", NULL))
+> -			return NULL;
+> +			return ERR_PTR(-ENODEV);
+>  	}
+> =20
+> -	return chan;
+> +	return ERR_PTR(-ENODEV);
+>  }
+>  EXPORT_SYMBOL_GPL(of_iio_channel_get_by_name);
+> =20
+> @@ -267,8 +287,8 @@ static struct iio_channel *of_iio_channel_get_all(str=
+uct device *dev)
+>  			break;
+>  	} while (++nummaps);
+> =20
+> -	if (nummaps =3D=3D 0)	/* no error, return NULL to search map table */
+> -		return NULL;
+> +	if (nummaps =3D=3D 0)
+> +		return ERR_PTR(-ENODEV);
+> =20
+>  	/* NULL terminated array to save passing size */
+>  	chans =3D kcalloc(nummaps + 1, sizeof(*chans), GFP_KERNEL);
+> @@ -295,7 +315,7 @@ static struct iio_channel *of_iio_channel_get_all(str=
+uct device *dev)
+> =20
+>  static inline struct iio_channel *of_iio_channel_get_all(struct device *=
+dev)
+>  {
+> -	return NULL;
+> +	return ERR_PTR(-ENODEV);
+>  }
+> =20
+>  #endif /* CONFIG_OF */
+> @@ -362,7 +382,7 @@ struct iio_channel *iio_channel_get(struct device *de=
+v,
+>  	if (dev) {
+>  		channel =3D of_iio_channel_get_by_name(dev->of_node,
+>  						     channel_name);
+> -		if (channel !=3D NULL)
+> +		if (!IS_ERR(channel) || PTR_ERR(channel) !=3D -ENODEV)
+>  			return channel;
+>  	}
+> =20
+> @@ -412,8 +432,6 @@ struct iio_channel *devm_of_iio_channel_get_by_name(s=
+truct device *dev,
+>  	channel =3D of_iio_channel_get_by_name(np, channel_name);
+>  	if (IS_ERR(channel))
+>  		return channel;
+> -	if (!channel)
+> -		return ERR_PTR(-ENODEV);
+> =20
+>  	ret =3D devm_add_action_or_reset(dev, devm_iio_channel_free, channel);
+>  	if (ret)
+> @@ -436,7 +454,11 @@ struct iio_channel *iio_channel_get_all(struct devic=
+e *dev)
+>  		return ERR_PTR(-EINVAL);
+> =20
+>  	chans =3D of_iio_channel_get_all(dev);
+> -	if (chans)
+> +	/*
+> +	 * We only want to carry on if the error is -ENODEV.  Anything else
+> +	 * should be reported up the stack.
+> +	 */
+> +	if (!IS_ERR(chans) || PTR_ERR(chans) !=3D -ENODEV)
+>  		return chans;
+> =20
+>  	name =3D dev_name(dev);
 

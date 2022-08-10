@@ -1,72 +1,145 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618292F24
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 18:36:46 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id 15-20020a17090a098f00b001f305b453feso3048051pjo.1
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 11:36:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F22F4680
+	for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 22:26:43 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id v3so19420443wrp.0
+        for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 15:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=z73/wP9z665YsaV/uDYD+wi6MjcJk/XyGVgycD2feRY=;
-        b=GCesbzgRbUeNcglykgQOzG+Q2EGPGkSq1JQG9RGFGHXpvf/Xub+RfbVhbB4Onwq59z
-         lfAW+gLONLo9sprR3soPhZr076B7uZ+VxQ2kB/ZyHNi5NsuVhGSY5yrzT6GS9OJcJSv3
-         NUYsxm0PRK+/jrK5SPJ8u5WFQfetM7KeATnCA=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=J1S4AO51CUHE+MiRUkGQ/82rQ/8c9Jpi9FTf1saPf2w=;
+        b=QeShLouUtmJpWBEkceLNBWarGOX1MYjbKzCn1nv4kKocJLEFoP031jL8s0SsSDrENB
+         Wda5fKDvu+0K5YNCaq9SuXTz69ykH/ukcSSjdJuM+sS8nvvKrNPrvoDt4SKJhqBeu7zc
+         YW7340fBZAbgY7HZArLppFuPztV1DCTsGz3hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=z73/wP9z665YsaV/uDYD+wi6MjcJk/XyGVgycD2feRY=;
-        b=A14ifhSudTcVLX/damD+d9ENkP1pi5mFVInkmqejd82RHdQcV4kLKFvUCqLbWEiUws
-         aDzJHZjZnN42p8iNjceBPIhidDwIOzMgQuOPEUS+xOWZiNU3FNqxJtym3ROiTJ8WvoZP
-         KlBQZertg/B3ybYDYocPsNdXn8GPQC1pc6juhTeASopJnThSonobPD12JAjzHBaCxJjG
-         9291Q4oubXk59m0qBkoKI1IhVGN8R1j5XA+CSjB48o/skDrwLs2uS//6pPmNjBHkPwJV
-         2cQKEccwtOqcnulDS8l6a7Z5lw06LTa4LGQKE8xhB1YXzriyBH8Ni2M6uIBYuixRzWf7
-         NqBA==
-X-Gm-Message-State: ACgBeo05KKMkzp12pTft70WHZHxGu/tI83pn1aBp+w+VmgQbf4y5rMFz
-	qM3p8Iq6WlWTHpDeTLO8pTkxZA==
-X-Google-Smtp-Source: AA6agR6CqEED+d1nIP977dwhdcJatfkdkn8f/WnJslQTl/9kRO5X2uQslJIZAvUqqjXMmKvJtwTn7A==
-X-Received: by 2002:a17:902:cf0c:b0:16f:9023:e07b with SMTP id i12-20020a170902cf0c00b0016f9023e07bmr25466298plg.143.1660156605778;
-        Wed, 10 Aug 2022 11:36:45 -0700 (PDT)
-Received: from chromium.org (137.22.168.34.bc.googleusercontent.com. [34.168.22.137])
-        by smtp.gmail.com with ESMTPSA id n2-20020a170902d2c200b0016db774e702sm13413462plc.93.2022.08.10.11.36.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 11:36:45 -0700 (PDT)
-Date: Wed, 10 Aug 2022 18:36:43 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH] dt-bindings: chrome: google,cros-ec-type: restrict
- allowed properties
-Message-ID: <YvP6u8SRHswA1Iva@chromium.org>
-References: <20220810143613.482724-1-krzysztof.kozlowski@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=J1S4AO51CUHE+MiRUkGQ/82rQ/8c9Jpi9FTf1saPf2w=;
+        b=z3uuoalNdeynzWMwLWBGYq6QbHaS+KSl7mgEI+zoP6oxNsFFBLL834WrupPLjbGysX
+         HrKc+gObxn7QsbQJ5AXgi1CmyvLMG+it5DbNE8frFknbYOeRnJoizHT+6S/ajzUfGsx+
+         pRZ4bTUoW+WRsCCjKEoJDw17iqneqqqhKLMubF8YZyYwc3bgqQedqppI2BpwHqd6ICAb
+         jQ+tqXCPsvi7khb7GKko+c0K1xET3VI6BaqXFGEb1wxltBe80cZHcihHZ1T8OxfWQ43j
+         OQx57PH34yWitPNFLsHgVouba2c4+yr+Vik2pTcB8YWVQnCp9EQRxnepKA41CKw0iLSG
+         NwhQ==
+X-Gm-Message-State: ACgBeo0dPxZSJn8JVcruu5HNY3oXBeoSsBOAh9kNI/vUbZz6sdwLT99P
+	SOb4JEoLcqO+ooxDOWNYdXpT8GTABOwbiem9194llg==
+X-Google-Smtp-Source: AA6agR6zBcqjxGXqvDdiQWCumTiYzSbfSHy3S98eu0PRhYY8Qf6Q2Idre8LoyOGa2CL15n071Y0e+w/dghz8KtXIYxE=
+X-Received: by 2002:a5d:47a4:0:b0:220:600d:2b0f with SMTP id
+ 4-20020a5d47a4000000b00220600d2b0fmr18598230wrb.407.1660170401636; Wed, 10
+ Aug 2022 15:26:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220810143613.482724-1-krzysztof.kozlowski@linaro.org>
+References: <YuuBrUmiRYoaSmPw@google.com> <20220804142856.306032-1-jrosenth@chromium.org>
+ <CAE-0n51UcauP1ojoskV9_2+CFPoJrs08jGHVPCZdSA_oXX1zUw@mail.gmail.com>
+ <CAODwPW_mYQ1gcd2Xw5s+7dL2kLcYn-VTxKHUH1iM1V4mn7pT_w@mail.gmail.com> <CAE-0n504q_NeB9e2BYF8P9Scp7TPqsp9KEWu2DO=ZzbYdJfyew@mail.gmail.com>
+In-Reply-To: <CAE-0n504q_NeB9e2BYF8P9Scp7TPqsp9KEWu2DO=ZzbYdJfyew@mail.gmail.com>
+From: Julius Werner <jwerner@chromium.org>
+Date: Wed, 10 Aug 2022 15:26:30 -0700
+Message-ID: <CAODwPW-LaaD+ptch=R-S4GWoBDjTgWzfvwjyQeBRETZnnosR7g@mail.gmail.com>
+Subject: Re: [PATCH v7] firmware: google: Implement cbmem in sysfs driver
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Julius Werner <jwerner@chromium.org>, Jack Rosenthal <jrosenth@chromium.org>, 
+	chrome-platform@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Krzysztof,
+> Alright cool. The bug says 'vbnv' so I was guessing 'nv' meant
+> non-volatile.
 
-On Aug 10 17:36, Krzysztof Kozlowski wrote:
-> Describe exactly what properties are allowed in Google Chrome OS EC Type
-> C port, so the schema can properly validate the DTS.  Existing DTS
-> defines always connectors with unit addresses, not a sole "connector"
-> child.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+"vbnv" is non-volatile memory, but this driver doesn't actually access
+vbnv (which is on SPI flash). This driver is meant to access an
+in-memory cache of vbnv that was put there by firmware.
 
-Micro-nit: the tag in the commit message is missing a trailing "c" in
-"cros-ec-typec". Other than that,
+> > We really only care about one of these right now and many of them will
+> > never be relevant to the kernel, but I still thought that while we're
+> > doing this we might as well provide a generic interface to all of them
+> > because others may become useful in the future (and then you don't
+> > have to update the kernel every time you get a new use case for some
+> > userspace tool wanting to interact with some resident data structure
+> > from coreboot).
+>
+> Exposing more than is necessary in the kernel ABI could get into
+> problems with backwards compatibility. It also means we have to review
+> the ABI with the consideration that something may change in the future
+> and cbmem would be exposing something we don't want exposed, or maybe it
+> is writeable when it shouldn't be?
 
-Acked-by: Prashant Malani <pmalani@chromium.org>
+I think we have a bit of a different concept of what this is supposed
+to be. Forget about the vbnv and vboot workbuffer parts for the
+moment, those are where our overall motivation for doing this comes
+from but those should not be concerns for the kernel itself. From the
+kernel's point of view, all we have here is a firmware information
+structure it already knows about (the coreboot tables) pointing to a
+list of opaque, firmware-specific memory buffers labeled with an ID,
+and we want it to expose read and write access to those buffers to
+userspace to make it easier for firmware-specific userspace helper
+tools to work with them. Note that we already have userspace tools
+doing that today anyway, e.g. the `cbmem` utility uses /dev/mem to
+search for and parse the whole coreboot table itself before then using
+it to access individual CBMEM buffers. But implementing all the logic
+to do that in each tool that wants to support anything
+coreboot-specific separately is cumbersome, so we thought that since
+the kernel already has this coreboot table parsing support anyway, we
+might as well export the info to userspace to make this job easier. So
+really all the kernel does here is expose the address, size and ID
+values from the coreboot table itself, it doesn't (and isn't supposed
+to) have any understanding about the pointed to buffer. (We could also
+leave out the `mem` node from this driver and just let our userspace
+utilities read the `address` and `size` nodes and then use that info
+to go through /dev/mem. Giving them a direct `mem` node for the buffer
+just makes that process a bit easier and cleaner.)
+
+So backwards compatibility should not be a concern (unless we're
+talking about changes in the coreboot table itself, which we strongly
+try to avoid and which would be an issue for existing kernel drivers
+already anyway). Understanding of these buffers' contents is
+explicitly supposed to be the responsibility of the userspace tool
+that has an easier time keeping up with frequent firmware data format
+changes and maintaining long lists of back-translating routines for
+older structure formats for the specific kind of buffer it looks for
+if necessary (something I specifically wouldn't want to clutter the
+kernel with).
+
+In regards to write access, I don't really see a point restricting
+this since all these buffers are already accessible through /dev/mem
+anyway. But that should only be needed for very few of these buffers
+anyway, so if people think it's a concern I think we could also keep a
+small explicit allowlist for the IDs that can be writable (shouldn't
+need to be updated frequently) and disallow it for everything else.
+Also, of course there's still the normal file system access
+permissions that makes these only writable for root and users
+specifically granted access by root. (Actually, Jack, that reminds
+me... having the `mem` nodes world-readable is maybe not a good idea,
+there's usually not anything specifically secret in there, but since
+/dev/mem also isn't world-readable I think this one probably shouldn't
+either. I'd suggest changing the initial umask to 0660 or 0600.)
+
+> Furthermore, if the ABI that the kernel can expose already exists then
+> we're better off because there may already be userspace programs written
+> for that ABI with lessons learned and bugs ironed out. In this case, I
+> was hoping that it was an nvmem, in which case we could tie it into the
+> nvmem framework and piggyback on the nvmem APIs. It also helps to expose
+> a more generic ABI to userspace instead of developing a bespoke solution
+> requiring boutique software. Of course sometimes things can't be so
+> generic so code has to be written.
+
+Yeah but this isn't anything that can be genericized, this is
+specifically meant for boutique software to maintain its internal data
+structures. vbnv and the vb2_shared_data structure in the workbuffer
+are supposed to be completely internal to vboot and not interpreted by
+any code other than vboot itself -- even coreboot never accesses them
+directly (only by linking in vboot functions and calling those). We
+explicitly don't want to deal with having to sync data structure
+format changes to anywhere outside the vboot repository. The problem
+is just that unlike most software, vboot is a framework that contains
+both firmware and userspace components, so the latter necessarily need
+some help from the kernel (as an oblivious forwarder of opaque data)
+to be able to access the internal data structures passed on from the
+former.

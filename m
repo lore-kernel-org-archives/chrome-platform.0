@@ -1,174 +1,108 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218354A02
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 23:58:54 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-10ea7d8fbf7so19749835fac.7
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 16:58:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539AB17D2
+	for <chrome-platform@lists.linux.dev>; Thu, 11 Aug 2022 01:17:28 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id z12so19666507wrs.9
+        for <chrome-platform@lists.linux.dev>; Wed, 10 Aug 2022 18:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc;
-        bh=/P3kJinfVvS+uCT0mJmVMCdzDCMKM16/QE6DvPfAa/E=;
-        b=gyWiONg5w1X7XKCvmNGdYO0ecV90JpsqlJRoRdTqcaCTCUzmhXhfWRfKvsdcp6OZw/
-         r7baIfPH/5hWpo6r0Tx9UrYvk+NFmm2nheqqBwpVOz/cXpO17q4S9BiGOQzltc4teHVh
-         pnSzQab5Zn2LruyH+ZRqz4oesZquxkc3iLb9w=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=a7wTeZiD5uv9ZHvAgSeNDVn0fwfsH+L72z3RFwFeB7Y=;
+        b=obGN0OMkiMt7YEbipQStZUvuWrxtJf5rl0HkgZpU8PtWxS+UB3i1ujciA6Kvv8WtVf
+         c23tC4EAalrPGjH6hETwcKqqyracGhuMU5Ex586E7+qQeLB6aHJ2r3L4G8pJbWcxKooW
+         LEU+L7h/ITYxEJzrNwTXGGNUrkBCVv0TbjcMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc;
-        bh=/P3kJinfVvS+uCT0mJmVMCdzDCMKM16/QE6DvPfAa/E=;
-        b=pFoW97aSht8bx9gASmRKcxwdTRd3YYsNaEIufXDDyYZt17nczb4lftRboXqZMX9nlx
-         +guP2+pUzdlyp7msWdTAcADpcrqJiiRNRuUikGI35/78WUSLXpbdlrB2YonZG+YLp5uG
-         azVkOdcuhTBbFufxNVwEfRcDbky33oTpZ5LNajpGKW16eQkY/sA5jRYeDEBb/ezUCQ8P
-         IS5T35ekzhTodbACi5uRGH3hX10ZtH3gI3k1ubFsgWea0/dIN1Il7Xorj/O0mxh7gUNT
-         83kCGf6L09/cuHvDkvcLq2ez0UJfXFw1TRTkpEiT4kzShiATE6aeDTP3sgU04RZ+ay6v
-         /UZw==
-X-Gm-Message-State: ACgBeo1so9GYVPfPzf3fgyFHjLKoOV6MCvch9V8JsAWICmtmlCcu7zO9
-	8b/Z+YOafiCBWWZ4jd+ZN5TJayjQ1jFX9U3BHGtUwg==
-X-Google-Smtp-Source: AA6agR7p6fp1VlGisvNw8pxhRQbVKWvtduI7AzR6dYoMe5LlN5q7jwMt3+AmK4kpvj7/XNjJByWam7bwVHt/imVwBLE=
-X-Received: by 2002:a05:6870:41c3:b0:10c:529c:3844 with SMTP id
- z3-20020a05687041c300b0010c529c3844mr2449682oac.0.1660175934044; Wed, 10 Aug
- 2022 16:58:54 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 10 Aug 2022 18:58:53 -0500
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=a7wTeZiD5uv9ZHvAgSeNDVn0fwfsH+L72z3RFwFeB7Y=;
+        b=7kqhMMaZAtexW+difwc6iCHTRI5s9iJOw2NRjBwtsZdACO+wBNlimZK7INc4kLRM48
+         FyptJttn183simb73Mb0qWZy4WYFmN4JgHvf5JbU8I/ntMTVt6VTUQYu1SKWSzymrLwN
+         Ku6maLSQ35HxJ0rt0wEVYSgQiTIY19Q2AxIDcZDEv9pGLpohGvM/9PzkHsx/9+wx8aZV
+         AkNTVN+LrpsngSoqw79tQ1PfrAAsm6PPxdRoybYsnpPSKB9Fg/CcJEcLSWuG7cZkUSec
+         lZN4VujD/oe7U+qZlfBdhml9bHIOp5LiA799HrtBJq+zsJGtmI0SSyGMZON3xwBfAOE5
+         IlOQ==
+X-Gm-Message-State: ACgBeo0bBim6WiAEM6arZ0yrR57XVLbdlnzyL7JajQOka1/1SwBNL0Tz
+	75fMhxhobtBnDjYHT/GF9ykJqKdszi/R1DyNjajt1A==
+X-Google-Smtp-Source: AA6agR4sTgcuh0TtqDd+SyqW0bqduYhV2MvXS2JY/svgqTSAcuEI2YXFP3/SxCv1HIcwamY1P4A/7bS1x1WutHM9DDA=
+X-Received: by 2002:adf:fe81:0:b0:21a:3574:ec8e with SMTP id
+ l1-20020adffe81000000b0021a3574ec8emr19210578wrr.410.1660180646481; Wed, 10
+ Aug 2022 18:17:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAODwPW-LaaD+ptch=R-S4GWoBDjTgWzfvwjyQeBRETZnnosR7g@mail.gmail.com>
 References: <YuuBrUmiRYoaSmPw@google.com> <20220804142856.306032-1-jrosenth@chromium.org>
  <CAE-0n51UcauP1ojoskV9_2+CFPoJrs08jGHVPCZdSA_oXX1zUw@mail.gmail.com>
  <CAODwPW_mYQ1gcd2Xw5s+7dL2kLcYn-VTxKHUH1iM1V4mn7pT_w@mail.gmail.com>
- <CAE-0n504q_NeB9e2BYF8P9Scp7TPqsp9KEWu2DO=ZzbYdJfyew@mail.gmail.com> <CAODwPW-LaaD+ptch=R-S4GWoBDjTgWzfvwjyQeBRETZnnosR7g@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 10 Aug 2022 18:58:53 -0500
-Message-ID: <CAE-0n50cVxFhOU7ULfs8KWkhji8-P57ffzC8sAUGFoYzdhnV5w@mail.gmail.com>
+ <CAE-0n504q_NeB9e2BYF8P9Scp7TPqsp9KEWu2DO=ZzbYdJfyew@mail.gmail.com>
+ <CAODwPW-LaaD+ptch=R-S4GWoBDjTgWzfvwjyQeBRETZnnosR7g@mail.gmail.com> <CAE-0n50cVxFhOU7ULfs8KWkhji8-P57ffzC8sAUGFoYzdhnV5w@mail.gmail.com>
+In-Reply-To: <CAE-0n50cVxFhOU7ULfs8KWkhji8-P57ffzC8sAUGFoYzdhnV5w@mail.gmail.com>
+From: Julius Werner <jwerner@chromium.org>
+Date: Wed, 10 Aug 2022 18:17:15 -0700
+Message-ID: <CAODwPW9PBAdgnL3vuXXFG1hAG6nCFDgA7w8EYbx7UWU6A4X-=g@mail.gmail.com>
 Subject: Re: [PATCH v7] firmware: google: Implement cbmem in sysfs driver
-To: Julius Werner <jwerner@chromium.org>
-Cc: Jack Rosenthal <jrosenth@chromium.org>, chrome-platform@lists.linux.dev, 
-	LKML <linux-kernel@vger.kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Julius Werner <jwerner@chromium.org>, Jack Rosenthal <jrosenth@chromium.org>, 
+	chrome-platform@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Julius Werner (2022-08-10 15:26:30)
-> > > We really only care about one of these right now and many of them will
-> > > never be relevant to the kernel, but I still thought that while we're
-> > > doing this we might as well provide a generic interface to all of them
-> > > because others may become useful in the future (and then you don't
-> > > have to update the kernel every time you get a new use case for some
-> > > userspace tool wanting to interact with some resident data structure
-> > > from coreboot).
-> >
-> > Exposing more than is necessary in the kernel ABI could get into
-> > problems with backwards compatibility. It also means we have to review
-> > the ABI with the consideration that something may change in the future
-> > and cbmem would be exposing something we don't want exposed, or maybe it
-> > is writeable when it shouldn't be?
->
-> I think we have a bit of a different concept of what this is supposed
-> to be. Forget about the vbnv and vboot workbuffer parts for the
-> moment, those are where our overall motivation for doing this comes
-> from but those should not be concerns for the kernel itself. From the
-> kernel's point of view, all we have here is a firmware information
-> structure it already knows about (the coreboot tables) pointing to a
-> list of opaque, firmware-specific memory buffers labeled with an ID,
-> and we want it to expose read and write access to those buffers to
-> userspace to make it easier for firmware-specific userspace helper
-> tools to work with them. Note that we already have userspace tools
-> doing that today anyway, e.g. the `cbmem` utility uses /dev/mem to
-> search for and parse the whole coreboot table itself before then using
-> it to access individual CBMEM buffers. But implementing all the logic
-> to do that in each tool that wants to support anything
-> coreboot-specific separately is cumbersome, so we thought that since
-> the kernel already has this coreboot table parsing support anyway, we
-> might as well export the info to userspace to make this job easier. So
-> really all the kernel does here is expose the address, size and ID
-> values from the coreboot table itself, it doesn't (and isn't supposed
-> to) have any understanding about the pointed to buffer. (We could also
-> leave out the `mem` node from this driver and just let our userspace
-> utilities read the `address` and `size` nodes and then use that info
-> to go through /dev/mem. Giving them a direct `mem` node for the buffer
-> just makes that process a bit easier and cleaner.)
+> Got it. Thanks for the background. Is it possible to create new entries
+> in the table? Or to resize existing entries? Or to delete entries
+> entirely?
 
-Got it. Thanks for the background. Is it possible to create new entries
-in the table? Or to resize existing entries? Or to delete entries
-entirely?
+Not easily (would have to see if there's still space at the end and
+rewrite the table header), and more importantly there should be no
+reason to ever do that at OS runtime. This table is only meant for
+coreboot to publish information about itself or store data that needs
+to stay resident for whatever reason. Userspace should be able to
+access the things that are already there but it isn't meant as a
+free-for-all for other environments to add on to.
 
->
-> So backwards compatibility should not be a concern (unless we're
-> talking about changes in the coreboot table itself, which we strongly
-> try to avoid and which would be an issue for existing kernel drivers
-> already anyway). Understanding of these buffers' contents is
-> explicitly supposed to be the responsibility of the userspace tool
-> that has an easier time keeping up with frequent firmware data format
-> changes and maintaining long lists of back-translating routines for
-> older structure formats for the specific kind of buffer it looks for
-> if necessary (something I specifically wouldn't want to clutter the
-> kernel with).
+> The /dev/mem interface has been restricted over the years. At this point
+> we're trying to steer users away from /dev/mem to anything else. I
+> suspect it happens to work right now because coreboot tells the kernel
+> that there isn't actually memory in this address range so that devmem
+> can map it. I don't know but I wonder if the memory is being mapped
+> uncached on ARM systems, leading to slower access times? Usually when
+> memory addresses aren't marked as normal memory that's reserved it
+> doesn't get mapped until the memremap() time, and that would be mapped
+> with whatever attributes are used in the call. /dev/mem doesn't optimize
+> this from what I recall.
 
-Maybe this answers the question above.
+Yes, we mark those areas as reserved in the e820 / device tree. The
+kernel drivers (this one and the older ones) use MEMREMAP_WB which
+should do the right thing. `cbmem` uses mmap(MAP_SHARED) on /dev/mem
+which I thought does the right thing but I'm not quite sure. That's
+another good reason to implement a dedicated sysfs interface where we
+have finer control about these things, once we have that we can make
+the older tools use it as well on supporting kernels. (`cbmem` is
+currently not called in any critical boot path on Chrome OS as far as
+I know, so its performance is not that critical. The new use case Jack
+wants to build _is_ going to be in a critical path, though, so we
+should make sure it is as performant as it can be.)
 
->
-> In regards to write access, I don't really see a point restricting
-> this since all these buffers are already accessible through /dev/mem
-> anyway. But that should only be needed for very few of these buffers
-> anyway, so if people think it's a concern I think we could also keep a
-> small explicit allowlist for the IDs that can be writable (shouldn't
-> need to be updated frequently) and disallow it for everything else.
-> Also, of course there's still the normal file system access
-> permissions that makes these only writable for root and users
-> specifically granted access by root. (Actually, Jack, that reminds
-> me... having the `mem` nodes world-readable is maybe not a good idea,
-> there's usually not anything specifically secret in there, but since
-> /dev/mem also isn't world-readable I think this one probably shouldn't
-> either. I'd suggest changing the initial umask to 0660 or 0600.)
+> Fair enough. How similar is this to efivars? I don't know, and you may
+> not either, but at a high level it looks similar. The sysfs interface to
+> efivars was deprecated and I saw recently that there's an effort to
+> remove it entirely. The new way of interacting with those firmware
+> variables is through a filesystem that's mounted at
+> /sys/firmware/efi/efivars. The documentation[1] states that the sysfs
+> interface didn't work when the variables got large. Hopefully that won't
+> be a similar scenario here?
 
-The /dev/mem interface has been restricted over the years. At this point
-we're trying to steer users away from /dev/mem to anything else. I
-suspect it happens to work right now because coreboot tells the kernel
-that there isn't actually memory in this address range so that devmem
-can map it. I don't know but I wonder if the memory is being mapped
-uncached on ARM systems, leading to slower access times? Usually when
-memory addresses aren't marked as normal memory that's reserved it
-doesn't get mapped until the memremap() time, and that would be mapped
-with whatever attributes are used in the call. /dev/mem doesn't optimize
-this from what I recall.
-
->
-> > Furthermore, if the ABI that the kernel can expose already exists then
-> > we're better off because there may already be userspace programs written
-> > for that ABI with lessons learned and bugs ironed out. In this case, I
-> > was hoping that it was an nvmem, in which case we could tie it into the
-> > nvmem framework and piggyback on the nvmem APIs. It also helps to expose
-> > a more generic ABI to userspace instead of developing a bespoke solution
-> > requiring boutique software. Of course sometimes things can't be so
-> > generic so code has to be written.
->
-> Yeah but this isn't anything that can be genericized, this is
-> specifically meant for boutique software to maintain its internal data
-> structures. vbnv and the vb2_shared_data structure in the workbuffer
-> are supposed to be completely internal to vboot and not interpreted by
-> any code other than vboot itself -- even coreboot never accesses them
-> directly (only by linking in vboot functions and calling those). We
-> explicitly don't want to deal with having to sync data structure
-> format changes to anywhere outside the vboot repository. The problem
-> is just that unlike most software, vboot is a framework that contains
-> both firmware and userspace components, so the latter necessarily need
-> some help from the kernel (as an oblivious forwarder of opaque data)
-> to be able to access the internal data structures passed on from the
-> former.
-
-Fair enough. How similar is this to efivars? I don't know, and you may
-not either, but at a high level it looks similar. The sysfs interface to
-efivars was deprecated and I saw recently that there's an effort to
-remove it entirely. The new way of interacting with those firmware
-variables is through a filesystem that's mounted at
-/sys/firmware/efi/efivars. The documentation[1] states that the sysfs
-interface didn't work when the variables got large. Hopefully that won't
-be a similar scenario here?
-
-[1] https://www.kernel.org/doc/html/latest/filesystems/efivarfs.html`
+I don't even know what efivars is tbh. But whatever other cases with
+other firmwares may exist that may or may not be more standardized and
+make more sense to implement high-touch drivers for in kernel space,
+here we really have something that's really opaque and really not
+meant to be tampered with by external code, so I think this agnostic
+byte buffer access is the only thing that makes sense. I don't see any
+reason why there would be size restrictions with the implementation
+Jack proposed? FWIW, the total size of the CBMEM buffer we want to
+access is 80K on current builds of coreboot (but our use case will
+likely only need to read the first couple hundred bytes).

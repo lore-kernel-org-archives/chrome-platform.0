@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2941C01
-	for <chrome-platform@lists.linux.dev>; Sun, 14 Aug 2022 15:24:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BA8C433D7;
-	Sun, 14 Aug 2022 15:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6171C01
+	for <chrome-platform@lists.linux.dev>; Sun, 14 Aug 2022 15:30:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2D7C433D7;
+	Sun, 14 Aug 2022 15:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660490684;
-	bh=yE9fWldw1A/yimWhEY3mbNJSVwSaV5h/oFBu3KOkY9c=;
+	s=k20201202; t=1660491032;
+	bh=9S61Z+VGznUtOHxI/LjEz0Ut1LHsJYtenXwGluVJaXs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=shSzzGjan38QSqFhJdwKVrHfpxznkXWtVm4Ox+Sa4+5eqzna4j3klO/PBrOBtd0rK
-	 FospknQl6qT2d7E2ejKw1g5oo26HvWBV49Ff6GNYJVeUYuB1s6WlP0xrP2hjWsXhZK
-	 AMjHOuMAHobouMfEaRE5gqmt89KF+f9OdISxJ6YTmZvC0RA+/rgOilwC2INZ/vA88X
-	 rwPUCqQMdGDhuvaQcoj7d8fYIMLVCaN4mqJBI59EyDsp/XunJL+/VP0cJQjDlDAzXJ
-	 ijMYzFc4uRlG332ijF7f6kE+HhoeA8/K7UE9MdTDQJs93eZcQW2Q0DY0wsBG/O5EtJ
-	 6PwH9uU1Hcx3w==
+	b=H1ZxAlZunwiZm07mAHyvRJCyUs6+EfbEwoRsgxMQrorl/NHaUquY3HramaGMtj1Uq
+	 jxuWatfnWxkM0im1J/+8p2ER59DhhlCWF7QJIuSDwtT3LEO35/mvgeHGW4KXgsArb0
+	 wD4Ir3u8UTiAinH45p+It2P+R76Le9of+fJBCK4cTP/bWsaO3BjGivUBAC3YHZJkmi
+	 aUWos/hz05s1ZQniuK/AdndCQ5tSoOXE7d2Ia79eKI6gpyg1szkSiHJX+1xLd4OEym
+	 EStI1P/ovO6rx9GvelS97JdMmeVmoK2D54OT2IalZUMGpLt/Y44pG+mzX29QGZzmL7
+	 4llrYunMiD2Sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	bleung@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.19 04/64] platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
-Date: Sun, 14 Aug 2022 11:23:37 -0400
-Message-Id: <20220814152437.2374207-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 04/56] platform/chrome: cros_ec_proto: don't show MKBP version if unsupported
+Date: Sun, 14 Aug 2022 11:29:34 -0400
+Message-Id: <20220814153026.2377377-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814152437.2374207-1-sashal@kernel.org>
-References: <20220814152437.2374207-1-sashal@kernel.org>
+In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
+References: <20220814153026.2377377-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,10 +57,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index ff767dccdf0f..40dc048d18ad 100644
+index ac1419881ff3..c8353f96a7f3 100644
 --- a/drivers/platform/chrome/cros_ec_proto.c
 +++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -509,13 +509,13 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
+@@ -507,13 +507,13 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
  	ret = cros_ec_get_host_command_version_mask(ec_dev,
  						    EC_CMD_GET_NEXT_EVENT,
  						    &ver_mask);

@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2FC10F1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D53B10F3
 	for <chrome-platform@lists.linux.dev>; Mon, 15 Aug 2022 03:55:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A2007C433D7;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA553C433C1;
 	Mon, 15 Aug 2022 03:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1660535728;
-	bh=w1vOHWfqu9QyEszJD4s7kNCp3z2k84Kyh3lecdkEHxo=;
+	bh=MgA5zDE8RPJK79rlqlC3IbBUVTth+II+UBJdAEV4GD4=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=uSGA7+dMFcBuQuQ+bgb7MOE3FBXlV/w0PDZ0XIUSMFQXr6x47vqmF1gnpJQfcoBzP
-	 INXp4lYLZDusXGDROmi1qAGYOnQmQ0yFMDKYfFQ74ItjFzi2k1vKxHWd/5XmAa5M+q
-	 24sX2RUypjcwuBQBDv8bewAttFMh/soH4FuorctO/UyKeBN3B+Od+Qjkc54JzV1fwl
-	 rMoj+2UYxktrxUC1Q6k2setsrCsjnB/S9tuSI8X9glNoSubaGwMIHS0+KKOqlWd+k3
-	 cUmoktEHRL6SIXK67g7HR6glpdupA6Gd19reylcRJ43ZTm6DLkwv6qyQxZfQ1B8n5x
-	 e0NG6c3M4vAHA==
+	b=mlD/Xp5XqO/1qExsLpw3QDAg2OpnC8B+q+aRc3UpeqWJblr2LJLO2T+Bfs3QnaZun
+	 REgqbB/pE0OdxrtDvesTKyAQ74Wp+qeYmGnGiBXrNmLTeGvxw35f94dFWthxfNCYZn
+	 V+w7+HC2JIRRmYwAvG2pp/sB+tde6dXzWEuokwRN4mlIpbVSIuawDvRvnVscqyvY+0
+	 X6XIvKu8pMf5Y1TWBkNrLW3eH88Q7UYmw/eHHbZKM5/2bnuIgdT3bItEaGLctuxJ4I
+	 H6nQghr29j/+H8+bSSa33RlvxZ4kkoIZBEl3g4Se5Y+s0E/UfSDQKt1n3k+uUq9Lqr
+	 6z0r8Lfmjnz4g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7E517C4166E;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8F3C7E2A04F;
 	Mon, 15 Aug 2022 03:55:28 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,54 +26,35 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/9] Type-C switch driver and Type-C framework updates
+Subject: Re: [PATCH] [v3] media: platform: cros-ec: Add moli to the match table
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <166053572850.30867.8177423683647832955.git-patchwork-notify@kernel.org>
+ <166053572858.30867.5596424089361079581.git-patchwork-notify@kernel.org>
 Date: Mon, 15 Aug 2022 03:55:28 +0000
-References: <20220711072333.2064341-1-pmalani@chromium.org>
-In-Reply-To: <20220711072333.2064341-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- chrome-platform@lists.linux.dev, bleung@chromium.org,
- heikki.krogerus@linux.intel.com, dnojiri@chromium.org, dustin@howett.net,
- gregkh@linuxfoundation.org, groeck@chromium.org, gustavoars@kernel.org,
- keescook@chromium.org, sebastian.reichel@collabora.com
+References: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
+In-Reply-To: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
+To: Scott Chao <scott_chao@wistron.corp-partner.google.com>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
+ groeck@chromium.org, zhuohao@chromium.org, linux-media@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
+This patch was applied to chrome-platform/linux.git (for-next)
+by Mauro Carvalho Chehab <mchehab@kernel.org>:
 
-On Mon, 11 Jul 2022 07:22:54 +0000 you wrote:
-> This series introduces a retimer class to the USB Type-C framework,
-> It also introduces a Chrome EC (Embedded Controller) switch driver which
-> registers the aforementioned retimer switches as well as mode-switches.
+On Fri, 20 May 2022 19:08:31 +0800 you wrote:
+> The Google Moli device uses the same approach as the Google Brask
+> which enables the HDMI CEC via the cros-ec-cec driver.
 > 
-> Patch 1 and 2 introduce the retimer class and associated functions to
-> the Type-C common code.
-> 
-> [...]
+> Signed-off-by: Scott Chao <scott_chao@wistron.corp-partner.google.com>
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Here is the summary with links:
-  - [v4,1/9] usb: typec: Add support for retimers
-    https://git.kernel.org/chrome-platform/c/ddaf8d96f93b
-  - [v4,2/9] usb: typec: Add retimer handle to port
-    https://git.kernel.org/chrome-platform/c/f31a8702cd36
-  - [v4,3/9] platform/chrome: Add Type-C mux set command definitions
-    https://git.kernel.org/chrome-platform/c/28a6ed8e39f7
-  - [v4,4/9] platform/chrome: cros_typec_switch: Add switch driver
-    https://git.kernel.org/chrome-platform/c/e54369058f3d
-  - [v4,5/9] platform/chrome: cros_typec_switch: Set EC retimer
-    https://git.kernel.org/chrome-platform/c/34f375f0fdf6
-  - [v4,6/9] platform/chrome: cros_typec_switch: Add event check
-    https://git.kernel.org/chrome-platform/c/bb53ad958012
-  - [v4,7/9] platform/chrome: cros_typec_switch: Register mode switches
-    https://git.kernel.org/chrome-platform/c/f5434e30011e
-  - [v4,8/9] platform/chrome: cros_ec_typec: Cleanup switch handle return paths
-    https://git.kernel.org/chrome-platform/c/66fe238a9bcc
-  - [v4,9/9] platform/chrome: cros_ec_typec: Get retimer handle
-    https://git.kernel.org/chrome-platform/c/c76d09da77d6
+  - [v3] media: platform: cros-ec: Add moli to the match table
+    https://git.kernel.org/chrome-platform/c/a1a9b71ebd65
 
 You are awesome, thank you!
 -- 

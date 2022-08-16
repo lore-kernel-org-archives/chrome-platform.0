@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BED1C32
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 05:12:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C80C433C1;
-	Tue, 16 Aug 2022 05:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BE21C32
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 05:13:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD42C433D6;
+	Tue, 16 Aug 2022 05:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660626774;
-	bh=0NPCl8h/PhjoO6Udfj2C+IRqq9TJkwg8U+5iaTjcdhQ=;
+	s=k20201202; t=1660626792;
+	bh=tKzLj6Lbsr6qspAg55d5vfym6ZkXDJIff0/0OtXmUPw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WCHOmWEx9qhPG1+ocGxP2ppCfP6gcV8IFx1eF9iRd1VT7XQS2ntm5onLCq9u/u6BW
-	 iPkVqkRUNZXHJTQazU2k8t6b29GHnyiowYvoTVmvczo1TPk4vx29N/yv7xXdbGVhgX
-	 1zC9ei14STqkiLjEVF5/nJ2zsKB25QYeb1S09sL6U+qZfWIHe5X7Wk6eP+Pr9NV2ei
-	 sHSobNc1Rof+w/GWRr+CMOyFHHZz5fUjJ/ke+ZWZuOyBy7rzrZo+ELcBZ3bcCeV5TN
-	 oUYQcR5MUcT4aD/0jA4M3i39fsVHDC3qXMhPq5lKao92PoQLxG4QuNwrui2mwH7X88
-	 05L5AL8suwPQw==
-Date: Tue, 16 Aug 2022 05:12:50 +0000
+	b=F2k4HEeAcQ+gDUO+PG3bflrli3XT93uTqRA/xIscOO3rtvRcKOl7FwPETvfFYdaUm
+	 970+4IvaMI2Ck9eySfD7R31e72dt/bN4yPmwWsJswX0pHDEeJ79KApKD+6IXapyAEs
+	 IFCoi8REhuM6ZV2iCJrPXPXh3dfvX4yO0bF4rBJSaJuVsk9dXVN5Z5EKm5/5LBkXPg
+	 0+6LTnXZJySVHruxWq+8uCCsFZ/yIETWMB32rrj7Wzk94vZ+igSwP+Cjs7HehdBeYy
+	 0s00xp4FPe0VErQ6OS9t40W9yxKKgQ2HTdyPsNA6Mt0uK3jm6FfMah40V96humc2V9
+	 mdyCVZzPswVww==
+Date: Tue, 16 Aug 2022 05:13:07 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
@@ -27,11 +27,10 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Kees Cook <keescook@chromium.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>,
 	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: Re: [PATCH v5 6/7] platform/chrome: cros_ec_typec: Cleanup switch
- handle return paths
-Message-ID: <YvsnUqn6EMxD0Bo5@google.com>
+Subject: Re: [PATCH v5 7/7] platform/chrome: cros_ec_typec: Get retimer handle
+Message-ID: <YvsnY6LwVZFibj7x@google.com>
 References: <20220815063555.1384505-1-pmalani@chromium.org>
- <20220815063555.1384505-7-pmalani@chromium.org>
+ <20220815063555.1384505-8-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -40,13 +39,18 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220815063555.1384505-7-pmalani@chromium.org>
+In-Reply-To: <20220815063555.1384505-8-pmalani@chromium.org>
 
-On Mon, Aug 15, 2022 at 06:34:28AM +0000, Prashant Malani wrote:
-> Some of the return paths for the cros_typec_get_switch_handles()
-> aren't necessary. Clean up the return paths to only undo the handle
-> get's which succeeded.
+On Mon, Aug 15, 2022 at 06:34:30AM +0000, Prashant Malani wrote:
+> Where available, obtain the handle to retimer switch specified via
+> firmware, and update the mux configuration callsites to add retimer
+> support for supported modes.
 > 
 > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
+With a nit,
 Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+> +static int cros_typec_retimer_set(struct typec_retimer  *retimer, struct typec_mux_state state)
+
+nit: double spaces.

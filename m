@@ -1,35 +1,35 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52826AA9
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 21:45:35 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-3246910dac3so185746217b3.12
-        for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 14:45:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A06AA9
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 21:45:42 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32fd97c199fso161120947b3.6
+        for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 14:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=cD5rOQ4YArx1DGntEs82qTS6C7ZmDFTWDSo8kt2UBGU=;
-        b=PmNG5jn90K7uUN6EOmc8Cjgsv36j/xPfdmZWQ827X/Xi9w/o6L9uCvgHnURPDJYV6y
-         DeUVaHu8DOfec/IGep8/lnmcJUNB7IU/RowaG9LJWDA7HXAMPWehh/HzuH4sNvoWF+oc
-         788pMQ9JdxR6BUosX0S588IPIVrvdkSxLSc5U=
+        bh=E+UpqcFwgELt9+6MJIAJVd5JzMPdNiyIwaSeI8WmY6M=;
+        b=Mt2RG2AE03PBhIhHfekRlsuDB0YqsgZhUuqVmdXQAKDRDmSL4bq8wec47PSx5Fjvjg
+         GEodI/dqr8I7fvbcCyGjMakpznZofiAXvPB57TvLyxO1gCn2o+TerGc6xtNjkPGHNpnJ
+         Dg31DNDB88B2xrcbcNouv9JcU/t8h0Q/zATNM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=cD5rOQ4YArx1DGntEs82qTS6C7ZmDFTWDSo8kt2UBGU=;
-        b=1N7XZW/zaIGhSojouGj2+k5zwrU7fp4gnpstdwuGkjTd0QNf8FsAYlJRcMXBhpjI1n
-         OzCzrB+KYb17J3Sp2A3b8U+rYs2y8NkpFWf9qZgeQDj1xBsLL73y+aCimSQgXzEPBfzm
-         Fj7YZPrY8s9PLGbbxvw3bb4oPFh6lcY6SjQJrS62Vlhz8JNfb+uVKjXIKkjPGD1Sk0jy
-         towBFrOOqZMjxdPRZYF+2Y92ZhkRhSyNK43VF+qN1iiNdG0EIR09XkRFjQgXHRPy+lph
-         lRG2NJ+JuBunEh9WnxHnWB5UsL8fmbVPUP6sNSosclqiYT49iim2xo74XKabZUp7/vlL
-         D6cw==
-X-Gm-Message-State: ACgBeo2GiBG8Muyf/fsxpnp13A5ltZkNe/xk9Cfoh5zuUjChYOgBUBE0
-	AsUFbVRHX4UXsnvcAQWYIJ/NvQ/H9Zia6ybGn2OGOg==
-X-Google-Smtp-Source: AA6agR6B+jEIHpD5t5DZH3quwJvxKWQ85YfNyChK128SiFlHpxaqCJYHLZdFD75IdFbZVQoovbPEi0L0Rcqx/nTZmAI=
-X-Received: by 2002:a25:69c4:0:b0:68d:e2ba:b39d with SMTP id
- e187-20020a2569c4000000b0068de2bab39dmr4063922ybc.196.1660686334991; Tue, 16
- Aug 2022 14:45:34 -0700 (PDT)
+        bh=E+UpqcFwgELt9+6MJIAJVd5JzMPdNiyIwaSeI8WmY6M=;
+        b=PanwbhYbTJqLdDYveEWULzBx8kfiq7mgS/V2dnIEv62/eZ0YGKvYBHxR01BMAfo6iT
+         VHJU6H92+GMvQLX7oKx5HnNxtfJ1nGqntTA1bciqCyyzNJztRHgpM4E7vUqt9/fYX2Fv
+         BFt3QvKtyyTBIJsyg3VUfpjjLdmtu7lkA1relTWT/gBQY+DvWrKahCdiBeQlus8tz20i
+         jg6wiu//IJZuDPNRNJvhD6xCHG4TaixV67XJoN+Z1asZ3N11LHKQMsrKq2a8drFEfYEd
+         qQUZGS4cDPE3yFolpdR3cXK3++GMHxjMPATAs1E9tSOtjMR03KMbajJLLK43CrXcIqjc
+         sBLg==
+X-Gm-Message-State: ACgBeo1H1p9SUIe/or93h1Qe2nrcXmeefYEWx/QSvGIA6lQE1p0b/HbI
+	7EUNYOyb1ujrkU50keoNAmVVwwpOErEyWV8/koG89w==
+X-Google-Smtp-Source: AA6agR6xkEO0vUoHT/2LMaG3iIZe2zaePbLtIrzuzhHhZJXzy89lBKkDy6ybOVhCy/748r/hMEfqnzDn4hYVm26PV/g=
+X-Received: by 2002:a81:84cf:0:b0:324:d62c:aee with SMTP id
+ u198-20020a8184cf000000b00324d62c0aeemr18697266ywf.489.1660686342014; Tue, 16
+ Aug 2022 14:45:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -37,37 +37,45 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20220815063555.1384505-1-pmalani@chromium.org>
- <20220815063555.1384505-5-pmalani@chromium.org> <YvsnE55zGVGxGpPv@google.com>
-In-Reply-To: <YvsnE55zGVGxGpPv@google.com>
+ <20220815063555.1384505-6-pmalani@chromium.org> <YvsnRXLVbcI+McEo@google.com>
+In-Reply-To: <YvsnRXLVbcI+McEo@google.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 16 Aug 2022 14:45:24 -0700
-Message-ID: <CACeCKacHM7rOCziEXqRW7G24cgTi--vo76NrkCjwauxG4WbXDA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] platform/chrome: cros_typec_switch: Add event check
+Date: Tue, 16 Aug 2022 14:45:31 -0700
+Message-ID: <CACeCKaemEZV4BZetUQmsWF-SAArQDkzmtszD6jDxsvhqLAxLPA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] platform/chrome: cros_typec_switch: Register mode switches
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
 	bleung@chromium.org, Daisuke Nojiri <dnojiri@chromium.org>, 
 	"Dustin L. Howett" <dustin@howett.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Guenter Roeck <groeck@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Lee Jones <lee.jones@linaro.org>, Xiang wangx <wangxiang@cdjrlc.com>
+	Kees Cook <keescook@chromium.org>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Tinghan Shen <tinghan.shen@mediatek.com>, Xiang wangx <wangxiang@cdjrlc.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 15, 2022 at 10:11 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+On Mon, Aug 15, 2022 at 10:12 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 >
-> On Mon, Aug 15, 2022 at 06:34:24AM +0000, Prashant Malani wrote:
-> > The Chrome EC updates Type-C status events when mux set requests from
+> On Mon, Aug 15, 2022 at 06:34:26AM +0000, Prashant Malani wrote:
+> > Register mode switch devices for Type C connectors, when they are
+> > specified by firmware. These control Type C configuration for any USB
+> > Type-C mode switches (sometimes known as "muxes") which are controlled
+> > by the Chrome EC.
+>
+> To be consistent to the commit message, s/Type C/Type-C/g.
 >
 > To be consistent to the series, I guess you would like to use ChromeOS
 > instead of Chrome?
 
-Fixed in v6.
+Done.
 
 >
-> > +static int cros_typec_send_clear_event(struct cros_typec_switch_data *sdata, int port_num,
-> > +                                    u32 events_mask)
-> > +{
-> [...]
-> > +     return cros_ec_cmd(sdata->ec, 0, EC_CMD_TYPEC_CONTROL, &req,
-> > +                        sizeof(req), NULL, 0);
+> > @@ -235,6 +264,17 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+> >               }
+> >
+> >               dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
+> > +
+> > +             if (!fwnode_property_read_bool(fwnode, "mode-switch"))
+> > +                     continue;
 >
-> The line can join to the previous line without exceeding col-100.
+> Would it be better to use device_property_present()?
+
 Fixed in v6.

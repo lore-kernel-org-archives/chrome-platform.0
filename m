@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725C31C32
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 05:08:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F9A6C433C1;
-	Tue, 16 Aug 2022 05:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7FA1C32
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Aug 2022 05:11:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AE2C433C1;
+	Tue, 16 Aug 2022 05:11:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660626532;
-	bh=EkH4HoC5GYbUkWQltFaYg7uW98fpm2YY+hcM9wgH/2U=;
+	s=k20201202; t=1660626675;
+	bh=edf7dLjFEuJe/V8+O2M1QBQXMxOs1h0RiCDvty8gh9c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VcVGd3nXbEK3CtsS7RzJIxS4mgZeBgCA1SqOJZwqrD47/MQlHuy++Jreh7QtiFuv7
-	 /tV3B5S4Hje+O0KBaJDyxMEKiIEjNHNto1aGlMkIq8mVJXsLs6zZsEKBpI+SGWy3Ac
-	 tb1cjTgNjiNIHV5v98nK5nxa2p6rLNDsvievBFbXkrckCsJpQT/I4EezEMUGj2uIXK
-	 h66AlVbX28qKlkmAz/RFcdk6mBW0mn3Jj2wbRLqoX6P44HL0f+1KDKv9P0AuZgl1tq
-	 /6Esdx/RjfovnSIuuBrsIHNUHBbtHi0QeVD7yPZhzMDI2SmVtzOu9T9CoSpCOxTbAf
-	 pUBAo4kOiwXpw==
-Date: Tue, 16 Aug 2022 05:08:47 +0000
+	b=Anka/EkUBhdowoQe9Au7gwWRehfBdWxQJwrjYHOd5OvSfIkluoQsVCaDAiNvj72xu
+	 CtswVGtZ/HHBNSUnmb4Mgji1MBRsAr4A/3pq6dEjt3LNRfoMR3O7iPVLQGKRhEstV0
+	 qkW30ceYj2TloUX05W2I+BaIadIyL5YDYemSLKP9lcRaxLiWG0Xu+Ar1FO+ebFYACq
+	 TTBxIZLih/Wt7jQ7RUHBbT/YKN0NB1tDnRqAPhgAuJVflNywrQGYztELLwcv/woCOK
+	 Y/PxLj233V3HAvPHn8jA9uel8ZpAjCnC9VBpP4Z1eDCka1P8crr5TohDdKaFfwUqK8
+	 SWSamsVI/J7Uw==
+Date: Tue, 16 Aug 2022 05:11:10 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
@@ -24,13 +24,15 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
 	Tinghan Shen <tinghan.shen@mediatek.com>,
 	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: Re: [PATCH v5 1/7] platform/chrome: Add Type-C mux set command
- definitions
-Message-ID: <YvsmX9Fh5mXwQYx9@google.com>
+Subject: Re: [PATCH v5 2/7] platform/chrome: cros_typec_switch: Add switch
+ driver
+Message-ID: <Yvsm7qEiCpoYPeTS@google.com>
 References: <20220815063555.1384505-1-pmalani@chromium.org>
- <20220815063555.1384505-2-pmalani@chromium.org>
+ <20220815063555.1384505-3-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -39,17 +41,58 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220815063555.1384505-2-pmalani@chromium.org>
+In-Reply-To: <20220815063555.1384505-3-pmalani@chromium.org>
 
-On Mon, Aug 15, 2022 at 06:34:17AM +0000, Prashant Malani wrote:
-> Copy EC header definitions for the USB Type-C Mux control command from
-> the EC code base. Also pull in "TBT_UFP_REPLY" definitions, since that
-> is the prior entry in the enum.
-> 
-> These headers are already present in the EC code base. [1]
-> 
-> [1] https://chromium.googlesource.com/chromiumos/platform/ec/+/b80f85a94a423273c1638ef7b662c56931a138dd/include/ec_commands.h
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+On Mon, Aug 15, 2022 at 06:34:19AM +0000, Prashant Malani wrote:
+> Introduce a driver to configure USB Type-C mode switches and retimers
+> which are controlled by the Chrome OS EC (Embedded Controller).
+> This allows Type-C port drivers, as well as alternate mode drivers to
+> configure their relevant mode switches and retimers according to the
+> Type-C state they want to achieve.
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+s/Chrome OS/ChromeOS/.
+
+> diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+[...]
+> +config CROS_TYPEC_SWITCH
+> +	tristate "ChromeOS EC Type-C Switch Control"
+> +	depends on MFD_CROS_EC_DEV && TYPEC && ACPI
+> +	default MFD_CROS_EC_DEV
+> +	help
+> +	  If you say Y here, you get support for configuring the Chrome OS EC Type C
+> +	  muxes and retimers.
+
+s/Chrome OS/ChromeOS/.
+
+Up to you, s/Type C/Type-C/g.
+
+> diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+> new file mode 100644
+> index 000000000000..0d319e315d57
+> --- /dev/null
+> +++ b/drivers/platform/chrome/cros_typec_switch.c
+> @@ -0,0 +1,170 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2022 Google LLC
+> + *
+> + * This driver provides the ability to configure Type C muxes and retimers which are controlled by
+> + * the Chrome OS EC.
+> + */
+
+s/Chrome OS/ChromeOS/.
+
+> +static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+> +{
+> +	struct cros_typec_port *port = NULL;
+> +	struct device *dev = sdata->dev;
+> +	struct fwnode_handle *fwnode;
+> +	struct acpi_device *adev;
+> +	unsigned long long index;
+> +	int ret = 0;
+
+`port` and `ret` don't need to be initialized.
+
+> +MODULE_DESCRIPTION("Chrome OS EC Type C Switch control");
+
+s/Chrome OS/ChromeOS/.

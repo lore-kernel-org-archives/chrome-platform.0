@@ -1,166 +1,102 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CF315A7
-	for <chrome-platform@lists.linux.dev>; Thu, 18 Aug 2022 15:29:20 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id p18so1789343plr.8
-        for <chrome-platform@lists.linux.dev>; Thu, 18 Aug 2022 08:29:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E414683
+	for <chrome-platform@lists.linux.dev>; Thu, 18 Aug 2022 17:24:34 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-33365a01f29so59720647b3.2
+        for <chrome-platform@lists.linux.dev>; Thu, 18 Aug 2022 10:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=1Eoyvkcq9AAxY99icUW84Rt92U/5ub05QuVo7keBPxs=;
-        b=n1W6kKUu2A7eMT68Y4o3rn50CZAJjXpLXiQrDalqIBg62jFCqTsoCA2LDMNlxznuvY
-         7Yv1lwg1Pg5C2O1nBr/rjNEJ3pp08M9sZvhKQHRuPgOg32a9wcHym1XDI1P2CxUo5oRv
-         ox+r8P85wAvmxDVTRmE69blQCOJpI6U5LKo2c=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=WmBqeJ78050aXLKgOwLTPwBE6TsmJMEDRuI6qelXVno=;
+        b=CBVHuUfuyWcCZNBWBq/+y/JHPvetpvzju+JjhM+v3zR68gaL+f+jaybMfNWIJo0ukv
+         MteuvRIcYU28PD6BBoRIRYfAQscIw8740RBblr8y+jf7nKJA5OQ8kd6qCkXrLw0QbMk9
+         q0hrBTX4MDTnVEVeCDrwR7JxRflSQdwzZzb9M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=1Eoyvkcq9AAxY99icUW84Rt92U/5ub05QuVo7keBPxs=;
-        b=v/Jix7wSst96kAXk81Fq05FCKIcuYRGbUmthXG+Bsf4xWdIKPxn9SoGnAXWBkkgJpl
-         XkR7FRNcRugo1R97OVVnd2TZXqSi92EjuA0XsmL5wokP9bnKFU1Xu/dTj6DCriDFbiFU
-         lWBeFAYTJdeRqsZtzsZKZRV576NVXu6hiICLikb+6C7LpcTok5Dp+/wxDvTXHxXQnrPj
-         y49i/fXSlBQfcmg2W+BTyK6WS/uQgaO1S0IyuTsVSphUMltfR+FnRaUfeKnHg4ArZAI7
-         5GuZf9suUWz1lvQXLHj90f1Dmm44U1wDTupEvhI+YRnpAsv0xFGUuQK1Y+31uKR2LGqx
-         yIHQ==
-X-Gm-Message-State: ACgBeo2gAZs7EhSj1l3E0tF0L5yF2H1L5r/p7jz11z6Y8aVE5HfX2vxb
-	yUt9M+84V10imy6ro4q+0d7+xw==
-X-Google-Smtp-Source: AA6agR51XZUuKM9rBU7FLOtPuOpvhlht6MYLcClHV+ieYV7gldBty9sNBZUdTiVtZPHV1c5AvLZwwA==
-X-Received: by 2002:a17:902:e947:b0:170:d739:8cbe with SMTP id b7-20020a170902e94700b00170d7398cbemr3097176pll.141.1660836559944;
-        Thu, 18 Aug 2022 08:29:19 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([98.45.66.167])
-        by smtp.gmail.com with ESMTPSA id m11-20020a17090a7f8b00b001f89383d587sm1613494pjl.56.2022.08.18.08.29.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 08:29:19 -0700 (PDT)
-From: Evan Green <evgreen@chromium.org>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Prashant Malani <pmalani@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Rajat Jain <rajatja@chromium.org>,
-	Evan Green <evgreen@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Tinghan Shen <tinghan.shen@mediatek.com>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/chrome: cros_ec: Expose suspend_timeout_ms in debugfs
-Date: Thu, 18 Aug 2022 08:29:09 -0700
-Message-Id: <20220818082827.v2.1.Idd188ff3f9caddebc17ac357a13005f93333c21f@changeid>
-X-Mailer: git-send-email 2.31.0
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=WmBqeJ78050aXLKgOwLTPwBE6TsmJMEDRuI6qelXVno=;
+        b=jYFJWz9W2yua65oerAaOIxP33IAFPmQKE2sPNiKDGqhWzYUgLKA6QKkDcrqtdj9xoK
+         rETJohm/M3wc4fZzwo4lS5MzXbY/VkzV+6XuPWeGpjCiNqHilBfVfrSx5pGkMfBqJ0lV
+         FkAj2z7FkrOQSf11Fl9m/17y31d7WKWnFLt1F4Q29LbHyxdaQG4b6Iik6IGipPl9hn6D
+         s60pi2XYZsa2SqrEMKirgIQep+X9ynKkNRXaFp0LyXNvZ3CXCD+mIwfpFAxi1lhEqjwi
+         930r7lgTrlHP6JqE0k93no8l3yFW3094+YDQM/8B2LeIA/gQSUUbCAPmjFAjMgbuvCkQ
+         DCRA==
+X-Gm-Message-State: ACgBeo0NHjLCs6rvZsYqRov90eogGYBp3GZq/qaRP2yL8FPZx+GoZmIe
+	yViLkFs7JgNsX8qsHOuFvrvclhmfd40GiIUcAVcZmQ==
+X-Google-Smtp-Source: AA6agR5zeO11pwMCpjpTangMySpcd64Fk35oD7bSXulfN4WOV9pLCmRT0KLruTqnSsflSM25W8GDYbKDstNQ5osbyq0=
+X-Received: by 2002:a25:4ce:0:b0:67c:3362:c396 with SMTP id
+ 197-20020a2504ce000000b0067c3362c396mr3963221ybe.336.1660843473754; Thu, 18
+ Aug 2022 10:24:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220818082827.v2.1.Idd188ff3f9caddebc17ac357a13005f93333c21f@changeid>
+In-Reply-To: <20220818082827.v2.1.Idd188ff3f9caddebc17ac357a13005f93333c21f@changeid>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 18 Aug 2022 10:24:23 -0700
+Message-ID: <CACeCKafyHSTiyyjA=yjSXsTub4kKECfe9gp=y10LCYYx0nGKqg@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Expose suspend_timeout_ms in debugfs
+To: Evan Green <evgreen@chromium.org>
+Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Rajat Jain <rajatja@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee.jones@linaro.org>, 
+	Tinghan Shen <tinghan.shen@mediatek.com>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-In modern Chromebooks, the embedded controller has a mechanism where
-it will watch a hardware-controlled line that toggles in suspend, and
-wake the system up if an expected sleep transition didn't occur. This
-can be very useful for detecting power management issues where the
-system appears to suspend, but doesn't actually reach its lowest
-expected power states.
+On Thu, Aug 18, 2022 at 8:29 AM Evan Green <evgreen@chromium.org> wrote:
+>
+> In modern Chromebooks, the embedded controller has a mechanism where
+> it will watch a hardware-controlled line that toggles in suspend, and
+> wake the system up if an expected sleep transition didn't occur. This
+> can be very useful for detecting power management issues where the
+> system appears to suspend, but doesn't actually reach its lowest
+> expected power states.
+>
+> Sometimes it's useful in debug and test scenarios to be able to control
+> the duration of that timeout, or even disable the EC timeout mechanism
+> altogether. Add a debugfs control to set the timeout to values other
+> than the EC-defined default, for more convenient debug and
+> development iteration.
+>
+> Signed-off-by: Evan Green <evgreen@chromium.org>
+(One minor nit aside) FWIW:
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
 
-Sometimes it's useful in debug and test scenarios to be able to control
-the duration of that timeout, or even disable the EC timeout mechanism
-altogether. Add a debugfs control to set the timeout to values other
-than the EC-defined default, for more convenient debug and
-development iteration.
-
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
-
-Changes in v2:
- - Update release version to 6.1 (Tzung-Bi)
- - Reference EC_HOST_SLEEP_TIMEOUT_INFINITE (Tzung-Bi)
- - Name the debugfs file suspend_timeout_ms (Prashant)
-
- Documentation/ABI/testing/debugfs-cros-ec   | 22 +++++++++++++++++++++
- drivers/platform/chrome/cros_ec.c           |  3 ++-
- drivers/platform/chrome/cros_ec_debugfs.c   |  3 +++
- include/linux/platform_data/cros_ec_proto.h |  1 +
- 4 files changed, 28 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/debugfs-cros-ec b/Documentation/ABI/testing/debugfs-cros-ec
-index 1fe0add99a2a99..9f79c641b2d09f 100644
---- a/Documentation/ABI/testing/debugfs-cros-ec
-+++ b/Documentation/ABI/testing/debugfs-cros-ec
-@@ -54,3 +54,25 @@ Description:
- 		this feature.
- 
- 		Output will be in the format: "0x%08x\n".
-+
-+What:		/sys/kernel/debug/<cros-ec-device>/suspend_timeout_ms
-+Date:		August 2022
-+KernelVersion:	6.1
-+Description:
-+		Some ECs have a feature where they will track transitions to the
-+		a hardware-controlled sleep line, such as Intel's SLP_S0 line,
-+		in order to detect cases where a system failed to go into deep
-+		sleep states. The suspend_timeout file controls the amount of
-+		time in milliseconds the EC will wait before declaring a sleep
-+		timeout event and attempting to wake the system.
-+
-+		Supply 0 to use the default value coded into EC firmware. Supply
-+		65535 (EC_HOST_SLEEP_TIMEOUT_INFINITE) to disable the EC sleep
-+		failure detection mechanism. Values in between 0 and 65535
-+		indicate the number of milliseconds the EC should wait after a
-+		sleep transition before declaring a timeout. This includes both
-+		the duration after a sleep command was received but before the
-+		hardware line changed, as well as the duration between when the
-+		hardware line changed and the kernel sent an EC resume command.
-+
-+		Output will be in the format: "%u\n".
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 8aace50d446d65..e8d3e2a29a58f5 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -115,7 +115,7 @@ static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
- 	if (ec_dev->host_sleep_v1) {
- 		buf.u.req1.sleep_event = sleep_event;
- 		buf.u.req1.suspend_params.sleep_timeout_ms =
--				EC_HOST_SLEEP_TIMEOUT_DEFAULT;
-+				ec_dev->suspend_timeout;
- 
- 		buf.msg.outsize = sizeof(buf.u.req1);
- 		if ((sleep_event == HOST_SLEEP_EVENT_S3_RESUME) ||
-@@ -188,6 +188,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
- 	ec_dev->max_passthru = 0;
- 	ec_dev->ec = NULL;
- 	ec_dev->pd = NULL;
-+	ec_dev->suspend_timeout = EC_HOST_SLEEP_TIMEOUT_DEFAULT;
- 
- 	ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
- 	if (!ec_dev->din)
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 0dbceee87a4b1a..d7f5338c1ab1cf 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -470,6 +470,9 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
- 	debugfs_create_x32("last_resume_result", 0444, debug_info->dir,
- 			   &ec->ec_dev->last_resume_result);
- 
-+	debugfs_create_u16("suspend_timeout_ms", 0664, debug_info->dir,
-+			   &ec->ec_dev->suspend_timeout);
-+
- 	ec->debug_info = debug_info;
- 
- 	dev_set_drvdata(&pd->dev, ec);
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index 408b29ca4004be..60132444f7daa6 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -169,6 +169,7 @@ struct cros_ec_device {
- 	int event_size;
- 	u32 host_event_wake_mask;
- 	u32 last_resume_result;
-+	u16 suspend_timeout;
- 	ktime_t last_event_time;
- 	struct notifier_block notifier_ready;
- 
--- 
-2.31.0
-
+> ---
+>
+> Changes in v2:
+>  - Update release version to 6.1 (Tzung-Bi)
+>  - Reference EC_HOST_SLEEP_TIMEOUT_INFINITE (Tzung-Bi)
+>  - Name the debugfs file suspend_timeout_ms (Prashant)
+>
+>  Documentation/ABI/testing/debugfs-cros-ec   | 22 +++++++++++++++++++++
+>  drivers/platform/chrome/cros_ec.c           |  3 ++-
+>  drivers/platform/chrome/cros_ec_debugfs.c   |  3 +++
+>  include/linux/platform_data/cros_ec_proto.h |  1 +
+>  4 files changed, 28 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/ABI/testing/debugfs-cros-ec b/Documentation/ABI/testing/debugfs-cros-ec
+> index 1fe0add99a2a99..9f79c641b2d09f 100644
+> --- a/Documentation/ABI/testing/debugfs-cros-ec
+> +++ b/Documentation/ABI/testing/debugfs-cros-ec
+> @@ -54,3 +54,25 @@ Description:
+>                 this feature.
+>
+>                 Output will be in the format: "0x%08x\n".
+> +
+> +What:          /sys/kernel/debug/<cros-ec-device>/suspend_timeout_ms
+> +Date:          August 2022
+> +KernelVersion: 6.1
+> +Description:
+> +               Some ECs have a feature where they will track transitions to the
+> +               a hardware-controlled sleep line, such as Intel's SLP_S0 line,
+> +               in order to detect cases where a system failed to go into deep
+> +               sleep states. The suspend_timeout file controls the amount of
+s/suspend_timeout/suspend_timeout_ms

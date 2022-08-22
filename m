@@ -1,119 +1,112 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3136256C
-	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 16:21:59 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-324ec5a9e97so307690487b3.7
-        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 09:21:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70270256C
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 16:28:24 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-335420c7bfeso195735087b3.16
+        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 09:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=haN84sN1RdcncSckg2dQ3RgLJ/cE7ZR6YcXEJeAkpTY=;
-        b=pmOOuJBsRUQLDSHE3FVE+d6VG4klW7oHGh5f55Rshh3xjecHv8PQn1xVg21EmgGrym
-         DTcvROUy/A2WBHZ84eFf5NsoBwY/ThYaASqz96yvYKu0r/hx40ax0GBxZjkMxdGVT+jG
-         D+4pDYeMUixalJTINcUi1dVEMBqOAnLMSNqFOl0AI5XzRLb6fSGYZ09BwJqSz87vAcGG
-         zFR+Z+a1u86zJCBUmrGmo6U8AynjTMFI7vmHQRTHILX4Y68VnjIR6Mohyry+Jf1z1sC4
-         ZWFkkF2/eswgNK5riySwm7ky5wkJsEdkzQnpw5RRFB1vxUHgECt8Yho3VeJfDrJpe37h
-         G/aA==
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
+        bh=AxrrQ/cU54Du/u6O6i3La3esh5CO5fel4eR9JQBqAWo=;
+        b=S3lkQEZjJ1frFfLakQXlelf15iQfOokMGlDcgxARv/KBBT/r2A1LzgMC1e4XwLS20J
+         oP5iWjbcOlW5Z8J5UwdsKts+WuCMiLZTXDmS7ONa+zjN0++zr2IRViU7+5sgaDcatEw0
+         H4aPGKJkv0GX2aTP/N7ddrNADyht+To69kQGwMECr3OTofmPiqND0KG2LYKRzrPJsJIy
+         fbMAjEsOPTfukK/yZkcFtpJuKAQ1P/rMJkkNAdh9XSjISCuH1lEp99PufbtCGSmB25Wc
+         yroZOr+6mNwK9Z5/6bypdf4KR/tPb1JII+jVp7Lt9+5sU901o/Y80V5nEeEZdghsSz/k
+         rsbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=haN84sN1RdcncSckg2dQ3RgLJ/cE7ZR6YcXEJeAkpTY=;
-        b=k3bYhy1P+EZHso53HpKsv58WTQsXcJEHY2+jq5iitL/2T+vjcI86Atmwg9QgV8lz45
-         4cWGg2YwGInmYMAgawqt5Jti35F4ZXXWkvU81qLa6ataQdq/JCiwaXRquhRuQjBhdnNI
-         4XGQj9IQZosjVhJlbSo8XHrXP9k5xWVJITXUw8ENBaiKMyqRen3aOuGP0rXgCJOpctGL
-         a1ESZC3x1vYynNBDyF8J0sfV6Y826qG4dK4HOD2P4NQIgWBdbkBAn2MmEFqXigiokrmX
-         8OPCrGVjEu37+kwyjcwZBFleWyvstEh4VB+3Jp2fstkMybuDKwXfo3hsVVHkWCxMTsMP
-         cYUQ==
-X-Gm-Message-State: ACgBeo14aH8p738w+0yJ5bC0VM+cPW4gRM+8c6oz9V/WawkJP7KdfnGT
-	wPPe2X9rIic9wG4SnhedpSXfst1dJ7/65rMwAXBgbg==
-X-Google-Smtp-Source: AA6agR59lzOnwIvjU57G5SX6HnX2FwDAfM3O5C43yyHEv+JuVUaLrFyxiAxwa2tdFmdzRLuZw16zKecgK+rlAjMdM8U=
-X-Received: by 2002:a25:3b51:0:b0:695:2474:3996 with SMTP id
- i78-20020a253b51000000b0069524743996mr15473174yba.110.1661185318357; Mon, 22
- Aug 2022 09:21:58 -0700 (PDT)
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc;
+        bh=AxrrQ/cU54Du/u6O6i3La3esh5CO5fel4eR9JQBqAWo=;
+        b=YeoVA+osNjBlap/7uDqP1EVNWVekMVjQOYwHgy58EcCnfAb08rztjX2C7+19PHkuFF
+         eCqBnsR2Rmk6T4fxZiZq4w9T9db9S7r7+1KONgxnA30bfW+e+o0h0va/dY2x/4gFQKFB
+         vIp2ZTCha1zhOAdKVGcAs/T+pRU2TCWIexVt2DCCrj3aGBvWHKa5g0+wvrzRFmjG8b/9
+         tbSejJwY8V/Di+HC/TQ7uKnGdieRQAcUFqPm5SmQmoojNWOc++8RbJ7rfmTZc1R8b8PI
+         B7reEpkf+tt4oH8mjZcThFBDpHs7oQkfZsikpujxpFI+HwyhCrQMPLLBzmSedu2zaVsh
+         DnSw==
+X-Gm-Message-State: ACgBeo3MpHBC3/i3lrqacnMY+vaBkYYu95BBFmm8IsAA6mGTi5spvlam
+	EJESXSTwrKmjnQzLDx5GHz4PpjGSyA==
+X-Google-Smtp-Source: AA6agR7Mw58dFCBQKrf04lrAy5d1aWcFcyQvhwDseobFsnt7EMHiq+aZlF5HNSA7qRRwrRN8i20UJVnkeA==
+X-Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:762:7c61:946f:731])
+ (user=timvp job=sendgmr) by 2002:a81:1e0d:0:b0:33b:fb67:9895 with SMTP id
+ e13-20020a811e0d000000b0033bfb679895mr5820461ywe.188.1661185703445; Mon, 22
+ Aug 2022 09:28:23 -0700 (PDT)
+Date: Mon, 22 Aug 2022 10:28:20 -0600
+Message-Id: <20220822102812.v4.1.I0c49f19e953a76ff6e6debc2990a1d108d6f842a@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220802113957.v3.1.I2c8c550183162e7594309b66d19af696b8d84552@changeid>
- <Yv27K4+rLfskcQdm@google.com>
-In-Reply-To: <Yv27K4+rLfskcQdm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
+Subject: [PATCH v4] platform/chrome: cros_ec_lpc: Move host event to prepare/complete
 From: Tim Van Patten <timvp@google.com>
-Date: Mon, 22 Aug 2022 10:21:47 -0600
-Message-ID: <CANkg5ewGUcWagRNOLfbRx8hLqgX+FfdYGB5Qt7tO5=zicGBVDg@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/chrome: cros_ec: Send host event for prepare/complete
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: rrangel@chromium.org, robbarnes@google.com, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+To: rrangel@chromium.org, robbarnes@google.com
+Cc: Tim Van Patten <timvp@google.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 17, 2022 at 10:08 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> On Tue, Aug 02, 2022 at 11:40:08AM -0600, Tim Van Patten wrote:
-> > Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
-> > .prepare() and cros_ec_lpc_complete() during .complete(). This allows the
-> > EC to log entry/exit of AP's suspend/resume more accurately.
->
-> As what I commented on [1], the term "host event" in the commit title is
-> confusing.  Also, as this is a cros_ec_lpc specific patch, please change
-> the prefix.
+Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
+host event that the AP sends and allows the EC to log entry/exit of AP's
+suspend/resume more accurately.
 
-I've updated the prefix to "cros_ec_lpc" and the title/description to
-indicate that this CL moves when the host event is sent to
-.prepare()/.complete().
+Signed-off-by: Tim Van Patten <timvp@google.com>
+---
 
-> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid/#24934911
->
-> > -static int cros_ec_lpc_resume(struct device *dev)
-> > +static void cros_ec_lpc_complete(struct device *dev)
-> >  {
-> >       struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-> > +     int ret;
-> > +
-> > +     ret = cros_ec_resume(ec_dev);
-> >
-> > -     return cros_ec_resume(ec_dev);
-> > +     dev_info(dev, "EC resume completed: ret = %d\n", ret);
->
-> cros_ec_resume() always returns 0.
+Changes in v4:
+- Update title and description.
 
-Yes, it always returns 0 today, but that may not be the case forever.
- While "ret" is not returned by cros_ec_resume() today, it's possible
-for it to be non-zero and someone may update cros_ec_resume() to
-return that status.
+Changes in v3:
+- Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
+- Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
 
-https://github.com/torvalds/linux/blob/1c23f9e627a7b412978b4e852793c5e3c3efc555/drivers/platform/chrome/cros_ec.c#L378
+Changes in v2:
+- Include cros_ec_resume() return value in dev_info() output.
+- Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
 
-Additionally, everyone passes along the return code of cros_ec_resume():
+ drivers/platform/chrome/cros_ec_lpc.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-    drivers/platform/chrome/cros_ec_i2c.c
-    331:    return cros_ec_resume(ec_dev);
-
-    drivers/platform/chrome/cros_ec_rpmsg.c
-    285:    return cros_ec_resume(ec_dev);
-
-    drivers/platform/chrome/cros_ec_ishtp.c
-    766:    return cros_ec_resume(client_data->ec_dev);
-
-    drivers/platform/chrome/cros_ec_spi.c
-    808:    return cros_ec_resume(ec_dev);
-
-    drivers/platform/chrome/cros_ec_uart.c
-    390:    return cros_ec_resume(ec_dev);
-
-    drivers/platform/chrome/cros_ec_lpc.c
-    530:    return cros_ec_resume(ec_dev);
-
-I'm going to leave this as-is, since it's good practice to check
-return values (and log bad status) and so we don't need to update this
-code in case cros_ec_resume() does return a non-zero value in the
-future.
-
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 7677ab3c0ead..ce49fbc4ed2e 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -534,19 +534,27 @@ static int cros_ec_lpc_suspend(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ 
++	dev_info(dev, "Prepare EC suspend\n");
++
+ 	return cros_ec_suspend(ec_dev);
+ }
+ 
+-static int cros_ec_lpc_resume(struct device *dev)
++static void cros_ec_lpc_resume(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
++	int ret;
++
++	ret = cros_ec_resume(ec_dev);
+ 
+-	return cros_ec_resume(ec_dev);
++	dev_info(dev, "EC resume completed: ret = %d\n", ret);
+ }
+ #endif
+ 
+ static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
+-	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
++#ifdef CONFIG_PM_SLEEP
++	.prepare = cros_ec_lpc_suspend,
++	.complete = cros_ec_lpc_resume
++#endif
+ };
+ 
+ static struct platform_driver cros_ec_lpc_driver = {
 -- 
+2.37.1.595.g718a3a8f04-goog
 
-Tim Van Patten | ChromeOS | timvp@google.com | (720) 432-0997

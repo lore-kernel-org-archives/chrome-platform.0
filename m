@@ -1,66 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944517F
-	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 07:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 389FDC433D7;
-	Mon, 22 Aug 2022 07:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661151615;
-	bh=nJ9ezOubMRTIQyKM8IG9wbH6QFaLhz6Uvbi6nRndyBI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Y8z/uVGLT3L1S2cNBVTknVclr9Rwv2cLo1ExmfGDeos9LsggRZrIJEkoGZ06Hvb6O
-	 ekpMNg52eeHuxwTZ8z9D1NR6BORDs+sfSG5jR54EpY+Be0ZytC4yL5OVHBK+o17aMQ
-	 tRqqq++QQajXn6RMJXiyfwJBnDRTItbnDVWS9THno8TU/INU2uBPSl7q2l0TWTnm+P
-	 FN/QiG1plhutURoxW4wLsyCqEmVjfFouxeS0O4/yi4cbcaXaefLTFdGwp/f1pnIFxj
-	 SJGP/dtgz+WVPJy4shT0WdZafsjlKoNwTYrVJDbccoJNAXawv0hbHd8j++qQPvcFEW
-	 gDu9VNRb1Nwgw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1E19CC04E59;
-	Mon, 22 Aug 2022 07:00:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3136256C
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 16:21:59 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-324ec5a9e97so307690487b3.7
+        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 09:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=haN84sN1RdcncSckg2dQ3RgLJ/cE7ZR6YcXEJeAkpTY=;
+        b=pmOOuJBsRUQLDSHE3FVE+d6VG4klW7oHGh5f55Rshh3xjecHv8PQn1xVg21EmgGrym
+         DTcvROUy/A2WBHZ84eFf5NsoBwY/ThYaASqz96yvYKu0r/hx40ax0GBxZjkMxdGVT+jG
+         D+4pDYeMUixalJTINcUi1dVEMBqOAnLMSNqFOl0AI5XzRLb6fSGYZ09BwJqSz87vAcGG
+         zFR+Z+a1u86zJCBUmrGmo6U8AynjTMFI7vmHQRTHILX4Y68VnjIR6Mohyry+Jf1z1sC4
+         ZWFkkF2/eswgNK5riySwm7ky5wkJsEdkzQnpw5RRFB1vxUHgECt8Yho3VeJfDrJpe37h
+         G/aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=haN84sN1RdcncSckg2dQ3RgLJ/cE7ZR6YcXEJeAkpTY=;
+        b=k3bYhy1P+EZHso53HpKsv58WTQsXcJEHY2+jq5iitL/2T+vjcI86Atmwg9QgV8lz45
+         4cWGg2YwGInmYMAgawqt5Jti35F4ZXXWkvU81qLa6ataQdq/JCiwaXRquhRuQjBhdnNI
+         4XGQj9IQZosjVhJlbSo8XHrXP9k5xWVJITXUw8ENBaiKMyqRen3aOuGP0rXgCJOpctGL
+         a1ESZC3x1vYynNBDyF8J0sfV6Y826qG4dK4HOD2P4NQIgWBdbkBAn2MmEFqXigiokrmX
+         8OPCrGVjEu37+kwyjcwZBFleWyvstEh4VB+3Jp2fstkMybuDKwXfo3hsVVHkWCxMTsMP
+         cYUQ==
+X-Gm-Message-State: ACgBeo14aH8p738w+0yJ5bC0VM+cPW4gRM+8c6oz9V/WawkJP7KdfnGT
+	wPPe2X9rIic9wG4SnhedpSXfst1dJ7/65rMwAXBgbg==
+X-Google-Smtp-Source: AA6agR59lzOnwIvjU57G5SX6HnX2FwDAfM3O5C43yyHEv+JuVUaLrFyxiAxwa2tdFmdzRLuZw16zKecgK+rlAjMdM8U=
+X-Received: by 2002:a25:3b51:0:b0:695:2474:3996 with SMTP id
+ i78-20020a253b51000000b0069524743996mr15473174yba.110.1661185318357; Mon, 22
+ Aug 2022 09:21:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: fix memory corruption in ioctl
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166115161511.13978.9867179153698669785.git-patchwork-notify@kernel.org>
-Date: Mon, 22 Aug 2022 07:00:15 +0000
-References: <Yv8dpCFZJdbUT5ye@kili>
-In-Reply-To: <Yv8dpCFZJdbUT5ye@kili>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: bleung@chromium.org, enric.balletbo@collabora.com, groeck@chromium.org,
- andriy.shevchenko@linux.intel.com, lee.jones@linaro.org,
- gwendal@chromium.org, chrome-platform@lists.linux.dev,
- kernel-janitors@vger.kernel.org
+References: <20220802113957.v3.1.I2c8c550183162e7594309b66d19af696b8d84552@changeid>
+ <Yv27K4+rLfskcQdm@google.com>
+In-Reply-To: <Yv27K4+rLfskcQdm@google.com>
+From: Tim Van Patten <timvp@google.com>
+Date: Mon, 22 Aug 2022 10:21:47 -0600
+Message-ID: <CANkg5ewGUcWagRNOLfbRx8hLqgX+FfdYGB5Qt7tO5=zicGBVDg@mail.gmail.com>
+Subject: Re: [PATCH v3] platform/chrome: cros_ec: Send host event for prepare/complete
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: rrangel@chromium.org, robbarnes@google.com, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+On Wed, Aug 17, 2022 at 10:08 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+>
+> On Tue, Aug 02, 2022 at 11:40:08AM -0600, Tim Van Patten wrote:
+> > Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+> > .prepare() and cros_ec_lpc_complete() during .complete(). This allows the
+> > EC to log entry/exit of AP's suspend/resume more accurately.
+>
+> As what I commented on [1], the term "host event" in the commit title is
+> confusing.  Also, as this is a cros_ec_lpc specific patch, please change
+> the prefix.
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+I've updated the prefix to "cros_ec_lpc" and the title/description to
+indicate that this CL moves when the host event is sent to
+.prepare()/.complete().
 
-On Fri, 19 Aug 2022 08:20:36 +0300 you wrote:
-> If "s_mem.bytes" is larger than the buffer size it leads to memory
-> corruption.
-> 
-> Fixes: eda2e30c6684 ("mfd / platform: cros_ec: Miscellaneous character device to talk with the EC")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/platform/chrome/cros_ec_chardev.c | 3 +++
->  1 file changed, 3 insertions(+)
+> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/20220706205136.v2.1.Ic7a7c81f880ab31533652e0928aa6e687bb268b5@changeid/#24934911
+>
+> > -static int cros_ec_lpc_resume(struct device *dev)
+> > +static void cros_ec_lpc_complete(struct device *dev)
+> >  {
+> >       struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+> > +     int ret;
+> > +
+> > +     ret = cros_ec_resume(ec_dev);
+> >
+> > -     return cros_ec_resume(ec_dev);
+> > +     dev_info(dev, "EC resume completed: ret = %d\n", ret);
+>
+> cros_ec_resume() always returns 0.
 
-Here is the summary with links:
-  - platform/chrome: fix memory corruption in ioctl
-    https://git.kernel.org/chrome-platform/c/8a07b45fd3c2
+Yes, it always returns 0 today, but that may not be the case forever.
+ While "ret" is not returned by cros_ec_resume() today, it's possible
+for it to be non-zero and someone may update cros_ec_resume() to
+return that status.
 
-You are awesome, thank you!
+https://github.com/torvalds/linux/blob/1c23f9e627a7b412978b4e852793c5e3c3efc555/drivers/platform/chrome/cros_ec.c#L378
+
+Additionally, everyone passes along the return code of cros_ec_resume():
+
+    drivers/platform/chrome/cros_ec_i2c.c
+    331:    return cros_ec_resume(ec_dev);
+
+    drivers/platform/chrome/cros_ec_rpmsg.c
+    285:    return cros_ec_resume(ec_dev);
+
+    drivers/platform/chrome/cros_ec_ishtp.c
+    766:    return cros_ec_resume(client_data->ec_dev);
+
+    drivers/platform/chrome/cros_ec_spi.c
+    808:    return cros_ec_resume(ec_dev);
+
+    drivers/platform/chrome/cros_ec_uart.c
+    390:    return cros_ec_resume(ec_dev);
+
+    drivers/platform/chrome/cros_ec_lpc.c
+    530:    return cros_ec_resume(ec_dev);
+
+I'm going to leave this as-is, since it's good practice to check
+return values (and log bad status) and so we don't need to update this
+code in case cros_ec_resume() does return a non-zero value in the
+future.
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
-
+Tim Van Patten | ChromeOS | timvp@google.com | (720) 432-0997

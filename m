@@ -1,137 +1,172 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50713206
-	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 17:39:52 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id h27so8414617qkk.9
-        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 10:39:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A734C65
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 21:40:54 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id v4so10554803pgi.10
+        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 14:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=Uv1Q+ndEBe3HTyOw38AbCJJcJ5R32I7V4kRhxrLgtqM=;
-        b=aaVljnny2CijbJQw8Eo8kTx5IQbRbBQye01zHb5XIHtWzHfRS3girC4c2pTvy8BKSd
-         W/FWga+mevsxN6httb8QvZSqcH2ltMkEzQuJs2DCoaad/UHlhta9hSAa+JgoqonuHvyM
-         DLnOEUsJTfLpFQkaxlD07AUwYUWfjWuDlbazo=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=ABKKHKOpeHgVabWRGp+gR63dGUxiLMPakCVue+4/OYs=;
+        b=KNLLffBDzmvzvDQj49RUi8Ur71pmj6u3rvTez/W03jco+vImwiz3zbxecx6MyxWhWj
+         UQ38ZQlw+MkIsTZWzvNgNGIwmIhkrmN7oQhb754i1gv0GUsM1G5HV7jgYy+Mc60OAsmj
+         52fi5r2oUrm9uqA5Z73KJEgo4XAEiRzhZwwCs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=Uv1Q+ndEBe3HTyOw38AbCJJcJ5R32I7V4kRhxrLgtqM=;
-        b=rT6EnS1sGlu739xRJ1ykpAkBCKAXoqtGdXATQlWnpxXiFXFDnACWFJpjv6OCRvfoCc
-         mo2OzMqATUlU/enuiTs2ptuXzcMevvEalcEczdqkVn/GdGAesu1CjegYV6oSOXVASlVi
-         nUPL+3x9C63SECQ4imvj6G3L0hj2E00WKg3V7Zs2dcC0Ly77DjN4WR+PZzM5ftDAA/hL
-         rNsy+6KhPnCFQivUwuxaoJOSWhJ68DC7J2DTFwg9PwxU8E/db0b2qptYflm+gXImNFbF
-         3ZdlTIGMX6Rtzk3juOXp3P/TyhjFTV25e3C4Vi91pZL5vCGxiLBYvEWc16cSST372qWm
-         QDiA==
-X-Gm-Message-State: ACgBeo1/DsUKEb+obXkvLOq3XuwPU08nL9tC5jF40ONY/LDvao9OGsfr
-	4EpKpX6B+SIR3BQkh3kY46E3YikOHxoE1A==
-X-Google-Smtp-Source: AA6agR5ARL9+MBKId/ZtyV1iBzdG+VI7FaSY5iURYNTEuAmJ+uQZ47r5yDtE/ncZrGDJsIaWHSYrog==
-X-Received: by 2002:a05:620a:147c:b0:6ba:bda8:3fbb with SMTP id j28-20020a05620a147c00b006babda83fbbmr13336211qkl.33.1661189991575;
-        Mon, 22 Aug 2022 10:39:51 -0700 (PDT)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
-        by smtp.gmail.com with ESMTPSA id x1-20020a05620a448100b006baed2827f2sm11868146qkp.44.2022.08.22.10.39.51
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 10:39:51 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id f4so8412872qkl.7
-        for <chrome-platform@lists.linux.dev>; Mon, 22 Aug 2022 10:39:51 -0700 (PDT)
-X-Received: by 2002:a05:620a:ecf:b0:6bb:a38:43cb with SMTP id
- x15-20020a05620a0ecf00b006bb0a3843cbmr13064469qkm.742.1661189990763; Mon, 22
- Aug 2022 10:39:50 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=ABKKHKOpeHgVabWRGp+gR63dGUxiLMPakCVue+4/OYs=;
+        b=8NMMXBaCCMLdRym/o8ih268mcd4TKoGiMB5LzSzH83y9TeIpsh2B+tZpf5TRkoXH3F
+         72FVatX3ddYylOF60gLRgg8m0NSX5Zwz+TGVyObLEfOukdxjJQ8H2ocnaQtnsZ/eYG5A
+         eE0dtPJiQ4s+iM5wp+0Mz1kbIfnHCisilpnXxJ8zHHXStAsLyfWCCtgwSlmbsU9tF+60
+         3iM2YmkPpsrq/ksAGvgRN4/kOhnLunvU2Gbp3Op/8HsSLO9ywj/fqAL3EF1RZ5tcOZOL
+         DLtNndMIo9YY4xGcXf9hmY4ygLs+81SV6xL+vCC/tqvR1nRh7litXoGTnoP+1++YVWM9
+         Ynjg==
+X-Gm-Message-State: ACgBeo2H48077HMAWAR3/uLTcg/MyqGVesQkUFlCIv3sYNcWgIpURcZj
+	OSLDMlLquij3wqxtv1ka6XXxyA==
+X-Google-Smtp-Source: AA6agR5XqD1DgH5CzbRGibOuEptbijWWR2KiixydAL4ajE86MbBbcMzu4s8z3ZvXa6Hfiff4O7EE0Q==
+X-Received: by 2002:a63:e241:0:b0:41b:b374:caf8 with SMTP id y1-20020a63e241000000b0041bb374caf8mr18946966pgj.310.1661204453849;
+        Mon, 22 Aug 2022 14:40:53 -0700 (PDT)
+Received: from evgreen-glaptop.lan ([98.45.66.167])
+        by smtp.gmail.com with ESMTPSA id a10-20020a17090a70ca00b001faf9ab9df7sm5088038pjm.25.2022.08.22.14.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Aug 2022 14:40:53 -0700 (PDT)
+From: Evan Green <evgreen@chromium.org>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Rajat Jain <rajatja@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Evan Green <evgreen@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] platform/chrome: cros_ec: Expose suspend_timeout_ms in debugfs
+Date: Mon, 22 Aug 2022 14:40:40 -0700
+Message-Id: <20220822144026.v3.1.Idd188ff3f9caddebc17ac357a13005f93333c21f@changeid>
+X-Mailer: git-send-email 2.31.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220822112832.v6.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
-In-Reply-To: <20220822112832.v6.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
-From: Raul Rangel <rrangel@chromium.org>
-Date: Mon, 22 Aug 2022 11:39:40 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30C=djXVvBt9kftvwDVrBQ2CBukO10aCh1keRZ2fGYtsEw@mail.gmail.com>
-Message-ID: <CAHQZ30C=djXVvBt9kftvwDVrBQ2CBukO10aCh1keRZ2fGYtsEw@mail.gmail.com>
-Subject: Re: [PATCH v6] platform/chrome: cros_ec_lpc: Move host event to prepare/complete
-To: Tim Van Patten <timvp@google.com>
-Cc: Rob Barnes <robbarnes@google.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Sorry for the double email, I forgot to set my original reply to plain text.
+In modern Chromebooks, the embedded controller has a mechanism where
+it will watch a hardware-controlled line that toggles in suspend, and
+wake the system up if an expected sleep transition didn't occur. This
+can be very useful for detecting power management issues where the
+system appears to suspend, but doesn't actually reach its lowest
+expected power states.
 
-On Mon, Aug 22, 2022 at 11:28 AM Tim Van Patten <timvp@google.com> wrote:
->
-> Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
-> .prepare() and cros_ec_lpc_complete() during .complete(). This moves the
-> host event that the AP sends and allows the EC to log entry/exit of AP's
-> suspend/resume more accurately.
->
-> Signed-off-by: Tim Van Patten <timvp@google.com>
-> ---
->
-> Changes in v6:
-> - Fully restore fixes from v3.
->
-> Changes in v5:
-> - Restore fixes from v3.
->
-> Changes in v4:
-> - Update title and description.
->
-> Changes in v3:
-> - Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
-> - Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
->
-> Changes in v2:
-> - Include cros_ec_resume() return value in dev_info() output.
-> - Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
->
->  drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-> index 7677ab3c0ead..4158bdeee197 100644
-> --- a/drivers/platform/chrome/cros_ec_lpc.c
-> +++ b/drivers/platform/chrome/cros_ec_lpc.c
-> @@ -530,23 +530,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
->  MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
->
->  #ifdef CONFIG_PM_SLEEP
-> -static int cros_ec_lpc_suspend(struct device *dev)
-> +static int cros_ec_lpc_prepare(struct device *dev)
->  {
->         struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
->
-> +       dev_info(dev, "Prepare EC suspend\n");
-> +
->         return cros_ec_suspend(ec_dev);
->  }
->
-> -static int cros_ec_lpc_resume(struct device *dev)
-> +static void cros_ec_lpc_complete(struct device *dev)
->  {
->         struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-> +       int ret;
-> +
-> +       ret = cros_ec_resume(ec_dev);
->
-> -       return cros_ec_resume(ec_dev);
-> +       dev_info(dev, "EC resume completed: ret = %d\n", ret);
->  }
->  #endif
->
->  static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
-> -       SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
-> +#ifdef CONFIG_PM_SLEEP
-> +       .prepare = cros_ec_lpc_prepare,
-> +       .complete = cros_ec_lpc_complete
-> +#endif
->  };
->
->  static struct platform_driver cros_ec_lpc_driver = {
-> --
-> 2.37.2.609.g9ff673ca1a-goog
->
+Sometimes it's useful in debug and test scenarios to be able to control
+the duration of that timeout, or even disable the EC timeout mechanism
+altogether. Add a debugfs control to set the timeout to values other
+than the EC-defined default, for more convenient debug and
+development iteration.
 
-Reviewed-by: Raul E Rangel <rrangel@chromium.org>
+Signed-off-by: Evan Green <evgreen@chromium.org>
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
+---
+
+Changes in v3:
+ - s/suspend_timeout/suspend_timeout_ms/ in docs (Prashant)
+ - Same in code (Tzung-Bi)
+ - Added Prashant's review tag (thanks Prashant!)
+
+Changes in v2:
+ - Update release version to 6.1 (Tzung-Bi)
+ - Reference EC_HOST_SLEEP_TIMEOUT_INFINITE (Tzung-Bi)
+ - Name the debugfs file suspend_timeout_ms (Prashant)
+
+ Documentation/ABI/testing/debugfs-cros-ec   | 22 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec.c           |  3 ++-
+ drivers/platform/chrome/cros_ec_debugfs.c   |  3 +++
+ include/linux/platform_data/cros_ec_proto.h |  1 +
+ 4 files changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ABI/testing/debugfs-cros-ec b/Documentation/ABI/testing/debugfs-cros-ec
+index 1fe0add99a2a99..66fe915acd739b 100644
+--- a/Documentation/ABI/testing/debugfs-cros-ec
++++ b/Documentation/ABI/testing/debugfs-cros-ec
+@@ -54,3 +54,25 @@ Description:
+ 		this feature.
+ 
+ 		Output will be in the format: "0x%08x\n".
++
++What:		/sys/kernel/debug/<cros-ec-device>/suspend_timeout_ms
++Date:		August 2022
++KernelVersion:	6.1
++Description:
++		Some ECs have a feature where they will track transitions to the
++		a hardware-controlled sleep line, such as Intel's SLP_S0 line,
++		in order to detect cases where a system failed to go into deep
++		sleep states. The suspend_timeout_ms file controls the amount of
++		time in milliseconds the EC will wait before declaring a sleep
++		timeout event and attempting to wake the system.
++
++		Supply 0 to use the default value coded into EC firmware. Supply
++		65535 (EC_HOST_SLEEP_TIMEOUT_INFINITE) to disable the EC sleep
++		failure detection mechanism. Values in between 0 and 65535
++		indicate the number of milliseconds the EC should wait after a
++		sleep transition before declaring a timeout. This includes both
++		the duration after a sleep command was received but before the
++		hardware line changed, as well as the duration between when the
++		hardware line changed and the kernel sent an EC resume command.
++
++		Output will be in the format: "%u\n".
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index 8aace50d446d65..32140a7150d013 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -115,7 +115,7 @@ static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
+ 	if (ec_dev->host_sleep_v1) {
+ 		buf.u.req1.sleep_event = sleep_event;
+ 		buf.u.req1.suspend_params.sleep_timeout_ms =
+-				EC_HOST_SLEEP_TIMEOUT_DEFAULT;
++				ec_dev->suspend_timeout_ms;
+ 
+ 		buf.msg.outsize = sizeof(buf.u.req1);
+ 		if ((sleep_event == HOST_SLEEP_EVENT_S3_RESUME) ||
+@@ -188,6 +188,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+ 	ec_dev->max_passthru = 0;
+ 	ec_dev->ec = NULL;
+ 	ec_dev->pd = NULL;
++	ec_dev->suspend_timeout_ms = EC_HOST_SLEEP_TIMEOUT_DEFAULT;
+ 
+ 	ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
+ 	if (!ec_dev->din)
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 0dbceee87a4b1a..4e63adf083ea1f 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -470,6 +470,9 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
+ 	debugfs_create_x32("last_resume_result", 0444, debug_info->dir,
+ 			   &ec->ec_dev->last_resume_result);
+ 
++	debugfs_create_u16("suspend_timeout_ms", 0664, debug_info->dir,
++			   &ec->ec_dev->suspend_timeout_ms);
++
+ 	ec->debug_info = debug_info;
+ 
+ 	dev_set_drvdata(&pd->dev, ec);
+diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+index 408b29ca4004be..e43107e0bee162 100644
+--- a/include/linux/platform_data/cros_ec_proto.h
++++ b/include/linux/platform_data/cros_ec_proto.h
+@@ -169,6 +169,7 @@ struct cros_ec_device {
+ 	int event_size;
+ 	u32 host_event_wake_mask;
+ 	u32 last_resume_result;
++	u16 suspend_timeout_ms;
+ 	ktime_t last_event_time;
+ 	struct notifier_block notifier_ready;
+ 
+-- 
+2.31.0
+

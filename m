@@ -1,44 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EC1A54
-	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 08:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4F6A54
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 08:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661242469; x=1692778469;
+  t=1661242651; x=1692778651;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/7zmWejdZuev7ngTwo5eoEvHxIaRq/RdYNea6XiCCs4=;
-  b=B8bFSR71WND09iqOZCrgnz2pzCc6vw+qcuCcpil7H69msVo2gqGI129y
-   0e7a4HOzUz7jTzTtIlSa2gJGeyGU8d0Dnu7SqBBhSMj0CVBE99Zth59HZ
-   H3y4/LzSz1H4xPFHuZa6bJ2Itiq+9LEZMkJAJ4oSQeArWJfyyuLTyUBQ3
-   /E7dvtueNTgSq04htfxlah/ouaqvRhawzDCh+Na2euD8iRXw+FhOdWaJs
-   /zrCo05V9hM9HirEF4kMGYM49Yvy3ujzqIy+02oa/7FB5Od1lqAk+4qkB
-   f3+RTAJApuqB2HJQD0VCZAEkTMnFNN6rugCqyAdOvnLMQg8NlZJ3OQ8aV
+  bh=FFUrJBNMDk4t826TIAG649CcdossiWD3s3+Wk/wmhH4=;
+  b=DCETRJkdwELydhth5dFQe0nW55iNUH7xUTT0XXFKnG3qfXWcKQisM+qD
+   QSi4rh+6il9l/wx63ZPvm/vfe0Evtp6mdMnWIRJnGrF5m/NfibmUC4NqF
+   VW6eEEwazZe4eRFT/9odTWJ0EqkhF2ajhKRAfY5SKDcVd3YJ0nRrS3Gk+
+   lAmAxxPSRFt0EEqyEvNNw9tLUVZlJMqNKUf5mfGkfnd+Aniix70Jpt/OE
+   3848VY5Dx0HaNFTF1+WTa9hRFbcJR8Y8YhmhuUUYbDa7VVPQ7HRJag+xs
+   hvUfmZsHaStt3o9wvu55IZ7c2J6l9BZmBuI8trV94oyJDsAyMrwT/RrCI
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="292365807"
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="294908045"
 X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="292365807"
+   d="scan'208";a="294908045"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 01:14:28 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 01:17:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="751605160"
+   d="scan'208";a="751606026"
 Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 23 Aug 2022 01:14:26 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 23 Aug 2022 11:14:25 +0300
-Date: Tue, 23 Aug 2022 11:14:25 +0300
+  by fmsmga001.fm.intel.com with SMTP; 23 Aug 2022 01:17:12 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 23 Aug 2022 11:17:12 +0300
+Date: Tue, 23 Aug 2022 11:17:12 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	bleung@chromium.org,
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, bleung@chromium.org,
 	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
 	Guenter Roeck <groeck@chromium.org>
-Subject: Re: [PATCH 2/4] platform/chrome: cros_ec_typec: Correct alt mode
- index
-Message-ID: <YwSMYb67PMAEkv8f@kuha.fi.intel.com>
+Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Stash port driver
+ info
+Message-ID: <YwSNCFt48Q9Eo02I@kuha.fi.intel.com>
 References: <20220819190807.1275937-1-pmalani@chromium.org>
- <20220819190807.1275937-3-pmalani@chromium.org>
+ <20220819190807.1275937-4-pmalani@chromium.org>
+ <YwRa/QxA/RRtxU3P@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -47,42 +48,24 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220819190807.1275937-3-pmalani@chromium.org>
+In-Reply-To: <YwRa/QxA/RRtxU3P@google.com>
 
-Hi,
-
-On Fri, Aug 19, 2022 at 07:08:03PM +0000, Prashant Malani wrote:
-> Alt mode indices used by USB PD (Power Delivery) start with 1, not 0.
+On Tue, Aug 23, 2022 at 04:43:41AM +0000, Tzung-Bi Shih wrote:
+> On Fri, Aug 19, 2022 at 07:08:04PM +0000, Prashant Malani wrote:
+> > Stash port number and a pointer to the driver-specific struct in the
+> > local Type-C port struct.
+> > 
+> > These can be useful to the port driver to figure out how to communicate
+> > with the ChromeOS EC when an altmode driver related callback is invoked
+> > from the Type-C class code.
 > 
-> Update the alt mdoe registration code to factor this in to the alt mode
-> descriptor.
-> 
-> Fixes: de0f49487db3 ("platform/chrome: cros_ec_typec: Register partner altmodes")
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> The patch looks good to me.  But I would suggest to send it in later series
+> that uses the driver-specific struct (e.g. in altmode driver related callbacks)
+> to make the usage clear.
 
-Shouldn't this be applied also to the stable kernels?
+I agree.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index 4d81d8d45b73..dc5722db2066 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -698,7 +698,7 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
->  		for (j = 0; j < sop_disc->svids[i].mode_count; j++) {
->  			memset(&desc, 0, sizeof(desc));
->  			desc.svid = sop_disc->svids[i].svid;
-> -			desc.mode = j;
-> +			desc.mode = j + 1;
->  			desc.vdo = sop_disc->svids[i].mode_vdo[j];
->  
->  			if (is_partner)
-> -- 
-> 2.37.1.595.g718a3a8f04-goog
+thanks,
 
 -- 
 heikki

@@ -1,76 +1,80 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E844323E
-	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 17:52:52 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id l5so10965692qtv.4
-        for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 10:52:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=aVY44zUJCCDQ7+jE7lahWZfCJK6yRD2rgu0a7TJeScs=;
-        b=QPGtAhAC9IPHz4YOehFybYLcoAHltpwZeYqPHM0Aef8Vz+ZD765VxYLhu6SP3ggXE+
-         sgo+WBPoZVhj0Xuo4AvreWK6N77yPPSw2kS68dqP1X+JgbttRrQ7XcTBVuZ29H2ajhqb
-         uZ7q4rSRSjBMa+uuLEWw224WUWt1jLNhjcC4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=aVY44zUJCCDQ7+jE7lahWZfCJK6yRD2rgu0a7TJeScs=;
-        b=i6yM+LhpTFR2nwCjIHPNL4VNIx6mkbAKVKcFrjhFGeZ6uJ4xx3jLk9KLTUnUNs7uyS
-         BWqCtKlfApArtR0x2cgA2hXfy42FzgIvlstrJSskx35FLK80YDjMxHVjnTF8xDyqzhGu
-         dryIqy/Q0+oJT3GDGbJy5MHg4P8QZmeQ4vEkUvO6jeJgjreKsu6bq9NvzVuckgM6/20d
-         pNRmSfKS9gqoiG8wMjPCWWhQiADrMStw5lOi/FbI45tPAc/T09YYM0z8AT2BNVLOLsSv
-         Zm2pCHdj8WxsJEmWfV9tYSGN2GIAyNks3linJn+4Jqr2mzhe9GUwW4BzlUBPEWsSLYpO
-         d4pQ==
-X-Gm-Message-State: ACgBeo0kWBkWHO1BokRUe36iCOpv9b7+ugg2RCBADRJ9jno7qMlWoL8U
-	8E2uH5UpcC0fFf5j6PagM7UzJ+7g6KRFxIgb+Nf0Mw==
-X-Google-Smtp-Source: AA6agR5k2ANBaD6tQI8kPLr5fMj3MFS9ARNHhCcTviM5G2mWb7zBc16KvcPvRdNRxlf/qtdj8rA/YTXLchgXYZpx/Cw=
-X-Received: by 2002:a05:622a:15d6:b0:344:6a92:d8ca with SMTP id
- d22-20020a05622a15d600b003446a92d8camr20589533qty.540.1661277171274; Tue, 23
- Aug 2022 10:52:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3D428E2
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 21:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 73DF1C433D7;
+	Tue, 23 Aug 2022 21:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1661289616;
+	bh=0IEc3dJSCMwcJNTuPCY1LvpVZl6Rhk1s3mH6EWq+tvU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=KYmR+ZVi/eIs1SzyCHqtP0DfoyR0fK9xJwingAB0zwOQ2kl6kkgPiVhKiBke/rlw1
+	 HFlaLm+3DdLhcyc+wMVGQav4dAsa5XdNaSYHhnifQn1SSICuZJnD0hDEEDpQ0p3PSq
+	 FfpQnHmeo5OIMZH9nwCI2VXiV/CzbR3KxNlydC9CWsQy/QAfb9qDgsPgDB9q2Hp6nB
+	 mBt/t+ks4ojhMAkwsYq8cFiLEpWwICSFed5GG1urdyvTZToYUZBvxxhWOY8YwKf+u8
+	 oDPL3h9RVWUZtuH54IvNKrWQxo091AIG38Vn4RriKDcyk8cmdesqB0QdgkJb++TCyd
+	 y0QSM3XXHY5NQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C464E1CF31;
+	Tue, 23 Aug 2022 21:20:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220819190807.1275937-1-pmalani@chromium.org>
- <20220819190807.1275937-4-pmalani@chromium.org> <YwRa/QxA/RRtxU3P@google.com> <YwSNCFt48Q9Eo02I@kuha.fi.intel.com>
-In-Reply-To: <YwSNCFt48Q9Eo02I@kuha.fi.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 23 Aug 2022 10:52:39 -0700
-Message-ID: <CACeCKae8YYQUk0dKKbuq-S-3D4=rPFHyjwgK7b55q_T=u9QjLw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Stash port driver info
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, bleung@chromium.org, 
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Guenter Roeck <groeck@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 0/7] platform/chrome: Type-C switch driver
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <166128961630.1235.10498223435613947270.git-patchwork-notify@kernel.org>
+Date: Tue, 23 Aug 2022 21:20:16 +0000
+References: <20220816214857.2088914-1-pmalani@chromium.org>
+In-Reply-To: <20220816214857.2088914-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ bleung@chromium.org, dnojiri@chromium.org, dustin@howett.net,
+ gregkh@linuxfoundation.org, groeck@chromium.org, gustavoars@kernel.org,
+ keescook@chromium.org, tinghan.shen@mediatek.com, tzungbi@kernel.org,
+ wangxiang@cdjrlc.com
 
-Thanks for the reviews folks.
+Hello:
 
-On Tue, Aug 23, 2022 at 1:17 AM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Tue, Aug 23, 2022 at 04:43:41AM +0000, Tzung-Bi Shih wrote:
-> > On Fri, Aug 19, 2022 at 07:08:04PM +0000, Prashant Malani wrote:
-> > > Stash port number and a pointer to the driver-specific struct in the
-> > > local Type-C port struct.
-> > >
-> > > These can be useful to the port driver to figure out how to communicate
-> > > with the ChromeOS EC when an altmode driver related callback is invoked
-> > > from the Type-C class code.
-> >
-> > The patch looks good to me.  But I would suggest to send it in later series
-> > that uses the driver-specific struct (e.g. in altmode driver related callbacks)
-> > to make the usage clear.
->
-> I agree.
+This series was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
 
-Ok. I will resend this along with the alt mode series.
+On Tue, 16 Aug 2022 21:48:28 +0000 you wrote:
+> v4 of this series was originally merged to the USB maintainer tree, but
+> there were dependencies from the chrome-platform tree which caused
+> conflicts in the merge tree, so the chrome specific parts were
+> reverted [1].
+> 
+> v5 is a resubmission of the series with the Chrome-only parts (since the
+> USB framework parts were merged successfully).
+> 
+> [...]
 
-BR,
+Here is the summary with links:
+  - [v6,1/7] platform/chrome: Add Type-C mux set command definitions
+    https://git.kernel.org/chrome-platform/c/77947238dad3
+  - [v6,2/7] platform/chrome: cros_typec_switch: Add switch driver
+    https://git.kernel.org/chrome-platform/c/affc804c44c8
+  - [v6,3/7] platform/chrome: cros_typec_switch: Set EC retimer
+    https://git.kernel.org/chrome-platform/c/d4536a216c3f
+  - [v6,4/7] platform/chrome: cros_typec_switch: Add event check
+    https://git.kernel.org/chrome-platform/c/cf6c767244ed
+  - [v6,5/7] platform/chrome: cros_typec_switch: Register mode switches
+    https://git.kernel.org/chrome-platform/c/9e6e05169980
+  - [v6,6/7] platform/chrome: cros_ec_typec: Cleanup switch handle return paths
+    https://git.kernel.org/chrome-platform/c/d5f66527db9e
+  - [v6,7/7] platform/chrome: cros_ec_typec: Get retimer handle
+    https://git.kernel.org/chrome-platform/c/1a8912caba02
 
--Prashant
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

@@ -1,71 +1,126 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4F6A54
-	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 08:17:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661242651; x=1692778651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FFUrJBNMDk4t826TIAG649CcdossiWD3s3+Wk/wmhH4=;
-  b=DCETRJkdwELydhth5dFQe0nW55iNUH7xUTT0XXFKnG3qfXWcKQisM+qD
-   QSi4rh+6il9l/wx63ZPvm/vfe0Evtp6mdMnWIRJnGrF5m/NfibmUC4NqF
-   VW6eEEwazZe4eRFT/9odTWJ0EqkhF2ajhKRAfY5SKDcVd3YJ0nRrS3Gk+
-   lAmAxxPSRFt0EEqyEvNNw9tLUVZlJMqNKUf5mfGkfnd+Aniix70Jpt/OE
-   3848VY5Dx0HaNFTF1+WTa9hRFbcJR8Y8YhmhuUUYbDa7VVPQ7HRJag+xs
-   hvUfmZsHaStt3o9wvu55IZ7c2J6l9BZmBuI8trV94oyJDsAyMrwT/RrCI
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="294908045"
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="294908045"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 01:17:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="751606026"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 23 Aug 2022 01:17:12 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 23 Aug 2022 11:17:12 +0300
-Date: Tue, 23 Aug 2022 11:17:12 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, bleung@chromium.org,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: Re: [PATCH 3/4] platform/chrome: cros_ec_typec: Stash port driver
- info
-Message-ID: <YwSNCFt48Q9Eo02I@kuha.fi.intel.com>
-References: <20220819190807.1275937-1-pmalani@chromium.org>
- <20220819190807.1275937-4-pmalani@chromium.org>
- <YwRa/QxA/RRtxU3P@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9833D2F29
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 15:59:20 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-335ff2ef600so247064937b3.18
+        for <chrome-platform@lists.linux.dev>; Tue, 23 Aug 2022 08:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
+        bh=s208mFKW5mux3x3fFQzuS0oklKHocAknnwXo8nQY6YI=;
+        b=onfDdlrNeXjaHJVDclJvl6kkSSZkwz5ngSB+xHxpci91JPwn/QO5fmV/397a+aKKxp
+         zTPVzXdt1umOXjW8wgznpZ1IlQ4kZgOHnBZiB55z16cURRuftdST3FqI3I+UVo3b11h3
+         XxkIIXmNoF0oLdrwDceCt/wTQn9UJbLIdHuQgggVxuaVm5+KNac5PQPzdHbFe2CFjx9I
+         hbcEIsznWyLSkDngLXclu2/eSvs7K2b1fH4EzzNEg86OETq+ltNOkV9PIpYilyHRkqL4
+         1nBZFFUXLC3aJEPGR7WT+kszNxPVrmIjbjrjcAfyeFB3LvUdjBuoo1vlYq60nMCIA7S1
+         lpQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc;
+        bh=s208mFKW5mux3x3fFQzuS0oklKHocAknnwXo8nQY6YI=;
+        b=OrS3oMM/KyhbdvgtTg5jKtssEl6pBZzCxI+Jdi7OvFwuXbkzKTuRJDa2RI0UWYAQXm
+         KzOml7LF5VQjmk0/zK3ZPA+0Ul5GmHXnjZeCHd9HJavOzXpobhf35cm0Mg5nH/ymeJgK
+         smV0fV5m8RsLY11torn6jrxzr0QQGJPe0LEZvpVVWB6X0tt4Ru4jEAcFfV2EZRB52rH5
+         wRNscxC6I67XGyKDuI4A2F6IP79YnglKg3f2Qd5HaAG58ZK1zcgKSSJzD8sjV5w14zV8
+         NRe208WWXrAmAQemawhUe3X6zDmSEpjZN+BKiMcrYJbWCt17ypK/PKDeebq606g0xpsM
+         L9HA==
+X-Gm-Message-State: ACgBeo3zpDZrJSAt27eW1FWLo6jyJABBvOfFXUURjhx0Gqnl0iqhAtw/
+	Z4AeaBZz9L7MyhC/Bwj5DMDH2wT9zg==
+X-Google-Smtp-Source: AA6agR6lvaz85tu0pzAuiS+DWBgUc/EfOcw88DjqRBJtufUAKYnAyUkyBx9LWajcnsGGF57Q4v0iO+5xwQ==
+X-Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:2f3b:1daa:d20:c362])
+ (user=timvp job=sendgmr) by 2002:a5b:d09:0:b0:695:f25c:fa14 with SMTP id
+ y9-20020a5b0d09000000b00695f25cfa14mr3450377ybp.163.1661270359512; Tue, 23
+ Aug 2022 08:59:19 -0700 (PDT)
+Date: Tue, 23 Aug 2022 09:59:17 -0600
+Message-Id: <20220823095915.v7.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwRa/QxA/RRtxU3P@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.2.609.g9ff673ca1a-goog
+Subject: [PATCH v7] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
+From: Tim Van Patten <timvp@google.com>
+To: rrangel@chromium.org, robbarnes@google.com
+Cc: Tim Van Patten <timvp@google.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 23, 2022 at 04:43:41AM +0000, Tzung-Bi Shih wrote:
-> On Fri, Aug 19, 2022 at 07:08:04PM +0000, Prashant Malani wrote:
-> > Stash port number and a pointer to the driver-specific struct in the
-> > local Type-C port struct.
-> > 
-> > These can be useful to the port driver to figure out how to communicate
-> > with the ChromeOS EC when an altmode driver related callback is invoked
-> > from the Type-C class code.
-> 
-> The patch looks good to me.  But I would suggest to send it in later series
-> that uses the driver-specific struct (e.g. in altmode driver related callbacks)
-> to make the usage clear.
+Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
+host command that the AP sends and allows the EC to log entry/exit of
+AP's suspend/resume more accurately.
 
-I agree.
+Signed-off-by: Tim Van Patten <timvp@google.com>
+---
 
-thanks,
+Changes in v7:
+- Rename "host event" to "host command" in title/description.
 
+Changes in v6:
+- Fully restore fixes from v3.
+
+Changes in v5:
+- Restore fixes from v3.
+
+Changes in v4:
+- Update title and description.
+
+Changes in v3:
+- Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
+- Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
+
+Changes in v2:
+- Include cros_ec_resume() return value in dev_info() output.
+- Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
+
+ drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 7677ab3c0ead..4158bdeee197 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -530,23 +530,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
+ MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
+ 
+ #ifdef CONFIG_PM_SLEEP
+-static int cros_ec_lpc_suspend(struct device *dev)
++static int cros_ec_lpc_prepare(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ 
++	dev_info(dev, "Prepare EC suspend\n");
++
+ 	return cros_ec_suspend(ec_dev);
+ }
+ 
+-static int cros_ec_lpc_resume(struct device *dev)
++static void cros_ec_lpc_complete(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
++	int ret;
++
++	ret = cros_ec_resume(ec_dev);
+ 
+-	return cros_ec_resume(ec_dev);
++	dev_info(dev, "EC resume completed: ret = %d\n", ret);
+ }
+ #endif
+ 
+ static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
+-	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
++#ifdef CONFIG_PM_SLEEP
++	.prepare = cros_ec_lpc_prepare,
++	.complete = cros_ec_lpc_complete
++#endif
+ };
+ 
+ static struct platform_driver cros_ec_lpc_driver = {
 -- 
-heikki
+2.37.2.609.g9ff673ca1a-goog
+

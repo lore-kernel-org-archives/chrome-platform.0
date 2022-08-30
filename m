@@ -1,91 +1,60 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AE66138
-	for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 22:58:37 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id x23so12511205pll.7
-        for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 15:58:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06AC6131
+	for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 23:05:01 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id r6so9777016qtx.6
+        for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 16:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=9i6pUjJNJbv0URDTN17d2CcuUvvkFRJoPPsB0ChrC84=;
-        b=K2J5xRAk/tKVnjvdGCtwzZC/znuGdEUztUB2UHn4wXft/46xq8gyf0Ddl57gL2NETG
-         M0vOBzYECWvKK4hidx1uBJNXH2NsR9pGU3zcm1+sXOa9rrbJrvaKTah1s9gjtU1As/XQ
-         +GhjBJOLmxYXJbLlpGP3ExvkBiOw6dPva01r4=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=lGIdeZM1S9hN/ejZ6gUGJwd3xauHVCbCEipm4Vgi8qU=;
+        b=dlbf6/F/P4SrgvdTS2+FiE5hANx0T0WOLMIcQSg9PEuqXhJz2+xSo5B9WwxZIUFQQx
+         hIKvzmjjmhGf5tzZUJSxB90z3XIIMGNHnbyBSYXudVhDVtzMBcZjWSKlMZ0ENUqHuRPU
+         JpbtQrkx3v+o+101M4mqAd20O3M31s7gU8rkw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=9i6pUjJNJbv0URDTN17d2CcuUvvkFRJoPPsB0ChrC84=;
-        b=B6b3LFZuLy3kshMt6D08XlFxW8R1gyKmXeTYqyEdmKanDUFzPIjj7CKqMZo66RFPRG
-         UEMi3KTuI6ECbMOyZakRWfxR+x1Cl1K7U/G1KetaC2RUpWZ9A7Hyg9DX3C9fm+TL8AY4
-         6j6RWiQ+qsZFo4D7Q1M7Z6dUmu0MCTzSxryLQX/STwEG+vBU/M9+EngHEgw5VjmFCffF
-         acEQPgVsMe64q1jh+khtQ3ztBWPPyCBS9gVtnZ9uaDgPCJGWtmAP39pqcsSwzUXTE8OI
-         ZLo+ATHjWw/nNjLrbIMHRLx1duyvOW9X4jHw/jBlg/wxgFcEvfeurLoEVhXnbeyzhf2e
-         PcXw==
-X-Gm-Message-State: ACgBeo1Edvb10nPnnjyqvRBdHGe1O5s8pq3bBKIUBslh0nvgOIgB4EFn
-	AyZAh4PWkRxQkgWPo3IP+DkRRw==
-X-Google-Smtp-Source: AA6agR6wm6nWs+6nAf9TZDvola8E8ygfG4X7jJS1hsOIaTMHd8b0kiBAbmAJLdFsGBuzT3sT26/VrA==
-X-Received: by 2002:a17:90b:4d8f:b0:1fc:314a:17e7 with SMTP id oj15-20020a17090b4d8f00b001fc314a17e7mr284377pjb.194.1661900317130;
-        Tue, 30 Aug 2022 15:58:37 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:5f34:2f6:2856:188e])
-        by smtp.gmail.com with ESMTPSA id bf3-20020a170902b90300b001743be790b4sm10083539plb.215.2022.08.30.15.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 15:58:36 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>
-Cc: linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 4/4] platform/chrome: cros_typec_switch: Inline DRV_NAME
-Date: Tue, 30 Aug 2022 15:58:31 -0700
-Message-Id: <20220830225831.2362403-5-swboyd@chromium.org>
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-In-Reply-To: <20220830225831.2362403-1-swboyd@chromium.org>
-References: <20220830225831.2362403-1-swboyd@chromium.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=lGIdeZM1S9hN/ejZ6gUGJwd3xauHVCbCEipm4Vgi8qU=;
+        b=VE2jtVFgJvm9bj22FkOE4yGgG9G0UG49xeKaX4YMjS5Oof4cOrAr7RP8hI+WdNZ+P+
+         NjIP99LvK1q27CTe+sVmp7VnJEckorpwD92C8EGgD1jEVeuV7Dr4Z2D6nwmmVRfgnRQ9
+         KCv7WBtBOKheRsRQKbeKUkIryIh/OEq45Lux1OffdZhGaw2ZL0n2q6dDMslwskMFlHQv
+         wpeF4ihNhx/ZDQay2Fysh/YQIilDvQ5xOI2Hin5XRuaM9TX1VYwn6hs/30UlNFbm0V+a
+         66xA0ZCtvYKa1b7v+6Bk8k42lvTFObh52f9qOhGxIykH7u1+FJovV1R4ikfEu9+sT6lD
+         uTKA==
+X-Gm-Message-State: ACgBeo1WSzckt3U+R/9tHPzgLeTa3phlC4JowHYPbgUsxNbhqUCDhzSH
+	EbVPkyHLzFqDW4d5kwKMnk70FodGfMzD6q8CFke4uA==
+X-Google-Smtp-Source: AA6agR5c0XeQFvIoD/9i1d+eD97rvNFHI5OWnMRuWRK0UMO/zTCiwEeveR9tSFaGf6Y1iLwckZrNLl9LVLaZKLB1Eyg=
+X-Received: by 2002:ac8:5ad2:0:b0:344:90e7:410f with SMTP id
+ d18-20020ac85ad2000000b0034490e7410fmr17446555qtd.625.1661900700697; Tue, 30
+ Aug 2022 16:05:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220830225831.2362403-1-swboyd@chromium.org> <20220830225831.2362403-2-swboyd@chromium.org>
+In-Reply-To: <20220830225831.2362403-2-swboyd@chromium.org>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 30 Aug 2022 16:04:48 -0700
+Message-ID: <CACeCKacwLMTdaURq2F5uiE2KcJG0pcMUBR8UZy5ftGZpWZRL=A@mail.gmail.com>
+Subject: Re: [PATCH 1/4] platform/chrome: cros_typec_switch: Add missing
+ newline on printk
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, chrome-platform@lists.linux.dev, 
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This macro is only used one place, let's inline it instead to save a
-line or two.
-
-Cc: Prashant Malani <pmalani@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/platform/chrome/cros_typec_switch.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index 09ad0d268f4b..a26219e97c93 100644
---- a/drivers/platform/chrome/cros_typec_switch.c
-+++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -18,8 +18,6 @@
- #include <linux/usb/typec_mux.h>
- #include <linux/usb/typec_retimer.h>
- 
--#define DRV_NAME "cros-typec-switch"
--
- /* Handles and other relevant data required for each port's switches. */
- struct cros_typec_port {
- 	int port_num;
-@@ -309,7 +307,7 @@ MODULE_DEVICE_TABLE(acpi, cros_typec_switch_acpi_id);
- 
- static struct platform_driver cros_typec_switch_driver = {
- 	.driver	= {
--		.name = DRV_NAME,
-+		.name = "cros-typec-switch",
- 		.acpi_match_table = ACPI_PTR(cros_typec_switch_acpi_id),
- 	},
- 	.probe = cros_typec_switch_probe,
--- 
-https://chromeos.dev
-
+On Tue, Aug 30, 2022 at 3:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> We need a newline here to ensure the next printk starts fresh.
+>
+> Cc: Prashant Malani <pmalani@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Fixes: affc804c44c8 ("platform/chrome: cros_typec_switch: Add switch driver")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Acked-by: Prashant Malani <pmalani@chromium.org>

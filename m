@@ -1,186 +1,163 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431635C98
-	for <chrome-platform@lists.linux.dev>; Mon, 29 Aug 2022 19:42:52 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id j5so5109914plj.5
-        for <chrome-platform@lists.linux.dev>; Mon, 29 Aug 2022 12:42:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33B55C94
+	for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 20:20:23 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id y29so8379454pfq.0
+        for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 13:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=DRojyyEkQJaI3ruqXF8PA7dAvzuh8TA99+WmvS2ccKU=;
-        b=brVaxPBLPju5jff8Pa4EVeXfGeOA9i5nUT87DXILuVueaT0W9QC8g08MaV43qdMLt0
-         xdzv7YPwS6Ej+TFQAZmh8l/6gX8+G2XJ2GzP0H/vZaquWkB6ymcIBxY/Afg1FsytrXzX
-         o5gbJ9ODI6Q3IGOXRCjKFqa0TvtZzEMKSXieCKU6tOeXe+8W20B+CHkaQpCfqHKeWBHj
-         hHqF7WQhterfKsvpanzDK/PvEUMzp7lxtSeZY8Ps9ZPztTCNtx9XxeZmXL7MACAkuMfe
-         wtive/YlA7RDrhk6/jJJ039P2HFEVIXJqhgRx2eF5apskE3YbhKuqGR63DdXcKQvL0E5
-         jH9w==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=IIahQC3iUsvNJToMk9UFFnI7uylEWwTVmxgpc7S23kI=;
+        b=b7QJQ9dHysGM+ncTgpqvop8xm6lADhwcKDUxSvuBLHkcQnYctwKKneWicxRpu/zf8y
+         SqKNSU96C4poiPDV3DriN5+AnMP2nY7GAwMmbEm3hCbfeOm/ZGYfeVfeB+e1vAx1dC/I
+         94azdNR986kJJ38TaOVaFJrSVmVbHbiEjSPb4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=DRojyyEkQJaI3ruqXF8PA7dAvzuh8TA99+WmvS2ccKU=;
-        b=mEyOGUvRrU+3y3H1uNktvFQ3EDOGuejq3yEJtjS6ke8IkVIGWmi2RlPnm9/WhcsHJA
-         aEPTODFi2uqu/lA+xDPH0AAHR1uU5ds82llHOSsFkNo0eA+uuzRJpzqFWSn6HA8wozsQ
-         lmw+qxfmSvSxd6LfT4839AgbL9KJrnMBlt6z4PrO92ck97kC7MO4sAe4kdGwwWkxigb6
-         FWME/Zsd0VJOYKv8A2LLEy4XjF7dRxfZxLfgM8DstcdYsLyrIRrAtVAbnOBckeQKhEHi
-         bIewDVmd7sIF5v611aHTo13Jknzkt0IKn8K/yKZv5YfIVcFi3+ibx7iMFmvo7Bxu37X4
-         SwlQ==
-X-Gm-Message-State: ACgBeo10zHN9UQQO8oAgOKikNsYqQETTuyTCPOVmfS8HCorCpPufjj18
-	kern26khHQbsdbJuqX4lCBPwgw==
-X-Google-Smtp-Source: AA6agR73dJ6zqJdEqwSre7rs9UMvyIM4SDNkPl6iDWE7C8VSfpk2HWHFiKxa7FMIROFlJaab1ETldg==
-X-Received: by 2002:a17:902:f64f:b0:172:a790:320a with SMTP id m15-20020a170902f64f00b00172a790320amr17692944plg.149.1661802171623;
-        Mon, 29 Aug 2022 12:42:51 -0700 (PDT)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id a13-20020a170902b58d00b00172f4835f60sm7840088pls.189.2022.08.29.12.42.48
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=IIahQC3iUsvNJToMk9UFFnI7uylEWwTVmxgpc7S23kI=;
+        b=eaQl/0Hs6DtRQfkjtTYfT5jH8LmhcjfZsGo8mWFBEQFGTRyZ6iStTscko//oYk276a
+         f5227E3xAJAKmIrQLq5jAK3r96NQnFu+sIPCBddZoQz9GVV2/uTMoQrp0SoEFWcuKwlj
+         oncVJgvtfrD/XXDAqpIoWWdp77fnZcNQnfU322dtRyykSMln3B2PTTbJETyrCGmMqcj7
+         viZz9vt9h0gzdZjR5+v4YIQWdmjmZN4Sl2FZVWlZZYm/7pE/9FBPdZ94Nh7hsEXtXR2j
+         hRF62weWPbH5YrjnNooTw5UZ7ThsYl+IKRA0cT6pZ5Yr7ZbmZJGhR9wU8UrgLmRkg55x
+         3eKA==
+X-Gm-Message-State: ACgBeo0+3mYY+MaF+4BxDJt+P+7yx+JwYG4bXTMssQ+kA8YYC7XJEF1N
+	CX5zt77usixEyfNiUTrYNNdrag==
+X-Google-Smtp-Source: AA6agR7W/292GbS9tKYBQcHXvWWz7uZ8dK3q3BOUaxIu+S/sTOJMmQ29g+D7tnTn/5qgQNN+VJzuHg==
+X-Received: by 2002:a05:6a00:24d3:b0:53a:8f28:5054 with SMTP id d19-20020a056a0024d300b0053a8f285054mr2524501pfv.36.1661890823158;
+        Tue, 30 Aug 2022 13:20:23 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com (137.22.168.34.bc.googleusercontent.com. [34.168.22.137])
+        by smtp.gmail.com with ESMTPSA id y1-20020a17090264c100b0016d4f05eb95sm6657528pli.272.2022.08.30.13.20.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 12:42:50 -0700 (PDT)
-Date: Mon, 29 Aug 2022 13:42:47 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Tinghan Shen <tinghan.shen@mediatek.com>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Tue, 30 Aug 2022 13:20:22 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: bleung@chromium.org,
 	Prashant Malani <pmalani@chromium.org>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	weishunc@google.com
-Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
- core of dual-core SCP
-Message-ID: <20220829194247.GC2264818@p14s>
-References: <20220608083553.8697-1-tinghan.shen@mediatek.com>
- <20220608083553.8697-5-tinghan.shen@mediatek.com>
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Guenter Roeck <groeck@chromium.org>
+Subject: [PATCH] platform/chrome: cros_ec_typec: Register partner PDOs
+Date: Tue, 30 Aug 2022 20:20:18 +0000
+Message-Id: <20220830202018.1884851-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220608083553.8697-5-tinghan.shen@mediatek.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 08, 2022 at 04:35:48PM +0800, Tinghan Shen wrote:
-> The mtk_scp.c driver only supports the single core SCP and the
-> 1st core of a dual-core SCP. This patch extends it for the 2nd core.
-> 
-> MT8195 SCP is a dual-core MCU. Both cores are housed in the same subsys.
+The ChromeOS EC exports partner source/sink cap PDOs (Power Data
+Objects) to the application processor (AP). Use this information
+to register USB PD (Power Delivery) capabilities with the
+USB Type-C Power Delivery device class.
 
-s/subsys/subsystem
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 56 +++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-> They have the same viewpoint of registers and memory.
-> 
-> Core 1 of the SCP features its own set of core configuration registers,
-> interrupt controller, timers, and DMAs. The rest of the peripherals
-> in this subsystem are shared by core 0 and core 1.
-> 
-> As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 00208ffbe2e7..f84bf9659a0f 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -73,6 +73,11 @@ struct cros_typec_port {
+ 	struct ec_response_typec_discovery *disc_data;
+ 	struct list_head partner_mode_list;
+ 	struct list_head plug_mode_list;
++
++	/* PDO-related structs */
++	struct usb_power_delivery *partner_pd;
++	struct usb_power_delivery_capabilities *partner_src_caps;
++	struct usb_power_delivery_capabilities *partner_sink_caps;
+ };
+ 
+ /* Platform-specific data for the Chrome OS EC Type C controller. */
+@@ -253,6 +258,14 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
+ 
+ 	cros_typec_unregister_altmodes(typec, port_num, true);
+ 
++	typec_partner_set_usb_power_delivery(port->partner, NULL);
++	usb_power_delivery_unregister_capabilities(port->partner_sink_caps);
++	port->partner_sink_caps = NULL;
++	usb_power_delivery_unregister_capabilities(port->partner_src_caps);
++	port->partner_src_caps = NULL;
++	usb_power_delivery_unregister(port->partner_pd);
++	port->partner_pd = NULL;
++
+ 	cros_typec_usb_disconnect_state(port);
+ 	port->mux_flags = USB_PD_MUX_NONE;
+ 
+@@ -939,6 +952,46 @@ static int cros_typec_send_clear_event(struct cros_typec_data *typec, int port_n
+ 			   sizeof(req), NULL, 0);
+ }
+ 
++static void cros_typec_register_partner_pdos(struct cros_typec_data *typec,
++					     struct ec_response_typec_status *resp, int port_num)
++{
++	struct usb_power_delivery_capabilities_desc caps_desc = {};
++	struct usb_power_delivery_desc desc = {
++		.revision = (le16_to_cpu(resp->sop_revision) & 0xff00) >> 4,
++	};
++	struct cros_typec_port *port = typec->ports[port_num];
++
++	if (!port->partner || port->partner_pd)
++		return;
++
++	/* If no caps are available, don't bother creating a device. */
++	if (!resp->source_cap_count && !resp->sink_cap_count)
++		return;
++
++	port->partner_pd = usb_power_delivery_register(NULL, &desc);
++	if (IS_ERR(port->partner_pd)) {
++		dev_warn(typec->dev, "Failed to register partner PD device, port: %d\n", port_num);
++		return;
++	}
++
++	typec_partner_set_usb_power_delivery(port->partner, port->partner_pd);
++
++	memcpy(caps_desc.pdo, resp->source_cap_pdos, sizeof(u32) * resp->source_cap_count);
++	caps_desc.role = TYPEC_SOURCE;
++	port->partner_src_caps = usb_power_delivery_register_capabilities(port->partner_pd,
++									  &caps_desc);
++	if (IS_ERR(port->partner_src_caps))
++		dev_warn(typec->dev, "Failed to register source caps, port: %d\n", port_num);
++
++	memset(&caps_desc, 0, sizeof(caps_desc));
++	memcpy(caps_desc.pdo, resp->sink_cap_pdos, sizeof(u32) * resp->sink_cap_count);
++	caps_desc.role = TYPEC_SINK;
++	port->partner_sink_caps = usb_power_delivery_register_capabilities(port->partner_pd,
++									   &caps_desc);
++	if (IS_ERR(port->partner_sink_caps))
++		dev_warn(typec->dev, "Failed to register sink caps, port: %d\n", port_num);
++}
++
+ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num)
+ {
+ 	struct ec_response_typec_status resp;
+@@ -986,6 +1039,8 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
+ 		}
+ 		if (resp.sop_connected)
+ 			typec_set_pwr_opmode(typec->ports[port_num]->port, TYPEC_PWR_MODE_PD);
++
++		cros_typec_register_partner_pdos(typec, &resp, port_num);
+ 	}
+ 
+ 	if (resp.events & PD_STATUS_EVENT_SOP_PRIME_DISC_DONE &&
+@@ -1006,6 +1061,7 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
+ 					 "Failed SOP Disc event clear, port: %d\n", port_num);
+ 		}
+ 	}
++
+ }
+ 
+ static int cros_typec_port_update(struct cros_typec_data *typec, int port_num)
+-- 
+2.37.2.672.g94769d06f0-goog
 
-/the/The
-
-> by core 0 and core 1.
-> 
-> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> ---
->  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.c
-> index 3510c6d0bbc8..91b4aefde4ac 100644
-> --- a/drivers/remoteproc/mtk_scp.c
-> +++ b/drivers/remoteproc/mtk_scp.c
-> @@ -23,6 +23,10 @@
->  #define MAX_CODE_SIZE 0x500000
->  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
->  
-> +#define SCP_CORE_0 0
-> +#define SCP_CORE_1 1
-> +#define SCP_CORE_SINGLE 0xF
-> +
->  /**
->   * scp_get() - get a reference to SCP.
->   *
-> @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
->  	struct resource *res;
->  	const char *fw_name = "scp.img";
->  	int ret, i;
-> +	u32 core_id = SCP_CORE_SINGLE;
->  
->  	ret = rproc_of_parse_firmware(dev, 0, &fw_name);
->  	if (ret < 0 && ret != -EINVAL)
-> @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
->  	scp->data = of_device_get_match_data(dev);
->  	platform_set_drvdata(pdev, scp);
->  
-> +	ret = of_property_read_u32_index(dev->of_node, "mediatek,scp-core", 1, &core_id);
-> +	if (ret == 0)
-> +		dev_info(dev, "Boot SCP dual core %u\n", core_id);
-
-Why is the DT property "mediatek,scp-core" needed at all?  Since the compatible
-"mediatek,mt8195-scp-dual" has already been defined previously in this patchset,
-initialising the second core, if present, is a matter of looking at the
-compatile string. 
-
-> +
->  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
-> -	scp->sram_base = devm_ioremap_resource(dev, res);
-> +	if (core_id == SCP_CORE_1)
-> +		scp->sram_base = devm_ioremap(dev, res->start, resource_size(res));
-> +	else
-> +		scp->sram_base = devm_ioremap_resource(dev, res);
-> +
-
-This looks very broken...  For this to work you would need to have two DT
-entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
-"mediatek,scp-core = <&scp_dual1 0>;" and another one with "mediatek,scp-core = <&scp_dual0 1>;".
-
-Which is also very broken...  Here you have a binding whose first argument is a
-reference to the core sibling while the second argument is a characteristic of
-the current core, which is highly confusing.
-
-I suggest what when you see the compatible binding "mediatek,mt8195-scp", a
-single core is initialized.  If you see "mediatek,mt8195-scp-dual", both cores
-are initialized as part of the _same_ probe.
-
-If the above analysis is not correct it means I misinterpreted your
-work and if so, a serious amount of comments is needed _and_ a very detailed
-example in "mtk,scp.yaml" that leaves no room for interpretation.
-
-I will stop reviewing this patchset until you have clarified how this works.
-
-Thanks,
-Mathieu
-
->  	if (IS_ERR(scp->sram_base))
->  		return dev_err_probe(dev, PTR_ERR(scp->sram_base),
->  				     "Failed to parse and map sram memory\n");
-> @@ -873,7 +886,12 @@ static int scp_probe(struct platform_device *pdev)
->  		scp->l1tcm_phys = res->start;
->  	}
->  
-> -	scp->reg_base = devm_platform_ioremap_resource_byname(pdev, "cfg");
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cfg");
-> +	if (core_id == SCP_CORE_1)
-> +		scp->reg_base = devm_ioremap(dev, res->start, resource_size(res));
-> +	else
-> +		scp->reg_base = devm_ioremap_resource(dev, res);
-> +
->  	if (IS_ERR(scp->reg_base))
->  		return dev_err_probe(dev, PTR_ERR(scp->reg_base),
->  				     "Failed to parse and map cfg memory\n");
-> -- 
-> 2.18.0
-> 

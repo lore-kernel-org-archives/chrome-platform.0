@@ -1,47 +1,48 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A22F6131
-	for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 23:05:18 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id h27so9638179qkk.9
-        for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 16:05:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0837C6135
+	for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 23:05:37 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id f4so9633407qkl.7
+        for <chrome-platform@lists.linux.dev>; Tue, 30 Aug 2022 16:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=03xHIim8cJwL2orZIsFEEaPEGZ5A0SO9Xy6iHS5VgRo=;
-        b=CLAQbMcLQlcO5FDKowqIzEN/KN92ak2XZyugeDeBWg7w2NposY2Jj0vc3RKSyaipPC
-         5n+rz5aN9vrZdZcWobBxzExvlxNeAKQ+/ORw9XCHzmowsMF8FfKOBcIgL7f+sBLdAcVE
-         pzG6rVKv/POhYE0VTsQSMArU1JrCgmEL0sSco=
+        bh=3q+RTaRoDJ/mS6E2OdJGUZUv/ANh5AS0o0Ziht8MEyk=;
+        b=PgxTnvTE29KCKVSMRimB72WadJkatYaN9T3nsES8Z9oojD1WTJQEamPUKdaq1Ym4ZD
+         NyUTCKpvvAcet2PSsMpf3O1BtqIkpFuG7nrMyIFlreo8CgAOl2oCb6Y9I2vjdcdMk/JR
+         662tf3ZT0yOm21sB0rvyCZCLS1g/C93AZJlkw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=03xHIim8cJwL2orZIsFEEaPEGZ5A0SO9Xy6iHS5VgRo=;
-        b=x0GPootJq+VUKXmCyaj5FS1jZWTXmxyI3Uk5GNuLQSr605uQuSd8oKlGxk1C5hP7Xj
-         N8gL6PxZyz1hml8JYc77M5TwDmjQX6JdXtTWCmXNpiN5unYWiKdAFYfUUTtK7kVyZiXL
-         DIACEvWN6Y4dALweJb89/+HQQ51DLIevb9EcFV+Nr/9G4RKHDkAH2wsdt+OdqrA9MXuS
-         wx+YWIPWFuKuqtx2BR/T5NSeBmp6XLjcvuezGyItNdVxH7daiXKlp6CU0IprAozxTx09
-         txdLOM0+dp8hiyMX4pmI92IBK9wSXymJ9Ww7QMErzsOF9xSdSU7TbHM83PK1J9RXxAg7
-         bHIA==
-X-Gm-Message-State: ACgBeo2TtzFFEnvNaMEiFa7RoWbVPLuimEWfnxHINimy85cw+1rfouu3
-	aXpPPCLUxCqgLMZiEgud1rqUUyTyEMd7gz4M3pxcvA==
-X-Google-Smtp-Source: AA6agR5RMu+MBNHzM+xUm2TPO1Kqe1FQ42HmfdhzT9rRFEuR+Os0L/+2NDY1lvV3K+ZVgoBLveHvEHFmFHN2ebLu6kc=
-X-Received: by 2002:a05:620a:4088:b0:6bc:60a5:bba9 with SMTP id
- f8-20020a05620a408800b006bc60a5bba9mr13980652qko.170.1661900717259; Tue, 30
- Aug 2022 16:05:17 -0700 (PDT)
+        bh=3q+RTaRoDJ/mS6E2OdJGUZUv/ANh5AS0o0Ziht8MEyk=;
+        b=fdGUiIJOeO0O4T9fztOGtOltc9z0RVkxJOU56OYhtw2g2TNBFqc3FVenvVFtTrWvER
+         50UkAHn4vnlzNSgrj7+TQUrwnawy6mt/Qg7ahQjIpqFfL6l6PEdhW4AFtrzkrEOfSxEl
+         LdKu1/9XnzXlBwnCN5bcCtZjs4wypsbudIjv74js2E7jAQ3C1Pm2PWhCyR4phMgPFOdj
+         BJk70vOkVTazrYAhM/VtwlDRJn5VfotKIIDb+MUl7GfWRJjFKMbeZwItfeUVvrSTaCJX
+         2RCyuJ1H5ZcklOAPOgdjsdNSs5kUjXR4JEdW99t3bna0UtZUKBvKt8cAOD4rB8Grpsm2
+         3e3w==
+X-Gm-Message-State: ACgBeo1xmqtTb3nERhjD5EQ4r1fDL9UrmLOeOrB72m+fVJjPe6ZqI2eD
+	w3ScCGVDuHZ89I4lAknd3UqiXMBml5TbJyYuyBja5Q==
+X-Google-Smtp-Source: AA6agR5Cdy05jCjyZers7UuBLDnUBYOzZ0flmb/NVCrmjXIpevYhyeQiLMi8DfapiijfzKnTxqRo7TCVyUg03BwkPsA=
+X-Received: by 2002:a37:bd6:0:b0:6ba:f6d1:9619 with SMTP id
+ 205-20020a370bd6000000b006baf6d19619mr13070687qkl.366.1661900736963; Tue, 30
+ Aug 2022 16:05:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220830225831.2362403-1-swboyd@chromium.org> <20220830225831.2362403-3-swboyd@chromium.org>
-In-Reply-To: <20220830225831.2362403-3-swboyd@chromium.org>
+References: <20220830225831.2362403-1-swboyd@chromium.org> <20220830225831.2362403-4-swboyd@chromium.org>
+In-Reply-To: <20220830225831.2362403-4-swboyd@chromium.org>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 30 Aug 2022 16:05:05 -0700
-Message-ID: <CACeCKae7ZCATSyHMupDynVye+CyKAqQMDU6GPKPXhf5Zibjihg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] platform/chrome: cros_typec_switch: Remove impossible condition
+Date: Tue, 30 Aug 2022 16:05:25 -0700
+Message-ID: <CACeCKad+aXZbSmkd6puSrw7XVUvy1pnta4-2-4dhoJo44dzSYQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] platform/chrome: cros_typec_switch: Use
+ PTR_ERR_OR_ZERO() to simplify
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, chrome-platform@lists.linux.dev, 
@@ -50,8 +51,7 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Aug 30, 2022 at 3:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> The type of 'index' is unsigned long long, which can't possibly be less
-> than zero. Remove the impossible check.
+> Use the standard error pointer macro to shorten the code and simplify.
 >
 > Cc: Prashant Malani <pmalani@chromium.org>
 > Cc: Tzung-Bi Shih <tzungbi@kernel.org>

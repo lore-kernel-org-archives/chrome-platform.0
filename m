@@ -1,166 +1,139 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E3E7E7
-	for <chrome-platform@lists.linux.dev>; Wed, 31 Aug 2022 08:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661935536; x=1693471536;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=52mxpUUNQaLZvBzTGaxL1x5UXKfcnz4QIE6O7Q2Oy1E=;
-  b=hXkawCArJEgT7X3zvTWHSxwHHKJtHqLYcpT3JKjnAw2flPBiRPGk3/Yl
-   e5quEQI/MOkx7pmpo6KtOpP/6OGVhU41amMs/yLx4cxrLrAs/WuN7qBIj
-   XaMRVK2gbX+VO78QKyxoCMnLpme1ej8KXtuUDMoL2d83OwCZh8J6TnfpI
-   bnWA3WLAaDyUtEzSA8lkcQ3zLdtYThVA4Bg7Z0BRyWe3Sk7iCuBCjqs5n
-   JB85+zVteILIGRStbQG/oj4aQS9+LVeQgDj/7A6darheiU/vVzY8eiAoM
-   GdhVxp2c2vtWNkSx60DJEYOaKjc0gqwLbXLMSKKCnX3WI/kuBAOfUwA/o
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="282377748"
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; 
-   d="scan'208";a="282377748"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 01:45:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; 
-   d="scan'208";a="754358827"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 31 Aug 2022 01:45:33 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 31 Aug 2022 11:45:32 +0300
-Date: Wed, 31 Aug 2022 11:45:32 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	bleung@chromium.org, Guenter Roeck <groeck@chromium.org>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Register partner PDOs
-Message-ID: <Yw8frAv2pMfjmE0U@kuha.fi.intel.com>
-References: <20220830202018.1884851-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5164A2B
+	for <chrome-platform@lists.linux.dev>; Wed, 31 Aug 2022 18:01:07 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-11eab59db71so22048572fac.11
+        for <chrome-platform@lists.linux.dev>; Wed, 31 Aug 2022 11:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=T6Du1Lo5xImAO249U1dETl4IIbiFdjm8Fx7yNl0ICjY=;
+        b=MbYKgq9YQ6Cmkjnxo/SEbnM4RZKXJbf89tkfIphzPRlEB3rBPLNslG/zc7Fa5N37Fc
+         lhVNZA4SRNJ06uCP16o+JMRPLBbB7LZLhUmAhdDCGlpymbSMzCwQst5srlXLX+H8VtkA
+         XUAFrNIQJJI0kOzoWw7DNXGkMWcZoWg9//pcSu8QypDj4UjYgibbK79Z1QjY7pjyvltg
+         qxcihlzG1LpIR9Gb3RuZ69YrMRSOUl1bmFd7L9fhg8jqKoigPuvkaAZ1hWbqemGqF+VR
+         hXqzIImXiW+0FabsOWFDktXerKkrjF17lUaPV1+xNvHCDpkytsZXVVlzzaRlQ8JfF3zN
+         k+aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=T6Du1Lo5xImAO249U1dETl4IIbiFdjm8Fx7yNl0ICjY=;
+        b=2/cp4hm+LeB+ZbgKy7jX6xLXu9deoXsFdZRCuRsveVL1alAdxIdAg+VjIGngJPa1Mh
+         xOUbaHCdr479ZqjYJA/i743tdrQNwUCjE+vesN5817RRG13dhuRkzn67GTS5i3Ps+WoF
+         vzuCmrNfgHMvLtYFpf2sQYtywqHiSsDUKp33HhNgSl+K+dwL7YTZlyVq4QDtdKGE6m+5
+         9lde5NnEuC3EtNOKve77e3mYrVK3mIk+NDlC8IURt4PUgBBUSj5oc/Dmy8D+BBEiuPhE
+         /n/hVFCeREEjhzU8ISuygSaTbyi3T6mL0DLbta8c4tvDrnwnDJ+kqkL62pEuVLoW7ru9
+         JCnQ==
+X-Gm-Message-State: ACgBeo2M1WrEMk+dc6pawJTNWkakuLC8tl7mc1De2cYAdJWBihalUuOr
+	21J39PAZ3apjIxL/u6/iyUKN+OgGysYRHEhx6okeHA==
+X-Google-Smtp-Source: AA6agR4nuWTt+l/HHXALlIvuHu0a36M8RihXtAB0CgHufnQWYfzsfDJoK3Av9fP0SMKZV1RXp2U8YrypIgn6ZCwEbcY=
+X-Received: by 2002:a05:6808:1641:b0:345:4f32:b30a with SMTP id
+ az1-20020a056808164100b003454f32b30amr1800917oib.189.1661968866436; Wed, 31
+ Aug 2022 11:01:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220830202018.1884851-1-pmalani@chromium.org>
+References: <20220823095915.v7.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
+In-Reply-To: <20220823095915.v7.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
+From: Tim Van Patten <timvp@google.com>
+Date: Wed, 31 Aug 2022 12:00:55 -0600
+Message-ID: <CANkg5ezTvzSFLkRWbhMDUqezQXW6996DYVohWMUa+cYwSB+YBw@mail.gmail.com>
+Subject: Re: [PATCH v7] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
+To: rrangel@chromium.org, robbarnes@google.com
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 30, 2022 at 08:20:18PM +0000, Prashant Malani wrote:
-> The ChromeOS EC exports partner source/sink cap PDOs (Power Data
-> Objects) to the application processor (AP). Use this information
-> to register USB PD (Power Delivery) capabilities with the
-> USB Type-C Power Delivery device class.
-> 
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Hi,
 
-This looks good to me. One nitpick below. With that fixed, FWIW:
+Friendly ping on this patch.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Will you later register also the port PDOs?
-
+On Tue, Aug 23, 2022 at 9:59 AM Tim Van Patten <timvp@google.com> wrote:
+>
+> Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+> .prepare() and cros_ec_lpc_complete() during .complete(). This moves the
+> host command that the AP sends and allows the EC to log entry/exit of
+> AP's suspend/resume more accurately.
+>
+> Signed-off-by: Tim Van Patten <timvp@google.com>
 > ---
->  drivers/platform/chrome/cros_ec_typec.c | 56 +++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index 00208ffbe2e7..f84bf9659a0f 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -73,6 +73,11 @@ struct cros_typec_port {
->  	struct ec_response_typec_discovery *disc_data;
->  	struct list_head partner_mode_list;
->  	struct list_head plug_mode_list;
-> +
-> +	/* PDO-related structs */
-> +	struct usb_power_delivery *partner_pd;
-> +	struct usb_power_delivery_capabilities *partner_src_caps;
-> +	struct usb_power_delivery_capabilities *partner_sink_caps;
->  };
->  
->  /* Platform-specific data for the Chrome OS EC Type C controller. */
-> @@ -253,6 +258,14 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
->  
->  	cros_typec_unregister_altmodes(typec, port_num, true);
->  
-> +	typec_partner_set_usb_power_delivery(port->partner, NULL);
-> +	usb_power_delivery_unregister_capabilities(port->partner_sink_caps);
-> +	port->partner_sink_caps = NULL;
-> +	usb_power_delivery_unregister_capabilities(port->partner_src_caps);
-> +	port->partner_src_caps = NULL;
-> +	usb_power_delivery_unregister(port->partner_pd);
-> +	port->partner_pd = NULL;
-> +
->  	cros_typec_usb_disconnect_state(port);
->  	port->mux_flags = USB_PD_MUX_NONE;
->  
-> @@ -939,6 +952,46 @@ static int cros_typec_send_clear_event(struct cros_typec_data *typec, int port_n
->  			   sizeof(req), NULL, 0);
->  }
->  
-> +static void cros_typec_register_partner_pdos(struct cros_typec_data *typec,
-> +					     struct ec_response_typec_status *resp, int port_num)
-> +{
-> +	struct usb_power_delivery_capabilities_desc caps_desc = {};
-> +	struct usb_power_delivery_desc desc = {
-> +		.revision = (le16_to_cpu(resp->sop_revision) & 0xff00) >> 4,
-> +	};
-> +	struct cros_typec_port *port = typec->ports[port_num];
-> +
-> +	if (!port->partner || port->partner_pd)
-> +		return;
-> +
-> +	/* If no caps are available, don't bother creating a device. */
-> +	if (!resp->source_cap_count && !resp->sink_cap_count)
-> +		return;
-> +
-> +	port->partner_pd = usb_power_delivery_register(NULL, &desc);
-> +	if (IS_ERR(port->partner_pd)) {
-> +		dev_warn(typec->dev, "Failed to register partner PD device, port: %d\n", port_num);
-> +		return;
-> +	}
-> +
-> +	typec_partner_set_usb_power_delivery(port->partner, port->partner_pd);
-> +
-> +	memcpy(caps_desc.pdo, resp->source_cap_pdos, sizeof(u32) * resp->source_cap_count);
-> +	caps_desc.role = TYPEC_SOURCE;
-> +	port->partner_src_caps = usb_power_delivery_register_capabilities(port->partner_pd,
-> +									  &caps_desc);
-> +	if (IS_ERR(port->partner_src_caps))
-> +		dev_warn(typec->dev, "Failed to register source caps, port: %d\n", port_num);
-> +
-> +	memset(&caps_desc, 0, sizeof(caps_desc));
-> +	memcpy(caps_desc.pdo, resp->sink_cap_pdos, sizeof(u32) * resp->sink_cap_count);
-> +	caps_desc.role = TYPEC_SINK;
-> +	port->partner_sink_caps = usb_power_delivery_register_capabilities(port->partner_pd,
-> +									   &caps_desc);
-> +	if (IS_ERR(port->partner_sink_caps))
-> +		dev_warn(typec->dev, "Failed to register sink caps, port: %d\n", port_num);
-> +}
-> +
->  static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num)
+>
+> Changes in v7:
+> - Rename "host event" to "host command" in title/description.
+>
+> Changes in v6:
+> - Fully restore fixes from v3.
+>
+> Changes in v5:
+> - Restore fixes from v3.
+>
+> Changes in v4:
+> - Update title and description.
+>
+> Changes in v3:
+> - Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
+> - Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
+>
+> Changes in v2:
+> - Include cros_ec_resume() return value in dev_info() output.
+> - Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
+>
+>  drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index 7677ab3c0ead..4158bdeee197 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -530,23 +530,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
+>  MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
+>
+>  #ifdef CONFIG_PM_SLEEP
+> -static int cros_ec_lpc_suspend(struct device *dev)
+> +static int cros_ec_lpc_prepare(struct device *dev)
 >  {
->  	struct ec_response_typec_status resp;
-> @@ -986,6 +1039,8 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
->  		}
->  		if (resp.sop_connected)
->  			typec_set_pwr_opmode(typec->ports[port_num]->port, TYPEC_PWR_MODE_PD);
+>         struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+>
+> +       dev_info(dev, "Prepare EC suspend\n");
 > +
-> +		cros_typec_register_partner_pdos(typec, &resp, port_num);
->  	}
->  
->  	if (resp.events & PD_STATUS_EVENT_SOP_PRIME_DISC_DONE &&
-> @@ -1006,6 +1061,7 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
->  					 "Failed SOP Disc event clear, port: %d\n", port_num);
->  		}
->  	}
-> +
+>         return cros_ec_suspend(ec_dev);
 >  }
+>
+> -static int cros_ec_lpc_resume(struct device *dev)
+> +static void cros_ec_lpc_complete(struct device *dev)
+>  {
+>         struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+> +       int ret;
+> +
+> +       ret = cros_ec_resume(ec_dev);
+>
+> -       return cros_ec_resume(ec_dev);
+> +       dev_info(dev, "EC resume completed: ret = %d\n", ret);
+>  }
+>  #endif
+>
+>  static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
+> -       SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
+> +#ifdef CONFIG_PM_SLEEP
+> +       .prepare = cros_ec_lpc_prepare,
+> +       .complete = cros_ec_lpc_complete
+> +#endif
+>  };
+>
+>  static struct platform_driver cros_ec_lpc_driver = {
+> --
+> 2.37.2.609.g9ff673ca1a-goog
+>
 
-I'm guessing that extra newline was just a typo.
-
-thanks,
 
 -- 
-heikki
+
+Tim Van Patten | ChromeOS | timvp@google.com | (720) 432-0997

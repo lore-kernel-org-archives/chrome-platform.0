@@ -1,514 +1,358 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BEE89C7
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Sep 2022 20:21:23 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id v128so1381789ioe.12
-        for <chrome-platform@lists.linux.dev>; Wed, 07 Sep 2022 13:21:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3389BB
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Sep 2022 20:32:57 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id 78so14644558pgb.13
+        for <chrome-platform@lists.linux.dev>; Wed, 07 Sep 2022 13:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=469KnrFq2ZwKpOL78TqFdkkkacSObQj7fQJd5FSDXRY=;
-        b=QKAz3dQLO4LCR79J+ZFqOKV70zOXihlwXpEjH/3nKiX9/8Loqx2ZEZm+x/RYx07b7S
-         4uLQzR3mCmfCU6BmNDQWrKhbxXlVIL4vcGiHxApQHXxhSwJJ/zWMPu7UrCjGk3SgUG+k
-         32Fsj4aTscy/7lLGhpzpX9LSnRjjAv83OqzXk=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date;
+        bh=iEI9Um6JPNc862UdntLoUejejswjaMLSJLaD1wB2PeE=;
+        b=q8dUzpqObNnNEaP6EflAR+LlkftrxqBLpefX5bywXmBPP1qPVXBeNS4O3CQWbpN8cl
+         HdInhIBDHvgxcJfORPzaWmsdtc+qnkEGwS27QVJqT08DWztSVULseHiQXUhfnKNidJnk
+         zxTgQ4x/SMIoYB3ggeIWzQreN8goe9BPKN/WokEQb2TC4t0CX76tBbegfczl0i9kNc7f
+         wcuafwmjNPJtHYohzzjUrBTHxmmjioew48ANPLfFfufKShLZZd8PwxX3rzlfRUpqBlWZ
+         AfSNHJsCQ5rdkd8nvEjz9CexkB/z/bk37Z5n+JZl7qSjdrUbRSB8KETSxFpGq+MabCed
+         LDjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=469KnrFq2ZwKpOL78TqFdkkkacSObQj7fQJd5FSDXRY=;
-        b=x3MIeGEqhe0qTnYyBM8SUJDdymsNh1hG1atonN1rjiHhRak76Hc4QyP3x/+NzmsuOj
-         bdHsu+GI3YA6fqyDo5RK6Lw8eEyVmmkia6QMG5I1YGTbg2Ch9bKqe3HLmVmTHVD2OzZe
-         PKNmW2+1riaIbt5erhf3CZ/IkVlhJOarVfpRQ6qoAWj14Pbau34iTsVEdPT2/TfgnlsG
-         cBTptrWmOccMrdekYHufOKk6H6MP6Mo+iXW89YBd63E0b1vRaJ3r9sqlIWgYwpATX+Xc
-         7zwxcnQc3+fVNxfp/f0lSEgcTSYlDZy0XM73rbRe92D0kUryp2l+NmN6eYRzQOlgHHys
-         AEWQ==
-X-Gm-Message-State: ACgBeo0hMBVeZ2c5o1gjc6RUDF+P1aSJ8D0F833KPNhi3war3v7RYy27
-	tduo40nFFq5xWCTcQzPUVsZnoA==
-X-Google-Smtp-Source: AA6agR7dqHdynRSi7zdb9swApGXgx4/A6m+7m3lgDB4r+J3jQfyhHgY9oT76Gfj/ohBygvfDO2bwKQ==
-X-Received: by 2002:a05:6602:2cc9:b0:689:8260:e118 with SMTP id j9-20020a0566022cc900b006898260e118mr2741070iow.45.1662582082910;
-        Wed, 07 Sep 2022 13:21:22 -0700 (PDT)
-Received: from jrosenth45.corp.google.com ([100.107.108.164])
-        by smtp.gmail.com with ESMTPSA id u68-20020a022347000000b0034c15d1269fsm7636713jau.100.2022.09.07.13.21.21
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=iEI9Um6JPNc862UdntLoUejejswjaMLSJLaD1wB2PeE=;
+        b=5PCMQAweld4SlQC8a23v5khdR6uuUF/DnBCCHwTurK+KwiyN8q60OOO9hXP+W2Op8D
+         1Q97oJE/o5Y6wsMFQbTG1+0ApaHMzGSHJh0cRIIGXtfp3bp6Ons6Nhn/d4LzhQ0oRFU/
+         KTdi9Qieq46O2gkTaAJf/MSE+B8AqofaoSNOt3LyGohc9wqeE1GtmTvwfSM3sE6ZIBvX
+         6VvICQPhEqfvO4finVzgygaNR+HI2kRLaY95251d+bx3NN+h869Pf8Dpz1P26wAaH3EX
+         tD3W4LwWfh0uOg0GTAnPUADpi+aUYfi5gvkoWa7acgnP5O95kFJlpAveKz3Ss9JXNzw+
+         r+1A==
+X-Gm-Message-State: ACgBeo2w4/ZtA9aAOf7pPMkIAR+fITSWCZFpY9k4f/pbYbHD/O5xrbEO
+	IoOXoc3PsZdxWFEj6k3KBl2ejg==
+X-Google-Smtp-Source: AA6agR7rrJov/FryWkT17pbt0cyczASkariV1lfmvPlJ/yJLE59nHtIfB2Plj46XgcyAOTk4qOnyBQ==
+X-Received: by 2002:a63:8243:0:b0:42b:1d94:3c66 with SMTP id w64-20020a638243000000b0042b1d943c66mr5014259pgd.278.1662582776629;
+        Wed, 07 Sep 2022 13:32:56 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id b29-20020a631b1d000000b0043087a64bd5sm10821858pgb.10.2022.09.07.13.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 13:21:22 -0700 (PDT)
-From: Jack Rosenthal <jrosenth@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Jack Rosenthal <jrosenth@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Julius Werner <jwerner@chromium.org>
-Subject: [PATCH v10] firmware: google: Implement cbmem in sysfs driver
-Date: Wed,  7 Sep 2022 14:20:54 -0600
-Message-Id: <20220907202054.1133136-1-jrosenth@chromium.org>
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+        Wed, 07 Sep 2022 13:32:56 -0700 (PDT)
+Message-ID: <6318fff8.630a0220.7e046.0151@mx.google.com>
+Date: Wed, 07 Sep 2022 13:32:56 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: v6.0-rc1-19-gd378c6f0456c
+Subject: chrome-platform/for-kernelci cros-ec: 8 runs,
+ 8 regressions (v6.0-rc1-19-gd378c6f0456c)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-The CBMEM area is a downward-growing memory region used by coreboot to
-dynamically allocate tagged data structures ("CBMEM entries") that
-remain resident during boot.
+chrome-platform/for-kernelci cros-ec: 8 runs, 8 regressions (v6.0-rc1-19-gd=
+378c6f0456c)
 
-This implements a driver which exports access to the CBMEM entries
-via sysfs under /sys/firmware/coreboot/cbmem/<id>.
+Regressions Summary
+-------------------
 
-This implementation is quite versatile.  Examples of how it could be
-used are given below:
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 1          =
 
-* Tools like util/cbmem from the coreboot tree could use this driver
-  instead of finding CBMEM in /dev/mem directly.  Alternatively,
-  firmware developers debugging an issue may find the sysfs interface
-  more ergonomic than the cbmem tool and choose to use it directly.
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
 
-* The crossystem tool, which exposes verified boot variables, can use
-  this driver to read the vboot work buffer.
+hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
 
-* Tools which read the BIOS SPI flash (e.g., flashrom) can find the
-  flash layout in CBMEM directly, which is significantly faster than
-  searching the flash directly.
+mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 1          =
 
-Write access is provided to all CBMEM regions via
-/sys/firmware/coreboot/cbmem/<id>/mem, as the existing cbmem tooling
-updates this memory region, and envisioned use cases with crossystem
-can benefit from updating memory regions.
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
 
-Link: https://issuetracker.google.com/239604743
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-Reviewed-by: Julius Werner <jwerner@chromium.org>
-Tested-by: Jack Rosenthal <jrosenth@chromium.org>
-Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
----
-v10:
-* Changed /mem back to read/write support based on offline
-  conversation with Julius Werner and Stephen Boyd.  As noted above,
-  existing tools make use of writing to these memory regions, so we
-  should support that.
-* Inlined cbmem_entry_setup into cbmem_entry_probe.
 
- .../ABI/testing/sysfs-firmware-coreboot       |  49 ++++
- drivers/firmware/google/Kconfig               |   8 +
- drivers/firmware/google/Makefile              |   3 +
- drivers/firmware/google/cbmem.c               | 225 ++++++++++++++++++
- drivers/firmware/google/coreboot_table.c      |  10 +
- drivers/firmware/google/coreboot_table.h      |  16 ++
- 6 files changed, 311 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
- create mode 100644 drivers/firmware/google/cbmem.c
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v6.0-rc1-19-gd378c6f0456c/plan/cros-ec/
 
-diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
-new file mode 100644
-index 000000000000..c003eb515d0c
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
-@@ -0,0 +1,49 @@
-+What:		/sys/firmware/coreboot/
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Kernel objects associated with the Coreboot-based BIOS firmware.
-+
-+What:		/sys/firmware/coreboot/cbmem/
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Coreboot provides a variety of information in CBMEM.  This
-+		directory contains each CBMEM entry, which can be found via
-+		Coreboot tables.
-+
-+What:		/sys/firmware/coreboot/cbmem/<id>/
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Each CBMEM entry is given a directory based on the id
-+		corresponding to the entry.  A list of ids known to coreboot can
-+		be found in the coreboot source tree at
-+		``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``.
-+
-+What:		/sys/firmware/coreboot/cbmem/<id>/address
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The memory address that the CBMEM entry's data begins at.
-+
-+What:		/sys/firmware/coreboot/cbmem/<id>/size
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The size of the data being stored.
-+
-+What:		/sys/firmware/coreboot/cbmem/<id>/id
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The CBMEM id corresponding to the entry.
-+
-+What:		/sys/firmware/coreboot/cbmem/<id>/mem
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		A file exposing read/write access to the entry's data.  Note
-+		that this file does not support mmap(), and should be used for
-+		basic data access only.  Users requiring mmap() should read the
-+		address and size files, and mmap() /dev/mem.
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 983e07dc022e..b0f7a24fd90a 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -19,6 +19,14 @@ config GOOGLE_SMI
- 	  driver provides an interface for reading and writing NVRAM
- 	  variables.
- 
-+config GOOGLE_CBMEM
-+	tristate "CBMEM entries in sysfs"
-+	depends on GOOGLE_COREBOOT_TABLE
-+	help
-+	  This option enables the kernel to search for Coreboot CBMEM
-+	  entries, and expose the memory for each entry in sysfs under
-+	  /sys/firmware/coreboot/cbmem.
-+
- config GOOGLE_COREBOOT_TABLE
- 	tristate "Coreboot Table Access"
- 	depends on HAS_IOMEM && (ACPI || OF)
-diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
-index d17caded5d88..8151e323cc43 100644
---- a/drivers/firmware/google/Makefile
-+++ b/drivers/firmware/google/Makefile
-@@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
- 
-+# Must come after coreboot_table.o, as this driver depends on that bus type.
-+obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
-+
- vpd-sysfs-y := vpd.o vpd_decode.o
- obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-new file mode 100644
-index 000000000000..835950a14fa6
---- /dev/null
-+++ b/drivers/firmware/google/cbmem.c
-@@ -0,0 +1,225 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * cbmem.c
-+ *
-+ * Driver for exporting cbmem entries in sysfs.
-+ *
-+ * Copyright 2022 Google LLC
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/kobject.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/sysfs.h>
-+
-+#include "coreboot_table.h"
-+
-+#define LB_TAG_CBMEM_ENTRY 0x31
-+
-+static struct kobject *cbmem_kobj;
-+
-+struct cbmem_entry;
-+struct cbmem_entry_attr {
-+	struct kobj_attribute kobj_attr;
-+	struct cbmem_entry *entry;
-+};
-+
-+struct cbmem_entry {
-+	struct kobject *kobj;
-+	struct coreboot_device *dev;
-+	struct bin_attribute mem_file;
-+	char *mem_file_buf;
-+	struct cbmem_entry_attr address_file;
-+	struct cbmem_entry_attr size_file;
-+	struct cbmem_entry_attr id_file;
-+};
-+
-+static struct cbmem_entry_attr *to_cbmem_entry_attr(struct kobj_attribute *a)
-+{
-+	return container_of(a, struct cbmem_entry_attr, kobj_attr);
-+}
-+
-+static ssize_t cbmem_entry_mem_read(struct file *filp, struct kobject *kobp,
-+				    struct bin_attribute *bin_attr, char *buf,
-+				    loff_t pos, size_t count)
-+{
-+	struct cbmem_entry *entry = bin_attr->private;
-+
-+	return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
-+				       bin_attr->size);
-+}
-+
-+static ssize_t cbmem_entry_mem_write(struct file *filp, struct kobject *kobp,
-+				     struct bin_attribute *bin_attr, char *buf,
-+				     loff_t pos, size_t count)
-+{
-+	struct cbmem_entry *entry = bin_attr->private;
-+
-+	if (pos < 0 || pos >= bin_attr->size)
-+		return -EINVAL;
-+	if (count > bin_attr->size - pos)
-+		count = bin_attr->size - pos;
-+
-+	memcpy(entry->mem_file_buf + pos, buf, count);
-+	return count;
-+}
-+
-+static ssize_t cbmem_entry_address_show(struct kobject *kobj,
-+					struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%llx\n",
-+			  entry_attr->entry->dev->cbmem_entry.address);
-+}
-+
-+static ssize_t cbmem_entry_size_show(struct kobject *kobj,
-+				     struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%x\n",
-+			  entry_attr->entry->dev->cbmem_entry.entry_size);
-+}
-+
-+static ssize_t cbmem_entry_id_show(struct kobject *kobj,
-+				   struct kobj_attribute *a, char *buf)
-+{
-+	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
-+
-+	return sysfs_emit(buf, "0x%08x\n",
-+			  entry_attr->entry->dev->cbmem_entry.id);
-+}
-+
-+static int cbmem_entry_probe(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry;
-+	char *kobj_name;
-+	int ret;
-+
-+	entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
-+	if (!entry)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&dev->dev, entry);
-+	entry->dev = dev;
-+	entry->mem_file_buf =
-+		devm_memremap(&entry->dev->dev, entry->dev->cbmem_entry.address,
-+			      entry->dev->cbmem_entry.entry_size, MEMREMAP_WB);
-+	if (!entry->mem_file_buf)
-+		return -ENOMEM;
-+
-+	kobj_name = devm_kasprintf(&entry->dev->dev, GFP_KERNEL, "%08x",
-+				   entry->dev->cbmem_entry.id);
-+	if (!kobj_name)
-+		return -ENOMEM;
-+
-+	entry->kobj = kobject_create_and_add(kobj_name, cbmem_kobj);
-+	if (!entry->kobj)
-+		return -ENOMEM;
-+
-+	sysfs_bin_attr_init(&entry->mem_file);
-+	entry->mem_file.attr.name = "mem";
-+	entry->mem_file.attr.mode = 0600;
-+	entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
-+	entry->mem_file.read = cbmem_entry_mem_read;
-+	entry->mem_file.write = cbmem_entry_mem_write;
-+	entry->mem_file.private = entry;
-+	ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
-+	if (ret)
-+		goto free_kobj;
-+
-+	sysfs_attr_init(&entry->address_file.kobj_attr.attr);
-+	entry->address_file.kobj_attr.attr.name = "address";
-+	entry->address_file.kobj_attr.attr.mode = 0444;
-+	entry->address_file.kobj_attr.show = cbmem_entry_address_show;
-+	entry->address_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj,
-+				&entry->address_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_mem_file;
-+
-+	sysfs_attr_init(&entry->size_file.kobj_attr.attr);
-+	entry->size_file.kobj_attr.attr.name = "size";
-+	entry->size_file.kobj_attr.attr.mode = 0444;
-+	entry->size_file.kobj_attr.show = cbmem_entry_size_show;
-+	entry->size_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_address_file;
-+
-+	sysfs_attr_init(&entry->id_file.kobj_attr.attr);
-+	entry->id_file.kobj_attr.attr.name = "id";
-+	entry->id_file.kobj_attr.attr.mode = 0444;
-+	entry->id_file.kobj_attr.show = cbmem_entry_id_show;
-+	entry->id_file.entry = entry;
-+	ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-+	if (ret)
-+		goto free_size_file;
-+
-+	return 0;
-+
-+free_size_file:
-+	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+free_address_file:
-+	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-+free_mem_file:
-+	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-+free_kobj:
-+	kobject_put(entry->kobj);
-+	return ret;
-+}
-+
-+static void cbmem_entry_remove(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
-+
-+	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
-+	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
-+	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
-+	sysfs_remove_file(entry->kobj, &entry->id_file.kobj_attr.attr);
-+	kobject_put(entry->kobj);
-+}
-+
-+static struct coreboot_driver cbmem_entry_driver = {
-+	.probe = cbmem_entry_probe,
-+	.remove = cbmem_entry_remove,
-+	.drv = {
-+		.name = "cbmem",
-+		.owner = THIS_MODULE,
-+	},
-+	.tag = LB_TAG_CBMEM_ENTRY,
-+};
-+
-+static int __init cbmem_init(void)
-+{
-+	int ret;
-+
-+	cbmem_kobj = kobject_create_and_add("cbmem", coreboot_kobj);
-+	if (!cbmem_kobj)
-+		return -ENOMEM;
-+
-+	ret = coreboot_driver_register(&cbmem_entry_driver);
-+	if (ret) {
-+		kobject_put(cbmem_kobj);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+module_init(cbmem_init);
-+
-+static void __exit cbmem_exit(void)
-+{
-+	kobject_put(cbmem_kobj);
-+	coreboot_driver_unregister(&cbmem_entry_driver);
-+}
-+module_exit(cbmem_exit);
-+
-+MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index c52bcaa9def6..a3e2720e4638 100644
---- a/drivers/firmware/google/coreboot_table.c
-+++ b/drivers/firmware/google/coreboot_table.c
-@@ -14,16 +14,21 @@
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/kobject.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/sysfs.h>
- 
- #include "coreboot_table.h"
- 
- #define CB_DEV(d) container_of(d, struct coreboot_device, dev)
- #define CB_DRV(d) container_of(d, struct coreboot_driver, drv)
- 
-+struct kobject *coreboot_kobj;
-+EXPORT_SYMBOL(coreboot_kobj);
-+
- static int coreboot_bus_match(struct device *dev, struct device_driver *drv)
- {
- 	struct coreboot_device *device = CB_DEV(dev);
-@@ -157,6 +162,10 @@ static int coreboot_table_probe(struct platform_device *pdev)
- 	}
- 	memunmap(ptr);
- 
-+	coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
-+	if (!coreboot_kobj)
-+		return -ENOMEM;
-+
- 	return ret;
- }
- 
-@@ -170,6 +179,7 @@ static int coreboot_table_remove(struct platform_device *pdev)
- {
- 	bus_for_each_dev(&coreboot_bus_type, NULL, NULL, __cb_dev_unregister);
- 	bus_unregister(&coreboot_bus_type);
-+	kobject_put(coreboot_kobj);
- 	return 0;
- }
- 
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index beb778674acd..76c31e6e5376 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -14,6 +14,11 @@
- 
- #include <linux/device.h>
- 
-+struct kobject;
-+
-+/* This is /sys/firmware/coreboot */
-+extern struct kobject *coreboot_kobj;
-+
- /* Coreboot table header structure */
- struct coreboot_table_header {
- 	char signature[4];
-@@ -39,6 +44,16 @@ struct lb_cbmem_ref {
- 	u64 cbmem_addr;
- };
- 
-+/* Corresponds to LB_TAG_CBMEM_ENTRY */
-+struct lb_cbmem_entry {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 address;
-+	u32 entry_size;
-+	u32 id;
-+};
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -65,6 +80,7 @@ struct coreboot_device {
- 	union {
- 		struct coreboot_table_entry entry;
- 		struct lb_cbmem_ref cbmem_ref;
-+		struct lb_cbmem_entry cbmem_entry;
- 		struct lb_framebuffer framebuffer;
- 	};
- };
--- 
-2.37.2.789.g6183377224-goog
+  Test:     cros-ec
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v6.0-rc1-19-gd378c6f0456c
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      d378c6f0456c101563fdac68c11e64c3a00ad3c2
 
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6318e94d188bc7c6a8355646
+
+  Results:     8 PASS, 2 FAIL, 9 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-asus-cx9400-volteer.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+318e94d188bc7c6a8355659
+        failing since 15 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-09-07T18:55:49.023198  / # =
+
+    2022-09-07T18:55:49.029925  =
+
+    2022-09-07T18:55:49.136549  / # #
+    2022-09-07T18:55:49.143090  #
+    2022-09-07T18:55:49.245820  / # export SHELL=3D/bin/sh
+    2022-09-07T18:55:49.252368  export SHELL=3D/bin/sh
+    2022-09-07T18:55:49.354487  / # . /lava-7206957/environment
+    2022-09-07T18:55:49.360822  . /lava-7206957/environment
+    2022-09-07T18:55:49.463080  / # /lava-7206957/bin/lava-test-runner /lav=
+a-7206957/0
+    2022-09-07T18:55:49.469453  /lava-7206957/bin/lava-test-runner /lava-72=
+06957/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6318ea152dc00d52e635566a
+
+  Results:     6 PASS, 2 FAIL, 11 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+18ea162dc00d52e635567b
+        failing since 15 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+318ea162dc00d52e635567d
+        failing since 15 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-09-07T18:59:24.807526  / # =
+
+    2022-09-07T18:59:24.812527  =
+
+    2022-09-07T18:59:24.914388  / # #
+    2022-09-07T18:59:24.919117  #
+    2022-09-07T18:59:25.020206  / # export SHELL=3D/bin/sh
+    2022-09-07T18:59:25.024615  export SHELL=3D/bin/sh
+    2022-09-07T18:59:25.125350  / # . /lava-7206939/environment
+    2022-09-07T18:59:25.129719  . /lava-7206939/environment
+    2022-09-07T18:59:25.230670  / # /lava-7206939/bin/lava-test-runner /lav=
+a-7206939/0
+    2022-09-07T18:59:25.235296  /lava-7206939/bin/lava-test-runner /lava-72=
+06939/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6318e939ab6c1d9b8a355654
+
+  Results:     6 PASS, 2 FAIL, 11 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-14-G1-sona.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-14-G1-sona.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+18e939ab6c1d9b8a355665
+        failing since 15 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+318e939ab6c1d9b8a355667
+        failing since 15 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-09-07T18:55:36.527904  / # =
+
+    2022-09-07T18:55:36.532498  =
+
+    2022-09-07T18:55:36.634172  / # #
+    2022-09-07T18:55:36.638994  #
+    2022-09-07T18:55:36.739953  / # export SHELL=3D/bin/sh
+    2022-09-07T18:55:36.744782  export SHELL=3D/bin/sh
+    2022-09-07T18:55:36.845669  / # . /lava-7206905/environment
+    2022-09-07T18:55:36.850525  . /lava-7206905/environment
+    2022-09-07T18:55:36.951445  / # /lava-7206905/bin/lava-test-runner /lav=
+a-7206905/0
+    2022-09-07T18:55:36.956625  /lava-7206905/bin/lava-test-runner /lava-72=
+06905/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6318ec45752108eeb4355650
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/cros-ec-mt8173-elm-hana.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/cros-ec-mt8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/6318ec45752108eeb43556=
+51
+        new failure (last pass: v6.0-rc1-18-gf36a064d1483) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6318eb41e8dbddc6fe355642
+
+  Results:     5 PASS, 2 FAIL, 12 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/cros-ec-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.0-rc1-19-gd378c6f0456c/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/cros-ec-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+18eb41e8dbddc6fe355653
+        failing since 6 days (last pass: tag-chrome-platform-for-v5.20-2-gd=
+dffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+318eb41e8dbddc6fe355655
+        failing since 6 days (last pass: tag-chrome-platform-for-v5.20-2-gd=
+dffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483)
+
+    2022-09-07T19:04:23.418588  / # =
+
+    2022-09-07T19:04:23.421835  =
+
+    2022-09-07T19:04:23.529601  / # #
+    2022-09-07T19:04:23.532592  #
+    2022-09-07T19:04:23.637009  / # export SHELL=3D/bin/sh
+    2022-09-07T19:04:23.640300  export SHELL=3D/bin/sh
+    2022-09-07T19:04:23.744290  / # . /lava-7207012/environment
+    2022-09-07T19:04:23.747959  . /lava-7207012/environment
+    2022-09-07T19:04:23.852142  / #/lava-7207012/bin/lava-test-runner /lava=
+-7207012/0
+    2022-09-07T19:04:23.855274   /lava-7207012/bin/lava-test-runner /lava-7=
+207012/0 =
+
+    ... (10 line(s) more)  =
+
+ =20

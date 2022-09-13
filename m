@@ -1,69 +1,65 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39523C3E
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 17:17:49 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-127ba06d03fso33991538fac.3
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 10:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=DRrSt1g1MwWWIcrp8RvrIGoWocVBN6Pz07Q5HTcSUe4=;
-        b=OgNrTzvafqsbqCKy9d8AO957d5rSQDMlcymT2RJaj627dRsLVvZwbojoy3oDjPb2LY
-         9kYbZN+9OotFDdln4t7sWUr30bJjf/A+X5uQT5MEgD/otHEy57ZBdTEDrlfsa2l85MtE
-         /XtetIM2X/Odqh1MZkDS5gfQCk2qjrZW3aAmk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=DRrSt1g1MwWWIcrp8RvrIGoWocVBN6Pz07Q5HTcSUe4=;
-        b=dXBgMqLjBvZGnxo8fZwMQ6tPbNc9AdjJTBRHyUQtCGtcqIwyKXWuWRPqVy8WWGsH86
-         shgaPPqVsh2WNRz88i+DuY2zYpjF0Cm8TbIpcSh2FccwbxYWj9/sFfJExLNvj1dmNy4N
-         0/dBVO0OwrqiYexAw9kbkP3vquzwdTobKajMKQ7kTrA32vhL+goumge5Y5YWVGcK8Hmc
-         uLvIX4KY3gD0diuex+jNOW7VsJLBVT309DheK5DcQZ6no+wrmnDn4F9r8nZ2kcfWPkHK
-         L5aajmXOa135TkM62pT2qzDmICYTYKQek110ZKuyadA9EKWCLakiMxMw/Q9oF1qPNoRC
-         968g==
-X-Gm-Message-State: ACgBeo1DakLhG5qysP8jj8Bd+qsMA04fK1Lbx8oA0D5dA0D7EFjuI++P
-	ETDUV0t+qLNN1revmAYvleh+1KfQ1pAXXrqeluySDw==
-X-Google-Smtp-Source: AA6agR6lGJjOKjRAA18P3LgKh5BJ1kmfGGmXulrZufDWxYKMksK2fHr5gTpOX1MQI/0k7i50uYVHYUMQQIqLU22CZh4=
-X-Received: by 2002:a05:6808:3021:b0:335:182f:a66a with SMTP id
- ay33-20020a056808302100b00335182fa66amr137569oib.295.1663089469116; Tue, 13
- Sep 2022 10:17:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26A94C85
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 69497C433D6;
+	Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663092615;
+	bh=/jUcxsnBG6ojLgSY9IvrUoXi0rLcgT0GFy0jVz1K32E=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=HXRJ9nzjNR+1aUoxLMAlmMGktKd3+oQlf/ObWUjNY3WybWN3r1NVRTG2/HpuQh4Jh
+	 wjGUujTTbzr1mHRPE2qLYz3hUMbOCLvGyF9xJCbyEsUJNfUcyYJ6sKTGLzoJwRWsqG
+	 8QZ6EzffKIh7JKwfMh4M41L+weXC5dwsarhctNCNd8b/pyqcygDkHnn1c9q8UoR5ds
+	 YEBDForzahUD9B0YyPu/dFcoLrKafsKD36H43crITBX9Mf01Iy54hCqsAt5Zj9dQAW
+	 d1jx+l3y5jTR9lL6yPeUL2VhwOxGFwql1Yzgjzx8Y0en0fy+vjPnIE8g4NPYL8kFp6
+	 BtI8ZJBinOOqw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3DCA4C73FEB;
+	Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220913145549.2839948-1-jthies@google.com>
-In-Reply-To: <20220913145549.2839948-1-jthies@google.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 13 Sep 2022 10:17:37 -0700
-Message-ID: <CACeCKadOcKsmpvdtYf5QhUxcMA82angLzZBHx2yZ9QHJPv=bsw@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/chrome: cros_ec: Notify the PM of wake events
- during resume
-To: Jameson Thies <jthies@google.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Register partner PDOs
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <166309261522.5740.16523628631752014962.git-patchwork-notify@kernel.org>
+Date: Tue, 13 Sep 2022 18:10:15 +0000
+References: <20220830202018.1884851-1-pmalani@chromium.org>
+In-Reply-To: <20220830202018.1884851-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ bleung@chromium.org, heikki.krogerus@linux.intel.com, groeck@chromium.org
 
-HI Jameson,
+Hello:
 
-On Tue, Sep 13, 2022 at 7:55 AM Jameson Thies <jthies@google.com> wrote:
->
-> cros_ec_handle_event in the cros_ec driver can notify the PM of wake
-> events. When a device is suspended, cros_ec_handle_event will not check
-> MKBP events. Instead, received MKBP events are checked during resume by
-> cros_ec_report_events_during_suspend. But
-> cros_ec_report_events_during_suspend cannot notify the PM if received
-> events are wake events, causing wake events to not be reported if
-> received while the device is suspended.
->
-> Update cros_ec_report_events_during_suspend to notify the PM of wake
-> events during resume by calling pm_wakeup_event.
->
-> Signed-off-by: Jameson Thies <jthies@google.com>
-Although I've already provided the tag, here it is again:
+This patch was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
 
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
+On Tue, 30 Aug 2022 20:20:18 +0000 you wrote:
+> The ChromeOS EC exports partner source/sink cap PDOs (Power Data
+> Objects) to the application processor (AP). Use this information
+> to register USB PD (Power Delivery) capabilities with the
+> USB Type-C Power Delivery device class.
+> 
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - platform/chrome: cros_ec_typec: Register partner PDOs
+    https://git.kernel.org/chrome-platform/c/348a2e8c93d3
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

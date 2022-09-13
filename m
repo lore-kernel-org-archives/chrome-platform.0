@@ -1,65 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26A94C85
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 69497C433D6;
-	Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663092615;
-	bh=/jUcxsnBG6ojLgSY9IvrUoXi0rLcgT0GFy0jVz1K32E=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=HXRJ9nzjNR+1aUoxLMAlmMGktKd3+oQlf/ObWUjNY3WybWN3r1NVRTG2/HpuQh4Jh
-	 wjGUujTTbzr1mHRPE2qLYz3hUMbOCLvGyF9xJCbyEsUJNfUcyYJ6sKTGLzoJwRWsqG
-	 8QZ6EzffKIh7JKwfMh4M41L+weXC5dwsarhctNCNd8b/pyqcygDkHnn1c9q8UoR5ds
-	 YEBDForzahUD9B0YyPu/dFcoLrKafsKD36H43crITBX9Mf01Iy54hCqsAt5Zj9dQAW
-	 d1jx+l3y5jTR9lL6yPeUL2VhwOxGFwql1Yzgjzx8Y0en0fy+vjPnIE8g4NPYL8kFp6
-	 BtI8ZJBinOOqw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3DCA4C73FEB;
-	Tue, 13 Sep 2022 18:10:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731F54C85
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 18:29:05 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id y3so29586325ejc.1
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 11:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=5mHZ5ROhl2xtNeHNSULnEJ0gJ4kTfFmkLYuGrarU5rA=;
+        b=i3HOGXCvTpvPOHn1H8Lzjo7VBm1nTBxu4nFJrI6Ry6CZW7KR/BTxrtwzlYJpTnL5Tt
+         C6SXwUVjrF1JCQj0rytXR4POr0Le1lZ7cZFHKtbjGcMbC8/bgI+xvJDzaJXOf4Bzkn44
+         d7DDMdwE3l0gG+82A+XDawz0oYY6ndayYtlzk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=5mHZ5ROhl2xtNeHNSULnEJ0gJ4kTfFmkLYuGrarU5rA=;
+        b=Fd6iBPmqMTyVphfhfStRPcanKZ6m7ZWyx8IGf9eatmjSYnAfRfFOKRwkaNR9SxSaEF
+         hqgld7mDv8p3sd1UnmiqI94KbDRkIGE0H6o7vUSCoJW2ZdW2Bzl1IpfI5BoQkoS1UZzC
+         wGRSkMUw1m7tTkn/bm+hLupORSKlS4LJObjLcdt7r3lkvCqcx0x2U7E9h3d5LJ1l6DWq
+         hy+phHBKRJ8LOIdAtdRFnxn9egrZivoNB05va99wg6vxdngP9Y3bEW5e6Ja2gac8xEh9
+         ILXljzp4QWz3uDqj2/NQ7FOjFRd4qGEWsMaXoQkhNZx6C1DtkSTPn9RwbGvI6F3+S5w3
+         vtLw==
+X-Gm-Message-State: ACgBeo27d17IwbctcVu7+IrnFylbmiNn7WARjBAFpAGofflAfjzES4JA
+	YJ7jvc/v3YBz660ZR4lbvkYY7v3J7RY0yq++3+0LgnHOG8YTJJXA
+X-Google-Smtp-Source: AA6agR7n+op1y5u3TFdVTIQJkvJeuzLzHoCCgaKzSWbbkyYoWVT3NsxKtPq3sWIligkAmRpGbKU4iIX5dhoSko+uN1U=
+X-Received: by 2002:a17:907:84a:b0:733:735:2b1a with SMTP id
+ ww10-20020a170907084a00b0073307352b1amr22752861ejb.290.1663093743437; Tue, 13
+ Sep 2022 11:29:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Register partner PDOs
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166309261522.5740.16523628631752014962.git-patchwork-notify@kernel.org>
-Date: Tue, 13 Sep 2022 18:10:15 +0000
-References: <20220830202018.1884851-1-pmalani@chromium.org>
-In-Reply-To: <20220830202018.1884851-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- bleung@chromium.org, heikki.krogerus@linux.intel.com, groeck@chromium.org
+References: <20220913145549.2839948-1-jthies@google.com>
+In-Reply-To: <20220913145549.2839948-1-jthies@google.com>
+From: Benson Leung <bleung@chromium.org>
+Date: Tue, 13 Sep 2022 11:28:51 -0700
+Message-ID: <CANLzEksnE3tNLHd4N0B3msJpJ-MQCgRSTYqts8w1SOW8PRpwDg@mail.gmail.com>
+Subject: Re: [PATCH v3] platform/chrome: cros_ec: Notify the PM of wake events
+ during resume
+To: Jameson Thies <jthies@google.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	pmalani@chromium.org, groeck@chromium.org, tzungbi@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Hi Jameson,
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+On Tue, Sep 13, 2022 at 7:55 AM Jameson Thies <jthies@google.com> wrote:
+>
+> cros_ec_handle_event in the cros_ec driver can notify the PM of wake
+> events. When a device is suspended, cros_ec_handle_event will not check
+> MKBP events. Instead, received MKBP events are checked during resume by
+> cros_ec_report_events_during_suspend. But
+> cros_ec_report_events_during_suspend cannot notify the PM if received
+> events are wake events, causing wake events to not be reported if
+> received while the device is suspended.
+>
+> Update cros_ec_report_events_during_suspend to notify the PM of wake
+> events during resume by calling pm_wakeup_event.
+>
+> Signed-off-by: Jameson Thies <jthies@google.com>
 
-On Tue, 30 Aug 2022 20:20:18 +0000 you wrote:
-> The ChromeOS EC exports partner source/sink cap PDOs (Power Data
-> Objects) to the application processor (AP). Use this information
-> to register USB PD (Power Delivery) capabilities with the
-> USB Type-C Power Delivery device class.
-> 
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> 
-> [...]
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
-Here is the summary with links:
-  - platform/chrome: cros_ec_typec: Register partner PDOs
-    https://git.kernel.org/chrome-platform/c/348a2e8c93d3
+> ---
+>
+> Changes since v1:
+> - Updated wording in commit message from "Log" to "Notify PM of".
+>
+> Changes since v2:
+> - Removed Reviewed-by tag and provided more context for the update in
+>   the commit message.
+> ---
+>  drivers/platform/chrome/cros_ec.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index 8aace50d446d..110df0fd4b00 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -349,10 +349,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
+>
+>  static void cros_ec_report_events_during_suspend(struct cros_ec_device *ec_dev)
+>  {
+> +       bool wake_event;
+> +
+>         while (ec_dev->mkbp_event_supported &&
+> -              cros_ec_get_next_event(ec_dev, NULL, NULL) > 0)
+> +              cros_ec_get_next_event(ec_dev, &wake_event, NULL) > 0) {
+>                 blocking_notifier_call_chain(&ec_dev->event_notifier,
+>                                              1, ec_dev);
+> +
+> +               if (wake_event && device_may_wakeup(ec_dev->dev))
+> +                       pm_wakeup_event(ec_dev->dev, 0);
+> +       }
+>  }
+>
+>  /**
+> --
+> 2.37.2.789.g6183377224-goog
+>
 
-You are awesome, thank you!
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Benson Leung
+Staff Software Engineer
+Chrome OS Kernel
+Google Inc.
+bleung@google.com
+Chromium OS Project
+bleung@chromium.org

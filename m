@@ -1,72 +1,104 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32EAA7F
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 09:09:38 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-01 (Coremail) with SMTP id qwCowAAXH_NuRyBj3hcyAg--.29934S2;
-	Tue, 13 Sep 2022 17:03:46 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: pmalani@chromium.org,
-	bleung@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] platform/chrome: cros_usbpd_notify: Add check for platform_driver_register
-Date: Tue, 13 Sep 2022 17:03:40 +0800
-Message-Id: <20220913090340.1738370-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598AB3C10
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 14:55:55 +0000 (UTC)
+Received: by mail-pl1-f202.google.com with SMTP id i11-20020a170902c94b00b001783ad0266eso3401726pla.22
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 07:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date;
+        bh=cvJEnjTXhlWXDO7hFwpFHy53bcFzxR1mBtrl5AKvvps=;
+        b=WHm/6D6ARpjPd/cEbWmZhCHS72PbANzTsxUSf4b7+nXr0kutRzr1TG9ZvI3Q6Ew4+o
+         u4s4MgKcwejHN7wZz8QQVfM9DQth2kxFo/ZTeq/tlj+C5PQvu95GeX4lwVY/CXiW0vJk
+         qKVS/u7l2clyrLlZMmpvEet2bARk8XwGjuGCEKViLqObSeBODiTFGzUpOGUKmPBQ3Bki
+         6IFQEEUUbFx4rKoBQ+TYhiI+kaKogJCOTlguWFiGNeid0wD2bzzYu26osGPZs8HgIsdK
+         mH6Kjdbjt7Bh0tZN1aU8D42KudrleRawLRywmhFwFZCOIwO8QFSA9s+e8/kgQLKyzdMN
+         A1EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=cvJEnjTXhlWXDO7hFwpFHy53bcFzxR1mBtrl5AKvvps=;
+        b=zpe0nNflBtLZgLOYn7LSiu0u46KV0os89SlD2S6KXgookU8yx/YeZBGreanZBZHyvP
+         lQUnFPw52YHy5BITEF0HFvNkzYRG+KrU3eSi02rSdEyaM/JPFvv1vJ2XxIdlly2iQCvH
+         ih3951vaVkHU4Xu3hTdVQtn8xQE377s7U7My6TwvtcNmoD2K3d5/RUqrGJBv5UsB5nIC
+         EtuS2Bj8VZ/+MTsayxlqU7Z+IPywCA+fo4I4pWkIRfIBrqRlYpsX0d5smjnnkVp4F9hn
+         ZmnSvDOh/G1NxxD7PTooY/glEhUmP5BA2LTZWSmS13+D7U2HxgigWtMruqzGyD+NsCxJ
+         TaFA==
+X-Gm-Message-State: ACgBeo0Robz0Ugx1qiJsvITQSIBuNt2ujcjBs4N8frbzMww+g7llVk3P
+	9eIiuiCSblUUEZQfnY6q0eIDpbtrW2BR8ghhHJ6Ryl/X7yKNjnslrZzDPJxmJoq25kwFaXxjCJm
+	1PElmNWnuCoWOG+TtDrSv6NF+lQY+ty2nGLdYbomR6gbLtc3/Th367cAGFYA41Jk1TKOe8JcN7g
+	==
+X-Google-Smtp-Source: AA6agR7fODZawl72r3SMpSlBhegJYwwMxyYRozj9aUC7ch9LdPpMMVnRzuFBzMmDU2bRbz5cy4mtdWyADpE=
+X-Received: from jthies.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3f85])
+ (user=jthies job=sendgmr) by 2002:aa7:9d9a:0:b0:53e:8bc5:afb7 with SMTP id
+ f26-20020aa79d9a000000b0053e8bc5afb7mr30628956pfq.54.1663080954632; Tue, 13
+ Sep 2022 07:55:54 -0700 (PDT)
+Date: Tue, 13 Sep 2022 14:55:49 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAXH_NuRyBj3hcyAg--.29934S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4DKF4DAr4DKr1xKF1DGFg_yoWDuFgE9r
-	4xWF47Ars3KrnrKF1ay34fu342kr98Xr4fKFnagr13t343JryxXryYva47C3W8JF13tw13
-	t3yUurySkFySvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFWl
-	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU0VyxDUUUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+Message-ID: <20220913145549.2839948-1-jthies@google.com>
+Subject: [PATCH v3] platform/chrome: cros_ec: Notify the PM of wake events
+ during resume
+From: Jameson Thies <jthies@google.com>
+To: chrome-platform@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, pmalani@chromium.org, bleung@chromium.org, 
+	groeck@chromium.org, tzungbi@kernel.org, Jameson Thies <jthies@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-As platform_driver_register() can return error numbers,
-it should be better to check platform_driver_register()
-and deal with the exception.
+cros_ec_handle_event in the cros_ec driver can notify the PM of wake
+events. When a device is suspended, cros_ec_handle_event will not check
+MKBP events. Instead, received MKBP events are checked during resume by
+cros_ec_report_events_during_suspend. But
+cros_ec_report_events_during_suspend cannot notify the PM if received
+events are wake events, causing wake events to not be reported if
+received while the device is suspended.
 
-Fixes: ec2daf6e33f9 ("platform: chrome: Add cros-usbpd-notify driver")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Update cros_ec_report_events_during_suspend to notify the PM of wake
+events during resume by calling pm_wakeup_event.
+
+Signed-off-by: Jameson Thies <jthies@google.com>
 ---
- drivers/platform/chrome/cros_usbpd_notify.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
-index 4b5a81c9dc6d..baa72ad73c68 100644
---- a/drivers/platform/chrome/cros_usbpd_notify.c
-+++ b/drivers/platform/chrome/cros_usbpd_notify.c
-@@ -239,7 +239,11 @@ static int __init cros_usbpd_notify_init(void)
- 		return ret;
+Changes since v1:
+- Updated wording in commit message from "Log" to "Notify PM of".
+
+Changes since v2:
+- Removed Reviewed-by tag and provided more context for the update in
+  the commit message.
+---
+ drivers/platform/chrome/cros_ec.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index 8aace50d446d..110df0fd4b00 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -349,10 +349,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
  
- #ifdef CONFIG_ACPI
--	platform_driver_register(&cros_usbpd_notify_acpi_driver);
-+	ret = platform_driver_register(&cros_usbpd_notify_acpi_driver);
-+	if (ret < 0) {
-+		platform_driver_unregister(&cros_usbpd_notify_plat_driver);
-+		return ret;
+ static void cros_ec_report_events_during_suspend(struct cros_ec_device *ec_dev)
+ {
++	bool wake_event;
++
+ 	while (ec_dev->mkbp_event_supported &&
+-	       cros_ec_get_next_event(ec_dev, NULL, NULL) > 0)
++	       cros_ec_get_next_event(ec_dev, &wake_event, NULL) > 0) {
+ 		blocking_notifier_call_chain(&ec_dev->event_notifier,
+ 					     1, ec_dev);
++
++		if (wake_event && device_may_wakeup(ec_dev->dev))
++			pm_wakeup_event(ec_dev->dev, 0);
 +	}
- #endif
- 	return 0;
  }
+ 
+ /**
 -- 
-2.25.1
+2.37.2.789.g6183377224-goog
 

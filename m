@@ -1,48 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22CC1FCC
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 03:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6552EC433D6;
-	Tue, 13 Sep 2022 03:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663038880;
-	bh=8JC/B9JZUQhenRRvDd8NvsyFCs8a+rvxeJIV+37n1uc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CtZYL39qCjhggC/pWxPskSbkNP9uuCWLQsmbY86AyzgIQI1wSDl44In7gsYviKI7r
-	 fXMFfAjRX3YuOLKlG6ALd4JKE/LS7+MRhxnQUcJvVWN1etoGDLdtNQIkqIHkA/j86O
-	 9wykrI1aDhVGequLO2di0gvdT00AKSeniPcGvP9OP+C5gzZMBWmH5vdjgLVTkNKaZZ
-	 mIg7q7MZKW19PwBK+wWxbqkIP+GtM1HgbI1qOLwc/KnIQASSAIn0/J5U2vwJuMFr5r
-	 rOwkmu9+9SJ0QmFAK2P7EDDAEEpFmbk7KBIbZT7z2xtbkTCvxK9JGdMQLmlzXrp6zH
-	 447bSZ6Wpje/w==
-Date: Tue, 13 Sep 2022 11:14:37 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jameson Thies <jthies@google.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Notify the PM of wake
- events during resume
-Message-ID: <Yx/1neGOF+0jsqvz@google.com>
-References: <20220912224745.2716345-1-jthies@google.com>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32EAA7F
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 09:09:38 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+	by APP-01 (Coremail) with SMTP id qwCowAAXH_NuRyBj3hcyAg--.29934S2;
+	Tue, 13 Sep 2022 17:03:46 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: pmalani@chromium.org,
+	bleung@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] platform/chrome: cros_usbpd_notify: Add check for platform_driver_register
+Date: Tue, 13 Sep 2022 17:03:40 +0800
+Message-Id: <20220913090340.1738370-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220912224745.2716345-1-jthies@google.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAAXH_NuRyBj3hcyAg--.29934S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4DKF4DAr4DKr1xKF1DGFg_yoWDuFgE9r
+	4xWF47Ars3KrnrKF1ay34fu342kr98Xr4fKFnagr13t343JryxXryYva47C3W8JF13tw13
+	t3yUurySkFySvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFWl
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU0VyxDUUUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-On Mon, Sep 12, 2022 at 10:47:45PM +0000, Jameson Thies wrote:
-> Update cros_ec_report_events_during_suspend to notify the PM of wake
-> events during resume by calling pm_wakeup_event.
+As platform_driver_register() can return error numbers,
+it should be better to check platform_driver_register()
+and deal with the exception.
 
-Could you add some more details about "why"?
+Fixes: ec2daf6e33f9 ("platform: chrome: Add cros-usbpd-notify driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/platform/chrome/cros_usbpd_notify.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> Signed-off-by: Jameson Thies <jthies@google.com>
-> Reviewed-by: Prashant Malani <pmalani@chromium.org>
+diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
+index 4b5a81c9dc6d..baa72ad73c68 100644
+--- a/drivers/platform/chrome/cros_usbpd_notify.c
++++ b/drivers/platform/chrome/cros_usbpd_notify.c
+@@ -239,7 +239,11 @@ static int __init cros_usbpd_notify_init(void)
+ 		return ret;
+ 
+ #ifdef CONFIG_ACPI
+-	platform_driver_register(&cros_usbpd_notify_acpi_driver);
++	ret = platform_driver_register(&cros_usbpd_notify_acpi_driver);
++	if (ret < 0) {
++		platform_driver_unregister(&cros_usbpd_notify_plat_driver);
++		return ret;
++	}
+ #endif
+ 	return 0;
+ }
+-- 
+2.25.1
 
-I didn't see where the R-b tag comes from which has been attached since
-v1.  You shouldn't attach the tag even if the patch may have been
-reviewed somewhere but not in the mailing list.

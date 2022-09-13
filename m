@@ -1,76 +1,69 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C533C26
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 17:16:41 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-12b542cb1d3so24181382fac.13
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 10:16:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39523C3E
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 17:17:49 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-127ba06d03fso33991538fac.3
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 10:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=Ocxjo35udI1PCsICedaTIJJcwxQkPE4mGIgm+5z0B4w=;
-        b=L4STRuLquN7OF6csoCKryCpsHF+MSPT7hmt1txFq+InyL3o95Ywbg85vdW+RTSamWM
-         n7x1kYjK1Op6F0QRalLsLu4qnduc6ycrWfKJ+60UTYkSvf4WmAWy8b5nv48vnQkDhf28
-         ZVpqFIv3PlnHjRHk17dEaL/NWf6G6oUxFpkkA=
+        bh=DRrSt1g1MwWWIcrp8RvrIGoWocVBN6Pz07Q5HTcSUe4=;
+        b=OgNrTzvafqsbqCKy9d8AO957d5rSQDMlcymT2RJaj627dRsLVvZwbojoy3oDjPb2LY
+         9kYbZN+9OotFDdln4t7sWUr30bJjf/A+X5uQT5MEgD/otHEy57ZBdTEDrlfsa2l85MtE
+         /XtetIM2X/Odqh1MZkDS5gfQCk2qjrZW3aAmk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ocxjo35udI1PCsICedaTIJJcwxQkPE4mGIgm+5z0B4w=;
-        b=BlK3rWR+8UhtT/Y6zxaSevk7sNhKnCJ2+Sb1xNmQWBhaGkrxU/rBAhgty5eNfpOTCZ
-         DLf7oXD/QzAtEQeP8BdYO9eFNBd3oaJCjwo09BMObTWFCWBYCmLcoik860vxVlnRHoM3
-         Sdj9ABHkDZjIXfoD8JFlDHvQjRusLvuUWMLCKUSzo3U02EKw7nA/uAtyJDcoC12Wyt/T
-         lN3i3WFWOYwX3U6xSCSUwOT+OIR9Pgr3vl+bW+lbIOuv1gkk+rrUVXaFLR9Mm0d0pi5Q
-         tvAxI24DbD8MZlIGtgR+k1HcwTPtSiPv32eGFqMryjJP9xfAFKMtk5xlm6gLCuJ2RB0c
-         HKTg==
-X-Gm-Message-State: ACgBeo0/VMjfediTnHm/G5Xg0ojcytxUeaDvD38hnRBrQXc1rvz7R98T
-	MBcfI04/Ro4t7cAGyckFpeNbNgv73b/bV06GrGdSHA==
-X-Google-Smtp-Source: AA6agR77mKkDP8FTqTEYSb6srnrUgzoDsFso5T+v7aX7QStSNpPwXjJg8fgug8gIBkXUryKmIszsiJh9NwLV8w96mmw=
-X-Received: by 2002:a05:6870:1719:b0:126:4acd:fc16 with SMTP id
- h25-20020a056870171900b001264acdfc16mr156352oae.295.1663089400556; Tue, 13
- Sep 2022 10:16:40 -0700 (PDT)
+        bh=DRrSt1g1MwWWIcrp8RvrIGoWocVBN6Pz07Q5HTcSUe4=;
+        b=dXBgMqLjBvZGnxo8fZwMQ6tPbNc9AdjJTBRHyUQtCGtcqIwyKXWuWRPqVy8WWGsH86
+         shgaPPqVsh2WNRz88i+DuY2zYpjF0Cm8TbIpcSh2FccwbxYWj9/sFfJExLNvj1dmNy4N
+         0/dBVO0OwrqiYexAw9kbkP3vquzwdTobKajMKQ7kTrA32vhL+goumge5Y5YWVGcK8Hmc
+         uLvIX4KY3gD0diuex+jNOW7VsJLBVT309DheK5DcQZ6no+wrmnDn4F9r8nZ2kcfWPkHK
+         L5aajmXOa135TkM62pT2qzDmICYTYKQek110ZKuyadA9EKWCLakiMxMw/Q9oF1qPNoRC
+         968g==
+X-Gm-Message-State: ACgBeo1DakLhG5qysP8jj8Bd+qsMA04fK1Lbx8oA0D5dA0D7EFjuI++P
+	ETDUV0t+qLNN1revmAYvleh+1KfQ1pAXXrqeluySDw==
+X-Google-Smtp-Source: AA6agR6lGJjOKjRAA18P3LgKh5BJ1kmfGGmXulrZufDWxYKMksK2fHr5gTpOX1MQI/0k7i50uYVHYUMQQIqLU22CZh4=
+X-Received: by 2002:a05:6808:3021:b0:335:182f:a66a with SMTP id
+ ay33-20020a056808302100b00335182fa66amr137569oib.295.1663089469116; Tue, 13
+ Sep 2022 10:17:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220912224745.2716345-1-jthies@google.com> <Yx/1neGOF+0jsqvz@google.com>
-In-Reply-To: <Yx/1neGOF+0jsqvz@google.com>
+References: <20220913145549.2839948-1-jthies@google.com>
+In-Reply-To: <20220913145549.2839948-1-jthies@google.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 13 Sep 2022 10:16:28 -0700
-Message-ID: <CACeCKaey3XHBT7u6t9k65CYXTgZ1pUaRGDear+S8L7XjukYjXg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Notify the PM of wake events
+Date: Tue, 13 Sep 2022 10:17:37 -0700
+Message-ID: <CACeCKadOcKsmpvdtYf5QhUxcMA82angLzZBHx2yZ9QHJPv=bsw@mail.gmail.com>
+Subject: Re: [PATCH v3] platform/chrome: cros_ec: Notify the PM of wake events
  during resume
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jameson Thies <jthies@google.com>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, bleung@chromium.org, groeck@chromium.org
+To: Jameson Thies <jthies@google.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 12, 2022 at 8:14 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
->
-> On Mon, Sep 12, 2022 at 10:47:45PM +0000, Jameson Thies wrote:
-> > Update cros_ec_report_events_during_suspend to notify the PM of wake
-> > events during resume by calling pm_wakeup_event.
->
-> Could you add some more details about "why"?
->
-> > Signed-off-by: Jameson Thies <jthies@google.com>
-> > Reviewed-by: Prashant Malani <pmalani@chromium.org>
->
-> I didn't see where the R-b tag comes from which has been attached since
-> v1.
+HI Jameson,
 
-I asked Jameson to do so, after having reviewed the patch off list.
+On Tue, Sep 13, 2022 at 7:55 AM Jameson Thies <jthies@google.com> wrote:
+>
+> cros_ec_handle_event in the cros_ec driver can notify the PM of wake
+> events. When a device is suspended, cros_ec_handle_event will not check
+> MKBP events. Instead, received MKBP events are checked during resume by
+> cros_ec_report_events_during_suspend. But
+> cros_ec_report_events_during_suspend cannot notify the PM if received
+> events are wake events, causing wake events to not be reported if
+> received while the device is suspended.
+>
+> Update cros_ec_report_events_during_suspend to notify the PM of wake
+> events during resume by calling pm_wakeup_event.
+>
+> Signed-off-by: Jameson Thies <jthies@google.com>
+Although I've already provided the tag, here it is again:
 
-> You shouldn't attach the tag even if the patch may have been
-> reviewed somewhere but not in the mailing list.
-
-That is not a requirement (at least, it is not stated anywhere in
-kernel documentation).
-There are plenty of examples of patches being uploaded after being
-reviewed. Here
-is just 1 recent example [1] but I'm sure you can find plenty more.
-
-[1] https://lore.kernel.org/linux-usb/20220913055316.23050-2-shruthi.sanil@intel.com/
+Reviewed-by: Prashant Malani <pmalani@chromium.org>

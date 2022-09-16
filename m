@@ -1,109 +1,222 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFA4670C
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 20:50:06 +0000 (UTC)
-Received: by mail-pf1-f201.google.com with SMTP id q22-20020a62e116000000b005428fb66124so4999044pfh.16
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Sep 2022 13:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date;
-        bh=gy3bDNBw7VQytEVRKZxZzrTdbmTEWTGJEIGOvnabvxo=;
-        b=MsIiTEcp0YKQ0q29PXoqrtM0XP78eU5bv/HJl7x4HzGd9dYG0kP/f4qqYx2Y6uYzoY
-         5AbqkdzAhgmKSpUJxqX0Q+2TINrtybI03WTeO7PPJEGii/QTaZPDWNWQbAkVG95RwPxB
-         pNN5fdf9XUlqBU+ojPKKznCDDWpTgI8Chdp4jSTdCqxUXMjg3thI+7oHCwp5cr2s42XR
-         4xvMKpMA+jtmz13XBoq2KVAa5idLwm0OukMDv5oHBwTOKinPYoaO5/4ByCwSs7+hzZ3T
-         9f2ehaWXoSF7eO5bHu8RzEEVC8UKYS0C6dcN5EyzxI7kEZEIN+IQvo43BkWd72iPNzjB
-         RZsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=gy3bDNBw7VQytEVRKZxZzrTdbmTEWTGJEIGOvnabvxo=;
-        b=Ed31cFNiMOmYaDOil469uLixekvyK3BlKMBYhDOPDvTyrxYjlW6q+yv17L/iYtaBqx
-         yvCHFen++QLNTRjfUSkmnTlo3r1jc/Q+8YiUnqGVOffNPQRmvRRM9xHhpB0QMEzlteXF
-         GmwluoHabkBybWKT5dkP6v3TO47cdsqOnJF/OIT6t/ub3KLfW6j43QThPxTH8OfE+fvN
-         +CvXhZpnaH+2l9cSf3NqcrTKgVrXb7vtyB/LhFk/7ejzvowp1znYiMgG34jIOwIa2mEe
-         qktFJ8/H8Y7XiFRnxTx4qgZOBvksqI3dqRLyM9MX3ydj3b/Z3404wrzGSeEcQVj+lrBr
-         w8RQ==
-X-Gm-Message-State: ACgBeo27Pn32wFqW5iTLRnR3Edjfi1GLIPe9YcJkZcyajElCM4I4Kedx
-	lkZ9Ug3NGEWdZ3GWUUeBHsBbcGPZ5E+B5ebKnTgPPBB1tHlyKt+QOj4zzslQsK2k3/GHnzoqNl9
-	frbuzACe++7nWVjjzuA6qSLDHLl4NJiEMBxIZwkrh0IImymbgkpUIzrBPmfKekWjsgv1TXRbg7w
-	==
-X-Google-Smtp-Source: AA6agR7qXuSHYsLoYdDFCEwxGLsUWKVrpzzkU4qHYq5nHGq6bSMKbnk8HCDo45F5/DCYdGcKhlMvvmxiEd0=
-X-Received: from jthies.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3f85])
- (user=jthies job=sendgmr) by 2002:a05:6a00:1892:b0:540:acee:29e8 with SMTP id
- x18-20020a056a00189200b00540acee29e8mr27129067pfh.1.1663102206357; Tue, 13
- Sep 2022 13:50:06 -0700 (PDT)
-Date: Tue, 13 Sep 2022 20:49:54 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330384C95
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Sep 2022 12:05:06 +0000 (UTC)
+X-UUID: af663d45d92c4ba1a42c524ddf8e21a2-20220916
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=TYyYRhoJq7fWtmZNRUDZ326SnABMO3rCDovRyIC+c2k=;
+	b=kncM31WKnOLsgTEKsKE/RJkyDjYVEa2dPq9mKhAREVtlkwJYUSfwiR8ftWlIFGLUYMbALORkQEhe7LN3fj3cHlmc76KGL8/PlMpII6kHck8iqjzBGs7wZ+tz9Le0FFeOuIWwz2Hp56Ah186dUazIBSRGKIsw7ledlw75W6H60/M=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:b9341035-ea49-4508-98d5-94a38cd617c2,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:39a5ff1,CLOUDID:68faa8f6-6e85-48d9-afd8-0504bbfe04cb,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: af663d45d92c4ba1a42c524ddf8e21a2-20220916
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <tinghan.shen@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 846511512; Fri, 16 Sep 2022 19:59:52 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 16 Sep 2022 19:59:50 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 16 Sep 2022 19:59:50 +0800
+Message-ID: <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the
+ 2nd core of dual-core SCP
+From: TingHan Shen <tinghan.shen@mediatek.com>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<bjorn.andersson@linaro.org>, <bleung@chromium.org>,
+	<chrome-platform@lists.linux.dev>, <devicetree@vger.kernel.org>,
+	<dnojiri@chromium.org>, <enric.balletbo@collabora.com>,
+	<groeck@chromium.org>, <gustavoars@kernel.org>, <keescook@chromium.org>,
+	<krzk+dt@kernel.org>, <lee.jones@linaro.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-remoteproc@vger.kernel.org>,
+	<matthias.bgg@gmail.com>, <pmalani@chromium.org>, <robh+dt@kernel.org>,
+	<sebastian.reichel@collabora.com>, <weishunc@google.com>
+Date: Fri, 16 Sep 2022 19:59:50 +0800
+In-Reply-To: <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
+References: <20220829194247.GC2264818@p14s>
+	 <20220908111757.14633-1-tinghan.shen@mediatek.com>
+	 <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220913204954.2931042-1-jthies@google.com>
-Subject: [PATCH v4] platform/chrome: cros_ec: Notify the PM of wake events
- during resume
-From: Jameson Thies <jthies@google.com>
-To: chrome-platform@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, pmalani@chromium.org, bleung@chromium.org, 
-	groeck@chromium.org, tzungbi@kernel.org, Jameson Thies <jthies@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 
-cros_ec_handle_event in the cros_ec driver can notify the PM of wake
-events. When a device is suspended, cros_ec_handle_event will not check
-MKBP events. Instead, received MKBP events are checked during resume by
-cros_ec_report_events_during_suspend. But
-cros_ec_report_events_during_suspend cannot notify the PM if received
-events are wake events, causing wake events to not be reported if
-received while the device is suspended.
+On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
+> On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
+> wrote:
+> 
+> > Hi Mathieu,
+> > 
+> > > > The mtk_scp.c driver only supports the single core SCP and the
+> > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
+> > > > 
+> > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
+> > 
+> > subsys.
+> > > 
+> > > s/subsys/subsystem
+> > > 
+> > > > They have the same viewpoint of registers and memory.
+> > > > 
+> > > > Core 1 of the SCP features its own set of core configuration registers,
+> > > > interrupt controller, timers, and DMAs. The rest of the peripherals
+> > > > in this subsystem are shared by core 0 and core 1.
+> > > > 
+> > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+> > > 
+> > > /the/The
+> > > 
+> > > > by core 0 and core 1.
+> > > > 
+> > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > ---
+> > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
+> > > >  1 file changed, 20 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/remoteproc/mtk_scp.c
+> > 
+> > b/drivers/remoteproc/mtk_scp.c
+> > > > index 3510c6d0bbc8..91b4aefde4ac 100644
+> > > > --- a/drivers/remoteproc/mtk_scp.c
+> > > > +++ b/drivers/remoteproc/mtk_scp.c
+> > > > @@ -23,6 +23,10 @@
+> > > >  #define MAX_CODE_SIZE 0x500000
+> > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
+> > > > 
+> > > > +#define SCP_CORE_0 0
+> > > > +#define SCP_CORE_1 1
+> > > > +#define SCP_CORE_SINGLE 0xF
+> > > > +
+> > > >  /**
+> > > >   * scp_get() - get a reference to SCP.
+> > > >   *
+> > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
+> > > >     struct resource *res;
+> > > >     const char *fw_name = "scp.img";
+> > > >     int ret, i;
+> > > > +   u32 core_id = SCP_CORE_SINGLE;
+> > > > 
+> > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+> > > >     if (ret < 0 && ret != -EINVAL)
+> > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
+> > > >     scp->data = of_device_get_match_data(dev);
+> > > >     platform_set_drvdata(pdev, scp);
+> > > > 
+> > > > +   ret = of_property_read_u32_index(dev->of_node,
+> > 
+> > "mediatek,scp-core", 1, &core_id);
+> > > > +   if (ret == 0)
+> > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
+> > > 
+> > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
+> > 
+> > compatible
+> > > "mediatek,mt8195-scp-dual" has already been defined previously in this
+> > 
+> > patchset,
+> > > initialising the second core, if present, is a matter of looking at the
+> > > compatile string.
+> > 
+> > This idea of identify cores by the compatible looks workable.
+> > I'll update this series at next version.
+> > Thanks!
+> > 
+> > > 
+> > > > +
+> > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
+> > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > +   if (core_id == SCP_CORE_1)
+> > > > +           scp->sram_base = devm_ioremap(dev, res->start,
+> > 
+> > resource_size(res));
+> > > > +   else
+> > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > +
+> > > 
+> > > This looks very broken...  For this to work you would need to have two DT
+> > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
+> > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
+> > 
+> > "mediatek,scp-core = <&scp_dual0 1>;".
+> > > 
+> > > Which is also very broken...  Here you have a binding whose first
+> > 
+> > argument is a
+> > > reference to the core sibling while the second argument is a
+> > 
+> > characteristic of
+> > > the current core, which is highly confusing.
+> > > 
+> > > I suggest what when you see the compatible binding
+> > 
+> > "mediatek,mt8195-scp", a
+> > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
+> > 
+> > cores
+> > > are initialized as part of the _same_ probe.
+> > > 
+> > > If the above analysis is not correct it means I misinterpreted your
+> > > work and if so, a serious amount of comments is needed _and_ a very
+> > 
+> > detailed
+> > > example in "mtk,scp.yaml" that leaves no room for interpretation.
+> > > 
+> > > I will stop reviewing this patchset until you have clarified how this
+> > 
+> > works.
+> > > 
+> > > Thanks,
+> > > Mathieu
+> > 
+> > There's one problem of initializng the CORE1 using the same probe flow.
+> > The register space of CORE0 and CORE1 are overlapped in the device node.
+> > Both cores need to use the 'cfg' registers defined in scp yaml.
+> > The devm_ioremap_resource catches address overlapping and returns error
+> > when
+> > probing CORE1 driver.
+> > 
+> 
+> That is exactly why I suggest to initialise both cores within the same
+> probe() function.
+> 
 
-Update cros_ec_report_events_during_suspend to notify the PM of wake
-events during resume by calling pm_wakeup_event.
+Hi Mathieu,
 
-Signed-off-by: Jameson Thies <jthies@google.com>
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
-Reviewed-by: Benson Leung <bleung@chromium.org>
----
+I'm thinking about how to initialise in the same probe() function.
+I'm wondering if this implies that using one scp driver to initialize 2 cores?
+If it is, I assume the dts descriptions for both cores should be contained in one node.
 
-Changes since v1:
-- Updated wording in commit message from "Log" to "Notify PM of".
+When there's one node for both cores, it looks like that there is a problem of 
+using dma_allocate_coherent(). Each core has its own reserved memory region. 
+When there's only one device for both cores, it's not able to identify the memory region 
+by the device parameter of dma_allocate_coherent().
 
-Changes since v2:
-- Removed Reviewed-by tag and provided more context for the update in
-  the commit message.
+Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
 
-Changes since v3:
-- Added reviewers back into commit message.
----
- drivers/platform/chrome/cros_ec.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 8aace50d446d..110df0fd4b00 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -349,10 +349,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
- 
- static void cros_ec_report_events_during_suspend(struct cros_ec_device *ec_dev)
- {
-+	bool wake_event;
-+
- 	while (ec_dev->mkbp_event_supported &&
--	       cros_ec_get_next_event(ec_dev, NULL, NULL) > 0)
-+	       cros_ec_get_next_event(ec_dev, &wake_event, NULL) > 0) {
- 		blocking_notifier_call_chain(&ec_dev->event_notifier,
- 					     1, ec_dev);
-+
-+		if (wake_event && device_may_wakeup(ec_dev->dev))
-+			pm_wakeup_event(ec_dev->dev, 0);
-+	}
- }
- 
- /**
--- 
-2.37.2.789.g6183377224-goog
+Best regards,
+TingHan
+
+
+
+
+
+
+
 

@@ -1,222 +1,235 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330384C95
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Sep 2022 12:05:06 +0000 (UTC)
-X-UUID: af663d45d92c4ba1a42c524ddf8e21a2-20220916
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=TYyYRhoJq7fWtmZNRUDZ326SnABMO3rCDovRyIC+c2k=;
-	b=kncM31WKnOLsgTEKsKE/RJkyDjYVEa2dPq9mKhAREVtlkwJYUSfwiR8ftWlIFGLUYMbALORkQEhe7LN3fj3cHlmc76KGL8/PlMpII6kHck8iqjzBGs7wZ+tz9Le0FFeOuIWwz2Hp56Ah186dUazIBSRGKIsw7ledlw75W6H60/M=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:b9341035-ea49-4508-98d5-94a38cd617c2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:39a5ff1,CLOUDID:68faa8f6-6e85-48d9-afd8-0504bbfe04cb,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: af663d45d92c4ba1a42c524ddf8e21a2-20220916
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <tinghan.shen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 846511512; Fri, 16 Sep 2022 19:59:52 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 16 Sep 2022 19:59:50 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 16 Sep 2022 19:59:50 +0800
-Message-ID: <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
-Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the
- 2nd core of dual-core SCP
-From: TingHan Shen <tinghan.shen@mediatek.com>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<bjorn.andersson@linaro.org>, <bleung@chromium.org>,
-	<chrome-platform@lists.linux.dev>, <devicetree@vger.kernel.org>,
-	<dnojiri@chromium.org>, <enric.balletbo@collabora.com>,
-	<groeck@chromium.org>, <gustavoars@kernel.org>, <keescook@chromium.org>,
-	<krzk+dt@kernel.org>, <lee.jones@linaro.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-remoteproc@vger.kernel.org>,
-	<matthias.bgg@gmail.com>, <pmalani@chromium.org>, <robh+dt@kernel.org>,
-	<sebastian.reichel@collabora.com>, <weishunc@google.com>
-Date: Fri, 16 Sep 2022 19:59:50 +0800
-In-Reply-To: <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
-References: <20220829194247.GC2264818@p14s>
-	 <20220908111757.14633-1-tinghan.shen@mediatek.com>
-	 <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CED36712
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Sep 2022 17:15:28 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id r18so50944472eja.11
+        for <chrome-platform@lists.linux.dev>; Fri, 16 Sep 2022 10:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=UKj9UGbXYvEgM0CJerOBIFmYNI3OH+KXrWnGoYkjkbc=;
+        b=JkWCKXbyMNHGdGJZpg3xwevNAHEElmCrtUwV0oTmQOerPQBVslZbRYD932oLcbhXC/
+         Af/yZk6mE7xNlm/+jeLPbjRYQt0KeKUXX9A1YZgKq9FUizyvBit8uzSbWys9VPuIGTVH
+         qSvCEGjTYtm0oRTWzEXh2F50X6GvfusYC/xUFpaeNk4btCeEH1YTHFHdQHr2vjKdYgGT
+         9rDm3XN0Fcs/yhc2Ldeb+53NQr4bU3xGcY8rbDFh4BIkjnRhtUsEq/s2kUECcDn1MfrS
+         G+tcUNsVOdhbFIgQHJdvYLGRUQWduPdColxMcPnQylVhxssGoj4v4ESu9CepZ32l/hOD
+         aXUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=UKj9UGbXYvEgM0CJerOBIFmYNI3OH+KXrWnGoYkjkbc=;
+        b=sFUf7J5cAy3XG2uEr3UiX4lc5VuJyKIY+E3M8yqfSpXTImEP6lWOL4Du7nJULJH7u1
+         febfq9gu7QMK5WVmuuyNb0VsJkwC8ymjNPnASJ5wgVHbHLzwyOuUKAmwVHwyzdsRwCJY
+         St5eJYnoEhul0w07bYKlgARIaS3MifWZ1mwlfiCnOx1WWsp6lO+m78gmUaGe25Iub13J
+         gJEiKPIbyLuTns0/9XqO8FsK+HHMREiYG8KmJ3IC9QPfn9wVfzlnOisixZ6x7Fd+4MSm
+         OsgpJG5NRbvuuTycRGUByyvgMFldl1KIMIfH9E3GsmP0xJscR8tJmdastjrZAkZq5bwu
+         0DbQ==
+X-Gm-Message-State: ACrzQf3dM2Gb0mzn0GBOi3TAlPlAzR7vY03sn3ZIAchsHDx6ncTLdNMf
+	5eSICxKEXtT7ArN1kuale9XhUl25PnisURBtoipruw==
+X-Google-Smtp-Source: AMsMyM79jF/mQUjZkPBzBVS66n8GDckLQzu9iZ4Q2FgLNCzLYn6iwTiqqFodYM/inPq47dG72kAYJzNkRM/I3UtTlRs=
+X-Received: by 2002:a17:907:1df1:b0:779:4f57:6bb2 with SMTP id
+ og49-20020a1709071df100b007794f576bb2mr4327098ejc.407.1663348526555; Fri, 16
+ Sep 2022 10:15:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220829194247.GC2264818@p14s> <20220908111757.14633-1-tinghan.shen@mediatek.com>
+ <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com> <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+In-Reply-To: <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Fri, 16 Sep 2022 11:15:14 -0600
+Message-ID: <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
+ core of dual-core SCP
+To: TingHan Shen <tinghan.shen@mediatek.com>
+Cc: Project_Global_Chrome_Upstream_Group@mediatek.com, 
+	bjorn.andersson@linaro.org, bleung@chromium.org, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	dnojiri@chromium.org, enric.balletbo@collabora.com, groeck@chromium.org, 
+	gustavoars@kernel.org, keescook@chromium.org, krzk+dt@kernel.org, 
+	lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-remoteproc@vger.kernel.org, matthias.bgg@gmail.com, 
+	pmalani@chromium.org, robh+dt@kernel.org, sebastian.reichel@collabora.com, 
+	weishunc@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
-> On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
-> wrote:
-> 
-> > Hi Mathieu,
-> > 
-> > > > The mtk_scp.c driver only supports the single core SCP and the
-> > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
-> > > > 
-> > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
-> > 
-> > subsys.
-> > > 
-> > > s/subsys/subsystem
-> > > 
-> > > > They have the same viewpoint of registers and memory.
-> > > > 
-> > > > Core 1 of the SCP features its own set of core configuration registers,
-> > > > interrupt controller, timers, and DMAs. The rest of the peripherals
-> > > > in this subsystem are shared by core 0 and core 1.
-> > > > 
-> > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
-> > > 
-> > > /the/The
-> > > 
-> > > > by core 0 and core 1.
-> > > > 
-> > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> > > > ---
-> > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
-> > > >  1 file changed, 20 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/remoteproc/mtk_scp.c
-> > 
-> > b/drivers/remoteproc/mtk_scp.c
-> > > > index 3510c6d0bbc8..91b4aefde4ac 100644
-> > > > --- a/drivers/remoteproc/mtk_scp.c
-> > > > +++ b/drivers/remoteproc/mtk_scp.c
-> > > > @@ -23,6 +23,10 @@
-> > > >  #define MAX_CODE_SIZE 0x500000
-> > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
-> > > > 
-> > > > +#define SCP_CORE_0 0
-> > > > +#define SCP_CORE_1 1
-> > > > +#define SCP_CORE_SINGLE 0xF
-> > > > +
-> > > >  /**
-> > > >   * scp_get() - get a reference to SCP.
-> > > >   *
-> > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
-> > > >     struct resource *res;
-> > > >     const char *fw_name = "scp.img";
-> > > >     int ret, i;
-> > > > +   u32 core_id = SCP_CORE_SINGLE;
-> > > > 
-> > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
-> > > >     if (ret < 0 && ret != -EINVAL)
-> > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
-> > > >     scp->data = of_device_get_match_data(dev);
-> > > >     platform_set_drvdata(pdev, scp);
-> > > > 
-> > > > +   ret = of_property_read_u32_index(dev->of_node,
-> > 
-> > "mediatek,scp-core", 1, &core_id);
-> > > > +   if (ret == 0)
-> > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
-> > > 
-> > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
-> > 
-> > compatible
-> > > "mediatek,mt8195-scp-dual" has already been defined previously in this
-> > 
-> > patchset,
-> > > initialising the second core, if present, is a matter of looking at the
-> > > compatile string.
-> > 
-> > This idea of identify cores by the compatible looks workable.
-> > I'll update this series at next version.
-> > Thanks!
-> > 
-> > > 
-> > > > +
-> > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
-> > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
-> > > > +   if (core_id == SCP_CORE_1)
-> > > > +           scp->sram_base = devm_ioremap(dev, res->start,
-> > 
-> > resource_size(res));
-> > > > +   else
-> > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
-> > > > +
-> > > 
-> > > This looks very broken...  For this to work you would need to have two DT
-> > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
-> > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
-> > 
-> > "mediatek,scp-core = <&scp_dual0 1>;".
-> > > 
-> > > Which is also very broken...  Here you have a binding whose first
-> > 
-> > argument is a
-> > > reference to the core sibling while the second argument is a
-> > 
-> > characteristic of
-> > > the current core, which is highly confusing.
-> > > 
-> > > I suggest what when you see the compatible binding
-> > 
-> > "mediatek,mt8195-scp", a
-> > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
-> > 
-> > cores
-> > > are initialized as part of the _same_ probe.
-> > > 
-> > > If the above analysis is not correct it means I misinterpreted your
-> > > work and if so, a serious amount of comments is needed _and_ a very
-> > 
-> > detailed
-> > > example in "mtk,scp.yaml" that leaves no room for interpretation.
-> > > 
-> > > I will stop reviewing this patchset until you have clarified how this
-> > 
-> > works.
-> > > 
-> > > Thanks,
-> > > Mathieu
-> > 
-> > There's one problem of initializng the CORE1 using the same probe flow.
-> > The register space of CORE0 and CORE1 are overlapped in the device node.
-> > Both cores need to use the 'cfg' registers defined in scp yaml.
-> > The devm_ioremap_resource catches address overlapping and returns error
-> > when
-> > probing CORE1 driver.
-> > 
-> 
-> That is exactly why I suggest to initialise both cores within the same
-> probe() function.
-> 
+On Fri, 16 Sept 2022 at 06:00, TingHan Shen <tinghan.shen@mediatek.com> wrote:
+>
+> On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
+> > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
+> > wrote:
+> >
+> > > Hi Mathieu,
+> > >
+> > > > > The mtk_scp.c driver only supports the single core SCP and the
+> > > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
+> > > > >
+> > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
+> > >
+> > > subsys.
+> > > >
+> > > > s/subsys/subsystem
+> > > >
+> > > > > They have the same viewpoint of registers and memory.
+> > > > >
+> > > > > Core 1 of the SCP features its own set of core configuration registers,
+> > > > > interrupt controller, timers, and DMAs. The rest of the peripherals
+> > > > > in this subsystem are shared by core 0 and core 1.
+> > > > >
+> > > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+> > > >
+> > > > /the/The
+> > > >
+> > > > > by core 0 and core 1.
+> > > > >
+> > > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > > ---
+> > > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
+> > > > >  1 file changed, 20 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/remoteproc/mtk_scp.c
+> > >
+> > > b/drivers/remoteproc/mtk_scp.c
+> > > > > index 3510c6d0bbc8..91b4aefde4ac 100644
+> > > > > --- a/drivers/remoteproc/mtk_scp.c
+> > > > > +++ b/drivers/remoteproc/mtk_scp.c
+> > > > > @@ -23,6 +23,10 @@
+> > > > >  #define MAX_CODE_SIZE 0x500000
+> > > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
+> > > > >
+> > > > > +#define SCP_CORE_0 0
+> > > > > +#define SCP_CORE_1 1
+> > > > > +#define SCP_CORE_SINGLE 0xF
+> > > > > +
+> > > > >  /**
+> > > > >   * scp_get() - get a reference to SCP.
+> > > > >   *
+> > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
+> > > > >     struct resource *res;
+> > > > >     const char *fw_name = "scp.img";
+> > > > >     int ret, i;
+> > > > > +   u32 core_id = SCP_CORE_SINGLE;
+> > > > >
+> > > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+> > > > >     if (ret < 0 && ret != -EINVAL)
+> > > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
+> > > > >     scp->data = of_device_get_match_data(dev);
+> > > > >     platform_set_drvdata(pdev, scp);
+> > > > >
+> > > > > +   ret = of_property_read_u32_index(dev->of_node,
+> > >
+> > > "mediatek,scp-core", 1, &core_id);
+> > > > > +   if (ret == 0)
+> > > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
+> > > >
+> > > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
+> > >
+> > > compatible
+> > > > "mediatek,mt8195-scp-dual" has already been defined previously in this
+> > >
+> > > patchset,
+> > > > initialising the second core, if present, is a matter of looking at the
+> > > > compatile string.
+> > >
+> > > This idea of identify cores by the compatible looks workable.
+> > > I'll update this series at next version.
+> > > Thanks!
+> > >
+> > > >
+> > > > > +
+> > > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
+> > > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > +   if (core_id == SCP_CORE_1)
+> > > > > +           scp->sram_base = devm_ioremap(dev, res->start,
+> > >
+> > > resource_size(res));
+> > > > > +   else
+> > > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > +
+> > > >
+> > > > This looks very broken...  For this to work you would need to have two DT
+> > > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
+> > > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
+> > >
+> > > "mediatek,scp-core = <&scp_dual0 1>;".
+> > > >
+> > > > Which is also very broken...  Here you have a binding whose first
+> > >
+> > > argument is a
+> > > > reference to the core sibling while the second argument is a
+> > >
+> > > characteristic of
+> > > > the current core, which is highly confusing.
+> > > >
+> > > > I suggest what when you see the compatible binding
+> > >
+> > > "mediatek,mt8195-scp", a
+> > > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
+> > >
+> > > cores
+> > > > are initialized as part of the _same_ probe.
+> > > >
+> > > > If the above analysis is not correct it means I misinterpreted your
+> > > > work and if so, a serious amount of comments is needed _and_ a very
+> > >
+> > > detailed
+> > > > example in "mtk,scp.yaml" that leaves no room for interpretation.
+> > > >
+> > > > I will stop reviewing this patchset until you have clarified how this
+> > >
+> > > works.
+> > > >
+> > > > Thanks,
+> > > > Mathieu
+> > >
+> > > There's one problem of initializng the CORE1 using the same probe flow.
+> > > The register space of CORE0 and CORE1 are overlapped in the device node.
+> > > Both cores need to use the 'cfg' registers defined in scp yaml.
+> > > The devm_ioremap_resource catches address overlapping and returns error
+> > > when
+> > > probing CORE1 driver.
+> > >
+> >
+> > That is exactly why I suggest to initialise both cores within the same
+> > probe() function.
+> >
+>
+> Hi Mathieu,
+>
+> I'm thinking about how to initialise in the same probe() function.
+> I'm wondering if this implies that using one scp driver to initialize 2 cores?
+> If it is, I assume the dts descriptions for both cores should be contained in one node.
+>
+> When there's one node for both cores, it looks like that there is a problem of
+> using dma_allocate_coherent(). Each core has its own reserved memory region.
+> When there's only one device for both cores, it's not able to identify the memory region
+> by the device parameter of dma_allocate_coherent().
+>
+> Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
 
-Hi Mathieu,
+Look at what Suman did for TI's K3 R5[1] and DSP[2] platforms.
+Reviewing the bindings for both platforms will also give you a good
+idea of how things work.
 
-I'm thinking about how to initialise in the same probe() function.
-I'm wondering if this implies that using one scp driver to initialize 2 cores?
-If it is, I assume the dts descriptions for both cores should be contained in one node.
+[1]. https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_r5_remoteproc.c#L1683
+[2]. https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_dsp_remoteproc.c#L673
 
-When there's one node for both cores, it looks like that there is a problem of 
-using dma_allocate_coherent(). Each core has its own reserved memory region. 
-When there's only one device for both cores, it's not able to identify the memory region 
-by the device parameter of dma_allocate_coherent().
-
-Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
-
-
-Best regards,
-TingHan
-
-
-
-
-
-
-
-
+>
+>
+> Best regards,
+> TingHan
+>
+>
+>
+>
+>
+>
+>
+>

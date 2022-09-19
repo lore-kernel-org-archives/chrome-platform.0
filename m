@@ -1,133 +1,307 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EA97C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 15:38:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 174D8499;
-	Mon, 19 Sep 2022 17:38:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1663601905;
-	bh=WWpB0AZaasXvtTSKo5/9Q5GDRH5jyFAkHKu5Br3nsUI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ao/5MzoBgO+t7woVXZdNE0b4p8O63zE7E8y8ZKUH7lca4enEVXC90LbL/OW5sRNcl
-	 RhRKIzX49LEfBk3plsf59EcRAKy9oN37VAVDja0XnIbPdpaL6XSyWjbQ+bxLyWz2jB
-	 utUjHpvFC/A1PjebmB7rh9wUZPmL90dv3//emZ64=
-Date: Mon, 19 Sep 2022 18:38:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Robert Foss <robert.foss@linaro.org>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>,
-	Cai Huoqing <cai.huoqing@linux.dev>,
-	chrome-platform@lists.linux.dev,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Jitao Shi <jitao.shi@mediatek.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Philip Chen <philipchen@chromium.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use
- drm_bridge_funcs.atomic_check
-Message-ID: <YyiM47uBYuUo8PBQ@pendragon.ideasonboard.com>
-References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717174454.46616-8-sam@ravnborg.org>
- <YyiK5GK7TYNxI7eS@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819EF256C
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 20:53:40 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id l14so1496726eja.7
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 13:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=W266CsOhutgk7baaRa4bGcyJXCHsN5O/vcMcc3H7co8=;
+        b=lQYC8C7PT2L5ccEPiyOtzVoS1tyE1s2zn/TMpgw+MKzgAqfwVu65a/AMk+xR56PgZ5
+         KbqYOjiadwYezFpTWnKNK1ZVCHCwYs7eTsZosNzt5HaTeY55p6rxw0pU1c6QNl8sJQ8t
+         BbP8ijZ5KN77+/AXkwKS8vRt0w51KbbjKp5fPELQm01mkPR2+OU8fW14k6/xkXASxPQL
+         wPX85xEgLfbLly0/+azsaDQgF1WujIpsn9WRq/iL/y17Qa8uznTteai/E/VkWtPBE3Nr
+         MHFkhLULhpmM6PUjiUB9tX4I32wv1mMjK8bjLmnD4QMJEmN5Or+S/dCcb5OCSBGMKXp5
+         gxhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=W266CsOhutgk7baaRa4bGcyJXCHsN5O/vcMcc3H7co8=;
+        b=N+PXSIsrZFaGlTP/xFkbTWgtsyg7BwmQtNDtz95aeHKeILexgaXfsckGB6nKccIewo
+         0EroMPfaTw3cDkTb1kTj2zHRUuI7DQ+7UZvw5Esf37HDsKpx+Apua2r4qgiuY5Jgt8P6
+         S86jmKetHjCzrOvaArHFCRonJUfgiDwlwItHLBngAKpLtgAqEXNy3UnrXPr+NzYKmaC4
+         3Uh5Jdx12wJ/rbGw3QqPvdubcHHPSmiF460NeSQsw3ipeMKu0EyTwsXyVOa9RsZ/DXh2
+         KXOwr8VSbA0ypMcrrk9yJ2+R6sayTwh6Jj08jyi6Nt4NzJ8yK6LuS4WhyOLuthCZlTGK
+         ufeA==
+X-Gm-Message-State: ACrzQf1IIWKTX1dx4kawqV6qrGpgPzxGvp4Tf7WgAfuu6sEpxZsVPDbd
+	i5bCR9PCg271EiZT4uGsPHCthbHfsfYfb+9UC4UXkw==
+X-Google-Smtp-Source: AMsMyM7ms866O2Gu/4j/k8xFQDTp00gtgV/cGGboFHXz2HCcymDH52lfNgYOCR8gdrAdIRRrHdV/2t2joYBdktcedbM=
+X-Received: by 2002:a17:907:3fa5:b0:77d:41c0:e2f3 with SMTP id
+ hr37-20020a1709073fa500b0077d41c0e2f3mr14229411ejc.741.1663620818717; Mon, 19
+ Sep 2022 13:53:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YyiK5GK7TYNxI7eS@pendragon.ideasonboard.com>
+References: <20220829194247.GC2264818@p14s> <20220908111757.14633-1-tinghan.shen@mediatek.com>
+ <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
+ <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+ <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com> <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
+In-Reply-To: <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Mon, 19 Sep 2022 14:53:27 -0600
+Message-ID: <CANLsYkwrnvob=iBA561SKEc_60bR7TDq5+QOhjCGbCAi6W7StQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
+ core of dual-core SCP
+To: TingHan Shen <tinghan.shen@mediatek.com>
+Cc: Project_Global_Chrome_Upstream_Group@mediatek.com, bleung@chromium.org, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	dnojiri@chromium.org, enric.balletbo@collabora.com, groeck@chromium.org, 
+	gustavoars@kernel.org, keescook@chromium.org, krzk+dt@kernel.org, 
+	lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-remoteproc@vger.kernel.org, matthias.bgg@gmail.com, 
+	pmalani@chromium.org, robh+dt@kernel.org, sebastian.reichel@collabora.com, 
+	weishunc@google.com, Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 19, 2022 at 06:29:41PM +0300, Laurent Pinchart wrote:
-> On Sun, Jul 17, 2022 at 07:44:49PM +0200, Sam Ravnborg wrote:
-> > When atomic_check() is defined, then mode_fixup() is ignored,
-> > so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
-> > Embed the original implementation in the caller and drop the function.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
+>
+> On Fri, 2022-09-16 at 11:15 -0600, Mathieu Poirier wrote:
+> > On Fri, 16 Sept 2022 at 06:00, TingHan Shen <tinghan.shen@mediatek.com> wrote:
+> > >
+> > > On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
+> > > > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > wrote:
+> > > >
+> > > > > Hi Mathieu,
+> > > > >
+> > > > > > > The mtk_scp.c driver only supports the single core SCP and the
+> > > > > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
+> > > > > > >
+> > > > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
+> > > > >
+> > > > > subsys.
+> > > > > >
+> > > > > > s/subsys/subsystem
+> > > > > >
+> > > > > > > They have the same viewpoint of registers and memory.
+> > > > > > >
+> > > > > > > Core 1 of the SCP features its own set of core configuration registers,
+> > > > > > > interrupt controller, timers, and DMAs. The rest of the peripherals
+> > > > > > > in this subsystem are shared by core 0 and core 1.
+> > > > > > >
+> > > > > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+> > > > > >
+> > > > > > /the/The
+> > > > > >
+> > > > > > > by core 0 and core 1.
+> > > > > > >
+> > > > > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > > > > ---
+> > > > > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
+> > > > > > >  1 file changed, 20 insertions(+), 2 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/remoteproc/mtk_scp.c
+> > > > >
+> > > > > b/drivers/remoteproc/mtk_scp.c
+> > > > > > > index 3510c6d0bbc8..91b4aefde4ac 100644
+> > > > > > > --- a/drivers/remoteproc/mtk_scp.c
+> > > > > > > +++ b/drivers/remoteproc/mtk_scp.c
+> > > > > > > @@ -23,6 +23,10 @@
+> > > > > > >  #define MAX_CODE_SIZE 0x500000
+> > > > > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
+> > > > > > >
+> > > > > > > +#define SCP_CORE_0 0
+> > > > > > > +#define SCP_CORE_1 1
+> > > > > > > +#define SCP_CORE_SINGLE 0xF
+> > > > > > > +
+> > > > > > >  /**
+> > > > > > >   * scp_get() - get a reference to SCP.
+> > > > > > >   *
+> > > > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
+> > > > > > >     struct resource *res;
+> > > > > > >     const char *fw_name = "scp.img";
+> > > > > > >     int ret, i;
+> > > > > > > +   u32 core_id = SCP_CORE_SINGLE;
+> > > > > > >
+> > > > > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+> > > > > > >     if (ret < 0 && ret != -EINVAL)
+> > > > > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
+> > > > > > >     scp->data = of_device_get_match_data(dev);
+> > > > > > >     platform_set_drvdata(pdev, scp);
+> > > > > > >
+> > > > > > > +   ret = of_property_read_u32_index(dev->of_node,
+> > > > >
+> > > > > "mediatek,scp-core", 1, &core_id);
+> > > > > > > +   if (ret == 0)
+> > > > > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
+> > > > > >
+> > > > > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
+> > > > >
+> > > > > compatible
+> > > > > > "mediatek,mt8195-scp-dual" has already been defined previously in this
+> > > > >
+> > > > > patchset,
+> > > > > > initialising the second core, if present, is a matter of looking at the
+> > > > > > compatile string.
+> > > > >
+> > > > > This idea of identify cores by the compatible looks workable.
+> > > > > I'll update this series at next version.
+> > > > > Thanks!
+> > > > >
+> > > > > >
+> > > > > > > +
+> > > > > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
+> > > > > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > > > +   if (core_id == SCP_CORE_1)
+> > > > > > > +           scp->sram_base = devm_ioremap(dev, res->start,
+> > > > >
+> > > > > resource_size(res));
+> > > > > > > +   else
+> > > > > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > > > +
+> > > > > >
+> > > > > > This looks very broken...  For this to work you would need to have two DT
+> > > > > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
+> > > > > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
+> > > > >
+> > > > > "mediatek,scp-core = <&scp_dual0 1>;".
+> > > > > >
+> > > > > > Which is also very broken...  Here you have a binding whose first
+> > > > >
+> > > > > argument is a
+> > > > > > reference to the core sibling while the second argument is a
+> > > > >
+> > > > > characteristic of
+> > > > > > the current core, which is highly confusing.
+> > > > > >
+> > > > > > I suggest what when you see the compatible binding
+> > > > >
+> > > > > "mediatek,mt8195-scp", a
+> > > > > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
+> > > > >
+> > > > > cores
+> > > > > > are initialized as part of the _same_ probe.
+> > > > > >
+> > > > > > If the above analysis is not correct it means I misinterpreted your
+> > > > > > work and if so, a serious amount of comments is needed _and_ a very
+> > > > >
+> > > > > detailed
+> > > > > > example in "mtk,scp.yaml" that leaves no room for interpretation.
+> > > > > >
+> > > > > > I will stop reviewing this patchset until you have clarified how this
+> > > > >
+> > > > > works.
+> > > > > >
+> > > > > > Thanks,
+> > > > > > Mathieu
+> > > > >
+> > > > > There's one problem of initializng the CORE1 using the same probe flow.
+> > > > > The register space of CORE0 and CORE1 are overlapped in the device node.
+> > > > > Both cores need to use the 'cfg' registers defined in scp yaml.
+> > > > > The devm_ioremap_resource catches address overlapping and returns error
+> > > > > when
+> > > > > probing CORE1 driver.
+> > > > >
+> > > >
+> > > > That is exactly why I suggest to initialise both cores within the same
+> > > > probe() function.
+> > > >
+> > >
+> > > Hi Mathieu,
+> > >
+> > > I'm thinking about how to initialise in the same probe() function.
+> > > I'm wondering if this implies that using one scp driver to initialize 2 cores?
+> > > If it is, I assume the dts descriptions for both cores should be contained in one node.
+> > >
+> > > When there's one node for both cores, it looks like that there is a problem of
+> > > using dma_allocate_coherent(). Each core has its own reserved memory region.
+> > > When there's only one device for both cores, it's not able to identify the memory region
+> > > by the device parameter of dma_allocate_coherent().
+> > >
+> > > Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
+> >
+> > Look at what Suman did for TI's K3 R5[1] and DSP[2] platforms.
+> > Reviewing the bindings for both platforms will also give you a good
+> > idea of how things work.
+> >
+> > [1]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_r5_remoteproc.c*L1683__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbv1akubM$
+> > [2]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_dsp_remoteproc.c*L673__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbfE2dtBg$
+> >
+>
+> Hi Mathieu,
+>
+> My plan is changing the dts as following,
+>
+> scp core 0 {
+>         // Keep current properties untouched.
+>         compatible = "mediatek,mt8195-scp";
+>
+>         // core 0 properties...
+>
+>         // Add a new property for multi-core scp.
+>         // if not present, it's single core.
+>         // if present and core id = 0, it's the main core, otherwise the sub cores.
+>         mediatek,scp-core = <0>;
+>
+>         // add sub cores as sub node.
+>         // sub nodes can find parent by OF API.
+>         scp core 1 {
+>                 // use the same compatile name as core 0.
+>                 compatible = "mediatek,mt8195-scp";
+>
+>                 // assign id > 0 to sub cores.
+>                 mediatek,scp-core = <1>;
+>
+>                 // core 1 properties...
+>         };
+> };
+>
+>
+> The driver probe/remove behavior will be modified as below,
+>
+> scp probe() {
+>         // common init...
+>
+>         // check core id to have different memory mapping flow
+>         if (core id == 0)
+>                 // mapping cfg, sram and others
+>         else
+>                 // mapping sram
+>                 // reuse the cfg paddr/vaddr from core 0
+>
+>         // common init...
+>
+>         if (core id == 0) {
+>                 ret = of_platform_populate(...)
+>
+>                 // boot core 0 and sub cores
+>                 rproc_add();
+>         } else {
+>                 // add sub core as sub device to main core
+>                 rproc_add_subdev()
+>
+>                 rproc->auto_boot = false;
+>                 rpoc_add();
+>         }
+> }
+>
+> scp_remove() {
+>
+>         if (core id == 0)
+>                 of_platform_depopulate()
+>         else
+>                 rproc_remove_subdev()
+>
+>         // remove core
+> }
+>
 
-But this doesn't apply anymore, as the mode_fixup operation has been
-removed from the driver already. You can just drop this patch.
+Unfortunately I do not have the bandwidth to look at inlined or pseudo
+code.  I will review this code with the next revision.
 
-> > ---
-> >  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
-> >  1 file changed, 6 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> > index 02bd757a8987..b2ab967504af 100644
-> > --- a/drivers/gpu/drm/bridge/tc358767.c
-> > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> > @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
-> >  		dev_err(tc->dev, "main link disable error: %d\n", ret);
-> >  }
-> >  
-> > -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
-> > -				 const struct drm_display_mode *mode,
-> > -				 struct drm_display_mode *adj)
-> > -{
-> > -	/* Fixup sync polarities, both hsync and vsync are active low */
-> > -	adj->flags = mode->flags;
-> > -	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-> > -	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-> > -
-> > -	return true;
-> > -}
-> > -
-> >  static int tc_common_atomic_check(struct drm_bridge *bridge,
-> >  				  struct drm_bridge_state *bridge_state,
-> >  				  struct drm_crtc_state *crtc_state,
-> >  				  struct drm_connector_state *conn_state,
-> >  				  const unsigned int max_khz)
-> >  {
-> > -	tc_bridge_mode_fixup(bridge, &crtc_state->mode,
-> > -			     &crtc_state->adjusted_mode);
-> > +	struct drm_display_mode *adj = &crtc_state->adjusted_mode;
-> > +
-> > +	/* Fixup sync polarities, both hsync and vsync are active low */
-> > +	adj->flags = crtc_state->mode.flags;
-> > +	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-> > +	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-> >  
-> >  	if (crtc_state->adjusted_mode.clock > max_khz)
-> >  		return -EINVAL;
-> > @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
-> >  	.atomic_check = tc_edp_atomic_check,
-> >  	.atomic_enable = tc_edp_bridge_atomic_enable,
-> >  	.atomic_disable = tc_edp_bridge_atomic_disable,
-> > -	.mode_fixup = tc_bridge_mode_fixup,
-> >  	.detect = tc_bridge_detect,
-> >  	.get_edid = tc_get_edid,
-> >  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>
+> Best regards,
+> TingHan
+>
+>
+>
+>

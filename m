@@ -1,359 +1,299 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C237CA2C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 05:29:30 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id c24so25756155pgg.11
-        for <chrome-platform@lists.linux.dev>; Sun, 18 Sep 2022 22:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date;
-        bh=MDxKyaShNqDQ3en/H1CX6qFzd8kpNtIccLRMIsfUky0=;
-        b=Br2EPnTYH7VnIjoCrXqkuO1S+/3eZMFysW+DfvSJskOazpjra7JkHwE/mIqmeyNZuv
-         ETPL07MmV/3DvAap9fmSZZZ8KudVDmRfDJ/ShR9Bebt0rPQ4kGWl/ryX30moe3Nar+im
-         AIjOtL55owzP4sxlNoEzZECfc5CKtrKpr+wNM6c/QmmlXRnXhQ25smnycBGv4uD3BN1D
-         t6QOeFrRw/u5jMaSUQvEhaUYKOy0iTcXb7wiagGzwZiQvhUcrlHTgCeanO+RDYXpbRlf
-         53NCq/GlNSRtEv8LFOet2+dq2t4i1v8W8+fI8XfaB44IEHZ4Wbh2mG4ghbX0smmEJz2F
-         A+0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=MDxKyaShNqDQ3en/H1CX6qFzd8kpNtIccLRMIsfUky0=;
-        b=12BUMt+uEkThVg3D3Pa9vU2cgZYA3moQF5GjHR+9PvBRa/47Y0Kwvh4uwHekxG2w+/
-         ukgrVidOHyvNod2vOoi6Dg8cPWlv3t7Zc+eMGLwmlj+i2k7wzpNPoOGz6uObxPAOYkxB
-         uhW+NUcO/0VqWMK3NoRG4E0rF6QYEftq8GgHUo4nuLK0ritm2XVr3jefLpS6OrSb1sRA
-         gBmIfHQiRcF1ln1VMu11kcV3qTwHvAqR/JopnU5qjjJO3k+gKvQjIGyXf5letHz1akwD
-         lvGp+uaEzU8pfeW/j4d6UI0W9eECVrJZG/lQHfm01WUmvpLGxWtktcWUvZCIemrVARbT
-         NDow==
-X-Gm-Message-State: ACrzQf3SjxecbfUM3cfeji+Z6njuo0e85qLHBPub9OKSzqR+dH7t2imt
-	9NBvLiIN0dmiuunO8tqJqcBOMQ==
-X-Google-Smtp-Source: AMsMyM7KVXbOHy5yAvDD7Z4Nh6lww/hnYaqF6f4TgIjbGeZq1ZMhn/Ne78SVt5B03KYQHZGRSypSDg==
-X-Received: by 2002:a65:42c8:0:b0:41a:8138:f47f with SMTP id l8-20020a6542c8000000b0041a8138f47fmr14463212pgp.476.1663565370054;
-        Sun, 18 Sep 2022 22:29:30 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id u127-20020a626085000000b0053e80618a23sm19218755pfb.34.2022.09.18.22.29.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Sep 2022 22:29:29 -0700 (PDT)
-Message-ID: <6327fe39.620a0220.a80f7.10e2@mx.google.com>
-Date: Sun, 18 Sep 2022 22:29:29 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06F223A1
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 09:46:54 +0000 (UTC)
+X-UUID: c210d8c8c07042d1a01ccc909efb06b4-20220919
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=4HWiEp+1VDXynpT/vcy3ufoZ+s+hrLEfSmL7djSdf4w=;
+	b=dARn8steOAqwQMh4wDSgtOE79P0tFeWzPFROIxfHwfv8wu77FW/GPr/6Wv6GupHj2/Gutfma3I/BZ5kvSFS6Iu5z0rMgsfmN2p/MqvHB8xjxEJOHcpS0gjo+4MZc7InrA2IIk3cosQ+082MxkcpaenPYyWTnRz2yLLenZG2e6BE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:8dd763e6-882b-4b37-b511-d52756e261aa,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:39a5ff1,CLOUDID:b309dc18-0314-4ae7-b2d1-7295be49255e,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: c210d8c8c07042d1a01ccc909efb06b4-20220919
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+	(envelope-from <tinghan.shen@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1529525198; Mon, 19 Sep 2022 17:46:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Mon, 19 Sep 2022 17:46:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 19 Sep 2022 17:46:46 +0800
+Message-ID: <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
+Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the
+ 2nd core of dual-core SCP
+From: TingHan Shen <tinghan.shen@mediatek.com>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<bjorn.andersson@linaro.org>, <bleung@chromium.org>,
+	<chrome-platform@lists.linux.dev>, <devicetree@vger.kernel.org>,
+	<dnojiri@chromium.org>, <enric.balletbo@collabora.com>,
+	<groeck@chromium.org>, <gustavoars@kernel.org>, <keescook@chromium.org>,
+	<krzk+dt@kernel.org>, <lee.jones@linaro.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-remoteproc@vger.kernel.org>,
+	<matthias.bgg@gmail.com>, <pmalani@chromium.org>, <robh+dt@kernel.org>,
+	<sebastian.reichel@collabora.com>, <weishunc@google.com>
+Date: Mon, 19 Sep 2022 17:46:46 +0800
+In-Reply-To: <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com>
+References: <20220829194247.GC2264818@p14s>
+	 <20220908111757.14633-1-tinghan.shen@mediatek.com>
+	 <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
+	 <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+	 <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.0-rc1-20-g95a789b97c72
-Subject: chrome-platform/for-kernelci cros-ec: 9 runs,
- 8 regressions (v6.0-rc1-20-g95a789b97c72)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
+
+On Fri, 2022-09-16 at 11:15 -0600, Mathieu Poirier wrote:
+> On Fri, 16 Sept 2022 at 06:00, TingHan Shen <tinghan.shen@mediatek.com> wrote:
+> > 
+> > On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
+> > > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
+> > > wrote:
+> > > 
+> > > > Hi Mathieu,
+> > > > 
+> > > > > > The mtk_scp.c driver only supports the single core SCP and the
+> > > > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
+> > > > > > 
+> > > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
+> > > > 
+> > > > subsys.
+> > > > > 
+> > > > > s/subsys/subsystem
+> > > > > 
+> > > > > > They have the same viewpoint of registers and memory.
+> > > > > > 
+> > > > > > Core 1 of the SCP features its own set of core configuration registers,
+> > > > > > interrupt controller, timers, and DMAs. The rest of the peripherals
+> > > > > > in this subsystem are shared by core 0 and core 1.
+> > > > > > 
+> > > > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+> > > > > 
+> > > > > /the/The
+> > > > > 
+> > > > > > by core 0 and core 1.
+> > > > > > 
+> > > > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > > > ---
+> > > > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
+> > > > > >  1 file changed, 20 insertions(+), 2 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/remoteproc/mtk_scp.c
+> > > > 
+> > > > b/drivers/remoteproc/mtk_scp.c
+> > > > > > index 3510c6d0bbc8..91b4aefde4ac 100644
+> > > > > > --- a/drivers/remoteproc/mtk_scp.c
+> > > > > > +++ b/drivers/remoteproc/mtk_scp.c
+> > > > > > @@ -23,6 +23,10 @@
+> > > > > >  #define MAX_CODE_SIZE 0x500000
+> > > > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
+> > > > > > 
+> > > > > > +#define SCP_CORE_0 0
+> > > > > > +#define SCP_CORE_1 1
+> > > > > > +#define SCP_CORE_SINGLE 0xF
+> > > > > > +
+> > > > > >  /**
+> > > > > >   * scp_get() - get a reference to SCP.
+> > > > > >   *
+> > > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
+> > > > > >     struct resource *res;
+> > > > > >     const char *fw_name = "scp.img";
+> > > > > >     int ret, i;
+> > > > > > +   u32 core_id = SCP_CORE_SINGLE;
+> > > > > > 
+> > > > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+> > > > > >     if (ret < 0 && ret != -EINVAL)
+> > > > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
+> > > > > >     scp->data = of_device_get_match_data(dev);
+> > > > > >     platform_set_drvdata(pdev, scp);
+> > > > > > 
+> > > > > > +   ret = of_property_read_u32_index(dev->of_node,
+> > > > 
+> > > > "mediatek,scp-core", 1, &core_id);
+> > > > > > +   if (ret == 0)
+> > > > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
+> > > > > 
+> > > > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
+> > > > 
+> > > > compatible
+> > > > > "mediatek,mt8195-scp-dual" has already been defined previously in this
+> > > > 
+> > > > patchset,
+> > > > > initialising the second core, if present, is a matter of looking at the
+> > > > > compatile string.
+> > > > 
+> > > > This idea of identify cores by the compatible looks workable.
+> > > > I'll update this series at next version.
+> > > > Thanks!
+> > > > 
+> > > > > 
+> > > > > > +
+> > > > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
+> > > > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > > +   if (core_id == SCP_CORE_1)
+> > > > > > +           scp->sram_base = devm_ioremap(dev, res->start,
+> > > > 
+> > > > resource_size(res));
+> > > > > > +   else
+> > > > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > > +
+> > > > > 
+> > > > > This looks very broken...  For this to work you would need to have two DT
+> > > > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
+> > > > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
+> > > > 
+> > > > "mediatek,scp-core = <&scp_dual0 1>;".
+> > > > > 
+> > > > > Which is also very broken...  Here you have a binding whose first
+> > > > 
+> > > > argument is a
+> > > > > reference to the core sibling while the second argument is a
+> > > > 
+> > > > characteristic of
+> > > > > the current core, which is highly confusing.
+> > > > > 
+> > > > > I suggest what when you see the compatible binding
+> > > > 
+> > > > "mediatek,mt8195-scp", a
+> > > > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
+> > > > 
+> > > > cores
+> > > > > are initialized as part of the _same_ probe.
+> > > > > 
+> > > > > If the above analysis is not correct it means I misinterpreted your
+> > > > > work and if so, a serious amount of comments is needed _and_ a very
+> > > > 
+> > > > detailed
+> > > > > example in "mtk,scp.yaml" that leaves no room for interpretation.
+> > > > > 
+> > > > > I will stop reviewing this patchset until you have clarified how this
+> > > > 
+> > > > works.
+> > > > > 
+> > > > > Thanks,
+> > > > > Mathieu
+> > > > 
+> > > > There's one problem of initializng the CORE1 using the same probe flow.
+> > > > The register space of CORE0 and CORE1 are overlapped in the device node.
+> > > > Both cores need to use the 'cfg' registers defined in scp yaml.
+> > > > The devm_ioremap_resource catches address overlapping and returns error
+> > > > when
+> > > > probing CORE1 driver.
+> > > > 
+> > > 
+> > > That is exactly why I suggest to initialise both cores within the same
+> > > probe() function.
+> > > 
+> > 
+> > Hi Mathieu,
+> > 
+> > I'm thinking about how to initialise in the same probe() function.
+> > I'm wondering if this implies that using one scp driver to initialize 2 cores?
+> > If it is, I assume the dts descriptions for both cores should be contained in one node.
+> > 
+> > When there's one node for both cores, it looks like that there is a problem of
+> > using dma_allocate_coherent(). Each core has its own reserved memory region.
+> > When there's only one device for both cores, it's not able to identify the memory region
+> > by the device parameter of dma_allocate_coherent().
+> > 
+> > Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
+> 
+> Look at what Suman did for TI's K3 R5[1] and DSP[2] platforms.
+> Reviewing the bindings for both platforms will also give you a good
+> idea of how things work.
+> 
+> [1]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_r5_remoteproc.c*L1683__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbv1akubM$ 
+> [2]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_dsp_remoteproc.c*L673__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbfE2dtBg$ 
+> 
+
+Hi Mathieu,
+
+My plan is changing the dts as following,
+
+scp core 0 {
+	// Keep current properties untouched.
+	compatible = "mediatek,mt8195-scp";
+
+	// core 0 properties...
+
+	// Add a new property for multi-core scp.
+	// if not present, it's single core.
+	// if present and core id = 0, it's the main core, otherwise the sub cores.
+	mediatek,scp-core = <0>;
+
+	// add sub cores as sub node.
+	// sub nodes can find parent by OF API.
+	scp core 1 {
+		// use the same compatile name as core 0.
+		compatible = "mediatek,mt8195-scp";
+
+		// assign id > 0 to sub cores.
+		mediatek,scp-core = <1>;
+
+		// core 1 properties...
+	};
+};
+
+
+The driver probe/remove behavior will be modified as below,
+
+scp probe() {
+	// common init...
+
+	// check core id to have different memory mapping flow
+	if (core id == 0)
+		// mapping cfg, sram and others
+	else
+		// mapping sram
+		// reuse the cfg paddr/vaddr from core 0
+	
+	// common init...
+
+	if (core id == 0) {
+		ret = of_platform_populate(...)
+
+		// boot core 0 and sub cores
+		rproc_add();
+	} else {
+		// add sub core as sub device to main core
+		rproc_add_subdev()
+
+		rproc->auto_boot = false;
+		rpoc_add();
+	}
+}
+
+scp_remove() {
+
+	if (core id == 0)
+		of_platform_depopulate()
+	else
+		rproc_remove_subdev()	
+	
+	// remove core
+}
+
+
+
+Best regards,
+TingHan
 
-chrome-platform/for-kernelci cros-ec: 9 runs, 8 regressions (v6.0-rc1-20-g9=
-5a789b97c72)
 
-Regressions Summary
--------------------
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 1          =
 
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 1          =
-
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.0-rc1-20-g95a789b97c72/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.0-rc1-20-g95a789b97c72
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      95a789b97c72e00d7be6951ebc3fe537803003a6
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6327e7c2d769fae3363556f2
-
-  Results:     8 PASS, 2 FAIL, 9 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-asus-cx9400-volteer.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-asus-cx9400-volteer.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220826.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-327e7c2d769fae336355705
-        failing since 27 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
-
-    2022-09-19T03:53:16.536309  / # =
-
-    2022-09-19T03:53:16.541072  =
-
-    2022-09-19T03:53:16.642748  / # #
-    2022-09-19T03:53:16.648095  #
-    2022-09-19T03:53:16.749169  / # export SHELL=3D/bin/sh
-    2022-09-19T03:53:16.754193  export SHELL=3D/bin/sh
-    2022-09-19T03:53:16.855134  / # . /lava-7310655/environment
-    2022-09-19T03:53:16.859951  . /lava-7310655/environment
-    2022-09-19T03:53:16.960931  / # /lava-7310655/bin/lava-test-runner /lav=
-a-7310655/0
-    2022-09-19T03:53:16.965902  /lava-7310655/bin/lava-test-runner /lava-73=
-10655/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6327e85d1a3cedc672355647
-
-  Results:     6 PASS, 2 FAIL, 11 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220826.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-27e85e1a3cedc672355658
-        failing since 27 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-327e85e1a3cedc67235565a
-        failing since 27 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
-
-    2022-09-19T03:55:58.669412  / # =
-
-    2022-09-19T03:55:58.674865  =
-
-    2022-09-19T03:55:58.780847  / # #
-    2022-09-19T03:55:58.786840  #
-    2022-09-19T03:55:58.889250  / # export SHELL=3D/bin/sh
-    2022-09-19T03:55:58.895113  export SHELL=3D/bin/sh
-    2022-09-19T03:55:58.996914  / # . /lava-7310627/environment
-    2022-09-19T03:55:59.002851  . /lava-7310627/environment
-    2022-09-19T03:55:59.104907  / # /lava-7310627/bin/lava-test-runner /lav=
-a-7310627/0
-    2022-09-19T03:55:59.110508  /lava-7310627/bin/lava-test-runner /lava-73=
-10627/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6327e79afcedfdbc2b355642
-
-  Results:     6 PASS, 2 FAIL, 11 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-hp-x360-14-G1-sona.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
-collabora/cros-ec-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220826.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-27e79afcedfdbc2b355653
-        failing since 27 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-327e79afcedfdbc2b355655
-        failing since 27 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
-
-    2022-09-19T03:52:44.112265  / # =
-
-    2022-09-19T03:52:44.117668  =
-
-    2022-09-19T03:52:44.219275  / # #
-    2022-09-19T03:52:44.224761  #
-    2022-09-19T03:52:44.325805  / # export SHELL=3D/bin/sh
-    2022-09-19T03:52:44.331109  export SHELL=3D/bin/sh
-    2022-09-19T03:52:44.432178  / # . /lava-7310626/environment
-    2022-09-19T03:52:44.437500  . /lava-7310626/environment
-    2022-09-19T03:52:44.538406  / # /lava-7310626/bin/lava-test-runner /lav=
-a-7310626/0
-    2022-09-19T03:52:44.543192  /lava-7310626/bin/lava-test-runner /lava-73=
-10626/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6327e9b1cc80a5efc8355687
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220826.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/6327e9b1cc80a5efc83556=
-88
-        failing since 11 days (last pass: v6.0-rc1-18-gf36a064d1483, first =
-fail: v6.0-rc1-19-gd378c6f0456c) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6327eb6eb92266aad2355717
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.0-rc1-20-g95a789b97c72/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220826.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-27eb6eb92266aad2355728
-        failing since 17 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-327eb6eb92266aad235572a
-        failing since 17 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483)
-
-    2022-09-19T04:09:07.235900  / # =
-
-    2022-09-19T04:09:07.239407  =
-
-    2022-09-19T04:09:07.348383  / # #
-    2022-09-19T04:09:07.349815  <6>[   20.658673] mwifiex_pcie 0000:01:00.0=
-: info: FW download over, size 638992 bytes
-    2022-09-19T04:09:07.351839  #
-    2022-09-19T04:09:07.456317  / # export SHELL=3D/bin/sh
-    2022-09-19T04:09:07.459809  export SHELL=3D/bin/sh
-    2022-09-19T04:09:07.564911  / # . /lava-7310750/environment
-    2022-09-19T04:09:07.569576  . /lava-7310750/environment
-    2022-09-19T04:09:07.672007  / # /lava-7310750/bin/lava-test-runner /lav=
-a-7310750/0 =
-
-    ... (15 line(s) more)  =
-
- =20

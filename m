@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9028F7C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 15:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF0E7C
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 15:29:55 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84C7B499;
-	Mon, 19 Sep 2022 17:29:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2472E499;
+	Mon, 19 Sep 2022 17:29:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1663601347;
-	bh=NuzkgiGGksLT/z4/1KJ+JyeCIKwowmxW3Wn0E+L0u/8=;
+	s=mail; t=1663601393;
+	bh=jDkXVBjY35lMOtjDJwJDXPYBRkII1bXO22Gtm2g2nhQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l5dwTvrDBt4EtkMgI5YVhD2O473i9JyzN0gFCbTOKHVa7IENvSBo4myUeJY1kjJlC
-	 zj+pDA5tURnUMXYWEnVSB9kB58M7BR5UPyII8wR/YisOyQJItwqQJl6Ig+5lhVhQRt
-	 sWnkqussNC4kxpIJk+NLjlh2SgWkYqSlFQZjpThg=
-Date: Mon, 19 Sep 2022 18:28:54 +0300
+	b=H3PfNgG0bw9Qa+rKEjsQmpYSVhr2H7UyBp4Ao1fbdRJuCiwV0SnGu3hpDIZE9Pg16
+	 IkMC82Mo/1UJoy63TUrMk/21MGGEA+PCVQCr29ixFLiaNfEs5l4uZrp6DMyBE7dOaJ
+	 fKLoyunNe0GTgA1nRB9O2Xz2UPeSoXsQJlTw2Brw=
+Date: Mon, 19 Sep 2022 18:29:40 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org,
@@ -42,11 +42,11 @@ Cc: dri-devel@lists.freedesktop.org,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 06/12] drm/bridge: cros-ec-anx7688: Use
+Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use
  drm_bridge_funcs.atomic_check
-Message-ID: <YyiKthfh3I5rp99e@pendragon.ideasonboard.com>
+Message-ID: <YyiK5GK7TYNxI7eS@pendragon.ideasonboard.com>
 References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717174454.46616-7-sam@ravnborg.org>
+ <20220717174454.46616-8-sam@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -55,18 +55,16 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220717174454.46616-7-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-8-sam@ravnborg.org>
 
 Hi Sam,
 
 Thank you for the patch.
 
-On Sun, Jul 17, 2022 at 07:44:48PM +0200, Sam Ravnborg wrote:
-> Replace the deprecated drm_bridge_funcs.mode_fixup() with
-> drm_bridge_funcs.atomic_check().
-> 
-> drm_bridge_funcs.atomic_check() requires the atomic state operations,
-> update these to the default implementations.
+On Sun, Jul 17, 2022 at 07:44:49PM +0200, Sam Ravnborg wrote:
+> When atomic_check() is defined, then mode_fixup() is ignored,
+> so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
+> Embed the original implementation in the caller and drop the function.
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
@@ -75,98 +73,58 @@ On Sun, Jul 17, 2022 at 07:44:48PM +0200, Sam Ravnborg wrote:
 > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: chrome-platform@lists.linux.dev
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/bridge/cros-ec-anx7688.c | 28 +++++++++++++++---------
->  1 file changed, 18 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cros-ec-anx7688.c b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> index 0f6d907432e3..fc19ea87926f 100644
-> --- a/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> +++ b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-> @@ -5,6 +5,7 @@
->   * Copyright 2020 Google LLC
->   */
->  
-> +#include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_print.h>
->  #include <linux/i2c.h>
-> @@ -45,9 +46,10 @@ bridge_to_cros_ec_anx7688(struct drm_bridge *bridge)
->  	return container_of(bridge, struct cros_ec_anx7688, bridge);
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 02bd757a8987..b2ab967504af 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
+>  		dev_err(tc->dev, "main link disable error: %d\n", ret);
 >  }
 >  
-> -static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
-> -					      const struct drm_display_mode *mode,
-> -					      struct drm_display_mode *adjusted_mode)
-> +static int cros_ec_anx7688_bridge_atomic_check(struct drm_bridge *bridge,
-> +					       struct drm_bridge_state *bridge_state,
-> +					       struct drm_crtc_state *crtc_state,
-> +					       struct drm_connector_state *conn_state)
+> -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+> -				 const struct drm_display_mode *mode,
+> -				 struct drm_display_mode *adj)
+> -{
+> -	/* Fixup sync polarities, both hsync and vsync are active low */
+> -	adj->flags = mode->flags;
+> -	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> -	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> -
+> -	return true;
+> -}
+> -
+>  static int tc_common_atomic_check(struct drm_bridge *bridge,
+>  				  struct drm_bridge_state *bridge_state,
+>  				  struct drm_crtc_state *crtc_state,
+>  				  struct drm_connector_state *conn_state,
+>  				  const unsigned int max_khz)
 >  {
->  	struct cros_ec_anx7688 *anx = bridge_to_cros_ec_anx7688(bridge);
->  	int totalbw, requiredbw;
-> @@ -56,13 +58,13 @@ static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
->  	int ret;
->  
->  	if (!anx->filter)
-> -		return true;
-> +		return 0;
->  
->  	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
->  	ret = regmap_bulk_read(anx->regmap, ANX7688_DP_BANDWIDTH_REG, regs, 2);
->  	if (ret < 0) {
->  		DRM_ERROR("Failed to read bandwidth/lane count\n");
-> -		return false;
-> +		return ret;
->  	}
->  	dpbw = regs[0];
->  	lanecount = regs[1];
-> @@ -71,28 +73,34 @@ static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
->  	if (dpbw > 0x19 || lanecount > 2) {
->  		DRM_ERROR("Invalid bandwidth/lane count (%02x/%d)\n", dpbw,
->  			  lanecount);
-> -		return false;
-> +		return -EINVAL;
->  	}
->  
->  	/* Compute available bandwidth (kHz) */
->  	totalbw = dpbw * lanecount * 270000 * 8 / 10;
->  
->  	/* Required bandwidth (8 bpc, kHz) */
-> -	requiredbw = mode->clock * 8 * 3;
-> +	requiredbw = crtc_state->mode.clock * 8 * 3;
->  
->  	DRM_DEBUG_KMS("DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
->  		      totalbw, dpbw, lanecount, requiredbw);
->  
->  	if (totalbw == 0) {
->  		DRM_ERROR("Bandwidth/lane count are 0, not rejecting modes\n");
-> -		return true;
-> +		return 0;
->  	}
->  
-> -	return totalbw >= requiredbw;
-> +	if (totalbw < requiredbw)
-> +		return -EINVAL;
+> -	tc_bridge_mode_fixup(bridge, &crtc_state->mode,
+> -			     &crtc_state->adjusted_mode);
+> +	struct drm_display_mode *adj = &crtc_state->adjusted_mode;
 > +
-> +	return 0;
->  }
+> +	/* Fixup sync polarities, both hsync and vsync are active low */
+> +	adj->flags = crtc_state->mode.flags;
+> +	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> +	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
 >  
->  static const struct drm_bridge_funcs cros_ec_anx7688_bridge_funcs = {
-> -	.mode_fixup = cros_ec_anx7688_bridge_mode_fixup,
-> +	.atomic_check = cros_ec_anx7688_bridge_atomic_check,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
->  };
->  
->  static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
+>  	if (crtc_state->adjusted_mode.clock > max_khz)
+>  		return -EINVAL;
+> @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+>  	.atomic_check = tc_edp_atomic_check,
+>  	.atomic_enable = tc_edp_bridge_atomic_enable,
+>  	.atomic_disable = tc_edp_bridge_atomic_disable,
+> -	.mode_fixup = tc_bridge_mode_fixup,
+>  	.detect = tc_bridge_detect,
+>  	.get_edid = tc_get_edid,
+>  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 
 -- 
 Regards,

@@ -1,115 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F359648
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Sep 2022 04:47:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D50C4347C
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Sep 2022 04:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3434F7C
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 02:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B8CDBC433D7;
+	Mon, 19 Sep 2022 02:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663476423;
-	bh=CSkbwKqFDwoTcrIkATvHljbT5brjkYB/RNCXPtLGAlY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gFaXETrEdzfokQVVyjJPra8q/RUwpky72FUJxQHKPjh8IEL5Z45PdareAz1uL7Va7
-	 dDFU9TzZbTRZXTyLTje2Q01FoPEPYPKUx1HMCCDsrqDkIj4ivZ7pKPO0mbFiB/3oNa
-	 8LxpafnPRLvnZJrj6gVSg/wAVfyC39uiyQ94EoI5vUap3VklxCVSWE68ztm13zpvWt
-	 vfrh9QokKUBp67VkByoYz5Sud0XrQhm/ez+Otuy0OsKvrsNfl+kgeglWAbitxUl7cW
-	 u+Up5nvp1l9P0R1Y8iIk+JgxmKVVgGBpXoofSEgKV0T9m0IfrBkbVlPIQKeeDQgGwy
-	 WLT/J0ZwAuPzg==
-Received: by mail-oi1-f169.google.com with SMTP id n83so10862588oif.11
-        for <chrome-platform@lists.linux.dev>; Sat, 17 Sep 2022 21:47:03 -0700 (PDT)
-X-Gm-Message-State: ACgBeo32Fw9f8sDB2AEqIeUaJnRBGMpk6uL6/Gb/NfnzYF6fi1ZQEbyJ
-	B5QKc51Ticy0hOPnhD8MfpBfhRPq+jEinHbbGg==
-X-Google-Smtp-Source: AA6agR5PsQsy27uH4rlZzSjoJwft/wU0ylxMmtvPMOZnQQjqgSNaP0ueHlVHW/PTiamnloKRSL2Qs0zcv2VSLa8lGYk=
-X-Received: by 2002:a05:6808:148a:b0:34f:973c:5838 with SMTP id
- e10-20020a056808148a00b0034f973c5838mr9282007oiw.69.1663476422185; Sat, 17
- Sep 2022 21:47:02 -0700 (PDT)
+	s=k20201202; t=1663555215;
+	bh=DI+gmo1jt0HOvuhR33uKwSgIEq8MtRFNhlVeQTS2NS4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=PHruGXGGWFPVm0b/69nO3RBy7dvAEUMURI7i2qNrM5KxQXJbELu58yvsAS1K2FJpL
+	 gP6uNM9AJQzSyBExNlcxZSmMA3z4QFRM3PSNx2e6J4VTxdU5OQaXmINazVmwgyVQF3
+	 42wqwTyk1t/FaQvJuu/bCRwhzsPAlz9h64efyJWa1cYlQry2UTiv45gjaPZkjVQ7gr
+	 XLimLp2zrj3GgBZ9f0fxNBI/5XtbPCQ+S6NONPg64lRimk+0eWIiK3YNB0DFFQMZll
+	 ek1Xl1dbCs/P0dupkZBHdy7nnLpLnY2jlMmMBI8uhma0bv8RnQ1wg7Mnu8GPrTuj6O
+	 KU1wLufuwpNFA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9C95CE21ED2;
+	Mon, 19 Sep 2022 02:40:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220717174454.46616-1-sam@ravnborg.org> <20220717175801.78668-1-sam@ravnborg.org>
-In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 18 Sep 2022 12:46:51 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8uQ+z9+-Ei5sCFV__AYBzzghgEFBrV4aAZQu7pWcRtUw@mail.gmail.com>
-Message-ID: <CAAOTY_8uQ+z9+-Ei5sCFV__AYBzzghgEFBrV4aAZQu7pWcRtUw@mail.gmail.com>
-Subject: Re: [PATCH v1 08/12] drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, David Airlie <airlied@linux.ie>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Arnd Bergmann <arnd@arndb.de>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Philip Chen <philipchen@chromium.org>, linux-renesas-soc@vger.kernel.org, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Cai Huoqing <cai.huoqing@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4] platform/chrome: cros_ec: Notify the PM of wake events
+ during resume
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <166355521563.20486.14302736310439629923.git-patchwork-notify@kernel.org>
+Date: Mon, 19 Sep 2022 02:40:15 +0000
+References: <20220913204954.2931042-1-jthies@google.com>
+In-Reply-To: <20220913204954.2931042-1-jthies@google.com>
+To: Jameson Thies <jthies@google.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
+ tzungbi@kernel.org
 
-Hi, Sam:
+Hello:
 
-Sam Ravnborg <sam@ravnborg.org> =E6=96=BC 2022=E5=B9=B47=E6=9C=8818=E6=97=
-=A5 =E9=80=B1=E4=B8=80 =E5=87=8C=E6=99=A81:58=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The implementation of drm_bridge_funcs.mode_fixup is optional
-> so there is no need to provide an empty implementation.
-> Drop mtk_hdmi_bridge_mode_fixup() so the driver no longer uses the
-> deprecated drm_bridge_funcs.mode_fixup() operation.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+On Tue, 13 Sep 2022 20:49:54 +0000 you wrote:
+> cros_ec_handle_event in the cros_ec driver can notify the PM of wake
+> events. When a device is suspended, cros_ec_handle_event will not check
+> MKBP events. Instead, received MKBP events are checked during resume by
+> cros_ec_report_events_during_suspend. But
+> cros_ec_report_events_during_suspend cannot notify the PM if received
+> events are wake events, causing wake events to not be reported if
+> received while the device is suspended.
+> 
+> [...]
 
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
->  1 file changed, 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
-ek/mtk_hdmi.c
-> index a63b76055f81..7321aa1ee6f0 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -1293,13 +1293,6 @@ static int mtk_hdmi_bridge_attach(struct drm_bridg=
-e *bridge,
->         return 0;
->  }
->
-> -static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
-> -                                      const struct drm_display_mode *mod=
-e,
-> -                                      struct drm_display_mode *adjusted_=
-mode)
-> -{
-> -       return true;
-> -}
-> -
->  static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
->                                            struct drm_bridge_state *old_b=
-ridge_state)
->  {
-> @@ -1399,7 +1392,6 @@ static const struct drm_bridge_funcs mtk_hdmi_bridg=
-e_funcs =3D {
->         .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
->         .atomic_reset =3D drm_atomic_helper_bridge_reset,
->         .attach =3D mtk_hdmi_bridge_attach,
-> -       .mode_fixup =3D mtk_hdmi_bridge_mode_fixup,
->         .atomic_disable =3D mtk_hdmi_bridge_atomic_disable,
->         .atomic_post_disable =3D mtk_hdmi_bridge_atomic_post_disable,
->         .mode_set =3D mtk_hdmi_bridge_mode_set,
-> --
-> 2.34.1
->
+Here is the summary with links:
+  - [v4] platform/chrome: cros_ec: Notify the PM of wake events during resume
+    https://git.kernel.org/chrome-platform/c/8edd2752b0aa
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9EE7C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 15:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D810B7C
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 15:27:13 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57FAA499;
-	Mon, 19 Sep 2022 17:19:51 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 432C7D41;
+	Mon, 19 Sep 2022 17:17:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1663600791;
-	bh=PQGPD6rFfQ4c9/wXNerOZd6lDaZMOvrBsAqiWgV3tp4=;
+	s=mail; t=1663600653;
+	bh=2puiBfBSuvOfOS88b2J3PNyfkl8M51lmUO5IZtT9CSI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IN7WVwhttqy9kKXcxIP20OMJA/V4fQBWil7pAMKkG4AXtYpceTw0TlNljB0cvxArg
-	 j84YQ52vuqaWmmH8XoIwtQDvRnjs6BaIjUEnRbNhEPsnQoe+SVh2sbQey79MGxtSGd
-	 BVX8UoQgAKAq5H8L+7APt1mi8Zwpf4AbIFAIkNL8=
-Date: Mon, 19 Sep 2022 18:19:38 +0300
+	b=QWixYfOitoFmLXo3HiiDzKGlFGdhUPWziffk09Hwwjm1J3sTCwF2xceFdZvqwWrvl
+	 AzeZB1q9xbsuNrfAjdnx2g+eV5PEBCkzfra9a5U+vgWkO2vw3P3H2ZC6ZESh0O0j7x
+	 dCLG7tBJgrFzP0vE1wxqgxZWZvN+KA+gJGEmospE=
+Date: Mon, 19 Sep 2022 18:17:19 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org,
@@ -41,11 +41,13 @@ Cc: dri-devel@lists.freedesktop.org,
 	Philip Chen <philipchen@chromium.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 04/12] drm/bridge: Drop drm_bridge_chain_mode_fixup
-Message-ID: <YyiIineQ/Ib4rQH/@pendragon.ideasonboard.com>
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH v1 01/12] drm/bridge: ps8640: Use atomic variants of
+ drm_bridge_funcs
+Message-ID: <YyiH/3eeHvPPbuHk@pendragon.ideasonboard.com>
 References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717174454.46616-5-sam@ravnborg.org>
+ <20220717174454.46616-2-sam@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,94 +56,105 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220717174454.46616-5-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-2-sam@ravnborg.org>
 
 Hi Sam,
 
-Thank you for the patch.
+Thank you for the patch, and sorry for the review delay. The series only
+recently jumped to the top of my inbox.
 
-On Sun, Jul 17, 2022 at 07:44:46PM +0200, Sam Ravnborg wrote:
-> There are no users left of drm_bridge_chain_mode_fixup() and we
-> do not want to have this function available, so drop it.
+On Sun, Jul 17, 2022 at 07:44:43PM +0200, Sam Ravnborg wrote:
+> The atomic variants of enable/disable in drm_bridge_funcs are the
+> preferred operations - introduce these.
+> 
+> The ps8640 driver used the non-atomic variants of the drm_bridge_chain_pre_enable/
+> drm_bridge_chain_post_disable - convert these to the atomic variants.
+> 
+> v2:
+>   - Init state operations in drm_bridge_funcs (Laurent)
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Jitao Shi <jitao.shi@mediatek.com>
+> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Cc: Philip Chen <philipchen@chromium.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/drm_bridge.c | 37 ------------------------------------
->  include/drm/drm_bridge.h     |  3 ---
->  2 files changed, 40 deletions(-)
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index bb7fc09267af..b6f56d8f3547 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -430,43 +430,6 @@ void drm_bridge_detach(struct drm_bridge *bridge)
->   *   needed, in order to gradually transition to the new model.
->   */
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 31e88cb39f8a..bb8076fb8625 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -15,6 +15,7 @@
 >  
-> -/**
-> - * drm_bridge_chain_mode_fixup - fixup proposed mode for all bridges in the
-> - *				 encoder chain
-> - * @bridge: bridge control structure
-> - * @mode: desired mode to be set for the bridge
-> - * @adjusted_mode: updated mode that works for this bridge
-> - *
-> - * Calls &drm_bridge_funcs.mode_fixup for all the bridges in the
-> - * encoder chain, starting from the first bridge to the last.
-> - *
-> - * Note: the bridge passed should be the one closest to the encoder
-> - *
-> - * RETURNS:
-> - * true on success, false on failure
-> - */
-> -bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
-> -				 const struct drm_display_mode *mode,
-> -				 struct drm_display_mode *adjusted_mode)
-> -{
-> -	struct drm_encoder *encoder;
-> -
-> -	if (!bridge)
-> -		return true;
-> -
-> -	encoder = bridge->encoder;
-> -	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
-> -		if (!bridge->funcs->mode_fixup)
-> -			continue;
-> -
-> -		if (!bridge->funcs->mode_fixup(bridge, mode, adjusted_mode))
-> -			return false;
-> -	}
-> -
-> -	return true;
-> -}
-> -EXPORT_SYMBOL(drm_bridge_chain_mode_fixup);
-> -
->  /**
->   * drm_bridge_chain_mode_valid - validate the mode against all bridges in the
->   *				 encoder chain.
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 1eca9c4c3346..7496f41535b1 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -845,9 +845,6 @@ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
->  #define drm_for_each_bridge_in_chain(encoder, bridge)			\
->  	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
+>  #include <drm/display/drm_dp_aux_bus.h>
+>  #include <drm/display/drm_dp_helper.h>
+> +#include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_mipi_dsi.h>
+> @@ -409,7 +410,8 @@ static const struct dev_pm_ops ps8640_pm_ops = {
+>  				pm_runtime_force_resume)
+>  };
 >  
-> -bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
-> -				 const struct drm_display_mode *mode,
-> -				 struct drm_display_mode *adjusted_mode);
->  enum drm_mode_status
->  drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
->  			    const struct drm_display_info *info,
+> -static void ps8640_pre_enable(struct drm_bridge *bridge)
+> +static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>  	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
+> @@ -443,7 +445,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>  	ps_bridge->pre_enabled = true;
+>  }
+>  
+> -static void ps8640_post_disable(struct drm_bridge *bridge)
+> +static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
+> +				       struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>  
+> @@ -521,7 +524,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  	 * EDID, for this chip, we need to do a full poweron, otherwise it will
+>  	 * fail.
+>  	 */
+> -	drm_bridge_chain_pre_enable(bridge);
+> +	drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
+>  
+>  	edid = drm_get_edid(connector,
+>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+> @@ -531,7 +534,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  	 * before, return the chip to its original power state.
+>  	 */
+>  	if (poweroff)
+> -		drm_bridge_chain_post_disable(bridge);
+> +		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
+>  
+>  	return edid;
+>  }
+> @@ -546,8 +549,11 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>  	.attach = ps8640_bridge_attach,
+>  	.detach = ps8640_bridge_detach,
+>  	.get_edid = ps8640_bridge_get_edid,
+> -	.post_disable = ps8640_post_disable,
+> -	.pre_enable = ps8640_pre_enable,
+> +	.atomic_post_disable = ps8640_atomic_post_disable,
+> +	.atomic_pre_enable = ps8640_atomic_pre_enable,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+>  };
+>  
+>  static int ps8640_bridge_get_dsi_resources(struct device *dev, struct ps8640 *ps_bridge)
 
 -- 
 Regards,

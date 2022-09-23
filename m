@@ -1,81 +1,155 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60040.outbound.protection.outlook.com [40.107.6.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819EF256C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 20:53:40 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id l14so1496726eja.7
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Sep 2022 13:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=W266CsOhutgk7baaRa4bGcyJXCHsN5O/vcMcc3H7co8=;
-        b=lQYC8C7PT2L5ccEPiyOtzVoS1tyE1s2zn/TMpgw+MKzgAqfwVu65a/AMk+xR56PgZ5
-         KbqYOjiadwYezFpTWnKNK1ZVCHCwYs7eTsZosNzt5HaTeY55p6rxw0pU1c6QNl8sJQ8t
-         BbP8ijZ5KN77+/AXkwKS8vRt0w51KbbjKp5fPELQm01mkPR2+OU8fW14k6/xkXASxPQL
-         wPX85xEgLfbLly0/+azsaDQgF1WujIpsn9WRq/iL/y17Qa8uznTteai/E/VkWtPBE3Nr
-         MHFkhLULhpmM6PUjiUB9tX4I32wv1mMjK8bjLmnD4QMJEmN5Or+S/dCcb5OCSBGMKXp5
-         gxhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=W266CsOhutgk7baaRa4bGcyJXCHsN5O/vcMcc3H7co8=;
-        b=N+PXSIsrZFaGlTP/xFkbTWgtsyg7BwmQtNDtz95aeHKeILexgaXfsckGB6nKccIewo
-         0EroMPfaTw3cDkTb1kTj2zHRUuI7DQ+7UZvw5Esf37HDsKpx+Apua2r4qgiuY5Jgt8P6
-         S86jmKetHjCzrOvaArHFCRonJUfgiDwlwItHLBngAKpLtgAqEXNy3UnrXPr+NzYKmaC4
-         3Uh5Jdx12wJ/rbGw3QqPvdubcHHPSmiF460NeSQsw3ipeMKu0EyTwsXyVOa9RsZ/DXh2
-         KXOwr8VSbA0ypMcrrk9yJ2+R6sayTwh6Jj08jyi6Nt4NzJ8yK6LuS4WhyOLuthCZlTGK
-         ufeA==
-X-Gm-Message-State: ACrzQf1IIWKTX1dx4kawqV6qrGpgPzxGvp4Tf7WgAfuu6sEpxZsVPDbd
-	i5bCR9PCg271EiZT4uGsPHCthbHfsfYfb+9UC4UXkw==
-X-Google-Smtp-Source: AMsMyM7ms866O2Gu/4j/k8xFQDTp00gtgV/cGGboFHXz2HCcymDH52lfNgYOCR8gdrAdIRRrHdV/2t2joYBdktcedbM=
-X-Received: by 2002:a17:907:3fa5:b0:77d:41c0:e2f3 with SMTP id
- hr37-20020a1709073fa500b0077d41c0e2f3mr14229411ejc.741.1663620818717; Mon, 19
- Sep 2022 13:53:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8218815AC
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Sep 2022 07:13:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uvc9X26qBZPkOdl3qOj4YCY7bOFIqAECcgai7gcTF6s5rgGFPj/KnGCA/Dfzni0zFvERwz3iraE+tU8qAHn9S1sNlOziK/RkP70XAX3O6Qc8MWJqbi+hiIpyKaxnMEPpwfkKzNV2BK7lK0XkvGcONysspGhetaZbvUW7Hg55vUNCHAi+EF8SFmALxUObdkShRRGfkFPjToBmKc/CzatuTS8vfjKduqApoWcgsT3WhazZDNRmTYcNZWuPi/KqElNmYi+IRGdrfs9ouri6f00aIPYScZTZIomNhrdDXmFImoIqCOla6doGJA4TaQqwBUAnIymyuLKuUWrldd7NR+3tfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v2MkzQLO6uSKTyQ3y/+gY0hnDI4pyjgG2tkegNyVIGM=;
+ b=XJLxNxSwRZ1sohcrsDsP7c9UV7VTcOqjTs4tp4H3TkpSO4EDO/aUnfvdzVjCEJ5MlfpOcRxFJk7um6vfYPtIEHLcZNBzuXm/zEqgUPsNvhf0xV5OERl34b8UyRWxfsECvm0O9bN5qQNz3xLrrjVbFz8/DX/9frS++Ir+ksN/XyLFhcIrRMP2mPWuZK5hck2Gx3FEHIIR/SdPMy0ox5avpkJbK1pVxJJq2gq1DG+Rq+eWesCLKGAuUnnd61qBSvUi43gkq5vhoOOmFhkZEEVL5aDo9T+Zw9wy+ubBBUNokUIezHRIolSPPd4S3cUD9bZvxBuNuMzcRiL2Jw5OfaWShg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v2MkzQLO6uSKTyQ3y/+gY0hnDI4pyjgG2tkegNyVIGM=;
+ b=AxJtEZHrCX8+B6jHxSJDtUeiDe3/85ERk7z0l1JzDEDhHoc++5VuiFLwxtFs/Zl5LWAAZAPBstt4LlRwyIWAzMzIr0X+thLGWRZNyVIkDnsMQmkVXjSLX/Tf3GxzozYl4cwfDMM3dajVYYWQdWsiPK4MtSpKAoFFycccTWZwCUM=
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
+ by DB8PR04MB7179.eurprd04.prod.outlook.com (2603:10a6:10:124::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Fri, 23 Sep
+ 2022 07:12:57 +0000
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::1eb:dcf:8fd7:867]) by DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::1eb:dcf:8fd7:867%5]) with mapi id 15.20.5654.018; Fri, 23 Sep 2022
+ 07:12:57 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: TingHan Shen <tinghan.shen@mediatek.com>, Mathieu Poirier
+	<mathieu.poirier@linaro.org>
+CC: "Project_Global_Chrome_Upstream_Group@mediatek.com"
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+	"bleung@chromium.org" <bleung@chromium.org>,
+	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"dnojiri@chromium.org" <dnojiri@chromium.org>, "enric.balletbo@collabora.com"
+	<enric.balletbo@collabora.com>, "groeck@chromium.org" <groeck@chromium.org>,
+	"gustavoars@kernel.org" <gustavoars@kernel.org>, "keescook@chromium.org"
+	<keescook@chromium.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"lee.jones@linaro.org" <lee.jones@linaro.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "pmalani@chromium.org" <pmalani@chromium.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>, "sebastian.reichel@collabora.com"
+	<sebastian.reichel@collabora.com>, "weishunc@google.com"
+	<weishunc@google.com>
+Subject: RE: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
+ core of dual-core SCP
+Thread-Topic: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
+ core of dual-core SCP
+Thread-Index: AQHYu9+KPWXRQoq9AE6UEWxurIDkea3VcYyAgAyedWWAAFgEAIAEObIAgAYdNdA=
+Date: Fri, 23 Sep 2022 07:12:57 +0000
+Message-ID:
+ <DU0PR04MB941754CF68489CBC14E777D588519@DU0PR04MB9417.eurprd04.prod.outlook.com>
+References: <20220829194247.GC2264818@p14s>
+         <20220908111757.14633-1-tinghan.shen@mediatek.com>
+         <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
+         <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
+         <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com>
+ <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
+In-Reply-To: <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|DB8PR04MB7179:EE_
+x-ms-office365-filtering-correlation-id: 2b4e5efe-4aa0-40a9-fb41-08da9d330a96
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ fQpQh2ik/dJDJqNADmR/k4c+359dnnU7RB8zz31yHPcEwIb7pUYsqY2KQ/xLydgx3wO2DBqjpF1TgwnCOb16s3EN1m42ApFldc1htDHVHv7jHtOh4Oy1pjnXlMtpIaxtQll5URZUXaL2YtseHOcKdoA1Hg5M8f9ko+dzSBeG8HhamDlaoHkPwc6ZVH1pidgrRlFx6DqA3dub4it9hg5Z9jCIegJ2fR8ysqSJlIyUwXUG8/oqLYHrt9KZUf3QFSvZCggor9P7sGdZ0uzy4iO54Dg60FFLKNd8wPlnBkkhUtcRAy/6sQQTHLz/HvmG1P03kydv8obnlJvS4z85FO1mJ9XX/0dY7DYRhEXmkEyCp1LZjUlyZ1FeTCBD0/aZ4w0yRr/UFDqjezY5aRrlUGxng6+m+Tr1hq3vV8e1OcCsnrHgg+AwxYtAaMrI4g8708VDvACUX7N4JjihENq27sRCOy6HpK0Th7EOBq0mHow9H51ewVQ4LvmrY+jyqW7uIhaeJEVR0/iuCOeH0fzBaooKKp0+WtWlpkRrjlkc8ad0Jv00XCwDyDF/fVmltIjd4Mqv/DHcMF4UB3i4Yjwo0qKDxz64cjGRHndSxJ92Cv36u4i/N+9jEfpW0pl7tX1cIF0+FS9drFQ90k//gx78d/pzL+h/9sKgpYTv/4caZQOtzDJMCKzuiPVKej8nxrWYokmGlfGrltyA87Al6ZsV9VONfn6yKPGCUc4QcJktr6iWcBAdUm0BdHNv3JV/JHrMaqsRM+FLoabBvuQ4O1RDWrR5lnI6Rp52GbAahyMqzrpcJ0M=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(451199015)(110136005)(4326008)(26005)(54906003)(76116006)(52536014)(66446008)(186003)(2906002)(66946007)(316002)(7696005)(966005)(9686003)(71200400001)(8676002)(478600001)(66556008)(66476007)(45080400002)(55016003)(38070700005)(86362001)(6506007)(64756008)(33656002)(41300700001)(38100700002)(44832011)(5660300002)(7416002)(8936002)(122000001)(83380400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8lMiR/PAqUyiCFqZeVC9oDcOXAjlMRaPjHKU57VN6kdnVxQQuK2OOnBSYWtf?=
+ =?us-ascii?Q?vQdDb0V8qLZlJQOTuR4K2ARrD7wDdnLWWQN3gMOU3tbdd3ZuK3wREmzwzU+0?=
+ =?us-ascii?Q?r3AyWz4ZvoyPsYhE4jdVyi5csofeYvgAwS4MxGl1qkuT6D70dSTt7KE6ZIam?=
+ =?us-ascii?Q?QL+CCcFvMnRTszD9a//EO6g7gHxOLvYJy6Z+FbT/LxbJTKk5Nz2++LycOvl+?=
+ =?us-ascii?Q?lGTXmzjHEMWWBatUdCCN22Yd1SLisjRsNYKT68lr7MTbuPXOsbTGiqMlHGwU?=
+ =?us-ascii?Q?Vx8QB1T9TA04HhpVWOk9rOdo8OKD8QZTHgb4HRpeZd9SRG3Jb/RtzSL3lnt+?=
+ =?us-ascii?Q?tMEpscv+RuBPDneUlu3c3GQlOJ9GPMHirx+6Js+CgmITB8K/JIXUP/WV1Eld?=
+ =?us-ascii?Q?WGPmR8SA/DcLkZSxht3Bn8GkO69qrhKpBUOZzxawYgIqjvjQXOj5zJV0ymoi?=
+ =?us-ascii?Q?Ijo/Hpds9bTY9k7H2URkcJKwbNEhr5IPSgKs97f7wUNg58kamIgtfn2LltiZ?=
+ =?us-ascii?Q?/BeZ4ct4Q3xuCULY1/Tuj0bV9CAXDCX6cX+Kcjho/RU7IOeU9a10Aam/B11P?=
+ =?us-ascii?Q?RglQPxe6mQ8TxlFBNCcxXLUSSxb7fpvwEGep487/PgVzc94FdxH8REggiTll?=
+ =?us-ascii?Q?F4gEUr1wyW3EbE7RwbLLm0wV9H8q3er5nPL0bSCmWOeGp41bwcnbuzJl/c5K?=
+ =?us-ascii?Q?JT5FPhJn2CXCMX8DAHOuwh4az8auXiTLr5KgKNp34uFXdnOxqBCFu4rZzXXn?=
+ =?us-ascii?Q?9GxaOvAIj7YSwlmcK1jJHuo0s2QirWpUfwlcB61noRVNDL8G9pj0rt4MbP+Q?=
+ =?us-ascii?Q?LpHTC2RPMYyY2kOLJXly88aP7V28m1MOMGps9PWApkgaG1x6FHPzJZwh5Ucm?=
+ =?us-ascii?Q?LvZcz1110upsT63eY4vKEA7kIHdqNoMZQc28NQ8bwkFPYsFwNt6AX/qu0UxF?=
+ =?us-ascii?Q?56MKo1iE42HJJ+CpoJO7n66dn2Gek2NScbL9vk0lsX4M2bf54FPH1Tw7q4+1?=
+ =?us-ascii?Q?+pKcP+xbcxAffgyzvQlnBVKmH9/Wor/XHFzELZiFVYKO401hNwkU4EHFTvBb?=
+ =?us-ascii?Q?yPbyM2WNYvjnoFeX2xqHLI5laKy2I2VIzfkj2y+BhZF8K/rAVL85mcxdA9Gm?=
+ =?us-ascii?Q?pusFjgY0bozIKmSrvK+k9/UY5qBc/+3xpEWEhuzlYY/PyUgiuZsxKbmhzR2H?=
+ =?us-ascii?Q?7U2Oaf1ZHyeSYjohtj7Wz9j7qggWP+jhXL6GZS7dfEJRWk2dVAv7/nZdXd9Y?=
+ =?us-ascii?Q?jTbi8qUfmOBSbhtEG/tCv/+faFILX+pI0FqKBNRfhWX3zP8/R0goFFDTe//N?=
+ =?us-ascii?Q?FK7jRScF/NGTz2Q/NajJWPDqcMpR4cDj0lzrI17DjEmSr8N1XuiRD6fGhfKz?=
+ =?us-ascii?Q?V713VsSJ3mHblM/wI3C4mC/10YLIkGWGmGhWG/0xrGIvsFlbkNMAxz3naRGH?=
+ =?us-ascii?Q?cXgIXyleHpvkeD2nA0qfKllQHGhQByQP5nvFKDCNk2oU3ar1bh+5uEPQUWy0?=
+ =?us-ascii?Q?CzsCpXMa3B2xJKpebTZ0bLmyRyFR0JaHvnd+r3sLrfMUcQvp12r7LofO7Zdz?=
+ =?us-ascii?Q?d60c12I4DHAcY81DGe+imHzD77Rv9nXxKPBTQ3Na?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220829194247.GC2264818@p14s> <20220908111757.14633-1-tinghan.shen@mediatek.com>
- <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
- <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
- <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com> <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
-In-Reply-To: <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Mon, 19 Sep 2022 14:53:27 -0600
-Message-ID: <CANLsYkwrnvob=iBA561SKEc_60bR7TDq5+QOhjCGbCAi6W7StQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
- core of dual-core SCP
-To: TingHan Shen <tinghan.shen@mediatek.com>
-Cc: Project_Global_Chrome_Upstream_Group@mediatek.com, bleung@chromium.org, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	dnojiri@chromium.org, enric.balletbo@collabora.com, groeck@chromium.org, 
-	gustavoars@kernel.org, keescook@chromium.org, krzk+dt@kernel.org, 
-	lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-remoteproc@vger.kernel.org, matthias.bgg@gmail.com, 
-	pmalani@chromium.org, robh+dt@kernel.org, sebastian.reichel@collabora.com, 
-	weishunc@google.com, Bjorn Andersson <andersson@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4e5efe-4aa0-40a9-fb41-08da9d330a96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2022 07:12:57.2750
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7QEXag4eqNAhf67QYJM8gpH+IPi0N38+W5ZBL1CrKXHxMLOvyclkY96LRuGT90JcTaTDBEmiPd43RQ6JZsfWSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7179
 
-On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
->
+> Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the
+> 2nd core of dual-core SCP
+>=20
 > On Fri, 2022-09-16 at 11:15 -0600, Mathieu Poirier wrote:
-> > On Fri, 16 Sept 2022 at 06:00, TingHan Shen <tinghan.shen@mediatek.com> wrote:
+> > On Fri, 16 Sept 2022 at 06:00, TingHan Shen
+> <tinghan.shen@mediatek.com> wrote:
 > > >
 > > > On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
-> > > > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen <tinghan.shen@mediatek.com>
+> > > > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen
+> > > > <tinghan.shen@mediatek.com>
 > > > > wrote:
 > > > >
 > > > > > Hi Mathieu,
 > > > > >
-> > > > > > > The mtk_scp.c driver only supports the single core SCP and the
-> > > > > > > 1st core of a dual-core SCP. This patch extends it for the 2nd core.
+> > > > > > > The mtk_scp.c driver only supports the single core SCP and
+> > > > > > > the 1st core of a dual-core SCP. This patch extends it for th=
+e 2nd
+> core.
 > > > > > > >
-> > > > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the same
+> > > > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the
+> > > > > > > same
 > > > > >
 > > > > > subsys.
 > > > > > >
@@ -83,11 +157,13 @@ On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
 > > > > > >
 > > > > > > > They have the same viewpoint of registers and memory.
 > > > > > > >
-> > > > > > > Core 1 of the SCP features its own set of core configuration registers,
-> > > > > > > interrupt controller, timers, and DMAs. The rest of the peripherals
-> > > > > > > in this subsystem are shared by core 0 and core 1.
+> > > > > > > Core 1 of the SCP features its own set of core configuration
+> > > > > > > registers, interrupt controller, timers, and DMAs. The rest
+> > > > > > > of the peripherals in this subsystem are shared by core 0 and
+> core 1.
 > > > > > > >
-> > > > > > > As for memory, core 1 has its own cache memory. the SCP SRAM is shared
+> > > > > > > As for memory, core 1 has its own cache memory. the SCP SRAM
+> > > > > > > is shared
 > > > > > >
 > > > > > > /the/The
 > > > > > >
@@ -105,8 +181,8 @@ On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
 > > > > > > > --- a/drivers/remoteproc/mtk_scp.c
 > > > > > > > +++ b/drivers/remoteproc/mtk_scp.c
 > > > > > > > @@ -23,6 +23,10 @@
-> > > > > > >  #define MAX_CODE_SIZE 0x500000
-> > > > > > >  #define SECTION_NAME_IPI_BUFFER ".ipi_buffer"
+> > > > > > >  #define MAX_CODE_SIZE 0x500000  #define
+> > > > > > > SECTION_NAME_IPI_BUFFER ".ipi_buffer"
 > > > > > > >
 > > > > > > > +#define SCP_CORE_0 0
 > > > > > > > +#define SCP_CORE_1 1
@@ -115,32 +191,36 @@ On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
 > > > > > > >  /**
 > > > > > > >   * scp_get() - get a reference to SCP.
 > > > > > > >   *
-> > > > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct platform_device *pdev)
+> > > > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct
+> platform_device *pdev)
 > > > > > > >     struct resource *res;
-> > > > > > >     const char *fw_name = "scp.img";
+> > > > > > >     const char *fw_name =3D "scp.img";
 > > > > > > >     int ret, i;
-> > > > > > > +   u32 core_id = SCP_CORE_SINGLE;
+> > > > > > > +   u32 core_id =3D SCP_CORE_SINGLE;
 > > > > > > >
-> > > > > > >     ret = rproc_of_parse_firmware(dev, 0, &fw_name);
-> > > > > > >     if (ret < 0 && ret != -EINVAL)
-> > > > > > > @@ -851,8 +856,16 @@ static int scp_probe(struct platform_device *pdev)
-> > > > > > >     scp->data = of_device_get_match_data(dev);
+> > > > > > >     ret =3D rproc_of_parse_firmware(dev, 0, &fw_name);
+> > > > > > >     if (ret < 0 && ret !=3D -EINVAL) @@ -851,8 +856,16 @@
+> > > > > > > static int scp_probe(struct platform_device *pdev)
+> > > > > > >     scp->data =3D of_device_get_match_data(dev);
 > > > > > > >     platform_set_drvdata(pdev, scp);
 > > > > > > >
-> > > > > > > +   ret = of_property_read_u32_index(dev->of_node,
+> > > > > > > +   ret =3D of_property_read_u32_index(dev->of_node,
 > > > > >
 > > > > > "mediatek,scp-core", 1, &core_id);
-> > > > > > > +   if (ret == 0)
-> > > > > > > +           dev_info(dev, "Boot SCP dual core %u\n", core_id);
+> > > > > > > +   if (ret =3D=3D 0)
+> > > > > > > +           dev_info(dev, "Boot SCP dual core %u\n",
+> > > > > > > + core_id);
 > > > > > >
-> > > > > > Why is the DT property "mediatek,scp-core" needed at all?  Since the
+> > > > > > Why is the DT property "mediatek,scp-core" needed at all?
+> > > > > > Since the
 > > > > >
 > > > > > compatible
-> > > > > > "mediatek,mt8195-scp-dual" has already been defined previously in this
+> > > > > > "mediatek,mt8195-scp-dual" has already been defined previously
+> > > > > > in this
 > > > > >
 > > > > > patchset,
-> > > > > > initialising the second core, if present, is a matter of looking at the
-> > > > > > compatile string.
+> > > > > > initialising the second core, if present, is a matter of
+> > > > > > looking at the compatile string.
 > > > > >
 > > > > > This idea of identify cores by the compatible looks workable.
 > > > > > I'll update this series at next version.
@@ -148,23 +228,28 @@ On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
 > > > > >
 > > > > > >
 > > > > > > > +
-> > > > > > >     res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sram");
-> > > > > > > -   scp->sram_base = devm_ioremap_resource(dev, res);
-> > > > > > > +   if (core_id == SCP_CORE_1)
-> > > > > > > +           scp->sram_base = devm_ioremap(dev, res->start,
+> > > > > > >     res =3D platform_get_resource_byname(pdev,
+> IORESOURCE_MEM, "sram");
+> > > > > > > -   scp->sram_base =3D devm_ioremap_resource(dev, res);
+> > > > > > > +   if (core_id =3D=3D SCP_CORE_1)
+> > > > > > > +           scp->sram_base =3D devm_ioremap(dev, res->start,
 > > > > >
 > > > > > resource_size(res));
 > > > > > > > +   else
-> > > > > > > +           scp->sram_base = devm_ioremap_resource(dev, res);
+> > > > > > > +           scp->sram_base =3D devm_ioremap_resource(dev,
+> > > > > > > + res);
 > > > > > > > +
 > > > > > >
-> > > > > > This looks very broken...  For this to work you would need to have two DT
-> > > > > > entries with the "mediatek,mt8195-scp-dual" compatible properly, one with
-> > > > > > "mediatek,scp-core = <&scp_dual1 0>;" and another one with
+> > > > > > This looks very broken...  For this to work you would need to
+> > > > > > have two DT entries with the "mediatek,mt8195-scp-dual"
+> > > > > > compatible properly, one with "mediatek,scp-core =3D <&scp_dual=
+1
+> > > > > > 0>;" and another one with
 > > > > >
-> > > > > "mediatek,scp-core = <&scp_dual0 1>;".
+> > > > > "mediatek,scp-core =3D <&scp_dual0 1>;".
 > > > > > >
-> > > > > > Which is also very broken...  Here you have a binding whose first
+> > > > > > Which is also very broken...  Here you have a binding whose
+> > > > > > first
 > > > > >
 > > > > > argument is a
 > > > > > > reference to the core sibling while the second argument is a
@@ -175,133 +260,177 @@ On Mon, 19 Sept 2022 at 03:46, TingHan Shen <tinghan.shen@mediatek.com> wrote:
 > > > > > > I suggest what when you see the compatible binding
 > > > > >
 > > > > > "mediatek,mt8195-scp", a
-> > > > > > single core is initialized.  If you see "mediatek,mt8195-scp-dual", both
+> > > > > > single core is initialized.  If you see
+> > > > > > "mediatek,mt8195-scp-dual", both
 > > > > >
 > > > > > cores
 > > > > > > are initialized as part of the _same_ probe.
 > > > > > >
-> > > > > > If the above analysis is not correct it means I misinterpreted your
-> > > > > > work and if so, a serious amount of comments is needed _and_ a very
+> > > > > > If the above analysis is not correct it means I misinterpreted
+> > > > > > your work and if so, a serious amount of comments is needed
+> > > > > > _and_ a very
 > > > > >
 > > > > > detailed
-> > > > > > example in "mtk,scp.yaml" that leaves no room for interpretation.
+> > > > > > example in "mtk,scp.yaml" that leaves no room for interpretatio=
+n.
 > > > > > >
-> > > > > > I will stop reviewing this patchset until you have clarified how this
+> > > > > > I will stop reviewing this patchset until you have clarified
+> > > > > > how this
 > > > > >
 > > > > > works.
 > > > > > >
 > > > > > > Thanks,
 > > > > > > Mathieu
 > > > > >
-> > > > > There's one problem of initializng the CORE1 using the same probe flow.
-> > > > > The register space of CORE0 and CORE1 are overlapped in the device node.
+> > > > > There's one problem of initializng the CORE1 using the same probe
+> flow.
+> > > > > The register space of CORE0 and CORE1 are overlapped in the devic=
+e
+> node.
 > > > > > Both cores need to use the 'cfg' registers defined in scp yaml.
-> > > > > The devm_ioremap_resource catches address overlapping and returns error
-> > > > > when
-> > > > > probing CORE1 driver.
+> > > > > The devm_ioremap_resource catches address overlapping and
+> > > > > returns error when probing CORE1 driver.
 > > > > >
 > > > >
-> > > > That is exactly why I suggest to initialise both cores within the same
+> > > > That is exactly why I suggest to initialise both cores within the s=
+ame
 > > > > probe() function.
 > > > >
 > > >
 > > > Hi Mathieu,
 > > >
 > > > I'm thinking about how to initialise in the same probe() function.
-> > > I'm wondering if this implies that using one scp driver to initialize 2 cores?
-> > > If it is, I assume the dts descriptions for both cores should be contained in one node.
+> > > I'm wondering if this implies that using one scp driver to initialize=
+ 2 cores?
+> > > If it is, I assume the dts descriptions for both cores should be cont=
+ained
+> in one node.
 > > >
-> > > When there's one node for both cores, it looks like that there is a problem of
-> > > using dma_allocate_coherent(). Each core has its own reserved memory region.
-> > > When there's only one device for both cores, it's not able to identify the memory region
+> > > When there's one node for both cores, it looks like that there is a
+> problem of
+> > > using dma_allocate_coherent(). Each core has its own reserved memory
+> region.
+> > > When there's only one device for both cores, it's not able to identif=
+y the
+> memory region
 > > > by the device parameter of dma_allocate_coherent().
 > > >
-> > > Is it acceptable to consider manually allocating core 1 device in the probe() when probing core 0?
+> > > Is it acceptable to consider manually allocating core 1 device in the
+> probe() when probing core 0?
 > >
 > > Look at what Suman did for TI's K3 R5[1] and DSP[2] platforms.
 > > Reviewing the bindings for both platforms will also give you a good
 > > idea of how things work.
 > >
-> > [1]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_r5_remoteproc.c*L1683__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbv1akubM$
-> > [2]. https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.0-rc5/source/drivers/remoteproc/ti_k3_dsp_remoteproc.c*L673__;Iw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX30z0XV4vo3vCb9Wy-w5ixOTmzbfE2dtBg$
+> > [1].
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Furlde
+> fense.com%2Fv3%2F__https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.0-
+> rc5%2Fsource%2Fdrivers%2Fremoteproc%2Fti_k3_r5_remoteproc.c*L1683_
+> _%3BIw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX3
+> 0z0XV4vo3vCb9Wy-
+> w5ixOTmzbv1akubM%24&amp;data=3D05%7C01%7Cpeng.fan%40nxp.com%7
+> C2cf76b2f15544cf3d06308da9a23f00a%7C686ea1d3bc2b4c6fa92cd99c5c301
+> 635%7C0%7C0%7C637991776400238974%7CUnknown%7CTWFpbGZsb3d8e
+> yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C3000%7C%7C%7C&amp;sdata=3Ddz0FlQQmKI4C67XCX%2BZ6%2Bin%2Btq
+> 2DEWLb5YA%2FxGLOxHc%3D&amp;reserved=3D0
+> > [2].
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Furlde
+> fense.com%2Fv3%2F__https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.0-
+> rc5%2Fsource%2Fdrivers%2Fremoteproc%2Fti_k3_dsp_remoteproc.c*L673_
+> _%3BIw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX3
+> 0z0XV4vo3vCb9Wy-
+> w5ixOTmzbfE2dtBg%24&amp;data=3D05%7C01%7Cpeng.fan%40nxp.com%7C
+> 2cf76b2f15544cf3d06308da9a23f00a%7C686ea1d3bc2b4c6fa92cd99c5c3016
+> 35%7C0%7C0%7C637991776400238974%7CUnknown%7CTWFpbGZsb3d8ey
+> JWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C3000%7C%7C%7C&amp;sdata=3DYn7MOo2uoDOVRW47O1yq8W3c%2BYg
+> G5URr7RdLKsmpLrk%3D&amp;reserved=3D0
 > >
->
+>=20
 > Hi Mathieu,
->
+>=20
 > My plan is changing the dts as following,
->
+>=20
 > scp core 0 {
->         // Keep current properties untouched.
->         compatible = "mediatek,mt8195-scp";
->
->         // core 0 properties...
->
->         // Add a new property for multi-core scp.
->         // if not present, it's single core.
->         // if present and core id = 0, it's the main core, otherwise the sub cores.
->         mediatek,scp-core = <0>;
->
->         // add sub cores as sub node.
->         // sub nodes can find parent by OF API.
->         scp core 1 {
->                 // use the same compatile name as core 0.
->                 compatible = "mediatek,mt8195-scp";
->
->                 // assign id > 0 to sub cores.
->                 mediatek,scp-core = <1>;
->
->                 // core 1 properties...
->         };
+> 	// Keep current properties untouched.
+> 	compatible =3D "mediatek,mt8195-scp";
+>=20
+> 	// core 0 properties...
+>=20
+> 	// Add a new property for multi-core scp.
+> 	// if not present, it's single core.
+> 	// if present and core id =3D 0, it's the main core, otherwise the sub
+> cores.
+> 	mediatek,scp-core =3D <0>;
+>=20
+> 	// add sub cores as sub node.
+> 	// sub nodes can find parent by OF API.
+> 	scp core 1 {
+> 		// use the same compatile name as core 0.
+> 		compatible =3D "mediatek,mt8195-scp";
+>=20
+> 		// assign id > 0 to sub cores.
+> 		mediatek,scp-core =3D <1>;
+>=20
+> 		// core 1 properties...
+> 	};
 > };
->
->
+
+Not know the HW arch, but this looks a bit weird, scp core 1 is
+a sub node of scp core 0.
+
+>=20
+>=20
 > The driver probe/remove behavior will be modified as below,
->
+>=20
 > scp probe() {
->         // common init...
->
->         // check core id to have different memory mapping flow
->         if (core id == 0)
->                 // mapping cfg, sram and others
->         else
->                 // mapping sram
->                 // reuse the cfg paddr/vaddr from core 0
->
->         // common init...
->
->         if (core id == 0) {
->                 ret = of_platform_populate(...)
->
->                 // boot core 0 and sub cores
->                 rproc_add();
->         } else {
->                 // add sub core as sub device to main core
->                 rproc_add_subdev()
->
->                 rproc->auto_boot = false;
->                 rpoc_add();
->         }
+> 	// common init...
+>=20
+> 	// check core id to have different memory mapping flow
+> 	if (core id =3D=3D 0)
+> 		// mapping cfg, sram and others
+> 	else
+> 		// mapping sram
+> 		// reuse the cfg paddr/vaddr from core 0
+
+Oh, I understand why you need ioremap_resource, so core0/1 share
+same register address space?
+
+Regards,
+Peng.
+>=20
+> 	// common init...
+>=20
+> 	if (core id =3D=3D 0) {
+> 		ret =3D of_platform_populate(...)
+>=20
+> 		// boot core 0 and sub cores
+> 		rproc_add();
+> 	} else {
+> 		// add sub core as sub device to main core
+> 		rproc_add_subdev()
+>=20
+> 		rproc->auto_boot =3D false;
+> 		rpoc_add();
+> 	}
 > }
->
+>=20
 > scp_remove() {
->
->         if (core id == 0)
->                 of_platform_depopulate()
->         else
->                 rproc_remove_subdev()
->
->         // remove core
+>=20
+> 	if (core id =3D=3D 0)
+> 		of_platform_depopulate()
+> 	else
+> 		rproc_remove_subdev()
+>=20
+> 	// remove core
 > }
->
-
-Unfortunately I do not have the bandwidth to look at inlined or pseudo
-code.  I will review this code with the next revision.
-
->
->
+>=20
+>=20
+>=20
 > Best regards,
 > TingHan
->
->
->
->
+>=20
+>=20
+>=20
+

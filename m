@@ -1,436 +1,508 @@
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60040.outbound.protection.outlook.com [40.107.6.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8218815AC
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Sep 2022 07:13:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uvc9X26qBZPkOdl3qOj4YCY7bOFIqAECcgai7gcTF6s5rgGFPj/KnGCA/Dfzni0zFvERwz3iraE+tU8qAHn9S1sNlOziK/RkP70XAX3O6Qc8MWJqbi+hiIpyKaxnMEPpwfkKzNV2BK7lK0XkvGcONysspGhetaZbvUW7Hg55vUNCHAi+EF8SFmALxUObdkShRRGfkFPjToBmKc/CzatuTS8vfjKduqApoWcgsT3WhazZDNRmTYcNZWuPi/KqElNmYi+IRGdrfs9ouri6f00aIPYScZTZIomNhrdDXmFImoIqCOla6doGJA4TaQqwBUAnIymyuLKuUWrldd7NR+3tfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v2MkzQLO6uSKTyQ3y/+gY0hnDI4pyjgG2tkegNyVIGM=;
- b=XJLxNxSwRZ1sohcrsDsP7c9UV7VTcOqjTs4tp4H3TkpSO4EDO/aUnfvdzVjCEJ5MlfpOcRxFJk7um6vfYPtIEHLcZNBzuXm/zEqgUPsNvhf0xV5OERl34b8UyRWxfsECvm0O9bN5qQNz3xLrrjVbFz8/DX/9frS++Ir+ksN/XyLFhcIrRMP2mPWuZK5hck2Gx3FEHIIR/SdPMy0ox5avpkJbK1pVxJJq2gq1DG+Rq+eWesCLKGAuUnnd61qBSvUi43gkq5vhoOOmFhkZEEVL5aDo9T+Zw9wy+ubBBUNokUIezHRIolSPPd4S3cUD9bZvxBuNuMzcRiL2Jw5OfaWShg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v2MkzQLO6uSKTyQ3y/+gY0hnDI4pyjgG2tkegNyVIGM=;
- b=AxJtEZHrCX8+B6jHxSJDtUeiDe3/85ERk7z0l1JzDEDhHoc++5VuiFLwxtFs/Zl5LWAAZAPBstt4LlRwyIWAzMzIr0X+thLGWRZNyVIkDnsMQmkVXjSLX/Tf3GxzozYl4cwfDMM3dajVYYWQdWsiPK4MtSpKAoFFycccTWZwCUM=
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
- by DB8PR04MB7179.eurprd04.prod.outlook.com (2603:10a6:10:124::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Fri, 23 Sep
- 2022 07:12:57 +0000
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::1eb:dcf:8fd7:867]) by DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::1eb:dcf:8fd7:867%5]) with mapi id 15.20.5654.018; Fri, 23 Sep 2022
- 07:12:57 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: TingHan Shen <tinghan.shen@mediatek.com>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>
-CC: "Project_Global_Chrome_Upstream_Group@mediatek.com"
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-	"bleung@chromium.org" <bleung@chromium.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"dnojiri@chromium.org" <dnojiri@chromium.org>, "enric.balletbo@collabora.com"
-	<enric.balletbo@collabora.com>, "groeck@chromium.org" <groeck@chromium.org>,
-	"gustavoars@kernel.org" <gustavoars@kernel.org>, "keescook@chromium.org"
-	<keescook@chromium.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"lee.jones@linaro.org" <lee.jones@linaro.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "pmalani@chromium.org" <pmalani@chromium.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>, "sebastian.reichel@collabora.com"
-	<sebastian.reichel@collabora.com>, "weishunc@google.com"
-	<weishunc@google.com>
-Subject: RE: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
- core of dual-core SCP
-Thread-Topic: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the 2nd
- core of dual-core SCP
-Thread-Index: AQHYu9+KPWXRQoq9AE6UEWxurIDkea3VcYyAgAyedWWAAFgEAIAEObIAgAYdNdA=
-Date: Fri, 23 Sep 2022 07:12:57 +0000
-Message-ID:
- <DU0PR04MB941754CF68489CBC14E777D588519@DU0PR04MB9417.eurprd04.prod.outlook.com>
-References: <20220829194247.GC2264818@p14s>
-         <20220908111757.14633-1-tinghan.shen@mediatek.com>
-         <CANLsYkx6kXk8u_ajFbnhdWTkZBLtrq_z02jryLBSVH0x--_ZFw@mail.gmail.com>
-         <a5ecd1dd567ca58807b289f2488d933f27e087dd.camel@mediatek.com>
-         <CANLsYkxPdWErZErgGukvsMWcaGSRDpoKEkMeukvFi=BVTdpm8A@mail.gmail.com>
- <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
-In-Reply-To: <185edd1443dc85ea817027f15b7f90b1651c550f.camel@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|DB8PR04MB7179:EE_
-x-ms-office365-filtering-correlation-id: 2b4e5efe-4aa0-40a9-fb41-08da9d330a96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- fQpQh2ik/dJDJqNADmR/k4c+359dnnU7RB8zz31yHPcEwIb7pUYsqY2KQ/xLydgx3wO2DBqjpF1TgwnCOb16s3EN1m42ApFldc1htDHVHv7jHtOh4Oy1pjnXlMtpIaxtQll5URZUXaL2YtseHOcKdoA1Hg5M8f9ko+dzSBeG8HhamDlaoHkPwc6ZVH1pidgrRlFx6DqA3dub4it9hg5Z9jCIegJ2fR8ysqSJlIyUwXUG8/oqLYHrt9KZUf3QFSvZCggor9P7sGdZ0uzy4iO54Dg60FFLKNd8wPlnBkkhUtcRAy/6sQQTHLz/HvmG1P03kydv8obnlJvS4z85FO1mJ9XX/0dY7DYRhEXmkEyCp1LZjUlyZ1FeTCBD0/aZ4w0yRr/UFDqjezY5aRrlUGxng6+m+Tr1hq3vV8e1OcCsnrHgg+AwxYtAaMrI4g8708VDvACUX7N4JjihENq27sRCOy6HpK0Th7EOBq0mHow9H51ewVQ4LvmrY+jyqW7uIhaeJEVR0/iuCOeH0fzBaooKKp0+WtWlpkRrjlkc8ad0Jv00XCwDyDF/fVmltIjd4Mqv/DHcMF4UB3i4Yjwo0qKDxz64cjGRHndSxJ92Cv36u4i/N+9jEfpW0pl7tX1cIF0+FS9drFQ90k//gx78d/pzL+h/9sKgpYTv/4caZQOtzDJMCKzuiPVKej8nxrWYokmGlfGrltyA87Al6ZsV9VONfn6yKPGCUc4QcJktr6iWcBAdUm0BdHNv3JV/JHrMaqsRM+FLoabBvuQ4O1RDWrR5lnI6Rp52GbAahyMqzrpcJ0M=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(451199015)(110136005)(4326008)(26005)(54906003)(76116006)(52536014)(66446008)(186003)(2906002)(66946007)(316002)(7696005)(966005)(9686003)(71200400001)(8676002)(478600001)(66556008)(66476007)(45080400002)(55016003)(38070700005)(86362001)(6506007)(64756008)(33656002)(41300700001)(38100700002)(44832011)(5660300002)(7416002)(8936002)(122000001)(83380400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?8lMiR/PAqUyiCFqZeVC9oDcOXAjlMRaPjHKU57VN6kdnVxQQuK2OOnBSYWtf?=
- =?us-ascii?Q?vQdDb0V8qLZlJQOTuR4K2ARrD7wDdnLWWQN3gMOU3tbdd3ZuK3wREmzwzU+0?=
- =?us-ascii?Q?r3AyWz4ZvoyPsYhE4jdVyi5csofeYvgAwS4MxGl1qkuT6D70dSTt7KE6ZIam?=
- =?us-ascii?Q?QL+CCcFvMnRTszD9a//EO6g7gHxOLvYJy6Z+FbT/LxbJTKk5Nz2++LycOvl+?=
- =?us-ascii?Q?lGTXmzjHEMWWBatUdCCN22Yd1SLisjRsNYKT68lr7MTbuPXOsbTGiqMlHGwU?=
- =?us-ascii?Q?Vx8QB1T9TA04HhpVWOk9rOdo8OKD8QZTHgb4HRpeZd9SRG3Jb/RtzSL3lnt+?=
- =?us-ascii?Q?tMEpscv+RuBPDneUlu3c3GQlOJ9GPMHirx+6Js+CgmITB8K/JIXUP/WV1Eld?=
- =?us-ascii?Q?WGPmR8SA/DcLkZSxht3Bn8GkO69qrhKpBUOZzxawYgIqjvjQXOj5zJV0ymoi?=
- =?us-ascii?Q?Ijo/Hpds9bTY9k7H2URkcJKwbNEhr5IPSgKs97f7wUNg58kamIgtfn2LltiZ?=
- =?us-ascii?Q?/BeZ4ct4Q3xuCULY1/Tuj0bV9CAXDCX6cX+Kcjho/RU7IOeU9a10Aam/B11P?=
- =?us-ascii?Q?RglQPxe6mQ8TxlFBNCcxXLUSSxb7fpvwEGep487/PgVzc94FdxH8REggiTll?=
- =?us-ascii?Q?F4gEUr1wyW3EbE7RwbLLm0wV9H8q3er5nPL0bSCmWOeGp41bwcnbuzJl/c5K?=
- =?us-ascii?Q?JT5FPhJn2CXCMX8DAHOuwh4az8auXiTLr5KgKNp34uFXdnOxqBCFu4rZzXXn?=
- =?us-ascii?Q?9GxaOvAIj7YSwlmcK1jJHuo0s2QirWpUfwlcB61noRVNDL8G9pj0rt4MbP+Q?=
- =?us-ascii?Q?LpHTC2RPMYyY2kOLJXly88aP7V28m1MOMGps9PWApkgaG1x6FHPzJZwh5Ucm?=
- =?us-ascii?Q?LvZcz1110upsT63eY4vKEA7kIHdqNoMZQc28NQ8bwkFPYsFwNt6AX/qu0UxF?=
- =?us-ascii?Q?56MKo1iE42HJJ+CpoJO7n66dn2Gek2NScbL9vk0lsX4M2bf54FPH1Tw7q4+1?=
- =?us-ascii?Q?+pKcP+xbcxAffgyzvQlnBVKmH9/Wor/XHFzELZiFVYKO401hNwkU4EHFTvBb?=
- =?us-ascii?Q?yPbyM2WNYvjnoFeX2xqHLI5laKy2I2VIzfkj2y+BhZF8K/rAVL85mcxdA9Gm?=
- =?us-ascii?Q?pusFjgY0bozIKmSrvK+k9/UY5qBc/+3xpEWEhuzlYY/PyUgiuZsxKbmhzR2H?=
- =?us-ascii?Q?7U2Oaf1ZHyeSYjohtj7Wz9j7qggWP+jhXL6GZS7dfEJRWk2dVAv7/nZdXd9Y?=
- =?us-ascii?Q?jTbi8qUfmOBSbhtEG/tCv/+faFILX+pI0FqKBNRfhWX3zP8/R0goFFDTe//N?=
- =?us-ascii?Q?FK7jRScF/NGTz2Q/NajJWPDqcMpR4cDj0lzrI17DjEmSr8N1XuiRD6fGhfKz?=
- =?us-ascii?Q?V713VsSJ3mHblM/wI3C4mC/10YLIkGWGmGhWG/0xrGIvsFlbkNMAxz3naRGH?=
- =?us-ascii?Q?cXgIXyleHpvkeD2nA0qfKllQHGhQByQP5nvFKDCNk2oU3ar1bh+5uEPQUWy0?=
- =?us-ascii?Q?CzsCpXMa3B2xJKpebTZ0bLmyRyFR0JaHvnd+r3sLrfMUcQvp12r7LofO7Zdz?=
- =?us-ascii?Q?d60c12I4DHAcY81DGe+imHzD77Rv9nXxKPBTQ3Na?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F45333CF
+	for <chrome-platform@lists.linux.dev>; Tue, 27 Sep 2022 20:56:19 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id 64so151279iov.13
+        for <chrome-platform@lists.linux.dev>; Tue, 27 Sep 2022 13:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=NLdmA2G3+4LKjzOS2LFvW4d2eEyJUZSkBqrqnf9gmSE=;
+        b=d1Eg4jHVT/hoyfN4G8pEbWok3WM/2/ssBADJdX+s1k09eszH+2IJGiujEJsmn1tq/e
+         VqrBk/jCxqglGBZBeEj2x7RTWYESs+WVgIf6in/vWWUYMEWbkY0bl7PdhRVUcVuIezeY
+         rFkSZDv2RyXAcvj+6suBVErOmsyS/sVc77OdU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=NLdmA2G3+4LKjzOS2LFvW4d2eEyJUZSkBqrqnf9gmSE=;
+        b=k4B28a5SOYYXaMARruNSOzmgxfr9yCcDdNnc4Yo2lhh6Ar5b08BHug6oFrUP/ajr+a
+         FuXLt4OAXR8jhvPtnrjgRrbKiWgz+bcWKfDgV5qehZX7e9FJSo8U+eqHUck1sTPfNB51
+         mM867g5BH1rN7+hoLas13be+uCaduIwTuJn+F7ooJMlymXKMpH4mr7t+KvmmJlIkmZOc
+         vproGZ3+yQxPtVWKRmydc6po4RI1KoOICV3/fXhzrT/l3ZjjzgOCIS2LXdgKiXEg6/r/
+         KlkH7A7K+HX1K9IUYDpacdmN86JEvNLg1vPXfalVe6FnDIhPc3c/IrNe/irBcyvZU8WK
+         9U9g==
+X-Gm-Message-State: ACrzQf0YVv3Huuc9PPWoFB77sOMu3pLmferK/Oun68TgIIrvw1ibJlhq
+	zZPZTOpeUpY+UaL15Z99HgjJSg==
+X-Google-Smtp-Source: AMsMyM7hvmXiBFA4XsfgP5YBRDTE/73QXRBT/fFeicer5obGPDJfco3H/6ZM7S+xFVVK7jWXounMoQ==
+X-Received: by 2002:a05:6638:4304:b0:343:5953:5fc8 with SMTP id bt4-20020a056638430400b0034359535fc8mr15406481jab.123.1664312178016;
+        Tue, 27 Sep 2022 13:56:18 -0700 (PDT)
+Received: from jrosenth45.lan (c-73-217-34-248.hsd1.co.comcast.net. [73.217.34.248])
+        by smtp.gmail.com with ESMTPSA id p6-20020a0566022b0600b006a10d068d39sm1151901iov.41.2022.09.27.13.56.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 13:56:17 -0700 (PDT)
+From: Jack Rosenthal <jrosenth@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	gregkh@linuxfoundation.org
+Cc: Jack Rosenthal <jrosenth@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Julius Werner <jwerner@chromium.org>
+Subject: [RESEND PATCH v10] firmware: google: Implement cbmem in sysfs driver
+Date: Tue, 27 Sep 2022 14:55:51 -0600
+Message-Id: <20220927205551.2017473-1-jrosenth@chromium.org>
+X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4e5efe-4aa0-40a9-fb41-08da9d330a96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2022 07:12:57.2750
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7QEXag4eqNAhf67QYJM8gpH+IPi0N38+W5ZBL1CrKXHxMLOvyclkY96LRuGT90JcTaTDBEmiPd43RQ6JZsfWSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7179
+Content-Transfer-Encoding: 8bit
 
-> Subject: Re: [PATCH v2 4/9] remoteproc: mediatek: Support probing for the
-> 2nd core of dual-core SCP
->=20
-> On Fri, 2022-09-16 at 11:15 -0600, Mathieu Poirier wrote:
-> > On Fri, 16 Sept 2022 at 06:00, TingHan Shen
-> <tinghan.shen@mediatek.com> wrote:
-> > >
-> > > On Thu, 2022-09-08 at 14:58 -0600, Mathieu Poirier wrote:
-> > > > On Thu, 8 Sept 2022 at 05:21, Tinghan Shen
-> > > > <tinghan.shen@mediatek.com>
-> > > > wrote:
-> > > >
-> > > > > Hi Mathieu,
-> > > > >
-> > > > > > > The mtk_scp.c driver only supports the single core SCP and
-> > > > > > > the 1st core of a dual-core SCP. This patch extends it for th=
-e 2nd
-> core.
-> > > > > > >
-> > > > > > > MT8195 SCP is a dual-core MCU. Both cores are housed in the
-> > > > > > > same
-> > > > >
-> > > > > subsys.
-> > > > > >
-> > > > > > s/subsys/subsystem
-> > > > > >
-> > > > > > > They have the same viewpoint of registers and memory.
-> > > > > > >
-> > > > > > > Core 1 of the SCP features its own set of core configuration
-> > > > > > > registers, interrupt controller, timers, and DMAs. The rest
-> > > > > > > of the peripherals in this subsystem are shared by core 0 and
-> core 1.
-> > > > > > >
-> > > > > > > As for memory, core 1 has its own cache memory. the SCP SRAM
-> > > > > > > is shared
-> > > > > >
-> > > > > > /the/The
-> > > > > >
-> > > > > > > by core 0 and core 1.
-> > > > > > >
-> > > > > > > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> > > > > > > ---
-> > > > > > >  drivers/remoteproc/mtk_scp.c | 22 ++++++++++++++++++++--
-> > > > > > >  1 file changed, 20 insertions(+), 2 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/remoteproc/mtk_scp.c
-> > > > >
-> > > > > b/drivers/remoteproc/mtk_scp.c
-> > > > > > > index 3510c6d0bbc8..91b4aefde4ac 100644
-> > > > > > > --- a/drivers/remoteproc/mtk_scp.c
-> > > > > > > +++ b/drivers/remoteproc/mtk_scp.c
-> > > > > > > @@ -23,6 +23,10 @@
-> > > > > > >  #define MAX_CODE_SIZE 0x500000  #define
-> > > > > > > SECTION_NAME_IPI_BUFFER ".ipi_buffer"
-> > > > > > >
-> > > > > > > +#define SCP_CORE_0 0
-> > > > > > > +#define SCP_CORE_1 1
-> > > > > > > +#define SCP_CORE_SINGLE 0xF
-> > > > > > > +
-> > > > > > >  /**
-> > > > > > >   * scp_get() - get a reference to SCP.
-> > > > > > >   *
-> > > > > > > @@ -836,6 +840,7 @@ static int scp_probe(struct
-> platform_device *pdev)
-> > > > > > >     struct resource *res;
-> > > > > > >     const char *fw_name =3D "scp.img";
-> > > > > > >     int ret, i;
-> > > > > > > +   u32 core_id =3D SCP_CORE_SINGLE;
-> > > > > > >
-> > > > > > >     ret =3D rproc_of_parse_firmware(dev, 0, &fw_name);
-> > > > > > >     if (ret < 0 && ret !=3D -EINVAL) @@ -851,8 +856,16 @@
-> > > > > > > static int scp_probe(struct platform_device *pdev)
-> > > > > > >     scp->data =3D of_device_get_match_data(dev);
-> > > > > > >     platform_set_drvdata(pdev, scp);
-> > > > > > >
-> > > > > > > +   ret =3D of_property_read_u32_index(dev->of_node,
-> > > > >
-> > > > > "mediatek,scp-core", 1, &core_id);
-> > > > > > > +   if (ret =3D=3D 0)
-> > > > > > > +           dev_info(dev, "Boot SCP dual core %u\n",
-> > > > > > > + core_id);
-> > > > > >
-> > > > > > Why is the DT property "mediatek,scp-core" needed at all?
-> > > > > > Since the
-> > > > >
-> > > > > compatible
-> > > > > > "mediatek,mt8195-scp-dual" has already been defined previously
-> > > > > > in this
-> > > > >
-> > > > > patchset,
-> > > > > > initialising the second core, if present, is a matter of
-> > > > > > looking at the compatile string.
-> > > > >
-> > > > > This idea of identify cores by the compatible looks workable.
-> > > > > I'll update this series at next version.
-> > > > > Thanks!
-> > > > >
-> > > > > >
-> > > > > > > +
-> > > > > > >     res =3D platform_get_resource_byname(pdev,
-> IORESOURCE_MEM, "sram");
-> > > > > > > -   scp->sram_base =3D devm_ioremap_resource(dev, res);
-> > > > > > > +   if (core_id =3D=3D SCP_CORE_1)
-> > > > > > > +           scp->sram_base =3D devm_ioremap(dev, res->start,
-> > > > >
-> > > > > resource_size(res));
-> > > > > > > +   else
-> > > > > > > +           scp->sram_base =3D devm_ioremap_resource(dev,
-> > > > > > > + res);
-> > > > > > > +
-> > > > > >
-> > > > > > This looks very broken...  For this to work you would need to
-> > > > > > have two DT entries with the "mediatek,mt8195-scp-dual"
-> > > > > > compatible properly, one with "mediatek,scp-core =3D <&scp_dual=
-1
-> > > > > > 0>;" and another one with
-> > > > >
-> > > > > "mediatek,scp-core =3D <&scp_dual0 1>;".
-> > > > > >
-> > > > > > Which is also very broken...  Here you have a binding whose
-> > > > > > first
-> > > > >
-> > > > > argument is a
-> > > > > > reference to the core sibling while the second argument is a
-> > > > >
-> > > > > characteristic of
-> > > > > > the current core, which is highly confusing.
-> > > > > >
-> > > > > > I suggest what when you see the compatible binding
-> > > > >
-> > > > > "mediatek,mt8195-scp", a
-> > > > > > single core is initialized.  If you see
-> > > > > > "mediatek,mt8195-scp-dual", both
-> > > > >
-> > > > > cores
-> > > > > > are initialized as part of the _same_ probe.
-> > > > > >
-> > > > > > If the above analysis is not correct it means I misinterpreted
-> > > > > > your work and if so, a serious amount of comments is needed
-> > > > > > _and_ a very
-> > > > >
-> > > > > detailed
-> > > > > > example in "mtk,scp.yaml" that leaves no room for interpretatio=
-n.
-> > > > > >
-> > > > > > I will stop reviewing this patchset until you have clarified
-> > > > > > how this
-> > > > >
-> > > > > works.
-> > > > > >
-> > > > > > Thanks,
-> > > > > > Mathieu
-> > > > >
-> > > > > There's one problem of initializng the CORE1 using the same probe
-> flow.
-> > > > > The register space of CORE0 and CORE1 are overlapped in the devic=
-e
-> node.
-> > > > > Both cores need to use the 'cfg' registers defined in scp yaml.
-> > > > > The devm_ioremap_resource catches address overlapping and
-> > > > > returns error when probing CORE1 driver.
-> > > > >
-> > > >
-> > > > That is exactly why I suggest to initialise both cores within the s=
-ame
-> > > > probe() function.
-> > > >
-> > >
-> > > Hi Mathieu,
-> > >
-> > > I'm thinking about how to initialise in the same probe() function.
-> > > I'm wondering if this implies that using one scp driver to initialize=
- 2 cores?
-> > > If it is, I assume the dts descriptions for both cores should be cont=
-ained
-> in one node.
-> > >
-> > > When there's one node for both cores, it looks like that there is a
-> problem of
-> > > using dma_allocate_coherent(). Each core has its own reserved memory
-> region.
-> > > When there's only one device for both cores, it's not able to identif=
-y the
-> memory region
-> > > by the device parameter of dma_allocate_coherent().
-> > >
-> > > Is it acceptable to consider manually allocating core 1 device in the
-> probe() when probing core 0?
-> >
-> > Look at what Suman did for TI's K3 R5[1] and DSP[2] platforms.
-> > Reviewing the bindings for both platforms will also give you a good
-> > idea of how things work.
-> >
-> > [1].
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Furlde
-> fense.com%2Fv3%2F__https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.0-
-> rc5%2Fsource%2Fdrivers%2Fremoteproc%2Fti_k3_r5_remoteproc.c*L1683_
-> _%3BIw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX3
-> 0z0XV4vo3vCb9Wy-
-> w5ixOTmzbv1akubM%24&amp;data=3D05%7C01%7Cpeng.fan%40nxp.com%7
-> C2cf76b2f15544cf3d06308da9a23f00a%7C686ea1d3bc2b4c6fa92cd99c5c301
-> 635%7C0%7C0%7C637991776400238974%7CUnknown%7CTWFpbGZsb3d8e
-> yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C3000%7C%7C%7C&amp;sdata=3Ddz0FlQQmKI4C67XCX%2BZ6%2Bin%2Btq
-> 2DEWLb5YA%2FxGLOxHc%3D&amp;reserved=3D0
-> > [2].
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Furlde
-> fense.com%2Fv3%2F__https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.0-
-> rc5%2Fsource%2Fdrivers%2Fremoteproc%2Fti_k3_dsp_remoteproc.c*L673_
-> _%3BIw!!CTRNKA9wMg0ARbw!zVcjdLSfKYGO5YQMNGqq339mle8u0VdULX3
-> 0z0XV4vo3vCb9Wy-
-> w5ixOTmzbfE2dtBg%24&amp;data=3D05%7C01%7Cpeng.fan%40nxp.com%7C
-> 2cf76b2f15544cf3d06308da9a23f00a%7C686ea1d3bc2b4c6fa92cd99c5c3016
-> 35%7C0%7C0%7C637991776400238974%7CUnknown%7CTWFpbGZsb3d8ey
-> JWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C3000%7C%7C%7C&amp;sdata=3DYn7MOo2uoDOVRW47O1yq8W3c%2BYg
-> G5URr7RdLKsmpLrk%3D&amp;reserved=3D0
-> >
->=20
-> Hi Mathieu,
->=20
-> My plan is changing the dts as following,
->=20
-> scp core 0 {
-> 	// Keep current properties untouched.
-> 	compatible =3D "mediatek,mt8195-scp";
->=20
-> 	// core 0 properties...
->=20
-> 	// Add a new property for multi-core scp.
-> 	// if not present, it's single core.
-> 	// if present and core id =3D 0, it's the main core, otherwise the sub
-> cores.
-> 	mediatek,scp-core =3D <0>;
->=20
-> 	// add sub cores as sub node.
-> 	// sub nodes can find parent by OF API.
-> 	scp core 1 {
-> 		// use the same compatile name as core 0.
-> 		compatible =3D "mediatek,mt8195-scp";
->=20
-> 		// assign id > 0 to sub cores.
-> 		mediatek,scp-core =3D <1>;
->=20
-> 		// core 1 properties...
-> 	};
-> };
+The CBMEM area is a downward-growing memory region used by coreboot to
+dynamically allocate tagged data structures ("CBMEM entries") that
+remain resident during boot.
 
-Not know the HW arch, but this looks a bit weird, scp core 1 is
-a sub node of scp core 0.
+This implements a driver which exports access to the CBMEM entries
+via sysfs under /sys/firmware/coreboot/cbmem/<id>.
 
->=20
->=20
-> The driver probe/remove behavior will be modified as below,
->=20
-> scp probe() {
-> 	// common init...
->=20
-> 	// check core id to have different memory mapping flow
-> 	if (core id =3D=3D 0)
-> 		// mapping cfg, sram and others
-> 	else
-> 		// mapping sram
-> 		// reuse the cfg paddr/vaddr from core 0
+This implementation is quite versatile.  Examples of how it could be
+used are given below:
 
-Oh, I understand why you need ioremap_resource, so core0/1 share
-same register address space?
+* Tools like util/cbmem from the coreboot tree could use this driver
+  instead of finding CBMEM in /dev/mem directly.  Alternatively,
+  firmware developers debugging an issue may find the sysfs interface
+  more ergonomic than the cbmem tool and choose to use it directly.
 
-Regards,
-Peng.
->=20
-> 	// common init...
->=20
-> 	if (core id =3D=3D 0) {
-> 		ret =3D of_platform_populate(...)
->=20
-> 		// boot core 0 and sub cores
-> 		rproc_add();
-> 	} else {
-> 		// add sub core as sub device to main core
-> 		rproc_add_subdev()
->=20
-> 		rproc->auto_boot =3D false;
-> 		rpoc_add();
-> 	}
-> }
->=20
-> scp_remove() {
->=20
-> 	if (core id =3D=3D 0)
-> 		of_platform_depopulate()
-> 	else
-> 		rproc_remove_subdev()
->=20
-> 	// remove core
-> }
->=20
->=20
->=20
-> Best regards,
-> TingHan
->=20
->=20
->=20
+* The crossystem tool, which exposes verified boot variables, can use
+  this driver to read the vboot work buffer.
+
+* Tools which read the BIOS SPI flash (e.g., flashrom) can find the
+  flash layout in CBMEM directly, which is significantly faster than
+  searching the flash directly.
+
+Write access is provided to all CBMEM regions via
+/sys/firmware/coreboot/cbmem/<id>/mem, as the existing cbmem tooling
+updates this memory region, and envisioned use cases with crossystem
+can benefit from updating memory regions.
+
+Link: https://issuetracker.google.com/239604743
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Reviewed-by: Julius Werner <jwerner@chromium.org>
+Tested-by: Jack Rosenthal <jrosenth@chromium.org>
+Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
+---
+ .../ABI/testing/sysfs-firmware-coreboot       |  49 ++++
+ drivers/firmware/google/Kconfig               |   8 +
+ drivers/firmware/google/Makefile              |   3 +
+ drivers/firmware/google/cbmem.c               | 225 ++++++++++++++++++
+ drivers/firmware/google/coreboot_table.c      |  10 +
+ drivers/firmware/google/coreboot_table.h      |  16 ++
+ 6 files changed, 311 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
+ create mode 100644 drivers/firmware/google/cbmem.c
+
+diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
+new file mode 100644
+index 000000000000..c003eb515d0c
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
+@@ -0,0 +1,49 @@
++What:		/sys/firmware/coreboot/
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		Kernel objects associated with the Coreboot-based BIOS firmware.
++
++What:		/sys/firmware/coreboot/cbmem/
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		Coreboot provides a variety of information in CBMEM.  This
++		directory contains each CBMEM entry, which can be found via
++		Coreboot tables.
++
++What:		/sys/firmware/coreboot/cbmem/<id>/
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		Each CBMEM entry is given a directory based on the id
++		corresponding to the entry.  A list of ids known to coreboot can
++		be found in the coreboot source tree at
++		``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``.
++
++What:		/sys/firmware/coreboot/cbmem/<id>/address
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		The memory address that the CBMEM entry's data begins at.
++
++What:		/sys/firmware/coreboot/cbmem/<id>/size
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		The size of the data being stored.
++
++What:		/sys/firmware/coreboot/cbmem/<id>/id
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		The CBMEM id corresponding to the entry.
++
++What:		/sys/firmware/coreboot/cbmem/<id>/mem
++Date:		August 2022
++Contact:	Jack Rosenthal <jrosenth@chromium.org>
++Description:
++		A file exposing read/write access to the entry's data.  Note
++		that this file does not support mmap(), and should be used for
++		basic data access only.  Users requiring mmap() should read the
++		address and size files, and mmap() /dev/mem.
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 983e07dc022e..b0f7a24fd90a 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -19,6 +19,14 @@ config GOOGLE_SMI
+ 	  driver provides an interface for reading and writing NVRAM
+ 	  variables.
+ 
++config GOOGLE_CBMEM
++	tristate "CBMEM entries in sysfs"
++	depends on GOOGLE_COREBOOT_TABLE
++	help
++	  This option enables the kernel to search for Coreboot CBMEM
++	  entries, and expose the memory for each entry in sysfs under
++	  /sys/firmware/coreboot/cbmem.
++
+ config GOOGLE_COREBOOT_TABLE
+ 	tristate "Coreboot Table Access"
+ 	depends on HAS_IOMEM && (ACPI || OF)
+diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
+index d17caded5d88..8151e323cc43 100644
+--- a/drivers/firmware/google/Makefile
++++ b/drivers/firmware/google/Makefile
+@@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
+ 
++# Must come after coreboot_table.o, as this driver depends on that bus type.
++obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
++
+ vpd-sysfs-y := vpd.o vpd_decode.o
+ obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
+diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
+new file mode 100644
+index 000000000000..835950a14fa6
+--- /dev/null
++++ b/drivers/firmware/google/cbmem.c
+@@ -0,0 +1,225 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * cbmem.c
++ *
++ * Driver for exporting cbmem entries in sysfs.
++ *
++ * Copyright 2022 Google LLC
++ */
++
++#include <linux/device.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/kobject.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/sysfs.h>
++
++#include "coreboot_table.h"
++
++#define LB_TAG_CBMEM_ENTRY 0x31
++
++static struct kobject *cbmem_kobj;
++
++struct cbmem_entry;
++struct cbmem_entry_attr {
++	struct kobj_attribute kobj_attr;
++	struct cbmem_entry *entry;
++};
++
++struct cbmem_entry {
++	struct kobject *kobj;
++	struct coreboot_device *dev;
++	struct bin_attribute mem_file;
++	char *mem_file_buf;
++	struct cbmem_entry_attr address_file;
++	struct cbmem_entry_attr size_file;
++	struct cbmem_entry_attr id_file;
++};
++
++static struct cbmem_entry_attr *to_cbmem_entry_attr(struct kobj_attribute *a)
++{
++	return container_of(a, struct cbmem_entry_attr, kobj_attr);
++}
++
++static ssize_t cbmem_entry_mem_read(struct file *filp, struct kobject *kobp,
++				    struct bin_attribute *bin_attr, char *buf,
++				    loff_t pos, size_t count)
++{
++	struct cbmem_entry *entry = bin_attr->private;
++
++	return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
++				       bin_attr->size);
++}
++
++static ssize_t cbmem_entry_mem_write(struct file *filp, struct kobject *kobp,
++				     struct bin_attribute *bin_attr, char *buf,
++				     loff_t pos, size_t count)
++{
++	struct cbmem_entry *entry = bin_attr->private;
++
++	if (pos < 0 || pos >= bin_attr->size)
++		return -EINVAL;
++	if (count > bin_attr->size - pos)
++		count = bin_attr->size - pos;
++
++	memcpy(entry->mem_file_buf + pos, buf, count);
++	return count;
++}
++
++static ssize_t cbmem_entry_address_show(struct kobject *kobj,
++					struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%llx\n",
++			  entry_attr->entry->dev->cbmem_entry.address);
++}
++
++static ssize_t cbmem_entry_size_show(struct kobject *kobj,
++				     struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%x\n",
++			  entry_attr->entry->dev->cbmem_entry.entry_size);
++}
++
++static ssize_t cbmem_entry_id_show(struct kobject *kobj,
++				   struct kobj_attribute *a, char *buf)
++{
++	struct cbmem_entry_attr *entry_attr = to_cbmem_entry_attr(a);
++
++	return sysfs_emit(buf, "0x%08x\n",
++			  entry_attr->entry->dev->cbmem_entry.id);
++}
++
++static int cbmem_entry_probe(struct coreboot_device *dev)
++{
++	struct cbmem_entry *entry;
++	char *kobj_name;
++	int ret;
++
++	entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
++	if (!entry)
++		return -ENOMEM;
++
++	dev_set_drvdata(&dev->dev, entry);
++	entry->dev = dev;
++	entry->mem_file_buf =
++		devm_memremap(&entry->dev->dev, entry->dev->cbmem_entry.address,
++			      entry->dev->cbmem_entry.entry_size, MEMREMAP_WB);
++	if (!entry->mem_file_buf)
++		return -ENOMEM;
++
++	kobj_name = devm_kasprintf(&entry->dev->dev, GFP_KERNEL, "%08x",
++				   entry->dev->cbmem_entry.id);
++	if (!kobj_name)
++		return -ENOMEM;
++
++	entry->kobj = kobject_create_and_add(kobj_name, cbmem_kobj);
++	if (!entry->kobj)
++		return -ENOMEM;
++
++	sysfs_bin_attr_init(&entry->mem_file);
++	entry->mem_file.attr.name = "mem";
++	entry->mem_file.attr.mode = 0600;
++	entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
++	entry->mem_file.read = cbmem_entry_mem_read;
++	entry->mem_file.write = cbmem_entry_mem_write;
++	entry->mem_file.private = entry;
++	ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
++	if (ret)
++		goto free_kobj;
++
++	sysfs_attr_init(&entry->address_file.kobj_attr.attr);
++	entry->address_file.kobj_attr.attr.name = "address";
++	entry->address_file.kobj_attr.attr.mode = 0444;
++	entry->address_file.kobj_attr.show = cbmem_entry_address_show;
++	entry->address_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj,
++				&entry->address_file.kobj_attr.attr);
++	if (ret)
++		goto free_mem_file;
++
++	sysfs_attr_init(&entry->size_file.kobj_attr.attr);
++	entry->size_file.kobj_attr.attr.name = "size";
++	entry->size_file.kobj_attr.attr.mode = 0444;
++	entry->size_file.kobj_attr.show = cbmem_entry_size_show;
++	entry->size_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++	if (ret)
++		goto free_address_file;
++
++	sysfs_attr_init(&entry->id_file.kobj_attr.attr);
++	entry->id_file.kobj_attr.attr.name = "id";
++	entry->id_file.kobj_attr.attr.mode = 0444;
++	entry->id_file.kobj_attr.show = cbmem_entry_id_show;
++	entry->id_file.entry = entry;
++	ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
++	if (ret)
++		goto free_size_file;
++
++	return 0;
++
++free_size_file:
++	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++free_address_file:
++	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
++free_mem_file:
++	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
++free_kobj:
++	kobject_put(entry->kobj);
++	return ret;
++}
++
++static void cbmem_entry_remove(struct coreboot_device *dev)
++{
++	struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
++
++	sysfs_remove_bin_file(entry->kobj, &entry->mem_file);
++	sysfs_remove_file(entry->kobj, &entry->address_file.kobj_attr.attr);
++	sysfs_remove_file(entry->kobj, &entry->size_file.kobj_attr.attr);
++	sysfs_remove_file(entry->kobj, &entry->id_file.kobj_attr.attr);
++	kobject_put(entry->kobj);
++}
++
++static struct coreboot_driver cbmem_entry_driver = {
++	.probe = cbmem_entry_probe,
++	.remove = cbmem_entry_remove,
++	.drv = {
++		.name = "cbmem",
++		.owner = THIS_MODULE,
++	},
++	.tag = LB_TAG_CBMEM_ENTRY,
++};
++
++static int __init cbmem_init(void)
++{
++	int ret;
++
++	cbmem_kobj = kobject_create_and_add("cbmem", coreboot_kobj);
++	if (!cbmem_kobj)
++		return -ENOMEM;
++
++	ret = coreboot_driver_register(&cbmem_entry_driver);
++	if (ret) {
++		kobject_put(cbmem_kobj);
++		return ret;
++	}
++
++	return 0;
++}
++module_init(cbmem_init);
++
++static void __exit cbmem_exit(void)
++{
++	kobject_put(cbmem_kobj);
++	coreboot_driver_unregister(&cbmem_entry_driver);
++}
++module_exit(cbmem_exit);
++
++MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index c52bcaa9def6..a3e2720e4638 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -14,16 +14,21 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
++#include <linux/kobject.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/sysfs.h>
+ 
+ #include "coreboot_table.h"
+ 
+ #define CB_DEV(d) container_of(d, struct coreboot_device, dev)
+ #define CB_DRV(d) container_of(d, struct coreboot_driver, drv)
+ 
++struct kobject *coreboot_kobj;
++EXPORT_SYMBOL(coreboot_kobj);
++
+ static int coreboot_bus_match(struct device *dev, struct device_driver *drv)
+ {
+ 	struct coreboot_device *device = CB_DEV(dev);
+@@ -157,6 +162,10 @@ static int coreboot_table_probe(struct platform_device *pdev)
+ 	}
+ 	memunmap(ptr);
+ 
++	coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
++	if (!coreboot_kobj)
++		return -ENOMEM;
++
+ 	return ret;
+ }
+ 
+@@ -170,6 +179,7 @@ static int coreboot_table_remove(struct platform_device *pdev)
+ {
+ 	bus_for_each_dev(&coreboot_bus_type, NULL, NULL, __cb_dev_unregister);
+ 	bus_unregister(&coreboot_bus_type);
++	kobject_put(coreboot_kobj);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+index beb778674acd..76c31e6e5376 100644
+--- a/drivers/firmware/google/coreboot_table.h
++++ b/drivers/firmware/google/coreboot_table.h
+@@ -14,6 +14,11 @@
+ 
+ #include <linux/device.h>
+ 
++struct kobject;
++
++/* This is /sys/firmware/coreboot */
++extern struct kobject *coreboot_kobj;
++
+ /* Coreboot table header structure */
+ struct coreboot_table_header {
+ 	char signature[4];
+@@ -39,6 +44,16 @@ struct lb_cbmem_ref {
+ 	u64 cbmem_addr;
+ };
+ 
++/* Corresponds to LB_TAG_CBMEM_ENTRY */
++struct lb_cbmem_entry {
++	u32 tag;
++	u32 size;
++
++	u64 address;
++	u32 entry_size;
++	u32 id;
++};
++
+ /* Describes framebuffer setup by coreboot */
+ struct lb_framebuffer {
+ 	u32 tag;
+@@ -65,6 +80,7 @@ struct coreboot_device {
+ 	union {
+ 		struct coreboot_table_entry entry;
+ 		struct lb_cbmem_ref cbmem_ref;
++		struct lb_cbmem_entry cbmem_entry;
+ 		struct lb_framebuffer framebuffer;
+ 	};
+ };
+-- 
+2.37.3.998.g577e59143f-goog
 

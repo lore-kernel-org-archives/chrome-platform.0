@@ -1,18 +1,18 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A48FA31
-	for <chrome-platform@lists.linux.dev>; Wed, 28 Sep 2022 06:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F197C433C1;
-	Wed, 28 Sep 2022 06:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2BFA31
+	for <chrome-platform@lists.linux.dev>; Wed, 28 Sep 2022 06:13:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99DAFC433C1;
+	Wed, 28 Sep 2022 06:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1664345242;
-	bh=wzLHBlAoXENDdYRhonxwHiNgupy+D9oRTtjJqug0AbM=;
+	s=korg; t=1664345606;
+	bh=J5azeZVy4SrNtc0SdxoXRWiPsqLEveBxuiu/6eyVn1A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fCJNTRpSElIlz18Tv7joZedq7GL08DgL1gHo0kFGlCndqiq5z/8IujuBaYdbsbj75
-	 v2fLxX5Gakt8Xl32Xh1mO8/xpwlrSxs7QpUF/80J+DD4RzLI1IzQhEW9/dqmh4loql
-	 qAHz/n9a9jlZ/hXk8kEck85Doff4bs28EnOzUUu4=
-Date: Wed, 28 Sep 2022 08:07:57 +0200
+	b=CfbjRVZ9UvuGnGVIJL3YFk0GDXKPRC71kOlY8Ylm/oX/it7iS6DEEylXnCSZq98+U
+	 f4C+9Rdx35eH/ddIJFxyMOelFiSjHm55oIyQymawkeigsewmUL8x/sPEZ0AY7VWOhF
+	 TOB5yOiu0n45NLttmw5ejmKYg27j0m/qrLeqmD+k=
+Date: Wed, 28 Sep 2022 08:14:00 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Jack Rosenthal <jrosenth@chromium.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
@@ -22,7 +22,7 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Julius Werner <jwerner@chromium.org>
 Subject: Re: [RESEND PATCH v10] firmware: google: Implement cbmem in sysfs
  driver
-Message-ID: <YzPkvd8Xuux5T5sH@kroah.com>
+Message-ID: <YzPmKF6LRwXVua3X@kroah.com>
 References: <20220927205551.2017473-1-jrosenth@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -70,6 +70,12 @@ On Tue, Sep 27, 2022 at 02:55:51PM -0600, Jack Rosenthal wrote:
 > Tested-by: Jack Rosenthal <jrosenth@chromium.org>
 > Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
 > ---
+
+Why is this a RESEND?
+
+I don't remember seeing any of the 10 previous versions, but hey, I
+can't remember much...
+
 >  .../ABI/testing/sysfs-firmware-coreboot       |  49 ++++
 >  drivers/firmware/google/Kconfig               |   8 +
 >  drivers/firmware/google/Makefile              |   3 +
@@ -80,31 +86,174 @@ On Tue, Sep 27, 2022 at 02:55:51PM -0600, Jack Rosenthal wrote:
 >  create mode 100644 Documentation/ABI/testing/sysfs-firmware-coreboot
 >  create mode 100644 drivers/firmware/google/cbmem.c
 > 
+> diff --git a/Documentation/ABI/testing/sysfs-firmware-coreboot b/Documentation/ABI/testing/sysfs-firmware-coreboot
+> new file mode 100644
+> index 000000000000..c003eb515d0c
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-firmware-coreboot
+> @@ -0,0 +1,49 @@
+> +What:		/sys/firmware/coreboot/
+> +Date:		August 2022
+> +Contact:	Jack Rosenthal <jrosenth@chromium.org>
+> +Description:
+> +		Kernel objects associated with the Coreboot-based BIOS firmware.
 
-Hi,
+Why is "coreboot" needed here?  Will this work for all coreboot
+implementations?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Why is coreboot files being in a 
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+> +What:		/sys/firmware/coreboot/cbmem/<id>/address
+> +Date:		August 2022
+> +Contact:	Jack Rosenthal <jrosenth@chromium.org>
+> +Description:
+> +		The memory address that the CBMEM entry's data begins at.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+Raw memory addresses?  Why?
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+> +What:		/sys/firmware/coreboot/cbmem/<id>/size
+> +Date:		August 2022
+> +Contact:	Jack Rosenthal <jrosenth@chromium.org>
+> +Description:
+> +		The size of the data being stored.
+
+Nothing is being "stored" here, it is being read.
+
+> +What:		/sys/firmware/coreboot/cbmem/<id>/mem
+> +Date:		August 2022
+> +Contact:	Jack Rosenthal <jrosenth@chromium.org>
+> +Description:
+> +		A file exposing read/write access to the entry's data.  Note
+> +		that this file does not support mmap(), and should be used for
+> +		basic data access only.  Users requiring mmap() should read the
+> +		address and size files, and mmap() /dev/mem.
+
+Why doesn't mmap work?
+
+
+
+> diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+> index 983e07dc022e..b0f7a24fd90a 100644
+> --- a/drivers/firmware/google/Kconfig
+> +++ b/drivers/firmware/google/Kconfig
+> @@ -19,6 +19,14 @@ config GOOGLE_SMI
+>  	  driver provides an interface for reading and writing NVRAM
+>  	  variables.
+>  
+> +config GOOGLE_CBMEM
+> +	tristate "CBMEM entries in sysfs"
+> +	depends on GOOGLE_COREBOOT_TABLE
+> +	help
+> +	  This option enables the kernel to search for Coreboot CBMEM
+> +	  entries, and expose the memory for each entry in sysfs under
+> +	  /sys/firmware/coreboot/cbmem.
+
+What's the security implications of exposing all of this information?
+
+> +	sysfs_bin_attr_init(&entry->mem_file);
+> +	entry->mem_file.attr.name = "mem";
+> +	entry->mem_file.attr.mode = 0600;
+> +	entry->mem_file.size = entry->dev->cbmem_entry.entry_size;
+> +	entry->mem_file.read = cbmem_entry_mem_read;
+> +	entry->mem_file.write = cbmem_entry_mem_write;
+> +	entry->mem_file.private = entry;
+> +	ret = sysfs_create_bin_file(entry->kobj, &entry->mem_file);
+> +	if (ret)
+> +		goto free_kobj;
+> +
+> +	sysfs_attr_init(&entry->address_file.kobj_attr.attr);
+> +	entry->address_file.kobj_attr.attr.name = "address";
+> +	entry->address_file.kobj_attr.attr.mode = 0444;
+> +	entry->address_file.kobj_attr.show = cbmem_entry_address_show;
+> +	entry->address_file.entry = entry;
+> +	ret = sysfs_create_file(entry->kobj,
+> +				&entry->address_file.kobj_attr.attr);
+> +	if (ret)
+> +		goto free_mem_file;
+> +
+> +	sysfs_attr_init(&entry->size_file.kobj_attr.attr);
+> +	entry->size_file.kobj_attr.attr.name = "size";
+> +	entry->size_file.kobj_attr.attr.mode = 0444;
+> +	entry->size_file.kobj_attr.show = cbmem_entry_size_show;
+> +	entry->size_file.entry = entry;
+> +	ret = sysfs_create_file(entry->kobj, &entry->size_file.kobj_attr.attr);
+> +	if (ret)
+> +		goto free_address_file;
+> +
+> +	sysfs_attr_init(&entry->id_file.kobj_attr.attr);
+> +	entry->id_file.kobj_attr.attr.name = "id";
+> +	entry->id_file.kobj_attr.attr.mode = 0444;
+> +	entry->id_file.kobj_attr.show = cbmem_entry_id_show;
+> +	entry->id_file.entry = entry;
+> +	ret = sysfs_create_file(entry->kobj, &entry->id_file.kobj_attr.attr);
+> +	if (ret)
+> +		goto free_size_file;
+
+Please use an attribute group so that this all happens automatically and
+you do not have to hand add and remove files.
+
+That will make this logic much simpler and cleaner.
+
+> +struct kobject *coreboot_kobj;
+> +EXPORT_SYMBOL(coreboot_kobj);
+
+EXPORT_SYMBOL_GPL() for kobjects please.
+
+> +
+>  static int coreboot_bus_match(struct device *dev, struct device_driver *drv)
+>  {
+>  	struct coreboot_device *device = CB_DEV(dev);
+> @@ -157,6 +162,10 @@ static int coreboot_table_probe(struct platform_device *pdev)
+>  	}
+>  	memunmap(ptr);
+>  
+> +	coreboot_kobj = kobject_create_and_add("coreboot", firmware_kobj);
+> +	if (!coreboot_kobj)
+> +		return -ENOMEM;
+> +
+>  	return ret;
+>  }
+>  
+> @@ -170,6 +179,7 @@ static int coreboot_table_remove(struct platform_device *pdev)
+>  {
+>  	bus_for_each_dev(&coreboot_bus_type, NULL, NULL, __cb_dev_unregister);
+>  	bus_unregister(&coreboot_bus_type);
+> +	kobject_put(coreboot_kobj);
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+> index beb778674acd..76c31e6e5376 100644
+> --- a/drivers/firmware/google/coreboot_table.h
+> +++ b/drivers/firmware/google/coreboot_table.h
+> @@ -14,6 +14,11 @@
+>  
+>  #include <linux/device.h>
+>  
+> +struct kobject;
+> +
+> +/* This is /sys/firmware/coreboot */
+> +extern struct kobject *coreboot_kobj;
+> +
+>  /* Coreboot table header structure */
+>  struct coreboot_table_header {
+>  	char signature[4];
+> @@ -39,6 +44,16 @@ struct lb_cbmem_ref {
+>  	u64 cbmem_addr;
+>  };
+>  
+> +/* Corresponds to LB_TAG_CBMEM_ENTRY */
+> +struct lb_cbmem_entry {
+> +	u32 tag;
+> +	u32 size;
+> +
+> +	u64 address;
+> +	u32 entry_size;
+> +	u32 id;
+
+As these cross the user/kernel boundry shouldn't they be __u32 and
+__u64?  Or is that not how coreboot works?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h

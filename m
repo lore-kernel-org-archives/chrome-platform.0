@@ -1,415 +1,131 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472AD7B
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Sep 2022 23:44:41 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id q11so961175ilj.10
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Sep 2022 16:44:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C897B
+	for <chrome-platform@lists.linux.dev>; Thu, 29 Sep 2022 23:57:06 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id 64so2129024iov.13
+        for <chrome-platform@lists.linux.dev>; Thu, 29 Sep 2022 16:57:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=rxgsUzGFfaE00+2czt71ypS2ZsMq8C5jXQg7zMlFA7Y=;
-        b=I0fxf0CU7LPjwnC9ncUIEK60On8YI8fv6Qh8OpTU370XWQ0kuQlNLrqNvVw6+5MGE9
-         tgDq8193SdivMS9v4vWhOhEP7fZ9EoTAIjT6zzpMhLoTTupJYggemvqzizwQCXfdSHeG
-         ztnL3+7TVSU9w3yF7nQ5rfdJctYM9IDyFqcac=
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=aiDUyBH1ZRWoqYo/myx5Xqc1EMJMJyiJNQQ67922YM4=;
+        b=NEkdGmgClQANPACHL/Pfae3t0/Pp2NW/DzYQbaBUXyqRjYttk30hVGqn/Wr6373Xc/
+         m3yOyxh7QFDBVX/bGBaEcDSkYjA/qtQ+taF5sEHgwJZqmQ3SneEX1WsLeo6h+Ok1jPi2
+         IUqmsUHL0ayKMtZf8GnG5l4JXD1nZ543+/8SU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=rxgsUzGFfaE00+2czt71ypS2ZsMq8C5jXQg7zMlFA7Y=;
-        b=gRX51nYHHa9Ws4LOVRBWqz9GTZujdy/exnelZIKc8ZqPo5lUa45l8kBvHrBNoE64KA
-         V3rjmXzAD1j5cZv8adg+F3Xw5Fcuu+QSQMODlQUepkBS4aH0ogA2xfoPthDywqZkFb9N
-         Ro63u6ZJE5qQh19KihMTt2JOGz9MZWiOszlFO/Uxa5ISn1+X3y1DJjMRkY6uUZYjLg2l
-         rMVc46xYQcVCAgFbMrrnNniXxX+qinaypGUUzUkzPRzma/g8ZbfI3Ho8Mrfrax8OhTrk
-         QQAqYK9Q7zyGedV1LVX0ryzNXKLyZzJsywBko2nJayismgEjGuEUVWz0CIzk1Iu2Kxzm
-         YAiA==
-X-Gm-Message-State: ACrzQf1ipQUgdKNpsxwutXQV3YKpiiTHwRxlZ5ON1qViXQkJs895L3X+
-	5m16puCJb/DETQjpAboxWGiUFA==
-X-Google-Smtp-Source: AMsMyM7oVz8ewVW0GH6hS1jHo9RS2ZmIyef0H17o/OZ+TlSQYKqwNzjEQJXZS7Tn7xAOibyiOX7qsg==
-X-Received: by 2002:a92:2c0e:0:b0:2f5:64eb:34a4 with SMTP id t14-20020a922c0e000000b002f564eb34a4mr3095070ile.188.1664495080219;
-        Thu, 29 Sep 2022 16:44:40 -0700 (PDT)
-Received: from jrosenth45.lan (c-73-217-34-248.hsd1.co.comcast.net. [73.217.34.248])
-        by smtp.gmail.com with ESMTPSA id c40-20020a023f68000000b00358430a719dsm319559jaf.40.2022.09.29.16.44.39
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=aiDUyBH1ZRWoqYo/myx5Xqc1EMJMJyiJNQQ67922YM4=;
+        b=cuSkk6b/uIr0k+pPm5W2J2iTHKWynH9JJPNviHEXW3RVBDAJdYGKzSCBdXE1gwkUvP
+         5RKxil+MU2H8lE0EYxGXlEPDudeCDra6Xbq71/r7AkL1Opvc2Ms4gYkFEqcJ4goj/Rkl
+         fd8aWmuEfqsANMr/mxZaOBFm3QK0/6xqPOnHCOpJYaWqlhVzR04oWVW8e+4KkhGjMmhH
+         PWZtUaiLbG0wNPqOVRXHspun4zxL/4CCrOIE7Qiz6fDQqpmuu+zK0BRHdf7HfGaFKkO1
+         Ez5PTaiCrJRHamcmyPhZYYCsQF4EpTbcPBgy0CkBOOUY49Lq4BC1yZy16YiiLD2l3kJI
+         iCfg==
+X-Gm-Message-State: ACrzQf1QUEQuKLq59adCaf16eJ5G0agN3/IikOESEyYQJeL471puR8F/
+	GCIN2au1ALmNCpOYenAlIP5NEw==
+X-Google-Smtp-Source: AMsMyM4Rb3tSTavy6HFIehL5hYhigKK/n1m6to4Nas985baqnRK9zT5764cO4bjtGq1huS7rUJzxgA==
+X-Received: by 2002:a05:6638:3791:b0:35a:22c3:4cc9 with SMTP id w17-20020a056638379100b0035a22c34cc9mr3470937jal.114.1664495825229;
+        Thu, 29 Sep 2022 16:57:05 -0700 (PDT)
+Received: from chromium.org (c-73-217-34-248.hsd1.co.comcast.net. [73.217.34.248])
+        by smtp.gmail.com with ESMTPSA id c18-20020a056e020cd200b002f47787f44asm420937ilj.13.2022.09.29.16.57.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 16:44:39 -0700 (PDT)
+        Thu, 29 Sep 2022 16:57:04 -0700 (PDT)
+Date: Thu, 29 Sep 2022 17:57:03 -0600
 From: Jack Rosenthal <jrosenth@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Cc: Jack Rosenthal <jrosenth@chromium.org>,
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Stephen Boyd <swboyd@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Julius Werner <jwerner@chromium.org>
-Subject: [PATCH v11] firmware: google: Implement cbmem in sysfs driver
-Date: Thu, 29 Sep 2022 17:44:32 -0600
-Message-Id: <20220929234432.3711480-1-jrosenth@chromium.org>
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+Subject: Re: [RESEND PATCH v10] firmware: google: Implement cbmem in sysfs
+ driver
+Message-ID: <YzYwz8puWz+zcaF/@chromium.org>
+References: <20220927205551.2017473-1-jrosenth@chromium.org>
+ <YzPmKF6LRwXVua3X@kroah.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzPmKF6LRwXVua3X@kroah.com>
 
-The CBMEM area is a downward-growing memory region used by coreboot to
-dynamically allocate tagged data structures ("CBMEM entries") that
-remain resident during boot.
+On 2022-09-28 at 08:14 +0200, Greg KH wrote:
+> Why is this a RESEND?
+> 
+> I don't remember seeing any of the 10 previous versions, but hey, I
+> can't remember much...
 
-This implements a driver which exports access to the CBMEM entries
-via sysfs under /sys/firmware/cbmem/<id>.
+I sent the last 10 versions (including just v10) to the mailing lists
+without including you.  Realizing I should include you, I resent.  Sorry
+about that.
 
-This implementation is quite versatile.  Examples of how it could be
-used are given below:
+> Why is "coreboot" needed here?
 
-* Tools like util/cbmem from the coreboot tree could use this driver
-  instead of finding CBMEM in /dev/mem directly.  Alternatively,
-  firmware developers debugging an issue may find the sysfs interface
-  more ergonomic than the cbmem tool and choose to use it directly.
+I just did this for more heiarchy, and it's not necessary.  This is just
+/sys/firmware/cbmem in the latest patchset.
 
-* The crossystem tool, which exposes verified boot variables, can use
-  this driver to read the vboot work buffer.
+> Will this work for all coreboot implementations?
 
-* Tools which read the BIOS SPI flash (e.g., flashrom) can find the
-  flash layout in CBMEM directly, which is significantly faster than
-  searching the flash directly.
+Yes, CBMEM has existed in coreboot since 2009, so it'll work with any
+non-antique version.
 
-Write access is provided to all CBMEM regions via
-/sys/firmware/cbmem/<id>/mem, as the existing cbmem tooling updates
-this memory region, and envisioned use cases with crossystem
-can benefit from updating memory regions.
+> Raw memory addresses?  Why?
 
-Link: https://issuetracker.google.com/239604743
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-Reviewed-by: Julius Werner <jwerner@chromium.org>
-Tested-by: Jack Rosenthal <jrosenth@chromium.org>
-Signed-off-by: Jack Rosenthal <jrosenth@chromium.org>
----
-Changes in v11:
-* Changed /sys/firmware/coreboot/cbmem -> /sys/firmware/cbmem
-* cbmem.c uses attribute groups to initialize files, which is much
-  cleaner.  The attributes are added under the device kobject, which
-  is now symlinked into /sys/firmware/cbmem.
-* Changed documentation text as suggested by greg k-h
+Two reasons:
 
- .../ABI/testing/sysfs-firmware-cbmem          |  43 +++++
- drivers/firmware/google/Kconfig               |   8 +
- drivers/firmware/google/Makefile              |   3 +
- drivers/firmware/google/cbmem.c               | 180 ++++++++++++++++++
- drivers/firmware/google/coreboot_table.h      |  16 ++
- 5 files changed, 250 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-firmware-cbmem
- create mode 100644 drivers/firmware/google/cbmem.c
+(1) It's useful information while debugging changes you've made to
+coreboot (e.g., if you were adding a new data structure to cbmem).
 
-diff --git a/Documentation/ABI/testing/sysfs-firmware-cbmem b/Documentation/ABI/testing/sysfs-firmware-cbmem
-new file mode 100644
-index 000000000000..f769104ac4cd
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-firmware-cbmem
-@@ -0,0 +1,43 @@
-+What:		/sys/firmware/cbmem/
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Coreboot provides a variety of data structures in CBMEM.  This
-+		directory contains each CBMEM entry, which can be found via
-+		Coreboot tables.
-+
-+What:		/sys/firmware/cbmem/<id>/
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		Each CBMEM entry is given a directory based on the id
-+		corresponding to the entry.  A list of ids known to coreboot can
-+		be found in the coreboot source tree at
-+		``src/commonlib/bsd/include/commonlib/bsd/cbmem_id.h``.
-+
-+What:		/sys/firmware/cbmem/<id>/address
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The pyhsical memory address that the CBMEM entry's data begins
-+		at.
-+
-+What:		/sys/firmware/cbmem/<id>/size
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The size of the CBMEM entry's data.
-+
-+What:		/sys/firmware/cbmem/<id>/id
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		The CBMEM id corresponding to the entry.
-+
-+What:		/sys/firmware/cbmem/<id>/mem
-+Date:		August 2022
-+Contact:	Jack Rosenthal <jrosenth@chromium.org>
-+Description:
-+		A file exposing read/write access to the entry's data.  Note
-+		that this file does not support mmap(), as coreboot
-+		does not guarantee that the data will be page-aligned.
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 983e07dc022e..485934cc9663 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -19,6 +19,14 @@ config GOOGLE_SMI
- 	  driver provides an interface for reading and writing NVRAM
- 	  variables.
- 
-+config GOOGLE_CBMEM
-+	tristate "CBMEM entries in sysfs"
-+	depends on GOOGLE_COREBOOT_TABLE
-+	help
-+	  This option enables the kernel to search for Coreboot CBMEM
-+	  entries, and expose the memory for each entry in sysfs under
-+	  /sys/firmware/cbmem.
-+
- config GOOGLE_COREBOOT_TABLE
- 	tristate "Coreboot Table Access"
- 	depends on HAS_IOMEM && (ACPI || OF)
-diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
-index d17caded5d88..8151e323cc43 100644
---- a/drivers/firmware/google/Makefile
-+++ b/drivers/firmware/google/Makefile
-@@ -7,5 +7,8 @@ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
- obj-$(CONFIG_GOOGLE_MEMCONSOLE_X86_LEGACY) += memconsole-x86-legacy.o
- 
-+# Must come after coreboot_table.o, as this driver depends on that bus type.
-+obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
-+
- vpd-sysfs-y := vpd.o vpd_decode.o
- obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-new file mode 100644
-index 000000000000..fe814589f641
---- /dev/null
-+++ b/drivers/firmware/google/cbmem.c
-@@ -0,0 +1,180 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * cbmem.c
-+ *
-+ * Driver for exporting cbmem entries in sysfs.
-+ *
-+ * Copyright 2022 Google LLC
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/kobject.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/sysfs.h>
-+
-+#include "coreboot_table.h"
-+
-+#define LB_TAG_CBMEM_ENTRY 0x31
-+
-+static struct kobject *cbmem_kobj;
-+struct cbmem_entry {
-+	char *mem_file_buf;
-+	u32 size;
-+	char *link_name;
-+};
-+
-+static struct cbmem_entry *to_cbmem_entry(struct kobject *kobj)
-+{
-+	return dev_get_drvdata(kobj_to_dev(kobj));
-+}
-+
-+static ssize_t mem_read(struct file *filp, struct kobject *kobj,
-+			struct bin_attribute *bin_attr, char *buf, loff_t pos,
-+			size_t count)
-+{
-+	struct cbmem_entry *entry = to_cbmem_entry(kobj);
-+
-+	return memory_read_from_buffer(buf, count, &pos, entry->mem_file_buf,
-+				       entry->size);
-+}
-+
-+static ssize_t mem_write(struct file *filp, struct kobject *kobj,
-+			 struct bin_attribute *bin_attr, char *buf, loff_t pos,
-+			 size_t count)
-+{
-+	struct cbmem_entry *entry = to_cbmem_entry(kobj);
-+
-+	if (pos < 0 || pos >= entry->size)
-+		return -EINVAL;
-+	if (count > entry->size - pos)
-+		count = entry->size - pos;
-+
-+	memcpy(entry->mem_file_buf + pos, buf, count);
-+	return count;
-+}
-+static BIN_ATTR_ADMIN_RW(mem, 0);
-+
-+static ssize_t address_show(struct device *dev, struct device_attribute *attr,
-+			    char *buf)
-+{
-+	struct coreboot_device *cbdev = dev_to_coreboot_device(dev);
-+
-+	return sysfs_emit(buf, "0x%llx\n", cbdev->cbmem_entry.address);
-+}
-+static DEVICE_ATTR_RO(address);
-+
-+static ssize_t size_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	struct coreboot_device *cbdev = dev_to_coreboot_device(dev);
-+
-+	return sysfs_emit(buf, "0x%x\n", cbdev->cbmem_entry.entry_size);
-+}
-+static DEVICE_ATTR_RO(size);
-+
-+static ssize_t id_show(struct device *dev, struct device_attribute *attr,
-+		       char *buf)
-+{
-+	struct coreboot_device *cbdev = dev_to_coreboot_device(dev);
-+
-+	return sysfs_emit(buf, "0x%08x\n", cbdev->cbmem_entry.id);
-+}
-+static DEVICE_ATTR_RO(id);
-+
-+static struct attribute *attrs[] = {
-+	&dev_attr_address.attr,
-+	&dev_attr_size.attr,
-+	&dev_attr_id.attr,
-+	NULL,
-+};
-+
-+static struct bin_attribute *bin_attrs[] = {
-+	&bin_attr_mem,
-+	NULL,
-+};
-+
-+static const struct attribute_group cbmem_entry_group = {
-+	.attrs = attrs,
-+	.bin_attrs = bin_attrs,
-+};
-+
-+static const struct attribute_group *dev_groups[] = {
-+	&cbmem_entry_group,
-+	NULL,
-+};
-+
-+static int cbmem_entry_probe(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry;
-+
-+	entry = devm_kzalloc(&dev->dev, sizeof(*entry), GFP_KERNEL);
-+	if (!entry)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&dev->dev, entry);
-+	entry->mem_file_buf = devm_memremap(&dev->dev, dev->cbmem_entry.address,
-+					    dev->cbmem_entry.entry_size,
-+					    MEMREMAP_WB);
-+	if (!entry->mem_file_buf)
-+		return -ENOMEM;
-+
-+	entry->size = dev->cbmem_entry.entry_size;
-+
-+	entry->link_name = devm_kasprintf(&dev->dev, GFP_KERNEL, "%08x",
-+					  dev->cbmem_entry.id);
-+	if (!entry->link_name)
-+		return -ENOMEM;
-+
-+	return sysfs_create_link(cbmem_kobj, &dev->dev.kobj, entry->link_name);
-+}
-+
-+static void cbmem_entry_remove(struct coreboot_device *dev)
-+{
-+	struct cbmem_entry *entry = dev_get_drvdata(&dev->dev);
-+
-+	sysfs_remove_link(cbmem_kobj, entry->link_name);
-+}
-+
-+static struct coreboot_driver cbmem_entry_driver = {
-+	.probe = cbmem_entry_probe,
-+	.remove = cbmem_entry_remove,
-+	.drv = {
-+		.name = "cbmem",
-+		.owner = THIS_MODULE,
-+		.dev_groups = dev_groups,
-+	},
-+	.tag = LB_TAG_CBMEM_ENTRY,
-+};
-+
-+static int __init cbmem_init(void)
-+{
-+	int ret;
-+
-+	cbmem_kobj = kobject_create_and_add("cbmem", firmware_kobj);
-+	if (!cbmem_kobj)
-+		return -ENOMEM;
-+
-+	ret = coreboot_driver_register(&cbmem_entry_driver);
-+	if (ret) {
-+		kobject_put(cbmem_kobj);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+module_init(cbmem_init);
-+
-+static void __exit cbmem_exit(void)
-+{
-+	kobject_put(cbmem_kobj);
-+	coreboot_driver_unregister(&cbmem_entry_driver);
-+}
-+module_exit(cbmem_exit);
-+
-+MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index beb778674acd..4666fddf28d6 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -39,6 +39,16 @@ struct lb_cbmem_ref {
- 	u64 cbmem_addr;
- };
- 
-+/* Corresponds to LB_TAG_CBMEM_ENTRY */
-+struct lb_cbmem_entry {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 address;
-+	u32 entry_size;
-+	u32 id;
-+};
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -65,10 +75,16 @@ struct coreboot_device {
- 	union {
- 		struct coreboot_table_entry entry;
- 		struct lb_cbmem_ref cbmem_ref;
-+		struct lb_cbmem_entry cbmem_entry;
- 		struct lb_framebuffer framebuffer;
- 	};
- };
- 
-+static inline struct coreboot_device *dev_to_coreboot_device(struct device *dev)
-+{
-+	return container_of(dev, struct coreboot_device, dev);
-+}
-+
- /* A driver for handling devices described in coreboot tables. */
- struct coreboot_driver {
- 	int (*probe)(struct coreboot_device *);
--- 
-2.38.0.rc1.362.ged0d419d3c-goog
+(2) The "cbmem" command line tool exposes this information, and it would
+be nice to entirely replace it's current /dev/mem interface with this
+sysfs interface once it's widely available.
 
+> Nothing is being "stored" here, it is being read.
+
+Right, fixed in v11, thanks.
+
+> Why doesn't mmap work?
+
+Coreboot won't guarantee page alignment.  I updated this text in v11 to
+mention that.
+
+> What's the security implications of exposing all of this information?
+
+Nothing really.  These are data structures from firmware such as the
+nvram, boot log, flash layout, etc.  It's not something that would
+contain secret information.
+
+The biggest consideration is that we allow access to memory regions.
+Since the coreboot table may be a CBMEM region itself, we just make sure
+to copy the entry's size from the coreboot table before it's available
+in sysfs so manipulation of the coreboot table won't allow arbitrary
+memory access.
+
+> Please use an attribute group so that this all happens automatically and
+> you do not have to hand add and remove files.
+> 
+> That will make this logic much simpler and cleaner.
+
+Thanks, v11 has it =)
+
+> > +/* Corresponds to LB_TAG_CBMEM_ENTRY */
+> > +struct lb_cbmem_entry {
+> > +	u32 tag;
+> > +	u32 size;
+> > +
+> > +	u64 address;
+> > +	u32 entry_size;
+> > +	u32 id;
+> 
+> As these cross the user/kernel boundry shouldn't they be __u32 and
+> __u64?  Or is that not how coreboot works?
+
+This data structure isn't exposed to user space in its raw format (we
+give access to it via %x-encoded output from the sysfs files).

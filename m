@@ -1,42 +1,42 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A63F23A7
-	for <chrome-platform@lists.linux.dev>; Sat,  1 Oct 2022 07:43:39 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id f21so3062598lfm.9
-        for <chrome-platform@lists.linux.dev>; Sat, 01 Oct 2022 00:43:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AEE23A7
+	for <chrome-platform@lists.linux.dev>; Sat,  1 Oct 2022 07:44:10 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id bu25so9996363lfb.3
+        for <chrome-platform@lists.linux.dev>; Sat, 01 Oct 2022 00:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date;
-        bh=b0K8YxHzOLYyHo4VvKo91+kAJ3r6DDnk5+tjHXHmZ/8=;
-        b=NVhTLj2CYnWllRTa3+jXekeih3wEZs7pTk+FVo4Chn9pNtfsLiUwlS/qpr+ZclpvGb
-         NNpaPXGQNeK5eIpWnL+j/SGwDbmtzRGOwYIBfA0RAXZn7Kydz3H/AH0bS5PKgRajjCJf
-         mKvtqzuQIQ1y1aWApYz9TDMUOLY3HcWz1a2FJgaQBTj/ZPqpA85WKsSi40ph0WBJ3+EY
-         fpx1b76cZvoJLIH1hMcj3FK32k/wt5OcwQkAYoKePZEsRdNxUPyE/Cu3xrx6K3Z1rTYq
-         Oiw2jcIhsAZ+CYPXTHew2JFZ6Edj7V9ipof7D8XnCWJqXtY5UmzjsvrwWTA1x4S0/k52
-         nZhQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=HugR/NLJXFQfozYZ66e+YMwVjhph0I2XzzQk2oljY3o=;
+        b=K6XnEKHhkISLsNnZ+PqmRwXwEmcNFDlHFiGA32RcsPN4yXexBh2371BaDigsOMFxLd
+         dFCJhUMeJAdxOIOVI3jQghfhUIedvxuYMFmXQ8T/912KnMtyCmhCueNpYGiGwsR8lmXX
+         Dex7gYU68FzQlAc9yU05Dv/syh0K6+m9AxLZcjsQBnSiq5Xj9PTA+jFqEtRyRBBZN0Ji
+         1CfWA8YEmCxiZ1LnaX3VEkb9LeedEp4ydqBj7dlBmqerdlbL1VfM+nAlQEIbC4OP1ZT+
+         yxELqRVbO3Z4w3hcmSG4La44+oHgAbHVGl5aYtJL0NnGHOJaqey3P0Y5ydhDc1I4oxj6
+         3Q3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=b0K8YxHzOLYyHo4VvKo91+kAJ3r6DDnk5+tjHXHmZ/8=;
-        b=lfRgo39LofG1DuUe9D2ZbdZ+hcIgbz5tc3kDjSflGSnBMAqahcHdAAYu8Ut9VXNX0g
-         HtvE3iHx2P5lWraHUIl3gGzbiA40pauD6iN8b0PY7dyfGLME2i8zPMwnUOULHL1BeHLc
-         /n7Y1rviEtYOPn961TbreveYFpgmBKLBlXRIxy4b5v8c91YzVIRFRQOpq3du4LhXXe3X
-         AIVuX5sWBWpPiIN5xD0L2AlyM9GZPeFB/bTJvxjOaeSMeZ5NOneeBBa2MSiQvY3wIaPL
-         FAJmwOwp7EDCJnD4pZQ8M9GdbYIXcRC/KNu18wHIMLBqVRJyfB1xteFH38KclTQvZitt
-         eiNg==
-X-Gm-Message-State: ACrzQf0NoBssK6ZlB5hjHwwez0E4qISlnxPMkfVQ5wKjqsjLdWRZuw/n
-	5lgRBIIEu5IfvQVpPG1rRUI=
-X-Google-Smtp-Source: AMsMyM7LLnwhLHuoSKBKosxxQsVKk214LgqJsDBFfNo+oUVQfsZJjUzDwnN/iDcW8jfQiEbWnOC7Dg==
-X-Received: by 2002:a05:6512:2392:b0:4a0:3180:5c40 with SMTP id c18-20020a056512239200b004a031805c40mr4228494lfv.681.1664610217445;
-        Sat, 01 Oct 2022 00:43:37 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=HugR/NLJXFQfozYZ66e+YMwVjhph0I2XzzQk2oljY3o=;
+        b=8J46i0WYhyMSdXsVlIHJsIyVotDAXtzHF6UWl02WnzoQfoW5WAlB/GdrDQtvWYGteP
+         ofkIqt6j///23bFRX4jIdRyg8p+ksbmH+0VIgr1vm+/rY7Sih4lxKQmQ07tHHwjsKGep
+         HORYjnsR7hSRstiVeCFBEMwAbN9Kawah3cw76H0JKX9tIR4dB4/6GnYzBDT1umbwW/zf
+         tMvSb5Ixxq9LO4taDg+ZNWBXqeF5GLvtDo2vng8bTeWctl0em5gZVMu/hREqq7/bsT0R
+         SpU8I44vuoF3BHhqjhPVLbK7nbWW5BUpPLNKI0TZ5uO4jskUNSfja/QuYdu5VvDF2ZbM
+         516A==
+X-Gm-Message-State: ACrzQf2kK4/4HfTJ/f47eu8fq8sGVWpQzBBYr8FHf5WF7LGjGl87c1pP
+	uXtwUIUlmRDmT5kb2wVn6NE=
+X-Google-Smtp-Source: AMsMyM4ByumW4JDxNyG8DNIURZfGCkHffICG/1xi8XrU8oXss1j1HhVqLqIYRmLyvTOVMP0tUbbdZA==
+X-Received: by 2002:a05:6512:31c8:b0:49c:db9d:bb97 with SMTP id j8-20020a05651231c800b0049cdb9dbb97mr4300336lfe.12.1664610248572;
+        Sat, 01 Oct 2022 00:44:08 -0700 (PDT)
 Received: from dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id f1-20020a05651232c100b00497ad9ae486sm668561lfg.62.2022.10.01.00.43.35
+        by smtp.gmail.com with ESMTPSA id h19-20020a056512221300b00498f67cbfa9sm671086lfu.22.2022.10.01.00.44.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Oct 2022 00:43:36 -0700 (PDT)
-Date: Sat, 1 Oct 2022 10:43:18 +0300
+        Sat, 01 Oct 2022 00:44:07 -0700 (PDT)
+Date: Sat, 1 Oct 2022 10:44:01 +0300
 From: Matti Vaittinen <mazziesaccount@gmail.com>
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
 	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
@@ -63,8 +63,9 @@ Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
 	Douglas Anderson <dianders@chromium.org>, linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	chrome-platform@lists.linux.dev
-Subject: [RFT PATCH v2 0/2] iio: Fix unsafe buffer attributes
-Message-ID: <cover.1664610071.git.mazziesaccount@gmail.com>
+Subject: [RFT PATCH v2 1/2] iio: Add IIO_STATIC_CONST_DEVICE_ATTR
+Message-ID: <ad6753e27cfefe9ecb5db2c089d1fcee427ab7c9.1664610071.git.mazziesaccount@gmail.com>
+References: <cover.1664610071.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -72,74 +73,49 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="p/1ifXIpa00LMeD9"
+	protocol="application/pgp-signature"; boundary="xd5zRoFn41p0ColK"
 Content-Disposition: inline
+In-Reply-To: <cover.1664610071.git.mazziesaccount@gmail.com>
 
 
---p/1ifXIpa00LMeD9
+--xd5zRoFn41p0ColK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-IIO The iio_triggered_buffer_setup_ext() has been changed to expect that
-all attributes given in buffer_attrs array are device-attributes. This
-expectation has not been forced by the API and not all existing users
-were checked. Some drivers do register attributes created by
-IIO_CONST_ATTR().
+Add IIO_STATIC_CONST_DEVICE_ATTR macro for creating an read-only
+iio_dev_attr which returns constant value. This macro is intended to be
+used when replacing the IIO_CONST_ATTR - attributes for triggered
+buffers because the triggered buffer attributes must be of type
+iio_dev_attr.
 
-The added attribute "wrapping" does not copy the pointer to stored
-string constant and when the sysfs file is read the kernel will access
-to invalid address.
+Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+---
+ include/linux/iio/sysfs.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-This series aims to address both the drivers using IIO_CONST_ATTR() and
-the API. Use of IIO_CONST_ATTR() has been dropped from drivers for the
-triggered buffers and the iio_triggered_buffer_setup_ext() is changed to
-take an array of pointers to struct iio_dev_attr instead of an array of
-pointers to struct attribute. This should fix the existing users and
-also prevent similar problem to occur in the future.
-
-I am not super happy about the new macro IIO_STATIC_CONST_DEVICE_ATTR()
-which unconditionally creates a static function and a static struct
-iio_dev_attr. OTOH, I do believe static function + static struct
-iio_dev_attr should be the right thing to do for majority of use cases.
-
-I did also change the struct iio_buffer to have array of pointers to
-iio_dev_attr in order to avoid yet another copying in side the
-iio_triggered_buffer_setup_ext(). This change appeared to be somewhat
-intrusive - and as I lack the hardware to do thorough testing I added
-the request for testing tag here. Especially testing of adi-axi-adc
-would be highly appreciated as it is using the
-industrialio-buffer-dmaengine.
-
-Changelog v2:
-  - fix also the cros_ec_sensors_core.c
-  - fix also the industrialio-buffer-dmaengine.c
-  - add RFT + this cover-letter.
-
---
-
-Matti Vaittinen (2):
-  iio: Add IIO_STATIC_CONST_DEVICE_ATTR
-  iio: Fix unsafe buffer attributes
-
- drivers/iio/accel/adxl367.c                    | 16 ++++++++--------
- drivers/iio/accel/adxl372.c                    | 16 ++++++++--------
- drivers/iio/accel/bmc150-accel-core.c          | 18 +++++++++---------
- drivers/iio/adc/at91-sama5d2_adc.c             | 16 ++++++++--------
- .../iio/buffer/industrialio-buffer-dmaengine.c |  4 ++--
- .../iio/buffer/industrialio-triggered-buffer.c |  4 ++--
- drivers/iio/buffer/kfifo_buf.c                 |  2 +-
- .../cros_ec_sensors/cros_ec_sensors_core.c     |  6 +++---
- .../common/hid-sensors/hid-sensor-trigger.c    |  8 ++++----
- drivers/iio/industrialio-buffer.c              | 11 +++++++----
- include/linux/iio/buffer_impl.h                |  2 +-
- include/linux/iio/kfifo_buf.h                  |  3 ++-
- include/linux/iio/sysfs.h                      | 11 +++++++++++
- include/linux/iio/triggered_buffer.h           |  6 +++---
- 14 files changed, 69 insertions(+), 54 deletions(-)
-
-
-base-commit: f76349cf41451c5c42a99f18a9163377e4b364ff
+diff --git a/include/linux/iio/sysfs.h b/include/linux/iio/sysfs.h
+index e51fba66de4b..de5bb125815c 100644
+--- a/include/linux/iio/sysfs.h
++++ b/include/linux/iio/sysfs.h
+@@ -97,6 +97,17 @@ struct iio_const_attr {
+ 	=3D { .string =3D _string,						\
+ 	    .dev_attr =3D __ATTR(_name, S_IRUGO, iio_read_const_attr, NULL)}
+=20
++#define IIO_STATIC_CONST_DEVICE_ATTR(_name, _string)				\
++	static ssize_t iio_const_dev_attr_show_##_name(			\
++					struct device *dev,		\
++					struct device_attribute *attr,	\
++					char *buf)			\
++	{								\
++		return sysfs_emit(buf, "%s\n", _string);		\
++	}								\
++	static IIO_DEVICE_ATTR(_name, 0444,				\
++			       iio_const_dev_attr_show_##_name, NULL, 0)
++
+ /* Generic attributes of onetype or another */
+=20
+ /**
 --=20
 2.37.3
 
@@ -156,19 +132,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---p/1ifXIpa00LMeD9
+--xd5zRoFn41p0ColK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmM374kACgkQeFA3/03a
-ocVTHQgAzUVSblClKdgM1OzHi45hngdIJh1Zg2mq6PgBWQn/XWc+6s5e3OYK3yS0
-XliPnOk0vcf/vuyTiUdN/vhfJpnVab3jLRkPFSGfg9KwOGz8PPWvi8OafRSIRhgA
-prid6wavAeZV9Zpg4F6jvYWW56fkK/2vF5wyQI1bfYf13XJD7qJG73WKv/Xj/L4p
-D+LleNNcd0ntDjigScC61IoZMvQ7g/jTYsXd7LR0MudKc4eUM9ia6coznNDXumuh
-CuJGjVewJbb2Wu6Aybv+gW8WPrZG0c/ctaX5F5e0mISlZ1FnRiKBlYv/dVEONdOT
-xD6KakdrOYTf2Vors49vmIhO/+RIow==
-=qM0L
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmM378EACgkQeFA3/03a
+ocXKeAf9HN002m865SDcUlmLtg0aCs/YoUrIHeUs903yq/3AedvqFTck32PpJzs5
+l5Lg7yVnTVBJchAdezzNQghJuAcWqQZsoO1qT9HF+dTumrTM46zJ/vs87li1wWIP
+hPMyaxcuCUyaKPTXEPYawiAihAChYcurB7bm1VLwjtoI9f9kSAYMvNIerfXi11v/
+/T1kipzgSUv79MaojvGw5iYNbkcrMhi9+rZXegQl+YiicZ7dEtjHhI6o1SifTzmT
+oV5x77T3dFww7/P25HfYhWyvfCPTTPuiRmzS6sHpH0H4PbFPhel9ULa2xHtr/NCy
+qfQUs3ugjSq+s3gwzpehS6cAtte2GA==
+=DkLa
 -----END PGP SIGNATURE-----
 
---p/1ifXIpa00LMeD9--
+--xd5zRoFn41p0ColK--

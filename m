@@ -1,103 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D071876
-	for <chrome-platform@lists.linux.dev>; Sun,  9 Oct 2022 17:38:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25840C433D6;
-	Sun,  9 Oct 2022 17:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65771C2E
+	for <chrome-platform@lists.linux.dev>; Sun,  9 Oct 2022 23:50:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1024C433C1;
+	Sun,  9 Oct 2022 23:50:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665337116;
-	bh=vG5xxQ1IE0ZAYCWj1ElLNJKIb8J8PN1GvB54lauAKwE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bh2yMMhMkI8SEUwxNLcyHdG5SEy7DEiJOwrPI/O0VSoAfJdlKTHLQUrDG/7yk1G/G
-	 Xj2AH+M2R1JNlSupbQhiYl9J4vJHp+9jz4ruLZ6ALoFNEHmQXlvIMEZtE0ImGLlLai
-	 CvtReFwAYXxqF+o6TpnODLqgnjGAUq8SMelY5b0A+tFrFy4cfJ4BJ0JLWay733ZxxJ
-	 6tLWwp0P8eZfSVYQbfnhsDsw2eJM7xEvpSLxlHoUyJt4aVea/sJmcHHJQZfUm/E2U1
-	 ezKAY2tGKI0HKj7Fpo81SvEtgb1HgS+Az+b0WBPuCQNcM7cbd27yR8hp0hufwkb5Hn
-	 y9o4OVdp09DZw==
-Date: Sun, 9 Oct 2022 18:38:54 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Claudiu.Beznea@microchip.com, matti.vaittinen@fi.rohmeurope.com,
- lars@metafoo.de, Michael.Hennerich@analog.com, cosmin.tanislav@analog.com,
- Eugen.Hristev@microchip.com, Nicolas.Ferre@microchip.com,
- alexandre.belloni@bootlin.com, bleung@chromium.org, groeck@chromium.org,
- alexandru.ardelean@analog.com, nathan@kernel.org,
- miquel.raynal@bootlin.com, linmq006@gmail.com,
- u.kleine-koenig@pengutronix.de, paul@crapouillou.net,
- mihail.chindris@analog.com, gwendal@chromium.org,
- andriy.shevchenko@linux.intel.com, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev
-Subject: Re: [RFT PATCH v3 10/10] iio: Don't silently expect attribute types
-Message-ID: <20221009183854.690e2780@jic23-huawei>
-In-Reply-To: <8ef99012-4959-a674-13c1-186b9c1c2cd4@gmail.com>
-References: <cover.1664782676.git.mazziesaccount@gmail.com>
-	<63f54787a684eb1232f1c5d275a09c786987fe4a.1664782676.git.mazziesaccount@gmail.com>
-	<c163203c-d87b-7e71-f582-964a99e37efb@microchip.com>
-	<8ef99012-4959-a674-13c1-186b9c1c2cd4@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	s=k20201202; t=1665359448;
+	bh=+bDLyobCzXL7wDQw/U6oi4YdNCx8flKdh8jVS9hCnO8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=b8OMWaHhc9egQsCP1hFHRtjOuyAudSqCnPZ28Z10w8Iya+ha5sjVPbYmW8lgGwixj
+	 s7P4a7mbBQJ3PDciaHm0qA+3n5jzfl1LjiMBMpvHr/6qQk2aOFBrSlp8nLOeLDgqMn
+	 SBGCwiYVy2GpjqD+RLAlyU/CS9niQavSj3H4+Q153IFkpxbjBrb5BiQHvAHWKLU/ku
+	 uFmzOqnPh9uLytNwXDAeYjhkifuejhe1M08h4/9UmFeUapKXsdtzsP5HqZoD7nYBaO
+	 BLjrJRgjH1bMZlbt3uY3H2iCqeqjB539ghN0iKSb4KAgWRM2nOSj1iOZNCRfGMbEB5
+	 L+Q+LpLpvbZWA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Jameson Thies <jthies@google.com>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.0 22/44] platform/chrome: cros_ec: Notify the PM of wake events during resume
+Date: Sun,  9 Oct 2022 19:49:10 -0400
+Message-Id: <20221009234932.1230196-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221009234932.1230196-1-sashal@kernel.org>
+References: <20221009234932.1230196-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Thu, 6 Oct 2022 15:53:52 +0300
-Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+From: Jameson Thies <jthies@google.com>
 
-> Hi Claudiu,
-> 
-> On 10/6/22 11:35, Claudiu.Beznea@microchip.com wrote:
-> > On 03.10.2022 11:13, Matti Vaittinen wrote:  
-> >> The iio_triggered_buffer_setup_ext() and the
-> >> devm_iio_kfifo_buffer_setup_ext() were changed by
-> >> commit 15097c7a1adc ("iio: buffer: wrap all buffer attributes into iio_dev_attr")
-> >> to silently expect that all attributes given in buffer_attrs array are
-> >> device-attributes. This expectation was not forced by the API - and some
-> >> drivers did register attributes created by IIO_CONST_ATTR().
-> >>
-> >> When using IIO_CONST_ATTRs the added attribute "wrapping" does not copy
-> >> the pointer to stored string constant and when the sysfs file is read the
-> >> kernel will access to invalid location.
-> >>
-> >> Change the function signatures to expect an array of iio_dev_attrs to
-> >> avoid similar errors in the future.
-> >>
-> >> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>  
-> > 
-> > Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> > 
-> > on SAMA5D2
-> >   
-> 
-> Thanks a ton for the testing! I do _really_ appreciate it :) I am now 
-> slightly more confident regarding the fix here - and a lot more 
-> confident that we do have an actual bug (as you explained in the reply 
-> to the first RFT) :)
+[ Upstream commit 8edd2752b0aa498b3a61f3caee8f79f7e0567fad ]
 
-You analysis was sound, so I've long been convinced ;)
+cros_ec_handle_event in the cros_ec driver can notify the PM of wake
+events. When a device is suspended, cros_ec_handle_event will not check
+MKBP events. Instead, received MKBP events are checked during resume by
+cros_ec_report_events_during_suspend. But
+cros_ec_report_events_during_suspend cannot notify the PM if received
+events are wake events, causing wake events to not be reported if
+received while the device is suspended.
 
-Anyhow, one more coming through...
-AD4130 v9 patch had same issue and so will also need updating with this
-patch if it lands before yours.
+Update cros_ec_report_events_during_suspend to notify the PM of wake
+events during resume by calling pm_wakeup_event.
 
-Other than that static macro being ugly (which I can't improve on!)
-all looks good to me, but I'll let it sit a while longer. If nothing
-else I want to rebase the fixes-togreg tree on rc1 before putting the first
-part of this series on top of it then letting them soak in next for
-a few days,
+Signed-off-by: Jameson Thies <jthies@google.com>
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
+Reviewed-by: Benson Leung <bleung@chromium.org>
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Link: https://lore.kernel.org/r/20220913204954.2931042-1-jthies@google.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/chrome/cros_ec.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Thanks,
-
-Jonathan
-
-
-> 
-> Yours
-> 	-- Matti
-> 
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index 8aace50d446d..110df0fd4b00 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -349,10 +349,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
+ 
+ static void cros_ec_report_events_during_suspend(struct cros_ec_device *ec_dev)
+ {
++	bool wake_event;
++
+ 	while (ec_dev->mkbp_event_supported &&
+-	       cros_ec_get_next_event(ec_dev, NULL, NULL) > 0)
++	       cros_ec_get_next_event(ec_dev, &wake_event, NULL) > 0) {
+ 		blocking_notifier_call_chain(&ec_dev->event_notifier,
+ 					     1, ec_dev);
++
++		if (wake_event && device_may_wakeup(ec_dev->dev))
++			pm_wakeup_event(ec_dev->dev, 0);
++	}
+ }
+ 
+ /**
+-- 
+2.35.1
 

@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D065CAB
-	for <chrome-platform@lists.linux.dev>; Sun,  9 Oct 2022 23:55:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EE05C43148;
-	Sun,  9 Oct 2022 23:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F505CAB
+	for <chrome-platform@lists.linux.dev>; Sun,  9 Oct 2022 23:56:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB8FC433B5;
+	Sun,  9 Oct 2022 23:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665359705;
-	bh=JG4zpURXQKIe8yvupxxFcpZJr66Oes7UwY5ObWUaDP4=;
+	s=k20201202; t=1665359796;
+	bh=o3vtTwlB4jCOZ2PyHCmxu2zJ9FHZxZzmrmeAx8nin9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D3uLByhaG7elr72Rw2TDhfznqCKuwsQ03+jx2lSxv9iOm58nLYOEqVrajwd/MZGoI
-	 Oj87YvVpfw2YspoUFP+PjVcoMSlDLtiEVoU+SUoSC6XGHDD/bKmoKDkdlFyzISDT+H
-	 3P2ac/7v6BfX7LhaviCAwIHsBW5L5TKSlayZRdSs/VuxOZuDFWazcbe9o7wuEHYsPW
-	 KXqXRvGw39jYheclZd5KZXtdWGNT6lIQLn4B3eh1Sj4Xi2W9Yr5IL0MfgNTXn4oIoT
-	 CZKV8HuJk1GQxOuuwzLs+NCHpbWcshUSoBEVgFuvpSu1McVWb07yvxdF4L0jWJ7T1F
-	 nxFnHj7qszOxg==
+	b=kRJ0EDRteZiRSvcjvIY2JDR4OtJzK+opAJGwPRsAwd+xKlcVtYaKK7BF8/rZOsqno
+	 rGmdsuC3Q/xCWcSos0tJYuVhCbWeEDCLq9nkz7JXBKumTwOv9PSnk2jeB9df6HnQK6
+	 3kGmDM1i6xz8VPnLyDCyL36DvOuD7Yx4O0vte/06HmW3PH2pxd0l2lKMWVfulfi2kJ
+	 uJ40a3wCCRR0BUO9oxvMGusNYXjInAqHcbAhZOlbi0mA6dW6Qy6ba2iWMSYUOL/8gs
+	 1CSBswG3p87RaG580BDHQ53xgzPzMC+yW2078+yJAtvdbBvsSTn3YfsF0YynfR1Hcm
+	 Fkx7JTyZJBOww==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,12 +24,12 @@ Cc: Jameson Thies <jthies@google.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 15/25] platform/chrome: cros_ec: Notify the PM of wake events during resume
-Date: Sun,  9 Oct 2022 19:54:15 -0400
-Message-Id: <20221009235426.1231313-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/22] platform/chrome: cros_ec: Notify the PM of wake events during resume
+Date: Sun,  9 Oct 2022 19:55:31 -0400
+Message-Id: <20221009235540.1231640-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009235426.1231313-1-sashal@kernel.org>
-References: <20221009235426.1231313-1-sashal@kernel.org>
+In-Reply-To: <20221009235540.1231640-1-sashal@kernel.org>
+References: <20221009235540.1231640-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 4f0390b10cd3..9664e13ded59 100644
+index c4de8c4db193..5a622666a075 100644
 --- a/drivers/platform/chrome/cros_ec.c
 +++ b/drivers/platform/chrome/cros_ec.c
-@@ -353,10 +353,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
+@@ -332,10 +332,16 @@ EXPORT_SYMBOL(cros_ec_suspend);
  
  static void cros_ec_report_events_during_suspend(struct cros_ec_device *ec_dev)
  {

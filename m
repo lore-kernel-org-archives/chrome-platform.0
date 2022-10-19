@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9238E1FA8
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 01:50:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E179C433D7;
-	Wed, 19 Oct 2022 01:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A239F1FA8
+	for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E857C433D6;
+	Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666144217;
-	bh=iA+0UTnHubjHv70TvtVBLlqfAvlKlB6f3mSpE5H4yOc=;
+	s=k20201202; t=1666144816;
+	bh=mugrCEwIc0Keq7Vmnig+0zMi8mv8dsQ668NkPGtyjrE=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Zzif1Uo5ARKLWnqGFFkm+X9em8RVLBAm4rSrAhNaXPR5SM5GHaoQ3ooA67s3E3wSu
-	 XIcLY/+cx2+krvOGuO1mKiY23bUi0bF1CrJu44Nd/sMN3s4GccMRInIlkCdgazqKPZ
-	 XV9lIcTq41aqSZAEVjqMT2zXRNZqd46J36psa+JgLRixWuc3+hOQC6floMbT19iQtz
-	 utBlhKXhnYuqRjeQKLX6RjBoLhrDySRJxavAS+kFp+GSwTlipK9pPtT6AQbBvMKNcn
-	 wgr3f3uAMW3/nd5WxaM96zq8Y0eaL2MEIpcdy6ufOXDNV8yLW67pe8sJxP7sE9DJet
-	 6xQ2qOJlfcYGg==
+	b=Po20yU2dYPrDArQHKj1+w1thcJ0SDTGOCRj0WfCii/mDlU+LbuvHBSbljV09n6lqP
+	 pC3CvXE27fONTKM0fvpZ2bcDriqjp3xKjXgE06zyYOeaQMKldB7YpY9vGI+8/aqG1e
+	 vM/CBo5eudgr7pfw2zkGBZTpABD5BqbZgIQ/afXSkMM3k8mObzQQik2g/Z+o9F++TO
+	 JpLU7MlgEAqKC+lt+R+tUGwJ5g1xdHK49KiTk/sRmhz6D86Gq/koc+f+9gU9lhpGkx
+	 xdepgvEz2vYtQHZTJn2874X8ZCW8IP7pCjUDdDx1irXXR5qOPGXAKO+z+Q1aWlgrFW
+	 cCOixzV850m8w==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 06F08E21ED4;
-	Wed, 19 Oct 2022 01:50:17 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2AF32E270EF;
+	Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -26,37 +26,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6] platform/chrome: add a driver for HPS
+Subject: Re: [PATCH] platform/chrome: cros_hps_i2c: make remove callback return
+ void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <166614421702.19283.4844691783232222695.git-patchwork-notify@kernel.org>
-Date: Wed, 19 Oct 2022 01:50:17 +0000
-References: <20221018040623.2173441-1-dcallagh@chromium.org>
-In-Reply-To: <20221018040623.2173441-1-dcallagh@chromium.org>
+ <166614481616.23833.33489974249314814.git-patchwork-notify@kernel.org>
+Date: Wed, 19 Oct 2022 02:00:16 +0000
+References: <20221018235237.2274969-1-dcallagh@chromium.org>
+In-Reply-To: <20221018235237.2274969-1-dcallagh@chromium.org>
 To: Dan Callaghan <dcallagh@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- skyostil@chromium.org, bleung@chromium.org, tzungbi@kernel.org
+ skyostil@chromium.org, bleung@chromium.org, tzungbi@kernel.org, lkp@intel.com
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Tue, 18 Oct 2022 15:06:23 +1100 you wrote:
-> This patch introduces a driver for the ChromeOS human presence
-> sensor (aka. HPS). The driver supports a sensor connected to the I2C bus
-> and identified as "GOOG0020" in the ACPI tables.
+On Wed, 19 Oct 2022 10:52:37 +1100 you wrote:
+> Commit ed5c2f5fd10d ("i2c: Make remove callback return void") changed
+> the return type of the 'remove' callback to void, but this driver was
+> originally written before that change landed. Update the remove callback
+> to match.
 > 
-> When loaded, the driver exports the sensor to userspace through a
-> character device. This device only supports power management, i.e.,
-> communication with the sensor must be done through regular I2C
-> transmissions from userspace.
+> Fixes: 5f9952548d91 ("platform/chrome: add a driver for HPS")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Dan Callaghan <dcallagh@chromium.org>
 > 
 > [...]
 
 Here is the summary with links:
-  - [v6] platform/chrome: add a driver for HPS
-    https://git.kernel.org/chrome-platform/c/5f9952548d91
+  - platform/chrome: cros_hps_i2c: make remove callback return void
+    https://git.kernel.org/chrome-platform/c/d8cb88f1541f
 
 You are awesome, thank you!
 -- 

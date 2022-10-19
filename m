@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A239F1FA8
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E857C433D6;
-	Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666144816;
-	bh=mugrCEwIc0Keq7Vmnig+0zMi8mv8dsQ668NkPGtyjrE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Po20yU2dYPrDArQHKj1+w1thcJ0SDTGOCRj0WfCii/mDlU+LbuvHBSbljV09n6lqP
-	 pC3CvXE27fONTKM0fvpZ2bcDriqjp3xKjXgE06zyYOeaQMKldB7YpY9vGI+8/aqG1e
-	 vM/CBo5eudgr7pfw2zkGBZTpABD5BqbZgIQ/afXSkMM3k8mObzQQik2g/Z+o9F++TO
-	 JpLU7MlgEAqKC+lt+R+tUGwJ5g1xdHK49KiTk/sRmhz6D86Gq/koc+f+9gU9lhpGkx
-	 xdepgvEz2vYtQHZTJn2874X8ZCW8IP7pCjUDdDx1irXXR5qOPGXAKO+z+Q1aWlgrFW
-	 cCOixzV850m8w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2AF32E270EF;
-	Wed, 19 Oct 2022 02:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81317E
+	for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 07:13:22 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id 10so16148767pli.0
+        for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 00:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=EnyjSjMTPDF/Pb6YeVmIOmosIRmbklg+er1uHowePjM=;
+        b=M/2nNT6vxmqMy/PehkLN5GqCOrb3/5UIA7c5z6j9Gd5h3P8drdvop/7HUZ/QRFuAYm
+         GLHDuTkbIFjDZ7B71Ya3yhz8mS96bZs8UZ0D2EWlVTb1Mabt2SNmFxuePMOVGrnHyW/i
+         XnaynbXpWf0T1QheZm6Dzkt/Efbn3sUNA7C42HebNE1n7TcOHwmcsuNCtDDNHZQvsJft
+         2TGLeVfxQO9luF9zPggvYSlAoBMe9X25/QQMRLn0ogoKWLj3BNbqb7NIRZUiKSEVPtRS
+         WiefxBIF0rcJAf3+UqiMg/fTDKDvCALpA68ycybSqr/eTaOo+1yCo7hEtewZhik49gEs
+         TXCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EnyjSjMTPDF/Pb6YeVmIOmosIRmbklg+er1uHowePjM=;
+        b=od0Wl+tV8CVHFsd6r57Tv5eDM6rWs00z6w78Tr+a0slOIxXy75k39ZhnhGABI1ZPfr
+         dGo8zWndFQq3SkfR1BPheLC35IDGwyvLm3fCdqU9cwu9bpYrk0htA9i2zhtVbdFnOr36
+         NzFxwpuFOCPh6LLghXsjf0qii6R4e9lfhSahBwhMrJuMJ0Licm0FVPTr5GFyGuflGais
+         GPDTCi1LN6wOYfOco0rAzZDIjGTV/BEEYeBuifYBEQCQKdnS7cVwGauNm86e8i/j08pq
+         puIrR2ACBO93rn1XA1oNJyN9TUkHUdpVfRDSATAJm5s1VTS3Rp1qYqqtimdjUqfFEYAm
+         fxnA==
+X-Gm-Message-State: ACrzQf33bEjYn4BLIX7k6ZJoLRgNi48LcChVapxdNKHLtdAf8iLdauLV
+	2uivdDCFQitWqgQnfAHfMFu3lA==
+X-Google-Smtp-Source: AMsMyM5sbXMhpZkgF5xNNe6Mz+eM+Qk3hS5U3flg+aB5PfOkOsu5ahhMr+hcqOj9CbbLFtQNYEsGnA==
+X-Received: by 2002:a17:902:f682:b0:185:45e8:2223 with SMTP id l2-20020a170902f68200b0018545e82223mr7049130plg.151.1666163602125;
+        Wed, 19 Oct 2022 00:13:22 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id l3-20020a170903244300b00174f7d107c8sm10138751pls.293.2022.10.19.00.13.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 00:13:21 -0700 (PDT)
+Message-ID: <634fa391.170a0220.c2098.31dc@mx.google.com>
+Date: Wed, 19 Oct 2022 00:13:21 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,43 +46,31 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_hps_i2c: make remove callback return
- void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166614481616.23833.33489974249314814.git-patchwork-notify@kernel.org>
-Date: Wed, 19 Oct 2022 02:00:16 +0000
-References: <20221018235237.2274969-1-dcallagh@chromium.org>
-In-Reply-To: <20221018235237.2274969-1-dcallagh@chromium.org>
-To: Dan Callaghan <dcallagh@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- skyostil@chromium.org, bleung@chromium.org, tzungbi@kernel.org, lkp@intel.com
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.1-rc1-3-g4358a80a5d92
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.1-rc1-3-g4358a80a5d92)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.1-rc1-=
+3-g4358a80a5d92)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.1-rc1-3-g4358a80a5d92/
 
-On Wed, 19 Oct 2022 10:52:37 +1100 you wrote:
-> Commit ed5c2f5fd10d ("i2c: Make remove callback return void") changed
-> the return type of the 'remove' callback to void, but this driver was
-> originally written before that change landed. Update the remove callback
-> to match.
-> 
-> Fixes: 5f9952548d91 ("platform/chrome: add a driver for HPS")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Dan Callaghan <dcallagh@chromium.org>
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.1-rc1-3-g4358a80a5d92
+Git Commit: 4358a80a5d921f57aded94e48179c1ae16684dbd
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - platform/chrome: cros_hps_i2c: make remove callback return void
-    https://git.kernel.org/chrome-platform/c/d8cb88f1541f
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+---
+For more info write to <info@kernelci.org>

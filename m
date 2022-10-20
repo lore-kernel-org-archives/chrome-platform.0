@@ -1,30 +1,54 @@
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E22F22
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 12:54:55 +0000 (UTC)
-X-QQ-mid: bizesmtp67t1666183971tap1fkn8
-Received: from localhost.localdomain ( [182.148.15.91])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 19 Oct 2022 20:52:49 +0800 (CST)
-X-QQ-SSF: 01000000008000E0J000B00A0000000
-X-QQ-FEAT: +oIWmpEafD/3ErJpHslt5YkZvLkPzxVd2l9JB2lduXxgKsmxNqMFG5Zb0z0oH
-	PH6tqzlWdl4eCgPtb1GK/eaOF7L0DFkrC4RVPleUe3VF0TNWwiAJXKNLC4tbGLVgypjhlOz
-	FTAgURKBcuBpU04fLIkFaPeuteVsIXWUzfDlMinONart/OyNxjTWP0vyhJm+N2jjBirC1Te
-	kyL0C/rDKCxMevQf+5iA+Q+5Q5ZpnKn5K/M6Z++VpAlPdAlNVsLMV84D8j11SmNyaJ51uxS
-	0hETpdL1SOpcIZu0ZQa+YP4Kv7RwpMoW0Jq4tfxXXey9dmXBTXnD3w6Y2p/1nsNmZB1kPZl
-	D3xKAoT4GqYeEaqnJErqr0gWDidshFPvAcsHDEt2fm9NMCW12VAcBhlBDX0T18CPU9/PFSm
-X-QQ-GoodBg: 0
-From: Jilin Yuan <yuanjilin@cdjrlc.com>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916827E
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Oct 2022 01:11:04 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id b5so17829848pgb.6
+        for <chrome-platform@lists.linux.dev>; Wed, 19 Oct 2022 18:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S8Tpplgbg87qo0/g/zAMmb2z5RHSuiV5J2IUDMBNfEc=;
+        b=G0hL1zoRGGsjihjXU32+8JsjEhOY2MncZzEc20xvMpburVkRNBdPHXW3Q3WqNbr86j
+         n+oXDnwOm+QoLBvITuRWiejRu622H8Gw8M3O/w/I30IjGItXzFVMlKtGYvYxP8hcGC+X
+         1EQ9kJfImQkOipmNnUODUFe2QuOUU8bqqp31w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S8Tpplgbg87qo0/g/zAMmb2z5RHSuiV5J2IUDMBNfEc=;
+        b=WfDKz+WMiVIJL/KXht1In/Z05se6TOAkUbmbNaG/9BxTydjp2iFsArq1kVBn1y56/6
+         xHhRtThDbTCB/BNLSmzNWMR8T4ELnhSuQYRAZP4eb3TtOcucOelobs6SKBBr/a327xkv
+         pP98yUa4+n4k47szb8LrjJPpIwAOxhGSFMo8WqRVocdlKzoAfwO5Z6jt5buu0VOp7Urr
+         GZ52d6xh7N9BeSCnMDQoYY+MSndILK11k7Q5gXjbNIKeh0I91lFLjwnn9tGk51K6l3jB
+         FcDeH2OylwWqkIdUzARfTG8FzB+7xY8Hd90EDvLzIxtDIpr9/MkzAYHD2YPV8f+wDMba
+         M8XQ==
+X-Gm-Message-State: ACrzQf3ExbCZKLz5SeN8VJy09JKKefW7LrbbkCQJQqOUH+boY6hSvh5V
+	EufCcHQ41YefwsA2f5IC3Qo/lg==
+X-Google-Smtp-Source: AMsMyM4uymnmTN6r6gP9WHfrd/3VsQnKPB6jSs7M3NKJ/LxjDbjWWI4YM0eHxB1y39zawjtNR92KEA==
+X-Received: by 2002:a63:54b:0:b0:464:8e6:11e7 with SMTP id 72-20020a63054b000000b0046408e611e7mr9745907pgf.212.1666228263924;
+        Wed, 19 Oct 2022 18:11:03 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:57b7:1f0e:44d1:f252])
+        by smtp.gmail.com with UTF8SMTPSA id bf1-20020a170902b90100b0017f7d7e95d3sm11330738plb.167.2022.10.19.18.11.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 18:11:03 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] platform/chrome: fix repeated words in comments
-Date: Wed, 19 Oct 2022 20:52:43 +0800
-Message-Id: <20221019125243.49098-1-yuanjilin@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+	Samuel Holland <samuel@sholland.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Brian Norris <briannorris@chromium.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] firmware: coreboot: Register bus in module init
+Date: Wed, 19 Oct 2022 18:10:53 -0700
+Message-Id: <20221019180934.1.If29e167d8a4771b0bf4a39c89c6946ed764817b9@changeid>
+X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -32,29 +56,131 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
 
-Delete the redundant word 'from'.
+The coreboot_table driver registers a coreboot bus while probing a
+"coreboot_table" device representing the coreboot table memory region.
+Probing this device (i.e., registering the bus) is a dependency for the
+module_init() functions of any driver for this bus (e.g.,
+memconsole-coreboot.c / memconsole_driver_init()).
 
-Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+With synchronous probe, this dependency works OK, as the link order in
+the Makefile ensures coreboot_table_driver_init() (and thus,
+coreboot_table_probe()) completes before a coreboot device driver tries
+to add itself to the bus.
+
+With asynchronous probe, however, coreboot_table_probe() may race with
+memconsole_driver_init(), and so we're liable to hit one of these two:
+
+1. coreboot_driver_register() eventually hits "[...] the bus was not
+   initialized.", and the memconsole driver fails to register; or
+2. coreboot_driver_register() gets past #1, but still races with
+   bus_register() and hits some other undefined/crashing behavior (e.g.,
+   in driver_find() [1])
+
+We can resolve this by registering the bus in our initcall, and only
+deferring "device" work (scanning the coreboot memory region and
+creating sub-devices) to probe().
+
+[1] Example failure, using 'driver_async_probe=*' kernel command line:
+
+[    0.114217] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000010
+...
+[    0.114307] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc1 #63
+[    0.114316] Hardware name: Google Scarlet (DT)
+...
+[    0.114488] Call trace:
+[    0.114494]  _raw_spin_lock+0x34/0x60
+[    0.114502]  kset_find_obj+0x28/0x84
+[    0.114511]  driver_find+0x30/0x50
+[    0.114520]  driver_register+0x64/0x10c
+[    0.114528]  coreboot_driver_register+0x30/0x3c
+[    0.114540]  memconsole_driver_init+0x24/0x30
+[    0.114550]  do_one_initcall+0x154/0x2e0
+[    0.114560]  do_initcall_level+0x134/0x160
+[    0.114571]  do_initcalls+0x60/0xa0
+[    0.114579]  do_basic_setup+0x28/0x34
+[    0.114588]  kernel_init_freeable+0xf8/0x150
+[    0.114596]  kernel_init+0x2c/0x12c
+[    0.114607]  ret_from_fork+0x10/0x20
+[    0.114624] Code: 5280002b 1100054a b900092a f9800011 (885ffc01)
+[    0.114631] ---[ end trace 0000000000000000 ]---
+
+Fixes: b81e3140e412 ("firmware: coreboot: Make bus registration symmetric")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_rpmsg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Currently, get_maintainers.pl tells me Greg should pick this up. But I
+CC the chrome-platform list too, since it seems reasonable for Google
+folks (probably ChromeOS folks are most active here?) to maintain
+Google/Chrome drivers.
 
-diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
-index 39d3b50a7c09..a62b87086bad 100644
---- a/drivers/platform/chrome/cros_ec_rpmsg.c
-+++ b/drivers/platform/chrome/cros_ec_rpmsg.c
-@@ -20,7 +20,7 @@
- #define HOST_EVENT_MARK		2
+Let me know if y'all would like this official, and I'll push out a
+MAINTAINERS patch.
+
+ drivers/firmware/google/coreboot_table.c | 37 +++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index c52bcaa9def6..9ca21feb9d45 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -149,12 +149,8 @@ static int coreboot_table_probe(struct platform_device *pdev)
+ 	if (!ptr)
+ 		return -ENOMEM;
  
- /**
-- * struct cros_ec_rpmsg_response - rpmsg message format from from EC.
-+ * struct cros_ec_rpmsg_response - rpmsg message format from EC.
-  *
-  * @type:	The type of message, should be either HOST_COMMAND_MARK or
-  *		HOST_EVENT_MARK, representing that the message is a response to
+-	ret = bus_register(&coreboot_bus_type);
+-	if (!ret) {
+-		ret = coreboot_table_populate(dev, ptr);
+-		if (ret)
+-			bus_unregister(&coreboot_bus_type);
+-	}
++	ret = coreboot_table_populate(dev, ptr);
++
+ 	memunmap(ptr);
+ 
+ 	return ret;
+@@ -169,7 +165,6 @@ static int __cb_dev_unregister(struct device *dev, void *dummy)
+ static int coreboot_table_remove(struct platform_device *pdev)
+ {
+ 	bus_for_each_dev(&coreboot_bus_type, NULL, NULL, __cb_dev_unregister);
+-	bus_unregister(&coreboot_bus_type);
+ 	return 0;
+ }
+ 
+@@ -199,6 +194,32 @@ static struct platform_driver coreboot_table_driver = {
+ 		.of_match_table = of_match_ptr(coreboot_of_match),
+ 	},
+ };
+-module_platform_driver(coreboot_table_driver);
++
++static int __init coreboot_table_driver_init(void)
++{
++	int ret;
++
++	ret = bus_register(&coreboot_bus_type);
++	if (ret)
++		return ret;
++
++	ret = platform_driver_register(&coreboot_table_driver);
++	if (ret) {
++		bus_unregister(&coreboot_bus_type);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void __exit coreboot_table_driver_exit(void)
++{
++	platform_driver_unregister(&coreboot_table_driver);
++	bus_unregister(&coreboot_bus_type);
++}
++
++module_init(coreboot_table_driver_init);
++module_exit(coreboot_table_driver_exit);
++
+ MODULE_AUTHOR("Google, Inc.");
+ MODULE_LICENSE("GPL");
 -- 
-2.36.1
+2.38.0.413.g74048e4d9e-goog
 

@@ -1,51 +1,56 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BC5BA41
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Oct 2022 23:18:58 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id l6so3729646ilq.3
-        for <chrome-platform@lists.linux.dev>; Fri, 28 Oct 2022 16:18:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE70C7B
+	for <chrome-platform@lists.linux.dev>; Sat, 29 Oct 2022 00:54:05 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id c8so5144136qvn.10
+        for <chrome-platform@lists.linux.dev>; Fri, 28 Oct 2022 17:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bn9D9kuzB0NhBMRKYFistkOXIvTNO5wPVqxp1zHUjc8=;
-        b=WojazKC0d63LVfJ/T+T2JiU6FUu4WAxWNzgr8bbMShpYRjsGvJLOX6FM6Ll0XdyqyG
-         KoQ/0QbAQHAoVz5AkhHQFPWE60wFseeOcgVxlRT0GFls7wg4LezmfYXe6elg7TdUg3kh
-         VLGjbqmT2QLCJq6AdnqiRSuB8WZnrcY4DRnXY=
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=EusSo/p3BKtiGbC/ZHm4yuPM5rgXDVCJOfRp7hcyVL0=;
+        b=BjPRGbJrXrkI4GSls3ex8AXtwiUAz475vrmRxv8lGZQIwmABkLry0KqaI3pxTnuR9F
+         o79kt2zbH2I6UmaMIh0eBbBg3CWR3ONnAdIscLIf4SeY5ahqOCr3AwXybYVLACi2MhX/
+         VqKhWgVgyyx/Ajxp801awIN/2PEuRO6LPfRLYkoKmEjG+NCoQIYST2wGkFm+wadQDt0n
+         DWZDu3GWgAE+HWKW0AWYy3y+uzPOGwKsHfZBgsgDa9j3lqHH0HpfKUXD1vVix4e2iZPA
+         xDyW10LzZVLKE72o5hxswTjvQzu34Y+IJRg4SNWuopC+TfRUyhPAmOME6GIHq0hdOYL0
+         qkLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bn9D9kuzB0NhBMRKYFistkOXIvTNO5wPVqxp1zHUjc8=;
-        b=qgcZZyahN/y8NhJnm67SuNPqvmmQxCamCggtkwh0p/QohIIe6NKKEYHWlT1CCHbOs3
-         RL4WmCmi3ves3MYAMGPYvzAZ2VBEyPZzrObdJsT4xKDBZFTRI7fuTMqer2tYYyA1eYd/
-         RXojnRW78axvTl2mFh4QT9HDtehx2WHUPa5LY3kcmT/4Tp3u8HxliI8f/fNECpYH8AeB
-         Kb3ouPzh5/j5M2qvNKR8KsMYZ8bB7/5VY8HvPKt/bJWi/iOHUV9/gbQQ8XUsbFPnNncy
-         4LjiNLYg/68sqWwte+wVfigLP024q42rgT9EBstyrT7gw2ujOBtskXZOv6Amry7z/kAN
-         fimw==
-X-Gm-Message-State: ACrzQf0c9r4pN8aR3n6YUszeyfRbRoDtgyLVdRdw6FMkN6e/Qy2vIiZz
-	rF2KksP+z7NYEPogKOKh4uvVDQ==
-X-Google-Smtp-Source: AMsMyM5I/UiaH28bV/RZ17OwbrA3rYeBNyGNSjKjgnnoNH201C6V1iLEKWvXR4T1aFgB1x15UAFjbQ==
-X-Received: by 2002:a05:6e02:1c44:b0:2ff:c897:de3c with SMTP id d4-20020a056e021c4400b002ffc897de3cmr869564ilg.59.1666999138068;
-        Fri, 28 Oct 2022 16:18:58 -0700 (PDT)
-Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:d811:d631:c956:7aba])
-        by smtp.gmail.com with ESMTPSA id w15-20020a056602034f00b006cad30ad430sm1555iou.23.2022.10.28.16.18.56
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EusSo/p3BKtiGbC/ZHm4yuPM5rgXDVCJOfRp7hcyVL0=;
+        b=Wza0i0am/VPlnV9KulmYsKZ6J8D+bcXW04gIKYjpHguofxH1LkA/tHvtm+V6o8oVVJ
+         MojSbl6vaM16ICSfmeiDeoQ3BlKygw2dKqylCm4NmaQLYYvviWqweJTkt04HgjTWEA72
+         rmXtxcJSPKW6JxnUaO9lfTG6kVVisWgYc2BxvMtLn+tThSYpMwJHuaHPhhs/SrZlQw0a
+         waaiKW2oXZ3/OUz7dFGzr1GqQrJeLdhzeW4Kz9F7p1XG+i/6+Mqbf8huzO1NZ+vGtesJ
+         Y7NYH0AX0NXF3u1tZF+45c3IYuwKsY8oygUQ1a7+vr8hPiVeEnEP583PKpKVD+j+uZIa
+         9kPA==
+X-Gm-Message-State: ACrzQf0DVQAa2CXWSJbTDh0+vsFwOufuF6IujYsLnYfdSGCBl7ULgC6W
+	VVPjzE0uOfNxBOTsGvQV6YM=
+X-Google-Smtp-Source: AMsMyM5yLnEPfW3W9rizu5gbKqgGEVmNI+R8PFCSBTnddUgw09TPfDCbXM+5kstLxKKQ9rQHZyAzNw==
+X-Received: by 2002:ad4:5b8b:0:b0:4bb:a86e:d7b4 with SMTP id 11-20020ad45b8b000000b004bba86ed7b4mr1951782qvp.108.1667004844848;
+        Fri, 28 Oct 2022 17:54:04 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x18-20020a05620a259200b006bc192d277csm163388qko.10.2022.10.28.17.54.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 16:18:57 -0700 (PDT)
-From: Tim Van Patten <timvp@chromium.org>
-To: rrangel@chromium.org,
-	robbarnes@google.com
-Cc: Tim Van Patten <timvp@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
+        Fri, 28 Oct 2022 17:54:04 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	linux-rtc@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v8] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
-Date: Fri, 28 Oct 2022 17:18:34 -0600
-Message-Id: <20221028171820.v8.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
-X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
+	Brian Norris <briannorris@chromium.org>
+Subject: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
+Date: Fri, 28 Oct 2022 17:54:00 -0700
+Message-Id: <20221029005400.2712577-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.36.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,82 +59,103 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
-.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
-host command that the AP sends and allows the EC to log entry/exit of
-AP's suspend/resume more accurately.
+RTC chips on some older Chromebooks can only handle alarms less than 24
+hours in the future. Attempts to set an alarm beyond that range fails.
+The most severe impact of this limitation is that suspend requests fail
+if alarmtimer_suspend() tries to set an alarm for more than 24 hours
+in the future.
 
-Signed-off-by: Tim Van Patten <timvp@chromium.org>
-Reviewed-by: Raul E Rangel <rrangel@chromium.org>
+Try to set the real-time alarm to just below 24 hours if setting it to
+a larger value fails to work around the problem. While not perfect, it
+is better than just failing the call. A similar workaround is already
+implemented in the rtc-tps6586x driver.
+
+Drop error messages in cros_ec_rtc_get() and cros_ec_rtc_set() since the
+calling code also logs an error and to avoid spurious error messages if
+setting the alarm ultimately succeeds.
+
+Cc: Brian Norris <briannorris@chromium.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
+ drivers/rtc/rtc-cros-ec.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-Changes in v8:
-- Resend with chromium.org account.
-- No code changes.
-
-Changes in v7:
-- Rename "host event" to "host command" in title/description.
-
-Changes in v6:
-- Fully restore fixes from v3.
-
-Changes in v5:
-- Restore fixes from v3.
-
-Changes in v4:
-- Update title and description.
-
-Changes in v3:
-- Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
-- Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
-
-Changes in v2:
-- Include cros_ec_resume() return value in dev_info() output.
-- Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
-
- drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 7677ab3c0ead9..4158bdeee197b 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -530,23 +530,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
- MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
+diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+index 887f5193e253..a3ec066d8066 100644
+--- a/drivers/rtc/rtc-cros-ec.c
++++ b/drivers/rtc/rtc-cros-ec.c
+@@ -14,6 +14,8 @@
  
- #ifdef CONFIG_PM_SLEEP
--static int cros_ec_lpc_suspend(struct device *dev)
-+static int cros_ec_lpc_prepare(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ #define DRV_NAME	"cros-ec-rtc"
  
-+	dev_info(dev, "Prepare EC suspend\n");
++#define SECS_PER_DAY	(24 * 60 * 60)
 +
- 	return cros_ec_suspend(ec_dev);
- }
+ /**
+  * struct cros_ec_rtc - Driver data for EC RTC
+  *
+@@ -43,13 +45,8 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+ 	msg.msg.insize = sizeof(msg.data);
  
--static int cros_ec_lpc_resume(struct device *dev)
-+static void cros_ec_lpc_complete(struct device *dev)
+ 	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+-	if (ret < 0) {
+-		dev_err(cros_ec->dev,
+-			"error getting %s from EC: %d\n",
+-			command == EC_CMD_RTC_GET_VALUE ? "time" : "alarm",
+-			ret);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	*response = msg.data.time;
+ 
+@@ -59,7 +56,7 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+ static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+ 			   u32 param)
  {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+-	int ret = 0;
 +	int ret;
-+
-+	ret = cros_ec_resume(ec_dev);
+ 	struct {
+ 		struct cros_ec_command msg;
+ 		struct ec_response_rtc data;
+@@ -71,13 +68,8 @@ static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+ 	msg.data.time = param;
  
--	return cros_ec_resume(ec_dev);
-+	dev_info(dev, "EC resume completed: ret = %d\n", ret);
+ 	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+-	if (ret < 0) {
+-		dev_err(cros_ec->dev, "error setting %s on EC: %d\n",
+-			command == EC_CMD_RTC_SET_VALUE ? "time" : "alarm",
+-			ret);
++	if (ret < 0)
+ 		return ret;
+-	}
+-
+ 	return 0;
  }
- #endif
  
- static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
--	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
-+#ifdef CONFIG_PM_SLEEP
-+	.prepare = cros_ec_lpc_prepare,
-+	.complete = cros_ec_lpc_complete
-+#endif
- };
+@@ -190,8 +182,21 @@ static int cros_ec_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
  
- static struct platform_driver cros_ec_lpc_driver = {
+ 	ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM, alarm_offset);
+ 	if (ret < 0) {
+-		dev_err(dev, "error setting alarm: %d\n", ret);
+-		return ret;
++		if (ret == -EINVAL && alarm_offset >= SECS_PER_DAY) {
++			/*
++			 * RTC chips on some older Chromebooks can only handle
++			 * alarms up to 24h in the future. Try to set an alarm
++			 * below that limit to avoid suspend failures.
++			 */
++			ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM,
++					      SECS_PER_DAY - 1);
++		}
++
++		if (ret < 0) {
++			dev_err(dev, "error setting alarm in %u seconds: %d\n",
++				alarm_offset, ret);
++			return ret;
++		}
+ 	}
+ 
+ 	return 0;
 -- 
-2.38.1.273.g43a17bfeac-goog
+2.36.2
 

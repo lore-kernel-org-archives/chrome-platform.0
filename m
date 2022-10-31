@@ -1,155 +1,117 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B133CC
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 17:11:02 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6884DE0002;
-	Mon, 31 Oct 2022 17:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1667236254;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FgnIkLL5dyFKRnBzwzNF+5kYDu1pg2dCQ9DQnUjuYL4=;
-	b=cXyxrAcSoiJ34UrklxH5AJJxY81WhU8qyP2wx5SzdmiuLch2GUoc/VeVOvoWD3YQEY05Kp
-	ww8cyHVWfY6/Rcezc0b2S3pG/KqAXzXCT8mbfjdAU6rur2FQIOrltmN0OE4MWdltKaXKn/
-	FJl6p2eAd0V6Q6MV4WgJRJ3i314uwWkP/6IsDVItdbkhdutWyct/8OFlhs99FnildXFdQs
-	1q8thvMmx0WmxcQnk6RuYfKfFw9rcjI4IklTFSfDkw4eWycR+1Soyi6OsBBo1z9FxxPKwC
-	FS6LSQZ+IDu0RLRf6kALr8/WVOd2jbvwZ04V7S6ylU5txsGGGYLlDByuLl0zew==
-Date: Mon, 31 Oct 2022 18:10:53 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
-	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
-Message-ID: <Y2ABnbBGSJGM3gSS@mail.local>
-References: <20221029005400.2712577-1-linux@roeck-us.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4B233DF
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 17:40:40 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id x15so8798751qvp.1
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 10:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zifHrvYvMlTWsTnps4ihNmDiDeOWXS2VJSsB6k3XPm8=;
+        b=gHDZkYk2Jt4cNpqVCajdyzVh/bCvE2SHKu/LjnjrPS/kRwld6H8KSgWaXMx7pESyai
+         yuGiTx2q1ksOAUZR+elyJYbegvbKkNnpLOv9PvXjjc74N+mZUPJ9lryJMO6xaqcIfvYb
+         /opdDc0X58SrCRXRz93L2DiGMY6CNnkTKwJWo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zifHrvYvMlTWsTnps4ihNmDiDeOWXS2VJSsB6k3XPm8=;
+        b=Zj5ATV8LJmilZWmQgJIRs9aSO7MOSM8SF9Rxlw2caOhMy5kQ+JBnKVh+GBdLtglnFQ
+         V3jZFtY/J0RnLXp6/LSFnzN/bjGlcFsCLjpj95Hu7ennnFsksvEPbwCMazoYE0NQlNvb
+         xZ3folAli7cfFVDEnkFswP0WkdXxWfFDLoV3QZG3nx+2RDCP0zpe1481bArbzQPeoa+p
+         dGuFPVKyzZuIhhvsrAbMHypda7RWm9/Mc85UaCEwUOYYBjQkNR2FhWCco6+HuwYnPG50
+         e6Y7gQToWCfRNMY9hOn6pXc3SslgITxlDTpYfFh5n+B/A4aB4i/MzzpEXl11Kdb2hb1r
+         rWGg==
+X-Gm-Message-State: ACrzQf2fEYpR35wN9GdKc+8hxvHU/icOEHpAoQTe7K3GC3ffmj5nRdzo
+	psFHRql8ovR7mqNernGyIG09zyLrQ8N9Rw==
+X-Google-Smtp-Source: AMsMyM5Qd/lHHODaq9Wrd7HdkVmhchDPXzTF9mUYMg2AxNXmtFbzuZjkKCeNK69AbsG9KKO31KXwfw==
+X-Received: by 2002:a05:6214:20aa:b0:4bb:7e1a:9df0 with SMTP id 10-20020a05621420aa00b004bb7e1a9df0mr12013553qvd.34.1667238039420;
+        Mon, 31 Oct 2022 10:40:39 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id y12-20020a05620a25cc00b006eea461177csm5098175qko.29.2022.10.31.10.40.38
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Oct 2022 10:40:38 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 187so14562896ybe.1
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 10:40:38 -0700 (PDT)
+X-Received: by 2002:a05:6902:1186:b0:6c1:653a:ba74 with SMTP id
+ m6-20020a056902118600b006c1653aba74mr13434851ybu.546.1667238037637; Mon, 31
+ Oct 2022 10:40:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221029005400.2712577-1-linux@roeck-us.net>
+References: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
+In-Reply-To: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
+From: Brian Norris <briannorris@chromium.org>
+Date: Mon, 31 Oct 2022 10:40:25 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
+Message-ID: <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
+Subject: Re: chrome-platform/for-kernelci baseline: 98 runs, 5 regressions (v6.1-rc1-5-g27b86a65cd16)
+To: "kernelci.org bot" <bot@kernelci.org>
+Cc: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io, 
+	chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org, 
+	groeck@chromium.org, pmalani@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Sun, Oct 30, 2022 at 10:51 PM kernelci.org bot <bot@kernelci.org> wrote:
+>
+> chrome-platform/for-kernelci baseline: 98 runs, 5 regressions (v6.1-rc1-5-g27b86a65cd16)
 
-On 28/10/2022 17:54:00-0700, Guenter Roeck wrote:
-> RTC chips on some older Chromebooks can only handle alarms less than 24
-> hours in the future. Attempts to set an alarm beyond that range fails.
-> The most severe impact of this limitation is that suspend requests fail
-> if alarmtimer_suspend() tries to set an alarm for more than 24 hours
-> in the future.
-> 
-> Try to set the real-time alarm to just below 24 hours if setting it to
-> a larger value fails to work around the problem. While not perfect, it
-> is better than just failing the call. A similar workaround is already
-> implemented in the rtc-tps6586x driver.
+Does anybody look at these? It's a bit weird to see "5 regressions",
+and then to look back on the last few weeks (probably months) and see
+the same errors...
 
-I'm not super convinced this is actually better than failing the call
-because your are implementing policy in the driver which is bad from a
-user point of view. It would be way better to return -ERANGE and let
-userspace select a better alarm time.
-Do you have to know in advance which are the "older" chromebooks that
-are affected?
+> Regressions Summary
+> -------------------
+>
+> platform                     | arch  | lab           | compiler | defconfig                  | regressions
+> -----------------------------+-------+---------------+----------+----------------------------+------------
+> mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 1
+> rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 4
+>
+>   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v6.1-rc1-5-g27b86a65cd16/plan/baseline/
+>
+>   Test:     baseline
+>   Tree:     chrome-platform
+>   Branch:   for-kernelci
+>   Describe: v6.1-rc1-5-g27b86a65cd16
+>   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
+>   SHA:      27b86a65cd16b0e94ef69196b008d701a53feddb
+>
+>
+> Test Regressions
+> ----------------
+...
+>
+> platform                     | arch  | lab           | compiler | defconfig                  | regressions
+> -----------------------------+-------+---------------+----------+----------------------------+------------
+> rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 4
+>
+>   Details:     https://kernelci.org/test/plan/id/635f585b4cac8cb70ce7db4e
+>
+>   Results:     85 PASS, 7 FAIL, 0 SKIP
+>   Full config: defconfig+arm64-chromebook
+>   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110)
+>   Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-5-g27b86a65cd16/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-rk3399-gru-kevin.txt
+>   HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-5-g27b86a65cd16/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-rk3399-gru-kevin.html
+>   Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroot-baseline/20221024.1/arm64/rootfs.cpio.gz
 
-> 
-> Drop error messages in cros_ec_rtc_get() and cros_ec_rtc_set() since the
-> calling code also logs an error and to avoid spurious error messages if
-> setting the alarm ultimately succeeds.
-> 
-> Cc: Brian Norris <briannorris@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  drivers/rtc/rtc-cros-ec.c | 35 ++++++++++++++++++++---------------
->  1 file changed, 20 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
-> index 887f5193e253..a3ec066d8066 100644
-> --- a/drivers/rtc/rtc-cros-ec.c
-> +++ b/drivers/rtc/rtc-cros-ec.c
-> @@ -14,6 +14,8 @@
->  
->  #define DRV_NAME	"cros-ec-rtc"
->  
-> +#define SECS_PER_DAY	(24 * 60 * 60)
-> +
->  /**
->   * struct cros_ec_rtc - Driver data for EC RTC
->   *
-> @@ -43,13 +45,8 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
->  	msg.msg.insize = sizeof(msg.data);
->  
->  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
-> -	if (ret < 0) {
-> -		dev_err(cros_ec->dev,
-> -			"error getting %s from EC: %d\n",
-> -			command == EC_CMD_RTC_GET_VALUE ? "time" : "alarm",
-> -			ret);
-> +	if (ret < 0)
->  		return ret;
-> -	}
->  
->  	*response = msg.data.time;
->  
-> @@ -59,7 +56,7 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
->  static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
->  			   u32 param)
->  {
-> -	int ret = 0;
-> +	int ret;
->  	struct {
->  		struct cros_ec_command msg;
->  		struct ec_response_rtc data;
-> @@ -71,13 +68,8 @@ static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
->  	msg.data.time = param;
->  
->  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
-> -	if (ret < 0) {
-> -		dev_err(cros_ec->dev, "error setting %s on EC: %d\n",
-> -			command == EC_CMD_RTC_SET_VALUE ? "time" : "alarm",
-> -			ret);
-> +	if (ret < 0)
->  		return ret;
-> -	}
-> -
->  	return 0;
->  }
->  
-> @@ -190,8 +182,21 @@ static int cros_ec_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
->  
->  	ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM, alarm_offset);
->  	if (ret < 0) {
-> -		dev_err(dev, "error setting alarm: %d\n", ret);
-> -		return ret;
-> +		if (ret == -EINVAL && alarm_offset >= SECS_PER_DAY) {
-> +			/*
-> +			 * RTC chips on some older Chromebooks can only handle
-> +			 * alarms up to 24h in the future. Try to set an alarm
-> +			 * below that limit to avoid suspend failures.
-> +			 */
-> +			ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM,
-> +					      SECS_PER_DAY - 1);
-> +		}
-> +
-> +		if (ret < 0) {
-> +			dev_err(dev, "error setting alarm in %u seconds: %d\n",
-> +				alarm_offset, ret);
-> +			return ret;
-> +		}
->  	}
->  
->  	return 0;
-> -- 
-> 2.36.2
-> 
+Where can I find the test cases? (i.e., what's determining a "failure"
+for one of these?)
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+As a small guess, I see that we're missing some common configs, like:
+
+CONFIG_PHY_ROCKCHIP_DP
+
+This sometimes means that the display subsystem (and therefore audio
+subsystem that relies on DP for one of its components) is not going to
+fully set itself up properly. Usually things can still sort of work,
+but I don't really know what the tests are looking for.
+
+Brian

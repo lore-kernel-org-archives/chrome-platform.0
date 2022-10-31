@@ -1,54 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0157B17CB4
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 03:26:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C938C433C1;
-	Mon, 31 Oct 2022 03:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80BC17CB8;
+	Mon, 31 Oct 2022 04:10:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80B05C433D6;
+	Mon, 31 Oct 2022 04:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667186808;
-	bh=K7fJIDBZ9sghIrX7z558eOwkI5MBy/4uAVIbC63i3HQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HJbnJPZvaYXQ/oydCCLVqh1oWpWjOXpPn4ApRW1LLeaeVIWPVIgAckcg6H2Cgr8LA
-	 gLrWvEqZj0ePI1OsBS5Y3eREQyrwCJvX5/oB8Lkj0fgP+L7CaxiKRDg7c6l8EREbxU
-	 jLZGLB082BhHA3RiEE1R456go4l7OCAmZGWcbGffI0Ve+DugbRf40XpPbih+DL4g7t
-	 H/GnAxx32ItKm/nN2+H0e/p9rO64R2Pzv/guK7+33KQBx0xjRsJib8OfAV6vie78hZ
-	 MQkXcX/JoUjo/qUa+ccKAfnCdlPxYTrR7YRWOY3qHE7b+2XTVIz8wGhmlWx5Nu6ki3
-	 u6kdvPgk/AiFQ==
-Date: Mon, 31 Oct 2022 11:26:44 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
-Message-ID: <Y19AdIntJZGnBh/y@google.com>
-References: <20221029005400.2712577-1-linux@roeck-us.net>
+	s=k20201202; t=1667189415;
+	bh=mWUC04VwzWceu16syPxNcDe+4fCXuAcJ/FBDTTxD9b4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=V34jTBkSWJ6ZAto9O4Pg1UXYxwmqWku7+qIC+sEnHOICyeEGCjSctjsiRFic+d5yd
+	 MsIE1eht5pXh8CzxPbSpsLx7T3ZiJkRxa4dgAih3oKaWLcfweCDBzzUfVS98aWRkcU
+	 +xExDowfldWAHaWZYwiBQhoKzzhLlb66z2hjgTKLjrklWHB/0+loDKYwXdWO55t/iq
+	 SDzqI71jS+gztqWYkR3Pkmtkq7hssKQS8XUVtinYkEEMp3a+HGVuh/K3CUloNUmI1S
+	 ARnizyXZ6oq4dwFD42D+eMrj+Fl8AydBFvIh/vS5ArkNkabfXj7EzdesPObfVDbgv+
+	 o2MmKJ4m0scRQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 624C5E4D03A;
+	Mon, 31 Oct 2022 04:10:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221029005400.2712577-1-linux@roeck-us.net>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v7 0/2] dt-bindings: cros-ec: Update for fingerprint devices
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <166718941539.790.4332712127794687523.git-patchwork-notify@kernel.org>
+Date: Mon, 31 Oct 2022 04:10:15 +0000
+References: <20221026003641.2688765-1-swboyd@chromium.org>
+In-Reply-To: <20221026003641.2688765-1-swboyd@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ groeck@chromium.org, dianders@chromium.org, hesling@chromium.org,
+ tomhughes@chromium.org, amstan@chromium.org, tzungbi@kernel.org,
+ mka@chromium.org, bleung@chromium.org, lee.jones@linaro.org
 
-On Fri, Oct 28, 2022 at 05:54:00PM -0700, Guenter Roeck wrote:
-> Drop error messages in cros_ec_rtc_get() and cros_ec_rtc_set() since the
-> calling code also logs an error and to avoid spurious error messages if
-> setting the alarm ultimately succeeds.
+Hello:
 
-It only retries for cros_ec_rtc_set().  cros_ec_rtc_get() doesn't emit
-spurious error messages.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-cros_ec_rtc_get() could preserve the error log; cros_ec_rtc_set() could change
-from using dev_err() to dev_warn() since cros_ec_rtc_set_alarm() calls
-dev_err() if cros_ec_rtc_set() fails.  But this is quite nitpick so anyway.
+On Tue, 25 Oct 2022 17:36:39 -0700 you wrote:
+> This patch series introduces a DT binding for chromeos fingerprint
+> devices. The first patch tightens up the existing cros-ec binding and
+> the second patch introduces the fingerprint binding. As there aren't any
+> driver patches this can go directly through the chrome platform
+> tree or the dt-binding tree or the mfd tree. I sent it to the binding
+> maintainers in hopes it can go there directly but it doesn't really
+> matter.
+> 
+> [...]
 
-> Cc: Brian Norris <briannorris@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Here is the summary with links:
+  - [v7,1/2] dt-bindings: cros-ec: Reorganize and enforce property availability
+    https://git.kernel.org/chrome-platform/c/7a2f36828c7b
+  - [v7,2/2] dt-bindings: cros-ec: Add ChromeOS fingerprint binding
+    https://git.kernel.org/chrome-platform/c/e068bc0b01cf
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

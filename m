@@ -1,48 +1,32 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8002F33
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 16:45:59 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d10so11156692pfh.6
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 09:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EWfpdNndb6y+1io6tg307BIA8/DAc2U/fwMy0fmTOdk=;
-        b=BpFCKGpAXyOqPgJIfo+H7z6TEq9VgQQRq+L5qpDHIequrzZFaRUjtTCDQyN1ecA3Rk
-         S/dAReRmEEY8Z8jDP+M9j/335nrbBMo55k1cZI00tQ6+f/8aLT7a/g9QjarJfMLkWVTQ
-         UjYmXP7kzudtdobyf11/aNwGmAa2iScTeHCOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EWfpdNndb6y+1io6tg307BIA8/DAc2U/fwMy0fmTOdk=;
-        b=e0Ix4Xrjq4psebadG8dSd6OkbPjH9hFDdeD81Pv5iGJNmyKUN75sCVfEZVv/TpUQbK
-         XMeLYNf3+JlOgqZ8slg2imtYonTRcbVkwmNBw2dB3WP/NZiz9mNe5JDyhf6bk2i3u86V
-         EtH3Shp62H9p8Mv7ayHCJ8fsX2Uft9vXpJAufcDUs+yWn+ThiZVe/HMrxbFi0syMuutc
-         zOMWPApmv8xOXdgll5ySB20cjh7u69a7ELvdAZzOgR+wWKnOVjkQ+ShcgaO1XvV2dd8X
-         Iv1fm7RqIQlrx392Y/lKPma+ge5mv7723o1cBLeVSnQ7wBgWSqtFXdG0BdKpXrw7HRMM
-         oNOA==
-X-Gm-Message-State: ACrzQf0L4IB/SRuoVZSp27KfvsGUCnYRfKcwRAx8DTzFy5pWfk2Hrcq4
-	TPjY66RTCY7y4+GZ2j8P2BShww==
-X-Google-Smtp-Source: AMsMyM4vgx7CsomtQBLUkxDzs5H4DS9Ei8KFC+SuJ2AG4J8uG5bGP3sEebnnF2K02z1qU5HxUbm71A==
-X-Received: by 2002:a63:8a42:0:b0:46f:5804:8d9e with SMTP id y63-20020a638a42000000b0046f58048d9emr13620011pgd.214.1667234759374;
-        Mon, 31 Oct 2022 09:45:59 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:cf9d:6561:637d:2194])
-        by smtp.gmail.com with ESMTPSA id iw15-20020a170903044f00b00177324a7862sm4699501plb.45.2022.10.31.09.45.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 09:45:58 -0700 (PDT)
-Date: Mon, 31 Oct 2022 09:45:57 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc_mec: remove
- cros_ec_lpc_mec_destroy()
-Message-ID: <Y1/7xWZDeReB7twh@google.com>
-References: <20221031050657.3899359-1-tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B133CC
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 17:11:02 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6884DE0002;
+	Mon, 31 Oct 2022 17:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667236254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FgnIkLL5dyFKRnBzwzNF+5kYDu1pg2dCQ9DQnUjuYL4=;
+	b=cXyxrAcSoiJ34UrklxH5AJJxY81WhU8qyP2wx5SzdmiuLch2GUoc/VeVOvoWD3YQEY05Kp
+	ww8cyHVWfY6/Rcezc0b2S3pG/KqAXzXCT8mbfjdAU6rur2FQIOrltmN0OE4MWdltKaXKn/
+	FJl6p2eAd0V6Q6MV4WgJRJ3i314uwWkP/6IsDVItdbkhdutWyct/8OFlhs99FnildXFdQs
+	1q8thvMmx0WmxcQnk6RuYfKfFw9rcjI4IklTFSfDkw4eWycR+1Soyi6OsBBo1z9FxxPKwC
+	FS6LSQZ+IDu0RLRf6kALr8/WVOd2jbvwZ04V7S6ylU5txsGGGYLlDByuLl0zew==
+Date: Mon, 31 Oct 2022 18:10:53 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
+	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
+Message-ID: <Y2ABnbBGSJGM3gSS@mail.local>
+References: <20221029005400.2712577-1-linux@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,24 +35,121 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221031050657.3899359-1-tzungbi@kernel.org>
+In-Reply-To: <20221029005400.2712577-1-linux@roeck-us.net>
 
-On Mon, Oct 31, 2022 at 01:06:57PM +0800, Tzung-Bi Shih wrote:
-> It's pointless (and invalid) to destroy a statically allocated mutex in
-> cros_ec_lpc_mec_destroy().
+Hello,
+
+On 28/10/2022 17:54:00-0700, Guenter Roeck wrote:
+> RTC chips on some older Chromebooks can only handle alarms less than 24
+> hours in the future. Attempts to set an alarm beyond that range fails.
+> The most severe impact of this limitation is that suspend requests fail
+> if alarmtimer_suspend() tries to set an alarm for more than 24 hours
+> in the future.
 > 
-> Let's remove it.
+> Try to set the real-time alarm to just below 24 hours if setting it to
+> a larger value fails to work around the problem. While not perfect, it
+> is better than just failing the call. A similar workaround is already
+> implemented in the rtc-tps6586x driver.
+
+I'm not super convinced this is actually better than failing the call
+because your are implementing policy in the driver which is bad from a
+user point of view. It would be way better to return -ERANGE and let
+userspace select a better alarm time.
+Do you have to know in advance which are the "older" chromebooks that
+are affected?
+
 > 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Drop error messages in cros_ec_rtc_get() and cros_ec_rtc_set() since the
+> calling code also logs an error and to avoid spurious error messages if
+> setting the alarm ultimately succeeds.
+> 
+> Cc: Brian Norris <briannorris@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  drivers/rtc/rtc-cros-ec.c | 35 ++++++++++++++++++++---------------
+>  1 file changed, 20 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+> index 887f5193e253..a3ec066d8066 100644
+> --- a/drivers/rtc/rtc-cros-ec.c
+> +++ b/drivers/rtc/rtc-cros-ec.c
+> @@ -14,6 +14,8 @@
+>  
+>  #define DRV_NAME	"cros-ec-rtc"
+>  
+> +#define SECS_PER_DAY	(24 * 60 * 60)
+> +
+>  /**
+>   * struct cros_ec_rtc - Driver data for EC RTC
+>   *
+> @@ -43,13 +45,8 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+>  	msg.msg.insize = sizeof(msg.data);
+>  
+>  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+> -	if (ret < 0) {
+> -		dev_err(cros_ec->dev,
+> -			"error getting %s from EC: %d\n",
+> -			command == EC_CMD_RTC_GET_VALUE ? "time" : "alarm",
+> -			ret);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+>  
+>  	*response = msg.data.time;
+>  
+> @@ -59,7 +56,7 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+>  static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+>  			   u32 param)
+>  {
+> -	int ret = 0;
+> +	int ret;
+>  	struct {
+>  		struct cros_ec_command msg;
+>  		struct ec_response_rtc data;
+> @@ -71,13 +68,8 @@ static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+>  	msg.data.time = param;
+>  
+>  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+> -	if (ret < 0) {
+> -		dev_err(cros_ec->dev, "error setting %s on EC: %d\n",
+> -			command == EC_CMD_RTC_SET_VALUE ? "time" : "alarm",
+> -			ret);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+> -
+>  	return 0;
+>  }
+>  
+> @@ -190,8 +182,21 @@ static int cros_ec_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+>  
+>  	ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM, alarm_offset);
+>  	if (ret < 0) {
+> -		dev_err(dev, "error setting alarm: %d\n", ret);
+> -		return ret;
+> +		if (ret == -EINVAL && alarm_offset >= SECS_PER_DAY) {
+> +			/*
+> +			 * RTC chips on some older Chromebooks can only handle
+> +			 * alarms up to 24h in the future. Try to set an alarm
+> +			 * below that limit to avoid suspend failures.
+> +			 */
+> +			ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM,
+> +					      SECS_PER_DAY - 1);
+> +		}
+> +
+> +		if (ret < 0) {
+> +			dev_err(dev, "error setting alarm in %u seconds: %d\n",
+> +				alarm_offset, ret);
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return 0;
+> -- 
+> 2.36.2
+> 
 
-This whole init()/destroy() thing hiding global state is kind of weird
-in the first place, and if this ever properly becomes non-global state,
-we might want to have a matching destroy() API back. But for now, this
-probably makes more sense.
-
-(Alternatively, one could leave an empty function. But I think that
-might hurt someone else's sense of style.)
-
-So:
-
-Reviewed-by: Brian Norris <briannorris@chromium.org>
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

@@ -1,99 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C628F52
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 21:37:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E18E0C433D6;
-	Mon, 31 Oct 2022 21:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667252253;
-	bh=2oTtoPM5ybfuQEC+FI8os9tbMcp5WQW+LuBtPSEqr+A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nq0f60sntEYkmR8nOmsiMYyNiOSzUNrT4lkG3mJkT+QIApbHSAkCngRdbWbPYMC2X
-	 +Qg7LbitUp4Dr6LdQRChI5j8KRAcp8TGNTjoZ4e1+2ljGlr0nssOP6K/fJejcJLne6
-	 9Tf4Wf5UfwmJmY8BO1mIS30qU9eIaT1EDqDYUwhsJsYi6qPY/iNUorrzj0ZoLMz2Dd
-	 c1nRzOl4RMO8iu4HOP3jhAHnoO9CAvZRq1eR+ziXSgag9+ShU1KaxXtfbH7IgUQ/k0
-	 YhlkSnnzwJyjXMtkKPdp/Y2r086mc8MDjqGFBdh6FdaBYFLuQyXoTRxfnWoZHfm+WJ
-	 bSiUASlObU4wg==
-Date: Mon, 31 Oct 2022 21:37:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: kernelci-results@groups.io, briannorris@chromium.org
-Cc: "kernelci.org bot" <bot@kernelci.org>,
-	kernel-build-reports@lists.linaro.org,
-	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
-	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org
-Subject: Re: chrome-platform/for-kernelci baseline: 98 runs, 5 regressions
- (v6.1-rc1-5-g27b86a65cd16)
-Message-ID: <Y2BAGBVik+VvLTwF@sirena.org.uk>
-References: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
- <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D43443D
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 22:05:02 +0000 (UTC)
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id EC57ACE265
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 21:55:29 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9A816240003;
+	Mon, 31 Oct 2022 21:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667253322;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y9TGJAtdtjk5IN4wFS84yVevB7Syr2Cb58PAmAkCAa8=;
+	b=jvrmXiQEc6YbTbjp6KPJDeMgUKPU0UKz5K+jnxPUTMAoxCFYQmzL/ZER7xXS5RYUR7F/7S
+	wGTzHoKGZdeYx9I2R4u/nO3Wa8ZxuSkLHcA5m7gEzwUL1f0LoT+Pcq0LiV8j19hAvILUD/
+	rDgdqRtFIdriADNyUmSEB4Yk9A4Ix23eHhT7/RarEkZgTnIileOVPYj4r9JFAdS3j7w15s
+	xdeWUM2S7q0LKyEy8kfKpNUBKMkNgnSQUVbc/KaCQxZ1UxHopDeDmQA/bkKXPxpScAV2/h
+	DhD1/13kJLpDVXwdVZKzjgOlDgLuvZUj51JfrpuMZBhE+TjEbxZeTISHFnmv/g==
+Date: Mon, 31 Oct 2022 22:55:21 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
+Message-ID: <Y2BESUyKX4KJzhQZ@mail.local>
+References: <20221029005400.2712577-1-linux@roeck-us.net>
+ <Y2ABnbBGSJGM3gSS@mail.local>
+ <Y2AMQAf/nDGLNMcI@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="190h0wjhrXlaSHhN"
-Content-Disposition: inline
-In-Reply-To: <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
-X-Cookie: Are you still an ALCOHOLIC?
-
-
---190h0wjhrXlaSHhN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y2AMQAf/nDGLNMcI@google.com>
 
-On Mon, Oct 31, 2022 at 10:40:25AM -0700, Brian Norris wrote:
-> On Sun, Oct 30, 2022 at 10:51 PM kernelci.org bot <bot@kernelci.org> wrote:
-> >
-> > chrome-platform/for-kernelci baseline: 98 runs, 5 regressions (v6.1-rc1-5-g27b86a65cd16)
+On 31/10/2022 10:56:16-0700, Brian Norris wrote:
+> CC kernel/time/alarmtimer.c maintainers
+> 
+> On Mon, Oct 31, 2022 at 06:10:53PM +0100, Alexandre Belloni wrote:
+> > On 28/10/2022 17:54:00-0700, Guenter Roeck wrote:
+> > > RTC chips on some older Chromebooks can only handle alarms less than 24
+> > > hours in the future. Attempts to set an alarm beyond that range fails.
+> > > The most severe impact of this limitation is that suspend requests fail
+> > > if alarmtimer_suspend() tries to set an alarm for more than 24 hours
+> > > in the future.
+> > > 
+> > > Try to set the real-time alarm to just below 24 hours if setting it to
+> > > a larger value fails to work around the problem. While not perfect, it
+> > > is better than just failing the call. A similar workaround is already
+> > > implemented in the rtc-tps6586x driver.
+> > 
+> > I'm not super convinced this is actually better than failing the call
+> > because your are implementing policy in the driver which is bad from a
+> > user point of view. It would be way better to return -ERANGE and let
+> > userspace select a better alarm time.
+> 
+> There is no way to signal user space. alarmtimer_suspend() is doing this
+> on behalf of CLOCK_BOOTTIME_ALARM or CLOCK_REALTIME_ALARM timers, which
+> were set long ago. We could possibly figure out some way to change the
+> clock API to signal some kind of error back to the timer handlers, but
+> that seems destined to be overly complex and not really help anyone
+> (stable ABI, etc.). The right answer for alarmtimer is to just wake up a
+> little early, IMO. (And failing alarmtimer_suspend() is Bad.)
 
-> Does anybody look at these? It's a bit weird to see "5 regressions",
-> and then to look back on the last few weeks (probably months) and see
-> the same errors...
+But it is not the right answer from the RTC subsystem point of view
+because there are many uses cases were you don't want to forcefully wake
+up earlier or you are going to unnecessarily deplete a battery for
+example or you may be able to select another RTC device which can wake
+you later on.
 
-Nobody seems to care about a lot of the Chromebook stuff AFAICT.
+> I think Guenter considered some alternative change to teach
+> drivers/rtc/* and alarmtimer_suspend() to agree on an error code
+> (ERANGE? or EDOM?) to do some automatic backoff there. But given the
+> existing example (rtc-tps6586x) and the inconsistent use of error codes
 
-> >   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v6.1-rc1-5-g27b86a65cd16/plan/baseline/
+The existing example predates actual maintenance of the subsystem. You
+can't complain about inconsistent use of error codes (which I believe
+has been cut down) and at the same time introduce inconsistent
+behaviour.
 
-> Where can I find the test cases? (i.e., what's determining a "failure"
-> for one of these?)
+> in drivers/rtc/, this seemed just as good of an option to me.
+> 
+> But if we want to shave more yaks, then we'll have a more complex /
+> riskier patch set and a harder time backporting the fix. That's OK too.
+> 
 
-The first place to go is the details link above, though it's a bit less
-clear for the non-baseline tests you should at least be able to see
-what's going on on the console which will often help with finding the
-testsuite, or the error messages printed are descriptive as to what
-they were looking for specifically.  The kernelci-core repo contains all
-the stuff to map from a test name inot running something (often with
-external assistance) but there's lots of templating in the way.
+The issue with the current patch is that it forbids going for a better
+solution because you will then take for granted that this driver can't
+ever fail.
 
-> As a small guess, I see that we're missing some common configs, like:
-
-> CONFIG_PHY_ROCKCHIP_DP
-
-> This sometimes means that the display subsystem (and therefore audio
-> subsystem that relies on DP for one of its components) is not going to
-> fully set itself up properly. Usually things can still sort of work,
-> but I don't really know what the tests are looking for.
-
-The baseline tests are just making sure that the system comes up to a
-shell.  The driver loaded tests are checking that particular devices
-have a driver bound to them.
-
---190h0wjhrXlaSHhN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNgQBcACgkQJNaLcl1U
-h9CK3Af+JA/cZP/dhRvWw5xld/AEYIzydxCTIueywyyZPu2267jcley+XZ64PRZV
-le0X/0ilov6tOevEKlCczPd3yPXvEC+xLx+e2oCavrmSI+/ar1dCFrDKUcU8Q1/W
-2qKqZjijP/i+N4ewbG7D96u2+0VSjIAGTbtzgAO0PLel9RCckVwNIDMz2MBGQkcj
-5sVDI29gETFIJu2kGW+8IFuIb8NAjuRDpMcxhI3zrh5Osksp5/qrPZ7K/dbgfWAq
-9H+CTGq44RHBO1zLF8hkpI5qj3AI1SFLKeWrWyKE/g2/xrf2Sp2+KxuAk85Yok32
-as45n5IPNwOs0mSwuGYTJ+eBYoKexQ==
-=YBk0
------END PGP SIGNATURE-----
-
---190h0wjhrXlaSHhN--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

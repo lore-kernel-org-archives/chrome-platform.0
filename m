@@ -1,53 +1,59 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CB6443D
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 22:21:58 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id f140so11914561pfa.1
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 15:21:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE60443B
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 22:47:47 +0000 (UTC)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-13c569e5ff5so14673510fac.6
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 15:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uP+5AwDT7kNW1wI4c+CXjsqbrZpHnHxypFRWcsC5nCs=;
-        b=BmwkDZ6x4Ex3KSLNq7tiqWKFJhAAOM6PgfFphPqMxH5RA08U55ql85fM5GjpWbwKLn
-         lJyqXoTNPTIFrIFmG3B0k8v4q4oXXykmbWyTIqbJrD8yzqKl+lgqC1szWMdpMrP87Uup
-         hTRzRUmRiRRbpVgMM4Nc21nL2HpPAVJgEQki0=
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9GBUSFI+VHiFF9npt/hZBaZigRfFySTfJzNUy1BgETY=;
+        b=Sk9qUqguwAImZQCkh2lmfngSdvKIV768yp1dexzyeua08Xrd7t3gLj7C1/mYeZSTyn
+         r59UglFH7WkdleXskSGehbsUNzANYjB7m4OlJDP/2i7z1kRNnb8SjOlkKXMG6msFS0Xv
+         QjS0QPyVbyKA5EUb7igOV4jdZI4Pp1KGn0KCpZIhz3LzKSPTvYh8zVfXx/f32WvJFKZ/
+         G+JAPBCHLfZuTyvBjamkCL/+YxtSO8AaFd2L/XI+68baWEWRLzKjvtZnUrzPRcXq8+bS
+         hUhiBAb1sPCfQpZ+C+2xR3qUOFiZmjWdccketrHIKwHDqCopV1IXqVzvblbzCQ9SPXyu
+         12ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uP+5AwDT7kNW1wI4c+CXjsqbrZpHnHxypFRWcsC5nCs=;
-        b=e3an8rTd5U+lamgS2ZQF/k5zxdeHP9ALvf/zUx25jZOlYvku5OPapf9dbkaHsZtFel
-         ZMHCujo8Xj/5xLiTqgdph8/9oNdSIw3JMGHiZBFdhxab/S1hyqeLF45AfQKh0uouRm8T
-         DCxK/uylyMPUXP++yFu3y2XL4UyckKJfg2wG3lgfLR2ExQ4CcI3Vu74CHs+buUzDr49R
-         +2UNUivaonq8uIn3DM9/N8LXUyCwbWrwHBiKXxclPic6/cxA1Razzb2CTZTh3xq0Kebp
-         qMp6IM4VnH3qwXejmC7E57wDr6cZ5DzsnjoLmSpE1ijiOW5l97+535NnX8kc8GDKAlN8
-         mzag==
-X-Gm-Message-State: ACrzQf1ZgWu29Su4ggbfJF1OYaDACOuQpcpJpxmPMcuKsagAEr/NPbNQ
-	FrYdLrOKaBORrdpLUrhDoa1fMg==
-X-Google-Smtp-Source: AMsMyM51Y769FlPe9UzSXWWTlfI5JKrIs0Um3XV4dUwKSe6l3ImUr8aoC1dSNG6aFZDR4S+dUBPxaw==
-X-Received: by 2002:a63:4283:0:b0:457:dced:8ba3 with SMTP id p125-20020a634283000000b00457dced8ba3mr14594934pga.220.1667254918484;
-        Mon, 31 Oct 2022 15:21:58 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:cf9d:6561:637d:2194])
-        by smtp.gmail.com with ESMTPSA id nh16-20020a17090b365000b0020a825fc912sm4683660pjb.45.2022.10.31.15.21.57
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9GBUSFI+VHiFF9npt/hZBaZigRfFySTfJzNUy1BgETY=;
+        b=pu9cHTEft7WpXrdw3hikyUYkW5J8bOowOPoAA7zFxNMmZYldaRHM2woYjH9Oe5SFlJ
+         XDjY1PrOQOYgdsLMe1qxLp+9nxLs4ouAFevHZN3MfExn5u5+G6OB5jlGQFBOMXN2Bm5V
+         prfKkoEP3txB2HqqW5icgC9HFOstfsz/gfZ3NYvx1hrcMLivRuevifgr8hf/sxNyOrJc
+         jnjT87TansH3Jc+fkjsQrkTlVjpyrjBY6WIQkrgdP8+VIeUo/fdxpg7dfhIXhIfTIDDE
+         JdUvOqWPl0CzJp0QTB7lu0OZoZDATU4CMrykEfQar3OkJR0DEYt3U10mfzgtG084y8MI
+         EDJA==
+X-Gm-Message-State: ACrzQf0HwcrwzcYBIbyaqSbTpsx/hIv7Ty3bxrHKj2xy/kOK4DBDW0Ln
+	e66tAq/KgfaafNK3fx9D3rM=
+X-Google-Smtp-Source: AMsMyM7xI52y/1LpfYgwTynoDqPWGfcVWkzza+ZkWkyoRaHgebQV9ESvtTQ52GPriNc6mtG8cfU20Q==
+X-Received: by 2002:a05:6871:826:b0:13c:7071:5155 with SMTP id q38-20020a056871082600b0013c70715155mr9416314oap.262.1667256466766;
+        Mon, 31 Oct 2022 15:47:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a18-20020a056870d19200b001375188dae9sm3654839oac.16.2022.10.31.15.47.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 15:21:57 -0700 (PDT)
-Date: Mon, 31 Oct 2022 15:21:55 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: kernelci-results@groups.io, "kernelci.org bot" <bot@kernelci.org>,
-	kernel-build-reports@lists.linaro.org,
-	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
-	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org,
-	tzungbi@google.com
-Subject: Re: chrome-platform/for-kernelci baseline: 98 runs, 5 regressions
- (v6.1-rc1-5-g27b86a65cd16)
-Message-ID: <Y2BKg6gefPQ9BUAc@google.com>
-References: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
- <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
- <Y2BAGBVik+VvLTwF@sirena.org.uk>
+        Mon, 31 Oct 2022 15:47:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 31 Oct 2022 15:47:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Brian Norris <briannorris@chromium.org>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
+Message-ID: <20221031224744.GA2082109@roeck-us.net>
+References: <20221029005400.2712577-1-linux@roeck-us.net>
+ <Y2ABnbBGSJGM3gSS@mail.local>
+ <Y2AMQAf/nDGLNMcI@google.com>
+ <Y2BESUyKX4KJzhQZ@mail.local>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -56,73 +62,19 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2BAGBVik+VvLTwF@sirena.org.uk>
+In-Reply-To: <Y2BESUyKX4KJzhQZ@mail.local>
 
-On Mon, Oct 31, 2022 at 09:37:28PM +0000, Mark Brown wrote:
-> On Mon, Oct 31, 2022 at 10:40:25AM -0700, Brian Norris wrote:
-> > On Sun, Oct 30, 2022 at 10:51 PM kernelci.org bot <bot@kernelci.org> wrote:
-> > >
-> > > chrome-platform/for-kernelci baseline: 98 runs, 5 regressions (v6.1-rc1-5-g27b86a65cd16)
+On Mon, Oct 31, 2022 at 10:55:21PM +0100, Alexandre Belloni wrote:
 > 
-> > Does anybody look at these? It's a bit weird to see "5 regressions",
-> > and then to look back on the last few weeks (probably months) and see
-> > the same errors...
+> The issue with the current patch is that it forbids going for a better
+> solution because you will then take for granted that this driver can't
+> ever fail.
 > 
-> Nobody seems to care about a lot of the Chromebook stuff AFAICT.
 
-:(
+This is incorrect. My plan was to get this accepted first and then work
+with those responsible on a cleaner solution (which is much more vague).
+We can not wait for that cleaner solution now. There is nothing that
+prevents us from taking our time to find a cleaner solution, and then
+to change the code again to use it.
 
-Well, if I/we are ever going to change that, it'd be nice to get a
-little further on the below questions still:
-
-> > >   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v6.1-rc1-5-g27b86a65cd16/plan/baseline/
-> 
-> > Where can I find the test cases? (i.e., what's determining a "failure"
-> > for one of these?)
-> 
-> The first place to go is the details link above, though it's a bit less
-> clear for the non-baseline tests you should at least be able to see
-> what's going on on the console which will often help with finding the
-> testsuite, or the error messages printed are descriptive as to what
-> they were looking for specifically.  The kernelci-core repo contains all
-> the stuff to map from a test name inot running something (often with
-> external assistance) but there's lots of templating in the way.
-
-Thanks. I already looked at most/all of those links. And I was first
-going for the "baseline" tests, since those seem pretty basic, and if we
-can't pass those, we're probably totally lost.
-
-> > As a small guess, I see that we're missing some common configs, like:
-> 
-> > CONFIG_PHY_ROCKCHIP_DP
-> 
-> > This sometimes means that the display subsystem (and therefore audio
-> > subsystem that relies on DP for one of its components) is not going to
-> > fully set itself up properly. Usually things can still sort of work,
-> > but I don't really know what the tests are looking for.
-> 
-> The baseline tests are just making sure that the system comes up to a
-> shell.  The driver loaded tests are checking that particular devices
-> have a driver bound to them.
-
-For one specific example: I'm looking at rockchip-i2s1-probed, which
-fails here:
-
-https://storage.kernelci.org/chrome-platform/for-kernelci/v6.1-rc1-5-g27b86a65cd16/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-rk3399-gru-kevin.html
-
-I can't find a single mention of "i2s1" or "probed" in the kernelci
-repo, so I must be missing something. Is there some external config
-file in another repo? Or else the test configs are autogenerating cases
-on the fly based on parsing...the device tree?
-
-Anyway, I don't know how or why that ever passed, because AFAICT, RK3399
-Chromebooks should only have a single I2S block enabled, and they're
-passing the 'rockchip-i2s0-probed' case. So it feels like I need to be
-disabling some test case.
-
-Somewhat similar story for cros-ec-sensors-accel{0,1}-probed, although I
-believe the sensor driver is still working for me; I also see no
-cros-ec-sensors errors in the KernelCI logs. So I wonder what exactly
-the test is looking for (e.g., maybe the device name changed?).
-
-Brian
+Guenter

@@ -1,50 +1,53 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06A233ED
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 17:56:19 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso10928431pjc.2
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 10:56:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E38233ED
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 18:19:16 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-13ae8117023so14332574fac.9
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 11:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sxgPHQHNXTKXnyvhcje4Li+ofkcsjx3B5bd4RNfVWXk=;
-        b=dUXBx8hVozpOkOz977UeZcQxZgudAy0HoQ4H2Tw0+XOSTRQuxi0gfAAKF/KR/3suQO
-         vlamhWKFGb2GnqOWVpxMEQT2GFxMXfHOebjfJ568UBf6Mvfe0SAAGqTGOkzu3aFgptHM
-         YRDkPRop2GG5L8z1IUs6jkQb35ire4p/FR3Mw=
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Han0v1EhipVx7nXZczOxjKPxO/ttPTla8BXRUI4e1t0=;
+        b=ZIGCw/I8CRv8qnxHdy2zHqoXF4NhUV92icLrcjFKpOx8SBhmbg+BMqkFQ/BluQ1hnd
+         EAemG5Tu7kux/ZPsZMORRotT893ZYH/10qoWz/56otSiQFW9NGEXZdLtVAacJkWtoMQ9
+         eJv6J37p/1cxgeoK2j+nmOzfuPv4se9YsSyMDYXYq2xaSq7VhS97r4k3U9FN1clPI53v
+         TbdBxI0BuKT/hC7559pb6zYhaLK38kWZxiJJUHBSscyrq5STRZ1VK313T/sRtd9SBVSa
+         8qBraYTwhTrkI1WqJspllK2pIlEynjn7zhHrPTyus4LtXb+Qh0P3IFkhNo1sOs32ccHq
+         n4jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sxgPHQHNXTKXnyvhcje4Li+ofkcsjx3B5bd4RNfVWXk=;
-        b=TqQFbwMlsFFPtkWUg8RudhChnvukcDC8NeBH8tg3FAsqkU4rh+Ba/Uetp/MibvpQaI
-         PVLt/bcFIlgYIdXIiz5B2YhgicvVtS8gB+LLjL3NUtMhRA3LZIJc9mXzA3ywXrAP3ybC
-         q52AHtTrDR+JvRKF9F2uCFd3OPN2Uxxttxvp9U8nui/lsXSgevCqvnBZmr8Iex5Lyqxl
-         3p1Ay8ii+KQ3XFbpI3U0cEz9TNAyMQnbREKvm4gqRE28OrPbUeSa0jxUUzTVoxmWcfsR
-         wL2KljzUCH+ocrowaNES4uN+I8nyBuyj2ixPNjVpI67tMeFM+6ycFvdpKLMiI3UgooVy
-         x4Qw==
-X-Gm-Message-State: ACrzQf0TdhDaO3dCBnfmUms+cNU0LJeVMJa9V0A0jIUHWSfkJTRkPPZu
-	qzI8sUy/CXkEXp+g01h8ATrccQ==
-X-Google-Smtp-Source: AMsMyM7DDaxA1ZH4CAmtziKbAO8TUQb9uroHMUhTHF8xrbgyf1O2GjfuMdrRAWUOQnJYoyuW/vhisg==
-X-Received: by 2002:a17:90a:e20d:b0:212:ec76:6fc6 with SMTP id a13-20020a17090ae20d00b00212ec766fc6mr16361891pjz.0.1667238979435;
-        Mon, 31 Oct 2022 10:56:19 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:cf9d:6561:637d:2194])
-        by smtp.gmail.com with ESMTPSA id 62-20020a621641000000b00562a526cd2esm4863663pfw.55.2022.10.31.10.56.18
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Han0v1EhipVx7nXZczOxjKPxO/ttPTla8BXRUI4e1t0=;
+        b=kn+ZN3wosGbyAbEAqJAH04s4FFE6o10s9rbDE50QCVFM2FNs7gdhHH73259hfq3Iv5
+         2wKAxgc/qXFXU3PAZyS5oNfTjwTE3uJKN+ckNhGE0ijf16pK5SWtv6YLGy9O+hqPLVC0
+         pppchnWs3jB9d0Pqlgduwm4V5c6pjrxvaAQt6GWzChXkEutpy1x7WB+NwQ0KEXOKLlKk
+         I6Y9a1hDFsPPhpLSBhq1u+FKVrWuCRUqp8CjUmVq//EoEHc3ZjUbthdRJJD2nAvtGPGH
+         m1lq+Thj9uGDOTZvHqXXJvycQQg6rK1y4lEWILAcGtmPF08OGDgfGmG4O1ZfC6i4eDQx
+         zgmw==
+X-Gm-Message-State: ACrzQf1500DCQUSrdAlt7nCQK5NAdCE1QOpHBksmg21A1Z8YHp+LgJCj
+	GaAxQxzHVdSGXX7dN0qcLtE=
+X-Google-Smtp-Source: AMsMyM6ozqYVxjMlPEwFQwgN4h90rZGlLmimbGZJaLGw4qUFywktjtGVa0j6x6mD/1b23gtG6XyHeg==
+X-Received: by 2002:a05:6870:e88a:b0:13b:6e13:a9a5 with SMTP id q10-20020a056870e88a00b0013b6e13a9a5mr8230404oan.264.1667240355394;
+        Mon, 31 Oct 2022 11:19:15 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w67-20020acadf46000000b0035770fc6ca9sm2551579oig.16.2022.10.31.11.19.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 10:56:18 -0700 (PDT)
-Date: Mon, 31 Oct 2022 10:56:16 -0700
-From: Brian Norris <briannorris@chromium.org>
+        Mon, 31 Oct 2022 11:19:14 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 31 Oct 2022 11:19:13 -0700
+From: Guenter Roeck <linux@roeck-us.net>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Alessandro Zummo <a.zummo@towertech.it>,
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
 	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
+	Brian Norris <briannorris@chromium.org>
 Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
-Message-ID: <Y2AMQAf/nDGLNMcI@google.com>
+Message-ID: <20221031181913.GA3841664@roeck-us.net>
 References: <20221029005400.2712577-1-linux@roeck-us.net>
  <Y2ABnbBGSJGM3gSS@mail.local>
 Precedence: bulk
@@ -57,9 +60,9 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <Y2ABnbBGSJGM3gSS@mail.local>
 
-CC kernel/time/alarmtimer.c maintainers
-
 On Mon, Oct 31, 2022 at 06:10:53PM +0100, Alexandre Belloni wrote:
+> Hello,
+> 
 > On 28/10/2022 17:54:00-0700, Guenter Roeck wrote:
 > > RTC chips on some older Chromebooks can only handle alarms less than 24
 > > hours in the future. Attempts to set an alarm beyond that range fails.
@@ -77,21 +80,138 @@ On Mon, Oct 31, 2022 at 06:10:53PM +0100, Alexandre Belloni wrote:
 > user point of view. It would be way better to return -ERANGE and let
 > userspace select a better alarm time.
 
-There is no way to signal user space. alarmtimer_suspend() is doing this
-on behalf of CLOCK_BOOTTIME_ALARM or CLOCK_REALTIME_ALARM timers, which
-were set long ago. We could possibly figure out some way to change the
-clock API to signal some kind of error back to the timer handlers, but
-that seems destined to be overly complex and not really help anyone
-(stable ABI, etc.). The right answer for alarmtimer is to just wake up a
-little early, IMO. (And failing alarmtimer_suspend() is Bad.)
+The failing call is from alarmtimer_suspend() which is called during suspend.
+It is not from userspace, and userspace has no chance to intervene.
 
-I think Guenter considered some alternative change to teach
-drivers/rtc/* and alarmtimer_suspend() to agree on an error code
-(ERANGE? or EDOM?) to do some automatic backoff there. But given the
-existing example (rtc-tps6586x) and the inconsistent use of error codes
-in drivers/rtc/, this seemed just as good of an option to me.
+It is also not just one userspace application which could request a large
+timeout, it is a variety of userspace applications, and not all of them are
+written by Google. Some are Android applications. I don't see how it would be
+realistic to expect all such applications to fix their code (if that is even
+possible - there might be an application which called sleep(100000) or
+something equivalent, which works just fine as long as the system is not
+suspended.
 
-But if we want to shave more yaks, then we'll have a more complex /
-riskier patch set and a harder time backporting the fix. That's OK too.
+> Do you have to know in advance which are the "older" chromebooks that
+> are affected?
 
-Brian
+Not sure I understand the question. Technically we know, but the cros_ec
+rtc driver doesn't know because the EC doesn't have an API to report the
+maximum timeout to the Linux driver. Even if that existed, it would not
+help because the rtc API only supports absolute maximum clock values,
+not clock offsets relative to the current time. So ultimately there is no
+means for an RTC driver to tell the maximum possible alarm timer offset to 
+the RTC subsystem, and there is no means for a user such as
+alarmtimer_suspend() to obtain the maximum time offset. Does that answer
+your question ?
+
+On a side note, I tried an alternate implementation by adding a retry into
+alarmtimer_suspend(), where it would request a smaller timeout if the
+requested timeout failed. I did not pursue/submit this since it seemed
+hacky. To solve that problem, I'd rather discuss extending the RTC API
+to provide a maximum offset to its users. Such a solution would probably
+be desirable, but that it more longer term and would not solve the
+immediate problem.
+
+If you see a better solution, please let me know. Again, the problem
+is that alarmtimer_suspend() fails because the requested timeout is too
+large.
+
+Thanks,
+Guenter
+
+> 
+> > 
+> > Drop error messages in cros_ec_rtc_get() and cros_ec_rtc_set() since the
+> > calling code also logs an error and to avoid spurious error messages if
+> > setting the alarm ultimately succeeds.
+> > 
+> > Cc: Brian Norris <briannorris@chromium.org>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > ---
+> >  drivers/rtc/rtc-cros-ec.c | 35 ++++++++++++++++++++---------------
+> >  1 file changed, 20 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+> > index 887f5193e253..a3ec066d8066 100644
+> > --- a/drivers/rtc/rtc-cros-ec.c
+> > +++ b/drivers/rtc/rtc-cros-ec.c
+> > @@ -14,6 +14,8 @@
+> >  
+> >  #define DRV_NAME	"cros-ec-rtc"
+> >  
+> > +#define SECS_PER_DAY	(24 * 60 * 60)
+> > +
+> >  /**
+> >   * struct cros_ec_rtc - Driver data for EC RTC
+> >   *
+> > @@ -43,13 +45,8 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+> >  	msg.msg.insize = sizeof(msg.data);
+> >  
+> >  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+> > -	if (ret < 0) {
+> > -		dev_err(cros_ec->dev,
+> > -			"error getting %s from EC: %d\n",
+> > -			command == EC_CMD_RTC_GET_VALUE ? "time" : "alarm",
+> > -			ret);
+> > +	if (ret < 0)
+> >  		return ret;
+> > -	}
+> >  
+> >  	*response = msg.data.time;
+> >  
+> > @@ -59,7 +56,7 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+> >  static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+> >  			   u32 param)
+> >  {
+> > -	int ret = 0;
+> > +	int ret;
+> >  	struct {
+> >  		struct cros_ec_command msg;
+> >  		struct ec_response_rtc data;
+> > @@ -71,13 +68,8 @@ static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+> >  	msg.data.time = param;
+> >  
+> >  	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+> > -	if (ret < 0) {
+> > -		dev_err(cros_ec->dev, "error setting %s on EC: %d\n",
+> > -			command == EC_CMD_RTC_SET_VALUE ? "time" : "alarm",
+> > -			ret);
+> > +	if (ret < 0)
+> >  		return ret;
+> > -	}
+> > -
+> >  	return 0;
+> >  }
+> >  
+> > @@ -190,8 +182,21 @@ static int cros_ec_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+> >  
+> >  	ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM, alarm_offset);
+> >  	if (ret < 0) {
+> > -		dev_err(dev, "error setting alarm: %d\n", ret);
+> > -		return ret;
+> > +		if (ret == -EINVAL && alarm_offset >= SECS_PER_DAY) {
+> > +			/*
+> > +			 * RTC chips on some older Chromebooks can only handle
+> > +			 * alarms up to 24h in the future. Try to set an alarm
+> > +			 * below that limit to avoid suspend failures.
+> > +			 */
+> > +			ret = cros_ec_rtc_set(cros_ec, EC_CMD_RTC_SET_ALARM,
+> > +					      SECS_PER_DAY - 1);
+> > +		}
+> > +
+> > +		if (ret < 0) {
+> > +			dev_err(dev, "error setting alarm in %u seconds: %d\n",
+> > +				alarm_offset, ret);
+> > +			return ret;
+> > +		}
+> >  	}
+> >  
+> >  	return 0;
+> > -- 
+> > 2.36.2
+> > 
+> 
+> -- 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com

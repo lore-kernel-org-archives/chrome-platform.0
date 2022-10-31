@@ -1,61 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E1E360
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 04:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06C0C433D6;
-	Mon, 31 Oct 2022 04:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D97360
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 05:07:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 935F0C433D6;
+	Mon, 31 Oct 2022 05:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667192160;
-	bh=GAUz+juERAciVv8IqD0c3C4zKt3CzZRqEa0LqI1Dsmk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GczfpQaAZ/Ge7rswNpoIirFbptr3bnjKqCWCvOwEKfgZAV6bKSqzsWLKoHPyJIbXH
-	 hDU6D+oIBTq84Ec4Ws9CCeEkry/P933AK6r8ZJ/OEFpQze/oQjvyzIidF//ML1d0it
-	 lGzl0ahaAU+vXs3vDe1rgV5wEsrZUecWumfKYNu8uBrXr9hMBQ0bap8bCZNBDae9EB
-	 vGfu9knXTWN8gVUq0OIlROUWoqb3ocuJnk1LG0jGS8jl/7UCU/wFRqNPfUuA4K/9T+
-	 13Bfi2KwK6LW4TsEca1i1ksz9/bHwrmjbmxWFIpkVcks8+ge00FZNMp/AFqrzaU/Nr
-	 cNWbt/IKpuQZg==
-Date: Mon, 31 Oct 2022 12:55:57 +0800
+	s=k20201202; t=1667192830;
+	bh=g4+ZlptgHZ4VlrsvMEreg6U7v0q+Eafj4ie2PanIveA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HI3s7d/eGhEzDFpWj/KkJLWPdWDpJWPJMktMcfOyTM60n0KBFTNZa+CaSq+FR//FC
+	 +bmD4pySvCSvWJf3EELcVJ+tqHHJOeIs77lHU6KvJPluXXu/5q6wP9CYByLUcG8Y70
+	 uk4gNn0UK34rV8pMTUWFsnPMxPxtighAGHomjD5ud15JVQ5vLv4JKjd/dF9Pb5fM81
+	 jWXlRBR9n1SOI3yY8iOl3brV3ddLYilFpKD+bF4b9v3OTz4eIXGgI9OuvIILzOdLlf
+	 wGodQERpbwtdtHRvyu/NG1cdU0KeE2BFWabHFwDYSLcnv/u1bl+TrlIZVK5D9zt4Jt
+	 BD5LZZWVtJKsw==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Brian Norris <briannorris@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] platform/chrome: cros_ec_lpc: Move mec_init/destroy
- to device probe/remove
-Message-ID: <Y19VXaB1531V64EI@google.com>
-References: <20221028141411.1.I0728421299079b104710c202d5d7095b2674fd8c@changeid>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	briannorris@chromium.org,
+	tzungbi@kernel.org
+Subject: [PATCH] platform/chrome: cros_ec_lpc_mec: remove cros_ec_lpc_mec_destroy()
+Date: Mon, 31 Oct 2022 13:06:57 +0800
+Message-Id: <20221031050657.3899359-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028141411.1.I0728421299079b104710c202d5d7095b2674fd8c@changeid>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 28, 2022 at 02:14:45PM -0700, Brian Norris wrote:
-> Disregarding the weird global state hiding in this cros_ec_lpc_mec_*()
-> stuff, it belongs in device probe/remove. We shouldn't assume we can
-> access hardware resources when the device isn't attached to the driver.
+It's pointless (and invalid) to destroy a statically allocated mutex in
+cros_ec_lpc_mec_destroy().
 
-It's also weird that cros_ec_lpc_mec_destroy() destroies a statically
-allocated mutex[1].  How about let's remove it?
+Let's remove it.
 
-[1]: https://elixir.bootlin.com/linux/v6.0/source/drivers/platform/chrome/cros_ec_lpc_mec.c#L152
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+A follow up from https://patchwork.kernel.org/project/chrome-platform/patch/20221028141411.1.I0728421299079b104710c202d5d7095b2674fd8c@changeid/.
 
-> @@ -586,9 +591,6 @@ static int __init cros_ec_lpc_init(void)
->  		return -ENODEV;
->  	}
->  
-> -	cros_ec_lpc_mec_init(EC_HOST_CMD_REGION0,
-> -			     EC_LPC_ADDR_MEMMAP + EC_MEMMAP_SIZE);
-> -
->  	/* Register the driver */
->  	ret = platform_driver_register(&cros_ec_lpc_driver);
->  	if (ret) {
+ drivers/platform/chrome/cros_ec_lpc.c     | 3 ---
+ drivers/platform/chrome/cros_ec_lpc_mec.c | 6 ------
+ drivers/platform/chrome/cros_ec_lpc_mec.h | 7 -------
+ drivers/platform/chrome/wilco_ec/core.c   | 5 -----
+ 4 files changed, 21 deletions(-)
 
-There are 2 more cros_ec_lpc_mec_destroy()s need to be removed [2][3] though.
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 7677ab3c0ead..6ef5e5d40ba4 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -593,7 +593,6 @@ static int __init cros_ec_lpc_init(void)
+ 	ret = platform_driver_register(&cros_ec_lpc_driver);
+ 	if (ret) {
+ 		pr_err(DRV_NAME ": can't register driver: %d\n", ret);
+-		cros_ec_lpc_mec_destroy();
+ 		return ret;
+ 	}
+ 
+@@ -603,7 +602,6 @@ static int __init cros_ec_lpc_init(void)
+ 		if (ret) {
+ 			pr_err(DRV_NAME ": can't register device: %d\n", ret);
+ 			platform_driver_unregister(&cros_ec_lpc_driver);
+-			cros_ec_lpc_mec_destroy();
+ 		}
+ 	}
+ 
+@@ -615,7 +613,6 @@ static void __exit cros_ec_lpc_exit(void)
+ 	if (!cros_ec_lpc_acpi_device_found)
+ 		platform_device_unregister(&cros_ec_lpc_device);
+ 	platform_driver_unregister(&cros_ec_lpc_driver);
+-	cros_ec_lpc_mec_destroy();
+ }
+ 
+ module_init(cros_ec_lpc_init);
+diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.c b/drivers/platform/chrome/cros_ec_lpc_mec.c
+index bbc2884f5e2f..0d9c79b270ce 100644
+--- a/drivers/platform/chrome/cros_ec_lpc_mec.c
++++ b/drivers/platform/chrome/cros_ec_lpc_mec.c
+@@ -146,9 +146,3 @@ void cros_ec_lpc_mec_init(unsigned int base, unsigned int end)
+ 	mec_emi_end = end;
+ }
+ EXPORT_SYMBOL(cros_ec_lpc_mec_init);
+-
+-void cros_ec_lpc_mec_destroy(void)
+-{
+-	mutex_destroy(&io_mutex);
+-}
+-EXPORT_SYMBOL(cros_ec_lpc_mec_destroy);
+diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.h b/drivers/platform/chrome/cros_ec_lpc_mec.h
+index aa1018f6b0f2..9d0521b23e8a 100644
+--- a/drivers/platform/chrome/cros_ec_lpc_mec.h
++++ b/drivers/platform/chrome/cros_ec_lpc_mec.h
+@@ -45,13 +45,6 @@ enum cros_ec_lpc_mec_io_type {
+  */
+ void cros_ec_lpc_mec_init(unsigned int base, unsigned int end);
+ 
+-/*
+- * cros_ec_lpc_mec_destroy
+- *
+- * Cleanup MEC I/O.
+- */
+-void cros_ec_lpc_mec_destroy(void);
+-
+ /**
+  * cros_ec_lpc_mec_in_range() - Determine if addresses are in MEC EMI range.
+  *
+diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
+index 5b42992bff38..d6a994bdc182 100644
+--- a/drivers/platform/chrome/wilco_ec/core.c
++++ b/drivers/platform/chrome/wilco_ec/core.c
+@@ -129,7 +129,6 @@ static int wilco_ec_probe(struct platform_device *pdev)
+ unregister_debugfs:
+ 	if (ec->debugfs_pdev)
+ 		platform_device_unregister(ec->debugfs_pdev);
+-	cros_ec_lpc_mec_destroy();
+ 	return ret;
+ }
+ 
+@@ -143,10 +142,6 @@ static int wilco_ec_remove(struct platform_device *pdev)
+ 	platform_device_unregister(ec->rtc_pdev);
+ 	if (ec->debugfs_pdev)
+ 		platform_device_unregister(ec->debugfs_pdev);
+-
+-	/* Teardown cros_ec interface */
+-	cros_ec_lpc_mec_destroy();
+-
+ 	return 0;
+ }
+ 
+-- 
+2.38.1.273.g43a17bfeac-goog
 
-[2]: https://elixir.bootlin.com/linux/v6.0/source/drivers/platform/chrome/cros_ec_lpc.c#L596
-[3]: https://elixir.bootlin.com/linux/v6.0/source/drivers/platform/chrome/cros_ec_lpc.c#L606

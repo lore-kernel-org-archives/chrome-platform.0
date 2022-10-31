@@ -1,136 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D97360
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 05:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 935F0C433D6;
-	Mon, 31 Oct 2022 05:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667192830;
-	bh=g4+ZlptgHZ4VlrsvMEreg6U7v0q+Eafj4ie2PanIveA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HI3s7d/eGhEzDFpWj/KkJLWPdWDpJWPJMktMcfOyTM60n0KBFTNZa+CaSq+FR//FC
-	 +bmD4pySvCSvWJf3EELcVJ+tqHHJOeIs77lHU6KvJPluXXu/5q6wP9CYByLUcG8Y70
-	 uk4gNn0UK34rV8pMTUWFsnPMxPxtighAGHomjD5ud15JVQ5vLv4JKjd/dF9Pb5fM81
-	 jWXlRBR9n1SOI3yY8iOl3brV3ddLYilFpKD+bF4b9v3OTz4eIXGgI9OuvIILzOdLlf
-	 wGodQERpbwtdtHRvyu/NG1cdU0KeE2BFWabHFwDYSLcnv/u1bl+TrlIZVK5D9zt4Jt
-	 BD5LZZWVtJKsw==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	briannorris@chromium.org,
-	tzungbi@kernel.org
-Subject: [PATCH] platform/chrome: cros_ec_lpc_mec: remove cros_ec_lpc_mec_destroy()
-Date: Mon, 31 Oct 2022 13:06:57 +0800
-Message-Id: <20221031050657.3899359-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84FC17F3
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 05:08:06 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id l6so9473684pjj.0
+        for <chrome-platform@lists.linux.dev>; Sun, 30 Oct 2022 22:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=3XHDIgMudyr8gTiZi0T0+Xmu4iezqFmlL+yo8zArU7Q=;
+        b=3rMedvbENv7UqS4GRu1+nd4o/FGId35ocqg3qeCe86dXhaHBplxyA2GrSB8cobUF0c
+         v8gxT3mdLu+S3KKHTMtPesykggkfsZ16ZU/WSDR8aFZnou5XKjMAf75zrZmJRK8L+cqQ
+         rQq30IdcYVko4b7cW7LZ2dVKxz1wsOdweNNyfgS5okuKwBg3TjqHen7XPK6wM+tQ7Wkc
+         LT/ngMGApoPYpuI2b/vECVoTyp9Wc+uc6YqNSR6pNCXrz3Cyy8Yvq0X1+/kjVCaEQaZE
+         /vlsZOuqXkS8T1alZaSTf18LsGtNv+HhAYmdfygf4akWzYGczshjti4xiOzm0HB2+Jxd
+         OaVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3XHDIgMudyr8gTiZi0T0+Xmu4iezqFmlL+yo8zArU7Q=;
+        b=BACdx3VHRygWlG8CYpMrdS1MQVfIAPXSpFsDOqYg9hHpg71esFaBL5+H6+xWvAHzKF
+         DfEn8Sa5CV9+njKK3oHbDCw0HgBJXrlQTChWXGNwjWuhkAuZSiAUgOO5h8A/FUjrbyH4
+         FXVkzid2l+LsCK1L4ULvMSbV6gjHEB1CoEjZr8X5g2bFov7Yj+T/V8YFYLFY+ZSDhB2W
+         gflYntdKaLOtiCUYH7nJZksa2P70mJjfhkCNxtYSpcG46owy7dng2uG6cLCVbFF3eOUB
+         nEbJ1+bcTcSjRPCuIJbZamcP2YyLWgsgcNC/VVSZDHY4X/kW0PfGm1hzeGxjn9I37Ghb
+         eSQQ==
+X-Gm-Message-State: ACrzQf1/1IvjIScaMVxtY1rD+BlLUJNbIKzjlvwqgC74j168H+PYNWao
+	wmz1bGTU8+CLITzUasFeLgu4BA==
+X-Google-Smtp-Source: AMsMyM52DQ2m67jO93CGyKLbHAh1gQnCIfxPwzVPhnp1VDpoGpxdNclAQSMhlyuBzrdgNuXtJoQ/qA==
+X-Received: by 2002:a17:902:7786:b0:178:48c0:a083 with SMTP id o6-20020a170902778600b0017848c0a083mr12614382pll.125.1667192886023;
+        Sun, 30 Oct 2022 22:08:06 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id h8-20020a170902680800b00176b84eb29asm3446888plk.301.2022.10.30.22.08.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Oct 2022 22:08:05 -0700 (PDT)
+Message-ID: <635f5835.170a0220.40ed7.59b9@mx.google.com>
+Date: Sun, 30 Oct 2022 22:08:05 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.1-rc1-5-g27b86a65cd16
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.1-rc1-5-g27b86a65cd16)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-It's pointless (and invalid) to destroy a statically allocated mutex in
-cros_ec_lpc_mec_destroy().
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.1-rc1-=
+5-g27b86a65cd16)
 
-Let's remove it.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.1-rc1-5-g27b86a65cd16/
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.1-rc1-5-g27b86a65cd16
+Git Commit: 27b86a65cd16b0e94ef69196b008d701a53feddb
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
 ---
-A follow up from https://patchwork.kernel.org/project/chrome-platform/patch/20221028141411.1.I0728421299079b104710c202d5d7095b2674fd8c@changeid/.
-
- drivers/platform/chrome/cros_ec_lpc.c     | 3 ---
- drivers/platform/chrome/cros_ec_lpc_mec.c | 6 ------
- drivers/platform/chrome/cros_ec_lpc_mec.h | 7 -------
- drivers/platform/chrome/wilco_ec/core.c   | 5 -----
- 4 files changed, 21 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 7677ab3c0ead..6ef5e5d40ba4 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -593,7 +593,6 @@ static int __init cros_ec_lpc_init(void)
- 	ret = platform_driver_register(&cros_ec_lpc_driver);
- 	if (ret) {
- 		pr_err(DRV_NAME ": can't register driver: %d\n", ret);
--		cros_ec_lpc_mec_destroy();
- 		return ret;
- 	}
- 
-@@ -603,7 +602,6 @@ static int __init cros_ec_lpc_init(void)
- 		if (ret) {
- 			pr_err(DRV_NAME ": can't register device: %d\n", ret);
- 			platform_driver_unregister(&cros_ec_lpc_driver);
--			cros_ec_lpc_mec_destroy();
- 		}
- 	}
- 
-@@ -615,7 +613,6 @@ static void __exit cros_ec_lpc_exit(void)
- 	if (!cros_ec_lpc_acpi_device_found)
- 		platform_device_unregister(&cros_ec_lpc_device);
- 	platform_driver_unregister(&cros_ec_lpc_driver);
--	cros_ec_lpc_mec_destroy();
- }
- 
- module_init(cros_ec_lpc_init);
-diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.c b/drivers/platform/chrome/cros_ec_lpc_mec.c
-index bbc2884f5e2f..0d9c79b270ce 100644
---- a/drivers/platform/chrome/cros_ec_lpc_mec.c
-+++ b/drivers/platform/chrome/cros_ec_lpc_mec.c
-@@ -146,9 +146,3 @@ void cros_ec_lpc_mec_init(unsigned int base, unsigned int end)
- 	mec_emi_end = end;
- }
- EXPORT_SYMBOL(cros_ec_lpc_mec_init);
--
--void cros_ec_lpc_mec_destroy(void)
--{
--	mutex_destroy(&io_mutex);
--}
--EXPORT_SYMBOL(cros_ec_lpc_mec_destroy);
-diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.h b/drivers/platform/chrome/cros_ec_lpc_mec.h
-index aa1018f6b0f2..9d0521b23e8a 100644
---- a/drivers/platform/chrome/cros_ec_lpc_mec.h
-+++ b/drivers/platform/chrome/cros_ec_lpc_mec.h
-@@ -45,13 +45,6 @@ enum cros_ec_lpc_mec_io_type {
-  */
- void cros_ec_lpc_mec_init(unsigned int base, unsigned int end);
- 
--/*
-- * cros_ec_lpc_mec_destroy
-- *
-- * Cleanup MEC I/O.
-- */
--void cros_ec_lpc_mec_destroy(void);
--
- /**
-  * cros_ec_lpc_mec_in_range() - Determine if addresses are in MEC EMI range.
-  *
-diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
-index 5b42992bff38..d6a994bdc182 100644
---- a/drivers/platform/chrome/wilco_ec/core.c
-+++ b/drivers/platform/chrome/wilco_ec/core.c
-@@ -129,7 +129,6 @@ static int wilco_ec_probe(struct platform_device *pdev)
- unregister_debugfs:
- 	if (ec->debugfs_pdev)
- 		platform_device_unregister(ec->debugfs_pdev);
--	cros_ec_lpc_mec_destroy();
- 	return ret;
- }
- 
-@@ -143,10 +142,6 @@ static int wilco_ec_remove(struct platform_device *pdev)
- 	platform_device_unregister(ec->rtc_pdev);
- 	if (ec->debugfs_pdev)
- 		platform_device_unregister(ec->debugfs_pdev);
--
--	/* Teardown cros_ec interface */
--	cros_ec_lpc_mec_destroy();
--
- 	return 0;
- }
- 
--- 
-2.38.1.273.g43a17bfeac-goog
-
+For more info write to <info@kernelci.org>

@@ -1,57 +1,55 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2B08F76
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 23:07:52 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1322d768ba7so15121017fac.5
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 16:07:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C1F1A601
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 23:36:36 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id i3so11991895pfc.11
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 16:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iIKNfIS9DJZ+OreDnkhjQEbBfQ5lKHnR+23wu5eNP+4=;
-        b=CFRw2KUOfNI618M5wfGr3VzUsoE6+rWut09ICvW0xZsQBJAlb5iRyuOIVZyW+cxhPN
-         FiLdQd+HvwAGMBpFpKXdwkY3UgbdJU8qQlttbtfn0+pDpMzG4GHywbVRKilsOiPyrXxn
-         jcjICLAvDvkydW2h6PGFJWcSFhkyv2KSUz/YaFzZlaNzZFV56/mIRyP7ZTnwk64y4n9q
-         Lv/zcPwIMiaDw5ylE2aXisFQ4lVq5UAkb7fCyQ0f6vcACiTcAaNvyZCiGr2a/snQEkUu
-         PHpymBsb+z8NIseqAyoBNWRvJ+pKanJFHgU007rivRmdTB0G5MNZ1TIjvu+SQCf5/HGt
-         az/Q==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fIEWd8onM/z3T5jqOPsrRMbqWzCIn60YiPnXRTLOInc=;
+        b=GxQ9FkKhuDVlZW7+n/r/0AYDrUKRj9fT4DfaXz5OkH6F32hNbBDGLUUbea7EQPDAfV
+         YqPqU8JVsZ/cnhWXEdYuc8k7Hwc+g9FTbY1s4abp9gByogjoLzb+av481Wogo4Dfhrd5
+         WD/k7lGhBb1tU5CY1TgyLJppPtmqQ8AKLl79Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iIKNfIS9DJZ+OreDnkhjQEbBfQ5lKHnR+23wu5eNP+4=;
-        b=JsVzuO6GFOKbKtUCHw+It12iwJg+kcJOiY3YQjiCap3LYAq0JX995Wf5QzJahtZigj
-         HDd0X0Y4FaW6ffthfB9pYhh09oTmy8w32riyXosobEA2UDtQIHb3E9NqdSBa1k0Gjcsu
-         xk4gNBES9iQIDYtgv8w/IEAmG5caQ/c8kJcR+G5q6k5/ayozYcaTsC87vrP3M6zEdYW/
-         GCDf1uc+pPDBKQdWRZuUUyzzqdYygzmQmh/Cm26zkXXzNopYAjVP619cl171e2CcKIJw
-         /7175DioVnyqsT395Ce3YGv4JmsSWnfqMYw0RZzVwjrNXe0x/U62SrSEzslx4YKzQi4J
-         MblQ==
-X-Gm-Message-State: ACrzQf3Yt8Jvw4HrzsICgLST8au5RSbbbCbvMVlbsnODarbFeVo3ehOU
-	iuN9nFusvRiD4UFOLS3/f00=
-X-Google-Smtp-Source: AMsMyM4jMrEtQxRZyChRGb9EEzYfviGe38pgCfAYpjEgP7S2SnvOLdFtOazIJKW1VuMSGW3gIp9RUQ==
-X-Received: by 2002:a05:6870:5894:b0:131:b25b:413e with SMTP id be20-20020a056870589400b00131b25b413emr18653062oab.192.1667257671404;
-        Mon, 31 Oct 2022 16:07:51 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a13-20020a4ad5cd000000b0049427725e62sm2844817oot.19.2022.10.31.16.07.49
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fIEWd8onM/z3T5jqOPsrRMbqWzCIn60YiPnXRTLOInc=;
+        b=mwSHA50/33RLIiiLBMD7A0txxR0jeurZY5PViLVg5A/+2hxknzUNzMI+PpPBoJYyPJ
+         JBGtdGaKZGC6vsT8UhnAuZJahUGC++4web+WRGMsePoh465Ak6uLOeOMTFv2zKdojrEv
+         yonbSJrZbilgmVdycEhOEH1FFAN5rh1bvjPiWG/9mXvr1Ti7elfU9r0QERxsMNKg+CKi
+         vlPBcugH2zVhhJkMNShfbwwA1W7SDgXmZLyvDqIb8V1MIIWB9YS/ly23AicFUVCboEGD
+         HcCBo9Ep3voOhdHhplRehyNGLooB4+8/IGsmiTOYJ03H5drRI2ofET5runOyjt1dK1PW
+         asDQ==
+X-Gm-Message-State: ACrzQf1yheYkX3/xV7ECyLNHcKYi0lAkZmLbIUR2npTBKkWExGrYgNUJ
+	mRBPzjHR/BCLjDUoD2vWYXdddQ==
+X-Google-Smtp-Source: AMsMyM7YaNSKyryTKiHMmUKNSWFHD8vfAx1yO3sljy9/ITSw3Gzhl3RBm/F9sb6KMnpe8gGrj+N92A==
+X-Received: by 2002:a63:ec51:0:b0:46f:ed8d:7089 with SMTP id r17-20020a63ec51000000b0046fed8d7089mr417346pgj.469.1667259395610;
+        Mon, 31 Oct 2022 16:36:35 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:cf9d:6561:637d:2194])
+        by smtp.gmail.com with ESMTPSA id d9-20020a170902f14900b00185480a85f1sm4903074plb.285.2022.10.31.16.36.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 16:07:50 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 31 Oct 2022 16:07:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
-	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
-Message-ID: <20221031230749.GB2082109@roeck-us.net>
-References: <20221029005400.2712577-1-linux@roeck-us.net>
- <Y2ABnbBGSJGM3gSS@mail.local>
- <20221031181913.GA3841664@roeck-us.net>
- <Y2BIv21U7lpN0z23@mail.local>
+        Mon, 31 Oct 2022 16:36:35 -0700 (PDT)
+Date: Mon, 31 Oct 2022 16:36:32 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernelci-results@groups.io, "kernelci.org bot" <bot@kernelci.org>,
+	kernel-build-reports@lists.linaro.org,
+	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
+	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org,
+	tzungbi@google.com
+Subject: Re: chrome-platform/for-kernelci baseline: 98 runs, 5 regressions
+ (v6.1-rc1-5-g27b86a65cd16)
+Message-ID: <Y2BcAFf77/JMQxYR@google.com>
+References: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
+ <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
+ <Y2BAGBVik+VvLTwF@sirena.org.uk>
+ <Y2BKg6gefPQ9BUAc@google.com>
+ <Y2BRxJ/qrl9cjWbK@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -60,102 +58,94 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2BIv21U7lpN0z23@mail.local>
+In-Reply-To: <Y2BRxJ/qrl9cjWbK@sirena.org.uk>
 
-On Mon, Oct 31, 2022 at 11:14:23PM +0100, Alexandre Belloni wrote:
-> On 31/10/2022 11:19:13-0700, Guenter Roeck wrote:
-> > On Mon, Oct 31, 2022 at 06:10:53PM +0100, Alexandre Belloni wrote:
-> > > Hello,
-> > > 
-> > > On 28/10/2022 17:54:00-0700, Guenter Roeck wrote:
-> > > > RTC chips on some older Chromebooks can only handle alarms less than 24
-> > > > hours in the future. Attempts to set an alarm beyond that range fails.
-> > > > The most severe impact of this limitation is that suspend requests fail
-> > > > if alarmtimer_suspend() tries to set an alarm for more than 24 hours
-> > > > in the future.
-> > > > 
-> > > > Try to set the real-time alarm to just below 24 hours if setting it to
-> > > > a larger value fails to work around the problem. While not perfect, it
-> > > > is better than just failing the call. A similar workaround is already
-> > > > implemented in the rtc-tps6586x driver.
-> > > 
-> > > I'm not super convinced this is actually better than failing the call
-> > > because your are implementing policy in the driver which is bad from a
-> > > user point of view. It would be way better to return -ERANGE and let
-> > > userspace select a better alarm time.
-> > 
-> > The failing call is from alarmtimer_suspend() which is called during suspend.
-> > It is not from userspace, and userspace has no chance to intervene.
-> > 
-> > It is also not just one userspace application which could request a large
-> > timeout, it is a variety of userspace applications, and not all of them are
-> > written by Google. Some are Android applications. I don't see how it would be
-> > realistic to expect all such applications to fix their code (if that is even
-> > possible - there might be an application which called sleep(100000) or
-> > something equivalent, which works just fine as long as the system is not
-> > suspended.
-> > 
-> > > Do you have to know in advance which are the "older" chromebooks that
-> > > are affected?
-> > 
-> > Not sure I understand the question. Technically we know, but the cros_ec
-> > rtc driver doesn't know because the EC doesn't have an API to report the
-> > maximum timeout to the Linux driver. Even if that existed, it would not
-> > help because the rtc API only supports absolute maximum clock values,
-> > not clock offsets relative to the current time. So ultimately there is no
-> > means for an RTC driver to tell the maximum possible alarm timer offset to 
-> > the RTC subsystem, and there is no means for a user such as
-> > alarmtimer_suspend() to obtain the maximum time offset. Does that answer
-> > your question ?
+On Mon, Oct 31, 2022 at 10:52:52PM +0000, Mark Brown wrote:
+> On Mon, Oct 31, 2022 at 03:21:55PM -0700, Brian Norris wrote:
+> > I can't find a single mention of "i2s1" or "probed" in the kernelci
+> > repo, so I must be missing something. Is there some external config
+> > file in another repo? Or else the test configs are autogenerating cases
+> > on the fly based on parsing...the device tree?
 > 
-> Yes, my question was missing a few words, sorry I wanted to know if you
-> had *a way* to know.
+> The KernelCI repo just says what testsuites to invoke and how, it's not
+> got the actual testsuites.  Those X didn't probe failures come from
+> bootrr:
 > 
-
-See below. It is doable, but there is no real good solution, or at least
-I don't see one right now.
-
-> > 
-> > On a side note, I tried an alternate implementation by adding a retry into
-> > alarmtimer_suspend(), where it would request a smaller timeout if the
-> > requested timeout failed. I did not pursue/submit this since it seemed
-> > hacky. To solve that problem, I'd rather discuss extending the RTC API
-> > to provide a maximum offset to its users. Such a solution would probably
-> > be desirable, but that it more longer term and would not solve the
-> > immediate problem.
+>    https://github.com/andersson/bootrr
 > 
-> Yes, this is what I was aiming for. This is something that is indeed
-> missing in the RTC API and that I already thought about. But indeed, it
-> would be great to have a way to set the alarm range separately from the
-> time keeping range. This would indeed have to be a range relative to the
-> current time.
+> forked to:
 > 
-> alarmtimer_suspend() can then get the allowed alarm range for the RTC,
-> and set the alarm to max(alarm range, timer value) and loop until the
-> timer has expired. Once we have this API, userspace can do the same.
+>    https://github.com/kernelci/bootrr
 > 
-> I guess that ultimately, this doesn't help your driver unless you are
-> wanting to wakeup all the chromebooks at least once a day regardless of
-> their EC.
+> (which could use some upstreaming...) with the specific errors for
 
-That is a no-go. It would reduce battery lifetime on all Chromebooks,
-including those not affected by the problem (that is, almost all of them).
+Neither of those looks particularly active. If I patch stuff, is it
+better to send PRs to the 'andersson' one or the 'kernelci' one?
 
-To implement reporting the maximum supported offset, I'd probably either
-try to identify affected Chromebooks using devicetree information,
-or by sending am alarm request > 24h in the future in the probe function
-and setting the maximum offset just below 24h if that request fails.
-We'd have to discuss the best approach internally.
+> gru-kevin coming from:
+> 
+>    https://github.com/kernelci/bootrr/blob/main/boards/google%2Ckevin
+> 
+> which ends up in our rootfss.
 
-Either case, that doesn't help with the short term problem that we
-have to solve now and that can be backported to older kernels. It also
-won't help userspace - userspace alarm requests, as Brian has pointed out,
-are separate from limits supported by the RTC hardware. We can not change
-the API for CLOCK_xxx_ALARM to userspace, and doing so would not make
-sense anyway since it works just fine as long as the system isn't
-suspended. Besides, changing alarmtimer_suspend() as you suggest above
-would solve the problem for userspace, so I don't see a need for a
-userspace API/ABI change unless I am missing something.
+Ah, thanks. That helps. Although it hurts in other ways, see below.
 
-Thanks,
-Guenter
+> Those failures in particular come from some reorganisation of the DT for
+> the Rockchip devices a while back which regularly gets bisected by our
+> bisect bot, I did report it or something very similar as looking like a
+> false positive but nobody followed up.  I see there's some version
+> dependent checks for the acclerators which may not be working properly
+> any more I guess but nothing for the I2S.
+> 
+> > Anyway, I don't know how or why that ever passed, because AFAICT, RK3399
+> > Chromebooks should only have a single I2S block enabled, and they're
+> > passing the 'rockchip-i2s0-probed' case. So it feels like I need to be
+> > disabling some test case.
+> 
+> Yes, that was what I'd determined too - the reorganisation of the DT
+> looked legit, I can't remember what it was exactly.  I suspect it may
+> have boiled down to adding some missing default disables, or removing an
+> erroious enable for the board.
+
+Ah, based off your pointers, I see the test was looking for what used to
+be the i2s2 alias. But then I recall we stopped using that i2s instance:
+
+https://git.kernel.org/linus/b5fbaf7d779f5f02b7f75b080e7707222573be2a
+arm64: dts: rockchip: Switch RK3399-Gru DP to SPDIF output
+
+I forgot that folks did that downstream long ago but never bothered
+finishing upstreaming that until I got to it this year...
+...but still, it's kinda sad that we've bothered to set up all this "CI"
+and then nobody paid any attention :( I only noticed because I recently
+subscribed to chrome-platform@lists.linux.dev.
+
+Anyway, I guess I gotta go patch the test expectations.
+
+> > Somewhat similar story for cros-ec-sensors-accel{0,1}-probed, although I
+> > believe the sensor driver is still working for me; I also see no
+> > cros-ec-sensors errors in the KernelCI logs. So I wonder what exactly
+> > the test is looking for (e.g., maybe the device name changed?).
+> 
+> IIRC there were some of these that were a device name change.
+
+Oh, this one makes me gag.
+
+"assert_device_present cros-ec-sensors-accel0-probed cros-ec-sensors cros-ec-accel.11.*"
+
+? Really, ".11"? That sounds like we're trying to test kernel
+implementation details, asynchronous probe race conditions, Makefile /
+linker ordering, and similar -- not anything that we actually expect to
+remain stable across kernel versions :(
+
+I'm not sure there's a great stable way to refer to such devices, so
+maybe it'd be better to write this as "count the number of devices"
+instead? Or I think this particular driver supports an "id" sysfs
+attribute, which refers to a stable underlying firmware ID. But that'd
+involve even more device-specific logic.
+
+I don't think I even care *why* the ID changed; that ID is far from a
+stable thing, if I'm reading it correctly. At least most of the others
+refer to hardware addresses, which are a little more reasonable to rely
+on (even if the device naming still isn't a stable guarantee).
+
+Brian

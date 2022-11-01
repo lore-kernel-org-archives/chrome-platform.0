@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAED77E
-	for <chrome-platform@lists.linux.dev>; Tue,  1 Nov 2022 11:31:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A16C433C1;
-	Tue,  1 Nov 2022 11:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC107E
+	for <chrome-platform@lists.linux.dev>; Tue,  1 Nov 2022 11:31:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580CCC433D6;
+	Tue,  1 Nov 2022 11:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302264;
-	bh=pqxhOX89QC5Zrs00R7wOL/EwEMXmbVN0sPN00O3CMRA=;
+	s=k20201202; t=1667302284;
+	bh=UCC8lyDEoZajJOcyBilNX3fzGYsshdVzFMcs3OEstNw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qsberOuB/n1q4TqB8FHQy5GSWFRDIRDNnT0fRh7378IRdlkIRZsuRV3WNumSOkDBL
-	 QsZhd1KRzR2vKFapX/HxH0ziz1vx7rst8kTUcvE7DF13m7Zzn3+VS2x1geg8jDXfce
-	 HsxdCBs1mzJP6hffgGF0AKCY8RsGiO9RnM7u1qXBb6jrC9TyuEfMn/Xbwj+0B3xulH
-	 ZC43K0U0uqApJxFw/YPWViidThQ12Z+/lW1Fw5tpZtPuvcWk/xiOo7G4gaOAd5yb2n
-	 1dKqtbZC4eQI7A47lQvJ7FLUqaZ9KSqJmyk/Cn4eAanush41O3svZpr50v0tG8aDrI
-	 xn+hDFFzr8S2g==
+	b=cazFgmPSyS/y4hdw9scYB7cDm91AKNw2xgptGQHNnyc7WJNXlr1ZlX9/Kvhp861xm
+	 IDQGGsSs7FtG1D4vLoLMy2A8xz9gRfp7Ie351erqQ/tyS7l3FSr9XMSO1UZsA+pfHL
+	 XphFP52DOYoaTZLcWf9hFqqsfrkpDuIcpuTmNMYYNiTacQrpbkROcXNaiiFdTJr8if
+	 8THJhyvDf3FdkjTbQbEZUF5Hw0YVFTLMH6yioz7ZETxh0+ems9+dwLtWnjzEChW6ZJ
+	 nMtGzE+wlOt2yIUUJQpjX6ZrjPK/hzOnm88LUP9Dky2skfbinOdLCsdHuyHPyporLg
+	 W1VU5ejTsLswA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,12 +24,12 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	bleung@chromium.org,
 	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 2/8] media: cros-ec-cec: limit msg.len to CEC_MAX_MSG_SIZE
-Date: Tue,  1 Nov 2022 07:30:51 -0400
-Message-Id: <20221101113059.800777-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 2/6] media: cros-ec-cec: limit msg.len to CEC_MAX_MSG_SIZE
+Date: Tue,  1 Nov 2022 07:31:12 -0400
+Message-Id: <20221101113118.800889-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101113059.800777-1-sashal@kernel.org>
-References: <20221101113059.800777-1-sashal@kernel.org>
+In-Reply-To: <20221101113118.800889-1-sashal@kernel.org>
+References: <20221101113118.800889-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -55,10 +55,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-index 31390ce2dbf2..ae274a7aa3a9 100644
+index 7bc4d8a9af28..1f35770245d1 100644
 --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
 +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-@@ -45,6 +45,8 @@ static void handle_cec_message(struct cros_ec_cec *cros_ec_cec)
+@@ -44,6 +44,8 @@ static void handle_cec_message(struct cros_ec_cec *cros_ec_cec)
  	uint8_t *cec_message = cros_ec->event_data.data.cec_message;
  	unsigned int len = cros_ec->event_size;
  

@@ -1,196 +1,67 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B07B365
-	for <chrome-platform@lists.linux.dev>; Tue,  1 Nov 2022 04:55:55 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id v28so12325744pfi.12
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Oct 2022 21:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=6R7BEc78HyHyEF5sxfAj1hZkyHOOwAbIR03AdMgqg9E=;
-        b=5pv/098kBO7yygOEp5RAajZ0cWSXC55XkQ+FTbFYzAZKOHPFljZs/SsImef0UcVthl
-         zY2lz9umtzCZTJplRZRtYhdXV35CRJgD6r645OVTYds/sTqIHX8N8G12sDplrrOr7byZ
-         y4jS2rZ0gyo6hBMkBeAIxkZ2uZ6AlT5yKlQYtm8T+rIWuIyri9N04izgQkM5uVgKIO+k
-         +CHCCT+EbImS6dkCIf/LUYKqJLjPtVs73mGSPm305D/DXzlJmkK6fk5D1cUchwyFIHIL
-         8PKREAK/vx1R7NeXf9CEQXAMVc9tRZF5hjBINlCDcU6JiEiYGOqQBYXZkCTkqeqCMfo5
-         YdGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6R7BEc78HyHyEF5sxfAj1hZkyHOOwAbIR03AdMgqg9E=;
-        b=CfhkPx3eO08xsaNyMsbWsmmILLg5FaiZP+1IPCjNuH87RvZonEjZgSUDuU2lQKKNu8
-         nD3vpJnfloEOBQwD3l0PBMNTRHng8SHLDPusOYbwofvLEh9YpLLtwMFqyOvRBMX75Ard
-         vxf92+ZM7qGeLpYSdJV8GAVYA1StQ3SPZvLt3hBuKAt+XvxPyZK0ieKA6TuDl7C9220U
-         bXS7JcJXHOj+4aOcXALOnDpJRvRrmEixTXYhE6Hi6IQoUgC6QD8q9LYB+cToqVtlzbdx
-         NGKCJiRa0NZ3+RFRQvcDHbR7iAnP/zgXAAQoUv8Whjy2k8wJBf9G/jubCJ8V7uskRLJ7
-         lPuA==
-X-Gm-Message-State: ACrzQf3epN3xS66sb37jbVZ8JLc+hQDTggTPTg24aFllstlz8jYguCY2
-	BM8sXZ/+tA8gGJ7+gTQcjPuGfQ==
-X-Google-Smtp-Source: AMsMyM4cDFAghddJaN8C5CWKvvPD8lKXh5zw00pi1CS2U8ukcORVQ7nppGWUgbmr6jcjog6fm5xNxQ==
-X-Received: by 2002:aa7:96c7:0:b0:56b:c569:99c with SMTP id h7-20020aa796c7000000b0056bc569099cmr18031956pfq.4.1667278554619;
-        Mon, 31 Oct 2022 21:55:54 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b00178aaf6247bsm5278641plb.21.2022.10.31.21.55.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 21:55:54 -0700 (PDT)
-Message-ID: <6360a6da.170a0220.dd8d3.97c1@mx.google.com>
-Date: Mon, 31 Oct 2022 21:55:54 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E7E365
+	for <chrome-platform@lists.linux.dev>; Tue,  1 Nov 2022 05:32:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EF85C433C1;
+	Tue,  1 Nov 2022 05:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667280736;
+	bh=1dCBuQ9n2S/byCJgu/FWkyZlxOFd8kI13nXkIQw00Jc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BIingfoT/88zEoHvE2jndRKvlGxhNPA0ksQoEJsnkuJ0GlFmMHsBLAubUyhQWbSv9
+	 afHvKGqYQw/Uu0WwWBVN6/3fwc8b/r+1eordWhMXxcOamiIgkZ7nJp2jX9VXocEc9E
+	 /H+D+kda6Ho/zN9ouAnYIN+Z813djKPU0piCxjlGXbDsLsGtyuRO/9cSolzeBJ4R6X
+	 EyEbu+lyXw9c+FocIYOmXlXGNM/Q0TiAx5uOPjm+rl1y8IYcfOWR0pRePZNF/c1PjH
+	 K2CLLasxRRom79nWbyjetBb7UJoyXYv/XfMPd1W2aON3JgbQkOb4NSvda2yfoiMQH9
+	 YZG3fvb8WmlmQ==
+Date: Tue, 1 Nov 2022 13:32:12 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Mark Brown <broonie@kernel.org>, kernelci-results@groups.io,
+	"kernelci.org bot" <bot@kernelci.org>,
+	kernel-build-reports@lists.linaro.org,
+	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
+	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org
+Subject: Re: chrome-platform/for-kernelci baseline: 98 runs, 5 regressions
+ (v6.1-rc1-5-g27b86a65cd16)
+Message-ID: <Y2CvXBE414t3sqDC@google.com>
+References: <635f6274.170a0220.79b7b.5d1a@mx.google.com>
+ <CA+ASDXPHbdh=_s4qiZbCQz0_VbFuh_gKvsq=mWFZ5QY-QUPKAA@mail.gmail.com>
+ <Y2BAGBVik+VvLTwF@sirena.org.uk>
+ <Y2BKg6gefPQ9BUAc@google.com>
+ <Y2BRxJ/qrl9cjWbK@sirena.org.uk>
+ <Y2BcAFf77/JMQxYR@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.1-rc1-6-g18ffa74c2259
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 87 runs,
- 5 regressions (v6.1-rc1-6-g18ffa74c2259)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2BcAFf77/JMQxYR@google.com>
 
-chrome-platform/for-kernelci baseline: 87 runs, 5 regressions (v6.1-rc1-6-g=
-18ffa74c2259)
+On Mon, Oct 31, 2022 at 04:36:32PM -0700, Brian Norris wrote:
+[...]
+> ...but still, it's kinda sad that we've bothered to set up all this "CI"
+> and then nobody paid any attention :( I only noticed because I recently
+> subscribed to chrome-platform@lists.linux.dev.
 
-Regressions Summary
--------------------
+I do notice that the kernelci reported test failures/regressions for
+chrome-platform repo.  I only raised my hand in some private sessions
+instead of public mailing lists.
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+For now, I only see build results (e.g. [1]) as a signal to move patches
+from "for-kernelci" to "for-next" branches; and ignore the regression ones
+temporarily.
 
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 4          =
+The LAVA lab "lab-collabora" was setup by Collabora; and it has been
+un-maintained for a long while.  In order to troubleshooting, I thought
+we need to access the LAVA dispatcher and boards (at least from SSH).
+But it seems only Collabora folks have the permission to access them.
 
+In either cases, we should figure out a way to make the "CI" back to work.
+I will seek for Collabora folks' help.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.1-rc1-6-g18ffa74c2259/plan/baseline/
-
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.1-rc1-6-g18ffa74c2259
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      18ffa74c225988fdc907dd59051256d39816346c =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63609d676c82458c98e7db51
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-6-g18ffa74c2259/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabo=
-ra/baseline-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-6-g18ffa74c2259/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabo=
-ra/baseline-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/63609d676c82458c98e7d=
-b52
-        failing since 60 days (last pass: tag-chrome-platform-for-v5.20-2-g=
-ddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 4          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63609e23f3accdfb89e7db4f
-
-  Results:     85 PASS, 7 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-6-g18ffa74c2259/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabo=
-ra/baseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-6-g18ffa74c2259/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabo=
-ra/baseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/63609e23f3accdfb89e7db71
-        failing since 209 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, firs=
-t fail: v5.18-rc1-1-gbf84b10d9901d)
-
-    2022-11-01T04:18:16.353298  <8>[   39.767664] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-11-01T04:18:17.403141  /lava-7799018/1/../bin/lava-test-case
-    2022-11-01T04:18:17.415662  <8>[   40.830238] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
-/case/id/63609e23f3accdfb89e7db94
-        failing since 148 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-01T04:18:14.401415  /lava-7799018/1/../bin/lava-test-case
-    2022-11-01T04:18:14.410980  <8>[   37.825146] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-gyro0-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
-t/case/id/63609e23f3accdfb89e7db95
-        failing since 148 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-01T04:18:12.303083  <8>[   35.716981] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>
-    2022-11-01T04:18:13.352010  /lava-7799018/1/../bin/lava-test-case
-    2022-11-01T04:18:13.364906  <8>[   36.779141] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
-t/case/id/63609e23f3accdfb89e7db96
-        failing since 148 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-01T04:18:12.283305  /lava-7799018/1/../bin/lava-test-case   =
-
- =20
+[1]: https://lore.kernel.org/chrome-platform/63609caf.620a0220.bd35e.9c8e@mx.google.com/T/#u

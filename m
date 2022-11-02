@@ -1,44 +1,44 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB098801
-	for <chrome-platform@lists.linux.dev>; Wed,  2 Nov 2022 11:40:41 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id p3so16304552pld.10
-        for <chrome-platform@lists.linux.dev>; Wed, 02 Nov 2022 04:40:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918B8801
+	for <chrome-platform@lists.linux.dev>; Wed,  2 Nov 2022 12:25:41 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id l6so16118895pjj.0
+        for <chrome-platform@lists.linux.dev>; Wed, 02 Nov 2022 05:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+i4Iy+LLUZcCONzrU2V3goqUYz6kEG4dJITxDO7ESa4=;
-        b=7broHfujDN2k1SpNqc9WRSonIyA1BRmCFT7FEmn620Xix4FSTmFFDNV7BSk//U2sBc
-         PMhLU3r1rQzOSLaaYj4K7H9UQUvGBNrf6k6LJygbkgsYng8suZDsRbmLqAmzX2227VFl
-         6jW7elPrLJMtdaJ/pWfiAqTc5+1i0BZz3O2fD+UBxJ5pl8Z0XCZ5uzw5XT2BV6AzF//6
-         whk2j3dTj28o3Xjoqvd7U4WI5Wz2zuf8240LjhFVGSQeoiTFHE2yPtHXH7HofnKKDxXS
-         ivoj3jaHHAFuz4GSIOkPgjOciO9LlhWIseyenpAFOw40CrixJ6mPaDaOg2ZtTQyPUTof
-         /VBA==
+        bh=zxFeC4FETnfSBEvTPiKFt7mJ6d6aLyJZCfdvFTAOTxo=;
+        b=khZdmyr21+uSE7L50vXnNnM/gnRRO5NW+KGsr+jn07pcZ/Bhu+cXbXwD5SZqw88Orz
+         pStyqHzsi4YljQyft4keka9+VDfzrH4uFhQ0ZRkz/qZmQ1831X5ywDkrgGbWZ5wGS8IO
+         MiiZQdSTVKON9L1SEnZ9V+L2H8QAU+0tCrJOOFUQBOgw5vrdzsU2uVDP0xN263dCAxLU
+         hqS7lU6Xk0ZobGf04+cbwULDlTLw1znQzqcm9XAhx/NPKGhDtcSXznLxdrCGZt7wRJLh
+         F7BIb6qQXHq9JLpmxdkX3ZYIW+fi/dSqmwlcwd/7hwwMe/i7EjxzazCCqGBCMix1YDdR
+         ZLXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+i4Iy+LLUZcCONzrU2V3goqUYz6kEG4dJITxDO7ESa4=;
-        b=ABYSB16Ksah7VHQTXqaXac668QaRwXDZuA8Nwe0uFXuF82O5vRIy3OaLH9swnY7NQ4
-         X8k92q2UsEjE1/bC3SDzQ+uBNJ+dIAQwdWKGEYdH121FzkTbQzUVubI97vQjfpqmjrZc
-         cTRFG2evt/SsOW1505fZXzs6EjGMSTbYNXXAhvNfyygU5xqR+2hVW1S8KUSrYwg9sHyl
-         zWH/a03xsGy4vV47+FYkSPQlxn2+Mht033sMFqHQnnRVHSx/XxtS+QjPNXmGtzFhmfV+
-         u91uBobWX+GVIVqxBzaoFykBvIXRJYhDa1VJq6ZzXL9RJOiBec1/YurqbybBznm2ANrQ
-         c6sg==
-X-Gm-Message-State: ACrzQf1TjEaElhRg/LR/sCvZ7a8E+xAUXsup1QdPnOM401AZFJjkGhMz
-	cfmgaGFmlwmo3ZmtdK1s/i7+dMOcW4IwLW/j
-X-Google-Smtp-Source: AMsMyM7KzylfFxQs0C7FpZEZagKZHY3cI8buEo48fOjNdSfBGmilf0uM4r6sKOD9aX1BwtrMkywvXA==
-X-Received: by 2002:a17:902:8541:b0:17f:6b27:7a75 with SMTP id d1-20020a170902854100b0017f6b277a75mr24280738plo.65.1667389241107;
-        Wed, 02 Nov 2022 04:40:41 -0700 (PDT)
+        bh=zxFeC4FETnfSBEvTPiKFt7mJ6d6aLyJZCfdvFTAOTxo=;
+        b=P0cFbLHgQQRZpHRRYyXyZiDmFS9qHHuzJXi7/NXlhEDIYUOTopFjWLe5e6MdT57AFf
+         pwyVh+7s8MSZ0NLAsUYSRQiyABpk058OrzawHfo78JxNMeTnL2adEzO2mtfysSZywjD2
+         G25SgPXZTBVI5aK2cpNdHd1adtqNNqxrpeWsG74B6bm9kTuDh5HY+HBwi9rkFIeitTtK
+         KZX18D+joFlAKF/wld6AMYmKDd0AosLUpyG3A+u4zCgaZ1do02P7wtwVTAEY65bp3SDS
+         yWgGfcSlw9Xn0GrlAHv8+phPRup/BySR/w/14NUdCnObDkQyqijN7sej1s16MCsF1+QJ
+         SALw==
+X-Gm-Message-State: ACrzQf3uJgVZzHkNNyNOaKMtLoiEeNIOxGFEN8qRC6WImP9y9efjbocq
+	pBOowo74HAUoPAynXA0f2DBGCQ==
+X-Google-Smtp-Source: AMsMyM44bmFUidl6RfbAjVWI1meLlLn+GAkC4KG3smT5Bic1UVc8DjR3GpjBRDQmKCjW8q8e1LrBVA==
+X-Received: by 2002:a17:90b:8c5:b0:213:de45:d126 with SMTP id ds5-20020a17090b08c500b00213de45d126mr17096109pjb.34.1667391940976;
+        Wed, 02 Nov 2022 05:25:40 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 189-20020a6219c6000000b0056bd4ec964csm8276097pfz.194.2022.11.02.04.40.40
+        by smtp.gmail.com with ESMTPSA id t5-20020a1709027fc500b00178650510f9sm8193795plb.160.2022.11.02.05.25.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 04:40:40 -0700 (PDT)
-Message-ID: <63625738.620a0220.d2e29.f2f7@mx.google.com>
-Date: Wed, 02 Nov 2022 04:40:40 -0700 (PDT)
+        Wed, 02 Nov 2022 05:25:40 -0700 (PDT)
+Message-ID: <636261c4.170a0220.314f5.efb7@mx.google.com>
+Date: Wed, 02 Nov 2022 05:25:40 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -51,46 +51,52 @@ X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v6.1-rc1-12-g52f572342440
 X-Kernelci-Branch: for-kernelci
 X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 93 runs,
+Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
  7 regressions (v6.1-rc1-12-g52f572342440)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-kernelci baseline: 93 runs, 7 regressions (v6.1-rc1-12-=
-g52f572342440)
+chrome-platform/for-kernelci cros-ec: 10 runs, 7 regressions (v6.1-rc1-12-g=
+52f572342440)
 
 Regressions Summary
 -------------------
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-imx7ulp-evk                  | arm   | lab-nxp       | gcc-10   | multi_v7_=
-defconfig         | 1          =
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 1          =
 
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
 
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 4          =
+hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
 
-sc7180-trogdo...zor-limozeen | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
 
 
   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.1-rc1-12-g52f572342440/plan/baseline/
+ci/kernel/v6.1-rc1-12-g52f572342440/plan/cros-ec/
 
-  Test:     baseline
+  Test:     cros-ec
   Tree:     chrome-platform
   Branch:   for-kernelci
   Describe: v6.1-rc1-12-g52f572342440
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
 /linux.git
-  SHA:      52f5723424401d8d2efb78818d5a38684d70d519 =
+  SHA:      52f5723424401d8d2efb78818d5a38684d70d519
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
 
 
 
@@ -99,166 +105,223 @@ Test Regressions
 
 
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-imx7ulp-evk                  | arm   | lab-nxp       | gcc-10   | multi_v7_=
-defconfig         | 1          =
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/63624b80b2ed20ae3be7db56
+  Details:     https://kernelci.org/test/plan/id/63624a16c49f70a70ce7db56
 
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
+  Results:     6 PASS, 2 FAIL, 11 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm/multi_v7_defconfig/gcc-10/lab-nxp/baseline-imx=
-7ulp-evk.txt
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-asus-cx9400-volteer.txt
   HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm/multi_v7_defconfig/gcc-10/lab-nxp/baseline-imx=
-7ulp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/armel/rootfs.cpio.gz =
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20221024.1/amd64/rootfs.cpio.gz =
 
 
 
-  * baseline.login: https://kernelci.org/test/case/id/63624b80b2ed20ae3be7d=
-b57
-        new failure (last pass: v6.0-rc1-20-g95a789b97c72) =
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+3624a16c49f70a70ce7db69
+        failing since 71 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-11-02T10:44:26.413324  / # =
+
+    2022-11-02T10:44:26.418537  =
+
+    2022-11-02T10:44:26.520254  / # #
+    2022-11-02T10:44:26.525313  #
+    2022-11-02T10:44:26.626362  / # export SHELL=3D/bin/sh
+    2022-11-02T10:44:26.626536  <4>[   11.361782] cros-ec-spi spi-PRP0001:0=
+1: EC failed to respond in time
+    2022-11-02T10:44:26.626619  <3>[   11.369291] cros-ec-spi spi-PRP0001:0=
+1: Cannot identify the EC: error -110
+    2022-11-02T10:44:26.626687  <3>[   11.377276] cros-ec-spi spi-PRP0001:0=
+1: cannot register EC
+    2022-11-02T10:44:26.626756  <4>[   11.383908] cros-ec-spi: probe of spi=
+-PRP0001:01 failed with error -110
+    2022-11-02T10:44:26.626820  export SHELL=3D/bin/sh<4>[   11.400151] cro=
+s-ec-sensorhub cros-ec-sensorhub.1.auto: no info for EC sensor 3 : -22/3 =
+
+    ... (13 line(s) more)  =
 
  =
 
 
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
 
 
-  Details:     https://kernelci.org/test/plan/id/63624e0e2a473c71d7e7db5c
+  Details:     https://kernelci.org/test/plan/id/63624a00185f64218be7db4e
 
-  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Results:     6 PASS, 2 FAIL, 11 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20221024.1/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+624a00185f64218be7db5f
+        failing since 71 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+3624a00185f64218be7db61
+        failing since 71 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-11-02T10:44:00.321228  / # =
+
+    2022-11-02T10:44:00.326344  =
+
+    2022-11-02T10:44:00.428041  / # #
+    2022-11-02T10:44:00.432960  #
+    2022-11-02T10:44:00.534028  / # export SHELL=3D/bin/sh
+    2022-11-02T10:44:00.538726  export SHELL=3D/bin/sh
+    2022-11-02T10:44:00.639690  / # . /lava-7814922/environment
+    2022-11-02T10:44:00.644477  . /lava-7814922/environment
+    2022-11-02T10:44:00.745411  / # /lava-7814922/bin/lava-test-runner /lav=
+a-7814922/0
+    2022-11-02T10:44:00.750770  /lava-7814922/bin/lava-test-runner /lava-78=
+14922/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/636249f3efe1829ad3e7db58
+
+  Results:     6 PASS, 2 FAIL, 11 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-14-G1-sona.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.1-rc1-12-g52f572342440/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-=
+collabora/cros-ec-hp-x360-14-G1-sona.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20221024.1/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+6249f3efe1829ad3e7db69
+        failing since 71 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+36249f3efe1829ad3e7db6b
+        failing since 71 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-11-g48a86d3e4836)
+
+    2022-11-02T10:43:40.261717  / # =
+
+    2022-11-02T10:43:40.267527  =
+
+    2022-11-02T10:43:40.369168  / # #
+    2022-11-02T10:43:40.374362  #
+    2022-11-02T10:43:40.475348  / # export SHELL=3D/bin/sh
+    2022-11-02T10:43:40.480264  export SHELL=3D/bin/sh
+    2022-11-02T10:43:40.581144  / # . /lava-7814904/environment
+    2022-11-02T10:43:40.586603  . /lava-7814904/environment
+    2022-11-02T10:43:40.687565  / # /lava-7814904/bin/lava-test-runner /lav=
+a-7814904/0
+    2022-11-02T10:43:40.693171  /lava-7814904/bin/lava-test-runner /lava-78=
+14904/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6362513c9dfbe302b8e7db76
+
+  Results:     5 PASS, 2 FAIL, 12 SKIP
   Full config: defconfig+arm64-chromebook
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
 6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.txt
+ora/cros-ec-rk3399-gru-kevin.txt
   HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
 6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/arm64/rootfs.cpio.gz =
+ora/cros-ec-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20221024.1/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline.login: https://kernelci.org/test/case/id/63624e0e2a473c71d7e7d=
-b5d
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+62513c9dfbe302b8e7db87
         failing since 62 days (last pass: tag-chrome-platform-for-v5.20-2-g=
 ddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483) =
 
- =
 
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+362513c9dfbe302b8e7db89
+        failing since 62 days (last pass: tag-chrome-platform-for-v5.20-2-g=
+ddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483)
 
+    2022-11-02T11:15:03.398432  / # =
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 4          =
+    2022-11-02T11:15:03.401800  =
 
+    2022-11-02T11:15:03.509452  / # #
+    2022-11-02T11:15:03.511757  #<6>[   30.554708] mwifiex_pcie 0000:01:00.=
+0: info: FW download over, size 638992 bytes
+    2022-11-02T11:15:03.513165  =
 
-  Details:     https://kernelci.org/test/plan/id/636250dd5d99a0d332e7db56
+    2022-11-02T11:15:03.617206  / # export SHELL=3D/bin/sh
+    2022-11-02T11:15:03.620102  export SHELL=3D/bin/sh
+    2022-11-02T11:15:03.724600  / # . /lava-7815262/environment
+    2022-11-02T11:15:03.728001  . /lava-7815262/environment
+    2022-11-02T11:15:03.833463  / # /lava-7815262/bin/lava-test-runner /lav=
+a-7815262/0 =
 
-  Results:     85 PASS, 7 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/636250dd5d99a0d332e7db78
-        failing since 210 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, firs=
-t fail: v5.18-rc1-1-gbf84b10d9901d)
-
-    2022-11-02T11:13:24.186090  /lava-7815252/1/../bin/lava-test-case
-    2022-11-02T11:13:24.194917  <8>[   40.838184] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
-/case/id/636250dd5d99a0d332e7db9b
-        failing since 149 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-02T11:13:21.067376  /lava-7815252/1/../bin/lava-test-case   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
-t/case/id/636250dd5d99a0d332e7db9c
-        failing since 149 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-02T11:13:18.958610  <8>[   35.600352] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>
-    2022-11-02T11:13:19.987504  /lava-7815252/1/../bin/lava-test-case
-    2022-11-02T11:13:20.006338  <8>[   36.648495] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
-t/case/id/636250dd5d99a0d332e7db9d
-        failing since 149 days (last pass: v5.18-rc1-24-gc2d7e384924d, firs=
-t fail: v5.19-rc1-5-g4a0e708bb23fc)
-
-    2022-11-02T11:13:18.948257  /lava-7815252/1/../bin/lava-test-case   =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-sc7180-trogdo...zor-limozeen | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63624cfa62bf868a8ae7db62
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-sc7180-trogdor-lazor-limozeen.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.1-rc1-12-g52f572342440/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221024.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/63624cfa62bf868a8ae7d=
-b63
-        new failure (last pass: v6.1-rc1-6-g18ffa74c2259) =
+    ... (15 line(s) more)  =
 
  =20

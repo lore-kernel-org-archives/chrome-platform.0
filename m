@@ -1,169 +1,113 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C41196
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Nov 2022 16:59:22 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id b124so16136385oia.4
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Nov 2022 08:59:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED51B54A
+	for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 23:13:08 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id q9so6079515pfg.5
+        for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 15:13:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z/retO0IOn9gQQquHKtQyZRA1zXaOIaucGlTNCVBH/M=;
-        b=M0qgOYFr5sijy/+ZKYT67kMvMsWpLWguwITmNMkCmQ7LjbgpYKeVZhWQvt96ZEJbst
-         MgL3tOq8VHefGAhd3Gni0dakbLNxrxrlt4WxDXWKPKp50I3DvW6LMIo1sbFN7BOdWFfs
-         QsPyMTVYGqw3HCeJsqiGLGpQFuF7k5a4HR1KWxhWRDJfwtuN/pQNchIBvcYUAj4CQmge
-         phAskO2MssbrgjKlTR8OqDJNYkQZoc2tJ00rEnmd6+w+3sKe9Gj+ZNInekCpJlaHPpmJ
-         6IK53EfJC2cSYwIsGmDd1c/Iv7VtYV6NOLvqICrR8HDNatb0Arz1ed0Vz6XBT4URuOti
-         ig2A==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vmjht/hVO1qKtZApkaycgUVmJWkPJQVFE4gCtMvHeIQ=;
+        b=mi7vvLSbUqjf6eYDklwz4PxdGeRjRl5icdTCigGyh7vAmd7DxvW1+VQn3OC6on3njF
+         ZXQbtjY2evJ4xsO1M58pR3sWEibkDblu8PJvoLQs1pf61kbKF25CvcjCHM6SQ2dgNIAC
+         IqrM9FseUitb/bwaO2ZoBazNavf0OEswXHM/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z/retO0IOn9gQQquHKtQyZRA1zXaOIaucGlTNCVBH/M=;
-        b=ke97gPLxmihavlgSdT9yyZnI9QAD5PgERQ1PYZvNysAqZ4Meoa50weYyLNpDu6xOlY
-         bYicVLKmuGrqtzFAZlyRFBkqr7Q9vGS1xgpPfT/ZMktHNBT1MBFSMlUczuOc4P78zwMm
-         c1UAZbyz6ghy4UKvlLbhkAJNuakOyEHeD39FhmISHEXDSfEotwwZHt0NkTrB0xHDk8wR
-         D9nwyOhvKu2QoLU53fNdzfvWsDzNLX350BkT55ZQ8O04nJNy0zAzxLVDECeC8hzX0ghU
-         cO89YTdy8JkWYMdT68OpPXVCLB3xhXsYYItQ3q+jjFFfyC1HMPouM+HRUCLIakiO1yGF
-         nUXg==
-X-Gm-Message-State: ACrzQf1ikc/W971jGuZ6FsO6JrSnyPYey7hzhI8rzrY/uoa8HumLmnGn
-	5vnxxaEEoO9NW3hsuRlk9GM=
-X-Google-Smtp-Source: AMsMyM613LmbqXHX6qbmzPDTbRL9UTPsE0EYmYd59auwTtOZsG9X/HJb5s+yVzhvuHKcLhANl6qldA==
-X-Received: by 2002:aca:a982:0:b0:359:e9f4:5483 with SMTP id s124-20020acaa982000000b00359e9f45483mr28782336oie.127.1667926762015;
-        Tue, 08 Nov 2022 08:59:22 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g17-20020a056870d21100b00136cfb02a94sm4839827oac.7.2022.11.08.08.59.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 08:59:20 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 8 Nov 2022 08:59:18 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
-	Benson Leung <bleung@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH] rtc: cros-ec: Limit RTC alarm range if needed
-Message-ID: <20221108165637.GA801591@roeck-us.net>
-References: <20221029005400.2712577-1-linux@roeck-us.net>
- <Y2ABnbBGSJGM3gSS@mail.local>
- <20221031181913.GA3841664@roeck-us.net>
- <Y2BIv21U7lpN0z23@mail.local>
- <20221031230749.GB2082109@roeck-us.net>
- <20221102184804.GA1918067@roeck-us.net>
- <Y2mMQifOl7BzPCZm@mail.local>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vmjht/hVO1qKtZApkaycgUVmJWkPJQVFE4gCtMvHeIQ=;
+        b=gO/q5DMscwegFDWS8gXwyRMZm4HdDiCY1AxUx93kXBW/66cv4WqCu7w0aRRCSDR/6r
+         yuN6KwjrX4cnlbrB/xesKdPJvC89LAJi5twcuL8zvyqLMOmtxL3BRWOeNrSg1Ay2WnmA
+         cL1+v5pZKTuy8DXgaTfz9N/azOJB0Lwywwd0Igdv0dkimlVhuwBW/a0pcZfXfLpyB+Mw
+         AccbdYRPU8A9Q+cdP1fLgXOIsZQmYPEOl5eG9R0LqKx7Q3ttw6XEvhoT5Os+hrUWzEAl
+         /d0NcNgdFUV57VE4WEOFTh0NJuEvQhN1FlivFXnIfZaCnBZiiJImMUz02k0WJDxW/Q84
+         0p/A==
+X-Gm-Message-State: ANoB5pmt6D52V2ATdHM1w5WM+Yzeofg/72xaLH+2HYD7SkCJla2tGqsa
+	tfWEa/G0amX3KHPkRYdNbg0UaA==
+X-Google-Smtp-Source: AA0mqf5rxc3hd/kcsj61i+VfkB38xqV7oUcWId0NEijGnleSVEE6bthM12vd8724/F2aVxqYn5cvFw==
+X-Received: by 2002:aa7:8813:0:b0:56b:f64b:b385 with SMTP id c19-20020aa78813000000b0056bf64bb385mr4651731pfo.68.1668208388204;
+        Fri, 11 Nov 2022 15:13:08 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:dc0d:97e5:4cb6:b4d3])
+        by smtp.gmail.com with UTF8SMTPSA id i188-20020a6254c5000000b0056e0ff577edsm2087362pfb.43.2022.11.11.15.13.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Nov 2022 15:13:07 -0800 (PST)
+From: Brian Norris <briannorris@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Brian Norris <briannorris@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Force synchronous probe
+Date: Fri, 11 Nov 2022 15:13:01 -0800
+Message-Id: <20221111231302.3458191-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2mMQifOl7BzPCZm@mail.local>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This reverts commit bd88b965ae8c ("platform/chrome: cros_ec_lpc: Mark
+PROBE_PREFER_ASYNCHRONOUS"), and then some.
 
-On Mon, Nov 07, 2022 at 11:52:50PM +0100, Alexandre Belloni wrote:
-[ ... ]
-> 
-> I'll take the patch as-is so you can backport it and have a solution.
-> I'll also work on the alarm range and I'll let you get the series once
-> this is ready so you can test.
-> 
+It has been reported that there are issues with 'cros-ec-keyb' devices
+that are children of this. As noted in the initial patch for its ACPI
+support (commit ba0f32141bc5 ("Input: cros_ec_keyb - handle x86
+detachable/convertible Chromebooks")), it's possible to probe an ACPI
+child device before its parent is probed -- hence the need for
+EPROBE_DEFER. Unfortunately, poking your parent's dev_get_drvdata()
+isn't safe with asynchronous probe, as there's no locking, and the
+ordering is all wrong anyway (drvdata is set before the device is
+*really* ready).
 
-Excellent, thanks a lot. I also started looking into a poor-man's solution
-of range support. I attached what I currently have below for your
-reference. It isn't much, but it let me test follow-up changes in the
-cros-ec rtc driver. Unfortunately I was not able to find a means to
-implement something like "go back to sleep fast" in the alarm timer code.
+Because this parent/child relationship has known issues, let's go the
+other direction and force synchronous probe, until we resolve the
+issues.
 
-In this context: Is there a standardized set of error codes for RTC
-drivers ? I see -EINVAL, -ETIME, -EDOM, -ERANGE, but those are not
-consistently used. I assumed -ETIME for "time expired" and -ERANGE
-for "time too far in the future" below, but that was just a wild guess.
+Possible solutions involve adding device links, so we ensure the child
+doesn't probe before the parent is done; or perhaps some other larger
+refactoring (auxiliary bus?). But that might take a little more effort
+and review, as there are many other potential sub-devices of
+cros_ec_lpc that could need patching.
 
-Thanks,
-Guenter
+Note that we don't have the same problem for non-ACPI cros-ec hosts,
+like cros-ec-spi (commit 015e4b05c377 ("platform/chrome: cros_ec_spi:
+Set PROBE_PREFER_ASYNCHRONOUS")), because its sub-devices aren't created
+until cros_ec_register(), or they don't exist at all (e.g., FPMCU uses).
 
+Fixes: bd88b965ae8c ("platform/chrome: cros_ec_lpc: Mark PROBE_PREFER_ASYNCHRONOUS")
+Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
-commit 7918f162f947424ec0ad7a318c45febeaea51d2e
-Author:     Guenter Roeck <linux@roeck-us.net>
-AuthorDate: Wed Nov 2 19:35:09 2022 -0700
-Commit:     Guenter Roeck <linux@roeck-us.net>
-CommitDate: Fri Nov 4 09:54:06 2022 -0700
 
-    rtc: Add support for limited alarm timer offsets
-    
-    Some alarm timers are based on time offsets, not on absolute times.
-    In some situations, the amount of time that can be scheduled in the
-    future is limited. This may result in a refusal to suspend the system,
-    causing substantial battery drain.
-    
-    Some RTC alarm drivers remedy the situation by setting the alarm time
-    to the maximum supported time if a request for an out-of-range timeout
-    is made. This is not really desirable since it may result in unexpected
-    early wakeups.
-    
-    To reduce the impact of this problem, let RTC drivers report the maximum
-    supported alarm timer offset. The code setting alarm timers can then
-    decide if it wants to reject setting alarm timers to a larger value, if it
-    wants to implement recurring alarms until the actually requested alarm
-    time is met, or if it wants to accept the limited alarm time.
-    
-    Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+ drivers/platform/chrome/cros_ec_lpc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
-index 9edd662c69ac..05ec9afbb6ba 100644
---- a/drivers/rtc/interface.c
-+++ b/drivers/rtc/interface.c
-@@ -426,6 +426,10 @@ static int __rtc_set_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
- 
- 	if (scheduled <= now)
- 		return -ETIME;
-+
-+	if (rtc->range_max_offset && scheduled - now > rtc->range_max_offset)
-+		return -ERANGE;
-+
- 	/*
- 	 * XXX - We just checked to make sure the alarm time is not
- 	 * in the past, but there is still a race window where if
-diff --git a/include/linux/rtc.h b/include/linux/rtc.h
-index 1fd9c6a21ebe..b6d000ab1e5e 100644
---- a/include/linux/rtc.h
-+++ b/include/linux/rtc.h
-@@ -146,6 +146,7 @@ struct rtc_device {
- 
- 	time64_t range_min;
- 	timeu64_t range_max;
-+	timeu64_t range_max_offset;
- 	time64_t start_secs;
- 	time64_t offset_secs;
- 	bool set_start_time;
-diff --git a/kernel/time/alarmtimer.c b/kernel/time/alarmtimer.c
-index 5897828b9d7e..af8e0a9e0d63 100644
---- a/kernel/time/alarmtimer.c
-+++ b/kernel/time/alarmtimer.c
-@@ -291,6 +291,19 @@ static int alarmtimer_suspend(struct device *dev)
- 	rtc_timer_cancel(rtc, &rtctimer);
- 	rtc_read_time(rtc, &tm);
- 	now = rtc_tm_to_ktime(tm);
-+
-+	/*
-+	 * If the RTC alarm timer only supports a limited time offset, set
-+	 * the alarm time to the maximum supported value.
-+	 * The system will wake up earlier than necessary and is expected
-+	 * to go back to sleep if it has nothing to do.
-+	 * It would be desirable to handle such early wakeups without fully
-+	 * waking up the system, but it is unknown if this is even possible.
-+	 */
-+	if (rtc->range_max_offset &&
-+	    rtc->range_max_offset * NSEC_PER_SEC > ktime_to_ns(min))
-+		min = ns_to_ktime(rtc->range_max_offset * NSEC_PER_SEC);
-+
- 	now = ktime_add(now, min);
- 
- 	/* Set alarm, if in the past reject suspend briefly to handle */
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 2e4dba724ada..7fc8f82280ac 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -557,7 +557,12 @@ static struct platform_driver cros_ec_lpc_driver = {
+ 		.name = DRV_NAME,
+ 		.acpi_match_table = cros_ec_lpc_acpi_device_ids,
+ 		.pm = &cros_ec_lpc_pm_ops,
+-		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++		/*
++		 * ACPI child devices may probe before us, and they racily
++		 * check our drvdata pointer. Force synchronous probe until
++		 * those races are resolved.
++		 */
++		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	},
+ 	.probe = cros_ec_lpc_probe,
+ 	.remove = cros_ec_lpc_remove,
+-- 
+2.38.1.431.g37b22c650d-goog
+

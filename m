@@ -1,66 +1,63 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640A1320C
-	for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 23:23:11 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id b29so6066838pfp.13
-        for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 15:23:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8417C1B54A
+	for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 23:24:20 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id m18so2462965vka.10
+        for <chrome-platform@lists.linux.dev>; Fri, 11 Nov 2022 15:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XWmlbARZcZXJxW3BdSTeuh0BWy57Rr7NJv8STsh8cK4=;
-        b=YYGhhRqDVLq1f58Yb13zQqDbHQfehve9NicwRFtgLil3We7gG7Rjr6lramnkNg9Q/e
-         KyVH/rH2nrZotF1eq3/6eQXJ1YtnwDXOylz04N32Ieny/jkIbfzo3IYJJa2GKwc3jc47
-         6lvCcLGaIfk1L0QYOlP1XoXN6EHbwMRgZPY1/KH6uprAFVO9xgy7blfrSmBDT7PqCxue
-         ptXG/PDjvYQ0AUUIStsbVQ75MEwF7kzn8YZgXVpdVS29DcfH6hZ5qbKE6YEV8Dh1jkoi
-         NIp7U71us5KLt27QNPuLxbffOSnWASkuTYiAus2bC4zookTVxbvY24stK5ZWoSG7GEZ1
-         S/4Q==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0k27JYvEYUqXaeQVspvGGVqqBujev8+Mi45jTmwqQc=;
+        b=GCMp/0g+b5vkP0vDg7ceN3zhH6JtqTUMLeoWbaBxaYO98xQy+4H2pxyHo/4MDyr/0x
+         7LL8PzxceBHRVCRNFNHs5/+EMxLnfpeMIhgMcuIKkmG+xD32hywFFGykCSfG+iKGZZHk
+         QR3v0KJF0IRiV/q6onxm1eJVRSa9Bbeb6NUx/1KCUPI5xRtxXB8TtTPQDatHyCiTuw45
+         4BMNG8UMUtZHRSfh9g2OHq2mWleCQemkhb006o47iSAkF/TNncv+DbQKqgx7/CMu/YAQ
+         n27sKdSilsXbNPQ/scXEssocN8a43rw9YrNMxodXXmiIseQEjvsEBVElAnkaAsT1GZl2
+         NVog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XWmlbARZcZXJxW3BdSTeuh0BWy57Rr7NJv8STsh8cK4=;
-        b=4WvP2A9ceAYGiBMRFjZc2K3RhJRkg+j+48egNxWCkxkicTRU3yLyIAFSAcqytD8Ex3
-         Ec9kdgGFPxoSmjazcikRymARZc+lzXFtEry5j0782jT+gCtYFk7REQlWWtfyAWr3TyX1
-         WsmJwbhiDrs0cwx9N2fun2UdBCvMHQ3LlhqO9fAFWeaIiF7XygF/2xKrgZMRi7ocnVU2
-         NRS1603C9svjLtJtgEMSo2zZaNZqLdVlwex2Woy+H6iUatlur/dm4x0fa3SqbxUkrA9b
-         48UTeHqsAW+4uAvIBWfl/cueReOeYj0BlAAse/z/Qw2Whmqkdq6VyMRrx/g2v6OACqyt
-         Al2g==
-X-Gm-Message-State: ANoB5pkVXo2gEa5z7DALc4Iyz2fZD121k0AwbJYDXKrNis17MUS0f5ZZ
-	gGItS5mZA7uh1JZJnKCfDTk=
-X-Google-Smtp-Source: AA0mqf4+KAVpjQr9onHHy1y9sqIAKiJoXisjIfvNhF1dp5u8bzGeyPUwZFknKQmXlogl1Wzwnyk8Fw==
-X-Received: by 2002:a63:e02:0:b0:46f:81cc:5ecb with SMTP id d2-20020a630e02000000b0046f81cc5ecbmr3488527pgl.459.1668208990628;
-        Fri, 11 Nov 2022 15:23:10 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:de05:ad1e:65ae:ea4d])
-        by smtp.gmail.com with ESMTPSA id a9-20020a1709027e4900b001886ff82680sm2245724pln.127.2022.11.11.15.23.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 15:23:09 -0800 (PST)
-Date: Fri, 11 Nov 2022 15:23:06 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Brian Norris <briannorris@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Force synchronous probe
-Message-ID: <Y27ZWnj1RDqVlUvO@google.com>
-References: <20221111231302.3458191-1-briannorris@chromium.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R0k27JYvEYUqXaeQVspvGGVqqBujev8+Mi45jTmwqQc=;
+        b=LT17ddJbtmn/aisZ4/om/NAVuIhYtORxBHOKXzrhPyvDKtNXSC5kE4bKB/rIQGLVyD
+         gEnqRtgYadn8K8aQzAg5hHj3kxnqzYHluBImPs+5x5dsmg+cRAwXU0sZzZb4q7kd7RjF
+         dQlcZLL55i40MNufk6GCyG4OuIiZcB3dy1Gh2QR9pDpyMk74zl92IJzh+S4glClesZDt
+         ildUouN5kdSYg0UAh5vczqMI/kbLWd06+gIJypuQZ7Heq0lHkUCwwOuwIbw1eGCMrur2
+         7DS3+A39HsSJn6x9TOXKHPNTHQwB9lS9pNEVBOyQr5M1ZOnuPNBFB4cfnUu3lu0H6T7T
+         Ps9g==
+X-Gm-Message-State: ANoB5pkW8wHPo5eJWrCOXTSn2Z8HCNtz+FRa4ZkdQS6SkdaBcZphcAZA
+	zn5mVZqTYFh/Z9HODlNL/7eQR58lmiD+aXd2B1Ie9g==
+X-Google-Smtp-Source: AA0mqf5CeRO/IBYvQ29CZknzZgbQkb4E7DDpv97ncsDk/AqWygzWceJF/cMuZet2yCgaDQsrt1Z8pIY0bc7DXmSTGFU=
+X-Received: by 2002:a05:6122:12b2:b0:3b5:e89c:9351 with SMTP id
+ j18-20020a05612212b200b003b5e89c9351mr2313158vkp.25.1668209059275; Fri, 11
+ Nov 2022 15:24:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20221111231302.3458191-1-briannorris@chromium.org>
 In-Reply-To: <20221111231302.3458191-1-briannorris@chromium.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 11 Nov 2022 15:24:08 -0800
+Message-ID: <CABXOdTfFbKRvyzcqFbYKX2Lagdm54=GEMEErBa9f-ODPwfMYHw@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Force synchronous probe
+To: Brian Norris <briannorris@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 11, 2022 at 03:13:01PM -0800, Brian Norris wrote:
+On Fri, Nov 11, 2022 at 3:13 PM Brian Norris <briannorris@chromium.org> wrote:
+>
 > This reverts commit bd88b965ae8c ("platform/chrome: cros_ec_lpc: Mark
 > PROBE_PREFER_ASYNCHRONOUS"), and then some.
-> 
+>
 > It has been reported that there are issues with 'cros-ec-keyb' devices
 > that are children of this. As noted in the initial patch for its ACPI
 > support (commit ba0f32141bc5 ("Input: cros_ec_keyb - handle x86
@@ -70,53 +67,52 @@ On Fri, Nov 11, 2022 at 03:13:01PM -0800, Brian Norris wrote:
 > isn't safe with asynchronous probe, as there's no locking, and the
 > ordering is all wrong anyway (drvdata is set before the device is
 > *really* ready).
-> 
+>
 > Because this parent/child relationship has known issues, let's go the
 > other direction and force synchronous probe, until we resolve the
 > issues.
-> 
+>
 > Possible solutions involve adding device links, so we ensure the child
 > doesn't probe before the parent is done; or perhaps some other larger
 > refactoring (auxiliary bus?). But that might take a little more effort
 > and review, as there are many other potential sub-devices of
 > cros_ec_lpc that could need patching.
-> 
+>
 > Note that we don't have the same problem for non-ACPI cros-ec hosts,
 > like cros-ec-spi (commit 015e4b05c377 ("platform/chrome: cros_ec_spi:
 > Set PROBE_PREFER_ASYNCHRONOUS")), because its sub-devices aren't created
 > until cros_ec_register(), or they don't exist at all (e.g., FPMCU uses).
-> 
+>
 > Fixes: bd88b965ae8c ("platform/chrome: cros_ec_lpc: Mark PROBE_PREFER_ASYNCHRONOUS")
 > Signed-off-by: Brian Norris <briannorris@chromium.org>
 
-Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Trying again, this time in plain text mode. Sorry for the noise.
+
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
-> 
+>
 >  drivers/platform/chrome/cros_ec_lpc.c | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
+>
 > diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
 > index 2e4dba724ada..7fc8f82280ac 100644
 > --- a/drivers/platform/chrome/cros_ec_lpc.c
 > +++ b/drivers/platform/chrome/cros_ec_lpc.c
 > @@ -557,7 +557,12 @@ static struct platform_driver cros_ec_lpc_driver = {
->  		.name = DRV_NAME,
->  		.acpi_match_table = cros_ec_lpc_acpi_device_ids,
->  		.pm = &cros_ec_lpc_pm_ops,
-> -		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> +		/*
-> +		 * ACPI child devices may probe before us, and they racily
-> +		 * check our drvdata pointer. Force synchronous probe until
-> +		 * those races are resolved.
-> +		 */
-> +		.probe_type = PROBE_FORCE_SYNCHRONOUS,
->  	},
->  	.probe = cros_ec_lpc_probe,
->  	.remove = cros_ec_lpc_remove,
-> -- 
+>                 .name = DRV_NAME,
+>                 .acpi_match_table = cros_ec_lpc_acpi_device_ids,
+>                 .pm = &cros_ec_lpc_pm_ops,
+> -               .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +               /*
+> +                * ACPI child devices may probe before us, and they racily
+> +                * check our drvdata pointer. Force synchronous probe until
+> +                * those races are resolved.
+> +                */
+> +               .probe_type = PROBE_FORCE_SYNCHRONOUS,
+>         },
+>         .probe = cros_ec_lpc_probe,
+>         .remove = cros_ec_lpc_remove,
+> --
 > 2.38.1.431.g37b22c650d-goog
-> 
-
--- 
-Dmitry
+>

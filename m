@@ -1,185 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6ECEA3;
-	Mon, 21 Nov 2022 09:53:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F83C433C1;
-	Mon, 21 Nov 2022 09:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669024397;
-	bh=m9yZHwnTEqGasYZNomMe1mRJHVzf8B7M3LDSNHYcXeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Opj/itLbJtFE0syJxd+qkemdvm+GfbfZ1pccF1SGR++3DJnkeyD3YQtGhN+blIjub
-	 US8fX8iushvScwunkPr7LKirCchaNKKAU/twl0oVnqHEwdHsHxi0M0d/wgtlpEZqG7
-	 k4ovt/Znm0DICj47Y+N6I+Yw47E1MyyiN0e/92S2h9qHrb149jszKe3FalK/2rVJQ+
-	 ZppAyMp4v8rjq+XBX9JSBl1ysXWpcIvX0EVYeK13kfbg9IEzo070nVbf9UiCPP9DpS
-	 bXABnzNPLB0lPKqHS3KQR0EQyUsQW7BynY23b8Z2+QTbLFxJQgHRN0fjhkCpVJB9+z
-	 k93zjyweI0uEQ==
-Date: Mon, 21 Nov 2022 09:53:05 +0000
-From: Lee Jones <lee@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Grant Likely <grant.likely@linaro.org>,
-	Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-	kernel@pengutronix.de, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-actions@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y3tKgXPJP7S48i3j@google.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB85679C3
+	for <chrome-platform@lists.linux.dev>; Mon, 21 Nov 2022 20:13:50 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id 130so12327088pfu.8
+        for <chrome-platform@lists.linux.dev>; Mon, 21 Nov 2022 12:13:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rq8a2hBX27gcIVHpejpVIZL+hRyBNLYkb+s20L9WV6w=;
+        b=SqLgfLqLWXgmjXhNGZIU6mAMHlKkjWNnbCRUg8OpME4ixk3GEFZq7BLXUUt/sx7273
+         Nyn6a1zF1thpfbom4ap6EMprRGQurZhAatGX3dXHNO7toAEL3nX138lfDoG5XWZeQdSb
+         HvfdpU8SAyxIFn8FvQ/ZGAFJM1tWhTDOEZ2SA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rq8a2hBX27gcIVHpejpVIZL+hRyBNLYkb+s20L9WV6w=;
+        b=z9nUhWplxW8zCoGTbUylhYl0PUb2VpFcvYexd6oYaOLCOY6L1+//RZBC6+Yhjx0EKn
+         cXMlJwHmrSeGvTZfbCgHDkjc/PsmvgZNiz0rB8mLmK5HM+t/4wzCKzP4opd9Qd8CNo0R
+         40UCg7Gh1nprLp+FhaGQxnAluJMnizxHIkDvY4ELlaNUaumnwDC7P6FYKUyE5Wv01nDL
+         xsImFAijv/4RBENjlG3iWgLUC8nDYl6vqrblwEsXW/QfUpF5Jic/r3kCi7wC1o02wp3r
+         3UZ7GAcjXFodLOBNy23EJ+pQalE1abMEPMXTZ4eRlnIS2Bxgk8krTuZb5oo/RrlCGy59
+         b97Q==
+X-Gm-Message-State: ANoB5pmTtjsflwqu4BLWszWAWEbnnuuslAsZ5dB3otGSomhDjI3U64Nw
+	PeTiw/WDv9S7il1bcvAlEoVfoQ==
+X-Google-Smtp-Source: AA0mqf6bUyCGH1kkSoR2meAE+laA0AOnlYeMweAaTvvR9s2UP4evcKNKPPO3M1hYW+8vc2rBOaC90A==
+X-Received: by 2002:aa7:9057:0:b0:573:1d31:2b78 with SMTP id n23-20020aa79057000000b005731d312b78mr2662956pfo.61.1669061630232;
+        Mon, 21 Nov 2022 12:13:50 -0800 (PST)
+Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
+        by smtp.gmail.com with ESMTPSA id h8-20020a170902f70800b001822121c45asm10178507plo.28.2022.11.21.12.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 12:13:49 -0800 (PST)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH 0/2] platform/chrome: cros_ec_typec: Link PD object to partner
+Date: Mon, 21 Nov 2022 20:13:34 +0000
+Message-Id: <20221121201337.2772216-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 
-On Fri, 18 Nov 2022, Uwe Kleine-König wrote:
+This is a short series to link a registered USB PD object to its associated
+partner device. This is helpful for userspace services (the ChromeOS Type-C
+daemon, for example), to identify which Type-C peripheral a PD object belongs to,
+when a uevent for the PD object arrives.
 
-> Hello,
-> 
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+The first patch adds a helper to the Type-C class code to access the device struct
+for a partner. The second patch uses that helper to set the parent for the USB PD object
+in the port driver code.
 
-Oh yeah, this!  Thanks for picking this up Uwe, I guess I've been
-distracted for the past 6 years or so. :)
+There was an earlier patch[1] to solve this issue, but it's been jettisoned (on advice from
+GregKH) in favor of the current approach.
 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client_device_id_helper-immutable
-> 
-> I don't think it's feasable to apply this series in one go, so I ask the
-> maintainers of the changed files to apply via their tree. I guess it
-> will take a few kernel release iterations until all patch are in, but I
-> think a single tree creates too much conflicts.
-> 
-> The last patch changes i2c_driver::probe, all non-converted drivers will
-> fail to compile then. So I hope the build bots will tell me about any
-> driver I missed to convert. This patch is obviously not for application
-> now.
-> 
-> I dropped most individuals from the recipents of this mail to not
-> challenge the mail servers and mailing list filters too much. Sorry if
-> you had extra efforts to find this mail.
+[1] https://lore.kernel.org/linux-usb/Y3vNZEuNI3CWzZ0L@chromium.org/T/#m7521020f64d878313d7dd79903ec0e9421aa8737
 
-[...]
+Series submission suggestions (if the approach is OK):
+- Patch 1 goes throug the USB tree and Patch 2 goes in the next release cycle
+  through the chrome-platform tree.
+- Patch 1 and 2 both go through the USB tree.
 
->  drivers/mfd/88pm800.c                            |  5 ++---
->  drivers/mfd/88pm805.c                            |  5 ++---
->  drivers/mfd/aat2870-core.c                       |  5 ++---
->  drivers/mfd/act8945a.c                           |  5 ++---
->  drivers/mfd/adp5520.c                            |  6 +++---
->  drivers/mfd/arizona-i2c.c                        |  6 +++---
->  drivers/mfd/as3711.c                             |  5 ++---
->  drivers/mfd/as3722.c                             |  5 ++---
->  drivers/mfd/atc260x-i2c.c                        |  5 ++---
->  drivers/mfd/axp20x-i2c.c                         |  5 ++---
->  drivers/mfd/bcm590xx.c                           |  5 ++---
->  drivers/mfd/bd9571mwv.c                          |  5 ++---
->  drivers/mfd/da903x.c                             |  6 +++---
->  drivers/mfd/da9052-i2c.c                         |  6 +++---
->  drivers/mfd/da9055-i2c.c                         |  5 ++---
->  drivers/mfd/da9062-core.c                        |  6 +++---
->  drivers/mfd/da9063-i2c.c                         |  6 +++---
->  drivers/mfd/da9150-core.c                        |  5 ++---
->  drivers/mfd/khadas-mcu.c                         |  5 ++---
->  drivers/mfd/lm3533-core.c                        |  5 ++---
->  drivers/mfd/lp3943.c                             |  4 ++--
->  drivers/mfd/lp873x.c                             |  5 ++---
->  drivers/mfd/lp87565.c                            |  5 ++---
->  drivers/mfd/lp8788.c                             |  4 ++--
->  drivers/mfd/madera-i2c.c                         |  6 +++---
->  drivers/mfd/max14577.c                           |  6 +++---
->  drivers/mfd/max77620.c                           |  6 +++---
->  drivers/mfd/max77693.c                           |  6 +++---
->  drivers/mfd/max77843.c                           |  6 +++---
->  drivers/mfd/max8907.c                            |  5 ++---
->  drivers/mfd/max8925-i2c.c                        |  5 ++---
->  drivers/mfd/max8997.c                            |  6 +++---
->  drivers/mfd/max8998.c                            |  6 +++---
->  drivers/mfd/mc13xxx-i2c.c                        |  6 +++---
->  drivers/mfd/menelaus.c                           |  5 ++---
->  drivers/mfd/menf21bmc.c                          |  4 ++--
->  drivers/mfd/palmas.c                             |  5 ++---
->  drivers/mfd/pcf50633-core.c                      |  5 ++---
->  drivers/mfd/rc5t583.c                            |  5 ++---
->  drivers/mfd/retu-mfd.c                           |  4 ++--
->  drivers/mfd/rk808.c                              |  5 ++---
->  drivers/mfd/rohm-bd718x7.c                       |  5 ++---
->  drivers/mfd/rsmu_i2c.c                           |  6 +++---
->  drivers/mfd/rt5033.c                             |  5 ++---
->  drivers/mfd/sec-core.c                           |  5 ++---
->  drivers/mfd/si476x-i2c.c                         |  6 +++---
->  drivers/mfd/sky81452.c                           |  5 ++---
->  drivers/mfd/stmfx.c                              |  5 ++---
->  drivers/mfd/stmpe-i2c.c                          |  5 +++--
->  drivers/mfd/stpmic1.c                            |  5 ++---
->  drivers/mfd/stw481x.c                            |  5 ++---
->  drivers/mfd/tc3589x.c                            |  6 +++---
->  drivers/mfd/ti-lmu.c                             |  5 +++--
->  drivers/mfd/tps6105x.c                           |  5 ++---
->  drivers/mfd/tps65010.c                           |  6 +++---
->  drivers/mfd/tps6507x.c                           |  5 ++---
->  drivers/mfd/tps65086.c                           |  5 ++---
->  drivers/mfd/tps65090.c                           |  5 ++---
->  drivers/mfd/tps65218.c                           |  5 ++---
->  drivers/mfd/tps6586x.c                           |  5 ++---
->  drivers/mfd/tps65910.c                           |  6 +++---
->  drivers/mfd/tps65912-i2c.c                       |  5 ++---
->  drivers/mfd/twl-core.c                           |  5 +++--
->  drivers/mfd/twl6040.c                            |  5 ++---
->  drivers/mfd/wl1273-core.c                        |  5 ++---
->  drivers/mfd/wm831x-i2c.c                         |  6 +++---
->  drivers/mfd/wm8350-i2c.c                         |  5 ++---
->  drivers/mfd/wm8400-core.c                        |  5 ++---
->  drivers/mfd/wm8994-core.c                        |  6 +++---
 
-For my own reference (apply this as-is to your sign-off block):
+Prashant Malani (2):
+  usb: typec: Add helper to get partner device struct
+  platform/chrome: cros_ec_typec: Set parent of partner PD object
 
-  Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-
->  drivers/video/backlight/adp8860_bl.c             |  6 +++---
->  drivers/video/backlight/adp8870_bl.c             |  6 +++---
->  drivers/video/backlight/arcxcnn_bl.c             |  4 ++--
->  drivers/video/backlight/bd6107.c                 |  5 ++---
->  drivers/video/backlight/lm3630a_bl.c             |  5 ++---
->  drivers/video/backlight/lm3639_bl.c              |  5 ++---
->  drivers/video/backlight/lp855x_bl.c              |  5 +++--
->  drivers/video/backlight/lv5207lp.c               |  5 ++---
->  drivers/video/backlight/tosa_bl.c                |  5 ++---
->  drivers/video/fbdev/matrox/matroxfb_maven.c      |  5 ++---
-
-For my own reference (apply this as-is to your sign-off block):
-
-  Acked-for-Backlight-by: Lee Jones <lee@kernel.org>
+ drivers/platform/chrome/cros_ec_typec.c |  2 +-
+ drivers/usb/typec/class.c               | 13 +++++++++++++
+ include/linux/usb/typec.h               |  2 ++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
 -- 
-Lee Jones [李琼斯]
+2.38.1.584.g0f3c55d4c2-goog
+

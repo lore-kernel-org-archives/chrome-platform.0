@@ -1,101 +1,185 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD667E
-	for <chrome-platform@lists.linux.dev>; Mon, 21 Nov 2022 07:27:51 +0000 (UTC)
-Received: from [192.168.231.135] (unknown [213.194.153.7])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: rcn)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id E36B1660294D;
-	Mon, 21 Nov 2022 07:27:47 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1669015668;
-	bh=hNU7dgWwvCxNbDsalwA2siVuBbqISTMScB6KgdfYX9g=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=E3eECJMzNz51UnZyuvo7I35DRijzjUZkCdnimYGDJFJuIg5ACkGRwns6cb0NVqyx3
-	 ZTbu4P+3rNGBx/DbsCmarRR+RZYYS1u71hk9LOSR1AAskP/4gkJlAkgOQ7MlDOxVcH
-	 Efkt2NWmbI/zkZTCHIyhaOkP3kNtezXw5IY3TOKDydZGnaHWi6trh7wNp/hK8sSbAi
-	 DxdQtn5aeZXCXiEFhO0Ysc9a8FT9h7iccar2HqZkwewozjhnbqu/c9eq4LgCV8Ujr4
-	 T97OIX9uJqQuwuUAisHWPRHAV/I2NIt3+oYLJ1nOrB6X7HHRYhLyiO/TcdnpzUOkNL
-	 ee1lD8w+vlznA==
-Message-ID: <2a9362e4-e793-3333-50a7-1b185a1c47f3@collabora.com>
-Date: Mon, 21 Nov 2022 08:27:45 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6ECEA3;
+	Mon, 21 Nov 2022 09:53:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F83C433C1;
+	Mon, 21 Nov 2022 09:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669024397;
+	bh=m9yZHwnTEqGasYZNomMe1mRJHVzf8B7M3LDSNHYcXeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Opj/itLbJtFE0syJxd+qkemdvm+GfbfZ1pccF1SGR++3DJnkeyD3YQtGhN+blIjub
+	 US8fX8iushvScwunkPr7LKirCchaNKKAU/twl0oVnqHEwdHsHxi0M0d/wgtlpEZqG7
+	 k4ovt/Znm0DICj47Y+N6I+Yw47E1MyyiN0e/92S2h9qHrb149jszKe3FalK/2rVJQ+
+	 ZppAyMp4v8rjq+XBX9JSBl1ysXWpcIvX0EVYeK13kfbg9IEzo070nVbf9UiCPP9DpS
+	 bXABnzNPLB0lPKqHS3KQR0EQyUsQW7BynY23b8Z2+QTbLFxJQgHRN0fjhkCpVJB9+z
+	 k93zjyweI0uEQ==
+Date: Mon, 21 Nov 2022 09:53:05 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Grant Likely <grant.likely@linaro.org>,
+	Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-actions@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
+	linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <Y3tKgXPJP7S48i3j@google.com>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: chrome-platform/for-kernelci baseline: 102 runs, 6 regressions
- (v6.1-rc1-14-geba771858c2d)
-Content-Language: en-US
-To: "kernelci.org bot" <bot@kernelci.org>,
- kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-References: <63789721.170a0220.56d90.8424@mx.google.com>
-From: =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>
-In-Reply-To: <63789721.170a0220.56d90.8424@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 
-Some additional info about these regressions:
+On Fri, 18 Nov 2022, Uwe Kleine-König wrote:
 
-On 19/11/22 9:43, kernelci.org bot wrote:
+> Hello,
+> 
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
 
-> platform                     | arch  | lab           | compiler | defconfig                  | regressions
-> -----------------------------+-------+---------------+----------+----------------------------+------------
-> mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 1
-> 
->    Details:     https://kernelci.org/test/plan/id/63788de1ef2d2b8b992abd08
-> 
->    Results:     0 PASS, 1 FAIL, 0 SKIP
->    Full config: defconfig+arm64-chromebook
->    Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110)
->    Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-14-geba771858c2d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.txt
->    HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-14-geba771858c2d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.html
->    Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroot-baseline/20221107.1/arm64/rootfs.cpio.gz
-> 
-> 
->    * baseline.login: https://kernelci.org/test/case/id/63788de1ef2d2b8b992abd09
->          failing since 79 days (last pass: tag-chrome-platform-for-v5.20-2-gddffaa3d76750, first fail: v6.0-rc1-18-gf36a064d1483)
+Oh yeah, this!  Thanks for picking this up Uwe, I guess I've been
+distracted for the past 6 years or so. :)
 
-The boot process seems to hang during driver probing and the
-system doesn't reach the login prompt. More detailed testing
-might point to the panfrost driver as the culprit since v6.0, as
-using the same kernel with the same configuration except
-disabling CONFIG_DRM_PANFROST makes it reach the loging prompt.
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client_device_id_helper-immutable
+> 
+> I don't think it's feasable to apply this series in one go, so I ask the
+> maintainers of the changed files to apply via their tree. I guess it
+> will take a few kernel release iterations until all patch are in, but I
+> think a single tree creates too much conflicts.
+> 
+> The last patch changes i2c_driver::probe, all non-converted drivers will
+> fail to compile then. So I hope the build bots will tell me about any
+> driver I missed to convert. This patch is obviously not for application
+> now.
+> 
+> I dropped most individuals from the recipents of this mail to not
+> challenge the mail servers and mailing list filters too much. Sorry if
+> you had extra efforts to find this mail.
 
+[...]
 
->   
-> 
-> 
-> platform                     | arch  | lab           | compiler | defconfig                  | regressions
-> -----------------------------+-------+---------------+----------+----------------------------+------------
-> rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 4
-> 
->    Details:     https://kernelci.org/test/plan/id/63788ef9e66068606e2abd59
-> 
->    Results:     85 PASS, 7 FAIL, 0 SKIP
->    Full config: defconfig+arm64-chromebook
->    Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110)
->    Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-14-geba771858c2d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-rk3399-gru-kevin.txt
->    HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v6.1-rc1-14-geba771858c2d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-rk3399-gru-kevin.html
->    Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroot-baseline/20221107.1/arm64/rootfs.cpio.gz
-> 
-> 
->    * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id/63788ef9e66068606e2abd7b
->          failing since 227 days (last pass: v5.17-rc1-10-g0ef49b25b7cc, first fail: v5.18-rc1-1-gbf84b10d9901d)
+>  drivers/mfd/88pm800.c                            |  5 ++---
+>  drivers/mfd/88pm805.c                            |  5 ++---
+>  drivers/mfd/aat2870-core.c                       |  5 ++---
+>  drivers/mfd/act8945a.c                           |  5 ++---
+>  drivers/mfd/adp5520.c                            |  6 +++---
+>  drivers/mfd/arizona-i2c.c                        |  6 +++---
+>  drivers/mfd/as3711.c                             |  5 ++---
+>  drivers/mfd/as3722.c                             |  5 ++---
+>  drivers/mfd/atc260x-i2c.c                        |  5 ++---
+>  drivers/mfd/axp20x-i2c.c                         |  5 ++---
+>  drivers/mfd/bcm590xx.c                           |  5 ++---
+>  drivers/mfd/bd9571mwv.c                          |  5 ++---
+>  drivers/mfd/da903x.c                             |  6 +++---
+>  drivers/mfd/da9052-i2c.c                         |  6 +++---
+>  drivers/mfd/da9055-i2c.c                         |  5 ++---
+>  drivers/mfd/da9062-core.c                        |  6 +++---
+>  drivers/mfd/da9063-i2c.c                         |  6 +++---
+>  drivers/mfd/da9150-core.c                        |  5 ++---
+>  drivers/mfd/khadas-mcu.c                         |  5 ++---
+>  drivers/mfd/lm3533-core.c                        |  5 ++---
+>  drivers/mfd/lp3943.c                             |  4 ++--
+>  drivers/mfd/lp873x.c                             |  5 ++---
+>  drivers/mfd/lp87565.c                            |  5 ++---
+>  drivers/mfd/lp8788.c                             |  4 ++--
+>  drivers/mfd/madera-i2c.c                         |  6 +++---
+>  drivers/mfd/max14577.c                           |  6 +++---
+>  drivers/mfd/max77620.c                           |  6 +++---
+>  drivers/mfd/max77693.c                           |  6 +++---
+>  drivers/mfd/max77843.c                           |  6 +++---
+>  drivers/mfd/max8907.c                            |  5 ++---
+>  drivers/mfd/max8925-i2c.c                        |  5 ++---
+>  drivers/mfd/max8997.c                            |  6 +++---
+>  drivers/mfd/max8998.c                            |  6 +++---
+>  drivers/mfd/mc13xxx-i2c.c                        |  6 +++---
+>  drivers/mfd/menelaus.c                           |  5 ++---
+>  drivers/mfd/menf21bmc.c                          |  4 ++--
+>  drivers/mfd/palmas.c                             |  5 ++---
+>  drivers/mfd/pcf50633-core.c                      |  5 ++---
+>  drivers/mfd/rc5t583.c                            |  5 ++---
+>  drivers/mfd/retu-mfd.c                           |  4 ++--
+>  drivers/mfd/rk808.c                              |  5 ++---
+>  drivers/mfd/rohm-bd718x7.c                       |  5 ++---
+>  drivers/mfd/rsmu_i2c.c                           |  6 +++---
+>  drivers/mfd/rt5033.c                             |  5 ++---
+>  drivers/mfd/sec-core.c                           |  5 ++---
+>  drivers/mfd/si476x-i2c.c                         |  6 +++---
+>  drivers/mfd/sky81452.c                           |  5 ++---
+>  drivers/mfd/stmfx.c                              |  5 ++---
+>  drivers/mfd/stmpe-i2c.c                          |  5 +++--
+>  drivers/mfd/stpmic1.c                            |  5 ++---
+>  drivers/mfd/stw481x.c                            |  5 ++---
+>  drivers/mfd/tc3589x.c                            |  6 +++---
+>  drivers/mfd/ti-lmu.c                             |  5 +++--
+>  drivers/mfd/tps6105x.c                           |  5 ++---
+>  drivers/mfd/tps65010.c                           |  6 +++---
+>  drivers/mfd/tps6507x.c                           |  5 ++---
+>  drivers/mfd/tps65086.c                           |  5 ++---
+>  drivers/mfd/tps65090.c                           |  5 ++---
+>  drivers/mfd/tps65218.c                           |  5 ++---
+>  drivers/mfd/tps6586x.c                           |  5 ++---
+>  drivers/mfd/tps65910.c                           |  6 +++---
+>  drivers/mfd/tps65912-i2c.c                       |  5 ++---
+>  drivers/mfd/twl-core.c                           |  5 +++--
+>  drivers/mfd/twl6040.c                            |  5 ++---
+>  drivers/mfd/wl1273-core.c                        |  5 ++---
+>  drivers/mfd/wm831x-i2c.c                         |  6 +++---
+>  drivers/mfd/wm8350-i2c.c                         |  5 ++---
+>  drivers/mfd/wm8400-core.c                        |  5 ++---
+>  drivers/mfd/wm8994-core.c                        |  6 +++---
 
-Both the cros-ec accelerator and gyroscope tests fail because the
-IIO ABI has changed slightly since 6.0. For instance, the
-`deviceX/location` sysfs attribute has disappeared. This will
-keep failing unless the test is updated to be compatible with the
-new ABI.
+For my own reference (apply this as-is to your sign-off block):
 
-Cheers,
-Ricardo
+  Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+
+>  drivers/video/backlight/adp8860_bl.c             |  6 +++---
+>  drivers/video/backlight/adp8870_bl.c             |  6 +++---
+>  drivers/video/backlight/arcxcnn_bl.c             |  4 ++--
+>  drivers/video/backlight/bd6107.c                 |  5 ++---
+>  drivers/video/backlight/lm3630a_bl.c             |  5 ++---
+>  drivers/video/backlight/lm3639_bl.c              |  5 ++---
+>  drivers/video/backlight/lp855x_bl.c              |  5 +++--
+>  drivers/video/backlight/lv5207lp.c               |  5 ++---
+>  drivers/video/backlight/tosa_bl.c                |  5 ++---
+>  drivers/video/fbdev/matrox/matroxfb_maven.c      |  5 ++---
+
+For my own reference (apply this as-is to your sign-off block):
+
+  Acked-for-Backlight-by: Lee Jones <lee@kernel.org>
+
+-- 
+Lee Jones [李琼斯]

@@ -1,93 +1,73 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0EC1C15
-	for <chrome-platform@lists.linux.dev>; Tue, 22 Nov 2022 22:06:17 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id x66so7023352pfx.3
-        for <chrome-platform@lists.linux.dev>; Tue, 22 Nov 2022 14:06:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G2cfSN1kgZzRzJ6XKptvh9cmk5InXjmHdGYFjwKt+CY=;
-        b=Gf538M7G4fwP+edrCEnC1Y2/ZGyZwVr9nyc+6qCo64Sw5Ip01KNmQoCWjbabYRgX0Q
-         e1bqKvuoxHFYptZnI1X7utko1R5diccxqKmhigd6cixmgSnesF/kGYZ4QnN8BftRlN0Q
-         e++I4Ob8oO8dtXbSw0sP5PdtW7aJEzEVZYAII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G2cfSN1kgZzRzJ6XKptvh9cmk5InXjmHdGYFjwKt+CY=;
-        b=TKWH5C7k1NIVRxpn7BNfxv/cChW254IIKqXaaQWEgmsvlWT22SdRK9sccyu+StzGvm
-         O6/0AW4NNnBeo3dKiPeguIe8cmxTgTqOvZ2cBjpul1QyXAPBWiSI/8islqykazgS1ZCS
-         LQuaqwMAlEgbYfuMq9YZ51vMETOPooc+oNvoWIppuQsLb5NxLGNJcCEi/Vx963ZDSJLx
-         FLjM+umvxB7nLTCPuzJattAsZllzuKThtbaMN+hc+EDjZdfdWnB6fL76mPO2dKwMD41s
-         M91003fez8mAr5Y7u+llkJmNkwPg56CqlsZ6QGqw4cV+5tR7zySqOJ+x4t5zWZzkd0KT
-         TMdA==
-X-Gm-Message-State: ANoB5pkgMkXqC/5IA9riVMr5MEN3IgxiM2C7P+jsv8g+nh87Ofg3Nwzh
-	PJd7E/BwvY/31GXrvUed+FwYXCtFaA39fQ==
-X-Google-Smtp-Source: AA0mqf6EwM9Hd8/cnPMD9sYsgVHpc52kVnzKPkEeBVdjtRQRTPfKkOsTCHxgYhVmek++4mJ2UPxcyg==
-X-Received: by 2002:a63:5724:0:b0:46f:9c0c:8674 with SMTP id l36-20020a635724000000b0046f9c0c8674mr7692092pgb.26.1669154777162;
-        Tue, 22 Nov 2022 14:06:17 -0800 (PST)
-Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
-        by smtp.gmail.com with ESMTPSA id i24-20020a63e458000000b0042988a04bfdsm9640497pgk.9.2022.11.22.14.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 14:06:16 -0800 (PST)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Set parent of partner PD object
-Date: Tue, 22 Nov 2022 22:05:37 +0000
-Message-Id: <20221122220538.2991775-3-pmalani@chromium.org>
-X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-In-Reply-To: <20221122220538.2991775-1-pmalani@chromium.org>
-References: <20221122220538.2991775-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048C97B
+	for <chrome-platform@lists.linux.dev>; Wed, 23 Nov 2022 08:33:11 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NHDrx0GlMzHw58;
+	Wed, 23 Nov 2022 16:32:33 +0800 (CST)
+Received: from [10.174.178.41] (10.174.178.41) by
+ dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 16:33:09 +0800
+Message-ID: <4abd6f64-34ee-80e4-c5b5-b70f26000175@huawei.com>
+Date: Wed, 23 Nov 2022 16:33:08 +0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in
+ cros_usbpd_notify_init()
+To: Prashant Malani <pmalani@chromium.org>
+CC: <bleung@chromium.org>, <gwendal@chromium.org>, <jflat@chromium.org>,
+	<chrome-platform@lists.linux.dev>
+References: <20221117080823.77549-1-yuancan@huawei.com>
+ <CACeCKafbbVsLrprzvVzsVgUUwExf==Ck-SOhQ2RCZbMVAnHuJg@mail.gmail.com>
+ <2d89c054-9962-bd8a-9180-6a72545cf7e8@huawei.com>
+ <CACeCKaevCdGYkC0+3rj3THJrabHC-j=qxHbCaCDZExoh4rH-Rg@mail.gmail.com>
+From: Yuan Can <yuancan@huawei.com>
+In-Reply-To: <CACeCKaevCdGYkC0+3rj3THJrabHC-j=qxHbCaCDZExoh4rH-Rg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.41]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 
-In order to tell what Type-C device a PD object belongs to, its parent
-needs to be set. Use the Type-C partner USB PD registration wrapper
-to set the parent appropriately for PD objects which are created for
-connected Type-C partners.
 
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+在 2022/11/19 4:11, Prashant Malani 写道:
+> On Fri, Nov 18, 2022 at 2:18 AM Yuan Can <yuancan@huawei.com> wrote:
+>>
+>> 在 2022/11/18 3:07, Prashant Malani 写道:
+>>> Hi Yuan,
+>>>
+>>> On Thu, Nov 17, 2022 at 12:10 AM Yuan Can <yuancan@huawei.com> wrote:
+>>>> The reason is that the cros_usbpd_notify_init() does not check the return
+>>>> value of platform_driver_register(), and the cros_usbpd_notify can
+>>>> install successfully even if platform_driver_register() failed.
+>>>>
+>>>> Fix by checking the return value of platform_driver_register() and
+>>> Can you provide details regarding why cros_usbpd_notify_acpi_driver registration
+>>> is failing on your system (logs or other details) ?
+>> The reason could be an OOM happend when platform_driver_register() tries
+>> to allocate memory,
+>>
+>> a simple call graph:
+>>
+>>    platform_driver_register()
+>>      driver_register()
+>>        bus_add_driver()
+>>          dev = kzalloc(...) # OOM happened
+>>
+> Sure, but is that what you're seeing? Can you share logs from your repro case?
+Yes, that the reason, this problem is triggered by the OOM 
+fault-injection test.
 
-Changes since v1:
-- Use wrapper function introduced in Patch1 (v2).
-- Update commit message to reflect that we are using the wrapper.
-
- drivers/platform/chrome/cros_ec_typec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 2a7ff14dc37e..d5bc4021aca2 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -968,7 +968,7 @@ static void cros_typec_register_partner_pdos(struct cros_typec_data *typec,
- 	if (!resp->source_cap_count && !resp->sink_cap_count)
- 		return;
- 
--	port->partner_pd = usb_power_delivery_register(NULL, &desc);
-+	port->partner_pd = typec_partner_usb_power_delivery_register(port->partner, &desc);
- 	if (IS_ERR(port->partner_pd)) {
- 		dev_warn(typec->dev, "Failed to register partner PD device, port: %d\n", port_num);
- 		return;
 -- 
-2.38.1.584.g0f3c55d4c2-goog
+Best regards,
+Yuan Can
 

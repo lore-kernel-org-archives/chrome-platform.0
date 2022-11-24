@@ -1,99 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6714699;
-	Wed, 23 Nov 2022 17:23:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06998C433C1;
-	Wed, 23 Nov 2022 17:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669224236;
-	bh=NklP56tySe3Xv444ZHt52vRJGyzaYy1R0Ex9JoaAzOM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cM7LkUwn/UGY9APeo61IFLdLFugI/mycScX1L27zLnBFWztWOvsY2/pXAQvU8BtqA
-	 zN2grVWU907Puoa1962eNoEzm7M0GyfMXDTyo0m/fYESjcYYfLenMyR420GN0LPle7
-	 fHre3CZnC438ac14FaQ0ftW3eoi7y+NqR03dNnG17mNGguUXELDqAXtYw+kabasJh/
-	 GdE3AFFOilgHHG2SfRFJ7XFkovjxBFA4x69koAbNo4eANtlUFZ7DlagmzghcWyagzN
-	 hB+OrPBoifu3z+M9f10yfPgcQGlZSqkBCHUx9fpHFf/LyumxpmD68OdmhxG3k3+QWy
-	 NRxBKM7JX5qXQ==
-From: Mark Brown <broonie@kernel.org>
-To: Wolfram Sang <wsa@kernel.org>, Lee Jones <lee.jones@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Grant Likely <grant.likely@linaro.org>
-Cc: linux-crypto@vger.kernel.org, alsa-devel@alsa-project.org, chrome-platform@lists.linux.dev,
- linux-actions@lists.infradead.org, linux-pwm@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-amlogic@lists.infradead.org, Purism Kernel Team <kernel@puri.sm>, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-spi@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-leds@vger.kernel.org, patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de, linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-integrity@vger.kernel.org, linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-serial@vger.kernel.org, netdev@vger.kernel.org
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-Id: <166922422872.540277.7243893319002961181.b4-ty@kernel.org>
-Date: Wed, 23 Nov 2022 17:23:48 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4043C23D1
+	for <chrome-platform@lists.linux.dev>; Thu, 24 Nov 2022 10:21:07 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so4730567pjc.3
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Nov 2022 02:21:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aKDzMB5fuyIKOWGUg1teGVMCu3uNeoCRybEoMSGH3XM=;
+        b=AZ3ZiaNlTyWkDUA3AI6svtb7rNC4BSHFotUOkJax3CQ3W7X+Ri6AW6gPdCYMn6OXDj
+         bIUJV4AnSunad2r4qQRf0bx5RJTEsVr8xljQHzTGajNbFsLC7LmAezam+ue5ZfUvmCQc
+         dWJADcKv3hAuRK6JnoUcCq1fXOh1lRnhdofME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aKDzMB5fuyIKOWGUg1teGVMCu3uNeoCRybEoMSGH3XM=;
+        b=SFgUoabhNMSQOIzGdObzhYf9Ru7ZoNK5GG7r/ukiaUhk9HHdE290Dp8L/kE+G5g4LK
+         oKdMEyKtI6KTg7jHsMvxBGKM1RyjX5KRpMWuELLBs/nbWly7teX0bbhuGqqiFeIqVy14
+         pBpAQiJ9ok3Hc5seix8IsNyLyfJgSHwwVSxs5SKuKJCTKkviOiTO6h/nxJeINSrN84u0
+         UnkrMqjwGpT6bLGWxkHgfyG5DGeAJKM/AeSI0v6sPHG8gvtK3dvt7N1z3sdnl12icRoM
+         r/gwQcGos/33OnowTxIcVuKJpMHUOJN+hl7fKDcLh0m0H4NqNoiTvIGVQBcwv1ANNUU1
+         r0Zw==
+X-Gm-Message-State: ANoB5pkr2lrKpsRXcaN4M+4Kg2UDfK4uEQrWQn2iXZ+hA43ZwqdPbqRa
+	4lAVx2ePAIsLNzyGygyVnSCErQ==
+X-Google-Smtp-Source: AA0mqf7uce32MDEk2weA/QnGkYpN+4bihhCWnMXDkXgQE9HqR2K528a00R4+x8rxcAwAjBLzeizP7g==
+X-Received: by 2002:a17:90b:2341:b0:218:a506:4fdb with SMTP id ms1-20020a17090b234100b00218a5064fdbmr21682953pjb.207.1669285266760;
+        Thu, 24 Nov 2022 02:21:06 -0800 (PST)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:d446:708:8556:dfee])
+        by smtp.gmail.com with ESMTPSA id t123-20020a625f81000000b005747b59fc54sm854584pfb.172.2022.11.24.02.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Nov 2022 02:21:06 -0800 (PST)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <robert.foss@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	dri-devel@lists.freedesktop.org,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	Pin-yen Lin <treapking@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	Marek Vasut <marex@denx.de>,
+	Xin Ji <xji@analogixsemi.com>,
+	Lyude Paul <lyude@redhat.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org,
+	Allen Chen <allen.chen@ite.com.tw>
+Subject: [PATCH v6 0/7] Register Type-C mode-switch in DP bridge endpoints
+Date: Thu, 24 Nov 2022 18:20:49 +0800
+Message-Id: <20221124102056.393220-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
 
-Applied to
+This series introduces bindings for anx7625/it6505 to register Type-C
+mode-switch in their output endpoints, and use data-lanes property to
+describe the pin connections.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+The first two patch modifies fwnode_graph_devcon_matches and
+cros_typec_init_ports to enable the registration of the switches.
 
-Thanks!
+Patch 3~5 introduce the bindings for anx7625 and the corresponding driver
+modifications.
 
-[539/606] regulator: ad5398: Convert to i2c's .probe_new()
-          commit: 7f69edba960bbdcbc829d8d0995b1117ce29e8b1
-[544/606] regulator: lp872x: Convert to i2c's .probe_new()
-          commit: 87feccb347b25f5dc6ff451123b832c9ad5dddfe
-[546/606] regulator: ltc3589: Convert to i2c's .probe_new()
-          commit: 78c8f6cdb51d471928d481ed3b2c82dbc110a1ed
-[549/606] regulator: max8660: Convert to i2c's .probe_new()
-          commit: dbf31dac703009174226bb87b3914bd092040327
-[551/606] regulator: max8973-regulator: Convert to i2c's .probe_new()
-          commit: 4e85e5d64f66ac5e4b0286ee4b6f8e8ce1044d42
-[557/606] regulator: tps62360-regulator: Convert to i2c's .probe_new()
-          commit: 18804160277ec2ab992373385f86c6af2322b28b
-[559/606] regulator: tps65023-regulator: Convert to i2c's .probe_new()
-          commit: 3b5b07dde998f6ade7433a8db019cf816c7e35af
+Patch 6~7 add similar bindings and driver changes for it6505.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Changes in v6:
+- Dropped typec-switch binding and use endpoints and data-lanes properties
+  to describe the pin connections
+- Changed the driver implementation to accommodate with the new bindings
+- Changed it6505_typec_mux_set callback function to accommodate with
+  the latest drm-misc patches
+- Added new patches (patch 1,2,4) to fix probing issues
+- Merged it6505/anx7625 driver changes into a single patch
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Pin-yen Lin (5):
+  dt-bindings: drm/bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Check for Type-C during panel registration
+  drm/bridge: anx7625: Register Type C mode switches
+  dt/bindings: drm/bridge: it6505: Add mode-switch support
+  drm/bridge: it6505: Register Type C mode switches
 
-Thanks,
-Mark
+Prashant Malani (2):
+  device property: Add remote endpoint to devcon matcher
+  platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+
+ .../display/bridge/analogix,anx7625.yaml      |  73 ++++++-
+ .../bindings/display/bridge/ite,it6505.yaml   |  94 +++++++-
+ drivers/base/property.c                       |  15 ++
+ drivers/gpu/drm/bridge/Kconfig                |   1 +
+ drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 182 +++++++++++++++-
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 ++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 205 +++++++++++++++++-
+ drivers/platform/chrome/cros_ec_typec.c       |   9 +
+ 9 files changed, 589 insertions(+), 11 deletions(-)
+
+-- 
+2.38.1.584.g0f3c55d4c2-goog
+

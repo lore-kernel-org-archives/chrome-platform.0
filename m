@@ -1,36 +1,36 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6257B17C6
-	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 05:52:49 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id m19so3760102edj.8
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Nov 2022 21:52:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0712F1FBA
+	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 05:53:47 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id c2so2094414qko.1
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Nov 2022 21:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RzN4h3qOAvIsS9Ytm8ViCV9LTXDRNYxBOrbT9kwa+z4=;
-        b=oEaPYaoWVwjCvCRl0HhYzkfATCZulKO7O6FroIlJirLXfGB0mUMNQ1vzzo0lRHG88h
-         cNaSmIx/Wju99aMFImQwYB8ffU35MFqJyO6o81ePWIivDyODyXWsv9bQogJMB23kCZrX
-         ZuFBm7OSJUcNIYbcpI9E72DmIeVVa15mZVqnY=
+        bh=sJO4CKtz6uCVjlMUGm3BSASo1KZZ4zekB4W49uCXr0Q=;
+        b=GEQWK1zMTOaNgc6Jsw7BvrlA2RvLaRBKdutwd2mWXuN32GcN/F/lh7Do+jJwhu/lKf
+         eUQzy4v825QJ8od3gmSFrmEbBs06XRTg2khVxN2jX2t/NUFG68evKAZHk2uGyqoEdH/l
+         BYs68ifkf0D5ULeS+KO0T9nvkikk56lTOVFYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RzN4h3qOAvIsS9Ytm8ViCV9LTXDRNYxBOrbT9kwa+z4=;
-        b=OvTmVcoumrxE+7pRi853qgInLf2JESONO4ReEUJe5KRXukKCLAAK7OBMBHEpS8CWMl
-         8XknDM4l1tkrzd4bwJFJOiemoQZIGoP02C1Q4hvHEifzo0bUGFHCGXtQ5fPkLz2XEAJu
-         FAR9ippmMy6VX7wS9ch9Nw++mL2TLYYhmQhECevGHrlKJnJ/sGBJ59J90SqEanfv4Ger
-         prX9D14wMAB89fdO+1ioij8ctxAaw5BtPjF2RwfvH/aQZHxXI19mRuPLbjutkfu+goAg
-         Yivc0q4R87EjOknYaRNiEZv03cE5eHO6Z2HBhMjfD6Tg8jj86tn2eBRqqRDCEmruI/ug
-         PyKw==
-X-Gm-Message-State: ANoB5pmaUVyCqF8GV3FXxFI0AzWmRCbZSl4D/Y3o8oszV8CPU1RKr1ON
-	kkCQvgCqL3wkWiJHK+qsAJR/hfwnE6eK4Wy+I9cNaQ==
-X-Google-Smtp-Source: AA0mqf4swfPzjKVkl1scJTqiUbIDnuAEsouyb52592fG1trV+h5bVVpbQlj0dZBKZjpXqLgzGBJ89YmbylZKTLb1eqs=
-X-Received: by 2002:a05:6402:1397:b0:467:78f2:d81f with SMTP id
- b23-20020a056402139700b0046778f2d81fmr16227783edv.88.1669355567575; Thu, 24
- Nov 2022 21:52:47 -0800 (PST)
+        bh=sJO4CKtz6uCVjlMUGm3BSASo1KZZ4zekB4W49uCXr0Q=;
+        b=PC8+qqcIcUySWGGpCXkjWx+YFU5O965hkcjrR31hv7+AR1FiDIeCZpe2dJf6wuiM43
+         ZOKsyp5VkCvAiwpw+V3fNtsxAIN0uzfWzxUBe7tBuIr8ydzgXIRtdRA5FU83+AsVJfus
+         Hr5dw7lDa7z7NvPy1ApSY5ZVfPu+BuWcswVd8gJLzTfGFsFm6YObTCgMI7ooWvfdbs1n
+         sqM9KyxDT+DeAaKriAKjI8hhoHj8hPETbMG5MMY3KRiawDNmtwac3MSYK7JhEUc/a2yu
+         QhN9di7lFKyx+VGihQf826AqsFDiUthzhIE6TT6CXPowjQdiUX8XNMJOYyRe84uJuLD/
+         /TLw==
+X-Gm-Message-State: ANoB5pnsA8FaRvmCbtWQpr2g4MIjCOPeqv0AQuPE1mbE02Bv7hZ0y4n8
+	aGvlx2tzp5KL/9FvGM/UmbNlK2R+nYmUKoO9LxNpvg==
+X-Google-Smtp-Source: AA0mqf6knSu6QR92mZ0wCOhRti8BSXDFhhs9fIvKI9CaT08+1NzMdooQC08kJNAEDw9GfohzPzP4gUJ+R3xq6VWqYa4=
+X-Received: by 2002:a05:620a:31a5:b0:6fb:ff0f:e7e0 with SMTP id
+ bi37-20020a05620a31a500b006fbff0fe7e0mr19622315qkb.747.1669355626882; Thu, 24
+ Nov 2022 21:53:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -40,14 +40,14 @@ MIME-Version: 1.0
 References: <20221124102056.393220-1-treapking@chromium.org>
  <20221124102056.393220-3-treapking@chromium.org> <Y39ikbcqx5/pEc64@smile.fi.intel.com>
 In-Reply-To: <Y39ikbcqx5/pEc64@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 25 Nov 2022 13:52:36 +0800
-Message-ID: <CAEXTbpcbQEyYfuCssENiFQxwe3t11HtHnpJHgjq+=GziNfUk-g@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 24 Nov 2022 21:53:35 -0800
+Message-ID: <CACeCKaewXJYUJCyGyh==dsA6wsU4OESXFXJRiKm9AWPECS_ZBA@mail.gmail.com>
 Subject: Re: [PATCH v6 2/7] platform/chrome: cros_ec_typec: Purge blocking
  switch devlinks
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
+Cc: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <robert.foss@linaro.org>, 
 	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
 	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
@@ -55,10 +55,10 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@lina
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Stephen Boyd <swboyd@chromium.org>, 
+	dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
 	chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org, 
 	Marek Vasut <marex@denx.de>, Xin Ji <xji@analogixsemi.com>, Lyude Paul <lyude@redhat.com>, 
 	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
@@ -68,28 +68,12 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Andy,
 
-On Thu, Nov 24, 2022 at 8:25 PM Andy Shevchenko
+Thanks for taking a look at this patch.
+
+Pin-Yen beat me to the punch with comment responses, but I'll add mine anyway.
+
+On Thu, Nov 24, 2022 at 4:25 AM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Nov 24, 2022 at 06:20:51PM +0800, Pin-yen Lin wrote:
-> > From: Prashant Malani <pmalani@chromium.org>
-> >
-> > When using OF graph, the fw_devlink code will create links between the
-> > individual port driver (cros-ec-typec here) and the parent device for
-> > a Type-C switch (like mode-switch). Since the mode-switch will in turn
-> > have the usb-c-connector (i.e the child of the port driver) as a
-> > supplier, fw_devlink will not be able to resolve the cyclic dependency
-> > correctly.
-> >
-> > As a result, the mode-switch driver probe() never runs, so mode-switches
-> > are never registered. Because of that, the port driver probe constantly
-> > fails with -EPROBE_DEFER, because the Type-C connector class requires all
-> > switch devices to be registered prior to port registration.
-> >
-> > To break this deadlock and allow the mode-switch registration to occur,
-> > purge all the usb-c-connector nodes' absent suppliers. This eliminates
-> > the connector as a supplier for a switch and allows it to be probed.
->
 > ...
 >
 > > +     /*
@@ -100,26 +84,21 @@ On Thu, Nov 24, 2022 at 8:25 PM Andy Shevchenko
 >
 > A bit too long lines...
 
-I'll fix this in v7.
+They are within the 100 character limit [1] which is followed
+elsewhere in the driver; has something
+changed recently to make that invalid?
 
 >
 > > +     if (dev->of_node)
 >
 > Why do you need this check?
 
-We use this check to make sure only platforms using OF have their
-links purged. I'm not sure if this should also be done on x86
-platforms.
+This issue only arises when using DT for this device. So the rationale
+is we don't need to
+perform this step on systems that don't use DT.
 
 Best regards,
-Pin-yen
 
->
-> > +             device_for_each_child_node(dev, fwnode)
-> > +                     fw_devlink_purge_absent_suppliers(fwnode);
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+-Prashant
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144

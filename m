@@ -1,181 +1,94 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D67323A6
-	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 06:59:11 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id ha10so8315781ejb.3
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Nov 2022 22:59:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6B23A6
+	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 08:28:06 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id p12so2270589qvu.5
+        for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 00:28:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hoX4Z40MQwuszANnlGBImjuiii34Bm6IVdSkNEROGlk=;
-        b=DYIALqhs5m9PNMHPE8yqYIxFmhgXWCNuD1nJkRncSHnTb9KsT2SEjTxLyCLcf07SND
-         BuT1B67WTp6kKWo3FOST5wFfrrVouCr3lzbeI1KGFJ8ZBam/NFoSzrxJ91QWhGAFY65h
-         a9xen1l7WE8m+vLpAI2NRR5TH2Q/wtYpx+7Hs=
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pu77Y1NhgCyugJCMjWhDtk2X5EOd4VpeA0QYq3/PVyc=;
+        b=KMFbTjVe2V4Dbt7DQUyNK2pKUS6PppmdW2f/dih2lFZum0vQtTMZ7KdQUKLAyARoca
+         hZj4y/a6nrYiXIU2zRAqVJLqEFgTPKEuI3oJgKEet+GCGTZDrCaxUPG3CfIpZV22Pb3X
+         g7/tf7OHB3VE1reio15pjScG4imnv9gWMiBTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hoX4Z40MQwuszANnlGBImjuiii34Bm6IVdSkNEROGlk=;
-        b=F3mG5dBdb6Zwctl1oLvnOVaWH8LRdSecdakqyqTCBms+Ky7rO3PHa/+Go2ZrOe0J9N
-         a76oWViWaDg9Q+U9h7MciIY2lDuwreW4B8MBh51K4Bb93ogsu0DlIBhcSo1KiYXM7GJk
-         46rpDCnK8ENYW4suV/YCgvmMB8Q9FpJFzsQQb3x0C2ijX27zhKUSgsGyI8ivhQ4JLtLW
-         /vzd8whhHr7lkoq5cgbOnsfkIuSOvn7rhoRwFIH5e1uubqUf3JgAlp7gv5XpwyESxhku
-         D/ga0eHjuFcveEQzo3XMBhueD2SudWhSq37U9bFtWBF9IrDk53hw/94GzOfQtMOUnpDi
-         Kikg==
-X-Gm-Message-State: ANoB5pk3Z/i5AnzAbdulrhsmMnXxgSgseXpxB4fnIFV/5pxZIqUSoLfL
-	TQ/NEIcVeA3b+id2pjhF7tJDH9dMCdmmH39df6dzVw==
-X-Google-Smtp-Source: AA0mqf61omTI/URQcHXxO27ayXnv2S/Msse51DzkeZiQ+oIxOTmaxkcc1G6pL7lsFhNXP8G7IxSxXZbVbQkqQ2kKVNQ=
-X-Received: by 2002:a17:906:b1c6:b0:7ad:e82b:b66b with SMTP id
- bv6-20020a170906b1c600b007ade82bb66bmr14937894ejb.453.1669359549666; Thu, 24
- Nov 2022 22:59:09 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Pu77Y1NhgCyugJCMjWhDtk2X5EOd4VpeA0QYq3/PVyc=;
+        b=3CFRDn/dG+1Gx/3wCvp23pRg8YbC5TjjFh57dnkgDELrG33euYZejLCB7T8hLC2ttM
+         ydDg4ejguh8iqksSIpsBCL47Jra0x5DmqEsJMJXEuosUmEGjiW0z2KC5OatSPAL2yOXw
+         RfNM/Mv0RQnr4uemY1L7w8Hc2g8qluRqFHeyy2DScDFTmB6/3n37m7HC5nA+aZQJbBhn
+         Mew/RtEF0nUWtEgfLoAwrsq+maRMKVwFOTTOMFmoDT0OHU1BpBb5BqDwjyzznJuF77vV
+         ejyyLPQp/Xd9eQbb5/WpjM7stCJyX0veHDk1tjXjovvXDg3WRNt198gNVn6AIE7bN5P9
+         lW4w==
+X-Gm-Message-State: ANoB5pnDi6WhVMciMFLisbBRcyiptqctIXmOePOFz6FhoT/I2IQu+BF/
+	wDAxGVFtkrDZh616vmg55rhk/rPrAZJVK8Ixh7DgBw==
+X-Google-Smtp-Source: AA0mqf5DKkXzTCcwrpb8ivhHpG56FhbYNc3rVKh2HZx4KwhEDl64v3lNb9SfWJJ8AaAD5X/NDId7yUVuYAFtq6nhYnE=
+X-Received: by 2002:a05:6214:1e2:b0:4c6:8f31:2dea with SMTP id
+ c2-20020a05621401e200b004c68f312deamr17542212qvu.127.1669364885114; Fri, 25
+ Nov 2022 00:28:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-6-treapking@chromium.org> <Y39g/OBLW3pt9qdy@smile.fi.intel.com>
-In-Reply-To: <Y39g/OBLW3pt9qdy@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 25 Nov 2022 14:58:58 +0800
-Message-ID: <CAEXTbpeX7cfzBhvFvhCtP42LYDZ9OZQhDJ805VacQOE=-EVv0g@mail.gmail.com>
-Subject: Re: [PATCH v6 5/7] drm/bridge: anx7625: Register Type C mode switches
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org, 
-	Marek Vasut <marex@denx.de>, Xin Ji <xji@analogixsemi.com>, Lyude Paul <lyude@redhat.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>
+References: <20221117080823.77549-1-yuancan@huawei.com> <CACeCKafbbVsLrprzvVzsVgUUwExf==Ck-SOhQ2RCZbMVAnHuJg@mail.gmail.com>
+ <2d89c054-9962-bd8a-9180-6a72545cf7e8@huawei.com> <CACeCKaevCdGYkC0+3rj3THJrabHC-j=qxHbCaCDZExoh4rH-Rg@mail.gmail.com>
+ <4abd6f64-34ee-80e4-c5b5-b70f26000175@huawei.com>
+In-Reply-To: <4abd6f64-34ee-80e4-c5b5-b70f26000175@huawei.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Fri, 25 Nov 2022 00:27:54 -0800
+Message-ID: <CACeCKae2g7Ngp9yZ4zS7QEhS_uJ-wi-juuSuM4Ctbw4kYw3CkQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_notify_init()
+To: Yuan Can <yuancan@huawei.com>
+Cc: bleung@chromium.org, gwendal@chromium.org, jflat@chromium.org, 
+	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+On Wed, Nov 23, 2022 at 12:33 AM Yuan Can <yuancan@huawei.com> wrote:
+>
+>
+> =E5=9C=A8 2022/11/19 4:11, Prashant Malani =E5=86=99=E9=81=93:
+> > On Fri, Nov 18, 2022 at 2:18 AM Yuan Can <yuancan@huawei.com> wrote:
+> >>
+> >> =E5=9C=A8 2022/11/18 3:07, Prashant Malani =E5=86=99=E9=81=93:
+> >>> Hi Yuan,
+> >>>
+> >>> On Thu, Nov 17, 2022 at 12:10 AM Yuan Can <yuancan@huawei.com> wrote:
+> >>>> The reason is that the cros_usbpd_notify_init() does not check the r=
+eturn
+> >>>> value of platform_driver_register(), and the cros_usbpd_notify can
+> >>>> install successfully even if platform_driver_register() failed.
+> >>>>
+> >>>> Fix by checking the return value of platform_driver_register() and
+> >>> Can you provide details regarding why cros_usbpd_notify_acpi_driver r=
+egistration
+> >>> is failing on your system (logs or other details) ?
+> >> The reason could be an OOM happend when platform_driver_register() tri=
+es
+> >> to allocate memory,
+> >>
+> >> a simple call graph:
+> >>
+> >>    platform_driver_register()
+> >>      driver_register()
+> >>        bus_add_driver()
+> >>          dev =3D kzalloc(...) # OOM happened
+> >>
+> > Sure, but is that what you're seeing? Can you share logs from your repr=
+o case?
+> Yes, that the reason, this problem is triggered by the OOM
+> fault-injection test.
 
-Thanks for reviewing the patch.
+Alright. Thanks for providing that detail.
 
-On Thu, Nov 24, 2022 at 8:18 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Nov 24, 2022 at 06:20:54PM +0800, Pin-yen Lin wrote:
-> > Register USB Type-C mode switches when the "mode-switch" property and
-> > relevant port are available in Device Tree. Configure the crosspoint
-> > switch based on the entered alternate mode for a specific Type-C
-> > connector.
->
-> ...
->
-> > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-> > +{
-> > +     if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
-> > +             /* Both ports available, do nothing to retain the current one. */
-> > +             return;
->
-> > +     else if (ctx->typec_ports[0].dp_connected)
->
-> This 'else' is redundant. I would rewrite above as
->
->         /* Check if both ports available and do nothing to retain the current one */
->         if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
->                 return;
->
->         if (ctx->typec_ports[0].dp_connected)
->
-> > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-> > +     else if (ctx->typec_ports[1].dp_connected)
-> > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-> > +}
+Best regards,
 
-Thanks for the detailed suggestion. I'll adapt this in v7.
->
-> ...
->
-> > +     data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-> > +                           state->alt->mode == USB_TYPEC_DP_MODE);
->
-> Parentheses are not needed.
-
-Will fix this in v7.
->
-> ...
->
-> > +     /*
-> > +      * <0 1> refers to SSRX1/SSTX1, and <2 3> refers to SSRX2/SSTX2.
-> > +      */
-> > +     for (i = 0; i < num_lanes; i++) {
->
-> > +             if (port_num != -1 && port_num != dp_lanes[i] / 2) {
-> > +                     dev_err(dev, "Invalid data lane numbers\n");
-> > +                     return -EINVAL;
-> > +             }
->
-> According to Rob Linux must not validate device tree. If you need it, use
-> proper YAML schema.
->
-> > +             port_num = dp_lanes[i] / 2;
-> > +     }
->
-
-I'll remove this from the driver in v7.
-
-> ...
->
-> > +     if (!ctx->num_typec_switches) {
-> > +             dev_warn(dev, "No Type-C switches node found\n");
->
-> > +             return ret;
->
-> Why not to return 0 explicitly?
-
-Will update to just "return 0" in v7.
-
->
-> > +     }
->
-> ...
->
-> > +     ctx->typec_ports = devm_kcalloc(
->
-> Broken indentation.
-
-Will fix in v7
->
-> > +             dev, ctx->num_typec_switches, sizeof(struct anx7625_port_data),
-> > +             GFP_KERNEL);
-> > +     if (!ctx->typec_ports)
-> > +             return -ENOMEM;
->
-> ...
->
-> > +struct anx7625_port_data {
->
-> > +     bool dp_connected;
->
-> You can save some bytes on some architectures if move this to be last field.
-
-Thanks for the suggestion. I'll do so in v7
->
-> > +     struct typec_mux_dev *typec_mux;
-> > +     struct anx7625_data *ctx;
-> > +};
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+-Prashant

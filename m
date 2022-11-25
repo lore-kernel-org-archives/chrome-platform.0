@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BE32560
-	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 08:40:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EFFB5C433D7;
-	Fri, 25 Nov 2022 08:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669365616;
-	bh=pzgvt8+CLMgiBBMkiZFOdJ3rS9QZG3vhtumSvPDCnsg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qkLXBW2NXHKry7zUz088hOZ+8dK6bdlxSHqHOENOzIuUl5GHgsv469NIUKPKT5D5A
-	 ZrOv6xZi/zcXvtdqMOY+aMQPWzV8f8WQsrPmNzSR8mEytFKQDyCx3m3q55dCIJ9bNc
-	 dXy1g/gupfIoR5rE15moq+ZSdHalHh3ST2VhaTJHJ8QzNMuclkJk3Gla/oSrItpPMI
-	 jr2p006YEkwViQQsolD+sZaH4hiI+euC4iNQ1f5EA7PiYDR9hAt4U+Be3F6dWeDBx0
-	 qx7ejAQH/EOkOKALd1srN/XqiOSJnuqydOpnLWFNipwr+GDH84rYhyaQbZqhW1hKYV
-	 VeTiMfgKkiV4Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3AC7E29F3C;
-	Fri, 25 Nov 2022 08:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC682907
+	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 10:34:47 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id 140so3795122pfz.6
+        for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 02:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=3l7nTOw7PcKYSS4a31JIPJyOHiQNFayLBIXx+E8JUgg=;
+        b=sMWz2lyudaYgjwkOVSxhDwQuStMOfFuXbIQ3w7yWp5Wde9hibDKSiHiZ82wjf70Y+1
+         dwl7o5h3S28XNIsrxVBZpympQa8WH/G8BnqwXMiEPyVHDDdEsJ3cHOQfhsQuX/J7Ro2U
+         9ZS6zjwMLsjfAVhZnFAHQP3NpxOOs06zKGHo3tWWiuWhQ+haS9qIPG8RLu52X3kc2zSE
+         spKzkMEqtEFViE52Isf3O/YWU6A2LMsZHkjjoJVeE3W8EjD1xVKaElHHgDGaLpPyeqq7
+         sjsAei++1q6ez8m/7qzy3AJw9W9I6VwEgnPTWeuDNI8/wspb/VfUa1jw6vreL2H9WsEj
+         NX4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3l7nTOw7PcKYSS4a31JIPJyOHiQNFayLBIXx+E8JUgg=;
+        b=DlfCe2OFWuGcpip422eEh0DrJYOwtXwY7q2gx24s3BC7SLP2BDMxI7YmrNU9xq1tPN
+         W2Awq+2WNL5mr5rD6Y3nc1iw779UftfSKyumQzb6rUOM+1W5IBKt9aQCKOAVz6hCyNBH
+         6bpTzkxvIskjcmnReMVH748ICpU2LTse59mfTQEICJGpMgo/oD6SeIZPlfhLuzi2fVR/
+         gFyU6UKLX7jCJGjqCwAa+C8CaROBdHMCKtfx5eNwhD4uv8qy382vujzorXLGo89aJIND
+         lR02iAh8Aiv1pd5Rbscxw9vFHnZ9qJHEbjhLVazPbcQtQTiJ7edsCiP7M2AMRhHDV6A7
+         Nulw==
+X-Gm-Message-State: ANoB5pnGQdgst5LqRkxMXD/yie5+1mnZ5Z0Y3kZrimBI8edPZlVHmB3g
+	j9wZNrtOvniBIIT9xIHsf9NEeQ==
+X-Google-Smtp-Source: AA0mqf4MulTQbqKOn84bduCoLoiY92WKdiHk+tdG8XzRLw+QBa2Ruhbof5ZnNdq0Tlq3kg6LKqnWcA==
+X-Received: by 2002:a05:6a00:f95:b0:56c:a60d:54d7 with SMTP id ct21-20020a056a000f9500b0056ca60d54d7mr24606081pfb.18.1669372487527;
+        Fri, 25 Nov 2022 02:34:47 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id b6-20020a170903228600b00188fc33e96dsm3020751plh.198.2022.11.25.02.34.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Nov 2022 02:34:47 -0800 (PST)
+Message-ID: <63809a47.170a0220.f5bd.4165@mx.google.com>
+Date: Fri, 25 Nov 2022 02:34:47 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,54 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in
- cros_usbpd_notify_init()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166936561586.18119.16091669462756224026.git-patchwork-notify@kernel.org>
-Date: Fri, 25 Nov 2022 08:40:15 +0000
-References: <20221117080823.77549-1-yuancan@huawei.com>
-In-Reply-To: <20221117080823.77549-1-yuancan@huawei.com>
-To: Yuan Can <yuancan@huawei.com>
-Cc: pmalani@chromium.org, bleung@chromium.org, gwendal@chromium.org,
- jflat@chromium.org, chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v6.1-rc1-15-g6c7053bf3514
+X-Kernelci-Report-Type: build
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.1-rc1-15-g6c7053bf3514)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.1-rc1-=
+15-g6c7053bf3514)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Prashant Malani <pmalani@chromium.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.1-rc1-15-g6c7053bf3514/
 
-On Thu, 17 Nov 2022 08:08:23 +0000 you wrote:
-> The following WARNING message was given when rmmod cros_usbpd_notify:
-> 
->  Unexpected driver unregister!
->  WARNING: CPU: 0 PID: 253 at drivers/base/driver.c:270 driver_unregister+0x8a/0xb0
->  Modules linked in: cros_usbpd_notify(-)
->  CPU: 0 PID: 253 Comm: rmmod Not tainted 6.1.0-rc3 #24
->  ...
->  Call Trace:
->   <TASK>
->   cros_usbpd_notify_exit+0x11/0x1e [cros_usbpd_notify]
->   __x64_sys_delete_module+0x3c7/0x570
->   ? __ia32_sys_delete_module+0x570/0x570
->   ? lock_is_held_type+0xe3/0x140
->   ? syscall_enter_from_user_mode+0x17/0x50
->   ? rcu_read_lock_sched_held+0xa0/0xd0
->   ? syscall_enter_from_user_mode+0x1c/0x50
->   do_syscall_64+0x37/0x90
->   entry_SYSCALL_64_after_hwframe+0x63/0xcd
->  RIP: 0033:0x7f333fe9b1b7
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.1-rc1-15-g6c7053bf3514
+Git Commit: 6c7053bf3514b2a9684d5638e98351bde1c94951
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_notify_init()
-    https://git.kernel.org/chrome-platform/c/5a2d96623670
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

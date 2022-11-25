@@ -1,94 +1,78 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6B23A6
-	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 08:28:06 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id p12so2270589qvu.5
-        for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 00:28:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pu77Y1NhgCyugJCMjWhDtk2X5EOd4VpeA0QYq3/PVyc=;
-        b=KMFbTjVe2V4Dbt7DQUyNK2pKUS6PppmdW2f/dih2lFZum0vQtTMZ7KdQUKLAyARoca
-         hZj4y/a6nrYiXIU2zRAqVJLqEFgTPKEuI3oJgKEet+GCGTZDrCaxUPG3CfIpZV22Pb3X
-         g7/tf7OHB3VE1reio15pjScG4imnv9gWMiBTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pu77Y1NhgCyugJCMjWhDtk2X5EOd4VpeA0QYq3/PVyc=;
-        b=3CFRDn/dG+1Gx/3wCvp23pRg8YbC5TjjFh57dnkgDELrG33euYZejLCB7T8hLC2ttM
-         ydDg4ejguh8iqksSIpsBCL47Jra0x5DmqEsJMJXEuosUmEGjiW0z2KC5OatSPAL2yOXw
-         RfNM/Mv0RQnr4uemY1L7w8Hc2g8qluRqFHeyy2DScDFTmB6/3n37m7HC5nA+aZQJbBhn
-         Mew/RtEF0nUWtEgfLoAwrsq+maRMKVwFOTTOMFmoDT0OHU1BpBb5BqDwjyzznJuF77vV
-         ejyyLPQp/Xd9eQbb5/WpjM7stCJyX0veHDk1tjXjovvXDg3WRNt198gNVn6AIE7bN5P9
-         lW4w==
-X-Gm-Message-State: ANoB5pnDi6WhVMciMFLisbBRcyiptqctIXmOePOFz6FhoT/I2IQu+BF/
-	wDAxGVFtkrDZh616vmg55rhk/rPrAZJVK8Ixh7DgBw==
-X-Google-Smtp-Source: AA0mqf5DKkXzTCcwrpb8ivhHpG56FhbYNc3rVKh2HZx4KwhEDl64v3lNb9SfWJJ8AaAD5X/NDId7yUVuYAFtq6nhYnE=
-X-Received: by 2002:a05:6214:1e2:b0:4c6:8f31:2dea with SMTP id
- c2-20020a05621401e200b004c68f312deamr17542212qvu.127.1669364885114; Fri, 25
- Nov 2022 00:28:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BE32560
+	for <chrome-platform@lists.linux.dev>; Fri, 25 Nov 2022 08:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EFFB5C433D7;
+	Fri, 25 Nov 2022 08:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669365616;
+	bh=pzgvt8+CLMgiBBMkiZFOdJ3rS9QZG3vhtumSvPDCnsg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=qkLXBW2NXHKry7zUz088hOZ+8dK6bdlxSHqHOENOzIuUl5GHgsv469NIUKPKT5D5A
+	 ZrOv6xZi/zcXvtdqMOY+aMQPWzV8f8WQsrPmNzSR8mEytFKQDyCx3m3q55dCIJ9bNc
+	 dXy1g/gupfIoR5rE15moq+ZSdHalHh3ST2VhaTJHJ8QzNMuclkJk3Gla/oSrItpPMI
+	 jr2p006YEkwViQQsolD+sZaH4hiI+euC4iNQ1f5EA7PiYDR9hAt4U+Be3F6dWeDBx0
+	 qx7ejAQH/EOkOKALd1srN/XqiOSJnuqydOpnLWFNipwr+GDH84rYhyaQbZqhW1hKYV
+	 VeTiMfgKkiV4Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3AC7E29F3C;
+	Fri, 25 Nov 2022 08:40:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221117080823.77549-1-yuancan@huawei.com> <CACeCKafbbVsLrprzvVzsVgUUwExf==Ck-SOhQ2RCZbMVAnHuJg@mail.gmail.com>
- <2d89c054-9962-bd8a-9180-6a72545cf7e8@huawei.com> <CACeCKaevCdGYkC0+3rj3THJrabHC-j=qxHbCaCDZExoh4rH-Rg@mail.gmail.com>
- <4abd6f64-34ee-80e4-c5b5-b70f26000175@huawei.com>
-In-Reply-To: <4abd6f64-34ee-80e4-c5b5-b70f26000175@huawei.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Fri, 25 Nov 2022 00:27:54 -0800
-Message-ID: <CACeCKae2g7Ngp9yZ4zS7QEhS_uJ-wi-juuSuM4Ctbw4kYw3CkQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_notify_init()
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in
+ cros_usbpd_notify_init()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <166936561586.18119.16091669462756224026.git-patchwork-notify@kernel.org>
+Date: Fri, 25 Nov 2022 08:40:15 +0000
+References: <20221117080823.77549-1-yuancan@huawei.com>
+In-Reply-To: <20221117080823.77549-1-yuancan@huawei.com>
 To: Yuan Can <yuancan@huawei.com>
-Cc: bleung@chromium.org, gwendal@chromium.org, jflat@chromium.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: pmalani@chromium.org, bleung@chromium.org, gwendal@chromium.org,
+ jflat@chromium.org, chrome-platform@lists.linux.dev
 
-On Wed, Nov 23, 2022 at 12:33 AM Yuan Can <yuancan@huawei.com> wrote:
->
->
-> =E5=9C=A8 2022/11/19 4:11, Prashant Malani =E5=86=99=E9=81=93:
-> > On Fri, Nov 18, 2022 at 2:18 AM Yuan Can <yuancan@huawei.com> wrote:
-> >>
-> >> =E5=9C=A8 2022/11/18 3:07, Prashant Malani =E5=86=99=E9=81=93:
-> >>> Hi Yuan,
-> >>>
-> >>> On Thu, Nov 17, 2022 at 12:10 AM Yuan Can <yuancan@huawei.com> wrote:
-> >>>> The reason is that the cros_usbpd_notify_init() does not check the r=
-eturn
-> >>>> value of platform_driver_register(), and the cros_usbpd_notify can
-> >>>> install successfully even if platform_driver_register() failed.
-> >>>>
-> >>>> Fix by checking the return value of platform_driver_register() and
-> >>> Can you provide details regarding why cros_usbpd_notify_acpi_driver r=
-egistration
-> >>> is failing on your system (logs or other details) ?
-> >> The reason could be an OOM happend when platform_driver_register() tri=
-es
-> >> to allocate memory,
-> >>
-> >> a simple call graph:
-> >>
-> >>    platform_driver_register()
-> >>      driver_register()
-> >>        bus_add_driver()
-> >>          dev =3D kzalloc(...) # OOM happened
-> >>
-> > Sure, but is that what you're seeing? Can you share logs from your repr=
-o case?
-> Yes, that the reason, this problem is triggered by the OOM
-> fault-injection test.
+Hello:
 
-Alright. Thanks for providing that detail.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Prashant Malani <pmalani@chromium.org>:
 
-Best regards,
+On Thu, 17 Nov 2022 08:08:23 +0000 you wrote:
+> The following WARNING message was given when rmmod cros_usbpd_notify:
+> 
+>  Unexpected driver unregister!
+>  WARNING: CPU: 0 PID: 253 at drivers/base/driver.c:270 driver_unregister+0x8a/0xb0
+>  Modules linked in: cros_usbpd_notify(-)
+>  CPU: 0 PID: 253 Comm: rmmod Not tainted 6.1.0-rc3 #24
+>  ...
+>  Call Trace:
+>   <TASK>
+>   cros_usbpd_notify_exit+0x11/0x1e [cros_usbpd_notify]
+>   __x64_sys_delete_module+0x3c7/0x570
+>   ? __ia32_sys_delete_module+0x570/0x570
+>   ? lock_is_held_type+0xe3/0x140
+>   ? syscall_enter_from_user_mode+0x17/0x50
+>   ? rcu_read_lock_sched_held+0xa0/0xd0
+>   ? syscall_enter_from_user_mode+0x1c/0x50
+>   do_syscall_64+0x37/0x90
+>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>  RIP: 0033:0x7f333fe9b1b7
+> 
+> [...]
 
--Prashant
+Here is the summary with links:
+  - platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_notify_init()
+    https://git.kernel.org/chrome-platform/c/5a2d96623670
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

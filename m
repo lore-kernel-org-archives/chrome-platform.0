@@ -1,116 +1,190 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB617D4;
-	Sat, 26 Nov 2022 15:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669477447; x=1701013447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=TYZva1qhZaDDzx7ssD6565IlpCg24ayIFbcaC7tY8Tc=;
-  b=afaV5wieNPUjxu0caJC6JdakAXQOqaG+mJP11E9sBOfdvxW/FCdDmoSq
-   uszGkpjb5nf3De548PRwyr8tA0gjYkdzZijT5eCkTI9MaUL7wuDEK5FNd
-   DHxxEedinEuG50v1wryTy8tuS2GfxLpPE0gycyCpJAkwIvhrwC+gn8YZP
-   vqGEDAZKZz5uKM+4zWczaOB+RJUrHWVl1v9DiPG/G1MsaoSG/5NPhScuG
-   JcNKVf2MOUenZM/iTJdfierEPIRgcSWgA7CVeokYeMdRvPe3t3BpDN/xD
-   57LDEQ+dPBOukc9S9pF7aZDWoHCdzdL+VmK/32YN6VaBwDrOJGpoZ9vaZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="314638864"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="314638864"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 07:44:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="620587303"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="620587303"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2022 07:43:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1oyxLL-000Bco-1n;
-	Sat, 26 Nov 2022 17:43:51 +0200
-Date: Sat, 26 Nov 2022 17:43:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-	alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-	Lee Jones <lee.jones@linaro.org>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-	Grant Likely <grant.likely@linaro.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-actions@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Purism Kernel Team <kernel@puri.sm>, patches@opensource.cirrus.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
-	linux-crypto@vger.kernel.org, kernel@pengutronix.de,
-	netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y4I0N3KpU/LSJYpd@smile.fi.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221122185818.3740200d@jic23-huawei>
- <20221122201654.5rdaisqho33buibj@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7801F8490
+	for <chrome-platform@lists.linux.dev>; Sun, 27 Nov 2022 20:58:25 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id bn5so11085611ljb.2
+        for <chrome-platform@lists.linux.dev>; Sun, 27 Nov 2022 12:58:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y0DuQsNLT0RY6V02XnWfmVJTL0d/Zc+EKxzoplKAPRg=;
+        b=cWTmZztQXVYg/pGFJwKQrIUs9ASsk1f86dyJ6BV6j9A9XNSYJkoTUJihtLQAxxRPh4
+         S0GnfVSi8NkiSNJKZoFWgLu0ALu2gO7K4dd0I6ouEmc14PPrJdewmFvK7qfJHsUHM3MF
+         bmtvIW0ZPTKrmhMsdlxxteltgm/s3KXePOhwpBwELndHDOSCpcW14A3rCj/VZB5/X8xP
+         ogJHRszafv+YN0tpqehqE+NiIUkLCTgys8RE0HG+7o/4RHg6ekANvcjPzCvVFZktrRFX
+         ZQGZ3hOShGb/LGWR6YZ5jhU76nSjWic8CmyK3rBtUU1sFJwS6rScaTVhJScrI1pfY6xx
+         98ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y0DuQsNLT0RY6V02XnWfmVJTL0d/Zc+EKxzoplKAPRg=;
+        b=lVO+7ws5s7fY8C4M5PTd/uykllLXstE0S7C7h74d/A34g9SERG9YJlPUrgMulYFR02
+         7a2xB4Ik3GXMtwNVgq5OiF23NdjNf8cNMY4G7IHEJkxlB4lpFFi35UyU2noGw2mraieh
+         tIgywUVZKI7yxpg0za+zLJegNlEuGv/mnP/nsEU8kssGm6R5ipome2+96WL7efxJTOjS
+         nlr0CgIBzwVL1To3tGbE9vCmqpTgSDjT4v7x7Vnws8erlmFXBaxjvXlw7nykqBP8wbmh
+         /il0gq6cZKmjN09Bv/aL1VdiYI/31NqZkhkrJncZdx2rd25/34cqMRn0eUc0zZPjIJAe
+         7TdA==
+X-Gm-Message-State: ANoB5pl41chP/9oFP/V6XkCC8Pcg44XV/eLENdODPBFnLSZTtkxuoSFz
+	PEB6CuZvfsULfJZsH2QlYgCwtA==
+X-Google-Smtp-Source: AA0mqf7DSbp7zd1DjzQpiy8x4qXr0QOwLtJh8XqXRY3opc8q48qUhIu5CXz2s3UXoaXUh3DG0POO9Q==
+X-Received: by 2002:a2e:bcc5:0:b0:279:3851:1420 with SMTP id z5-20020a2ebcc5000000b0027938511420mr12784992ljp.265.1669582703489;
+        Sun, 27 Nov 2022 12:58:23 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id w10-20020ac25d4a000000b004a8f824466bsm1410359lfd.188.2022.11.27.12.58.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Nov 2022 12:58:23 -0800 (PST)
+Message-ID: <00cc31a2-39b1-9bb3-5b79-3c6d51cd5d51@linaro.org>
+Date: Sun, 27 Nov 2022 21:58:21 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122201654.5rdaisqho33buibj@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v6 3/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+ support
+Content-Language: en-US
+To: Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-acpi@vger.kernel.org, Marek Vasut <marex@denx.de>,
+ Xin Ji <xji@analogixsemi.com>, Lyude Paul <lyude@redhat.com>,
+ =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= <nfraprado@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-kernel@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>
+References: <20221124102056.393220-1-treapking@chromium.org>
+ <20221124102056.393220-4-treapking@chromium.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221124102056.393220-4-treapking@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 22, 2022 at 09:16:54PM +0100, Uwe Kleine-König wrote:
-> On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
-
-> > Queued all of the below:
-> > with one tweaked as per your suggestion and the highlighted one dropped on basis
-> > I was already carrying the equivalent - as you pointed out.
-> > 
-> > I was already carrying the required dependency.
-> > 
-> > Includes the IIO ones in staging.
-> > 
-
-> > p.s. I perhaps foolishly did this in a highly manual way so as to
-> > also pick up Andy's RB.  So might have dropped one...
+On 24/11/2022 11:20, Pin-yen Lin wrote:
+> Analogix 7625 can be used in systems to switch the DP traffic between
+> two downstreams, which can be USB Type-C DisplayPort alternate mode
+> lane or regular DisplayPort output ports.
 > 
-> You could have done:
+> Update the binding to accommodate this usage by introducing a
+> data-lanes and a mode-switch property on endpoints.
 > 
-> 	H=$(git rev-parse @)
-> 	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
-> 	git am ...
-> 	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo 'Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
+> Also include the link to the product brief in the bindings.
 > 
-> (untested, but you get the idea).
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> 
+> ---
+> 
+> Changes in v6:
+> - Remove switches node and use endpoints and data-lanes property to
+>   describe the connections.
 
-That's, for example (just last from the history as is), how I usually do it
-(tested):
+Except missing testing few things...
 
- git filter-branch --msg-filter 'sed -e "/Signed-off-by: Andy Shevchenko/ a Tested-by: Daniel Scally <dan.scally@ideasonboard.com>"' -f HEAD~4..HEAD
+> 
+>  .../display/bridge/analogix,anx7625.yaml      | 73 ++++++++++++++++++-
+>  1 file changed, 71 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 4590186c4a0b..5fdbf1f3bab8 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -12,7 +12,8 @@ maintainers:
+>  
+>  description: |
+>    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> -  designed for portable devices.
+> +  designed for portable devices. Product brief is available at
+> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
+>  
+>  properties:
+>    compatible:
+> @@ -112,10 +113,36 @@ properties:
+>                data-lanes: true
+>  
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/properties/port-base
 
+I don't understand why you are changing this line.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>          description:
+>            Video port for panel or connector.
+>  
+> +        patternProperties:
+> +          "^endpoint@[01]$":
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            type: object
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                uniqueItems: true
 
+These are confusing... you allow only one item, so why minItems and
+uniqueItems?
+
+> +                items:
+> +                  - enum: [ 0, 1, 2, 3]
+> +
+> +              mode-switch:
+> +                type: boolean
+> +                description: Register this node as a Type-C mode switch or not.
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -186,3 +213,45 @@ examples:
+>              };
+>          };
+>      };
+> +  - |
+> +    &i2c3 {
+> +	anx_bridge_dp: anx7625-dp@58 {
+
+Messed up indentation.
+
+> +	    compatible = "analogix,anx7625
+
+Node names should be generic.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+";
+> +	    reg = <0x58>;
+
+Best regards,
+Krzysztof
 

@@ -1,78 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B49DA461
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Nov 2022 20:00:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E4F1C433B5;
-	Mon, 28 Nov 2022 20:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669665617;
-	bh=CI8mtJWjr+Kxbf0SY7tVMFPCsI5Pep5YEwki+4g24RM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=E5y9h92xrsabOEbGMa5qb0p59kVpUm+ngGk910TsbZoJ1Kx2YtHnh6XGHi39Q3nHv
-	 AacQ4mhPwC+tsaGt73ujfS2JGTZSd4EFCrxstzKpSmo/1ATSaJqdXUPWv5qqbz/jS5
-	 cOG7CFg9eqSatcV2Y5j8dER57BB1XDMD5hTIdDsbwcs28t7dnXQhGRpuIT+25aMP5i
-	 XOr7HlkgVCgFX4baynxtSOsJZOrDGCoSifjocZDvbHEvqGmttBhBL4Wue5vsSWwbXC
-	 xqYjd0FcQpN0JEbwWRdyKryW4Lzve/t99ZLiksTK33kBISmyXl2n8NYwQbNLh7FECp
-	 LTJn/q4B+w+RQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F1875E21EF6;
-	Mon, 28 Nov 2022 20:00:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C586FAD4B
+	for <chrome-platform@lists.linux.dev>; Tue, 29 Nov 2022 18:13:15 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id k4so10421896qkj.8
+        for <chrome-platform@lists.linux.dev>; Tue, 29 Nov 2022 10:13:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oxizSDtUrKGW9s75wfUhGFGOv1cbxYsbxzO0Bfc6NkI=;
+        b=Eaz6vuCU7u00zWseDKdCYKMAVyDLlMsX995nhSluQCaJIl4kZ3Phky9xWJrvZSlDkX
+         K//ngzfvIXB80SXU5z+0dquHREqnSOdDWMoxmy/DJ2gk1h70eQUC/xc5CmfoS2Rp9qFb
+         cQwDvq6Rgx7Hdel50IMqDkWCaIoAjIqqZKJ8Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oxizSDtUrKGW9s75wfUhGFGOv1cbxYsbxzO0Bfc6NkI=;
+        b=jdLPRydGelsgV50v4OFhQEEdnvMSmLuumBcPYuR6U+bam8X6auP9u/G3Gx0m+AVDez
+         3RGc8xMLBPZL8zPv0zG7ckM871STdB7pthtJ7srIMhgkk9zwi/ep9/b7Lc8Dr7HRJTEE
+         n0+A9hDtyJSpOWRLRx6m9DFO7SXbAzrF85/Si5hPRsW/5Tz311IjiR4HAqfAwV1MrQCG
+         k3oagxbZXUVZNhUErwZWJpXPyCtxmfTo/YxB0/j/39D3c5CvIuOnmgmRpV9iZ8Kf+0em
+         TxZxIfxXHzn3HxwyP7vhM5FujndRoAXlAqk6PIh1DmZhrs8N/CeBxO/uIJRHHe+qBR7K
+         wtNA==
+X-Gm-Message-State: ANoB5pnnW0P+6g/Zx6sRNcrrTDl7S12cBn2D+9jnk7PnDfw1fmGAxb8N
+	VwN6U8qs4KvlUZg95Jg1B0lMYXRn2a8zJoSCJN0K/w==
+X-Google-Smtp-Source: AA0mqf6Sx/sJ2/wuBlsiie3OPD5aPlMymeX4M0l+aBQxKXtQvnhP/H6W7D77zIgpkf39KgHmL0C10xO2/QupgenuriI=
+X-Received: by 2002:a05:620a:2694:b0:6f6:b34a:5333 with SMTP id
+ c20-20020a05620a269400b006f6b34a5333mr51687260qkp.1.1669745594753; Tue, 29
+ Nov 2022 10:13:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Fix error handling in
- cros_usbpd_notify_init()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166966561698.11611.4134873993450346997.git-patchwork-notify@kernel.org>
-Date: Mon, 28 Nov 2022 20:00:16 +0000
-References: <20221117080823.77549-1-yuancan@huawei.com>
-In-Reply-To: <20221117080823.77549-1-yuancan@huawei.com>
-To: Yuan Can <yuancan@huawei.com>
-Cc: pmalani@chromium.org, bleung@chromium.org, gwendal@chromium.org,
- jflat@chromium.org, chrome-platform@lists.linux.dev
+References: <20221117114818.v7.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+ <20221117114818.v7.3.Ie23c217d69ff25d7354db942613f143bbc8ef891@changeid> <Y3cbswXxTKWhMjKT@google.com>
+In-Reply-To: <Y3cbswXxTKWhMjKT@google.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Tue, 29 Nov 2022 11:13:04 -0700
+Message-ID: <CANg-bXAxeL_N53umfeoYjAyDfw5EeHmcniZusPo+bb-BE1R4Ow@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] platform/chrome: cros_ec_uart: Add DT enumeration support
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>, 
+	Bhanu Prakash Maiya <bhanumaiya@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+> > @@ -392,6 +393,12 @@ static int __maybe_unused cros_ec_uart_resume(struct device *dev)
+> >  static SIMPLE_DEV_PM_OPS(cros_ec_uart_pm_ops, cros_ec_uart_suspend,
+> >                        cros_ec_uart_resume);
+> >
+> > +static const struct of_device_id cros_ec_uart_of_match[] = {
+> > +     { .compatible = "google,cros-ec-uart" },
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, cros_ec_uart_of_match);
+>
+> It would need a guard for checking CONFIG_OF.  Similar to what
+> `cros_ec_uart_acpi_id` does.
+>
+> > @@ -405,6 +412,7 @@ static struct serdev_device_driver cros_ec_uart_driver = {
+> >       .driver = {
+> >               .name   = "cros-ec-uart",
+> >               .acpi_match_table = ACPI_PTR(cros_ec_uart_acpi_id),
+> > +             .of_match_table = cros_ec_uart_of_match,
+>
+> It would need be wrapped by `of_match_ptr()`.  Similar to what
+> `ACPI_PTR()` does.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
-
-On Thu, 17 Nov 2022 08:08:23 +0000 you wrote:
-> The following WARNING message was given when rmmod cros_usbpd_notify:
-> 
->  Unexpected driver unregister!
->  WARNING: CPU: 0 PID: 253 at drivers/base/driver.c:270 driver_unregister+0x8a/0xb0
->  Modules linked in: cros_usbpd_notify(-)
->  CPU: 0 PID: 253 Comm: rmmod Not tainted 6.1.0-rc3 #24
->  ...
->  Call Trace:
->   <TASK>
->   cros_usbpd_notify_exit+0x11/0x1e [cros_usbpd_notify]
->   __x64_sys_delete_module+0x3c7/0x570
->   ? __ia32_sys_delete_module+0x570/0x570
->   ? lock_is_held_type+0xe3/0x140
->   ? syscall_enter_from_user_mode+0x17/0x50
->   ? rcu_read_lock_sched_held+0xa0/0xd0
->   ? syscall_enter_from_user_mode+0x1c/0x50
->   do_syscall_64+0x37/0x90
->   entry_SYSCALL_64_after_hwframe+0x63/0xcd
->  RIP: 0033:0x7f333fe9b1b7
-> 
-> [...]
-
-Here is the summary with links:
-  - platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_notify_init()
-    https://git.kernel.org/chrome-platform/c/5a2d96623670
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+I'm not sure we want a guard in this case because we compile the kernel without
+CONFIG_OF enabled for (most?) x86 platforms. Yet we still need the device
+tree code to enumerate using the PRP0001 _HID method.

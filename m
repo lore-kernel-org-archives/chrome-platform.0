@@ -1,114 +1,149 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EB98460
-	for <chrome-platform@lists.linux.dev>; Wed, 30 Nov 2022 20:13:41 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id bp12so8606991ilb.9
-        for <chrome-platform@lists.linux.dev>; Wed, 30 Nov 2022 12:13:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A76D50F
+	for <chrome-platform@lists.linux.dev>; Wed, 30 Nov 2022 23:19:39 +0000 (UTC)
+Received: by mail-pg1-f201.google.com with SMTP id k16-20020a635a50000000b0042986056df6so121313pgm.2
+        for <chrome-platform@lists.linux.dev>; Wed, 30 Nov 2022 15:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K4gs1nqhWEkh1q6oBgpXv2FkSjhvCSKGs/o2Pfz2jr8=;
-        b=M/3A/m/rdnLCwq+N0mKcmdE9X0YNCiy+AKyIyVOzqAFNENc7fYG+WQp3vAo7AhXL3I
-         /c99IHcFQIxBAKtKzz91w/vQs9yd0iVRHu0YI3a23Rk4+SO7U123BhA/BbYlNt3DyohU
-         KKwz+K4DFd/l4UaDzw0Y0Qbq4Skp95Fid0TF8=
+        d=google.com; s=20210112;
+        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=psZEL5ww/2k9YPeWOOCAXsjMZnFtn9I23/0F0XLJjGo=;
+        b=dcy27hQ1oZRdKqdf1nM0wAFdLBtZ+drOiDMvLMXuisGs4TsbPgCOMhdNsxgnH+NAXa
+         xJa7WfFmbXvg0DT4bOOA6DYjE61uFM+DWtDr7XuRSqoCsH2YSode9+4ARKmqmfRsdbZj
+         61FypBgVkQW/bxWqJqcHRWFxEofW+q5RKTf+LsRW5Ib8iQJnJVpmdB/+ht5pM037QwUW
+         jcf4AP0OBxWho7Sydm5lO7OdSmqh5BVT7NLQoe6oVA3EanKY5ZKsBw0CgI2YwoCgJJ24
+         Mu7s6zKTqMeKRdlB9Mq5AVUv9GRWJL59HwwjrOLXkuDbCUUi9nzKk/eBFADdwvyRCnEc
+         h8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K4gs1nqhWEkh1q6oBgpXv2FkSjhvCSKGs/o2Pfz2jr8=;
-        b=Dh29g2oGM9OmRovdDS29vhPkCHnpShuCICY/KDoAWamBscQi/OhmWYu3tIg+AckjvE
-         1VZdfwu9LyO3oq3nI7AH+UD5wbVZDinjLLVXRcSyEH7jqrphlC68b9dJfwwyTTVC1Zg4
-         MysadU2NwpFD6P2n4ZvDVF53NUkAnlzJ5v1C/71JmhTlN15fghnRR9xa561PvjH+40rm
-         YOErC4TZD2TdxPtC2Xoef97ZpuW+wv7R21iyP3PhpCwfBHzNpoAt0FysT5fK2IHtAxFO
-         v6OyUoeUW+KHc4bEROgK8TpCloTylU2zyE2J3sHUKRU7TFh2AoyF53rPEjopT+UHzDvX
-         lK1A==
-X-Gm-Message-State: ANoB5pmIr2oDNgNF0JVs4wGSXy2aWCXItydy1wPDHAQ2wHvT0wOVFYC8
-	3vyKJj1NMivhbJsiyJksZyItAg==
-X-Google-Smtp-Source: AA0mqf6T5GN72ySu99K1kzD6N8MC7OS5wEzGjRwq1jjcy6Lq7g/+7JYtHedGalV19WPXMWRa1LRi2A==
-X-Received: by 2002:a05:6e02:2197:b0:302:391a:f67b with SMTP id j23-20020a056e02219700b00302391af67bmr22128556ila.265.1669839220208;
-        Wed, 30 Nov 2022 12:13:40 -0800 (PST)
-Received: from markhas1.lan (184-96-172-159.hlrn.qwest.net. [184.96.172.159])
-        by smtp.gmail.com with ESMTPSA id r2-20020a02b102000000b00363e61908bfsm902158jah.10.2022.11.30.12.13.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 12:13:40 -0800 (PST)
-From: Mark Hasemeyer <markhas@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Raul Rangel <rrangel@chromium.org>,
-	Mark Hasemeyer <markhas@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Benson Leung <bleung@google.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH v8 3/3] platform/chrome: cros_ec_uart: Add DT enumeration support
-Date: Wed, 30 Nov 2022 13:12:56 -0700
-Message-Id: <20221130131245.v8.3.Ie23c217d69ff25d7354db942613f143bbc8ef891@changeid>
-X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-In-Reply-To: <20221130131245.v8.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-References: <20221130131245.v8.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=psZEL5ww/2k9YPeWOOCAXsjMZnFtn9I23/0F0XLJjGo=;
+        b=jUsrVUBQuRARz5djNZ3GbDx6C5tgiZCL4+jgFMxxq2zgMHK5QyrDacgIvN6fdg/2V/
+         G4Jd1ysm3wWpkpgo3I88hHZX6pMg3D41rHvFBXn7S3LOvnPdFNAFYLFnqcV2gcodOUoN
+         s+VMpESDhiEoz+vCVF8D+StulnWp4BzlhK4gGfFjRM7DRhtycQOW6vqthAA9ur3BlLmZ
+         gciZuLz4zsj14PGHoJmHl2XsVXSnLNn/NU7YUNWw0hRV4o9fU6P8dTbrtpJzgXYZoXFa
+         XPVonQyrO33PrUVaNskyyLfFu0jj1nc5C6Lp8xrwCIuUCLfqjMd0IW3sjo1+O2rgHFz0
+         v1yQ==
+X-Gm-Message-State: ANoB5pkfbDQeTOA2uST0yZSvkJpiqjKPgijyzIWVEmBUXeH3TA/m6MIc
+	+NB2+J4gcTMHFwTJ2D8+SjscLXjRStHkww==
+X-Google-Smtp-Source: AA0mqf77VInAyRbXo2x8Y6PwP2A7ZiPUqHPx2P2ELAIIUt9HJqsLDFpW7960UiOr2s39ATpVGmYoW6xoI030WA==
+X-Received: from wonchungspecialist.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1440])
+ (user=wonchung job=sendgmr) by 2002:a17:90b:3c52:b0:219:2b64:cc0e with SMTP
+ id pm18-20020a17090b3c5200b002192b64cc0emr20856888pjb.161.1669850379424; Wed,
+ 30 Nov 2022 15:19:39 -0800 (PST)
+Date: Wed, 30 Nov 2022 23:19:36 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
+Message-ID: <20221130231936.1666390-1-wonchung@google.com>
+Subject: [PATCH] platform/chrome: Create new USB driver for RGB keyboard in
+ ChromeOS devices
+From: Won Chung <wonchung@google.com>
+To: wonchung@google.com, Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Existing firmware uses the "PRP0001" _HID and an associated compatible
-string to enumerate the cros_ec_uart.
+Without any driver bound to RGB keyboard, it may not be suspended
+properly, preventing USB xHCI to be suspended and causing power drain.
+Create new USB driver for RGB keyboard so that it can be suspended
+properly.
 
-Add DT enumeration support for already shipped firmware.
-
-Signed-off-by: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
+Signed-off-by: Won Chung <wonchung@google.com>
 ---
+ drivers/platform/chrome/Kconfig             |  8 ++++
+ drivers/platform/chrome/Makefile            |  1 +
+ drivers/platform/chrome/cros_rgb_keyboard.c | 44 +++++++++++++++++++++
+ 3 files changed, 53 insertions(+)
+ create mode 100644 drivers/platform/chrome/cros_rgb_keyboard.c
 
-Changes in v8:
-- No change
-
-Changes in v7:
-- Move PRP0001 enumeration support to its own commit
-
- drivers/platform/chrome/cros_ec_uart.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-index ef9ac7ace04b6..521a3ee6f60b3 100644
---- a/drivers/platform/chrome/cros_ec_uart.c
-+++ b/drivers/platform/chrome/cros_ec_uart.c
-@@ -11,6 +11,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/serdev.h>
-@@ -385,6 +386,12 @@ static int __maybe_unused cros_ec_uart_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(cros_ec_uart_pm_ops, cros_ec_uart_suspend,
- 			 cros_ec_uart_resume);
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index c45fb376d653..a7c36df99432 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -265,6 +265,14 @@ config CHROMEOS_PRIVACY_SCREEN
+ 	  this should probably always be built into the kernel to avoid or
+ 	  minimize drm probe deferral.
  
-+static const struct of_device_id cros_ec_uart_of_match[] = {
-+	{ .compatible = "google,cros-ec-uart" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cros_ec_uart_of_match);
++config CROS_RGB_KEYBOARD
++	tristate "ChromeOS RGB keyboard"
++	depends on USB
++	help
++	  This driver supports RGB keyboard in some ChromeOS devices. This shall be
++	  enabled if RGB keyboard is present, otherwise it may not be suspended
++	  properly.
 +
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id cros_ec_uart_acpi_id[] = {
- 	{ "GOOG0019", 0 },
-@@ -398,6 +405,7 @@ static struct serdev_device_driver cros_ec_uart_driver = {
- 	.driver	= {
- 		.name	= "cros-ec-uart",
- 		.acpi_match_table = ACPI_PTR(cros_ec_uart_acpi_id),
-+		.of_match_table = cros_ec_uart_of_match,
- 		.pm	= &cros_ec_uart_pm_ops,
- 	},
- 	.probe		= cros_ec_uart_probe,
+ source "drivers/platform/chrome/wilco_ec/Kconfig"
+ 
+ # Kunit test cases
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index f7e74a845afc..e4ffa17c57fc 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -28,6 +28,7 @@ obj-$(CONFIG_CROS_EC_SENSORHUB)		+= cros-ec-sensorhub.o
+ obj-$(CONFIG_CROS_EC_SYSFS)		+= cros_ec_sysfs.o
+ obj-$(CONFIG_CROS_USBPD_LOGGER)		+= cros_usbpd_logger.o
+ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
++obj-$(CONFIG_CROS_RGB_KEYBOARD)		+= cros_rgb_keyboard.o
+ 
+ obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
+ 
+diff --git a/drivers/platform/chrome/cros_rgb_keyboard.c b/drivers/platform/chrome/cros_rgb_keyboard.c
+new file mode 100644
+index 000000000000..1d53fc832d76
+--- /dev/null
++++ b/drivers/platform/chrome/cros_rgb_keyboard.c
+@@ -0,0 +1,44 @@
++// SPDX-License-Identifier: GPL-2.0
++// RGB keyboard driver for ChromeOS
++//
++// Copyright (C) 2022 Google, Inc.
++
++#include <linux/module.h>
++#include <linux/usb.h>
++
++#define DRV_NAME "cros-rgb-keyboard"
++
++/* vendor ID */
++#define ID_GOOGLE 0x18d1
++/* product ID */
++#define ID_PRISM 0x5022
++
++static const struct usb_device_id cros_rgb_keyboard_table[] = {
++	{USB_DEVICE(ID_GOOGLE, ID_PRISM)},
++	{} // terminating null entry
++};
++
++static int cros_rgb_keyboard_probe(struct usb_interface *interface, const struct usb_device_id *id)
++{
++	struct usb_device *udev = interface_to_usbdev(interface);
++
++	usb_enable_autosuspend(udev);
++	return 0;
++}
++
++static void cros_rgb_keyboard_disconnect(struct usb_interface *interface)
++{
++}
++
++/* usb specific object needed to register this driver with the usb subsystem */
++static struct usb_driver cros_rgb_keyboard_driver = {
++	.name = DRV_NAME,
++	.id_table = cros_rgb_keyboard_table,
++	.probe = cros_rgb_keyboard_probe,
++	.disconnect = cros_rgb_keyboard_disconnect,
++};
++
++module_usb_driver(cros_rgb_keyboard_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("ChromeOS RGB keyboard driver");
 -- 
-2.38.1.584.g0f3c55d4c2-goog
+2.39.0.rc0.267.gcb52ba06e7-goog
 

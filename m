@@ -1,82 +1,64 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77377F6
-	for <chrome-platform@lists.linux.dev>; Fri,  2 Dec 2022 00:30:09 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id mn15so2468098qvb.13
-        for <chrome-platform@lists.linux.dev>; Thu, 01 Dec 2022 16:30:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721AD7B
+	for <chrome-platform@lists.linux.dev>; Fri,  2 Dec 2022 04:53:20 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id b81so1824794vkf.1
+        for <chrome-platform@lists.linux.dev>; Thu, 01 Dec 2022 20:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtB7qSqiIzlg8ss9ldhy5DqRNqK+3OXWrV3JxhE5L/Q=;
-        b=NShPh6Ldo6cB9Y7/znInI3jzj6Ptq2/otJBs0262+9AWk8MYfYjMQfa2K6i2/34orr
-         GmzzjpcDdTZBw+e1rAyA/G21UiefhbIN1Byy436S0o1TpcmSx5QNtNJyWwMADtjJfSnO
-         aakdUkAsRdnbvcyg0/DM198QVoHyC4d1KEEUw=
+        bh=Mo/Jzmj97699FgsVRo9A86tN5cGByg6vtV/IG9s+9pg=;
+        b=dCXDQdIIYmKKBL8B+e5zAeamhBp/z/6Kx8FkljUP1lVX3OoYJ+mO0JpwQXrre1qPBl
+         cljb4UmEcD+6a58p+AyRqoMZzlIYrg6s5yCersKax9MJOEaYPA2IrfkN0iD0RGf8oOFK
+         ZydwDyZIy3cNDaoFqzsDu1aPyJRI1Low86e94=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XtB7qSqiIzlg8ss9ldhy5DqRNqK+3OXWrV3JxhE5L/Q=;
-        b=NKlsMySrUj0rFJ62ttWSBtoOQeV6kpTXTl1t5JnMEgZC/L6d1MlteJUeCEpBoD7l7s
-         0ZD3I3uWyMs6WMMS6nnR8azQq0B3Mtenpg3hx9VoNaQXR+0NwoYHuAsXPurUlgY+WkWh
-         E6n90adBX5Lye7McyHHLc3OwDh/aLACZdrxYDKVMebFAmLcK5ee15sk4UFHVnvbqsoZ8
-         ka+ZTPVpsqFlLpsVKILtcWw8myBoDhcPAcoP9W7HeYyCPDqFMmnprYnCHO8juab0h3wO
-         Hbh3Q6R9H4HtLVTMd4yJZ7f7ISJZ7mXwape2U0NOPtZCbGpssYjZMHVK+MVSG98EX8hS
-         suIA==
-X-Gm-Message-State: ANoB5plr94FcDKd2UYqEZrQX/SkOzown/ncmeif3js3WtRlkgxiZeoY5
-	N5x4sWrrMeknNCaWEW+hu80655T3LIQFwfdaN3lENg==
-X-Google-Smtp-Source: AA0mqf6pXA5paunfIyUQM4dR0nhu88sVVy/J9X/OwrIZwSH+1q9zgBsefaDBHJtmmDWMiwBxjk4He6NieG7Y4WhlN/Y=
-X-Received: by 2002:ad4:4c03:0:b0:4bc:182e:78c2 with SMTP id
- bz3-20020ad44c03000000b004bc182e78c2mr44392547qvb.2.1669941008652; Thu, 01
- Dec 2022 16:30:08 -0800 (PST)
+        bh=Mo/Jzmj97699FgsVRo9A86tN5cGByg6vtV/IG9s+9pg=;
+        b=NdVLAHr4PfPE/8+us6XkamcdLbQaZFzffYiYW003jVEwdXjSJ50c3a7fQHik+y/KT6
+         6ypGU1YU0J63xBuJcVNni2AJyUfsQr99Kkuxs4PIV9N9Pt52UrqDJt3fOII674tg/T7o
+         62qV9+apLqIEVU1aVvrvaKoTDIlVrapA02Jg0vgg1n1gzZA6xxlgBWnJTRPk0oHvgP5k
+         XfVOOYCVYqQiSNF1z5pdhthCJClXFYbhv9ZcVcIxhXYKemQ5FNDBfVa1RNhNCI4upOlp
+         GtnjEF1FjxR6igb2mW+aEZseVRiqFoL13hd2Vhjs676Q9UIvbEnhdhqsvw5eGBDvyVy7
+         cLtQ==
+X-Gm-Message-State: ANoB5pmIM+PUR4nW3DUHGvRvAzJ0U2gt/eJZiOgWzgIOATbta2EONaeJ
+	SGca1AWsHF6eHKGc9oXpgUmRGi31NJ7z0GIErbrmeg==
+X-Google-Smtp-Source: AA0mqf70jBsrJPWXLS/68AGUc508wiotE9Jhx8V/d9D4GSUqZHrVHwjsa4fIBNevkAUjSD378eCDts+iU6XdDanz5b4=
+X-Received: by 2002:a05:6122:c77:b0:3bd:4b97:a4fa with SMTP id
+ i55-20020a0561220c7700b003bd4b97a4famr2786758vkr.7.1669956799411; Thu, 01 Dec
+ 2022 20:53:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221130231936.1666390-1-wonchung@google.com> <CACeCKad16bs_f6bLthTAoEL28tPvf1S10WDeM7ugeaS9g7R25w@mail.gmail.com>
- <CANLzEksD=dKgPuCUD74b3YQKCApbZKO_t7Q=tyNKONvAOQ89hw@mail.gmail.com>
- <CACeCKad7RGVPGdrd9WNpRhn3n99R5TG9zFJpCrMj7CDLK18rMA@mail.gmail.com> <CAOvb9ygJ9afqLaeJRuCK+zFMH2vxjA4JGXAu2qZUvqqyUzhnmQ@mail.gmail.com>
-In-Reply-To: <CAOvb9ygJ9afqLaeJRuCK+zFMH2vxjA4JGXAu2qZUvqqyUzhnmQ@mail.gmail.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Thu, 1 Dec 2022 16:29:57 -0800
-Message-ID: <CACeCKae3SGt9ihq-B2s6V2HiiHU+dSL6pRaxY15aaLoJUNQYmg@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: Create new USB driver for RGB keyboard
- in ChromeOS devices
-To: Won Chung <wonchung@google.com>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+References: <20221130131245.v8.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+ <CACeCKacHWPVv=sDo5-VjpckvvFw6YmqvXCyLqzgbXBmG080mmw@mail.gmail.com> <CACeCKafaZNqtKb8=thALgX4yaVTqsPcGQsHEKUZEVB0XWaNMKg@mail.gmail.com>
+In-Reply-To: <CACeCKafaZNqtKb8=thALgX4yaVTqsPcGQsHEKUZEVB0XWaNMKg@mail.gmail.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Thu, 1 Dec 2022 21:53:08 -0700
+Message-ID: <CANg-bXAO59iDV-KNzCk=o6jTtPRRGho5an=mp4Y5jcZsmd33Gw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart
+ transport layer
+To: Prashant Malani <pmalani@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>, 
+	Bhanu Prakash Maiya <bhanumaiya@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
 	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 1, 2022 at 2:52 PM Won Chung <wonchung@google.com> wrote:
->
-> On Thu, Dec 1, 2022 at 1:36 PM Prashant Malani <pmalani@chromium.org> wrote:
-> > >
-> > > We're seeing some behavior where a bound driver is needed in order for
-> > > this USB device to properly enter suspend state. Just manipulating the
-> > > power/control and other sysfs nodes for this usb device when there's
-> > > no driver in the kernel doesn't seem to affect the device's ability to
-> > > drop into a usb low power state.
-> >
-> > That seems like an issue with the device then, which should be debugged
-> > from the device side and/or its interaction with the USB subsystem.
-> >
->
-> Hi Prashant,
->
-> As Benson mentioned, I can check on my test Vell device that changing
-> power/control does not suspend the device.
-> Should it be controllable even without a driver bound?
+> +               /* Received bytes are more the allocated buffer*/
+> +               ec_uart->response.error = -EMSGSIZE;
+> +
+> +               /* Wake the calling thread */
+> +               wake_up_interruptible(&ec_uart->response.wait_queue);
 
-Um, it should be(?); usb_enable_autosuspend() [1] and `echo auto >
-power/control` [2]
-both seem to call the same runtime PM function. I've not looked into
-runtime PM code
-deeper than that, but it may be worthwhile to examine what's causing the suspend
-to get blocked.
-
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/driver.c#L1637
-[2] https://elixir.bootlin.com/linux/latest/source/drivers/base/power/sysfs.c#L113
+I believe the "received" conditional variable should be set before calling
+wake_up_interruptible. Otherwise the calling thread will not be (immediately)
+awakened as the condition is still false. Currently, the calling thread will
+wait until it times out in this case.

@@ -1,402 +1,211 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D94815C8B
-	for <chrome-platform@lists.linux.dev>; Mon,  5 Dec 2022 19:56:37 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id r19so12226951qtx.6
-        for <chrome-platform@lists.linux.dev>; Mon, 05 Dec 2022 11:56:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790ED7C;
+	Mon,  5 Dec 2022 20:50:29 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id n21so1383991ejb.9;
+        Mon, 05 Dec 2022 12:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DQ4Qfz2NsvvDu1hC1Lq6rd0VF7bwPnzZEhEgZystJUs=;
-        b=T/w+OLH7dQlwgIsmtrkXWteURv1lZWy6YxgLc4j/6J/qJTzIv7XnJML1hIew5AjC34
-         /gpLdwRKpAr3aje1av5lTv9Fua++f4ROFdIlEDXgZ9P8RdBZ63PfNUUoFfi592fgPx76
-         XVNvbmrzjyh+dTEuZS0pURB1Dpmgyp/fmuN0w=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
+        b=XvJr+2rJm7JOHlq9x+fOv7NDm86bbibMxBpK63VeMD2EMqGdhu2XuWkgvVLdDR0z70
+         rNjTyDDxW9o5ErSENlsUnIfCC0WhZuejJ2yih0mLoHswCM2M58xZp+WRXrhKHNzoDC98
+         eywNrn9703v1hEHCC19pIxnm9UAOmv/ciCyk8aNqL1llwB1pwKlrAN3g0vWuCDVwec3u
+         b2oe64W6gGqXEP/w77AW1mJZUnpIQaflKXXD7S2AxRLNn+kpk5aBgHioUah3AXqYRLz0
+         Ni6YsVblS514+p5ZnwbjXWkaD6uhuoaqZS6tGC11waKPWHF6EekaoetSMeNIEbDaBvy2
+         bqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DQ4Qfz2NsvvDu1hC1Lq6rd0VF7bwPnzZEhEgZystJUs=;
-        b=bgJ0Tn3SsD61aGT5s5jF/hGxfRT9/re61bIz1iizksy+dqikU0mpUVoerVhCg8ihWs
-         R1W+nqkXFDP/s7soEcO7D0ZMlf05S4xUj0pzWxFDYw9GpeR54LZLOcLnMMFmpnD4FxLw
-         9YNYiWu71jHYJvjeb5HslIuKUx2BuHMmY8eXhQuD97v+yo9lWOCp+ED8GGw5DCXMKYSe
-         +uMq/Ohh9vPmAnJ8Mq+pbb/7fAHjth+y7pLbwf95szHWoagMDJsxkz/C7wrPvHUu7BQK
-         StpWNWlI8yjQDjD+2VJF54JSC/gcdhfcAM5kg/UPivRS6Vspb6alABH3MH1RDbT5Axgb
-         j6rA==
-X-Gm-Message-State: ANoB5pkC/w5O2HejB7hXhDHAB+FYQ78VXzKh+GCXBRlOTX9cJD0fAfba
-	salhd3kk6LdgxBPLF+vqTRfTRDQr37edlBXxGO1gPg==
-X-Google-Smtp-Source: AA0mqf51dRL5Um5ksGkVKI6eAGjDU2MyYa+M4fIDqCz/Cji2Sc91YnP4wF0l1ej8xLR0Km849jZNOBTgvXVpwNOi/kw=
-X-Received: by 2002:a05:622a:1c1b:b0:39c:d5cd:848e with SMTP id
- bq27-20020a05622a1c1b00b0039cd5cd848emr64192988qtb.294.1670270196477; Mon, 05
- Dec 2022 11:56:36 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
+        b=rt6x57TkC7+DyM2COTiywZo1Gz/urANjCnW2Gfy/bOiN+ElW4xa4cKoyV8eFT/Eyki
+         nlDax9Ol+KKEo5Dsa+SLATnJZ9+stX4HCpgkgpYlHSag2iyG+wJwlTDClYSyTGeCsnlg
+         FilsesGCPjItD4OjxyRRFrTbQS7KClDZG6PlsPVFHhNFvNmEfa7BYNF52iZhwiWtSOKj
+         S2J649ViyjQiVAb+YErrb9F+9jJztDIjiCr/K37Utch+H5VulAAhpNaYiHCK00NmjDpg
+         wJGWuFrYLr6CRj9yEVpj/0npwcBNxMLyjcQADn5ITKqJf7EBJAn01fPLEHeY06fhvIDN
+         6ukQ==
+X-Gm-Message-State: ANoB5pl40qoqlf7SQNYGTrMPWJOpHe4xnrbBBABFEU+o+82nx1n1H00f
+	H8kcICr51f/LCrtvGa0kskE=
+X-Google-Smtp-Source: AA0mqf5OSt768BV9vzFy9k66tV39xf6Wmy4SS9KX61nTQHi4Fa5yPtn/xJX8Qo/SjgdCekjDSrIRXw==
+X-Received: by 2002:a17:906:4b4a:b0:7c0:e5cb:aad8 with SMTP id j10-20020a1709064b4a00b007c0e5cbaad8mr7371981ejv.407.1670273427580;
+        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id g9-20020a17090670c900b0077f324979absm6580859ejk.67.2022.12.05.12.50.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>, Pavel Machek <pavel@ucw.cz>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
+	Michal Simek <michal.simek@xilinx.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Matthias Kaehlcke <mka@chromium.org>, 
+	Satya Priya <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error code
+Date: Mon, 05 Dec 2022 21:50:24 +0100
+Message-ID: <22881769.6Emhk5qWAg@kista>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de> <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221205001932.v9.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-In-Reply-To: <20221205001932.v9.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Mon, 5 Dec 2022 11:56:24 -0800
-Message-ID: <CACeCKaerjLdGR_h_H=7+55mN31PUGJHAujfWXG2A3ELJTcnBMw@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart
- transport layer
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>, 
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Mark and Bhanu,
+Dne sreda, 30. november 2022 ob 16:21:38 CET je Uwe Kleine-K=F6nig napisal(=
+a):
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+>=20
+> This patch was created using coccinelle and the following semantic patch:
+>=20
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver =3D {
+>         ...,
+>         .get_state =3D getstatefunc
+>         ,...
+>  };
+>=20
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct
+> pwm_state *state) {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+>=20
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+>=20
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+>  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+>  drivers/pwm/pwm-atmel.c               |  6 ++++--
+>  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+>  drivers/pwm/pwm-crc.c                 | 10 ++++++----
+>  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+>  drivers/pwm/pwm-dwc.c                 |  6 ++++--
+>  drivers/pwm/pwm-hibvt.c               |  6 ++++--
+>  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+>  drivers/pwm/pwm-imx27.c               |  8 +++++---
+>  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+>  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+>  drivers/pwm/pwm-keembay.c             |  6 ++++--
+>  drivers/pwm/pwm-lpss.c                |  6 ++++--
+>  drivers/pwm/pwm-meson.c               |  8 +++++---
+>  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+>  drivers/pwm/pwm-pca9685.c             |  8 +++++---
+>  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+>  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+>  drivers/pwm/pwm-sifive.c              |  6 ++++--
+>  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+>  drivers/pwm/pwm-sprd.c                |  8 +++++---
+>  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+>  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+>  drivers/pwm/pwm-sunplus.c             |  6 ++++--
+>  drivers/pwm/pwm-visconti.c            |  6 ++++--
+>  drivers/pwm/pwm-xilinx.c              |  8 +++++---
+>  include/linux/pwm.h                   |  4 ++--
+>  29 files changed, 146 insertions(+), 89 deletions(-)
+>=20
+<snip>
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index c8445b0a3339..37d75e252d4e 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct
+> sun4i_pwm_chip *chip, writel(val, chip->base + offset);
+>  }
+>=20
+> -static void sun4i_pwm_get_state(struct pwm_chip *chip,
+> -				struct pwm_device *pwm,
+> -				struct pwm_state *state)
+> +static int sun4i_pwm_get_state(struct pwm_chip *chip,
+> +			       struct pwm_device *pwm,
+> +			       struct pwm_state *state)
+>  {
+>  	struct sun4i_pwm_chip *sun4i_pwm =3D to_sun4i_pwm_chip(chip);
+>  	u64 clk_rate, tmp;
+> @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL(state->period, 2);
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+>  		state->enabled =3D true;
+> -		return;
+> +		return 0;
+>  	}
+>=20
+>  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) =3D=3D PWM_PRESCAL_MASK) &&
+> @@ -142,7 +142,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		prescaler =3D prescaler_table[PWM_REG_PRESCAL(val, pwm-
+>hwpwm)];
+>=20
+>  	if (prescaler =3D=3D 0)
+> -		return;
+> +		return 0;
+>=20
+>  	if (val & BIT_CH(PWM_ACT_STATE, pwm->hwpwm))
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+> @@ -162,6 +162,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>=20
+>  	tmp =3D (u64)prescaler * NSEC_PER_SEC * PWM_REG_PRD(val);
+>  	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, clk_rate);
+> +
+> +	return 0;
+>  }
+>=20
+>  static int sun4i_pwm_calculate(struct sun4i_pwm_chip *sun4i_pwm,
 
-On Dec 05 00:19, Mark Hasemeyer wrote:
-> From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
->
->  obj-$(CONFIG_CROS_EC_TYPEC)          += cros_ec_typec.o
->  obj-$(CONFIG_CROS_EC_LPC)            += cros_ec_lpcs.o
-> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-> new file mode 100644
-> index 0000000000000..4b416441f973c
-> --- /dev/null
-> +++ b/drivers/platform/chrome/cros_ec_uart.c
-> @@ -0,0 +1,373 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * UART interface for ChromeOS Embedded Controller
-> + *
-> + * Copyright 2020-2022 Google LLC.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-cros_ec_proto.h includes cros_ec_commmands.h [1], so explicitly
-including it shouldn't be needed.
+=46or sun4i:
 
-> + * @wait_queue:              Wait queue EC response where the cros_ec sends request
-> + *                   to EC and waits
-> + */
-> +struct response_info {
-> +     void *data;
-> +     size_t max_size;
-> +     size_t size;
-> +     size_t exp_len;
-> +     int error;
-> +     bool received;
-I suspect "received" and "error" can be combined into a single
-variable. (The condition
-in wait_event_*() can be a compound statement, not just a boolean variable).
-
-> +static int cros_ec_uart_rx_bytes(struct serdev_device *serdev,
-> +                              const u8 *data,
-> +                              size_t count)
-> +{
-> +     struct ec_host_response *response;
-> +     struct cros_ec_device *ec_dev = serdev_device_get_drvdata(serdev);
-> +     struct cros_ec_uart *ec_uart = ec_dev->priv;
-> +
-> +     /* Check if bytes were sent out of band */
-This sounds like something that should generate a warning message...
-
-> +     if (!ec_uart->response.data)
-> +             /* Discard all bytes */
-> +             return count;
-> +
-> +     /*
-> +      * Check if incoming bytes + response.size is greater than allocated
-> +      * buffer in din by cros_ec. This will ensure that if EC sends more
-> +      * bytes than max_size, waiting process will be notified with an error.
-> +      */
-> +     if (ec_uart->response.size + count > ec_uart->response.max_size) {
-> +             ec_uart->response.error = -EMSGSIZE;
-> +             ec_uart->response.received = true;
-> +             wake_up_interruptible(&ec_uart->response.wait_queue);
-> +             return count;
-> +     }
-> +
-> +     memcpy((void *)ec_uart->response.data + ec_uart->response.size,
-> +                (void *)data, count);
-Should be able to fit on 1 line (100 chars). Also, I don't believe the casts are
-necessary.
-
-> +
-> +     ec_uart->response.size += count;
-> +
-> +     /*
-> +      * Read data_len if we received response header and if exp_len
-> +      * was not read before.
-> +      */
-> +     if (ec_uart->response.size >= sizeof(*response) &&
-> +             ec_uart->response.exp_len == 0) {
-Please align clauses within the if condition parentheses.
-
-> +             response = (struct ec_host_response *)
-> +                                             ec_uart->response.data;
-Should be able to fit on 1 line (100 chars).
-
-> +
-> +             ec_uart->response.exp_len = response->data_len +
-> +                     sizeof(*response);
-Should be able to fit on 1 line (100 chars).
-
-> +     }
-> +
-> +     /*
-> +      * If driver received response header and payload from EC,
-> +      * Wake up the wait queue.
-> +      */
-> +     if (ec_uart->response.size >= sizeof(*response) &&
-> +             ec_uart->response.size == ec_uart->response.exp_len) {
-Please align clauses within the if condition parentheses.
-
-> +             ec_uart->response.received = true;
-> +             wake_up_interruptible(&ec_uart->response.wait_queue);
-> +     }
-> +
-> +     return count;
-> +}
-> +
-> +static int cros_ec_uart_pkt_xfer(struct cros_ec_device *ec_dev,
-> +                              struct cros_ec_command *ec_msg)
-> +{
-> +     struct cros_ec_uart *ec_uart = ec_dev->priv;
-> +     struct serdev_device *serdev = ec_uart->serdev;
-> +     struct ec_host_response *response;
-> +     unsigned int len;
-> +     int ret, i;
-> +     u8 sum = 0;
-> +
-> +     len = cros_ec_prepare_tx(ec_dev, ec_msg);
-> +     dev_dbg(ec_dev->dev, "Prepared len=%d\n", len);
-> +
-> +     /* Setup for incoming response */
-> +     ec_uart->response.data = ec_dev->din;
-> +     ec_uart->response.max_size = ec_dev->din_size;
-> +     ec_uart->response.size = 0;
-> +     ec_uart->response.error = 0;
-> +     ec_uart->response.exp_len = 0;
-> +     ec_uart->response.received = false;
-> +
-> +     ret = serdev_device_write_buf(serdev, ec_dev->dout, len);
-> +     if (ret < len) {
-> +             dev_err(ec_dev->dev, "Unable to write data");
-> +             ret = -EIO;
-> +             goto exit;
-> +     }
-> +
-> +     /* Once request is successfully sent to EC, wait to wait_queue */
-Superfluous comment.
-
-> +     ret = wait_event_interruptible_timeout(ec_uart->response.wait_queue,
-> +                                      ec_uart->response.received,
-> +                                      msecs_to_jiffies(EC_MSG_DEADLINE_MS));
-Is there any reason wait_event_timeout() is not sufficient? Which
-signals/interrupt are you
-expecting to receive that isn't handled by the rest of the code?
-
-> +     if (ret < 0) {
-> +             dev_warn(ec_dev->dev, "Interrupted waiting for response.\n");
-> +             goto exit;
-> +     } else if (ret == 0) {
-> +             dev_warn(ec_dev->dev, "Timed out waiting for response.\n");
-> +             ret = -ETIMEDOUT;
-> +             goto exit;
-> +     }
-> +
-> +     if (ec_uart->response.error < 0) {
-> +             dev_warn(ec_dev->dev, "Response error detected.\n");
-> +             ret = ec_uart->response.error;
-> +             goto exit;
-> +     }
-> +
-> +     response = (struct ec_host_response *)ec_dev->din;
-> +     ec_msg->result = response->result;
-> +
-> +     if (response->data_len > ec_msg->insize) {
-> +             dev_err(ec_dev->dev, "Resp too long (%d bytes, expected %d)",
-> +                     response->data_len,
-> +                     ec_msg->insize);
-> +             ret = -ENOSPC;
-> +             goto exit;
-> +     }
-> +
-> +     /* Validate checksum */
-> +     for (i = 0; i < sizeof(*response) + response->data_len; i++)
-> +             sum += ec_dev->din[i];
-> +
-> +     if (sum) {
-> +             dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n", sum);
-> +             ret = -EBADMSG;
-> +             goto exit;
-> +     }
-> +
-> +     memcpy(ec_msg->data,
-> +            ec_dev->din + sizeof(*response),
-> +            response->data_len);
-Should be able to fit on 1 line (100 chars).
-
-> +
-> +     ret = response->data_len;
-> +
-> +exit:
-> +     /* Invalidate response buffer to guard against out of band rx data */
-> +     ec_uart->response.data = NULL;
-> +
-> +     if (ec_msg->command == EC_CMD_REBOOT_EC)
-> +             msleep(EC_REBOOT_DELAY_MS);
-> +
-> +     return ret;
-> +}
-> +
-> +static int cros_ec_uart_resource(struct acpi_resource *ares, void *data)
-> +{
-> +     struct cros_ec_uart *ec_uart = data;
-> +     struct acpi_resource_uart_serialbus *sb = &ares->data.uart_serial_bus;
-> +
-> +     if (ares->type == ACPI_RESOURCE_TYPE_SERIAL_BUS &&
-> +                     sb->type == ACPI_RESOURCE_SERIAL_TYPE_UART) {
-> +             ec_uart->baudrate = sb->default_baud_rate;
-> +             dev_dbg(&ec_uart->serdev->dev, "Baudrate %d\n",
-> +                     ec_uart->baudrate);
-Should be able to fit on 1 line (100 chars).
-
-> +
-> +             ec_uart->flowcontrol = sb->flow_control;
-> +             dev_dbg(&ec_uart->serdev->dev, "Flow control %d\n",
-> +                     ec_uart->flowcontrol);
-Should be able to fit on 1 line (100 chars).
-
-> +     }
-> +
-> +     return 0;
-> +}
-> +
-> +static int cros_ec_uart_acpi_probe(struct cros_ec_uart *ec_uart)
-> +{
-> +     int ret;
-> +     LIST_HEAD(resources);
-> +     struct acpi_device *adev = ACPI_COMPANION(&ec_uart->serdev->dev);
-> +
-> +     ret = acpi_dev_get_resources(adev, &resources,
-> +                                  cros_ec_uart_resource, ec_uart);
-Should be able to fit on 1 line (100 chars).
-
-> +     if (ret < 0)
-> +             return ret;
-> +
-> +     acpi_dev_free_resource_list(&resources);
-> +
-> +     /* Retrieve GpioInt and translate it to Linux IRQ number */
-> +     ret = acpi_dev_gpio_irq_get(adev, 0);
-> +     if (ret < 0)
-> +             return ret;
-> +
-> +     ec_uart->irq = ret;
-> +     dev_dbg(&ec_uart->serdev->dev, "IRQ number %d\n", ec_uart->irq);
-> +
-> +     return 0;
-> +}
-> +
-> +static const struct serdev_device_ops cros_ec_uart_client_ops = {
-> +     .receive_buf = cros_ec_uart_rx_bytes,
-> +};
-> +
-> +static int cros_ec_uart_probe(struct serdev_device *serdev)
-> +{
-> +     struct device *dev = &serdev->dev;
-> +     struct cros_ec_device *ec_dev;
-> +     struct cros_ec_uart *ec_uart;
-> +     int ret;
-> +
-> +     ec_uart = devm_kzalloc(dev, sizeof(*ec_uart), GFP_KERNEL);
-> +     if (!ec_uart)
-> +             return -ENOMEM;
-> +
-> +     ec_dev = devm_kzalloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-> +     if (!ec_dev)
-> +             return -ENOMEM;
-> +
-> +     ec_uart->serdev = serdev;
-> +
-> +     ret = devm_serdev_device_open(dev, ec_uart->serdev);
-> +     if (ret) {
-> +             dev_err(dev, "Unable to open UART device");
-> +             return ret;
-> +     }
-> +
-> +     serdev_device_set_drvdata(serdev, ec_dev);
-> +     serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> +     init_waitqueue_head(&ec_uart->response.wait_queue);
-> +
-> +     ret = cros_ec_uart_acpi_probe(ec_uart);
-> +     if (ret < 0) {
-> +             dev_err(dev, "Failed to get ACPI info (%d)", ret);
-> +             return ret;
-> +     }
-> +
-> +     ret = serdev_device_set_baudrate(serdev, ec_uart->baudrate);
-> +     if (ret < 0) {
-> +             dev_err(dev, "Failed to set up host baud rate (%d)", ret);
-> +             return ret;
-> +     }
-> +
-> +     serdev_device_set_flow_control(serdev, ec_uart->flowcontrol);
-> +
-> +     /* Initialize ec_dev for cros_ec  */
-> +     ec_dev->phys_name = dev_name(dev);
-> +     ec_dev->dev = dev;
-> +     ec_dev->priv = ec_uart;
-> +     ec_dev->irq = ec_uart->irq;
-> +     ec_dev->cmd_xfer = NULL;
-> +     ec_dev->pkt_xfer = cros_ec_uart_pkt_xfer;
-> +     ec_dev->din_size = sizeof(struct ec_host_response) +
-> +                        sizeof(struct ec_response_get_protocol_info);
-> +     ec_dev->dout_size = sizeof(struct ec_host_request);
-> +
-> +     return cros_ec_register(ec_dev);
-> +}
-> +
-> +static void cros_ec_uart_remove(struct serdev_device *serdev)
-> +{
-> +     struct cros_ec_device *ec_dev = serdev_device_get_drvdata(serdev);
-> +
-> +     cros_ec_unregister(ec_dev);
-> +};
-> +
-> +static int __maybe_unused cros_ec_uart_suspend(struct device *dev)
-> +{
-> +     struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-> +
-> +     return cros_ec_suspend(ec_dev);
-> +}
-> +
-> +static int __maybe_unused cros_ec_uart_resume(struct device *dev)
-> +{
-> +     struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-> +
-> +     return cros_ec_resume(ec_dev);
-> +}
-> +
-> +static SIMPLE_DEV_PM_OPS(cros_ec_uart_pm_ops, cros_ec_uart_suspend,
-> +                      cros_ec_uart_resume);
-> +
-> +#ifdef CONFIG_ACPI
-> +static const struct acpi_device_id cros_ec_uart_acpi_id[] = {
-> +     { "GOOG0019", 0 },
-> +     { /* sentinel */ }
-nit: Other ACPI drivers in this directory don't use the word "sentinel",
-so it seems like just "{}" should be sufficient.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
+Jernej
 
--Prashant
 
-[1] https://elixir.bootlin.com/linux/v6.1-rc8/source/include/linux/platform_data/cros_ec_proto.h#L15

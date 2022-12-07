@@ -1,634 +1,99 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D7417E2
-	for <chrome-platform@lists.linux.dev>; Tue,  6 Dec 2022 03:16:27 +0000 (UTC)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4NR5D04l4Jz4y0v9;
-	Tue,  6 Dec 2022 11:16:16 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.40.50])
-	by mse-fl1.zte.com.cn with SMTP id 2B63G7iu068075;
-	Tue, 6 Dec 2022 11:16:07 +0800 (+08)
-	(envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid31;
-	Tue, 6 Dec 2022 11:16:08 +0800 (CST)
-Date: Tue, 6 Dec 2022 11:16:08 +0800 (CST)
-X-Zmail-TransId: 2af9638eb3f85e275bd0
-X-Mailer: Zmail v1.0
-Message-ID: <202212061116089380072@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D16374
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Dec 2022 04:02:42 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so347435pjb.0
+        for <chrome-platform@lists.linux.dev>; Tue, 06 Dec 2022 20:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JpzwpkKCmH2sOx1GakX1P9BwZsMPGRIYnZX6CUK5AeE=;
+        b=J54Uj5AVZuhIZz5YmG1N8uxXOjD1eAaOOBsf1S2cy8THrKvt/Hwv5ZvlwgN9Bl8c8l
+         M2tnc/0CkBKLeQI7F92o3mfoXHByXC02CjLvw89b2MORerb7QLWjfhtWyz4EA24tY01v
+         nvBZwqxii1QUSU8X8s+6i74/3kv5B6PkK4Lrw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JpzwpkKCmH2sOx1GakX1P9BwZsMPGRIYnZX6CUK5AeE=;
+        b=Yf+paUNUCkHdV/1CBQ2VpfMktE4kycjjWeT8wy12WE3vQvHQPAC6yADNvl4V3IIJoU
+         xi4/lovWheZ/BBzgnkWz2RrzvFxiLf9s5a4P9vzAbM8qyA6C7WsL2gNzOSZnLTN3eniT
+         +Q0Kq7cT3AaeXYHLrFS7SUOw0wl3bpl27JX2jaCNeEP9MN/hJLruE3o2HQWCJ3Qesh1p
+         UAyd/pUJcIOeRRTaeD+qVtaoByS2EbylfWqI9imN4DYtlgINix6Z4fKf39+7rAMw4WtD
+         WqtUC2zOWu821MShh/5LC8e76tK9Z90pnodAYYGo0Fqa8pJth7FeRgRTmDiKl8AStS4U
+         npuw==
+X-Gm-Message-State: ANoB5pklqueaeroWoCJAT3jIISU5n5D6MG2JM0QFUfCF3RcV8Vgh80GN
+	ZR+hXcMtTo+bUhqda49Dh7T35A==
+X-Google-Smtp-Source: AA0mqf5oRBxRQoJi7SCi44xUMQuWzsGARoZmCn30XHcrfM0wUrUsU4SqnNz4GPGHwV275yEx8fCKwg==
+X-Received: by 2002:a17:90a:4a8f:b0:215:f80c:18e6 with SMTP id f15-20020a17090a4a8f00b00215f80c18e6mr104577701pjh.45.1670385762436;
+        Tue, 06 Dec 2022 20:02:42 -0800 (PST)
+Received: from localhost ([2401:fa00:9:14:bdb7:35b1:b44c:1926])
+        by smtp.gmail.com with UTF8SMTPSA id a2-20020a17090abe0200b0020ae09e9724sm143925pjs.53.2022.12.06.20.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 20:02:42 -0800 (PST)
+From: Victor Ding <victording@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: tinghan.shen@mediatek.com,
+	gustavoars@kernel.org,
+	sebastian.reichel@collabora.com,
+	dnojiri@chromium.org,
+	bleung@chromium.org,
+	lee.jones@linaro.org,
+	pmalani@chromium.org,
+	groeck@chromium.org,
+	tzungbi@kernel.org,
+	gregkh@linuxfoundation.org,
+	dustin@howett.net,
+	Victor Ding <victording@chromium.org>
+Subject: [PATCH] platform/chrome: cros_ec_typec: zero out stale pointers
+Date: Wed,  7 Dec 2022 04:01:08 +0000
+Message-Id: <20221207040049.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
+X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-From: <ye.xingchen@zte.com.cn>
-To: <sre@kernel.org>
-Cc: <linus.walleij@linaro.org>, <pali@kernel.org>, <bleung@chromium.org>,
-        <groeck@chromium.org>, <sravanhome@gmail.com>,
-        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <chrome-platform@lists.linux.dev>, <patches@opensource.cirrus.com>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIHBvd2VyOiBzdXBwbHk6IGNvbnZlcnQgc3ByaW50ZiB3aXRoIHN5c2ZzX2VtaXQoKQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 2B63G7iu068075
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.251.13.novalocal with ID 638EB400.000 by FangMail milter!
-X-FangMail-Envelope: 1670296576/4NR5D04l4Jz4y0v9/638EB400.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 638EB400.000/4NR5D04l4Jz4y0v9
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+`cros_typec_get_switch_handles` allocates several pointers when
+obtaining four handles. These pointers are all freed if failing to
+obtain any of the four handles; therefore, pointers in `port` becomes
+stale. The stale pointers eventually cause use-after-free or double in
+later code paths.
 
-Follow the advice of the Documentation/filesystems/sysfs.rst and show()
-should only use sysfs_emit() or sysfs_emit_at() when formatting the
-value to be returned to user space.
+This patch proposes to elimite these stale pointers by zeroing them out
+right after they are freed.
 
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+Signed-off-by: Victor Ding <victording@chromium.org>
 ---
- drivers/power/supply/ab8500_fg.c          |  4 +--
- drivers/power/supply/bq2415x_charger.c    | 44 +++++++++++------------
- drivers/power/supply/charger-manager.c    |  6 ++--
- drivers/power/supply/cros_usbpd-charger.c |  4 +--
- drivers/power/supply/ds2780_battery.c     |  8 ++---
- drivers/power/supply/ds2781_battery.c     |  8 ++---
- drivers/power/supply/isp1704_charger.c    |  2 +-
- drivers/power/supply/ltc4162-l-charger.c  | 12 +++----
- drivers/power/supply/mp2629_charger.c     |  2 +-
- drivers/power/supply/olpc_battery.c       |  4 +--
- drivers/power/supply/pcf50633-charger.c   |  6 ++--
- drivers/power/supply/pmu_battery.c        |  2 +-
- drivers/power/supply/power_supply_sysfs.c | 12 +++----
- drivers/power/supply/sbs-battery.c        |  2 +-
- drivers/power/supply/test_power.c         | 12 +++----
- drivers/power/supply/wm8350_power.c       |  2 +-
- 16 files changed, 65 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/power/supply/ab8500_fg.c b/drivers/power/supply/ab8500_fg.c
-index d989eadaa933..41a7bff9ac37 100644
---- a/drivers/power/supply/ab8500_fg.c
-+++ b/drivers/power/supply/ab8500_fg.c
-@@ -2453,7 +2453,7 @@ struct ab8500_fg_sysfs_entry {
+ drivers/platform/chrome/cros_ec_typec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- static ssize_t charge_full_show(struct ab8500_fg *di, char *buf)
- {
--	return sprintf(buf, "%d\n", di->bat_cap.max_mah);
-+	return sysfs_emit(buf, "%d\n", di->bat_cap.max_mah);
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 2a7ff14dc37e..59de4ce01fab 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -173,10 +173,13 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+ 
+ role_sw_err:
+ 	typec_switch_put(port->ori_sw);
++	port->ori_sw = NULL;
+ ori_sw_err:
+ 	typec_retimer_put(port->retimer);
++	port->retimer = NULL;
+ retimer_sw_err:
+ 	typec_mux_put(port->mux);
++	port->mux = NULL;
+ mux_err:
+ 	return -ENODEV;
  }
-
- static ssize_t charge_full_store(struct ab8500_fg *di, const char *buf,
-@@ -2472,7 +2472,7 @@ static ssize_t charge_full_store(struct ab8500_fg *di, const char *buf,
-
- static ssize_t charge_now_show(struct ab8500_fg *di, char *buf)
- {
--	return sprintf(buf, "%d\n", di->bat_cap.prev_mah);
-+	return sysfs_emit(buf, "%d\n", di->bat_cap.prev_mah);
- }
-
- static ssize_t charge_now_store(struct ab8500_fg *di, const char *buf,
-diff --git a/drivers/power/supply/bq2415x_charger.c b/drivers/power/supply/bq2415x_charger.c
-index d2cb7431dced..0e8bbc2e3e07 100644
---- a/drivers/power/supply/bq2415x_charger.c
-+++ b/drivers/power/supply/bq2415x_charger.c
-@@ -1059,7 +1059,7 @@ static ssize_t bq2415x_sysfs_show_status(struct device *dev,
- 	ret = bq2415x_exec_command(bq, command);
- 	if (ret < 0)
- 		return ret;
--	return sprintf(buf, "%d\n", ret);
-+	return sysfs_emit(buf, "%d\n", ret);
- }
-
- /*
-@@ -1098,11 +1098,11 @@ static ssize_t bq2415x_sysfs_show_timer(struct device *dev,
- 	struct bq2415x_device *bq = power_supply_get_drvdata(psy);
-
- 	if (bq->timer_error)
--		return sprintf(buf, "%s\n", bq->timer_error);
-+		return sysfs_emit(buf, "%s\n", bq->timer_error);
-
- 	if (bq->autotimer)
--		return sprintf(buf, "auto\n");
--	return sprintf(buf, "off\n");
-+		return sysfs_emit(buf, "auto\n");
-+	return sysfs_emit(buf, "off\n");
- }
-
- /*
-@@ -1175,30 +1175,30 @@ static ssize_t bq2415x_sysfs_show_mode(struct device *dev,
- 	ssize_t ret = 0;
-
- 	if (bq->automode > 0)
--		ret += sprintf(buf+ret, "auto (");
-+		ret += sysfs_emit_at(buf, ret, "auto (");
-
- 	switch (bq->mode) {
- 	case BQ2415X_MODE_OFF:
--		ret += sprintf(buf+ret, "off");
-+		ret += sysfs_emit_at(buf, ret, "off");
- 		break;
- 	case BQ2415X_MODE_NONE:
--		ret += sprintf(buf+ret, "none");
-+		ret += sysfs_emit_at(buf, ret, "none");
- 		break;
- 	case BQ2415X_MODE_HOST_CHARGER:
--		ret += sprintf(buf+ret, "host");
-+		ret += sysfs_emit_at(buf, ret, "host");
- 		break;
- 	case BQ2415X_MODE_DEDICATED_CHARGER:
--		ret += sprintf(buf+ret, "dedicated");
-+		ret += sysfs_emit_at(buf, ret, "dedicated");
- 		break;
- 	case BQ2415X_MODE_BOOST:
--		ret += sprintf(buf+ret, "boost");
-+		ret += sysfs_emit_at(buf, ret, "boost");
- 		break;
- 	}
-
- 	if (bq->automode > 0)
--		ret += sprintf(buf+ret, ")");
-+		ret += sysfs_emit_at(buf, ret, ")");
-
--	ret += sprintf(buf+ret, "\n");
-+	ret += sysfs_emit_at(buf, ret, "\n");
- 	return ret;
- }
-
-@@ -1215,15 +1215,15 @@ static ssize_t bq2415x_sysfs_show_reported_mode(struct device *dev,
-
- 	switch (bq->reported_mode) {
- 	case BQ2415X_MODE_OFF:
--		return sprintf(buf, "off\n");
-+		return sysfs_emit(buf, "off\n");
- 	case BQ2415X_MODE_NONE:
--		return sprintf(buf, "none\n");
-+		return sysfs_emit(buf, "none\n");
- 	case BQ2415X_MODE_HOST_CHARGER:
--		return sprintf(buf, "host\n");
-+		return sysfs_emit(buf, "host\n");
- 	case BQ2415X_MODE_DEDICATED_CHARGER:
--		return sprintf(buf, "dedicated\n");
-+		return sysfs_emit(buf, "dedicated\n");
- 	case BQ2415X_MODE_BOOST:
--		return sprintf(buf, "boost\n");
-+		return sysfs_emit(buf, "boost\n");
- 	}
-
- 	return -EINVAL;
-@@ -1261,8 +1261,8 @@ static ssize_t bq2415x_sysfs_print_reg(struct bq2415x_device *bq,
- 	int ret = bq2415x_i2c_read(bq, reg);
-
- 	if (ret < 0)
--		return sprintf(buf, "%#.2x=error %d\n", reg, ret);
--	return sprintf(buf, "%#.2x=%#.2x\n", reg, ret);
-+		return sysfs_emit(buf, "%#.2x=error %d\n", reg, ret);
-+	return sysfs_emit(buf, "%#.2x=%#.2x\n", reg, ret);
- }
-
- /* show all raw values of chip register, format per line: 'register=value' */
-@@ -1338,7 +1338,7 @@ static ssize_t bq2415x_sysfs_show_limit(struct device *dev,
-
- 	if (ret < 0)
- 		return ret;
--	return sprintf(buf, "%d\n", ret);
-+	return sysfs_emit(buf, "%d\n", ret);
- }
-
- /* set *_enable entries */
-@@ -1401,7 +1401,7 @@ static ssize_t bq2415x_sysfs_show_enable(struct device *dev,
- 	ret = bq2415x_exec_command(bq, command);
- 	if (ret < 0)
- 		return ret;
--	return sprintf(buf, "%d\n", ret);
-+	return sysfs_emit(buf, "%d\n", ret);
- }
-
- static DEVICE_ATTR(current_limit, S_IWUSR | S_IRUGO,
-@@ -1498,7 +1498,7 @@ static int bq2415x_power_supply_init(struct bq2415x_device *bq)
- 	if (ret < 0)
- 		strcpy(revstr, "unknown");
- 	else
--		sprintf(revstr, "1.%d", ret);
-+		sysfs_emit(revstr, "1.%d", ret);
-
- 	bq->model = kasprintf(GFP_KERNEL,
- 				"chip %s, revision %s, vender code %.3d",
-diff --git a/drivers/power/supply/charger-manager.c b/drivers/power/supply/charger-manager.c
-index 92db79400a6a..c9e8450c646f 100644
---- a/drivers/power/supply/charger-manager.c
-+++ b/drivers/power/supply/charger-manager.c
-@@ -1075,7 +1075,7 @@ static ssize_t charger_name_show(struct device *dev,
- 	struct charger_regulator *charger
- 		= container_of(attr, struct charger_regulator, attr_name);
-
--	return sprintf(buf, "%s\n", charger->regulator_name);
-+	return sysfs_emit(buf, "%s\n", charger->regulator_name);
- }
-
- static ssize_t charger_state_show(struct device *dev,
-@@ -1088,7 +1088,7 @@ static ssize_t charger_state_show(struct device *dev,
- 	if (!charger->externally_control)
- 		state = regulator_is_enabled(charger->consumer);
-
--	return sprintf(buf, "%s\n", state ? "enabled" : "disabled");
-+	return sysfs_emit(buf, "%s\n", state ? "enabled" : "disabled");
- }
-
- static ssize_t charger_externally_control_show(struct device *dev,
-@@ -1097,7 +1097,7 @@ static ssize_t charger_externally_control_show(struct device *dev,
- 	struct charger_regulator *charger = container_of(attr,
- 			struct charger_regulator, attr_externally_control);
-
--	return sprintf(buf, "%d\n", charger->externally_control);
-+	return sysfs_emit(buf, "%d\n", charger->externally_control);
- }
-
- static ssize_t charger_externally_control_store(struct device *dev,
-diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-index cadb6a0c2cc7..effd5dc4eb79 100644
---- a/drivers/power/supply/cros_usbpd-charger.c
-+++ b/drivers/power/supply/cros_usbpd-charger.c
-@@ -630,14 +630,14 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
- 		psy_cfg.drv_data = port;
-
- 		if (cros_usbpd_charger_port_is_dedicated(port)) {
--			sprintf(port->name, CHARGER_DEDICATED_DIR_NAME);
-+			sysfs_emit(port->name, CHARGER_DEDICATED_DIR_NAME);
- 			psy_desc->type = POWER_SUPPLY_TYPE_MAINS;
- 			psy_desc->properties =
- 				cros_usbpd_dedicated_charger_props;
- 			psy_desc->num_properties =
- 				ARRAY_SIZE(cros_usbpd_dedicated_charger_props);
- 		} else {
--			sprintf(port->name, CHARGER_USBPD_DIR_NAME, i);
-+			sysfs_emit(port->name, CHARGER_USBPD_DIR_NAME, i);
- 			psy_desc->type = POWER_SUPPLY_TYPE_USB;
- 			psy_desc->properties = cros_usbpd_charger_props;
- 			psy_desc->num_properties =
-diff --git a/drivers/power/supply/ds2780_battery.c b/drivers/power/supply/ds2780_battery.c
-index 2b8c90d84325..1e7f297f6cb1 100644
---- a/drivers/power/supply/ds2780_battery.c
-+++ b/drivers/power/supply/ds2780_battery.c
-@@ -454,7 +454,7 @@ static ssize_t ds2780_get_pmod_enabled(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	return sprintf(buf, "%d\n",
-+	return sysfs_emit(buf, "%d\n",
- 		 !!(control_reg & DS2780_CONTROL_REG_PMOD));
- }
-
-@@ -507,7 +507,7 @@ static ssize_t ds2780_get_sense_resistor_value(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	ret = sprintf(buf, "%d\n", sense_resistor);
-+	ret = sysfs_emit(buf, "%d\n", sense_resistor);
- 	return ret;
- }
-
-@@ -545,7 +545,7 @@ static ssize_t ds2780_get_rsgain_setting(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	return sprintf(buf, "%d\n", rsgain);
-+	return sysfs_emit(buf, "%d\n", rsgain);
- }
-
- static ssize_t ds2780_set_rsgain_setting(struct device *dev,
-@@ -588,7 +588,7 @@ static ssize_t ds2780_get_pio_pin(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	ret = sprintf(buf, "%d\n", sfr & DS2780_SFR_REG_PIOSC);
-+	ret = sysfs_emit(buf, "%d\n", sfr & DS2780_SFR_REG_PIOSC);
- 	return ret;
- }
-
-diff --git a/drivers/power/supply/ds2781_battery.c b/drivers/power/supply/ds2781_battery.c
-index 05b859bf2dc0..c4f8ccc687f9 100644
---- a/drivers/power/supply/ds2781_battery.c
-+++ b/drivers/power/supply/ds2781_battery.c
-@@ -456,7 +456,7 @@ static ssize_t ds2781_get_pmod_enabled(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	return sprintf(buf, "%d\n",
-+	return sysfs_emit(buf, "%d\n",
- 		 !!(control_reg & DS2781_CONTROL_PMOD));
- }
-
-@@ -509,7 +509,7 @@ static ssize_t ds2781_get_sense_resistor_value(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	ret = sprintf(buf, "%d\n", sense_resistor);
-+	ret = sysfs_emit(buf, "%d\n", sense_resistor);
- 	return ret;
- }
-
-@@ -547,7 +547,7 @@ static ssize_t ds2781_get_rsgain_setting(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	return sprintf(buf, "%d\n", rsgain);
-+	return sysfs_emit(buf, "%d\n", rsgain);
- }
-
- static ssize_t ds2781_set_rsgain_setting(struct device *dev,
-@@ -590,7 +590,7 @@ static ssize_t ds2781_get_pio_pin(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	ret = sprintf(buf, "%d\n", sfr & DS2781_SFR_PIOSC);
-+	ret = sysfs_emit(buf, "%d\n", sfr & DS2781_SFR_PIOSC);
- 	return ret;
- }
-
-diff --git a/drivers/power/supply/isp1704_charger.c b/drivers/power/supply/isp1704_charger.c
-index b6efc454e4f0..7e82b0c17672 100644
---- a/drivers/power/supply/isp1704_charger.c
-+++ b/drivers/power/supply/isp1704_charger.c
-@@ -367,7 +367,7 @@ static inline int isp1704_test_ulpi(struct isp1704_charger *isp)
-
- 	for (i = 0; i < ARRAY_SIZE(isp170x_id); i++) {
- 		if (product == isp170x_id[i]) {
--			sprintf(isp->model, "isp%x", product);
-+			sysfs_emit(isp->model, "isp%x", product);
- 			return product;
- 		}
- 	}
-diff --git a/drivers/power/supply/ltc4162-l-charger.c b/drivers/power/supply/ltc4162-l-charger.c
-index db2bb5233570..0e95c65369b8 100644
---- a/drivers/power/supply/ltc4162-l-charger.c
-+++ b/drivers/power/supply/ltc4162-l-charger.c
-@@ -525,7 +525,7 @@ static ssize_t charge_status_show(struct device *dev,
- 		}
- 	}
-
--	return sprintf(buf, "%s\n", result);
-+	return sysfs_emit(buf, "%s\n", result);
- }
- static DEVICE_ATTR_RO(charge_status);
-
-@@ -541,7 +541,7 @@ static ssize_t vbat_show(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return sprintf(buf, "%d\n", val.intval);
-+	return sysfs_emit(buf, "%d\n", val.intval);
- }
- static DEVICE_ATTR_RO(vbat);
-
-@@ -557,7 +557,7 @@ static ssize_t vbat_avg_show(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return sprintf(buf, "%d\n", val.intval);
-+	return sysfs_emit(buf, "%d\n", val.intval);
- }
- static DEVICE_ATTR_RO(vbat_avg);
-
-@@ -573,7 +573,7 @@ static ssize_t ibat_show(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return sprintf(buf, "%d\n", val.intval);
-+	return sysfs_emit(buf, "%d\n", val.intval);
- }
- static DEVICE_ATTR_RO(ibat);
-
-@@ -589,7 +589,7 @@ static ssize_t force_telemetry_show(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return sprintf(buf, "%u\n", regval & BIT(2) ? 1 : 0);
-+	return sysfs_emit(buf, "%u\n", regval & BIT(2) ? 1 : 0);
- }
-
- static ssize_t force_telemetry_store(struct device *dev,
-@@ -628,7 +628,7 @@ static ssize_t arm_ship_mode_show(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return sprintf(buf, "%u\n",
-+	return sysfs_emit(buf, "%u\n",
- 		regval == LTC4162L_ARM_SHIP_MODE_MAGIC ? 1 : 0);
- }
-
-diff --git a/drivers/power/supply/mp2629_charger.c b/drivers/power/supply/mp2629_charger.c
-index bf9c27b463a8..3a2a28fbba73 100644
---- a/drivers/power/supply/mp2629_charger.c
-+++ b/drivers/power/supply/mp2629_charger.c
-@@ -519,7 +519,7 @@ static ssize_t batt_impedance_compensation_show(struct device *dev,
- 		return ret;
-
- 	rval = (rval >> 4) * 10;
--	return sprintf(buf, "%d mohm\n", rval);
-+	return sysfs_emit(buf, "%d mohm\n", rval);
- }
-
- static ssize_t batt_impedance_compensation_store(struct device *dev,
-diff --git a/drivers/power/supply/olpc_battery.c b/drivers/power/supply/olpc_battery.c
-index a5da20ffd685..4751e5e6b3b2 100644
---- a/drivers/power/supply/olpc_battery.c
-+++ b/drivers/power/supply/olpc_battery.c
-@@ -460,7 +460,7 @@ static int olpc_bat_get_property(struct power_supply *psy,
- 		if (ret)
- 			return ret;
-
--		sprintf(data->bat_serial, "%016llx", (long long)be64_to_cpu(ser_buf));
-+		sysfs_emit(data->bat_serial, "%016llx", (long long)be64_to_cpu(ser_buf));
- 		val->strval = data->bat_serial;
- 		break;
- 	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
-@@ -568,7 +568,7 @@ static ssize_t olpc_bat_error_read(struct device *dev,
- 	if (ret < 0)
- 		return ret;
-
--	return sprintf(buf, "%d\n", ec_byte);
-+	return sysfs_emit(buf, "%d\n", ec_byte);
- }
-
- static struct device_attribute olpc_bat_error = {
-diff --git a/drivers/power/supply/pcf50633-charger.c b/drivers/power/supply/pcf50633-charger.c
-index 8c5d892f6350..fd44cb8ac0e2 100644
---- a/drivers/power/supply/pcf50633-charger.c
-+++ b/drivers/power/supply/pcf50633-charger.c
-@@ -153,7 +153,7 @@ show_chgmode(struct device *dev, struct device_attribute *attr, char *buf)
- 	u8 mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
- 	u8 chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
-
--	return sprintf(buf, "%d\n", chgmod);
-+	return sysfs_emit(buf, "%d\n", chgmod);
- }
- static DEVICE_ATTR(chgmode, S_IRUGO, show_chgmode, NULL);
-
-@@ -174,7 +174,7 @@ show_usblim(struct device *dev, struct device_attribute *attr, char *buf)
- 	else
- 		ma = 0;
-
--	return sprintf(buf, "%u\n", ma);
-+	return sysfs_emit(buf, "%u\n", ma);
- }
-
- static ssize_t set_usblim(struct device *dev,
-@@ -207,7 +207,7 @@ show_chglim(struct device *dev, struct device_attribute *attr, char *buf)
-
- 	ma = (mbc->pcf->pdata->charger_reference_current_ma *  mbcc5) >> 8;
-
--	return sprintf(buf, "%u\n", ma);
-+	return sysfs_emit(buf, "%u\n", ma);
- }
-
- static ssize_t set_chglim(struct device *dev,
-diff --git a/drivers/power/supply/pmu_battery.c b/drivers/power/supply/pmu_battery.c
-index eaab7500d99b..623a4e80a21f 100644
---- a/drivers/power/supply/pmu_battery.c
-+++ b/drivers/power/supply/pmu_battery.c
-@@ -165,7 +165,7 @@ static int __init pmu_bat_init(void)
- 		if (!pbat)
- 			break;
-
--		sprintf(pbat->name, "PMU_battery_%d", i);
-+		sysfs_emit(pbat->name, "PMU_battery_%d", i);
- 		pbat->bat_desc.name = pbat->name;
- 		pbat->bat_desc.properties = pmu_bat_props;
- 		pbat->bat_desc.num_properties = ARRAY_SIZE(pmu_bat_props);
-diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
-index 6ca7d3985a40..9915b701c894 100644
---- a/drivers/power/supply/power_supply_sysfs.c
-+++ b/drivers/power/supply/power_supply_sysfs.c
-@@ -249,11 +249,11 @@ static ssize_t power_supply_show_usb_type(struct device *dev,
- 		usb_type = desc->usb_types[i];
-
- 		if (value->intval == usb_type) {
--			count += sprintf(buf + count, "[%s] ",
-+			count += sysfs_emit_at(buf, count, "[%s] ",
- 					 POWER_SUPPLY_USB_TYPE_TEXT[usb_type]);
- 			match = true;
- 		} else {
--			count += sprintf(buf + count, "%s ",
-+			count += sysfs_emit_at(buf, count, "%s ",
- 					 POWER_SUPPLY_USB_TYPE_TEXT[usb_type]);
- 		}
- 	}
-@@ -297,7 +297,7 @@ static ssize_t power_supply_show_property(struct device *dev,
-
- 	if (ps_attr->text_values_len > 0 &&
- 	    value.intval < ps_attr->text_values_len && value.intval >= 0) {
--		return sprintf(buf, "%s\n", ps_attr->text_values[value.intval]);
-+		return sysfs_emit(buf, "%s\n", ps_attr->text_values[value.intval]);
- 	}
-
- 	switch (psp) {
-@@ -306,10 +306,10 @@ static ssize_t power_supply_show_property(struct device *dev,
- 						&value, buf);
- 		break;
- 	case POWER_SUPPLY_PROP_MODEL_NAME ... POWER_SUPPLY_PROP_SERIAL_NUMBER:
--		ret = sprintf(buf, "%s\n", value.strval);
-+		ret = sysfs_emit(buf, "%s\n", value.strval);
- 		break;
- 	default:
--		ret = sprintf(buf, "%d\n", value.intval);
-+		ret = sysfs_emit(buf, "%d\n", value.intval);
- 	}
-
- 	return ret;
-@@ -413,7 +413,7 @@ void power_supply_init_attrs(struct device_type *dev_type)
- 		if (!power_supply_attrs[i].prop_name) {
- 			pr_warn("%s: Property %d skipped because it is missing from power_supply_attrs\n",
- 				__func__, i);
--			sprintf(power_supply_attrs[i].attr_name, "_err_%d", i);
-+			sysfs_emit(power_supply_attrs[i].attr_name, "_err_%d", i);
- 		} else {
- 			str_to_lower(power_supply_attrs[i].attr_name);
- 		}
-diff --git a/drivers/power/supply/sbs-battery.c b/drivers/power/supply/sbs-battery.c
-index c4a95b01463a..2a9fa843707e 100644
---- a/drivers/power/supply/sbs-battery.c
-+++ b/drivers/power/supply/sbs-battery.c
-@@ -830,7 +830,7 @@ static int sbs_get_battery_serial_number(struct i2c_client *client,
- 	if (ret < 0)
- 		return ret;
-
--	sprintf(sbs_serial, "%04x", ret);
-+	sysfs_emit(sbs_serial, "%04x", ret);
- 	val->strval = sbs_serial;
-
- 	return 0;
-diff --git a/drivers/power/supply/test_power.c b/drivers/power/supply/test_power.c
-index 5f510ddc946d..751c9b0f4adf 100644
---- a/drivers/power/supply/test_power.c
-+++ b/drivers/power/supply/test_power.c
-@@ -352,7 +352,7 @@ static int param_set_ac_online(const char *key, const struct kernel_param *kp)
-
- static int param_get_ac_online(char *buffer, const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, ac_online, "unknown"));
- }
-
-@@ -365,7 +365,7 @@ static int param_set_usb_online(const char *key, const struct kernel_param *kp)
-
- static int param_get_usb_online(char *buffer, const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, usb_online, "unknown"));
- }
-
-@@ -379,7 +379,7 @@ static int param_set_battery_status(const char *key,
-
- static int param_get_battery_status(char *buffer, const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, battery_status, "unknown"));
- }
-
-@@ -393,7 +393,7 @@ static int param_set_battery_health(const char *key,
-
- static int param_get_battery_health(char *buffer, const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, battery_health, "unknown"));
- }
-
-@@ -408,7 +408,7 @@ static int param_set_battery_present(const char *key,
- static int param_get_battery_present(char *buffer,
- 					const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, battery_present, "unknown"));
- }
-
-@@ -424,7 +424,7 @@ static int param_set_battery_technology(const char *key,
- static int param_get_battery_technology(char *buffer,
- 					const struct kernel_param *kp)
- {
--	return sprintf(buffer, "%s\n",
-+	return sysfs_emit(buffer, "%s\n",
- 			map_get_key(map_ac_online, battery_technology,
- 					"unknown"));
- }
-diff --git a/drivers/power/supply/wm8350_power.c b/drivers/power/supply/wm8350_power.c
-index 908cfd45d262..f2786761299c 100644
---- a/drivers/power/supply/wm8350_power.c
-+++ b/drivers/power/supply/wm8350_power.c
-@@ -176,7 +176,7 @@ static ssize_t charger_state_show(struct device *dev,
- 		return 0;
- 	}
-
--	return sprintf(buf, "%s\n", charge);
-+	return sysfs_emit(buf, "%s\n", charge);
- }
-
- static DEVICE_ATTR_RO(charger_state);
 -- 
-2.25.1
+2.39.0.rc0.267.gcb52ba06e7-goog
+

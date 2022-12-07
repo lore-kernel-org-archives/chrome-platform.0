@@ -1,100 +1,105 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08875136D
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Dec 2022 09:09:24 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id x22so12369675ejs.11
-        for <chrome-platform@lists.linux.dev>; Wed, 07 Dec 2022 01:09:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B98136D
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Dec 2022 09:39:54 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id 140so17053285pfz.6
+        for <chrome-platform@lists.linux.dev>; Wed, 07 Dec 2022 01:39:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LycWcOW4hTd+zMxG7ctf14bHvPvqRQgLxrdseEn+NsU=;
-        b=kIqXSCKDkf4sQCsSPC3kOLk3BlpIHgjkJhEdlGQgau2QXnugNqxTPpILX/K39+tTRh
-         U319uRITnQSWy82hqUjhUnKewilfz+4O4VSr+cYYmhLReyAkoTaWoLaBnwMdbnbq33Ax
-         OtU3MKZIo9mSOoMZqoN5ghciaShpw/+kooSrU=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uU7abS1OTYc27NQr7ZVRm3zR4ABpJNSar2eydFTH12Y=;
+        b=PTqXHd7Ks3woQUeuzU9Ay7/RFKKvJPVd7W3t1q4WIQzjxub0fx2FjtqByohwJUqAD3
+         Ve0UqLXdFyfkjH2y6Nx8BdGxCcNFSoP3de79wpMO1Nstz3HMOmd3C9/5fh88Hjc57LIq
+         kVzZ1278gcpj6ykXqrAQIcu7AIWOyd1MMWqPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LycWcOW4hTd+zMxG7ctf14bHvPvqRQgLxrdseEn+NsU=;
-        b=G+nW2rKFmA+Bt8oA0cEpC1NqafkX51wAmi9+p+mJSxLvpcIshxU2swNq1Ry/DaLCDb
-         sXyENSpAN7SjPwTk/MiubXnwZ4NdZfC+wG9ntnusbqnmlvLfUwx3UkTxPoiI8tqWmYmq
-         7r+tKHOz5G+jfZofsaPm8+UWVyVcY8/FEa7KRd9MCt1TqnUe2HCyAk3okSwxf08PsHAy
-         UeyAuNkpV2R3A6AZlOgDalX9k+/a7wCdQKVTRSWOZZCQW8K631YcaZgPpRTYbhWwlTc7
-         ZCAChDZL6iQeMXx1mWbGit7ClQcV0voOzOHRJXSOseiVWvfUb4qg8PSzDhqqtRfnHOsM
-         ywWQ==
-X-Gm-Message-State: ANoB5pk/IiBLMiCP+QGguf70DufhQGnw+HwSjnqedcYcYgnOSu4FAgcp
-	8S1KrYM15JK7ejTfAmw8Qe4rxy8HcqOqC1MS
-X-Google-Smtp-Source: AA0mqf6LD0P73Um8Q59U6yOOY6NADaeKLuOYXfvBxid8lxZ4JexfsmBAYUK+/GDn1MmTBi/vPOyXFg==
-X-Received: by 2002:a17:906:5050:b0:7b2:8f2c:a877 with SMTP id e16-20020a170906505000b007b28f2ca877mr49571685ejk.90.1670404162917;
-        Wed, 07 Dec 2022 01:09:22 -0800 (PST)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com. [209.85.128.48])
-        by smtp.gmail.com with ESMTPSA id k5-20020a1709063e0500b007ae32daf4b9sm7064910eji.106.2022.12.07.01.09.21
-        for <chrome-platform@lists.linux.dev>
+        bh=uU7abS1OTYc27NQr7ZVRm3zR4ABpJNSar2eydFTH12Y=;
+        b=QZ0kl1zitDWiMTsaWBCRWg+MgIVqIPgP1WUYvAb7FLgrrEAWh6uhZPtXOgozUZfDW5
+         QF3su4m9pIARw8VdXjLV21yvqbSn3+RU3zUO+GdJlYchAbaX90XSOr3N3mSWJSzPJkx3
+         B08xrMRsdFGzyLQ9QwHy65xTJHyLuqXg1SxOJhqNSK2ofCMu6nydrf20cNCqqCU1WJX/
+         G4NwVzCIgWyCMih6r0EwFUeVvxEN94ZSqypJaQtoV6MIV2b8CMdKaOrmz+bUz6vj7WnE
+         0oguBY6r2izkpA/08lTmPLQicNuoCWpvlx0hMStcgYjnXdS5L9EtzZwiGMwzewLSlKME
+         Rjpg==
+X-Gm-Message-State: ANoB5pmqqLLyPTEnKujycU3h0JLN1g2qDtojsKzsWI0NcVH+zuLk0B1n
+	724cBYEyK8pvswLrXVt3C7q7Tw==
+X-Google-Smtp-Source: AA0mqf6EpBhqPA4rcDA4dGBczoJ4VvMCGAE5Zt75w50qqZX15NMTDur9hpcrJ20ACtyCAPcMRqgh0Q==
+X-Received: by 2002:a63:fe16:0:b0:46b:8e9:7d5f with SMTP id p22-20020a63fe16000000b0046b08e97d5fmr65977999pgh.597.1670405993587;
+        Wed, 07 Dec 2022 01:39:53 -0800 (PST)
+Received: from localhost ([2401:fa00:9:14:bdb7:35b1:b44c:1926])
+        by smtp.gmail.com with UTF8SMTPSA id i5-20020a17090332c500b001897de9bae3sm14232908plr.204.2022.12.07.01.39.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Dec 2022 01:09:22 -0800 (PST)
-Received: by mail-wm1-f48.google.com with SMTP id h8-20020a1c2108000000b003d1efd60b65so581324wmh.0
-        for <chrome-platform@lists.linux.dev>; Wed, 07 Dec 2022 01:09:21 -0800 (PST)
-X-Received: by 2002:a1c:f216:0:b0:3c6:c2ae:278b with SMTP id
- s22-20020a1cf216000000b003c6c2ae278bmr64557436wmc.127.1670404161334; Wed, 07
- Dec 2022 01:09:21 -0800 (PST)
+        Wed, 07 Dec 2022 01:39:53 -0800 (PST)
+From: Victor Ding <victording@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: pmalani@chromium.org,
+	groeck@chromium.org,
+	dustin@howett.net,
+	gustavoars@kernel.org,
+	gregkh@linuxfoundation.org,
+	sebastian.reichel@collabora.com,
+	dnojiri@chromium.org,
+	lee.jones@linaro.org,
+	bleung@chromium.org,
+	tinghan.shen@mediatek.com,
+	tzungbi@kernel.org,
+	Victor Ding <victording@chromium.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2] platform/chrome: cros_ec_typec: zero out stale pointers
+Date: Wed,  7 Dec 2022 09:39:40 +0000
+Message-Id: <20221207093924.v2.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
+X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221207040049.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
- <CACeCKads-Kwqr5iMj9=+ryXFiFnPoyNnhOuzpYspwKo5yP-+mw@mail.gmail.com>
-In-Reply-To: <CACeCKads-Kwqr5iMj9=+ryXFiFnPoyNnhOuzpYspwKo5yP-+mw@mail.gmail.com>
-From: Victor Ding <victording@chromium.org>
-Date: Wed, 7 Dec 2022 20:08:44 +1100
-X-Gmail-Original-Message-ID: <CANqTbdZVGiNMizP4Ht=-HFssySfJFugsc9_HAxEFRfhY7uPO8A@mail.gmail.com>
-Message-ID: <CANqTbdZVGiNMizP4Ht=-HFssySfJFugsc9_HAxEFRfhY7uPO8A@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: zero out stale pointers
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	tinghan.shen@mediatek.com, gustavoars@kernel.org, 
-	sebastian.reichel@collabora.com, dnojiri@chromium.org, bleung@chromium.org, 
-	lee.jones@linaro.org, groeck@chromium.org, tzungbi@kernel.org, 
-	gregkh@linuxfoundation.org, dustin@howett.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Prashant,
+`cros_typec_get_switch_handles` allocates four pointers when obtaining
+type-c switch handles. These pointers are all freed if failing to obtain
+any of them; therefore, pointers in `port` become stale. The stale
+pointers eventually cause use-after-free or double free in later code
+paths. Zeroing out all pointer fields after freeing to eliminate these
+stale pointers.
 
-Thank you for reviewing. I'll update accordingly in the next revision.
+Fixes: f28adb41dab4 ("platform/chrome: cros_ec_typec: Register Type C switches")
+Fixes: 1a8912caba02 ("platform/chrome: cros_ec_typec: Get retimer handle")
+Signed-off-by: Victor Ding <victording@chromium.org>
+---
 
-On Wed, Dec 7, 2022 at 7:02 PM Prashant Malani <pmalani@chromium.org> wrote:
->
-> Hi Victor,
->
-> On Tue, Dec 6, 2022 at 8:02 PM Victor Ding <victording@chromium.org> wrote:
-> >
-> > `cros_typec_get_switch_handles` allocates several pointers when
-> > obtaining four handles. These pointers are all freed if failing to
-> > obtain any of the four handles; therefore, pointers in `port` becomes
-> > stale. The stale pointers eventually cause use-after-free or double in
-> > later code paths.
-> >
-> > This patch proposes
-> Please use the imperative form [1]
->
-> > to elimite these stale pointers by zeroing them out
->
-> s/elimite/eliminate
->
-> > right after they are freed.
-> >
-> > Signed-off-by: Victor Ding <victording@chromium.org>
-> This should have a "Fixes" tag.
->
-> Best regards,
->
-> -Prashant
->
-> [1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+Changes in v2:
+- Updated commit messages;
+- No code changes.
 
-Best regards,
-Victor
+ drivers/platform/chrome/cros_ec_typec.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 2a7ff14dc37e..59de4ce01fab 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -173,10 +173,13 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+ 
+ role_sw_err:
+ 	typec_switch_put(port->ori_sw);
++	port->ori_sw = NULL;
+ ori_sw_err:
+ 	typec_retimer_put(port->retimer);
++	port->retimer = NULL;
+ retimer_sw_err:
+ 	typec_mux_put(port->mux);
++	port->mux = NULL;
+ mux_err:
+ 	return -ENODEV;
+ }
+-- 
+2.39.0.rc0.267.gcb52ba06e7-goog
+

@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76BB621
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14ECA626
 	for <chrome-platform@lists.linux.dev>; Thu,  8 Dec 2022 02:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 726A3C433D7;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AAE1AC43470;
 	Thu,  8 Dec 2022 02:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1670464816;
-	bh=lBmPgVdx+29O2X1GxlPg/a+W10VuFe3vsOiJCaGMKRw=;
+	bh=b2JNCHrrbGbWbfVVcExNZqndpNih0iWnfm7zxzMnKPY=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=q4Rg0nPo4UhqBTfJDnNCnBGvAR7suXYsRq8Q2m+lVOiu9ZXrIiOe6eU773MEHqsgv
-	 XK93k948orajF010CaCt0qN3Q0i/v8OFWDudfcLy0xQ0WuBMkLykrW/+vstlhhe+Bp
-	 AVftUxV+ChKYXJZ692+CoZJKe6HyHHy60nyF6UAxrIC8Mt3WCZwt5TTnXJSNHEuxrN
-	 d1z95Hqj6Cimz7jZuWXZeAgX/L49+VGe+qqSnXSuc7cmAuSO5OEAz2V4ImOB+olxty
-	 LLgohoTUsizTvYLNMzVj4kMoRuWAccsQxTGfUK/3ly5HrJzzXXX5pe9hXwVojde5rR
-	 C/3lFd6VKfqsA==
+	b=KweSlSz1je67AibWS7bgui3YxRez0/8R01kp/lFtEKAY/z4Jp51kRhVToiJ6c8i5R
+	 fo2IaEmVAs5T8/d04aQxGpkDU8dQRqzhdvOG1WmjSU47vsA3aUeJc+yQwL+HSuJTXC
+	 yjT/NShQKzW/0UyqYqPpefS+YxbEBbzdIv4IFXVH9v7QOr8+sIc3t4oZNz7tV4s0jM
+	 ssiegUoYCgkSwQRmlYX5jZPAfWxUxSfuI4oXX58aafwysCrD0l3gRE8eE5A8Ei2ch6
+	 4RAreI2fgbrmdwhrhJoMvyOif9Cu8vljQysotkb55vccrNvY34yxa1IwgBD+vqXxoG
+	 CGQ4Bm5c4tMjQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 58026E270CF;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 957D8E270CF;
 	Thu,  8 Dec 2022 02:00:16 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -29,7 +29,7 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH v2] platform/chrome: cros_ec_typec: zero out stale pointers
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167046481635.18277.9896783990183695326.git-patchwork-notify@kernel.org>
+ <167046481660.18277.3545657496706146746.git-patchwork-notify@kernel.org>
 Date: Thu, 08 Dec 2022 02:00:16 +0000
 References: <20221207093924.v2.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
 In-Reply-To: <20221207093924.v2.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
@@ -43,7 +43,7 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
 On Wed,  7 Dec 2022 09:39:40 +0000 you wrote:

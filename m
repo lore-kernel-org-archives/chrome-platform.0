@@ -1,67 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984F5621
-	for <chrome-platform@lists.linux.dev>; Thu,  8 Dec 2022 02:01:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A72C433C1;
-	Thu,  8 Dec 2022 02:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670464900;
-	bh=N38wXucF+hF5PyocURbX3I6VBx7GbBgyGw4H55pF/kI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KQVAbKnZciV0/8X+Scesz7mDBs3Am3DVWFJa8YNKi8FdiCLseuQizXAeiWuXDH4g9
-	 EBo/d1Fa2ZnIAVw4OJvLu8NJ5MajQ5cPLaNhLbE5cl8ppcpVJVeg7fkmjwD5v4M7as
-	 +6mMk3t8HeJW1niyvGSeui6Q5fjwXDJADVOeERgUcMT72Ac0TKAIetDSAGZEoGJgle
-	 kliBIhOleVnV1kKdxFrT/rwmngevG9lgvQmZbA9+K1qinol+6c8KKz3BSLyqxQZjYm
-	 jj7RLiBrTExT29ZekVHhIv8rM+VxtomKcsfotbSZ+PdO2r8bQJJWqP+nI/s8fuP0t+
-	 PjwgSHt57coDQ==
-Date: Thu, 8 Dec 2022 10:01:35 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: Victor Ding <victording@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, groeck@chromium.org,
-	dustin@howett.net, gustavoars@kernel.org,
-	gregkh@linuxfoundation.org, sebastian.reichel@collabora.com,
-	dnojiri@chromium.org, lee.jones@linaro.org, bleung@chromium.org,
-	tinghan.shen@mediatek.com,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v2] platform/chrome: cros_ec_typec: zero out stale
- pointers
-Message-ID: <Y5FFf+VjViglELbZ@google.com>
-References: <20221207093924.v2.1.I1864b6a7ee98824118b93677868d22d3750f439b@changeid>
- <Y5EZmSSbOFRpfBNj@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFC062C
+	for <chrome-platform@lists.linux.dev>; Thu,  8 Dec 2022 03:05:31 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id d82so214928pfd.11
+        for <chrome-platform@lists.linux.dev>; Wed, 07 Dec 2022 19:05:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=g1SevoKdfSxrB9zf09Z3dJonc+0z1iOvlE85K1R19zM=;
+        b=Db09OM2pquE+v1qn4tFcrqM+VH6JmDjR1r4Fcm2pwzboNUOQ/jwpX5Jf09eXUu1VRf
+         ikfQLCqmMDSpXgChB6ArEu33jfBLICIhzoFgfuMp9CfIfP6Ldf3/U15fYRwGsYwscpa7
+         Y9Ahp7as63+buw3v4NeCjIWHHY9ycZk20Qu8N4xN1zGaE9n2T4SrV/ITl66xDKN/L/mK
+         o40ueqa+x1SFYdrgSop0DJ9Q8x3APb6O3v8ZeMuZh6dAj5qBRnOcPt3xpSe3aKtRqkCK
+         BIrMtUOdb2L7YiLyVDK+rcMwkzS1RLtgZB+nD/5APJefYfoUoSW2EzzQu5b/z6avF+LI
+         VZew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g1SevoKdfSxrB9zf09Z3dJonc+0z1iOvlE85K1R19zM=;
+        b=u3A19mwQHX29+TEQVI+V4l4MevOPVRXb6eftF5u+E7jBrFB1u+X9uC+tpL0OHSNWD+
+         l4siJPIzufaVHFivX9ivlojL1loXLyzMOpUXbQYLrwKVpsQgZeDeGLeiky59h1H8TpTD
+         BzTJA5IgipSaGm+IK3t69H1NLMempdOG14QDNqAIW03qMqDW6Mi30psCRDSAt5bU6UEu
+         gXZZANr+v0tRGRoKSNjC0j0PKwNyo/nwN2Ozt3o4R5755mVTrVNE+HHFIpOKKoLUHahs
+         8DkiliPwieI8cvWgLFoc8qwIXddQql1Mv8qB6/Lyb9P+dTQLS7v0cn6DnXDtLsp2npHW
+         c3vA==
+X-Gm-Message-State: ANoB5pmfpxGbv/XaPFuzg/XTta1x07PlL+yxiqtDChvdqBdz2xkhELg2
+	1/PKn9uarFjhRi/iaYoDRiEwbg==
+X-Google-Smtp-Source: AA0mqf4wOyci42kx9fHhmCoVV84rZIWmEnKGBOYgJLuv3cmYhnyAA2Zxb61P03yBWQaeaHOeZfn9FA==
+X-Received: by 2002:a05:6a00:26e1:b0:576:84ae:59a with SMTP id p33-20020a056a0026e100b0057684ae059amr1052268pfw.3.1670468730757;
+        Wed, 07 Dec 2022 19:05:30 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y69-20020a62ce48000000b00571bdf45888sm10684288pfg.154.2022.12.07.19.05.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 19:05:30 -0800 (PST)
+Message-ID: <6391547a.620a0220.1455f.4ffb@mx.google.com>
+Date: Wed, 07 Dec 2022 19:05:30 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5EZmSSbOFRpfBNj@chromium.org>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: tag-chrome-platform-for-v6.2-2-g5990db2d66b3
+X-Kernelci-Report-Type: build
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (tag-chrome-platform-for-v6.2-2-g5990db2d66b3)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Wed, Dec 07, 2022 at 10:54:17PM +0000, Prashant Malani wrote:
-> On Dec 07 09:39, Victor Ding wrote:
-> > `cros_typec_get_switch_handles` allocates four pointers when obtaining
-> > type-c switch handles. These pointers are all freed if failing to obtain
-> > any of them; therefore, pointers in `port` become stale. The stale
-> > pointers eventually cause use-after-free or double free in later code
-> > paths. Zeroing out all pointer fields after freeing to eliminate these
-> > stale pointers.
-> > 
-> > Fixes: f28adb41dab4 ("platform/chrome: cros_ec_typec: Register Type C switches")
-> > Fixes: 1a8912caba02 ("platform/chrome: cros_ec_typec: Get retimer handle")
-> > Signed-off-by: Victor Ding <victording@chromium.org>
-> Acked-by: Prashant Malani <pmalani@chromium.org>
-> 
-> Hey Tzung-Bi, it looks like you've already created a tag for the
-> v6.2 pull request, so I don't know if it's too late to apply this
-> for the current dev cycle.
-> So, I've not applied it, but have left the Acked-by tag.
-> 
-> Please feel free to apply it if there's still room for it before
-> you send out the pull request.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (tag-chrom=
+e-platform-for-v6.2-2-g5990db2d66b3)
 
-Given that the patch fixes an use-after-free, let's include this in the
-coming merge window.  Have queued.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/tag-chrome-platform-for-v6.2-2-g5990db2d66b3/
+
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: tag-chrome-platform-for-v6.2-2-g5990db2d66b3
+Git Commit: 5990db2d66b3445e885affcd284301fd2cc14ecd
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

@@ -1,133 +1,104 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8147E63C3
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Dec 2022 16:26:30 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id h17so136466ila.6
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Dec 2022 08:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LET7+BVLD7u2mz2p/Z3V+N5nYBkLwsfyiST0eTO7hzc=;
-        b=NDNMKLLDBAWf3MbF+6zPgovX77wTaVAyPMqg01VPkudPh14T1CwOao5Z19mx2+2xV7
-         FTo99ZqyJQ83ny1hGx7ubIC4VplT5IlyRzD4g+UjgtMNKneXVSelvMsYF6GYqUyu48hU
-         iJz/SJ0ywZgJyvxcUzTBEYtGf8wooFhu7IDSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LET7+BVLD7u2mz2p/Z3V+N5nYBkLwsfyiST0eTO7hzc=;
-        b=T6GdAWdOeahrCHqegYt+I69eNc0SntWpuWUsgPVmM3WTQg9Z4a49X9nQSTUz3bFCRj
-         AZ3hwJStv34gR8RzyEulXYTRudgqLKyE/UbPGJouoX67BGewN3b1LwfjfBkfr/ncI99V
-         1/bnzE0D7QkBfixIhd9LO1QmgFy4QXcB9+jFDXpqOgtvTWTEfYORiIXhN1Cg5NxzgB+e
-         F9EOzYIuxXzqOzQHsK+fSv6/Oy2VczHztmLur+FvAMXJXgHJHRkMLkq9Ip9n6GNdBnZ4
-         +H42ji5i+1zz68noJ5VJoAegoES5qrX8+OuWAnwJGhel4760lgshL1QOrHGO1ns3/Y1A
-         fPaw==
-X-Gm-Message-State: ANoB5pmES37va0vGjL8ICarJXrOf0Iq22I0cAdXmjuUYIxZcJGqnakeW
-	Ls+Dg8ASV+mknfI8YaVgdeghFfUE9dX0Afm/
-X-Google-Smtp-Source: AA0mqf7uI6aQYrVVsoULaPvpOL/5vXuK5Rne8e1xh4Y/XIf48fOnoV5sJ274O/1EpgGZjeFYKlMMtA==
-X-Received: by 2002:a92:d9ce:0:b0:303:2f20:1a05 with SMTP id n14-20020a92d9ce000000b003032f201a05mr3535629ilq.24.1670603189613;
-        Fri, 09 Dec 2022 08:26:29 -0800 (PST)
-Received: from markhas1.roam.corp.google.com (63-225-246-100.hlrn.qwest.net. [63.225.246.100])
-        by smtp.gmail.com with ESMTPSA id b2-20020a92dcc2000000b002e85e8b8d1dsm556531ilr.5.2022.12.09.08.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 08:26:29 -0800 (PST)
-From: Mark Hasemeyer <markhas@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Raul Rangel <rrangel@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Mark Hasemeyer <markhas@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH v12 3/3] platform/chrome: cros_ec_uart: Add DT enumeration support
-Date: Fri,  9 Dec 2022 09:26:24 -0700
-Message-Id: <20221209092619.v12.3.Ie23c217d69ff25d7354db942613f143bbc8ef891@changeid>
-X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
-In-Reply-To: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-References: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50FC3214;
+	Fri,  9 Dec 2022 21:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670622481; x=1702158481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=VyW/tMWJvyoCTirAlG73DmAZL480LWhJqZ6Zbp5E2tY=;
+  b=LcZPK7567S9GLSQgbaAz2YpWqOE2KUKCIGZq4zvg0fcwVXX1GPQ0QNlJ
+   lC5lXdo6syO2jR2moI+RkJMVPLg5byCczeHSV6cLU2VRFB0MZ5ZovraNQ
+   AzNT/Ty56pKMiQkW+enUcL3L2/ZkFBX/1x8CUIR8UsWzheMnSfRz72Kcw
+   dJMFLthDkbi/c++m87o0IUVETJPGXPkNgFkUb+acYB4Z/XsPxcoGLBZht
+   ye/kE6LAFVcCAA2PUaTJDHpJhj6r7siYRVp45vKI+rkWlmx837xPjRyha
+   eqtWaJKyEjDpCPQvzGq2qvyizkeU6oCRELMLgT3K6JsPrCV1FdLPANwYK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="319415093"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="319415093"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:48:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="821856456"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="821856456"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2022 13:47:57 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1p3lDn-007CW5-0p;
+	Fri, 09 Dec 2022 23:47:55 +0200
+Date: Fri, 9 Dec 2022 23:47:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Message-ID: <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
+On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
+> Hello,
+> 
+> I forgot about this series and was remembered when I talked to Conor
+> Dooley about how .get_state() should behave in an error case.
+> 
+> Compared to (implicit) v1, sent with Message-Id: 20220916151506.298488-1-u.kleine-koenig@pengutronix.de
+> I changed:
+> 
+>  - Patch #1 which does the prototype change now just adds "return 0" to
+>    all implementations and so gets simpler and doesn't change behaviour.
+>    The adaptions to the different .get_state() implementations are split
+>    out into individual patches to ease review.
+>  - One minor inconsistency fixed in "pwm: Handle .get_state() failures"
+>    that I noticed while looking into this patch.
+>  - I skipped changing sun4i.c as I don't know how to handle the error
+>    there. Someone might want to have a look. (That's not ideal, but it's
+>    not worse than the same issue before this series.)
+> 
+> In v1 Thierry had the concern:
+> 
+> | That raises the question about what to do in these cases. If we return
+> | an error, that could potentially throw off consumers. So perhaps the
+> | closest would be to return a disabled PWM? Or perhaps it'd be up to the
+> | consumer to provide some fallback configuration for invalidly configured
+> | or unconfigured PWMs.
+> 
+> .get_state() is only called in pwm_device_request on a pwm_state that a
+> consumer might see. Before my series a consumer might have seen a
+> partial modified pwm_state (because .get_state() might have modified
+> .period, then stumbled and returned silently). The last patch ensures
+> that this partial modification isn't given out to the consumer. Instead
+> they now see the same as if .get_state wasn't implemented at all.
 
-Existing firmware uses the "PRP0001" _HID and an associated compatible
-string to enumerate the cros_ec_uart.
+I'm wondering why we didn't see a compiler warning about mistyped function
+prototypes in some drivers.
 
-Add DT enumeration support for already shipped firmware.
+P.S. The series is good thing to do, thank you.
 
-Signed-off-by: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-Co-developed-by: Mark Hasemeyer <markhas@chromium.org>
-Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
-
----
-
-Changes in v12:
-- Add Reviewed-by: Prashant Malani <pmalani@chromium.org>
-
-Changes in v11:
-- No change
-
-Changes in v10:
-- No change
-
-Changes in v9:
-- Rebase onto for-next
-- Update authorship
-
-Changes in v8:
-- No change
-
-Changes in v7:
-- Move PRP0001 enumeration support to its own commit
-
- drivers/platform/chrome/cros_ec_uart.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-index 43a7493347a59..bf0c291914725 100644
---- a/drivers/platform/chrome/cros_ec_uart.c
-+++ b/drivers/platform/chrome/cros_ec_uart.c
-@@ -11,6 +11,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/serdev.h>
- #include <linux/slab.h>
-@@ -326,6 +327,12 @@ static int __maybe_unused cros_ec_uart_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(cros_ec_uart_pm_ops, cros_ec_uart_suspend,
- 			 cros_ec_uart_resume);
- 
-+static const struct of_device_id cros_ec_uart_of_match[] = {
-+	{ .compatible = "google,cros-ec-uart" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cros_ec_uart_of_match);
-+
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id cros_ec_uart_acpi_id[] = {
- 	{ "GOOG0019", 0 },
-@@ -339,6 +346,7 @@ static struct serdev_device_driver cros_ec_uart_driver = {
- 	.driver	= {
- 		.name	= "cros-ec-uart",
- 		.acpi_match_table = ACPI_PTR(cros_ec_uart_acpi_id),
-+		.of_match_table = cros_ec_uart_of_match,
- 		.pm	= &cros_ec_uart_pm_ops,
- 	},
- 	.probe		= cros_ec_uart_probe,
 -- 
-2.39.0.rc1.256.g54fd8350bd-goog
+With Best Regards,
+Andy Shevchenko
+
 

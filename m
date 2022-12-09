@@ -1,91 +1,174 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF46A3F
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Dec 2022 09:40:06 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id u12so4595092wrr.11
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Dec 2022 01:40:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E45EDD
+	for <chrome-platform@lists.linux.dev>; Fri,  9 Dec 2022 12:00:38 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id n20so11063761ejh.0
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Dec 2022 04:00:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Dn77Bpmg8Lgy/TwDaT+sF7u4xcKwyLcr7OZQFEwm6tQ=;
-        b=Y70shUpo5QdbJpyJtIIpHjemgSq6ewl8m1A9ouBRUHbWx5f+AWXOZidczXv/ifhWtm
-         rmO2AHh0Cu1mi8eHo7HolhvNv/wVzhTA53xTBoyaJMbkIHgOyb8SPjMQUVZFhstEZ7HY
-         uCw9DY69sZamWed6eEsZJffNnRtt98uCFgPQ1cCnedX0U+Acb61zcAi3u9HdMdGWdO+F
-         hthjUCphiWfx2x6ji4FN/mUqG9HUKP7PyUUJuU5u2FBU5cLaK/kRWlmhC0CPwvrdL8xV
-         ed2/8ljPTLC81uxuVlGxTGOZSoDLHKdEkpOI4V/UEKQ94IAub9tXKU0ghSHtJfD3NWlG
-         FZAg==
+        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
+        b=blV6eki9f/dE3yt8k9vQjmYbdmKqtjXhWL8aRDi0+PTy9DZ7PoASn6Hb4YDawt6/Pq
+         TOTWkNyJ1bQ0LXeAOKmZsgrohPEAxg4I9Vxq8Iql4MCfOpzd9bk59Kg8A1l2aCabzc1i
+         Pwb8zUD5pTagBDWz9wlqw8be8RXHOe4ntLhBEh7HXgPppKgizTPX68btz3fJ69iSfJef
+         zAFAyKFjvCY4s0mBfuw+77i/sj6ivMcyXsKkk5Q+7miuQY1uqqYMcxvazgbad3gQhSeN
+         osKwSC1CYREx2mikz7Rsbjiro/V/gVq1uBZVJYbtUMGcexuFEHFb/xJK0jJPCO1YVyoF
+         GpZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Dn77Bpmg8Lgy/TwDaT+sF7u4xcKwyLcr7OZQFEwm6tQ=;
-        b=WdBXOk399WoVoZYx+9MlOUjUp7VCaI60fj9n6dKMUp9/dhDtGvV75bObEQR4Mm5dUU
-         R9X/qNwEME7NbicW0APZt+6HBckZAbZw7Sj4Szb/bOPN9CNEZJxlQ0A3zXbGpvF1LCog
-         TndsIKFtQa/U+rZJavVkswoKoKsPV9QKK4bibBcVmAy/Gegh5iIb+gk5hls3RHVU69jB
-         U7vA1eWwRvqvW5terirBDfQhfNTWDh3PxShygPZnJCDGVcnmnofe074DjDS8q4qKA2Zs
-         aiBGes6RwKt3co9y47r+ySKyThEBvGDlCfpwKix6e720WcEZuuoMruxleh6P6YKDuZ03
-         wang==
-X-Gm-Message-State: ANoB5pmd45PhKF08uPbB7/K6EAhrxzEo74SrqqyBfJAFcZtJozq8tOZY
-	eQ6SWyOQyeNtYWYUwdcmZYRy0guZQ5ip+uxUr6ZCbA==
-X-Google-Smtp-Source: AA0mqf4JfBua+5bvVqaoHDW8BIn01HJQBxbLxhCd7x03Nznnt4bVnvqGwz2Zb+JQI2ers0wr7llQNF4DfrE4f5XVeNY=
-X-Received: by 2002:a05:6000:1d8b:b0:242:750a:5b56 with SMTP id
- bk11-20020a0560001d8b00b00242750a5b56mr6927251wrb.271.1670578804351; Fri, 09
- Dec 2022 01:40:04 -0800 (PST)
+        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
+        b=1GaPFIeNkPNTva/o34M9Y3HoJ7IDQuk56CJc9ATtJrFj/mT4jMDaSkpghrS+Ik9x7U
+         CvjskuWzAfoCooo1/cIoV0Zfgh2cF4InNc+GVGWGJTxkjQ3LSzvLWn/eKQ7W97UoLsrw
+         ItEh1vJ+j5Z+/1Dyq86XSGnet5bRSlktEA7fpjeo83aE0zEJ8snJbzautnbmiUEOGI0w
+         FXsvqRKla4N1W2M5haRkuNM0aJpga4QypdAIoTOR7NXHC2gtKZm/goYzaH1aiK3e6qZg
+         3lFisB7dn078q16iTH/5pXxrianUYcWwS6cZlUgXS/8g8x8r2sEflG8f+sS6XDYIDVje
+         ifOw==
+X-Gm-Message-State: ANoB5pltZy8bc6og9DWVvVkt4cKQdqIKUh34qxxpu2qzr8AlIyuO5+En
+	NmsIIO3rPX6CG3qz1zLzu857kw==
+X-Google-Smtp-Source: AA0mqf7P1uuFrcKToZQL1Qs7OSMRUELHntqUphTx86r+y9eGx8OMntNtg5Twtz4wxSVo6DNFFYUZgg==
+X-Received: by 2002:a17:906:4907:b0:7c0:d4fa:3151 with SMTP id b7-20020a170906490700b007c0d4fa3151mr4765674ejq.17.1670587236522;
+        Fri, 09 Dec 2022 04:00:36 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b007c0a7286c0asm489597ejx.58.2022.12.09.04.00.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Dec 2022 04:00:35 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Wolfram Sang <wsa@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Grant Likely <grant.likely@linaro.org>,
+	Lee Jones <lee.jones@linaro.org>
+Cc: Robert Foss <robert.foss@linaro.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	kernel@pengutronix.de,
+	Purism Kernel Team <kernel@puri.sm>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org,
+	linux-actions@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	chrome-platform@lists.linux.dev,
+	linux-crypto@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linuxppc-dev@lists.ozlabs.org,
+	patches@opensource.cirrus.com,
+	linux-omap@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Date: Fri,  9 Dec 2022 13:00:14 +0100
+Message-Id: <167058708567.1651663.18170722235132459286.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <63916948.170a0220.3dbdf.426e@mx.google.com> <233c8754-f848-3c92-de8e-5a6b4818143a@collabora.com>
-In-Reply-To: <233c8754-f848-3c92-de8e-5a6b4818143a@collabora.com>
-From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Fri, 9 Dec 2022 17:39:53 +0800
-Message-ID: <CA+Px+wXBkrwLM6eoEHTVNsaGH63_qE2zcyAa0CPxyDMi_KUz0Q@mail.gmail.com>
-Subject: Re: chrome-platform/for-kernelci cros-ec: 8 runs, 8 regressions (tag-chrome-platform-for-v6.2-2-g5990db2d66b3)
-To: =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-Cc: kernelci-results@groups.io, bot@kernelci.org, 
-	kernel-build-reports@lists.linaro.org, chrome-platform@lists.linux.dev, 
-	eballetbo@gmail.com, bleung@chromium.org, groeck@chromium.org, 
-	pmalani@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 8, 2022 at 5:25 PM Ricardo Ca=C3=B1uelo
-<ricardo.canuelo@collabora.com> wrote:
->
->
->
-> On 8/12/22 5:34, KernelCI bot wrote:
-> > chrome-platform/for-kernelci cros-ec: 8 runs, 8 regressions (tag-chrome=
--platform-for-v6.2-2-g5990db2d66b3)
-> >
-> > Regressions Summary
-> > -------------------
-> >
-> > platform                     | arch   | lab           | compiler | defc=
-onfig                    | regressions
-> > -----------------------------+--------+---------------+----------+-----=
--------------------------+------------
-> > asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_=
-64_defcon...6-chromebook | 1
-> > hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_=
-64_defcon...6-chromebook | 2
-> > hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_=
-64_defcon...6-chromebook | 2
-> > rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defc=
-onfig+arm64-chromebook   | 2
->
-> Reported in https://github.com/kernelci/kernelci-project/issues/145
->
-> > sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defc=
-onfig+arm64-chromebook   | 1
->
-> Reported in https://github.com/kernelci/kernelci-project/issues/147
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+> 
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
+> 
+> [...]
 
-Thanks for filing the issues.  I'll try to investigate them to see
-what we could get.  Let's work on the reported issues then.
+Applied all patches that build.
+
+Patches excluded:
+ - ps8622
+ - ti-sn65dsi83
+ - adv7511
+
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
+
+
+[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
+          (no commit info)
+[015/606] drm/bridge/analogix/anx6345: Convert to i2c's .probe_new()
+          (no commit info)
+[016/606] drm/bridge/analogix/anx78xx: Convert to i2c's .probe_new()
+          (no commit info)
+[017/606] drm/bridge: anx7625: Convert to i2c's .probe_new()
+          (no commit info)
+[018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
+          (no commit info)
+[019/606] drm/bridge: chrontel-ch7033: Convert to i2c's .probe_new()
+          commit: 8dc6de280f01c0f7b8d40435736f3c975368ad70
+[020/606] drm/bridge: it6505: Convert to i2c's .probe_new()
+          (no commit info)
+[021/606] drm/bridge: it66121: Convert to i2c's .probe_new()
+          (no commit info)
+[022/606] drm/bridge: lt8912b: Convert to i2c's .probe_new()
+          (no commit info)
+[023/606] drm/bridge: lt9211: Convert to i2c's .probe_new()
+          (no commit info)
+[024/606] drm/bridge: lt9611: Convert to i2c's .probe_new()
+          (no commit info)
+[025/606] drm/bridge: lt9611uxc: Convert to i2c's .probe_new()
+          (no commit info)
+[026/606] drm/bridge: megachips: Convert to i2c's .probe_new()
+          (no commit info)
+[027/606] drm/bridge: nxp-ptn3460: Convert to i2c's .probe_new()
+          (no commit info)
+[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
+          (no commit info)
+[029/606] drm/bridge: sii902x: Convert to i2c's .probe_new()
+          (no commit info)
+[030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
+          (no commit info)
+[031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
+          (no commit info)
+[032/606] drm/bridge: tc358767: Convert to i2c's .probe_new()
+          (no commit info)
+[033/606] drm/bridge: tc358768: Convert to i2c's .probe_new()
+          (no commit info)
+[034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
+          (no commit info)
+[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
+          (no commit info)
+[037/606] drm/bridge: tfp410: Convert to i2c's .probe_new()
+          (no commit info)
+
+
+
+rob
+

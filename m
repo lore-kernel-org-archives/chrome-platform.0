@@ -1,56 +1,53 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECAC63C2
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Dec 2022 16:26:29 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id d14so127030ilq.11
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Dec 2022 08:26:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8147E63C3
+	for <chrome-platform@lists.linux.dev>; Fri,  9 Dec 2022 16:26:30 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id h17so136466ila.6
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Dec 2022 08:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IgG/TNRbidgEyJvAVaHHfxRU0Ng4OyfVihTTmLvE0JQ=;
-        b=K2COfFDPnQsv126b/kS1Mvllrw3QIpmb9WDCa0cAUFybrJ8VpQtraDrw/XddNXS3hE
-         CGUa7htqAGx3XqePpeRi597iv9RWO6TM8JJ7TLnEN80eCZmZTxPMay9cq7dJzDL1AqnF
-         oS2lECZHiRtfUgaLT2+k0OKBqtzpeIlqzUgn0=
+        bh=LET7+BVLD7u2mz2p/Z3V+N5nYBkLwsfyiST0eTO7hzc=;
+        b=NDNMKLLDBAWf3MbF+6zPgovX77wTaVAyPMqg01VPkudPh14T1CwOao5Z19mx2+2xV7
+         FTo99ZqyJQ83ny1hGx7ubIC4VplT5IlyRzD4g+UjgtMNKneXVSelvMsYF6GYqUyu48hU
+         iJz/SJ0ywZgJyvxcUzTBEYtGf8wooFhu7IDSs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IgG/TNRbidgEyJvAVaHHfxRU0Ng4OyfVihTTmLvE0JQ=;
-        b=ds77OUwg0bHOL1Hds1qNh+9npl34gNuNstvqlyzKz8tcporJ0n6J+6Ya8E5jYqegsD
-         81bYnjq6i8uBiVycDAp1lwWLX/gv7idg3Qhes/4t4DWkJenKTZgXJSI4AbvuQHmLJ1o0
-         Emh5bdIN/moJOXJmN1b/mCPuH1zcJ02UbxIyY67JaERICNAzdnYlRh6u84UjNarT7oze
-         Fbfao5ScwgmLl4AyJYGYlDUFHPvuKc8ZVDQHX0GepWTasFOZixU+uonrMf0b0hzXpub3
-         wMN8ONeocCzv5+9YDtvg+ywHhSzoFaGrWrbEOKLXIUY2O5GEsd3oJR+Pd56VyQcyMU6V
-         LdGQ==
-X-Gm-Message-State: ANoB5pnPgcRr1rXkc4G+KbSFQbQtXPBG74fVK8NdsYLqk5UWI4R0Vp+q
-	CuFSp79Z4/GL3qdc9PH/OjmhVA==
-X-Google-Smtp-Source: AA0mqf4GbUMG7eifsf2+6++ibfFG2nLQoNYrqF9HJv87Rh6ZMP3a/A2Al3nYNs4oILz+rW+bJjWRNA==
-X-Received: by 2002:a92:d489:0:b0:303:8cff:9841 with SMTP id p9-20020a92d489000000b003038cff9841mr3381027ilg.26.1670603188775;
-        Fri, 09 Dec 2022 08:26:28 -0800 (PST)
+        bh=LET7+BVLD7u2mz2p/Z3V+N5nYBkLwsfyiST0eTO7hzc=;
+        b=T6GdAWdOeahrCHqegYt+I69eNc0SntWpuWUsgPVmM3WTQg9Z4a49X9nQSTUz3bFCRj
+         AZ3hwJStv34gR8RzyEulXYTRudgqLKyE/UbPGJouoX67BGewN3b1LwfjfBkfr/ncI99V
+         1/bnzE0D7QkBfixIhd9LO1QmgFy4QXcB9+jFDXpqOgtvTWTEfYORiIXhN1Cg5NxzgB+e
+         F9EOzYIuxXzqOzQHsK+fSv6/Oy2VczHztmLur+FvAMXJXgHJHRkMLkq9Ip9n6GNdBnZ4
+         +H42ji5i+1zz68noJ5VJoAegoES5qrX8+OuWAnwJGhel4760lgshL1QOrHGO1ns3/Y1A
+         fPaw==
+X-Gm-Message-State: ANoB5pmES37va0vGjL8ICarJXrOf0Iq22I0cAdXmjuUYIxZcJGqnakeW
+	Ls+Dg8ASV+mknfI8YaVgdeghFfUE9dX0Afm/
+X-Google-Smtp-Source: AA0mqf7uI6aQYrVVsoULaPvpOL/5vXuK5Rne8e1xh4Y/XIf48fOnoV5sJ274O/1EpgGZjeFYKlMMtA==
+X-Received: by 2002:a92:d9ce:0:b0:303:2f20:1a05 with SMTP id n14-20020a92d9ce000000b003032f201a05mr3535629ilq.24.1670603189613;
+        Fri, 09 Dec 2022 08:26:29 -0800 (PST)
 Received: from markhas1.roam.corp.google.com (63-225-246-100.hlrn.qwest.net. [63.225.246.100])
         by smtp.gmail.com with ESMTPSA id b2-20020a92dcc2000000b002e85e8b8d1dsm556531ilr.5.2022.12.09.08.26.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 08:26:28 -0800 (PST)
+        Fri, 09 Dec 2022 08:26:29 -0800 (PST)
 From: Mark Hasemeyer <markhas@chromium.org>
 To: LKML <linux-kernel@vger.kernel.org>
 Cc: Raul Rangel <rrangel@chromium.org>,
 	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
 	Mark Hasemeyer <markhas@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Prashant Malani <pmalani@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: [PATCH v12 2/3] dt-bindings: mfd: cros-ec: Add UART compatible string
-Date: Fri,  9 Dec 2022 09:26:23 -0700
-Message-Id: <20221209092619.v12.2.I9e018ecb8bdf341648cb64417085978ff0d22a46@changeid>
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v12 3/3] platform/chrome: cros_ec_uart: Add DT enumeration support
+Date: Fri,  9 Dec 2022 09:26:24 -0700
+Message-Id: <20221209092619.v12.3.Ie23c217d69ff25d7354db942613f143bbc8ef891@changeid>
 X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
 In-Reply-To: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
 References: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
@@ -64,100 +61,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
 
-Add a compatible string to support the UART implementation of the cros
-ec interface. The driver does not support the reg and interrupt
-properties, so exempt them from being required for UART compatible nodes.
+Existing firmware uses the "PRP0001" _HID and an associated compatible
+string to enumerate the cros_ec_uart.
+
+Add DT enumeration support for already shipped firmware.
 
 Signed-off-by: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
 Co-developed-by: Mark Hasemeyer <markhas@chromium.org>
 Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
+
 ---
 
 Changes in v12:
-- No change
+- Add Reviewed-by: Prashant Malani <pmalani@chromium.org>
 
 Changes in v11:
-- Update commit message to include device
+- No change
 
 Changes in v10:
 - No change
 
 Changes in v9:
 - Rebase onto for-next
-- Update node-name from uart0 to serial
-- Remove reg and interrupt property requirement for UART compatible
-  nodes.
 - Update authorship
 
 Changes in v8:
-- Update commit message
+- No change
 
 Changes in v7:
-- No change
+- Move PRP0001 enumeration support to its own commit
 
-Changes in v6:
-- No change
+ drivers/platform/chrome/cros_ec_uart.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Changes in v5:
-- No change
-
-Changes in v4:
-- Changes in commit message.
-
-Changes in v3:
-- Rebased changes on google,cros-ec.yaml
-
-Changes in v2:
-- No change
-
----
- .../bindings/mfd/google,cros-ec.yaml          | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-index 3d5efa5578d1b..cdf1d719efe9d 100644
---- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-+++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-@@ -33,6 +33,9 @@ properties:
-       - description:
-           For implementations of the EC connected through RPMSG.
-         const: google,cros-ec-rpmsg
-+      - description:
-+          For implementations of the EC connected through UART.
-+        const: google,cros-ec-uart
+diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
+index 43a7493347a59..bf0c291914725 100644
+--- a/drivers/platform/chrome/cros_ec_uart.c
++++ b/drivers/platform/chrome/cros_ec_uart.c
+@@ -11,6 +11,7 @@
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+ #include <linux/serdev.h>
+ #include <linux/slab.h>
+@@ -326,6 +327,12 @@ static int __maybe_unused cros_ec_uart_resume(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(cros_ec_uart_pm_ops, cros_ec_uart_suspend,
+ 			 cros_ec_uart_resume);
  
-   controller-data: true
- 
-@@ -187,6 +190,15 @@ allOf:
-       properties:
-         mediatek,rpmsg-name: false
- 
-+  - if:
-+      properties:
-+        compatible:
-+          not:
-+            contains:
-+              enum:
-+                - google,cros-ec-rpmsg
-+                - google,cros-ec-uart
-+    then:
-       required:
-         - reg
-         - interrupts
-@@ -299,4 +311,12 @@ examples:
-         vdd-supply = <&pp3300_fp_mcu>;
-       };
-     };
++static const struct of_device_id cros_ec_uart_of_match[] = {
++	{ .compatible = "google,cros-ec-uart" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, cros_ec_uart_of_match);
 +
-+  # Example for UART
-+  - |
-+    serial {
-+        cros-ec {
-+            compatible = "google,cros-ec-uart";
-+        };
-+    };
- ...
+ #ifdef CONFIG_ACPI
+ static const struct acpi_device_id cros_ec_uart_acpi_id[] = {
+ 	{ "GOOG0019", 0 },
+@@ -339,6 +346,7 @@ static struct serdev_device_driver cros_ec_uart_driver = {
+ 	.driver	= {
+ 		.name	= "cros-ec-uart",
+ 		.acpi_match_table = ACPI_PTR(cros_ec_uart_acpi_id),
++		.of_match_table = cros_ec_uart_of_match,
+ 		.pm	= &cros_ec_uart_pm_ops,
+ 	},
+ 	.probe		= cros_ec_uart_probe,
 -- 
 2.39.0.rc1.256.g54fd8350bd-goog
 

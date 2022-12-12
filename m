@@ -1,157 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584081107
-	for <chrome-platform@lists.linux.dev>; Mon, 12 Dec 2022 02:30:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5F4C433EF;
-	Mon, 12 Dec 2022 02:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670812227;
-	bh=SUajL3u9pLdX2ZmC9K7q3rHAyWiQVdNPsqS1Q0dx42E=;
-	h=Date:From:To:Cc:Subject:From;
-	b=QZ3Gx85966ze7370Cn6IZhv2zQtO5zzclXUAkMMeMbYJsiSe+nnAqqz4lA6r8NquP
-	 yFms1ecqwuMU7c9czAXHgVQtf+e0YYOEy99hkZ78X/Uc8wc82/t61gYt4qPbe435VL
-	 /3kDU2WZzqzE9GoFFQbDPmoA8kP9MP3XCWiEsXX/ofhQjt+wpugcSN7uBpEpCQTQEB
-	 DQUwyGke5/dCEyL1j+65Ajkg/Esy0bUP7xMFYqBN0yEOq6gLPlBSOyfp5VM4vjRJQ/
-	 ZW7A+kSRRylEygwb6vx5CvFyCnVo2I24KMEBPVnR7CMODnn1oCJnnLce/PADKLpSEj
-	 cX9+sOz+WLkDw==
-Date: Mon, 12 Dec 2022 10:30:23 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
-	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT,PULL] chrome-platform changes for v6.2
-Message-ID: <Y5aSPxsxWqmkstFb@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0A61360
+	for <chrome-platform@lists.linux.dev>; Mon, 12 Dec 2022 16:37:02 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id d14so13640496edj.11
+        for <chrome-platform@lists.linux.dev>; Mon, 12 Dec 2022 08:37:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
+        b=lIFXcScE+1mmzH1SBNLfPzmU2yyZ22FDa7zo6/O0Bw9aIOxDeXxYkEVfus52JWuhda
+         4ouELocZnEhmnwFppolEYq4c3c7RHYAqD4pax4M3unQDLONiM/9+ejXSM9E2FE+Z0v02
+         plxbNMhSLCExfq6g58BwEJLatQLzpt/xLWOhKWfMwSgaHbhPuPfGnoShEU2Q/8V0GhBe
+         I8mO/6POKEHTvHhiQrSmT3i/DlcfyH1o4pAMtSuNXvNoHj+mOy3GKKCsRTSQGVPFd3Z7
+         AQYI0FN6wamo3RnZf0VXDCwVvMRjPWjYDkKYXDeP5o/vQIFIn9FanCQzU/XNFNQHrfWF
+         2geA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
+        b=gCD9f7XrYc4e4e7QQ3DU5ynUWG7Sn18hdmb2TQvMD9kRgEpdrbVu1F88UpuyWTc+oM
+         F+7/KSYtdMVZNC/WrjG6Fod1SdO9qfWnShKb95z46uus4+F1LQcvcvL8KJKCcOazE0vl
+         GDq+Uf7XQxaOOeppqZPKo1vFNLSOpT9i/HX8lsqlBK3xbJlryJODTFpN+Azyu99wBEie
+         k1TLnScuYzClF6P7wwO0/dez6PYbThPsm/UQFIDC6NSjtPNdaxlGN3v3swWjNtkzhop3
+         xdtgJKqgAY8HpSuh0u9CoGS5Hx7iRh+qVCBe7bHUjcit4r+4Z/J+XS+MMEopUYoaSFYH
+         iXtg==
+X-Gm-Message-State: ANoB5pmHQfI5kZwe2mZGnmYLrRcDXgLwfedNZYDiIySU82Jnq+G14xLo
+	IJT5TYX7VbZxfi5n79t3Pgm9rQ==
+X-Google-Smtp-Source: AA0mqf5ppTTyM6N0bPOAfBX//eKXVRPakyRimeYdkY/8NocUbAvjnOSiYLmQOcD2W7tmhBu2XO410g==
+X-Received: by 2002:a05:6402:702:b0:46f:68d0:76 with SMTP id w2-20020a056402070200b0046f68d00076mr10093614edx.34.1670863020790;
+        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
+Received: from prec5560.. ([2001:bf7:830:a7a8:ff97:7d8d:1f2e:ffaa])
+        by smtp.gmail.com with ESMTPSA id m15-20020a50930f000000b00463597d2c25sm4051979eda.74.2022.12.12.08.36.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Grant Likely <grant.likely@linaro.org>
+Cc: Robert Foss <robert.foss@linaro.org>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-actions@lists.infradead.org,
+	linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-crypto@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-input@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-integrity@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Purism Kernel Team <kernel@puri.sm>,
+	linux-staging@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	linux-watchdog@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-mtd@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de,
+	netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-fbdev@vger.kernel.org
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Date: Mon, 12 Dec 2022 17:36:51 +0100
+Message-Id: <167086288411.3041259.17824406556561546642.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ZfTIS9a9xhGZ53AG"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+> 
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
+> 
+> [...]
+
+Applied, thanks!
+
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
 
---ZfTIS9a9xhGZ53AG
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Linus,
-
-Please pull chrome-platform updates for v6.2.
-
-Thanks,
-TzungBi
+[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
+          commit: 1c546894ff82f8b7c070998c03f9b15a3499f326
+[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
+          commit: d6b522e9bbb0cca1aeae4ef6188800534794836f
+[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
+          commit: 0f6548807fa77e87bbc37964c6b1ed9ba6e1155d
 
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+rob
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git=
- tags/tag-chrome-platform-for-v6.2
-
-for you to fetch changes up to 9a8aadcf0b459c1257b9477fd6402e1d5952ae07:
-
-  platform/chrome: cros_ec_typec: zero out stale pointers (2022-12-08 09:44=
-:48 +0800)
-
-----------------------------------------------------------------
-chrome platform changes for 6.2
-
-* New drivers
-
-  - Driver cros_hps_i2c for ChromeOS human presence sensor.
-
-* Cleanups
-
-  - Add missing property in dt-binding example.
-  - Update the availability of properties in dt-binding.
-  - Separate dt-binding for ChromeOS fingerprint sensor.
-
-* Improvements
-
-  - Set PROBE_PREFER_ASYNCHRONOUS for some drivers for shortening boot time.
-
-* Fixes
-
-  - Fix an use-after-free in cros_ec_typec.
-
-* Minor fixes and cleanups
-
-----------------------------------------------------------------
-Brian Norris (6):
-      platform/chrome: cros_ec_lpc: Move mec_init to device probe
-      platform/chrome: cros_ec_lpc: Mark PROBE_PREFER_ASYNCHRONOUS
-      platform/chrome: cros_ec_debugfs: Set PROBE_PREFER_ASYNCHRONOUS
-      platform/chrome: cros_ec_lightbar: Set PROBE_PREFER_ASYNCHRONOUS
-      platform/chrome: cros_ec_spi: Set PROBE_PREFER_ASYNCHRONOUS
-      platform/chrome: cros_ec_lpc: Force synchronous probe
-
-Christophe JAILLET (1):
-      platform/chrome: Use kstrtobool() instead of strtobool()
-
-Dan Callaghan (2):
-      platform/chrome: add a driver for HPS
-      platform/chrome: cros_hps_i2c: make remove callback return void
-
-Stephen Boyd (2):
-      dt-bindings: cros-ec: Reorganize and enforce property availability
-      dt-bindings: cros-ec: Add ChromeOS fingerprint binding
-
-Tzung-Bi Shih (1):
-      platform/chrome: cros_ec_lpc_mec: remove cros_ec_lpc_mec_destroy()
-
-Uwe Kleine-K=F6nig (1):
-      platform/chrome: cros_ec: Convert to i2c's .probe_new()
-
-Victor Ding (1):
-      platform/chrome: cros_ec_typec: zero out stale pointers
-
-Yuan Can (1):
-      platform/chrome: cros_usbpd_notify: Fix error handling in cros_usbpd_=
-notify_init()
-
- .../bindings/chrome/google,cros-ec-typec.yaml      |   1 +
- .../chrome/google,cros-kbd-led-backlight.yaml      |   1 +
- .../bindings/extcon/extcon-usbc-cros-ec.yaml       |   1 +
- .../bindings/i2c/google,cros-ec-i2c-tunnel.yaml    |   1 +
- .../devicetree/bindings/mfd/google,cros-ec.yaml    | 103 +++++++++++--
- .../bindings/pwm/google,cros-ec-pwm.yaml           |   1 +
- .../regulator/google,cros-ec-regulator.yaml        |   1 +
- .../bindings/sound/google,cros-ec-codec.yaml       |   1 +
- MAINTAINERS                                        |   6 +
- drivers/platform/chrome/Kconfig                    |  10 ++
- drivers/platform/chrome/Makefile                   |   1 +
- drivers/platform/chrome/cros_ec_debugfs.c          |   1 +
- drivers/platform/chrome/cros_ec_i2c.c              |   5 +-
- drivers/platform/chrome/cros_ec_lightbar.c         |   4 +-
- drivers/platform/chrome/cros_ec_lpc.c              |  15 +-
- drivers/platform/chrome/cros_ec_lpc_mec.c          |   6 -
- drivers/platform/chrome/cros_ec_lpc_mec.h          |   7 -
- drivers/platform/chrome/cros_ec_spi.c              |   1 +
- drivers/platform/chrome/cros_ec_typec.c            |   3 +
- drivers/platform/chrome/cros_hps_i2c.c             | 160 +++++++++++++++++=
-++++
- drivers/platform/chrome/cros_usbpd_notify.c        |   6 +-
- drivers/platform/chrome/wilco_ec/core.c            |   5 -
- 22 files changed, 298 insertions(+), 42 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_hps_i2c.c
-
---ZfTIS9a9xhGZ53AG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCY5aSPwAKCRArxTEGBto8
-9EoJAQDwIAVLDk14JZHuXIgm6oSXyMgxu2lca5sv9cbettScSwEAjXtnAI/rab6Y
-zDgH3+pRqBIuoctzfP54vP9dUQ6u9Ak=
-=fKDd
------END PGP SIGNATURE-----
-
---ZfTIS9a9xhGZ53AG--

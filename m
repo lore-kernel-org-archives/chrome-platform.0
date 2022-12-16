@@ -1,143 +1,94 @@
-Received: from mail5.msi.com (mail5.msi.com [114.30.40.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A253F377
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Dec 2022 01:45:26 +0000 (UTC)
-Received: from mail2.msi.com (mail2.msi.com [220.130.147.42])
-	by mail5.msi.com (Postfix) with ESMTPS id 7AC55540659;
-	Fri, 16 Dec 2022 09:36:25 +0800 (CST)
-Received: from mail2.msi.com (localhost [127.0.0.1])
-	by postfix.imss91 (Postfix) with ESMTP id D0495CC07F2;
-	Fri, 16 Dec 2022 09:36:25 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 postfix.imss91 D0495CC07F2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msi.com; s=20220711;
-	t=1671154585; bh=CgWxA2UFYmU8ajRWDJy7zd3Ws4qZPKtlN9XJ+PlMXKI=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=NAAGv0WJfhZEUSXuy2xKQ3xlEuYbtV6SeBlw5HMYZmDkO/+b2NrP5AsEw+QIxMCmy
-	 j1E1ZG8UzxEBkxL/kNfJuhBZtlTvbe6n79p3uTSLadJXfkBnJJuLLTN7F0mVJkTNv0
-	 BaeFBUzPJne9EoqEdkuM3jKpQ3p2D2oG7ifKKG+4dObpV0NZuDO5fs1ErYR8ZFHJCM
-	 j7E2KnhdKMX9RAt01xycF/02WiU0rCtc0EwRFN2HuFkJ0voy/cUFOWWXjQESRVmpM3
-	 mWeDIDOPf2ULqhMXa8kvvjPd6+5nk83Opai7sMGuW8rmFl7W5TyWfnHmc0VR6npSa3
-	 52d2ABhxmEN0w==
-Received: from EX2016A.msi.com.tw (unknown [172.16.0.54])
-	by mail2.msi.com (Postfix) with ESMTPS id C1A4CCC07AF;
-	Fri, 16 Dec 2022 09:36:25 +0800 (CST)
-Received: from EX2016A.msi.com.tw (172.16.0.54) by EX2016A.msi.com.tw
- (172.16.0.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.16; Fri, 16 Dec
- 2022 09:36:24 +0800
-Received: from EX2016A.msi.com.tw ([fe80::111c:1b9e:5379:1011]) by
- EX2016A.msi.com.tw ([fe80::111c:1b9e:5379:1011%10]) with mapi id
- 15.01.2507.016; Fri, 16 Dec 2022 09:36:24 +0800
-From: =?big5?B?am9ld3Uop2Sl8q62KQ==?= <joewu@msi.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Joe Wu
-	<joewu@msi.corp-partner.google.com>
-CC: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
-	Xiang wangx <wangxiang@cdjrlc.com>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, Derek Huang <derekhuang@google.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Benson Leung
-	<bleung@chromium.org>, Daisuke Nojiri <dnojiri@chromium.org>, Prashant Malani
-	<pmalani@chromium.org>, Furquan Shaikh <furquan@chromium.org>, Tzung-Bi Shih
-	<tzungbi@kernel.org>, "chrome-platform@lists.linux.dev"
-	<chrome-platform@lists.linux.dev>, Douglas Anderson <dianders@chromium.org>,
-	"Dustin L . Howett" <dustin@howett.net>, Guenter Roeck <groeck@chromium.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>
-Subject: RE: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Thread-Topic: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Thread-Index: AQHZEEy2MF2RiyAUZk2itU6kR3IX965u+taAgAC9IyA=
-Date: Fri, 16 Dec 2022 01:36:24 +0000
-Message-ID: <5f36a68518ca44aa9566a5df801bccaa@msi.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9134F2F53
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Dec 2022 19:19:15 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id 4so3272011plj.3
+        for <chrome-platform@lists.linux.dev>; Fri, 16 Dec 2022 11:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
+        b=KpRVudeGJv5pInD4KE6reKMeoy7bEoFZkTE5+v0monRQ3zmXFq5dovn8JOTOOJ3T5F
+         7pdEOoZ/ewKwnFVRu67o5PjkXZ7aAgNqcKBC2WcYae4d33643212lNx+hz/BVCX5LP6r
+         XC2Jr17sgy+Dwech521QgenQokCQjWBxZtdEyD8/ZJZmrNg9jvgLh6FXLgtAFQwcI0/5
+         dqhE9RKq6vKsgwlyuFwFQ9Iq0epO6Bcw+AjFB8mV7N6GeOaDY4v7RZOHXjb+AR1Dn0Js
+         3334OqgTu7HcG5QFf3am08OWTyDRzph8NZFekyTxPP50Bgvorb1QiMg1yOzN5emwz+JE
+         OPTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
+        b=jCB//Z7KtKb5+652JMuWzwcNvPJ01mVTgj/eNRrXRmFgBfRFKGgQAOIU2YsRoeTRWL
+         qGfNng3kJk88mERYNPJ7k0q9A+XE2F1Wj6CnYDdnVaKAP5o/frzixRKRHh1vHQQ5RbWc
+         9PPWdA+FceW7ixkjoSLJ9OcN0l63w9wtEc4N+oOw5C0sbBDHKSYIcp8iPmFYCIFJM7Z1
+         ZM7k8NEjRVipzaLb6i4s6O5Gd6GTff4+5Y43yw0RjU/S4SkcycvswcORxYm6NrlN/fkK
+         hS9IydBIqBhvO98syFQ7LaOqLJxt13+EZjq6cHiD8Q7XAj1HrsGIMvhgRhGfQ0sdZSbJ
+         tvqQ==
+X-Gm-Message-State: ANoB5pm5skNDbL4yBE7oylkfCei8rKXmU78XYHyK83gQtY6f78V3H8So
+	cWCTy4VCS71MsotBGuBcXYA=
+X-Google-Smtp-Source: AA0mqf5ys3ffyGNG5TUwnGwvLlXiSwadMSQRypX2wPbuEjQZOw8vjGmraT9nAai3RFFJWPDspwGNzg==
+X-Received: by 2002:a17:903:1302:b0:189:7e2f:d64c with SMTP id iy2-20020a170903130200b001897e2fd64cmr33022272plb.55.1671218354525;
+        Fri, 16 Dec 2022 11:19:14 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:211:6b31:5f6:6aef])
+        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b00186b138706fsm2013870ple.13.2022.12.16.11.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 11:19:13 -0800 (PST)
+Date: Fri, 16 Dec 2022 11:19:10 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
+Cc: Joe Wu <joewu@msi.corp-partner.google.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	Derek Huang <derekhuang@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Furquan Shaikh <furquan@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
+	Douglas Anderson <dianders@chromium.org>,
+	"Dustin L . Howett" <dustin@howett.net>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Message-ID: <Y5zErm1YuXlBBHYw@google.com>
 References: <20221215061550.18993-1-joewu@msi.corp-partner.google.com>
  <Y5uZNVzEgsKzlPD0@google.com>
-In-Reply-To: <Y5uZNVzEgsKzlPD0@google.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.16.252.125]
-Content-Type: text/plain;
-	charset="big5"
-Content-Transfer-Encoding: base64
+ <5f36a68518ca44aa9566a5df801bccaa@msi.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-RCPT: <dmitry.torokhov@gmail.com>, <joewu@msi.corp-partner.google.com>, <linux-kernel@vger.kernel.org>, <swboyd@chromium.org>, <wangxiang@cdjrlc.com>, <linux-input@vger.kernel.org>, <derekhuang@google.com>, <gregkh@linuxfoundation.org>, <bleung@chromium.org>, <dnojiri@chromium.org>, <pmalani@chromium.org>, <furquan@chromium.org>, <tzungbi@kernel.org>, <chrome-platform@lists.linux.dev>, <dianders@chromium.org>, <dustin@howett.net>, <groeck@chromium.org>, <gustavoars@kernel.org>, <sebastian.reichel@collabora.com>
-X-TM-AS-GCONF: 00
-X-RCPT: <wangxiang@cdjrlc.com>, <bleung@chromium.org>, <dianders@chromium.org>, <dnojiri@chromium.org>, <furquan@chromium.org>, <groeck@chromium.org>, <pmalani@chromium.org>, <swboyd@chromium.org>, <sebastian.reichel@collabora.com>, <dmitry.torokhov@gmail.com>, <derekhuang@google.com>, <dustin@howett.net>, <gustavoars@kernel.org>, <tzungbi@kernel.org>, <gregkh@linuxfoundation.org>, <chrome-platform@lists.linux.dev>, <internal@maedb.msi.com>, <joewu@msi.corp-partner.google.com>, <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f36a68518ca44aa9566a5df801bccaa@msi.com>
 
-SGkgRG1pdHJ5LA0KDQpUaGFuayB5b3UgZm9yIGNvbW1lbnRzLiBJIHdpbGwgdHJ5IHRvIGdpdmUg
-YSBjbGVhciBkZXNjcmlwdGlvbiBhbmQgc2VudCB0aGUgcGF0Y2ggYWdhaW4uDQpBY3R1YWxseSwg
-dGhlIGZ1bmN0aW9uIG9mICJsZWF2ZSBQQyhjcm9zKSBtb2RlIiBidXR0b24gaXMgdG8gaW1wbGVt
-ZW50ICdsb2NrIHRoZSBzY3JlZW4nIGluIGNocm9tZU9TLg0KR29vZ2xlIHN1Z2dlc3RzIHVzIHRv
-IHNlbnQgJ0YxMycga2V5IHRvIGxvY2sgdGhlIHNjcmVlbiwgY291bGQgd2UgZG8gaXQgb3IgZG8g
-eW91IGhhdmUgYW55IHN1Z2dlc3Rpb24/IA0KDQpCUnMsDQpKb2UNCg0KLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCkZyb206IERtaXRyeSBUb3Jva2hvdiA8ZG1pdHJ5LnRvcm9raG92QGdtYWls
-LmNvbT4gDQpTZW50OiBGcmlkYXksIERlY2VtYmVyIDE2LCAyMDIyIDY6MDEgQU0NClRvOiBKb2Ug
-V3UgPGpvZXd1QG1zaS5jb3JwLXBhcnRuZXIuZ29vZ2xlLmNvbT4NCkNjOiBMS01MIDxsaW51eC1r
-ZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgU3RlcGhlbiBCb3lkIDxzd2JveWRAY2hyb21pdW0ub3Jn
-PjsgWGlhbmcgd2FuZ3ggPHdhbmd4aWFuZ0BjZGpybGMuY29tPjsgbGludXgtaW5wdXRAdmdlci5r
-ZXJuZWwub3JnOyBEZXJlayBIdWFuZyA8ZGVyZWtodWFuZ0Bnb29nbGUuY29tPjsgR3JlZyBLcm9h
-aC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz47IEJlbnNvbiBMZXVuZyA8Ymxl
-dW5nQGNocm9taXVtLm9yZz47IERhaXN1a2UgTm9qaXJpIDxkbm9qaXJpQGNocm9taXVtLm9yZz47
-IFByYXNoYW50IE1hbGFuaSA8cG1hbGFuaUBjaHJvbWl1bS5vcmc+OyBGdXJxdWFuIFNoYWlraCA8
-ZnVycXVhbkBjaHJvbWl1bS5vcmc+OyBUenVuZy1CaSBTaGloIDx0enVuZ2JpQGtlcm5lbC5vcmc+
-OyBjaHJvbWUtcGxhdGZvcm1AbGlzdHMubGludXguZGV2OyBEb3VnbGFzIEFuZGVyc29uIDxkaWFu
-ZGVyc0BjaHJvbWl1bS5vcmc+OyBEdXN0aW4gTCAuIEhvd2V0dCA8ZHVzdGluQGhvd2V0dC5uZXQ+
-OyBHdWVudGVyIFJvZWNrIDxncm9lY2tAY2hyb21pdW0ub3JnPjsgR3VzdGF2byBBIC4gUiAuIFNp
-bHZhIDxndXN0YXZvYXJzQGtlcm5lbC5vcmc+OyBTZWJhc3RpYW4gUmVpY2hlbCA8c2ViYXN0aWFu
-LnJlaWNoZWxAY29sbGFib3JhLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIGNyb3NfZWNfa2V5
-YjogQWRkIDMgYnV0dG9ucyBmb3IgbW9uaXRvciBmdW5jdGlvbg0KDQpIaSBKb2UsDQoNCk9uIFRo
-dSwgRGVjIDE1LCAyMDIyIGF0IDAyOjE1OjUwUE0gKzA4MDAsIEpvZSBXdSB3cm90ZToNCj4gVGhp
-cyBwYXRjaCBpcyB0byBhZGQgZXh0cmEgMyBidXR0b25zOiAnYnJpZ2h0bmVzcyB1cCcsICdicmln
-aHRuZXNzIA0KPiBkb3duJyBhbmQgJ2xlYXZlIFBDKGNyb3MpIG1vZGUnIHRvIHN1cHBvcnQgbW9u
-aXRvciBuYXZpZ2F0aW9uIA0KPiBmdW5jdGlvbi4NCg0KSSB1bmRlcnN0YW5kICJicmlnaHRuZXNz
-IHVwIiBhbmQgImJyaWdodG5lc3MgZG93biIgYnV0IEkgaGF2ZSBubyBpZGVhIHdoYXQgImxlYXZl
-IFBDKGNyb3MpIG1vZGUiIG1lYW5zLiBJIGFsc28gZG8gbm90IHRoaW5rIHdlIHNob3VsZCBiZSBh
-YnVzaW5nIEYxMyBmb3IgdGhpcy4NCg0KVGhhbmtzLg0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBK
-b2UgV3UgPGpvZXd1QG1zaS5jb3JwLXBhcnRuZXIuZ29vZ2xlLmNvbT4NCj4gDQo+IC0tLQ0KPiAN
-Cj4gIGRyaXZlcnMvaW5wdXQva2V5Ym9hcmQvY3Jvc19lY19rZXliLmMgICAgICAgICAgfCAxNSAr
-KysrKysrKysrKysrKysNCj4gIGluY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9jcm9zX2VjX2Nv
-bW1hbmRzLmggfCAgMyArKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKQ0K
-PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvY3Jvc19lY19rZXliLmMg
-DQo+IGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9jcm9zX2VjX2tleWIuYw0KPiBpbmRleCBjMTQx
-MzZiNzMzYTkuLmJmMWNmMGI3ODJkMiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9pbnB1dC9rZXli
-b2FyZC9jcm9zX2VjX2tleWIuYw0KPiArKysgYi9kcml2ZXJzL2lucHV0L2tleWJvYXJkL2Nyb3Nf
-ZWNfa2V5Yi5jDQo+IEBAIC0xMDAsNiArMTAwLDIxIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3Jv
-c19lY19ic19tYXAgY3Jvc19lY19rZXliX2JzW10gPSB7DQo+ICAJCS5jb2RlCQk9IEtFWV9WT0xV
-TUVET1dOLA0KPiAgCQkuYml0CQk9IEVDX01LQlBfVk9MX0RPV04sDQo+ICAJfSwNCj4gKwl7DQo+
-ICsJCS5ldl90eXBlICAgICAgICA9IEVWX0tFWSwNCj4gKwkJLmNvZGUgICAgICAgICAgID0gS0VZ
-X0JSSUdIVE5FU1NVUCwNCj4gKwkJLmJpdCAgICAgICAgICAgID0gRUNfTUtCUF9CUklfVVAsDQo+
-ICsJfSwNCj4gKwl7DQo+ICsJCS5ldl90eXBlICAgICAgICA9IEVWX0tFWSwNCj4gKwkJLmNvZGUg
-ICAgICAgICAgID0gS0VZX0JSSUdIVE5FU1NET1dOLA0KPiArCQkuYml0ICAgICAgICAgICAgPSBF
-Q19NS0JQX0JSSV9ET1dOLA0KPiArCX0sDQo+ICsJew0KPiArCQkuZXZfdHlwZSAgICAgICAgPSBF
-Vl9LRVksDQo+ICsJCS5jb2RlICAgICAgICAgICA9IEtFWV9GMTMsDQo+ICsJCS5iaXQgICAgICAg
-ICAgICA9IEVDX01LQlBfQ1JPU19MRUFWRSwNCj4gKwl9LA0KPiAgDQo+ICAJLyogU3dpdGNoZXMg
-Ki8NCj4gIAl7DQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEvY3Jv
-c19lY19jb21tYW5kcy5oIA0KPiBiL2luY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9jcm9zX2Vj
-X2NvbW1hbmRzLmgNCj4gaW5kZXggNTc0NGEyZDc0NmFhLi43OTIxOGRhOGE4Y2IgMTAwNjQ0DQo+
-IC0tLSBhL2luY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9jcm9zX2VjX2NvbW1hbmRzLmgNCj4g
-KysrIGIvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL2Nyb3NfZWNfY29tbWFuZHMuaA0KPiBA
-QCAtMzQ3MSw2ICszNDcxLDkgQEAgc3RydWN0IGVjX3Jlc3BvbnNlX2dldF9uZXh0X2V2ZW50X3Yx
-IHsNCj4gICNkZWZpbmUgRUNfTUtCUF9WT0xfVVAJCTENCj4gICNkZWZpbmUgRUNfTUtCUF9WT0xf
-RE9XTgkyDQo+ICAjZGVmaW5lIEVDX01LQlBfUkVDT1ZFUlkJMw0KPiArI2RlZmluZSBFQ19NS0JQ
-X0JSSV9VUCAgICAgICAgICA0DQo+ICsjZGVmaW5lIEVDX01LQlBfQlJJX0RPV04gICAgICAgIDUN
-Cj4gKyNkZWZpbmUgRUNfTUtCUF9DUk9TX0xFQVZFICAgICAgNg0KPiAgDQo+ICAvKiBTd2l0Y2hl
-cyAqLw0KPiAgI2RlZmluZSBFQ19NS0JQX0xJRF9PUEVOCTANCj4gLS0NCj4gMi4xNy4xDQo+IA0K
-DQotLSANCkRtaXRyeQ0KDQoqKioqKkNPTkZJREVOVElBTCBJTkZPUk1BVElPTioqKioqDQoNClRo
-aXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHVzZSBvZiB0aGUgcGVyc29uIG9yIGVu
-dGl0eSB0byB3aG9tIGl0IGlzDQphZGRyZXNzZWQgYW5kIGNvbnRhaW5zIGluZm9ybWF0aW9uIHRo
-YXQgbWF5IGJlIHN1YmplY3QgdG8gYW5kL29yIG1heSBiZQ0KcmVzdHJpY3RlZCBmcm9tIGRpc2Ns
-b3N1cmUgYnkgY29udHJhY3Qgb3IgYXBwbGljYWJsZSBsYXcuIElmIHlvdSBhcmUgbm90IHRoZSAN
-CmludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWlsLCBiZSBhZHZpc2VkIHRoYXQgYW55IGRp
-c2Nsb3N1cmUsIGNvcHksIA0KZGlzdHJpYnV0aW9uIG9yIHVzZSBvZiB0aGUgY29udGVudHMgb2Yg
-dGhpcyBtZXNzYWdlIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIA0KSWYgeW91IGFyZSBub3QgdGhl
-IGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWlsLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5k
-ZXIgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgaW4gZXJyb3IgYnkgcmVwbHlpbmcgdG8g
-dGhpcyBtZXNzYWdlLiBUaGVuLCANCnBsZWFzZSBkZWxldGUgaXQgZnJvbSB5b3VyIHN5c3RlbS4g
-T3VyIFByaXZhY3kgUG9saWN5IGlzIGF2YWlsYWJsZSBoZXJlIA0KaHR0cHM6Ly93d3cubXNpLmNv
-bS9wYWdlL3ByaXZhY3ktcG9saWN5LiBUaGFuayB5b3Uu
+On Fri, Dec 16, 2022 at 01:36:24AM +0000, joewu(吳仲振) wrote:
+> Hi Dmitry,
+> 
+> Thank you for comments. I will try to give a clear description and sent the patch again.
+> Actually, the function of "leave PC(cros) mode" button is to implement 'lock the screen' in chromeOS.
+> Google suggests us to sent 'F13' key to lock the screen, could we do it or do you have any suggestion? 
 
+Is this different from the normal power button? If it is the key with
+"padlock" glyph you want to map it to KEY_SLEEP or KEY_SCREENLOCK.
+
+We should no longer use or recommend overriding F13 for this.  Is there
+an internal Google bug for this? Could you add dtor@google.com there?
+
+Thanks.
+
+-- 
+Dmitry

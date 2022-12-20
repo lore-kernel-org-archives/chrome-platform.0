@@ -1,94 +1,85 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9134F2F53
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Dec 2022 19:19:15 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id 4so3272011plj.3
-        for <chrome-platform@lists.linux.dev>; Fri, 16 Dec 2022 11:19:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906621383
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 06:00:26 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id w37so7669854pga.5
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Dec 2022 22:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
-        b=KpRVudeGJv5pInD4KE6reKMeoy7bEoFZkTE5+v0monRQ3zmXFq5dovn8JOTOOJ3T5F
-         7pdEOoZ/ewKwnFVRu67o5PjkXZ7aAgNqcKBC2WcYae4d33643212lNx+hz/BVCX5LP6r
-         XC2Jr17sgy+Dwech521QgenQokCQjWBxZtdEyD8/ZJZmrNg9jvgLh6FXLgtAFQwcI0/5
-         dqhE9RKq6vKsgwlyuFwFQ9Iq0epO6Bcw+AjFB8mV7N6GeOaDY4v7RZOHXjb+AR1Dn0Js
-         3334OqgTu7HcG5QFf3am08OWTyDRzph8NZFekyTxPP50Bgvorb1QiMg1yOzN5emwz+JE
-         OPTw==
+        d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vlt5L7PlVbNdJJaExwquyrI4ZxAOGOeQ6ynKwqgYwpA=;
+        b=U4aWNeCxYSUN5ig1wQqKMbkaUkYM7c0YFJoV+eHi0OiAN/CzAW3LpMzr6H1o5c/aCU
+         hAfqE/riijqebe1EKvmAr2wE70NX87sEQIgpMCGsMfHPZy82EX8541fD1iBLnLH8jldg
+         X7yCrXbv9icl7HW072RwN5TSqB/LxwTagF5edyStp+OszCGE/A/0dECGM06Lf2s/WHkL
+         Ohk2ukrdn2BsUFWbqmPgiJEjvofz4vARX9vtA3FbEkNfoe6sA8yFSMNCPtN4VyPJXOLi
+         YsTtVEfW9qTQA7yVdc3nHPaNOrodY4yhdS1RZCaHKQSIt7/VzLibS2teawEx9rSqkOma
+         ol1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
-        b=jCB//Z7KtKb5+652JMuWzwcNvPJ01mVTgj/eNRrXRmFgBfRFKGgQAOIU2YsRoeTRWL
-         qGfNng3kJk88mERYNPJ7k0q9A+XE2F1Wj6CnYDdnVaKAP5o/frzixRKRHh1vHQQ5RbWc
-         9PPWdA+FceW7ixkjoSLJ9OcN0l63w9wtEc4N+oOw5C0sbBDHKSYIcp8iPmFYCIFJM7Z1
-         ZM7k8NEjRVipzaLb6i4s6O5Gd6GTff4+5Y43yw0RjU/S4SkcycvswcORxYm6NrlN/fkK
-         hS9IydBIqBhvO98syFQ7LaOqLJxt13+EZjq6cHiD8Q7XAj1HrsGIMvhgRhGfQ0sdZSbJ
-         tvqQ==
-X-Gm-Message-State: ANoB5pm5skNDbL4yBE7oylkfCei8rKXmU78XYHyK83gQtY6f78V3H8So
-	cWCTy4VCS71MsotBGuBcXYA=
-X-Google-Smtp-Source: AA0mqf5ys3ffyGNG5TUwnGwvLlXiSwadMSQRypX2wPbuEjQZOw8vjGmraT9nAai3RFFJWPDspwGNzg==
-X-Received: by 2002:a17:903:1302:b0:189:7e2f:d64c with SMTP id iy2-20020a170903130200b001897e2fd64cmr33022272plb.55.1671218354525;
-        Fri, 16 Dec 2022 11:19:14 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:211:6b31:5f6:6aef])
-        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b00186b138706fsm2013870ple.13.2022.12.16.11.19.12
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vlt5L7PlVbNdJJaExwquyrI4ZxAOGOeQ6ynKwqgYwpA=;
+        b=KPY7vFi3Goymwc9kOuxqpjcJDB7dggPSeApmSwvDKbRPJWugUmSM0faxilQdKQKfFg
+         3VGR5X7CvwxVofxbZQSJSAHwrZcsHdxPAtDarmW0uZmxZZ4aZTmGME5RaIJC4Q/5gDSQ
+         YpAqpFAvr+MgnKxxktlOI0r9mgMtZs8cSrOJfRhujn0v8UhhGkAZCcqr+UN6faW2cwx5
+         HqFzchXcCGu6NLl/tTa78aP0IYQcFbQvTr9jlpnDuFmPCLhWc37CjaMszXrgxhf0YPOU
+         /mHn25s3SPXJMYcqUOhhQvx9WSrLt1kGbQR3kmd0ftNLx0LSIZsy+1EZOnhR3c1O47TI
+         s0Jw==
+X-Gm-Message-State: AFqh2kp1lCp1+kEInc5QxSwcU2WFr3EPAUzHZbIczJBSowUVOtcjbIki
+	cIGGUinsQJle2x9kqZtXvpUwyxcdsdIkKsYe
+X-Google-Smtp-Source: AMrXdXsihtHIsVRfcKkT0WgAyl4LWKBQjahqEdXysshmOPl7jp1UPWw1Jij+kWJt93rhBxkxdY4qog==
+X-Received: by 2002:a05:6a00:f0f:b0:578:4efa:e3ae with SMTP id cr15-20020a056a000f0f00b005784efae3aemr15144736pfb.33.1671516025983;
+        Mon, 19 Dec 2022 22:00:25 -0800 (PST)
+Received: from ruihai-HP.huaqin.com ([101.78.151.205])
+        by smtp.gmail.com with ESMTPSA id 12-20020a62150c000000b00574f83c5d51sm7637913pfv.198.2022.12.19.22.00.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 11:19:13 -0800 (PST)
-Date: Fri, 16 Dec 2022 11:19:10 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
-Cc: Joe Wu <joewu@msi.corp-partner.google.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	Derek Huang <derekhuang@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benson Leung <bleung@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Furquan Shaikh <furquan@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	Douglas Anderson <dianders@chromium.org>,
-	"Dustin L . Howett" <dustin@howett.net>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Message-ID: <Y5zErm1YuXlBBHYw@google.com>
-References: <20221215061550.18993-1-joewu@msi.corp-partner.google.com>
- <Y5uZNVzEgsKzlPD0@google.com>
- <5f36a68518ca44aa9566a5df801bccaa@msi.com>
+        Mon, 19 Dec 2022 22:00:25 -0800 (PST)
+From: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+To: pmalani@chromium.org,
+	bleung@chromium.org,
+	groeck@chromium.org,
+	knoxchiou@chromium.org,
+	weishunc@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+Subject: [PATCH] platform/chrome: cros_ec_typec: deferred probe when typec count mismatch
+Date: Tue, 20 Dec 2022 13:59:54 +0800
+Message-Id: <20221220055954.11197-1-zhouruihai@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f36a68518ca44aa9566a5df801bccaa@msi.com>
 
-On Fri, Dec 16, 2022 at 01:36:24AM +0000, joewu(吳仲振) wrote:
-> Hi Dmitry,
-> 
-> Thank you for comments. I will try to give a clear description and sent the patch again.
-> Actually, the function of "leave PC(cros) mode" button is to implement 'lock the screen' in chromeOS.
-> Google suggests us to sent 'F13' key to lock the screen, could we do it or do you have any suggestion? 
+The kernel bootup is much faster with normal mode. In this case,
+there is a chance that the cros-ec-typec module get the actual typec
+port counts but not accurate from ec before ec is able to setup it.
+It will block the HDMI mux function.
+Hence, return -EPROBE_DEFER to put the device onto the deferred probe
+list when the typec count mismatch between ec and node.
 
-Is this different from the normal power button? If it is the key with
-"padlock" glyph you want to map it to KEY_SLEEP or KEY_SCREENLOCK.
+Signed-off-by: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We should no longer use or recommend overriding F13 for this.  Is there
-an internal Google bug for this? Could you add dtor@google.com there?
-
-Thanks.
-
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 59de4ce01fab..d821501e875c 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -382,7 +382,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 
+ 	if (nports > typec->num_ports) {
+ 		dev_err(dev, "More ports listed than can be supported.\n");
+-		return -EINVAL;
++		return -EPROBE_DEFER;
+ 	}
+ 
+ 	/* DT uses "reg" to specify port number. */
 -- 
-Dmitry
+2.17.1
+

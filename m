@@ -1,53 +1,65 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906621383
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 06:00:26 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id w37so7669854pga.5
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Dec 2022 22:00:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08A184C
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 08:02:37 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id e190so3383757pgc.9
+        for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 00:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        d=msi-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Vlt5L7PlVbNdJJaExwquyrI4ZxAOGOeQ6ynKwqgYwpA=;
-        b=U4aWNeCxYSUN5ig1wQqKMbkaUkYM7c0YFJoV+eHi0OiAN/CzAW3LpMzr6H1o5c/aCU
-         hAfqE/riijqebe1EKvmAr2wE70NX87sEQIgpMCGsMfHPZy82EX8541fD1iBLnLH8jldg
-         X7yCrXbv9icl7HW072RwN5TSqB/LxwTagF5edyStp+OszCGE/A/0dECGM06Lf2s/WHkL
-         Ohk2ukrdn2BsUFWbqmPgiJEjvofz4vARX9vtA3FbEkNfoe6sA8yFSMNCPtN4VyPJXOLi
-         YsTtVEfW9qTQA7yVdc3nHPaNOrodY4yhdS1RZCaHKQSIt7/VzLibS2teawEx9rSqkOma
-         ol1A==
+        bh=h8keCepZ3dfLi7fx2igh9uQOxl5mkPHS3M0dmWSrolk=;
+        b=IZpbA04Y8FkJYIOTO3btzMCktgX15dHzpAYDIPQVUsHlEoNpskIkkn9sBll2LGFYN1
+         GBzi/zoELV4ZK7kSf462ZlxZrn10xv/Yf23HZ7ULika0ig2qCXIQka2vO6+PzqeXOYJi
+         bPFUaNPZmHrpk+sfCR96v+upBWQ/W6TQACTsQkKOVnOW0AJ3LQfg/ul14K7q5rmD9+il
+         Ei52zQmUKSbIUTa4wGWMskWSHrca/JRtdhBUgm5Uqs6rl5pssVRdxigy/Lhs/2yBu4US
+         7RD1bgbYXeJBFSkg4nGDEiqZE0GE2HDK77inju8h6dNs75F1wwd/Z0EEYeylAjX6UCgV
+         k6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Vlt5L7PlVbNdJJaExwquyrI4ZxAOGOeQ6ynKwqgYwpA=;
-        b=KPY7vFi3Goymwc9kOuxqpjcJDB7dggPSeApmSwvDKbRPJWugUmSM0faxilQdKQKfFg
-         3VGR5X7CvwxVofxbZQSJSAHwrZcsHdxPAtDarmW0uZmxZZ4aZTmGME5RaIJC4Q/5gDSQ
-         YpAqpFAvr+MgnKxxktlOI0r9mgMtZs8cSrOJfRhujn0v8UhhGkAZCcqr+UN6faW2cwx5
-         HqFzchXcCGu6NLl/tTa78aP0IYQcFbQvTr9jlpnDuFmPCLhWc37CjaMszXrgxhf0YPOU
-         /mHn25s3SPXJMYcqUOhhQvx9WSrLt1kGbQR3kmd0ftNLx0LSIZsy+1EZOnhR3c1O47TI
-         s0Jw==
-X-Gm-Message-State: AFqh2kp1lCp1+kEInc5QxSwcU2WFr3EPAUzHZbIczJBSowUVOtcjbIki
-	cIGGUinsQJle2x9kqZtXvpUwyxcdsdIkKsYe
-X-Google-Smtp-Source: AMrXdXsihtHIsVRfcKkT0WgAyl4LWKBQjahqEdXysshmOPl7jp1UPWw1Jij+kWJt93rhBxkxdY4qog==
-X-Received: by 2002:a05:6a00:f0f:b0:578:4efa:e3ae with SMTP id cr15-20020a056a000f0f00b005784efae3aemr15144736pfb.33.1671516025983;
-        Mon, 19 Dec 2022 22:00:25 -0800 (PST)
-Received: from ruihai-HP.huaqin.com ([101.78.151.205])
-        by smtp.gmail.com with ESMTPSA id 12-20020a62150c000000b00574f83c5d51sm7637913pfv.198.2022.12.19.22.00.23
+        bh=h8keCepZ3dfLi7fx2igh9uQOxl5mkPHS3M0dmWSrolk=;
+        b=NJfCC5XJDpgep9s2pIgADI2F4lbhPKu0Y0s2Tcdo1meTw98mSyxFstb2wNfSS2WWWK
+         pqxJOAJmkyfx3kjoHDwT2k8kZwahnGsaP5a2Rc216RhpEfG9EImwSrTg9RFyjr0vTXpm
+         yeaV+sTC9PepCGnhF33hEyn4IJtbtz+4sF3Ed6zr2AjSxrFifeYxs3QHETxHBorIQggW
+         znL7u/4Y/YP39yKvMHZ4YV1RMcXhOZ3UpvwZN16UXd34dwWD+l3vHFmQ91sZbU13BtZn
+         bBjpiFvX/W8jQ8B0T/6Bm6MzuWWpwZ0u9kvUxNglJIZ+saTL4kwubNJp4GSXTj0FBD+5
+         T8XQ==
+X-Gm-Message-State: ANoB5plwzaFJmtd/kHAuTCTH9s9M+Tvbe5H14lZ7SZ00EXAf470u/1/T
+	RpiS8B+rmym0NpQHYjwpILoJZQ==
+X-Google-Smtp-Source: AA0mqf6/Bt34QrBTtjaJsqW3ObFxjL3yJ6DNzjLGqoyy//U7Au7orP2xnMuERcjQHgLWMODoIqSxVw==
+X-Received: by 2002:a05:6a00:d6c:b0:577:a0d:b078 with SMTP id n44-20020a056a000d6c00b005770a0db078mr43609000pfv.20.1671523356632;
+        Tue, 20 Dec 2022 00:02:36 -0800 (PST)
+Received: from localhost.localdomain (211-20-230-25.hinet-ip.hinet.net. [211.20.230.25])
+        by smtp.gmail.com with ESMTPSA id o198-20020a62cdcf000000b00574e84ed847sm7980161pfg.24.2022.12.20.00.02.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 22:00:25 -0800 (PST)
-From: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
-To: pmalani@chromium.org,
-	bleung@chromium.org,
-	groeck@chromium.org,
-	knoxchiou@chromium.org,
-	weishunc@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
-Subject: [PATCH] platform/chrome: cros_ec_typec: deferred probe when typec count mismatch
-Date: Tue, 20 Dec 2022 13:59:54 +0800
-Message-Id: <20221220055954.11197-1-zhouruihai@huaqin.corp-partner.google.com>
+        Tue, 20 Dec 2022 00:02:36 -0800 (PST)
+From: Joe Wu <joewu@msi.corp-partner.google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	"Dustin L . Howett" <dustin@howett.net>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	linux-input@vger.kernel.org,
+	Prashant Malani <pmalani@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Furquan Shaikh <furquan@chromium.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Derek Huang <derekhuang@google.com>,
+	Joe Wu <joewu@msi.corp-partner.google.com>,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>
+Subject: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Date: Tue, 20 Dec 2022 16:02:26 +0800
+Message-Id: <20221220080226.17904-1-joewu@msi.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -55,31 +67,57 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 
-The kernel bootup is much faster with normal mode. In this case,
-there is a chance that the cros-ec-typec module get the actual typec
-port counts but not accurate from ec before ec is able to setup it.
-It will block the HDMI mux function.
-Hence, return -EPROBE_DEFER to put the device onto the deferred probe
-list when the typec count mismatch between ec and node.
+Add 3 extra buttons: 'brightness up', 'brightness down'
+and 'screen lock' to support monitor manipulating function.
 
-Signed-off-by: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+Signed-off-by: Joe Wu <joewu@msi.corp-partner.google.com>
+
 ---
- drivers/platform/chrome/cros_ec_typec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 59de4ce01fab..d821501e875c 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -382,7 +382,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ drivers/input/keyboard/cros_ec_keyb.c          | 15 +++++++++++++++
+ include/linux/platform_data/cros_ec_commands.h |  3 +++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index 6f435125ec03..e7ecfca838df 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -100,6 +100,21 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
+ 		.code		= KEY_VOLUMEDOWN,
+ 		.bit		= EC_MKBP_VOL_DOWN,
+ 	},
++	{
++		.ev_type        = EV_KEY,
++		.code           = KEY_BRIGHTNESSUP,
++		.bit            = EC_MKBP_BRI_UP,
++	},
++	{
++		.ev_type        = EV_KEY,
++		.code           = KEY_BRIGHTNESSDOWN,
++		.bit            = EC_MKBP_BRI_DOWN,
++	},
++	{
++		.ev_type        = EV_KEY,
++		.code           = KEY_SCREENLOCK,
++		.bit            = EC_MKBP_SCREEN_LOCK,
++	},
  
- 	if (nports > typec->num_ports) {
- 		dev_err(dev, "More ports listed than can be supported.\n");
--		return -EINVAL;
-+		return -EPROBE_DEFER;
- 	}
+ 	/* Switches */
+ 	{
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index 5744a2d746aa..502f0397a402 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -3471,6 +3471,9 @@ struct ec_response_get_next_event_v1 {
+ #define EC_MKBP_VOL_UP		1
+ #define EC_MKBP_VOL_DOWN	2
+ #define EC_MKBP_RECOVERY	3
++#define EC_MKBP_BRI_UP          4
++#define EC_MKBP_BRI_DOWN        5
++#define EC_MKBP_SCREEN_LOCK     6
  
- 	/* DT uses "reg" to specify port number. */
+ /* Switches */
+ #define EC_MKBP_LID_OPEN	0
 -- 
 2.17.1
 

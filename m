@@ -1,123 +1,97 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08A184C
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 08:02:37 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id e190so3383757pgc.9
-        for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 00:02:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8B246B3
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 15:09:54 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id m18so29899381eji.5
+        for <chrome-platform@lists.linux.dev>; Tue, 20 Dec 2022 07:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=msi-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h8keCepZ3dfLi7fx2igh9uQOxl5mkPHS3M0dmWSrolk=;
-        b=IZpbA04Y8FkJYIOTO3btzMCktgX15dHzpAYDIPQVUsHlEoNpskIkkn9sBll2LGFYN1
-         GBzi/zoELV4ZK7kSf462ZlxZrn10xv/Yf23HZ7ULika0ig2qCXIQka2vO6+PzqeXOYJi
-         bPFUaNPZmHrpk+sfCR96v+upBWQ/W6TQACTsQkKOVnOW0AJ3LQfg/ul14K7q5rmD9+il
-         Ei52zQmUKSbIUTa4wGWMskWSHrca/JRtdhBUgm5Uqs6rl5pssVRdxigy/Lhs/2yBu4US
-         7RD1bgbYXeJBFSkg4nGDEiqZE0GE2HDK77inju8h6dNs75F1wwd/Z0EEYeylAjX6UCgV
-         k6jw==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1MJr5lFV5nhRPoqsOj5t1c5SzwCs5Lg+OTuhWULRuVw=;
+        b=MykL2hB5O5a1AHoo0FMfUfeBRgpfuNYmh6vyM3MsgKyDS+HgvfrF8B9UGkghR9VNOm
+         RJvYcxPucN6awqURznsvrtQOSTiygajFgWBsUhk4r51xAOGxDv33l1gJ5xuw9lissQL/
+         5vbqWT/Xh/qMZuwge27Zw6qwss4fSTcQADAi69lOivRVXZahHsxyxT01934JFSDyTmH7
+         vNCk39LPxkzmn7Ehah1O4gW9CeUWdl6EI5/D4WX6YQPTMQUnLQHWmbkLleDjL/erB2MW
+         9hX/GPosIN5eP705ZX10i9WjYlLKruiKXDKDniMS+EYR6kelsWcYDdHal77iIh06AZg7
+         +NzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h8keCepZ3dfLi7fx2igh9uQOxl5mkPHS3M0dmWSrolk=;
-        b=NJfCC5XJDpgep9s2pIgADI2F4lbhPKu0Y0s2Tcdo1meTw98mSyxFstb2wNfSS2WWWK
-         pqxJOAJmkyfx3kjoHDwT2k8kZwahnGsaP5a2Rc216RhpEfG9EImwSrTg9RFyjr0vTXpm
-         yeaV+sTC9PepCGnhF33hEyn4IJtbtz+4sF3Ed6zr2AjSxrFifeYxs3QHETxHBorIQggW
-         znL7u/4Y/YP39yKvMHZ4YV1RMcXhOZ3UpvwZN16UXd34dwWD+l3vHFmQ91sZbU13BtZn
-         bBjpiFvX/W8jQ8B0T/6Bm6MzuWWpwZ0u9kvUxNglJIZ+saTL4kwubNJp4GSXTj0FBD+5
-         T8XQ==
-X-Gm-Message-State: ANoB5plwzaFJmtd/kHAuTCTH9s9M+Tvbe5H14lZ7SZ00EXAf470u/1/T
-	RpiS8B+rmym0NpQHYjwpILoJZQ==
-X-Google-Smtp-Source: AA0mqf6/Bt34QrBTtjaJsqW3ObFxjL3yJ6DNzjLGqoyy//U7Au7orP2xnMuERcjQHgLWMODoIqSxVw==
-X-Received: by 2002:a05:6a00:d6c:b0:577:a0d:b078 with SMTP id n44-20020a056a000d6c00b005770a0db078mr43609000pfv.20.1671523356632;
-        Tue, 20 Dec 2022 00:02:36 -0800 (PST)
-Received: from localhost.localdomain (211-20-230-25.hinet-ip.hinet.net. [211.20.230.25])
-        by smtp.gmail.com with ESMTPSA id o198-20020a62cdcf000000b00574e84ed847sm7980161pfg.24.2022.12.20.00.02.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 00:02:36 -0800 (PST)
-From: Joe Wu <joewu@msi.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	"Dustin L . Howett" <dustin@howett.net>,
-	Benson Leung <bleung@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	linux-input@vger.kernel.org,
-	Prashant Malani <pmalani@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Furquan Shaikh <furquan@chromium.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Derek Huang <derekhuang@google.com>,
-	Joe Wu <joewu@msi.corp-partner.google.com>,
-	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Tinghan Shen <tinghan.shen@mediatek.com>
-Subject: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Date: Tue, 20 Dec 2022 16:02:26 +0800
-Message-Id: <20221220080226.17904-1-joewu@msi.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1MJr5lFV5nhRPoqsOj5t1c5SzwCs5Lg+OTuhWULRuVw=;
+        b=2eCdO8KUbD8qwbuPevIqSdKI14a6U6Q4gT9v5rFW7Y9OKLLtryKFQg0XBGmGOXKy2m
+         jUEUyq6WSggLs0izCiUQ0mO6X4r3KfPlDLk9JajCyiV5JoJY42zXDd7epj3s1vuPIbGY
+         5HWLRDT5OuCPDweI+8dugEMiGi/QKa6egIoAqIiXsqjW+VCA/3t4RByhNq4aH/0o0FfW
+         mfetNr9zP83qTO8gjFu5Nao043ucwPN8cY9C/90gnoklPCToQd3sPO++nhe+FzntXQei
+         Tcmf0ArtC2ozV3f1ikHweKrhyiUgopzrES1MwvCnb0JMvn4dIQcgh/46cO1pYfDy+gdW
+         ZowQ==
+X-Gm-Message-State: ANoB5plRH8qthJq6yHmQ66xVM5bqWAHhNrGppclJWeGNHtLh4AYEcRc3
+	CHC9a8H5JP1z4/Q4neVncIud4wSneRGEqQ9FfG/tiA==
+X-Google-Smtp-Source: AA0mqf7scMAiQ6lGJpfP2Y5U6FnUI3WNVJtfOpsp8aUPHgMcLgIDBBAEzETiZizCBQm672z5sVlGsDXzmPJTl/ZXkns=
+X-Received: by 2002:a17:906:4d88:b0:7c0:bbac:1921 with SMTP id
+ s8-20020a1709064d8800b007c0bbac1921mr25738321eju.530.1671548992860; Tue, 20
+ Dec 2022 07:09:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20221220055954.11197-1-zhouruihai@huaqin.corp-partner.google.com>
+In-Reply-To: <20221220055954.11197-1-zhouruihai@huaqin.corp-partner.google.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 20 Dec 2022 07:09:40 -0800
+Message-ID: <CABXOdTeJuFn-23OiTshJTQWMBvkiqOXUh6S8z354eEPzj+q4Ew@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: deferred probe when typec
+ count mismatch
+To: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, 
+	knoxchiou@chromium.org, weishunc@chromium.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Add 3 extra buttons: 'brightness up', 'brightness down'
-and 'screen lock' to support monitor manipulating function.
+On Mon, Dec 19, 2022 at 10:00 PM Ruihai Zhou
+<zhouruihai@huaqin.corp-partner.google.com> wrote:
+>
+> The kernel bootup is much faster with normal mode. In this case,
+> there is a chance that the cros-ec-typec module get the actual typec
+> port counts but not accurate from ec before ec is able to setup it.
+> It will block the HDMI mux function.
+> Hence, return -EPROBE_DEFER to put the device onto the deferred probe
+> list when the typec count mismatch between ec and node.
+>
+> Signed-off-by: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index 59de4ce01fab..d821501e875c 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -382,7 +382,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+>
+>         if (nports > typec->num_ports) {
+>                 dev_err(dev, "More ports listed than can be supported.\n");
+> -               return -EINVAL;
+> +               return -EPROBE_DEFER;
 
-Signed-off-by: Joe Wu <joewu@msi.corp-partner.google.com>
+I think that is problematic. It might as well be that nports >
+EC_USB_PD_MAX_PORTS.
 
----
+Is this really seen in the field ? The EC should never report a wrong
+(random) number of ports. If it is not ready, there should be _some_
+indication that it isn't ready. Does it really report a more or less
+random number in this case ?
 
- drivers/input/keyboard/cros_ec_keyb.c          | 15 +++++++++++++++
- include/linux/platform_data/cros_ec_commands.h |  3 +++
- 2 files changed, 18 insertions(+)
+Guenter
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 6f435125ec03..e7ecfca838df 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -100,6 +100,21 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
- 		.code		= KEY_VOLUMEDOWN,
- 		.bit		= EC_MKBP_VOL_DOWN,
- 	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSUP,
-+		.bit            = EC_MKBP_BRI_UP,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSDOWN,
-+		.bit            = EC_MKBP_BRI_DOWN,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_SCREENLOCK,
-+		.bit            = EC_MKBP_SCREEN_LOCK,
-+	},
- 
- 	/* Switches */
- 	{
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 5744a2d746aa..502f0397a402 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -3471,6 +3471,9 @@ struct ec_response_get_next_event_v1 {
- #define EC_MKBP_VOL_UP		1
- #define EC_MKBP_VOL_DOWN	2
- #define EC_MKBP_RECOVERY	3
-+#define EC_MKBP_BRI_UP          4
-+#define EC_MKBP_BRI_DOWN        5
-+#define EC_MKBP_SCREEN_LOCK     6
- 
- /* Switches */
- #define EC_MKBP_LID_OPEN	0
--- 
-2.17.1
-
+>         }
+>
+>         /* DT uses "reg" to specify port number. */
+> --
+> 2.17.1
+>

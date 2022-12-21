@@ -1,36 +1,39 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4292F22
-	for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 19:23:26 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id g4so17629857ybg.7
-        for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 11:23:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE056320C
+	for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 20:07:18 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id t15so5670149ybq.4
+        for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 12:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/sXvFrmbYs7P7b0KiJPCWXouTslsk2Z93msc3M9Inc=;
-        b=U0iRcNnOyVoyaix10c4Z9dXZ6zTE/yxFFRgQDw/I5CHvFZq8ZvjPbRznPLM+KTWoOQ
-         rBsTvGszZA6257XmcY9ZiVocUVlc36TBRMNxrwWCu4fr2oH3GCVEETQWVVmVwD7ZiPhZ
-         0LcdZ7xVV/7p3Twg2Ju0zrY+erD+tyF1NzPx0=
+        bh=B6cmF0YWEZPdYr9BoHTzVr8ewY/1EXW4D3kXTdBrkHI=;
+        b=LQ3L6xtXhgmhQRI6VR9mHmyAudFNzogDjTP/XoUZxRFzBls+pHI7xYz8ZLGakfocyJ
+         cZaQOG2GL7e75UUNDBQn6SzgEnNJeBqb45WuVvw2AchcY0ZkRqAA55D34A9qHwyTlKX0
+         ewXpqUv0gl+eac8yVhdvY9mdluyTDFiwYanah8FuHvzHi1ga+BBJqOWr6vdlog/G8+ju
+         wO/AFRYddVNEtWHEA2l6Ok/parI+F9WOZG3IizczqYEA8iPr/T/kIeGmg2djBmNJjH1y
+         S0NKxBMfjSqzwgMM4xg59I4NwJB2U2HKvepf6LrRq9+DzIxwdIivOoObjREuZVkK8Zia
+         KDjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K/sXvFrmbYs7P7b0KiJPCWXouTslsk2Z93msc3M9Inc=;
-        b=qVJTsiG6HIO5IXtGkLmhmsCCoySMpSLyonKgOzrMJTXDnNy3L7KYNN04BDmbJKSSCC
-         qXqyblBEJzPhM+9maF209/PNXGK2+d82M4njGYM651vNdSxF0f5U7cuc3YsbQsdn7vdX
-         rxqJ+2jljhf4kAy1617FOgJ05UEQMfYRkY0+F4kZZqEvxHNoDYolWPAJajMCrh5EOl+9
-         kHl2HqbexC8VT5gTigAephMluzLexK6KzXmUNTfXMgEKHgVHf3bipv9NOLE8V1YoxHWC
-         ni0q5MMAt6NtOcBCQLzhilGAgjPs1v/YbydTULeDlWXCbFaUNl0LDH8mmzjdpz9nomQm
-         OIQw==
-X-Gm-Message-State: AFqh2kpyZqxzYjLAdSot8AoAOcoMrqFPZm57s5kBzKq/TlFU6lVCMslt
-	jtFcL142eP3M9qm3CbVtbWLNlcJ2nATbP838M/cVVelwo9X7uIRu
-X-Google-Smtp-Source: AMrXdXuZORu9jTsPNLG+uGDrELKBm2RqdfngkRIY9XF0dFWhg3mxyRIAJwMaCdMkNmwhphndMXLlejioJgUHvu3ee1c=
-X-Received: by 2002:a25:9a08:0:b0:740:b601:45e6 with SMTP id
- x8-20020a259a08000000b00740b60145e6mr261435ybn.121.1671650605658; Wed, 21 Dec
- 2022 11:23:25 -0800 (PST)
+        bh=B6cmF0YWEZPdYr9BoHTzVr8ewY/1EXW4D3kXTdBrkHI=;
+        b=e4BxwRdP+I/bpbVjAOKK2QlyGTyZsWuwKxOaFngpnhhns9SFH0QqAKVU3LZ0haycpC
+         ipqUVfUP1zM9hCXv6GEBs9YUKsHCbBiuFrVfoN0fbFHsybUlk1IYp/HTs+IuAFQF91de
+         AgQmqbxL+VTP26/CwjZ5vP/GbtAbVHVm9cKONOtOaoen6FiFQi/FUTZfnJlu4I+yw2DP
+         7QV0KLtt1x8NszFirKqg90Cjo5ltl1p3oOOVxieXfM3QgRargAofPmA+4BQRpAg08FqJ
+         zFAbAmvpLoeIbCQUTgEevjKzsN9ce9W/r7tivmlCMliQWS2w9FKGFFoKZz1MsnMIhDYl
+         Zvtg==
+X-Gm-Message-State: AFqh2korBmFxZmWTcdWDNCprCRxUhfjAJKcx2V24RaLGqIOBErmS3wrI
+	DBzNSLwkf+wLsuQPSOUP0kbO20Y4+ANSP1hdhYJZIA==
+X-Google-Smtp-Source: AMrXdXt89bk240ZtMbpOsVTlv/VVD4cTi/mOBjPwkEgJu8AI3lhWZJ8FKcHI0Lh9dnkRFNd6SoXgztWJlyAoeecnYdQ=
+X-Received: by 2002:a05:6902:1817:b0:723:be61:1a2c with SMTP id
+ cf23-20020a056902181700b00723be611a2cmr355752ybb.130.1671653237679; Wed, 21
+ Dec 2022 12:07:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -39,21 +42,15 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20221221185540.2265771-1-robbarnes@google.com>
 In-Reply-To: <20221221185540.2265771-1-robbarnes@google.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 21 Dec 2022 11:23:14 -0800
-Message-ID: <CACeCKafZu=46NE--r9W-wtJWAhj8=s46yCBO4N4u5nt4COqYAQ@mail.gmail.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Wed, 21 Dec 2022 12:07:06 -0800
+Message-ID: <CABXOdTcHppsLTDTXBd9ikL+Hk8W4oW_NkWMhOJgmf9aDSW+FKA@mail.gmail.com>
 Subject: Re: [PATCH] drivers/cros_ec: Handle CrOS EC panics
 To: Rob Barnes <robbarnes@google.com>
 Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
 	linux-kernel@vger.kernel.org, dtor@chromium.org, 
 	Benson Leung <bleung@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-
-Hi Rob,
-
-I'd suggest using the commit title tag "platform/chrome: cros_ec: ..."
-for commits which are "ChromeOS EC" wide. That's in line with
-other recent commits in this directory.
 
 On Wed, Dec 21, 2022 at 10:56 AM Rob Barnes <robbarnes@google.com> wrote:
 >
@@ -138,20 +135,38 @@ On Wed, Dec 21, 2022 at 10:56 AM Rob Barnes <robbarnes@google.com> wrote:
 > +       if (value == ACPI_NOTIFY_CROS_EC_PANIC) {
 > +               dev_err(ec_dev->dev,
 > +                       "CrOS EC Panic Reported. Shutdown is imminent!");
+
+dev_emerg() would seem to be more appropriate, given that we'll be
+crashing a second later.
+
 > +               blocking_notifier_call_chain(&ec_dev->panic_notifier, 0,
 > +                                            ec_dev);
 > +               /* Begin orderly shutdown. Force shutdown after 1 second. */
 > +               hw_protection_shutdown("CrOS EC Panic", 1000);
 
-I feel like this patch is doing 2 things: pulling the logs, and then
-starting a shutdown.
-This should be split into 2 patches.
+That seems to be the wrong API. From its description:
+
+ * Initiate an emergency system shutdown in order to protect hardware from
+ * further damage. Usage examples include a thermal protection or a voltage or
+ * current regulator failures.
+
+This is an EC crash that apparently can not be handled gracefully.
+That has nothing to do with hardware protection. Why not just call
+panic() ?
 
 > +       }
+
+It troubles me that this comes last. That means the entire
+mkbp_event_supported handling executes first. What troubles me even
+more is that 'value' is, with the exception of
+ACPI_NOTIFY_DEVICE_WAKE, not checked at all. Presumably the EC sends
+some well defined value if it has an event to report. I don't think it
+is a good idea to depend on cros_ec_get_next_event() returning
+something useful after the EC crashed.
+
+How is this handled today ? Does the EC just reset the AP ?
+
 >  }
-
-Line limits are now 100 chars[1], so most of these lines can fit on 1 line.
-
 >
 >  static int cros_ec_lpc_probe(struct platform_device *pdev)
 > diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
@@ -168,11 +183,6 @@ Line limits are now 100 chars[1], so most of these lines can fit on 1 line.
 > + * device specific ACPI notify range.
 > + */
 > +#define ACPI_NOTIFY_CROS_EC_PANIC      0xB0
-
-Can you provide a link (either in the commit, or here in the comment)
-to the coreboot/BIOS code which uses this value? I feel this should
-be documented in some form that correlates the caller and the callee.
-
 > +
 >  /*
 >   * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
@@ -183,14 +193,9 @@ be documented in some form that correlates the caller and the callee.
 >         struct platform_device *pd;
 > +
 > +       struct blocking_notifier_head panic_notifier;
-
-Any reason we cannot use the existing event_notifier (with value argument)?
-It's a system panic, so I doubt that computational overhead for other
-notifier block
-listeners is a concern.
-
-BR,
-
--Prashant
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144
+>  };
+>
+>  /**
+> --
+> 2.39.0.314.g84b9a713c41-goog
+>

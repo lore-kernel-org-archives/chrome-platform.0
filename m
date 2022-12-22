@@ -1,126 +1,66 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E96E15A9
-	for <chrome-platform@lists.linux.dev>; Thu, 22 Dec 2022 02:15:51 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so506534pjd.0
-        for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 18:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=msi-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5pMtoNjAwIQUvGwTR7JCUzDt1hzSa3SUyDledqQ1II4=;
-        b=Q6MhEJDaep967D5w2qUF36srj3NDACk7BOk56l1MYh1GvdlnNF8ZEglDBfiEzHfcD+
-         POvoaIeId8WV/9ge5PV43ewLIj0fHWx3ad3skDC0iKsfKNExhusKpkVxg1D517njaxGC
-         QZenOz+ynDr1WivFV+t+y+/qvvOMQwC/7Mt83tTD/0sgscL/gvI4YsFwRnsqGSkPavPX
-         jeszAW+J2ZJT0xdVMCTYS4my5C424Ro5bKj/hC+ybDGcjr4TMNTQeFz1GK1jWZsxL2zn
-         tGAyZ/Flili5R2hR6n29S8f3+YbZ5GQvGMDpElIxLGI2nNKnufAIyAg2XyzNKxqVs1al
-         n/qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5pMtoNjAwIQUvGwTR7JCUzDt1hzSa3SUyDledqQ1II4=;
-        b=TM2A7K2HTiOi5OPQRVQLJh3JkCsWdNiKWeTkQyu+itv8esHfF7TUvLNNrrMgPtxlQj
-         V2O/nOiQqdx9c0MLNM1uJQv/IIaCgFsyAOZFc7EYccUqBmLQW56bKEsj0hwRryXEb6GZ
-         JwntGbpFO1PpbhWcUQCAa8SoAakCs0Rk6WhOHOSrWQ38bffO10JhsqeilNZ3voM+M2s+
-         ah+DROAj4A++8m4xLrEYPKUfzUUhRckuZUpdZ2sApHS4V3Ex3Wc4hllJq7UzSa6fssqa
-         QghtbgwnU8rHneGp94jrriCCagwz/5zfmy4VvaB/WJnuSwL4E++YmeQf5i8VIHzoPro+
-         +Iew==
-X-Gm-Message-State: AFqh2kqWuyuwLOdvcngnWLvTsSB6E2DqYETQ6/foX6Mv0h7EOEmhw3WO
-	mjOxmqRPq5yHtYcRtKS5rJm/rw==
-X-Google-Smtp-Source: AMrXdXsJGC5V725RQYKSvnHp/eZhEhgA5pWxuQtOYcAI4IF4DfDmZZZWuVchRgxyd5FYIcWCw2DFTA==
-X-Received: by 2002:a17:902:7d89:b0:190:fe60:48c4 with SMTP id a9-20020a1709027d8900b00190fe6048c4mr19406377plm.21.1671675350984;
-        Wed, 21 Dec 2022 18:15:50 -0800 (PST)
-Received: from localhost.localdomain (211-20-230-25.hinet-ip.hinet.net. [211.20.230.25])
-        by smtp.gmail.com with ESMTPSA id q18-20020a17090311d200b00188f07c9eedsm12127824plh.176.2022.12.21.18.15.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 18:15:50 -0800 (PST)
-From: Joe Wu <joewu@msi.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Furquan Shaikh <furquan@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Derek Huang <derekhuang@google.com>,
-	"Dustin L . Howett" <dustin@howett.net>,
-	Joe Wu <joewu@msi.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-input@vger.kernel.org,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A611FB1
+	for <chrome-platform@lists.linux.dev>; Thu, 22 Dec 2022 05:51:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558A9C433EF;
+	Thu, 22 Dec 2022 05:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1671688273;
+	bh=gztgrP+lGDWx+pboL1x3QVUonCOW/rqRT649jwqAW8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wTBUgATBlzR4xjtGWjCda5bOqbz70n36sGPs0Sv4hnetKghJHkoG2POwXn8COGtLy
+	 yT6KHhuze8Ojk9lHtkzXCJoCncwrdvWSrZ0HvrIkdBeQbLvuWoywk/B8Soke8PL8QB
+	 lqCeYTRFd/2pzI4AW50W6X/5C+AEBfNfqmJc3I6o=
+Date: Thu, 22 Dec 2022 06:51:10 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
+Cc: Joe Wu <joewu@msi.corp-partner.google.com>,
+	LKML <linux-kernel@vger.kernel.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev,
+	"Dustin L . Howett" <dustin@howett.net>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
 	Stephen Boyd <swboyd@chromium.org>,
-	Joe Wu <joewu@msi.corp-partner.google.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Furquan Shaikh <furquan@chromium.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Derek Huang <derekhuang@google.com>,
+	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
+	Guenter Roeck <groeck@chromium.org>,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
 	Tinghan Shen <tinghan.shen@mediatek.com>
-Subject: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Date: Thu, 22 Dec 2022 10:15:42 +0800
-Message-Id: <20221222021542.11706-1-joewu@msi.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
+Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Message-ID: <Y6PwTu2xWjjprBCR@kroah.com>
+References: <20221220080226.17904-1-joewu@msi.corp-partner.google.com>
+ <Y6K1sjCTM2Z6d4iU@kroah.com>
+ <6fa20adbcc4b43f4947a52d50083eedc@msi.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6fa20adbcc4b43f4947a52d50083eedc@msi.com>
 
-From: Joe Wu <joewu@msi.com>
+On Thu, Dec 22, 2022 at 01:50:15AM +0000, joewu(吳仲振) wrote:
+> *****CONFIDENTIAL INFORMATION*****
+> 
+> This email is intended only for the use of the person or entity to whom it is
+> addressed and contains information that may be subject to and/or may be
+> restricted from disclosure by contract or applicable law. If you are not the 
+> intended recipient of this email, be advised that any disclosure, copy, 
+> distribution or use of the contents of this message is strictly prohibited. 
+> If you are not the intended recipient of this email, please notify the sender 
+> that you have received this in error by replying to this message. Then, 
+> please delete it from your system. Our Privacy Policy is available here 
+> https://www.msi.com/page/privacy-policy. Thank you.
 
-Add 3 extra buttons: 'brightness up', 'brightness down'
-and 'screen lock' to support monitor manipulating function.
-
-Signed-off-by: Joe Wu <joewu@msi.com>
----
-
- drivers/input/keyboard/cros_ec_keyb.c          | 15 +++++++++++++++
- include/linux/platform_data/cros_ec_commands.h |  3 +++
- 2 files changed, 18 insertions(+)
-
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 6f435125ec03..e7ecfca838df 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -100,6 +100,21 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
- 		.code		= KEY_VOLUMEDOWN,
- 		.bit		= EC_MKBP_VOL_DOWN,
- 	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSUP,
-+		.bit            = EC_MKBP_BRI_UP,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSDOWN,
-+		.bit            = EC_MKBP_BRI_DOWN,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_SCREENLOCK,
-+		.bit            = EC_MKBP_SCREEN_LOCK,
-+	},
- 
- 	/* Switches */
- 	{
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 5744a2d746aa..502f0397a402 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -3471,6 +3471,9 @@ struct ec_response_get_next_event_v1 {
- #define EC_MKBP_VOL_UP		1
- #define EC_MKBP_VOL_DOWN	2
- #define EC_MKBP_RECOVERY	3
-+#define EC_MKBP_BRI_UP          4
-+#define EC_MKBP_BRI_DOWN        5
-+#define EC_MKBP_SCREEN_LOCK     6
- 
- /* Switches */
- #define EC_MKBP_LID_OPEN	0
--- 
-2.17.1
-
+Now deleted.

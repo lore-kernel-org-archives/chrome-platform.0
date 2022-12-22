@@ -1,91 +1,110 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail5.msi.com (mail5.msi.com [114.30.40.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504DB15A9
-	for <chrome-platform@lists.linux.dev>; Thu, 22 Dec 2022 00:38:41 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-40b40ff39f1so7746427b3.10
-        for <chrome-platform@lists.linux.dev>; Wed, 21 Dec 2022 16:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzZhw6ffUxADtGAtnmUBgN031mQuJfIajgUr9oqVk30=;
-        b=dpRdWg62PLIUZnk08JFnInnXwlKhrq+AJ+tLVEj9OK/VkhR0WZ7LSpDc7zqXfXtxrV
-         EzPbW5sJeh6WjQFbHvXeoRPsp1ZYsD0udH2dQEXEOc3nl/3DTQx0YY6TLDKMnYnEQ8mF
-         g61IP8JQt7AujwnTNvKoJj3/6C9WWpB4lWumw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yzZhw6ffUxADtGAtnmUBgN031mQuJfIajgUr9oqVk30=;
-        b=JULErpLxK0fmQs5KYJ9R5yl5Ci64AEp6ljdnZgvmFg+DeGKgZnuZVYuQ4Sntw32YES
-         zl+/dEwRI2hzhDYgxJchSnsKQeiLlPh94Wr3teWJiGKsRE/T7iDu6FFtFdNkukf85DcU
-         O9H5sOq7GCgMGQ46qaNAEeXwmDUVDPtKaV6cpN5cQgR3n8RFZhzFYm/q3/nvD37BnGTL
-         I9oZayHq+ADPDeXGsguJBpS00yYjJu2HJPJHyXyzm1p77qvUsOyBhLVEdPzasxwW6MST
-         PXN1lMjKaBH3LysQ/m48qlBuPzYG9PIKPFQDVPn1G8/N5ql44KjiN9liNczToGXmqpB8
-         Ml7g==
-X-Gm-Message-State: AFqh2krBb4o3g8Xk8kDKT0iQ9alhYIuNW1FqXstVDeDEfle2ZX/QJdBU
-	kTsyhr+vzwAvOdB7KRa3PI9525XECQYuioyrwII7yg==
-X-Google-Smtp-Source: AMrXdXuJubKyhMZ6g8xPpr2vkvCRX54HmxW9BmdrsrKktXZz4aqmlb/i0oHqB0rL6LFiIbe8BQq/LHF5A5WBdGKMLwk=
-X-Received: by 2002:a05:690c:c98:b0:3c8:cd0e:87d6 with SMTP id
- cm24-20020a05690c0c9800b003c8cd0e87d6mr400912ywb.272.1671669520177; Wed, 21
- Dec 2022 16:38:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9807115A9
+	for <chrome-platform@lists.linux.dev>; Thu, 22 Dec 2022 01:50:24 +0000 (UTC)
+Received: from mail9.msi.com (mail9.msi.com [220.130.147.43])
+	by mail5.msi.com (Postfix) with ESMTPS id DED59540762;
+	Thu, 22 Dec 2022 09:50:16 +0800 (CST)
+Received: from mail9.msi.com (localhost [127.0.0.1])
+	by postfix.imss91 (Postfix) with ESMTP id D30F9F80854;
+	Thu, 22 Dec 2022 09:50:16 +0800 (CST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 postfix.imss91 D30F9F80854
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msi.com; s=20220711;
+	t=1671673816; bh=dNu7MPFQc+IPFsKDT6Cnd1XmRyuaB1GGrw1EaqA9fm0=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=YzJuzLxBtxIIgan5GZFWq9lML+4x6Ekq4SLgQqVRDF+yOdKZ+EvR4U59W6vri1dlu
+	 Rbob5Ry5x7uZdZiHEZvC3hLfqo+0tTZuqMuDcAoI/+CNhv3wNQ/H2le9x9iz/Nx9xo
+	 6HAngbndfYY04zXq4Q5EHYnwKbf2rPWYXKFM09DGWDrSbB7slj1M36PyfmkPZAFdff
+	 7MAcNLtBTw1+ZEGOMgViaND0SdBamI22vVnKqsTbK5uvpjvmy5vHCGZmDCCbNBbS61
+	 0t4UG7QqUbQXqXIn/8c/XyG+K2VAbUVbPNcmHfqY8nBUuh4OBM3FTvmdDp8doL4q9L
+	 aJGbVfnTWR+EQ==
+Received: from EX2016A.msi.com.tw (unknown [172.16.0.54])
+	by mail9.msi.com (Postfix) with ESMTPS id C3D20F80852;
+	Thu, 22 Dec 2022 09:50:16 +0800 (CST)
+Received: from EX2016A.msi.com.tw (172.16.0.54) by EX2016A.msi.com.tw
+ (172.16.0.54) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.16; Thu, 22 Dec
+ 2022 09:50:15 +0800
+Received: from EX2016A.msi.com.tw ([fe80::111c:1b9e:5379:1011]) by
+ EX2016A.msi.com.tw ([fe80::111c:1b9e:5379:1011%10]) with mapi id
+ 15.01.2507.016; Thu, 22 Dec 2022 09:50:15 +0800
+From: =?big5?B?am9ld3Uop2Sl8q62KQ==?= <joewu@msi.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Wu
+	<joewu@msi.corp-partner.google.com>
+CC: LKML <linux-kernel@vger.kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	"Dustin L . Howett" <dustin@howett.net>, Benson Leung <bleung@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Xiang wangx
+	<wangxiang@cdjrlc.com>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, Prashant Malani <pmalani@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>, Douglas Anderson <dianders@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>, Furquan Shaikh <furquan@chromium.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>, Derek Huang
+	<derekhuang@google.com>, "chrome-platform@lists.linux.dev"
+	<chrome-platform@lists.linux.dev>, Guenter Roeck <groeck@chromium.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Tinghan Shen
+	<tinghan.shen@mediatek.com>
+Subject: RE: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Thread-Topic: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Thread-Index: AQHZFEmW7so/oHWwyUambKy505rGua53bQ4AgAG5gJA=
+Date: Thu, 22 Dec 2022 01:50:15 +0000
+Message-ID: <6fa20adbcc4b43f4947a52d50083eedc@msi.com>
+References: <20221220080226.17904-1-joewu@msi.corp-partner.google.com>
+ <Y6K1sjCTM2Z6d4iU@kroah.com>
+In-Reply-To: <Y6K1sjCTM2Z6d4iU@kroah.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.16.252.125]
+Content-Type: text/plain;
+	charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221221185540.2265771-1-robbarnes@google.com>
- <CACeCKafZu=46NE--r9W-wtJWAhj8=s46yCBO4N4u5nt4COqYAQ@mail.gmail.com> <CA+Dqm30XF=wDVcdUabbHySp-fwf+zFNqXpdYDW3bDTOwRbkiZw@mail.gmail.com>
-In-Reply-To: <CA+Dqm30XF=wDVcdUabbHySp-fwf+zFNqXpdYDW3bDTOwRbkiZw@mail.gmail.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 21 Dec 2022 16:38:28 -0800
-Message-ID: <CACeCKafGg5=1MQQdCtXDm-3LE2VsixHPsUDngRwQXUvAwQ=u=Q@mail.gmail.com>
-Subject: Re: [PATCH] drivers/cros_ec: Handle CrOS EC panics
-To: Rob Barnes <robbarnes@google.com>
-Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dtor@chromium.org, 
-	Benson Leung <bleung@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-RCPT: <gregkh@linuxfoundation.org>, <joewu@msi.corp-partner.google.com>, <linux-kernel@vger.kernel.org>, <tzungbi@kernel.org>, <dustin@howett.net>, <bleung@chromium.org>, <dmitry.torokhov@gmail.com>, <wangxiang@cdjrlc.com>, <linux-input@vger.kernel.org>, <pmalani@chromium.org>, <swboyd@chromium.org>, <dianders@chromium.org>, <dnojiri@chromium.org>, <furquan@chromium.org>, <gustavoars@kernel.org>, <derekhuang@google.com>, <chrome-platform@lists.linux.dev>, <groeck@chromium.org>, <Jonathan.Cameron@huawei.com>, <tinghan.shen@mediatek.com>
+X-TM-AS-GCONF: 00
+X-RCPT: <wangxiang@cdjrlc.com>, <bleung@chromium.org>, <dianders@chromium.org>, <dnojiri@chromium.org>, <furquan@chromium.org>, <groeck@chromium.org>, <pmalani@chromium.org>, <swboyd@chromium.org>, <dmitry.torokhov@gmail.com>, <derekhuang@google.com>, <dustin@howett.net>, <Jonathan.Cameron@huawei.com>, <gustavoars@kernel.org>, <tzungbi@kernel.org>, <gregkh@linuxfoundation.org>, <chrome-platform@lists.linux.dev>, <internal@maedb.msi.com>, <tinghan.shen@mediatek.com>, <joewu@msi.corp-partner.google.com>, <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 
-On Wed, Dec 21, 2022 at 3:55 PM Rob Barnes <robbarnes@google.com> wrote:
->
-> On Wed, Dec 21, 2022 at 12:23 PM Prashant Malani <pmalani@chromium.org> wrote:
-> >
-> >
-> > Can you provide a link (either in the commit, or here in the comment)
-> > to the coreboot/BIOS code which uses this value? I feel this should
-> > be documented in some form that correlates the caller and the callee.
->
-> Link: https://chromium-review.googlesource.com/c/chromiumos/third_party/coreboot/+/4023535
+SGkgR3JlZywNCg0KSSB3aWxsIGNvcnJlY3QgaXQuIFRoYW5rIHlvdSBmb3IgY29tbWVudHMuDQoN
+CkpvZQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogR3JlZyBLcm9haC1IYXJ0
+bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gDQpTZW50OiBXZWRuZXNkYXksIERlY2Vt
+YmVyIDIxLCAyMDIyIDM6MjkgUE0NClRvOiBKb2UgV3UgPGpvZXd1QG1zaS5jb3JwLXBhcnRuZXIu
+Z29vZ2xlLmNvbT4NCkNjOiBMS01MIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgVHp1
+bmctQmkgU2hpaCA8dHp1bmdiaUBrZXJuZWwub3JnPjsgRHVzdGluIEwgLiBIb3dldHQgPGR1c3Rp
+bkBob3dldHQubmV0PjsgQmVuc29uIExldW5nIDxibGV1bmdAY2hyb21pdW0ub3JnPjsgRG1pdHJ5
+IFRvcm9raG92IDxkbWl0cnkudG9yb2tob3ZAZ21haWwuY29tPjsgWGlhbmcgd2FuZ3ggPHdhbmd4
+aWFuZ0BjZGpybGMuY29tPjsgbGludXgtaW5wdXRAdmdlci5rZXJuZWwub3JnOyBQcmFzaGFudCBN
+YWxhbmkgPHBtYWxhbmlAY2hyb21pdW0ub3JnPjsgU3RlcGhlbiBCb3lkIDxzd2JveWRAY2hyb21p
+dW0ub3JnPjsgRG91Z2xhcyBBbmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPjsgRGFpc3Vr
+ZSBOb2ppcmkgPGRub2ppcmlAY2hyb21pdW0ub3JnPjsgRnVycXVhbiBTaGFpa2ggPGZ1cnF1YW5A
+Y2hyb21pdW0ub3JnPjsgR3VzdGF2byBBIC4gUiAuIFNpbHZhIDxndXN0YXZvYXJzQGtlcm5lbC5v
+cmc+OyBEZXJlayBIdWFuZyA8ZGVyZWtodWFuZ0Bnb29nbGUuY29tPjsgY2hyb21lLXBsYXRmb3Jt
+QGxpc3RzLmxpbnV4LmRldjsgR3VlbnRlciBSb2VjayA8Z3JvZWNrQGNocm9taXVtLm9yZz47IEpv
+bmF0aGFuIENhbWVyb24gPEpvbmF0aGFuLkNhbWVyb25AaHVhd2VpLmNvbT47IFRpbmdoYW4gU2hl
+biA8dGluZ2hhbi5zaGVuQG1lZGlhdGVrLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIGNyb3Nf
+ZWNfa2V5YjogQWRkIDMgYnV0dG9ucyBmb3IgbW9uaXRvciBmdW5jdGlvbg0KDQpPbiBUdWUsIERl
+YyAyMCwgMjAyMiBhdCAwNDowMjoyNlBNICswODAwLCBKb2UgV3Ugd3JvdGU6DQo+IEFkZCAzIGV4
+dHJhIGJ1dHRvbnM6ICdicmlnaHRuZXNzIHVwJywgJ2JyaWdodG5lc3MgZG93bicNCj4gYW5kICdz
+Y3JlZW4gbG9jaycgdG8gc3VwcG9ydCBtb25pdG9yIG1hbmlwdWxhdGluZyBmdW5jdGlvbi4NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IEpvZSBXdSA8am9ld3VAbXNpLmNvcnAtcGFydG5lci5nb29nbGUu
+Y29tPg0KDQpOb3RlLCB0aGlzIGlzIGEgImZha2UiIGVtYWlsIGFkZHJlc3MsIHBsZWFzZSBhbHdh
+eXMgdXNlIHlvdXIgcmVhbCBvbmUgYW5kIG5vdCBhIGdvb2dsZS1nZXJyaXQtYXNzaWduZWQgYWRk
+cmVzcy4NCg0KdGhhbmtzLA0KDQpncmVnIGstaA0KDQoqKioqKkNPTkZJREVOVElBTCBJTkZPUk1B
+VElPTioqKioqDQoNClRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHVzZSBvZiB0
+aGUgcGVyc29uIG9yIGVudGl0eSB0byB3aG9tIGl0IGlzDQphZGRyZXNzZWQgYW5kIGNvbnRhaW5z
+IGluZm9ybWF0aW9uIHRoYXQgbWF5IGJlIHN1YmplY3QgdG8gYW5kL29yIG1heSBiZQ0KcmVzdHJp
+Y3RlZCBmcm9tIGRpc2Nsb3N1cmUgYnkgY29udHJhY3Qgb3IgYXBwbGljYWJsZSBsYXcuIElmIHlv
+dSBhcmUgbm90IHRoZSANCmludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWlsLCBiZSBhZHZp
+c2VkIHRoYXQgYW55IGRpc2Nsb3N1cmUsIGNvcHksIA0KZGlzdHJpYnV0aW9uIG9yIHVzZSBvZiB0
+aGUgY29udGVudHMgb2YgdGhpcyBtZXNzYWdlIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIA0KSWYg
+eW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWlsLCBwbGVhc2Ug
+bm90aWZ5IHRoZSBzZW5kZXIgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgaW4gZXJyb3Ig
+YnkgcmVwbHlpbmcgdG8gdGhpcyBtZXNzYWdlLiBUaGVuLCANCnBsZWFzZSBkZWxldGUgaXQgZnJv
+bSB5b3VyIHN5c3RlbS4gT3VyIFByaXZhY3kgUG9saWN5IGlzIGF2YWlsYWJsZSBoZXJlIA0KaHR0
+cHM6Ly93d3cubXNpLmNvbS9wYWdlL3ByaXZhY3ktcG9saWN5LiBUaGFuayB5b3Uu
 
-Thanks. Please add a code link (for example, I could find [2], but you
-could use another code mirror
-if there is a canonical one for coreboot) to the commit description,
-or in the comment when you send
-out v2.
-
-> > Any reason we cannot use the existing event_notifier (with value argument)?
-> > It's a system panic, so I doubt that computational overhead for other
-> > notifier block
-> > listeners is a concern.
->
-> The value field is already being used for "queued_during_suspend" in
-> event_notifier.
-
-OK, I suppose you could use the data pointer...
-
-It's just I find having a notifier for a single use case overkill(even
-2 would be fine); one could get away with exposing a method
-in cros_typec_debugfs via a local .h file (it can compile to a stub if
-cros_typec_debugfs is not compiled to the kernel);
-the LPC code can then just call that method instead of invoking a notifier.
-
-Best regards,
-
--Prashant
-
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144
-[2] https://github.com/coreboot/coreboot/blob/ff6b3af113f84a1957dcdf8a8179a751ce08becf/src/ec/google/chromeec/acpi/ec.asl#L15

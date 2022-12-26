@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90F634;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 72628C433F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A78636
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 839F2C433F2;
 	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1672026091;
-	bh=zmtqhXQv7hiPZDJGmROKlujPmTGm2oRNxnDcUz2K1XA=;
+	bh=qUZEN6W7y7OuPntU93SjMLBdCDZTk+7Ju05902v72Lg=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aFP63n6aR/0rsvyekq2AImCT+Ltsl9Jl7dPzbNYHhoyZYHDH6lK2bZrhlcgunmhld
-	 RgMVPID00zacoRWh6/2WcYeqqfuXii7bfwtJk5lxNcH9sYhs6uYZ65sHxjCjvHVJGC
-	 jU2sooTMKGRe+SFmEQSyRrM2Z5Ebr4Jv8ipoN7FtPVN5x7rUbCF4ahlzEUcQHuzwgS
-	 dPZnfjIrxijvQKXa4OnPsL5xX8faKU1LhwAeeoNrFyIvTCF3+ednhZDVur/h1/X3jD
-	 E41cCnOUXtPEk1kFVfqyh2f9D9ufm9IlqPIid1pjLmSc0vc0NcK4CEzAwGC3ktCoTG
-	 JD3TuvTuDV3ew==
+	b=icxUaio29DepW/UNWwEHJyKi5srX5Qi+bViML+50CCHvteLNM8QGKWMuWBoYZcQY7
+	 j3md/7VT07vjANsWCq5ZovwCmNNG+zQ3M/bTFkVlJ0sq1Xd0uJGiOKFpsBthdkcaGi
+	 qrk4fUO7LnA7iH2u/wIAlkuUv+3YXREiDQSrJlUTL4WRWAYc50RYNJdtKPk+bF71eK
+	 u0UvfoXOibKjyBEdlJxROIep0SDNgOnBvymNnIEU7rE1ag7NZrU5SzLXdfMFSbEG0X
+	 jqXIx6PPES+G5jidawpN5qNhIjDRDnJ5dYQwdp/1MF3Jt0x11oqs38TL73zRsmZV8C
+	 yYWInE1J78z6Q==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4CBF2E50D66;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 67F45E5250A;
 	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,72 +26,36 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common
- DAI properties
+Subject: Re: [RESEND PATCH v13] firmware: google: Implement cbmem in sysfs driver
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167202609130.9518.10337988666912704066.git-patchwork-notify@kernel.org>
+ <167202609142.9518.10226408413168947580.git-patchwork-notify@kernel.org>
 Date: Mon, 26 Dec 2022 03:41:31 +0000
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- lgirdwood@gmail.com, broonie@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, fengzheng923@gmail.com,
- povik+lin@cutebit.org, james.schulman@cirrus.com, david.rhodes@cirrus.com,
- tanureal@opensource.cirrus.com, rf@opensource.cirrus.com,
- ckeepax@opensource.cirrus.com, peter.ujfalusi@gmail.com,
- cychiang@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- bleung@chromium.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
- stephan@gerhold.net, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, srinivas.kandagatla@linaro.org,
- bgoswami@quicinc.com, frattaroli.nicolas@gmail.com, heiko@sntech.de,
- s.nawrocki@samsung.com, festevam@gmail.com, hayashi.kunihiko@socionext.com,
- mhiramat@kernel.org, olivier.moysan@foss.st.com,
- arnaud.pouliquen@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, alexandre.belloni@bootlin.om, lars@metafoo.de,
- bogdan.togorean@analog.com, nuno.sa@analog.com, vincent.knecht@mailoo.org,
- kuninori.morimoto.gx@renesas.com, mripard@kernel.org,
- rriveram@opensource.cirrus.com, patches@opensource.cirrus.com,
- j-choudhary@ti.com, drake@endlessm.com, katsuhiro@katsuster.net,
- shengjiu.wang@nxp.com, paul@crapouillou.net, jee.heng.sia@intel.com,
- lkundrak@v3.sk, codrin.ciubotariu@microchip.com, mkumard@nvidia.com,
- spujar@nvidia.com, rohitkr@codeaurora.org, derek.fang@realtek.com,
- biju.das.jz@bp.renesas.com, cy_huang@richtek.com, joabreu@synopsys.com,
- afd@ti.com, shifu0704@thundersoft.com, shenghao-ding@ti.com,
- flatmax@flatmax.com, ricardw@axis.com, perex@perex.cz, tiwai@suse.com,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
- chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
+References: <20221104161528.531248-1-jrosenth@chromium.org>
+In-Reply-To: <20221104161528.531248-1-jrosenth@chromium.org>
+To: Jack Rosenthal <jrosenth@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ gregkh@linuxfoundation.org, swboyd@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, jwerner@chromium.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Mark Brown <broonie@kernel.org>:
+This patch was applied to chrome-platform/linux.git (for-next)
+by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-On Sat,  3 Dec 2022 17:04:40 +0100 you wrote:
-> Rename name-prefix.yaml into common DAI schema and document
-> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
-> really constrained, as there are users with value of 0, 1 and 2, but at
-> least it brings definition to one common place.
+On Fri,  4 Nov 2022 10:15:28 -0600 you wrote:
+> The CBMEM area is a downward-growing memory region used by coreboot to
+> dynamically allocate tagged data structures ("CBMEM entries") that
+> remain resident during boot.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> This implements a driver which exports access to the CBMEM entries
+> via sysfs under /sys/bus/coreboot/devices/cbmem-<id>.
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
-    https://git.kernel.org/chrome-platform/c/3fda85324b8d
-  - [2/3] ASoC: dt-bindings: Reference common DAI properties
-    https://git.kernel.org/chrome-platform/c/58ae9a2aca6f
-  - [3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
-    https://git.kernel.org/chrome-platform/c/8a5a05583a04
+  - [RESEND,v13] firmware: google: Implement cbmem in sysfs driver
+    https://git.kernel.org/chrome-platform/c/19d54020883c
 
 You are awesome, thank you!
 -- 

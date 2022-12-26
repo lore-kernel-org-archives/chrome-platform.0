@@ -1,247 +1,108 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459FE7E3
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 08:57:13 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id z144so5448891iof.3
-        for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 00:57:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65457E3
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 09:05:24 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id b2so10272652pld.7
+        for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 01:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y9TbX3Ceh1FvaBv664udZf8XfrOpdKKd1+DeV95MdyU=;
-        b=Bi5owdA6WovVAMZcv9Xg7UtskNw4+684vpuoZJeflxtV3ZDO4PKd2iJDfmLTyqqNpq
-         lOVR9fPEoBWOyeiHd85xuiPaMJnyBllR19W6q6zN8qOmAkm9E7Kl+IrfWMsltiZ4cmA1
-         C+ow+S7IbcqHZPmSLrl2qKxwome1/bjEv8xaM=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2r7nbUlBQ09uX3BHu2WXuv8fH1VGPWoHVpFkfHoqSw=;
+        b=TBYxI4by0ackxPXlmJ1xMfFdeFIZeFbxHAgYxqiIj0OXURi6RpWyEDUUdcCszd5NG2
+         tDxmhq7knjp5CGUc7tJXy+0bT/xxueySQ/b+TDQMHuVuMAzWl4bg5xGFE4zITqExkwGL
+         0h/U++tt1tNfqXuQcNxI/7nYLijrMV/46kXtWggfZEOBqaYxfu0ZSvy2FGZdEBwosN8L
+         4HMjUY+q+QXWZVOWmxoKPx0YeRrcahDpqStjgIADOTDkTT5G84sa+Pc6xmCBMf46gdOH
+         o7FC3SyweYMmIcWJLLbGo25+Sd3wE+sX6pxLY7Vh2eSzTXKxaI7F6HsZQ20Ox548smta
+         jBeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y9TbX3Ceh1FvaBv664udZf8XfrOpdKKd1+DeV95MdyU=;
-        b=JTXTnhDbrirfS74A2e3q3DYZwHRQLLVae3x/JAIkbcmTa7SH30M+sS8WxdqQ400Zhz
-         QLKChQFHeVlAixpeJvrLiVTw7bJWVTnTEzGK3AyjA0AXZFnIY4Xek5izsH0OnWSs2ypz
-         4m8r5h5fmnVbxHXp8oM4hlkL957+Phhvp8fCGSJqIJjLTrABTprWMeej5C1V6GX58Fzx
-         Kld9ADjlL36mVoRRTz9j2XJC/6oh4aBoEVjhcKYwONQXm6mc9IfaU6uIFtXK2uozOw9f
-         SPHpN4w1baI4YFmIHbB0+iMXcT8S3pylnvQbJz86KXWbSLE2wl1qnsEzFQ5yESxD0Zuc
-         6quA==
-X-Gm-Message-State: AFqh2kpiKT39BXumM2Efk+FHRFrFW5NWmNNTYtTQgl8C+75seMd0klIL
-	bWbJUUFSCPgN2ihzB/hLRts24MH8grXwE/hZ/b40+w==
-X-Google-Smtp-Source: AMrXdXvZZwiu7qagoS6yQmOv/xa7NoF2r1prkxbf2PgG2eUjFk6I49fFzrxM9Ian30iQB4AcDtL7g9FaZUcFi4kfwfI=
-X-Received: by 2002:a6b:490f:0:b0:6e3:29a8:47a with SMTP id
- u15-20020a6b490f000000b006e329a8047amr1409337iob.209.1672045032266; Mon, 26
- Dec 2022 00:57:12 -0800 (PST)
+        bh=r2r7nbUlBQ09uX3BHu2WXuv8fH1VGPWoHVpFkfHoqSw=;
+        b=u45RDxEmp85LHJReKDor15CaWLf7AgrNUeaFUJlE9RmvQNW62VEJPPY5CRr5xS/s6T
+         dsXMoc6F5C8/fi7zmi2oPoVTMRSQZLRK4+bp9g/ZDhqZUbvEfsdimgorl4tmFzCkkw5V
+         zQ6Y2Bvm3JaauTADFE6ta4K8J/v7Lgl/sJfPgXKXEdCzbYg6x5lVcwapizEXGaQdWHrZ
+         0pP/XgBnsfEvGOlXF/OJRZx2HSCUL3F0qO/iaUyll5JGGDNdxhznIvGkIdLGDUgIm+3g
+         WRCrSG6NKoV7sr0ptlxEF202jgQok38BEKMczagTCVmncFAgJYbzA8KC6mwMdDhEUtUG
+         B8hA==
+X-Gm-Message-State: AFqh2kotULnnQ9y3WFoO2hUJ2PAeLP1cQVWKksOz7SS2HMZste8GOc+1
+	/Afnm/veWGwBd0UmG0jhb/feow==
+X-Google-Smtp-Source: AMrXdXsiG+QEjHkrMF7iBSX+rVOmevhrhaBHdV3VPp2CzCL9qVLyKbq1iQcevx6v6II4PeXL393Nwg==
+X-Received: by 2002:a17:90b:4cc2:b0:225:f095:a3dc with SMTP id nd2-20020a17090b4cc200b00225f095a3dcmr3234194pjb.14.1672045524273;
+        Mon, 26 Dec 2022 01:05:24 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id o22-20020a17090a421600b002086ac07041sm5877198pjg.44.2022.12.26.01.05.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Dec 2022 01:05:23 -0800 (PST)
+Message-ID: <63a963d3.170a0220.90265.a81d@mx.google.com>
+Date: Mon, 26 Dec 2022 01:05:23 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-7-treapking@chromium.org> <a2a8cd80-a614-e96f-90ab-a98c60527344@linaro.org>
-In-Reply-To: <a2a8cd80-a614-e96f-90ab-a98c60527344@linaro.org>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Mon, 26 Dec 2022 16:57:01 +0800
-Message-ID: <CAEXTbpeYZTeWvnGtRo3i7eGSAoQnkSmcpV=SS8MZA+an3SHUwQ@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] dt/bindings: drm/bridge: it6505: Add mode-switch support
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org, 
-	Marek Vasut <marex@denx.de>, Xin Ji <xji@analogixsemi.com>, Lyude Paul <lyude@redhat.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.2-rc1-3-g942956ddbb33c
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-3-g942956ddbb33c)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Krzysztof,
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+3-g942956ddbb33c)
 
-On Mon, Nov 28, 2022 at 5:02 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 24/11/2022 11:20, Pin-yen Lin wrote:
-> > ITE IT6505 can be used in systems to switch the DP traffic between
-> > two downstreams, which can be USB Type-C DisplayPort alternate mode
-> > lane or regular DisplayPort output ports.
-> >
-> > Update the binding to accommodate this usage by introducing a
-> > data-lanes and a mode-switch property on endpoints.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> >
-> > ---
-> >
-> > Changes in v6:
-> > - Remove switches node and use endpoints and data-lanes property to
-> >   describe the connections.
-> >
-> >  .../bindings/display/bridge/ite,it6505.yaml   | 94 ++++++++++++++++++-
-> >  1 file changed, 90 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > index 833d11b2303a..b4b9881c7759 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > @@ -52,9 +52,53 @@ properties:
-> >      maxItems: 1
-> >      description: extcon specifier for the Power Delivery
-> >
-> > -  port:
-> > -    $ref: /schemas/graph.yaml#/properties/port
-> > -    description: A port node pointing to DPI host port node
-> > +  data-lanes:
-> > +    maxItems: 1
-> > +    description: restrict the dp output data-lanes with value of 1-4
->
-> Hm, where is the definition of this type? For example it comes with
-> video-interfaces, which you did not reference here.
->
-Actually I messed up here with another accepted patch:
-https://lore.kernel.org/all/20221103091243.96036-2-allen.chen@ite.com.tw/
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-3-g942956ddbb33c/
 
-This and the next new property have been added in that patch.
-> > +
-> > +  max-pixel-clock-khz:
->
-> There is no such unit accepted:
-> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
->
-> > +    maxItems: 1
->
-> maxItems of what type? What is this?
->
-> > +    description: restrict max pixel clock
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
->
-> This is incompatible change... how do you handle now ABI break?
->
-This is also added in another patch, and currently we don't have any
-upstream it6505 users now.
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
->
-> Why changing the ref?
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-3-g942956ddbb33c
+Git Commit: 942956ddbb33c13ba4381d9557cd69d1e36cf856
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-The `unevaluatedProperties: false` in
-`/schemas/graph.yaml#/properties/port` does not allow me to add new
-properties here.
->
-> > +        unevaluatedProperties: false
-> > +        description: A port node pointing to DPI host port node
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port-base
-> > +        description:
-> > +          Video port for panel or connector.
-> > +
-> > +        patternProperties:
-> > +          "^endpoint@[01]$":
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            type: object
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              reg:
-> > +                maxItems: 1
-> > +
-> > +              remote-endpoint: true
-> > +
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                uniqueItems: true
-> > +                items:
-> > +                  - enum: [ 0, 1, 2, 3]
->
-> Same problem as your previouspatch.
->
-> > +
-> > +              mode-switch:
-> > +                type: boolean
-> > +                description: Register this node as a Type-C mode switch or not.
-> > +
-> > +         required:
-> > +        - reg
-> > +           - remote-endpoint
-> >
-> >  required:
-> >    - compatible
-> > @@ -62,7 +106,7 @@ required:
-> >    - pwr18-supply
-> >    - interrupts
-> >    - reset-gpios
-> > -  - extcon
-> > +  - ports
-> >
-> >  additionalProperties: false
-> >
-> > @@ -92,3 +136,45 @@ examples:
-> >              };
-> >          };
-> >      };
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    &i2c3 {
-> > +        clock-frequency = <100000>;
-> > +
-> > +        it6505dptx: it6505dptx@5c {
->
-> Node names should be generic.
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
-I'll fix this in v7.
-> > +            compatible = "ite,it6505";
-> > +            interrupts = <8 IRQ_TYPE_LEVEL_LOW 8 0>;
-> > +            reg = <0x5c>;
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&it6505_pins>;
-> > +            ovdd-supply = <&mt6366_vsim2_reg>;
-> > +            pwr18-supply = <&pp1800_dpbrdg_dx>;
-> > +            reset-gpios = <&pio 177 0>;
-> > +            hpd-gpios = <&pio 10 0>;
-> > +
-> > +            ports {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +                port@0 {
-> > +                    reg = <0>;
-> > +                    it6505_in: endpoint {
-> > +                        remote-endpoint = <&dpi_out>;
-> > +                    };
-> > +                };
-> > +                port@1 {
-> > +                    reg = <1>;
-> > +                    ite_typec0: endpoint@0 {
-> > +                        mode-switch;
-> > +                        data-lanes = <0 1>;
->
-> Does not look like you tested the bindings. Please run `make
-> dt_binding_check` (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Sorry for not checking the documentation and testing the patches
-before submitting this.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-I'll fix the errors in v7.
+Detailed per-defconfig build reports:
 
-Best regards,
-Pin-yen
->
-> Best regards,
-> Krzysztof
->
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

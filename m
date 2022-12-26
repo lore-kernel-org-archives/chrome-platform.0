@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A612633
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 03:32:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ADA36C43392;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F140635
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 03:32:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A7078C433F1;
 	Mon, 26 Dec 2022 03:32:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1672025549;
-	bh=B8ik+QluhAQJI0owp6S/f/Ih/rBPIYryPaW/oltkjaU=;
+	bh=0vRdcfS77HMgJZr9nQ/Ecdns5Ruz71nCnSOYzAYpl/E=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=eIyBgrnDo/03k3OsJhsmX7Bx1X43wI2U1ok27MvRE9EkztYmFqVIqaT9+rAegomqE
-	 cjPZ1CDZ6sB5Kc4pvJZHN5Gm/l26HbLFdqtSrYcrIjAbj2sz2HsLRmsrQM2Qggczxe
-	 Fo9hvfUZ175TgN4/0wJbXpOZSM2O1O9nyPJPbztktAdG5XBRPD0K8tWaY3cndWygA2
-	 Czm07JkXHz5hxhQ1PGE2tLexgsBhpKPfVA2/TE1EjivRuOhVdQcJp2maUQuIJ+5hQR
-	 N/5g0Wf50Wu6RpVMwEsZdxNF8Q+tKlwkQGIfbobkmr1E+Lv0u2SJwBSWHMkQlJSkV6
-	 z3LtS55JnG2qQ==
+	b=VSM0gabiwxhkpie4UBIp4gK4+3hNZwuGRY+FNNTiDxby4x25QDfsSJdlO/JR2Vl1L
+	 wzrw1r6+Ir9s+Rtc+65WuDCjt4HCPCFFoWsYwJFKEUUk5gRuZqsMXrrSfFtwRT9fJj
+	 TpR9or7itHNBeKs8qXWMMppO+7brDzl0vV1TqjeEoly8gJjsPZ24b3wi8IXIkaCH/P
+	 VUtr71gAHM7rMwMvzd6Jsz0HLNqWXIeKXmNfvHx4eLFYAvykHxUB5T98V8vr0FL9Dg
+	 bc13o7DCIlFici7qWYV6+xoD2/AwgZwzDXwrExYF3N9DsAfcA31j0Zeaftu8SvRd4O
+	 qKfuvrl2kRsZA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8E551C395E0;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 88220FE0854;
 	Mon, 26 Dec 2022 03:32:29 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,42 +26,36 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/2] platform/chrome: cros_ec_typec: Link PD object to
- partner
+Subject: Re: [RESEND PATCH v13] firmware: google: Implement cbmem in sysfs driver
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167202554958.9518.17955521300304408883.git-patchwork-notify@kernel.org>
+ <167202554954.9518.2396909720792326392.git-patchwork-notify@kernel.org>
 Date: Mon, 26 Dec 2022 03:32:29 +0000
-References: <20221122220538.2991775-1-pmalani@chromium.org>
-In-Reply-To: <20221122220538.2991775-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- chrome-platform@lists.linux.dev, bleung@chromium.org,
- gregkh@linuxfoundation.org, groeck@chromium.org,
- heikki.krogerus@linux.intel.com
+References: <20221104161528.531248-1-jrosenth@chromium.org>
+In-Reply-To: <20221104161528.531248-1-jrosenth@chromium.org>
+To: Jack Rosenthal <jrosenth@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ gregkh@linuxfoundation.org, swboyd@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, jwerner@chromium.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-On Tue, 22 Nov 2022 22:05:35 +0000 you wrote:
-> This is a short series to link a registered USB PD object to its associated
-> partner device. This is helpful for userspace services (the ChromeOS Type-C
-> daemon, for example), to identify which Type-C peripheral a PD object belongs to,
-> when a uevent for the PD object arrives.
+On Fri,  4 Nov 2022 10:15:28 -0600 you wrote:
+> The CBMEM area is a downward-growing memory region used by coreboot to
+> dynamically allocate tagged data structures ("CBMEM entries") that
+> remain resident during boot.
 > 
-> The first patch adds a wrapper to the Type-C class code to register a PD object
-> with a Type-C partner as its parent. The second patch uses that wrapper to
-> register the Type-C partner USB PD object in the port driver code.
+> This implements a driver which exports access to the CBMEM entries
+> via sysfs under /sys/bus/coreboot/devices/cbmem-<id>.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2,1/2] usb: typec: Add partner PD object wrapper
-    https://git.kernel.org/chrome-platform/c/032399819dd5
-  - [v2,2/2] platform/chrome: cros_ec_typec: Set parent of partner PD object
-    https://git.kernel.org/chrome-platform/c/ab3593eeef60
+  - [RESEND,v13] firmware: google: Implement cbmem in sysfs driver
+    https://git.kernel.org/chrome-platform/c/19d54020883c
 
 You are awesome, thank you!
 -- 

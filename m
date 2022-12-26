@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF1C635
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 877B9C43392;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90F634;
+	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 72628C433F1;
 	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1672026091;
-	bh=eEt0EmGRhDWnVkZQUlJF6mUiacUHBLfsxUqi7rzOu0U=;
+	bh=zmtqhXQv7hiPZDJGmROKlujPmTGm2oRNxnDcUz2K1XA=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nsu/D+BMLaCwIog1O38CcS0qOZzS46gIcIrjp+6fueQjrGJ1wVmEUmHa8uvmmq/OR
-	 HA6zo/jnoibF2XWPt4xMwtTe1gH7Kq2/cN2n1NzfIGGeoK95B2hWaFEG26oqowUBkI
-	 R+N9YVtjt2oyyEq36avmeloch/uf0m1GINzW/0JWHv2hS1BLK1rwX/WPbq+VPWcqDZ
-	 KNghu6G7p+3iq2h/3TB8SXBSsTTAbz4zk3zsIOU6/zeTqO51sbg80DEZ2Cu9c1cOf5
-	 NuG1x7FfLAJEbCJe20C0ycXFM+Xhlh31/VhysT7dptBpn0QFGf4Td6Y8wpqo7tsM1g
-	 skLMBPx26GdKQ==
+	b=aFP63n6aR/0rsvyekq2AImCT+Ltsl9Jl7dPzbNYHhoyZYHDH6lK2bZrhlcgunmhld
+	 RgMVPID00zacoRWh6/2WcYeqqfuXii7bfwtJk5lxNcH9sYhs6uYZ65sHxjCjvHVJGC
+	 jU2sooTMKGRe+SFmEQSyRrM2Z5Ebr4Jv8ipoN7FtPVN5x7rUbCF4ahlzEUcQHuzwgS
+	 dPZnfjIrxijvQKXa4OnPsL5xX8faKU1LhwAeeoNrFyIvTCF3+ednhZDVur/h1/X3jD
+	 E41cCnOUXtPEk1kFVfqyh2f9D9ufm9IlqPIid1pjLmSc0vc0NcK4CEzAwGC3ktCoTG
+	 JD3TuvTuDV3ew==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6E3BEFE0855;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4CBF2E50D66;
 	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,42 +26,72 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/2] platform/chrome: cros_ec_typec: Link PD object to
- partner
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common
+ DAI properties
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167202609144.9518.765740468177252042.git-patchwork-notify@kernel.org>
+ <167202609130.9518.10337988666912704066.git-patchwork-notify@kernel.org>
 Date: Mon, 26 Dec 2022 03:41:31 +0000
-References: <20221122220538.2991775-1-pmalani@chromium.org>
-In-Reply-To: <20221122220538.2991775-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- chrome-platform@lists.linux.dev, bleung@chromium.org,
- gregkh@linuxfoundation.org, groeck@chromium.org,
- heikki.krogerus@linux.intel.com
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, fengzheng923@gmail.com,
+ povik+lin@cutebit.org, james.schulman@cirrus.com, david.rhodes@cirrus.com,
+ tanureal@opensource.cirrus.com, rf@opensource.cirrus.com,
+ ckeepax@opensource.cirrus.com, peter.ujfalusi@gmail.com,
+ cychiang@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
+ bleung@chromium.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ stephan@gerhold.net, agross@kernel.org, andersson@kernel.org,
+ konrad.dybcio@linaro.org, srinivas.kandagatla@linaro.org,
+ bgoswami@quicinc.com, frattaroli.nicolas@gmail.com, heiko@sntech.de,
+ s.nawrocki@samsung.com, festevam@gmail.com, hayashi.kunihiko@socionext.com,
+ mhiramat@kernel.org, olivier.moysan@foss.st.com,
+ arnaud.pouliquen@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, alexandre.belloni@bootlin.om, lars@metafoo.de,
+ bogdan.togorean@analog.com, nuno.sa@analog.com, vincent.knecht@mailoo.org,
+ kuninori.morimoto.gx@renesas.com, mripard@kernel.org,
+ rriveram@opensource.cirrus.com, patches@opensource.cirrus.com,
+ j-choudhary@ti.com, drake@endlessm.com, katsuhiro@katsuster.net,
+ shengjiu.wang@nxp.com, paul@crapouillou.net, jee.heng.sia@intel.com,
+ lkundrak@v3.sk, codrin.ciubotariu@microchip.com, mkumard@nvidia.com,
+ spujar@nvidia.com, rohitkr@codeaurora.org, derek.fang@realtek.com,
+ biju.das.jz@bp.renesas.com, cy_huang@richtek.com, joabreu@synopsys.com,
+ afd@ti.com, shifu0704@thundersoft.com, shenghao-ding@ti.com,
+ flatmax@flatmax.com, ricardw@axis.com, perex@perex.cz, tiwai@suse.com,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
+ chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
 
 Hello:
 
 This series was applied to chrome-platform/linux.git (for-next)
-by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
+by Mark Brown <broonie@kernel.org>:
 
-On Tue, 22 Nov 2022 22:05:35 +0000 you wrote:
-> This is a short series to link a registered USB PD object to its associated
-> partner device. This is helpful for userspace services (the ChromeOS Type-C
-> daemon, for example), to identify which Type-C peripheral a PD object belongs to,
-> when a uevent for the PD object arrives.
+On Sat,  3 Dec 2022 17:04:40 +0100 you wrote:
+> Rename name-prefix.yaml into common DAI schema and document
+> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
+> really constrained, as there are users with value of 0, 1 and 2, but at
+> least it brings definition to one common place.
 > 
-> The first patch adds a wrapper to the Type-C class code to register a PD object
-> with a Type-C partner as its parent. The second patch uses that wrapper to
-> register the Type-C partner USB PD object in the port driver code.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2,1/2] usb: typec: Add partner PD object wrapper
-    https://git.kernel.org/chrome-platform/c/032399819dd5
-  - [v2,2/2] platform/chrome: cros_ec_typec: Set parent of partner PD object
-    https://git.kernel.org/chrome-platform/c/ab3593eeef60
+  - [1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
+    https://git.kernel.org/chrome-platform/c/3fda85324b8d
+  - [2/3] ASoC: dt-bindings: Reference common DAI properties
+    https://git.kernel.org/chrome-platform/c/58ae9a2aca6f
+  - [3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
+    https://git.kernel.org/chrome-platform/c/8a5a05583a04
 
 You are awesome, thank you!
 -- 

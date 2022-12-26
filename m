@@ -1,115 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3027B
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 08:12:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB59C433D2;
-	Mon, 26 Dec 2022 08:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CABC7B
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Dec 2022 08:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6A08C433D2;
+	Mon, 26 Dec 2022 08:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672042331;
-	bh=wMuh9Av5x2EBeAbbJdx5ZXgId/edsEDT23jMjb6QRrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mud1JdpJrry9t6QgimWLSE7u7VqIuEx5iH8K20/BgWmkh3hfdl23iTfmg73cA955V
-	 U4gnPnJt96uJPfwEl/AfU0nmEvbsHKKlE4F7jxsBibfpnt5h1TFiVvTaSzKLsEEdMT
-	 hRlHmOAScwBgUz/qPEoEj5SYwO55seoaglnzldTc4txV1gmyUWFfwFrrjyx0yE6BZN
-	 awXmuMJCC4Yn3uGT6myeTJR6Gn3+2Pxx2mYg0lgDBbh5+PTINMEH09/X3e0YlNPz0g
-	 LiRyawGC92O/3DDdCQemmRjdHFwwfj9FMT1CXqqX2t1bR6ibGkbzNFmnzzdf+vKLlr
-	 9PhiBk9xjFiBw==
-Date: Mon, 26 Dec 2022 16:12:07 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	kernel test robot <lkp@intel.com>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v12 1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart
- transport layer
-Message-ID: <Y6lXV8Rhh1Da572l@google.com>
-References: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+	s=k20201202; t=1672042815;
+	bh=QNOZ3scdC6lxNhIACN6q10kZJLzCnzeG0zUHBQasThw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=BottQ0Ih6/XZdlH1a2cnMIc73SgDFJq/P+UZDrqAQUZEY17dxns4rV5jRpQJhdqqS
+	 egDme3JvQ4d/q5D17xpKFjUWZD0i46pKHfHXWWAMXCACGw1BwJmQh5SZkS7sEduC0Z
+	 S2G/fT37PbKdFpxQ+Uti4VmYyXYBCd3rUAP6EQkCndLodA+/Q7ux13Q1CTSnroi++1
+	 LltZoXQlB50r198FvTOBp913CX01molLU8GkNpveCjuPzgFsMo8/1MxAxdrhew8Hrf
+	 DJsfP20FNB9dqV4XmUwDvEESYQrXGo5z5zVTi0FwXpKnavqOLJSRShR4IkHWL3IEZC
+	 jxwr4+utH/0xw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BA578F82DEA;
+	Mon, 26 Dec 2022 08:20:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: use sysfs_emit_at() instead of scnprintf()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <167204281575.4047.6552187974600189000.git-patchwork-notify@kernel.org>
+Date: Mon, 26 Dec 2022 08:20:15 +0000
+References: <20221205061042.1774769-1-tzungbi@kernel.org>
+In-Reply-To: <20221205061042.1774769-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 
-On Fri, Dec 09, 2022 at 09:26:22AM -0700, Mark Hasemeyer wrote:
-> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-[...]
-> +static int cros_ec_uart_rx_bytes(struct serdev_device *serdev,
-> +				 const u8 *data,
-> +				 size_t count)
-> +{
-> +	struct ec_host_response *response;
+Hello:
 
-There are 2 "response" in the context: struct response_info vs.
-struct ec_host_response.  The pointer `response` here is only used for
-setting `exp_len`.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-I would suggest to introduce another pointer:
-    struct response_info *resp = &ec_uart->response;
-So that most of the following "ec_uart->response." could simplify to
-"resp->".
+On Mon,  5 Dec 2022 14:10:42 +0800 you wrote:
+> Follow the advice in Documentation/filesystems/sysfs.rst:
+> show() should only use sysfs_emit() or sysfs_emit_at() when formatting
+> the value to be returned to user space.
+> 
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> Inspired by https://patchwork.kernel.org/project/chrome-platform/patch/202212021656040995199@zte.com.cn/
+> 
+> [...]
 
-[...]
-> +	/* Read data_len if we received response header and if exp_len was not read before. */
-> +	if (ec_uart->response.size >= sizeof(*response) &&
-> +	    ec_uart->response.exp_len == 0) {
-> +		response = (struct ec_host_response *) ec_uart->response.data;
+Here is the summary with links:
+  - platform/chrome: use sysfs_emit_at() instead of scnprintf()
+    https://git.kernel.org/chrome-platform/c/b251c0e7ea5d
 
-Please drop the extra space.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> +static int cros_ec_uart_pkt_xfer(struct cros_ec_device *ec_dev,
-> +				 struct cros_ec_command *ec_msg)
-> +{
-> +	struct cros_ec_uart *ec_uart = ec_dev->priv;
-> +	struct serdev_device *serdev = ec_uart->serdev;
-> +	struct ec_host_response *response;
 
-Ditto, if using another pointer to struct response_info could simplify the
-function a bit.
-
-> +	unsigned int len;
-> +	int ret, i;
-> +	u8 sum = 0;
-
-To make it clear, please drop the initialization and set it to 0 just right
-before it is used.
-
-[...]
-> +	/* Validate checksum */
-> +	for (i = 0; i < sizeof(*response) + response->data_len; i++)
-> +		sum += ec_dev->din[i];
-
-The function is long.  Setting sum to 0 before the loop improves the
-readability.
-
-> +static int cros_ec_uart_probe(struct serdev_device *serdev)
-> +{
-> +	struct device *dev = &serdev->dev;
-> +	struct cros_ec_device *ec_dev;
-> +	struct cros_ec_uart *ec_uart;
-> +	int ret;
-> +
-> +	ec_uart = devm_kzalloc(dev, sizeof(*ec_uart), GFP_KERNEL);
-> +	if (!ec_uart)
-> +		return -ENOMEM;
-> +
-> +	ec_dev = devm_kzalloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-> +	if (!ec_dev)
-> +		return -ENOMEM;
-> +
-> +	ec_uart->serdev = serdev;
-
-The assignment can move somewhere before calling cros_ec_uart_acpi_probe().
-
-> +
-> +	ret = devm_serdev_device_open(dev, ec_uart->serdev);
-
-Using `ec_uart->serdev` here makes less sense.  Please use `serdev` directly.

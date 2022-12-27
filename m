@@ -1,64 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D76C803
-	for <chrome-platform@lists.linux.dev>; Tue, 27 Dec 2022 05:50:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E4C10C433EF;
-	Tue, 27 Dec 2022 05:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D0AA56
+	for <chrome-platform@lists.linux.dev>; Tue, 27 Dec 2022 10:16:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816A1C433EF;
+	Tue, 27 Dec 2022 10:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672120215;
-	bh=W9OUJI/Fm9AG3grOj2VHuWR+5RDShrNqSPHYTg9+uKo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qqkxibD9oz6V55h9Sz1A4fqlmQJoKwIVk8CA9a+6L1qwx2KoNsIzutBPK6Kag1UQv
-	 OrXXF6gS4cag+14F5UgltIlwjsYYGM9OrssjM6T+Nac/R0gtC0WHHq0m1FwHWedcee
-	 eC1AroAVK7dhOkZhiftmwksID3/sHHWJ8sdAffiJAh7/7TzIFs4ZCrUgb2tte2NDkE
-	 zKDnIzmsf49tZzxoNbgQ7lDoYKWTBSIeIi9rwTWHhvxp9TpWX8VUQurzUhT46p98qc
-	 nekjZmQN8yTDC3IOEZz2A73eu2hOhHjkJf0O4DyJH4o8mzhntZtd6FckFCk1OAKSvI
-	 BuCPD2junYLZA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CB23BE50D70;
-	Tue, 27 Dec 2022 05:50:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1672136174;
+	bh=+q5W7WleDYVMITIm3acgRbVrF2RJrwwLXdEOds9e0AQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hQ+AdUpimcuOwZDw5/w1Iiaz2eVYaNWYpkwbd2UIdYR2q1VdB/8U/jn/YEJPewZUU
+	 ngKOo4s/x5kGHNBH/gyR5dYNsVpNgZ5XFXoy3IhTnwu9sqRiYw6il4V5ACotrgctsk
+	 LkMwRON9hcQVR8TgXe4F96ej2RjVZ8mpg3jBtuf29yZNX18DpBK6Ue3agaN2Q02XM/
+	 ZqIa7TtTyv6BndzPegIHzLcJHKGMo9Ieox6bDgx+Thc1j86n1EZHq5FtWB1CB9Dk1b
+	 +8TjouRcomvej6UPWBbgS/u9BdTQyuxl7GaxFWPAolxN/CmzbWou7/f6WamOf1hKeu
+	 F1tOfDkNED+ww==
+Date: Tue, 27 Dec 2022 18:16:11 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Mark Hasemeyer <markhas@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>,
+	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
+	kernel test robot <lkp@intel.com>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v12 1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart
+ transport layer
+Message-ID: <Y6rF63MClDySamGs@google.com>
+References: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: use sysfs_emit_at() instead of scnprintf()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167212021482.32112.17891189572140692879.git-patchwork-notify@kernel.org>
-Date: Tue, 27 Dec 2022 05:50:14 +0000
-References: <20221205061042.1774769-1-tzungbi@kernel.org>
-In-Reply-To: <20221205061042.1774769-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
 
-Hello:
+On Fri, Dec 09, 2022 at 09:26:22AM -0700, Mark Hasemeyer wrote:
+[...]
+> Reported-by: kernel test robot <lkp@intel.com>
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Missed 1 comment from previous email.  Please drop the tag as this patch
+isn't a fix.  The robot didn't report to add "cros-ec-uart".
 
-On Mon,  5 Dec 2022 14:10:42 +0800 you wrote:
-> Follow the advice in Documentation/filesystems/sysfs.rst:
-> show() should only use sysfs_emit() or sysfs_emit_at() when formatting
-> the value to be returned to user space.
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Inspired by https://patchwork.kernel.org/project/chrome-platform/patch/202212021656040995199@zte.com.cn/
-> 
-> [...]
-
-Here is the summary with links:
-  - platform/chrome: use sysfs_emit_at() instead of scnprintf()
-    https://git.kernel.org/chrome-platform/c/b251c0e7ea5d
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+One comment for the title "platform/chrome: cros_ec_uart: Add cros-ec-uart
+transport layer".  I think you could drop "cros-ec-uart" as the information
+is duplicated.

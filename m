@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6015BA5C
-	for <chrome-platform@lists.linux.dev>; Wed, 28 Dec 2022 03:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0458AC433F1;
-	Wed, 28 Dec 2022 03:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672199416;
-	bh=5H7IAXzQjHU/QAgykblCbKWPC+mCBynG7IgcSd4TwgM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pVGO/N/lVLa62CMfM5z3PTaBP/g2+Kq2h0SrRzcQ38jZKZJAYplM0MRv1lf8p9ieM
-	 KX432+K7SHuuAIhyRIdfCmLmfIHUDz6rORNlXBZ9DE9mXrFP0LcK10FJAcvczIpfPn
-	 Z0JFHcH7yYP77Z/LUFMt6eNLQU88JrmdUmtd3bwliRdFz8KhWyyx2ZmSDMDRxBqlFY
-	 dthzGi7Cm1559LaskgWee5milpMo6B4udy+iqIKf1rfLIXA2Gl3wxniaK6WzKW8j51
-	 9YGGSh1tqTyuN07NbTzMjFLuXMwdd+nM7TpXohJ9ptRe91iKoBCVpiVhPisLuqdWuB
-	 lZXMdcMFRweHA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3347C395E0;
-	Wed, 28 Dec 2022 03:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D81EB8
+	for <chrome-platform@lists.linux.dev>; Wed, 28 Dec 2022 05:03:16 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so15083489pjd.0
+        for <chrome-platform@lists.linux.dev>; Tue, 27 Dec 2022 21:03:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/cBQe+MmCH1Z6re0Yanm+SovTE6y1XTmj8FvEociSo=;
+        b=Fyi79rvt8R2urKDbyc+LrcRdi3foRgJ2yZGJtWxPY+i63xOL1KVwUW2aews8DF+YfT
+         9/jkidOjwqjFLo+KpS3nVgXiNqMECjxFZy4oQMAz/sOai/fL0GzJHGW30GnVoYXReGHq
+         Q6Ura+paIuQes8CUAJBL9Fs9mIeclSBkVqZ8lunZaJydmX4VNnNe8b9dsl8WqD1hvvl/
+         ewiCZyy0D5aJ7LxJhqL1JxelR4SEZ+bqe7gQNRpu8mY8t7iNjKex70m5zTa6uocWzeGT
+         ndzUDaNDcCQveoA4p11qjonfUHQG9C+Z8OlNuG9pSItd4KgvaX28PPel1wRjqhm4mYiB
+         VhBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k/cBQe+MmCH1Z6re0Yanm+SovTE6y1XTmj8FvEociSo=;
+        b=ZtE7q9TPtdv0xXKXYJ+hamuh/JfqNgWatUB7bOeHzLlg8hW6AjOIlEQ3ySM+x+DXNU
+         DFUvt2BLrRU2ylRCf6szu1rp1iQmKNVKoQ0RAw60tUD1Caua4sEbe4ttJJbzNlZWb4p+
+         NR1IsQbfGy9qnun4H6xXU35z3NuexxCGxGBkQNF+fSA04dhbm/u5KO5n39vEYUC+2rNh
+         gOdRTRn8xKpqO9VMTgKu4d5anFq+Qi0MA1O9YP9t4mG0twBIhd1NLqHY5xvrIWG8ttGl
+         hRmpqy12XC7y+YdxomIXR0zZ+vLREQSV4D6UZ4va4S0rdITumUtyvQAWJnDSyOfoS0Sf
+         +iUQ==
+X-Gm-Message-State: AFqh2kocI32ZldEd0pf7+xIWvw3FJ3MMTozceLUBPVtemFfDrtOK2Wz5
+	9W5KJjTdRO8o6JLXrMjYU1nKew==
+X-Google-Smtp-Source: AMrXdXtlh8suYt74NciZTqz2nsMIIOs4qrZLmPIaWkyn2UmESTaVL3H3/6vdfbRq83nC06X4mJnocQ==
+X-Received: by 2002:a17:902:8f86:b0:191:282:5d6c with SMTP id z6-20020a1709028f8600b0019102825d6cmr28656116plo.61.1672203795943;
+        Tue, 27 Dec 2022 21:03:15 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id b18-20020a170902d51200b00188f6cbd950sm9889296plg.226.2022.12.27.21.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Dec 2022 21:03:15 -0800 (PST)
+Message-ID: <63abce13.170a0220.b3854.1c8d@mx.google.com>
+Date: Tue, 27 Dec 2022 21:03:15 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,62 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v12 1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart
- transport layer
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167219941586.31925.4046196257831132463.git-patchwork-notify@kernel.org>
-Date: Wed, 28 Dec 2022 03:50:15 +0000
-References: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-In-Reply-To: <20221209092619.v12.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: linux-kernel@vger.kernel.org, rrangel@chromium.org,
- bhanumaiya@chromium.org, lkp@intel.com, pmalani@chromium.org,
- bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
- chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.2-rc1-6-gba409cd491c6
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-6-gba409cd491c6)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+6-gba409cd491c6)
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-6-gba409cd491c6/
 
-On Fri,  9 Dec 2022 09:26:22 -0700 you wrote:
-> From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-> 
-> This patch does following:
-> 1. Adds a new cros-ec-uart driver. This driver can send EC requests on
->    UART and process response packets received on UART transport.
-> 2. Once probed, this driver will initialize the serdev device based on
->    the underlying information in the ACPI resource. After serdev device
->    properties are set, this driver will register itself cros-ec.
-> 3. High level driver can use this implementation to talk to ChromeOS
->    Embedded Controller device in case it supports UART as transport.
-> 4. When cros-ec driver initiates a request packet, outgoing message is
->    processed in buffer and sent via serdev. Once bytes are sent, driver
->    enables a wait_queue.
-> 5. Since ChromeOS EC device sends response asynchronously, AP's TTY
->    driver accumulates response bytes and calls the registered callback.
->    TTY driver can send multiple callback for bytes ranging from 1 to MAX
->    bytes supported by EC device.
-> 6. Driver waits for EC_MSG_DEADLINE_MS to collect and process received
->    bytes. It wakes wait_queue if expected bytes are received or else
->    wait_queue timeout. Based on the error condition, driver returns
->    data_len or error to cros_ec.
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-6-gba409cd491c6
+Git Commit: ba409cd491c6f13d48a70a5d2c28d340dabd49dc
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [v12,1/3] platform/chrome: cros_ec_uart: Add cros-ec-uart transport layer
-    (no matching commit)
-  - [v12,2/3] dt-bindings: mfd: cros-ec: Add UART compatible string
-    https://git.kernel.org/chrome-platform/c/5be8cd61dcdd
-  - [v12,3/3] platform/chrome: cros_ec_uart: Add DT enumeration support
-    https://git.kernel.org/chrome-platform/c/c34fea225806
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

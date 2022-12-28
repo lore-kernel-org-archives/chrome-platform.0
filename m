@@ -1,40 +1,40 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85042A2A
-	for <chrome-platform@lists.linux.dev>; Wed, 28 Dec 2022 01:06:44 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id c9so4922563pfj.5
-        for <chrome-platform@lists.linux.dev>; Tue, 27 Dec 2022 17:06:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8845A2A
+	for <chrome-platform@lists.linux.dev>; Wed, 28 Dec 2022 01:08:19 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id b12so9713312pgj.6
+        for <chrome-platform@lists.linux.dev>; Tue, 27 Dec 2022 17:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AhiBkh5UrcsoNdDiXRM07AJgxIo5p7Z6aIMZaYVIvlo=;
-        b=PrdSKTukE+zAUoNbG7/Inyn4sNGFrt6NO9buKwzdkI3nP3vYEoq/SO44sr1/4E8qK1
-         Qc2xHsUrCt6IrZy9dSOBoU1F3c/61MRLaMwbeN9RTCPuDkHswFbmzL2hHwEvqMcDtYHd
-         pZT3+Wzwhcys+WXAZZp/7QG44mIShSSmYdlw0=
+        bh=Q3Dq4wWbILHgSzdg9F0HvepnEYOyHWo5P75M1QcLm/s=;
+        b=Fgalns0fr/AFzMRxFeH4/LwL0qZbL0snm2KwCCl2QnPyl5Kbj/+4zrKEcmy8PPTNsB
+         7FbZ2XYBB4W4MucUlLZY9jZSYs202FFXLnztqFnlw75So6egAqI4XNC2nmCgHZVLhOrE
+         1ffKuQRivqF0uBoREPBSAzm5QRibeBZ3I9Yt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AhiBkh5UrcsoNdDiXRM07AJgxIo5p7Z6aIMZaYVIvlo=;
-        b=vx0PTZ32pFE0r9Qdlo/uzAChh0NAojYbjLYnGVX0H1wFbFATVhU1UehQQdZK9ayryG
-         hijbVJbphNCepKVKROlGsHebNjxU0Yu1C4cEQzKVAwaP6xFBy/vfUCuZtxDos2gLWk8Y
-         bvzDgTl20woYdEHj5RC2CzWDZSW9G3ZaUB/aIo+rf7WoBuf7YKuMt36hyf5DstbNdNGy
-         jqdrzz8Z0/mBi2A9r+ytSnpSLqh/2B2MUxkE4bTt50AUR7r8nRqLBbl92tOwtjbwQS3s
-         YEDtt0+n9p6oAfNzlcvGsTbYTH8z6W3KaGAdvPqLtsM0n4hlYlN4qtiTLI6T5MiUk0w1
-         Rqvw==
-X-Gm-Message-State: AFqh2kqpylLWocVq5bZ8VmMGWU1njxZAZiJLZdcI/bRj1NuqMg641qsV
-	Fw1cxpse4S5N1txVtgxW8hF6cw==
-X-Google-Smtp-Source: AMrXdXusSVTTr+/gOVAWeuwTjHDvy/AIwdLmwOkQNWcl+UYKgKn76RnQXJBLCdtBgP180NYFoubdaQ==
-X-Received: by 2002:a05:6a00:b48:b0:581:dda:cec3 with SMTP id p8-20020a056a000b4800b005810ddacec3mr14718665pfo.16.1672189603892;
-        Tue, 27 Dec 2022 17:06:43 -0800 (PST)
+        bh=Q3Dq4wWbILHgSzdg9F0HvepnEYOyHWo5P75M1QcLm/s=;
+        b=ScoyJRf+3SQQgcsYrAwyBho9sXIVywOT7XkBA/FrTDxNb0e+jQvG+Dj75XuLNzHZnE
+         prhg1u8IgpJWSRB58NUzOdU+SQi1qMtB5UmU024mZPEjM1B6ZDiikpRs5lokAud1ctIb
+         wAaVqKOF3huoTCKsaCuEFpzYvxpoLtD//aX9oDgRvYYVkKDkfOqcKQePhLOXEmq1Sy7t
+         iW+dSGDU7KlSSTZaN7hkOL3o/yuAXtJ6Ie5RTFZv6XepWL8wD7pL5r8a733LVm5oOF5T
+         uXWNM3YqAsODeIOV8RNIHwlMaNfBoxu95JqIry4sIjsetiM+bildj49KSHfGbUXcVZ6A
+         yabQ==
+X-Gm-Message-State: AFqh2kpzxBOiaTDBhPrxSX5or44gg/2CG3EiYcsT+fjwmIlVecdka6qJ
+	HU8KOarD5jundMFPSFSHWpUnesbn0+74XlJJ
+X-Google-Smtp-Source: AMrXdXvprwqeO1sYyJAc2mcFG4t7ASTFUsJUdV61CCrza2i/K9kGZxDLNM1iO74sdjDDHZIEdiF7qg==
+X-Received: by 2002:a62:5f43:0:b0:576:dc40:6db9 with SMTP id t64-20020a625f43000000b00576dc406db9mr24269467pfb.13.1672189699426;
+        Tue, 27 Dec 2022 17:08:19 -0800 (PST)
 Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
-        by smtp.gmail.com with ESMTPSA id 68-20020a621947000000b00580e679dcf2sm6045566pfz.157.2022.12.27.17.06.43
+        by smtp.gmail.com with ESMTPSA id 68-20020a621947000000b00580e679dcf2sm6045566pfz.157.2022.12.27.17.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 17:06:43 -0800 (PST)
+        Tue, 27 Dec 2022 17:08:19 -0800 (PST)
 From: Prashant Malani <pmalani@chromium.org>
 To: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
@@ -47,6 +47,7 @@ Cc: heikki.krogerus@linux.intel.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
 	Lee Jones <lee.jones@linaro.org>,
 	Lee Jones <lee@kernel.org>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>,
@@ -54,9 +55,9 @@ Cc: heikki.krogerus@linux.intel.com,
 	Tinghan Shen <tinghan.shen@mediatek.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: [PATCH 06/10] platform/chrome: cros_ec_typec: Move structs to header
-Date: Wed, 28 Dec 2022 00:45:09 +0000
-Message-Id: <20221228004648.793339-7-pmalani@chromium.org>
+Subject: [PATCH 07/10] platform/chrome: cros_ec_typec: Alter module name with hyphens
+Date: Wed, 28 Dec 2022 00:45:10 +0000
+Message-Id: <20221228004648.793339-8-pmalani@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20221228004648.793339-1-pmalani@chromium.org>
 References: <20221228004648.793339-1-pmalani@chromium.org>
@@ -68,226 +69,43 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move ChromeOS Type-C structs into their own header, so they can be
-referenced by other files which can be added to the same module.
-
-No functional changes introduced by this patch.
+Change the Type-C module name from cros_ec_typec to cros-ec-typec. This
+allows us to include more files in the same module (rather than relying
+on the file name cros_ec_typec to also be the module name).
 
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 ---
- MAINTAINERS                             |  2 +-
- drivers/platform/chrome/cros_ec_typec.c | 78 +----------------------
- drivers/platform/chrome/cros_ec_typec.h | 85 +++++++++++++++++++++++++
- 3 files changed, 88 insertions(+), 77 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_ec_typec.h
+ drivers/platform/chrome/Kconfig  | 2 +-
+ drivers/platform/chrome/Makefile | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f61eb221415b..8219b646ab50 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4998,7 +4998,7 @@ CHROMEOS EC USB TYPE-C DRIVER
- M:	Prashant Malani <pmalani@chromium.org>
- L:	chrome-platform@lists.linux.dev
- S:	Maintained
--F:	drivers/platform/chrome/cros_ec_typec.c
-+F:	drivers/platform/chrome/cros_ec_typec.*
- F:	drivers/platform/chrome/cros_typec_switch.c
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index c1ca247987d2..5e420c27662a 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -226,7 +226,7 @@ config CROS_EC_TYPEC
+ 	  information from the Chrome OS EC.
  
- CHROMEOS EC USB PD NOTIFY DRIVER
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 665fa76e2416..a4eff590ca56 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -7,96 +7,22 @@
-  */
+ 	  To compile this driver as a module, choose M here: the module will be
+-	  called cros_ec_typec.
++	  called cros-ec-typec.
  
- #include <linux/acpi.h>
--#include <linux/list.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_data/cros_ec_commands.h>
--#include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_data/cros_usbpd_notify.h>
- #include <linux/platform_device.h>
--#include <linux/usb/pd.h>
- #include <linux/usb/pd_vdo.h>
--#include <linux/usb/typec.h>
--#include <linux/usb/typec_altmode.h>
- #include <linux/usb/typec_dp.h>
--#include <linux/usb/typec_mux.h>
--#include <linux/usb/typec_retimer.h>
- #include <linux/usb/typec_tbt.h>
--#include <linux/usb/role.h>
-+
-+#include "cros_ec_typec.h"
- 
- #define DRV_NAME "cros-ec-typec"
- 
- #define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
- 				DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
- 
--/* Supported alt modes. */
--enum {
--	CROS_EC_ALTMODE_DP = 0,
--	CROS_EC_ALTMODE_TBT,
--	CROS_EC_ALTMODE_MAX,
--};
--
--/* Container for altmode pointer nodes. */
--struct cros_typec_altmode_node {
--	struct typec_altmode *amode;
--	struct list_head list;
--};
--
--/* Per port data. */
--struct cros_typec_port {
--	struct typec_port *port;
--	int port_num;
--	/* Initial capabilities for the port. */
--	struct typec_capability caps;
--	struct typec_partner *partner;
--	struct typec_cable *cable;
--	/* SOP' plug. */
--	struct typec_plug *plug;
--	/* Port partner PD identity info. */
--	struct usb_pd_identity p_identity;
--	/* Port cable PD identity info. */
--	struct usb_pd_identity c_identity;
--	struct typec_switch *ori_sw;
--	struct typec_mux *mux;
--	struct typec_retimer *retimer;
--	struct usb_role_switch *role_sw;
--
--	/* Variables keeping track of switch state. */
--	struct typec_mux_state state;
--	uint8_t mux_flags;
--	uint8_t role;
--
--	struct typec_altmode *port_altmode[CROS_EC_ALTMODE_MAX];
--
--	/* Flag indicating that PD partner discovery data parsing is completed. */
--	bool sop_disc_done;
--	bool sop_prime_disc_done;
--	struct ec_response_typec_discovery *disc_data;
--	struct list_head partner_mode_list;
--	struct list_head plug_mode_list;
--
--	/* PDO-related structs */
--	struct usb_power_delivery *partner_pd;
--	struct usb_power_delivery_capabilities *partner_src_caps;
--	struct usb_power_delivery_capabilities *partner_sink_caps;
--
--	struct cros_typec_data *typec_data;
--};
--
--/* Platform-specific data for the Chrome OS EC Type C controller. */
--struct cros_typec_data {
--	struct device *dev;
--	struct cros_ec_device *ec;
--	int num_ports;
--	unsigned int pd_ctrl_ver;
--	/* Array of ports, indexed by port number. */
--	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
--	struct notifier_block nb;
--	struct work_struct port_work;
--	bool typec_cmd_supported;
--	bool needs_mux_ack;
--};
--
- static int cros_typec_parse_port_props(struct typec_capability *cap,
- 				       struct fwnode_handle *fwnode,
- 				       struct device *dev)
-diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-new file mode 100644
-index 000000000000..deda180a646f
---- /dev/null
-+++ b/drivers/platform/chrome/cros_ec_typec.h
-@@ -0,0 +1,85 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __CROS_EC_TYPEC__
-+#define __CROS_EC_TYPEC__
-+
-+#include <linux/list.h>
-+#include <linux/notifier.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/usb/pd.h>
-+#include <linux/usb/role.h>
-+#include <linux/usb/typec.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_retimer.h>
-+#include <linux/workqueue.h>
-+
-+/* Supported alt modes. */
-+enum {
-+	CROS_EC_ALTMODE_DP = 0,
-+	CROS_EC_ALTMODE_TBT,
-+	CROS_EC_ALTMODE_MAX,
-+};
-+
-+/* Container for altmode pointer nodes. */
-+struct cros_typec_altmode_node {
-+	struct typec_altmode *amode;
-+	struct list_head list;
-+};
-+
-+/* Platform-specific data for the Chrome OS EC Type C controller. */
-+struct cros_typec_data {
-+	struct device *dev;
-+	struct cros_ec_device *ec;
-+	int num_ports;
-+	unsigned int pd_ctrl_ver;
-+	/* Array of ports, indexed by port number. */
-+	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
-+	struct notifier_block nb;
-+	struct work_struct port_work;
-+	bool typec_cmd_supported;
-+	bool needs_mux_ack;
-+};
-+
-+/* Per port data. */
-+struct cros_typec_port {
-+	struct typec_port *port;
-+	int port_num;
-+	/* Initial capabilities for the port. */
-+	struct typec_capability caps;
-+	struct typec_partner *partner;
-+	struct typec_cable *cable;
-+	/* SOP' plug. */
-+	struct typec_plug *plug;
-+	/* Port partner PD identity info. */
-+	struct usb_pd_identity p_identity;
-+	/* Port cable PD identity info. */
-+	struct usb_pd_identity c_identity;
-+	struct typec_switch *ori_sw;
-+	struct typec_mux *mux;
-+	struct typec_retimer *retimer;
-+	struct usb_role_switch *role_sw;
-+
-+	/* Variables keeping track of switch state. */
-+	struct typec_mux_state state;
-+	uint8_t mux_flags;
-+	uint8_t role;
-+
-+	struct typec_altmode *port_altmode[CROS_EC_ALTMODE_MAX];
-+
-+	/* Flag indicating that PD partner discovery data parsing is completed. */
-+	bool sop_disc_done;
-+	bool sop_prime_disc_done;
-+	struct ec_response_typec_discovery *disc_data;
-+	struct list_head partner_mode_list;
-+	struct list_head plug_mode_list;
-+
-+	/* PDO-related structs */
-+	struct usb_power_delivery *partner_pd;
-+	struct usb_power_delivery_capabilities *partner_src_caps;
-+	struct usb_power_delivery_capabilities *partner_sink_caps;
-+
-+	struct cros_typec_data *typec_data;
-+};
-+
-+#endif /*  __CROS_EC_TYPEC__ */
+ config CROS_HPS_I2C
+ 	tristate "ChromeOS HPS device"
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index f6068d077a40..fd29fa74ba33 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -16,7 +16,8 @@ obj-$(CONFIG_CROS_TYPEC_SWITCH)		+= cros_typec_switch.o
+ obj-$(CONFIG_CROS_EC_RPMSG)		+= cros_ec_rpmsg.o
+ obj-$(CONFIG_CROS_EC_SPI)		+= cros_ec_spi.o
+ cros_ec_lpcs-objs			:= cros_ec_lpc.o cros_ec_lpc_mec.o
+-obj-$(CONFIG_CROS_EC_TYPEC)		+= cros_ec_typec.o
++cros-ec-typec-objs			:= cros_ec_typec.o
++obj-$(CONFIG_CROS_EC_TYPEC)		+= cros-ec-typec.o
+ obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
+ obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
+ obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
 -- 
 2.39.0.314.g84b9a713c41-goog
 

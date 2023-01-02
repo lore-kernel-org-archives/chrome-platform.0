@@ -1,85 +1,114 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E740D1110
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Dec 2022 20:09:56 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-46d4840b51fso213907607b3.12
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Dec 2022 12:09:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J28Z96tBdJMq17EQqMBm5q55q+5j73xIyMXGRvEOFxc=;
-        b=Q/jTZNTYdOQ2BDp0njm6m6X+vbhJ3aiU2T6zC4eL+9K6MwvPJ44/cyU5/5k/BUox3o
-         2sdcGrGJBR0zryqbckA4M0LLdWlsPJI8TuwvyGqZ/kiPlElCFREm2hdW/OwZCbMZTAz8
-         3mC1c8Pk9s9TMVtpDubJE032hBmlGGRK13rrYkMSYr60GEISYV8hgnrj116+EBliTNVw
-         hsM7Fvo2Qy8Ycv2uiRp6ngNiyLUV7NFxRWiN1gryEeUgk30bMLVCxhdyejU/92K+kjkp
-         NSr2BcAu1OjaePdL/rm/E7aocjvcpWzWWLjnaTCVDSgXcddMiFvegls/EodhXLy5wcLy
-         7iog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J28Z96tBdJMq17EQqMBm5q55q+5j73xIyMXGRvEOFxc=;
-        b=4U5Jwc2FPrhHhQoarKzAAri5TvQBhupYlu/u05cUbEpA2gFftDKSbc+SAfgHRtHkOD
-         iFMrtQMillv/7pSfQxNP5ByuGo81t/W6yexoafqEoPGve/1tLAk/N/zSZKqZ8vopEt4a
-         TRqzXbpnYn/8Uf4g1JTMov2jHUlaybl64gJ5OLzgnxPw3xJmv1kiw5oYPMb53ghiNtdi
-         XF5Yj+Hzu/YV8ftvjvRpfbXhWoO5qxUT3SA43kgsgBbQASuKkde8+lVAaPtjWYzJKuml
-         5SroB0EmLGtWIVWgX9iq17veJgZfKbftw0xOPNtOwvFk5MWy/Jn3a87c42wZK/caQZnE
-         yX+w==
-X-Gm-Message-State: AFqh2koB36tgPil0YywAgN4zxXCzbwzwW7nAiK7POjRdbCX7EGw7SqCp
-	4I/lz5eLCKyKLr0RfbugKSZ0G2SNysTIJztjWkbNiw==
-X-Google-Smtp-Source: AMrXdXurYwmOjunXcbAZ9793heR9PqBvPSez+JlQth09hsBSvwnB5YvwFmCVR4Eh+eJkXs2o6K8IxtJgaNY7bE48sOQ=
-X-Received: by 2002:a81:581:0:b0:370:4b5e:cb52 with SMTP id
- 123-20020a810581000000b003704b5ecb52mr3412769ywf.157.1672344595817; Thu, 29
- Dec 2022 12:09:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C3028EE
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Jan 2023 11:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672658408; x=1704194408;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3cq0L5Iv2/i9BXBd9J/fMEC34Ut39Q9wrLY1eKunmx0=;
+  b=Zrz7b5MsbQJFoZekBEQLogmbpTf8yBtSh1UNTzznQ706T44Xj89SPYMf
+   YtfGAf/t0BtIM4qZ5EbFcCGfkYvVKdyVjpRBs27ROd7NWB7VVH+UY15y9
+   1Yo7aKVOp3JvJwVfttmU3T02Qi7ga0NYfGKiVC+43BeZhd8Qug96hbyTK
+   ysfwuj85yxSEtEjWxs3KUOKakbvEhaKk8pjaTOUSxcG56jXAk+Ajhtfym
+   k3807USFAKZj61a++NkrdD3VHOyodoMRZdhhEYQHZJvX+dZVcZb+rvh9j
+   pVydBIhMf+0zEUHZfzFl1gNCZ4Qd1NHU68xibtnjtas0QZrSM4zfakN+k
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="385903230"
+X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; 
+   d="scan'208";a="385903230"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 03:20:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="796845036"
+X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; 
+   d="scan'208";a="796845036"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 02 Jan 2023 03:20:02 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 02 Jan 2023 13:20:01 +0200
+Date: Mon, 2 Jan 2023 13:20:01 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Benson Leung <bleung@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Evan Green <evgreen@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>, Lee Jones <lee.jones@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Xiang wangx <wangxiang@cdjrlc.com>
+Subject: Re: [PATCH 00/10] platform/chrome: cros_ec_typec: VDM support
+Message-ID: <Y7K94bWTsJ0r28f9@kuha.fi.intel.com>
+References: <20221228004648.793339-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221229094738.2304044-1-tzungbi@kernel.org> <CANg-bXD_KiMTR2UWbCQOpCJZqHMb3Txi+VFLw6iS6F_nE5aJEg@mail.gmail.com>
-In-Reply-To: <CANg-bXD_KiMTR2UWbCQOpCJZqHMb3Txi+VFLw6iS6F_nE5aJEg@mail.gmail.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Thu, 29 Dec 2022 12:09:44 -0800
-Message-ID: <CABXOdTdA-DxCvM-=YPqb-GXKJhFLujTRWEmsTKkPH6OtiZfWew@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix race condition
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org, groeck@chromium.org, 
-	chrome-platform@lists.linux.dev, robertzieba@google.com, 
-	bhanumaiya@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221228004648.793339-1-pmalani@chromium.org>
 
-Hi Mark,
+On Wed, Dec 28, 2022 at 12:45:03AM +0000, Prashant Malani wrote:
+> This series adds support for sending and receiving USB PD Vendor
+> Defined Messages (VDMs) between the Application Processor's Type-C
+> ports and connected peripherals.
+> 
+> Thir enables the Application processor to enter alternate modes and
+> process VDMs directly, instead of relying on state machines that exist
+> inside of co-processors like the ChromeOS Embedded Controller (EC).
+> 
+> Patch 1/10 reverts an incorrect EC header modification.
+> Patch 2/10 to 5/10 update headers and existing Type-C structs to
+> accommodate the VDM code.
+> Patch 6/10 and 7/10 prepare the Type-C driver to have more than 1 file.
+> Patch 8/10 to 10/10 introduce the VDM functionality.
+> 
+> Patch submissions suggestion (if approved):
+> - Even though Patch 1 touches drivers/mfd, it would be better to take
+>   the entire series through the cbrome-platform branch, to avoid
+>   cross-dependencies across maintainer trees.
 
-On Thu, Dec 29, 2022 at 8:58 AM Mark Hasemeyer <markhas@chromium.org> wrote:
->
-> > diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-> > index 0cef2888dffd..6916069f1599 100644
-> > --- a/drivers/platform/chrome/cros_ec_uart.c
-> > +++ b/drivers/platform/chrome/cros_ec_uart.c
-> > @@ -270,7 +270,6 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
-> >         }
-> >
-> >         serdev_device_set_drvdata(serdev, ec_dev);
-> > -       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> >         init_waitqueue_head(&ec_uart->response.wait_queue);
-> >
-> >         ec_uart->serdev = serdev;
-> > @@ -300,6 +299,8 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
-> >                            sizeof(struct ec_response_get_protocol_info);
-> >         ec_dev->dout_size = sizeof(struct ec_host_request);
-> >
-> > +       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> > +
-> >         return cros_ec_register(ec_dev);
-> >  }
-> Thanks for catching this. As a sanity check, I compiled and loaded the driver on
-> my local setup with these changes. LGTM.
+For the whole series, FWIW:
 
-Please consider replying with a Reviewed-by: and/or Tested-by: tag.
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Thanks,
-Guenter
+> Prashant Malani (10):
+>   Revert "mfd: cros_ec: Add SCP Core-1 as a new CrOS EC MCU"
+>   platform_chrome: cros_ec: Add Type-C VDM defines
+>   platform/chrome: cros_ec_typec: Stash port driver info
+>   platform/chrome: cros_ec_typec: Set port alt mode drvdata
+>   platform/chrome: cros_ec_typec: Update port DP VDO
+>   platform/chrome: cros_ec_typec: Move structs to header
+>   platform/chrome: cros_ec_typec: Alter module name with hyphens
+>   platform/chrome: cros_ec_typec: Add initial VDM support
+>   platform/chrome: cros_typec_vdm: Add VDM reply support
+>   platform/chrome: cros_typec_vdm: Add VDM send support
+> 
+>  MAINTAINERS                                   |   3 +-
+>  drivers/mfd/cros_ec_dev.c                     |   5 -
+>  drivers/platform/chrome/Kconfig               |   2 +-
+>  drivers/platform/chrome/Makefile              |   3 +-
+>  drivers/platform/chrome/cros_ec_typec.c       |  91 +++------------
+>  drivers/platform/chrome/cros_ec_typec.h       |  85 ++++++++++++++
+>  drivers/platform/chrome/cros_typec_vdm.c      | 106 ++++++++++++++++++
+>  drivers/platform/chrome/cros_typec_vdm.h      |  12 ++
+>  .../linux/platform_data/cros_ec_commands.h    |  53 ++++++++-
+>  include/linux/platform_data/cros_ec_proto.h   |   1 -
+>  10 files changed, 276 insertions(+), 85 deletions(-)
+>  create mode 100644 drivers/platform/chrome/cros_ec_typec.h
+>  create mode 100644 drivers/platform/chrome/cros_typec_vdm.c
+>  create mode 100644 drivers/platform/chrome/cros_typec_vdm.h
+
+-- 
+heikki

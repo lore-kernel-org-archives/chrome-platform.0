@@ -1,79 +1,89 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB963211
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 18:33:18 +0000 (UTC)
-Received: by mail-vk1-f172.google.com with SMTP id h4so10829880vkn.3
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 10:33:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E988F57
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 18:55:15 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id o127so34132181yba.5
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 10:55:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nyUet6x4uqQhhxhzGyUmhrj2wUnBNVlP6nKahm4i9RA=;
-        b=KyE7PTKiBM+a+b5Ipuv1hMvUzrc/qGS91TMQ6OMOHMBZsKqsQrbgbKt1pvBg/cUEoT
-         owVlUI9ak5JUcnuH0nNVZCC6AKjxoL/EmjOuHC+tyk1oUbRSHyHZY9m6elOGG5ORf8H5
-         P4tHtLOpF58qPEfGnObhWh5gaPnI1uhyqs58Y=
+        bh=60s8/1qZh8c3Dcc7cFNt5aFCnbeZvcI/OzWL4Nko71Y=;
+        b=k9ZpERD1UMFfi2rU0SikxaJDEAr8JGbJfXrT4J9IjbaIjADkl4Okn3a6EOsrxKQyQe
+         DglGIRI40X5UYm6H/lbdIFPWg4N+zdJ0Vyxm+DnuRF86yKbL+/1VzdU29dRsCJD6j2d1
+         tGQxyMAntY7J3iHylSisYIggi81xn3DKNtvv8AmJ5tasSb6GZt8z+zgTnfcdljsb9ZWI
+         q9AJHSOPW7DEgbL9xiK4G+psUmX4pe5c1n8j3I4ssjaQZhkeZRjxLOGgR2YlqcA8cdOd
+         wrA9/dW/kdTTz/GFb9WHsPa6WDQf9Cay/Q1qiwTsyuHEOxY0GpelRmCY5UEhy9BmuyUg
+         MZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nyUet6x4uqQhhxhzGyUmhrj2wUnBNVlP6nKahm4i9RA=;
-        b=IgHXN00j2ZdMbVH/Av76v84PDGVS4cetioXWMNLJmZ1FkTXIepSyQDNQ8cAZWWvdzq
-         /MsL+8pizxmjXItPJLKNDk8ZMgc844LDItXFRSmDtPQXqWLgNe/HgcwiHP1uB7XArotw
-         BgLa4QpRXqrfPl5st3Z9lKJwvVenFYzHoKZ4b+NxzuV7yCqIwqC/5H8gZBxSxJ/Wq78s
-         yJr+8YDu6za14iyZemGwVNUdMuVZGHLhLWE22C5F42iHCbvBOPJF/3ZoD/G7Tdj5kcOL
-         kXL24/f0nNGrWiglD2j9X+hrVG49O7d59wqFfdyjhiTHACxQrFjB5E9oLuOYvQMyVgu7
-         QBUQ==
-X-Gm-Message-State: AFqh2kqQaLW7hF//i443DlaAs75nLoouuLr0hIr7kX2JKAkDbraKF9Xg
-	+j+Z5snaEaMVbCWpZJj1ohlhrQgyTQn055gfKqbPjg==
-X-Google-Smtp-Source: AMrXdXuxNghyaFh6lv9WT1/cwGuWasBEt6KQO52RE6J6u8MNQSYCu16ebesgMg8YeTM3hjL41ccT0bFA+17M8OT2lJo=
-X-Received: by 2002:a1f:308a:0:b0:3d5:b2c7:f1c1 with SMTP id
- w132-20020a1f308a000000b003d5b2c7f1c1mr1236699vkw.29.1672770797873; Tue, 03
- Jan 2023 10:33:17 -0800 (PST)
+        bh=60s8/1qZh8c3Dcc7cFNt5aFCnbeZvcI/OzWL4Nko71Y=;
+        b=FtfL6IUjhVNnOmMPa5ardZG+KaBzlf2TS3bAGAxBaQ7VRkAfnAel534e1yZ71i7mnM
+         ji65AMBD2FqPUXZVbg8a2pHugleFBlyI08CJOXSzN0U1xHAuGSuhFyrf/mZ368wumA0I
+         mDWSHRUCHrMGerILLaYTpcXYXPJeKP3htdewC1GaFdOWsUFyyVQ2OCfT8wFImWr0II/s
+         vDR/7qyJU/+h0r2tiMJuXfBAeHQ8A1rKtGUAnhfeqjQ1NCkQeoQ5QQS81mH6vDPf2UKA
+         pZdMFb4wgoOiu0hMJYysuHqeW9V+/LcMRkm9gzm+73Itka1bgQD6HypLVELpdI94yTAb
+         KlqQ==
+X-Gm-Message-State: AFqh2kqUzlMsHVLOUNxIBf/R3owf81QQAvvsrYxMO4GJTLlkywUEhKdA
+	9IwxJK2pUszbK2nj9gmZXrqVR0iDNo5CijFTIeih7Q==
+X-Google-Smtp-Source: AMrXdXtgyCEJSEXyde46jTTMw3EoQhBhcFBBlVHOZgyzJ+zkrL2pbU00+jbMUdYJt0RyCiKJeLVXzJa2tKpEsz3hRd0=
+X-Received: by 2002:a05:6902:281:b0:73b:eea3:accb with SMTP id
+ v1-20020a056902028100b0073beea3accbmr5005526ybh.327.1672772114084; Tue, 03
+ Jan 2023 10:55:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221229094738.2304044-1-tzungbi@kernel.org> <CANg-bXD_KiMTR2UWbCQOpCJZqHMb3Txi+VFLw6iS6F_nE5aJEg@mail.gmail.com>
- <CABXOdTdA-DxCvM-=YPqb-GXKJhFLujTRWEmsTKkPH6OtiZfWew@mail.gmail.com>
-In-Reply-To: <CABXOdTdA-DxCvM-=YPqb-GXKJhFLujTRWEmsTKkPH6OtiZfWew@mail.gmail.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Tue, 3 Jan 2023 11:33:07 -0700
-Message-ID: <CANg-bXAijWJJbWGDsWXP_CUsB_bkbvHRw_WpYngQKcJ7ktAPaA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix race condition
-To: Guenter Roeck <groeck@google.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org, groeck@chromium.org, 
-	chrome-platform@lists.linux.dev, robertzieba@google.com, 
-	bhanumaiya@chromium.org
+References: <20230103145023.40055-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230103145023.40055-1-andriy.shevchenko@linux.intel.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 3 Jan 2023 10:55:03 -0800
+Message-ID: <CABXOdTdLFbi+-wUk1ohX+5bs01b0WX-MRSH9tUWD316vucpdmw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] platform/chrome: cros_ec_proto: Use asm intead of asm-generic
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Benson Leung <bleung@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-> > > diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-> > > index 0cef2888dffd..6916069f1599 100644
-> > > --- a/drivers/platform/chrome/cros_ec_uart.c
-> > > +++ b/drivers/platform/chrome/cros_ec_uart.c
-> > > @@ -270,7 +270,6 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
-> > >         }
-> > >
-> > >         serdev_device_set_drvdata(serdev, ec_dev);
-> > > -       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> > >         init_waitqueue_head(&ec_uart->response.wait_queue);
-> > >
-> > >         ec_uart->serdev = serdev;
-> > > @@ -300,6 +299,8 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
-> > >                            sizeof(struct ec_response_get_protocol_info);
-> > >         ec_dev->dout_size = sizeof(struct ec_host_request);
-> > >
-> > > +       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> > > +
-> > >         return cros_ec_register(ec_dev);
-> > >  }
-> > Thanks for catching this. As a sanity check, I compiled and loaded the driver on
-> > my local setup with these changes. LGTM.
+On Tue, Jan 3, 2023 at 6:50 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Please consider replying with a Reviewed-by: and/or Tested-by: tag.
+> There is no point to specify asm-generic for the unaligned.h.
+> Drop the 'generic' suffix.
 >
-FWIW -
-Tested-by: Mark Hasemeyer <markhas@chromium.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Subject: s/intead/instead/
+
+otherwise
+
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+
+> ---
+>  drivers/platform/chrome/cros_ec_proto_test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+> index c6a83df91ae1..08c58d031593 100644
+> --- a/drivers/platform/chrome/cros_ec_proto_test.c
+> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
+> @@ -5,7 +5,8 @@
+>
+>  #include <kunit/test.h>
+>
+> -#include <asm-generic/unaligned.h>
+> +#include <asm/unaligned.h>
+> +
+>  #include <linux/platform_data/cros_ec_commands.h>
+>  #include <linux/platform_data/cros_ec_proto.h>
+>
+> --
+> 2.35.1
+>

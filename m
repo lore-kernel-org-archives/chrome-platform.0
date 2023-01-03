@@ -1,89 +1,80 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E988F57
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 18:55:15 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id o127so34132181yba.5
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 10:55:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2468F7C
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 22:52:07 +0000 (UTC)
+Received: by mail-pl1-f201.google.com with SMTP id z10-20020a170902ccca00b001898329db72so22951660ple.21
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 14:52:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=60s8/1qZh8c3Dcc7cFNt5aFCnbeZvcI/OzWL4Nko71Y=;
-        b=k9ZpERD1UMFfi2rU0SikxaJDEAr8JGbJfXrT4J9IjbaIjADkl4Okn3a6EOsrxKQyQe
-         DglGIRI40X5UYm6H/lbdIFPWg4N+zdJ0Vyxm+DnuRF86yKbL+/1VzdU29dRsCJD6j2d1
-         tGQxyMAntY7J3iHylSisYIggi81xn3DKNtvv8AmJ5tasSb6GZt8z+zgTnfcdljsb9ZWI
-         q9AJHSOPW7DEgbL9xiK4G+psUmX4pe5c1n8j3I4ssjaQZhkeZRjxLOGgR2YlqcA8cdOd
-         wrA9/dW/kdTTz/GFb9WHsPa6WDQf9Cay/Q1qiwTsyuHEOxY0GpelRmCY5UEhy9BmuyUg
-         MZ/w==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lG4GSVPbjg+6U6nGDmBr4/cfFeVVwkYozm8u2Z4QFR8=;
+        b=gDl00iEY6WWQAc8JiShg0Ng+nb4TV3ozXdLxE8aVKFy1HzNo+S7pCjiHfiZRsh0rPK
+         AV7GiiXI5fOElC/pi/GRcvcfzi5hEYnWPfFCDqGTs4Lp3QgR/STeZWmBjnthyKGMlCBq
+         YFPGJxl0OLWIFHVtuCpPF7dtFs7yLzpknsb2ZYfXENz6bcoj/5JDe8Ccxs0UKkX5/SWa
+         mzDlRaNWJHSYZJVzTtgwhh14Kg0m8K+qGEYxbh6IFlEUnTcEUu6p1NPNXn1uW07PXJPO
+         De6sEWf4iegLlO5c0Ol5W4cdNy3t9hettSkcy/uvr34b+9ql0MRo6Xk37A5MXWns6hhp
+         2Y/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=60s8/1qZh8c3Dcc7cFNt5aFCnbeZvcI/OzWL4Nko71Y=;
-        b=FtfL6IUjhVNnOmMPa5ardZG+KaBzlf2TS3bAGAxBaQ7VRkAfnAel534e1yZ71i7mnM
-         ji65AMBD2FqPUXZVbg8a2pHugleFBlyI08CJOXSzN0U1xHAuGSuhFyrf/mZ368wumA0I
-         mDWSHRUCHrMGerILLaYTpcXYXPJeKP3htdewC1GaFdOWsUFyyVQ2OCfT8wFImWr0II/s
-         vDR/7qyJU/+h0r2tiMJuXfBAeHQ8A1rKtGUAnhfeqjQ1NCkQeoQ5QQS81mH6vDPf2UKA
-         pZdMFb4wgoOiu0hMJYysuHqeW9V+/LcMRkm9gzm+73Itka1bgQD6HypLVELpdI94yTAb
-         KlqQ==
-X-Gm-Message-State: AFqh2kqUzlMsHVLOUNxIBf/R3owf81QQAvvsrYxMO4GJTLlkywUEhKdA
-	9IwxJK2pUszbK2nj9gmZXrqVR0iDNo5CijFTIeih7Q==
-X-Google-Smtp-Source: AMrXdXtgyCEJSEXyde46jTTMw3EoQhBhcFBBlVHOZgyzJ+zkrL2pbU00+jbMUdYJt0RyCiKJeLVXzJa2tKpEsz3hRd0=
-X-Received: by 2002:a05:6902:281:b0:73b:eea3:accb with SMTP id
- v1-20020a056902028100b0073beea3accbmr5005526ybh.327.1672772114084; Tue, 03
- Jan 2023 10:55:14 -0800 (PST)
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lG4GSVPbjg+6U6nGDmBr4/cfFeVVwkYozm8u2Z4QFR8=;
+        b=BYfkMOn5pZrdJvnpMYfza9br21bM/yIfDGt/SPjwq9pSpmaNUfO2W6rbIwLBa5cURK
+         85aizlwQfMYIN2HsDIyK+4RrBelu/6xaOEQmMUw/zR9iWlcU/RyS/R+xsDBi5Ncg+vWQ
+         Hz2usDrE5fE7RU7cHgUK6yHhk5G+sYdYKOd2IAZr7Y38n7/oMgru+tRNOsKaCyIUIC6J
+         33tbEWX0JW5TL72zk8jsI/B96N9Uw9b3Lfo88zrwoJWn0uHs876Vlj4fp7+PIHYJkq5V
+         a45AWDPGqPUfvFqAoRnGXcRpVkob+dMF068x750nD9lsQHj2eNHXwh6iXENoJ6s4+3Mn
+         u3Ww==
+X-Gm-Message-State: AFqh2ko7R/hEpTngJT3hrfnBpHB4iJQaMvbHj/mnLlFgJ0iwvFqPDXOe
+	USGJq3pJN6Z2MY4illAfVn3PURITfFzA3cI=
+X-Google-Smtp-Source: AMrXdXuRw2ra6Og46q8Kx34smHMcVfzI1kvUw6VscH2g1c7hiXQv6O4gh8SnwU0lpx4l5mNGGDfX5PvyiqBpPPw=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a63:24c4:0:b0:499:c23c:d65b with SMTP id
+ k187-20020a6324c4000000b00499c23cd65bmr1559819pgk.541.1672786326943; Tue, 03
+ Jan 2023 14:52:06 -0800 (PST)
+Date: Tue,  3 Jan 2023 22:52:01 +0000
+In-Reply-To: <CACeCKafGg5=1MQQdCtXDm-3LE2VsixHPsUDngRwQXUvAwQ=u=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20230103145023.40055-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230103145023.40055-1-andriy.shevchenko@linux.intel.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 3 Jan 2023 10:55:03 -0800
-Message-ID: <CABXOdTdLFbi+-wUk1ohX+5bs01b0WX-MRSH9tUWD316vucpdmw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] platform/chrome: cros_ec_proto: Use asm intead of asm-generic
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Benson Leung <bleung@chromium.org>
+Mime-Version: 1.0
+References: <CACeCKafGg5=1MQQdCtXDm-3LE2VsixHPsUDngRwQXUvAwQ=u=Q@mail.gmail.com>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+Message-ID: <20230103225204.346088-1-robbarnes@google.com>
+Subject: [PATCH v2 0/2] Handle CrOS EC Panics
+From: Rob Barnes <robbarnes@google.com>
+To: groeck@chromium.org, pmalani@chromium.org
+Cc: chrome-platform@lists.linux.dev, dtor@chromium.org, 
+	Rob Barnes <robbarnes@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 3, 2023 at 6:50 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> There is no point to specify asm-generic for the unaligned.h.
-> Drop the 'generic' suffix.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Currently the OS ignores EC panics when they occur.
+After reporting a panic, the EC will force a hard reset,
+possibly after a short delay. This may cause loss of data.
 
-Subject: s/intead/instead/
+These patches add a handler for CrOS EC panics. When
+a panic is detected the OS will attempt to flush critical
+data for debugging purposes and attempt an orderly shutdown.
 
-otherwise
+Changelog since v1:
+- Updated commit messages
+- Split into two patches
+- Moved panic handle before mkbp loop
+- Switched to dev_emerg
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Rob Barnes (2):
+  platform/chrome: cros_ec: Poll EC log on EC panic
+  platform/chrome: cros_ec: Shutdown on EC Panic
 
-> ---
->  drivers/platform/chrome/cros_ec_proto_test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-> index c6a83df91ae1..08c58d031593 100644
-> --- a/drivers/platform/chrome/cros_ec_proto_test.c
-> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
-> @@ -5,7 +5,8 @@
->
->  #include <kunit/test.h>
->
-> -#include <asm-generic/unaligned.h>
-> +#include <asm/unaligned.h>
-> +
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_ec_proto.h>
->
-> --
-> 2.35.1
->
+ drivers/platform/chrome/cros_ec_debugfs.c   | 23 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec_lpc.c       | 10 +++++++++
+ include/linux/platform_data/cros_ec_proto.h |  9 ++++++++
+ 3 files changed, 42 insertions(+)
+
+-- 
+2.39.0.314.g84b9a713c41-goog
+

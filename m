@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D810374
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 05:40:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99766C433F1;
-	Tue,  3 Jan 2023 05:40:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672724416;
-	bh=mlwVKRPK433ETPffGx58bPMaJGLraVwTg0op8+aVntQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=StH2QbW5Vop8hPlHHn2w3Pg6uVtCfPD19uFFQvYeljLsYywvcBT2nbDSDcwCND7hK
-	 JDIh6D3Rvp8T5FE+OFEvCvhs8q2ImmvH2LndT6LiFfn3J8XW7XDYleEl1joF3rIV2Y
-	 Ki9vJxy4gXkgH/LZ9aSurKu/ksY95kuoG9YTY4Sld3GPlvz799RytKwv0moriHlhTt
-	 8T5z7lyDGhLtHp2qH6+/RZY0tAq7yFpJ7UHRwRrOAvq51OZcUs8dbtOqA/GVHWWqU0
-	 ZOzdfFyNn6NJKQHf8B3yLjSYT4NcoyajDxVffRheCpIu0ZbvEi0Okpb9O7nzPF339I
-	 rzDz01FTYYB2w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7A03BC395EA;
-	Tue,  3 Jan 2023 05:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354B5625
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 07:03:03 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id b2so31690755pld.7
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Jan 2023 23:03:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DQy77OWbsV37VowjX7DnjEhAuQqrAcMVGSnzH5EZkcE=;
+        b=Mjwi5xIxb0Hfw/aG4kdRseZDtnUtWkLGZQRNSicsBdPA3/aMEFqeW2BGQpZiRLqdWe
+         lvkqA3iJeQBxqyiwhFnJp/FViozE1KlYJgoEOtWe0XLPggo2fNVEFy8L4Y0N7HSQY7co
+         uU87zDFAveBakXYHxBNyI0gXZIH43DdBJK/SmmmjqIi+znnYzpBy52C2llrwWV/vGfwi
+         lGKDexS3d8jhLTK2ZBSLqzai1balElkqU1MVx3nWjEHVeiIsOTDQhVPoS0qcg5IlES+S
+         rvxkAnXHNtuYmd3i9Fd5kKQlBw+/6PaeOcLCU267WWOML4nu12ARFVlafbR9AC16FKNz
+         WjcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DQy77OWbsV37VowjX7DnjEhAuQqrAcMVGSnzH5EZkcE=;
+        b=QLsP3KShcUYb/vaNJ4QB2MLXIcHhKIglv7J57zPhyXRKBeYRg6kzj7QZzoSxss6f5S
+         foVRdDZxu0YmF0ICYrW+81MVnJli53pidyFkKPWfpQK5IZCS1SmdSk+vhB1Aegi7QLOp
+         fzq79Ry648nJ0MU9etj6Ef3yYlN3iYb538UTqn8ONW68enX0UnLSUTwIvLwoB3XAXnUg
+         nuJoPfjwZMa+PC+b/zNpfCbQeX5tHObjTWn4omo3StGLIYHnbFQe4wpUMsOoyM8eSKB6
+         u++EVmaY7XdNK9xbYb/uuYAlYP06g4QzPwwt8KtcoNNKOR7uX4rBeHQ0xFaCGOCtbmiD
+         9Y3w==
+X-Gm-Message-State: AFqh2kpnDUI+kF3yBQWDXRGBLiPx4JES1cfmgI+AILLa8ofV76YBhWKg
+	IOeAMoRUyeN+Ve0ji0vCMeRRqQ==
+X-Google-Smtp-Source: AMrXdXsXtqFVpcHSRMxHz5inI54feIs+xG7lPlRq8xSAYJQdDpsncsUZeISaC1o4QN1YXu18rMtfXg==
+X-Received: by 2002:a17:902:aa96:b0:18e:8223:6447 with SMTP id d22-20020a170902aa9600b0018e82236447mr43569175plr.22.1672729382616;
+        Mon, 02 Jan 2023 23:03:02 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id z2-20020a170903018200b00192588bcce7sm21239984plg.125.2023.01.02.23.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 23:03:02 -0800 (PST)
+Message-ID: <63b3d326.170a0220.8072f.26b7@mx.google.com>
+Date: Mon, 02 Jan 2023 23:03:02 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,41 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix race condition
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167272441649.10584.9545890058713452896.git-patchwork-notify@kernel.org>
-Date: Tue, 03 Jan 2023 05:40:16 +0000
-References: <20221229094738.2304044-1-tzungbi@kernel.org>
-In-Reply-To: <20221229094738.2304044-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- robertzieba@google.com, markhas@chromium.org, bhanumaiya@chromium.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.2-rc1-7-g51b1cbc6f5d0
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-7-g51b1cbc6f5d0)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+7-g51b1cbc6f5d0)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-7-g51b1cbc6f5d0/
 
-On Thu, 29 Dec 2022 17:47:38 +0800 you wrote:
-> From: Robert Zieba <robertzieba@google.com>
-> 
-> serdev_device_set_client_ops() is called before `ec_dev` is fully
-> initialized.  This can result in cros_ec_uart_rx_bytes() being called
-> while `ec_dev` is still not initialized, resulting in a kernel panic.
-> 
-> Call serdev_device_set_client_ops() after `ec_dev` is initialized.
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-7-g51b1cbc6f5d0
+Git Commit: 51b1cbc6f5d04563e30c87f61c36d3e5a2d58ceb
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - platform/chrome: cros_ec_uart: fix race condition
-    https://git.kernel.org/chrome-platform/c/56d4b33d45e3
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

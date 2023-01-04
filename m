@@ -1,98 +1,82 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA45AD27
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Jan 2023 23:28:00 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-476e643d1d5so340781487b3.1
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 15:28:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9717F7F
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Jan 2023 01:15:27 +0000 (UTC)
+Received: by mail-pj1-f73.google.com with SMTP id g15-20020a17090a128f00b0022628a85a1cso4644203pja.4
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Jan 2023 17:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L8l9QQnnx7pQWx8WivUZKbIX8ABABPh7UytyXM59oII=;
-        b=HOfuuQJqksmRSu3EpPqLC6xDLLLVQdTihgvOvbvivCKtODqrx4jD6THiCNjc/3wMPx
-         fyucRLzMc/O5q5bIBn0jBP5HFD9NarzHovHdfw3x5jT5bIeXsK24cKRv/rhKH9So+Hw+
-         gjCkk2/mgVhXlZEJ5A7nEZD+MzDSOZZ1OIHAY=
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fIVffE7jh79Mo6odD78GNMWGDn7q/x/UbQyXfVpvLf8=;
+        b=R1mYenG6bwp0GXPiA6n7F6oOHfPw4fabz24w8PTGUrU5AmV+z+/EJt23hf3KSAh6iC
+         Mzfp07vdkJ6S6ThqGdmL7iLGr2nQUoiXsfWuKzbRv7xP13gsRlJ2b1mGumBZTfejphW5
+         fbUfJbXpo7V0vfhtEsTlfjvpEzQMarcaH/IiWoMC49g6fO34YVVeDtIdU1vSvjfwBGSU
+         +d4LIKKwdQwOgnj6/F1slv0h4JYezlvsb4aAgs5njBYeTqUUdwkfYC9n0MD/7R/GlXVw
+         dz+glVBZu57and1Pf52njzYn6c8rneZ1KTvqdptIduZsdHpwWfeiHfdiC2x1yyyY5MT1
+         /Frw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L8l9QQnnx7pQWx8WivUZKbIX8ABABPh7UytyXM59oII=;
-        b=Go80WS2aDofxueECJGZDmGb9QCh/9eWQAGp+HX6hJfVo+xjls7CW2gvq6CjdkogJ/o
-         1KHEQxKBK2skIpULFgrFzN5poMjcDwo1LurcBCM+C3u6F/4t5WTFn+dajdGoLnT+rgQ+
-         2+Iuvs3DSUBc4TWxO8NLseEmfIGCDgHOZUEketuzLmrGIduZ/imfZjTJ+Ryb7oqCGfav
-         EDNZKfoHl61p5vB6e/2b4uDNCvPZ/qpSvKsL1oRKe1G23abrv/oBVGemy6VVXoyai2KC
-         eK7xSBsyAK6llVcG5Kiu/+df9kqWf1a8LI01FoiP1Ffs5LPOs2SVabIPlBZ1Hk7CsxY4
-         pCqQ==
-X-Gm-Message-State: AFqh2kq95153mSKQ2go5sMI9spM8iQqkKpaiB5qbGfM9Q/lE+MM47Q6t
-	G+Z0InCLfDBi1ZP73qOE3ueks8hDRkfkQeBxTKzPHw==
-X-Google-Smtp-Source: AMrXdXs7CO9UoGvmqSlN1Oc57sVUqBz0Y+Bqcr+xyEbJFqNg8gHRYBydcqrnb/KlfGZI8R1k5DBypNWgu+R+wAjv/AQ=
-X-Received: by 2002:a81:c30e:0:b0:4b2:72:d8ee with SMTP id r14-20020a81c30e000000b004b20072d8eemr412253ywk.272.1672788479482;
- Tue, 03 Jan 2023 15:27:59 -0800 (PST)
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fIVffE7jh79Mo6odD78GNMWGDn7q/x/UbQyXfVpvLf8=;
+        b=7Sf3OfL5flnFBcQ47+BEOqsEqY71zUFjEsU917OTWzZiJf7Peta7oXwnxYHl+c89Xl
+         bt4swN9WIEocb89je5TSNJKpIufhYrgeF+VL53c5TxVZujXoJBQFts6XeGB8cZall4+3
+         faxBfaZwStp7BCNjvHfBqnhPmRERt7UsSTgHAeIwIm8ixCvkfgXP1TMCNG3P9HggEPR0
+         rQg6duxa4L20ERYXWzmkLkhr1N05ICvykBezBR+bgvZ5zDnS1HPQOPjjf/eL2tthAfMw
+         QJ9k9+XWwRJ4JoqG1vFtXMQD4GOuisY7GhV/1rpvcPKNzHkYiX56Coi82ODfTeBzU1/J
+         QBiQ==
+X-Gm-Message-State: AFqh2koQyCXKKRBCNFpgX3blOoS3/CPoiIZjSOP/TurqXvTONH3palEC
+	Pg81zv6l1VAGIpgEOKU0E+C7NkmXSj2BV0Q=
+X-Google-Smtp-Source: AMrXdXtcM04eoblfgC3LCrdvLPB4rbEBCe8B5GovNelS/DtjLzoOKfv/12/m6w6Vcg/zhZfl5yIv3ojJ/NWYc30=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a63:2003:0:b0:48e:bdef:b6fb with SMTP id
+ g3-20020a632003000000b0048ebdefb6fbmr2155284pgg.457.1672794926930; Tue, 03
+ Jan 2023 17:15:26 -0800 (PST)
+Date: Wed,  4 Jan 2023 01:15:22 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20221221185540.2265771-1-robbarnes@google.com>
- <CACeCKafZu=46NE--r9W-wtJWAhj8=s46yCBO4N4u5nt4COqYAQ@mail.gmail.com>
- <CA+Dqm30XF=wDVcdUabbHySp-fwf+zFNqXpdYDW3bDTOwRbkiZw@mail.gmail.com>
- <CACeCKafGg5=1MQQdCtXDm-3LE2VsixHPsUDngRwQXUvAwQ=u=Q@mail.gmail.com> <CA+Dqm33CAjWv=DFhp0+iee2-EugJzjWOYcyfieaULq2H9egheA@mail.gmail.com>
-In-Reply-To: <CA+Dqm33CAjWv=DFhp0+iee2-EugJzjWOYcyfieaULq2H9egheA@mail.gmail.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 3 Jan 2023 15:27:48 -0800
-Message-ID: <CACeCKad+cdVLi8Qq1R2j+jkRkyF6Mktu_64oq4Ewi0TWXSKJ-g@mail.gmail.com>
-Subject: Re: [PATCH] drivers/cros_ec: Handle CrOS EC panics
-To: Rob Barnes <robbarnes@google.com>
-Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dtor@chromium.org, 
-	Benson Leung <bleung@chromium.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+Message-ID: <20230104011524.369764-1-robbarnes@google.com>
+Subject: [PATCH v3 0/2] Handle CrOS EC Panics
+From: Rob Barnes <robbarnes@google.com>
+To: groeck@chromium.org, pmalani@chromium.org
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	dtor@chromium.org, Rob Barnes <robbarnes@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 3, 2023 at 3:15 PM Rob Barnes <robbarnes@google.com> wrote:
->
-> On Wed, Dec 21, 2022 at 5:38 PM Prashant Malani <pmalani@chromium.org> wr=
-ote:
-> >
-> > On Wed, Dec 21, 2022 at 3:55 PM Rob Barnes <robbarnes@google.com> wrote=
-:
-> > >
-> > > On Wed, Dec 21, 2022 at 12:23 PM Prashant Malani <pmalani@chromium.or=
-g> wrote:
-> > > >
->
-> >
-> > It's just I find having a notifier for a single use case overkill(even
-> > 2 would be fine); one could get away with exposing a method
-> > in cros_typec_debugfs via a local .h file (it can compile to a stub if
-> > cros_typec_debugfs is not compiled to the kernel);
-> > the LPC code can then just call that method instead of invoking a notif=
-ier.
->
-> My first implementation did make a direct call to cros_ec_debugfs.c,
-> but an internal reviewer recommended using an event notifier instead.
-> So I'm histent to go back to a direct call.
->
-> There may be other sub drivers that want to handle EC panics. So I
-> think keeping this as a separate notifier makes sense given the
-> constraints.
+Currently the OS ignores EC panics when they occur.
+After reporting a panic, the EC will force a hard reset,
+possibly after a short delay. This may cause loss of data.
 
-The issue with that reasoning vis-=C3=A0-vis your implementation is that
-the panic notifier is tied to cros_ec_debugfs. What if another
-(sub)-driver wants to use the
-panic notifier to do something, but that system doesn't have CONFIG_DEBUGFS
-enabled?
+These patches add a handler for CrOS EC panics. When
+a panic is detected the OS will attempt to flush critical
+data for debugging purposes and attempt an orderly shutdown.
 
-Having a direct/explicit dependency avoids that issue; LPC depends on
-debugfs being compiled
-to have the log printed out (a stub is used when debugfs is not
-enabled), but nothing else
-relies on debugfs for a panic notifier.
+Changelog since v2:
+- Minor updates to commit messages
 
-BR,
+Changelog since v1:
+- Updated commit messages
+- Split into two patches
+- Moved panic handle before mkbp loop
+- Switched to dev_emerg
 
--Prashant
+
+Rob Barnes (2):
+  platform/chrome: cros_ec: Poll EC log on EC panic
+  platform/chrome: cros_ec: Shutdown on EC Panic
+
+ drivers/platform/chrome/cros_ec_debugfs.c   | 23 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec_lpc.c       | 10 +++++++++
+ include/linux/platform_data/cros_ec_proto.h |  9 ++++++++
+ 3 files changed, 42 insertions(+)
+
+-- 
+2.39.0.314.g84b9a713c41-goog
+

@@ -1,72 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426A97B
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 01:10:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2922DC433EF;
-	Thu,  5 Jan 2023 01:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672881055;
-	bh=UBsrnEBCMbR8iYQ08Ki2111e79mLrTvpC7LsomYwPus=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LVvU+veFZ+mUTx9G8sT4xCBNbpikF5NlRi5S+caJEMnKTvAhHU3QUKR1qK9pqROlh
-	 KOhx/6GOqm+clkf5W3VTipsPs6TYBM1ZeTMiRGiXXR3h/sWuLztLpUMGkP6FGgNPhf
-	 IV20uiw5nc902MpY4R+P+yy6GT8CetsSOQKo8F+8TEfrLhReNrI26JfWNV63g/ekZf
-	 0sTBej+l/kJLeNDnmTz7/52la9n3PC7xzrzLetGnPxYLxiqPze6VAQsWirNxlicNiP
-	 BNWNPLegWacEyCt8/+yBPJb5ylg+I/BVQfCKB829lgY/XSkJcA95Q0H8ltGyMoCpt4
-	 sefkje4zsLHew==
-Date: Thu, 5 Jan 2023 09:10:50 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Mark Hasemeyer <markhas@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Raul Rangel <rrangel@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] dt-bindings: mfd: Add compatible string for UART
- support
-Message-ID: <Y7YjmtwByTR+8tbZ@google.com>
-References: <20221207104005.v10.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
- <20221207104005.v10.2.I9e018ecb8bdf341648cb64417085978ff0d22a46@changeid>
- <Y7WkeCi7/x/t37JM@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0E47FD
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 04:40:41 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-4a2f8ad29d5so162952607b3.8
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Jan 2023 20:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=L3RKDUpLHSH4OD7mBSrVtKOYMv8CoVoHckaHZEsIkq4=;
+        b=RQIVRGo/f16meY9QNhwDHd5XV7H+7Q0kl6ORpJs2ivxGA7VlKL9MUklTWB6DRLKkXs
+         WPzOx0IXj3aKuIyb02gGvX+mLXzpbmUaU2MVjnZEMBBpqRKLU9C2AF79GJoXOxfC9Cgl
+         C8+5FjbkK661w2xwzzmQ4ryrepXFv2iiB0eDU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L3RKDUpLHSH4OD7mBSrVtKOYMv8CoVoHckaHZEsIkq4=;
+        b=eUZLSXw3nFFjsqkO4HmgrOYLKzI4AAsHxewb8LyzTpwRKszQPrR2/XiBRgcVo8pRjn
+         5WA7Dz/usCQUz/Sa84z69+j5tg5AsqOtz0b9RYGtXiWq/6P0FzkIWBA/l/H8wGPDBRR2
+         CvT+8MA3Ke/6FNglbFnFfi4xL8vM4H7/+sNoGvVhLb4fsR2qi0o0WZ6LtvcMZVw2p1ik
+         MrebC+2XaWUowWLOkCgzEh6utuZVa4ShWhm+Gfch01VqBcmc3+kshBue1GigVWmgbXY7
+         j0mqT+mo/FMmmFVhoyAONMtwgMOG0cBa3TZBFiWWjARb2aUfry7jX53a79Vh0V7t2Zl5
+         g72Q==
+X-Gm-Message-State: AFqh2kp+bz0S7/m3CD3kfuqLrfFF1v8ZB5cGO2IkXQMqeHsYn5HnUzPU
+	sSReORsUUdz//8NqlUjeTABuoQiAm7HCPxY62Q3fTQ==
+X-Google-Smtp-Source: AMrXdXuVE8jGRrwpzSJm50GAFPDPk2bw9DQY1t+35libp4KRqkIN4hZjSpcDlB+30nyy4CFNbmyjNEg/4CYw0MfHtJM=
+X-Received: by 2002:a05:690c:589:b0:4b4:f4a7:3ac5 with SMTP id
+ bo9-20020a05690c058900b004b4f4a73ac5mr685186ywb.187.1672893640435; Wed, 04
+ Jan 2023 20:40:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7WkeCi7/x/t37JM@google.com>
+References: <20230104011524.369764-1-robbarnes@google.com> <20230104011524.369764-2-robbarnes@google.com>
+In-Reply-To: <20230104011524.369764-2-robbarnes@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Wed, 4 Jan 2023 20:40:28 -0800
+Message-ID: <CACeCKaeS=q2PMtLPivqVLAUNho99KOkD7qsrxorXd8LPRerY8Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] platform/chrome: cros_ec: Poll EC log on EC panic
+To: Rob Barnes <robbarnes@google.com>
+Cc: groeck@chromium.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, dtor@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 04, 2023 at 04:08:24PM +0000, Lee Jones wrote:
-> On Wed, 07 Dec 2022, Mark Hasemeyer wrote:
-> 
-> > From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-> > 
-> > Add a compatible string to support the UART implementation of the cros
-> > ec interface. The driver does not support the reg and interrupt
-> > properties, so exempt them from being required for UART compatible nodes.
-> > 
-> > Signed-off-by: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-> > Co-developed-by: Mark Hasemeyer <markhas@chromium.org>
-> > Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
-> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > ---
-> > 
-> > Changes in v10:
-> > - No change
-> > 
-[...]
-> 
-> I changed the subject line and applied the patch, thanks.
-
-Pardon me.  I didn't know you would pick the patch so that I have queued it
-into chrome-platform[1].  Would you like me to drop the commit?
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/commit/?h=for-next&id=5be8cd61dcddfaee5d92072073672037154e76f5
+On Tue, Jan 3, 2023 at 5:15 PM Rob Barnes <robbarnes@google.com> wrote:
+>
+> Add handler for CrOS EC panic events. When a panic is reported,
+> immediately poll for EC log.
+>
+> This should result in the log leading to the EC panic being
+> preserved.
+>
+> ACPI_NOTIFY_CROS_EC_PANIC is defined in coreboot at
+> https://review.coreboot.org/plugins/gitiles/coreboot/+/refs/heads/master/src/ec/google/chromeec/acpi/ec.asl
+>
+> Signed-off-by: Rob Barnes <robbarnes@google.com>
+FWIW:
+Reviewed-by: Prashant Malani <pmalani@chromium.org>

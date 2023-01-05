@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5488A8BE0
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 14:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47063C433EF;
-	Thu,  5 Jan 2023 14:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEAC8BE0
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 14:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8B7C433D2;
+	Thu,  5 Jan 2023 14:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672928034;
-	bh=LZMG6lfnJjFVI3fWCWR+pIv5oqRDVyYiGlBhj6B8kms=;
+	s=k20201202; t=1672928673;
+	bh=+OBsYkn+1kFqvpmNNMYmPkwpjcHgZc/XdBy9tYzmGnM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i2RqDFBuGso6lFEKeEMrnNfnMMIGIo16sRlLK7njL52z9q4KzqLjmY4czmiZnO6FI
-	 UoVdF42kOmigbTj2v2rQBBx/N6ejNmE4BIunb5hZ5ib2sWgLCVc/kshFGyM+El14F1
-	 dmvBDIga+1YMaC6JnWIIpmiDe6gLFDTnbvE9ZN0wtIk7HvCRJ6wES3tJroV3ezrfWK
-	 7fSCN2aHNj9WNv2s+q5Umdl8hyolmSeBa+D69ep5BqxqnnYUSefYVkWgyob9YiHSGg
-	 3I/mBo+eyQckuDuF3/aJQ4chYtJPJ/ftU+4Z185dkNEoz3Xlmf3UR5qS1kGwHnC4uz
-	 yNc7/eih2hgYQ==
-Date: Thu, 5 Jan 2023 14:13:49 +0000
+	b=lhFOKuJLdai+4RDkr+cnfk5WxhplfJmxdqAKAJcoZ207bnDR+73ybRA15RtqnDcQj
+	 YsSgBSXJRRhvVyS4e5ZwCjPjop8hKEkpZ0+IIvV1geelsim+eeFJyIuWkQ+vioBVNs
+	 zuXcXoJbX47aPQUOLA85zX+9P9ZkindaAGGDqi/ToFXAVTigyXOa09bQyylYNKzpZU
+	 0xkMP9Vqu8Wcb0t6rUJpxWJAUmY2bEo1Y+DvDjcsbUPTaAZBQi8lo+DrkgqLMSVmON
+	 4DNb7yuz/DP/wdA9cAaHLtS4oL/+yzFKPTxEGA3YZaxXJJ/m5copkNVf3i4Mqr3IYN
+	 gangprpYofjfw==
+Date: Thu, 5 Jan 2023 14:24:26 +0000
 From: Lee Jones <lee@kernel.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Mark Hasemeyer <markhas@chromium.org>,
@@ -30,7 +30,7 @@ Cc: Mark Hasemeyer <markhas@chromium.org>,
 	devicetree@vger.kernel.org
 Subject: Re: [PATCH v10 2/3] dt-bindings: mfd: Add compatible string for UART
  support
-Message-ID: <Y7bbHZwUmfv9yVIh@google.com>
+Message-ID: <Y7bdmiZ9lqKZXCfq@google.com>
 References: <20221207104005.v10.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
  <20221207104005.v10.2.I9e018ecb8bdf341648cb64417085978ff0d22a46@changeid>
  <Y7WkeCi7/x/t37JM@google.com>
@@ -73,9 +73,17 @@ On Thu, 05 Jan 2023, Tzung-Bi Shih wrote:
 > Pardon me.  I didn't know you would pick the patch so that I have queued it
 > into chrome-platform[1].  Would you like me to drop the commit?
 
+Yes, please do.
 
-> 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/commit/?h=for-next&id=5be8cd61dcddfaee5d92072073672037154e76f5
+You should gain permission from the maintainer before you apply patches.
+
+  % scripts/get_maintainer.pl -f Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+     Lee Jones <lee@kernel.org> (supporter:MULTIFUNCTION DEVICES (MFD))
+     Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+     Matthias Brugger <matthias.bgg@gmail.com> (maintainer:ARM/Mediatek SoC support)
+ 
+ Why do I get the feeling we've had this conversation before?
 
 -- 
 Lee Jones [李琼斯]

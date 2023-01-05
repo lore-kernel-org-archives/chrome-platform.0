@@ -1,89 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEAC8BE0
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 14:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8B7C433D2;
-	Thu,  5 Jan 2023 14:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672928673;
-	bh=+OBsYkn+1kFqvpmNNMYmPkwpjcHgZc/XdBy9tYzmGnM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lhFOKuJLdai+4RDkr+cnfk5WxhplfJmxdqAKAJcoZ207bnDR+73ybRA15RtqnDcQj
-	 YsSgBSXJRRhvVyS4e5ZwCjPjop8hKEkpZ0+IIvV1geelsim+eeFJyIuWkQ+vioBVNs
-	 zuXcXoJbX47aPQUOLA85zX+9P9ZkindaAGGDqi/ToFXAVTigyXOa09bQyylYNKzpZU
-	 0xkMP9Vqu8Wcb0t6rUJpxWJAUmY2bEo1Y+DvDjcsbUPTaAZBQi8lo+DrkgqLMSVmON
-	 4DNb7yuz/DP/wdA9cAaHLtS4oL/+yzFKPTxEGA3YZaxXJJ/m5copkNVf3i4Mqr3IYN
-	 gangprpYofjfw==
-Date: Thu, 5 Jan 2023 14:24:26 +0000
-From: Lee Jones <lee@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Mark Hasemeyer <markhas@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Raul Rangel <rrangel@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1515D2F27
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Jan 2023 15:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672932840; x=1704468840;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d9qCGfnbvV19YiK+oGf2OAoM9AmsakV5jBBNht6wFH0=;
+  b=IFBsva+pwFcMnFXmF6WqtBpxmXCkyLXn+93jkotoqT0Y5l7dC6dHu5VE
+   c4SrYSR89Q1OxRJdT+yLOf06/CtexDWMRllLZr/bc3tejspHMOZBHRadq
+   TkdFtP9TmezNQRJ8cV7uYq994fL6b1vbLy68PNi64eArxr9FG07TEiQGs
+   asucxoVj1lwhPmVNxsT92FQvUSADmP6uT0P1U/WUnbQ30X6WOakdrD3bk
+   jlh7ivskkNGcxJOIYbeKTDwa8Xh01uYhd6cqCBTLFRL3K3JBEaw3dxC7U
+   uFritCUC5ml9nBgAQY4TXQ3iLmW/ZG0Ty4uX7baxYPH9rEquJeD8jaR2B
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="349448704"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="349448704"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 07:33:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="797964616"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="797964616"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2023 07:33:03 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1pDSEl-004oxQ-31;
+	Thu, 05 Jan 2023 17:32:59 +0200
+Date: Thu, 5 Jan 2023 17:32:59 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <robert.foss@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] dt-bindings: mfd: Add compatible string for UART
- support
-Message-ID: <Y7bdmiZ9lqKZXCfq@google.com>
-References: <20221207104005.v10.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
- <20221207104005.v10.2.I9e018ecb8bdf341648cb64417085978ff0d22a46@changeid>
- <Y7WkeCi7/x/t37JM@google.com>
- <Y7YjmtwByTR+8tbZ@google.com>
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Xin Ji <xji@analogixsemi.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hsin-Yi Wang <hsinyi@chromium.org>, linux-kernel@vger.kernel.org,
+	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org,
+	Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+	chrome-platform@lists.linux.dev,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+	Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v7 2/9] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
+Message-ID: <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+References: <20230105132457.4125372-1-treapking@chromium.org>
+ <20230105132457.4125372-3-treapking@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y7YjmtwByTR+8tbZ@google.com>
+In-Reply-To: <20230105132457.4125372-3-treapking@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 05 Jan 2023, Tzung-Bi Shih wrote:
-
-> On Wed, Jan 04, 2023 at 04:08:24PM +0000, Lee Jones wrote:
-> > On Wed, 07 Dec 2022, Mark Hasemeyer wrote:
-> > 
-> > > From: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-> > > 
-> > > Add a compatible string to support the UART implementation of the cros
-> > > ec interface. The driver does not support the reg and interrupt
-> > > properties, so exempt them from being required for UART compatible nodes.
-> > > 
-> > > Signed-off-by: Bhanu Prakash Maiya <bhanumaiya@chromium.org>
-> > > Co-developed-by: Mark Hasemeyer <markhas@chromium.org>
-> > > Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
-> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > ---
-> > > 
-> > > Changes in v10:
-> > > - No change
-> > > 
-> [...]
-> > 
-> > I changed the subject line and applied the patch, thanks.
+On Thu, Jan 05, 2023 at 09:24:50PM +0800, Pin-yen Lin wrote:
+> From: Prashant Malani <pmalani@chromium.org>
 > 
-> Pardon me.  I didn't know you would pick the patch so that I have queued it
-> into chrome-platform[1].  Would you like me to drop the commit?
+> When using OF graph, the fw_devlink code will create links between the
+> individual port driver (cros-ec-typec here) and the parent device for
+> a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> have the usb-c-connector (i.e the child of the port driver) as a
+> supplier, fw_devlink will not be able to resolve the cyclic dependency
+> correctly.
+> 
+> As a result, the mode-switch driver probe() never runs, so mode-switches
+> are never registered. Because of that, the port driver probe constantly
+> fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> switch devices to be registered prior to port registration.
+> 
+> To break this deadlock and allow the mode-switch registration to occur,
+> purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> the connector as a supplier for a switch and allows it to be probed.
 
-Yes, please do.
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> 
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
-You should gain permission from the maintainer before you apply patches.
+Tag block mustn't have the blank line(s).
 
-  % scripts/get_maintainer.pl -f Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-     Lee Jones <lee@kernel.org> (supporter:MULTIFUNCTION DEVICES (MFD))
-     Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
-     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
-     Matthias Brugger <matthias.bgg@gmail.com> (maintainer:ARM/Mediatek SoC support)
- 
- Why do I get the feeling we've had this conversation before?
+...
+
+> +	/*
+> +	 * OF graph may have set up some device links with switches, since
+> +	 * connectors have their own compatible. Purge these to avoid a deadlock
+> +	 * in switch probe (the switch mistakenly assumes the connector is a
+> +	 * supplier).
+> +	 */
+
+Perhaps even
+
+	/*
+	 * OF graph may have set up some device links with switches,
+	 * since connectors have their own compatible. Purge these
+	 * to avoid a deadlock in switch probe (the switch mistakenly
+	 * assumes the connector is a supplier).
+	 */
+
+?
+
+> +	if (dev->of_node)
+
+I would use if (dev_of_node(dev)), but it's up to you and maintainers.
+
+> +		device_for_each_child_node(dev, fwnode)
+> +			fw_devlink_purge_absent_suppliers(fwnode);
 
 -- 
-Lee Jones [李琼斯]
+With Best Regards,
+Andy Shevchenko
+
+

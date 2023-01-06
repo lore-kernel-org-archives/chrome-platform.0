@@ -1,79 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BD87B
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Jan 2023 09:08:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF9FC433D2;
-	Fri,  6 Jan 2023 09:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672996110;
-	bh=4nrv9O5BL94tk4LE5kqrTpUjmT36drfqRc0Gut7k0Lc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oLlpw6LEV0dblqDXr3O/S1T62dg7UWg6nKDlN+8BR9WVU6e8wOqiSSasHqHIiGxic
-	 Kh3G7TryqAgaVRzgxW8Rh4ao8/v4uz+mOas57N8AD66f6NCKVnal6IUQIQGT8KGc5F
-	 4L+N25tk9uCGwv+WDe1BkdXDbqSyKgl0TzVIhiAHzcrz8Vrao5HQWepbI8BXIjJS45
-	 KdBmKo8awvKXjHnVpBT1Ncv3L3vaiv1NevdKbkM0+kKqHKCl2SqKjdntbHtnPm9pHm
-	 lNxIfPeibrrTfqg4G3t5mESWSOoFbcVTNwUjEFfO8MarBjfDRjbJEPg4Jg661yUFPb
-	 IyagTS2kWBc9w==
-Date: Fri, 6 Jan 2023 17:08:27 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/chromeos: cros_ec: Use per-device lockdep key
-Message-ID: <Y7flCydDtLVwsXIJ@google.com>
-References: <20230106045537.1243887-1-wenst@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764A31869
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Jan 2023 12:48:24 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so3466112wma.1
+        for <chrome-platform@lists.linux.dev>; Fri, 06 Jan 2023 04:48:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8zVNUT3bgdnMkFHoj/GybUreH+dejeypvrE/0mlGO44=;
+        b=RLC4VF3LVFfa0bOsrwXfVnS6UTPE8TaIBoiP8TlbOSfaW4I0JqJ2Io23P0TSAHqCCu
+         DHE1TXTIS5AzTr2RGltgLFG+Aco9X3ZY1L7QnO+HaZeIwZ5VfcAE2mFlrCt3Sg9NHp5d
+         1QG1PW20BpMEqgjWeMknBPLUsuFxI7dKRWOpQ245bGXK5aV1qSD5MtscROyyT94iwqgs
+         TSsDipA04LOSx70GU34PifTCQxjWI3Do4TSTWu9mbleO5PmcBmbtAfGJsYNmY02VUHMK
+         tCSzEXzicW1n4FLhB0rilYbyjDAGnHn5lkWHxEo4HfLZmF6zgnIUZT+ymH5w6i9wpFgw
+         aHcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8zVNUT3bgdnMkFHoj/GybUreH+dejeypvrE/0mlGO44=;
+        b=PmMnkYvPS/WjenemLSvr2CrGkN1LFNn1pRXnYN7svVaFOJFTMRRgpVdBI+NvccDPpU
+         NdA7c4AJR3021H361MzeBU1/CISJql0MC5XPi6YsVD87T4Y4oTzRODNScm8doSXkxUXn
+         6Ej9SHmdSea4BoGymrc5bl1qXnrQeMEmg+DJdcBEZxf0mnX2r/buZnJaEC0PmhnF3Nrs
+         UDz22Zsu9rxKek8XokoATF7FRW3wdEuH4xIUDhNUUIgHtCnCsKUtNlvP+XlgygI7ooiZ
+         XbM/GqqNjD7Yl5bUg0tpe+bXaXtmExoUAShKXuupbZpiV5pDuZiAWHrRM2lB2ZseVlqd
+         AC0w==
+X-Gm-Message-State: AFqh2kq4NpxYJGg/gCfzpofrrIojLwwxAPmSR4ybzEWaW/6IB6joSrZ4
+	sVLPoIrvZW0jwEeukX9Now4A+A==
+X-Google-Smtp-Source: AMrXdXvTAo5ItVnUoTZAbTRPzwj3gQr3rM9LmIfwukZgRbRtovmTeFlA8otEKXpd826Eati8fuXXjQ==
+X-Received: by 2002:a05:600c:3d91:b0:3d9:103d:9078 with SMTP id bi17-20020a05600c3d9100b003d9103d9078mr38149211wmb.22.1673009302667;
+        Fri, 06 Jan 2023 04:48:22 -0800 (PST)
+Received: from [192.168.1.102] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id h10-20020a05600c2caa00b003cfd58409desm6235286wmc.13.2023.01.06.04.48.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 04:48:21 -0800 (PST)
+Message-ID: <5ad7a6bc-0ffd-9d2d-ed80-62c3530cf2fa@linaro.org>
+Date: Fri, 6 Jan 2023 13:48:19 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230106045537.1243887-1-wenst@chromium.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7 7/9] dt/bindings: drm/bridge: it6505: Add mode-switch
+ support
+Content-Language: en-US
+To: Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+Cc: =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?=
+ <nfraprado@collabora.com>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ linux-kernel@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>,
+ linux-acpi@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>, Marek Vasut <marex@denx.de>,
+ devicetree@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>
+References: <20230105132457.4125372-1-treapking@chromium.org>
+ <20230105132457.4125372-8-treapking@chromium.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230105132457.4125372-8-treapking@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 06, 2023 at 12:55:37PM +0800, Chen-Yu Tsai wrote:
-> Lockdep reports a bogus possible deadlock on MT8192 Chromebooks due to
-> the following lock sequences:
+On 05/01/2023 14:24, Pin-yen Lin wrote:
+> ITE IT6505 can be used in systems to switch the DP traffic between
+> two downstreams, which can be USB Type-C DisplayPort alternate mode
+> lane or regular DisplayPort output ports.
+
+Use subject prefixes matching the subsystem (which you can get for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching).
+
 > 
-> 1. lock(i2c_register_adapter) [1]; lock(&ec_dev->lock)
-> 2. lock(&ec_dev->lock); lock(prepare_lock);
+> Update the binding to accommodate this usage by introducing a
+> data-lanes and a mode-switch property on endpoints.
 > 
-> The actual dependency chains are much longer. The shortened version
-> looks somewhat like:
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > 
-> 1. cros-ec-rpmsg on mtk-scp
->    ec_dev->lock -> prepare_lock
-> 2. In rt5682_i2c_probe() on native I2C bus:
->    prepare_lock -> regmap->lock -> (possibly) i2c_adapter->bus_lock
-> 3. In rt5682_i2c_probe() on native I2C bus:
->    regmap->lock -> i2c_adapter->bus_lock
-> 4. In sbs_probe() on cros-ec-i2c (passthrough) I2C bus on cros-ec
->    i2c_adapter->bus_lock -> ec_dev->lock
+> ---
 > 
-> While lockdep is correct that the shared lockdep classes have a circular
-> dependency, it is bogus because
+> Changes in v7:
+> - Fixed issues reported by dt_binding_check.
+> - Updated the schema and the example dts for data-lanes.
+> - Changed to generic naming for the example dts node.
 > 
->   a) 2+3 happen on a native I2C bus
->   b) 4 happens on the actual EC on ChromeOS devices
->   c) 1 happens on the SCP coprocessor on MediaTek Chromebooks that just
->      happen to expose a cros-ec interface, but do not have a passthrough
->      I2C bus
+> Changes in v6:
+> - Remove switches node and use endpoints and data-lanes property to
+>   describe the connections.
 > 
-> In short, the "dependencies" are actually on different devices.
+>  .../bindings/display/bridge/ite,it6505.yaml   | 95 ++++++++++++++++---
+>  1 file changed, 84 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> index b16a9d9127dd..1ee7cd0d2035 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> @@ -77,20 +77,45 @@ properties:
+>          unevaluatedProperties: false
+>          description: Video port for DP output
+>  
+> -        properties:
+> -          endpoint:
+> +        patternProperties:
+> +          "^endpoint@[01]$":
+>              $ref: /schemas/graph.yaml#/$defs/endpoint-base
+>              unevaluatedProperties: false
+>  
+>              properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+>                data-lanes:
+> -                minItems: 1
+> -                uniqueItems: true
+> -                items:
+> -                  - enum: [ 0, 1 ]
+> -                  - const: 1
+> -                  - const: 2
+> -                  - const: 3
+> +                oneOf:
+> +                  - minItems: 1
 
-Path of 4 looks weird to me.
+Drop minItems.
 
-Could you point out where sbs_probe() gets to acquire ec_dev->lock?
+> +                    maxItems: 1
 
-I may misunderstand: I thought there is no such I2C bus for passthrough
-from kernel's point of view (as the bus and devices behind the EC).
-See also [2].
+Actually drop this as well and just use items with one item (enum).
 
-[2]: https://elixir.bootlin.com/linux/v6.2-rc2/source/drivers/platform/chrome/cros_ec.c#L241
+> +                    items:
+> +                      enum: [0, 1, 2, 3]
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +
+> +                  - items:
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +              mode-switch:
+> +                type: boolean
+> +                description: Register this node as a Type-C mode switch or not.
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+>  
+>      required:
+>        - port@0
+> @@ -102,7 +127,6 @@ required:
+>    - pwr18-supply
+>    - interrupts
+>    - reset-gpios
+> -  - extcon
+>    - ports
+>  
+>  additionalProperties: false
+> @@ -139,8 +163,11 @@ examples:
+>                  };
+>  
+>                  port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+>                      reg = <1>;
+> -                    it6505_out: endpoint {
+> +                    it6505_out: endpoint@0 {
+> +                        reg = <0>;
+>                          remote-endpoint = <&dp_in>;
+>                          data-lanes = <0 1>;
+>                      };
+> @@ -148,3 +175,49 @@ examples:
+>              };
+>          };
+>      };
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c3 {
 
+Just i2c
 
-On a related note, for the commit title: s/chromeos/chrome/ if it gets
-chance to have next version.
+Best regards,
+Krzysztof
+

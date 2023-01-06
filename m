@@ -1,108 +1,159 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371B07B
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Jan 2023 05:03:20 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id n12so482827pjp.1
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Jan 2023 21:03:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540607B
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Jan 2023 08:54:39 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id ja17so602054wmb.3
+        for <chrome-platform@lists.linux.dev>; Fri, 06 Jan 2023 00:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=PHPqtiKK2MUdK2N5WiYSqHfOCIICmAZmpSIe7UEBOFA=;
-        b=3vSxbmj7YkFc5WHv2MAvR0mis8YlUh8rOl8O27enQWa2CBP3WujbP8y9Vos89USypL
-         9rWnEvbFgzWtZ8MigkchvEPgESrCCd1GcEyQRWPExzoDklGSWFSC5AbL8x/Bcgzvpr9J
-         qB3ev1o6s/1o/OppmPPwEabh6c36v7C+r36FGtUNrzKd1ECPefZeDjP6dYmB8bpb5XYO
-         HEexC302waf7pWf0bhs8ykutraS9FNtBGHCPeiPOR95tzdWv12ReluUgXKXUgJhgBAN9
-         gKhExNh5ToCQPgNrtRi1MMhbZNFfPcpOtGr7cXWWD/ElD1EQSZIqTXWr//IWYVWBWfUl
-         WMvA==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iyQcVsjNCuxQT38p/12jXZi+sWxLlHg0zB8RFcHQKGo=;
+        b=YLnKR3PiyRE/KnFQNF44rQ1yVv5XOs+BemNgn5/DYZRqgtnLYQ1iadZeJ9MgMkYJME
+         IKyj+04mZw/6YWs2AcYOnPJUAC3ml7RUHu4MQEoMd8L5B0wXCI4pf5xjMnJcWcnIt57f
+         dM16hq86p/OvqUXBoZVaVQoYgwRLWUXPyjbEYg8leD6G3zkINiFFDt0NQIDW5EpKCkwF
+         PToCjAz01pOtK0HkTdo3opVpsaQht1YBXogmehX5rNf8dDzmO98u4TxV0EJWb1JuLr7Z
+         tby3VzLNZw0PXSjh1jsc+OkIacNEdTHoiQq0WasFtmPq/W3AMjairwFk8rajF2i8d/v2
+         C8fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PHPqtiKK2MUdK2N5WiYSqHfOCIICmAZmpSIe7UEBOFA=;
-        b=MHtSPfS4WJ3Dcg7YpDsnjbwivWWn77+sDtzGdO0q3B3bCj6Uzp2ycpiURNb93wji1+
-         w7SXj4TrNxprwuwIleGUoJU6u1/FPeOkMN532tiqbplHQZWc3aeptbwTAJd+9CPWi+ep
-         35kMgaUrWFlWjWK9BarBGUYAHuFHBNychzvw9Yc1R0Ty157KgtroMVpn+nb6O+rPHG8d
-         QobWwv4gQmYyQvb9Ar8MvCbgEHZtmzf89qhpfEZBZDnE+ZB+M1mqZSft6rpu+EQmgwJ6
-         is8u+ISfc3baZOR3yJutdRu8RNZfRCy+HuPZttowaQ/wSVBAlfDbBBTb5WiqucK7LaV7
-         7Wow==
-X-Gm-Message-State: AFqh2kr5D1uiePexhMJv6tH8dIn63W7b9vDnnHUDrxMXaPgKHt+RBn0S
-	l8FuIZdu5pv2v9ZJuN3Wq7OZQGGxQwUIOtCbipmemA==
-X-Google-Smtp-Source: AMrXdXvVAQwoQJsB91J0cAPLDNNo22yc9SRjhK7RAmh0PdVP1netCx2YxOUEI6m22I6Yp1gz4WamFA==
-X-Received: by 2002:a17:90a:514e:b0:226:ca91:3979 with SMTP id k14-20020a17090a514e00b00226ca913979mr4643462pjm.26.1672981399649;
-        Thu, 05 Jan 2023 21:03:19 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id lj12-20020a17090b344c00b002190eabb890sm2087293pjb.25.2023.01.05.21.03.19
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iyQcVsjNCuxQT38p/12jXZi+sWxLlHg0zB8RFcHQKGo=;
+        b=oyniiZvQbLW63fiISBn/OYGJbXR3JrQrB84brVFOU8jOywXviQmZB4gdhSfnL+8xXG
+         hE5OX0XL1TWgeOEjoiSm19xAk9svtfl+1qNA24ZFaul2Q4fS7xP5YXn/gji635CVO7vX
+         2QL2ErF7nTq5+LsvGc9KDo/vsumr/XjljyMOW0qgCy2kNPJcP27xKEazYZMKK0VWcgy5
+         /NwV6sO4q7+pSCN9TrHStkO10gMmu1KLnIV069kKH4bxOn1/1KsXnYjS/eGtSQq3PEeO
+         zvwm4xFPXe51zgODlI18+vj4PPzXZBKIqzJ38ZpD+3yWzSXGd/YFypUfWhtArXaCwkpr
+         0BkA==
+X-Gm-Message-State: AFqh2krgLdr+cL0K5ptq4AolW7rn/eLAxAXJz5+2nYykV06r/Rd08ka7
+	THn/yIkza/MeuUxgbrXve3JPfyZkYQtjKw==
+X-Google-Smtp-Source: AMrXdXsNmNfoxSPQlC/opq1ItxlQZUCT7XYbd1ngPrQ9EVtQo9/bIYUKchuvcEdmjALVT25bfaNIJQ==
+X-Received: by 2002:a05:600c:1f18:b0:3cf:5583:8b3f with SMTP id bd24-20020a05600c1f1800b003cf55838b3fmr37220019wmb.20.1672995277466;
+        Fri, 06 Jan 2023 00:54:37 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id iv14-20020a05600c548e00b003b47b80cec3sm6081219wmb.42.2023.01.06.00.54.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 21:03:19 -0800 (PST)
-Message-ID: <63b7ab97.170a0220.a833d.3cd7@mx.google.com>
-Date: Thu, 05 Jan 2023 21:03:19 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 06 Jan 2023 00:54:37 -0800 (PST)
+Date: Fri, 6 Jan 2023 11:54:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: bhanumaiya@chromium.org
+Cc: chrome-platform@lists.linux.dev
+Subject: [bug report] platform/chrome: cros_ec_uart: Add transport layer
+Message-ID: <Y7fhw4S7Tb0GcHMF@kili>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.2-rc1-9-g44ff064f160fc
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Report-Type: build
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.2-rc1-9-g44ff064f160fc)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
-9-g44ff064f160fc)
+Hello Bhanu Prakash Maiya,
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.2-rc1-9-g44ff064f160fc/
+The patch 04a8bdd135cc: "platform/chrome: cros_ec_uart: Add transport
+layer" from Dec 27, 2022, leads to the following Smatch static
+checker warning:
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.2-rc1-9-g44ff064f160fc
-Git Commit: 44ff064f160fc66fe5a8b39722eca03bd47c61a2
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+	drivers/platform/chrome/cros_ec_uart.c:152 cros_ec_uart_pkt_xfer()
+	warn: 'ret' possible negative type promoted to high
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+drivers/platform/chrome/cros_ec_uart.c
+    130 static int cros_ec_uart_pkt_xfer(struct cros_ec_device *ec_dev,
+    131                                  struct cros_ec_command *ec_msg)
+    132 {
+    133         struct cros_ec_uart *ec_uart = ec_dev->priv;
+    134         struct serdev_device *serdev = ec_uart->serdev;
+    135         struct response_info *resp = &ec_uart->response;
+    136         struct ec_host_response *host_response;
+    137         unsigned int len;
+                ^^^^^^^^^^^^^^^^
 
-Detailed per-defconfig build reports:
+    138         int ret, i;
+    139         u8 sum;
+    140 
+    141         len = cros_ec_prepare_tx(ec_dev, ec_msg);
+    142         dev_dbg(ec_dev->dev, "Prepared len=%d\n", len);
+    143 
+    144         /* Setup for incoming response */
+    145         resp->data = ec_dev->din;
+    146         resp->max_size = ec_dev->din_size;
+    147         resp->size = 0;
+    148         resp->exp_len = 0;
+    149         resp->status = 0;
+    150 
+    151         ret = serdev_device_write_buf(serdev, ec_dev->dout, len);
+--> 152         if (ret < len) {
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+If serdev_device_write_buf() returns negative then type promotion means
+this condition is false.  Write it like:
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
+	if (ret < 0 || ret != len) {
+		dev_err(ec_dev->dev, "Unable to write data\n");
+		if (ret >= 0)
+			ret = -EIO;
+		goto exit;
+	}
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+    153                 dev_err(ec_dev->dev, "Unable to write data\n");
+    154                 ret = -EIO;
+    155                 goto exit;
+    156         }
+    157 
+    158         ret = wait_event_timeout(resp->wait_queue, resp->status,
+    159                                  msecs_to_jiffies(EC_MSG_DEADLINE_MS));
+    160         if (ret == 0) {
+    161                 dev_warn(ec_dev->dev, "Timed out waiting for response.\n");
+    162                 ret = -ETIMEDOUT;
+    163                 goto exit;
+    164         }
+    165 
+    166         if (resp->status < 0) {
+    167                 ret = resp->status;
+    168                 dev_warn(ec_dev->dev, "Error response received: %d\n", ret);
+    169                 goto exit;
+    170         }
+    171 
+    172         host_response = (struct ec_host_response *)ec_dev->din;
+    173         ec_msg->result = host_response->result;
+    174 
+    175         if (host_response->data_len > ec_msg->insize) {
+    176                 dev_err(ec_dev->dev, "Resp too long (%d bytes, expected %d)\n",
+    177                         host_response->data_len, ec_msg->insize);
+    178                 ret = -ENOSPC;
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
-0 warnings, 0 section mismatches
+ret = -EINVAL;  (Unless you are discussing harddrives).
 
----
-For more info write to <info@kernelci.org>
+    179                 goto exit;
+    180         }
+    181 
+    182         /* Validate checksum */
+    183         sum = 0;
+    184         for (i = 0; i < sizeof(*host_response) + host_response->data_len; i++)
+    185                 sum += ec_dev->din[i];
+    186 
+    187         if (sum) {
+    188                 dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n", sum);
+    189                 ret = -EBADMSG;
+    190                 goto exit;
+    191         }
+    192 
+    193         memcpy(ec_msg->data, ec_dev->din + sizeof(*host_response), host_response->data_len);
+    194 
+    195         ret = host_response->data_len;
+    196 
+    197 exit:
+    198         /* Invalidate response buffer to guard against out of band rx data */
+    199         resp->data = NULL;
+    200 
+    201         if (ec_msg->command == EC_CMD_REBOOT_EC)
+    202                 msleep(EC_REBOOT_DELAY_MS);
+    203 
+    204         return ret;
+    205 }
+
+regards,
+dan carpenter

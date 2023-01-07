@@ -1,121 +1,144 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4381B1112
-	for <chrome-platform@lists.linux.dev>; Sat,  7 Jan 2023 05:44:09 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id i188so3559351vsi.8
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Jan 2023 21:44:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C95495FC
+	for <chrome-platform@lists.linux.dev>; Sat,  7 Jan 2023 08:57:48 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id q190so1871467iod.10
+        for <chrome-platform@lists.linux.dev>; Sat, 07 Jan 2023 00:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xVOvUXIxXHGoJc1RNEJDnYnyJOQ4H4zXliT+/36ft90=;
-        b=ZyG0V7jq7NAy8AJxDI7/EU2U+MZeRpD+iXBRi4jxWLTU0lxeRWudQndiBFDYPtnxlt
-         8378mG02AEC93Al/JchoTCV23LIeNhqCC+3Qa/8WDACdymL54TpZ1FKVShbpIwKc9PNB
-         2Rfrid6d49f9U9z2kFkhNa4adGILwKueoAIPc=
+        bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
+        b=USC/6TTWY3c9bq0vKbvX+VWUwpXRkXdBVEauttbI7B/ZQ1oIkIZNu1Yo09lwc7bODo
+         QCeJkFoz0u3wjOvokRLMOJCuh0pQLovmrLZaJqZUkoGcDAXJjZuRBlsC/ypwOPYM3Np1
+         JVnfVqUGM7cQv7XazXT4n7qSdn+bJ6ijtwrAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xVOvUXIxXHGoJc1RNEJDnYnyJOQ4H4zXliT+/36ft90=;
-        b=pnS5Bt9GsEFrsKIt78scdDTpPn1hIQwooCHubfuq6u3U4Xn/frudbgK6I0ytr+auMe
-         MlkTF665z0YSfzogaK9h965EmJE1MHqRvOr3qqCvICXbMgjnDx00Agu/qw1O9A2Ktnow
-         xeJO7iL8EqRy4l0DQz7BstLME2nd52PqSEVwDmYCje59yE4Q8CTU16iTM2xQJQWjugaj
-         dAXsOMzAECpTcF8W7mbAipQ41OkcF/Qyw14gLLQZVXovGH6AtxbSqs581DduvQGN72hK
-         prs4A7uC7wd3T8DwXRRfvnZNCjoi/hIxXYXuae270+CSpndEZdz0th2tSkXvInIbfyKh
-         TIPg==
-X-Gm-Message-State: AFqh2krjtINh+LBQ4ylmQ7tY57oJwpHnfdpA9doacmCYiqtzhxnUttbL
-	3Ro4KrpLUv4IZMRVHI6tPllzDn97Vf14peWrN80Meg==
-X-Google-Smtp-Source: AMrXdXtvfHpboGi3+kQNwiHMAefcbd5zPgsZn5cmMiEll6r3JYwBIs6oorMmBBWfIYDvWi+By4kLIePyNBkdA2HLIY0=
-X-Received: by 2002:a67:fbc2:0:b0:3cc:fb59:8c71 with SMTP id
- o2-20020a67fbc2000000b003ccfb598c71mr3384556vsr.65.1673070248034; Fri, 06 Jan
- 2023 21:44:08 -0800 (PST)
+        bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
+        b=mBvcUZYm1VzP62SkS1IX+1liHyu3Qxll6OHPSPFmbZYz/A/CDhalCAon8IHxj36C4q
+         gfczveSQ0O59L4i/nssbN63zX7AfFrBcfmcUZA32FFDBeuTBZoW2YbjZKuBiF7rsuOzO
+         yGoHOq9z3vUUs6wrdVDZJXFed4G2przzYXQ6sjK47zEHqKPXa4n3GJLOgMQgrZNq88Gt
+         HCrN2CyI8rRQDeXCvaHkfQC6HCOMYyi0JXeG9GYYQv+lywyk0Oxlj+eVYlZcs8WC68Fz
+         ExQIt7G7qfZoNoTbVJ1ZDwE4mFeXPOqe0E4CYdfR2+FMxaRKcEd+7C8Fq9+46DdjgnrX
+         RdsA==
+X-Gm-Message-State: AFqh2kp2mTCSXGT2f2rJtx2Znu/C01QXPnAC+8ZrGqxcog5oZsxEbJOO
+	2hMNLNJv/ANZgz7fsJiRbx0yCDYJINggVSm/eWAUJg==
+X-Google-Smtp-Source: AMrXdXvTC4JQ09AhshynrLdlXh3M+Z6nMNmW5qrLRJOovdkW8noIBriyLLrx6Nomzovk/IWfzQDu/aOoojNHuYEKlrY=
+X-Received: by 2002:a05:6638:58:b0:38a:9192:2ba6 with SMTP id
+ a24-20020a056638005800b0038a91922ba6mr5151511jap.76.1673081867592; Sat, 07
+ Jan 2023 00:57:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230106045537.1243887-1-wenst@chromium.org> <Y7flCydDtLVwsXIJ@google.com>
-In-Reply-To: <Y7flCydDtLVwsXIJ@google.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Sat, 7 Jan 2023 13:43:57 +0800
-Message-ID: <CAGXv+5Gnc6tCjO95VjBJ4F5p5bnS+M96at3ErpSX==3qPwNUsg@mail.gmail.com>
-Subject: Re: [PATCH] platform/chromeos: cros_ec: Use per-device lockdep key
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20230105132457.4125372-1-treapking@chromium.org>
+ <20230105132457.4125372-3-treapking@chromium.org> <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+In-Reply-To: <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Sat, 7 Jan 2023 16:57:36 +0800
+Message-ID: <CAEXTbpcwKnMQ1=D940bf2GUNdK3K+-bhnOs2r5fwuTW+ozQajA@mail.gmail.com>
+Subject: Re: [PATCH v7 2/9] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Xin Ji <xji@analogixsemi.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>, linux-kernel@vger.kernel.org, 
+	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
+	Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org, 
+	chrome-platform@lists.linux.dev, 
+	Javier Martinez Canillas <javierm@redhat.com>, Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, 
+	Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jan 6, 2023 at 5:08 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+Hi Andy,
+
+Thanks for the review.
+
+On Thu, Jan 5, 2023 at 11:34 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Fri, Jan 06, 2023 at 12:55:37PM +0800, Chen-Yu Tsai wrote:
-> > Lockdep reports a bogus possible deadlock on MT8192 Chromebooks due to
-> > the following lock sequences:
+> On Thu, Jan 05, 2023 at 09:24:50PM +0800, Pin-yen Lin wrote:
+> > From: Prashant Malani <pmalani@chromium.org>
 > >
-> > 1. lock(i2c_register_adapter) [1]; lock(&ec_dev->lock)
-> > 2. lock(&ec_dev->lock); lock(prepare_lock);
+> > When using OF graph, the fw_devlink code will create links between the
+> > individual port driver (cros-ec-typec here) and the parent device for
+> > a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> > have the usb-c-connector (i.e the child of the port driver) as a
+> > supplier, fw_devlink will not be able to resolve the cyclic dependency
+> > correctly.
 > >
-> > The actual dependency chains are much longer. The shortened version
-> > looks somewhat like:
+> > As a result, the mode-switch driver probe() never runs, so mode-switches
+> > are never registered. Because of that, the port driver probe constantly
+> > fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> > switch devices to be registered prior to port registration.
 > >
-> > 1. cros-ec-rpmsg on mtk-scp
-> >    ec_dev->lock -> prepare_lock
-> > 2. In rt5682_i2c_probe() on native I2C bus:
-> >    prepare_lock -> regmap->lock -> (possibly) i2c_adapter->bus_lock
-> > 3. In rt5682_i2c_probe() on native I2C bus:
-> >    regmap->lock -> i2c_adapter->bus_lock
-> > 4. In sbs_probe() on cros-ec-i2c (passthrough) I2C bus on cros-ec
-> >    i2c_adapter->bus_lock -> ec_dev->lock
-> >
-> > While lockdep is correct that the shared lockdep classes have a circular
-> > dependency, it is bogus because
-> >
-> >   a) 2+3 happen on a native I2C bus
-> >   b) 4 happens on the actual EC on ChromeOS devices
-> >   c) 1 happens on the SCP coprocessor on MediaTek Chromebooks that just
-> >      happen to expose a cros-ec interface, but do not have a passthrough
-> >      I2C bus
-> >
-> > In short, the "dependencies" are actually on different devices.
+> > To break this deadlock and allow the mode-switch registration to occur,
+> > purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> > the connector as a supplier for a switch and allows it to be probed.
 >
-> Path of 4 looks weird to me.
+> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 >
-> Could you point out where sbs_probe() gets to acquire ec_dev->lock?
+> Tag block mustn't have the blank line(s).
+>
+> ...
+>
+> > +     /*
+> > +      * OF graph may have set up some device links with switches, since
+> > +      * connectors have their own compatible. Purge these to avoid a deadlock
+> > +      * in switch probe (the switch mistakenly assumes the connector is a
+> > +      * supplier).
+> > +      */
+>
+> Perhaps even
+>
+>         /*
+>          * OF graph may have set up some device links with switches,
+>          * since connectors have their own compatible. Purge these
+>          * to avoid a deadlock in switch probe (the switch mistakenly
+>          * assumes the connector is a supplier).
+>          */
+>
+> ?
+I can update this in v8, though I wonder why shorter comments are
+preferred as they haven't exceeded the 80-character length
+requirement.
+>
+> > +     if (dev->of_node)
+>
+> I would use if (dev_of_node(dev)), but it's up to you and maintainers.
 
-sbs_probe() calls sbs_get_battery_presence_and_health(), which
+dev_of_node looks a bit better as it checks the enabled config for us.
+I'll update this in v8.
 
-  -> does an I2C transfer. This SBS instance is connected on the I2C bus
-     on the EC, so the I2C transfer
-
-     -> acquires i2c_adapter->bus_lock, and
-
-       -> calls ec_i2c_xfer(), which
-
-          -> calls cros_ec_cmd_xfer_status(), which
-
-             -> calls cros_ec_cmd_xfer(), which
-
-               -> acquires ec_dev->lock
-
-
-> I may misunderstand: I thought there is no such I2C bus for passthrough
-> from kernel's point of view (as the bus and devices behind the EC).
-> See also [2].
-
-It is an I2C adapter on the EC, also known as i2c-cros-ec-tunnel.
-Passthrough probably isn't the right word.
-
-> [2]: https://elixir.bootlin.com/linux/v6.2-rc2/source/drivers/platform/chrome/cros_ec.c#L241
+>
+> > +             device_for_each_child_node(dev, fwnode)
+> > +                     fw_devlink_purge_absent_suppliers(fwnode);
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
 >
 >
-> On a related note, for the commit title: s/chromeos/chrome/ if it gets
-> chance to have next version.
 
-OK.
-
-
-Thanks
-ChenYu
+Best regards,
+Pin-yen

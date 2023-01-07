@@ -1,215 +1,166 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54701842
-	for <chrome-platform@lists.linux.dev>; Sat,  7 Jan 2023 09:19:58 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id y2so2199802ily.5
-        for <chrome-platform@lists.linux.dev>; Sat, 07 Jan 2023 01:19:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B2F1842
+	for <chrome-platform@lists.linux.dev>; Sat,  7 Jan 2023 10:22:41 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so7797073pjq.1
+        for <chrome-platform@lists.linux.dev>; Sat, 07 Jan 2023 02:22:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PbK2+hAlju8ZkGAxc+UQ8RxlZcml7uwUsydLc2gyPEg=;
-        b=kfpfmOt+J4n/7SFbmM1pUbeuoX2q1niSB/uKPzsnGL7+M0JwLgagBJO3UnWh65gVeF
-         XO11m2J1IDe09i1vfxNVoD6lJRkxkJ4n+RqYZKMvsVrWoM/SCt0NBGzC/SMOz697A2pZ
-         YKJvooichUSfD0CDPe7PH0T5W+F3TJ6QkCkz4=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M5R04EwX4eIZOZILHF8zQrZe1x1GS9dIPxgkF6+Qqr0=;
+        b=akf9h+6HPph8LYoUpBWnZE9ueCAAVE7fkGGFnOW7f5vGFH7ccqvIb67QKgIwFG3F4H
+         EiX0jKlN3C+vDWVOHTROt6baus0ESTgsqcxJ90Jw1vlrcNBJxPbtnVZwY2HZCysHMJX6
+         KE+dlRVIOe8DDOBhRoX7Hr/sOP0lHvlasEcaU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PbK2+hAlju8ZkGAxc+UQ8RxlZcml7uwUsydLc2gyPEg=;
-        b=SHScYusw3YZ3U6MBbNni6HJyuMZt/026IEz7JutqdfHgP7IWfvUHrR0O9L2IeGh1Oc
-         V3GRyQ60ELLBxJwT9v8nrPfjrJORxLNVJ9rSVPa4CrUn+1IqxfdnsXrn6gPWoSubJP00
-         HCfTfYlnjB4ghCgi+az3Vq62Kj5WNpKjV4OKIgqnGiWl5MKFO2fImoj4ZW7aeDwq4hmN
-         dCR/GlzTD9ZDppPn7j721dn1+F/AQa3PHXXTvnz2D2wDbVKI6tvkhLdjEKvjzNFL4acZ
-         IpeXK/7OJmkDObaPCk9BHikAB0oHtnUExkq/FD05An7mqFLn+3NAHBmjvosU/W01enp5
-         +5xQ==
-X-Gm-Message-State: AFqh2kqRSEqXqKXAeTkj5URCFKz8Ys631CunvVDfIYJ1jdW2piNbZRRW
-	hwjjvWNeABnF3wGmH52gQ6zWZ9vNp2F8hTCFc1fIAw==
-X-Google-Smtp-Source: AMrXdXvICIhe7IxdthfJp4igZhpX85NTS+E2nKcOMieonKi7rm9RWK0+me5+LzCr+2tJ6fmZgXKyCZIwff6ecY8f7CA=
-X-Received: by 2002:a92:d0f:0:b0:303:96b3:c8a0 with SMTP id
- 15-20020a920d0f000000b0030396b3c8a0mr5352459iln.192.1673083197870; Sat, 07
- Jan 2023 01:19:57 -0800 (PST)
+        bh=M5R04EwX4eIZOZILHF8zQrZe1x1GS9dIPxgkF6+Qqr0=;
+        b=xeauM7X+BWHeoP4BYb8Ru7Z4lqj5Xv7sC8LldLUM6nZrdSVSKLleu4OCeigrBl4uG5
+         DvNupXY7Geh6vzlG0+Sn9K3wqacyw6+wDYO8eTSr96op/fEFh2hz8uyyOI2FI6oAELIE
+         v32AZRo1Boheqd/6a4XQZexyr3RFXN5a+z9V/wctlwEbd9Jqfxam77KAeSFN+y6Kb+ED
+         x2N72Xqm+AQCbC9A2Dgfu2kZuA3LZxL3L8+nY9Px9+lkdj5zUXhLdRnvNcfQ/LXAVZJF
+         WvC45kjjWMiRkZJ2M1ywbtpertIUyFd6R8TIyH9hHXAPeEj8kRioEx4JrpIL//9hr2PG
+         k5Pg==
+X-Gm-Message-State: AFqh2krQpRHZ87s3i4SG0JHmCf/+Bs+mxDxmrEy5Wt+460HPmWTazkco
+	XgDF0wgSHZYLR4BLKGGO7LZzBg==
+X-Google-Smtp-Source: AMrXdXsCanC85OIBD7HFU0hQjEKbk7kiLL3g+5Cn5NOlUfjTVfcWHqQr/B+TqYO21un27l3PbdCEtg==
+X-Received: by 2002:a17:902:b495:b0:18c:cde:fddb with SMTP id y21-20020a170902b49500b0018c0cdefddbmr55110444plr.65.1673086960970;
+        Sat, 07 Jan 2023 02:22:40 -0800 (PST)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:180d:95e8:f4:84fb])
+        by smtp.gmail.com with ESMTPSA id b1-20020a170903228100b001892af9472esm2366362plh.261.2023.01.07.02.22.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 02:22:40 -0800 (PST)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <robert.foss@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org,
+	Lyude Paul <lyude@redhat.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Xin Ji <xji@analogixsemi.com>,
+	Pin-yen Lin <treapking@chromium.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Allen Chen <allen.chen@ite.com.tw>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	devicetree@vger.kernel.org,
+	Marek Vasut <marex@denx.de>,
+	linux-acpi@vger.kernel.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Imre Deak <imre.deak@intel.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Jim Cromie <jim.cromie@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH v8 0/9] Register Type-C mode-switch in DP bridge endpoints
+Date: Sat,  7 Jan 2023 18:22:22 +0800
+Message-Id: <20230107102231.23682-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230105132457.4125372-1-treapking@chromium.org>
- <20230105132457.4125372-8-treapking@chromium.org> <5ad7a6bc-0ffd-9d2d-ed80-62c3530cf2fa@linaro.org>
-In-Reply-To: <5ad7a6bc-0ffd-9d2d-ed80-62c3530cf2fa@linaro.org>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Sat, 7 Jan 2023 17:19:46 +0800
-Message-ID: <CAEXTbpdxQDvkJTX0XgNkn8s=KMZHuLaPN8nnyfcbkxJ3fgQbdA@mail.gmail.com>
-Subject: Re: [PATCH v7 7/9] dt/bindings: drm/bridge: it6505: Add mode-switch support
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Xin Ji <xji@analogixsemi.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>, linux-kernel@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
-	Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org, 
-	chrome-platform@lists.linux.dev, 
-	Javier Martinez Canillas <javierm@redhat.com>, Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, 
-	Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
 
-Thanks for the review.
+This series introduces bindings for anx7625/it6505 to register Type-C
+mode-switch in their output endpoints, and use data-lanes property to
+describe the pin connections.
 
-On Fri, Jan 6, 2023 at 8:48 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 05/01/2023 14:24, Pin-yen Lin wrote:
-> > ITE IT6505 can be used in systems to switch the DP traffic between
-> > two downstreams, which can be USB Type-C DisplayPort alternate mode
-> > lane or regular DisplayPort output ports.
->
-> Use subject prefixes matching the subsystem (which you can get for
-> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-> your patch is touching).
+The first two patch modifies fwnode_graph_devcon_matches and
+cros_typec_init_ports to enable the registration of the switches.
 
-I'll fix this in this patch and the one for anx7625.
->
-> >
-> > Update the binding to accommodate this usage by introducing a
-> > data-lanes and a mode-switch property on endpoints.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> >
-> > ---
-> >
-> > Changes in v7:
-> > - Fixed issues reported by dt_binding_check.
-> > - Updated the schema and the example dts for data-lanes.
-> > - Changed to generic naming for the example dts node.
-> >
-> > Changes in v6:
-> > - Remove switches node and use endpoints and data-lanes property to
-> >   describe the connections.
-> >
-> >  .../bindings/display/bridge/ite,it6505.yaml   | 95 ++++++++++++++++---
-> >  1 file changed, 84 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > index b16a9d9127dd..1ee7cd0d2035 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > @@ -77,20 +77,45 @@ properties:
-> >          unevaluatedProperties: false
-> >          description: Video port for DP output
-> >
-> > -        properties:
-> > -          endpoint:
-> > +        patternProperties:
-> > +          "^endpoint@[01]$":
-> >              $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> >              unevaluatedProperties: false
-> >
-> >              properties:
-> > +              reg:
-> > +                maxItems: 1
-> > +
-> > +              remote-endpoint: true
-> > +
-> >                data-lanes:
-> > -                minItems: 1
-> > -                uniqueItems: true
-> > -                items:
-> > -                  - enum: [ 0, 1 ]
-> > -                  - const: 1
-> > -                  - const: 2
-> > -                  - const: 3
-> > +                oneOf:
-> > +                  - minItems: 1
->
-> Drop minItems.
->
-> > +                    maxItems: 1
->
-> Actually drop this as well and just use items with one item (enum).
+Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+modifications.
 
-Sure I'll update this in v8.
->
-> > +                    items:
-> > +                      enum: [0, 1, 2, 3]
-> > +
-> > +                  - items:
-> > +                      - const: 0
-> > +                      - const: 1
-> > +
-> > +                  - items:
-> > +                      - const: 2
-> > +                      - const: 3
-> > +
-> > +                  - items:
-> > +                      - const: 0
-> > +                      - const: 1
-> > +                      - const: 2
-> > +                      - const: 3
-> > +
-> > +              mode-switch:
-> > +                type: boolean
-> > +                description: Register this node as a Type-C mode switch or not.
-> > +
-> > +            required:
-> > +              - reg
-> > +              - remote-endpoint
-> >
-> >      required:
-> >        - port@0
-> > @@ -102,7 +127,6 @@ required:
-> >    - pwr18-supply
-> >    - interrupts
-> >    - reset-gpios
-> > -  - extcon
-> >    - ports
-> >
-> >  additionalProperties: false
-> > @@ -139,8 +163,11 @@ examples:
-> >                  };
-> >
-> >                  port@1 {
-> > +                    #address-cells = <1>;
-> > +                    #size-cells = <0>;
-> >                      reg = <1>;
-> > -                    it6505_out: endpoint {
-> > +                    it6505_out: endpoint@0 {
-> > +                        reg = <0>;
-> >                          remote-endpoint = <&dp_in>;
-> >                          data-lanes = <0 1>;
-> >                      };
-> > @@ -148,3 +175,49 @@ examples:
-> >              };
-> >          };
-> >      };
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    i2c3 {
->
-> Just i2c
+Patch 7~9 add similar bindings and driver changes for it6505.
 
-Will fix in v8.
->
-> Best regards,
-> Krzysztof
->
+v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
 
-Best regards,
-Pin-yen
+Changes in v8:
+- Fixed the build issue when CONFIG_TYPEC=m
+- Fixed some style issues
+- Fixed the subject prefixes for the bindings patches
+- Fixed the bindings for data-lanes properties
+
+Changes in v7:
+- Fix the long comment lines
+- Extracted the common codes to a helper function
+- Fixed style issues in anx7625 driver
+- Removed DT property validation in anx7625 driver.
+- Fixed style issues in it6505 driver
+- Removed the redundant sleep in it6505 driver
+- Removed DT property validation in it6505 driver
+- Rebased to drm-misc-next
+- Fixed indentations in bindings patches
+- Added a new patch to fix indentations in Kconfig
+
+Changes in v6:
+- Changed it6505_typec_mux_set callback function to accommodate with
+  the latest drm-misc patches
+- Changed the driver implementation to accommodate with the new binding
+- Dropped typec-switch binding and use endpoints and data-lanes properties
+  to describe the pin connections
+- Added new patches (patch 1,2,4) to fix probing issues
+- Changed the bindings of it6505/anx7625 and modified the drivers
+  accordingly
+- Merged it6505/anx7625 driver changes into a single patch
+
+Pin-yen Lin (7):
+  drm/display: Add Type-C switch helpers
+  dt-bindings: display: bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Check for Type-C during panel registration
+  drm/bridge: anx7625: Register Type C mode switches
+  dt/bindings: display: bridge: it6505: Add mode-switch support
+  drm/bridge: it6505: Fix Kconfig indentation
+  drm/bridge: it6505: Register Type C mode switches
+
+Prashant Malani (2):
+  device property: Add remote endpoint to devcon matcher
+  platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+
+ .../display/bridge/analogix,anx7625.yaml      |  99 ++++++++++++-
+ .../bindings/display/bridge/ite,it6505.yaml   |  93 ++++++++++--
+ drivers/base/property.c                       |  15 ++
+ drivers/gpu/drm/bridge/Kconfig                |  21 +--
+ drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 101 +++++++++++++-
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  13 ++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 119 +++++++++++++++-
+ drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
+ drivers/platform/chrome/cros_ec_typec.c       |  10 ++
+ include/drm/display/drm_dp_helper.h           |  16 +++
+ 11 files changed, 591 insertions(+), 29 deletions(-)
+
+-- 
+2.39.0.314.g84b9a713c41-goog
+

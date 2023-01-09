@@ -1,221 +1,74 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B5E29A5
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 11:33:35 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id m2so8222675vsv.9
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 03:33:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZSDXftrDLJQK7xmJBG2ELgbyinIOI/n7lmtYUtA57Fs=;
-        b=bJJlCRQwZSRuqt1LoaMGKivf6A9fZ9rncAVmVob2q/Y2tEtiIA0bNy6vg8QZlbay+P
-         FaJc1wxuWpfDSwrzS8kdrpnt9CQr66M9legLAKRVqhxAUd0IrAS/Zzc7snKW2DWOEMlN
-         ybx/0SzQhIM6t1ARC1R98cssk90pNC/RqJO98=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZSDXftrDLJQK7xmJBG2ELgbyinIOI/n7lmtYUtA57Fs=;
-        b=uWRnXXibxgwcrR7KG4QtMjmFqtbsdb475PVs/Tb0Lfic85DxgDi5CGFFuah9ZL3TfI
-         yEAh43d6VxDg7/sst3GGAaUicaMOCsJ4Z0HJ/OB6xd91jFXs5HWjOEUZtxCXIDSsxOOz
-         xeS/Oo21x5nK0ErWDLiM+WZomxkYNF7J/kLgbHgAcby312j790oklVW4lsx5aO1CjK7S
-         NR9KtcBIUtAr6M7kcWSDVTCuc0p1YR8bSfLH7UVo1MBzR75LMHBhxeH1s6S6zcVLFFBC
-         TxuFtqFPVHIYMwRG9SejCJa5UnrAt2U0GMNprmhqrwz7DcFgOTHC+OAFrsg+lLY6mkcM
-         mqPw==
-X-Gm-Message-State: AFqh2kqntPVYVG53VKHEKAqaBs2zVTL5LXA8mfofTWqpf7xlT5k8ZX8c
-	uju4rDjSip1i30rFd+PF1SAdCL7kEdn+GGO1n9jQ8w==
-X-Google-Smtp-Source: AMrXdXuKLBlCyhGQkkUkLWKlzTLcYAo/jHsHe7IlF4q1WX5pDRdIAXdOYMK/bZk42xpiZYdtx3FQv038aJ+bvpjmxTA=
-X-Received: by 2002:a67:447:0:b0:3ce:d0ae:f6f6 with SMTP id
- 68-20020a670447000000b003ced0aef6f6mr3016990vse.26.1673264014106; Mon, 09 Jan
- 2023 03:33:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F78329A5
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 11:42:03 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id DD49E6602D06;
+	Mon,  9 Jan 2023 11:41:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1673264515;
+	bh=yrs+2HfuiXoGEzozSFsUfZATCSNY0mbpEQlx5omqmIA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NRVLDCFUTwoMzukUNCZ+6dGcaAldNGWH2+IdE5YD1rIJMaW41j4ZclxfjqdePGQmg
+	 1uvLnBSJfMe9XRXh/q8qftgKsQPxe8bLloE0iWegGR1WuvsDbHJlY7nv1dYhOAc1PB
+	 8NVt2s+ZD4xFcJN/u9z5AYkypYMZnluyoLTnXw9CyHdso5z6I4olWCkSZmOujm/tAD
+	 SqbS92z0u5b1kgWHAXu2YHbT6pzRcnWi5yxDXWBiwVIdtVps1TFrbnCG6EteM9kdj0
+	 yVWsBe7GKGccev55dYAqUATAPsrbZ9B+nSw2CCee14P/TTdWCX6C4hxuIFjMkLW8AV
+	 CZ9LU92gH/Cww==
+Message-ID: <2ce47b8f-b08e-222e-1c4c-e2b17c1cb5a6@collabora.com>
+Date: Mon, 9 Jan 2023 12:41:51 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v9 8/9] drm/bridge: it6505: Fix Kconfig indentation
+Content-Language: en-US
+To: Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org,
+ Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
+ Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul
+ <lyude@redhat.com>, =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?=
+ <nfraprado@collabora.com>, linux-kernel@vger.kernel.org
 References: <20230109084101.265664-1-treapking@chromium.org>
- <20230109084101.265664-4-treapking@chromium.org> <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
-In-Reply-To: <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 9 Jan 2023 19:33:22 +0800
-Message-ID: <CAGXv+5GS5Bj1hzbUEP340FU4yYmEVf4wyNd2B_HEUAMz3OKw6A@mail.gmail.com>
-Subject: Re: [PATCH v9 3/9] drm/display: Add Type-C switch helpers
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Marek Vasut <marex@denx.de>, 
-	chrome-platform@lists.linux.dev, 
-	Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, 
-	Kees Cook <keescook@chromium.org>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Jani Nikula <jani.nikula@intel.com>, Allen Chen <allen.chen@ite.com.tw>, 
-	Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Douglas Anderson <dianders@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+ <20230109084101.265664-9-treapking@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230109084101.265664-9-treapking@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 9, 2023 at 6:10 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
-> >
-> > Add helpers to register and unregister Type-C "switches" for bridges
-> > capable of switching their output between two downstream devices.
-> >
-> > The helper registers USB Type-C mode switches when the "mode-switch"
-> > and the "data-lanes" properties are available in Device Tree.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
->
-> on MT8192 based Hayato (ASUS Chromebook Flip CM3200).
->
-> > ---
-> >
-> > (no changes since v8)
-> >
-> > Changes in v8:
-> > - Fixed the build issue when CONFIG_TYPEC=m
-> > - Fixed some style issues
-> >
-> > Changes in v7:
-> > - Extracted the common codes to a helper function
-> > - New in v7
-> >
-> >  drivers/gpu/drm/display/drm_dp_helper.c | 132 ++++++++++++++++++++++++
-> >  include/drm/display/drm_dp_helper.h     |  16 +++
-> >  2 files changed, 148 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> > index 16565a0a5da6..fb9e23744c08 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > @@ -30,11 +30,13 @@
-> >  #include <linux/sched.h>
-> >  #include <linux/seq_file.h>
-> >  #include <linux/string_helpers.h>
-> > +#include <linux/usb/typec_mux.h>
-> >  #include <linux/dynamic_debug.h>
-> >
-> >  #include <drm/display/drm_dp_helper.h>
-> >  #include <drm/display/drm_dp_mst_helper.h>
-> >  #include <drm/drm_edid.h>
-> > +#include <drm/drm_of.h>
-> >  #include <drm/drm_print.h>
-> >  #include <drm/drm_vblank.h>
-> >  #include <drm/drm_panel.h>
-> > @@ -3891,3 +3893,133 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
-> >  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
-> >
-> >  #endif
-> > +
-> > +#if IS_REACHABLE(CONFIG_TYPEC)
-> > +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
-> > +                                      struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                      void *data, void *mux_set)
+Il 09/01/23 09:41, Pin-yen Lin ha scritto:
+> Replace the spaces with tab characters in the Kconfig file.
+> 
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
-Using "typec_mux_set_fn_t" instead of "void *" for mux_set would be
-more explicit. Same for all the other instances where this parameter
-gets declared.
-
-ChenYu
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
-> > +{
-> > +       struct drm_dp_typec_port_data *port_data;
-> > +       struct typec_mux_desc mux_desc = {};
-> > +       char name[32];
-> > +       u32 dp_lanes[2];
-> > +       int ret, num_lanes, port_num = -1;
-> > +
-> > +       num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-> > +       if (num_lanes <= 0) {
-> > +               dev_err(dev, "Error on getting data lanes count: %d\n",
-> > +                       num_lanes);
->
-> Also printing out the full node name (endpoint@N) would be more helpful.
->
-> > +               return num_lanes;
-> > +       }
-> > +
-> > +       ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to read the data-lanes variable: %d\n",
-> > +                       ret);
->
-> Same here.
->
-> > +               return ret;
-> > +       }
-> > +
-> > +       port_num = dp_lanes[0] / 2;
-> > +
-> > +       port_data = &switch_desc->typec_ports[port_num];
-> > +       port_data->data = data;
-> > +       mux_desc.fwnode = &node->fwnode;
-> > +       mux_desc.drvdata = port_data;
-> > +       snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> > +       mux_desc.name = name;
-> > +       mux_desc.set = mux_set;
-> > +
-> > +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> > +       if (IS_ERR(port_data->typec_mux)) {
-> > +               ret = PTR_ERR(port_data->typec_mux);
-> > +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
-> > +                       port_num, ret);
-> > +       }
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +/**
-> > + * drm_dp_register_typec_switches() - register Type-C switches
-> > + * @dev: Device that registers Type-C switches
-> > + * @port: Device node for the switch
-> > + * @switch_desc: A Type-C switch descriptor
-> > + * @data: Private data for the switches
-> > + * @mux_set: Callback function for typec_mux_set
-> > + *
-> > + * This function registers USB Type-C switches for DP bridges that can switch
-> > + * the output signal between their output pins.
-> > + *
-> > + * Currently only mode switches are implemented, and the function assumes the
-> > + * given @port device node has endpoints with "mode-switch" property.
-> > + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
-> > + * and register it as port 1 if "data-lanes" falls in 2/3.
-> > + */
-> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> > +                                  struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                  void *data, void *mux_set)
-> > +{
-> > +       struct device_node *sw;
-> > +       int ret;
-> > +
-> > +       for_each_child_of_node(port, sw) {
-> > +               if (of_property_read_bool(sw, "mode-switch"))
-> > +                       switch_desc->num_typec_switches++;
-> > +       }
-> > +
-> > +       if (!switch_desc->num_typec_switches) {
-> > +               dev_warn(dev, "No Type-C switches node found\n");
->
-> Maybe change this to dev_info or even dev_debug? A warning would be too
-> noisy if the bridge drivers are calling this helper unconditionally.
->
-> Otherwise,
->
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>

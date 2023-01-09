@@ -1,43 +1,43 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC798C09
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 19:42:16 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id bj3so6652102pjb.0
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 11:42:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE138C09
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 19:43:44 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id i65so3528909pfc.0
+        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 11:43:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ydmzchxyNR+IqB33c0jWFlmVpBQ7+XVQgnYYMSL8I6g=;
-        b=jJpQzHlTSQsFi3n9cFfzVW1NWhX8e/c/p0uH6A3AOU7JnJmK3r4pNZZOp5JlymTU+t
-         zaANHLXB2rmILVpmAhvASLkFD6lG9tbgZUrj+zWui1JpisYdQPaYdpevHtXqR/QRbaZY
-         KroO310n78o9aeKhYcIuJsXPyFlsJN7fevtxrC0XfFKIdaKOlvjj6tqYPRTWxboWlyki
-         5X+az/nXmpddA6BbV3sN8sqAPA5oGd3njpycrXCbAcy4l8VDZbhD2NN+SQcMS1nPFmMd
-         mYlp/9723BeNtFpHdDo2wKq+djxxfzclG5StDBEfaoBJYkYtgeuHMCRg8wpFYgm1jfAe
-         r+jg==
+        bh=veGfYnA4hNep9xLtDsZJq60VJSWFSJQTjdAFzULOh0A=;
+        b=Hu6TXajbV1nysO6YT0nJGUJITPTEGteUGyF+kqHQ33uo9Inl83eIp1lLHuqQpxw1m7
+         /YLSRyk0J/3FAXVmlqu1QWEhMw2acsrss0YQ/wk4Z5Kn0i1L8qEy3QzMmizE4dTTV0rJ
+         2UqVggZd2Ez+ZbiuPbAV8UkryLdH6+7EOiVAeNy3dnN0hqWrXHn9hQuFgUGdP39GeSvP
+         zlQvtvlXqFOxN/7DYRCH/UxT+FVLk74DQGr4ID7A7Mg7HCCIF67izwZn/6HrFPgx+MoG
+         8W4uSdMNZ34ickwCDsPm1otgghgLnjjzXCZDzY2Moy3nKoeggtANwCGKr2vi2Eblzz0f
+         Hr8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ydmzchxyNR+IqB33c0jWFlmVpBQ7+XVQgnYYMSL8I6g=;
-        b=v7hFHnwRucBzkkOgqFH1dC5FnwcEu5ne/oFayyCXSMr7y+j0/VtSDX2srE5H/23RSB
-         Q0mFQ46lrLsBL0oNNKoWWcmJbbQu19O4VVxGJL1mc7Sk3aJltsK5hBnQe3pa1D2ef9o4
-         wH+yvQkB/7m/zbcDGfLFks7XsTS7Gqe71Ip9INACJRwpVFLeezMB6pM9xYz67tWGZ+RS
-         W2Le9u7OLosRlTUSX2VKD+5iD1bLnGLg1k/vGhQMytxAUG5GJy3BJkw4Scx9xBh5EihU
-         uHT5KV1RjcgPFVVyvKQVIvQ08pbZAS718GLFFAw/gbB4295y4VC/H2aZmOe2x+sdtFMH
-         MzfQ==
-X-Gm-Message-State: AFqh2kptNJ6dw1UXwZKma62ghjxqVQ6z0/Zokl/asaSjCAy1orSytLjD
-	3iEf/F+bP7YKB7AajGeO9Mc0b1fryHCXlJoo
-X-Google-Smtp-Source: AMrXdXuAYx5/bXE9mxYxFY1+P8b3f3U7d1zPlfl9lusfmfAMG0NCDq+Ap03P0QfGw+CnF3IV3rY+0A==
-X-Received: by 2002:a17:902:9346:b0:192:8a1e:9bc7 with SMTP id g6-20020a170902934600b001928a1e9bc7mr678043plp.0.1673293335845;
-        Mon, 09 Jan 2023 11:42:15 -0800 (PST)
+        bh=veGfYnA4hNep9xLtDsZJq60VJSWFSJQTjdAFzULOh0A=;
+        b=AT026YsIim8zABAA7kRDT+3qlNX6famwcjgwq9j+m+eD319tJPp0dzh/RyaM/xNURB
+         QpDl6TjWURmmdLGWbb7qxT7yoKVaTzOYT6FCJh8sZNl06rXmf5Ozj2H5wVr9it8/Uec5
+         +fW7gYzMf56wcb1KDkNI0CgXZ/6o46XTWJhLIOk4M+FGQpUbG8uju9HTmbBMPMyI9ymr
+         uaD4MnyUjcQ1Ru9bBKxwYKHGGAgLPhlb0OvdrB2Jo52FhBcjqXzVPm3PTGzOVdECwGhV
+         ieO7+kobxdEdycXRSPptGldglzRNrjjlky/DDbTTc6FcEP6x4aCaDGv/v4LmS5hzt5O9
+         qwXQ==
+X-Gm-Message-State: AFqh2krerWl8UOaY048T3WYgQ0gaFJTm1zCSnYlYvlAWm5iY5OCCjWsH
+	HM/9ufTjuy2XukeCmwlF2Sa6Nw==
+X-Google-Smtp-Source: AMrXdXso816BpR1KCWzqOEYHfJ2/5KNvt9As0jegoVBLu2b2t6H0lav9N3d0OR41eo4tjS0JoPMDxw==
+X-Received: by 2002:aa7:9249:0:b0:576:9252:d06 with SMTP id 9-20020aa79249000000b0057692520d06mr794227pfp.0.1673293423602;
+        Mon, 09 Jan 2023 11:43:43 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:3529:30e5:d581:6e80])
-        by smtp.gmail.com with ESMTPSA id o17-20020a170902d4d100b00189d4c666c8sm6506350plg.153.2023.01.09.11.42.13
+        by smtp.gmail.com with ESMTPSA id 4-20020a620404000000b00576ee69c130sm6399350pfe.4.2023.01.09.11.43.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 11:42:14 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:42:08 -0800
+        Mon, 09 Jan 2023 11:43:42 -0800 (PST)
+Date: Mon, 9 Jan 2023 11:43:35 -0800
 From: Benson Leung <bleung@google.com>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
@@ -48,16 +48,18 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>, Lee Jones <lee@kernel.org>,
+	Kees Cook <keescook@chromium.org>, Lee Jones <lee.jones@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
 	Stephen Boyd <swboyd@chromium.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: Re: [PATCH 03/10] platform/chrome: cros_ec_typec: Stash port driver
- info
-Message-ID: <Y7xuEDPwbMQ29mDE@google.com>
+Subject: Re: [PATCH 04/10] platform/chrome: cros_ec_typec: Set port alt mode
+ drvdata
+Message-ID: <Y7xuZ4jvd0Cl4jKp@google.com>
 References: <20221228004648.793339-1-pmalani@chromium.org>
- <20221228004648.793339-4-pmalani@chromium.org>
+ <20221228004648.793339-5-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -65,66 +67,57 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NN1+a3FMy7XRMBpl"
+	protocol="application/pgp-signature"; boundary="mGVjA2t/wX4O1RTo"
 Content-Disposition: inline
-In-Reply-To: <20221228004648.793339-4-pmalani@chromium.org>
+In-Reply-To: <20221228004648.793339-5-pmalani@chromium.org>
 
 
---NN1+a3FMy7XRMBpl
+--mGVjA2t/wX4O1RTo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 28, 2022 at 12:45:06AM +0000, Prashant Malani wrote:
-> Stash port number and a pointer to the driver-specific struct in the
-> local typec port struct.
+On Wed, Dec 28, 2022 at 12:45:07AM +0000, Prashant Malani wrote:
+> Save the ChromeOS-specific Type-C port info in the port altmodes' driver
+> data. This makes communication with the ChromeOS EC (Embedded
+> Controller) easier when alt mode drivers need to send messages to
+> peripherals.
 >=20
-> These can be useful to the port driver to figure out how to communicate
-> with the Chrome EC when an altmode-driver related callback is invoked
-> from the Type-C class code.
->=20
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
 Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
->  drivers/platform/chrome/cros_ec_typec.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/platform/chrome/cros_ec_typec.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
 > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
 hrome/cros_ec_typec.c
-> index 001b0de95a46..bc8dc8bd90b3 100644
+> index bc8dc8bd90b3..05dc5a63af53 100644
 > --- a/drivers/platform/chrome/cros_ec_typec.c
 > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -45,6 +45,7 @@ struct cros_typec_altmode_node {
->  /* Per port data. */
->  struct cros_typec_port {
->  	struct typec_port *port;
-> +	int port_num;
->  	/* Initial capabilities for the port. */
->  	struct typec_capability caps;
->  	struct typec_partner *partner;
-> @@ -78,6 +79,8 @@ struct cros_typec_port {
->  	struct usb_power_delivery *partner_pd;
->  	struct usb_power_delivery_capabilities *partner_src_caps;
->  	struct usb_power_delivery_capabilities *partner_sink_caps;
-> +
-> +	struct cros_typec_data *typec_data;
->  };
+> @@ -345,6 +345,7 @@ static int cros_typec_register_port_altmodes(struct c=
+ros_typec_data *typec,
+>  	if (IS_ERR(amode))
+>  		return PTR_ERR(amode);
+>  	port->port_altmode[CROS_EC_ALTMODE_DP] =3D amode;
+> +	typec_altmode_set_drvdata(amode, port);
 > =20
->  /* Platform-specific data for the Chrome OS EC Type C controller. */
-> @@ -408,6 +411,8 @@ static int cros_typec_init_ports(struct cros_typec_da=
-ta *typec)
->  			goto unregister_ports;
->  		}
+>  	/*
+>  	 * Register TBT compatibility alt mode. The EC will not enter the mode
+> @@ -358,6 +359,7 @@ static int cros_typec_register_port_altmodes(struct c=
+ros_typec_data *typec,
+>  	if (IS_ERR(amode))
+>  		return PTR_ERR(amode);
+>  	port->port_altmode[CROS_EC_ALTMODE_TBT] =3D amode;
+> +	typec_altmode_set_drvdata(amode, port);
 > =20
-> +		cros_port->port_num =3D port_num;
-> +		cros_port->typec_data =3D typec;
->  		typec->ports[port_num] =3D cros_port;
->  		cap =3D &cros_port->caps;
-> =20
+>  	port->state.alt =3D NULL;
+>  	port->state.mode =3D TYPEC_STATE_USB;
 > --=20
 > 2.39.0.314.g84b9a713c41-goog
+>=20
 >=20
 
 --=20
@@ -136,15 +129,15 @@ bleung@google.com
 Chromium OS Project
 bleung@chromium.org
 
---NN1+a3FMy7XRMBpl
+--mGVjA2t/wX4O1RTo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY7xuEAAKCRBzbaomhzOw
-wj+iAQDtMZ3B1KQCAs2iQXnCSW345geepG6lz0sfCgM1KnGP5AEAq6NhnPEoJHYG
-duYb+Hur+DFRDISsE4dXY7k4gg0V/wQ=
-=OrDg
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY7xuZwAKCRBzbaomhzOw
+wqnoAQDvv6RZ17rwqoZKO2HlhrcKp+esySgdPBXYMaj4biFnwQD9ERLrj73j0Wft
+9yVnrbKWiw6BOhyXJV7Yo6VMuspVSAI=
+=/RI6
 -----END PGP SIGNATURE-----
 
---NN1+a3FMy7XRMBpl--
+--mGVjA2t/wX4O1RTo--

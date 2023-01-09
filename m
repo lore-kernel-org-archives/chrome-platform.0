@@ -1,48 +1,49 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9989828ED
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 09:46:33 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id v127so3599862vsb.12
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 01:46:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4118928ED
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 09:47:38 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id l13so1851745uai.8
+        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 01:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JD9id90/GBv0rN+b+fEE7qihWEJZMu0XeMc/gEngtnw=;
-        b=JxXWwl+eLuaP6fnFCpJj1Lr9KWkQl8r3Rpi0OvHY1f1GNT609qbw8bRS2JM6xzBJk1
-         gzZwM3H2vWaM2CUnjzAfWx28LZ9jbXOnDUqsqoqVZPLJ3YveCvlDuFEP71Nhx0PN68te
-         1LAah7NX2O0NdZBWtXSO51iFyBpRk9at/6lN8=
+        bh=yJBLzPMDm5Q01iXB5Sz5L7WTxl86lVDIt70z6KlR+Fw=;
+        b=HF4vGRVX4KrX+Buk98OORMVOApzR1ZVhIZG6Z/HtmES/yCtZYx7hnX6SYer6Z4YTAz
+         cjSrcCBXFKxA//IC8yY8sz3kKi0LgCvBY3Q7kDlpNsWn7JMgogCtok+avfIe4kkZaoVB
+         e8nnGFC6Tz/w2uu/cS3fe6XpYKhq/DIl0p8q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JD9id90/GBv0rN+b+fEE7qihWEJZMu0XeMc/gEngtnw=;
-        b=QtoCao18fkLGpTK/ZwpuwZ72lJ9/AQvP2lSKCe8doIwFH/Vmm0K0BoZGD8IXAPmzn1
-         MDz9jHQDgrUAUehvEoL824HPJVEFrTlAHk75xNEuqCW4rFtR1GaEHxJ/X8qJvkdogRiK
-         aUZIpa38u0Lm33NfzDrLSgyQabSywa1UJVxZhXZALxhZ9zYQMbeMb4NUoSVIsH3S3goJ
-         FRJC9/3aHLZMLd216vKDsLyHxeAdaRrYLKOusSfkMrKlca3bWpl3quOcgv+0kDUpgckC
-         AgNpVZoDX102G3G6VlCG0fGWyXAYhL9qwT+HLdYL1b3Z0Tmjuh5o1yAf7Z/BWHiEyogl
-         Y3SQ==
-X-Gm-Message-State: AFqh2krsbdcTDWXX3YuBZfc8w3XOTZymLBLW51MNxEsMafMIh48bx6El
-	xZtPsRM6wGrXVCRvSjCbDaH56Ka5/q5HhDGN2SBNOA==
-X-Google-Smtp-Source: AMrXdXuO0fTMqxwkiZVvH9C4e5gp4mmmQNXabaJ9gGA79i+OpIS1ue3zRzP45wYsOoz3U1RqMDqvFfwghOaBt9YruXE=
-X-Received: by 2002:a05:6102:3d9f:b0:3c4:4918:80c with SMTP id
- h31-20020a0561023d9f00b003c44918080cmr7186588vsv.9.1673257592360; Mon, 09 Jan
- 2023 01:46:32 -0800 (PST)
+        bh=yJBLzPMDm5Q01iXB5Sz5L7WTxl86lVDIt70z6KlR+Fw=;
+        b=1fFTzWp2kpiKsitPTb/XchGcXAfPqX6IGWSDSYmNw83EmnV6iwWXEo+zb7AAqYCXy9
+         Un7adeWE5gto9z298Tj9R6Ax5rlAgBk1I4qx91lnEBErg3cL8/8ZOMXVfeJWcRb7duvk
+         RpyYekAXalCPMkgQHCMDgJznjYBjII2wI8QaibUjn4unByb+mg/iB/UssfKF/ihdygOz
+         yj0P1fk9YBU1ArHv2xOAtyZQjvIZ/UwggUVb+cEmAE4e9pUqNW+yleis/MfLCcgYdNbl
+         mrvkxe14RdC20kLh7PG9Vx9pamb59perQ1CIeDk+ONiKvvnNLqWuPyXI5S/2anb6gzOE
+         YY8w==
+X-Gm-Message-State: AFqh2kpKydDTs519S8V2qxtFteHkg4HeFK7PBSwNzYsUYdAJWC82g7JE
+	UBVHOh1qyejiLjCgSOXhXbfaz6lRHCfOjPbpfI+EvA==
+X-Google-Smtp-Source: AMrXdXtrQtHYDxHPRjbH8w7qNhx5RWtnRaWn9ssgWPVavMNEUU5tSZg8SwoLKK8t83WFP7pMb0p2UP5jikrNxqjZXkY=
+X-Received: by 2002:a9f:3189:0:b0:4c7:b2c7:d054 with SMTP id
+ v9-20020a9f3189000000b004c7b2c7d054mr5823348uad.97.1673257657210; Mon, 09 Jan
+ 2023 01:47:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230109084101.265664-1-treapking@chromium.org> <20230109084101.265664-2-treapking@chromium.org>
-In-Reply-To: <20230109084101.265664-2-treapking@chromium.org>
+References: <20230109084101.265664-1-treapking@chromium.org> <20230109084101.265664-3-treapking@chromium.org>
+In-Reply-To: <20230109084101.265664-3-treapking@chromium.org>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 9 Jan 2023 17:46:21 +0800
-Message-ID: <CAGXv+5GG_K8ga_c6mZcyn2y8Ydi3FHs4K6s7e45OeRPdD80g7A@mail.gmail.com>
-Subject: Re: [PATCH v9 1/9] device property: Add remote endpoint to devcon matcher
+Date: Mon, 9 Jan 2023 17:47:26 +0800
+Message-ID: <CAGXv+5FVfSUo6aTfS6tGPZLT3gqBRj5i0h0gKk5EdifPj-4L8w@mail.gmail.com>
+Subject: Re: [PATCH v9 2/9] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <robert.foss@linaro.org>, 
@@ -69,17 +70,25 @@ On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
 >
 > From: Prashant Malani <pmalani@chromium.org>
 >
-> When searching the device graph for device matches, check the
-> remote-endpoint itself for a match.
+> When using OF graph, the fw_devlink code will create links between the
+> individual port driver (cros-ec-typec here) and the parent device for
+> a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> have the usb-c-connector (i.e the child of the port driver) as a
+> supplier, fw_devlink will not be able to resolve the cyclic dependency
+> correctly.
 >
-> Some drivers register devices for individual endpoints. This allows
-> the matcher code to evaluate those for a match too, instead
-> of only looking at the remote parent devices. This is required when a
-> device supports two mode switches in its endpoints, so we can't simply
-> register the mode switch with the parent node.
+> As a result, the mode-switch driver probe() never runs, so mode-switches
+> are never registered. Because of that, the port driver probe constantly
+> fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> switch devices to be registered prior to port registration.
+>
+> To break this deadlock and allow the mode-switch registration to occur,
+> purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> the connector as a supplier for a switch and allows it to be probed.
 >
 > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+
 
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>

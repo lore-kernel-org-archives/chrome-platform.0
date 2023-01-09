@@ -1,48 +1,48 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EAF28ED
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 10:10:13 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id 186so2761804vsz.13
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 02:10:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF7228ED
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 10:11:46 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id i185so8049494vsc.6
+        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 02:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BFmXd/4UPgu9PVqNm6AoWBgVTa6i3g45dnuCERHZ2NU=;
-        b=WE0liED5Ie5eQRiaAGOQPuSdlhQLG5j7HuHrVbP1gPaqIdGF6HPe9F+Fl7aIFsgP1w
-         +zX09nmDVwU4BStTcFX224IgsQsAyjzkXXkgrvHA8/C6yUrlmTre922pIfb0EU3E/KFH
-         xDTSsgR8Tta0VXepTvmkaqjG0iwVjWnuTGlLI=
+        bh=Nl5gtLkelHYob0yvxLrGJZ0WToOte9ATFrvdQKICgVE=;
+        b=QNMyZmEv6uPuj/qm5nlVIOi9oLDwVoh7ki5s2SwsVlxB8Qa7tRd3oTaIfeHbBD+Dd0
+         a0R6oWjAg772gZCDdeUZDLbwtzO1YittETMC244DFqNxDyLX+C4+Xktl9Qt7T64NE5Xi
+         grJsVq7rhsC/EGWaUlY5lp6ayREbcqt4h6wMs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BFmXd/4UPgu9PVqNm6AoWBgVTa6i3g45dnuCERHZ2NU=;
-        b=pQcFO8yYcdcDLXM1nfzD5E9cyGLqoc95cc8g8qVeSHLoCzz2efEBwGyqIyMtgFdqhZ
-         x+usKfdAz8jXWp2NOcisL+egcA0xn1+CRTHUa/F08HmW1UXeeLcp8F1xGECSuf/h4vgO
-         hyOeONvnA5Ghtt+M+XrqK71C8Yq7Pwki617HWgOEr1zvPOFwCHPeWbbS/R7H+dDOepgJ
-         KHNc81JAyDxPW8jABMMt7Hf2EH4rdoesJkBuNCZj+U9u8V/y1DMI+t5aIWzJYrp7p9Jx
-         s9hqE2cWbZzhvnsD9LZJ+tSEtVYqpe7xMB7k2ULy7ZeXHO/Bacae4MrmGNRUtapNvJ1p
-         58xg==
-X-Gm-Message-State: AFqh2krJyBstAVz1+Tz5Q5CDpISQXbOPMwDG2qDYTLxYeJfGO8dILL/R
-	jvc5ghHxqcKgLfUloFRk3huh+TVVNJNZKgBmkwGl3w==
-X-Google-Smtp-Source: AMrXdXswh5fHslW6qG2CKCrGJyPGVtfkg3sYDGWs2LeCd5aO4LLL2z1s6q88e5jJJhhVmRcH4ARrlwrJQirdLbbhANg=
-X-Received: by 2002:a05:6102:3d9f:b0:3c4:4918:80c with SMTP id
- h31-20020a0561023d9f00b003c44918080cmr7195348vsv.9.1673259012171; Mon, 09 Jan
- 2023 02:10:12 -0800 (PST)
+        bh=Nl5gtLkelHYob0yvxLrGJZ0WToOte9ATFrvdQKICgVE=;
+        b=bPgcC63JfsOOsH+SwliRT8B/11HKCdHvnrd8YkWefjQz+6g6tp8QzGq23ywNw/mhic
+         hVWi0mqhzy1q+RH6pHO2NgbJSVvAkzF1XB1FIUczfsda2TubIOIM5c1AvMlzE+xddCtw
+         f8zTUjbaJziaidOzKJ0TeqbXmFIVxVSHkrPU78EosMfql5bArpngf6Sw05l3AABcTPG2
+         j2LCWletTcs01w8NkbYbmSfs699fHP7rk95wiR+AM/g7N6HbVYYdVCFBLN5bkzB6R7TH
+         0aJfU5X/117H/KfF1ocO8HxQDrY2Id8tkQp62fNLB23PHF1mVz3+XEWf2kXSMl0HWMf4
+         uWtg==
+X-Gm-Message-State: AFqh2kpa2MnzOnymtcDUVOfu3L/WIzDsbiK3+Fr0vZwCJWFEe6/p6gfH
+	yM7UHNSS7s5DLnPOMj2sqeFsyis9adYjctxvi+kq6Q==
+X-Google-Smtp-Source: AMrXdXtcNn1bVy1ULhiaYChXgRMGkSnSLx4444KzFv+N7rK2lYGkipv1i04e7jLkrmz585HPK6nXmJX0twUwXvIgfVY=
+X-Received: by 2002:a05:6102:374d:b0:3d0:af13:3b6 with SMTP id
+ u13-20020a056102374d00b003d0af1303b6mr141886vst.65.1673259105126; Mon, 09 Jan
+ 2023 02:11:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230109084101.265664-1-treapking@chromium.org> <20230109084101.265664-4-treapking@chromium.org>
-In-Reply-To: <20230109084101.265664-4-treapking@chromium.org>
+References: <20230109084101.265664-1-treapking@chromium.org> <20230109084101.265664-6-treapking@chromium.org>
+In-Reply-To: <20230109084101.265664-6-treapking@chromium.org>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 9 Jan 2023 18:10:01 +0800
-Message-ID: <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
-Subject: Re: [PATCH v9 3/9] drm/display: Add Type-C switch helpers
+Date: Mon, 9 Jan 2023 18:11:34 +0800
+Message-ID: <CAGXv+5GnLhUfdDzDQ2Y1Hb7gb+rjZzMhLU+38MYR+VHRdUCtkQ@mail.gmail.com>
+Subject: Re: [PATCH v9 5/9] drm/bridge: anx7625: Check for Type-C during panel registration
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <robert.foss@linaro.org>, 
@@ -55,156 +55,29 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@lina
 	Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Marek Vasut <marex@denx.de>, 
-	chrome-platform@lists.linux.dev, 
-	Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, 
-	Kees Cook <keescook@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, 
 	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Jani Nikula <jani.nikula@intel.com>, Allen Chen <allen.chen@ite.com.tw>, 
-	Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Douglas Anderson <dianders@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
+	linux-acpi@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>, 
+	Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org, 
+	Stephen Boyd <swboyd@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, chrome-platform@lists.linux.dev, 
+	Xin Ji <xji@analogixsemi.com>, linux-kernel@vger.kernel.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
 >
-> Add helpers to register and unregister Type-C "switches" for bridges
-> capable of switching their output between two downstream devices.
+> The output port endpoints can be connected to USB-C connectors.
+> Running drm_of_find_panel_or_bridge() with such endpoints leads to
+> a continuous return value of -EPROBE_DEFER, even though there is
+> no panel present.
 >
-> The helper registers USB Type-C mode switches when the "mode-switch"
-> and the "data-lanes" properties are available in Device Tree.
+> To avoid this, check for the existence of a "mode-switch" property in
+> the port endpoint, and skip panel registration completely if so.
 >
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
 on MT8192 based Hayato (ASUS Chromebook Flip CM3200).
-
-> ---
->
-> (no changes since v8)
->
-> Changes in v8:
-> - Fixed the build issue when CONFIG_TYPEC=m
-> - Fixed some style issues
->
-> Changes in v7:
-> - Extracted the common codes to a helper function
-> - New in v7
->
->  drivers/gpu/drm/display/drm_dp_helper.c | 132 ++++++++++++++++++++++++
->  include/drm/display/drm_dp_helper.h     |  16 +++
->  2 files changed, 148 insertions(+)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 16565a0a5da6..fb9e23744c08 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -30,11 +30,13 @@
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
->  #include <linux/string_helpers.h>
-> +#include <linux/usb/typec_mux.h>
->  #include <linux/dynamic_debug.h>
->
->  #include <drm/display/drm_dp_helper.h>
->  #include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_panel.h>
-> @@ -3891,3 +3893,133 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
->  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
->
->  #endif
-> +
-> +#if IS_REACHABLE(CONFIG_TYPEC)
-> +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
-> +                                      struct drm_dp_typec_switch_desc *switch_desc,
-> +                                      void *data, void *mux_set)
-> +{
-> +       struct drm_dp_typec_port_data *port_data;
-> +       struct typec_mux_desc mux_desc = {};
-> +       char name[32];
-> +       u32 dp_lanes[2];
-> +       int ret, num_lanes, port_num = -1;
-> +
-> +       num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-> +       if (num_lanes <= 0) {
-> +               dev_err(dev, "Error on getting data lanes count: %d\n",
-> +                       num_lanes);
-
-Also printing out the full node name (endpoint@N) would be more helpful.
-
-> +               return num_lanes;
-> +       }
-> +
-> +       ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to read the data-lanes variable: %d\n",
-> +                       ret);
-
-Same here.
-
-> +               return ret;
-> +       }
-> +
-> +       port_num = dp_lanes[0] / 2;
-> +
-> +       port_data = &switch_desc->typec_ports[port_num];
-> +       port_data->data = data;
-> +       mux_desc.fwnode = &node->fwnode;
-> +       mux_desc.drvdata = port_data;
-> +       snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> +       mux_desc.name = name;
-> +       mux_desc.set = mux_set;
-> +
-> +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> +       if (IS_ERR(port_data->typec_mux)) {
-> +               ret = PTR_ERR(port_data->typec_mux);
-> +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
-> +                       port_num, ret);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +/**
-> + * drm_dp_register_typec_switches() - register Type-C switches
-> + * @dev: Device that registers Type-C switches
-> + * @port: Device node for the switch
-> + * @switch_desc: A Type-C switch descriptor
-> + * @data: Private data for the switches
-> + * @mux_set: Callback function for typec_mux_set
-> + *
-> + * This function registers USB Type-C switches for DP bridges that can switch
-> + * the output signal between their output pins.
-> + *
-> + * Currently only mode switches are implemented, and the function assumes the
-> + * given @port device node has endpoints with "mode-switch" property.
-> + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
-> + * and register it as port 1 if "data-lanes" falls in 2/3.
-> + */
-> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> +                                  struct drm_dp_typec_switch_desc *switch_desc,
-> +                                  void *data, void *mux_set)
-> +{
-> +       struct device_node *sw;
-> +       int ret;
-> +
-> +       for_each_child_of_node(port, sw) {
-> +               if (of_property_read_bool(sw, "mode-switch"))
-> +                       switch_desc->num_typec_switches++;
-> +       }
-> +
-> +       if (!switch_desc->num_typec_switches) {
-> +               dev_warn(dev, "No Type-C switches node found\n");
-
-Maybe change this to dev_info or even dev_debug? A warning would be too
-noisy if the bridge drivers are calling this helper unconditionally.
-
-Otherwise,
-
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>

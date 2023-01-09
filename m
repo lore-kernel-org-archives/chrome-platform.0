@@ -1,43 +1,43 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFDE8C09
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 19:39:52 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id b9-20020a17090a7ac900b00226ef160dcaso9107343pjl.2
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 11:39:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DC08C09
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jan 2023 19:41:03 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id n12so9870154pjp.1
+        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 11:41:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aJ4JfCzqm6YYlndMbkGrmhDzhoFbeiRvc2+0c/UTEBY=;
-        b=GfJQo4XYnjXMnJiUJVeuwai4J8n3rE0213VwIKTil6Ce69dza7NyAPfZUHXJiwMEEn
-         /HSIb91fOrldGXUWSvMxDpiPvQBhOdfJ5kmoWySVuTybYhs8TS2k+WeV2STRB8Q4nQwM
-         xg5X8JuMb1081IfyAtLBUc1/diSSSzrO7EY7Wz/MMhewoNJMMZyvMyClyNZtOkZ1dpwX
-         +a5resVJKmPu0/eviBDfkTwxUPrdo2yFlSrUKgxFHevSqw9da9j4ht+waufLDwbKVOZo
-         1mJwFtxSphobpBWegKIL2bS+kfUVt7m4uF+/pYkJz8OPzwMamYKsfpcvEFcGi84DTZZ/
-         DEnQ==
+        bh=NXHhCPy8ZQg2kZJwvqXpjSYTYD7YcSlvEHGYc8WsC5s=;
+        b=F/2FVC8vpPYa5u8cXJThONpvdM66nq1lZgihwTK9QyYGJwXy9DKEZYer4xiYyBkxUG
+         Kpt4EX+G/9lvqIW/MDV2Flsns3HZmNaGhwP+nt3Mk56nu0YTVyMFf/BFwQjD96yQMQXi
+         QhHRBBOMru9MR/Zpud1xpe5gpbV0DFY8cJZoRGMWUsFAEeQxvXP5ZLAkMb0mw2/s4p9l
+         O8YpNIcZsRxVgpx8NvLeH14p+XwVnBM2lEH3TYbhXLGWHa6ASaeKWo/EYcDvkDCkWYgS
+         3sf+XJnA5os9CEjFgJZ3ptFrS0ZHBcgIX3ukSkvrWVJ+O96WAyAvcKQjwJqvLVhSjbqj
+         wtAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aJ4JfCzqm6YYlndMbkGrmhDzhoFbeiRvc2+0c/UTEBY=;
-        b=wAKXktmZadi8HO7Mix2wA2vX+RjIt35YUnJvRr+S3jbkyOjvaNmk9C+vZlMAxYarrW
-         HryEwGDMGRWJp4yTntQrSOkyw7kRzjoMvsAbHd1X8Us/kyYf3OMc9tNvgQ6QwOX6sGN3
-         U9jhogGdJaYg50zdNSHeWDgqaR3R8d+2V8IFD7WIitRijomFKK1nHl8O9YUggFlnCc0k
-         a6nafu6D/Ayzwy1Z1uM70H0nheR9InzMVgSvWoJmbQQoNojx/oo6Zdhs9AQJv6gj/8NA
-         H5p1xHIMywcuXEUdsx+pWAUs3VOSZjNb/VRzqvLl5QGHspXr2zQLqIfF+BsE0FM6C+o2
-         JEmw==
-X-Gm-Message-State: AFqh2kp4vhH4k3qUDu2JSwznTBU/plHpEYm606YX+fzVCd6EfE2m3iL+
-	deKAlNP0VBxDHEveExkyuAo95Q==
-X-Google-Smtp-Source: AMrXdXtCP4WxAZ/xFgvRZtu8jNSu0jpRtpggaFyFh53jai1TpVtfkQOcYc8I0ZcjMa/2AxO1fZxAfw==
-X-Received: by 2002:a17:902:9346:b0:192:8a1e:9bc7 with SMTP id g6-20020a170902934600b001928a1e9bc7mr677175plp.0.1673293191406;
-        Mon, 09 Jan 2023 11:39:51 -0800 (PST)
+        bh=NXHhCPy8ZQg2kZJwvqXpjSYTYD7YcSlvEHGYc8WsC5s=;
+        b=M1SAh4xSdAdGK/2Y16Xy/Zx2zqgrXDmHyWELJPhyf7UYZpq9efH1bGQxlFTP2cT8UP
+         KVEQpVYZeyvFfsv3AwxKa7G0ltAH03baqhHxGAOhJRmNz82zo45fQYv+YAiBrdYOuJzL
+         huHKupCthYoZceZdKr96IqUtr/QGAt7lsGrN+oZ+dGcelLpjryr20JRXJ82DRwdpDX+g
+         MDS9tcyI5ampjaApfXA8xwKIcayFmHcD1ZorAXJEDIO99qD2ZWoSkJ07XRlcN9B88akv
+         n8NJUwxHZVCaFGqeEuhxs//adpWnTrjscfI/o6FRdvj//X/YHVR2nElIcaU1/8H5LqR4
+         2lQQ==
+X-Gm-Message-State: AFqh2kooqJ8laB0zbjBq+zlQMsaCla/QfwslHNUIiJh5sAdoEQ2i/ebZ
+	Vy0qIe3gX2v5sZmKI9x7dTd0HA==
+X-Google-Smtp-Source: AMrXdXuV6nfJaH1DdV9J83X/nSRL//0QnVJ6UYPgpfyOy57UPJF79GIsVR5FH1qZmcHr88n5UuR7RA==
+X-Received: by 2002:a17:90a:c4f:b0:219:c2f2:f83c with SMTP id u15-20020a17090a0c4f00b00219c2f2f83cmr725507pje.2.1673293262257;
+        Mon, 09 Jan 2023 11:41:02 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:3529:30e5:d581:6e80])
-        by smtp.gmail.com with ESMTPSA id b2-20020a170902d50200b00192a96f4916sm6406049plg.259.2023.01.09.11.39.49
+        by smtp.gmail.com with ESMTPSA id 31-20020a63195f000000b00478dad38eacsm5563018pgz.38.2023.01.09.11.41.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 11:39:50 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:39:43 -0800
+        Mon, 09 Jan 2023 11:41:01 -0800 (PST)
+Date: Mon, 9 Jan 2023 11:40:54 -0800
 From: Benson Leung <bleung@google.com>
 To: Prashant Malani <pmalani@chromium.org>
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
@@ -49,17 +49,14 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Guenter Roeck <groeck@chromium.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Kees Cook <keescook@chromium.org>, Lee Jones <lee.jones@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Stephen Boyd <swboyd@chromium.org>,
+	Lee Jones <lee@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
 	Tinghan Shen <tinghan.shen@mediatek.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Xiang wangx <wangxiang@cdjrlc.com>
-Subject: Re: [PATCH 10/10] platform/chrome: cros_typec_vdm: Add VDM send
- support
-Message-ID: <Y7xtf4BEd3On42FJ@google.com>
+Subject: Re: [PATCH 02/10] platform_chrome: cros_ec: Add Type-C VDM defines
+Message-ID: <Y7xtxo3V050rvMTe@google.com>
 References: <20221228004648.793339-1-pmalani@chromium.org>
- <20221228004648.793339-11-pmalani@chromium.org>
+ <20221228004648.793339-3-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -67,69 +64,134 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ave0XMEPWD+hATqC"
+	protocol="application/pgp-signature"; boundary="CpmHd8ttyUe4GQ8r"
 Content-Disposition: inline
-In-Reply-To: <20221228004648.793339-11-pmalani@chromium.org>
+In-Reply-To: <20221228004648.793339-3-pmalani@chromium.org>
 
 
---ave0XMEPWD+hATqC
+--CpmHd8ttyUe4GQ8r
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 28, 2022 at 12:45:13AM +0000, Prashant Malani wrote:
-> Add support to send generic VDM messages from the alt mode driver to the
-> partner (via the ChromeOS EC). The function introduced here is intended
-> to be called by the alt mode driver (via the Type-C bus logic).
+On Wed, Dec 28, 2022 at 12:45:05AM +0000, Prashant Malani wrote:
+> Add the EC header changes need to support USB Type-C VDM (Vendor Defined
+> Messages) communication between the system and USB PD-enabled
+> peripherals.
 >=20
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> The headers are already present in the EC code base, from which they've
+> been ported [1].
+>=20
+> [1] https://source.chromium.org/chromium/chromiumos/platform/ec/+/main:in=
+clude/ec_commands.h
+>=20
 > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
 Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
->  drivers/platform/chrome/cros_typec_vdm.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  .../linux/platform_data/cros_ec_commands.h    | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
 >=20
-> diff --git a/drivers/platform/chrome/cros_typec_vdm.c b/drivers/platform/=
-chrome/cros_typec_vdm.c
-> index fc7b602ceb37..aca9d337118e 100644
-> --- a/drivers/platform/chrome/cros_typec_vdm.c
-> +++ b/drivers/platform/chrome/cros_typec_vdm.c
-> @@ -77,6 +77,30 @@ static int cros_typec_port_amode_enter(struct typec_al=
-tmode *amode, u32 *vdo)
->  			   sizeof(req), NULL, 0);
->  }
-> =20
-> +static int cros_typec_port_amode_vdm(struct typec_altmode *amode, const =
-u32 hdr,
-> +				     const u32 *vdo, int cnt)
-> +{
-> +	struct cros_typec_port *port =3D typec_altmode_get_drvdata(amode);
-> +	struct ec_params_typec_control req =3D {
-> +		.port =3D port->port_num,
-> +		.command =3D TYPEC_CONTROL_COMMAND_SEND_VDM_REQ,
-> +	};
-> +	struct typec_vdm_req vdm_req =3D {};
-> +
-> +	vdm_req.vdm_data[0] =3D hdr;
-> +	vdm_req.vdm_data_objects =3D cnt;
-> +	memcpy(&vdm_req.vdm_data[1], vdo, cnt - 1);
-> +	vdm_req.partner_type =3D TYPEC_PARTNER_SOP;
-> +	req.vdm_req_params =3D vdm_req;
-> +
-> +	dev_dbg(port->typec_data->dev, "Sending VDM, hdr: %x, num_objects: %d, =
-port: %d\n",
-> +		hdr, cnt, port->port_num);
-> +
-> +	return cros_ec_cmd(port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL, &req,
-> +			   sizeof(req), NULL, 0);
-> +}
-> +
->  struct typec_altmode_ops port_amode_ops =3D {
->  	.enter =3D cros_typec_port_amode_enter,
-> +	.vdm =3D cros_typec_port_amode_vdm,
+> diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/lin=
+ux/platform_data/cros_ec_commands.h
+> index 7c94bf5c8f05..6665e7da6ee2 100644
+> --- a/include/linux/platform_data/cros_ec_commands.h
+> +++ b/include/linux/platform_data/cros_ec_commands.h
+> @@ -1300,6 +1300,18 @@ enum ec_feature_code {
+>  	 * mux.
+>  	 */
+>  	EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK =3D 43,
+> +	/*
+> +	 * The EC supports entering and residing in S4.
+> +	 */
+> +	EC_FEATURE_S4_RESIDENCY =3D 44,
+> +	/*
+> +	 * The EC supports the AP directing mux sets for the board.
+> +	 */
+> +	EC_FEATURE_TYPEC_AP_MUX_SET =3D 45,
+> +	/*
+> +	 * The EC supports the AP composing VDMs for us to send.
+> +	 */
+> +	EC_FEATURE_TYPEC_AP_VDM_SEND =3D 46,
 >  };
+> =20
+>  #define EC_FEATURE_MASK_0(event_code) BIT(event_code % 32)
+> @@ -5724,6 +5736,8 @@ enum typec_control_command {
+>  	TYPEC_CONTROL_COMMAND_ENTER_MODE,
+>  	TYPEC_CONTROL_COMMAND_TBT_UFP_REPLY,
+>  	TYPEC_CONTROL_COMMAND_USB_MUX_SET,
+> +	TYPEC_CONTROL_COMMAND_BIST_SHARE_MODE,
+> +	TYPEC_CONTROL_COMMAND_SEND_VDM_REQ,
+>  };
+> =20
+>  /* Replies the AP may specify to the TBT EnterMode command as a UFP */
+> @@ -5737,6 +5751,17 @@ struct typec_usb_mux_set {
+>  	uint8_t mux_flags;	/* USB_PD_MUX_*-encoded USB mux state to set */
+>  } __ec_align1;
+> =20
+> +#define VDO_MAX_SIZE 7
+> +
+> +struct typec_vdm_req {
+> +	/* VDM data, including VDM header */
+> +	uint32_t vdm_data[VDO_MAX_SIZE];
+> +	/* Number of 32-bit fields filled in */
+> +	uint8_t vdm_data_objects;
+> +	/* Partner to address - see enum typec_partner_type */
+> +	uint8_t partner_type;
+> +} __ec_align1;
+> +
+>  struct ec_params_typec_control {
+>  	uint8_t port;
+>  	uint8_t command;	/* enum typec_control_command */
+> @@ -5752,6 +5777,8 @@ struct ec_params_typec_control {
+>  		uint8_t mode_to_enter;      /* enum typec_mode */
+>  		uint8_t tbt_ufp_reply;      /* enum typec_tbt_ufp_reply */
+>  		struct typec_usb_mux_set mux_params;
+> +		/* Used for VMD_REQ */
+> +		struct typec_vdm_req vdm_req_params;
+>  		uint8_t placeholder[128];
+>  	};
+>  } __ec_align1;
+> @@ -5833,6 +5860,8 @@ enum tcpc_cc_polarity {
+>  #define PD_STATUS_EVENT_DISCONNECTED		BIT(3)
+>  #define PD_STATUS_EVENT_MUX_0_SET_DONE		BIT(4)
+>  #define PD_STATUS_EVENT_MUX_1_SET_DONE		BIT(5)
+> +#define PD_STATUS_EVENT_VDM_REQ_REPLY		BIT(6)
+> +#define PD_STATUS_EVENT_VDM_REQ_FAILED		BIT(7)
+> =20
+>  struct ec_params_typec_status {
+>  	uint8_t port;
+> @@ -5876,6 +5905,28 @@ struct ec_response_typec_status {
+>  	uint32_t sink_cap_pdos[7];	/* Max 7 PDOs can be present */
+>  } __ec_align1;
+> =20
+> +/*
+> + * Gather the response to the most recent VDM REQ from the AP
+> + */
+> +#define EC_CMD_TYPEC_VDM_RESPONSE 0x013C
+> +
+> +struct ec_params_typec_vdm_response {
+> +	uint8_t port;
+> +} __ec_align1;
+> +
+> +struct ec_response_typec_vdm_response {
+> +	/* Number of 32-bit fields filled in */
+> +	uint8_t vdm_data_objects;
+> +	/* Partner to address - see enum typec_partner_type */
+> +	uint8_t partner_type;
+> +	/* Reserved */
+> +	uint16_t reserved;
+> +	/* VDM data, including VDM header */
+> +	uint32_t vdm_response[VDO_MAX_SIZE];
+> +} __ec_align1;
+> +
+> +#undef VDO_MAX_SIZE
+> +
+>  /***********************************************************************=
+******/
+>  /* The command range 0x200-0x2FF is reserved for Rotor. */
+> =20
 > --=20
 > 2.39.0.314.g84b9a713c41-goog
 >=20
@@ -144,15 +206,15 @@ bleung@google.com
 Chromium OS Project
 bleung@chromium.org
 
---ave0XMEPWD+hATqC
+--CpmHd8ttyUe4GQ8r
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY7xtfwAKCRBzbaomhzOw
-wgK7AQDJDYDwhW2Nb640pvBtKbu4HD8oBF2zIL+PEs6ybEUBAAD/Ut8HlwZnHQw/
-Z3fB9mZO4uji9sD+BUD+TFcZxc477ws=
-=TD7C
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY7xtxgAKCRBzbaomhzOw
+wldCAQC78NC9IQIYLqOZQXd8fQCOa4OPJd8rszj0QRhB0GcO9wEAqRmaao9paHIy
+Jytje0kN/NhKZZJUHYTrTEiAFWNo2w4=
+=MhSQ
 -----END PGP SIGNATURE-----
 
---ave0XMEPWD+hATqC--
+--CpmHd8ttyUe4GQ8r--

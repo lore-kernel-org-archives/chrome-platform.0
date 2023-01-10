@@ -1,88 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EA7A92B
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BFE4C433F1;
-	Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673376620;
-	bh=YO9gIfxGjwUCdoC0nmnhiPhytr4tJg826QKNf4k1PNw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FEWHgjSFBlCoBIZeYZA3puFrcEJIr4PSM56ZEc8eyGLw33360GtS/3RLMSz8mIuRK
-	 n7cxxN7mylQen4fwuIxkJRlGMLB6/+pn/ZT3gn1Y5LzkuJZ+NJealCPv85/KKPjjfu
-	 iVNmuAVa24+jDLxMNOlZbrpVlrEA9hlEdbhLApg0/WZspirvnjQ5hUNrA4KVbAtAJQ
-	 lV/o3ysPZMhcwBUGevBfNkjH0xtScIMXH47mRMnH+X1xlOhjK+N4AK/i40xEDd/I4Y
-	 DwA9I5kqAOZ4WmVOpVphB/DcYe9B+7TRIVYu6EatlbALbk3T9Pq9qNrQGrerLI7mZw
-	 rl4dTNtMBpD4g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3EFE0E21EEA;
-	Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6B4A94E
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 19:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1673379382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Yj+HBuTUncC5lE81l2Gg3tjvcbmvnq4VCsptZAErNXM=;
+	b=Wm96HrmmsROWBqHNaGpqYT6vLH73oukfcAil3LN3EZac2vugkQtojWfGh0Wme/yKVZLDZG
+	U51xHMm/eueV2SaHHiWVQ9nDj8eD4BRPgus3b19PPFyJTxvsylkAeMwhTfryBzEykZzW97
+	vBepv4+tOhGl/4KGMFF2l53tcPCwwqY=
+Received: from mail-pj1-f70.google.com (209.85.216.70 [209.85.216.70]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-52-BeHyWQ-JNr-Fndi1IHnwvA-1; Tue,
+ 10 Jan 2023 14:36:21 -0500
+X-MC-Unique: BeHyWQ-JNr-Fndi1IHnwvA-1
+Received: by mail-pj1-f70.google.com with SMTP id o21-20020a17090aac1500b00226349b1e06so9783012pjq.4
+        for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 11:36:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yj+HBuTUncC5lE81l2Gg3tjvcbmvnq4VCsptZAErNXM=;
+        b=hRc6+DsMzFibz4G42iGIvMpghBl5TGNZvxJWpaNugVbXuTozAPuyQt+zwYqcohqC93
+         4jcqQqN6/kaIY4dIvjevvbDO9YbDmKbtqPAwGUJn8ExHCTLhGRpLe5iL+MhP6C0vnsHq
+         Zt+ptoJblYUAKXL8qrTSL00kWhszqq1nF8chaKvaOfpGLIds8QsKsrdAEFHOfep6zLHJ
+         DkKygXw81lZMSnfmJ3ArV4+qAlXib3mj2WkupZwvO93Y3/xJQphhmjEZztHC0kiHk5Pb
+         XL17DfkO4X9iV4yLwhrdJhwP/1iAE137Ih+46JHvdc/iVtCEURP+1sAvKmCpNiu5SmST
+         RWNQ==
+X-Gm-Message-State: AFqh2koG0JUcTtbtZ3VmLlUHZ5HGxgPF/lv92Z2YR62K/JZ8mhl665yz
+	ikdp/7U4mCbxuvb565nHjK0awFUOOve1ERaMpT6/e9dT9nnCTmNA6I1+y+oDm4WVhu+rnVPG+Ez
+	AePQkvkUSD0cjH64B5T1wTUvLxgO0
+X-Received: by 2002:a05:6a20:47c8:b0:9d:efbe:204b with SMTP id ey8-20020a056a2047c800b0009defbe204bmr76827477pzb.1.1673379380026;
+        Tue, 10 Jan 2023 11:36:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvCtPTYrYlOZy/4MsymT5iev0oOLVLTuxBLZWISSRSnYz9AF4e8Uu0T/HgOGW4RT0ynfsSHjQ==
+X-Received: by 2002:a05:6a20:47c8:b0:9d:efbe:204b with SMTP id ey8-20020a056a2047c800b0009defbe204bmr76827465pzb.1.1673379379776;
+        Tue, 10 Jan 2023 11:36:19 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id 14-20020a630c4e000000b00478f87eaa44sm7005552pgm.35.2023.01.10.11.36.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jan 2023 11:36:19 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: bleung@chromium.org,
+	groeck@chromium.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>
+Subject: [PATCH] platform/chrome: cros_ec_lpc: initialize the buf variable
+Date: Tue, 10 Jan 2023 14:36:11 -0500
+Message-Id: <20230110193611.3573777-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/10] platform/chrome: cros_ec_typec: VDM support
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167337662025.1026.16587608589588536496.git-patchwork-notify@kernel.org>
-Date: Tue, 10 Jan 2023 18:50:20 +0000
-References: <20221228004648.793339-1-pmalani@chromium.org>
-In-Reply-To: <20221228004648.793339-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- heikki.krogerus@linux.intel.com, bleung@chromium.org, dnojiri@chromium.org,
- dustin@howett.net, evgreen@chromium.org, gregkh@linuxfoundation.org,
- groeck@chromium.org, gustavoars@kernel.org, keescook@chromium.org,
- lee.jones@linaro.org, lee@kernel.org, sebastian.reichel@collabora.com,
- swboyd@chromium.org, tinghan.shen@mediatek.com, tzungbi@kernel.org,
- wangxiang@cdjrlc.com
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hello:
+Clang static analysis reports this problem
+drivers/platform/chrome/cros_ec_lpc.c:379:13: warning: The left operand
+  of '!=' is a garbage value [core.UndefinedBinaryOperatorResult]
+    if (buf[0] != 'E' || buf[1] != 'C') {
+         ~~~~~~ ^
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+The check depends on the side effect of the read.  When the read fails
+or is short, a buf containing garbage could be mistaken as correct.
 
-On Wed, 28 Dec 2022 00:45:03 +0000 you wrote:
-> This series adds support for sending and receiving USB PD Vendor
-> Defined Messages (VDMs) between the Application Processor's Type-C
-> ports and connected peripherals.
-> 
-> Thir enables the Application processor to enter alternate modes and
-> process VDMs directly, instead of relying on state machines that exist
-> inside of co-processors like the ChromeOS Embedded Controller (EC).
-> 
-> [...]
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/platform/chrome/cros_ec_lpc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here is the summary with links:
-  - [01/10] Revert "mfd: cros_ec: Add SCP Core-1 as a new CrOS EC MCU"
-    https://git.kernel.org/chrome-platform/c/0ac7200e3317
-  - [02/10] platform_chrome: cros_ec: Add Type-C VDM defines
-    https://git.kernel.org/chrome-platform/c/0e0dba884c43
-  - [03/10] platform/chrome: cros_ec_typec: Stash port driver info
-    https://git.kernel.org/chrome-platform/c/4dc9355cef4f
-  - [04/10] platform/chrome: cros_ec_typec: Set port alt mode drvdata
-    https://git.kernel.org/chrome-platform/c/c856e3ff98bb
-  - [05/10] platform/chrome: cros_ec_typec: Update port DP VDO
-    https://git.kernel.org/chrome-platform/c/8d2b28df6c3d
-  - [06/10] platform/chrome: cros_ec_typec: Move structs to header
-    https://git.kernel.org/chrome-platform/c/690580965153
-  - [07/10] platform/chrome: cros_ec_typec: Alter module name with hyphens
-    https://git.kernel.org/chrome-platform/c/e5eea6a3319f
-  - [08/10] platform/chrome: cros_ec_typec: Add initial VDM support
-    https://git.kernel.org/chrome-platform/c/493e699b9934
-  - [09/10] platform/chrome: cros_typec_vdm: Add VDM reply support
-    https://git.kernel.org/chrome-platform/c/50ed638bbc47
-  - [10/10] platform/chrome: cros_typec_vdm: Add VDM send support
-    https://git.kernel.org/chrome-platform/c/40a9b13a09ef
-
-You are awesome, thank you!
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 3708fa75feb1..68bba0fcafab 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -350,7 +350,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	struct acpi_device *adev;
+ 	acpi_status status;
+ 	struct cros_ec_device *ec_dev;
+-	u8 buf[2];
++	u8 buf[2] = {};
+ 	int irq, ret;
+ 
+ 	/*
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.27.0
 

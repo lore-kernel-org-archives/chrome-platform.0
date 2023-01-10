@@ -1,66 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEA73C2C
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 10:24:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543ACC433D2;
-	Tue, 10 Jan 2023 10:24:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EA7A92B
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BFE4C433F1;
+	Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673346284;
-	bh=dTgPvsgrg4/CD/5ArDil+Tfp0HpNO3onh2BF3ZkA0yQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dkXylVkIew5hS9NGMeN8q1e/E1K3AL1CHW/aod2KYag4L0tf8zmZTtlLTa24sm8/G
-	 pJtFaOCBuJsxdLh1uWoXOS6fjxsk1rEbL88p1B/joz5jWmENpYIuGhaBk9IGIcM4H3
-	 cM2jnyRePODHWdG9gLLJLeAeQlNJ5Nd1/tEUpa1XsaEHDjq7Hfu0DaBlPIFxG1LPI+
-	 0X2cpHMvAC1tfCBoV1pr0NOxjbpjpIWXPSyiHmGJQMe1UhTJhaD2IeO/Qg9XWj10WH
-	 a1zAYhtFpIWZoAYO4KpMB4GSG//9yQPRhx7rqnGnINiMJkswabQcoqMXJ9BEQmWlBN
-	 1LbIDXr6nVRXQ==
-Date: Tue, 10 Jan 2023 10:24:38 +0000
-From: Lee Jones <lee@kernel.org>
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Raul Rangel <rrangel@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] dt-bindings: mfd: Add compatible string for UART
- support
-Message-ID: <Y7085l4J0jbrkd6G@google.com>
-References: <20221207104005.v10.1.If7926fcbad397bc6990dd725690229bed403948c@changeid>
- <20221207104005.v10.2.I9e018ecb8bdf341648cb64417085978ff0d22a46@changeid>
- <Y7WkeCi7/x/t37JM@google.com>
- <Y7YjmtwByTR+8tbZ@google.com>
- <Y7bdmiZ9lqKZXCfq@google.com>
- <Y7buUdgLfnQqnG+x@google.com>
- <Y7b6dC6dDNO2bVjr@google.com>
- <Y7cSKFIakdGKKokE@google.com>
- <CANg-bXDrSJCGk27YKheupm9YND1fSaBaYfQ1Bd-4C-PnH67ioQ@mail.gmail.com>
+	s=k20201202; t=1673376620;
+	bh=YO9gIfxGjwUCdoC0nmnhiPhytr4tJg826QKNf4k1PNw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=FEWHgjSFBlCoBIZeYZA3puFrcEJIr4PSM56ZEc8eyGLw33360GtS/3RLMSz8mIuRK
+	 n7cxxN7mylQen4fwuIxkJRlGMLB6/+pn/ZT3gn1Y5LzkuJZ+NJealCPv85/KKPjjfu
+	 iVNmuAVa24+jDLxMNOlZbrpVlrEA9hlEdbhLApg0/WZspirvnjQ5hUNrA4KVbAtAJQ
+	 lV/o3ysPZMhcwBUGevBfNkjH0xtScIMXH47mRMnH+X1xlOhjK+N4AK/i40xEDd/I4Y
+	 DwA9I5kqAOZ4WmVOpVphB/DcYe9B+7TRIVYu6EatlbALbk3T9Pq9qNrQGrerLI7mZw
+	 rl4dTNtMBpD4g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3EFE0E21EEA;
+	Tue, 10 Jan 2023 18:50:20 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANg-bXDrSJCGk27YKheupm9YND1fSaBaYfQ1Bd-4C-PnH67ioQ@mail.gmail.com>
+Subject: Re: [PATCH 00/10] platform/chrome: cros_ec_typec: VDM support
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <167337662025.1026.16587608589588536496.git-patchwork-notify@kernel.org>
+Date: Tue, 10 Jan 2023 18:50:20 +0000
+References: <20221228004648.793339-1-pmalani@chromium.org>
+In-Reply-To: <20221228004648.793339-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ heikki.krogerus@linux.intel.com, bleung@chromium.org, dnojiri@chromium.org,
+ dustin@howett.net, evgreen@chromium.org, gregkh@linuxfoundation.org,
+ groeck@chromium.org, gustavoars@kernel.org, keescook@chromium.org,
+ lee.jones@linaro.org, lee@kernel.org, sebastian.reichel@collabora.com,
+ swboyd@chromium.org, tinghan.shen@mediatek.com, tzungbi@kernel.org,
+ wangxiang@cdjrlc.com
 
-On Mon, 09 Jan 2023, Mark Hasemeyer wrote:
+Hello:
 
-> On Wed, Jan 4, 2023 at 9:08 AM Lee Jones <lee@kernel.org> wrote:
-> > I changed the subject line and applied the patch, thanks.
+This series was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
+
+On Wed, 28 Dec 2022 00:45:03 +0000 you wrote:
+> This series adds support for sending and receiving USB PD Vendor
+> Defined Messages (VDMs) between the Application Processor's Type-C
+> ports and connected peripherals.
 > 
-> Hey Lee, a couple comments/questions:
-> 1. The subject line of this patch was updated in v11 of the series.
-> 2. What tree was the patch applied to? I don't see the changes in linux-next.
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> Thir enables the Application processor to enter alternate modes and
+> process VDMs directly, instead of relying on state machines that exist
+> inside of co-processors like the ChromeOS Embedded Controller (EC).
+> 
+> [...]
 
-Thanks for flagging.  You will do tomorrow.
+Here is the summary with links:
+  - [01/10] Revert "mfd: cros_ec: Add SCP Core-1 as a new CrOS EC MCU"
+    https://git.kernel.org/chrome-platform/c/0ac7200e3317
+  - [02/10] platform_chrome: cros_ec: Add Type-C VDM defines
+    https://git.kernel.org/chrome-platform/c/0e0dba884c43
+  - [03/10] platform/chrome: cros_ec_typec: Stash port driver info
+    https://git.kernel.org/chrome-platform/c/4dc9355cef4f
+  - [04/10] platform/chrome: cros_ec_typec: Set port alt mode drvdata
+    https://git.kernel.org/chrome-platform/c/c856e3ff98bb
+  - [05/10] platform/chrome: cros_ec_typec: Update port DP VDO
+    https://git.kernel.org/chrome-platform/c/8d2b28df6c3d
+  - [06/10] platform/chrome: cros_ec_typec: Move structs to header
+    https://git.kernel.org/chrome-platform/c/690580965153
+  - [07/10] platform/chrome: cros_ec_typec: Alter module name with hyphens
+    https://git.kernel.org/chrome-platform/c/e5eea6a3319f
+  - [08/10] platform/chrome: cros_ec_typec: Add initial VDM support
+    https://git.kernel.org/chrome-platform/c/493e699b9934
+  - [09/10] platform/chrome: cros_typec_vdm: Add VDM reply support
+    https://git.kernel.org/chrome-platform/c/50ed638bbc47
+  - [10/10] platform/chrome: cros_typec_vdm: Add VDM send support
+    https://git.kernel.org/chrome-platform/c/40a9b13a09ef
 
+You are awesome, thank you!
 -- 
-Lee Jones [李琼斯]
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

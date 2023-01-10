@@ -1,86 +1,108 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EDC17E5
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 05:16:52 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id az7so10522954wrb.5
-        for <chrome-platform@lists.linux.dev>; Mon, 09 Jan 2023 21:16:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904DD290A
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 09:08:38 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id 7so7789955pga.1
+        for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 01:08:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3PxMRylU7VW/C2nNeF7Y9SkTmJMkb35RgT3nz6TLaHo=;
-        b=YzJhbcvxafLF0RAWvTSY5hNb/JMhOQH4NLEaV8H12TNi4ApM3icbJFpMFpUvpOQPDv
-         aegwxm9kGKJCyUOQZNWMvDEBqAJppxWkkiHjV+4Hj82vfFZYw5tVBlasHwLc1ijpRXc2
-         U4Sbqh3/xjYOT+6t+XWn2UqK/qGd4btHKEoZrfFndFp6UgPadiZ6d9nMsbFH28YtCftB
-         c9+nvYTImx964mp6FS+27fg8SUyztuWtpzI0v82d7drzS3wNjcV0kVO9EZcXtgHb06cn
-         B/ylafr3UUz46ljJHC01Qn8f0EKXgVESL/+kSeal5NrDRHfCLwfJeriENzuVs8D6jrZh
-         9XoQ==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=OayDjVpekysRuE8en7cStjGgJnyfI0Dn7hmDtsu2GBo=;
+        b=LiSyr1N7dR3t5u2pfs5cYYhWK861GAuM78QotB3PkhGH0nHMrZp3nO9v+5Y5eQMK8b
+         3jj3gB6YWJAXqy/VqgOXeWYkzhnCa+9/l3rjn5nfGjcvM8PGK7uCbc37WejDAg22lDb2
+         54ihG7uvH62Rab/69RZPf2H+d5MeEii+8W1ZR+rIV3JS7DGxtRUtd3pSaaj+DkTDCvzu
+         zHTahD/7dhVvpOFOVe98cSOC7iwZl0+YhhDI4Zy1P6Wa+E6APh8UZCSR+m1SUFtmcdGb
+         ntaFQsTvjwB5jfmahQRw3XnwRBXdvMmapdhncRnuyjFrVGzUlB36ZkZ1M+46vfI3AgD7
+         kX4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3PxMRylU7VW/C2nNeF7Y9SkTmJMkb35RgT3nz6TLaHo=;
-        b=CW+3H9nWTBYQUaM5cimn1crVMiiW20ZlAxPBK/B2wvCyazaI1EfuPYdPA2Qu/3V8+c
-         0gFjrRz87DJD3lWpn6+dbgaYTWMkNHyuYOqlhm4XoMDKNNbNMFa/5IFF1gCtmPlU/nfS
-         Z2BBXySm4YHOyL+sOb39Ofs1dwV0Dd46aT4v8LGCjjR+FPRMjEQ1tCEpl2Dvv7riXbAs
-         Jxk2L7/SjmMrMwa/ZCFfC11A4tEKmF+t/1TuZz2kaeeOaXG5I85RkMY4ShxDxhK4xCHu
-         /Pd4uNnfLmZlfjz9d39/m0dsJSoHLse5KmFhHNT3z7mOorWfJbZCpEPEcm4P9FP9vtBY
-         fsJQ==
-X-Gm-Message-State: AFqh2kr0JaT25Qt3nY/dmJ5fpUwa5AFdq6DMpNqazUHGikJCteOlL5OE
-	0kTEy7vRZ/MQc7Lj6G2KBTaLowQj3Ec=
-X-Google-Smtp-Source: AMrXdXtxJDu625xu6XMLqkrnCh6bdxa9hYyikgPb8bilD1DVeGrLYX5Furs1lbUcuF8UjgQXjrRxtw==
-X-Received: by 2002:a5d:640c:0:b0:29f:7c0c:5a46 with SMTP id z12-20020a5d640c000000b0029f7c0c5a46mr16474977wru.68.1673327811010;
-        Mon, 09 Jan 2023 21:16:51 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t14-20020adfeb8e000000b002baa780f0fasm9992594wrn.111.2023.01.09.21.16.50
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OayDjVpekysRuE8en7cStjGgJnyfI0Dn7hmDtsu2GBo=;
+        b=kxd19jSrvNZRTcAuDW9k96PW9tuAk66FmiJUPlT7pIFyIjvQc0Eis35pg/naqjn/ZL
+         gRy2VFdGr4h7J8AkiRD0Fcf9jXzEsGitDXU3FGiZxnUX+n3gnYmkz9cOjCEBy/B4g7Af
+         A6Bx0VbOi93c0a++oS5OfQtLqW/hfVuXF4+AuwB3YdPoe3Pfw6Xkd5GQrLAPbqcv4xRr
+         lkdSN8HRemxPbn/QRuK95APivKv+ko86XUcyA+zEgv+VY7qLPMFsyCzmkaIKr3+fs6kk
+         VJu9efTSKAumcOfgc4MgutWbnqb+b+E1NXf1NJwdPPRC5zKfeB3Vnx1Qs+q+s3idNf0h
+         NLgw==
+X-Gm-Message-State: AFqh2kq7wQFBvVfKpCB9x7Yod4fSIl9WAttjwBX8RnDRemM6yWdEEFBL
+	TlaJl82XB8HSdEGUNMU+4wwIlA==
+X-Google-Smtp-Source: AMrXdXsBtNTXyX732x0+E4PBDiUWk1VP4iJil7+AW+mO7VgJnUUTUh0l079j2kqvds5AYHtIabsQIw==
+X-Received: by 2002:a05:6a00:3490:b0:581:947a:b701 with SMTP id cp16-20020a056a00349000b00581947ab701mr48984696pfb.17.1673341717922;
+        Tue, 10 Jan 2023 01:08:37 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id k29-20020aa7973d000000b00571f66721aesm7560739pfg.42.2023.01.10.01.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 21:16:50 -0800 (PST)
-Date: Tue, 10 Jan 2023 08:16:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bhanumaiya@chromium.org, chrome-platform@lists.linux.dev
-Subject: Re: [bug report] platform/chrome: cros_ec_uart: Add transport layer
-Message-ID: <Y7z0wGhf1AuJ9XKl@kadam>
-References: <Y7fhw4S7Tb0GcHMF@kili>
- <Y7zapHKnXRbK2c5v@google.com>
+        Tue, 10 Jan 2023 01:08:37 -0800 (PST)
+Message-ID: <63bd2b15.a70a0220.382a3.bec0@mx.google.com>
+Date: Tue, 10 Jan 2023 01:08:37 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7zapHKnXRbK2c5v@google.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.2-rc1-19-g7b6d5b3800cb
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-19-g7b6d5b3800cb)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Tue, Jan 10, 2023 at 11:25:24AM +0800, Tzung-Bi Shih wrote:
-> >     175         if (host_response->data_len > ec_msg->insize) {
-> >     176                 dev_err(ec_dev->dev, "Resp too long (%d bytes, expected %d)\n",
-> >     177                         host_response->data_len, ec_msg->insize);
-> >     178                 ret = -ENOSPC;
-> > 
-> > 
-> > ret = -EINVAL;  (Unless you are discussing harddrives).
-> 
-> It looks like platform/chrome used the error number for a while for the
-> case:
-> 
-> $ grep -R ENOSPC drivers/platform/chrome/
-> drivers/platform/chrome/cros_ec_lpc.c:          ret = -ENOSPC;
-> drivers/platform/chrome/cros_ec_i2c.c:          ret = -ENOSPC;
-> drivers/platform/chrome/cros_ec_uart.c:         ret = -ENOSPC;
-> drivers/platform/chrome/cros_ec_ishtp.c:                return -ENOSPC;
-> drivers/platform/chrome/cros_ec_spi.c:          ret = -ENOSPC;
-> 
-> I wouldn't feel bother if we keep using the error number.  Otherwise, we
-> should change all of them.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+19-g7b6d5b3800cb)
 
-I don't really care about this code, but generally don't let consistency
-hold you back from being correct.  If 99 are wrong and 1 is correct
-that's at least better than 100 wrong and none correct.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-19-g7b6d5b3800cb/
 
-regards,
-dan carpenter
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-19-g7b6d5b3800cb
+Git Commit: 7b6d5b3800cba45ff486737a5a831a46f1196fb1
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

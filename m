@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94AB17D0
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Jan 2023 05:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B780DC433EF;
-	Wed, 11 Jan 2023 05:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1787217D0
+	for <chrome-platform@lists.linux.dev>; Wed, 11 Jan 2023 05:57:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0364DC433F0;
+	Wed, 11 Jan 2023 05:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673416671;
-	bh=21dMGHoId7gi9efAX9NuJf+S3vLBcVm9tLrr+orU57I=;
+	s=k20201202; t=1673416672;
+	bh=b5DLEJVqYwKoFXxvAyztyTc02fDB5soZPzUlX9HIQmw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hmpG4mycjXsWItX4LQ2qGMziie4f25zWYzNKaysLcRTGbGKpNQj6FMmby6rCTNFDT
-	 erxL8BgnVSRsw2OWPw86K0xEC4y+SGx+jE7nWpxLwgaP3D+A8uoi3vmafwruKtFeyb
-	 5VXhyBHPfRhq+BPUIk8wbOhjxYqhOW2hrqxUvs1ZYAUHRkujO/5dxPGPnEpOUbvLe+
-	 qc5k1RifWni86Epmpc3SLU9mAhJV6z2fn78yuKT5Lcp64/SYId8fMV3VErKJtTsQJs
-	 dw1OhkaF2Lv5/kB/eBPx1FIHPhubmV+MYVS2o1639UUlRSyirFetpidiz0J2C6djR9
-	 DAIaAM639DESA==
+	b=nTOSAz+N/h/noLFQcybAun3dU9MjN0W+ukDMHIng9I0Vch5j9+1iO9FVhgVTOMew0
+	 4pyTjP341Dy29F03fG8mMvuunTqsHpwmpz2FtuTTggBDUctaCDI7s6Cm0sGO2TgkgO
+	 xzOwwhSd9UNcjc9vgKY+MhnpaH9BXJkWb9a7FlxROb3Etpv9kkrQVx2Zv27zq8ajyU
+	 42PgzJABq0LRuVGfcKQLe+n+HLgoGF6FR0C/irtJcA99Kp/S0w8dqbLrT5gOrBPiB+
+	 zLIXfnaE/VrrRzjr/1YrxTLo2nbw+n58LLwa9MfeFE0PJzr2a3QBMKY7UTdiB48DrI
+	 vW9AFjxVTPKQA==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
 Cc: chrome-platform@lists.linux.dev,
 	tzungbi@kernel.org,
 	Evan Green <evgreen@chromium.org>
-Subject: [PATCH 2/4] platform/chrome: fix kernel-doc warning for suspend_timeout_ms
-Date: Wed, 11 Jan 2023 13:57:26 +0800
-Message-Id: <20230111055728.708990-3-tzungbi@kernel.org>
+Subject: [PATCH 3/4] platform/chrome: fix kernel-doc warning for last_resume_result
+Date: Wed, 11 Jan 2023 13:57:27 +0800
+Message-Id: <20230111055728.708990-4-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230111055728.708990-1-tzungbi@kernel.org>
 References: <20230111055728.708990-1-tzungbi@kernel.org>
@@ -39,28 +39,27 @@ Fix the following kernel-doc warning:
 
 $ ./scripts/kernel-doc -none include/linux/platform_data/cros_ec_proto.h
 include/linux/platform_data/cros_ec_proto.h:187: warning: Function
-parameter or member 'suspend_timeout_ms' not described in 'cros_ec_device'
+parameter or member 'last_resume_result' not described in 'cros_ec_device'
 
 Cc: Evan Green <evgreen@chromium.org>
-Fixes: e8bf17d58a4d ("platform/chrome: cros_ec: Expose suspend_timeout_ms in debugfs")
+Fixes: 8c3166e17cf1 ("mfd / platform: cros_ec_debugfs: Expose resume result via debugfs")
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- include/linux/platform_data/cros_ec_proto.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/linux/platform_data/cros_ec_proto.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index a4a3fec15504..805dcb19a36d 100644
+index 805dcb19a36d..4865c54d4af1 100644
 --- a/include/linux/platform_data/cros_ec_proto.h
 +++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -131,6 +131,11 @@ struct cros_ec_command {
-  * @event_data: Raw payload transferred with the MKBP event.
-  * @event_size: Size in bytes of the event data.
-  * @host_event_wake_mask: Mask of host events that cause wake from suspend.
-+ * @suspend_timeout_ms: The timeout in milliseconds between when sleep event
-+ *                      is received and when the EC will declare sleep
-+ *                      transition failure if the sleep signal is not
-+ *                      asserted.  See also struct
-+ *                      ec_params_host_sleep_event_v1 in cros_ec_commands.h.
+@@ -136,6 +136,10 @@ struct cros_ec_command {
+  *                      transition failure if the sleep signal is not
+  *                      asserted.  See also struct
+  *                      ec_params_host_sleep_event_v1 in cros_ec_commands.h.
++ * @last_resume_result: The number of sleep power signal transitions that
++ *                      occurred since the suspend message. The high bit
++ *                      indicates a timeout occurred.  See also struct
++ *                      ec_response_host_sleep_event_v1 in cros_ec_commands.h.
   * @last_event_time: exact time from the hard irq when we got notified of
   *     a new event.
   * @notifier_ready: The notifier_block to let the kernel re-query EC

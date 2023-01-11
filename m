@@ -1,91 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6661417D0
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Jan 2023 03:30:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2208FC433F1;
-	Wed, 11 Jan 2023 03:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673407824;
-	bh=2+akQJh5tu43IC8WtSf7p9l29W9ZmKcBY9vCtmO6fYk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Bl81DboHIJ/W6KQyfn9l6tiKbuMw1CtueKwWxWcTMPK6NJHb9AT2U3LnrxWyCInlT
-	 zpC6x85mzfcSR2nGgITxwVr24tQxhN2utBrzjs+nAuge8cG6tT0GcybjR2kqfzYEDp
-	 UDYxjMKzstmLIKW9fvmwqhnfh/hQKfwYga6MOdCB6SHkw+nnWG9m7FBR/yqGRPYu9V
-	 AvZSuUuaOVQ2Ewgk8LH6H+t77hCBHczjO7GRv+Oi4O3Zx2lIpHEeXOye2SXkQai6VH
-	 QrY6hYholzpJAZd0FfnGjIIEcrBMm1MeVNp5rM82L1Afl4UfGCo4hgF6tUmCozT74y
-	 Hu0WN8BxBDt3A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7E7DE21EE8;
-	Wed, 11 Jan 2023 03:30:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CEF17C8
+	for <chrome-platform@lists.linux.dev>; Wed, 11 Jan 2023 03:31:23 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id n126so1186860iod.7
+        for <chrome-platform@lists.linux.dev>; Tue, 10 Jan 2023 19:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jqmRSD6VKdYWZ+SJv6ehJPDhj3p2v9Nk0+3Tds66tis=;
+        b=hYrLw3Cw5Sm66XPWhcU5vNYulWczhbyiQqdcFNuy+4k/u6bm/NzuBZNNsI/Yenxhvx
+         O6mOhYJcQFwaJmYLCeAs1cL1EB+eYs/h5RlLVFsNM/PCz9QvNfvVQpR/h+32PBrmZTW7
+         iHwR3xCpoeq+pHQ7+PHCBOkydqGoLGFgP2SAs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jqmRSD6VKdYWZ+SJv6ehJPDhj3p2v9Nk0+3Tds66tis=;
+        b=UAHHVxUj4RZdXogWmbMqhar+CCEZN8nzTGAyHt4bwV3WQUKCHYyCSd9qXQx9qkFRog
+         tewU4fQVDE+DrMcutygKLq86XIDGXnNsiSAieP6PFYIZ47TWoETH1MauzYeAR9dovwXs
+         2nszz+soVD2f8Ta+x8lY+gT93w2G+4xjXNd8ian3t/Re1JppVWUnQhG353Yjtj1Xjoyr
+         GY0/CXqdtCYnXOojMr6UGxW4uYQZZ8FjZY4hwaZc6JAFYLJnxcmyvE6xOw4L/EAOvxMF
+         k/aQyFoSU/ORQBVs+B+N9I3Y5tz/RUcqK8VrW9e9ZKtQHWyds4NYtjtFBw+WiJgQ8WAN
+         bTQg==
+X-Gm-Message-State: AFqh2kpZ0B5X0z2G9wFsvPPkHSq4mIG6HjBFs2Gs8ueK3kLyzxQItqTT
+	3745x49Zp3yMK/DcN6L3P/Vr90rHdrD3HovYKUHpjA==
+X-Google-Smtp-Source: AMrXdXuI8UJgsTEPz41Qko+pkxgoB7obHnvZeKTKwhlzMuJnouZnhqjW9lCoaxgssepI+1TDZhxrCHjLxmr3bkFdAmg=
+X-Received: by 2002:a5e:c00f:0:b0:6e3:38c6:e35f with SMTP id
+ u15-20020a5ec00f000000b006e338c6e35fmr6266793iol.153.1673407882942; Tue, 10
+ Jan 2023 19:31:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec: Fix panic notifier registration
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167340782372.3713.4288973161767285013.git-patchwork-notify@kernel.org>
-Date: Wed, 11 Jan 2023 03:30:23 +0000
-References: <20230110221033.7441-1-m.szyprowski@samsung.com>
-In-Reply-To: <20230110221033.7441-1-m.szyprowski@samsung.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
- pmalani@chromium.org, robbarnes@google.com, dtor@chromium.org
+References: <20230109084101.265664-1-treapking@chromium.org>
+ <20230109084101.265664-7-treapking@chromium.org> <CAGXv+5E=-=cPGSi1eEDAkTm+RvuJNU4zeZOxunpR7r4+RgzNYA@mail.gmail.com>
+In-Reply-To: <CAGXv+5E=-=cPGSi1eEDAkTm+RvuJNU4zeZOxunpR7r4+RgzNYA@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 11 Jan 2023 11:31:12 +0800
+Message-ID: <CAEXTbpeQm2+KjHDi6qW8GkF0_MCzqeBNUPz9G+23RBqfgFhWPw@mail.gmail.com>
+Subject: Re: [PATCH v9 6/9] drm/bridge: anx7625: Register Type C mode switches
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	linux-acpi@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org, 
+	Stephen Boyd <swboyd@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, chrome-platform@lists.linux.dev, 
+	Xin Ji <xji@analogixsemi.com>, linux-kernel@vger.kernel.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Hi Chen-Yu,
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Thanks for the review.
 
-On Tue, 10 Jan 2023 23:10:33 +0100 you wrote:
-> Initialize panic notifier to avoid the following lockdep warning:
-> 
-> --->8---
-> INFO: trying to register non-static key.
-> The code is fine but needs lockdep annotation, or maybe
-> you didn't initialize this object before use?
-> turning off the locking correctness validator.
-> CPU: 0 PID: 62 Comm: kworker/u16:1 Not tainted 6.2.0-rc3-next-20230110-00037-g7c2b0426386a #6112
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> Workqueue: events_unbound async_run_entry_fn
->  unwind_backtrace from show_stack+0x10/0x14
->  show_stack from dump_stack_lvl+0x58/0x70
->  dump_stack_lvl from register_lock_class+0x998/0x9a8
->  register_lock_class from __lock_acquire+0x6c/0x2a80
->  __lock_acquire from lock_acquire+0x124/0x3f0
->  lock_acquire from down_write+0x40/0xd8
->  down_write from blocking_notifier_chain_register+0x28/0x58
->  blocking_notifier_chain_register from cros_ec_debugfs_probe+0x324/0x3b4
->  cros_ec_debugfs_probe from platform_probe+0x5c/0xb8
->  platform_probe from really_probe+0xe0/0x414
->  really_probe from __driver_probe_device+0x9c/0x200
->  __driver_probe_device from driver_probe_device+0x30/0xc0
->  driver_probe_device from __device_attach_driver+0xa8/0x120
->  __device_attach_driver from bus_for_each_drv+0x7c/0xc0
->  bus_for_each_drv from __device_attach_async_helper+0xa0/0xf4
->  __device_attach_async_helper from async_run_entry_fn+0x40/0x154
->  async_run_entry_fn from process_one_work+0x288/0x790
->  process_one_work from worker_thread+0x44/0x504
->  worker_thread from kthread+0xf0/0x124
->  kthread from ret_from_fork+0x14/0x2c
-> Exception stack(0xf0a6dfb0 to 0xf0a6dff8)
-> ...
-> 
-> [...]
+On Mon, Jan 9, 2023 at 7:26 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
+> >
+> > Register USB Type-C mode switches when the "mode-switch" property and
+> > relevant port are available in Device Tree. Configure the crosspoint
+>            ^ ports
+>
+Thanks for catching this. I'll fix in v10.
+> > switch based on the entered alternate mode for a specific Type-C
+> > connector.
+>
+> You should also mention that the "one mode switch" scenario is not
+> covered in this implementation, due to lack of actual hardware.
 
-Here is the summary with links:
-  - platform/chrome: cros_ec: Fix panic notifier registration
-    https://git.kernel.org/chrome-platform/c/9e69b1b27b13
+If I understand correctly, we should use "orientation-switch"[1]
+instead when the crosspoint switch on anx7625 is used to support
+different orientations of the Type-C connector.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I'll add some explanations around this in the commit message in v10.
 
+[1]: https://docs.kernel.org/driver-api/usb/typec.html#multiplexer-demultiplexer-switches
+>
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> >
+> > ---
+> >
+> > (no changes since v7)
+> >
+> > Changes in v7:
+> > - Fixed style issues in anx7625 driver
+> > - Removed DT property validation in anx7625 driver.
+> > - Extracted common codes to another commit.
+> >
+> > Changes in v6:
+> > - Squashed to a single patch
+> >
+> >  drivers/gpu/drm/bridge/analogix/Kconfig   |  1 +
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 88 +++++++++++++++++++++++
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h | 13 ++++
+> >  3 files changed, 102 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
+> > index 173dada218ec..992b43ed1dd7 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+> > @@ -34,6 +34,7 @@ config DRM_ANALOGIX_ANX7625
+> >         tristate "Analogix Anx7625 MIPI to DP interface support"
+> >         depends on DRM
+> >         depends on OF
+> > +       depends on TYPEC || TYPEC=n
+> >         select DRM_DISPLAY_DP_HELPER
+> >         select DRM_DISPLAY_HDCP_HELPER
+> >         select DRM_DISPLAY_HELPER
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > index 1cf242130b91..2bb504a8d789 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -15,6 +15,8 @@
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/types.h>
+> > +#include <linux/usb/typec_dp.h>
+> > +#include <linux/usb/typec_mux.h>
+> >  #include <linux/workqueue.h>
+> >
+> >  #include <linux/of_gpio.h>
+> > @@ -2572,6 +2574,86 @@ static void anx7625_runtime_disable(void *data)
+> >         pm_runtime_disable(data);
+> >  }
+> >
+> > +static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
+> > +                                         enum typec_orientation orientation)
+> > +{
+> > +       if (orientation == TYPEC_ORIENTATION_NORMAL) {
+> > +               anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
+> > +                                 SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
+> > +               anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
+> > +                                 SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
+> > +       } else if (orientation == TYPEC_ORIENTATION_REVERSE) {
+> > +               anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
+> > +                                 SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
+> > +               anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
+> > +                                 SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
+> > +       }
+> > +}
+> > +
+> > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
+> > +{
+> > +       struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
+> > +       /* Check if both ports available and do nothing to retain the current one */
+> > +       if (switch_desc.typec_ports[0].dp_connected && switch_desc.typec_ports[1].dp_connected)
+> > +               return;
+> > +
+> > +       if (switch_desc.typec_ports[0].dp_connected)
+> > +               anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
+> > +       else if (switch_desc.typec_ports[1].dp_connected)
+> > +               anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
+> > +}
+> > +
+> > +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
+> > +                                struct typec_mux_state *state)
+> > +{
+> > +       struct drm_dp_typec_port_data *port_data = typec_mux_get_drvdata(mux);
+> > +       struct anx7625_data *ctx = (struct anx7625_data *) port_data->data;
+> > +       struct device *dev = &ctx->client->dev;
+> > +       struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
+> > +       bool new_dp_connected, old_dp_connected;
+> > +
+>
+> And place a TODO note here.
 
+I'll add it in v10.
+>
+> Otherwise this looks OK.
+>
+> Also,
+>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> on MT8192 based Hayato (ASUS Chromebook Flip CM3200).
+>
+> And this also uncovered a deadlock in the unplug & disable path.
+> I'll send a fix for that later once I figure out all the details.
+Thank you so much for this!

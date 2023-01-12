@@ -1,95 +1,101 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A514279F8
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 17:26:35 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4bf16baa865so248981287b3.13
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 09:26:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905002F33
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:31:58 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id p188so20450794yba.5
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JQaxMdq7NWcf4bCI8LzrzNOqDFAvMvCGdVrazsaMUbg=;
-        b=W4wxupf3b1VDZ2kK6t05NvPi9QnOdlaIGbf0oy2xfkAO/sAjUM5wkEvsZGMKbQvtVg
-         ZLWaHBbweAXMralx+uJcadPRWiaoAAqpKQxuDig0+zHgcAtQkA4HrHk0vBWlFDvp1fef
-         r6IT7meS0z5bBJX89TNJfWJcEEMwVpDUyxRPCp51J/l+KrY049N9MsqTwIt2kqKrwNU7
-         Ze6fXwIGAC+9m3laBcY/cFI5sxuynHu/z8qb9AMZt6F4Jv6iio+t/jWsy8UMQNxPhafa
-         q5GQ/jbYPt2Zum4BYQalMP2rAFL6rYmQsYHVYpWDqvMmDVaabqClElWeba929jlAv5uq
-         MfTw==
+        bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
+        b=JUPY63vtT6QcwqD9Ws2QE/pf7jC1/0su4w2j3d9Xn0NTdACzrFBjxjuFHWgpThUZws
+         imdknTpaWEjV9uHtradW98A1u35lfMGg1dddhCwsBClQF94e0939KX7UTkXNgez4GIry
+         JxaKGHbkQ7QWJVTYQ0VQgYI43iHND9qXIlcZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JQaxMdq7NWcf4bCI8LzrzNOqDFAvMvCGdVrazsaMUbg=;
-        b=f3aVNEF9wMRAG6GYEz0PcUVq7qhxPDEjmaJTC3Ivz0pv70UuJSMQGBqdkpWvmAiICw
-         zKKpp1P/gzOdT46IeHfB/0Dv6tG79lMQI2tV0f2SRjsMZdn6lj0FxpgR7WSgGINs73f0
-         84D6XZeDMH+GhLpAB23skV0lP0N97s8987a2FVl6uhm46ErXOmeUNho6yl1hDmf57pnQ
-         wOQ6HfJQFPhl9EpTh8M+e8/RNhVdYQo2XcCluTKBJwDnmmhAx0vVd0CiIyF2t3/Bj9Ii
-         QL7iYPfHFHQ2i/AQ5JoO6T37lWEgN7aqR9RLbCCkCUtI780oND09epOFK4DO1LRa3Tff
-         UJVQ==
-X-Gm-Message-State: AFqh2kpuJUvRjZB3UpPQKPDUx2xHPLlKnMMV4F67ZBIWcv+y56dRCb2y
-	UcCzgsOn3gJ7ROYxx5E8g4vwI9gKb8Qfc96+45F5eUsmzLHntQ==
-X-Google-Smtp-Source: AMrXdXsoFkmLucb+Srq6knqX3clTfw6PCkJ0VK93uLlsfcauE4qS4cjj7Jur72WWirRTc7JFs4admBJaXLG7ah45CQI=
-X-Received: by 2002:a0d:fc84:0:b0:3df:6a50:40ec with SMTP id
- m126-20020a0dfc84000000b003df6a5040ecmr3487272ywf.340.1673544394482; Thu, 12
- Jan 2023 09:26:34 -0800 (PST)
+        bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
+        b=4egUmO73BamCobhaMiAg0VsraNENYB/LqW5jga+qfTXGZbhOsSLpLeHdN7KhK+FgHD
+         Mnqe+xxpKMn3Ckdfei7oJECf2maHoxsrH6zfjTh/0qcddgJerk+JoAgVyhglSFwsWHXb
+         dHpYz59n+qtAFDhZVVolidU1Lzce+XtBq7mQaYPEztCgw81JeE+ukxcN6+2S2aPakUF3
+         57h6jG0pPApqp+eQ9OCWim+5CruNyLRL99hkLM+8CMIKm8Mu9Ujs0mRRzsIZ7KAFCRbs
+         dnVuCusOfGQZD1iDpf+JjldO2dBgo2gDyVL2sjTBnbm7wObIzn1arQ5A6hHFmhJy1fKo
+         omqA==
+X-Gm-Message-State: AFqh2kpDlZLM4rvipmbiIXL+rOoYS0svU7hzVSoBrPxf0KY80VxcfeYu
+	CUVM752Ut0rFowKqJ42YsSyzTgChgc9GTBZKo55W1w==
+X-Google-Smtp-Source: AMrXdXuznEwChU9VQQ72rYVGqmbsFrMqOVBPMbeBVwgDM2AWPc/3hytO7eUeE33HPvr9ax9Vk/LALEeTjlK/OvpNWf8=
+X-Received: by 2002:a25:1083:0:b0:7ae:5e48:383b with SMTP id
+ 125-20020a251083000000b007ae5e48383bmr2843942ybq.223.1673562717561; Thu, 12
+ Jan 2023 14:31:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230112043908.2938964-1-wenst@chromium.org>
-In-Reply-To: <20230112043908.2938964-1-wenst@chromium.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Thu, 12 Jan 2023 09:26:23 -0800
-Message-ID: <CABXOdTeFKyn8nYivWcXATDJmaqM7eJ++VEu_GNLcRpY2cB4iOw@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec: Initialize panic notifier block
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-2-treapking@chromium.org> <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+In-Reply-To: <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 12 Jan 2023 14:31:45 -0800
+Message-ID: <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com>
+Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon matcher
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Stephen Boyd <swboyd@chromium.org>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Marek Vasut <marex@denx.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, 
+	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
+	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
+	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 11, 2023 at 8:39 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> Commit d90fa2c64d59 ("platform/chrome: cros_ec: Poll EC log on EC panic")
-> added a new notifier block, but failed to initialize it properly,
-> resulting in a warning and stack trace (omitted):
->
->         INFO: trying to register non-static key.
->         The code is fine but needs lockdep annotation, or maybe
->         you didn't initialize this object before use?
->         turning off the locking correctness validator.
->
-> Initialize the notifier block properly.
->
-> Fixes: d90fa2c64d59 ("platform/chrome: cros_ec: Poll EC log on EC panic")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+HI Sakari,
 
-Reviewed-by: Guenter Roekc <groeck@chromium.org>
+On Thu, Jan 12, 2023 at 5:32 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Pin-yen,
+>
+> On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
+> > From: Prashant Malani <pmalani@chromium.org>
+> > +             /*
+> > +              * Some drivers may register devices for endpoints. Check
+> > +              * the remote-endpoints for matches in addition to the remote
+> > +              * port parent.
+> > +              */
+> > +             node = fwnode_graph_get_remote_endpoint(ep);
+> > +             if (fwnode_device_is_available(node)) {
+> > +                     ret = match(node, con_id, data);
+> > +                     if (ret) {
+> > +                             if (matches)
+> > +                                     matches[count] = ret;
+> > +                             count++;
+> > +                     }
+> > +             }
+>
+> Aren't you missing fwnode_handle-put(node) here??
 
-Didn't I already see this ?
+It shouldn't be necessary. We aren't break-ing/continue-ing here,
+and fwnode_handle_put(node) is called latter in the loop [1][2]
 
-Guenter
+BR,
 
-> ---
->  drivers/platform/chrome/cros_ec.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-> index 4ae57820afd5..b895c8130bba 100644
-> --- a/drivers/platform/chrome/cros_ec.c
-> +++ b/drivers/platform/chrome/cros_ec.c
-> @@ -182,6 +182,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
->         int err = 0;
->
->         BLOCKING_INIT_NOTIFIER_HEAD(&ec_dev->event_notifier);
-> +       BLOCKING_INIT_NOTIFIER_HEAD(&ec_dev->panic_notifier);
->
->         ec_dev->max_request = sizeof(struct ec_params_hello);
->         ec_dev->max_response = sizeof(struct ec_response_get_protocol_info);
-> --
-> 2.39.0.314.g84b9a713c41-goog
->
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1256
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1261

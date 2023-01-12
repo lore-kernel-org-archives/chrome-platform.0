@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A632F33
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:44:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60278C433A1
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CEF8F67
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:57:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67070C43398
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673563472;
-	bh=RZLYtFJIoNIntNiCGOCc4lXxK6kyJFOWbJdlQl+orIw=;
+	s=k20201202; t=1673564221;
+	bh=XJbAYFtKJrsiJkc3mYwPVbfBQAWFjyHsbxpFxsr7kv4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Og3eCJpXAW9+ZU38sof7CYWlrMf7Rt6Bcb04DBOHbSKcTeD3ixNxj/ufyh/YOEKFA
-	 FZT9K/srjZ+rTDR6Ia7szASNz3c10bv+Ao/MvH/Oi57VWFx555XIIenukiESIzCw7m
-	 eqxlTlhfr689fZyep3R5ZqnHlepkB8Je0MT5dy4M5pglGR7u9D8eTNSqvnkTJwwBC/
-	 jH3EvLwBkaz9qKG/cF7IMZN7sDtNxEY0ar0nKookA4amAzPsXgfVRISaykLnx3Aw2p
-	 HmjR7bNa6AxvCQ7v0RltC3rlUH6USDdzSgNMug+vTNF9LzVx9t5jKkymxw/In/8TZU
-	 vGZp+ShjJNadg==
-Received: by mail-ua1-f50.google.com with SMTP id z23so4881957uae.7
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:44:32 -0800 (PST)
-X-Gm-Message-State: AFqh2krGrVf9EnJMypoWYjrdhuKBcEpCU4cfIZTJBP0j0++kOH6f9dlI
-	5zCGm/jbdaPu1v6bqO+zm3fNykCWvrt7VGDK+A==
-X-Google-Smtp-Source: AMrXdXtZFoVEyDLRv9F7lmdnJWvJEcg8OkSGQmcET+vTNr5A9PdUpV3f5sKnSRP8h0PLVSDCnsxex9XK6NUvoE/hp8Y=
-X-Received: by 2002:ab0:76c1:0:b0:419:145a:dd46 with SMTP id
- w1-20020ab076c1000000b00419145add46mr8969043uaq.77.1673563471032; Thu, 12 Jan
- 2023 14:44:31 -0800 (PST)
+	b=ecH8E+bpJVchEE2eS/RESQzv4VtE+LZDzau2V9udBRpZBpyqYaQhBR/NhJHiDn/ld
+	 VJizL7e0gDVZoxmsirE6EM9GcS36cX0eVzokhEwE5F49OyPgYJ+vFdHnSnAAjUC8Mm
+	 xeoR7+TfM7WFMihxTjDQsfrgqumlMhVBC2fen+u6oXvsguYhW5cU6e9aTxG740TaAM
+	 ISSUA4KsbAjRLCMOyMpGTfyy0Dz9hmdgW9nKVWJbAJH1MZgAQRkSQMqdkt4ATJPgZd
+	 jo4Ibc6RPBRo7yYwPJ0Jbv5muBiGm7QsDTU50WgZdQWto7AkquztEXXWkMTMLFRuo+
+	 Ts2/YwlqbH+zQ==
+Received: by mail-vk1-f169.google.com with SMTP id c21so1300551vkn.10
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:57:01 -0800 (PST)
+X-Gm-Message-State: AFqh2koB3NGc/fuTCboyI48t7LGmdSI5/AZpkp73S7F7LOKKzAA7poXJ
+	Qk5zgAQMI1LuAD+Ho7HFfgCWuWlH2n2heKzMIw==
+X-Google-Smtp-Source: AMrXdXt8wHrRY2gdsYARqhiRw0HAx5328dSIv8af4ZbpRgdiVb5LWwG0uV+KGfpJFJ9+GQ11YNTxNRn1tFh83Da+frk=
+X-Received: by 2002:a05:6122:221e:b0:3da:f920:c0ef with SMTP id
+ bb30-20020a056122221e00b003daf920c0efmr981096vkb.26.1673564220164; Thu, 12
+ Jan 2023 14:57:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230112042104.4107253-1-treapking@chromium.org>
-In-Reply-To: <20230112042104.4107253-1-treapking@chromium.org>
+References: <20230112042104.4107253-1-treapking@chromium.org> <20230112042104.4107253-5-treapking@chromium.org>
+In-Reply-To: <20230112042104.4107253-5-treapking@chromium.org>
 From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 12 Jan 2023 16:44:19 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
-Message-ID: <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
-Subject: Re: [PATCH v10 0/9] Register Type-C mode-switch in DP bridge endpoints
+Date: Thu, 12 Jan 2023 16:56:48 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
+Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
+Subject: Re: [PATCH v10 4/9] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <robert.foss@linaro.org>, 
@@ -55,75 +56,190 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@lina
 	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
 	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
 	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Douglas Anderson <dianders@chromium.org>, Imre Deak <imre.deak@intel.com>, 
-	Jani Nikula <jani.nikula@intel.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
-	Kees Cook <keescook@chromium.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	shaomin Deng <dengshaomin@cdjrlc.com>
+	Hsin-Yi Wang <hsinyi@chromium.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Chen-Yu Tsai <wenst@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Jan 11, 2023 at 10:21 PM Pin-yen Lin <treapking@chromium.org> wrote:
 >
+> Analogix 7625 can be used in systems to switch the DP traffic between
+> two downstreams, which can be USB Type-C DisplayPort alternate mode
+> lane or regular DisplayPort output ports.
 >
-> This series introduces bindings for anx7625/it6505 to register Type-C
-> mode-switch in their output endpoints, and use data-lanes property to
-> describe the pin connections.
+> Update the binding to accommodate this usage by introducing a
+> data-lanes and a mode-switch property on endpoints.
 >
-> The first two patch modifies fwnode_graph_devcon_matches and
-> cros_typec_init_ports to enable the registration of the switches.
+> Also include the link to the product brief in the bindings.
 >
-> Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
-> modifications.
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >
-> Patch 7~9 add similar bindings and driver changes for it6505.
->
-> v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
-> v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
-> v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
-> v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
-> v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+> ---
 >
 > Changes in v10:
 > - Collected Reviewed-by and Tested-by tags
-> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-> - Print out the node name when errors on parsing DT
-> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-> - Made the return path of drm_dp_register_mode_switch clearer
-> - Added a TODO for implementing orientation switch for anx7625
-> - Updated the commit message for the absence of orientation switch
-> - Fixed typo in the commit message
 >
 > Changes in v9:
 > - Collected Reviewed-by tag
-> - Fixed subject prefix again
-> - Changed the naming of the example node for it6505
 >
 > Changes in v8:
-> - Fixed the build issue when CONFIG_TYPEC=m
-> - Fixed some style issues
-> - Fixed the subject prefixes for the bindings patch
-> - Fixed the bindings for data-lanes properties
+> - Updated anx7625 bindings for data-lane property
+> - Fixed the subject prefix
 >
 > Changes in v7:
-> - Fix the long comment lines
-> - Extracted the common codes to a helper function
-> - Fixed style issues in anx7625 driver
-> - Removed DT property validation in anx7625 driver.
-> - Fixed style issues in it6505 driver
-> - Removed the redundant sleep in it6505 driver
-> - Removed DT property validation in it6505 driver
-> - Rebased to drm-misc-next
-> - Fixed indentations in bindings patches
-> - Added a new patch to fix indentations in Kconfig
+> - Fixed issues reported by dt_binding_check
+> - Updated the schema and the example dts for data-lanes.
+> - Changed to generic naming for the example dts node.
+>
+> Changes in v6:
+> - Remove switches node and use endpoints and data-lanes property to
+>   describe the connections.
+>
+>  .../display/bridge/analogix,anx7625.yaml      | 99 ++++++++++++++++++-
+>  1 file changed, 96 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 4590186c4a0b..b49a350c40e3 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -12,7 +12,8 @@ maintainers:
+>
+>  description: |
+>    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> -  designed for portable devices.
+> +  designed for portable devices. Product brief is available at
+> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
+>
+>  properties:
+>    compatible:
+> @@ -112,10 +113,48 @@ properties:
+>                data-lanes: true
+>
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>          description:
+>            Video port for panel or connector.
+>
+> +        patternProperties:
+> +          "^endpoint@[01]$":
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
 
-4 versions in a week! Please slow down your pace. When you send a new
-version, you move to the end of my review queue.
+You are using a property from video-interfaces.yaml, so you need to
+reference that.
 
-IIRC, these 2 chips are a bit different in what the mode switch or
-muxing looks like. One had a built-in mux and the other doesn't? Do I
-have to go research this again? No, you need to explain all this in
-this series.
+Needs some description of what each endpoint is. IOW, how each
+endpoint corresponds to the h/w.
 
-Rob
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+> +              data-lanes:
+> +                oneOf:
+> +                  - items:
+> +                      - enum: [0, 1, 2, 3]
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +
+> +                  - items:
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +              mode-switch:
+> +                type: boolean
+> +                description: Register this node as a Type-C mode switch or not.
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -164,8 +203,12 @@ examples:
+>                  };
+>
+>                  mipi2dp_bridge_out: port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+>                      reg = <1>;
+> -                    anx7625_out: endpoint {
+> +                    anx7625_out: endpoint@0 {
+> +                        reg = <0>;
+>                          remote-endpoint = <&panel_in>;
+>                      };
+>                  };
+> @@ -186,3 +229,53 @@ examples:
+>              };
+>          };
+>      };
+> +  - |
+> +    i2c3 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        encoder@58 {
+> +            compatible = "analogix,anx7625";
+> +            reg = <0x58>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&anx7625_dp_pins>;
+> +            enable-gpios = <&pio 176 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&pio 177 GPIO_ACTIVE_HIGH>;
+> +            vdd10-supply = <&pp1100_dpbrdg>;
+> +            vdd18-supply = <&pp1800_dpbrdg_dx>;
+> +            vdd33-supply = <&pp3300_dpbrdg_dx>;
+> +            analogix,audio-enable;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    anx7625_dp_in: endpoint {
+> +                        bus-type = <7>;
+> +                        remote-endpoint = <&dpi_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    reg = <1>;
+> +                    anx_typec0: endpoint@0 {
+> +                        reg = <0>;
+> +                        mode-switch;
+> +                        data-lanes = <0 1>;
+> +                        remote-endpoint = <&typec_port0>;
+> +                    };
+> +                    anx_typec1: endpoint@1 {
+> +                        reg = <1>;
+> +                        mode-switch;
+> +                        data-lanes = <2 3>;
+> +                        remote-endpoint = <&typec_port1>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> --
+> 2.39.0.314.g84b9a713c41-goog
+>

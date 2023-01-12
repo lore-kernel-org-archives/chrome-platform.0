@@ -1,36 +1,28 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905002F33
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:31:58 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id p188so20450794yba.5
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
-        b=JUPY63vtT6QcwqD9Ws2QE/pf7jC1/0su4w2j3d9Xn0NTdACzrFBjxjuFHWgpThUZws
-         imdknTpaWEjV9uHtradW98A1u35lfMGg1dddhCwsBClQF94e0939KX7UTkXNgez4GIry
-         JxaKGHbkQ7QWJVTYQ0VQgYI43iHND9qXIlcZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
-        b=4egUmO73BamCobhaMiAg0VsraNENYB/LqW5jga+qfTXGZbhOsSLpLeHdN7KhK+FgHD
-         Mnqe+xxpKMn3Ckdfei7oJECf2maHoxsrH6zfjTh/0qcddgJerk+JoAgVyhglSFwsWHXb
-         dHpYz59n+qtAFDhZVVolidU1Lzce+XtBq7mQaYPEztCgw81JeE+ukxcN6+2S2aPakUF3
-         57h6jG0pPApqp+eQ9OCWim+5CruNyLRL99hkLM+8CMIKm8Mu9Ujs0mRRzsIZ7KAFCRbs
-         dnVuCusOfGQZD1iDpf+JjldO2dBgo2gDyVL2sjTBnbm7wObIzn1arQ5A6hHFmhJy1fKo
-         omqA==
-X-Gm-Message-State: AFqh2kpDlZLM4rvipmbiIXL+rOoYS0svU7hzVSoBrPxf0KY80VxcfeYu
-	CUVM752Ut0rFowKqJ42YsSyzTgChgc9GTBZKo55W1w==
-X-Google-Smtp-Source: AMrXdXuznEwChU9VQQ72rYVGqmbsFrMqOVBPMbeBVwgDM2AWPc/3hytO7eUeE33HPvr9ax9Vk/LALEeTjlK/OvpNWf8=
-X-Received: by 2002:a25:1083:0:b0:7ae:5e48:383b with SMTP id
- 125-20020a251083000000b007ae5e48383bmr2843942ybq.223.1673562717561; Thu, 12
- Jan 2023 14:31:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A632F33
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:44:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60278C433A1
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673563472;
+	bh=RZLYtFJIoNIntNiCGOCc4lXxK6kyJFOWbJdlQl+orIw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Og3eCJpXAW9+ZU38sof7CYWlrMf7Rt6Bcb04DBOHbSKcTeD3ixNxj/ufyh/YOEKFA
+	 FZT9K/srjZ+rTDR6Ia7szASNz3c10bv+Ao/MvH/Oi57VWFx555XIIenukiESIzCw7m
+	 eqxlTlhfr689fZyep3R5ZqnHlepkB8Je0MT5dy4M5pglGR7u9D8eTNSqvnkTJwwBC/
+	 jH3EvLwBkaz9qKG/cF7IMZN7sDtNxEY0ar0nKookA4amAzPsXgfVRISaykLnx3Aw2p
+	 HmjR7bNa6AxvCQ7v0RltC3rlUH6USDdzSgNMug+vTNF9LzVx9t5jKkymxw/In/8TZU
+	 vGZp+ShjJNadg==
+Received: by mail-ua1-f50.google.com with SMTP id z23so4881957uae.7
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:44:32 -0800 (PST)
+X-Gm-Message-State: AFqh2krGrVf9EnJMypoWYjrdhuKBcEpCU4cfIZTJBP0j0++kOH6f9dlI
+	5zCGm/jbdaPu1v6bqO+zm3fNykCWvrt7VGDK+A==
+X-Google-Smtp-Source: AMrXdXtZFoVEyDLRv9F7lmdnJWvJEcg8OkSGQmcET+vTNr5A9PdUpV3f5sKnSRP8h0PLVSDCnsxex9XK6NUvoE/hp8Y=
+X-Received: by 2002:ab0:76c1:0:b0:419:145a:dd46 with SMTP id
+ w1-20020ab076c1000000b00419145add46mr8969043uaq.77.1673563471032; Thu, 12 Jan
+ 2023 14:44:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -38,24 +30,24 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-2-treapking@chromium.org> <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
-In-Reply-To: <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Thu, 12 Jan 2023 14:31:45 -0800
-Message-ID: <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com>
-Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon matcher
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <robert.foss@linaro.org>, 
+In-Reply-To: <20230112042104.4107253-1-treapking@chromium.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 12 Jan 2023 16:44:19 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
+Message-ID: <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
+Subject: Re: [PATCH v10 0/9] Register Type-C mode-switch in DP bridge endpoints
+To: Pin-yen Lin <treapking@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
 	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Stephen Boyd <swboyd@chromium.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
 	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
 	Marek Vasut <marex@denx.de>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
@@ -63,39 +55,75 @@ Cc: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com
 	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
 	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
 	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>
+	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Douglas Anderson <dianders@chromium.org>, Imre Deak <imre.deak@intel.com>, 
+	Jani Nikula <jani.nikula@intel.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
+	Kees Cook <keescook@chromium.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	shaomin Deng <dengshaomin@cdjrlc.com>
 Content-Type: text/plain; charset="UTF-8"
 
-HI Sakari,
-
-On Thu, Jan 12, 2023 at 5:32 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Wed, Jan 11, 2023 at 10:21 PM Pin-yen Lin <treapking@chromium.org> wrote:
 >
-> Hi Pin-yen,
 >
-> On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
-> > From: Prashant Malani <pmalani@chromium.org>
-> > +             /*
-> > +              * Some drivers may register devices for endpoints. Check
-> > +              * the remote-endpoints for matches in addition to the remote
-> > +              * port parent.
-> > +              */
-> > +             node = fwnode_graph_get_remote_endpoint(ep);
-> > +             if (fwnode_device_is_available(node)) {
-> > +                     ret = match(node, con_id, data);
-> > +                     if (ret) {
-> > +                             if (matches)
-> > +                                     matches[count] = ret;
-> > +                             count++;
-> > +                     }
-> > +             }
+> This series introduces bindings for anx7625/it6505 to register Type-C
+> mode-switch in their output endpoints, and use data-lanes property to
+> describe the pin connections.
 >
-> Aren't you missing fwnode_handle-put(node) here??
+> The first two patch modifies fwnode_graph_devcon_matches and
+> cros_typec_init_ports to enable the registration of the switches.
+>
+> Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+> modifications.
+>
+> Patch 7~9 add similar bindings and driver changes for it6505.
+>
+> v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
+> v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
+> v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+> v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+> v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+>
+> Changes in v10:
+> - Collected Reviewed-by and Tested-by tags
+> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> - Print out the node name when errors on parsing DT
+> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> - Made the return path of drm_dp_register_mode_switch clearer
+> - Added a TODO for implementing orientation switch for anx7625
+> - Updated the commit message for the absence of orientation switch
+> - Fixed typo in the commit message
+>
+> Changes in v9:
+> - Collected Reviewed-by tag
+> - Fixed subject prefix again
+> - Changed the naming of the example node for it6505
+>
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=m
+> - Fixed some style issues
+> - Fixed the subject prefixes for the bindings patch
+> - Fixed the bindings for data-lanes properties
+>
+> Changes in v7:
+> - Fix the long comment lines
+> - Extracted the common codes to a helper function
+> - Fixed style issues in anx7625 driver
+> - Removed DT property validation in anx7625 driver.
+> - Fixed style issues in it6505 driver
+> - Removed the redundant sleep in it6505 driver
+> - Removed DT property validation in it6505 driver
+> - Rebased to drm-misc-next
+> - Fixed indentations in bindings patches
+> - Added a new patch to fix indentations in Kconfig
 
-It shouldn't be necessary. We aren't break-ing/continue-ing here,
-and fwnode_handle_put(node) is called latter in the loop [1][2]
+4 versions in a week! Please slow down your pace. When you send a new
+version, you move to the end of my review queue.
 
-BR,
+IIRC, these 2 chips are a bit different in what the mode switch or
+muxing looks like. One had a built-in mux and the other doesn't? Do I
+have to go research this again? No, you need to explain all this in
+this series.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1256
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1261
+Rob

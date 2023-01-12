@@ -1,142 +1,95 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5849E746A
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 13:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673530367; x=1705066367;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5s3rq0HPT7JhaK1ei+4B0dAg3NA3ZhC5O9DBhXYruHU=;
-  b=Gy6tRqM2oWmyJkZJS1MR77B6LL/cdVT0d00gWPyEKT6Hl33/bCiyNjk8
-   4m2R969sTk1WdZfDR/Vet3bVs3FJ/THhNlrRmDhp39uEyGbQoOQsUMu2M
-   IPzibrL38pw799IVl/KXOVqh1MhYCbK/wMFaEgpGKX1TacNp4zJRiJ+fY
-   QGPMxjbAnAzCWPleixQGnVzY5H/Xh0uxKFyUFjXEvbxu9MDvn/BV7zOz4
-   rMzRQuVsCN1+eR1XOinGNloJ16QJ/iFGdB60GMFGIbXuxAgNWggiBxl1v
-   Cs90c+OAUFhlzecjfZ54l3wph3j+u3xzJZ9jsuIaVrjlfX2SX3UtOFh4A
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="386018577"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="386018577"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 05:32:45 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="688334548"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="688334548"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 05:32:36 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 4F4162021A;
-	Thu, 12 Jan 2023 15:32:34 +0200 (EET)
-Date: Thu, 12 Jan 2023 13:32:34 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <robert.foss@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Marek Vasut <marex@denx.de>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev,
-	Xin Ji <xji@analogixsemi.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-kernel@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>,
-	linux-acpi@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon
- matcher
-Message-ID: <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
-References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-2-treapking@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A514279F8
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 17:26:35 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4bf16baa865so248981287b3.13
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 09:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JQaxMdq7NWcf4bCI8LzrzNOqDFAvMvCGdVrazsaMUbg=;
+        b=W4wxupf3b1VDZ2kK6t05NvPi9QnOdlaIGbf0oy2xfkAO/sAjUM5wkEvsZGMKbQvtVg
+         ZLWaHBbweAXMralx+uJcadPRWiaoAAqpKQxuDig0+zHgcAtQkA4HrHk0vBWlFDvp1fef
+         r6IT7meS0z5bBJX89TNJfWJcEEMwVpDUyxRPCp51J/l+KrY049N9MsqTwIt2kqKrwNU7
+         Ze6fXwIGAC+9m3laBcY/cFI5sxuynHu/z8qb9AMZt6F4Jv6iio+t/jWsy8UMQNxPhafa
+         q5GQ/jbYPt2Zum4BYQalMP2rAFL6rYmQsYHVYpWDqvMmDVaabqClElWeba929jlAv5uq
+         MfTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JQaxMdq7NWcf4bCI8LzrzNOqDFAvMvCGdVrazsaMUbg=;
+        b=f3aVNEF9wMRAG6GYEz0PcUVq7qhxPDEjmaJTC3Ivz0pv70UuJSMQGBqdkpWvmAiICw
+         zKKpp1P/gzOdT46IeHfB/0Dv6tG79lMQI2tV0f2SRjsMZdn6lj0FxpgR7WSgGINs73f0
+         84D6XZeDMH+GhLpAB23skV0lP0N97s8987a2FVl6uhm46ErXOmeUNho6yl1hDmf57pnQ
+         wOQ6HfJQFPhl9EpTh8M+e8/RNhVdYQo2XcCluTKBJwDnmmhAx0vVd0CiIyF2t3/Bj9Ii
+         QL7iYPfHFHQ2i/AQ5JoO6T37lWEgN7aqR9RLbCCkCUtI780oND09epOFK4DO1LRa3Tff
+         UJVQ==
+X-Gm-Message-State: AFqh2kpuJUvRjZB3UpPQKPDUx2xHPLlKnMMV4F67ZBIWcv+y56dRCb2y
+	UcCzgsOn3gJ7ROYxx5E8g4vwI9gKb8Qfc96+45F5eUsmzLHntQ==
+X-Google-Smtp-Source: AMrXdXsoFkmLucb+Srq6knqX3clTfw6PCkJ0VK93uLlsfcauE4qS4cjj7Jur72WWirRTc7JFs4admBJaXLG7ah45CQI=
+X-Received: by 2002:a0d:fc84:0:b0:3df:6a50:40ec with SMTP id
+ m126-20020a0dfc84000000b003df6a5040ecmr3487272ywf.340.1673544394482; Thu, 12
+ Jan 2023 09:26:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230112042104.4107253-2-treapking@chromium.org>
+References: <20230112043908.2938964-1-wenst@chromium.org>
+In-Reply-To: <20230112043908.2938964-1-wenst@chromium.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Thu, 12 Jan 2023 09:26:23 -0800
+Message-ID: <CABXOdTeFKyn8nYivWcXATDJmaqM7eJ++VEu_GNLcRpY2cB4iOw@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec: Initialize panic notifier block
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Pin-yen,
+On Wed, Jan 11, 2023 at 8:39 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> Commit d90fa2c64d59 ("platform/chrome: cros_ec: Poll EC log on EC panic")
+> added a new notifier block, but failed to initialize it properly,
+> resulting in a warning and stack trace (omitted):
+>
+>         INFO: trying to register non-static key.
+>         The code is fine but needs lockdep annotation, or maybe
+>         you didn't initialize this object before use?
+>         turning off the locking correctness validator.
+>
+> Initialize the notifier block properly.
+>
+> Fixes: d90fa2c64d59 ("platform/chrome: cros_ec: Poll EC log on EC panic")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
-> From: Prashant Malani <pmalani@chromium.org>
-> 
-> When searching the device graph for device matches, check the
-> remote-endpoint itself for a match.
-> 
-> Some drivers register devices for individual endpoints. This allows
-> the matcher code to evaluate those for a match too, instead
-> of only looking at the remote parent devices. This is required when a
-> device supports two mode switches in its endpoints, so we can't simply
-> register the mode switch with the parent node.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> 
+Reviewed-by: Guenter Roekc <groeck@chromium.org>
+
+Didn't I already see this ?
+
+Guenter
+
 > ---
-> 
-> Changes in v10:
-> - Collected Reviewed-by and Tested-by tags
-> 
-> Changes in v6:
-> - New in v6
-> 
->  drivers/base/property.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 2a5a37fcd998..48877af4e444 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -1223,6 +1223,21 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
->  			break;
->  		}
->  
-> +		/*
-> +		 * Some drivers may register devices for endpoints. Check
-> +		 * the remote-endpoints for matches in addition to the remote
-> +		 * port parent.
-> +		 */
-> +		node = fwnode_graph_get_remote_endpoint(ep);
-> +		if (fwnode_device_is_available(node)) {
-> +			ret = match(node, con_id, data);
-> +			if (ret) {
-> +				if (matches)
-> +					matches[count] = ret;
-> +				count++;
-> +			}
-> +		}
-
-Aren't you missing fwnode_handle-put(node) here??
-
-> +
->  		node = fwnode_graph_get_remote_port_parent(ep);
->  		if (!fwnode_device_is_available(node)) {
->  			fwnode_handle_put(node);
-
--- 
-Kind regards,
-
-Sakari Ailus
+>  drivers/platform/chrome/cros_ec.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+> index 4ae57820afd5..b895c8130bba 100644
+> --- a/drivers/platform/chrome/cros_ec.c
+> +++ b/drivers/platform/chrome/cros_ec.c
+> @@ -182,6 +182,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+>         int err = 0;
+>
+>         BLOCKING_INIT_NOTIFIER_HEAD(&ec_dev->event_notifier);
+> +       BLOCKING_INIT_NOTIFIER_HEAD(&ec_dev->panic_notifier);
+>
+>         ec_dev->max_request = sizeof(struct ec_params_hello);
+>         ec_dev->max_response = sizeof(struct ec_response_get_protocol_info);
+> --
+> 2.39.0.314.g84b9a713c41-goog
+>

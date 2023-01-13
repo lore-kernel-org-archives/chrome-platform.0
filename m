@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FFFBA40;
-	Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6511DC4339C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EFEBA42
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 764A3C433A1;
 	Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673644856;
-	bh=Tdf6cUFrRR0hwdAWI/Kfn7YtQl15TbwB8vYhi1fhtIw=;
+	bh=P3p4lAttGXWK5Zjf3Dzui7xxuzBuF9vEYkXO8RNMgzQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=MyH7bb6ZwkVGaHib10/pqZMusN2vC57bhG7ZlE+9/ivMwb7R2R28MuIhsv+OGJXDS
-	 0YBC1meOAVNLgmmr8+6KVKUtM1FeDCOHv08oUS32VF1FV0Nv5I9LLOMr9BTJZN5nlN
-	 VkifR/qzchmK0oeCCNzNznT4zsO4YnvvN4kcbXlM2lE5iGA6eZ6hNIHxMq+jKMMQ+i
-	 8sh0YPSO9xIKSzpHFXKz2yr4QGxugxnz1sQ+SGBKmXIKBn4xqTKnknjqbk3HYMonNr
-	 hjfWv9T+WRyw2xawruOCxbTBVfGbsYL2FBq5q4pihGFb1Yu+dIj3OozwTscWEIAH15
-	 LjrC7Rx8WB93w==
+	b=TuSIhAJVsf01EDO8WwwH+oZd9j6C4yXJ4KVPCPeCK5FnJCttPPynOdIpEkW7e14h2
+	 hN4hh1GCOn0F0BrfsbBVtekFmTe4AaJgqc7rLHaTvhyVRvM5iPy4/yXYPYK+DR6H+a
+	 vRy+QZhGK61KURBKvtQPq/M1e9NoPiUSxh2isDmu0hUL/HPd3nr8eYMkDDkoIoWiaY
+	 pbsf4lv8pMM79Vx0iRMXzVF//6iTIpkMNMnhB3c7W2upSSmVVNI2XAsR/AZ92gG2R6
+	 ROihJ3dYwDrKVqbkrqIRwKlc00ibJPCCE9jfktZPJWtnfpLfubVgKP1F7n67vtPapp
+	 OnMUcixKVcYFg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5325BE21EE2;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 61A6EE270DD;
 	Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,38 +26,41 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: initialize the buf variable
+Subject: Re: [PATCH 1/2] platform/chrome: cros_typec_switch: Use fwnode* prop
+ check
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167364485633.21086.16143246139018637708.git-patchwork-notify@kernel.org>
+ <167364485639.21086.3086760523982737286.git-patchwork-notify@kernel.org>
 Date: Fri, 13 Jan 2023 21:20:56 +0000
-References: <20230110193611.3573777-1-trix@redhat.com>
-In-Reply-To: <20230110193611.3573777-1-trix@redhat.com>
-To: Tom Rix <trix@redhat.com>
-Cc: bleung@chromium.org, groeck@chromium.org, nathan@kernel.org,
- ndesaulniers@google.com, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20230104060846.112216-1-pmalani@chromium.org>
+In-Reply-To: <20230104060846.112216-1-pmalani@chromium.org>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ bleung@chromium.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+This series was applied to chrome-platform/linux.git (for-next)
+by Prashant Malani <pmalani@chromium.org>:
 
-On Tue, 10 Jan 2023 14:36:11 -0500 you wrote:
-> Clang static analysis reports this problem
-> drivers/platform/chrome/cros_ec_lpc.c:379:13: warning: The left operand
->   of '!=' is a garbage value [core.UndefinedBinaryOperatorResult]
->     if (buf[0] != 'E' || buf[1] != 'C') {
->          ~~~~~~ ^
+On Wed,  4 Jan 2023 06:08:44 +0000 you wrote:
+> Using device_property_present() multiple times on an ACPI device
+> leads to kernel panics on Chromebook systems. This happens when there
+> is > 1 boolean property in an ACPI device which is created dynamically
+> by the BIOS as part of SSDT[1] on Chromebook systems
 > 
-> The check depends on the side effect of the read.  When the read fails
-> or is short, a buf containing garbage could be mistaken as correct.
+> Since fwnode_* can handle simple device tree properties equally
+> well, switch to using the fwnode_property_present() function
+> version. This will avoid panics and make the usage consistent
+> when we introduce a check for the 2nd property in a subsequent patch.
 > 
 > [...]
 
 Here is the summary with links:
-  - platform/chrome: cros_ec_lpc: initialize the buf variable
-    https://git.kernel.org/chrome-platform/c/2ae3c610e7d2
+  - [1/2] platform/chrome: cros_typec_switch: Use fwnode* prop check
+    https://git.kernel.org/chrome-platform/c/ef9c00dbd383
+  - [2/2] platform/chrome: cros_typec_switch: Check for retimer flag
+    https://git.kernel.org/chrome-platform/c/441529bed41c
 
 You are awesome, thank you!
 -- 

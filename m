@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EFEBA42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC84ABA41
 	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 764A3C433A1;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C029C4339B;
 	Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673644856;
-	bh=P3p4lAttGXWK5Zjf3Dzui7xxuzBuF9vEYkXO8RNMgzQ=;
+	bh=e0je/nejB0D6A+EeLOrjZczSML9JeG2dwzsWlHAj4Vs=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TuSIhAJVsf01EDO8WwwH+oZd9j6C4yXJ4KVPCPeCK5FnJCttPPynOdIpEkW7e14h2
-	 hN4hh1GCOn0F0BrfsbBVtekFmTe4AaJgqc7rLHaTvhyVRvM5iPy4/yXYPYK+DR6H+a
-	 vRy+QZhGK61KURBKvtQPq/M1e9NoPiUSxh2isDmu0hUL/HPd3nr8eYMkDDkoIoWiaY
-	 pbsf4lv8pMM79Vx0iRMXzVF//6iTIpkMNMnhB3c7W2upSSmVVNI2XAsR/AZ92gG2R6
-	 ROihJ3dYwDrKVqbkrqIRwKlc00ibJPCCE9jfktZPJWtnfpLfubVgKP1F7n67vtPapp
-	 OnMUcixKVcYFg==
+	b=N1uZke77w+En/GJgNBep0ba7wvWVztYzgqLpCSxnbhwbUHcAbTjXODHroCy+Q7cKe
+	 f/3WKfw27OrCmpnwGpUj1acFldQ8g/4LsXDJzg+tGT/lwHLzfiEeHYJ70/TBp34ys4
+	 jn5+2H9QSGupFXZHK6ZCLaBXN0IxIOYIGKpRRfMcAtfLfPXznlx7ItrhE3L5XWNUXV
+	 od5CfpISACSgBN7E8mby+tiWjRHyr76aP+s5uMO9DbG0VODF0QZoMN9Iq7nzQZjWAC
+	 kU6JJ1RjHpbvX04IGel9w7hyLBzb4cJz4Js/4kD4njC48Joc9TU7OrnLpkxsWwgChD
+	 bMKTGt6RyXzEQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 61A6EE270DD;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5AF98C395CA;
 	Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,41 +26,62 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/2] platform/chrome: cros_typec_switch: Use fwnode* prop
- check
+Subject: Re: [PATCH] platform/chrome: cros_ec: Fix panic notifier registration
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167364485639.21086.3086760523982737286.git-patchwork-notify@kernel.org>
+ <167364485636.21086.15397302633084093242.git-patchwork-notify@kernel.org>
 Date: Fri, 13 Jan 2023 21:20:56 +0000
-References: <20230104060846.112216-1-pmalani@chromium.org>
-In-Reply-To: <20230104060846.112216-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- bleung@chromium.org
+References: <20230110221033.7441-1-m.szyprowski@samsung.com>
+In-Reply-To: <20230110221033.7441-1-m.szyprowski@samsung.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
+ pmalani@chromium.org, robbarnes@google.com, dtor@chromium.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Wed,  4 Jan 2023 06:08:44 +0000 you wrote:
-> Using device_property_present() multiple times on an ACPI device
-> leads to kernel panics on Chromebook systems. This happens when there
-> is > 1 boolean property in an ACPI device which is created dynamically
-> by the BIOS as part of SSDT[1] on Chromebook systems
+On Tue, 10 Jan 2023 23:10:33 +0100 you wrote:
+> Initialize panic notifier to avoid the following lockdep warning:
 > 
-> Since fwnode_* can handle simple device tree properties equally
-> well, switch to using the fwnode_property_present() function
-> version. This will avoid panics and make the usage consistent
-> when we introduce a check for the 2nd property in a subsequent patch.
+> --->8---
+> INFO: trying to register non-static key.
+> The code is fine but needs lockdep annotation, or maybe
+> you didn't initialize this object before use?
+> turning off the locking correctness validator.
+> CPU: 0 PID: 62 Comm: kworker/u16:1 Not tainted 6.2.0-rc3-next-20230110-00037-g7c2b0426386a #6112
+> Hardware name: Samsung Exynos (Flattened Device Tree)
+> Workqueue: events_unbound async_run_entry_fn
+>  unwind_backtrace from show_stack+0x10/0x14
+>  show_stack from dump_stack_lvl+0x58/0x70
+>  dump_stack_lvl from register_lock_class+0x998/0x9a8
+>  register_lock_class from __lock_acquire+0x6c/0x2a80
+>  __lock_acquire from lock_acquire+0x124/0x3f0
+>  lock_acquire from down_write+0x40/0xd8
+>  down_write from blocking_notifier_chain_register+0x28/0x58
+>  blocking_notifier_chain_register from cros_ec_debugfs_probe+0x324/0x3b4
+>  cros_ec_debugfs_probe from platform_probe+0x5c/0xb8
+>  platform_probe from really_probe+0xe0/0x414
+>  really_probe from __driver_probe_device+0x9c/0x200
+>  __driver_probe_device from driver_probe_device+0x30/0xc0
+>  driver_probe_device from __device_attach_driver+0xa8/0x120
+>  __device_attach_driver from bus_for_each_drv+0x7c/0xc0
+>  bus_for_each_drv from __device_attach_async_helper+0xa0/0xf4
+>  __device_attach_async_helper from async_run_entry_fn+0x40/0x154
+>  async_run_entry_fn from process_one_work+0x288/0x790
+>  process_one_work from worker_thread+0x44/0x504
+>  worker_thread from kthread+0xf0/0x124
+>  kthread from ret_from_fork+0x14/0x2c
+> Exception stack(0xf0a6dfb0 to 0xf0a6dff8)
+> ...
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/2] platform/chrome: cros_typec_switch: Use fwnode* prop check
-    https://git.kernel.org/chrome-platform/c/ef9c00dbd383
-  - [2/2] platform/chrome: cros_typec_switch: Check for retimer flag
-    https://git.kernel.org/chrome-platform/c/441529bed41c
+  - platform/chrome: cros_ec: Fix panic notifier registration
+    https://git.kernel.org/chrome-platform/c/9e69b1b27b13
 
 You are awesome, thank you!
 -- 

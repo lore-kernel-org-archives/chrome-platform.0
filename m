@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3DABA3F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B603BA3A
 	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D5126C433D2;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CFC01C433F1;
 	Fri, 13 Jan 2023 21:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673644855;
-	bh=GAZxOelkcmOC7KZI0m/aRMgTASzbDzQFZVQeYJDfI1E=;
+	bh=gZQB5Rr2EKLw5BonMhM/yCovKBuhaogmYvswMy1xP9w=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bQf+Aiu02ExVuXm+Eg54DQQDE9UOU0Nl5M949zd/Y8nfreHtSna9s7X+GlGU/1/LW
-	 7oQ+D3xcTsiTjzyzvBvRX6kXtVeB9SzeYKsLFr9NJ5NlJ5pXmzSpbZgf36jN6Cyiof
-	 dbMMCPaAUA2cgkUbHqlAyivhE12OjiBf5sHszAYkJ8MM0EiLXSegB/b+fWOiN42YbS
-	 MdC1uXfUs74cf51s/C0XwrCC8OQDmynE7A0nT9FQKgpqaJvePYs4cptms8RGWSZNff
-	 GcR80A5QtB1iPGhQOV9IoLR9a1PPntqR/HFxIxWYnhaZsrhDG+rQ0ArwlahK89d7AA
-	 20GYqsw6LZGEA==
+	b=oBrE0H3K371NXAfkbiN5sBdKxDvbddGPf2zFOd4EAIkikaO/zNHWNfil91D/QGlud
+	 MlT0hW9qpx8n7VnQ+CCG8SbFvrJeTlqkVJ64Wqef8ZXEo0Xy1vC5yLUIewoCE+Q8Vb
+	 uax/R7aDtbH9YxIhkiQop9HHHnV99suvJwWCOB2RB2LuQUmNoB6hyI17+fzv5bfkyq
+	 UGAiMa695VIHdb5XASOqDLatNdIcA6T/E+ndeTyUtRvVOC5iDkLPS91KfNrp+8abAF
+	 pF+I6Dd/lQDhAsPE6VZk1ozYDEUZBqyu9fl5zTiIhQDkYtL3b8+o7rYwip4hHQm2md
+	 44y4UYAMTDX2g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C2D4BE270DC;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BCDE9C395CA;
 	Fri, 13 Jan 2023 21:20:55 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,43 +26,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/4] platform/chrome: fix kernel-doc warnings
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Use per-device lockdep key
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167364485579.21086.10146696175738479548.git-patchwork-notify@kernel.org>
+ <167364485577.21086.1402903031972419181.git-patchwork-notify@kernel.org>
 Date: Fri, 13 Jan 2023 21:20:55 +0000
-References: <20230111055728.708990-1-tzungbi@kernel.org>
-In-Reply-To: <20230111055728.708990-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- robbarnes@google.com, evgreen@chromium.org
+References: <20230111074146.2624496-1-wenst@chromium.org>
+In-Reply-To: <20230111074146.2624496-1-wenst@chromium.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
+ angelogioacchino.delregno@collabora.com, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Wed, 11 Jan 2023 13:57:24 +0800 you wrote:
-> The series fixes kernel-doc warnings in various places.
+On Wed, 11 Jan 2023 15:41:46 +0800 you wrote:
+> Lockdep reports a bogus possible deadlock on MT8192 Chromebooks due to
+> the following lock sequences:
 > 
-> All of them can be squashed into 1 fix actually.  However, I think it would
-> be more clear to separate the first 2 commits as the patches introduced
-> the warnings are quite new.
+> 1. lock(i2c_register_adapter) [1]; lock(&ec_dev->lock)
+> 2. lock(&ec_dev->lock); lock(prepare_lock);
 > 
-> For the 3rd patch, I am not sure if it makes sense to have the Fixes tag.
-> It is a little bit old (~2019).
+> The actual dependency chains are much longer. The shortened version
+> looks somewhat like:
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/4] platform/chrome: fix kernel-doc warnings for panic notifier
-    https://git.kernel.org/chrome-platform/c/16d73129f1fd
-  - [2/4] platform/chrome: fix kernel-doc warning for suspend_timeout_ms
-    https://git.kernel.org/chrome-platform/c/20eb556dac27
-  - [3/4] platform/chrome: fix kernel-doc warning for last_resume_result
-    https://git.kernel.org/chrome-platform/c/212c9b9c395f
-  - [4/4] platform/chrome: fix kernel-doc warnings for cros_ec_command
-    https://git.kernel.org/chrome-platform/c/5fa1dd818fb4
+  - [v2] platform/chrome: cros_ec: Use per-device lockdep key
+    https://git.kernel.org/chrome-platform/c/961a325becd9
 
 You are awesome, thank you!
 -- 

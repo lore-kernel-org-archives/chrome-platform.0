@@ -1,187 +1,163 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB23628
-	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 03:47:26 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id o7-20020a17090a0a0700b00226c9b82c3aso23140163pjo.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 19:47:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD577EF
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 08:09:22 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id e129so10192132iof.3
+        for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 00:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=b+AoK2nvo0AyjcprB47n83uXCfGMghUNWHWzXhOZTPI=;
-        b=b7x7hhy0QqK8Nj8irHUn5QYMyM+0NjHgs1LCuLj54i4LNiqHyIW4IejaOx47lgGN4p
-         3eWKcUDZwmz0ekiVnN+KFvGNZTkNFqZYOxAcaGTxUcGOvdjnxi2FBaXBs7iSMuyoQ7Ys
-         KCfLYf5rhGOnjz6ZTtSemMMLhVJmD2WTWvyurlN7U+EK1QpQ5zMWTUkz3V4sItdvdU5d
-         Uu6YClQyZ4K/OPkHo+rtmcysgRrihOLb+JwFqlRD0sYKYrFsIGmXIq3GTG4uuGGgAqmb
-         04M7Oz4fsr3rIURtvbAkWRZ1eOJhLiPto3QW7ce/fYbkJkJ6D9YmRc8CMFosLLrQFOvg
-         tTQw==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W0+4RXTlK0IqIB9mYO3YSmFVYM13UL+Gup7cLGu7Nzw=;
+        b=Fmn00t90xJPmYNPJkrLBinV7c53WSSG1nRO2CEfpjlJfQU2BIZzTmdL1R0NOTFpb9Q
+         eR4ku2xTE6T2EWT8UoP4xt9FpbjU/g5bDKOeEHDAIe56Fp+yotzNdcp0EKF8GTBsTCkt
+         /hm6KiUd+IhQWCRDMH7pa5M0uSbadJuDDgiOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b+AoK2nvo0AyjcprB47n83uXCfGMghUNWHWzXhOZTPI=;
-        b=gIsOCz5d4XyQXYpf8DLUGP+n3iWGiMspdqB93z460vl9qLbVCYfYzUgwppzMxpgF8j
-         v6xUufHTT3kJy1tjcse0mVqHQDUGZfU6+msrsI/jRou4FMrRyVPX5B0PWAbvOfMicC7a
-         g9yXVIzby+MP/w1VL619AxJnJB+52rRwV7lwf9I4EPOcQBSbYZ9FEhxwQbXPDNjh+kCo
-         IabpR544BpBy8yhDoKhFjkTLxK5LFt9NfrqOK0LjEemJhGj9cUgu0Br1MU60L+PRtqXD
-         UqP9QzzIqhJyn23GkeXn2S32Qxx/NEpNAUmLcGaQoimBLshtC48SZX+Iuz76ujll1PAz
-         YMxA==
-X-Gm-Message-State: AFqh2kp++vhJqgG814EvOxrdXYf0wsKSOypEDazpw6VkRVA6EKlh+ctg
-	huDAX1CpcGjIBnfZx17rV2A61w==
-X-Google-Smtp-Source: AMrXdXtYbgCXyBn7NWtR/KNaOSuY6G97z3OIoFnbzyybw1IYFwnB5nCbu1tvTjL8JIbtvcTRm37KZQ==
-X-Received: by 2002:a17:902:aa85:b0:189:894c:6b48 with SMTP id d5-20020a170902aa8500b00189894c6b48mr82709027plr.59.1673581645844;
-        Thu, 12 Jan 2023 19:47:25 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id z12-20020a170903018c00b0019311ec702asm12773395plg.36.2023.01.12.19.47.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 19:47:25 -0800 (PST)
-Message-ID: <63c0d44d.170a0220.bf97a.4b74@mx.google.com>
-Date: Thu, 12 Jan 2023 19:47:25 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        bh=W0+4RXTlK0IqIB9mYO3YSmFVYM13UL+Gup7cLGu7Nzw=;
+        b=axtWpPuKSdo00DI1fXjoSacUUvNmEyJHF4Wkj+kuGxAGmJZZI2W7NqJ3HehnGM3mYS
+         R/Q3uvUy2jrhpO3FEf4Xq8tVu7nYw/LJnftbyKrxGbS9+pHlGjPCsszgWZT09uKVickc
+         cXZjqg51KQeIK5r3Q7cdLTpCZIIAMcOtZua/RFsygdPPL4vMAMVD/q0/Oa4lpS++e63e
+         HoPNDMNerWWbyGUxBP4ODU1k+znsBFwAjDuKu6xDCYNC3bXdztWYm/jrN9tINYt+KVkn
+         6Jx3i7/Nqj3pA176WScTAXwBaOdY5r3h/OB+pm8ftONlB+I+qEDlj6Y0czC/pvq72vK6
+         +42Q==
+X-Gm-Message-State: AFqh2kpx+Kxme12R4zlNO2zJMfPNzMbe6mNPpv5fAPcNXVEpbuezkfSt
+	VHYaMfwqb+zW3jz8tSes+UDJTcD6XQOjiY+2JzKZtA==
+X-Google-Smtp-Source: AMrXdXso2wCwKI04DP0Jnwsw8O26tdW8R7cqrPXE3TghshxleDtAvafXMMve9LCUvK+myYIiIF3cGOotr7mepvIezU0=
+X-Received: by 2002:a05:6638:1a7:b0:38a:3770:2fa2 with SMTP id
+ b7-20020a05663801a700b0038a37702fa2mr7649958jaq.208.1673597361628; Fri, 13
+ Jan 2023 00:09:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.2-rc1-28-g24ddc3b53a9d
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci baseline: 70 runs,
- 3 regressions (v6.2-rc1-28-g24ddc3b53a9d)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+References: <20230112042104.4107253-1-treapking@chromium.org> <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+KGQH2qTpB6NmmOzid39-oKTzZZJNPF1ybKQu72LbJLw@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 13 Jan 2023 16:09:10 +0800
+Message-ID: <CAEXTbpfvGrBWjGV9VcRiuTHo4eVqrFM9qEpvq5CPXEWk=4z+dQ@mail.gmail.com>
+Subject: Re: [PATCH v10 0/9] Register Type-C mode-switch in DP bridge endpoints
+To: Rob Herring <robh+dt@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Marek Vasut <marex@denx.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, 
+	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
+	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
+	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Douglas Anderson <dianders@chromium.org>, Imre Deak <imre.deak@intel.com>, 
+	Jani Nikula <jani.nikula@intel.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
+	Kees Cook <keescook@chromium.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	shaomin Deng <dengshaomin@cdjrlc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-chrome-platform/for-kernelci baseline: 70 runs, 3 regressions (v6.2-rc1-28-=
-g24ddc3b53a9d)
+Hi Rob,
 
-Regressions Summary
--------------------
+On Fri, Jan 13, 2023 at 6:44 AM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Wed, Jan 11, 2023 at 10:21 PM Pin-yen Lin <treapking@chromium.org> wrote:
+> >
+> >
+> > This series introduces bindings for anx7625/it6505 to register Type-C
+> > mode-switch in their output endpoints, and use data-lanes property to
+> > describe the pin connections.
+> >
+> > The first two patch modifies fwnode_graph_devcon_matches and
+> > cros_typec_init_ports to enable the registration of the switches.
+> >
+> > Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+> > modifications.
+> >
+> > Patch 7~9 add similar bindings and driver changes for it6505.
+> >
+> > v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
+> > v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
+> > v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+> > v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+> > v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+> >
+> > Changes in v10:
+> > - Collected Reviewed-by and Tested-by tags
+> > - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> > - Print out the node name when errors on parsing DT
+> > - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> > - Made the return path of drm_dp_register_mode_switch clearer
+> > - Added a TODO for implementing orientation switch for anx7625
+> > - Updated the commit message for the absence of orientation switch
+> > - Fixed typo in the commit message
+> >
+> > Changes in v9:
+> > - Collected Reviewed-by tag
+> > - Fixed subject prefix again
+> > - Changed the naming of the example node for it6505
+> >
+> > Changes in v8:
+> > - Fixed the build issue when CONFIG_TYPEC=m
+> > - Fixed some style issues
+> > - Fixed the subject prefixes for the bindings patch
+> > - Fixed the bindings for data-lanes properties
+> >
+> > Changes in v7:
+> > - Fix the long comment lines
+> > - Extracted the common codes to a helper function
+> > - Fixed style issues in anx7625 driver
+> > - Removed DT property validation in anx7625 driver.
+> > - Fixed style issues in it6505 driver
+> > - Removed the redundant sleep in it6505 driver
+> > - Removed DT property validation in it6505 driver
+> > - Rebased to drm-misc-next
+> > - Fixed indentations in bindings patches
+> > - Added a new patch to fix indentations in Kconfig
+>
+> 4 versions in a week! Please slow down your pace. When you send a new
+> version, you move to the end of my review queue.
 
-platform           | arch  | lab           | compiler | defconfig          =
-        | regressions
--------------------+-------+---------------+----------+--------------------=
---------+------------
-kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig          =
-        | 2          =
+I see. I'll keep this in mind in the future series.
+>
+> IIRC, these 2 chips are a bit different in what the mode switch or
+> muxing looks like. One had a built-in mux and the other doesn't? Do I
+> have to go research this again? No, you need to explain all this in
+> this series.
 
-mt8173-elm-hana    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chr=
-omebook | 1          =
+Yes, anx7625 has a built-in mux while it6505 doesn't, but it's for
+another use case.
 
+IIUC the built-in mux in anx7625 is designed for automatically
+switching between two orientations of a single Type-C connector, and
+in that case we might need to register an orientation switch. But we
+don't have hardware for this use case.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.2-rc1-28-g24ddc3b53a9d/plan/baseline/
+The use case this series aimed is having two downstreams for the
+bridges, and registering two mode switches to switch between them. In
+this use case, the built-in mux of anx7625 is not used and the
+behavior of the switches is the same as it6505.
 
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.2-rc1-28-g24ddc3b53a9d
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      24ddc3b53a9d05b5fb5ee367afd1758ac50e7861 =
+Explanations and TODOs have been added in the anx7625 driver change. I
+can also mention this in the cover letter in the future series and
+please let me know if anything is not clear for you.
 
+>
+> Rob
 
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch  | lab           | compiler | defconfig          =
-        | regressions
--------------------+-------+---------------+----------+--------------------=
---------+------------
-kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig          =
-        | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63c0cb3654c615935f1d39c9
-
-  Results:     51 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.2-rc1-28-g24ddc3b53a9d/arm64/defconfig/gcc-10/lab-kontron/baseline-kontro=
-n-pitx-imx8m.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.2-rc1-28-g24ddc3b53a9d/arm64/defconfig/gcc-10/lab-kontron/baseline-kontro=
-n-pitx-imx8m.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230109.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/63c0cb3654c615935f1d39cc
-        new failure (last pass: v6.2-rc1-23-g93899a4cb7b1)
-
-    2023-01-13T03:08:23.383014  / # #
-    2023-01-13T03:08:23.484949  export SHELL=3D/bin/sh
-    2023-01-13T03:08:23.485383  #
-    2023-01-13T03:08:23.586815  / # export SHELL=3D/bin/sh. /lava-245959/en=
-vironment
-    2023-01-13T03:08:23.587254  =
-
-    2023-01-13T03:08:23.688719  / # . /lava-245959/environment/lava-245959/=
-bin/lava-test-runner /lava-245959/1
-    2023-01-13T03:08:23.689591  =
-
-    2023-01-13T03:08:23.694902  / # /lava-245959/bin/lava-test-runner /lava=
--245959/1
-    2023-01-13T03:08:23.759800  + export 'TESTRUN_ID=3D1_bootrr'
-    2023-01-13T03:08:23.760112  + cd /l<8>[   15.583709] <LAVA_SIGNAL_START=
-RUN 1_bootrr 245959_1.5.2.4.5> =
-
-    ... (10 line(s) more)  =
-
-
-  * baseline.bootrr.dwc3-usb1-probed: https://kernelci.org/test/case/id/63c=
-0cb3654c615935f1d39dc
-        new failure (last pass: v6.2-rc1-23-g93899a4cb7b1)
-
-    2023-01-13T03:08:27.820291  /lava-245959/1/../bin/lava-test-case
-    2023-01-13T03:08:27.820685  <8>[   19.809092] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Ddwc3-usb1-probed RESULT=3Dfail>
-    2023-01-13T03:08:27.820936  /lava-245959/1/../bin/lava-test-case   =
-
- =
-
-
-
-platform           | arch  | lab           | compiler | defconfig          =
-        | regressions
--------------------+-------+---------------+----------+--------------------=
---------+------------
-mt8173-elm-hana    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chr=
-omebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63c0cb0e82d1c27c881d39e0
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.2-rc1-28-g24ddc3b53a9d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.2-rc1-28-g24ddc3b53a9d/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/baseline-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230109.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/63c0cb0e82d1c27c881d3=
-9e1
-        new failure (last pass: v6.2-rc1-23-g93899a4cb7b1) =
-
- =20
+Thanks and regards,
+Pin-yen

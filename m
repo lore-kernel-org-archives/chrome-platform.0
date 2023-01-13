@@ -1,48 +1,24 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9CDAD4A
-	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 18:26:37 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id i65so13335072pfc.0
-        for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 10:26:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0IZMQ5s013CKLPMbvZH+OUmUx07zKwii/Tta4BO8NQ=;
-        b=ochu6DRcIo08TOd/D8jh5Tf6fdQOlvs9XXYjw9VXWD1QJ6nUv0zY1YEEzocAoEf7eY
-         KCIsfp9Pm0V31jq97KHsb3tRLRE3N47wfuTygppoSTRhrSQi5WYjrUvSGpCC4JieBiEG
-         AbszzxRfLaJChuj8z9UUCZcoaCnKZx24qa+k0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v0IZMQ5s013CKLPMbvZH+OUmUx07zKwii/Tta4BO8NQ=;
-        b=KeBjgW+5VqJtGhsKs+QJN/kP5ZOsHnGB8T6cwVSuPa4wQsA+ewM87/wD4Dl5vXkC8S
-         wlEScbvQC//+BwwIs/YnzPvNOoFitNrRGiEUayoxJPtIwIUs/l3mgs3eZ9pUwJ7UCAO2
-         W11KQ414bwSp3vxTY4aUlvo9JYJa4SwhG/uLiUohpkC1WqUSVpyn6xOAW7SVlj8PKB5X
-         3OUcpP98G0oY9oIGaIEohMstuCoQGdzBJDpTK5TG9jylD6hHUl0E2+VeD12XzSNUGSGM
-         j0wDYRjMcQ47SoVKPYmEhXd/S7TlihcEihwGNgnBZNzXqoHlD96KS1Ow0nHnTOx6d+Ui
-         Q3EQ==
-X-Gm-Message-State: AFqh2kosJluHi8J86JGJ82rne78PZUNdnDmJZq7KKxj6wD6L4I9hoVlP
-	RDGFJYrjlrK7qwSA/9kOu+k9Ea0PN5IeJnOB
-X-Google-Smtp-Source: AMrXdXvKc6B2+yqll8S678mrWE5J7iNXmXppKsc/lXs6VFCK7Gm1J1hzHJNPpJii6evUmrWWOnijuQ==
-X-Received: by 2002:a62:2903:0:b0:57f:f2cd:6180 with SMTP id p3-20020a622903000000b0057ff2cd6180mr74775013pfp.0.1673634397061;
-        Fri, 13 Jan 2023 10:26:37 -0800 (PST)
-Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
-        by smtp.gmail.com with ESMTPSA id 124-20020a621882000000b0057709fce782sm9330183pfy.54.2023.01.13.10.26.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 10:26:36 -0800 (PST)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH] platform/chrome: cros_typec_vdm: Fix VDO copy
-Date: Fri, 13 Jan 2023 18:26:26 +0000
-Message-Id: <20230113182626.1149539-1-pmalani@chromium.org>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3DABA3F
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 21:20:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D5126C433D2;
+	Fri, 13 Jan 2023 21:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673644855;
+	bh=GAZxOelkcmOC7KZI0m/aRMgTASzbDzQFZVQeYJDfI1E=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=bQf+Aiu02ExVuXm+Eg54DQQDE9UOU0Nl5M949zd/Y8nfreHtSna9s7X+GlGU/1/LW
+	 7oQ+D3xcTsiTjzyzvBvRX6kXtVeB9SzeYKsLFr9NJ5NlJ5pXmzSpbZgf36jN6Cyiof
+	 dbMMCPaAUA2cgkUbHqlAyivhE12OjiBf5sHszAYkJ8MM0EiLXSegB/b+fWOiN42YbS
+	 MdC1uXfUs74cf51s/C0XwrCC8OQDmynE7A0nT9FQKgpqaJvePYs4cptms8RGWSZNff
+	 GcR80A5QtB1iPGhQOV9IoLR9a1PPntqR/HFxIxWYnhaZsrhDG+rQ0ArwlahK89d7AA
+	 20GYqsw6LZGEA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C2D4BE270DC;
+	Fri, 13 Jan 2023 21:20:55 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -50,40 +26,47 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/4] platform/chrome: fix kernel-doc warnings
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <167364485579.21086.10146696175738479548.git-patchwork-notify@kernel.org>
+Date: Fri, 13 Jan 2023 21:20:55 +0000
+References: <20230111055728.708990-1-tzungbi@kernel.org>
+In-Reply-To: <20230111055728.708990-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ robbarnes@google.com, evgreen@chromium.org
 
-The usage of memcpy() affects the representation of the VDOs as they are
-copied to the EC Host Command buffer. Specifically, all higher order
-bits get dropped (for example: a VDO of 0x406 just gets copied as 0x6).
+Hello:
 
-Avoid this by explicitly copying each VDO in the array. The number of
-VDOs generated by alternate mode drivers in their VDMs is almost always
-just 1 (apart from the header) so this doesn't affect performance in a
-meaningful way).
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Fixes: 40a9b13a09ef ("platform/chrome: cros_typec_vdm: Add VDM send support")
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
- drivers/platform/chrome/cros_typec_vdm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Wed, 11 Jan 2023 13:57:24 +0800 you wrote:
+> The series fixes kernel-doc warnings in various places.
+> 
+> All of them can be squashed into 1 fix actually.  However, I think it would
+> be more clear to separate the first 2 commits as the patches introduced
+> the warnings are quite new.
+> 
+> For the 3rd patch, I am not sure if it makes sense to have the Fixes tag.
+> It is a little bit old (~2019).
+> 
+> [...]
 
-diff --git a/drivers/platform/chrome/cros_typec_vdm.c b/drivers/platform/chrome/cros_typec_vdm.c
-index aca9d337118e..06f4a55999c5 100644
---- a/drivers/platform/chrome/cros_typec_vdm.c
-+++ b/drivers/platform/chrome/cros_typec_vdm.c
-@@ -86,10 +86,12 @@ static int cros_typec_port_amode_vdm(struct typec_altmode *amode, const u32 hdr,
- 		.command = TYPEC_CONTROL_COMMAND_SEND_VDM_REQ,
- 	};
- 	struct typec_vdm_req vdm_req = {};
-+	int i;
- 
- 	vdm_req.vdm_data[0] = hdr;
- 	vdm_req.vdm_data_objects = cnt;
--	memcpy(&vdm_req.vdm_data[1], vdo, cnt - 1);
-+	for (i = 1; i < cnt; i++)
-+		vdm_req.vdm_data[i] = vdo[i-1];
- 	vdm_req.partner_type = TYPEC_PARTNER_SOP;
- 	req.vdm_req_params = vdm_req;
- 
+Here is the summary with links:
+  - [1/4] platform/chrome: fix kernel-doc warnings for panic notifier
+    https://git.kernel.org/chrome-platform/c/16d73129f1fd
+  - [2/4] platform/chrome: fix kernel-doc warning for suspend_timeout_ms
+    https://git.kernel.org/chrome-platform/c/20eb556dac27
+  - [3/4] platform/chrome: fix kernel-doc warning for last_resume_result
+    https://git.kernel.org/chrome-platform/c/212c9b9c395f
+  - [4/4] platform/chrome: fix kernel-doc warnings for cros_ec_command
+    https://git.kernel.org/chrome-platform/c/5fa1dd818fb4
+
+You are awesome, thank you!
 -- 
-2.39.0.314.g84b9a713c41-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

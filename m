@@ -1,245 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CEF8F67
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:57:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67070C43398
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 22:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673564221;
-	bh=XJbAYFtKJrsiJkc3mYwPVbfBQAWFjyHsbxpFxsr7kv4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ecH8E+bpJVchEE2eS/RESQzv4VtE+LZDzau2V9udBRpZBpyqYaQhBR/NhJHiDn/ld
-	 VJizL7e0gDVZoxmsirE6EM9GcS36cX0eVzokhEwE5F49OyPgYJ+vFdHnSnAAjUC8Mm
-	 xeoR7+TfM7WFMihxTjDQsfrgqumlMhVBC2fen+u6oXvsguYhW5cU6e9aTxG740TaAM
-	 ISSUA4KsbAjRLCMOyMpGTfyy0Dz9hmdgW9nKVWJbAJH1MZgAQRkSQMqdkt4ATJPgZd
-	 jo4Ibc6RPBRo7yYwPJ0Jbv5muBiGm7QsDTU50WgZdQWto7AkquztEXXWkMTMLFRuo+
-	 Ts2/YwlqbH+zQ==
-Received: by mail-vk1-f169.google.com with SMTP id c21so1300551vkn.10
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 14:57:01 -0800 (PST)
-X-Gm-Message-State: AFqh2koB3NGc/fuTCboyI48t7LGmdSI5/AZpkp73S7F7LOKKzAA7poXJ
-	Qk5zgAQMI1LuAD+Ho7HFfgCWuWlH2n2heKzMIw==
-X-Google-Smtp-Source: AMrXdXt8wHrRY2gdsYARqhiRw0HAx5328dSIv8af4ZbpRgdiVb5LWwG0uV+KGfpJFJ9+GQ11YNTxNRn1tFh83Da+frk=
-X-Received: by 2002:a05:6122:221e:b0:3da:f920:c0ef with SMTP id
- bb30-20020a056122221e00b003daf920c0efmr981096vkb.26.1673564220164; Thu, 12
- Jan 2023 14:57:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F64628
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Jan 2023 03:03:36 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id q23-20020a17090a065700b002290913a521so3395175pje.5
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jan 2023 19:03:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tynuTF8jB/0e/75Hkskyhhoy9My5hVTFaXLcBG7jRaY=;
+        b=nQok568lHwUx0wO8cZR01c+PymVtaeAF0cAplMw7HJIg4uZOsJym60/nA10VFRPpEo
+         4eJoUHtb/fVolFjyoD2Y2djNSO3OGHT75TtjmHH7+LstGfamMY8uElgzN12rD2uO2/Md
+         gs87Eejl5S1PEcbnCM290jGYVTiuy2Pc/vACOJvkiD+gOwuJm6DbuygsggEeRjF/8Yro
+         iRWjV5BJrSzpfDjDOVQmQYUALLNCEBKZiDfgbjoh8mIi0TmhCU83EQ8Y+HryWA4bzffe
+         Z2QOg8Kb1wlqQPYfMUlgxy3ZBPdxBCQn1rftBPdcMRZ0v1prKg/65UgAKfb4vl2fWQn7
+         slig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tynuTF8jB/0e/75Hkskyhhoy9My5hVTFaXLcBG7jRaY=;
+        b=Kzv9LzZUvvP9QX+5UIfna5pf3wyvKFVNlqC6eOUaV/8qkQq0WyPrbcBVLKXU+4eLqE
+         lovMUAhm5YrOnLe+7Z7Xcvl/aJ5lYLCuan4mvyPAdI5Fwb1cTHpxxOQAkvNOCbg8o8r0
+         4fQeLZFLnKGOvuTkuisXVg8BA1ow+ee4Gxumymw00FSWmkVV5SvbjyPdaEd5c4sdJnq1
+         rfEjXEp3+iHszBz1YXYxefziHlROgIHyZ2uQy8ZVm8MiFse53mp7qh1iI5cafwCEVfbi
+         HfqitCm8kuaUT+8V/lIx9bDnIJu4Xuvsin6JVWh8PBG+K8t213/jc1Iqrx2syoz8dENB
+         qFdQ==
+X-Gm-Message-State: AFqh2krlUIp0k+3w+4KREetXnemMIojRYwO2TprBeu9QW+HrVPjCOEt9
+	MeDAXKmhoH5Erqa/xJsCJPpIkA==
+X-Google-Smtp-Source: AMrXdXvhv8+2vkxV0Lrgt1ebD/z2Echs5uO/8APVkicwRI6SXxfeF8BUOIClY+hZoUZEgXjPqoyG7g==
+X-Received: by 2002:a17:90b:17c2:b0:219:b034:941c with SMTP id me2-20020a17090b17c200b00219b034941cmr79376735pjb.18.1673579015924;
+        Thu, 12 Jan 2023 19:03:35 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id co9-20020a17090afe8900b001ef8ab65052sm11469824pjb.11.2023.01.12.19.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 19:03:35 -0800 (PST)
+Message-ID: <63c0ca07.170a0220.17330.2d87@mx.google.com>
+Date: Thu, 12 Jan 2023 19:03:35 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230112042104.4107253-1-treapking@chromium.org> <20230112042104.4107253-5-treapking@chromium.org>
-In-Reply-To: <20230112042104.4107253-5-treapking@chromium.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 12 Jan 2023 16:56:48 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
-Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
-Subject: Re: [PATCH v10 4/9] dt-bindings: display: bridge: anx7625: Add
- mode-switch support
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Marek Vasut <marex@denx.de>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, 
-	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
-	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.2-rc1-28-g24ddc3b53a9d
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-28-g24ddc3b53a9d)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Wed, Jan 11, 2023 at 10:21 PM Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Analogix 7625 can be used in systems to switch the DP traffic between
-> two downstreams, which can be USB Type-C DisplayPort alternate mode
-> lane or regular DisplayPort output ports.
->
-> Update the binding to accommodate this usage by introducing a
-> data-lanes and a mode-switch property on endpoints.
->
-> Also include the link to the product brief in the bindings.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->
-> ---
->
-> Changes in v10:
-> - Collected Reviewed-by and Tested-by tags
->
-> Changes in v9:
-> - Collected Reviewed-by tag
->
-> Changes in v8:
-> - Updated anx7625 bindings for data-lane property
-> - Fixed the subject prefix
->
-> Changes in v7:
-> - Fixed issues reported by dt_binding_check
-> - Updated the schema and the example dts for data-lanes.
-> - Changed to generic naming for the example dts node.
->
-> Changes in v6:
-> - Remove switches node and use endpoints and data-lanes property to
->   describe the connections.
->
->  .../display/bridge/analogix,anx7625.yaml      | 99 ++++++++++++++++++-
->  1 file changed, 96 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index 4590186c4a0b..b49a350c40e3 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -12,7 +12,8 @@ maintainers:
->
->  description: |
->    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
-> -  designed for portable devices.
-> +  designed for portable devices. Product brief is available at
-> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
->
->  properties:
->    compatible:
-> @@ -112,10 +113,48 @@ properties:
->                data-lanes: true
->
->        port@1:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
->          description:
->            Video port for panel or connector.
->
-> +        patternProperties:
-> +          "^endpoint@[01]$":
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+28-g24ddc3b53a9d)
 
-You are using a property from video-interfaces.yaml, so you need to
-reference that.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-28-g24ddc3b53a9d/
 
-Needs some description of what each endpoint is. IOW, how each
-endpoint corresponds to the h/w.
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-28-g24ddc3b53a9d
+Git Commit: 24ddc3b53a9d05b5fb5ee367afd1758ac50e7861
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              reg:
-> +                maxItems: 1
-> +
-> +              remote-endpoint: true
-> +
-> +              data-lanes:
-> +                oneOf:
-> +                  - items:
-> +                      - enum: [0, 1, 2, 3]
-> +
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +
-> +                  - items:
-> +                      - const: 2
-> +                      - const: 3
-> +
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +                      - const: 2
-> +                      - const: 3
-> +
-> +              mode-switch:
-> +                type: boolean
-> +                description: Register this node as a Type-C mode switch or not.
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
->      required:
->        - port@0
->        - port@1
-> @@ -164,8 +203,12 @@ examples:
->                  };
->
->                  mipi2dp_bridge_out: port@1 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
->                      reg = <1>;
-> -                    anx7625_out: endpoint {
-> +                    anx7625_out: endpoint@0 {
-> +                        reg = <0>;
->                          remote-endpoint = <&panel_in>;
->                      };
->                  };
-> @@ -186,3 +229,53 @@ examples:
->              };
->          };
->      };
-> +  - |
-> +    i2c3 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        encoder@58 {
-> +            compatible = "analogix,anx7625";
-> +            reg = <0x58>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&anx7625_dp_pins>;
-> +            enable-gpios = <&pio 176 GPIO_ACTIVE_HIGH>;
-> +            reset-gpios = <&pio 177 GPIO_ACTIVE_HIGH>;
-> +            vdd10-supply = <&pp1100_dpbrdg>;
-> +            vdd18-supply = <&pp1800_dpbrdg_dx>;
-> +            vdd33-supply = <&pp3300_dpbrdg_dx>;
-> +            analogix,audio-enable;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    anx7625_dp_in: endpoint {
-> +                        bus-type = <7>;
-> +                        remote-endpoint = <&dpi_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    reg = <1>;
-> +                    anx_typec0: endpoint@0 {
-> +                        reg = <0>;
-> +                        mode-switch;
-> +                        data-lanes = <0 1>;
-> +                        remote-endpoint = <&typec_port0>;
-> +                    };
-> +                    anx_typec1: endpoint@1 {
-> +                        reg = <1>;
-> +                        mode-switch;
-> +                        data-lanes = <2 3>;
-> +                        remote-endpoint = <&typec_port1>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> --
-> 2.39.0.314.g84b9a713c41-goog
->
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

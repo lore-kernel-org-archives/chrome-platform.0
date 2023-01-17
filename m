@@ -1,111 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001ED1FB2;
-	Tue, 17 Jan 2023 08:03:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F5CC433EF;
-	Tue, 17 Jan 2023 08:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534291FB2
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Jan 2023 08:12:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D2FAC433EF;
+	Tue, 17 Jan 2023 08:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673942602;
-	bh=mXWwdlqjrMqIueWHc+cPhSiiJN4N+NZbzWaDf42Wsf4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PS3gX6Cs9BJTUAQzYo2aM3rmQIQdfmF0gCZVbVrCwxBAVmAC96XfSltjZ40F9jk/4
-	 E0fKduH+Wqe64q6zX+MHOsxv2iK8ADO7DiOKJE4/qnJhnXFu14+RVeHchPZhStSUoX
-	 Dnxwov6Hzd7uxg1bQaYyV+r6rSsy6vXTtBOhoYE9EyCPvz8JUiQRbz/tYfjA2S7hEP
-	 aEN0wDsUcu3mwEXWzvglrJpEkGBAIUPQrUJiUpBzai+CI2ag6TlKmzVkJJ1bhUI7gg
-	 GISRn4JPYkQgoxjomMJ9v3bnTNVeDvTnNLSRHJhAbjmydJZ28wYIGGT9mUgnVQQt37
-	 fplKd1mmiZdoA==
+	s=k20201202; t=1673943164;
+	bh=AEgSQRQF3beX/Txu8GD7t68PN6lGSaTwol9ZRCqQCSQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nizUvPta5T0ptW/NLb5dPL8U9MQBcvw+96Aj5EVO1pgNXxGDk3at4BhuoFbdkHf3Z
+	 XVUclDJVJPTzVRXsY04qRjBVnmOHNTKkSyrUNdVIknV98p7x3TFcaVxoDVr4PU4VfT
+	 F+ED1ZOEwMkPJq8YFlTRgdwoiAwbFm4TP3yH/v2c6wObcuWDY6tCuBadBv15O4aHbt
+	 9AYhWBJ0T8OpPeJrVnqNl3SqVKr1Y9XUax2FvBS0lrbvnmfOgIdq8WNmCk09nTHyto
+	 +RXmLWXY3ga4MMHH+03UdyKtBhUyvRdbZSqAtJkls1HU22fM75tx5abJzSfihbptP1
+	 Oo3wNvYfKfo0A==
+Date: Tue, 17 Jan 2023 16:12:40 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] platform/chrome: cros_ec_proto: remove big stub objects from stack
-Date: Tue, 17 Jan 2023 16:02:54 +0800
-Message-Id: <20230117080254.2725536-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
+To: bleung@chromium.org, groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev, markhas@chromium.org,
+	bhanumaiya@chromium.org, error27@gmail.com
+Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix negative type
+ promoted to high
+Message-ID: <Y8ZYeIev6SR2vMs6@google.com>
+References: <20230109081554.3792547-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230109081554.3792547-1-tzungbi@kernel.org>
 
-sizeof(struct device) = 680
-sizeof(struct cros_ec_dev) = 720
+On Mon, Jan 09, 2023 at 04:15:54PM +0800, Tzung-Bi Shih wrote:
+> serdev_device_write_buf() returns negative numbers on errors.  When
+> the return value compares to unsigned integer `len`, it promotes to
+> quite large positive number.
+> 
+> Fix it.
+> 
+> Fixes: 04a8bdd135cc ("platform/chrome: cros_ec_uart: Add transport layer")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> Reported in https://lore.kernel.org/chrome-platform/Y7fhw4S7Tb0GcHMF@kili/T/#u.
+> 
+>  drivers/platform/chrome/cros_ec_uart.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
+> index 6916069f1599..788246559bbb 100644
+> --- a/drivers/platform/chrome/cros_ec_uart.c
+> +++ b/drivers/platform/chrome/cros_ec_uart.c
+> @@ -149,9 +149,10 @@ static int cros_ec_uart_pkt_xfer(struct cros_ec_device *ec_dev,
+>  	resp->status = 0;
+>  
+>  	ret = serdev_device_write_buf(serdev, ec_dev->dout, len);
+> -	if (ret < len) {
+> +	if (ret < 0 || ret < len) {
+>  		dev_err(ec_dev->dev, "Unable to write data\n");
+> -		ret = -EIO;
+> +		if (ret >= 0)
+> +			ret = -EIO;
+>  		goto exit;
+>  	}
 
-They tend to exceed the stack frame size limit in some specific
-environment which results in the following compilation error:
-
->> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: error: stack
-frame size (2128) exceeds limit (2048) in
-'cros_ec_proto_test_get_sensor_count_legacy'
-
-Remove the big stub objects from stack.
-
-This is:
-$ sed -i 's/struct cros_ec_dev /static struct cros_ec_dev /' \
-    drivers/platform/chrome/cros_ec_proto_test.c
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/cros_ec_proto_test.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index 08c58d031593..5b9748e0463b 100644
---- a/drivers/platform/chrome/cros_ec_proto_test.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -2371,7 +2371,7 @@ static void cros_ec_proto_test_get_host_event_normal(struct kunit *test)
- static void cros_ec_proto_test_check_features_cached(struct kunit *test)
- {
- 	int ret, i;
--	struct cros_ec_dev ec;
-+	static struct cros_ec_dev ec;
- 
- 	ec.features.flags[0] = EC_FEATURE_MASK_0(EC_FEATURE_FINGERPRINT);
- 	ec.features.flags[1] = EC_FEATURE_MASK_0(EC_FEATURE_SCP);
-@@ -2396,7 +2396,7 @@ static void cros_ec_proto_test_check_features_not_cached(struct kunit *test)
- 	struct cros_ec_device *ec_dev = &priv->ec_dev;
- 	struct ec_xfer_mock *mock;
- 	int ret, i;
--	struct cros_ec_dev ec;
-+	static struct cros_ec_dev ec;
- 
- 	ec_dev->max_request = 0xff;
- 	ec_dev->max_response = 0xee;
-@@ -2449,7 +2449,7 @@ static void cros_ec_proto_test_get_sensor_count_normal(struct kunit *test)
- 	struct cros_ec_device *ec_dev = &priv->ec_dev;
- 	struct ec_xfer_mock *mock;
- 	int ret;
--	struct cros_ec_dev ec;
-+	static struct cros_ec_dev ec;
- 
- 	ec_dev->max_request = 0xff;
- 	ec_dev->max_response = 0xee;
-@@ -2494,7 +2494,7 @@ static void cros_ec_proto_test_get_sensor_count_xfer_error(struct kunit *test)
- 	struct cros_ec_device *ec_dev = &priv->ec_dev;
- 	struct ec_xfer_mock *mock;
- 	int ret;
--	struct cros_ec_dev ec;
-+	static struct cros_ec_dev ec;
- 
- 	ec_dev->max_request = 0xff;
- 	ec_dev->max_response = 0xee;
-@@ -2534,7 +2534,7 @@ static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
- 	struct cros_ec_device *ec_dev = &priv->ec_dev;
- 	struct ec_xfer_mock *mock;
- 	int ret, i;
--	struct cros_ec_dev ec;
-+	static struct cros_ec_dev ec;
- 	struct {
- 		u8 readmem_data;
- 		int expected_result;
--- 
-2.39.0.246.g2a6d74b583-goog
-
+Does this patch make sense to someone in the mailing list?

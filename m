@@ -1,98 +1,68 @@
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376F2EB21
-	for <chrome-platform@lists.linux.dev>; Tue, 17 Jan 2023 23:02:20 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DF99E3F428;
-	Tue, 17 Jan 2023 23:42:53 +0100 (CET)
-Date: Tue, 17 Jan 2023 23:42:51 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	openbmc@lists.ozlabs.org, linux-imx@nxp.com,
-	linux-stm32@st-md-mailman.stormreply.com, linux-iio@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-arm-msm@vger.kernel.org,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Eugen Hristev <eugen.hristev@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Haibo Chen <haibo.chen@nxp.com>
-Subject: Re: [PATCH v3 12/15] iio: adc: qcom-spmi-adc5: convert to device
- properties
-Message-ID: <20230117224251.wzxexdlfe5ydzjw5@SoMainline.org>
-References: <20220715122903.332535-1-nuno.sa@analog.com>
- <20220715122903.332535-13-nuno.sa@analog.com>
- <20220806192048.0ca41cc5@jic23-huawei>
- <20230116204452.il4gase2szipeexz@SoMainline.org>
- <CAHp75VdX9sFgn9STyzwcDCK1KYbU00ejFNcEP3FVnLk5J=Pktg@mail.gmail.com>
- <CAHp75VdTftm1BE21rH1HVHiwUye-0Dvc66uCK2LE2qF4_zA6hg@mail.gmail.com>
- <CAHp75VdyCA7mQdm--kg=hUbmQqX4-jfFMHgLxref5mNSM1vnMA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B0A15CF
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Jan 2023 03:00:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28FEDC433D2;
+	Wed, 18 Jan 2023 03:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674010818;
+	bh=dhYNUGfgAUuzke7ncAdclomX5aWA2G6NSVKk0LqQ5z4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=XIQreBEEh3GD/lptulfB7WnDAs5IDa+IaHkCQNeUno5NVk44QO5w3bujwltWBZ6PC
+	 B5dWmw5lGYenyLHg1wcq7xR0l+Zh2Ti5CUEbxxd6Pm4v3lAWz6m/+atoXlasFMkKnn
+	 El8rl6oga46lJp8EQrK8K8LqNg3pSjF/PbuTjwitRUgDu4396/jFvIzP5ix2+l3vQY
+	 S26FBhhZQpS/OFsVjmoHzlXD4S+J52EkIqRl2T+MNvtKRLC9Mc7yNa1yyISGVm0+tq
+	 +e4GKMpJpv2aFC3P4e+hLDpnkYMLy9N2JPZWDFANf8bPyPMBAmmvhP1Hs+Vx1QV/dv
+	 C+4zk58RAZXCw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0EE7FC43159;
+	Wed, 18 Jan 2023 03:00:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdyCA7mQdm--kg=hUbmQqX4-jfFMHgLxref5mNSM1vnMA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix negative type promoted to
+ high
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <167401081805.470.10087598903854185198.git-patchwork-notify@kernel.org>
+Date: Wed, 18 Jan 2023 03:00:18 +0000
+References: <20230109081554.3792547-1-tzungbi@kernel.org>
+In-Reply-To: <20230109081554.3792547-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ markhas@chromium.org, bhanumaiya@chromium.org, error27@gmail.com
 
-On 2023-01-17 11:40:42, Andy Shevchenko wrote:
-<snip>
-> > > > This CC just surfaced in my inbox while searching for our current
-> > > > discussion around missing labels in qcom-spmi-vadc - and on the side a
-> > > > userspace @xx label name ABI break (in qcom-spmi-adc5) caused by this
-> > > > patch's fwnode_get_name change - we could've caught it if I had not
-> > > > accidentally marked it as read and/or forgot about it.  My apologies.
-> > >
-> > > Does the following addition to the top of the
-> > > adc5_get_fw_channel_data() fix the issue?
-> > >
-> > > +       name = devm_kasprintf(adc->dev, GFP_KERNEL, "%pfwP", fwnode);
-> > > +       if (!name)
-> > > +               return -ENOMEM;
-> >
-> > Okay, it probably the same, so it might need additional code to
-> >
-> > + name[strchrnul(name, '@') - name] = '\0';
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon,  9 Jan 2023 16:15:54 +0800 you wrote:
+> serdev_device_write_buf() returns negative numbers on errors.  When
+> the return value compares to unsigned integer `len`, it promotes to
+> quite large positive number.
 > 
-> I have just sent a formal patch, please test on top of non-working kernel.
+> Fix it.
+> 
+> Fixes: 04a8bdd135cc ("platform/chrome: cros_ec_uart: Add transport layer")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> 
+> [...]
 
-I would've preferred to fix this in the same way as qcom-spmi-vadc by
-implementing read_label instead and basing it on the DT label or driver
-string literals instead [1], but dropping extend_name (hence changing
-sysfs filenames once again) would be considered an ABI break.
+Here is the summary with links:
+  - platform/chrome: cros_ec_uart: fix negative type promoted to high
+    https://git.kernel.org/chrome-platform/c/8bb233b27fb7
 
-I've instead gone for a similar change that also ignores the node name
-in favour of falling back to the driver string literal (if no "label"
-property is available) while retaining extend_label [3] and the -
-however ugly they are - sysfs filenames, but that'll likely get rejected
-as strictly being an ABI break as well, not in the least because DT
-needs to be patched up [3] for it to work out.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-I'll at least test your patch when getting back to one of these devices.
 
-- Marijn
-
-[1]: https://lore.kernel.org/linux-arm-msm/20230116220909.196926-6-marijn.suijten@somainline.org/
-[2]: https://lore.kernel.org/linux-arm-msm/20230116220909.196926-4-marijn.suijten@somainline.org/
-[3]: https://lore.kernel.org/linux-arm-msm/20221209215308.1781047-1-marijn.suijten@somainline.org/

@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF55823A7;
-	Wed, 18 Jan 2023 06:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 69155C433F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C4423C9
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Jan 2023 06:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 61838C433F0;
 	Wed, 18 Jan 2023 06:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1674022816;
-	bh=U+eNEB5pNf8kJmepNcqpl0b8ZASJfSpZAWblE67GOSs=;
+	bh=Q2bmv6ehrL2mcYBYjpNZJftk82+igsqHDouG96XjYbU=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=SXa1X8Fb6lOcdn6fwdgaYo3eQqBjB19k31Zh47D2XmjKm7FWQ1ReUdnh9ixQot7xX
-	 xlZCLMpRHfOepCKHbkyVhyo2E7XjFFWvYXtiqvbv615o3f7r6bOEuqe1WdZOtl8xxQ
-	 zZoO56VHfUUyos9ayB1V6zPWCvRLZNxRpwuDll1Lk+soK3oXHAm/fslWrEAZ961vjz
-	 Qy7W8IywzujXfB70G1f8IZtfcTB1gPPkuG0YV7JvujYbNoFNCaTGd0iIocJNU4bNxe
-	 U2oVI/WKqbiwNV8kZDySv7OHsuIzGE7ZYvLH4ga065ui5Gbx0vtCGkgW65S31w/hPa
-	 97sKvgbjslK+w==
+	b=TimTplgze3ExtjQc+Lpgz1VXn/K/wZiZxE336niyokNeJJKdGS12wA0DdKOht0KOX
+	 6PAa89QtPWzNfiRRGb+VvSNwdRAyBoUeY00RZ+5Bl9mPj9ZFvp0nWjFk1NLvDN7BLQ
+	 Up4t3n+3lFDbehK9P6Qc55nVZEZbg0bQzUg7zo8IbIa0nZPuEug1foCR4J5SsRkW6s
+	 KkF8fNdl0DhbHGxZYb9mywSE9twBu0XXIyT6HlGQmlioFsrzu8u2iBuEqJ3nxuIIpp
+	 NN/xA5oK/i4dOxHTaRZ0g29g/d19uWkvAT1M6oYJn5vq/lC1w3wRXN4E7a+AFaUlEA
+	 wLCrzc63k8sEw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4E855C73FE7;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4772EC3959E;
 	Wed, 18 Jan 2023 06:20:16 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,39 +26,39 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_proto: remove big stub objects from
- stack
+Subject: Re: [PATCH] platform/chrome: cros_ec_uart: fix negative type promoted to
+ high
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167402281631.11174.10502033632687140262.git-patchwork-notify@kernel.org>
+ <167402281628.11174.15883894212811795712.git-patchwork-notify@kernel.org>
 Date: Wed, 18 Jan 2023 06:20:16 +0000
-References: <20230117080254.2725536-1-tzungbi@kernel.org>
-In-Reply-To: <20230117080254.2725536-1-tzungbi@kernel.org>
+References: <20230109081554.3792547-1-tzungbi@kernel.org>
+In-Reply-To: <20230109081554.3792547-1-tzungbi@kernel.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lkp@intel.com
+ markhas@chromium.org, bhanumaiya@chromium.org, error27@gmail.com
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Tue, 17 Jan 2023 16:02:54 +0800 you wrote:
-> sizeof(struct device) = 680
-> sizeof(struct cros_ec_dev) = 720
+On Mon,  9 Jan 2023 16:15:54 +0800 you wrote:
+> serdev_device_write_buf() returns negative numbers on errors.  When
+> the return value compares to unsigned integer `len`, it promotes to
+> quite large positive number.
 > 
-> They tend to exceed the stack frame size limit in some specific
-> environment which results in the following compilation error:
+> Fix it.
 > 
-> >> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: error: stack
-> frame size (2128) exceeds limit (2048) in
-> 'cros_ec_proto_test_get_sensor_count_legacy'
+> Fixes: 04a8bdd135cc ("platform/chrome: cros_ec_uart: Add transport layer")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > 
 > [...]
 
 Here is the summary with links:
-  - platform/chrome: cros_ec_proto: remove big stub objects from stack
-    https://git.kernel.org/chrome-platform/c/6514bac4a321
+  - platform/chrome: cros_ec_uart: fix negative type promoted to high
+    https://git.kernel.org/chrome-platform/c/8bb233b27fb7
 
 You are awesome, thank you!
 -- 

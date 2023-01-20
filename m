@@ -1,85 +1,134 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D1633C8
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 17:34:23 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id b10so6290528pjo.1
-        for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 09:34:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E203620EF
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 18:50:58 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id g68so4810668pgc.11
+        for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 10:50:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3Qce6k9mwqU5NepWopiJstouIyBahOLCg81PX5JZd30=;
-        b=ZPDBONsa4pvvRK5jyivblqdBW+xQdjUEPbjs7JXsNwiVlHcJ3tL3gbywzoJJ/O2uhw
-         i7pvVM7hGn+zQTy+0Fg48O1bikjvnNmGGPPn1RDkyBVKC4Q/6wv1kof5efl2WbbMhM2x
-         BomDsKoFMuyEsQiOb8Ws0hcri0T0tTPSopg0O1fqjkxrP8U3IbxRrRM3me8hO79pvo8t
-         7zMn5NCYQHfnHr1wx8IMdptfIc8zS1IDj1RpRICWKPoLIzA2mOS4vqnezJZXc2EXynhv
-         STzsCf+UthobniN2ZlbBOjzy/n6XUq/SqdvgzemVPeAdcMh2LFgVSFfObLmG+5v8u/VI
-         TspQ==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gM0RsfTuHckuor3p1wTydYsMS7aWIixLNSsGgZZKJcI=;
+        b=RvC9LKPrewaHEB4mXhWw5HrT0pd9A85zqjbzTTDS2FlcDk5UBhjFjfWTKzyI6c7WC9
+         GdHzuStMSR7RJM3rV/X8/C3hqA7EflZWdB08ngv1tN39gXPfPRrjZmSiQhorlAWbm/oO
+         DHi1fLdZuCQDbrQjJwSBf4y5D/LvFfd3aGeu2kVudVYXL8uH7UoyUt0yFIxgsMe2oq7M
+         rg/bYnbqJx26UjtHURTVXj5Zv1yCnPKH2XCYVCBb5msCX2RvCj5rFYoQmhIvLcv/5qRf
+         xeTG5m5SwI51IuLRNZnUvYrJ+qRRjxxGY+AtzDBKB2oTAFo3UOzvAr95zhzQqASl3pa0
+         OcgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Qce6k9mwqU5NepWopiJstouIyBahOLCg81PX5JZd30=;
-        b=g/H//GW45ubY3A6Nm983C8iC/0Jlt463RWcw6i7zqMUMCykUYrrxJPLIW3Iov1H5oH
-         npZmUGY4tVBgsb+FSVRcqzueCtpf+fHly5T+QOmj9Xijd3CLoX+TpuvP35Dr/PlOzIrH
-         jU8cTuGR1HcB8FcJKtZpbxrPBeIIl6WBG9cbYKG60avRV6cBMiZz1aF7Lb4UOEKtZuKw
-         L1mlBcjsFHNZhRVPf5rWstBoGuBf1k1ztwuWQYW/IsY+VdLBy2DNAAqTtiwN85PZ5hGB
-         qPOIgO4wK5JTmnyuyZYKoQbIBc98XkgYsnX7XqivzgMbLRwtYhslLYbVGQwg6u+8o9i9
-         8HGg==
-X-Gm-Message-State: AFqh2kqvmr0TAFssNEGVPOGW1IxqS9szXDoVBr8Cqy0tTs/vHnFF9qSv
-	ogJwKBu05kPX9v01MaE/qz0=
-X-Google-Smtp-Source: AMrXdXsH7iofW0AYixH1DqxtihjqFnYzTUw4bqjfk+uyoNypBz1JULxrgW1Gn+t76PeQxZdIovQLZw==
-X-Received: by 2002:a17:90b:1652:b0:22b:b6b0:788f with SMTP id il18-20020a17090b165200b0022bb6b0788fmr1964438pjb.14.1674236063174;
-        Fri, 20 Jan 2023 09:34:23 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:3bfe:a22:9187:ed3b])
-        by smtp.gmail.com with ESMTPSA id z17-20020a17090abd9100b00219752c8ea5sm1760839pjr.37.2023.01.20.09.34.21
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gM0RsfTuHckuor3p1wTydYsMS7aWIixLNSsGgZZKJcI=;
+        b=VwIRk/BzI4wtrycgE4/a4fCUkbInQngRrK296nYwxqbKGqyPZ4gr5q4BeQ9DwmIqbT
+         lONhdD4zu5Ae8dLXkQQj/aCET7LnlhJ4Zp4iA/mV1BrwoBKJcrXC+72xJeb8SUGuWzK2
+         2BQOYEaG4v8tDg5hxdjtK+ou1aloFuugCxaupLVVw7aNl+99s8JbJwwBZSA6qPI42+jF
+         06IzN5LuUJp04HkPaly9mo1HWrZGkkUt5RoZH1sazAfB/W+NBGaza5vYF2/px3uJ9gDF
+         HBLXO1zBE88kuosNr5W/kDqHZ1WtU5Q+6fnTc01CElX3aAiOTCLfVr7CvuSFQoqLv3ai
+         G+6A==
+X-Gm-Message-State: AFqh2kr9sarywrMQY6+w3OzoHkCtMgydX+m/gaAE+CzqIedfF+/zQ6MH
+	zyMwL/GSLG5y9mQZrCmDCyQ9aQ==
+X-Google-Smtp-Source: AMrXdXuci1ryQcAp1fGQy5qxEJbH7tBxHv5qkbFfxY7kSWv2Okz0AC9wEQnvzJvLW0/xnnmEJ2t3IQ==
+X-Received: by 2002:aa7:8692:0:b0:582:13b5:d735 with SMTP id d18-20020aa78692000000b0058213b5d735mr287483pfo.0.1674240657900;
+        Fri, 20 Jan 2023 10:50:57 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:67ba:96c6:d11f:daaa])
+        by smtp.gmail.com with ESMTPSA id a7-20020aa795a7000000b0058da56f8b95sm10043637pfk.115.2023.01.20.10.50.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 09:34:22 -0800 (PST)
-Date: Fri, 20 Jan 2023 09:34:19 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	Benson Leung <bleung@chromium.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Derek Huang <derekhuang@google.com>,
-	"Dustin L . Howett" <dustin@howett.net>,
-	Furquan Shaikh <furquan@chromium.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v2] cros_ec_keyb: Add 3 buttons for monitor function
-Message-ID: <Y8rQmxpmf47v7pyS@google.com>
-References: <e23628e2cb464d238eb1c33a9e1e516b@msi.com>
+        Fri, 20 Jan 2023 10:50:56 -0800 (PST)
+Date: Fri, 20 Jan 2023 10:50:51 -0800
+From: Benson Leung <bleung@google.com>
+To: Prashant Malani <pmalani@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	bleung@chromium.org
+Subject: Re: [PATCH] platform/chrome: cros_typec_vdm: Fix VDO copy
+Message-ID: <Y8rii5gRTsi5jEP9@google.com>
+References: <20230113182626.1149539-1-pmalani@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OAoGfFgmeh+HrIz6"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e23628e2cb464d238eb1c33a9e1e516b@msi.com>
+In-Reply-To: <20230113182626.1149539-1-pmalani@chromium.org>
 
-On Fri, Dec 23, 2022 at 07:18:06AM +0000, joewu(吳仲振) wrote:
-> Add 3 extra buttons: 'brightness up', 'brightness down'
-> and 'screen lock' to support monitor manipulating function.
-> 
-> Signed-off-by: Joe Wu <joewu@msi.com>
 
-Applied, thank you.
+--OAoGfFgmeh+HrIz6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Dmitry
+Hi Prashant,
+
+
+On Fri, Jan 13, 2023 at 06:26:26PM +0000, Prashant Malani wrote:
+> The usage of memcpy() affects the representation of the VDOs as they are
+> copied to the EC Host Command buffer. Specifically, all higher order
+> bits get dropped (for example: a VDO of 0x406 just gets copied as 0x6).
+>=20
+> Avoid this by explicitly copying each VDO in the array. The number of
+> VDOs generated by alternate mode drivers in their VDMs is almost always
+> just 1 (apart from the header) so this doesn't affect performance in a
+> meaningful way).
+>=20
+> Fixes: 40a9b13a09ef ("platform/chrome: cros_typec_vdm: Add VDM send suppo=
+rt")
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+
+Reviewed-by: Benson Leung <bleung@chromium.org>
+
+
+> ---
+>  drivers/platform/chrome/cros_typec_vdm.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/platform/chrome/cros_typec_vdm.c b/drivers/platform/=
+chrome/cros_typec_vdm.c
+> index aca9d337118e..06f4a55999c5 100644
+> --- a/drivers/platform/chrome/cros_typec_vdm.c
+> +++ b/drivers/platform/chrome/cros_typec_vdm.c
+> @@ -86,10 +86,12 @@ static int cros_typec_port_amode_vdm(struct typec_alt=
+mode *amode, const u32 hdr,
+>  		.command =3D TYPEC_CONTROL_COMMAND_SEND_VDM_REQ,
+>  	};
+>  	struct typec_vdm_req vdm_req =3D {};
+> +	int i;
+> =20
+>  	vdm_req.vdm_data[0] =3D hdr;
+>  	vdm_req.vdm_data_objects =3D cnt;
+> -	memcpy(&vdm_req.vdm_data[1], vdo, cnt - 1);
+> +	for (i =3D 1; i < cnt; i++)
+> +		vdm_req.vdm_data[i] =3D vdo[i-1];
+>  	vdm_req.partner_type =3D TYPEC_PARTNER_SOP;
+>  	req.vdm_req_params =3D vdm_req;
+> =20
+> --=20
+> 2.39.0.314.g84b9a713c41-goog
+>=20
+>=20
+
+--=20
+Benson Leung
+Staff Software Engineer
+Chrome OS Kernel
+Google Inc.
+bleung@google.com
+Chromium OS Project
+bleung@chromium.org
+
+--OAoGfFgmeh+HrIz6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY8riiwAKCRBzbaomhzOw
+wuSDAQDrAanTBr12LLmQByxqlHex86Ytxgmmh88UxOsHHk7ErQD+N+tIc7j/HkyR
+SOclTL6OB8jx/nYJB82XlIY21rPARgo=
+=AmzF
+-----END PGP SIGNATURE-----
+
+--OAoGfFgmeh+HrIz6--

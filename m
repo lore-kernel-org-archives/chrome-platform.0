@@ -1,134 +1,114 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E203620EF
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 18:50:58 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id g68so4810668pgc.11
-        for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 10:50:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570603209
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 21:15:42 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5018be4ae8eso27434357b3.4
+        for <chrome-platform@lists.linux.dev>; Fri, 20 Jan 2023 13:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gM0RsfTuHckuor3p1wTydYsMS7aWIixLNSsGgZZKJcI=;
-        b=RvC9LKPrewaHEB4mXhWw5HrT0pd9A85zqjbzTTDS2FlcDk5UBhjFjfWTKzyI6c7WC9
-         GdHzuStMSR7RJM3rV/X8/C3hqA7EflZWdB08ngv1tN39gXPfPRrjZmSiQhorlAWbm/oO
-         DHi1fLdZuCQDbrQjJwSBf4y5D/LvFfd3aGeu2kVudVYXL8uH7UoyUt0yFIxgsMe2oq7M
-         rg/bYnbqJx26UjtHURTVXj5Zv1yCnPKH2XCYVCBb5msCX2RvCj5rFYoQmhIvLcv/5qRf
-         xeTG5m5SwI51IuLRNZnUvYrJ+qRRjxxGY+AtzDBKB2oTAFo3UOzvAr95zhzQqASl3pa0
-         OcgQ==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NcIIC1O7Zs3rEuEM0nyGO+WgzZl8Vikm1z2RFIGcKb0=;
+        b=fhs5Iuj4i9tYiLtWZSoxdZ7lQeEEve400Bj1Vri0BU6rTFbqMbm9zOTpruHHGJiSv+
+         45iwza4m7m6J/UZxVCr4lOZWhgR3egS25OP/hJ5DF5TxBJPR6a3YEs64lCSotn3bkRIl
+         EpmHRQpEh50uuJCoQCzB/3vOLGZVErgkFlHxQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gM0RsfTuHckuor3p1wTydYsMS7aWIixLNSsGgZZKJcI=;
-        b=VwIRk/BzI4wtrycgE4/a4fCUkbInQngRrK296nYwxqbKGqyPZ4gr5q4BeQ9DwmIqbT
-         lONhdD4zu5Ae8dLXkQQj/aCET7LnlhJ4Zp4iA/mV1BrwoBKJcrXC+72xJeb8SUGuWzK2
-         2BQOYEaG4v8tDg5hxdjtK+ou1aloFuugCxaupLVVw7aNl+99s8JbJwwBZSA6qPI42+jF
-         06IzN5LuUJp04HkPaly9mo1HWrZGkkUt5RoZH1sazAfB/W+NBGaza5vYF2/px3uJ9gDF
-         HBLXO1zBE88kuosNr5W/kDqHZ1WtU5Q+6fnTc01CElX3aAiOTCLfVr7CvuSFQoqLv3ai
-         G+6A==
-X-Gm-Message-State: AFqh2kr9sarywrMQY6+w3OzoHkCtMgydX+m/gaAE+CzqIedfF+/zQ6MH
-	zyMwL/GSLG5y9mQZrCmDCyQ9aQ==
-X-Google-Smtp-Source: AMrXdXuci1ryQcAp1fGQy5qxEJbH7tBxHv5qkbFfxY7kSWv2Okz0AC9wEQnvzJvLW0/xnnmEJ2t3IQ==
-X-Received: by 2002:aa7:8692:0:b0:582:13b5:d735 with SMTP id d18-20020aa78692000000b0058213b5d735mr287483pfo.0.1674240657900;
-        Fri, 20 Jan 2023 10:50:57 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:67ba:96c6:d11f:daaa])
-        by smtp.gmail.com with ESMTPSA id a7-20020aa795a7000000b0058da56f8b95sm10043637pfk.115.2023.01.20.10.50.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 10:50:56 -0800 (PST)
-Date: Fri, 20 Jan 2023 10:50:51 -0800
-From: Benson Leung <bleung@google.com>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	bleung@chromium.org
-Subject: Re: [PATCH] platform/chrome: cros_typec_vdm: Fix VDO copy
-Message-ID: <Y8rii5gRTsi5jEP9@google.com>
-References: <20230113182626.1149539-1-pmalani@chromium.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NcIIC1O7Zs3rEuEM0nyGO+WgzZl8Vikm1z2RFIGcKb0=;
+        b=hCinEPed9Pg2VgL6TZBTXJnK2RKfQiTkL+7DMXJEo1wPUwBbU0ENPOP3ciTRvJYkiW
+         kMYoQVnPa0JjMnljooqDtFx7U4d14eA7PfnT5S1WvLPZZURsCCU1BulzHGiRCLohXsdu
+         Yi79+/oGjajCnKc9Z1eJjwIOrsxEsNmc0l3UJHs83+Xw4e39m8qw4FqoyZQ/+ApQ4IM+
+         tolCaaaKqskyad/Y2wXSsG2+0fYldfEvoEQ3amsP8nwuJoFMWyaef2HvG680UVnQXL/U
+         wooNrgxmArMvbL/ELb41+4AEqXuRlNcf3Hp1dzyiXKTr+/fiFn36/4aPph/vHMYVLSz2
+         QSbA==
+X-Gm-Message-State: AFqh2kqjybfR+fJ52Owgi2ghM89CcOkvXCnwyPub9yB0Ee8OeeDlMajQ
+	tQ0iDvObbpykMko/anQ2py6qYja7hzdVu35IM0ir/w==
+X-Google-Smtp-Source: AMrXdXuzhv476FXH02ilyJSYLORoSx3+kBVAKevbSIn6Qmw3KTvOzqgdIKhThap2Fmmuhb9Bgf50pSjtYaxEVyXLlAg=
+X-Received: by 2002:a0d:e8c9:0:b0:4e0:7220:22fd with SMTP id
+ r192-20020a0de8c9000000b004e0722022fdmr2086808ywe.272.1674249341272; Fri, 20
+ Jan 2023 13:15:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OAoGfFgmeh+HrIz6"
-Content-Disposition: inline
-In-Reply-To: <20230113182626.1149539-1-pmalani@chromium.org>
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-2-treapking@chromium.org> <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+ <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com> <Y8VL/+My+s/PkG9L@paasikivi.fi.intel.com>
+In-Reply-To: <Y8VL/+My+s/PkG9L@paasikivi.fi.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Fri, 20 Jan 2023 13:15:30 -0800
+Message-ID: <CACeCKaeaQ+LHsnwdqtTA=O3Q=0dWz8_uNjXoNu5J_u4+HQLMsg@mail.gmail.com>
+Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon matcher
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Stephen Boyd <swboyd@chromium.org>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Marek Vasut <marex@denx.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, 
+	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, chrome-platform@lists.linux.dev, 
+	Xin Ji <xji@analogixsemi.com>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
+	Allen Chen <allen.chen@ite.com.tw>, linux-acpi@vger.kernel.org, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, Jan 16, 2023 at 5:07 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prashant,
+>
+> On Thu, Jan 12, 2023 at 02:31:45PM -0800, Prashant Malani wrote:
+> > HI Sakari,
+> >
+> > On Thu, Jan 12, 2023 at 5:32 AM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Pin-yen,
+> > >
+> > > On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
+> > > > From: Prashant Malani <pmalani@chromium.org>
+> > > > +             /*
+> > > > +              * Some drivers may register devices for endpoints. Check
+> > > > +              * the remote-endpoints for matches in addition to the remote
+> > > > +              * port parent.
+> > > > +              */
+> > > > +             node = fwnode_graph_get_remote_endpoint(ep);
+> > > > +             if (fwnode_device_is_available(node)) {
+> > > > +                     ret = match(node, con_id, data);
+> > > > +                     if (ret) {
+> > > > +                             if (matches)
+> > > > +                                     matches[count] = ret;
+> > > > +                             count++;
+> > > > +                     }
+> > > > +             }
+> > >
+> > > Aren't you missing fwnode_handle-put(node) here??
+> >
+> > It shouldn't be necessary. We aren't break-ing/continue-ing here,
+> > and fwnode_handle_put(node) is called latter in the loop [1][2]
+>
+> It is, but node is overwritten just below this chunk --- before
+> fwnode_handle_put() is called on it.
 
---OAoGfFgmeh+HrIz6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ack. Thanks for pointing that out. My bad!
 
-Hi Prashant,
+Pin-yen, please make this update when you send out a v11.
 
+BR,
 
-On Fri, Jan 13, 2023 at 06:26:26PM +0000, Prashant Malani wrote:
-> The usage of memcpy() affects the representation of the VDOs as they are
-> copied to the EC Host Command buffer. Specifically, all higher order
-> bits get dropped (for example: a VDO of 0x406 just gets copied as 0x6).
->=20
-> Avoid this by explicitly copying each VDO in the array. The number of
-> VDOs generated by alternate mode drivers in their VDMs is almost always
-> just 1 (apart from the header) so this doesn't affect performance in a
-> meaningful way).
->=20
-> Fixes: 40a9b13a09ef ("platform/chrome: cros_typec_vdm: Add VDM send suppo=
-rt")
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-
-Reviewed-by: Benson Leung <bleung@chromium.org>
-
-
-> ---
->  drivers/platform/chrome/cros_typec_vdm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/platform/chrome/cros_typec_vdm.c b/drivers/platform/=
-chrome/cros_typec_vdm.c
-> index aca9d337118e..06f4a55999c5 100644
-> --- a/drivers/platform/chrome/cros_typec_vdm.c
-> +++ b/drivers/platform/chrome/cros_typec_vdm.c
-> @@ -86,10 +86,12 @@ static int cros_typec_port_amode_vdm(struct typec_alt=
-mode *amode, const u32 hdr,
->  		.command =3D TYPEC_CONTROL_COMMAND_SEND_VDM_REQ,
->  	};
->  	struct typec_vdm_req vdm_req =3D {};
-> +	int i;
-> =20
->  	vdm_req.vdm_data[0] =3D hdr;
->  	vdm_req.vdm_data_objects =3D cnt;
-> -	memcpy(&vdm_req.vdm_data[1], vdo, cnt - 1);
-> +	for (i =3D 1; i < cnt; i++)
-> +		vdm_req.vdm_data[i] =3D vdo[i-1];
->  	vdm_req.partner_type =3D TYPEC_PARTNER_SOP;
->  	req.vdm_req_params =3D vdm_req;
-> =20
-> --=20
-> 2.39.0.314.g84b9a713c41-goog
->=20
->=20
-
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org
-
---OAoGfFgmeh+HrIz6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCY8riiwAKCRBzbaomhzOw
-wuSDAQDrAanTBr12LLmQByxqlHex86Ytxgmmh88UxOsHHk7ErQD+N+tIc7j/HkyR
-SOclTL6OB8jx/nYJB82XlIY21rPARgo=
-=AmzF
------END PGP SIGNATURE-----
-
---OAoGfFgmeh+HrIz6--
+-Prashant

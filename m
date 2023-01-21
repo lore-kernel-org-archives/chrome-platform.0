@@ -1,90 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2B47E
-	for <chrome-platform@lists.linux.dev>; Sat, 21 Jan 2023 07:26:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD741C433D2;
-	Sat, 21 Jan 2023 07:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1674286010;
-	bh=dJ/yx41Bu83Mk/SGvl/isbFz7gan1Q9OejyPTg72ciI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z+QX6XADfzw5u/dOUk0mPTLrP8OD3PqfVEtA2CFrbbKewBLcHo1PJFfz4P+LEKzUN
-	 nAboJsALzofE0VwYpXKpqgr0X1T8fXOAKKMqkeVqk+p4M0HeROZ39GbQ/cAoqCX08b
-	 SRQApkODG1MuaqARrp/ypUoaeITwXzMDHe+9DEG0=
-Date: Sat, 21 Jan 2023 08:26:47 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Joe Wu <joewu@msi.corp-partner.google.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>, linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	Derek Huang <derekhuang@google.com>,
-	"Dustin L . Howett" <dustin@howett.net>, Joe Wu <joewu@msi.com>,
-	Furquan Shaikh <furquan@chromium.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Message-ID: <Y8uTt3zXgGPmevkb@kroah.com>
-References: <20221222063950.26018-1-joewu@msi.com>
- <Y8p6THz2jjKEoMrJ@kroah.com>
- <Y8rOQqhWcVAv8gmN@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85F8748E
+	for <chrome-platform@lists.linux.dev>; Sat, 21 Jan 2023 17:03:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6A7C433D2;
+	Sat, 21 Jan 2023 17:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674320612;
+	bh=KDw/+vNJAi/mknOa0WX6Ng3Q/0RA2pHOSwGQq7+EYNo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HuAvhLjB/S0zc04GEtF9VGWcCB7qG5XdOX/vEN1tGnJurqUyU5Va8pjleX2BpqDMx
+	 1DBYEjVEnjBFx5TMJxCJXI7zrpQMWIMOexR1+df1B4bLny8/4vt2pzpJZmJyEfGgpQ
+	 VaalUoUBfg8Dg4BGmjUOzfEOW1RNNXiRf2hG+bdlbc+nqCoVFoQYaZC7SIcN3wQKYS
+	 vl/n8mO8rxnNzKFz6fOMO41bk802GYjzq+d/1MlwM8VFj0YnJsDTSbb/R2tuxHnaxy
+	 qtLkTzSJsB5UF4h5o5eq5Uixb94jhF7dkj3tZNB291jWt2N+6/jKr2Cl253RK7dQIq
+	 Y9ouSKjMPjr8g==
+Date: Sat, 21 Jan 2023 17:17:09 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lucas Stankus
+ <lucas.p.stankus@gmail.com>, Puranjay Mohan <puranjay12@gmail.com>, Dmitry
+ Rokosov <ddrokosov@sberdevices.ru>, Alexandru Tachici
+ <alexandru.tachici@analog.com>, Marcelo Schmitt
+ <marcelo.schmitt1@gmail.com>, Renato Lui Geh <renatogeh@gmail.com>, Eugen
+ Hristev <eugen.hristev@microchip.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Andreas Klinger <ak@it-klinger.de>, Marcus
+ Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Oleksij Rempel
+ <linux@rempel-privat.de>, kernel@pengutronix.de, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Nishant Malpani <nish.malpani25@gmail.com>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Dragos Bogdan <dragos.bogdan@analog.com>,
+ Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>, Lorenzo Bianconi
+ <lorenzo@kernel.org>, Benson Leung <bleung@chromium.org>, Guenter Roeck
+ <groeck@chromium.org>, Stefan Popa <stefan.popa@analog.com>, Robert Yang
+ <decatf@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Artur Rojek
+ <contact@artur-rojek.eu>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Philippe Reynes <tremyfr@yahoo.fr>, Alexandru Lazar <alazar@startmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Caleb Connolly
+ <caleb.connolly@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Stefan Agner <stefan@agner.ch>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Harald Geyer <harald@ccbib.org>, Eugene Zaikonnikov <ez@norophonic.com>,
+ Phil Reid <preid@electromag.com.au>, Matt Ranostay
+ <matt.ranostay@konsulko.com>, Stephen Boyd <swboyd@chromium.org>, Sankar
+ Velliangiri <navin@linumiz.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 3/5] dt-bindings: iio: correct node names in examples
+Message-ID: <20230121171709.5eb75e94@jic23-huawei>
+In-Reply-To: <20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
+References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+	<20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y8rOQqhWcVAv8gmN@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 20, 2023 at 09:24:18AM -0800, Dmitry Torokhov wrote:
-> On Fri, Jan 20, 2023 at 12:26:04PM +0100, Greg Kroah-Hartman wrote:
-> > On Thu, Dec 22, 2022 at 02:39:50PM +0800, Joe Wu wrote:
-> > > Add 3 extra buttons: 'brightness up', 'brightness down'
-> > > and 'screen lock' to support monitor manipulating function.
-> > > 
-> > > Signed-off-by: Joe Wu <joewu@msi.com>
-> > 
-> > From: line does not match the signed-off-by (and is an invalid email
-> > address...)
+On Wed, 18 Jan 2023 19:44:11 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> Do not use underscores and unneeded suffixes (e.g. i2c0) in node name in
+> examples.
 > 
-> What do you mean "it's an invalid email address"? You can definitely
-> send emails there... I prefer people not to use Google partner domain
-> accounts in the hope that their employment might outlast their
-> involvement in Google projects, but that is it.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-I was told that this was not a valid email address to send and receive
-emails from, and was only an email alias given to companies to interact
-with Google through their gerrit systems.  If that is incorrect, I'll
-not complain about this anymore, but someone needs to please verify this
-for me before I do so :)
+> diff --git a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> index 6c5ad426a016..12f75ddc4a70 100644
+> --- a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> +++ b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> @@ -42,7 +42,7 @@ examples:
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>  
+> -        heart_mon@0 {
+> +        heart-rate@0 {
 
-But even if it is valid, should we accept it as a way to get in contact
-with the original submitter over time?
+These are both heart-rate and pulse oximeters so measure more than just
+the rate (oxygen saturation in the blood). Reality is they actually
+measure light absorption over time, but you can calculate an estimate
+of both rate and oxygen saturation from that.
 
-> I think if we ask people to stick "From: <whatever the company address
-> is" in the body of the patch we can ignore the difference between sender
-> address and from/signed-off-by when they use partner domain accounts. If
-> anything, such accounts have better vetting than a random gmail or other
-> free email service account some vendors have to create to be able to
-> send a plain-text emails that we require. I mean, we have
-> "Signed-off-by: George Spelvin <lkml@sdf.org>" present in our git
-> history and nobody bats an eye...
+I don't really mind simplifying that to heart-rate, but wanted to
+call this out for possible discussion.
 
-Oh lots of people "batted an eye" about that one, I've had too many
-meetings with lawyers about that, which is one reason I now verify email
-addresses like I did here.
 
-thanks,
+>              compatible = "ti,afe4403";
+>              reg = <0>;
+>              spi-max-frequency = <10000000>;
+> diff --git a/Documentation/devicetree/bindings/iio/health/ti,afe4404.yaml b/Documentation/devicetree/bindings/iio/health/ti,afe4404.yaml
+> index c0e815d9999e..b334f3e356ad 100644
+> --- a/Documentation/devicetree/bindings/iio/health/ti,afe4404.yaml
+> +++ b/Documentation/devicetree/bindings/iio/health/ti,afe4404.yaml
+> @@ -39,7 +39,7 @@ examples:
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>  
+> -        heart_mon@58 {
+> +        heart-rate@58 {
+>              compatible = "ti,afe4404";
+>              reg = <0x58>;
+>              tx-supply = <&vbat>;
 
-greg k-h
+The rest are all fine.  If no one comments I'll pick this up as it is in a few
+days.
+
+Jonathan

@@ -1,119 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C859138D
-	for <chrome-platform@lists.linux.dev>; Sun, 22 Jan 2023 16:47:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D688C433EF;
-	Sun, 22 Jan 2023 16:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674406048;
-	bh=SvajHjiCSIBlcZUdVxMgRSWO0gJsGtBYT+mr1EHeu0o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HJZbJrnWcLLnDqOiDRQFyTuKeSBq7CbUfFHZzlhHwR68aZIpTBcnnH7lrVDHATIJ5
-	 w/Mzn1otM7LO+JhZgcF1eRjNkHrIX6kH73HUxsbtJpGx+ipM17Qa0hyxxMfQoix/Tf
-	 r1748utHDH2gwfl5+RJVcuDS4ArHPfoVaxwDRawNux1S9sdh2RCaapXMO7IYw2RywK
-	 8xy5xC0S7ec1wTzznrVHpd5sWmDaTKeuBj9DX4zXAVFJbGtMB2BbVg9U+46uDVAwvb
-	 mW3+T17DR98iKb/CTcKr2rU5fUJe4wEpXkmpsi/iTJG+Z0//Kr2KoAJJpvWkIqgRKh
-	 kv6ZWW4lNc7Nw==
-Date: Sun, 22 Jan 2023 17:01:05 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lucas Stankus
- <lucas.p.stankus@gmail.com>, Puranjay Mohan <puranjay12@gmail.com>, Dmitry
- Rokosov <ddrokosov@sberdevices.ru>, Alexandru Tachici
- <alexandru.tachici@analog.com>, Marcelo Schmitt
- <marcelo.schmitt1@gmail.com>, Renato Lui Geh <renatogeh@gmail.com>, Eugen
- Hristev <eugen.hristev@microchip.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Andreas Klinger <ak@it-klinger.de>, Marcus
- Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Alim Akhtar
- <alim.akhtar@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Oleksij Rempel
- <linux@rempel-privat.de>, kernel@pengutronix.de, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Nishant Malpani <nish.malpani25@gmail.com>, Rui
- Miguel Silva <rmfrfs@gmail.com>, Dragos Bogdan <dragos.bogdan@analog.com>,
- Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, Benson Leung <bleung@chromium.org>, Guenter Roeck
- <groeck@chromium.org>, Stefan Popa <stefan.popa@analog.com>, Robert Yang
- <decatf@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Artur Rojek
- <contact@artur-rojek.eu>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Philippe Reynes <tremyfr@yahoo.fr>, Alexandru Lazar <alazar@startmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Caleb Connolly
- <caleb.connolly@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Stefan Agner <stefan@agner.ch>, Daniel Baluta <daniel.baluta@nxp.com>,
- Harald Geyer <harald@ccbib.org>, Eugene Zaikonnikov <ez@norophonic.com>,
- Phil Reid <preid@electromag.com.au>, Matt Ranostay
- <matt.ranostay@konsulko.com>, Stephen Boyd <swboyd@chromium.org>, Sankar
- Velliangiri <navin@linumiz.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 3/5] dt-bindings: iio: correct node names in examples
-Message-ID: <20230122170105.6a1a9766@jic23-huawei>
-In-Reply-To: <45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
-References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
-	<20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
-	<20230121171709.5eb75e94@jic23-huawei>
-	<45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC8BA4F
+	for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 09:36:45 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id i1so8318386pfk.3
+        for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 01:36:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SFYzShK5REiM5CKMrVZytypQd+WfwC4rc1Yywb/Eki8=;
+        b=KEd/7q40xnCCvJ/LmtQxG11kIuVJDt9n6RS0gxD4tXS0+IvlgcY0oLp1AMwkfsuJ7A
+         /k3gbdBtyBc54S9CsIkJr3XbApvmP/hGGGhunLr94b6R1MQGxwcwYrh5VEZP4qhDrSR8
+         wyEPVyvToL4EWm+agqnIh/Bk2K0KWIyWu6GxU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SFYzShK5REiM5CKMrVZytypQd+WfwC4rc1Yywb/Eki8=;
+        b=0YoEXgWAQJRviReq0LIc9+z9XYz+GLZlyCLfbL+hY5I4U/29Beq/kDsZu8PWBYcV+r
+         UJZkKMLyPrlXgNlBkXLGguXeXOsWATdrZ8AM95A8qm/C59ANWopNHk5hB7E9gf4kK0+b
+         rFCH/hWW6j+6+hfdwe23zBeXbkPM7smMa5YYcQJLBhV8KR+QqDnRbpTYC+d6Nu79gbQd
+         cyy0JE458TS7+6DbHkvKJCejhefxF6U52eBnhioy7VhcfA52yeS+l79nWlHIpD+HNhTK
+         ElaVucymYcJ4XtRNq8k6Y+asQQDvpkdj9CNoHdjfHJUYKzRLQarNITgpPC/lmOGt3dOT
+         Q+8A==
+X-Gm-Message-State: AFqh2krcY6SWW7hMcDBnVP26pEraYkMnkqDgouWqZZbNIJwxFNEeCpZT
+	+9XQi1HMbH74DZLZ3vq65Jpa5A==
+X-Google-Smtp-Source: AMrXdXuBya1dQ6d3uii7yx3u6Pukr1ObaBXUwgPT4hfUQ+czkewaLHVKhuAcAOb0HnUGsDjItVpldQ==
+X-Received: by 2002:a05:6a00:f07:b0:581:61a7:c8f0 with SMTP id cr7-20020a056a000f0700b0058161a7c8f0mr24701076pfb.4.1674466605148;
+        Mon, 23 Jan 2023 01:36:45 -0800 (PST)
+Received: from localhost ([2401:fa00:9:14:92d9:f31f:cbe8:b7e7])
+        by smtp.gmail.com with UTF8SMTPSA id 190-20020a6219c7000000b00589d91962d5sm25319731pfz.195.2023.01.23.01.36.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 01:36:44 -0800 (PST)
+From: Victor Ding <victording@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: gustavoars@kernel.org,
+	heikki.krogerus@linux.intel.com,
+	dnojiri@chromium.org,
+	dustin@howett.net,
+	lee.jones@linaro.org,
+	tzungbi@kernel.org,
+	groeck@chromium.org,
+	gregkh@linuxfoundation.org,
+	pmalani@chromium.org,
+	tinghan.shen@mediatek.com,
+	sebastian.reichel@collabora.com,
+	enric.balletbo@collabora.com,
+	bleung@chromium.org,
+	Victor Ding <victording@chromium.org>
+Subject: [PATCH] platform/chrome: cros_ec_typec: allow deferred probe of switch handles
+Date: Mon, 23 Jan 2023 09:36:20 +0000
+Message-Id: <20230123093609.1.I6c0a089123fdf143f94ef4cca8677639031856cf@changeid>
+X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 21 Jan 2023 19:31:23 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+`fwnode_typec_{retimer,mux,switch}_get()` could return `-EPROBE_DEFER`,
+which is called from `cros_typec_get_switch_handles`. When this happens,
+it does not indicate absence of switches; instead, it only hints that
+probing of switches should occur at a later time.
 
-> On 21/01/2023 18:17, Jonathan Cameron wrote:
-> > On Wed, 18 Jan 2023 19:44:11 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >   
-> >> Do not use underscores and unneeded suffixes (e.g. i2c0) in node name in
-> >> examples.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >> ---  
-> >   
-> >> diff --git a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
-> >> index 6c5ad426a016..12f75ddc4a70 100644
-> >> --- a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
-> >> +++ b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
-> >> @@ -42,7 +42,7 @@ examples:
-> >>          #address-cells = <1>;
-> >>          #size-cells = <0>;
-> >>  
-> >> -        heart_mon@0 {
-> >> +        heart-rate@0 {  
-> > 
-> > These are both heart-rate and pulse oximeters so measure more than just
-> > the rate (oxygen saturation in the blood). Reality is they actually
-> > measure light absorption over time, but you can calculate an estimate
-> > of both rate and oxygen saturation from that.
-> > 
-> > I don't really mind simplifying that to heart-rate, but wanted to
-> > call this out for possible discussion.  
-> 
-> They could be heart-mon. The fix is mostly around the underscore. I
-> don't have any arguments for changing it to heart-rate, thus we can go
-> with whatever you prefer.
-I'm fine with either and as we have a patch with heart-rate that wins
-currently. I'll just let this sit for a little longer than
-normal to see if we get any other responses!
+Progagate `-EPROBE_DEFER` to upper layer logic so that they can re-try
+probing switches as a better time.
 
-Thanks,
+Signed-off-by: Victor Ding <victording@chromium.org>
+---
 
-Jonathan
-> 
-> Best regards,
-> Krzysztof
-> 
+ drivers/platform/chrome/cros_ec_typec.c | 30 +++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 59de4ce01fab..f4b3fc788491 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -145,31 +145,37 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+ 					 struct fwnode_handle *fwnode,
+ 					 struct device *dev)
+ {
++	int ret = 0;
++
+ 	port->mux = fwnode_typec_mux_get(fwnode, NULL);
+ 	if (IS_ERR(port->mux)) {
+-		dev_dbg(dev, "Mux handle not found.\n");
++		ret = PTR_ERR(port->mux);
++		dev_dbg(dev, "Mux handle not found: %d.\n", ret);
+ 		goto mux_err;
+ 	}
+ 
+ 	port->retimer = fwnode_typec_retimer_get(fwnode);
+ 	if (IS_ERR(port->retimer)) {
+-		dev_dbg(dev, "Retimer handle not found.\n");
++		ret = PTR_ERR(port->retimer);
++		dev_dbg(dev, "Retimer handle not found: %d.\n", ret);
+ 		goto retimer_sw_err;
+ 	}
+ 
+ 	port->ori_sw = fwnode_typec_switch_get(fwnode);
+ 	if (IS_ERR(port->ori_sw)) {
+-		dev_dbg(dev, "Orientation switch handle not found.\n");
++		ret = PTR_ERR(port->ori_sw);
++		dev_dbg(dev, "Orientation switch handle not found: %d\n", ret);
+ 		goto ori_sw_err;
+ 	}
+ 
+ 	port->role_sw = fwnode_usb_role_switch_get(fwnode);
+ 	if (IS_ERR(port->role_sw)) {
+-		dev_dbg(dev, "USB role switch handle not found.\n");
++		ret = PTR_ERR(port->role_sw);
++		dev_dbg(dev, "USB role switch handle not found: %d\n", ret);
+ 		goto role_sw_err;
+ 	}
+ 
+-	return 0;
++	return ret;
+ 
+ role_sw_err:
+ 	typec_switch_put(port->ori_sw);
+@@ -181,7 +187,7 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+ 	typec_mux_put(port->mux);
+ 	port->mux = NULL;
+ mux_err:
+-	return -ENODEV;
++	return ret;
+ }
+ 
+ static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
+@@ -423,9 +429,15 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 		}
+ 
+ 		ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
+-		if (ret)
+-			dev_dbg(dev, "No switch control for port %d\n",
+-				port_num);
++		switch (ret) {
++		case 0:
++			break;
++		case -EPROBE_DEFER:
++			dev_err(dev, "Deferring getting switch handles at port %d\n", port_num);
++			goto unregister_ports;
++		default:
++			dev_dbg(dev, "No switch control for port %d, err: %d\n", port_num, ret);
++		}
+ 
+ 		ret = cros_typec_register_port_altmodes(typec, port_num);
+ 		if (ret) {
+-- 
+2.39.0.246.g2a6d74b583-goog
 

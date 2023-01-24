@@ -1,60 +1,108 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF057C
-	for <chrome-platform@lists.linux.dev>; Tue, 24 Jan 2023 07:56:42 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id d3so13943044plr.10
-        for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 23:56:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DD37C
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Jan 2023 08:10:45 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so466986wmq.1
+        for <chrome-platform@lists.linux.dev>; Tue, 24 Jan 2023 00:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IehvW+ytjBjOfr0jydrmbHO2zJBLkzx2YGJHGnzqhIs=;
-        b=ieHxGjYP8uzW4ht7awbJlp0w57w+d3HLN/c5Rpqv9ec8UY15FIC9zl4hbfuNFqvMXS
-         +1DHL18xYK4z4sNc5GOQ3vTQk1rY8vSyc4NfPpbQycd6rXjX5DOPYAXZCHpjN/kIvo3a
-         VcxuW7hNdsqrJXKqx9WmBg4iCQvJQBQRz+OIg=
+        bh=HDBXPzEBEMUMcYttzjE6XC4dike+I8A3aqRiNL5fB5M=;
+        b=MuFmJfVQiQrKuFbkGv/+Lr6V4Lo9anW9vunbRGWfikiJL0XXLRfF5Zmv3PsCI4Wtlh
+         EXdfHQZdwfLgUC1EV68jvRNNVtA7FjIB+/KD87v0Itibq5pu7LnrBVK5c8Kqe4a0/Cv1
+         aeF0IP6x812yLbtfIzkHPmTjxx4KFZH8nRIga4nHtICr7hEve5wK7jBdy8ROywzq3VR+
+         jg/MWkMLCcVQxRzAY92G81KVQ9LHyvNaD7UV/MbVdhBPtt67UhWiZodmSLO4DV9W6wSN
+         8v21EcmKhSrmfpGksHpZjAscOCNiCK6BhYbqvzLXa+WfukK2ivwa2Eb4UJ3lZtmnu18T
+         GUCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IehvW+ytjBjOfr0jydrmbHO2zJBLkzx2YGJHGnzqhIs=;
-        b=5BzfJyXbGUfBF4mx93QPegDfRl5LMaaikrHIcyw1qif/8Iid6Rd8IgSyREkWBvPC+t
-         sIztJjwwrt7zbI3iBnhQzRNKtS7xEio7eGLDqgbVCysfirFUIfwzOvT2vhR5Qc6wc6hq
-         JbDEfg/ub9KIH5rKRuhqZmf/31re8T27YZzEFGo4ME71FQykorH98eZn4uMESRhUxC12
-         g63PbkaFo2P5SwHciyDWAP68dANX7S2d7S96cIlvBK0c/+t5+3dxt4XfDXfzQFjcomOb
-         J7fEHvNTNhKhJQXGhAmV4n7g/7968AeLIs5GcjYHmmHHh1/xycWeb+rc15H2bIQj1hHW
-         lUVw==
-X-Gm-Message-State: AO0yUKWMT0hrJrBEu07e7qq7KmGoanGuYGV3jsOkYGzXHvW7NEIthETz
-	/B6k/DdBm3Egvp0Uhy6ehfpUlQ==
-X-Google-Smtp-Source: AK7set8ZncBvg0s//J6Daa/MO2C9pY4Ac7/ua4mDRMZHFDHgfdR6jtnM16WToqPBhBhXS7U/oPT2tA==
-X-Received: by 2002:a17:902:d4cc:b0:196:11ae:95f1 with SMTP id o12-20020a170902d4cc00b0019611ae95f1mr2252872plg.24.1674547001696;
-        Mon, 23 Jan 2023 23:56:41 -0800 (PST)
-Received: from localhost ([2401:fa00:9:14:92d9:f31f:cbe8:b7e7])
-        by smtp.gmail.com with UTF8SMTPSA id w23-20020a1709027b9700b00189743ed3b6sm1003340pll.64.2023.01.23.23.56.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 23:56:41 -0800 (PST)
-From: Victor Ding <victording@chromium.org>
-To: linux-kernel@vger.kernel.org,
+        bh=HDBXPzEBEMUMcYttzjE6XC4dike+I8A3aqRiNL5fB5M=;
+        b=4HGKw24zsVVJkE4Q162LAfyv/85uzBJNZiq3qXCEHZu41hJQMxgsUUUybNX3tHw9g8
+         fL8EyA05cDGGNng2i+rbK7EbOarbeMgS3fXPJmODkm9doqhSiX9WBzhYkAfLkXE5G0ib
+         MpAnOYAyhXoBVG9HQJp1Wb1ePkVqjbXJP/eC/B/NeGC/bVJCgCpbXMZDfCD5ngwN/h4f
+         VUzNGxGovqxMj2Fg+JVozrIdO89tQuy8hb4qzfq7vWTNU254bQvoGYatQgp679UIp1I/
+         0Nun29Uvn/Bsnpej9c/uBATvkVedynL4TVYV3tnKPbMF5+qmsz68GI6mSgW8hPcpr9mW
+         EKxw==
+X-Gm-Message-State: AFqh2koX8SzE991JM80HZpuEDB5gLyJORMsAMOhmIfSYESRNb7i4zHjI
+	NDAUS95XNw91S9HYmAhRxFvQWA==
+X-Google-Smtp-Source: AMrXdXvbS5Dj/VcEcyhy1kd6qTcOjfb6MLSocATeXYfIZnQmQ4v0lCOduFFTknv+AcgKAl5IOjzV/A==
+X-Received: by 2002:a05:600c:982:b0:3da:f5b5:13ec with SMTP id w2-20020a05600c098200b003daf5b513ecmr25537236wmp.34.1674547844074;
+        Tue, 24 Jan 2023 00:10:44 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id k21-20020a05600c1c9500b003db30be4a54sm13459779wms.38.2023.01.24.00.10.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 00:10:43 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Lucas Stankus <lucas.p.stankus@gmail.com>,
+	Puranjay Mohan <puranjay12@gmail.com>,
+	Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+	Alexandru Tachici <alexandru.tachici@analog.com>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	Renato Lui Geh <renatogeh@gmail.com>,
+	Eugen Hristev <eugen.hristev@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Andreas Klinger <ak@it-klinger.de>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	kernel@pengutronix.de,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Nishant Malpani <nish.malpani25@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Dragos Bogdan <dragos.bogdan@analog.com>,
+	Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Stefan Popa <stefan.popa@analog.com>,
+	Robert Yang <decatf@gmail.com>,
+	Sean Nyekjaer <sean@geanix.com>,
+	Artur Rojek <contact@artur-rojek.eu>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Philippe Reynes <tremyfr@yahoo.fr>,
+	Alexandru Lazar <alazar@startmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Harald Geyer <harald@ccbib.org>,
+	Eugene Zaikonnikov <ez@norophonic.com>,
+	Phil Reid <preid@electromag.com.au>,
+	Matt Ranostay <matt.ranostay@konsulko.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Sankar Velliangiri <navin@linumiz.com>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	chrome-platform@lists.linux.dev
-Cc: heikki.krogerus@linux.intel.com,
-	lee.jones@linaro.org,
-	groeck@chromium.org,
-	enric.balletbo@collabora.com,
-	tzungbi@kernel.org,
-	sebastian.reichel@collabora.com,
-	gregkh@linuxfoundation.org,
-	gustavoars@kernel.org,
-	bleung@chromium.org,
-	dustin@howett.net,
-	dnojiri@chromium.org,
-	tinghan.shen@mediatek.com,
-	pmalani@chromium.org,
-	Victor Ding <victording@chromium.org>
-Subject: [PATCH v3] platform/chrome: cros_ec_typec: allow deferred probe of switch handles
-Date: Tue, 24 Jan 2023 07:56:32 +0000
-Message-Id: <20230124075555.v3.1.I6c0a089123fdf143f94ef4cca8677639031856cf@changeid>
-X-Mailer: git-send-email 2.39.1.405.gd4c25cc71f-goog
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/5] dt-bindings: iio: drop unneeded quotes
+Date: Tue, 24 Jan 2023 09:10:33 +0100
+Message-Id: <20230124081037.31013-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,92 +111,296 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-`fwnode_typec_{retimer,mux,switch}_get()` could return `-EPROBE_DEFER`,
-which is called from `cros_typec_get_switch_handles`. When this happens,
-it does not indicate absence of switches; instead, it only hints that
-probing of switches should occur at a later time.
+Cleanup by removing unneeded quotes from refs and redundant blank lines.
+No functional impact except adjusting to preferred coding style.
 
-Progagate `-EPROBE_DEFER` to upper layer logic so that they can re-try
-probing switches as a better time.
-
-Signed-off-by: Victor Ding <victording@chromium.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Rokosov <ddrokosov@sberdevices.ru> # memsensing
+Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com> # sama5d2-adc
+Reviewed-by: Puranjay Mohan <puranjay12@gmail.com> # tmp117
+Acked-by: Rob Herring <robh@kernel.org>
+Acked-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com> # ad7292
 ---
+ .../devicetree/bindings/iio/accel/memsensing,msa311.yaml  | 5 ++---
+ Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml | 2 +-
+ Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml | 2 +-
+ .../devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml    | 2 +-
+ Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml | 4 ++--
+ .../devicetree/bindings/iio/adc/ingenic,adc.yaml          | 4 ++--
+ .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml    | 4 ++--
+ .../devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml    | 2 +-
+ .../devicetree/bindings/iio/adc/samsung,exynos-adc.yaml   | 2 +-
+ .../devicetree/bindings/iio/adc/st,stm32-adc.yaml         | 8 ++++----
+ .../devicetree/bindings/iio/adc/ti,ads131e08.yaml         | 2 +-
+ Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml | 2 +-
+ .../devicetree/bindings/iio/dac/lltc,ltc1660.yaml         | 4 ++--
+ .../devicetree/bindings/iio/dac/lltc,ltc2632.yaml         | 4 ++--
+ .../devicetree/bindings/iio/dac/st,stm32-dac.yaml         | 4 ++--
+ Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml | 2 +-
+ .../devicetree/bindings/iio/temperature/ti,tmp117.yaml    | 6 +++---
+ 17 files changed, 29 insertions(+), 30 deletions(-)
 
-Changes in v3:
-- Reverted unnecessary change.
-
-Changes in v2:
-- Coverted switch-block to nested if-blocks.
-
- drivers/platform/chrome/cros_ec_typec.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 59de4ce01fab..de480ab10488 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -145,27 +145,33 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 					 struct fwnode_handle *fwnode,
- 					 struct device *dev)
- {
-+	int ret = 0;
-+
- 	port->mux = fwnode_typec_mux_get(fwnode, NULL);
- 	if (IS_ERR(port->mux)) {
--		dev_dbg(dev, "Mux handle not found.\n");
-+		ret = PTR_ERR(port->mux);
-+		dev_dbg(dev, "Mux handle not found: %d.\n", ret);
- 		goto mux_err;
- 	}
+diff --git a/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml b/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
+index 23528dcaa073..d530ec041fe7 100644
+--- a/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
++++ b/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
+@@ -1,9 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+-
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/accel/memsensing,msa311.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/accel/memsensing,msa311.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 	port->retimer = fwnode_typec_retimer_get(fwnode);
- 	if (IS_ERR(port->retimer)) {
--		dev_dbg(dev, "Retimer handle not found.\n");
-+		ret = PTR_ERR(port->retimer);
-+		dev_dbg(dev, "Retimer handle not found: %d.\n", ret);
- 		goto retimer_sw_err;
- 	}
+ title: MEMSensing digital 3-Axis accelerometer
  
- 	port->ori_sw = fwnode_typec_switch_get(fwnode);
- 	if (IS_ERR(port->ori_sw)) {
--		dev_dbg(dev, "Orientation switch handle not found.\n");
-+		ret = PTR_ERR(port->ori_sw);
-+		dev_dbg(dev, "Orientation switch handle not found: %d\n", ret);
- 		goto ori_sw_err;
- 	}
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+index 75a7184a4735..35ed04350e28 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+@@ -61,7 +61,7 @@ required:
  
- 	port->role_sw = fwnode_usb_role_switch_get(fwnode);
- 	if (IS_ERR(port->role_sw)) {
--		dev_dbg(dev, "USB role switch handle not found.\n");
-+		ret = PTR_ERR(port->role_sw);
-+		dev_dbg(dev, "USB role switch handle not found: %d\n", ret);
- 		goto role_sw_err;
- 	}
+ patternProperties:
+   "^channel@([0-9]|1[0-5])$":
+-    $ref: "adc.yaml"
++    $ref: adc.yaml
+     type: object
+     description: |
+       Represents the external channels which are connected to the ADC.
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
+index 1bfbeed6f299..7cc4ddc4e9b7 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
+@@ -43,7 +43,7 @@ required:
  
-@@ -181,7 +187,7 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 	typec_mux_put(port->mux);
- 	port->mux = NULL;
- mux_err:
--	return -ENODEV;
-+	return ret;
- }
+ patternProperties:
+   "^channel@[0-7]$":
+-    $ref: "adc.yaml"
++    $ref: adc.yaml
+     type: object
+     description: |
+       Represents the external channels which are connected to the ADC.
+diff --git a/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml b/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
+index 31f840d59303..4817b840977a 100644
+--- a/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
+@@ -41,7 +41,7 @@ properties:
+     description: Startup time expressed in ms, it depends on SoC.
  
- static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
-@@ -423,9 +429,11 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 		}
+   atmel,trigger-edge-type:
+-    $ref: '/schemas/types.yaml#/definitions/uint32'
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+       One of possible edge types for the ADTRG hardware trigger pin.
+       When the specific edge type is detected, the conversion will
+diff --git a/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml b/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
+index 77605f17901c..9c57eb13f892 100644
+--- a/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/adc/avia-hx711.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/adc/avia-hx711.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 		ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
--		if (ret)
--			dev_dbg(dev, "No switch control for port %d\n",
--				port_num);
-+		if (ret) {
-+			dev_dbg(dev, "No switch control for port %d, err: %d\n", port_num, ret);
-+			if (ret == -EPROBE_DEFER)
-+				goto unregister_ports;
-+		}
+ title: AVIA HX711 ADC chip for weight cells
  
- 		ret = cros_typec_register_port_altmodes(typec, port_num);
- 		if (ret) {
+diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+index 517e8b1fcb73..b71c951e6d02 100644
+--- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+@@ -2,8 +2,8 @@
+ # Copyright 2019-2020 Artur Rojek
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Ingenic JZ47xx ADC controller IIO
+ 
+diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
+index 2c93fb41f172..f7b3fde4115a 100644
+--- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
+@@ -2,8 +2,8 @@
+ # Copyright 2019 Marcus Folkesson <marcus.folkesson@gmail.com>
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/adc/microchip,mcp3911.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/adc/microchip,mcp3911.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Microchip MCP3911 Dual channel analog front end (ADC)
+ 
+diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+index 8b743742a5f9..ba86c7b7d622 100644
+--- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+@@ -69,7 +69,7 @@ required:
+ 
+ patternProperties:
+   "^channel@[0-7]$":
+-    $ref: "adc.yaml"
++    $ref: adc.yaml
+     type: object
+     description: |
+       Represents the external channels which are connected to the ADC.
+diff --git a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
+index 81c87295912c..e27d094cfa05 100644
+--- a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
+@@ -52,7 +52,7 @@ properties:
+   vdd-supply: true
+ 
+   samsung,syscon-phandle:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
++    $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+       Phandle to the PMU system controller node (to access the ADC_PHY
+       register on Exynos3250/4x12/5250/5420/5800).
+diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
+index 1c340c95df16..995cbf8cefc6 100644
+--- a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: STMicroelectronics STM32 ADC
+ 
+@@ -80,7 +80,7 @@ properties:
+     description:
+       Phandle to system configuration controller. It can be used to control the
+       analog circuitry on stm32mp1.
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+ 
+   interrupt-controller: true
+ 
+@@ -341,7 +341,7 @@ patternProperties:
+     patternProperties:
+       "^channel@([0-9]|1[0-9])$":
+         type: object
+-        $ref: "adc.yaml"
++        $ref: adc.yaml
+         description: Represents the external channels which are connected to the ADC.
+ 
+         properties:
+diff --git a/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml b/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
+index 55c2c73626f4..890f125d422c 100644
+--- a/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
+@@ -77,7 +77,7 @@ required:
+ 
+ patternProperties:
+   "^channel@([0-7])$":
+-    $ref: "adc.yaml"
++    $ref: adc.yaml
+     type: object
+     description: |
+       Represents the external channels which are connected to the ADC.
+diff --git a/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml b/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
+index bdf3bba2d750..32c52f9fe18b 100644
+--- a/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
+@@ -41,7 +41,7 @@ required:
+ 
+ patternProperties:
+   "^channel@[0-7]$":
+-    $ref: "adc.yaml"
++    $ref: adc.yaml
+     type: object
+ 
+     properties:
+diff --git a/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml b/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
+index 133b0f867992..c9f51d00fa8f 100644
+--- a/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
++++ b/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
+@@ -2,8 +2,8 @@
+ # Copyright 2019 Marcus Folkesson <marcus.folkesson@gmail.com>
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/dac/lltc,ltc1660.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/dac/lltc,ltc1660.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Linear Technology Micropower octal 8-Bit and 10-Bit DACs
+ 
+diff --git a/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml b/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
+index b1eb77335d05..c9e3be3b5754 100644
+--- a/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
++++ b/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/dac/lltc,ltc2632.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/dac/lltc,ltc2632.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Linear Technology LTC263x 12-/10-/8-Bit Rail-to-Rail DAC
+ 
+diff --git a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
+index 0f1bf1110122..04045b932bd2 100644
+--- a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
++++ b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/dac/st,stm32-dac.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/dac/st,stm32-dac.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: STMicroelectronics STM32 DAC
+ 
+diff --git a/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml b/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
+index 68b481c63318..decf022335d8 100644
+--- a/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
++++ b/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
+@@ -63,7 +63,7 @@ properties:
+     description: if defined provides VDD IO power to the sensor.
+ 
+   st,drdy-int-pin:
+-    $ref: '/schemas/types.yaml#/definitions/uint32'
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: |
+       The pin on the package that will be used to signal data ready
+     enum:
+diff --git a/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml b/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
+index 347bc16a4671..c4f1c69f9330 100644
+--- a/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
++++ b/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
+@@ -1,10 +1,10 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/iio/temperature/ti,tmp117.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/iio/temperature/ti,tmp117.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: "TI TMP117 - Digital temperature sensor with integrated NV memory"
++title: TI TMP117 - Digital temperature sensor with integrated NV memory
+ 
+ description: |
+     TI TMP117 - Digital temperature sensor with integrated NV memory that supports
 -- 
-2.39.1.405.gd4c25cc71f-goog
+2.34.1
 

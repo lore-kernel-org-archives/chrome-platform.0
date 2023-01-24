@@ -1,101 +1,162 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D812880A
-	for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 20:47:07 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id r9so11468988oie.13
-        for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 12:47:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8877C
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Jan 2023 00:43:36 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id p188so17023569yba.5
+        for <chrome-platform@lists.linux.dev>; Mon, 23 Jan 2023 16:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VirHtwZIR+krpt640kXLmdBO4/megsErXbDLotYWnLE=;
+        b=Mq+q9W/IFdy0auODrchmgOt8fh63zbjA0dkS6/VHQt14A8kAew8LJk2n1Iim/ScdTK
+         pZ/g+VkrJz07bgGtpy6r5wHmAmw0/WJ8+hanA3kY92uyHKz5NxVVABz1/s4gFNLFszJK
+         Pu3qQmyxA/pUANR/Y6lmA0gUM/Nkw/ogJiyHI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+xLghjk06txc21TL6jUAE/A4E0QaZ29dI9auCG3vhDo=;
-        b=Sn/GfDtbJfINuCiM7d2+ocOF6dVMEVz7ljmdzZCMpbC1qnLLTC+G3ObOUriCaMv8VF
-         GB9HX2DDMzQ1wS5s9A/6GkwADI7WbWkyiZdW9T5pnjvJZFd5+P6FynwxtKksaMwQRH6T
-         gGiiyiAR0VUmU7B2In7bc3DovxDqfxNaIrmfh0ipS6HAMzb35JXAaQkkeg96RHt+GVx2
-         AVhDljJ2M+K6Y+YCEwhepupq43vgj3i/OSSUzQN6ds2lLsR2XgRB2Bn9tHEXTPeA2yMU
-         ILADULcr1g8hsT5ad2c5iO6rAyuJ8V52r859dcZJrUzlxvT7bPeCpPZdCAbc2bH3QJS+
-         c4Gg==
-X-Gm-Message-State: AFqh2kpqtth4qmHEaigxY+U06AtSO0hqOb2SxM1e4p9Uhnm1Ry8aOtD0
-	ow6W4BCSnQWE2L7RYbM5/A==
-X-Google-Smtp-Source: AMrXdXs0GdZyBepqCdjPw6vuhi4kiXTC6MdsciMg0KU1dm35ma/15bsTbV/dQtJ+tboBuLEeFGalFQ==
-X-Received: by 2002:aca:6205:0:b0:365:648:3a5d with SMTP id w5-20020aca6205000000b0036506483a5dmr12623568oib.42.1674506826206;
-        Mon, 23 Jan 2023 12:47:06 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i11-20020aca2b0b000000b00369a721732asm155293oik.41.2023.01.23.12.47.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 12:47:05 -0800 (PST)
-Received: (nullmailer pid 2494593 invoked by uid 1000);
-	Mon, 23 Jan 2023 20:47:03 -0000
-Date: Mon, 23 Jan 2023 14:47:03 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Lucas Stankus <lucas.p.stankus@gmail.com>, Puranjay Mohan <puranjay12@gmail.com>, 
-	Dmitry Rokosov <ddrokosov@sberdevices.ru>, Alexandru Tachici <alexandru.tachici@analog.com>, 
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Renato Lui Geh <renatogeh@gmail.com>, 
-	Eugen Hristev <eugen.hristev@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Andreas Klinger <ak@it-klinger.de>, 
-	Marcus Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Oleksij Rempel <linux@rempel-privat.de>, 
-	kernel@pengutronix.de, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Nishant Malpani <nish.malpani25@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
-	Dragos Bogdan <dragos.bogdan@analog.com>, 
-	Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Stefan Popa <stefan.popa@analog.com>, Robert Yang <decatf@gmail.com>, 
-	Sean Nyekjaer <sean@geanix.com>, Artur Rojek <contact@artur-rojek.eu>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Philippe Reynes <tremyfr@yahoo.fr>, 
-	Alexandru Lazar <alazar@startmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Caleb Connolly <caleb.connolly@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Stefan Agner <stefan@agner.ch>, Daniel Baluta <daniel.baluta@nxp.com>, Harald Geyer <harald@ccbib.org>, 
-	Eugene Zaikonnikov <ez@norophonic.com>, Phil Reid <preid@electromag.com.au>, 
-	Matt Ranostay <matt.ranostay@konsulko.com>, Stephen Boyd <swboyd@chromium.org>, 
-	Sankar Velliangiri <navin@linumiz.com>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 5/5] dt-bindings: iio: cleanup examples - indentation
-Message-ID: <20230123204703.GA2479312-robh@kernel.org>
-References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
- <20230118184413.395820-5-krzysztof.kozlowski@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VirHtwZIR+krpt640kXLmdBO4/megsErXbDLotYWnLE=;
+        b=UqMFeuGAtzvo+q+NzI5gc5n16KrJXmk4bMXaRwYaWrtjJ9c14jVpli5/EZ/kprwVGC
+         CrKJwZzy+VvXq9uTLC0PDxTx/WPOlu+GYyX4t5Nu5ZQv0IFkndNC5rcCNfJ3N7Oj3dIV
+         OhyaF1My6XHJ0xi0EgcuUE4I1yo9rvuWumVTHr5FXeKbBtSSxPVKWOqNVsmRiZ0c2QSK
+         BVHG14FVIO1fuKk4qKvocK2D3QNJOHvz5SvJnTI8UA9yQGke06lFqnUqlgJ7Rl1k0Dju
+         CVs4MuZbgZjztPtQIf66jdrRHoLQMShL85yS/s8j3lOJldh1XZM9nD+8qLuycIIWk+lQ
+         OBoA==
+X-Gm-Message-State: AFqh2kq/XmwBYmyNE9B4Tqz18YqhRidJ8wDp5JR80Df4wcAc67/e3Dit
+	44W/HKCho+6IfdknmhsTWb+G4dt+6G3Zw2ea+nWBiw==
+X-Google-Smtp-Source: AMrXdXtXzlxEcjko7SKoGgpsddK1ALit1MUPi8Wv7qxawIFiDTWvsAmxw+tfW96X+19/d/juBi2twOXfE2JllLnVdvk=
+X-Received: by 2002:a05:6902:90e:b0:7c8:3a6f:9b7b with SMTP id
+ bu14-20020a056902090e00b007c83a6f9b7bmr2956596ybb.88.1674521015221; Mon, 23
+ Jan 2023 16:43:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118184413.395820-5-krzysztof.kozlowski@linaro.org>
+References: <20230123093609.1.I6c0a089123fdf143f94ef4cca8677639031856cf@changeid>
+In-Reply-To: <20230123093609.1.I6c0a089123fdf143f94ef4cca8677639031856cf@changeid>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Mon, 23 Jan 2023 16:43:23 -0800
+Message-ID: <CACeCKafcL=KJ+a5C2BKXWX3rkWf9BHp1oB3dikAjGtFWqW5_PA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: allow deferred probe of
+ switch handles
+To: Victor Ding <victording@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	gustavoars@kernel.org, heikki.krogerus@linux.intel.com, dnojiri@chromium.org, 
+	dustin@howett.net, lee.jones@linaro.org, tzungbi@kernel.org, 
+	groeck@chromium.org, gregkh@linuxfoundation.org, tinghan.shen@mediatek.com, 
+	sebastian.reichel@collabora.com, enric.balletbo@collabora.com, 
+	bleung@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 18, 2023 at 07:44:13PM +0100, Krzysztof Kozlowski wrote:
-> Use 4-space indentation (for cases when it is neither 4 not 2 space).
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Mon, Jan 23, 2023 at 1:36 AM Victor Ding <victording@chromium.org> wrote:
+>
+> `fwnode_typec_{retimer,mux,switch}_get()` could return `-EPROBE_DEFER`,
+> which is called from `cros_typec_get_switch_handles`. When this happens,
+> it does not indicate absence of switches; instead, it only hints that
+> probing of switches should occur at a later time.
+>
+> Progagate `-EPROBE_DEFER` to upper layer logic so that they can re-try
+> probing switches as a better time.
+>
+> Signed-off-by: Victor Ding <victording@chromium.org>
 > ---
+>
+>  drivers/platform/chrome/cros_ec_typec.c | 30 +++++++++++++++++--------
+>  1 file changed, 21 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index 59de4ce01fab..f4b3fc788491 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -145,31 +145,37 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+>                                          struct fwnode_handle *fwnode,
+>                                          struct device *dev)
+>  {
+> +       int ret = 0;
+> +
+>         port->mux = fwnode_typec_mux_get(fwnode, NULL);
+>         if (IS_ERR(port->mux)) {
+> -               dev_dbg(dev, "Mux handle not found.\n");
+> +               ret = PTR_ERR(port->mux);
+> +               dev_dbg(dev, "Mux handle not found: %d.\n", ret);
+>                 goto mux_err;
+>         }
+>
+>         port->retimer = fwnode_typec_retimer_get(fwnode);
+>         if (IS_ERR(port->retimer)) {
+> -               dev_dbg(dev, "Retimer handle not found.\n");
+> +               ret = PTR_ERR(port->retimer);
+> +               dev_dbg(dev, "Retimer handle not found: %d.\n", ret);
+>                 goto retimer_sw_err;
+>         }
+>
+>         port->ori_sw = fwnode_typec_switch_get(fwnode);
+>         if (IS_ERR(port->ori_sw)) {
+> -               dev_dbg(dev, "Orientation switch handle not found.\n");
+> +               ret = PTR_ERR(port->ori_sw);
+> +               dev_dbg(dev, "Orientation switch handle not found: %d\n", ret);
+>                 goto ori_sw_err;
+>         }
+>
+>         port->role_sw = fwnode_usb_role_switch_get(fwnode);
+>         if (IS_ERR(port->role_sw)) {
+> -               dev_dbg(dev, "USB role switch handle not found.\n");
+> +               ret = PTR_ERR(port->role_sw);
+> +               dev_dbg(dev, "USB role switch handle not found: %d\n", ret);
+>                 goto role_sw_err;
+>         }
+>
+> -       return 0;
+> +       return ret;
+>
+>  role_sw_err:
+>         typec_switch_put(port->ori_sw);
+> @@ -181,7 +187,7 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+>         typec_mux_put(port->mux);
+>         port->mux = NULL;
+>  mux_err:
+> -       return -ENODEV;
+> +       return ret;
+>  }
+>
+>  static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
+> @@ -423,9 +429,15 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+>                 }
+>
+>                 ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
+> -               if (ret)
+> -                       dev_dbg(dev, "No switch control for port %d\n",
+> -                               port_num);
+> +               switch (ret) {
+> +               case 0:
+> +                       break;
+> +               case -EPROBE_DEFER:
+> +                       dev_err(dev, "Deferring getting switch handles at port %d\n", port_num);
+> +                       goto unregister_ports;
+> +               default:
+> +                       dev_dbg(dev, "No switch control for port %d, err: %d\n", port_num, ret);
+> +               }
 
-[...]
+The switch statement seems a little clunky here. Instead, nest a couple
+of ifs; it is shorter and easier to read IMO.
 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> index 1d965124c488..04b12146959e 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> @@ -120,5 +120,5 @@ examples:
->          adi,rejection-60-Hz-enable;
->          adi,buffer-enable;
->          adi,burnout-currents-enable;
-> -        };
-> +      };
+ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
+if (ret) {
+    dev_err_probe(dev, ret, "No switch control for port: %d\n", port_num);
+    if (ret == -EPROBE_DEFER)
+        goto unregister_ports;
+}
 
-Indentation needs adjusting.
-
-Otherwise,
-
-Acked-by: Rob Herring <robh@kernel.org>
+}
+}
+>
+>                 ret = cros_typec_register_port_altmodes(typec, port_num);
+>                 if (ret) {
+> --
+> 2.39.0.246.g2a6d74b583-goog
+>

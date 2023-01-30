@@ -1,384 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C40E5CBA
-	for <chrome-platform@lists.linux.dev>; Sat, 28 Jan 2023 16:02:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3876C433EF;
-	Sat, 28 Jan 2023 16:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674921748;
-	bh=MEnSVM9h1tfvj22o8Ls43RK2vAq9wORRPqY+/TUQ/ak=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EKQ2Dfl5334OTddL+pBem88MlleZTLI48FJv9Q061JlY0EQa+RN/MoPXyOJTr/bnF
-	 9LHRcCbCmb+ZhXvmdpkwPYqxmt34eQtldDaj0AIg0Q90Fl4fOXf9IY10SGmGb2kn1I
-	 GIg6ZQdsInuHmQhJHasTGGt7aNGyhUCqJE0nMRCkvQpsZKhvZWfDrVA2MdZg2dr9eW
-	 4pCuoEr1hoJbOTYvDFo6wJelHel4BAQYERqFKuRHuoW4j8Wce2qNmPdTswq8geTUrn
-	 ZYcR0anHqTzPYuD34hSaETsin4FCIWoZJnCad2bJee9jQjyAEFNggQ+EI8XMSnGSWR
-	 9WDzZ49OEwF2w==
-Date: Sat, 28 Jan 2023 16:16:13 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lucas Stankus
- <lucas.p.stankus@gmail.com>, Puranjay Mohan <puranjay12@gmail.com>, Dmitry
- Rokosov <ddrokosov@sberdevices.ru>, Alexandru Tachici
- <alexandru.tachici@analog.com>, Marcelo Schmitt
- <marcelo.schmitt1@gmail.com>, Renato Lui Geh <renatogeh@gmail.com>, Eugen
- Hristev <eugen.hristev@microchip.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Andreas Klinger <ak@it-klinger.de>, Marcus
- Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Alim Akhtar
- <alim.akhtar@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Oleksij Rempel
- <linux@rempel-privat.de>, kernel@pengutronix.de, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Nishant Malpani <nish.malpani25@gmail.com>, Rui
- Miguel Silva <rmfrfs@gmail.com>, Dragos Bogdan <dragos.bogdan@analog.com>,
- Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, Benson Leung <bleung@chromium.org>, Guenter Roeck
- <groeck@chromium.org>, Stefan Popa <stefan.popa@analog.com>, Robert Yang
- <decatf@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Artur Rojek
- <contact@artur-rojek.eu>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Philippe Reynes <tremyfr@yahoo.fr>, Alexandru Lazar <alazar@startmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Caleb Connolly
- <caleb.connolly@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Stefan Agner <stefan@agner.ch>, Daniel Baluta <daniel.baluta@nxp.com>,
- Harald Geyer <harald@ccbib.org>, Eugene Zaikonnikov <ez@norophonic.com>,
- Phil Reid <preid@electromag.com.au>, Matt Ranostay
- <matt.ranostay@konsulko.com>, Stephen Boyd <swboyd@chromium.org>, Sankar
- Velliangiri <navin@linumiz.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev,
- Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/5] dt-bindings: iio: drop unneeded quotes
-Message-ID: <20230128161613.1d321b16@jic23-huawei>
-In-Reply-To: <20230124081037.31013-1-krzysztof.kozlowski@linaro.org>
-References: <20230124081037.31013-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C899C160
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jan 2023 23:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675120238;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p+K8e/zfLN4jZoxJoefnBbSYk/h9sMX4+P4UDlH6in4=;
+	b=H91EZjtd+lk6Jju/7S+zG6ONG2LSQ5dKnNvpNeb0plDB/cOEGUcn/qRtzjYSx7nDgVptGl
+	Yd8LE9ElO768DUrnCfnZbdn2DYAIBwoNV+JpjwzbrNNqcMIUqwmemtRXAj1vDLYJCkpX0M
+	diN0QVoDSsMYdrQUkbLFU6Xd/MKNLGE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-345-9A9jsourMreNMN3oGmRd9w-1; Mon, 30 Jan 2023 18:10:36 -0500
+X-MC-Unique: 9A9jsourMreNMN3oGmRd9w-1
+Received: by mail-qt1-f197.google.com with SMTP id cr22-20020a05622a429600b003b694a9f291so5733977qtb.1
+        for <chrome-platform@lists.linux.dev>; Mon, 30 Jan 2023 15:10:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+K8e/zfLN4jZoxJoefnBbSYk/h9sMX4+P4UDlH6in4=;
+        b=SFYFMduJTo+rJcJGigd6aUd1rnXfwqgq4gxh4hamcEzUgWZlszl3IUozPrAYiBC9CY
+         jB9oSNPNh/doGUv+4S1fxybDU5sapwkk4IMEwU0EWoYg5dWM8x70ixxDR+rTfJ13FIYt
+         s/+vIF1qyMyaEWd4Q3GMXW0MNYOwiVHTN3kXntH5/6AaRqCMXwNUlpxXY8eBkdM1bdBZ
+         OHVy3hW1oQXAvVexBgTRmHuI0u7krhgST1hWNIJ8yN5fEpbO1mxrB+b/k//17w8xyAZG
+         n9ghWP26p9zSTI5BEXQYY3cz9OOQUzoL5vvuI5ZyYlhy0pAFmlfq/JZWDhw3PHVLUv94
+         aItw==
+X-Gm-Message-State: AO0yUKWTCHynHY8H2DAy5M2J3jSsA3o4SGjdb6hubFl1z1meOCe98nQI
+	K2uXOat413YqU3TNgjZ6StMOLfqJleGndqt6ZXOUGGTgDs8/OfDukpzTospm0QskqYvZ8Bm9sJs
+	OiKR2L7PwnCQH2iOXcojRkjzD7NTQ
+X-Received: by 2002:a05:622a:180e:b0:3b4:2b61:da32 with SMTP id t14-20020a05622a180e00b003b42b61da32mr15365923qtc.59.1675120235970;
+        Mon, 30 Jan 2023 15:10:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set89917aaMWXfx8H2M6z2jsMBTb17FVp8nR3WX9yHmkqkhPUzBHVr8SFkLh0Wpt7DzxdggBhnA==
+X-Received: by 2002:a05:622a:180e:b0:3b4:2b61:da32 with SMTP id t14-20020a05622a180e00b003b42b61da32mr15365872qtc.59.1675120235657;
+        Mon, 30 Jan 2023 15:10:35 -0800 (PST)
+Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
+        by smtp.gmail.com with ESMTPSA id k22-20020a05620a139600b0071f17af8733sm2954494qki.64.2023.01.30.15.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 15:10:35 -0800 (PST)
+Message-ID: <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
+Subject: Re: [PATCH v9 0/9] Register Type-C mode-switch in DP bridge
+ endpoints
+From: Lyude Paul <lyude@redhat.com>
+To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org, 
+ Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Xin
+ Ji <xji@analogixsemi.com>,  linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org,  chrome-platform@lists.linux.dev, Thomas
+ Zimmermann <tzimmermann@suse.de>,  Allen Chen <allen.chen@ite.com.tw>,
+ Javier Martinez Canillas <javierm@redhat.com>,  =?ISO-8859-1?Q?N=EDcolas?=
+ "F . R . A . Prado" <nfraprado@collabora.com>,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, Jim
+ Cromie <jim.cromie@gmail.com>, Kees Cook <keescook@chromium.org>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Ville
+ =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Date: Mon, 30 Jan 2023 18:10:33 -0500
+In-Reply-To: <20230109084101.265664-1-treapking@chromium.org>
+References: <20230109084101.265664-1-treapking@chromium.org>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Jan 2023 09:10:33 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-
-> Cleanup by removing unneeded quotes from refs and redundant blank lines.
-> No functional impact except adjusting to preferred coding style.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Dmitry Rokosov <ddrokosov@sberdevices.ru> # memsensing
-> Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com> # sama5d2-adc
-> Reviewed-by: Puranjay Mohan <puranjay12@gmail.com> # tmp117
-> Acked-by: Rob Herring <robh@kernel.org>
-> Acked-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com> # ad7292
-Hi Krzysztof,
-
-Series applied to the togreg branch of iio.git, initially pushed out
-(once build test finishes) as testing for 0-day to poke at.
-
-One trivial comment. It's helpful for any series with more than
-one or two patches to have a cover letter even if there isn't much to say
-as it provides somewhere for people to give tags for the whole series etc
-that b4 will then pick up with out the maintainer having to be careful
-that the tag was really meant for the whole series.
-
-Also gives a nice place for me to reply to when saying I picked up the
-series :)
-
-Thanks,
-
-Jonathan
+Don't know if this still needs reviews from me (feel free to respond if it
+does!), but I wanted to say nice work! This is something I've wanted to see
+added to DRM for a while =E2=99=A5
 
 
+On Mon, 2023-01-09 at 16:40 +0800, Pin-yen Lin wrote:
+> This series introduces bindings for anx7625/it6505 to register Type-C
+> mode-switch in their output endpoints, and use data-lanes property to
+> describe the pin connections.
+>=20
+> The first two patch modifies fwnode_graph_devcon_matches and
+> cros_typec_init_ports to enable the registration of the switches.
+>=20
+> Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+> modifications.
+>=20
+> Patch 7~9 add similar bindings and driver changes for it6505.
+>=20
+> v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromi=
+um.org/
+> v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromiu=
+m.org/
+> v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@ch=
+romium.org/
+>=20
+> Changes in v9:
+> - Collected Reviewed-by tag
+> - Fixed subject prefix again
+> - Changed the naming of the example node for it6505
+>=20
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=3Dm
+> - Fixed some style issues
+> - Fixed the subject prefixes for the bindings patch
+> - Fixed the bindings for data-lanes properties
+>=20
+> Changes in v7:
+> - Fix the long comment lines
+> - Extracted the common codes to a helper function
+> - Fixed style issues in anx7625 driver
+> - Removed DT property validation in anx7625 driver.
+> - Fixed style issues in it6505 driver
+> - Removed the redundant sleep in it6505 driver
+> - Removed DT property validation in it6505 driver
+> - Rebased to drm-misc-next
+> - Fixed indentations in bindings patches
+> - Added a new patch to fix indentations in Kconfig
+>=20
+> Changes in v6:
+> - Changed it6505_typec_mux_set callback function to accommodate with
+>   the latest drm-misc patches
+> - Changed the driver implementation to accommodate with the new binding
+> - Dropped typec-switch binding and use endpoints and data-lanes propertie=
+s
+>   to describe the pin connections
+> - Added new patches (patch 1,2,4) to fix probing issues
+> - Changed the bindings of it6505/anx7625 and modified the drivers
+>   accordingly
+> - Merged it6505/anx7625 driver changes into a single patch
+>=20
+> Pin-yen Lin (7):
+>   drm/display: Add Type-C switch helpers
+>   dt-bindings: display: bridge: anx7625: Add mode-switch support
+>   drm/bridge: anx7625: Check for Type-C during panel registration
+>   drm/bridge: anx7625: Register Type C mode switches
+>   dt-bindings: display: bridge: it6505: Add mode-switch support
+>   drm/bridge: it6505: Fix Kconfig indentation
+>   drm/bridge: it6505: Register Type C mode switches
+>=20
+> Prashant Malani (2):
+>   device property: Add remote endpoint to devcon matcher
+>   platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+>=20
+>  .../display/bridge/analogix,anx7625.yaml      |  99 ++++++++++++-
+>  .../bindings/display/bridge/ite,it6505.yaml   |  93 ++++++++++--
+>  drivers/base/property.c                       |  15 ++
+>  drivers/gpu/drm/bridge/Kconfig                |  21 +--
+>  drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
+>  drivers/gpu/drm/bridge/analogix/anx7625.c     | 101 +++++++++++++-
+>  drivers/gpu/drm/bridge/analogix/anx7625.h     |  13 ++
+>  drivers/gpu/drm/bridge/ite-it6505.c           | 119 +++++++++++++++-
+>  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
+>  drivers/platform/chrome/cros_ec_typec.c       |  10 ++
+>  include/drm/display/drm_dp_helper.h           |  16 +++
+>  11 files changed, 591 insertions(+), 29 deletions(-)
+>=20
 
-> ---
->  .../devicetree/bindings/iio/accel/memsensing,msa311.yaml  | 5 ++---
->  Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml | 2 +-
->  Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml | 2 +-
->  .../devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml    | 2 +-
->  Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml | 4 ++--
->  .../devicetree/bindings/iio/adc/ingenic,adc.yaml          | 4 ++--
->  .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml    | 4 ++--
->  .../devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml    | 2 +-
->  .../devicetree/bindings/iio/adc/samsung,exynos-adc.yaml   | 2 +-
->  .../devicetree/bindings/iio/adc/st,stm32-adc.yaml         | 8 ++++----
->  .../devicetree/bindings/iio/adc/ti,ads131e08.yaml         | 2 +-
->  Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml | 2 +-
->  .../devicetree/bindings/iio/dac/lltc,ltc1660.yaml         | 4 ++--
->  .../devicetree/bindings/iio/dac/lltc,ltc2632.yaml         | 4 ++--
->  .../devicetree/bindings/iio/dac/st,stm32-dac.yaml         | 4 ++--
->  Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml | 2 +-
->  .../devicetree/bindings/iio/temperature/ti,tmp117.yaml    | 6 +++---
->  17 files changed, 29 insertions(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml b/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
-> index 23528dcaa073..d530ec041fe7 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
-> @@ -1,9 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> -
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/accel/memsensing,msa311.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/accel/memsensing,msa311.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: MEMSensing digital 3-Axis accelerometer
->  
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> index 75a7184a4735..35ed04350e28 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> @@ -61,7 +61,7 @@ required:
->  
->  patternProperties:
->    "^channel@([0-9]|1[0-5])$":
-> -    $ref: "adc.yaml"
-> +    $ref: adc.yaml
->      type: object
->      description: |
->        Represents the external channels which are connected to the ADC.
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> index 1bfbeed6f299..7cc4ddc4e9b7 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> @@ -43,7 +43,7 @@ required:
->  
->  patternProperties:
->    "^channel@[0-7]$":
-> -    $ref: "adc.yaml"
-> +    $ref: adc.yaml
->      type: object
->      description: |
->        Represents the external channels which are connected to the ADC.
-> diff --git a/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml b/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
-> index 31f840d59303..4817b840977a 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
-> @@ -41,7 +41,7 @@ properties:
->      description: Startup time expressed in ms, it depends on SoC.
->  
->    atmel,trigger-edge-type:
-> -    $ref: '/schemas/types.yaml#/definitions/uint32'
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      description:
->        One of possible edge types for the ADTRG hardware trigger pin.
->        When the specific edge type is detected, the conversion will
-> diff --git a/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml b/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
-> index 77605f17901c..9c57eb13f892 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/adc/avia-hx711.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/adc/avia-hx711.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: AVIA HX711 ADC chip for weight cells
->  
-> diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-> index 517e8b1fcb73..b71c951e6d02 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-> @@ -2,8 +2,8 @@
->  # Copyright 2019-2020 Artur Rojek
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Ingenic JZ47xx ADC controller IIO
->  
-> diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
-> index 2c93fb41f172..f7b3fde4115a 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3911.yaml
-> @@ -2,8 +2,8 @@
->  # Copyright 2019 Marcus Folkesson <marcus.folkesson@gmail.com>
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/adc/microchip,mcp3911.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/adc/microchip,mcp3911.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Microchip MCP3911 Dual channel analog front end (ADC)
->  
-> diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> index 8b743742a5f9..ba86c7b7d622 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> @@ -69,7 +69,7 @@ required:
->  
->  patternProperties:
->    "^channel@[0-7]$":
-> -    $ref: "adc.yaml"
-> +    $ref: adc.yaml
->      type: object
->      description: |
->        Represents the external channels which are connected to the ADC.
-> diff --git a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> index 81c87295912c..e27d094cfa05 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> @@ -52,7 +52,7 @@ properties:
->    vdd-supply: true
->  
->    samsung,syscon-phandle:
-> -    $ref: '/schemas/types.yaml#/definitions/phandle'
-> +    $ref: /schemas/types.yaml#/definitions/phandle
->      description:
->        Phandle to the PMU system controller node (to access the ADC_PHY
->        register on Exynos3250/4x12/5250/5420/5800).
-> diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-> index 1c340c95df16..995cbf8cefc6 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: STMicroelectronics STM32 ADC
->  
-> @@ -80,7 +80,7 @@ properties:
->      description:
->        Phandle to system configuration controller. It can be used to control the
->        analog circuitry on stm32mp1.
-> -    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->  
->    interrupt-controller: true
->  
-> @@ -341,7 +341,7 @@ patternProperties:
->      patternProperties:
->        "^channel@([0-9]|1[0-9])$":
->          type: object
-> -        $ref: "adc.yaml"
-> +        $ref: adc.yaml
->          description: Represents the external channels which are connected to the ADC.
->  
->          properties:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml b/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
-> index 55c2c73626f4..890f125d422c 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/ti,ads131e08.yaml
-> @@ -77,7 +77,7 @@ required:
->  
->  patternProperties:
->    "^channel@([0-7])$":
-> -    $ref: "adc.yaml"
-> +    $ref: adc.yaml
->      type: object
->      description: |
->        Represents the external channels which are connected to the ADC.
-> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml b/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
-> index bdf3bba2d750..32c52f9fe18b 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
-> @@ -41,7 +41,7 @@ required:
->  
->  patternProperties:
->    "^channel@[0-7]$":
-> -    $ref: "adc.yaml"
-> +    $ref: adc.yaml
->      type: object
->  
->      properties:
-> diff --git a/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml b/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
-> index 133b0f867992..c9f51d00fa8f 100644
-> --- a/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
-> +++ b/Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml
-> @@ -2,8 +2,8 @@
->  # Copyright 2019 Marcus Folkesson <marcus.folkesson@gmail.com>
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/dac/lltc,ltc1660.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/dac/lltc,ltc1660.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Linear Technology Micropower octal 8-Bit and 10-Bit DACs
->  
-> diff --git a/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml b/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
-> index b1eb77335d05..c9e3be3b5754 100644
-> --- a/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
-> +++ b/Documentation/devicetree/bindings/iio/dac/lltc,ltc2632.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/dac/lltc,ltc2632.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/dac/lltc,ltc2632.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Linear Technology LTC263x 12-/10-/8-Bit Rail-to-Rail DAC
->  
-> diff --git a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-> index 0f1bf1110122..04045b932bd2 100644
-> --- a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-> +++ b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/dac/st,stm32-dac.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/dac/st,stm32-dac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: STMicroelectronics STM32 DAC
->  
-> diff --git a/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml b/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
-> index 68b481c63318..decf022335d8 100644
-> --- a/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
-> +++ b/Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
-> @@ -63,7 +63,7 @@ properties:
->      description: if defined provides VDD IO power to the sensor.
->  
->    st,drdy-int-pin:
-> -    $ref: '/schemas/types.yaml#/definitions/uint32'
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->      description: |
->        The pin on the package that will be used to signal data ready
->      enum:
-> diff --git a/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml b/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
-> index 347bc16a4671..c4f1c69f9330 100644
-> --- a/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
-> +++ b/Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
-> @@ -1,10 +1,10 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/iio/temperature/ti,tmp117.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/iio/temperature/ti,tmp117.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: "TI TMP117 - Digital temperature sensor with integrated NV memory"
-> +title: TI TMP117 - Digital temperature sensor with integrated NV memory
->  
->  description: |
->      TI TMP117 - Digital temperature sensor with integrated NV memory that supports
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 

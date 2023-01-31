@@ -1,51 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EA5629
-	for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 03:49:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930FDC433D2;
-	Tue, 31 Jan 2023 03:49:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675136977;
-	bh=WZinc5g/K2KR61zeipZWfTaYVkSWEpLMMfI/qDV397g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UcY8xaq5D79gFEHzB78Hp9fkZY5cbkUYg0+HZNC+Oo6lE/oGR6MecfZueTBZxHVSe
-	 VPEItY6SwP/w5hKDopSlBJ3xLW0djU3eQWl+1LYT91UTmUY5bxAudKN/+UIt/MWMB1
-	 HDMYFj9zSmK9gkGqavi3e/Sj8G4zhdSQ1rbqPD4JU7cuG2L8MveT0yZNBpDKOFiWDh
-	 5hFMqwlXgoCqQ3aCRs34DZLkUrWHLdCt8YG450qS7bf3U7XEsJRAHABi3Xqe3eW0p/
-	 DY8zchkxyoZhpEvj2Ai/TIIDzlT0ScG8jGo0qLjqW8JLsHYFInTcSt0nYZxkaRJled
-	 1TGYAaLyL8eTw==
-Date: Tue, 31 Jan 2023 11:49:34 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	bleung@chromium.org
-Subject: Re: [PATCH] platform/chrome: cros_typec_vdm: Fix VDO copy
-Message-ID: <Y9iPzvfJkxii390K@google.com>
-References: <20230113182626.1149539-1-pmalani@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46085A922
+	for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 18:17:27 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-51ba4b1b9feso40987837b3.11
+        for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 10:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FvdAZD01d8l2dE2yYKs95f5aYb2hmlRgz5dCsUMJuqc=;
+        b=mj0IrcCsuervH4LzfdcuQVY+qIdS49hTvLNTEpZON0scxgtX2UJZgOEy4IS6Uiy3N3
+         /uFAyQ+iU+eYBtwXEkiXtsEIVmv0j/FnyeaCq2A4EKYR2x3bNBwS7EfDrGuW7MSLWB/A
+         da+jryzDREJYJokFjWTq5SzjKOJmwF8lDDk+A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FvdAZD01d8l2dE2yYKs95f5aYb2hmlRgz5dCsUMJuqc=;
+        b=poNMBBg1NY+ZwlXrWd+NrQ++6sw36Ad+GOl6PmnSAvjHsQT2ZkkxD19FhHFZHiceoC
+         6nbKVsf61Cf7DWrgH3W7qFKxTzEX6is81w24HtTqUBtwd1V4tB+JgEdQIyglubbP32w7
+         c1v8fuH7uROljK5goHC+YUr2a8e5iBYQH+d8E24vzExc2qE5mKQhRVdw2MJxeqSu6cOa
+         Cr9vLR2HjdxfwSxFB1kR+yc8+pd/pYMJ7nNiDS6gUqxMSm3mRGJezB6BUX5UCmqxLs3K
+         CXwCD23gFRiH0hqyvoF7cDrBJ9PaXzdfv4VsVkbfOBClgjSGUvgFUSR7h8PrmmiNY/qh
+         6fZA==
+X-Gm-Message-State: AO0yUKXTz2P0Nteo1ScUV11dAxxGy9PDrzBbEBRWXC0a/PiHt3NgAbt+
+	Spg/fxIDTXm00nkuiJajq9cQpNk7AA1TsSF1hHQdHg==
+X-Google-Smtp-Source: AK7set9Ho9990bCiAPi6W5tf4wuIgRKLoCIYpoMYERmBL6WCAN7Vp/gWEdWfZnfLnz1nlp6of9x83VoHN6qHiT/Xl0k=
+X-Received: by 2002:a81:52ce:0:b0:506:60ca:21c3 with SMTP id
+ g197-20020a8152ce000000b0050660ca21c3mr4156259ywb.197.1675189046291; Tue, 31
+ Jan 2023 10:17:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230113182626.1149539-1-pmalani@chromium.org>
+References: <20230113182626.1149539-1-pmalani@chromium.org> <Y9iPzvfJkxii390K@google.com>
+In-Reply-To: <Y9iPzvfJkxii390K@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 31 Jan 2023 10:17:14 -0800
+Message-ID: <CACeCKac6iHFwjgNn=PWth4OKCYDJRt1R6zJ+n+t6Qd4-zymyDg@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_typec_vdm: Fix VDO copy
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	bleung@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jan 13, 2023 at 06:26:26PM +0000, Prashant Malani wrote:
-> The usage of memcpy() affects the representation of the VDOs as they are
-> copied to the EC Host Command buffer. Specifically, all higher order
-> bits get dropped (for example: a VDO of 0x406 just gets copied as 0x6).
+Hi Tzung-Bi,
 
-memcpy() is byte-oriented; however, `vdo` is a pointer to u32.
+On Mon, Jan 30, 2023 at 7:49 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+>
+> On Fri, Jan 13, 2023 at 06:26:26PM +0000, Prashant Malani wrote:
+> > The usage of memcpy() affects the representation of the VDOs as they are
+> > copied to the EC Host Command buffer. Specifically, all higher order
+> > bits get dropped (for example: a VDO of 0x406 just gets copied as 0x6).
+>
+> memcpy() is byte-oriented; however, `vdo` is a pointer to u32.
+>
+> > Avoid this by explicitly copying each VDO in the array. The number of
+> > VDOs generated by alternate mode drivers in their VDMs is almost always
+> > just 1 (apart from the header) so this doesn't affect performance in a
+> > meaningful way).
+>
+> Although the patch has applied, I am wondering if the following would be a
+> better way to fix the issue:
+>
+> memcpy(&vdm_req.vdm_data[1], vdo, (cnt - 1) * sizeof(*vdo));
 
-> Avoid this by explicitly copying each VDO in the array. The number of
-> VDOs generated by alternate mode drivers in their VDMs is almost always
-> just 1 (apart from the header) so this doesn't affect performance in a
-> meaningful way).
+Yeah, that's right; I forgot that 'cnt' is "number of VDOs" and not
+"number of bytes" :S
 
-Although the patch has applied, I am wondering if the following would be a
-better way to fix the issue:
-
-memcpy(&vdm_req.vdm_data[1], vdo, (cnt - 1) * sizeof(*vdo));
+As I mentioned, in a vast majority of cases, the number of VDOs is just 1, so
+I wouldn't bother and just leave this as it is (since there is no major benefit
+apart from saving 1 line).

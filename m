@@ -1,70 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAEEA922
-	for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 18:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 44FFAC4339C;
-	Tue, 31 Jan 2023 18:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675189217;
-	bh=/mXKCWIInMRQ1GcS3OYrRwL02rstqhASq/OgmzmHLEg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=lXenDjx7KLIpQa64VqxKkakH5KJVRW+XcAg2iIXyoEwZvfFRYwzvNNApWBykRQK1a
-	 GnLzeDS748BghVsa0k1FEUirhAbCbk3rlBxOplvPf1JDQhoCYi/MyfqVsXRHhcatNT
-	 ibXRf/yiflVlMZMXYVG89VCuDXONiZA+kGmNKkW6z+Brp458ug+6h8qMEsZeX0mM0M
-	 M0FOzVa9dM/uP+zl0hhgiMxirFancV+jX/0tj06IgWbC8nz9KRTmxluz3hLM2F61L6
-	 Zr/VyxEQu7AAlcMrzZRo4/lGdpe083LkYEMp93whqAwa/CXyLkB220KQ1tGnhhWnvh
-	 jk4UcGh7Otdbw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 24B6FE4D00A;
-	Tue, 31 Jan 2023 18:20:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A296AA922
+	for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 18:21:45 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-51ba4b1b9feso41141987b3.11
+        for <chrome-platform@lists.linux.dev>; Tue, 31 Jan 2023 10:21:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=X7pBEKn4xB6KlSsgM67ywt4YhFhtJVw3vFCQK0MunrU=;
+        b=a54hMh4vQaR+SnfjHs+/tTs9WgpKM8eRewGPeGHtO7AfZ8B/IoHcC+VUKcnOuN5Or2
+         g3wtl9gka5vLbNzdzK0Z8kf4V6iYujZeIMwawJr/r3r1CE+1IWzIIBDmnqRsxAwO4NLR
+         P4J8TjE6RgzBp3wtbZc3nCLGKZ6aP+sOHUq9E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X7pBEKn4xB6KlSsgM67ywt4YhFhtJVw3vFCQK0MunrU=;
+        b=xIqQUWqJFnH1OVtzoSjWS4CgHMB0xkwfslJdmPgfjOerUW82qOT30ZdlHh+vuKXGxT
+         dSkYGSUT2GpPWLPylw57dBs/ZryGNEwtyxL4D5pVnHW3Tp7aBFzTkiISjc3GC9e8FNqc
+         g5xusOxGWZkllnsKXdXfTWXIs9Q1DyV/L/m38DibVYifIpLOMNysVeBQQ1BL0zyeb+E5
+         879SoOaP/PwrnV9cy82yu10oCn9VxmVn17TT4Ak11TzTyZ3hUI+U5A4Hr7wDTSxW/c3F
+         ncBTpIkIqsviMtof81QCJC7p5WjLJkbJUiOosbYbfN31GcPG9WfokjmhiEmjUngthomM
+         xYUw==
+X-Gm-Message-State: AO0yUKXiDppCsu9ovrBDm3hAnKyGu+gDT0l7PCCY3jXTqXSd2e5uxL/Y
+	bhMGaeYCcQBqChlb1xaxyJn0c2UgNtGX/P0R0LI2ug==
+X-Google-Smtp-Source: AK7set/2RMPBY9eBahBTJEvy3rYfwwbLjgi7c1vRDs5ESG4HcYXd5DGekbUkiWg0DHXub99IRVG7DJ9cLcGN4Xa6sZ4=
+X-Received: by 2002:a0d:d7cf:0:b0:50f:ba3b:8a0a with SMTP id
+ z198-20020a0dd7cf000000b0050fba3b8a0amr1346075ywd.181.1675189304668; Tue, 31
+ Jan 2023 10:21:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230126205620.3714994-1-pmalani@chromium.org> <Y9iIzcz5AGjVXsNG@google.com>
+In-Reply-To: <Y9iIzcz5AGjVXsNG@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 31 Jan 2023 10:21:33 -0800
+Message-ID: <CACeCKae0s21=tj4pKvm3SyU-AUxB67oH=vO3ihHTSQ31d26ZDg@mail.gmail.com>
 Subject: Re: [PATCH 1/2] platform/chrome: cros_ec: Add VDM attention headers
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167518921713.25730.1790476637549771457.git-patchwork-notify@kernel.org>
-Date: Tue, 31 Jan 2023 18:20:17 +0000
-References: <20230126205620.3714994-1-pmalani@chromium.org>
-In-Reply-To: <20230126205620.3714994-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- bleung@chromium.org, heikki.krogerus@linux.intel.com, dnojiri@chromium.org,
- dustin@howett.net, gregkh@linuxfoundation.org, groeck@chromium.org,
- gustavoars@kernel.org, lee@kernel.org, tinghan.shen@mediatek.com,
- tzungbi@kernel.org
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	bleung@chromium.org, heikki.krogerus@linux.intel.com, 
+	Daisuke Nojiri <dnojiri@chromium.org>, "Dustin L. Howett" <dustin@howett.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Tinghan Shen <tinghan.shen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Thanks for reviewing the patch, Tzung-Bi.
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Prashant Malani <pmalani@chromium.org>:
-
-On Thu, 26 Jan 2023 20:55:45 +0000 you wrote:
-> Incorporate updates to the EC headers to support the retrieval of VDM
-> Attention messages from port partners. These headers are already present
-> in the ChromeOS EC codebase. [1]
-> 
-> [1] https://source.chromium.org/chromium/chromiumos/platform/ec/+/main:include/ec_commands.h
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> 
-> [...]
-
-Here is the summary with links:
-  - [1/2] platform/chrome: cros_ec: Add VDM attention headers
-    https://git.kernel.org/chrome-platform/c/4b1936cd0814
-  - [2/2] platform/chrome: cros_typec_vdm: Add Attention support
-    https://git.kernel.org/chrome-platform/c/f54c013e7eef
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+On Mon, Jan 30, 2023 at 7:19 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+>
+> On Thu, Jan 26, 2023 at 08:55:45PM +0000, Prashant Malani wrote:
+> > Incorporate updates to the EC headers to support the retrieval of VDM
+> > Attention messages from port partners. These headers are already present
+> > in the ChromeOS EC codebase. [1]
+> >
+> > [1] https://source.chromium.org/chromium/chromiumos/platform/ec/+/main:include/ec_commands.h
+> >
+> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
+>
+> With a nit:
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+>
+> > diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+> > index b9c4a3964247..ec327638c6eb 100644
+> > --- a/include/linux/platform_data/cros_ec_commands.h
+> > +++ b/include/linux/platform_data/cros_ec_commands.h
+> > @@ -5862,6 +5862,7 @@ enum tcpc_cc_polarity {
+> >  #define PD_STATUS_EVENT_MUX_1_SET_DONE               BIT(5)
+> >  #define PD_STATUS_EVENT_VDM_REQ_REPLY                BIT(6)
+> >  #define PD_STATUS_EVENT_VDM_REQ_FAILED               BIT(7)
+> > +#define PD_STATUS_EVENT_VDM_ATTENTION                        BIT(8)
+>
+> This has an extra tab if comparing with others around.
+Fixed the tab and applied to chrome-platform/for-kernelci.

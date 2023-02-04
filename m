@@ -1,109 +1,208 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58813FE1
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Feb 2023 12:30:10 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id o36so3759534wms.1
-        for <chrome-platform@lists.linux.dev>; Fri, 03 Feb 2023 04:30:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AEC23A9
+	for <chrome-platform@lists.linux.dev>; Sat,  4 Feb 2023 13:30:51 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id a5so2534339pfv.10
+        for <chrome-platform@lists.linux.dev>; Sat, 04 Feb 2023 05:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oliUtLWESo3lQu6iHKqwx+2QOwN2sNCjDu921E6eImU=;
-        b=PC6jnhprbBOYA5gQ8hht4uhJybrq7/0C64ACU2Gt9qfbW1pk9VfapwtzsEQiHMXbWG
-         1JppW/crId+0Ce/5NY+vbYD8aQrWah3VOr/cgyiKfrz+CsV1xjGADT9tWMUyPppehNBX
-         SC0wy/PcQSuekQwM7g/y6t2SL8B/Gkosz5mtmibN43bNv0b1mD4tCXB0banPcItFJwfc
-         i54CE0XoHTzA+jAmoTtBHleO+mnp2xAR7FyjhdHzEDNwwY9TdNXm+ghb8j6ArobpiwRR
-         9hn30hxFYj4ol+bMYzOz9KNKlsouP5G6WIVr/nA+qavbwuBMicrP2QKe1d5rCLF7jiXP
-         ViLw==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FVkdJLwyfwU33wlGnUCxAKm5k44RcZQqior6oaFvcuE=;
+        b=XfyrlbJL6GXcFIz5XpUaWJNvkmTsRb5QUwHie4CTObeVqXW0WSWgZA6m9Iq9DOT3a2
+         Hw+fBePPOzPq/MrBuP3xBx7m9EbozC6e05a0ai8ItCuv0nrMXj2PYMxbenIv3Taz/vAv
+         AqGCtNwKNQHzA5ZI2zvjz+/QxoDgqYACbLgoc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oliUtLWESo3lQu6iHKqwx+2QOwN2sNCjDu921E6eImU=;
-        b=OuxtqW0v3ArOO7F3MDlGEk0R1052e54yEve3uueVt1Z+Efljelnj6trurdtfxMkHlP
-         c2GAA1NKvKnqaupfxievRW/KnQBkvIF+aV/IHcHd4Ayq7ir0GJ7dLJkzrsVuazevGZRr
-         5uu8c0aWxCgx2seo584xCPD2+PFXdH50B5Wvt0jcEiXEzjumMpqz+IqFZBK7IUnHHYMD
-         epJ7qlJRd+c0u6PfdJCdRDOUN3Ix7C/HfcpfgX9dAKDwRIOnOY0HkpiTEqmzCT2qFxeB
-         GGeCNfP8zFdjDeySrQIorJ8kMdQHPyqmn5AotrQuu3TDWabsSvaQ72OG8/4k6jdKLkMC
-         5+HQ==
-X-Gm-Message-State: AO0yUKXyNpBqzwvYnVqZNZEaXa7C9/v3/0TnkY/wOV0Ny4RkhF3vJGzS
-	VHmjWE+4l4bme+/Jsk9FR5vAhQ==
-X-Google-Smtp-Source: AK7set8hvfzN5yvSx0vn3SHDYBE0Cu37jFl12DeSADMr5lTBdrNCrV6wJaZ+esFXBrp8t+sFKTfd2w==
-X-Received: by 2002:a05:600c:4395:b0:3df:9858:c02c with SMTP id e21-20020a05600c439500b003df9858c02cmr4411370wmn.1.1675427409090;
-        Fri, 03 Feb 2023 04:30:09 -0800 (PST)
-Received: from [192.168.2.104] ([79.115.63.122])
-        by smtp.gmail.com with ESMTPSA id h27-20020a05600c2cbb00b003db12112fcfsm2871505wmc.4.2023.02.03.04.30.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 04:30:08 -0800 (PST)
-Message-ID: <e50fe7d3-0c73-d4af-9a61-74d1279202cc@linaro.org>
-Date: Fri, 3 Feb 2023 12:30:06 +0000
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FVkdJLwyfwU33wlGnUCxAKm5k44RcZQqior6oaFvcuE=;
+        b=dMGedwHw0bgoUKimnE9lmnk+Xcyp/J7f92755Q4F37EQKvIguP9ZvnM7Sy3iWhtogf
+         V7MMt5nW0CL1I4VVvkHPzdJ4OUnwaEcfv976B8iFqyZtXvtghZTRjFDAMeyLwpjI8eMi
+         UzCG88Jl1bjH23mWO7dA2Szsm58xqA49CnhHD9Lf+VrMUeMDEAEpUKM4XeZBqp2TzUaj
+         +oaFcO5O0vlzH7X6hxzMuYq0ZJr3uSdOqWtI+yBdGXu3JvTsNfoPNa5bDOhp/7NUMqOf
+         26cWFK+dqRovldD2+WFx3rm6AmtFlRDJnL+JOpnjC1aOM6Y6+6I7ILPUW1JbyM+39Ilx
+         T4Lg==
+X-Gm-Message-State: AO0yUKUj8riDFdwOKw+fDwYSE3M/CL+f5ubuFZIkwxEImhbtHM5a90FG
+	u3EYlMgGM/KNnLOHcfUaW/3oiA==
+X-Google-Smtp-Source: AK7set+9iHtCCYOSfEMYujSJDtSXZN/ujD2frcnZL18RY+S+5asJRhXbTQnQ3sqA2Na2InRuHuRE0Q==
+X-Received: by 2002:a62:3286:0:b0:59c:8937:435e with SMTP id y128-20020a623286000000b0059c8937435emr784064pfy.28.1675517450787;
+        Sat, 04 Feb 2023 05:30:50 -0800 (PST)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:c1ad:2bdc:7b5a:72e3])
+        by smtp.gmail.com with ESMTPSA id 144-20020a621596000000b00593ce7ebbaasm3655639pfv.184.2023.02.04.05.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Feb 2023 05:30:50 -0800 (PST)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <robert.foss@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	devicetree@vger.kernel.org,
+	Pin-yen Lin <treapking@chromium.org>,
+	Allen Chen <allen.chen@ite.com.tw>,
+	Lyude Paul <lyude@redhat.com>,
+	linux-acpi@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Marek Vasut <marex@denx.de>,
+	Xin Ji <xji@analogixsemi.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	chrome-platform@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Imre Deak <imre.deak@intel.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	Thierry Reding <treding@nvidia.com>
+Subject: [PATCH v11 0/9] Register Type-C mode-switch in DP bridge endpoints
+Date: Sat,  4 Feb 2023 21:30:31 +0800
+Message-Id: <20230204133040.1236799-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] tree-wide: trivial: s/ a SPI/ an SPI/
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: trivial@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-mips@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-wireless@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-rtc@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org
-References: <20230203101624.474611-1-tudor.ambarus@linaro.org>
- <CAMuHMdVeDbTGLBAk5QWGQGf=o6g25t341FjGTmNsHw0_sDOceg@mail.gmail.com>
- <Y9z0bQ8TeFROA0Fj@sirena.org.uk>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <Y9z0bQ8TeFROA0Fj@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+This series introduces bindings for anx7625/it6505 to register Type-C
+mode-switch in their output endpoints, and use data-lanes property to
+describe the pin connections.
 
-On 2/3/23 11:47, Mark Brown wrote:
-> On Fri, Feb 03, 2023 at 11:28:03AM +0100, Geert Uytterhoeven wrote:
->> On Fri, Feb 3, 2023 at 11:17 AM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
-> 
->>> The deciding factor for when a/an should be used is the sound
->>> that begins the word which follows these indefinite articles,
->>> rather than the letter which does. Use "an SPI" (SPI begins
->>> with the consonant letter S, but the S is pronounced with its
->>> letter name, "es.").
-> 
->> While I agree with your pronunciation, I believe the SPI maintainer
->> (which you forgot to CC) pronounces it in James Bond-style, i.e. rhymes
->> with "spy" ;-)
-> 
-> Yes, I do.  To the best of my knowledge most people just say "spy"
-> rather than pronouncing the letters or anything.
-> 
-> In any case as I said in reply to one of the individual patches English
-> isn't regular enough to go with hard and fast rules on anything, and the
-> letter rule is much more commonly used where something is needed.  Using
-> an here looks wrong to me, and the fact that a is so widely used does
-> suggest that usage has escaped whatever rule there is.
+This series is not directly related to the built-in mux in anx7625,
+which automatically switches between the two orientations of a single
+Type-C connector. This series adds support of registering mode switches
+for two downstream devices, while we use orientation switches for two
+orientations of the Type-C connector.
 
-Indeed:
-$ git grep " a SPI" | wc -l
-131
-$ git grep " an SPI" | wc -l
-88
+The first two patch modifies fwnode_graph_devcon_matches and
+cros_typec_init_ports to enable the registration of the switches.
 
-Ok, let's drop this patch.
+Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+modifications.
 
-Cheers,
-ta
+Patch 7~9 add similar bindings and driver changes for it6505.
+
+v10: https://lore.kernel.org/all/20230112042104.4107253-1-treapking@chromium.org/
+v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
+v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
+v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+
+Changes in v11:
+- Added missing fwnode_handle_put in drivers/base/property.c
+- Collected Acked-by tag
+- Use fwnode helpers instead of DT
+- Moved the helpers to a new file
+- Use "reg" instead of "data-lanes" to determine the port number
+- Updated the description of the endpoints in the bindings
+- Referenced video-interfaces.yaml instead for the endpoints binding
+- Removed duplicated definitions from inherited schema
+- Moved the "data-lanes" parsing logics to bridge drivers
+- Removed Kconfig dependencies for the bridge drivers
+- Updated the usage of the private bridge driver data
+- Added a clarification on the anx7625 built-in mux in the cover letter
+
+Changes in v10:
+- Collected Reviewed-by and Tested-by tags
+- Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+- Print out the node name when errors on parsing DT
+- Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+- Made the return path of drm_dp_register_mode_switch clearer
+- Added a TODO for implementing orientation switch for anx7625
+- Updated the commit message for the absence of orientation switch
+- Fixed typo in the commit message
+
+Changes in v9:
+- Collected Reviewed-by tag
+- Fixed subject prefix again
+- Changed the naming of the example node for it6505
+
+Changes in v8:
+- Fixed the build issue when CONFIG_TYPEC=m
+- Fixed some style issues
+- Fixed the subject prefixes for the bindings patch
+- Fixed the bindings for data-lanes properties
+
+Changes in v7:
+- Fix the long comment lines
+- Extracted the common codes to a helper function
+- Fixed style issues in anx7625 driver
+- Removed DT property validation in anx7625 driver.
+- Fixed style issues in it6505 driver
+- Removed the redundant sleep in it6505 driver
+- Removed DT property validation in it6505 driver
+- Rebased to drm-misc-next
+- Fixed indentations in bindings patches
+- Added a new patch to fix indentations in Kconfig
+
+Changes in v6:
+- Changed it6505_typec_mux_set callback function to accommodate with
+  the latest drm-misc patches
+- Changed the driver implementation to accommodate with the new binding
+- Dropped typec-switch binding and use endpoints and data-lanes properties
+  to describe the pin connections
+- Added new patches (patch 1,2,4) to fix probing issues
+- Changed the bindings of it6505/anx7625 and modified the drivers
+  accordingly
+- Merged it6505/anx7625 driver changes into a single patch
+
+Pin-yen Lin (7):
+  drm/display: Add Type-C switch helpers
+  dt-bindings: display: bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Check for Type-C during panel registration
+  drm/bridge: anx7625: Register Type C mode switches
+  dt-bindings: display: bridge: it6505: Add mode-switch support
+  drm/bridge: it6505: Fix Kconfig indentation
+  drm/bridge: it6505: Register Type C mode switches
+
+Prashant Malani (2):
+  device property: Add remote endpoint to devcon matcher
+  platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+
+ .../display/bridge/analogix,anx7625.yaml      |  94 ++++++++-
+ .../bindings/display/bridge/ite,it6505.yaml   | 101 ++++++++--
+ drivers/base/property.c                       |  16 ++
+ drivers/gpu/drm/bridge/Kconfig                |  20 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 162 +++++++++++++++-
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 ++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 179 +++++++++++++++++-
+ drivers/gpu/drm/display/Makefile              |   1 +
+ drivers/gpu/drm/display/drm_dp_typec_helper.c | 114 +++++++++++
+ drivers/platform/chrome/cros_ec_typec.c       |  10 +
+ include/drm/display/drm_dp_helper.h           |  31 +++
+ 11 files changed, 717 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/drm_dp_typec_helper.c
+
+-- 
+2.39.1.519.gcb327c4b5f-goog
+

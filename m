@@ -1,171 +1,176 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5982570
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Feb 2023 07:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675668838; x=1707204838;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X2WBQ9RJBzamhY9mmwq8nKykzM0EbKzq7klufUYGkLY=;
-  b=ZvpIaHZAiEdcA3oi0n5+L7KK7RYOVJ2JAItyQ+4+SW929OtvZZ5Xy3b2
-   q/qB+yng3tHFnMu55z2wXqVXOxaDyuBggi7x/vLHG98glRXU0HeU+ldZ9
-   pWnSn2Q/ARwHpRfH7vxnRMMvoPskqopcfICy4fdkm20TPV53Q1Uxz5GTP
-   y+b5t2bGZV/v65fPw6KLMmDZCiFuluWfFbWe+niNstrE9Au2nA9NNyAJ7
-   GVmC75hG8Ka5eRf0tAjSwVRWqmtmwmDaqaHI+FveeZ1UgCSD59tEaJiLx
-   QTDlc6W9q2JjEKL5WMAdOgRDnIPtisjVpu4SapvqMwAjvb00+C9arLjAM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="309481424"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="309481424"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 23:33:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="698757186"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="698757186"
-Received: from unknown (HELO rajath-NUC10i7FNH..) ([10.223.165.88])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 23:33:54 -0800
-From: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-To: pmalani@chromium.org,
-	bleung@chromium.org,
-	groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	rajat.khandelwal@intel.com,
-	Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-Subject: [PATCH] platform/chrome: Avoid fetching the type-C parameters again
-Date: Tue,  7 Feb 2023 13:06:10 +0530
-Message-Id: <20230207073610.3290391-1-rajat.khandelwal@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F9F195
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Feb 2023 08:40:20 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id j7so11838153vsl.11
+        for <chrome-platform@lists.linux.dev>; Mon, 06 Feb 2023 00:40:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxGBUMpZ6MlCuOf4ZGY5be1Z/6HawqxmEV6A7eKd+x8=;
+        b=eb4aSDL3eeoPKmPKagfqCIsDqkldstB0QqhkBdstr/XyIHyHdDPeWkcERZl4gZP4wW
+         aYh0I54j0tapjkNd4VT8+FGZJFNpZ0ySFiXDxg9vYibrt5bZt21LE1q6a++C7CFmbdRc
+         AtL+ZeigRmZ3hIG2gZ3K2kRFcgoJVA130tk68=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bxGBUMpZ6MlCuOf4ZGY5be1Z/6HawqxmEV6A7eKd+x8=;
+        b=pRdWvZcu3ALSSNZ82TIICP5K8LePazm3hKtj3AvP+UM/yqfzeO9uEMek0UwyX4RDQ7
+         H13MznbDin9Y3zX9g5yYUvUtF058NilIaJLNuouzPnwSiFsC5ikE6EcxqIVrabJwIEFq
+         +8iFdxJm3wJpzrDYnZUxKlCwSlldR2NUylSyzYLH3V+PeawfaUbYJC5Zk0HJvMvnj10y
+         Uju8XpSf+jnYhSdE085laMpzbXpZ/yR7lxuYNci5eMBRvRRl9gK2yjo3H96x3Oy5iyAd
+         G9uYXQ7+K2I3PCNy6qtopIjOrVq6Jx8jE8KvSbC5uZMEOhBTxyasqQX0RS5/gqQGQCzw
+         m2iA==
+X-Gm-Message-State: AO0yUKVzvomDX38BlSMwDmimA5j+b/KSrGwog2jT5DDzQC5f4vN//cAk
+	mGeCN7ni3BcbP875FUfoEzbQXszEtjGuO5rpZyY7ZQ==
+X-Google-Smtp-Source: AK7set/Nc+tRekf0h+tZTWStnrZoa/GmrslGQquHlfY8WRs6V9iTEWlJuxYA3EIydNHfm7RtpJMuutQEZD210Ih9vcw=
+X-Received: by 2002:a05:6102:322a:b0:3fe:ae88:d22 with SMTP id
+ x10-20020a056102322a00b003feae880d22mr2856750vsf.65.1675672819238; Mon, 06
+ Feb 2023 00:40:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230204133040.1236799-1-treapking@chromium.org>
+In-Reply-To: <20230204133040.1236799-1-treapking@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 6 Feb 2023 16:40:07 +0800
+Message-ID: <CAGXv+5FW8qYnBYJsf+gLEaEGnwunPFdjjVF9YUqDqCVAjXWuKA@mail.gmail.com>
+Subject: Re: [PATCH v11 0/9] Register Type-C mode-switch in DP bridge endpoints
+To: Pin-yen Lin <treapking@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev, 
+	Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org, 
+	Andi Shyti <andi.shyti@linux.intel.com>, Thierry Reding <treding@nvidia.com>, 
+	devicetree@vger.kernel.org, Kees Cook <keescook@chromium.org>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Jani Nikula <jani.nikula@intel.com>, Allen Chen <allen.chen@ite.com.tw>, 
+	Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Douglas Anderson <dianders@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The struct 'cros_typec_port' incorporates three type-C parameters,
-'ori_sw', 'retimer', and 'mux'.
-These parameters in the struct 'typec_port' are being already
-configured when 'typec_register_port' is being called.
+On Sat, Feb 4, 2023 at 9:30 PM Pin-yen Lin <treapking@chromium.org> wrote:
+>
+>
+> This series introduces bindings for anx7625/it6505 to register Type-C
+> mode-switch in their output endpoints, and use data-lanes property to
+> describe the pin connections.
+>
+> This series is not directly related to the built-in mux in anx7625,
+> which automatically switches between the two orientations of a single
+> Type-C connector. This series adds support of registering mode switches
+> for two downstream devices, while we use orientation switches for two
+> orientations of the Type-C connector.
+>
+> The first two patch modifies fwnode_graph_devcon_matches and
+> cros_typec_init_ports to enable the registration of the switches.
+>
+> Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+> modifications.
+>
+> Patch 7~9 add similar bindings and driver changes for it6505.
+>
+> v10: https://lore.kernel.org/all/20230112042104.4107253-1-treapking@chromium.org/
+> v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
+> v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
+> v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+> v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+> v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+>
+> Changes in v11:
+> - Added missing fwnode_handle_put in drivers/base/property.c
+> - Collected Acked-by tag
+> - Use fwnode helpers instead of DT
+> - Moved the helpers to a new file
+> - Use "reg" instead of "data-lanes" to determine the port number
+> - Updated the description of the endpoints in the bindings
+> - Referenced video-interfaces.yaml instead for the endpoints binding
+> - Removed duplicated definitions from inherited schema
+> - Moved the "data-lanes" parsing logics to bridge drivers
+> - Removed Kconfig dependencies for the bridge drivers
+> - Updated the usage of the private bridge driver data
+> - Added a clarification on the anx7625 built-in mux in the cover letter
+>
+> Changes in v10:
+> - Collected Reviewed-by and Tested-by tags
+> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> - Print out the node name when errors on parsing DT
+> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> - Made the return path of drm_dp_register_mode_switch clearer
+> - Added a TODO for implementing orientation switch for anx7625
+> - Updated the commit message for the absence of orientation switch
+> - Fixed typo in the commit message
+>
+> Changes in v9:
+> - Collected Reviewed-by tag
+> - Fixed subject prefix again
+> - Changed the naming of the example node for it6505
+>
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=m
+> - Fixed some style issues
+> - Fixed the subject prefixes for the bindings patch
+> - Fixed the bindings for data-lanes properties
+>
+> Changes in v7:
+> - Fix the long comment lines
+> - Extracted the common codes to a helper function
+> - Fixed style issues in anx7625 driver
+> - Removed DT property validation in anx7625 driver.
+> - Fixed style issues in it6505 driver
+> - Removed the redundant sleep in it6505 driver
+> - Removed DT property validation in it6505 driver
+> - Rebased to drm-misc-next
+> - Fixed indentations in bindings patches
+> - Added a new patch to fix indentations in Kconfig
+>
+> Changes in v6:
+> - Changed it6505_typec_mux_set callback function to accommodate with
+>   the latest drm-misc patches
+> - Changed the driver implementation to accommodate with the new binding
+> - Dropped typec-switch binding and use endpoints and data-lanes properties
+>   to describe the pin connections
+> - Added new patches (patch 1,2,4) to fix probing issues
+> - Changed the bindings of it6505/anx7625 and modified the drivers
+>   accordingly
+> - Merged it6505/anx7625 driver changes into a single patch
+>
+> Pin-yen Lin (7):
+>   drm/display: Add Type-C switch helpers
+>   dt-bindings: display: bridge: anx7625: Add mode-switch support
+>   drm/bridge: anx7625: Check for Type-C during panel registration
+>   drm/bridge: anx7625: Register Type C mode switches
+>   dt-bindings: display: bridge: it6505: Add mode-switch support
+>   drm/bridge: it6505: Fix Kconfig indentation
+>   drm/bridge: it6505: Register Type C mode switches
+>
+> Prashant Malani (2):
+>   device property: Add remote endpoint to devcon matcher
+>   platform/chrome: cros_ec_typec: Purge blocking switch devlinks
 
-The bigger picture - 'typec_register_port' can return an error and
-the type-C parameters could go unconfigured. However, the callback
-will return EPROBE_DEFER and the driver will again be getting probed
-trying to configure them again.
-However, currently, they are again tried to get fetched for the
-'cros_typec_port' struct, which sometimes could result in an error
-and these parameters could go unconfigured (no provision of deferring
-the probe in this case, so we are left with unconfigured parameters).
+Whole series is
 
-Hence, assign the parameters to the corresponding ones in the struct
-'typec_port' after they are fetched in 'typec_register_port'.
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
----
- drivers/platform/chrome/cros_ec_typec.c | 58 ++++++++++---------------
- 1 file changed, 22 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 001b0de95a46..0265c0d38bd6 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -24,6 +24,8 @@
- #include <linux/usb/typec_tbt.h>
- #include <linux/usb/role.h>
- 
-+#include "../../usb/typec/class.h"
-+
- #define DRV_NAME "cros-ec-typec"
- 
- #define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
-@@ -141,47 +143,17 @@ static int cros_typec_parse_port_props(struct typec_capability *cap,
- 	return 0;
- }
- 
--static int cros_typec_get_switch_handles(struct cros_typec_port *port,
--					 struct fwnode_handle *fwnode,
--					 struct device *dev)
-+static int cros_typec_get_role_switch_handle(struct cros_typec_port *port,
-+					     struct fwnode_handle *fwnode,
-+					     struct device *dev)
- {
--	port->mux = fwnode_typec_mux_get(fwnode, NULL);
--	if (IS_ERR(port->mux)) {
--		dev_dbg(dev, "Mux handle not found.\n");
--		goto mux_err;
--	}
--
--	port->retimer = fwnode_typec_retimer_get(fwnode);
--	if (IS_ERR(port->retimer)) {
--		dev_dbg(dev, "Retimer handle not found.\n");
--		goto retimer_sw_err;
--	}
--
--	port->ori_sw = fwnode_typec_switch_get(fwnode);
--	if (IS_ERR(port->ori_sw)) {
--		dev_dbg(dev, "Orientation switch handle not found.\n");
--		goto ori_sw_err;
--	}
--
- 	port->role_sw = fwnode_usb_role_switch_get(fwnode);
- 	if (IS_ERR(port->role_sw)) {
- 		dev_dbg(dev, "USB role switch handle not found.\n");
--		goto role_sw_err;
-+		return -ENODEV;
- 	}
- 
- 	return 0;
--
--role_sw_err:
--	typec_switch_put(port->ori_sw);
--	port->ori_sw = NULL;
--ori_sw_err:
--	typec_retimer_put(port->retimer);
--	port->retimer = NULL;
--retimer_sw_err:
--	typec_mux_put(port->mux);
--	port->mux = NULL;
--mux_err:
--	return -ENODEV;
- }
- 
- static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
-@@ -363,6 +335,18 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
- 	return 0;
- }
- 
-+static void cros_typec_copy_port_params(struct cros_typec_port *cros_port)
-+{
-+	struct typec_port *port = cros_port->port;
-+
-+	if (IS_ERR_OR_NULL(port))
-+		return;
-+
-+	cros_port->mux = port->mux;
-+	cros_port->retimer = port->retimer;
-+	cros_port->ori_sw = port->sw;
-+}
-+
- static int cros_typec_init_ports(struct cros_typec_data *typec)
- {
- 	struct device *dev = typec->dev;
-@@ -422,9 +406,11 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 			goto unregister_ports;
- 		}
- 
--		ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
-+		cros_typec_copy_port_params(cros_port);
-+
-+		ret = cros_typec_get_role_switch_handle(cros_port, fwnode, dev);
- 		if (ret)
--			dev_dbg(dev, "No switch control for port %d\n",
-+			dev_dbg(dev, "No role-switch control for port %d\n",
- 				port_num);
- 
- 		ret = cros_typec_register_port_altmodes(typec, port_num);
--- 
-2.34.1
-
+on MT8192-based Hayato for anx7625 and not-yet-upstreamed MT8186 device
+for it6505.

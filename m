@@ -1,100 +1,260 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63C97468
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 18:02:56 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id u8so6336678ilq.13
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 10:02:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA223C3B
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 18:36:56 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id mi9so15909950pjb.4
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 10:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bUQ+Q0O4InpaxQsTYmk72fYT5UIvjG/Pm2uUP+Phbwk=;
-        b=JGHoYL40Z6fjjUrLtEJSGnhqJ5HXvZqZ45pUm+86mk1oyvSMIQ6hL2kSeRAqxRs686
-         rMOxQaQhOIUbvArfmOgeHG/va2KZMhBxe88CJ/UDb5mK5zau+L4jSNjKHn/N4rrHR7sL
-         xaT6BSBIOSA5nNoJ9b6EHgzgrFronLQpS8Pdo=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l+HO6rC+/poU0Jnr+qzIPWxWV3H1arhJs9ja1yMTHgY=;
+        b=jlRpJ7abLvNo3esScW2bfyBAs5uNgHwObp9DOut+joZR9SmXNdzfT+dMnUIO6RpDa0
+         IT1QX/Q1lqLfuW9mObsMGLdF5JhEq7aZpINx/P2F667RRu5wkHsx2tjEaiCWBIvTMRSH
+         ctRk9E6IJCcs9TFq5Q36glH3FiLI83juetYkI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bUQ+Q0O4InpaxQsTYmk72fYT5UIvjG/Pm2uUP+Phbwk=;
-        b=Djd/gUwQppV5papH7GrM0mBmj0z9nd2bDpqQSPJRgWnSyQlJcBZXkjT11dnLcD1xcl
-         9aKJnAxtUIxQ7Jdt5PYAbG/CjRsI5jamJE3KLOQZEVFQPtg6vN3pmAUCI7jR4u+DvXU2
-         kKCmRcK2k4iqbMk9/ZUiZM6tB5kxUjcbRIWArLSFgCYmfhW//ho/IBiis2cA33+Wr/Ir
-         EPbFXt7J8gWru2gVSBHjDWWOffv3xhIZUHafxM2//EeKniCJkKQOt6ZcLIzCa7mf/dqJ
-         zdXoMESGRs6eZ3xzvOc34Ob25OW+4Oh6ElvrIiN0d+7gh/AzFKhL0Z+HYAavINm+HecW
-         iypw==
-X-Gm-Message-State: AO0yUKWYib+qy7qKpvS6Tt3c99YzX0/yiWuN9HH9Q65NKQQOfsVY5VV0
-	z0tsd/ElbzwTbL+zv1c5LuDcCw==
-X-Google-Smtp-Source: AK7set+Gs5sMZkpCEn+J2Ws04h4s1CYRJPvjEKEvzqVHSPh/cEtUPPOERE1fGdpKjwzCw+QLP5RncQ==
-X-Received: by 2002:a05:6e02:1be8:b0:313:cd79:adcb with SMTP id y8-20020a056e021be800b00313cd79adcbmr4889037ilv.18.1675792975934;
-        Tue, 07 Feb 2023 10:02:55 -0800 (PST)
-Received: from chromium.org ([2a00:79e1:abc:1702:24:af62:de72:11ae])
-        by smtp.gmail.com with ESMTPSA id q15-20020a02cf0f000000b0038a6ae38ceasm4647885jar.26.2023.02.07.10.02.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 10:02:55 -0800 (PST)
-Date: Tue, 7 Feb 2023 11:02:52 -0700
-From: Jack Rosenthal <jrosenth@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Julius Werner <jwerner@chromium.org>,
-	David Gow <davidgow@google.com>, chrome-platform@lists.linux.dev,
-	Stephen Boyd <swboyd@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: coreboot: Remove GOOGLE_COREBOOT_TABLE_ACPI/OF
- Kconfig entries
-Message-ID: <Y+KSTG92TtFK4PQm@chromium.org>
-References: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l+HO6rC+/poU0Jnr+qzIPWxWV3H1arhJs9ja1yMTHgY=;
+        b=ivrh+fvvGVQ/T58C5heLULZ+YeSNIVSgjxXq/p9fS+naUbyv5AysXmLeVc6+JNjaFG
+         PMdp0pJKZgyjBt6QzmpZSNBCL8WDTyXOgHRYnMqTMW6RkmB0ZuCPyGhA1QT4YXrZ7glG
+         NxXsiHE94buljg6vCJ49AU7YDrLJ3aimc819vLbWzNABzG/uGxnk28GqECr2jPaLR/w8
+         Y81y0UADdEVQYwfvB9ss0sqeQfK9VutQQLuR6zrPWif5Df0UIz0J0qPpYMFJa1jAUD7j
+         4/1H0tUV310foSwNxS4nBUBuRUBqw0EztEumCZY6KWGva59NsBBoEbQSQ7bb6OCJuCBT
+         wz/A==
+X-Gm-Message-State: AO0yUKXUimaEBGXCI/alSzM/55ssFBlhgzuarOwXji9IbFBSBSWTvbCm
+	rGBRaqIT8sxChj+fJ4nlgY/Pmx+F3VMdk9lNHNGkaA==
+X-Google-Smtp-Source: AK7set/fx/t43dMbReaTzGqA10zYqoR+u6YdTU4fSRUJFD7GvQ/8e8s3w4yyRQMNXrJ8nKc4FujGEsreiknobuS6eqw=
+X-Received: by 2002:a17:902:8696:b0:199:3b54:7f6c with SMTP id
+ g22-20020a170902869600b001993b547f6cmr313464plo.25.1675795015576; Tue, 07 Feb
+ 2023 10:36:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
+References: <20230207073610.3290391-1-rajat.khandelwal@linux.intel.com>
+ <CACeCKad1suBNrpPOtKnHaLZmLEpgV4ExA53ermqv50viSSnLdA@mail.gmail.com> <d3254107-406e-6eff-6305-51405ab09e08@linux.intel.com>
+In-Reply-To: <d3254107-406e-6eff-6305-51405ab09e08@linux.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 7 Feb 2023 10:36:42 -0800
+Message-ID: <CACeCKaeNaeaDvotPvWyk27Hv-2O5ebqkndkSgpCUUTaCvnNaEA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: Avoid fetching the type-C parameters again
+To: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, rajat.khandelwal@intel.com, 
+	abhijeet.rao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2023-02-07 at 08:12 -0800, Douglas Anderson wrote:
-> Ever since commit a28aad66da8b ("firmware: coreboot: Collapse platform
-> drivers into bus core") the Kconfig entries GOOGLE_COREBOOT_TABLE_OF
-> and GOOGLE_COREBOOT_TABLE_ACPI have been dead. They have no "help"
-> text and thus aren't user choosable. They also aren't "select"ed by
-> anything. They also control the compilation of no code.
-> 
-> Let's remove them.
-> 
-> Fixes: a28aad66da8b ("firmware: coreboot: Collapse platform drivers into bus core")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Hey Rajat,
 
-Reviewed-by: Jack Rosenthal <jrosenth@chromium.org>
+On Tue, Feb 7, 2023 at 12:53 AM Rajat Khandelwal
+<rajat.khandelwal@linux.intel.com> wrote:
+>
+> Hi Prashant,
+> Please find the comments inline.
+>
+> On 2/7/2023 1:25 AM, Prashant Malani wrote:
+>
+> Hi Rajat,
+>
+> Please use the right header in the commit message. There are plenty of
+> examples in the git log.
+>
+> Got it Prashant.
+>
+> On Sun, Feb 5, 2023 at 11:34 PM Rajat Khandelwal
+> <rajat.khandelwal@linux.intel.com> wrote:
+>
+> The struct 'cros_typec_port' incorporates three type-C parameters,
+> 'ori_sw', 'retimer', and 'mux'.
+> These parameters in the struct 'typec_port' are being already
+> configured when 'typec_register_port' is being called.
+>
+> The bigger picture - 'typec_register_port' can return an error and
+> the type-C parameters could go unconfigured. However, the callback
+> will return EPROBE_DEFER and the driver will again be getting probed
+> trying to configure them again.
+> However, currently, they are again tried to get fetched for the
+> 'cros_typec_port' struct, which sometimes could result in an error
+> and these parameters could go unconfigured (no provision of deferring
+> the probe in this case, so we are left with unconfigured parameters).
+>
+> This is by design. If the switch handles cannot be obtained for any reason
+> other that -EPROBE_DEFER, we will not re-attempt to acquire them, and
+> should continue driver probe and carry on with limited functionality.
+>
+> Why should we even try to acquire them in cros-ec-typec, when we can use them
+> natively populated?
 
+Those handles are internal to the Type-C class code. Anything outside shouldn't
+be accessing them (that applies to anything within struct typec_port); they are
+intentionally kept opaque to protect implementation internals.
+
+>
+> If there is a sporadic error other than -EPROBE_DEFER, that points to a
+> deeper issue in firmware which should be investigated.
+>
+> Hence, assign the parameters to the corresponding ones in the struct
+> 'typec_port' after they are fetched in 'typec_register_port'.
+>
+> Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
 > ---
-> 
->  drivers/firmware/google/Kconfig | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-> index 9f190eab43ed..1bc7cbf2f65d 100644
-> --- a/drivers/firmware/google/Kconfig
-> +++ b/drivers/firmware/google/Kconfig
-> @@ -44,14 +44,6 @@ config GOOGLE_COREBOOT_TABLE
->  	  device tree node /firmware/coreboot.
->  	  If unsure say N.
->  
-> -config GOOGLE_COREBOOT_TABLE_ACPI
-> -	tristate
-> -	select GOOGLE_COREBOOT_TABLE
+>  drivers/platform/chrome/cros_ec_typec.c | 58 ++++++++++---------------
+>  1 file changed, 22 insertions(+), 36 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index 001b0de95a46..0265c0d38bd6 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -24,6 +24,8 @@
+>  #include <linux/usb/typec_tbt.h>
+>  #include <linux/usb/role.h>
+>
+> +#include "../../usb/typec/class.h"
+>
+> That is a local header. We cannot use it outside of drivers/usb/typec/
+>
+> Ok, sure. To avoid restructuring the struct definitions, I simply put it for now.
+> This can be rectified after we arrive at a culmination.
+>
+> +
+>  #define DRV_NAME "cros-ec-typec"
+>
+>  #define DP_PORT_VDO    (DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
+> @@ -141,47 +143,17 @@ static int cros_typec_parse_port_props(struct typec_capability *cap,
+>         return 0;
+>  }
+>
+> -static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+> -                                        struct fwnode_handle *fwnode,
+> -                                        struct device *dev)
+> +static int cros_typec_get_role_switch_handle(struct cros_typec_port *port,
+> +                                            struct fwnode_handle *fwnode,
+> +                                            struct device *dev)
+>  {
+> -       port->mux = fwnode_typec_mux_get(fwnode, NULL);
+> -       if (IS_ERR(port->mux)) {
+> -               dev_dbg(dev, "Mux handle not found.\n");
+> -               goto mux_err;
+> -       }
 > -
-> -config GOOGLE_COREBOOT_TABLE_OF
-> -	tristate
-> -	select GOOGLE_COREBOOT_TABLE
+> -       port->retimer = fwnode_typec_retimer_get(fwnode);
+> -       if (IS_ERR(port->retimer)) {
+> -               dev_dbg(dev, "Retimer handle not found.\n");
+> -               goto retimer_sw_err;
+> -       }
 > -
->  config GOOGLE_MEMCONSOLE
->  	tristate
->  	depends on GOOGLE_MEMCONSOLE_X86_LEGACY || GOOGLE_MEMCONSOLE_COREBOOT
-> -- 
-> 2.39.1.519.gcb327c4b5f-goog
-> 
+> -       port->ori_sw = fwnode_typec_switch_get(fwnode);
+> -       if (IS_ERR(port->ori_sw)) {
+> -               dev_dbg(dev, "Orientation switch handle not found.\n");
+> -               goto ori_sw_err;
+> -       }
+> -
+>         port->role_sw = fwnode_usb_role_switch_get(fwnode);
+>         if (IS_ERR(port->role_sw)) {
+>                 dev_dbg(dev, "USB role switch handle not found.\n");
+> -               goto role_sw_err;
+> +               return -ENODEV;
+>         }
+>
+>         return 0;
+> -
+> -role_sw_err:
+> -       typec_switch_put(port->ori_sw);
+> -       port->ori_sw = NULL;
+> -ori_sw_err:
+> -       typec_retimer_put(port->retimer);
+> -       port->retimer = NULL;
+> -retimer_sw_err:
+> -       typec_mux_put(port->mux);
+> -       port->mux = NULL;
+> -mux_err:
+> -       return -ENODEV;
+>  }
+>
+>  static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
+> @@ -363,6 +335,18 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+>         return 0;
+>  }
+>
+> +static void cros_typec_copy_port_params(struct cros_typec_port *cros_port)
+> +{
+> +       struct typec_port *port = cros_port->port;
+> +
+> +       if (IS_ERR_OR_NULL(port))
+> +               return;
+> +
+> +       cros_port->mux = port->mux;
+> +       cros_port->retimer = port->retimer;
+> +       cros_port->ori_sw = port->sw;
+> +}
+>
+> Sorry, but this is not the right approach. These handles are
+> ref-counted. We intentionally
+> take extra references to these using the provided API. Please don't
+> use raw references like this.
+>
+> Aah, didn't see they were getting ref-counted. Even so, I don't understand
+> the part that why do we need to take extra references? Can't we not use the
+> same reference to the nodes which were populated in the type-C driver?
+
+No; they have to be refcounted (that's the way all firmware node handles
+are used). Any "client" or "caller" that wants to use the fwnode handles
+has to use the correct APIs. Refcounting is necessary for the fwnode/property
+framework to ensure that there are no stale references for firmware device
+nodes (needed to prevent leaks during device creation/removal). If the fwnode
+framework doesn't know that you (driver) have a reference, it is free
+to invalidate
+that reference (and remove the underlying device) without you(driver)
+knowing anything about it (I'm sure I'm oversimplifying a lot over
+here, but that
+is the gist AFAIK).
+
+>
+> On another note, maybe remove these 3 handles from 'cros_typec_port' altogether,
+> and use the handles from 'typec_port' inside the 'cros_typec_struct'?
+
+>Other drivers
+> in the type-C domain use the same concept AFAIK. They just have the 'typec_port' from
+> which they use all the handles natively populated.
+
+What drivers are these? No port driver should be using these handles without
+refcounting them with the right API calls.
+
+>
+> Further, the same 'fwnode' will be matched in 'typec_mux_match'/'typec_switch_match',
+> irrespective of it being called from 'typec_register_port' or 'cros_typec_get_switch_handles'.
+> Thus, mux->mux_dev->dev and sw->sw_dev->dev will represent the same 'dev' struct.
+> Is there actually a point of referencing them again in cros-ec-typec? Even when we decrement the
+> ref-counter, it will be decremented of the same 'dev'!
+> Please correct me if I'm wrong. :)
+>
+> Also, if the fwnode_*_get() functions are failing, why are we to
+> assume that they worked for the
+> Type-C class code (that code uses the same functions) [1] ?
+>
+> They surely worked for the type-C class code, since if either of the 'mux' and 'switch'
+> handles are ERR, it will return an error. cros-ec-typec will then try to probe again.
+> Since the handling reaches after the 'typec_register_port', I think we can be sure that they
+> had to be succeeded for the type-C class driver.
+
+If those calls are succeeding when they are called within typec_register_port(),
+there is no reason why they should fail when called from cros-ec-typec (we
+are just taking references to existing handles after all).
+I would suggest looking into why the calls to get the firmware handles
+are failing
+from the port driver.
+
+
+On a unrelated note: Are you responding in plain text mode? I suspect
+you may not be,
+since the indentation of responses is getting messed up.
+
+BR,
+
+-Prashant

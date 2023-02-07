@@ -1,157 +1,171 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C5827716
-	for <chrome-platform@lists.linux.dev>; Sun,  5 Feb 2023 21:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5982570
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Feb 2023 07:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675631507; x=1707167507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xm3HIRSFDbFA71kRsh0phLher1JTnUxzuHlDRPbBskE=;
-  b=NO1QFNCiw9xWlMZb/5UZgLtxWvbyDO+IBHJ+hoVnXN7dbeqvPKmMX8PW
-   fLBQ0d2A3UPwHIq/i82xcD3wTlVWsZ1Bxno2OS6t+Q7dh2VYTtlJYxyqK
-   /ZBOcQRO6h0e7lJodW26g/wBp+iQ7q2PmWR6DpDF3vZ/bsCOkzN5FJ+BG
-   vg+AirtGUkOwvSf2BJvJ73a//WIJn1jIJ0f7cOK8gL3KJfxHwC0289PrG
-   oBKGLOnqx7jm/e+mWv9ifAES69iL1vib73SddOpMl7ualPL3MRoRjAH4M
-   K3/Ex10UKbmRfrgokSAJERwxSKc4PkKcunuer/o+2oDF+GJLeuXLwsdHQ
+  t=1675668838; x=1707204838;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=X2WBQ9RJBzamhY9mmwq8nKykzM0EbKzq7klufUYGkLY=;
+  b=ZvpIaHZAiEdcA3oi0n5+L7KK7RYOVJ2JAItyQ+4+SW929OtvZZ5Xy3b2
+   q/qB+yng3tHFnMu55z2wXqVXOxaDyuBggi7x/vLHG98glRXU0HeU+ldZ9
+   pWnSn2Q/ARwHpRfH7vxnRMMvoPskqopcfICy4fdkm20TPV53Q1Uxz5GTP
+   y+b5t2bGZV/v65fPw6KLMmDZCiFuluWfFbWe+niNstrE9Au2nA9NNyAJ7
+   GVmC75hG8Ka5eRf0tAjSwVRWqmtmwmDaqaHI+FveeZ1UgCSD59tEaJiLx
+   QTDlc6W9q2JjEKL5WMAdOgRDnIPtisjVpu4SapvqMwAjvb00+C9arLjAM
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="309423299"
-X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="309423299"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 13:11:46 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="659664078"
-X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="659664078"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 13:11:37 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0A95F12190B;
-	Sun,  5 Feb 2023 23:11:34 +0200 (EET)
-Date: Sun, 5 Feb 2023 23:11:34 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <robert.foss@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>, devicetree@vger.kernel.org,
-	Allen Chen <allen.chen@ite.com.tw>, Lyude Paul <lyude@redhat.com>,
-	linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Marek Vasut <marex@denx.de>, Xin Ji <xji@analogixsemi.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	chrome-platform@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v11 1/9] device property: Add remote endpoint to devcon
- matcher
-Message-ID: <Y+AbhnfJvScvHTGY@kekkonen.localdomain>
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-2-treapking@chromium.org>
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="309481424"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="309481424"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 23:33:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="698757186"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="698757186"
+Received: from unknown (HELO rajath-NUC10i7FNH..) ([10.223.165.88])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 23:33:54 -0800
+From: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+To: pmalani@chromium.org,
+	bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	rajat.khandelwal@intel.com,
+	Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+Subject: [PATCH] platform/chrome: Avoid fetching the type-C parameters again
+Date: Tue,  7 Feb 2023 13:06:10 +0530
+Message-Id: <20230207073610.3290391-1-rajat.khandelwal@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230204133040.1236799-2-treapking@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Pin-yen,
+The struct 'cros_typec_port' incorporates three type-C parameters,
+'ori_sw', 'retimer', and 'mux'.
+These parameters in the struct 'typec_port' are being already
+configured when 'typec_register_port' is being called.
 
-On Sat, Feb 04, 2023 at 09:30:32PM +0800, Pin-yen Lin wrote:
-> From: Prashant Malani <pmalani@chromium.org>
-> 
-> When searching the device graph for device matches, check the
-> remote-endpoint itself for a match.
-> 
-> Some drivers register devices for individual endpoints. This allows
-> the matcher code to evaluate those for a match too, instead
-> of only looking at the remote parent devices. This is required when a
-> device supports two mode switches in its endpoints, so we can't simply
-> register the mode switch with the parent node.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+The bigger picture - 'typec_register_port' can return an error and
+the type-C parameters could go unconfigured. However, the callback
+will return EPROBE_DEFER and the driver will again be getting probed
+trying to configure them again.
+However, currently, they are again tried to get fetched for the
+'cros_typec_port' struct, which sometimes could result in an error
+and these parameters could go unconfigured (no provision of deferring
+the probe in this case, so we are left with unconfigured parameters).
 
-Thanks for the update.
+Hence, assign the parameters to the corresponding ones in the struct
+'typec_port' after they are fetched in 'typec_register_port'.
 
-I intended to give my Reviewed-by: but there's something still needs to be
-addressed. See below.
+Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 58 ++++++++++---------------
+ 1 file changed, 22 insertions(+), 36 deletions(-)
 
-> 
-> ---
-> 
-> Changes in v11:
-> - Added missing fwnode_handle_put in drivers/base/property.c
-> 
-> Changes in v10:
-> - Collected Reviewed-by and Tested-by tags
-> 
-> Changes in v6:
-> - New in v6
-> 
->  drivers/base/property.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 2a5a37fcd998..e6f915b72eb7 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -1223,6 +1223,22 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
->  			break;
->  		}
->  
-> +		/*
-> +		 * Some drivers may register devices for endpoints. Check
-> +		 * the remote-endpoints for matches in addition to the remote
-> +		 * port parent.
-> +		 */
-> +		node = fwnode_graph_get_remote_endpoint(ep);
-
-Here fwnode_graph_get_remote_endpoint() returns an endpoint...
-
-> +		if (fwnode_device_is_available(node)) {
-
-and you're calling fwnode_device_is_available() on the endpoint node, which
-always returns true.
-
-Shouldn't you call this on the device node instead? What about match()
-below?
-
-> +			ret = match(node, con_id, data);
-> +			if (ret) {
-> +				if (matches)
-> +					matches[count] = ret;
-> +				count++;
-> +			}
-> +		}
-> +		fwnode_handle_put(node);
-> +
->  		node = fwnode_graph_get_remote_port_parent(ep);
->  		if (!fwnode_device_is_available(node)) {
->  			fwnode_handle_put(node);
-
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 001b0de95a46..0265c0d38bd6 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -24,6 +24,8 @@
+ #include <linux/usb/typec_tbt.h>
+ #include <linux/usb/role.h>
+ 
++#include "../../usb/typec/class.h"
++
+ #define DRV_NAME "cros-ec-typec"
+ 
+ #define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
+@@ -141,47 +143,17 @@ static int cros_typec_parse_port_props(struct typec_capability *cap,
+ 	return 0;
+ }
+ 
+-static int cros_typec_get_switch_handles(struct cros_typec_port *port,
+-					 struct fwnode_handle *fwnode,
+-					 struct device *dev)
++static int cros_typec_get_role_switch_handle(struct cros_typec_port *port,
++					     struct fwnode_handle *fwnode,
++					     struct device *dev)
+ {
+-	port->mux = fwnode_typec_mux_get(fwnode, NULL);
+-	if (IS_ERR(port->mux)) {
+-		dev_dbg(dev, "Mux handle not found.\n");
+-		goto mux_err;
+-	}
+-
+-	port->retimer = fwnode_typec_retimer_get(fwnode);
+-	if (IS_ERR(port->retimer)) {
+-		dev_dbg(dev, "Retimer handle not found.\n");
+-		goto retimer_sw_err;
+-	}
+-
+-	port->ori_sw = fwnode_typec_switch_get(fwnode);
+-	if (IS_ERR(port->ori_sw)) {
+-		dev_dbg(dev, "Orientation switch handle not found.\n");
+-		goto ori_sw_err;
+-	}
+-
+ 	port->role_sw = fwnode_usb_role_switch_get(fwnode);
+ 	if (IS_ERR(port->role_sw)) {
+ 		dev_dbg(dev, "USB role switch handle not found.\n");
+-		goto role_sw_err;
++		return -ENODEV;
+ 	}
+ 
+ 	return 0;
+-
+-role_sw_err:
+-	typec_switch_put(port->ori_sw);
+-	port->ori_sw = NULL;
+-ori_sw_err:
+-	typec_retimer_put(port->retimer);
+-	port->retimer = NULL;
+-retimer_sw_err:
+-	typec_mux_put(port->mux);
+-	port->mux = NULL;
+-mux_err:
+-	return -ENODEV;
+ }
+ 
+ static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
+@@ -363,6 +335,18 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+ 	return 0;
+ }
+ 
++static void cros_typec_copy_port_params(struct cros_typec_port *cros_port)
++{
++	struct typec_port *port = cros_port->port;
++
++	if (IS_ERR_OR_NULL(port))
++		return;
++
++	cros_port->mux = port->mux;
++	cros_port->retimer = port->retimer;
++	cros_port->ori_sw = port->sw;
++}
++
+ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ {
+ 	struct device *dev = typec->dev;
+@@ -422,9 +406,11 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 			goto unregister_ports;
+ 		}
+ 
+-		ret = cros_typec_get_switch_handles(cros_port, fwnode, dev);
++		cros_typec_copy_port_params(cros_port);
++
++		ret = cros_typec_get_role_switch_handle(cros_port, fwnode, dev);
+ 		if (ret)
+-			dev_dbg(dev, "No switch control for port %d\n",
++			dev_dbg(dev, "No role-switch control for port %d\n",
+ 				port_num);
+ 
+ 		ret = cros_typec_register_port_altmodes(typec, port_num);
 -- 
-Kind regards,
+2.34.1
 
-Sakari Ailus

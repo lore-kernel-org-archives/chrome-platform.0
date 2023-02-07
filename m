@@ -1,70 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382CB182
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 00:10:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DAF51C4339B;
-	Tue,  7 Feb 2023 00:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675728617;
-	bh=EpdJOUCIjrxB1GQbaI+CxfVWJ86X9hA8oMyrB7YcWIs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Zjp9AmKopxItxPvxP1LHKXYIRO8U6HZCwQYrTqCHnp4Z8oeN8TgFgHGY0cFhKNNC8
-	 PM0eUhxp3DK0JNh6/kBveJFY8mAq9VDSWPRxnLOuVB1v9vpadDXAGxzivH/v0rKoM1
-	 CPw/fMvNs2g9PQZ6ky140wW0Q0DylBwxqUNtCiH4jHy9C+f1CqqJ2y+6mCfiDP30k+
-	 cBcWVImTXJnHg391HqVijEcFjtdDXyV9uGm0zB9ogUdJNSyoMHjVqeZqydvLOHRjD7
-	 AA46p/7gPLliXczFq8nEPr+e0+6UAxibWYF2whDdy8Vfwa5HwEtRj8NVBjZIhmGNae
-	 +/MiUCzKYQrzw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF46FE55F07;
-	Tue,  7 Feb 2023 00:10:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7177CBD3B
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 09:14:47 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id d14so12823921wrr.9
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 01:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EnOMeG0z+YCevJjETbIYGt07S+IbdApmVaDUDwVjN8U=;
+        b=iqlAf7IGMyIOrcKjo+GQMhHPJG6L6QvHww9wyGLEFS56jdFszjRj15dzxrUf6AMNBC
+         RDsxjqagk1CLTr8CwmHto2Fz6sq+pgCqj640Km2/vSTeqO4frnXLFWq6wgtHyteVFM0d
+         95HOJ1JP26R16VXiWvMb2xQFoHzePRnjO85XemX8yWzYTweqk0xr/0xkmT/aUsdaoic5
+         VF8x0bmepJSwpe6y9rwpC3m61PYM04SunqcFQvUbAc4stRekVH6AQynVJki6LRemKp6L
+         uDrHlxrGnHEQ74VibFi2GYvH8ycHsMHnITQNKPxapKQPLLSlUUIFpEzsoYeSpBx0GC5N
+         yHRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EnOMeG0z+YCevJjETbIYGt07S+IbdApmVaDUDwVjN8U=;
+        b=fbIESbd24+MfcUTKNYFz3eOMmYaoiLK4lpD6oh+KAlq+wF828U5pTekXN1vzxUrvG0
+         7vfxR/LNx2XzQvQjaTxewyAAkU0V/VZU4uQAcZWXWhZWbU2YggrpDqHWJCRCXEbPHv92
+         0k9bTqXQ+gm5UhmZUSj63+7NCJDfpzNg0LzFsK9qHhTDbDL/8N79EbO9lQaWKZuhiIaM
+         zvfMCieYy49r9BCI8cMpf8498Cw23qiaGS+zN1ghQ9MOyHEZM4qFw0b0elM6531GOqXY
+         aLzdAerCJ1YCUVCJFKFfxjkOZbvpL0ct3yqG3E5udltjOBSnLSnf8rKDM8Lp0KnS1+cm
+         v4hw==
+X-Gm-Message-State: AO0yUKXNC44jBmHjTA6BU80bhUHYfaNzCkImimuZefMdQE4ffWsFQUN5
+	FTDaBot2+3i9Qnd972YA+fY=
+X-Google-Smtp-Source: AK7set95oC0Zx1vGd8VPUnITmIN++zR08TCoUYDCujeSmKMmRwYBoI5qC0HZN3YdOhaYkVNR6b9BcA==
+X-Received: by 2002:a5d:6447:0:b0:2be:57a6:8161 with SMTP id d7-20020a5d6447000000b002be57a68161mr1879784wrw.46.1675761285516;
+        Tue, 07 Feb 2023 01:14:45 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id a17-20020a5d53d1000000b002c3ebbc9248sm3704990wrw.66.2023.02.07.01.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 01:14:44 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] platform/chrome: Fix spelling mistake "Attenetion" -> "attention"
+Date: Tue,  7 Feb 2023 09:14:43 +0000
+Message-Id: <20230207091443.143995-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/2] platform/chrome: cros_ec: Add VDM attention headers
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167572861778.28884.5244984701102460302.git-patchwork-notify@kernel.org>
-Date: Tue, 07 Feb 2023 00:10:17 +0000
-References: <20230126205620.3714994-1-pmalani@chromium.org>
-In-Reply-To: <20230126205620.3714994-1-pmalani@chromium.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- bleung@chromium.org, heikki.krogerus@linux.intel.com, dnojiri@chromium.org,
- dustin@howett.net, gregkh@linuxfoundation.org, groeck@chromium.org,
- gustavoars@kernel.org, lee@kernel.org, tinghan.shen@mediatek.com,
- tzungbi@kernel.org
 
-Hello:
+There is a spelling mistake in a dev_warn message, make it lower case
+and fix the spelling.
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, 26 Jan 2023 20:55:45 +0000 you wrote:
-> Incorporate updates to the EC headers to support the retrieval of VDM
-> Attention messages from port partners. These headers are already present
-> in the ChromeOS EC codebase. [1]
-> 
-> [1] https://source.chromium.org/chromium/chromiumos/platform/ec/+/main:include/ec_commands.h
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> 
-> [...]
-
-Here is the summary with links:
-  - [1/2] platform/chrome: cros_ec: Add VDM attention headers
-    https://git.kernel.org/chrome-platform/c/4b1936cd0814
-  - [2/2] platform/chrome: cros_typec_vdm: Add Attention support
-    https://git.kernel.org/chrome-platform/c/f54c013e7eef
-
-You are awesome, thank you!
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 71f5d7d8e055..a673c3342470 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1020,7 +1020,7 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
+ 		cros_typec_handle_vdm_attention(typec, port_num);
+ 		ret = cros_typec_send_clear_event(typec, port_num, PD_STATUS_EVENT_VDM_ATTENTION);
+ 		if (ret < 0)
+-			dev_warn(typec->dev, "Failed VDM Attenetion event clear, port: %d\n",
++			dev_warn(typec->dev, "Failed VDM attention event clear, port: %d\n",
+ 				 port_num);
+ 	}
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.30.2
 

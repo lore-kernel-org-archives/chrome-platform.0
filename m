@@ -1,83 +1,181 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7177CBD3B
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 09:14:47 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id d14so12823921wrr.9
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 01:14:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1113C20E8
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 10:11:29 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id n2so2354078ili.11
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 02:11:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EnOMeG0z+YCevJjETbIYGt07S+IbdApmVaDUDwVjN8U=;
-        b=iqlAf7IGMyIOrcKjo+GQMhHPJG6L6QvHww9wyGLEFS56jdFszjRj15dzxrUf6AMNBC
-         RDsxjqagk1CLTr8CwmHto2Fz6sq+pgCqj640Km2/vSTeqO4frnXLFWq6wgtHyteVFM0d
-         95HOJ1JP26R16VXiWvMb2xQFoHzePRnjO85XemX8yWzYTweqk0xr/0xkmT/aUsdaoic5
-         VF8x0bmepJSwpe6y9rwpC3m61PYM04SunqcFQvUbAc4stRekVH6AQynVJki6LRemKp6L
-         uDrHlxrGnHEQ74VibFi2GYvH8ycHsMHnITQNKPxapKQPLLSlUUIFpEzsoYeSpBx0GC5N
-         yHRg==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
+        b=DdPR3zQi3FaRq/0DUytEr3pdQZJXEYAcVrcD7V59G77SlXPd4u49tC+gyGBwFJPFYy
+         67/fa4FaZDJ7/nKp9i2do2fWQFcMfJbHpGPfUq6HvZUZF4UBEooUGXVzWBqMFMEnYZwN
+         rAaICWHuS5XF+Lo2bO8pVyMaqko727E+MSi7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EnOMeG0z+YCevJjETbIYGt07S+IbdApmVaDUDwVjN8U=;
-        b=fbIESbd24+MfcUTKNYFz3eOMmYaoiLK4lpD6oh+KAlq+wF828U5pTekXN1vzxUrvG0
-         7vfxR/LNx2XzQvQjaTxewyAAkU0V/VZU4uQAcZWXWhZWbU2YggrpDqHWJCRCXEbPHv92
-         0k9bTqXQ+gm5UhmZUSj63+7NCJDfpzNg0LzFsK9qHhTDbDL/8N79EbO9lQaWKZuhiIaM
-         zvfMCieYy49r9BCI8cMpf8498Cw23qiaGS+zN1ghQ9MOyHEZM4qFw0b0elM6531GOqXY
-         aLzdAerCJ1YCUVCJFKFfxjkOZbvpL0ct3yqG3E5udltjOBSnLSnf8rKDM8Lp0KnS1+cm
-         v4hw==
-X-Gm-Message-State: AO0yUKXNC44jBmHjTA6BU80bhUHYfaNzCkImimuZefMdQE4ffWsFQUN5
-	FTDaBot2+3i9Qnd972YA+fY=
-X-Google-Smtp-Source: AK7set95oC0Zx1vGd8VPUnITmIN++zR08TCoUYDCujeSmKMmRwYBoI5qC0HZN3YdOhaYkVNR6b9BcA==
-X-Received: by 2002:a5d:6447:0:b0:2be:57a6:8161 with SMTP id d7-20020a5d6447000000b002be57a68161mr1879784wrw.46.1675761285516;
-        Tue, 07 Feb 2023 01:14:45 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id a17-20020a5d53d1000000b002c3ebbc9248sm3704990wrw.66.2023.02.07.01.14.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 01:14:44 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] platform/chrome: Fix spelling mistake "Attenetion" -> "attention"
-Date: Tue,  7 Feb 2023 09:14:43 +0000
-Message-Id: <20230207091443.143995-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
+        b=3YJZECMNiMjRPVMJnzEVAZA3NlRFo3QzPziQLMu9qydNNPId7LPh7uwXV9n6/tvoNI
+         Bh6gOwq/uqDMwJc6+A2e0KljOTW3iReUK3Za2UZbU9mVtPxcyG6UeQEAY4wfvPic9YWg
+         gDMbmcLNi0AE654o/6fICuZS/t3kYJEwB0jtuoDvvb9Ar992cx6a1GTXQD4EaHOtoO19
+         yAGrJjAg5UMx52Yza/7tc2nc+3DnqWnx9DCqfpqTm9WILe1DjKUEhygxjyLrtlZ7vk5x
+         f6TforlO0wYtBwCy864TvAng712m0zoNGGbxUXS321e6bC9s7U++yCMQGKrzUU8pGPVd
+         FVeg==
+X-Gm-Message-State: AO0yUKV2wMdKs6x3sWKB7ovwpuDGOSd3fGbgAlBra4pWi7U+3v576RY/
+	09CTNcfP2haGGkPkL7yZ5fWCRWDyrmrHEqS7mCXerg==
+X-Google-Smtp-Source: AK7set+p9iSJUXF22CkwOZYUk1RTPFJALAKMX1xeE+pdWvWYe6DHfPcl7VfcfJVnxubu8xcpOm0LxJ22zFQvIXxeTUg=
+X-Received: by 2002:a92:4412:0:b0:310:fd95:6d81 with SMTP id
+ r18-20020a924412000000b00310fd956d81mr1835895ila.42.1675764689078; Tue, 07
+ Feb 2023 02:11:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20230109084101.265664-1-treapking@chromium.org> <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
+In-Reply-To: <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Tue, 7 Feb 2023 18:11:18 +0800
+Message-ID: <CAEXTbpcEo1O3YYWjdYKMEotir8KoDEvsRtcD4SOvjGB08vhZ_Q@mail.gmail.com>
+Subject: Re: [PATCH v9 0/9] Register Type-C mode-switch in DP bridge endpoints
+To: Lyude Paul <lyude@redhat.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
+	Stephen Boyd <swboyd@chromium.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Xin Ji <xji@analogixsemi.com>, 
+	linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Allen Chen <allen.chen@ite.com.tw>, Javier Martinez Canillas <javierm@redhat.com>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
+	Jim Cromie <jim.cromie@gmail.com>, Kees Cook <keescook@chromium.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is a spelling mistake in a dev_warn message, make it lower case
-and fix the spelling.
+Hi Lyude,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/platform/chrome/cros_ec_typec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for letting me know!
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 71f5d7d8e055..a673c3342470 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -1020,7 +1020,7 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
- 		cros_typec_handle_vdm_attention(typec, port_num);
- 		ret = cros_typec_send_clear_event(typec, port_num, PD_STATUS_EVENT_VDM_ATTENTION);
- 		if (ret < 0)
--			dev_warn(typec->dev, "Failed VDM Attenetion event clear, port: %d\n",
-+			dev_warn(typec->dev, "Failed VDM attention event clear, port: %d\n",
- 				 port_num);
- 	}
- }
--- 
-2.30.2
+I just sent out a v11 and already received some review comments, but
+reviews are always welcomed if you have time to take a look.
 
+Regards,
+Pin-yen
+
+On Tue, Jan 31, 2023 at 7:10 AM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Don't know if this still needs reviews from me (feel free to respond if i=
+t
+> does!), but I wanted to say nice work! This is something I've wanted to s=
+ee
+> added to DRM for a while =E2=99=A5
+>
+>
+> On Mon, 2023-01-09 at 16:40 +0800, Pin-yen Lin wrote:
+> > This series introduces bindings for anx7625/it6505 to register Type-C
+> > mode-switch in their output endpoints, and use data-lanes property to
+> > describe the pin connections.
+> >
+> > The first two patch modifies fwnode_graph_devcon_matches and
+> > cros_typec_init_ports to enable the registration of the switches.
+> >
+> > Patch 4~6 introduce the bindings for anx7625 and the corresponding driv=
+er
+> > modifications.
+> >
+> > Patch 7~9 add similar bindings and driver changes for it6505.
+> >
+> > v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chro=
+mium.org/
+> > v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chrom=
+ium.org/
+> > v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@=
+chromium.org/
+> >
+> > Changes in v9:
+> > - Collected Reviewed-by tag
+> > - Fixed subject prefix again
+> > - Changed the naming of the example node for it6505
+> >
+> > Changes in v8:
+> > - Fixed the build issue when CONFIG_TYPEC=3Dm
+> > - Fixed some style issues
+> > - Fixed the subject prefixes for the bindings patch
+> > - Fixed the bindings for data-lanes properties
+> >
+> > Changes in v7:
+> > - Fix the long comment lines
+> > - Extracted the common codes to a helper function
+> > - Fixed style issues in anx7625 driver
+> > - Removed DT property validation in anx7625 driver.
+> > - Fixed style issues in it6505 driver
+> > - Removed the redundant sleep in it6505 driver
+> > - Removed DT property validation in it6505 driver
+> > - Rebased to drm-misc-next
+> > - Fixed indentations in bindings patches
+> > - Added a new patch to fix indentations in Kconfig
+> >
+> > Changes in v6:
+> > - Changed it6505_typec_mux_set callback function to accommodate with
+> >   the latest drm-misc patches
+> > - Changed the driver implementation to accommodate with the new binding
+> > - Dropped typec-switch binding and use endpoints and data-lanes propert=
+ies
+> >   to describe the pin connections
+> > - Added new patches (patch 1,2,4) to fix probing issues
+> > - Changed the bindings of it6505/anx7625 and modified the drivers
+> >   accordingly
+> > - Merged it6505/anx7625 driver changes into a single patch
+> >
+> > Pin-yen Lin (7):
+> >   drm/display: Add Type-C switch helpers
+> >   dt-bindings: display: bridge: anx7625: Add mode-switch support
+> >   drm/bridge: anx7625: Check for Type-C during panel registration
+> >   drm/bridge: anx7625: Register Type C mode switches
+> >   dt-bindings: display: bridge: it6505: Add mode-switch support
+> >   drm/bridge: it6505: Fix Kconfig indentation
+> >   drm/bridge: it6505: Register Type C mode switches
+> >
+> > Prashant Malani (2):
+> >   device property: Add remote endpoint to devcon matcher
+> >   platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+> >
+> >  .../display/bridge/analogix,anx7625.yaml      |  99 ++++++++++++-
+> >  .../bindings/display/bridge/ite,it6505.yaml   |  93 ++++++++++--
+> >  drivers/base/property.c                       |  15 ++
+> >  drivers/gpu/drm/bridge/Kconfig                |  21 +--
+> >  drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c     | 101 +++++++++++++-
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h     |  13 ++
+> >  drivers/gpu/drm/bridge/ite-it6505.c           | 119 +++++++++++++++-
+> >  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
+> >  drivers/platform/chrome/cros_ec_typec.c       |  10 ++
+> >  include/drm/display/drm_dp_helper.h           |  16 +++
+> >  11 files changed, 591 insertions(+), 29 deletions(-)
+> >
+>
+> --
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
+>

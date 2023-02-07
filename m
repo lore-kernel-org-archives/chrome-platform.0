@@ -1,181 +1,96 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1113C20E8
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 10:11:29 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id n2so2354078ili.11
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 02:11:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F31653A5
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Feb 2023 16:12:39 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id u9so11851795plf.3
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Feb 2023 08:12:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
-        b=DdPR3zQi3FaRq/0DUytEr3pdQZJXEYAcVrcD7V59G77SlXPd4u49tC+gyGBwFJPFYy
-         67/fa4FaZDJ7/nKp9i2do2fWQFcMfJbHpGPfUq6HvZUZF4UBEooUGXVzWBqMFMEnYZwN
-         rAaICWHuS5XF+Lo2bO8pVyMaqko727E+MSi7g=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=20K67K9edwRh0ZAf2p1ADQD2Xsmwqcm4t/xw8k9j5dk=;
+        b=AoF+pK17KeWga6/gfHCf5yHbKRSGJFnueL7IsWIbszgBvma2IhRB52/8yoPorV3frY
+         0tz93kpERxaUv//F2L5fpiY6l2QIZbFFUkipoOSwguDJluQgAMUzqDoXam4zbwgixYZX
+         a8Q/34uIhjyoJ7hHEh9NbFk4EvLT4Nk6wMybk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
-        b=3YJZECMNiMjRPVMJnzEVAZA3NlRFo3QzPziQLMu9qydNNPId7LPh7uwXV9n6/tvoNI
-         Bh6gOwq/uqDMwJc6+A2e0KljOTW3iReUK3Za2UZbU9mVtPxcyG6UeQEAY4wfvPic9YWg
-         gDMbmcLNi0AE654o/6fICuZS/t3kYJEwB0jtuoDvvb9Ar992cx6a1GTXQD4EaHOtoO19
-         yAGrJjAg5UMx52Yza/7tc2nc+3DnqWnx9DCqfpqTm9WILe1DjKUEhygxjyLrtlZ7vk5x
-         f6TforlO0wYtBwCy864TvAng712m0zoNGGbxUXS321e6bC9s7U++yCMQGKrzUU8pGPVd
-         FVeg==
-X-Gm-Message-State: AO0yUKV2wMdKs6x3sWKB7ovwpuDGOSd3fGbgAlBra4pWi7U+3v576RY/
-	09CTNcfP2haGGkPkL7yZ5fWCRWDyrmrHEqS7mCXerg==
-X-Google-Smtp-Source: AK7set+p9iSJUXF22CkwOZYUk1RTPFJALAKMX1xeE+pdWvWYe6DHfPcl7VfcfJVnxubu8xcpOm0LxJ22zFQvIXxeTUg=
-X-Received: by 2002:a92:4412:0:b0:310:fd95:6d81 with SMTP id
- r18-20020a924412000000b00310fd956d81mr1835895ila.42.1675764689078; Tue, 07
- Feb 2023 02:11:29 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=20K67K9edwRh0ZAf2p1ADQD2Xsmwqcm4t/xw8k9j5dk=;
+        b=gdUoxN4EmKzDHtdpn/a87kObQ6RaSHDN2a2B4J4s7xWU+nBR9k+DPA0ttln9Og5sML
+         HyiwLreUYR1fXsHadR5ta8tsZnmXo8UNY0qoGYponDXfIs3i0TfhUlUItxYC74ksP/Dl
+         tZl9AyFpUEGkhtMQcCXbIN9nCgTjyx5bOBADbVHHipRP6oZ8vbWHqopqpkHpwF7XECVb
+         1YbMARoqfDZevJc9mpVJBjDZvyXtd5KQCXZo1XwObQAm9NBnSvqd1bR/tjBXavYJY4AL
+         WGRKyjiKtb/vNLIT8vK4QznUKpkSQ85c70P78GAKmnWez/3rwDJP3jVbsfDqOkWTCoDw
+         bqeQ==
+X-Gm-Message-State: AO0yUKWI/miHVB02wMwGtzZtb8pwhUwBaYKrVo0TvOKDWaGKtc+Zuc/v
+	yhKzM9etyxTOSOjcSEypQOQSEA==
+X-Google-Smtp-Source: AK7set/18UhSh4y8tsQvk2Wb2TNH4BmdUcUYZKUCiuZ1gvdK/0bx2qtjXyO98XA9L1w3+ObchL8DFA==
+X-Received: by 2002:a17:903:1252:b0:198:adc4:22a2 with SMTP id u18-20020a170903125200b00198adc422a2mr17215569plh.29.1675786358610;
+        Tue, 07 Feb 2023 08:12:38 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:29fb:a635:f0df:f45a])
+        by smtp.gmail.com with ESMTPSA id c4-20020a170902c1c400b00186a2dd3ffdsm9082889plc.15.2023.02.07.08.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 08:12:38 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Julius Werner <jwerner@chromium.org>,
+	David Gow <davidgow@google.com>,
+	Jack Rosenthal <jrosenth@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Stephen Boyd <swboyd@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] firmware: coreboot: Remove GOOGLE_COREBOOT_TABLE_ACPI/OF Kconfig entries
+Date: Tue,  7 Feb 2023 08:12:00 -0800
+Message-Id: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
+X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230109084101.265664-1-treapking@chromium.org> <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
-In-Reply-To: <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Tue, 7 Feb 2023 18:11:18 +0800
-Message-ID: <CAEXTbpcEo1O3YYWjdYKMEotir8KoDEvsRtcD4SOvjGB08vhZ_Q@mail.gmail.com>
-Subject: Re: [PATCH v9 0/9] Register Type-C mode-switch in DP bridge endpoints
-To: Lyude Paul <lyude@redhat.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <robert.foss@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
-	Stephen Boyd <swboyd@chromium.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Xin Ji <xji@analogixsemi.com>, 
-	linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Allen Chen <allen.chen@ite.com.tw>, Javier Martinez Canillas <javierm@redhat.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
-	Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
-	Jim Cromie <jim.cromie@gmail.com>, Kees Cook <keescook@chromium.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Lyude,
+Ever since commit a28aad66da8b ("firmware: coreboot: Collapse platform
+drivers into bus core") the Kconfig entries GOOGLE_COREBOOT_TABLE_OF
+and GOOGLE_COREBOOT_TABLE_ACPI have been dead. They have no "help"
+text and thus aren't user choosable. They also aren't "select"ed by
+anything. They also control the compilation of no code.
 
-Thanks for letting me know!
+Let's remove them.
 
-I just sent out a v11 and already received some review comments, but
-reviews are always welcomed if you have time to take a look.
+Fixes: a28aad66da8b ("firmware: coreboot: Collapse platform drivers into bus core")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-Regards,
-Pin-yen
+ drivers/firmware/google/Kconfig | 8 --------
+ 1 file changed, 8 deletions(-)
 
-On Tue, Jan 31, 2023 at 7:10 AM Lyude Paul <lyude@redhat.com> wrote:
->
-> Don't know if this still needs reviews from me (feel free to respond if i=
-t
-> does!), but I wanted to say nice work! This is something I've wanted to s=
-ee
-> added to DRM for a while =E2=99=A5
->
->
-> On Mon, 2023-01-09 at 16:40 +0800, Pin-yen Lin wrote:
-> > This series introduces bindings for anx7625/it6505 to register Type-C
-> > mode-switch in their output endpoints, and use data-lanes property to
-> > describe the pin connections.
-> >
-> > The first two patch modifies fwnode_graph_devcon_matches and
-> > cros_typec_init_ports to enable the registration of the switches.
-> >
-> > Patch 4~6 introduce the bindings for anx7625 and the corresponding driv=
-er
-> > modifications.
-> >
-> > Patch 7~9 add similar bindings and driver changes for it6505.
-> >
-> > v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chro=
-mium.org/
-> > v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chrom=
-ium.org/
-> > v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@=
-chromium.org/
-> >
-> > Changes in v9:
-> > - Collected Reviewed-by tag
-> > - Fixed subject prefix again
-> > - Changed the naming of the example node for it6505
-> >
-> > Changes in v8:
-> > - Fixed the build issue when CONFIG_TYPEC=3Dm
-> > - Fixed some style issues
-> > - Fixed the subject prefixes for the bindings patch
-> > - Fixed the bindings for data-lanes properties
-> >
-> > Changes in v7:
-> > - Fix the long comment lines
-> > - Extracted the common codes to a helper function
-> > - Fixed style issues in anx7625 driver
-> > - Removed DT property validation in anx7625 driver.
-> > - Fixed style issues in it6505 driver
-> > - Removed the redundant sleep in it6505 driver
-> > - Removed DT property validation in it6505 driver
-> > - Rebased to drm-misc-next
-> > - Fixed indentations in bindings patches
-> > - Added a new patch to fix indentations in Kconfig
-> >
-> > Changes in v6:
-> > - Changed it6505_typec_mux_set callback function to accommodate with
-> >   the latest drm-misc patches
-> > - Changed the driver implementation to accommodate with the new binding
-> > - Dropped typec-switch binding and use endpoints and data-lanes propert=
-ies
-> >   to describe the pin connections
-> > - Added new patches (patch 1,2,4) to fix probing issues
-> > - Changed the bindings of it6505/anx7625 and modified the drivers
-> >   accordingly
-> > - Merged it6505/anx7625 driver changes into a single patch
-> >
-> > Pin-yen Lin (7):
-> >   drm/display: Add Type-C switch helpers
-> >   dt-bindings: display: bridge: anx7625: Add mode-switch support
-> >   drm/bridge: anx7625: Check for Type-C during panel registration
-> >   drm/bridge: anx7625: Register Type C mode switches
-> >   dt-bindings: display: bridge: it6505: Add mode-switch support
-> >   drm/bridge: it6505: Fix Kconfig indentation
-> >   drm/bridge: it6505: Register Type C mode switches
-> >
-> > Prashant Malani (2):
-> >   device property: Add remote endpoint to devcon matcher
-> >   platform/chrome: cros_ec_typec: Purge blocking switch devlinks
-> >
-> >  .../display/bridge/analogix,anx7625.yaml      |  99 ++++++++++++-
-> >  .../bindings/display/bridge/ite,it6505.yaml   |  93 ++++++++++--
-> >  drivers/base/property.c                       |  15 ++
-> >  drivers/gpu/drm/bridge/Kconfig                |  21 +--
-> >  drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c     | 101 +++++++++++++-
-> >  drivers/gpu/drm/bridge/analogix/anx7625.h     |  13 ++
-> >  drivers/gpu/drm/bridge/ite-it6505.c           | 119 +++++++++++++++-
-> >  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
-> >  drivers/platform/chrome/cros_ec_typec.c       |  10 ++
-> >  include/drm/display/drm_dp_helper.h           |  16 +++
-> >  11 files changed, 591 insertions(+), 29 deletions(-)
-> >
->
-> --
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
->
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 9f190eab43ed..1bc7cbf2f65d 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -44,14 +44,6 @@ config GOOGLE_COREBOOT_TABLE
+ 	  device tree node /firmware/coreboot.
+ 	  If unsure say N.
+ 
+-config GOOGLE_COREBOOT_TABLE_ACPI
+-	tristate
+-	select GOOGLE_COREBOOT_TABLE
+-
+-config GOOGLE_COREBOOT_TABLE_OF
+-	tristate
+-	select GOOGLE_COREBOOT_TABLE
+-
+ config GOOGLE_MEMCONSOLE
+ 	tristate
+ 	depends on GOOGLE_MEMCONSOLE_X86_LEGACY || GOOGLE_MEMCONSOLE_COREBOOT
+-- 
+2.39.1.519.gcb327c4b5f-goog
+

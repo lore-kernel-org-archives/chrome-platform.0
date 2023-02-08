@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F933C3D
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Feb 2023 18:30:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18144C433D2;
-	Wed,  8 Feb 2023 18:30:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675881018;
-	bh=3YOFdKnAwzqh0eCNoXvPPLYHZOdMnpSXzcOAzCSwheY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=SdUIHnNswCvU6EWW/DqDwaGUFjDorjoJI7XuZ1yWPE/j64k/eQLyQ7LkzCYa78OUD
-	 m+Rrne2+gcGKpeXj5dx2sL5WH6D2B2cT5CROAPeLGvuY4hH8+lAsozNYTI6HrvaoNC
-	 /wg1/RhyYWA9vShiShfsNL2TqQqxBSiU0AkOuIMt6W536mbvcHeCji9uqyxyLYyiYN
-	 un8rm8LFkhPl5KbT9Gbq1QQXoFfgyvZwpvL6FOFnipzNpCUljKCRiHZl6vkpuCJtq7
-	 uh/755ooa4+kCy4mwBmLHz2VOZPN1O1BDkavwLkIMQqnlFzEunRITzxczbn7DR25/t
-	 bdrKV7yQMa3UA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F23AFE4D032;
-	Wed,  8 Feb 2023 18:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430BB3C3D
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Feb 2023 19:28:44 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id on9-20020a17090b1d0900b002300a96b358so3352928pjb.1
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Feb 2023 11:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=hmvLESvDyCLI9swYwZSnFmVS0SFiF7xNUatn5SF4FZU=;
+        b=5m+VQpkaSjHoHcjPIXKzB36Q6+srU7fRtRc+dVPhb/ilnBEwF3p4dWOpv8IiTOZi4v
+         HJEARkIeBqi3Jy9O6oU2zWy9ftgIdw30aoXMoR4fnMyMPLrjoDMMvDyqXjgc7G9mnSu8
+         DXozOmscN1hHxMsmmU2/9Hrg/WHDhhgdejxKd9oPl95P5ohlDFmZNtnxRtyw9+XCPjEK
+         oRGNY4xHAthwfAIjkAUzdWPZJR9xj0LJlCcoWiu9thBToOmLbvZJ99fJ+R+2TWPgMVvl
+         oskBKfvkwpVo0IN0Fy/Kzy3I3ubtq19MJ6KG9uAtH1P9Yi+nCp0pX7uNEsJ9I+MSygRG
+         kNoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hmvLESvDyCLI9swYwZSnFmVS0SFiF7xNUatn5SF4FZU=;
+        b=A0DIRLX/H3X1c92Ix6KQnraaYxbfBJcFbJywn6V90UjT3Mm4lqgITQOyOClbxHGSPD
+         K3RO570odjQTWBLjEB9iutJCgkLNH11CpMEJrU/JUrBq25Zyg4hEu1sfOReQomdWu1RS
+         Z/M2HcRNUUE6HoPOL2viSJJpvGSjVrzqLpLWMKWqJ//6B0hOZKhzp/fRPqnoXG3Kl13H
+         T7iVLxjUCo25Q7e/C0rT+cNo5fMvZjoYzuDN20jaMxo+FSZcgMo9/uCRKy4UrVA/Wr1f
+         R2lY2CL3Tl2fHxiSKIjlKa8baPSbJyjspnDDUlpQG6eDUyTjjdpUFJ69hbhChCb6+0yP
+         v76g==
+X-Gm-Message-State: AO0yUKWpMzt02lQyhsCBjjamIwBSPGCHluxlVafz/E5SwCyF6q9f9/F4
+	oFX5//r/uZNb7VKKXWgtTCKO8A==
+X-Google-Smtp-Source: AK7set/7s9/4v2cxUSSOs3JB2nIS0lG8TKdZsspz/wW8kJjPd9dwTgPIEDOaTc0oOmQwDm1HAhNKBw==
+X-Received: by 2002:a17:90b:4c88:b0:230:8300:d290 with SMTP id my8-20020a17090b4c8800b002308300d290mr10034824pjb.27.1675884523621;
+        Wed, 08 Feb 2023 11:28:43 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x3-20020a17090a1f8300b00230e733599esm1874281pja.48.2023.02.08.11.28.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 11:28:43 -0800 (PST)
+Message-ID: <63e3f7eb.170a0220.4a74b.3174@mx.google.com>
+Date: Wed, 08 Feb 2023 11:28:43 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,41 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH][next] platform/chrome: Fix spelling mistake "Attenetion" ->
- "attention"
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167588101798.25749.5056097806112911445.git-patchwork-notify@kernel.org>
-Date: Wed, 08 Feb 2023 18:30:17 +0000
-References: <20230207091443.143995-1-colin.i.king@gmail.com>
-In-Reply-To: <20230207091443.143995-1-colin.i.king@gmail.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.2-rc1-35-g75a273974d7a
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.2-rc1-35-g75a273974d7a)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.2-rc1-=
+35-g75a273974d7a)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Prashant Malani <pmalani@chromium.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.2-rc1-35-g75a273974d7a/
 
-On Tue,  7 Feb 2023 09:14:43 +0000 you wrote:
-> There is a spelling mistake in a dev_warn message, make it lower case
-> and fix the spelling.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.2-rc1-35-g75a273974d7a
+Git Commit: 75a273974d7ac814b655eda546c62064a4b41d34
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [next] platform/chrome: Fix spelling mistake "Attenetion" -> "attention"
-    https://git.kernel.org/chrome-platform/c/b0d8a67715da
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

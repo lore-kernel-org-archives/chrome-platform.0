@@ -1,184 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CADA7E9
-	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 01:48:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC275C433EF;
-	Mon, 20 Feb 2023 01:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676857739;
-	bh=kb1UU7unL1acglpBqDm3UU3EWpPhCfV8lkh5RKnetHw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=QhQvoIH0UXCFYutT2dF5Sun+7S+1/Y9CMRqBxT4/p+l7wVsDZuMhMGD42ceB+5aZt
-	 Y6hu2p4GxyDegOr713KFBrYi4E1+xR6bgKdyDwqYWLNIUWMyQrYAqgQZ6FfA1aycCw
-	 vhQuXZM9PLucjI0Pkmv2hDmtlAJzgic7LC+frnTs1LoBuSCBXMN+WhgqLXW8xm34Kj
-	 pM1NQ3z/ZKpvbvw5zL9/HqdLOBvNS4zNIwGcQk4pK997bW4CyQVOLXlHEUdPc2u9g1
-	 1hIip4M9eBvNQE7G5SmplGGUE9PqIntrQqMPL/hfbj98hUanV0ex8r5iA6r0caPiYr
-	 8e9gwDXWk9W9Q==
-Date: Mon, 20 Feb 2023 09:48:55 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
-	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT,PULL] chrome-platform changes for v6.3
-Message-ID: <Y/LRh21+yCg0Qh9x@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9808D1119
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 09:03:02 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id bf15so216067iob.7
+        for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 01:03:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6vK8cWtmG3hyaLbDRLFgpGqrS4p5hCk6+ikOOD3341A=;
+        b=BT2ud7sxoolXPSVz5YqHI7AD9RUl8N77zxnGMFNIRbnYZ5NkGNX9t15jb4JPaWA0gx
+         RjgNyOP62hyyw3LtDM51WRaeDbSW+gmOyX365JR1nV/4MS/DGuN+CxjtV2S82wMFZDkJ
+         APJfi8WJHRCCVh7BpaS6YJFgaYSTVJLIbJWYU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6vK8cWtmG3hyaLbDRLFgpGqrS4p5hCk6+ikOOD3341A=;
+        b=AHfxfuAQpdBvDkhXlPWbufIEqyDszP9VtUKlcHNKLoSVfn7nY2YshuhCd2AfKYwrnJ
+         26vvN1dFUMpWbaQHzCoAJK1Husmh/5ZaNOACWOT1N7P/UUy+mcaaX2VuHHs+kfustoT7
+         URwyeoZ39+pMRiX0SBqLbK/ZrMPaFlRqmitrddPpQ2TIzZBSNHEg0xzAUorOMaDQggwz
+         oAIvJ1YHJNjms10g8vcVQ+sq2Fnemtwdzy8RuNG9MVMOm81OqrWRdbnazeGatrvuuLRI
+         aiYpKCfFhqTywx8OcAyyHJRrlS2Wjs0CUxAdb3mj1lruZ6TVZYvb/AJsQ0Q27rqJ534k
+         I05g==
+X-Gm-Message-State: AO0yUKW5RAgvJZZAnV6WWNeltbtlubUsPzdwepdmxTY3caVRA/RblaSe
+	osePq4U0exHIsu2C1nCFz3lJvwdkseV+otVuE2DcEg==
+X-Google-Smtp-Source: AK7set/kfz8hhDABr4DJ+44LUPCJEAg1cYsDPb4PwPecz9RynTAejbvde/9b9DWWLC1U8dNQIeThAlbfMv3O8bnKttg=
+X-Received: by 2002:a05:6638:1342:b0:3c2:c1c9:8bca with SMTP id
+ u2-20020a056638134200b003c2c1c98bcamr1153386jad.2.1676883781590; Mon, 20 Feb
+ 2023 01:03:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1XdU4acN/yCh4Lj0"
-Content-Disposition: inline
+References: <20230204133040.1236799-1-treapking@chromium.org>
+ <20230204133040.1236799-4-treapking@chromium.org> <Y+LBzkP+/j6RQ5Jy@ashyti-mobl2.lan>
+ <CAEXTbpfxJVyL_TT7j1J0tbEjWnzj6JYOrEJZLa14OdHZQhYopg@mail.gmail.com>
+In-Reply-To: <CAEXTbpfxJVyL_TT7j1J0tbEjWnzj6JYOrEJZLa14OdHZQhYopg@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Mon, 20 Feb 2023 17:02:50 +0800
+Message-ID: <CAEXTbpe_DGzF+M6Cm041Qkec-FZTXn5G8oCa_P-1cU355MA0JA@mail.gmail.com>
+Subject: Re: [PATCH v11 3/9] drm/display: Add Type-C switch helpers
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, devicetree@vger.kernel.org, 
+	Allen Chen <allen.chen@ite.com.tw>, Lyude Paul <lyude@redhat.com>, linux-acpi@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
+	Xin Ji <xji@analogixsemi.com>, Stephen Boyd <swboyd@chromium.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, 
+	chrome-platform@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>, 
+	Douglas Anderson <dianders@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
+	Kees Cook <keescook@chromium.org>, Thierry Reding <treding@nvidia.com>, 
+	Robert Foss <rfoss@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+I think I accidentally used HTML mode for the previous email. Sorry about t=
+hat.
 
---1XdU4acN/yCh4Lj0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Feb 20, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
+>
+> Hi Andi,
+>
+> Thanks for the review.
+>
+> On Wed, Feb 8, 2023 at 5:25 AM Andi Shyti <andi.shyti@linux.intel.com> wr=
+ote:
+>>
+>> Hi Pin-yen,
+>>
+>> [...]
+>>
+>> > +static int drm_dp_register_mode_switch(struct device *dev,
+>> > +                                    struct fwnode_handle *fwnode,
+>> > +                                    struct drm_dp_typec_switch_desc *=
+switch_desc,
+>> > +                                    void *data, typec_mux_set_fn_t mu=
+x_set)
+>> > +{
+>> > +     struct drm_dp_typec_port_data *port_data;
+>> > +     struct typec_mux_desc mux_desc =3D {};
+>> > +     char name[32];
+>> > +     u32 port_num;
+>> > +     int ret;
+>> > +
+>> > +     ret =3D fwnode_property_read_u32(fwnode, "reg", &port_num);
+>> > +     if (ret) {
+>> > +             dev_err(dev, "Failed to read reg property: %d\n", ret);
+>> > +             return ret;
+>> > +     }
+>> > +
+>> > +     port_data =3D &switch_desc->typec_ports[port_num];
+>> > +     port_data->data =3D data;
+>> > +     port_data->port_num =3D port_num;
+>> > +     port_data->fwnode =3D fwnode;
+>> > +     mux_desc.fwnode =3D fwnode;
+>> > +     mux_desc.drvdata =3D port_data;
+>> > +     snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
+>> > +     mux_desc.name =3D name;
+>> > +     mux_desc.set =3D mux_set;
+>> > +
+>> > +     port_data->typec_mux =3D typec_mux_register(dev, &mux_desc);
+>> > +     if (IS_ERR(port_data->typec_mux)) {
+>> > +             ret =3D PTR_ERR(port_data->typec_mux);
+>> > +             dev_err(dev, "Mode switch register for port %d failed: %=
+d\n",
+>> > +                     port_num, ret);
+>> > +
+>> > +             return ret;
+>>
+>> you don't need this return here...
+>>
+>> > +     }
+>> > +
+>> > +     return 0;
+>>
+>> Just "return ret;" here.
 
-Linus,
+This was actually suggested by Angelo in [1]. I personally don't have
+a strong opinion on either approach.
 
-Please pull chrome-platform updates for v6.3.
+[1]https://lore.kernel.org/all/023519eb-0adb-3b08-71b9-afb92a6cceaf@collabo=
+ra.com/
 
-Thanks,
-TzungBi
-
-
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
-
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.3
-
-for you to fetch changes up to b0d8a67715dae445c065c83a40a581d6563a341f:
-
-  platform/chrome: cros_ec_typec: Fix spelling mistake (2023-02-08 18:21:03 +0000)
-
-----------------------------------------------------------------
-chrome platform changes for 6.3
-
-* New drivers
-
-  - Driver cros_ec_uart for ChromeOS EC protocol over UART.
-  - Driver cros_typec_vdm for USB PD Vendor Defined Message.
-
-* Improvements
-
-  - Preserve logs as much as possible when EC panic.
-  - Shutdown to refrain from potential HW damages when EC panic.
-
-* Fixes
-
-  - Fix DP_PORT_VDO to include DP_CAP_RECEPTACLE.
-  - Fix a lockdep false positive.
-
-* Cleanups
-
-  - Use sysfs_emit*() instead of scnprintf().
-  - Use asm instead of asm-generic for unaligned.h.
-
-* Misc
-
-  - Rename module name from cros_ec_typec to cros-ec-typec.
-  - Minor fixes.
-
-----------------------------------------------------------------
-Andy Shevchenko (1):
-      platform/chrome: cros_ec_proto: Use asm instead of asm-generic
-
-Bhanu Prakash Maiya (2):
-      platform/chrome: cros_ec_uart: Add transport layer
-      platform/chrome: cros_ec_uart: Add DT enumeration support
-
-Chen-Yu Tsai (1):
-      platform/chrome: cros_ec: Use per-device lockdep key
-
-Colin Ian King (1):
-      platform/chrome: cros_ec_typec: Fix spelling mistake
-
-Marek Szyprowski (1):
-      platform/chrome: cros_ec: Fix panic notifier registration
-
-Prashant Malani (15):
-      Revert "mfd: cros_ec: Add SCP Core-1 as a new CrOS EC MCU"
-      platform_chrome: cros_ec: Add Type-C VDM defines
-      platform/chrome: cros_ec_typec: Stash port driver info
-      platform/chrome: cros_ec_typec: Set port alt mode drvdata
-      platform/chrome: cros_ec_typec: Update port DP VDO
-      platform/chrome: cros_ec_typec: Move structs to header
-      platform/chrome: cros_ec_typec: Alter module name with hyphens
-      platform/chrome: cros_ec_typec: Add initial VDM support
-      platform/chrome: cros_typec_vdm: Add VDM reply support
-      platform/chrome: cros_typec_vdm: Add VDM send support
-      platform/chrome: cros_typec_switch: Use fwnode* prop check
-      platform/chrome: cros_typec_switch: Check for retimer flag
-      platform/chrome: cros_typec_vdm: Fix VDO copy
-      platform/chrome: cros_ec: Add VDM attention headers
-      platform/chrome: cros_typec_vdm: Add Attention support
-
-Rob Barnes (2):
-      platform/chrome: cros_ec: Poll EC log on EC panic
-      platform/chrome: cros_ec: Shutdown on EC Panic
-
-Robert Zieba (1):
-      platform/chrome: cros_ec_uart: fix race condition
-
-Tom Rix (1):
-      platform/chrome: cros_ec_lpc: initialize the buf variable
-
-Tzung-Bi Shih (7):
-      platform/chrome: use sysfs_emit_at() instead of scnprintf()
-      platform/chrome: fix kernel-doc warnings for panic notifier
-      platform/chrome: fix kernel-doc warning for suspend_timeout_ms
-      platform/chrome: fix kernel-doc warning for last_resume_result
-      platform/chrome: fix kernel-doc warnings for cros_ec_command
-      platform/chrome: cros_ec_uart: fix negative type promoted to high
-      platform/chrome: cros_ec_proto: remove big stub objects from stack
-
-Victor Ding (1):
-      platform/chrome: cros_ec_typec: allow deferred probe of switch handles
-
-ye xingchen (1):
-      platform/chrome: use sysfs_emit() instead of scnprintf()
-
- MAINTAINERS                                    |  10 +-
- drivers/mfd/cros_ec_dev.c                      |   5 -
- drivers/platform/chrome/Kconfig                |  12 +-
- drivers/platform/chrome/Makefile               |   4 +-
- drivers/platform/chrome/cros_ec.c              |  15 +-
- drivers/platform/chrome/cros_ec_debugfs.c      |  25 ++
- drivers/platform/chrome/cros_ec_lightbar.c     |  14 +-
- drivers/platform/chrome/cros_ec_lpc.c          |  12 +-
- drivers/platform/chrome/cros_ec_proto_test.c   |  13 +-
- drivers/platform/chrome/cros_ec_sysfs.c        |  40 ++-
- drivers/platform/chrome/cros_ec_typec.c        | 123 +++------
- drivers/platform/chrome/cros_ec_typec.h        |  85 ++++++
- drivers/platform/chrome/cros_ec_uart.c         | 362 +++++++++++++++++++++++++
- drivers/platform/chrome/cros_typec_switch.c    |  16 +-
- drivers/platform/chrome/cros_typec_vdm.c       | 148 ++++++++++
- drivers/platform/chrome/cros_typec_vdm.h       |  13 +
- drivers/platform/chrome/wilco_ec/sysfs.c       |   3 +-
- include/linux/platform_data/cros_ec_commands.h |  69 ++++-
- include/linux/platform_data/cros_ec_proto.h    |  24 +-
- 19 files changed, 846 insertions(+), 147 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_ec_typec.h
- create mode 100644 drivers/platform/chrome/cros_ec_uart.c
- create mode 100644 drivers/platform/chrome/cros_typec_vdm.c
- create mode 100644 drivers/platform/chrome/cros_typec_vdm.h
-
---1XdU4acN/yCh4Lj0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCY/LRhwAKCRArxTEGBto8
-9MbTAP9dKmquzJ0L+lYmEsA0iiYuZtawuVGk1IeJbACpbeC+5QEA6SwK5e7NyDth
-fcoJE5naNCuIun55Pn7u8PGPmYacJwo=
-=f0vj
------END PGP SIGNATURE-----
-
---1XdU4acN/yCh4Lj0--
+Pin-yen
+>>
+>>
+>> > +}
+>> > +
+>> > +/**
+>> > + * drm_dp_register_typec_switches() - register Type-C switches
+>> > + * @dev: Device that registers Type-C switches
+>> > + * @port: Device node for the switch
+>> > + * @switch_desc: A Type-C switch descriptor
+>> > + * @data: Private data for the switches
+>> > + * @mux_set: Callback function for typec_mux_set
+>> > + *
+>> > + * This function registers USB Type-C switches for DP bridges that ca=
+n switch
+>> > + * the output signal between their output pins.
+>> > + *
+>> > + * Currently only mode switches are implemented, and the function ass=
+umes the
+>> > + * given @port device node has endpoints with "mode-switch" property.
+>> > + * The port number is determined by the "reg" property of the endpoin=
+t.
+>> > + */
+>> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_=
+handle *port,
+>> > +                                struct drm_dp_typec_switch_desc *swit=
+ch_desc,
+>> > +                                void *data, typec_mux_set_fn_t mux_se=
+t)
+>> > +{
+>> > +     struct fwnode_handle *sw;
+>> > +     int ret;
+>> > +
+>> > +     fwnode_for_each_child_node(port, sw) {
+>> > +             if (fwnode_property_present(sw, "mode-switch"))
+>> > +                     switch_desc->num_typec_switches++;
+>> > +     }
+>>
+>> no need for brackets here
+>>
+>> > +
+>> > +     if (!switch_desc->num_typec_switches) {
+>> > +             dev_dbg(dev, "No Type-C switches node found\n");
+>>
+>> dev_warn()?
+>
+>
+> I used dev_dbg here because the users might call this without checking if=
+ there are mode switch endpoints present, and this is the case for the curr=
+ent users (it6505 and anx7625). If we use dev_warn here, there will be warn=
+ings every time even on use cases without Type-C switches.
+>
+> Thanks and regards,
+> Pin-yen
+>>
+>>
+>> > +             return 0;
+>> > +     }
+>> > +
+>> > +     switch_desc->typec_ports =3D devm_kcalloc(
+>> > +             dev, switch_desc->num_typec_switches,
+>> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
+>> > +
+>> > +     if (!switch_desc->typec_ports)
+>> > +             return -ENOMEM;
+>> > +
+>> > +     /* Register switches for each connector. */
+>> > +     fwnode_for_each_child_node(port, sw) {
+>> > +             if (!fwnode_property_present(sw, "mode-switch"))
+>> > +                     continue;
+>> > +             ret =3D drm_dp_register_mode_switch(dev, sw, switch_desc=
+, data, mux_set);
+>> > +             if (ret)
+>> > +                     goto err_unregister_typec_switches;
+>> > +     }
+>> > +
+>> > +     return 0;
+>> > +
+>> > +err_unregister_typec_switches:
+>> > +     fwnode_handle_put(sw);
+>> > +     drm_dp_unregister_typec_switches(switch_desc);
+>> > +     dev_err(dev, "Failed to register mode switch: %d\n", ret);
+>>
+>> there is a bit of dmesg spamming. Please choose where you want to
+>> print the error, either in this function or in
+>> drm_dp_register_mode_switch().
+>>
+>> Andi
+>>
+>> > +     return ret;
+>> > +}
+>> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+>>
+>> [...]

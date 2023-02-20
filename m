@@ -1,366 +1,184 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C0B1FBB
-	for <chrome-platform@lists.linux.dev>; Sat, 18 Feb 2023 11:17:50 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id d29so669191pgb.3
-        for <chrome-platform@lists.linux.dev>; Sat, 18 Feb 2023 03:17:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DSUXhwP2T6y6hqUphQwZzIcqD97JaNMTBQcCPNpA7ZY=;
-        b=K1ebpzy7sQJrifSr7e6YnSVeGJ8lDRR1yYZfXCzj4juhrWWGZvln6tIvaFW84W9fZD
-         wwL7IzYZEc5IuBLUQ/9hdp5vkMg4XPS+XJ5eNBEEUN8+491hL4ySB+6rQN2X3UgwwSYV
-         EAat6KZ08pXwtENkeDMWN8OHzDCPuqNLH2C3E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DSUXhwP2T6y6hqUphQwZzIcqD97JaNMTBQcCPNpA7ZY=;
-        b=f4r74i9L4GITeeQlopgkeuHC+cbBD9xF9Ia/GZgFZeVj+GakhYGf9hzZggrDqCGSqa
-         eGvqYag7Lbb+MKkHftNnnHw7BJA9Fi7n8crE9QhN0Ta80WjzlUNOZ2AjMgnlaWgC91rX
-         SfqLTFqbvyegMf/m6grT91h1awQbwYZ1o+t62g55Sf6PSg19KPqMLhncnrTg9sKDdPnr
-         ImRB2qQoC8QqV8KeLvAGBLs/a7tCYT2bV2CEyMZla6X4UWpddUTg7gW5IdJN45RqyQVl
-         Ty5bPMZC2IRjKPttwVaPfGsG65MeWRHIpdfKlG89qbtK2sSuVHraH0CO0S/LOS7KSfeA
-         26KA==
-X-Gm-Message-State: AO0yUKWTmIcYDs7DPTch0Qo71hqhX2wHPt0rr/QOwecMs7XxKghHFBBe
-	1h9iVDEy3PT9NKtY95CbspIl+Q==
-X-Google-Smtp-Source: AK7set/t1QPWaM3swLlams/S2tCFO1WlAAg0l17iP2nJ78MPCrsY8PR338sdT9FfB0Tov/MzBtYzLg==
-X-Received: by 2002:a62:528d:0:b0:5a8:808a:d3ce with SMTP id g135-20020a62528d000000b005a8808ad3cemr4276103pfb.8.1676719070101;
-        Sat, 18 Feb 2023 03:17:50 -0800 (PST)
-Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:88dd:be84:8f65:fec2])
-        by smtp.gmail.com with ESMTPSA id 23-20020aa79157000000b005a8686b72fcsm4457829pfi.75.2023.02.18.03.17.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Feb 2023 03:17:49 -0800 (PST)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Benson Leung <bleung@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	devicetree@vger.kernel.org,
-	Nicolas Boichat <drinkcat@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-arm-kernel@lists.infradead.org,
-	Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH v3 5/5] drm: bridge: Generic GPIO mux driver
-Date: Sat, 18 Feb 2023 19:17:12 +0800
-Message-Id: <20230218111712.2380225-6-treapking@chromium.org>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-In-Reply-To: <20230218111712.2380225-1-treapking@chromium.org>
-References: <20230218111712.2380225-1-treapking@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CADA7E9
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 01:48:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC275C433EF;
+	Mon, 20 Feb 2023 01:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676857739;
+	bh=kb1UU7unL1acglpBqDm3UU3EWpPhCfV8lkh5RKnetHw=;
+	h=Date:From:To:Cc:Subject:From;
+	b=QhQvoIH0UXCFYutT2dF5Sun+7S+1/Y9CMRqBxT4/p+l7wVsDZuMhMGD42ceB+5aZt
+	 Y6hu2p4GxyDegOr713KFBrYi4E1+xR6bgKdyDwqYWLNIUWMyQrYAqgQZ6FfA1aycCw
+	 vhQuXZM9PLucjI0Pkmv2hDmtlAJzgic7LC+frnTs1LoBuSCBXMN+WhgqLXW8xm34Kj
+	 pM1NQ3z/ZKpvbvw5zL9/HqdLOBvNS4zNIwGcQk4pK997bW4CyQVOLXlHEUdPc2u9g1
+	 1hIip4M9eBvNQE7G5SmplGGUE9PqIntrQqMPL/hfbj98hUanV0ex8r5iA6r0caPiYr
+	 8e9gwDXWk9W9Q==
+Date: Mon, 20 Feb 2023 09:48:55 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [GIT,PULL] chrome-platform changes for v6.3
+Message-ID: <Y/LRh21+yCg0Qh9x@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1XdU4acN/yCh4Lj0"
+Content-Disposition: inline
 
-From: Nicolas Boichat <drinkcat@chromium.org>
 
-This driver supports single input, 2 output display mux (e.g.
-HDMI mux), that provide its status via a GPIO.
+--1XdU4acN/yCh4Lj0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+Linus,
 
----
+Please pull chrome-platform updates for v6.3.
 
-Changes in v3:
-- Added .get_edid callback in generic-gpio-mux driver
+Thanks,
+TzungBi
 
-Changes in v2:
-- Dropped attach/mode_set/enable/disable callbacks
-- Fixed style issues
-- Removed the special case for the HDMI connector
-- Made the driver only read the GPIO status in IRQ handler
-- Rebased to drm-misc-next
-- Update the license: "GPL v2" --> "GPL"
 
- drivers/gpu/drm/bridge/Kconfig            |  10 +
- drivers/gpu/drm/bridge/Makefile           |   1 +
- drivers/gpu/drm/bridge/generic-gpio-mux.c | 222 ++++++++++++++++++++++
- 3 files changed, 233 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/generic-gpio-mux.c
+The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 12e8f30c65f7..42d7c418e8ff 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -73,6 +73,16 @@ config DRM_FSL_LDB
- 	help
- 	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
- 
-+config DRM_GENERIC_GPIO_MUX
-+	tristate "Generic GPIO-controlled mux"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  This bridge driver models a GPIO-controlled display mux with one
-+	  input, 2 outputs (e.g. an HDMI mux). The hardware decides which output
-+	  is active, reports it as a GPIO, and the driver redirects calls to the
-+	  appropriate downstream bridge (if any).
-+
- config DRM_ITE_IT6505
-         tristate "ITE IT6505 DisplayPort bridge"
-         depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 52f6e8b4a821..4d6d7f63330c 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
-+obj-$(CONFIG_DRM_GENERIC_GPIO_MUX) += generic-gpio-mux.o
- obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
- obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
- obj-$(CONFIG_DRM_LONTIUM_LT9211) += lontium-lt9211.o
-diff --git a/drivers/gpu/drm/bridge/generic-gpio-mux.c b/drivers/gpu/drm/bridge/generic-gpio-mux.c
-new file mode 100644
-index 000000000000..928edde701fa
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/generic-gpio-mux.c
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Generic gpio mux bridge driver
-+ *
-+ * Copyright 2016 Google LLC
-+ */
-+
-+#include <linux/gpio.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_gpio.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct gpio_display_mux {
-+	struct device *dev;
-+
-+	struct gpio_desc *gpiod_detect;
-+	int detect_irq;
-+	int cur_next;
-+
-+	struct drm_bridge bridge;
-+
-+	struct drm_bridge *next[2];
-+};
-+
-+static inline struct gpio_display_mux *bridge_to_gpio_display_mux(
-+		struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct gpio_display_mux, bridge);
-+}
-+
-+static irqreturn_t gpio_display_mux_det_threaded_handler(int unused, void *data)
-+{
-+	struct gpio_display_mux *mux = data;
-+	int active = gpiod_get_value(mux->gpiod_detect);
-+
-+	if (active < 0) {
-+		dev_err(mux->dev, "Failed to get detect GPIO\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	dev_dbg(mux->dev, "Interrupt %d!\n", active);
-+	mux->cur_next = active;
-+
-+	if (mux->bridge.dev)
-+		drm_kms_helper_hotplug_event(mux->bridge.dev);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static bool gpio_display_mux_mode_fixup(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	struct gpio_display_mux *mux = bridge_to_gpio_display_mux(bridge);
-+	struct drm_bridge *next;
-+
-+	next = mux->next[mux->cur_next];
-+
-+	/* Assume that we have a most one bridge in both downstreams */
-+	if (next && next->funcs->mode_fixup)
-+		return next->funcs->mode_fixup(next, mode, adjusted_mode);
-+
-+	return true;
-+}
-+
-+static struct edid *gpio_display_mux_get_edid(struct drm_bridge *bridge,
-+					      struct drm_connector *connector)
-+{
-+	struct gpio_display_mux *mux = bridge_to_gpio_display_mux(bridge);
-+	struct drm_bridge *next;
-+
-+	next = mux->next[mux->cur_next];
-+
-+	return next->funcs->get_edid(next, connector);
-+}
-+
-+static const struct drm_bridge_funcs gpio_display_mux_bridge_funcs = {
-+	.mode_fixup = gpio_display_mux_mode_fixup,
-+	.get_edid = gpio_display_mux_get_edid,
-+};
-+
-+static int gpio_display_mux_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct gpio_display_mux *mux;
-+	struct device_node *port, *ep, *remote;
-+	int ret;
-+	u32 reg;
-+
-+	mux = devm_kzalloc(dev, sizeof(*mux), GFP_KERNEL);
-+	if (!mux)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, mux);
-+	mux->dev = &pdev->dev;
-+
-+	mux->bridge.of_node = dev->of_node;
-+
-+	mux->gpiod_detect = devm_gpiod_get(dev, "detect", GPIOD_IN);
-+	if (IS_ERR(mux->gpiod_detect))
-+		return PTR_ERR(mux->gpiod_detect);
-+
-+	mux->detect_irq = gpiod_to_irq(mux->gpiod_detect);
-+	if (mux->detect_irq < 0) {
-+		dev_err(dev, "Failed to get output irq %d\n",
-+			mux->detect_irq);
-+		return -ENODEV;
-+	}
-+
-+	port = of_graph_get_port_by_id(dev->of_node, 1);
-+	if (!port) {
-+		dev_err(dev, "Missing output port node\n");
-+		return -EINVAL;
-+	}
-+
-+	for_each_child_of_node(port, ep) {
-+		if (!ep->name || (of_node_cmp(ep->name, "endpoint") != 0)) {
-+			of_node_put(ep);
-+			continue;
-+		}
-+
-+		if (of_property_read_u32(ep, "reg", &reg) < 0 ||
-+		    reg >= ARRAY_SIZE(mux->next)) {
-+			dev_err(dev,
-+				"Missing/invalid reg property for endpoint %s\n",
-+				ep->full_name);
-+			of_node_put(ep);
-+			of_node_put(port);
-+			return -EINVAL;
-+		}
-+
-+		remote = of_graph_get_remote_port_parent(ep);
-+		if (!remote) {
-+			dev_err(dev,
-+				"Missing connector/bridge node for endpoint %s\n",
-+				ep->full_name);
-+			of_node_put(ep);
-+			of_node_put(port);
-+			return -EINVAL;
-+		}
-+
-+		mux->next[reg] = of_drm_find_bridge(remote);
-+		if (!mux->next[reg]) {
-+			dev_err(dev, "Waiting for external bridge %s\n",
-+				remote->name);
-+			of_node_put(ep);
-+			of_node_put(remote);
-+			of_node_put(port);
-+			return -EPROBE_DEFER;
-+		}
-+
-+		of_node_put(remote);
-+	}
-+	of_node_put(port);
-+
-+	/*
-+	 * Because the next bridges are not registered to the drm bridge chain,
-+	 * we have to set DRM_BRIDGE_OP_EDID here and trigger the .get_edid
-+	 * callbacks of the actual connectors.
-+	 */
-+	if (mux->next[0] && mux->next[0]->ops & DRM_BRIDGE_OP_EDID &&
-+	    mux->next[1] && mux->next[1]->ops & DRM_BRIDGE_OP_EDID)
-+		mux->bridge.ops |= DRM_BRIDGE_OP_EDID;
-+
-+	mux->bridge.funcs = &gpio_display_mux_bridge_funcs;
-+	mux->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-+	drm_bridge_add(&mux->bridge);
-+
-+	ret = devm_request_threaded_irq(dev, mux->detect_irq, NULL,
-+					gpio_display_mux_det_threaded_handler,
-+					IRQF_TRIGGER_RISING |
-+					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					"gpio-display-mux-det", mux);
-+	if (ret) {
-+		dev_err(dev, "Failed to request MUX_DET threaded irq\n");
-+		goto err_bridge_remove;
-+	}
-+
-+	return 0;
-+
-+err_bridge_remove:
-+	drm_bridge_remove(&mux->bridge);
-+
-+	return ret;
-+}
-+
-+static int gpio_display_mux_remove(struct platform_device *pdev)
-+{
-+	struct gpio_display_mux *mux = platform_get_drvdata(pdev);
-+
-+	disable_irq(mux->detect_irq);
-+	drm_bridge_remove(&mux->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id gpio_display_mux_match[] = {
-+	{ .compatible = "gpio-display-mux", },
-+	{},
-+};
-+
-+struct platform_driver gpio_display_mux_driver = {
-+	.probe = gpio_display_mux_probe,
-+	.remove = gpio_display_mux_remove,
-+	.driver = {
-+		.name = "gpio-display-mux",
-+		.of_match_table = gpio_display_mux_match,
-+	},
-+};
-+
-+module_platform_driver(gpio_display_mux_driver);
-+
-+MODULE_DESCRIPTION("GPIO-controlled display mux");
-+MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
-+MODULE_LICENSE("GPL");
--- 
-2.39.2.637.g21b0678d19-goog
+  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
 
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.3
+
+for you to fetch changes up to b0d8a67715dae445c065c83a40a581d6563a341f:
+
+  platform/chrome: cros_ec_typec: Fix spelling mistake (2023-02-08 18:21:03 +0000)
+
+----------------------------------------------------------------
+chrome platform changes for 6.3
+
+* New drivers
+
+  - Driver cros_ec_uart for ChromeOS EC protocol over UART.
+  - Driver cros_typec_vdm for USB PD Vendor Defined Message.
+
+* Improvements
+
+  - Preserve logs as much as possible when EC panic.
+  - Shutdown to refrain from potential HW damages when EC panic.
+
+* Fixes
+
+  - Fix DP_PORT_VDO to include DP_CAP_RECEPTACLE.
+  - Fix a lockdep false positive.
+
+* Cleanups
+
+  - Use sysfs_emit*() instead of scnprintf().
+  - Use asm instead of asm-generic for unaligned.h.
+
+* Misc
+
+  - Rename module name from cros_ec_typec to cros-ec-typec.
+  - Minor fixes.
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      platform/chrome: cros_ec_proto: Use asm instead of asm-generic
+
+Bhanu Prakash Maiya (2):
+      platform/chrome: cros_ec_uart: Add transport layer
+      platform/chrome: cros_ec_uart: Add DT enumeration support
+
+Chen-Yu Tsai (1):
+      platform/chrome: cros_ec: Use per-device lockdep key
+
+Colin Ian King (1):
+      platform/chrome: cros_ec_typec: Fix spelling mistake
+
+Marek Szyprowski (1):
+      platform/chrome: cros_ec: Fix panic notifier registration
+
+Prashant Malani (15):
+      Revert "mfd: cros_ec: Add SCP Core-1 as a new CrOS EC MCU"
+      platform_chrome: cros_ec: Add Type-C VDM defines
+      platform/chrome: cros_ec_typec: Stash port driver info
+      platform/chrome: cros_ec_typec: Set port alt mode drvdata
+      platform/chrome: cros_ec_typec: Update port DP VDO
+      platform/chrome: cros_ec_typec: Move structs to header
+      platform/chrome: cros_ec_typec: Alter module name with hyphens
+      platform/chrome: cros_ec_typec: Add initial VDM support
+      platform/chrome: cros_typec_vdm: Add VDM reply support
+      platform/chrome: cros_typec_vdm: Add VDM send support
+      platform/chrome: cros_typec_switch: Use fwnode* prop check
+      platform/chrome: cros_typec_switch: Check for retimer flag
+      platform/chrome: cros_typec_vdm: Fix VDO copy
+      platform/chrome: cros_ec: Add VDM attention headers
+      platform/chrome: cros_typec_vdm: Add Attention support
+
+Rob Barnes (2):
+      platform/chrome: cros_ec: Poll EC log on EC panic
+      platform/chrome: cros_ec: Shutdown on EC Panic
+
+Robert Zieba (1):
+      platform/chrome: cros_ec_uart: fix race condition
+
+Tom Rix (1):
+      platform/chrome: cros_ec_lpc: initialize the buf variable
+
+Tzung-Bi Shih (7):
+      platform/chrome: use sysfs_emit_at() instead of scnprintf()
+      platform/chrome: fix kernel-doc warnings for panic notifier
+      platform/chrome: fix kernel-doc warning for suspend_timeout_ms
+      platform/chrome: fix kernel-doc warning for last_resume_result
+      platform/chrome: fix kernel-doc warnings for cros_ec_command
+      platform/chrome: cros_ec_uart: fix negative type promoted to high
+      platform/chrome: cros_ec_proto: remove big stub objects from stack
+
+Victor Ding (1):
+      platform/chrome: cros_ec_typec: allow deferred probe of switch handles
+
+ye xingchen (1):
+      platform/chrome: use sysfs_emit() instead of scnprintf()
+
+ MAINTAINERS                                    |  10 +-
+ drivers/mfd/cros_ec_dev.c                      |   5 -
+ drivers/platform/chrome/Kconfig                |  12 +-
+ drivers/platform/chrome/Makefile               |   4 +-
+ drivers/platform/chrome/cros_ec.c              |  15 +-
+ drivers/platform/chrome/cros_ec_debugfs.c      |  25 ++
+ drivers/platform/chrome/cros_ec_lightbar.c     |  14 +-
+ drivers/platform/chrome/cros_ec_lpc.c          |  12 +-
+ drivers/platform/chrome/cros_ec_proto_test.c   |  13 +-
+ drivers/platform/chrome/cros_ec_sysfs.c        |  40 ++-
+ drivers/platform/chrome/cros_ec_typec.c        | 123 +++------
+ drivers/platform/chrome/cros_ec_typec.h        |  85 ++++++
+ drivers/platform/chrome/cros_ec_uart.c         | 362 +++++++++++++++++++++++++
+ drivers/platform/chrome/cros_typec_switch.c    |  16 +-
+ drivers/platform/chrome/cros_typec_vdm.c       | 148 ++++++++++
+ drivers/platform/chrome/cros_typec_vdm.h       |  13 +
+ drivers/platform/chrome/wilco_ec/sysfs.c       |   3 +-
+ include/linux/platform_data/cros_ec_commands.h |  69 ++++-
+ include/linux/platform_data/cros_ec_proto.h    |  24 +-
+ 19 files changed, 846 insertions(+), 147 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_ec_typec.h
+ create mode 100644 drivers/platform/chrome/cros_ec_uart.c
+ create mode 100644 drivers/platform/chrome/cros_typec_vdm.c
+ create mode 100644 drivers/platform/chrome/cros_typec_vdm.h
+
+--1XdU4acN/yCh4Lj0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCY/LRhwAKCRArxTEGBto8
+9MbTAP9dKmquzJ0L+lYmEsA0iiYuZtawuVGk1IeJbACpbeC+5QEA6SwK5e7NyDth
+fcoJE5naNCuIun55Pn7u8PGPmYacJwo=
+=f0vj
+-----END PGP SIGNATURE-----
+
+--1XdU4acN/yCh4Lj0--

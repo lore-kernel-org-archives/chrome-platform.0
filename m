@@ -1,237 +1,84 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9808D1119
-	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 09:03:02 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id bf15so216067iob.7
-        for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 01:03:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CD763B8
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 13:55:45 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id a26so2964366lfk.10
+        for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 05:55:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6vK8cWtmG3hyaLbDRLFgpGqrS4p5hCk6+ikOOD3341A=;
-        b=BT2ud7sxoolXPSVz5YqHI7AD9RUl8N77zxnGMFNIRbnYZ5NkGNX9t15jb4JPaWA0gx
-         RjgNyOP62hyyw3LtDM51WRaeDbSW+gmOyX365JR1nV/4MS/DGuN+CxjtV2S82wMFZDkJ
-         APJfi8WJHRCCVh7BpaS6YJFgaYSTVJLIbJWYU=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DE5alLbVy8X6VmLqkrTKXnAIc5UYOF+41WkrcJJn5G0=;
+        b=iGl2W5X5EQLO43Kpwlp7zf+nkLaWQAz70M1gq/R/JttbaDhQoacKuhNV3Kc36ptO/z
+         +4U/4NniaJF++prM+LkFJ6vzvv7Ix1m6/Uynb1ZC/5lLhRPpZXJ+RdwugmIltFEG80m1
+         9WxHjtCn9GHtNYY0kb5qJ14EBGbTXQfOz5drlFMTgdNb4G/uxupYwH3JrUh2yaWhPKfr
+         7PXnrBBICQOfcSQ+NLDh6YM4MWMYaXtaw69bjL6aJjBqt59UdpFGidLoHAaGfqsCMz2t
+         hQeGlaEVtUypNUBWNT1Ys/oEMKuZqT2AbWfU+JKVZW5hF1MdAOIL56YUQKvVZwbBqi0R
+         ARew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6vK8cWtmG3hyaLbDRLFgpGqrS4p5hCk6+ikOOD3341A=;
-        b=AHfxfuAQpdBvDkhXlPWbufIEqyDszP9VtUKlcHNKLoSVfn7nY2YshuhCd2AfKYwrnJ
-         26vvN1dFUMpWbaQHzCoAJK1Husmh/5ZaNOACWOT1N7P/UUy+mcaaX2VuHHs+kfustoT7
-         URwyeoZ39+pMRiX0SBqLbK/ZrMPaFlRqmitrddPpQ2TIzZBSNHEg0xzAUorOMaDQggwz
-         oAIvJ1YHJNjms10g8vcVQ+sq2Fnemtwdzy8RuNG9MVMOm81OqrWRdbnazeGatrvuuLRI
-         aiYpKCfFhqTywx8OcAyyHJRrlS2Wjs0CUxAdb3mj1lruZ6TVZYvb/AJsQ0Q27rqJ534k
-         I05g==
-X-Gm-Message-State: AO0yUKW5RAgvJZZAnV6WWNeltbtlubUsPzdwepdmxTY3caVRA/RblaSe
-	osePq4U0exHIsu2C1nCFz3lJvwdkseV+otVuE2DcEg==
-X-Google-Smtp-Source: AK7set/kfz8hhDABr4DJ+44LUPCJEAg1cYsDPb4PwPecz9RynTAejbvde/9b9DWWLC1U8dNQIeThAlbfMv3O8bnKttg=
-X-Received: by 2002:a05:6638:1342:b0:3c2:c1c9:8bca with SMTP id
- u2-20020a056638134200b003c2c1c98bcamr1153386jad.2.1676883781590; Mon, 20 Feb
- 2023 01:03:01 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DE5alLbVy8X6VmLqkrTKXnAIc5UYOF+41WkrcJJn5G0=;
+        b=xsglCBYWjga/Aw8UMC/uILcrCzulQq/7LUUolzKhDwNhwFERq3iUidsHnrEVhc41Y7
+         ZB4xW2A2VQyt/CVLyaZd/4EDEE165czRKwPlHa/Jf4Q+FxyMDTr7v255vIML/jO3SOZ/
+         ntgVuCiHZX7ND1yu+YzPuCMS3kBOBAY5ciLSHRPoUxtBRrVhzd9iRDbGGSUVuz0IKgl2
+         YKnPvdHXGYQ89DzWZYvFcw7/bn2Dl1qeeE0+sLTsRl+BGMyEPjZCGHQr5f2te/bd3tLE
+         pVHdR/WiKSbc6cUVwAD+mrl6j/sX6YFhxEV1BnOr8rk2rtWtfQum3RRHtHX3+EcUNXbW
+         QxTw==
+X-Gm-Message-State: AO0yUKXV3sW4rW2n1fGFSH9ZGkyyLwsEww4ZY0d30X/jq2O8ZEeP6dbk
+	8MJiItmnq9j2oHkrcA8qcu7fLA==
+X-Google-Smtp-Source: AK7set8IpEHuh6XOU3Ps6rH+1G9kJdpMfhhkYJ58mn7/QBI2XD92krslfMrBgNjq21OPoMouwOXPfw==
+X-Received: by 2002:a19:f00d:0:b0:4dc:537c:9229 with SMTP id p13-20020a19f00d000000b004dc537c9229mr146526lfc.30.1676901343735;
+        Mon, 20 Feb 2023 05:55:43 -0800 (PST)
+Received: from fedora.. ([85.235.12.219])
+        by smtp.gmail.com with ESMTPSA id r5-20020ac25a45000000b004db513b017esm1529652lfn.45.2023.02.20.05.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 05:55:43 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
+Date: Mon, 20 Feb 2023 14:55:31 +0100
+Message-Id: <20230220135531.1987351-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-4-treapking@chromium.org> <Y+LBzkP+/j6RQ5Jy@ashyti-mobl2.lan>
- <CAEXTbpfxJVyL_TT7j1J0tbEjWnzj6JYOrEJZLa14OdHZQhYopg@mail.gmail.com>
-In-Reply-To: <CAEXTbpfxJVyL_TT7j1J0tbEjWnzj6JYOrEJZLa14OdHZQhYopg@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Mon, 20 Feb 2023 17:02:50 +0800
-Message-ID: <CAEXTbpe_DGzF+M6Cm041Qkec-FZTXn5G8oCa_P-1cU355MA0JA@mail.gmail.com>
-Subject: Re: [PATCH v11 3/9] drm/display: Add Type-C switch helpers
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, devicetree@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>, Lyude Paul <lyude@redhat.com>, linux-acpi@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
-	Xin Ji <xji@analogixsemi.com>, Stephen Boyd <swboyd@chromium.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, 
-	chrome-platform@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>, 
-	Douglas Anderson <dianders@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
-	Kees Cook <keescook@chromium.org>, Thierry Reding <treding@nvidia.com>, 
-	Robert Foss <rfoss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I think I accidentally used HTML mode for the previous email. Sorry about t=
-hat.
+The dependency had an obvious spelling error. Fix it.
 
-On Mon, Feb 20, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Hi Andi,
->
-> Thanks for the review.
->
-> On Wed, Feb 8, 2023 at 5:25 AM Andi Shyti <andi.shyti@linux.intel.com> wr=
-ote:
->>
->> Hi Pin-yen,
->>
->> [...]
->>
->> > +static int drm_dp_register_mode_switch(struct device *dev,
->> > +                                    struct fwnode_handle *fwnode,
->> > +                                    struct drm_dp_typec_switch_desc *=
-switch_desc,
->> > +                                    void *data, typec_mux_set_fn_t mu=
-x_set)
->> > +{
->> > +     struct drm_dp_typec_port_data *port_data;
->> > +     struct typec_mux_desc mux_desc =3D {};
->> > +     char name[32];
->> > +     u32 port_num;
->> > +     int ret;
->> > +
->> > +     ret =3D fwnode_property_read_u32(fwnode, "reg", &port_num);
->> > +     if (ret) {
->> > +             dev_err(dev, "Failed to read reg property: %d\n", ret);
->> > +             return ret;
->> > +     }
->> > +
->> > +     port_data =3D &switch_desc->typec_ports[port_num];
->> > +     port_data->data =3D data;
->> > +     port_data->port_num =3D port_num;
->> > +     port_data->fwnode =3D fwnode;
->> > +     mux_desc.fwnode =3D fwnode;
->> > +     mux_desc.drvdata =3D port_data;
->> > +     snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
->> > +     mux_desc.name =3D name;
->> > +     mux_desc.set =3D mux_set;
->> > +
->> > +     port_data->typec_mux =3D typec_mux_register(dev, &mux_desc);
->> > +     if (IS_ERR(port_data->typec_mux)) {
->> > +             ret =3D PTR_ERR(port_data->typec_mux);
->> > +             dev_err(dev, "Mode switch register for port %d failed: %=
-d\n",
->> > +                     port_num, ret);
->> > +
->> > +             return ret;
->>
->> you don't need this return here...
->>
->> > +     }
->> > +
->> > +     return 0;
->>
->> Just "return ret;" here.
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ .../devicetree/bindings/input/google,cros-ec-keyb.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This was actually suggested by Angelo in [1]. I personally don't have
-a strong opinion on either approach.
+diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+index e05690b3e963..a8abdb39623b 100644
+--- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
++++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+@@ -45,7 +45,7 @@ properties:
+       when the keyboard has a custom design for the top row keys.
+ 
+ dependencies:
+-  function-row-phsymap: [ 'linux,keymap' ]
++  function-row-physmap: [ 'linux,keymap' ]
+   google,needs-ghost-filter: [ 'linux,keymap' ]
+ 
+ required:
+-- 
+2.34.1
 
-[1]https://lore.kernel.org/all/023519eb-0adb-3b08-71b9-afb92a6cceaf@collabo=
-ra.com/
-
-Pin-yen
->>
->>
->> > +}
->> > +
->> > +/**
->> > + * drm_dp_register_typec_switches() - register Type-C switches
->> > + * @dev: Device that registers Type-C switches
->> > + * @port: Device node for the switch
->> > + * @switch_desc: A Type-C switch descriptor
->> > + * @data: Private data for the switches
->> > + * @mux_set: Callback function for typec_mux_set
->> > + *
->> > + * This function registers USB Type-C switches for DP bridges that ca=
-n switch
->> > + * the output signal between their output pins.
->> > + *
->> > + * Currently only mode switches are implemented, and the function ass=
-umes the
->> > + * given @port device node has endpoints with "mode-switch" property.
->> > + * The port number is determined by the "reg" property of the endpoin=
-t.
->> > + */
->> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_=
-handle *port,
->> > +                                struct drm_dp_typec_switch_desc *swit=
-ch_desc,
->> > +                                void *data, typec_mux_set_fn_t mux_se=
-t)
->> > +{
->> > +     struct fwnode_handle *sw;
->> > +     int ret;
->> > +
->> > +     fwnode_for_each_child_node(port, sw) {
->> > +             if (fwnode_property_present(sw, "mode-switch"))
->> > +                     switch_desc->num_typec_switches++;
->> > +     }
->>
->> no need for brackets here
->>
->> > +
->> > +     if (!switch_desc->num_typec_switches) {
->> > +             dev_dbg(dev, "No Type-C switches node found\n");
->>
->> dev_warn()?
->
->
-> I used dev_dbg here because the users might call this without checking if=
- there are mode switch endpoints present, and this is the case for the curr=
-ent users (it6505 and anx7625). If we use dev_warn here, there will be warn=
-ings every time even on use cases without Type-C switches.
->
-> Thanks and regards,
-> Pin-yen
->>
->>
->> > +             return 0;
->> > +     }
->> > +
->> > +     switch_desc->typec_ports =3D devm_kcalloc(
->> > +             dev, switch_desc->num_typec_switches,
->> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
->> > +
->> > +     if (!switch_desc->typec_ports)
->> > +             return -ENOMEM;
->> > +
->> > +     /* Register switches for each connector. */
->> > +     fwnode_for_each_child_node(port, sw) {
->> > +             if (!fwnode_property_present(sw, "mode-switch"))
->> > +                     continue;
->> > +             ret =3D drm_dp_register_mode_switch(dev, sw, switch_desc=
-, data, mux_set);
->> > +             if (ret)
->> > +                     goto err_unregister_typec_switches;
->> > +     }
->> > +
->> > +     return 0;
->> > +
->> > +err_unregister_typec_switches:
->> > +     fwnode_handle_put(sw);
->> > +     drm_dp_unregister_typec_switches(switch_desc);
->> > +     dev_err(dev, "Failed to register mode switch: %d\n", ret);
->>
->> there is a bit of dmesg spamming. Please choose where you want to
->> print the error, either in this function or in
->> drm_dp_register_mode_switch().
->>
->> Andi
->>
->> > +     return ret;
->> > +}
->> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
->>
->> [...]

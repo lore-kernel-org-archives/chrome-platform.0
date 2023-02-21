@@ -1,84 +1,75 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CD763B8
-	for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 13:55:45 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id a26so2964366lfk.10
-        for <chrome-platform@lists.linux.dev>; Mon, 20 Feb 2023 05:55:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2691878
+	for <chrome-platform@lists.linux.dev>; Tue, 21 Feb 2023 09:45:44 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id s26so14603796edw.11
+        for <chrome-platform@lists.linux.dev>; Tue, 21 Feb 2023 01:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DE5alLbVy8X6VmLqkrTKXnAIc5UYOF+41WkrcJJn5G0=;
-        b=iGl2W5X5EQLO43Kpwlp7zf+nkLaWQAz70M1gq/R/JttbaDhQoacKuhNV3Kc36ptO/z
-         +4U/4NniaJF++prM+LkFJ6vzvv7Ix1m6/Uynb1ZC/5lLhRPpZXJ+RdwugmIltFEG80m1
-         9WxHjtCn9GHtNYY0kb5qJ14EBGbTXQfOz5drlFMTgdNb4G/uxupYwH3JrUh2yaWhPKfr
-         7PXnrBBICQOfcSQ+NLDh6YM4MWMYaXtaw69bjL6aJjBqt59UdpFGidLoHAaGfqsCMz2t
-         hQeGlaEVtUypNUBWNT1Ys/oEMKuZqT2AbWfU+JKVZW5hF1MdAOIL56YUQKvVZwbBqi0R
-         ARew==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/PK2BfkpiLdNJHc78+c5wCnYytKxPCOH9JODGsT+Sq0=;
+        b=wjkgqNVhSpIjWrfFumTFJx9NgMl4d88J9tYLaPJDVzMEUrhFTXm1gbEnWULzRpmMF5
+         tJ/H+k0EdaDoQr3mK2J+xP/gUt09/9hOFyEmwcakSn76K8tTqtNhLx+WMLjHoLuo9OGg
+         CUA2x5PRVmk49bQyUljQv7HTxTO/jU1bnSh013iGeOin2d+60yafhbq68gT/VB2cZOaG
+         aQRgAYMKMQ1Kw8YlxOPt9gaHiW85l47o6nfcZ1EoVffLPLYAPbo0SFlRXXgBMnFqWnFX
+         JKYKWVDob4LI9A6+ZiYTZn05TzyByK2Kyw/KJsBTIpK8chqvyfLI1rUw2SBcB8LXxkxW
+         Wodw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DE5alLbVy8X6VmLqkrTKXnAIc5UYOF+41WkrcJJn5G0=;
-        b=xsglCBYWjga/Aw8UMC/uILcrCzulQq/7LUUolzKhDwNhwFERq3iUidsHnrEVhc41Y7
-         ZB4xW2A2VQyt/CVLyaZd/4EDEE165czRKwPlHa/Jf4Q+FxyMDTr7v255vIML/jO3SOZ/
-         ntgVuCiHZX7ND1yu+YzPuCMS3kBOBAY5ciLSHRPoUxtBRrVhzd9iRDbGGSUVuz0IKgl2
-         YKnPvdHXGYQ89DzWZYvFcw7/bn2Dl1qeeE0+sLTsRl+BGMyEPjZCGHQr5f2te/bd3tLE
-         pVHdR/WiKSbc6cUVwAD+mrl6j/sX6YFhxEV1BnOr8rk2rtWtfQum3RRHtHX3+EcUNXbW
-         QxTw==
-X-Gm-Message-State: AO0yUKXV3sW4rW2n1fGFSH9ZGkyyLwsEww4ZY0d30X/jq2O8ZEeP6dbk
-	8MJiItmnq9j2oHkrcA8qcu7fLA==
-X-Google-Smtp-Source: AK7set8IpEHuh6XOU3Ps6rH+1G9kJdpMfhhkYJ58mn7/QBI2XD92krslfMrBgNjq21OPoMouwOXPfw==
-X-Received: by 2002:a19:f00d:0:b0:4dc:537c:9229 with SMTP id p13-20020a19f00d000000b004dc537c9229mr146526lfc.30.1676901343735;
-        Mon, 20 Feb 2023 05:55:43 -0800 (PST)
-Received: from fedora.. ([85.235.12.219])
-        by smtp.gmail.com with ESMTPSA id r5-20020ac25a45000000b004db513b017esm1529652lfn.45.2023.02.20.05.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 05:55:43 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Cc: Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
-Date: Mon, 20 Feb 2023 14:55:31 +0100
-Message-Id: <20230220135531.1987351-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.39.0
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/PK2BfkpiLdNJHc78+c5wCnYytKxPCOH9JODGsT+Sq0=;
+        b=Gb2tibUk+kK0dF3eE15wtUJSu1w21LHkD0hmOK/BdVBTiBrXGEFqjFRR6iASnJzfTe
+         jBGBI4BcqaDx+jbOOw0IVaOGyFslWIH/Qql61VFt6vD2p73h68pVuIkYzpLJG+flnHE3
+         OFjVd2zWu0JMRqkgKWaMjYj2X9hdAFTvgrDUq3xAlUF9AS8Qj03HCLwszbGDeKCqBOYh
+         kG4IUo7FesmowBTPvya8rUaYP74NPZ8ohGYUcinpUXSPcihzHw4J2G3sFnm9mgQp/LFl
+         hZ4h9Oo9sxMFEjrEfBu1mWVfbFUGJpNmlGaBt13t8WFp5RJf1sTP5Tn6uC03q0WgRAUY
+         ugWw==
+X-Gm-Message-State: AO0yUKVrRwwjJK/vtz9C3F4kcPkyTGcMTKOcZU4iSa2pSL5cMtePhGPl
+	cXY2VqkRv+0iR2jxSN4xssSwFA==
+X-Google-Smtp-Source: AK7set/nhtES+EmSr0ewBQL+bKcLDyq0xL+oiEJyxDgGr5e9Gv8UiNern63ikKa/1KSjV/+Z76+aVw==
+X-Received: by 2002:a05:6402:b38:b0:4ac:bd6e:9975 with SMTP id bo24-20020a0564020b3800b004acbd6e9975mr4367614edb.20.1676972742739;
+        Tue, 21 Feb 2023 01:45:42 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id y21-20020a056402359500b004ab33d52d03sm2782953edc.22.2023.02.21.01.45.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Feb 2023 01:45:42 -0800 (PST)
+Message-ID: <1478c506-de42-e7a6-c652-a569968c8c29@linaro.org>
+Date: Tue, 21 Feb 2023 10:45:40 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
+Content-Language: en-US
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230220135531.1987351-1-linus.walleij@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230220135531.1987351-1-linus.walleij@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The dependency had an obvious spelling error. Fix it.
+On 20/02/2023 14:55, Linus Walleij wrote:
+> The dependency had an obvious spelling error. Fix it.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- .../devicetree/bindings/input/google,cros-ec-keyb.yaml          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-index e05690b3e963..a8abdb39623b 100644
---- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-+++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-@@ -45,7 +45,7 @@ properties:
-       when the keyboard has a custom design for the top row keys.
- 
- dependencies:
--  function-row-phsymap: [ 'linux,keymap' ]
-+  function-row-physmap: [ 'linux,keymap' ]
-   google,needs-ghost-filter: [ 'linux,keymap' ]
- 
- required:
--- 
-2.34.1
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 

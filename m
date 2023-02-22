@@ -1,36 +1,36 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D851C17
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Feb 2023 05:05:25 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id f9so3573739iox.2
-        for <chrome-platform@lists.linux.dev>; Tue, 21 Feb 2023 21:05:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC19B1FD2
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Feb 2023 08:53:53 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id d11so2872679iow.0
+        for <chrome-platform@lists.linux.dev>; Wed, 22 Feb 2023 00:53:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fnu1EJD881ilgzbXP/u2M6qiohAhxhnaJqCCnJN+Tk8=;
-        b=FubYbTKjUQHr3cEQiX3cMJOQw4FfCE/OMOouqh/l8wKE33FVwKwsXJcZPCVlJOgruk
-         TwqXvfjx8dAxXtopRpr/7I3tGJw6wGnLplPO44Jf7qPfUZiBkStTGzavNICWu6K4/ijQ
-         t56/tUtwbEDOBpuFgeHcQRqgq9PseVi3JLl2E=
+        bh=WhYDKiCMl5Zg3kFJ82aJeKZFheHJkDNcW1JK/FBeLIU=;
+        b=S46TMnd79hmJMjHu6YHoyiQ+If7OYb6jqppE2/V2/h32wVWi6nWdac/dC+ud2JAX82
+         ngXeec568GkKEt7Pym7Jw3Ur53NqHZxEiqsqSgImaIuxbIIedIDCislExEzkuJ8FGR8w
+         BLGw0ITffNiuHi9XD817RG27FpP7nMDzxmEb8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fnu1EJD881ilgzbXP/u2M6qiohAhxhnaJqCCnJN+Tk8=;
-        b=7Nkoo6aiMPNtA/lmkz2n5TmWzQcVtL67wC+1gCYSuLXCU+W5LUrF9CO2+JBCh1cIe+
-         brGeUxnbGoIjZy6Zldnotf3Ms2LeSl17irsN553OQYLtr/a+i3KSbBJ7VZKRg7ZZBJKp
-         7HB1A9gJqaWHQ4tcJKB9CGmedZqaru671bnJGRyLiT3H0uNR/GdasSyDrnG/4IvU/v0f
-         GX4wGvBauAxey7gm8nfHwNTBeNZTOmO0XB3DKGNHluOnWbEMJcbJO6TrP5lyZtT5PLZP
-         HCY43A7oYcY00T862dBR+40yVF+riJUTloPVpTMbg+g+vAngufBp0JIBjxiwtX/NmEiV
-         awaQ==
-X-Gm-Message-State: AO0yUKXIs6SJY/nIFMyWu6Fi6kEhC3u5DvLH+KOZtRs4XYGUUWqBz64P
-	m4A89Llj6+eosqVnAJBE6H48K2iN4cwDVY/OIay31A==
-X-Google-Smtp-Source: AK7set9WiTsncAk01hPHPcRR1sXgR4N/+7kuisg+5cf5ZRp0qNCei8CeQdAbEZCvfHwnyW5W1nH1RQwFgy87puMdlp0=
+        bh=WhYDKiCMl5Zg3kFJ82aJeKZFheHJkDNcW1JK/FBeLIU=;
+        b=cfEttAaa6PQ4t7DuWZc5QPju2uvR1nfWPsP61hHmpSgs5oZRz+/urb0lz1DG5ek7MD
+         GSNQEMry0h84sUtvKrHrI8y34niIrRDq9CRiHSRqOhCMghTJ3DafucGEozhPg8Hq9nLS
+         PVkC0gBC7mJwg7T7v60lihTyvGbzIlLinX8LAjKGYhU647Csk0ph5Ud7Dje8YFMcqlq2
+         lB6rmMDT+NcekXIzXrXzksvjW1QJwQ2XXlL6OGh4bnCMpNhm5N0JrEZern1FYbXOU3ad
+         /b4Wf1BmCyckAcaNQZMEL5vtsplWcu6b+9OJMykdCpl+0u6xHGwciAhtLKwCuUjBZNOU
+         sxVQ==
+X-Gm-Message-State: AO0yUKXkt7oFIAi/xzagukkTLuHZtqyF0CcfHxpEMVj1kx6dG+yp9kaQ
+	ypAkRw3wXlqSGA8j1fIv0f7brM/8WXHGzLVA33lz8w==
+X-Google-Smtp-Source: AK7set95UIcEr36Pn+YUoHAt17RL/o3ns/Gdh3WG/t/+JidyKPagtbyfa6npb7tZMS4Qzo8ChxlIppfGbWczTO72XBY=
 X-Received: by 2002:a5d:80da:0:b0:71a:5a1f:544c with SMTP id
- h26-20020a5d80da000000b0071a5a1f544cmr4719763ior.5.1677042324712; Tue, 21 Feb
- 2023 21:05:24 -0800 (PST)
+ h26-20020a5d80da000000b0071a5a1f544cmr4867722ior.5.1677056033042; Wed, 22 Feb
+ 2023 00:53:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -38,12 +38,12 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230221095054.1868277-1-treapking@chromium.org>
- <20230221095054.1868277-8-treapking@chromium.org> <Y/SstDfugez4/Qx4@smile.fi.intel.com>
-In-Reply-To: <Y/SstDfugez4/Qx4@smile.fi.intel.com>
+ <20230221095054.1868277-4-treapking@chromium.org> <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
+In-Reply-To: <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Wed, 22 Feb 2023 13:05:13 +0800
-Message-ID: <CAEXTbpeObyd1uKd3Qp9c3A9z9BX8R_SiH7okVrgmV+fMfaRaYQ@mail.gmail.com>
-Subject: Re: [PATCH v12 07/10] drm/bridge: anx7625: Register Type C mode switches
+Date: Wed, 22 Feb 2023 16:53:41 +0800
+Message-ID: <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
+Subject: Re: [PATCH v12 03/10] drm/display: Add Type-C switch helpers
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -63,119 +63,120 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@lina
 	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
 	chrome-platform@lists.linux.dev, 
 	Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org, 
-	Stephen Boyd <swboyd@chromium.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+	Stephen Boyd <swboyd@chromium.org>, Douglas Anderson <dianders@chromium.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Imre Deak <imre.deak@intel.com>, 
+	Jani Nikula <jani.nikula@intel.com>, Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Andy,
 
 Thanks for the review.
 
-On Tue, Feb 21, 2023 at 7:36 PM Andy Shevchenko
+On Tue, Feb 21, 2023 at 7:48 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Tue, Feb 21, 2023 at 05:50:51PM +0800, Pin-yen Lin wrote:
-> > Register USB Type-C mode switches when the "mode-switch" property and
-> > relevant ports are available in Device Tree. Configure the crosspoint
-> > switch based on the entered alternate mode for a specific Type-C
-> > connector.
+> On Tue, Feb 21, 2023 at 05:50:47PM +0800, Pin-yen Lin wrote:
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
 > >
-> > Crosspoint switch can also be used for switching the output signal for
-> > different orientations of a single USB Type-C connector, but the
-> > orientation switch is not implemented yet. A TODO is added for this.
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "reg" properties are available in Device Tree.
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 >
 > ...
 >
-> > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-> > +{
-> > +     int i;
->
-> unsigned?
->
-> + Blank line.
->
-> > +     /* Check if both ports available and do nothing to retain the current one */
-> > +     if (ctx->port_data[0].dp_connected && ctx->port_data[1].dp_connected)
-> > +             return;
+> > +     fwnode_for_each_typec_mode_switch(port, sw)
+> > +             switch_desc->num_typec_switches++;
 > > +
-> > +     for (i = 0; i < 2; i++) {
-> > +             if (ctx->port_data[i].dp_connected)
-> > +                     anx7625_set_crosspoint_switch(ctx,
-> > +                                                   ctx->port_data[i].orientation);
+> > +     if (!switch_desc->num_typec_switches) {
+> > +             dev_dbg(dev, "No Type-C switches node found\n");
+> > +             return 0;
 > > +     }
-> > +}
+>
+> What about
+>
+> static inline unsigned int typec_mode_switch_node_count(... *port)
+> {
+>         ... *sw;
+>         unsigned int count = 0;
+>
+>         for_each_typec_mode_switch_node(port, sw)
+>                 count++;
+>
+>         return count;
+> }
+>
+>
+> And then it seems something like
+>
+>         unsigned int count;
+>
+>         count = typec_mode_switch_node_count(port);
+>         if (!count) {
+>                 ...
+>         }
+>
+>         _switches = count;
 >
 > ...
 >
-> > +     ctx->port_data[port->port_num].dp_connected =
-> > +             state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
+> > +     switch_desc->typec_ports = devm_kcalloc(
+> > +             dev, switch_desc->num_typec_switches,
 >
-> I would move the first parameter of && to the separate line for slightly better
-> readability.
+> Strange indentation.
 >
-> > +             state->alt->mode == USB_TYPEC_DP_MODE;
->
-> ...
->
-> > +     for (i = 0; i < switch_desc->num_typec_switches; i++) {
-> > +             struct drm_dp_typec_port_data *port = &switch_desc->typec_ports[i];
-> > +             struct fwnode_handle *fwnode = port->fwnode;
-> > +
-> > +             num_lanes = fwnode_property_count_u32(fwnode, "data-lanes");
+> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
 >
 > > +
 >
 > Redundant blank line.
 >
-> > +             if (num_lanes < 0) {
-> > +                     dev_err(dev,
-> > +                             "Error on getting data lanes count from %pfwP: %d\n",
-> > +                             fwnode, num_lanes);
+> > +     if (!switch_desc->typec_ports)
+> > +             return -ENOMEM;
 >
-> > +                     ret = num_lanes;
+> ...
 >
-> Can be written differently:
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> > +{
+> > +     int i;
 >
-> > +                     goto unregister_mux;
-> > +             }
+> unsigned?
 >
->                 ret = ...
->                 if (ret < 0) {
->                         ...
->                 }
->                 num_lanes = ret;
+> > +     for (i = 0; i < switch_desc->num_typec_switches; i++)
+> > +             typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
+> > +}
 >
+> ...
 >
-> What if it's 0?
+> >  #include <linux/delay.h>
+> >  #include <linux/i2c.h>
+> > +#include <linux/usb/typec_mux.h>
+>
+> I don't see users of this.
+> But a few forward declarations are missing.
 
-The binding does not allow that, so I don't think we should check it here.
+I can put a `struct typec_mux_dev;` here, but there is also a usage of
+typec_mux_set_fn_t.
 
-I'll address other comments in the next version.
+Should I add the typedef into this header file as well?
 
 Regards,
 Pin-yen
 >
-> > +             ret = fwnode_property_read_u32_array(fwnode, "data-lanes",
-> > +                                                  dp_lanes, num_lanes);
-> > +             if (ret) {
-> > +                     dev_err(dev,
-> > +                             "Failed to read the data-lanes variable: %d\n",
-> > +                             ret);
-> > +                     goto unregister_mux;
-> > +             }
-> > +
-> > +             ctx->port_data[i].orientation = (dp_lanes[0] / 2 == 0) ?
-> > +                     TYPEC_ORIENTATION_REVERSE : TYPEC_ORIENTATION_NORMAL;
-> > +             ctx->port_data[i].dp_connected = false;
-> > +     }
-> > +     complete_all(&ctx->mux_register);
-> > +
-> > +     return 0;
-> > +
-> > +unregister_mux:
-> > +     complete_all(&ctx->mux_register);
-> > +     anx7625_unregister_typec_switches(ctx);
-> > +     return ret;
-> > +}
+> >  #include <drm/display/drm_dp.h>
+> >  #include <drm/drm_connector.h>
+>
+> ...
+>
+> > +#define fwnode_for_each_typec_mode_switch(port, sw)  \
+> > +     fwnode_for_each_child_node((port), (sw))        \
+> > +             for_each_if(fwnode_property_present((sw), "mode-switch"))
+>
+> Please don't use fwnode namespace (see above), something like
+>
+> #define for_each_typec_mode_switch_node(port, sw)       \
+>         ...
 >
 > --
 > With Best Regards,

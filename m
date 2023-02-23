@@ -1,110 +1,87 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68515392
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Feb 2023 14:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677074956; x=1708610956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wpLN1gd73bREF0yIjZJYHMzn1mN4hBeaWGTvbEXlUfo=;
-  b=T8MtXUL8tmAxovCNyqSVrFv675wr3l+tkdXjIXzmzlhQUS3C3CoqIiTj
-   3k9UcFS8YHKBSlJ8ix7i+NOUVy68ReyMSYvjW2VP7/lt2z9hKOHGIo4QZ
-   eI4fMUcQC0Gbb51JcRT1q8fciNnAZaJjnCFVYMqlxNuXrBclTPnohd6yx
-   ysdmfSDUWKsc4cnJNCV4sI4NMUPsbS5l67uPsvuErakfWrhkMxc01jl2k
-   mk21v168KsodEh98eD3VeTOGcvXbL3FAStvY7fLOLqfdsALmi03c+drrA
-   sDbDr1m1FR9S1nGZhDQcH+mvotLNPcSO1Ubbi5Cb7fBd55s5/68yvl8lM
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313305566"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="313305566"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 06:09:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="781446604"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="781446604"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Feb 2023 06:09:07 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pUpne-00ARKq-0t;
-	Wed, 22 Feb 2023 16:08:50 +0200
-Date: Wed, 22 Feb 2023 16:08:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	Hsin-Yi Wang <hsinyi@chromium.org>, Marek Vasut <marex@denx.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, Xin Ji <xji@analogixsemi.com>,
-	Lyude Paul <lyude@redhat.com>, Allen Chen <allen.chen@ite.com.tw>,
-	devicetree@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DB21C26
+	for <chrome-platform@lists.linux.dev>; Thu, 23 Feb 2023 05:41:47 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id c1so11777853plg.4
+        for <chrome-platform@lists.linux.dev>; Wed, 22 Feb 2023 21:41:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FEXPPCK8RfqWIy61SdJSATTm4fO5IDc6+VUaQzEmh4E=;
+        b=Iaoybi9FTzh6C/4Q1uAlBnnpbXHAaChef57PMz+L5CNynKlpOVTV1yvWjcgHGLqLdO
+         GsdRImZTtGpvoveMc5Q+0hD0MiBMi9/qPjfLkxgGrd9VbQ3ZWkO7LABV3eH+H5wr8Mx2
+         xI/dc+0n5Ev0Varn6blZ48V6CSDbiYz+iP+A30M/BwpIwfHkHtJLeItKxus6j9hLd8DX
+         mkIFrnsXKUcO7ybl5xvaqzT21jnAvqjKMQHmH1lMkRKM0EioeKEtN1BpWicIw0vz6+oz
+         ujFisqnfE9cIiCg5swTO1vOnkrV9rW8RaDgpNhL+e972+kSkdQFk9GOuyYlL4+Gl0HTh
+         8KrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FEXPPCK8RfqWIy61SdJSATTm4fO5IDc6+VUaQzEmh4E=;
+        b=ntQslZr41nWcuvyANApsEFMiHZZ+NXb28DJ9VjX2VniELwcCCRCgwVrX/CiGcc2qIO
+         1hjKXSbPrAvK4g2uyPnk20XyfIXBUkqY81B6kuHlxDt1m5y64g71FFJWgI89DiCv6No8
+         pg4qGErPaye+X2gGeOpLwT0cqT1t4hV5rGbvqdj5qW/3CtkpZWmndkFuDx9w4XeN6KSP
+         CLylcuBdOxieOKJRVKn0VE2kIhyukp0ROH39vnezOVGNpcwBMIGDMsutpMPqvrE0O5SI
+         mAG6Ik612EkyxnWFP11CiJR4JNO8UGsk9SI+IUAWL0bMo06xLRzGew6yZXqNYBNo/nTC
+         MPiA==
+X-Gm-Message-State: AO0yUKU2xqjYPi/kSUNatc3u8/TWC71Y69qa7rvgZ1B+8BWHcrz35Owu
+	zfpzYugG9AWGIiQ/NS4xDQH6UQ==
+X-Google-Smtp-Source: AK7set9EfGInk0g9nPYWg1g2YklQ06/aSqmHefF8nH7RZ19edO7NzOiLMGFwQuZ5jFmjjxfAJx84rw==
+X-Received: by 2002:a17:902:e1cc:b0:19c:9420:6236 with SMTP id t12-20020a170902e1cc00b0019c94206236mr6420380pla.22.1677130906465;
+        Wed, 22 Feb 2023 21:41:46 -0800 (PST)
+Received: from localhost.localdomain ([2401:e180:8812:cac3:129e:5c16:92e6:e867])
+        by smtp.gmail.com with ESMTPSA id g12-20020a170902c38c00b0019c90f8c831sm4455256plg.242.2023.02.22.21.41.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 21:41:46 -0800 (PST)
+From: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: mchehab@kernel.org,
+	bleung@chromium.org,
+	groeck@chromium.org,
+	scott_chao@wistron.corp-partner.google.com,
+	ajye_huang@compal.corp-partner.google.com,
+	zoey_wu@wistron.corp-partner.google.com,
+	hellojacky0226@hotmail.com,
+	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	linux-acpi@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Imre Deak <imre.deak@intel.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v12 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <Y/Yh8tBa979G101H@smile.fi.intel.com>
-References: <20230221095054.1868277-1-treapking@chromium.org>
- <20230221095054.1868277-4-treapking@chromium.org>
- <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
- <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: cros-ec: Add aurash to the match table
+Date: Thu, 23 Feb 2023 13:41:38 +0800
+Message-Id: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 22, 2023 at 04:53:41PM +0800, Pin-yen Lin wrote:
-> On Tue, Feb 21, 2023 at 7:48 PM Andy Shevchenko
-> > On Tue, Feb 21, 2023 at 05:50:47PM +0800, Pin-yen Lin wrote:
+The Google aurash device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-...
+Signed-off-by: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > >  #include <linux/delay.h>
-> > >  #include <linux/i2c.h>
-> > > +#include <linux/usb/typec_mux.h>
-> >
-> > I don't see users of this.
-> > But a few forward declarations are missing.
-> 
-> I can put a `struct typec_mux_dev;` here, but there is also a usage of
-> typec_mux_set_fn_t.
-> 
-> Should I add the typedef into this header file as well?
-
-No, inclusion is fine, it's me who didn't notice the type in use.
-
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 6ebedc71d67d..e7cb9509e967 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -225,6 +225,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Kinox", "0000:00:02.0", "Port B" },
+ 	/* Google Kuldax */
+ 	{ "Google", "Kuldax", "0000:00:02.0", "Port B" },
++	/* Google Aurash */
++	{ "Google", "Aurash", "0000:00:02.0", "Port B" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 

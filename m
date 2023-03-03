@@ -1,40 +1,40 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CED1FB2
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Mar 2023 14:34:05 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id fa28so1647243pfb.12
-        for <chrome-platform@lists.linux.dev>; Fri, 03 Mar 2023 06:34:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED585387
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Mar 2023 14:34:11 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id h31so1590203pgl.6
+        for <chrome-platform@lists.linux.dev>; Fri, 03 Mar 2023 06:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1677854045;
+        d=chromium.org; s=google; t=1677854051;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=79Uwb6iDaWyQVJjZrRJ473QcWA7ttMYiWdGYGLA3qE0=;
-        b=K6DPnUEhwAuq3ZfNxMIvOPR4SUuvBcbDP2j+8IK7g6phQeQaBx40sRrTwGVA5hkuyF
-         gYIzWVSiB+ON2Y/GuvUTmuWTEbZQHKwyQ4KChVELGR2ZT5FzPcxtF8JD4lENhVH3jOj8
-         SEnz34mo0XPVbLXqUo1fl9VNQbZz461GH7YpE=
+        bh=2GSheqbMM/y6fCvliFj+ppp2OtEu+n0XS7KkD2oZQEI=;
+        b=ORbbhYWjcrdUXddidK8/Nloe82mnQ35GzGIrhs2jzWwUds3rWOpv5nJxxTFmFm4oQC
+         CxegqtfkKUBMnsHmL8wgadHHiWZTzQQJykfyyzVvvTHClW+d9gQvwTdN0YWV0WMXlgK5
+         1aL+kygtUTM9LfKuOD6awBgLOifkrbo1tJQpQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677854045;
+        d=1e100.net; s=20210112; t=1677854051;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=79Uwb6iDaWyQVJjZrRJ473QcWA7ttMYiWdGYGLA3qE0=;
-        b=JLlnvdVMD5/mK4ZrIHlX7zo2+dwC/BybcWxejRH+8QYdqLJs7cWEFAm8kIUcvMWims
-         +jSNjJNYIs40Fc2yWp5UUZAMJqSiHEkl/w5MTueB43y5N6/tQczSfs9XNxLLcEfq4bUI
-         sQXgzms/RaEOsmJh55uwD3OkeW92Uenj3OLueQL8Sl30psqovhnvvg0cSYxWbwFMKh3d
-         xZmyYiA4PvqBnp2PWdwH/VuJymo9FEtA4a3937aIhrho1fK7PSTWLZNuPHHBb5i0lppv
-         ROcecrQZNVM/G3H+raiUWsrnYvR0OpxyeigrQKgs2h4cZQDaOX8MvO/m6wjt96/w+38D
-         onWw==
-X-Gm-Message-State: AO0yUKV4A7gz2pQKOuwbBsvGCW+v+iWXFnyj5REKY1ma4L6oHvTOXVZi
-	0ywE+U7NQvkMzjfvdw9fl8kxIQ==
-X-Google-Smtp-Source: AK7set8h4+hsoLy5T3/JD6xdGPxFqv6a3VOB7IL+KpQMvfnOj+90dWvkkyB4VFJoObht4fS0rgBaOA==
-X-Received: by 2002:a62:38d7:0:b0:5de:7ef1:d03a with SMTP id f206-20020a6238d7000000b005de7ef1d03amr2054923pfa.19.1677854045367;
-        Fri, 03 Mar 2023 06:34:05 -0800 (PST)
+        bh=2GSheqbMM/y6fCvliFj+ppp2OtEu+n0XS7KkD2oZQEI=;
+        b=1u1P0E7cSFvjT2+p7ssePcoxxmfcX5VgAeD58nwsQdwEYaeGNACOreCYk0yhMbd8Do
+         C9VowfTW4AmxVGiZf15c346wNVjO8/gH78VnGy+6+zglOc6p2P2wKbLNK7K/VJl46egP
+         hG9g/sRiIbVNV8e8IfOHxGtE/DUUnWzgFh6BMDiL2dyi6Grg9ZqIsO1wOEk/4WetfULR
+         zekF7J/a+iaBi5+8r/U49gK0VdcGGh5z5BizpbrSPbdqNh9ZuvXf9HGo8C3x56Y1PFko
+         owo2Fm/QZm8nH+EnME2rPvnaotyzXesdu8iO2WaPexAEGBDHh4MRznxzQxthReTd8rY3
+         GYcQ==
+X-Gm-Message-State: AO0yUKX3rpCktnZcVALQC8IJj1L0J5Pe3+AOibafyIyNEybnYTTEv7eq
+	K1Yo5JaxC2/N61bA6NEnicMQBA==
+X-Google-Smtp-Source: AK7set8ZyroXR8n1lvPwpjEhKc1tWAsFdZmXoi7WmQAxYJxSVr0Lg4mECqCQQC7UE5drwDPoBaZ6yw==
+X-Received: by 2002:a62:6185:0:b0:5a9:d4fa:d3c7 with SMTP id v127-20020a626185000000b005a9d4fad3c7mr2301621pfb.7.1677854050757;
+        Fri, 03 Mar 2023 06:34:10 -0800 (PST)
 Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:55e5:8423:31ee:83dd])
-        by smtp.gmail.com with ESMTPSA id c18-20020aa781d2000000b005a8b4dcd21asm1767214pfn.15.2023.03.03.06.34.00
+        by smtp.gmail.com with ESMTPSA id c18-20020aa781d2000000b005a8b4dcd21asm1767214pfn.15.2023.03.03.06.34.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 06:34:05 -0800 (PST)
+        Fri, 03 Mar 2023 06:34:10 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -70,10 +70,11 @@ Cc: Xin Ji <xji@analogixsemi.com>,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Stephen Boyd <swboyd@chromium.org>,
-	linux-acpi@vger.kernel.org
-Subject: [PATCH v13 01/10] device property: Add remote endpoint to devcon matcher
-Date: Fri,  3 Mar 2023 22:33:41 +0800
-Message-Id: <20230303143350.815623-2-treapking@chromium.org>
+	linux-acpi@vger.kernel.org,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: [PATCH v13 02/10] platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+Date: Fri,  3 Mar 2023 22:33:42 +0800
+Message-Id: <20230303143350.815623-3-treapking@chromium.org>
 X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
 In-Reply-To: <20230303143350.815623-1-treapking@chromium.org>
 References: <20230303143350.815623-1-treapking@chromium.org>
@@ -87,97 +88,68 @@ Content-Transfer-Encoding: 8bit
 
 From: Prashant Malani <pmalani@chromium.org>
 
-When searching the device graph for device matches, check the
-remote-endpoint itself for a match.
+When using OF graph, the fw_devlink code will create links between the
+individual port driver (cros-ec-typec here) and the parent device for
+a Type-C switch (like mode-switch). Since the mode-switch will in turn
+have the usb-c-connector (i.e the child of the port driver) as a
+supplier, fw_devlink will not be able to resolve the cyclic dependency
+correctly.
 
-Some drivers register devices for individual endpoints. This allows
-the matcher code to evaluate those for a match too, instead
-of only looking at the remote parent devices. This is required when a
-device supports two mode switches in its endpoints, so we can't simply
-register the mode switch with the parent node.
+As a result, the mode-switch driver probe() never runs, so mode-switches
+are never registered. Because of that, the port driver probe constantly
+fails with -EPROBE_DEFER, because the Type-C connector class requires all
+switch devices to be registered prior to port registration.
+
+To break this deadlock and allow the mode-switch registration to occur,
+purge all the usb-c-connector nodes' absent suppliers. This eliminates
+the connector as a supplier for a switch and allows it to be probed.
 
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 ---
 
-Changes in v13:
-- Update the kernel doc of fwnode_connection_find_match
-
-Changes in v12:
-- Check the availability of the device node in fwnode_graph_devcon_matches
-- Ensured valid access to "matches" in fwnode_graph_devcon_matches
-- Updated the documentation in fwnode_connection_find_match(es)
-- Dropped collected tags due to the new changes
+(no changes since v11)
 
 Changes in v11:
-- Added missing fwnode_handle_put in drivers/base/property.c
+- Collected Acked-by tag
 
 Changes in v10:
 - Collected Reviewed-by and Tested-by tags
 
+Changes in v7:
+- Fix the long comment lines
+
 Changes in v6:
 - New in v6
 
- drivers/base/property.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 083a95791d3b..4426ac2b16ca 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1243,6 +1243,23 @@ static unsigned int fwnode_graph_devcon_matches(const struct fwnode_handle *fwno
- 			continue;
- 		}
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 001b0de95a46..bbc95a3ba5a7 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -385,6 +385,16 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 		return -EINVAL;
+ 	}
  
-+		ret = match(node, con_id, data);
-+		fwnode_handle_put(node);
-+		if (ret) {
-+			if (matches)
-+				matches[count] = ret;
-+			count++;
++	/*
++	 * OF graph may have set up some device links with switches,
++	 * since connectors have their own compatible. Purge these
++	 * to avoid a deadlock in switch probe (the switch mistakenly
++	 * assumes the connector is a supplier).
++	 */
++	if (dev_of_node(dev))
++		device_for_each_child_node(dev, fwnode)
++			fw_devlink_purge_absent_suppliers(fwnode);
 +
-+			if (matches && count >= matches_len)
-+				break;
-+		}
-+
-+		/*
-+		 * Some drivers may register devices for endpoints. Check
-+		 * the remote-endpoints for matches in addition to the remote
-+		 * port parent.
-+		 */
-+		node = fwnode_graph_get_remote_endpoint(ep);
- 		ret = match(node, con_id, data);
- 		fwnode_handle_put(node);
- 		if (ret) {
-@@ -1293,8 +1310,11 @@ static unsigned int fwnode_devcon_matches(const struct fwnode_handle *fwnode,
-  * @match: Function to check and convert the connection description
-  *
-  * Find a connection with unique identifier @con_id between @fwnode and another
-- * device node. @match will be used to convert the connection description to
-- * data the caller is expecting to be returned.
-+ * device node. For fwnode graph connections, the graph endpoints are also
-+ * checked. @match will be used to convert the connection description to data
-+ * the caller is expecting to be returned.
-+ *
-+ * Return: The pointer to the matched node, or NULL on error.
-  */
- void *fwnode_connection_find_match(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
-@@ -1325,9 +1345,10 @@ EXPORT_SYMBOL_GPL(fwnode_connection_find_match);
-  * @matches_len: Length of @matches
-  *
-  * Find up to @matches_len connections with unique identifier @con_id between
-- * @fwnode and other device nodes. @match will be used to convert the
-- * connection description to data the caller is expecting to be returned
-- * through the @matches array.
-+ * @fwnode and other device nodes. For fwnode graph connections, the graph
-+ * endpoints are also checked. @match will be used to convert the connection
-+ * description to data the caller is expecting to be returned through the
-+ * @matches array.
-  * If @matches is NULL @matches_len is ignored and the total number of resolved
-  * matches is returned.
-  *
+ 	/* DT uses "reg" to specify port number. */
+ 	port_prop = dev->of_node ? "reg" : "port-number";
+ 	device_for_each_child_node(dev, fwnode) {
 -- 
 2.40.0.rc0.216.gc4246ad0f0-goog
 

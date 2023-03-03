@@ -1,174 +1,112 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527B98F42
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Mar 2023 18:55:33 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYAYY-0006AS-EQ; Fri, 03 Mar 2023 19:55:02 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYAYT-001cTO-L9; Fri, 03 Mar 2023 19:54:57 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYAYS-001ujd-Vg; Fri, 03 Mar 2023 19:54:56 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@xilinx.com>
-Cc: kernel@pengutronix.de,
-	linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH 00/30] pwm: Convert to platform remove callback returning void
-Date: Fri,  3 Mar 2023 19:54:15 +0100
-Message-Id: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5448F42
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Mar 2023 19:14:32 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-536c02eea4dso60453897b3.4
+        for <chrome-platform@lists.linux.dev>; Fri, 03 Mar 2023 11:14:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1677870871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VRFCHBII5HxWnVKdRDrtgCThRX8/e7j76YPCdtgTTJE=;
+        b=m4oOiUB3+FZax2wPtoA+UBgc6k1LQdfyTtsseoG3abRFYOAUAgV68rye3BoA7iVcly
+         TI9q1TTspLr6KnS+qdbRpxlLQ49dnXbrpqR4WvIsJKVOakO+Px+fjaKehlzwEsAtvfpY
+         AUeYSXijPGIhMRgM3ohaBE0J8uo4iaL5SPFWjC43w99fqtnUDPoxAydc2GOCamrVqN+s
+         QyM4964RS7u/EY8Pe/ZPDdAzFesN9cOdJJpZwbTRyqxAqbFDlckozwNfWpUkkMLZY71+
+         vdGKlABM0U8gjLJTUUnl6vkFlx816cF5e/JYz1IUK2FLlW2YqnqojwpLBy51hG90fzPg
+         G2BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677870871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VRFCHBII5HxWnVKdRDrtgCThRX8/e7j76YPCdtgTTJE=;
+        b=knQWmrXaDEO25wBkiZyvu5fxD2JHOGg9uqTpXUt8DYM+dGzPzPnmQiONW5AvnOSEuR
+         WZQZ+J2drkkN9ONG604DYS2yOBv2vm/6v0hDvliJUFyOjjbj8qKg+Xw/YLCPRZZxdoH5
+         rClTxgZa91IdXzdzbwYXM4rGLbHpCS52sSdgLr684/RQ5notCfwsT/cKs58J7D93+gDG
+         yU/Th23sQy8PVSJ1iNDvssmabeDKZZBzO33lWLLebW3jgkjYIg+HReJq4JKYPVLq/g8c
+         zfbaoewwdjEwe5V+vQoV+9iLlB8u0XfW3Kjzi5rlIxs2tu+YxmJYlEWPLcF8/IhsIuut
+         CDPg==
+X-Gm-Message-State: AO0yUKXDN7VY0+hGzGna6TgvQniyaBmCQvkpWgtB4CxQXOEU6Zid2nYD
+	QSB4JU+cLytAh5O0FgehtK2YSYeGr4yMlxqU0LgkqA==
+X-Google-Smtp-Source: AK7set/axDl9gJ4mM3BPIagqkhYshrlpCAhyrWEAIWhAZL0379oSCnbH0viYM733QwcOWhI5UkNCnMsMbWplCkYqHys=
+X-Received: by 2002:a81:af59:0:b0:535:5e8c:65ef with SMTP id
+ x25-20020a81af59000000b005355e8c65efmr1549694ywj.6.1677870871418; Fri, 03 Mar
+ 2023 11:14:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4518; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=0T84eVJj5zms3XJcCemeo6tbGagiWg7FsqOn9O28VD8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkAkHgL+hOWzMEGr3pJ+k7l131cW/u0VRGYd/bj C6SJ3/IMe2JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAJB4AAKCRDB/BR4rcrs CaChB/9690Y0j69SwC7ah25tZA8zQepQ8HC5QoKJRtoGAE18zwPCd9i6Ah2GskRAHqpYY0uNm04 Ofb+Baq5kb52LxrrBMQmedZl3aJYZWofch+1g4d/hEf9ipUk1cY0J534mp4cGBxRfPQgNmj16IF Tz/dORDGUT6OLi4ZeGBhKRuh6aZBIqkrcvRyINJxJlgmQA0q2BGM2qwLZ5OSrCnu3bmCMIkxRWw 2x28v+TFl6h7Cz/hIoA/Z/10PnlupKviCktbI5hdQj824S0rA4YCq307ujpcdKH73fHV5YQNuKp y+q2ulHmEZ8gwbJaQYr3UGERAiuKSo1A/FmH1rTX55+FSi4U
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+References: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de> <20230303185445.2112695-10-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230303185445.2112695-10-u.kleine-koenig@pengutronix.de>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 3 Mar 2023 11:14:20 -0800
+Message-ID: <CABXOdTddD34WJpTGzRi=KWGVG3uOdxdj_mwsfr8fFb99j3Y2SA@mail.gmail.com>
+Subject: Re: [PATCH 09/30] pwm: cros-ec: Convert to platform remove callback
+ returning void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Benson Leung <bleung@chromium.org>, kernel@pengutronix.de, 
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Fri, Mar 3, 2023 at 10:55=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-this patch series adapts the platform drivers below drivers/pwm to use
-the .remove_new() callback. Compared to the traditional .remove()
-callback .remove_new() returns no value. This is a good thing because
-the driver core doesn't (and cannot) cope for errors during remove. The
-only effect of a non-zero return value in .remove() is that the driver
-core emits a warning. The device is removed anyhow and an early return
-from .remove() usually yields a resource leak.
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-By changing the remove callback to return void driver authors cannot
-reasonably assume any more that there is some kind of cleanup later.
-
-All drivers touched here returned zero unconditionally in their remove
-callback, so they could all be converted trivially to .remove_new().
-
-Note that this series depends on commit 5c5a7680e67b ("platform: Provide
-a remove callback that returns no value") that is already in Linus' tree
-but not yet included in a tagged version.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (30):
-  pwm: atmel-hlcdc: Convert to platform remove callback returning void
-  pwm: atmel-tcb: Convert to platform remove callback returning void
-  pwm: atmel: Convert to platform remove callback returning void
-  pwm: bcm-iproc: Convert to platform remove callback returning void
-  pwm: bcm2835: Convert to platform remove callback returning void
-  pwm: berlin: Convert to platform remove callback returning void
-  pwm: brcmstb: Convert to platform remove callback returning void
-  pwm: clk: Convert to platform remove callback returning void
-  pwm: cros-ec: Convert to platform remove callback returning void
-  pwm: hibvt: Convert to platform remove callback returning void
-  pwm: img: Convert to platform remove callback returning void
-  pwm: imx-tpm: Convert to platform remove callback returning void
-  pwm: lpc18xx-sct: Convert to platform remove callback returning void
-  pwm: lpss-platform: Convert to platform remove callback returning void
-  pwm: mtk-disp: Convert to platform remove callback returning void
-  pwm: omap-dmtimer: Convert to platform remove callback returning void
-  pwm: rcar: Convert to platform remove callback returning void
-  pwm: rockchip: Convert to platform remove callback returning void
-  pwm: samsung: Convert to platform remove callback returning void
-  pwm: sifive: Convert to platform remove callback returning void
-  pwm: spear: Convert to platform remove callback returning void
-  pwm: sprd: Convert to platform remove callback returning void
-  pwm: sti: Convert to platform remove callback returning void
-  pwm: stm32: Convert to platform remove callback returning void
-  pwm: sun4i: Convert to platform remove callback returning void
-  pwm: tegra: Convert to platform remove callback returning void
-  pwm: tiecap: Convert to platform remove callback returning void
-  pwm: tiehrpwm: Convert to platform remove callback returning void
-  pwm: vt8500: Convert to platform remove callback returning void
-  pwm: xilinx: Convert to platform remove callback returning void
-
- drivers/pwm/pwm-atmel-hlcdc.c   | 6 ++----
- drivers/pwm/pwm-atmel-tcb.c     | 6 ++----
- drivers/pwm/pwm-atmel.c         | 6 ++----
- drivers/pwm/pwm-bcm-iproc.c     | 6 ++----
- drivers/pwm/pwm-bcm2835.c       | 6 ++----
- drivers/pwm/pwm-berlin.c        | 6 ++----
- drivers/pwm/pwm-brcmstb.c       | 6 ++----
- drivers/pwm/pwm-clk.c           | 6 ++----
- drivers/pwm/pwm-cros-ec.c       | 6 ++----
- drivers/pwm/pwm-hibvt.c         | 6 ++----
- drivers/pwm/pwm-img.c           | 6 ++----
- drivers/pwm/pwm-imx-tpm.c       | 6 ++----
- drivers/pwm/pwm-lpc18xx-sct.c   | 6 ++----
- drivers/pwm/pwm-lpss-platform.c | 5 ++---
- drivers/pwm/pwm-mtk-disp.c      | 6 ++----
- drivers/pwm/pwm-omap-dmtimer.c  | 6 ++----
- drivers/pwm/pwm-rcar.c          | 6 ++----
- drivers/pwm/pwm-rockchip.c      | 6 ++----
- drivers/pwm/pwm-samsung.c       | 6 ++----
- drivers/pwm/pwm-sifive.c        | 6 ++----
- drivers/pwm/pwm-spear.c         | 6 ++----
- drivers/pwm/pwm-sprd.c          | 6 ++----
- drivers/pwm/pwm-sti.c           | 6 ++----
- drivers/pwm/pwm-stm32.c         | 6 ++----
- drivers/pwm/pwm-sun4i.c         | 6 ++----
- drivers/pwm/pwm-tegra.c         | 6 ++----
- drivers/pwm/pwm-tiecap.c        | 6 ++----
- drivers/pwm/pwm-tiehrpwm.c      | 6 ++----
- drivers/pwm/pwm-vt8500.c        | 6 ++----
- drivers/pwm/pwm-xilinx.c        | 5 ++---
- 30 files changed, 60 insertions(+), 118 deletions(-)
-
-base-commit: 2eb29d59ddf02e39774abfb60b2030b0b7e27c1f
--- 
-2.39.1
-
+> ---
+>  drivers/pwm/pwm-cros-ec.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+> index 86df6702cb83..90afce212fb0 100644
+> --- a/drivers/pwm/pwm-cros-ec.c
+> +++ b/drivers/pwm/pwm-cros-ec.c
+> @@ -328,14 +328,12 @@ static int cros_ec_pwm_probe(struct platform_device=
+ *pdev)
+>         return ret;
+>  }
+>
+> -static int cros_ec_pwm_remove(struct platform_device *dev)
+> +static void cros_ec_pwm_remove(struct platform_device *dev)
+>  {
+>         struct cros_ec_pwm_device *ec_pwm =3D platform_get_drvdata(dev);
+>         struct pwm_chip *chip =3D &ec_pwm->chip;
+>
+>         pwmchip_remove(chip);
+> -
+> -       return 0;
+>  }
+>
+>  #ifdef CONFIG_OF
+> @@ -349,7 +347,7 @@ MODULE_DEVICE_TABLE(of, cros_ec_pwm_of_match);
+>
+>  static struct platform_driver cros_ec_pwm_driver =3D {
+>         .probe =3D cros_ec_pwm_probe,
+> -       .remove =3D cros_ec_pwm_remove,
+> +       .remove_new =3D cros_ec_pwm_remove,
+>         .driver =3D {
+>                 .name =3D "cros-ec-pwm",
+>                 .of_match_table =3D of_match_ptr(cros_ec_pwm_of_match),
+> --
+> 2.39.1
+>

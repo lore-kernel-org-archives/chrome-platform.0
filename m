@@ -1,187 +1,67 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6BB23D1
-	for <chrome-platform@lists.linux.dev>; Sat,  4 Mar 2023 13:31:13 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYRyN-0000be-7f; Sat, 04 Mar 2023 14:30:51 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYRyE-001nZ1-4u; Sat, 04 Mar 2023 14:30:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pYRyD-0027GF-AN; Sat, 04 Mar 2023 14:30:41 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Joshua Kinard <kumba@gentoo.org>,
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@xilinx.com>
-Cc: linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	kernel@pengutronix.de
-Subject: [PATCH 00/41] rtc: Convert to platform remove callback returning void
-Date: Sat,  4 Mar 2023 14:29:47 +0100
-Message-Id: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D8C15A2
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 962C2C4339B;
+	Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678070616;
+	bh=Y2qaLUUhqYXtAV06LtKJTSd1NYlNOd5OCdF12v5jGV0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=tNPIvsB9McRAcbxYbJgH6imi6lSidkMo2SOiWM9BO9kD/12CgW2vvchpgB+E57qln
+	 te+McLnKMz5U9dHza0aQw0dVu5UhiOIOXSylEvdtKgdMCK6dwLh5Cfj9cQ+T5KM+xm
+	 FAi4DxvtcFblfi4HqvV/YLk1JZxcUwuvbUZ+TmPORLs95rw5MMam4RP6dcNbZOxGgt
+	 deGp098+BiyscjxpncRJNgczsuSv4OATg5vRUCMLmHWZxP6pOkrQ5WORXWfEMHvAcx
+	 0OQe42sr7qSPwS6dBUlM58XuhP/W32rluhskLxDPovBEwmT3NKXublMxkVNbzUTNEU
+	 WvCnI4d33x15Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7BFADE55B23;
+	Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5947; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=pCaRjKbsihInauNKYog8PJUZGzXfOUbEoxu4a7CE/hA=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkA0dmCZ37vDreXRwIALTBz7LkP9UVbo7kIC2m5 /YcXNXxgQOJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZANHZgAKCRDB/BR4rcrs Cb37B/9X0mwN6W28M9A+kpBV/hix7liXqpKGHjVS5tdrD2imP2auSWPldHmFFosH098N6HNifk7 6+TcL+2KaFszesDc+QQNKeynJwPBzACiIccRP9yGXkasW87KaTMlcX7VErNrSWPE6UGyMlxJOTa a4AOMGRUBQskxMq0U7AbhviH7BTHC6NEZ3ZH1+pbDjh+/VXycM+HsrxMEiMWZvNqXLQpExUobSR JA724JcAIucnmX8DSUbinzkcmmKKgpKV3o2w4NmOqT7ifFL84jMXKcFYHU3Xp3iPDk5USIl1ixA IWXh4m4XPq/JrCh0hIXE1DJGgznkrP8gqXlAkcxQpLw2ESLE
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] firmware: coreboot: Remove GOOGLE_COREBOOT_TABLE_ACPI/OF
+ Kconfig entries
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <167807061650.10312.8220995754030944031.git-patchwork-notify@kernel.org>
+Date: Mon, 06 Mar 2023 02:43:36 +0000
+References: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
+In-Reply-To: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: bleung@chromium.org, gregkh@linuxfoundation.org, jwerner@chromium.org,
+ davidgow@google.com, jrosenth@chromium.org, chrome-platform@lists.linux.dev,
+ swboyd@chromium.org, groeck@chromium.org, linux-kernel@vger.kernel.org
 
-Hello,
+Hello:
 
-this patch series adapts the platform drivers below drivers/rtc to use the
-.remove_new() callback. Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver core
-doesn't (and cannot) cope for errors during remove. The only effect of a
-non-zero return value in .remove() is that the driver core emits a warning. The
-device is removed anyhow and an early return from .remove() usually yields a
-resource leak.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-By changing the remove callback to return void driver authors cannot reasonably
-assume any more that there is some kind of cleanup later.
+On Tue,  7 Feb 2023 08:12:00 -0800 you wrote:
+> Ever since commit a28aad66da8b ("firmware: coreboot: Collapse platform
+> drivers into bus core") the Kconfig entries GOOGLE_COREBOOT_TABLE_OF
+> and GOOGLE_COREBOOT_TABLE_ACPI have been dead. They have no "help"
+> text and thus aren't user choosable. They also aren't "select"ed by
+> anything. They also control the compilation of no code.
+> 
+> Let's remove them.
+> 
+> [...]
 
-All drivers touched here returned zero unconditionally in their remove
-callback, so they could all be converted trivially to .remove_new().
+Here is the summary with links:
+  - firmware: coreboot: Remove GOOGLE_COREBOOT_TABLE_ACPI/OF Kconfig entries
+    https://git.kernel.org/chrome-platform/c/e42af72223fd
 
-Note that this series depends on commit 5c5a7680e67b ("platform: Provide a
-remove callback that returns no value") that is already in Linus' tree but not
-yet included in a tagged version. I guess this will change tomorrow.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (41):
-  rtc: 88pm80x: Convert to platform remove callback returning void
-  rtc: 88pm860x: Convert to platform remove callback returning void
-  rtc: ab8500: Convert to platform remove callback returning void
-  rtc: ac100: Convert to platform remove callback returning void
-  rtc: asm9260: Convert to platform remove callback returning void
-  rtc: at91sam9: Convert to platform remove callback returning void
-  rtc: brcmstb-waketimer: Convert to platform remove callback returning void
-  rtc: cadence: Convert to platform remove callback returning void
-  rtc: cmos: Convert to platform remove callback returning void
-  rtc: cros-ec: Convert to platform remove callback returning void
-  rtc: ds1685: Convert to platform remove callback returning void
-  rtc: ftrtc010: Convert to platform remove callback returning void
-  rtc: hid-sensor-time: Convert to platform remove callback returning void
-  rtc: lpc24xx: Convert to platform remove callback returning void
-  rtc: max77686: Convert to platform remove callback returning void
-  rtc: mc13xxx: Convert to platform remove callback returning void
-  rtc: mpc5121: Convert to platform remove callback returning void
-  rtc: mpfs: Convert to platform remove callback returning void
-  rtc: mt7622: Convert to platform remove callback returning void
-  rtc: mxc_v2: Convert to platform remove callback returning void
-  rtc: omap: Convert to platform remove callback returning void
-  rtc: palmas: Convert to platform remove callback returning void
-  rtc: pcf50633: Convert to platform remove callback returning void
-  rtc: pic32: Convert to platform remove callback returning void
-  rtc: pm8xxx: Convert to platform remove callback returning void
-  rtc: rc5t583: Convert to platform remove callback returning void
-  rtc: rtd119x: Convert to platform remove callback returning void
-  rtc: rzn1: Convert to platform remove callback returning void
-  rtc: s3c: Convert to platform remove callback returning void
-  rtc: sa1100: Convert to platform remove callback returning void
-  rtc: spear: Convert to platform remove callback returning void
-  rtc: stm32: Convert to platform remove callback returning void
-  rtc: stmp3xxx: Convert to platform remove callback returning void
-  rtc: sunplus: Convert to platform remove callback returning void
-  rtc: tegra: Convert to platform remove callback returning void
-  rtc: tps6586x: Convert to platform remove callback returning void
-  rtc: twl: Convert to platform remove callback returning void
-  rtc: vt8500: Convert to platform remove callback returning void
-  rtc: wm8350: Convert to platform remove callback returning void
-  rtc: xgene: Convert to platform remove callback returning void
-  rtc: zynqmp: Convert to platform remove callback returning void
-
- drivers/rtc/rtc-88pm80x.c           | 5 ++---
- drivers/rtc/rtc-88pm860x.c          | 6 ++----
- drivers/rtc/rtc-ab8500.c            | 6 ++----
- drivers/rtc/rtc-ac100.c             | 6 ++----
- drivers/rtc/rtc-asm9260.c           | 5 ++---
- drivers/rtc/rtc-at91sam9.c          | 6 ++----
- drivers/rtc/rtc-brcmstb-waketimer.c | 6 ++----
- drivers/rtc/rtc-cadence.c           | 6 ++----
- drivers/rtc/rtc-cmos.c              | 5 ++---
- drivers/rtc/rtc-cros-ec.c           | 6 ++----
- drivers/rtc/rtc-ds1685.c            | 6 ++----
- drivers/rtc/rtc-ftrtc010.c          | 6 ++----
- drivers/rtc/rtc-hid-sensor-time.c   | 6 ++----
- drivers/rtc/rtc-lpc24xx.c           | 6 ++----
- drivers/rtc/rtc-max77686.c          | 6 ++----
- drivers/rtc/rtc-mc13xxx.c           | 6 ++----
- drivers/rtc/rtc-mpc5121.c           | 6 ++----
- drivers/rtc/rtc-mpfs.c              | 6 ++----
- drivers/rtc/rtc-mt7622.c            | 6 ++----
- drivers/rtc/rtc-mxc_v2.c            | 5 ++---
- drivers/rtc/rtc-omap.c              | 6 ++----
- drivers/rtc/rtc-palmas.c            | 5 ++---
- drivers/rtc/rtc-pcf50633.c          | 6 ++----
- drivers/rtc/rtc-pic32.c             | 6 ++----
- drivers/rtc/rtc-pm8xxx.c            | 5 ++---
- drivers/rtc/rtc-rc5t583.c           | 5 ++---
- drivers/rtc/rtc-rtd119x.c           | 6 ++----
- drivers/rtc/rtc-rzn1.c              | 6 ++----
- drivers/rtc/rtc-s3c.c               | 6 ++----
- drivers/rtc/rtc-sa1100.c            | 6 ++----
- drivers/rtc/rtc-spear.c             | 6 ++----
- drivers/rtc/rtc-stm32.c             | 6 ++----
- drivers/rtc/rtc-stmp3xxx.c          | 8 +++-----
- drivers/rtc/rtc-sunplus.c           | 6 ++----
- drivers/rtc/rtc-tegra.c             | 6 ++----
- drivers/rtc/rtc-tps6586x.c          | 5 ++---
- drivers/rtc/rtc-twl.c               | 6 ++----
- drivers/rtc/rtc-vt8500.c            | 6 ++----
- drivers/rtc/rtc-wm8350.c            | 6 ++----
- drivers/rtc/rtc-xgene.c             | 5 ++---
- drivers/rtc/rtc-zynqmp.c            | 6 ++----
- 41 files changed, 83 insertions(+), 156 deletions(-)
-
-base-commit: 0988a0ea791999ebbf95693f2676381825b05033
+You are awesome, thank you!
 -- 
-2.39.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

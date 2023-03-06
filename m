@@ -1,159 +1,75 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B1B3C02
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 12:03:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678104188; x=1709640188;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1mL4e/xUak5PVuwnTqWGIvoCVk6E+88xbDwsqxlcMrs=;
-  b=FL85yAVVYz0nYwDK5cZWpAEf3FElNR8zG7BBjt0AX7I9ndiBKUAN9adT
-   oh2QMh2U9V9f1K30oRF4wQzCPf5HNDPfuf2NLdYOxSIPwDjjTbpOeLj7I
-   ApKOKOrId/dpGCYIwPRcPbUXvdDiLBi+lq27Y8dTyd89/yk9ZCl/a4OsC
-   JdmSpVXVPYceuzOyY+9uzdCQhZ1nIPVZe3GUJn/gaI9jQB30otB9KVww2
-   LKoX2TOXibAtSZjwunXUAEtH/XPGDW9hvIS9XwKdFj/gpNLMz+KeyP3ra
-   CqRW4mxB0Rk40PmGGzMXvvU1FQsNJW7vkmjd+SzA/3d4sQYJzs1cccPqt
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315195783"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="315195783"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 04:03:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="708626116"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="708626116"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 06 Mar 2023 04:02:58 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pZ9YN-00GKx1-0x;
-	Mon, 06 Mar 2023 14:02:55 +0200
-Date: Mon, 6 Mar 2023 14:02:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Lyude Paul <lyude@redhat.com>, linux-kernel@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
-	devicetree@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode
- switches
-Message-ID: <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
-References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-11-treapking@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF9C7473
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 20:58:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D4FC433D2;
+	Mon,  6 Mar 2023 20:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678136316;
+	bh=FnI5yCjhAbwL9Z08M/gMwkBQvJQHwg7HlnK/1zcv8bY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=OfGFw8IVDUl+/r9+w2wANHiGRk9SfNjqEFfoEpLqeEBo2IRb4wXiZanA4bzSQLvox
+	 eazCcCwBVyJvOwA+rWNkM2XCts1417psYxrG12wEWGh30yigjhhTX1dDejCMok97/b
+	 t6m/R37FvfEs8rh325X5CYsNfqddxqPjJSK4C2zQ8lJWnXeAEKunmdkX5eVd27XFcJ
+	 5dn2Vq/XALccN2Urr1a2G8Z9Pmo0Ooj9W7zeQQZtNRIQIpgFxwdJtbxkQj7y3iHJJm
+	 q4kcJUDdoFjW/n3A2eIaKn1M4BvV7j5hGPRvrzucxW9c9YhzdB34FKGQ7FQPe9jdXm
+	 1DktXw3ht/KFg==
+Date: Mon, 6 Mar 2023 14:59:04 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] platform/chrome: Replace fake flexible arrays with
+ flexible-array member
+Message-ID: <ZAZUGBmSLc5wg7AK@work>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230303143350.815623-11-treapking@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 03, 2023 at 10:33:50PM +0800, Pin-yen Lin wrote:
-> Register USB Type-C mode switches when the "mode-switch" property and
-> relevant port are available in Device Tree. Configure the "lane_swap"
-> state based on the entered alternate mode for a specific Type-C
-> connector, which ends up updating the lane swap registers of the it6505
-> chip.
+Zero-length arrays as fake flexible arrays are deprecated and we are
+moving towards adopting C99 flexible-array members instead.
 
-...
+Use the DECLARE_FLEX_ARRAY() helper macro to transform zero-length
+arrays in unions with flexible-array members.
 
-> +	it6505->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
-> +					 sizeof(struct it6505_typec_port_data),
-> +					 GFP_KERNEL);
+Address the following warning found with GCC-13 and
+-fstrict-flex-arrays=3 enabled:
+drivers/iio/accel/cros_ec_accel_legacy.c:66:46: warning: array subscript <unknown> is outside array bounds of ‘struct ec_response_motion_sensor_data[0]’ [-Warray-bounds=]
 
-> +
+This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+routines on memcpy() and help us make progress towards globally
+enabling -fstrict-flex-arrays=3 [1].
 
-Same, no need for a blank line here.
+Link: https://github.com/KSPP/linux/issues/21
+Link: https://github.com/KSPP/linux/issues/193
+Link: https://github.com/KSPP/linux/issues/262
+Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ include/linux/platform_data/cros_ec_commands.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	if (!it6505->port_data) {
-> +		ret = -ENOMEM;
-> +		goto unregister_mux;
-> +	}
-
-...
-
-> +		it6505->port_data[i].lane_swap = (dp_lanes[0] / 2 == 1);
-
-' % 2 == 0' ?
-
-...
-
-Wouldn't be better to have
-
-	ret = PTR_ERR_OR_ZERO(extcon);
-
-here and amend the following accordingly?
-
->  	if (PTR_ERR(extcon) == -EPROBE_DEFER)
->  		return -EPROBE_DEFER;
->  	if (IS_ERR(extcon)) {
-> -		dev_err(dev, "can not get extcon device!");
-> -		return PTR_ERR(extcon);
-> +		if (PTR_ERR(extcon) != -ENODEV)
-> +			dev_warn(dev, "Cannot get extcon device: %ld\n",
-> +				 PTR_ERR(extcon));
-> +		it6505->extcon = NULL;
-> +	} else {
-> +		it6505->extcon = extcon;
->  	}
->  
-> -	it6505->extcon = extcon;
-> +	init_completion(&it6505->mux_register);
-> +	ret = it6505_register_typec_switches(dev, it6505);
-> +	if (ret) {
-> +		if (ret != -ENODEV)
-> +			dev_warn(dev, "Didn't register Type-C switches, err: %d\n",
-> +				 ret);
-> +		if (!it6505->extcon) {
-> +			dev_err(dev, "Both extcon and typec-switch are not registered.\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-
-
-Perhaps
-
-	if (ret != -ENODEV)
-		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
-
-	if (ret && !it6505->extcon) {
-		dev_err(dev, "Both extcon and typec-switch are not registered.\n");
-		return ret;
-	}
-
-?
-
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index 7e9c76aedd2d..ab721cf13a98 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -2701,7 +2701,7 @@ struct ec_response_motion_sense {
+ 			 * Sensor data is truncated if response_max is too small
+ 			 * for holding all the data.
+ 			 */
+-			struct ec_response_motion_sensor_data sensor[0];
++			DECLARE_FLEX_ARRAY(struct ec_response_motion_sensor_data, sensor);
+ 		} dump;
+ 
+ 		/* Used for MOTIONSENSE_CMD_INFO. */
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 

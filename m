@@ -1,37 +1,38 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CE23C02
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 11:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C90B3C02
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 11:55:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678103678; x=1709639678;
+  t=1678103736; x=1709639736;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/B77wICrKDHdpgDqRdwuMAvfyeoVzAc14xFIleXoV+U=;
-  b=EZHWbY+lpglGuJzatvVyIQGTaZ86PVbDSk4GWGjt6Yt4DcJy/a2ZhXqK
-   efKgaaN4fRqyDhW9NHei+ROoGPnPupq+WOMlqLi6ry9eF/8pSQ5/3S0wV
-   TikgbM/MkQV5rnROzdw6QySmtToC1ubGdQVcWDNjfIoPOiT/sDJxmIs4j
-   qslHXQ5zXh4Tygj1IdGkhjzMo2+kpktoEt2KFoInNnwV5sIjt8sRQwXKB
-   A5KXGhupLMDhbjiP0aZ4eP+l8pCXR1gCEI8qLDAE1+9nNBm1sxGXm/wNm
-   xHaWPIDTowqs9LK2/T1IOvqruI+jFHRCRXaKSqSNpghF16uA8ee+n8K8R
+  bh=Xv0rddRhfULApnbd3Ab/QM/Y5xi6oLD/g/1EbXH3o94=;
+  b=jntTX/MKuVPYlEVMz8vTrwohC79XNd28s+lIllpvYq5svhE7EBylZT/+
+   YimVUWQK2/hQzjbY/dcYdnyNfRPHrPkWEIa5zXKPhwzGnoVk46zZynzSs
+   GZbst9YZAgfOqP/wb6kcLt/vchLQNJwW+g6/uE6ASQnnd1pAawQiuUDhn
+   YTCK6CfgTZhxBAW2cKnq2xJXXO6XHXUs1+jKZQWpcTBKrxPDGp6momuJd
+   t8TzR/xl8NINdJzej6iiL1E+KvzT9mBZyZdyBKRY7+pgYG/M9nvq/ecTs
+   JiHxA6JMMIMDG4PGw6sc6gf3MREdKvR2uNF1q9h73zfZFjYhwRC99P0BB
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="398116321"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="323843618"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="398116321"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 03:54:37 -0800
+   d="scan'208";a="323843618"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 03:55:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="740298896"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="745031931"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="740298896"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 03:54:30 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6C94112160F;
-	Mon,  6 Mar 2023 13:54:27 +0200 (EET)
-Date: Mon, 6 Mar 2023 13:54:27 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+   d="scan'208";a="745031931"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2023 03:55:27 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1pZ9R6-00GKmb-1k;
+	Mon, 06 Mar 2023 13:55:24 +0200
+Date: Mon, 6 Mar 2023 13:55:24 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -42,9 +43,9 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Daniel Scally <djrscally@gmail.com>,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
 	Prashant Malani <pmalani@chromium.org>,
@@ -60,11 +61,11 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v13 01/10] device property: Add remote endpoint to devcon
- matcher
-Message-ID: <ZAXUc7dvhIZXr+lJ@kekkonen.localdomain>
+Subject: Re: [PATCH v13 07/10] drm/bridge: anx7625: Register Type C mode
+ switches
+Message-ID: <ZAXUrJDtHmm7+50H@smile.fi.intel.com>
 References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-2-treapking@chromium.org>
+ <20230303143350.815623-8-treapking@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -73,28 +74,46 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303143350.815623-2-treapking@chromium.org>
+In-Reply-To: <20230303143350.815623-8-treapking@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Pin-yen,
-
-Thanks for the update.
-
-On Fri, Mar 03, 2023 at 10:33:41PM +0800, Pin-yen Lin wrote:
-> From: Prashant Malani <pmalani@chromium.org>
+On Fri, Mar 03, 2023 at 10:33:47PM +0800, Pin-yen Lin wrote:
+> Register USB Type-C mode switches when the "mode-switch" property and
+> relevant ports are available in Device Tree. Configure the crosspoint
+> switch based on the entered alternate mode for a specific Type-C
+> connector.
 > 
-> When searching the device graph for device matches, check the
-> remote-endpoint itself for a match.
-> 
-> Some drivers register devices for individual endpoints. This allows
-> the matcher code to evaluate those for a match too, instead
-> of only looking at the remote parent devices. This is required when a
-> device supports two mode switches in its endpoints, so we can't simply
-> register the mode switch with the parent node.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Crosspoint switch can also be used for switching the output signal for
+> different orientations of a single USB Type-C connector, but the
+> orientation switch is not implemented yet. A TODO is added for this.
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+...
+
+> +	ctx->port_data = devm_kcalloc(
+> +		dev, switch_desc->num_typec_switches,
+> +		sizeof(struct anx7625_typec_port_data), GFP_KERNEL);
+
+I believe I have commented on this (indentation)...
+
+> +
+
+...and this (blank line).
+
+> +	if (!ctx->port_data) {
+> +		ret = -ENOMEM;
+> +		goto unregister_mux;
+> +	}
+
+...
+
+> +		ctx->port_data[i].orientation = (dp_lanes[0] / 2 == 0) ?
+> +			TYPEC_ORIENTATION_REVERSE : TYPEC_ORIENTATION_NORMAL;
+
+I believe that this is an error prone check, you should rather do the opposite,
+i.e.  ' % 2  == 0'.
 
 -- 
-Sakari Ailus
+With Best Regards,
+Andy Shevchenko
+
+

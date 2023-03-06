@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D8C15A2
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 962C2C4339B;
-	Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A3315A2
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Mar 2023 02:53:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DBAB0C4339B;
+	Mon,  6 Mar 2023 02:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678070616;
-	bh=Y2qaLUUhqYXtAV06LtKJTSd1NYlNOd5OCdF12v5jGV0=;
+	s=k20201202; t=1678071224;
+	bh=UEhFA8dJmKIlxizlhNq5uXSU+WjBJR3dAHgwGwdyMIg=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tNPIvsB9McRAcbxYbJgH6imi6lSidkMo2SOiWM9BO9kD/12CgW2vvchpgB+E57qln
-	 te+McLnKMz5U9dHza0aQw0dVu5UhiOIOXSylEvdtKgdMCK6dwLh5Cfj9cQ+T5KM+xm
-	 FAi4DxvtcFblfi4HqvV/YLk1JZxcUwuvbUZ+TmPORLs95rw5MMam4RP6dcNbZOxGgt
-	 deGp098+BiyscjxpncRJNgczsuSv4OATg5vRUCMLmHWZxP6pOkrQ5WORXWfEMHvAcx
-	 0OQe42sr7qSPwS6dBUlM58XuhP/W32rluhskLxDPovBEwmT3NKXublMxkVNbzUTNEU
-	 WvCnI4d33x15Q==
+	b=HHtURbOvDzz9IjS8ABX7OfQ88J3cuv7uXKHOtOsad/hIiKwpm2/MpuRZ2SQmCo6k9
+	 P8P7ZqHlEqyevIIfeO9Y+ZAPsDR1yoFbU9kyfEunh3z9S4x4ajqGf1RnOnL7P2qCPr
+	 mo7OLKLI7ssk9qecXfZ9LUwLnoTNj/Slhhy2X+VJ+E2tEeoTao0auKDCnamDXIM3mm
+	 Usb2r6E3gCs0bw/cPWuZ5Kx+9ZqmS60dFBgW8Suk1FPpZiu1/tNQ7Br1wQ8SlTp3yF
+	 6rBPiHe6LqhUK4MLYxA9R8f90/c7YO7rgDQ/2ijTsR+6+EmW7K48Iu2ElJJyzQghQT
+	 Ex2jSOIB9vFEA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7BFADE55B23;
-	Mon,  6 Mar 2023 02:43:36 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C2A45E55B14;
+	Mon,  6 Mar 2023 02:53:44 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -30,8 +30,8 @@ Subject: Re: [PATCH] firmware: coreboot: Remove GOOGLE_COREBOOT_TABLE_ACPI/OF
  Kconfig entries
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167807061650.10312.8220995754030944031.git-patchwork-notify@kernel.org>
-Date: Mon, 06 Mar 2023 02:43:36 +0000
+ <167807122479.10312.14973528180299232858.git-patchwork-notify@kernel.org>
+Date: Mon, 06 Mar 2023 02:53:44 +0000
 References: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
 In-Reply-To: <20230207081130.1.I657776750156793721efa247ce6293445137bc8a@changeid>
 To: Douglas Anderson <dianders@chromium.org>
@@ -41,7 +41,7 @@ Cc: bleung@chromium.org, gregkh@linuxfoundation.org, jwerner@chromium.org,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
 On Tue,  7 Feb 2023 08:12:00 -0800 you wrote:

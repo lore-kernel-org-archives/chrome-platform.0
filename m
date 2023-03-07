@@ -1,85 +1,108 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE0A613D
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 12:58:50 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id p6so13995624plf.0
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Mar 2023 04:58:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1621EAD59
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 16:20:06 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so17021558pjg.4
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Mar 2023 08:20:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678193930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=14KEI7DKb7/XgYTk/mAvRRCNE1njt0Ubmbcu0U/o2i8=;
-        b=B9KIsBBHPiA2BPfdnUytopIE29AZLAjY8edo7J+4Tel8M3KFP9c4EU0LsKdQPBI7xu
-         B8P6T+peKou5jXwwJWJy0IAd9JmNgXhzIFuFENxDANvoHixlMPJMql7knTNTPJ1C/LsK
-         KbC00wV6gVx6Eg5c2WX3sJve3JTA3zcffDALmE55MtCkJNha0SGEcvA1oUJeCOnw9tmK
-         NlSWOj/sYSJ+NUaSIt1c0/9uj2OYDuyxlyzObOwKqtCkyqdoVuh0BnQuoQtUIH1DJ017
-         lqNu/1YmB1Z7Yrkl7anMvLxK5utn9Pn4fbE14sKS4o+eQ+l4hKtLU8B7zSJSc6lryONC
-         kNgg==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678206006;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/E2VcvrCi3URrQtcinQ5FzjK9f68dOGtTWUjTpHdqs=;
+        b=VzUS5AmQesozkG2+0x5+O58ZDMMs6h9iH57abpB2GztVfXpEebzvLAnCfZvRC6MxgO
+         hcXXCaRcE7guOehVtZlX7irxZ8fbpC5DeIrCuEVJWchqD4WI3WcIA0rTfVKoeinpsIer
+         GhnSrcUF+GGZVijDmz2R9PNNeChWKxAyhE5zvW00HAb57AJM4Q7rj4QgbR1Bu9YBBlF3
+         AbmzcCjUIf5i5rVO43IXoFVhw1C4eOjzObWK0eu0rIMNYYntIew9V96XRtnHkxtXEl2o
+         FkBVEiNURNXZ9udlC1aVT54kTpqVZXnKRLSU7Z5CBquTRte96YuslnD9K/xGuOz5iB9o
+         hDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678193930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1678206006;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=14KEI7DKb7/XgYTk/mAvRRCNE1njt0Ubmbcu0U/o2i8=;
-        b=ctNFo2CQK3pL1REdrOJVRem8+u54xx6edFbmhBSWOuPcDvGPNyEPx1q/4EJ4ZbayDx
-         B9qJHMN7bnc67fx/qwnOdLYp6Z5M5NTaqQcBKqvbh6eHTrZf+qnN6cn28ulTCOqR98k4
-         lsN4a6Eqbct38p7qMA0zyBgm6ekmG+o7XIckMSrSbpWAGukQufQNZNoBzHNB7NVI0YsI
-         kxyVPGIO1FAlfJNmg5z70nFCSqPVYnPOSanKBhurJ5huD/2z5X7VUyt0Ez9eBkXZuyVV
-         dPtbvbcwdd06vxZhI/A1OjpjRfR7ihLww+vPeIbyMa5saBuqCefnCoR+P5D8cKWRqCkL
-         TCoA==
-X-Gm-Message-State: AO0yUKUMIEb6rG96+sO7yAiHDrzKb+vFbj6xsokODd7zKHi8aXehhCcs
-	Qr1aDdzSQlFHnn6+BLJe4Ug=
-X-Google-Smtp-Source: AK7set+gmznO1briq15scDCO3CmlkNAWZHRE+CMnQ5g6FcmgnV4O0iXGQj2YIhOV2h5pY4RxWQSXnQ==
-X-Received: by 2002:a17:902:db0e:b0:19d:1c5:adb9 with SMTP id m14-20020a170902db0e00b0019d01c5adb9mr17466721plx.3.1678193929687;
-        Tue, 07 Mar 2023 04:58:49 -0800 (PST)
-Received: from kevin-NL5.. (2001-b400-e30a-9c5a-d50f-1833-f384-bd8c.emome-ip6.hinet.net. [2001:b400:e30a:9c5a:d50f:1833:f384:bd8c])
-        by smtp.gmail.com with ESMTPSA id le3-20020a170902fb0300b0019edf582a95sm1312591plb.20.2023.03.07.04.58.47
+        bh=Z/E2VcvrCi3URrQtcinQ5FzjK9f68dOGtTWUjTpHdqs=;
+        b=oq1QCd3OoEGjdSekErLgicQyCxX3ng0xw8Xnw4ealmsAnCqGhvaoyiP5Zi9HpMblT+
+         Ff3IaFBC+iy3eNfd01jy+WjehlAgZ7HtTnd38+Zbdrc+oGRIF1PSRlUFooz0+mGvJ5WS
+         MoxL3ABwxHo9fXBt6xck7jWTYnyVdJIjEyJhtjESlz/T1s10rpxc68a7Tt//YpY4KTUT
+         Bsd1EQ1hKH1DMunK7HcBPIEY/yMU4TkWzZGtqiSY9GX0ty/DfQtcTRCRqS6Ydnd/6ouB
+         z/QWVe3/ay3Vkk8+N0Q818xjTaFN54kh02rPzABOPHR0IdQzsd1nbGE3mDCTh/OqXHtU
+         JaOg==
+X-Gm-Message-State: AO0yUKVqkh9++KTeBuFTcAcDFJKK1WvwAlYhcseuU/9IZRNBxOF71ELu
+	khYwftQ4Wp7RxV1xMC1q17A3gA==
+X-Google-Smtp-Source: AK7set/fSl11JTHhYl2cdak5pu02Z/tPOGthbHVRE0GED6z3AETqeQl/hRwu6U9GEVzn7phgeCclZg==
+X-Received: by 2002:a17:90b:1c12:b0:234:157:a264 with SMTP id oc18-20020a17090b1c1200b002340157a264mr16227971pjb.43.1678206006471;
+        Tue, 07 Mar 2023 08:20:06 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id jx15-20020a170903138f00b0019468fe44d3sm8600578plb.25.2023.03.07.08.20.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 04:58:49 -0800 (PST)
-From: Kevin Chiu <kevin.chiu.17802@gmail.com>
-To: bleung@chromium.org,
-	mchehab@kernel.org
-Cc: groeck@chromium.org,
-	linux-media@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kevin Chiu <kevin.chiu.17802@gmail.com>
-Subject: [PATCH] media: platform: cros-ec: Add Gladios/Lisbon to the match table
-Date: Tue,  7 Mar 2023 20:58:45 +0800
-Message-Id: <20230307125845.64231-1-kevin.chiu.17802@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Tue, 07 Mar 2023 08:20:06 -0800 (PST)
+Message-ID: <64076436.170a0220.d8a24.f3ff@mx.google.com>
+Date: Tue, 07 Mar 2023 08:20:06 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.3-rc1-1-g22181069e867
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.3-rc1-1-g22181069e867)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-The Google Gladios/Lisbon device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.3-rc1-=
+1-g22181069e867)
 
-Signed-off-by: Kevin Chiu <kevin.chiu.17802@gmail.com>
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.3-rc1-1-g22181069e867/
+
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.3-rc1-1-g22181069e867
+Git Commit: 22181069e86761d2d834434da741bc56a45a2705
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
 ---
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 6ebedc71d67d..96c4c055d691 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -225,6 +225,10 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Kinox", "0000:00:02.0", "Port B" },
- 	/* Google Kuldax */
- 	{ "Google", "Kuldax", "0000:00:02.0", "Port B" },
-+	/* Google Gladios */
-+	{ "Google", "Gladios", "0000:00:02.0", "Port B" },
-+	/* Google Lisbon */
-+	{ "Google", "Lisbon", "0000:00:02.0", "Port B" },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.38.2
-
+For more info write to <info@kernelci.org>

@@ -1,56 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6B366
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 05:30:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39ADFC433EF;
-	Tue,  7 Mar 2023 05:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678167007;
-	bh=k46Z8qil30UkPubY+jtx6YK2MddQ/Wd7FGeC+o8JD2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vix2NOLoK4n+AJ9GuMKjyl8xxKAe5beUPE0095965j5geGMFF3wrK8W2cKmWCx7R3
-	 xmqWVjy8EcOiq/VVMGlFSML1Dt3Ey+rcmXaY6XkY09ZxGv8LLtcdMf2gHrBceCHnfO
-	 P4N7fqz2XC7irbUO50XgRyiJgvAPsm00q006+yW3Y12XA7NOC9cbG2iayC4DAsH+wn
-	 4gDu4LIoMjGiTM+D1hGPB7t6Kq7SgPTBoxXdfoZ+QvAvis9nMY4sxxlRhYLGVP6+TP
-	 7RDRVu9pDo/5fWC8VSbCKY3e6uhjGCPxznwIZ3NlRAbaiNAp+IxNND+IJWSE8W0HHI
-	 S9ujV2Fh3K4Pg==
-Date: Tue, 7 Mar 2023 13:30:03 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 10/41] rtc: cros-ec: Convert to platform remove callback
- returning void
-Message-ID: <ZAbL24vrpktpoLL2@google.com>
-References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
- <20230304133028.2135435-11-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE0A613D
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 12:58:50 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id p6so13995624plf.0
+        for <chrome-platform@lists.linux.dev>; Tue, 07 Mar 2023 04:58:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678193930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=14KEI7DKb7/XgYTk/mAvRRCNE1njt0Ubmbcu0U/o2i8=;
+        b=B9KIsBBHPiA2BPfdnUytopIE29AZLAjY8edo7J+4Tel8M3KFP9c4EU0LsKdQPBI7xu
+         B8P6T+peKou5jXwwJWJy0IAd9JmNgXhzIFuFENxDANvoHixlMPJMql7knTNTPJ1C/LsK
+         KbC00wV6gVx6Eg5c2WX3sJve3JTA3zcffDALmE55MtCkJNha0SGEcvA1oUJeCOnw9tmK
+         NlSWOj/sYSJ+NUaSIt1c0/9uj2OYDuyxlyzObOwKqtCkyqdoVuh0BnQuoQtUIH1DJ017
+         lqNu/1YmB1Z7Yrkl7anMvLxK5utn9Pn4fbE14sKS4o+eQ+l4hKtLU8B7zSJSc6lryONC
+         kNgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678193930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=14KEI7DKb7/XgYTk/mAvRRCNE1njt0Ubmbcu0U/o2i8=;
+        b=ctNFo2CQK3pL1REdrOJVRem8+u54xx6edFbmhBSWOuPcDvGPNyEPx1q/4EJ4ZbayDx
+         B9qJHMN7bnc67fx/qwnOdLYp6Z5M5NTaqQcBKqvbh6eHTrZf+qnN6cn28ulTCOqR98k4
+         lsN4a6Eqbct38p7qMA0zyBgm6ekmG+o7XIckMSrSbpWAGukQufQNZNoBzHNB7NVI0YsI
+         kxyVPGIO1FAlfJNmg5z70nFCSqPVYnPOSanKBhurJ5huD/2z5X7VUyt0Ez9eBkXZuyVV
+         dPtbvbcwdd06vxZhI/A1OjpjRfR7ihLww+vPeIbyMa5saBuqCefnCoR+P5D8cKWRqCkL
+         TCoA==
+X-Gm-Message-State: AO0yUKUMIEb6rG96+sO7yAiHDrzKb+vFbj6xsokODd7zKHi8aXehhCcs
+	Qr1aDdzSQlFHnn6+BLJe4Ug=
+X-Google-Smtp-Source: AK7set+gmznO1briq15scDCO3CmlkNAWZHRE+CMnQ5g6FcmgnV4O0iXGQj2YIhOV2h5pY4RxWQSXnQ==
+X-Received: by 2002:a17:902:db0e:b0:19d:1c5:adb9 with SMTP id m14-20020a170902db0e00b0019d01c5adb9mr17466721plx.3.1678193929687;
+        Tue, 07 Mar 2023 04:58:49 -0800 (PST)
+Received: from kevin-NL5.. (2001-b400-e30a-9c5a-d50f-1833-f384-bd8c.emome-ip6.hinet.net. [2001:b400:e30a:9c5a:d50f:1833:f384:bd8c])
+        by smtp.gmail.com with ESMTPSA id le3-20020a170902fb0300b0019edf582a95sm1312591plb.20.2023.03.07.04.58.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 04:58:49 -0800 (PST)
+From: Kevin Chiu <kevin.chiu.17802@gmail.com>
+To: bleung@chromium.org,
+	mchehab@kernel.org
+Cc: groeck@chromium.org,
+	linux-media@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kevin Chiu <kevin.chiu.17802@gmail.com>
+Subject: [PATCH] media: platform: cros-ec: Add Gladios/Lisbon to the match table
+Date: Tue,  7 Mar 2023 20:58:45 +0800
+Message-Id: <20230307125845.64231-1-kevin.chiu.17802@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230304133028.2135435-11-u.kleine-koenig@pengutronix.de>
 
-On Sat, Mar 04, 2023 at 02:29:57PM +0100, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+The Google Gladios/Lisbon device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Kevin Chiu <kevin.chiu.17802@gmail.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 6ebedc71d67d..96c4c055d691 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -225,6 +225,10 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Kinox", "0000:00:02.0", "Port B" },
+ 	/* Google Kuldax */
+ 	{ "Google", "Kuldax", "0000:00:02.0", "Port B" },
++	/* Google Gladios */
++	{ "Google", "Gladios", "0000:00:02.0", "Port B" },
++	/* Google Lisbon */
++	{ "Google", "Lisbon", "0000:00:02.0", "Port B" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.38.2
+

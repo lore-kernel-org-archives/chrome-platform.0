@@ -1,68 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554D118D
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 04:35:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EB18BC433A8;
-	Tue,  7 Mar 2023 04:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6B366
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Mar 2023 05:30:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39ADFC433EF;
+	Tue,  7 Mar 2023 05:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678163721;
-	bh=bYsBua0pjKedKGneJy6bpLB4oahYtG5886EV32NhAK0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GXpuNR1CSE5rugoBZ3uKBUPoRGftZHeHLOIjNEeFsnyHB+42+jO736N4T9cQ/IlN8
-	 mqDyjjnrVZAzd5Bm1ddMVYgPrk9Uqq7TlA/0oRyUxK4ubNOV0C+AWZDfTeXENEhz5H
-	 PunxZVETe9IPWm37wwZh7FGo2VORh/pYzoMsZ8k78xlMEB9YGTyQmHVIPiMnkhcujB
-	 0E6pRUtRt5xabZWxuARAGrl7eBjOTWvo2ptNz4KxlhM5/5o/d0TIg/Ke+pAJnJ+cnk
-	 Gm/vvJjS8JptJHudUL0YTQS+Q6bQnRpSMmw7dq5QQzFldAn8pWefaroKo3RNA5/uvO
-	 dutzeHXtY675w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DC8A4E61B64;
-	Tue,  7 Mar 2023 04:35:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1678167007;
+	bh=k46Z8qil30UkPubY+jtx6YK2MddQ/Wd7FGeC+o8JD2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vix2NOLoK4n+AJ9GuMKjyl8xxKAe5beUPE0095965j5geGMFF3wrK8W2cKmWCx7R3
+	 xmqWVjy8EcOiq/VVMGlFSML1Dt3Ey+rcmXaY6XkY09ZxGv8LLtcdMf2gHrBceCHnfO
+	 P4N7fqz2XC7irbUO50XgRyiJgvAPsm00q006+yW3Y12XA7NOC9cbG2iayC4DAsH+wn
+	 4gDu4LIoMjGiTM+D1hGPB7t6Kq7SgPTBoxXdfoZ+QvAvis9nMY4sxxlRhYLGVP6+TP
+	 7RDRVu9pDo/5fWC8VSbCKY3e6uhjGCPxznwIZ3NlRAbaiNAp+IxNND+IJWSE8W0HHI
+	 S9ujV2Fh3K4Pg==
+Date: Tue, 7 Mar 2023 13:30:03 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH 10/41] rtc: cros-ec: Convert to platform remove callback
+ returning void
+Message-ID: <ZAbL24vrpktpoLL2@google.com>
+References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+ <20230304133028.2135435-11-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH][next] platform/chrome: Replace fake flexible arrays with
- flexible-array member
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167816372089.12713.621043652269066823.git-patchwork-notify@kernel.org>
-Date: Tue, 07 Mar 2023 04:35:20 +0000
-References: <ZAZUGBmSLc5wg7AK@work>
-In-Reply-To: <ZAZUGBmSLc5wg7AK@work>
-To: Gustavo A. R. Silva <gustavoars@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+In-Reply-To: <20230304133028.2135435-11-u.kleine-koenig@pengutronix.de>
 
-Hello:
-
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Mon, 6 Mar 2023 14:59:04 -0600 you wrote:
-> Zero-length arrays as fake flexible arrays are deprecated and we are
-> moving towards adopting C99 flexible-array members instead.
+On Sat, Mar 04, 2023 at 02:29:57PM +0100, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
 > 
-> Use the DECLARE_FLEX_ARRAY() helper macro to transform zero-length
-> arrays in unions with flexible-array members.
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
 > 
-> Address the following warning found with GCC-13 and
-> -fstrict-flex-arrays=3 enabled:
-> drivers/iio/accel/cros_ec_accel_legacy.c:66:46: warning: array subscript <unknown> is outside array bounds of â€˜struct ec_response_motion_sensor_data[0]â€™ [-Warray-bounds=]
-> 
-> [...]
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Here is the summary with links:
-  - [next] platform/chrome: Replace fake flexible arrays with flexible-array member
-    https://git.kernel.org/chrome-platform/c/22181069e867
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

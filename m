@@ -1,37 +1,37 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF04179CD
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Mar 2023 15:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C662179CD
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Mar 2023 15:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678289367; x=1709825367;
+  t=1678289490; x=1709825490;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=owSbRjkEpcd2ZX2bKJCsdkpjfymuIBaOdUaiCK1wEwU=;
-  b=ZPi1UkLm76tKzD7s71J28I9jze6tz0N8amdW/21CLwFwTprTffTMELD9
-   NAz4kWoM+jHRvvBcsHQBeZzb3JGrLXsIiQ0QQeP6RMq0zJLzR70+/oY1b
-   br8qiJo04aZ7EXH1P3Dg9Fx8jUOfphk98xr2Wu18GkDDktx40/Cw5euRa
-   WdfPNpDXWrl+YOiwICyp6bDASpKRETU8//s0ytKqDO6IWXRSVE/u8U9Yu
-   ke16McbSCUomStofI1KBO+wiyhD9QcbOL/n0pViWwYfLRnO58MGtaJixR
-   6C3iMWtBGa8B9+SFxeWb1IpEM/PuwyKiY/dyqdMwo0uSg3/WQqbp39IET
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="315840378"
+  bh=5gdnudn/ORBX5pb147Qfuy7AMOqdUXerFXJlV2oV3aU=;
+  b=jyDFmznS7FCCLKjgyDEUPYPNGgPBy/BUKQVaL6KKheUVS5Epl3RniQQR
+   fcWjxQ1mfXxb70HHj7VJLT1xO+9IPGfEpISL1FWc3IuKC2T+KUrlFF2EH
+   0ykXplIt8aei0YS2ddxHfLlXzluS8btYbs4pc36s0Od1BYZhK+fhrjodH
+   qICWIz5elUN1/VTZo4lP9VP/4lrL52KVZQfLRTx/o4ufXX5rF33Nmfc58
+   noyzpvmFwSZVU31KCzq80IG4G87VvnJfVJ7SsB7YZMEikZ2rbb42uMP3r
+   Qy/pJwbKVDx+VAQTaDWKpH6ylo86tjgyjC0RwywJ9bhmWBzcFmN4r3DAz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="315841251"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="315840378"
+   d="scan'208";a="315841251"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 07:29:07 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 07:31:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="922819997"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="922820519"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="922819997"
+   d="scan'208";a="922820519"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Mar 2023 07:28:58 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 08 Mar 2023 07:31:12 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pZvip-00HUHL-09;
-	Wed, 08 Mar 2023 17:28:55 +0200
-Date: Wed, 8 Mar 2023 17:28:54 +0200
+	id 1pZvkz-00HUKr-10;
+	Wed, 08 Mar 2023 17:31:09 +0200
+Date: Wed, 8 Mar 2023 17:31:08 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -60,18 +60,14 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	devicetree@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Imre Deak <imre.deak@intel.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v13 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <ZAiptm03HzQila0M@smile.fi.intel.com>
+	Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode
+ switches
+Message-ID: <ZAiqPIm6O1JCPF7f@smile.fi.intel.com>
 References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-4-treapking@chromium.org>
- <ZAXTVCAQpHvSj+6C@smile.fi.intel.com>
- <CAEXTbpf4zM+70BCef6rdfz35TQnQ+ozaXAvOaEZVnqqe6MDOOg@mail.gmail.com>
+ <20230303143350.815623-11-treapking@chromium.org>
+ <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
+ <CAEXTbpe=e1iA7cnzuTtcsyFxpG37YCWSK_SqZb2A8hxcyCnJBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -81,31 +77,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEXTbpf4zM+70BCef6rdfz35TQnQ+ozaXAvOaEZVnqqe6MDOOg@mail.gmail.com>
+In-Reply-To: <CAEXTbpe=e1iA7cnzuTtcsyFxpG37YCWSK_SqZb2A8hxcyCnJBg@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Mar 08, 2023 at 06:20:14PM +0800, Pin-yen Lin wrote:
-> On Mon, Mar 6, 2023 at 7:49 PM Andy Shevchenko
-> > On Fri, Mar 03, 2023 at 10:33:43PM +0800, Pin-yen Lin wrote:
+On Wed, Mar 08, 2023 at 09:51:19PM +0800, Pin-yen Lin wrote:
+> On Mon, Mar 6, 2023 at 8:03 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Mar 03, 2023 at 10:33:50PM +0800, Pin-yen Lin wrote:
 
 ...
 
-> > > +     switch_desc->typec_ports = devm_kcalloc(dev, switch_desc->num_typec_switches,
-> > > +                                             sizeof(struct drm_dp_typec_port_data),
-> > > +                                             GFP_KERNEL);
-> > > +     if (!switch_desc->typec_ports)
-> > > +             return -ENOMEM;
+> > > +             it6505->port_data[i].lane_swap = (dp_lanes[0] / 2 == 1);
 > >
-> > How often this function _can_ be called during the runtime?
-> > If it's _possible_ to call it infinite times, consider *not* using devm.
-> 
-> I would expect this function to be only called during driver probing,
-> and this is the case for the current users in this series. So I think
-> this is only called once if EPROBDE_DEFER doesn't count.
+> > ' % 2 == 0' ?
+> >
+> Per another patch, I'll update this into `< 2`
 
-No, deferred probe is not counted.
-
-Can you add a word somewhere in the comment(?) to make this clear?
+But here it should be >= 2 then, no?
 
 -- 
 With Best Regards,

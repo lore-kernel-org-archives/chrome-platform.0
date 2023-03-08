@@ -1,37 +1,37 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06E86D19
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Mar 2023 13:45:10 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id m22so6783477ioy.4
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Mar 2023 05:45:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F82C6D38
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Mar 2023 13:51:31 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id b16so6772249iof.11
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Mar 2023 05:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678283110;
+        d=chromium.org; s=google; t=1678283490;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Gz/Fal0kRuGQs4te+QLHZr2SvmaC9a9yoIN2O4rmEs=;
-        b=FzOehmgGzILhkooEFO0biilFd7kiTA0NZcKrhcfEw83BGlvb/DRX3HApX0gd0asQu+
-         zXYldxA3v4VRudBB014jDadWTIgo79RaVquXI8m+ip2DXj5WS98GeAQOpgEvrX+7tpbU
-         SWqY8TrecDN3LvK2tWghCzQbSw+b/IEJKg1ys=
+        bh=O2ScB8i7PrG39DRTErC7kF+bBBVGcw9XNhNSA0VqouI=;
+        b=imkqhCCosUh66ifIsRQPbANxZXdmJpEwCj2rF7iSVxboMb7R9EE2AFrdMjLL16Y/Kw
+         ooGlAR2bIPsm2FI/6N4VeIN+MSDg7j79K5/3wNTcuCOl8Gx8dM0twquGzlpwCcPl1klq
+         NicNIX+rKLK1R+g/ECbCTeA/17uvvBo5G2SJU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678283110;
+        d=1e100.net; s=20210112; t=1678283490;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Gz/Fal0kRuGQs4te+QLHZr2SvmaC9a9yoIN2O4rmEs=;
-        b=IOuC8vfm69D5chcEd+peWT/s9iou7Uje33VLXnRO++nvlowUjvzQk7FmPfoZRr4u2a
-         SlMRq8Iye1gH3IaMpVRVmrzOSFE1aPd9y49Es9CSNksr2WJSZ7QHu6XdnVc39nFtP1Wz
-         ZtE3GykAtHbsl2nOXE8w0Kh9tfveyi4ZnQcFduyNyCQKi3MDv02PyHAT1SjPGjjuJsrL
-         2XAEe+fNFgpcSeMEZ6AFogH/gE8oaljEq/lXDmmnXhMot2wjjaZXNiRO1cM74Uyt7b3F
-         RI/AvcKdmkhirDwq+s5ESwjZZM04Kl9YbLq9HgzBxdbifXG4bzSFFCreiXCYp8m61O13
-         7Nuw==
-X-Gm-Message-State: AO0yUKW0UnlUOhgt4fTCYRg8ksHnJwGOl8zL8rmZq+EEN8fgG3S4GfOI
-	tgN+Qo5577CfAz0b5CgXb9ofHvt3+Ks/TqXF3S4vIQ==
-X-Google-Smtp-Source: AK7set9vEwKu1Idu63ibGwE2iFEiZ7o1hncWOqoEWkYY6ycvzgr26jaWtmtsgD0Zy8mBVQpsXMl2fE6U84RedlItoHs=
-X-Received: by 2002:a05:6602:4287:b0:745:50e5:c861 with SMTP id
- cd7-20020a056602428700b0074550e5c861mr8454903iob.4.1678283109499; Wed, 08 Mar
- 2023 05:45:09 -0800 (PST)
+        bh=O2ScB8i7PrG39DRTErC7kF+bBBVGcw9XNhNSA0VqouI=;
+        b=V76mRllz5DzFdNGqLyuV5Hv2uMnRjd9hzkB+JHAc8S2yhfHYDKj1KVb1+7FtOjTyCi
+         QVaSHRBdrpHAoVsBf117hYrZ5NwGPM9Ffodgbqxsj/xtiy/Bcqad595lqmtFoYjawpC/
+         cm2wf4XSi54uevsrrLjthobPnmS1zTlK7kovictrq2/vhsqxiAvKEJR0fpT7C5bO2IbQ
+         ug8f1Qnz1CAHwTq492JayeQGnWcVkoNwsMtwMQOBWngG1HfEbqbmPI58uwqpSFhiSghI
+         64Hun+dG4z9qk8SITRkOAxQjQ0ilE4Az60W3H6tROyBJ0zF2rXv2odjvDz6LUlO/MN1P
+         QQtw==
+X-Gm-Message-State: AO0yUKXKkhJ0Zl/dpfrZVQreZkdnJ88/OOmXwtQBTksEV1evehM9uxrn
+	lDvlAxj8wKnOrM9A6Lxzm4m8g1Fim96Lt64Y8zNgCw==
+X-Google-Smtp-Source: AK7set8VM1H7ES454XkYoww9M66+Aop3lkGBIArzYN2bvLHb4IHDHyckUz3PiQcAOs/tKbPekPyLMzsgcHMc8Vkk8wo=
+X-Received: by 2002:a6b:dc0c:0:b0:743:5fb0:2ca8 with SMTP id
+ s12-20020a6bdc0c000000b007435fb02ca8mr8414193ioc.4.1678283490142; Wed, 08 Mar
+ 2023 05:51:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -39,12 +39,12 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-8-treapking@chromium.org> <ZAXUrJDtHmm7+50H@smile.fi.intel.com>
-In-Reply-To: <ZAXUrJDtHmm7+50H@smile.fi.intel.com>
+ <20230303143350.815623-11-treapking@chromium.org> <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
+In-Reply-To: <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Wed, 8 Mar 2023 21:44:58 +0800
-Message-ID: <CAEXTbpftCVFBQK0bNiWvF0NnbNoMoF=dFStHy1HXOq8LvWYjsA@mail.gmail.com>
-Subject: Re: [PATCH v13 07/10] drm/bridge: anx7625: Register Type C mode switches
+Date: Wed, 8 Mar 2023 21:51:19 +0800
+Message-ID: <CAEXTbpe=e1iA7cnzuTtcsyFxpG37YCWSK_SqZb2A8hxcyCnJBg@mail.gmail.com>
+Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode switches
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -69,54 +69,96 @@ Hi Andy,
 
 Thanks for the review.
 
-On Mon, Mar 6, 2023 at 7:55=E2=80=AFPM Andy Shevchenko
+On Mon, Mar 6, 2023 at 8:03=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Fri, Mar 03, 2023 at 10:33:47PM +0800, Pin-yen Lin wrote:
+> On Fri, Mar 03, 2023 at 10:33:50PM +0800, Pin-yen Lin wrote:
 > > Register USB Type-C mode switches when the "mode-switch" property and
-> > relevant ports are available in Device Tree. Configure the crosspoint
-> > switch based on the entered alternate mode for a specific Type-C
-> > connector.
-> >
-> > Crosspoint switch can also be used for switching the output signal for
-> > different orientations of a single USB Type-C connector, but the
-> > orientation switch is not implemented yet. A TODO is added for this.
+> > relevant port are available in Device Tree. Configure the "lane_swap"
+> > state based on the entered alternate mode for a specific Type-C
+> > connector, which ends up updating the lane swap registers of the it6505
+> > chip.
 >
 > ...
 >
-> > +     ctx->port_data =3D devm_kcalloc(
-> > +             dev, switch_desc->num_typec_switches,
-> > +             sizeof(struct anx7625_typec_port_data), GFP_KERNEL);
->
-> I believe I have commented on this (indentation)...
+> > +     it6505->port_data =3D devm_kcalloc(dev, switch_desc->num_typec_sw=
+itches,
+> > +                                      sizeof(struct it6505_typec_port_=
+data),
+> > +                                      GFP_KERNEL);
 >
 > > +
 >
-> ...and this (blank line).
-
-Sorry for missing this one. I'll fix this in v14.
+> Same, no need for a blank line here.
 >
-> > +     if (!ctx->port_data) {
+I'll fix this in the next version.
+> > +     if (!it6505->port_data) {
 > > +             ret =3D -ENOMEM;
 > > +             goto unregister_mux;
 > > +     }
 >
 > ...
 >
-> > +             ctx->port_data[i].orientation =3D (dp_lanes[0] / 2 =3D=3D=
- 0) ?
-> > +                     TYPEC_ORIENTATION_REVERSE : TYPEC_ORIENTATION_NOR=
-MAL;
+> > +             it6505->port_data[i].lane_swap =3D (dp_lanes[0] / 2 =3D=
+=3D 1);
 >
-> I believe that this is an error prone check, you should rather do the opp=
-osite,
-> i.e.  ' % 2  =3D=3D 0'.
+> ' % 2 =3D=3D 0' ?
 >
-The orientation should be TYPEC_ORIENTATION_REVERSE when the
-data-lanes value is 0/1, so ` / 2` is what I meant here.
+Per another patch, I'll update this into `< 2`
+> ...
+>
+> Wouldn't be better to have
+>
+>         ret =3D PTR_ERR_OR_ZERO(extcon);
+>
+> here and amend the following accordingly?
+>
+> >       if (PTR_ERR(extcon) =3D=3D -EPROBE_DEFER)
+> >               return -EPROBE_DEFER;
+> >       if (IS_ERR(extcon)) {
+> > -             dev_err(dev, "can not get extcon device!");
+> > -             return PTR_ERR(extcon);
+> > +             if (PTR_ERR(extcon) !=3D -ENODEV)
+> > +                     dev_warn(dev, "Cannot get extcon device: %ld\n",
+> > +                              PTR_ERR(extcon));
+> > +             it6505->extcon =3D NULL;
+> > +     } else {
+> > +             it6505->extcon =3D extcon;
+> >       }
+> >
+> > -     it6505->extcon =3D extcon;
+> > +     init_completion(&it6505->mux_register);
+> > +     ret =3D it6505_register_typec_switches(dev, it6505);
+> > +     if (ret) {
+> > +             if (ret !=3D -ENODEV)
+> > +                     dev_warn(dev, "Didn't register Type-C switches, e=
+rr: %d\n",
+> > +                              ret);
+> > +             if (!it6505->extcon) {
+> > +                     dev_err(dev, "Both extcon and typec-switch are no=
+t registered.\n");
+> > +                     return -EINVAL;
+> > +             }
+> > +     }
+>
+>
+> Perhaps
+>
+>         if (ret !=3D -ENODEV)
+>                 dev_warn(dev, "Didn't register Type-C switches, err: %d\n=
+", ret);
+>
+>         if (ret && !it6505->extcon) {
+>                 dev_err(dev, "Both extcon and typec-switch are not regist=
+ered.\n");
+>                 return ret;
+>         }
+>
+> ?
 
-Though, after second thought, I think it would be clearer if I use
-`dp_lanes[0] < 2`. I'll update this in v14 as well.
+
+Thanks for the suggestion! I'll update this in v14.
+>
 > --
 > With Best Regards,
 > Andy Shevchenko

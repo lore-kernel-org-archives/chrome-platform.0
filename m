@@ -1,98 +1,128 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9E163A7
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Mar 2023 10:22:00 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id j8so781932ilf.4
-        for <chrome-platform@lists.linux.dev>; Thu, 09 Mar 2023 02:22:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9625E33C0
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Mar 2023 10:30:29 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id u3-20020a17090a450300b00239db6d7d47so1632140pjg.4
+        for <chrome-platform@lists.linux.dev>; Thu, 09 Mar 2023 02:30:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678357319;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Ah1TtdVxfPgfmW7zrYGGBKwFiIK5NMV4NPzf8pIYnM=;
-        b=B72T8/xcJkjQz7mlADugAXF75gmsMItZFaKG06Dg/eKa38XtjEmB5TesT6Tgp6ASVa
-         y7A4CQ+1SKnIFvNYlOo3PnP0nSTd+8rsz+m7vcdsxyqsxg5jUheyJ7M22oT4FGRUwJFe
-         UlqCyzjG+7geAfz15PsLpJSOKheBGW/Vk39Kc=
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678357829;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dxt4eWA+7K9WGazvtnncexC57TlTZ6sxB1OM6xi1J7g=;
+        b=SfYMBpvVaeuwC8FDfeNZZ1WLxzqhE4FHOHrpuf/IasznwzEByFyd8jXBu+UDMFp00v
+         J2gyGmW2vjYXXxbVWImqEFQDcLwcUNfBi7lR1/o8sFFSWnRf6FoVpQYpeV1n099XUyCh
+         mZjxDp8HaRbUARa7I7K0DWo+gZKHkMo9klPnZ1CJsa5FjM1Z2Iqdn8y51kb/QzVlSLPb
+         cYqAitFjR7dMepNsvqhEGK5JzmS7sSyG1dFUtvbLhSPrW4snKvXiMafFK3zqkA2NkWFY
+         AHvWpnPugJKQQyEb0Va86Misdshnog2DyTF0YUiVWetSWjuHkjJjI6ssKNeTDekhXIY/
+         Uc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678357319;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Ah1TtdVxfPgfmW7zrYGGBKwFiIK5NMV4NPzf8pIYnM=;
-        b=bbWofvjXdZWF7vuLL4GdDY3fQUe6rT4XwN4xFH6KVYYqJbntXsnYgW0LyJ5eSOOQ2t
-         9sycXKBc+81OjLzxfWwsI+G7HUAsC+X1pHMBcpGEG4DL5iEN9CuUjEIgZwhEAuPM3Mot
-         rhs2/AF1o7AxArqpJwpiFuFrSdE42eD4PDlBjgUDp3/pzy8l5ZcWw0HoZ/7rLGNlvAHN
-         QExqgKHSaQ7W3vkxB4XWQfl+XZgTeMYJz4b+seeoEquEbHQppEshVhvljJDzfUzAFaKN
-         1KYfWrVYvzc43gg3yCgQUsyt0S+UgoHTCS23Alsd6Ku8XFSpOTLXlkoF/EZnKsAZAPLl
-         gHPQ==
-X-Gm-Message-State: AO0yUKUFaToZSXtfL6oADSSnn1n7Bk9G6wjQKRSq6v/b85nvfNFp7DBw
-	4GKjjg8NGFnKwMcEnwtDF2L7LFPSpwePq23rYQkHSg==
-X-Google-Smtp-Source: AK7set/8LE04Zm+2ShiPru3Ucvo7TBxa+dRVhoQ8TlB/lSr0SCiXxU6ZSWYbEzWNlrck7ayKIPUPGHnsRZrsJ3nY8As=
-X-Received: by 2002:a92:b512:0:b0:30f:543d:e52c with SMTP id
- f18-20020a92b512000000b0030f543de52cmr10301852ile.2.1678357319507; Thu, 09
- Mar 2023 02:21:59 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678357829;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dxt4eWA+7K9WGazvtnncexC57TlTZ6sxB1OM6xi1J7g=;
+        b=Ojf5W7YcZ3HFgtcZXeNNLFcLkHRPPAWu7KmPdx3iQZg57QLyvTxveLxWDra2JQEvwt
+         3MEYhVoHD2b6/FLsKaQU2kyLWd2aHERB+B2YoEP19m5TfL75nQ5Mxn4o7KfZQyOrDEBc
+         CHFGvwz/w8FWOsPN9R13CbBWu3dY/zMMBIhYV2oU1XJmoFEUtBqliCd0+WmkT1oDk7cy
+         2BhRW9hVUH2CG/i6jk223W8SXNKC3toDvma6fU9fb7guCPW6aafRzvAOPmbLfK4Qa9mi
+         qMzkIbMUsoEvkPou+OXxFDtDI6eqjw/7PizJDBCUuPvPrlTHHDmam34eH0UdxhaX46gh
+         xDRg==
+X-Gm-Message-State: AO0yUKWIfkugDmcE0QQj25tM7WgRQTZzCD7vaJM80SVdL0K/UcQbcVGV
+	7UQqxprldUvHbzmK6/tMAFq2gA==
+X-Google-Smtp-Source: AK7set9r4CLcWlkbo4cju1hbNIXumhpamsyLNu0Vc9Bm2n57iov/tgvwoDRsKZmOzKF+YHOEy+aT3Q==
+X-Received: by 2002:a17:902:ea8a:b0:19e:6b05:ad3a with SMTP id x10-20020a170902ea8a00b0019e6b05ad3amr21030072plb.64.1678357828998;
+        Thu, 09 Mar 2023 02:30:28 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id w14-20020a170902e88e00b0019e88d9bed3sm11271999plg.210.2023.03.09.02.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 02:30:28 -0800 (PST)
+Message-ID: <6409b544.170a0220.71437.458f@mx.google.com>
+Date: Thu, 09 Mar 2023 02:30:28 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-11-treapking@chromium.org> <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
- <CAEXTbpe=e1iA7cnzuTtcsyFxpG37YCWSK_SqZb2A8hxcyCnJBg@mail.gmail.com> <ZAiqPIm6O1JCPF7f@smile.fi.intel.com>
-In-Reply-To: <ZAiqPIm6O1JCPF7f@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Thu, 9 Mar 2023 18:21:48 +0800
-Message-ID: <CAEXTbpcQAJ1HiF0eGbBFzFU2K-K7vnEEyqGtqJFHbUOxWGG3iA@mail.gmail.com>
-Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode switches
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Lyude Paul <lyude@redhat.com>, linux-kernel@vger.kernel.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, chrome-platform@lists.linux.dev, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, devicetree@vger.kernel.org, 
-	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.3-rc1-2-gdb7df0cfaff3f
+X-Kernelci-Report-Type: test
+Subject: chrome-platform/for-kernelci cros-ec: 12 runs,
+ 1 regressions (v6.3-rc1-2-gdb7df0cfaff3f)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Andy,
+chrome-platform/for-kernelci cros-ec: 12 runs, 1 regressions (v6.3-rc1-2-gd=
+b7df0cfaff3f)
 
-On Wed, Mar 8, 2023 at 11:31=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Mar 08, 2023 at 09:51:19PM +0800, Pin-yen Lin wrote:
-> > On Mon, Mar 6, 2023 at 8:03=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Fri, Mar 03, 2023 at 10:33:50PM +0800, Pin-yen Lin wrote:
->
-> ...
->
-> > > > +             it6505->port_data[i].lane_swap =3D (dp_lanes[0] / 2 =
-=3D=3D 1);
-> > >
-> > > ' % 2 =3D=3D 0' ?
-> > >
-> > Per another patch, I'll update this into `< 2`
->
-> But here it should be >=3D 2 then, no?
->
-Yes it should be >=3D 2 here. I wasn't really using my brain when I
-replied to the mail....
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
-Best regards,
-Pin-yen
+Regressions Summary
+-------------------
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
+
+
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v6.3-rc1-2-gdb7df0cfaff3f/plan/cros-ec/
+
+  Test:     cros-ec
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v6.3-rc1-2-gdb7df0cfaff3f
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      db7df0cfaff3ffe5c125f8b79bcd54a4ad163b37
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://github.com/hardboprobot/cros-ec-tests.git
+      SHA:  f6c0dbf63842d5751000c5527808aca38354db55 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6409b08dc8bc049b0f8c8660
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.3-rc1-2-gdb7df0cfaff3f/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-e=
+c-tegra124-nyan-big.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.3-rc1-2-gdb7df0cfaff3f/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-e=
+c-tegra124-nyan-big.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20230303.0/armhf/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/6409b08dc8bc049b0f8c86=
+61
+        failing since 3 days (last pass: v6.2-rc1-35-g75a273974d7a, first f=
+ail: v6.3-rc1-1-gad79d30ce40d) =
+
+ =20

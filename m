@@ -1,85 +1,96 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5189CDA92
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Mar 2023 18:50:40 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pahp2-0008TP-84; Fri, 10 Mar 2023 19:50:32 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pahp0-003EbR-M2; Fri, 10 Mar 2023 19:50:30 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pahoz-003rf2-BX; Fri, 10 Mar 2023 19:50:29 +0100
-Date: Fri, 10 Mar 2023 19:50:28 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Munehisa Kamata <kamatam@amazon.com>,
-	Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 2/4] pwm: cros-ec: Explicitly set .polarity in
- .get_state()
-Message-ID: <20230310185028.z2rewz3467fvs5a3@pengutronix.de>
-References: <20230228135508.1798428-1-u.kleine-koenig@pengutronix.de>
- <20230228135508.1798428-3-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73387B
+	for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 11:17:02 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id da10so30820671edb.3
+        for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 03:17:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678533421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dqe4tA01u8D6zg7qVVNxLh27ygPQ0D7vH2s6WJVZu1g=;
+        b=hs+KTaByhaRR1Crrvl/6b7Pi+5fYgw3OGDij24beVPHGJ3OBSZd2iaAtQvl435zoEz
+         TIAJ9/yjnEW/vbI+fI5bN8m0Gv0bfx0pJTDZCvvL/7YiwXCdftTPM9j1an+cfUzwjXpy
+         eeKWWGgAuRlTeSjhytqdKpzqpWEz+bYEM4w8xux4YzWgsMLUxbQTMzP/6ejxkRp8B832
+         jKK65FakobFYuKa47JSpRFPgY8SdUGaHFWWKuJIG+tEY+A79f8xkImbMyPeetoZGZNVQ
+         /qK1WGpBdfEU2vtexd3E1Kj1odc0bHgoXMoxEAnImUg9RaSuYG1kxkO1HJDqnCfPGg8n
+         wZLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678533421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dqe4tA01u8D6zg7qVVNxLh27ygPQ0D7vH2s6WJVZu1g=;
+        b=skyQt9O2C1kI84pnsx9/jN0s1ab1XmQd+4cAlsku0GeWCLXqQX1mUZhqNBLhhbLv7K
+         8GNbtyK6emT25d3THcqXYK7E055wD+TpvefpoC2Onfxv50d/fZTdj1q2iNhTBF5oyExr
+         BHBH5sKU8lcMX4g7UIB4NCJO8U1fJqwF5H2zD54GLfk8x2IRH//39gwg/gjFA+3UtEsK
+         Vi4vb+E0Ey79HICXhail/PkNx5Mh+e4Rq8+BhRwZfLFlC/YGDz5IGcc6SNAh2J7wpE4o
+         a7f+F1GHH4pqHjQibeRUn/yx9pM/th7MXHGAKffW+CGcolkqA5ygcIY86ZeuAMEXhn8h
+         YbbQ==
+X-Gm-Message-State: AO0yUKVA0k5jGyb2VAzbsoCKg9C5oEKN1w6Th8bAZc/ghMs/BIPi8YeW
+	3xBhTjJ+bP3k6ajmSo8Pl/2AJw==
+X-Google-Smtp-Source: AK7set9ps6Xl+ULaLLmt1Jk7XfUchILOeDp/mCfvP03IeYFsPT68lmc3NmDip9szz/n3mavp5ht89w==
+X-Received: by 2002:a17:906:1515:b0:8b1:279c:82c7 with SMTP id b21-20020a170906151500b008b1279c82c7mr27776179ejd.50.1678533421024;
+        Sat, 11 Mar 2023 03:17:01 -0800 (PST)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:fa97:2d7c:bdd7:e1b])
+        by smtp.gmail.com with ESMTPSA id mp27-20020a1709071b1b00b008d398a4e687sm973975ejc.158.2023.03.11.03.17.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 03:17:00 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/5] i2c: mt65xx: drop of_match_ptr for ID table
+Date: Sat, 11 Mar 2023 12:16:54 +0100
+Message-Id: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g2zqdfjbor4id76k"
-Content-Disposition: inline
-In-Reply-To: <20230228135508.1798428-3-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The driver can match only via the DT table so the table should be always
+used and the of_match_ptr does not have any sense (this also allows ACPI
+matching via PRP0001, even though it might not be relevant here).
 
---g2zqdfjbor4id76k
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  drivers/i2c/busses/i2c-mt65xx.c:514:34: error: ‘mtk_i2c_of_match’ defined but not used [-Werror=unused-const-variable=]
 
-On Tue, Feb 28, 2023 at 02:55:06PM +0100, Uwe Kleine-K=F6nig wrote:
-> The driver only supports normal polarity. Complete the implementation of
-> .get_state() by setting .polarity accordingly.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/i2c/busses/i2c-mt65xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think we should apply this patch as a fix to prevent similar failures
-as reported for the meson driver. To justify that:
+diff --git a/drivers/i2c/busses/i2c-mt65xx.c b/drivers/i2c/busses/i2c-mt65xx.c
+index 43dd966d5ef5..59eaefe999b1 100644
+--- a/drivers/i2c/busses/i2c-mt65xx.c
++++ b/drivers/i2c/busses/i2c-mt65xx.c
+@@ -1546,7 +1546,7 @@ static struct platform_driver mtk_i2c_driver = {
+ 	.driver = {
+ 		.name = I2C_DRV_NAME,
+ 		.pm = &mtk_i2c_pm,
+-		.of_match_table = of_match_ptr(mtk_i2c_of_match),
++		.of_match_table = mtk_i2c_of_match,
+ 	},
+ };
+ 
+-- 
+2.34.1
 
-Fixes: 1f0d3bb02785 ("pwm: Add ChromeOS EC PWM driver")
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---g2zqdfjbor4id76k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQLe/AACgkQwfwUeK3K
-7AkkUAf9Em3mJsgoxTz/iBgebzx6c8aTWGyQgK+GvgV6dNlY+O5UNPRHbIyBzGZe
-bmUqERDjuAkds3gShpEsb6W+pB+Zbl2a2qj94aoCCugX2GO6jxmdISnIsIMcUQuh
-nZxzx+CtNZKc1meGqSgOnScjeDArFR88cvRueEHSJHhATyl62Fc+hM3MLYxq8/U6
-Q1kTi1d8ZDIt7bnNb0mCUuuQ8/l+LNzeCZW2wlzoBnBF9z8KDS8ogWqBxTe6YEqS
-rRUiUXKDnXDep2lfIf9Qd+53BNos38YqsafdDFRbpWBeiXf9vZxjfUoq6uh+VomH
-XiJins19aj3WBhfJzWrQyUaaXH8Y8Q==
-=VYcZ
------END PGP SIGNATURE-----
-
---g2zqdfjbor4id76k--

@@ -1,52 +1,53 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D402D7B
-	for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 16:05:33 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5416698e889so37356067b3.2
-        for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 08:05:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31747B
+	for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 16:09:43 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id e194so8061890ybf.1
+        for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 08:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678550733;
+        d=google.com; s=20210112; t=1678550982;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K54OHgmN8fzCR8nXYTAA10aWWoOdsi0wXP2XNLDX9vc=;
-        b=h34LVM3UqmqUgwxpTXBJ/4CwnImSFFUMozqSylfyzNzIg8rEUFi/BCA/5SfPAhPXSK
-         zVyg4dkH/np2nYMcxgt34KGbvvU69/pstFffIbpXSdjTuqr7mHRcatJl8wcG+ChH9+dA
-         A5V6TTYkNmvyKGoj+SnE4wGxe2nzztZ+0cYdHj/So+YjENl4RPexyIQNksQlU5AqWmJ0
-         wlqIaTJA+4pIrmihYkk+CWZVx2geZVmmUhYo5eOPcvWV+YR6xqVFHKFMSoocJOLnX6CR
-         WwHQ52y8meSmlDKg6ykn0PXkeSs5FMhUOArFwyfH5cPvgTYIVyDHckPo68ZLvtp94miA
-         EPcA==
+        bh=fzWZK/2DOJOXsvG+XJAqxVL+3bPwefI5Iyt8l7pygUU=;
+        b=NEU+nw8LaiuwdyVp2yAz91CWBZNF3qBVdmKv6heVA54lqDYYTkQrItkE9diE+ifQvu
+         JvEPZtVIR0BDGlJwIrgrBc7d2s6maquNDE8jtzghRqbxKRpUVOdpMfOby2LbDLTkQM9I
+         nhAsUBIxRZ1zNOu529mfMDU1amVxwVhKh3u8EvhIS2FqswVJB4uYyDfQGcMUoTguAgj6
+         fwP5UaRMUCK8TTDU1bS0mmVSCxZVRjVXI9NBr51EZ6g+91OBMQZshXNjyXxCbmVTQWBG
+         jAhwLRB5tfqbjvCqVcvBLfPwrkizvdEYZcD/7Lw/+NG4spsuOWY2d9moj1xd8BzIAC+E
+         bxCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678550733;
+        d=1e100.net; s=20210112; t=1678550982;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K54OHgmN8fzCR8nXYTAA10aWWoOdsi0wXP2XNLDX9vc=;
-        b=hsWtwraADnzp2d/1T2BCD9nnimYSaNYZf7nus8joXUcVKdk2xUlL0HiolzSsnVWitG
-         DYEBSS1/hVo00mafRfa7sHFIgAKus6PgSjq9u+zKNg0dfe+OoMIq1sBvw8622v206BID
-         u6g9nxT0FzTB3TDSCWDGZbMoSVzMHLypZMd8BGnhCV22GyYPF15yiEjfCyASq++wYgxN
-         cm3cdWuxwuUocexrmb9FO3GClOmEmCFAl05ZZ768uz4DnrDZCQyjapb+YcVeQSWW4eGh
-         bKG27eLfY/cOB+6nJm9Kr2wMUx4zG3h2PWUTBfnD3o6FOioAseNAqa9mPswwNuEciZ4e
-         R9yA==
-X-Gm-Message-State: AO0yUKVQRPnKVdx7T5H+mQqg0e02Br3sqNaUEnvsU/EKEKvVTgNd1c3w
-	QAh45vxarlb90m0OfAVvtLQOasq/1H3xNs2vB/Tsrg==
-X-Google-Smtp-Source: AK7set9ic8NaN+kdm7NG2bG/3UThQQCFa78uyAWSZO+HX+TKv1qILKSdYFavvGkzUkH3l060xAj5J+UbUwRtinZAjtU=
-X-Received: by 2002:a81:400c:0:b0:540:62be:42b with SMTP id
- l12-20020a81400c000000b0054062be042bmr2285636ywn.6.1678550732657; Sat, 11 Mar
- 2023 08:05:32 -0800 (PST)
+        bh=fzWZK/2DOJOXsvG+XJAqxVL+3bPwefI5Iyt8l7pygUU=;
+        b=N+129SoT3+C4ziPzkFYkm83Vy0UAH+69Nrx49AeqRecsaP29X4xzJfkMBi/xLZ+fRr
+         VXC4XJALpmPNPMvUdlm6S2h3mVtdI3NISQZub37DxuFNd6u7KiqIb62LUpoQ2nw9+NHW
+         kjRWTbwV4HHCsT2vHdUq1zzg6u8/Cjj0/hOogtTjiFrGZrKQx5A1aLh+IiH6/ZhFyJK7
+         CGp4zy80ugCBqhEzmGgjPLoQOzLVH0lpiU7SqhtmqsrALubMw5jGjGHQv2U81npgwJCQ
+         LrpASh/9ViIpP6JbhsVTrk8yCWkjUsSDYO7X9wm6f84XDUQC0DcbsRKAFQUY5f3MUMCu
+         6VHQ==
+X-Gm-Message-State: AO0yUKXc1bVG2m48/1pYy2SZtDmkSaqCjh5VETox+dZOAjm1cG4uEdZV
+	rb0ITPMXCcAGxrh4T2U0B1J5deK1zTJgLsk71yujBQ==
+X-Google-Smtp-Source: AK7set/M/rmOrpL0L838CFr6LBaCI08Xy5jWKITiGoAakJxe2vY4+K5X0NVyMqq5eu3mW3qdOhSXtUFtnmiWfHsmpwQ=
+X-Received: by 2002:a25:8d8e:0:b0:b30:2539:a2b0 with SMTP id
+ o14-20020a258d8e000000b00b302539a2b0mr3437066ybl.9.1678550982435; Sat, 11 Mar
+ 2023 08:09:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org> <20230311111658.251951-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230311111658.251951-2-krzysztof.kozlowski@linaro.org>
+References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org> <20230311111658.251951-4-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230311111658.251951-4-krzysztof.kozlowski@linaro.org>
 From: Guenter Roeck <groeck@google.com>
-Date: Sat, 11 Mar 2023 08:05:21 -0800
-Message-ID: <CABXOdTePJ_gcBYcJ7fE2pX5E71oBmq41KzxiMmVJ_GcDRi7MGw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] i2c: owl: drop of_match_ptr for ID table
+Date: Sat, 11 Mar 2023 08:09:31 -0800
+Message-ID: <CABXOdTero=NcfJRmyOCWrt8aOVWsyEUWy0h1Y1msTmDL0VS6ew@mail.gmail.com>
+Subject: Re: [PATCH 4/5] i2c: cros-ec-tunnel: Mark ACPI and OF related data as
+ maybe unused
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	Qii Wang <qii.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -63,33 +64,44 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, Mar 11, 2023 at 3:17=E2=80=AFAM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).
+> The driver can be compile tested with !CONFIG_OF or !CONFIG_ACPI making
+> certain data unused:
 >
->   drivers/i2c/busses/i2c-owl.c:510:34: error: =E2=80=98owl_i2c_of_match=
-=E2=80=99 defined but not used [-Werror=3Dunused-const-variable=3D]
+>   drivers/i2c/busses/i2c-cros-ec-tunnel.c:295:34: error: =E2=80=98cros_ec=
+_i2c_of_match=E2=80=99 defined but not used [-Werror=3Dunused-const-variabl=
+e=3D]
 >
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
->  drivers/i2c/busses/i2c-owl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/i2c/busses/i2c-cros-ec-tunnel.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/i2c/busses/i2c-owl.c b/drivers/i2c/busses/i2c-owl.c
-> index 98882fe4e965..99ddd8894964 100644
-> --- a/drivers/i2c/busses/i2c-owl.c
-> +++ b/drivers/i2c/busses/i2c-owl.c
-> @@ -519,7 +519,7 @@ static struct platform_driver owl_i2c_driver =3D {
->         .probe          =3D owl_i2c_probe,
->         .driver         =3D {
->                 .name   =3D "owl-i2c",
-> -               .of_match_table =3D of_match_ptr(owl_i2c_of_match),
-> +               .of_match_table =3D owl_i2c_of_match,
->                 .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
->         },
+> diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses=
+/i2c-cros-ec-tunnel.c
+> index 4e787dc709f9..8b3ff5bb14d8 100644
+> --- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+> +++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+> @@ -292,13 +292,13 @@ static int ec_i2c_remove(struct platform_device *de=
+v)
+>         return 0;
+>  }
+>
+> -static const struct of_device_id cros_ec_i2c_of_match[] =3D {
+> +static const struct of_device_id cros_ec_i2c_of_match[] __maybe_unused =
+=3D {
+>         { .compatible =3D "google,cros-ec-i2c-tunnel" },
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(of, cros_ec_i2c_of_match);
+>
+> -static const struct acpi_device_id cros_ec_i2c_tunnel_acpi_id[] =3D {
+> +static const struct acpi_device_id cros_ec_i2c_tunnel_acpi_id[] __maybe_=
+unused =3D {
+>         { "GOOG0012", 0 },
+>         { }
 >  };
 > --
 > 2.34.1

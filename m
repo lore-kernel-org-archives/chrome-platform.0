@@ -1,43 +1,43 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E91185C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CBD7B
 	for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 11:17:06 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id k10so30652521edk.13
-        for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 03:17:05 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id er25so2611578edb.5
+        for <chrome-platform@lists.linux.dev>; Sat, 11 Mar 2023 03:17:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678533424;
+        d=linaro.org; s=google; t=1678533425;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z8oeEF/AzQvtVXNpB84yj5TovVGMv/c0ViZXuwoTaQY=;
-        b=COAYxq8AT0uqrQbCHXbkj/g3Qs5hDhVsuLTBYQ2bJxruNac6vrplyfs/UEmjVMq0dg
-         xkvGkHlKUlM/BiBesQ4flwUDD8euDmOnvLogGgeauHDXcRaKY7MKeGsDSZ/GrGNU4qIz
-         tH7FNf6A8uxdhY7kF2QOEiB+UsCAtS2q9xCNIlHIYYUMZYCJTNhi0tyWQu0fTSiQa/w6
-         rYdfiaalgA17snDR6+upjrCTTZb3oCrv+sFohA/UpdFo/7hzrimPTydZ8Gpzxk01kvnY
-         4hpevlULBOtb7zoQlhFr9SkubsB3XM05CAhGDqHeJjeUpRZPfeVhc/hLoUeRYM5krq4H
-         2EQA==
+        bh=wcJifq10PLRhKC9buL1zZTG6brvOgNimyFGPw1oZQ8g=;
+        b=lKEQi5BZGiIsVpqyS3XtNgZoaI8gioPoWmR53UPyduIVkHVeBEbmWQaXemsy7pgoPS
+         UnT7c+7ZyvKkk0HWLGJmgAwsttuT4HVispzrnMPyJqS5Np8eI3GRYyaG414K6oVMRNUm
+         QVqgb3m4l83Le3oN3ft7CuJLwMHw+hjFZgSFgWC2j9v5by9CxRRgC5nDXDsaxyZluBqk
+         IBiUAyVvuUjg9DW9Kn9dcYeNjBhKM6POvPlVnUnZ/vXpWzeI2pXo9U2pZhSrlCZILBwz
+         d44tevPSOVgUvRM+45bqyA8UKyptBc/JrFkZ7kGJ3iXRmTNNXy16orqGNh57sQxmaXAQ
+         wENA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678533424;
+        d=1e100.net; s=20210112; t=1678533425;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z8oeEF/AzQvtVXNpB84yj5TovVGMv/c0ViZXuwoTaQY=;
-        b=m5ZQJCamD/Rep7HyLYoirf6tVGjRu9AM99JHsPxXA+J8/+7usJI7BdhspMtTCdxsHB
-         CwmyySuowpE+D1iPtQtO23uKHEwm/VU/rkMluMVTtW/4gI6uqiwc+CSRE6OMPDDpV86V
-         GJv3nK0xC5wvvaof1l3RdA6p0e14VaTWIJ9uj6QcAlCMCSgvX5ImCaOXgNJNPonFGJSj
-         wSR5N2NCJWkZE2yNQrgJQzv2xhwd4HI/o5/aF7qtzh/Kpd03vBszxUaIX4qIUqVT4g5i
-         Kc5V1P+alp4QzEyTTjjshfTBo3jh73uY6+0jzH8VUrjH7TmuN0QWVvsyB51f1a3NClaA
-         7+zQ==
-X-Gm-Message-State: AO0yUKWIfSklRc8oX9SvgBrYABm0SKKPvTTwp+Ph6G85aKbuMo8T4Snd
-	eScd+Eh8sH/b3olQ9hTrYxSIog==
-X-Google-Smtp-Source: AK7set+7reM6pcFdrkUari419jtBHFEUXuCxP/FHHAYCrdORM+/x//6YsjthlED3+SIQ+yWdonig6Q==
-X-Received: by 2002:a17:906:9f21:b0:884:3707:bd83 with SMTP id fy33-20020a1709069f2100b008843707bd83mr3376069ejc.69.1678533424385;
-        Sat, 11 Mar 2023 03:17:04 -0800 (PST)
+        bh=wcJifq10PLRhKC9buL1zZTG6brvOgNimyFGPw1oZQ8g=;
+        b=H0WTcWYGzsL/4iVyi2mocySGx5qQ3o6ggu8VILcimEGK5oewg1JLOyySdg3r5LDRBV
+         DJZmJJ5VT8+CKJyFYCu4+lwvBAQgfP3D24WJiXOnqETbUf5YpJSyFSAo/zS/tURYKo3u
+         o0Murd9ThyPSra8gFQgK+fhVP66xxEuJrCYDSdS7Ch7UNr/jSEZ96xBRXnkt3evMZqpy
+         +SpnhSNQYSoEx2N4/fXiG61cOG7tEjiBkr1dO8GJpJzkdhbrTWjpeKEjTOu6l6ccaIzV
+         45Ec3PSwJ4a1ufXW0G39iw6cdrga9tnykZmuzC1lsYPHrSllRfbIioc5Afot83c3CEjy
+         XrHA==
+X-Gm-Message-State: AO0yUKWPNNRhLF9H/fwKcfuU/3A2rN08x+VC3u5DxwdeNjN5jD9yaWZN
+	KOn6QDNiq1uAAzIDnJZ0aVtKkQ==
+X-Google-Smtp-Source: AK7set90Rqx3sRtuOK2S/VP6FZHdkiLyZ5wFXMpa2VaqCReSCM1nTUR53MQaNMHyzGhGC7lvJVRG7Q==
+X-Received: by 2002:a17:906:e118:b0:8f5:2965:49f2 with SMTP id gj24-20020a170906e11800b008f5296549f2mr5109281ejb.23.1678533425339;
+        Sat, 11 Mar 2023 03:17:05 -0800 (PST)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:fa97:2d7c:bdd7:e1b])
-        by smtp.gmail.com with ESMTPSA id mp27-20020a1709071b1b00b008d398a4e687sm973975ejc.158.2023.03.11.03.17.03
+        by smtp.gmail.com with ESMTPSA id mp27-20020a1709071b1b00b008d398a4e687sm973975ejc.158.2023.03.11.03.17.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 03:17:04 -0800 (PST)
+        Sat, 11 Mar 2023 03:17:05 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
@@ -55,9 +55,9 @@ To: Benson Leung <bleung@chromium.org>,
 	linux-mediatek@lists.infradead.org,
 	linux-actions@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/5] i2c: cros-ec-tunnel: Mark ACPI and OF related data as maybe unused
-Date: Sat, 11 Mar 2023 12:16:57 +0100
-Message-Id: <20230311111658.251951-4-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 5/5] i2c: synquacer: mark OF related data as maybe unused
+Date: Sat, 11 Mar 2023 12:16:58 +0100
+Message-Id: <20230311111658.251951-5-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
 References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
@@ -70,35 +70,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The driver can be compile tested with !CONFIG_OF or !CONFIG_ACPI making
-certain data unused:
+The driver can be compile tested with !CONFIG_OF making certain data
+unused:
 
-  drivers/i2c/busses/i2c-cros-ec-tunnel.c:295:34: error: ‘cros_ec_i2c_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/i2c/busses/i2c-synquacer.c:632:34: error: ‘synquacer_i2c_dt_ids’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/i2c/busses/i2c-cros-ec-tunnel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/i2c/busses/i2c-synquacer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-index 4e787dc709f9..8b3ff5bb14d8 100644
---- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-+++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-@@ -292,13 +292,13 @@ static int ec_i2c_remove(struct platform_device *dev)
+diff --git a/drivers/i2c/busses/i2c-synquacer.c b/drivers/i2c/busses/i2c-synquacer.c
+index e4026c5416b1..50d19cf99a03 100644
+--- a/drivers/i2c/busses/i2c-synquacer.c
++++ b/drivers/i2c/busses/i2c-synquacer.c
+@@ -629,7 +629,7 @@ static int synquacer_i2c_remove(struct platform_device *pdev)
  	return 0;
- }
- 
--static const struct of_device_id cros_ec_i2c_of_match[] = {
-+static const struct of_device_id cros_ec_i2c_of_match[] __maybe_unused = {
- 	{ .compatible = "google,cros-ec-i2c-tunnel" },
- 	{},
  };
- MODULE_DEVICE_TABLE(of, cros_ec_i2c_of_match);
  
--static const struct acpi_device_id cros_ec_i2c_tunnel_acpi_id[] = {
-+static const struct acpi_device_id cros_ec_i2c_tunnel_acpi_id[] __maybe_unused = {
- 	{ "GOOG0012", 0 },
- 	{ }
+-static const struct of_device_id synquacer_i2c_dt_ids[] = {
++static const struct of_device_id synquacer_i2c_dt_ids[] __maybe_unused = {
+ 	{ .compatible = "socionext,synquacer-i2c" },
+ 	{ /* sentinel */ }
  };
 -- 
 2.34.1

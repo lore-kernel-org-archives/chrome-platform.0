@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B5A23A7
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Mar 2023 09:44:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B0BC433EF;
-	Mon, 13 Mar 2023 09:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBE023A7
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Mar 2023 09:44:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65184C4339E;
+	Mon, 13 Mar 2023 09:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678700679;
-	bh=FC5amKWnb9Pm1D9GG/NEtGdRI6u8AE3xg49EGjr2Xj0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ehouEM/gpToluFNWDRvGVi1P62dF8A64CInjkTZN+ibVAo7vAnpBoa02sFGxXoUKx
-	 NAs9DobFSAZp1526WTeSrFBAPvAMobwC47MLkNOth6BPeyaOyxGjJSgkrveQ0pA1Ad
-	 vzWt1pxvbftiix8H353jFaLT/ftWfQh49jKtvDAOalOHmQ+GiRB0joOXgqO1BLD1kZ
-	 2bnFlnhGmEBRW0+B/Fc+0porKGzXtAluIqBqpcVxmZ9dKsWU8hYUibEtiONin+yTaP
-	 673FymCd+Nabp6AkTkEaP+6pndh2PyiM5/Bp+XM/KkpqEnOI9jny4pZ/f8l+gOPsZU
-	 YxZNX0Z35ZZRw==
+	s=k20201202; t=1678700680;
+	bh=1YJ/aFxJnduaOgWIQBgiyP8hO979tvs7YeoZ9myLRVg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=V7rd3eBv5MzWBZmgiYoTHumjmxnUfEla2f/RSujWTpOZWsEjfXsB9qxLqUOuoXVUz
+	 wNZr38OUa0LuY30rXt1WFV27/T6sR8n5efW8nriJa7bv2Rnl5lWZSJuB4sTjHpS91q
+	 vLPhPBv+RDioWqnUpejx0kBZdgbGpzBIHxG/zwwhnZduwIXYWMA6rmi5L1Mvs4cieQ
+	 lHVXZyPRx0oEagWBXnWSXb3SKXMVA37D1FdFcYUswyMKl8R3J/A44p3gZHWaLE4ns6
+	 W2m49X2rHrwM1HJuHlDyforeblceiiQCPhsVm+I+4GmwhzObkppdABAG2IorFf7jug
+	 2C5DG4aaAZ7TA==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
@@ -23,10 +23,12 @@ Cc: chrome-platform@lists.linux.dev,
 	guillaume.tucker@collabora.com,
 	denys.f@collabora.com,
 	ricardo.canuelo@collabora.com
-Subject: [PATCH 00/14] cros-ec-tests: fix some exceptions and clean-ups
-Date: Mon, 13 Mar 2023 17:44:17 +0800
-Message-Id: <20230313094431.507952-1-tzungbi@kernel.org>
+Subject: [PATCH 01/14] lava_runner: rename to LavaTestResult
+Date: Mon, 13 Mar 2023 17:44:18 +0800
+Message-Id: <20230313094431.507952-2-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+In-Reply-To: <20230313094431.507952-1-tzungbi@kernel.org>
+References: <20230313094431.507952-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,39 +37,35 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The series changes cros-ec-tests[1].
+To simplify, rename from LavaTextTestResult to LavaTestResult.
 
-It applys some clean-ups and fixes obvious errors.
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ cros/runners/lava_runner.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/cros-ec-tests.git/
-
-Tzung-Bi Shih (14):
-  lava_runner: rename to LavaTestResult
-  lava_runner: use TextTestRunner
-  lava_runner: use TextTestResult
-  lava_runner: respect to verbosity flag from unittest framework
-  helpers/sysfs: fix NameError
-  helpers/mcu: fix ResourceWarning on /dev/cros_ec
-  cros_ec_pwm: fix ResourceWarning on /sys/kernel/debug/pwm
-  treewide: use context manager on file objects
-  cros_ec_pwm: use RE to search EC backlight PWM
-  helpers/mcu: fix packet too long error
-  helpers/mcu: fix EC_CMD_GET_FEATURES usage
-  treewide: remove "r" in open() if reading mode
-  treewide: don't use "+" operator for constructing paths
-  treewide: don't use "+" operator for concatenating strings
-
- cros/helpers/kernel.py       |  5 ++-
- cros/helpers/mcu.py          | 57 ++++++++++++++------------------
- cros/helpers/sysfs.py        | 16 ++++-----
- cros/runners/lava_runner.py  | 64 +++++++++++++++---------------------
- cros/tests/cros_ec_accel.py  | 13 ++++----
- cros/tests/cros_ec_extcon.py | 11 ++++---
- cros/tests/cros_ec_pwm.py    | 58 +++++++++++++-------------------
- cros/tests/cros_ec_rtc.py    |  8 ++---
- setup.py                     |  2 +-
- 9 files changed, 99 insertions(+), 135 deletions(-)
-
+diff --git a/cros/runners/lava_runner.py b/cros/runners/lava_runner.py
+index 8a570dda064f..2e8b1c42bdeb 100755
+--- a/cros/runners/lava_runner.py
++++ b/cros/runners/lava_runner.py
+@@ -13,7 +13,7 @@ from cros.tests.cros_ec_power import *
+ from cros.tests.cros_ec_extcon import *
+ 
+ 
+-class LavaTextTestResult(unittest.TestResult):
++class LavaTestResult(unittest.TestResult):
+     def __init__(self, runner):
+         unittest.TestResult.__init__(self)
+         self.runner = runner
+@@ -56,7 +56,7 @@ class LavaTestRunner:
+         self.stream.write(message)
+ 
+     def run(self, test):
+-        result = LavaTextTestResult(self)
++        result = LavaTestResult(self)
+         test(result)
+         result.testsRun
+         return result
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 

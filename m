@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B803123A7
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Mar 2023 09:44:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F4DC4339B;
-	Mon, 13 Mar 2023 09:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F14223A7
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Mar 2023 09:44:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30F2C433A0;
+	Mon, 13 Mar 2023 09:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678700683;
-	bh=lsj9O+XAxKbTWvzEW4OmUuQ0/1vEqxmXyH6TvL73pdk=;
+	s=k20201202; t=1678700685;
+	bh=zOKVpcK7fJYF7L4PNzP8f0M2jUmarqfzj9FYGV1kP2I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JJJbpmcIYOLSgYtpt/E0Z3LeWmum1Be+49o5imE8Mbmz6ZEi+M387kgWgbuADKYw4
-	 30F1fLCz2Xq4W0SzuQdLl8qGH71Ip+QwgOfrteuydLH/C5Or0gCh4BNubsY5oDTKYR
-	 DyiWTmuGX2FX+jzwDrBzQLmhOaWQPT1/uvuKO6x+eD/XdAeSbRDXKQytnpdiL3R4om
-	 fmysPHDKEor4IaixndYJwmkEpMEvgcMmaY9NiOwwgyd3zN1hHXTTiVi/E6AeDivxhf
-	 6Bm0qwqWmJ8P+BY/7BhAu5GgNcMsCmlg1kdCIJIJcRpqL8mXIjKM6GkC7QCIj6bCxC
-	 vV1HCLQpxHcig==
+	b=K3eyzPVTh90JLxt5FwMPBvokEVSNgP/BRIz2fkkBpah9GI8RnGh7mV2uCSxa05Lo3
+	 MVLXtKspunQ1ff7rnSXMx2fb2pxQ27sAEb+8KWbWE0YpLAzUuLcUHzPwj18/pLEoM8
+	 dl9mUI3cr0We2RY8yRl5Yg61PhTqEnwRs2g5n8Gi+o7had1mfrz+7SueFu3onmCdi2
+	 nACpuwCDa2X5MgTiyDXAIjvffE2MSLP83YlQh5UsWgwxhAhYYca4up8jHI0XXitrO5
+	 v2ycWViLpi3MQ77s4vLA28AKH+Ze03bNNg1LwdPqvf+nlTPRrH8MrTfUybTD0gmZpb
+	 jNVSEhAmzMbNg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
@@ -23,9 +23,9 @@ Cc: chrome-platform@lists.linux.dev,
 	guillaume.tucker@collabora.com,
 	denys.f@collabora.com,
 	ricardo.canuelo@collabora.com
-Subject: [PATCH 03/14] lava_runner: use TextTestResult
-Date: Mon, 13 Mar 2023 17:44:20 +0800
-Message-Id: <20230313094431.507952-4-tzungbi@kernel.org>
+Subject: [PATCH 04/14] lava_runner: respect to verbosity flag from unittest framework
+Date: Mon, 13 Mar 2023 17:44:21 +0800
+Message-Id: <20230313094431.507952-5-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230313094431.507952-1-tzungbi@kernel.org>
 References: <20230313094431.507952-1-tzungbi@kernel.org>
@@ -37,81 +37,63 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To simplify, make LavaTestResult is-a TextTestResult.
+testRunner in unittest.main() shouldn't be an instance.  Otherwise, any
+verbosity flag won't pass into the testRunner.
 
-As a side-effect result, it prints errors and fails by the end of test
-running.  See [1].
+For example:
 
-[1]: https://github.com/python/cpython/blob/main/Lib/unittest/runner.py#L139
+1.
+m = unittest.main(
+	testRunner=TextTestRunner(...),
+	verbosity=0
+    )
+The verbosity won't take effect in the TextTestRunner.  Instead, it uses
+the default verbosity in TextTestRunner(), i.e., 1.
+
+2.
+m = unittest.main(
+	testRunner=TextTestRunner(...),
+    )
+When invoking `python3 -m ... -q`, it intends to set the verbosity to 0.
+However, the testRunner has been instantiated, the flag won't pass to
+the testRunner.
+
+Thus, LavaTestRunner is back.
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- cros/runners/lava_runner.py | 44 +++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+ cros/runners/lava_runner.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/cros/runners/lava_runner.py b/cros/runners/lava_runner.py
-index 7524f65dcd39..70f8aa61132e 100755
+index 70f8aa61132e..427d41f2eadb 100755
 --- a/cros/runners/lava_runner.py
 +++ b/cros/runners/lava_runner.py
-@@ -13,38 +13,34 @@ from cros.tests.cros_ec_power import *
- from cros.tests.cros_ec_extcon import *
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ 
++import functools
+ import sys
+ import unittest
+ 
+@@ -43,9 +44,15 @@ class LavaTestResult(unittest.TextTestResult):
+         self.writeLavaSignal(test, "skip")
  
  
--class LavaTestResult(unittest.TestResult):
--    def __init__(self, stream, descriptions, verbosity):
--        unittest.TestResult.__init__(self)
--        self.stream = stream
-+class LavaTestResult(unittest.TextTestResult):
-+    def writeLavaSignal(self, test, result):
-+        test_case_id = test.id().rsplit(".")[-1]
- 
--    def addSuccess(self, test):
--        unittest.TestResult.addSuccess(self, test)
--        self.stream.write(
--            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=pass>\n"
--            % test.id().rsplit(".")[-1]
-+        # LAVA signal must be start-of-line.  Print a newline if verbosity >= 1.
-+        if self.showAll or self.dots:
-+            self.stream.writeln()
++class LavaTestRunner(unittest.TextTestRunner):
++    __init__ = functools.partialmethod(
++                    unittest.TextTestRunner.__init__,
++                    resultclass=LavaTestResult)
 +
-+        self.stream.writeln(
-+            f"<LAVA_SIGNAL_TESTCASE TEST_CASE_ID={test_case_id} RESULT={result}>"
-         )
-+        self.stream.flush()
 +
-+    def addSuccess(self, test):
-+        super().addSuccess(test)
-+        self.writeLavaSignal(test, "pass")
- 
-     def addError(self, test, err):
--        unittest.TestResult.addError(self, test, err)
--        self.stream.write(
--            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=unknown>\n"
--            % test.id().rsplit(".")[-1]
--        )
-+        super().addError(test, err)
-+        self.writeLavaSignal(test, "unknown")
- 
-     def addFailure(self, test, err):
--        unittest.TestResult.addFailure(self, test, err)
--        self.stream.write(
--            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=fail>\n"
--            % test.id().rsplit(".")[-1]
--        )
-+        super().addFailure(test, err)
-+        self.writeLavaSignal(test, "fail")
- 
-     def addSkip(self, test, reason):
--        unittest.TestResult.addSkip(self, test, reason)
--        self.stream.write(
--            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=skip>\n"
--            % test.id().rsplit(".")[-1]
--        )
-+        super().addSkip(test, reason)
-+        self.writeLavaSignal(test, "skip")
- 
- 
  if __name__ == "__main__":
+     unittest.main(
+-        testRunner=unittest.TextTestRunner(resultclass=LavaTestResult),
++        testRunner=LavaTestRunner,
+         # these make sure that some options that are not applicable
+         # remain hidden from the help menu.
+         failfast=False,
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 

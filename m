@@ -1,74 +1,122 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFDB2565
-	for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 06:47:44 +0000 (UTC)
-Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
-	by madras.collabora.co.uk (Postfix) with ESMTP id 61EC46602173;
-	Tue, 14 Mar 2023 06:47:36 +0000 (GMT)
-From: "Guillaume Charles Tucker" <guillaume.tucker@collabora.com>
-In-Reply-To: <ZA/lb8vd2EHHmaIm@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-Date: Tue, 14 Mar 2023 06:47:36 +0000
-Cc: =?utf-8?q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>, bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev, denys.f@collabora.com
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6285028EF
+	for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 09:06:12 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so4357089pjt.2
+        for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678784772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
+        b=ta4LarLUW8GVYewL3V7G52f2PnqeptY/XG+Xj++LeAYExfggHPOU6rG3/4/3rQXG+n
+         AzvmQ2wQl0ABLmLB+j8uqP96pHc5Kxv0AojIqlYpcGB1hUHvyyK276Yy6PoiJmTkGYcu
+         zGJWJSkXkAHoByUCG6b1z7gylywfPo1un+ivuW9QzU19dOPVUL+TdFCv2jh27+uFdlUv
+         7c7ZUWQY8PPanuRhSoHepXGS5nc7Tm/aIJfcWW/45typlJNAf25mejQ/TUovv4vr0E7i
+         ZjaKWWdJFJ1ZCo3L2LxQbfB4xP8RlcaiME0yAjDtKQXdfMsvfTAldgKplyZxAWY1yeil
+         yyWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678784772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
+        b=ECgv7A2nFSsnMtTA2e3LbNOQA0Ou0n7nOEkPIq7iNBp7JKwgK8Hs7Wsa2IhGYpjKjM
+         V3itlLFEhlHB0Qz0tcfKb7R/rt+rYFKjtjlar0KiTB44kwdgf8a+AmF+KQlgqYN0D6g8
+         X1X7Q5UN6wbO+O/umE0wythXS28zIE9wgrKsrbLR4sPskMZy91xwngr/rGysokCtmuZi
+         pI2gOwy11Lz2WukePyeHtwzUAxEQsvUlbTZi4q/mZocq0alnZlqmTLAS7AckH8x+GtGE
+         qwNyZZZbsVEX477HOnzsRkND3kQQiExJvTIIVEKiUFH++6M8ujlO5OGXRn4weOfP4Vz8
+         V7JA==
+X-Gm-Message-State: AO0yUKVI07ytBIZHc0QRlT/6sumSjW71O28hAQHeUitUjNdrkwclxs/p
+	PVZXaTYtRdX7Sin11nKA3PaAfg==
+X-Google-Smtp-Source: AK7set/XpT6XzJflkOougYbJXIWlZCBg7D1MY8N+0OWLt8IZY2LG8a7E83HVnkqfAtO3xcf+IpKViQ==
+X-Received: by 2002:a17:902:d4cc:b0:19a:b033:2bb0 with SMTP id o12-20020a170902d4cc00b0019ab0332bb0mr43699652plg.46.1678784771688;
+        Tue, 14 Mar 2023 02:06:11 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.34.126])
+        by smtp.gmail.com with ESMTPSA id kv3-20020a17090328c300b0019c919bccf8sm1254131plb.86.2023.03.14.02.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 02:06:10 -0700 (PDT)
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+To: u.kleine-koenig@pengutronix.de
+Cc: a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com,
+	alexandre.torgue@foss.st.com,
+	angelogioacchino.delregno@collabora.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev,
+	claudiu.beznea@microchip.com,
+	conor.dooley@microchip.com,
+	cw00.choi@samsung.com,
+	daire.mcnamara@microchip.com,
+	eddie.huang@mediatek.com,
+	f.fainelli@gmail.com,
+	groeck@chromium.org,
+	jonathanh@nvidia.com,
+	kernel@pengutronix.de,
+	krzysztof.kozlowski@linaro.org,
+	kumba@gentoo.org,
+	linus.walleij@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org,
+	matthias.bgg@gmail.com,
+	mcoquelin.stm32@gmail.com,
+	michal.simek@xilinx.com,
+	miquel.raynal@bootlin.com,
+	nicolas.ferre@microchip.com,
+	patches@opensource.cirrus.com,
+	sean.wang@mediatek.com,
+	thierry.reding@gmail.com,
+	ulli.kroll@googlemail.com,
+	vincent.sunplus@gmail.com,
+	vz@mleia.com,
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: [PATCH 00/41] rtc: Convert to platform remove callback returning void
+Date: Tue, 14 Mar 2023 14:35:57 +0530
+Message-Id: <20230314090557.41960-1-naresh.kamboju@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <2b2f-64101880-1-3a545780@267981473>
-Subject: =?utf-8?q?Re=3A?= [PATCH 00/14] =?utf-8?q?cros-ec-tests=3A?= fix some 
- exceptions and clean-ups
-User-Agent: SOGoMail 5.8.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, March 14, 2023 04:09 CET, Tzung-Bi Shih <tzungbi@kernel.org=
-> wrote:
+> Hello,
+> 
+> this patch series adapts the platform drivers below drivers/rtc to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
 
-> Hi Ricardo,
->=20
-> On Mon, Mar 13, 2023 at 12:53:01PM +0100, Ricardo Ca=C3=B1uelo wrote:
-> > On 13/3/23 10:44, Tzung-Bi Shih wrote:> The series changes cros-ec-=
-tests[1].
-> > >=20
-> > > It applys some clean-ups and fixes obvious errors.
-> > >=20
-> > > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platf=
-orm/cros-ec-tests.git/
-> >=20
-> > FWIW, there's also this fork [1], that's a bit ahead of [2] and
-> > it's the one we're currently using for KernelCI [3], since Enric
-> > is not maintaining the old one anymore.
->=20
-> My original plan was refactoring and cleaning [2] first.  And then po=
-rting [4]
-> to the latest code base.
->=20
-> [4]: https://github.com/kernelci/cros-ec-tests/commit/f6c0dbf63842d57=
-51000c5527808aca38354db55
->=20
-> > Benson, is the cros-ec repo at kernel.org still alive and
-> > maintained? If so we'll sync it to [1] after this patch lands and
-> > point KernelCI to it.
->=20
-> I have no strong preference for where to host the repo.  It would be =
-fine if
-> we abandoned the cros-ec-tests repo at kernel.org.
->=20
-> I guess it would be easier to start from [1] as [3] already pointed t=
-o it.  If
-> it makes sense, I would rebase the series and send to [1].
->=20
-> > [1]: https://github.com/kernelci/cros-ec-tests
-> > [2]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platfor=
-m/cros-ec-tests.git/
-> > [3]: https://github.com/kernelci/kernelci-core/pull/1722
+This patch set applied on top of Linux next.
 
-I believe it would be much better to have this on kernel.org as long as=
- we have a maintainer available.
+Build tested with gcc-12, clang-16 and clang nightly.
+Boot and LTP smoketests performed on
+ - qemu-x86_64
+ - qemu-arm64
+ - fvp-aemva
+ - qemu-armv7
+ - qemu-i386
 
-Guillaume
+Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
+Link,
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-arm-kernel_20230304133028_2135435-1-u_kleine-koenig_pengutronix_de/?failures_only=false#!#test-results
+
+--
+Linaro LKFT
+https://lkft.linaro.org

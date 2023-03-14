@@ -1,89 +1,71 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6285028EF
-	for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 09:06:12 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so4357089pjt.2
-        for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678784772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
-        b=ta4LarLUW8GVYewL3V7G52f2PnqeptY/XG+Xj++LeAYExfggHPOU6rG3/4/3rQXG+n
-         AzvmQ2wQl0ABLmLB+j8uqP96pHc5Kxv0AojIqlYpcGB1hUHvyyK276Yy6PoiJmTkGYcu
-         zGJWJSkXkAHoByUCG6b1z7gylywfPo1un+ivuW9QzU19dOPVUL+TdFCv2jh27+uFdlUv
-         7c7ZUWQY8PPanuRhSoHepXGS5nc7Tm/aIJfcWW/45typlJNAf25mejQ/TUovv4vr0E7i
-         ZjaKWWdJFJ1ZCo3L2LxQbfB4xP8RlcaiME0yAjDtKQXdfMsvfTAldgKplyZxAWY1yeil
-         yyWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678784772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
-        b=ECgv7A2nFSsnMtTA2e3LbNOQA0Ou0n7nOEkPIq7iNBp7JKwgK8Hs7Wsa2IhGYpjKjM
-         V3itlLFEhlHB0Qz0tcfKb7R/rt+rYFKjtjlar0KiTB44kwdgf8a+AmF+KQlgqYN0D6g8
-         X1X7Q5UN6wbO+O/umE0wythXS28zIE9wgrKsrbLR4sPskMZy91xwngr/rGysokCtmuZi
-         pI2gOwy11Lz2WukePyeHtwzUAxEQsvUlbTZi4q/mZocq0alnZlqmTLAS7AckH8x+GtGE
-         qwNyZZZbsVEX477HOnzsRkND3kQQiExJvTIIVEKiUFH++6M8ujlO5OGXRn4weOfP4Vz8
-         V7JA==
-X-Gm-Message-State: AO0yUKVI07ytBIZHc0QRlT/6sumSjW71O28hAQHeUitUjNdrkwclxs/p
-	PVZXaTYtRdX7Sin11nKA3PaAfg==
-X-Google-Smtp-Source: AK7set/XpT6XzJflkOougYbJXIWlZCBg7D1MY8N+0OWLt8IZY2LG8a7E83HVnkqfAtO3xcf+IpKViQ==
-X-Received: by 2002:a17:902:d4cc:b0:19a:b033:2bb0 with SMTP id o12-20020a170902d4cc00b0019ab0332bb0mr43699652plg.46.1678784771688;
-        Tue, 14 Mar 2023 02:06:11 -0700 (PDT)
-Received: from localhost.localdomain ([49.206.34.126])
-        by smtp.gmail.com with ESMTPSA id kv3-20020a17090328c300b0019c919bccf8sm1254131plb.86.2023.03.14.02.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 02:06:10 -0700 (PDT)
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-To: u.kleine-koenig@pengutronix.de
-Cc: a.zummo@towertech.it,
-	alexandre.belloni@bootlin.com,
-	alexandre.torgue@foss.st.com,
-	angelogioacchino.delregno@collabora.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	bleung@chromium.org,
-	chrome-platform@lists.linux.dev,
-	claudiu.beznea@microchip.com,
-	conor.dooley@microchip.com,
-	cw00.choi@samsung.com,
-	daire.mcnamara@microchip.com,
-	eddie.huang@mediatek.com,
-	f.fainelli@gmail.com,
-	groeck@chromium.org,
-	jonathanh@nvidia.com,
-	kernel@pengutronix.de,
-	krzysztof.kozlowski@linaro.org,
-	kumba@gentoo.org,
-	linus.walleij@linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rtc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org,
-	matthias.bgg@gmail.com,
-	mcoquelin.stm32@gmail.com,
-	michal.simek@xilinx.com,
-	miquel.raynal@bootlin.com,
-	nicolas.ferre@microchip.com,
-	patches@opensource.cirrus.com,
-	sean.wang@mediatek.com,
-	thierry.reding@gmail.com,
-	ulli.kroll@googlemail.com,
-	vincent.sunplus@gmail.com,
-	vz@mleia.com,
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: [PATCH 00/41] rtc: Convert to platform remove callback returning void
-Date: Tue, 14 Mar 2023 14:35:57 +0530
-Message-Id: <20230314090557.41960-1-naresh.kamboju@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3CD3C10
+	for <chrome-platform@lists.linux.dev>; Tue, 14 Mar 2023 12:13:06 +0000 (UTC)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32EAaKQ5006722;
+	Tue, 14 Mar 2023 12:12:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=hZxWlGrC9I5futhnCDpAcceir2xESzBcIJtb4kgUt3k=;
+ b=qsxIwGf5KOsoVqSZIGki8SXV0a48D/O5NKIO1ywFTe8qdI8XeGHI/eo/PNkqU4J9gRQi
+ v/25pBd1SiXiQ41hYjtRJpq8cnmp3/XoUDh4OXDzjGnTZReeOxE+m1jEQLsbXpqLnrpF
+ 1ZcMSdyGlwHy169567cOgFUSBq0Xl8OTRB21bQ0kaLaBfxT4x/A0tEwk45NNMdH5u5Ef
+ LH2PdjOK9NdLc2wb3Lt87wJodE/3CvxuhUYvIzyfEubHLq1SH5o9z1mXHcVCAzgPtC++
+ J9DJRToHzuadp21b0zS9dsFCaJv9Adc6FfhwEZAvggGmslSsOqtIOumib0NyfEv5SEUx Cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3papkwkkdg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Mar 2023 12:12:49 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EAckAL024254;
+	Tue, 14 Mar 2023 12:12:48 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3papkwkkbm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Mar 2023 12:12:48 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+	by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32EC38i7029416;
+	Tue, 14 Mar 2023 12:12:46 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p8gwfks53-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Mar 2023 12:12:45 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32ECChKV27329104
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Mar 2023 12:12:43 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7F2DE2007C;
+	Tue, 14 Mar 2023 12:12:43 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 116562007A;
+	Tue, 14 Mar 2023 12:12:43 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Mar 2023 12:12:43 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        chrome-platform@lists.linux.dev
+Subject: [PATCH v3 25/38] platform: add HAS_IOPORT dependencies
+Date: Tue, 14 Mar 2023 13:12:03 +0100
+Message-Id: <20230314121216.413434-26-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230314121216.413434-1-schnelle@linux.ibm.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -91,32 +73,53 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: RHDKunSieNfnBGbG2X0xdYlT5WAn9l7u
+X-Proofpoint-ORIG-GUID: Ru3kP5CSo9WzkNd79J2yHZnj9-kDqipv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-14_06,2023-03-14_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=859
+ suspectscore=0 priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1011
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303140103
 
-> Hello,
-> 
-> this patch series adapts the platform drivers below drivers/rtc to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver core
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warning. The
-> device is removed anyhow and an early return from .remove() usually yields a
-> resource leak.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-This patch set applied on top of Linux next.
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/platform/chrome/Kconfig          | 1 +
+ drivers/platform/chrome/wilco_ec/Kconfig | 1 +
+ 2 files changed, 2 insertions(+)
 
-Build tested with gcc-12, clang-16 and clang nightly.
-Boot and LTP smoketests performed on
- - qemu-x86_64
- - qemu-arm64
- - fvp-aemva
- - qemu-armv7
- - qemu-i386
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 7d82a0946e1c..7eb1cfde29b4 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -132,6 +132,7 @@ config CROS_EC_UART
+ config CROS_EC_LPC
+ 	tristate "ChromeOS Embedded Controller (LPC)"
+ 	depends on CROS_EC && ACPI && (X86 || COMPILE_TEST)
++	depends on HAS_IOPORT
+ 	help
+ 	  If you say Y here, you get support for talking to the ChromeOS EC
+ 	  over an LPC bus, including the LPC Microchip EC (MEC) variant.
+diff --git a/drivers/platform/chrome/wilco_ec/Kconfig b/drivers/platform/chrome/wilco_ec/Kconfig
+index 49e8530ca0ac..d1648fb099ac 100644
+--- a/drivers/platform/chrome/wilco_ec/Kconfig
++++ b/drivers/platform/chrome/wilco_ec/Kconfig
+@@ -3,6 +3,7 @@ config WILCO_EC
+ 	tristate "ChromeOS Wilco Embedded Controller"
+ 	depends on X86 || COMPILE_TEST
+ 	depends on ACPI && CROS_EC_LPC && LEDS_CLASS
++	depends on HAS_IOPORT
+ 	help
+ 	  If you say Y here, you get support for talking to the ChromeOS
+ 	  Wilco EC over an eSPI bus. This uses a simple byte-level protocol
+-- 
+2.37.2
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-
-Link,
-https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-arm-kernel_20230304133028_2135435-1-u_kleine-koenig_pengutronix_de/?failures_only=false#!#test-results
-
---
-Linaro LKFT
-https://lkft.linaro.org

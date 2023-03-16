@@ -1,56 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0FA7E
-	for <chrome-platform@lists.linux.dev>; Wed, 15 Mar 2023 02:22:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90616C433D2;
-	Wed, 15 Mar 2023 02:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9246EA938
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Mar 2023 19:56:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9986EC433EF;
+	Thu, 16 Mar 2023 19:56:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678846924;
-	bh=TJt3p8kdF///bmxtvCW+twzNwd9TEhsbHYb4KFNNSOs=;
+	s=k20201202; t=1678996576;
+	bh=PfUYV+9ZbNdnWPZGJkz3rVty4AE/q0+P1FyVLuVDiTE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QR6PqaXwHsCwlksQtwbHu2JiPGXEtXXg63ZBq8Y8F2yK6zmHeZ1Ze9mBX56anjLB1
-	 /O1YLHeUJvLlKTgv843w9emTfr2Gi6UrmLsMP48ZeQ+LJ2H16CRZ0d7cW7MBqAsKsF
-	 JwvcCcUzYmQGZDk77qcrMfTzokLb7Z56lGpjfFJbOFoXgoa8F07cQ3OXamFNZtm95d
-	 pFrmIDRmWzmyvZfCKMzbDaICgnc/fwXQiLqZexqAUEeQSLVK+6TQSQx63VE5y8ds8q
-	 oUMgx/FkFvU1NvMNsgYThEQ868T9mTi5lICadQ5SrC+zgS+mGNkCRlKNkHqY0AExNd
-	 J5J1A5Dho9o5A==
-Date: Wed, 15 Mar 2023 10:21:59 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
-	Arnd Bergmann <arnd@kernel.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 25/38] platform: add HAS_IOPORT dependencies
-Message-ID: <ZBErx5zoE1tFlrhx@google.com>
-References: <20230314121216.413434-1-schnelle@linux.ibm.com>
- <20230314121216.413434-26-schnelle@linux.ibm.com>
+	b=UknZIvIYCaejql9hITewhMGmVoY3p/uDlBHS25lpySIMpMa69hr1OzfiivzcyaRnR
+	 32cfYTtKa+07kLPidicqI+9As3sC1Iw5vs4QKSvAw4mLzxjqiWCCCcY8KaDe6AXiyc
+	 7s8G6eIQ3BF31cyqhiGVD3qz/6PSi9eJfSNMDPA4hs76d3DN6dInc45lC/ithmu46N
+	 9DW8Zecux1xihK/JeEy8D0TVDrXQXA+0f/Ymmr6p+GgjX5dcFK7KDKY7Qt22KI35mS
+	 aNsB8fbblnOd7OTn47B7ZUUZ7BwQAgVlQ3nw9kOafdXUPJ7jPPXuEiCRgCHesH+3Jm
+	 v9Lalxrg5vtHw==
+Date: Thu, 16 Mar 2023 20:56:12 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org
+Subject: Re: [PATCH 1/5] i2c: mt65xx: drop of_match_ptr for ID table
+Message-ID: <ZBN0XAp8jm095my/@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org
+References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bKW2mF7l2ILB4D6Q"
 Content-Disposition: inline
-In-Reply-To: <20230314121216.413434-26-schnelle@linux.ibm.com>
+In-Reply-To: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
 
-On Tue, Mar 14, 2023 at 01:12:03PM +0100, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-> not being declared. We thus need to add HAS_IOPORT as dependency for
-> those drivers using them.
-> 
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+--bKW2mF7l2ILB4D6Q
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Mar 11, 2023 at 12:16:54PM +0100, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).
+>=20
+>   drivers/i2c/busses/i2c-mt65xx.c:514:34: error: =E2=80=98mtk_i2c_of_matc=
+h=E2=80=99 defined but not used [-Werror=3Dunused-const-variable=3D]
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Applied to for-next, thanks!
+
+
+--bKW2mF7l2ILB4D6Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQTdFwACgkQFA3kzBSg
+KbblQhAAhR2X5U38APPQWOy4gWDy7Xl2FMahiZoLJSZeabT1t8HHafaSSbQCKKbe
+FvGEcDNCkPxAYqpeUW7gUgWsjRL1JB03UMn3B6TygU/rMD5Ty5RpHQnc16i5KX5r
+Ebp+fhOo+BQhjJDld6bot7raM9ifyvq7tkzaiLjXeg1JIgEDklDRtTH6Yp7P3Rqr
+irJ20AAKQbUWCwJQ0iL3hraxY+y44Ce3ofqi1e/eUha+4EFaC7KyWdyxXZfY8Rzt
++9G/ZZeBa71grd0nn6U4XjkkgLnA1cYg4o+UDPI//Q0LFl0puR6KM9wo7M4SOJ+1
+5m2HSyO0kxbxaWmcB82jZWOCv3yvU7gx5HtOZGLTikSpnlGQ3QiMENwjDVT0X842
+wis1bWmVcFq2hsx1XlJyX3jFY50icYw3M+A0pOYa0lWkk+l8Qkdn6LUI0ipq23IL
+PTcvRzcu0Wcqatt9TOG9+f9LoV49j+18st5S3/3sOswCN5gqYzDhYxI/p/aDzCXF
+cQh29BVe3nKmlANsGQxHDyn2gupsmNN1bCqk5Ny+lE22bMoR4vIcEFFmYVRAb1Ih
+jWOH7lw/SzdNkhFjSqD28IHbrWLN1pA0v27UxqTi5lZT52M9qQncJDipBdK5kcpt
+vNZa1plwLpOtPodH0cPEdj1xZIwSC/wWCCmbq5GGpoTCeSBb9rU=
+=P7Qe
+-----END PGP SIGNATURE-----
+
+--bKW2mF7l2ILB4D6Q--

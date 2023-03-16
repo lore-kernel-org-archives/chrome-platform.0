@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AB6A938
-	for <chrome-platform@lists.linux.dev>; Thu, 16 Mar 2023 19:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65BB3C433D2;
-	Thu, 16 Mar 2023 19:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5ECA938
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Mar 2023 19:56:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36125C4339E;
+	Thu, 16 Mar 2023 19:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678996585;
-	bh=Mjf/KOZq0pMQaPecTwlIVOhjm3xmKHBctWt8QlLAcHc=;
+	s=k20201202; t=1678996593;
+	bh=FjeRS+GUqcasumeqOw3zjV7lK1bI7k7/Hp9EIdfabys=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F8Ktkl4li+H+BQcTVPzIZ4gDRSy0viZroe8cQ0NMtigOoqSBfULZ1Qc8ttdNt55EK
-	 veK5RsBcVhhfiU4YK1If2w4nj8cZC+JwWCagbY/0xq/K4qZH/jNaY12hyOJOB8HUMo
-	 M2ZlEtZf2zWH3cFBv02XSmIb2Cd5sH6pJsGcQrrRfUHivtbWn0K4VaSamYjqa3J46V
-	 7kHDzq+BmNPjzIp5CdQLP2VPMMWPQIRM2B+tNcwO0FA3s1td9fIPomkN1TFC6t+/tC
-	 T2XZ5OmZNoYqBXKfFeR88gxWmJlIcqWpy2Fvr82SomCkVlYULxZVwhOPeArFsJm2L/
-	 5FWGREUZ83rWQ==
-Date: Thu, 16 Mar 2023 20:56:21 +0100
+	b=Eio5cQ/zqDLPE6/XVa6WTcbwNtK/j7T5AfhlG2ky6ZpLdl0UwIPyvQXod7lBeKWQu
+	 tIvVHJB2x3l7/l1ze8n6Kn3vot6YlBWrMiLqVOeXA6dJBYyg2CpIafH8zEquTyRbY3
+	 4I1s8DHvRR8Gtzso8fRR9r3Inpl25rpliVS2txcxX91QKUEfwjU/7e4+/rKMSZVolP
+	 CuLCwgEMbKlh84YDfyGF0XKA6s9R/kUQQUzAQ+k0yEWhahAxUcrhA6wcrK/rpDKbpG
+	 SZROrcAhBlu2Z3FeEG2x5rMzg36G4oP4ZgCxfPrH6+Jq04kozxHxbVyYhO2AXwZv6n
+	 CZolY5XVV9N/g==
+Date: Thu, 16 Mar 2023 20:56:30 +0100
 From: Wolfram Sang <wsa@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
@@ -30,8 +30,9 @@ Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	linux-actions@lists.infradead.org
-Subject: Re: [PATCH 2/5] i2c: owl: drop of_match_ptr for ID table
-Message-ID: <ZBN0ZfrNlf7OvhBP@shikoro>
+Subject: Re: [PATCH 4/5] i2c: cros-ec-tunnel: Mark ACPI and OF related data
+ as maybe unused
+Message-ID: <ZBN0bsPpAj9KKf0v@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Benson Leung <bleung@chromium.org>,
@@ -48,7 +49,7 @@ Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	linux-mediatek@lists.infradead.org,
 	linux-actions@lists.infradead.org
 References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
- <20230311111658.251951-2-krzysztof.kozlowski@linaro.org>
+ <20230311111658.251951-4-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -56,47 +57,47 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XGyxLH46S7knRnsx"
+	protocol="application/pgp-signature"; boundary="NPOuvBlA3xuTK4qO"
 Content-Disposition: inline
-In-Reply-To: <20230311111658.251951-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230311111658.251951-4-krzysztof.kozlowski@linaro.org>
 
 
---XGyxLH46S7knRnsx
+--NPOuvBlA3xuTK4qO
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 11, 2023 at 12:16:55PM +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).
+On Sat, Mar 11, 2023 at 12:16:57PM +0100, Krzysztof Kozlowski wrote:
+> The driver can be compile tested with !CONFIG_OF or !CONFIG_ACPI making
+> certain data unused:
 >=20
->   drivers/i2c/busses/i2c-owl.c:510:34: error: =E2=80=98owl_i2c_of_match=
-=E2=80=99 defined but not used [-Werror=3Dunused-const-variable=3D]
+>   drivers/i2c/busses/i2c-cros-ec-tunnel.c:295:34: error: =E2=80=98cros_ec=
+_i2c_of_match=E2=80=99 defined but not used [-Werror=3Dunused-const-variabl=
+e=3D]
 >=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Applied to for-next, thanks!
 
 
---XGyxLH46S7knRnsx
+--NPOuvBlA3xuTK4qO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQTdGUACgkQFA3kzBSg
-KbboYA//Z5E08lbBDwpJ6X1vQt8t3Z2sDrHAfPePOJDVRBs0Npo+1i7Vemp2/AJX
-RpRq7CjTyxrzi/NVHBAoUi0vT91RNVtqvLcxy3hLQ+REdLdNub+90blP0nFmp0Bj
-cGSyDIZD3HQBBVAJqCKuQMcB8wd0eCdx3GzEjkWUHWS8iyRIOTRH6ucdOpwyoy1s
-1qkc6zbB+ZReGZ5ULiLO4qOH4LWoLX/i44O/BTcvoqN2Ulel+x29rGSVxmopX5ua
-L91VWKMdFaAvZ2xIbw9jc+esWJbZT8YOBecavdgTaFnB6fqNgkXPuyoK3PLiFCHh
-Fvnl8KxFMuHZh7Cuf8bMywY62Ru7iIruDkUSVMTCYs7n4Gu7fZD8pozyxum3J0DG
-wVwZuPZufXXO3WZpGlLUda8gqINkJVoS3ewTViAl5JLfm/CTsnesnYwcoHjApgR6
-y9jIHq8K6/vzUhUjsUbe5hNMKlpMAQlyIUNgiEyXcIf14qxPpDeoMN47gJVS1aTI
-/ADxL+JSzuq6yfFaRW7CgaLiVpEy5uU/qpH7H3+EQmxkNsXr1ia/fGbuaTA/rPZJ
-N17o73EN7ue1VfhuLFXsNPSOvczHBnblwR27rjNMGwbIpWXYI1zX7AANFwOWY+Q6
-MpoJZiQucgdQHlCv/qxiPQD2u+ru6OYth8Q/HAI668MquQQ5i0w=
-=vj+r
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQTdG4ACgkQFA3kzBSg
+KbZUJA/+JrUEht5HB7GAzwM81ZXqE5QvGi66MxVAr4lAwp+QJGCEDswnvZQ1ZHld
+prFBkMgmWnfCdmmUycQ1jE0qlj0ddLansZNQ8xgLMaEhQPwnVKSVbtuo5GeLOf7e
+yne/7/QYZds1eAPvkiLirbeeJ/cySkyfdqIkQjdMlLhNrhBADPD7QXoGlGHmxQI0
+pSQg3zwHxfsUv6vlIpa1DGa8Kxqy7C88kjTOXMjMZIv4YE2A6ejFDKofiwlZUvoj
+ygLrcmtPGY7WwrAOuanemyprTlGzsTocCGVgFb/Qtgv/EsW+mihmK+HNAutPwc8r
+f6S7eiXCrp1Hh7AZfuC30OYE8Yz1GXGP1voAKrtJepVl449KuNtfwJCEyY5K29kL
+eY2EqIe7KZodmZFgouk9NsThf/E+DnSxXuuPlbq5o5zwycBMxVF7rfa8Tw9fTe8q
+bWgVLpJnF4NGC6bm+OIHMPPdjNqL9MYFh2cV5GgDXjsh5JPPfAJavvaNuQXy0WdO
+Gc/5NKKTWUa7dCm7J+8qI9znH2GDP4VtfQkywj0PpemWRNfwPLFXHOrnXABjAATD
+K+8A7pH48l3H4j6wU/AOo/zcAHOTAU0Fb1e4IUTx80RIL25cP1xY7mX9agxB0Puv
+JzJuHu0VVLxBumer+SxpZblUmFAtk1Yf2oKBJeJ9994AOp3D41M=
+=Vfz1
 -----END PGP SIGNATURE-----
 
---XGyxLH46S7knRnsx--
+--NPOuvBlA3xuTK4qO--

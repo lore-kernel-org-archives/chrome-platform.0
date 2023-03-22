@@ -1,350 +1,103 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B6E15BB
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 22:39:02 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id p203so22798760ybb.13
-        for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 15:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679524741;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Id4zz5zxp3EUwWodWlabWOLpsUXP6miaQSKJQFRTXQU=;
-        b=XuU2FHMbB0hoTG7ZzUZfjWrdzNTIuz/0GQn51F7xZriOWL91iJ4ZoeprB6P88sJz2g
-         LAkOHH3cu+HCvN9FcyL86HxPB076w1AINJQvczLawDqlt0Mj0jLn3XKs3Ny33R0O8asg
-         Qvs39qMxTHnwhKVJwBiqczfga0vNXEjcCq/10wxVj2kyV0cvf4BSbKf35cNIgOrRSGKC
-         FQTV3AfNykm7ySQoseQvYfgwPnh8H/cumGCxz4n4kDYodtljMsWOjPUyWBcY8n1rvxFy
-         Ys5hPv46ENU/CPxMHCofq9zOYeZFiJfZ786xDgIZ43Cl6pDAkbzY/ngqTuixkpxaxKGm
-         Pm6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679524741;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Id4zz5zxp3EUwWodWlabWOLpsUXP6miaQSKJQFRTXQU=;
-        b=FYCjT1YFsnbLLN630XNXs3J8PypMgFT56Efyb+V5vuJ6RoY+OBtE+wAWdvdE1Z9J+q
-         8jZ9E0ithstgeLW5Aa+VC6MLKj1a5GMuewb8x+K4V3B3//Au5azXkeEc8wfH0cHyT9i6
-         RxJdvbdjRgf+sQtTlY/Hx/1FEgWpz7Bchnsh4buJxpaWrt/tkmKVTlJLsqupMoVlCCvo
-         dTLBjhmnpPGyXfPAn625xn9GjnK9AojzJn02HKJL92ezI+iELCsaWURxhvo/VMUiTRBp
-         3Jh1kfcCGnggZSHR29UnaQT7CmCIaqTLRM3caMd/TSXAIW3x+vuuuf75EqWBLcSE8v6+
-         bfkQ==
-X-Gm-Message-State: AAQBX9cVry4sgyH/WYB7zv0I3Jcyk50gsE5ALP4+exT12Brx0yCvE4r7
-	+cZEU8ADiNTKpDQWLvuvSp4yu6uY2GbXBuA8OL9ZJg==
-X-Google-Smtp-Source: AKy350aiylBLo3+Yd1Sd5/vc++cfVisuQWdaFNN9fPlMg+dV8xITZ7CzMybfdSd0keg6dbOLNfPtPhX+kCB5AdgEbsI=
-X-Received: by 2002:a05:6902:1586:b0:b6c:a94:9bf3 with SMTP id
- k6-20020a056902158600b00b6c0a949bf3mr909931ybu.9.1679524741161; Wed, 22 Mar
- 2023 15:39:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD05DBA53
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 23:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1679528414; x=1711064414;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=OGHCWQte3YjhGFJqMvAzpeC0UB5PdXMpxYWRoLzMsDk=;
+  b=fKY/EOGuIBCWEUwOiMcEDv3+DVSLFqlnGQskhHFj3D1BpmT4qBJIyJOJ
+   jpqy55ivzW8R3dyD6/tCJvEdp6dyyV5pjm2Z3FJlkjjpnJLY29G4GN26I
+   Y8pyNhRdrnBnFgUAjyqDm4VzoxgnIl4uXko+T1DUfIoF6+FLRBTFK0r8s
+   awt4oInnB6VcAKXbocU36EAgjKypwUhVmVvWkkJy38ptknXU4TMy6+7LF
+   qiJQa+6U07YSBpVS2lMFvVkAowkJ0K5Kk8taU1YcDIMouQNGOAdBqczm5
+   tUNajsyXTyldpbld/EF7FZjqb4Zuhhve3xjnY3pwGre/oLmtVO0KfxH+u
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,283,1673884800"; 
+   d="scan'208";a="338331050"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2023 07:39:06 +0800
+IronPort-SDR: EGeno3kkBT2XyQo4btFAV964U3dmIU2jbBvFOSd2sPfa65DbrAJfQjPu/fvYt0llSAT5tZkH+8
+ pfMf/DH8fYcamzbD0kGn6JZSh/q9o90rCCDr6WZ4sL3wrBte/SbzzoK8KggDeE9+fnnEiAOlV5
+ gnxTkWfgAevY3jWciNqvUp8/cY/XCy1qCYxCpoODgVAzuacEHjsy/1UjchvCZAGsPUj4M2jpWA
+ H/ATZPZiyFUOo6R2UzITj3kVp3qVavWKlMOobNNiF9v8zpgu/Oox219nF8i0zMzD+HcraIZPBH
+ 3gA=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Mar 2023 15:49:42 -0700
+IronPort-SDR: pCQtz3igi94HH16Q45yNmVfgUIirIN+d+JQkNAtaBBcHIXNFHORqWCQdEftGN/IaSGHwCM8JH8
+ scQYd3JT8xHFpfy+zWKYSFgjKaa+45H1uVc0XVO8J6a+H9ub+OWcELwpqkivYDHynYOLJLmdZf
+ keHYO8pou+bqPs9eT+BIR37GomMXE88ZrgoHmFSJMm/nxCShYYI2uDD+IR1TKWC7QV8ibk8BKi
+ 4zt7R1zHOO2Cfyo6OujL5Zz5UcXJzgc1TpsyBRtwXqQVjjmfnMh7/TeaJyUd2P/OOk6s28A2IW
+ Sig=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Mar 2023 16:39:06 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PhlL14WCwz1RtVn
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 16:39:05 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1679528345; x=1682120346; bh=OGHCWQte3YjhGFJqMvAzpeC0UB5PdXMpxYW
+	RoLzMsDk=; b=h9QS/6X7fJDm4CcTVHlExM/CvxKaQSHcJ3sMvlNeQIXATYROTa4
+	ZSV+nLM79WCXq1AXsi8715n3y057dj2zZBTZOrGPgj9jkm1supLwusYWL+/prSZI
+	mKf+YP1brVHXyAphtOar6qqhijH9KBR8i//9QjNisAvDcoaP8ZHx8+MfDD9yRlIq
+	7KpzNJXuedKjhXsnAneHlHuEBq9aiR4Sv2avbjMPEZ/pxQHfL1Fnjv8S9jzQgYjO
+	SRyztT4rEec+ORnjWXzFsMgcTgY8DXePtzO0bcTkiIX3hTkZboWSqZmd94itO88t
+	SY88AkV3V1JB+53ucoVW86pRXi57DYvMVbQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ntMf-3YzqbbC for <chrome-platform@lists.linux.dev>;
+	Wed, 22 Mar 2023 16:39:05 -0700 (PDT)
+Received: from [10.225.163.96] (unknown [10.225.163.96])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PhlKy5gVBz1RtVm;
+	Wed, 22 Mar 2023 16:39:02 -0700 (PDT)
+Message-ID: <1f963db6-5404-e483-69ac-fe8eaf5bb478@opensource.wdc.com>
+Date: Thu, 23 Mar 2023 08:39:01 +0900
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230322104639.221402-1-treapking@chromium.org> <20230322104639.221402-4-treapking@chromium.org>
-In-Reply-To: <20230322104639.221402-4-treapking@chromium.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 23 Mar 2023 00:38:49 +0200
-Message-ID: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>, linux-kernel@vger.kernel.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, linux-acpi@vger.kernel.org, 
-	Javier Martinez Canillas <javierm@redhat.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Lyude Paul <lyude@redhat.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org, 
-	Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev, 
-	devicetree@vger.kernel.org, Andi Shyti <andi.shyti@linux.intel.com>, 
-	Douglas Anderson <dianders@chromium.org>, Imre Deak <imre.deak@intel.com>, 
-	Jani Nikula <jani.nikula@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	YueHaibing <yuehaibing@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: mfd: Drop unneeded quotes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Damien Le Moal <damien.lemoal@wdc.com>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, patches@opensource.cirrus.com
+References: <20230322173519.3971434-1-robh@kernel.org>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20230322173519.3971434-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Add helpers to register and unregister Type-C "switches" for bridges
-> capable of switching their output between two downstream devices.
->
-> The helper registers USB Type-C mode switches when the "mode-switch"
-> and the "reg" properties are available in Device Tree.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ---
->
-> Changes in v14:
-> - Introduce a new Kconfig becuase it didn't build when CONFIG_TYPEC=m
-> - Add comments about devm_* usage
-> - Fix style issues
->
-> Changes in v13:
-> - Add typec_mode_switch_node_count helper
-> - Fix style issues
->
-> Changes in v12:
-> - Add fwnode_for_each_typec_mode_switch macro
-> - Remove a duplicated dmesg in the helper
-> - Used IS_REACHABLE instead to guard the function signatures
->
-> Changes in v11:
-> - Use fwnode helpers instead of DT
-> - Moved the helpers to a new file
-> - Use "reg" instead of "data-lanes" to determine the port number
-> - Dropped collected tags due to new changes
->
-> Changes in v10:
-> - Collected Reviewed-by and Tested-by tags
-> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-> - Print out the node name when errors on parsing DT
-> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-> - Made the return path of drm_dp_register_mode_switch clearer
->
-> Changes in v8:
-> - Fixed the build issue when CONFIG_TYPEC=m
-> - Fixed some style issues
->
-> Changes in v7:
-> - Extracted the common codes to a helper function
-> - New in v7
->
->  drivers/gpu/drm/display/Kconfig               |   8 ++
->  drivers/gpu/drm/display/Makefile              |   2 +
->  drivers/gpu/drm/display/drm_dp_typec_helper.c | 105 ++++++++++++++++++
->  include/drm/display/drm_dp_helper.h           |  46 ++++++++
->  4 files changed, 161 insertions(+)
->  create mode 100644 drivers/gpu/drm/display/drm_dp_typec_helper.c
->
-> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-> index 09712b88a5b8..d61076947a1c 100644
-> --- a/drivers/gpu/drm/display/Kconfig
-> +++ b/drivers/gpu/drm/display/Kconfig
-> @@ -29,6 +29,14 @@ config DRM_DISPLAY_HDMI_HELPER
->         help
->           DRM display helpers for HDMI.
->
-> +config DRM_DISPLAY_DP_TYPEC_HELPER
-> +       bool
-> +       default y
-> +       depends on DRM_DISPLAY_HELPER
-> +       depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
+On 3/23/23 02:35, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-If it is a select'able option, it doesn't make sense to use "depends"
-here. Select will override depends.
-
-> +       help
-> +         DRM display helpers for USB Type-C Displayport Alternate mode.
-> +
->  config DRM_DP_AUX_CHARDEV
->         bool "DRM DP AUX Interface"
->         depends on DRM && DRM_DISPLAY_HELPER
-> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-> index 17ac4a1006a8..2202a6aea38e 100644
-> --- a/drivers/gpu/drm/display/Makefile
-> +++ b/drivers/gpu/drm/display/Makefile
-> @@ -8,6 +8,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
->         drm_dp_helper.o \
->         drm_dp_mst_topology.o \
->         drm_dsc_helper.o
-> +drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER) += \
-> +       drm_dp_typec_helper.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
->         drm_hdmi_helper.o \
-> diff --git a/drivers/gpu/drm/display/drm_dp_typec_helper.c b/drivers/gpu/drm/display/drm_dp_typec_helper.c
-> new file mode 100644
-> index 000000000000..1562a9ccdaf2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/display/drm_dp_typec_helper.c
-> @@ -0,0 +1,105 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/usb/typec_mux.h>
-> +#include <drm/display/drm_dp_helper.h>
-> +
-> +static int drm_dp_register_mode_switch(struct device *dev,
-> +                                      struct fwnode_handle *fwnode,
-> +                                      struct drm_dp_typec_switch_desc *switch_desc,
-> +                                      void *data, typec_mux_set_fn_t mux_set)
-> +{
-> +       struct drm_dp_typec_port_data *port_data;
-> +       struct typec_mux_desc mux_desc = {};
-> +       char name[32];
-
-Why 32?
-
-> +       u32 port_num;
-> +       int ret;
-> +
-> +       ret = fwnode_property_read_u32(fwnode, "reg", &port_num);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to read reg property: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       port_data = &switch_desc->typec_ports[port_num];
-> +       port_data->data = data;
-> +       port_data->port_num = port_num;
-> +       port_data->fwnode = fwnode;
-> +       mux_desc.fwnode = fwnode;
-> +       mux_desc.drvdata = port_data;
-> +       snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
-
-I think it makes more sense to use dev_name here instead of fwnode.
-
-> +       mux_desc.name = name;
-> +       mux_desc.set = mux_set;
-> +
-> +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> +       ret = PTR_ERR_OR_ZERO(port_data->typec_mux);
-> +       if (ret)
-> +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
-> +                       port_num, ret);
-> +
-> +       return ret;
-> +}
-> +
-> +/**
-> + * drm_dp_register_typec_switches() - register Type-C switches
-> + * @dev: Device that registers Type-C switches
-> + * @port: Device node for the switch
-> + * @switch_desc: A Type-C switch descriptor
-> + * @data: Private data for the switches
-> + * @mux_set: Callback function for typec_mux_set
-> + *
-> + * This function registers USB Type-C switches for DP bridges that can switch
-> + * the output signal between their output pins. This function uses devm_kcalloc
-> + * to allocate memory, so it is expected to only call this in the driver probe
-> + * functions.
-> + *
-> + * Currently only mode switches are implemented, and the function assumes the
-> + * given @port device node has endpoints with "mode-switch" property.
-> + * The port number is determined by the "reg" property of the endpoint.
-> + */
-> +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
-> +                                  struct drm_dp_typec_switch_desc *switch_desc,
-> +                                  void *data, typec_mux_set_fn_t mux_set)
-> +{
-> +       struct fwnode_handle *sw;
-> +       int ret;
-> +
-> +       switch_desc->num_typec_switches = typec_mode_switch_node_count(port);
-> +       if (!switch_desc->num_typec_switches) {
-> +               dev_dbg(dev, "No Type-C switches node found\n");
-> +               return 0;
-> +       }
-> +
-> +       switch_desc->typec_ports = devm_kcalloc(dev, switch_desc->num_typec_switches,
-> +                                               sizeof(struct drm_dp_typec_port_data),
-> +                                               GFP_KERNEL);
-> +       if (!switch_desc->typec_ports)
-> +               return -ENOMEM;
-> +
-> +       /* Register switches for each connector. */
-> +       for_each_typec_mode_switch_node(port, sw) {
-> +               ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
-> +               if (ret)
-> +                       goto err_unregister_typec_switches;
-> +       }
-> +
-> +       return 0;
-> +
-> +err_unregister_typec_switches:
-> +       fwnode_handle_put(sw);
-> +       drm_dp_unregister_typec_switches(switch_desc);
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> +
-> +/**
-> + * drm_dp_unregister_typec_switches() - unregister Type-C switches
-> + * @switch_desc: A Type-C switch descriptor
-> + */
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> +{
-> +       unsigned int i;
-> +
-> +       for (i = 0; i < switch_desc->num_typec_switches; i++)
-> +               typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
-> +}
-> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index ab55453f2d2c..0fe56586d7bc 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -25,6 +25,7 @@
->
->  #include <linux/delay.h>
->  #include <linux/i2c.h>
-> +#include <linux/usb/typec_mux.h>
->
->  #include <drm/display/drm_dp.h>
->  #include <drm/drm_connector.h>
-> @@ -763,4 +764,49 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
->                                                const u8 port_cap[4], u8 color_spc);
->  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
->
-> +struct drm_dp_typec_port_data {
-> +       struct typec_mux_dev *typec_mux;
-> +       int port_num;
-> +       struct fwnode_handle *fwnode;
-> +       void *data;
-> +};
-> +
-> +struct drm_dp_typec_switch_desc {
-> +       int num_typec_switches;
-> +       struct drm_dp_typec_port_data *typec_ports;
-> +};
-> +
-> +#define for_each_typec_mode_switch_node(port, sw)      \
-> +       fwnode_for_each_child_node((port), (sw))        \
-> +               for_each_if(fwnode_property_present((sw), "mode-switch"))
-> +
-> +static inline unsigned int typec_mode_switch_node_count(struct fwnode_handle *port)
-> +{
-> +       struct fwnode_handle *sw;
-> +       unsigned int count = 0;
-> +
-> +       for_each_typec_mode_switch_node(port, sw)
-> +               count++;
-> +
-> +       return count;
-> +}
-> +
-> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
-> +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
-> +                                  struct drm_dp_typec_switch_desc *switch_desc,
-> +                                  void *data, typec_mux_set_fn_t mux_set);
-> +#else
-> +static inline void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> +{
-> +}
-> +static inline int drm_dp_register_typec_switches(
-> +               struct device *dev, struct fwnode_handle *port,
-> +               struct drm_dp_typec_switch_desc *switch_desc, void *data,
-> +               typec_mux_set_fn_t mux_set)
-> +{
-> +       return -EOPNOTSUPP;
-> +}
-> +#endif
-> +
->  #endif /* _DRM_DP_HELPER_H_ */
-> --
-> 2.40.0.rc1.284.g88254d51c5-goog
->
-
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
 -- 
-With best wishes
-Dmitry
+Damien Le Moal
+Western Digital Research
+

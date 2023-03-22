@@ -1,37 +1,37 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C3723D4
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 11:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE8A2566
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 11:16:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679482910; x=1711018910;
+  t=1679483764; x=1711019764;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lLkmv9Lb2TsOKy5ARez9rxBCQWWL/7A4qexM0edagOM=;
-  b=bmlHiu7STW25n8vTIXakcyuJ08/hZ0o8H3ZXSpjRTXx9JOuQCuE9yYWs
-   hH7QfX/cP/liRGknfx8uEOaWIuFAg0iaHiO9hrDGPhctpilqblUAl2Lg1
-   6gQRN/XEmnuDQpEAWksWaC3VAgCoK9WfMniF6GgBnp3ehLYltOP6oeOvS
-   LvpdqjB2HQ7R7GTi84fIO3996cvE6KNwFf9QL2hDP5tm1rOg4P44Z9pLb
-   BqI6Cwq/z2FP/XL9W8dJl70LPAny4gBeiEFXrf7C/aYa03/mDO8ow+fWW
-   lkGMMpVuD9FFO/XodGnQgdQnMjD5LsLgJjnxOVJDu/NzhJOHZMwEhP/K8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="318828670"
+  bh=wzqzOip5nRM30jduumeE01e2CiTZUbRO+8j67GEvMOk=;
+  b=ZIDeKiST62orRWLumb70an3moZniST+m+Y73RfVUGUctFTU5y4aNx8jb
+   oXYlc3Hlw2XIPM/unD6SZq5ap2A593sz2RjldScR34T/kFmpArIJb3ruL
+   RLotOt2qMTd0LCIE8hDagkmkagzd5b7S8PrjlfQ9KS96AgNYNlu3qvB8Y
+   ZjE8ZFs11JYT8XUrePy3nJSUI2NnRwNNxPoSL/4FRtQqZshcs3n9Dxj3O
+   t/Ze9lAlg2SH/CZJIbTU92TBW+FDBflcfSa9N74jlMonJ0pb458Ym4Zb8
+   6+3C2M4MjrqsbZfSrwW8aCYplZ3HtPEpoQe+TLfFo9FnCx+Im2CEA3Wdu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337908534"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="318828670"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:01:50 -0700
+   d="scan'208";a="337908534"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:16:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="712162151"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="675226677"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="712162151"
+   d="scan'208";a="675226677"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 22 Mar 2023 04:01:39 -0700
+  by orsmga007.jf.intel.com with ESMTP; 22 Mar 2023 04:15:54 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pewDo-0076qg-0a;
-	Wed, 22 Mar 2023 13:01:36 +0200
-Date: Wed, 22 Mar 2023 13:01:35 +0200
+	id 1pewRa-007752-29;
+	Wed, 22 Mar 2023 13:15:50 +0200
+Date: Wed, 22 Mar 2023 13:15:50 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -59,18 +59,12 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
 	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
 	Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Imre Deak <imre.deak@intel.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH v14 07/10] drm/bridge: anx7625: Register Type C mode
+ switches
+Message-ID: <ZBrjZj0VL20y1MUC@smile.fi.intel.com>
 References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-4-treapking@chromium.org>
+ <20230322104639.221402-8-treapking@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -79,96 +73,110 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322104639.221402-4-treapking@chromium.org>
+In-Reply-To: <20230322104639.221402-8-treapking@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
-> Add helpers to register and unregister Type-C "switches" for bridges
-> capable of switching their output between two downstream devices.
+On Wed, Mar 22, 2023 at 06:46:36PM +0800, Pin-yen Lin wrote:
+> Register USB Type-C mode switches when the "mode-switch" property and
+> relevant ports are available in Device Tree. Configure the crosspoint
+> switch based on the entered alternate mode for a specific Type-C
+> connector.
 > 
-> The helper registers USB Type-C mode switches when the "mode-switch"
-> and the "reg" properties are available in Device Tree.
+> Crosspoint switch can also be used for switching the output signal for
+> different orientations of a single USB Type-C connector, but the
+> orientation switch is not implemented yet. A TODO is added for this.
 
 ...
 
-> +config DRM_DISPLAY_DP_TYPEC_HELPER
+> +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
+> +				 struct typec_mux_state *state)
+> +{
+> +	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
+> +	struct anx7625_data *ctx = port->data;
+> +	struct device *dev = ctx->dev;
+> +	struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
+> +	bool new_dp_connected, old_dp_connected;
+> +
+> +	if (switch_desc.num_typec_switches == 1)
+> +		return 0;
 
-> +	bool
-> +	default y
+> +	wait_for_completion(&ctx->mux_register);
 
-	def_bool y
+How do we guarantee this won't become an infinite waiting?
+Perhaps a comment explaining that?
 
-> +	depends on DRM_DISPLAY_HELPER
-> +	depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
-> +	help
-> +	  DRM display helpers for USB Type-C Displayport Alternate mode.
-
-Hmm... Dunno if this help is enough.
+> +	old_dp_connected = ctx->port_data[0].dp_connected ||
+> +			   ctx->port_data[1].dp_connected;
+> +
+> +	ctx->port_data[port->port_num].dp_connected =
+> +		state->alt &&
+> +		state->alt->svid == USB_TYPEC_DP_SID &&
+> +		state->alt->mode == USB_TYPEC_DP_MODE;
+> +
+> +	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
+> +		ctx->port_data[0].dp_connected, ctx->port_data[1].dp_connected);
+> +
+> +	new_dp_connected = ctx->port_data[0].dp_connected ||
+> +			   ctx->port_data[1].dp_connected;
+> +
+> +	/* DP on, power on first */
+> +	if (!old_dp_connected && new_dp_connected)
+> +		pm_runtime_get_sync(dev);
+> +
+> +	anx7625_typec_two_ports_update(ctx);
+> +
+> +	/* DP off, power off last */
+> +	if (old_dp_connected && !new_dp_connected)
+> +		pm_runtime_put_sync(dev);
+> +
+> +	return 0;
+> +}
 
 ...
 
-> +	snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
+> +	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
 
-Would it be possible to have a dup in name and would it be a problem if so?
+You use fwnode below, so why not fwnode_graph_...(dev_fwnode(dev), ...) ?
 
-...
+> +	struct drm_dp_typec_switch_desc *switch_desc = &ctx->switch_desc;
+> +	int ret;
+> +	u32 dp_lanes[4];
+> +	unsigned int i, num_lanes;
+> +
+> +	/*
+> +	 * Currently, only mode switch is implemented.
+> +	 * TODO: Implement Type-C orientation switch for anx7625.
+> +	 */
+> +	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
+> +					     &ctx->switch_desc, ctx,
+> +					     anx7625_typec_mux_set);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ctx->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
+> +				      sizeof(struct anx7625_typec_port_data),
 
-> +/**
-> + * drm_dp_register_typec_switches() - register Type-C switches
-> + * @dev: Device that registers Type-C switches
-> + * @port: Device node for the switch
-> + * @switch_desc: A Type-C switch descriptor
-> + * @data: Private data for the switches
-> + * @mux_set: Callback function for typec_mux_set
-> + *
-> + * This function registers USB Type-C switches for DP bridges that can switch
-> + * the output signal between their output pins. This function uses devm_kcalloc
-> + * to allocate memory, so it is expected to only call this in the driver probe
-> + * functions.
-> + *
-> + * Currently only mode switches are implemented, and the function assumes the
-> + * given @port device node has endpoints with "mode-switch" property.
-> + * The port number is determined by the "reg" property of the endpoint.
-
-`kernel-doc -v ...` should complain on absence of "Return" section.
-
-> + */
-
-...
-
-> +	switch_desc->typec_ports = devm_kcalloc(dev, switch_desc->num_typec_switches,
-> +						sizeof(struct drm_dp_typec_port_data),
-
-						sizeof(*switch_desc_typec_ports),
+				      sizeof(*ctx->port_data),
 
 ?
 
-> +						GFP_KERNEL);
-> +	if (!switch_desc->typec_ports)
-> +		return -ENOMEM;
+> +				      GFP_KERNEL);
+> +	if (!ctx->port_data) {
+> +		ret = -ENOMEM;
+> +		goto unregister_mux;
+> +	}
 
 ...
 
-> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
+> +struct anx7625_typec_port_data {
+> +	bool dp_connected;
+> +	enum typec_orientation orientation;
 
-Ah, maybe this should use IS_REACHABLE() ?
+Most likely enum will be 32-bit and bool 8-bit. Which means that the data type
+size become 8 bytes for no reason. Can you swap the lines and perhaps check this
+with `pahole` tool?
 
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
-> +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
-> +				   struct drm_dp_typec_switch_desc *switch_desc,
-> +				   void *data, typec_mux_set_fn_t mux_set);
-> +#else
-> +static inline void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> +{
-> +}
-> +static inline int drm_dp_register_typec_switches(
-> +		struct device *dev, struct fwnode_handle *port,
-> +		struct drm_dp_typec_switch_desc *switch_desc, void *data,
-> +		typec_mux_set_fn_t mux_set)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif
+> +};
 
 -- 
 With Best Regards,

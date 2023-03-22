@@ -1,213 +1,61 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8421CC952
-	for <chrome-platform@lists.linux.dev>; Tue, 21 Mar 2023 15:07:46 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id h17so14026478wrt.8
-        for <chrome-platform@lists.linux.dev>; Tue, 21 Mar 2023 08:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679411264;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFyWXWqsoSrr2n/nr5WFH4+XCUi3HeyHPmJXflcFG4M=;
-        b=BkQC5wUD4CWB2PJ4wIBzixl/nv2bZ/wbBAXgWZZBoB7CPKElqOeL7pFUsAo8WyLasZ
-         Jk8ZoxGEZke4a2oxpZG9QCWIwNaYzub2IogYm1zDpaGaAF7AxcOvlzdgqWkxcI30/EV0
-         CItrJgAVwwUf9XiGhNvVA9DBIvM47GPVrzm6Z/04/pDDR634UO4mgcxXh9Yq9KsMJc8G
-         0GjVOjqZAoZUTr4aeCb0Yh30eN9ajC6lmP6ioYSj9Sr8AtxTKDo7pR2NHAdPC2SC844a
-         z32CGoa1C7I2uMynCUxep9zr5N6h3lu1RPDx14JyxzjPfB17oOuhFnVItnGm4nKEJxXk
-         y/ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679411264;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFyWXWqsoSrr2n/nr5WFH4+XCUi3HeyHPmJXflcFG4M=;
-        b=KntaA1XmBYP1vZ+XHOtZ+6IqjB4BIvFjtfXylUnLdt8uoJ3PkAbLoHulcuOIWQR0ms
-         urSwjO3FxA8oz/qbrMDuAywldLYw+r2dpPcTkKIrRHuoYEoItkPUG6SLzvASXEO5RwEr
-         3+TfQykAh4WQfeccO+hkgyNWrgdBdtxCTLSuIb+jd7ggtzY9lFGx5ld7kq+zD269kZYR
-         CP0R3XF5BTwkdyer1vPAp1SJHu8ClswN4xGR3gEH+82B54Gd3GzPMabv0j+H7t9sj2a/
-         FL8nsARHCvrS5dsiZSm3n8Kvcxpkqpgp2iHO+m78DJsXBtIEQFcDWuK5HR3GE7R4DUfi
-         3ZBA==
-X-Gm-Message-State: AO0yUKU68j8PUg9dJyul+OqKqPwrIPVMP2XETMu2icDMbdwITxI17XVv
-	y2qckdxeMCbneuBWIcGBf8JNJg==
-X-Google-Smtp-Source: AK7set84LPqCUYf6yhhlDvPsISDuuO8P7FciRBhYMTb88p9jq1jWKFXiaxN9uhODbTmEO9zz5pAljw==
-X-Received: by 2002:a5d:528f:0:b0:2d2:ac99:a72 with SMTP id c15-20020a5d528f000000b002d2ac990a72mr2379240wrv.46.1679411264305;
-        Tue, 21 Mar 2023 08:07:44 -0700 (PDT)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id g9-20020a5d4889000000b002c559843748sm11573794wrq.10.2023.03.21.08.07.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 08:07:43 -0700 (PDT)
-From: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To: Rob Herring <robh@kernel.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux
- Team <linux-imx@nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: input: Drop unneeded quotes
-In-Reply-To: <20230320234718.2930154-1-robh@kernel.org>
-References: <20230320234718.2930154-1-robh@kernel.org>
-Date: Tue, 21 Mar 2023 16:07:42 +0100
-Message-ID: <87lejqkurl.fsf@baylibre.com>
+Received: from m126.mail.126.com (m126.mail.126.com [220.181.12.35])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE02E7C
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 04:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=jW6J/
+	vaq8Ojrol/r9UAC7vnQv6GAX+n/ZrqZoBJnZvk=; b=qHHmstVQZpI8wiJD2Li/F
+	Pph0bjmVQXz/epLTdiga+FPLI6Z0dg0sGGkFr33M4/ryyT1fedfy4FLqI56Xjvjf
+	y91CXrBoDc3FuHuCvVn+DvvprdcLEAF9jacdTWyE57CpX+xnvQc1BYXazZ1nlMU1
+	Oeq0RFp6PiJNwr4+W1fCEI=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+	by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wDHzxc7gRpki+qbAQ--.8048S2;
+	Wed, 22 Mar 2023 12:17:00 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: pmalani@chromium.org,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev,
+	windhl@126.com
+Subject: [PATCH] platform/chrome: cros_typec_switch: Add missing fwnode_handle_put()
+Date: Wed, 22 Mar 2023 12:16:57 +0800
+Message-Id: <20230322041657.1857001-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDHzxc7gRpki+qbAQ--.8048S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xr1kuF4kWF1kGr13Zr4ruFg_yoWfuwb_Ww
+	40gF4UJrn7AFn8Kr1IyF1fWr1xKr1rXF15uF1Sva42v343Z347Xr1qvFyUur92kF15tFyq
+	ga9rJ3yIv3WYvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRt5rc7UUUUU==
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGg46F1-HarSg0AAAsP
 
-On lun., mars 20, 2023 at 18:47, Rob Herring <robh@kernel.org> wrote:
+In cros_typec_register_switches(), we should add fwnode_handle_put()
+when break out of the iteration device_for_each_child_node()
+as it will automatically increase and decrease the refcounter.
 
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Fixes: affc804c44c8 ("platform/chrome: cros_typec_switch: Add switch driver")
+Signed-off-by: Liang He <windhl@126.com>
+---
+ drivers/platform/chrome/cros_typec_switch.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com> # for mediatek,mt6779-keypad.yaml
+diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+index a26219e97c93..26af51952f7f 100644
+--- a/drivers/platform/chrome/cros_typec_switch.c
++++ b/drivers/platform/chrome/cros_typec_switch.c
+@@ -268,6 +268,7 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+ 
+ 	return 0;
+ err_switch:
++	fwnode_handle_put(fwnode);
+ 	cros_typec_unregister_switches(sdata);
+ 	return ret;
+ }
+-- 
+2.25.1
 
-> ---
->  Documentation/devicetree/bindings/input/adc-joystick.yaml     | 4 ++--
->  .../devicetree/bindings/input/google,cros-ec-keyb.yaml        | 2 +-
->  Documentation/devicetree/bindings/input/imx-keypad.yaml       | 2 +-
->  Documentation/devicetree/bindings/input/matrix-keymap.yaml    | 2 +-
->  .../devicetree/bindings/input/mediatek,mt6779-keypad.yaml     | 2 +-
->  .../devicetree/bindings/input/microchip,cap11xx.yaml          | 4 ++--
->  Documentation/devicetree/bindings/input/pwm-vibrator.yaml     | 4 ++--
->  Documentation/devicetree/bindings/input/regulator-haptic.yaml | 4 ++--
->  .../bindings/input/touchscreen/elan,elants_i2c.yaml           | 4 ++--
->  9 files changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> index da0f8dfca8bf..6c244d66f8ce 100644
-> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> @@ -2,8 +2,8 @@
->  # Copyright 2019-2020 Artur Rojek
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/input/adc-joystick.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/input/adc-joystick.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: ADC attached joystick
->  
-> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> index e05690b3e963..3486c81699a8 100644
-> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> @@ -57,7 +57,7 @@ if:
->        contains:
->          const: google,cros-ec-keyb
->  then:
-> -  $ref: "/schemas/input/matrix-keymap.yaml#"
-> +  $ref: /schemas/input/matrix-keymap.yaml#
->    required:
->      - keypad,num-rows
->      - keypad,num-columns
-> diff --git a/Documentation/devicetree/bindings/input/imx-keypad.yaml b/Documentation/devicetree/bindings/input/imx-keypad.yaml
-> index 7514df62b592..b110eb1f3358 100644
-> --- a/Documentation/devicetree/bindings/input/imx-keypad.yaml
-> +++ b/Documentation/devicetree/bindings/input/imx-keypad.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->    - Liu Ying <gnuiyl@gmail.com>
->  
->  allOf:
-> -  - $ref: "/schemas/input/matrix-keymap.yaml#"
-> +  - $ref: /schemas/input/matrix-keymap.yaml#
->  
->  description: |
->    The KPP is designed to interface with a keypad matrix with 2-point contact
-> diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> index 4d6dbe91646d..a715c2a773fe 100644
-> --- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> +++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-> @@ -21,7 +21,7 @@ description: |
->  
->  properties:
->    linux,keymap:
-> -    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->      description: |
->        An array of packed 1-cell entries containing the equivalent of row,
->        column and linux key-code. The 32-bit big endian cell is packed as:
-> diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-> index d768c30f48fb..47aac8794b68 100644
-> --- a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-> +++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->    - Mattijs Korpershoek <mkorpershoek@baylibre.com>
->  
->  allOf:
-> -  - $ref: "/schemas/input/matrix-keymap.yaml#"
-> +  - $ref: /schemas/input/matrix-keymap.yaml#
->  
->  description: |
->    Mediatek's Keypad controller is used to interface a SoC with a matrix-type
-> diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> index 5fa625b5c5fb..5b5d4f7d3482 100644
-> --- a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> +++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/input/microchip,cap11xx.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/input/microchip,cap11xx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Microchip CAP11xx based capacitive touch sensors
->  
-> diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> index a70a636ee112..d32716c604fe 100644
-> --- a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> +++ b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/input/pwm-vibrator.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/input/pwm-vibrator.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: PWM vibrator
->  
-> diff --git a/Documentation/devicetree/bindings/input/regulator-haptic.yaml b/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-> index 627891e1ef55..cf63f834dd7d 100644
-> --- a/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-> +++ b/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/input/regulator-haptic.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/input/regulator-haptic.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Regulator Haptic
->  
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> index f9053e5e9b24..3255c2c8951a 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: "http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Elantech I2C Touchscreen
->  
-> -- 
-> 2.39.2

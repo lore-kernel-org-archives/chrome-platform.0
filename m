@@ -1,61 +1,242 @@
-Received: from m126.mail.126.com (m126.mail.126.com [220.181.12.35])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE02E7C
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 04:47:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=jW6J/
-	vaq8Ojrol/r9UAC7vnQv6GAX+n/ZrqZoBJnZvk=; b=qHHmstVQZpI8wiJD2Li/F
-	Pph0bjmVQXz/epLTdiga+FPLI6Z0dg0sGGkFr33M4/ryyT1fedfy4FLqI56Xjvjf
-	y91CXrBoDc3FuHuCvVn+DvvprdcLEAF9jacdTWyE57CpX+xnvQc1BYXazZ1nlMU1
-	Oeq0RFp6PiJNwr4+W1fCEI=
-Received: from localhost.localdomain (unknown [124.16.139.61])
-	by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wDHzxc7gRpki+qbAQ--.8048S2;
-	Wed, 22 Mar 2023 12:17:00 +0800 (CST)
-From: Liang He <windhl@126.com>
-To: pmalani@chromium.org,
-	bleung@chromium.org,
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D323D4
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 10:46:49 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so19263756pjp.1
+        for <chrome-platform@lists.linux.dev>; Wed, 22 Mar 2023 03:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1679482009;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i1i7/ik/z7PzthF0LtcXXLV4glwpiw3jmNHLrvqZUe4=;
+        b=gp9ll4ixIWG02zkDEpUNYehV6ogQBclVEBYQjH8j4GurP2cp19o0LJ2Znt1KOnUH0i
+         gJ/7JT2ZDzNLfl/0R/yA6dBhwBcFVEMmn6VIm25fvaok0CUiEQg9ifBehu6cOHyVVeGI
+         cJQ6PKylpvj0Qdrnt+PLQqgaQrKG+1wcHzq+w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679482009;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i1i7/ik/z7PzthF0LtcXXLV4glwpiw3jmNHLrvqZUe4=;
+        b=WxpYXHNkyPU64qcToNpJI7o7OVOYPK1l1idqVYBZ3IC41uRP22w6ozR23pbofY5qrB
+         SbLt8lAG9jeUDEAf23/vK2w2ZlzD1iGWd3xpiGGXLkUCU3OOKI8vMtR88M2W+tqU3mff
+         ilRSAI847fQwTV2YEmaCySE5YqR364jmApuNaxLrT3BFnUHwIlEaxowP290ajYE8n0ES
+         hQ0CuNfq1UxheV1KSGgZvO3IHoTSw4yL5BgLk/KT3RSftPeRhSLMqPA4PyWltZrTgDsS
+         BqoT14sJrtaM5fiUnSTdcBpv7jEGusyMsAwgJAN4pqlGPGFv6jBrJUqy9AgsMiINtjiN
+         fkFw==
+X-Gm-Message-State: AO0yUKXlvfvESvajYFvZt2wYuYxxF4plMOGTmPHpaFchFOa2pujiJ6jB
+	B4K5R+DkhVEhy1BFyhXvGcaLtQ==
+X-Google-Smtp-Source: AK7set9cCkJRlKlnXtH0IY4wVuZRd9EJOJLukMzvzq4+ZoVghave4Wi1qfLWigDe03muVZKKZJcemw==
+X-Received: by 2002:a17:90b:4d83:b0:23f:9a73:c20b with SMTP id oj3-20020a17090b4d8300b0023f9a73c20bmr3074236pjb.18.1679482008842;
+        Wed, 22 Mar 2023 03:46:48 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:343d:79bf:55f9:1da5])
+        by smtp.gmail.com with ESMTPSA id hg4-20020a17090b300400b002340d317f3esm9508742pjb.52.2023.03.22.03.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 03:46:48 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Xin Ji <xji@analogixsemi.com>,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-acpi@vger.kernel.org,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Pin-yen Lin <treapking@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Lyude Paul <lyude@redhat.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	Allen Chen <allen.chen@ite.com.tw>,
+	dri-devel@lists.freedesktop.org,
+	Marek Vasut <marex@denx.de>,
+	Stephen Boyd <swboyd@chromium.org>,
 	chrome-platform@lists.linux.dev,
-	windhl@126.com
-Subject: [PATCH] platform/chrome: cros_typec_switch: Add missing fwnode_handle_put()
-Date: Wed, 22 Mar 2023 12:16:57 +0800
-Message-Id: <20230322041657.1857001-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+	devicetree@vger.kernel.org,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Imre Deak <imre.deak@intel.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH v14 00/10] Register Type-C mode-switch in DP bridge endpoints
+Date: Wed, 22 Mar 2023 18:46:29 +0800
+Message-Id: <20230322104639.221402-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDHzxc7gRpki+qbAQ--.8048S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Xr1kuF4kWF1kGr13Zr4ruFg_yoWfuwb_Ww
-	40gF4UJrn7AFn8Kr1IyF1fWr1xKr1rXF15uF1Sva42v343Z347Xr1qvFyUur92kF15tFyq
-	ga9rJ3yIv3WYvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRt5rc7UUUUU==
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGg46F1-HarSg0AAAsP
 
-In cros_typec_register_switches(), we should add fwnode_handle_put()
-when break out of the iteration device_for_each_child_node()
-as it will automatically increase and decrease the refcounter.
 
-Fixes: affc804c44c8 ("platform/chrome: cros_typec_switch: Add switch driver")
-Signed-off-by: Liang He <windhl@126.com>
----
- drivers/platform/chrome/cros_typec_switch.c | 1 +
- 1 file changed, 1 insertion(+)
+This series introduces bindings for anx7625/it6505 to register Type-C
+mode-switch in their output endpoints, and use data-lanes property to
+describe the pin connections.
 
-diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index a26219e97c93..26af51952f7f 100644
---- a/drivers/platform/chrome/cros_typec_switch.c
-+++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -268,6 +268,7 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
- 
- 	return 0;
- err_switch:
-+	fwnode_handle_put(fwnode);
- 	cros_typec_unregister_switches(sdata);
- 	return ret;
- }
+This series is not directly related to the built-in mux in anx7625,
+which automatically switches between the two orientations of a single
+Type-C connector. This series adds support of registering mode switches
+for two downstream devices, while we use orientation switches for two
+orientations of the Type-C connector.
+
+The first two patch modifies fwnode_graph_devcon_matches and
+cros_typec_init_ports to enable the registration of the switches.
+
+Patch 4~6 introduce the bindings for anx7625 and the corresponding driver
+modifications.
+
+Patch 7~9 add similar bindings and driver changes for it6505.
+
+v13: https://lore.kernel.org/all/20230303143350.815623-1-treapking@chromium.org/
+v12: https://lore.kernel.org/all/20230221095054.1868277-1-treapking@chromium.org/
+v11: https://lore.kernel.org/all/20230204133040.1236799-1-treapking@chromium.org/
+v10: https://lore.kernel.org/all/20230112042104.4107253-1-treapking@chromium.org/
+v9: https://lore.kernel.org/all/20230109084101.265664-1-treapking@chromium.org/
+v8: https://lore.kernel.org/all/20230107102231.23682-1-treapking@chromium.org/
+v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chromium.org/
+v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chromium.org/
+v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@chromium.org/
+
+Changes in v14:
+- Collect review tags
+- Introduce a new Kconfig because it didn't build when CONFIG_TYPEC=m
+- Add comments about devm_* usage
+- Fix style issues
+
+Changes in v13:
+- Update the kernel doc of fwnode_connection_find_match
+- Add typec_mode_switch_node_count helper
+- Fix style issues
+- Update a typo in the commit message
+- Collect Reviewed-by tag
+
+Changes in v12:
+- Check the availability of the device node in fwnode_graph_devcon_matches
+- Ensured valid access to "matches" in fwnode_graph_devcon_matches
+- Updated the documentation in fwnode_connection_find_match(es)
+- Add fwnode_for_each_typec_mode_switch macro
+- Remove a duplicated dmesg in the helper
+- Used IS_REACHABLE instead to guard the function signatures
+- Removed the 4-lane binding in analogix,anx7625.yaml
+- Reworded the description for the mode-switch property
+- Fixed style issues in anx7625 driver
+- Fixed the inverted orientation setting in anx7625 driver
+- Changed "&ctx->client->dev" to "ctx->dev"
+- Fixed the schema of "data-lanes" property for it6505
+- Fixes style issues in it6505 driver
+- Replaced &it6505->client->dev with it6505->dev
+- Updated the error logs when parsing data-lanes property
+
+Changes in v11:
+- Added missing fwnode_handle_put in drivers/base/property.c
+- Collected Acked-by tag
+- Use fwnode helpers instead of DT
+- Moved the helpers to a new file
+- Use "reg" instead of "data-lanes" to determine the port number
+- Updated the description of the endpoints in the bindings
+- Referenced video-interfaces.yaml instead for the endpoints binding
+- Removed duplicated definitions from inherited schema
+- Moved the "data-lanes" parsing logics to bridge drivers
+- Removed Kconfig dependencies for the bridge drivers
+- Updated the usage of the private bridge driver data
+- Added a clarification on the anx7625 built-in mux in the cover letter
+
+Changes in v10:
+- Collected Reviewed-by and Tested-by tags
+- Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+- Print out the node name when errors on parsing DT
+- Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+- Made the return path of drm_dp_register_mode_switch clearer
+- Added a TODO for implementing orientation switch for anx7625
+- Updated the commit message for the absence of orientation switch
+- Fixed typo in the commit message
+
+Changes in v9:
+- Collected Reviewed-by tag
+- Fixed subject prefix again
+- Changed the naming of the example node for it6505
+
+Changes in v8:
+- Fixed the build issue when CONFIG_TYPEC=m
+- Fixed some style issues
+- Fixed the subject prefixes for the bindings patch
+- Fixed the bindings for data-lanes properties
+
+Changes in v7:
+- Fix the long comment lines
+- Extracted the common codes to a helper function
+- Fixed style issues in anx7625 driver
+- Removed DT property validation in anx7625 driver.
+- Fixed style issues in it6505 driver
+- Removed the redundant sleep in it6505 driver
+- Removed DT property validation in it6505 driver
+- Rebased to drm-misc-next
+- Fixed indentations in bindings patches
+- Added a new patch to fix indentations in Kconfig
+
+Changes in v6:
+- Changed it6505_typec_mux_set callback function to accommodate with
+  the latest drm-misc patches
+- Changed the driver implementation to accommodate with the new binding
+- Dropped typec-switch binding and use endpoints and data-lanes properties
+  to describe the pin connections
+- Added new patches (patch 1,2,4) to fix probing issues
+- Changed the bindings of it6505/anx7625 and modified the drivers
+  accordingly
+- Merged it6505/anx7625 driver changes into a single patch
+
+Pin-yen Lin (8):
+  drm/display: Add Type-C switch helpers
+  dt-bindings: display: bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Check for Type-C during panel registration
+  drm/bridge: Remove redundant i2c_client in anx7625/it6505
+  drm/bridge: anx7625: Register Type C mode switches
+  dt-bindings: display: bridge: it6505: Add mode-switch support
+  drm/bridge: it6505: Fix Kconfig indentation
+  drm/bridge: it6505: Register Type C mode switches
+
+Prashant Malani (2):
+  device property: Add remote endpoint to devcon matcher
+  platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+
+ .../display/bridge/analogix,anx7625.yaml      |  88 ++++-
+ .../bindings/display/bridge/ite,it6505.yaml   | 101 +++++-
+ drivers/base/property.c                       |  31 +-
+ drivers/gpu/drm/bridge/Kconfig                |  20 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 256 +++++++++++---
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  22 +-
+ drivers/gpu/drm/bridge/ite-it6505.c           | 318 ++++++++++++++----
+ drivers/gpu/drm/display/Kconfig               |   8 +
+ drivers/gpu/drm/display/Makefile              |   2 +
+ drivers/gpu/drm/display/drm_dp_typec_helper.c | 105 ++++++
+ drivers/platform/chrome/cros_ec_typec.c       |  10 +
+ include/drm/display/drm_dp_helper.h           |  46 +++
+ 12 files changed, 855 insertions(+), 152 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/drm_dp_typec_helper.c
+
 -- 
-2.25.1
+2.40.0.rc1.284.g88254d51c5-goog
 

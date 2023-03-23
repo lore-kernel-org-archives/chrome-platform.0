@@ -1,80 +1,112 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9832565
-	for <chrome-platform@lists.linux.dev>; Thu, 23 Mar 2023 07:31:58 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id ew6so19638185edb.7
-        for <chrome-platform@lists.linux.dev>; Thu, 23 Mar 2023 00:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679556716;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ekZUPnt2Vozh7f2sOzqBtvIcIMLGfykVhoLT/YHh2xE=;
-        b=MxAap6yrlqQe+CS3DpDJfF5WuV4QamV9krsmqhN6cV++/4g87dcsgqDPv9l4+5jTSN
-         fpREq+ql5ZTsrvXKij5+szUYFIjJ0KrLkBQo4LjQ1Xb8NggiUvcGJK175r4xihf79DWH
-         T9KnIy/W0K7sT2bZN78BDTWH3LR1I9CbJ5kYRt9N0WwtKZTPt5K7HgBM2XmjXuODk0Fl
-         eyZrEpQKsNQcqJg8O8ItsV46io0ofcKBAqE9mSXi9A/p5D9UQd6ntvzQtllz758dL0dv
-         Np4e6EQf/FAiZDraFfnXffKia8k+jFmBUof/QJ6Bb3WX2KDSPFstWow9QJ3ylAscvjmg
-         zAYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679556716;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekZUPnt2Vozh7f2sOzqBtvIcIMLGfykVhoLT/YHh2xE=;
-        b=PEctQzMrPGl8xj31wKZb4+9qms6Xpzrzx/lZVm2hr3MzMq6cKNbgmlKp6lCLwJ8IM0
-         fq5PzJcdCRqMjEKQPEcCy+JgMHAX0uRS4LRopk6u5a0T3Zn7K+DsNiZq9/ZL0NLFK/vw
-         b8Zj3eg83lGiujReIbjJBOsukZjcrzabT7KXXVINKgbu2xNRT2B7mlkPNJsUCtoZwX0Y
-         V3p6tdhG4mQw5CxAWOzToa41dGpjgN+JtLn97ySH57XV2rNqFG3ZyawhwZxg42FmTCDg
-         Sfa2AM8ByS0J3iDc+jYDoTRv1zq/LkczsU8CCtVDyrljDMH8vzJBKPruLM3Z2bDOrud/
-         GVUg==
-X-Gm-Message-State: AO0yUKX1I4IRONBO4VAQ480858pbSM4mZtx+K9B+7BwShM018fWMkvzq
-	6fNSD4JCzaAzqJOCqDLgAo/U0g==
-X-Google-Smtp-Source: AK7set+iWZt444eNKE55ycB9BgkADqbdT5/QwpCrCYcQJ7NbBWuq6iqdS3q/l5rzTRalH/MtURCskw==
-X-Received: by 2002:a17:906:5cd:b0:8af:3b78:315d with SMTP id t13-20020a17090605cd00b008af3b78315dmr10894973ejt.23.1679556716702;
-        Thu, 23 Mar 2023 00:31:56 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:a665:ed1e:3966:c991? ([2a02:810d:15c0:828:a665:ed1e:3966:c991])
-        by smtp.gmail.com with ESMTPSA id gv27-20020a1709072bdb00b008b9b4ab6ad1sm8235164ejc.102.2023.03.23.00.31.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Mar 2023 00:31:56 -0700 (PDT)
-Message-ID: <a767418b-1e2a-6d02-fc07-8caea8f877e2@linaro.org>
-Date: Thu, 23 Mar 2023 08:31:55 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931A98F6D
+	for <chrome-platform@lists.linux.dev>; Thu, 23 Mar 2023 12:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679575521; x=1711111521;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z034CEWDZWzBHQVHZYtVHoLpxMyCoA3kXaDvrv1Q98w=;
+  b=XR4GbRRxOLhhGzwBKbILpOX2956u5kEKM+CllvviJ4Jy3MIGM93tW+TZ
+   mSkinGjVbUsmmlOF8Or0B+wAS0kdxXGh9OigJWr3C+UrE63ERJ79538Nt
+   hJczlBfMoR2s4il6/2qlHSll8Y8SXvoUq0g//i6PjhuyKr2VZ9UMZ+HJ0
+   LkQBmAOfb7uG5K1lsRJ9HFUO1SEz2mJZolQn8KdCyyuWVMXWoXHh8G3kg
+   t2Z0Bc7kiFCbnNPz9/wyrA/YxWexLzaedr5iinOnLE//A7O3rkPxkMVuD
+   TeO6DUipnZurcsVfb9HlHeEgjifMzkAXnClXpSYht2/X5cUHrrrNW3Ov7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338196411"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="338196411"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 05:45:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632383474"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="632383474"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 23 Mar 2023 05:45:07 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1pfKJU-007VlG-0v;
+	Thu, 23 Mar 2023 14:45:04 +0200
+Date: Thu, 23 Mar 2023 14:45:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Pin-yen Lin <treapking@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-acpi@vger.kernel.org,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>, Lyude Paul <lyude@redhat.com>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
+	Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Imre Deak <imre.deak@intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	YueHaibing <yuehaibing@huawei.com>
+Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
+Message-ID: <ZBxJz4ESBocICA/L@smile.fi.intel.com>
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-4-treapking@chromium.org>
+ <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+ <87edpg7nub.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: mfd: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Damien Le Moal <damien.lemoal@wdc.com>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, patches@opensource.cirrus.com
-References: <20230322173519.3971434-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230322173519.3971434-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87edpg7nub.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 22/03/2023 18:35, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On Wed, Mar 22, 2023 at 06:27:56PM +0200, Jani Nikula wrote:
+> On Wed, 22 Mar 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
+> >> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
+> >
+> > Ah, maybe this should use IS_REACHABLE() ?
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+> Personally, I think IS_REACHABLE() is a build-time band-aid solution to
+> a problem that should be solved in Kconfig. :p
+> 
+> I think it always means there's a configuration combo that shouldn't
+> exist, and it's a surprise to the user when they've configured
+> something, Kconfig has deemed it a valid configuration, but they don't
+> get the feature they want.
+> 
+> As a user, how would they even debug that case? Double check configs,
+> don't see anything wrong.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Usual pairing is 'imply FOO' in Kconfig & 'IS_REACHEABLE(CONFIG_FOO)' in the
+code. And I believe it's not an abnormal.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
 

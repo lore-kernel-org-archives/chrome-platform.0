@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0572817DB
-	for <chrome-platform@lists.linux.dev>; Fri, 24 Mar 2023 03:20:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B1844C4339B;
-	Fri, 24 Mar 2023 03:20:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F1017DB
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Mar 2023 03:40:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 40836C433EF;
+	Fri, 24 Mar 2023 03:40:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679628019;
-	bh=OM9dqDhLQ2jfMsRvvIlNwDdnbtOnP+djsB6V4ATxYUM=;
+	s=k20201202; t=1679629220;
+	bh=WWxb9xUaSGBTPNmqTdxqjnILX5d8BFdripeuekY2Oig=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bjI0hFLyqXDXIc76XSgKjHPiU00Cl4nzIrhnK9ddpFm+lhlKWvPeknaqEdkgX+49q
-	 H1Spasim6eAfc3e23n7iAwTRS0Ad6anGGfP083w8+X54OzQRAkxrEUcI+d0AYI387S
-	 /qcz82YWqI4r28HatpwaSRGIM4ER8FNX1tfdkRSWOQABZ/mkhvd1LAOIHSKgklWwcU
-	 GLdt4Y8DlHon2nz29nQGKZiNCa/mSmORvZ3t6tWu90TH7gToS/HEBVjs5UCJ3JymGW
-	 b+3feJH15NBLB3SCIVjj5qI1WiNtUHf/hy1cAnd22UWT/oU7Ukn2kAvbiVf0kjTz5j
-	 odm59/6Cj3xPw==
+	b=DQqb4Uz/4nE2dFThBvIV01GW/DfJMWpurByA/5No8tTxxK1lp0e2oBOPf/l7/PM3s
+	 NRtrOU3vmN0mzPXWO3xB6h3rdOhq7IA635STJrfOxhm4u71fZFw/UwRYI6h8g98m9F
+	 sFopVMq5uX6LyUl+lviIVb/U6slaqJOV3xkthhClbIQMupFK0n1mr6CtFM7Uc8yRzi
+	 GidL5M1+SkTnenK63r6BoKuYCvpTgnc1VD2RXiwoa+Y04qxq/+BTU3HwsTOmYLZoIx
+	 cktIFZuNMTWVrlsY7w+JBJNTPKMq1WERjPRkYpib/cRDdOUBabDajztaaVstwwd2me
+	 NhohlH+NVy/Cw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 95666E4F0D7;
-	Fri, 24 Mar 2023 03:20:19 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19D57E52511;
+	Fri, 24 Mar 2023 03:40:20 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -30,8 +30,8 @@ Subject: Re: [PATCH] platform/chrome: cros_ec_chardev: fix kernel data leak from
  ioctl
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <167962801959.12586.18013255795447539599.git-patchwork-notify@kernel.org>
-Date: Fri, 24 Mar 2023 03:20:19 +0000
+ <167962922009.21451.15607534407092248015.git-patchwork-notify@kernel.org>
+Date: Fri, 24 Mar 2023 03:40:20 +0000
 References: <20230324010658.1082361-1-tzungbi@kernel.org>
 In-Reply-To: <20230324010658.1082361-1-tzungbi@kernel.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
@@ -39,7 +39,7 @@ Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
 On Fri, 24 Mar 2023 09:06:58 +0800 you wrote:

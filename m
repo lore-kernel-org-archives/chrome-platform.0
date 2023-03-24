@@ -1,111 +1,63 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57208F6D
-	for <chrome-platform@lists.linux.dev>; Thu, 23 Mar 2023 12:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679575628; x=1711111628;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=30e+iacdeNDPi27w7ie3RbTMuGmuD+8WwfFs1tSEjl4=;
-  b=ariwPPxpmrykYm93sHDD9/VPYMC3eeHl/AEnzIdq2QvzbM8wjwxhP3eY
-   Pn5PuWch7y1gD0oV13jQ9TJukbfT9NfWNNH3WnJK6y5kLbrutTujLkSc9
-   3kj0mL2oZpbt7XcjZkQAmPvraZHLtY8SRB4O1z+frgGk4LiEcdg+LPpEb
-   UNqgbtY/YzDlsKsR1nktD2zfSnbudyMUAjpMM+vtBOg56uNc6MaJSy1el
-   9xqh66Dwmf0BxrRXrWVG51Ljs5zxM0eJEVbjzPBzTE9Jg1k2JalL9vRA0
-   ayHcsuLC+AsD6BvIc5D8tnDKVmVBMiiCjHBtxS4R0QJvw9o7YCfbOxJ+g
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341013529"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="341013529"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 05:47:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682292594"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="682292594"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 05:46:58 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pfKLG-007VoD-1R;
-	Thu, 23 Mar 2023 14:46:54 +0200
-Date: Thu, 23 Mar 2023 14:46:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Pin-yen Lin <treapking@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>,
-	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>, linux-acpi@vger.kernel.org,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>, Lyude Paul <lyude@redhat.com>,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
-	Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Imre Deak <imre.deak@intel.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <ZBxKPiduTQ2A49Dy@smile.fi.intel.com>
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-4-treapking@chromium.org>
- <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9188F15A7
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Mar 2023 01:07:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7072EC433EF;
+	Fri, 24 Mar 2023 01:07:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679620026;
+	bh=6+V7A+xBJy8zGloyJdaVVLe4ngqLbhkyImoinYDyZJQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sJgZjvZXml8MHGYJIwfqnVw/GxCOZfGE3GS1OfydL7iEPe0/PGM4+JSFsx0zvi3sr
+	 fkuev+F1nCSIUnHkjj270EE0RvoIEAarSZC9EMO9S4UGQ01pf15wwVib6LwPYNjPGM
+	 igl6YAuMDtFmJt6EVmeaqpQhYSJkEKhfz7WJR7kPhOm/p2AxGmrTzfOOEduu1OkxsV
+	 t1w57wjmKeWDRKkLR8hyBSvEujfZAYqwAqZ/n6bFEypFE2G/XbKoLQ1csIy7S/AJxa
+	 MA8AsvLq5/2gFPGcZo6a/rGYb70OEl5DQgyqM5ywp1gkCJCefmb80TtVDT42p1IE7K
+	 c6Fpl4scXNgtA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org
+Subject: [PATCH] platform/chrome: cros_ec_chardev: fix kernel data leak from ioctl
+Date: Fri, 24 Mar 2023 09:06:58 +0800
+Message-Id: <20230324010658.1082361-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 23, 2023 at 12:38:49AM +0200, Dmitry Baryshkov wrote:
-> On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
+It is possible to peep kernel page's data by providing larger `insize`
+in struct cros_ec_command[1] when invoking EC host commands.
 
-...
+Fix it by using zeroed memory.
 
-> > +config DRM_DISPLAY_DP_TYPEC_HELPER
-> > +       bool
-> > +       default y
-> > +       depends on DRM_DISPLAY_HELPER
-> > +       depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
-> 
-> If it is a select'able option, it doesn't make sense to use "depends"
-> here. Select will override depends.
+[1]: https://elixir.bootlin.com/linux/v6.2/source/include/linux/platform_data/cros_ec_proto.h#L74
 
-He-he, not so easy. This will help to find configurations that miss these
-dependencies. Arnd taught me that. IIRC the ASoC subsystem has a lot of
-such cases.
+Fixes: eda2e30c6684 ("mfd / platform: cros_ec: Miscellaneous character device to talk with the EC")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_chardev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > +       help
-> > +         DRM display helpers for USB Type-C Displayport Alternate mode.
-
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+index 0de7c255254e..d6de5a294128 100644
+--- a/drivers/platform/chrome/cros_ec_chardev.c
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -284,7 +284,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct cros_ec_dev *ec, void __user *arg)
+ 	    u_cmd.insize > EC_MAX_MSG_BYTES)
+ 		return -EINVAL;
+ 
+-	s_cmd = kmalloc(sizeof(*s_cmd) + max(u_cmd.outsize, u_cmd.insize),
++	s_cmd = kzalloc(sizeof(*s_cmd) + max(u_cmd.outsize, u_cmd.insize),
+ 			GFP_KERNEL);
+ 	if (!s_cmd)
+ 		return -ENOMEM;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.40.0.348.gf938b09366-goog
 

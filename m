@@ -1,84 +1,101 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9FC63D2
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Mar 2023 18:10:41 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5445009c26bso308115847b3.8
-        for <chrome-platform@lists.linux.dev>; Wed, 29 Mar 2023 11:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680113440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s36Q4sLQX/3/tv2niFl6Gc9T++Xctk19QhnwqMt3BVM=;
-        b=eDsYeqiG8GB4aZVHJzDU7byR1P1jPt7YE7V+7LrQkBjkHGKR65terpAGMEbNbrpWtc
-         GbKOZDyCq7ZL/+Zsg31N3BVfxEvsJ1GDaWJFB38pSjVUW4/6WGSR96i/6pIpJUY1T9+N
-         2W7sklR7qOx9HkWIJmhgVq8bUgKpEeVJ7TTmU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680113440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s36Q4sLQX/3/tv2niFl6Gc9T++Xctk19QhnwqMt3BVM=;
-        b=xhymA/ZvLlLcvXB/L8tUf7yPoCJzxUwxndVFsH9lzDZGoOVRh+fG04avYlf0BACgLM
-         t8vK9kz1OEXm9jwRrglSoSKY6v7qjoa5nQOa147p4Bqfyy0QyXqAPEfDwtojskV/El94
-         gImEut1x+0HqrFI9w/7EpiKHN+6gpmxunjBabibnRtll8o02uc1y1yvSRyqxASdQ1oK7
-         e+UHa2UlGfd54IE+tnJ8h0vWBmvbt41ujz5WQTyW2w6SAa3L2KRdA9Xb/y2dZoxG9QDF
-         BJQPItee8/5BMey+yTH7EdsdMfp08tN1PfGVI8J/lSQD8lzIt5JClWBDf3ki/nYTlXuc
-         rA2g==
-X-Gm-Message-State: AAQBX9fbzrJts5E9cepBHbGxwZfCZZv9hmLPwpmN2EsXwTpKdRLbRo3p
-	M9eWf/HanymMcpbBp59RGvz5ueVCAB1K32ZtoN+lHQ==
-X-Google-Smtp-Source: AKy350bTV90Nmmdqq5XdDMT52Ufu5ut5fzXMHi+iq0KHhNlusnr1XWTmvpO5LoXs+iXfO3xl7HbVrgeRFLebGR+jpH0=
-X-Received: by 2002:a81:ac46:0:b0:544:6828:3c09 with SMTP id
- z6-20020a81ac46000000b0054468283c09mr10157919ywj.0.1680113440045; Wed, 29 Mar
- 2023 11:10:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FF86ADB
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Mar 2023 18:56:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C43C433EF;
+	Wed, 29 Mar 2023 18:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680116183;
+	bh=HXlnVpI10yQIlEcYw/mudHsZ3gXy/LNv7OlOgGzlvCo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r/n82JskLDsHJbUZu12GBUcu2gGix2fz4sd2X2x8w3ULvNZQRqKRpbDq0nlKOJgVV
+	 BBrwo8WjpC/zMHLgNhVvCBGtBG5mV7oWgpmplQXpiPR9zlnsHWhlnNneFZ/mYSB5LP
+	 kCfgzLip3XW8d9ePuehIM2ksgOtZ/LLKhP7SWZE+FsbxvUnaNX74tv72hDFyw+jjOk
+	 AkDF2qFdpm7Osm8uWaycdhOOwMnuxCYFTTVkEYHctB9rbTmtDpDg38HCHwAlONSXpG
+	 X4R19AIXsE0RhmcqGR4V7nt6mc9RygRaC0fi+9XUnbRh2FpmlmhWr6dETstzqk9AGe
+	 /e7iHwpTArQ5A==
+Date: Wed, 29 Mar 2023 20:56:17 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org
+Subject: Re: [PATCH 5/5] i2c: synquacer: mark OF related data as maybe unused
+Message-ID: <ZCSJ0WL3qAPOSCfW@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org
+References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
+ <20230311111658.251951-5-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230218111712.2380225-1-treapking@chromium.org>
-In-Reply-To: <20230218111712.2380225-1-treapking@chromium.org>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 29 Mar 2023 23:40:28 +0530
-Message-ID: <CAMty3ZD3SY-WCtYK0dexdLxCk8d+2tJ=D9xb5uR06jPGCd=56g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] Add generic-display-mux driver and bindings
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Benson Leung <bleung@chromium.org>, 
-	chrome-platform@lists.linux.dev, Nicolas Boichat <drinkcat@chromium.org>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	Guenter Roeck <groeck@chromium.org>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wsPfoFfi6QwaQ03k"
+Content-Disposition: inline
+In-Reply-To: <20230311111658.251951-5-krzysztof.kozlowski@linaro.org>
+
+
+--wsPfoFfi6QwaQ03k
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 18, 2023 at 4:47=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> This series is developed for and tested on MT8173 board, and the layout i=
-s:
->
->                                   /-- anx7688
-> -- MT8173 HDMI bridge -- GPIO mux
->                                   \-- native HDMI
+On Sat, Mar 11, 2023 at 12:16:58PM +0100, Krzysztof Kozlowski wrote:
+> The driver can be compile tested with !CONFIG_OF making certain data
+> unused:
+>=20
+>   drivers/i2c/busses/i2c-synquacer.c:632:34: error: =E2=80=98synquacer_i2=
+c_dt_ids=E2=80=99 defined but not used [-Werror=3Dunused-const-variable=3D]
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-What is the part number of this GPIO mux? Does mux gpio interrupt
-based and able to switch output HDMI and DP. If so, how this gpio
-interrupt is different than the HPD in native HDMI? I mean does HPD
-have any detection bottlenecks with mux gpio interrupt?
+Applied to for-next, thanks!
 
-I do have GPIO Mux that input DSI and two outputs DMD/HDMI Input and
-HDMI Out. 2x1 with 1x2 mux.
 
-I'm thinking having a generic mux to select the specific out number of
-outputs with associated interface outputs can be a viable solution to
-address all use cases here.
+--wsPfoFfi6QwaQ03k
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Jagan.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQkic0ACgkQFA3kzBSg
+KbaUqA//SXKPTQPt3ontC5GZ3AJxvRMP8lq7ZRcBKhzmpMscUAWUAKevZaX8TyIr
+oclg1mI+fV2fSttmp3tTN/Wvwh0rh3XKwFQKOQxg4QSQ5+hbDVEMM6oVEHuEWIcC
+qPC82bB5uPuyHIEjODENEVlv1918Vfovu+pr9ubFCnIJNR5FIFEyir80CoSCT+a4
+LTRldEcdnpZtNZ6FT8VHEnjIEAlEtNlXywmaF3MhJYHwWXM+pvz9w7W04gBpHkUp
+VF2EgQmOglALnYi2sb8lXh3OH/Y8RoeWqZmAv6Mb2rxYiA6VCd9xAjFnNbA0zmNF
+UNC/lhKzkCvRT1B7TxHep89KaIic0LclyNRmQiHbCrv9GIGdsESLi7efzJMTVhst
+QvLVcjpAr42mYRQ6usrZFKFcyQvsZENStfZgMcZwz85dpt78UNowMXudBflg2YQl
+LNBFMh1GruspQ/3NhG+xHyt5T4G6w22XBHivcOpOga6LIp9qSskv01nf0iDmvrwM
+QKouUwsKFN9cSojtKwRHX0rKmyAJlVjdZq1JAlSHBR9Pfqa8UrLO0XLgxV9FpiA8
+fuM3sSMIh2iswPQLyR/wIWotpfgQumP1dE8ePZeypQ3XPDvTpFfuJ4YUJ2jLaX3Y
+PLILL559KYCpGgw/53UPdWTdyMp3JAofEL0Bwsqc7VVuqTLgYTU=
+=TgSi
+-----END PGP SIGNATURE-----
+
+--wsPfoFfi6QwaQ03k--

@@ -1,29 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F636C2DF
-	for <chrome-platform@lists.linux.dev>; Thu, 30 Mar 2023 07:11:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B75C433D2;
-	Thu, 30 Mar 2023 07:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1680160279;
-	bh=FlHNhQJDZf7ntHD5KuZYR/u8hEWLq2oX8p0cp1xWcnk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395AB1FC4
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Mar 2023 12:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3703C433EF;
+	Thu, 30 Mar 2023 12:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680180147;
+	bh=8ljhk+gS4RLw7KgzR295UUFEWiAH/g4lZHGORdKR5Go=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yDbWpIeQYpXhHJfU8tR8TtzS3ra1g3m/xwutUVSeNMOAvnYaWZDzkTLbhewU7Zihj
-	 +yYCVMAIQa5Rl3+Q42HNR2OwtHnRmlJ5MH0WarVfORtMsbGmjrJnZKsiaDXYHSmcBf
-	 U9Wa226GR9b6wjAwnhPpUj1AOUF5Neb4bo0b5d+o=
-Date: Thu, 30 Mar 2023 09:11:16 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	b=Kxu5n2ocEgar0oYCuVKDeHs6PORlO50xNwtUxYP0rzBb+YEKi1HoeAhtNn4mIEL5H
+	 ma6hZal2GJCMgVnEWoV2EhiLNU6WzPtrf48/XgFjHaqaSnJbyjWUPOhKi/2A0YKhch
+	 BiN8OKj15vzmMQleKiSiMV74Y6WpyE8fsfneQKJt+6VVsI1ls0S98QCeIvMLtIGdkT
+	 CskX+nYs/gspjax9puDLwqIbuCIPsLgKAPOzWWgA/B42CcxsCsokk1Dw6KO97eMIFT
+	 2B2sBx20zlCdOadg4V0e5fzXfh1DuIwto+9AcIuh3UB4X1ShRhG3q2BHFdou5ZI4TT
+	 6JlVwtQZioqmQ==
+Date: Thu, 30 Mar 2023 13:42:21 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Damien Le Moal <damien.lemoal@wdc.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] platform/chrome: Fix -Warray-bounds warnings
-Message-ID: <ZCU2FBWqDQZFuWDL@kroah.com>
-References: <ZCTrutoN+9TiJM8u@work>
- <ZCUzw9epJig2rTIY@google.com>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] dt-bindings: mfd: Drop unneeded quotes
+Message-ID: <20230330124221.GJ434339@google.com>
+References: <20230322173519.3971434-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -33,41 +41,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZCUzw9epJig2rTIY@google.com>
+In-Reply-To: <20230322173519.3971434-1-robh@kernel.org>
 
-On Thu, Mar 30, 2023 at 03:01:23PM +0800, Tzung-Bi Shih wrote:
-> On Wed, Mar 29, 2023 at 07:54:02PM -0600, Gustavo A. R. Silva wrote:
-> > In this case, as only enough space for the op field is allocated,
-> > we can use an object of type uint32_t instead of a whole
-> > struct ec_params_vbnvcontext (for which not enough memory is
-> > allocated).
-> 
-> It doesn't make sense to me.  See comments below.
-> 
-> > Fix the following warning seen under GCC 13:
-> > drivers/platform/chrome/cros_ec_vbc.c: In function ‘vboot_context_read’:
-> > drivers/platform/chrome/cros_ec_vbc.c:36:15: warning: array subscript ‘struct ec_params_vbnvcontext[1]’ is partly outside array bounds of ‘unsigned char[36]’ [-Warray-bounds=]
-> >    36 |         params->op = EC_VBNV_CONTEXT_OP_READ;
-> >       |               ^~
-> > In file included from drivers/platform/chrome/cros_ec_vbc.c:12:
-> > In function ‘kmalloc’,
-> >     inlined from ‘vboot_context_read’ at drivers/platform/chrome/cros_ec_vbc.c:30:8:
-> > ./include/linux/slab.h:580:24: note: at offset 20 into object of size 36 allocated by ‘kmalloc_trace’
-> >   580 |                 return kmalloc_trace(
-> >       |                        ^~~~~~~~~~~~~~
-> >   581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-> >       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   582 |                                 flags, size);
-> >       |                                 ~~~~~~~~~~~~
-> 
-> Please trim the commit message a bit and try to wrap at 75 columns as
-> [1] suggested.
-> 
-> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
+On Wed, 22 Mar 2023, Rob Herring wrote:
 
-For outputs from tools like this, going over 75 columns is fine, no need
-to ever line-wrap stuff like this, that would just make it unreadable.
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/mfd/canaan,k210-sysctl.yaml      |  6 ++---
+>  .../bindings/mfd/google,cros-ec.yaml          | 22 +++++++++----------
+>  .../mfd/hisilicon,hi6421-spmi-pmic.yaml       |  2 +-
+>  .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  |  2 +-
+>  .../bindings/mfd/rohm,bd71815-pmic.yaml       |  2 +-
+>  .../bindings/mfd/rohm,bd71828-pmic.yaml       |  2 +-
+>  .../devicetree/bindings/mfd/wlf,arizona.yaml  |  2 +-
+>  .../bindings/mfd/x-powers,ac100.yaml          |  4 ++--
+>  .../bindings/mfd/xylon,logicvc.yaml           |  4 ++--
+>  9 files changed, 23 insertions(+), 23 deletions(-)
 
-thanks,
+I made the subject message a little more unique and ..
 
-greg k-h
+Applied, thanks
+
+--
+Lee Jones [李琼斯]

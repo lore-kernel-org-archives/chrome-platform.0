@@ -1,101 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C953D6FA2
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Mar 2023 18:56:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE72AC433EF;
-	Wed, 29 Mar 2023 18:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1B1105
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Mar 2023 01:53:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EA94C433EF;
+	Thu, 30 Mar 2023 01:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680116193;
-	bh=IjCbx7Dak828Qr6GBiJPVIJav6MqEupomeNBGVuefLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iQKL6dfKbYI0ydDvsBYiAJiJ1XL3G/FkEiPmG0WxAQtD5suvAZ2N/8UPj97JsRdCo
-	 i0FGfRI5fK0+iXBm6oEdXaPmkWWRAPAG7Ol+3bf2pi0nzniUGuZmD7pbRz6mi2FjLi
-	 6gZdWyEnlDuQj0890o44ohpndz1rPrcpi6x1Ds0ujtOapdN13DQh3Rl0Hzs5UGpX4p
-	 eDaPWWQais4F88/Q3WZ83gMgf+RV+pLBjdbNorbC33BWJPqxIK+T4/fuxnCauZWf3t
-	 BjEgZOk6BdiEprbjqsy3YoLnHx+YhS9JaW31h/1MkbKEGjsp37HlopgRDjUm4PUoAI
-	 O4tmJNxLEzp6w==
-Date: Wed, 29 Mar 2023 20:56:30 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Qii Wang <qii.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org
-Subject: Re: [PATCH 3/5] i2c: xiic: hide OF related data for COMPILE_TEST
-Message-ID: <ZCSJ3p3HauCklNnp@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Qii Wang <qii.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Michal Simek <michal.simek@xilinx.com>, linux-i2c@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org
-References: <20230311111658.251951-1-krzysztof.kozlowski@linaro.org>
- <20230311111658.251951-3-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1680141209;
+	bh=3XmANaFzBt3a+2sASRW3pZzJKWGwytosBj+PU3cNreY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=vBpMJ4k4UCgp74JR3KKcFqw9mZDJn651IODDcgfoSH2hVylUD6bbLyLUTq23qYkLS
+	 o718vQ/9nOb+TcuEbi9fRfq26mS3I1l8Z5ztvcZJetA8asvxeqbQ+qJGbgT9tWcX4N
+	 zOuz1BZxX6+xqHdJpJscAfZjhyPBXEK0nflyuNgUqCfCpo9l/5m19fgp/VzMb8RiUA
+	 VeR5nzuJsAw9J6o3vIKtboOWRVq4HU3tVnGA0YL4lP7TKC3mkyqkd/WT+pio3FTNd3
+	 sU5dKfZAN7XjBTZCirUCBQ+bRcn23bRSQ7ZoDVD688i2NaMZ/rSAM1XReEQPlDNqMe
+	 YaV7a3Ur/53vg==
+Date: Wed, 29 Mar 2023 19:54:02 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] platform/chrome: Fix -Warray-bounds warnings
+Message-ID: <ZCTrutoN+9TiJM8u@work>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JxFtao8vYFYMVGkV"
-Content-Disposition: inline
-In-Reply-To: <20230311111658.251951-3-krzysztof.kozlowski@linaro.org>
-
-
---JxFtao8vYFYMVGkV
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 11, 2023 at 12:16:56PM +0100, Krzysztof Kozlowski wrote:
-> The driver can be compile tested with !CONFIG_OF making certain data
-> unused:
->=20
->   drivers/i2c/busses/i2c-xiic.c:1202:39: error: =E2=80=98xiic_2_00=E2=80=
-=99 defined but not used [-Werror=3Dunused-const-variable=3D]
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+GCC-13 (and Clang) does not like having a partially allocated object,
+since it cannot reason about it for bounds checking.
 
-Applied to for-next, thanks!
+Notice that the compiler is legitimately complaining about accessing
+an object (params, in this case) for which not enough memory was
+allocated.
 
+The object is of size 20 bytes:
 
---JxFtao8vYFYMVGkV
-Content-Type: application/pgp-signature; name="signature.asc"
+struct ec_params_vbnvcontext {
+	uint32_t                   op;                   /*     0     4 */
+	uint8_t                    block[16];            /*     4    16 */
 
------BEGIN PGP SIGNATURE-----
+	/* size: 20, cachelines: 1, members: 2 */
+	/* last cacheline: 20 bytes */
+};
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQkid4ACgkQFA3kzBSg
-Kbaj9Q/+J7QTkzaelWV3lsjG/8AjUFOE50mNQpN07tk30lx5IlVNVoVCdmsSpENw
-Bpg2z6NDbYz4DaGv2+YzSd98zQOs2+IRHAgP1bnOSf8V0e4TsUa+e5OZk2x+s/B1
-psYmHHaRyZM9p7Pf75S+osiHhSuYVCQayFh95r4LUUk5tLlz/0uG8bdcsjaqyL8E
-eDkVMh41FVozhC19fsLADtYPY8qVmWDKaACvwc9ssSPDNkd6+tMk5xV3tbMlnqSD
-wyoZv8tUB4ETMhEz2F4fWDJMrBPfZIZ3FBiF/yydiJixaSzk95c1MSJ9MzGu32HH
-J0qq6V9Glq1sC2w60KmX1GUgBIDz0/4+5nP7yfAXbhDSoysU4BL64LSRkMjmQWE3
-PGsuG5NF1uAJI7re1Y+kPbQGBVbQ0Rlx1pSiOQA4NT7Srm5+RpQONgE4f4xhX3N7
-e3EU56tKRVKWW/K39GmcD21QD+lJ6D6OsOAoGxiRj5VXHbUGzHlrPlyKY5OUv1me
-NTCT5oyzSHujFxeYcDmS4DDJDNXveG0eSGNzsqAu7Ts5ucw5uWRPmx9FW7YUCE83
-Z9MAHEi5kST2pxoo0hFkxthjvEYA9PYTBLqox4jnGxPmhPrX9nXL1xvPcghFFiAV
-ZzkRFzAbja6ZyuZftMYKP+hDPzD2qDZxq1T/IyrM7zFXb+LM2xM=
-=CvaY
------END PGP SIGNATURE-----
+but only 16 bytes are allocated:
 
---JxFtao8vYFYMVGkV--
+sizeof(struct ec_response_vbnvcontext) == 16
+
+In this case, as only enough space for the op field is allocated,
+we can use an object of type uint32_t instead of a whole
+struct ec_params_vbnvcontext (for which not enough memory is
+allocated).
+
+Fix the following warning seen under GCC 13:
+drivers/platform/chrome/cros_ec_vbc.c: In function ‘vboot_context_read’:
+drivers/platform/chrome/cros_ec_vbc.c:36:15: warning: array subscript ‘struct ec_params_vbnvcontext[1]’ is partly outside array bounds of ‘unsigned char[36]’ [-Warray-bounds=]
+   36 |         params->op = EC_VBNV_CONTEXT_OP_READ;
+      |               ^~
+In file included from drivers/platform/chrome/cros_ec_vbc.c:12:
+In function ‘kmalloc’,
+    inlined from ‘vboot_context_read’ at drivers/platform/chrome/cros_ec_vbc.c:30:8:
+./include/linux/slab.h:580:24: note: at offset 20 into object of size 36 allocated by ‘kmalloc_trace’
+  580 |                 return kmalloc_trace(
+      |                        ^~~~~~~~~~~~~~
+  581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  582 |                                 flags, size);
+      |                                 ~~~~~~~~~~~~
+
+Link: https://github.com/KSPP/linux/issues/278
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_vbc.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
+index c859c862d7ac..b5a584f5469a 100644
+--- a/drivers/platform/chrome/cros_ec_vbc.c
++++ b/drivers/platform/chrome/cros_ec_vbc.c
+@@ -20,10 +20,14 @@ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
+ 	struct cros_ec_device *ecdev = ec->ec_dev;
+-	struct ec_params_vbnvcontext *params;
+ 	struct cros_ec_command *msg;
++	/*
++	 * This should be a pointer to the same type as op field in
++	 * struct ec_params_vbnvcontext.
++	 */
++	uint32_t *params_op;
+ 	int err;
+-	const size_t para_sz = sizeof(params->op);
++	const size_t para_sz = sizeof(*params_op);
+ 	const size_t resp_sz = sizeof(struct ec_response_vbnvcontext);
+ 	const size_t payload = max(para_sz, resp_sz);
+ 
+@@ -32,8 +36,8 @@ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
+ 		return -ENOMEM;
+ 
+ 	/* NB: we only kmalloc()ated enough space for the op field */
+-	params = (struct ec_params_vbnvcontext *)msg->data;
+-	params->op = EC_VBNV_CONTEXT_OP_READ;
++	params_op = (uint32_t *)msg->data;
++	*params_op = EC_VBNV_CONTEXT_OP_READ;
+ 
+ 	msg->version = EC_VER_VBNV_CONTEXT;
+ 	msg->command = EC_CMD_VBNV_CONTEXT;
+-- 
+2.34.1
+

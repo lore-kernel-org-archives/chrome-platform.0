@@ -1,96 +1,199 @@
-Received: from omta39.uswest2.a.cloudfilter.net (omta39.uswest2.a.cloudfilter.net [35.89.44.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344CBD301
-	for <chrome-platform@lists.linux.dev>; Thu, 30 Mar 2023 22:46:30 +0000 (UTC)
-Received: from eig-obgw-5016a.ext.cloudfilter.net ([10.0.29.196])
-	by cmsmtp with ESMTP
-	id i0naprhFcCarni10oph9hI; Thu, 30 Mar 2023 22:44:54 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTP
-	id i10npPQTiln5Qi10np30k3; Thu, 30 Mar 2023 22:44:53 +0000
-X-Authority-Analysis: v=2.4 cv=dqXItns4 c=1 sm=1 tr=0 ts=642610e5
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=wTog8WU66it3cfrESHnF4A==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=IkcTkHD0fZMA:10 a=k__wU0fu6RkA:10
- a=wYkD_t78qR0A:10 a=p5TAKoIjpDPjIpOboVgA:9 a=QEXdDO2ut3YA:10
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=2nUW9+DxCExNvW0W3XSMSOQ4Fi6oDWM9s6D5qR+DaQ8=; b=nmEhtqRxy+yNoNhBRq0XCWI8Q1
-	WmeqtLDLr7DFDJ8dsEXlagtuIBeQZL58NARsoNRZsknSDE+RdVgD6f3fIXms45dMytjee2e3tfmLf
-	DqbkZ4J3AuctkTv5RGUL8n2/UUf2SpaXysBmMMIgaGjAlhAojNWl7RjHfVmBR5wMNN7IvlbjZPs39
-	gBjqYNUpYCOZKdyxdD/bdHDIIbEUC8sSwM1cMrKML+AwuMNFAquNy72HVAcJZP5g5QNPJoMis/8nO
-	++kwKLcr1xFjQtvYIuexGoGenH3g4XsoNDOH6Hv+eZQ0PWVvBt5suI99IS+KPyOZE72d1IwllvXnZ
-	86a4QPSw==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:60900 helo=[192.168.15.7])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1phz8C-003MTK-9U;
-	Thu, 30 Mar 2023 15:44:24 -0500
-Message-ID: <6c2e8022-155a-ba6c-a9c7-4a7eb9f6f916@embeddedor.com>
-Date: Thu, 30 Mar 2023 14:44:59 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E77E10E6
+	for <chrome-platform@lists.linux.dev>; Fri, 31 Mar 2023 02:36:51 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id q6so9184996iot.2
+        for <chrome-platform@lists.linux.dev>; Thu, 30 Mar 2023 19:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1680230211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JOKd8Q/yyL2Vxt/B7mCiLmN2+GLEWiOvEP6b0sT30PQ=;
+        b=fLAVIymlVLtMTb1OjnAuBaj7urPwyZKEBOmwoAFmOw63GSs/eFd54mlEyiF8t/oxH5
+         WNBjJbLZutvpZ73ltowGOCUqKIzcUWI2PZlW9vLvaYeQ7U2EWVXoKuxwH+fBk6O8T3fI
+         b7Dvz7j9ez80eZY6vUDx3aJCc19D9uPXqpugg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680230211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JOKd8Q/yyL2Vxt/B7mCiLmN2+GLEWiOvEP6b0sT30PQ=;
+        b=3WPXrdnlWbhAVaI5Lp8whnbKyIpMGPX28BwVOviFkFf72dJZyfj9Yr9RxKDs1xTNyo
+         5eVCDuHWcHMGB6j0/NPS7yRC6srqbn4TOI7M4K0cpW04nfzVWYN/XrxicXasI38CQEWU
+         60EbeJUhS7grbw94tqh9ysJrsbDb7nWwgbQS/d76/31HF3Z0UFep1/kjZ27zwYGLpYw+
+         zw+NhyScHDPZ3XNQwyVZdtUtj9fi0FKTFsDiAHDC1bVOYKpPs1CkRsdoWWtwwnxkjQKQ
+         z17ujR9CKGjKDSZmPyh9XbcrtYfF3ApoHj6+jNhB0ZMzBubjcjerUIHVLnVc1KMO/vAj
+         hcHg==
+X-Gm-Message-State: AO0yUKUBXYDnoe+nXK7rsJhN7K4NVt6+Wfeq7n9zNZbIwrNYpALbSIv0
+	UN85capwXNICSvFpGpsm7LrBJ92MY4MWiXWeSgYIgg==
+X-Google-Smtp-Source: AK7set8iHyEfMscSQN6K+wU64uXRfznAJTa3p7iwGPfwmfjxtVwhD5T091Ndlb+dZQRGTYJqdf7/mi2dwLdlRru+94U=
+X-Received: by 2002:a02:2304:0:b0:406:38ac:716e with SMTP id
+ u4-20020a022304000000b0040638ac716emr9747717jau.6.1680230211040; Thu, 30 Mar
+ 2023 19:36:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH][next] platform/chrome: Fix -Warray-bounds warnings
-Content-Language: en-US
-To: Tzung-Bi Shih <tzungbi@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <ZCTrutoN+9TiJM8u@work> <ZCUzw9epJig2rTIY@google.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <ZCUzw9epJig2rTIY@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1phz8C-003MTK-9U
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.7]) [187.162.31.110]:60900
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfFsNCN87ml7oLDXN+nyOMpCTELoHfE/2PcoLawqVOV3bGA38l3CuwlZ3ZPEiAsoO2As4fbaQGsAmG2Qt17tt7BgoBRcG5BUDSCTS+xYUP6hZNWPEoZz3
- czWCkvxeZVeJEnm8VNg7GjnSm0MltJJRgu0laEfMNG1HjpUtKgepJlsfgpjgqOcCVHvd2WDGUM2KmoMRleTtoL1DFhs4RT7kg3MbwYFSYVyYhPtflT1y7jFl
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-4-treapking@chromium.org> <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+In-Reply-To: <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 31 Mar 2023 11:36:40 +0900
+Message-ID: <CAEXTbpcLU6jr2MoDEhZCz3wWzXmJATwHU+Tird-3Q9bXrGeTnA@mail.gmail.com>
+Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Xin Ji <xji@analogixsemi.com>, linux-kernel@vger.kernel.org, 
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-acpi@vger.kernel.org, 
+	Javier Martinez Canillas <javierm@redhat.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Lyude Paul <lyude@redhat.com>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org, 
+	Marek Vasut <marex@denx.de>, Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev, 
+	devicetree@vger.kernel.org, Andi Shyti <andi.shyti@linux.intel.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Douglas Anderson <dianders@chromium.org>, 
+	Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, YueHaibing <yuehaibing@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Andy,
 
->>   	/* NB: we only kmalloc()ated enough space for the op field */
->> -	params = (struct ec_params_vbnvcontext *)msg->data;
->> -	params->op = EC_VBNV_CONTEXT_OP_READ;
->> +	params_op = (uint32_t *)msg->data;
->> +	*params_op = EC_VBNV_CONTEXT_OP_READ;
-> 
-> I don't see a good reason to partially allocate memory here.  Perhaps, just
-> let `para_sz = sizeof(struct ec_params_vbnvcontext)`?  If it also makes
-> sense to you, please remove the comment "NB: we only..." as well.
+Thanks for the review.
 
-It looks funny to me, too. However, I think that's material for a different
-patch.
+On Wed, Mar 22, 2023 at 8:01=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
+> >
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "reg" properties are available in Device Tree.
+>
+> ...
+>
+> > +config DRM_DISPLAY_DP_TYPEC_HELPER
+>
+> > +     bool
+> > +     default y
+>
+>         def_bool y
+>
+> > +     depends on DRM_DISPLAY_HELPER
+> > +     depends on DRM_DISPLAY_HELPER=3DTYPEC || TYPEC=3Dy
+> > +     help
+> > +       DRM display helpers for USB Type-C Displayport Alternate mode.
+>
+> Hmm... Dunno if this help is enough.
 
-What I want to get fixed here is the -Warray-bounds warning, while not messing
-too much with the original implementation. :)
+Okay I'll add more detail in the next version.
+>
+> ...
+>
+> > +     snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
+>
+> Would it be possible to have a dup in name and would it be a problem if s=
+o?
+>
+The port_num is included in the name, so the names should be unique.
+Also, the fwnode name actually contains the reg property, so this name
+looks like "endpoint@0-1" now... I'll change the name from fwnode name
+to dev_name() per Dmitry's comment.
+> ...
+>
+> > +/**
+> > + * drm_dp_register_typec_switches() - register Type-C switches
+> > + * @dev: Device that registers Type-C switches
+> > + * @port: Device node for the switch
+> > + * @switch_desc: A Type-C switch descriptor
+> > + * @data: Private data for the switches
+> > + * @mux_set: Callback function for typec_mux_set
+> > + *
+> > + * This function registers USB Type-C switches for DP bridges that can=
+ switch
+> > + * the output signal between their output pins. This function uses dev=
+m_kcalloc
+> > + * to allocate memory, so it is expected to only call this in the driv=
+er probe
+> > + * functions.
+> > + *
+> > + * Currently only mode switches are implemented, and the function assu=
+mes the
+> > + * given @port device node has endpoints with "mode-switch" property.
+> > + * The port number is determined by the "reg" property of the endpoint=
+.
+>
+> `kernel-doc -v ...` should complain on absence of "Return" section.
+>
+> > + */
+>
+> ...
+>
+> > +     switch_desc->typec_ports =3D devm_kcalloc(dev, switch_desc->num_t=
+ypec_switches,
+> > +                                             sizeof(struct drm_dp_type=
+c_port_data),
+>
+>                                                 sizeof(*switch_desc_typec=
+_ports),
+>
+> ?
+>
+> > +                                             GFP_KERNEL);
+> > +     if (!switch_desc->typec_ports)
+> > +             return -ENOMEM;
+>
+> ...
+>
+> > +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
+>
+> Ah, maybe this should use IS_REACHABLE() ?
 
-Thanks
---
-Gustavo
+CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER is a boolean. Is there any
+difference between IS_REACHABLE and ifdef when the given config is a
+boolean?
+>
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc =
+*switch_desc);
+> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_h=
+andle *port,
+> > +                                struct drm_dp_typec_switch_desc *switc=
+h_desc,
+> > +                                void *data, typec_mux_set_fn_t mux_set=
+);
+> > +#else
+> > +static inline void drm_dp_unregister_typec_switches(struct drm_dp_type=
+c_switch_desc *switch_desc)
+> > +{
+> > +}
+> > +static inline int drm_dp_register_typec_switches(
+> > +             struct device *dev, struct fwnode_handle *port,
+> > +             struct drm_dp_typec_switch_desc *switch_desc, void *data,
+> > +             typec_mux_set_fn_t mux_set)
+> > +{
+> > +     return -EOPNOTSUPP;
+> > +}
+> > +#endif
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+
+Best regards,
+Pin-yen
+>

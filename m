@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216EA7C
-	for <chrome-platform@lists.linux.dev>; Sat,  1 Apr 2023 01:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB8FC433D2;
-	Sat,  1 Apr 2023 01:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5655D7C
+	for <chrome-platform@lists.linux.dev>; Sat,  1 Apr 2023 01:42:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D7A6C433EF;
+	Sat,  1 Apr 2023 01:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680313295;
+	s=k20201202; t=1680313369;
 	bh=VmykETqOcjF6Uy29X96uBxbZm48eC5ZmjKblSG7f64I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YQ7+61TWNlYMlaGTMmVTziTrZv23Zo+sFArV8IdckRBiK77srNXCVVZZx1TR6nhgr
-	 RcC/3EsX/qBmmdaFFq8+5XN3BY1VJ9us/UHgdb7G4d+3uss7E/BIv1FtIM+3ZaTdvU
-	 ppZddkeL740v/KoWmecvnoS60DSLjC4CSXinrvi/SvisgWHMfeAbiS00zMlNVrro+1
-	 LGDoxBpvu3LvwtxCatvJKuc7Nm58teasPKPkgY9GLvBjK9eQIuyL2Cg2zXAAf182Gd
-	 fZWFxkrzFSoTSgwFk+px5+vtXK9DvhI9J+y6c7xaR9s66j5BSkxpgrxdu/ww+aGkPT
-	 oOR7+k2MZ3l8A==
+	b=Yrh/EMy3/GO2tYLXF4PmbMEj2aNsl3c2bEle2pqCfVFCmC6azyOOvLEubybA8Bra4
+	 8hfJ5chgIHVut4lROacieJKlxuZ4A0hxd3+Whrc9Ls/OtKYuIeVdN4EkaQQ6F78voe
+	 nzvN6PP1YWwHVJTcG2XZ8of/qlqcVlHmALrGvmUu+cSKFnvIdpuaUsdvo4VyX8/axu
+	 gT15BZLeZ4Mm6grW0OaRWfUYoLjTcflJ+0erkqfPrJcZ00JxJl+7TAKvZ+//o3tJyz
+	 ZZUEzOq0xXhQKk5EzF1atb2JIlQiuAoo3ehwMNyZCtS/+ZPq9CYD/DcX/lOrlkDcsM
+	 AWVskrYG6zucA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,12 +26,12 @@ Cc: Grant Grundler <grundler@chromium.org>,
 	sre@kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-pm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 05/25] power: supply: cros_usbpd: reclassify "default case!" as debug
-Date: Fri, 31 Mar 2023 21:41:03 -0400
-Message-Id: <20230401014126.3356410-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 04/24] power: supply: cros_usbpd: reclassify "default case!" as debug
+Date: Fri, 31 Mar 2023 21:42:20 -0400
+Message-Id: <20230401014242.3356780-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230401014126.3356410-1-sashal@kernel.org>
-References: <20230401014126.3356410-1-sashal@kernel.org>
+In-Reply-To: <20230401014242.3356780-1-sashal@kernel.org>
+References: <20230401014242.3356780-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>

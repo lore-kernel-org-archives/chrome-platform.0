@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90027C
-	for <chrome-platform@lists.linux.dev>; Sat,  1 Apr 2023 01:44:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81B6FC433D2;
-	Sat,  1 Apr 2023 01:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFB87C
+	for <chrome-platform@lists.linux.dev>; Sat,  1 Apr 2023 01:44:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2EFC4339B;
+	Sat,  1 Apr 2023 01:44:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680313474;
-	bh=OWsC+RlSBWRoNvougj80y3T8tX3mx0IkRNMcosEg6mo=;
+	s=k20201202; t=1680313487;
+	bh=bc7tp/0HYO/uCoaOARNeHLN2//EvRzv+YWJcqQZ3kFU=;
 	h=From:To:Cc:Subject:Date:From;
-	b=iM56e0OE4WX3bMMJEAp6Nj67Q0Hcf/6tkwhGFbH76cuwE3rmLeOI2yRNZx6XR0Rp3
-	 umhIWuDn5iE/+3QIYlYBxD0El3PQvXqhZUKMZScSs1qZA/KAfKYC7JHCXbUYt/yUWL
-	 cJx4rNO/87hE6eI/NxAhn/CtwCGz1nI5DOmhkYrT2vLF1RhMpFq1Kkk0CJSXd+95s+
-	 qR5ls8fr2Nd1/HFxnQKMpIxcHyqU0z9Xab4XSs6KsFKUVYvq5iX9gQG/ivT61IhEUv
-	 sFsLj+kFJ4qMoQ0Eqtqapcrt0QTKCp8y8K5cRGh3tvUQbOiqYD2E4yPBcvxK8pznP1
-	 7OTNxz88H5FnA==
+	b=P/snOpZqG7esADmSOTeOMkzNaoeQW4uPYuFJd4ejO+++56sLzgRnm2jh+Ma5vjRb4
+	 NeqAtWoJmeVI38Cj1l+w5g6wyJd2SrR6zviQSBDVp3Uoerz4xnyMoauOWKhziI215w
+	 rtS1FjvK/nFAK/CmFazHGgskvObBTDr7XA7yu9uE2sVkN4OIG2s2jQGlLwnGuXqLEq
+	 LTPhd+zhIhPMNFt5x42RVngXsBszNnMTnPX3L0OIYCkThJaFzX/X/kgXEuPWxEr42J
+	 rIrDt9B+ialViV4XmB+I4XluEDwibw7AmV9oUeBxA2mLRK0a79WahTx1kYn0QU+Oxe
+	 hynN08XsFZkFw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,9 +26,9 @@ Cc: Grant Grundler <grundler@chromium.org>,
 	sre@kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-pm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 1/6] power: supply: cros_usbpd: reclassify "default case!" as debug
-Date: Fri, 31 Mar 2023 21:44:26 -0400
-Message-Id: <20230401014431.3357345-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/4] power: supply: cros_usbpd: reclassify "default case!" as debug
+Date: Fri, 31 Mar 2023 21:44:41 -0400
+Message-Id: <20230401014444.3357427-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -62,10 +62,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-index 6cc7c3910e098..0f80fdf88253c 100644
+index 688a16bacfbbd..74b5914abbf7e 100644
 --- a/drivers/power/supply/cros_usbpd-charger.c
 +++ b/drivers/power/supply/cros_usbpd-charger.c
-@@ -282,7 +282,7 @@ static int cros_usbpd_charger_get_power_info(struct port_data *port)
+@@ -242,7 +242,7 @@ static int cros_usbpd_charger_get_power_info(struct port_data *port)
  		port->psy_current_max = 0;
  		break;
  	default:

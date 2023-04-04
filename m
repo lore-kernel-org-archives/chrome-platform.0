@@ -1,79 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFB87C
-	for <chrome-platform@lists.linux.dev>; Sat,  1 Apr 2023 01:44:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2EFC4339B;
-	Sat,  1 Apr 2023 01:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680313487;
-	bh=bc7tp/0HYO/uCoaOARNeHLN2//EvRzv+YWJcqQZ3kFU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=P/snOpZqG7esADmSOTeOMkzNaoeQW4uPYuFJd4ejO+++56sLzgRnm2jh+Ma5vjRb4
-	 NeqAtWoJmeVI38Cj1l+w5g6wyJd2SrR6zviQSBDVp3Uoerz4xnyMoauOWKhziI215w
-	 rtS1FjvK/nFAK/CmFazHGgskvObBTDr7XA7yu9uE2sVkN4OIG2s2jQGlLwnGuXqLEq
-	 LTPhd+zhIhPMNFt5x42RVngXsBszNnMTnPX3L0OIYCkThJaFzX/X/kgXEuPWxEr42J
-	 rIrDt9B+ialViV4XmB+I4XluEDwibw7AmV9oUeBxA2mLRK0a79WahTx1kYn0QU+Oxe
-	 hynN08XsFZkFw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Grant Grundler <grundler@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Sasha Levin <sashal@kernel.org>,
-	bleung@chromium.org,
-	sre@kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/4] power: supply: cros_usbpd: reclassify "default case!" as debug
-Date: Fri, 31 Mar 2023 21:44:41 -0400
-Message-Id: <20230401014444.3357427-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D8628F3
+	for <chrome-platform@lists.linux.dev>; Tue,  4 Apr 2023 17:07:56 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-17683b570b8so35319054fac.13
+        for <chrome-platform@lists.linux.dev>; Tue, 04 Apr 2023 10:07:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680628075;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M6gkago0IX2qDsFTPoqyaI/Smb2BtWMPqkzjbhBxBBY=;
+        b=5z6Mx1gEKKOEXvpTtiI8XWM9MC0+xBeb3aGj9q2URfijjRE3Fvm0k1btAxZVco6sFt
+         CvQMWasLvhtFINBY1CBsCQzjJxrMeYybQQq13QNrasz06JvjrLoZ7ljKagPU4qHNvpWQ
+         5AmQyMxO0IU9TCqwHDgB+lL3yjujI86TvveVLZKxroS06i7Wti1GjyoWy2y248F3ZkEi
+         A4r6/kLYs3zDklvkX1+Qt6toBDtGPeVgf5n972i1/G+du5ZpVz7X87i7UDgrfayTc/gp
+         c8wTXDdjKWWk+ZAKzPcC7+dZkvMiOK58Xjl+8YFBBqhVD0u9bGiEPQtsKLNyv31nj/98
+         mfqg==
+X-Gm-Message-State: AAQBX9e+Dp0ImMIsC9GWbGkKNC/X71VASBcn8pzZ6K7jZ9yeuQGWGjEU
+	PJPydHxJkhltIA8iv6+SdQ==
+X-Google-Smtp-Source: AKy350boa65dpRdsMFN94tJSdJniDAXV5Su1VkGjuBPDPH1ry4H904Fa2qgHRI+R97gDaNx5b+aQyQ==
+X-Received: by 2002:a05:6870:d599:b0:17f:d229:bc54 with SMTP id u25-20020a056870d59900b0017fd229bc54mr58236oao.12.1680628075017;
+        Tue, 04 Apr 2023 10:07:55 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id kw17-20020a056870ac1100b001802d3e181fsm4961509oab.14.2023.04.04.10.07.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 10:07:54 -0700 (PDT)
+Received: (nullmailer pid 111440 invoked by uid 1000);
+	Tue, 04 Apr 2023 17:07:53 -0000
+Date: Tue, 4 Apr 2023 12:07:53 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Mattijs Korpershoek <mkorpershoek@baylibre.com>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] dt-bindings: input: Drop unneeded quotes
+Message-ID: <20230404170753.GB49361-robh@kernel.org>
+References: <20230320234718.2930154-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320234718.2930154-1-robh@kernel.org>
 
-From: Grant Grundler <grundler@chromium.org>
+On Mon, Mar 20, 2023 at 06:47:18PM -0500, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/input/adc-joystick.yaml     | 4 ++--
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml        | 2 +-
+>  Documentation/devicetree/bindings/input/imx-keypad.yaml       | 2 +-
+>  Documentation/devicetree/bindings/input/matrix-keymap.yaml    | 2 +-
+>  .../devicetree/bindings/input/mediatek,mt6779-keypad.yaml     | 2 +-
+>  .../devicetree/bindings/input/microchip,cap11xx.yaml          | 4 ++--
+>  Documentation/devicetree/bindings/input/pwm-vibrator.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/input/regulator-haptic.yaml | 4 ++--
+>  .../bindings/input/touchscreen/elan,elants_i2c.yaml           | 4 ++--
+>  9 files changed, 14 insertions(+), 14 deletions(-)
 
-[ Upstream commit 14c76b2e75bca4d96e2b85a0c12aa43e84fe3f74 ]
-
-This doesn't need to be printed every second as an error:
-...
-<3>[17438.628385] cros-usbpd-charger cros-usbpd-charger.3.auto: Port 1: default case!
-<3>[17439.634176] cros-usbpd-charger cros-usbpd-charger.3.auto: Port 1: default case!
-<3>[17440.640298] cros-usbpd-charger cros-usbpd-charger.3.auto: Port 1: default case!
-...
-
-Reduce priority from ERROR to DEBUG.
-
-Signed-off-by: Grant Grundler <grundler@chromium.org>
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/power/supply/cros_usbpd-charger.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-index 688a16bacfbbd..74b5914abbf7e 100644
---- a/drivers/power/supply/cros_usbpd-charger.c
-+++ b/drivers/power/supply/cros_usbpd-charger.c
-@@ -242,7 +242,7 @@ static int cros_usbpd_charger_get_power_info(struct port_data *port)
- 		port->psy_current_max = 0;
- 		break;
- 	default:
--		dev_err(dev, "Port %d: default case!\n", port->port_number);
-+		dev_dbg(dev, "Port %d: default case!\n", port->port_number);
- 		port->psy_usb_type = POWER_SUPPLY_USB_TYPE_SDP;
- 	}
- 
--- 
-2.39.2
+Applied, thanks.
 

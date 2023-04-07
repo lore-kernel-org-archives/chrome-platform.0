@@ -1,86 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32BE621
-	for <chrome-platform@lists.linux.dev>; Fri,  7 Apr 2023 02:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E59AC433EF;
-	Fri,  7 Apr 2023 02:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0925EBB
+	for <chrome-platform@lists.linux.dev>; Fri,  7 Apr 2023 18:50:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70A9EC4339B;
+	Fri,  7 Apr 2023 18:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680834830;
-	bh=3rM6oeJbrkuiKmQOERi1z5vHxAPes5n8PBDrEeL3XjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EmuIQG+6jC36yrygIPsYPvQg/r9sf/Eec0s6+QZ0CuDqctd1XK183FTlcUQuMVJko
-	 fsx5WTLVlOPVahbYySXagZ/d+C2fkNsdnVG9RDWbcGDdHFcGD5t5ZFSrhTlRALupNH
-	 t40dwNPdRHePxt4QHa1vL2tI96lS9reiSCoQh4crjOdXtVOgOQ2LA0qQMMvma5lV8C
-	 sRc1B0I6Ot0KcNXUVH00WAy9Kji3CMfU5Ta9vg5wnnaq02di9+8MFrV82WtBP+sb8o
-	 a8oXJwNs2ngb+l3wcZ4kDbMETIguSBLYqLXbash0Md0YBg+KiToxeBdeeZm8/Ne2yY
-	 lbOmDqlz/iE5Q==
-Date: Fri, 7 Apr 2023 10:33:47 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Rob Barnes <robbarnes@google.com>
-Cc: chrome-platform@lists.linux.dev, dnojiri@chromium.org,
-	groweck@chromium.org, gwendal@chromium.org
-Subject: Re: [PATCH] platform/chrome: cros_ec: Separate logic for getting
- panic info
-Message-ID: <ZC+BC062FGL5ylMb@google.com>
-References: <20230406095423.1.I8e3c16fbecd17956b0a44fc486a8ede3ddb13eec@changeid>
+	s=k20201202; t=1680893423;
+	bh=ZiYEKsqOI0pOUlUcoEiV/9lrkZr71nCRzoLQGsYGPBk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=njfIoS95/71qXkxNPrHdF+g167rl8Xw1fMH+/JEr/wGuLb5emO/0m+82BPcHMUhRH
+	 XyqFpCCPRtSYwQ6UWcivysJ1hKNBAIMRA04CwwLND2gY2OBPHxMy2Ax0YxqAJB8lGa
+	 02Co0RtDHlzDh1LZE6JNVYkDGRdLgi8exOqqR+bcTcQQNPLlZdbIw0b7OXkoGhF33c
+	 egII7uS1q9k+q9YR1ALt5pOE95SHzeVTFn5lRobOxzVotIG7/x9CBZW/FT3DzQZJ6a
+	 4KQhJTMxbvpTcf2wmfXcKHVngSlb3oHJAz4FsYjACiXfbZjNjlORC8IumZ6YP82jRv
+	 KX2bC/XelhZZA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 591B8C395C5;
+	Fri,  7 Apr 2023 18:50:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230406095423.1.I8e3c16fbecd17956b0a44fc486a8ede3ddb13eec@changeid>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_typec_switch: Add missing
+ fwnode_handle_put()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168089342336.26662.11598953499500535538.git-patchwork-notify@kernel.org>
+Date: Fri, 07 Apr 2023 18:50:23 +0000
+References: <20230322041657.1857001-1-windhl@126.com>
+In-Reply-To: <20230322041657.1857001-1-windhl@126.com>
+To: Liang He <windhl@126.com>
+Cc: pmalani@chromium.org, bleung@chromium.org, chrome-platform@lists.linux.dev
 
-On Thu, Apr 06, 2023 at 04:14:14PM +0000, Rob Barnes wrote:
-> -static int cros_ec_create_panicinfo(struct cros_ec_debugfs *debug_info)
-> +/**
-> + * Returns the size of the panicinfo data fetched from the EC
-> + */
-> +static int cros_ec_get_panicinfo(struct cros_ec_device *ec_dev, uint8_t *data,
-> +				 int data_size)
->  {
-> -	struct cros_ec_device *ec_dev = debug_info->ec->ec_dev;
-> -	int ret;
-> +	int ret = 0;
+Hello:
 
-`ret` doesn't need to be initialized.  It will be overridden soon anyway.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Prashant Malani <pmalani@chromium.org>:
 
-> -	insize = ec_dev->max_response;
-> +	if (!data || data_size <= 0)
-> +		return -EINVAL;
+On Wed, 22 Mar 2023 12:16:57 +0800 you wrote:
+> In cros_typec_register_switches(), we should add fwnode_handle_put()
+> when break out of the iteration device_for_each_child_node()
+> as it will automatically increase and decrease the refcounter.
+> 
+> Fixes: affc804c44c8 ("platform/chrome: cros_typec_switch: Add switch driver")
+> Signed-off-by: Liang He <windhl@126.com>
+> 
+> [...]
 
-How about `data_size > ec_dev->max_response`?
+Here is the summary with links:
+  - platform/chrome: cros_typec_switch: Add missing fwnode_handle_put()
+    https://git.kernel.org/chrome-platform/c/d946c9118047
 
-> -	msg = devm_kzalloc(debug_info->ec->dev,
-> -			sizeof(*msg) + insize, GFP_KERNEL);
-> +	msg = devm_kzalloc(ec_dev->dev, sizeof(*msg) + data_size, GFP_KERNEL);
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In the case, it doesn't have to be devm anymore.
 
->  	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-> +
-> +	if (ret < 0)
-> +		goto free;
-
-If possible, please remove the extra blank line to make them look as a whole.
-
-> +free:
-> +	devm_kfree(ec_dev->dev, msg);
-
-Given that the function controls the memory's lifecycle, it doesn't have to
-be devm.
-
-> +static int cros_ec_create_panicinfo(struct cros_ec_debugfs *debug_info)
-> +{
-> +	struct cros_ec_device *ec_dev = debug_info->ec->ec_dev;
-[...]
-> +	ret = cros_ec_get_panicinfo(ec_dev, data, ec_dev->max_response);
-> +
->  	if (ret < 0) {
->  		ret = 0;
->  		goto free;
-
-Ditto, please remove the extra blank line if possible.

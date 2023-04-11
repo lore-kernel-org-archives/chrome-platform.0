@@ -1,24 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C86220F0
-	for <chrome-platform@lists.linux.dev>; Tue, 11 Apr 2023 05:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CE457C433EF;
-	Tue, 11 Apr 2023 05:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B29F20F0
+	for <chrome-platform@lists.linux.dev>; Tue, 11 Apr 2023 05:33:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E9DCC433EF;
+	Tue, 11 Apr 2023 05:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681189217;
-	bh=LZKLYYRsvEgPKPsclMT07MpGDB+M0VaHtZHYi3NKlJM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=NsjSeTmH50gN9z7KK7Ae1nPwwa3W4bgqr+z9H//tD+ALWXo0yGZ1p+6RJVoO4w1gm
-	 gG4v6SkHQVoxaP57tGByuK5vL+yuMsCc1A4swgP7jW8xwe/rs2dnQdyOb0blCu0VGt
-	 czmxLj7b+Rw70JS80KPGEBQBFDghDIhulaoTa/6LIaP1KPakBHdtNadbqFKjHIVAkA
-	 ycPqBSdh2+uPtSO3ecqtjS327U1lNm/aYZV8aD4LJMBUZ2RASMxXT9x/MqYKhsfSpE
-	 qebD7ogyIfj/Jv9BQfex0uJmTM3gNhUDDCj0+s4CHOm/mvah1J7zIPn8miPAz+SO9h
-	 R2Dzlh2FRI0MQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ABC4BF8321B;
-	Tue, 11 Apr 2023 05:00:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1681191216;
+	bh=tlrzEkaB0aL0i2kmj6XPGfsxhneOf84hGPGRITKnDDs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aUdE3Kyx4yrGQ0G63/m6VJSA7BmXvmUBr8wGHZYsFmz6NUZHYeQN3BgfkgsdGKDSR
+	 rDShW68KrPGZmBAm1+rXgw2sm2I0bjseICmeqjeK2hSmwdCLfHbJ0AdBO9I8+lq/cH
+	 8m4Cf0iZ47Ac8z78IuTLHNPTDCOi1D3mcNaXoXnNbdes+36Q77I7plvLlxJq+UYvov
+	 nz2owv6+MrcFae7luXavcceuCpAWOFgQ8FAJFVhku2MM/POUHxBi1pvr7kIEcSek1F
+	 k8CTvFwhG0XTZuQFymmPdayGqqfC8KtEOUV9Hz+9AxTqnQx/M6TVjnWKo2cSKDUhIJ
+	 mPrvYTxJqXrfg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	robbarnes@google.com,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] platform/chrome: cros_ec_debugfs: fix kernel-doc warning
+Date: Tue, 11 Apr 2023 13:33:08 +0800
+Message-Id: <20230411053308.1572493-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -26,40 +33,36 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] platform/chrome: cros_ec: Separate logic for getting panic
- info
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <168118921770.5721.15331058837135424860.git-patchwork-notify@kernel.org>
-Date: Tue, 11 Apr 2023 05:00:17 +0000
-References: <20230410165817.932449-1-robbarnes@google.com>
-In-Reply-To: <20230410165817.932449-1-robbarnes@google.com>
-To: Rob Barnes <robbarnes@google.com>
-Cc: chrome-platform@lists.linux.dev, dnojiri@chromium.org,
- gwendal@chromium.org, tzungbi@kernel.org
 
-Hello:
+Fix the following kernel-doc warning:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+$ ./scripts/kernel-doc -none drivers/platform/chrome/*
+[...]
+warning: This comment starts with '/**', but isn't a kernel-doc comment.
 
-On Mon, 10 Apr 2023 16:58:17 +0000 you wrote:
-> Create a separate function called cros_ec_get_panicinfo for getting
-> panic info from EC.
-> 
-> Currently cros_ec_create_panicinfo is the only caller.
-> 
-> Signed-off-by: Rob Barnes <robbarnes@google.com>
-> 
-> [...]
+Fixes: 14bb09b32f43 ("platform/chrome: cros_ec: Separate logic for getting panic info")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+I should put it in my checklist in the future before pushing patches to
+for-next.
 
-Here is the summary with links:
-  - [v2] platform/chrome: cros_ec: Separate logic for getting panic info
-    https://git.kernel.org/chrome-platform/c/14bb09b32f43
+ drivers/platform/chrome/cros_ec_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You are awesome, thank you!
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 414ebfffcf83..c876120e0ebc 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -400,7 +400,7 @@ static void cros_ec_cleanup_console_log(struct cros_ec_debugfs *debug_info)
+ 	}
+ }
+ 
+-/**
++/*
+  * Returns the size of the panicinfo data fetched from the EC
+  */
+ static int cros_ec_get_panicinfo(struct cros_ec_device *ec_dev, uint8_t *data,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.40.0.577.gac1e443424-goog
 

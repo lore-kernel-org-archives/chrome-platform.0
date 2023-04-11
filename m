@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AA52F3F
-	for <chrome-platform@lists.linux.dev>; Mon, 10 Apr 2023 20:30:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80720C4339B;
-	Mon, 10 Apr 2023 20:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871CC17E3
+	for <chrome-platform@lists.linux.dev>; Tue, 11 Apr 2023 03:00:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 260C8C433EF;
+	Tue, 11 Apr 2023 03:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681158617;
-	bh=dvMuJmUYKXkFOnj5mdVrJ5yuAXCP9wbGh2vaknGyWDU=;
+	s=k20201202; t=1681182018;
+	bh=5Fbluf0PPEPGYpJSHdgc1xfB0XcWNCzDZQpU++NU9HI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=gyqouiolDnn9WMMMBoMpZQn0X71GUlSaRgOD+XLWvUmTflXmP3aWNXAunMxANsDVI
-	 CKud3OynsdL2DxRL1N1qOs1Lg7FoktDiHOJ4NL+2sxRGE9HIgxZvo6OOkxoEktJZaz
-	 3e22FYNP3S485+A1prqw1e9JWwo+H73I6ISKkv/4fPbLJuPR5jV7gBpNqnTBfoaa9Z
-	 9PgABr7/uG/WEOwo1U86c7kVysHlL/KeaAuR8pq7gMa7kgNapo8r5LZTHs900ydGWS
-	 Kqo4NakR0+WakGgPrSinfpqfcak88cmRS956Np3U9ZFUPYLtkpCsoXV3Pdqh/EjHyc
-	 tOZztlHy8DK1g==
+	b=g3A+oeG0t9d+mCCudWtH0R3iO+JvtDMwk043K1SAY6XOu0LWRw22783wo6jn7zyhb
+	 QDIwgPvBZkeH0QR6ZqyH5hdjessTOQoEuo6tkpwoFr1WtAMwV9S5RSloWVSYc/KSzn
+	 V0TO+cyQFSFWsSppBTBqEyIt+Ea4FtmfrAe6EEWu1lVK5xRqQM8G1FzDIFDWG+QSk1
+	 eR1FMwRtkGhtRGGZrv73NIQhjCmgtJtWptgZaCaFQzMArwLb1iEqRWXUOFJo4wDs/E
+	 U3VOHYPJNIlbCTEZ6vkKtnjhgSm197YM4qd9fKtzub+JhRIZJXd+cOpVoRwdvGAEh7
+	 vUc3EZBwAt/oQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6785DC395C5;
-	Mon, 10 Apr 2023 20:30:17 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0ACB9FE9B5F;
+	Tue, 11 Apr 2023 03:00:18 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -26,35 +26,36 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_typec_switch: Add missing
- fwnode_handle_put()
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Separate logic for getting panic
+ info
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <168115861742.7015.13033618065240895011.git-patchwork-notify@kernel.org>
-Date: Mon, 10 Apr 2023 20:30:17 +0000
-References: <20230322041657.1857001-1-windhl@126.com>
-In-Reply-To: <20230322041657.1857001-1-windhl@126.com>
-To: Liang He <windhl@126.com>
-Cc: pmalani@chromium.org, bleung@chromium.org, chrome-platform@lists.linux.dev
+ <168118201804.17651.14729045916454683515.git-patchwork-notify@kernel.org>
+Date: Tue, 11 Apr 2023 03:00:18 +0000
+References: <20230410165817.932449-1-robbarnes@google.com>
+In-Reply-To: <20230410165817.932449-1-robbarnes@google.com>
+To: Rob Barnes <robbarnes@google.com>
+Cc: chrome-platform@lists.linux.dev, dnojiri@chromium.org,
+ gwendal@chromium.org, tzungbi@kernel.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Prashant Malani <pmalani@chromium.org>:
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Wed, 22 Mar 2023 12:16:57 +0800 you wrote:
-> In cros_typec_register_switches(), we should add fwnode_handle_put()
-> when break out of the iteration device_for_each_child_node()
-> as it will automatically increase and decrease the refcounter.
+On Mon, 10 Apr 2023 16:58:17 +0000 you wrote:
+> Create a separate function called cros_ec_get_panicinfo for getting
+> panic info from EC.
 > 
-> Fixes: affc804c44c8 ("platform/chrome: cros_typec_switch: Add switch driver")
-> Signed-off-by: Liang He <windhl@126.com>
+> Currently cros_ec_create_panicinfo is the only caller.
+> 
+> Signed-off-by: Rob Barnes <robbarnes@google.com>
 > 
 > [...]
 
 Here is the summary with links:
-  - platform/chrome: cros_typec_switch: Add missing fwnode_handle_put()
-    https://git.kernel.org/chrome-platform/c/d946c9118047
+  - [v2] platform/chrome: cros_ec: Separate logic for getting panic info
+    https://git.kernel.org/chrome-platform/c/14bb09b32f43
 
 You are awesome, thank you!
 -- 

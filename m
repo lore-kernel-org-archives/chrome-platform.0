@@ -1,88 +1,61 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F205F2F21
-	for <chrome-platform@lists.linux.dev>; Tue, 11 Apr 2023 20:30:47 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id j19so2958097qkk.8
-        for <chrome-platform@lists.linux.dev>; Tue, 11 Apr 2023 13:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1681245047; x=1683837047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CV6aPszvq/JP5mKLiXwUdzLZv3idMMVclWegKUhvRAw=;
-        b=fpdg9BNHYQJKKv/YaHE/Dr9N9yZHN4wP87IPezZmm4bx3FOxfDCGOYEek8wkDPC1+6
-         KpFMclm0H8B5Bq51zVw4EYMOMtEwYYznUXdRnMZPSQGFespd/lsfGahTnP0s8TUqYgFi
-         mXM1yGep7C142Eg/o5gJ6w9T7nUPHI3F70nVA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681245047; x=1683837047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CV6aPszvq/JP5mKLiXwUdzLZv3idMMVclWegKUhvRAw=;
-        b=LDuWWFGxkzfGmeHEh0jAfB4rRTDuG5S70U1ciGo3meTPbZ12wWmbAOZ/GlXEqr4w0I
-         QGzyC8zCbw85yjc8r/I4jQWPJtUc1s8ekeUTusE4NeUsN9a5+ngPePbvnkqgKdFE3EBx
-         G56HldnElAqP0MwKAz+jaxwDX/HBQxIlEPYevU28NE61Vz02Px7wHtpjMhkH5V9HuOA3
-         3MO8YLP7SpBHDPNg9uCpEbBbirEC7XD10pNHznIdPz7Wblh9g9gkQYrWG1eusSpSyv5l
-         A2xuiVPgusQUcCDmsySqPWd6wqSHuInUROsOnu0ER3n8HY30bmlsgUoXEkFIWU8oa9EZ
-         rvbg==
-X-Gm-Message-State: AAQBX9dOjESr2kgNrdAmrUC4E1Q8I+DaLsptxFiJ7Z3A6Vp26LeA/KmA
-	gioVOg7mcV1GswCoVTrTF322NBPvEaibBWnuh7qJ3w==
-X-Google-Smtp-Source: AKy350ZxpCavH7w1nKcdAqTjEm9L3x6Px5zdaNLHgSGHbxIFCPyYY9RX0SZZcgHRTyzACkB491tYN18svtEbbr5k2wM=
-X-Received: by 2002:a05:620a:1981:b0:746:9411:4c18 with SMTP id
- bm1-20020a05620a198100b0074694114c18mr1330584qkb.5.1681245046928; Tue, 11 Apr
- 2023 13:30:46 -0700 (PDT)
+Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467B3364
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Apr 2023 00:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=ENNo4iectvYsmfO0kcRpq1kVjNNnqzFUNstY4b5BCLY=; b=U
+	cyBR/w1AO4PEyqsQ63A30/WbCQiXXF+SQ+++1VjhYXVZNEWXeNImQyDbAKTizvax
+	TpTSFtoDtnCjidYgHgCVVG9K53cteVe168c8T5UrW3dqSu2WReIzTi8pihWRzE4n
+	e8hIc+ZZOqD0PER8pkgXohFk8K7tMZpPsKlv4leUK4=
+Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
+ (Coremail) ; Wed, 12 Apr 2023 08:26:54 +0800 (CST)
+X-Originating-IP: [124.16.139.61]
+Date: Wed, 12 Apr 2023 08:26:54 +0800 (CST)
+From: "Liang He" <windhl@126.com>
+To: "Prashant Malani" <pmalani@chromium.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+Subject: Re:Re: [PATCH] platform/chrome: cros_ec_typec: Add missing
+ fwnode_handle_put()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2023 www.mailtech.cn 126com
+In-Reply-To: <CACeCKacsy5tbSFATgtsDYfAJi68ExpbJDBGv2Z0K4N-dC7H8aA@mail.gmail.com>
+References: <20230322041054.1856718-1-windhl@126.com>
+ <CACeCKacsy5tbSFATgtsDYfAJi68ExpbJDBGv2Z0K4N-dC7H8aA@mail.gmail.com>
+X-NTES-SC: AL_QuyTA/6etkoq4iidYukXnUwQg+s/UMW3vfgg2oZVNp80kSnV2w09XV98JGvw4f+jDzuikDixbSpy1dZaZ5tIQKb0+lWb2lsCsXpTP+kQVbpH
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230322041054.1856718-1-windhl@126.com>
-In-Reply-To: <20230322041054.1856718-1-windhl@126.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 11 Apr 2023 13:30:35 -0700
-Message-ID: <CACeCKacsy5tbSFATgtsDYfAJi68ExpbJDBGv2Z0K4N-dC7H8aA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Add missing fwnode_handle_put()
-To: Liang He <windhl@126.com>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <12078fa5.471.18772dbb80b.Coremail.windhl@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:GMqowAB3h8_Q+jVkzHIKAA--.65317W
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuBlOF2JVmnFNygABsi
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Hi Liang He,
-
-Can you please resend this patch? I don't see it in patchwork or the
-mailing list any more.
-
-Thanks!
-
-On Tue, Mar 21, 2023 at 9:11=E2=80=AFPM Liang He <windhl@126.com> wrote:
->
-> In cros_typec_init_ports(), we should add fwnode_handle_put()
-> when break out of the iteration device_for_each_child_node()
-> as it will automatically increase and decrease the refcounter.
->
-> Fixes: fdc6b21e2444 ("platform/chrome: Add Type C connector class driver"=
-)
-> Signed-off-by: Liang He <windhl@126.com>
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index 2a7ff14dc37e..3a242effc85d 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -443,6 +443,7 @@ static int cros_typec_init_ports(struct cros_typec_da=
-ta *typec)
->         return 0;
->
->  unregister_ports:
-> +       fwnode_handle_put(fwnode);
->         cros_unregister_ports(typec);
->         return ret;
->  }
-> --
-> 2.25.1
->
+CgpBdCAyMDIzLTA0LTEyIDA0OjMwOjM1LCAiUHJhc2hhbnQgTWFsYW5pIiA8cG1hbGFuaUBjaHJv
+bWl1bS5vcmc+IHdyb3RlOgo+SGkgTGlhbmcgSGUsCj4KPkNhbiB5b3UgcGxlYXNlIHJlc2VuZCB0
+aGlzIHBhdGNoPyBJIGRvbid0IHNlZSBpdCBpbiBwYXRjaHdvcmsgb3IgdGhlCj5tYWlsaW5nIGxp
+c3QgYW55IG1vcmUuCj4KPlRoYW5rcyEKPgoKSSB3aWxsIHJlc2VuZCBub3csIHRoYW5rcyBmb3Ig
+eW91ciB3b3JrIG9uIG15IHBhdGNoLgoKTGlhbmcKCj5PbiBUdWUsIE1hciAyMSwgMjAyMyBhdCA5
+OjEx4oCvUE0gTGlhbmcgSGUgPHdpbmRobEAxMjYuY29tPiB3cm90ZToKPj4KPj4gSW4gY3Jvc190
+eXBlY19pbml0X3BvcnRzKCksIHdlIHNob3VsZCBhZGQgZndub2RlX2hhbmRsZV9wdXQoKQo+PiB3
+aGVuIGJyZWFrIG91dCBvZiB0aGUgaXRlcmF0aW9uIGRldmljZV9mb3JfZWFjaF9jaGlsZF9ub2Rl
+KCkKPj4gYXMgaXQgd2lsbCBhdXRvbWF0aWNhbGx5IGluY3JlYXNlIGFuZCBkZWNyZWFzZSB0aGUg
+cmVmY291bnRlci4KPj4KPj4gRml4ZXM6IGZkYzZiMjFlMjQ0NCAoInBsYXRmb3JtL2Nocm9tZTog
+QWRkIFR5cGUgQyBjb25uZWN0b3IgY2xhc3MgZHJpdmVyIikKPj4gU2lnbmVkLW9mZi1ieTogTGlh
+bmcgSGUgPHdpbmRobEAxMjYuY29tPgo+PiAtLS0KPj4gIGRyaXZlcnMvcGxhdGZvcm0vY2hyb21l
+L2Nyb3NfZWNfdHlwZWMuYyB8IDEgKwo+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+Cj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3BsYXRmb3JtL2Nocm9tZS9jcm9zX2VjX3R5cGVj
+LmMgYi9kcml2ZXJzL3BsYXRmb3JtL2Nocm9tZS9jcm9zX2VjX3R5cGVjLmMKPj4gaW5kZXggMmE3
+ZmYxNGRjMzdlLi4zYTI0MmVmZmM4NWQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvcGxhdGZvcm0v
+Y2hyb21lL2Nyb3NfZWNfdHlwZWMuYwo+PiArKysgYi9kcml2ZXJzL3BsYXRmb3JtL2Nocm9tZS9j
+cm9zX2VjX3R5cGVjLmMKPj4gQEAgLTQ0Myw2ICs0NDMsNyBAQCBzdGF0aWMgaW50IGNyb3NfdHlw
+ZWNfaW5pdF9wb3J0cyhzdHJ1Y3QgY3Jvc190eXBlY19kYXRhICp0eXBlYykKPj4gICAgICAgICBy
+ZXR1cm4gMDsKPj4KPj4gIHVucmVnaXN0ZXJfcG9ydHM6Cj4+ICsgICAgICAgZndub2RlX2hhbmRs
+ZV9wdXQoZndub2RlKTsKPj4gICAgICAgICBjcm9zX3VucmVnaXN0ZXJfcG9ydHModHlwZWMpOwo+
+PiAgICAgICAgIHJldHVybiByZXQ7Cj4+ICB9Cj4+IC0tCj4+IDIuMjUuMQo+Pgo=

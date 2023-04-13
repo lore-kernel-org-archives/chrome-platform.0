@@ -1,58 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0026362
-	for <chrome-platform@lists.linux.dev>; Wed, 12 Apr 2023 02:48:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DD1C433D2;
-	Wed, 12 Apr 2023 02:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681267731;
-	bh=TTGejWxQMiVHa9JpuFTdRCnqjvZge9A2bDyPgijyz3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hfy6nSBnbswNU9KJ4+4kop/tO+s/ZSws95dcD+KW2hkqT0QrbEZ4JTKUin3OXRMDU
-	 SZJWqkXF4GgvxjPDcZZIhgOv2qwdaJKlzWLPJlzVRPbuKi63Gru4zLlQLqNYJfgbZ8
-	 vmh7HtPuRXb0BP/SlbCWrLG4AKmFD58trH3i3h5ogWCEt/Oe5qee34I9etjM8Ec3tV
-	 GWC0bKvjfz0THbYPCmoF6kKT+OsrvI/F7ml4y1UWQSu6EADiJtOsbfmwpXQ+ijiml3
-	 F4Q/2De8WudsvZYmFziMMuOo+FHkM3kgQjpvYdYSCI60E3cBTuOjH7iKTw7Ge1kc73
-	 oQDxlLMHUazNw==
-Date: Wed, 12 Apr 2023 10:48:48 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Prashant Malani <pmalani@chromium.org>
-Cc: bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev, robbarnes@google.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_debugfs: fix kernel-doc warning
-Message-ID: <ZDYcENIWeBgnQQ29@google.com>
-References: <20230411053308.1572493-1-tzungbi@kernel.org>
- <CACeCKaduOqLwGsGLEVzdG2hDNq8=07a_V-uGLZWT0f3+Wb603Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC533CC
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Apr 2023 09:50:56 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-329518648ebso2072275ab.0
+        for <chrome-platform@lists.linux.dev>; Thu, 13 Apr 2023 02:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1681379455; x=1683971455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dL7RXszTwl3tWYCqDnlZ/0M+VW4TE/OYlCTVcW3Fizw=;
+        b=OZCLuONnhpVUw+ouXWcwATwLdSgo2Ccez85OEpH4qGtsFb/Xwjd69EWMaj8vdeU4QT
+         AMARb2wLMMcxVtzGKHqq4cT6FZtGWPQaSgIysE3v4KUhB2dsGTTKY9MCrp0gX3hK4Xwk
+         LUOYG1jTeCZH//fvUjMX+ZlzayLM0iiMU2rsM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681379455; x=1683971455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dL7RXszTwl3tWYCqDnlZ/0M+VW4TE/OYlCTVcW3Fizw=;
+        b=QjuQAtnuU3KRtWDi55Xli1HoqqVRVSD2ZP4YS+NDSNbrwNdnxFDD/eW2PPMDzaY5YM
+         aF+yhI5Z2tIiNqLAhUVmV4CAgPHY9/lDzQRYITrZ58Y+qsHQYofMPjAk8B9ln/0UcgXt
+         MgpFSg9R1RKwop0MAY32wAppvcVlmVzJ1pmu7UPWOgtaPJKTdS5XjpQJRhLdIHOyOzLC
+         ul2nxQB4Ta+5T3NwipG28A95K+5Cu+LArNq2oqhrTCAApzwDCTu1K7Hi6iteaStd58Kd
+         jkNtul1JNVWw1uJgRWglOeFy0tm42LCllT+msCTW4BN5zvHWIRy1Gs42vHrsanz+5o0R
+         hLIA==
+X-Gm-Message-State: AAQBX9e70+Hi4bajiG/pLbYKgAFaY01CSy1VPsXgF96wuoEwpQRw+ozv
+	8OHhdDIiDcZK4DsFyPQ7WogYYnwDuOHLJtbyt7e9vg==
+X-Google-Smtp-Source: AKy350bxQ09gUsUhos5IrYrCCoE/uVEAz2HLzWomfX73unodlYIHo5VgDH6iXIfg0Mc9wy4HFN++atjznGCfSKtAlIE=
+X-Received: by 2002:a05:6e02:6c9:b0:316:f93f:6f83 with SMTP id
+ p9-20020a056e0206c900b00316f93f6f83mr590699ils.6.1681379455141; Thu, 13 Apr
+ 2023 02:50:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACeCKaduOqLwGsGLEVzdG2hDNq8=07a_V-uGLZWT0f3+Wb603Q@mail.gmail.com>
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org> <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+In-Reply-To: <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 13 Apr 2023 18:50:44 +0900
+Message-ID: <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Xin Ji <xji@analogixsemi.com>, 
+	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Lyude Paul <lyude@redhat.com>, 
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 11, 2023 at 10:38:15AM -0700, Prashant Malani wrote:
-> On Mon, Apr 10, 2023 at 10:33 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > Fix the following kernel-doc warning:
-> >
-> > $ ./scripts/kernel-doc -none drivers/platform/chrome/*
-> > [...]
-> > warning: This comment starts with '/**', but isn't a kernel-doc comment.
-> >
-> > Fixes: 14bb09b32f43 ("platform/chrome: cros_ec: Separate logic for getting panic info")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
-> > I should put it in my checklist in the future before pushing patches to
-> > for-next.
-> 
-> Can this be added to kernelci?
+Hi Stephen,
 
-I'm afraid not; build tests performed by KernelCI only for its tests.  0-day
-performs better on such kind of static checks.
+On Wed, Apr 12, 2023 at 10:38=E2=80=AFAM Stephen Boyd <swboyd@chromium.org>=
+ wrote:
+>
+> Quoting Pin-yen Lin (2023-03-31 02:11:39)
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,=
+anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,an=
+x7625.yaml
+> > index b42553ac505c..604c7391d74f 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
+.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
+.yaml
+> > @@ -12,7 +12,8 @@ maintainers:
+> >
+> >  description: |
+> >    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> > -  designed for portable devices.
+> > +  designed for portable devices. Product brief is available at
+> > +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_Prod=
+uctBrief.pdf
+> >
+> >  properties:
+> >    compatible:
+> > @@ -112,9 +113,40 @@ properties:
+> >                data-lanes: true
+> >
+> >        port@1:
+> > -        $ref: /schemas/graph.yaml#/properties/port
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >          description:
+> > -          Video port for panel or connector.
+> > +          Video port for panel or connector. Each endpoint connects to=
+ a video
+> > +          output downstream, and the "data-lanes" property is used to =
+describe
+> > +          the pin connections. 0, 1, 2, 3 in "data-lanes" maps to SSRX=
+1, SSTX1,
+> > +          SSRX2, SSTX2, respectively.
+> > +
+> > +        patternProperties:
+> > +          "^endpoint@[01]$":
+> > +            $ref: /schemas/media/video-interfaces.yaml#
+> > +            properties:
+> > +              reg: true
+> > +
+> > +              remote-endpoint: true
+> > +
+> > +              data-lanes:
+> > +                oneOf:
+> > +                  - items:
+> > +                      - enum: [0, 1, 2, 3]
+> > +
+> > +                  - items:
+> > +                      - const: 0
+> > +                      - const: 1
+> > +
+> > +                  - items:
+> > +                      - const: 2
+> > +                      - const: 3
+> > +
+> > +              mode-switch:
+>
+> Is it possible to not have this property? Can we have the driver for
+> this anx device look at the remote-endpoint and if it sees that it is
+> not a drm_bridge or panel on the other end, or a DP connector, that it
+> should register a typec mode switch (or two depending on the number of
+> endpoints in port@1)? Is there any case where that doesn't hold true?
+>
+> I see these possible scenarios:
+>
+> 1. DPI to DP bridge steering DP to one of two usb-c-connectors
+>
+> In this case, endpoint@0 is connected to one usb-c-connector and
+> endpoint@1 is connected to another usb-c-connector. The input endpoint
+> is only connected to DPI. The USB endpoint is not present (although I
+> don't see this described in the binding either, so we would need a
+> port@2, entirely optional to describe USB3 input). The driver will
+> register two mode switches.
+>
+> 2. DPI to DP bridge with USB3 to one usb-c-connector
+>
+> In this case, endpoint@1 doesn't exist. The SSTX1/2 and SSRX1/2 pins are
+> all connected to a usb-c-connector node. The input ports (0 and 2) are
+> connected to both DPI and USB. The device acts as both a mode-switch and
+> an orientation-switch. It registers both switches. I wonder if there is
+> any benefit to describing SBU connections or CC connections? Maybe we
+> don't register the orientation-switch if the SBU or CC connection isn't
+> described?
+>
+> 3. DPI to DP bridge connected to eDP panel
+>
+> In this case, endpoint@1 doesn't exist. The USB endpoint is not present
+> (port@2). Depending on how the crosspoint should be configured, we'll
+> need to use data-lanes in the port@1 endpoint to describe which SSTRX
+> pair to use (1 or 2). Or we'll have to use the endpoint's reg property
+> to describe which pair to drive DP on. Presumably the default
+> configuration is SSRX2/SSTX2 providing 2 lanes of DP to an eDP panel.
+> The endpoint@0 in port@1 will be connected to a drm_panel, and the
+> driver will be able to detect this properly by checking for the
+> existence of an aux-bus node or the return value of
+> of_dp_aux_populate_bus().
+
+Can we assume that the eDP panel always stays behind an `aux-bus`
+node? Can't the panel be connected to the bridge directly in the
+graph? Though this might not matter if we only register mode switches
+when there are usb-c-connectors connected.
+>
+> 4. DPI to DP bridge connected to DP connector
+>
+> This is similar to the eDP panel scenario #3. In this case, endpoint@1
+> doesn't exist. The USB endpoint is not present (port@2). Same story
+> about port@1 and lane configuration, but we don't have an aux-bus node.
+> In this case, the drivers/gpu/drm/bridge/display-connector.c driver will
+> probe for the dp-connector node and add a drm_bridge. This anx driver
+> will similarly add a drm_bridge, but it needs to look at the node
+> connected on port@1:endpoint@0 with drm_of_get_bridge() and check if it
+> is a drm_bridge (DP connector) or if it is some type-c thing (connector
+> or orientation-switch).
+>
+> I think having this mode-switch property here lets us avoid calling
+> drm_of_get_bridge() unconditionally in anx7625_parse_dt().
+> drm_of_get_bridge() will always return -EPROBE_DEFER when this is the
+> last drm_bridge in the chain and the other side of the endpoint is a
+> type-c thing (scenarios #1 and #2). Maybe we should teach
+> drm_of_get_bridge() that a drm_bridge might be connected to a type-c
+> device and have it not return -EPROBE_DEFER in that case. Or make some
+> new API like drm_of_get_bridge_typec() that checks if the typec
+> framework knows about the endpoint in question (as either a typec switch
+> or a connector) and returns a NULL bridge pointer. If we had that then I
+> think this property is not necessary.
+>
+> Hopefully the usb-c-connector can always be registered with the typec
+> framework? I'm worried that the driver that registers the
+> usb-c-connector node may want to form a struct typec_port with
+> typec_register_port() and that will get stuck in a similar -EPROBE_DEFER
+> loop waiting for this mode-switch to appear. So having this property
+> also avoids that problem by telling typec framework to wait until this
+> driver can register a mode-switch.
+>
+> TL;DR: Is this mode-switch property a workaround for probe defer? Can we
+> figure out where the mode switch is in software and not have the
+> property in DT? If we can it would certainly improve things because
+> forgetting to add the property can lead to broken behavior, and we don't
+> do anything like this for chains of drm_bridge devices. We just describe
+> the display chain and let the kernel figure out which bridge should
+> handle hpd, edid reading, or mode detection, etc.
+
+Actually the `mode-switch` property here is mainly because
+`fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matches
+when the property is present. I am not sure what side effects would be
+if I remove the ID-matching condition in `typec_mux_match`, so I added
+the property here.
+
+Is it feasible to remove the `mode-switch` property here given the
+existing implementation of the Type-C framework?
+
+[1]: https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/mux.c=
+#L351
+[2]: https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/mux.c=
+#L290
+
+Best regards,
+Pin-yen

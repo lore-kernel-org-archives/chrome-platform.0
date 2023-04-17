@@ -1,264 +1,214 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FE17C
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Apr 2023 00:22:48 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id h37so4577570lfv.0
-        for <chrome-platform@lists.linux.dev>; Thu, 13 Apr 2023 17:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1681431767; x=1684023767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D2h8UP2fVNir/mlJb3DtYQWU1BlBEr4flUsHs5kTkik=;
-        b=UeHV34+++UD1xg4Mlnz2QEa2/bjfKP68RGlnUr7C7xNgytSHN3T3FvgzOQwMcqo81h
-         76BoThWihKYvIUmE1QUOkyh0oXMuIYc+HVWBnKywHyeD+y71UgM6WUG1wdLGQsp9TpD0
-         IZLT8g+HBT0ZLoOKPMl4NbTTPNZ3Icr8zNrwk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681431767; x=1684023767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=D2h8UP2fVNir/mlJb3DtYQWU1BlBEr4flUsHs5kTkik=;
-        b=MDd0tJ5jDeLS0rxN7slX569xGPnK4i6zueHCXO/U2x1pZjX1jqsBLOFU8oBr4NpYQC
-         NiXjrwiKb035WOAVlh48CjUMRF6A0uEuMJVinWOU6h1/XMJZNddV/I1nA7FmcnMkmCHO
-         tqua3oIBTF2sKfShLFkef9IMlM5Qvwh2V9dITpK9fibnqjihDJiiyeLOZ7QhnWvXsWTS
-         m5rBYeCco4w6DRbEpQxPpBVU/JhE69zYQMZngxm909rW/SJANr1AN42YbEDfomqy5h9N
-         1B/oWSxiytWhDPTiOyTLVKUHwZkmyYRoX1NwNvkf2/RlG6msBsUZsTHblwbeBUEKTRds
-         T3Tg==
-X-Gm-Message-State: AAQBX9eqd6wmhyAGlFgqZe/sOE5aNRBy6s4tcN+M5z3jmmXbU7LIMJcq
-	QWLBt8ewOQ9jde/C+aDhyPTen7rn9SUkfZAy0H/Eag==
-X-Google-Smtp-Source: AKy350bprd5zOQguHUQVfLjG9BqP+VRKgX5ZrLRZgSRPaIYy3Xin3YAKbmJXG7K4WSxFpl7jSP2A64ZUzUOqixQQUgo=
-X-Received: by 2002:ac2:5334:0:b0:4ec:8a46:d1e with SMTP id
- f20-20020ac25334000000b004ec8a460d1emr1312136lfh.4.1681431766845; Thu, 13 Apr
- 2023 17:22:46 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 13 Apr 2023 17:22:46 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD2D1848
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Apr 2023 06:02:17 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1poHwH-0002G1-KI; Mon, 17 Apr 2023 08:02:09 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1poHwE-00Bnsb-Cs; Mon, 17 Apr 2023 08:02:06 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1poHwD-00Dolu-4U; Mon, 17 Apr 2023 08:02:05 +0200
+Date: Mon, 17 Apr 2023 08:02:03 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, Alim Akhtar <alim.akhtar@samsung.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Benson Leung <bleung@chromium.org>,
+	Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
+	Rory Liu <hellojacky0226@hotmail.com>,
+	Scott Chao <scott_chao@wistron.corp-partner.google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Ettore Chimenti <ek5.chimenti@gmail.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Antti Palosaari <crope@iki.fi>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+	Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Moudy Ho <moudy.ho@mediatek.com>, Qiheng Lin <linqiheng@huawei.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rui Miguel Silva <rmfrfs@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Benoit Parrot <bparrot@ti.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Guenter Roeck <groeck@chromium.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>, openbmc@lists.ozlabs.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	linux-rockchip@lists.infradead.org,
+	NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andrew Jeffery <andrew@aj.id.au>, linux-renesas-soc@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH 000/117] media: Convert to platform remove callback
+ returning void
+Message-ID: <20230417060203.le3izz56wt73si6k@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
-References: <20230331091145.737305-1-treapking@chromium.org>
- <20230331091145.737305-5-treapking@chromium.org> <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
- <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 13 Apr 2023 17:22:46 -0700
-Message-ID: <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
-Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
- mode-switch support
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
-	Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Xin Ji <xji@analogixsemi.com>, 
-	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Lyude Paul <lyude@redhat.com>, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ogmoi7vlr4vxdkq5"
+Content-Disposition: inline
+In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+
+
+--ogmoi7vlr4vxdkq5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Quoting Pin-yen Lin (2023-04-13 02:50:44)
-> Hi Stephen,
->
-> On Wed, Apr 12, 2023 at 10:38=E2=80=AFAM Stephen Boyd <swboyd@chromium.or=
-g> wrote:
-> >
-> > Quoting Pin-yen Lin (2023-03-31 02:11:39)
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogi=
-x,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,=
-anx7625.yaml
-> > > index b42553ac505c..604c7391d74f 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx76=
-25.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx76=
-25.yaml
-> > > @@ -12,7 +12,8 @@ maintainers:
-> > >
-> > >  description: |
-> > >    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
-> > > -  designed for portable devices.
-> > > +  designed for portable devices. Product brief is available at
-> > > +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_Pr=
-oductBrief.pdf
-> > >
-> > >  properties:
-> > >    compatible:
-> > > @@ -112,9 +113,40 @@ properties:
-> > >                data-lanes: true
-> > >
-> > >        port@1:
-> > > -        $ref: /schemas/graph.yaml#/properties/port
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > >          description:
-> > > -          Video port for panel or connector.
-> > > +          Video port for panel or connector. Each endpoint connects =
-to a video
-> > > +          output downstream, and the "data-lanes" property is used t=
-o describe
-> > > +          the pin connections. 0, 1, 2, 3 in "data-lanes" maps to SS=
-RX1, SSTX1,
-> > > +          SSRX2, SSTX2, respectively.
-> > > +
-> > > +        patternProperties:
-> > > +          "^endpoint@[01]$":
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            properties:
-> > > +              reg: true
-> > > +
-> > > +              remote-endpoint: true
-> > > +
-> > > +              data-lanes:
-> > > +                oneOf:
-> > > +                  - items:
-> > > +                      - enum: [0, 1, 2, 3]
-> > > +
-> > > +                  - items:
-> > > +                      - const: 0
-> > > +                      - const: 1
-> > > +
-> > > +                  - items:
-> > > +                      - const: 2
-> > > +                      - const: 3
-> > > +
-> > > +              mode-switch:
-> >
-> > Is it possible to not have this property? Can we have the driver for
-> > this anx device look at the remote-endpoint and if it sees that it is
-> > not a drm_bridge or panel on the other end, or a DP connector, that it
-> > should register a typec mode switch (or two depending on the number of
-> > endpoints in port@1)? Is there any case where that doesn't hold true?
-> >
-> > I see these possible scenarios:
-> >
-> > 1. DPI to DP bridge steering DP to one of two usb-c-connectors
-> >
-> > In this case, endpoint@0 is connected to one usb-c-connector and
-> > endpoint@1 is connected to another usb-c-connector. The input endpoint
-> > is only connected to DPI. The USB endpoint is not present (although I
-> > don't see this described in the binding either, so we would need a
-> > port@2, entirely optional to describe USB3 input). The driver will
-> > register two mode switches.
-> >
-> > 2. DPI to DP bridge with USB3 to one usb-c-connector
-> >
-> > In this case, endpoint@1 doesn't exist. The SSTX1/2 and SSRX1/2 pins ar=
-e
-> > all connected to a usb-c-connector node. The input ports (0 and 2) are
-> > connected to both DPI and USB. The device acts as both a mode-switch an=
-d
-> > an orientation-switch. It registers both switches. I wonder if there is
-> > any benefit to describing SBU connections or CC connections? Maybe we
-> > don't register the orientation-switch if the SBU or CC connection isn't
-> > described?
-> >
-> > 3. DPI to DP bridge connected to eDP panel
-> >
-> > In this case, endpoint@1 doesn't exist. The USB endpoint is not present
-> > (port@2). Depending on how the crosspoint should be configured, we'll
-> > need to use data-lanes in the port@1 endpoint to describe which SSTRX
-> > pair to use (1 or 2). Or we'll have to use the endpoint's reg property
-> > to describe which pair to drive DP on. Presumably the default
-> > configuration is SSRX2/SSTX2 providing 2 lanes of DP to an eDP panel.
-> > The endpoint@0 in port@1 will be connected to a drm_panel, and the
-> > driver will be able to detect this properly by checking for the
-> > existence of an aux-bus node or the return value of
-> > of_dp_aux_populate_bus().
->
-> Can we assume that the eDP panel always stays behind an `aux-bus`
-> node? Can't the panel be connected to the bridge directly in the
-> graph? Though this might not matter if we only register mode switches
-> when there are usb-c-connectors connected.
+Hello Mauro
 
-The panel is connected to the bridge in the graph. I think we should
-assume the eDP panel is on an aux-bus. Maybe another scenario is a
-design that has a DP to HDMI bridge wired down on the device? In which
-case the output port would be connected to the HDMI bridge.
+On Sun, Mar 26, 2023 at 04:30:25PM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> this series adapts the platform drivers below drivers/pci to use the
 
-> >
-> > 4. DPI to DP bridge connected to DP connector
-> >
-> > This is similar to the eDP panel scenario #3. In this case, endpoint@1
-> > doesn't exist. The USB endpoint is not present (port@2). Same story
-> > about port@1 and lane configuration, but we don't have an aux-bus node.
-> > In this case, the drivers/gpu/drm/bridge/display-connector.c driver wil=
-l
-> > probe for the dp-connector node and add a drm_bridge. This anx driver
-> > will similarly add a drm_bridge, but it needs to look at the node
-> > connected on port@1:endpoint@0 with drm_of_get_bridge() and check if it
-> > is a drm_bridge (DP connector) or if it is some type-c thing (connector
-> > or orientation-switch).
-> >
-> > I think having this mode-switch property here lets us avoid calling
-> > drm_of_get_bridge() unconditionally in anx7625_parse_dt().
-> > drm_of_get_bridge() will always return -EPROBE_DEFER when this is the
-> > last drm_bridge in the chain and the other side of the endpoint is a
-> > type-c thing (scenarios #1 and #2). Maybe we should teach
-> > drm_of_get_bridge() that a drm_bridge might be connected to a type-c
-> > device and have it not return -EPROBE_DEFER in that case. Or make some
-> > new API like drm_of_get_bridge_typec() that checks if the typec
-> > framework knows about the endpoint in question (as either a typec switc=
-h
-> > or a connector) and returns a NULL bridge pointer. If we had that then =
-I
-> > think this property is not necessary.
-> >
-> > Hopefully the usb-c-connector can always be registered with the typec
-> > framework? I'm worried that the driver that registers the
-> > usb-c-connector node may want to form a struct typec_port with
-> > typec_register_port() and that will get stuck in a similar -EPROBE_DEFE=
-R
-> > loop waiting for this mode-switch to appear. So having this property
-> > also avoids that problem by telling typec framework to wait until this
-> > driver can register a mode-switch.
-> >
-> > TL;DR: Is this mode-switch property a workaround for probe defer? Can w=
-e
-> > figure out where the mode switch is in software and not have the
-> > property in DT? If we can it would certainly improve things because
-> > forgetting to add the property can lead to broken behavior, and we don'=
-t
-> > do anything like this for chains of drm_bridge devices. We just describ=
-e
-> > the display chain and let the kernel figure out which bridge should
-> > handle hpd, edid reading, or mode detection, etc.
->
-> Actually the `mode-switch` property here is mainly because
-> `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matches
-> when the property is present. I am not sure what side effects would be
-> if I remove the ID-matching condition in `typec_mux_match`, so I added
-> the property here.
->
-> Is it feasible to remove the `mode-switch` property here given the
-> existing implementation of the Type-C framework?
+copy&paste failure here: s/pci/media/ of course.
 
-Omitting the mode-switch property would require changes to the type-c
-framework.
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver c=
+ore
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warnin=
+g. The
+> device is removed anyhow and an early return from .remove() usually yield=
+s a
+> resource leak.
+>=20
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+>=20
+> Only three drivers needed some preparation first to make sure they
+> return 0 unconditionally in their remove callback. Then all drivers
+> could be trivially converted without side effects to .remove_new().
+>=20
+> The changes to the individual drivers are all orthogonal. If I need to
+> resend some patches because of some review feedback, I'd like to only
+> send the patches that actually needed changes, so please pick up the
+> remaining patches that don't need changing to reduce the amount of mail.
 
-I'm wondering if we can have this anx driver register mode switches for
-however many endpoints exist in the output port all the time when the
-aux-bus node doesn't exist. Then the type-c framework can walk from the
-usb-c-connector to each connected node looking for a device that is both
-a drm_bridge and a mode-switch. When it finds that combination, it knows
-that the mode-switch has been found. This hinges on the idea that a
-device that would have the mode-switch property is a drm_bridge and
-would register a mode-switch with the type-c framework.
+I didn't hear anything back about application of this series. Is there a
+blocker somewhere?
 
-It may be a little complicated though, because we would only register
-one drm_bridge for the input to this anx device. The type-c walking code
-would need to look at the graph endpoint, and find the parent device to
-see if it is a drm_bridge.
+Apart from the three preparatory patches that are a precondition to the
+conversion of the respective drivers, the patches are all pairwise
+orthogonal. So from my POV the best would be to apply all patches that
+still apply (which might be all), I will care for the fallout later
+then.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ogmoi7vlr4vxdkq5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ84NoACgkQj4D7WH0S
+/k65OwgAkM/14eqkcxTg0/453d2uwhPt/jiDru0C14NvpnN4AFU0sa+yzp1GfYRO
+WfxjudHvw/OXq+eolRu8PrqJIpLHvQhOyjblYLXPqTB8RvdJSXI2Q1ZJjozYjCNJ
+WeBerHqAXGOnxd+2kbfCs2VZWYgmJpj1VCXeRYekMB7Kv1tmfXNXetaHIH7Rypw1
++Si1nhZN4Sk68bdXU+RaQc6UP5/E0VohPVWnSB1tsTQVL4sogBkjfDl4tueHEZxj
+959kirh12hfcFcqtz1mQ1u7V1dIc136PR+Kg/2b+GNaFbe/Zdsno5HbnbQl+NwL/
+GWFmd+GksqXkwA3k1tkqVdOFEPO4cQ==
+=K38Q
+-----END PGP SIGNATURE-----
+
+--ogmoi7vlr4vxdkq5--

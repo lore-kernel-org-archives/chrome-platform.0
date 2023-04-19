@@ -1,213 +1,61 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from hust.edu.cn (unknown [202.114.0.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7331C05
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Apr 2023 08:54:55 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1poKd9-0004W9-9f; Mon, 17 Apr 2023 10:54:35 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1poKce-00Bpk9-B4; Mon, 17 Apr 2023 10:54:04 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1poKcd-00DrOr-K2; Mon, 17 Apr 2023 10:54:03 +0200
-Date: Mon, 17 Apr 2023 10:54:03 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Eddie James <eajames@linux.ibm.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Sean Young <sean@mess.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Antti Palosaari <crope@iki.fi>, NXP Linux Team <linux-imx@nxp.com>,
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Benoit Parrot <bparrot@ti.com>, Moudy Ho <moudy.ho@mediatek.com>,
-	"kernel@pengutronix.de" <kernel@pengutronix.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Ming Qian <ming.qian@nxp.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Rory Liu <hellojacky0226@hotmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	"linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Ettore Chimenti <ek5.chimenti@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Jacob Chen <jacob-chen@iotwrt.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-	Qiheng Lin <linqiheng@huawei.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Todor Tomov <todor.too@gmail.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
-	Scott Chao <scott_chao@wistron.corp-partner.google.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-	Andy Gross <agross@kernel.org>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Eduardo Valentin <edubezval@gmail.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH 000/117] media: Convert to platform remove callback
- returning void
-Message-ID: <20230417085403.sbk3k4qlpljbfqld@pengutronix.de>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
- <20230417060203.le3izz56wt73si6k@pengutronix.de>
- <20230417061928.GD28551@pendragon.ideasonboard.com>
- <20230417073049.2b5b35hpjrjcrlge@pengutronix.de>
- <OS0PR01MB59221153A63F64BBAD3ED20D869C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C572F52
+	for <chrome-platform@lists.linux.dev>; Wed, 19 Apr 2023 10:02:21 +0000 (UTC)
+Received: from archlinux.localdomain ([10.12.190.56])
+	(user=zkhuang@hust.edu.cn mech=LOGIN bits=0)
+	by mx1.hust.edu.cn  with ESMTP id 33JA1VTK021595-33JA1VTL021595
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 19 Apr 2023 18:01:36 +0800
+From: Zhengkang Huang <zkhuang@hust.edu.cn>
+To: Benson Leung <bleung@chromium.org>
+Cc: Zhengkang Huang <zkhuang@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform: chrome: wilco_ec: remove return value check of debugfs_create_dir()
+Date: Wed, 19 Apr 2023 18:03:03 +0800
+Message-Id: <20230419100303.343379-1-zkhuang@hust.edu.cn>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fbine4cndaaohubi"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59221153A63F64BBAD3ED20D869C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: zkhuang@hust.edu.cn
 
+Smatch complains that:
+wilco_ec_debugfs_probe() warn: 'debug_info->dir' is an error 
+pointer or valid 
 
---fbine4cndaaohubi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Debugfs checks are generally not supposed to be checked 
+for errors and it is not necessary here. 
 
-On Mon, Apr 17, 2023 at 07:57:57AM +0000, Biju Das wrote:
-> Hi Uwe,
-> > > I think the series got applied to the master branch of
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git.
-> > > It should thus appear in v6.4.
-> >=20
-> > I guess that linux-stable.git is a copy&paste failure (and it's not the=
-re).
-> > I don't see the series in the master branch of
-> > git://linuxtv.org/media_tree.git either.
-> >=20
-> > .. a bit later ...
-> >=20
-> > ah, it's in git://linuxtv.org/mchehab/media-next.git
-> >=20
-> > I guess I was just to quick and probably the series will be included in
-> > today's next.
->=20
-> I believe patchwork <patchwork@linuxtv.org> will send notification to
-> author and along with people who applied tags for that patch.
+Just delete the dead code. 
 
-Indeed, I got such a notification on Apr 11. But even if I had that on
-my radar when asking and considered such notifications reliable in
-general, I would have asked, as the patches didn't apprear in next up to
-now.
+Signed-off-by: Zhengkang Huang <zkhuang@hust.edu.cn>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+NOTES: The issue is found by static analysis and remains untested.
+---
 
-Thanks
-Uwe
+ drivers/platform/chrome/wilco_ec/debugfs.c | 2 --
+ 1 file changed, 2 deletions(-)
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+diff --git a/drivers/platform/chrome/wilco_ec/debugfs.c b/drivers/platform/chrome/wilco_ec/debugfs.c
+index a812788a0bdc..7a13f13b16cd 100644
+--- a/drivers/platform/chrome/wilco_ec/debugfs.c
++++ b/drivers/platform/chrome/wilco_ec/debugfs.c
+@@ -251,8 +251,6 @@ static int wilco_ec_debugfs_probe(struct platform_device *pdev)
+ 		return 0;
+ 	debug_info->ec = ec;
+ 	debug_info->dir = debugfs_create_dir("wilco_ec", NULL);
+-	if (!debug_info->dir)
+-		return 0;
+ 	debugfs_create_file("raw", 0644, debug_info->dir, NULL, &fops_raw);
+ 	debugfs_create_file("h1_gpio", 0444, debug_info->dir, ec,
+ 			    &fops_h1_gpio);
+-- 
+2.40.0
 
---fbine4cndaaohubi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ9CSoACgkQj4D7WH0S
-/k6ShQgAkiGsAbqnu5CIYl6vVltmySdbzFphOT5lae+k2iaPjP4KBQyey9E309bA
-T8cWAHGmSzTAr3+xiHj0Vl3KS3KltR2ike2TLIupFKTW6gJIpAyseCA8SLtj625z
-DYRY5/9pDFLtNe4MD6tpVn7ZPAzEb/DdC/F12elKbSP+3RLwwRhyo/EtmAbFc6f9
-e/G2EuuAPaBs+wywWC9piaSjYWk57nSelhyJqSoWAJbpZM2hOiGsIeaiI2OI6l9X
-sye5ayrw1sdGUVa70KExUaG9L0d1hFmhkfZz3m7I2ZosIc5Q3k5RCBDj41MxyvTC
-7hFi24KnDnjHVL2gEWrM+oBRJZju9Q==
-=h+pR
------END PGP SIGNATURE-----
-
---fbine4cndaaohubi--

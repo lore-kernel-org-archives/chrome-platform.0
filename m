@@ -1,21 +1,24 @@
-Received: from hust.edu.cn (unknown [202.114.0.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C572F52
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Apr 2023 10:02:21 +0000 (UTC)
-Received: from archlinux.localdomain ([10.12.190.56])
-	(user=zkhuang@hust.edu.cn mech=LOGIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 33JA1VTK021595-33JA1VTL021595
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 19 Apr 2023 18:01:36 +0800
-From: Zhengkang Huang <zkhuang@hust.edu.cn>
-To: Benson Leung <bleung@chromium.org>
-Cc: Zhengkang Huang <zkhuang@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
-        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform: chrome: wilco_ec: remove return value check of debugfs_create_dir()
-Date: Wed, 19 Apr 2023 18:03:03 +0800
-Message-Id: <20230419100303.343379-1-zkhuang@hust.edu.cn>
-X-Mailer: git-send-email 2.40.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B77017D1
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Apr 2023 01:50:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DA301C433B0;
+	Thu, 20 Apr 2023 01:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681955419;
+	bh=qk31dwrfX46YB9iviBEeASLWir4iz3d8VCYXEUgDRGA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Sz8cNN5ihXAuaCPjHAevrMeGKQLDEO/xTY9TqhyBXiTFlNzoUEdQa5+6aaHRv/rq8
+	 CIn6iKxeN4MyteBPWPpMPI6NILVokSxOCL55bACyfeNn2zpDX2Bc8fj+EqSTYdVD0/
+	 TbjVpQxaFMKboAnWTQH5W3svNZmBILHLMueYb5lC+45QQrdrspHt9ALiL76oIT5aoM
+	 durE3ZUZadsV+AhVr5o/D1cwoK2YALIdfI6tJzc1Wk1VOtW6pi0VEkUVUVWl7diuq4
+	 yBsi/te3pnlKFFIandIldt/WJWLMJIWhCMwuTnwTmr7S83h/08dvTSGM3ExSq1jaA1
+	 M9Goyy7JT2Zgw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C70FBE4D033;
+	Thu, 20 Apr 2023 01:50:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -23,39 +26,40 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: zkhuang@hust.edu.cn
+Subject: Re: [PATCH] platform: chrome: wilco_ec: remove return value check of
+ debugfs_create_dir()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168195541981.13596.15384198794726481044.git-patchwork-notify@kernel.org>
+Date: Thu, 20 Apr 2023 01:50:19 +0000
+References: <20230419100303.343379-1-zkhuang@hust.edu.cn>
+In-Reply-To: <20230419100303.343379-1-zkhuang@hust.edu.cn>
+To: Zhengkang Huang <zkhuang@hust.edu.cn>
+Cc: bleung@chromium.org, dzm91@hust.edu.cn, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-Smatch complains that:
-wilco_ec_debugfs_probe() warn: 'debug_info->dir' is an error 
-pointer or valid 
+Hello:
 
-Debugfs checks are generally not supposed to be checked 
-for errors and it is not necessary here. 
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Just delete the dead code. 
+On Wed, 19 Apr 2023 18:03:03 +0800 you wrote:
+> Smatch complains that:
+> wilco_ec_debugfs_probe() warn: 'debug_info->dir' is an error
+> pointer or valid
+> 
+> Debugfs checks are generally not supposed to be checked
+> for errors and it is not necessary here.
+> 
+> [...]
 
-Signed-off-by: Zhengkang Huang <zkhuang@hust.edu.cn>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-NOTES: The issue is found by static analysis and remains untested.
----
+Here is the summary with links:
+  - platform: chrome: wilco_ec: remove return value check of debugfs_create_dir()
+    https://git.kernel.org/chrome-platform/c/0ad5ce8407db
 
- drivers/platform/chrome/wilco_ec/debugfs.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/platform/chrome/wilco_ec/debugfs.c b/drivers/platform/chrome/wilco_ec/debugfs.c
-index a812788a0bdc..7a13f13b16cd 100644
---- a/drivers/platform/chrome/wilco_ec/debugfs.c
-+++ b/drivers/platform/chrome/wilco_ec/debugfs.c
-@@ -251,8 +251,6 @@ static int wilco_ec_debugfs_probe(struct platform_device *pdev)
- 		return 0;
- 	debug_info->ec = ec;
- 	debug_info->dir = debugfs_create_dir("wilco_ec", NULL);
--	if (!debug_info->dir)
--		return 0;
- 	debugfs_create_file("raw", 0644, debug_info->dir, NULL, &fops_raw);
- 	debugfs_create_file("h1_gpio", 0444, debug_info->dir, ec,
- 			    &fops_h1_gpio);
+You are awesome, thank you!
 -- 
-2.40.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

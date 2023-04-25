@@ -1,91 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78C7B;
-	Tue, 25 Apr 2023 08:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B19AC4339B;
-	Tue, 25 Apr 2023 08:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA3A6ADC;
+	Tue, 25 Apr 2023 15:58:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457D1C433AA;
+	Tue, 25 Apr 2023 15:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682409635;
-	bh=cDv3M/1s+tjOQjJbPUGblM4x/VHbLIoWAfEO3RoBZLM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t8tVDcisi1Ua1xsK0eh4wXd6TRl8zqRR065VHttovC11XtMZF6D/4bba5k+B9QVcD
-	 wosEZN7on9/BZBObgZeW4zV919V5Z45lRsX9k7Fm3mqp0kUE89nHF/t0zlqhvF9+dB
-	 2h6Dz3k0IgtGd470zSwjfCJivMhODaPf9YsDcjkg014i+ABYaNR22jfQS6VgIFy5WX
-	 vVhV9/8kPwppHz662OIcc0AhHtcKwYVCwvnfRzqmvB8PESp/To9CcsNdaTVKSHAQ9+
-	 fTB2q5Cbai6xwkIifbnmNyaVCEpLHdO8kzBQU4MtjB0kPYGm2MS/weEHAZC22lIJik
-	 7OelZpaQThsmg==
-Message-ID: <7fe274df-6bcd-5993-d6cc-8fbcef435866@kernel.org>
-Date: Tue, 25 Apr 2023 10:00:26 +0200
+	s=k20201202; t=1682438290;
+	bh=itrfj1uL7ULKhIO/qSGGwopdMhHtcuGv7fowY1MDPYk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=EgTh2lVlpMtQ5px5R+jV+EfXPM/vMd0vZZcesoDR/dZgys7DryqsRrWS2pdpS9uas
+	 OYd9yTEmElOVrIZbn0OqVscAcdbafdiKbG9xGY95F+dXOVKPpAW5UFqkaPFQaikMgo
+	 aWZCYgp15j+P/IiGD62g++flweL1qEmmRIyA46J9ZxdgcgQr67x7Q3TlACfNIAqEWA
+	 ybnHZqICC3N6Bh2h/8vZ/QwOp/oM5lTZZiMl9J1LI5jXGxCqVcLQ5wSHavpOM+9lzJ
+	 GcWe9oPB1zz3J6OXPcR6ftsIf9jN3vnmyzPm8qTrcAX6jvM8Z/Yhdc9tzdb3LHV6hX
+	 cc5h5IH4H4Nww==
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b996127ec71so5142858276.0;
+        Tue, 25 Apr 2023 08:58:10 -0700 (PDT)
+X-Gm-Message-State: AAQBX9cuRG7Ze/2jGbjOYIsrzVddx1y65+doWmMC6RmNTEykIdhEf+XW
+	fmghZI8ySx3Ebj4HJh4g3R8/QEGbcsU4rjqauw==
+X-Google-Smtp-Source: AKy350bpts/PPga3+dzd9vak+rbAaLdXpa4DHHS4UXvr1kLSlKfqR897O6l7AESMOVdvAuhJNuLkwu1gSc/085IiOR0=
+X-Received: by 2002:a25:b097:0:b0:b97:f46:a2b8 with SMTP id
+ f23-20020a25b097000000b00b970f46a2b8mr12284894ybj.17.1682438288965; Tue, 25
+ Apr 2023 08:58:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 25 Apr 2023 10:57:57 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+Message-ID: <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
 Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Language: en-US
-To: Rob Herring <robh+dt@kernel.org>, Ansuel Smith <ansuelsmth@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
- linux-unisoc@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-realtek-soc@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>,
- Olof Johansson <olof@lixom.net>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Cc: Ansuel Smith <ansuelsmth@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org, 
+	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, 
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
+	linux-tegra@vger.kernel.org, linux-oxnas@groups.io, 
+	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/04/2023 00:10, Rob Herring wrote:
->> I had some problem with gmail and sending mail too much users. I put Rob
->> and You and all the various list to try to workaround the "gmail spam
->> protection"
->>
->>> I am pretty sure we were discussing such split idea in the past and it
->>> did not get traction, but I cannot recall the exact discussion.
->>>
->>
->> I think the main issue here is how to handle bot and how problematic is
->> to merge this. As written in the cover letter the final version of this
->> should be a big series of 50+ patch with every commit specific to each
->> oem. In theory we should be able to merge the different oem separately
->> and try to at least start the categorization.
->> Another idea I got to at least have a "migration path" is to convert
->> every dts in the dts/ directory to a symbolic link that target the dts
->> in the correct oem. But I assume that would fix only part of the problem
->> and git am will still be problematic.
-> 
-> I have a script[1] that does the conversion written the last time this
-> came up. Just have to agree on directory names. I think the easiest
-> would be for Arnd/Olof to run it at the end of a merge window before
-> rc1.
-> 
-> I'm very much in favor of this happening especially before *any*
-> overlays are added to add to the mess (it's probably already
-> happened).
-> 
-> Rob
-> 
-> [1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
+On Tue, Apr 25, 2023 at 2:28=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Rob,
+>
+> On Tue, Apr 25, 2023 at 12:16=E2=80=AFAM Rob Herring <robh+dt@kernel.org>=
+ wrote:
+> > I have a script[1] that does the conversion written the last time this
+> > came up. Just have to agree on directory names. I think the easiest
+> > would be for Arnd/Olof to run it at the end of a merge window before
+> > rc1.
+>
+> "emev2" and "sh7" are missing for renesas.
 
-This is the thread I was thinking about. Looks good for me (the original
-script with exynos->samsung).
+No doubt it's been bitrotting (or I may have missed some).
 
-Best regards,
-Krzysztof
+> Does your script also cater for .dts files not matching any pattern,
+> but including a .dtsi file that does match a pattern?
 
+I assume I built everything after moving, but maybe not...
+
+That's all just "details". First, we need agreement on a) moving
+things to subdirs and b) doing it 1-by-1 or all at once. So far we've
+been stuck on a) for being 'too much churn'.
+
+One nice thing with subdirs is 'make CHECK_DTBS=3Dy
+arch/arm/boot/dts/foo/' can build everything for a platform family
+without having to mess with the kconfig. Maybe most folks don't care,
+but I do. My CI job running schema checks looks like this to deal with
+grouping the arm dts files (this list is probably out of date too, but
+less so):
+
+        if [ "$ARCH" =3D "arm" ]; then
+            VENDOR_LIST=3D"alphascale alpine artpec aspeed axm bcm cx9
+(ecx|highbank) \
+              efm ep7 imx1 imx23 imx28 imx27 imx5 imx6 imx7 ls vf qcom \
+              (am3|am4|am5|dra|keystone|omap|compulab|logicpd|elpida|motoro=
+la-cpcap|da|dm)
+\
+              nspire armada dove kirkwood orion mvebu mmp2 berlin pxa
+(arm-|integ|mps|ve) \
+              (at91|sama|usb_|tny_|mpa1600|animeo_ip|aks-cdu|ethernut5|evk-=
+pro3|pm9g45|ge86)
+\
+              exynos s3c s5p gemini (hisi|hi3|hip) mt meson moxa nuvo
+lpc owl ox8 \
+              (r7|r8|r9|emev2|sh73a|gr-|iwg) (rk|rv11) socfpga stm
+(sti|st-pin) ste \
+              spear (sun|axp) tegra uniph (vt8500|wm8) xen zynq"
+        else
+            VENDOR_LIST=3D$(ls arch/$ARCH/boot/dts/ | xargs)
+        fi
+
+Rob

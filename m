@@ -1,102 +1,53 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580C76ADC;
-	Tue, 25 Apr 2023 16:21:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E2F24B3;
-	Tue, 25 Apr 2023 09:22:19 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD31A3F587;
-	Tue, 25 Apr 2023 09:21:31 -0700 (PDT)
-Message-ID: <45bc13a8-1442-2dd3-b9ea-1ed2f5962bac@arm.com>
-Date: Tue, 25 Apr 2023 17:21:30 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE6ED1
+	for <chrome-platform@lists.linux.dev>; Wed, 26 Apr 2023 00:49:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99120C4339E;
+	Wed, 26 Apr 2023 00:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682470179;
+	bh=0KsW6/e0i/ufNPyH+VFFHzXLXLeuV5MankvIOKuDH3g=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=NHXq0tiRmxyESzLfOAPDT0NNUNiMfJlxadlAKSIM3KU97zWgLmI3Ngc0jAoejsZ7J
+	 DUcnnoznPNxSY0sCElDmopzmSWZG92d8z29VNPsjn0XXH6QfnLGSkCnmpCFgFSpBxU
+	 hfA+6zr4xoPp5Y5YKs58D5iDAw3/Mv6EsofShBHP7mVneQrTkc7Y5R8ZcxGtYiZN30
+	 1vqOQwGp2/R/A/bVd9uZx5kS/wAg4TXE+u9HFkkF8L1G9e8HJJKCValwPX2ifgDF9o
+	 1oaXdsPg5+i3scMck6gaz+RUhPFvu+KMYKQvMrpgET2vwPpTmNdBbAW9pcHjIAbO0N
+	 Dto1nL6qRogpw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 86536E5FFC5;
+	Wed, 26 Apr 2023 00:49:39 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZEYYhltzTDUzAV0q@google.com>
+References: <ZEYYhltzTDUzAV0q@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZEYYhltzTDUzAV0q@google.com>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.4
+X-PR-Tracked-Commit-Id: d184d60aa301e424cd0cf7de90b40744710a2417
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 07d971abf436f78962ad95faafce04582b5b833a
+Message-Id: <168247017954.10866.7518015992668230182.pr-tracker-bot@kernel.org>
+Date: Wed, 26 Apr 2023 00:49:39 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Language: en-GB
-To: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Daniel Palmer <daniel@0x0f.com>, Ansuel Smith <ansuelsmth@gmail.com>,
- Claudiu Beznea <Claudiu.Beznea@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Santiago Esteban <Santiago.Esteban@microchip.com>,
- Cristian Birsan <Cristian.Birsan@microchip.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, DTML <devicetree@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
- linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
- linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
- linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
- linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
- <4ff4f171-c5f8-87af-aad1-5e7686292288@microchip.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <4ff4f171-c5f8-87af-aad1-5e7686292288@microchip.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 29/03/2022 9:50 am, Nicolas Ferre wrote:
-> Ansuel, All,
-> 
-> On 28/03/2022 at 10:55, Daniel Palmer wrote:
->> Hi Ansuel
->>
->> On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
->>>
->>> Hi,
->>> as the title say, the intention of this ""series"" is to finally 
->>> categorize
->>> the ARM dts directory in subdirectory for each oem.
->>
->> While I agree with this change and think it's for the good (browsing
->> the ARM dts directory at the moment is frustrating..) I think
->> buildroot and others need to be told about this as it'll potentially
->> break their kernel build scripting for ARM and probably messes up the
->> configs they have for existing boards.
-> 
-> This aspect mustn't be underestimated and I anticipate lots of issues 
-> during a long time on this particular topic of "build systems".
-> 
-> Another aspect is CI and public or private testing farms we all have 
-> running.
+The pull request you sent on Mon, 24 Apr 2023 13:49:58 +0800:
 
-Yet another is if this affects what `make dtbs_install` does (I don't 
-know for sure, but I'd be inclined to suspect it might). Some distros 
-use that to deliver the DTBs as part of their kernel package, so if 
-paths suddenly change it could break end users' bootloader setups too.
+> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.4
 
-Thanks,
-Robin.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/07d971abf436f78962ad95faafce04582b5b833a
 
-> These aspects always refrained me to change anything in the naming 
-> scheme of our DT files, but if we go in this direction, we must really 
-> be prepared and I'm still not convince it's worth it...
-> 
-> 
-> If this has to happen, I would also like to queue some file name changes 
-> to do all modifications in one go in order to lower the annoyance level 
-> of those who would need to adapt to those changes.
-> 
-> BTW, is there a common scheme for dts/dtsi file naming? Is it more 
-> enforced in one way or another for arm64 in a sense that I can take some 
-> norm as an example?
-> 
-> [..]
-> 
-> Best regards,
->    Nicolas
-> 
-> 
-> 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

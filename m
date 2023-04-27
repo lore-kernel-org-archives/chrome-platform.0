@@ -1,83 +1,182 @@
-Received: from muru.com (muru.com [72.249.23.125])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF451FCC;
-	Thu, 27 Apr 2023 07:57:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by muru.com (Postfix) with ESMTPS id AA15480A4;
-	Thu, 27 Apr 2023 07:48:46 +0000 (UTC)
-Date: Thu, 27 Apr 2023 10:48:45 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	Ansuel Smith <ansuelsmth@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-	linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
-	linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
-	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <20230427074845.GG14287@atomide.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <1cfc224b-f8b0-3143-42d2-188b56368c61@gmail.com>
- <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B4410EB
+	for <chrome-platform@lists.linux.dev>; Thu, 27 Apr 2023 08:34:02 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-763c343b716so112293339f.1
+        for <chrome-platform@lists.linux.dev>; Thu, 27 Apr 2023 01:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1682584442; x=1685176442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sABY6A67E6Cr5HzYkc9PhVkZQhkD8kgg0GZ6k0SOVCs=;
+        b=ZXCewySSCGLGW2ssIYmj8XvdD9bNIevJa4tXEfsy/2Rz+vT3jB+TdKdDT0dHQdtQ7P
+         NhkiCmfWRYa1242dz9Hna3BPrYr0bHYXfjGTQyIMEr46utyp7Zty4/mxL4k08MdVqMbv
+         NysGsqgJnHdLCcEzprjPToeuBT/32G1FAqNKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682584442; x=1685176442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sABY6A67E6Cr5HzYkc9PhVkZQhkD8kgg0GZ6k0SOVCs=;
+        b=F4kj5XQpwyZxfpIFzVKCt3EidpZqbGvZCWuwgtpsLdmO8M50OxoT2zVhFCAtIasJ8d
+         zgP70Bs+uVw5IOP7zBZ87BxUhFy/H94NvnRAzLS4PmLx3oLsD59n1hyR1Wr57Ngj3SpZ
+         VvYs6LNi22/cfdiuQT1N5lGihJIX0en0A/O4g5G9lG6iGq8D8ckN54VHhuukwecmwAq8
+         4HLTWQzJffXQ6xqwEevMmmzI+/B/mpyzoniA8cl/RZ33D2qbOWJLAvY4RhxYUCrqhaKX
+         DkFiyeUG6KOeSjc+JP1TndYsH3fnyQD5w4U9z3U4oOGT2YtKevzAsaY+M70B68SCvt7f
+         86Sg==
+X-Gm-Message-State: AC+VfDySnXAWkD1Tj4JVkjpWBttnQ9gDYkU9xjEoi5N3DkGR3WobAfRD
+	oD20LjgE0Rw3fCgeKU1OGUjhcjPFwb48TnNHeYJavA==
+X-Google-Smtp-Source: ACHHUZ6G8bxKhwblghlEc4n/zFsjFZp0dwMaJ3weKd4SVVgKwn7iy+BZ9ek6/DBO+rvf15mslpALYE3KPS/vz18U6n8=
+X-Received: by 2002:a92:c84d:0:b0:318:ab40:4e9b with SMTP id
+ b13-20020a92c84d000000b00318ab404e9bmr742195ilq.2.1682584441951; Thu, 27 Apr
+ 2023 01:34:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org> <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+ <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com> <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+In-Reply-To: <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 27 Apr 2023 16:33:51 +0800
+Message-ID: <CAEXTbpcBrd9W_BLcDO5JO9v=r+WOOfU8KmuSyZKr5sT=ezk6KA@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Xin Ji <xji@analogixsemi.com>, 
+	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Lyude Paul <lyude@redhat.com>, 
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Geert Uytterhoeven <geert@linux-m68k.org> [230427 07:47]:
-> On Thu, Apr 27, 2023 at 9:37 AM Matthias Brugger <matthias.bgg@gmail.com> wrote:
-> > On 25/04/2023 17:57, Rob Herring wrote:
-> > > On Tue, Apr 25, 2023 at 2:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >> On Tue, Apr 25, 2023 at 12:16 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > >>> I have a script[1] that does the conversion written the last time this
-> > >>> came up. Just have to agree on directory names. I think the easiest
-> > >>> would be for Arnd/Olof to run it at the end of a merge window before
-> > >>> rc1.
-> > >>
-> > >> "emev2" and "sh7" are missing for renesas.
-> > >
-> > > No doubt it's been bitrotting (or I may have missed some).
-> > >
-> > >> Does your script also cater for .dts files not matching any pattern,
-> > >> but including a .dtsi file that does match a pattern?
-> > >
-> > > I assume I built everything after moving, but maybe not...
-> > >
-> > > That's all just "details". First, we need agreement on a) moving
-> > > things to subdirs and b) doing it 1-by-1 or all at once. So far we've
-> > > been stuck on a) for being 'too much churn'.
-> > >
+On Thu, Apr 20, 2023 at 5:10=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
+> wrote:
+>
+> On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
+> wrote:
 > >
-> > I think it makes sense to move them and probably the best way to do so is, as
-> > you proposed: that Arnd or Olof run the script to move them just before -rc1
-> 
-> FTR, no objections from my side.
+> > Quoting Stephen Boyd (2023-04-13 17:22:46)
+> > > Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> > > >
+> > > > Actually the `mode-switch` property here is mainly because
+> > > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matc=
+hes
+> > > > when the property is present. I am not sure what side effects would=
+ be
+> > > > if I remove the ID-matching condition in `typec_mux_match`, so I ad=
+ded
+> > > > the property here.
+> > > >
+> > > > Is it feasible to remove the `mode-switch` property here given the
+> > > > existing implementation of the Type-C framework?
+> > >
+> > > Omitting the mode-switch property would require changes to the type-c
+> > > framework.
+> > >
+> > > I'm wondering if we can have this anx driver register mode switches f=
+or
+> > > however many endpoints exist in the output port all the time when the
+> > > aux-bus node doesn't exist. Then the type-c framework can walk from t=
+he
+> > > usb-c-connector to each connected node looking for a device that is b=
+oth
+> > > a drm_bridge and a mode-switch. When it finds that combination, it kn=
+ows
+> > > that the mode-switch has been found. This hinges on the idea that a
+> > > device that would have the mode-switch property is a drm_bridge and
+> > > would register a mode-switch with the type-c framework.
 
-Sounds good to me.
+I spent some time working on this approach on the Type-C side. The
+issue I met is that the driver doesn't know whether a node is a
+drm_bridge before the anx7625 driver probes. When there is a
+"mode-switch" property in the node, the Type-C framework knows that
+"here is a mode switch, but the corresponding driver hasn't registered
+the typec_mux". So it returns -EPROBE_DEFER and retries later.
+However, if we remove the property, the Type-C framework won't know
+whether a node will be registered as a drm_bridge and register a
+typec_mux.
 
-Regards,
+Do you have other suggestions on this if we want to choose this approach?
 
-Tony
+Best regards,
+Pin-yen
+> > >
+> > > It may be a little complicated though, because we would only register
+> > > one drm_bridge for the input to this anx device. The type-c walking c=
+ode
+> > > would need to look at the graph endpoint, and find the parent device =
+to
+> > > see if it is a drm_bridge.
+> >
+> > I've been thinking more about this. I think we should only have the
+> > 'mode-switch' property possible when the USB input pins (port@2) are
+> > connected and the DPI input pins are connected (port@0). Probably you
+> > don't have that case though?
+>
+> No we don't have the use case that uses the USB input pins on anx7625.
+> >
+> > In your case, this device should register either one or two drm_bridges
+> > that connect to whatever downstream is actually muxing the 2 DP lanes
+> > with the USB SS lanes onto the usb-c-connector.
+>
+> What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
+> our use case, the USB data lanes from both ports are connected to a
+> USB hub, but the DP lanes are muxed by the crosspoint switch on
+> anx7625. HPD and AUX for the external display are muxed by the EC. You
+> can find the diagram at
+> https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
+>
+> > If that is the EC for
+> > ChromeOS, then the EC should have a binding that accepts some number of
+> > input ports for DP. The EC would act as a drm_bridge, or in this case
+> > probably two bridges, and also as two type-c switches for each
+> > drm_bridge corresponding to the usb-c-connector nodes. When DP is on th=
+e
+> > cable, the type-c switch/mux would signal to the drm_bridge that the
+> > display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+> > drm_bridge_funcs::detect(). Then the drm_bridge in this anx part would
+> > implement struct drm_bridge_funcs::atomic_enable() and configure the
+> > crosspoint switch the right way depending on the reg property of the
+> > output node in port@1.
+>
+> So there will be two drm bridges that act as the downstreams for
+> anx7625, and we find the downstream with connector_status_connected to
+> configure the crosspoint switch? How do we support that kind of
+> topology given that the drm bridge chain is currently a list? Are you
+> suggesting making the bridge topology to a tree, or maintaining the
+> two downstreams inside the anx7625 driver and not attaching them to
+> the bridge chain?
+>
+> Also, if we still register mode switches on the two downstream
+> bridges, why do you prefer that over the original approach that
+> register switches in the anx7625 driver?
+>
+> >
+> > Because you don't have the part that implements the orientation-switch,
+> > you don't need to implement the code for it. I think simply adding
+> > support in the binding for mode-switch and orientation-switch if this i=
+s
+> > directly wired to a usb-c-connector should be sufficient. Those
+> > properties would be at the top-level and not part of the graph binding.

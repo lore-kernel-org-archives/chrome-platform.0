@@ -1,92 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C7262F
-	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 03:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34015C433EF;
-	Mon,  1 May 2023 03:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682910412;
-	bh=GEC0UqnWm8e/URfsSrjeYYJ3rNGLEBmmEMv61vf3ze8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=grrILO0zGXnlRe9s/Pl7+oC6EjrgyzUZX8/k0kzWjslP32T7W6voXDEQOhY50FcJ/
-	 6HyoTACXzcZOEoUIwD65LzpsIAWG++SoB6ee6yzyJ03e6pDluctUSzl5lfGXzfj15C
-	 SnZn12V4k0HzhZWrYiGJzTyi+KDMm90V+mwgep2geVYuzD3+WgQsi5GvxpUzMG93fv
-	 YuernrxYuh65E6DYxEH2FYd9MJ5ExdEorTWY9uzMYCAeEv7Z3kfemEkwWvuipGFv1I
-	 492AkM9g1ErQrKCq5Uz0hLXckW6oe5dn6ydat8Q+VvQ6EITLq7K+uoXyAtgw5Qu/4X
-	 8hs9tE3raZe7Q==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sasha Levin <sashal@kernel.org>,
-	mchehab@kernel.org,
-	bleung@chromium.org,
-	linux-media@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 9/9] media: cros-ec-cec: Don't exit early in .remove() callback
-Date: Sun, 30 Apr 2023 23:06:31 -0400
-Message-Id: <20230501030633.3255202-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501030633.3255202-1-sashal@kernel.org>
-References: <20230501030633.3255202-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1182528F3
+	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 15:43:24 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ptVQA-0007EC-Hf; Mon, 01 May 2023 17:26:34 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ptVQ9-000O1a-2f; Mon, 01 May 2023 17:26:33 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ptVQ8-000P7k-A7; Mon, 01 May 2023 17:26:32 +0200
+Date: Mon, 1 May 2023 17:26:32 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+	bleung@chromium.org, groeck@chromium.org,
+	kevin.chiu.17802@gmail.com,
+	scott_chao@wistron.corp-partner.google.com,
+	zoey_wu@wistron.corp-partner.google.com, hellojacky0226@hotmail.com,
+	linux-media@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH AUTOSEL 6.3 34/44] media: cros-ec-cec: Don't exit early
+ in .remove() callback
+Message-ID: <20230501152632.ccsvhl2c6ihuizcf@pengutronix.de>
+References: <20230501025632.3253067-1-sashal@kernel.org>
+ <20230501025632.3253067-34-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7n6mydw3ndx43nto"
+Content-Disposition: inline
+In-Reply-To: <20230501025632.3253067-34-sashal@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-[ Upstream commit 0ff7aee24e47beb4306ce050824b54147f2fabfa ]
+--7n6mydw3ndx43nto
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Exiting early in remove without releasing all acquired resources yields
-leaks. Note that e.g. memory allocated with devm_zalloc() is freed after
-.remove() returns, even if the return code was negative.
+Hello,
 
-While blocking_notifier_chain_unregister() won't fail and so the
-change is somewhat cosmetic, platform driver's .remove callbacks are
-about to be converted to return void. To prepare that, keep the error
-message but don't return early.
+On Sun, Apr 30, 2023 at 10:56:22PM -0400, Sasha Levin wrote:
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> [ Upstream commit 0ff7aee24e47beb4306ce050824b54147f2fabfa ]
+>=20
+> Exiting early in remove without releasing all acquired resources yields
+> leaks. Note that e.g. memory allocated with devm_zalloc() is freed after
+> .remove() returns, even if the return code was negative.
+>=20
+> While blocking_notifier_chain_unregister() won't fail and so the
+> change is somewhat cosmetic, platform driver's .remove callbacks are
+> about to be converted to return void. To prepare that, keep the error
+> message but don't return early.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/cros-ec-cec/cros-ec-cec.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+While I'm positive this change doesn't break anything, it also doesn't
+fix anything and is only cosmetic (+ preparing a later change).
 
-diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-index 1f35770245d1f..d273e1a23227b 100644
---- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-+++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-@@ -315,14 +315,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	int ret;
- 
-+	/*
-+	 * blocking_notifier_chain_unregister() only fails if the notifier isn't
-+	 * in the list. We know it was added to it by .probe(), so there should
-+	 * be no need for error checking. Be cautious and still check.
-+	 */
- 	ret = blocking_notifier_chain_unregister(
- 			&cros_ec_cec->cros_ec->event_notifier,
- 			&cros_ec_cec->notifier);
--
--	if (ret) {
-+	if (ret)
- 		dev_err(dev, "failed to unregister notifier\n");
--		return ret;
--	}
- 
- 	cec_unregister_adapter(cros_ec_cec->adap);
- 
--- 
-2.39.2
+Unless you need it as a dependency I'd say, don't backport it for
+stable.
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--7n6mydw3ndx43nto
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRP2icACgkQj4D7WH0S
+/k70oAgAn7tp2vPVovwRlg3jKhuBdr8BCobUMxPTkbPEHGq+hDgwuQ1p+b+xkPtA
+qpSKLrNcHMS0dyEfk1xoyDmtmnpb3djmOSRzKYEBui3MrOSGaVVhL0rW76LgchEw
++Wnu0m5OFMiXGSFYKLfYDJFtxdTTBjTSHqu1J+LI9o7QaEMq8cGJfs/FK89JVzZB
+RglMHrsbeYwFvrz38ZjC4HkvVWahW0+iAaG0BYSEb5WloXNgFHfkZh5bsu2GCHQZ
+e87YJFBrojXMtHoVN5hwebZaoHp5QSKCkTa3Vp0AW7yhdJDmRPylGk8WJx48f5tR
+ue9PHkoCzMFqDh6BpkruIyDw7LSwYw==
+=Sfi2
+-----END PGP SIGNATURE-----
+
+--7n6mydw3ndx43nto--

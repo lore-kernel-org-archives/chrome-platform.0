@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E49462F
-	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 03:06:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8665EC433D2;
-	Mon,  1 May 2023 03:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23C462F
+	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 03:06:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5927C433D2;
+	Mon,  1 May 2023 03:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682910363;
-	bh=pFbDP6UlpYSrP0iKGq40NRahiU810/SYBYS0pTCxdBE=;
+	s=k20201202; t=1682910390;
+	bh=bP+Ris4in6Qv35KSOOnZpF99B3j71RWkrhDcpRyx4f0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IxrWJR29jIZhmKgr5AHSoL4g5aYmVhqQa0ptNHAdLz38bGXG31/AC2IJJGf6eawwL
-	 2uXl5wvDCDb20yFtX9Sp8csiPlCeLxMoBfTzsZsBcbt0//ULtzsG9lzFqEuXjeoy0f
-	 140mU6rZqrSo5kcOctJ1M+7yNJ8/VeRWpV/pGx5Fh48UZ/zow1NCsW9oJpXi/A2spf
-	 HR5Z/ehwH28OR7uGyY1i2FEauYlsKLrVZEOVdG9dt1VjSk6Y6TGwflbVc5kfEvENZe
-	 4bwvmRyrHFvRiara0Lh+018vIcRkC9eBGrYqVR9d6exN4Ljr6H2y53/elIzjRDi+dY
-	 slIM2goCkMVfA==
+	b=MoWnSTBTBfoqvfbAIvuv0j4HbeyFG0mL6EFWb/kCZ/UA1ElPJ+hC0VuNwxuL/CIFs
+	 8DRfU31enOt2H3w+8gliZ0b+MvcgKAdI+O5BaXlABpCurrrqOc9PluPPIXjPG19muF
+	 UOMSgUzvN6/6aK2aWwMKW8/IKuiPQlXapf4s7QtaIRnPq4BW5JeD9tBQLNnBUHl7vC
+	 tbZrs2xchpp1chqlF7GWQ5WXuXejcpvIWojHuxEhHNPvkyuHS8l/eyyWg7a43gvPKZ
+	 VaDPWmyKLM22eqIJx0A//8AvkJ7NpA0+76cMp0JHHPuQ8TUz6P+3wa1IMW5NlMi6aC
+	 1xC/AHqxzFxmQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,19 +23,14 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	bleung@chromium.org,
-	groeck@chromium.org,
-	zoey_wu@wistron.corp-partner.google.com,
-	ajye_huang@compal.corp-partner.google.com,
-	hellojacky0226@hotmail.com,
-	kevin.chiu.17802@gmail.com,
 	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 11/12] media: cros-ec-cec: Don't exit early in .remove() callback
-Date: Sun, 30 Apr 2023 23:05:37 -0400
-Message-Id: <20230501030540.3254928-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 9/9] media: cros-ec-cec: Don't exit early in .remove() callback
+Date: Sun, 30 Apr 2023 23:06:09 -0400
+Message-Id: <20230501030611.3255082-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501030540.3254928-1-sashal@kernel.org>
-References: <20230501030540.3254928-1-sashal@kernel.org>
+In-Reply-To: <20230501030611.3255082-1-sashal@kernel.org>
+References: <20230501030611.3255082-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,13 +59,13 @@ Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 10 ++++++----
+ drivers/media/platform/cros-ec-cec/cros-ec-cec.c | 10 ++++++----
  1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index f66699d5dc66e..8bf34620db5fe 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+index ae274a7aa3a94..dbdb57aea7457 100644
+--- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
++++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
 @@ -324,14 +324,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
  	struct device *dev = &pdev->dev;
  	int ret;
@@ -90,8 +85,8 @@ index f66699d5dc66e..8bf34620db5fe 100644
 -		return ret;
 -	}
  
- 	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
- 					 cros_ec_cec->adap);
+ 	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
+ 	cec_unregister_adapter(cros_ec_cec->adap);
 -- 
 2.39.2
 

@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83415361
-	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 02:58:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF9D5C4339B;
-	Mon,  1 May 2023 02:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D9062F
+	for <chrome-platform@lists.linux.dev>; Mon,  1 May 2023 03:01:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C60FC433EF;
+	Mon,  1 May 2023 03:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682909931;
+	s=k20201202; t=1682910098;
 	bh=hTYh1gt/OQMw4LzPSSg9pQwVxqfv+9i5wbpULGqbev8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rxBtjN9j9fABt/HNcd6rft58KvziDrJ7jL27//AsZJPQSl6nj72AO3Jdw5oyvs2GE
-	 AcG2gN/Old7fvCMOQC2QwPayyR/fFYFZz7dBfbVL20EHSMCKv5fJ74s+WBjD0LOXwK
-	 c2DS6rONMY6d3BQlwrAZoM2VTy9/Do9el4FxYyC7wKsh4myvsmalB1pSq+vOflEMi3
-	 vZCgpd00CvzvVRr6692b4Da5oU8t3Irg+NF0SAaKA6h797xqxsRXePdLEB0ag2rK3f
-	 Hl/U8ixmZ+KWHhfAfEpK85wfv6uOjane0pAFBKqEevgxmAtOBTCX52Zm/N+mz8oUsg
-	 X6Xi23eV5xggQ==
+	b=MhZQ0AMqq7FFwJ9VpdtwUsI5SRR+euDo/HK044DCXXq+xh20/+TCTOrMPUVVVTWTQ
+	 jNFqD8DIanENkUA8anG83jlWZksM2sXitaw7c8WAQkWyD8sKhIAASYY26LAmthyQJd
+	 MsaO8hadNmQg4Uq5Rh4WYefwWOVROIQq0dpAdWKpoVvoxHT7UdLRfenJZVvO+FIHFt
+	 wiMfNHMb8DeHZsdPVbnm8fxGo90OdzHKeyv3C1YrQIDxVDGAQPJ4LIIhyJN+Kx7LyO
+	 v5ADd3abNCi/S8spXkhecjw+G2UuGFPaJQn1hv6iKcoIm5+Raxt8xpdRYfpzJMxzw1
+	 F5HFDLynKo0cA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,18 +24,19 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	mchehab@kernel.org,
 	bleung@chromium.org,
 	groeck@chromium.org,
+	ajye_huang@compal.corp-partner.google.com,
+	zoey_wu@wistron.corp-partner.google.com,
 	kevin.chiu.17802@gmail.com,
 	scott_chao@wistron.corp-partner.google.com,
-	zoey_wu@wistron.corp-partner.google.com,
 	hellojacky0226@hotmail.com,
 	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.3 34/44] media: cros-ec-cec: Don't exit early in .remove() callback
-Date: Sun, 30 Apr 2023 22:56:22 -0400
-Message-Id: <20230501025632.3253067-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 30/37] media: cros-ec-cec: Don't exit early in .remove() callback
+Date: Sun, 30 Apr 2023 22:59:38 -0400
+Message-Id: <20230501025945.3253774-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
-References: <20230501025632.3253067-1-sashal@kernel.org>
+In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
+References: <20230501025945.3253774-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>

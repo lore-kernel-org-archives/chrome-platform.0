@@ -1,28 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237A1321E;
-	Wed,  3 May 2023 13:17:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5BFC4339C;
-	Wed,  3 May 2023 13:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683119821;
-	bh=CA9HUUoFcRTgCBgzgu0IWVlQEyRERVDtXqxkChGQSj8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ole+wwu+SdPiS2aUQcX3tEt0J62DoRGG/xDwP1Q2hBI3sfPftXI2W3kkH/F/59E4N
-	 Rj2AmEaDcZT0BpGUnm84lYZ85cuHO/HgCWs2zlik5IUL41OlHfPOy59tbtDy7fBx5t
-	 ZgCFMVN0XHQ4LSBsXc2sJOPg8GrUyA3vIDNzPLKgT+G9Ro3CYUUGu+kdRKJu/W/qY+
-	 Pcq0qEWFbXc19qYZkj9ZXfSABwacLhUspZQ8xEAXDZ4dRCU4ngqd8rEoQ4x7LNLiYU
-	 jPAiVOLzrxahB5/VVJTZBCBCdKtT7WYvy7hBlO4AI4UaDtDdPD5K3xc7KZXakiNinj
-	 sK7EXobVb5Tog==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4ecb137af7eso6005372e87.2;
-        Wed, 03 May 2023 06:17:01 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzL6MYPzGikgdhBeSScHtJoTF1RIMU6Vi1Jlx9A6PSM0Un3RK6i
-	IlhQxh7YPGtGDAb79L6b33TabzdGeaj20ZbhQQ==
-X-Google-Smtp-Source: ACHHUZ4XoUscEY44VabA5tNDJYMyOoaF7CDhHSN63Jv4Bd86fg89uBNzW43NBIrFuEuIivWhSP0hKhXIoN/CJGAf91U=
-X-Received: by 2002:ac2:5198:0:b0:4ed:b842:3a99 with SMTP id
- u24-20020ac25198000000b004edb8423a99mr934135lfi.59.1683119819681; Wed, 03 May
- 2023 06:16:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC92DF4A
+	for <chrome-platform@lists.linux.dev>; Wed,  3 May 2023 20:25:52 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-b9d8b458e10so7782173276.1
+        for <chrome-platform@lists.linux.dev>; Wed, 03 May 2023 13:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683145552; x=1685737552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1gEz7yCW0YNWEyofUMW+bM1YB2JKr4lLhGCi/13fTrc=;
+        b=Mzh0ZV1liVt0pO7T3ehH+wp5tHq2eHIvxMQvgVLhBNtjThUcDrX/+aDvPu0tBZ/9ee
+         EXtPp3wMLIa74YOBsQ0e08IZyzEb9z2PtCzmiGLSL5FFkcqFzSprSbu/p4OtMtm5Z8vg
+         QTb+851VnqyKufW9AlhGHuA8W1rOsuyTf/U1ngEssyK7U0XiMTLfkIYXQJ/3BWdZ/+nL
+         IlkiQndW7FfaXvB3Wtdi5hEfH46S40YPblPeGAPLxeQ85pZXExi718VSSliADLafDbtF
+         EIagwxP3z0ZUYRpd+UFfoZPqXzZHPfYekCM7c+V8IvPd0peQzIxx4yrWJn2aqzP6n/mT
+         v8JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683145552; x=1685737552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1gEz7yCW0YNWEyofUMW+bM1YB2JKr4lLhGCi/13fTrc=;
+        b=BIzlC6nToDv39uaY6wlshNN3KpPkwNX7CDcW8MeqlVaTgNnSmbJ1YfKPKiZ0phczq+
+         xuebG/SYXbzxShvmfb1jBipsUzJNx32bBMOUjcODzr6JcY7Y530RllHgaNM0EwSA7S2x
+         bsZGQ9g7jQASNGntnaOC/ZXmPyWEmD2ODphIyeVFT+Y4nYjpr/n6o0unKeA3eSWpQm72
+         WXp7tmSXT5rs4jK3xaBRurBcCvNT9p/XpHOjbnUvr1ep06uyzc/hC6d5e9P4rPvwNB7r
+         KIU/hw3kFPVdb49nDu01/7SgURWzrDVHK72bxLsY9rQIsqUnsVPU5Ypx6T1JuJExqU5f
+         rDjA==
+X-Gm-Message-State: AC+VfDxA6S+sQ9Mnn+ZxgnlH0+OFTBeEu36nzqkaAtkmc88IrLv1rGMU
+	hpHALgf1fswM5tICWMPt27cgUnNdy8Wp6t6J51Mttw==
+X-Google-Smtp-Source: ACHHUZ6bWBOMBfCcUnb1ZA+ngbZpzrLgmQlXt3j9zhiGPRBmWSduiRqy3n8tV6EAdgHxuWzjmwHy1P//RM78ldQ0LkU=
+X-Received: by 2002:a25:fc0c:0:b0:b9e:7ec8:5d41 with SMTP id
+ v12-20020a25fc0c000000b00b9e7ec85d41mr5902733ybd.55.1683145551966; Wed, 03
+ May 2023 13:25:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,17 +46,14 @@ References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad
  <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
  <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
  <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com> <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
- <bce93654-fc36-3d12-282d-76fafb8f51ce@linaro.org> <CAL_JsqJXd_EpOQwwNEAn25mzFfkhEvqzur6ui5Ca+dbt2kA8-Q@mail.gmail.com>
- <5e318b02-8f33-4e2d-a956-5660e1c60619@app.fastmail.com> <CAA8EJpq8x5wQa3fMebaSP3hCdMiCsZRaF+B4Y3N3royW_CeXCA@mail.gmail.com>
- <4e1e70a9-9b28-410b-bd29-fb5f5805798f@app.fastmail.com>
-In-Reply-To: <4e1e70a9-9b28-410b-bd29-fb5f5805798f@app.fastmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Wed, 3 May 2023 08:16:46 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJEdZBS231TvkmmipaXEqzvDjz+A32V6uJ4zfSMAJHn2w@mail.gmail.com>
-Message-ID: <CAL_JsqJEdZBS231TvkmmipaXEqzvDjz+A32V6uJ4zfSMAJHn2w@mail.gmail.com>
+ <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
+In-Reply-To: <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 3 May 2023 22:25:39 +0200
+Message-ID: <CACRpkdaZdxNZ3amHxE44NZOZcVMpBa4Kx126+7WW3XHGM2NU=A@mail.gmail.com>
 Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+Cc: Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
 	Olof Johansson <olof@lixom.net>, Christian Marangi <ansuelsmth@gmail.com>, 
 	Krzysztof Kozlowski <krzk@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
@@ -62,31 +71,32 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Geert Uytterhoeven <geert@li
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 3, 2023 at 7:19=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote:
+On Wed, May 3, 2023 at 1:03=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
+
+> >     'gemini' : 'gemini',
 >
-> On Wed, May 3, 2023, at 14:13, Dmitry Baryshkov wrote:
-> > On Wed, 3 May 2023 at 13:39, Arnd Bergmann <arnd@arndb.de> wrote:
+> This one is also a product name, not a company. Apparently,
+> gemini was originally made by Storm Semiconductor, and then
+> by Cortina, which was subsequently acquired by Inphi, and that ended
+> up in Marvell after the product was already discontinued.
 >
-> >> So with pxa93x out of the picture, we can simplify it as using
-> >> 'pxa' as the name for all the above chips with an Intel XScale
-> >> core, and 'marvell' for all the other ones that have a Marvell
-> >> core and exist in mach-mmp.
-> >
-> > Should it be 'intel' for pxa[23]xx then?
+> Out of the four, I'd probably go with 'cortina' as the
+> directory name.
 >
-> Probably yes, that would put it next to ixp4xx, which makes
-> a lot of sense (same vintage, same cpu core), though it is
-> a bit funny to have these together with lsi axxia and
-> altera socfpga, both of which are also in the intel
-> directory. socfpga is of course the only one that anybody
-> at Intel cares about these days.
 
-We could do a second level of directories here:
+StorLink was the initial company, thus SL3516, SL3512
+the name of the chips.
 
-intel/pxa/
-intel/ixp/
-intel/socfpga/
+Then that company changed name to Storm Semiconductor.
 
-arm64 broadcom dts files are structured that way.
+Git acquired by Cortina.
 
-Rob
+Then Inphi acquired Cortina.
+
+Then Marvell scooped up the IP.
+
+If we *have* to use a company name I would use storlink,
+because the chips are named after that.
+
+Yours,
+Linus Walleij

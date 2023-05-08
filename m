@@ -1,162 +1,95 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692A1361
-	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 13:29:19 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1aad5245632so31802705ad.3
-        for <chrome-platform@lists.linux.dev>; Mon, 08 May 2023 06:29:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32176524E
+	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 18:34:43 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1aaff9c93a5so33218435ad.2
+        for <chrome-platform@lists.linux.dev>; Mon, 08 May 2023 11:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1683552559; x=1686144559;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=03yiJl37XMVIW9EPJmNqoAwnRs9DvxP0U9VcT+Ci1T4=;
-        b=PpqN+2Z2PfGjhK1amOs2Yfv64OHD1Zzy64xYeF3wgWAUJCSjlEZtrZvNtSnaEmyZWT
-         dt86rPw0oVO6C2Kp/jWqwJ72NiEKwDPZFA+8Oy8LonI4/lX2gKkdwARfgKLAhfSjJYlP
-         lnwny3cy1lSGUhW3+POJP2uvtTj9MHrYUR/bhfY7xv51dg3siSxeEBPuhCpZx20YExnf
-         9+Q+5Ogi+Nsxu+MNZWB+s08r3WeCGLH+GYOuvQbeQbYpqhUHeHBnQvSOwTsALy5cag5q
-         h3iHf4h6e4LqV0P9KQNpUa92maoLhC7h3faQ48iHc6eN9rrCzL+NYeQi2ejVaDBEr/LP
-         efkA==
+        d=chromium.org; s=google; t=1683570882; x=1686162882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ENrmHrZCa2KACgxhhiJXtsOjJ10wJCI2jUF2VRrMiic=;
+        b=be5YN7QtcMkZ11hMLSFpfny3Z1+Vv4brKpdoEEOy+slNFww80COFQHL29pthNHIg/v
+         87/GJaHpfH+QA0KMo1bjZ4rXO6U9tO3qNfsn1J4/Q8Fa5dVMA1z02yC6SnqwqucHUDzG
+         5zjfPsahQfprVaQARLy1/sRWyHlOlxQAfQAhw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683552559; x=1686144559;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1683570882; x=1686162882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=03yiJl37XMVIW9EPJmNqoAwnRs9DvxP0U9VcT+Ci1T4=;
-        b=CxjRx8eGbbE/Ld/qzL8+4pwtNgTvFhIxUA5czlgGdIjljjoen4cYjZIcuXDj+MqVcG
-         uUzTZ2k3db+WHgDHusBE66MLu+JIOBtiHKYOk6CEaMvNF/Qbv3q/obv75PA4pR3sEUzV
-         qpvTkQC1caxIAVC5M2dmOUIOyRhkrrpVTThWQJyliSPyw2o9/Oo4CqszPwGMGjsmfdjk
-         eTjXmvEydrro50HwAKs5vtHBvdcrn72yLIcBsTyXPLOOunboRJwTfWlMmRzQdT52Ny4F
-         w/8t7Cx0N4RpYrzrUDI3uKEqZ0RHExosrYNgcuF765HAbKLi3MV6kxXqYpkFc1mu5K4s
-         MDNA==
-X-Gm-Message-State: AC+VfDz1QTS3+W5MK8IhBreEGadvwmzvB7KnWEG9QcK70JXHtrTAKnfy
-	zHXx1G80441rrkdUd4aj1M405Q==
-X-Google-Smtp-Source: ACHHUZ6E0iz0N7o6QDt+sIG5qES55uco7Ur2sJeq9tqG++pO+eUMRlM4b0BYq7yBPNK8H0llA8LIeA==
-X-Received: by 2002:a17:903:294d:b0:19d:1834:92b9 with SMTP id li13-20020a170903294d00b0019d183492b9mr9915855plb.56.1683552559267;
-        Mon, 08 May 2023 06:29:19 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id jk16-20020a170903331000b001a526805b86sm7237077plb.191.2023.05.08.06.29.18
+        bh=ENrmHrZCa2KACgxhhiJXtsOjJ10wJCI2jUF2VRrMiic=;
+        b=SBgr5Cyq7zB+W24NhewhN2zLnP9squiBVprM01dc5I9A+ToR2e6ZgdTx1OgJ8dnuMW
+         ppgkdBLvAiHASRoIZdCDnk9e+eUYr7ti36EXgvu1oEicaXYoC8eqFc0/RPS3HrxPnpye
+         iNER0NQdtMvJ9sAivHC5wKMQztvqZAuZqznmPrQl2xIWxKtlw2qKnSz0CLpzAIAkKnC0
+         NUe2h6xiYJdZy34HxLid5tXq3qgvavmsw9290Wckg6n2b96yil48Hq6WyXTsoCdI3MTm
+         necXrPuskLfDhC0fGBMj3sQjZntdTRgWha64BcmfY1HvQenz80RjJ4lfO7TEb6afgKd/
+         t+WA==
+X-Gm-Message-State: AC+VfDxpo3kYtiHgiSwf2vHIjvrwo8nBjc2Apa70bv9YTIMzQnYsEjNj
+	CUelZuwVox22ful0UOKgdIZ7tQ==
+X-Google-Smtp-Source: ACHHUZ50TZqve8vze0cKv1qkKDiZSg5fvQX7AhbVzO06obFIIehBk3Pk1OL4/s3leevqEpTFld9fIg==
+X-Received: by 2002:a17:903:11c3:b0:1ab:160c:526d with SMTP id q3-20020a17090311c300b001ab160c526dmr12205554plh.22.1683570882577;
+        Mon, 08 May 2023 11:34:42 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
+        by smtp.gmail.com with ESMTPSA id d7-20020a170902c18700b001aadfdfcd06sm7617760pld.299.2023.05.08.11.34.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 06:29:18 -0700 (PDT)
-Message-ID: <6458f92e.170a0220.75625.c252@mx.google.com>
-Date: Mon, 08 May 2023 06:29:18 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 08 May 2023 11:34:42 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: bleung@chromium.org,
+	Prashant Malani <pmalani@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH] platform/chrome: cros_typec_switch: Add Pin D support
+Date: Mon,  8 May 2023 18:34:27 +0000
+Message-ID: <20230508183428.1893357-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.4-rc1
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
- 2 regressions (v6.4-rc1)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci cros-ec: 10 runs, 2 regressions (v6.4-rc1)
+The ChromeOS EC's mux interface allows us to specify whether the port
+should be configured for Pin Assignment D in DisplayPort alternate mode
+(i.e 2 lanes USB + 2 lanes DP). Update the function that determines mux
+state to account for Pin Assignment D and return the appropriate mux
+setting.
 
-Regressions Summary
--------------------
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+---
+ drivers/platform/chrome/cros_typec_switch.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+index 752720483753..0eefdcf14d63 100644
+--- a/drivers/platform/chrome/cros_typec_switch.c
++++ b/drivers/platform/chrome/cros_typec_switch.c
+@@ -51,13 +51,18 @@ static int cros_typec_cmd_mux_set(struct cros_typec_switch_data *sdata, int port
+ static int cros_typec_get_mux_state(unsigned long mode, struct typec_altmode *alt)
+ {
+ 	int ret = -EOPNOTSUPP;
++	u8 pin_assign;
+ 
+-	if (mode == TYPEC_STATE_SAFE)
++	if (mode == TYPEC_STATE_SAFE) {
+ 		ret = USB_PD_MUX_SAFE_MODE;
+-	else if (mode == TYPEC_STATE_USB)
++	} else if (mode == TYPEC_STATE_USB) {
+ 		ret = USB_PD_MUX_USB_ENABLED;
+-	else if (alt && alt->svid == USB_TYPEC_DP_SID)
++	} else if (alt && alt->svid == USB_TYPEC_DP_SID) {
+ 		ret = USB_PD_MUX_DP_ENABLED;
++		pin_assign = mode - TYPEC_STATE_MODAL;
++		if (pin_assign & DP_PIN_ASSIGN_D)
++			ret |= USB_PD_MUX_USB_ENABLED;
++	}
+ 
+ 	return ret;
+ }
+-- 
+2.40.1.521.gf1e218fcd8-goog
 
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.4-rc1/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.4-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      ac9a78681b921877518763ba0e89202254349d1b
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6458ea2ef48070a6cb2e860c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-ec-mt818=
-3-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-ec-mt818=
-3-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230421.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/6458ea2ef48070a6cb2e86=
-0d
-        new failure (last pass: tag-chrome-platform-for-v6.4) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6458ea08ba8d493cd52e85f3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-ec-mt819=
-2-asurada-spherion-r0.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-ec-mt819=
-2-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230421.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/6458ea08ba8d493cd52e85=
-f4
-        new failure (last pass: tag-chrome-platform-for-v6.4) =
-
- =20

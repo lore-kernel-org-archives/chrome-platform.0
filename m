@@ -1,95 +1,94 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32176524E
-	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 18:34:43 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1aaff9c93a5so33218435ad.2
-        for <chrome-platform@lists.linux.dev>; Mon, 08 May 2023 11:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1683570882; x=1686162882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ENrmHrZCa2KACgxhhiJXtsOjJ10wJCI2jUF2VRrMiic=;
-        b=be5YN7QtcMkZ11hMLSFpfny3Z1+Vv4brKpdoEEOy+slNFww80COFQHL29pthNHIg/v
-         87/GJaHpfH+QA0KMo1bjZ4rXO6U9tO3qNfsn1J4/Q8Fa5dVMA1z02yC6SnqwqucHUDzG
-         5zjfPsahQfprVaQARLy1/sRWyHlOlxQAfQAhw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683570882; x=1686162882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ENrmHrZCa2KACgxhhiJXtsOjJ10wJCI2jUF2VRrMiic=;
-        b=SBgr5Cyq7zB+W24NhewhN2zLnP9squiBVprM01dc5I9A+ToR2e6ZgdTx1OgJ8dnuMW
-         ppgkdBLvAiHASRoIZdCDnk9e+eUYr7ti36EXgvu1oEicaXYoC8eqFc0/RPS3HrxPnpye
-         iNER0NQdtMvJ9sAivHC5wKMQztvqZAuZqznmPrQl2xIWxKtlw2qKnSz0CLpzAIAkKnC0
-         NUe2h6xiYJdZy34HxLid5tXq3qgvavmsw9290Wckg6n2b96yil48Hq6WyXTsoCdI3MTm
-         necXrPuskLfDhC0fGBMj3sQjZntdTRgWha64BcmfY1HvQenz80RjJ4lfO7TEb6afgKd/
-         t+WA==
-X-Gm-Message-State: AC+VfDxpo3kYtiHgiSwf2vHIjvrwo8nBjc2Apa70bv9YTIMzQnYsEjNj
-	CUelZuwVox22ful0UOKgdIZ7tQ==
-X-Google-Smtp-Source: ACHHUZ50TZqve8vze0cKv1qkKDiZSg5fvQX7AhbVzO06obFIIehBk3Pk1OL4/s3leevqEpTFld9fIg==
-X-Received: by 2002:a17:903:11c3:b0:1ab:160c:526d with SMTP id q3-20020a17090311c300b001ab160c526dmr12205554plh.22.1683570882577;
-        Mon, 08 May 2023 11:34:42 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
-        by smtp.gmail.com with ESMTPSA id d7-20020a170902c18700b001aadfdfcd06sm7617760pld.299.2023.05.08.11.34.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 11:34:42 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: bleung@chromium.org,
-	Prashant Malani <pmalani@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH] platform/chrome: cros_typec_switch: Add Pin D support
-Date: Mon,  8 May 2023 18:34:27 +0000
-Message-ID: <20230508183428.1893357-1-pmalani@chromium.org>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1042E53AC
+	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 20:53:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r8-00034L-Jg; Mon, 08 May 2023 22:53:14 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r7-0024q2-RJ; Mon, 08 May 2023 22:53:13 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r7-002YVh-76; Mon, 08 May 2023 22:53:13 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Benson Leung <bleung@chromium.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Wolfram Sang <wsa@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	linux-i2c@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 15/89] i2c: cros-ec-tunnel: Convert to platform remove callback returning void
+Date: Mon,  8 May 2023 22:51:52 +0200
+Message-Id: <20230508205306.1474415-16-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
+References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1727; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=8x9SNm7wC0nHnafZUA2i+WZqpxZes+tYc4Y8DP8Dkh4=; b=owGbwMvMwMXY3/A7olbonx/jabUkhpTIhFTbMqXGZ1MV/yvOKbou9HJ58HK3362rzC1P3quzs Pj7KOJuJ6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQATkVRh/83Cm3lNZtmJuw98 bx/smvfnPpNsSGcso6zCy5j7d9p7rh/VeficX/nSaq9P3Lydvvff/Dr4s/dbi8X8ChtLi58bjFh /2K/wqiz0WHYzgr9fx1JQ7VFWTEu3VMbqwwE2th0q3Q6Xqi0NvxWKTfFREVL4Ml12+6yOG01Xnv ZmT837xiEvk3htodna3AinmZNOysgH3/bL7xOQkvN7YrLQgqdkeaVXc9DvxNQMQXd9Od30x8Grp 09Qtjy/RfZ4tKOOwLni2o3t+95XTl126oa8IuP5c2JbjoTIvri04PBMEfvU619yy4/vc2+sENN2 e+Rx7te0azs5drRpcjk+PvDHRUiq71fB8gMVXxy9Jcx4AQ==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-The ChromeOS EC's mux interface allows us to specify whether the port
-should be configured for Pin Assignment D in DisplayPort alternate mode
-(i.e 2 lanes USB + 2 lanes DP). Update the function that determines mux
-state to account for Pin Assignment D and return the appropriate mux
-setting.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/chrome/cros_typec_switch.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/i2c/busses/i2c-cros-ec-tunnel.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index 752720483753..0eefdcf14d63 100644
---- a/drivers/platform/chrome/cros_typec_switch.c
-+++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -51,13 +51,18 @@ static int cros_typec_cmd_mux_set(struct cros_typec_switch_data *sdata, int port
- static int cros_typec_get_mux_state(unsigned long mode, struct typec_altmode *alt)
- {
- 	int ret = -EOPNOTSUPP;
-+	u8 pin_assign;
- 
--	if (mode == TYPEC_STATE_SAFE)
-+	if (mode == TYPEC_STATE_SAFE) {
- 		ret = USB_PD_MUX_SAFE_MODE;
--	else if (mode == TYPEC_STATE_USB)
-+	} else if (mode == TYPEC_STATE_USB) {
- 		ret = USB_PD_MUX_USB_ENABLED;
--	else if (alt && alt->svid == USB_TYPEC_DP_SID)
-+	} else if (alt && alt->svid == USB_TYPEC_DP_SID) {
- 		ret = USB_PD_MUX_DP_ENABLED;
-+		pin_assign = mode - TYPEC_STATE_MODAL;
-+		if (pin_assign & DP_PIN_ASSIGN_D)
-+			ret |= USB_PD_MUX_USB_ENABLED;
-+	}
- 
- 	return ret;
+diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+index 8b3ff5bb14d8..2737fd8abd32 100644
+--- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
++++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
+@@ -283,13 +283,11 @@ static int ec_i2c_probe(struct platform_device *pdev)
+ 	return err;
  }
+ 
+-static int ec_i2c_remove(struct platform_device *dev)
++static void ec_i2c_remove(struct platform_device *dev)
+ {
+ 	struct ec_i2c_device *bus = platform_get_drvdata(dev);
+ 
+ 	i2c_del_adapter(&bus->adap);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id cros_ec_i2c_of_match[] __maybe_unused = {
+@@ -306,7 +304,7 @@ MODULE_DEVICE_TABLE(acpi, cros_ec_i2c_tunnel_acpi_id);
+ 
+ static struct platform_driver ec_i2c_tunnel_driver = {
+ 	.probe = ec_i2c_probe,
+-	.remove = ec_i2c_remove,
++	.remove_new = ec_i2c_remove,
+ 	.driver = {
+ 		.name = "cros-ec-i2c-tunnel",
+ 		.acpi_match_table = ACPI_PTR(cros_ec_i2c_tunnel_acpi_id),
 -- 
-2.40.1.521.gf1e218fcd8-goog
+2.39.2
 

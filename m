@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB3125C4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774DA13AC6
 	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C0525C4339B;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E4EF0C4339C;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683518161;
-	bh=NrJr0EBtNIgpAarh3hsg9dldeOGUlRjf/3/JXcqh+nU=;
+	s=k20201202; t=1683518162;
+	bh=/oCN6Snro+5jKdEaSS2H/1Stk2he2z97oOjDuxIMUgc=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=X7Dj3d2UdyEHAXKLIl/zP/EagxnlIOOO361aTHP/9S37uGTBFAUZ/A3T8XxjRO/ct
-	 ka4fIGeNufAEUZUGWQTXPqBVf5Fi6T1S6jXxMShex5cm+Kg7oyrHDO6NIX7LamSMMN
-	 j9sSBMYy1gqcPjf2QxtJLqSR7zDU4gh0HJVC3r4YHPMzkGFGX7rVKW9gotzYsZnooV
-	 TeEY5jCwIP4dvklJeYpU/TrxoysK/QCgVfLMXmZl8UDSbvturAi6WsSbx1c9Qq0HHK
-	 DPppWwftxiCGJvYFfzZ/2xL7AEJ/de3i3fO0hXboi7ZQtcmnsWG8cTmRODuePCWOAe
-	 lTHDKmzU22p5w==
+	b=GhJrpVYlr7iUIGEy5SEwSY1iBsiX51a36ZQfT7K2T98jvLtFSggiz9cNjj9fgqXzD
+	 2sWCfb5rr6ofL4Jg3VD+mxKR4P4FEf+Nm3I1QzRbDyckaq0Vf1IMOz/s0vDvrNRER3
+	 kSEXDH9zfbJ34VtBPYeo2bwv3ONT6fej6Lmr2IilL2mPO9b+ed9RjH0j7szSVaW/zT
+	 dFqChcEQsw+2KCEmZHwu7HGYAxVSMjdcNnSNwRObSucIoZiUEup1G8HjW+WjiL41Rw
+	 KExaBxII4/unfGroboQMg1RoN9xGa2thAwldXeASRIwIO/lsm5Atd41SChbXIErT6e
+	 esCKThzm1AL7Q==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A0975C395C8;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C8542E26D26;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,53 +26,37 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/41] rtc: Convert to platform remove callback returning void
+Subject: Re: [PATCH] media: platform: cros-ec: Add aurash to the match table
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <168351816165.5651.12752189615466403387.git-patchwork-notify@kernel.org>
+ <168351816181.5651.18369881388504503057.git-patchwork-notify@kernel.org>
 Date: Mon, 08 May 2023 03:56:01 +0000
-References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com,
- linus.walleij@linaro.org, nicolas.ferre@microchip.com,
- claudiu.beznea@microchip.com, f.fainelli@gmail.com, bleung@chromium.org,
- kumba@gentoo.org, ulli.kroll@googlemail.com, vz@mleia.com,
- cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
- conor.dooley@microchip.com, daire.mcnamara@microchip.com,
- eddie.huang@mediatek.com, sean.wang@mediatek.com, matthias.bgg@gmail.com,
- miquel.raynal@bootlin.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, vincent.sunplus@gmail.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, michal.simek@xilinx.com,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-riscv@lists.infradead.org,
- angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
- kernel@pengutronix.de
+References: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
+In-Reply-To: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
+To: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
+ groeck@chromium.org, scott_chao@wistron.corp-partner.google.com,
+ ajye_huang@compal.corp-partner.google.com, hellojacky0226@hotmail.com,
+ linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Alexandre Belloni <alexandre.belloni@bootlin.com>:
+by Mauro Carvalho Chehab <mchehab@kernel.org>:
 
-On Sat,  4 Mar 2023 14:29:47 +0100 you wrote:
-> Hello,
+On Thu, 23 Feb 2023 13:41:38 +0800 you wrote:
+> The Google aurash device uses the same approach as the Google Brask
+> which enables the HDMI CEC via the cros-ec-cec driver.
 > 
-> this patch series adapts the platform drivers below drivers/rtc to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver core
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warning. The
-> device is removed anyhow and an early return from .remove() usually yields a
-> resource leak.
-> 
-> [...]
+> Signed-off-by: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Here is the summary with links:
-  - [10/41] rtc: cros-ec: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/0d8742e61098
+  - media: platform: cros-ec: Add aurash to the match table
+    https://git.kernel.org/chrome-platform/c/46ff24efe04a
 
 You are awesome, thank you!
 -- 

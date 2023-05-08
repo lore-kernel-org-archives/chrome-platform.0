@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774DA13AC6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7462413AC5
 	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E4EF0C4339C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E5E8FC4339E;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1683518162;
-	bh=/oCN6Snro+5jKdEaSS2H/1Stk2he2z97oOjDuxIMUgc=;
+	bh=Fu6gVnMtHqTZpyypofzpTYmo67wTgSom5YIB1n37dXE=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GhJrpVYlr7iUIGEy5SEwSY1iBsiX51a36ZQfT7K2T98jvLtFSggiz9cNjj9fgqXzD
-	 2sWCfb5rr6ofL4Jg3VD+mxKR4P4FEf+Nm3I1QzRbDyckaq0Vf1IMOz/s0vDvrNRER3
-	 kSEXDH9zfbJ34VtBPYeo2bwv3ONT6fej6Lmr2IilL2mPO9b+ed9RjH0j7szSVaW/zT
-	 dFqChcEQsw+2KCEmZHwu7HGYAxVSMjdcNnSNwRObSucIoZiUEup1G8HjW+WjiL41Rw
-	 KExaBxII4/unfGroboQMg1RoN9xGa2thAwldXeASRIwIO/lsm5Atd41SChbXIErT6e
-	 esCKThzm1AL7Q==
+	b=Wc47SxRZPFSGz6n7NcJqwwMTGEIp05ZD2f3EFftmYcbdESoM0QfZhEhysUUGykfjg
+	 2iimF5xrFB/zHh4pZLBp1YxOAVw0uyBvE7wzOIC4at1x5Xg3AzvAD72AVYozYP9kF9
+	 wJLSmroRzUdZgLC3ji00mUfRbOh5b5VtIMpbEcA+v+EmSkTxAml2/nrR6DCDNyG/6k
+	 cuAtWstDi7GYkcI3Ta5q8mmq2UpJl2nDJq1xyIuZ+bxq+mxbc4guDaOggAhAZyaiKo
+	 +e7V3NAd9+GaHMpWZB0HMyDOaWLBRMZd2dmqZR7PRYiI6B3nKGH0/889A/pMCfMO6Q
+	 04vuaTF+thtUQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C8542E26D26;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BDF96E26D27;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,37 +26,40 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] media: platform: cros-ec: Add aurash to the match table
+Subject: Re: [PATCH 0/4] pwm: Ensure .polarity is set in .get_state()
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <168351816181.5651.18369881388504503057.git-patchwork-notify@kernel.org>
+ <168351816176.5651.17672713691449446038.git-patchwork-notify@kernel.org>
 Date: Mon, 08 May 2023 03:56:01 +0000
-References: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
-In-Reply-To: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
-To: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
-Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
- groeck@chromium.org, scott_chao@wistron.corp-partner.google.com,
- ajye_huang@compal.corp-partner.google.com, hellojacky0226@hotmail.com,
- linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
+References: <20230228135508.1798428-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230228135508.1798428-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: thierry.reding@gmail.com, kamatam@amazon.com, xuejiancheng@hisilicon.com,
+ yuanjian12@hisilicon.com, robh@kernel.org, bleung@chromium.org,
+ orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, kernel@pengutronix.de
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Mauro Carvalho Chehab <mchehab@kernel.org>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Thu, 23 Feb 2023 13:41:38 +0800 you wrote:
-> The Google aurash device uses the same approach as the Google Brask
-> which enables the HDMI CEC via the cros-ec-cec driver.
+On Tue, 28 Feb 2023 14:55:04 +0100 you wrote:
+> Hello,
 > 
-> Signed-off-by: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
->  1 file changed, 2 insertions(+)
+> in the context of the discussion with Munehisa Kamata about the meson driver
+> not setting .polarity in .get_state() I checked the other drivers for the same
+> issue. The identified drivers are fixed here. For three of them
+> zero-initializing *state would be good enough, still I think setting the
+> polarity explicitly is a good idea. For the hibvt driver (that supports
+> both polarities) the change is a real improvement.
+> 
+> [...]
 
 Here is the summary with links:
-  - media: platform: cros-ec: Add aurash to the match table
-    https://git.kernel.org/chrome-platform/c/46ff24efe04a
+  - [2/4] pwm: cros-ec: Explicitly set .polarity in .get_state()
+    https://git.kernel.org/chrome-platform/c/30006b77c7e1
 
 You are awesome, thank you!
 -- 

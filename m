@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0D5101FD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB3125C4
 	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CB283C433D2;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0525C4339B;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1683518161;
-	bh=HYMao/VV+DNw3yoZ1/SAY3oulWQRGxabBJ87rUG0m18=;
+	bh=NrJr0EBtNIgpAarh3hsg9dldeOGUlRjf/3/JXcqh+nU=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=OVz/0UidLKqF3SJm5FLtXH5qtEUZUTFmshQP3KT/E6Zi0fEfmwEzp/7N4+nqv1YQR
-	 UHG9MyOZSF8DUkOXSlQUaKl2wdWvO9hBOhPggIZ9PJl312ckzqzhf5ai2q571RHiw+
-	 fE61qFzxFI4EiGaEh38XEoKE0uL96ychqBJihINgm3sJuMAkHh0hdpfykHarHKjuJF
-	 HLG3CZKMHnPdtCZDWpLU50VZvrEVYNpaVGlLgxf6EAPbzjHZKX559tgrYfGmrhpsA2
-	 +6t0Yun07+s9/FblecZKEFPAik4jRlWRu8EytWHuxDZLCX8IfxeDArcBbDhLVZPhOL
-	 MKXx5Yyt81HOA==
+	b=X7Dj3d2UdyEHAXKLIl/zP/EagxnlIOOO361aTHP/9S37uGTBFAUZ/A3T8XxjRO/ct
+	 ka4fIGeNufAEUZUGWQTXPqBVf5Fi6T1S6jXxMShex5cm+Kg7oyrHDO6NIX7LamSMMN
+	 j9sSBMYy1gqcPjf2QxtJLqSR7zDU4gh0HJVC3r4YHPMzkGFGX7rVKW9gotzYsZnooV
+	 TeEY5jCwIP4dvklJeYpU/TrxoysK/QCgVfLMXmZl8UDSbvturAi6WsSbx1c9Qq0HHK
+	 DPppWwftxiCGJvYFfzZ/2xL7AEJ/de3i3fO0hXboi7ZQtcmnsWG8cTmRODuePCWOAe
+	 lTHDKmzU22p5w==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B14B0E26D25;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A0975C395C8;
 	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,35 +26,53 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
+Subject: Re: [PATCH 00/41] rtc: Convert to platform remove callback returning void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <168351816172.5651.4021809655388820945.git-patchwork-notify@kernel.org>
+ <168351816165.5651.12752189615466403387.git-patchwork-notify@kernel.org>
 Date: Mon, 08 May 2023 03:56:01 +0000
-References: <20230220135531.1987351-1-linus.walleij@linaro.org>
-In-Reply-To: <20230220135531.1987351-1-linus.walleij@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
- bleung@chromium.org, groeck@chromium.org, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
+References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+ linus.walleij@linaro.org, nicolas.ferre@microchip.com,
+ claudiu.beznea@microchip.com, f.fainelli@gmail.com, bleung@chromium.org,
+ kumba@gentoo.org, ulli.kroll@googlemail.com, vz@mleia.com,
+ cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
+ conor.dooley@microchip.com, daire.mcnamara@microchip.com,
+ eddie.huang@mediatek.com, sean.wang@mediatek.com, matthias.bgg@gmail.com,
+ miquel.raynal@bootlin.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, vincent.sunplus@gmail.com,
+ thierry.reding@gmail.com, jonathanh@nvidia.com, michal.simek@xilinx.com,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-riscv@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+ kernel@pengutronix.de
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+by Alexandre Belloni <alexandre.belloni@bootlin.com>:
 
-On Mon, 20 Feb 2023 14:55:31 +0100 you wrote:
-> The dependency had an obvious spelling error. Fix it.
+On Sat,  4 Mar 2023 14:29:47 +0100 you wrote:
+> Hello,
 > 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  .../devicetree/bindings/input/google,cros-ec-keyb.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> this patch series adapts the platform drivers below drivers/rtc to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
+> 
+> [...]
 
 Here is the summary with links:
-  - dt-bindings: google,cros-ec-keyb: Fix spelling error
-    https://git.kernel.org/chrome-platform/c/c6f3b684c2c4
+  - [10/41] rtc: cros-ec: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/0d8742e61098
 
 You are awesome, thank you!
 -- 

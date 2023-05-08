@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8912213AC8;
-	Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 017E0C433A1;
-	Mon,  8 May 2023 03:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683518162;
-	bh=iqxRQMD53u2tbr+scb/mygfA71sAOYFgkZWapjTWLC8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nEjcgk3+n8PYkAocEwDvhmB9jmQVz13X6O5K2hyos1vxLgzNen0Ynbvp4PFTtwysi
-	 +BCR/a9mQn1f1BPAE4k0psgkYYi9BqOywL6GkMDTwiUY8GYSL9lYyA1BdBuKzU2hXH
-	 dIMT772sNaVuDE9zKYN9NvgT6DxfUYiSp40yp/AmEVnehU+lds/vfVirVunCKpAyLa
-	 6GHtWMLiKGxD2l0QV4Eeu747HdERt5Fw9YwxiuyioA/1nUw9YUMaq/ikApjI7ejKWe
-	 3t1Ha3yKoi59DNpgdlEAe7bez5m1nP6bIOk3zteJUF1LZ2Qo1c7mFFVQ9iCtduLuP8
-	 TS+0FH9YEdnOw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3B00E26D29;
-	Mon,  8 May 2023 03:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69316171AE
+	for <chrome-platform@lists.linux.dev>; Mon,  8 May 2023 12:00:59 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-24e4e23f378so3118876a91.3
+        for <chrome-platform@lists.linux.dev>; Mon, 08 May 2023 05:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1683547259; x=1686139259;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=baVbUBtqX8kxHi6LyRnaXVgkqPRbv4/YuJJqY3QgxKk=;
+        b=zGwQiYylelosrHw5TNVHGoE9RRON9G5HSvYzleRMkY+kFO14wQ8Q7GfaRPVfFWVRcp
+         HXzdDaFuHEgNVOGRrCC1dH0hFVkj93u2lRr1SFhB125K0cUNJlJ1czXJtwS04buv7sL0
+         Jmg9coWFqjH8fq9NyOVs32WQ4gzR7yMeiCco5lZaubshcHa9ptczERPWTj+MkRd5PNK8
+         RageivMYszTB5X7YWLOYaHG/dEj2yzglIeZ1qXaugZmhIXVdE7AAFP49l0tXxr5YxlUA
+         S5OT3Enc7PYRpy2/eCkZFwuvvCBz40MidY54AZBM4645Hne5iVNqIwts1IHVZo/gACCZ
+         QHlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683547259; x=1686139259;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=baVbUBtqX8kxHi6LyRnaXVgkqPRbv4/YuJJqY3QgxKk=;
+        b=EBKP9lScccQ+d/YRege6BAKOqfch8HQysexyeEVLbYd4y0P5TLEmT2mEHIXLh7n0Jz
+         +E/nha8nKK77aVmx32hpMh/zddN5a5GEM55q6x17VL4O3Wf9C4oVtdF5UGYc+CL2kaA1
+         yZ6Tg28vpBobD9ugKPysh8rX3EpiDWtCN6vzVAOdf1/V6yCOxd0lU3MguWFj6rz7pdYq
+         les/gEGiEk1yIHF/ZIqgcEakGoNyZovVq5PFbTt+N+sdvyCNnABOnAhCUs8PPE0NNAKL
+         N13VcNkqAopvQTPNu8wuRN3QkMTI594PPSAQwvolJpsu7tNU8E1ajxUE7+mIm/lRhQfu
+         prAg==
+X-Gm-Message-State: AC+VfDxgpVXwbUA9OyIGmTyBC8dtO7nuZFjP1adB1Xe0ZFlwHFkUA20O
+	8BlOr9Cn9HD25LQmFfmakKlb1A==
+X-Google-Smtp-Source: ACHHUZ7VDn+oN1gCEUM3obgYAWJaTOmHisgzeKcufwfcRd8YbMsmlOgrJPdh9QcfdX74uuQsYyQibg==
+X-Received: by 2002:a17:90b:3910:b0:250:2ad4:b459 with SMTP id ob16-20020a17090b391000b002502ad4b459mr10016355pjb.39.1683547258768;
+        Mon, 08 May 2023 05:00:58 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id cq2-20020a17090af98200b002508f0ac3edsm1520877pjb.53.2023.05.08.05.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 May 2023 05:00:58 -0700 (PDT)
+Message-ID: <6458e47a.170a0220.53ae8.2575@mx.google.com>
+Date: Mon, 08 May 2023 05:00:58 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,60 +46,99 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/30] pwm: Convert to platform remove callback returning void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <168351816186.5651.2096317681881714301.git-patchwork-notify@kernel.org>
-Date: Mon, 08 May 2023 03:56:01 +0000
-References: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
- rjui@broadcom.com, sbranden@broadcom.com, f.fainelli@gmail.com,
- bleung@chromium.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- vz@mleia.com, matthias.bgg@gmail.com, heiko@sntech.de,
- krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, jonathanh@nvidia.com, sean.anderson@seco.com,
- michal.simek@xilinx.com, kernel@pengutronix.de, linux-pwm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, festevam@gmail.com, linux-imx@nxp.com,
- angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.4-rc1
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed,
+ 6 warnings (v6.4-rc1)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed, 6 warning=
+s (v6.4-rc1)
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Thierry Reding <thierry.reding@gmail.com>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.4-rc1/
 
-On Fri,  3 Mar 2023 19:54:15 +0100 you wrote:
-> Hello,
-> 
-> this patch series adapts the platform drivers below drivers/pwm to use
-> the .remove_new() callback. Compared to the traditional .remove()
-> callback .remove_new() returns no value. This is a good thing because
-> the driver core doesn't (and cannot) cope for errors during remove. The
-> only effect of a non-zero return value in .remove() is that the driver
-> core emits a warning. The device is removed anyhow and an early return
-> from .remove() usually yields a resource leak.
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.4-rc1
+Git Commit: ac9a78681b921877518763ba0e89202254349d1b
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [09/30] pwm: cros-ec: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/159a61a7b5b0
+Warnings Detected:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+arm64:
+
+arm:
+
+x86_64:
+    x86_64_defconfig (gcc-10): 3 warnings
+    x86_64_defconfig+x86-chromebook (gcc-10): 3 warnings
 
 
+Warnings summary:
+
+    2    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    2    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    2    vmlinux.o: warning: objtool: .altinstr_replacement+0x17a8: redunda=
+nt UACCESS disable
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
+ection mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x17a8: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+3 warnings, 0 section mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x17a8: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---
+For more info write to <info@kernelci.org>

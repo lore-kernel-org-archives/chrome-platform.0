@@ -1,86 +1,96 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2937A17FEC
-	for <chrome-platform@lists.linux.dev>; Tue,  9 May 2023 15:09:24 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-966400ee79aso581513866b.0
-        for <chrome-platform@lists.linux.dev>; Tue, 09 May 2023 08:09:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A61991F
+	for <chrome-platform@lists.linux.dev>; Tue,  9 May 2023 22:22:05 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-b9a7766d220so8117457276.2
+        for <chrome-platform@lists.linux.dev>; Tue, 09 May 2023 15:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683644962; x=1686236962;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6bpRKDonr4DEZQtbv/y5vpB5C6FTS7DxEwpmgWjKNxM=;
-        b=P4CltB87AmAZUePMykq8Io05E+V0eaKKHObrJK80qABsIwn3KusN3ca7fvw5mnxMKS
-         +MmTtsn3Q8I8ydBr9MDYjo0tmG3ssJpVKIRdtLFmoeafMs5ogjyKNchHWwf0nWZVwu9I
-         STQjMfjO0cRmLqvIn/GbO4Eee1mM1xthT50EPgoD3ca9INfMfNv+EYxi+8MkT7GXknVB
-         qAl/QsAB/5HcMSgmoLQSB9mFXewnKRidpqPKLqEOC0o9c8sPQx/Ix8bmabPG7ZT8Tc8o
-         3RKd2eUNhXxmmg52kqYa8TbpVjXiI1kcmY/otDRqmCoUfTU+QZlhpqTT/Hv0SY3nJ9PX
-         apiQ==
+        d=google.com; s=20221208; t=1683670924; x=1686262924;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/wqQil+OG5LgPV5aW4IuNWJlumZUBT5olCnKryFix4=;
+        b=uk/uhrCC4388CU0HTwGNP0sfPXbJnQ6+xRWOj/ZsgB+6atv84BliKcC9nwioferjfO
+         LYlcc1tS2VH1mNx8nI4L+w///TxYsxAq+RAGdWKgIkzVmqWwGAlSA2PDU/LEQawxsCSD
+         AdOKRiFMUuFehcMHkhwJdz6oN+HsZSGGs4MHIL1o3qpTPohGJz06hagoLRn9SNCA4ZTI
+         FZ9lhc/p7Rk1NGuRFgdLKb7sB3XsZJShF8fbReYhMkEe+1jhWbgHy8HfxSq8h/tznCWw
+         vGLC+n5b5VU+OHNypDeDsBFQ4688b9QaLTB81lwL8mHBrqe8RQVX8HQvSQKIZa1yllZx
+         gBeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683644962; x=1686236962;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6bpRKDonr4DEZQtbv/y5vpB5C6FTS7DxEwpmgWjKNxM=;
-        b=ZCdJMMv8adAZyBfMGNaifwZVkWZY5tVECkzendaeYhAH/SsmHQ1vkh16rT9pTw0pZE
-         fNkAH+sIcm1hQpZ2ULURDN2qGGvkHM+RdyVv4gCHrOrb+mRZIK+NAjw2Kkq1rfVGXoCt
-         FxT9HzP0qvZGrW3qr3/aiz/qD4MHgMu6Y5EPYCXyjx/20IzkjH9EGGy/u2qNM4zX9pXI
-         wsQppAoJ6g6BLzEhfiKeTugxRSgx6umX8DVZkXmgbzW6YwnkBo9Bd/ZB09Imxo1C2VG+
-         3AmPazQQAxbW08mAScpfuwxgS0hoZ6QqM/dI5RCzj+Ppnw5yhMKZBTqlxjPU98Be8KIw
-         JPYQ==
-X-Gm-Message-State: AC+VfDyrGfup825t0g6WxGCJ19lSidUPlWkiUVDUOV33XLWsp90aqs+4
-	Zsi3A2ual0h1C4lRY1m0oRk7Bg==
-X-Google-Smtp-Source: ACHHUZ6bCpQ2QS8rv0XKLPfBEd9iVcVkxSTGu/qYma6OBTIGxH0m03mhCkbgP2k+8hlTu4av/nSh7g==
-X-Received: by 2002:a17:907:25c2:b0:969:f3b4:89 with SMTP id ae2-20020a17090725c200b00969f3b40089mr2096356ejc.49.1683644962409;
-        Tue, 09 May 2023 08:09:22 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d0d5:7818:2f46:5e76? ([2a02:810d:15c0:828:d0d5:7818:2f46:5e76])
-        by smtp.gmail.com with ESMTPSA id hu7-20020a170907a08700b00969fa8a3533sm659395ejc.165.2023.05.09.08.09.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 May 2023 08:09:21 -0700 (PDT)
-Message-ID: <894287ab-fee9-1e3b-dc14-cff44a752412@linaro.org>
-Date: Tue, 9 May 2023 17:09:20 +0200
+        d=1e100.net; s=20221208; t=1683670924; x=1686262924;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/wqQil+OG5LgPV5aW4IuNWJlumZUBT5olCnKryFix4=;
+        b=XAfOdbr5VWHsnX6jHLI/rkvG928hqTAj+FnNAQV0PU9NzZ/exJIHy7nU14nIXUxTee
+         1/FcobHdIZO8WkJAxjLpfgmJ69ApYFK5Dl4eBQepDD25Lc+LP3cIvN3zurFaD/nmZWZg
+         +QHhcbnTAp9+T2yRDdWcRsG+sw3XZctQ7i44mhS0N4Iox+GbskRYCUouri798TIetBK3
+         9XNmOgUmdDvAm3DGrpjD24TnzGUyT+xpOuJLpDcV2Jhe5Xi6m0/zFuSXwRER7mRX7gGl
+         ehtN0bTqeXsd1Ol7ZBR49zPJ/mZ1fiOqlMF8Hapxuem4x2fewZw4QKT3dsQvlV2ZfWNK
+         lILg==
+X-Gm-Message-State: AC+VfDxqbeccjEWu68PKdXWLLyVXRlCv/9Ky/5u9ijeWpF5C+ftgfS+R
+	suHftg3ME9PiVKq4n8mD04YCHWIk3BH/2fpA6dafKkfAHipH74ZUm1K61kMgKPC6R1HbqO82nHn
+	lZpkFq0qxCmrP05CoL4eUeFxS1qt2J9k/ugnBw5N2foMOZ6OjnWhoMAUiJSHToKOo24JUezZ9qK
+	pL4VhdgA==
+X-Google-Smtp-Source: ACHHUZ6A5S/1/edS1QlifPisWbAg3tMO//ilASixmRa4If7quotBHRjD+ujgFUEuati00S7a7pk7MdYooxFlI1o=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a05:6902:11c9:b0:b9d:ed0f:b9db with SMTP
+ id n9-20020a05690211c900b00b9ded0fb9dbmr9851205ybu.6.1683670924490; Tue, 09
+ May 2023 15:22:04 -0700 (PDT)
+Date: Tue,  9 May 2023 22:22:01 +0000
+In-Reply-To: <CA+Dqm32q5oDiHgAFQzMi12H-hd+f=v-NL6F5Bx9r2Jh6THNZrw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 15/89] i2c: cros-ec-tunnel: Convert to platform remove
- callback returning void
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Benson Leung <bleung@chromium.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Wolfram Sang <wsa@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>, linux-i2c@vger.kernel.org,
- chrome-platform@lists.linux.dev, kernel@pengutronix.de
-References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
- <20230508205306.1474415-16-u.kleine-koenig@pengutronix.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230508205306.1474415-16-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <CA+Dqm32q5oDiHgAFQzMi12H-hd+f=v-NL6F5Bx9r2Jh6THNZrw@mail.gmail.com>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
+Message-ID: <20230509222201.3013970-1-robbarnes@google.com>
+Subject: [PATCH v2] platform/chrome: cros_ec: Report EC panic as uevent
+From: Rob Barnes <robbarnes@google.com>
+To: chrome-platform@lists.linux.dev
+Cc: dnojiri@chromium.org, tzungbi@kernel.org, pmalani@chromium.org, 
+	Rob Barnes <robbarnes@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 08/05/2023 22:51, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Create a uevent when an EC panic is detected. This will allow udev rules
+to trigger when a panic occurs. E.g. a udev rule could be added to
+capture an EC coredump. This approach avoids the need to stuff all the
+processing into the driver.
 
+Signed-off-by: Rob Barnes <robbarnes@google.com>
+---
+Changlog since v1:
+- Inline uevent call
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ drivers/platform/chrome/cros_ec_lpc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index b399f7cbf17be..fbce9898dc7e1 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -16,6 +16,7 @@
+ #include <linux/delay.h>
+ #include <linux/io.h>
+ #include <linux/interrupt.h>
++#include <linux/kobject.h>
+ #include <linux/module.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+@@ -322,8 +323,11 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+ 	ec_dev->last_event_time = cros_ec_get_time_ns();
+ 
+ 	if (value == ACPI_NOTIFY_CROS_EC_PANIC) {
++		static const char *env[] = { "ERROR=PANIC", NULL };
+ 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
+ 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
++		/* Publish uevent for userspace handlers */
++		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
+ 		/* Begin orderly shutdown. Force shutdown after 1 second. */
+ 		hw_protection_shutdown("CrOS EC Panic", 1000);
+ 		/* Do not query for other events after a panic is reported */
+-- 
+2.39.2
 

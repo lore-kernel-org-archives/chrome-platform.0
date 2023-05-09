@@ -1,157 +1,109 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4182619937;
-	Tue,  9 May 2023 22:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-	t=1683672871; i=j.neuschaefer@gmx.net;
-	bh=IjOsP3Hl5WOUcxHtKpSlXVU2zmb5sAncILY7B0EhNVs=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ndYA2tf/LPtkgltTOvt7X2+Zi6uiTPSZbAqw/mXBwe2s3qEMYWIHbVw2U7syYOtiu
-	 0ByeTgk6m0fQkzncsA2uFg7rs+4GDkYCaq3zleDHMNFIszwJSYZevaNUwCstSv1xs2
-	 q2XsYVKyF7xXnp4qsykgKdmrMBdtxCsRttws9I9ls8dUQV5PBqFxC2CHyOsYGjarJ/
-	 Rr2m1bZj51r337gAlDvnDkQfA5v+OxXvevYZAHhLDsYKtlfaLNIq481n2v1Dl3mPUG
-	 +ciwlK0+ezWRctjT6rrS4cmxjRJOY33gMIuTSxMpaalo6ZUK907KGn7D4ZZQnJjuQD
-	 xm3g+5vkab4wA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ml6m4-1qdIgl1tr2-00lTxs; Wed, 10
- May 2023 00:54:31 +0200
-Date: Wed, 10 May 2023 00:54:29 +0200
-From: Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
-	linux-realtek-soc@lists.infradead.org, linux-arm-kernel@axis.com,
-	linux-stm32@st-md-mailman.stormreply.com,
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-	openbmc@lists.ozlabs.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-rockchip@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
-	linux-unisoc@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	kernel@dh-electronics.com, Olof Johansson <olof@lixom.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	"linux-oxnas@groups.io" <linux-oxnas@groups.io>
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <ZFrPJQdwoxqFpzUO@probook>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1AB19937
+	for <chrome-platform@lists.linux.dev>; Tue,  9 May 2023 22:59:56 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-619ca08c166so31645056d6.1
+        for <chrome-platform@lists.linux.dev>; Tue, 09 May 2023 15:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1683673196; x=1686265196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=swS6r3eXnHVWt2Jm6163rBkgZtTLZKNr5fCO/TJpJ80=;
+        b=LFvjdiF5ny59TO1+TsX8zQHbFNyFmGGRTMl4uaANgR7cojw3lyLkrc+/qTTHmXkHs7
+         etgySXx6z3XgGIgF6wI0r7hKp92cdNMYDoq40X2AxHTtOsKNcBjoQpQkCkpQYkxQzJe/
+         +N/RfZZ0zQ/LcoPVkINF/cy3U6TzyuVmioY7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683673196; x=1686265196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=swS6r3eXnHVWt2Jm6163rBkgZtTLZKNr5fCO/TJpJ80=;
+        b=Vc3UFlE/w7MlBFMtuujQbs3C2ZSkDxJXP4U45I62gw0o+LsxxzW/VDdy1hN05xMjHM
+         uoUq9bxyijzJUQ0xIu5ExX+TBOAr3StC283ChUpkFKwFd8hoG3TL23ETOTEP/ppr+gvR
+         GDLRVAq1R03T77TamEHSVT735UTx8/fgLwTskAxBzvDzKHN5EhuGCq/JftistyO6JDPR
+         x79Qz+Ryijc74pNL19xbtvwzsZgijp0LJKOTzEVea+TKaQPDaB5oip8lECTg7jtq3FS+
+         qale/WzUkxsHQjLpumCwyFcYdAkIc1WRJ6Le/tJ5TPNsxUkBYiZVsgh/Zc1Mhq8xIVDK
+         FSoQ==
+X-Gm-Message-State: AC+VfDwZemxWg/At/6tkwj/Mo3+XEEt6ug10VWNT7u6xQQXXSUdGyfKc
+	BeYRKxIIJWQSRt2E5Vfjq6H5vuEXyGL/T2sQVHs7iw==
+X-Google-Smtp-Source: ACHHUZ7ziAeSVHHxAH0c1VjQLNCVL7BNWQGyqe3cjbY0i42Eg+mT521wINz817EPsTmV+yMVX3zfyYPMBpTPUm9VtWY=
+X-Received: by 2002:a05:6214:412:b0:5cc:277c:b5e with SMTP id
+ z18-20020a056214041200b005cc277c0b5emr24681681qvx.33.1683673195792; Tue, 09
+ May 2023 15:59:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ue5Z9u7UyMsdbJpp"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-X-Provags-ID: V03:K1:aR+k41JkL+Jax7RkQK1pXFPVqGsXbknpTCCf601eNGl3xQsbw4B
- lW4IptIuDnFJb+jaCScKg4f1qDLjuoiDEqEJsUWT/Ek6YzDXkULOeXYq9EqgQyN8A6axbG1
- JRKm5mq+iW4e1K1v2w2BOTrGSmAwegcfBLrzES8HGqnWOqrguxalKWu6+fqbhobKFkw7JNy
- qeUuaRpvcFFSSatMddRDg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NarrxlSjiwo=;5z5rCQykqX1e+FbZ2ba6e5Rh6DH
- bfvBGeIXFywNjKNr0Tn58UPG96wezZLM4+H12pkCrjAC7Mqwg2PXJ70aoM1kBI8o+tAa0/419
- 3XnQYa+XRlKna2zFjBCJKWpZoYii5XtCMCKO105lV0P6vMHckC89sxCK/LdwCvu0lF7OfocC+
- 2ouaaWRHCt4YshSvfh5z/Ja+IC5J4jOv8eNZ6b4Ga79LPwxkC/RJjnB/nQ4E0edaxrobbRSOn
- Mpc/31AKJOkyrRi41IgtGWTEODyE2XZV00pU1y5sHoF3JU/eGsc2doa+Rrzh30STHQZStIaTS
- 0sulR/BBWHEsrZf3LZvhDzOcbQ+0mpl9BfQXNLiDuCZay2ePoIqaUwts7JSoeIsxQHjZrbVOf
- h75oej0aNqoFhgx0M6WDh9xZydkRj4bbDxKZdwcWTSlHLDLbE26jSZC/2Oe+gjXSYJFSqcTIo
- y61XXOKn0w6OleXfF53iuFeaDOuP15yxKD4yYijJGDa3gETH/hjoY9RV4RF3njrNZ9cpp0pyL
- Wt5sq1md9IKuXv5zDNciEDB062aPPEfIdiuOL3ekvbmUkb/y0X/5vyJogDfXW1s/BcAt1Lw7O
- 3fGQXfFWHtWSvKoTsdKwCQNoGLoqEX0ymmlOjO2H6zmOGgpDD61I3NBO058aLG0Ir0rXeho5F
- meMuCSguMavkm9x2cC+ehI31nsDXo/+BF4SlfWoDxIdTlxFojtrUwUJw55+y8lR/UsTKS8nM4
- UfuLe8Un7sHRz/mdblkfo8MYekpfSGy5OF1q4F6ySdpHLnN9/KLwguD2QRIXgxNbN+S3apSzh
- 3RdOKnqeNprc0VYDcOdrgnL7BqsQDF2Rl2MSPh0TxeAydGQ6S6Uk6WUGWH/J/uB0ZIvQUETeq
- 5wpcXi+kJF8q+LL66lQwIIQV2De+d1d5U2u4IhbVKY+H63H0/8T+2HkkllmX/vS+xMdVykkpc
- +lGd2EXuA+PHYRD1FvmkNVjxg7g=
-
-
---ue5Z9u7UyMsdbJpp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CA+Dqm32q5oDiHgAFQzMi12H-hd+f=v-NL6F5Bx9r2Jh6THNZrw@mail.gmail.com>
+ <20230509222201.3013970-1-robbarnes@google.com>
+In-Reply-To: <20230509222201.3013970-1-robbarnes@google.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 9 May 2023 15:59:44 -0700
+Message-ID: <CACeCKafE3c+ie7_hHQnKpcRqV_n34oL3O3JfUNXoBUDTdTmQow@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec: Report EC panic as uevent
+To: Rob Barnes <robbarnes@google.com>
+Cc: chrome-platform@lists.linux.dev, dnojiri@chromium.org, tzungbi@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
-[...]
-> I've dusted off my script and made a branch[1] with the result.
-> There's just a couple of fixes needed after the script is run (see the
-> top commit). The cross arch includes are all fixed up by the script.
-> dtbs_install maintains a flat install. I compared the number of .dtbs
-> before and after to check the script.
->=20
-> I think the only issue remaining is finalizing the mapping of
-> platforms to subdirs. What I have currently is a mixture of SoC
-> families and vendors. The most notable are all the Freescale/NXP
-> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
-> either. Once that's finalized, I still need to go update MAINTAINERS.
->=20
-> Here's the current mapping:
->=20
-> vendor_map =3D {
-[...]
->     'aspeed' : 'aspeed',
->     'ast2' : 'aspeed',
->     'facebook' : 'aspeed',
->     'ibm' : 'aspeed',
+Hi Rob,
 
->     'openbmc' : 'aspeed',
+On Tue, May 9, 2023 at 3:22=E2=80=AFPM Rob Barnes <robbarnes@google.com> wr=
+ote:
+>
+> Create a uevent when an EC panic is detected. This will allow udev rules
+> to trigger when a panic occurs. E.g. a udev rule could be added to
+> capture an EC coredump. This approach avoids the need to stuff all the
+> processing into the driver.
+>
+> Signed-off-by: Rob Barnes <robbarnes@google.com>
 
-The openbmc flash layouts are currently only used by aspeed devicetrees,
-but they don't really depend on any aspeed details. It would be possible
-to reuse them in Nuvoton BMC devicetrees in the future, for example.
+I listed a couple of nits, but once those are fixed, please feel free to ad=
+d:
+Reviewed-by: Prashant Malani <pmalani@chromium.org>
 
-In that sense, I think putting them in a separate "openbmc" directory
-would be slightly better.
+> ---
+> Changlog since v1:
+> - Inline uevent call
+>
+>  drivers/platform/chrome/cros_ec_lpc.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chr=
+ome/cros_ec_lpc.c
+> index b399f7cbf17be..fbce9898dc7e1 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/kobject.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+>  #include <linux/platform_data/cros_ec_proto.h>
+> @@ -322,8 +323,11 @@ static void cros_ec_lpc_acpi_notify(acpi_handle devi=
+ce, u32 value, void *data)
+>         ec_dev->last_event_time =3D cros_ec_get_time_ns();
+>
+>         if (value =3D=3D ACPI_NOTIFY_CROS_EC_PANIC) {
+> +               static const char *env[] =3D { "ERROR=3DPANIC", NULL };
+The convention in this file is to have variable declarations at the
+beginning of the function block,
+so please follow that here.
 
+>                 dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown =
+is imminent!");
+>                 blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, =
+ec_dev);
+> +               /* Publish uevent for userspace handlers */
+I don't think this comment is necessary. uevents are for use by
+userspace (by definition).
 
-Jonathan
+Best regards,
 
-
-
-[...]
->     'nuvo' : 'nuvoton',
-[...]
-> }
->=20
-> Rob
->=20
-> [1] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm-dts-=
-move-v2
-
---ue5Z9u7UyMsdbJpp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmRazv0ACgkQCDBEmo7z
-X9tB/A//Y5MU9b+r/mxCUuxjsa0CB4Ewu8xmc+YTd1pdMEIrJYfgdpXFskBmzFsg
-QFYR1gBnq7P4mhusW4RaYWxpzD3M45B2vIuhgL6t8lqIWae0UuNbPEO4rbCIbvGZ
-PCx1dTAGZ2vg+mxRK0OYouuCE9EvgrC9PGmOcgDkqCLngGsr11gXz0GMNebggmie
-TX8iauQHnzfGaSQWtwIdQRu1gj2d/VO5NSn4CrgvMIuLCSwhTwY+e9H9/+CcrqHK
-wNiMG0W8yY5CMO7ZSYf7EkEidunJ0htwqJmUoLfpqN4NZ/21yno69v+L36ZRu/lq
-+KrZJeaXC3Ar39R2x75Pns5em46uwJJdI5aXumj9xPU3A3rgWCQcrECZJ7i/HEoK
-hzhnsQhJNP4jAPVxdiaWJTYUXHRwafI6/GVvj1BvfgqZ9VHE28iGdDcgVvOfmkDx
-eRZQxcJzFaWZeWTOeM05/dHUDUJXFrYvDsj0+FgneBU/oqEc+H4bR9AP2ttU24hU
-4jBq2I2FlDyKlC0ARS22oRQlZG6KS50d1Nvx6cLr7lxeOHmcW09dPCqHijQVtX3V
-f/Z7MYrDEXgTK8r1wJk6PuvVN+jFX/l/Ali5L/OJqUsZB4bgteXKEWXWMmgik1/I
-d3nr3gTYEaykVkjCJORFKu4G2FHrzWgWpFYsl8Mu+safGLa+rdA=
-=Jzyt
------END PGP SIGNATURE-----
-
---ue5Z9u7UyMsdbJpp--
+-Prashant

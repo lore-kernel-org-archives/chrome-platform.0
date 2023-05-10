@@ -1,108 +1,272 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444171990C
-	for <chrome-platform@lists.linux.dev>; Tue,  9 May 2023 23:27:08 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-b9a776a5eb2so14784717276.0
-        for <chrome-platform@lists.linux.dev>; Tue, 09 May 2023 16:27:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB3B373
+	for <chrome-platform@lists.linux.dev>; Wed, 10 May 2023 03:42:06 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-335394455ecso22995155ab.1
+        for <chrome-platform@lists.linux.dev>; Tue, 09 May 2023 20:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683674827; x=1686266827;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+fD8linTA0LSh+JVF5ahtjgp06ow0gHxNPgRSr24DM=;
-        b=TVsOmthLReq2QzBO5w2yLIoPZoFDlcVjUUOwqwDGDd9C/AreH4nRy0rFJ9OW6jP5el
-         NMYqC/va2BVYCsMKgH/FItcug+IqQANr0pL+jZOxxKneLGcRUgLVA7YNBVrcOFS1T0Ti
-         ahg5Sn9ERTi/6aklC9mxpRi0sIRrw6Gf/rkfLAftNjkDFkpps5joxJgSp7l3AiGRmYXf
-         7kd3KG/Xl/4TMee9R+xRlr9zIxgmLBUvYxdnzK4np2Pj/fIMYcEILYRa6DcnzZcyWlYX
-         fEKqq5fsVrA0XPu/i5sb3nLkpnIYPg/BPwL9/KII9xb+B+OBIAXWkXXLYQQNv+h+r+sb
-         Isnw==
+        d=chromium.org; s=google; t=1683690125; x=1686282125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KoxWVoYqD+4gV3KBow/UtDgyZNAdKql45E4uDHQVhwc=;
+        b=NuuLFcl5w3cPb9iZ5sGP8fjZmIlyvc1bQ8GViAVcWB7JtZ3NFVOoSSk60Q9KsBHS+4
+         Vmb+n7F0Qh3Xn1Tov3uM0952B851pVYVlOOdtXfF8vmaJKWpOqPH4C226ffUerU/p0H/
+         praGBWo1JBM67Uk/D3hq04Y/zktciE6V0rJaE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683674827; x=1686266827;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+fD8linTA0LSh+JVF5ahtjgp06ow0gHxNPgRSr24DM=;
-        b=GGtKr6lbBH5aVQ+/2z8I4BTgnfGIwfMpeneFiUKUmSwjYkPqREfqYOwRXPj01jJ3LL
-         3WdHrd86+wkSnSsbS2zSXNUCXQWLzJVmVJrrYX7QVcFqs4OEBZz9Mn0PSzB2mxehT2AJ
-         YBQ5rgsDOrVU129Dfq17oLMMbCTE84vawwgkhr28xYeKKcAhIJWArJfZLZ4yJbR0greU
-         5zrjo179Mf3Cl63xmIHA2kM6MA3RFzoK7RIKQfRtSfF8DrFGJ4lamyoS9PBhaz5QD6gZ
-         F+c5PeNcXrnn73e1Z7G1YALhj7tceDlLXjaVtkfSsEGA+aR0+z9Fv+ES6nqNmxglA/Xw
-         ZbDQ==
-X-Gm-Message-State: AC+VfDwSUUIKKlPu+LD87RVcv4k0S5XKs3WYcpER7H8H/J/SbD8K6jZp
-	oMaAXVuc+aRzvXiZ3aPxGxSM5rwJ+ghn7tjC4YIeWsAU/6lRxDEL9nE8WGM5KE2wFlBtYhBwQtD
-	M9zIr12lhMlbGlb6TAPIyctTwfVl9S80pfIt+Q3JIvOp8f3B8G4RAuvH/RloEE69GraM9sqEQ6K
-	qE4xM0ew==
-X-Google-Smtp-Source: ACHHUZ5NiR4hK64z+DPhO4gYiEZ4FzgzMXwHmzwBBgpXq40v75PNAvpg+KEUFFuH+UIs1GUj6FKQ4kdvFvf0M6s=
-X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
- (user=robbarnes job=sendgmr) by 2002:a05:6902:188c:b0:b96:a18:1b4c with SMTP
- id cj12-20020a056902188c00b00b960a181b4cmr7370644ybb.13.1683674827228; Tue,
- 09 May 2023 16:27:07 -0700 (PDT)
-Date: Tue,  9 May 2023 23:26:24 +0000
-In-Reply-To: <20230509231906.3118230-1-robbarnes@google.com>
+        d=1e100.net; s=20221208; t=1683690125; x=1686282125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KoxWVoYqD+4gV3KBow/UtDgyZNAdKql45E4uDHQVhwc=;
+        b=Rk4pfotq5sBqcosn5/rH7WgqkZeJdaAAosRMRg/EzSfnrjq1l2QkEpVC0F7aQupUC8
+         KdSeOCvb3J1ruX2XOQSvuKxwuBTeNYXb0cdtMw3LSi+fFotsBAz82PqpAGLa2pod4GQ5
+         0cnVXrWZ2pjy8dAiX2alfHnf7PT5rcMFopqmDahux0gsAxKhelfm+XGTapFEfTDd6lMB
+         Yt6E8wc3bhIn78LNhbiVbFsD2vEol8IZBDJyuBAa6a6V+L15nAmyHfCokFfSyGPXhTJa
+         FXyN85iXmkL3A+DZniJjn9fr0uEqO9gD8Z6pBp/sa41oy2Tvn5QQMER+QSiajK/mxppA
+         h/pg==
+X-Gm-Message-State: AC+VfDzVrRYFwN8SmuAQJomRnO9oAg0cSKoPdG7Bnhnw+T+a4d/nrjn+
+	MEapaCjl+snVqg1rtwmwvNnatiQofvuN8BoI2D9nZw==
+X-Google-Smtp-Source: ACHHUZ6dSzV4MbROWJZLBDrIhEyuEGSOEy8vQrfj49GTj91xnlp3qXPHYE+dNldgd5I1sLr7cDIK1iRzi4s0q6GxRcE=
+X-Received: by 2002:a92:d245:0:b0:330:f7b3:ea4 with SMTP id
+ v5-20020a92d245000000b00330f7b30ea4mr12064340ilg.2.1683690125299; Tue, 09 May
+ 2023 20:42:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20230509231906.3118230-1-robbarnes@google.com>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
-Message-ID: <20230509232624.3120347-1-robbarnes@google.com>
-Subject: [PATCH v4] platform/chrome: cros_ec: Report EC panic as uevent
-From: Rob Barnes <robbarnes@google.com>
-To: chrome-platform@lists.linux.dev
-Cc: dnojiri@chromium.org, tzungbi@kernel.org, pmalani@chromium.org, 
-	Rob Barnes <robbarnes@google.com>
+MIME-Version: 1.0
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org> <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+ <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+ <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com> <CAE-0n50bj303jou==v6eMabrZ3EL6Cq7tPJmCj9vM_B7FA8s2g@mail.gmail.com>
+In-Reply-To: <CAE-0n50bj303jou==v6eMabrZ3EL6Cq7tPJmCj9vM_B7FA8s2g@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 10 May 2023 11:41:54 +0800
+Message-ID: <CAEXTbpcWfYV_58pw_VupjhAFZsUU3pkLRN_8JoASyLLBmgTYqQ@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Xin Ji <xji@analogixsemi.com>, 
+	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Lyude Paul <lyude@redhat.com>, 
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>, 
+	jagan@amarulasolutions.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Create a uevent when an EC panic is detected. This will allow udev rules
-to trigger when a panic occurs. For example, a udev rule could be added to
-capture an EC coredump. This approach avoids the need to stuff all the
-processing into the driver.
++Jagan who worked on a similar design and initiated the thread.
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
+Hi Stephen,
 
----
-Changelog since v3:
-- Fix typos in commit message
+On Sat, Apr 29, 2023 at 12:47=E2=80=AFPM Stephen Boyd <swboyd@chromium.org>=
+ wrote:
+>
+> Quoting Pin-yen Lin (2023-04-20 02:10:46)
+> > On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.o=
+rg> wrote:
+> > >
+> > > Quoting Stephen Boyd (2023-04-13 17:22:46)
+> > > > Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> > > > >
+> > > > > Actually the `mode-switch` property here is mainly because
+> > > > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return ma=
+tches
+> > > > > when the property is present. I am not sure what side effects wou=
+ld be
+> > > > > if I remove the ID-matching condition in `typec_mux_match`, so I =
+added
+> > > > > the property here.
+> > > > >
+> > > > > Is it feasible to remove the `mode-switch` property here given th=
+e
+> > > > > existing implementation of the Type-C framework?
+> > > >
+> > > > Omitting the mode-switch property would require changes to the type=
+-c
+> > > > framework.
+> > > >
+> > > > I'm wondering if we can have this anx driver register mode switches=
+ for
+> > > > however many endpoints exist in the output port all the time when t=
+he
+> > > > aux-bus node doesn't exist. Then the type-c framework can walk from=
+ the
+> > > > usb-c-connector to each connected node looking for a device that is=
+ both
+> > > > a drm_bridge and a mode-switch. When it finds that combination, it =
+knows
+> > > > that the mode-switch has been found. This hinges on the idea that a
+> > > > device that would have the mode-switch property is a drm_bridge and
+> > > > would register a mode-switch with the type-c framework.
+> > > >
+> > > > It may be a little complicated though, because we would only regist=
+er
+> > > > one drm_bridge for the input to this anx device. The type-c walking=
+ code
+> > > > would need to look at the graph endpoint, and find the parent devic=
+e to
+> > > > see if it is a drm_bridge.
+> > >
+> > > I've been thinking more about this. I think we should only have the
+> > > 'mode-switch' property possible when the USB input pins (port@2) are
+> > > connected and the DPI input pins are connected (port@0). Probably you
+> > > don't have that case though?
+> >
+> > No we don't have the use case that uses the USB input pins on anx7625.
+> > >
+> > > In your case, this device should register either one or two drm_bridg=
+es
+> > > that connect to whatever downstream is actually muxing the 2 DP lanes
+> > > with the USB SS lanes onto the usb-c-connector.
+> >
+> > What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
+> > our use case, the USB data lanes from both ports are connected to a
+> > USB hub, but the DP lanes are muxed by the crosspoint switch on
+> > anx7625. HPD and AUX for the external display are muxed by the EC. You
+> > can find the diagram at
+> > https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
+>
+> I mean that you must have some sort of orientation switch hardware that
+> takes the 2 DP lanes and the 2 USB SuperSpeed "lanes" or "pairs" and
+> puts them all onto a usb-c-connector. The usb-c-connector node can't be
+> connected directly to the anx7625 in your diagram because there must be
+> some sort of "flipper" that does the orientation control. Otherwise the
+> usb-c-connector wouldn't work if the user flipped the cable. Probably
+> this is some TCPC or redriver controlled by the EC.
+>
+> >
+> > > If that is the EC for
+> > > ChromeOS, then the EC should have a binding that accepts some number =
+of
+> > > input ports for DP. The EC would act as a drm_bridge, or in this case
+> > > probably two bridges, and also as two type-c switches for each
+> > > drm_bridge corresponding to the usb-c-connector nodes. When DP is on =
+the
+> > > cable, the type-c switch/mux would signal to the drm_bridge that the
+> > > display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+> > > drm_bridge_funcs::detect(). Then the drm_bridge in this anx part woul=
+d
+> > > implement struct drm_bridge_funcs::atomic_enable() and configure the
+> > > crosspoint switch the right way depending on the reg property of the
+> > > output node in port@1.
+> >
+> > So there will be two drm bridges that act as the downstreams for
+> > anx7625, and we find the downstream with connector_status_connected to
+> > configure the crosspoint switch? How do we support that kind of
+> > topology given that the drm bridge chain is currently a list? Are you
+> > suggesting making the bridge topology to a tree, or maintaining the
+> > two downstreams inside the anx7625 driver and not attaching them to
+> > the bridge chain?
+>
+> Good point. I'm suggesting to make the drm bridge chain into a tree. We
+> need to teach drm_bridge core about a mux, and have some logic to
+> navigate atomically switching from one output to another. I was talking
+> with dianders@ and he was suggesting to use bridge attach/detach for
+> this. I'm not sure that will work though because that hook is only
+> called when the encoder is attached to the bridge.
+>
+> It may also turn out that this helps with DP multi-stream transport
+> (MST). As far as I can recall DP MST doesn't mesh well with drm_bridge
+> designs because it wants to operate on a drm_connector and
+> drm_bridge_connector_init() wants to make only one drm_connector for a
+> chain of bridges. If you squint, the anx7625 could be an MST "branch"
+> that only supports one drm_connector being enabled at a time. Maybe that
+> is what we should do here, make drm_bridge support creating more than
+> one drm_connector and when there is a mux in the tree it walks both
+> sides and runs a callback similar to struct
+> drm_dp_mst_topology_cbs::add_connector() to tell the encoder that
+> there's another possible drm_connector here.
 
-Changelog since v2:
-- Move variable declaration to top of function
+I have been surveying the approaches to change the bridge chain in
+runtime, and I found this thread[1]. Quoting from Daniel:
+"... exchanging the bridge chain isn't supported, there's no locking
+for that since it's assumed to be invariant over the lifetime of the
+drm_device instance. The simplest way to make that happen right now is to
+have 2 drm_encoder instances, one with the lvds bridge chain, the other
+with the hdmi bridge chain, and select the right encoder/bridge chain
+depending upon which output userspace picks.
+...
+I wouldn't try to make bridge chains exchangeable instead, that's
+headaches - e.g. with dp mst we've also opted for a bunch of fake
+drm_encoders to model that kind of switching."
 
-Changelog since v1:
-- Inline uevent call
+I'm not sure how we register two encoders properly, though. Do we make
+the encoder driver check all the downstream bridges and register two
+drm_encoder when a bridge is acting as a mux?
 
-drivers/platform/chrome/cros_ec_lpc.c | 3 +++
-1 file changed, 3 insertions(+)
+[1]: https://www.spinics.net/lists/dri-devel/msg340511.html
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index b399f7cbf17be..c6920df1e95dd 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -16,6 +16,7 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/interrupt.h>
-+#include <linux/kobject.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-@@ -315,6 +316,7 @@ static int cros_ec_lpc_readmem(struct cros_ec_device *ec, unsigned int offset,
- 
- static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- {
-+	static const char *env[] = { "ERROR=PANIC", NULL };
- 	struct cros_ec_device *ec_dev = data;
- 	bool ec_has_more_events;
- 	int ret;
-@@ -324,6 +326,7 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- 	if (value == ACPI_NOTIFY_CROS_EC_PANIC) {
- 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
- 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
-+		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
- 		/* Begin orderly shutdown. Force shutdown after 1 second. */
- 		hw_protection_shutdown("CrOS EC Panic", 1000);
- 		/* Do not query for other events after a panic is reported */
--- 
-2.39.2
+>
+> >
+> > Also, if we still register mode switches on the two downstream
+> > bridges, why do you prefer that over the original approach that
+> > register switches in the anx7625 driver?
+>
+> I prefer to not have a mode-switch property here for a couple reasons:
+>
+>  1. The binding is usb type-c specific, and in the case of the IT6505
+>  part there is nothing that indicates this is a usb type-c piece of
+>  hardware. The IT6505 is simply a display bridge. The anx7625 part
+>  actually does accept usb signals though, but that isn't being used or
+>  described here. That's where my disclaimer about mode-switch making
+>  sense applies when the usb input is used.
+>
+>  2. Putting mode-switch into the graph endpoint nodes is awkward. It is
+>  a device property, and graph nodes are not devices. Some patches in
+>  this series have to work around this fact and special case the graph
+>  walking logic to treat the graph itself as a place to look for the
+>  property.
+>
+>  3. The mode-switch property probably isn't necessary at all. The DT
+>  reviewers have been asking why it is needed. The EC driver that
+>  registers the usb-c-connectors can be the mode-switch and the
+>  orientation-switch. And in reality, it _is_ both. The DP signals and
+>  the USB signals go to the TCPC/redriver that is controlled by the EC
+>  and the EC is the device that's doing the mode switching to push DP and
+>  USB through the TCPC/redriver out on the right pins of the
+>  usb-c-connector.
+>
+> I guess another way to think about it is that the DP signal coming out
+> of the anx7625 part is not "usb type-c" at all, unless the USB signal is
+> coming out on the other side of the crosspoint switch and all four lanes
+> are wired to some usb-c-connector or redriver. Similarly, the situation
+> could look like trogdor, where DP is produced by the DP PHY in the SoC
+> and goes through an analog mux to steer DP to one or the other TCPC
+> that's wired to the usb-c-connector. There isn't any driver to control
+> that mux, but if there was it would be a gpio controlled mux that would
+> be a drm_bridge, because there isn't anything type-c about this
+> hardware.
+>
+> And finally, I can see a possibility where the IT6505 is actually wired
+> to two different dp-connector ports. In that situation, there is no
+> type-c involvement, but we would still want to expose that to userspace
+> as two drm_connectors where only one encoder can be attached to them. If
+> we did that with drm_bridge, then anyone could make these sorts of
+> chains with muxes and it would present a sane userspace interface.
 
+Thanks for the detailed explanation. Yes, our use case in this series
+is not related to the USB-C port from the bridge's perspective. The
+bridge only cares about the output changes, and it doesn't need to
+know whether the downstream is a USB-C port or a DP connector.
+
+Best regards,
+Pin-yen

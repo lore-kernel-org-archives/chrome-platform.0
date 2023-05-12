@@ -1,165 +1,114 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED0B3FDF
-	for <chrome-platform@lists.linux.dev>; Thu, 11 May 2023 23:38:17 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1aaea43def7so64678065ad.2
-        for <chrome-platform@lists.linux.dev>; Thu, 11 May 2023 16:38:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14DB200A5
+	for <chrome-platform@lists.linux.dev>; Fri, 12 May 2023 17:36:14 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-76c7517612dso77065739f.0
+        for <chrome-platform@lists.linux.dev>; Fri, 12 May 2023 10:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1683848297; x=1686440297;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=MrhxFL8dPU1RRiftRdfy56Qu4Yq8NvQ+d8zPgLXi0Ww=;
-        b=3lacmkx147POOBGkSqCe5Tieb2T+hBW3/kbH0kcBrwnlhDmHPpbsEbcq5axk0nUuOI
-         /j0mDZib9fx/YQR32jrM2xoy86yT/W8CMeWBJgqYP+CIXtIKrQcrybTq7Ph7uGbHuaOq
-         ktae/g9Xw19/TOTOEoLBCNUXza/d3mGj0pcpZZ+Lr3OmnRCbtBq8sYW1SpiOrkP9kCW5
-         gMeBeG+6K7UKb5jlACeU6sK2KykuFh64cNGotHLRGP5lg0UNEvEh18pvoqv0cJRxvJJw
-         QXs6NbX1nwj27DBuVxkxxSGjtFzbgH/hmPVVkmaFGvLbOjqKC9mcpVt2mCFidQUecHYM
-         Odww==
+        d=chromium.org; s=google; t=1683912974; x=1686504974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yv93mD4EqgevAcbmXFwBEuOtcFUngrr1N34sRRE8Vrc=;
+        b=j7G/Qmbnl1GQ4XKXwMPUQWnqEOJTgGl/6VXphk6Aep1ie7bohp2Yd0m0/17ukdnLA4
+         hEqP86t5/V6sa/V7fBVxzuzBodutbB9tizsiLXOwNIzVrH1Qlc+9trVgXFWLUdA12jH6
+         PaTs5gL3KFDjTqbz319EEmex/ReXbUNgVIspg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683848297; x=1686440297;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1683912974; x=1686504974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MrhxFL8dPU1RRiftRdfy56Qu4Yq8NvQ+d8zPgLXi0Ww=;
-        b=CUDqGAcfTMlzpZAasYE3nR+RoKIzbBVQ9MOW3L+oERqsuI0iiaBWBzoLGBQajEz43a
-         LWWXKn+MZyKxQG0BTDCHjtP6JCzJZYAhMl+lXXu3Oqa35ecqqArG4/7bfPJlaK5+aPYn
-         l/EgSGv5SzGvQPjE8X0u+fgUsOJ8fSEoxLs+yLdc0CVuK13awtzXC68n8xxE7Rb78Dwj
-         Haa7OMhtoFxuC1c0Llmy4t7lHxSYY7NYy3iBQcPyilnbAPwcn0UiMGj3LTn/OyAGZPJ8
-         heaI/iIqc7i4CEpEzml1ibQ0U0K8dsN7EmINk23dToyqGlRPR1oeBjQ0RaZ5yubAhBp5
-         clLA==
-X-Gm-Message-State: AC+VfDz7emCcnyEpyyq8cvuQCiWL8cURCe5KX0ycisFmOBv+FSOxu+Cb
-	2rLsJvtnorBKZsB9t0ShL0OhZQ==
-X-Google-Smtp-Source: ACHHUZ6CwaVSwkCMtKpXbRf9JPpeEfEmYaoTMYcfmuQHHqELj0CivfYPcfyEcWhn4X9s5VbcK6Mjhg==
-X-Received: by 2002:a17:902:ced0:b0:1ad:c736:209a with SMTP id d16-20020a170902ced000b001adc736209amr4417668plg.56.1683848297473;
-        Thu, 11 May 2023 16:38:17 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id c22-20020a17090ab29600b0024e49b53c24sm15675939pjr.10.2023.05.11.16.38.16
+        bh=Yv93mD4EqgevAcbmXFwBEuOtcFUngrr1N34sRRE8Vrc=;
+        b=A86iEbpldYzrDsGaFZXNiGL11/nIw2HPeTJ1tV5WBB7RynLbt+lMrkQrFJ0yZ6ZfSL
+         AY0Cz0COgNPdWz1Q8Jo09fSVoTOKun/yBPTy1xJfnIahI0vRfk51Fx2q6yG5Tz3NbGIR
+         NGesp27ecZTEDa7XZcjPjXY0EjLesyNMGQMYxLwuVJAHoME6qAHGFT1xY52L1WUeA6RR
+         GsvX7/AARnGZi6LMxpwFAdYoIAdM9vLQrGd8XKtE6/5cpmspqU5CR3KwoSpimQV6ML9t
+         BMq4gakMV5zDXRtosgs9Smt+SsqvBay41HtxSC/DQMrfcBhrLvjJfT2HAzRoYeaTgsOr
+         TPNg==
+X-Gm-Message-State: AC+VfDy+fssPvV8+hux92k3UM6OJTASbVvnHdHMWIgD1fYnDJ94iDk7j
+	prDZPT7nF18I+SbIDBXpAwHbVQ==
+X-Google-Smtp-Source: ACHHUZ6w2z4/ld2w4Bdvbl0Jrn/6Di4lmq7Mlj4FsXXe/Na6XKeaYNv5VJi/SQgnD2yUC1oNLk7Nig==
+X-Received: by 2002:a6b:dd15:0:b0:76c:65df:a118 with SMTP id f21-20020a6bdd15000000b0076c65dfa118mr7954998ioc.6.1683912973867;
+        Fri, 12 May 2023 10:36:13 -0700 (PDT)
+Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:424a:848:d237:b7d3])
+        by smtp.gmail.com with ESMTPSA id a2-20020a6b6602000000b0076c750dc780sm1525856ioc.29.2023.05.12.10.36.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 16:38:17 -0700 (PDT)
-Message-ID: <645d7c69.170a0220.4056f.f4f3@mx.google.com>
-Date: Thu, 11 May 2023 16:38:17 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 12 May 2023 10:36:13 -0700 (PDT)
+From: Tim Van Patten <timvp@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: lalithkraj@google.com,
+	robbarnes@google.com,
+	rrangel@chromium.org,
+	Tim Van Patten <timvp@chromium.org>,
+	Tim Van Patten <timvp@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
+Date: Fri, 12 May 2023 11:35:57 -0600
+Message-ID: <20230512113556.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
+X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.4-rc1-1-gc9f9c6c875d14
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
- 2 regressions (v6.4-rc1-1-gc9f9c6c875d14)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci cros-ec: 10 runs, 2 regressions (v6.4-rc1-1-gc=
-9f9c6c875d14)
+Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
+host command that the AP sends and allows the EC to log entry/exit of
+AP's suspend/resume more accurately.
 
-Regressions Summary
--------------------
+Signed-off-by: Tim Van Patten <timvp@chromium.org>
+Reviewed-by: Raul E Rangel <rrangel@chromium.org>
+Signed-off-by: Tim Van Patten <timvp@google.com>
+---
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+ drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 68bba0fcafab3..93820654a555b 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -543,23 +543,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
+ MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
+ 
+ #ifdef CONFIG_PM_SLEEP
+-static int cros_ec_lpc_suspend(struct device *dev)
++static int cros_ec_lpc_prepare(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
+ 
++	dev_info(dev, "Prepare EC suspend\n");
++
+ 	return cros_ec_suspend(ec_dev);
+ }
+ 
+-static int cros_ec_lpc_resume(struct device *dev)
++static void cros_ec_lpc_complete(struct device *dev)
+ {
+ 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
++	int ret;
++
++	ret = cros_ec_resume(ec_dev);
+ 
+-	return cros_ec_resume(ec_dev);
++	dev_info(dev, "EC resume completed: ret = %d\n", ret);
+ }
+ #endif
+ 
+ static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
+-	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
++#ifdef CONFIG_PM_SLEEP
++	.prepare = cros_ec_lpc_prepare,
++	.complete = cros_ec_lpc_complete
++#endif
+ };
+ 
+ static struct platform_driver cros_ec_lpc_driver = {
+-- 
+2.40.1.606.ga4b1b128d6-goog
 
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.4-rc1-1-gc9f9c6c875d14/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.4-rc1-1-gc9f9c6c875d14
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      c9f9c6c875d14a107dabcf4579fcab95ed30af31
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/645d6a2adf0d1efb0e2e862e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-1-gc9f9c6c875d14/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-1-gc9f9c6c875d14/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230421.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/645d6a2adf0d1efb0e2e86=
-2f
-        failing since 3 days (last pass: tag-chrome-platform-for-v6.4, firs=
-t fail: v6.4-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/645d6a47a775c9b8ea2e85f6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-1-gc9f9c6c875d14/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8192-asurada-spherion-r0.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-1-gc9f9c6c875d14/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8192-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230421.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/645d6a47a775c9b8ea2e85=
-f7
-        failing since 3 days (last pass: tag-chrome-platform-for-v6.4, firs=
-t fail: v6.4-rc1) =
-
- =20

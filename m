@@ -1,53 +1,24 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14DB200A5
-	for <chrome-platform@lists.linux.dev>; Fri, 12 May 2023 17:36:14 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-76c7517612dso77065739f.0
-        for <chrome-platform@lists.linux.dev>; Fri, 12 May 2023 10:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1683912974; x=1686504974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yv93mD4EqgevAcbmXFwBEuOtcFUngrr1N34sRRE8Vrc=;
-        b=j7G/Qmbnl1GQ4XKXwMPUQWnqEOJTgGl/6VXphk6Aep1ie7bohp2Yd0m0/17ukdnLA4
-         hEqP86t5/V6sa/V7fBVxzuzBodutbB9tizsiLXOwNIzVrH1Qlc+9trVgXFWLUdA12jH6
-         PaTs5gL3KFDjTqbz319EEmex/ReXbUNgVIspg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683912974; x=1686504974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yv93mD4EqgevAcbmXFwBEuOtcFUngrr1N34sRRE8Vrc=;
-        b=A86iEbpldYzrDsGaFZXNiGL11/nIw2HPeTJ1tV5WBB7RynLbt+lMrkQrFJ0yZ6ZfSL
-         AY0Cz0COgNPdWz1Q8Jo09fSVoTOKun/yBPTy1xJfnIahI0vRfk51Fx2q6yG5Tz3NbGIR
-         NGesp27ecZTEDa7XZcjPjXY0EjLesyNMGQMYxLwuVJAHoME6qAHGFT1xY52L1WUeA6RR
-         GsvX7/AARnGZi6LMxpwFAdYoIAdM9vLQrGd8XKtE6/5cpmspqU5CR3KwoSpimQV6ML9t
-         BMq4gakMV5zDXRtosgs9Smt+SsqvBay41HtxSC/DQMrfcBhrLvjJfT2HAzRoYeaTgsOr
-         TPNg==
-X-Gm-Message-State: AC+VfDy+fssPvV8+hux92k3UM6OJTASbVvnHdHMWIgD1fYnDJ94iDk7j
-	prDZPT7nF18I+SbIDBXpAwHbVQ==
-X-Google-Smtp-Source: ACHHUZ6w2z4/ld2w4Bdvbl0Jrn/6Di4lmq7Mlj4FsXXe/Na6XKeaYNv5VJi/SQgnD2yUC1oNLk7Nig==
-X-Received: by 2002:a6b:dd15:0:b0:76c:65df:a118 with SMTP id f21-20020a6bdd15000000b0076c65dfa118mr7954998ioc.6.1683912973867;
-        Fri, 12 May 2023 10:36:13 -0700 (PDT)
-Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:424a:848:d237:b7d3])
-        by smtp.gmail.com with ESMTPSA id a2-20020a6b6602000000b0076c750dc780sm1525856ioc.29.2023.05.12.10.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 10:36:13 -0700 (PDT)
-From: Tim Van Patten <timvp@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: lalithkraj@google.com,
-	robbarnes@google.com,
-	rrangel@chromium.org,
-	Tim Van Patten <timvp@chromium.org>,
-	Tim Van Patten <timvp@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
-Date: Fri, 12 May 2023 11:35:57 -0600
-Message-ID: <20230512113556.1.I55189adfdb8d025fc991a0fa820ec09078619b15@changeid>
-X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1BB10E6
+	for <chrome-platform@lists.linux.dev>; Mon, 15 May 2023 05:20:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C935AC4339B;
+	Mon, 15 May 2023 05:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684128018;
+	bh=Hq02Own6Z3+xb+cSok6ZHz2h0F1S4H0iO4Q2p0XMYw0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=XAMMqMrFdTmCpqEv5yqU/aGl8jL5SQ/2rGK4+2M7DH3WGc4vsMxkJLh+uDF8ait91
+	 a1cq9nWzpsT+AdfbZonJs7rdw0/YL7PPcNxg1R9Z0h7verK845O/UHrZD5EfN0FOys
+	 8hC3XOjIvtI2CsZQH4/LP9/GHrk82yCzQ5DV2B94DOlVeSmkwJgdBmqV3IRmnJ7q9i
+	 TsBk5m6o9b2eWQUMK8AEUbPflUSQnJAQ9J4FzlFNb33xW2V7iLdhjwVBk12io3vi6v
+	 LPobovweTTUa4P7L+sODGGuUJCgsUhVGVyjMpNRZcnG+1HevSF4LOj6ZCQIfNAvISx
+	 WipNVCXFMmT+g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AF060E270C1;
+	Mon, 15 May 2023 05:20:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -55,60 +26,40 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4] platform/chrome: cros_ec: Report EC panic as uevent
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168412801871.16595.14801750952836079496.git-patchwork-notify@kernel.org>
+Date: Mon, 15 May 2023 05:20:18 +0000
+References: <20230509232624.3120347-1-robbarnes@google.com>
+In-Reply-To: <20230509232624.3120347-1-robbarnes@google.com>
+To: Rob Barnes <robbarnes@google.com>
+Cc: chrome-platform@lists.linux.dev, dnojiri@chromium.org, tzungbi@kernel.org,
+ pmalani@chromium.org
 
-Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
-.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
-host command that the AP sends and allows the EC to log entry/exit of
-AP's suspend/resume more accurately.
+Hello:
 
-Signed-off-by: Tim Van Patten <timvp@chromium.org>
-Reviewed-by: Raul E Rangel <rrangel@chromium.org>
-Signed-off-by: Tim Van Patten <timvp@google.com>
----
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
- drivers/platform/chrome/cros_ec_lpc.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+On Tue,  9 May 2023 23:26:24 +0000 you wrote:
+> Create a uevent when an EC panic is detected. This will allow udev rules
+> to trigger when a panic occurs. For example, a udev rule could be added to
+> capture an EC coredump. This approach avoids the need to stuff all the
+> processing into the driver.
+> 
+> Signed-off-by: Rob Barnes <robbarnes@google.com>
+> Reviewed-by: Prashant Malani <pmalani@chromium.org>
+> 
+> [...]
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 68bba0fcafab3..93820654a555b 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -543,23 +543,31 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
- MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
- 
- #ifdef CONFIG_PM_SLEEP
--static int cros_ec_lpc_suspend(struct device *dev)
-+static int cros_ec_lpc_prepare(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
- 
-+	dev_info(dev, "Prepare EC suspend\n");
-+
- 	return cros_ec_suspend(ec_dev);
- }
- 
--static int cros_ec_lpc_resume(struct device *dev)
-+static void cros_ec_lpc_complete(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = cros_ec_resume(ec_dev);
- 
--	return cros_ec_resume(ec_dev);
-+	dev_info(dev, "EC resume completed: ret = %d\n", ret);
- }
- #endif
- 
- static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
--	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
-+#ifdef CONFIG_PM_SLEEP
-+	.prepare = cros_ec_lpc_prepare,
-+	.complete = cros_ec_lpc_complete
-+#endif
- };
- 
- static struct platform_driver cros_ec_lpc_driver = {
+Here is the summary with links:
+  - [v4] platform/chrome: cros_ec: Report EC panic as uevent
+    https://git.kernel.org/chrome-platform/c/2cbf475a04b2
+
+You are awesome, thank you!
 -- 
-2.40.1.606.ga4b1b128d6-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

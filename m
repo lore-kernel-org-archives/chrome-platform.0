@@ -1,52 +1,71 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C671952D
-	for <chrome-platform@lists.linux.dev>; Mon, 15 May 2023 20:26:11 +0000 (UTC)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3361b08a564so33192765ab.3
-        for <chrome-platform@lists.linux.dev>; Mon, 15 May 2023 13:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684182370; x=1686774370;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WtsdvTBA3WKi5YHrPj2RYjpUUqiBU6dPu45EYIw0z5Y=;
-        b=NWhH4DpGt8VieswRPgRtgtYvAFGYENdIDHcSwOZhy/E1vflMfs4Pu1fe5X2inS1d76
-         ZBQn2oTBbqmofMRUMFYcT8dpsqyBEfqeyM9Mb8lqdrAAOnEBee5fWKoCRIHUmJ58OcFI
-         yF2nm5/e+q8LA0gqzHW6q2lfWIprZKROilJsE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684182370; x=1686774370;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WtsdvTBA3WKi5YHrPj2RYjpUUqiBU6dPu45EYIw0z5Y=;
-        b=kbElGCUQQqH9WP7LPgwXBihXx85WlTDE3rsQ92tYinwQZz7DJ7R8bIxzO/5PTAXj/M
-         IHSwio8NsH/T3MixyetZyof8eVSPA+bHnFc9/eVgQBgjbuBriz766WwF1juVdwNqajQ3
-         n0otQfR59p5loSNgwoAYntiwNzP84XpIlKbEKLi0k79Q6lt2Ce7x75Rt9FfLcqqHJoR3
-         v+0lYfYCM7QeeoCVOzKiKj3htFpaDXJVu+D+/IH6vSVmM2YNgXv6udcapmSdohVnQAGN
-         vDSEZqV6OG8hbJql/swZfzxSu0w4WJMnRSF8C6e8iCetwIpZMkNU3dnAa6bCfDeJZat+
-         Kg5w==
-X-Gm-Message-State: AC+VfDzvCPJCGjcuoeif46spCxJmzzznkLmwK5Ix+qxi2YcZmWxrGVPS
-	Vf2A6tbWr4c4jGYdU+OT361ITw==
-X-Google-Smtp-Source: ACHHUZ4ir542iMVtI2Ji0s7aVVlQ1Rk/0NZdCKmBmOb1sZyQTr9SzKBI8PYLm5fOC4B+AtOCVUAKEA==
-X-Received: by 2002:a92:d403:0:b0:326:3a39:89d0 with SMTP id q3-20020a92d403000000b003263a3989d0mr22977766ilm.1.1684182370715;
-        Mon, 15 May 2023 13:26:10 -0700 (PDT)
-Received: from timvp-p620-9115096.bld.corp.google.com ([2620:15c:183:200:f061:bf7d:2f95:2b91])
-        by smtp.gmail.com with ESMTPSA id cb9-20020a0566381b0900b0041669a9fb62sm6296296jab.131.2023.05.15.13.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 13:26:10 -0700 (PDT)
-From: Tim Van Patten <timvp@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: robbarnes@google.com,
-	lalithkraj@google.com,
-	rrangel@chromium.org,
-	Tim Van Patten <timvp@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH] [v9] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
-Date: Mon, 15 May 2023 14:25:52 -0600
-Message-ID: <20230515142552.1.I17cae37888be3a8683911991602f18e482e7a621@changeid>
-X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE2734CC0
+	for <chrome-platform@lists.linux.dev>; Tue, 16 May 2023 11:06:03 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GAehQ7016889;
+	Tue, 16 May 2023 11:05:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=BDtKaUlzFaQR39llwSdBsyCySk6OVFApmA8cPg7u7T0=;
+ b=Yriu5L1ywdg+OKLkpnlwJQGDXEtZa5mketP+g+BVNCBZ8fSnPWltaFQSfaWgMlHIAN/M
+ bp8QxQv9Akh0EuivmrPS7EdZF7Fgq1HtLXeR8mbaq1CT3Bj5bf06ZkdiX6KZlnLsNjlp
+ gGwPaugZBGtCWeNmltoHIOkRn93Nxb1clvhRe5bVO2DMJ1Y+drSmhUnPoC51fUQqQq4q
+ alZSVd+bcUFUt1FDHxtsvkcWSmRhpgkd+jJy6KMH6WD/t5hqJVA1jnDrQvHF9Cwe6vz3
+ RFlbX1ymiiqYJLEkeGYLBcpfovoJnSXf3olUolYDBVfIU5TgTuztgPwgczTy0owGlsdV gQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm82f0tf0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:05:48 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GB4xdd002085;
+	Tue, 16 May 2023 11:05:14 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm82f0pmu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:05:14 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G1c0io027917;
+	Tue, 16 May 2023 11:01:04 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3qj264sjvk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:01:04 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB119825493960
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 May 2023 11:01:01 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9E0AC2004D;
+	Tue, 16 May 2023 11:01:01 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 440E920043;
+	Tue, 16 May 2023 11:01:01 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 16 May 2023 11:01:01 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev
+Subject: [PATCH v4 25/41] platform: add HAS_IOPORT dependencies
+Date: Tue, 16 May 2023 13:00:21 +0200
+Message-Id: <20230516110038.2413224-26-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,82 +73,58 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wkt5LjdythVOx6GUGIuZnKF80a0rVLfQ
+X-Proofpoint-ORIG-GUID: D1wPEMQ5wJltjbmeb5Q4UneMtwNK40jF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 mlxlogscore=941 impostorscore=0 malwarescore=0
+ adultscore=0 phishscore=0 priorityscore=1501 clxscore=1011
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305160094
 
-Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
-.prepare() and cros_ec_lpc_complete() during .complete(). This moves the
-host command that the AP sends and allows the EC to log entry/exit of
-AP's suspend/resume more accurately.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Changes in v9:
-- Remove log statements.
-- Ignore return value from cros_ec_resume().
-
-Changes in v8:
-- Resend with chromium.org account.
-- No code changes.
-
-Changes in v7:
-- Rename "host event" to "host command" in title/description.
-
-Changes in v6:
-- Fully restore fixes from v3.
-
-Changes in v5:
-- Restore fixes from v3.
-
-Changes in v4:
-- Update title and description.
-
-Changes in v3:
-- Update cros_ec_lpc_suspend() to cros_ec_lpc_prepare()
-- Update cros_ec_lpc_resume() to cros_ec_lpc_complete()
-
-Changes in v2:
-- Include cros_ec_resume() return value in dev_info() output.
-- Guard setting .prepare/.complete with #ifdef CONFIG_PM_SLEEP.
-
-Reviewed-by: Raul E Rangel <rrangel@chromium.org>
-Signed-off-by: Tim Van Patten <timvp@chromium.org>
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
+Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
+      per-subsystem patches may be applied independently
 
- drivers/platform/chrome/cros_ec_lpc.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/platform/chrome/Kconfig          | 1 +
+ drivers/platform/chrome/wilco_ec/Kconfig | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 68bba0fcafab3..2318eccd9c6ad 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -543,23 +543,25 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
- MODULE_DEVICE_TABLE(dmi, cros_ec_lpc_dmi_table);
- 
- #ifdef CONFIG_PM_SLEEP
--static int cros_ec_lpc_suspend(struct device *dev)
-+static int cros_ec_lpc_prepare(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
- 
- 	return cros_ec_suspend(ec_dev);
- }
- 
--static int cros_ec_lpc_resume(struct device *dev)
-+static void cros_ec_lpc_complete(struct device *dev)
- {
- 	struct cros_ec_device *ec_dev = dev_get_drvdata(dev);
--
--	return cros_ec_resume(ec_dev);
-+	cros_ec_resume(ec_dev);
- }
- #endif
- 
- static const struct dev_pm_ops cros_ec_lpc_pm_ops = {
--	SET_LATE_SYSTEM_SLEEP_PM_OPS(cros_ec_lpc_suspend, cros_ec_lpc_resume)
-+#ifdef CONFIG_PM_SLEEP
-+	.prepare = cros_ec_lpc_prepare,
-+	.complete = cros_ec_lpc_complete
-+#endif
- };
- 
- static struct platform_driver cros_ec_lpc_driver = {
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 7d82a0946e1c..7eb1cfde29b4 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -132,6 +132,7 @@ config CROS_EC_UART
+ config CROS_EC_LPC
+ 	tristate "ChromeOS Embedded Controller (LPC)"
+ 	depends on CROS_EC && ACPI && (X86 || COMPILE_TEST)
++	depends on HAS_IOPORT
+ 	help
+ 	  If you say Y here, you get support for talking to the ChromeOS EC
+ 	  over an LPC bus, including the LPC Microchip EC (MEC) variant.
+diff --git a/drivers/platform/chrome/wilco_ec/Kconfig b/drivers/platform/chrome/wilco_ec/Kconfig
+index 49e8530ca0ac..d1648fb099ac 100644
+--- a/drivers/platform/chrome/wilco_ec/Kconfig
++++ b/drivers/platform/chrome/wilco_ec/Kconfig
+@@ -3,6 +3,7 @@ config WILCO_EC
+ 	tristate "ChromeOS Wilco Embedded Controller"
+ 	depends on X86 || COMPILE_TEST
+ 	depends on ACPI && CROS_EC_LPC && LEDS_CLASS
++	depends on HAS_IOPORT
+ 	help
+ 	  If you say Y here, you get support for talking to the ChromeOS
+ 	  Wilco EC over an eSPI bus. This uses a simple byte-level protocol
 -- 
-2.40.1.606.ga4b1b128d6-goog
+2.39.2
 

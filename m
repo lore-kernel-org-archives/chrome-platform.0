@@ -1,44 +1,23 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998BDA56
-	for <chrome-platform@lists.linux.dev>; Mon, 22 May 2023 04:38:07 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ae87bdc452so16483265ad.2
-        for <chrome-platform@lists.linux.dev>; Sun, 21 May 2023 21:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1684730287; x=1687322287;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=l2RT2Owz4qx/KcMi/a4TkbUNJTUsNB3sEyGIGI8P7z8=;
-        b=QFmtk/leIN+nDCJlwUeCId8VywKIijPg5NqA60ehSIWqFHjWDiuop6iltwff9KpGuQ
-         JB5ioqq6g6FkdGvIS88egYn1WKURvjReLZOIKxf/913cqtL6BOl/lz6+mGYqBfpTXnBC
-         DD0gzzOrALZYhm07WXGGbW3vFvOQe6W0Ag4AxNgUiMoiDkNOXay58aNCKB7fCTamKkZf
-         pCBiOw778telZ5kRYaHXJltgQlz0ODw+zapdbBmi6Y3U1a2nEz8NAUcJ7lh5K+Go3Utp
-         +7JIhKyIgepVk3D4hift1hkmK2sb46L7BECTbeckqXHVQ3gLAc0FsQQcxx1WY/z81g93
-         REOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684730287; x=1687322287;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l2RT2Owz4qx/KcMi/a4TkbUNJTUsNB3sEyGIGI8P7z8=;
-        b=D43n7wvA7P4G9DKw4SzEI51GaK2gv8JFIa6DksrajgIM2qYtZbR6KPL9j0/KpgD7QD
-         EAateMjIuab7I/IFtoZfQddSO48mNDgW1dV3BgbK6Lfb9CqDYd9sySQENC9l5tTGJIom
-         5fOGA5iZkHos0VV2sLCTdu8SU3hnZZKuSnJknkQF+7gjEglsVwq18tw/x+/Cr2m4aeqj
-         hDU9LsXIiZxEwLCVmu5E9Pm9N7sJUOXZFkhmTZ5p+MEN7yt9xFkUyhnkMAguS/NuOeMZ
-         011YqojatzCtIK7SxLU8xvlNMADqIPdJaOERIdqAmAO7fbyu5vB66JwS614byi5jbcQR
-         uVbA==
-X-Gm-Message-State: AC+VfDzHf1ZNLjPg9qLk0BrdD07A1EK6ae20FkGoQkyIESKYs+WE14Pt
-	8HWstXTWhsiiiDbS2e0KdWutsg==
-X-Google-Smtp-Source: ACHHUZ6teDvwRAy5Ja0oL2DjkEogcBSQQ1+yYyhUOd4XvP3V34bzqXbN2QUHEuPp2mNylLd03/Z1XA==
-X-Received: by 2002:a17:902:c407:b0:1ae:7421:82b8 with SMTP id k7-20020a170902c40700b001ae742182b8mr13206689plk.28.1684730287023;
-        Sun, 21 May 2023 21:38:07 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id p12-20020a170902eacc00b00199203a4fa3sm3719888pld.203.2023.05.21.21.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 May 2023 21:38:06 -0700 (PDT)
-Message-ID: <646af1ae.170a0220.71f80.5bc2@mx.google.com>
-Date: Sun, 21 May 2023 21:38:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6E710FD
+	for <chrome-platform@lists.linux.dev>; Mon, 22 May 2023 08:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 29910C433EF;
+	Mon, 22 May 2023 08:10:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684743020;
+	bh=h9LNX56bVBeMikvMqZU/QestwxoPFNrYytmhp62eoiI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=lyyBcoDR+wvrtN+6v8/hrtcK3PrbdrtaBt3x6x7Utik4yWlOsk20VeboEvIr5P0j4
+	 cQG3Zuiofnmgw2sTr0BdsQnBcHh6RKcGjwLOw2g38okfpm66J4gC9Ml3096WIOExnq
+	 ZzZ2ULDoru7iwFNB2DoE2oNsQaD5iJ0Kgl8MLc/G93V8k04PuvkHhzJSJbSsGxnE6G
+	 QASlAxnQQmrPZYgFMSQhoebdGOlIimf3YD/ZOcIt6Zu5dX96TwodmGHsU9QLfyDVxl
+	 nwL0e4nsgkM1lT0rQT9S9DYSO7uZb9ArJtrEbPs67RmEVdm6qLzrIC46F1SLT5I++c
+	 Wmszi/mfMGoSg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 10350E22B06;
+	Mon, 22 May 2023 08:10:20 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -46,120 +25,44 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.4-rc1-3-g4b9abbc132b86
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 9 runs,
- 2 regressions (v6.4-rc1-3-g4b9abbc132b86)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] [v9] platform/chrome: cros_ec_lpc: Move host command to
+ prepare/complete
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168474302006.27846.3771837102628763642.git-patchwork-notify@kernel.org>
+Date: Mon, 22 May 2023 08:10:20 +0000
+References: <20230515142552.1.I17cae37888be3a8683911991602f18e482e7a621@changeid>
+In-Reply-To: <20230515142552.1.I17cae37888be3a8683911991602f18e482e7a621@changeid>
+To: Tim Van Patten <timvp@chromium.org>
+Cc: linux-kernel@vger.kernel.org, robbarnes@google.com, lalithkraj@google.com,
+ rrangel@chromium.org, bleung@chromium.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev
 
-chrome-platform/for-kernelci cros-ec: 9 runs, 2 regressions (v6.4-rc1-3-g4b=
-9abbc132b86)
+Hello:
 
-Regressions Summary
--------------------
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+On Mon, 15 May 2023 14:25:52 -0600 you wrote:
+> Update cros_ec_lpc_pm_ops to call cros_ec_lpc_prepare() during PM
+> .prepare() and cros_ec_lpc_complete() during .complete(). This moves the
+> host command that the AP sends and allows the EC to log entry/exit of
+> AP's suspend/resume more accurately.
+> 
+> Changes in v9:
+> - Remove log statements.
+> - Ignore return value from cros_ec_resume().
+> 
+> [...]
 
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+Here is the summary with links:
+  - [v9] platform/chrome: cros_ec_lpc: Move host command to prepare/complete
+    https://git.kernel.org/chrome-platform/c/4b9abbc132b8
 
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.4-rc1-3-g4b9abbc132b86/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.4-rc1-3-g4b9abbc132b86
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      4b9abbc132b86e2ce65090798186836f48f33382
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/646ae0094e597bc3a22e85ec
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-3-g4b9abbc132b86/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-3-g4b9abbc132b86/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230512.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/646ae0094e597bc3a22e85=
-ed
-        failing since 13 days (last pass: tag-chrome-platform-for-v6.4, fir=
-st fail: v6.4-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/646ae0b2bfeb24ecdf2e85ee
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-3-g4b9abbc132b86/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8192-asurada-spherion-r0.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.4-rc1-3-g4b9abbc132b86/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8192-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230512.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/646ae0b2bfeb24ecdf2e85=
-ef
-        failing since 13 days (last pass: tag-chrome-platform-for-v6.4, fir=
-st fail: v6.4-rc1) =
-
- =20

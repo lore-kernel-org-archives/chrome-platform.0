@@ -1,71 +1,43 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DF4BA29
-	for <chrome-platform@lists.linux.dev>; Mon, 22 May 2023 10:51:28 +0000 (UTC)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34MAMjXh005104;
-	Mon, 22 May 2023 10:51:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=8yLmsYgRdQYd+Bq6j/lBtS5iLfygP3CtMvOwoy+AhWY=;
- b=Pb4RZ2QyK2AFLozv/QmDVTKCulRhy3VJeuco8glT2TRMzlu5KmU46BGPubbS8l9EhwFX
- D2P4bD2EFiM0Ovl44aDEndqZ1n/bbK7bxLmu2cxEw86YvLbwviZiKKzM92ec9UziE1jM
- g+WhVIrcjOQi6WRNfNecDV8gKUED0CElrJ52J1TATcr0lScSxlWAOw6AoNn4iwNSjx2t
- XPZ/DahGzW/gxc7HJ8cq/vu8DhUqoGgHeuAN8bDMvZ6Y/1CxEE0HzSYmWw4Vk9bh29Ux
- CzHzBtly5pB0Fm1cCw1cWozkarICy7cuDYNn11K9P7+rc0R0f3wX8zrLj0AxuPhqWayz +A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqfq39qyv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 May 2023 10:51:19 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34MAIRuL021202;
-	Mon, 22 May 2023 10:51:18 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqfq39qxe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 May 2023 10:51:18 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-	by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34M6KApK015110;
-	Mon, 22 May 2023 10:51:16 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3qppbmgrw5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 May 2023 10:51:16 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34MApEKV39846230
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 May 2023 10:51:14 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F2C052004D;
-	Mon, 22 May 2023 10:51:13 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 977E520043;
-	Mon, 22 May 2023 10:51:13 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 22 May 2023 10:51:13 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev
-Subject: [PATCH v5 27/44] platform: add HAS_IOPORT dependencies
-Date: Mon, 22 May 2023 12:50:32 +0200
-Message-Id: <20230522105049.1467313-28-schnelle@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6BE182A2
+	for <chrome-platform@lists.linux.dev>; Wed, 24 May 2023 12:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684931341; x=1716467341;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3klnhOKosPwBrT++R5pTUO9av0C/hZmrxntxsqOzxiU=;
+  b=WEJav6oaj1cC0saDMyeFsOfZ3Ur6HSsTjNuZJhjZk6r4DfVf0LEyEEJx
+   jwikuvAsrI9PenczRmNUEmZS2q9xDYHx/aG2yDub6AZQ1EZoje2yN+kAV
+   ud781BgcWQ04a9Rw4/KwFDP6CCJUoH5LEpRAcGFt9Xoq2Ew4qxoXFAOwp
+   n0SxzU4cIAXivGetnai0KleqZF/jC5eFo12VdAzNxycbT99iKolz2o5xt
+   fgQt41qTbIbSaN/19WCrLeASEpcMkSi4siteQwbgqPTUbpaIcXOWF263d
+   eoGtGtG7f54iytC5pXkdeFb1s2QCVxlWy0TTr4W4pLOVXV/iNpd90pE6S
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="333904882"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="333904882"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:29:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="848731372"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="848731372"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 24 May 2023 05:28:58 -0700
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] usb: typec: mux: Remove the "svid" device property checks
+Date: Wed, 24 May 2023 15:28:59 +0300
+Message-Id: <20230524122901.53659-1-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230522105049.1467313-1-schnelle@linux.ibm.com>
-References: <20230522105049.1467313-1-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -73,55 +45,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3hMKMFgCyXyhbXfpklYTTQul6KNZsZRW
-X-Proofpoint-GUID: PQd1jKnWBLlozuUODC1jIc5sis_MZ7mC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-22_06,2023-05-22_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=812
- priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305220089
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+Hi,
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/platform/chrome/Kconfig          | 1 +
- drivers/platform/chrome/wilco_ec/Kconfig | 1 +
- 2 files changed, 2 insertions(+)
+The background for this change:
+https://lore.kernel.org/lkml/20210726231351.655302-1-bjorn.andersson@linaro.org/
 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 7d82a0946e1c..7eb1cfde29b4 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -132,6 +132,7 @@ config CROS_EC_UART
- config CROS_EC_LPC
- 	tristate "ChromeOS Embedded Controller (LPC)"
- 	depends on CROS_EC && ACPI && (X86 || COMPILE_TEST)
-+	depends on HAS_IOPORT
- 	help
- 	  If you say Y here, you get support for talking to the ChromeOS EC
- 	  over an LPC bus, including the LPC Microchip EC (MEC) variant.
-diff --git a/drivers/platform/chrome/wilco_ec/Kconfig b/drivers/platform/chrome/wilco_ec/Kconfig
-index 49e8530ca0ac..d1648fb099ac 100644
---- a/drivers/platform/chrome/wilco_ec/Kconfig
-+++ b/drivers/platform/chrome/wilco_ec/Kconfig
-@@ -3,6 +3,7 @@ config WILCO_EC
- 	tristate "ChromeOS Wilco Embedded Controller"
- 	depends on X86 || COMPILE_TEST
- 	depends on ACPI && CROS_EC_LPC && LEDS_CLASS
-+	depends on HAS_IOPORT
- 	help
- 	  If you say Y here, you get support for talking to the ChromeOS
- 	  Wilco EC over an eSPI bus. This uses a simple byte-level protocol
+The idea with that device property was that it would allow us to
+support separate mode specific switches behind a single port if
+necessary.
+
+Although, I guess it is still possible that we could have that kind of
+separate mode switches, especially now that the mode switch represents
+a kind of virtual aggregate device that can be build from multiple
+physical muxes (so the modes could need different "combos" of the
+muxes), but now no such systems exist.
+
+We can look at how to handle that kind of switches when/if we actually
+have them, but for now, keeping the functions as simple as possible.
+
+thanks,
+
+Heikki Krogerus (2):
+  usb: typec: mux: Clean up mux_fwnode_match()
+  usb: typec: mux: Remove alt mode parameters from the API
+
+ drivers/platform/chrome/cros_ec_typec.c |  2 +-
+ drivers/soc/qcom/pmic_glink_altmode.c   |  5 +-
+ drivers/usb/typec/class.c               |  4 +-
+ drivers/usb/typec/mux.c                 | 61 ++++---------------------
+ include/linux/usb/typec_mux.h           | 11 ++---
+ 5 files changed, 17 insertions(+), 66 deletions(-)
+
 -- 
 2.39.2
 

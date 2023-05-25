@@ -1,73 +1,137 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F14A1B8E4
-	for <chrome-platform@lists.linux.dev>; Wed, 24 May 2023 17:42:30 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-625482282e0so91176d6.3
-        for <chrome-platform@lists.linux.dev>; Wed, 24 May 2023 10:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684950149; x=1687542149;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Xad8XQzT/EPDQLWCF9hW+e8DHp/sy9XMO4KserFr8E=;
-        b=V+icCz8Wkib87kWDCS02h4LhRjsobBVVm1jhD52MjTvZmMBlrKW78D/7dLXkzzi12q
-         6XXNonAITz3cc8q0J+zQ1M+Qste3MQhp/Bv7b324jyGSWhLTHIvgo/IozK/brYE4+mhO
-         XQVs4A8fNuBbryXY4ncKCfTMncEVlMS2ozRaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684950149; x=1687542149;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+Xad8XQzT/EPDQLWCF9hW+e8DHp/sy9XMO4KserFr8E=;
-        b=kZqVfoMnGZaydp1GA63/h1TvQ0m3Dyq0XxCIqndke3F3UibzX2iEPcvEB3UKWct9MA
-         S4slTIAoGMBypNl6oNylCjy8aMdpDhcg9YM4fs1+iyYB+LZhCosM2jvjLnzk+GOtcNaE
-         Y8atb0exI5LckUCEmugTPnfulfrLp9OxAgnkqnRmeL7+lW+I/AQDRh8rwfIqr/8Crh/w
-         BzHBBLeDLPQkK1ZEQvTm37TphQkOCL/7ArH5MufGq4CWtzGv2teaa3LlhQ8m2g5OKuI8
-         9NVo7Rl+K/fGoCjnzC4IArTFflRLNkQ7u14fkeDPofx96VS6qrisqTrUa6ssYWruwhwB
-         KOEg==
-X-Gm-Message-State: AC+VfDxygx7LZ4Y4gs9eL1+puSrsUR22NMwtoz//mwtFP+89GGKYEUQI
-	7Z5Do3974lctcyyb33GR0alDaBKF7kf9j2EttDCvdw==
-X-Google-Smtp-Source: ACHHUZ7VuoEl/eBzhNV09bqyw11BoMXJFgg/WXWeo6+8EEukNTKi78vrfyLQnNkdab7TTr1fcrkG9J5e3zT0+Gm80uo=
-X-Received: by 2002:a05:6214:c6c:b0:623:8494:9946 with SMTP id
- t12-20020a0562140c6c00b0062384949946mr26307431qvj.45.1684950149123; Wed, 24
- May 2023 10:42:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F9A19C
+	for <chrome-platform@lists.linux.dev>; Thu, 25 May 2023 03:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40561C433D2;
+	Thu, 25 May 2023 03:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684984899;
+	bh=lgKBmTvgBzJ+dI7EcVQ1lM0GVoaJUUKSJKoKhDNjIQQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BPA/nMddJC5SmoPM+NPnp5Yt3qOj7z+dBqtyFuRBAjCH6sw3gl35TPy6n+VhyUhHC
+	 pJIWQoMYd7+iKrnKZCQ1QIP99z9cozD/Hp/kbNnhmgvk8v4QqOY+id/eErEUOkYUoj
+	 z7uQjIr+apaoOOfnxLI4QGPEAiys5QziLBPV9INOIB7LqAkWmiP/JZxjA4u0BDi7bz
+	 tVhm+BGfbvEsrZywbKHdKblrz4vkei7S+BOEbpS1ajZ0ZqTP0YzOPy2qzh3N/zBAvk
+	 RygP2tnxylrpNRN3Tw5eHRkU6s1aMt3aEAXnJvLoljsq8ES1LWwqVFz7SplHx1ENQF
+	 gZiFzdZajGdtg==
+Date: Wed, 24 May 2023 20:25:30 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] usb: typec: mux: Clean up mux_fwnode_match()
+Message-ID: <20230525032530.u5jecuucmdrsuroo@ripper>
+References: <20230524122901.53659-1-heikki.krogerus@linux.intel.com>
+ <20230524122901.53659-2-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230524122901.53659-1-heikki.krogerus@linux.intel.com> <20230524122901.53659-3-heikki.krogerus@linux.intel.com>
-In-Reply-To: <20230524122901.53659-3-heikki.krogerus@linux.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 24 May 2023 10:42:18 -0700
-Message-ID: <CACeCKaendr7Z8xE44uQw-QZ66wMdV-jd8SQ+ZPUeOdVpkq8ZHw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] usb: typec: mux: Remove alt mode parameters from
- the API
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bjorn Andersson <andersson@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Benson Leung <bleung@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524122901.53659-2-heikki.krogerus@linux.intel.com>
 
-Hi Heikki,
-
-On Wed, May 24, 2023 at 5:29=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> The alt mode descriptor parameters are not used anymore.
->
+On Wed, May 24, 2023 at 03:29:00PM +0300, Heikki Krogerus wrote:
+> Removing the "svid" and "accessory" device property checks.
+> Those properties are not supported on any platform.
+> 
 > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
+> Link: https://lore.kernel.org/lkml/20230522215348.uoyboow26n2o3tel@ripper/
 > Cc: Bjorn Andersson <andersson@kernel.org>
+> ---
+>  drivers/usb/typec/mux.c | 55 ++++++-----------------------------------
+>  1 file changed, 7 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+> index d9eaf9a0b0bfd..089c2fd478318 100644
+> --- a/drivers/usb/typec/mux.c
+> +++ b/drivers/usb/typec/mux.c
+> @@ -265,60 +265,19 @@ static int mux_fwnode_match(struct device *dev, const void *fwnode)
+>  static void *typec_mux_match(const struct fwnode_handle *fwnode,
+>  			     const char *id, void *data)
+>  {
+> -	const struct typec_altmode_desc *desc = data;
+>  	struct device *dev;
+> -	bool match;
+> -	int nval;
+> -	u16 *val;
+> -	int ret;
+> -	int i;
+>  
+>  	/*
+> -	 * Check has the identifier already been "consumed". If it
+> -	 * has, no need to do any extra connection identification.
+> +	 * Device graph (OF graph) does not give any means to identify the
+> +	 * device type or the device class of the remote port parent that @fwnode
+> +	 * represents, so in order to identify the type or the class of @fwnode
+> +	 * an additional device property is needed. With typec switches the
 
-For cros-ec-typec:
-Acked-by: Prashant Malani <pmalani@chromium.org>
+s/switches/muxes/
 
-Thanks,
+> +	 * property is named "orientation-switch" (@id). The value of the device
 
--Prashant
+s/orientation-switch/mode-switch/
+
+With that:
+
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Tested-by: Bjorn Andersson <andersson@kernel.org>
+
+Thank you,
+Bjorn
+
+> +	 * property is ignored.
+>  	 */
+> -	match = !id;
+> -	if (match)
+> -		goto find_mux;
+> -
+> -	if (!desc) {
+> -		/*
+> -		 * Accessory Mode muxes & muxes which explicitly specify
+> -		 * the required identifier can avoid SVID matching.
+> -		 */
+> -		match = fwnode_property_present(fwnode, "accessory") ||
+> -			fwnode_property_present(fwnode, id);
+> -		if (match)
+> -			goto find_mux;
+> -		return NULL;
+> -	}
+> -
+> -	/* Alternate Mode muxes */
+> -	nval = fwnode_property_count_u16(fwnode, "svid");
+> -	if (nval <= 0)
+> +	if (id && !fwnode_property_present(fwnode, id))
+>  		return NULL;
+>  
+> -	val = kcalloc(nval, sizeof(*val), GFP_KERNEL);
+> -	if (!val)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	ret = fwnode_property_read_u16_array(fwnode, "svid", val, nval);
+> -	if (ret < 0) {
+> -		kfree(val);
+> -		return ERR_PTR(ret);
+> -	}
+> -
+> -	for (i = 0; i < nval; i++) {
+> -		match = val[i] == desc->svid;
+> -		if (match) {
+> -			kfree(val);
+> -			goto find_mux;
+> -		}
+> -	}
+> -	kfree(val);
+> -	return NULL;
+> -
+> -find_mux:
+>  	dev = class_find_device(&typec_mux_class, NULL, fwnode,
+>  				mux_fwnode_match);
+>  
+> -- 
+> 2.39.2
+> 

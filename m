@@ -1,195 +1,155 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E1615497
-	for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 13:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685106877; x=1716642877;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=51xbnpVnSv7kK/CIAJA3IJI4ao4C21LGwC97orFloNk=;
-  b=XtT6FHJqTLUl/qFQROwyxiQ3EjaJ2foowIfzqHvJ58gaP7Svn4j4h0mB
-   1E2yAyMfi4H8IXb5RGH3QZOJc0tfYqBhFglhRSZLTuxXChZwuxCjBR817
-   +77qcyOknldU3vslGGqQP1ujlXg+88ZSuTF6lnQXa3kAHQhR/mFQkMbby
-   nM1U9QdqU2zUJ317lfZweESlCDYqz6WfdO7NPOKEV19V5mkvHHeS528bC
-   ABkHEm6ssbZUeNmacKGXgNVLVKhcf3qpMXC2NlemWIcozInLi/aPoixOI
-   K7N2gTWCcXVNsE2qLRVkaPor4zt/SX9OqPZNHsac5Q1B6mJ5oskfUvUxg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="419955119"
-X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="419955119"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 06:14:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="849555297"
-X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="849555297"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 26 May 2023 06:14:34 -0700
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH v2 2/2] usb: typec: mux: Remove alt mode parameters from the API
-Date: Fri, 26 May 2023 16:14:34 +0300
-Message-Id: <20230526131434.46920-3-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230526131434.46920-1-heikki.krogerus@linux.intel.com>
-References: <20230526131434.46920-1-heikki.krogerus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85312261C1
+	for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 14:44:36 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-776fdba68ecso24149139f.1
+        for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 07:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1685112274; x=1687704274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kmjb8xVhG45InllAO9viTIqjFppbVfXIordhnFBrUlg=;
+        b=hL+1hYtoR7thNTsxiPjiS0na63iKSaYSfKCQajeh3dUw3XPn0Kc+Hvg9+kXw93OC4F
+         viW06Q4Uyp2J6j+LU4f1q8LjoFRq+O+f3biV55F6w/Gvs51YRJRnWoElfnS7W76zdr5s
+         2f/9VML895dmJAEg846XRg5ap5elRzt3zLS6k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685112274; x=1687704274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kmjb8xVhG45InllAO9viTIqjFppbVfXIordhnFBrUlg=;
+        b=Sfw+WKEpN9KcRhbdJA7mOsYVTYolZfWOthoWc//QHMr2vm/Nj52916IQftDu+bjHbw
+         B15tQDMCEZQl5wXem1eccrR6do5qtYId9N/vMuw8oC/yBZZth4vYhhEuqDOkKMdSqurO
+         lQIoCdapFlLpq1p0a525pgHC+e3p4yyt5oKwbbeV141ofDoNYSywLrOohm/L7wgj7W4A
+         Xfsz5uHqdusdRwWWa0St8w/hxGcREs8ijAV/+w3H68P/fj2oQPvpc9sf/GZBqQYIn+rX
+         p2mGFSVJegFi+jAj0YdZS6LolAo7K57INGGpjDhfnLGjJhE1RLVe1ROrOluxaWTGPEcL
+         dcOQ==
+X-Gm-Message-State: AC+VfDxVAHA/j86VTJSBjBdopdO4JrP1wNTcNurh5cE6OA2pEMTiVldS
+	bAgWMWqQhceCLco4RDmaz92k1Yazhxy5LJwDbuk=
+X-Google-Smtp-Source: ACHHUZ6qWlcxBFYzIlY9sSDTeez14/muIhtvvvsh95qVCL35EqkMf6zusS+p1XE+s87ygDcbS6A5PA==
+X-Received: by 2002:a92:ce0c:0:b0:331:3b07:56e2 with SMTP id b12-20020a92ce0c000000b003313b0756e2mr1420575ilo.31.1685112273935;
+        Fri, 26 May 2023 07:44:33 -0700 (PDT)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com. [209.85.166.173])
+        by smtp.gmail.com with ESMTPSA id l5-20020a0566380d8500b0040b671bcf15sm1096946jaj.30.2023.05.26.07.44.31
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 May 2023 07:44:31 -0700 (PDT)
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-33a8f766b64so132935ab.1
+        for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 07:44:31 -0700 (PDT)
+X-Received: by 2002:a05:6e02:15c6:b0:335:e50d:9b11 with SMTP id
+ q6-20020a056e0215c600b00335e50d9b11mr79802ilu.7.1685112250126; Fri, 26 May
+ 2023 07:44:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 26 May 2023 07:43:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W-QLtGRGw5RfRyV06JOQNSd6sYuT7Y5=_VGn6xarWf9A@mail.gmail.com>
+Message-ID: <CAD=FV=W-QLtGRGw5RfRyV06JOQNSd6sYuT7Y5=_VGn6xarWf9A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Switch i2c drivers back to use .probe()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Phong LE <ple@baylibre.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Peter Senna Tschudin <peter.senna@gmail.com>, 
+	Martin Donnelly <martin.donnelly@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, 
+	Russell King <linux@armlinux.org.uk>, Stefan Mavrodiev <stefan@olimex.com>, 
+	Sam Ravnborg <sam@ravnborg.org>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>, 
+	Miguel Ojeda <ojeda@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>, 
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	=?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Crt Mori <cmo@melexis.com>, 
+	Xin Ji <xji@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Liang He <windhl@126.com>, 
+	dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+	chrome-platform@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The alt mode descriptor parameters are not used anymore.
+Hi,
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-Tested-by: Bjorn Andersson <andersson@kernel.org>
-Acked-by: Prashant Malani <pmalani@chromium.org>
----
-v2: No changes. Adding the Acked-by a Reviewed-by tags.
+On Fri, May 26, 2023 at 2:08=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
+> back to (the new) .probe() to be able to eventually drop .probe_new() fro=
+m
+> struct i2c_driver.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
+>
+> I didn't get feedback for (implicit) v1 that was sent with Message-Id:
+> <20230427175954.666464-1-u.kleine-koenig@pengutronix.de>. This is a
+> rebase on v6.4-rc1 as the former patch doesn't apply cleanly any more.
+>
+> I also added more people to Cc, maybe that helps to get feedback.
+>
+> This patch is based on v6.4-rc1, and applies fine on today's next.
+> (There are also no new drivers that need adaption in next.)
+>
+> Thanks for considering,
+> Uwe
+>
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             | 2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c       | 2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c       | 2 +-
+>  drivers/gpu/drm/bridge/analogix/anx7625.c                | 2 +-
+>  drivers/gpu/drm/bridge/chipone-icn6211.c                 | 2 +-
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c                 | 2 +-
+>  drivers/gpu/drm/bridge/cros-ec-anx7688.c                 | 2 +-
+>  drivers/gpu/drm/bridge/ite-it6505.c                      | 2 +-
+>  drivers/gpu/drm/bridge/ite-it66121.c                     | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c                 | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9211.c                  | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611.c                  | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c               | 2 +-
+>  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 4 ++--
+>  drivers/gpu/drm/bridge/nxp-ptn3460.c                     | 2 +-
+>  drivers/gpu/drm/bridge/parade-ps8622.c                   | 2 +-
+>  drivers/gpu/drm/bridge/parade-ps8640.c                   | 2 +-
+>  drivers/gpu/drm/bridge/sii902x.c                         | 2 +-
+>  drivers/gpu/drm/bridge/sii9234.c                         | 2 +-
+>  drivers/gpu/drm/bridge/sil-sii8620.c                     | 2 +-
+>  drivers/gpu/drm/bridge/tc358767.c                        | 2 +-
+>  drivers/gpu/drm/bridge/tc358768.c                        | 2 +-
+>  drivers/gpu/drm/bridge/tc358775.c                        | 2 +-
+>  drivers/gpu/drm/bridge/ti-dlpc3433.c                     | 2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c                    | 2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c                    | 2 +-
+>  drivers/gpu/drm/bridge/ti-tfp410.c                       | 2 +-
+>  drivers/gpu/drm/i2c/tda9950.c                            | 2 +-
+>  drivers/gpu/drm/i2c/tda998x_drv.c                        | 2 +-
+>  drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c       | 2 +-
+>  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c    | 2 +-
+>  drivers/gpu/drm/solomon/ssd130x-i2c.c                    | 2 +-
+>  32 files changed, 33 insertions(+), 33 deletions(-)
 
- drivers/platform/chrome/cros_ec_typec.c |  2 +-
- drivers/soc/qcom/pmic_glink_altmode.c   |  5 +----
- drivers/usb/typec/class.c               |  4 ++--
- drivers/usb/typec/mux.c                 |  6 ++----
- include/linux/usb/typec_mux.h           | 11 ++++-------
- 5 files changed, 10 insertions(+), 18 deletions(-)
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index a673c33424706..25f9767c28e82 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -77,7 +77,7 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- {
- 	int ret = 0;
- 
--	port->mux = fwnode_typec_mux_get(fwnode, NULL);
-+	port->mux = fwnode_typec_mux_get(fwnode);
- 	if (IS_ERR(port->mux)) {
- 		ret = PTR_ERR(port->mux);
- 		dev_dbg(dev, "Mux handle not found: %d.\n", ret);
-diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
-index 4d7895bdeaf2f..df48fbea4b686 100644
---- a/drivers/soc/qcom/pmic_glink_altmode.c
-+++ b/drivers/soc/qcom/pmic_glink_altmode.c
-@@ -369,7 +369,6 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- {
- 	struct pmic_glink_altmode_port *alt_port;
- 	struct pmic_glink_altmode *altmode;
--	struct typec_altmode_desc mux_desc = {};
- 	const struct of_device_id *match;
- 	struct fwnode_handle *fwnode;
- 	struct device *dev = &adev->dev;
-@@ -427,9 +426,7 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- 		alt_port->dp_alt.mode = USB_TYPEC_DP_MODE;
- 		alt_port->dp_alt.active = 1;
- 
--		mux_desc.svid = USB_TYPEC_DP_SID;
--		mux_desc.mode = USB_TYPEC_DP_MODE;
--		alt_port->typec_mux = fwnode_typec_mux_get(fwnode, &mux_desc);
-+		alt_port->typec_mux = fwnode_typec_mux_get(fwnode);
- 		if (IS_ERR(alt_port->typec_mux))
- 			return dev_err_probe(dev, PTR_ERR(alt_port->typec_mux),
- 					     "failed to acquire mode-switch for port: %d\n",
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 349cc2030c903..faa184ae3dac8 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -2110,7 +2110,7 @@ typec_port_register_altmode(struct typec_port *port,
- 	struct typec_mux *mux;
- 	struct typec_retimer *retimer;
- 
--	mux = typec_mux_get(&port->dev, desc);
-+	mux = typec_mux_get(&port->dev);
- 	if (IS_ERR(mux))
- 		return ERR_CAST(mux);
- 
-@@ -2274,7 +2274,7 @@ struct typec_port *typec_register_port(struct device *parent,
- 		return ERR_PTR(ret);
- 	}
- 
--	port->mux = typec_mux_get(&port->dev, NULL);
-+	port->mux = typec_mux_get(&port->dev);
- 	if (IS_ERR(port->mux)) {
- 		ret = PTR_ERR(port->mux);
- 		put_device(&port->dev);
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index f2eee6322815d..80dd91938d960 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -287,15 +287,13 @@ static void *typec_mux_match(const struct fwnode_handle *fwnode,
- /**
-  * fwnode_typec_mux_get - Find USB Type-C Multiplexer
-  * @fwnode: The caller device node
-- * @desc: Alt Mode description
-  *
-  * Finds a mux linked to the caller. This function is primarily meant for the
-  * Type-C drivers. Returns a reference to the mux on success, NULL if no
-  * matching connection was found, or ERR_PTR(-EPROBE_DEFER) when a connection
-  * was found but the mux has not been enumerated yet.
-  */
--struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
--				       const struct typec_altmode_desc *desc)
-+struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode)
- {
- 	struct typec_mux_dev *mux_devs[TYPEC_MUX_MAX_DEVS];
- 	struct typec_mux *mux;
-@@ -308,7 +306,7 @@ struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
- 		return ERR_PTR(-ENOMEM);
- 
- 	count = fwnode_connection_find_matches(fwnode, "mode-switch",
--					       (void *)desc, typec_mux_match,
-+					       NULL, typec_mux_match,
- 					       (void **)mux_devs,
- 					       ARRAY_SIZE(mux_devs));
- 	if (count <= 0) {
-diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index 9292f0e078464..11bfa314529fd 100644
---- a/include/linux/usb/typec_mux.h
-+++ b/include/linux/usb/typec_mux.h
-@@ -60,8 +60,7 @@ struct typec_mux_desc {
- 
- #if IS_ENABLED(CONFIG_TYPEC)
- 
--struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
--				       const struct typec_altmode_desc *desc);
-+struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode);
- void typec_mux_put(struct typec_mux *mux);
- int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state);
- 
-@@ -74,8 +73,7 @@ void *typec_mux_get_drvdata(struct typec_mux_dev *mux);
- 
- #else
- 
--static inline struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
--				       const struct typec_altmode_desc *desc)
-+static inline struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode);
- {
- 	return NULL;
- }
-@@ -102,10 +100,9 @@ static inline void *typec_mux_get_drvdata(struct typec_mux_dev *mux)
- 
- #endif /* CONFIG_TYPEC */
- 
--static inline struct typec_mux *
--typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
-+static inline struct typec_mux *typec_mux_get(struct device *dev)
- {
--	return fwnode_typec_mux_get(dev_fwnode(dev), desc);
-+	return fwnode_typec_mux_get(dev_fwnode(dev));
- }
- 
- #endif /* __USB_TYPEC_MUX */
--- 
-2.39.2
+This does apply to drm-misc-next and I'm happy to apply it there, but
+I'm a bit iffy doing it on the Friday before a 3-day weekend (Monday
+is a holiday in the US). If this is still pending next Tuesday and I'm
+not swamped then, I'll plan to apply it. I'm more than happy if a
+different drm commtter wants to apply it sooner. Thanks!
 
+-Doug

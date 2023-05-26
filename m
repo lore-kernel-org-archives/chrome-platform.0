@@ -1,86 +1,107 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596CF2CA9
-	for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 21:47:12 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q2fHA-00054Z-HJ; Fri, 26 May 2023 23:47:08 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q2fH9-0032gH-HB; Fri, 26 May 2023 23:47:07 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q2fH8-008H62-OR; Fri, 26 May 2023 23:47:06 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Benson Leung <bleung@chromium.org>,
-	Dan Callaghan <dcallagh@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	=?utf-8?b?U2FtaSBLecO2c3RpbMOk?= <skyostil@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH] platform/chrome: Switch i2c drivers back to use .probe()
-Date: Fri, 26 May 2023 23:47:03 +0200
-Message-Id: <20230526214703.2135137-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768592A9EF
+	for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 23:29:37 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-3f6c6320d4eso33281cf.1
+        for <chrome-platform@lists.linux.dev>; Fri, 26 May 2023 16:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1685143776; x=1687735776;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7COUyi4XLPljihoCv3LYawi6oUvyBBnUUu4CtgtS/9g=;
+        b=a8hV2CHH4dPBwzX7SxGt3zkHmmqCLDZYNhn/8RHgHtiYMzWbvRJFSIoN1C67tlfQmR
+         gjHNjH8Y603T/zWEcRrhKUGROv16WjmR5TPXB3bS+eVW0mu+uNK5FdF2nW4lCFzEY3WJ
+         63fIFJ2JUfdibXE8kr4E0+ufvsjvCCpO8r5J8a9fDWgoUHl/3piRq6wKi5w91p2mDbVb
+         ToKY0vKg/G432LtwKw7mt2okWbooYSqrh1iIvFvrB7TImvNHUZD0EYfdjuopflwn/0hY
+         ytemyPmOuu0WhK2reXwoYRQXvTnLSoO4m4WXQGGBFBDAgi4rUss+lQhoAaCMYqyNl8gJ
+         5WIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685143776; x=1687735776;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7COUyi4XLPljihoCv3LYawi6oUvyBBnUUu4CtgtS/9g=;
+        b=OMQCUBGdt3eN1NL93J3WaNMtrCcux9xvAkFYw7LrqJ+lYUZT/C6m6VaTVdbhBVbGTh
+         Q533X63+E/BgMOJ745GVKGIr8NpzU8aENRAc913yu48PsvDkV4DNsKkC2wrZbC/J2enS
+         ag6H6DP1Zxqru978g7SuzAVdK64107/nQpjWY7XLPYn8TqwTGCiVIMj87MLa+Xek9/u4
+         ZFL61xeFozvSp5iu9VWwaSo83B7dHa0fzXxnCpsG74p1U98mWe50CSuQOP+ND/pvpfD8
+         LTisJ9oW2ecVRxSud+cSetQpWmeF8wqkxAnOZKnqQOHcXsean8gaFuFhC07lCWI8UwyH
+         idMw==
+X-Gm-Message-State: AC+VfDx31WLqQj1aKXOWc2zKkoLCXCl52wcBICyKNWCavtcFPQe5Yui7
+	aW2vUE2B/+Nq+SsRi4EmDapn/y/xtoE5R4hzelKZrA==
+X-Google-Smtp-Source: ACHHUZ67yG+TZmiF6gTVCHTDyFYmUCZZ7mKfgd7fAlqugrDfAl4bmtu1GKJV2QZV2XTd7xPUOsg/9+NgcIYAF7uTz+M=
+X-Received: by 2002:a05:622a:18f:b0:3ef:302c:319e with SMTP id
+ s15-20020a05622a018f00b003ef302c319emr78684qtw.8.1685143776138; Fri, 26 May
+ 2023 16:29:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1616; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=wOV/UtjF7fwbmJ+leKtH2A059coffxuOYqYHzSRMEdo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkcSjUGGgEhYx9eJ2GvDuEiC+0Qp2hk04YPN6Eb coHE3efolSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHEo1AAKCRCPgPtYfRL+ Tl8pCAC7QEi+NM7bFFuBUNH4eH0ZwWDYVVQWfoUZ/M41wgRGJlPNtfUcU09r9scAAYsBPFVqOA0 gOtt4Ac88CQ8CqcMHYvZKd4jEtxJeBSjh+uH1ZPaMCvp072TVyAzgkbI7pky1quQXCxVdSTcXeX rrnZKpTcvBlXBi/IFWcbDZn1cGJBf0bJ0Fc4lE8/0TH8Ue5aPC0SjT7nwzccQkDDP9uSTwMwHU0 x+BqYY2W2o4bLa5EB7aX9R95tlNPssdtTqZrKEWR5lqkK9RZJtfOXhpq6vz4v2zspirgz/8YbYi xKqoV79n2z4Z2ZqT00qGMQPzt4c1lQFH61NK6fg1c5RzQ1V3
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+References: <20230526214703.2135137-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230526214703.2135137-1-u.kleine-koenig@pengutronix.de>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 26 May 2023 16:29:25 -0700
+Message-ID: <CABXOdTcQX29=3cKg0dY=WHJuXqwT6Jk=ktQ2mStVe6Uw8pakAA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: Switch i2c drivers back to use .probe()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Benson Leung <bleung@chromium.org>, Dan Callaghan <dcallagh@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, =?UTF-8?B?U2FtaSBLecO2c3RpbMOk?= <skyostil@chromium.org>, 
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-call-back type"), all drivers being converted to .probe_new() and then
-03c835f498b5 ("i2c: Switch .probe() to not take an id parameter")
-convert back to (the new) .probe() to be able to eventually drop
-.probe_new() from struct i2c_driver.
+On Fri, May 26, 2023 at 2:47=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter")
+> convert back to (the new) .probe() to be able to eventually drop
+> .probe_new() from struct i2c_driver.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/platform/chrome/cros_ec_i2c.c  | 2 +-
- drivers/platform/chrome/cros_hps_i2c.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
-index dbe698f33128..e29c51cbfd71 100644
---- a/drivers/platform/chrome/cros_ec_i2c.c
-+++ b/drivers/platform/chrome/cros_ec_i2c.c
-@@ -372,7 +372,7 @@ static struct i2c_driver cros_ec_driver = {
- 		.of_match_table = of_match_ptr(cros_ec_i2c_of_match),
- 		.pm	= &cros_ec_i2c_pm_ops,
- 	},
--	.probe_new	= cros_ec_i2c_probe,
-+	.probe		= cros_ec_i2c_probe,
- 	.remove		= cros_ec_i2c_remove,
- 	.id_table	= cros_ec_i2c_id,
- };
-diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/chrome/cros_hps_i2c.c
-index 62ccb1acb5de..b31313080332 100644
---- a/drivers/platform/chrome/cros_hps_i2c.c
-+++ b/drivers/platform/chrome/cros_hps_i2c.c
-@@ -143,7 +143,7 @@ MODULE_DEVICE_TABLE(acpi, hps_acpi_id);
- #endif /* CONFIG_ACPI */
- 
- static struct i2c_driver hps_i2c_driver = {
--	.probe_new = hps_i2c_probe,
-+	.probe = hps_i2c_probe,
- 	.remove = hps_i2c_remove,
- 	.id_table = hps_i2c_id,
- 	.driver = {
-
-base-commit: ac9a78681b921877518763ba0e89202254349d1b
--- 
-2.39.2
-
+> ---
+>  drivers/platform/chrome/cros_ec_i2c.c  | 2 +-
+>  drivers/platform/chrome/cros_hps_i2c.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chr=
+ome/cros_ec_i2c.c
+> index dbe698f33128..e29c51cbfd71 100644
+> --- a/drivers/platform/chrome/cros_ec_i2c.c
+> +++ b/drivers/platform/chrome/cros_ec_i2c.c
+> @@ -372,7 +372,7 @@ static struct i2c_driver cros_ec_driver =3D {
+>                 .of_match_table =3D of_match_ptr(cros_ec_i2c_of_match),
+>                 .pm     =3D &cros_ec_i2c_pm_ops,
+>         },
+> -       .probe_new      =3D cros_ec_i2c_probe,
+> +       .probe          =3D cros_ec_i2c_probe,
+>         .remove         =3D cros_ec_i2c_remove,
+>         .id_table       =3D cros_ec_i2c_id,
+>  };
+> diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/ch=
+rome/cros_hps_i2c.c
+> index 62ccb1acb5de..b31313080332 100644
+> --- a/drivers/platform/chrome/cros_hps_i2c.c
+> +++ b/drivers/platform/chrome/cros_hps_i2c.c
+> @@ -143,7 +143,7 @@ MODULE_DEVICE_TABLE(acpi, hps_acpi_id);
+>  #endif /* CONFIG_ACPI */
+>
+>  static struct i2c_driver hps_i2c_driver =3D {
+> -       .probe_new =3D hps_i2c_probe,
+> +       .probe =3D hps_i2c_probe,
+>         .remove =3D hps_i2c_remove,
+>         .id_table =3D hps_i2c_id,
+>         .driver =3D {
+>
+> base-commit: ac9a78681b921877518763ba0e89202254349d1b
+> --
+> 2.39.2
+>

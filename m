@@ -1,55 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CFC62D
-	for <chrome-platform@lists.linux.dev>; Mon, 29 May 2023 04:13:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E3B9C433D2;
-	Mon, 29 May 2023 04:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A07562D
+	for <chrome-platform@lists.linux.dev>; Mon, 29 May 2023 04:20:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E94A9C433EF;
+	Mon, 29 May 2023 04:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685333597;
-	bh=uskfSfulA8rSKgayNamRK9w7GPcGS4LT1ycjuOHH8R8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hOjQaboJnP5lHCd9r/5mDDwo171P1v1u3hB92VU5RuAZsCJTWAxkT0mloc8Czj4JM
-	 9n/MEr/KfSjEW3aRJ6ZO/4CfbwqZd5s+PM1CiwPgwE9lihvQhxryHBIjXjO/KntcIs
-	 9bL/54qRbF+mQZNQZX1rh+b9moziFaCPPvOY+VjUuZcXl3wkW7qodJHEDkV9RtF+ux
-	 JNnqD8TJwXTTLyhmCsj+r6Pk23KudUdZNhGqFKB+K2ADiWV4/q4fjiaIyxSqGrvgdt
-	 oiN5SogGBct03ehZuFRztoZOIG6P3Brd2ZQ/fKxS+JZlJe3TdY2RmsNE0rGKVqaKig
-	 4dsgVK4RJ8f1w==
-Date: Mon, 29 May 2023 12:13:13 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "kernelci.org bot" <bot@kernelci.org>
-Cc: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
-	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
-	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org
-Subject: Re: chrome-platform/for-kernelci cros-ec: 10 runs, 3 regressions
- (v6.4-rc1-4-gf5bb4e381290)
-Message-ID: <ZHQmWcc/d+rcAJnx@google.com>
-References: <64741d34.630a0220.738c6.b8cc@mx.google.com>
+	s=k20201202; t=1685334018;
+	bh=BE9jRRBbEVdhYtUy626Qe+cv0W1277rwLUJkU49hReU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=SeadnWLDvKUouRvKVNlXCjpLsIDFVN4G3KhB5fzvvKWx1o4XdYDqDuIHsCbL6mERi
+	 nXhhOAi/o6TW1zsqMnA0ps0vwerd9N4Y7NplNVtDGDDZSlzqFla000/AQ5en0TnlU+
+	 zHMFZAYA8j2RMvggXJCNenfB4UqNS2FBjmwLmXXcjwPmAXZ5R0d1NNsTNnUVzvGhNx
+	 U4/uSbx+6s+3zaL0A2a/JE6u0qUbciNAw3yMm9f3ADBW6mOBoSMc1YgMB1HQkZN6CL
+	 FR3q0J03mke6aCHu8OZO22HRwCIX7ELbhEYg+N7rHMxr4S//wvFRsDuunD1yTIhC9Z
+	 dnEiQkUeNtHgA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C77FEC395DC;
+	Mon, 29 May 2023 04:20:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64741d34.630a0220.738c6.b8cc@mx.google.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: Switch i2c drivers back to use .probe()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168533401881.13313.3896203382717930606.git-patchwork-notify@kernel.org>
+Date: Mon, 29 May 2023 04:20:18 +0000
+References: <20230526214703.2135137-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230526214703.2135137-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: bleung@chromium.org, dcallagh@chromium.org, groeck@chromium.org,
+ skyostil@chromium.org, chrome-platform@lists.linux.dev, kernel@pengutronix.de
 
-On Sun, May 28, 2023 at 08:34:12PM -0700, kernelci.org bot wrote:
-> chrome-platform/for-kernelci cros-ec: 10 runs, 3 regressions (v6.4-rc1-4-gf5bb4e381290)
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Fri, 26 May 2023 23:47:03 +0200 you wrote:
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter")
+> convert back to (the new) .probe() to be able to eventually drop
+> .probe_new() from struct i2c_driver.
 > 
-> Regressions Summary
-> -------------------
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > 
-> platform                     | arch  | lab           | compiler | defconfig                  | regressions
-> -----------------------------+-------+---------------+----------+----------------------------+------------
-> mt8173-elm-hana              | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 1          
+> [...]
 
-The failure isn't persistent.  It passes in a re-run.
+Here is the summary with links:
+  - platform/chrome: Switch i2c drivers back to use .probe()
+    https://git.kernel.org/chrome-platform/c/f5bb4e381290
 
-> mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 1          
-> mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook | 1          
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-The fix is pending [1].
 
-[1]: https://cgit.freedesktop.org/drm-misc/commit/?id=1464e48d69ab7a50a377c9d39f5e5eb3cee2722e

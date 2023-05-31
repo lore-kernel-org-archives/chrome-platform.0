@@ -1,289 +1,163 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F6D63C3
-	for <chrome-platform@lists.linux.dev>; Tue, 30 May 2023 06:25:22 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-ba1815e12efso3134698276.3
-        for <chrome-platform@lists.linux.dev>; Mon, 29 May 2023 23:25:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C684A39
+	for <chrome-platform@lists.linux.dev>; Wed, 31 May 2023 02:30:06 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-33b204f0ca0so25535695ab.2
+        for <chrome-platform@lists.linux.dev>; Tue, 30 May 2023 19:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1685427922; x=1688019922;
+        d=chromium.org; s=google; t=1685500205; x=1688092205;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kOlMpam2kXZ0NreKKU8RZ924QV5LazGnCRSzw/kR1po=;
-        b=DLEnIVlzrUvEekpze2GkSbuJFCJbdFfo9+FQRmnmmOirDj8s9a7aXAjA0DKS3F3poi
-         lG3JyuTbHD5GMH7krISFMJk8pmBdpgzUyDodmkWy8jqeDers+5sXmidQM96RAxHS0bq/
-         480KdzjufQKwo/4YqmTrBR0JTVcio0x0mrhfE=
+        bh=ZbvEmEPbsI8LQ6J1wC1vs2xLNb4jhIMPg6wJX0MCwlk=;
+        b=mLO3GurHAY1SCAkSJsZY7U0Y9tuQ5yd1gOECQ4d2TxWp0qBRD75vJrctROoSdeibwV
+         C0vzRqHWhfv6OkFZBGrZ11zNg0QZffjj0sqw74Vmf2h3YpC0hYnHlK1LNw1VINDpmyib
+         9hgzpzprSQ7kV36iGsxQxA9TeR139bY5mzV9M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685427922; x=1688019922;
+        d=1e100.net; s=20221208; t=1685500205; x=1688092205;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kOlMpam2kXZ0NreKKU8RZ924QV5LazGnCRSzw/kR1po=;
-        b=J/5Gk6drVDsgQ68B2PlY5Kqmze+stHRUoM4Lqrssh2B8yMjMJ/d+9u31rWk54wJ39I
-         Qn4mlp1PiZhs5HRLAlZxnPD9dFMNH3L/DvBEEll7UNxJMx78kQ5Zt0PpxBUuswzEC7FI
-         FrF9w/q+4cLs6FaPKsGiVyQ6AiBWp2YCa7Q6QerOYNOvMciuCj1XqMVJGPQEppV0isUY
-         TNyxC+Cu9tkg1ZVOgKuTtpA6zNYc9KVBVa/b38qCTk9rpaSm6zsm6alErz5BtYyZjX+A
-         NtH9cWoSXcwWG1suZM3wwaKKyXdskDhfzth283FQxbFhOOGC2FoRgKi+FgkvTQo8yyKb
-         XYeQ==
-X-Gm-Message-State: AC+VfDxk81IX433KPkbWNYxrA+jvnxUJ+FnKg1Fmn5Ti5sZctJ8AvFsi
-	/h+MsV8Ec0E35EJCeBn9Hk8juAKnxvN+D3/3mvWIRQ==
-X-Google-Smtp-Source: ACHHUZ4sItdsjQ7pB9PdqtemdF5Juj1rYgsq7Ifn54tyYkzcZ0COMpT7XW5O8au1v15Fwpo8RiRMmRqK8oPuTUin86w=
-X-Received: by 2002:a25:2707:0:b0:ba6:a923:4744 with SMTP id
- n7-20020a252707000000b00ba6a9234744mr1694940ybn.44.1685427921802; Mon, 29 May
- 2023 23:25:21 -0700 (PDT)
+        bh=ZbvEmEPbsI8LQ6J1wC1vs2xLNb4jhIMPg6wJX0MCwlk=;
+        b=IN+TkGgID4moiXvX8wJUk+TgpYzI70ZJ53Y4DjPVWll6E9Way3KvSDiWAqUWljwS96
+         VltGJsD5uLkYqyznkdI1QW0J3rXh9kOkE5WhTHsHByeqxsLsY1EO4phz8z2tjyTEFRuG
+         C+3A0JoHYtZeQhgG44eEk9dFw6ehJZx7in/6OVY7oG7rQc4dr9z2LqK0yzHS4JyKuKEA
+         AZ/7VESKrox7vsHH4LWho5lvNkBoWrHdxQ4tD3nQVvd32cpQeyVLlDuRJetDpzDo6U9i
+         peb+7eKPzkPHtQ61hgvxHFl/nLDZnhe5qybHYjcRpxcy1Q6MLZFAx9IOvgLilNO0yv0z
+         r4uQ==
+X-Gm-Message-State: AC+VfDy8p0ABPY5N2juFlaYV+fUZ5VvHbORHiFC4uQILy7fpca07GGmh
+	etYNAvedW1WzEM9rsXwknswcnt2XKDPzEhhf3Qg=
+X-Google-Smtp-Source: ACHHUZ7496UoszYcPhdrTxV7dSV2gW56N70vARdwhnimjYS5UWSVgO8Tx90D1u6zUlMDelqBjRBppg==
+X-Received: by 2002:a92:d08a:0:b0:339:f011:77f5 with SMTP id h10-20020a92d08a000000b00339f01177f5mr1340516ilh.12.1685500204870;
+        Tue, 30 May 2023 19:30:04 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
+        by smtp.gmail.com with ESMTPSA id t3-20020a92b103000000b003350c8ae201sm411442ilh.29.2023.05.30.19.29.59
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 19:30:03 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-33baee0235cso61665ab.1
+        for <chrome-platform@lists.linux.dev>; Tue, 30 May 2023 19:29:59 -0700 (PDT)
+X-Received: by 2002:a92:c243:0:b0:338:9f6a:d54e with SMTP id
+ k3-20020a92c243000000b003389f6ad54emr79412ilo.28.1685500178040; Tue, 30 May
+ 2023 19:29:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230331091145.737305-1-treapking@chromium.org>
- <20230331091145.737305-5-treapking@chromium.org> <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
- <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
- <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
- <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
- <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
- <CAE-0n50bj303jou==v6eMabrZ3EL6Cq7tPJmCj9vM_B7FA8s2g@mail.gmail.com> <CAEXTbpcWfYV_58pw_VupjhAFZsUU3pkLRN_8JoASyLLBmgTYqQ@mail.gmail.com>
-In-Reply-To: <CAEXTbpcWfYV_58pw_VupjhAFZsUU3pkLRN_8JoASyLLBmgTYqQ@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 30 May 2023 11:55:09 +0530
-Message-ID: <CAMty3ZArgjaPmVMCHvps875c22WWS-bXx5GVMhQUURORgx7UvQ@mail.gmail.com>
-Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
- mode-switch support
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
-	Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Xin Ji <xji@analogixsemi.com>, 
-	Marek Vasut <marex@denx.de>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Lyude Paul <lyude@redhat.com>, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>
+References: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de> <CAD=FV=W-QLtGRGw5RfRyV06JOQNSd6sYuT7Y5=_VGn6xarWf9A@mail.gmail.com>
+In-Reply-To: <CAD=FV=W-QLtGRGw5RfRyV06JOQNSd6sYuT7Y5=_VGn6xarWf9A@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 30 May 2023 19:29:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XSWES7BK03dBFnxR8eDxRTRFACBRHnhNK94gf-0ed2pg@mail.gmail.com>
+Message-ID: <CAD=FV=XSWES7BK03dBFnxR8eDxRTRFACBRHnhNK94gf-0ed2pg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Switch i2c drivers back to use .probe()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Phong LE <ple@baylibre.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Peter Senna Tschudin <peter.senna@gmail.com>, 
+	Martin Donnelly <martin.donnelly@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, 
+	Russell King <linux@armlinux.org.uk>, Stefan Mavrodiev <stefan@olimex.com>, 
+	Sam Ravnborg <sam@ravnborg.org>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>, 
+	Miguel Ojeda <ojeda@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>, 
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	=?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Crt Mori <cmo@melexis.com>, 
+	Xin Ji <xji@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Liang He <windhl@126.com>, 
+	dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+	chrome-platform@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 10, 2023 at 9:12=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> +Jagan who worked on a similar design and initiated the thread.
->
-> Hi Stephen,
->
-> On Sat, Apr 29, 2023 at 12:47=E2=80=AFPM Stephen Boyd <swboyd@chromium.or=
+Hi,
+
+On Fri, May 26, 2023 at 7:43=E2=80=AFAM Doug Anderson <dianders@chromium.or=
 g> wrote:
-> >
-> > Quoting Pin-yen Lin (2023-04-20 02:10:46)
-> > > On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium=
-.org> wrote:
-> > > >
-> > > > Quoting Stephen Boyd (2023-04-13 17:22:46)
-> > > > > Quoting Pin-yen Lin (2023-04-13 02:50:44)
-> > > > > >
-> > > > > > Actually the `mode-switch` property here is mainly because
-> > > > > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return =
-matches
-> > > > > > when the property is present. I am not sure what side effects w=
-ould be
-> > > > > > if I remove the ID-matching condition in `typec_mux_match`, so =
-I added
-> > > > > > the property here.
-> > > > > >
-> > > > > > Is it feasible to remove the `mode-switch` property here given =
-the
-> > > > > > existing implementation of the Type-C framework?
-> > > > >
-> > > > > Omitting the mode-switch property would require changes to the ty=
-pe-c
-> > > > > framework.
-> > > > >
-> > > > > I'm wondering if we can have this anx driver register mode switch=
-es for
-> > > > > however many endpoints exist in the output port all the time when=
- the
-> > > > > aux-bus node doesn't exist. Then the type-c framework can walk fr=
-om the
-> > > > > usb-c-connector to each connected node looking for a device that =
-is both
-> > > > > a drm_bridge and a mode-switch. When it finds that combination, i=
-t knows
-> > > > > that the mode-switch has been found. This hinges on the idea that=
- a
-> > > > > device that would have the mode-switch property is a drm_bridge a=
-nd
-> > > > > would register a mode-switch with the type-c framework.
-> > > > >
-> > > > > It may be a little complicated though, because we would only regi=
-ster
-> > > > > one drm_bridge for the input to this anx device. The type-c walki=
-ng code
-> > > > > would need to look at the graph endpoint, and find the parent dev=
-ice to
-> > > > > see if it is a drm_bridge.
-> > > >
-> > > > I've been thinking more about this. I think we should only have the
-> > > > 'mode-switch' property possible when the USB input pins (port@2) ar=
-e
-> > > > connected and the DPI input pins are connected (port@0). Probably y=
-ou
-> > > > don't have that case though?
-> > >
-> > > No we don't have the use case that uses the USB input pins on anx7625=
-.
-> > > >
-> > > > In your case, this device should register either one or two drm_bri=
-dges
-> > > > that connect to whatever downstream is actually muxing the 2 DP lan=
-es
-> > > > with the USB SS lanes onto the usb-c-connector.
-> > >
-> > > What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? I=
-n
-> > > our use case, the USB data lanes from both ports are connected to a
-> > > USB hub, but the DP lanes are muxed by the crosspoint switch on
-> > > anx7625. HPD and AUX for the external display are muxed by the EC. Yo=
-u
-> > > can find the diagram at
-> > > https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
-> >
-> > I mean that you must have some sort of orientation switch hardware that
-> > takes the 2 DP lanes and the 2 USB SuperSpeed "lanes" or "pairs" and
-> > puts them all onto a usb-c-connector. The usb-c-connector node can't be
-> > connected directly to the anx7625 in your diagram because there must be
-> > some sort of "flipper" that does the orientation control. Otherwise the
-> > usb-c-connector wouldn't work if the user flipped the cable. Probably
-> > this is some TCPC or redriver controlled by the EC.
-> >
-> > >
-> > > > If that is the EC for
-> > > > ChromeOS, then the EC should have a binding that accepts some numbe=
-r of
-> > > > input ports for DP. The EC would act as a drm_bridge, or in this ca=
-se
-> > > > probably two bridges, and also as two type-c switches for each
-> > > > drm_bridge corresponding to the usb-c-connector nodes. When DP is o=
-n the
-> > > > cable, the type-c switch/mux would signal to the drm_bridge that th=
-e
-> > > > display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
-> > > > drm_bridge_funcs::detect(). Then the drm_bridge in this anx part wo=
-uld
-> > > > implement struct drm_bridge_funcs::atomic_enable() and configure th=
-e
-> > > > crosspoint switch the right way depending on the reg property of th=
-e
-> > > > output node in port@1.
-> > >
-> > > So there will be two drm bridges that act as the downstreams for
-> > > anx7625, and we find the downstream with connector_status_connected t=
-o
-> > > configure the crosspoint switch? How do we support that kind of
-> > > topology given that the drm bridge chain is currently a list? Are you
-> > > suggesting making the bridge topology to a tree, or maintaining the
-> > > two downstreams inside the anx7625 driver and not attaching them to
-> > > the bridge chain?
-> >
-> > Good point. I'm suggesting to make the drm bridge chain into a tree. We
-> > need to teach drm_bridge core about a mux, and have some logic to
-> > navigate atomically switching from one output to another. I was talking
-> > with dianders@ and he was suggesting to use bridge attach/detach for
-> > this. I'm not sure that will work though because that hook is only
-> > called when the encoder is attached to the bridge.
-> >
-> > It may also turn out that this helps with DP multi-stream transport
-> > (MST). As far as I can recall DP MST doesn't mesh well with drm_bridge
-> > designs because it wants to operate on a drm_connector and
-> > drm_bridge_connector_init() wants to make only one drm_connector for a
-> > chain of bridges. If you squint, the anx7625 could be an MST "branch"
-> > that only supports one drm_connector being enabled at a time. Maybe tha=
-t
-> > is what we should do here, make drm_bridge support creating more than
-> > one drm_connector and when there is a mux in the tree it walks both
-> > sides and runs a callback similar to struct
-> > drm_dp_mst_topology_cbs::add_connector() to tell the encoder that
-> > there's another possible drm_connector here.
 >
-> I have been surveying the approaches to change the bridge chain in
-> runtime, and I found this thread[1]. Quoting from Daniel:
-> "... exchanging the bridge chain isn't supported, there's no locking
-> for that since it's assumed to be invariant over the lifetime of the
-> drm_device instance. The simplest way to make that happen right now is to
-> have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> with the hdmi bridge chain, and select the right encoder/bridge chain
-> depending upon which output userspace picks.
-> ...
-> I wouldn't try to make bridge chains exchangeable instead, that's
-> headaches - e.g. with dp mst we've also opted for a bunch of fake
-> drm_encoders to model that kind of switching."
+> Hi,
 >
-> I'm not sure how we register two encoders properly, though. Do we make
-> the encoder driver check all the downstream bridges and register two
-> drm_encoder when a bridge is acting as a mux?
+> On Fri, May 26, 2023 at 2:08=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> > call-back type"), all drivers being converted to .probe_new() and then
+> > 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") conve=
+rt
+> > back to (the new) .probe() to be able to eventually drop .probe_new() f=
+rom
+> > struct i2c_driver.
+> >
+> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> > Hello,
+> >
+> > I didn't get feedback for (implicit) v1 that was sent with Message-Id:
+> > <20230427175954.666464-1-u.kleine-koenig@pengutronix.de>. This is a
+> > rebase on v6.4-rc1 as the former patch doesn't apply cleanly any more.
+> >
+> > I also added more people to Cc, maybe that helps to get feedback.
+> >
+> > This patch is based on v6.4-rc1, and applies fine on today's next.
+> > (There are also no new drivers that need adaption in next.)
+> >
+> > Thanks for considering,
+> > Uwe
+> >
+> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             | 2 +-
+> >  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c       | 2 +-
+> >  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c       | 2 +-
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c                | 2 +-
+> >  drivers/gpu/drm/bridge/chipone-icn6211.c                 | 2 +-
+> >  drivers/gpu/drm/bridge/chrontel-ch7033.c                 | 2 +-
+> >  drivers/gpu/drm/bridge/cros-ec-anx7688.c                 | 2 +-
+> >  drivers/gpu/drm/bridge/ite-it6505.c                      | 2 +-
+> >  drivers/gpu/drm/bridge/ite-it66121.c                     | 2 +-
+> >  drivers/gpu/drm/bridge/lontium-lt8912b.c                 | 2 +-
+> >  drivers/gpu/drm/bridge/lontium-lt9211.c                  | 2 +-
+> >  drivers/gpu/drm/bridge/lontium-lt9611.c                  | 2 +-
+> >  drivers/gpu/drm/bridge/lontium-lt9611uxc.c               | 2 +-
+> >  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 4 ++--
+> >  drivers/gpu/drm/bridge/nxp-ptn3460.c                     | 2 +-
+> >  drivers/gpu/drm/bridge/parade-ps8622.c                   | 2 +-
+> >  drivers/gpu/drm/bridge/parade-ps8640.c                   | 2 +-
+> >  drivers/gpu/drm/bridge/sii902x.c                         | 2 +-
+> >  drivers/gpu/drm/bridge/sii9234.c                         | 2 +-
+> >  drivers/gpu/drm/bridge/sil-sii8620.c                     | 2 +-
+> >  drivers/gpu/drm/bridge/tc358767.c                        | 2 +-
+> >  drivers/gpu/drm/bridge/tc358768.c                        | 2 +-
+> >  drivers/gpu/drm/bridge/tc358775.c                        | 2 +-
+> >  drivers/gpu/drm/bridge/ti-dlpc3433.c                     | 2 +-
+> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c                    | 2 +-
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c                    | 2 +-
+> >  drivers/gpu/drm/bridge/ti-tfp410.c                       | 2 +-
+> >  drivers/gpu/drm/i2c/tda9950.c                            | 2 +-
+> >  drivers/gpu/drm/i2c/tda998x_drv.c                        | 2 +-
+> >  drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c       | 2 +-
+> >  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c    | 2 +-
+> >  drivers/gpu/drm/solomon/ssd130x-i2c.c                    | 2 +-
+> >  32 files changed, 33 insertions(+), 33 deletions(-)
 >
-> [1]: https://www.spinics.net/lists/dri-devel/msg340511.html
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 >
-> >
-> > >
-> > > Also, if we still register mode switches on the two downstream
-> > > bridges, why do you prefer that over the original approach that
-> > > register switches in the anx7625 driver?
-> >
-> > I prefer to not have a mode-switch property here for a couple reasons:
-> >
-> >  1. The binding is usb type-c specific, and in the case of the IT6505
-> >  part there is nothing that indicates this is a usb type-c piece of
-> >  hardware. The IT6505 is simply a display bridge. The anx7625 part
-> >  actually does accept usb signals though, but that isn't being used or
-> >  described here. That's where my disclaimer about mode-switch making
-> >  sense applies when the usb input is used.
-> >
-> >  2. Putting mode-switch into the graph endpoint nodes is awkward. It is
-> >  a device property, and graph nodes are not devices. Some patches in
-> >  this series have to work around this fact and special case the graph
-> >  walking logic to treat the graph itself as a place to look for the
-> >  property.
-> >
-> >  3. The mode-switch property probably isn't necessary at all. The DT
-> >  reviewers have been asking why it is needed. The EC driver that
-> >  registers the usb-c-connectors can be the mode-switch and the
-> >  orientation-switch. And in reality, it _is_ both. The DP signals and
-> >  the USB signals go to the TCPC/redriver that is controlled by the EC
-> >  and the EC is the device that's doing the mode switching to push DP an=
-d
-> >  USB through the TCPC/redriver out on the right pins of the
-> >  usb-c-connector.
+> This does apply to drm-misc-next and I'm happy to apply it there, but
+> I'm a bit iffy doing it on the Friday before a 3-day weekend (Monday
+> is a holiday in the US). If this is still pending next Tuesday and I'm
+> not swamped then, I'll plan to apply it. I'm more than happy if a
+> different drm commtter wants to apply it sooner. Thanks!
 
-I'm hoping that I'm replying to the right in-line comments.
+As promised, pushed to drm-misc-next:
 
-The design I have tried was able to switch the runtime display, where
-I initially booted the system with LVDS and once Linux comes up the
-console then I can connect HDMI Out cable so-that switch bridge will
-detect the HPD and Turn-Off LVDS and Turn-ON HDMI Display. If I unplug
-HDMI Out cable then the switch bridge detects the change of HPD and
-Turn-Off HDMI and Turn ON LVDS.
-
-The design uses a switching bridge that acts as another gpio-interrupt
-bridge that sits between the DSI controller and SN65DSI84/ADV7535
-bridges. From the switch bridge, the final bridge pipeline will attach
-during bridge ops attach call which is indeed uncommon with respect to
-some of the mainline drivers. If the switch bridge detects the changes
-in HPD then the handler will update kms and which indeed updates the
-bridge chain at run-time. So may be unconventional but I don't find
-any other solutions other than altering the bridge chain at run time.
-Incidentally, I see more switch bridges coming on this design in the
-market in order to produce more than one output.
-
-May be it is a worthy topic to discuss further.
-
-Thanks,
-Jagan.
+332af828ce78 drm: Switch i2c drivers back to use .probe()

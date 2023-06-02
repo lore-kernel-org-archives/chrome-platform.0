@@ -1,210 +1,486 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9356C17757;
-	Fri,  2 Jun 2023 09:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685698006; x=1717234006;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=qowyfX7jdwuUaNUAzZolNHUEjSoT2Kl8hA0ojSlQA6M=;
-  b=ksp+2NIQIX6nR2MdQyc9WbDjE7JYJiFD1AZHZigaC6BA7g1UhNkaITA0
-   tF05j+tGa9lvW459+6mWdSbv0JerjfIua+A1eROTSuKEkE/lCK9fRVk34
-   Ck28QxbMXqRb3fKXk4WM6KCf2fYlunHhSq5RF15VF8HYS79a8omZ8dTrk
-   SUUYlfkiDu5MmXC7H24376T76ZHrldftlVmlJpWgzC6bPzrTqESjakVJz
-   0+u4PkbUScCPyKXkMV6XqbI8jRq5L3RD+6AGZlv19uVcvxXK+xkwDl+a/
-   ShD2fLEgVrobbwNSwz3WM27qNS53rvaupjdIOSSZi5XdRZC1VqrXnA1ob
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="359128754"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="359128754"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 02:26:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="797534019"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="797534019"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2023 02:26:44 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 2 Jun 2023 02:26:44 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 2 Jun 2023 02:26:44 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 2 Jun 2023 02:26:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P488qVC5/Ri2p+4RCd4nn2Ao7TWBQRK4VgoReVdwrshgsQ4+H1qR5ML/8Bj225z3qj4UDH3SSS9CHytHdWcUTnNfSXeETNMLlkKPLJqnaFl+3AobarjA8uU2+hh77u2zSrzQInG8gfVTuQ7QrhWocyLX9Pt4+xXfFq/bBo33sxU7rsEe+Uzp0pVYZtkZGmw9G/l/n2AvEai7ez8ZeoEtO3FQA08QyadgY6WxkQ/kkNbCEeAHZcyOXC635lF8hzdl9wFRMDA0jsjelLVZxJqZkIbFm9zAGTvScO6gUYZMnMmbSjnDDgSBXHU5D2JLIJcwgAJqvgNWViWFNGuukUrlzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qowyfX7jdwuUaNUAzZolNHUEjSoT2Kl8hA0ojSlQA6M=;
- b=f2JVNOm0/nwqLWlA46G0NuVn3iE4JZ3NrBaoFLvXGre9rDjumximAFWMEHLu+f890/ipbA9aH8pC+yrqIwzKSMx6841DgFg14we6i0EC/MYGs/HsX+nBnthXy3AWaXIFTfGN1npiX3VUHz7ujW7BL0xXxJR77Yb3kngo8ddCzEjjiCRngDte5YiApbNKRJR43m8ZZf/eghjJpKPiDKsMOtbCfq/3oZLq4j5WT9RwcXBSyNYI+Hb4n8qZdoeXKpZ1C9Liy4xRiPW+RWWuocnJmtA+mc5qf9QENU6V+jXMvtOKuEBcLOKg/l0FYRaDdu+JJa5QK4FV9iDYbCgAVfBJEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5603.namprd11.prod.outlook.com (2603:10b6:5:35c::12)
- by BL1PR11MB5553.namprd11.prod.outlook.com (2603:10b6:208:31f::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.24; Fri, 2 Jun
- 2023 09:26:41 +0000
-Received: from CO6PR11MB5603.namprd11.prod.outlook.com
- ([fe80::4287:6d31:8c78:de92]) by CO6PR11MB5603.namprd11.prod.outlook.com
- ([fe80::4287:6d31:8c78:de92%6]) with mapi id 15.20.6455.024; Fri, 2 Jun 2023
- 09:26:41 +0000
-Message-ID: <cf385e99-de6d-b630-6ff5-94fb843feafb@intel.com>
-Date: Fri, 2 Jun 2023 11:26:28 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v4 35/35] acpi/bus: Remove notify callback and flags
-Content-Language: en-US
-To: <david.e.box@linux.intel.com>, <rafael@kernel.org>, <lenb@kernel.org>,
-	<dan.j.williams@intel.com>, <vishal.l.verma@intel.com>,
-	<dave.jiang@intel.com>, <ira.weiny@intel.com>, <rui.zhang@intel.com>,
-	<jdelvare@suse.com>, <linux@roeck-us.net>, <jic23@kernel.org>,
-	<lars@metafoo.de>, <bleung@chromium.org>, <yu.c.chen@intel.com>,
-	<hdegoede@redhat.com>, <markgross@kernel.org>, <luzmaximilian@gmail.com>,
-	<corentin.chary@gmail.com>, <jprvita@gmail.com>, <cascardo@holoscopio.com>,
-	<don@syst.com.br>, <pali@kernel.org>, <jwoithe@just42.net>,
-	<matan@svgalib.org>, <kenneth.t.chan@gmail.com>, <malattia@linux.it>,
-	<jeremy@system76.com>, <productdev@system76.com>, <herton@canonical.com>,
-	<coproscefalo@gmail.com>, <tytso@mit.edu>, <Jason@zx2c4.com>,
-	<robert.moore@intel.com>
-CC: <linux-acpi@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-hwmon@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<chrome-platform@lists.linux.dev>, <platform-driver-x86@vger.kernel.org>,
-	<acpi4asus-user@lists.sourceforge.net>,
-	<acpica-devel@lists.linuxfoundation.org>
-References: <20230601132137.301802-1-michal.wilczynski@intel.com>
- <b067f6990c7e6e58c487770126a804500ce8a54a.camel@linux.intel.com>
-From: "Wilczynski, Michal" <michal.wilczynski@intel.com>
-In-Reply-To: <b067f6990c7e6e58c487770126a804500ce8a54a.camel@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0143.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::16) To CO6PR11MB5603.namprd11.prod.outlook.com
- (2603:10b6:5:35c::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3A233319;
+	Fri,  2 Jun 2023 18:41:28 +0000 (UTC)
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 5.2.0)
+ id bc94c963ae8cb155; Fri, 2 Jun 2023 20:34:46 +0200
+Received: from kreacher.localnet (unknown [195.136.19.94])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by v370.home.net.pl (Postfix) with ESMTPSA id 5819C956FA8;
+	Fri,  2 Jun 2023 20:34:45 +0200 (CEST)
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: rafael@kernel.org, lenb@kernel.org, dan.j.williams@intel.com, vishal.l.verma@intel.com, dave.jiang@intel.com, ira.weiny@intel.com, rui.zhang@intel.com, jdelvare@suse.com, linux@roeck-us.net, jic23@kernel.org, lars@metafoo.de, bleung@chromium.org, yu.c.chen@intel.com, hdegoede@redhat.com, markgross@kernel.org, luzmaximilian@gmail.com, corentin.chary@gmail.com, jprvita@gmail.com, cascardo@holoscopio.com, don@syst.com.br, pali@kernel.org, jwoithe@just42.net, matan@svgalib.org, kenneth.t.chan@gmail.com, malattia@linux.it, jeremy@system76.com, productdev@system76.com, herton@canonical.com, coproscefalo@gmail.com, tytso@mit.edu, Jason@zx2c4.com, robert.moore@intel.com, Michal Wilczynski <michal.wilczynski@intel.com>
+Cc: linux-acpi@vger.kernel.org, nvdimm@lists.linux.dev, linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, acpi4asus-user@lists.sourceforge.net, Michal Wilczynski <michal.wilczynski@intel.com>, acpica-devel@lists.linuxfoundation.org
+Subject: Re: [PATCH v4 01/35] acpi: Adjust functions installing bus event handlers
+Date: Fri, 02 Jun 2023 20:34:45 +0200
+Message-ID: <4500594.LvFx2qVVIh@kreacher>
+In-Reply-To: <20230601131719.300720-1-michal.wilczynski@intel.com>
+References: <20230601131719.300720-1-michal.wilczynski@intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5603:EE_|BL1PR11MB5553:EE_
-X-MS-Office365-Filtering-Correlation-Id: af30c8c0-bcd7-469a-3b5f-08db634b7946
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wp6z6sPyFL11oU19itRS8eUNlW3iKaFmiXZEZyUZ4jyYYCKMcCSG5y7MTO7JKmSEQHrF0K0p3DwbYtwRpMPyY1R10Lr1n0tj3yl+IiTPa0DT7Z1sTujLYqJ82YcOSQCvikhr/FNhbNGyH6a1SxgcKYf/6fqU0ssQNGkwCKA7Z2I6b3jngfkCpxFDFdr/jfkQO0/jyierxbuLF7tB3VSbZKT//VUdZbPWScDkOcGLYmp9DMaaz1it+R6LL/ChNLCJfo8hkQcP/qfxntV4z5mH3bJ50e4OCcdVwQSrm2aiXB5VFcVyy+CY79p4C5Y2kKrweoTc08OLEVqrDglUlpe+trIjYAG7RRgQtyQkZkJpwHYF1PswY3hRQQ4U3u+Y+N9gPmdREwjjeLhUgqXrqI7mJj1y+vjxKK0HcjAuJm9zbuOHLgZio7xCvf0VJT3e1YCTtw/GB4jNSNrijVmpTqXUAaPy20+P/0peYZ/ru8hpPncahiayOXk73rhQ2KvHeBH0b0p6vpVyE/uB9UuX4r+nG3WIMZc6F8JzQmxIHB22i9e3+wUoF5y6OelG1J3CA9OoFfF07vkoDunlCW4Sp++pbYajwoGihTVoZVYRkTISEugCROd1fowT7dRPw+eEmJ2ztOy/tOAxUXydJe2QROp5eCGpgA6GXcIEzlaUUGF0spk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(39860400002)(366004)(396003)(136003)(451199021)(36756003)(2906002)(86362001)(31696002)(7416002)(7406005)(5660300002)(31686004)(83380400001)(6486002)(6666004)(186003)(53546011)(6506007)(26005)(6512007)(921005)(478600001)(66556008)(4326008)(2616005)(6636002)(82960400001)(316002)(66476007)(41300700001)(38100700002)(66946007)(8936002)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHVKb2djRVBSYi9YcWhHZVkrc3o0cjZQeE1aU2RNdnZobnZ2dlFuMjQzOHRp?=
- =?utf-8?B?TEJnT2tCTGIybVFRb2xlc2RsdnZpeGE2d1hNdVNEV29PMERobEprdmUwZ2RE?=
- =?utf-8?B?YkloQmtJU0Zmbnp3NGxFc0VRWXFydm8xbVNzd1hUeHR2ZklVOS90dXl2Q1VQ?=
- =?utf-8?B?L2F2WldweHMyWW5vTXQ2eGVHVU1oUGI0cjhVU0dJVThwcTZaVFlyZmIrWUY5?=
- =?utf-8?B?bmtNZTdlMWpWR1lMdXdkWXRacVpKR1pjbUppZzh6TVJmQ2k0SWJXZUFRV05G?=
- =?utf-8?B?VGx1MS9TSHYyVjB0c0VYQnlxTW1GNDROVnltV0R3T1d0TlFmTTRqRDVwZExi?=
- =?utf-8?B?YkthTFpCemtONFZSeklnYTBOZ0xaeEk0N0FOcEtVNXFxdkpKN3lGeU1hL0VO?=
- =?utf-8?B?MWg0UHRzVDNNV3lmZUNJNmt6R0Jza3gvZkJPaWczdktsMkNibmYvdDVXcVU3?=
- =?utf-8?B?Y2xFRzNEc1ZqK0tzbnd4Tkd2YUpwZnp0Q21aalBxU2dudmVNUUZ2MWFrM0Er?=
- =?utf-8?B?Y2ppdVBUaklab0ZEUjZPQUtqaVdxYlpzdVdnZGJ0WHRHOTZOeURaS0lGcWtN?=
- =?utf-8?B?c21Cek10N3JGdDNlZitSckp0UkZDZGdwNm80SGRNZDNzUWU5elRSTk5aWVlr?=
- =?utf-8?B?N3RiZ2c4b2RmalNnSDg2VDRkTzd1RlAyaGRSOEVIT0N0ekttSnE3N3U1aXhR?=
- =?utf-8?B?R1BseFNaeE1YSW1EdVNIMUpPZ09SM2RtL0JLZnhSUWduZ1YybzhuWExNcDNH?=
- =?utf-8?B?NkFjV25ESEliaVZMUVBVMDBKYmRoRmtmK3RpaEQzZVpsUjRPK3AyZ1BrZ0Vs?=
- =?utf-8?B?Z3ljZXNudmlvSUJmMnNXeW92MDZpZ09jMzdXaUFVYlFLbDhUSWUwTitCOVZ3?=
- =?utf-8?B?c1BtTnlpQUUvNVNENVdRSnExVWxNMW9WSVh0QWVzNVRKZGhUKzRNWUQrTmdu?=
- =?utf-8?B?M2tGK282NlU1V2FoNVZiV21HcmFtTjhOWlpJdnl4WmNObkxWeG1CYjV1MERr?=
- =?utf-8?B?eXVMSUl2dDE0ZXpZWDdiOGdkbGFIam8vZWpxTGpUeDlxWHlSQmtnUC9nTTkx?=
- =?utf-8?B?S0VjUlNyNHNCNmlNQ0tGbVZuNDgzMTZGVnVjVEhIMGR3ZmYrYWc5ckdWcDd0?=
- =?utf-8?B?MnZaVEtCNmlpUUNRdTFFcWlsTGQwdDkvak1RdHBsZkZXdEpWYnk5bzVKN3hi?=
- =?utf-8?B?SlJObks5bXBWVko2d0Nwb2ovbVhYQ3g4NlZDRjAxdHJnL2xjb1JuU3NtR2Ru?=
- =?utf-8?B?YVRjZHVXMDFmMlNzNnVWK3lQN1QzRFI0VTU2SkpRbyt5RklvVWFOUDJoaytm?=
- =?utf-8?B?OTdtdEVIN1dqNzBkOHVUT1FZYkRXVlVxRlFBdHY3ZE14cXR4MHpPZXJidlEr?=
- =?utf-8?B?NDh4blMreTAyNU5KQWpBRFgvU1dLbFR0TXRuQU9NYWcwWHlxS2JVQWpnWjhx?=
- =?utf-8?B?SEwyKzNPSWlEUUZyQUl5ZkJsUm4wenVoQ2Y5bUNwaUw0MmozTXBWdG9URSt3?=
- =?utf-8?B?VGMzUGVvUld2bDBUSUlWYm9qaCtmRVYyTDlZNEJzVXczMi9KTDlvOWQyeFpY?=
- =?utf-8?B?R20yL1RmQkE0dWIxRDhaUzZ3QWIzcFlBU1ZXK2ZkaG5uUXZXSjFIa0FwZDZQ?=
- =?utf-8?B?bmZicGJzbkdNZ2t5RUFNaFg5QWlyWWV1czIyZFdadzNyT3hqaHNaamRnNWpl?=
- =?utf-8?B?UThSaUIzZDQ4b1BybWJnbFdJeWN5emZkSHNnWDRnY2JGQS9nMFlNOEdxZzFD?=
- =?utf-8?B?NHVQdk5ONWtVVVU3Rlh5UTdHdUw2RExQaFVmY3BOKzlYQm5MaCtKbU5BOU1i?=
- =?utf-8?B?UVlmVTNyMnR5U2M4US8zVC8rNGxvS0Z3czdqK1E4V3I0WFI4VnFkdGQ3Qmx4?=
- =?utf-8?B?V1BxZGpjMDdUVG4zcW02RC9OMm84WWdtR3Q1Ymx5NlQzaytRUFQ1RWRCaER4?=
- =?utf-8?B?ZXBKQkYrV21aUmprMExKYWQyVlIycWRkMnZySFZRVXphMzc4YWFLb2tMZld0?=
- =?utf-8?B?bGdzK3Z4S1R3cXcydU11M3h2cis5WDhpMGFKZUI1RENLU2RSOWZoc2Z6Q1BW?=
- =?utf-8?B?QnNYcmt0MCt4SUhId0ZzUXcyZ083Mys1QVQweGhzOVkzUXVxYVc3S3FWbDlz?=
- =?utf-8?B?elI0YnhLcHgzb2V0K2N6U0dDMXA2WlBTMVRNT0ttM1pjN2RpSkhkWjZIUDJk?=
- =?utf-8?B?c1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: af30c8c0-bcd7-469a-3b5f-08db634b7946
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2023 09:26:41.5690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qvDxgpm7dRkscfocXBjl25EulyAN5elILdXK3jJAqN3U/jB2zkgfoEuwhwcbonCACwUpzRbjm45K3iucqbo8PokxVHgWww4UJIVFuWpjPr0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5553
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 195.136.19.94
+X-CLIENT-HOSTNAME: 195.136.19.94
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeelfedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepudelhedrudefiedrudelrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduleehrddufeeirdduledrleegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvnhgssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnrdhjrdifihhllhhirghmshesihhnthgvlhdrtghomhdprhgtphhtthhopehvihhshhgrlhdrlhdrvhgvrhhmrgesihhnthgvlhdrtghomhdprhgtphhtthhopegurghvvgdrjhhirghnghesihhnthgvlhdr
+ tghomhdprhgtphhtthhopehirhgrrdifvghinhihsehinhhtvghlrdgtohhm
+X-DCC--Metrics: v370.home.net.pl 1024; Body=42 Fuz1=42 Fuz2=42
+
+On Thursday, June 1, 2023 3:17:19 PM CEST Michal Wilczynski wrote:
+> Currently acpi_device_install_notify_handler() and
+> acpi_device_remove_notify_handler() always install acpi_notify_device()
+> as a function handler, and only then the real .notify callback gets
+> called. This is not efficient and doesn't provide any real advantage.
+> 
+> Introduce new acpi_device_install_event_handler() and
+> acpi_device_remove_event_handler(). Those functions are replacing old
+> installers, and after all drivers switch to the new model, old installers
+> will be removed at the end of the patchset.
+> 
+> Make new installer/removal function arguments to take function pointer as
+> an argument instead of using .notify callback. Introduce new variable in
+> struct acpi_device, as fixed events still needs to be handled by an
+> intermediary that would schedule them for later execution. This is due to
+> fixed hardware event handlers being executed in interrupt context.
+> 
+> Make acpi_device_install_event_handler() and
+> acpi_device_remove_event_handler() non-static, and export symbols. This
+> will allow the drivers to call them directly, instead of relying on
+> .notify callback.
+> 
+> Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
+> ---
+>  drivers/acpi/bus.c      | 59 ++++++++++++++++++++++++++++++++++++++++-
+>  include/acpi/acpi_bus.h |  7 +++++
+>  2 files changed, 65 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> index d161ff707de4..cf2c2bfe29a0 100644
+> --- a/drivers/acpi/bus.c
+> +++ b/drivers/acpi/bus.c
+> @@ -535,7 +535,7 @@ static void acpi_notify_device_fixed(void *data)
+>  	struct acpi_device *device = data;
+>  
+>  	/* Fixed hardware devices have no handles */
+> -	acpi_notify_device(NULL, ACPI_FIXED_HARDWARE_EVENT, device);
+> +	device->fixed_event_notify(NULL, ACPI_FIXED_HARDWARE_EVENT, device);
+>  }
+>  
+>  static u32 acpi_device_fixed_event(void *data)
+> @@ -550,11 +550,13 @@ static int acpi_device_install_notify_handler(struct acpi_device *device,
+>  	acpi_status status;
+>  
+>  	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+> +		device->fixed_event_notify = acpi_notify_device;
+>  		status =
+>  		    acpi_install_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+>  						     acpi_device_fixed_event,
+>  						     device);
+>  	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+> +		device->fixed_event_notify = acpi_notify_device;
+>  		status =
+>  		    acpi_install_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+>  						     acpi_device_fixed_event,
+> @@ -579,9 +581,11 @@ static void acpi_device_remove_notify_handler(struct acpi_device *device,
+>  	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+>  		acpi_remove_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+>  						acpi_device_fixed_event);
+> +		device->fixed_event_notify = NULL;
+>  	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+>  		acpi_remove_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+>  						acpi_device_fixed_event);
+> +		device->fixed_event_notify = NULL;
+>  	} else {
+>  		u32 type = acpi_drv->flags & ACPI_DRIVER_ALL_NOTIFY_EVENTS ?
+>  				ACPI_ALL_NOTIFY : ACPI_DEVICE_NOTIFY;
+> @@ -592,6 +596,59 @@ static void acpi_device_remove_notify_handler(struct acpi_device *device,
+>  	acpi_os_wait_events_complete();
+>  }
+>  
+> +int acpi_device_install_event_handler(struct acpi_device *device,
+> +				      u32 type,
+> +				      void (*notify)(acpi_handle, u32, void*))
+> +{
+> +	acpi_status status;
+> +
+> +	if (!notify)
+> +		return -EINVAL;
+> +
+> +	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+> +		device->fixed_event_notify = notify;
+> +		status =
+> +		    acpi_install_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+> +						     acpi_device_fixed_event,
+> +						     device);
+> +	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+> +		device->fixed_event_notify = notify;
+> +		status =
+> +		    acpi_install_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+> +						     acpi_device_fixed_event,
+> +						     device);
+> +	} else {
+> +		status = acpi_install_notify_handler(device->handle, type,
+> +						     notify,
+> +						     device);
+> +	}
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -EINVAL;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(acpi_device_install_event_handler);
+> +
+> +void acpi_device_remove_event_handler(struct acpi_device *device,
+> +				      u32 type,
+> +				      void (*notify)(acpi_handle, u32, void*))
+> +{
+> +	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+> +		acpi_remove_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+> +						acpi_device_fixed_event);
+> +		device->fixed_event_notify = NULL;
+> +	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+> +		acpi_remove_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+> +						acpi_device_fixed_event);
+> +		device->fixed_event_notify = NULL;
+> +	} else {
+> +		acpi_remove_notify_handler(device->handle, type,
+> +					   notify);
+> +	}
+> +	acpi_os_wait_events_complete();
+> +}
+> +EXPORT_SYMBOL(acpi_device_remove_event_handler);
+> +
+>  /* Handle events targeting \_SB device (at present only graceful shutdown) */
+>  
+>  #define ACPI_SB_NOTIFY_SHUTDOWN_REQUEST 0x81
+> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> index a6affc0550b0..7fb411438b6f 100644
+> --- a/include/acpi/acpi_bus.h
+> +++ b/include/acpi/acpi_bus.h
+> @@ -387,6 +387,7 @@ struct acpi_device {
+>  	struct list_head physical_node_list;
+>  	struct mutex physical_node_lock;
+>  	void (*remove)(struct acpi_device *);
+> +	void (*fixed_event_notify)(acpi_handle handle, u32 type, void *data);
+
+This is a rather confusing change, because ->remove() above is not a driver
+callback, whereas the new one would be.
+
+Moreover, it is rather wasteful, because the only devices needing it are
+buttons, so for all of the other ACPI device objects the new callback pointer
+would always be NULL.
+
+Finally, it is not necessary even.
+
+The key observation here is that there are only 2 drivers handling power and
+sleep buttons that use ACPI fixed events: the ACPI button driver (button.c in
+drivers/acpi) and the "tiny power button" driver (tiny-power-button.c in
+drivers/acpi).  All of the other drivers don't need the "fixed event notify"
+thing and these two can be modified to take care of all of it by themselves.
+
+So if something like the below is done prior to the rest of your series, the
+rest will be about acpi_install/remove_notify_handler() only and you won't
+even need the wrapper routines any more: driver may just be switched over
+to using the ACPICA functions directly.
+
+[This patch is untested and is really 3 patches in one, but since I've cut it
+already, I'll send it properly next week after some button driver testing.]
+
+---
+ drivers/acpi/bus.c               |   53 +++++-----------------------------
+ drivers/acpi/button.c            |   60 +++++++++++++++++++++++++++++++++------
+ drivers/acpi/tiny-power-button.c |   49 ++++++++++++++++++++++++++-----
+ 3 files changed, 101 insertions(+), 61 deletions(-)
+
+Index: linux-pm/drivers/acpi/tiny-power-button.c
+===================================================================
+--- linux-pm.orig/drivers/acpi/tiny-power-button.c
++++ linux-pm/drivers/acpi/tiny-power-button.c
+@@ -19,18 +19,52 @@ static const struct acpi_device_id tiny_
+ };
+ MODULE_DEVICE_TABLE(acpi, tiny_power_button_device_ids);
+ 
+-static int acpi_noop_add(struct acpi_device *device)
++static void acpi_tiny_power_button_notify(acpi_handle handle, u32 event, void *data)
+ {
+-	return 0;
++	kill_cad_pid(power_signal, 1);
+ }
+ 
+-static void acpi_noop_remove(struct acpi_device *device)
++static void acpi_tiny_power_button_notify_run(void *not_used)
+ {
++	acpi_tiny_power_button_notify(NULL, ACPI_FIXED_HARDWARE_EVENT, NULL);
+ }
+ 
+-static void acpi_tiny_power_button_notify(struct acpi_device *device, u32 event)
++static u32 acpi_tiny_power_button_event(void *not_used)
+ {
+-	kill_cad_pid(power_signal, 1);
++	acpi_os_execute(OSL_NOTIFY_HANDLER, acpi_tiny_power_button_notify_run, NULL);
++	return ACPI_INTERRUPT_HANDLED;
++}
++
++static int acpi_tiny_power_button_add(struct acpi_device *device)
++{
++	acpi_status status;
++
++	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
++		status = acpi_install_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
++							  acpi_tiny_power_button_event,
++							  NULL);
++	} else {
++		status = acpi_install_notify_handler(device->handle,
++						     ACPI_DEVICE_NOTIFY,
++						     acpi_tiny_power_button_notify,
++						     NULL);
++	}
++	if (ACPI_FAILURE(status))
++		return -ENODEV;
++
++	return 0;
++}
++
++static void acpi_tiny_power_button_remove(struct acpi_device *device)
++{
++	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
++		acpi_remove_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
++						acpi_tiny_power_button_event);
++	} else {
++		acpi_remove_notify_handler(device->handle, ACPI_DEVICE_NOTIFY,
++					   acpi_tiny_power_button_notify);
++	}
++	acpi_os_wait_events_complete();
+ }
+ 
+ static struct acpi_driver acpi_tiny_power_button_driver = {
+@@ -38,9 +72,8 @@ static struct acpi_driver acpi_tiny_powe
+ 	.class = "tiny-power-button",
+ 	.ids = tiny_power_button_device_ids,
+ 	.ops = {
+-		.add = acpi_noop_add,
+-		.remove = acpi_noop_remove,
+-		.notify = acpi_tiny_power_button_notify,
++		.add = acpi_tiny_power_button_add,
++		.remove = acpi_tiny_power_button_remove,
+ 	},
+ };
+ 
+Index: linux-pm/drivers/acpi/button.c
+===================================================================
+--- linux-pm.orig/drivers/acpi/button.c
++++ linux-pm/drivers/acpi/button.c
+@@ -135,7 +135,6 @@ static const struct dmi_system_id dmi_li
+ 
+ static int acpi_button_add(struct acpi_device *device);
+ static void acpi_button_remove(struct acpi_device *device);
+-static void acpi_button_notify(struct acpi_device *device, u32 event);
+ 
+ #ifdef CONFIG_PM_SLEEP
+ static int acpi_button_suspend(struct device *dev);
+@@ -153,7 +152,6 @@ static struct acpi_driver acpi_button_dr
+ 	.ops = {
+ 		.add = acpi_button_add,
+ 		.remove = acpi_button_remove,
+-		.notify = acpi_button_notify,
+ 	},
+ 	.drv.pm = &acpi_button_pm,
+ };
+@@ -409,15 +407,13 @@ static void acpi_lid_initialize_state(st
+ 	button->lid_state_initialized = true;
+ }
+ 
+-static void acpi_button_notify(struct acpi_device *device, u32 event)
++static void acpi_button_notify(acpi_handle handle, u32 event, void *data)
+ {
++	struct acpi_device *device = data;
+ 	struct acpi_button *button = acpi_driver_data(device);
+ 	struct input_dev *input;
+ 
+ 	switch (event) {
+-	case ACPI_FIXED_HARDWARE_EVENT:
+-		event = ACPI_BUTTON_NOTIFY_STATUS;
+-		fallthrough;
+ 	case ACPI_BUTTON_NOTIFY_STATUS:
+ 		input = button->input;
+ 		if (button->type == ACPI_BUTTON_TYPE_LID) {
+@@ -450,6 +446,17 @@ static void acpi_button_notify(struct ac
+ 	}
+ }
+ 
++static void acpi_button_notify_run(void *data)
++{
++	acpi_button_notify(NULL, ACPI_BUTTON_NOTIFY_STATUS, data);
++}
++
++static u32 acpi_button_event(void *data)
++{
++	acpi_os_execute(OSL_NOTIFY_HANDLER, acpi_button_notify_run, data);
++	return ACPI_INTERRUPT_HANDLED;
++}
++
+ #ifdef CONFIG_PM_SLEEP
+ static int acpi_button_suspend(struct device *dev)
+ {
+@@ -492,6 +499,7 @@ static int acpi_button_add(struct acpi_d
+ 	struct acpi_button *button;
+ 	struct input_dev *input;
+ 	const char *hid = acpi_device_hid(device);
++	acpi_status status;
+ 	char *name, *class;
+ 	int error;
+ 
+@@ -568,6 +576,26 @@ static int acpi_button_add(struct acpi_d
+ 	error = input_register_device(input);
+ 	if (error)
+ 		goto err_remove_fs;
++
++	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
++		status = acpi_install_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
++							  acpi_button_event,
++							  device);
++	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
++		status = acpi_install_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
++							  acpi_button_event,
++							  device);
++	} else {
++		status = acpi_install_notify_handler(device->handle,
++						     ACPI_DEVICE_NOTIFY,
++						     acpi_button_notify,
++						     device);
++	}
++	if (ACPI_FAILURE(status)) {
++		error = -ENODEV;
++		goto err_input_unregister;
++	}
++
+ 	if (button->type == ACPI_BUTTON_TYPE_LID) {
+ 		/*
+ 		 * This assumes there's only one lid device, or if there are
+@@ -580,11 +608,13 @@ static int acpi_button_add(struct acpi_d
+ 	pr_info("%s [%s]\n", name, acpi_device_bid(device));
+ 	return 0;
+ 
+- err_remove_fs:
++err_input_unregister:
++	input_unregister_device(input);
++err_remove_fs:
+ 	acpi_button_remove_fs(device);
+- err_free_input:
++err_free_input:
+ 	input_free_device(input);
+- err_free_button:
++err_free_button:
+ 	kfree(button);
+ 	return error;
+ }
+@@ -593,6 +623,18 @@ static void acpi_button_remove(struct ac
+ {
+ 	struct acpi_button *button = acpi_driver_data(device);
+ 
++	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
++		acpi_remove_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
++						acpi_button_event);
++	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
++		acpi_remove_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
++						acpi_button_event);
++	} else {
++		acpi_remove_notify_handler(device->handle, ACPI_DEVICE_NOTIFY,
++					   acpi_button_notify);
++	}
++	acpi_os_wait_events_complete();
++
+ 	acpi_button_remove_fs(device);
+ 	input_unregister_device(button->input);
+ 	kfree(button);
+Index: linux-pm/drivers/acpi/bus.c
+===================================================================
+--- linux-pm.orig/drivers/acpi/bus.c
++++ linux-pm/drivers/acpi/bus.c
+@@ -530,65 +530,30 @@ static void acpi_notify_device(acpi_hand
+ 	acpi_drv->ops.notify(device, event);
+ }
+ 
+-static void acpi_notify_device_fixed(void *data)
+-{
+-	struct acpi_device *device = data;
+-
+-	/* Fixed hardware devices have no handles */
+-	acpi_notify_device(NULL, ACPI_FIXED_HARDWARE_EVENT, device);
+-}
+-
+-static u32 acpi_device_fixed_event(void *data)
+-{
+-	acpi_os_execute(OSL_NOTIFY_HANDLER, acpi_notify_device_fixed, data);
+-	return ACPI_INTERRUPT_HANDLED;
+-}
+-
+ static int acpi_device_install_notify_handler(struct acpi_device *device,
+ 					      struct acpi_driver *acpi_drv)
+ {
+-	acpi_status status;
+-
+-	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+-		status =
+-		    acpi_install_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+-						     acpi_device_fixed_event,
+-						     device);
+-	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+-		status =
+-		    acpi_install_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+-						     acpi_device_fixed_event,
+-						     device);
+-	} else {
+-		u32 type = acpi_drv->flags & ACPI_DRIVER_ALL_NOTIFY_EVENTS ?
++	u32 type = acpi_drv->flags & ACPI_DRIVER_ALL_NOTIFY_EVENTS ?
+ 				ACPI_ALL_NOTIFY : ACPI_DEVICE_NOTIFY;
++	acpi_status status;
+ 
+-		status = acpi_install_notify_handler(device->handle, type,
+-						     acpi_notify_device,
+-						     device);
+-	}
+-
++	status = acpi_install_notify_handler(device->handle, type,
++					     acpi_notify_device, device);
+ 	if (ACPI_FAILURE(status))
+ 		return -EINVAL;
++
+ 	return 0;
+ }
+ 
+ static void acpi_device_remove_notify_handler(struct acpi_device *device,
+ 					      struct acpi_driver *acpi_drv)
+ {
+-	if (device->device_type == ACPI_BUS_TYPE_POWER_BUTTON) {
+-		acpi_remove_fixed_event_handler(ACPI_EVENT_POWER_BUTTON,
+-						acpi_device_fixed_event);
+-	} else if (device->device_type == ACPI_BUS_TYPE_SLEEP_BUTTON) {
+-		acpi_remove_fixed_event_handler(ACPI_EVENT_SLEEP_BUTTON,
+-						acpi_device_fixed_event);
+-	} else {
+-		u32 type = acpi_drv->flags & ACPI_DRIVER_ALL_NOTIFY_EVENTS ?
++	u32 type = acpi_drv->flags & ACPI_DRIVER_ALL_NOTIFY_EVENTS ?
+ 				ACPI_ALL_NOTIFY : ACPI_DEVICE_NOTIFY;
+ 
+-		acpi_remove_notify_handler(device->handle, type,
+-					   acpi_notify_device);
+-	}
++	acpi_remove_notify_handler(device->handle, type,
++				   acpi_notify_device);
++
+ 	acpi_os_wait_events_complete();
+ }
+ 
 
 
-
-On 6/2/2023 3:08 AM, David E. Box wrote:
-> Hi Michal,
->
-> On Thu, 2023-06-01 at 15:21 +0200, Michal Wilczynski wrote:
->> As callback has been replaced by drivers installing their handlers in
->> .add it's presence is not useful anymore.
->>
->> Remove .notify callback and flags variable from struct acpi_driver,
->> as they're not needed anymore.
->>
->> Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
->> ---
->>  include/acpi/acpi_bus.h | 3 ---
->>  1 file changed, 3 deletions(-)
->>
->> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
->> index 7fb411438b6f..3326794d5b70 100644
->> --- a/include/acpi/acpi_bus.h
->> +++ b/include/acpi/acpi_bus.h
->> @@ -151,12 +151,10 @@ struct acpi_hotplug_context {
->>  
->>  typedef int (*acpi_op_add) (struct acpi_device * device);
->>  typedef void (*acpi_op_remove) (struct acpi_device *device);
->> -typedef void (*acpi_op_notify) (struct acpi_device * device, u32 event);
->>  
->>  struct acpi_device_ops {
->>         acpi_op_add add;
->>         acpi_op_remove remove;
->> -       acpi_op_notify notify;
->>  };
->>  
->>  #define ACPI_DRIVER_ALL_NOTIFY_EVENTS  0x1     /* system AND device events */
->> @@ -165,7 +163,6 @@ struct acpi_driver {
->>         char name[80];
->>         char class[80];
->>         const struct acpi_device_id *ids; /* Supported Hardware IDs */
->> -       unsigned int flags;
-> Can ACPI_DRIVER_ALL_NOTIFY_EVENTS be removed as well?
-
-Hi David,
-Oh yeah, it should be removed as well,
-
-Thanks !
-
->
->>         struct acpi_device_ops ops;
->>         struct device_driver drv;
->>         struct module *owner;
 

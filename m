@@ -1,119 +1,114 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85C7111F
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jun 2023 10:33:57 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 714775C021E;
-	Tue, 20 Jun 2023 06:33:56 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Tue, 20 Jun 2023 06:33:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=readahead.eu; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1687257236; x=1687343636; bh=zO
-	XYcZVf+5yuT50hS9bfHkI45EXhEZoIuSJ0xb9Z+m4=; b=cp0B0JGs/o3drJT1KO
-	BDN+Ze2R4ya3/jdcVlP9s7DfF+Z2edOIlOxJ6WkR77U9/9rtQPPu7qRZ3yvJbH7m
-	XlNGXK8a9W9PHgSzUFABmjVjj1Xj8FQjM4/cvYLy/Gvoz9pXqo8ffOBogCM4F5GY
-	GFDHrt1dbxE2HTVPVtLQcGWmw1NE+KKJ1bh0jq2Um55cGy11oq+LEYC4isLA4i0/
-	SxINll5FIQgAAJYOfvuBXPOpVuQecgzd9iNVcNgXk/zyCAH5MPjl3E4MAo8CHtPS
-	zQSyjEPk3P5yseIRKXKKpZrxk4HQq79IjwID9pK1gnkm4BzMhZjK8U6CXlVer96t
-	bj2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1687257236; x=1687343636; bh=zOXYcZVf+5yuT
-	50hS9bfHkI45EXhEZoIuSJ0xb9Z+m4=; b=h054wRZTkTbXTGuGQmEmFTUVuGqCU
-	2rqqy1xu1IJZhS5ZDy79vkJVC+LNpwD2lY4lrBq1xZjwgIECD24jVydN6E+/szHR
-	tUgiyspQiDAYF0WxWOhvRNmd90X3738wNxlXEa1QtPd54hlouxINk7cZRgGHSdyC
-	jHujodJ4aHj14mPOE/94BlHJlrf7WafQvu4JU9Q1IFi6FVyZlFy0tGaiy8x5MsS4
-	dKs8/hwRFQj07B371j96nnlt4F4HkKlUzYHLJuxfKfdgpTUHQhw7PVx4vzu/4qQR
-	soHd9uzbXj/WvmNoTOdGJvPQ3QEPeF/R20oFgKAZz7+FhoPc7OzSuoFdQ==
-X-ME-Sender: <xms:lICRZG7LJiZVEg5Zz_o0UpqhozoY94whoTQ-RdsWVxc9uKlCdm424g>
-    <xme:lICRZP6Np07i6mcdXdDRo9oO7Q23UFYC6eGSdjqtdKc26pImRTybmHYgLArFv93Rs
-    hr7KteNPBWoNA1AHRY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefhedgvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfffgr
-    vhhiugcutfhhvghinhhssggvrhhgfdcuoegurghvihgusehrvggruggrhhgvrggurdgvuh
-    eqnecuggftrfgrthhtvghrnhepfeelgeeuheeihfeuleefleehtdektdeihffguddvheef
-    iefhveelhedvvdfhueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepuggrvhhiugesrhgvrggurghhvggrugdrvghu
-X-ME-Proxy: <xmx:lICRZFcBcijURljXRdRVka6bT1L73Yl3jA7umrKt39-7svN3ARmeuw>
-    <xmx:lICRZDIo1pgLg32Qkff_9QmLon9uE9YYZzw3vCuWNmjqoS5V3Tp4gg>
-    <xmx:lICRZKLNpyH3RK6Cr5iIJecx4b_QCpXSieaHHiF4a6pCpxnKouW_Yg>
-    <xmx:lICRZMhHI68fJU8JEtaPciJg24EHmy_BwGlqakYpgOQbrpi2tHEKnA>
-Feedback-ID: id2994666:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 10D331700096; Tue, 20 Jun 2023 06:33:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-496-g8c46984af0-fm-20230615.001-g8c46984a
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3F815BE
+	for <chrome-platform@lists.linux.dev>; Wed, 21 Jun 2023 03:25:34 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5728df0a7d9so44501137b3.1
+        for <chrome-platform@lists.linux.dev>; Tue, 20 Jun 2023 20:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=howett-net.20221208.gappssmtp.com; s=20221208; t=1687317933; x=1689909933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K3Zs6MLRUmQ4jLIZW4S3+UmqZ8y5JLZT1L1tiX/RTEQ=;
+        b=NB/uP8u674Ot6ycCfDCPK9/J64D4gxn9mebVPqI9c+jImJ7keghhIeo/PEnwN4UFBi
+         nJUPJ04y/zI90fUX0RZmoOHQ+0YYoG9smNBRJna6sjub1zeNwYKf+LP2EuHgEI3Empse
+         UZCRd1QjE1kBoqQGddRrRnYpSO+KpEPXLJ90X8KDGEtmm6XDdVHHHNd8EYBZY+XUjjiA
+         KlHfkMTQmv8K84IenZXGebC0TYGuFv3D5xHJF5/8XIGCj+bK29XSo3irkHjsFFMLwggd
+         IUyHecB61agc1TAR6XaY9UpN3fvviOLeecAzLx05L53TdyuHtXue8tr7Jogyy6TJMRZG
+         US3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687317933; x=1689909933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K3Zs6MLRUmQ4jLIZW4S3+UmqZ8y5JLZT1L1tiX/RTEQ=;
+        b=UfrxdxReEA1HAYHbj1q801+bcikfa55Do0u1vI9EkEou28iSdx8RuAq5pQu3KNcqQI
+         rNZjeHZjITa1D8c1NSpVElLTLJu7SlXXvy1iPMj64F4fqqFxq4tloZYqM8g+UJzwk2p/
+         xjJM9LeQQzPnh520oVTLO399YlTv2x0OvHUPNZaypZUo5hawWQ/nl1M8imzWAll/ANU0
+         85gLWvWbTNDBOBCPKYHLWPnWJruP59F83i60oeii9xXQ+w54A3P23Zhc/4TJYGxcoa5j
+         9rQxiI307Bhm/bDsmdIAf29euXzBoh/H1Gg7HOxEAmN0bwEcR0otSVtfXuLx3jyaSPdo
+         wepg==
+X-Gm-Message-State: AC+VfDyTOW5de2+syX7a0PPAT5eq6m2x49fbXdiBr1Noow81rC1IB6tf
+	rjhi2sM0492F/QwBQcRkMhcnG9XVOnca1llI4OC0mw==
+X-Google-Smtp-Source: ACHHUZ6KEk3Ic0iY4FOoRYOSG67XmpTcFakS69QDsGJRYKtzpfs3d2GptSOJhsc0CRU/5CTpJn4LcUUNr9P21v+BVAU=
+X-Received: by 2002:a0d:ea91:0:b0:56c:fce5:ac38 with SMTP id
+ t139-20020a0dea91000000b0056cfce5ac38mr15316010ywe.14.1687317933490; Tue, 20
+ Jun 2023 20:25:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <cf191201-b6b9-4ded-8d32-c77f3d27e38d@app.fastmail.com>
-In-Reply-To: <ZJF3EocB7DX/ULxT@google.com>
+MIME-Version: 1.0
 References: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
- <ZJF3EocB7DX/ULxT@google.com>
-Date: Tue, 20 Jun 2023 12:33:35 +0200
-From: "David Rheinsberg" <david@readahead.eu>
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, "Benson Leung" <bleung@chromium.org>,
- "Guenter Roeck" <groeck@chromium.org>
+In-Reply-To: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
+From: Dustin Howett <dustin@howett.net>
+Date: Tue, 20 Jun 2023 22:25:22 -0500
+Message-ID: <CA+BfgNKDXBfU_d46geMvOHsidASHvLWoCHkC+9Bu-ay-Tr+Dwg@mail.gmail.com>
 Subject: Re: cros_ec_lpcs on framework: packet too long (4 bytes, expected 0)
-Content-Type: text/plain
+To: David Rheinsberg <david@readahead.eu>
+Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi David,
+I've been investigating this exact phenomenon with the team over at Framewo=
+rk
+Computer!
 
-On Tue, Jun 20, 2023, at 11:53 AM, Tzung-Bi Shih wrote:
-> On Tue, Jun 20, 2023 at 10:12:34AM +0200, David Rheinsberg wrote:
->> Using the cros-ec over lpc device on the Framework-13, I occasionally get:
->> 
->>     cros_ec_lpcs cros_ec_lpcs.0: packet too long (4 bytes, expected 0)
->> 
->> Afterwards, the entire EC seems to be inactive and none of its controllers work, anymore (temperature sensors are stale, keyboard defunct, etc.). A reboot fixes the issues.
->
-> To be clear, does an AP reboot fix the issue?  Or does it need an EC reboot?
-> Will it trigger some watchdog mechanisms and thus a reboot after waiting for
-> a specific duration (e.g. 30 seconds)?
+I can't comment on the EC ceasing to function (as I've only observed gentle=
+r
+failure states[^1] on the 11th and 12th generation Intel Core 13" laptop), =
+but
+that is an interesting outcome. What system and EC firmware versions are yo=
+u
+using on that device?
 
-A linux system reboot fixed the issue. I did *NOT* perform a cold-boot or explicitly rebooted the EC. If the EC is not automatically rebooted with the AP, then no EC-reboot was necessary to fix the issue.
+On those devices, it occurs because exchanges from cros_ec_lpcs collide on =
+the
+bus with exchanges initiated by ACPI. There is a trivial locking mechanism =
+used
+by the ACPI control methods for EC communication, but it cannot be shared w=
+ith
+the host OS.
 
-No watchdog mechanism was triggered. Logs show I waited for 30min.
+Excerpting a post of mine[^2] on the Framework Community Forum:
 
->> I cannot trigger this issue reliably, yet it seems to happen exclusively under heavy load. Do you have any recommendations how to debug this further?
->> 
->> I failed tracing where the error happens and why any further functionality of the EC is disabled thereafter. Does the driver end communication on an error? Or is this likely a firmware issue and just indicative of the firmware failing?
->> 
->> If you have any recommendations how to enabled the cros-tracing/debug features, I'd gladly run a custom kernel for a while to see where the failure originates.
->
-> Could you get the AP and EC console log?  AFAIK, the "packet too long" is only
-> indicating an error of the EC command.  There should be some other error
-> messages directly related to the system becomes inactive.
+> The power and battery state of the machine are managed by ACPI, and the A=
+CPI
+> methods for querying those things call the EC directly. When it does so, =
+it
+> uses a mutex that can=E2=80=99t be shared with the OS. There=E2=80=99s al=
+so a couple
+> ACPI-driven exchanges that occur during wake from sleep. Now, because
+> cros_ec_lpcs (Linux) and CrosEC (Windows) use the LPC bus directly, an in=
+flight
+> request from ACPI can collide with an inflight request from one of these
+> drivers.
 
-There is nothing in the kernel logs besides the mentioned message +-30min of the occurrence. I did not enable debug-level messages, though.
+Incidentally, their lead firmware engineer filed a similar bug[^3] on
+my Windows EC
+driver bearing the same interface as cros_ec_lpcs.
 
-> Try to get the consoles would be the most directly helpful.  Except the logs,
-> ramoops, and stacktraces, for example, if the console is still available when
-> the issue happens, you could use SysRq to get all stack backtraces.
+We don't currently have any leads on a permanent solution, but some members=
+ of
+the community forum are testing out placing the cros_ec_debugfs driver on t=
+he
+list of disallowed modules. Doing so reduces the chatter on the host comman=
+d
+interface, since it no longer needs to query the console periodically.
 
-The system is (almost) fully operational when the issue happens. It is just that some hardware features do not work, anymore. I noticed the temperature sensors reporting stale data and the `fn`-key having no effect anymore.
+Cheers,
+Dustin
 
-The kernel log was quiet around the time the issue started, except for the mentioned message.
+[^1]: On those devices, the media keys stop working. Everything else contin=
+ues
+to work fine, including the host command interface and therefore the consol=
+e.
 
-Is there a particular kernel thread you would like to see the stacktrace for? I can dump the full system stack trace and see whether anything looks particularly weird. But given that normal system operation was not interrupted, I am unsure that I will find anything.
+[^2]: https://community.frame.work/t/tracking-fn-key-stops-working-on-popos=
+-after-a-while/21208/49
 
-I am unsure which device driver triggered the ec-lpc transaction, but it did not show any further error message. I am not even sure whether it is pkg-xfer or cmd-xfer, since both use the same error message. I can try placing an ftrace marker in the error-path and hopefully get a kernel stacktrace of the error?
-
-Can I use the chardev to test whether the ec-driver is still responsive?
-
-If you insist, I can provide the full kernel-log. I will also try to fetch a sysrq stacktrace dump next time I trigger it.
-
-Thanks a lot for helping!
-David
+[^3]: https://github.com/DHowett/FrameworkWindowsUtils/issues/3

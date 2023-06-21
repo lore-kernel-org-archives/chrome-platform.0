@@ -1,114 +1,106 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3F815BE
-	for <chrome-platform@lists.linux.dev>; Wed, 21 Jun 2023 03:25:34 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5728df0a7d9so44501137b3.1
-        for <chrome-platform@lists.linux.dev>; Tue, 20 Jun 2023 20:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=howett-net.20221208.gappssmtp.com; s=20221208; t=1687317933; x=1689909933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K3Zs6MLRUmQ4jLIZW4S3+UmqZ8y5JLZT1L1tiX/RTEQ=;
-        b=NB/uP8u674Ot6ycCfDCPK9/J64D4gxn9mebVPqI9c+jImJ7keghhIeo/PEnwN4UFBi
-         nJUPJ04y/zI90fUX0RZmoOHQ+0YYoG9smNBRJna6sjub1zeNwYKf+LP2EuHgEI3Empse
-         UZCRd1QjE1kBoqQGddRrRnYpSO+KpEPXLJ90X8KDGEtmm6XDdVHHHNd8EYBZY+XUjjiA
-         KlHfkMTQmv8K84IenZXGebC0TYGuFv3D5xHJF5/8XIGCj+bK29XSo3irkHjsFFMLwggd
-         IUyHecB61agc1TAR6XaY9UpN3fvviOLeecAzLx05L53TdyuHtXue8tr7Jogyy6TJMRZG
-         US3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687317933; x=1689909933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K3Zs6MLRUmQ4jLIZW4S3+UmqZ8y5JLZT1L1tiX/RTEQ=;
-        b=UfrxdxReEA1HAYHbj1q801+bcikfa55Do0u1vI9EkEou28iSdx8RuAq5pQu3KNcqQI
-         rNZjeHZjITa1D8c1NSpVElLTLJu7SlXXvy1iPMj64F4fqqFxq4tloZYqM8g+UJzwk2p/
-         xjJM9LeQQzPnh520oVTLO399YlTv2x0OvHUPNZaypZUo5hawWQ/nl1M8imzWAll/ANU0
-         85gLWvWbTNDBOBCPKYHLWPnWJruP59F83i60oeii9xXQ+w54A3P23Zhc/4TJYGxcoa5j
-         9rQxiI307Bhm/bDsmdIAf29euXzBoh/H1Gg7HOxEAmN0bwEcR0otSVtfXuLx3jyaSPdo
-         wepg==
-X-Gm-Message-State: AC+VfDyTOW5de2+syX7a0PPAT5eq6m2x49fbXdiBr1Noow81rC1IB6tf
-	rjhi2sM0492F/QwBQcRkMhcnG9XVOnca1llI4OC0mw==
-X-Google-Smtp-Source: ACHHUZ6KEk3Ic0iY4FOoRYOSG67XmpTcFakS69QDsGJRYKtzpfs3d2GptSOJhsc0CRU/5CTpJn4LcUUNr9P21v+BVAU=
-X-Received: by 2002:a0d:ea91:0:b0:56c:fce5:ac38 with SMTP id
- t139-20020a0dea91000000b0056cfce5ac38mr15316010ywe.14.1687317933490; Tue, 20
- Jun 2023 20:25:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8554B1FA9
+	for <chrome-platform@lists.linux.dev>; Wed, 21 Jun 2023 04:57:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F14B1C433C8;
+	Wed, 21 Jun 2023 04:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687323465;
+	bh=CGwCiesM4ETXNpNT+luKgqaRQWn3Fuaia0exEfnUIXA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/CqEG08i1qKgNsW+3ytFe6rBKX6C2E0hXsXq2ZWFBLSDw7S7RvmlHKcG5wtIauMG
+	 36Ni7U65mrnQy3tgAGN8uD4A3ertEoSSdP+p31+7dY1Lmhk1+uLl3o0U7hffpjQ11l
+	 CMwVWgurx6VA8bAzJhCOuHov33mdXfDlGsbWe/NCe4tomaIIpdID+Tjwpe8SzqvPh6
+	 S5NPLaRtb1gkyE+UCrI/Pzn1UJZmLqqpjoWUsaVnWGlbZQIAtyL+oR3eF+UAXgQoT4
+	 0haswjFioTJBt3QWtL1AEyZXeklfq68keqpLkboLoLzhd9MBtl/zPvFnh1G0PRDZtz
+	 DXoe6HOfC/jdw==
+Date: Wed, 21 Jun 2023 12:57:42 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: David Rheinsberg <david@readahead.eu>
+Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Subject: Re: cros_ec_lpcs on framework: packet too long (4 bytes, expected 0)
+Message-ID: <ZJKDRkNrju92QzsZ@google.com>
+References: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
+ <ZJF3EocB7DX/ULxT@google.com>
+ <cf191201-b6b9-4ded-8d32-c77f3d27e38d@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
-In-Reply-To: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
-From: Dustin Howett <dustin@howett.net>
-Date: Tue, 20 Jun 2023 22:25:22 -0500
-Message-ID: <CA+BfgNKDXBfU_d46geMvOHsidASHvLWoCHkC+9Bu-ay-Tr+Dwg@mail.gmail.com>
-Subject: Re: cros_ec_lpcs on framework: packet too long (4 bytes, expected 0)
-To: David Rheinsberg <david@readahead.eu>
-Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cf191201-b6b9-4ded-8d32-c77f3d27e38d@app.fastmail.com>
 
-Hi David,
-I've been investigating this exact phenomenon with the team over at Framewo=
-rk
-Computer!
+On Tue, Jun 20, 2023 at 12:33:35PM +0200, David Rheinsberg wrote:
+> On Tue, Jun 20, 2023, at 11:53 AM, Tzung-Bi Shih wrote:
+> > On Tue, Jun 20, 2023 at 10:12:34AM +0200, David Rheinsberg wrote:
+> >> Using the cros-ec over lpc device on the Framework-13, I occasionally get:
+> >> 
+> >>     cros_ec_lpcs cros_ec_lpcs.0: packet too long (4 bytes, expected 0)
+> >> 
+> >> Afterwards, the entire EC seems to be inactive and none of its controllers work, anymore (temperature sensors are stale, keyboard defunct, etc.). A reboot fixes the issues.
+> >
+> > To be clear, does an AP reboot fix the issue?  Or does it need an EC reboot?
+> > Will it trigger some watchdog mechanisms and thus a reboot after waiting for
+> > a specific duration (e.g. 30 seconds)?
+> 
+> A linux system reboot fixed the issue. I did *NOT* perform a cold-boot or explicitly rebooted the EC. If the EC is not automatically rebooted with the AP, then no EC-reboot was necessary to fix the issue.
+> 
+> No watchdog mechanism was triggered. Logs show I waited for 30min.
 
-I can't comment on the EC ceasing to function (as I've only observed gentle=
-r
-failure states[^1] on the 11th and 12th generation Intel Core 13" laptop), =
-but
-that is an interesting outcome. What system and EC firmware versions are yo=
-u
-using on that device?
+My intention was to simply bisect between AP vs. EC.  From the description
+you provided, it sounds like someone was waiting for some events forever.
+However, the system was still running so that it didn't trigger any watchdogs
+or lockup detectors.
 
-On those devices, it occurs because exchanges from cros_ec_lpcs collide on =
-the
-bus with exchanges initiated by ACPI. There is a trivial locking mechanism =
-used
-by the ACPI control methods for EC communication, but it cannot be shared w=
-ith
-the host OS.
+> >> I cannot trigger this issue reliably, yet it seems to happen exclusively under heavy load. Do you have any recommendations how to debug this further?
+> >> 
+> >> I failed tracing where the error happens and why any further functionality of the EC is disabled thereafter. Does the driver end communication on an error? Or is this likely a firmware issue and just indicative of the firmware failing?
+> >> 
+> >> If you have any recommendations how to enabled the cros-tracing/debug features, I'd gladly run a custom kernel for a while to see where the failure originates.
+> >
+> > Could you get the AP and EC console log?  AFAIK, the "packet too long" is only
+> > indicating an error of the EC command.  There should be some other error
+> > messages directly related to the system becomes inactive.
+> 
+> There is nothing in the kernel logs besides the mentioned message +-30min of the occurrence. I did not enable debug-level messages, though.
 
-Excerpting a post of mine[^2] on the Framework Community Forum:
+The issue you encountered should be at least an error.  I don't think it needs
+to enable debug-level messages to see other hints.
 
-> The power and battery state of the machine are managed by ACPI, and the A=
-CPI
-> methods for querying those things call the EC directly. When it does so, =
-it
-> uses a mutex that can=E2=80=99t be shared with the OS. There=E2=80=99s al=
-so a couple
-> ACPI-driven exchanges that occur during wake from sleep. Now, because
-> cros_ec_lpcs (Linux) and CrosEC (Windows) use the LPC bus directly, an in=
-flight
-> request from ACPI can collide with an inflight request from one of these
-> drivers.
+Could you get EC console log?  Maybe there are some more hint messages.
 
-Incidentally, their lead firmware engineer filed a similar bug[^3] on
-my Windows EC
-driver bearing the same interface as cros_ec_lpcs.
+> > Try to get the consoles would be the most directly helpful.  Except the logs,
+> > ramoops, and stacktraces, for example, if the console is still available when
+> > the issue happens, you could use SysRq to get all stack backtraces.
+> 
+> The system is (almost) fully operational when the issue happens. It is just that some hardware features do not work, anymore. I noticed the temperature sensors reporting stale data and the `fn`-key having no effect anymore.
+> 
+> The kernel log was quiet around the time the issue started, except for the mentioned message.
+> 
+> Is there a particular kernel thread you would like to see the stacktrace for? I can dump the full system stack trace and see whether anything looks particularly weird. But given that normal system operation was not interrupted, I am unsure that I will find anything.
 
-We don't currently have any leads on a permanent solution, but some members=
- of
-the community forum are testing out placing the cros_ec_debugfs driver on t=
-he
-list of disallowed modules. Doing so reduces the chatter on the host comman=
-d
-interface, since it no longer needs to query the console periodically.
+No.  I thought kernel was stucked from your previous message but it wasn't per
+your further comments.
 
-Cheers,
-Dustin
+> I am unsure which device driver triggered the ec-lpc transaction, but it did not show any further error message. I am not even sure whether it is pkg-xfer or cmd-xfer, since both use the same error message. I can try placing an ftrace marker in the error-path and hopefully get a kernel stacktrace of the error?
 
-[^1]: On those devices, the media keys stop working. Everything else contin=
-ues
-to work fine, including the host command interface and therefore the consol=
-e.
+`pkg_xfer` for protocol version 3; `cmd_xfer` for legacy.  In most cases, it
+should fall into protocol version 3.  I'm not sure if finding the device
+driver would be helpful.  The driver didn't print error messages as the driver
+doesn't think it was an error.
 
-[^2]: https://community.frame.work/t/tracking-fn-key-stops-working-on-popos=
--after-a-while/21208/49
+> Can I use the chardev to test whether the ec-driver is still responsive?
 
-[^3]: https://github.com/DHowett/FrameworkWindowsUtils/issues/3
+You can send hello message to EC via the chardev.  See [1] for reference.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/cros-ec-tests.git/tree/cros/tests/cros_ec_mcu.py?h=main#n48
+
+> If you insist, I can provide the full kernel-log. I will also try to fetch a sysrq stacktrace dump next time I trigger it.
+
+No.  As I replied above, the kernel doesn't look like stucked.  The sysrq
+is unneeded in the case.

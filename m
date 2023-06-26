@@ -1,108 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E57EC5
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Jun 2023 05:57:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F247CC433C0;
-	Mon, 26 Jun 2023 05:57:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687759070;
-	bh=fE+oEgKMU5/b6WdHkLPE6jmxrV6m1rqT0ujhbJyilkc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=SaTUTDp1xU2XSs4KtgpaL9Z8eMtp6PVF4u5AtAzNt9O2X8m9LoHzapBLokghuthzh
-	 XZsxzKlRHYSYIe9d34QhoUJ8qc49jpr4ZMxtk8YV+e00wRJDtZuVDXBWxAbw7R4o5o
-	 nBgKsI+g9eeB4v02QMxY0K2qJ+9SjwJ4mCizkSNBHG0ODoTfXro+tXFvMtaRFmPKh7
-	 FUl3jpc14CjymjnQuS1Ji8FWbCEblvBeWKjGM9KZcjQgRxTI4btBMpbMVG/gFnif/c
-	 aMwAm1paFwkdevPOx0OLa2AbjQ7aWeKTv3freR7ezSRF3bPN7n/Fq+f1o9S1zQMmFw
-	 Iqyt+qxazHctg==
-Date: Mon, 26 Jun 2023 13:57:46 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
-	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform changes for v6.5
-Message-ID: <ZJko2ipBSy8eM/+2@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDB07F
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Jun 2023 13:04:54 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 1C6BB5C011C;
+	Mon, 26 Jun 2023 09:04:54 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute6.internal (MEProxy); Mon, 26 Jun 2023 09:04:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=readahead.eu; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1687784694; x=1687871094; bh=MK
+	V5gydAVbs9zl9e+y997FQxn9afCNfzc0dwm5uw3mg=; b=eOL8+hZREApeGRuMYe
+	X8pcp0VcOi0ty/DRWKmeaZkhVXVsZ6aI/62ABj2+Iwxnts1lYDWmCvC71eO+suAo
+	dLQMmsGGZKsd9kMCO8lXRjbauIY7E53hFZ8rLN2t0rIAu0DjPkmWs5apl7V4nxqj
+	vrL5ugoavV9uVMsJlGxfFtYcO8DQaLIgX9giZfqucS4A5ELgOCeyz24hQuLniHRd
+	CaTwnGz9bBa3sbI2TRqo15n1uwDIEiFllYPMbjpC0y7y7z+hfgTWa6ThEgYhwvTT
+	4p0mKvRQORzCVoxD0450+AYK223PHOPtR5AV4vocA2Z7Fn1pAxTwLvgDC0RVBK/q
+	zqUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1687784694; x=1687871094; bh=MKV5gydAVbs9z
+	l9e+y997FQxn9afCNfzc0dwm5uw3mg=; b=cQ+M2c1a+N2mxGghALicVObtT04kW
+	HTGeeNsy/snQld1s5tT8evlaDg0DvtOeuJQa2qGJZwJiyBaB5D2OX4FpAH+Z8Xii
+	I1c/mBKlGdxiwc1hy5gAocfcViC6GrGr/J3+KeOEdphdPq26r+RU8nVDXQCSl6N2
+	ozNKx7x9IL6ILyvwSMypOpZpfYiSz0iBwFbtyZ37qqB/Zj5J0uJzHZVBr30tEMjR
+	ztOIs610wtiXrxY71BWjTYntZPDfPBGt5ZEAe+bWgnZSMWSpZoifm25hY/eAETIa
+	3VzhzQ0zYennwhBv86OU0PeTKdKMnuYmxe572zRPjVspFSA0glrkt7ttw==
+X-ME-Sender: <xms:9YyZZFbvQGvHEkMiJ7efQyfb65dl8874WTbIausteSrCg_keB-W7cg>
+    <xme:9YyZZMZH64B3kwrnfgutqI8NFagyaJzhjmSdsGFspN9APM7tQq-8kHqtkMni3sriS
+    LnEr7RrKmMLLMtC0po>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeehfedgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfffgr
+    vhhiugcutfhhvghinhhssggvrhhgfdcuoegurghvihgusehrvggruggrhhgvrggurdgvuh
+    eqnecuggftrfgrthhtvghrnhepfeelgeeuheeihfeuleefleehtdektdeihffguddvheef
+    iefhveelhedvvdfhueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepuggrvhhiugesrhgvrggurghhvggrugdrvghu
+X-ME-Proxy: <xmx:9YyZZH_LkRzS1g8KZYnhCfMtc19SYH-jguUEWu_ByN41aBw5QoSb2g>
+    <xmx:9YyZZDor3yZEfCXxXLDB4PEWSNVBirWXSaRm_S08Zyr2_WWy9m0taQ>
+    <xmx:9YyZZApIl2-TMq0w77aqk4mp67pFn6KrRDjfzrOrBfqWKkFeyjdaOg>
+    <xmx:9oyZZNCjVv8q7RqeN7jfskUOuGKO9UikEOsfTIMS13Ov3_sCTSCQfw>
+Feedback-ID: id2994666:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 5E3EB1700089; Mon, 26 Jun 2023 09:04:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NzEMEGZtFlnXQpS0"
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <148f56af-fac2-4381-af95-a6260567f4a9@app.fastmail.com>
+In-Reply-To: 
+ <CA+BfgNKDXBfU_d46geMvOHsidASHvLWoCHkC+9Bu-ay-Tr+Dwg@mail.gmail.com>
+References: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
+ <CA+BfgNKDXBfU_d46geMvOHsidASHvLWoCHkC+9Bu-ay-Tr+Dwg@mail.gmail.com>
+Date: Mon, 26 Jun 2023 15:04:32 +0200
+From: "David Rheinsberg" <david@readahead.eu>
+To: "Dustin L. Howett" <dustin@howett.net>
+Cc: chrome-platform@lists.linux.dev, "Benson Leung" <bleung@chromium.org>,
+ "Guenter Roeck" <groeck@chromium.org>
+Subject: Re: cros_ec_lpcs on framework: packet too long (4 bytes, expected 0)
+Content-Type: text/plain
 
+Hi
 
---NzEMEGZtFlnXQpS0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jun 21, 2023, at 5:25 AM, Dustin Howett wrote:
+[...]
+> We don't currently have any leads on a permanent solution, but some members of
+> the community forum are testing out placing the cros_ec_debugfs driver on the
+> list of disallowed modules. Doing so reduces the chatter on the host command
+> interface, since it no longer needs to query the console periodically.
 
-The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+So you are saying the ACPI entries may communicate on the same bus as the cros-ec driver, and thus you get interleaved messages? That is quite unfortunate. I wonder whether retrying on checksum-mismatch would help?
 
-  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+I assume the kernel cannot lock around ACPI execution, since it doesn't reliably know when the lock is required? (or is it even triggered asynchronously? My acpi knowledge is abysmal..)
 
-are available in the Git repository at:
+Thanks a lot for the heads-up! I haven't been able to trigger it again. If it starts getting annoying, I might try the checksum-retry idea. It might need some random delay, though, to avoid racing the acpi code which I guess does something similar?
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git=
- tags/tag-chrome-platform-for-v6.5
-
-for you to fetch changes up to 2b8cc5858a07ab75ce98cae720e263e1c1b0d1d9:
-
-  platform/chrome: cros_ec_spi: Use %*ph for printing hexdump of a small bu=
-ffer (2023-06-13 12:28:36 +0800)
-
-----------------------------------------------------------------
-chrome platform changes for 6.5
-
-* Improvements
-
-  - Support Pin Assignment D in getting mux state.
-  - Emit an uevent when EC panics so that userland programs get chance
-    to capture EC coredumps (LPC interface only).
-  - Send EC_CMD_HOST_SLEEP_EVENT to EC at the very beginning/end of
-    system suspend/resume so that EC can watch the duration more
-    accurately (LPC interface only).
-
-* Misc
-
-  - Switch back from I2C .probe_new() to .probe().
-  - Use %*ph for printing hexdump of small buffers.
-
-----------------------------------------------------------------
-Andy Shevchenko (1):
-      platform/chrome: cros_ec_spi: Use %*ph for printing hexdump of a smal=
-l buffer
-
-Prashant Malani (1):
-      platform/chrome: cros_typec_switch: Add Pin D support
-
-Rob Barnes (1):
-      platform/chrome: cros_ec: Report EC panic as uevent
-
-Tim Van Patten (1):
-      platform/chrome: cros_ec_lpc: Move host command to prepare/complete
-
-Uwe Kleine-K=F6nig (1):
-      platform/chrome: Switch i2c drivers back to use .probe()
-
- drivers/platform/chrome/cros_ec_i2c.c       |  2 +-
- drivers/platform/chrome/cros_ec_lpc.c       | 15 ++++++++++-----
- drivers/platform/chrome/cros_ec_spi.c       |  8 +-------
- drivers/platform/chrome/cros_hps_i2c.c      |  2 +-
- drivers/platform/chrome/cros_typec_switch.c | 11 ++++++++---
- 5 files changed, 21 insertions(+), 17 deletions(-)
-
---NzEMEGZtFlnXQpS0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZJko2AAKCRArxTEGBto8
-9DpmAP4km134DcEB/GDAm5yEGU0oia0U0YhsYOlkHyLF5tjrIQEAvhL8P1qVxwNV
-E83HUbH0Dq+gi4vioatji7cU5D5+fAM=
-=XqxV
------END PGP SIGNATURE-----
-
---NzEMEGZtFlnXQpS0--
+Thanks
+David

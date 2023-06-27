@@ -1,104 +1,53 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C258F6B
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Jun 2023 13:10:10 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 97A455C0062;
-	Mon, 26 Jun 2023 09:10:09 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Mon, 26 Jun 2023 09:10:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=readahead.eu; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1687785009; x=1687871409; bh=iy
-	mi05GbVBFpvJl7+Em1IT5fbObjZslWbT88rxik6ZU=; b=Goa70QTVhIakM5OTX+
-	OnOnCCB2hEbbrM1XU8/mk+e3DrX55fudGYg6I5CdXUCNs7XXgZ3T54ew8Mi+qGFf
-	T5hVuRJ/ZuL8W4CpmiIuaPD7N8IpvEDF6fctbEVGXQ5rwA2b71qBfoOMlgs2Xozf
-	hDpMUAfDM+ftGrEOWSMpAPCeRWzhg5Zw6wSD2fer+RSu8AA06I7VPbc2vPoqqaqq
-	aM8fcuIvj5e5skRUZCyIm4cVrsd+JtYBkJIo+FUBg7Ss6SgwqRo7l902yKivMGl5
-	wJFG7ULBxayJS5i2Ua+RcXXZqHzw8aCgq2wQ0VLxkOtZFiFoxLBXUWnQrnc5o1KJ
-	dSYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1687785009; x=1687871409; bh=iymi05GbVBFpv
-	Jl7+Em1IT5fbObjZslWbT88rxik6ZU=; b=N64/3YTDyuKWNpZYcJSKutrUcVwPR
-	7XIfAlOR2gIQxM1Q6AGVG45mPQHFlsBkyK4u8HXo+CFO0Xo4uzXjhnbOZtL5watM
-	HR2KI2iowjP8BDhdQd5IyrrrVKtPNL/ii3SK5kyLNrXRoUtLnxKOjZQgJCD+zHVa
-	EyapPKm6GH1ENF9up2D89tSnV3DQeMluRtRtuqOfVMTjAq8NEL5SM1pXz5DwPKHd
-	vyKPa0UgftQeWEkALxiCsv/I4/dzymrCulspreZWwWhEm9oBOYXVErFoIzyvOWIz
-	s+1qpIDTjfoSd7J5i48J9M8RE0OP6jw2JPAfb3JelwZJvalIVjF8KmkQw==
-X-ME-Sender: <xms:MY6ZZEeCpxlcb-nOaqSAPzSUbimoXAjioM5Q9-RMaSe5UT7nZV9BFg>
-    <xme:MY6ZZGNeyF4-QRBZ6M3NsGhnaF69WAd6Oc3XVZMsPCIPJTBDLgDzQ3_YDK9gAEI-F
-    To-xR1pBYihNudWZio>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeehfedgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfffgr
-    vhhiugcutfhhvghinhhssggvrhhgfdcuoegurghvihgusehrvggruggrhhgvrggurdgvuh
-    eqnecuggftrfgrthhtvghrnhepfeelgeeuheeihfeuleefleehtdektdeihffguddvheef
-    iefhveelhedvvdfhueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepuggrvhhiugesrhgvrggurghhvggrugdrvghu
-X-ME-Proxy: <xmx:MY6ZZFh6wTQO1HM9OrelGDyDriHp_AYyCZVuqOin-OYLUTnENnNpTA>
-    <xmx:MY6ZZJ-TT6ju8vCSmrBAjGD-qNZDYL7BQA02RWSug7E8wmFzqHWMKw>
-    <xmx:MY6ZZAt5Wl28KWvWIG2XQk4IwS6YyaXcyTpY8cnNIq6TCop2VtLqug>
-    <xmx:MY6ZZNXTQ1E7DP6iHn_d7_QHLUZyzZAlxH9F8TvjhP-SX3CtZLpU9Q>
-Feedback-ID: id2994666:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 2875D1700089; Mon, 26 Jun 2023 09:10:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D61EA1
+	for <chrome-platform@lists.linux.dev>; Tue, 27 Jun 2023 03:14:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CEAA3C433C8;
+	Tue, 27 Jun 2023 03:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687835695;
+	bh=HZyX3VGyr8HmjzkZK+EkZ6R/a20i8r5luDsdNY+AurU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=cnAI4yMM4fFtupMnq9WJd8L1n5IJ4f2fm0V9y2kfEE2MKMaAkLJXM3l+JSVBBNtwP
+	 kUM70iApA3JEAubwvjAGf+U4UHBwX4HrWfMO1XfswVVXh4uYRNxaLEu3NH3JGbPHBu
+	 beLuAo255d1tVZgcBnS6CvrLDzi4OelVkt68tLutuWvtA+MdTVxZxy+Gnv2PtSthzV
+	 ZA8bsWPwNb84egwwOxDtOVRQeD+8RBL2bz7LZjzQqiYVcpyXGm6BtX7r8PhNZJWwD+
+	 y+rvotav8BiN8JeThDRfozQi4S6yXStdteWI7XZasFcmuVsr35HAAzLa+Ru27Gffyb
+	 UMG8EseQqyA9A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BC21AE537FE;
+	Tue, 27 Jun 2023 03:14:55 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZJko2ipBSy8eM/+2@google.com>
+References: <ZJko2ipBSy8eM/+2@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZJko2ipBSy8eM/+2@google.com>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.5
+X-PR-Tracked-Commit-Id: 2b8cc5858a07ab75ce98cae720e263e1c1b0d1d9
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1ef6663a587ba3e57dc5065a477db1c64481eedd
+Message-Id: <168783569576.18094.6541808729976898231.pr-tracker-bot@kernel.org>
+Date: Tue, 27 Jun 2023 03:14:55 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <5660de51-f6f3-4e13-84e6-5dbece011fe2@app.fastmail.com>
-In-Reply-To: <ZJKDRkNrju92QzsZ@google.com>
-References: <33c2d66a-84ad-48dd-b8ba-f88a7a68a0fd@app.fastmail.com>
- <ZJF3EocB7DX/ULxT@google.com>
- <cf191201-b6b9-4ded-8d32-c77f3d27e38d@app.fastmail.com>
- <ZJKDRkNrju92QzsZ@google.com>
-Date: Mon, 26 Jun 2023 15:09:34 +0200
-From: "David Rheinsberg" <david@readahead.eu>
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, "Benson Leung" <bleung@chromium.org>,
- "Guenter Roeck" <groeck@chromium.org>
-Subject: Re: cros_ec_lpcs on framework: packet too long (4 bytes, expected 0)
-Content-Type: text/plain
 
-Hi
+The pull request you sent on Mon, 26 Jun 2023 13:57:46 +0800:
 
-On Wed, Jun 21, 2023, at 6:57 AM, Tzung-Bi Shih wrote:
->> There is nothing in the kernel logs besides the mentioned message +-30min of the occurrence. I did not enable debug-level messages, though.
->
-> The issue you encountered should be at least an error.  I don't think it needs
-> to enable debug-level messages to see other hints.
->
-> Could you get EC console log?  Maybe there are some more hint messages.
+> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.5
 
-Not sure what the "EC console log" is. Do you mean kmsgs from the cros-ec driver?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1ef6663a587ba3e57dc5065a477db1c64481eedd
 
->> I am unsure which device driver triggered the ec-lpc transaction, but it did not show any further error message. I am not even sure whether it is pkg-xfer or cmd-xfer, since both use the same error message. I can try placing an ftrace marker in the error-path and hopefully get a kernel stacktrace of the error?
->
-> `pkg_xfer` for protocol version 3; `cmd_xfer` for legacy.  In most cases, it
-> should fall into protocol version 3.  I'm not sure if finding the device
-> driver would be helpful.  The driver didn't print error messages as the driver
-> doesn't think it was an error.
+Thank you!
 
-I wouldn't be too surprised if the error paths of the calling driver does not print anything on error. But it might not help much either way.
-
->> Can I use the chardev to test whether the ec-driver is still responsive?
->
-> You can send hello message to EC via the chardev.  See [1] for reference.
-
-Thanks, this is quite nice for debugging!
-
-Given Dustin's comment, this seems like a known issue with the acpi tables accessing the same bus without a shared lock. This sounds like a plausible cause of the issue I am seeing. Lets see whether that leads us somewhere.
-
-Thanks a lot for the hints!
-David
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

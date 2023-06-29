@@ -1,90 +1,89 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6917117CA
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 09:49:07 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qEoGj-0006UO-Aj; Thu, 29 Jun 2023 11:48:53 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qEoGf-00Arnv-Fd; Thu, 29 Jun 2023 11:48:49 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qEoGe-000kwe-N9; Thu, 29 Jun 2023 11:48:48 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Benson Leung <bleung@chromium.org>
-Cc: linux-pwm@vger.kernel.org,
-	kernel@pengutronix.de,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH 0/8] pwm: Get rid of pwm_[sg]et_chip_data()
-Date: Thu, 29 Jun 2023 11:48:31 +0200
-Message-Id: <20230629094839.757092-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FD311190
+	for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 13:25:26 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-765942d497fso64615585a.1
+        for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 06:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688045125; x=1690637125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
+        b=YECbENiP1T1aRxkh7wMBIccAQs5xbJmnOtTGez2fjWzkY8z60Ng4fIrbin8eKfY2Qh
+         NjqmdyJxhQfsgv3LkmbTCPj5eSMP9ppEseASW2eiiXI8fd/uL1kNjEsrvrbdGSmX8B24
+         hWaDPdohAvJOW43sY0zlkwbOjCcAPlKArRyIzXCeUT4Yzu8pwpou1tywG+ypkh0a1XJx
+         A5XnW9YXQuAjqZ/PwBoWeLZrPYQi+o7ffjT8uUmV8Ey+QDXFHU2eU1aEQIqSspi5GxD5
+         iUZTb/lM9fIiwxKKitjWlRtd9v6mCDJW2cbRL3Sz8fEmT+FEjf6WaIRFjh6FR0EyB91D
+         Aqug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688045125; x=1690637125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
+        b=HtPQtgsIFBPswqa3mCeHx8QCTlGVrzSp+SXmX2Bq0TNSoc7NzqgxaPj951lLF+BoHv
+         KQg6bDhEGjd/lRT2ppAfjEJGdgZUh0QNc+xA1KqWyp4vQfYfPemtSsceNWN7NCCBK5/n
+         8YI14diRjuasNvRRxXKggWBQ10xuJsd3WovG1xgsewB+OsVdzzjWB2S+hzM1HC4vcBg+
+         TOtxodyBDrIEnOZnG+98PanA9OrOUvlMQC2TVz6s12U4VQbySp2KUJR2basu1kuSl+m4
+         wvxiQUXaNhBxjtCPsKfEXl570qhh14dqa6RXKGxF4qCLoSAtOodR5J/s5GH2uZhn00jl
+         bmtA==
+X-Gm-Message-State: ABy/qLbPeWuPWaEdJGbm3A0bBIAjhZXvmNqPnDgd+G3f5pvuZjPIGNhA
+	mVz0RxqrHw3JBOvtCJjTx+Q=
+X-Google-Smtp-Source: APBJJlEKDJ/EBwBtGazRkXSXvIakwn2FfvV9Cd4dnKnKnIggg+6sAwFydC8nw3NE3Swc/kOq+zajtw==
+X-Received: by 2002:a0c:ea50:0:b0:626:3a5a:f8f8 with SMTP id u16-20020a0cea50000000b006263a5af8f8mr376728qvp.58.1688045125146;
+        Thu, 29 Jun 2023 06:25:25 -0700 (PDT)
+Received: from chcpu17.cse.ust.hk (fc3kcs10.cse.ust.hk. [143.89.191.124])
+        by smtp.googlemail.com with ESMTPSA id ej8-20020ad45a48000000b0062119a7a7a3sm7061271qvb.4.2023.06.29.06.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 06:25:24 -0700 (PDT)
+From: Yiyuan Guo <yguoaz@gmail.com>
+To: jic23@kernel.org,
+	lars@metafoo.de,
+	bleung@chromium.org,
+	groeck@chromium.org
+Cc: dianders@chromium.org,
+	mazziesaccount@gmail.com,
+	gwendal@chromium.org,
+	linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	yguoaz@gmail.com
+Subject: [PATCH] iio: Fix the allocation size for cros_ec_command
+Date: Thu, 29 Jun 2023 21:24:05 +0800
+Message-Id: <20230629132405.1237292-1-yguoaz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1592; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=vTBoe0szjeRFsJmSFfrm4GaXs0V1pmwEr32Z/7UAAN8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBknVNk4mOQNpCLEXK0ne8XaGGCwFjHjCatJMuWf 3M1nytIn7yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZJ1TZAAKCRCPgPtYfRL+ TqhrCACxH7/c/rG9EsJOq2kZfE8KqdHhgxYFZnTCfLZSdCPc2S4dwMBYBati++HUbOlkNjrLmlY RRdUW82a6HKM0TtRQUqNpUPPNAOvLm7/YKQskKdnhKgz1sbCEqt2smiDaTHieSrjnO1AE0WHYVj /K2bmL7vh5yvazlD7JlSjE97/dWf84YH68ZME+qblM1N7GGVvZMrEboKeS6cr8zAm9Ur8X29P3i 4s0FjnZ7PP2R3r73RyP/LdwTPrpH56rF6kVtZBL4IWWQUGNS70Ntx+kKXGCE12boRR6Au3hvyaU bKrEc++TeAMhO9tOV/V1SR2pdkgr5xf0Ao3SHG0dL8ctiIB5
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hello,
+The struct cros_ec_command contains several integer fields and a
+trailing array. An allocation size neglecting the integer fields can
+lead to buffer overrun.
 
-the semantic of pwm_[sg]et_chip_data() overlaps with that of the
-standard dev_[sg]et_drvdata() functions. Also as noted by George Stark
-there is a problem in pwm-sti that relies on chipdata being available
-even after a pwm_put (which clears chipdata).
+Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
+---
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-To improve the situation this series converts all drivers that make use
-of pwm chipdata to use well-known driver data instead and drop chipdata
-support from the pwm framework.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (8):
-  pwm: berlin: Put channel config into driver data
-  pwm: samsung: Put channel data into driver data
-  pwm: jz4740: Put per-channel clk into driver data
-  pwm: lp3943: Drop usage of pwm_[gs]et_chip_data()
-  pwm: renesas: Drop usage of pwm_[gs]et_chip_data()
-  pwm: sti: Reduce number of allocations and drop usage of chip_data
-  pwm: cros-ec: Put per channel data into driver data
-  pwm: Drop pwm_[sg]et_chip_data()
-
- drivers/pwm/core.c            | 31 -----------------------------
- drivers/pwm/pwm-berlin.c      | 37 ++++++-----------------------------
- drivers/pwm/pwm-cros-ec.c     | 31 +++++++----------------------
- drivers/pwm/pwm-jz4740.c      | 11 +++++++----
- drivers/pwm/pwm-lp3943.c      | 21 +++++++-------------
- drivers/pwm/pwm-renesas-tpu.c | 22 ++++++++++-----------
- drivers/pwm/pwm-samsung.c     | 20 +++++--------------
- drivers/pwm/pwm-sti.c         | 29 +++++++++++++--------------
- include/linux/pwm.h           | 14 -------------
- 9 files changed, 57 insertions(+), 159 deletions(-)
-
-
-base-commit: 92554cdd428fce212d2a71a06939e7cab90f7c77
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index 943e9e14d1e9..e4c01f1072bd 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -253,8 +253,8 @@ int cros_ec_sensors_core_init(struct platform_device *pdev,
+ 	platform_set_drvdata(pdev, indio_dev);
+ 
+ 	state->ec = ec->ec_dev;
+-	state->msg = devm_kzalloc(&pdev->dev,
+-				max((u16)sizeof(struct ec_params_motion_sense),
++	state->msg = devm_kzalloc(&pdev->dev, sizeof(*state->msg) +
++			max((u16)sizeof(struct ec_params_motion_sense),
+ 				state->ec->max_response), GFP_KERNEL);
+ 	if (!state->msg)
+ 		return -ENOMEM;
 -- 
-2.39.2
+2.25.1
 

@@ -1,93 +1,158 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDC01FBE
-	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 06:32:06 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-635f1c7412cso10798366d6.0
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 23:32:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688106725; x=1690698725;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
-        b=KPFrrw3MO4GX/bJHUB4qB5OA41otQVjAGbZvBvc3a2/xRNUu4i3WZ/3Mjcu8SHEWxa
-         PsIkvNu6G2JPEcDonDFHgc0sFKoGC+NOEAYVjoRJJkn3j1ug/pFhAHZdliYMbAJ8nZEP
-         Jl3Ec0ruWH3jB3o9eSI5998MiE1YGu/2Qn7ci0kExFaCAazJr629hMqnVVosTwm7p8K3
-         e0JQtUZPl3d/8hXb1QEmVSQ2akAzdlYj7osdfrIUARVGPwiI8AOY/9ZAFjdrzPnsLhBn
-         odlXkRhadJ5UpafhIz6dLqw6vga4JfkaahgSWFOjiNWHqWWGcSvCVq+43Tyo7lOFabmz
-         GJ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688106725; x=1690698725;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
-        b=iji/Nlx0q7zuK2T4x+cT5CRfycNJhW7KNMhYcha2GM7frv6tfdzmtfyn0RHAzCWKJH
-         xyWTJQog1MKB8bHSZMGOThty/i1Ayxqsp9QyYhqB8Iwc0PjlFNf5ey5IDrnzC+oUYDJB
-         xCDsjSxSxyUFeNJPktZYnC/6DaLcqmVb/4L31+ILvs6cr19wi88A6D32IWLZIv8TVx/e
-         hcQCJBuqRbyLN4Xd1NOMJ7cprdffAsYfA2LrbrgjsCqNejkncSOG/oDQeTKPG3+glCje
-         05dOesCdo7QLmH0oHNnHrNqu8gMbfda10ZlIhHlMfyrztk8z5tWP7V7q4jFCZL6jNwZ9
-         Bhjg==
-X-Gm-Message-State: ABy/qLZb4bnNAR50tCD/T9zUvTcfeVSGrrfPKmA6Q1m06lkcSKF10A/Y
-	V4mLyIFF+RfnqUntFfKGMeQ=
-X-Google-Smtp-Source: APBJJlEk3/ngJX1N5MvlA6E+V5P2WsRTbwcrawrVMV7XdSehniPRa6Qcf4Gq9H7kAqmg/F+br49bhA==
-X-Received: by 2002:a05:6214:21ab:b0:635:da2a:4712 with SMTP id t11-20020a05621421ab00b00635da2a4712mr1857880qvc.40.1688106725503;
-        Thu, 29 Jun 2023 23:32:05 -0700 (PDT)
-Received: from chcpu17.cse.ust.hk (fc3kcs10.cse.ust.hk. [143.89.191.124])
-        by smtp.googlemail.com with ESMTPSA id u18-20020a0cf892000000b0063660329d57sm175276qvn.67.2023.06.29.23.32.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 23:32:05 -0700 (PDT)
-From: Yiyuan Guo <yguoaz@gmail.com>
-To: tzungbi@kernel.org
-Cc: jic23@kernel.org,
-	lars@metafoo.de,
-	bleung@chromium.org,
-	groeck@chromium.org,
-	dianders@chromium.org,
-	mazziesaccount@gmail.com,
-	gwendal@chromium.org,
-	linux-iio@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	yguoaz@gmail.com
-Subject: [PATCH v2] iio: cros_ec: Fix the allocation size for cros_ec_command
-Date: Fri, 30 Jun 2023 14:31:32 +0800
-Message-Id: <20230630063132.314700-1-yguoaz@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230629132405.1237292-1-yguoaz@gmail.com>
-References: <20230629132405.1237292-1-yguoaz@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFAF28F9
+	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 06:50:59 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qF7y0-0001eE-3I; Fri, 30 Jun 2023 08:50:52 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qF7xy-00B4JK-Sz; Fri, 30 Jun 2023 08:50:50 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qF7xy-000ymU-4Q; Fri, 30 Jun 2023 08:50:50 +0200
+Date: Fri, 30 Jun 2023 08:50:49 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
+	Guenter Roeck <groeck@chromium.org>,
+	Benson Leung <bleung@chromium.org>
+Subject: Re: [PATCH 7/8] pwm: cros-ec: Put per channel data into driver data
+Message-ID: <20230630065049.fj5rehmzemydp5bv@pengutronix.de>
+References: <20230629094839.757092-1-u.kleine-koenig@pengutronix.de>
+ <20230629094839.757092-8-u.kleine-koenig@pengutronix.de>
+ <ZJ5gDWlm38qYguyH@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hdfsmmj2bbmdegt2"
+Content-Disposition: inline
+In-Reply-To: <ZJ5gDWlm38qYguyH@google.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-The struct cros_ec_command contains several integer fields and a
-trailing array. An allocation size neglecting the integer fields can
-lead to buffer overrun.
 
-Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
----
- drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--hdfsmmj2bbmdegt2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index 943e9e14d1e9..e4c01f1072bd 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -253,8 +253,8 @@ int cros_ec_sensors_core_init(struct platform_device *pdev,
- 	platform_set_drvdata(pdev, indio_dev);
- 
- 	state->ec = ec->ec_dev;
--	state->msg = devm_kzalloc(&pdev->dev,
--				max((u16)sizeof(struct ec_params_motion_sense),
-+	state->msg = devm_kzalloc(&pdev->dev, sizeof(*state->msg) +
-+			max((u16)sizeof(struct ec_params_motion_sense),
- 				state->ec->max_response), GFP_KERNEL);
- 	if (!state->msg)
+On Fri, Jun 30, 2023 at 12:54:37PM +0800, Tzung-Bi Shih wrote:
+> On Thu, Jun 29, 2023 at 11:48:38AM +0200, Uwe Kleine-K=F6nig wrote:
+> > Instead of an allocation of a single u16 per channel, allocate them all
+> > in a single chunk which greatly reduces memory fragmentation and also
+> > the overhead to track the allocated memory. Also put the channel data in
+> > driver data where it's cheaper to determine the address (no function
+> > call involved, just a trivial pointer addition).
+> >=20
+> > This also allows to get rid of the request and free callbacks.
+> >=20
+> > The only cost is that the channel data is allocated early, and even for
+> > unused channels.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> With comments addressed below:
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+>=20
+> > @@ -27,6 +27,7 @@ struct cros_ec_pwm_device {
+> >  	struct cros_ec_device *ec;
+> >  	struct pwm_chip chip;
+> >  	bool use_pwm_type;
+> > +	struct cros_ec_pwm *channel;
+>=20
+> Please update the kernel-doc too.  Otherwise:
+> $ ./scripts/kernel-doc -none drivers/pwm/pwm-cros-ec.c
+> drivers/pwm/pwm-cros-ec.c:31: warning: Function parameter or member 'chan=
+nel'
+> not described in 'cros_ec_pwm_device'
+>=20
+> I have no strong preference: please consider to use `channels` if it makes
+> sense.
+
+Thanks for your feedback. Regarding your suggestion about channel vs
+channels: While I don't have a strong preference either you have to
+choose between
+
+	struct cros_ec_pwm *channel;
+
+which is singular but for all channels, or you have
+
+	ec_pwm->channesl[pwm->hwpwm]
+
+which is plural but for only a single channel. So no matter how you do
+it, it's strange at one place or the other.
+
+While looking at the patch again I changed to
+
+	ec_pwm->channel =3D devm_kcalloc(dev, chip->npwm, sizeof(*ec_pwm->channel)=
+, GFP_KERNEL)
+
+(from devm_kzalloc with size chip->npwm * sizeof(*ec_pwm->channel)).
+
+So in my tree I have the following change on top of the submission which
+I will send out as a v2 soon:
+
+diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+index 2998153a5e92..63c64c4dbf90 100644
+--- a/drivers/pwm/pwm-cros-ec.c
++++ b/drivers/pwm/pwm-cros-ec.c
+@@ -21,6 +21,7 @@
+  * @ec: Pointer to EC device
+  * @chip: PWM controller chip
+  * @use_pwm_type: Use PWM types instead of generic channels
++ * @channel: array with per-channel data
+  */
+ struct cros_ec_pwm_device {
+ 	struct device *dev;
+@@ -295,7 +296,8 @@ static int cros_ec_pwm_probe(struct platform_device *pd=
+ev)
+ 		chip->npwm =3D ret;
+ 	}
+=20
+-	ec_pwm->channel =3D devm_kzalloc(dev, chip->npwm * sizeof(*ec_pwm->channe=
+l), GFP_KERNEL);
++	ec_pwm->channel =3D devm_kcalloc(dev, chip->npwm, sizeof(*ec_pwm->channel=
+),
++					GFP_KERNEL);
+ 	if (!ec_pwm->channel)
  		return -ENOMEM;
--- 
-2.25.1
+=20
 
+I assume that also with this change it's ok to add your Reviewed-by tag.
+If you don't agree, please let me know.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--hdfsmmj2bbmdegt2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSee0kACgkQj4D7WH0S
+/k4L2AgArI/OR1Pw6klWCM5lCs3er3SklxiTg5RwJB1Kn6J9r7PUApcJ6lOYmhGX
+3Ob5cVv0heqKunpqP78A8af+AhjBMEacNtlERQSZMRdLlDqFuS9HL9cjFknNbfL6
+tQgIU/q92YRlbVSTV/10QiRItA11VQ9J0fs6FD7EiqQY8T0kR+eJkfc3fJlNWsd2
+1m/l+9bzabJl9TKBBl7EmW9fzU92YQgAfcf8swgEhG+/P5letyeBBBpNGA4wSPgY
+P5KM94BDmoqX5jQ9v7VuU42pQLz8ZDY2itMYYoZszVnzawbqampeLTiQ/nDyOyy4
+X21L5tkcqsgF6Ti7bUV1Nrn4SpzjRg==
+=Spqc
+-----END PGP SIGNATURE-----
+
+--hdfsmmj2bbmdegt2--

@@ -1,98 +1,101 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FDE1FB8
-	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 08:31:33 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7658752ce2fso128670885a.1
-        for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 01:31:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4838156D8
+	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 14:07:10 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-401f4408955so225081cf.1
+        for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 07:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688113892; x=1690705892;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1688134029; x=1690726029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NJtRVTrBXHzy1SAWRtn4ErvKw0dJAPtFGr8YFV61VM0=;
-        b=Mwg5wcWZqfPJ9jLPYPvXyjxdyXMwEWm00Q8tZvEGl4TmpkIp85Jh1aDf0T975wVtrl
-         n14yEk1vswKw8QbaTorG58E+wcU6JvpXrexZ+hpMVHv3Bz7zmQ2DJmbjKThqI5bdizxl
-         wObcuaYRB3g9zjU2t1TTqx+dbezvZmHVUfzoc9R2YLIDnq+dToMaocVUl33sGqYV5SLB
-         Z6u8Og0ostgnY+Ho6jxgzUOLWTxOw2BTIZMYSbiIYkzE+RfGtNPf/1n2tpsBIpOqaF7O
-         2h/joWIT5rXW6/TQ5guZ8TuTEl7GsW+M+fwYPH4oSW2OkpKm5SDVzRK+K7zanwJNFn4M
-         Eo+A==
+        bh=tHNKzb0xtZDRFm7xSfYT1lsm0g1hDdSqIsV7ISLU2gI=;
+        b=i5USUPNBwEgaWF6g3Ro3jJBZF0WCeUDXRsn1xhd0FxR78OIlDFWaH3iDqPaCWYR4zo
+         rVJ3qxPJdk/YrREY2Ow1EbO5Su+C8P1RzMEFUaya5wLBYiiJyFEoSTxL/0GPgcSc1QVr
+         D3LW+JuJFov5xzMJRxCfjmZrBXeAX5Gu6VM0itL0VgihJEAvPD3FVD52WD25TMdElH3q
+         t7k+28lpecAagScvi7y1pWnNiectOUUsd+dotGV4WB4WDne/WjnxeRgJaaJrh6dgn04R
+         QJJfDeoooGqTKpO9mEtx9zM/nxVuibRfIt5e+/cK8sEa3vvO5btL/Gw0FGK+z5/w6ym7
+         at/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688113892; x=1690705892;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1688134029; x=1690726029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NJtRVTrBXHzy1SAWRtn4ErvKw0dJAPtFGr8YFV61VM0=;
-        b=GH8rWxaaauBSe8YYc22c9QKtL7+nhkO7XR58xQz6sKrkMiUuQA4fcciJnO5tfRZHS7
-         8ZqKGsuPWKlmLLhDv+dCxnIQ/Ta8cvlU5o/4L801gDCdQjtEgmvnzMSLPhpBTB9QyvgX
-         EiQ7jUssnYlYsRX1bIakD7UY1eB3P7yLDVmgy8mUzBFvDKt2wiNM2uh2tM7T6AbYU3gI
-         O6hepA5dUzXdUELoPzOdSAXy244RB8ecvvovqdeXJrBY1DgnpDOdh9cg4VVAVPmxiID3
-         TnmIEfaA6TMuMH1IcrPUSe/E1TvChQsoIdE/1fEt6Ng4LEBz7OIaqYlUcZdCdQ/x86MZ
-         wd4g==
-X-Gm-Message-State: ABy/qLYgnUIHTf6F/Ee7XAsQ4uy4ZYjlDjFL7deofh0WESEewtinhS3x
-	gtO9cX2jAyzu4kRXTkQW5ic=
-X-Google-Smtp-Source: APBJJlE9Fi+oiwjKrHm4+GLJT1H7D5HMQLdwOGJjYgx1gXutxBbvOrgmmvUkYCM6uysI5UIG58/Lpg==
-X-Received: by 2002:ad4:5f4e:0:b0:635:da2a:4706 with SMTP id p14-20020ad45f4e000000b00635da2a4706mr2698383qvg.15.1688113892241;
-        Fri, 30 Jun 2023 01:31:32 -0700 (PDT)
-Received: from chcpu17.cse.ust.hk (fc3kcs10.cse.ust.hk. [143.89.191.124])
-        by smtp.googlemail.com with ESMTPSA id jy19-20020a0562142b5300b00635e9db359bsm4765587qvb.82.2023.06.30.01.31.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 01:31:31 -0700 (PDT)
-From: Yiyuan Guo <yguoaz@gmail.com>
-To: tzungbi@kernel.org
-Cc: jic23@kernel.org,
-	lars@metafoo.de,
-	bleung@chromium.org,
-	groeck@chromium.org,
-	dianders@chromium.org,
-	mazziesaccount@gmail.com,
-	gwendal@chromium.org,
-	linux-iio@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	yguoaz@gmail.com
-Subject: [PATCH v3] iio: cros_ec: Fix the allocation size for cros_ec_command
-Date: Fri, 30 Jun 2023 16:31:12 +0800
-Message-Id: <20230630083112.2344234-1-yguoaz@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <ZJ6F4THLoYy6S8HP@google.com>
-References: <ZJ6F4THLoYy6S8HP@google.com>
+        bh=tHNKzb0xtZDRFm7xSfYT1lsm0g1hDdSqIsV7ISLU2gI=;
+        b=CFLYO+2pigXBnCgmb4vKmDCCYNK5HfrPtu3khtIU7G9DySvQYf0vzTBNGmrSElRl6l
+         jEO3ZkrkX/wmTBHJjNs5hBnKGZ5DkLpBxTmHE4YQGkSr4tSWoUngNZN8kLwe6h5hCByf
+         cImSz9Gchwp+yoFoLIaF6rwCqJ4qVN6y/3X6dqD+3kkB14VXbiAdPGUEJwGGR5eahbpX
+         EtXBtMxDfHrwr9cXGz+L94/ZAkzx7tStmzaFGXghXfpFQ/CjqowJbOQwRzsQ8/a9kYgf
+         qd2szy+mDcvcF++VwNmaCtOhMjxflLCo7aF0NbFIYcXrBltWerknA9C7aPfEktGGd5R7
+         54dQ==
+X-Gm-Message-State: AC+VfDzSvMsP0kU3TNf3HuZBL4t+wV3vbOMzpo/ixFH5u5epETOQ9jjy
+	fJCmG6RW/yvZLw9lpm7u/qy15Y+HSSLr/E1W+VcPEg==
+X-Google-Smtp-Source: ACHHUZ47S2nLH6V2FUJYX+wiY64v1gecK1rWqbO/Z6+l5S28oyXmumxGHbDpZZEMVcwaepD8n4Eg0dLjxQoQ1/fdKbI=
+X-Received: by 2002:a05:622a:188e:b0:3fa:45ab:22a5 with SMTP id
+ v14-20020a05622a188e00b003fa45ab22a5mr702360qtc.27.1688134029436; Fri, 30 Jun
+ 2023 07:07:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ZJ6F4THLoYy6S8HP@google.com> <20230630083112.2344234-1-yguoaz@gmail.com>
+In-Reply-To: <20230630083112.2344234-1-yguoaz@gmail.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 30 Jun 2023 07:06:58 -0700
+Message-ID: <CABXOdTdPTaJp8AwxfZzOZHDBsJSHpXH+KPsA3z_ZheekHPowpA@mail.gmail.com>
+Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for cros_ec_command
+To: Yiyuan Guo <yguoaz@gmail.com>
+Cc: tzungbi@kernel.org, jic23@kernel.org, lars@metafoo.de, bleung@chromium.org, 
+	groeck@chromium.org, dianders@chromium.org, mazziesaccount@gmail.com, 
+	gwendal@chromium.org, linux-iio@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The struct cros_ec_command contains several integer fields and a
-trailing array. An allocation size neglecting the integer fields can
-lead to buffer overrun.
+On Fri, Jun 30, 2023 at 1:31=E2=80=AFAM Yiyuan Guo <yguoaz@gmail.com> wrote=
+:
+>
+> The struct cros_ec_command contains several integer fields and a
+> trailing array. An allocation size neglecting the integer fields can
+> lead to buffer overrun.
+>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
----
-v2->v3: 
- * Added R-b tag from Tzung-Bi Shih
- * Aligned the code by adding an extra tab before "max"
- * Added a patch changelog
-v1->v2: Prefixed the commit title with "iio: cros_ec:"
+Please _never_ send a patch as reply to a previous one, much less with
+a Re: subject.
 
- drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Guenter
 
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index 943e9e14d1e9..b72d39fc2434 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -253,7 +253,7 @@ int cros_ec_sensors_core_init(struct platform_device *pdev,
- 	platform_set_drvdata(pdev, indio_dev);
- 
- 	state->ec = ec->ec_dev;
--	state->msg = devm_kzalloc(&pdev->dev,
-+	state->msg = devm_kzalloc(&pdev->dev, sizeof(*state->msg) +
- 				max((u16)sizeof(struct ec_params_motion_sense),
- 				state->ec->max_response), GFP_KERNEL);
- 	if (!state->msg)
--- 
-2.25.1
-
+> ---
+> v2->v3:
+>  * Added R-b tag from Tzung-Bi Shih
+>  * Aligned the code by adding an extra tab before "max"
+>  * Added a patch changelog
+> v1->v2: Prefixed the commit title with "iio: cros_ec:"
+>
+>  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/=
+drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> index 943e9e14d1e9..b72d39fc2434 100644
+> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> @@ -253,7 +253,7 @@ int cros_ec_sensors_core_init(struct platform_device =
+*pdev,
+>         platform_set_drvdata(pdev, indio_dev);
+>
+>         state->ec =3D ec->ec_dev;
+> -       state->msg =3D devm_kzalloc(&pdev->dev,
+> +       state->msg =3D devm_kzalloc(&pdev->dev, sizeof(*state->msg) +
+>                                 max((u16)sizeof(struct ec_params_motion_s=
+ense),
+>                                 state->ec->max_response), GFP_KERNEL);
+>         if (!state->msg)
+> --
+> 2.25.1
+>

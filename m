@@ -1,69 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F5D17EF
-	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 04:54:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D53AC433C8;
-	Fri, 30 Jun 2023 04:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6D6185D
+	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 05:13:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BEEBC433C0;
+	Fri, 30 Jun 2023 05:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688100880;
-	bh=eoliOSaKGQAolA79oDzqjjwO5r3sAUMUdDNg2GHu2Sc=;
+	s=k20201202; t=1688102030;
+	bh=ygsfnNvkDPOnp5olYNMlXhLplV7waio0+Vt0yiqXPz4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lOgRhFl+3XlQKNPz+wz2Y0Zk1Jc0K6SgOMpaMVUVPhozQ5IJ0CPRfqEAiwM7/aZO9
-	 sHVoCmMPFrjJqYKbraSY6Hm5xBNJV3Cw9Z2dYN3f4VskOIiH+yJiRxBbuGRv21FFIJ
-	 gVSnKg4hgIEvyjSaXj1rjHlNRUCtXB+64Q5jPL0hS1wsL0KmEcv7KgtFl1k+tL9xM4
-	 Upf5xZkvAANTxVOGr6yzcKE1FJcE+luSmkac+MyDXiFNJg81qoTJg9LsCn+QmuBP+F
-	 pKO081uOX3GYXnrRfiml4s3wVNMOophB/9dKRoQtC+QbYmsJRJ9JuSV8QQDF7QXGGQ
-	 0Kk0F6mgp7slA==
-Date: Fri, 30 Jun 2023 12:54:37 +0800
+	b=gvGMFTXYOIjE/svvhgW2v0e5qYy7qgpejgYVpiGz/VKT1isnJQfy4de/DQqQGjf1a
+	 KBWWQF2+gw/tugTxG2lW9NVQ47V//EDr2Lv988FJJBgIRYytaX+frdJOoAf4rhlduJ
+	 eHcja9Pa0y4lSBi7FMtkHe7N3iWInf5BCQpf1aB98fqAhw46eOvSmZ6oSGZNj5SgcT
+	 +m1EC2xuUol70ZwEC0q2G2uK/tcMX/xFVpP/G5fmYml2yl+X2/zcqP5a1Otk82jwXt
+	 6kHrjo9jjhOzMV65sTVRrdazD+JwJaeOTtDdw57nPHBqJVuJaM53NprHbLm1oUMRtO
+	 BoG/jgKcTSvZw==
+Date: Fri, 30 Jun 2023 13:13:46 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 7/8] pwm: cros-ec: Put per channel data into driver data
-Message-ID: <ZJ5gDWlm38qYguyH@google.com>
-References: <20230629094839.757092-1-u.kleine-koenig@pengutronix.de>
- <20230629094839.757092-8-u.kleine-koenig@pengutronix.de>
+To: Yiyuan Guo <yguoaz@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, bleung@chromium.org,
+	groeck@chromium.org, dianders@chromium.org,
+	mazziesaccount@gmail.com, gwendal@chromium.org,
+	linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] iio: Fix the allocation size for cros_ec_command
+Message-ID: <ZJ5kiiuhITCpqwrn@google.com>
+References: <20230629132405.1237292-1-yguoaz@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230629094839.757092-8-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230629132405.1237292-1-yguoaz@gmail.com>
 
-On Thu, Jun 29, 2023 at 11:48:38AM +0200, Uwe Kleine-König wrote:
-> Instead of an allocation of a single u16 per channel, allocate them all
-> in a single chunk which greatly reduces memory fragmentation and also
-> the overhead to track the allocated memory. Also put the channel data in
-> driver data where it's cheaper to determine the address (no function
-> call involved, just a trivial pointer addition).
+On Thu, Jun 29, 2023 at 09:24:05PM +0800, Yiyuan Guo wrote:
+> The struct cros_ec_command contains several integer fields and a
+> trailing array. An allocation size neglecting the integer fields can
+> lead to buffer overrun.
 > 
-> This also allows to get rid of the request and free callbacks.
-> 
-> The only cost is that the channel data is allocated early, and even for
-> unused channels.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
 
-With comments addressed below:
+Better prefix the commit title with "iio: cros_ec:".
+
+With that:
 Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-> @@ -27,6 +27,7 @@ struct cros_ec_pwm_device {
->  	struct cros_ec_device *ec;
->  	struct pwm_chip chip;
->  	bool use_pwm_type;
-> +	struct cros_ec_pwm *channel;
-
-Please update the kernel-doc too.  Otherwise:
-$ ./scripts/kernel-doc -none drivers/pwm/pwm-cros-ec.c
-drivers/pwm/pwm-cros-ec.c:31: warning: Function parameter or member 'channel'
-not described in 'cros_ec_pwm_device'
-
-I have no strong preference: please consider to use `channels` if it makes
-sense.

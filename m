@@ -1,89 +1,69 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FD311190
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 13:25:26 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-765942d497fso64615585a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Jun 2023 06:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688045125; x=1690637125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
-        b=YECbENiP1T1aRxkh7wMBIccAQs5xbJmnOtTGez2fjWzkY8z60Ng4fIrbin8eKfY2Qh
-         NjqmdyJxhQfsgv3LkmbTCPj5eSMP9ppEseASW2eiiXI8fd/uL1kNjEsrvrbdGSmX8B24
-         hWaDPdohAvJOW43sY0zlkwbOjCcAPlKArRyIzXCeUT4Yzu8pwpou1tywG+ypkh0a1XJx
-         A5XnW9YXQuAjqZ/PwBoWeLZrPYQi+o7ffjT8uUmV8Ey+QDXFHU2eU1aEQIqSspi5GxD5
-         iUZTb/lM9fIiwxKKitjWlRtd9v6mCDJW2cbRL3Sz8fEmT+FEjf6WaIRFjh6FR0EyB91D
-         Aqug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688045125; x=1690637125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hMqc59JLjfsmDQrIpQpsMtV1yNjY1VclkrG5Cc3ePcs=;
-        b=HtPQtgsIFBPswqa3mCeHx8QCTlGVrzSp+SXmX2Bq0TNSoc7NzqgxaPj951lLF+BoHv
-         KQg6bDhEGjd/lRT2ppAfjEJGdgZUh0QNc+xA1KqWyp4vQfYfPemtSsceNWN7NCCBK5/n
-         8YI14diRjuasNvRRxXKggWBQ10xuJsd3WovG1xgsewB+OsVdzzjWB2S+hzM1HC4vcBg+
-         TOtxodyBDrIEnOZnG+98PanA9OrOUvlMQC2TVz6s12U4VQbySp2KUJR2basu1kuSl+m4
-         wvxiQUXaNhBxjtCPsKfEXl570qhh14dqa6RXKGxF4qCLoSAtOodR5J/s5GH2uZhn00jl
-         bmtA==
-X-Gm-Message-State: ABy/qLbPeWuPWaEdJGbm3A0bBIAjhZXvmNqPnDgd+G3f5pvuZjPIGNhA
-	mVz0RxqrHw3JBOvtCJjTx+Q=
-X-Google-Smtp-Source: APBJJlEKDJ/EBwBtGazRkXSXvIakwn2FfvV9Cd4dnKnKnIggg+6sAwFydC8nw3NE3Swc/kOq+zajtw==
-X-Received: by 2002:a0c:ea50:0:b0:626:3a5a:f8f8 with SMTP id u16-20020a0cea50000000b006263a5af8f8mr376728qvp.58.1688045125146;
-        Thu, 29 Jun 2023 06:25:25 -0700 (PDT)
-Received: from chcpu17.cse.ust.hk (fc3kcs10.cse.ust.hk. [143.89.191.124])
-        by smtp.googlemail.com with ESMTPSA id ej8-20020ad45a48000000b0062119a7a7a3sm7061271qvb.4.2023.06.29.06.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 06:25:24 -0700 (PDT)
-From: Yiyuan Guo <yguoaz@gmail.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	bleung@chromium.org,
-	groeck@chromium.org
-Cc: dianders@chromium.org,
-	mazziesaccount@gmail.com,
-	gwendal@chromium.org,
-	linux-iio@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	yguoaz@gmail.com
-Subject: [PATCH] iio: Fix the allocation size for cros_ec_command
-Date: Thu, 29 Jun 2023 21:24:05 +0800
-Message-Id: <20230629132405.1237292-1-yguoaz@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F5D17EF
+	for <chrome-platform@lists.linux.dev>; Fri, 30 Jun 2023 04:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D53AC433C8;
+	Fri, 30 Jun 2023 04:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688100880;
+	bh=eoliOSaKGQAolA79oDzqjjwO5r3sAUMUdDNg2GHu2Sc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lOgRhFl+3XlQKNPz+wz2Y0Zk1Jc0K6SgOMpaMVUVPhozQ5IJ0CPRfqEAiwM7/aZO9
+	 sHVoCmMPFrjJqYKbraSY6Hm5xBNJV3Cw9Z2dYN3f4VskOIiH+yJiRxBbuGRv21FFIJ
+	 gVSnKg4hgIEvyjSaXj1rjHlNRUCtXB+64Q5jPL0hS1wsL0KmEcv7KgtFl1k+tL9xM4
+	 Upf5xZkvAANTxVOGr6yzcKE1FJcE+luSmkac+MyDXiFNJg81qoTJg9LsCn+QmuBP+F
+	 pKO081uOX3GYXnrRfiml4s3wVNMOophB/9dKRoQtC+QbYmsJRJ9JuSV8QQDF7QXGGQ
+	 0Kk0F6mgp7slA==
+Date: Fri, 30 Jun 2023 12:54:37 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH 7/8] pwm: cros-ec: Put per channel data into driver data
+Message-ID: <ZJ5gDWlm38qYguyH@google.com>
+References: <20230629094839.757092-1-u.kleine-koenig@pengutronix.de>
+ <20230629094839.757092-8-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230629094839.757092-8-u.kleine-koenig@pengutronix.de>
 
-The struct cros_ec_command contains several integer fields and a
-trailing array. An allocation size neglecting the integer fields can
-lead to buffer overrun.
+On Thu, Jun 29, 2023 at 11:48:38AM +0200, Uwe Kleine-König wrote:
+> Instead of an allocation of a single u16 per channel, allocate them all
+> in a single chunk which greatly reduces memory fragmentation and also
+> the overhead to track the allocated memory. Also put the channel data in
+> driver data where it's cheaper to determine the address (no function
+> call involved, just a trivial pointer addition).
+> 
+> This also allows to get rid of the request and free callbacks.
+> 
+> The only cost is that the channel data is allocated early, and even for
+> unused channels.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
----
- drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+With comments addressed below:
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index 943e9e14d1e9..e4c01f1072bd 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -253,8 +253,8 @@ int cros_ec_sensors_core_init(struct platform_device *pdev,
- 	platform_set_drvdata(pdev, indio_dev);
- 
- 	state->ec = ec->ec_dev;
--	state->msg = devm_kzalloc(&pdev->dev,
--				max((u16)sizeof(struct ec_params_motion_sense),
-+	state->msg = devm_kzalloc(&pdev->dev, sizeof(*state->msg) +
-+			max((u16)sizeof(struct ec_params_motion_sense),
- 				state->ec->max_response), GFP_KERNEL);
- 	if (!state->msg)
- 		return -ENOMEM;
--- 
-2.25.1
+> @@ -27,6 +27,7 @@ struct cros_ec_pwm_device {
+>  	struct cros_ec_device *ec;
+>  	struct pwm_chip chip;
+>  	bool use_pwm_type;
+> +	struct cros_ec_pwm *channel;
 
+Please update the kernel-doc too.  Otherwise:
+$ ./scripts/kernel-doc -none drivers/pwm/pwm-cros-ec.c
+drivers/pwm/pwm-cros-ec.c:31: warning: Function parameter or member 'channel'
+not described in 'cros_ec_pwm_device'
+
+I have no strong preference: please consider to use `channels` if it makes
+sense.

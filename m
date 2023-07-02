@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B593C2A
-	for <chrome-platform@lists.linux.dev>; Sun,  2 Jul 2023 19:51:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4650AC433C7;
-	Sun,  2 Jul 2023 19:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7959D3D9E
+	for <chrome-platform@lists.linux.dev>; Sun,  2 Jul 2023 19:51:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33DB4C433C7;
+	Sun,  2 Jul 2023 19:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688327460;
+	s=k20201202; t=1688327490;
 	bh=4pvMoacaA60G7V3hYy9YvZAexu4GvTj9gc943PFNtyg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=O12IaRm3TBpOzfQ6yb36CcmR9DCSIBy4AHnEsHUskPy0+rbP/ChOu3Zlkn0q07tJf
-	 c+Ff1nvZY9qCgtKZPuyhkc95Mn7RjyFm8lNfzAEDIMXmuPNOF0LYxTZb4dKdUiI4jD
-	 MG0tjzXHmY8VYLJcS32YgGL7PO5f64TvPs+mxY6c3xxculVtn5jXSCWgS7aHoL/Zwa
-	 BatT+5vrTHT4F1nAS//xrTwFjZCQ0xN+1/bDwgsHQ46unSiGnZdXACBMP1eiRsAUNa
-	 pQcvXZvf3MwKXkqSJjBTEqwfVLLRM8XDFuNmkZdPH/cODplX2DU0gFaj4FVU54kfKM
-	 40JI0l22LhcaQ==
+	b=ZirpLE4WPIERM+t5CfVUQaLZhQcO+ZqgHw/is6aXYEYMPaXs2q3MPYF79cN2ogDG1
+	 BV+8MjDgB4shCBMCMtRq3ueb63NFUbA9juKQ2851qleXIQqDZRZW6GHgQEiaw5t8P6
+	 bTuqHGmKqtd8EbkvS5R0UCZ1d/Le1kh1xPSewA0ivLdy4bpbWsCQWoFn+ZXfdJW+r9
+	 g3qsBcmHx68i/J+5AJnB9O42FdZdQLiRQPyYNTE7jH+h06JzJgNHhkGllvfCvM1lBN
+	 GU09GdpZzfeV5xUfrMbHOBF/ujlEZOpdtNR0bHNuAQLSvvK21CZA0Wb1fE7EYY5y7C
+	 +/urNp6rofqrg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,9 +24,9 @@ Cc: Rob Barnes <robbarnes@google.com>,
 	Sasha Levin <sashal@kernel.org>,
 	bleung@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.4 01/12] platform/chrome: cros_ec: Report EC panic as uevent
-Date: Sun,  2 Jul 2023 15:50:46 -0400
-Message-Id: <20230702195057.1787686-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 01/11] platform/chrome: cros_ec: Report EC panic as uevent
+Date: Sun,  2 Jul 2023 15:51:17 -0400
+Message-Id: <20230702195127.1787911-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -36,7 +36,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.1
+X-stable-base: Linux 6.3.11
 Content-Transfer-Encoding: 8bit
 
 From: Rob Barnes <robbarnes@google.com>

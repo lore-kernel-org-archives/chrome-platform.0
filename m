@@ -1,32 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7959D3D9E
-	for <chrome-platform@lists.linux.dev>; Sun,  2 Jul 2023 19:51:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33DB4C433C7;
-	Sun,  2 Jul 2023 19:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688327490;
-	bh=4pvMoacaA60G7V3hYy9YvZAexu4GvTj9gc943PFNtyg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZirpLE4WPIERM+t5CfVUQaLZhQcO+ZqgHw/is6aXYEYMPaXs2q3MPYF79cN2ogDG1
-	 BV+8MjDgB4shCBMCMtRq3ueb63NFUbA9juKQ2851qleXIQqDZRZW6GHgQEiaw5t8P6
-	 bTuqHGmKqtd8EbkvS5R0UCZ1d/Le1kh1xPSewA0ivLdy4bpbWsCQWoFn+ZXfdJW+r9
-	 g3qsBcmHx68i/J+5AJnB9O42FdZdQLiRQPyYNTE7jH+h06JzJgNHhkGllvfCvM1lBN
-	 GU09GdpZzfeV5xUfrMbHOBF/ujlEZOpdtNR0bHNuAQLSvvK21CZA0Wb1fE7EYY5y7C
-	 +/urNp6rofqrg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Rob Barnes <robbarnes@google.com>,
-	Prashant Malani <pmalani@chromium.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2040186D
+	for <chrome-platform@lists.linux.dev>; Wed,  5 Jul 2023 08:07:20 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qGxXO-0003pD-SO; Wed, 05 Jul 2023 10:06:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qGxXM-00CDNB-2g; Wed, 05 Jul 2023 10:06:56 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qGxXK-002Oar-Ns; Wed, 05 Jul 2023 10:06:54 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-pwm@vger.kernel.org,
+	kernel@pengutronix.de,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	Paul Cercueil <paul@crapouillou.net>,
+	=?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+	linux-mips@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	George Stark <gnstark@sberdevices.ru>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	bleung@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.3 01/11] platform/chrome: cros_ec: Report EC panic as uevent
-Date: Sun,  2 Jul 2023 15:51:17 -0400
-Message-Id: <20230702195127.1787911-1-sashal@kernel.org>
+Subject: [PATCH v2 0/8] pwm: Get rid of pwm_[sg]et_chip_data()
+Date: Wed,  5 Jul 2023 10:06:42 +0200
+Message-Id: <20230705080650.2353391-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -34,57 +42,65 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.3.11
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2092; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=u4Z0GmFDTWtwLEP2HHVUlz+BVemZihHRxz0BXPl6pMI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkpSSMvXlGQ8oFjDHYdRsE/iDjQCfYp2AvrCWKK 1aP+qcQUR6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZKUkjAAKCRCPgPtYfRL+ TraOCACTPjXf8+TAzBnVeOY7qqFplcSzgSgICZsqqtlos7gZT1+KW9Ny9RQDN16wMQ6Q7ucg1Cp +xFa51wLHF5Pue9cn2xpppSO9+qXH416dIReCQRsf8l4tmegE796e7fzJ55unuda3e6Vit09PWg CiM5Xj5xbFu0o6f7erCJ+Vbt8jSTZAk5TQ7gN2TkJcsM3nh61vV/8fLZfoYK1VGomOr/e3wpc/8 43HfjI5oXyvs/4QjD9elp2Lf5aHTb4ytfeGkK4IyPd8G0epIhAGSPzoCBKgmjsCGaLIO5ne/am+ HiBadheZ/OiUvvU2Mus0sJLrzabNCCgTCK2oEuojih0o7QQo
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-From: Rob Barnes <robbarnes@google.com>
+Hello,
 
-[ Upstream commit 2cbf475a04b2ae3d722bbe41742e5d874a027fc3 ]
+the changes since (implicit) v1 of this series[1] are:
 
-Create a uevent when an EC panic is detected. This will allow udev rules
-to trigger when a panic occurs. For example, a udev rule could be added to
-capture an EC coredump. This approach avoids the need to stuff all the
-processing into the driver.
+ - Consistently write "per-channel" in the short log.
+ - [jz4740] Make use of struct_size(), thanks to Paul Cercueil for
+   pointing that out.
+ - [cros-ec] Add missing kernel-doc for new struct member, thanks to
+   Tzung-Bi Shih for pointing that out.
+ - [cros-ec] Make use of devm_kcalloc.
+ - [jz4740] Add Reviewed-by tag for Philippe Mathieu-Daudé.
+ - [cros-ec] Add Reviewed-by tag for Tzung-Bi Shih.
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Link: https://lore.kernel.org/r/20230509232624.3120347-1-robbarnes@google.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/chrome/cros_ec_lpc.c | 3 +++
- 1 file changed, 3 insertions(+)
+The first seven patches have no interdependencies, the last depends on
+all others.
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 68bba0fcafab3..2b1ce3e1abf2e 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -16,6 +16,7 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/interrupt.h>
-+#include <linux/kobject.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-@@ -315,6 +316,7 @@ static int cros_ec_lpc_readmem(struct cros_ec_device *ec, unsigned int offset,
- 
- static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- {
-+	static const char *env[] = { "ERROR=PANIC", NULL };
- 	struct cros_ec_device *ec_dev = data;
- 	bool ec_has_more_events;
- 	int ret;
-@@ -324,6 +326,7 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- 	if (value == ACPI_NOTIFY_CROS_EC_PANIC) {
- 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
- 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
-+		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
- 		/* Begin orderly shutdown. Force shutdown after 1 second. */
- 		hw_protection_shutdown("CrOS EC Panic", 1000);
- 		/* Do not query for other events after a panic is reported */
+The sti driver has two problems that are fixed by patch #6. You could
+apply it earlier already, but given that the issues are already old
+there is IMHO no urge.
+
+
+
+
+[1] https://lore.kernel.org/linux-pwm/20230629094839.757092-1-u.kleine-koenig@pengutronix.de
+[2] The newer issue was introduced with e926b12c611c ("pwm: Clear
+    chip_data in pwm_put()") for v5.2-rc1 in May 2019.
+
+Uwe Kleine-König (8):
+  pwm: berlin: Put per-channel config into driver data
+  pwm: samsung: Put per-channel data into driver data
+  pwm: jz4740: Put per-channel clk into driver data
+  pwm: lp3943: Drop usage of pwm_[gs]et_chip_data()
+  pwm: renesas: Drop usage of pwm_[gs]et_chip_data()
+  pwm: sti: Reduce number of allocations and drop usage of chip_data
+  pwm: cros-ec: Put per-channel data into driver data
+  pwm: Drop pwm_[sg]et_chip_data()
+
+ drivers/pwm/core.c            | 31 -----------------------------
+ drivers/pwm/pwm-berlin.c      | 37 ++++++-----------------------------
+ drivers/pwm/pwm-cros-ec.c     | 33 +++++++++----------------------
+ drivers/pwm/pwm-jz4740.c      | 11 +++++++----
+ drivers/pwm/pwm-lp3943.c      | 21 +++++++-------------
+ drivers/pwm/pwm-renesas-tpu.c | 22 ++++++++++-----------
+ drivers/pwm/pwm-samsung.c     | 20 +++++--------------
+ drivers/pwm/pwm-sti.c         | 29 +++++++++++++--------------
+ include/linux/pwm.h           | 14 -------------
+ 9 files changed, 59 insertions(+), 159 deletions(-)
+
+
+base-commit: 92554cdd428fce212d2a71a06939e7cab90f7c77
 -- 
 2.39.2
 

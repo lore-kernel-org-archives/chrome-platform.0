@@ -1,80 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C664223CE
-	for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3390CC433C9;
-	Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688968399;
-	bh=vSHUlZF1cMasn9YRdu77gltzVthY/lO7Soqy2M2BCbo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=fgwuJQTMYvxVcvwuRkl9FdjB8DuXSIfnERjeVQPzNMvTHWGDy0KSITDFp9vZZSVWt
-	 BT5d7U9DCHpzW20CplUiGePRbY/SJj2ZS6Wxro2pc9BRmUETT8rKT7m2+gDYE6jdip
-	 yHi2ahZMt4qDeSRuoeDaNyFQ7KY3RPNuEgoWEz++4LgAoPP95Inj+/zxGHUUtWNO8V
-	 RFRu44iA2kCumq1jXXly5EW/rJNxbOE3pESRGjYct89WpOiwnGEBO4HGCjEh7nKb5k
-	 MEcMxeVU8CpG/uCKIO0RpnuVR1jqpcKQEF7BiyBK5nJnBZc+SLn0uO0J6kZessZSLJ
-	 g7fDSMZvkaxIQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 13126F8370C;
-	Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35F61640D
+	for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 22:46:36 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fb96e2b573so7866950e87.3
+        for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 15:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1689029194; x=1691621194;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1kc719wFeXIBZhxeGvf3Y+MTcIYRnee7N32RFrCgfHE=;
+        b=gePkx6+LRaaXI9WCWII+UuumINiqAi6oCHZwvDylTD2lHieOVb2gSDpDFUYeQXiNYt
+         0NN275W4khR6DSKj3DKRW4FxuuetdwJJ5Fhay7rpmX+jVG2RwSNZieFLjXUBFqauhBD7
+         rMedwafATwsMC4lY8NPhRDMJN5iGB/Cpr0OvE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689029194; x=1691621194;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1kc719wFeXIBZhxeGvf3Y+MTcIYRnee7N32RFrCgfHE=;
+        b=TnMJ/4hcov4Xu6/jUqYm1qMooHfpRJVV+N5F3aU+jixK+eUVvU4XHgsmo+shorGwrh
+         vnlh6Sl9j7/XDewOX59Er5EoQG9rU7auJaRq9FqnMoIcHTZdSAGKKLAdcV1OXaf68EZx
+         H0mZaZe4gjs1LoeAE12RbVC2u2Gr4+AL1AWggRcyNyVYMxG/JJrv3Zesr4eVJI2WPx0S
+         Bg/Kpj4dNVYlP77GA9HlXuGlXuf7CHDOf5dGxddsyflUiRlaZmHq2gqEK6LzBSv6Z0Oe
+         8xZMMIRKYyecsOZBYivj4Da+eK/ofxav+JwD4NYLQ8Azwpmp/DcB42IjQsNIOwmi+v/l
+         XTTw==
+X-Gm-Message-State: ABy/qLaCP6+vyFoVshJSaCMLIianysgZhmyDKttP6oJFArzYakwqbdPw
+	lQjDJ01WyXYmK74HpMjtcHKslKQCX1RrSxWywSA=
+X-Google-Smtp-Source: APBJJlFgDRqR2q5v0/0CVRK18t7tE0xMsCnNrHP2Fl/8IHwIiq83jfg8MxDlAWZH7AtDeuoCTieEjQ==
+X-Received: by 2002:a05:6512:1289:b0:4fb:745e:dd01 with SMTP id u9-20020a056512128900b004fb745edd01mr13060807lfs.45.1689029193999;
+        Mon, 10 Jul 2023 15:46:33 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id w13-20020a50fa8d000000b0051dfa2e30b2sm273053edr.9.2023.07.10.15.46.33
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 15:46:33 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-99357737980so656090166b.2
+        for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 15:46:33 -0700 (PDT)
+X-Received: by 2002:a17:906:242:b0:993:ce6c:685c with SMTP id
+ 2-20020a170906024200b00993ce6c685cmr14230852ejl.18.1689029192682; Mon, 10 Jul
+ 2023 15:46:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] drm: Switch i2c drivers back to use .probe()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <168896839907.3413.13132149372624191704.git-patchwork-notify@kernel.org>
-Date: Mon, 10 Jul 2023 05:53:19 +0000
-References: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: airlied@gmail.com, daniel@ffwll.ch, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- jagan@amarulasolutions.com, bleung@chromium.org, groeck@chromium.org,
- ple@baylibre.com, adrien.grassein@gmail.com, peter.senna@gmail.com,
- martin.donnelly@ge.com, martyn.welch@collabora.co.uk, dianders@chromium.org,
- linux@armlinux.org.uk, stefan@olimex.com, sam@ravnborg.org,
- f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
- javierm@redhat.com, alsi@bang-olufsen.dk, ojeda@kernel.org,
- antonio.borneo@foss.st.com, jiasheng@iscas.ac.cn, quic_abhinavk@quicinc.com,
- a.fatoum@pengutronix.de, andriy.shevchenko@linux.intel.com,
- heikki.krogerus@linux.intel.com, Jonathan.Cameron@huawei.com,
- tzimmermann@suse.de, kabel@kernel.org, benjamin.mugnier@foss.st.com,
- cmo@melexis.com, xji@analogixsemi.com, hsinyi@chromium.org, windhl@126.com,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- chrome-platform@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+References: <20230702195057.1787686-1-sashal@kernel.org>
+In-Reply-To: <20230702195057.1787686-1-sashal@kernel.org>
+From: Brian Norris <briannorris@chromium.org>
+Date: Mon, 10 Jul 2023 15:46:21 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXMZ_ZnJfpsY-8ZRByiox8HCSZeY08MvGSpznLYBtVR1bw@mail.gmail.com>
+Message-ID: <CA+ASDXMZ_ZnJfpsY-8ZRByiox8HCSZeY08MvGSpznLYBtVR1bw@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.4 01/12] platform/chrome: cros_ec: Report EC
+ panic as uevent
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Rob Barnes <robbarnes@google.com>, Prashant Malani <pmalani@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Sun, Jul 2, 2023 at 12:51=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
+te:
+>
+> From: Rob Barnes <robbarnes@google.com>
+>
+> [ Upstream commit 2cbf475a04b2ae3d722bbe41742e5d874a027fc3 ]
+>
+> Create a uevent when an EC panic is detected. This will allow udev rules
+> to trigger when a panic occurs. For example, a udev rule could be added t=
+o
+> capture an EC coredump. This approach avoids the need to stuff all the
+> processing into the driver.
+>
+> Signed-off-by: Rob Barnes <robbarnes@google.com>
+> Reviewed-by: Prashant Malani <pmalani@chromium.org>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Link: https://lore.kernel.org/r/20230509232624.3120347-1-robbarnes@google=
+.com
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/platform/chrome/cros_ec_lpc.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Douglas Anderson <dianders@chromium.org>:
+What sorcery determined this was a valid for-linux-stable patch? It's
+a new feature, and definitely not a for-stable candidate. Please
+remove this from the queue.
 
-On Fri, 26 May 2023 11:07:09 +0200 you wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2] drm: Switch i2c drivers back to use .probe()
-    https://git.kernel.org/chrome-platform/c/332af828ce78
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Brian

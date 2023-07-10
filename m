@@ -1,151 +1,68 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72E946A0
-	for <chrome-platform@lists.linux.dev>; Wed,  5 Jul 2023 08:26:55 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qGxXO-0003pu-By; Wed, 05 Jul 2023 10:06:58 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qGxXN-00CDNW-Bh; Wed, 05 Jul 2023 10:06:57 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qGxXM-002ObD-48; Wed, 05 Jul 2023 10:06:56 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH v2 7/8] pwm: cros-ec: Put per-channel data into driver data
-Date: Wed,  5 Jul 2023 10:06:49 +0200
-Message-Id: <20230705080650.2353391-8-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230705080650.2353391-1-u.kleine-koenig@pengutronix.de>
-References: <20230705080650.2353391-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657D123C6
+	for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 05:39:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ED2A5C433C9;
+	Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688967590;
+	bh=2uuv3SAKxaN3cTrhREKEPhCvyNumlhGiykmKg6Z5YeQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=qt/IuAS8XIQOvwtV0patii4VqC8G0JhCzu5QTNQ1mtmsYR6sMn0Uy3i0U+1WQLCJD
+	 ntYJOpQfIEP3AwTAq5ySFBqDLzv8oDb+PQhanKvtPuuasw7PxFLU8IFRY3JFJGECwf
+	 ZShCR8oVsUdfF5yMagAxqNAfchE1c9nixjwe+mujzEzRg64m9ETLuyxpXN0fKemHKz
+	 F/r8QwnIYnZbKCO9Waw4lwAehrOP0LZI9y5oUcKzsxO6zAt4a1H1URFwUAa/evRbjv
+	 nDh4SR0Z0RjrKWqLfAYHHXIynqu5ZQZasMZNUFtg2Yf7nTO0lxA/E5iz96hpm18Dp+
+	 HfwtOAE+Luc2w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CE7F8C0C40E;
+	Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3398; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=w17IyVbAx+yuRTs/2AKZ/T5ilhNx7IBKVkExUN/q1O8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkpSSU4D531Hs3pJJF0an8U846WFKuvBxWyH6xQ R1tSDRV9omJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZKUklAAKCRCPgPtYfRL+ TkriCACcDfjQ3ANYcOn8ImBx5xSYDL0275kigsywAfavFkhv4vSE18VtDx1Ym5L1I5jPFAWyZmx FKFd1VAJjvKvnQe+nRpbAlEdoxyPRL9rZUoQVI6QJhBLOJN+8GnHyBKHYsBgQ3Ba41Eii9cqLjK PK9oxrZ28uQV4lx0ytiL/5L3R//NwFJRBCA1MXXZDUqFK9U7R71uUsMj4Qfyg2IENQsR0tMjtZb tlZ3BRKNcceSG3/6p1UbmKJvjeAWRkK9x398QkhoDf3FmF35LVy4u73YwLCjgr26eqka6Leymn3 SqsRNUK/7gDkv0xMzRZjOsrUJ+pE5Axw13YPklURobSpX7nQ
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] usb: typec: mux: Remove the "svid" device property
+ checks
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168896758984.3413.103690253008672819.git-patchwork-notify@kernel.org>
+Date: Mon, 10 Jul 2023 05:39:49 +0000
+References: <20230526131434.46920-1-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20230526131434.46920-1-heikki.krogerus@linux.intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: gregkh@linuxfoundation.org, andersson@kernel.org,
+ chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Instead of an allocation of a single u16 per channel, allocate them all in
-a single chunk which greatly reduces memory fragmentation and also the
-overhead to track the allocated memory. Also put the channel data in
-driver data where it's cheaper to determine the address (no function call
-involved, just a trivial pointer addition).
+Hello:
 
-This also allows to get rid of the request and free callbacks.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-The only cost is that the channel data is allocated early, and even for
-unused channels.
+On Fri, 26 May 2023 16:14:32 +0300 you wrote:
+> Hi,
+> 
+> The comment in the first patch is now fixed as requested by Bjorn. No
+> other changes compared to v1.
+> 
+> Original message:
+> 
+> [...]
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/pwm/pwm-cros-ec.c | 33 +++++++++------------------------
- 1 file changed, 9 insertions(+), 24 deletions(-)
+Here is the summary with links:
+  - [v2,1/2] usb: typec: mux: Clean up mux_fwnode_match()
+    https://git.kernel.org/chrome-platform/c/4aebc4f89f00
+  - [v2,2/2] usb: typec: mux: Remove alt mode parameters from the API
+    https://git.kernel.org/chrome-platform/c/3524fe31538c
 
-diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-index 74e863aa1d8d..63c64c4dbf90 100644
---- a/drivers/pwm/pwm-cros-ec.c
-+++ b/drivers/pwm/pwm-cros-ec.c
-@@ -21,12 +21,14 @@
-  * @ec: Pointer to EC device
-  * @chip: PWM controller chip
-  * @use_pwm_type: Use PWM types instead of generic channels
-+ * @channel: array with per-channel data
-  */
- struct cros_ec_pwm_device {
- 	struct device *dev;
- 	struct cros_ec_device *ec;
- 	struct pwm_chip chip;
- 	bool use_pwm_type;
-+	struct cros_ec_pwm *channel;
- };
- 
- /**
-@@ -42,26 +44,6 @@ static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm_chip *c)
- 	return container_of(c, struct cros_ec_pwm_device, chip);
- }
- 
--static int cros_ec_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct cros_ec_pwm *channel;
--
--	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
--	if (!channel)
--		return -ENOMEM;
--
--	pwm_set_chip_data(pwm, channel);
--
--	return 0;
--}
--
--static void cros_ec_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
--
--	kfree(channel);
--}
--
- static int cros_ec_dt_type_to_pwm_type(u8 dt_index, u8 *pwm_type)
- {
- 	switch (dt_index) {
-@@ -157,7 +139,7 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 			     const struct pwm_state *state)
- {
- 	struct cros_ec_pwm_device *ec_pwm = pwm_to_cros_ec_pwm(chip);
--	struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
-+	struct cros_ec_pwm *channel = &ec_pwm->channel[pwm->hwpwm];
- 	u16 duty_cycle;
- 	int ret;
- 
-@@ -187,7 +169,7 @@ static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 				 struct pwm_state *state)
- {
- 	struct cros_ec_pwm_device *ec_pwm = pwm_to_cros_ec_pwm(chip);
--	struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
-+	struct cros_ec_pwm *channel = &ec_pwm->channel[pwm->hwpwm];
- 	int ret;
- 
- 	ret = cros_ec_pwm_get_duty(ec_pwm, pwm->hwpwm);
-@@ -236,8 +218,6 @@ cros_ec_pwm_xlate(struct pwm_chip *pc, const struct of_phandle_args *args)
- }
- 
- static const struct pwm_ops cros_ec_pwm_ops = {
--	.request = cros_ec_pwm_request,
--	.free = cros_ec_pwm_free,
- 	.get_state	= cros_ec_pwm_get_state,
- 	.apply		= cros_ec_pwm_apply,
- 	.owner		= THIS_MODULE,
-@@ -316,6 +296,11 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
- 		chip->npwm = ret;
- 	}
- 
-+	ec_pwm->channel = devm_kcalloc(dev, chip->npwm, sizeof(*ec_pwm->channel),
-+					GFP_KERNEL);
-+	if (!ec_pwm->channel)
-+		return -ENOMEM;
-+
- 	dev_dbg(dev, "Probed %u PWMs\n", chip->npwm);
- 
- 	ret = pwmchip_add(chip);
+You are awesome, thank you!
 -- 
-2.39.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6755023CD
-	for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 05:39:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00F99C433CB;
-	Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688967590;
-	bh=O3REscTS4Ua0NMAYuLLm93hDnfz4R6BtMlgAdHbVspU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=I8auQkrUpyL1phFPN143+6nwh5o+00hS/rePp9ZqdVB8qoTzP8cqxcmM/g0Zs1azM
-	 lc8RYztmnezQk8TYy22daouDLh7GkZDr9b8UMcDQwj1EuShiexwAkySgfK34g2nJY6
-	 hW+uemNHjarhidBC9gbJvoSZaZMts1V9eFkwGPLR1Nq9zfsMRbpxZRv5Hp1WyKYKIH
-	 CPDLxhsyIFQk+zXit9nf5WxGsXaOaFIvqpeDG/3ASBU4e9+H1H8CgKPezVPFlDb0GH
-	 CNLoWNvFvtyCWxAKK5kXsuJdHxkuD7+ZO06vp77kPofWBne6mO/eomOGPelV9Mq1xr
-	 XvCAaJ7TFb9iw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6895C73FE1;
-	Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A563523C6
+	for <chrome-platform@lists.linux.dev>; Mon, 10 Jul 2023 05:44:34 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-55bc29a909dso1994887a12.3
+        for <chrome-platform@lists.linux.dev>; Sun, 09 Jul 2023 22:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1688967874; x=1691559874;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
+        b=MVoYbHmE4Rz5/JfXdWacIQkWxxM0bqrV8vd4mVOA6x6NeC3YNo3rZkti8je75NjnSE
+         pp7vtH6v9ZPXRpr+YL3zAXqzrVdfAYryKbvVSVUAAoHmy2hmcKgUehAP0x92CSs6qtNo
+         D0SsfG+uv3hcRtX/Rutv37UC3fPUluef0SnSl7+85sEmJHlo/flYThmpSiaGHcHsXnpb
+         Q0iHJ3G+S1i6z3e9SbqBwyCbVFFpm2KD90h2YKMt5pQMzYSfEIBLpnUwIb3KcYg4rmWA
+         wcgXfCq4CenT79WN23LXDlzlK0UeC0KeuFPOA+88AEtqKVrWoTxK3T2QDJRDyjvN2iKu
+         ajxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688967874; x=1691559874;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
+        b=lvEG4BNX70MK6ePNqbFrnmtRXclai9CUIhp/eRtNhhW/cS4snrFEB5ZKhuGdtcl8ks
+         NsF7AzPe3cgtIn92fvcnnD+cPcEPECXod43iqXT8VcnQVGZ/Bqfkldkv8Lx9gONnK8By
+         JMEZJNW/5wA6wYmRcOHb/CoLE6c5csmdInHi8mr8fGvkWvqqhbuGepU4ClLTC9VfhXaR
+         KI1asYzltTQsaVjs6ZsvUHYIEMJ78/wd63NGp0U5h6UvqbgNaSxVFLPliu57JxPsQmkg
+         8CrnsVGXvaeYMy6wXgwMgr92VnQCR48AuA6YzEoOotYds0lermfY3km4W2uQlP0PqbQS
+         2W9A==
+X-Gm-Message-State: ABy/qLYxg5uKGXOIzcqd/YWKxc34HIcQRNC9Si4lmmv/dh0eSjroMSAf
+	cMzxj1xsdIWAryNZHytJpAUaXA==
+X-Google-Smtp-Source: APBJJlH2mseQKjiiacZ+/mhH27jcC5ia52qZIUxEKsEQU24UOzQFdfgu6sxfTX3XaTzTaT3DRkREeg==
+X-Received: by 2002:a05:6a00:228e:b0:63d:3339:e967 with SMTP id f14-20020a056a00228e00b0063d3339e967mr12067498pfe.19.1688967873796;
+        Sun, 09 Jul 2023 22:44:33 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id k21-20020aa790d5000000b00682af93093dsm6210392pfk.45.2023.07.09.22.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jul 2023 22:44:33 -0700 (PDT)
+Message-ID: <64ab9ac1.a70a0220.2b67d.be3f@mx.google.com>
+Date: Sun, 09 Jul 2023 22:44:33 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,56 +46,73 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] drm: Switch i2c drivers back to use .probe()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <168896758987.3413.10759631595788168825.git-patchwork-notify@kernel.org>
-Date: Mon, 10 Jul 2023 05:39:49 +0000
-References: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: airlied@gmail.com, daniel@ffwll.ch, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- jagan@amarulasolutions.com, bleung@chromium.org, groeck@chromium.org,
- ple@baylibre.com, adrien.grassein@gmail.com, peter.senna@gmail.com,
- martin.donnelly@ge.com, martyn.welch@collabora.co.uk, dianders@chromium.org,
- linux@armlinux.org.uk, stefan@olimex.com, sam@ravnborg.org,
- f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
- javierm@redhat.com, alsi@bang-olufsen.dk, ojeda@kernel.org,
- antonio.borneo@foss.st.com, jiasheng@iscas.ac.cn, quic_abhinavk@quicinc.com,
- a.fatoum@pengutronix.de, andriy.shevchenko@linux.intel.com,
- heikki.krogerus@linux.intel.com, Jonathan.Cameron@huawei.com,
- tzimmermann@suse.de, kabel@kernel.org, benjamin.mugnier@foss.st.com,
- cmo@melexis.com, xji@analogixsemi.com, hsinyi@chromium.org, windhl@126.com,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- chrome-platform@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.5-rc1
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Report-Type: build
+X-Kernelci-Branch: for-kernelci
+Subject: chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed,
+ 3 warnings (v6.5-rc1)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed, 3 warning=
+s (v6.5-rc1)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Douglas Anderson <dianders@chromium.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.5-rc1/
 
-On Fri, 26 May 2023 11:07:09 +0200 you wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.5-rc1
+Git Commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 2 unique architectures
 
-Here is the summary with links:
-  - [v2] drm: Switch i2c drivers back to use .probe()
-    https://git.kernel.org/chrome-platform/c/332af828ce78
+Warnings Detected:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+arm:
+
+x86_64:
+    x86_64_defconfig (gcc-10): 3 warnings
 
 
+Warnings summary:
+
+    1    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    1    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    1    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redunda=
+nt UACCESS disable
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
+ection mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---
+For more info write to <info@kernelci.org>

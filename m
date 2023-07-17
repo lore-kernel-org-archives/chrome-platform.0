@@ -1,37 +1,40 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB04C2C2
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 23:48:34 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51e55517de3so2709a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 16:48:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48622C2C2
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 23:54:15 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-40371070eb7so70911cf.1
+        for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 16:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689637713; x=1692229713;
+        d=google.com; s=20221208; t=1689638054; x=1692230054;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nDZgTVBOtrhe4zyB3l0viMZQTIRr5Hbt8Gnmm5i7wY8=;
-        b=bqzqjgWXG+sKHODPCAsrIzOXoVhSTwy8eIidM58WKz1RRXy8oGdhAx0HlptaSQD8ty
-         JbQHOOJKm5IPoMTeVUVID8ijeDdlZkOgB9W4u/PhoyWEyzsMJreZbh/mh49nUd+TX/Nf
-         AMwRVEJ8iiw/TwSvjVph4FV3V04JpMM3ABpmQ=
+        bh=a3jAfeK1TboEapIapoxRTzROdPFxCqeB8GfaLFzRyWo=;
+        b=3gaop0MsrObpCuLYGnTyArZ2CGnoMsQaKXXRnHdTAY86IOXFCY/AMb8eBeWDzQDYYt
+         q+BXzVZ9BHEaHjkwj0fDMJfBnAzAKV2C4j0pzqeBDCSL4g6iFK3aJp/nIua+EVu3jDRB
+         Jkjif6sPNULgL5T/b1wRRcFgI6l+u90arfcvIx9JutOBPf+iF/N631Y3LRIN7aEQmVRw
+         1Kk8kRDqyfJmSMwoxs7RlBJhdPw80Nzvu0Ug+/u1QiXDIfqsQt0ytC5r9FMUXV2xdWYd
+         7GsdA8HxKNhtAVO17OcCkd3B99Prr5pkAp18oxkqTflHCCmui/GI46lq/NT2ZykA+Vet
+         uEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689637713; x=1692229713;
+        d=1e100.net; s=20221208; t=1689638054; x=1692230054;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nDZgTVBOtrhe4zyB3l0viMZQTIRr5Hbt8Gnmm5i7wY8=;
-        b=Hdwegfgegio16z9FV6muNtgxAqwLM5h7bpNclPt1dL1NxLBLL39J86pe2+0xkRqf6Y
-         o2SNZjGLZjy9FdV1+Rwyg3lT5R4sdmBu40XZ+LGXXHaNiqhhs5vuadi6eurdqiJD/gPT
-         cVUreXcwjsCLhVHp0oghjVxXVv16YpW/CIq3VLdtJL8msPYVxGJyovCALAP/hGjFyQp/
-         Sa6WlwvhV8xP+XhybZs7Bu3q/c8xh/79KGDXPQ14apfwtSZfenEtrbiYkiDOm2Ucj6WJ
-         WjUFfimOaNk7bY7hgMLuL9W7RxNx6v6XQp9y+DNQTUBew4nJ6B2RGyLYto5SRK3Z4p38
-         YAxw==
-X-Gm-Message-State: ABy/qLZLJOLWfu4KtwTlmoDN6dNaOafI1RzdaB8zfvEFgnj4urAPwLEA
-	IQvK3KCEX4LjjiNMtU3mTj5I/UL/onAoe4DJoYL+1g==
-X-Google-Smtp-Source: APBJJlEW0AuUoRSE12bDJI1szQtbH+aXfUR7lmKm6/mPXsKEazqqnhOeC+Y4OCTm/0MBaiMdRDEDhVSet3qKHiXgQoQ=
-X-Received: by 2002:a50:9fa3:0:b0:51d:e2d4:3d43 with SMTP id
- c32-20020a509fa3000000b0051de2d43d43mr22758edf.7.1689637712765; Mon, 17 Jul
- 2023 16:48:32 -0700 (PDT)
+        bh=a3jAfeK1TboEapIapoxRTzROdPFxCqeB8GfaLFzRyWo=;
+        b=b2Ym1kaTC8S4YS8BD7th/5DR9RUNe31pcVcn1W2P01VfJY7jzxsZbCPBwymG2grMiN
+         0jAGIPQKReV7Q2903vGHeKwCYLcLqgnpQ81E9YnpTlmwmOpqnN1EBhpDIOrm51bEVAjZ
+         emvGe79mCDliRLh/h8uFdlyL+nKD4DRjMF61Z1G5+9Cs8gNiS+MMCigZ3xXSNZUYh7Ii
+         h8uwL56JEcGWeoWZdRTUC/itky7W6tIgyjzaaitrNtJi46P4vd4eUlNFH3Jigupc7Rho
+         xrolS9l6qAGT1+JvXQl22POpFG+FKvYlpCh7Qd/vgz2EL6cxl193F9u1nRMQleW549A/
+         7lHA==
+X-Gm-Message-State: ABy/qLY7Po+I+6d9Z5yHoFH1GAqysFLd5hYXpbyArK6MzYmFlHSmUYYq
+	ml4+M8S5FvYsFqMh4kEnCCA4s3eDaChv5AXjxEUIYQ==
+X-Google-Smtp-Source: APBJJlGNEFS+X2UGYRBHYYlFepf8nUahnFcsaO6KQp3gAz3I89PT5DeYE6k/X0DxNLKoUyjOl42CZofV0dXpydIMYyw=
+X-Received: by 2002:ac8:5714:0:b0:403:a43d:bd7d with SMTP id
+ 20-20020ac85714000000b00403a43dbd7dmr120416qtw.4.1689638053953; Mon, 17 Jul
+ 2023 16:54:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -40,18 +43,16 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230717232932.1.I361812b405bd07772f66660624188339ab158772@changeid>
 In-Reply-To: <20230717232932.1.I361812b405bd07772f66660624188339ab158772@changeid>
-From: Benson Leung <bleung@chromium.org>
-Date: Mon, 17 Jul 2023 16:48:19 -0700
-Message-ID: <CANLzEku3vL3EKmFhN7YYdjqP=O3p4sNxtHPji2Yv8s_EMAcvRg@mail.gmail.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Mon, 17 Jul 2023 16:54:00 -0700
+Message-ID: <CABXOdTf2bJMekRR9f4zyBNDEY5Uuogin-dy9HOEvWhaEW0-Qtg@mail.gmail.com>
 Subject: Re: [PATCH] drivers/cros_ec: Emergency sync filesystem on EC panic
 To: Rob Barnes <robbarnes@google.com>
 Cc: pmalani@chromium.org, chrome-platform@lists.linux.dev, 
-	briannorris@chromium.org, Guenter Roeck <groeck@chromium.org>, 
-	linux-kernel@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>
+	briannorris@chromium.org, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-
-Hi Rob,
 
 On Mon, Jul 17, 2023 at 4:29=E2=80=AFPM Rob Barnes <robbarnes@google.com> w=
 rote:
@@ -67,8 +68,9 @@ rote:
 >
 > Signed-off-by: Rob Barnes <robbarnes@google.com>
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+Makes sense.
 
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
 >
@@ -100,13 +102,3 @@ d */
 > --
 > 2.41.0.255.g8b1d071c50-goog
 >
-
-
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org

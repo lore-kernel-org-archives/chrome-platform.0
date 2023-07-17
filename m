@@ -1,32 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EB315B4
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 03:50:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970EAC433C7;
-	Mon, 17 Jul 2023 03:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2B717C5;
+	Mon, 17 Jul 2023 04:01:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 041D3C433C8;
+	Mon, 17 Jul 2023 04:01:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689565817;
-	bh=gXfYH7V2kM1Y538mSmiEnBw9D2Olq+4SnpNIVM3FhNU=;
+	s=k20201202; t=1689566491;
+	bh=Q8HivdgN0OL6bq4ZKkophdSmpX3+e7PbxMGhWwxCixw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tDuYNli+lCUffUuvmVeq+JucDtgYy9hvhCBF5b7KYRdTGh4g03kmMB5x3XS6Jkrp2
-	 5193jfvFuoerRJqNPNV0+Wvlc5aOEsdXA0dGWiQZ0LaHTOH97QdbksGKpKlCTO/n0o
-	 O/WENGr6HGKjhW54yM+rWQRRd0Y6QzBCetlyD/jbsEfD2i72LLfMtPUwE3NXwABQJp
-	 jfRN7MZF6DySzTLq01L55Rt38hTGImMgCWXvGtYwU5bO61VAgHfqTG6sz+QEZ5OcAa
-	 AYTM2u6RQlfQFgNTZssR3v2nYb7PM9ER+Ige0FH/qUgOTPi53n87PuoyPSuTRAoSNp
-	 0B+dQxPNQNwYA==
-Date: Mon, 17 Jul 2023 11:50:13 +0800
+	b=MujKx3gpE5F0rZ+QF6LHP/GxGfyKVj6s/STk9hmgJplxJlC2KXY41ikMHBwMeD2hd
+	 oX++frOrOtZJnkkuokutw+COM5rPP2wM0pGJDKL/ZB1KOTyHocXlzgnPopWcoGYRBw
+	 yYOBTHWyoZy3d1OQWiXPT3yZCDz7W2n+2TWgmZ83xEvS7HxIMzbnsqykDUAJI/jJ0L
+	 Dr+awOKq718H3u3A257V8fnE/X8/X83DGtaSoQsSPld/P/Wigxc1ez8gj+Iy201Sst
+	 bxwqR3N7fMgf6vMTpGlr0OvdWnr62wOfRFaE69idR7bcupDKEu/MaUNqmoDG8V5EYh
+	 RpaPsFQYnP4Gg==
+Date: Mon, 17 Jul 2023 12:01:22 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mark Gross <markgross@kernel.org>,
-	Vadim Pasternak <vadimp@nvidia.com>, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] platform: Explicitly include correct DT includes
-Message-ID: <ZLS6dchiyqFQlRwJ@google.com>
-References: <20230714174909.4062739-1-robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
+Message-ID: <ZLS9EleWQlyY+jv3@google.com>
+References: <20230714174852.4062251-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,9 +70,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230714174909.4062739-1-robh@kernel.org>
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
 
-On Fri, Jul 14, 2023 at 11:49:09AM -0600, Rob Herring wrote:
+On Fri, Jul 14, 2023 at 11:48:50AM -0600, Rob Herring wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -49,23 +84,5 @@ On Fri, Jul 14, 2023 at 11:49:09AM -0600, Rob Herring wrote:
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-For cros_ec:
+For pwm-cros-ec.c:
 Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-The driver uses platform_device_unregister() which is in platform_device.h.
-
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-> index 8b7949220382..5d36fbc75e1b 100644
-> --- a/drivers/platform/chrome/cros_ec.c
-> +++ b/drivers/platform/chrome/cros_ec.c
-> @@ -12,6 +12,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/slab.h>
-
-nit: if we want to maintain the sort, "platform_device" should come after
-"platform_data".

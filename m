@@ -1,211 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA63E253DE;
-	Mon, 17 Jul 2023 16:00:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23660C433C7;
-	Mon, 17 Jul 2023 16:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689609627;
-	bh=dZQcAw1zSoJbieoMVSknj3lKolfzlek5nECTMuXlJTI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kev7TG2o9s8LS1U/OrbHxP2+DikpEYtenqHzdUHa+C5S0uRyXnW5U6HBWbWDoDXQI
-	 HGuFTdRhkqm+GwCuyGUiQCrQIBnNUsB43hwdyHSN8YFnaj7h/DGE77zsXN5/+VMP/L
-	 YZNJDo3H5Rte1xRxXFxY/vQafP1OutAKGHgMHhaOjddTl8pfPhKoOStSUpOiHr1dKy
-	 9Esfh+1CxXaorLzzKihoO8Sl3pYodrhThchtNG/BLLJFkFde3kvadEvySbQHCQTsrX
-	 oku76bkYJnNGA5Z2PWzj46Y85htWLlOTNocpmM9fMndXvi310760mH+GIq47ReDgB7
-	 lKnqY07zhEUHg==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-993d1f899d7so673415966b.2;
-        Mon, 17 Jul 2023 09:00:27 -0700 (PDT)
-X-Gm-Message-State: ABy/qLY9XjjV0ILHc4hc7r3SqzxzgqryU9tUmVz/4js5kI9C38/rs7Ry
-	b0PSfR3AT3620inKhACmGWBJi/3LdcZZ52CEXQ==
-X-Google-Smtp-Source: APBJJlHA4mgilySogAP42lUQSMVRT/qbV5Oma2JALtCafuqV/cUjtluoVPGDaYM362s9DRx6+5c70nlKH/JRTpSuRMY=
-X-Received: by 2002:a2e:9206:0:b0:2b7:15d:24 with SMTP id k6-20020a2e9206000000b002b7015d0024mr9106273ljg.41.1689609605034;
- Mon, 17 Jul 2023 09:00:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CACBE46
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 23:29:40 +0000 (UTC)
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-55ac8fcc887so2377419a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 16:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689636580; x=1692228580;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Ird/WLydYaL1CZ8k5wr+kVwYTmymx69M3RobX2GjRRk=;
+        b=hkifHyWTg3IccG5d/p0hfc+tMQUiLWzqHqVw7JWr85jdGXtWpvj7aATj6c/OzxTY1y
+         2Iyf8y7BOcM914r8tnAJUC9c2l7r+2no2RdWV2OPYYuGdWu+x5rljiz+xVO5PmITzOD8
+         cthk8Z+66glwpEg5AXsfVjothdOienhxYmYCGqXvmqT4IueqOqRoVLH82IFR3r107A72
+         PB7RZy5OBdPhEmJ24npqCLJLviFGiiekbk+JkPVzf7/4rArUUMpdZp1VsqHgdu+mDl3n
+         G9XhdZBklOtDwY9v1KcXF+BxKNLMupUDKYTBryTbmAOiF1LBeOOiM1l2iP3awq/NswtW
+         iTdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689636580; x=1692228580;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ird/WLydYaL1CZ8k5wr+kVwYTmymx69M3RobX2GjRRk=;
+        b=AGuYTrmwBIeDFxycjxwv2hC3aHbN8FUh4OT4e1ouTySmbj780J4DWjvMN0wYkV5qb9
+         jbxqhzZiDrBkld9JEY6l3R9SV4dVHNnqxaX6sFlANTwyK0SeNZ0D9N4nDNfcEBDN143H
+         pJ79bMA0qwsOrV5EEzJr/tmu5HeQDimeI92uoHCdH7QYoBsqx2QTUwkJ03pHtKcI//e4
+         WgKlM0dTJlAQlzrxIAWgLAKjrCucMGcD+rBQ91qnDDjjAo/F8VDtLw0pm0M2mAasF3HH
+         u7Mc+DXoMQpBGVv4fju6IjAdB5icefOYmIkhqmyKFK6AIcvDMbpW27x0M3frWC9mv2Zj
+         HSfQ==
+X-Gm-Message-State: ABy/qLboDqUpWVZwlRZTzbuClvU4tT3VJAC32Fpx2RvyP070fODOz4uu
+	6aWXGdpPBS86rREkTZzeQVqAWeHPX9BhQI4=
+X-Google-Smtp-Source: APBJJlFf2yFppmL7A2x5VBahkETSDvkzC8Bm3eSvb1eaR96HjbZm8g/RzRfWAVGfvhdgg9m7kq7fcTczsJw+3k4=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a63:9316:0:b0:55a:e71b:45b9 with SMTP id
+ b22-20020a639316000000b0055ae71b45b9mr104144pge.2.1689636579886; Mon, 17 Jul
+ 2023 16:29:39 -0700 (PDT)
+Date: Mon, 17 Jul 2023 23:29:32 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20230714174852.4062251-1-robh@kernel.org> <20230717074352.dz3ex7fwi77loayc@pengutronix.de>
-In-Reply-To: <20230717074352.dz3ex7fwi77loayc@pengutronix.de>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 17 Jul 2023 09:59:52 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKDGeDrK6-cgsZpcpmAvQN-SVUv+W1nJRRiYD3BGAj-_g@mail.gmail.com>
-Message-ID: <CAL_JsqKDGeDrK6-cgsZpcpmAvQN-SVUv+W1nJRRiYD3BGAj-_g@mail.gmail.com>
-Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	asahi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230717232932.1.I361812b405bd07772f66660624188339ab158772@changeid>
+Subject: [PATCH] drivers/cros_ec: Emergency sync filesystem on EC panic
+From: Rob Barnes <robbarnes@google.com>
+To: pmalani@chromium.org, chrome-platform@lists.linux.dev
+Cc: robbarnes@google.com, briannorris@chromium.org, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 17, 2023 at 1:44=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> On Fri, Jul 14, 2023 at 11:48:50AM -0600, Rob Herring wrote:
-> > The DT of_device.h and of_platform.h date back to the separate
-> > of_platform_bus_type before it as merged into the regular platform bus.
-> > As part of that merge prepping Arm DT support 13 years ago, they
-> > "temporarily" include each other. They also include platform_device.h
-> > and of.h. As a result, there's a pretty much random mix of those includ=
-e
-> > files used throughout the tree. In order to detangle these headers and
-> > replace the implicit includes with struct declarations, users need to
-> > explicitly include the correct includes.
->
-> so the eventual goal here is to prepare for:
->
->  - drop #include <linux/of_device.h> from include/linux/of_platform.h
->  - drop #include <linux/of.h> from include/linux/of_device.h
->  - drop #include <linux/of_platform.h> from include/linux/of_device.h
->  - drop #include <linux/platform_device.h> from include/linux/of_device.h
->  - drop #include <linux/platform_device.h> from include/linux/of_platform=
-.h
+Perform an emergency filesystem sync when an EC panic is reported. An
+emergency sync actually performs two syncs internally in case some
+inodes or pages are temporarily locked.
 
-Yes.
+hw_protection_shutdown is replaced for a few reasons. It is unnecessary
+because the EC will force reset either way. hw_protection_shutdown does
+not reliably sync filesystem before shutting down. emergency_sync is not
+synchronous so hw_protection_shutdown may interrupt emergency_sync.
 
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  drivers/pwm/core.c               | 1 +
-> >  drivers/pwm/pwm-apple.c          | 1 +
-> >  drivers/pwm/pwm-atmel-hlcdc.c    | 1 +
-> >  drivers/pwm/pwm-atmel-tcb.c      | 3 +--
-> >  drivers/pwm/pwm-atmel.c          | 1 -
-> >  drivers/pwm/pwm-berlin.c         | 1 +
-> >  drivers/pwm/pwm-cros-ec.c        | 1 +
-> >  drivers/pwm/pwm-fsl-ftm.c        | 3 +--
-> >  drivers/pwm/pwm-hibvt.c          | 2 +-
-> >  drivers/pwm/pwm-imx1.c           | 1 -
-> >  drivers/pwm/pwm-jz4740.c         | 2 +-
-> >  drivers/pwm/pwm-lp3943.c         | 1 +
-> >  drivers/pwm/pwm-lpc18xx-sct.c    | 1 +
-> >  drivers/pwm/pwm-mediatek.c       | 1 -
-> >  drivers/pwm/pwm-meson.c          | 1 -
-> >  drivers/pwm/pwm-microchip-core.c | 2 +-
-> >  drivers/pwm/pwm-mtk-disp.c       | 1 -
-> >  drivers/pwm/pwm-pxa.c            | 1 +
-> >  drivers/pwm/pwm-sifive.c         | 1 +
-> >  drivers/pwm/pwm-sl28cpld.c       | 1 +
-> >  drivers/pwm/pwm-sprd.c           | 1 +
-> >  drivers/pwm/pwm-sun4i.c          | 1 -
-> >  drivers/pwm/pwm-sunplus.c        | 1 +
-> >  drivers/pwm/pwm-tegra.c          | 1 -
-> >  drivers/pwm/pwm-tiecap.c         | 2 +-
-> >  drivers/pwm/pwm-tiehrpwm.c       | 2 +-
-> >  drivers/pwm/pwm-visconti.c       | 2 +-
-> >  drivers/pwm/pwm-vt8500.c         | 5 +----
-> >  28 files changed, 21 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> > index 3dacceaef4a9..d37617c60eae 100644
-> > --- a/drivers/pwm/core.c
-> > +++ b/drivers/pwm/core.c
-> > @@ -8,6 +8,7 @@
-> >
-> >  #include <linux/acpi.h>
-> >  #include <linux/module.h>
-> > +#include <linux/of.h>
-> >  #include <linux/pwm.h>
-> >  #include <linux/radix-tree.h>
-> >  #include <linux/list.h>
->
-> This file includes neither of_device.h nor of_platform.h and up to now
-> gets of.h via <linux/pwm.h>.
+Signed-off-by: Rob Barnes <robbarnes@google.com>
+---
 
-Indeed.
+ drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> What is your plan for <linux/pwm.h>'s include? I think it would only need
->
->         struct of_phandle_args;
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 500a61b093e47..9652fc073c2a4 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -327,8 +327,8 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+ 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
+ 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
+ 		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
+-		/* Begin orderly shutdown. Force shutdown after 1 second. */
+-		hw_protection_shutdown("CrOS EC Panic", 1000);
++		/* Force sync the filesystem before EC resets */
++		emergency_sync();
+ 		/* Do not query for other events after a panic is reported */
+ 		return;
+ 	}
+-- 
+2.41.0.255.g8b1d071c50-goog
 
-Here's what I'm testing with:
-
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index 04ae1d9073a7..5a59a7d53be8 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -4,8 +4,10 @@
-
- #include <linux/err.h>
- #include <linux/mutex.h>
--#include <linux/of.h>
-
-+struct device;
-+struct fwnode_handle;
-+struct of_phandle_args;
- struct pwm_chip;
-
- /**
-
->
-> to replace that. (But that would need another patch like this one, as
-> then e.g. drivers/pwm/pwm-sl28cpld.c fails to compile because
-> device_property_read_u32() is undeclared. It would need to #include
-> <linux/property.h> which now it gets transitively via <linux/of.h>.)
-
-property.h is added in this patch, so it should be okay?
-
-> If <linux/pwm.h> is planed to continue #including <linux/of.h>, the
-> explicit include here isn't necessary (and probably elsewhere).
-
-I would like to drop including of.h, but probably not this cycle.
-Either way, I thought kernel best practice was to not rely on implicit
-includes.
-
-BTW, linux/i2c.h is another source of lots of implicit of.h includes.
-That one looks like we can't get rid of.
-
-> I don't care much either way, but maybe your quest would be a bit
-> simpler if you only touch files that include the two files you want to
-> modify?
-
-Yes, that's how it started. I kind of decided it wasn't worth trying
-to split things up by every separate reason explicit includes were not
-correct.
-
->
-> *shrug*, this patch is still an improvement so:
->
-> Acked-by: Uwe Kleine-K=C3=B6ng <u.kleine-koenig@pengutronix.de>
->
-> Another thing I wonder is: How did you identify the files that need
-> these includes. I guess you have a list of types for each header and
-> search for files that use any of the types but doesn't include the
-> respecitve header? I wonder if tracking this type -> header mapping in
-> machine readable form somewhere would be nice, to e.g. make checkpatch
-> warn if a file uses struct of_node but only gets it by chance?
-
-It's been less automated than I'd like. It's been a lot of grepping
-with a list of symbols the headers provide. For example, I get all the
-files including of_device.h and then get the ones with no symbols from
-of_device.h. And then do a manual review of what are the correct
-headers for the file. And then run thru builds and fix all the issues.
-
-Rob

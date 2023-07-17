@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9065B1851
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 03:09:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CECB9C433C8;
-	Mon, 17 Jul 2023 03:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B68717C5
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Jul 2023 03:34:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2ECAC433C7;
+	Mon, 17 Jul 2023 03:34:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689563352;
-	bh=DRxqjjbEkd/2HTqyHGAyPCFDb21N1UMH/n+hpkxyWrw=;
+	s=k20201202; t=1689564875;
+	bh=gumOmQ9H5ZNL4mOAlqBRGIcAVcsoguAmIqGYv9QD4HM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L1RNPQnupP9IortcyB4NzYXQ76wS8Gx5mLXQFMJjQQrCBKkU7M8H3QL6bciBXVpsr
-	 S7KlZDXH2dj4zVmIY4WBOpvlogveO8eZxLex7Ypwfhs8yoQIlPwSfUY5ygaIlLUaj0
-	 2AKNVvG3Aaf63yUm/n0l6OsyqQeecGaBvelnUFqYn/8Di8KEUg6lP2YJBpaRhJMo9H
-	 zS6ubp9ORpMVoG1XrDW1Q8G7VN+5OKdWe2r2YadNSO2j+Ca6MpqarTiZlFuoNf3eUt
-	 LjxHGHqhht7o1rFH9e7EAPL8LH0nrgqd5hcmkq11e4nc4Fgf++F9yFXP1aGbTbA4/L
-	 H83R0mYWWCLxw==
-Date: Mon, 17 Jul 2023 11:09:08 +0800
+	b=OZ++MktaOg9+wroeqlXbz/1/3N3V9anziqx48qTmeyeEg980yB2tJI/z5cv58ikmM
+	 Y52jIwhpj9CyF/5Zrd3erScG3HUbFGmq6rzRU9Nmuors554/H8ukH38odsDmr0Fg1I
+	 mxVcZZ0y0MScBug8XxRTgvKpX1gPqPIntIpL5ILQLNrBi/RbOW+nwLTHLlLTDbgAh2
+	 /UfLK/T9eoJdgMxxjUgCdkHHST10gB8NoM+xlq5Rf/zAlGosc+C1FL3rcs+l6L+O1z
+	 dt7zwPJb4BsnZ3H4rNiqYOyE0Ai2M9smqwD9gpy49RK4IEop9e8V0nVIiwp0JnhHS3
+	 WJo0Q6w5H8xcA==
+Date: Mon, 17 Jul 2023 11:34:31 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Yiyuan Guo <yguoaz@gmail.com>, lars@metafoo.de, bleung@chromium.org,
-	groeck@google.com, dianders@chromium.org, mazziesaccount@gmail.com,
-	gwendal@chromium.org, linux-iio@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for
- cros_ec_command
-Message-ID: <ZLSw1FxccNOqE52C@google.com>
-References: <20230630143719.1513906-1-yguoaz@gmail.com>
- <20230716141028.4c57c5c7@jic23-huawei>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH 05/10] pwm: cros-ec: Consistenly name pwm_chip variables
+ "chip"
+Message-ID: <ZLS2x0ZN1dE+2nob@google.com>
+References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+ <20230714205623.2496590-6-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230716141028.4c57c5c7@jic23-huawei>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230714205623.2496590-6-u.kleine-koenig@pengutronix.de>
 
-On Sun, Jul 16, 2023 at 02:10:28PM +0100, Jonathan Cameron wrote:
-[...]
-> 2) Various people commented on earlier versions, and I'm waiting for them to confirm
-> they are fine with this version.
+On Fri, Jul 14, 2023 at 10:56:18PM +0200, Uwe Kleine-König wrote:
+> Most variables holding a pointer to a pwm_chip are called "chip" which
+> is also the usual name in most other pwm drivers. Rename the two
+> variables that have a different name to be called "chip", too, for
+> consistency.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-The version addressed all my comments and LGTM.
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

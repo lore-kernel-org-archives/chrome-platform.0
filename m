@@ -1,53 +1,62 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA40E547
-	for <chrome-platform@lists.linux.dev>; Tue, 18 Jul 2023 09:37:06 +0000 (UTC)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4R4tzP4qFwz67frD;
-	Tue, 18 Jul 2023 17:33:05 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 18 Jul
- 2023 10:37:03 +0100
-Date: Tue, 18 Jul 2023 10:37:02 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-CC: Jonathan Cameron <jic23@kernel.org>, Yiyuan Guo <yguoaz@gmail.com>,
-	<lars@metafoo.de>, <bleung@chromium.org>, <groeck@google.com>,
-	<dianders@chromium.org>, <mazziesaccount@gmail.com>, <gwendal@chromium.org>,
-	<linux-iio@vger.kernel.org>, <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for
- cros_ec_command
-Message-ID: <20230718103702.0000546e@Huawei.com>
-In-Reply-To: <ZLSw1FxccNOqE52C@google.com>
-References: <20230630143719.1513906-1-yguoaz@gmail.com>
-	<20230716141028.4c57c5c7@jic23-huawei>
-	<ZLSw1FxccNOqE52C@google.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2FC17D0
+	for <chrome-platform@lists.linux.dev>; Wed, 19 Jul 2023 02:05:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593BEC433C8;
+	Wed, 19 Jul 2023 02:05:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689732326;
+	bh=0Z8nly4sCBSjn9JLpjlwIiG5kKFr0ypzfwrwYkLyCNs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IDY1ZLGtApmiEzFza/BMWIKCn3RmQjmcmVpWBwMvqbmf1esAixgt3k5U71YpUfPJW
+	 /24+kxakZiuV2VIXm6LZR+pBWyXg3xgu5xQOLb5A3crK1UrvWC2ad9B5vtYk7lQx3d
+	 kvVA1g5K2/XX8QHBiD/j4M10fKULL2PM3NjL8LtvQKc8lMlEDvB4mQoHlEyPx8vj2B
+	 McWV8OReJIJM5Avg22askcOQ7kcbooimboPUy7oITsqbNDhuVtYJDmLRZL8e6ITXC+
+	 7dAOXYJZCv5sQjZQeHexeBgrcI8RikeCJxaw1ZZ/7BqHD/P+2F3iClmZbeKaY0LFBs
+	 qgPZd7Z92hOnA==
+Date: Wed, 19 Jul 2023 10:05:23 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "kernelci.org bot" <bot@kernelci.org>
+Cc: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
+	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org
+Subject: Re: chrome-platform/for-kernelci baseline: 78 runs, 8 regressions
+ (v6.5-rc1-1-ga6edd5f5d9cc)
+Message-ID: <ZLdE40YySsdVI7je@google.com>
+References: <64b6537f.a70a0220.ace6e.2884@mx.google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64b6537f.a70a0220.ace6e.2884@mx.google.com>
 
-On Mon, 17 Jul 2023 11:09:08 +0800
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-
-> On Sun, Jul 16, 2023 at 02:10:28PM +0100, Jonathan Cameron wrote:
-> [...]
-> > 2) Various people commented on earlier versions, and I'm waiting for them to confirm
-> > they are fine with this version.  
+On Tue, Jul 18, 2023 at 01:55:27AM -0700, kernelci.org bot wrote:
+> chrome-platform/for-kernelci baseline: 78 runs, 8 regressions (v6.5-rc1-1-ga6edd5f5d9cc)
 > 
-> The version addressed all my comments and LGTM.
+> Regressions Summary
+> -------------------
+> 
+> platform                     | arch   | lab           | compiler | defconfig                    | regressions
+> -----------------------------+--------+---------------+----------+------------------------------+------------
+> asus-CM1400CXA-dalboz        | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1          
+> asus-cx9400-volteer          | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1          
+> fsl-ls2088a-rdb              | arm64  | lab-nxp       | gcc-10   | defconfig                    | 1          
+> hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1          
+> hp-x360-14a-cb0001xx-zork    | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1          
+> lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-chromebook | 1          
+> sun50i-a64-pine64-plus       | arm64  | lab-broonie   | gcc-10   | defconfig                    | 1          
+> sun50i-h6-pine-h64           | arm64  | lab-collabora | gcc-10   | defconfig                    | 1          
+> 
+>   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v6.5-rc1-1-ga6edd5f5d9cc/plan/baseline/
 
-Tag?  I can pick up without, but it's nice to record this
-formally.   Reviewed-by seems appropriate here.
+"baseline.bootrr.deferred-probe-empty" failures.
+
+The error message:
+<3>[    4.322265] snd_hda_intel 0000:00:0e.0: Cannot probe codecs, giving up
+
+Will take a look on it later.

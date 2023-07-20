@@ -1,122 +1,126 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98CF14011
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Jul 2023 07:10:45 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qMNo5-0006Kw-7e; Thu, 20 Jul 2023 09:10:37 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qMNo2-000mWW-K5; Thu, 20 Jul 2023 09:10:34 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qMNo1-006IQo-Re; Thu, 20 Jul 2023 09:10:33 +0200
-Date: Thu, 20 Jul 2023 09:10:33 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-riscv@lists.infradead.org, chrome-platform@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-pwm@vger.kernel.org, Ray Jui <rjui@broadcom.com>,
-	Johan Hovold <johan@kernel.org>, greybus-dev@lists.linaro.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Benson Leung <bleung@chromium.org>,
-	linux-arm-kernel@lists.infradead.org, Alex Elder <elder@kernel.org>,
-	Scott Branden <sbranden@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9663218AE4;
+	Thu, 20 Jul 2023 14:41:23 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-98377c5d53eso151761866b.0;
+        Thu, 20 Jul 2023 07:41:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689864081; x=1690468881;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RwRHBU9c5xadzNDMxPmHn7wr/vyd2lyd2aWFINCC4iE=;
+        b=IYkSaw2fLykXQ37NjequnMJ89wJMsFWbIVL50S52MQzxYG63+qLDBbKhKOzKcstmwT
+         DaVvF46+YFdhnZvP2A/d93w496r8YnDadWvHbA4T3oCiPcNj1sC84g+IGWuhZwf8GUQn
+         94IuCvbFlswK4ZwAmHrXsT+8APe6vS3OzdOTj+Unfk4V/O2sFYPaG24DiTAaU0woO16f
+         yMkNztL3l//kUK4segexWIMRNNtFZEogs7zloT/Bnio4to1kJAF9HWGeOX9M6y0W1WVO
+         bXVSVky/EgyU7/NsBP4QiB84Ru+t6+KTTJasF2ZecHQC7w863ODzrKLuSLCOmFAq7epZ
+         FB4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689864081; x=1690468881;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RwRHBU9c5xadzNDMxPmHn7wr/vyd2lyd2aWFINCC4iE=;
+        b=EOQigjd7c9E899e4s+Y08IjG8gwlY0nEYimHMA/pm43Wpw9SOQbenklP+4XoMtShsn
+         y9w8fsWDtpNaAeFHRaPQUaxFplgJSdHFSo9y3naCINvkQ5GcMMDgtAMKeZ1KtsNvpy6z
+         sdcYYfL1VNdhxqBJpc4ZXBsxwQDBwVT182cng5aGVKWTC9TBQdAfFseO5RshiDn/Ois3
+         WE4r3ic6bdZcU1e08K05qMqYKSzruB+07ys0PEa+R2SRXp9Hqj5RDPk7CwB3b1HL1GrV
+         hOBmRSiPCmq/4BR+byS/YF82aThKPO38jLGMldfwsAIDqL9xlPua/S2pBeT/+PrzxsPe
+         73ag==
+X-Gm-Message-State: ABy/qLYZLEkwhg/xnMLaJVWI3/1iY5V8D/p/ExIDHJCAbwU6+ckOLgVo
+	x4mCJAhEE83+mZtRXi6ULW4=
+X-Google-Smtp-Source: APBJJlHb0tKAQTS3OU1oBfmdDrT4eFmQjBmNHPnnE8cgWVrDPBMDuvkwOC0e1Hj67ZrNMamXYvALYg==
+X-Received: by 2002:a17:906:31d2:b0:994:4f08:2bad with SMTP id f18-20020a17090631d200b009944f082badmr5214427ejf.69.1689864081292;
+        Thu, 20 Jul 2023 07:41:21 -0700 (PDT)
+Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id a5-20020a170906274500b009932337747esm788354ejd.86.2023.07.20.07.41.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 07:41:20 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
 	Michael Walle <michael@walle.cc>,
-	Palmer Dabbelt <palmer@dabbelt.com>, kernel@pengutronix.de,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
-Message-ID: <20230720071033.e72hjkpghf5ooe73@pengutronix.de>
-References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
- <ZLjYqwGh178EHrVY@orome>
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
+Date: Thu, 20 Jul 2023 16:41:15 +0200
+Message-ID: <168986404883.1519829.12505785794624953835.b4-ty@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
+References: <20230714174852.4062251-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="icirkconcmfpuvh7"
-Content-Disposition: inline
-In-Reply-To: <ZLjYqwGh178EHrVY@orome>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
---icirkconcmfpuvh7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 14 Jul 2023 11:48:50 -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> [...]
 
-Hello Thierry,
+Applied, thanks!
 
-On Thu, Jul 20, 2023 at 08:48:11AM +0200, Thierry Reding wrote:
-> On Fri, Jul 14, 2023 at 10:56:13PM +0200, Uwe Kleine-K=F6nig wrote:
-> > Uwe Kleine-K=F6nig (10):
-> >   pwm: Use a consistent name for pwm_chip pointers in the core
-> >   pwm: atmel-hlcdc: Use consistent variable naming
-> >   pwm: bcm-kona: Consistenly name pwm_chip variables "chip"
-> >   pwm: crc: Consistenly name pwm_chip variables "chip"
-> >   pwm: cros-ec: Consistenly name pwm_chip variables "chip"
-> >   pwm: lp3943: Consistenly name pwm_chip variables "chip"
-> >   pwm: rockchip: Consistenly name pwm_chip variables "chip"
-> >   pwm: sifive: Consistenly name pwm_chip variables "chip"
-> >   pwm: sl28cpld: Consistenly name pwm_chip variables "chip"
-> >   staging: greybus: pwm: Consistenly name pwm_chip variables "chip"
->=20
-> This would've been much easier if it had been a single patch. Now I have
-> to either make you redo the whole series because you've misspelled PWM
-> or I have to go and update it myself in most of the above patches. Hint:
-> I'll do the latter.
+[1/1] pwm: Explicitly include correct DT includes
+      commit: 8d171282110fcde89bb4289c4010a15aca5cec95
 
-I guess you want to do s/pwm driver/PWM driver/? Fine for me, thanks.
-
-> There is really no reason to split this up into this many patches for
-> such a trivial change.
-
-Well, that's a subjective view. There are reasons to prefer several
-small patches over one big one, too. A small patch can be indiviually
-reviewed, so the "Reviewed-by: Alex Elder ..." tag only goes to the one
-change that he actually looked at and if later a fix to the sifive
-driver is to be backported to stable, the stable maintainers just pick
-the sifive one instead of one big patch.
-
-Did you skip the sl28cpld patch, or squash the fixup I sent in the reply
-to Michael Walle?
-
-Best regards and thanks,
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---icirkconcmfpuvh7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmS43egACgkQj4D7WH0S
-/k4yxggAmA419LnNhUxGLLqAb6cq3dncldtmQs44Y7SOPuVmDMivbYjrghQCbQDx
-cwIq9JAASH/o55NbwiCBI6HBa7YDerPZyLNvpCcQ6r2QmX2uw18V/orXxcwCRohr
-yMtPxmgVImRc76bjnqpML3G0QIpJf0IbUKmZvkPIOBwj5c+rZQqsvjPcT4UQNWXf
-sWT3KXf2sJopeeWGHpThCgHnJuTEB/NdZkXhr2MwM8rJyafJBj91f+d8JQgVl5Pb
-MC250+Md3rZwtyDIO6yG1Ay2ViuXwSqvy7u57oGccS6zcU6ZjG63maJ3aUXSXe7i
-hClf7akfWvZhZdqYQwJ5WgqC9c3vEw==
-=PJgI
------END PGP SIGNATURE-----
-
---icirkconcmfpuvh7--
+Best regards,
+-- 
+Thierry Reding <thierry.reding@gmail.com>

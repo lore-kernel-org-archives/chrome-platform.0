@@ -1,99 +1,75 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9663218AE4;
-	Thu, 20 Jul 2023 14:41:23 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-98377c5d53eso151761866b.0;
-        Thu, 20 Jul 2023 07:41:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C8718AE7;
+	Thu, 20 Jul 2023 14:41:24 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-993a37b79e2so149947666b.1;
+        Thu, 20 Jul 2023 07:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689864081; x=1690468881;
+        d=gmail.com; s=20221208; t=1689864083; x=1690468883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RwRHBU9c5xadzNDMxPmHn7wr/vyd2lyd2aWFINCC4iE=;
-        b=IYkSaw2fLykXQ37NjequnMJ89wJMsFWbIVL50S52MQzxYG63+qLDBbKhKOzKcstmwT
-         DaVvF46+YFdhnZvP2A/d93w496r8YnDadWvHbA4T3oCiPcNj1sC84g+IGWuhZwf8GUQn
-         94IuCvbFlswK4ZwAmHrXsT+8APe6vS3OzdOTj+Unfk4V/O2sFYPaG24DiTAaU0woO16f
-         yMkNztL3l//kUK4segexWIMRNNtFZEogs7zloT/Bnio4to1kJAF9HWGeOX9M6y0W1WVO
-         bXVSVky/EgyU7/NsBP4QiB84Ru+t6+KTTJasF2ZecHQC7w863ODzrKLuSLCOmFAq7epZ
-         FB4A==
+        bh=wLrHxYUorj4cRATSl4FYWOBY6cgIskL8/uHYHedoFV8=;
+        b=gWcKKtu+NPxLWPKoWi3l0E4hcgurpq8rsryPV5UeUd/jTyTcdlvtGzb8gh0vph929W
+         hr/RMZNCEsxLG3NWBSl60PCuiWYcdsfPONdHgFdAOnDMUgDNA1qOo8kUP2AUFiJiMcDf
+         UKtBS/ErkKBVFXl2mZncl0VCjfxioeF1wCFhisv/VGv0JbxKwdQHnjdMPtQl8dpjxT6I
+         ccyE8q9NPMzASWLBYhw4sR4Pzu1xv2BMCVLl+k0kZzQkNDpSaiv7UzSVPpeN6wSITaAf
+         ZXLIBD5HlyMKXxRDkrj7j3QZ1sgaderLBP6XGfHj0oYi4LU4XCdssHqdMFcQCOiWQo+d
+         QWFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689864081; x=1690468881;
+        d=1e100.net; s=20221208; t=1689864083; x=1690468883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RwRHBU9c5xadzNDMxPmHn7wr/vyd2lyd2aWFINCC4iE=;
-        b=EOQigjd7c9E899e4s+Y08IjG8gwlY0nEYimHMA/pm43Wpw9SOQbenklP+4XoMtShsn
-         y9w8fsWDtpNaAeFHRaPQUaxFplgJSdHFSo9y3naCINvkQ5GcMMDgtAMKeZ1KtsNvpy6z
-         sdcYYfL1VNdhxqBJpc4ZXBsxwQDBwVT182cng5aGVKWTC9TBQdAfFseO5RshiDn/Ois3
-         WE4r3ic6bdZcU1e08K05qMqYKSzruB+07ys0PEa+R2SRXp9Hqj5RDPk7CwB3b1HL1GrV
-         hOBmRSiPCmq/4BR+byS/YF82aThKPO38jLGMldfwsAIDqL9xlPua/S2pBeT/+PrzxsPe
-         73ag==
-X-Gm-Message-State: ABy/qLYZLEkwhg/xnMLaJVWI3/1iY5V8D/p/ExIDHJCAbwU6+ckOLgVo
-	x4mCJAhEE83+mZtRXi6ULW4=
-X-Google-Smtp-Source: APBJJlHb0tKAQTS3OU1oBfmdDrT4eFmQjBmNHPnnE8cgWVrDPBMDuvkwOC0e1Hj67ZrNMamXYvALYg==
-X-Received: by 2002:a17:906:31d2:b0:994:4f08:2bad with SMTP id f18-20020a17090631d200b009944f082badmr5214427ejf.69.1689864081292;
-        Thu, 20 Jul 2023 07:41:21 -0700 (PDT)
+        bh=wLrHxYUorj4cRATSl4FYWOBY6cgIskL8/uHYHedoFV8=;
+        b=I0rz/F0/8dnTC3IFEgnIbQfvl8g/FfGRr5Z6MZu8wvQGCiRKTEVAvNbib91+tef6g4
+         SXb87DHdOtH1190hx91zEUFwm7Od81h0PF3NiuxN9wO48pulmOIbZqA2yeOSo+e0UVaX
+         PJtaClsgBT872/hR5YEqXbJte6bqd5DGH0IplXRN0DPS5BGgkOfSAoSeAqN1vKVkuY3W
+         +VkLh/XyVDQwY3Fi0mXrM6U/NglUyvVxljqt9EbLYde0Y79VKoJzhIuSaWlXr6UGgGrb
+         dB+4elaNEs9DAxaCFZ+/CbBH1ys5sx6BfhgTEzpsjpK7aoiAC4XrsII4ISsjs5CXR/nd
+         iyFA==
+X-Gm-Message-State: ABy/qLYVY38ZBiHWKrKwOeXtT85p3LDEltpSt0TTsxB5J2+KNltKXneR
+	68KhdXzfBVITjv75xkqcidk=
+X-Google-Smtp-Source: APBJJlHgueNlqW0haDo5hRGUxcvhVV7/ihvmmvg/gwqzFV0iohHNBCeqNUuKd8ZztzBQESq59FBD8w==
+X-Received: by 2002:a17:906:8488:b0:970:1b2d:45cc with SMTP id m8-20020a170906848800b009701b2d45ccmr4904840ejx.57.1689864082442;
+        Thu, 20 Jul 2023 07:41:22 -0700 (PDT)
 Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a5-20020a170906274500b009932337747esm788354ejd.86.2023.07.20.07.41.20
+        by smtp.gmail.com with ESMTPSA id c11-20020a170906924b00b0098e34446464sm799399ejx.25.2023.07.20.07.41.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 07:41:20 -0700 (PDT)
+        Thu, 20 Jul 2023 07:41:21 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
+To: Nicolas Ferre <nicolas.ferre@microchip.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Heiko Stuebner <heiko@sntech.de>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Michael Walle <michael@walle.cc>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-pwm@vger.kernel.org,
+	kernel@pengutronix.de,
 	linux-arm-kernel@lists.infradead.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
 	linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
-Date: Thu, 20 Jul 2023 16:41:15 +0200
-Message-ID: <168986404883.1519829.12505785794624953835.b4-ty@gmail.com>
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
+Date: Thu, 20 Jul 2023 16:41:16 +0200
+Message-ID: <168986404868.1519829.8131310221840364014.b4-ty@gmail.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
-References: <20230714174852.4062251-1-robh@kernel.org>
+In-Reply-To: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -104,22 +80,45 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Fri, 14 Jul 2023 11:48:50 -0600, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Fri, 14 Jul 2023 22:56:13 +0200, Uwe Kleine-König wrote:
+> while working on an extension for the pwm framework, I noticed that some
+> drivers and even the core only nearly consistently named all variables
+> and struct members holding a pointer to a struct pwm_chip "chip":
+> 
+> $ git grep -Pho 'struct pwm_chip \**[a-z0-9_]+(*nla:[\(a-z0-9_])' v6.5-rc1 | sort | uniq -c | sort -n
+>       1 struct pwm_chip *pwm
+>       1 struct pwm_chip pwm
+>       1 struct pwm_chip pwm_chip
+>       2 struct pwm_chip *_chip
+>       4 struct pwm_chip *c
+>       8 struct pwm_chip *pc
+>      57 struct pwm_chip chip
+>     358 struct pwm_chip *chip
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] pwm: Explicitly include correct DT includes
-      commit: 8d171282110fcde89bb4289c4010a15aca5cec95
+[01/10] pwm: Use a consistent name for pwm_chip pointers in the core
+        commit: b4f78ff746ec5274fffa92fa2a4dc531360b5016
+[02/10] pwm: atmel-hlcdc: Use consistent variable naming
+        commit: 509143926e184762cdaffb6b67d3809fddd7f4d9
+[03/10] pwm: bcm-kona: Consistenly name pwm_chip variables "chip"
+        commit: af87385c7ad278207d34ff3681fa325a240ae87c
+[04/10] pwm: crc: Consistenly name pwm_chip variables "chip"
+        commit: fc30826d50d10d67628addfabb9367b5067efa42
+[05/10] pwm: cros-ec: Consistenly name pwm_chip variables "chip"
+        commit: 6b5fdb2b655ac9abe6fbd2cbcb25c8837e3e8553
+[06/10] pwm: lp3943: Consistenly name pwm_chip variables "chip"
+        commit: dd499b63618e523b47f30d99bf20f417de1187ff
+[07/10] pwm: rockchip: Consistenly name pwm_chip variables "chip"
+        commit: 8c297d1fdb5d2b81d39ada6b435fb92a41be9f17
+[08/10] pwm: sifive: Consistenly name pwm_chip variables "chip"
+        commit: cb69f40ea7cb139223901fcfc81e4e0a0a03673c
+[09/10] pwm: sl28cpld: Consistenly name pwm_chip variables "chip"
+        commit: e79974c5c3ddc3e8181f582117c4368557524f20
+[10/10] staging: greybus: pwm: Consistenly name pwm_chip variables "chip"
+        commit: efd1d1ad7f525809fcdf7538638a08274b75c99f
 
 Best regards,
 -- 

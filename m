@@ -1,150 +1,88 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA62418AF2;
-	Thu, 20 Jul 2023 15:03:12 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31454996e06so748531f8f.2;
-        Thu, 20 Jul 2023 08:03:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838FE14011
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Jul 2023 22:37:20 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fba8f2197bso2115455e87.3
+        for <chrome-platform@lists.linux.dev>; Thu, 20 Jul 2023 15:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689865391; x=1690470191;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9T6xDcaGdFqXpwnBEyH6XzquYN88GIZKDHbykcmRxA=;
-        b=dSEvn9QPxO9EVVW5ZGjUhUJUE3+OUOg7VWh6lwkKx+3zaEg/BnEepLUNRdoNU0j7Cz
-         wyhm0EPH/tozgy0H1KYAWbgzLNDLTv8CvmCaXaZcclLRcMskp29IBudDp7X/9DhmiKlm
-         HL3p3EUj9WhCU9sm01p/KtbD9vEAw+f1on0TfS8ssJvHluib1iHupvByidVbsWqzvzXJ
-         6plME6LqTd/dyZ2j8xrx60lVKVk/7Tgyw88nHVYl1y57WOuQHaBuNQ1Rm2bmDTG7ahlF
-         +jtPpxoBXCsAOQGw9+0lC721Of0twvgTCR7lhDxfAEnAywVrrsQ0izAvo5qRXad0Ld+Y
-         D+bA==
+        d=gmail.com; s=20221208; t=1689892638; x=1690497438;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hDwVNaCwLkj+T7Bsxj7osVe4IR5sds5yMUqYgBnFTec=;
+        b=RrpAlqUm0mabMdrW7xEK50l1GNF6iN49ca5j+EY9M/WgnCWiXIvFzGDu74LWDP9eVd
+         hjw6NTvs9gFiwvKY3UTHybpIibi9dafuXULKm8ypdzSxXXKRlE5F5Kr0QdG4qc0Mhc3t
+         Z1+AbQPZUhtokYv1qL/qSmCi195Raf3yd0xn1gyGbhFxuJs5oToufDDt84iI+mEHt25k
+         vi8txd/Tfn/QhlWKD5cUAmnVFv9BnXXR4j0UNlEY+dgvO7FsQVaV5//uD2W2ic8Tmm7a
+         E03K+sR9xFjetBixY26Zd15iuY39Q92GfWofhIXeQ9oCTPG2/OrKiJZkapn7K/IOYCAe
+         RL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689865391; x=1690470191;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h9T6xDcaGdFqXpwnBEyH6XzquYN88GIZKDHbykcmRxA=;
-        b=KfwEdD/PYh/N3dRHEYUZJVl3EUZno5+2hbC12MZByXzS8zVlVWrbDLk6J+Q9zQrwlR
-         Ow4qnM5zs8IUTezl5td8Nuc118wYS+UQQ/KoEWPZV0Zj2qFq14nB8gqlTc+gyn1/3ZW/
-         J5BJUOY9wVTPCKp/u5VVyCjnBiofP8FJOZ5RzV4cXpGygaZJFd8zgbkQKo8SToUPL6Ng
-         sEyXnuowCykTlDdNzPhrs+HUTO09oBVw7okZDF8okSps5VXs7/mRZQw9moddE7nvNLC+
-         GU1XkBBSlppH+lp+v1t3bWR4SOMzccdgS/SK8+4eN3XnIkih8jaEMojAlRw9WlfbisR2
-         BtGw==
-X-Gm-Message-State: ABy/qLYfbF3TsRlFdimlaHGfL3+Y1/Uc5H/DFe5Fq7VDVM9C0H27i6Zv
-	uAShAAm7lwYk2Eea2b9w+OA=
-X-Google-Smtp-Source: APBJJlEr5CyHhhpLYp3q/AVdeWKExZ21rYH+UIIgwfGMQMwnqR91YpoT/wK/430U56C5ddPybLCc+g==
-X-Received: by 2002:a5d:55ce:0:b0:313:e8bf:a77 with SMTP id i14-20020a5d55ce000000b00313e8bf0a77mr2183185wrw.5.1689865390637;
-        Thu, 20 Jul 2023 08:03:10 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id y16-20020a5d6150000000b00313e59cb371sm1599728wrt.12.2023.07.20.08.03.09
+        d=1e100.net; s=20221208; t=1689892638; x=1690497438;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hDwVNaCwLkj+T7Bsxj7osVe4IR5sds5yMUqYgBnFTec=;
+        b=Z869rCnOKeq8GtLsirpmWk6MjGoNuoCYGED8mpyLMUgPqTDIvl5aOb47OkaguA3EDN
+         RZB3kTdK2TXTFyPpSKEnQBeQsPXOAN+kvB1lPcGrO+rH333ZLBr79wuWZ4CYMtMhvwIR
+         0+44aYUIxoDIBYlJyvrrtltIoay6AZhakDH+RzNBM+75TgWxJeaIz6Yjzk1eDLpcCGi/
+         kKvJrAposCV046x3FoyuHnVGFTU4B56JLFy9/8cAOfIR70d5FPPlroFSURpytD5tX8Yt
+         nKj6my8mid0hC1t8SNaCOql8VZHNodjjw1OsT0C+KBAcP+uxRTln9/IXQV07tPYv0m80
+         KtDQ==
+X-Gm-Message-State: ABy/qLaTCiE7Brcp8ODyS1motbgIB0BTPW2W034tkkr3ebo25JYQB47Y
+	TCqyBZ3wIN6FeZQNGOMC+cs=
+X-Google-Smtp-Source: APBJJlGijby0oVBSlZQzPuE6wRs33kVNUMfK5HpKn/sbtkGkZX2707uwvvqV3FhTi9lLbUL+RHxxuQ==
+X-Received: by 2002:a05:6512:3da7:b0:4fb:52a3:e809 with SMTP id k39-20020a0565123da700b004fb52a3e809mr75159lfv.28.1689892637988;
+        Thu, 20 Jul 2023 15:37:17 -0700 (PDT)
+Received: from tora (83.10.92.232.ipv4.supernova.orange.pl. [83.10.92.232])
+        by smtp.gmail.com with ESMTPSA id v13-20020a19740d000000b004fbab4b7d45sm408232lfe.67.2023.07.20.15.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 08:03:10 -0700 (PDT)
-Date: Thu, 20 Jul 2023 17:03:07 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-riscv@lists.infradead.org, chrome-platform@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-pwm@vger.kernel.org, Ray Jui <rjui@broadcom.com>,
-	Johan Hovold <johan@kernel.org>, greybus-dev@lists.linaro.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Benson Leung <bleung@chromium.org>,
-	linux-arm-kernel@lists.infradead.org, Alex Elder <elder@kernel.org>,
-	Scott Branden <sbranden@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Michael Walle <michael@walle.cc>,
-	Palmer Dabbelt <palmer@dabbelt.com>, kernel@pengutronix.de,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
-Message-ID: <ZLlMqwAnoPzI8ONt@orome>
-References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
- <ZLjYqwGh178EHrVY@orome>
- <20230720071033.e72hjkpghf5ooe73@pengutronix.de>
+        Thu, 20 Jul 2023 15:37:17 -0700 (PDT)
+Date: Fri, 21 Jul 2023 00:37:15 +0200
+From: Alicja Michalska <ahplka19@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: robbarnes@google.com, lalithkraj@google.com, rrangel@chromium.org,
+	bleung@chromium.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Add DMI definition for
+ post-Skylake machines running custom Coreboot builds
+Message-ID: <ZLm3G5G6/gmLZwkn@tora>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CL52jB4nG8OB1M/q"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720071033.e72hjkpghf5ooe73@pengutronix.de>
-User-Agent: Mutt/2.2.10 (2023-03-25)
 
+ChromeOS EC LPC lacks DMI match for newer machines, which
+use "Google" DMI_SYS_VENDOR as opposed to "GOOGLE" in older models.
+This patch adds DMI definition for MrChomebox's custom Coreboots builds,
+which we (Chrultrabook Project) are using.
 
---CL52jB4nG8OB1M/q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alicja Michalska <ahplka19@gmail.com>
+---
+ drivers/platform/chrome/cros_ec_lpc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On Thu, Jul 20, 2023 at 09:10:33AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Thierry,
->=20
-> On Thu, Jul 20, 2023 at 08:48:11AM +0200, Thierry Reding wrote:
-> > On Fri, Jul 14, 2023 at 10:56:13PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > > Uwe Kleine-K=C3=B6nig (10):
-> > >   pwm: Use a consistent name for pwm_chip pointers in the core
-> > >   pwm: atmel-hlcdc: Use consistent variable naming
-> > >   pwm: bcm-kona: Consistenly name pwm_chip variables "chip"
-> > >   pwm: crc: Consistenly name pwm_chip variables "chip"
-> > >   pwm: cros-ec: Consistenly name pwm_chip variables "chip"
-> > >   pwm: lp3943: Consistenly name pwm_chip variables "chip"
-> > >   pwm: rockchip: Consistenly name pwm_chip variables "chip"
-> > >   pwm: sifive: Consistenly name pwm_chip variables "chip"
-> > >   pwm: sl28cpld: Consistenly name pwm_chip variables "chip"
-> > >   staging: greybus: pwm: Consistenly name pwm_chip variables "chip"
-> >=20
-> > This would've been much easier if it had been a single patch. Now I have
-> > to either make you redo the whole series because you've misspelled PWM
-> > or I have to go and update it myself in most of the above patches. Hint:
-> > I'll do the latter.
->=20
-> I guess you want to do s/pwm driver/PWM driver/? Fine for me, thanks.
->=20
-> > There is really no reason to split this up into this many patches for
-> > such a trivial change.
->=20
-> Well, that's a subjective view. There are reasons to prefer several
-> small patches over one big one, too. A small patch can be indiviually
-> reviewed, so the "Reviewed-by: Alex Elder ..." tag only goes to the one
-> change that he actually looked at and if later a fix to the sifive
-> driver is to be backported to stable, the stable maintainers just pick
-> the sifive one instead of one big patch.
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 500a61b093e4..6ac993be4eb1 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -533,6 +533,14 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Glimmer"),
+ 		},
+ 	},
++	/* DMI doesn't match modern machines running custom firmware */
++	{
++		/* MrChromebox's firmware */
++		.matches = {
++			DMI_MATCH(DMI_BIOS_VENDOR, "coreboot"),
++			DMI_MATCH(DMI_BIOS_VERSION, "MrChromebox-"),
++		},
++	},
+ 	/* A small number of non-Chromebook/box machines also use the ChromeOS EC */
+ 	{
+ 		/* the Framework Laptop */
+-- 
+2.41.0
 
-Backports becoming more complicated would actually be a good reason not
-to do this in the first place, but we've already discussed that enough
-elsewhere.
-
-> Did you skip the sl28cpld patch, or squash the fixup I sent in the reply
-> to Michael Walle?
-
-I squashed the fixup.
-
-Thierry
-
---CL52jB4nG8OB1M/q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS5TKsACgkQ3SOs138+
-s6F+LQ//Zs8K61taGOGqAeIFgMkT8WRglsOSZQPOn2E1/c4RWwUspgRCfQs6nAN3
-n1D2d2th0c0z2xfswoA6Q4TIzMyfejDbfKdslO705EbwQLXXLsOrrPJ0ART1RfsD
-rfsvJ/xiJlVX9AEFK9BvNyICipw36JhttBLrai9rVpd6Qw9SrhTt635P5xY5+DhY
-YK+dKHlwQYICb6dr4v14AbszZOAZsQLq2tro0AhcB7CwCUKvmZIAhGKfbj4jlsWd
-Q6iS2UWxdBMV7rjl9v3OwU2+MqNQwSKQ/RAFWIN/w/jHH7gdj9H/z7I7yBVDJMyg
-21uVm556sofBlWFwlVSfkng9YkM6fTBOt8Su7mV3AUZ4ufy03RMqXV29t6ks+8S+
-CTztOmWniJT/lJdhkAA3H9Sv010rjRKZjvHiOCilbgDyZ8B7BNY2gl1zoBUC/WrJ
-HzIwcpbVc6NQsnjFtnBMsczS9MHqIFXjHnUMSIYIhoUxRc5mnZWs+cgbzc9y16UD
-N/WWzMSwkhtaXIGVo4PSkNxuTl0vHFRHdXiy7o34cANT+UwWhHrJgNFx9VTphYHY
-VeP/0Qv+NWY4/6B113lh2Bq7cXY7RtyDXygdB3yraplPW3/vdU9d/kHeiHCTPRDK
-/w3AlUr10ciCY/6VXaGVt3JsNpWKpK3qaI/B0lkLNJt0+ZOwHFE=
-=Z1TB
------END PGP SIGNATURE-----
-
---CL52jB4nG8OB1M/q--

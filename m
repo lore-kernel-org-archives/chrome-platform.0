@@ -1,90 +1,126 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8B427F00
-	for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 17:29:14 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4fdddf92b05so3131037e87.3
-        for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 10:29:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FDC20F83
+	for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 18:14:05 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-98e011f45ffso323743266b.3
+        for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 11:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689960552; x=1690565352;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F08KAtvy0KJ26wsao6zq1OV/NB54IO3TMvYDTGLgN88=;
-        b=mlkESRJESGxoZQEKyF5zLu5HQPv5XdhTiV9zrT0ZJq8WLw6E00CpDcaABzqdgFS4dz
-         8M1D5mw7gPD8fH5PoGzPRnzaP7I1cXJnrk+3NbuS+Kwg9ryzE6iWcqhT6UDCxhoY4eQ3
-         3EPirUWVL3rMq1L1mpkh7di2w77n9DerBbCEk=
+        d=gmail.com; s=20221208; t=1689963244; x=1690568044;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=75/JtxCu43LYB6GLiaKBrQMMBpaIjqrwj9+p02/FvKc=;
+        b=nkrs774UH1Pl/wNtwfgvFSAbpvkuol+G+KWmeVr7hPxnEqssXC1jtccBO3ev0P8U1w
+         cPq3AoxTy8NXvn0F1jVkDx/T7HPHdjPYkLMIY5IlFmOZ1Fs4H6UyPEewIVjt7Ak9Ge0X
+         qM2lFNBWDnWzhLJ2+ChrZEsldBCXRNsTeQfKs5GYDphz3JUfL+QIs31iGfxqvSALeVJm
+         ZOMY4Msa6gfCQGMnJw36TWwdLfueb2+2QYug1eZA5a5DF1O2V1lSAcTX7RT365y/KEeG
+         SJtURinx0qbwVGUDTaMfKdCQAqjFJdG7ZKXp/BUowQTrPSFbmAzdAv5NQTt1znS1TjWq
+         umyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689960552; x=1690565352;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F08KAtvy0KJ26wsao6zq1OV/NB54IO3TMvYDTGLgN88=;
-        b=Kv3IwDc2DxfjsyWpxUVnxhRrtafWg+oYniGwpLY+C77078w8g7XTaHfVg6jfOLLeCF
-         BfF9vUUqcw5KI/BaXdmwkaoJDuDwz1Iv14rtGl4ksEoOi+gW7rVz3GdctDIrcrCvkNDc
-         LG/1r9gI4U7XvktvT9LXD2GZ+h7DXXXg1P9JhUAoloiaEExl57zGq+JYA7k636XCTLyI
-         crKY30DmIvkSa+9X/QOJQbmORZ38mt79xbrqc1ycikpxdMMFhhzCwVSkB52q1pu2tYww
-         iieOK1lHwTA87BcruUyM6dxVlghsEuan0LzqmR+Uo/LWKCTi6aJv56fbjvZV7fw0hOvT
-         Q+fQ==
-X-Gm-Message-State: ABy/qLYNRU2pXXRKfniJd6Dxhnn4xDitIjb5hun+u0vtI1o0X6Lz3Bbg
-	QPzida16FELwG/F4lEKK8OwUOUGp8Fho1CimBRY=
-X-Google-Smtp-Source: APBJJlF/Hyye5xd7WuIugjDK9OoJI2X2+3VRUvIh8JlEysoBLB8R6OmQeDYFqzrNwdOujEEHpBjaLQ==
-X-Received: by 2002:a05:6512:33c9:b0:4fb:7675:1ff9 with SMTP id d9-20020a05651233c900b004fb76751ff9mr2237897lfg.9.1689960552218;
-        Fri, 21 Jul 2023 10:29:12 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id g26-20020a50ee1a000000b0051e2549c4f9sm2381571eds.47.2023.07.21.10.29.11
-        for <chrome-platform@lists.linux.dev>
+        d=1e100.net; s=20221208; t=1689963244; x=1690568044;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=75/JtxCu43LYB6GLiaKBrQMMBpaIjqrwj9+p02/FvKc=;
+        b=iV/jN/MHDNB/xoL6skI/X3omCIxLJ5krQRXR1gfgIm+IGUL6E2ZkQkUbavaMAsFPFS
+         SteU2RjClv3A4BYMvJDPrFQrGwULgN6q7McOxP1UkIal7Vbaf5oQXltJMht9OvFJvCSw
+         uv4aolZexV1CZ4H9eUYK8wHaoY7Zq2h9lbCXT0WBMDjC7mApteWjTIxExZQnc9/Gk2bF
+         lAbzlEWKmDWmhWTLOOUI+5MD73FT8nAYMtFOL0Ev267aUvzSUpWQ/PeZNVj+uPZsNnrw
+         S6C48WbSLbDJPOQZzVzMM5keOtEQsyUB5eT3HrDGHEj9tobTBy7R/g0Gn7d62cH91Y7r
+         h86A==
+X-Gm-Message-State: ABy/qLYNuG07jnLyHhiyNOhRuPsXeYTUo5UIFd+V5pevUIxysWrkaELS
+	rs1J5xr6rrh411sRFqxyB0c=
+X-Google-Smtp-Source: APBJJlH9q6O1JtiZc8xcIRepqmbxxuCTS0J2/2B9WZb1DzUEUJ6QF3I7lIMsNz2Hysb03juimTmVNw==
+X-Received: by 2002:a17:906:74d6:b0:993:d7f3:f055 with SMTP id z22-20020a17090674d600b00993d7f3f055mr2130197ejl.11.1689963243614;
+        Fri, 21 Jul 2023 11:14:03 -0700 (PDT)
+Received: from [10.4.145.3] (83.10.92.232.ipv4.supernova.orange.pl. [83.10.92.232])
+        by smtp.gmail.com with ESMTPSA id k17-20020a170906681100b00997d7aa59fasm2514942ejr.14.2023.07.21.11.14.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jul 2023 10:29:11 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-992ca792065so335221266b.2
-        for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 10:29:11 -0700 (PDT)
-X-Received: by 2002:a17:906:1d8:b0:988:4dc:e3a3 with SMTP id
- 24-20020a17090601d800b0098804dce3a3mr2137406ejj.31.1689960550768; Fri, 21 Jul
- 2023 10:29:10 -0700 (PDT)
+        Fri, 21 Jul 2023 11:14:03 -0700 (PDT)
+Message-ID: <a4d0bf2c-34a2-6c43-92fe-6db1d6c00a44@gmail.com>
+Date: Fri, 21 Jul 2023 20:11:49 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZLm3G5G6/gmLZwkn@tora> <ZLooCXV11JCdWOdK@google.com> <b1370c4b-7bad-4aac-0fa7-32d6479aa255@gmail.com>
-In-Reply-To: <b1370c4b-7bad-4aac-0fa7-32d6479aa255@gmail.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Fri, 21 Jul 2023 10:28:59 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
-Message-ID: <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Add DMI definition for
  post-Skylake machines running custom Coreboot builds
-To: Alicja Michalska <ahplka19@gmail.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, robbarnes@google.com, 
-	lalithkraj@google.com, rrangel@chromium.org, bleung@chromium.org, 
-	groeck@chromium.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+To: Brian Norris <briannorris@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org,
+ robbarnes@google.com, lalithkraj@google.com, rrangel@chromium.org,
+ bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+References: <ZLm3G5G6/gmLZwkn@tora> <ZLooCXV11JCdWOdK@google.com>
+ <b1370c4b-7bad-4aac-0fa7-32d6479aa255@gmail.com>
+ <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
+From: Alicja Michalska <ahplka19@gmail.com>
+In-Reply-To: <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 21, 2023 at 10:16=E2=80=AFAM Alicja Michalska <ahplka19@gmail.c=
-om> wrote:
-> I've explained the reason behind adding this patch, but we'll go with
-> different approach next time around.
+That's understandable :)
 
-FWIW, I'm also confused about your first sentence the same way
-Tzung-Bi is. If two people are confused by parts of your description,
-then maybe it needs improvement :)
+I spoke with Matt (MrChromebox). It seems like he tried to upstream 
+similar patch to what I suggested here few years ago, but it never got 
+merged.
+Reason for this is that pre-Skylake machines had different DMI vendor name.
 
-> Since we're discussing this, I would like to suggest removal of DMI
-> matches for EOL machines from lines 503...535 (Link, Samus, Peppy, Glimme=
-r).
->
-> Those machines aren't supported by Google anymore. Patch I suggested
-> will match DMI while running custom firmware.
->
-> If maintainers are okay with it, I will submit a patch removing DMI
-> matches for stock firmware running on those machines since it's not
-> needed anymore.
+For example, that's my DMI information from ELDRID (Google/Volteer 
+baseboard) running MrChromebox's firmware and mainline kernel:
 
-That seems actively harmful. These devices continue to work just fine
-with their stock BIOS, even if Google no longer supports updating the
-Google-built OS. That doesn't mean people can't boot other OS'es
-(e.g., their own ChromiumOS builds; or other Linux distros) on them.
+[...]
+Vendor: coreboot
+Manufacturer: Google
+[...]
 
-Brian
+There's a match for coreboot/GOOGLE, but not for coreboot/Google - which 
+is the case for all modern-ish machines made past 2018 (reef, octopus, 
+hatch, volteer, brya and so on).
+
+As for the concerns regarding removal of outdated DMIs - it's 
+understandable, but mainline doesn't work correctly on stock firmware. 
+In order to get mainline Linux running correctly on any ChromeOS device, 
+user has to flash firmware that contains our patches.
+
+We currently support over 100 machines, starting with first machines 
+that used Coreboot (SandyBridge) up to AlderLake (at the moment). 
+Flashing those machines (pre-CR50) is as simple as removing Write 
+Protect screw and running MrChromebox's script from ChromeOS shell.
+
+Once that's done, Chromebooks behave in the same exact way as UEFI 
+systems (because we're using EDK2 as Coreboot payload in our builds) 
+with correct ACPI tables and other numerous fixes that are missing from 
+stock firmware.
+
+https://chrultrabook.github.io/docs/docs/getting-started.html
+
+On 21/07/2023 19:28, Brian Norris wrote:
+> On Fri, Jul 21, 2023 at 10:16 AM Alicja Michalska <ahplka19@gmail.com> wrote:
+>> I've explained the reason behind adding this patch, but we'll go with
+>> different approach next time around.
+> 
+> FWIW, I'm also confused about your first sentence the same way
+> Tzung-Bi is. If two people are confused by parts of your description,
+> then maybe it needs improvement :)
+> 
+>> Since we're discussing this, I would like to suggest removal of DMI
+>> matches for EOL machines from lines 503...535 (Link, Samus, Peppy, Glimmer).
+>>
+>> Those machines aren't supported by Google anymore. Patch I suggested
+>> will match DMI while running custom firmware.
+>>
+>> If maintainers are okay with it, I will submit a patch removing DMI
+>> matches for stock firmware running on those machines since it's not
+>> needed anymore.
+> 
+> That seems actively harmful. These devices continue to work just fine
+> with their stock BIOS, even if Google no longer supports updating the
+> Google-built OS. That doesn't mean people can't boot other OS'es
+> (e.g., their own ChromiumOS builds; or other Linux distros) on them.
+> 
+> Brian

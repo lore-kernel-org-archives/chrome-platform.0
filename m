@@ -1,118 +1,94 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2EC15C6
-	for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 07:44:29 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5638180156aso2310380a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 00:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1690184669; x=1690789469;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
-        b=pdPmZhlRTn6TTBC5MLC57YJsCrRFzNMGVHoOCc9KFQlklLsTxOsxi4240xbiTti5/k
-         HNoAXhuk3fcUUOS2kJ7hKKRwE/VUnQ/y1ar5DHgLSUBs4pV3Y8B1aU6NFIfi707pDh8w
-         jQtm5DUf3UrGRQnCDdhyywyQCrGfjV6tmx6AxV9gK6BSOY85BAiJ818k5PAHkPRHhUXj
-         7Va0Sk+s7Gp8v9N3nPJag9qFCPEgYSII9US/w8sI4Tt+xM8IZx2wM4d47A9MC+uXnyES
-         vKWqFJjMB1KeblWttElZDFgw+v4Ho4dc1dEdgQGrt8z4JbuIFDTIaVB5cCC1z0tV4LO2
-         pckg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690184669; x=1690789469;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
-        b=EAuPEO+HMzCB+IGuQxlL3cwfPXm7T+LHW3bn+AUr/1ZXvjtcRuLhjZ3sfhT820do7x
-         Szi5xUA1J3RXsCbxF0sL7UuUFp1+AJkQpE845Yk87phx0JlOdTjhHTYoAsEHRXR1R7rL
-         xBLon0SDpV5kC0lONxY/xJ7njy4qelXf+6Judw3ke3tUvJnTKM0nSPa1yzuN0mM2+GJz
-         +awNT1B1WcMel8KYgV/hD8BQ2PNhKV1MW/2FDsvPwwO/j93RYvBLjSOyP3MIpMvvr605
-         ieFE1WaO40I6LzuCMJuA0Z0aeN6M/5ewvguKJ73XzVO8a8gSW2gPkrRAz3Amu0KZxCxk
-         XLDg==
-X-Gm-Message-State: ABy/qLaYdydEhpELxu+BIWtq8KZXyfoAw0jKKt8XDt05Fy0U/P6Ibfq0
-	0VWn1FcVojDYwckbpWk8DtAn6Q==
-X-Google-Smtp-Source: APBJJlGWOkW59H672cwM7OETkwG0OwlJQD/U3j8bosRDd0mCZORgubRwRWdgLmHAj7V80riAnw175A==
-X-Received: by 2002:a17:90a:7c48:b0:268:273e:b75a with SMTP id e8-20020a17090a7c4800b00268273eb75amr348580pjl.16.1690184669077;
-        Mon, 24 Jul 2023 00:44:29 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id rm10-20020a17090b3eca00b002636dfcc6f5sm5943901pjb.3.2023.07.24.00.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 00:44:28 -0700 (PDT)
-Message-ID: <64be2bdc.170a0220.8555c.9fc5@mx.google.com>
-Date: Mon, 24 Jul 2023 00:44:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8B4186D
+	for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 08:13:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D27C433C9;
+	Mon, 24 Jul 2023 08:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690186399;
+	bh=yIRFPq4WWmrZW4jnPsriDA/saM3iFdI+aGlRcboj/x0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=See/KlwYNUoSId3w+MFdhD2dYE/0ISTZq0iNAA4Xp3/2PMiNOYBMlMjHtFlliBphW
+	 dwogfqhnB25SWyrtXzP9y5tn1JENFd+UJQ8Rg2EXsyvv7iKcLStUp6dAA6Eph7hpue
+	 B8FpcLERXFIItTqXZqV8L0hac8SPr8ww82GhfNyLMl8NwuiZkmtH+EZRD0AFbDke05
+	 MHaSn8Zs3RrYPJrb0Jk2m8cNJ3JcMcWezBqpUo6ovhHWf32atCnaP65P0faTN9Kr+B
+	 BYF0MX9v00ORbWL6YLaUMN9LDLSbNVDP0GYl3EuYmAcJlJGiWd9aS5J65DKkAoWhuT
+	 cf4gTJMHF/kZA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: gregkh@linuxfoundation.org,
+	chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	jwerner@chromium.org,
+	swboyd@chromium.org,
+	briannorris@chromium.org,
+	dianders@chromium.org,
+	sjg@chromium.org,
+	dossym@chromium.org
+Subject: [PATCH v2] MAINTAINERS: Add drivers/firmware/google/ entry
+Date: Mon, 24 Jul 2023 16:12:47 +0800
+Message-ID: <20230724081247.678784-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Kernel: v6.5-rc1
-X-Kernelci-Report-Type: build
-Subject: chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed,
- 3 warnings (v6.5-rc1)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed, 3 warning=
-s (v6.5-rc1)
+From: Brian Norris <briannorris@chromium.org>
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.5-rc1/
+These are mostly used for Chrome platforms, so group it in with the same
+mailing list, repo, and (one) committer.
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.5-rc1
-Git Commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 2 unique architectures
-
-Warnings Detected:
-
-arm:
-
-x86_64:
-    x86_64_defconfig (gcc-10): 3 warnings
-
-
-Warnings summary:
-
-    1    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
-vec_from_user.part.0() with UACCESS enabled
-    1    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
-vec_from_user.part.0() with UACCESS enabled
-    1    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redunda=
-nt UACCESS disable
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Detailed per-defconfig build reports:
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
-ection mismatches
-
-Warnings:
-    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
-CCESS disable
-    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+Acked-by: Julius Werner <jwerner@chromium.org>
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
-For more info write to <info@kernelci.org>
+This is a revival for v1[1] as it is few-months-old.
+
+Planning to let chrome-platform-firmware use:
+- "for-firmware-kernelci" branch for KernelCI[2].
+- "for-firmware-next" branch for both 0-day[3] and linux-next.  Patches can
+  rebase onto the branch if they are aiming to chrome-platform-firmware.
+
+Haven't figured out how to make it in linux-next specific files though
+(e.g. [4]).
+
+[1]: https://patchwork.kernel.org/project/chrome-platform/patch/20221021172624.1.I119456791d197eb7d159f09e7479d8759008a954@changeid/
+[2]: https://github.com/kernelci/kernelci-core/pull/2028
+[3]: https://github.com/intel/lkp-tests/pull/312
+[4]: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4d2c646ac07cf4a35ef1c4a935a1a4fd6c6b1a36
+
+Changes from v1:
+- Update Tzung-Bi's email address.
+
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3be1bdfe8ecc..8293a4ab82d8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8758,6 +8758,15 @@ S:	Supported
+ F:	Documentation/networking/device_drivers/ethernet/google/gve.rst
+ F:	drivers/net/ethernet/google
+ 
++GOOGLE FIRMWARE DRIVERS
++M:	Tzung-Bi Shih <tzungbi@kernel.org>
++R:	Brian Norris <briannorris@chromium.org>
++R:	Julius Werner <jwerner@chromium.org>
++L:	chrome-platform@lists.linux.dev
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
++F:	drivers/firmware/google/
++
+ GPD POCKET FAN DRIVER
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	platform-driver-x86@vger.kernel.org
+-- 
+2.41.0.487.g6d72f3e995-goog
+

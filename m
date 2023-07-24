@@ -1,126 +1,118 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FDC20F83
-	for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 18:14:05 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-98e011f45ffso323743266b.3
-        for <chrome-platform@lists.linux.dev>; Fri, 21 Jul 2023 11:14:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2EC15C6
+	for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 07:44:29 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5638180156aso2310380a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 00:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689963244; x=1690568044;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=75/JtxCu43LYB6GLiaKBrQMMBpaIjqrwj9+p02/FvKc=;
-        b=nkrs774UH1Pl/wNtwfgvFSAbpvkuol+G+KWmeVr7hPxnEqssXC1jtccBO3ev0P8U1w
-         cPq3AoxTy8NXvn0F1jVkDx/T7HPHdjPYkLMIY5IlFmOZ1Fs4H6UyPEewIVjt7Ak9Ge0X
-         qM2lFNBWDnWzhLJ2+ChrZEsldBCXRNsTeQfKs5GYDphz3JUfL+QIs31iGfxqvSALeVJm
-         ZOMY4Msa6gfCQGMnJw36TWwdLfueb2+2QYug1eZA5a5DF1O2V1lSAcTX7RT365y/KEeG
-         SJtURinx0qbwVGUDTaMfKdCQAqjFJdG7ZKXp/BUowQTrPSFbmAzdAv5NQTt1znS1TjWq
-         umyw==
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1690184669; x=1690789469;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
+        b=pdPmZhlRTn6TTBC5MLC57YJsCrRFzNMGVHoOCc9KFQlklLsTxOsxi4240xbiTti5/k
+         HNoAXhuk3fcUUOS2kJ7hKKRwE/VUnQ/y1ar5DHgLSUBs4pV3Y8B1aU6NFIfi707pDh8w
+         jQtm5DUf3UrGRQnCDdhyywyQCrGfjV6tmx6AxV9gK6BSOY85BAiJ818k5PAHkPRHhUXj
+         7Va0Sk+s7Gp8v9N3nPJag9qFCPEgYSII9US/w8sI4Tt+xM8IZx2wM4d47A9MC+uXnyES
+         vKWqFJjMB1KeblWttElZDFgw+v4Ho4dc1dEdgQGrt8z4JbuIFDTIaVB5cCC1z0tV4LO2
+         pckg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689963244; x=1690568044;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=75/JtxCu43LYB6GLiaKBrQMMBpaIjqrwj9+p02/FvKc=;
-        b=iV/jN/MHDNB/xoL6skI/X3omCIxLJ5krQRXR1gfgIm+IGUL6E2ZkQkUbavaMAsFPFS
-         SteU2RjClv3A4BYMvJDPrFQrGwULgN6q7McOxP1UkIal7Vbaf5oQXltJMht9OvFJvCSw
-         uv4aolZexV1CZ4H9eUYK8wHaoY7Zq2h9lbCXT0WBMDjC7mApteWjTIxExZQnc9/Gk2bF
-         lAbzlEWKmDWmhWTLOOUI+5MD73FT8nAYMtFOL0Ev267aUvzSUpWQ/PeZNVj+uPZsNnrw
-         S6C48WbSLbDJPOQZzVzMM5keOtEQsyUB5eT3HrDGHEj9tobTBy7R/g0Gn7d62cH91Y7r
-         h86A==
-X-Gm-Message-State: ABy/qLYNuG07jnLyHhiyNOhRuPsXeYTUo5UIFd+V5pevUIxysWrkaELS
-	rs1J5xr6rrh411sRFqxyB0c=
-X-Google-Smtp-Source: APBJJlH9q6O1JtiZc8xcIRepqmbxxuCTS0J2/2B9WZb1DzUEUJ6QF3I7lIMsNz2Hysb03juimTmVNw==
-X-Received: by 2002:a17:906:74d6:b0:993:d7f3:f055 with SMTP id z22-20020a17090674d600b00993d7f3f055mr2130197ejl.11.1689963243614;
-        Fri, 21 Jul 2023 11:14:03 -0700 (PDT)
-Received: from [10.4.145.3] (83.10.92.232.ipv4.supernova.orange.pl. [83.10.92.232])
-        by smtp.gmail.com with ESMTPSA id k17-20020a170906681100b00997d7aa59fasm2514942ejr.14.2023.07.21.11.14.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jul 2023 11:14:03 -0700 (PDT)
-Message-ID: <a4d0bf2c-34a2-6c43-92fe-6db1d6c00a44@gmail.com>
-Date: Fri, 21 Jul 2023 20:11:49 +0200
+        d=1e100.net; s=20221208; t=1690184669; x=1690789469;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BpyrcPv8iueswBpTydLc4GM58layvdzbpDW0ErayyrQ=;
+        b=EAuPEO+HMzCB+IGuQxlL3cwfPXm7T+LHW3bn+AUr/1ZXvjtcRuLhjZ3sfhT820do7x
+         Szi5xUA1J3RXsCbxF0sL7UuUFp1+AJkQpE845Yk87phx0JlOdTjhHTYoAsEHRXR1R7rL
+         xBLon0SDpV5kC0lONxY/xJ7njy4qelXf+6Judw3ke3tUvJnTKM0nSPa1yzuN0mM2+GJz
+         +awNT1B1WcMel8KYgV/hD8BQ2PNhKV1MW/2FDsvPwwO/j93RYvBLjSOyP3MIpMvvr605
+         ieFE1WaO40I6LzuCMJuA0Z0aeN6M/5ewvguKJ73XzVO8a8gSW2gPkrRAz3Amu0KZxCxk
+         XLDg==
+X-Gm-Message-State: ABy/qLaYdydEhpELxu+BIWtq8KZXyfoAw0jKKt8XDt05Fy0U/P6Ibfq0
+	0VWn1FcVojDYwckbpWk8DtAn6Q==
+X-Google-Smtp-Source: APBJJlGWOkW59H672cwM7OETkwG0OwlJQD/U3j8bosRDd0mCZORgubRwRWdgLmHAj7V80riAnw175A==
+X-Received: by 2002:a17:90a:7c48:b0:268:273e:b75a with SMTP id e8-20020a17090a7c4800b00268273eb75amr348580pjl.16.1690184669077;
+        Mon, 24 Jul 2023 00:44:29 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id rm10-20020a17090b3eca00b002636dfcc6f5sm5943901pjb.3.2023.07.24.00.44.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 00:44:28 -0700 (PDT)
+Message-ID: <64be2bdc.170a0220.8555c.9fc5@mx.google.com>
+Date: Mon, 24 Jul 2023 00:44:28 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Add DMI definition for
- post-Skylake machines running custom Coreboot builds
-Content-Language: en-GB
-To: Brian Norris <briannorris@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org,
- robbarnes@google.com, lalithkraj@google.com, rrangel@chromium.org,
- bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
-References: <ZLm3G5G6/gmLZwkn@tora> <ZLooCXV11JCdWOdK@google.com>
- <b1370c4b-7bad-4aac-0fa7-32d6479aa255@gmail.com>
- <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
-From: Alicja Michalska <ahplka19@gmail.com>
-In-Reply-To: <CA+ASDXOuJVG7bpXdKMf9nobjJ=qcTiBWVj+TQ3Kpwqct27HSag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Kernel: v6.5-rc1
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed,
+ 3 warnings (v6.5-rc1)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-That's understandable :)
+chrome-platform/for-kernelci build: 2 builds: 0 failed, 2 passed, 3 warning=
+s (v6.5-rc1)
 
-I spoke with Matt (MrChromebox). It seems like he tried to upstream 
-similar patch to what I suggested here few years ago, but it never got 
-merged.
-Reason for this is that pre-Skylake machines had different DMI vendor name.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.5-rc1/
 
-For example, that's my DMI information from ELDRID (Google/Volteer 
-baseboard) running MrChromebox's firmware and mainline kernel:
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.5-rc1
+Git Commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 2 unique architectures
 
-[...]
-Vendor: coreboot
-Manufacturer: Google
-[...]
+Warnings Detected:
 
-There's a match for coreboot/GOOGLE, but not for coreboot/Google - which 
-is the case for all modern-ish machines made past 2018 (reef, octopus, 
-hatch, volteer, brya and so on).
+arm:
 
-As for the concerns regarding removal of outdated DMIs - it's 
-understandable, but mainline doesn't work correctly on stock firmware. 
-In order to get mainline Linux running correctly on any ChromeOS device, 
-user has to flash firmware that contains our patches.
+x86_64:
+    x86_64_defconfig (gcc-10): 3 warnings
 
-We currently support over 100 machines, starting with first machines 
-that used Coreboot (SandyBridge) up to AlderLake (at the moment). 
-Flashing those machines (pre-CR50) is as simple as removing Write 
-Protect screw and running MrChromebox's script from ChromeOS shell.
 
-Once that's done, Chromebooks behave in the same exact way as UEFI 
-systems (because we're using EDK2 as Coreboot payload in our builds) 
-with correct ACPI tables and other numerous fixes that are missing from 
-stock firmware.
+Warnings summary:
 
-https://chrultrabook.github.io/docs/docs/getting-started.html
+    1    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    1    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    1    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redunda=
+nt UACCESS disable
 
-On 21/07/2023 19:28, Brian Norris wrote:
-> On Fri, Jul 21, 2023 at 10:16 AM Alicja Michalska <ahplka19@gmail.com> wrote:
->> I've explained the reason behind adding this patch, but we'll go with
->> different approach next time around.
-> 
-> FWIW, I'm also confused about your first sentence the same way
-> Tzung-Bi is. If two people are confused by parts of your description,
-> then maybe it needs improvement :)
-> 
->> Since we're discussing this, I would like to suggest removal of DMI
->> matches for EOL machines from lines 503...535 (Link, Samus, Peppy, Glimmer).
->>
->> Those machines aren't supported by Google anymore. Patch I suggested
->> will match DMI while running custom firmware.
->>
->> If maintainers are okay with it, I will submit a patch removing DMI
->> matches for stock firmware running on those machines since it's not
->> needed anymore.
-> 
-> That seems actively harmful. These devices continue to work just fine
-> with their stock BIOS, even if Google no longer supports updating the
-> Google-built OS. That doesn't mean people can't boot other OS'es
-> (e.g., their own ChromiumOS builds; or other Linux distros) on them.
-> 
-> Brian
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
+ection mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---
+For more info write to <info@kernelci.org>

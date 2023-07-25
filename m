@@ -1,130 +1,171 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B717D530
-	for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 16:12:30 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-521e046f6c7so14978a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Jul 2023 09:12:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5176B1ED32
+	for <chrome-platform@lists.linux.dev>; Tue, 25 Jul 2023 10:23:31 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-991f956fb5aso791400466b.0
+        for <chrome-platform@lists.linux.dev>; Tue, 25 Jul 2023 03:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690215149; x=1690819949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UuSQtZTet+eAyqfbBEfkhu5SJqh+xw4A6N964EsQ4Sw=;
-        b=ie+/oBFiD9k59516TDdM/u1B1hvZbGR8P2/fCJLnhe0L/y3gVwo3Y2mFlhIDEuB02X
-         M18POaudkZtF9tlJkUYYNLDYRmojjz4RM0lWQhGa3sERaOhI5g6bBRz2KML6eXrdtNRy
-         z0nVZfUPffYVLzwRpWsN4HzXX/7dNjCnBWS+E=
+        d=linaro.org; s=google; t=1690280609; x=1690885409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ja4+MqHfl9X0tKSYm800u8KwnOGZLdpwubmp8VoMlQQ=;
+        b=O+18cz9q0RR58TDgOKYgTYov+m+0R9fEuoRTb6OKJoK/JGW+YcI61YlQXhZeL8biQ0
+         hjUeozP4G0k7EXRCF17f9p+lMPNvY65hgqBjWzvS+v8yFLQ7ZIwKzB9mBh/zcVrcw58G
+         ct8ilL7SjMYd8PL+cl/3sh6HAMag3kGAmuMbDkwjzG/1eeODZxzrS8ixlkEfVha6HlQ4
+         HEU7vujNoVLlk0xRdEpCFowLT0lNwMj192ZwOvAPto93q5y/HjPskn4unYEVzpcFTkt0
+         upP4RTpxzxX6ZlM/o+C/bn68fQmHNDvshFHy+TPTPkzVn8icoNXAJoArG4epe3jnzFF+
+         jGIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690215149; x=1690819949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UuSQtZTet+eAyqfbBEfkhu5SJqh+xw4A6N964EsQ4Sw=;
-        b=U1pfOowtYwhIrnCHJLznpGiTku80Z4NbpMVfqPXt2WiH7SNGqzbtcw1n1D9ldAMaQd
-         G6cx2cQ26QN2hFwbkZ9rmnmFWWt/xMI2IBv6StH1it2ZtUxSMuaDa0rB3co5tNSnc2km
-         9twTAOMne7FvDVXB6E/grGFsw9cwaUakW22iIzcXtjUyl7819qCOIOFvX/BTKZfhDnSO
-         7gsFdvQsaDVp6cACBpeo4g6n+tKj0zKUPF4FDP4Cc1xBJNR7OnzR8bKqkmc/iDhRYyRv
-         VA/tq7gyXT7yzn7aF5QQxMQKkwZo6jq8Ym20MgMd9tG3DOZpT7AqK7c//4KrqsqV38J4
-         cmxw==
-X-Gm-Message-State: ABy/qLYTAW+SFjXD2e7M2PjUVBnhtBzmWG/wwnyCU2yxt2sW5zFMoc/1
-	PKrhWxwUh8vC0uw7j0h+GPgLPCfFTF7g9XqULhAm2Q==
-X-Google-Smtp-Source: APBJJlHzalG15C5dnv5jNkeJtiPSi4cXg13qdDqWPHZn+PcsLW0vh+r6HHMSv5D+IKM1OfKDgdVhycAsrYoAJSZPEqQ=
-X-Received: by 2002:a50:d5ce:0:b0:51e:16c5:2004 with SMTP id
- g14-20020a50d5ce000000b0051e16c52004mr149254edj.6.1690215148721; Mon, 24 Jul
- 2023 09:12:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690280609; x=1690885409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ja4+MqHfl9X0tKSYm800u8KwnOGZLdpwubmp8VoMlQQ=;
+        b=aDlt+7kv01giL9d4T2Dy0Eym0oKsBwP2HEMuR6vLnjUgn5QreEL75r2StwtGCbdsLV
+         BFtKeXLRfmT3cc6kYg9uPgYa0CKlF7QkVwm59SHVSB0+J4nbXbOWe2etgOG2IoWDcZwh
+         m+Bg+NCKLiUb7fRA/90DuqrKpkzgrioKfo8D0KyMjBKBWjrpM/1E0//l3WH1z8asFldc
+         rUKkS1z5F2GyPm41rEoNu7SNluPDSMWDhqi3pqHLGuQ48prZyJbnW2X/K6OffyuOa7aD
+         0yMLhUnObD7BxVg2FHzunEo4rFbmAvK1QVRjXUajujGSgau/Gq0jveTrAXH3SjMHe3iV
+         6amA==
+X-Gm-Message-State: ABy/qLahVVpvyhW1NJhbmoPHgILSfdf6J6u0c1ZT2Fwcqe3w3AB/bprr
+	fEAZ0pKIl9/fJUMb7TG/E6yD4A==
+X-Google-Smtp-Source: APBJJlEnJZpNRqox/mI/F+UVFWcjxKilSCWS+31W6pOEKBcwwQ2PZ/TVSqbTP/NQeP//kD5YeBtq2A==
+X-Received: by 2002:a17:906:300d:b0:973:d06d:545f with SMTP id 13-20020a170906300d00b00973d06d545fmr11568811ejz.24.1690280609327;
+        Tue, 25 Jul 2023 03:23:29 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id m26-20020a170906849a00b00982a352f078sm7832471ejx.124.2023.07.25.03.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 03:23:28 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Wayne Chang <waynec@nvidia.com>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] dt-bindings: usb: connector: disallow additional properties
+Date: Tue, 25 Jul 2023 12:23:25 +0200
+Message-Id: <20230725102325.76336-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230724081247.678784-1-tzungbi@kernel.org>
-In-Reply-To: <20230724081247.678784-1-tzungbi@kernel.org>
-From: Benson Leung <bleung@chromium.org>
-Date: Mon, 24 Jul 2023 09:12:16 -0700
-Message-ID: <CANLzEks2Ld8nBkczhsEpchfULrZF8rojdG3qvujZLzbU-L+Aiw@mail.gmail.com>
-Subject: Re: [PATCH v2] MAINTAINERS: Add drivers/firmware/google/ entry
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: groeck@chromium.org, gregkh@linuxfoundation.org, 
-	chrome-platform@lists.linux.dev, jwerner@chromium.org, swboyd@chromium.org, 
-	briannorris@chromium.org, dianders@chromium.org, sjg@chromium.org, 
-	dossym@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Tzung-Bi,
+USB connector bindings is complete, thus no additional properties should
+be allowed.  Add missing 'reg' property and change additionalProperties
+to false, so the schema will check for anything not unexpected.  This
+also allows to drop the 'reg' from other bindings referencing the
+usb-connector.yaml and make it required.
 
-On Mon, Jul 24, 2023 at 1:13=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> From: Brian Norris <briannorris@chromium.org>
->
-> These are mostly used for Chrome platforms, so group it in with the same
-> mailing list, repo, and (one) committer.
->
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> Acked-by: Julius Werner <jwerner@chromium.org>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Acked-By: Benson Leung <bleung@chromium.org>
+---
 
-> ---
-> This is a revival for v1[1] as it is few-months-old.
->
-> Planning to let chrome-platform-firmware use:
-> - "for-firmware-kernelci" branch for KernelCI[2].
-> - "for-firmware-next" branch for both 0-day[3] and linux-next.  Patches c=
-an
->   rebase onto the branch if they are aiming to chrome-platform-firmware.
->
-> Haven't figured out how to make it in linux-next specific files though
-> (e.g. [4]).
->
-> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/202210211=
-72624.1.I119456791d197eb7d159f09e7479d8759008a954@changeid/
-> [2]: https://github.com/kernelci/kernelci-core/pull/2028
-> [3]: https://github.com/intel/lkp-tests/pull/312
-> [4]: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/=
-commit/?id=3D4d2c646ac07cf4a35ef1c4a935a1a4fd6c6b1a36
->
-> Changes from v1:
-> - Update Tzung-Bi's email address.
->
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3be1bdfe8ecc..8293a4ab82d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8758,6 +8758,15 @@ S:       Supported
->  F:     Documentation/networking/device_drivers/ethernet/google/gve.rst
->  F:     drivers/net/ethernet/google
->
-> +GOOGLE FIRMWARE DRIVERS
-> +M:     Tzung-Bi Shih <tzungbi@kernel.org>
-> +R:     Brian Norris <briannorris@chromium.org>
-> +R:     Julius Werner <jwerner@chromium.org>
-> +L:     chrome-platform@lists.linux.dev
-> +S:     Maintained
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-> +F:     drivers/firmware/google/
-> +
->  GPD POCKET FAN DRIVER
->  M:     Hans de Goede <hdegoede@redhat.com>
->  L:     platform-driver-x86@vger.kernel.org
-> --
-> 2.41.0.487.g6d72f3e995-goog
->
->
+Changes in v2:
+1. Make usb-connector.yaml additionalProperties:false (Rob)
 
+v1:
+https://lore.kernel.org/all/20230723071105.40157-1-krzysztof.kozlowski@linaro.org/
+---
+ .../devicetree/bindings/chrome/google,cros-ec-typec.yaml    | 6 ++----
+ .../devicetree/bindings/connector/usb-connector.yaml        | 5 ++++-
+ .../devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml       | 6 ------
+ Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml | 6 ++----
+ 4 files changed, 8 insertions(+), 15 deletions(-)
 
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org
+diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+index 3b0548c34791..9f9816fbecbc 100644
+--- a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
++++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+@@ -29,10 +29,8 @@ properties:
+ patternProperties:
+   '^connector@[0-9a-f]+$':
+     $ref: /schemas/connector/usb-connector.yaml#
+-    unevaluatedProperties: false
+-    properties:
+-      reg:
+-        maxItems: 1
++    required:
++      - reg
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 1c4d3eb87763..e1b8b8b63120 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -30,6 +30,9 @@ properties:
+           - const: samsung,usb-connector-11pin
+           - const: usb-b-connector
+ 
++  reg:
++    maxItems: 1
++
+   label:
+     description: Symbolic name for the connector.
+ 
+@@ -264,7 +267,7 @@ anyOf:
+         - typec-power-opmode
+         - new-source-frs-typec-current
+ 
+-additionalProperties: true
++additionalProperties: false
+ 
+ examples:
+   # Micro-USB connector with HS lines routed via controller (MUIC).
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+index 6440dc801387..bceb479f74c5 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+@@ -38,15 +38,9 @@ properties:
+ patternProperties:
+   '^connector@\d$':
+     $ref: /schemas/connector/usb-connector.yaml#
+-
+-    properties:
+-      reg: true
+-
+     required:
+       - reg
+ 
+-    unevaluatedProperties: false
+-
+ required:
+   - compatible
+ 
+diff --git a/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml b/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
+index 75eec4a9a020..89fc9a434d05 100644
+--- a/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
++++ b/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
+@@ -43,10 +43,8 @@ properties:
+ patternProperties:
+   '^connector@[01]$':
+     $ref: /schemas/connector/usb-connector.yaml#
+-    unevaluatedProperties: false
+-    properties:
+-      reg:
+-        maxItems: 1
++    required:
++      - reg
+ 
+ required:
+   - compatible
+-- 
+2.34.1
+

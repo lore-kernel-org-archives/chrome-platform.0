@@ -1,140 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A57D305;
-	Fri, 28 Jul 2023 09:10:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF74C433C7;
-	Fri, 28 Jul 2023 09:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690535437;
-	bh=jsukJ3h2ilmz083UcYGengZNcUIJYlLHWk6g/LKxW1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jq54e2P2vabTsv0/ZkCTu/TtAKcPA/986KlVzpTtjaLAFsettUVGxIIEhV012qHmY
-	 XjZnDjmAeW2ab1ZsUURkM7jE4L/524t63e/2b+AR7jZDEQXiyB3jMa2BRjo+JEpwRs
-	 l3QdUPJ8w/4urXWddV+VETsCyali7ZkVGVcRJ/K6g+RVz5T9C+bf9WioC+uygEDa9I
-	 Rh3AvZFW0PdulmDiZySwu0Xy2XsI/jHB3Xyi77hPM/dAwa7KUnEsd9+KEupPqjueWP
-	 u1x3RpBtfjI/oksjIHjYF89qn/jUU3ZW18drI+6RQKSDrQ5SYoMzV9cMfadNlCraZU
-	 lW9h48LazI1/g==
-Date: Fri, 28 Jul 2023 10:10:24 +0100
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Tony Lindgren <tony@atomide.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-mtd@lists.infradead.org
-Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
-Message-ID: <20230728091024.GE8175@google.com>
-References: <20230714174731.4059811-1-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B663D11CA0
+	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 15:04:05 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-40550136e54so332591cf.0
+        for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 08:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690556644; x=1691161444;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P6/HfDaubTIMIFxeuAV36Gi20Ylyo7B3ON5TN39P2I4=;
+        b=qBKfwSV+ZwQ6sEr259d4qUrgPzVfaTjCDprP1cGD9z1tWEiC/JSM47CJmsKWX7BmTx
+         fiy812NI3OsnG5TAIKOTGxDcPfp8aDU+PYQoCiN1BlxL5+irXAfDCBFZz5HsuIQxp6Iw
+         hgMN7FuAwHOQI3s4OhUVjz7PVURGp0XcBgRmTJ6Aub+8UEiHW2q/jyLOmviz60HAl0zC
+         uLBxm7sg8JDlv1IwAjbOxYHIKmIThJmYnV/0xpqgYyi30l6fb+d/kHvq0Bfp7yMVUocu
+         1JM9s/v49FQGXYHi32FJMlwWX0SNNiZ/Z2mINyxMI3h4EbhLEZIPGipHG4fqdnPySPmF
+         OXjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690556644; x=1691161444;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P6/HfDaubTIMIFxeuAV36Gi20Ylyo7B3ON5TN39P2I4=;
+        b=Z9PDFGO8LLQ6VcWBlmVxp8CBLyWUcd3k1u2exintl9Biy3aHF+zHZw7UvnXSano1Nu
+         0ew6h5j96/SAwN5CFHoNfyjaXMWoe524bFZwS5+TDWzJ3r0F8K3jRE4vglUSP8Vdwd1q
+         faQMnm2986R+SM8vtnzNJTqmCDSuzETZp3cpvw304iz/WYXoy8qVqeaK6JlDi4aP6jDR
+         uAPhrENjFY2l6Fi4FNkXoo3ItByotsKuHUjjOKnZCOQi8UJo8cUvxQNGBUZ08sBJT9KJ
+         QGjHRsGCk+S6wdanFa4OL9fWizE1Jf2j7n9Hh5WQe6dJ5dWRbiT1FOu1UZPsF4ohrOtp
+         ryhw==
+X-Gm-Message-State: ABy/qLY6tVAdBbt91/W4hDtWErfYd4CO8wrzVf9Yc+vcRwxsRdkIDKE6
+	oP4I/MFc4+YdmjcgTdp/YNCPUrHlEKgK4+38uzFscA==
+X-Google-Smtp-Source: APBJJlHOs1cmIsvJup/NilltNKlcu9VKvvx28/8sGufxTG2GPnKmqYLl2df29lTIbwyOLT/wrpHOLFWvk817KYREl5M=
+X-Received: by 2002:ac8:4e4f:0:b0:3f4:f0fd:fe7e with SMTP id
+ e15-20020ac84e4f000000b003f4f0fdfe7emr244256qtw.3.1690556644425; Fri, 28 Jul
+ 2023 08:04:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
+References: <20230728065438.4026629-1-tzungbi@kernel.org>
+In-Reply-To: <20230728065438.4026629-1-tzungbi@kernel.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Fri, 28 Jul 2023 08:03:50 -0700
+Message-ID: <CABXOdTca9hmjWXNATeSkhZAV1PXh1ppt6ENEV23xUpO86ogu_w@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: chromeos_acpi: support official HID GOOG0016
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: rafael@kernel.org, lenb@kernel.org, bleung@chromium.org, 
+	groeck@chromium.org, chrome-platform@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, guillaume.tucker@collabora.com, 
+	denys.f@collabora.com, ricardo.canuelo@collabora.com, 
+	usama.anjum@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 14 Jul 2023, Rob Herring wrote:
-
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Thu, Jul 27, 2023 at 11:55=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+>
+> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
+>
+> [1]: https://crrev.com/c/2266713
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->  drivers/mfd/ab8500-core.c           | 1 -
->  drivers/mfd/acer-ec-a500.c          | 2 +-
->  drivers/mfd/act8945a.c              | 2 +-
->  drivers/mfd/altera-sysmgr.c         | 3 +--
->  drivers/mfd/arizona-core.c          | 1 -
->  drivers/mfd/atc260x-core.c          | 1 -
->  drivers/mfd/bcm590xx.c              | 1 -
->  drivers/mfd/cros_ec_dev.c           | 2 +-
->  drivers/mfd/da9052-i2c.c            | 5 +----
->  drivers/mfd/da9055-i2c.c            | 1 -
->  drivers/mfd/da9062-core.c           | 2 +-
->  drivers/mfd/hi655x-pmic.c           | 4 ++--
->  drivers/mfd/iqs62x.c                | 2 +-
->  drivers/mfd/lp873x.c                | 2 +-
->  drivers/mfd/madera-i2c.c            | 1 -
->  drivers/mfd/madera-spi.c            | 1 -
->  drivers/mfd/max77620.c              | 1 -
->  drivers/mfd/max77686.c              | 1 -
->  drivers/mfd/max77843.c              | 2 +-
->  drivers/mfd/max8907.c               | 1 -
->  drivers/mfd/max8925-core.c          | 1 -
->  drivers/mfd/max8997.c               | 1 -
->  drivers/mfd/max8998.c               | 1 -
->  drivers/mfd/mt6358-irq.c            | 5 ++---
->  drivers/mfd/mt6397-core.c           | 5 +++--
->  drivers/mfd/mt6397-irq.c            | 5 ++---
->  drivers/mfd/palmas.c                | 3 ++-
->  drivers/mfd/qcom-pm8008.c           | 2 +-
->  drivers/mfd/rave-sp.c               | 2 +-
->  drivers/mfd/rk8xx-core.c            | 2 +-
->  drivers/mfd/rohm-bd71828.c          | 2 +-
->  drivers/mfd/rohm-bd718x7.c          | 2 +-
->  drivers/mfd/rohm-bd9576.c           | 2 +-
->  drivers/mfd/rt5033.c                | 2 +-
->  drivers/mfd/rz-mtu3.c               | 4 +++-
->  drivers/mfd/sec-core.c              | 2 --
->  drivers/mfd/sprd-sc27xx-spi.c       | 2 +-
->  drivers/mfd/ssbi.c                  | 6 +++---
->  drivers/mfd/stm32-lptimer.c         | 1 +
->  drivers/mfd/stm32-timers.c          | 1 +
->  drivers/mfd/sun4i-gpadc.c           | 4 ++--
->  drivers/mfd/ti-lmu.c                | 1 -
->  drivers/mfd/ti_am335x_tscadc.c      | 2 +-
->  drivers/mfd/tps6507x.c              | 1 -
->  drivers/mfd/tps65090.c              | 1 -
->  drivers/mfd/tps65217.c              | 1 -
->  drivers/mfd/tps65218.c              | 1 -
->  drivers/mfd/tps6594-core.c          | 2 +-
->  drivers/mfd/twl6040.c               | 2 --
->  drivers/mfd/wm831x-core.c           | 3 +--
->  drivers/mtd/chips/cfi_cmdset_0002.c | 3 +--
->  51 files changed, 42 insertions(+), 66 deletions(-)
+> Changes from v1[2]:
+> - Preserve the PNP ID GGL0001 for backward compatible to older firmwares.
+> - Modify commit title and message accordingly.
+>
+> [2]: https://patchwork.kernel.org/project/chrome-platform/patch/202307280=
+14256.3836298-1-tzungbi@kernel.org/
+>
+>  .../ABI/testing/sysfs-driver-chromeos-acpi    | 30 +++++++++----------
+>  .../acpi/chromeos-acpi-device.rst             |  5 ++--
+>  drivers/platform/chrome/chromeos_acpi.c       |  2 +-
+>  3 files changed, 18 insertions(+), 19 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Docum=
+entation/ABI/testing/sysfs-driver-chromeos-acpi
+> index c308926e1568..8e8a5d6610b8 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> +++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> @@ -1,4 +1,4 @@
+> -What:          /sys/bus/platform/devices/GGL0001:*/BINF.2
+> +What:          /sys/bus/platform/devices/GOOG0016:*/BINF.2
 
-Applied, thanks
+Doesn't the description mean that both sysfs directories might be seen
+in the field ?
+If so, replacing one with the other would be wrong.
 
--- 
-Lee Jones [李琼斯]
+Thanks,
+Guenter

@@ -1,36 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4C77C
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 01:43:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD09BC433C7;
-	Fri, 28 Jul 2023 01:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BB57C
+	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 02:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BBA49C433C9;
+	Fri, 28 Jul 2023 02:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690508615;
-	bh=FklE3plM8rBaKf+LDdCA8oF+Xsd+t7GfiYvJ6WSKRcM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=j5yfiEvQnp85lT/54zVRdSSa3yau2+0jvTcxt1oVYXqcnd47O/q2PyTYJed32i1Mc
-	 ZiIvbEAiY/pvBinZKEt9GIYAQHXBqViNU6Y/J1fyznKG0FScO8uqD8v88lKw+Uvx22
-	 Vg3h9urguKI99jOzSGOWvoJLLLoN/j+p3gi/hWxW+e9yTg1EWofNCfMng+sx78+gph
-	 vtmYe43L5gy4stVjI4RQKLPebIzoLDBzCAMzJ+JDizI+eHCNBhoHgQqrqD9uGPNWRj
-	 JqGV1iYGLJlPKUr3niYy/CU1DPnRGb0Kz/MIDVR7KA2iWo9s2l+gfePHQLxVnktBj8
-	 3SHOz1KF+ySZg==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org,
-	rafael@kernel.org,
-	lenb@kernel.org
-Cc: chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	linux-acpi@vger.kernel.org,
-	guillaume.tucker@collabora.com,
-	denys.f@collabora.com,
-	ricardo.canuelo@collabora.com,
-	usama.anjum@collabora.com
-Subject: [PATCH] platform/chrome: chromeos_acpi: use official HID GOOG0016
-Date: Fri, 28 Jul 2023 09:42:56 +0800
-Message-ID: <20230728014256.3836298-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
+	s=k20201202; t=1690509619;
+	bh=dqrBr3LGlxHks7/U5bcjxzrJD9lsAaXyTek6qcarDc4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=bUypoGRNlE4tizoKu59uFnqrrTXk5kXGGIApqyzuPuX3Kbokm8AQqmVJl+Gc74GXN
+	 vQ+FBur3H359iEc6dzXedgArCiOJXpr8+E1N4NuRnHurPutFUjIYRnHeNRv7fDfWI7
+	 sB+ietWsthK8WDs0dIeDTIXrGjnEokNAkrT2yCPETXG4z5WtjJqANyAMb8HRpKcUi7
+	 9Qlc2HJG38m0XRbk7C2PFVEBAxkaZlN68bgey+UaEB5+aze7MwxPWVJ7E3sLwLZ1k4
+	 HOGFwN0EkeGfnYf6ncBh9VHujoBFA+yHIGj66jrnOK4b7dlt/wDjU3Sud7h5u5eL/1
+	 hGsFhIs0yloiA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A1643C595D0;
+	Fri, 28 Jul 2023 02:00:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -38,180 +26,43 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Sync filesystem on EC panic
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169050961965.7430.17069420658023468694.git-patchwork-notify@kernel.org>
+Date: Fri, 28 Jul 2023 02:00:19 +0000
+References: <20230726181738.1.Ic6b8e25120b2aec95e3d0f4ac92c2a35fc7a40e8@changeid>
+In-Reply-To: <20230726181738.1.Ic6b8e25120b2aec95e3d0f4ac92c2a35fc7a40e8@changeid>
+To: Rob Barnes <robbarnes@google.com>
+Cc: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
+ dtor@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-Use official HID GOOG0016 for ChromeOS ACPI (see [1]).
+Hello:
 
-[1]: https://crrev.com/c/2266713
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-AFAIK, there has no ChromeOS devices using the driver yet.  Instead, they
-still stick to some downstream implementation.  IOW, I guess we are safe
-to just replace the PNP ID.
+On Wed, 26 Jul 2023 18:17:39 +0000 you wrote:
+> Perform a filesystem sync when an EC panic is reported. The
+> sync is performed twice in case some inodes or pages are
+> temporarily locked. Testing showed syncing twice significantly
+> improved reliability.
+> 
+> hw_protection_shutdown is replaced for a couple reasons. It is
+> unnecessary because the EC will force reset either way.
+> hw_protection_shutdown does not reliably sync filesystem
+> before shutting down.
+> 
+> [...]
 
- .../ABI/testing/sysfs-driver-chromeos-acpi    | 30 +++++++++----------
- .../acpi/chromeos-acpi-device.rst             |  5 ++--
- drivers/platform/chrome/chromeos_acpi.c       |  3 +-
- 3 files changed, 18 insertions(+), 20 deletions(-)
+Here is the summary with links:
+  - platform/chrome: cros_ec_lpc: Sync filesystem on EC panic
+    https://git.kernel.org/chrome-platform/c/0a329167220a
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-index c308926e1568..8e8a5d6610b8 100644
---- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-+++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-@@ -1,4 +1,4 @@
--What:		/sys/bus/platform/devices/GGL0001:*/BINF.2
-+What:		/sys/bus/platform/devices/GOOG0016:*/BINF.2
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -9,7 +9,7 @@ Description:
- 		1  Rewritable firmware.
- 		== ===============================
- 
--What:		/sys/bus/platform/devices/GGL0001:*/BINF.3
-+What:		/sys/bus/platform/devices/GOOG0016:*/BINF.3
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -22,7 +22,7 @@ Description:
- 		3  Netboot (factory installation only).
- 		== =====================================
- 
--What:		/sys/bus/platform/devices/GGL0001:*/CHSW
-+What:		/sys/bus/platform/devices/GOOG0016:*/CHSW
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -37,28 +37,28 @@ Description:
- 		512  Firmware write protection was disabled.
- 		==== ===========================================
- 
--What:		/sys/bus/platform/devices/GGL0001:*/FMAP
-+What:		/sys/bus/platform/devices/GOOG0016:*/FMAP
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns physical memory address of the start of the main
- 		processor firmware flashmap.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/FRID
-+What:		/sys/bus/platform/devices/GOOG0016:*/FRID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns firmware version for the read-only portion of the
- 		main processor firmware.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/FWID
-+What:		/sys/bus/platform/devices/GOOG0016:*/FWID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns firmware version for the rewritable portion of the
- 		main processor firmware.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.0
-+What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.0
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -72,7 +72,7 @@ Description:
- 		256 to 511  Debug header GPIO 0 to GPIO 255.
- 		=========== ==================================
- 
--What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.1
-+What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.1
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -83,26 +83,26 @@ Description:
- 		1  Signal is active high.
- 		== =======================
- 
--What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.2
-+What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.2
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns the GPIO number on the specified GPIO
- 		controller.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.3
-+What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.3
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns name of the GPIO controller.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/HWID
-+What:		/sys/bus/platform/devices/GOOG0016:*/HWID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Returns hardware ID for the Chromebook.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/MECK
-+What:		/sys/bus/platform/devices/GOOG0016:*/MECK
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -112,7 +112,7 @@ Description:
- 		Engine firmware has not changed. If Management Engine is not
- 		present, or if the firmware was unable to read the extended registers, this buffer size can be zero.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/VBNV.0
-+What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.0
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-@@ -121,14 +121,14 @@ Description:
- 		(that is, 'offset = 0' is the byte following the 14 bytes of
- 		clock data).
- 
--What:		/sys/bus/platform/devices/GGL0001:*/VBNV.1
-+What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.1
- Date:		May 2022
- KernelVersion:	5.19
- Description:
- 		Return the size in bytes of the verified boot non-volatile
- 		storage block.
- 
--What:		/sys/bus/platform/devices/GGL0001:*/VDAT
-+What:		/sys/bus/platform/devices/GOOG0016:*/VDAT
- Date:		May 2022
- KernelVersion:	5.19
- Description:
-diff --git a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-index f37fc90ce340..abb8641fd022 100644
---- a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-+++ b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-@@ -5,9 +5,8 @@ Chrome OS ACPI Device
- =====================
- 
- Hardware functionality specific to Chrome OS is exposed through a Chrome OS ACPI device.
--The plug and play ID of a Chrome OS ACPI device is GGL0001. GGL is a valid PNP ID of Google.
--PNP ID can be used with the ACPI devices according to the guidelines. The following ACPI
--objects are supported:
-+The hardware ID of a Chrome OS ACPI device is GOOG0016.  The following ACPI objects are
-+supported:
- 
- .. flat-table:: Supported ACPI Objects
-    :widths: 1 2
-diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/chrome/chromeos_acpi.c
-index 50d8a4d4352d..4dcc22c34469 100644
---- a/drivers/platform/chrome/chromeos_acpi.c
-+++ b/drivers/platform/chrome/chromeos_acpi.c
-@@ -235,9 +235,8 @@ static int chromeos_acpi_device_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--/* GGL is valid PNP ID of Google. PNP ID can be used with the ACPI devices. */
- static const struct acpi_device_id chromeos_device_ids[] = {
--	{ "GGL0001", 0 },
-+	{ "GOOG0016", 0 },
- 	{}
- };
- MODULE_DEVICE_TABLE(acpi, chromeos_device_ids);
+You are awesome, thank you!
 -- 
-2.41.0.487.g6d72f3e995-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

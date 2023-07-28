@@ -1,121 +1,231 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1570617EC
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 04:04:05 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b8ad356fe4so10604895ad.2
-        for <chrome-platform@lists.linux.dev>; Thu, 27 Jul 2023 21:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1690517045; x=1691121845;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1XTEgHlXPH8mLma697BceRo9wmeuL7zeJ+skFwaYxNk=;
-        b=2aTrS3JdmKh3bts/hgHBmgHOaQ3PQ11VwuGxsvE0ScaZlUHKj3cWH6bxw/LybkY/Ru
-         oq1wrT0uQhgT+RnEQHAfX4QbyL+uCCwGM3dYwYkdJ1XtCwFnjERoYfmLM4EGSqrgAxcJ
-         nkDDtKfuMfG+qWLUf71P3fErYCANA1mFIBtZLGlgtOGmIfrBKSWNKBw+EXWBDMtyUk/C
-         6a85ANdIx3ookfXGE59Ltp+xZS6vTrIYFszqDPDxIfp9K5W1a1FUByoPIOTdYBNXPXAK
-         tp07rj/iyVZUOYi1PwGi35J+kIxsi4r9aM3TJU/1rLmmsH1MToPPRwoZydIhBLkBsIMh
-         0AoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690517045; x=1691121845;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1XTEgHlXPH8mLma697BceRo9wmeuL7zeJ+skFwaYxNk=;
-        b=clEEo9SD9V4/y3gwkmlS4bhaeRzgFx/PVaU5lNgo4uQe8n6NXVOpS1bU7MhvypRK9d
-         H38aPVzsgvp7w31mGcw4+dBEUFc6uKdFK8voVXH3vhPPHqwP8tatG87VeTWtFLFNCYeg
-         f/fL1b/YUMKCJwLmRIFeD+wmZqFhaE5io+6mtl1XAYYt96grktqZrBssm0Z1vMj4j+Jf
-         xkEFxKDDA4/RwQk8FOea6k7ktfSaXbW/PaOdAIolTO8vjvb7GF+B8vJnlR/Swa/0koyU
-         S2UFnMPmEq6JTas0mgRYb/dfM9TC1Vyw1nlRDxkeWxkC30HPoTL+It1fTxtshd0IB79K
-         Gp1Q==
-X-Gm-Message-State: ABy/qLZ9t/l1SYhUMiuTHhW0Dx5xMz15jDi+nHGbhU1zI4S4Nl2Ge4uQ
-	y7GlNsV9jO/w5x0KvVTQZ1gZ1g==
-X-Google-Smtp-Source: APBJJlHmfqm3Zw8+B6W3Qm7DdDujLVNTxcs7rZIAIxUGE2r1IuQqNcTLPCq4YFl4dItw79vN3oO2Zw==
-X-Received: by 2002:a17:902:968e:b0:1b1:9218:6bf3 with SMTP id n14-20020a170902968e00b001b192186bf3mr481691plp.37.1690517044988;
-        Thu, 27 Jul 2023 21:04:04 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id y4-20020a170902ed4400b001b06c106844sm2433409plb.151.2023.07.27.21.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 21:04:04 -0700 (PDT)
-Message-ID: <64c33e34.170a0220.8a2ef.51e6@mx.google.com>
-Date: Thu, 27 Jul 2023 21:04:04 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D199C3D86
+	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 05:59:36 +0000 (UTC)
+Received: from [192.168.100.7] (unknown [59.103.218.24])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id D5185660705E;
+	Fri, 28 Jul 2023 06:59:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1690523969;
+	bh=A6xk56bW+h1xNIqJIqhlip5HS9GqSE5Ep52qnqNmdQI=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=fwuyHiMyA8o20bSicWKk3YOMSK8UF3rZ887YB27oNVGGKqGAkx4jWQr0hLtQz5fIG
+	 fiqt69jSDfuiIP7gP1w5F/fz+Zcv9fNHuJWi4D//4JYFff+MWfKkDEPHUx0hl68UL1
+	 t3WH7z8esMmCGubJXEWuCc42sFOQhJufTSHdmlo4zKwRpheJI+Bu7yRBY+hNBMRjDN
+	 bczJicWEfClVBhlI2sMRIcoSqbDAJOC00G2fKMYnO+yaljy5muqeNIO3VqPPn7qMv5
+	 a+dcalPt6keth/GuT2alr6EeR4lJr6Ilc0kai/U9vATB/OD25tVGGspsmL8CXn54b0
+	 ku0Kxa5RPT9zA==
+Message-ID: <fb9876f1-e729-f2d3-75d8-55fdae24e3ee@collabora.com>
+Date: Fri, 28 Jul 2023 10:59:22 +0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Kernel: v6.5-rc1-1-g0a329167220af
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci sleep: 5 runs,
- 1 regressions (v6.5-rc1-1-g0a329167220af)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org,
+ guillaume.tucker@collabora.com, denys.f@collabora.com,
+ ricardo.canuelo@collabora.com
+Subject: Re: [PATCH] platform/chrome: chromeos_acpi: use official HID GOOG0016
+To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
+ groeck@chromium.org, rafael@kernel.org, lenb@kernel.org
+References: <20230728014256.3836298-1-tzungbi@kernel.org>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20230728014256.3836298-1-tzungbi@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci sleep: 5 runs, 1 regressions (v6.5-rc1-1-g0a32=
-9167220af)
+Thanks for the patch.
 
-Regressions Summary
--------------------
+On 7/28/23 6:42 AM, Tzung-Bi Shih wrote:
+> Use official HID GOOG0016 for ChromeOS ACPI (see [1]).
+> 
+> [1]: https://crrev.com/c/2266713
+> 
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> AFAIK, there has no ChromeOS devices using the driver yet.  Instead, they
+> still stick to some downstream implementation.  IOW, I guess we are safe
+> to just replace the PNP ID.
+GOOG0016 got introduced in newer firmware. Older firmware will still have
+only GGL0001 id. Lets keep both IDs otherwise the updated driver will not
+work on older chromebooks. This can be easily achieved by keeping both IDs
+in chromeos_device_ids.
 
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
+> 
+>  .../ABI/testing/sysfs-driver-chromeos-acpi    | 30 +++++++++----------
+>  .../acpi/chromeos-acpi-device.rst             |  5 ++--
+>  drivers/platform/chrome/chromeos_acpi.c       |  3 +-
+>  3 files changed, 18 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> index c308926e1568..8e8a5d6610b8 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> +++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> @@ -1,4 +1,4 @@
+> -What:		/sys/bus/platform/devices/GGL0001:*/BINF.2
+> +What:		/sys/bus/platform/devices/GOOG0016:*/BINF.2
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -9,7 +9,7 @@ Description:
+>  		1  Rewritable firmware.
+>  		== ===============================
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/BINF.3
+> +What:		/sys/bus/platform/devices/GOOG0016:*/BINF.3
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -22,7 +22,7 @@ Description:
+>  		3  Netboot (factory installation only).
+>  		== =====================================
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/CHSW
+> +What:		/sys/bus/platform/devices/GOOG0016:*/CHSW
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -37,28 +37,28 @@ Description:
+>  		512  Firmware write protection was disabled.
+>  		==== ===========================================
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/FMAP
+> +What:		/sys/bus/platform/devices/GOOG0016:*/FMAP
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns physical memory address of the start of the main
+>  		processor firmware flashmap.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/FRID
+> +What:		/sys/bus/platform/devices/GOOG0016:*/FRID
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns firmware version for the read-only portion of the
+>  		main processor firmware.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/FWID
+> +What:		/sys/bus/platform/devices/GOOG0016:*/FWID
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns firmware version for the rewritable portion of the
+>  		main processor firmware.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.0
+> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.0
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -72,7 +72,7 @@ Description:
+>  		256 to 511  Debug header GPIO 0 to GPIO 255.
+>  		=========== ==================================
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.1
+> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.1
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -83,26 +83,26 @@ Description:
+>  		1  Signal is active high.
+>  		== =======================
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.2
+> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.2
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns the GPIO number on the specified GPIO
+>  		controller.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.3
+> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.3
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns name of the GPIO controller.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/HWID
+> +What:		/sys/bus/platform/devices/GOOG0016:*/HWID
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Returns hardware ID for the Chromebook.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/MECK
+> +What:		/sys/bus/platform/devices/GOOG0016:*/MECK
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -112,7 +112,7 @@ Description:
+>  		Engine firmware has not changed. If Management Engine is not
+>  		present, or if the firmware was unable to read the extended registers, this buffer size can be zero.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/VBNV.0
+> +What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.0
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> @@ -121,14 +121,14 @@ Description:
+>  		(that is, 'offset = 0' is the byte following the 14 bytes of
+>  		clock data).
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/VBNV.1
+> +What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.1
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+>  		Return the size in bytes of the verified boot non-volatile
+>  		storage block.
+>  
+> -What:		/sys/bus/platform/devices/GGL0001:*/VDAT
+> +What:		/sys/bus/platform/devices/GOOG0016:*/VDAT
+>  Date:		May 2022
+>  KernelVersion:	5.19
+>  Description:
+> diff --git a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> index f37fc90ce340..abb8641fd022 100644
+> --- a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> +++ b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> @@ -5,9 +5,8 @@ Chrome OS ACPI Device
+>  =====================
+>  
+>  Hardware functionality specific to Chrome OS is exposed through a Chrome OS ACPI device.
+> -The plug and play ID of a Chrome OS ACPI device is GGL0001. GGL is a valid PNP ID of Google.
+> -PNP ID can be used with the ACPI devices according to the guidelines. The following ACPI
+> -objects are supported:
+> +The hardware ID of a Chrome OS ACPI device is GOOG0016.  The following ACPI objects are
+> +supported:
+>  
+>  .. flat-table:: Supported ACPI Objects
+>     :widths: 1 2
+> diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/chrome/chromeos_acpi.c
+> index 50d8a4d4352d..4dcc22c34469 100644
+> --- a/drivers/platform/chrome/chromeos_acpi.c
+> +++ b/drivers/platform/chrome/chromeos_acpi.c
+> @@ -235,9 +235,8 @@ static int chromeos_acpi_device_probe(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> -/* GGL is valid PNP ID of Google. PNP ID can be used with the ACPI devices. */
+>  static const struct acpi_device_id chromeos_device_ids[] = {
+> -	{ "GGL0001", 0 },
+> +	{ "GOOG0016", 0 },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, chromeos_device_ids);
 
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.5-rc1-1-g0a329167220af/plan/sleep/
-
-  Test:     sleep
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.5-rc1-1-g0a329167220af
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      0a329167220afd2b28584594d30a0643d8a18dfb =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                  | regressions
------------------------------+-------+---------------+----------+----------=
-------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c3320bf84ca461948ace23
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.5-rc1-1-g0a329167220af/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/sleep-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.5-rc1-1-g0a329167220af/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/sleep-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/64c3320bf84ca461948ace24
-        new failure (last pass: v6.5-rc1-1-ga6edd5f5d9cc) =
-
- =20
+-- 
+BR,
+Muhammad Usama Anjum

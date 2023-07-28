@@ -1,237 +1,140 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0282F35
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 07:49:15 +0000 (UTC)
-Received: from [192.168.100.7] (unknown [59.103.217.95])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id E8AC1660704F;
-	Fri, 28 Jul 2023 08:49:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1690530554;
-	bh=x+ZVFYHISVVTNFGY6AZTUai8wAtahwS6/rrN1BnS790=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=a0YfvL0C4XJA1b7vP83Jvl/QgVn2+bS24rvvkb11PSes31h6dvrbGvLiJ9wm92SS0
-	 zMmjjjTI8NE6R2/V+VqnZE4AteFtZ1+ebDbfrU7hRRNstABGw+49lOHGEAQKGcxt7L
-	 9D/gStRF3nXmieuIcWvirG5wfPsCg8zdDtyDLQ2n/sbhPGbNjo04rU+6MLFtNoZaf9
-	 MsTMuM0FFm80YS7+nbadxMcnBA2w3cW0SvRp3zY6FDpv4qLJNqROo5UdlD7GCG1au5
-	 c/KwZPWAZSofuO8Kgv+1al0SjAWN4oSt4vd0hmHjwyk2ipD3gfJBXmUT8BdNtOHbTn
-	 6GtX+iYVGr6ZA==
-Message-ID: <2b36d93d-16d5-9780-d292-a7d06b6c8e55@collabora.com>
-Date: Fri, 28 Jul 2023 12:49:07 +0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A57D305;
+	Fri, 28 Jul 2023 09:10:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF74C433C7;
+	Fri, 28 Jul 2023 09:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690535437;
+	bh=jsukJ3h2ilmz083UcYGengZNcUIJYlLHWk6g/LKxW1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jq54e2P2vabTsv0/ZkCTu/TtAKcPA/986KlVzpTtjaLAFsettUVGxIIEhV012qHmY
+	 XjZnDjmAeW2ab1ZsUURkM7jE4L/524t63e/2b+AR7jZDEQXiyB3jMa2BRjo+JEpwRs
+	 l3QdUPJ8w/4urXWddV+VETsCyali7ZkVGVcRJ/K6g+RVz5T9C+bf9WioC+uygEDa9I
+	 Rh3AvZFW0PdulmDiZySwu0Xy2XsI/jHB3Xyi77hPM/dAwa7KUnEsd9+KEupPqjueWP
+	 u1x3RpBtfjI/oksjIHjYF89qn/jUU3ZW18drI+6RQKSDrQ5SYoMzV9cMfadNlCraZU
+	 lW9h48LazI1/g==
+Date: Fri, 28 Jul 2023 10:10:24 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tony Lindgren <tony@atomide.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
+	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
+	linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-mtd@lists.infradead.org
+Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
+Message-ID: <20230728091024.GE8175@google.com>
+References: <20230714174731.4059811-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
- chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org,
- guillaume.tucker@collabora.com, denys.f@collabora.com,
- ricardo.canuelo@collabora.com
-Subject: Re: [PATCH v2] platform/chrome: chromeos_acpi: support official HID
- GOOG0016
-Content-Language: en-US
-To: Tzung-Bi Shih <tzungbi@kernel.org>, rafael@kernel.org, lenb@kernel.org,
- bleung@chromium.org, groeck@chromium.org
-References: <20230728065438.4026629-1-tzungbi@kernel.org>
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20230728065438.4026629-1-tzungbi@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
 
-On 7/28/23 11:54 AM, Tzung-Bi Shih wrote:
-> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
+On Fri, 14 Jul 2023, Rob Herring wrote:
+
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
-> [1]: https://crrev.com/c/2266713
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Looks good other than the documentation.
-
-Reviewed-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> Changes from v1[2]:
-> - Preserve the PNP ID GGL0001 for backward compatible to older firmwares.
-> - Modify commit title and message accordingly.
-> 
-> [2]: https://patchwork.kernel.org/project/chrome-platform/patch/20230728014256.3836298-1-tzungbi@kernel.org/
-> 
->  .../ABI/testing/sysfs-driver-chromeos-acpi    | 30 +++++++++----------
->  .../acpi/chromeos-acpi-device.rst             |  5 ++--
->  drivers/platform/chrome/chromeos_acpi.c       |  2 +-
->  3 files changed, 18 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-> index c308926e1568..8e8a5d6610b8 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-> +++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-> @@ -1,4 +1,4 @@
-> -What:		/sys/bus/platform/devices/GGL0001:*/BINF.2
-> +What:		/sys/bus/platform/devices/GOOG0016:*/BINF.2
-Probably just replace the GGL0001:* with G* here and define the G* can be
-GGL0001:* or GOOG0016:*.
+>  drivers/mfd/ab8500-core.c           | 1 -
+>  drivers/mfd/acer-ec-a500.c          | 2 +-
+>  drivers/mfd/act8945a.c              | 2 +-
+>  drivers/mfd/altera-sysmgr.c         | 3 +--
+>  drivers/mfd/arizona-core.c          | 1 -
+>  drivers/mfd/atc260x-core.c          | 1 -
+>  drivers/mfd/bcm590xx.c              | 1 -
+>  drivers/mfd/cros_ec_dev.c           | 2 +-
+>  drivers/mfd/da9052-i2c.c            | 5 +----
+>  drivers/mfd/da9055-i2c.c            | 1 -
+>  drivers/mfd/da9062-core.c           | 2 +-
+>  drivers/mfd/hi655x-pmic.c           | 4 ++--
+>  drivers/mfd/iqs62x.c                | 2 +-
+>  drivers/mfd/lp873x.c                | 2 +-
+>  drivers/mfd/madera-i2c.c            | 1 -
+>  drivers/mfd/madera-spi.c            | 1 -
+>  drivers/mfd/max77620.c              | 1 -
+>  drivers/mfd/max77686.c              | 1 -
+>  drivers/mfd/max77843.c              | 2 +-
+>  drivers/mfd/max8907.c               | 1 -
+>  drivers/mfd/max8925-core.c          | 1 -
+>  drivers/mfd/max8997.c               | 1 -
+>  drivers/mfd/max8998.c               | 1 -
+>  drivers/mfd/mt6358-irq.c            | 5 ++---
+>  drivers/mfd/mt6397-core.c           | 5 +++--
+>  drivers/mfd/mt6397-irq.c            | 5 ++---
+>  drivers/mfd/palmas.c                | 3 ++-
+>  drivers/mfd/qcom-pm8008.c           | 2 +-
+>  drivers/mfd/rave-sp.c               | 2 +-
+>  drivers/mfd/rk8xx-core.c            | 2 +-
+>  drivers/mfd/rohm-bd71828.c          | 2 +-
+>  drivers/mfd/rohm-bd718x7.c          | 2 +-
+>  drivers/mfd/rohm-bd9576.c           | 2 +-
+>  drivers/mfd/rt5033.c                | 2 +-
+>  drivers/mfd/rz-mtu3.c               | 4 +++-
+>  drivers/mfd/sec-core.c              | 2 --
+>  drivers/mfd/sprd-sc27xx-spi.c       | 2 +-
+>  drivers/mfd/ssbi.c                  | 6 +++---
+>  drivers/mfd/stm32-lptimer.c         | 1 +
+>  drivers/mfd/stm32-timers.c          | 1 +
+>  drivers/mfd/sun4i-gpadc.c           | 4 ++--
+>  drivers/mfd/ti-lmu.c                | 1 -
+>  drivers/mfd/ti_am335x_tscadc.c      | 2 +-
+>  drivers/mfd/tps6507x.c              | 1 -
+>  drivers/mfd/tps65090.c              | 1 -
+>  drivers/mfd/tps65217.c              | 1 -
+>  drivers/mfd/tps65218.c              | 1 -
+>  drivers/mfd/tps6594-core.c          | 2 +-
+>  drivers/mfd/twl6040.c               | 2 --
+>  drivers/mfd/wm831x-core.c           | 3 +--
+>  drivers/mtd/chips/cfi_cmdset_0002.c | 3 +--
+>  51 files changed, 42 insertions(+), 66 deletions(-)
 
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -9,7 +9,7 @@ Description:
->  		1  Rewritable firmware.
->  		== ===============================
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/BINF.3
-> +What:		/sys/bus/platform/devices/GOOG0016:*/BINF.3
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -22,7 +22,7 @@ Description:
->  		3  Netboot (factory installation only).
->  		== =====================================
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/CHSW
-> +What:		/sys/bus/platform/devices/GOOG0016:*/CHSW
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -37,28 +37,28 @@ Description:
->  		512  Firmware write protection was disabled.
->  		==== ===========================================
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/FMAP
-> +What:		/sys/bus/platform/devices/GOOG0016:*/FMAP
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns physical memory address of the start of the main
->  		processor firmware flashmap.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/FRID
-> +What:		/sys/bus/platform/devices/GOOG0016:*/FRID
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns firmware version for the read-only portion of the
->  		main processor firmware.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/FWID
-> +What:		/sys/bus/platform/devices/GOOG0016:*/FWID
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns firmware version for the rewritable portion of the
->  		main processor firmware.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.0
-> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.0
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -72,7 +72,7 @@ Description:
->  		256 to 511  Debug header GPIO 0 to GPIO 255.
->  		=========== ==================================
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.1
-> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.1
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -83,26 +83,26 @@ Description:
->  		1  Signal is active high.
->  		== =======================
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.2
-> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.2
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns the GPIO number on the specified GPIO
->  		controller.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.3
-> +What:		/sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.3
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns name of the GPIO controller.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/HWID
-> +What:		/sys/bus/platform/devices/GOOG0016:*/HWID
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Returns hardware ID for the Chromebook.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/MECK
-> +What:		/sys/bus/platform/devices/GOOG0016:*/MECK
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -112,7 +112,7 @@ Description:
->  		Engine firmware has not changed. If Management Engine is not
->  		present, or if the firmware was unable to read the extended registers, this buffer size can be zero.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/VBNV.0
-> +What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.0
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> @@ -121,14 +121,14 @@ Description:
->  		(that is, 'offset = 0' is the byte following the 14 bytes of
->  		clock data).
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/VBNV.1
-> +What:		/sys/bus/platform/devices/GOOG0016:*/VBNV.1
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
->  		Return the size in bytes of the verified boot non-volatile
->  		storage block.
->  
-> -What:		/sys/bus/platform/devices/GGL0001:*/VDAT
-> +What:		/sys/bus/platform/devices/GOOG0016:*/VDAT
->  Date:		May 2022
->  KernelVersion:	5.19
->  Description:
-> diff --git a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-> index f37fc90ce340..89419e116413 100644
-> --- a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-> +++ b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
-> @@ -5,9 +5,8 @@ Chrome OS ACPI Device
->  =====================
->  
->  Hardware functionality specific to Chrome OS is exposed through a Chrome OS ACPI device.
-> -The plug and play ID of a Chrome OS ACPI device is GGL0001. GGL is a valid PNP ID of Google.
-> -PNP ID can be used with the ACPI devices according to the guidelines. The following ACPI
-> -objects are supported:
-> +The plug and play ID of a Chrome OS ACPI device is GGL0001 and the hardware ID is
-> +GOOG0016.  The following ACPI objects are supported:
-Looks good. Probably GOOG0016 is HID which has higher preference over
-GGL0001 which is CID if both are defined in firmware?
-
->  
->  .. flat-table:: Supported ACPI Objects
->     :widths: 1 2
-> diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/chrome/chromeos_acpi.c
-> index 50d8a4d4352d..1cc01d893ada 100644
-> --- a/drivers/platform/chrome/chromeos_acpi.c
-> +++ b/drivers/platform/chrome/chromeos_acpi.c
-> @@ -235,9 +235,9 @@ static int chromeos_acpi_device_probe(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -/* GGL is valid PNP ID of Google. PNP ID can be used with the ACPI devices. */
->  static const struct acpi_device_id chromeos_device_ids[] = {
->  	{ "GGL0001", 0 },
-> +	{ "GOOG0016", 0 },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(acpi, chromeos_device_ids);
+Applied, thanks
 
 -- 
-BR,
-Muhammad Usama Anjum
+Lee Jones [李琼斯]

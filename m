@@ -1,94 +1,108 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B663D11CA0
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 15:04:05 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-40550136e54so332591cf.0
-        for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 08:04:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B117C
+	for <chrome-platform@lists.linux.dev>; Sat, 29 Jul 2023 00:51:38 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bbc2e1c6b2so18038805ad.3
+        for <chrome-platform@lists.linux.dev>; Fri, 28 Jul 2023 17:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690556644; x=1691161444;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P6/HfDaubTIMIFxeuAV36Gi20Ylyo7B3ON5TN39P2I4=;
-        b=qBKfwSV+ZwQ6sEr259d4qUrgPzVfaTjCDprP1cGD9z1tWEiC/JSM47CJmsKWX7BmTx
-         fiy812NI3OsnG5TAIKOTGxDcPfp8aDU+PYQoCiN1BlxL5+irXAfDCBFZz5HsuIQxp6Iw
-         hgMN7FuAwHOQI3s4OhUVjz7PVURGp0XcBgRmTJ6Aub+8UEiHW2q/jyLOmviz60HAl0zC
-         uLBxm7sg8JDlv1IwAjbOxYHIKmIThJmYnV/0xpqgYyi30l6fb+d/kHvq0Bfp7yMVUocu
-         1JM9s/v49FQGXYHi32FJMlwWX0SNNiZ/Z2mINyxMI3h4EbhLEZIPGipHG4fqdnPySPmF
-         OXjg==
+        d=gmail.com; s=20221208; t=1690591897; x=1691196697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6jtitKPmPv1QZ35jWw/TxRZ9JZX7OXyPiqS7eZQkRX0=;
+        b=ZLrGn05MUkHmy9umqhyalvo6jULTXifsXM898LgnZypiokj4DbhjGA2DKicQPylNZT
+         bsHjkWRTsweAmrnW45in3M5LlfLJlb/BdWnvDJ6/iSj99oJo58PBy8L1wWtX9ojkLAIg
+         ZA7J1phe7ohuI6F1saudthk0P3MEGpTLuXOO7Wydxqc2SmBo6g4iZJ+z/3wQEuRp39zI
+         aW83IzmOs9balI94wHr4x83W9RbgCVokkkGgv+Kk+V7FSk2//UI3IDchr2sahlJaNhZd
+         Zs6ynTqSZzEgqNkv3AkqEexfYs4Qx7JTtF1sJIBa/A9ONGMb96/x171Phf1CjcLQoMJ/
+         6NCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690556644; x=1691161444;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P6/HfDaubTIMIFxeuAV36Gi20Ylyo7B3ON5TN39P2I4=;
-        b=Z9PDFGO8LLQ6VcWBlmVxp8CBLyWUcd3k1u2exintl9Biy3aHF+zHZw7UvnXSano1Nu
-         0ew6h5j96/SAwN5CFHoNfyjaXMWoe524bFZwS5+TDWzJ3r0F8K3jRE4vglUSP8Vdwd1q
-         faQMnm2986R+SM8vtnzNJTqmCDSuzETZp3cpvw304iz/WYXoy8qVqeaK6JlDi4aP6jDR
-         uAPhrENjFY2l6Fi4FNkXoo3ItByotsKuHUjjOKnZCOQi8UJo8cUvxQNGBUZ08sBJT9KJ
-         QGjHRsGCk+S6wdanFa4OL9fWizE1Jf2j7n9Hh5WQe6dJ5dWRbiT1FOu1UZPsF4ohrOtp
-         ryhw==
-X-Gm-Message-State: ABy/qLY6tVAdBbt91/W4hDtWErfYd4CO8wrzVf9Yc+vcRwxsRdkIDKE6
-	oP4I/MFc4+YdmjcgTdp/YNCPUrHlEKgK4+38uzFscA==
-X-Google-Smtp-Source: APBJJlHOs1cmIsvJup/NilltNKlcu9VKvvx28/8sGufxTG2GPnKmqYLl2df29lTIbwyOLT/wrpHOLFWvk817KYREl5M=
-X-Received: by 2002:ac8:4e4f:0:b0:3f4:f0fd:fe7e with SMTP id
- e15-20020ac84e4f000000b003f4f0fdfe7emr244256qtw.3.1690556644425; Fri, 28 Jul
- 2023 08:04:04 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690591897; x=1691196697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6jtitKPmPv1QZ35jWw/TxRZ9JZX7OXyPiqS7eZQkRX0=;
+        b=Je/CtieP2re14KY1yrkwYNovtHDfJeK9DzQM/sF2wWBqsKO2nu79CldaoUn/xRsDQ2
+         2FCBQyNU6V1G7Yy0y8fwWZ+moy+enErQOEJu0EGkWinym/GrLXi4yteTlGYrTIM7Qt7x
+         8O4SR4sG4+T0ITVFEZ8I16t+Zpl4KyOoppLblg+7QIqepzPl4p1V8cZ+5eOtC0OnDWCg
+         WQMO5cvs4WbnT2wvDUN6vdEI0r0DuUWSfLbFx35kXaxtfONjB1rKXmDkIuLo5BiPIPem
+         NlusYu8qyQMFffnfyR6wZHOKnWFdGovhJ/mtBmN63xiOeMpBxVKrY2X85aHVQsUhkysX
+         HK4g==
+X-Gm-Message-State: ABy/qLbWpf+wU3xXRddkSJDnA7lmyURHvLkB4mz+EJ1qaYnGaya3SNLd
+	YRXVwAmabKWiLgopnRJm63g=
+X-Google-Smtp-Source: APBJJlE1c+ch5XpoWIAq/65XLons7xmMFKcehpJoYCmLqy5YYddBugUThZZxJGZXqs+SYttzVNxZVg==
+X-Received: by 2002:a17:902:b7c5:b0:1b8:9b5e:a218 with SMTP id v5-20020a170902b7c500b001b89b5ea218mr2523742plz.42.1690591897281;
+        Fri, 28 Jul 2023 17:51:37 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:9d:2:bc93:3749:59cc:1d5c])
+        by smtp.gmail.com with ESMTPSA id h12-20020a170902704c00b001bb97e51ab4sm4149524plt.98.2023.07.28.17.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 17:51:36 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 01/22] Input: cros_ec_keyb - use device core to create driver-specific device attributes
+Date: Fri, 28 Jul 2023 17:51:10 -0700
+Message-ID: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230728065438.4026629-1-tzungbi@kernel.org>
-In-Reply-To: <20230728065438.4026629-1-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Fri, 28 Jul 2023 08:03:50 -0700
-Message-ID: <CABXOdTca9hmjWXNATeSkhZAV1PXh1ppt6ENEV23xUpO86ogu_w@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: chromeos_acpi: support official HID GOOG0016
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: rafael@kernel.org, lenb@kernel.org, bleung@chromium.org, 
-	groeck@chromium.org, chrome-platform@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, guillaume.tucker@collabora.com, 
-	denys.f@collabora.com, ricardo.canuelo@collabora.com, 
-	usama.anjum@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 27, 2023 at 11:55=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
- wrote:
->
-> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
->
-> [1]: https://crrev.com/c/2266713
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Changes from v1[2]:
-> - Preserve the PNP ID GGL0001 for backward compatible to older firmwares.
-> - Modify commit title and message accordingly.
->
-> [2]: https://patchwork.kernel.org/project/chrome-platform/patch/202307280=
-14256.3836298-1-tzungbi@kernel.org/
->
->  .../ABI/testing/sysfs-driver-chromeos-acpi    | 30 +++++++++----------
->  .../acpi/chromeos-acpi-device.rst             |  5 ++--
->  drivers/platform/chrome/chromeos_acpi.c       |  2 +-
->  3 files changed, 18 insertions(+), 19 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Docum=
-entation/ABI/testing/sysfs-driver-chromeos-acpi
-> index c308926e1568..8e8a5d6610b8 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-> +++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-> @@ -1,4 +1,4 @@
-> -What:          /sys/bus/platform/devices/GGL0001:*/BINF.2
-> +What:          /sys/bus/platform/devices/GOOG0016:*/BINF.2
+Instead of creating driver-specific device attributes with
+devm_device_add_group() have device core do this by setting up dev_groups
+pointer in the driver structure.
 
-Doesn't the description mean that both sysfs directories might be seen
-in the field ?
-If so, replacing one with the other would be wrong.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/cros_ec_keyb.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Thanks,
-Guenter
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index e7ecfca838df..313b7a69dd69 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -686,10 +686,11 @@ static umode_t cros_ec_keyb_attr_is_visible(struct kobject *kobj,
+ 	return attr->mode;
+ }
+ 
+-static const struct attribute_group cros_ec_keyb_attr_group = {
++static const struct attribute_group cros_ec_keyb_group = {
+ 	.is_visible = cros_ec_keyb_attr_is_visible,
+ 	.attrs = cros_ec_keyb_attrs,
+ };
++__ATTRIBUTE_GROUPS(cros_ec_keyb);
+ 
+ static int cros_ec_keyb_probe(struct platform_device *pdev)
+ {
+@@ -730,12 +731,6 @@ static int cros_ec_keyb_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
+-	err = devm_device_add_group(dev, &cros_ec_keyb_attr_group);
+-	if (err) {
+-		dev_err(dev, "failed to create attributes: %d\n", err);
+-		return err;
+-	}
+-
+ 	ckdev->notifier.notifier_call = cros_ec_keyb_work;
+ 	err = blocking_notifier_chain_register(&ckdev->ec->event_notifier,
+ 					       &ckdev->notifier);
+@@ -782,6 +777,7 @@ static struct platform_driver cros_ec_keyb_driver = {
+ 	.remove = cros_ec_keyb_remove,
+ 	.driver = {
+ 		.name = "cros-ec-keyb",
++		.dev_groups = cros_ec_keyb_groups,
+ 		.of_match_table = of_match_ptr(cros_ec_keyb_of_match),
+ 		.acpi_match_table = ACPI_PTR(cros_ec_keyb_acpi_match),
+ 		.pm = pm_sleep_ptr(&cros_ec_keyb_pm_ops),
+-- 
+2.41.0.487.g6d72f3e995-goog
+

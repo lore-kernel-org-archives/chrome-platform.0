@@ -1,65 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359373C2A
-	for <chrome-platform@lists.linux.dev>; Sat, 29 Jul 2023 11:21:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EF5C433C7;
-	Sat, 29 Jul 2023 11:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690629672;
-	bh=Da5qqJ00EwlvAqge1RCcLr/wQtNOocebrT9i5qo8yfU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JZ7R701lOTslitnU6OdT1l/LSLMenkwtITPXYYE1nAxnDdsO4TxCK21LT9rsJNbzA
-	 TN072ACoCxBfv5vYyjnnxvLPk+xdqU5mxAbuiUqqM1f78WSpl216Dy1XiXyKA1iCdE
-	 QqeIRwc2Ukxrap6cTkWAiJiBjZqiCUL4/xWujANC5bcMg7DrTYAGDrN5dMGW1g0JY4
-	 MY4hqxAigZAuR0s2rm09d5gIhIhSRZRe7V9atK6HQVuB7Mavmz+eVeGQaY2FMW4Hgc
-	 3Ch2Lv680PXua1i6AKfI75RArNfKva1s2Rg3jAqals/h7gb+1M71wyypTEdUffQchz
-	 zDfjtdj3euYdA==
-Date: Sat, 29 Jul 2023 12:21:15 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Yiyuan Guo <yguoaz@gmail.com>,
- <lars@metafoo.de>, <bleung@chromium.org>, <groeck@google.com>,
- <dianders@chromium.org>, <mazziesaccount@gmail.com>,
- <gwendal@chromium.org>, <linux-iio@vger.kernel.org>,
- <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for
- cros_ec_command
-Message-ID: <20230729122115.6c2b2593@jic23-huawei>
-In-Reply-To: <20230718103702.0000546e@Huawei.com>
-References: <20230630143719.1513906-1-yguoaz@gmail.com>
-	<20230716141028.4c57c5c7@jic23-huawei>
-	<ZLSw1FxccNOqE52C@google.com>
-	<20230718103702.0000546e@Huawei.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD03E15BD
+	for <chrome-platform@lists.linux.dev>; Sun, 30 Jul 2023 11:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B37DDC433C8;
+	Sun, 30 Jul 2023 11:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1690717150;
+	bh=qMWIU+f5yjvvP0Z6YT5sLX6EstSebAQh9vRstxRwT24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gFcBX5MgCppgO2SzzMLDXtla6lHT9VxURUoMFbCIUzbQ3cQUhkO9pgTYYDmjpDa00
+	 NoE7vR5gEJkpWu/8iHLE/UEGal6Fl2GnBIBaiBFqlho2Fy3OZSu1XpsNAa9pJwqLCK
+	 mxP4JHL6ijpQNzySF/SsGEOdU50Osfn2PRspchAM=
+Date: Sun, 30 Jul 2023 13:39:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 01/22] Input: cros_ec_keyb - use device core to create
+ driver-specific device attributes
+Message-ID: <2023073050-syndrome-abreast-391f@gregkh>
+References: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
 
-On Tue, 18 Jul 2023 10:37:02 +0100
-Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-
-> On Mon, 17 Jul 2023 11:09:08 +0800
-> Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+On Fri, Jul 28, 2023 at 05:51:10PM -0700, Dmitry Torokhov wrote:
+> Instead of creating driver-specific device attributes with
+> devm_device_add_group() have device core do this by setting up dev_groups
+> pointer in the driver structure.
 > 
-> > On Sun, Jul 16, 2023 at 02:10:28PM +0100, Jonathan Cameron wrote:
-> > [...]  
-> > > 2) Various people commented on earlier versions, and I'm waiting for them to confirm
-> > > they are fine with this version.    
-> > 
-> > The version addressed all my comments and LGTM.  
-> 
-> Tag?  I can pick up without, but it's nice to record this
-> formally.   Reviewed-by seems appropriate here.
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/keyboard/cros_ec_keyb.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 
-Applied to the fixes-togreg branch of iio.git.
+All of these look great, thanks for doing them:
 
-Note the fixes tag had to be replaced with the full version.
-No shortening allowed.
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Jonathan

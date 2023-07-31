@@ -1,144 +1,258 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA5518AF0
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Jul 2023 13:52:30 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bb81809ca8so35801905ad.3
-        for <chrome-platform@lists.linux.dev>; Mon, 31 Jul 2023 06:52:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CA819BC8
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Jul 2023 16:54:00 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4036bd4fff1so11341cf.0
+        for <chrome-platform@lists.linux.dev>; Mon, 31 Jul 2023 09:54:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1690811549; x=1691416349;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9QKXQVwU1kjMDjk/oTOqO2n56gTaM2G1CIEVSW/NuUk=;
-        b=FILSxIMN+DqnDxAXGejMIaUUZiAFiPi4Jl+/F29yBg0KMhvCGNCGe5toTj01m0Riec
-         7oEk6DgBEKQOWUEHPzNJzT5zb5LAtW9XHNLvb0MpwsKNvekM0qCuhsHpb49Oxe7YX4J8
-         988ip3bP8l6xiFUzPVr0LZinfXEba3B3/zIHjedjpNSqO6i2rQTt9yh8hilPG9pWFR8v
-         XTU6khOm79lAEkr7rLX8kBKrzQd1wCjm3J/h7uBykdsOj/wKP5FAATtCnkAt7pEc5EPf
-         Tm3McpgUdmoXMXWnEC1EIq+GYWGuWeTuGykci1pNELygV3t3qZmwiZwxVdqnqAqtP/2m
-         q96Q==
+        d=google.com; s=20221208; t=1690822439; x=1691427239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHOVL2V40gEMNYTXztrfE94YR/Gk0U1DqJKN5qos5U8=;
+        b=qg3DdyfL5EIg9x/bf9wxui+UXlnU+2api9U6quT4C7zodc217UPM4LzWwxDUNjqilI
+         LTc2hsYjyJXTpJNmb58svwlzol/k1EIkvpkSapQ6DsSBNi/69vYM3qEfk9eMCsPzNaUq
+         hbI9vI0O0Aky8ce49iz/RsX+W2c115H2l5wzgzceO+DrVbYhtQk3oacSlIShd5psQDUW
+         HxPXXomEn8YfuyJRGPIdIlqB9ECbH2hFu7nn0WZ649jK1QFU1u5bVcvpeDc7GZBHmgHQ
+         QXVrhCGojGJEQ0QoFMos4rYNjvCkKo8EHNXn9hfQ79cftuIiRz8jSkrwIfYhy2qni1nj
+         Ll7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690811549; x=1691416349;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9QKXQVwU1kjMDjk/oTOqO2n56gTaM2G1CIEVSW/NuUk=;
-        b=eIFPSx8REm/2tuBLrD10YNpYNcs+7ZPubl91h4ud16uc14gxTR0XyDJ8QU2UYAGWpC
-         iH5he+dr3n6rrn8Hi7B+YtFu+KFpRz5xVWUjJO1qG11yDC8LiMlBJ7D1zgoAl2W2+HRb
-         PcTzW7W110UJuCOqYIzeHuZ2ORL+ofVbNu8N+4Wa8Z3Es4gfR4j4BFPvdC5v1u6RTrSM
-         DKOj8r6RBukno44Fhhs12s6qOTXXVIRB+5D1iYxLfNe6ow9MLPTFotw4Zh7SKltlTGe+
-         Ka/wzxgRs667UBLsptZWQROC6gN9GjhgOfvg/K2Eewz4+v28BZgVrJsctNhTMVdlAuET
-         0yXA==
-X-Gm-Message-State: ABy/qLaeppsMb64Ybr9LcpKyz39R/4hSqn2lCBfRoywTD44LLtaXcNwi
-	mwg7vsjz/XA1gHV7IHAVRmWWRQ==
-X-Google-Smtp-Source: APBJJlE7IDwM4NevdTL5SnYWUWPWQkOX3YGRbXdKImMqDwjzUlbmNFqoLAp7k+p7OoDCxvJPcJbRGA==
-X-Received: by 2002:a17:902:eccc:b0:1b8:1335:b775 with SMTP id a12-20020a170902eccc00b001b81335b775mr13019234plh.0.1690811549668;
-        Mon, 31 Jul 2023 06:52:29 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id e21-20020a170902d39500b001a9b29b6759sm8633537pld.183.2023.07.31.06.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 06:52:28 -0700 (PDT)
-Message-ID: <64c7bc9c.170a0220.cefd6.fdc5@mx.google.com>
-Date: Mon, 31 Jul 2023 06:52:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20221208; t=1690822439; x=1691427239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cHOVL2V40gEMNYTXztrfE94YR/Gk0U1DqJKN5qos5U8=;
+        b=hsIxxISzcLsVMTQMJsEVHiB/Z09jhx5y4pvnWVZwl5lj3hUFLux4/QSmTh03SRWB0W
+         5KgUyErFd5SENFNVx7M/O196uRT3RL9j8ul1gd6m4PgD/sOStD5kx4BwL4BWB8Xap4n5
+         YiMFTcagKTBkXukhZ+tZN/PdDLa8Z/CMQ9Man/dTbYyojxHz/6X/0GdiZSlh8+wxL5jZ
+         hwUnTy3512FlhI+S7warjjgXHlB4yjqRrmaWB/hTiB/H4WUF7aCD+6wfenZeKNh5UObk
+         RQEJx6jhSmlk4RmLttrbQ8Y4sbr6uXPcwOXsIhCgV6YEqBCJ9FtQRWwM6G+8as7pncVn
+         YsiA==
+X-Gm-Message-State: ABy/qLadXVME5bc2D6ExiJ1txm9HJUcMIyHMTBX12DPfgzF+2Zb2obUe
+	BFpXUyTKdUQ61Rs8CGpNEhX2Ffw1cKWApcjOW38aLA==
+X-Google-Smtp-Source: APBJJlFMTxD2I+H2XK4Aykzv0jvvRQck1k7JnGEKHaPohGQXRhN6e0LF6l+jDQyUP2QRhDlbvVEAYy+XZvC+2mDAR7Q=
+X-Received: by 2002:a05:622a:15d0:b0:3fd:ad1b:4e8a with SMTP id
+ d16-20020a05622a15d000b003fdad1b4e8amr559747qty.22.1690822439046; Mon, 31 Jul
+ 2023 09:53:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20230731024214.908235-1-tzungbi@kernel.org>
+In-Reply-To: <20230731024214.908235-1-tzungbi@kernel.org>
+From: Guenter Roeck <groeck@google.com>
+Date: Mon, 31 Jul 2023 09:53:45 -0700
+Message-ID: <CABXOdTemJYufWDV7cmXoNxHRbi8dG2691289OE4u6LPaATdsOg@mail.gmail.com>
+Subject: Re: [PATCH v3] platform/chrome: chromeos_acpi: support official HID GOOG0016
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, rafael@kernel.org, 
+	lenb@kernel.org, guillaume.tucker@collabora.com, denys.f@collabora.com, 
+	ricardo.canuelo@collabora.com, usama.anjum@collabora.com, 
+	chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Branch: for-firmware-kernelci
-X-Kernelci-Kernel: v6.5-rc1-1-g0979e7e3cfd7
-X-Kernelci-Report-Type: build
-Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed,
- 5 passed, 6 warnings (v6.5-rc1-1-g0979e7e3cfd7)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed, 5 passed, =
-6 warnings (v6.5-rc1-1-g0979e7e3cfd7)
+On Sun, Jul 30, 2023 at 7:43=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
+>
+> [1]: https://crrev.com/c/2266713
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-kernelci/kernel/v6.5-rc1-1-g0979e7e3cfd7/
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-Tree: chrome-platform
-Branch: for-firmware-kernelci
-Git Describe: v6.5-rc1-1-g0979e7e3cfd7
-Git Commit: 0979e7e3cfd7b479c34dc0f7217beb0c30f8028a
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
-
-Warnings Detected:
-
-arm64:
-
-arm:
-
-x86_64:
-    x86_64_defconfig (gcc-10): 3 warnings
-    x86_64_defconfig+x86-chromebook (gcc-10): 3 warnings
-
-
-Warnings summary:
-
-    2    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
-vec_from_user.part.0() with UACCESS enabled
-    2    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
-vec_from_user.part.0() with UACCESS enabled
-    2    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redunda=
-nt UACCESS disable
-
+> ---
+> Changes from v2[2]:
+> - Instead of replacing, appending "GOOG0016" in sysfs-driver-chromeos-acp=
+i.
+>
+> Changes from v1[3]:
+> - Preserve the PNP ID GGL0001 for backward compatible to older firmwares.
+> - Modify commit title and message accordingly.
+>
+> [2]: https://patchwork.kernel.org/project/chrome-platform/patch/202307280=
+65438.4026629-1-tzungbi@kernel.org/
+> [3]: https://patchwork.kernel.org/project/chrome-platform/patch/202307280=
+14256.3836298-1-tzungbi@kernel.org/
+>
+>  .../ABI/testing/sysfs-driver-chromeos-acpi        | 15 +++++++++++++++
+>  .../firmware-guide/acpi/chromeos-acpi-device.rst  |  5 ++---
+>  drivers/platform/chrome/chromeos_acpi.c           |  2 +-
+>  3 files changed, 18 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Docum=
+entation/ABI/testing/sysfs-driver-chromeos-acpi
+> index c308926e1568..22082f9a7922 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> +++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+> @@ -1,4 +1,5 @@
+>  What:          /sys/bus/platform/devices/GGL0001:*/BINF.2
+> +               /sys/bus/platform/devices/GOOG0016:*/BINF.2
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -10,6 +11,7 @@ Description:
+>                 =3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/BINF.3
+> +               /sys/bus/platform/devices/GOOG0016:*/BINF.3
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -23,6 +25,7 @@ Description:
+>                 =3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/CHSW
+> +               /sys/bus/platform/devices/GOOG0016:*/CHSW
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -38,6 +41,7 @@ Description:
+>                 =3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/FMAP
+> +               /sys/bus/platform/devices/GOOG0016:*/FMAP
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -45,6 +49,7 @@ Description:
+>                 processor firmware flashmap.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/FRID
+> +               /sys/bus/platform/devices/GOOG0016:*/FRID
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -52,6 +57,7 @@ Description:
+>                 main processor firmware.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/FWID
+> +               /sys/bus/platform/devices/GOOG0016:*/FWID
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -59,6 +65,7 @@ Description:
+>                 main processor firmware.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.0
+> +               /sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.0
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -73,6 +80,7 @@ Description:
+>                 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Detailed per-defconfig build reports:
-
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
-
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
-ection mismatches
-
-Warnings:
-    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
-CCESS disable
-    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
-3 warnings, 0 section mismatches
-
-Warnings:
-    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
-CCESS disable
-    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
-rom_user.part.0() with UACCESS enabled
-
----
-For more info write to <info@kernelci.org>
+=3D=3D
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.1
+> +               /sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.1
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -84,6 +92,7 @@ Description:
+>                 =3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.2
+> +               /sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.2
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -91,18 +100,21 @@ Description:
+>                 controller.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.3
+> +               /sys/bus/platform/devices/GOOG0016:*/GPIO.X/GPIO.3
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+>                 Returns name of the GPIO controller.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/HWID
+> +               /sys/bus/platform/devices/GOOG0016:*/HWID
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+>                 Returns hardware ID for the Chromebook.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/MECK
+> +               /sys/bus/platform/devices/GOOG0016:*/MECK
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -113,6 +125,7 @@ Description:
+>                 present, or if the firmware was unable to read the extend=
+ed registers, this buffer size can be zero.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/VBNV.0
+> +               /sys/bus/platform/devices/GOOG0016:*/VBNV.0
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -122,6 +135,7 @@ Description:
+>                 clock data).
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/VBNV.1
+> +               /sys/bus/platform/devices/GOOG0016:*/VBNV.1
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> @@ -129,6 +143,7 @@ Description:
+>                 storage block.
+>
+>  What:          /sys/bus/platform/devices/GGL0001:*/VDAT
+> +               /sys/bus/platform/devices/GOOG0016:*/VDAT
+>  Date:          May 2022
+>  KernelVersion: 5.19
+>  Description:
+> diff --git a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst b=
+/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> index f37fc90ce340..89419e116413 100644
+> --- a/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> +++ b/Documentation/firmware-guide/acpi/chromeos-acpi-device.rst
+> @@ -5,9 +5,8 @@ Chrome OS ACPI Device
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>  Hardware functionality specific to Chrome OS is exposed through a Chrome=
+ OS ACPI device.
+> -The plug and play ID of a Chrome OS ACPI device is GGL0001. GGL is a val=
+id PNP ID of Google.
+> -PNP ID can be used with the ACPI devices according to the guidelines. Th=
+e following ACPI
+> -objects are supported:
+> +The plug and play ID of a Chrome OS ACPI device is GGL0001 and the hardw=
+are ID is
+> +GOOG0016.  The following ACPI objects are supported:
+>
+>  .. flat-table:: Supported ACPI Objects
+>     :widths: 1 2
+> diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/c=
+hrome/chromeos_acpi.c
+> index 50d8a4d4352d..1cc01d893ada 100644
+> --- a/drivers/platform/chrome/chromeos_acpi.c
+> +++ b/drivers/platform/chrome/chromeos_acpi.c
+> @@ -235,9 +235,9 @@ static int chromeos_acpi_device_probe(struct platform=
+_device *pdev)
+>         return 0;
+>  }
+>
+> -/* GGL is valid PNP ID of Google. PNP ID can be used with the ACPI devic=
+es. */
+>  static const struct acpi_device_id chromeos_device_ids[] =3D {
+>         { "GGL0001", 0 },
+> +       { "GOOG0016", 0 },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, chromeos_device_ids);
+> --
+> 2.41.0.487.g6d72f3e995-goog
+>

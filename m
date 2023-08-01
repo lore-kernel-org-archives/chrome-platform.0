@@ -1,30 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C47E
-	for <chrome-platform@lists.linux.dev>; Tue,  1 Aug 2023 03:32:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F45C433C7;
-	Tue,  1 Aug 2023 03:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690860763;
-	bh=1Filcpg68e0l7eo7BuRs1iCn+OZp92+POzTEBpJtVLU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G8GIBlT60twzCGzkyPQq1DkR6a6T2T8ASiny5LwllDNYxtc8JaGmwUyzHXFEnXlPL
-	 0QYX56mmW0s+ahC9/ZtEHBWLwdxwESgmqH0jZFs0QZr+QRm+AgYgSJ0FxLrSEP/OD1
-	 Eaw98WUDtw4dBK98/NOuy/D0fZWYhZPj2/BIz4GlU/oOQBOa4u+QSLRrhQY6+2FOqA
-	 Q60RTNsEkMYYi727/g0nT2521BG5jSDNK5/xFkBbMLQnjWEShJ0z7gYyaFeqSnvKdM
-	 qOwy1rqZnk5KC2Co5JuxDMOzYM4rH9VpN7Oy3SNY7NDskI0viIj9tmGGhTGHsZusNz
-	 1UElr6BjCMeMw==
-Date: Tue, 1 Aug 2023 11:32:40 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org, groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev, guillaume.tucker@collabora.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C667263C0
+	for <chrome-platform@lists.linux.dev>; Tue,  1 Aug 2023 21:53:34 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso4598797a12.3
+        for <chrome-platform@lists.linux.dev>; Tue, 01 Aug 2023 14:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690926813; x=1691531613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rdDMc4tR+7xGYZtfLl3Mpe9aV28Ij3xKY0595hWf0Ic=;
+        b=YAsroC3olYTzm5GQ+mDVIYdgbgXQUXSeEUlZ5NCmn6C5Wv4bU/bMI4jRgOABEcn46/
+         26CiEUsfhtMw3lj1O8sFBluy3hk4f2zXwcqmC7JO+mcrz+1IzsEGoKFlNh7xETHOvFEd
+         RDfPgvoMqQ2IEjmAa6M0N8kHU6cMO+x+1hQ4k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690926813; x=1691531613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rdDMc4tR+7xGYZtfLl3Mpe9aV28Ij3xKY0595hWf0Ic=;
+        b=DVg4jH+OEw6Mq0E15xLAsm5c/NVoLd5DOGAn75RcqjsgwOqsGv0SPZS+PrhjpV0aao
+         kFl4O5qYoxPQLF/4bcDPEYAhGnKflZlNJ+geFXlMAQmO0tMqkJz+TdaVbfA+u49+LwSB
+         gEx2Gn73SRH60Hx3qlajAsIZ7ZgcvTUPYza3D27g9yHhMCpxdyes+TqRp7rh0tA4cPzp
+         5AioqNlNAyJOZjXzcXaMR9iJUU5KSSrz/2CfPGkDaN2xAVYOpvMsUnDo9QHpQSPitXO6
+         0LXbYWnE9X3lb+NNXZEj7ydWNv3I0SyRuO/BVE2tV16uJGSITsBGVVN/T7j4RSn6e60k
+         eEDg==
+X-Gm-Message-State: ABy/qLYktsCeJZncsYF8BTxMkJ6oTQwYNdihwJdVNKAQiNgWfzq6jTIY
+	e+R2HvhL1UfDNe0MzJPZryg/I8Ch0G6wCAz2Ie0=
+X-Google-Smtp-Source: APBJJlGDnxOanYrietusKzJDu4We/4WEL5fm00B9XLRYCB1U3wcIP8N76c63/S3JqNqfYqC3nK6cNQ==
+X-Received: by 2002:a17:902:eccf:b0:1b5:694:b1a9 with SMTP id a15-20020a170902eccf00b001b50694b1a9mr17461211plh.32.1690926813539;
+        Tue, 01 Aug 2023 14:53:33 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:1c1f:af3f:7a1e:7fc2])
+        by smtp.gmail.com with ESMTPSA id x19-20020a170902ea9300b001bba669a7eesm10915439plb.52.2023.08.01.14.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 14:53:33 -0700 (PDT)
+Date: Tue, 1 Aug 2023 14:53:31 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev, guillaume.tucker@collabora.com,
 	denys.f@collabora.com, ricardo.canuelo@collabora.com,
 	usama.anjum@collabora.com
 Subject: Re: [PATCH] platform/chrome: chromeos_acpi: print hex string for
  ACPI_TYPE_BUFFER
-Message-ID: <ZMh82LaanrHh+33t@google.com>
+Message-ID: <ZMl+2+mr7AiIx7e1@google.com>
 References: <20230726073127.2969387-1-tzungbi@kernel.org>
+ <ZMh82LaanrHh+33t@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -33,53 +54,37 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230726073127.2969387-1-tzungbi@kernel.org>
+In-Reply-To: <ZMh82LaanrHh+33t@google.com>
 
-On Wed, Jul 26, 2023 at 03:31:27PM +0800, Tzung-Bi Shih wrote:
-> `element->buffer.pointer` should be binary blob.  `%s` doesn't work perfect
-> for them.
+On Tue, Aug 01, 2023 at 11:32:40AM +0800, Tzung-Bi Shih wrote:
+> On Wed, Jul 26, 2023 at 03:31:27PM +0800, Tzung-Bi Shih wrote:
+> > `element->buffer.pointer` should be binary blob.  `%s` doesn't work perfect
+> > for them.
+> > 
+> > Print hex string for ACPI_TYPE_BUFFER.
+> > 
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > 
-> Print hex string for ACPI_TYPE_BUFFER.
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Curious about does this patch make sense to folks on the mailing list?
 
-Curious about does this patch make sense to folks on the mailing list?
+Since you asked.... (sorry if the questions are dumb; I'm not extremely
+familiar with this one)
 
-> ---
->  drivers/platform/chrome/chromeos_acpi.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/chrome/chromeos_acpi.c
-> index 50d8a4d4352d..a60d344c54e4 100644
-> --- a/drivers/platform/chrome/chromeos_acpi.c
-> +++ b/drivers/platform/chrome/chromeos_acpi.c
-> @@ -90,7 +90,25 @@ static int chromeos_acpi_handle_package(struct device *dev, union acpi_object *o
->  	case ACPI_TYPE_STRING:
->  		return sysfs_emit(buf, "%s\n", element->string.pointer);
->  	case ACPI_TYPE_BUFFER:
-> -		return sysfs_emit(buf, "%s\n", element->buffer.pointer);
-> +		{
-> +			int i, n;
-> +			const int char_per_line = 16;
-> +
-> +			for (i = 0, n = 0; i < element->buffer.length; ++i) {
-> +				n += sysfs_emit_at(buf, n, " %2.2x", element->buffer.pointer[i]);
-> +
-> +				if (((i + 1) % char_per_line) == 0)
-> +					n += sysfs_emit_at(buf, n, "\n");
-> +			}
-> +			n += sysfs_emit_at(buf, n, "\n");
-> +
-> +			if (n == PAGE_SIZE - 1) {
-> +				dev_info(dev, "truncating sysfs content for %s\n", name);
-> +				sysfs_emit_at(buf, n - 3, "..\n");
-> +			}
-> +
-> +			return n;
-> +		}
->  	default:
->  		dev_err(dev, "element type %d not supported\n", element->type);
->  		return -EINVAL;
-> -- 
-> 2.41.0.487.g6d72f3e995-goog
-> 
+Are there any ABI concerns here? As in, did this perhaps work for some
+use cases that will be broken now by this change in format? If not, it
+would be nice to note your thought process on that. [1]
+
+Also, is it possible to use some standard formatting, like
+hex_dump_to_buffer()?
+
+Or, would it make more sense to make these into binary attributes
+(struct bin_attribute)?
+
+NB: the docs (Documentation/ABI/testing/sysfs-driver-chromeos-acpi)
+suggest that some attributes (like VDAT) are indeed binary, and so we
+should probably maintain or fix that.
+
+Brian
+
+[1] My guess: no real user space actually uses this driver yet, since
+ChromiumOS still has its own downstream variant on its active kernels?

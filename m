@@ -1,83 +1,94 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195AD6D22
-	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 17:58:58 +0000 (UTC)
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5635233876bso20552a12.0
-        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 10:58:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35765F9F2
+	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 18:17:14 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f14865fcc0so517e87.0
+        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 11:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690999138; x=1691603938;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J1wRxvwIBG6whrhBQqY3j42uJNiPMlVZKztMAOT2qV0=;
-        b=QGUrIT89MvYS3t/BjCmVvSURD+MbqebJGtc3cCwz8zJN5xreAULo9hPxkBuDJTlREo
-         Iv1et5XsMrpwC92xhQTbDswjowkDR822RrJZWcJaEMTKj+YSgL+gT5PWAtkeW70uIZM9
-         NvmTY5E7sAEr94iOp23I87Fpb60kpow/fwNdC1beZrLqSfH4pBdvAETp/2InSsUZRcaV
-         nyFuua1NT/VJ205mGgHCPrQD/vmuJkTHI9h7wvFAWyTl24eNyr98twK8K2ywXjMEKyze
-         Ra07W7/nade914hbMyfmF9EhZT5ijKu0V06TMhKSj++vO1UjREsYg7Wm6PMT+8oWpVs0
-         v97g==
+        d=google.com; s=20221208; t=1691000233; x=1691605033;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rrCRBhBQL3OtQ+bHa7OyL271Q2ifOyGlImfq9DRj0XA=;
+        b=KBSM9HEiqRnrsTwkzR1yZazNJEjf91F4rThWMnAjH+mSjDVdadd0+FlL/Zbg3v7BMP
+         jb0Ee+ZXNURqtQd8O+ZCf6ATHdJIOfEcTKZ578AdoQDp7gsMlthqx7erAFNqURcYYfUV
+         xmOF4sWHPKg0JVD4ygDudhD1uoobp5P94A3d9QZAgCDTt0f8kSMOQ7gLA1gFIBpo1tSb
+         +UBt5o1SUF0yPXBYBLV9RZj8I+NqxdYr8BznUk814OCxSLRY/k432oRa3xn0szO/AdGM
+         Ltq6P2nsvqt/9HyST0CRH+/8gns5/j/u9wsqp0KJybUdRCenDkXQc8ztoKa8UIA23p2f
+         WWLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690999138; x=1691603938;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J1wRxvwIBG6whrhBQqY3j42uJNiPMlVZKztMAOT2qV0=;
-        b=YYh9nKF1NQB8CTAz5xnVIRa+igAILZkXJYqyAwfeZ6iW3+fNzeYFl5cJudq3zADT6F
-         sUo7HzUnW/q6Fvm/HBGUU1ofj1UmE/sV+9F+wvuI6Y2RibCOVyhjVyyIN2FVZ3E2Di+r
-         MDdUvX4gbOEYlgtvopfKWBtDsXZ06vN9XrArW7DAr725UiBlgWyBPSbFvoxRtPako2NL
-         BwvPAtEVIJ8X4L6aWlnWCVP85bCodBlE7lFXBYN9CXOXFnrmAfqQOlK/fTcNFzFroG3E
-         Dzy1+RwHm28+9PxRzNFCKxGX6MIdHvF1T3llkfnccS6OpjrpV3Fga3zh/vVb7p1yikcn
-         hE9w==
-X-Gm-Message-State: ABy/qLYPmq0P/QiRAkf8e0e3mBIxps6BWgzT3QL7QDjhlCoOuAFfSu6Z
-	NYGxKuCHhMT1MQ7k+f2nZKZcEi5r6zJOcBY=
-X-Google-Smtp-Source: APBJJlGBxnUJKAwPN2SkouJDIO/T7ZOjzXPDlTrpZnzACU8F/JTOH7Q9WY1CCvSB96tNZldsP+lPhdnEANtOQbk=
-X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
- (user=robbarnes job=sendgmr) by 2002:a63:745e:0:b0:563:dd4c:7779 with SMTP id
- e30-20020a63745e000000b00563dd4c7779mr104804pgn.12.1690999138281; Wed, 02 Aug
- 2023 10:58:58 -0700 (PDT)
-Date: Wed,  2 Aug 2023 17:58:48 +0000
+        d=1e100.net; s=20221208; t=1691000233; x=1691605033;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rrCRBhBQL3OtQ+bHa7OyL271Q2ifOyGlImfq9DRj0XA=;
+        b=gHmigvU9+bqWj3rJOks8KDDnFSCIUrSLv7qEL3mPgKxmOQsoI7K4UBDGMFovfAvkHE
+         79qWQOzHRsUR37q+rcpwmkQxytwr16lB6lzOyb/BuCqmhmVg0LIwUwef3zGBE6uGpYhZ
+         j+yoRSxWPkqNA7fZDThpYh5MHyKHq21GS5CjMN/wMRylBO9NPnWvU7v/RP1N82/fXVTp
+         FgUCzXl8km4jhyMdHVlRcVvXLd7swCC8FzBPrMg253ywx2N31vBxES7o7bRM/5Q/ZsSF
+         Jg9iWBZRGsrfaPsJw4Nu0qnc7/amRZyXPX4DO/dvZF6boaE1rAdbDjjr39TL3ctjN0zj
+         xD6w==
+X-Gm-Message-State: ABy/qLY83OWIQepFdJ2Xd/7VmNnX68rAwX+wl9GYUy+zGbTf9N5f46t7
+	3AobfgGH9rWTkYfd8v8Sn43hgcslRz8t9cqEZW6lPw==
+X-Google-Smtp-Source: APBJJlEO1A+9k5TPeXApIKpU5BAdebVzfqO2UFz8PXgDQU3iKOSjIOMUTuSWMd8o+lSP1RhohVYl/vVaYEiQkGFxW1c=
+X-Received: by 2002:ac2:4477:0:b0:4ec:5157:bb37 with SMTP id
+ y23-20020ac24477000000b004ec5157bb37mr290237lfl.2.1691000232445; Wed, 02 Aug
+ 2023 11:17:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
-Message-ID: <20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50e0cf51b3e961@changeid>
-Subject: [PATCH] platform/chrome: cros_ec_lpc: Remove EC panic shutdown timeout
+MIME-Version: 1.0
+References: <20230726181738.1.Ic6b8e25120b2aec95e3d0f4ac92c2a35fc7a40e8@changeid>
+ <169079822136.24246.16960757983645261559.git-patchwork-notify@kernel.org>
+In-Reply-To: <169079822136.24246.16960757983645261559.git-patchwork-notify@kernel.org>
 From: Rob Barnes <robbarnes@google.com>
-To: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, 
-	dtor@chromium.org
-Cc: Rob Barnes <robbarnes@google.com>, chrome-platform@lists.linux.dev, 
+Date: Wed, 2 Aug 2023 12:16:35 -0600
+Message-ID: <CA+Dqm30s282gcs6PHkZkH92mhndLi5YP=NPwS0duorizJfx+oQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Sync filesystem on EC panic
+To: patchwork-bot+chrome-platform@kernel.org
+Cc: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, 
+	dtor@chromium.org, chrome-platform@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove the 1 second timeout applied to hw_protection_shutdown after an
-EC panic. On some platforms this 1 second timeout is insufficient to
-allow the filesystem to fully sync. Independently the EC will force a
-full system reset after a short period. So this backup timeout is
-unnecessary.
+Note: This change is being rejected upstream due to the use of
+ksys_sync_helper. Apparently it's discouraged. I sent a new patch to
+replace this one:
+https://lore.kernel.org/lkml/20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50=
+e0cf51b3e961@changeid/
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
----
-
- drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 500a61b093e47..356572452898d 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -327,8 +327,8 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
- 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
- 		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
--		/* Begin orderly shutdown. Force shutdown after 1 second. */
--		hw_protection_shutdown("CrOS EC Panic", 1000);
-+		/* Begin orderly shutdown. EC will force reset after a short period. */
-+		hw_protection_shutdown("CrOS EC Panic", -1);
- 		/* Do not query for other events after a panic is reported */
- 		return;
- 	}
--- 
-2.41.0.585.gd2178a4bd4-goog
-
+On Mon, Jul 31, 2023 at 4:10=E2=80=AFAM
+<patchwork-bot+chrome-platform@kernel.org> wrote:
+>
+> Hello:
+>
+> This patch was applied to chrome-platform/linux.git (for-next)
+> by Tzung-Bi Shih <tzungbi@kernel.org>:
+>
+> On Wed, 26 Jul 2023 18:17:39 +0000 you wrote:
+> > Perform a filesystem sync when an EC panic is reported. The
+> > sync is performed twice in case some inodes or pages are
+> > temporarily locked. Testing showed syncing twice significantly
+> > improved reliability.
+> >
+> > hw_protection_shutdown is replaced for a couple reasons. It is
+> > unnecessary because the EC will force reset either way.
+> > hw_protection_shutdown does not reliably sync filesystem
+> > before shutting down.
+> >
+> > [...]
+>
+> Here is the summary with links:
+>   - platform/chrome: cros_ec_lpc: Sync filesystem on EC panic
+>     https://git.kernel.org/chrome-platform/c/0a329167220a
+>
+> You are awesome, thank you!
+> --
+> Deet-doot-dot, I am a bot.
+> https://korg.docs.kernel.org/patchwork/pwbot.html
+>
+>

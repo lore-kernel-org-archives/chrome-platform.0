@@ -1,137 +1,83 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD864C8F2
-	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 16:04:25 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-40a47e8e38dso217631cf.1
-        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 09:04:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195AD6D22
+	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 17:58:58 +0000 (UTC)
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5635233876bso20552a12.0
+        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 10:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690992264; x=1691597064;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0cRcpbFEEMAyjFE1IJhKt1a1pqQ0HzmuzmGSSusTIGw=;
-        b=mlI3GCs3G0w0NIWiby3Aq7fifgC+BVnn77kvk2apoGLCcKntGS5+Bql2huS1sfkizp
-         CFzluqtTlHI0ADNFP5wkIqLtdVSKB98+LDHcAZqoupWXiCF9wEq+e1/Rz5o8+8acW/Lx
-         4+uetoMqX6m+vmtsHGX/7NZRRf1CkWCdZ4LADHVHKZxNSWglyHqmK43H4fWjfgFzmllN
-         AmCW9EMtzcyPh8wViXoidRtspoaVJl0UI3saeY2ZXQH9+o23qu8ZDXIwJ4jauF7N+IBe
-         k9/eaqCQOGm2aurCwtNk1DukFs2BzN6FP8yxwtfduY64kst7Un2XdsUIDONgZrL/K6LO
-         3IHw==
+        d=google.com; s=20221208; t=1690999138; x=1691603938;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J1wRxvwIBG6whrhBQqY3j42uJNiPMlVZKztMAOT2qV0=;
+        b=QGUrIT89MvYS3t/BjCmVvSURD+MbqebJGtc3cCwz8zJN5xreAULo9hPxkBuDJTlREo
+         Iv1et5XsMrpwC92xhQTbDswjowkDR822RrJZWcJaEMTKj+YSgL+gT5PWAtkeW70uIZM9
+         NvmTY5E7sAEr94iOp23I87Fpb60kpow/fwNdC1beZrLqSfH4pBdvAETp/2InSsUZRcaV
+         nyFuua1NT/VJ205mGgHCPrQD/vmuJkTHI9h7wvFAWyTl24eNyr98twK8K2ywXjMEKyze
+         Ra07W7/nade914hbMyfmF9EhZT5ijKu0V06TMhKSj++vO1UjREsYg7Wm6PMT+8oWpVs0
+         v97g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690992264; x=1691597064;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0cRcpbFEEMAyjFE1IJhKt1a1pqQ0HzmuzmGSSusTIGw=;
-        b=liRx7h6KoDS30NELWhwNAgnM/mpf6xULk8qcJg5TkjsvqYc5SbmuZYsOM3vw8NURH9
-         RtUKEQr7Uiy4bpMFZOY+veWm+3Qny+DjI5CU1Rah9baseUnwnPfL0dLZrh6OoqJeDhMR
-         cSJXtfnkUG985oalnG76LLOYqSafWzMWjeksiOwNq3/kAwdw9r6vWzic/Hr0qTFzXDHy
-         dmSYvAsbwfv+y+dwJAIu+bNRe6dLbbRRfwLSWMQpj0ZhaJDk8COELmEHhUBhv/9EdWli
-         CnM2D/Hob1KkgFoBd9w//jNrZjGpUZRYjhYscj7gdu5pUDAyQMyVWkS+vmmg7zix7Qr4
-         IdaA==
-X-Gm-Message-State: ABy/qLZWtAmrh02pMvamRu798VhTjsA/oILUghGPI53kAeQ1H5Whf1iJ
-	oin2dO8slo/C3twF0n93ynExqMD+V8YBHYmnRrjQHOax1gCKX4EkLtM=
-X-Google-Smtp-Source: APBJJlHNgij2DFiN8NN2jfUU5l3hgGFXsqbJRbHdZD/E/nmQWFOLAoZbgnjKD9hxl90NcUidALY/4/CrquW5PQQlpGI=
-X-Received: by 2002:a05:622a:1aa2:b0:405:3a65:b3d6 with SMTP id
- s34-20020a05622a1aa200b004053a65b3d6mr971143qtc.13.1690992264351; Wed, 02 Aug
- 2023 09:04:24 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690999138; x=1691603938;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J1wRxvwIBG6whrhBQqY3j42uJNiPMlVZKztMAOT2qV0=;
+        b=YYh9nKF1NQB8CTAz5xnVIRa+igAILZkXJYqyAwfeZ6iW3+fNzeYFl5cJudq3zADT6F
+         sUo7HzUnW/q6Fvm/HBGUU1ofj1UmE/sV+9F+wvuI6Y2RibCOVyhjVyyIN2FVZ3E2Di+r
+         MDdUvX4gbOEYlgtvopfKWBtDsXZ06vN9XrArW7DAr725UiBlgWyBPSbFvoxRtPako2NL
+         BwvPAtEVIJ8X4L6aWlnWCVP85bCodBlE7lFXBYN9CXOXFnrmAfqQOlK/fTcNFzFroG3E
+         Dzy1+RwHm28+9PxRzNFCKxGX6MIdHvF1T3llkfnccS6OpjrpV3Fga3zh/vVb7p1yikcn
+         hE9w==
+X-Gm-Message-State: ABy/qLYPmq0P/QiRAkf8e0e3mBIxps6BWgzT3QL7QDjhlCoOuAFfSu6Z
+	NYGxKuCHhMT1MQ7k+f2nZKZcEi5r6zJOcBY=
+X-Google-Smtp-Source: APBJJlGBxnUJKAwPN2SkouJDIO/T7ZOjzXPDlTrpZnzACU8F/JTOH7Q9WY1CCvSB96tNZldsP+lPhdnEANtOQbk=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a63:745e:0:b0:563:dd4c:7779 with SMTP id
+ e30-20020a63745e000000b00563dd4c7779mr104804pgn.12.1690999138281; Wed, 02 Aug
+ 2023 10:58:58 -0700 (PDT)
+Date: Wed,  2 Aug 2023 17:58:48 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20230802095736.3079963-1-tzungbi@kernel.org>
-In-Reply-To: <20230802095736.3079963-1-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 2 Aug 2023 09:04:10 -0700
-Message-ID: <CABXOdTdV-UnTCWnq_fD6bvJ3c0gX1jvx5ZbkV3qOHjtk5+HWOA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: chromeos_acpi: print hex string for ACPI_TYPE_BUFFER
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev, 
-	guillaume.tucker@collabora.com, denys.f@collabora.com, 
-	ricardo.canuelo@collabora.com, usama.anjum@collabora.com, 
-	briannorris@chromium.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
+Message-ID: <20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50e0cf51b3e961@changeid>
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Remove EC panic shutdown timeout
+From: Rob Barnes <robbarnes@google.com>
+To: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, 
+	dtor@chromium.org
+Cc: Rob Barnes <robbarnes@google.com>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 2, 2023 at 2:58=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> `element->buffer.pointer` should be binary blob.  `%s` doesn't work
-> perfect for them.
->
-> Print hex string for ACPI_TYPE_BUFFER.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Changes from v1[1]:
-> - Use hex_dump_to_buffer().
-> - Rewrite the loop for catching edge cases for truncating.
->
-> [1]: https://patchwork.kernel.org/project/chrome-platform/patch/202307260=
-73127.2969387-1-tzungbi@kernel.org/
->
->  drivers/platform/chrome/chromeos_acpi.c | 31 ++++++++++++++++++++++++-
->  1 file changed, 30 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/c=
-hrome/chromeos_acpi.c
-> index 50d8a4d4352d..761506d307ad 100644
-> --- a/drivers/platform/chrome/chromeos_acpi.c
-> +++ b/drivers/platform/chrome/chromeos_acpi.c
-> @@ -90,7 +90,36 @@ static int chromeos_acpi_handle_package(struct device =
-*dev, union acpi_object *o
->         case ACPI_TYPE_STRING:
->                 return sysfs_emit(buf, "%s\n", element->string.pointer);
->         case ACPI_TYPE_BUFFER:
-> -               return sysfs_emit(buf, "%s\n", element->buffer.pointer);
-> +               {
-> +                       int i, r, at, room_left;
-> +                       const int byte_per_line =3D 16;
-> +
-> +                       at =3D 0;
-> +                       room_left =3D PAGE_SIZE - 1;
-> +                       for (i =3D 0; i < element->buffer.length && room_=
-left; i +=3D byte_per_line) {
-> +                               r =3D hex_dump_to_buffer(element->buffer.=
-pointer + i,
-> +                                                      element->buffer.le=
-ngth - i,
-> +                                                      byte_per_line, 1, =
-buf + at, room_left,
-> +                                                      false);
-> +                               if (r > room_left)
-> +                                       goto truncating;
-> +                               at +=3D r;
-> +                               room_left -=3D r;
-> +
-> +                               r =3D sysfs_emit_at(buf, at, "\n");
-> +                               if (!r)
-> +                                       goto truncating;
-> +                               at +=3D r;
-> +                               room_left -=3D r;
-> +                       }
-> +
-> +                       buf[at] =3D 0;
-> +                       return at;
-> +truncating:
-> +                       dev_info(dev, "truncating sysfs content for %s\n"=
-, name);
+Remove the 1 second timeout applied to hw_protection_shutdown after an
+EC panic. On some platforms this 1 second timeout is insufficient to
+allow the filesystem to fully sync. Independently the EC will force a
+full system reset after a short period. So this backup timeout is
+unnecessary.
 
-I really dislike that because it will, if it happens, clog the log
-(the condition will be permanent). How about using dev_info_once() ?
+Signed-off-by: Rob Barnes <robbarnes@google.com>
+---
 
-Thanks,
-Guenter
+ drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +                       sysfs_emit_at(buf, PAGE_SIZE - 4, "..\n");
-> +                       return PAGE_SIZE - 1;
-> +               }
->         default:
->                 dev_err(dev, "element type %d not supported\n", element->=
-type);
->                 return -EINVAL;
-> --
-> 2.41.0.585.gd2178a4bd4-goog
->
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 500a61b093e47..356572452898d 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -327,8 +327,8 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+ 		dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown is imminent!");
+ 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
+ 		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
+-		/* Begin orderly shutdown. Force shutdown after 1 second. */
+-		hw_protection_shutdown("CrOS EC Panic", 1000);
++		/* Begin orderly shutdown. EC will force reset after a short period. */
++		hw_protection_shutdown("CrOS EC Panic", -1);
+ 		/* Do not query for other events after a panic is reported */
+ 		return;
+ 	}
+-- 
+2.41.0.585.gd2178a4bd4-goog
+

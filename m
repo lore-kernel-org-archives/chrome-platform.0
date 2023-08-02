@@ -1,100 +1,91 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C96E8821
-	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 18:54:55 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4036bd4fff1so48901cf.0
-        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 11:54:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6DDD2E8
+	for <chrome-platform@lists.linux.dev>; Wed,  2 Aug 2023 19:00:02 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686efb9ee3cso94637b3a.3
+        for <chrome-platform@lists.linux.dev>; Wed, 02 Aug 2023 12:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1691002494; x=1691607294;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zP6AUbuQ4hb9Or4QdvG8nqcEVIonxr5jd7wasq4u8qQ=;
-        b=5jUIP39X/Jx3VAY88P+qLpbQeSDGy7+0Zn5EVxl/eDymAtnLF7TKBjGrI6f3sN3kLt
-         Fa3NB5IVuMN/UasiWKVupI8/7N2ex3yjLlkzbqFNF8Bsd0aGgZlHIHjU2pMBYpLIQfMu
-         UbcUrjfddO0XvnzwUef8L40cAEmcJAD/nRDA/fU4qMZUmoYBkATCdTgv3VkfExSFM0c6
-         W9+jgHMk4pyVxXxGl8WrhrG0Mm+BTP95C/lBJb4wqI73iBAYD12Am13LjIcoD5njijsX
-         fpqzMuOm495g96PuoQ5K0sGXlE6vIYP62k1vqdtHkfMD+p/hoAxoojZhhQnPSblE/Db1
-         QuxQ==
+        d=chromium.org; s=google; t=1691002802; x=1691607602;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vzF9x4t5qGNLhu/caA8ssAI8B7SC1PGMy1H+sJ5/tR0=;
+        b=UjVU6zLjjcnePdMgvLoU5oHUsC1vMaN3+dTJcRIT2HLNrnz+MM1nDh48TFjdqULqgR
+         yqRS8cYadZLqaqb9Y63RI5c+tuaupHOnPwU2BxjHlVO50KS99Q/e5pOKE8Ibe68G4Um6
+         MMS6BbFv2WC+HIRrQSqpS6QBgfEdLuuy/G8VY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691002494; x=1691607294;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zP6AUbuQ4hb9Or4QdvG8nqcEVIonxr5jd7wasq4u8qQ=;
-        b=XPm3E4K8W7wF3w3OCrig8HHAHjUfkNBGKmb2F1fstp2c4Ycp6vy0UCzWRt8GxAQPHu
-         1ibKsbO0rftguEt1V9Saa3eZ2am+Tw2lv7SJqNVNg+b4zz8X0AlALxWbSdcnA8PlTBlE
-         hHKRUSk99f66FjHEqdfwTFk8MJg7rt8i0WrEauMuxy44rp5BB5pLicXGDRfBz3OLNIHR
-         YfSPMr02jja/o5/cYST552oKGSldwthpa3tCwM3hlk3DHB209y7PlCxhJNmzGwi9tyso
-         Y3ul8BGmfARbhz5sipTMO3S20MbZl0S1b0MCKW1DJ+kftzfeHJYD+u6mFw91r+RU/ODX
-         D2AQ==
-X-Gm-Message-State: ABy/qLYD79WaI7EZ7TTK7pEzOBdb27rvjFAP0icWCoEYcDEWbuxcZvp4
-	lXw4077t+Ef2g0m7MnQPDU7IkumIuGhX/tdndTmzvQ==
-X-Google-Smtp-Source: APBJJlHKZ+CsaEPZsx3CV6Js57iyo/EFCvUjefGlgik5Dkd1Sll37HUGQd1RJNEtsUrJl1iX/OZCw/vfaLAq6xzy4BQ=
-X-Received: by 2002:a05:622a:1006:b0:3f9:ab2c:88b9 with SMTP id
- d6-20020a05622a100600b003f9ab2c88b9mr1436417qte.25.1691002494273; Wed, 02 Aug
- 2023 11:54:54 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691002802; x=1691607602;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vzF9x4t5qGNLhu/caA8ssAI8B7SC1PGMy1H+sJ5/tR0=;
+        b=DO+xAPxQry878Tim5idJofgcNk1b8ZyLxQgNhmI0I4n3ZAHdhkAwdl9fsvrT8FoWbl
+         4V00T0mOsp11wN46EXu/u3dfn0j59xYYxnoRjbQ8gcZzPdFlWpcVTXsiR21O3gosrUW1
+         m3EVrlspxOuH2MGlZK+t2gsjj8oLkd4OjqBbP6/kvssffHFUjW6gY1gW09BIBJYy6he+
+         Df45EDw9tf6W5XODRigtOpQid/fn+nzK1vrogRRomBp/w4+lkzTNQV3+oVBdtH6PsCN3
+         fpC5RvOfQjbkmPvnljbDNlyqaiX6jv3Wx56LSPndripZx3xnSrj6KXQkHX27eS6diCrn
+         lebQ==
+X-Gm-Message-State: ABy/qLZ5fGdD1GCyk+tIkwRe+NL5E7Amrk5uBj3k2fcfXE5ZV3Mfsp79
+	FY36ehGDeNZQ2WEwvd0U9tDqJE1H/WhQonDgwS8=
+X-Google-Smtp-Source: APBJJlG1RdDE8qG10/f3Vem+LkZHzZvgaNDSVnGeKulwmcSQBAemOCE3RNGSU1Wy4m+GzgOWemKb/g==
+X-Received: by 2002:a05:6a00:18a5:b0:686:24e1:d12e with SMTP id x37-20020a056a0018a500b0068624e1d12emr20180035pfh.30.1691002802425;
+        Wed, 02 Aug 2023 12:00:02 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c176:7aff:3481:d21c])
+        by smtp.gmail.com with ESMTPSA id m2-20020aa79002000000b006825003a276sm11407283pfo.42.2023.08.02.12.00.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 12:00:01 -0700 (PDT)
+Date: Wed, 2 Aug 2023 11:59:59 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev, guillaume.tucker@collabora.com,
+	denys.f@collabora.com, ricardo.canuelo@collabora.com,
+	usama.anjum@collabora.com
+Subject: Re: [PATCH] platform/chrome: chromeos_acpi: print hex string for
+ ACPI_TYPE_BUFFER
+Message-ID: <ZMqnr10+XxNjF7n/@google.com>
+References: <20230726073127.2969387-1-tzungbi@kernel.org>
+ <ZMh82LaanrHh+33t@google.com>
+ <ZMl+2+mr7AiIx7e1@google.com>
+ <ZMoqpq375u2R2H8m@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50e0cf51b3e961@changeid>
-In-Reply-To: <20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50e0cf51b3e961@changeid>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 2 Aug 2023 11:54:41 -0700
-Message-ID: <CABXOdTd0B2YwXkrr6t7Mx-LwOuV+9O9Q91P7M_=8d3iqGQ+=cg@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Remove EC panic shutdown timeout
-To: Rob Barnes <robbarnes@google.com>
-Cc: bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, 
-	dtor@chromium.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMoqpq375u2R2H8m@google.com>
 
-On Wed, Aug 2, 2023 at 10:59=E2=80=AFAM Rob Barnes <robbarnes@google.com> w=
-rote:
->
-> Remove the 1 second timeout applied to hw_protection_shutdown after an
-> EC panic. On some platforms this 1 second timeout is insufficient to
-> allow the filesystem to fully sync. Independently the EC will force a
-> full system reset after a short period. So this backup timeout is
-> unnecessary.
->
-> Signed-off-by: Rob Barnes <robbarnes@google.com>
+On Wed, Aug 02, 2023 at 06:06:30PM +0800, Tzung-Bi Shih wrote:
+> On Tue, Aug 01, 2023 at 02:53:31PM -0700, Brian Norris wrote:
+> > NB: the docs (Documentation/ABI/testing/sysfs-driver-chromeos-acpi)
+> > suggest that some attributes (like VDAT) are indeed binary, and so we
+> > should probably maintain or fix that.
+> 
+> No.  Unless we also want to change userland program in [2].
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+I mean, I think you need to do one of those two -- either keep this
+(maintain) as "binary", or update (fix) the doc to describe the hex dump
+instead.
 
-> ---
->
->  drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chr=
-ome/cros_ec_lpc.c
-> index 500a61b093e47..356572452898d 100644
-> --- a/drivers/platform/chrome/cros_ec_lpc.c
-> +++ b/drivers/platform/chrome/cros_ec_lpc.c
-> @@ -327,8 +327,8 @@ static void cros_ec_lpc_acpi_notify(acpi_handle devic=
-e, u32 value, void *data)
->                 dev_emerg(ec_dev->dev, "CrOS EC Panic Reported. Shutdown =
-is imminent!");
->                 blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, =
-ec_dev);
->                 kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char=
- **)env);
-> -               /* Begin orderly shutdown. Force shutdown after 1 second.=
- */
-> -               hw_protection_shutdown("CrOS EC Panic", 1000);
-> +               /* Begin orderly shutdown. EC will force reset after a sh=
-ort period. */
-> +               hw_protection_shutdown("CrOS EC Panic", -1);
->                 /* Do not query for other events after a panic is reporte=
-d */
->                 return;
->         }
-> --
-> 2.41.0.585.gd2178a4bd4-goog
->
+i.e., I think this piece of
+Documentation/ABI/testing/sysfs-driver-chromeos-acpi is now wrong:
+
+What:           /sys/bus/platform/devices/GGL0001:*/VDAT
+Date:           May 2022
+KernelVersion:  5.19
+Description:
+                Returns the verified boot data block shared between the
+                firmware verification step and the kernel verification step
+                (binary).
+
+But, the userland program already doesn't know how to handle the
+upstream driver. So it'd be possible to change both at the same time.
+
+Anyway, hex-encoded is fine with me too; we just need to get the docs to
+match.
+
+Regards,
+Brian

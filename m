@@ -1,45 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242AF199
-	for <chrome-platform@lists.linux.dev>; Thu,  3 Aug 2023 00:20:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726DFC433C7;
-	Thu,  3 Aug 2023 00:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CDD7F
+	for <chrome-platform@lists.linux.dev>; Thu,  3 Aug 2023 01:12:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51133C433C8;
+	Thu,  3 Aug 2023 01:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691022000;
-	bh=sZptYRYDFoHAb+wOsSizNCW/jt+/ft7PFZewKheT524=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rYZh2Ou5eiiksaJ0lkp7mNnqK/3Vw3Dw5erd0OqvNvnhXHUAejIjuL7ZtxgMylygM
-	 uNVn9tZ3XjAfglxx4DqZgZQuUvpQbpZ3CyC0OsVCQa+TsapDwQr2qoG8czG7YwXgzi
-	 QH4AnUtu0m29L7ibQliudSn1aPbOqKm9oqODFVWPS/Rr0EkGHamcgudwlJ0eUmD9vi
-	 UUY4JQTAk1AyA9tQ4zneX/WRwWkSDonb+eXT1geqlUescolNTMmh8ETndow1MvXqYC
-	 6SpbsvnqTRnYMG91iVfqCyS5RpNEQwRLoJT42Afo1LLHBbNgKA5EWgQYqSWxBKEmqi
-	 EI5zL15FKhrOQ==
-Date: Thu, 3 Aug 2023 08:19:57 +0800
+	s=k20201202; t=1691025172;
+	bh=+mieHhAMb+UOumo7tvkM3w4MpZEGhiqsq1dbb9UpaR8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XdiqwiDHmdgRvIqq+LaRvFR3v+QFX+0lu9W3iROnzHck7fCYgj1+1vZYYKPdpDxwd
+	 akulzT+l/77evjO2PHZukR74bObFjuATTky9CCUCFMkIabxsAit80jMxLK6iEJVzgh
+	 kGebStmLYYvlO3gowzfrRzb15K/v930NuCHE2Xz/0RumSxrj6X2Rf8dQbbdoTy05UE
+	 gVkGTztGjnuEZcIBAgzczBxO39E0iI5JzKroomdQ9cOCjkl/vlp7YVn8tSTnu56QUi
+	 k7JfmDW4jVDS/p/+MNQyW1FKNblu7Nh8bcu5r7IEuRcPrDadLkNm1w+ZtuRlSBk/f8
+	 7GxBmb7uaXWxg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Rob Barnes <robbarnes@google.com>
-Cc: patchwork-bot+chrome-platform@kernel.org, bleung@chromium.org,
-	groeck@chromium.org, dtor@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Sync filesystem on EC panic
-Message-ID: <ZMryrehtCouCCngA@google.com>
-References: <20230726181738.1.Ic6b8e25120b2aec95e3d0f4ac92c2a35fc7a40e8@changeid>
- <169079822136.24246.16960757983645261559.git-patchwork-notify@kernel.org>
- <CA+Dqm30s282gcs6PHkZkH92mhndLi5YP=NPwS0duorizJfx+oQ@mail.gmail.com>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	guillaume.tucker@collabora.com,
+	denys.f@collabora.com,
+	ricardo.canuelo@collabora.com,
+	usama.anjum@collabora.com,
+	tzungbi@kernel.org,
+	briannorris@chromium.org
+Subject: [PATCH v3] platform/chrome: chromeos_acpi: print hex string for ACPI_TYPE_BUFFER
+Date: Thu,  3 Aug 2023 09:12:45 +0800
+Message-ID: <20230803011245.3773756-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+Dqm30s282gcs6PHkZkH92mhndLi5YP=NPwS0duorizJfx+oQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 02, 2023 at 12:16:35PM -0600, Rob Barnes wrote:
-> Note: This change is being rejected upstream due to the use of
-> ksys_sync_helper. Apparently it's discouraged. I sent a new patch to
-> replace this one:
-> https://lore.kernel.org/lkml/20230802175847.1.Ie9fc53b6a1f4c6661c5376286a50e0cf51b3e961@changeid/
+`element->buffer.pointer` should be binary blob.  `%s` doesn't work
+perfect for them.
 
-Do you have any links about the rejection?
+Print hex string for ACPI_TYPE_BUFFER.  Also update the documentation
+to reflect this.
+
+Fixes: 0a4cad9c11ad ("platform/chrome: Add ChromeOS ACPI device driver")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+Changes from v2[1]:
+- Use dev_info_once() instead of dev_info().
+- Update documentation.
+- Add Fixes tag.
+
+Changes from v1[2]:
+- Use hex_dump_to_buffer().
+- Rewrite the loop for catching edge cases for truncating.
+
+[1]: https://patchwork.kernel.org/project/chrome-platform/patch/20230802095736.3079963-1-tzungbi@kernel.org/
+[2]: https://patchwork.kernel.org/project/chrome-platform/patch/20230726073127.2969387-1-tzungbi@kernel.org/
+
+ .../ABI/testing/sysfs-driver-chromeos-acpi    |  2 +-
+ drivers/platform/chrome/chromeos_acpi.c       | 31 ++++++++++++++++++-
+ 2 files changed, 31 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+index c308926e1568..7c8e129fc100 100644
+--- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
++++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
+@@ -134,4 +134,4 @@ KernelVersion:	5.19
+ Description:
+ 		Returns the verified boot data block shared between the
+ 		firmware verification step and the kernel verification step
+-		(binary).
++		(hex dump).
+diff --git a/drivers/platform/chrome/chromeos_acpi.c b/drivers/platform/chrome/chromeos_acpi.c
+index 50d8a4d4352d..1312aaaa8750 100644
+--- a/drivers/platform/chrome/chromeos_acpi.c
++++ b/drivers/platform/chrome/chromeos_acpi.c
+@@ -90,7 +90,36 @@ static int chromeos_acpi_handle_package(struct device *dev, union acpi_object *o
+ 	case ACPI_TYPE_STRING:
+ 		return sysfs_emit(buf, "%s\n", element->string.pointer);
+ 	case ACPI_TYPE_BUFFER:
+-		return sysfs_emit(buf, "%s\n", element->buffer.pointer);
++		{
++			int i, r, at, room_left;
++			const int byte_per_line = 16;
++
++			at = 0;
++			room_left = PAGE_SIZE - 1;
++			for (i = 0; i < element->buffer.length && room_left; i += byte_per_line) {
++				r = hex_dump_to_buffer(element->buffer.pointer + i,
++						       element->buffer.length - i,
++						       byte_per_line, 1, buf + at, room_left,
++						       false);
++				if (r > room_left)
++					goto truncating;
++				at += r;
++				room_left -= r;
++
++				r = sysfs_emit_at(buf, at, "\n");
++				if (!r)
++					goto truncating;
++				at += r;
++				room_left -= r;
++			}
++
++			buf[at] = 0;
++			return at;
++truncating:
++			dev_info_once(dev, "truncating sysfs content for %s\n", name);
++			sysfs_emit_at(buf, PAGE_SIZE - 4, "..\n");
++			return PAGE_SIZE - 1;
++		}
+ 	default:
+ 		dev_err(dev, "element type %d not supported\n", element->type);
+ 		return -EINVAL;
+-- 
+2.41.0.585.gd2178a4bd4-goog
+

@@ -1,328 +1,144 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B891F16D;
-	Thu,  3 Aug 2023 21:53:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5DF12CF;
-	Thu,  3 Aug 2023 23:51:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1691099510;
-	bh=4nr+pCFvRIDbDtYoKOpZHa11XbIzghHLOacwxCPgWv0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OGUpWfWmlbDM/JBOqZX1yp/eoV/Rcz/Zn23aC6MnCRuqPimeo3C+zvWkqj5pmsWsF
-	 qv0j+Fh16ePKbMCewYGqMvxtSv439imwpmCOJFWYpqy22mz/We9dKU4kmGbLhtt0OS
-	 bhhdQ0NafJU6hdCRH2blWEIsRatPNcAPMTU3f7HU=
-Date: Fri, 4 Aug 2023 00:53:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] pwm: Manage owner assignment implicitly for drivers
-Message-ID: <20230803215300.GH27752@pendragon.ideasonboard.com>
-References: <20230803140633.138165-1-u.kleine-koenig@pengutronix.de>
- <20230803140633.138165-2-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A431101
+	for <chrome-platform@lists.linux.dev>; Fri,  4 Aug 2023 03:06:12 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-686ba29ccb1so1128586b3a.1
+        for <chrome-platform@lists.linux.dev>; Thu, 03 Aug 2023 20:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1691118372; x=1691723172;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=rM3a0omuzCHpSzXi1EXDMpL83g2DxidOibwy6TKzQgw=;
+        b=gBc7F91G07tuWQ2GwitWv5MBibwL1EW0g/uxnmIPfQ3UnaHqeoECorGh0Q0y+Q65xk
+         z99cb4aCyR0n6a83pcMbr2fWPgSkOkMzeFlmeMLAv7HvXjmpCfixlG+Up7jTLZ4ep4YO
+         iMy4rUKO1WnqAUCxHO5jMMJhRLXIa6yhqUXhunuC4gdUf+0TRG1j+D0EMeAoLjMsDIAx
+         xR0hacBKMRYSq/Iq6dC54DTbPpYM49ZyS571/Ztd0jvUp/jWMK+cigLDB8quauRUeDko
+         udfwdTFul4XqimGFgUc2hQnPkaPrkrBlVxfwFcMujaGwvh1ZOQdcMyEqyFhhX7Mefs31
+         Mqmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691118372; x=1691723172;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rM3a0omuzCHpSzXi1EXDMpL83g2DxidOibwy6TKzQgw=;
+        b=ZzdKTSBzzh6K7FLYcj1MC+nCMxy6OILOq81fxrJ/71SvUuR3xCu40Sg6wAo8DWskN7
+         gBNE9tahrZComDQIS2dLXOyJpvQsWwe2tTFv/7s5UI7r3Rc0Sew4w1CUnowHBrbVWJ6M
+         kw/5fJILG4iYIhKPuSXlCe2Qs2PQXgoivEb2cYB563N2kHAJPM5E66YK5rPmBpLUBron
+         u7VP7nOEBROGzBjQjx42SrDWL38evuDR+oOUN7B9mS6wVnCZ8qGd6MY9lNLHriJ3cRmb
+         asp9DKFMTyjIXGeMZVjoZnNQ1zKNLK9480bHF0IAPeqzgUZTL7cBAUEseju2iAp1Sgx3
+         bxtA==
+X-Gm-Message-State: AOJu0YzDAWk+oGG4DG0stPHNj5s2qIMXXPYDqk+LwFIOv4MgV2NZ0PoQ
+	AmhTb2mINlulXlM/hO294b/ELw==
+X-Google-Smtp-Source: AGHT+IGBzr2mij5rwzdZfD2Z7LMnAu/g1xT6QGMhQZebFCaPojbud8DJYiKKD5XicHCR6zeZaizq2g==
+X-Received: by 2002:a05:6a20:7620:b0:13f:b3b4:1986 with SMTP id m32-20020a056a20762000b0013fb3b41986mr472864pze.12.1691118371751;
+        Thu, 03 Aug 2023 20:06:11 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id i3-20020aa787c3000000b00682d79199e7sm512887pfo.200.2023.08.03.20.06.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 20:06:11 -0700 (PDT)
+Message-ID: <64cc6b23.a70a0220.e27dc.1a11@mx.google.com>
+Date: Thu, 03 Aug 2023 20:06:11 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230803140633.138165-2-u.kleine-koenig@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.5-rc1
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-kernelci
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed,
+ 6 warnings (v6.5-rc1)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Uwe,
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed, 6 warning=
+s (v6.5-rc1)
 
-Thank you for the patch.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.5-rc1/
 
-On Thu, Aug 03, 2023 at 04:06:31PM +0200, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.5-rc1
+Git Commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-While technically speaking the ops and pwm chip could be provided by
-different modules, such a use case would likely require a high level of
-self-inflicted pain, so I think the change is fine.
+Warnings Detected:
 
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpio/gpio-mvebu.c             |  1 -
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->  drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
->  drivers/pwm/core.c                    | 20 +++++++++++---------
->  drivers/pwm/pwm-ab8500.c              |  1 -
->  drivers/pwm/pwm-apple.c               |  1 -
->  drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
->  drivers/pwm/pwm-atmel-tcb.c           |  1 -
->  drivers/pwm/pwm-atmel.c               |  1 -
->  drivers/pwm/pwm-bcm-iproc.c           |  1 -
->  drivers/pwm/pwm-bcm-kona.c            |  1 -
->  drivers/pwm/pwm-bcm2835.c             |  1 -
->  drivers/pwm/pwm-berlin.c              |  1 -
->  drivers/pwm/pwm-brcmstb.c             |  1 -
->  drivers/pwm/pwm-clk.c                 |  1 -
->  drivers/pwm/pwm-clps711x.c            |  1 -
->  drivers/pwm/pwm-cros-ec.c             |  1 -
->  drivers/pwm/pwm-dwc.c                 |  1 -
->  drivers/pwm/pwm-ep93xx.c              |  1 -
->  drivers/pwm/pwm-fsl-ftm.c             |  1 -
->  drivers/pwm/pwm-hibvt.c               |  1 -
->  drivers/pwm/pwm-img.c                 |  1 -
->  drivers/pwm/pwm-imx-tpm.c             |  1 -
->  drivers/pwm/pwm-imx1.c                |  1 -
->  drivers/pwm/pwm-imx27.c               |  1 -
->  drivers/pwm/pwm-intel-lgm.c           |  1 -
->  drivers/pwm/pwm-iqs620a.c             |  1 -
->  drivers/pwm/pwm-jz4740.c              |  1 -
->  drivers/pwm/pwm-keembay.c             |  1 -
->  drivers/pwm/pwm-lp3943.c              |  1 -
->  drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
->  drivers/pwm/pwm-lpc32xx.c             |  1 -
->  drivers/pwm/pwm-lpss.c                |  1 -
->  drivers/pwm/pwm-mediatek.c            |  1 -
->  drivers/pwm/pwm-meson.c               |  1 -
->  drivers/pwm/pwm-microchip-core.c      |  1 -
->  drivers/pwm/pwm-mtk-disp.c            |  1 -
->  drivers/pwm/pwm-mxs.c                 |  1 -
->  drivers/pwm/pwm-ntxec.c               |  1 -
->  drivers/pwm/pwm-omap-dmtimer.c        |  1 -
->  drivers/pwm/pwm-pca9685.c             |  1 -
->  drivers/pwm/pwm-pxa.c                 |  1 -
->  drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
->  drivers/pwm/pwm-rcar.c                |  1 -
->  drivers/pwm/pwm-renesas-tpu.c         |  1 -
->  drivers/pwm/pwm-rockchip.c            |  1 -
->  drivers/pwm/pwm-rz-mtu3.c             |  1 -
->  drivers/pwm/pwm-samsung.c             |  1 -
->  drivers/pwm/pwm-sifive.c              |  1 -
->  drivers/pwm/pwm-sl28cpld.c            |  1 -
->  drivers/pwm/pwm-spear.c               |  1 -
->  drivers/pwm/pwm-sprd.c                |  1 -
->  drivers/pwm/pwm-sti.c                 |  1 -
->  drivers/pwm/pwm-stm32-lp.c            |  1 -
->  drivers/pwm/pwm-stm32.c               |  1 -
->  drivers/pwm/pwm-stmpe.c               |  1 -
->  drivers/pwm/pwm-sun4i.c               |  1 -
->  drivers/pwm/pwm-sunplus.c             |  1 -
->  drivers/pwm/pwm-tegra.c               |  1 -
->  drivers/pwm/pwm-tiecap.c              |  1 -
->  drivers/pwm/pwm-tiehrpwm.c            |  1 -
->  drivers/pwm/pwm-twl-led.c             |  2 --
->  drivers/pwm/pwm-twl.c                 |  2 --
->  drivers/pwm/pwm-visconti.c            |  1 -
->  drivers/pwm/pwm-vt8500.c              |  1 -
->  drivers/pwm/pwm-xilinx.c              |  1 -
->  drivers/staging/greybus/pwm.c         |  1 -
->  include/linux/pwm.h                   |  8 +++++---
->  68 files changed, 16 insertions(+), 80 deletions(-)
+arm64:
 
-[snip]
+arm:
 
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index dc66e3405bf5..96069c6d3d69 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -89,13 +89,13 @@ static int pwm_device_request(struct pwm_device *pwm, const char *label)
->  	if (test_bit(PWMF_REQUESTED, &pwm->flags))
->  		return -EBUSY;
->  
-> -	if (!try_module_get(pwm->chip->ops->owner))
-> +	if (!try_module_get(pwm->chip->owner))
->  		return -ENODEV;
->  
->  	if (pwm->chip->ops->request) {
->  		err = pwm->chip->ops->request(pwm->chip, pwm);
->  		if (err) {
-> -			module_put(pwm->chip->ops->owner);
-> +			module_put(pwm->chip->owner);
->  			return err;
->  		}
->  	}
-> @@ -253,14 +253,14 @@ static bool pwm_ops_check(const struct pwm_chip *chip)
->  }
->  
->  /**
-> - * pwmchip_add() - register a new PWM chip
-> + * __pwmchip_add() - register a new PWM chip
->   * @chip: the PWM chip to add
+x86_64:
+    x86_64_defconfig (gcc-10): 3 warnings
+    x86_64_defconfig+x86-chromebook (gcc-10): 3 warnings
 
-Missing documentation for the new owner parameter.
 
->   *
->   * Register a new PWM chip.
->   *
->   * Returns: 0 on success or a negative error code on failure.
->   */
-> -int pwmchip_add(struct pwm_chip *chip)
-> +int __pwmchip_add(struct pwm_chip *chip, struct module *owner)
->  {
->  	struct pwm_device *pwm;
->  	unsigned int i;
-> @@ -272,6 +272,8 @@ int pwmchip_add(struct pwm_chip *chip)
->  	if (!pwm_ops_check(chip))
->  		return -EINVAL;
->  
-> +	chip->owner = owner;
-> +
->  	chip->pwms = kcalloc(chip->npwm, sizeof(*pwm), GFP_KERNEL);
->  	if (!chip->pwms)
->  		return -ENOMEM;
-> @@ -306,7 +308,7 @@ int pwmchip_add(struct pwm_chip *chip)
->  
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(pwmchip_add);
-> +EXPORT_SYMBOL_GPL(__pwmchip_add);
->  
->  /**
->   * pwmchip_remove() - remove a PWM chip
-> @@ -338,17 +340,17 @@ static void devm_pwmchip_remove(void *data)
->  	pwmchip_remove(chip);
->  }
->  
-> -int devm_pwmchip_add(struct device *dev, struct pwm_chip *chip)
-> +int __devm_pwmchip_add(struct device *dev, struct pwm_chip *chip, struct module *owner)
->  {
->  	int ret;
->  
-> -	ret = pwmchip_add(chip);
-> +	ret = __pwmchip_add(chip, owner);
->  	if (ret)
->  		return ret;
->  
->  	return devm_add_action_or_reset(dev, devm_pwmchip_remove, chip);
->  }
-> -EXPORT_SYMBOL_GPL(devm_pwmchip_add);
-> +EXPORT_SYMBOL_GPL(__devm_pwmchip_add);
->  
->  /**
->   * pwm_request_from_chip() - request a PWM device relative to a PWM chip
-> @@ -979,7 +981,7 @@ void pwm_put(struct pwm_device *pwm)
->  	pwm_set_chip_data(pwm, NULL);
->  	pwm->label = NULL;
->  
-> -	module_put(pwm->chip->ops->owner);
-> +	module_put(pwm->chip->owner);
->  out:
->  	mutex_unlock(&pwm_lock);
->  }
+Warnings summary:
 
-[snip]
+    5    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    5    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_io=
+vec_from_user.part.0() with UACCESS enabled
+    5    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redunda=
+nt UACCESS disable
 
-> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> index d2f9f690a9c1..d9fa0114edfa 100644
-> --- a/include/linux/pwm.h
-> +++ b/include/linux/pwm.h
-> @@ -278,7 +278,6 @@ struct pwm_ops {
->  		     const struct pwm_state *state);
->  	int (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
->  			 struct pwm_state *state);
-> -	struct module *owner;
->  };
->  
->  /**
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-Missing documentation update here too, for both pwm_ops and pwm_chip.
+Detailed per-defconfig build reports:
 
-> @@ -295,6 +294,7 @@ struct pwm_ops {
->  struct pwm_chip {
->  	struct device *dev;
->  	const struct pwm_ops *ops;
-> +	struct module *owner;
->  	int base;
->  	unsigned int npwm;
->  
-> @@ -386,10 +386,12 @@ int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
->  int pwm_set_chip_data(struct pwm_device *pwm, void *data);
->  void *pwm_get_chip_data(struct pwm_device *pwm);
->  
-> -int pwmchip_add(struct pwm_chip *chip);
-> +int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
-> +#define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
->  void pwmchip_remove(struct pwm_chip *chip);
->  
-> -int devm_pwmchip_add(struct device *dev, struct pwm_chip *chip);
-> +int __devm_pwmchip_add(struct device *dev, struct pwm_chip *chip, struct module *owner);
-> +#define devm_pwmchip_add(dev, chip) __devm_pwmchip_add(dev, chip, THIS_MODULE)
->  
->  struct pwm_device *pwm_request_from_chip(struct pwm_chip *chip,
->  					 unsigned int index,
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
--- 
-Regards,
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
 
-Laurent Pinchart
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 3 warnings, 0 s=
+ection mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+3 warnings, 0 section mismatches
+
+Warnings:
+    vmlinux.o: warning: objtool: .altinstr_replacement+0x178b: redundant UA=
+CCESS disable
+    vmlinux.o: warning: objtool: iovec_from_user+0x88: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+    vmlinux.o: warning: objtool: __import_iovec+0x147: call to copy_iovec_f=
+rom_user.part.0() with UACCESS enabled
+
+---
+For more info write to <info@kernelci.org>

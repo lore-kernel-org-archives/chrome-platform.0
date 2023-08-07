@@ -1,69 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B81642
-	for <chrome-platform@lists.linux.dev>; Mon,  7 Aug 2023 03:10:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61FEEC433C9;
-	Mon,  7 Aug 2023 03:10:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D5C80F
+	for <chrome-platform@lists.linux.dev>; Mon,  7 Aug 2023 03:37:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32BAAC433C8;
+	Mon,  7 Aug 2023 03:37:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691377821;
-	bh=mGgf2F0PdoAu01r3Q8tJAt7qo0xuhEP8Y43j4ySUSEU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ObJVWqjJax0qCB7Zqguj/MHJRSa2ZUa9mSN1qoUef7jDwP09bBvWmiTpZlVv4E6Yc
-	 wXtni5d+Ioy5fKsOjhmRqB63wgQ+YLah2YLOPYMbucFb9RbN5Dtb4xaM5qeyIKX57t
-	 togNAZMq2K4wPJB5TKsVxY3Iyt/UdL2l9Ni0XIuffYrdeMjSEQwgKA/RgGV0svL44J
-	 ee3kuOzGNROslf4kNNuOswi9blvdK3DK5PGvC5IGZkUkaBP+bgfQen6EBJ+KVG4A4O
-	 SstCA174WEH7LfAxNOXH1x5vdZnqHS1BorxaZsTMZMPVCqg11tsKrdzQuxb5dLeL4s
-	 f0m8f1HiSqcoA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 47749E505D4;
-	Mon,  7 Aug 2023 03:10:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1691379449;
+	bh=wKdfwc6kfrvqe8y2019/qZGu+wca5/9WLqSXMxUeGWc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nrWF6CgrUJ3GPKmGw3w4smUt1lZeb3COOI9bV0DgRR3rJTCe4kWHNoSlIaBrxmKfn
+	 CbbGV9TCCqVpkSNIBFmmrWbJsizlqwhrh4AxFK55kke/cR27gzj3keEl01moNUAoPC
+	 NdQlyBZU2wec3B+4BaiBmMTFzTMGEU50AhsNWjtD4A7YHchPaAU+yn6pHI9rEd7sbY
+	 esPHHsjXGDPcmN0QZqfz3R7uUSbdqd+xA0/91Lr1NtVtDGk+9Sgbda2cs835JagEvl
+	 T+svh1XG7/dPtIwnYgQMNYqCuj2mhpPkH5+0Rf3zBP4f5v7C3nj6u7UP/EShjaLG+0
+	 DURpHKKiq8DDA==
+Date: Mon, 7 Aug 2023 11:37:26 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: bleung@chromium.org, groeck@chromium.org,
+	chrome-platform@lists.linux.dev, guillaume.tucker@collabora.com,
+	denys.f@collabora.com, ricardo.canuelo@collabora.com,
+	briannorris@chromium.org
+Subject: Re: [PATCH v2] platform/chrome: chromeos_acpi: print hex string for
+ ACPI_TYPE_BUFFER
+Message-ID: <ZNBm9lXir2aI10lo@google.com>
+References: <20230802095736.3079963-1-tzungbi@kernel.org>
+ <1be7888e-2346-99b1-4c31-f755fcbd054a@collabora.com>
+ <ZMsBpMDK5iXwFa+S@google.com>
+ <f4ae9de4-7b05-a797-087e-d895f7333167@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] platform/chrome: chromeos_acpi: support official HID
- GOOG0016
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169137782128.31484.565951557345548988.git-patchwork-notify@kernel.org>
-Date: Mon, 07 Aug 2023 03:10:21 +0000
-References: <20230731024214.908235-1-tzungbi@kernel.org>
-In-Reply-To: <20230731024214.908235-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, rafael@kernel.org,
- lenb@kernel.org, guillaume.tucker@collabora.com, denys.f@collabora.com,
- ricardo.canuelo@collabora.com, usama.anjum@collabora.com,
- chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org
+In-Reply-To: <f4ae9de4-7b05-a797-087e-d895f7333167@collabora.com>
 
-Hello:
+On Thu, Aug 03, 2023 at 09:17:23AM +0500, Muhammad Usama Anjum wrote:
+> On 8/3/23 6:23 AM, Tzung-Bi Shih wrote:
+> > On Wed, Aug 02, 2023 at 08:15:31PM +0500, Muhammad Usama Anjum wrote:
+> >> On 8/2/23 2:57 PM, Tzung-Bi Shih wrote:
+> >>> `element->buffer.pointer` should be binary blob.  `%s` doesn't work
+> >>> perfect for them.
+> >>>
+> >>> Print hex string for ACPI_TYPE_BUFFER.
+> >>>
+> >>> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> >> Please add fixes tag and CC stable as well (stable@vger.kernel.org) in next
+> >> revision.
+> >>
+> >> Fixes: 0a4cad9c11ad ("platform/chrome: Add ChromeOS ACPI device driver")
+> > 
+> > I think a Fixes tag should be sufficient.
+> Why do you think so? As this is a bug fix which exists in the driver since
+> it was written, if we add fixes tag and probably cc stable as well, the
+> patch will be applied to all LTS kernels which we really want. In this way,
+> the bug would be fixed on all LTS kernels not just the latest kernel.
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Mon, 31 Jul 2023 10:42:14 +0800 you wrote:
-> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
-> 
-> [1]: https://crrev.com/c/2266713
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Changes from v2[2]:
-> - Instead of replacing, appending "GOOG0016" in sysfs-driver-chromeos-acpi.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v3] platform/chrome: chromeos_acpi: support official HID GOOG0016
-    https://git.kernel.org/chrome-platform/c/703e77134ebf
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Without the patch, I observed some malfunctions of ChromiumOS userland program
+`crossystem`.  There is no kernel crashes and the system is bootable.  Thus, I
+think a Fixes tag should be sufficient.

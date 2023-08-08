@@ -1,69 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE48ECD
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Aug 2023 02:40:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C3344C433CA;
-	Tue,  8 Aug 2023 02:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691462421;
-	bh=xKOlSGJHH9pDn+O9oivNc+VjOK0cMPfD2BollqSq4Fw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=q/1OfgqMBDmpZmtVuuBL96TFd4roSmxBFKCsszfwoT40QhFNMDWlz8IlmzDCzElDk
-	 kyyjZcej6MuXJpRurqZR7iaT+2JZ6IVmhMcSx7LJwcWZGUzX8zzmOLQXkJ4ImCMcH/
-	 qSdTql7wtYvx6KZ29FGc9EmTlEjJb99xNesLz8K7iktcJeEyM4m7v+7ltmn3eJ0jpX
-	 3Yb9B/eUSa/f+Jb5xxQxGirByHhvrWnDob0xG9Zsp0ZkpSufuuVoU66Q8EECtyzK7G
-	 qD/b5B5FyF0EWX/wogAr0mSRemT3HYBlu3rwuY41aQ24KzW10jh1J0n7+RquE6eMd8
-	 y+2MFob0NKzfw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A77E0E505D5;
-	Tue,  8 Aug 2023 02:40:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2104125B0
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Aug 2023 13:18:42 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d299ed34bacso9514331276.1
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Aug 2023 06:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691500721; x=1692105521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
+        b=iy7zswmtYx6ZYNzYmCG5rqHRjdv+HqB8GrEKYccjle/8dJ9x1OShHO9OgMow0zFYho
+         RJhCC40wkFuTTf25ecgjND4T7pSlTzynELSybpF4Tq9lm0vpF/1WhH9PVjPDo3D92r0t
+         vE0MwfGWmp5O6GeDRRPpN190ezwOTKyeDzoh+6spHPvGNcXvDC15NYX5Fh6AdODwNh9i
+         u+xgCMzltAjprgtTTXUMnRSMUGU88rU5hQybpWcAAj9weIpW1fiVIhA90pqCkvmL6npO
+         3XYinfPiJb8jbNTnaImLtOznhk/zT3v7clUSSq2VXwojFDvEIz4Ap+Wto2wlmlxEy3FT
+         jTzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691500721; x=1692105521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
+        b=gUlHejj91+9F79Jvk38+2NEuOudmF7Yg1NQV9MXqgYkJZvmTikE4AmcjzHafyc/YiV
+         6DdjgcNvQ8Hoaaexu7TvUiSy4sOGklLXhq6CgDdBezUZ5BozSk0ybd86kN7jDw3his7M
+         BYiI5jwZ/BF62YZ1zvOfWAZOzaDgrVyfjgVVPChML6KvS6jCpLiDqWykOEQ0qEwVlBf3
+         5++k9XPsPJXLzOEIs2pgMzp8ijXoF1WLglUQDji9kQZS0Jbov9EBmh2gKwBdttmme2LJ
+         St6dOibIFhhkb1WAah/2CjJCXk5v5ithfdiPVEqLLUiQhzFI4ak6MA7uaN1cgyG3wv8a
+         n3yQ==
+X-Gm-Message-State: AOJu0Yx4GBcy/vn2fT4mRKeH1SmLGZn+hZwVoZkoLnOs0NQnQQrAcmoe
+	OfDYewLb00rdtEOGDe7Ef/H4ud0TIUSNEoNFiVpUZQ==
+X-Google-Smtp-Source: AGHT+IGCQegfute4wq8vuctRCNyh2F9D25HtOrYRCxA1KPyHbK9gB5btAs+lYOVd+Us7kHls2/CFh6KxK9tgT70dyU8=
+X-Received: by 2002:a25:d14e:0:b0:cee:80e:23af with SMTP id
+ i75-20020a25d14e000000b00cee080e23afmr3349036ybg.11.1691500721596; Tue, 08
+ Aug 2023 06:18:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] platform/chrome: chromeos_acpi: support official HID
- GOOG0016
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169146242168.22152.1080564918581930878.git-patchwork-notify@kernel.org>
-Date: Tue, 08 Aug 2023 02:40:21 +0000
-References: <20230731024214.908235-1-tzungbi@kernel.org>
-In-Reply-To: <20230731024214.908235-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, rafael@kernel.org,
- lenb@kernel.org, guillaume.tucker@collabora.com, denys.f@collabora.com,
- ricardo.canuelo@collabora.com, usama.anjum@collabora.com,
- chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org
+References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 8 Aug 2023 15:18:30 +0200
+Message-ID: <CACRpkdZ4OqLywBhCkDmA6bEkf3rfHpCODba9Rhx36fuP8ywt6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] pwm: Manage owner assignment implicitly for drivers
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
+	Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Fri, Aug 4, 2023 at 4:28=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+> (implicit) v1 of this series can be found at
+> https://lore.kernel.org/linux-pwm/20230803140633.138165-1-u.kleine-koenig=
+@pengutronix.de .
+>
+> Changes since then only affect documentation that I missed to adapt befor=
+e.
+> Thanks to Laurent for catching that
+>
+> Best regards
+> Uwe
+>
+> Uwe Kleine-K=C3=B6nig (2):
+>   pwm: Manage owner assignment implicitly for drivers
+>   pwm: crc: Allow compilation as module and with COMPILE_TEST
 
-On Mon, 31 Jul 2023 10:42:14 +0800 you wrote:
-> Support official HID GOOG0016 for ChromeOS ACPI (see [1]).
-> 
-> [1]: https://crrev.com/c/2266713
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> Changes from v2[2]:
-> - Instead of replacing, appending "GOOG0016" in sysfs-driver-chromeos-acpi.
-> 
-> [...]
+Clearly the right thing to do! Nice patches.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Here is the summary with links:
-  - [v3] platform/chrome: chromeos_acpi: support official HID GOOG0016
-    https://git.kernel.org/chrome-platform/c/703e77134ebf
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yours,
+Linus Walleij

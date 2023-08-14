@@ -1,24 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C64524D
-	for <chrome-platform@lists.linux.dev>; Fri, 11 Aug 2023 04:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7CF1CC433C7;
-	Fri, 11 Aug 2023 04:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691728221;
-	bh=ZD8545GDYMbTKuOXTDEfbQovfgmUDaHIWLyFY5u9K+I=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=PL+ViRLMlz1dyWSGVgRknTEVttas50FfzIkSkvdSsLoJMUZvAPS+M0xlJ+ut7yV9W
-	 2s9koZrHjqRuv3sI2P6F0AvzrsaLTO/5ijdmhUOr3YoOYfU4xdyuEEOS1Z7SeAp0MB
-	 jx4bt9fXwH4mnEd7VQaOIhep7uk4jjCB99Ebizx17Iw8Dxs3vK8khI45S4P25V6GsN
-	 MpRib0GnDqrFSuocSG35X+yQy0pYK27ak1wHEpYVWT64rTHyms4QJdelgPepBcCnhE
-	 9Tib/0xKS2/UlW/tfOrtlo5LEaGDz5vtiL8Wt2DEmRZ4BffAeX2x0mYQbvBqe2Ym7d
-	 6RnQTdjf00dBA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 63470C395C5;
-	Fri, 11 Aug 2023 04:30:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328B717CE
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Aug 2023 04:33:16 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-565331f0736so3077909a12.0
+        for <chrome-platform@lists.linux.dev>; Sun, 13 Aug 2023 21:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1691987596; x=1692592396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JGX2iQreR4Wa0lEJRVthG1ZLrq79VS9RRmn8uvS4tBw=;
+        b=ReM7E/zJUHj/2KoAnU/iyMfZfy0EDj8RbAiNZqdllHBsHTqXMjVsIukPm6CcNsmU8H
+         IIxwpd16TYxaYMxKOcotA6ZC0D7bTIOJ5G/OUrO1SLPvArdnekH8sqqB+J0EAwZ4ii6/
+         RgnDKUczA0XpHMepz7C4LaxVrXpnKGWoGfPrA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691987596; x=1692592396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JGX2iQreR4Wa0lEJRVthG1ZLrq79VS9RRmn8uvS4tBw=;
+        b=Lq/Oj2piSPpmcqNzh1gB9shP8sU8EYFRhhcV6VDpIQDK1TZObb2JvRkYstCfL72jfw
+         rfXYXSyChczKoP0KIrrD8x561oOcwHK91qiNaFLuqWUlm2cwLCYr1u6n9qvqCZqRFGDF
+         nBoyagdAZDY6xWlD0+LZFHgG5spGL24eDhFw0PmcFRV3mHRE8ApgO1nXCguVxU2GYhKf
+         +Q0zOdcRZMl6aAPlSgNSv++eG160GbQ+y5neQdDF31sAQKoCgdC/dd9uVKQMctfPkp7G
+         LIuS/ejIe+q4UUDqjiq3QPPinHZjyeLgs7tvnjPzgFLaHFxGKGZtyiEFpTxmrAqH61g4
+         rdNg==
+X-Gm-Message-State: AOJu0Yx/VS6zV04R2WIalKzY5g5etuMEYuo1Mek8A+R8tOWM3YgMUuFR
+	EOn0VR3GeKVkDg5XyRH7lclbww==
+X-Google-Smtp-Source: AGHT+IECfYOTOeL7Do4LXrA/RmqwOQo4GC8Ctl2U+2iZsd6BHgi+Q0ahMo2jCeaKtY142l90DpEN1g==
+X-Received: by 2002:a17:902:d4c4:b0:1bc:411f:1097 with SMTP id o4-20020a170902d4c400b001bc411f1097mr9455934plg.47.1691987596346;
+        Sun, 13 Aug 2023 21:33:16 -0700 (PDT)
+Received: from rekanorman3.syd.corp.google.com ([2401:fa00:9:14:4ae6:d1a4:27c2:80ff])
+        by smtp.gmail.com with ESMTPSA id ju17-20020a170903429100b001bdb0483e65sm6761865plb.265.2023.08.13.21.33.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 21:33:16 -0700 (PDT)
+From: Reka Norman <rekanorman@chromium.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Stefan Adolfsson <sadolfsson@google.com>,
+	Reka Norman <rekanorman@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 0/9] media: cros-ec-cec: Add support for multiple ports
+Date: Mon, 14 Aug 2023 14:29:09 +1000
+Message-ID: <20230814043140.1108917-1-rekanorman@chromium.org>
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -26,44 +57,34 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] platform/chrome: chromeos_acpi: print hex string for
- ACPI_TYPE_BUFFER
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169172822140.5824.16592248517407164496.git-patchwork-notify@kernel.org>
-Date: Fri, 11 Aug 2023 04:30:21 +0000
-References: <20230803011245.3773756-1-tzungbi@kernel.org>
-In-Reply-To: <20230803011245.3773756-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- guillaume.tucker@collabora.com, denys.f@collabora.com,
- ricardo.canuelo@collabora.com, usama.anjum@collabora.com,
- briannorris@chromium.org
 
-Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+The Google Dibbi chromebox will have two HDMI ports with CEC enabled via
+its EC. Currently, the cros-ec-cec driver and the host command interface
+to the EC assume there is only one port. E.g. the commands have no
+parameter to indicated which port to operate on.
 
-On Thu,  3 Aug 2023 09:12:45 +0800 you wrote:
-> `element->buffer.pointer` should be binary blob.  `%s` doesn't work
-> perfect for them.
-> 
-> Print hex string for ACPI_TYPE_BUFFER.  Also update the documentation
-> to reflect this.
-> 
-> Fixes: 0a4cad9c11ad ("platform/chrome: Add ChromeOS ACPI device driver")
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> 
-> [...]
+This series adds support for multiple ports. The driver is modified to
+manage an array of ports, each with their own CEC adapter and notifier.
+The host command interface is modified to support multiple ports. All
+changes to interface are backwards compatible.
 
-Here is the summary with links:
-  - [v3] platform/chrome: chromeos_acpi: print hex string for ACPI_TYPE_BUFFER
-    https://git.kernel.org/chrome-platform/c/0820debb7d48
 
-You are awesome, thank you!
+Reka Norman (9):
+  media: cros-ec-cec: Use cros_ec_cmd to send host commands
+  media: cros-ec-cec: Manage an array of ports
+  media: cros-ec-cec: Support multiple ports in set/get host commands
+  media: cros-ec-cec: Support multiple ports in write command
+  media: cros-ec-cec: Support multiple ports in MKBP cec_events
+  media: cros-ec-cec: Support receiving messages from multiple ports
+  media: cros-ec-cec: Allow specifying multiple HDMI connectors
+  media: cros-ec-cec: Get number of CEC ports from EC
+  media: cros-ec-cec: Add Dibbi to the match table
+
+ .../media/cec/platform/cros-ec/cros-ec-cec.c  | 376 ++++++++++++++----
+ .../linux/platform_data/cros_ec_commands.h    |  66 ++-
+ 2 files changed, 354 insertions(+), 88 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.41.0.640.ga95def55d0-goog
 

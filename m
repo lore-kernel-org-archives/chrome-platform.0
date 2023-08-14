@@ -1,40 +1,40 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4A21FAA
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Aug 2023 04:36:24 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6873a30d02eso2483786b3a.3
-        for <chrome-platform@lists.linux.dev>; Sun, 13 Aug 2023 21:36:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717361FAA
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Aug 2023 04:36:31 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6873a30d02eso2483827b3a.3
+        for <chrome-platform@lists.linux.dev>; Sun, 13 Aug 2023 21:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1691987784; x=1692592584;
+        d=chromium.org; s=google; t=1691987790; x=1692592590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qn05RavKUDwCo7Nk//6BvwshJgQPYJchPE2n3kFnelU=;
-        b=C+TalMts8a2m6aL+ebXUXjcz744b6n1+AI3kTmdTfz43y+y8CBXkzjV9Q+3HBCTd5C
-         NlVKUAF+jMShWAX+WBEFtEqxIh4/zYRFR4vpCjYxme6YPbst5Og+DuBnka/Ts01mImYB
-         v5gXUrj3PDgNrzf007Wyfv+uUtdHAF9vIds6w=
+        bh=sw/GQaD3rU/TBdDdqv1FKm319ZdMh7XMHhK4oOmrPsU=;
+        b=KatNqGsGMaYxzyICLAb1aNPS96VJXjgi4wqOangQ1EE3F01ND5r4MCspJg8i4p78so
+         u+ujbs8pFRq4DfPYFH5HQ2ZBjvthy6kKTTak+DBCypQ5F6GgbI5F1IiZ5JfNyVXtLGxu
+         bUt0mJTRZT9bO5Cq8yEcm9x010l0xHCmkMMt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691987784; x=1692592584;
+        d=1e100.net; s=20221208; t=1691987790; x=1692592590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qn05RavKUDwCo7Nk//6BvwshJgQPYJchPE2n3kFnelU=;
-        b=VtLr66n4gtXo5L9NhI0DfO99EIK0LoEcF6FRUfh7ItW3MYzDLl+M+/WlZaL6BdTgH1
-         rmQCIvAszCZFhQwGxeQtLmgG6eOZ7R6zfKikmdnWjsRVeVLNEGpD8cYsvVr6J8iHLbLd
-         9ttJHXBTV1saccfmKxA/bTdi2U23aQVk96jnL2d21NGN6IoNEMdHNkSQ730YY/VwMyd6
-         7MIqsdcVBQO9Az7583/Yg+ZBPbmpNr2yix6qGHe+7GBkB/36UYW6HXlEVNUfYJUycrIi
-         XsKvjtg+eFT/rWGiDjnolmnWPCfi5he8G2svH3QTfONAgJ+5RNPMvV7Qje7o8TIQt8yt
-         o2Hg==
-X-Gm-Message-State: AOJu0Yxi+eIZa2eUnPiOjsk6TrIFI3yT8DBZybM/GUkNvHaIjT+eAkGw
-	VuYKOm/Fn/e27YtgmsDaDIv3JA==
-X-Google-Smtp-Source: AGHT+IGDOPOOphv5d99IwFBBIHrixspMihenoQdQr3YzcyDYtSWNtXJ4VqvDNzBT0FjnY/j8yV7xrA==
-X-Received: by 2002:a05:6a20:9191:b0:13e:da98:966a with SMTP id v17-20020a056a20919100b0013eda98966amr8970273pzd.5.1691987784310;
-        Sun, 13 Aug 2023 21:36:24 -0700 (PDT)
+        bh=sw/GQaD3rU/TBdDdqv1FKm319ZdMh7XMHhK4oOmrPsU=;
+        b=RucHya2faM7RFtLyMf/YlXuEcRvPggCHCiqMMqDugdwL/rO7yuJg+1xXhNX9vu4l75
+         SjKBSp4ECzGm00SUj3+S2reUNuTMe+A2YmwUkIh1DgGt9eKt+U9E3IN1z6YSTJGyaipx
+         +UQtD2pIiPnfFPs1ogTCd0Dt1D8EOqDThkG8ZpevDJ1rF7vik2k5XM4fJ+Hm2Vej1/oz
+         NN0CUZlbbqPN5GALJLUgPJTMSdKWVj5AIoGqP0z9T40IUUFRc7BuyIXfs5rbFNMUWu41
+         zMlc4VquVLZ5HD1K6CcFdvo12FD+GlxkQWvYBcvDS1OH+ZwR73Bdw40ZSgZOymW3kRGD
+         rNXA==
+X-Gm-Message-State: AOJu0YwyL1Gc2Tr/JqY/jUWELnVVnG8mKmiMf6N42r3sY+m01TkTJGu1
+	XZpZRCvbNlYyUVFiVKHppoZVJw==
+X-Google-Smtp-Source: AGHT+IErHRAwMUUMfXSyxd/9DtxgxyWOztaiQGKgeItEKpDF/uQEjh27Qutpj+qSs8LmqlSMCPq4qQ==
+X-Received: by 2002:a05:6300:8003:b0:13e:e450:f4c6 with SMTP id an3-20020a056300800300b0013ee450f4c6mr7113497pzc.27.1691987790656;
+        Sun, 13 Aug 2023 21:36:30 -0700 (PDT)
 Received: from rekanorman3.syd.corp.google.com ([2401:fa00:9:14:4ae6:d1a4:27c2:80ff])
-        by smtp.gmail.com with ESMTPSA id ju17-20020a170903429100b001bdb0483e65sm6761865plb.265.2023.08.13.21.36.20
+        by smtp.gmail.com with ESMTPSA id ju17-20020a170903429100b001bdb0483e65sm6761865plb.265.2023.08.13.21.36.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 21:36:24 -0700 (PDT)
+        Sun, 13 Aug 2023 21:36:30 -0700 (PDT)
 From: Reka Norman <rekanorman@chromium.org>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Neil Armstrong <narmstrong@baylibre.com>,
@@ -47,9 +47,9 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH 8/9] media: cros-ec-cec: Get number of CEC ports from EC
-Date: Mon, 14 Aug 2023 14:29:17 +1000
-Message-ID: <20230814043140.1108917-9-rekanorman@chromium.org>
+Subject: [PATCH 9/9] media: cros-ec-cec: Add Dibbi to the match table
+Date: Mon, 14 Aug 2023 14:29:18 +1000
+Message-ID: <20230814043140.1108917-10-rekanorman@chromium.org>
 X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
 In-Reply-To: <20230814043140.1108917-1-rekanorman@chromium.org>
 References: <20230814043140.1108917-1-rekanorman@chromium.org>
@@ -61,107 +61,29 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new CEC port count host command and use it to query the number of
-CEC ports from the EC. If the host command is not supported then it must
-be old EC firmware which only supports one port, so fall back to
-assuming one port.
-
-This patch completes support for multiple ports in cros-ec-cec.
+Dibbi has two HDMI ports which support CEC:
+Port D is EC port 0
+Port B is EC port 1
 
 Signed-off-by: Reka Norman <rekanorman@chromium.org>
 ---
 
- .../media/cec/platform/cros-ec/cros-ec-cec.c  | 40 ++++++++++++++++---
- .../linux/platform_data/cros_ec_commands.h    | 11 +++++
- 2 files changed, 46 insertions(+), 5 deletions(-)
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index f2f397d9a6d8..cfc0a204d591 100644
+index cfc0a204d591..29f9a464857b 100644
 --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
 +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -21,10 +21,6 @@
+@@ -311,6 +311,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Gladios", "0000:00:02.0", { "Port B" } },
+ 	/* Google Lisbon */
+ 	{ "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
++	/* Google Dibbi */
++	{ "Google", "Dibbi", "0000:00:02.0", { "Port D", "Port B" } },
+ };
  
- #define DRV_NAME	"cros-ec-cec"
- 
--/* Only one port is supported for now */
--#define CEC_NUM_PORTS	1
--#define CEC_PORT	0
--
- /**
-  * struct cros_ec_cec_port - Driver data for a single EC CEC port
-  *
-@@ -356,6 +352,38 @@ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
- 
- #endif
- 
-+static int cros_ec_cec_get_num_ports(struct cros_ec_cec *cros_ec_cec)
-+{
-+	struct ec_response_cec_port_count response;
-+	int ret;
-+
-+	ret = cros_ec_cmd(cros_ec_cec->cros_ec, 0, EC_CMD_CEC_PORT_COUNT, NULL,
-+			  0, &response, sizeof(response));
-+	if (ret < 0) {
-+		/*
-+		 * Old EC firmware only supports one port and does not support
-+		 * the port count command, so fall back to assuming one port.
-+		 */
-+		cros_ec_cec->num_ports = 1;
-+		return 0;
-+	}
-+
-+	if (response.port_count == 0) {
-+		dev_err(cros_ec_cec->cros_ec->dev,
-+			"EC reports 0 CEC ports\n");
-+		return -ENODEV;
-+	}
-+
-+	if (response.port_count > EC_CEC_MAX_PORTS) {
-+		dev_err(cros_ec_cec->cros_ec->dev,
-+			"EC reports too many ports: %d\n", response.port_count);
-+		return -EINVAL;
-+	}
-+
-+	cros_ec_cec->num_ports = response.port_count;
-+	return 0;
-+}
-+
- static int cros_ec_cec_get_write_cmd_version(struct cros_ec_cec *cros_ec_cec)
- {
- 	struct cros_ec_device *cros_ec = cros_ec_cec->cros_ec;
-@@ -461,7 +489,9 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
- 
- 	device_init_wakeup(&pdev->dev, 1);
- 
--	cros_ec_cec->num_ports = CEC_NUM_PORTS;
-+	ret = cros_ec_cec_get_num_ports(cros_ec_cec);
-+	if (ret)
-+		return ret;
- 
- 	ret = cros_ec_cec_get_write_cmd_version(cros_ec_cec);
- 	if (ret)
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index ad61c7ff0b28..7dae17b62a4d 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -4536,6 +4536,17 @@ struct ec_response_cec_get {
- 	uint8_t val;
- } __ec_align1;
- 
-+/* Get the number of CEC ports */
-+#define EC_CMD_CEC_PORT_COUNT 0x00C1
-+
-+/**
-+ * struct ec_response_cec_port_count - CEC port count response
-+ * @port_count: number of CEC ports
-+ */
-+struct ec_response_cec_port_count {
-+	uint8_t port_count;
-+} __ec_align1;
-+
- /* CEC parameters command */
- enum cec_command {
- 	/* CEC reading, writing and events enable */
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
 2.41.0.640.ga95def55d0-goog
 

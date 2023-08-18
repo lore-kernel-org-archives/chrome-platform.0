@@ -1,41 +1,41 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D85380
-	for <chrome-platform@lists.linux.dev>; Fri, 18 Aug 2023 02:59:08 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-689fb672dc8so222855b3a.0
-        for <chrome-platform@lists.linux.dev>; Thu, 17 Aug 2023 19:59:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE7663DF
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Aug 2023 02:59:10 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1bdb7b0c8afso3528285ad.3
+        for <chrome-platform@lists.linux.dev>; Thu, 17 Aug 2023 19:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lcfc-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1692327548; x=1692932348;
-        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5ekcZ3MN6GD3R4rBzk1MGa8Dg6eqHF3tAW/7JASPmac=;
-        b=Nj7zUUT+2lHtKQwZ6jYZWomjyalQutpum5pnhewepfLaz4K14qkbUxfeVvSwkEXyX/
-         2oG2fPzZpGpT13LXPL0Md5X2gTyJCmnLIexcE5AGBJvQPbqGswChLBSvmWT88psz3bF9
-         W54LxSKB4z2iQfVDzwQlAKt+/zwz+iJW8I/APitXf7k7DnG0za0t7VHyIHBY2oSdo5HD
-         tGfm1VrK0LDw7D/I3MEHm3SDhU9/l/oTC6IJ5w4c9rJE0Jd1IXf5xjMKvL1v7L1wAywO
-         cN/J3WqvuXOSjA4O3zkqbZp6NVJqAIJ6RMA67WM1EUpuTi/GImV8fW5niJnAI2bg9LYk
-         s4Fg==
+        d=lcfc-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1692327550; x=1692932350;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s8FIv/P5NEOWnZZHJHr7vxcf/Z4Pvhy6SYUyZNMnQpA=;
+        b=np8c+6P8A2igANUhXRe9dt4JXTBssimZIv9HT1sECP80iXMqBr0bvlGqn3HhbOwpTb
+         JBqCI2NmPKYz5DF+ux+6Le7hJlaPBMniGGB5mJfVe7v0GzEwik8nUb+tt9KQi8tnYy3r
+         1cvjR0YxGo57StPB8D4j++IWfxVIQiw70j8JAlt42Fe2QNWLIqxGNSfNy+BIrN+3X27h
+         JLpWx6lmbJAX6MMWrLDa9+zy+OkvoJkBep+ao95t3/0lkW6StHGUphfgmsG9nVj4WGLb
+         anOpPMOHhBKM/VDOsNRk0XVlUG7ofCO6DH7WGnfYrHlXlOExSn8pZpfKoJb1OvBZo5Vz
+         uQ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692327548; x=1692932348;
-        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5ekcZ3MN6GD3R4rBzk1MGa8Dg6eqHF3tAW/7JASPmac=;
-        b=atC4+HnPq7kD9x7jrQrvUj+xDCUG6XxoSGLZd2xRvCg/pMDxdod6cADqk96pZc94/g
-         ysFWMuWhCWurCY6Czm6vl1GwwpfvuHcnEN1p/GYnj0MFzIVq6KOfTHgV4feLzEfTQnNp
-         UgGgM5hElJgA5Y8hmmNjiiNpWf43Zoa1YsVPExJGuNWyqnBZHzsh1ldKAhE8B15krPOH
-         fHHfNUjpMzgeX36pA+w1S7HvwrmDPR7wDXLNflMh+04uYGNkD/iHoCixbsych+unqWr6
-         FouDOHFzwJ0FKMMwWRhWMWQiNRtMLEb17Bgs2N5SQeAU48AuqMQxU7O3k7iNdYlkuYnI
-         I56w==
-X-Gm-Message-State: AOJu0YzHOtk//sh/guQIqTIO10qIS2DTMDBWtoUc90GnLmkT3dcyN0v9
-	ulPhgZRKq3UEkpz9+9HV94P79A==
-X-Google-Smtp-Source: AGHT+IG9LTbMpURDFy3azENGjKVk9jT2cQQWjAdfrYQI2MM+h7nUaHacg6HxhgbD3pxN07Hj9XWaWA==
-X-Received: by 2002:a05:6a20:440a:b0:12f:a373:ba8d with SMTP id ce10-20020a056a20440a00b0012fa373ba8dmr2386272pzb.24.1692327547719;
-        Thu, 17 Aug 2023 19:59:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692327550; x=1692932350;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s8FIv/P5NEOWnZZHJHr7vxcf/Z4Pvhy6SYUyZNMnQpA=;
+        b=DoKRlq4bpDrOJVN4z9ERceGMLG40fnfDs05TmFdoa5QD8fAVTeBDKz7GnUAZ/ymZgW
+         vjN0KyqfnDnGgxWGOFkqJGUpayzlWaWQygLiQrkhdWdmQkJ9PtmWhw+PiV6OfufcPFsg
+         pb6fIL3CfKDZYRKAwgv9ZYnDo07AzbqGlHtUmKX1uw1+kxWAa5ji4pxVGsJ6ButaY2dZ
+         og8hJZUa9KjvWYC/WbORZ5Ejh1rX5XscHO9WmTyehCdCn8mef09PvyN3L1endtBGXhWn
+         X0wLUBnR3zAMmiN4kOaZ2KtMBR0RsuEHlH7YH5nvhoUGldnE8LM/gqxgvXP4BnjHHJCH
+         DBtQ==
+X-Gm-Message-State: AOJu0YwuwdN3E216mMzhb/grHdYLQyOKdwoykBuuPh8y/ELLIdCzl0GF
+	D/lEhLBmx1TUvthxuKXIeC6IRg==
+X-Google-Smtp-Source: AGHT+IEzrPpGM2b8EIV+iUlY+GtpLWxa2TTjWo4hsAE6UI5o5V+TlhzS4Ic1mKWz8vRt5/tspEXM5g==
+X-Received: by 2002:a17:902:bc49:b0:1bd:d14a:7e14 with SMTP id t9-20020a170902bc4900b001bdd14a7e14mr1244165plz.65.1692327549961;
+        Thu, 17 Aug 2023 19:59:09 -0700 (PDT)
 Received: from rasheed-i7-P52.LCFutureCenter.com (211-23-25-187.hinet-ip.hinet.net. [211.23.25.187])
-        by smtp.gmail.com with ESMTPSA id l15-20020a170902f68f00b001bdc7d88ee3sm497514plg.37.2023.08.17.19.59.05
+        by smtp.gmail.com with ESMTPSA id l15-20020a170902f68f00b001bdc7d88ee3sm497514plg.37.2023.08.17.19.59.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 19:59:07 -0700 (PDT)
+        Thu, 17 Aug 2023 19:59:09 -0700 (PDT)
 From: "rasheed.hsueh" <rasheed.hsueh@lcfc.corp-partner.google.com>
 To: hverkuil-cisco@xs4all.nl,
 	mchehab@kernel.org,
@@ -49,10 +49,12 @@ Cc: groeck@chromium.org,
 	Rasheed.Hsueh@lcfuturecenter.com,
 	rasheed.yh@gmail.com,
 	"rasheed.hsueh" <rasheed.hsueh@lcfc.corp-partner.google.com>
-Subject: [PATCH v1 0/1] media: platform: cros-ec: Add Boxy to the match table
-Date: Fri, 18 Aug 2023 10:58:47 +0800
-Message-Id: <20230818025848.9531-1-rasheed.hsueh@lcfc.corp-partner.google.com>
+Subject: [PATCH v1 1/1] media: platform: cros-ec: Add Boxy to the match table
+Date: Fri, 18 Aug 2023 10:58:48 +0800
+Message-Id: <20230818025848.9531-2-rasheed.hsueh@lcfc.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230818025848.9531-1-rasheed.hsueh@lcfc.corp-partner.google.com>
+References: <20230818025848.9531-1-rasheed.hsueh@lcfc.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,12 +66,24 @@ Content-Type: text/plain; charset="utf-8"
 The Google Boxy device uses the same approach as the Google Brask
 which enables the HDMI CEC via the cros-ec-cec driver.
 
-rasheed.hsueh (1):
-  media: platform: cros-ec: Add Boxy to the match table
-
+Signed-off-by: rasheed.hsueh <rasheed.hsueh@lcfc.corp-partner.google.com>
+---
  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index c17faf002877..0b7fe074bc15 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -231,6 +231,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Gladios", "0000:00:02.0", "Port B" },
+ 	/* Google Lisbon */
+ 	{ "Google", "Lisbon", "0000:00:02.0", "Port B" },
++	/* Google Boxy */
++	{ "Google", "Boxy", "0000:00:02.0", "Port D" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
 2.17.1
 

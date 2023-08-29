@@ -1,141 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01585667
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Aug 2023 10:53:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42082C433C7;
-	Mon, 28 Aug 2023 10:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA337FF
+	for <chrome-platform@lists.linux.dev>; Tue, 29 Aug 2023 01:47:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6939BC433C8;
+	Tue, 29 Aug 2023 01:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693220020;
-	bh=8y/hwaWZhfTwXqVb1vUtDbs/7ky9ROf0YKU/PGn71Ik=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=T5j0eBQntJzwvDlqaqafpNhZ7NtzgrX0MWsTqCHGZrjev7v3zq7XOca3VECjGpfSv
-	 onpvEcUK3CciDVTzwrC7ZviuyELHkZFVAlY5GmW5VQtTmG9YkxxAwbrHKAhGvZkygW
-	 5OBr0moVPwgUN55bhKJY2waXq4UoXBZ+oW5+zD+TRBtS6zxVfk0/XIdGPBxE8xMi2z
-	 NmaT6tY5X8p7Y2ZSAoxI16grs64OHKofyVx48AM9FA5lKG3ZBFw1XeRk72zrkmu+qS
-	 xB0Peb0W4VbllxMAyei6n9lpodJ8o4xFB12768L1DPD08ryLzPoXmaTH4sJKJSnfPk
-	 +K6bZw9HxMp6g==
-Date: Mon, 28 Aug 2023 11:53:59 +0100
-From: Jonathan Cameron <jic23@kernel.org>
+	s=k20201202; t=1693273623;
+	bh=w/1in/SuvVBiDrDDSzO/VSGRfEJeNzrCBRdC2XUd7kk=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=j0t99os5XcVBkxnJNDV/StiwY6pRQjg9Zpg7UbtFJ3wAkwjytmP9bD0FgwyPZWaQn
+	 Gx59abtsTNJMChrHFa9rB3GV2le68MviLj3sQ8T4cNkOPHmIXL6Io8ahLAx6zsnX8W
+	 nq26I57C10Q7j4q8wzF33V5SP4zHh75s07reZmNncfSfh6DIRGUnJPNOMowv+9e9Ye
+	 5T/YZgom7CqfJUQhfTz24kxb+gZGEuu/qlC3/MSPpN3AbEzf+LBEnV5e/kelXvPD/6
+	 8QOjVxMqDaWB9f5tEZek2qXWXu/czWgtjGrET4n5qCIrB2K0o1f7u5EwKmq4AkAe/J
+	 +SJpMaVc7evAg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55BF9C3274C;
+	Tue, 29 Aug 2023 01:47:03 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZOwZVavwRm6PlsXG@google.com>
+References: <ZOwZVavwRm6PlsXG@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ZOwZVavwRm6PlsXG@google.com>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.6
+X-PR-Tracked-Commit-Id: 0820debb7d489e9eb1f68b7bb69e6ae210699b3f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 670f08971c0635275b25756a25a5d0b8d1831536
+Message-Id: <169327362334.21367.9298825278649488004.pr-tracker-bot@kernel.org>
+Date: Tue, 29 Aug 2023 01:47:03 +0000
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, lars@metafoo.de,
- chrome-platform@lists.linux.dev, gwendal@chromium.org,
- linux-iio@vger.kernel.org, dianders@chromium.org, swboyd@chromium.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] iio: cros_ec: fix an use-after-free in
- cros_ec_sensors_push_data()
-Message-ID: <20230828115359.054dc13a@jic23-huawei>
-In-Reply-To: <20230828094339.1248472-1-tzungbi@kernel.org>
-References: <20230828094339.1248472-1-tzungbi@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 28 Aug 2023 17:43:39 +0800
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+The pull request you sent on Mon, 28 Aug 2023 11:49:41 +0800:
 
-> cros_ec_sensors_push_data() reads some `indio_dev` states (e.g.
-> iio_buffer_enabled() and `indio_dev->active_scan_mask`) without holding
-> the `mlock`.
-> 
-> An use-after-free on `indio_dev->active_scan_mask` was observed.  The
-> call trace:
-> [...]
->  _find_next_bit
->  cros_ec_sensors_push_data
->  cros_ec_sensorhub_event
->  blocking_notifier_call_chain
->  cros_ec_irq_thread
-> 
-> It was caused by a race condition: one thread just freed
-> `active_scan_mask` at [1]; while another thread tried to access the
-> memory at [2].
-> 
-> Fix it by acquiring the `mlock` before accessing the `indio_dev` states.
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/industrialio-buffer.c#L1189
-> [2]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c#L198
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC supports FIFO")
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.6
 
-Hi.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/670f08971c0635275b25756a25a5d0b8d1831536
 
-That's an interesting corner case and the comment above the iio_buffer_enabled() call
-at least lets us know why this happens. A normal driver cannot call
-iio_push_to_buffers_with_timestamp() unless the buffer is enabled
-(and hence active_scan_mask is fixed), but here, for convenience the call is made anyway
-if we race such that iio_buffer_enabled() is called and correct says the buffer is
-enabled, but then immediately after that it is at least briefly disabled.
+Thank you!
 
-Now I'm not keen on mlock being touched by a driver because is an internal implementation
-detail.
-
-Can we use iio_device_claim_buffer_mode() here?  I believe that has the right handling
-even though I don't think we've used it to protect iio_push_* before.  Normally it's about
-enforcing we stay in the mode if the read out of a channel needs to be handled differently
-in a read_raw() callback.
-
-if (iio_device_claim_buffer_mode(indio_dev) < 0) {
-	/* Not in buffer mode so fine to drop out - we got -EBUSY*/
-	return 0;
-}
-//Otherwise mlock is held - though that's an implementation detail all we care about is we can't exit buffer mode.
-...
-iio_push_...
-iio_device_release_buffer_mode(indio_dev);
-return 0;
-
-Thanks for the bug report and analysis.
-
-Jonathan
-
-
-
-> ---
->  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> index b72d39fc2434..a514d0dbafc7 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> @@ -182,17 +182,20 @@ int cros_ec_sensors_push_data(struct iio_dev *indio_dev,
->  			      s16 *data,
->  			      s64 timestamp)
->  {
-> +	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
->  	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
->  	s16 *out;
->  	s64 delta;
->  	unsigned int i;
->  
-> +	mutex_lock(&iio_dev_opaque->mlock);
-> +
->  	/*
->  	 * Ignore samples if the buffer is not set: it is needed if the ODR is
->  	 * set but the buffer is not enabled yet.
->  	 */
->  	if (!iio_buffer_enabled(indio_dev))
-> -		return 0;
-> +		goto exit;
->  
->  	out = (s16 *)st->samples;
->  	for_each_set_bit(i,
-> @@ -210,6 +213,8 @@ int cros_ec_sensors_push_data(struct iio_dev *indio_dev,
->  	iio_push_to_buffers_with_timestamp(indio_dev, st->samples,
->  					   timestamp + delta);
->  
-> +exit:
-> +	mutex_unlock(&iio_dev_opaque->mlock);
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

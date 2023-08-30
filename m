@@ -1,135 +1,85 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF7614AAF
-	for <chrome-platform@lists.linux.dev>; Tue, 29 Aug 2023 20:51:12 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-40a47e8e38dso27061cf.1
-        for <chrome-platform@lists.linux.dev>; Tue, 29 Aug 2023 13:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1693342271; x=1693947071; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NeQ6PnT2X5OAN+PUcFdr1liTuB+fdgrOrVYsIp5DUEg=;
-        b=calglTklaXrFPi2+zRNtMAQeNAcU3mIiveS0Tbg2L7LpTHLk2qHB7P1uhtuijcs65b
-         wDHPRESjYyb5iuTXKvrpVcBeDmcmuy/tuHre2j7eMcsnIw8vmCDPydM1Sd4POl2UqMdm
-         +KNrUyX2LuUrFpgqxe+idk6th3YKq6t+jDdHV/u260q/F8sYvuRW3RJ+ec++QXZTYs7x
-         GU3sAvmZTQOLmicZaSi12tAhisd1hdjFDQss9PNs707Vf8HMyv3aFoH8oGybWW+QI5Bj
-         WkZXyJWVZJ08py5gfbB+XIRe9kL1D++jQm1/Gv9q1ylvxHVmezWfszQcXcKzTdlIqOi1
-         hFfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693342271; x=1693947071;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NeQ6PnT2X5OAN+PUcFdr1liTuB+fdgrOrVYsIp5DUEg=;
-        b=Ov2XyQ+2QgMIKMWrGQ3OPqpnK0MGJySbgohSMCjuE7UIhyk4jFq3dR8BdjXWImwdW0
-         71Ga2jMWPUkCaodMpFcHLvu1B0D/1tgfgcflnq8lnhHDF88wtq8ks2fAK/qwD4nxeoM9
-         aY6qmsEketMkS2Z2JfbA5YhoJ8h7h3ub+3VGYvfFlrXb8eqoHLOz+ZYsbrKrROh0y0aW
-         +gpOqOS7A/KtElsCFp8U+VeRVVX1lGEpF7lGrJO26NOlYD08xN3RBkIFjvrnBfax9Dnu
-         56mhJLj13eeefhUrDzsusH5Ev9bx4JXJ/Wl3vqs+xPC41OJ9uSkhzUaSCxIdEV4cNSqB
-         WRJg==
-X-Gm-Message-State: AOJu0YzrhZ8KopH5e9ZHNuwn19BgJzJ38XxUGkkBAXUZYvMSU1/tO9A7
-	WRAwKK/+gHzMEtMINlnC8Eq081nVdLRWmuX+BdtWjQ==
-X-Google-Smtp-Source: AGHT+IHfwvVY+FulDFY6b/mtqjHft/EOuA9DkxgnPhQI6OKdriWUaWzbuOFOUWeZ4mpR5dNcDPzhQcFLTENXWTwM5S0=
-X-Received: by 2002:a05:622a:40f:b0:3fa:3c8f:3435 with SMTP id
- n15-20020a05622a040f00b003fa3c8f3435mr316048qtx.27.1693342271616; Tue, 29 Aug
- 2023 13:51:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5C86FA1
+	for <chrome-platform@lists.linux.dev>; Wed, 30 Aug 2023 22:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693435187; x=1724971187;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ozlbKs9/8vuWngnkgsE28HofCYoMHPiBVL2sCuWw5e4=;
+  b=lgJZhf8C0epGr3IpgSVhleYvOnIA6QIOa3ubHREakZLH/+aGtSoqDz1W
+   OX5fyJ2vDt131TlPXIOxropNE+Rc+2GE+wHIseEX69brAeWXvj8fd0+34
+   cSkHvfo3KmGl5kYK57cIi8y4twQGkLyoTT7WBLb6zid7IojiQcChvdl4I
+   GYzgTzdottQIwnwT9JMTlZXRelumCUbecLki7T6b72oJ1rb/K311neqrc
+   14ELnRhK2eUaAKQsihaFl0t8eNAZxBGSTD6TXNExx3XH6DueWrQN04hdS
+   Oj4GZ1f/t0vxKD6l93fq/ikhGLDTFZN+ekwYo0IMkQzOKMA4Aydfv+LjR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="374677337"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="374677337"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 15:39:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774259643"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="774259643"
+Received: from uhpatel-desk4.jf.intel.com ([10.23.15.97])
+  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2023 15:39:46 -0700
+From: Utkarsh Patel <utkarsh.h.patel@intel.com>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	heikki.krogerus@linux.intel.com,
+	pmalani@chromium.org,
+	chrome-platform@lists.linux.dev
+Cc: andriy.shevchenko@linux.intel.com,
+	bleung@chromium.org,
+	Utkarsh Patel <utkarsh.h.patel@intel.com>
+Subject: [PATCH v2 0/5] Displayport Alternate Mode 2.1 Support
+Date: Wed, 30 Aug 2023 15:39:45 -0700
+Message-Id: <20230830223950.1360865-1-utkarsh.h.patel@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230829030622.1571852-1-tzungbi@kernel.org>
-In-Reply-To: <20230829030622.1571852-1-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 29 Aug 2023 13:50:59 -0700
-Message-ID: <CABXOdTfSXJdAz83t-Ndu+MMVLr3KoB37HG3e8_82eE-WmSAZgg@mail.gmail.com>
-Subject: Re: [PATCH v2] iio: cros_ec: fix an use-after-free in cros_ec_sensors_push_data()
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, jic23@kernel.org, 
-	lars@metafoo.de, chrome-platform@lists.linux.dev, gwendal@chromium.org, 
-	linux-iio@vger.kernel.org, dianders@chromium.org, swboyd@chromium.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 28, 2023 at 8:06=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> cros_ec_sensors_push_data() reads `indio_dev->active_scan_mask` and
-> calls iio_push_to_buffers_with_timestamp() without making sure the
-> `indio_dev` stays in buffer mode.  There is a race if `indio_dev` exits
-> buffer mode right before cros_ec_sensors_push_data() accesses them.
->
-> An use-after-free on `indio_dev->active_scan_mask` was observed.  The
-> call trace:
-> [...]
->  _find_next_bit
->  cros_ec_sensors_push_data
->  cros_ec_sensorhub_event
->  blocking_notifier_call_chain
->  cros_ec_irq_thread
->
-> It was caused by a race condition: one thread just freed
-> `active_scan_mask` at [1]; while another thread tried to access the
-> memory at [2].
->
-> Fix it by calling iio_device_claim_buffer_mode() to ensure the
-> `indio_dev` can't exit buffer mode during cros_ec_sensors_push_data().
->
-> [1]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/industriali=
-o-buffer.c#L1189
-> [2]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/common/cros=
-_ec_sensors/cros_ec_sensors_core.c#L198
->
-> Cc: stable@vger.kernel.org
-> Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC=
- supports FIFO")
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+This series enabels cable identification flow required for Displayport
+Alternate Mode 2.1 support.
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Please add this series to usb-next. 
 
-> ---
-> Changes from v1(https://patchwork.kernel.org/project/linux-iio/patch/2023=
-0828094339.1248472-1-tzungbi@kernel.org/):
-> - Use iio_device_{claim|release}_buffer_mode() instead of accessing `mloc=
-k`.
->
->  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/=
-drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> index b72d39fc2434..6bfe5d6847e7 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> @@ -190,8 +190,11 @@ int cros_ec_sensors_push_data(struct iio_dev *indio_=
-dev,
->         /*
->          * Ignore samples if the buffer is not set: it is needed if the O=
-DR is
->          * set but the buffer is not enabled yet.
-> +        *
-> +        * Note: iio_device_claim_buffer_mode() returns -EBUSY if the buf=
-fer
-> +        * is not enabled.
->          */
-> -       if (!iio_buffer_enabled(indio_dev))
-> +       if (iio_device_claim_buffer_mode(indio_dev) < 0)
->                 return 0;
->
->         out =3D (s16 *)st->samples;
-> @@ -210,6 +213,7 @@ int cros_ec_sensors_push_data(struct iio_dev *indio_d=
-ev,
->         iio_push_to_buffers_with_timestamp(indio_dev, st->samples,
->                                            timestamp + delta);
->
-> +       iio_device_release_buffer_mode(indio_dev);
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
-> --
-> 2.42.0.rc2.253.gd59a3bf2b4-goog
->
+Changes in v2:
+- Added two new patches [PATCH 2/5] and [PATCH 3/5] in to this series.
+- Removed [PATCH 2/4]  platform/chrome: cros_ec: Add Displayport
+  Alternatemode 2.1 feature flag
+- In [PATCH 4/5] Removed feature flag and separate function for DP2.1.
+- In [PATCH 4/5] used cable vdos instead of host commands to get cable
+  details.
+
+Utkarsh Patel (5):
+  usb: typec: Add Displayport Alternate Mode 2.1 Support
+  usb: typec: Add Active or Passive cable defination to cable discover
+    mode VDO
+  usb: pd: Add helper macro to get Type C cable speed
+  platform/chrome: cros_ec_typec: Add Displayport Alternatemode 2.1
+    Support
+  usb: typec: intel_pmc_mux: Configure Displayport Alternate mode 2.1
+
+ drivers/platform/chrome/cros_ec_typec.c  | 31 ++++++++++++++++++++++++
+ drivers/usb/typec/altmodes/displayport.c |  5 +++-
+ drivers/usb/typec/mux/intel_pmc_mux.c    | 24 ++++++++++++++++++
+ drivers/usb/typec/ucsi/displayport.c     |  2 +-
+ drivers/usb/typec/ucsi/ucsi_ccg.c        |  4 +--
+ include/linux/usb/pd_vdo.h               |  1 +
+ include/linux/usb/typec_dp.h             | 28 ++++++++++++++++++---
+ include/linux/usb/typec_tbt.h            |  1 +
+ 8 files changed, 88 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
+

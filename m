@@ -1,211 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735491170F
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Aug 2023 15:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693495478; x=1725031478;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ISnIAiV3sQftjSWrFLSe+1rRrZSVhzSvoVMhGj2UrhE=;
-  b=RwUV/E0DAsAiEcavIdiK1iuk4WBna4CwJlg8rxq0W9PVSJ2IVCH7fHL+
-   ZtqBBoOm3lXztwrUUDw5gClk6fNn2DfKiOzdpibKFyy3Ja3HUO+B3yLdQ
-   FtmhWQiMVswBcSzuNMkmmaXi7fWOkQZ68Xznvt7EPeRtsu+CkbGQnpv5l
-   JA7YaQH6NMwPbYpa+LgLpabwmWMOVeczuWw+bOmwn0LCp2Ueg/Q73B1n4
-   cQbPujRhJejm+k+axTymHwz79YJsWad2rgDoWhOK+pqPQr6oQ8sKYN7FZ
-   gHRjBu34DliIIeupZ+DZxKgnFNXAROfw39CR7Hr2sQc8Xc3OuapH3Rvok
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375918111"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="375918111"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 08:24:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="863124066"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="863124066"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Aug 2023 08:24:37 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 08:24:36 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 08:24:36 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 31 Aug 2023 08:24:36 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 31 Aug 2023 08:24:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kMujJZuI6pbTMIEU4yuUt13ro791/kIoqNHJb7jTvccRnAGqZpbRogYqOfUzRBLJLrGbdy8myVdYKXsgTNKgkreXm7qZqw7Pp2nkj8/wMGULtySdVB+5fmMHaz1cg+C33n3IrbMYZwMJf/8imXXVmUkyjB814jPMFp0HILbqLTUzy8HJMkW//m6Ms4uueCYYOubQ83GepAXNHbvs/JOHugs03+8T+Vw/DENlrkCWlm8BclKQX19G48A20DJJvCDogrYSbHBAnzeac999vaT400/+KPgLOU96eajqTmP6RTNuUIOotv8E2Tt1+CD4hwVSAGXwX3Wv1kCc+cqrqkMeXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pDXxd16qXkgFz+LNeohJN9KL1jOaX5JObMrOWx2xwf4=;
- b=WDN0Sh/e8qXeVNOALkaiwqJpTA+FELq+Z6UFtdTXk588Wc6sv0mUd/pu1yZUhgi10u+g21M8ZQUXtUyHNbD6KF9QDoyUk6Xom1aqUrQ3/zT4T6BQdrClZeaaEIOxpQLw0tDbzHWtvBNelPpu/XpOPpBzhzvByiH1KDt5TR5PLrKxjM6IcqEk2Ec7esqhjplQkEJfbfLdFXtmedoD+hfqFGEInjnmS5DP2SEgnATlQWuBBuMa5wCNqwMv9Eco/XxHHqiuCrjKM7laX0hFJxyD+6sLhJ0rCGj4SwzF2IxxtXMk0+DRbKv23fEYShk/3vZg5zUL3EK6EXU7vkWNNBarSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com (2603:10b6:301:6a::31)
- by DM4PR11MB5517.namprd11.prod.outlook.com (2603:10b6:5:388::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.22; Thu, 31 Aug
- 2023 15:24:34 +0000
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::da4:d67d:40ed:9786]) by MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::da4:d67d:40ed:9786%4]) with mapi id 15.20.6699.035; Thu, 31 Aug 2023
- 15:24:34 +0000
-From: "Patel, Utkarsh H" <utkarsh.h.patel@intel.com>
-To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-	"pmalani@chromium.org" <pmalani@chromium.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
-CC: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"bleung@chromium.org" <bleung@chromium.org>
-Subject: RE: [PATCH v2 4/5] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-Thread-Topic: [PATCH v2 4/5] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-Thread-Index: AQHZ25LloUpSuUlFqEqhUDSvXhP6krAEhr0g
-Date: Thu, 31 Aug 2023 15:24:34 +0000
-Message-ID: <MWHPR11MB0048D87555CACAC4DC7DF1DFA9E5A@MWHPR11MB0048.namprd11.prod.outlook.com>
-References: <20230830223950.1360865-1-utkarsh.h.patel@intel.com>
- <20230830223950.1360865-5-utkarsh.h.patel@intel.com>
-In-Reply-To: <20230830223950.1360865-5-utkarsh.h.patel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB0048:EE_|DM4PR11MB5517:EE_
-x-ms-office365-filtering-correlation-id: 1c6ff42d-f7e3-4584-a7e2-08dbaa366194
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ra0m/CriG1+i689cNe5DgF8d6Uoa8YlkgLTMfdxv0fIvMtyD5vFkCc5Jl9JN/B5dyWnfEjmwKV1tx6BNgagTec/ceADM5KYH1K8JUeKXLqgtGUXnUOKa82693LTTHwDJsxJ21+VoG0aZKsov0Nl4cC6Yizu7zcNwXrs+Pt910uxHE7PY+Cmf+ux9EUrqO348tqdBkkLdIWnIepA0bVjiWnnw64I0FyQjcnjMiiIL68NUuZTl5foUqTBLEbsIusXKEMU5F9sELN/mhYPQ8tp4GXLl7nBOqDrZPqLYGrX0S2y0Zkzdl3G4dwXAbzQuPkcVv8FengZZX58ITm9Yb8nMRkfCEVkmL28vOm6n96sjtPm7b6YI4jlZOHDka3HuAV1PzHb1Es6Fu3bsQc3AC2IPJdWVdpigjwnpfSWdlhLjNXskTuJHVwnNpU2KGvH8DC+vmB67LoPiGOVoB6IgyzfNEJeW7Bicr/8HD32Tdh1dxB+2ViRG6+kq4MCHL0GrRKSBkKwtJQhOQt+rpfRiR3rL5U84gbh7CNkEO8XalF2Sv8+uXtxDug6Ds7J79rtlrUdXd/shlGbAnyEzDWBZen9jX+fIfLUPNLQHZLVOW10OuXBZeu9rUxr69javz2nZG2qQ
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB0048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(376002)(39860400002)(346002)(451199024)(1800799009)(186009)(6506007)(7696005)(2906002)(9686003)(41300700001)(76116006)(110136005)(71200400001)(5660300002)(52536014)(26005)(38070700005)(38100700002)(66946007)(66556008)(66476007)(54906003)(64756008)(66446008)(8676002)(4326008)(316002)(8936002)(82960400001)(122000001)(86362001)(478600001)(33656002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MFagmfKylMI7nW7eeZyM3Tv0wr5M049lSKjWU31F9jvwzuK/gPMuEAFxXNSu?=
- =?us-ascii?Q?5jLxF2tAMNCsr4wYFeyCBi5fRY9aKVZ7rFmSK2MSgdl0bvrkFMwVE5nx71XA?=
- =?us-ascii?Q?SbhV8IC7Wp8sFGmztelDk8x2z8SZBhXprZjeWovHd1SZHQUW7Sg5iskNp6ZA?=
- =?us-ascii?Q?vQJWV1Q29gx1PyDzyBkf28ErwZF7a+WZgO5iLhTcvNKSgZEGCepWnS84q9jT?=
- =?us-ascii?Q?BEPMyFfVZ8TIzWlyAbg/Iqd536Vj0zH1Ekahz+pavxWZiZp12+FSSFDtznDJ?=
- =?us-ascii?Q?gkh8eu6ofCxKpNeDVRV2xPlBofOqWkGQkrojggownesz9EOGDHR/bvJDfiAX?=
- =?us-ascii?Q?h6r3e/lJkLgBH2t9xTJj89B0xxR6r2jpn1rhuuEVBF93HygZDvdKU4fU3d1g?=
- =?us-ascii?Q?ap6VMZxkAFIf+akyc/0pUaMYiqRLBUmUq/9oN7mT3UtQ/ksP0saJpAcFyalq?=
- =?us-ascii?Q?P5zai5sr1IiyeuswllsXpewFhKfVgwkN4uQ0JmskATiijfg2quaEI5YFFTlH?=
- =?us-ascii?Q?7NsVPKlpzTy1aRlX/wRimWWyy1/cMh2rk0e0EkEgyRWOXXTZ3JSBPAc1tRaE?=
- =?us-ascii?Q?4zBS6skiwlWUgqqk+jOzk/fmmPc1tNro2ofRzT2sX2ex3YDf9IbQvfKFPkrT?=
- =?us-ascii?Q?bn7coZ/lCjJc+Bq3Ux004TKKFEULZgLB8S1NxI1N9ASL8xIGfV/ew2oPGdDX?=
- =?us-ascii?Q?UzV5fynz6JoYWRtF6JCrAhBaSe9yHAQE93sWicAkwfKuU4rUpJoauWkXuVzB?=
- =?us-ascii?Q?w1m2C595xMcSqGQlZ/XXiV5f1aWM7+BWA8eNMVT5KNyML5n7DdpTP5iwvPsQ?=
- =?us-ascii?Q?7GRodw2J008RexdaSQEuskca6BI0opRNxUl2DUCo7QL0qji4fd0OkHuEkRx1?=
- =?us-ascii?Q?9CKPw4ZkpYtgjQDmisLnqwk6aIsae/Mh26gQ5ochzvQfY69cJ1U8AV3FoN2U?=
- =?us-ascii?Q?0g5phzExpfqivS2aeKWAA3jVIUrzwcdChrChSUoAbA9YrAViWNFoWMYeKuRH?=
- =?us-ascii?Q?fDRuJK5OPpeJGwEg6DrnwpDS//jYYY5fj6GJQgTUgOptOBhQBRGixCpMQ9vD?=
- =?us-ascii?Q?DLqtqpqzBEXysW1NgxuhWEIPLXxbtaLcFg37xNQVEq4C5AjI6ZeDPzv7BMLt?=
- =?us-ascii?Q?wXbCJoXZLrHoxywYBnmne3m2nkAw3YdkVQFYbVBZuvgo0KMNz6euZMKvlvBD?=
- =?us-ascii?Q?9Ut6Iq+OmhHQrC7Hf3Hj7vr8p3OnW3gp+waSz8HVlLY4sxVEbgdAQdJ5qKyM?=
- =?us-ascii?Q?QkFsFU97uq/RarwCkxgxzZ4Ms+QwOt5dz3PSBvZ8/XWn197XO1gifQMxgM21?=
- =?us-ascii?Q?REwkRW7od7kLzAKKEJx9KZRWbuvmm3PCnv6O7HQWMQdahJQIH/6GoDLco9mZ?=
- =?us-ascii?Q?ENJQAT2zvDkIgSzCos52ZhFefdgYw0PgNOjvBpItEiwPKoc8C/SLqzs+wM0X?=
- =?us-ascii?Q?mJoo9yuUgGECQTeVmFEv5xU7Oksu5G63C0lvgtlIZQMi8UnPt7M1L90lLqYj?=
- =?us-ascii?Q?y37zAWbNbAJrbAcU0SqierAZ2bjaihaXDI5SZLDNcCHbq7lm1C4MNHWBOr8Z?=
- =?us-ascii?Q?oRRWgNyI6+tJbxH52sDNh8kOLN9Y2J1mlqNheg8C?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27747F
+	for <chrome-platform@lists.linux.dev>; Sun,  3 Sep 2023 11:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F239C433C7;
+	Sun,  3 Sep 2023 11:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693740832;
+	bh=hU/XrkQLwtTuX9PLXspmKByAuMPEEhrZQE8CCGu/PNc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MBLARwg/BlsTTKyKRUndXuGXEHvx3mmEJW8T/D039Q4EmtVWkDwFJcVgXt/CnG+vw
+	 iKYopKDjNW5IA4dxmGtJ93yW7PVUUwCRWX51lA9fSyjbRwr0q5EXghlyC/kTP1fVXo
+	 cyOatVSn0ByG/WaNew5XgdAIswO39GLEYYKBcYYnk1gEXmj+iVD60vB2tYc5L/BJIC
+	 vOoiDDavNcOUP90uWefFPtg+yJT2wkfX1eqMZZRk/39vbem1jIB73HGXK50OnBA6mM
+	 0lpBZ6U9tffahDo6cv9gv0IAtLr9GjvJ5FpNhCs4yo+wbpiRdJFhnook8kzCI7kOmC
+	 MvO1zkXgmZcSw==
+Date: Sun, 3 Sep 2023 12:34:17 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guenter Roeck <groeck@google.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
+ groeck@chromium.org, lars@metafoo.de, chrome-platform@lists.linux.dev,
+ gwendal@chromium.org, linux-iio@vger.kernel.org, dianders@chromium.org,
+ swboyd@chromium.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] iio: cros_ec: fix an use-after-free in
+ cros_ec_sensors_push_data()
+Message-ID: <20230903123417.51d09285@jic23-huawei>
+In-Reply-To: <CABXOdTfSXJdAz83t-Ndu+MMVLr3KoB37HG3e8_82eE-WmSAZgg@mail.gmail.com>
+References: <20230829030622.1571852-1-tzungbi@kernel.org>
+	<CABXOdTfSXJdAz83t-Ndu+MMVLr3KoB37HG3e8_82eE-WmSAZgg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c6ff42d-f7e3-4584-a7e2-08dbaa366194
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2023 15:24:34.4662
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g8C4UikZENvfCVE6hDJS93MX+nnUCrA0Xp49pQh9lC6Fi1JTvF2/I9QZg2M61m5DOwewxjLJ1jZdYL6TPYdeR+vXg4MPrFU1Nf9sr8WEPIw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5517
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, 29 Aug 2023 13:50:59 -0700
+Guenter Roeck <groeck@google.com> wrote:
 
->  drivers/platform/chrome/cros_ec_typec.c | 31
-> +++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> On Mon, Aug 28, 2023 at 8:06=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org=
+> wrote:
+> >
+> > cros_ec_sensors_push_data() reads `indio_dev->active_scan_mask` and
+> > calls iio_push_to_buffers_with_timestamp() without making sure the
+> > `indio_dev` stays in buffer mode.  There is a race if `indio_dev` exits
+> > buffer mode right before cros_ec_sensors_push_data() accesses them.
+> >
+> > An use-after-free on `indio_dev->active_scan_mask` was observed.  The
+> > call trace:
+> > [...]
+> >  _find_next_bit
+> >  cros_ec_sensors_push_data
+> >  cros_ec_sensorhub_event
+> >  blocking_notifier_call_chain
+> >  cros_ec_irq_thread
+> >
+> > It was caused by a race condition: one thread just freed
+> > `active_scan_mask` at [1]; while another thread tried to access the
+> > memory at [2].
+> >
+> > Fix it by calling iio_device_claim_buffer_mode() to ensure the
+> > `indio_dev` can't exit buffer mode during cros_ec_sensors_push_data().
+> >
+> > [1]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/industria=
+lio-buffer.c#L1189
+> > [2]: https://elixir.bootlin.com/linux/v6.5/source/drivers/iio/common/cr=
+os_ec_sensors/cros_ec_sensors_core.c#L198
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when =
+EC supports FIFO")
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org> =20
 >=20
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c
-> b/drivers/platform/chrome/cros_ec_typec.c
-> index d0b4d3fc40ed..8372f13052a8 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -492,6 +492,8 @@ static int cros_typec_enable_dp(struct
-> cros_typec_data *typec,  {
->  	struct cros_typec_port *port =3D typec->ports[port_num];
->  	struct typec_displayport_data dp_data;
-> +	u32 cable_tbt_vdo;
-> +	u32 cable_dp_vdo;
->  	int ret;
->=20
->  	if (typec->pd_ctrl_ver < 2) {
-> @@ -524,6 +526,35 @@ static int cros_typec_enable_dp(struct
-> cros_typec_data *typec,
->  	port->state.data =3D &dp_data;
->  	port->state.mode =3D TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
->=20
-> +	/* Get cable VDO for cables with DPSID to check DPAM2.1 is
-> supported */
-> +	cable_dp_vdo =3D cros_typec_get_cable_vdo(port,
-> USB_TYPEC_DP_SID);
-> +
-> +	/**
-> +	 * Get cable VDO for thunderbolt cables and cables with DPSID but
-> does not
-> +	 * support DPAM2.1.
-> +	 */
-> +	cable_tbt_vdo =3D cros_typec_get_cable_vdo(port,
-> USB_TYPEC_TBT_SID);
-> +
-> +	if (cable_dp_vdo & DP_CAP_DPAM_VERSION) {
-> +		dp_data.conf |=3D cable_dp_vdo;
-> +	} else if (cable_tbt_vdo) {
-> +		u8 cable_speed =3D TBT_CABLE_SPEED(cable_tbt_vdo);
-> +
-> +		dp_data.conf |=3D cable_speed <<
-> DP_CONF_SIGNALLING_SHIFT;
-> +
-> +		/* Cable Type */
-> +		if (cable_tbt_vdo & TBT_CABLE_OPTICAL)
-> +			dp_data.conf |=3D DP_CONF_CABLE_TYPE_OPTICAL <<
-> DP_CONF_CABLE_TYPE_SHIFT;
-> +		else if (cable_tbt_vdo & TBT_CABLE_RETIMER)
-> +			dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_TIMER <<
-> DP_CONF_CABLE_TYPE_SHIFT;
-> +		else if (cable_tbt_vdo & TBT_CABLE_ACTIVE_PASSIVE)
-> +			dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_DRIVER
-> << DP_CONF_CABLE_TYPE_SHIFT;
-> +	} else if (PD_IDH_PTYPE(port->c_identity.id_header) =3D=3D
-> IDH_PTYPE_PCABLE) {
-> +		u8 cable_speed =3D VDO_CABLE_SPEED(port-
-> >c_identity.vdo[0]);
+> Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Applied to the fixes-togreg branch of iio.git.  Note I'll be rebasing that =
+tree on rc1 before
+I send a pull request. So this will take a week or two to go upstream.
 
-I have wrong macro name here, will correct it in next version.
-It should be VDO_TYPEC_CABLE_SPEED.=20
+Thanks,
 
-Sincerely,
-Utkarsh Patel.=20
+Jonathan
+>=20
+> > ---
+> > Changes from v1(https://patchwork.kernel.org/project/linux-iio/patch/20=
+230828094339.1248472-1-tzungbi@kernel.org/):
+> > - Use iio_device_{claim|release}_buffer_mode() instead of accessing `ml=
+ock`.
+> >
+> >  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c =
+b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> > index b72d39fc2434..6bfe5d6847e7 100644
+> > --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> > +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> > @@ -190,8 +190,11 @@ int cros_ec_sensors_push_data(struct iio_dev *indi=
+o_dev,
+> >         /*
+> >          * Ignore samples if the buffer is not set: it is needed if the=
+ ODR is
+> >          * set but the buffer is not enabled yet.
+> > +        *
+> > +        * Note: iio_device_claim_buffer_mode() returns -EBUSY if the b=
+uffer
+> > +        * is not enabled.
+> >          */
+> > -       if (!iio_buffer_enabled(indio_dev))
+> > +       if (iio_device_claim_buffer_mode(indio_dev) < 0)
+> >                 return 0;
+> >
+> >         out =3D (s16 *)st->samples;
+> > @@ -210,6 +213,7 @@ int cros_ec_sensors_push_data(struct iio_dev *indio=
+_dev,
+> >         iio_push_to_buffers_with_timestamp(indio_dev, st->samples,
+> >                                            timestamp + delta);
+> >
+> > +       iio_device_release_buffer_mode(indio_dev);
+> >         return 0;
+> >  }
+> >  EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
+> > --
+> > 2.42.0.rc2.253.gd59a3bf2b4-goog
+> > =20
 

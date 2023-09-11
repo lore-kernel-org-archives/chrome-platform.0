@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932EA15C1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932B119C
 	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33F13C433CA;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 27C7EC433C8;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1694406700;
-	bh=SIw+eSue1UFQn2baY3FEXr3ZjMwGMuRitqiE1h/CVaA=;
+	bh=hCZNy5nnJJEKpjdwvb3ZA53uXt3DRe1CFgiAoexjyDM=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=YpVSARz5QIelhij6aEq5scnc7jfGoaP7WDmjVISeBUbXXkQkQFFUWLwbqhmWiHAJH
-	 n6HdbeQwk7BXLDwrFDwwjBncAFqZK9v9hxBmzRwY+r5OMlQREOTL6h8GCiDARITMEY
-	 f94caQ2KGFV8qNsWkOQErc1dhETbB9+eDylGkT8+ihwub03elH904ko+TFzM0whqfR
-	 NEvzwM4w/W77Tm+qVZbTNxHitdEhdQjXdwA+lEkQw9Cbd7a/VU0mrIKfgJ87Z+uqC0
-	 iskML5clmVLaHG7J4zpT5yckb3gtuLTtf7drAD8hY1gNEK0mxNMj5OzBYKL1mrOwfu
-	 ebfGyYxieqJpw==
+	b=nHybS8EDNBwHjDkmigXeTZfu8QY/IR3YRVDPwsR4HxiWQP2pJ+S94qPrYB2RnlFGe
+	 GFIOddV0VTlAWQ+CCi3X0Sh7m5ckn5AJs813IiMx3gxY+np+AlT9cfw8PM+KHlWtY4
+	 rZzyevqUfy41q8cGUvIvfRlNppYKhiK1NyxYidhQ3i0c6r3RXu38LnQOSE4kxagWlR
+	 gS1higVCMfbe2lwIq8lYol62fJX1WObZlvOnl/+i7GDwwoSVNycfRt6HKehi8gMp8V
+	 d5TEitR2YeFgEeoY4v4oOSnep+nDiqO2fM077tSBgSdw04BbE2LJpZYw8+QI2Y0Oyz
+	 +Hfb1TgEPtssw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1A4CDE21EC0;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1066EC64459;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,42 +26,37 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] dt-bindings: usb: connector: disallow additional
- properties
+Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for cros_ec_command
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670010.22573.6344198116849570684.git-patchwork-notify@kernel.org>
+ <169440670006.22573.13274283826527276324.git-patchwork-notify@kernel.org>
 Date: Mon, 11 Sep 2023 04:31:40 +0000
-References: <20230725102325.76336-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230725102325.76336-1-krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, bleung@chromium.org, groeck@chromium.org,
- agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
- gregkh@linuxfoundation.org, pmalani@chromium.org, waynec@nvidia.com,
- devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org
+References: <20230630143719.1513906-1-yguoaz@gmail.com>
+In-Reply-To: <20230630143719.1513906-1-yguoaz@gmail.com>
+To: yguoaz <yguoaz@gmail.com>
+Cc: tzungbi@kernel.org, jic23@kernel.org, lars@metafoo.de,
+ bleung@chromium.org, groeck@google.com, dianders@chromium.org,
+ mazziesaccount@gmail.com, gwendal@chromium.org, linux-iio@vger.kernel.org,
+ chrome-platform@lists.linux.dev
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Rob Herring <robh@kernel.org>:
+by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
 
-On Tue, 25 Jul 2023 12:23:25 +0200 you wrote:
-> USB connector bindings is complete, thus no additional properties should
-> be allowed.  Add missing 'reg' property and change additionalProperties
-> to false, so the schema will check for anything not unexpected.  This
-> also allows to drop the 'reg' from other bindings referencing the
-> usb-connector.yaml and make it required.
+On Fri, 30 Jun 2023 22:37:19 +0800 you wrote:
+> The struct cros_ec_command contains several integer fields and a
+> trailing array. An allocation size neglecting the integer fields can
+> lead to buffer overrun.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] dt-bindings: usb: connector: disallow additional properties
-    https://git.kernel.org/chrome-platform/c/e251a4e28a27
+  - [v3] iio: cros_ec: Fix the allocation size for cros_ec_command
+    https://git.kernel.org/chrome-platform/c/8a4629055ef5
 
 You are awesome, thank you!
 -- 

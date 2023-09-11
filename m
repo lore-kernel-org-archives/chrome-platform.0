@@ -1,126 +1,103 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE1223CC
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 06:40:40 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-26d1e5f2c35so3245514a91.2
-        for <chrome-platform@lists.linux.dev>; Sun, 10 Sep 2023 23:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1694414440; x=1695019240; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=2FIOkW0V8nC3t/Fq1XQHCvwf6T7O1lajrMJbs8WFoUA=;
-        b=Zmk/hGmIPwiBt5J10HqL4/lYaubxD1izXpUnM9A26bp2D40+0YZ9dafU2az/DTc3qJ
-         8uI4EkC9PgED/NCAbKiCiWU4t9uykgDDbXiIb1CddwptndBPzRUuiKwLKs5UQGn3uVLe
-         Sh7jEfsBZ+X+S8+Q0I0HbKQjaOxYceXFyxTmOxpuZjhjqwUDoP9chbYBZCAnbW26qrmJ
-         uxIaa9NY6TFRvYUFWOFuhAA5JpySPXECCl/z9JsssWA3k7Hx1EDhi1ySPy4aX9nT46Lt
-         fnEsZZr7Do3HEJZm1nHXoB9mbZ44KdIcXZ6Rkwwz/9q753SUMqwu9zApTV0Xt/8yRbBZ
-         T8RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694414440; x=1695019240;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2FIOkW0V8nC3t/Fq1XQHCvwf6T7O1lajrMJbs8WFoUA=;
-        b=pekYhekULJOoUpPW5WGdcSwjNJYVqeLfwj0/nJ90EeBGS0HS+YdTq6XnyFbHkoUQsZ
-         cuXSaDnTphbBfRqvVV99nzHKXreASMukvetOU+0h/ggIW2H9lghN0jKxIxsZnrlFvmyX
-         T6SnQHI/lHEnImguCf0Io+Eoy1G6uslgdfGDyZBFJNmQaEUisMAXZ6yPuAfy1ewdd8NT
-         zLeJvTwqRHL93ov8e3i1CwCpX5/4+33WHpQbGr7Gx7VFmwiNrWwGO5BeXWpAEWtp3K7H
-         yvGEAOPSHty4mT4O5BKEk2V2EXbTowQlfsJQVBHZpwVHU35mVrNiK7kR+fg3y/SO5tdJ
-         uoVw==
-X-Gm-Message-State: AOJu0YzfZGIN62FsmUDeJo2hFGMOeWJZTwKZArgMsF1IZPYpOpod+5v4
-	ZlIu/tKT7MQcpDvh74a1otYpWg==
-X-Google-Smtp-Source: AGHT+IGuhwidzwWp5VmtmeSmx2nMGrWuGyvYcjas/5/fdCjPW8KW+YXC9lyN1xvQ3qFp+v5C3D9apQ==
-X-Received: by 2002:a17:90b:3a90:b0:268:4485:c868 with SMTP id om16-20020a17090b3a9000b002684485c868mr6917191pjb.49.1694414439861;
-        Sun, 10 Sep 2023 23:40:39 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d24-20020a17090ac25800b0026b30377c14sm4921097pjx.6.2023.09.10.23.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 23:40:39 -0700 (PDT)
-Message-ID: <64feb667.170a0220.15c23.adf2@mx.google.com>
-Date: Sun, 10 Sep 2023 23:40:39 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C360D188
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 07:19:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qfbCc-0003Rt-OL; Mon, 11 Sep 2023 09:19:22 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qfbCc-005Ugm-BH; Mon, 11 Sep 2023 09:19:22 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qfbCb-000bT0-LW; Mon, 11 Sep 2023 09:19:21 +0200
+Date: Mon, 11 Sep 2023 09:19:21 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: patchwork-bot+chrome-platform@kernel.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>
+Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
+Message-ID: <20230911071921.6dhadiqmfpedqxvy@pengutronix.de>
+References: <20230714174852.4062251-1-robh@kernel.org>
+ <169440670019.22573.2422972280084635660.git-patchwork-notify@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bbuuoqwymefnkym6"
+Content-Disposition: inline
+In-Reply-To: <169440670019.22573.2422972280084635660.git-patchwork-notify@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+
+
+--bbuuoqwymefnkym6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-firmware-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.6-rc1
-Subject: chrome-platform/for-firmware-kernelci cros-ec: 8 runs,
- 1 regressions (v6.6-rc1)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci cros-ec: 8 runs, 1 regressions (v6.6-=
-rc1)
+Hello,
 
-Regressions Summary
--------------------
+On Mon, Sep 11, 2023 at 04:31:40AM +0000, patchwork-bot+chrome-platform@ker=
+nel.org wrote:
+> This patch was applied to chrome-platform/linux.git (for-kernelci)
+> by Thierry Reding <thierry.reding@gmail.com>:
+>=20
+> On Fri, 14 Jul 2023 11:48:50 -0600 you wrote:
+> > The DT of_device.h and of_platform.h date back to the separate
+> > of_platform_bus_type before it as merged into the regular platform bus.
+> > As part of that merge prepping Arm DT support 13 years ago, they
+> > "temporarily" include each other. They also include platform_device.h
+> > and of.h. As a result, there's a pretty much random mix of those include
+> > files used throughout the tree. In order to detangle these headers and
+> > replace the implicit includes with struct declarations, users need to
+> > explicitly include the correct includes.
+> >=20
+> > [...]
+>=20
+> Here is the summary with links:
+>   - pwm: Explicitly include correct DT includes
+>     https://git.kernel.org/chrome-platform/c/0a41b0c5d97a
+>=20
+> You are awesome, thank you!
 
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
-chromebook | 1          =
+It's a bit strange to get this notification given that this patch was
+applied via the pwm tree and only made it into the
+chrome-platform/linux.git repo via an update to v6.6-rc1.
 
+It's not a big problem, but if such mail could be suppressed that would
+be nice.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
-re-kernelci/kernel/v6.6-rc1/plan/cros-ec/
+Thanks
+Uwe
 
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-firmware-kernelci
-  Describe: v6.6-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
+--bbuuoqwymefnkym6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmT+v3gACgkQj4D7WH0S
+/k7XPQf/anQ6vlB0uEF5CmCQwzYikHQwTbvnK2tKGA9G3nw6wEIW8ss61ez4jFWZ
+DQ75loTIlF91uC59ZDYxyaL2i2iZFnisMi1hvAbevBA2Z/3b6T5Bcl/prartKxGX
+6IooL+RTaTgJKVwYqauIWIvO3/4synIpsF3YGlD8tZz4vyC4abTDaLPFFXfPE2vb
+h+UVzRT6eQfK94R7W/pP2u9vPLgR6OPAsv6t/z1bXHMU0FokJaOzQSt1sfXaHxUa
+tB8QnrbOQ1StunbalXmqBVdByNupbzAWJX6QipN4BjZ28w1HDs1XunFR/dRifmIo
+lGmG8LVNpr1wKeDktDi68Mtphwtxcg==
+=i3rg
+-----END PGP SIGNATURE-----
 
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64fe9f8da360be92af286d7c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
-a/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
-a/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230623.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/64fe9f8da360be92af286d=
-7d
-        new failure (last pass: v6.5-rc1-1-g0979e7e3cfd7) =
-
- =20
+--bbuuoqwymefnkym6--

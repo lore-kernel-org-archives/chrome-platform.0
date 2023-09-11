@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15931FB8
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 381B6C433C9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08F520EB;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 593E7C43395;
 	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1694407740;
-	bh=k/bNi/wtdyxwTWNBDji8wt1vn0oeEotNhCNoMtybfaQ=;
+	bh=4lLgVJb3LOG8DBSrlEzmuFBXuW0+M3lIby4bathQEJQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=YV/ZXBdXjcjmEC3+xTUZmJVdpi9v3HzazWfeMfa0JuauXfk99Ox0gNDAZFnEZx678
-	 XyH5HQhZ5ClXhwqhVPgUWdPYgfnfDsQRbg7J27e24Cbql5wx4S27UhjMD5KvTS5b36
-	 6mvlvWppdOXqwa44EIHaQdMp1+6MgRa9IVcheIlaMTYGN1Tpk7RxUqSzEpGYElwkMd
-	 A4q3qkTp6rK+xv1vuOU216pMEwTQKbQkpJPYT7n5kXK/F6SJ0fWq+IOHecTORUm1Vg
-	 +m/ZDpt38pc+H3x+O5EBJIuJCA7TqJa7zbhGBkc5X7q3ZSiy0T0iDSZPVsSvIvJbL6
-	 mrVWq7r9Q2A9g==
+	b=C6/eNd9fiXyxGRt5Q8ahEQOhSgCzOfaDjiTl1H8jdUB7+nyLMvI8Z8jnvHGjBdQ49
+	 pDudL3FXplQYq7jTK8HLgIy9ITXlxnbVaDIU/4PMDDSn6qJkGjrWtox5bdK/GK3F5p
+	 C4G4DS2Wf1CiQbnf16oHi2/OLxkMc9s/eBeQrSQGCwpUsCE1in9Is3GDGfvYRWlM/7
+	 2tlXMXWIRD3zJvcrlFXk8QeGnir5Z0kGUyv09GiSS8f+5ARo1lX8qkv1qJbHYp6gz6
+	 YuEAVFmOzlKTCXnu+2B+mWUy9DGN2PXOf9rTw2PXn8k2N7iypmSeDiYERSZBfuV9XL
+	 EZljecptFgb1A==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1F080C64459;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3D213E21EC1;
 	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,37 +26,55 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] iio: cros_ec: Fix the allocation size for cros_ec_command
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440774012.22573.2546469868468555437.git-patchwork-notify@kernel.org>
+ <169440774024.22573.12945048122079663648.git-patchwork-notify@kernel.org>
 Date: Mon, 11 Sep 2023 04:49:00 +0000
-References: <20230630143719.1513906-1-yguoaz@gmail.com>
-In-Reply-To: <20230630143719.1513906-1-yguoaz@gmail.com>
-To: yguoaz <yguoaz@gmail.com>
-Cc: tzungbi@kernel.org, jic23@kernel.org, lars@metafoo.de,
- bleung@chromium.org, groeck@google.com, dianders@chromium.org,
- mazziesaccount@gmail.com, gwendal@chromium.org, linux-iio@vger.kernel.org,
- chrome-platform@lists.linux.dev
+References: <20230714174852.4062251-1-robh@kernel.org>
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+ marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@microchip.com, bleung@chromium.org, groeck@chromium.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, paul@crapouillou.net, vz@mleia.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, conor.dooley@microchip.com,
+ daire.mcnamara@microchip.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, michael@walle.cc, orsonzhai@gmail.com,
+ baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, hammerh0314@gmail.com,
+ jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
+ devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Fri, 30 Jun 2023 22:37:19 +0800 you wrote:
-> The struct cros_ec_command contains several integer fields and a
-> trailing array. An allocation size neglecting the integer fields can
-> lead to buffer overrun.
-> 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
+On Fri, 14 Jul 2023 11:48:50 -0600 you wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v3] iio: cros_ec: Fix the allocation size for cros_ec_command
-    https://git.kernel.org/chrome-platform/c/8a4629055ef5
+  - pwm: Explicitly include correct DT includes
+    https://git.kernel.org/chrome-platform/c/0a41b0c5d97a
 
 You are awesome, thank you!
 -- 

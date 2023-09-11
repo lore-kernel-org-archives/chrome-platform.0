@@ -1,44 +1,44 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D34420EB
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 05:12:23 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-570a432468bso3547514a12.0
-        for <chrome-platform@lists.linux.dev>; Sun, 10 Sep 2023 22:12:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC87259A
+	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 05:55:40 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-68c576d35feso3899542b3a.2
+        for <chrome-platform@lists.linux.dev>; Sun, 10 Sep 2023 22:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1694409143; x=1695013943; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1694411740; x=1695016540; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mMiy6eJvKyQ2/LEX+g5Ksa+EwlVGyIrphe7JEk3ZzT8=;
-        b=ffJ6VKY7YrlYV8NIKZwyViTi8Qcwj4g3cTV2wn193n30hFMlgz+Ty0V3Ttp2s+cbUp
-         wAOjbAVfzOc1EBaDyI7+ZfJRphKCRzpowiEpxLlKIF89jj+idgBFW3ADJhH2miWfb7+S
-         FGs0LMXiMRpVxDhDsEfCcmDGfEMOtrGp5Ano68HTmhwi1/zR47RnST3FNQUVvrIHPT+r
-         ANdZAhAdZq3/lhRBI/nwRq5QoSy+BRpPE/v/ioVt6RTo+Sg5reLF3yal4Rnil7sKhyh7
-         Xq78Z5qFpqLZ9TRVUbTsOXFnfSB3vlzy02lAeDfsY/5YB650Jy/TeHuC1vTJ2nO6OMsS
-         9nTw==
+        bh=qMTtPsPdRiqEj3AybTc8Sf+K2GmTb0qa5qsHWDr38Lc=;
+        b=xZ7/QOt6VV2rD/Qb/uT9pvQGx02GmgHmeV7IVDiPRFs4U+Y9coRLaF6OhdEhcaPNqa
+         X0wnAO7KLMHxzel9oNcFjWTlI3rGx5e/ULeBPx8ZugQgZFFUyzknJ3c0hJt3U20GIHDm
+         3ykE1tRFch1WeyIaYSqMdUnjL4yNvqAyyafsqUNQkvA5gU9JuBcsgUcZpfaTOKTPa9G8
+         OCDIY37UgTb1D5O4HSz6y764J1edfTtihBywNmYss1N13qsr9j/WuGtGnkWsdccyadG7
+         oKLx0rjoHsntC0YOPil3Y1ZU5YirnwmylEhU460AUSeW2hoaDofznVT9CbuJ9wRVPJQQ
+         qSyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694409143; x=1695013943;
+        d=1e100.net; s=20230601; t=1694411740; x=1695016540;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mMiy6eJvKyQ2/LEX+g5Ksa+EwlVGyIrphe7JEk3ZzT8=;
-        b=CAndDFWOs/hSa1CSwc5tdIQfDcmLzM27YS91mICm0m7TPr2HyMS4Nxgf01QUU7S8+V
-         44fWcZhP5ikjTJ7dVPYwpTZnkWBrVvYcLKwxGrHUE7UWNGrg/ej0D2BOASSkvrfteadA
-         kp+FM04/J9AMpnLWOfWfPAQlK8YG4Pepqn4NWG0oVgYW+21aBtK9lQSsi5yQmfrdSDBi
-         Sst/D2m3Txceld4FBApniSKi593bORwKv9BbosiSDVuyuYUUMNQzFWNi4sJ+0ZPtkzET
-         Oi6kAUQ8OyWPdWaHK4fAAVy8JXso91Um6dzqpac5WzaNj9Vi22uCukc9OHkRBpvvYWDG
-         HiDQ==
-X-Gm-Message-State: AOJu0YzzWBU9mYDfsxgMDsCD2o8K7Go5M7adYyaJZocDnPTPpNjRiOaO
-	IIWKbMl/ziWLfVg8THS5GgNU0w==
-X-Google-Smtp-Source: AGHT+IEAfI7+KFIZAgTJEH9Ld/ZfHNCj+cyY8/iVsjYrK1x0jjtkG8ttBOopyh4vDedOzHjLO6mZcw==
-X-Received: by 2002:a17:90a:fa0c:b0:26b:535e:fc12 with SMTP id cm12-20020a17090afa0c00b0026b535efc12mr12310749pjb.7.1694409143158;
-        Sun, 10 Sep 2023 22:12:23 -0700 (PDT)
+        bh=qMTtPsPdRiqEj3AybTc8Sf+K2GmTb0qa5qsHWDr38Lc=;
+        b=PyWOeFz8qzcI0FpTOdlgiXyCsXWfWxS0KSLX1hK4YKkIQMhk2E2fkPEf2WSAJrKzZ4
+         A+RfZqHOt6spLrSbuIEW0WxS6Sg57vhSQJLaCb/VSzx44alEwd/x5So0WILrMsyNuDYo
+         RSOdThIoU2is80Dv7wBzvejjRe0iTSpmahzz2ocZHmTE+ciMGA0r5M8WLKyVXbdjEchD
+         byfoYhMq6OvmcD/IA4SJUsBsnl9tkDRRRxwgpJ5GJ9/bUJVRqmHPlDR4npJ/lqwvhj6Q
+         FfMWwmilbuONRF0ix9RxLDc9QtxIvBNLYwOgRu/1RhURbAbPSN5Z0HUUoNYVp3cvrvK2
+         f8Kw==
+X-Gm-Message-State: AOJu0Yz14irKHGh1v2hU/eVfJcxcEtJVUHaPDLfQrIX7b8oxDc3h0+UY
+	7KYI18ixfT9q6eP48jX0Gq25QA==
+X-Google-Smtp-Source: AGHT+IHwI0BptHI1samq3IqEv9MKzAzRubDSfhbhNHOf3xZ6UhD0EIhbQtBYFEpHX0Svoi/3lLZMQg==
+X-Received: by 2002:a05:6a21:6d98:b0:148:3c72:4878 with SMTP id wl24-20020a056a216d9800b001483c724878mr12104295pzb.50.1694411740305;
+        Sun, 10 Sep 2023 22:55:40 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id s1-20020a17090ae68100b0026b4d215627sm4763905pjy.21.2023.09.10.22.12.21
+        by smtp.gmail.com with ESMTPSA id h2-20020a170902748200b001b9d8688956sm5485022pll.144.2023.09.10.22.55.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 22:12:22 -0700 (PDT)
-Message-ID: <64fea1b6.170a0220.9d520.a6d8@mx.google.com>
-Date: Sun, 10 Sep 2023 22:12:22 -0700 (PDT)
+        Sun, 10 Sep 2023 22:55:39 -0700 (PDT)
+Message-ID: <64feabdb.170a0220.fc2c2.ce41@mx.google.com>
+Date: Sun, 10 Sep 2023 22:55:39 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -49,60 +49,230 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Branch: for-firmware-kernelci
 X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: build
+X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v6.6-rc1
-Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.6-rc1)
+Subject: chrome-platform/for-firmware-kernelci baseline: 76 runs,
+ 3 regressions (v6.6-rc1)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed, 5 passed (=
-v6.6-rc1)
+chrome-platform/for-firmware-kernelci baseline: 76 runs, 3 regressions (v6.=
+6-rc1)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-kernelci/kernel/v6.6-rc1/
+Regressions Summary
+-------------------
 
-Tree: chrome-platform
-Branch: for-firmware-kernelci
-Git Describe: v6.6-rc1
-Git Commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+platform             | arch   | lab           | compiler | defconfig       =
+             | regressions
+---------------------+--------+---------------+----------+-----------------=
+-------------+------------
+acer-R721T-grunt     | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+hp-11A-G6-EE-grunt   | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
 
-Detailed per-defconfig build reports:
+hp-14-db0003na-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
+re-kernelci/kernel/v6.6-rc1/plan/baseline/
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-firmware-kernelci
+  Describe: v6.6-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      0bb80ecc33a8fb5a682236443c1e740d5c917d1d =
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
-0 warnings, 0 section mismatches
 
----
-For more info write to <info@kernelci.org>
+Test Regressions
+---------------- =
+
+
+
+platform             | arch   | lab           | compiler | defconfig       =
+             | regressions
+---------------------+--------+---------------+----------+-----------------=
+-------------+------------
+acer-R721T-grunt     | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/64fe9e67fc886b2b81286daf
+
+  Results:     18 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-acer-R721T-grunt.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-acer-R721T-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/64fe9e68fc886b2b81286dc4
+        new failure (last pass: v6.5-rc1-1-g0979e7e3cfd7)
+
+    2023-09-11T04:57:59.675037  + <8>[   10.636979] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 11491707_1.4.2.3.1>
+
+    2023-09-11T04:57:59.675730  set +x
+
+    2023-09-11T04:57:59.783535  / # #
+
+    2023-09-11T04:57:59.885685  export SHELL=3D/bin/sh
+
+    2023-09-11T04:57:59.886405  #
+
+    2023-09-11T04:57:59.988034  / # export SHELL=3D/bin/sh. /lava-11491707/=
+environment
+
+    2023-09-11T04:57:59.988807  =
+
+
+    2023-09-11T04:58:00.090518  / # . /lava-11491707/environment/lava-11491=
+707/bin/lava-test-runner /lava-11491707/1
+
+    2023-09-11T04:58:00.091619  =
+
+
+    2023-09-11T04:58:00.096312  / # /lava-11491707/bin/lava-test-runner /la=
+va-11491707/1
+ =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform             | arch   | lab           | compiler | defconfig       =
+             | regressions
+---------------------+--------+---------------+----------+-----------------=
+-------------+------------
+hp-11A-G6-EE-grunt   | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/64fe9e4d0b7163c595286d89
+
+  Results:     18 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-hp-11A-G6-EE-grunt.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-hp-11A-G6-EE-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/64fe9e4d0b7163c595286d9e
+        new failure (last pass: v6.5-rc1-1-g0979e7e3cfd7)
+
+    2023-09-11T04:58:44.582478  + <8>[   10.698630] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 11491690_1.4.2.3.1>
+
+    2023-09-11T04:58:44.582589  set +x
+
+    2023-09-11T04:58:44.687619  / # #
+
+    2023-09-11T04:58:44.788319  export SHELL=3D/bin/sh
+
+    2023-09-11T04:58:44.788532  #
+
+    2023-09-11T04:58:44.889042  / # export SHELL=3D/bin/sh. /lava-11491690/=
+environment
+
+    2023-09-11T04:58:44.889235  =
+
+
+    2023-09-11T04:58:44.989772  / # . /lava-11491690/environment/lava-11491=
+690/bin/lava-test-runner /lava-11491690/1
+
+    2023-09-11T04:58:44.990084  =
+
+
+    2023-09-11T04:58:44.994892  / # /lava-11491690/bin/lava-test-runner /la=
+va-11491690/1
+ =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform             | arch   | lab           | compiler | defconfig       =
+             | regressions
+---------------------+--------+---------------+----------+-----------------=
+-------------+------------
+hp-14-db0003na-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...=
+6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/64fe9e60fc886b2b81286d82
+
+  Results:     18 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-hp-14-db0003na-grunt.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.6-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabor=
+a/baseline-hp-14-db0003na-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/64fe9e60fc886b2b81286d97
+        new failure (last pass: v6.5-rc1-1-g0979e7e3cfd7)
+
+    2023-09-11T04:57:53.431520  + <8>[   10.403175] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 11491725_1.4.2.3.1>
+
+    2023-09-11T04:57:53.431602  set +x
+
+    2023-09-11T04:57:53.535995  / # #
+
+    2023-09-11T04:57:53.636629  export SHELL=3D/bin/sh
+
+    2023-09-11T04:57:53.636800  #
+
+    2023-09-11T04:57:53.737332  / # export SHELL=3D/bin/sh. /lava-11491725/=
+environment
+
+    2023-09-11T04:57:53.737507  =
+
+
+    2023-09-11T04:57:53.838156  / # . /lava-11491725/environment/lava-11491=
+725/bin/lava-test-runner /lava-11491725/1
+
+    2023-09-11T04:57:53.838416  =
+
+
+    2023-09-11T04:57:53.843171  / # /lava-11491725/bin/lava-test-runner /la=
+va-11491725/1
+ =
+
+    ... (12 line(s) more)  =
+
+ =20

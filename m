@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4771FC1
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51BC0C433D9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4838F20EB;
+	Mon, 11 Sep 2023 04:31:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DDE8C43395;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1694406700;
-	bh=ywORlSj6GawSPv5eeF8Ck78YbvBWA+yd3aHPWXh01aE=;
+	bh=pbAerbSrA6wtl03zwwLTf0Gh4fXZYxeyY96kgyZ05tI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=E4vWW9rQGpr5iIGRFaIks4zKgUPJrcb2rHLFzJRulpqQmsOQPwebkk9KyR4Texjgp
-	 wYiEldoVDaeKfNpTyyeu32Y52oUIpx400fmbuU02GHMbThEb6V7+r1sZEv4Y7hDZGn
-	 +S3/YH0iLTiqFxjbcxJTIgv7nvYxeWWBJLpHvhTuAJxpHD7oOesPupEUvoKfe+lJl/
-	 iSbAqpjmHNbDOqWJUkRxyIPzuDjwipbkH5K0Rex7Z45OGUFexEvpP8AzHrsyt4nJqF
-	 2bZwc3fpbMt+WbH4JMJJKXIvme9D4UBwakqr+gikhlFaaab5bte191XGjv0rojeHiv
-	 yMAEm1h3a6w6A==
+	b=QIti3GvauOwy1aj9y3J9zF2jiDuygqmg43kCqbd3Kb3iSGIl+HvKtQm8IasA3LZiA
+	 vsoi333PTEwbjLgLuxGTK9Ofia/GO6zyz5Xem8A62jAXUwzwW0wOpTREiXh0+V6QmC
+	 zQ8q2/BqnZu3wZnsEWPxhLVrUwxNUHNYRXo7WS/Mc8P3GXG4ti/oPpVx/u9zDtQk0M
+	 nHTf+l5re0BnfXig+WBfRsimMgWur9LEyd13k3og7giF6esJxMfrFbyR6ocBf8ltzL
+	 /JivbD2fQyGr1NlX3mICqhzpPbEEXJJDhcwraJZP+bIXBtvPO/WVo+DgJ0fjy7CuJJ
+	 OOQ4GoF5EI1BQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3B939E1F67D;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2FA91E21EC2;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,39 +26,55 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] MAINTAINERS: Add drivers/firmware/google/ entry
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670024.22573.3964370937656058383.git-patchwork-notify@kernel.org>
+ <169440670019.22573.2422972280084635660.git-patchwork-notify@kernel.org>
 Date: Mon, 11 Sep 2023 04:31:40 +0000
-References: <20230724081247.678784-1-tzungbi@kernel.org>
-In-Reply-To: <20230724081247.678784-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, gregkh@linuxfoundation.org,
- chrome-platform@lists.linux.dev, jwerner@chromium.org, swboyd@chromium.org,
- briannorris@chromium.org, dianders@chromium.org, sjg@chromium.org,
- dossym@chromium.org
+References: <20230714174852.4062251-1-robh@kernel.org>
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+ marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@microchip.com, bleung@chromium.org, groeck@chromium.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, paul@crapouillou.net, vz@mleia.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, conor.dooley@microchip.com,
+ daire.mcnamara@microchip.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, michael@walle.cc, orsonzhai@gmail.com,
+ baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, hammerh0314@gmail.com,
+ jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
+ devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Mon, 24 Jul 2023 16:12:47 +0800 you wrote:
-> From: Brian Norris <briannorris@chromium.org>
-> 
-> These are mostly used for Chrome platforms, so group it in with the same
-> mailing list, repo, and (one) committer.
-> 
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> Acked-by: Julius Werner <jwerner@chromium.org>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Fri, 14 Jul 2023 11:48:50 -0600 you wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] MAINTAINERS: Add drivers/firmware/google/ entry
-    https://git.kernel.org/chrome-platform/c/350170cc4cab
+  - pwm: Explicitly include correct DT includes
+    https://git.kernel.org/chrome-platform/c/0a41b0c5d97a
 
 You are awesome, thank you!
 -- 

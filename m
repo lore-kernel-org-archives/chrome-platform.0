@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969F4185D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B569E1FB8;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 21BFEC433C9;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3979EC433CD;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1694406700;
-	bh=HeAxVqUDbuPU8OlsjqH69CvpFFmY4UWq7/M/U9Q7wfg=;
+	bh=UepKFV/RYGBvPBdow3H0Kx6KiHwRlGChrZoa/xUHr6g=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=G85zgQQvJZg1Y5x8UnCyix+l2Yfn+Rogh9QvzeRm5oKG7U7YkZgrNdt1C3AgCbeIM
-	 amofs9m/cffOZH9wjwwpOTybDZQoulvVrk94Nr5MH4SxlxbPPM70twdmGJ6kdEdzhs
-	 k6WNSoqBV8upYywO+aAzkbPpmAnX2Rl84Y2IEbEyDo5lA3w0qTuvwNUESUvO7dcALV
-	 XFFWvb/BnzKJj6gWPjOKY4MrxcSqPBDAZCwcOnS4PypiYAY8rhtUBZXmyHUw7q6VFX
-	 KFKgpwDyWVJq3EX5QmmGA+GkOmL+KczLnAkLKnVQ987HqV1sDhgfou/6d7fGRPn6ng
-	 FkWiamQUpTQRw==
+	b=Lx9qX2N10++hfk0wbyInOwoEda8jSGtqfzDaHtPIys4N4GqOlzXvSj7ZhwEsFwyjP
+	 AimXb0YGhDW4drnaLrnbf8UMfhOekC4fGjyHacUpPHDyv0ZMzDpwmJ5A7RUESvaADn
+	 Mj2iLEs4vjYOUqwD3I8CcZnH/7J9O4E7P2du8TO3vLhgQbUtZwYzQd06/+2LSLbBQT
+	 KYImvYc3MFKWvSynXJO5OdsTPq+bUXjgH3yO5+o2Lf1M3fqRA4r/LBDqYuWkDrRQgY
+	 O7xANpP+sYrQvi3iinG7eOcBBQ0subiQgFVVUOpe9J+2pnElyGSQoWdZ10uk/3z9uU
+	 EPN5NdbrqvX1A==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 03727E1F67E;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 23B43E1F67F;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,55 +26,51 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
+Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670000.22573.14595180245385997034.git-patchwork-notify@kernel.org>
+ <169440670014.22573.14581572371535756981.git-patchwork-notify@kernel.org>
 Date: Mon, 11 Sep 2023 04:31:40 +0000
-References: <20230714174731.4059811-1-robh@kernel.org>
-In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: linus.walleij@linaro.org, lee@kernel.org, thor.thayer@linux.intel.com,
- mani@kernel.org, cristian.ciocaltea@gmail.com, bleung@chromium.org,
- groeck@chromium.org, support.opensource@diasemi.com,
- ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com,
- cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- tony@atomide.com, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, mazziesaccount@gmail.com, orsonzhai@gmail.com,
- baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
- chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-mtd@lists.infradead.org
+References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+ florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
+ bleung@chromium.org, heiko@sntech.de, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, michael@walle.cc, johan@kernel.org,
+ elder@kernel.org, gregkh@linuxfoundation.org, linux-pwm@vger.kernel.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-riscv@lists.infradead.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Lee Jones <lee@kernel.org>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Fri, 14 Jul 2023 11:47:27 -0600 you wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Fri, 14 Jul 2023 22:56:13 +0200 you wrote:
+> while working on an extension for the pwm framework, I noticed that some
+> drivers and even the core only nearly consistently named all variables
+> and struct members holding a pointer to a struct pwm_chip "chip":
+> 
+> $ git grep -Pho 'struct pwm_chip \**[a-z0-9_]+(*nla:[\(a-z0-9_])' v6.5-rc1 | sort | uniq -c | sort -n
+>       1 struct pwm_chip *pwm
+>       1 struct pwm_chip pwm
+>       1 struct pwm_chip pwm_chip
+>       2 struct pwm_chip *_chip
+>       4 struct pwm_chip *c
+>       8 struct pwm_chip *pc
+>      57 struct pwm_chip chip
+>     358 struct pwm_chip *chip
 > 
 > [...]
 
 Here is the summary with links:
-  - mfd: Explicitly include correct DT includes
-    https://git.kernel.org/chrome-platform/c/dc0c386e09a7
+  - [05/10] pwm: cros-ec: Consistenly name pwm_chip variables "chip"
+    https://git.kernel.org/chrome-platform/c/5996cdf132da
 
 You are awesome, thank you!
 -- 

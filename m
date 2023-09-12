@@ -1,30 +1,30 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47962EC3
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Sep 2023 00:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22D0ECC
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Sep 2023 00:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694480291; x=1726016291;
+  t=1694480292; x=1726016292;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rEPVszd2PfLx0DL7ctawFVM+biTkgAmXoll47AaRM6Y=;
-  b=AVgSt+kGMcTe1esKuo3XZOmWgie/N593qpJ1VflndeoYsDLffm+KMj5Z
-   dYBt42lCo/U4NVDcSICEfw8zjGJFZ0rltpyZGG4FubyPM4726Nqzymhv7
-   tVTN4ygP3zJColpddoVKJTuxYLnU5mF9S4v6UD3/iyXOR3B5ATSCnhWNZ
-   sHZQCYeCVjuCbOClia2smLDEKopXrpkCVECfygemxcSyH9BFEdaOls8sr
-   wP0xbKw7rIB9lsAZcwG+9cWKqI8MUr2FGxHPOKWou9APr+WwnGKB1p7L4
-   0YJb1ySEhRJAHQpxYbOd1fqHB3bKFVrUfx2mQyJBBEG3nZNn7M3ChbljK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382057897"
+  bh=Kc+GlouzUtiYUbsus6Ql1LfEI6Wx8KqhqqeipmXgx6E=;
+  b=g/xGU2ZwSEc8nNvtKQyjBDBD3Rbtm3gBH13TR5Jaf8Xp7msvX5SScb+h
+   qF7c3vEjp6HHnCSIhKw4u1peDKXfJ3GVR6mqrKYoUxvKrbbVty4T5ZITm
+   ameLwbEZH0i2xoKnZQGhunMoFId17GH45LbvaABD5EFORSi9TIAk8hns1
+   Kp2dG+WIRj9j/NUnwupisEDla1Eh748ykpfVIl5m1nmKGvA/9A+WpqHeB
+   UrOan+63q2RCbpP769+KUU1soskN7YsE+BA/LtKRIgYf5iFPh2LoM+4EG
+   GqoHAQxs8mM5Dguv/PhtLRG2dBZcdK7ho7gq+wLmVDam5zUrtEyPjlbaI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382057904"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="382057897"
+   d="scan'208";a="382057904"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 17:58:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858570604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858570614"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="858570604"
+   d="scan'208";a="858570614"
 Received: from uhpatel-desk4.jf.intel.com ([10.23.15.200])
   by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 17:58:10 -0700
 From: Utkarsh Patel <utkarsh.h.patel@intel.com>
@@ -36,9 +36,9 @@ Cc: chrome-platform@lists.linux.dev,
 	andriy.shevchenko@linux.intel.com,
 	bleung@chromium.org,
 	Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH v3 1/4] usb: typec: Add Displayport Alternate Mode 2.1 Support
-Date: Mon, 11 Sep 2023 17:57:49 -0700
-Message-Id: <20230912005752.1532888-2-utkarsh.h.patel@intel.com>
+Subject: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displayport Alternatemode 2.1 Support
+Date: Mon, 11 Sep 2023 17:57:51 -0700
+Message-Id: <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230912005752.1532888-1-utkarsh.h.patel@intel.com>
 References: <20230912005752.1532888-1-utkarsh.h.patel@intel.com>
@@ -50,133 +50,88 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Displayport Alternate mode 2.1 requires configuration for additional
-cable details such as signalling for cable, UHBR13.5 Support, Cable type
-and DPAM version.
-These details can be used with mux drivers to configure SOP DP
-configuration for Displayport Alternate mode 2.1.
-This change also includes pertinent cable signalling support in displayport
-alternate mode.
+Displayport Alternatemode 2.1 requires cable capabilities such as cable
+signalling, cable type, DPAM version which then will be used by mux
+driver for displayport configuration. These capabilities can be derived
+from the Cable VDO.
+Added a helper macro to get the Type C cable speed when provided the
+cable VDO.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
 ---
 Changes in v3:
-- No change.
+- Removed use of variable cable_seepd.
+- Added helper macro of pd_vdo.h in this patch as cros_ec_typec is the user.
 
 Changes in v2:
-- No change.
+- Remvoed feature flag specifice to DP2.1.
+- Remvoed seperate function for DP2.1.
+- Removed use of EC host coammnd to get cable details.
+- TBT cable VDO is used to get cable details.
+- Using VDO_CABLE_SPEED macro to get passive cable speed. 
 
- drivers/usb/typec/altmodes/displayport.c |  5 ++++-
- drivers/usb/typec/ucsi/displayport.c     |  2 +-
- drivers/usb/typec/ucsi/ucsi_ccg.c        |  4 ++--
- include/linux/usb/typec_dp.h             | 28 ++++++++++++++++++++----
- 4 files changed, 31 insertions(+), 8 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 28 +++++++++++++++++++++++++
+ include/linux/usb/pd_vdo.h              |  1 +
+ 2 files changed, 29 insertions(+)
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 426c88a516e5..f503cb4cd721 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -86,8 +86,11 @@ static int dp_altmode_notify(struct dp_altmode *dp)
- 
- static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index d0b4d3fc40ed..cca913400b39 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -492,6 +492,8 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
  {
--	u32 conf = DP_CONF_SIGNALING_DP; /* Only DP signaling supported */
- 	u8 pin_assign = 0;
-+	u32 conf;
+ 	struct cros_typec_port *port = typec->ports[port_num];
+ 	struct typec_displayport_data dp_data;
++	u32 cable_tbt_vdo;
++	u32 cable_dp_vdo;
+ 	int ret;
+ 
+ 	if (typec->pd_ctrl_ver < 2) {
+@@ -524,6 +526,32 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
+ 	port->state.data = &dp_data;
+ 	port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
+ 
++	/* Get cable VDO for cables with DPSID to check DPAM2.1 is supported */
++	cable_dp_vdo = cros_typec_get_cable_vdo(port, USB_TYPEC_DP_SID);
 +
-+	/* DP Signalling */
-+	conf = (dp->data.conf & DP_CONF_SIGNALLING_MASK) >> DP_CONF_SIGNALLING_SHIFT;
++	/**
++	 * Get cable VDO for thunderbolt cables and cables with DPSID but does not
++	 * support DPAM2.1.
++	 */
++	cable_tbt_vdo = cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SID);
++
++	if (cable_dp_vdo & DP_CAP_DPAM_VERSION) {
++		dp_data.conf |= cable_dp_vdo;
++	} else if (cable_tbt_vdo) {
++		dp_data.conf |=  TBT_CABLE_SPEED(cable_tbt_vdo) << DP_CONF_SIGNALLING_SHIFT;
++
++		/* Cable Type */
++		if (cable_tbt_vdo & TBT_CABLE_OPTICAL)
++			dp_data.conf |= DP_CONF_CABLE_TYPE_OPTICAL << DP_CONF_CABLE_TYPE_SHIFT;
++		else if (cable_tbt_vdo & TBT_CABLE_RETIMER)
++			dp_data.conf |= DP_CONF_CABLE_TYPE_RE_TIMER << DP_CONF_CABLE_TYPE_SHIFT;
++		else if (cable_tbt_vdo & TBT_CABLE_ACTIVE_PASSIVE)
++			dp_data.conf |= DP_CONF_CABLE_TYPE_RE_DRIVER << DP_CONF_CABLE_TYPE_SHIFT;
++	} else if (PD_IDH_PTYPE(port->c_identity.id_header) == IDH_PTYPE_PCABLE) {
++		dp_data.conf |= VDO_TYPEC_CABLE_SPEED(port->c_identity.vdo[0]) <<
++				DP_CONF_SIGNALLING_SHIFT;
++	}
++
+ 	ret = cros_typec_retimer_set(port->retimer, port->state);
+ 	if (!ret)
+ 		ret = typec_mux_set(port->mux, &port->state);
+diff --git a/include/linux/usb/pd_vdo.h b/include/linux/usb/pd_vdo.h
+index b057250704e8..3a747938cdab 100644
+--- a/include/linux/usb/pd_vdo.h
++++ b/include/linux/usb/pd_vdo.h
+@@ -376,6 +376,7 @@
+ 	 | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) & 0x3) << 5	\
+ 	 | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
  
- 	switch (con) {
- 	case DP_STATUS_CON_DISABLED:
-diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
-index 73cd5bf35047..d9d3c91125ca 100644
---- a/drivers/usb/typec/ucsi/displayport.c
-+++ b/drivers/usb/typec/ucsi/displayport.c
-@@ -315,7 +315,7 @@ struct typec_altmode *ucsi_register_displayport(struct ucsi_connector *con,
- 	struct ucsi_dp *dp;
++#define VDO_TYPEC_CABLE_SPEED(vdo)	((vdo) & 0x7)
+ #define VDO_TYPEC_CABLE_TYPE(vdo)	(((vdo) >> 18) & 0x3)
  
- 	/* We can't rely on the firmware with the capabilities. */
--	desc->vdo |= DP_CAP_DP_SIGNALING | DP_CAP_RECEPTACLE;
-+	desc->vdo |= DP_CAP_DP_SIGNALLING(0) | DP_CAP_RECEPTACLE;
- 
- 	/* Claiming that we support all pin assignments */
- 	desc->vdo |= all_assignments << 8;
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 607061a37eca..449c125f6f87 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -501,8 +501,8 @@ static void ucsi_ccg_nvidia_altmode(struct ucsi_ccg *uc,
- 	case NVIDIA_FTB_DP_OFFSET:
- 		if (alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DBG_VDO)
- 			alt[0].mid = USB_TYPEC_NVIDIA_VLINK_DP_VDO |
--				DP_CAP_DP_SIGNALING | DP_CAP_USB |
--				DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_E));
-+				     DP_CAP_DP_SIGNALLING(0) | DP_CAP_USB |
-+				     DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_E));
- 		break;
- 	case NVIDIA_FTB_DBG_OFFSET:
- 		if (alt[0].mid == USB_TYPEC_NVIDIA_VLINK_DP_VDO)
-diff --git a/include/linux/usb/typec_dp.h b/include/linux/usb/typec_dp.h
-index 8d09c2f0a9b8..1f358098522d 100644
---- a/include/linux/usb/typec_dp.h
-+++ b/include/linux/usb/typec_dp.h
-@@ -67,8 +67,10 @@ enum {
- #define   DP_CAP_UFP_D			1
- #define   DP_CAP_DFP_D			2
- #define   DP_CAP_DFP_D_AND_UFP_D	3
--#define DP_CAP_DP_SIGNALING		BIT(2) /* Always set */
--#define DP_CAP_GEN2			BIT(3) /* Reserved after v1.0b */
-+#define DP_CAP_DP_SIGNALLING(_cap_)	(((_cap_) & GENMASK(5, 2)) >> 2)
-+#define   DP_CAP_SIGNALLING_HBR3	1
-+#define   DP_CAP_SIGNALLING_UHBR10	2
-+#define   DP_CAP_SIGNALLING_UHBR20	3
- #define DP_CAP_RECEPTACLE		BIT(6)
- #define DP_CAP_USB			BIT(7)
- #define DP_CAP_DFP_D_PIN_ASSIGN(_cap_)	(((_cap_) & GENMASK(15, 8)) >> 8)
-@@ -78,6 +80,13 @@ enum {
- 			DP_CAP_UFP_D_PIN_ASSIGN(_cap_) : DP_CAP_DFP_D_PIN_ASSIGN(_cap_))
- #define DP_CAP_PIN_ASSIGN_DFP_D(_cap_) ((_cap_ & DP_CAP_RECEPTACLE) ? \
- 			DP_CAP_DFP_D_PIN_ASSIGN(_cap_) : DP_CAP_UFP_D_PIN_ASSIGN(_cap_))
-+#define DP_CAP_UHBR_13_5_SUPPORT	BIT(26)
-+#define DP_CAP_CABLE_TYPE(_cap_)	(((_cap_) & GENMASK(29, 28)) >> 28)
-+#define   DP_CAP_CABLE_TYPE_PASSIVE	0
-+#define   DP_CAP_CABLE_TYPE_RE_TIMER	1
-+#define   DP_CAP_CABLE_TYPE_RE_DRIVER	2
-+#define   DP_CAP_CABLE_TYPE_OPTICAL	3
-+#define DP_CAP_DPAM_VERSION		BIT(30)
- 
- /* DisplayPort Status Update VDO bits */
- #define DP_STATUS_CONNECTION(_status_)	((_status_) & 3)
-@@ -97,13 +106,24 @@ enum {
- #define DP_CONF_CURRENTLY(_conf_)	((_conf_) & 3)
- #define DP_CONF_UFP_U_AS_DFP_D		BIT(0)
- #define DP_CONF_UFP_U_AS_UFP_D		BIT(1)
--#define DP_CONF_SIGNALING_DP		BIT(2)
--#define DP_CONF_SIGNALING_GEN_2		BIT(3) /* Reserved after v1.0b */
-+#define DP_CONF_SIGNALLING_MASK		GENMASK(5, 2)
-+#define DP_CONF_SIGNALLING_SHIFT	2
-+#define   DP_CONF_SIGNALLING_HBR3	1
-+#define   DP_CONF_SIGNALLING_UHBR10	2
-+#define   DP_CONF_SIGNALLING_UHBR20	3
- #define DP_CONF_PIN_ASSIGNEMENT_SHIFT	8
- #define DP_CONF_PIN_ASSIGNEMENT_MASK	GENMASK(15, 8)
- 
- /* Helper for setting/getting the pin assignment value to the configuration */
- #define DP_CONF_SET_PIN_ASSIGN(_a_)	((_a_) << 8)
- #define DP_CONF_GET_PIN_ASSIGN(_conf_)	(((_conf_) & GENMASK(15, 8)) >> 8)
-+#define DP_CONF_UHBR13_5_SUPPORT	BIT(26)
-+#define DP_CONF_CABLE_TYPE_MASK		GENMASK(29, 28)
-+#define DP_CONF_CABLE_TYPE_SHIFT	28
-+#define   DP_CONF_CABLE_TYPE_PASSIVE	0
-+#define   DP_CONF_CABLE_TYPE_RE_TIMER	1
-+#define   DP_CONF_CABLE_TYPE_RE_DRIVER	2
-+#define   DP_CONF_CABLE_TYPE_OPTICAL	3
-+#define DP_CONF_DPAM_VERSION		BIT(30)
- 
- #endif /* __USB_TYPEC_DP_H */
+ /*
 -- 
 2.25.1
 

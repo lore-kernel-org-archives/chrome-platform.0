@@ -1,76 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE433D68
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 08:23:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1005C433C9;
-	Mon, 11 Sep 2023 08:23:00 +0000 (UTC)
-Message-ID: <70260067-b12e-41e2-841c-8ee019a67513@xs4all.nl>
-Date: Mon, 11 Sep 2023 10:22:58 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7EE63E
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Sep 2023 00:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694480289; x=1726016289;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9LhfAq2q3BUbfDKBgwcZ7LGfRN2/Wz59hW9/3Tb5yq0=;
+  b=dbv8a0l5Xr4AJ3UOjAw9lh9k8kilJovByQl5bOgeJUVRoh+y0lVB7Xap
+   0RT9AHgrwsS2S2BZ8Q3gzrlyK5KNiPAVJBe4/o77qREgukiCj/VQ7++fc
+   850+pVCl9rubT3n6y8H2x8l/UFCCqlV2gTe82WbJdHvjG+UuHA2fAeYD0
+   8HJlBqB30WNo6SrIQqmXRJRl84si7qXXK5RkwJa+zkRPSfr0qo3CQy1xp
+   87OYi78DW4C+FNtSgbjs3LkN1KkaG0BPIM8aE+xgdF0+tB8rzirWBSb5f
+   spJIzkCl6z0VEtp8o8p7Hkshf+jUzrgjNwNK+jB16/8oKMqYOv8d62h1O
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382057882"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="382057882"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 17:58:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858570578"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="858570578"
+Received: from uhpatel-desk4.jf.intel.com ([10.23.15.200])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 17:58:07 -0700
+From: Utkarsh Patel <utkarsh.h.patel@intel.com>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	heikki.krogerus@linux.intel.com,
+	pmalani@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	andriy.shevchenko@linux.intel.com,
+	bleung@chromium.org,
+	Utkarsh Patel <utkarsh.h.patel@intel.com>
+Subject: [PATCH v3 0/4] Displayport Alternate Mode 2.1 Support
+Date: Mon, 11 Sep 2023 17:57:48 -0700
+Message-Id: <20230912005752.1532888-1-utkarsh.h.patel@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: cros-ec-cec: Add Constitution to the match
- table
-Content-Language: en-US, nl
-To: Stefan Adolfsson <sadolfsson@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Reka Norman <rekanorman@chromium.org>, linux-media@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230911081921.3515928-1-sadolfsson@google.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230911081921.3515928-1-sadolfsson@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/09/2023 10:19, Stefan Adolfsson wrote:
-> From: Stefan Adolfsson <sadolfsson@chromium.org>
-> 
-> Constitution has two HDMI ports which support CEC:
->     Port B is EC port 0
->     Port A is EC port 1
-> 
-> This patch depends on "media: cros-ec-cec: Add Dibbi to the match
-> table".
-> 
-> Signed-off-by: Stefan Adolfsson <sadolfsson@chromium.org>
-> ---
-> Changes in v2:
->  Use a NULL-terminated conns array for the match table entry
-> 
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 21361eff50ff..85431af65224 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -296,6 +296,7 @@ struct cec_dmi_match {
->  
->  static const char *const fizz_conns[] = { "Port B", NULL };
->  static const char *const dibbi_conns[] = { "Port D", "Port B", NULL };
-> +static const char *const constitution_conns[] = { "Port B", "Port A", NULL };
->  
->  static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	/* Google Fizz */
-> @@ -316,6 +317,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	{ "Google", "Lisbon", "0000:00:02.0", fizz_conns },
->  	/* Google Dibbi */
->  	{ "Google", "Dibbi", "0000:00:02.0", dibbi_conns },
-> +	/* Google Constitution */
-> +	{ "Google", "Constitution", "0000:00:02.0", constitution_conns },
->  };
->  
->  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+This series enabels cable identification flow required for Displayport
+Alternate Mode 2.1 support.
 
-I made that change myself when I merged your v1 patch. So I just mark this
-v2 as Obsolete in patchwork.
+Please add this series to usb-next. 
 
-Regards,
+Changes in v3:
+- Removed [PATCH 3/5] usb: pd: Add helper macro to get Type C cable speed
+  instead added the helper function in [PATCH 3/4].
+- In [PATCH 3/4] Removed use of variable cable_speed. 
 
-	Hans
+Changes in v2:
+- Added two new patches [PATCH 2/5] and [PATCH 3/5] in to this series.
+- Removed [PATCH 2/4]  platform/chrome: cros_ec: Add Displayport
+  Alternatemode 2.1 feature flag
+- In [PATCH 4/5] Removed feature flag and separate function for DP2.1.
+- In [PATCH 4/5] used cable vdos instead of host commands to get cable
+  details.
+
+
+Utkarsh Patel (4):
+  usb: typec: Add Displayport Alternate Mode 2.1 Support
+  usb: typec: Add Active or Passive cable defination to cable discover
+    mode VDO
+  platform/chrome: cros_ec_typec: Add Displayport Alternatemode 2.1
+    Support
+  usb: typec: intel_pmc_mux: Configure Displayport Alternate mode 2.1
+
+ drivers/platform/chrome/cros_ec_typec.c  | 28 ++++++++++++++++++++++++
+ drivers/usb/typec/altmodes/displayport.c |  5 ++++-
+ drivers/usb/typec/mux/intel_pmc_mux.c    | 24 ++++++++++++++++++++
+ drivers/usb/typec/ucsi/displayport.c     |  2 +-
+ drivers/usb/typec/ucsi/ucsi_ccg.c        |  4 ++--
+ include/linux/usb/pd_vdo.h               |  1 +
+ include/linux/usb/typec_dp.h             | 28 ++++++++++++++++++++----
+ include/linux/usb/typec_tbt.h            |  1 +
+ 8 files changed, 85 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
+

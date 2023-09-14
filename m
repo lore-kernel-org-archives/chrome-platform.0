@@ -1,172 +1,126 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01olkn2108.outbound.protection.outlook.com [40.92.53.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF5C136A
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Sep 2023 01:17:48 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-770ef4d36f2so192349785a.0
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Sep 2023 18:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694481467; x=1695086267; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1tnjpp/lycfe/g1+o8xfnP0NivTMeUFx/cpAoWuFE18=;
-        b=LLo0eb3+3E5YEKJ/wnu4AhbJfQZYjong0KP/TNJb0dZP51WEMtCjkE4POpsEOU0Wi7
-         sTwvhSpcekOkzZG0+TwueID004gvcTq3RfTUOeO5MPNKbBB44+EsAfeVKFuz16wKhswK
-         Dy8BiVZ8/qMFFqxHS/o7TKaidZ/L2nwEkmKEI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694481467; x=1695086267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1tnjpp/lycfe/g1+o8xfnP0NivTMeUFx/cpAoWuFE18=;
-        b=bUHSfPtF3ORiFQOBsyMYlZlngXNg861ZVfFQIQOpEu3rTWjQayYFj7OvPVi870MBMO
-         6VdpjdQhxgorZMeeeVgd/P+lkAnxD7UpjXlDioVjqkoB53+CoRXrFP8C/oYVEOZiKtJE
-         gXvZ02211KFHyxoGqlzjMKnLgiP7fW7EAdI16MpQPnCUGGRx8RJzfIz6gpgOAKrb0fGS
-         59rfFueZOOOsyjMiLbdr/uWg513bo+OE1E4fz59pqwOPFB6oReCJfIX4e6RmsvxMnAVB
-         0flErcjXs/7TFRbwB4amcTQXtgegLlq2ofngWNs3NCj6Id9O3BySKtwnjKtzD848X9bb
-         IpVQ==
-X-Gm-Message-State: AOJu0YylAl7yWRBZTfYfXdd4WlyYDWyttU2EKFrZpjVYmFmIB7ct6CG9
-	GNHBplutUgcHnNeoX/m5CY6meNJu8+gfx8eCxwuqUA==
-X-Google-Smtp-Source: AGHT+IFSwRQiPkaYhhZ0TC5wbeP9A0oiMY6H8ikvZvK9LjdFbRTQGnvpAK1r/FmhosNCsVO0GGDYu3rQZ8+RCXJ9MpE=
-X-Received: by 2002:a0c:f508:0:b0:641:8e1a:d23b with SMTP id
- j8-20020a0cf508000000b006418e1ad23bmr11266928qvm.31.1694481467597; Mon, 11
- Sep 2023 18:17:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8291B7F
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Sep 2023 02:34:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GEGyyA1Dl2iYvI0fiM4WkQQK1+8t2pSikwQQovA1VmVDUPLTwfLDxhVzFobitqIsYTMp+Amc/5u28d1Ze71/tlut6pdDlZDTXXC4g8ct4GTaoBJmBgVRNEjHwRJqYRv+UFJRmI+/itfOaTsOYovjZNa+IrkgJhVeLnV55fbOhvT6eimXZEgmKf+6CCVJ7oemgJYdRw5lrZDYn/O+5/iwZlVy39s4IWO/TxX3ztNcKrW6AE7gNlebrDkdihjV5psZZ+a2x+U7FW9xRQ0DwQKezX9xKu/4Cj7ztIx4IQ6bm9H/Xvx12L3UGcM/svkRQQ+3RgJ+zZ4N6oORZVUOGZJqEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SeuLeap8jPCG1UfUV2qhqMjqctK2pHmaxO9z8yJTCNw=;
+ b=ex5+s7h2UPyFtYB1/+SqXYfkwoKte2e/Uc+ir3se2Kff+ZCYg9nERjix8rfJJRdpZlaKv7BGQkeOky6xRgO5QqFSktWKx2uaxjJlC+IoNtuJA+gjN2oXgg98wi4TtQ1UZJhOyHWBs/JNsDAbaIRYVJsh6JNwOFJDnnvSQyl2gc1UkmSwYaSsya3SxbztwncX1mBdUJbs4QHOqM5unPntoqDmWZLfiUtgCIrqzRIKEQnC07CvQaQu758Y3r4UKgTxferheUki3A1uvQDd8MHa1UQDDYJmyVwcurrrzYmWUH5oEoMsb4giWMGXFHJdThyqwuPFhcVDtBZen7DbJaH5AQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SeuLeap8jPCG1UfUV2qhqMjqctK2pHmaxO9z8yJTCNw=;
+ b=VwYvBxWq9w8/2LQMgcZy7RMMc/Fv9I1t4RM4R4BdPnPgQ0t/OQYRbUfXJeFADfJYsQF4irKd+YJyAQofCrtNgr9l1hHu35UHP0/GgPwiiCdQH4v1k29YWBvqQKgjzCxnf6UBf3P9eTgExwGWsy14LeV9pcvd+1NPN9TRcyWcgb1l477Gd1gzWkLXNqLf1j7TjtFGKRaBu/rCKU76wWF8CNThMfNo24b8Ii7VMe++bzh5mSnRmmNyp+Iyjzn9FANKEGLGAtbFfgtNkSR0Jy2lUcqW4r/GVXaPCOI00MAJOiqBGjXigqHaxNnV1B00fM2dM02LlL8i7rISxXtuDR/rCg==
+Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:41::14) by SI2PR01MB4524.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:1e3::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Thu, 14 Sep
+ 2023 02:34:44 +0000
+Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ ([fe80::fa4e:3c3d:23cc:79b5]) by KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ ([fe80::fa4e:3c3d:23cc:79b5%6]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
+ 02:34:44 +0000
+From: Ken Lin <ken_lin5@hotmail.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: groeck@chromium.org,
+	Benson Leung <bleung@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Kevin Chiu <kevin.chiu.17802@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rory Liu <hellojacky0226@hotmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
+	chrome-platform@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: platform: cros-ec: Add Taranza to the match table
+Date: Thu, 14 Sep 2023 10:32:26 +0800
+Message-ID:
+ <SI2PR01MB38170C8A050C6541900EFE99AEF7A@SI2PR01MB3817.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [s0ATTfVbYG1oOwHO/UmNkoml8iSJRy3x]
+X-ClientProxiedBy: PU1PR06CA0004.apcprd06.prod.outlook.com
+ (2603:1096:803:2a::16) To SI2PR01MB3817.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:ee::5)
+X-Microsoft-Original-Message-ID:
+ <20230914103021.1.I407545b93a111516f5b73b8071e3b361ec20cb4d@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230912005752.1532888-1-utkarsh.h.patel@intel.com> <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
-In-Reply-To: <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Mon, 11 Sep 2023 18:17:35 -0700
-Message-ID: <CACeCKacmH19niA7gWTZCj89ZmFth0LWvkMYasYwUvVHrmFKCZw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-To: Utkarsh Patel <utkarsh.h.patel@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	heikki.krogerus@linux.intel.com, chrome-platform@lists.linux.dev, 
-	andriy.shevchenko@linux.intel.com, bleung@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR01MB3809:EE_|SI2PR01MB4524:EE_
+X-MS-Office365-Filtering-Correlation-Id: 649a75f2-10ec-44ef-b061-08dbb4cb2603
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dS3fEzoI/lsj9Cbab8X3eaKZU6eGMe/StyM2h2Bzc43qY86LCG7S6GwGozBBn4rtWUZ1DFv1/znHes+t+R1YnC4974Kv+SOevUVizDuXIoTbTXyxxrFFqwm+txtrxg7S44fGtrj6kQkILGQwQlM4WVUCIkrpj5LFyUHJHwAu90MUeWEJHwygdG29hyz3wIOse3Z8B+yGoIWX45mRmKWhFttdqN6yWXqo5sCbOzhQAbdJPX6nH+65yt5lTJOnxlpT9HfVl5FE4KLDPJ17NM92+wQLC6cbq+orhWgS/hvVAVvFRzn/6tI6MfbBQBdwBIOpOdHRlHP/9XvjDgW9yTGhVo80ew5ZO2sPdpvtyI8Et1J/mOHtokAIUgZS4fIF0Z9PGh3fmDCTXqy3HJR7xT9zIxZKD12nAtTjl6rs3EyiwJYUUC78uwZZ6bBE3lE8tQJgorfv7TsEuxVLtVeDlUnmGUEgjnRe5gnbV2O+59YCBkRUtUj/2atfzAfiY7pDpaxjEZUv5fFhtIfxGwLJ5cjz7lNhwyncgRyhNaKoKq0oo5O/mieIwUgs1kDuygFS82Vf
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RHUZ9JOAWbIxypUFy5y0VC8RG5HsyULFqeFAE3ZR64/StEfyXWZSD4ekix4I?=
+ =?us-ascii?Q?K8m0HDkPzX9qQMPCxPUD+3VIH67bsluGbq3t13tvEuBsvdNI5bo3V2Iib+g0?=
+ =?us-ascii?Q?el1J2WVff1kXgROTeJA/vYyJ4VJU74uJb3fqWOuVfKbm1KEWwclfwf/zUo+x?=
+ =?us-ascii?Q?dweCPRJbkO5i1wt4ehTu8DvBKtw+5em7WK4KYEbw6koWXPC+hdzK7NWkczYu?=
+ =?us-ascii?Q?vFuO4CmKIRnC/dDvoZ7m7gKrzzSUnhRk92OQdH5hncSbA608/tyz2phIjJtM?=
+ =?us-ascii?Q?KH+YLDKV47tdQls9raN2Lc8SXGmiv8ROaPkXx3dgA3v5wCYnR+gZ4PQ6LBbH?=
+ =?us-ascii?Q?zNYja4W8NK6X9aVdfMEjX7j6h6D5tOres00Lc7cC6imM61pwqubVAYGQ8WOM?=
+ =?us-ascii?Q?7ecuNXfkLmtDtxTH4ie3t6ei9tw96QnAAuw/Nkx7DRcuvQd41cv7d3CSci5U?=
+ =?us-ascii?Q?if/QSm5h9zt7RpPK29YPSCrAgbJe+ADkP57I417uLi+/8tTjGwcSGf1PNTwb?=
+ =?us-ascii?Q?gN/XC956rmmu2fOjSFXR0zKh6f06muVmBdX3Q7WuwG4vcPUnbzWvAyiNBRaB?=
+ =?us-ascii?Q?gA/MD9bvmQbvKeXr+AH7GTM4C/u1gm7Q3wRrgCjUndC0fbN+5C5lUEBdEPQ7?=
+ =?us-ascii?Q?ikA7HEB7TGThv5dla01lZeX4356qXHVclZBzJJ154V5XFMEdRAgNCWUilMQd?=
+ =?us-ascii?Q?l0NyELIpx4XwFHXE02FFE3RWYtqinB18W15gbp7tXqK1dxxS2dC1lF+tc3J9?=
+ =?us-ascii?Q?jf7l0g/C+ZpteBYmgFTCKMCYOlprKILB4dgb0+u6vskcEP9eJ4dIxfYfA9KD?=
+ =?us-ascii?Q?xGB2JJ1M6RygBJE5CxjfAlcgpYIOZBG+Mx4nbLM3hsjnL+hBvWeTwYsswLKe?=
+ =?us-ascii?Q?PdfpPr8ojCrpssieNNJjywefcSx2e69cnUT0augvsIZOv4tk3JXYNboj69/j?=
+ =?us-ascii?Q?6MlmFTylIR0oY8Ox7aC4EtOs9wKO+fFHc/Sv9E1eAdihJpcjC8r5H3qPBU6x?=
+ =?us-ascii?Q?m0a41zL2F1OLot8lR6FKjn2fKzaWk1fXADfAGg8jWHPZNlv8/Sh1N2sPHsl9?=
+ =?us-ascii?Q?KvKVCpg4qD7NBy4yVeFA9rCDeAcaHq3aOL+lHC2XL4pv2UWBbuo16qBoryRt?=
+ =?us-ascii?Q?FfowdiEpoVHZdh04QBBGBQvkDjW3L8/6Js0vXiaoknAAj2qENKOP2Cv3myXB?=
+ =?us-ascii?Q?PiQWIS32Q0MvIXbccZ/fpsG69xLYtOQIhhTH+A=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 649a75f2-10ec-44ef-b061-08dbb4cb2603
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB3817.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 02:34:44.2597
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR01MB4524
 
-Hi Utkarsh,
+The Google Taranza device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-On Mon, Sep 11, 2023 at 5:58=E2=80=AFPM Utkarsh Patel <utkarsh.h.patel@inte=
-l.com> wrote:
->
-> Displayport Alternatemode 2.1 requires cable capabilities such as cable
-> signalling, cable type, DPAM version which then will be used by mux
-> driver for displayport configuration. These capabilities can be derived
-> from the Cable VDO.
-> Added a helper macro to get the Type C cable speed when provided the
-> cable VDO.
->
-> Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
+---
 
-Thank you for addressing the comments. This LGTM; I have one minor suggesti=
-on,
-but I'll leave it to USB maintainers for the final call on that comment, so=
-:
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Acked-by: Prashant Malani <pmalani@chromium.org>
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index c17faf002877..a65da16c243d 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -231,6 +231,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Gladios", "0000:00:02.0", "Port B" },
+ 	/* Google Lisbon */
+ 	{ "Google", "Lisbon", "0000:00:02.0", "Port B" },
++	/* Google Taranza */
++	{ "Google", "Taranza", "0000:00:02.0", "Port D" },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.25.1
 
-> ---
-> Changes in v3:
-> - Removed use of variable cable_seepd.
-> - Added helper macro of pd_vdo.h in this patch as cros_ec_typec is the us=
-er.
->
-> Changes in v2:
-> - Remvoed feature flag specifice to DP2.1.
-> - Remvoed seperate function for DP2.1.
-> - Removed use of EC host coammnd to get cable details.
-> - TBT cable VDO is used to get cable details.
-> - Using VDO_CABLE_SPEED macro to get passive cable speed.
->
->  drivers/platform/chrome/cros_ec_typec.c | 28 +++++++++++++++++++++++++
->  include/linux/usb/pd_vdo.h              |  1 +
->  2 files changed, 29 insertions(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index d0b4d3fc40ed..cca913400b39 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -492,6 +492,8 @@ static int cros_typec_enable_dp(struct cros_typec_dat=
-a *typec,
->  {
->         struct cros_typec_port *port =3D typec->ports[port_num];
->         struct typec_displayport_data dp_data;
-> +       u32 cable_tbt_vdo;
-> +       u32 cable_dp_vdo;
->         int ret;
->
->         if (typec->pd_ctrl_ver < 2) {
-> @@ -524,6 +526,32 @@ static int cros_typec_enable_dp(struct cros_typec_da=
-ta *typec,
->         port->state.data =3D &dp_data;
->         port->state.mode =3D TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
->
-> +       /* Get cable VDO for cables with DPSID to check DPAM2.1 is suppor=
-ted */
-> +       cable_dp_vdo =3D cros_typec_get_cable_vdo(port, USB_TYPEC_DP_SID)=
-;
-> +
-> +       /**
-> +        * Get cable VDO for thunderbolt cables and cables with DPSID but=
- does not
-> +        * support DPAM2.1.
-> +        */
-> +       cable_tbt_vdo =3D cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SI=
-D);
-> +
-> +       if (cable_dp_vdo & DP_CAP_DPAM_VERSION) {
-> +               dp_data.conf |=3D cable_dp_vdo;
-> +       } else if (cable_tbt_vdo) {
-> +               dp_data.conf |=3D  TBT_CABLE_SPEED(cable_tbt_vdo) << DP_C=
-ONF_SIGNALLING_SHIFT;
-> +
-> +               /* Cable Type */
-> +               if (cable_tbt_vdo & TBT_CABLE_OPTICAL)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_OPTICAL << D=
-P_CONF_CABLE_TYPE_SHIFT;
-> +               else if (cable_tbt_vdo & TBT_CABLE_RETIMER)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_TIMER << =
-DP_CONF_CABLE_TYPE_SHIFT;
-> +               else if (cable_tbt_vdo & TBT_CABLE_ACTIVE_PASSIVE)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_DRIVER <<=
- DP_CONF_CABLE_TYPE_SHIFT;
-> +       } else if (PD_IDH_PTYPE(port->c_identity.id_header) =3D=3D IDH_PT=
-YPE_PCABLE) {
-> +               dp_data.conf |=3D VDO_TYPEC_CABLE_SPEED(port->c_identity.=
-vdo[0]) <<
-> +                               DP_CONF_SIGNALLING_SHIFT;
-> +       }
-> +
->         ret =3D cros_typec_retimer_set(port->retimer, port->state);
->         if (!ret)
->                 ret =3D typec_mux_set(port->mux, &port->state);
-> diff --git a/include/linux/usb/pd_vdo.h b/include/linux/usb/pd_vdo.h
-> index b057250704e8..3a747938cdab 100644
-> --- a/include/linux/usb/pd_vdo.h
-> +++ b/include/linux/usb/pd_vdo.h
-> @@ -376,6 +376,7 @@
->          | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) & 0x3) =
-<< 5   \
->          | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
->
-> +#define VDO_TYPEC_CABLE_SPEED(vdo)     ((vdo) & 0x7)
-
-I would suggest putting this header modification in a separate patch;
-if for some reason we have to revert
-the Chrome part of the change, then we won't rip this part out too
-(some other driver down the road may use
-the macro and would break if it were to be removed). But I'll leave it
-to Heikki to determine whether that is preferred.
-
-Thanks,
-
--Prashant

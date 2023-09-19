@@ -1,185 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA0B1CA87
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Sep 2023 16:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695053977; x=1726589977;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=l54zxGpG+8D4yLPOAcANR8QL/i8EDNPgk2ihzsIXus0=;
-  b=fuqUZW7bzYajpQF/Wmxd0IvnZbWJ7jqRCMaggIOPrR8/CYcqxyzrSEdS
-   c41w9DCnACjFGdR3c0+v18OfjZC+ebH8j4/wDMFVpj4s2ajljTfcRYXgv
-   +EnbcsJMNqlZjT6n4kBMLOf0PwxKLFI4u0jd126q37hpwKUMhaqhGT13V
-   8XhksqGiUE3MdCdZJqS7onZiUCGKLXmW1F34ZMwNELBpwU5DO7JQDe0Qf
-   VW7qM4pvs3OW6mT1tJHAll5N5bZiwPHPvj1BpoW4AGSeDofSDLqljStsd
-   O01pzMXVQNjWsS8Dr743fN5Wqv0HLIgqTuT2X2Dgnlg5AXjUjuA/Vy0DL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="443781391"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="443781391"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 09:19:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="861129618"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="861129618"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Sep 2023 09:19:33 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 18 Sep 2023 09:19:27 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 18 Sep 2023 09:19:27 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 18 Sep 2023 09:19:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LkiBAyHqiezUY7T54qSaKNT7L3AVh9UhGYD9dHdH2LugEeZhk6rY8plpzxqT+ExE9yn2RxWQSpfpnwiH/OyykyDRGiCCwyTx7X25fxw3NasxtVOmYaI+LAcZgW2DH87oWykBut+YcJaW4eqeNDg2UiSwu/rVK6DSjfdSgIhffagH3KVUws44TYNhelbnz47nCow3G0OD2ieX3/O1RfdAZ6DWH5E6BZXzPMbm1eL/TQNDHJYIGrT4M+mdzvyvtqc+S1hx9xeEDoSP7oaKD9mUcjWORZL9rzqTrjlqu5IxJfTQlLImWm+WjiVbdM87fSZsvm4Dwte3FK4onPsT1ZOuTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WIZn1SLmgIcY2d5RdsTWNUE1nS77iyaEM+AlQzHV7vs=;
- b=E0ejErDpzxjT91mB/JDMsY7JcyIEpI5a614g9zjWiU+1DiL7Zsdz33FtvV6n7j4dgXUuQxpae5bugbFID8yBzc+Ca3L9tof3lM0MKBWR/EdmTYqjlX13d9yf99F3qPFTRyGHMzjDFRPEbMPNF3FLdijc8vc0nChjQzNdk+IOwCIz61ap83aRQWpBpPPW1v1k4xuWEzfxIi/2cwIto6G5ts0Va5ncMTOB4S4aAffLlUMo5+LH3KzMjpuNMr8g5J5yXHyQsp7mZ96jBN5QBA2L472i+tiws1FOvgsv7x/4NvCVMMQWCoB8uv9raVKtCknndx1ibwMf9uAuyzZs3zR/Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com (2603:10b6:301:6a::31)
- by CH0PR11MB5393.namprd11.prod.outlook.com (2603:10b6:610:b8::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Mon, 18 Sep
- 2023 16:19:25 +0000
-Received: from MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::dccd:a041:a764:21f4]) by MWHPR11MB0048.namprd11.prod.outlook.com
- ([fe80::dccd:a041:a764:21f4%3]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
- 16:19:25 +0000
-From: "Patel, Utkarsh H" <utkarsh.h.patel@intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: Prashant Malani <pmalani@chromium.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "chrome-platform@lists.linux.dev"
-	<chrome-platform@lists.linux.dev>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "bleung@chromium.org"
-	<bleung@chromium.org>
-Subject: RE: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-Thread-Topic: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-Thread-Index: AQHZ5RQ8pkufV0PHy0qNPGaCC0iZ37AWY6qAgAWtvqCABDHIgIAAibbg
-Date: Mon, 18 Sep 2023 16:19:24 +0000
-Message-ID: <MWHPR11MB00487D601B4CDD3A387BA0E3A9FBA@MWHPR11MB0048.namprd11.prod.outlook.com>
-References: <20230912005752.1532888-1-utkarsh.h.patel@intel.com>
- <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
- <CACeCKacmH19niA7gWTZCj89ZmFth0LWvkMYasYwUvVHrmFKCZw@mail.gmail.com>
- <MWHPR11MB0048848CD12DC750417E7264A9F6A@MWHPR11MB0048.namprd11.prod.outlook.com>
- <ZQgEbXDNZ+Ap/HiV@kuha.fi.intel.com>
-In-Reply-To: <ZQgEbXDNZ+Ap/HiV@kuha.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB0048:EE_|CH0PR11MB5393:EE_
-x-ms-office365-filtering-correlation-id: e3b09329-5b30-406c-b773-08dbb8630653
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AOBvOtHJlxbGqU7hjph34cF7gB6ZqRifZ3eOtaktOQE3xgdNvObkjlEdUzVZOjDkW7kY7ahjtgLQqqTAFTzu/m4lDgQT9Ye7iTpE33hxlzjHr8j36nA7zyy7uWsZtaGpF7Ok7kNi4jK8nO99IyfgS6u/PEaPGXpg4BPwemw/et40kSv262xWJsBuKJHEhJPLX6ebNvuMoCw9D014MZ6b85YElCRZajp2PGu8w6WsJ45ReLXG6YK+vARKQfZaZope3DsH6LWgiYD+vCUyCZXRMkTemrJ21RVUkPybfx1WnW9SUSy6z5CVFyOEaNkY4iIEXGaKiHzSLN8LBbkJ+OJT0Y1hPYqc+0oycc0ct/KOoA0Q8Mhs2q6ZIOg+8IxQ8Olm1nm8cvEF86DWLy+abnUVSHzA9m9EkgKWGq7fZVdBAhM/tF/buBZ3bckyPQf3FMHFr9Vt+KWiBEqWjPwKFTFamHo9Jwe56fbWIS44/xnN/5S5+GmbzHVo1fxDZvSCvRIm39OJfJtLPs8MkoxP4OecZEGwYiPcqWRdrgQYMeIbdyTcMKgsgRBc2myma5/YD1y8IqrRnYppAfFRq8oBDsVHbSq1FF+m9R2My1AiP2scnmIYbpBICRS3PRx4Y0A2Skrg
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB0048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(39860400002)(136003)(366004)(451199024)(186009)(1800799009)(6506007)(478600001)(55016003)(71200400001)(26005)(316002)(86362001)(2906002)(83380400001)(5660300002)(52536014)(7696005)(82960400001)(122000001)(76116006)(66946007)(9686003)(53546011)(6916009)(54906003)(41300700001)(64756008)(66556008)(66476007)(66446008)(38070700005)(38100700002)(8676002)(4326008)(8936002)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/XC8B7mLpJgx2CaHaioEujyl9jZF3krORUKY3PaL0pFAyoDBJf1rdy6Z7MED?=
- =?us-ascii?Q?uXjrTLZXTUX07isAbXZiyfem94jPKQzq8LmWOKrTCfIo8xCNUobEst9xJMmq?=
- =?us-ascii?Q?bUw5maO/IGW4CDry1R8cziRG3rTe6p18dBvVgOhLcGN6/xxo/WgSDhbyb8gB?=
- =?us-ascii?Q?JIF6Wy5287rCnYMd/GQN4lpma6K7K2t6SMt9kYa5PyK0Mi23pSwbaeJ/ZAcK?=
- =?us-ascii?Q?Ck2rsUF97tG0e8YKWm83Jz9vaXXhvXYYJ7NF6qIr7bdnpIhhVaCgtelQrHGJ?=
- =?us-ascii?Q?bXvwBQ61DhWiqFrCw67yAg0ZR0XSp4rGdEsmlvijTJyeF22cdb8/zI67He8u?=
- =?us-ascii?Q?m7eP3o8k1+PT/onOJnCtweyHNIkxNEvrNIedYJtazKTGEV+wZTpOYHXCv/kG?=
- =?us-ascii?Q?JKjIQpxyLe05zYOSt8JO8aJ0N7ezQ0ZQzCN3Z96jHu38wnvlTRIxg0dA+fHX?=
- =?us-ascii?Q?5M1knn9nhpDPJNyZnIXSMnUg0xUCD1sqLv5nSLnd1KtD/iLfBz6rwqO2qPCE?=
- =?us-ascii?Q?bNHiYsCmXrn53lh4VnjqGalAVPr5IEbgle5PNwAGtbFLNGEZTcxfuc29gXAc?=
- =?us-ascii?Q?jpIxVuHlqzgkdI8nd4ij+97hAx+pln/+oMZWinnb+7Mop9zPgjnh9DOXeIWV?=
- =?us-ascii?Q?FkCLWZZ5yBVN+bB6B/ULbocrj4eP5Mca6ymkLs3SPgJfBV8snTxZz/yApfKU?=
- =?us-ascii?Q?LSNqyJ+tORKvipdpG9XBn/968hyqwrnKj2q94D5e5djoFaBXHdgLQHIdiV80?=
- =?us-ascii?Q?a335AAggNPDlZGZdYc2be8cQv6pQ5sR82pLcjldzc+36mCYDLeiffhUbLI8T?=
- =?us-ascii?Q?IjDDmieQpIjpFB9faROUA6ZmGwHtf9YiUp0dSV7ER/gcAqM5//hW0bl1WHE+?=
- =?us-ascii?Q?DJaAs4MmwP+iA40X2QR0TDVXi2RvBywC/KtjGueXsPrHexYFbs3cWbHGTZ5Q?=
- =?us-ascii?Q?BLg/yxusEYU8Fw+ZSFHi1PCgRMmed9r5vxbQ6FO8xK7xSmK4X6nUr2b+g1LU?=
- =?us-ascii?Q?yRmeFNfI16mLK7nKhC7aor4tbRZs+Vp1ozOEsk1afUf565M1O72ZDvmbWBMJ?=
- =?us-ascii?Q?YtyBxaWe49Y8GXn+QzGtdSnPjgNpgqZhC1XIbDhLtn2HlvXd+EnTCig6Rx8k?=
- =?us-ascii?Q?bUESO7m/F3SqapeeKHnhxWgDNduwd1+3n8yFL0zRhQOwid6c2J98lUVms/oA?=
- =?us-ascii?Q?5aEyepMsfl0zbg6PWmjRfy1rz5OC6FFY17Kf88dDP5mv+pjBEtrcvRqNatMb?=
- =?us-ascii?Q?GVksWA0oo6vjt2CgIZFTq3BTjs5egIFj8eeLEra76KnVXRyKF3xV1kQ1LpRx?=
- =?us-ascii?Q?zg3Ih4v0PJsjNYbWjwaJJ9nDC1RR6ujzVVL/DGbwh87LzeBgtZCSf5MvkUso?=
- =?us-ascii?Q?VIuPkr92/VXI9yRyzOVI2Jzf9nlznCvMbxY83764+q/HyrXQKMW+008nOLDa?=
- =?us-ascii?Q?KmqOg3ZBLSPCR6AKG16x1szXYkGyOGaNvvw2iZRdL01cfxKx9HH5YwNsc+wf?=
- =?us-ascii?Q?NUd254tPieBffM+nPAik3RmtmveyVnM/Pupp6Kn8A+LEDKxBxT7nfe/evljJ?=
- =?us-ascii?Q?RqFmJIQyB4qW6zOSDVcAe7j6iwqNq5TrGDpYReUA?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9CC28E24
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Sep 2023 17:50:07 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierH-0006yJ-9x; Tue, 19 Sep 2023 19:49:59 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierG-007VYM-6r; Tue, 19 Sep 2023 19:49:58 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierF-0034ZP-Tv; Tue, 19 Sep 2023 19:49:57 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 45/49] iio: proximity: cros_ec_mkbp: Convert to platform remove callback returning void
+Date: Tue, 19 Sep 2023 19:49:27 +0200
+Message-Id: <20230919174931.1417681-46-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3b09329-5b30-406c-b773-08dbb8630653
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2023 16:19:25.0118
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m2X+r3I3v90EYMts85xCnmgS5t/nylsp49HCP4qs2+jaEQ80pFqKCwU5MpZ7r4kmFYAqTPLo9pfn10YnViR+birGgkwI4B9o8kySz31hTp8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5393
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2043; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Kp2v2YhzJfVr5H9XEO3mwXm1/ylDiUj0N7nPU5I2scs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCd8iJyVBF+bUIHN3NYHUoI8iY6lHHMLw8oFCN rFZcOUyioOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQnfIgAKCRCPgPtYfRL+ TjP1CACNbj+Dh/TqsOnkjiGevQNvyfkgkkAFNtx+IwEodJp/Q4aKmd2BEqTucxhws3JWq9lsQ3Z VwirrbKbZifw6bCpJmeuSrpL+anacMu3na+IU7SJek4XRE8SChsvAk6ZzA6dc+KpkVJvv8TrMi+ 6Voni5VKdSSUgwn0YuJj0NWWeM6d9CwFH+t5vjcUeEgwQdGXytxFPO+K5cbdApnQGs/NUSYsfkF RvBgrlQEK8OsflQbXp+N1IR6RMII21eWSmTuDVU9v9ALjdLHxrdV3b8eORUpSsXhLqicpvqmXxt aCCSOMey5sfl4JoMUf9ZKrTcaLhqvehxN0+n4yGGc+UKBbgl
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hi Heikki,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-Thank you for the feedback.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> -----Original Message-----
-> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Sent: Monday, September 18, 2023 1:04 AM
-> To: Patel, Utkarsh H <utkarsh.h.patel@intel.com>
-> Cc: Prashant Malani <pmalani@chromium.org>; linux-kernel@vger.kernel.org;
-> linux-usb@vger.kernel.org; chrome-platform@lists.linux.dev;
-> andriy.shevchenko@linux.intel.com; bleung@chromium.org
-> Subject: Re: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displaypo=
-rt
-> Alternatemode 2.1 Support
->=20
-> On Fri, Sep 15, 2023 at 04:01:44PM +0000, Patel, Utkarsh H wrote:
->=20
-> > > > b057250704e8..3a747938cdab 100644
-> > > > --- a/include/linux/usb/pd_vdo.h
-> > > > +++ b/include/linux/usb/pd_vdo.h
-> > > > @@ -376,6 +376,7 @@
-> > > >          | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) &=
- 0x3) << 5   \
-> > > >          | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
-> > > >
-> > > > +#define VDO_TYPEC_CABLE_SPEED(vdo)     ((vdo) & 0x7)
-> > >
-> > > I would suggest putting this header modification in a separate
-> > > patch; if for some reason we have to revert the Chrome part of the
-> > > change, then we won't rip this part out too (some other driver down
-> > > the road may use the macro and would break if it were to be
-> > > removed). But I'll leave it to Heikki to determine whether that is pr=
-eferred.
-> > >
-> > Heikki,  What's your preference here?
->=20
-> I think separate patch for this like Prashant said.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/iio/proximity/cros_ec_mkbp_proximity.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-I will add and re-send the removed [PATCH v2 3/5]  in the next version. =20
+diff --git a/drivers/iio/proximity/cros_ec_mkbp_proximity.c b/drivers/iio/proximity/cros_ec_mkbp_proximity.c
+index 571ea1812246..4df506bb8b38 100644
+--- a/drivers/iio/proximity/cros_ec_mkbp_proximity.c
++++ b/drivers/iio/proximity/cros_ec_mkbp_proximity.c
+@@ -239,15 +239,13 @@ static int cros_ec_mkbp_proximity_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int cros_ec_mkbp_proximity_remove(struct platform_device *pdev)
++static void cros_ec_mkbp_proximity_remove(struct platform_device *pdev)
+ {
+ 	struct cros_ec_mkbp_proximity_data *data = platform_get_drvdata(pdev);
+ 	struct cros_ec_device *ec = data->ec;
+ 
+ 	blocking_notifier_chain_unregister(&ec->event_notifier,
+ 					   &data->notifier);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id cros_ec_mkbp_proximity_of_match[] = {
+@@ -263,7 +261,7 @@ static struct platform_driver cros_ec_mkbp_proximity_driver = {
+ 		.pm = pm_sleep_ptr(&cros_ec_mkbp_proximity_pm_ops),
+ 	},
+ 	.probe = cros_ec_mkbp_proximity_probe,
+-	.remove = cros_ec_mkbp_proximity_remove,
++	.remove_new = cros_ec_mkbp_proximity_remove,
+ };
+ module_platform_driver(cros_ec_mkbp_proximity_driver);
+ 
+-- 
+2.40.1
 
-Sincerely,
-Utkarsh Patel.

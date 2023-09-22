@@ -1,79 +1,123 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E43B676
-	for <chrome-platform@lists.linux.dev>; Thu, 21 Sep 2023 14:19:40 +0000 (UTC)
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5784671b7ebso763747a12.1
-        for <chrome-platform@lists.linux.dev>; Thu, 21 Sep 2023 07:19:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F19A43ABD
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Sep 2023 17:51:49 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-690f9c787baso2166579b3a.1
+        for <chrome-platform@lists.linux.dev>; Fri, 22 Sep 2023 10:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695305980; x=1695910780; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cis3oX7GTvjLlkeSC+gMrCtuuhgE+PLGFmnmHQVroFE=;
-        b=MBbx1wPCqOHVI9YDj8R35AEKrzxqglmTgEfO/6zsqnuWhAfQB/+m6s3Bcp0GyRGBg/
-         CRx/yiI/igzdEedE7El6mZ0rreo0LSlv8Wt9LLyFAzypoFpZnLcl7ZcoGJaTIM+7BHz5
-         Tt/8DWVcxM7i3M6d565LOmHj/8NTzXxwRr17IGxqGF510Q2JfpkMhMi8qDNq6q0rnwnu
-         l91Bi/w2O504JlkVnu41zEhpHlDqXVZNIwwMYU/4MAXqqrgKjLft52jxxO1saQs/VTm/
-         1+8lXCJJhYCpsRyHXXyN2ZILexz7y2xHNWFFos7M21mHpYspWd91uPOIaCYDgr14QJ6D
-         xCwQ==
+        d=chromium.org; s=google; t=1695405109; x=1696009909; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JsmMQ6krAwAnzPF3fdWBN7ZYXZOUHbuU3lEOUk2NaIQ=;
+        b=c/Vz0YrGsNzTEiPBg67Tt92FcXcpEHPfSVxEJerYzRDxb8V9255mgMwCD0LHj8ID5T
+         Cjil+EmZJ/kCmT6xnGJafIP3Rd3ilMBkxgBBOI/a1CFj+5VtzCE0I8aJ7wTatK2Dhlp9
+         h18afP+Z35MWoazHX/v7UKRoky/4rArVphC8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695305980; x=1695910780;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cis3oX7GTvjLlkeSC+gMrCtuuhgE+PLGFmnmHQVroFE=;
-        b=O71CMSI8Op6aEoqikIO6LSd63GlxNhT8OIZ4mINUBbbmhqv9IxYxbJ4fUgpSfxWzE/
-         crbw/wE7uNTgRiYk/oLxetB5m0Qhp0V5ThJw6hOfgZGKMNIHciO7B3WJCFPrTx6aVKNG
-         x2L3M2ld+4w5fIm8Ktd1RQOIHTwH4UEO/rLlUX5woGzbwdZ2NSTL5VEunQnZBKsTr5N8
-         FHNYLpQ/Jb3HPdZw0Y9ROK0zTPTfc7O9fk+vUdL9XEMbmz1dMxMkgNBKjdhtPBriNLAB
-         RCgK4S6Fv313S+NAXgzl1//NhIzrCyIhvDhcx8rNEhRM5qTEZfHq/hMeQBlF2MHQkDyw
-         fMvw==
-X-Gm-Message-State: AOJu0YyBMMB1gwqeRDl/6x5kGQbLwEJm7wn6dWy/FofMJ0YMdpQjgGIX
-	QqXr+ssI3xDEBmSonOd8eJ0IHrsl+Gr2BHtoSKrutk54Wwk9m1BBHR8RIZBbypGrv+3SeXVjh3+
-	e72JymtiYmB/chq96TBOemJpd1/xNGVXOnwYZOTfVu7okVAf74u8ffYfP8bTPTgj20EFAxFRQEf
-	sqguSO3w==
-X-Google-Smtp-Source: AGHT+IHTrIvLu6I6untAfpppJqSdXwu6v+jWjwKYl1zrovZlzl0VEC5dNbGK6/W1FkHJGhAPQICobS8JzS+/BAs=
-X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
- (user=robbarnes job=sendgmr) by 2002:a63:8f12:0:b0:578:c1ab:9c63 with SMTP id
- n18-20020a638f12000000b00578c1ab9c63mr75522pgd.1.1695305979762; Thu, 21 Sep
- 2023 07:19:39 -0700 (PDT)
-Date: Thu, 21 Sep 2023 14:19:35 +0000
+        d=1e100.net; s=20230601; t=1695405109; x=1696009909;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JsmMQ6krAwAnzPF3fdWBN7ZYXZOUHbuU3lEOUk2NaIQ=;
+        b=k4tlKiqXMXx9gdIgg21QRHZCqLFr9JZ/t+IU0rlKy42UuDHAxgWklibIuIQkr3stmx
+         1H3y6yDGnj2g6/Xfv0nby0NU/GjO4qXQjFfdm+elqLEMa3lTkK9upNwV7teXhV6nxSas
+         6iCoUqLtZ0dNicqGOT79uZPx5QgdiyHnioX37rO+tq583R3uQwlA/aA/CAiwSpFsbUVF
+         +ro7YvF0HufH9n87+PwYyhE6LirW6Q8p70cInUfhb6RG8CYrnYltMWWPzVVLEnR+KrrQ
+         E8qP59mxDPL+U98VCzW4iMLZuE5aKZM4klEI3v/OfmPwf0UhiUzdkry8WIeALIRCY7X1
+         QX3w==
+X-Gm-Message-State: AOJu0YwoohcG0eSPDuRsgZm6cUysWnD7zrVZ6i1wt2rpcjDjtQrVR6J/
+	1chUoLFLMC9LD9JA89IFdnx6DQ==
+X-Google-Smtp-Source: AGHT+IHbhoC9rDpc1qX1ly2mgTN/S/Ww+ZEC1lkxqLq0fJPJPh+dwlksi9VUQd4aEWshzXY00puTcQ==
+X-Received: by 2002:a05:6a00:2d94:b0:68e:2478:d6c9 with SMTP id fb20-20020a056a002d9400b0068e2478d6c9mr164234pfb.2.1695405108883;
+        Fri, 22 Sep 2023 10:51:48 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id p10-20020a62ab0a000000b0068790c41ca2sm3472604pff.27.2023.09.22.10.51.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 10:51:48 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Dawei Li <set_pte_at@outlook.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiang Jian <jiangjian@cdjrlc.com>,
+	chrome-platform@lists.linux.dev,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] platform/chrome: wilco_ec: Annotate struct ec_event_queue with __counted_by
+Date: Fri, 22 Sep 2023 10:51:47 -0700
+Message-Id: <20230922175146.work.219-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.42.0.459.ge4e396fd5e-goog
-Message-ID: <20230921141935.3973069-1-robbarnes@google.com>
-Subject: [PATCH] drivers/cros_ec: Reduce log polling period to 2s
-From: Rob Barnes <robbarnes@google.com>
-To: chrome-platform@lists.linux.dev
-Cc: gwendal@chromium.org, groweck@chromium.org, 
-	Rob Barnes <robbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1524; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=e1ZqynN9loVhS8+oR1i/+utvHCkGfpoIEpm/aYvNyDE=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdQy9C+3oWrxbkRNSsFkLrCWSYDM2/sWuxmwC
+ tMv/weV8pCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3UMgAKCRCJcvTf3G3A
+ JsSVEACFH2wrdHPw7AiB5kOrwR8BTwEXFdchI+hhWo9w6mWLv40k/1F5iqb4aU2VNjMok9NaFLT
+ xH0oWaaak/HJFJQX6RNj6ki1evQPTfUSe3r3QKdLJO/66MAsEOwStztGz8gI5QiSXJk5hFha7me
+ /HZFiMeQd1UD4i3TuVB9JBbaNzF5Uj5R8QII6Wg1NoC8CSY3joJVel1baQ6YM5mtdKqAONP00Nc
+ gggO3cUde1R3eel5kJg7ZwJNNvWkk2yAyF8mx3h9E/iZcxQRM6274ADxvQFOayfLQkAV8TAEK1J
+ 8Hg6b3XRMOi0Qklntjcr/+lHcomhoohabMbzSGLGSMwdcovjnxk2xJq/pNnE+gK1hDqxgo3vtHL
+ LmUOKZZwDV4e9Lt6vgXxURSCyYZBAhA5ERxALUfarPlYNtVSzfTVpvp1xNO+YZHckTsnkS4HOpL
+ dA1+s1V5x7zj3ey5aZQBCry/zlGCIoH/OnoLzMt1kNAmYNPQ/e2CPICn9GoaA7qpxK9rLUPrw1A
+ S5mWfprdS5o52qYqbXEm5aOR4v+j9XMnJIYGmi5UWCO4BUARVBd9Ai7pSWdQ8j9udJA5OATCN3U
+ Q9qg6IzzfdFjmAjFiht+mZaQJ73CJObmFpsCn1VscsldTgpngcGnDm+Ft0y1lH6C/KIZyXRs42B
+ Bo26BPB S0FiNjzg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-Lowering the log polling interval to 2 seconds provides two advantages:
-1. Minimizes the risk of EC internal log buffer overfilling and truncating.
-2. Yields more recent logs prior to a crash, facilitating easier debugging.
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
+As found with Coccinelle[1], add __counted_by for struct ec_event_queue.
+
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Dawei Li <set_pte_at@outlook.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiang Jian <jiangjian@cdjrlc.com>
+Cc: chrome-platform@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_debugfs.c | 2 +-
+ drivers/platform/chrome/wilco_ec/event.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 9044c6bab770c..c96493504127d 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -21,7 +21,7 @@
+diff --git a/drivers/platform/chrome/wilco_ec/event.c b/drivers/platform/chrome/wilco_ec/event.c
+index a40f60bcefb6..f80a7c83cfba 100644
+--- a/drivers/platform/chrome/wilco_ec/event.c
++++ b/drivers/platform/chrome/wilco_ec/event.c
+@@ -95,7 +95,7 @@ struct ec_event_queue {
+ 	int capacity;
+ 	int head;
+ 	int tail;
+-	struct ec_event *entries[];
++	struct ec_event *entries[] __counted_by(capacity);
+ };
  
- #define LOG_SHIFT		14
- #define LOG_SIZE		(1 << LOG_SHIFT)
--#define LOG_POLL_SEC		10
-+#define LOG_POLL_SEC		2
- 
- #define CIRC_ADD(idx, size, value)	(((idx) + (value)) & ((size) - 1))
- 
+ /* Maximum number of events to store in ec_event_queue */
 -- 
-2.42.0.459.ge4e396fd5e-goog
+2.34.1
 

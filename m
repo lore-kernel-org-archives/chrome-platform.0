@@ -1,141 +1,71 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7604D279
-	for <chrome-platform@lists.linux.dev>; Sun, 24 Sep 2023 15:51:49 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qkRO5-0002j6-Pr; Sun, 24 Sep 2023 17:51:13 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qkRNp-008fPX-Q2; Sun, 24 Sep 2023 17:50:57 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qkRNp-004RHy-E4; Sun, 24 Sep 2023 17:50:57 +0200
-Date: Sun, 24 Sep 2023 17:50:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Pavel Machek <pavel@ucw.cz>, Guenter Roeck <groeck@chromium.org>,
-	Liang He <windhl@126.com>, linux-stm32@st-md-mailman.stormreply.com,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	chrome-platform@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Samuel Holland <samuel@sholland.org>,
-	Andrey Moiseev <o2g.org.ru@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Ruan Jinjie <ruanjinjie@huawei.com>, Yangtao Li <frank.li@vivo.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-	Miloslav Trmac <mitr@volny.cz>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
-	linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>, ye xingchen <ye.xingchen@zte.com.cn>,
-	Kalle Valo <kvalo@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Siarhei Volkau <lis8215@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Chen Jun <chenjun102@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel@pengutronix.de, patches@opensource.cirrus.com,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
- returning void
-Message-ID: <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <ZQ+jddG+UbuSD7pP@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372B815AC;
+	Mon, 25 Sep 2023 02:30:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96557C433CA;
+	Mon, 25 Sep 2023 02:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695609023;
+	bh=0jDwZ96nyJhTF4nmVXocUav9QlceaTK+fsd1hTcuQrQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=prDohBtJO9880AllSqZPuVLeO5pSLOAWQukM68p11IT6YUwQ9CkWU7RniZFdEFV7E
+	 Nt/v/hT+u3N4BN4a0HbN4afaVVz+Wc5rqHEi8AhyONnIqQ4G0nXT6y0xNvF566IWnG
+	 rfNM2owzp6jW9j2ZlkeRCvm0MNWrfEw4q2VPV5JDiRKDhLicr1ku4TYyrxGMNNHB6T
+	 HRHZafrHXNYBnNfuUbVYJFPHQ8G/R3TUHXZOj2TUg8d8ySkXAVDvKoWDwvTB0kOiCM
+	 sadS1mh56zJBBPi9/Burjre+j9G0lOzNU0kuK5rWRGq0wqcGjBvGHUG63nollnp/U9
+	 SUfr5gi1x70/A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 79FA6E29AFD;
+	Mon, 25 Sep 2023 02:30:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w2nepdqjggoh4sie"
-Content-Disposition: inline
-In-Reply-To: <ZQ+jddG+UbuSD7pP@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: wilco_ec: Annotate struct ec_event_queue
+ with __counted_by
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169560902349.21032.13563278253669519579.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Sep 2023 02:30:23 +0000
+References: <20230922175146.work.219-kees@kernel.org>
+In-Reply-To: <20230922175146.work.219-kees@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: bleung@chromium.org, tzungbi@kernel.org, set_pte_at@outlook.com,
+ dmitry.torokhov@gmail.com, luzmaximilian@gmail.com,
+ u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+ jiangjian@cdjrlc.com, chrome-platform@lists.linux.dev, nathan@kernel.org,
+ ndesaulniers@google.com, trix@redhat.com, hdegoede@redhat.com,
+ lee@kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ linux-hardening@vger.kernel.org
+
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Fri, 22 Sep 2023 10:51:47 -0700 you wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct ec_event_queue.
+> 
+> [...]
+
+Here is the summary with links:
+  - platform/chrome: wilco_ec: Annotate struct ec_event_queue with __counted_by
+    https://git.kernel.org/chrome-platform/c/1aa8df90f456
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---w2nepdqjggoh4sie
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello Dmitry,
-
-On Sat, Sep 23, 2023 at 07:48:21PM -0700, Dmitry Torokhov wrote:
-> On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > this series converts all platform drivers below drivers/input to use
-> > remove_new. The motivation is to get rid of an integer return code
-> > that is (mostly) ignored by the platform driver core and error prone on
-> > the driver side.
-> >=20
-> > See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> > returns no value") for an extended explanation and the eventual goal.
-> >=20
-> > There are no interdependencies between the patches. As there are still
-> > quite a few drivers to convert, I'm happy about every patch that makes
-> > it in. So even if there is a merge conflict with one patch until you
-> > apply or a subject prefix is suboptimal, please apply the remainder of
-> > this series anyhow.
->=20
-> Applied the lot (fixing the i8042-sparcio patch subject), thank you!
-
-Thanks. In the meantime I found out why my process failed here: I only
-fixed *.c, but this driver struct is defined in a header file
-i8042-sparcio.h.
-
-This file is only included by drivers/input/serio/i8042.h which in turn
-is only included by drivers/input/serio/i8042.c. So there is only one
-instance created, but I'd call that unusual anyhow.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---w2nepdqjggoh4sie
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUQWuAACgkQj4D7WH0S
-/k4z2wf/fRpeO2RuT0KNoThVdJCLb7VTgbHa+9l0qDPdA3JAbYzxbQ6K12SP/CIT
-/y1woqUQa2ATctxXvuRS1TmBlYCbX5IQB/D24pgnGlz+UOGxAoNPNd1HsFSWGnRo
-Retc138nrb3r+4HCwC6nBZ9VHaYy8kZMDs121e3M/t/bwVJQROuWowsT+b9gzqD+
-XSwiABX3Ij7bgUS+iwf1FN68HK10/dd/jhSPepCDr4Q+4JMDp7gus6xC5ImGlDHx
-hRvacVKc88L7gt/mlcj8JDmugGjcMWAlNGxQRqrhdWC0ANnGgN5L32jbH+HGk85t
-hmCwwQWgjsTehkTnb/axaDJK83wyhw==
-=h4JX
------END PGP SIGNATURE-----
-
---w2nepdqjggoh4sie--

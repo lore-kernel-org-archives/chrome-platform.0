@@ -1,21 +1,21 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C3210A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AB01D520
 	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:55 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd8-0007vI-Rl; Wed, 27 Sep 2023 10:10:46 +0200
+	id 1qlPd9-0007vd-6k; Wed, 27 Sep 2023 10:10:47 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd8-009I6r-9x; Wed, 27 Sep 2023 10:10:46 +0200
+	id 1qlPd8-009I70-Q2; Wed, 27 Sep 2023 10:10:46 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd8-005BQ6-0m; Wed, 27 Sep 2023 10:10:46 +0200
+	id 1qlPd8-005BQH-Gr; Wed, 27 Sep 2023 10:10:46 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
@@ -23,9 +23,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kernel@pengutronix.de
-Subject: [PATCH 01/27] platform/chrome: cros_ec_chardev: Convert to platform remove callback returning void
-Date: Wed, 27 Sep 2023 10:10:14 +0200
-Message-Id: <20230927081040.2198742-2-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 04/27] platform/chrome: cros_ec_lpc: Convert to platform remove callback returning void
+Date: Wed, 27 Sep 2023 10:10:17 +0200
+Message-Id: <20230927081040.2198742-5-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
 References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
@@ -36,7 +36,7 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1833; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Xe6M9G5oHpj29v0p0F+j+Zzzp8VU3j+XZbTFtKR2XC8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlE+NeiBb7JrW4zkLm/SiYb1HpuFi88VxguMriX 3i2w3k/Yj6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRPjXgAKCRCPgPtYfRL+ TlPRB/9V/q+9Nu1bDmwLd4eMhIr7+4mEjxDJyZoypCumo78BRHLbXeRwy6q1aqMW/jZ9OLbUIQg aX5tkB3jkFdlCobZquUz+DBkjI375NRCmhSLCxxys2lhREZZnlfwdg3VOmFWM09apLwKa1t0XIe 06/g3lm7O6kJCiz72NP6qcPBtNfraWJ4OxIAAMKJLfsCfDQTzulmNEq0WneqTN/rl5fKiAJpIbx IV33lsVXIdtDxxRmmaFF0UpSpXbVmklUoYAmum5ZEHcDqKTIkOhCICFmtMHSiiKp/1DSQyFMUvz V1VvsWmO1bjFBo7IneI4dY5C9WfZA3FFhPjC7g18/zccoiv/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1943; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=UaQf0aOVJXiwdHwFWYo4P0yhmaqn5f73vpG9iCiRQPg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlE+Nh8vWZtz/iFdllV5+D+P+cfjaMU6C4DQ7d0 /+1D3PLh0SJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRPjYQAKCRCPgPtYfRL+ Tp3FB/9lOQ/A452SjdzNZdgRv/RkGyVoKEua5t6iB3pV5YLNbs3o2QgaowqnxYbDooMVrzKIIOC ENs6k+iT0W+SnomZwuyUsry1H63YYawHFMk3OIgS/yJZRdyA3xaoOlqauVsYCqFYTFPgbqvH+Nw JY8zcKh6+bA6qQVBOWOyzXdSUf9+CCaWZn/xWS4XgseRDpKY5ZC7rdO2/CHUWip619zYnjGxbEL qwUuEAKtcQtvim/fRwpkazLjcI3WvTN2UgboVMcdMELLI2BTY5UiEPGRTf6xjDe04OvB91G+JF6 hDbptCQ6gTQTafv427EjajEyQZzOLqw5PCmZ95Cv9zODuDdi
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -59,37 +59,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/chrome/cros_ec_chardev.c | 6 ++----
+ drivers/platform/chrome/cros_ec_lpc.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index d6de5a294128..81950bb2c6da 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -396,13 +396,11 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
- 	return misc_register(&data->misc);
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 356572452898..897090f0f26e 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -460,7 +460,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int cros_ec_chardev_remove(struct platform_device *pdev)
-+static void cros_ec_chardev_remove(struct platform_device *pdev)
+-static int cros_ec_lpc_remove(struct platform_device *pdev)
++static void cros_ec_lpc_remove(struct platform_device *pdev)
  {
- 	struct chardev_data *data = dev_get_drvdata(&pdev->dev);
+ 	struct cros_ec_device *ec_dev = platform_get_drvdata(pdev);
+ 	struct acpi_device *adev;
+@@ -471,8 +471,6 @@ static int cros_ec_lpc_remove(struct platform_device *pdev)
+ 					   cros_ec_lpc_acpi_notify);
  
- 	misc_deregister(&data->misc);
+ 	cros_ec_unregister(ec_dev);
 -
 -	return 0;
  }
  
- static struct platform_driver cros_ec_chardev_driver = {
-@@ -410,7 +408,7 @@ static struct platform_driver cros_ec_chardev_driver = {
- 		.name = DRV_NAME,
+ static const struct acpi_device_id cros_ec_lpc_acpi_device_ids[] = {
+@@ -580,7 +578,7 @@ static struct platform_driver cros_ec_lpc_driver = {
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
  	},
- 	.probe = cros_ec_chardev_probe,
--	.remove = cros_ec_chardev_remove,
-+	.remove_new = cros_ec_chardev_remove,
+ 	.probe = cros_ec_lpc_probe,
+-	.remove = cros_ec_lpc_remove,
++	.remove_new = cros_ec_lpc_remove,
  };
  
- module_platform_driver(cros_ec_chardev_driver);
+ static struct platform_device cros_ec_lpc_device = {
 -- 
 2.40.1
 

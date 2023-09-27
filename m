@@ -1,93 +1,95 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F49B107BE
-	for <chrome-platform@lists.linux.dev>; Tue, 26 Sep 2023 18:58:01 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50302e8fca8so1034e87.0
-        for <chrome-platform@lists.linux.dev>; Tue, 26 Sep 2023 11:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695754679; x=1696359479; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R5HXQ4csQ6AKj5gYM3e0UCu+IvigfEdNiXcYzK2DmhM=;
-        b=EVtbL0gnvTMJbRpZQLoOOSMGgtZlvXRzZrOOO10d9ScXiCUy18SPnP/QqlJdUgYN1g
-         SEWoiSO39yrKdctOEP8ORkH1CM7wzVUIqvp2l2aRqn4WdYt0HySgjFDQt7XydEX/QvI8
-         JMc6j8+MT5nc8EmnxULI1NDHElIYHQrlNe/lNdouYSKKbt7pxBCR2pil/lwWh8JXBrci
-         iIKvlZm2RMi7FYSd0103i8VeVOGCWqdEt3PpOpQJ/xtVg9iKj+JfAysI6t5+qFHwPZSj
-         28SBSkTGs+O/STxMMun29meYwijRvdGDbPRSn0HXdz9JH8y4tQdJf+7UTIV2q5PlpWah
-         ksxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695754679; x=1696359479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R5HXQ4csQ6AKj5gYM3e0UCu+IvigfEdNiXcYzK2DmhM=;
-        b=Xuf2pC9iFlwQmZr3Szcud+2gkrex6WnVnKsHyp6bqAPCELNBnFslBy4CyN0KOOn7/y
-         BKPSJfwzEOF/SEQqtPnAlsIq340qb9y9YQXkXflOeppqB41zxKJ9iEM/IPoBJ/0hcWaf
-         FAqlHQxaJvU2L4DgIxIwaLr+D8J1co+KnbVXQ6WUWiNaCfiCz5iWn0n97lu5ThmLNCiY
-         aKVf/VupAw/8+oHeib/mBPaLkDyX6CX/w6QfPpSyF8RC+DQhfonQCCGeanClWM7mZm5R
-         GZS1lmZvWtH9nbgziZ/kGT925Uh5L60U2qS9XHVe15TRg767XMbPR5dLAFIpu0yagWey
-         O2xg==
-X-Gm-Message-State: AOJu0YzeQU7polizuou+uR+qNOcdOGunF3GiwqXIhLiMFLZIehgCVb7m
-	R6Jp4UCEsTsBMm3YhgEV/YdpQqJ4SY06mLA6chK9rA==
-X-Google-Smtp-Source: AGHT+IE1oTEKFiKab9FvW9pJHaZXmMEd1RN34+03vk0APuhq6RwtMVaVeLA90a2WvFOUyErWKsNZgz29dHvZg4Hy6js=
-X-Received: by 2002:ac2:5317:0:b0:502:c615:99b0 with SMTP id
- c23-20020ac25317000000b00502c61599b0mr86285lfh.4.1695754679176; Tue, 26 Sep
- 2023 11:57:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C3210A
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:55 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qlPd8-0007vI-Rl; Wed, 27 Sep 2023 10:10:46 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qlPd8-009I6r-9x; Wed, 27 Sep 2023 10:10:46 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qlPd8-005BQ6-0m; Wed, 27 Sep 2023 10:10:46 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: [PATCH 01/27] platform/chrome: cros_ec_chardev: Convert to platform remove callback returning void
+Date: Wed, 27 Sep 2023 10:10:14 +0200
+Message-Id: <20230927081040.2198742-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
+References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230921141935.3973069-1-robbarnes@google.com> <ZQ6k1K//086Ptqg0@google.com>
-In-Reply-To: <ZQ6k1K//086Ptqg0@google.com>
-From: Rob Barnes <robbarnes@google.com>
-Date: Tue, 26 Sep 2023 12:57:22 -0600
-Message-ID: <CA+Dqm30KGiSVnJ+z=ToT_i3xS6dN5+opCHbp-9tfd+ZqxdgJQA@mail.gmail.com>
-Subject: Re: [PATCH] drivers/cros_ec: Reduce log polling period to 2s
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, gwendal@chromium.org, 
-	groweck@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1833; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Xe6M9G5oHpj29v0p0F+j+Zzzp8VU3j+XZbTFtKR2XC8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlE+NeiBb7JrW4zkLm/SiYb1HpuFi88VxguMriX 3i2w3k/Yj6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRPjXgAKCRCPgPtYfRL+ TlPRB/9V/q+9Nu1bDmwLd4eMhIr7+4mEjxDJyZoypCumo78BRHLbXeRwy6q1aqMW/jZ9OLbUIQg aX5tkB3jkFdlCobZquUz+DBkjI375NRCmhSLCxxys2lhREZZnlfwdg3VOmFWM09apLwKa1t0XIe 06/g3lm7O6kJCiz72NP6qcPBtNfraWJ4OxIAAMKJLfsCfDQTzulmNEq0WneqTN/rl5fKiAJpIbx IV33lsVXIdtDxxRmmaFF0UpSpXbVmklUoYAmum5ZEHcDqKTIkOhCICFmtMHSiiKp/1DSQyFMUvz V1VvsWmO1bjFBo7IneI4dY5C9WfZA3FFhPjC7g18/zccoiv/
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On Sat, Sep 23, 2023 at 2:42=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Thu, Sep 21, 2023 at 02:19:35PM +0000, Rob Barnes wrote:
-> > 2. Yields more recent logs prior to a crash, facilitating easier debugg=
-ing.
->
-> The approach depends on multiple parties before a system reboot: EC repor=
-ts
-> on panic, AP sends EC commands for reading the logs, userland programs
-> (e.g. timberslide) write the logs to filesystem, and filesystem
-> synchronization.  If anyone in the path didn't work in time, the logs
-> disappear.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-This change is just affecting the continuous polling period of the
-cros_ec driver.
-Syncing the log immediately after a panic is a separate path and will only =
-work
-when EC supports system safe mode recovery, most don't.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-The hope with shortening the period is that cros_ec.previous will contain m=
-ore
-relevant logs after a crash, even when safe mode isn't enabled.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
->
-> An random idea: could we save the EC console logs to pstore when AP gets
-> notification on EC panic?
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/platform/chrome/cros_ec_chardev.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-This could work. It would be a separate effort.
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+index d6de5a294128..81950bb2c6da 100644
+--- a/drivers/platform/chrome/cros_ec_chardev.c
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -396,13 +396,11 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
+ 	return misc_register(&data->misc);
+ }
+ 
+-static int cros_ec_chardev_remove(struct platform_device *pdev)
++static void cros_ec_chardev_remove(struct platform_device *pdev)
+ {
+ 	struct chardev_data *data = dev_get_drvdata(&pdev->dev);
+ 
+ 	misc_deregister(&data->misc);
+-
+-	return 0;
+ }
+ 
+ static struct platform_driver cros_ec_chardev_driver = {
+@@ -410,7 +408,7 @@ static struct platform_driver cros_ec_chardev_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = cros_ec_chardev_probe,
+-	.remove = cros_ec_chardev_remove,
++	.remove_new = cros_ec_chardev_remove,
+ };
+ 
+ module_platform_driver(cros_ec_chardev_driver);
+-- 
+2.40.1
 
->
-> > ---
-> >  drivers/platform/chrome/cros_ec_debugfs.c | 2 +-
->
-> If you have chance to send next version, please refer `git log` on the fi=
-le
-> to see a good candidate of title prefixes.
-Ack.

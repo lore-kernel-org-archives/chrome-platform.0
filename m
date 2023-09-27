@@ -1,32 +1,31 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6758C1D520
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62F11D53F
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:55 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPdA-00080D-RB; Wed, 27 Sep 2023 10:10:48 +0200
+	id 1qlPd9-0007vL-1t; Wed, 27 Sep 2023 10:10:47 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd9-009I7P-Vi; Wed, 27 Sep 2023 10:10:47 +0200
+	id 1qlPd8-009I6x-Ka; Wed, 27 Sep 2023 10:10:46 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd9-005BQg-MV; Wed, 27 Sep 2023 10:10:47 +0200
+	id 1qlPd8-005BQD-Ba; Wed, 27 Sep 2023 10:10:46 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Brian Norris <briannorris@chromium.org>
-Cc: chrome-platform@lists.linux.dev,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kernel@pengutronix.de
-Subject: [PATCH 10/27] platform/chrome/wilco_ec: core: Convert to platform remove callback returning void
-Date: Wed, 27 Sep 2023 10:10:23 +0200
-Message-Id: <20230927081040.2198742-11-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 03/27] platform/chrome: cros_ec_lightbar: Convert to platform remove callback returning void
+Date: Wed, 27 Sep 2023 10:10:16 +0200
+Message-Id: <20230927081040.2198742-4-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
 References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
@@ -37,7 +36,7 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1940; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ErTBgUVBzAoUk5cH94Ob31zJEYM2LgwwmCXualZPhgg=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlThxxmfEz5LascytexPrvRqs/8+7eD1S0ZyPJxbCj67h 3vmHnHsZDRmYWDkYpAVU2Sxb1yTaVUlF9m59t9lmEGsTCBTGLg4BWAiT4LY/8orBVcvZNkt+buI 93Dtqxz1Wh71Ah11/Z9M0ZmsrL4Pnn48tFCqS83TIjt0gmfo8p97GPWfPjzfZ+0fXBN3upwvzKH kqdH2ZUf/Lo2bZ/fw3IVnW7pUl22v0qlfd7+/X1qtN32vUk9n89V/wbGNaZFzZ00sSbobzfik5L Kl4K5pNz8X9buIPKrZprPfr+2zY4q+q4zZvNXO79vT5DotNa43HZryeun7GskPNSkpz1h2rBc3X Lv5M1P8BVNRfcbChXzvHuSWLZdjfis9L8MjsevK9cK/OQ6nZvRvfXuT1zv1LvMS5+Ssjo898Z2K pkf1uuNzAuateDCT76LknyvRdULhDiv3q195sDat/WkCAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1998; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Tfs5gi7h7v1Dwa3H1JCi2pH6aHZKCdFVdfdoZK+EHJA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlE+NgCQKHZFj5mqOwyG6uYKFEWnnxsQRTVtbJ1 /YmRJcnkKyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRPjYAAKCRCPgPtYfRL+ TgEwB/4iiOJeH8c8mxCUWtYw9NVWS834cnqPM7W8mzvLCpmz/PHR4fvj9Px95xRvwOn/gWJfVWY 0WJySnZFHYiQIZ8reBiJw3DqVIh4Ka7byTW7+8kaClQKd9HA/ZaDdD/xGpm37Xgg+GsH1Awaq/7 sAeVd3eLLzYDNQ9gisnGhwP/t4cM8/7l0Ar8Txf1OvpbmiPbXDvQFYtKAU74U5fC14uzxwwyRxX 5lr1Qn8xTvimqO6QJXGJlWB8xnkLCJJAbkug0UiVHXDGyd9axwUlgiwvNelul4yGeQY96ACVXQA 21HaoxUcIbf1ZkmsU0XZFgUvdAA+8P9/59MD48ZzjMkXoyMN
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -60,39 +59,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/chrome/wilco_ec/core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/platform/chrome/cros_ec_lightbar.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
-index d6a994bdc182..9b59a1bed286 100644
---- a/drivers/platform/chrome/wilco_ec/core.c
-+++ b/drivers/platform/chrome/wilco_ec/core.c
-@@ -132,7 +132,7 @@ static int wilco_ec_probe(struct platform_device *pdev)
+diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+index 376425bbd8ff..6677cc6c4984 100644
+--- a/drivers/platform/chrome/cros_ec_lightbar.c
++++ b/drivers/platform/chrome/cros_ec_lightbar.c
+@@ -560,7 +560,7 @@ static int cros_ec_lightbar_probe(struct platform_device *pd)
  	return ret;
  }
  
--static int wilco_ec_remove(struct platform_device *pdev)
-+static void wilco_ec_remove(struct platform_device *pdev)
+-static int cros_ec_lightbar_remove(struct platform_device *pd)
++static void cros_ec_lightbar_remove(struct platform_device *pd)
  {
- 	struct wilco_ec_device *ec = platform_get_drvdata(pdev);
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pd->dev.parent);
  
-@@ -142,7 +142,6 @@ static int wilco_ec_remove(struct platform_device *pdev)
- 	platform_device_unregister(ec->rtc_pdev);
- 	if (ec->debugfs_pdev)
- 		platform_device_unregister(ec->debugfs_pdev);
+@@ -569,8 +569,6 @@ static int cros_ec_lightbar_remove(struct platform_device *pd)
+ 
+ 	/* Let the EC take over the lightbar again. */
+ 	lb_manual_suspend_ctrl(ec_dev, 0);
+-
 -	return 0;
  }
  
- static const struct acpi_device_id wilco_ec_acpi_device_ids[] = {
-@@ -157,7 +156,7 @@ static struct platform_driver wilco_ec_driver = {
- 		.acpi_match_table = wilco_ec_acpi_device_ids,
+ static int __maybe_unused cros_ec_lightbar_resume(struct device *dev)
+@@ -603,7 +601,7 @@ static struct platform_driver cros_ec_lightbar_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
  	},
- 	.probe = wilco_ec_probe,
--	.remove = wilco_ec_remove,
-+	.remove_new = wilco_ec_remove,
+ 	.probe = cros_ec_lightbar_probe,
+-	.remove = cros_ec_lightbar_remove,
++	.remove_new = cros_ec_lightbar_remove,
  };
  
- module_platform_driver(wilco_ec_driver);
+ module_platform_driver(cros_ec_lightbar_driver);
 -- 
 2.40.1
 

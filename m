@@ -1,31 +1,31 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E84F1D55B
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B21D693
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 08:10:58 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPdA-0007xR-6v; Wed, 27 Sep 2023 10:10:48 +0200
+	id 1qlPdB-00082w-94; Wed, 27 Sep 2023 10:10:49 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd9-009I7L-NV; Wed, 27 Sep 2023 10:10:47 +0200
+	id 1qlPdA-009I7X-Cv; Wed, 27 Sep 2023 10:10:48 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qlPd9-005BQc-EN; Wed, 27 Sep 2023 10:10:47 +0200
+	id 1qlPdA-005BQo-3z; Wed, 27 Sep 2023 10:10:48 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Prashant Malani <pmalani@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kernel@pengutronix.de
-Subject: [PATCH 09/27] platform/chrome: cros_usbpd_notify: Convert to platform remove callback returning void
-Date: Wed, 27 Sep 2023 10:10:22 +0200
-Message-Id: <20230927081040.2198742-10-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 12/27] platform/chrome/wilco_ec: telemetry: Convert to platform remove callback returning void
+Date: Wed, 27 Sep 2023 10:10:25 +0200
+Message-Id: <20230927081040.2198742-13-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
 References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
@@ -36,7 +36,7 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2938; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=hSEWunQsqDf9o0Gu7AfSQmYYAjV96zrpal7gSYkj2l4=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlThx+mvgrMFV7z2kFm3lCWlqUUko8Tb9XNgf4xJXc53x 8o9hs86GY1ZGBi5GGTFFFnsG9dkWlXJRXau/XcZZhArE8gUBi5OAZgIXwoHww5lvfVq5s91rYw2 x50wyvB+cPb/0kUpLMvKcktr906p1+eKS/v37OqaWPWtN49Py+T57ZnAXm2zMOPi9zjJA4IiprL n5709uyBX45XgdLMtTtN2zcs4HL/MxcuxS+rShh0X/907rP/nY/f1YFa+Xu/fM7nqjAWrjUVs9n gWKD81/s80W+705U7RnY0ParolE8v/frYvrjnOvGCapJbmgU3Mp5rWp07ac3OeW4m7+/rsbYs2R 0i/OhGdpv+gz2NFV2af4mYTHXb+yBKbqdsL1c8HyGmo6Xas81hluPRByUouaW3zhe0O+zy3PeVv dv68KE9w1c8VaXeDJ8Snayxu6+05bmC1SlBGYI4Iz5qJAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1794; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=49ld1JhVzgaDQZfMoKqFWG6KmV/4hCWeK0rFORIEYVg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlE+Nr8n7BQCGsykVZITS7s6/ahZU543slwD9v0 /FLaGic9FSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRPjawAKCRCPgPtYfRL+ TpZhB/4t7XGbohjP5wIzeFerTgLgJlW5MNt4VJYnj06gyfUWS4TSaP4k1wHzsVzKuAlD+8S770q +szZwk/iajBIUKZQrvw2kwA+xFZ+J+nF7FUDnbtjA1RQwY533GOe7pBriSGpL+IeINvpTh+RAHW fJpZaXLnEonUENT34a5g5jfKr3JwaCmgW+UNcNwxbQ+8SIZa0PgxUxoEe7/9wmA13kzf/4M7kXv 1ImWQwJgRC1kl7AfZP6SQqt2PbZwQrDNSEhw98E8q13MqZDZhGGXjnCnEXaxnToHUYkstyyDJkP /kxMrmy3+FTi3bveCg1RjTFr3nmmozjwhxo2d8r/dnXpO1Bv
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -59,66 +59,36 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/chrome/cros_usbpd_notify.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/platform/chrome/wilco_ec/telemetry.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
-index 10670b6588e3..aacad022f21d 100644
---- a/drivers/platform/chrome/cros_usbpd_notify.c
-+++ b/drivers/platform/chrome/cros_usbpd_notify.c
-@@ -134,15 +134,13 @@ static int cros_usbpd_notify_probe_acpi(struct platform_device *pdev)
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index 54708aa6c700..253098bace63 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -400,20 +400,18 @@ static int telem_device_probe(struct platform_device *pdev)
  	return 0;
  }
  
--static int cros_usbpd_notify_remove_acpi(struct platform_device *pdev)
-+static void cros_usbpd_notify_remove_acpi(struct platform_device *pdev)
+-static int telem_device_remove(struct platform_device *pdev)
++static void telem_device_remove(struct platform_device *pdev)
  {
- 	struct device *dev = &pdev->dev;
- 	struct acpi_device *adev = ACPI_COMPANION(dev);
+ 	struct telem_device_data *dev_data = platform_get_drvdata(pdev);
  
- 	acpi_remove_notify_handler(adev->handle, ACPI_ALL_NOTIFY,
- 				   cros_usbpd_notify_acpi);
+ 	cdev_device_del(&dev_data->cdev, &dev_data->dev);
+ 	ida_simple_remove(&telem_ida, MINOR(dev_data->dev.devt));
+ 	put_device(&dev_data->dev);
 -
 -	return 0;
  }
  
- static const struct acpi_device_id cros_usbpd_notify_acpi_device_ids[] = {
-@@ -157,7 +155,7 @@ static struct platform_driver cros_usbpd_notify_acpi_driver = {
- 		.acpi_match_table = cros_usbpd_notify_acpi_device_ids,
- 	},
- 	.probe = cros_usbpd_notify_probe_acpi,
--	.remove = cros_usbpd_notify_remove_acpi,
-+	.remove_new = cros_usbpd_notify_remove_acpi,
- };
- 
- #endif /* CONFIG_ACPI */
-@@ -209,7 +207,7 @@ static int cros_usbpd_notify_probe_plat(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int cros_usbpd_notify_remove_plat(struct platform_device *pdev)
-+static void cros_usbpd_notify_remove_plat(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct cros_ec_dev *ecdev = dev_get_drvdata(dev->parent);
-@@ -218,8 +216,6 @@ static int cros_usbpd_notify_remove_plat(struct platform_device *pdev)
- 
- 	blocking_notifier_chain_unregister(&ecdev->ec_dev->event_notifier,
- 					   &pdnotify->nb);
--
--	return 0;
- }
- 
- static struct platform_driver cros_usbpd_notify_plat_driver = {
-@@ -227,7 +223,7 @@ static struct platform_driver cros_usbpd_notify_plat_driver = {
+ static struct platform_driver telem_driver = {
+ 	.probe = telem_device_probe,
+-	.remove = telem_device_remove,
++	.remove_new = telem_device_remove,
+ 	.driver = {
  		.name = DRV_NAME,
  	},
- 	.probe = cros_usbpd_notify_probe_plat,
--	.remove = cros_usbpd_notify_remove_plat,
-+	.remove_new = cros_usbpd_notify_remove_plat,
- };
- 
- static int __init cros_usbpd_notify_init(void)
 -- 
 2.40.1
 

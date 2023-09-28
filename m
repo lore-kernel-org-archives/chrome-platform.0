@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962266D18
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Sep 2023 05:30:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 060B8C433C9;
-	Thu, 28 Sep 2023 05:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695879027;
-	bh=HDYgPUCI+LmYNO0vm26kgt+z36xjUEfke95fD+pSCT0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hzOZo3k1OeAOWCAl33Q6caaPSZvBz6tVxyfUjAXRCQlKP5n0EPjkttmc2bIoIBfp6
-	 mmaTujz/k+p5185iS3/OrM8nRyitVb37UfuMNkMb8vVdWfp8wRk6Kc9x7nYzZ+0NuL
-	 Sb30TYokD32b2QDLsl1yVJIagvOAaJsVzfb86hNhlYpSw2cSxJtr4MVO1oCe8/AzKf
-	 sbkOTRcRWzjX7UL9EUiQFCW1LeICVpZtUgUMCxP+0xyS6EkCfyNUK+wIMcNSl81sgP
-	 6UxyCHlrLfaT2SXY0OYKH4XpxHZZ5tCEtF0rVQjiUO4DEGCNelNeD56w2Rsr9I7pF1
-	 WlI0agXpAfHgw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E09EEC395E0;
-	Thu, 28 Sep 2023 05:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2034403
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Sep 2023 06:08:07 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-691c05bc5aaso11023588b3a.2
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Sep 2023 23:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1695881287; x=1696486087; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=JsQitvNyLpB+S+Vk/3bgWOZ4EptlwZxhJs1DCYuqn00=;
+        b=xVVWjO79LU0vqMTNnz9d7JfZO+gIJuMM8btvoPqnE9gHoM0ZRR1CkYKN6dYQLV2U5p
+         WFaWFWBvFxVtGlgudnfTBhgHhMOdPMGwIbcMd6mz/dA5prD8mg/HuXLIunJhBucsT/0x
+         klwakVXb6+tRCv/PCHovs0rQtWhWnCQ+y2qofriyV1CWWwltMRSKFakDR5M5h5J6b+PZ
+         g2kkJhxYSfSZK5rZ/n8ItAvR808ki1RmCspY37ROPMjyve+9Vf6j9BriebhrPgqg94uW
+         qc1vykPktdYNTWfiPCHvNQfW8sDb0Rx/vnbvkhtLQg5OGf6cXeMMjUemWudsK5cwjUyC
+         n+bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695881287; x=1696486087;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JsQitvNyLpB+S+Vk/3bgWOZ4EptlwZxhJs1DCYuqn00=;
+        b=Dk131BTrqaIPQQrYz9tShHUDzfv6sFsRPYCpeGVHDUkWVIZEQGLKH93KMtnH3IR023
+         CSmH4TgjyyKO/YqYqDAQBWfSuHFtPwRurqGQA5Zsa3y6kXPVmVSXwjrIgTt1POAUVyYt
+         GTSnQEOzaQ4a9vEI8W9Jday+rtPE3ndtsXPsKLLSjamtvvndNXwZRy7btM7gn4pXtt8t
+         GDO5GvSNlj2cOjW6BtHkg93te9gEUenUe+oGBERMN69z7/W+sc8gAhVioj9/3mY9rDTQ
+         qr4sbcMmay3kDECotDr7ECw2OQ2PW6ujrpWy1KaON9IxduthQewY6ygwAdjawzX2r6aq
+         nczA==
+X-Gm-Message-State: AOJu0YzHIwv2j8hvKDe2b2vyus80fmR0mSehYi4T4v6M2QV0BtQYbim0
+	WODzQ8sfj1UoEoa8CzBRuPx5AQ==
+X-Google-Smtp-Source: AGHT+IFx2e6oPIfwxrsk4O/NiIXRqD9hwMxs4t1MgqeEJGZUkW4k71dflSmMPJDyAGi6CXKNjyn7oQ==
+X-Received: by 2002:a05:6a20:9184:b0:153:8754:8a7e with SMTP id v4-20020a056a20918400b0015387548a7emr398146pzd.3.1695881286779;
+        Wed, 27 Sep 2023 23:08:06 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id b5-20020a170902d50500b001b89a6164desm8326293plg.118.2023.09.27.23.08.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 23:08:06 -0700 (PDT)
+Message-ID: <65151846.170a0220.f5e2b.c696@mx.google.com>
+Date: Wed, 27 Sep 2023 23:08:06 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,69 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/27] platform: Convert to platform remove callback returning
- void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169587902691.21006.3174707915483675738.git-patchwork-notify@kernel.org>
-Date: Thu, 28 Sep 2023 05:30:26 +0000
-References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: bleung@chromium.org, tzungbi@kernel.org, pmalani@chromium.org,
- groeck@chromium.org, briannorris@chromium.org, zkhuang@hust.edu.cn,
- dzm91@hust.edu.cn, gregkh@linuxfoundation.org, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, markgross@kernel.org, vadimp@nvidia.com,
- gerd.haeussler.ext@siemens.com, xingtong.wu@siemens.com,
- tobias.schaffner@siemens.com, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- kernel@pengutronix.de
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.6-rc1-13-g7396a5b980fd
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.6-rc1-13-g7396a5b980fd)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.6-rc1-=
+13-g7396a5b980fd)
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.6-rc1-13-g7396a5b980fd/
 
-On Wed, 27 Sep 2023 10:10:13 +0200 you wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/platform to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.6-rc1-13-g7396a5b980fd
+Git Commit: 7396a5b980fdeb2cb97136db45405b4fb5d21dfc
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [01/27] platform/chrome: cros_ec_chardev: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/f04410e7be65
-  - [02/27] platform/chrome: cros_ec_debugfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/f366fa0064ef
-  - [03/27] platform/chrome: cros_ec_lightbar: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/fa45583c3133
-  - [04/27] platform/chrome: cros_ec_lpc: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/e02944e85169
-  - [05/27] platform/chrome: cros_ec_sysfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/6478e302409a
-  - [06/27] platform/chrome: cros_ec_vbc: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/58b15196b0ef
-  - [07/27] platform/chrome: cros_typec_switch: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/ea4bad2badb7
-  - [08/27] platform/chrome: cros_usbpd_logger: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/b6c1fea83550
-  - [09/27] platform/chrome: cros_usbpd_notify: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/b98362be7c92
-  - [10/27] platform/chrome/wilco_ec: core: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/48648504e488
-  - [11/27] platform/chrome/wilco_ec: debugfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/1fca58f347d8
-  - [12/27] platform/chrome/wilco_ec: telemetry: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/7396a5b980fd
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

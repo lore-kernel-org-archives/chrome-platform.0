@@ -1,161 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6137358AF
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Sep 2023 11:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695898998; x=1727434998;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=68Uv63OTysgsKzAlmtZlN6445TXxfX8CsAF94hkyCV0=;
-  b=GNBHJUexQ0PRilvfO4rndpNtZ+r/6+txo/eqlkrtSt/d8LHUW6NvD6K/
-   ply5SnGwaUDACS7QSou79TQsdebp931kVPCXBqu2jLgvETKVfOEwybBfC
-   OJ3UdliMAIUcmOA3MpoJY17HAqLY3sxrKwPrke6a4l0h2KAlFSWIeUisU
-   klu9W0TJV9AWuiFSgL2kkmZHXfVqhON0GqKoKyRhOmQq3kRDeWBDnSuj2
-   +xJnxiFpNcaRt+XuWrxA1EQl0iwHJeVoc27Q5ODi3x75X1rRSngIvI7pv
-   x+Bav0CqUVy+bAbBRCTcE2Rc56/1MezHMBfneXVxs20BIWPbOhCMx5ufa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3591466"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="3591466"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:03:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="752926285"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="752926285"
-Received: from vshampor-mobl2.ger.corp.intel.com ([10.249.33.15])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:03:12 -0700
-Date: Thu, 28 Sep 2023 14:03:10 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-    Prashant Malani <pmalani@chromium.org>, 
-    Guenter Roeck <groeck@chromium.org>, 
-    Brian Norris <briannorris@chromium.org>, 
-    Zhengkang Huang <zkhuang@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>, 
-    Vadim Pasternak <vadimp@nvidia.com>, 
-    Gerd Haeussler <gerd.haeussler.ext@siemens.com>, 
-    Xing Tong Wu <xingtong.wu@siemens.com>, 
-    Tobias Schaffner <tobias.schaffner@siemens.com>, 
-    chrome-platform@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
-    platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 00/27] platform: Convert to platform remove callback
- returning void
-In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
-Message-ID: <c7ab93d-fe24-da35-4581-87e3d5fe612d@linux.intel.com>
-References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79435123C
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Sep 2023 17:10:31 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-45274236ef6so5861142137.3
+        for <chrome-platform@lists.linux.dev>; Thu, 28 Sep 2023 10:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695921030; x=1696525830; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JwI/pWHHt3c6ousus3HY74F/tUTyUgVMaKzFQON1XhU=;
+        b=Gi+4sTaLGCDZtM/xMKucLBF7otC8EUgw7HohPUuRueym8Lm3qDtWYVK92XkezP31ka
+         sxHoMAtdTKgqfZCNHCrPKs1y+re/ZFe5lmMcGHuZRS3dn6tlTX6k41m6W9BbmklqXx1m
+         M3ZVnVHYNkFoGY3wZwXUiGC5jpeIjQGbXRtWc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695921030; x=1696525830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JwI/pWHHt3c6ousus3HY74F/tUTyUgVMaKzFQON1XhU=;
+        b=NvsTzpzQRCWMozewh56BlPanH4T0mjDOgCqYAWqx+CbngZlraXRjUnJkNrkzPB68sp
+         3n4vbMdWLiP3FfRrv/EfetgyZr+WaK9jWZynQTCbOBWPmrkNfaKDe4MPW0P2pH1QVJ1J
+         I3h7CXftiG6GrlfEU5/AvKy1W9MyASMnQC2h6qcSc3qJA66CEjbYyNihE8dQ4K7A3JX5
+         ellATAb5PDukAfEiq9gtEoCgQVC2G7TCYwXEKU22pzvh5bkZZHmnOUEqBZwkPUV0qM33
+         e1MBud6kruHp1VV4KHRCd9js37zsOmTA/dc/JnPlgfj6oUwQARCObWeDLwpB7sOZms1k
+         fqgQ==
+X-Gm-Message-State: AOJu0YxKBerqkT9upNeVnLdqCctqDVwsODgtd/OQ1cCCadgn80dBvrW9
+	Qei4Z/PfZbDPrSQKKT2dc4zUAQvXsqC9w03LMSgQoA==
+X-Google-Smtp-Source: AGHT+IE17jAVF0w1soiVJOQKNrGSpb7KUe+bYLEd88iRVMjflNPYirtHKlvNR2nEJbQuNcNHrxnC+wkZXFTAHhHhy4A=
+X-Received: by 2002:a67:f50a:0:b0:452:55f5:55e9 with SMTP id
+ u10-20020a67f50a000000b0045255f555e9mr2031564vsn.14.1695921030478; Thu, 28
+ Sep 2023 10:10:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1237872873-1695898996=:1701"
+References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de> <20230927081040.2198742-8-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230927081040.2198742-8-u.kleine-koenig@pengutronix.de>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 28 Sep 2023 10:10:19 -0700
+Message-ID: <CACeCKafuji+G_pn+A=9qUGRcSLS3cWeVYbVr85ZoHGvSUXKaoQ@mail.gmail.com>
+Subject: Re: [PATCH 07/27] platform/chrome: cros_typec_switch: Convert to
+ platform remove callback returning void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Uwe,
 
---8323329-1237872873-1695898996=:1701
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 27 Sep 2023, Uwe Kleine-König wrote:
-
-> Hello,
-> 
-> this series converts all platform drivers below drivers/platform to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
-> 
-> As there is no single maintainer team for drivers/platform, I suggest
-> the individual maintainers to pick up "their" patches. The only
-> inter-dependency in this series is that the patches #24 - #27 depend on
-> #23. Otherwise there are no inter-dependencies, so that should work
-> fine. As there are still quite a few drivers to convert in other areas
-> than drivers/platform, I'm happy about every patch that makes it in and
-> there is no need for further coordination. So even if there is a merge
-> conflict with one patch until you apply or a subject prefix is
-> suboptimal, please don't let you stop by negative feedback for other
-> patches (unless it applies to "your" patches, too, of course).
-> 
-> Best regards and thanks for considering,
-> Uwe
-> 
-> Uwe Kleine-König (27):
->   platform/chrome: cros_ec_chardev: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_ec_debugfs: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_ec_lightbar: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_ec_lpc: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_ec_sysfs: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_ec_vbc: Convert to platform remove callback
->     returning void
->   platform/chrome: cros_typec_switch: Convert to platform remove
->     callback returning void
->   platform/chrome: cros_usbpd_logger: Convert to platform remove
->     callback returning void
->   platform/chrome: cros_usbpd_notify: Convert to platform remove
->     callback returning void
->   platform/chrome/wilco_ec: core: Convert to platform remove callback
->     returning void
->   platform/chrome/wilco_ec: debugfs: Convert to platform remove callback
->     returning void
->   platform/chrome/wilco_ec: telemetry: Convert to platform remove
->     callback returning void
->   platform/goldfish: goldfish_pipe: Convert to platform remove callback
->     returning void
->   platform/mellanox: mlxbf-bootctl: Convert to platform remove callback
->     returning void
->   platform/mellanox: mlxbf-tmfifo: Convert to platform remove callback
->     returning void
->   platform/mellanox: mlxreg-hotplug: Convert to platform remove callback
->     returning void
->   platform/mellanox: mlxreg-io: Convert to platform remove callback
->     returning void
->   platform/mellanox: mlxreg-lc: Convert to platform remove callback
->     returning void
->   platform/mellanox: nvsw-sn2201: Convert to platform remove callback
->     returning void
->   platform/x86/intel: bytcrc_pwrsrc: Convert to platform remove callback
->     returning void
->   platform/x86: mlx-platform: Convert to platform remove callback
->     returning void
->   platform/x86: sel3350-platform: Convert to platform remove callback
->     returning void
->   platform/x86/siemens: simatic-ipc-batt: Simplify
->     simatic_ipc_batt_remove()
->   platform/x86/siemens: simatic-ipc-batt: Convert to platform remove
->     callback returning void
->   platform/x86/siemens: simatic-ipc-batt-apollolake: Convert to platform
->     remove callback returning void
->   platform/x86/siemens: simatic-ipc-batt-elkhartlake: Convert to
->     platform remove callback returning void
->   platform/x86/siemens: simatic-ipc-batt-f7188x: Convert to platform
->     remove callback returning void
-
-Thanks for the patches.
-
-I don't know if you got the auto generated thank you email as it seemed to 
-hit a character encoding problem while sending the email out.
-
-But in any case, I've applied patches 14-27 to my local review-ilpo branch 
-(they will eventually appear on the public repo too and propagate to 
-for-next).
+On Wed, Sep 27, 2023 at 1:10=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Acked-by: Prashant Malani <pmalani@chromium.org>
 
 
--- 
- i.
+BR,
 
---8323329-1237872873-1695898996=:1701--
+-Prashant

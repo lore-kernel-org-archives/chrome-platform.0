@@ -1,101 +1,145 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4861173A
-	for <chrome-platform@lists.linux.dev>; Fri, 29 Sep 2023 16:19:42 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmGD6-0007mo-1p; Fri, 29 Sep 2023 18:19:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmGD4-009r5J-2y; Fri, 29 Sep 2023 18:19:22 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmGD3-00615m-Ou; Fri, 29 Sep 2023 18:19:21 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kernel@pengutronix.de,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F892C9E;
+	Sat, 30 Sep 2023 15:37:49 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-690bfd4f3ebso12037433b3a.3;
+        Sat, 30 Sep 2023 08:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696088268; x=1696693068; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SFxpcz2a7H2ZjgJ8ssrmjpRaSpMI8na0366gdvXOP5U=;
+        b=fl3j0HTGNxQCQ8A7RQZj3q4RGh4INgJPZGEDCDEFJLmNTaheL0XFOiQzNWmjmwJX7m
+         z0bw5JPZWcAAvK925z5xR0/S/ghEa98e8PSae7wpUNYoCCvPHENqLrUZC+0cqFKzNGP6
+         wIEn59B+xh/MUaA52FMS6681JiL1spQKhwp6LqKNGl0mo8QAcKGrqt/7/ZpH17rjI0qO
+         vLku/82FzPaHlyPlyeRHCg8GdxESi9cB+jeEf3zyO4EukfIayAzgjTCGA3Zxpzi+IUcq
+         GbkLUfDMscqktZVWP61xmw7Em/AFJMi4Rto4ol5PmrgIs4dvI02xVLldF142zNWdSYcw
+         /ntQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696088268; x=1696693068;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SFxpcz2a7H2ZjgJ8ssrmjpRaSpMI8na0366gdvXOP5U=;
+        b=SsF8o5vBI+J4bBDNTBXnaUx/r+ltpyTgxRTLU2QqTDACO12SVuNGDZ6kH5nzf+ZONP
+         Bk2MuaZBaUkeNeJINMXRoCkMylD6ZVvLYqr0t6NajLh1BSsMo9JH7PI0tzwVl9oXu2Dn
+         lMxKqiucsEDVrdvcGmPvEepuheHjSaKeFl9POJaJKQbltV8bVLIgUWT7YNDtuPcuKjXj
+         kAjWeLXppmbpURkNK0UihMBIgcmIIzKsjAB5M9lFslSCJSb+U/hxWFYUKJMiLfftneIJ
+         cSAukPiIueQA4TblaaYMl4p23NEf/p7ccg2u1uFJ+LbYqBrJXoEGGfBtFKPpMgO5pAlo
+         6K4w==
+X-Gm-Message-State: AOJu0YzTxAMiK8gnr+cuhTHtewfyM8BEz+50Vcm989hTcebNxMOkIySy
+	EpaKcqntMqjgroInAbRmR9M=
+X-Google-Smtp-Source: AGHT+IEMqhKSToJyXm3yTD7cSFnLWSycVL5nK0X/hEUjcO1rvPkbJ0hf7ZvRqV9SvIbBhj0xSyFIPg==
+X-Received: by 2002:a05:6a00:16c7:b0:68f:ecb9:5fde with SMTP id l7-20020a056a0016c700b0068fecb95fdemr7078816pfc.34.1696088268304;
+        Sat, 30 Sep 2023 08:37:48 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a90f:2dad:30c1:d923])
+        by smtp.gmail.com with ESMTPSA id a10-20020a62d40a000000b006926506de1csm17137176pfh.28.2023.09.30.08.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Sep 2023 08:37:47 -0700 (PDT)
+Date: Sat, 30 Sep 2023 08:37:43 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Pavel Machek <pavel@ucw.cz>, Guenter Roeck <groeck@chromium.org>,
+	Liang He <windhl@126.com>, linux-stm32@st-md-mailman.stormreply.com,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	chrome-platform@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Samuel Holland <samuel@sholland.org>,
+	Andrey Moiseev <o2g.org.ru@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>, Yangtao Li <frank.li@vivo.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
+	Miloslav Trmac <mitr@volny.cz>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
+	linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
+	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>, ye xingchen <ye.xingchen@zte.com.cn>,
+	Kalle Valo <kvalo@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Siarhei Volkau <lis8215@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH 00/11] pwm: Some random cleanups
-Date: Fri, 29 Sep 2023 18:19:07 +0200
-Message-Id: <20230929161918.2410424-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
+	linux-arm-kernel@lists.infradead.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Chen Jun <chenjun102@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	kernel@pengutronix.de, patches@opensource.cirrus.com,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
+ returning void
+Message-ID: <ZRhAx5oDFxJJkUIz@google.com>
+References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+ <ZQ+jddG+UbuSD7pP@google.com>
+ <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1447; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=EU2LjIzzIEw1uOSkgKF6jDTiS5CXMLB75+qFfOk57jI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlFvj0VfUlmGHNT0hrh6Yv9rwSiuxTi4ATgbZcq HPOTBZ67PiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRb49AAKCRCPgPtYfRL+ TlSiB/9Njt9Jdg9B7UzciPo87WQq9tGAbpUf6QFamH+saJ1AQm4yHL6lCd2oMFbBFlkLpalWp5Q Ynhb2OC//zWV/w66/9erqdkKn5LTizfPsEJWy5ED6PvZi4fUxWdYy+oihDDO5fnq0xCqXClqL4t W38Mvf9eGBlF+7GR+xlsYLtTgFvLoCHgWXvshv0IbIxpNGWL5ECEeZLNLWODax95gD2jb4vhIQS jtStovnFEYHljix7uE8O6A8ls/IcFj2TQ/Lr9HJ3hiUIjgYRLCLnOIvb4mdZllSmudbdVQAlKqN gBs2FuQnXjr2XEPOQhb9hEh41lHHoB9/iMUdDKfXZP/hw29+
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
 
-Hello,
+Hi Uwe,
 
-this is a set of patches I based my efforts for closing a race condition
-in the pwm core on. I thought I already sent them out, but it seems I
-didn't. So here they come!
+Sorry for the spotty responses.
 
-Best regards
-Uwe
+On Sun, Sep 24, 2023 at 05:50:57PM +0200, Uwe Kleine-König wrote:
+> Hello Dmitry,
+> 
+> On Sat, Sep 23, 2023 at 07:48:21PM -0700, Dmitry Torokhov wrote:
+> > On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-König wrote:
+> > > Hello,
+> > > 
+> > > this series converts all platform drivers below drivers/input to use
+> > > remove_new. The motivation is to get rid of an integer return code
+> > > that is (mostly) ignored by the platform driver core and error prone on
+> > > the driver side.
+> > > 
+> > > See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> > > returns no value") for an extended explanation and the eventual goal.
+> > > 
+> > > There are no interdependencies between the patches. As there are still
+> > > quite a few drivers to convert, I'm happy about every patch that makes
+> > > it in. So even if there is a merge conflict with one patch until you
+> > > apply or a subject prefix is suboptimal, please apply the remainder of
+> > > this series anyhow.
+> > 
+> > Applied the lot (fixing the i8042-sparcio patch subject), thank you!
+> 
+> Thanks. In the meantime I found out why my process failed here: I only
+> fixed *.c, but this driver struct is defined in a header file
+> i8042-sparcio.h.
+> 
+> This file is only included by drivers/input/serio/i8042.h which in turn
+> is only included by drivers/input/serio/i8042.c. So there is only one
+> instance created, but I'd call that unusual anyhow.
 
-Uwe Kleine-KÃ¶nig (11):
-  pwm: bcm-iproc: Simplify using devm functions
-  pwm: bcm2835: Simplify using devm functions
-  pwm: brcmstb: Simplify using devm functions
-  pwm: imx-tpm: Simplify using devm functions
-  pwm: mtk-disp: Simplify using devm_pwmchip_add()
-  pwm: spear: Simplify using devm functions
-  pwm: sprd: Provide a helper to cast a chip to driver data
-  pwm: sprd: Simplify using devm_pwmchip_add() and dev_err_probe()
-  pwm: vt8500: Simplify using devm functions
-  pwm: samsung: Consistently use the same name for driver data
-  pwm: cros-ec: Simplify using devm_pwmchip_add() and dev_err_probe()
+Right, i8042 is essentially a singleton, and what you see here is an
+attempt to bolt OF onto a legacy driver that is largely predates the
+current driver model. I wanted to clean it up, but it is still widely
+used and I am hesitant to disturb it too much.
 
- drivers/pwm/pwm-bcm-iproc.c |  37 +++-------
- drivers/pwm/pwm-bcm2835.c   |  27 ++------
- drivers/pwm/pwm-brcmstb.c   |  42 +++---------
- drivers/pwm/pwm-cros-ec.c   |  33 +++------
- drivers/pwm/pwm-imx-tpm.c   |  29 ++------
- drivers/pwm/pwm-mtk-disp.c  |  24 ++-----
- drivers/pwm/pwm-samsung.c   | 130 ++++++++++++++++++------------------
- drivers/pwm/pwm-spear.c     |  40 +++--------
- drivers/pwm/pwm-sprd.c      |  28 +++-----
- drivers/pwm/pwm-vt8500.c    |  42 +++---------
- 10 files changed, 137 insertions(+), 295 deletions(-)
+Thanks.
 
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-2.40.1
-
+Dmitry

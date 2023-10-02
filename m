@@ -1,50 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C05AA53
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 06:01:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63A5C433C7;
-	Mon,  2 Oct 2023 06:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696226471;
-	bh=E6NHbvDfGdEjlAdElIutkw57ebLwqlv15g3KdfcOOkA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gQsl1SOg6VvHVmF2WorijKzYYoHySmQfhTjFt5JMVeDMSmrQUW+cXUoQ3+PIvK8Iy
-	 WppASh9kUzu1zWraN2/yKG2p+or5mOTelAHptdhBoPD8AP6NahHPQJsXf9QoO8A2mT
-	 S4JLIxsC1iSqa4ctMspx3+Rpq78x2mwjdf6KZsfmsymjh8s394B9d8Q641fhlc/xi5
-	 fgLt0F7vr+1We5/M8pifL5CVXORf298G3od2B6caozSC2405gqES4IYFlzsBtamoQx
-	 kIy3yxL1cZ9HKAES3oGWXfw032IYhreGALrJXGfwOWJENTJvUE0FeavcdMhFAb/05d
-	 UJMlZ6H5l4cbA==
-Date: Mon, 2 Oct 2023 06:01:08 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 11/11] pwm: cros-ec: Simplify using devm_pwmchip_add()
- and dev_err_probe()
-Message-ID: <ZRpcpPhCX95ks2rc@google.com>
-References: <20230929161918.2410424-1-u.kleine-koenig@pengutronix.de>
- <20230929161918.2410424-12-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BD9C2EB
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 09:59:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85311C433C7;
+	Mon,  2 Oct 2023 09:59:18 +0000 (UTC)
+Message-ID: <49b1fe75-529d-4663-9e83-b9463d45b0a3@xs4all.nl>
+Date: Mon, 2 Oct 2023 11:59:16 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230929161918.2410424-12-u.kleine-koenig@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v2] media: platform: cros-ec: Add Taranza to the match table
+Content-Language: en-US, nl
+To: Ken Lin <ken_lin5@hotmail.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: groeck@chromium.org, Benson Leung <bleung@chromium.org>,
+ Kevin Chiu <kevin.chiu.17802@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Reka Norman <rekanorman@chromium.org>, Rory Liu
+ <hellojacky0226@hotmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
+ chrome-platform@lists.linux.dev, linux-media@vger.kernel.org
+References: <KL1PR01MB380907A7B0AD8A53727F87E2AEF7A@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <KL1PR01MB380907A7B0AD8A53727F87E2AEF7A@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 29, 2023 at 06:19:18PM +0200, Uwe Kleine-König wrote:
-> Using devm_pwmchip_add() allows to drop pwmchip_remove() from the remove
-> function which makes this function empty. Then there is no user of
-> drvdata left and platform_set_drvdata() can be dropped, too.
+On 14/09/2023 13:30, Ken Lin wrote:
+> Taranza has two HDMI ports which support CEC:
+> Port D is EC port 0
+> Port B is EC port 1
 > 
-> Further simplify and improve error returning using dev_err_probe().
+> Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
+> ---
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Changes in v2:
+>  Use a NULL-terminated conns array for the match table entry
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> index 920aed0d1929..66e96abc9abf 100644
+> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> @@ -298,6 +298,7 @@ static const char *const fizz_conns[] = { "Port B", NULL };
+>  static const char *const dibbi_conns[] = { "Port D", "Port B", NULL };
+>  static const char *const constitution_conns[] = { "Port B", "Port A", NULL };
+>  static const char *const boxy_conns[] = { "Port D", NULL };
+> +static const char *const taranza_conns[] = { "Port D", "Port B", NULL };
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Just reuse dibbi_conns, just as is done with fizz_conns.
+
+Actually, what would be better is to rename these _conns arrays to something
+like:
+
+static const char *const port_db_conns[] = { "Port D", "Port B", NULL };
+
+That's much cleaner IMHO.
+
+Can you post a small patch series? The first renames these conns arrays,
+the second adds Taranza support.
+
+Thank you!
+
+	Hans
+
+>  
+>  static const struct cec_dmi_match cec_dmi_match_table[] = {
+>  	/* Google Fizz */
+> @@ -322,6 +323,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+>  	{ "Google", "Constitution", "0000:00:02.0", constitution_conns },
+>  	/* Google Boxy */
+>  	{ "Google", "Boxy", "0000:00:02.0", boxy_conns },
+> +	/* Google Taranza */
+> +	{ "Google", "Taranza", "0000:00:02.0", taranza_conns },
+>  };
+>  
+>  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+

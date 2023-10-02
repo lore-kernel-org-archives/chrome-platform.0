@@ -1,93 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4F838B
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E24DC433C9;
-	Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C05AA53
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 06:01:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63A5C433C7;
+	Mon,  2 Oct 2023 06:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696215628;
-	bh=FLmuE+PPEGAv2iGMtU1eXSNUT5ya0cp/4+njJxMDSbA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=o5h3QlHyDbbMhwgUGSkiqsAFavTnUxqIcW/G1wkHH0/oVI6X0ufnEch8MN53Vpq08
-	 eYWGjA1l58LW47L+XU6QvH7aQ1LwM0UFe6XneDxPEO+y3myaNtDxft9m3m4lclNr8d
-	 u+iGfm4/38DOOHUS7LyUz4uTlHjf6unQH6sZ8TJ/1uSW0rUPcHd7pccV4hkfiyJM2j
-	 Zg8VR1wTe7gmnaflGzvAtiL/jElkl5yYm4X4b0pJwsufth62eb3x81geIpfqfIO0Cq
-	 tgym5V/2+wJz4/DA3H37vTCcczI9uIL+2rXJ2TfkJnwuZyluz2wGDn/3eI+qL+6Hxm
-	 JFFxe+p4uNkPw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 31B70C395C5;
-	Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1696226471;
+	bh=E6NHbvDfGdEjlAdElIutkw57ebLwqlv15g3KdfcOOkA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gQsl1SOg6VvHVmF2WorijKzYYoHySmQfhTjFt5JMVeDMSmrQUW+cXUoQ3+PIvK8Iy
+	 WppASh9kUzu1zWraN2/yKG2p+or5mOTelAHptdhBoPD8AP6NahHPQJsXf9QoO8A2mT
+	 S4JLIxsC1iSqa4ctMspx3+Rpq78x2mwjdf6KZsfmsymjh8s394B9d8Q641fhlc/xi5
+	 fgLt0F7vr+1We5/M8pifL5CVXORf298G3od2B6caozSC2405gqES4IYFlzsBtamoQx
+	 kIy3yxL1cZ9HKAES3oGWXfw032IYhreGALrJXGfwOWJENTJvUE0FeavcdMhFAb/05d
+	 UJMlZ6H5l4cbA==
+Date: Mon, 2 Oct 2023 06:01:08 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH 11/11] pwm: cros-ec: Simplify using devm_pwmchip_add()
+ and dev_err_probe()
+Message-ID: <ZRpcpPhCX95ks2rc@google.com>
+References: <20230929161918.2410424-1-u.kleine-koenig@pengutronix.de>
+ <20230929161918.2410424-12-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/27] platform: Convert to platform remove callback returning
- void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169621562819.8096.2360185583269694735.git-patchwork-notify@kernel.org>
-Date: Mon, 02 Oct 2023 03:00:28 +0000
-References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: bleung@chromium.org, tzungbi@kernel.org, pmalani@chromium.org,
- groeck@chromium.org, briannorris@chromium.org, zkhuang@hust.edu.cn,
- dzm91@hust.edu.cn, gregkh@linuxfoundation.org, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, markgross@kernel.org, vadimp@nvidia.com,
- gerd.haeussler.ext@siemens.com, xingtong.wu@siemens.com,
- tobias.schaffner@siemens.com, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- kernel@pengutronix.de
+In-Reply-To: <20230929161918.2410424-12-u.kleine-koenig@pengutronix.de>
 
-Hello:
-
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Wed, 27 Sep 2023 10:10:13 +0200 you wrote:
-> Hello,
+On Fri, Sep 29, 2023 at 06:19:18PM +0200, Uwe Kleine-König wrote:
+> Using devm_pwmchip_add() allows to drop pwmchip_remove() from the remove
+> function which makes this function empty. Then there is no user of
+> drvdata left and platform_set_drvdata() can be dropped, too.
 > 
-> this series converts all platform drivers below drivers/platform to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
+> Further simplify and improve error returning using dev_err_probe().
 > 
-> [...]
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Here is the summary with links:
-  - [01/27] platform/chrome: cros_ec_chardev: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/f04410e7be65
-  - [02/27] platform/chrome: cros_ec_debugfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/f366fa0064ef
-  - [03/27] platform/chrome: cros_ec_lightbar: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/fa45583c3133
-  - [04/27] platform/chrome: cros_ec_lpc: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/e02944e85169
-  - [05/27] platform/chrome: cros_ec_sysfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/6478e302409a
-  - [06/27] platform/chrome: cros_ec_vbc: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/58b15196b0ef
-  - [07/27] platform/chrome: cros_typec_switch: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/ea4bad2badb7
-  - [08/27] platform/chrome: cros_usbpd_logger: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/b6c1fea83550
-  - [09/27] platform/chrome: cros_usbpd_notify: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/b98362be7c92
-  - [10/27] platform/chrome/wilco_ec: core: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/48648504e488
-  - [11/27] platform/chrome/wilco_ec: debugfs: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/1fca58f347d8
-  - [12/27] platform/chrome/wilco_ec: telemetry: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/7396a5b980fd
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

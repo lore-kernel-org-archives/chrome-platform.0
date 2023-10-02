@@ -1,145 +1,93 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F892C9E;
-	Sat, 30 Sep 2023 15:37:49 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-690bfd4f3ebso12037433b3a.3;
-        Sat, 30 Sep 2023 08:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696088268; x=1696693068; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SFxpcz2a7H2ZjgJ8ssrmjpRaSpMI8na0366gdvXOP5U=;
-        b=fl3j0HTGNxQCQ8A7RQZj3q4RGh4INgJPZGEDCDEFJLmNTaheL0XFOiQzNWmjmwJX7m
-         z0bw5JPZWcAAvK925z5xR0/S/ghEa98e8PSae7wpUNYoCCvPHENqLrUZC+0cqFKzNGP6
-         wIEn59B+xh/MUaA52FMS6681JiL1spQKhwp6LqKNGl0mo8QAcKGrqt/7/ZpH17rjI0qO
-         vLku/82FzPaHlyPlyeRHCg8GdxESi9cB+jeEf3zyO4EukfIayAzgjTCGA3Zxpzi+IUcq
-         GbkLUfDMscqktZVWP61xmw7Em/AFJMi4Rto4ol5PmrgIs4dvI02xVLldF142zNWdSYcw
-         /ntQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696088268; x=1696693068;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SFxpcz2a7H2ZjgJ8ssrmjpRaSpMI8na0366gdvXOP5U=;
-        b=SsF8o5vBI+J4bBDNTBXnaUx/r+ltpyTgxRTLU2QqTDACO12SVuNGDZ6kH5nzf+ZONP
-         Bk2MuaZBaUkeNeJINMXRoCkMylD6ZVvLYqr0t6NajLh1BSsMo9JH7PI0tzwVl9oXu2Dn
-         lMxKqiucsEDVrdvcGmPvEepuheHjSaKeFl9POJaJKQbltV8bVLIgUWT7YNDtuPcuKjXj
-         kAjWeLXppmbpURkNK0UihMBIgcmIIzKsjAB5M9lFslSCJSb+U/hxWFYUKJMiLfftneIJ
-         cSAukPiIueQA4TblaaYMl4p23NEf/p7ccg2u1uFJ+LbYqBrJXoEGGfBtFKPpMgO5pAlo
-         6K4w==
-X-Gm-Message-State: AOJu0YzTxAMiK8gnr+cuhTHtewfyM8BEz+50Vcm989hTcebNxMOkIySy
-	EpaKcqntMqjgroInAbRmR9M=
-X-Google-Smtp-Source: AGHT+IEMqhKSToJyXm3yTD7cSFnLWSycVL5nK0X/hEUjcO1rvPkbJ0hf7ZvRqV9SvIbBhj0xSyFIPg==
-X-Received: by 2002:a05:6a00:16c7:b0:68f:ecb9:5fde with SMTP id l7-20020a056a0016c700b0068fecb95fdemr7078816pfc.34.1696088268304;
-        Sat, 30 Sep 2023 08:37:48 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a90f:2dad:30c1:d923])
-        by smtp.gmail.com with ESMTPSA id a10-20020a62d40a000000b006926506de1csm17137176pfh.28.2023.09.30.08.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 08:37:47 -0700 (PDT)
-Date: Sat, 30 Sep 2023 08:37:43 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Pavel Machek <pavel@ucw.cz>, Guenter Roeck <groeck@chromium.org>,
-	Liang He <windhl@126.com>, linux-stm32@st-md-mailman.stormreply.com,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	chrome-platform@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Samuel Holland <samuel@sholland.org>,
-	Andrey Moiseev <o2g.org.ru@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Ruan Jinjie <ruanjinjie@huawei.com>, Yangtao Li <frank.li@vivo.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-	Miloslav Trmac <mitr@volny.cz>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
-	linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>, ye xingchen <ye.xingchen@zte.com.cn>,
-	Kalle Valo <kvalo@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Siarhei Volkau <lis8215@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Chen Jun <chenjun102@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel@pengutronix.de, patches@opensource.cirrus.com,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
- returning void
-Message-ID: <ZRhAx5oDFxJJkUIz@google.com>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <ZQ+jddG+UbuSD7pP@google.com>
- <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4F838B
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E24DC433C9;
+	Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696215628;
+	bh=FLmuE+PPEGAv2iGMtU1eXSNUT5ya0cp/4+njJxMDSbA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=o5h3QlHyDbbMhwgUGSkiqsAFavTnUxqIcW/G1wkHH0/oVI6X0ufnEch8MN53Vpq08
+	 eYWGjA1l58LW47L+XU6QvH7aQ1LwM0UFe6XneDxPEO+y3myaNtDxft9m3m4lclNr8d
+	 u+iGfm4/38DOOHUS7LyUz4uTlHjf6unQH6sZ8TJ/1uSW0rUPcHd7pccV4hkfiyJM2j
+	 Zg8VR1wTe7gmnaflGzvAtiL/jElkl5yYm4X4b0pJwsufth62eb3x81geIpfqfIO0Cq
+	 tgym5V/2+wJz4/DA3H37vTCcczI9uIL+2rXJ2TfkJnwuZyluz2wGDn/3eI+qL+6Hxm
+	 JFFxe+p4uNkPw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 31B70C395C5;
+	Mon,  2 Oct 2023 03:00:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
+Subject: Re: [PATCH 00/27] platform: Convert to platform remove callback returning
+ void
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169621562819.8096.2360185583269694735.git-patchwork-notify@kernel.org>
+Date: Mon, 02 Oct 2023 03:00:28 +0000
+References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: bleung@chromium.org, tzungbi@kernel.org, pmalani@chromium.org,
+ groeck@chromium.org, briannorris@chromium.org, zkhuang@hust.edu.cn,
+ dzm91@hust.edu.cn, gregkh@linuxfoundation.org, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, markgross@kernel.org, vadimp@nvidia.com,
+ gerd.haeussler.ext@siemens.com, xingtong.wu@siemens.com,
+ tobias.schaffner@siemens.com, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ kernel@pengutronix.de
 
-Hi Uwe,
+Hello:
 
-Sorry for the spotty responses.
+This series was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Sun, Sep 24, 2023 at 05:50:57PM +0200, Uwe Kleine-König wrote:
-> Hello Dmitry,
+On Wed, 27 Sep 2023 10:10:13 +0200 you wrote:
+> Hello,
 > 
-> On Sat, Sep 23, 2023 at 07:48:21PM -0700, Dmitry Torokhov wrote:
-> > On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-König wrote:
-> > > Hello,
-> > > 
-> > > this series converts all platform drivers below drivers/input to use
-> > > remove_new. The motivation is to get rid of an integer return code
-> > > that is (mostly) ignored by the platform driver core and error prone on
-> > > the driver side.
-> > > 
-> > > See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> > > returns no value") for an extended explanation and the eventual goal.
-> > > 
-> > > There are no interdependencies between the patches. As there are still
-> > > quite a few drivers to convert, I'm happy about every patch that makes
-> > > it in. So even if there is a merge conflict with one patch until you
-> > > apply or a subject prefix is suboptimal, please apply the remainder of
-> > > this series anyhow.
-> > 
-> > Applied the lot (fixing the i8042-sparcio patch subject), thank you!
+> this series converts all platform drivers below drivers/platform to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side.
 > 
-> Thanks. In the meantime I found out why my process failed here: I only
-> fixed *.c, but this driver struct is defined in a header file
-> i8042-sparcio.h.
-> 
-> This file is only included by drivers/input/serio/i8042.h which in turn
-> is only included by drivers/input/serio/i8042.c. So there is only one
-> instance created, but I'd call that unusual anyhow.
+> [...]
 
-Right, i8042 is essentially a singleton, and what you see here is an
-attempt to bolt OF onto a legacy driver that is largely predates the
-current driver model. I wanted to clean it up, but it is still widely
-used and I am hesitant to disturb it too much.
+Here is the summary with links:
+  - [01/27] platform/chrome: cros_ec_chardev: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/f04410e7be65
+  - [02/27] platform/chrome: cros_ec_debugfs: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/f366fa0064ef
+  - [03/27] platform/chrome: cros_ec_lightbar: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/fa45583c3133
+  - [04/27] platform/chrome: cros_ec_lpc: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/e02944e85169
+  - [05/27] platform/chrome: cros_ec_sysfs: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/6478e302409a
+  - [06/27] platform/chrome: cros_ec_vbc: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/58b15196b0ef
+  - [07/27] platform/chrome: cros_typec_switch: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/ea4bad2badb7
+  - [08/27] platform/chrome: cros_usbpd_logger: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/b6c1fea83550
+  - [09/27] platform/chrome: cros_usbpd_notify: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/b98362be7c92
+  - [10/27] platform/chrome/wilco_ec: core: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/48648504e488
+  - [11/27] platform/chrome/wilco_ec: debugfs: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/1fca58f347d8
+  - [12/27] platform/chrome/wilco_ec: telemetry: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/7396a5b980fd
 
-Thanks.
-
+You are awesome, thank you!
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

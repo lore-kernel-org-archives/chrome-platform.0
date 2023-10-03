@@ -1,123 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903D7D536
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 08:05:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9922EC433C7;
-	Tue,  3 Oct 2023 08:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696320319;
-	bh=+EXXE5qyb6OZuQ1N71rzLp8clhZBybJ1yv6PlQDVyis=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NRgLHI9aiPaCoFd5yMu7iVLZAT/vWgi90qpweKFFJjg5oqu5R39TzEF2vvoxfjbzW
-	 JfutX2ZG8G0mamQ7ZKasTzUuDBbEMAX0Rvg9DerNGL+sQWcdyQn+euUSYWbutot3S8
-	 aUADVuibBKce7FNrVpGKBwqiS04vxW1U6+KZ/9K6jZDlvkKg3776i+RTcmKWLmdGRn
-	 L1ILIEzjk+gQDBO19CcGOv/ZJU4RCdhFKakPg6iY4ufMnsJFqZJpLil9bpOaQOeExG
-	 E/Z+kpW9RzShGx7GorUXCx/LvV0/uadPQxW4mX5IgQ30k97/p1h3I7XN9OWXhAOTsN
-	 KvazeW3R4aBSw==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: tzungbi@kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F223E461
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 22:11:44 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1c60f1a2652so2560895ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Oct 2023 15:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696371104; x=1696975904; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QWFdWcwaZ07tccmvOmfe9sVqfxtw17L6Xwy81VVH0tc=;
+        b=OI/en6YbY3gyENnDPWR2LFiEsEztFy4YS7mzl4K/DT9491Rr8Xvyo7gR9hfWjLG76/
+         cv8amx1NE+Z1q8EHY62AxHqfjhcRfiUosK7Aj7vuP7Jf+cJCvVh08LMV8ryepIn+NFx9
+         QMnuZ+9fKXy2ozjFbTCudmN1ONZmhlUWzULG4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696371104; x=1696975904;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QWFdWcwaZ07tccmvOmfe9sVqfxtw17L6Xwy81VVH0tc=;
+        b=AtgOdR5zr/48L13m38mEcoUMEssTBrYxO0V/ZoUsOSJTGU2bfsKCzGs5QR1ym8wBMH
+         i8Zr21ANM8ugFR0wTXymwKgv3/EwgfPmOXpkD2Ki/IXcJTOAVqt5gDS6fFPXfKFU+n/M
+         Xwh1j9Hyc1HTFp22JgOYLtYp3hXUX+3A4aq4nz/nI+lXkfI8goA+a7oQqsw5qT9BZS4g
+         Ylj5Kg0bC5o5LF+EBcYOJzNGH4QvvC5rIwBRZPOli/IjqHaaWWtJVk2ZBl0Ldnh2UGty
+         3Rw3bFHqs9VtQiZdGLGCyx4+rkcP8iYwv5QeewwhBeFvfgTLRNQ5aUxfUcl3SY4y4gGh
+         eQeg==
+X-Gm-Message-State: AOJu0Yw8dyVOpCL9qyenOQAqau9iJzHqZHPfb6niIzhVZJ6C0TV8EPq4
+	lqepfV/5utBX1RIxBhyxgfW8CA==
+X-Google-Smtp-Source: AGHT+IEZRfFhNafHK4dA9rjQZdDnW9hSDlrDkVFEx78a8EOt5GKRH36xETfI5Lo6zDgzAm6lbjACVw==
+X-Received: by 2002:a17:902:e80f:b0:1bd:d510:78fb with SMTP id u15-20020a170902e80f00b001bdd51078fbmr6299280plg.3.1696371103898;
+        Tue, 03 Oct 2023 15:11:43 -0700 (PDT)
+Received: from chromium.org (77.62.105.34.bc.googleusercontent.com. [34.105.62.77])
+        by smtp.gmail.com with ESMTPSA id t10-20020a63b70a000000b005854f6a6ef7sm1675856pgf.23.2023.10.03.15.11.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 15:11:43 -0700 (PDT)
+Date: Tue, 3 Oct 2023 22:11:42 +0000
+From: Prashant Malani <pmalani@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH] platform/chrome: kunit: make EC protocol tests independent
-Date: Tue,  3 Oct 2023 08:05:15 +0000
-Message-ID: <20231003080515.4011374-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
+Subject: Re: [PATCH 0/4] platform/chrome: Random driver cleanups
+Message-ID: <ZRyRnq1B0Xcwc2RH@chromium.org>
+References: <20231003003429.1378109-1-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231003003429.1378109-1-swboyd@chromium.org>
 
-Remove CONFIG_CROS_KUNIT and common code concept for ChromeOS Kunit but
-make it bundle to ChromeOS EC protocol tests.
+Hi Stephen,
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/Kconfig                             | 6 +++---
- drivers/platform/chrome/Makefile                            | 5 ++---
- drivers/platform/chrome/cros_ec_proto_test.c                | 2 +-
- .../chrome/{cros_kunit_util.c => cros_ec_proto_test_util.c} | 4 +---
- .../chrome/{cros_kunit_util.h => cros_ec_proto_test_util.h} | 0
- 5 files changed, 7 insertions(+), 10 deletions(-)
- rename drivers/platform/chrome/{cros_kunit_util.c => cros_ec_proto_test_util.c} (98%)
- rename drivers/platform/chrome/{cros_kunit_util.h => cros_ec_proto_test_util.h} (100%)
+Thanks for submitting the patch series.
 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 7d82a0946e1c..7a83346bfa53 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -299,12 +299,12 @@ config CROS_TYPEC_SWITCH
- source "drivers/platform/chrome/wilco_ec/Kconfig"
- 
- # Kunit test cases
--config CROS_KUNIT
--	tristate "Kunit tests for ChromeOS" if !KUNIT_ALL_TESTS
-+config CROS_KUNIT_EC_PROTO_TEST
-+	tristate "Kunit tests for ChromeOS EC protocol" if !KUNIT_ALL_TESTS
- 	depends on KUNIT && CROS_EC
- 	default KUNIT_ALL_TESTS
- 	select CROS_EC_PROTO
- 	help
--	  ChromeOS Kunit tests.
-+	  Kunit tests for ChromeOS EC protocol.
- 
- endif # CHROMEOS_PLATFORMS
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index 9e26e45c4a37..2dcc6ccc2302 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -36,6 +36,5 @@ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
- obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
- 
- # Kunit test cases
--obj-$(CONFIG_CROS_KUNIT)		+= cros_kunit.o
--cros_kunit-objs				:= cros_kunit_util.o
--cros_kunit-objs				+= cros_ec_proto_test.o
-+obj-$(CONFIG_CROS_KUNIT_EC_PROTO_TEST)	+= cros_kunit_proto_test.o
-+cros_kunit_proto_test-objs		:= cros_ec_proto_test_util.o cros_ec_proto_test.o
-diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index 5b9748e0463b..28f722396fc1 100644
---- a/drivers/platform/chrome/cros_ec_proto_test.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -11,7 +11,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- 
- #include "cros_ec.h"
--#include "cros_kunit_util.h"
-+#include "cros_ec_proto_test_util.h"
- 
- #define BUFSIZE 512
- 
-diff --git a/drivers/platform/chrome/cros_kunit_util.c b/drivers/platform/chrome/cros_ec_proto_test_util.c
-similarity index 98%
-rename from drivers/platform/chrome/cros_kunit_util.c
-rename to drivers/platform/chrome/cros_ec_proto_test_util.c
-index f0fda96b11bd..65d328bcd6eb 100644
---- a/drivers/platform/chrome/cros_kunit_util.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test_util.c
-@@ -11,7 +11,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- 
- #include "cros_ec.h"
--#include "cros_kunit_util.h"
-+#include "cros_ec_proto_test_util.h"
- 
- int cros_kunit_ec_xfer_mock_default_result;
- int cros_kunit_ec_xfer_mock_default_ret;
-@@ -126,5 +126,3 @@ void cros_kunit_mock_reset(void)
- 	cros_kunit_readmem_mock_data = NULL;
- 	cros_kunit_readmem_mock_ret = 0;
- }
--
--MODULE_LICENSE("GPL");
-diff --git a/drivers/platform/chrome/cros_kunit_util.h b/drivers/platform/chrome/cros_ec_proto_test_util.h
-similarity index 100%
-rename from drivers/platform/chrome/cros_kunit_util.h
-rename to drivers/platform/chrome/cros_ec_proto_test_util.h
--- 
-2.42.0.582.g8ccd20d70d-goog
+On Oct 02 17:34, Stephen Boyd wrote:
+> Here's some random chromeos driver cleanups that have been sitting in my
+> tree. I've noticed them while browsing the code for something I'm
+> working on.
+> 
+> Stephen Boyd (4):
+>   platform/chrome: cros_ec_typec: Use semi-colons instead of commas
+>   platform/chrome: cros_ec_typec: Use dev_err_probe() more
+>   platform/chrome: cros_typec_vdm: Mark port_amode_ops const
+>   platform/chrome: cros_ec_proto: Mark outdata as const
 
+For the series:
+
+Acked-by: Prashant Malani <pmalani@chromium.org>
+
+BR,
+
+-Prashant

@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85F76AC0
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 08:04:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47619C433C8;
-	Tue,  3 Oct 2023 08:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9D66AC0
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 08:05:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6B6C433C8;
+	Tue,  3 Oct 2023 08:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696320298;
-	bh=WDAY3SiNIjP7S/QBDFZHxolwBYfBLTlBTAnghRllNbc=;
+	s=k20201202; t=1696320308;
+	bh=P6ZoaKpKZhytyJm8MWN02ndOrqzwlHri/jkJrY69plc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=HaNTwN3JTFPsdsYcUU+tnUBiBnLeoiiHDqEYiBGMS/FDRQ0IfiGWlVlGgDMMGoGpa
-	 yCMaoy8+dYGCL1nO+08dJdKJSDW3HttJ3MxEVXieEmiC7MbtSitaR6pnMt6ZhvK/8q
-	 1KKg+1Ffj1mKcZxTViSNYxvnW4z314Ef1Fv9fcvlHbU195mFsHcX2GIuaghyceYYfc
-	 jnpws67iwvKtD6Llizhk+NV6CVYkYrhpxXdzSwf+B+TNJrCu78iG5lm9cjLwpiiLXX
-	 KpmFt7Af3Cwoekl61bCgf4f0kaUE3tninLk1DBfXCacdJ+7nXfnmGwHDUCykbCFI28
-	 h7/yebiNXa/+Q==
+	b=baDzcJgU/EFIxkQ+P3eEcs0QtwXwv26JfC0jiYrypybKJN5YOtPwaqOmUXabUP7j/
+	 P0YDX8BOke7MTcX3V6EkVhWwEFYBzbtiNAww7dkLeg6vDbjISFLVX9zwBLV1CiTfyk
+	 rMSd74jL8qIJY+WWXj2ANcXeMvNqxxUIGJV+hksxmEC8nlerOVTDnUBGhX9fA0QQee
+	 GoErog4mY8lRztvVRXXS6oPgbxGkcIajR64ScueelJm+1JN+u7fySE5AfFdZcrThRe
+	 dHYoIBemnIkQZntcpmiVhtUfhNyAcvsOz4J4IvQ/TegvtAQ0bZ0DyvBu6KD+kpp9H3
+	 F01HpulPP3arg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org,
 	groeck@chromium.org
 Cc: tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH] platform/chrome: cros_ec: fix compilation warning
-Date: Tue,  3 Oct 2023 08:04:53 +0000
-Message-ID: <20231003080453.4011301-1-tzungbi@kernel.org>
+Subject: [PATCH] platform/chrome: kunit: initialize lock for fake ec_dev
+Date: Tue,  3 Oct 2023 08:05:04 +0000
+Message-ID: <20231003080504.4011337-1-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -32,30 +32,34 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When including cros_ec.h solely, the compiler emits the following
-warning:
-> 'struct cros_ec_device' declared inside parameter list
-  will not be visible outside of this definition or declaration
+cros_ec_cmd_xfer() uses ec_dev->lock.  Initialize it.
 
-Fix it by forward declaration.
+Otherwise, dmesg shows the following:
+> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+> ...
+> Call Trace:
+>  ? __mutex_lock
+>  ? __warn
+>  ? __mutex_lock
+>  ...
+>  ? cros_ec_cmd_xfer
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- drivers/platform/chrome/cros_ec.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/platform/chrome/cros_ec_proto_test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/platform/chrome/cros_ec.h b/drivers/platform/chrome/cros_ec.h
-index bbca0096868a..2b2574236030 100644
---- a/drivers/platform/chrome/cros_ec.h
-+++ b/drivers/platform/chrome/cros_ec.h
-@@ -10,6 +10,8 @@
+diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+index 28f722396fc1..b6169d6f2467 100644
+--- a/drivers/platform/chrome/cros_ec_proto_test.c
++++ b/drivers/platform/chrome/cros_ec_proto_test.c
+@@ -2668,6 +2668,7 @@ static int cros_ec_proto_test_init(struct kunit *test)
+ 	ec_dev->dev->release = cros_ec_proto_test_release;
+ 	ec_dev->cmd_xfer = cros_kunit_ec_xfer_mock;
+ 	ec_dev->pkt_xfer = cros_kunit_ec_xfer_mock;
++	mutex_init(&ec_dev->lock);
  
- #include <linux/interrupt.h>
- 
-+struct cros_ec_device;
-+
- int cros_ec_register(struct cros_ec_device *ec_dev);
- void cros_ec_unregister(struct cros_ec_device *ec_dev);
+ 	priv->msg = (struct cros_ec_command *)priv->_msg;
  
 -- 
 2.42.0.582.g8ccd20d70d-goog

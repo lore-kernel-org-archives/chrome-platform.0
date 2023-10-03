@@ -1,40 +1,40 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3315963D
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 00:34:33 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6910ea9cca1so246935b3a.1
-        for <chrome-platform@lists.linux.dev>; Mon, 02 Oct 2023 17:34:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F11641
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 00:34:35 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-690fe10b6a4so259511b3a.3
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Oct 2023 17:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696293273; x=1696898073; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1696293274; x=1696898074; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Kv8GuqsvKsi/EUYP1j3AWhIWAgjVOKJZXtPzqkrmwyA=;
-        b=JUjKOy/H0I/cCGgdZjAuZHnQY3QJEd05swsE46GVimhjv1/DAlyj0s1tf3E+gr+VwG
-         1ihyWjce/97533KQbmeNETXRkSeoCjF3TQgzgh+Z1uRZQBYY2p4zx8CF53HlovKpzw9U
-         K1r3PbxKuDzeZgnViRUM5+mNWCP0dUKHMrIuo=
+        bh=L5aF3XmMYuXB9m+K+yR4UudzmAD6ahXZqfX5b3PlkQE=;
+        b=V/Mx1uP5RsRYiKPJq+7py08zs0xr1WJA+wS0AO42BVesHfPuifPZI0PQAQEEinTxGt
+         h+8Qh+MG5WWpQTQrZyVa7YfgIUY7+ok6dfKSyxJkzbnn+nxQRnPQru24KD5+zuUw0MYW
+         lDTKmWwEZQT+GE6cv929IVjwNzqWiL0ruFQg0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696293273; x=1696898073;
+        d=1e100.net; s=20230601; t=1696293274; x=1696898074;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Kv8GuqsvKsi/EUYP1j3AWhIWAgjVOKJZXtPzqkrmwyA=;
-        b=g9kkbB3whjcEwo9R2b8kw8m/BoySksIHVB3DDhMxPMtpAwwLGA7WcGEYnJGkQsixbE
-         iZPBzkZZxLsZbDRsLqv1b2IHemfPl/BKtAV+WPpnlTNJq1AyPdhH/cBt2Baga+H0vcEb
-         W2uj5msm8zOTa6dPm7o1h55KeKTgX00eFqxb/AMsEY34zK3pHtMz+/UXHqwhT0U3gSTO
-         +Y+GU027qGoK4XSbSb30yZxSfznbCObCX44UXApqvvP8coqLIGR/teSfFe0KTH6vuCpc
-         mxwUbhfVLxDAWW/TjZbowHSaMj2cgu49Hxvj5nZrc0iicveWbBYO9ItTACAqh8jPhDnq
-         edOw==
-X-Gm-Message-State: AOJu0YyS1yt1IALyre32GndfKv+XjX+19iYMo8BXGu0CHcHXC7KE/kt2
-	gS1ZQRKjiJKLPUBRa8pA05IQ+w==
-X-Google-Smtp-Source: AGHT+IFmyY1Jz5vTG+gHqh7YJUJXUAwzo6atPGN8MYVl4TgNouohFY5Mk9dCNjzr0dbhxeAvEeGuow==
-X-Received: by 2002:a05:6a00:392a:b0:693:42d2:cde0 with SMTP id fh42-20020a056a00392a00b0069342d2cde0mr11023259pfb.22.1696293273499;
-        Mon, 02 Oct 2023 17:34:33 -0700 (PDT)
+        bh=L5aF3XmMYuXB9m+K+yR4UudzmAD6ahXZqfX5b3PlkQE=;
+        b=NhADVtg+DxO36ZdJFQBGrLwIGwfxgaLKIY+1irmCG1ews3Jrsstmglr2iMUlcIW8qi
+         MtF5AJX0quyQEWrhRm1o/tfkeYQ1j5p1BYiHlu4UhgUGB2IESOBmkWOmapL9upYzUPnj
+         mW+XRAcv9z5hFuN3Ie5dBi1muPbFah/9G3awU97PFhb7qu7CE21bzeM1HQQEs/oG+osU
+         5P0G/5qwD5onK2qyFEQ/Bmh7pGHLPI98z707/f11r4oGts+MSkUMrmfFKNBvCH+8RwYk
+         R9tOxxE11YVQ9HbMEQs0+/8wvzVWChZq1CfEAl46UaBGjVDwxCRJH1YVCPQFbRdiQniB
+         Mcgw==
+X-Gm-Message-State: AOJu0YwO+KvHcXE4wnF8CWAjMuKnEx4jrBTLKZZHAUE85suTxfqe0WxN
+	1j6xyO/6qkk0uThF/3tk9XY4yw==
+X-Google-Smtp-Source: AGHT+IENc/i97QiaKLX8ED7u8WLA/M8LbyfJtn+ap0kJa0WKwfajkcwqigch9jifv0DXhEQbmHsRWg==
+X-Received: by 2002:a05:6a00:b87:b0:693:3d55:2ba6 with SMTP id g7-20020a056a000b8700b006933d552ba6mr16207301pfj.9.1696293274608;
+        Mon, 02 Oct 2023 17:34:34 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:11a:201:f676:8db:8677:aefe])
-        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b0068a13b0b300sm101368pfb.11.2023.10.02.17.34.32
+        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b0068a13b0b300sm101368pfb.11.2023.10.02.17.34.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 17:34:33 -0700 (PDT)
+        Mon, 02 Oct 2023 17:34:34 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
@@ -42,9 +42,9 @@ Cc: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	chrome-platform@lists.linux.dev,
 	Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH 2/4] platform/chrome: cros_ec_typec: Use dev_err_probe() more
-Date: Mon,  2 Oct 2023 17:34:26 -0700
-Message-ID: <20231003003429.1378109-3-swboyd@chromium.org>
+Subject: [PATCH 3/4] platform/chrome: cros_typec_vdm: Mark port_amode_ops const
+Date: Mon,  2 Oct 2023 17:34:27 -0700
+Message-ID: <20231003003429.1378109-4-swboyd@chromium.org>
 X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
 In-Reply-To: <20231003003429.1378109-1-swboyd@chromium.org>
 References: <20231003003429.1378109-1-swboyd@chromium.org>
@@ -56,54 +56,41 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's some debug prints here that can be upgraded to dev_err_probe()
-so that we don't have to fish out the error messages when a true error
-happens. If they're simply probe defers then the kernel will keep silent
-but if they're true errors we'll see the errors in the logs.
+Mark this struct of functions const so it moves to RO memory.
 
 Cc: Prashant Malani <pmalani@chromium.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/platform/chrome/cros_typec_vdm.c | 2 +-
+ drivers/platform/chrome/cros_typec_vdm.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 82e7d08b52c7..67000e4a8082 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -80,28 +80,28 @@ static int cros_typec_get_switch_handles(struct cros_typec_port *port,
- 	port->mux = fwnode_typec_mux_get(fwnode);
- 	if (IS_ERR(port->mux)) {
- 		ret = PTR_ERR(port->mux);
--		dev_dbg(dev, "Mux handle not found: %d.\n", ret);
-+		dev_err_probe(dev, ret, "Mux handle not found\n");
- 		goto mux_err;
- 	}
+diff --git a/drivers/platform/chrome/cros_typec_vdm.c b/drivers/platform/chrome/cros_typec_vdm.c
+index 20515ee0a20e..3f632fd35000 100644
+--- a/drivers/platform/chrome/cros_typec_vdm.c
++++ b/drivers/platform/chrome/cros_typec_vdm.c
+@@ -142,7 +142,7 @@ static int cros_typec_port_amode_vdm(struct typec_altmode *amode, const u32 hdr,
+ 			   sizeof(req), NULL, 0);
+ }
  
- 	port->retimer = fwnode_typec_retimer_get(fwnode);
- 	if (IS_ERR(port->retimer)) {
- 		ret = PTR_ERR(port->retimer);
--		dev_dbg(dev, "Retimer handle not found: %d.\n", ret);
-+		dev_err_probe(dev, ret, "Retimer handle not found\n");
- 		goto retimer_sw_err;
- 	}
+-struct typec_altmode_ops port_amode_ops = {
++const struct typec_altmode_ops port_amode_ops = {
+ 	.enter = cros_typec_port_amode_enter,
+ 	.vdm = cros_typec_port_amode_vdm,
+ };
+diff --git a/drivers/platform/chrome/cros_typec_vdm.h b/drivers/platform/chrome/cros_typec_vdm.h
+index 95a6a75d32b6..631bd2ce4b00 100644
+--- a/drivers/platform/chrome/cros_typec_vdm.h
++++ b/drivers/platform/chrome/cros_typec_vdm.h
+@@ -5,7 +5,7 @@
  
- 	port->ori_sw = fwnode_typec_switch_get(fwnode);
- 	if (IS_ERR(port->ori_sw)) {
- 		ret = PTR_ERR(port->ori_sw);
--		dev_dbg(dev, "Orientation switch handle not found: %d\n", ret);
-+		dev_err_probe(dev, ret, "Orientation switch handle not found\n");
- 		goto ori_sw_err;
- 	}
+ #include <linux/usb/typec_altmode.h>
  
- 	port->role_sw = fwnode_usb_role_switch_get(fwnode);
- 	if (IS_ERR(port->role_sw)) {
- 		ret = PTR_ERR(port->role_sw);
--		dev_dbg(dev, "USB role switch handle not found: %d\n", ret);
-+		dev_err_probe(dev, ret, "USB role switch handle not found\n");
- 		goto role_sw_err;
- 	}
+-extern struct typec_altmode_ops port_amode_ops;
++extern const struct typec_altmode_ops port_amode_ops;
  
+ void cros_typec_handle_vdm_attention(struct cros_typec_data *typec, int port_num);
+ void cros_typec_handle_vdm_response(struct cros_typec_data *typec, int port_num);
 -- 
 https://chromeos.dev
 

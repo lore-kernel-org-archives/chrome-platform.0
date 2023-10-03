@@ -1,86 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BD9C2EB
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Oct 2023 09:59:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85311C433C7;
-	Mon,  2 Oct 2023 09:59:18 +0000 (UTC)
-Message-ID: <49b1fe75-529d-4663-9e83-b9463d45b0a3@xs4all.nl>
-Date: Mon, 2 Oct 2023 11:59:16 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F281D362
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 00:34:31 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-578b4997decso207480a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Oct 2023 17:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696293271; x=1696898071; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CLzLe9FrFcSRLQYLz3TN9yC6YJWYh7HG+BIh8jZ2l60=;
+        b=VPUPILnlmMvpVL6miDDumchQ0AaEsDxlDTK6Gh+lRySuWNIAtPDP9jnx8dI3ECGEug
+         Pn1u+FEc7gb8E7iR8pdykFtvi4ysn1ja+tZUA1SqpgwA+l/4ToHMKFqUB5fcDRqn6iz6
+         8I9U8P9eNG8LYOtQ+Mvx3ixhRv/cA56Nki+2Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696293271; x=1696898071;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CLzLe9FrFcSRLQYLz3TN9yC6YJWYh7HG+BIh8jZ2l60=;
+        b=eoWSlqhEne06+xRpkEfrN/BcdDOzGwFbWUeHZrcZiucOsZ6aNooWIJno63hPHE0gpQ
+         vQi/K/uBTRC8B6IQdpxiKwco2cF+QSYSgbcy1bZHp58I0CPU12Po1LxbTzXyBQ+y0Tpv
+         CAHcY97VNiM8CTHY6171yNVKKXEQz4gPF+yGTomVZN+KdJ9a4Bdoe/JKARtEbhtPwbHz
+         RPROG7rwpOt1PPYuPvbFHaWN8JnmEMrQxoyW9sED5PKo2Ka6uPUO8W7IUa5dDkvZUubs
+         C+4HETnKdNEd4fBINkAHgTQ34G/hjJWVn5iU8q7jlT9mPjVvpEvek/lNvRUOG1p1Xn0q
+         LE1w==
+X-Gm-Message-State: AOJu0YzUAwk65RD2nt6KLqvucE+3HGpy2pgmaUMqRVePN08vT8v7NGhA
+	h291s3N3kVIJv1+FtcC9d6OyjA==
+X-Google-Smtp-Source: AGHT+IH9X2WMxnOuNE9ItsTdLVOGQrsDzZs7Y+RgdoCxMjPQ14Zoimq0BAGrTodLKwpbqhDegXssXQ==
+X-Received: by 2002:a05:6a21:1f20:b0:15d:6ea0:82da with SMTP id ry32-20020a056a211f2000b0015d6ea082damr11124826pzb.33.1696293271241;
+        Mon, 02 Oct 2023 17:34:31 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:11a:201:f676:8db:8677:aefe])
+        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b0068a13b0b300sm101368pfb.11.2023.10.02.17.34.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 17:34:30 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 0/4] platform/chrome: Random driver cleanups
+Date: Mon,  2 Oct 2023 17:34:24 -0700
+Message-ID: <20231003003429.1378109-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2] media: platform: cros-ec: Add Taranza to the match table
-Content-Language: en-US, nl
-To: Ken Lin <ken_lin5@hotmail.com>, LKML <linux-kernel@vger.kernel.org>
-Cc: groeck@chromium.org, Benson Leung <bleung@chromium.org>,
- Kevin Chiu <kevin.chiu.17802@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Reka Norman <rekanorman@chromium.org>, Rory Liu
- <hellojacky0226@hotmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
- chrome-platform@lists.linux.dev, linux-media@vger.kernel.org
-References: <KL1PR01MB380907A7B0AD8A53727F87E2AEF7A@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <KL1PR01MB380907A7B0AD8A53727F87E2AEF7A@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/09/2023 13:30, Ken Lin wrote:
-> Taranza has two HDMI ports which support CEC:
-> Port D is EC port 0
-> Port B is EC port 1
-> 
-> Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
-> ---
-> 
-> Changes in v2:
->  Use a NULL-terminated conns array for the match table entry
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 920aed0d1929..66e96abc9abf 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -298,6 +298,7 @@ static const char *const fizz_conns[] = { "Port B", NULL };
->  static const char *const dibbi_conns[] = { "Port D", "Port B", NULL };
->  static const char *const constitution_conns[] = { "Port B", "Port A", NULL };
->  static const char *const boxy_conns[] = { "Port D", NULL };
-> +static const char *const taranza_conns[] = { "Port D", "Port B", NULL };
+Here's some random chromeos driver cleanups that have been sitting in my
+tree. I've noticed them while browsing the code for something I'm
+working on.
 
-Just reuse dibbi_conns, just as is done with fizz_conns.
+Stephen Boyd (4):
+  platform/chrome: cros_ec_typec: Use semi-colons instead of commas
+  platform/chrome: cros_ec_typec: Use dev_err_probe() more
+  platform/chrome: cros_typec_vdm: Mark port_amode_ops const
+  platform/chrome: cros_ec_proto: Mark outdata as const
 
-Actually, what would be better is to rename these _conns arrays to something
-like:
+ drivers/platform/chrome/cros_ec_proto.c     |  2 +-
+ drivers/platform/chrome/cros_ec_typec.c     | 18 +++++++++---------
+ drivers/platform/chrome/cros_typec_vdm.c    |  2 +-
+ drivers/platform/chrome/cros_typec_vdm.h    |  2 +-
+ include/linux/platform_data/cros_ec_proto.h |  2 +-
+ 5 files changed, 13 insertions(+), 13 deletions(-)
 
-static const char *const port_db_conns[] = { "Port D", "Port B", NULL };
 
-That's much cleaner IMHO.
-
-Can you post a small patch series? The first renames these conns arrays,
-the second adds Taranza support.
-
-Thank you!
-
-	Hans
-
->  
->  static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	/* Google Fizz */
-> @@ -322,6 +323,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
->  	{ "Google", "Constitution", "0000:00:02.0", constitution_conns },
->  	/* Google Boxy */
->  	{ "Google", "Boxy", "0000:00:02.0", boxy_conns },
-> +	/* Google Taranza */
-> +	{ "Google", "Taranza", "0000:00:02.0", taranza_conns },
->  };
->  
->  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+-- 
+https://chromeos.dev
 

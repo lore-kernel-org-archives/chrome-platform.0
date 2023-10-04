@@ -1,63 +1,48 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F223E461
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Oct 2023 22:11:44 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1c60f1a2652so2560895ad.0
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Oct 2023 15:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696371104; x=1696975904; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWFdWcwaZ07tccmvOmfe9sVqfxtw17L6Xwy81VVH0tc=;
-        b=OI/en6YbY3gyENnDPWR2LFiEsEztFy4YS7mzl4K/DT9491Rr8Xvyo7gR9hfWjLG76/
-         cv8amx1NE+Z1q8EHY62AxHqfjhcRfiUosK7Aj7vuP7Jf+cJCvVh08LMV8ryepIn+NFx9
-         QMnuZ+9fKXy2ozjFbTCudmN1ONZmhlUWzULG4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696371104; x=1696975904;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWFdWcwaZ07tccmvOmfe9sVqfxtw17L6Xwy81VVH0tc=;
-        b=AtgOdR5zr/48L13m38mEcoUMEssTBrYxO0V/ZoUsOSJTGU2bfsKCzGs5QR1ym8wBMH
-         i8Zr21ANM8ugFR0wTXymwKgv3/EwgfPmOXpkD2Ki/IXcJTOAVqt5gDS6fFPXfKFU+n/M
-         Xwh1j9Hyc1HTFp22JgOYLtYp3hXUX+3A4aq4nz/nI+lXkfI8goA+a7oQqsw5qT9BZS4g
-         Ylj5Kg0bC5o5LF+EBcYOJzNGH4QvvC5rIwBRZPOli/IjqHaaWWtJVk2ZBl0Ldnh2UGty
-         3Rw3bFHqs9VtQiZdGLGCyx4+rkcP8iYwv5QeewwhBeFvfgTLRNQ5aUxfUcl3SY4y4gGh
-         eQeg==
-X-Gm-Message-State: AOJu0Yw8dyVOpCL9qyenOQAqau9iJzHqZHPfb6niIzhVZJ6C0TV8EPq4
-	lqepfV/5utBX1RIxBhyxgfW8CA==
-X-Google-Smtp-Source: AGHT+IEZRfFhNafHK4dA9rjQZdDnW9hSDlrDkVFEx78a8EOt5GKRH36xETfI5Lo6zDgzAm6lbjACVw==
-X-Received: by 2002:a17:902:e80f:b0:1bd:d510:78fb with SMTP id u15-20020a170902e80f00b001bdd51078fbmr6299280plg.3.1696371103898;
-        Tue, 03 Oct 2023 15:11:43 -0700 (PDT)
-Received: from chromium.org (77.62.105.34.bc.googleusercontent.com. [34.105.62.77])
-        by smtp.gmail.com with ESMTPSA id t10-20020a63b70a000000b005854f6a6ef7sm1675856pgf.23.2023.10.03.15.11.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 15:11:43 -0700 (PDT)
-Date: Tue, 3 Oct 2023 22:11:42 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 0/4] platform/chrome: Random driver cleanups
-Message-ID: <ZRyRnq1B0Xcwc2RH@chromium.org>
-References: <20231003003429.1378109-1-swboyd@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E23ECD;
+	Wed,  4 Oct 2023 03:50:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 14D57C433C9;
+	Wed,  4 Oct 2023 03:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696391425;
+	bh=c8Roab6aa9Nae1aAnyEzh4yR/xvaRHrM2IuA1++Ug9o=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=uIvstt6XUR3m9oSUY4AxcHdpgIj1uw08/c9yoRls2YogQAYYdbvS4MLGylbBujL+L
+	 rJsCrtrkrr2cWxSWwvevVHgWK5MI+helumf4ImdML2KRc4WbCLzixKKwds0zTaSjOI
+	 f9ULWVP1kZmts/qUGdx9/C+ZtmMIyKrH1skeQ+vYpuX5H7/uzbYVguk/sv7Cjdrj4+
+	 IuSWEPZ8l2kVkdT/D8ktDFxTjlnx7VMoDRP9FxmXhZxMYu/977eyN8CLW9M0A2w9vt
+	 BCiJIBFvAw8NX1nh1nqOCP5/oT7aflzCocFedJi/kxb8S+J85NemOzoqJumUNzXNzD
+	 EGPsiRppbGJDQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E7C3BE632D2;
+	Wed,  4 Oct 2023 03:50:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/4] platform/chrome: Random driver cleanups
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169639142493.18780.17059605384749460756.git-patchwork-notify@kernel.org>
+Date: Wed, 04 Oct 2023 03:50:24 +0000
+References: <20231003003429.1378109-1-swboyd@chromium.org>
 In-Reply-To: <20231003003429.1378109-1-swboyd@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: bleung@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, chrome-platform@lists.linux.dev
 
-Hi Stephen,
+Hello:
 
-Thanks for submitting the patch series.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Oct 02 17:34, Stephen Boyd wrote:
+On Mon,  2 Oct 2023 17:34:24 -0700 you wrote:
 > Here's some random chromeos driver cleanups that have been sitting in my
 > tree. I've noticed them while browsing the code for something I'm
 > working on.
@@ -67,11 +52,22 @@ On Oct 02 17:34, Stephen Boyd wrote:
 >   platform/chrome: cros_ec_typec: Use dev_err_probe() more
 >   platform/chrome: cros_typec_vdm: Mark port_amode_ops const
 >   platform/chrome: cros_ec_proto: Mark outdata as const
+> 
+> [...]
 
-For the series:
+Here is the summary with links:
+  - [1/4] platform/chrome: cros_ec_typec: Use semi-colons instead of commas
+    https://git.kernel.org/chrome-platform/c/a88f6ef67957
+  - [2/4] platform/chrome: cros_ec_typec: Use dev_err_probe() more
+    https://git.kernel.org/chrome-platform/c/2b055bf8ac84
+  - [3/4] platform/chrome: cros_typec_vdm: Mark port_amode_ops const
+    https://git.kernel.org/chrome-platform/c/14e7c01cc349
+  - [4/4] platform/chrome: cros_ec_proto: Mark outdata as const
+    https://git.kernel.org/chrome-platform/c/2f3dd39e2b49
 
-Acked-by: Prashant Malani <pmalani@chromium.org>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-BR,
 
--Prashant

@@ -1,23 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E23ECD;
-	Wed,  4 Oct 2023 03:50:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14D57C433C9;
-	Wed,  4 Oct 2023 03:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696391425;
-	bh=c8Roab6aa9Nae1aAnyEzh4yR/xvaRHrM2IuA1++Ug9o=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=uIvstt6XUR3m9oSUY4AxcHdpgIj1uw08/c9yoRls2YogQAYYdbvS4MLGylbBujL+L
-	 rJsCrtrkrr2cWxSWwvevVHgWK5MI+helumf4ImdML2KRc4WbCLzixKKwds0zTaSjOI
-	 f9ULWVP1kZmts/qUGdx9/C+ZtmMIyKrH1skeQ+vYpuX5H7/uzbYVguk/sv7Cjdrj4+
-	 IuSWEPZ8l2kVkdT/D8ktDFxTjlnx7VMoDRP9FxmXhZxMYu/977eyN8CLW9M0A2w9vt
-	 BCiJIBFvAw8NX1nh1nqOCP5/oT7aflzCocFedJi/kxb8S+J85NemOzoqJumUNzXNzD
-	 EGPsiRppbGJDQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E7C3BE632D2;
-	Wed,  4 Oct 2023 03:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DCD15B0
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Oct 2023 05:08:08 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1c60f1a2652so4419935ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Oct 2023 22:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1696396087; x=1697000887; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fRkfJc80GgawRjdQCD5lE4wlbhzn7ye0V8+JeaBNJSA=;
+        b=p8Yey2ptZdkpeqL/J93wbYxTMEQou2gPZuZXGiAb2wQuGU4fQm8ROHgNVYzoEoA2Vj
+         kl5gMyi2CquifCKsvb7f8M0ddBLYgmaquhe8ht28/aViHNktNB5Qmf9ipl6oWbSXi75w
+         sf4pCwc3hOiKGimlanheE04dESGCp+7ISCdTCUMm9ppRcGT9Q1hFV7oC4HRXxmG6pVxd
+         2kBL1gq/wOpllfDWCdZnMD3fpjH8RuxGvnEtJ/CwsFUW4BwyBkAhTGPFRRpzEYu8fglx
+         PlsLkarGew16Oc3/ydNUbOn57vi8Un3iVKqhnbVYUp/+BHitZb0rhho/BnHVXbb+cVmL
+         FJEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696396087; x=1697000887;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fRkfJc80GgawRjdQCD5lE4wlbhzn7ye0V8+JeaBNJSA=;
+        b=G9ETO8RURPw6EWq4Zpa0YsTVMSZVpeo/4h5WJK/RZKNA1R2IVHjw5rXlF3hTQFYUgx
+         XliUk6Z9ZyVgk/LPFP+08vLZb37GmF86RfBtrwwj1pC0AT1KU0Z3xDgNOnIMxGWDq8mK
+         AIzFJj/RTxAaZPK3/8apQ6K/MdUOVEWjNgm4e+dw9RkAhMGJ5nTYqN7nCvfo3djBLvQY
+         JkM/GfqvLaigYZMYn3IpgptViNUPHIEvzHyVtsupYX/Gd03dv7CliNShqhNAvgs1RvBz
+         7NkmBDxhBOJo/l117GGksnmJpwN7uJFvseHw43+5aw3mwgkB0Vn3y05mj2wA8rAQPDoO
+         hsdA==
+X-Gm-Message-State: AOJu0YyIW1sjEPg7sHKUJtyYKDM/csJ/vgr2bS3Y8hHuP64Zd2d2bQnB
+	hJpXUb3Aol6Y02Honi8lOhoJ0A==
+X-Google-Smtp-Source: AGHT+IHQgEqZPkTNVBVpUeeS4mBaW8bn2mMAu5+TOhOOke93y27ynXudq25C3sx3ed7ttfs1K/hnaQ==
+X-Received: by 2002:a17:902:ec90:b0:1c7:27a1:a9e5 with SMTP id x16-20020a170902ec9000b001c727a1a9e5mr1957981plg.33.1696396087598;
+        Tue, 03 Oct 2023 22:08:07 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id i1-20020a17090332c100b001b7f40a8959sm2572669plr.76.2023.10.03.22.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 22:08:06 -0700 (PDT)
+Message-ID: <651cf336.170a0220.d5445.776a@mx.google.com>
+Date: Tue, 03 Oct 2023 22:08:06 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -25,49 +46,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/4] platform/chrome: Random driver cleanups
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169639142493.18780.17059605384749460756.git-patchwork-notify@kernel.org>
-Date: Wed, 04 Oct 2023 03:50:24 +0000
-References: <20231003003429.1378109-1-swboyd@chromium.org>
-In-Reply-To: <20231003003429.1378109-1-swboyd@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: bleung@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.6-rc1-17-g2f3dd39e2b49
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.6-rc1-17-g2f3dd39e2b49)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.6-rc1-=
+17-g2f3dd39e2b49)
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.6-rc1-17-g2f3dd39e2b49/
 
-On Mon,  2 Oct 2023 17:34:24 -0700 you wrote:
-> Here's some random chromeos driver cleanups that have been sitting in my
-> tree. I've noticed them while browsing the code for something I'm
-> working on.
-> 
-> Stephen Boyd (4):
->   platform/chrome: cros_ec_typec: Use semi-colons instead of commas
->   platform/chrome: cros_ec_typec: Use dev_err_probe() more
->   platform/chrome: cros_typec_vdm: Mark port_amode_ops const
->   platform/chrome: cros_ec_proto: Mark outdata as const
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.6-rc1-17-g2f3dd39e2b49
+Git Commit: 2f3dd39e2b492bec366487a2c9bcbdbd7792f77c
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - [1/4] platform/chrome: cros_ec_typec: Use semi-colons instead of commas
-    https://git.kernel.org/chrome-platform/c/a88f6ef67957
-  - [2/4] platform/chrome: cros_ec_typec: Use dev_err_probe() more
-    https://git.kernel.org/chrome-platform/c/2b055bf8ac84
-  - [3/4] platform/chrome: cros_typec_vdm: Mark port_amode_ops const
-    https://git.kernel.org/chrome-platform/c/14e7c01cc349
-  - [4/4] platform/chrome: cros_ec_proto: Mark outdata as const
-    https://git.kernel.org/chrome-platform/c/2f3dd39e2b49
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-chromebook (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, =
+0 warnings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

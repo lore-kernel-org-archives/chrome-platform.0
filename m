@@ -1,43 +1,43 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6846273E1
-	for <chrome-platform@lists.linux.dev>; Tue, 24 Oct 2023 15:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065851D6A9
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Oct 2023 15:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TmM5dX27"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6ce37d0f13fso2857514a34.2
-        for <chrome-platform@lists.linux.dev>; Tue, 24 Oct 2023 08:47:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Kr9FwPoL"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-586753b0ab0so385229eaf.0
+        for <chrome-platform@lists.linux.dev>; Tue, 24 Oct 2023 08:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1698162477; x=1698767277; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1698163129; x=1698767929; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FEeQBgH8LphIKJNTd/ysb4nUAINIlQ6kR+ZRAx/cAk8=;
-        b=TmM5dX27p7wy4ZbMKIOt9fPHQLJq95fXhcp6RL17qSd8Zy8CfbrJOaXISA0Xv91uoP
-         5j4j6sUIg2p9L2hsb+NQd90ditxxbISNe9CcLLjRZBgAN+yZNOfTqddFqmL99yGQtSXq
-         70SPfNTPVI8Oww+00RIak32P28Rgx6jHmV91A=
+        bh=2h3Pr99/wr+elIZYIboeXZV4Sf7vm+Md0LWnpo9m7D4=;
+        b=Kr9FwPoLSGTLE7FxP7GZ/bsl1CXuevgFDAs76nqRTDNNdOHalb0BkKJzPUAORlSKF1
+         8eqQddKBQeEm897GbenfmsWScHxS/Mhs8v/nvCD6YTwSe8n3yd6V/ZcT9WDl230DsMMm
+         yjDCN60rLi4L4wAFuhKbrbRWKS+5+ymZZXdg8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698162477; x=1698767277;
+        d=1e100.net; s=20230601; t=1698163129; x=1698767929;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FEeQBgH8LphIKJNTd/ysb4nUAINIlQ6kR+ZRAx/cAk8=;
-        b=M3YxcIcNQ9LKVBBFI+VCSduIZlXRbqAG5tuqHwzdeZ5yToM+szJ2EuBWqv9IqZLLHt
-         R/IlrwaXGm793aQpdaZaM06TkF3wfJLreHEt8ik36Cssa0yioZrYLjM7f78Mfo3JRKB/
-         enWQ19t1Dq702F/9E9Y/kvlVNvZhiShe85y11wQTElV7JyT7tvRxJtW2QdQuPl9XvWDa
-         D/X2ACofvOtM6Ya7Hi8OKFd+A7pV2PszRB0TvXK1ILFzkSSGEy6S1TjOxmtoHz2c8lvz
-         j7M2E7DaLWePvmZbg+4zyMIvr2IIOlwfiSUPtiZ9eXxMYorP8fWOGmBgJAPoLzWVmGF3
-         9Q/A==
-X-Gm-Message-State: AOJu0YzO9WojpPi8ZqxARltuH9Fa/gbWx5XAXuoDh2tMK0SnJftaaruU
-	iWoQ95me/FvP+8sj9H0U4Ih0kBQA2wUoghFcJR8=
-X-Google-Smtp-Source: AGHT+IE2H1ItZZdnUkWZbnUPuLK/rzVO3uzye8KS6eCXYzQg8c8vxiJGeP8VAwdaspUrpSR8MjgDXA==
-X-Received: by 2002:a05:6830:6b8f:b0:6cd:3cc0:dab with SMTP id dd15-20020a0568306b8f00b006cd3cc00dabmr14070547otb.37.1698162477593;
-        Tue, 24 Oct 2023 08:47:57 -0700 (PDT)
+        bh=2h3Pr99/wr+elIZYIboeXZV4Sf7vm+Md0LWnpo9m7D4=;
+        b=tFa7RP81e+uYZQDb2aDr3FnTGerf3Z8QFcUk9RG9D5JbOidCUrb9eZ1aiDop6A7sSo
+         ZpjSSR5OXNs8SYXFgbQqbyRlvhEZTUnGLC1ITAvd+dtKDKe4Zh3d9ZnnHWoWQDifaKn7
+         N4wFRJGFxWCBNh+C5S429crCqRvXxqQH/5Cxos0gHw1p0b4r4KN+GQxA4+yH5sGtkFem
+         3JQGgRSlBOy1PO8c1vTjMMQKaS6aIqZlm8142O1CjJ4RwJUvq0z+FIYIcdD02poVGsvM
+         sZEo/ME9B3xuABIjuGKEd0dhwbx4rOZP6p66sEZphNrDIaV1W7noHzcGwm0JoAclgNuB
+         ZTUw==
+X-Gm-Message-State: AOJu0Yz3ndavnQ4jf+EEiVJjCdctOIa7bHxSsIrWjw6aISEV6kzqs0aY
+	9R6ADIWtVsJ8toELUnq031pJtA==
+X-Google-Smtp-Source: AGHT+IFreDcORcG+8B2F6MuWAG0pjfNTXfDb+IiQaEV8LArvld9y9K0AMVGQBqwBzbDVlzTbWn4YVg==
+X-Received: by 2002:a05:6870:3d9b:b0:1e9:919d:83ec with SMTP id lm27-20020a0568703d9b00b001e9919d83ecmr16573165oab.28.1698163128949;
+        Tue, 24 Oct 2023 08:58:48 -0700 (PDT)
 Received: from lalithkraj-glaptop.corp.google.com ([2620:15c:2a:201:ab6e:39db:e561:4a0f])
-        by smtp.gmail.com with ESMTPSA id g17-20020a9d6191000000b006ce2dd80f3csm1897344otk.17.2023.10.24.08.47.56
+        by smtp.gmail.com with ESMTPSA id zh10-20020a0568716b8a00b001dcde628a6fsm2174332oab.42.2023.10.24.08.58.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 08:47:57 -0700 (PDT)
+        Tue, 24 Oct 2023 08:58:48 -0700 (PDT)
 From: Lalith Rajendran <lalithkraj@chromium.org>
 X-Google-Original-From: Lalith Rajendran <lalithkraj@google.com>
 To: LKML <linux-kernel@vger.kernel.org>
@@ -48,9 +48,9 @@ Cc: Lalith Rajendran <lalithkraj@chromium.org>,
 	Tim Van Patten <timvp@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v2] platform/chrome: cros_ec_lpc: Separate host command and irq disable
-Date: Tue, 24 Oct 2023 10:46:59 -0500
-Message-ID: <20231024104658.v2.1.Icc99145043c8d44142bb5ca64ea4c63a417c267b@changeid>
+Subject: [PATCH v3] platform/chrome: cros_ec_lpc: Separate host command and irq disable
+Date: Tue, 24 Oct 2023 10:58:21 -0500
+Message-ID: <20231024105820.v3.1.Icccaed152371dbab868295a6c83d257e8409cf2d@changeid>
 X-Mailer: git-send-email 2.42.0.758.gaed0368e0e-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -66,16 +66,17 @@ Both cros host command and irq disable were moved to suspend
 prepare stage from late suspend recently. This is causing EC
 to report MKBP event timeouts during suspend stress testing.
 When the MKBP event timeouts happen during suspend, subsequent
-wakeup of AP by EC using MKBP doesn't happen properly. Although
-there are other issues to debug here, this change move the irq
-disabling part back to late suspend stage which is a general
+wakeup of AP by EC using MKBP doesn't happen properly. Move the
+irq disabling part back to late suspend stage which is a general
 suggestion from the suspend kernel documentaiton to do irq
 disable as late as possible.
 
-Fixes: 4b9abbc132b8 ("platform/chrome: cros_ec_lpc: Move host command to
-prepare/complete")
+Fixes: 4b9abbc132b8 ("platform/chrome: cros_ec_lpc: Move host command to prepare/complete")
 Signed-off-by: Lalith Rajendran <lalithkraj@chromium.org>
 ---
+
+Changes in v3:
+- Replace commit message s/Although there ... this change move/\nMove/.
 
 Changes in v2:
 - applied mainter feedback from https://patchwork.kernel.org/project/

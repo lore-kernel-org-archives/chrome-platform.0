@@ -1,48 +1,25 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF545664
-	for <chrome-platform@lists.linux.dev>; Sat, 28 Oct 2023 09:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EB31361
+	for <chrome-platform@lists.linux.dev>; Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="bXFy4SPl"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6b709048f32so2634697b3a.0
-        for <chrome-platform@lists.linux.dev>; Sat, 28 Oct 2023 02:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1698483868; x=1699088668; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZV9HcMtQEnQq9BIkGLj1GcyJw0W2s7Masr9gOL+d5tY=;
-        b=bXFy4SPlo0ANUW+pr25ufHEB+Ek2pSGSH0NZDmhzbWDHesAQrv9sJSVnA0ffAH/g5m
-         TEoy6J0RQuvPS+gyzWQXvtQzJXLTOJSVyQBpPBDq71C5WzCyA5J83/t8phCgwWVQ5QxG
-         3xk00FkRyNqErXAN7huYNNm1OUfgA1ky1lrpFgfFckzx1T4p22rPlVeDVFRNkBJOycHE
-         VIdYW6QVyBOGK0dsysRJwGdF515BK7WZCO5F2WE6ORmK/xY3nz7bynIJedkDUuNxMzny
-         zckukwDMPzGsUu9lXFb6WKzSwGP6Gj0N+NONZti0n6xW/YE+AM6LHP+/qz0Is57UQZFe
-         llvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698483868; x=1699088668;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZV9HcMtQEnQq9BIkGLj1GcyJw0W2s7Masr9gOL+d5tY=;
-        b=XKQytyqX0GRtBep9Bu7h8rHb8fA7V3Juq0cwMk8h0fJJO5iOGxMpbTXBVHO1TXRsKL
-         HC9UaSqVAoQoMf0y3m4H3cIj1E4j9pwLWL2q9Oj1xGnEYmal/j3YaPOXObintceuxicP
-         8gD/J9oPsKLKDCvqKy/z3TANOmZIMVjYaMz7BKO+H3T9dwa5CW7vATtiWg03MCmMd3I9
-         JC5O7QQgvHBF1qYGwpB4UtkKO/T97JIj9wDSW/AWW0LoqA0xkYe6xgKAzr1bQJPZ0acK
-         CIxqYXc9HRHJ2/+Ls0LYxUwsie5kc8Jr8hIyBCMrW1D0W74NSkMIS8hW9tfV6MjSein3
-         D2AA==
-X-Gm-Message-State: AOJu0YyeXP3KJY111Zy+HGm6z7jF8j1NLYNDwdKHuh8Cy6ICOQhlrfkr
-	hM8EHblqw/vpPH4RekSB3+GiSw==
-X-Google-Smtp-Source: AGHT+IGdOIt/vmDfJU2kzAlnMapQFBxSTd7J02FeKMAsYzsoIyWhLp9weitX8sPIMQMmU0Xin0xKrA==
-X-Received: by 2002:a05:6a00:cd5:b0:6b1:bf32:4fc3 with SMTP id b21-20020a056a000cd500b006b1bf324fc3mr4920723pfv.19.1698483867852;
-        Sat, 28 Oct 2023 02:04:27 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id x17-20020aa79571000000b0068bbe3073b6sm2555665pfq.181.2023.10.28.02.04.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 02:04:27 -0700 (PDT)
-Message-ID: <653cce9b.a70a0220.4c058.879d@mx.google.com>
-Date: Sat, 28 Oct 2023 02:04:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRB6T5xQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A7E9FC433C9;
+	Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698546021;
+	bh=mHqrtotLhVYixBi6DdxWrP1feYoRLltHdF408c+SDzI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=SRB6T5xQ6BtuBgG3zjbj1IO83AEJ1IPv9igpVFKR5uDDIIEXdlGKuzXjGFKNy/V0k
+	 WgHLKi31UXScu54vNvMlF+CGdH12KFRK8M2/G1f24mAi6bqwyxbwRQYBLWLEw0eJlv
+	 E7oWWOkPZViOa0T4RTHUYh275G8xojJOAsTzgT9oLL7Wz2wC+Ti8rx6DTjTSoP5+ga
+	 4a0bBglvTMudjdG7C/A2zXJ+fWz/Fcj8pFzFNe7rP7xe3+q1LE+P7y73V/7SGBgQ8d
+	 klwqhPJ28njrMhKDaYRzZlSaRhfFgm1jOfFH+ptC8j2jYxiMHZiy8/AHQNK2MbqRVT
+	 YPVHd7QCCcOSw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8EB76C04E32;
+	Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -50,76 +27,46 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.6-rc1-21-g47ea0ddb1f56
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci baseline: 79 runs,
- 1 regressions (v6.6-rc1-21-g47ea0ddb1f56)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4] platform/chrome: cros_ec_lpc: Separate host command and
+ irq disable
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169854602158.20472.60935674192148715.git-patchwork-notify@kernel.org>
+Date: Sun, 29 Oct 2023 02:20:21 +0000
+References: <20231027160221.v4.1.I1725c3ed27eb7cd9836904e49e8bfa9fb0200a97@changeid>
+In-Reply-To: <20231027160221.v4.1.I1725c3ed27eb7cd9836904e49e8bfa9fb0200a97@changeid>
+To: Lalith Rajendran <lalithkraj@chromium.org>
+Cc: linux-kernel@vger.kernel.org, bleung@chromium.org, groeck@chromium.org,
+ rrangel@chromium.org, timvp@chromium.org, tzungbi@kernel.org,
+ chrome-platform@lists.linux.dev
 
-chrome-platform/for-kernelci baseline: 79 runs, 1 regressions (v6.6-rc1-21-=
-g47ea0ddb1f56)
+Hello:
 
-Regressions Summary
--------------------
+This patch was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-platform                 | arch  | lab             | compiler | defconfig |=
- regressions
--------------------------+-------+-----------------+----------+-----------+=
-------------
-imx8mm-innocomm-wb15-evk | arm64 | lab-pengutronix | gcc-10   | defconfig |=
- 1          =
+On Fri, 27 Oct 2023 16:02:22 -0500 you wrote:
+> From: Lalith Rajendran <lalithkraj@chromium.org>
+> 
+> Both cros host command and irq disable were moved to suspend
+> prepare stage from late suspend recently. This is causing EC
+> to report MKBP event timeouts during suspend stress testing.
+> When the MKBP event timeouts happen during suspend, subsequent
+> wakeup of AP by EC using MKBP doesn't happen properly. Move the
+> irq disabling part back to late suspend stage which is a general
+> suggestion from the suspend kernel documentaiton to do irq
+> disable as late as possible.
+> 
+> [...]
 
+Here is the summary with links:
+  - [v4] platform/chrome: cros_ec_lpc: Separate host command and irq disable
+    https://git.kernel.org/chrome-platform/c/47ea0ddb1f56
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.6-rc1-21-g47ea0ddb1f56/plan/baseline/
-
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.6-rc1-21-g47ea0ddb1f56
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      47ea0ddb1f5604ba3496baa19110aec6a3151f2e =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig |=
- regressions
--------------------------+-------+-----------------+----------+-----------+=
-------------
-imx8mm-innocomm-wb15-evk | arm64 | lab-pengutronix | gcc-10   | defconfig |=
- 1          =
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-  Details:     https://kernelci.org/test/plan/id/653cc48338a2ac4e77efcf5b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.6-rc1-21-g47ea0ddb1f56/arm64/defconfig/gcc-10/lab-pengutronix/baseline-im=
-x8mm-innocomm-wb15-evk.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.6-rc1-21-g47ea0ddb1f56/arm64/defconfig/gcc-10/lab-pengutronix/baseline-im=
-x8mm-innocomm-wb15-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/653cc48338a2ac4e77efc=
-f5c
-        new failure (last pass: v6.6-rc1-20-g466f70fb1b10) =
-
- =20

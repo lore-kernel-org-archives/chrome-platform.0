@@ -1,72 +1,169 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EB31361
-	for <chrome-platform@lists.linux.dev>; Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E8346AD
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Oct 2023 07:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRB6T5xQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A7E9FC433C9;
-	Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="osq+AvqB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14446C433C7;
+	Mon, 30 Oct 2023 07:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698546021;
-	bh=mHqrtotLhVYixBi6DdxWrP1feYoRLltHdF408c+SDzI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=SRB6T5xQ6BtuBgG3zjbj1IO83AEJ1IPv9igpVFKR5uDDIIEXdlGKuzXjGFKNy/V0k
-	 WgHLKi31UXScu54vNvMlF+CGdH12KFRK8M2/G1f24mAi6bqwyxbwRQYBLWLEw0eJlv
-	 E7oWWOkPZViOa0T4RTHUYh275G8xojJOAsTzgT9oLL7Wz2wC+Ti8rx6DTjTSoP5+ga
-	 4a0bBglvTMudjdG7C/A2zXJ+fWz/Fcj8pFzFNe7rP7xe3+q1LE+P7y73V/7SGBgQ8d
-	 klwqhPJ28njrMhKDaYRzZlSaRhfFgm1jOfFH+ptC8j2jYxiMHZiy8/AHQNK2MbqRVT
-	 YPVHd7QCCcOSw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8EB76C04E32;
-	Sun, 29 Oct 2023 02:20:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1698649496;
+	bh=TF+SLoURtOuEiBScTKlNLOOVWyED1T/jjnE8GQmfRt8=;
+	h=Date:From:To:Cc:Subject:From;
+	b=osq+AvqBit+/Jk6GkA/MMeX1S+ZULi0fszSM/7k4fDeJ0RoTzGa2PUJq2KKSd9HMF
+	 Rrogs8ATWJgCUEVjVNkmEQPRhhASsRPTl0mRTkhJ6OlyAwIr9w9PC6zqdYEJt5TzZY
+	 ElhdPr/9L08wpYRhblzAFWkCSsyCs7Bq5DK/tsNxz1Mdtp5TBWjabszW/O3erxPdub
+	 iLBmqDWoKsjVjdNaK67oVnz79IJX/mKgNix956Fkp0mM1uHcuMH+qqagkUJk8mTw5v
+	 SymqVlwkEoVsAeQJdMGZ9J8kqaLmbs8F3AlqaJaAjHdWH9HoCI+ZHDse4NNRpHI3OJ
+	 Yi1hfadW8Ccaw==
+Date: Mon, 30 Oct 2023 15:04:52 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [GIT PULL] chrome-platform changes for v6.7
+Message-ID: <ZT9VlLol-dGK5JtE@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4] platform/chrome: cros_ec_lpc: Separate host command and
- irq disable
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169854602158.20472.60935674192148715.git-patchwork-notify@kernel.org>
-Date: Sun, 29 Oct 2023 02:20:21 +0000
-References: <20231027160221.v4.1.I1725c3ed27eb7cd9836904e49e8bfa9fb0200a97@changeid>
-In-Reply-To: <20231027160221.v4.1.I1725c3ed27eb7cd9836904e49e8bfa9fb0200a97@changeid>
-To: Lalith Rajendran <lalithkraj@chromium.org>
-Cc: linux-kernel@vger.kernel.org, bleung@chromium.org, groeck@chromium.org,
- rrangel@chromium.org, timvp@chromium.org, tzungbi@kernel.org,
- chrome-platform@lists.linux.dev
-
-Hello:
-
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Fri, 27 Oct 2023 16:02:22 -0500 you wrote:
-> From: Lalith Rajendran <lalithkraj@chromium.org>
-> 
-> Both cros host command and irq disable were moved to suspend
-> prepare stage from late suspend recently. This is causing EC
-> to report MKBP event timeouts during suspend stress testing.
-> When the MKBP event timeouts happen during suspend, subsequent
-> wakeup of AP by EC using MKBP doesn't happen properly. Move the
-> irq disabling part back to late suspend stage which is a general
-> suggestion from the suspend kernel documentaiton to do irq
-> disable as late as possible.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v4] platform/chrome: cros_ec_lpc: Separate host command and irq disable
-    https://git.kernel.org/chrome-platform/c/47ea0ddb1f56
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Drij9VBv3K0eFLzJ"
+Content-Disposition: inline
 
 
+--Drij9VBv3K0eFLzJ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Linus,
+
+Please pull chrome-platform updates for v6.7.
+
+Thanks,
+TzungBi
+
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
+
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git=
+ tags/tag-chrome-platform-for-v6.7
+
+for you to fetch changes up to 47ea0ddb1f5604ba3496baa19110aec6a3151f2e:
+
+  platform/chrome: cros_ec_lpc: Separate host command and irq disable (2023=
+-10-28 11:13:25 +0800)
+
+----------------------------------------------------------------
+chrome platform changes for 6.7
+
+* Improvements
+
+  - Annotate flexible array members with __counted_by.
+  - Convert platform drivers' .remove callbacks to return void.
+
+* Fixes
+
+  - Avoid MKBP event timeouts by disabling/enabling IRQ later/earlier.
+
+* Misc
+
+  - Minor cleanups and fixes.
+
+----------------------------------------------------------------
+Kees Cook (1):
+      platform/chrome: wilco_ec: Annotate struct ec_event_queue with __coun=
+ted_by
+
+Lalith Rajendran (1):
+      platform/chrome: cros_ec_lpc: Separate host command and irq disable
+
+Stephen Boyd (4):
+      platform/chrome: cros_ec_typec: Use semi-colons instead of commas
+      platform/chrome: cros_ec_typec: Use dev_err_probe() more
+      platform/chrome: cros_typec_vdm: Mark port_amode_ops const
+      platform/chrome: cros_ec_proto: Mark outdata as const
+
+Tzung-Bi Shih (3):
+      platform/chrome: cros_ec: fix compilation warning
+      platform/chrome: kunit: initialize lock for fake ec_dev
+      platform/chrome: kunit: make EC protocol tests independent
+
+Uwe Kleine-K=F6nig (12):
+      platform/chrome: cros_ec_chardev: Convert to platform remove callback=
+ returning void
+      platform/chrome: cros_ec_debugfs: Convert to platform remove callback=
+ returning void
+      platform/chrome: cros_ec_lightbar: Convert to platform remove callbac=
+k returning void
+      platform/chrome: cros_ec_lpc: Convert to platform remove callback ret=
+urning void
+      platform/chrome: cros_ec_sysfs: Convert to platform remove callback r=
+eturning void
+      platform/chrome: cros_ec_vbc: Convert to platform remove callback ret=
+urning void
+      platform/chrome: cros_typec_switch: Convert to platform remove callba=
+ck returning void
+      platform/chrome: cros_usbpd_logger: Convert to platform remove callba=
+ck returning void
+      platform/chrome: cros_usbpd_notify: Convert to platform remove callba=
+ck returning void
+      platform/chrome/wilco_ec: core: Convert to platform remove callback r=
+eturning void
+      platform/chrome/wilco_ec: debugfs: Convert to platform remove callbac=
+k returning void
+      platform/chrome/wilco_ec: telemetry: Convert to platform remove callb=
+ack returning void
+
+ drivers/platform/chrome/Kconfig                    |   6 +-
+ drivers/platform/chrome/Makefile                   |   5 +-
+ drivers/platform/chrome/cros_ec.c                  | 116 +++++++++++++++++=
+----
+ drivers/platform/chrome/cros_ec.h                  |   6 ++
+ drivers/platform/chrome/cros_ec_chardev.c          |   6 +-
+ drivers/platform/chrome/cros_ec_debugfs.c          |   6 +-
+ drivers/platform/chrome/cros_ec_lightbar.c         |   6 +-
+ drivers/platform/chrome/cros_ec_lpc.c              |  28 +++--
+ drivers/platform/chrome/cros_ec_proto.c            |   2 +-
+ drivers/platform/chrome/cros_ec_proto_test.c       |   3 +-
+ ...cros_kunit_util.c =3D> cros_ec_proto_test_util.c} |   4 +-
+ ...cros_kunit_util.h =3D> cros_ec_proto_test_util.h} |   0
+ drivers/platform/chrome/cros_ec_sysfs.c            |   6 +-
+ drivers/platform/chrome/cros_ec_typec.c            |  18 ++--
+ drivers/platform/chrome/cros_ec_vbc.c              |   6 +-
+ drivers/platform/chrome/cros_typec_switch.c        |   5 +-
+ drivers/platform/chrome/cros_typec_vdm.c           |   2 +-
+ drivers/platform/chrome/cros_typec_vdm.h           |   2 +-
+ drivers/platform/chrome/cros_usbpd_logger.c        |   6 +-
+ drivers/platform/chrome/cros_usbpd_notify.c        |  12 +--
+ drivers/platform/chrome/wilco_ec/core.c            |   5 +-
+ drivers/platform/chrome/wilco_ec/debugfs.c         |   6 +-
+ drivers/platform/chrome/wilco_ec/event.c           |   2 +-
+ drivers/platform/chrome/wilco_ec/telemetry.c       |   6 +-
+ include/linux/platform_data/cros_ec_proto.h        |   2 +-
+ 25 files changed, 166 insertions(+), 100 deletions(-)
+ rename drivers/platform/chrome/{cros_kunit_util.c =3D> cros_ec_proto_test_=
+util.c} (98%)
+ rename drivers/platform/chrome/{cros_kunit_util.h =3D> cros_ec_proto_test_=
+util.h} (100%)
+
+--Drij9VBv3K0eFLzJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZT9VlAAKCRArxTEGBto8
+9L+HAQCPTJUsJFJCwWzRmviIvzEBcBERLBrbJkktABjbWBZx8wEApJMBc2BzaZ+w
+16W+MsLS6+xCYhuoUb428bT1bLDxCQs=
+=N365
+-----END PGP SIGNATURE-----
+
+--Drij9VBv3K0eFLzJ--

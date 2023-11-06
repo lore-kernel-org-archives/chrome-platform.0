@@ -1,55 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F6D1841
-	for <chrome-platform@lists.linux.dev>; Wed,  1 Nov 2023 04:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ah7M4G4F"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 36363C433C9;
-	Wed,  1 Nov 2023 04:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698812571;
-	bh=K8Tb0j7ol4dMhZerv8aYOBjtHMrHZmEjGiFpsVwk3/A=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=ah7M4G4Fn93acLT2r5eoyHBTvkTL7H/n+ann8wYjOZG+zcsV4I9dRlwimr7ubHube
-	 5puWarR8N9g3CdVXKkxA6aPkTqXBJKrBemH6bXdhJvvCvSWtuajtvcA9grR2aVwJsE
-	 yBnSW8/eF5PzsMHKLujNXvFRyjAE89mwyA1SZJnPk4GGWBnBEdj6n9k7RT2Jl+0FUQ
-	 4jaqysFUJxfaw6hTQ+oDgcMeg9KKaN6PXedzbuZRpuxqajl5tbYJXH85+wNpnR7Gbw
-	 vQRChQGm35C6MsymqgnfM0bL90v+Bfv2lZQbDYy9vnx9U5NjFvT2mnW656QXYNX3oD
-	 9NFI4qbyiplLw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 25458C3959F;
-	Wed,  1 Nov 2023 04:22:51 +0000 (UTC)
-Subject: Re: [GIT PULL] chrome-platform changes for v6.7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZT9VlLol-dGK5JtE@google.com>
-References: <ZT9VlLol-dGK5JtE@google.com>
-X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZT9VlLol-dGK5JtE@google.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.7
-X-PR-Tracked-Commit-Id: 47ea0ddb1f5604ba3496baa19110aec6a3151f2e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3475b91ff258b998b891964e8c263cff48384c01
-Message-Id: <169881257114.5224.10300952805057999114.pr-tracker-bot@kernel.org>
-Date: Wed, 01 Nov 2023 04:22:51 +0000
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6692029420
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Nov 2023 17:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r03ES-0005QV-28; Mon, 06 Nov 2023 18:17:48 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r03ER-0075yL-Lk; Mon, 06 Nov 2023 18:17:47 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r03ER-00DrIp-Cr; Mon, 06 Nov 2023 18:17:47 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 02/18] mfd: cros_ec_dev: Convert to platform remove callback returning void
+Date: Mon,  6 Nov 2023 18:17:11 +0100
+Message-ID: <20231106171708.3892347-3-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231106171708.3892347-1-u.kleine-koenig@pengutronix.de>
+References: <20231106171708.3892347-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1720; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=LCw3bj2aWliMJeRhvUQKWZ55KhVQThCiahgEmDcwN4c=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlSR+WcxZ+4UCl/GvDKW8mubt9953vOUXfszBV1 wxXWkcEyzCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZUkflgAKCRCPgPtYfRL+ TiREB/4kWsYQRmP0otyW3G2NEmZg3ZVs2O8juB6dL96i6NfV/rgbFVRCQonBUwBVCorEAtsynPs eghVQCc3smqLpGrVQIVphKAv4RkjE4DPFrevxjQjxlAuCX07cRYlK9co8q7Tijytij6iH6vnfgd gfCqgAuWWA8g2Pfqjs4kKiCO1r0LndYVXeLkYfbOQ1aUtxTwETA8XtC0gDM53M9SXULtFGAVxAR OrazOLbm0TBGi44DHa+cgOPSCRm6k+x9AztRIC/hW9C9xK98jxSv+jlv0fpIgOGp7sH3wZ8joga K2+viDE6xNRz53FRS9+ROlpJ3VXUbpML8Al9nGwRqcjoFstE
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-The pull request you sent on Mon, 30 Oct 2023 15:04:52 +0800:
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.7
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3475b91ff258b998b891964e8c263cff48384c01
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Thank you!
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/mfd/cros_ec_dev.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index 79d393b602bf..603b1cd52785 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -288,13 +288,12 @@ static int ec_device_probe(struct platform_device *pdev)
+ 	return retval;
+ }
+ 
+-static int ec_device_remove(struct platform_device *pdev)
++static void ec_device_remove(struct platform_device *pdev)
+ {
+ 	struct cros_ec_dev *ec = dev_get_drvdata(&pdev->dev);
+ 
+ 	mfd_remove_devices(ec->dev);
+ 	device_unregister(&ec->class_dev);
+-	return 0;
+ }
+ 
+ static const struct platform_device_id cros_ec_id[] = {
+@@ -309,7 +308,7 @@ static struct platform_driver cros_ec_dev_driver = {
+ 	},
+ 	.id_table = cros_ec_id,
+ 	.probe = ec_device_probe,
+-	.remove = ec_device_remove,
++	.remove_new = ec_device_remove,
+ };
+ 
+ static int __init cros_ec_dev_init(void)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.42.0
+

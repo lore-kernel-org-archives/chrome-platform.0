@@ -1,133 +1,83 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B8629420
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Nov 2023 17:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r03EV-0005QQ-75; Mon, 06 Nov 2023 18:17:51 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r03ER-0075yD-9N; Mon, 06 Nov 2023 18:17:47 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r03EQ-00DrIi-VZ; Mon, 06 Nov 2023 18:17:46 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kernel@pengutronix.de,
-	Benson Leung <bleung@chromium.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375842DF92
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Nov 2023 12:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZ0AKvsg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5E2C43395;
+	Tue,  7 Nov 2023 12:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699358919;
+	bh=MtEg56Db1ITpZqsJ9sWS9PdSnPZ0PiHqxkymMm27JNQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VZ0AKvsg+BJq90/l+Xd7lpVOhJzfpuHUCQdWsZLd1y6T/3oJwWw9zOkQGDIFamsQ9
+	 jbgqlvtRhakAHasaAjzcW8FJP3dOJ/dRcDFIIKrMQUS3NWLayzHx2Cvc+/4szPl015
+	 bb4Y5DPO+Hh8sJNE1boM4bFAK1W8nv+PG+HiU60gP2vgyKMNQ+P+Wyl9jUPfcpC/lT
+	 SOYXIfvmYT5D4O4OOAxP07Y7A7HJeoy+7EDghdaNquxgZkgWS4HUbCTEVjwWJS6wS7
+	 Z5MpQpLQqxm1th+kCCbcFZacFSLFgDP40dX/AqEArS/riYv+fH0vaB0/W9PucHALFS
+	 llGPV/s1dWZUQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Tony Lindgren <tony@atomide.com>,
-	linux-omap@vger.kernel.org,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 00/18] mfd: Convert to platform remove callback returning void
-Date: Mon,  6 Nov 2023 18:17:09 +0100
-Message-ID: <20231106171708.3892347-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+	Sasha Levin <sashal@kernel.org>,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.6 29/31] platform/chrome: kunit: initialize lock for fake ec_dev
+Date: Tue,  7 Nov 2023 07:06:16 -0500
+Message-ID: <20231107120704.3756327-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231107120704.3756327-1-sashal@kernel.org>
+References: <20231107120704.3756327-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3116; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=0FF0Hir69E2HKsvJfQNY/ddJ62LkMYTY7VB8GGwosMM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlSR+UEVz6EdKPvoEWe/b9VJEfQp/9GrduLgHED EGfX/1hsAWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZUkflAAKCRCPgPtYfRL+ TrkgCACt6jktG815FM78opuMSJzVh8L8EMrXJg2QcTB4PFmiFdLTrdybne7rIjMRxTpAjmsba0v VL8Ob6Kz8AmNLdjbx3qjHYArjUhG2hGyldjimtJxv5vEEpdcpJbJnl2Tj3vdtAWxfk4DE0K3xcl TTIh0MSMGJsPKQiE/fuKjG8fzS3mk8bORQEu+5KMYAVZLQdUsoZcmUULLWFdnOvaqFxrGackoTM 51EtiqsmxEKubEHJa0r+WpKi3bNHl/nRXTPU4MNCLO2JCXXY3cRSJ24qriAGi/+BvbLWiNrdVRN adO9ADuSwQuYtHKSkBXthB6PplIwkbPbXVaxwNvTbbhwprJY
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hello,
+From: Tzung-Bi Shih <tzungbi@kernel.org>
 
-this series converts all platform drivers below drivers/mfd to use
-.remove_new(). Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver
-core doesn't (and cannot) cope for errors during remove. The only effect
-of a non-zero return value in .remove() is that the driver core emits a
-warning. The device is removed anyhow and an early return from .remove()
-usually yields resource leaks and/or use-after-free bugs.
+[ Upstream commit e410b4ade83d06a046f6e32b5085997502ba0559 ]
 
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
+cros_ec_cmd_xfer() uses ec_dev->lock.  Initialize it.
 
-All drivers converted here already returned zero unconditionally in
-.remove(), so they are converted here trivially.
+Otherwise, dmesg shows the following:
+> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+> ...
+> Call Trace:
+>  ? __mutex_lock
+>  ? __warn
+>  ? __mutex_lock
+>  ...
+>  ? cros_ec_cmd_xfer
 
-Best regards
-Uwe
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Link: https://lore.kernel.org/r/20231003080504.4011337-1-tzungbi@kernel.org
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_proto_test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Uwe Kleine-König (18):
-  mfd: ab8500-sysctrl: Convert to platform remove callback returning
-    void
-  mfd: cros_ec_dev: Convert to platform remove callback returning void
-  mfd: exynos-lpass: Convert to platform remove callback returning void
-  mfd: fsl-imx25-tsadc: Convert to platform remove callback returning
-    void
-  mfd: hi655x-pmic: Convert to platform remove callback returning void
-  mfd: intel-lpss-acpi: Convert to platform remove callback returning
-    void
-  mfd: kempld-core: Convert to platform remove callback returning void
-  mfd: mcp-sa11x0: Convert to platform remove callback returning void
-  mfd: mxs-lradc: Convert to platform remove callback returning void
-  mfd: omap-usb-host: Convert to platform remove callback returning void
-  mfd: omap-usb-tll: Convert to platform remove callback returning void
-  mfd: pcf50633-adc: Convert to platform remove callback returning void
-  mfd: qcom-pm8xxx: Convert to platform remove callback returning void
-  mfd: sm501: Convert to platform remove callback returning void
-  mfd: stm32-timers: Convert to platform remove callback returning void
-  mfd: ti_am335x_tscadc: Convert to platform remove callback returning
-    void
-  mfd: tps65911-comparator: Convert to platform remove callback
-    returning void
-  mfd: twl4030-audio: Convert to platform remove callback returning void
-
- drivers/mfd/ab8500-sysctrl.c      | 6 ++----
- drivers/mfd/cros_ec_dev.c         | 5 ++---
- drivers/mfd/exynos-lpass.c        | 6 ++----
- drivers/mfd/fsl-imx25-tsadc.c     | 6 ++----
- drivers/mfd/hi655x-pmic.c         | 5 ++---
- drivers/mfd/intel-lpss-acpi.c     | 6 ++----
- drivers/mfd/kempld-core.c         | 6 ++----
- drivers/mfd/mcp-sa11x0.c          | 6 ++----
- drivers/mfd/mxs-lradc.c           | 6 ++----
- drivers/mfd/omap-usb-host.c       | 5 ++---
- drivers/mfd/omap-usb-tll.c        | 5 ++---
- drivers/mfd/pcf50633-adc.c        | 6 ++----
- drivers/mfd/qcom-pm8xxx.c         | 6 ++----
- drivers/mfd/sm501.c               | 6 ++----
- drivers/mfd/stm32-timers.c        | 6 ++----
- drivers/mfd/ti_am335x_tscadc.c    | 6 ++----
- drivers/mfd/tps65911-comparator.c | 6 ++----
- drivers/mfd/twl4030-audio.c       | 6 ++----
- 18 files changed, 36 insertions(+), 68 deletions(-)
-
-base-commit: 3ff7a5781ceee3befb9224d29cef6e6a4766c5fe
+diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+index 5b9748e0463bc..63e38671e95a6 100644
+--- a/drivers/platform/chrome/cros_ec_proto_test.c
++++ b/drivers/platform/chrome/cros_ec_proto_test.c
+@@ -2668,6 +2668,7 @@ static int cros_ec_proto_test_init(struct kunit *test)
+ 	ec_dev->dev->release = cros_ec_proto_test_release;
+ 	ec_dev->cmd_xfer = cros_kunit_ec_xfer_mock;
+ 	ec_dev->pkt_xfer = cros_kunit_ec_xfer_mock;
++	mutex_init(&ec_dev->lock);
+ 
+ 	priv->msg = (struct cros_ec_command *)priv->_msg;
+ 
 -- 
 2.42.0
 

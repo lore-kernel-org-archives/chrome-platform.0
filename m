@@ -1,83 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FFB2E634
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Nov 2023 12:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A81C36AE6
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Nov 2023 18:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfw8FOgx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC3CC43397;
-	Tue,  7 Nov 2023 12:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699359107;
-	bh=Gs8lRYHG/QEOT40sG68E/a1IAjmfaXVTdhAS+MD2BBY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hfw8FOgxTt1M/QZh0zIgsO/i08gGko3/+IZN49TubCtBfRhDTfF5Mojl0i+byULCa
-	 rhoOuyQ38rNuFoKTcDJmluxVLgpXyCbxIf2Zh7JPtwSn+73ZSAAnY/O/dw3T6RzVIv
-	 r3eOA2J1XxUC6PknAtS6163gKOPh+E/IWSrrZDkBBuezAearFXD1xKXhfTAq7OlGb3
-	 SEiR8qSfRb0iiUjLMHxOx2lZr2rzAWwqzdB0hJfIKUIdUiHSpxDuKVhwPMKfhKJSwy
-	 gVZJ058qcDYdsxsPlUPG1fcYhGRZSOMhxX2tf34dQt/vmCfgYaT6zZ67vZfTgXeLq0
-	 t8YHC6n88faWw==
-From: Sasha Levin <sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZqEl8ud1"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso50523295e9.0
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Nov 2023 10:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699467999; x=1700072799; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l1kERn6BqrTYSq/wcLvk2u9/EuVMFvU8+Uv0uPnlNwM=;
+        b=ZqEl8ud1BRV0qVWA33aBjvwKu6tk4eYku0uCIQS82KyddU3LXMzmfuHo9gncndldGT
+         bdW/KNDMyPPx2+WAohjH1drBeV+a/JQAPnEErmz0TdQg6BQpSOQ2RKeXAG8plrh6lq1s
+         KKAszGZNBhw9wtUiDg9YOkqtV3oeYJpYVorkJYg8bbo75sKWd65a9OY3pGNrCtDayH2J
+         onLEmVotdDH2jKtYWrHeNF8xe4AlIvZyGSEcBude1xllDkuMHE9EgwPt8eP2Fz5yYBSB
+         pS47DxRuDRJBE34ix4WtE09QwYaVwYp0xBg7bNe9rD4ZSVM9dMFEq+N27McNAIDogH/8
+         2JIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699467999; x=1700072799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l1kERn6BqrTYSq/wcLvk2u9/EuVMFvU8+Uv0uPnlNwM=;
+        b=wFoez+P6CiE/EiKS5OE0lz5DF7brlxN63hMO3FKVRKgRgw+yBvWz62rrR+3klJTccm
+         0myO84gJKWMdbbdzPiAzWWaxMLPrb3S8iFIGSp+oeNSEJ/uqymsHCfWGQ49nvw9ViOr4
+         lcIsJGEXKEu4PcSJv7eys+64E+bFnym/zH5RCMcRefNpo6VCYzQoVLU07qce8tHW8AOR
+         CRuthWILQpWWVWMh2zpOVpMFM0QETxI6nmkrXAQUA+Zc7xlj9ilEi3VGSYwvhB+NbP1l
+         JgMfdqiLs4kwMZDh6Mub9ksGqai6ECWI07uI5JYfl1Dp8Pukbg37ImpZGrNB7IMV9p/m
+         VXAw==
+X-Gm-Message-State: AOJu0YyU9uyZwXt7iuOYyOTo2taKTAZKWneMM0dSr9KEkQ4wD1Zm2XOr
+	++GJXbmnaiUlWxVxnsNkM1M=
+X-Google-Smtp-Source: AGHT+IHgXWrzbdDq4xZ1jianfBnc7JjgrzvZzvkwkFcw3xZB1748V+kWLOAfOqeV34xJCJ56Am7bTg==
+X-Received: by 2002:a5d:6d8a:0:b0:32f:9511:9795 with SMTP id l10-20020a5d6d8a000000b0032f95119795mr2190812wrs.11.1699467998439;
+        Wed, 08 Nov 2023 10:26:38 -0800 (PST)
+Received: from ALPER-PC.. ([178.233.24.52])
+        by smtp.gmail.com with ESMTPSA id v5-20020adfa1c5000000b0032d81837433sm5542596wrv.30.2023.11.08.10.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 10:26:37 -0800 (PST)
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
 To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Sasha Levin <sashal@kernel.org>,
-	bleung@chromium.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 17/18] platform/chrome: kunit: initialize lock for fake ec_dev
-Date: Tue,  7 Nov 2023 07:10:47 -0500
-Message-ID: <20231107121104.3757943-17-sashal@kernel.org>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: chrome-platform@lists.linux.dev,
+	Patrick Georgi <pgeorgi@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	coreboot@coreboot.org,
+	Brian Norris <briannorris@chromium.org>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Subject: [PATCH] firmware: coreboot: framebuffer: Avoid invalid zero physical address
+Date: Wed,  8 Nov 2023 21:25:13 +0300
+Message-ID: <20231108182625.46563-1-alpernebiyasak@gmail.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107121104.3757943-1-sashal@kernel.org>
-References: <20231107121104.3757943-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.61
 Content-Transfer-Encoding: 8bit
 
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+On ARM64 systems coreboot defers framebuffer allocation to its payload,
+to be done by a libpayload function call. In this case, coreboot tables
+still include a framebuffer entry with display format details, but the
+physical address field is set to zero (as in [1], for example).
 
-[ Upstream commit e410b4ade83d06a046f6e32b5085997502ba0559 ]
+Unfortunately, this field is not automatically updated when the
+framebuffer is initialized through libpayload, citing that doing so
+would invalidate checksums over the entire coreboot table [2].
 
-cros_ec_cmd_xfer() uses ec_dev->lock.  Initialize it.
+This can be observed on ARM64 Chromebooks with stock firmware. On a
+Google Kevin (RK3399), trying to use coreboot framebuffer driver as
+built-in to the kernel results in a benign error. But on Google Hana
+(MT8173) and Google Cozmo (MT8183) it causes a hang.
 
-Otherwise, dmesg shows the following:
-> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> ...
-> Call Trace:
->  ? __mutex_lock
->  ? __warn
->  ? __mutex_lock
->  ...
->  ? cros_ec_cmd_xfer
+When the framebuffer physical address field in the coreboot table is
+zero, we have no idea where coreboot initialized a framebuffer, or even
+if it did. Instead of trying to set up a framebuffer located at zero,
+return ENODEV to indicate that there isn't one.
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-Link: https://lore.kernel.org/r/20231003080504.4011337-1-tzungbi@kernel.org
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+[1] https://review.coreboot.org/c/coreboot/+/17109
+[2] https://review.coreboot.org/c/coreboot/+/8797
+
+Signed-off-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
 ---
- drivers/platform/chrome/cros_ec_proto_test.c | 1 +
- 1 file changed, 1 insertion(+)
+(I was previously told on #coreboot IRC that I could add coreboot
+mailing list to CC for kernel patches related to coreboot.)
 
-diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index c6a83df91ae1e..b46a8bc2196fe 100644
---- a/drivers/platform/chrome/cros_ec_proto_test.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -2667,6 +2667,7 @@ static int cros_ec_proto_test_init(struct kunit *test)
- 	ec_dev->dev->release = cros_ec_proto_test_release;
- 	ec_dev->cmd_xfer = cros_kunit_ec_xfer_mock;
- 	ec_dev->pkt_xfer = cros_kunit_ec_xfer_mock;
-+	mutex_init(&ec_dev->lock);
+ drivers/firmware/google/framebuffer-coreboot.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+index c323a818805c..5c84bbebfef8 100644
+--- a/drivers/firmware/google/framebuffer-coreboot.c
++++ b/drivers/firmware/google/framebuffer-coreboot.c
+@@ -36,6 +36,9 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 		.format = NULL,
+ 	};
  
- 	priv->msg = (struct cros_ec_command *)priv->_msg;
- 
++	if (!fb->physical_address)
++		return -ENODEV;
++
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+ 		if (fb->bits_per_pixel     == formats[i].bits_per_pixel &&
+ 		    fb->red_mask_pos       == formats[i].red.offset &&
+
+base-commit: 2220f68f4504aa1ccce0fac721ccdb301e9da32f
 -- 
 2.42.0
 

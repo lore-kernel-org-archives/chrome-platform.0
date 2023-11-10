@@ -1,232 +1,68 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0A61D55F
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 16:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D188018E03
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 18:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeYHxevp"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1cc4d306fe9so1476255ad.0
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 08:53:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699635201; x=1700240001; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mnZ7OJ7ZO64iFks47AdcXTMyF5IKFy2leso5ma8wKRQ=;
-        b=XeYHxevplLzygloV3IQNXf7s2XM5jQ0wuKQWL+vLQG9YPZb7q+jHkLUdeXrqFYJnCi
-         O2Q/4eEgUENNrOFfjGGB4bv0FHn94d9rcZOprjuXRh/UOwC1wKNzNA+BGks3ELzDoDsv
-         Nf+BAEf8wBetuZ6ffkKelg1D/E5ICcuL0K1zqDKg3ByaFcV9LmN231nxczqSFbm88yE6
-         gC6RhZn62JTMHkT62D8HCu6yCEPehrjo6RSrI+LL+Luro7eVMu1QBwfJyAsVIdpMqCi2
-         RiHM7YiCf8ryWGaLwzck1YMJfETtBHpM60dB8uQ0+wBwaBl2kWusG0Pn7wnSJ+EyzSV/
-         SFQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699635201; x=1700240001;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mnZ7OJ7ZO64iFks47AdcXTMyF5IKFy2leso5ma8wKRQ=;
-        b=IhZIBtdtdt5NIRmex5HUZhXZnz1UZpQmqWXcplJQYENFIiD6D2Hfbg4fbG/EoP5VyM
-         u799k2R+NVpVuyUgUPqLsjL0+YEHwBpi+ssFYAtyZ7LtMZ6JsFn2ksVidUFIw7RwvC77
-         Wh1sUtvRMrgqncGualVoKF5269d/9sp9HK2xogZz9CC5OytWYbLPm1f5NUevPeneF6H1
-         c3OoG6d4tic1P496xvi7oF17xRPXQNqs5YHmT4vQ7910/743PHFWwCHsQ4aDE0BPLqK2
-         JiyKn79CUfbw1umj0+F2ZQGoM6cqlhXeBCLalCPLm/oTOGiChZf/7yHFTRQPMOYTVq0M
-         tJEA==
-X-Gm-Message-State: AOJu0YwLLt6DTIX52o780AT3HR/kaQbLZtKNXTkToRBL3R/b6rlVWg+M
-	96I1Z7Ywd0QzAIrlQ9ZzMeM=
-X-Google-Smtp-Source: AGHT+IFHYwV0F4JTZH6DSsZIwf0T4sriqiKP0sUq3rDyhenXz/S4W6a730H/SWWCdixBagVdL5oI+w==
-X-Received: by 2002:a17:902:e545:b0:1ca:28f3:569a with SMTP id n5-20020a170902e54500b001ca28f3569amr9149475plf.5.1699635200924;
-        Fri, 10 Nov 2023 08:53:20 -0800 (PST)
-Received: from localhost.localdomain ([140.116.154.65])
-        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b001b9da42cd7dsm5584404pld.279.2023.11.10.08.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 08:53:20 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: bleung@chromium.org,
-	tzungbi@kernel.org
-Cc: groeck@chromium.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v2] platform/chrome: sensorhub: Implement quickselect for median calculation
-Date: Sat, 11 Nov 2023 00:53:14 +0800
-Message-Id: <20231110165314.1559285-1-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <ZU3GbHTA3x19h2Zi@google.com>
-References: <ZU3GbHTA3x19h2Zi@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f2ksT5QD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=UkeffA2vSHpOXayjcOQRwDykg5JYTTVBikvJKRaYmgk=; b=f2ksT5QD9cT7H8uSap3qPHtuR3
+	RG86H6Shv3V/1HqpllsDTpnrcpRiP04KKabC4c4hRR9cZqSsh39ebrJpw3MkG3DVEzDJ/8R03jslH
+	OfKlvgRWq9zcqbfWK/q0W+XhWobJED6FUyNeY8YfHuTm3GtjnW/PvNAVcCG14F5BW1i4aXYu4EhVf
+	F7LFAhCWtsZ5NgqNkcsLe8R4Ak9u9/TsWdQVqOx+LUKA0KF1QN27/dy6vrtyfu/sgGqdIO4ovgEjx
+	aKr9sU5WOWrmSNl+pBEMzjnY2FXGPjH9PkZu2KJlKPm+ZnAmwfcg7HRiERJeyog2OOPaPFE/5wsXw
+	yf+0dGdw==;
+Received: from [2603:3004:644:9100::58b]
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r1WKy-00FmxH-2i;
+	Fri, 10 Nov 2023 18:34:37 +0000
+Message-ID: <0c264881-f54c-4db3-ae6d-34facc31c9e7@infradead.org>
+Date: Fri, 10 Nov 2023 10:34:31 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] platform/chrome: sensorhub: Fix typos
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, bleung@chromium.org,
+ tzungbi@kernel.org
+Cc: groeck@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <ZU3GbHTA3x19h2Zi@google.com>
+ <20231110165239.1559109-1-visitorckw@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231110165239.1559109-1-visitorckw@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The cros_ec_sensor_ring_median function currently uses an inefficient
-sorting algorithm (> O(n)) to find the median of an array. This patch
-replaces the sorting approach with the quickselect algorithm, which
-achieves an average time complexity of O(n).
 
-The algorithm employs the median-of-three rule to select the pivot,
-mitigating worst-case scenarios and reducing the expected number of
-necessary comparisons. This strategy enhances the algorithm's
-efficiency and ensures a more balanced partitioning.
 
-In the worst case, the runtime of quickselect could regress to O(n^2).
-To address this, alternative algorithms like median-of-medians that
-can guarantee O(n) even in the worst case. However, due to higher
-overhead and increased complexity of implementation, quickselect
-remains a pragmatic choice for our use case.
+On 11/10/23 08:52, Kuan-Wei Chiu wrote:
+> Replace 'preceeds' with 'precedes' in the comment.
+> Replace 'porod' with 'period' in the comment.
+> Replace 'noone' with 'no one' in the comment.
+> Replace 'lantency' with 'latency' in the comment.
+> Replace 'kifo' with 'kfifo' in the comment.
+> Replace 'change' with 'chance' in the comment.
+> 
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+> v1 -> v2:
+>  * Separate patch series into two patches.
+> 
+>  drivers/platform/chrome/cros_ec_sensorhub_ring.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
-v1 -> v2:
- * Separate patch series into two patches.
- * Modify the microbenchmark[1] to set n=64 and run 10000 repeated times.
- * Enhance coding style and comments.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-[1]:
-static void init_array(s64 *arr, size_t length, s64 seed)
-{
-	for (int i = 0; i < length; i++) {
-		seed = (seed * 725861) % 6599;
-		arr[i] = seed;
-	}
-}
-
-static int quickselect_test(void)
-{
-	s64 *arr;
-	s64 median_old, median_new;
-	ktime_t start, end;
-	s64 delta, time_old = 0, time_new = 0;
-	const size_t array_length = 64;
-	const size_t round = 10000;
-
-	arr = kmalloc(array_length * sizeof(s64), GFP_KERNEL);
-	if (!arr)
-		return -ENOMEM;
-
-	for(size_t i = 0; i < round; i++) {
-		init_array(arr, array_length, i + 1);
-		start = ktime_get();
-		median_old = cros_ec_sensor_ring_median(arr, array_length);
-		end = ktime_get();
-		delta = ktime_us_delta(end, start);
-		time_old += delta;
-
-		init_array(arr, array_length, i + 1);
-		start = ktime_get();
-		median_new = cros_ec_sensor_ring_median_new(arr, array_length);
-		end = ktime_get();
-		delta = ktime_us_delta(end, start);
-		time_new += delta;
-
-		if(median_old != median_new)
-			return 1;
-	}
-
-	printk(KERN_ALERT "Total time of original function: %lld\n", time_old);
-	printk(KERN_ALERT "Total time of new function: %lld\n", time_new);
-
-	kfree(arr);
-
-	/* return 0 on success */
-	return 0;
-}
-
-/* Result:
- * Total time of original function: 157561
- * Total time of new function: 1480
- */
-
- .../platform/chrome/cros_ec_sensorhub_ring.c  | 62 ++++++++++++++-----
- 1 file changed, 45 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index 9e17f7483ca0..1205219515d6 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -133,33 +133,61 @@ int cros_ec_sensorhub_ring_fifo_enable(struct cros_ec_sensorhub *sensorhub,
- 	return ret;
- }
- 
--static int cros_ec_sensor_ring_median_cmp(const void *pv1, const void *pv2)
-+static void cros_ec_sensor_ring_median_swap(s64 *a, s64 *b)
- {
--	s64 v1 = *(s64 *)pv1;
--	s64 v2 = *(s64 *)pv2;
--
--	if (v1 > v2)
--		return 1;
--	else if (v1 < v2)
--		return -1;
--	else
--		return 0;
-+	s64 tmp = *a;
-+	*a = *b;
-+	*b = tmp;
- }
- 
- /*
-  * cros_ec_sensor_ring_median: Gets median of an array of numbers
-  *
-- * For now it's implemented using an inefficient > O(n) sort then return
-- * the middle element. A more optimal method would be something like
-- * quickselect, but given that n = 64 we can probably live with it in the
-- * name of clarity.
-+ * It's implemented using the quickselect algorithm, which achieves an
-+ * average time complexity of O(n) the middle element. In the worst case,
-+ * the runtime of quickselect could regress to O(n^2). To mitigate this,
-+ * algorithms like median-of-medians exist, which can guarantee O(n) even
-+ * in the worst case. However, these algorithms come with a higher
-+ * overhead and are more complex to implement, making quickselect a
-+ * pragmatic choice for our use case.
-  *
-- * Warning: the input array gets modified (sorted)!
-+ * Warning: the input array gets modified!
-  */
- static s64 cros_ec_sensor_ring_median(s64 *array, size_t length)
- {
--	sort(array, length, sizeof(s64), cros_ec_sensor_ring_median_cmp, NULL);
--	return array[length / 2];
-+	int lo = 0;
-+	int hi = length - 1;
-+
-+	while (lo <= hi) {
-+		int mid = lo + (hi - lo) / 2;
-+		int pivot, i;
-+
-+		if (array[lo] > array[mid])
-+			cros_ec_sensor_ring_median_swap(&array[lo], &array[mid]);
-+		if (array[lo] > array[hi])
-+			cros_ec_sensor_ring_median_swap(&array[lo], &array[hi]);
-+		if (array[mid] < array[hi])
-+			cros_ec_sensor_ring_median_swap(&array[mid], &array[hi]);
-+
-+		pivot = array[hi];
-+		i = lo - 1;
-+
-+		for (int j = lo; j < hi; j++)
-+			if (array[j] < pivot)
-+				cros_ec_sensor_ring_median_swap(&array[++i], &array[j]);
-+
-+		/* The pivot's index corresponds to i+1. */
-+		cros_ec_sensor_ring_median_swap(&array[i + 1], &array[hi]);
-+		if (i + 1 == length / 2)
-+			return array[i + 1];
-+		if (i + 1 > length / 2)
-+			hi = i;
-+		else
-+			lo = i + 2;
-+	}
-+
-+	/* Should never reach here. */
-+	return -1;
- }
- 
- /*
--- 
-2.25.1
+Thanks.
 

@@ -1,47 +1,47 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3D61D549
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 16:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0A61D55F
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 16:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="agASJukK"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6bb744262caso204631b3a.0
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 08:52:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeYHxevp"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1cc4d306fe9so1476255ad.0
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 08:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699635166; x=1700239966; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1699635201; x=1700240001; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IxqRDZ+ztZSd9qnawgjaQAg5ACh45Q6dnAez8SycqZU=;
-        b=agASJukKeTRmMg2Uc48KI4vuefd1eYHwETbJ+uxwVEhF/fXyA8GVEFjqgrX5UudQPB
-         hAoJ97dOsIhNAPx38mAPHkE/TbFROjmoyoYCLpuYca+Ec7H28R+oD+Kl9VDwl0YCpMtI
-         8/AYSB+kCf+3hNHCmerVm9RGgjnd0S+nwcrwOA7XkNvtWVWinCnUnBJUtQeQIHoZA6B1
-         mPV9BCeIT7Z5rktZtPnphpgAJEx1FNFhTZ6q+Rzc7WlsroD1mIjwZxsdGak1DEk6+GVf
-         3ImgUcvi1z2IEOhaiD1N3MyiQO2xomy2sPtNhmTz+FNdx9IMy8l9fs3/FpxDIe1ZnJfk
-         tWPQ==
+        bh=mnZ7OJ7ZO64iFks47AdcXTMyF5IKFy2leso5ma8wKRQ=;
+        b=XeYHxevplLzygloV3IQNXf7s2XM5jQ0wuKQWL+vLQG9YPZb7q+jHkLUdeXrqFYJnCi
+         O2Q/4eEgUENNrOFfjGGB4bv0FHn94d9rcZOprjuXRh/UOwC1wKNzNA+BGks3ELzDoDsv
+         Nf+BAEf8wBetuZ6ffkKelg1D/E5ICcuL0K1zqDKg3ByaFcV9LmN231nxczqSFbm88yE6
+         gC6RhZn62JTMHkT62D8HCu6yCEPehrjo6RSrI+LL+Luro7eVMu1QBwfJyAsVIdpMqCi2
+         RiHM7YiCf8ryWGaLwzck1YMJfETtBHpM60dB8uQ0+wBwaBl2kWusG0Pn7wnSJ+EyzSV/
+         SFQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699635166; x=1700239966;
+        d=1e100.net; s=20230601; t=1699635201; x=1700240001;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IxqRDZ+ztZSd9qnawgjaQAg5ACh45Q6dnAez8SycqZU=;
-        b=YIMFnehGanTFgkHKss80itP5mT026iHJ4/TqK5mmVnhm57531N08I16JYbFROx674m
-         uk9GYSIvkriqN7xzWUyMifIaSM/1OCo9KlRUpQeRWURpeqYU452fIWhhcus3s01SyTI2
-         2XjAlnwJWKf6B8qJCFZI/MlP0D7xmyZGcKEDikxbV0MiaK6arFZ0u/bdm1mQjTdeWwQO
-         gl9tdQrmzU0bfcVtwHczFjSvnaYqlKKW6BViVMqx4Up2fFmOOPuHaqzpssXnfgcJFTul
-         fvp0hvkBAT7Jmzcy0hzhCHA0kG3YBzbL/rqNfL+oDnqerWXtwm1k80RUdmIcMv9bR/vF
-         uQKg==
-X-Gm-Message-State: AOJu0YzAnw5pLshYYdS5DOU3eI/56RWWw3nDlbXhH3M6Qcm/SkxSxFQy
-	cF8z8gpl4T7y39PXeQoW8Lg=
-X-Google-Smtp-Source: AGHT+IEGxk/jLqGJA0yS3ZeTi81R4xE2ZufSKB2Rtpbbh9NrGc0xsWCOW69zHXopVbKhjoSWZEwD/w==
-X-Received: by 2002:a05:6a21:329b:b0:133:6e3d:68cd with SMTP id yt27-20020a056a21329b00b001336e3d68cdmr10384496pzb.3.1699635166235;
-        Fri, 10 Nov 2023 08:52:46 -0800 (PST)
+        bh=mnZ7OJ7ZO64iFks47AdcXTMyF5IKFy2leso5ma8wKRQ=;
+        b=IhZIBtdtdt5NIRmex5HUZhXZnz1UZpQmqWXcplJQYENFIiD6D2Hfbg4fbG/EoP5VyM
+         u799k2R+NVpVuyUgUPqLsjL0+YEHwBpi+ssFYAtyZ7LtMZ6JsFn2ksVidUFIw7RwvC77
+         Wh1sUtvRMrgqncGualVoKF5269d/9sp9HK2xogZz9CC5OytWYbLPm1f5NUevPeneF6H1
+         c3OoG6d4tic1P496xvi7oF17xRPXQNqs5YHmT4vQ7910/743PHFWwCHsQ4aDE0BPLqK2
+         JiyKn79CUfbw1umj0+F2ZQGoM6cqlhXeBCLalCPLm/oTOGiChZf/7yHFTRQPMOYTVq0M
+         tJEA==
+X-Gm-Message-State: AOJu0YwLLt6DTIX52o780AT3HR/kaQbLZtKNXTkToRBL3R/b6rlVWg+M
+	96I1Z7Ywd0QzAIrlQ9ZzMeM=
+X-Google-Smtp-Source: AGHT+IFHYwV0F4JTZH6DSsZIwf0T4sriqiKP0sUq3rDyhenXz/S4W6a730H/SWWCdixBagVdL5oI+w==
+X-Received: by 2002:a17:902:e545:b0:1ca:28f3:569a with SMTP id n5-20020a170902e54500b001ca28f3569amr9149475plf.5.1699635200924;
+        Fri, 10 Nov 2023 08:53:20 -0800 (PST)
 Received: from localhost.localdomain ([140.116.154.65])
-        by smtp.gmail.com with ESMTPSA id ka19-20020a056a00939300b006905f6bfc37sm12797665pfb.31.2023.11.10.08.52.44
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b001b9da42cd7dsm5584404pld.279.2023.11.10.08.53.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 08:52:45 -0800 (PST)
+        Fri, 10 Nov 2023 08:53:20 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: bleung@chromium.org,
 	tzungbi@kernel.org
@@ -49,9 +49,9 @@ Cc: groeck@chromium.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v2] platform/chrome: sensorhub: Fix typos
-Date: Sat, 11 Nov 2023 00:52:39 +0800
-Message-Id: <20231110165239.1559109-1-visitorckw@gmail.com>
+Subject: [PATCH v2] platform/chrome: sensorhub: Implement quickselect for median calculation
+Date: Sat, 11 Nov 2023 00:53:14 +0800
+Message-Id: <20231110165314.1559285-1-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <ZU3GbHTA3x19h2Zi@google.com>
 References: <ZU3GbHTA3x19h2Zi@google.com>
@@ -63,72 +63,170 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace 'preceeds' with 'precedes' in the comment.
-Replace 'porod' with 'period' in the comment.
-Replace 'noone' with 'no one' in the comment.
-Replace 'lantency' with 'latency' in the comment.
-Replace 'kifo' with 'kfifo' in the comment.
-Replace 'change' with 'chance' in the comment.
+The cros_ec_sensor_ring_median function currently uses an inefficient
+sorting algorithm (> O(n)) to find the median of an array. This patch
+replaces the sorting approach with the quickselect algorithm, which
+achieves an average time complexity of O(n).
+
+The algorithm employs the median-of-three rule to select the pivot,
+mitigating worst-case scenarios and reducing the expected number of
+necessary comparisons. This strategy enhances the algorithm's
+efficiency and ensures a more balanced partitioning.
+
+In the worst case, the runtime of quickselect could regress to O(n^2).
+To address this, alternative algorithms like median-of-medians that
+can guarantee O(n) even in the worst case. However, due to higher
+overhead and increased complexity of implementation, quickselect
+remains a pragmatic choice for our use case.
 
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
 v1 -> v2:
  * Separate patch series into two patches.
+ * Modify the microbenchmark[1] to set n=64 and run 10000 repeated times.
+ * Enhance coding style and comments.
 
- drivers/platform/chrome/cros_ec_sensorhub_ring.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+[1]:
+static void init_array(s64 *arr, size_t length, s64 seed)
+{
+	for (int i = 0; i < length; i++) {
+		seed = (seed * 725861) % 6599;
+		arr[i] = seed;
+	}
+}
+
+static int quickselect_test(void)
+{
+	s64 *arr;
+	s64 median_old, median_new;
+	ktime_t start, end;
+	s64 delta, time_old = 0, time_new = 0;
+	const size_t array_length = 64;
+	const size_t round = 10000;
+
+	arr = kmalloc(array_length * sizeof(s64), GFP_KERNEL);
+	if (!arr)
+		return -ENOMEM;
+
+	for(size_t i = 0; i < round; i++) {
+		init_array(arr, array_length, i + 1);
+		start = ktime_get();
+		median_old = cros_ec_sensor_ring_median(arr, array_length);
+		end = ktime_get();
+		delta = ktime_us_delta(end, start);
+		time_old += delta;
+
+		init_array(arr, array_length, i + 1);
+		start = ktime_get();
+		median_new = cros_ec_sensor_ring_median_new(arr, array_length);
+		end = ktime_get();
+		delta = ktime_us_delta(end, start);
+		time_new += delta;
+
+		if(median_old != median_new)
+			return 1;
+	}
+
+	printk(KERN_ALERT "Total time of original function: %lld\n", time_old);
+	printk(KERN_ALERT "Total time of new function: %lld\n", time_new);
+
+	kfree(arr);
+
+	/* return 0 on success */
+	return 0;
+}
+
+/* Result:
+ * Total time of original function: 157561
+ * Total time of new function: 1480
+ */
+
+ .../platform/chrome/cros_ec_sensorhub_ring.c  | 62 ++++++++++++++-----
+ 1 file changed, 45 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index 71948dade0e2..9e17f7483ca0 100644
+index 9e17f7483ca0..1205219515d6 100644
 --- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
 +++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -103,7 +103,7 @@ EXPORT_SYMBOL_GPL(cros_ec_sensorhub_unregister_push_data);
-  * @sensorhub: Sensor Hub object
-  * @on: true when events are requested.
+@@ -133,33 +133,61 @@ int cros_ec_sensorhub_ring_fifo_enable(struct cros_ec_sensorhub *sensorhub,
+ 	return ret;
+ }
+ 
+-static int cros_ec_sensor_ring_median_cmp(const void *pv1, const void *pv2)
++static void cros_ec_sensor_ring_median_swap(s64 *a, s64 *b)
+ {
+-	s64 v1 = *(s64 *)pv1;
+-	s64 v2 = *(s64 *)pv2;
+-
+-	if (v1 > v2)
+-		return 1;
+-	else if (v1 < v2)
+-		return -1;
+-	else
+-		return 0;
++	s64 tmp = *a;
++	*a = *b;
++	*b = tmp;
+ }
+ 
+ /*
+  * cros_ec_sensor_ring_median: Gets median of an array of numbers
   *
-- * To be called before sleeping or when noone is listening.
-+ * To be called before sleeping or when no one is listening.
-  * Return: 0 on success, or an error when we can not communicate with the EC.
+- * For now it's implemented using an inefficient > O(n) sort then return
+- * the middle element. A more optimal method would be something like
+- * quickselect, but given that n = 64 we can probably live with it in the
+- * name of clarity.
++ * It's implemented using the quickselect algorithm, which achieves an
++ * average time complexity of O(n) the middle element. In the worst case,
++ * the runtime of quickselect could regress to O(n^2). To mitigate this,
++ * algorithms like median-of-medians exist, which can guarantee O(n) even
++ * in the worst case. However, these algorithms come with a higher
++ * overhead and are more complex to implement, making quickselect a
++ * pragmatic choice for our use case.
   *
+- * Warning: the input array gets modified (sorted)!
++ * Warning: the input array gets modified!
   */
-@@ -175,8 +175,8 @@ static s64 cros_ec_sensor_ring_median(s64 *array, size_t length)
-  *
-  * While a and b are recorded at accurate times (due to the EC real time
-  * nature); c is pretty untrustworthy, even though it's recorded the
-- * first thing in ec_irq_handler(). There is a very good change we'll get
-- * added lantency due to:
-+ * first thing in ec_irq_handler(). There is a very good chance we'll get
-+ * added latency due to:
-  *   other irqs
-  *   ddrfreq
-  *   cpuidle
-@@ -511,7 +511,7 @@ cros_ec_sensor_ring_process_event(struct cros_ec_sensorhub *sensorhub,
-  *                                 ringbuffer.
-  *
-  * This is the new spreading code, assumes every sample's timestamp
-- * preceeds the sample. Run if tight_timestamps == true.
-+ * precedes the sample. Run if tight_timestamps == true.
-  *
-  * Sometimes the EC receives only one interrupt (hence timestamp) for
-  * a batch of samples. Only the first sample will have the correct
-@@ -595,7 +595,7 @@ cros_ec_sensor_ring_spread_add(struct cros_ec_sensorhub *sensorhub,
- 			} else {
- 				/*
- 				 * Push first sample in the batch to the,
--				 * kifo, it's guaranteed to be correct, the
-+				 * kfifo, it's guaranteed to be correct, the
- 				 * rest will follow later on.
- 				 */
- 				sample_idx = 1;
-@@ -701,7 +701,7 @@ cros_ec_sensor_ring_spread_add(struct cros_ec_sensorhub *sensorhub,
-  *           last_out -->
-  *
-  *
-- * We spread time for the samples using perod p = (current - TS1)/4.
-+ * We spread time for the samples using period p = (current - TS1)/4.
-  * between TS1 and TS2: [TS1+p/4, TS1+2p/4, TS1+3p/4, current_timestamp].
-  *
-  */
+ static s64 cros_ec_sensor_ring_median(s64 *array, size_t length)
+ {
+-	sort(array, length, sizeof(s64), cros_ec_sensor_ring_median_cmp, NULL);
+-	return array[length / 2];
++	int lo = 0;
++	int hi = length - 1;
++
++	while (lo <= hi) {
++		int mid = lo + (hi - lo) / 2;
++		int pivot, i;
++
++		if (array[lo] > array[mid])
++			cros_ec_sensor_ring_median_swap(&array[lo], &array[mid]);
++		if (array[lo] > array[hi])
++			cros_ec_sensor_ring_median_swap(&array[lo], &array[hi]);
++		if (array[mid] < array[hi])
++			cros_ec_sensor_ring_median_swap(&array[mid], &array[hi]);
++
++		pivot = array[hi];
++		i = lo - 1;
++
++		for (int j = lo; j < hi; j++)
++			if (array[j] < pivot)
++				cros_ec_sensor_ring_median_swap(&array[++i], &array[j]);
++
++		/* The pivot's index corresponds to i+1. */
++		cros_ec_sensor_ring_median_swap(&array[i + 1], &array[hi]);
++		if (i + 1 == length / 2)
++			return array[i + 1];
++		if (i + 1 > length / 2)
++			hi = i;
++		else
++			lo = i + 2;
++	}
++
++	/* Should never reach here. */
++	return -1;
+ }
+ 
+ /*
 -- 
 2.25.1
 

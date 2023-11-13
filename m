@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B8FC132;
-	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E3EC153
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlxhlH2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BFD9C43397;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C8SpIn2t"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D424C433A9;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699846957;
-	bh=cJyTsg2/ykeyXvrK54v0p7rMm498zi6eFEDrVxQoqHU=;
+	bh=cJ8SO9nHStzpr3oXPb7av3bgl8Tcpca5hNprBHV/N28=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XlxhlH2Ky0/ppr6cbSjHHpmiaiAVtSAxgBo4szAffgNq3Vw2d4mxasFwD8OxzJ9Zc
-	 f4QvUyLxBzdsORjYJ/jIA3bMgB6rFLhgu9WGPPq6txPrGEpYMonIfKKyLZFKV9Ikgr
-	 i46ejT5aoIaDrxYme/xKHKediCRPVMl04Gq+WxbwWhon8SoJXo7GvqFTX7QGYoTGuv
-	 Q+xiS2gFfR3PcLmP2/s/s4W4dBHixX8YysXwO7Btaoc8ufZji2Kt6zGcmxlXEjGfeS
-	 Tys2pX5hYdkuhdMzwFp19SMxgYZGEqpYnLIzX7HltYLcLL+0OAkYB96UQAAEngliA1
-	 T3cWunvqmrg/g==
+	b=C8SpIn2tY/7fXB31TZP/dWpZaDTw/62k6g4tlpCvWJe8qHTZfpYQjd3y+YLI5nBE4
+	 fyMvoUDNzIKMT8JJ5Htho8s5Uu1M8SGAWp0XQkPn7PcoaByfme0zMmW72J514kWAHG
+	 F9wQN1jdfwOmPTG140W0KtlGwo0cojQpZv/2bwzMExIlYnRHulwVjpET5nR08M2bdc
+	 TqtirqbOAnA4XVobjw23mWE5BVPFVlg7xxZ+Bqr78n52VXqisW5Spz+H272fvkcS2h
+	 KX9KoAsq+DQks/aCCs9wbtN03+2gZROK5W/4Om0F8XmTERr2gL2HcZe54Bu6JDxuzZ
+	 r9MQS+Ox++w/g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2142AE32714;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 42EF0E32713;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -28,53 +28,46 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback returning
- void
+Subject: Re: [PATCH 00/11] pwm: Some random cleanups
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984695713.27851.5146160260731495399.git-patchwork-notify@kernel.org>
+ <169984695726.27851.13669359459890665308.git-patchwork-notify@kernel.org>
 Date: Mon, 13 Nov 2023 03:42:37 +0000
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+References: <20230929161918.2410424-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230929161918.2410424-1-u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: dmitry.torokhov@gmail.com, michael.hennerich@analog.com,
- linux-input@vger.kernel.org, kernel@pengutronix.de, bleung@chromium.org,
- groeck@chromium.org, gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
- joewu@msi.com, chrome-platform@lists.linux.dev,
- andriy.shevchenko@linux.intel.com, mkorpershoek@baylibre.com,
- jeff@labundy.com, robh@kernel.org, lis8215@gmail.com, pavel@ucw.cz,
- rostedt@goodmis.org, pabeni@redhat.com, kvalo@kernel.org, frank.li@vivo.com,
- ye.xingchen@zte.com.cn, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, support.opensource@diasemi.com,
- o2g.org.ru@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
- agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
- linux-arm-msm@vger.kernel.org, hdegoede@redhat.com, mitr@volny.cz,
- patches@opensource.cirrus.com, christophe.jaillet@wanadoo.fr, windhl@126.com,
- chenjun102@huawei.com, ruanjinjie@huawei.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
- michal.simek@amd.com, robert.jarzmik@free.fr, dmitry.baryshkov@linaro.org,
- arnd@arndb.de, rafael.j.wysocki@intel.com, krzysztof.kozlowski@linaro.org,
- daniel.lezcano@linaro.org, corbet@lwn.net
+Cc: thierry.reding@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, linux-pwm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+ florian.fainelli@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
+ orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
+ linux-samsung-soc@vger.kernel.org, bleung@chromium.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Wed, 20 Sep 2023 14:57:37 +0200 you wrote:
+On Fri, 29 Sep 2023 18:19:07 +0200 you wrote:
 > Hello,
 > 
-> this series converts all platform drivers below drivers/input to use
-> remove_new. The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
+> this is a set of patches I based my efforts for closing a race condition
+> in the pwm core on. I thought I already sent them out, but it seems I
+> didn't. So here they come!
+> 
+> Best regards
+> Uwe
 > 
 > [...]
 
 Here is the summary with links:
-  - [02/52] input: cros_ec_keyb - Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/63ef64cb6453
+  - [11/11] pwm: cros-ec: Simplify using devm_pwmchip_add() and dev_err_probe()
+    https://git.kernel.org/chrome-platform/c/896c450960f5
 
 You are awesome, thank you!
 -- 

@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54468C0A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B548F8C11;
 	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHdRd0B2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3970EC433B6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFUY/bO5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CBB7C43391;
 	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699845835;
-	bh=3fhqQ/6Paof6tKXgjKwnx+l50Cg3avv/xAwzx5scwHA=;
+	bh=ZRhc4pGsIcVlF0RZvM6/zP+FLARr6revVhQosQsdLmk=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=cHdRd0B2QP8kwbaKeutfP4bb6zeLjivj6vjCDrlzRkfmENozNn5IK8TQhzd2TZtLW
-	 2hb44pwT1g04n+hfzQQA+rMbnEFa43VxfnKK0mVW+9JvcJNuX43GIrpDPN16BwKSRU
-	 Azs+PDkJg+14ukH5bZC7NxBSydgjSAyFLzT77tDD3kF1raUoh5t3JJt0hVItieSCwC
-	 saAjdm2d1ntefledwJJbvRfedLAHCGIxfOXOp+Umd3trduL9iC7WwUxITe533aUS17
-	 SzjCuM6h3SY2M1WH+UumCLa7HEZr157CKpz01DH5zfE/I8o4Aal+KdjqYU38QZsHTM
-	 ud9Bz4HzTdDRA==
+	b=KFUY/bO53MzQZmEzikh74JD508bZ+G7v7sdOmPHPXjJ91wjb82U+oOI7mH5NThw6a
+	 5ESZP9jkBwFPsPzaxh2L5TZAkfIb2FsuW4ivW+vYLIMtBs7f6P1bMMM3NAjE0uz0Bk
+	 YtGKozilBwRGXyP+C24RRJYqjozWsL6Tf+4OBvb0D4dNoX4IN9U5FV1DS7aU5p8NbQ
+	 3fPkpOE7ia7d6SqWwfaG0ftGMc/GSoJyHsnLazs7lU+uUHdmd6pIfLqqXcm6n9qHqL
+	 yLzGiJ6K6lHbOqTyDQK9LsmUPsvNhoB9WeH6lUU/NUI/zRaZnjjXufjpcw4ZM9LPge
+	 8xUmVNLrzZagQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1F47EE21ECD;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 16D07E21ECC;
 	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -28,45 +28,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] iio: cros_ec: fix an use-after-free in
- cros_ec_sensors_push_data()
+Subject: Re: [PATCH v2] media: cros-ec-cec: Add Constitution to the match table
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984583512.27851.7360374052526064442.git-patchwork-notify@kernel.org>
+ <169984583508.27851.9553509450262125302.git-patchwork-notify@kernel.org>
 Date: Mon, 13 Nov 2023 03:23:55 +0000
-References: <20230829030622.1571852-1-tzungbi@kernel.org>
-In-Reply-To: <20230829030622.1571852-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, jic23@kernel.org,
- lars@metafoo.de, chrome-platform@lists.linux.dev, gwendal@chromium.org,
- linux-iio@vger.kernel.org, dianders@chromium.org, swboyd@chromium.org,
- stable@vger.kernel.org
+References: <20230911081921.3515928-1-sadolfsson@google.com>
+In-Reply-To: <20230911081921.3515928-1-sadolfsson@google.com>
+To: Stefan Adolfsson <sadolfsson@chromium.org>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
+ groeck@chromium.org, rekanorman@chromium.org, linux-media@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
+by Hans Verkuil <hverkuil-cisco@xs4all.nl>:
 
-On Tue, 29 Aug 2023 11:06:22 +0800 you wrote:
-> cros_ec_sensors_push_data() reads `indio_dev->active_scan_mask` and
-> calls iio_push_to_buffers_with_timestamp() without making sure the
-> `indio_dev` stays in buffer mode.  There is a race if `indio_dev` exits
-> buffer mode right before cros_ec_sensors_push_data() accesses them.
+On Mon, 11 Sep 2023 10:19:21 +0200 you wrote:
+> From: Stefan Adolfsson <sadolfsson@chromium.org>
 > 
-> An use-after-free on `indio_dev->active_scan_mask` was observed.  The
-> call trace:
-> [...]
->  _find_next_bit
->  cros_ec_sensors_push_data
->  cros_ec_sensorhub_event
->  blocking_notifier_call_chain
->  cros_ec_irq_thread
+> Constitution has two HDMI ports which support CEC:
+>     Port B is EC port 0
+>     Port A is EC port 1
+> 
+> This patch depends on "media: cros-ec-cec: Add Dibbi to the match
+> table".
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] iio: cros_ec: fix an use-after-free in cros_ec_sensors_push_data()
-    https://git.kernel.org/chrome-platform/c/7771c8c80d62
+  - [v2] media: cros-ec-cec: Add Constitution to the match table
+    https://git.kernel.org/chrome-platform/c/5bc2de5f517d
 
 You are awesome, thank you!
 -- 

@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79032882A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0E4883B;
 	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjcVh+ll"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F2E05C433CC;
-	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXXHDD4v"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 23FFBC4339A;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699845835;
-	bh=ISiPpDZ8woo0Xi7ycVYqOHGtVOPznIgTlrHk/L7ZLns=;
+	bh=M3Qhhjk/BU+r9ygb4BrBodry+Iy+/+c1KAZvoMB6Rjg=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=LjcVh+llfSkhb92tYohU5ttjp2INTwZPGCfaQVF2C9wkykpIAvwtFKAyCT1uj2m0L
-	 WMTh4er8MIf09WXMBMQKQye6pVSdBZhNUwjefeIZhDltcSg6quuC+QGaBpYTaujGZw
-	 9VW3cXw/DFJkpLBoRwG6xvzsqSh/EXq3Ako5kJZBglgCOYidk5L9U1iGcOQLxm02VA
-	 kRtqxqvMM1MAeMgzrD31rvitaMCqy6Bf6ZfTWYNbozT+vI6lbEC8tdDZo20YRSzaWh
-	 0jr67l4UaQV6I9eFYaUu3+5XIWmA0iP/PQSydi+5dBsFnWYPU7POaBqX5qDP3N87a0
-	 9l7dA0A3UocGg==
+	b=tXXHDD4vc13CqUYQaDnEhtGLHW1POo2WeYIwiz7RivcXeGCX56ZEHdMgH4lWjscCu
+	 TRYnwpJvawaBHgmt3cJfhHfVuEEyj9Z4oVfuW4J44Vk+fwBuqUmSiItgpGhvBEvQWa
+	 uUY+5xo82BA1kb1ChCxUiL+iwRg+RpcI0uc8TxmBIlmhU8AqiNRK+dsRlb77FjXT/g
+	 wQmKVPKgIAbBig2lnZ0zl7BxNArqSB9iMwH9Hasgm6eV8Xb3HRP1Y0E25pUR2iuJfO
+	 qIWWcsuFRmJ/kI0wDOLJTjshHmYrPMDwNu0Rpk8xwHufp8wdnYSlDWWi5G6haP8284
+	 LAsQGZ+w47fZg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D9CC1E32711;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E412EE32714;
 	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -28,41 +28,68 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [1/2] media: platform: cros-ec: Rename conns array for the match
- table
+Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback returning void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984583488.27851.2726732061510632841.git-patchwork-notify@kernel.org>
+ <169984583492.27851.676337627622488866.git-patchwork-notify@kernel.org>
 Date: Mon, 13 Nov 2023 03:23:54 +0000
-References: <KL1PR01MB38096300BE18095E51FB7A5BAECAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-In-Reply-To: <KL1PR01MB38096300BE18095E51FB7A5BAECAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-To: Ken Lin <ken_lin5@hotmail.com>
-Cc: linux-kernel@vger.kernel.org, groeck@chromium.org, bleung@chromium.org,
- hverkuil-cisco@xs4all.nl, mchehab@kernel.org, rekanorman@chromium.org,
- sadolfsson@chromium.org, u.kleine-koenig@pengutronix.de,
- chrome-platform@lists.linux.dev, linux-media@vger.kernel.org,
- rasheed.hsueh@lcfc.corp-partner.google.com
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: jic23@kernel.org, jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+ lars@metafoo.de, linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ kernel@pengutronix.de, linus.walleij@linaro.org,
+ linux-arm-kernel@lists.infradead.org, eugen.hristev@collabora.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, ruanjinjie@huawei.com, robh@kernel.org,
+ heiko@sntech.de, yangyingliang@huawei.com, wens@csie.org,
+ aidanmacdonald.0x0@gmail.com, andy.shevchenko@gmail.com, rjui@broadcom.com,
+ sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ hsweeten@visionengravers.com, alexander.sverdlin@gmail.com,
+ krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
+ linux-samsung-soc@vger.kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ ak@it-klinger.de, cai.huoqing@linux.dev, haibo.chen@nxp.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, gnstark@sberdevices.ru,
+ andriy.shevchenko@linux.intel.com, nuno.sa@analog.com,
+ linux-amlogic@lists.infradead.org, sravanhome@gmail.com, jkluo@hust.edu.cn,
+ dzm91@hust.edu.cn, avifishman70@gmail.com, tmaimon77@gmail.com,
+ tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+ benjaminfair@google.com, openbmc@lists.ozlabs.org, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org,
+ linux-arm-msm@vger.kernel.org, marek.vasut@gmail.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ olivier.moysan@foss.st.com, fabrice.gasnier@foss.st.com,
+ zhang_shurong@foxmail.com, frank.li@vivo.com,
+ linux-stm32@st-md-mailman.stormreply.com, sean@geanix.com, trix@redhat.com,
+ jernej.skrabec@gmail.com, samuel@sholland.org, rafael.j.wysocki@intel.com,
+ damien.lemoal@opensource.wdc.com, broonie@kernel.org, idosch@nvidia.com,
+ daniel.lezcano@linaro.org, linux-sunxi@lists.linux.dev,
+ dmitry.torokhov@gmail.com, andreas@kemnade.info, peda@axentia.se,
+ vz@mleia.com, ktsai@capellamicro.com, bleung@chromium.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Hans Verkuil <hverkuil-cisco@xs4all.nl>:
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
 
-On Thu,  5 Oct 2023 09:38:40 +0800 you wrote:
-> Rename conns array to port_**_conns, ** is the ports which support cec.
-> ex: dibbi_conns support Port D and B will be renamed to port_db_conns.
-> Make it much cleaner and readable.
+On Tue, 19 Sep 2023 19:48:42 +0200 you wrote:
+> this series converts all platform drivers below drivers/iio to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side. As all platform drivers return zero unconditionally in their
+> remove callback up to now, the conversions are "trivial".
 > 
-> Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
-> ---
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/2] media: platform: cros-ec: Rename conns array for the match table
-    https://git.kernel.org/chrome-platform/c/678e8d804149
-  - [2/2] media: platform: cros-ec: Add Taranza to the match table
-    https://git.kernel.org/chrome-platform/c/cd5c11d5aacd
+  - [45/49] iio: proximity: cros_ec_mkbp: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/2df694f710d2
 
 You are awesome, thank you!
 -- 

@@ -1,48 +1,25 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C72F9E0
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C223D72
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="qYj6jblA"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1cc3542e328so27822395ad.1
-        for <chrome-platform@lists.linux.dev>; Sun, 12 Nov 2023 20:14:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699848852; x=1700453652; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=X4/bE+/C5fulgVbsVAq3AO2aT663zzXN1COxl/JGefU=;
-        b=qYj6jblAoiJnfykHDBra+Z75WxvvW8oVOfgT8/IQ8PeN9MCmv+3zyhtbr8FaVGGbQU
-         t5jpjlZFZgu2PAIMvk/+CkjVBmYI1XGCp5GoX6pWkDeTJ096yl76usvg4gYS5ABQ7DCn
-         3uYGZfehOe6DCLvsf7I/p2QBhKIACb5MWQvUDigT3vyVFUtB9ilVLhEaIkhp8iYwSKHR
-         ZfPv2GCM7hAdUOuyU88tBgdagyAybtppcnQhfamkGdzWHj2lswJpxr+sgnpUaN8S5JMX
-         xnnDyqfySHBFP1hYxXsK9wypejflqvYRnUqgupoRO+sO3Iya8kQss1KWIX7PqKzCDRjt
-         JRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699848852; x=1700453652;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X4/bE+/C5fulgVbsVAq3AO2aT663zzXN1COxl/JGefU=;
-        b=K52pIhrXG7IhWJhiGa66kt9SXCBNUcmo2vrQ2MGbmBkFmDfGDszwtnrSS1VsSiDvYp
-         JDS7BUNiK9xwAS2EWJLzon62un9ggNZAOFdriqLIIEjOaWzNM3PkDDNvN/j0DYrWK0U5
-         +Qe8gmR7WEllLVcsUMtMtR9ZocnceZ1mnBuwVwrUvcl9gNM+CNHYtHb8RrmM35Wx0bsZ
-         gNX4oPJA+SoZe8btzhW8v1XsMnOszlJWtMDpCF45RFSnFLutfW8vpbRXx7ngHXwl2NgP
-         gE/rn1u6/WbH2Z/NVd0P3Uvh/D6RTIZVxCyKVrMd/aV8jiz0mwyO+RCW6CfgLZnuG61E
-         HdQQ==
-X-Gm-Message-State: AOJu0YxuzoKduNOQyjyOQZAUV3BiXxhNF4TlvEFk3GpLv/WG9BjuMxwA
-	dmPLYNlXgmKc9qVox3OYlqY1yw==
-X-Google-Smtp-Source: AGHT+IHCSc/7jzIuxCPSVg2qiR06e7If5q35cj7xPdxbVLM9RzpkV1Lgbidcr14Sp5oNnsWsBBOzjQ==
-X-Received: by 2002:a17:902:e892:b0:1cc:dade:2789 with SMTP id w18-20020a170902e89200b001ccdade2789mr4711019plg.20.1699848852490;
-        Sun, 12 Nov 2023 20:14:12 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id e6-20020a17090301c600b001c61df93afdsm3216396plh.59.2023.11.12.20.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Nov 2023 20:14:11 -0800 (PST)
-Message-ID: <6551a293.170a0220.4d46.68a1@mx.google.com>
-Date: Sun, 12 Nov 2023 20:14:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQ+5mPju"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B7510C433C9;
+	Mon, 13 Nov 2023 04:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699851025;
+	bh=bUf+/gTdXd1ZzU15zgL5XesRLAJnbVGMdqnzNEOPshw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AQ+5mPjuMhg0ZLwgpbb6fT22wkl/31mASTn1eZ05WuT/rgSvjijpRaVwSpsr+vnqI
+	 GjVGpXdpHfR1ng6SOReSjIcBJZ/2fZ4kMSh59OvllUSY+xzQ6VlZ32EG7WvfE7H2Zp
+	 Y0F2plGZe6Xej05tSdIFqN3IYG4eL9xRkRN4+9lr3+iYPf1+d9z8clr4Cq28aQC9kD
+	 NBj235zX2RRbhEf8xZY9SeMvoKBY+6xyYgjihxeQb5U72x6P31dxBrYICwWTsqMdRo
+	 ZcNonSgVD9scMcudl0W48unm/FNCJYsEFgiM0jDuIc4xBR708FHmGviH68aSZQ/JaV
+	 P+3A+ZUzWRXFg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 98FFFC04DD9;
+	Mon, 13 Nov 2023 04:50:25 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -50,71 +27,44 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.7-rc1-1-gecea08916418
-X-Kernelci-Report-Type: build
-X-Kernelci-Branch: for-firmware-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed,
- 3 passed (v6.7-rc1-1-gecea08916418)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] platform/chrome: sensorhub: Implement quickselect for
+ median calculation
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169985102562.12923.10861962849443008728.git-patchwork-notify@kernel.org>
+Date: Mon, 13 Nov 2023 04:50:25 +0000
+References: <20231110165314.1559285-1-visitorckw@gmail.com>
+In-Reply-To: <20231110165314.1559285-1-visitorckw@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
-chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed, 3 passed (=
-v6.7-rc1-1-gecea08916418)
+Hello:
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-kernelci/kernel/v6.7-rc1-1-gecea08916418/
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Tree: chrome-platform
-Branch: for-firmware-kernelci
-Git Describe: v6.7-rc1-1-gecea08916418
-Git Commit: ecea08916418a94f99f89c543303877cb6e08a11
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+On Sat, 11 Nov 2023 00:53:14 +0800 you wrote:
+> The cros_ec_sensor_ring_median function currently uses an inefficient
+> sorting algorithm (> O(n)) to find the median of an array. This patch
+> replaces the sorting approach with the quickselect algorithm, which
+> achieves an average time complexity of O(n).
+> 
+> The algorithm employs the median-of-three rule to select the pivot,
+> mitigating worst-case scenarios and reducing the expected number of
+> necessary comparisons. This strategy enhances the algorithm's
+> efficiency and ensures a more balanced partitioning.
+> 
+> [...]
 
-Build Failures Detected:
+Here is the summary with links:
+  - [v2] platform/chrome: sensorhub: Implement quickselect for median calculation
+    https://git.kernel.org/chrome-platform/c/d131f1f3b459
 
-arm64:
-    defconfig+arm64-chromebook: (gcc-10) FAIL
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-x86_64:
-    x86_64_defconfig+x86-board: (gcc-10) FAIL
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Detailed per-defconfig build reports:
-
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
-
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 FAIL, 0 errors, 0 warn=
-ings, 0 section mismatches
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 FAIL, 0 errors, 0 war=
-nings, 0 section mismatches
-
----
-For more info write to <info@kernelci.org>

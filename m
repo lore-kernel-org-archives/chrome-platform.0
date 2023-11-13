@@ -1,68 +1,87 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D188018E03
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Nov 2023 18:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E7C79D8;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f2ksT5QD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=UkeffA2vSHpOXayjcOQRwDykg5JYTTVBikvJKRaYmgk=; b=f2ksT5QD9cT7H8uSap3qPHtuR3
-	RG86H6Shv3V/1HqpllsDTpnrcpRiP04KKabC4c4hRR9cZqSsh39ebrJpw3MkG3DVEzDJ/8R03jslH
-	OfKlvgRWq9zcqbfWK/q0W+XhWobJED6FUyNeY8YfHuTm3GtjnW/PvNAVcCG14F5BW1i4aXYu4EhVf
-	F7LFAhCWtsZ5NgqNkcsLe8R4Ak9u9/TsWdQVqOx+LUKA0KF1QN27/dy6vrtyfu/sgGqdIO4ovgEjx
-	aKr9sU5WOWrmSNl+pBEMzjnY2FXGPjH9PkZu2KJlKPm+ZnAmwfcg7HRiERJeyog2OOPaPFE/5wsXw
-	yf+0dGdw==;
-Received: from [2603:3004:644:9100::58b]
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1WKy-00FmxH-2i;
-	Fri, 10 Nov 2023 18:34:37 +0000
-Message-ID: <0c264881-f54c-4db3-ae6d-34facc31c9e7@infradead.org>
-Date: Fri, 10 Nov 2023 10:34:31 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uTvo8eer"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3829C433C9;
+	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699845834;
+	bh=T9GuBU6fhN6Mk0nmOnKVa20ANcbNsgJfnHQNCOAqe64=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=uTvo8eermytZMYIvwjm6dcjtw/9fbTHBezlj/7S+pOV+/heiJmhacHUeLMR+lzTtk
+	 6tS4vp+9Ygzrbeqe2hthvlmVD/7Jg9I8qjkl83PStFhGflOnqiz/KmMup/s9oEE23T
+	 vXtwuCJMnya+Cv7xIYzgDfedhxpS8ztPW32vpWLSRivRZonvRkwNnHL0E/U3JR3che
+	 +gIbCtNaEeaxrh9NW6BgDtypiFT2cjGXAu28HcsBmdVtY13/b2Bbf0p6BEQ09BSujc
+	 zFd82wb4/qCtVoC/H6RnI1RGqiXpFbmj4FX0BVganRhD7lJuFw+ugbeWDqQJv74RBD
+	 IsqY13Me/7BFg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C14DEE21ECD;
+	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] platform/chrome: sensorhub: Fix typos
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, bleung@chromium.org,
- tzungbi@kernel.org
-Cc: groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <ZU3GbHTA3x19h2Zi@google.com>
- <20231110165239.1559109-1-visitorckw@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231110165239.1559109-1-visitorckw@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/9] media: cros-ec-cec: Add support for multiple ports
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169984583478.27851.15642181644607180001.git-patchwork-notify@kernel.org>
+Date: Mon, 13 Nov 2023 03:23:54 +0000
+References: <20230825024735.1443836-1-rekanorman@chromium.org>
+In-Reply-To: <20230825024735.1443836-1-rekanorman@chromium.org>
+To: Reka Norman <rekanorman@chromium.org>
+Cc: hverkuil-cisco@xs4all.nl, dnojiri@chromium.org, narmstrong@baylibre.com,
+ sadolfsson@google.com, bleung@chromium.org, groeck@chromium.org,
+ mchehab@kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 
+Hello:
 
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Hans Verkuil <hverkuil-cisco@xs4all.nl>:
 
-On 11/10/23 08:52, Kuan-Wei Chiu wrote:
-> Replace 'preceeds' with 'precedes' in the comment.
-> Replace 'porod' with 'period' in the comment.
-> Replace 'noone' with 'no one' in the comment.
-> Replace 'lantency' with 'latency' in the comment.
-> Replace 'kifo' with 'kfifo' in the comment.
-> Replace 'change' with 'chance' in the comment.
+On Fri, 25 Aug 2023 12:43:53 +1000 you wrote:
+> The Google Dibbi chromebox will have two HDMI ports with CEC enabled via
+> its EC. Currently, the cros-ec-cec driver and the host command interface
+> to the EC assume there is only one port. E.g. the commands have no
+> parameter to indicated which port to operate on.
 > 
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
-> v1 -> v2:
->  * Separate patch series into two patches.
+> This series adds support for multiple ports. The driver is modified to
+> manage an array of ports, each with their own CEC adapter and notifier.
+> The host command interface is modified to support multiple ports. All
+> changes to interface are backwards compatible.
 > 
->  drivers/platform/chrome/cros_ec_sensorhub_ring.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
+> [...]
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Here is the summary with links:
+  - [v2,1/9] media: cros-ec-cec: Use cros_ec_cmd to send host commands
+    https://git.kernel.org/chrome-platform/c/afca12e35e71
+  - [v2,2/9] media: cros-ec-cec: Manage an array of ports
+    https://git.kernel.org/chrome-platform/c/4d0e179a4287
+  - [v2,3/9] media: cros-ec-cec: Support multiple ports in set/get host commands
+    https://git.kernel.org/chrome-platform/c/e90bd1fe7cda
+  - [v2,4/9] media: cros-ec-cec: Support multiple ports in write command
+    https://git.kernel.org/chrome-platform/c/adbfc747ddfb
+  - [v2,5/9] media: cros-ec-cec: Support multiple ports in MKBP cec_events
+    https://git.kernel.org/chrome-platform/c/1cabf52639d1
+  - [v2,6/9] media: cros-ec-cec: Support receiving messages from multiple ports
+    https://git.kernel.org/chrome-platform/c/425d20518c54
+  - [v2,7/9] media: cros-ec-cec: Allow specifying multiple HDMI connectors
+    https://git.kernel.org/chrome-platform/c/e7885b9c6564
+  - [v2,8/9] media: cros-ec-cec: Get number of CEC ports from EC
+    https://git.kernel.org/chrome-platform/c/5d227f02ceb9
+  - [v2,9/9] media: cros-ec-cec: Add Dibbi to the match table
+    https://git.kernel.org/chrome-platform/c/8d3e6030e30f
 
-Thanks.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

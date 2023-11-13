@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E160DC131;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B8FC132;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwx0RLwg"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51E8AC433AB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlxhlH2K"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BFD9C43397;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699846957;
-	bh=Pg8KGKCTx09ynw4PpsdjEPCbj7JGswFIbPDvp2oXAs8=;
+	bh=cJyTsg2/ykeyXvrK54v0p7rMm498zi6eFEDrVxQoqHU=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=uwx0RLwg2clUjL0F0QCgbcoamqTjEa6lfpdUDZrQiKTkjcQ2fivCmwGH4GQy3vMev
-	 jORvpnzjtJJJ1GTYkuo/gouAUtk14rmJNlV62KS7hmEQ/jLhHBAdbO5ODG7XRCCx35
-	 mkDoHufzzICtAOD4j2Qbya4ro8dwmdFYWydMLzF6+05svyOOHVaV+7XzGUJ1/em1th
-	 5s4XIp4nRc/tYVgy+KAHaHhQsqmgqrv8YeK3otUESscjYUGLSPPVZtOtttY9FomoqL
-	 BSNHqy7/9T05L4xFrG/c3f1h3WfZRGYbfnbY9ps0UoyLmHcbJtIF8ONYVnzT6zTpy0
-	 MjA5ZPnpwSMbw==
+	b=XlxhlH2Ky0/ppr6cbSjHHpmiaiAVtSAxgBo4szAffgNq3Vw2d4mxasFwD8OxzJ9Zc
+	 f4QvUyLxBzdsORjYJ/jIA3bMgB6rFLhgu9WGPPq6txPrGEpYMonIfKKyLZFKV9Ikgr
+	 i46ejT5aoIaDrxYme/xKHKediCRPVMl04Gq+WxbwWhon8SoJXo7GvqFTX7QGYoTGuv
+	 Q+xiS2gFfR3PcLmP2/s/s4W4dBHixX8YysXwO7Btaoc8ufZji2Kt6zGcmxlXEjGfeS
+	 Tys2pX5hYdkuhdMzwFp19SMxgYZGEqpYnLIzX7HltYLcLL+0OAkYB96UQAAEngliA1
+	 T3cWunvqmrg/g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 367CBC04DD9;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2142AE32714;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -28,45 +28,53 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] iio: cros_ec: fix an use-after-free in
- cros_ec_sensors_push_data()
+Subject: Re: [PATCH 00/52] input: Convert to platform remove callback returning
+ void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984695721.27851.13616090914535428940.git-patchwork-notify@kernel.org>
+ <169984695713.27851.5146160260731495399.git-patchwork-notify@kernel.org>
 Date: Mon, 13 Nov 2023 03:42:37 +0000
-References: <20230829030622.1571852-1-tzungbi@kernel.org>
-In-Reply-To: <20230829030622.1571852-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, jic23@kernel.org,
- lars@metafoo.de, chrome-platform@lists.linux.dev, gwendal@chromium.org,
- linux-iio@vger.kernel.org, dianders@chromium.org, swboyd@chromium.org,
- stable@vger.kernel.org
+References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: dmitry.torokhov@gmail.com, michael.hennerich@analog.com,
+ linux-input@vger.kernel.org, kernel@pengutronix.de, bleung@chromium.org,
+ groeck@chromium.org, gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+ joewu@msi.com, chrome-platform@lists.linux.dev,
+ andriy.shevchenko@linux.intel.com, mkorpershoek@baylibre.com,
+ jeff@labundy.com, robh@kernel.org, lis8215@gmail.com, pavel@ucw.cz,
+ rostedt@goodmis.org, pabeni@redhat.com, kvalo@kernel.org, frank.li@vivo.com,
+ ye.xingchen@zte.com.cn, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, support.opensource@diasemi.com,
+ o2g.org.ru@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+ agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+ linux-arm-msm@vger.kernel.org, hdegoede@redhat.com, mitr@volny.cz,
+ patches@opensource.cirrus.com, christophe.jaillet@wanadoo.fr, windhl@126.com,
+ chenjun102@huawei.com, ruanjinjie@huawei.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
+ michal.simek@amd.com, robert.jarzmik@free.fr, dmitry.baryshkov@linaro.org,
+ arnd@arndb.de, rafael.j.wysocki@intel.com, krzysztof.kozlowski@linaro.org,
+ daniel.lezcano@linaro.org, corbet@lwn.net
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
+by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
 
-On Tue, 29 Aug 2023 11:06:22 +0800 you wrote:
-> cros_ec_sensors_push_data() reads `indio_dev->active_scan_mask` and
-> calls iio_push_to_buffers_with_timestamp() without making sure the
-> `indio_dev` stays in buffer mode.  There is a race if `indio_dev` exits
-> buffer mode right before cros_ec_sensors_push_data() accesses them.
+On Wed, 20 Sep 2023 14:57:37 +0200 you wrote:
+> Hello,
 > 
-> An use-after-free on `indio_dev->active_scan_mask` was observed.  The
-> call trace:
-> [...]
->  _find_next_bit
->  cros_ec_sensors_push_data
->  cros_ec_sensorhub_event
->  blocking_notifier_call_chain
->  cros_ec_irq_thread
+> this series converts all platform drivers below drivers/input to use
+> remove_new. The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] iio: cros_ec: fix an use-after-free in cros_ec_sensors_push_data()
-    https://git.kernel.org/chrome-platform/c/7771c8c80d62
+  - [02/52] input: cros_ec_keyb - Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/63ef64cb6453
 
 You are awesome, thank you!
 -- 

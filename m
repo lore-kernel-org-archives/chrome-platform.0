@@ -1,25 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C223D72
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794688C0A
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQ+5mPju"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B7510C433C9;
-	Mon, 13 Nov 2023 04:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699851025;
-	bh=bUf+/gTdXd1ZzU15zgL5XesRLAJnbVGMdqnzNEOPshw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=AQ+5mPjuMhg0ZLwgpbb6fT22wkl/31mASTn1eZ05WuT/rgSvjijpRaVwSpsr+vnqI
-	 GjVGpXdpHfR1ng6SOReSjIcBJZ/2fZ4kMSh59OvllUSY+xzQ6VlZ32EG7WvfE7H2Zp
-	 Y0F2plGZe6Xej05tSdIFqN3IYG4eL9xRkRN4+9lr3+iYPf1+d9z8clr4Cq28aQC9kD
-	 NBj235zX2RRbhEf8xZY9SeMvoKBY+6xyYgjihxeQb5U72x6P31dxBrYICwWTsqMdRo
-	 ZcNonSgVD9scMcudl0W48unm/FNCJYsEFgiM0jDuIc4xBR708FHmGviH68aSZQ/JaV
-	 P+3A+ZUzWRXFg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 98FFFC04DD9;
-	Mon, 13 Nov 2023 04:50:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="yRNMP0r7"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6be1bc5aa1cso4162013b3a.3
+        for <chrome-platform@lists.linux.dev>; Sun, 12 Nov 2023 20:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699851272; x=1700456072; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DHe/6X+zqO2OGWePYUxcBq1AH1HKw/FmjJ21ihvK1ZA=;
+        b=yRNMP0r7Uy5QCofY+a5Ph0cpi94r0NW8ANIMhCbmzbrUKmxGd0GbWbPBkPiixoYvek
+         SI1ckhXXvrRmpdDt0oQqztSk3ySLF7Lb2hznu2wAwYbWqbE6187wPnO6w5kKmEyn9ahW
+         bVZ9pd60p+okGaxBRsB8/3COW/X0H0PE1nE93tUpnH/UT4Yp/1NPyk77ws7BzuhkQlR6
+         Ay3pfMd6ky4SBUG/7ehj2rqToQAFhX2f/BBiI+/2xKhJVGL8BnJBx40zyy5u5xxC1q8a
+         j1d+9TbKtdK+CaEHyZGAONNzQhplRsyXuRawb9ToOyCXSaFfH/I0PnT4NBvHBbfseJp3
+         a+mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699851272; x=1700456072;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DHe/6X+zqO2OGWePYUxcBq1AH1HKw/FmjJ21ihvK1ZA=;
+        b=uw1y0+0iDC/yc4KKucctC30YlL26Ib9wA/StwqpzWgzyK93PqzSWo119n2JYeBiLjH
+         LE6Eimwh0aI373rY7dxdkdbCv/TQxh5A+18cftSC1kTpyYian+CGCKgLXN4tQsQ6+bE4
+         TAU1/8/rJYXU9ANS28VGPTmLht8R/DvYTPxn5hY57dMlnXF3rtSi1LUavStT2W/LW7nL
+         7j2Ckg+ULZU7vkbOo4mO5MefJW96igyeXrPyfO6N7eo2NPhwe1yAd2/U8UHWIBvaFOT7
+         wg2z1xfMpmEvoGBjI1R+xk6XlL02PUBgqIBNmFKzZ7tXgMDJQ1EShXyJa6lD09G8uefW
+         AeAw==
+X-Gm-Message-State: AOJu0YyK+tL7vGGG3qungaBPAUTQTYcqZI4vKRRluUZLpCH9gdi7fwjx
+	qzJJrUMKJ6qFqnCv0MhLKe2z+Q==
+X-Google-Smtp-Source: AGHT+IHgk4XOHqH2zBYPreZA+kkOLLYnBPVs8hdjmnX4GQq9hkuam+Fv7TnoY/530w4CEU0WZJ2y0A==
+X-Received: by 2002:a05:6a21:1a6:b0:186:8318:6b5e with SMTP id le38-20020a056a2101a600b0018683186b5emr2793315pzb.20.1699851271792;
+        Sun, 12 Nov 2023 20:54:31 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id g9-20020a170902934900b001cc50c5699asm3262326plp.301.2023.11.12.20.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Nov 2023 20:54:31 -0800 (PST)
+Message-ID: <6551ac07.170a0220.4a9a5.6b28@mx.google.com>
+Date: Sun, 12 Nov 2023 20:54:31 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -27,44 +50,77 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] platform/chrome: sensorhub: Implement quickselect for
- median calculation
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169985102562.12923.10861962849443008728.git-patchwork-notify@kernel.org>
-Date: Mon, 13 Nov 2023 04:50:25 +0000
-References: <20231110165314.1559285-1-visitorckw@gmail.com>
-In-Reply-To: <20231110165314.1559285-1-visitorckw@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.7-rc1-1-g49e380795414
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci baseline: 36 runs,
+ 1 regressions (v6.7-rc1-1-g49e380795414)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci baseline: 36 runs, 1 regressions (v6.7-rc1-1-g=
+49e380795414)
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Regressions Summary
+-------------------
 
-On Sat, 11 Nov 2023 00:53:14 +0800 you wrote:
-> The cros_ec_sensor_ring_median function currently uses an inefficient
-> sorting algorithm (> O(n)) to find the median of an array. This patch
-> replaces the sorting approach with the quickselect algorithm, which
-> achieves an average time complexity of O(n).
-> 
-> The algorithm employs the median-of-three rule to select the pivot,
-> mitigating worst-case scenarios and reducing the expected number of
-> necessary comparisons. This strategy enhances the algorithm's
-> efficiency and ensures a more balanced partitioning.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2] platform/chrome: sensorhub: Implement quickselect for median calculation
-    https://git.kernel.org/chrome-platform/c/d131f1f3b459
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+platform          | arch  | lab           | compiler | defconfig | regressi=
+ons
+------------------+-------+---------------+----------+-----------+---------=
+---
+rk3399-rock-pi-4b | arm64 | lab-collabora | gcc-10   | defconfig | 1       =
+   =
 
 
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v6.7-rc1-1-g49e380795414/plan/baseline/
+
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v6.7-rc1-1-g49e380795414
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      49e380795414039f7b3bd44c121104f31738dcf1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch  | lab           | compiler | defconfig | regressi=
+ons
+------------------+-------+---------------+----------+-----------+---------=
+---
+rk3399-rock-pi-4b | arm64 | lab-collabora | gcc-10   | defconfig | 1       =
+   =
+
+
+  Details:     https://kernelci.org/test/plan/id/6551a2d483969a4f29efcf0c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.7-rc1-1-g49e380795414/arm64/defconfig/gcc-10/lab-collabora/baseline-rk339=
+9-rock-pi-4b.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.7-rc1-1-g49e380795414/arm64/defconfig/gcc-10/lab-collabora/baseline-rk339=
+9-rock-pi-4b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6551a2d483969a4f29efc=
+f0d
+        new failure (last pass: v6.6-rc1-21-g47ea0ddb1f56) =
+
+ =20

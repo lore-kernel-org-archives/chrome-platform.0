@@ -1,48 +1,48 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA6BC131
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C72F9E0
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Nov 2023 04:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="X5bxKnfc"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a90d6ab962so46133047b3.2
-        for <chrome-platform@lists.linux.dev>; Sun, 12 Nov 2023 20:11:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="qYj6jblA"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1cc3542e328so27822395ad.1
+        for <chrome-platform@lists.linux.dev>; Sun, 12 Nov 2023 20:14:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699848679; x=1700453479; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699848852; x=1700453652; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=NFFkZ4EZQSD1u6M7e8VV04mjzbxYggwsZWGwSNQIQ7I=;
-        b=X5bxKnfcHSLLIprWb0q7DRwfQSa5UsIsITt9Nm4DDYtD7VwO3tiUgL1akwOpzpooPI
-         fe0cAhL6AdG5hiOnHpLLqXruaBc3yIWh3dO26ONd5wnNraeH2IkXEkQTUd1eHZRm+p2r
-         Ekr+kIbzFp8KRWzHs0O+4FlyrIJykGET5b1LZ1dT7JY1F9Orq7tSyWNoU8z9WAatdv2Q
-         dYtwzFEbYeovXHZCroARUM4xJqs3APo5XxfZK0KYZkfthCFp3xHKliGnJaMOd4V4LMdV
-         973rMZOa1Qbk1hyD+1viLvAhyO5XgHwmBhg1Wh3AhaDAHksmR3u2lkuwA33vqEeIhh6+
-         rVCg==
+        bh=X4/bE+/C5fulgVbsVAq3AO2aT663zzXN1COxl/JGefU=;
+        b=qYj6jblAoiJnfykHDBra+Z75WxvvW8oVOfgT8/IQ8PeN9MCmv+3zyhtbr8FaVGGbQU
+         t5jpjlZFZgu2PAIMvk/+CkjVBmYI1XGCp5GoX6pWkDeTJ096yl76usvg4gYS5ABQ7DCn
+         3uYGZfehOe6DCLvsf7I/p2QBhKIACb5MWQvUDigT3vyVFUtB9ilVLhEaIkhp8iYwSKHR
+         ZfPv2GCM7hAdUOuyU88tBgdagyAybtppcnQhfamkGdzWHj2lswJpxr+sgnpUaN8S5JMX
+         xnnDyqfySHBFP1hYxXsK9wypejflqvYRnUqgupoRO+sO3Iya8kQss1KWIX7PqKzCDRjt
+         JRzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699848679; x=1700453479;
+        d=1e100.net; s=20230601; t=1699848852; x=1700453652;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NFFkZ4EZQSD1u6M7e8VV04mjzbxYggwsZWGwSNQIQ7I=;
-        b=URZ4o2c5fdCEvEz+U0vfecgWsoRq7togrry1NgE3NgWId1QmhdzUNbKBAcKWu+o13N
-         BeehI1XjvCT9x9M/CcFYOufQrdnOehittlRKjWEDNVjPyX+ZhNuwvQo1gFGc6NiloeMO
-         6TgHe55rnpMARfrcT7XupaH+UU68cuZ5hE2dWK6c+zO1wdNvLjATY2OpuETvvZ/zO56Q
-         Hs4ueGOCXGa2l8Nzqk1DLGOouoRui8L6bttolzQqJ77blwJ+UkAkhx0exiWnEsYgqfF8
-         AR/V6hLA+lSBfH5cvZpPz6xuSNJijWTo/ZTl4vCh8m3rGgaTCBJe9m5bXfmD8qeKyCg8
-         rIeA==
-X-Gm-Message-State: AOJu0YyySQV4a/Qg5Q2O6ibaMMyesymRdIJTqH7S0D1rtHV3STG2gYxE
-	BmwE2Dx4uI9unT9OfcK4bMlu6w==
-X-Google-Smtp-Source: AGHT+IGMpQh3bfDfBB1K/oJP15WMoYWdCdzpgIfV7B0hIKI+LouZQ5zVVUWrO0RFTYgurA8DQgbp6A==
-X-Received: by 2002:a0d:d403:0:b0:5a7:cc02:68b0 with SMTP id w3-20020a0dd403000000b005a7cc0268b0mr5603630ywd.23.1699848678735;
-        Sun, 12 Nov 2023 20:11:18 -0800 (PST)
+        bh=X4/bE+/C5fulgVbsVAq3AO2aT663zzXN1COxl/JGefU=;
+        b=K52pIhrXG7IhWJhiGa66kt9SXCBNUcmo2vrQ2MGbmBkFmDfGDszwtnrSS1VsSiDvYp
+         JDS7BUNiK9xwAS2EWJLzon62un9ggNZAOFdriqLIIEjOaWzNM3PkDDNvN/j0DYrWK0U5
+         +Qe8gmR7WEllLVcsUMtMtR9ZocnceZ1mnBuwVwrUvcl9gNM+CNHYtHb8RrmM35Wx0bsZ
+         gNX4oPJA+SoZe8btzhW8v1XsMnOszlJWtMDpCF45RFSnFLutfW8vpbRXx7ngHXwl2NgP
+         gE/rn1u6/WbH2Z/NVd0P3Uvh/D6RTIZVxCyKVrMd/aV8jiz0mwyO+RCW6CfgLZnuG61E
+         HdQQ==
+X-Gm-Message-State: AOJu0YxuzoKduNOQyjyOQZAUV3BiXxhNF4TlvEFk3GpLv/WG9BjuMxwA
+	dmPLYNlXgmKc9qVox3OYlqY1yw==
+X-Google-Smtp-Source: AGHT+IHCSc/7jzIuxCPSVg2qiR06e7If5q35cj7xPdxbVLM9RzpkV1Lgbidcr14Sp5oNnsWsBBOzjQ==
+X-Received: by 2002:a17:902:e892:b0:1cc:dade:2789 with SMTP id w18-20020a170902e89200b001ccdade2789mr4711019plg.20.1699848852490;
+        Sun, 12 Nov 2023 20:14:12 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id i24-20020a056a00225800b006bdc8bb2ed5sm3041869pfu.82.2023.11.12.20.11.17
+        by smtp.gmail.com with ESMTPSA id e6-20020a17090301c600b001c61df93afdsm3216396plh.59.2023.11.12.20.14.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Nov 2023 20:11:17 -0800 (PST)
-Message-ID: <6551a1e5.050a0220.98d66.63f2@mx.google.com>
-Date: Sun, 12 Nov 2023 20:11:17 -0800 (PST)
+        Sun, 12 Nov 2023 20:14:11 -0800 (PST)
+Message-ID: <6551a293.170a0220.4d46.68a1@mx.google.com>
+Date: Sun, 12 Nov 2023 20:14:11 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -51,27 +51,27 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.7-rc1-1-g49e380795414
+X-Kernelci-Kernel: v6.7-rc1-1-gecea08916418
 X-Kernelci-Report-Type: build
-X-Kernelci-Branch: for-kernelci
+X-Kernelci-Branch: for-firmware-kernelci
 X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci build: 5 builds: 2 failed,
- 3 passed (v6.7-rc1-1-g49e380795414)
+Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed,
+ 3 passed (v6.7-rc1-1-gecea08916418)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-kernelci build: 5 builds: 2 failed, 3 passed (v6.7-rc1-=
-1-g49e380795414)
+chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed, 3 passed (=
+v6.7-rc1-1-gecea08916418)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.7-rc1-1-g49e380795414/
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
+irmware-kernelci/kernel/v6.7-rc1-1-gecea08916418/
 
 Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.7-rc1-1-g49e380795414
-Git Commit: 49e380795414039f7b3bd44c121104f31738dcf1
+Branch: for-firmware-kernelci
+Git Describe: v6.7-rc1-1-gecea08916418
+Git Commit: ecea08916418a94f99f89c543303877cb6e08a11
 Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
 nux.git
 Built: 3 unique architectures

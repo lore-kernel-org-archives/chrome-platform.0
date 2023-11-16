@@ -1,72 +1,62 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801E82D022
-	for <chrome-platform@lists.linux.dev>; Thu, 16 Nov 2023 10:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3Zys-0000s8-KE; Thu, 16 Nov 2023 11:52:18 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3Zyr-009Qjs-D0; Thu, 16 Nov 2023 11:52:17 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3Zyr-002Zzn-3n; Thu, 16 Nov 2023 11:52:17 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH] pwm: cros-ec: Drop unused member from driver private data
-Date: Thu, 16 Nov 2023 11:52:13 +0100
-Message-ID: <20231116105212.650951-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C071530F91
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Nov 2023 23:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HbqLQP+u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1700176632;
+	bh=tn2YxFzqwCbtJDuuyn3bG2oSjmS/fkqMKKmyw9hErLY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HbqLQP+ueOwjBU44EHztHVav6zEH3fDj+VhB6h2B5vOvhwdLCPcMVFYhLd8QYfyE2
+	 U4hIoxVQPc7ByNvnbKHtLUpzWIw7JQkwnmAP2RyQfZA9s+MKzqCvmI8W1t5T4RiJ3j
+	 HSa5Pm/ptkfAqbxx4pv2l1uUnSddPuvEuZTEhcNQ=
+Date: Fri, 17 Nov 2023 00:17:12 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: "Dustin L. Howett" <dustin@howett.net>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Kieran Levin <ktl@frame.work>, 
+	Mario Limonciello <Mario.Limonciello@amd.com>
+Subject: Re: [PATCH v1 3/4] cros_ec_lpc: add a quirks system, and propagate
+ quirks from DMI
+Message-ID: <0434b79a-b774-494c-91b3-c04d927dcf63@t-8ch.de>
+References: <20231005160701.19987-1-dustin@howett.net>
+ <20231005160701.19987-5-dustin@howett.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=727; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=PtFb2v19D7ErEsZp4ooYXEwUA0E1EnNJY3/NquH5ers=; b=owGbwMvMwMXY3/A7olbonx/jabUkhtTQL7HqEvdnHtmx5qtLwNK6KP6Yr+07OmNfmpxVnxwxr 8wsTa+6k9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJBE9l/18VG7WszqrZdmbP V+UJMk+X2HRorUriyv3rH1P9fqe4steV0ssf1faUuQd+mt4t0jdjuUa0dV2F7RXNqbX9u2pMHev 2Pf6fsT7PkCt0EtfnN/0pqTkfIjf8nPnD376wR8XRoaOunp/no+dZDo2XTB/+dOb+7TOWSTTh/h 50QfH9wa7XSXNDNQ83eMuUOv+OaXeJPPJrc4WkftvPyZePLCk1/1KoGeR7Y9vBX9+fHTGxK3wh2 SEd6rBwpoFw84Ifcyylzrt/nbmP9UTdpHtFHoe0oy+IXtiVnCPB13zonpzFtl/zHHsXbe13ms1c 3aiiETxp94uIJVLOexVdtznNUVOpEVtx/lJJ8JfKRYsNAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005160701.19987-5-dustin@howett.net>
 
-.dev is unused since the driver was introduced in commit 1f0d3bb02785
-("pwm: Add ChromeOS EC PWM driver"). Drop it.
+On 2023-10-05 11:07:01-0500, Dustin L. Howett wrote:
+> Some devices ship a ChromeOS EC in a non-standard configuration; quirks
+> allow cros_ec_lpc to account for these non-standard configurations.
+> 
+> It supports the following quirks:
+> - CROS_EC_LPC_QUIRK_REMAP_MEMORY: use a different port I/O base for
+>   MMIO to the EC's memory region
+> - CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVATION: only attempt to reserve
+>   0xff (rather than 0x100) I/O ports for the host command region
+> 
+> Signed-off-by: Dustin L. Howett <dustin@howett.net>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/pwm/pwm-cros-ec.c | 1 -
- 1 file changed, 1 deletion(-)
+[..]
 
-diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-index 4fbd23e4ef69..9a8f1b6a4e13 100644
---- a/drivers/pwm/pwm-cros-ec.c
-+++ b/drivers/pwm/pwm-cros-ec.c
-@@ -25,7 +25,6 @@
-  * @channel: array with per-channel data
-  */
- struct cros_ec_pwm_device {
--	struct device *dev;
- 	struct cros_ec_device *ec;
- 	struct pwm_chip chip;
- 	bool use_pwm_type;
+> +
+> +	driver_data = platform_get_drvdata(pdev);
+> +	if (driver_data) {
+> +		quirks = driver_data->quirks;
+> +
+> +		if (quirks)
+> +			dev_warn(dev, "loaded with quirks %8.08x\n", quirks);
 
-base-commit: d27abbfd4888d79dd24baf50e774631046ac4732
--- 
-2.42.0.586.gbc5204569f7d.dirty
+dev_warn() is too loud.
 
+[..]

@@ -1,70 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DB1101CC
-	for <chrome-platform@lists.linux.dev>; Tue, 14 Nov 2023 06:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pt6hoMqe"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0EE2EC433C9;
-	Tue, 14 Nov 2023 06:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699941624;
-	bh=j4BPfU4JGML+eRFRsSqArgl/gmW3iNbf6MXiLOGvgDI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Pt6hoMqeTHrb5TKBx4eKgCP2/DBsIKGLD3HDl5DIUV0rJwDkeeLYLfsHj0aeV7j/M
-	 sZYTUpD9a4g93FaafPshC9Qv64e11oVsoNsOoSMttanFUNeXQomj0GrG3zoR2uQCmf
-	 DwyPFxPVSp+c5FsOuOtdpG+0RJAQk0CTS/I0UiMOtAvPy9eg3iw/69xle+ay9TpkRr
-	 jq4Lpo+/uNwmyQefH6ENe2G7CJNBIO1JfgvpL7gkOYOXSRP5fMGs02n+fcFaf8KOoW
-	 bFAjSqGRFUyM2GCJhTOgsvmuUCMTGARJV+AcuZt5eTosvf6gMD5T39FHA2xELf6iMU
-	 /9FGk3MTwOSTA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EABB5E1F660;
-	Tue, 14 Nov 2023 06:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801E82D022
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Nov 2023 10:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3Zys-0000s8-KE; Thu, 16 Nov 2023 11:52:18 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3Zyr-009Qjs-D0; Thu, 16 Nov 2023 11:52:17 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3Zyr-002Zzn-3n; Thu, 16 Nov 2023 11:52:17 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH] pwm: cros-ec: Drop unused member from driver private data
+Date: Thu, 16 Nov 2023 11:52:13 +0100
+Message-ID: <20231116105212.650951-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=727; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=PtFb2v19D7ErEsZp4ooYXEwUA0E1EnNJY3/NquH5ers=; b=owGbwMvMwMXY3/A7olbonx/jabUkhtTQL7HqEvdnHtmx5qtLwNK6KP6Yr+07OmNfmpxVnxwxr 8wsTa+6k9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJBE9l/18VG7WszqrZdmbP V+UJMk+X2HRorUriyv3rH1P9fqe4steV0ssf1faUuQd+mt4t0jdjuUa0dV2F7RXNqbX9u2pMHev 2Pf6fsT7PkCt0EtfnN/0pqTkfIjf8nPnD376wR8XRoaOunp/no+dZDo2XTB/+dOb+7TOWSTTh/h 50QfH9wa7XSXNDNQ83eMuUOv+OaXeJPPJrc4WkftvPyZePLCk1/1KoGeR7Y9vBX9+fHTGxK3wh2 SEd6rBwpoFw84Ifcyylzrt/nbmP9UTdpHtFHoe0oy+IXtiVnCPB13zonpzFtl/zHHsXbe13ms1c 3aiiETxp94uIJVLOexVdtznNUVOpEVtx/lJJ8JfKRYsNAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] platform/chrome: sensorhub: Implement quickselect for
- median calculation
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169994162395.30294.11655195968151519457.git-patchwork-notify@kernel.org>
-Date: Tue, 14 Nov 2023 06:00:23 +0000
-References: <20231110165314.1559285-1-visitorckw@gmail.com>
-In-Reply-To: <20231110165314.1559285-1-visitorckw@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hello:
+.dev is unused since the driver was introduced in commit 1f0d3bb02785
+("pwm: Add ChromeOS EC PWM driver"). Drop it.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-cros-ec.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Sat, 11 Nov 2023 00:53:14 +0800 you wrote:
-> The cros_ec_sensor_ring_median function currently uses an inefficient
-> sorting algorithm (> O(n)) to find the median of an array. This patch
-> replaces the sorting approach with the quickselect algorithm, which
-> achieves an average time complexity of O(n).
-> 
-> The algorithm employs the median-of-three rule to select the pivot,
-> mitigating worst-case scenarios and reducing the expected number of
-> necessary comparisons. This strategy enhances the algorithm's
-> efficiency and ensures a more balanced partitioning.
-> 
-> [...]
+diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+index 4fbd23e4ef69..9a8f1b6a4e13 100644
+--- a/drivers/pwm/pwm-cros-ec.c
++++ b/drivers/pwm/pwm-cros-ec.c
+@@ -25,7 +25,6 @@
+  * @channel: array with per-channel data
+  */
+ struct cros_ec_pwm_device {
+-	struct device *dev;
+ 	struct cros_ec_device *ec;
+ 	struct pwm_chip chip;
+ 	bool use_pwm_type;
 
-Here is the summary with links:
-  - [v2] platform/chrome: sensorhub: Implement quickselect for median calculation
-    https://git.kernel.org/chrome-platform/c/d131f1f3b459
-
-You are awesome, thank you!
+base-commit: d27abbfd4888d79dd24baf50e774631046ac4732
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.42.0.586.gbc5204569f7d.dirty
 

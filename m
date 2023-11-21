@@ -1,8 +1,8 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084AC53801
-	for <chrome-platform@lists.linux.dev>; Tue, 21 Nov 2023 13:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ABA53806
+	for <chrome-platform@lists.linux.dev>; Tue, 21 Nov 2023 13:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
@@ -10,15 +10,15 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAI-0004xX-Ss; Tue, 21 Nov 2023 14:51:46 +0100
+	id 1r5RAS-0005Yc-IX; Tue, 21 Nov 2023 14:51:56 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAI-00Aawt-ES; Tue, 21 Nov 2023 14:51:46 +0100
+	id 1r5RAR-00Aaze-3a; Tue, 21 Nov 2023 14:51:55 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAI-004xb3-5V; Tue, 21 Nov 2023 14:51:46 +0100
+	id 1r5RAQ-004xe9-Qp; Tue, 21 Nov 2023 14:51:54 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Benson Leung <bleung@chromium.org>
@@ -26,9 +26,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	linux-pwm@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH v3 008/108] pwm: cros-ec: Make use of pwmchip_parent() macro
-Date: Tue, 21 Nov 2023 14:49:10 +0100
-Message-ID: <20231121134901.208535-9-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v3 051/108] pwm: cros-ec: Make use of devm_pwmchip_alloc() function
+Date: Tue, 21 Nov 2023 14:49:53 +0100
+Message-ID: <20231121134901.208535-52-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
 References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
@@ -39,7 +39,7 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Y6SybQdrptjmGL25w1qQN8taLORx4QehGQ0MqQwXx4o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLVW7G8g3B4WoIGznwQ3kx7w0eEuOHuAoS+Y9 q571iChN32JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1VgAKCRCPgPtYfRL+ TntsB/9Nj6A9eZjKBsj6nQfE/dfFW/JB2+Gc3gcXs3rnAozNlIFoDRihsY2UBSnBQYuFlNcQDGl NzVn7viCDI3j7dSvzyV5vFfBW05aOjqkyw8n/oovKxB3QbOp9hf98ROBHP2+dU1JFVt6a29kwNc QLaJSAS803j7KVaoNDiVwd23n5VMTNFOxz2GKTOUV4XRN+wS3zIS5kklDJsRgq4aoL3E2TKzsw2 uO3pKC15M2dl05ducMWbB8OhIi28HJ3WxtMvpuTfaTB6YnqbVlY5FmB1hm8zKa9PLFnOQ7Kfd48 2UCMMsiOsG5FDWS6I8Tc84amaoL0eV/kC1w8E0M0gWrgzGtF
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3448; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=e8/SuPnxTLgrP5C8bJZ/5xPYolAFPGXd6mgGRsmDOJo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLWEhVI/vRknNnEUm2tLVwUS04OePsQsmAmxy 5QwFU8EVSqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1hAAKCRCPgPtYfRL+ TtsbCACA35j/GT/QUSekyaoqSAlKTh9vfBgUjqHn02CgKJ0nvnr+B0xcit0luelUccUgLlr5aZW 9P0ruMU/lwYYSnl/TuMLj6BIuTF8qN0nA+P8XiygDUhCi87Uw/wVImCtzr0YV5n0ZPOavBGeP8a iok1rK/KhEb6F1UKz7vH1txJKtmWXf8MVCUY02y0HlSc0FU5MszdnoTOf/njvGm+1QVwo2aNoyV ZBaLLwru8iAIE+GqNA9vBSjr34Bf70+YREwp3wtsllIAArIetv/BKxqS18xoXk8Ff6o7/Tatwl0 jr7FusV3aijYRwVE1h6/aGVHseITv8pb6bpGYwQLccbMYBSV
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -47,28 +47,109 @@ X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-struct pwm_chip::dev is about to change. To not have to touch this
-driver in the same commit as struct pwm_chip::dev, use the macro
-provided for exactly this purpose.
+This prepares the pwm-cros-ec driver to further changes of the pwm core
+outlined in the commit introducing devm_pwmchip_alloc(). There is no
+intended semantical change and the driver should behave as before.
+The probe function had to be changed a bit because the number of PWMs
+must be determined before allocation of the pwm_chip and its private
+data now.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/pwm/pwm-cros-ec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pwm/pwm-cros-ec.c | 42 +++++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-index 7345ca1c60f0..0ce8220646ea 100644
+index 0ce8220646ea..290b22423804 100644
 --- a/drivers/pwm/pwm-cros-ec.c
 +++ b/drivers/pwm/pwm-cros-ec.c
-@@ -173,7 +173,7 @@ static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -26,7 +26,6 @@
+  */
+ struct cros_ec_pwm_device {
+ 	struct cros_ec_device *ec;
+-	struct pwm_chip chip;
+ 	bool use_pwm_type;
+ 	struct cros_ec_pwm *channel;
+ };
+@@ -41,7 +40,7 @@ struct cros_ec_pwm {
  
- 	ret = cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, pwm->hwpwm);
- 	if (ret < 0) {
--		dev_err(chip->dev, "error getting initial duty: %d\n", ret);
-+		dev_err(pwmchip_parent(chip), "error getting initial duty: %d\n", ret);
- 		return ret;
- 	}
+ static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm_chip *chip)
+ {
+-	return container_of(chip, struct cros_ec_pwm_device, chip);
++	return pwmchip_priv(chip);
+ }
  
+ static int cros_ec_dt_type_to_pwm_type(u8 dt_index, u8 *pwm_type)
+@@ -226,13 +225,13 @@ static const struct pwm_ops cros_ec_pwm_ops = {
+  * of PWMs it supports directly, so we have to read the pwm duty cycle for
+  * subsequent channels until we get an error.
+  */
+-static int cros_ec_num_pwms(struct cros_ec_pwm_device *ec_pwm)
++static int cros_ec_num_pwms(struct cros_ec_device *ec, bool use_pwm_type)
+ {
+ 	int i, ret;
+ 
+ 	/* The index field is only 8 bits */
+ 	for (i = 0; i <= U8_MAX; i++) {
+-		ret = cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, i);
++		ret = cros_ec_pwm_get_duty(ec, use_pwm_type, i);
+ 		/*
+ 		 * We look for SUCCESS, INVALID_COMMAND, or INVALID_PARAM
+ 		 * responses; everything else is treated as an error.
+@@ -261,35 +260,36 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct cros_ec_pwm_device *ec_pwm;
+ 	struct pwm_chip *chip;
++	bool use_pwm_type = false;
++	unsigned npwm;
+ 	int ret;
+ 
+ 	if (!ec)
+ 		return dev_err_probe(dev, -EINVAL, "no parent EC device\n");
+ 
+-	ec_pwm = devm_kzalloc(dev, sizeof(*ec_pwm), GFP_KERNEL);
+-	if (!ec_pwm)
+-		return -ENOMEM;
+-	chip = &ec_pwm->chip;
++	if (of_device_is_compatible(np, "google,cros-ec-pwm-type")) {
++		use_pwm_type = true;
++		npwm = CROS_EC_PWM_DT_COUNT;
++	} else {
++		ret = cros_ec_num_pwms(ec, use_pwm_type);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "Couldn't find PWMs\n");
++		npwm = ret;
++	}
++
++	chip = devm_pwmchip_alloc(dev, npwm, sizeof(*ec_pwm));
++	if (IS_ERR(chip))
++		return PTR_ERR(chip);
++
++	ec_pwm = pwm_to_cros_ec_pwm(chip);
++	ec_pwm->use_pwm_type = use_pwm_type;
+ 	ec_pwm->ec = ec;
+ 
+-	if (of_device_is_compatible(np, "google,cros-ec-pwm-type"))
+-		ec_pwm->use_pwm_type = true;
+-
+ 	/* PWM chip */
+-	chip->dev = dev;
+ 	chip->ops = &cros_ec_pwm_ops;
+ 	chip->of_xlate = cros_ec_pwm_xlate;
+ 	chip->of_pwm_n_cells = 1;
+ 
+-	if (ec_pwm->use_pwm_type) {
+-		chip->npwm = CROS_EC_PWM_DT_COUNT;
+-	} else {
+-		ret = cros_ec_num_pwms(ec_pwm);
+-		if (ret < 0)
+-			return dev_err_probe(dev, ret, "Couldn't find PWMs\n");
+-		chip->npwm = ret;
+-	}
+-
+ 	ec_pwm->channel = devm_kcalloc(dev, chip->npwm, sizeof(*ec_pwm->channel),
+ 					GFP_KERNEL);
+ 	if (!ec_pwm->channel)
 -- 
 2.42.0
 

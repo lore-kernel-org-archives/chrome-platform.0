@@ -1,78 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A46722EE8;
-	Wed, 22 Nov 2023 08:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fK39sHop"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42F57C433C9;
-	Wed, 22 Nov 2023 08:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700643167;
-	bh=2hA0ipSUSD8tblpZzKbXBtE3Q3om8cYe+kHrqzYujrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fK39sHopPz/8R+vbMJaUF4KOi6lvO4v+62xLYnr6NU8NsTtlpfGSoFrgOA+1avFj+
-	 02sx6Zwd1Hp27OnpURgnI8MHKXzYI5dmHzQCG1lR2B7L9vGJ3Tx7Au4EJKQiBt7q2F
-	 nEKKKQA/c6eLdgCDCIW92+Pc0At8sIRfxv1DaXkDIACICIJ9QDDLQjx2hTlKSP8GGz
-	 yav5Oqr/XfKzwv1iepnPSjKYeDuk1nsBBFTzksyFiWdkGxlj0bSmnm63U2N+KemX5V
-	 Mqeh10L6CyRrkJ29Xwjc8vIvAKeUNDg8g2iYn7SXhVV6ob2/dmXuYVyHutQXMdH6nN
-	 X2yzjiKi2L0sA==
-Date: Wed, 22 Nov 2023 16:52:44 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA50219EF
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Nov 2023 23:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5x4n-0007cb-Pd; Thu, 23 Nov 2023 00:56:13 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5x4n-00Auw4-5R; Thu, 23 Nov 2023 00:56:13 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5x4m-0066kb-SP; Thu, 23 Nov 2023 00:56:12 +0100
+Date: Thu, 23 Nov 2023 00:56:12 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
+	Guenter Roeck <groeck@chromium.org>,
+	Benson Leung <bleung@chromium.org>
 Subject: Re: [PATCH v3 051/108] pwm: cros-ec: Make use of
  devm_pwmchip_alloc() function
-Message-ID: <ZV3BXAMCBkArwIm6@google.com>
+Message-ID: <20231122235612.pfpy64xwhsxnz5xn@pengutronix.de>
 References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
  <20231121134901.208535-52-u.kleine-koenig@pengutronix.de>
+ <ZV3BXAMCBkArwIm6@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="scgqo5g6yvb4t763"
+Content-Disposition: inline
+In-Reply-To: <ZV3BXAMCBkArwIm6@google.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+
+
+--scgqo5g6yvb4t763
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231121134901.208535-52-u.kleine-koenig@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 21, 2023 at 02:49:53PM +0100, Uwe Kleine-König wrote:
-> @@ -41,7 +40,7 @@ struct cros_ec_pwm {
->  
->  static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm_chip *chip)
->  {
-> -	return container_of(chip, struct cros_ec_pwm_device, chip);
-> +	return pwmchip_priv(chip);
+Hello,
 
-Or just replace every `pwm_to_cros_ec_pwm` to `pwmchip_priv`.
+On Wed, Nov 22, 2023 at 04:52:44PM +0800, Tzung-Bi Shih wrote:
+> On Tue, Nov 21, 2023 at 02:49:53PM +0100, Uwe Kleine-K=F6nig wrote:
+> > @@ -41,7 +40,7 @@ struct cros_ec_pwm {
+> > =20
+> >  static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm=
+_chip *chip)
+> >  {
+> > -	return container_of(chip, struct cros_ec_pwm_device, chip);
+> > +	return pwmchip_priv(chip);
+>=20
+> Or just replace every `pwm_to_cros_ec_pwm` to `pwmchip_priv`.
 
-> @@ -226,13 +225,13 @@ static const struct pwm_ops cros_ec_pwm_ops = {
->   * of PWMs it supports directly, so we have to read the pwm duty cycle for
->   * subsequent channels until we get an error.
->   */
-> -static int cros_ec_num_pwms(struct cros_ec_pwm_device *ec_pwm)
-> +static int cros_ec_num_pwms(struct cros_ec_device *ec, bool use_pwm_type)
+An advantage of the pwm_to_cros_ec_pwm() wrapper is that it yields the
+right type. I'd keep it for this series to keep amount of the changes
+small (and also because I like to keep the wrapper).
 
-As replied in previous patch, `use_pwm_type` in the path is always false.
+Feel free to propose a patch replacing pwm_to_cros_ec_pwm() by
+pwmchip_priv() when this code landed in the mainline.
 
-> @@ -261,35 +260,36 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
->  	struct device_node *np = pdev->dev.of_node;
->  	struct cros_ec_pwm_device *ec_pwm;
->  	struct pwm_chip *chip;
-> +	bool use_pwm_type = false;
-> +	unsigned npwm;
+I'll look into the other things you pointed out. Thanks for your review.
 
-To be neat, `unsigned int`.
+Best regards
+Uwe
 
-[...]
-> +	chip = devm_pwmchip_alloc(dev, npwm, sizeof(*ec_pwm));
-> +	if (IS_ERR(chip))
-> +		return PTR_ERR(chip);
-> +
-> +	ec_pwm = pwm_to_cros_ec_pwm(chip);
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-pwmchip_priv().
+--scgqo5g6yvb4t763
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVelRsACgkQj4D7WH0S
+/k7ghwgAs9QEpTKqKJDltQTPTg9m/W+7ehgr2L5GU+IbDaZWjwgq59ELt3P7Vl0U
+5Jf8mTj5B5siSeIpmILS1o87nxExzN1suryAbTe8ZNd7fhxJDYwIyIm1XIv7LDt4
+vIPhzDpSBLe/5gne8VUuHN2X0Sy6wZ3WQznOoKFzaIhcqqHZoPxXhC0vz4m4JAtK
+ssvY8gMnJ2tjlqayPnKqJBGe2y1fC99cCwW5LGGx4jfAF6HOHSQ3YBJlNqvzjbE5
+VUm9PL9ljgAxlH6nrzblH1EmT+nO03b6MlLWuqCeNZFfdfD3piMld55LbGahenXr
+hmU1CpWIBOHn7mTtbuovCyueV0P+vg==
+=uPOi
+-----END PGP SIGNATURE-----
+
+--scgqo5g6yvb4t763--

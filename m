@@ -1,130 +1,56 @@
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn2044.outbound.protection.outlook.com [40.92.107.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A9715B1
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Nov 2023 01:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945011CAB1;
+	Wed, 22 Nov 2023 08:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Mn6HXyd2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M52MVz1xCaFzwQTmWVCvFYyNWg14a9JON5a29X69f36DnAoY0EUI2s0hmI+7jXqi4ucOFny5+iy3efzs1VLnRkkhntb4R/XGhdtsTaxvd2oPMS1WBUnoBzRUQv/gFRuuVHE3p8v79yKf7rUNsEa6VplIoJmIiOGHM5P5YhnAMBbsvbywatd70GkLK+Lbjn4zbm2jhYsFv/Md5B2HeFic3S9MaHmoyVlv94s8QyDyMx/6IuDKv/aHQ587iIYkmHzHEgJjrinKfsQ5G8W92jvPS1lk0JWfZJ7ark4UShN1yMfnrku6TMm/FoWzQ+KJLg3EFx2akX/JBDIGVdv8c8VuHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B4nagn7wz/9YH++vhzfM+ICRMfPQv8SJawrhaEoQTsI=;
- b=TqzIi5fDPn3UYMfjMONqEy3DKZGYjnWDmmysK1fvT8hnmefapcLYMKcAuozV3pcvdhJQbk6vm8T+1M9W/DRuUrVVjqvYHtN0QddbNhkOXiQ58M/kDy0mk74b5uhUyh0j2v+gmPaYD4go0MQLeTVS0ZSMs7tNuXCYV2GnGnugaJo2S4p7RMkDlew4CinQ6d6XMTTSv712qdwZofeXvQ3/HKGchrCIG9TkrntpFiLlOvy1NK/gQ9PgwRU7kHqaRTIGfOQcJdpwWsY8Nllabok1WCmgJrNONu55TMjD7Pgf4nOyF8pRPmKYMhFWFjYSLRAgErOntypoCA8HTaydAkQf8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B4nagn7wz/9YH++vhzfM+ICRMfPQv8SJawrhaEoQTsI=;
- b=Mn6HXyd2qSVj8JLjGEyIjHQbdghNJEeRtUFk4TcMaP/sP1T5ztr8MgYig+bSa+Z29UC+/0MRIsaCaDFKQ8ILRo8u4UT6fIPMlYl/fCb9mC3fuvg5mmwTJjd/NJuwc/t+S31ByG3qkrshyQpibA2apLPrkrIB4DQ7x3n5m904OifVV5hJDi6pNDkGy2SJMJfR3sYS5dlVm4DVq5+JLCBT7GK2V2G6KJt3jU1gNUsTicpbCJ2yavRRHcOi2PqJTdBtWsDbBuZQ6FeSvIoITN77eEUBOpQi1TMqmk8Gwyu2kA/YG+lM3Xxe+ob7QDNnf+z2SzGrgxFQStR5wy4ZI60Ojw==
-Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- (2603:1096:820:41::14) by TY2PR0101MB3632.apcprd01.prod.exchangelabs.com
- (2603:1096:404:8003::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 01:24:57 +0000
-Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- ([fe80::907f:e0c0:d442:e14f]) by KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- ([fe80::907f:e0c0:d442:e14f%3]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
- 01:24:56 +0000
-From: Ken Lin <ken_lin5@hotmail.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: groeck@chromium.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D/KXIupC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00BD2C433C8;
+	Wed, 22 Nov 2023 08:52:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700643140;
+	bh=dS6I5+GxVq+w6MA4po9T77FdjKq8FGe7RNC3UWLZPKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D/KXIupCo+k/nM8BDmk3FWCm2tPkfyFeac4K4VIyJ7w0lGXgUWgr6xibMmV54LE8E
+	 t4JmT5q60y6txcAUL1hvJL+k6wHxtr9lQNWl53pRfVAnbe/xBEVpGOBL/d/aqmSvas
+	 yfnKS/qTjqprFH84RZ+8KrUXMOPAXh+gOiQ7KkRb4S8pZSs4s9nzVxDbv5bIm3DAmo
+	 rS6tm7e2jBmlOSF8e3eh7cAKERgsCpaVvaCy8BusvwNy+9H2BPs8BpreEKWjuhs+8y
+	 F+Lir63lDzU5DbsEdak2l/sJaxzTH7POsCkNTuW2n6gSeHCN+vye/fokd/eJ8qqbOM
+	 bpiUzsY00mySg==
+Date: Wed, 22 Nov 2023 16:52:16 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
 	Benson Leung <bleung@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Stefan Adolfsson <sadolfsson@chromium.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
-	chrome-platform@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: platform: cros-ec: Add Dexi to the match table
-Date: Wed, 22 Nov 2023 09:24:43 +0800
-Message-ID:
- <KL1PR01MB38096A17A4F89721CC3DA073AEBAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [tHznemHqqNXdxnt8FUH0WB/VJfdl1mG6]
-X-ClientProxiedBy: SG2PR06CA0246.apcprd06.prod.outlook.com
- (2603:1096:4:ac::30) To KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- (2603:1096:820:41::14)
-X-Microsoft-Original-Message-ID:
- <20231122092333.1.I02f6efa3023c0bcb437ee3b7ebaa2910a89ab0e9@changeid>
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH v3 001/108] pwm: cros-ec: Change prototype of helper to
+ prepare further changes
+Message-ID: <ZV3BQMalgY7WZCVR@google.com>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR01MB3809:EE_|TY2PR0101MB3632:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3f52483-6c78-4438-d792-08dbeaf9d583
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	VJJ2g01ij4Rouzu8nbABsc0AqUuyO8BMcFVOAwFBRBuBUIErEdf8YrmRpedI49wnTzWMaPea0FehLntPs59BWUH1Qdmy5r8NOQXzA21R8Gx+2XtjFRYvm+NbXiBoWww+ic32MQFqiX8Bt8hte9KKVlHDzwGkYyPkBlvPtQwUZw9QWWMnpfFIb95zivUyiSLZ/fYv+TPUDYjS8bDF3LktA36iJO9v6oYqp7l199ZNwxopoTPxHrecFlM9NXNkqyPYvW563VGg1qPguK5adPjZyaAvu7oOsy55paeR80On40x4n7MnBNH1DVDIGB7KpG2jbohLk182vaud02A9xFy+/phLzAEeJIQWqV7Wsovg1jwOb/5DSOCUryZlYgB2NUiVNetl7lpVnJ2e36cfBS4yyE3oWCGeWgrLQndwWz1d4dFGm6FH3BpASlcALTQ06A0jklsojehK0wijkX1bwsRXotroMb+13fehJ5MWOKseCS9Ok+IMh+2JhihLW2+jwx7n3lRI8bXZGk2qDUwlmcvN5KekNlgjidfrOom39apK9LQuaRP8VnaDuRjNrwFGFbQ9
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qjS21Lt24kQOJ5bNrh5gbSjqm0bxk7SzRacrq2t4k0fb7YpoYbND6NZExw5D?=
- =?us-ascii?Q?Z4+sMgMgchSAsWWmdP3bjS9C/w8lk8p2wCdJnd3WMwqAWjFD8ibFa2cQBKGS?=
- =?us-ascii?Q?eMz4VLDZHjWNgu5CY2yQl2TxlOWrh7ENgATzrF6GNVOedEbAWS3ovMnLy6mG?=
- =?us-ascii?Q?bmguNdxQAKC31sdnaarUmUFBhcFzSSNyUUlHThIQrQTReE9MYdyh3rQYrLkA?=
- =?us-ascii?Q?9YE6BknLrRYqTR6Sd7CLaDKp/hqWRvCGjrKzf6tXA64KBRIDyN/H0iL6dR7a?=
- =?us-ascii?Q?UbenKgyCcZQumOzEri7eBnV40NJqJ4DT2Vjo+fhJdgRl51j+EwbdZdfsa8Ja?=
- =?us-ascii?Q?5nDRj+VgD0Nty6FxSGgEJ0kZIgZJHk8m3uLbB4kifdSgJTPMMVUO3Up+cEpn?=
- =?us-ascii?Q?FQxTcl29YCv3fmUZfa1WOBZSQyePkCO+PFWjHvYasY0Eo4fumK/6nIxpelW0?=
- =?us-ascii?Q?cXDLvvQtCdbhrbhGmKbEtqOBeRZkk/TU5kyZpsnSdd5nB1mQvJWRT8ox0nNa?=
- =?us-ascii?Q?30YzCGH1mH3zdevlEb54+8XbwxvdakI8kTy9n9aURDoWxCyp9A50M7470l5d?=
- =?us-ascii?Q?bigSqFlif9sUXBLVaKWiUALDoeDjdG4Bav7xD/WVhQOQrvHRYHmckxr5teIU?=
- =?us-ascii?Q?DRGvEeptA0uyZhsPJQwIhZFlGSes7aXpjLBUaa3tbdKeo3ScPFkg0Ksqdf8Z?=
- =?us-ascii?Q?H8PG9NBx8w7H2i7tSaEf5xvX32Y9l9siKZ2f77bOOsVJrBpBzNib0lK5wSX4?=
- =?us-ascii?Q?dn3aBmyPEolHyAoOMmnWpyDXMHBIQOV13MMe+saWwVmR7KISIfZ1eV9YqdMe?=
- =?us-ascii?Q?rMG/cstyOsuZhlK5aJFIluiAiQ+Idm4FapgvW2fi7pNUcOd8FuItFnqhdWvF?=
- =?us-ascii?Q?O2PjfY7v3NOqCwXbd2fqDP3UrGXzOLqD676OC/PAHtxogKDRqCeNShI8A6Pj?=
- =?us-ascii?Q?It43DzP1KGib0OjwTHdLXCv9dkSsbTKuWOEnzv5GTqFIz2xO0nXXNoaWtvUH?=
- =?us-ascii?Q?efxjpkuXtTvv64bz9/5XHqPN7GMwPSUEls7/R1PS4gEYLtJijhpe3pEedgxQ?=
- =?us-ascii?Q?xBEHPeLXor6rguHzT7jddhbeMBbdVqkaSR/+0sOnh4IaCqtLj5qQhyagYjHe?=
- =?us-ascii?Q?7o8HJnD69ndMpErwejEsdlxNMwFvcQDJczDatDKLNScGl7Kp+E/Q3W2is/tH?=
- =?us-ascii?Q?W4gxDnb/KrqbH1GwKAaSC5w0GFlEKEibICtP+Q=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3f52483-6c78-4438-d792-08dbeaf9d583
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR01MB3809.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 01:24:56.7937
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR0101MB3632
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231121134901.208535-2-u.kleine-koenig@pengutronix.de>
 
-The Google Dexi device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+On Tue, Nov 21, 2023 at 02:49:03PM +0100, Uwe Kleine-König wrote:
+> @@ -233,7 +232,7 @@ static int cros_ec_num_pwms(struct cros_ec_pwm_device *ec_pwm)
+>  
+>  	/* The index field is only 8 bits */
+>  	for (i = 0; i <= U8_MAX; i++) {
+> -		ret = cros_ec_pwm_get_duty(ec_pwm, i);
+> +		ret = cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, i);
 
-Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
----
+Or just pass false for `use_pwm_type` because the path:
+cros_ec_pwm_probe()
+-> !ec_pwm->use_pwm_type
+-> cros_ec_num_pwms()
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 42dde3f0dbde..52ec0ba4b339 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -324,6 +324,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Boxy", "0000:00:02.0", port_d_conns },
- 	/* Google Taranza */
- 	{ "Google", "Taranza", "0000:00:02.0", port_db_conns },
-+	/* Google Dexi */
-+	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.25.1
-
+`ec_pwm->use_pwm_type` is always false here.

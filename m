@@ -1,98 +1,89 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E194BA46
-	for <chrome-platform@lists.linux.dev>; Thu, 23 Nov 2023 09:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r65wm-0007QU-GZ; Thu, 23 Nov 2023 10:24:32 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r65wl-00B0Zs-Gj; Thu, 23 Nov 2023 10:24:31 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r65wl-006W6D-7X; Thu, 23 Nov 2023 10:24:31 +0100
-Date: Thu, 23 Nov 2023 10:24:31 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>
-Subject: Re: [PATCH v3 001/108] pwm: cros-ec: Change prototype of helper to
- prepare further changes
-Message-ID: <20231123092431.4xcvbccjrbid7ius@pengutronix.de>
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
- <20231121134901.208535-2-u.kleine-koenig@pengutronix.de>
- <ZV3BQMalgY7WZCVR@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D8B25555;
+	Thu, 23 Nov 2023 14:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZyD0Tn94"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D3AC433CA;
+	Thu, 23 Nov 2023 14:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700748828;
+	bh=AGcHXRfH/rMMp6hJ33VbDXNVCM278y+An/5lGPmz0s0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZyD0Tn94bo2vGeCq3N2ptlQvcAkslri04FYrRMwqbePwZ+mrHfj44rJe0x8L7Fwce
+	 nM70shIvtFAyssZZAbSm2yjkuolfpX77ONc+iFzORXqg6uf2+diIauo4Dp2dpWdFxM
+	 ZsFDThS7tkHIQHJaEDHKac4rgQkJbk8zm2KknhNQIMt0dk7iTD4FpPyFr4fcGnvYoq
+	 X10nmPcEwialBwZ3BDmP2Rt3cXsLBgf17igT9eEH9QEmw2wx4BRe5epvm4wuSoUyQu
+	 MxupRq4LoE4MP56WgzXG1SgKmztvRgpQgIi2+nTIqHFDsXcGurZph1gmaFL2siUG7X
+	 0R8Dzf1MUawjA==
+From: Lee Jones <lee@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ chrome-platform@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-samsung-soc@vger.kernel.org, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ linux-stm32@st-md-mailman.stormreply.com
+In-Reply-To: <20231106171708.3892347-1-u.kleine-koenig@pengutronix.de>
+References: <20231106171708.3892347-1-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 00/18] mfd: Convert to platform remove callback
+ returning void
+Message-Id: <170074882434.1350828.3000645128153974049.b4-ty@kernel.org>
+Date: Thu, 23 Nov 2023 14:13:44 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5dlypce4bcguj5sc"
-Content-Disposition: inline
-In-Reply-To: <ZV3BQMalgY7WZCVR@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
+On Mon, 06 Nov 2023 18:17:09 +0100, Uwe Kleine-König wrote:
+> this series converts all platform drivers below drivers/mfd to use
+> .remove_new(). Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver
+> core doesn't (and cannot) cope for errors during remove. The only effect
+> of a non-zero return value in .remove() is that the driver core emits a
+> warning. The device is removed anyhow and an early return from .remove()
+> usually yields resource leaks and/or use-after-free bugs.
+> 
+> [...]
 
---5dlypce4bcguj5sc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Wed, Nov 22, 2023 at 04:52:16PM +0800, Tzung-Bi Shih wrote:
-> On Tue, Nov 21, 2023 at 02:49:03PM +0100, Uwe Kleine-K=F6nig wrote:
-> > @@ -233,7 +232,7 @@ static int cros_ec_num_pwms(struct cros_ec_pwm_devi=
-ce *ec_pwm)
-> > =20
-> >  	/* The index field is only 8 bits */
-> >  	for (i =3D 0; i <=3D U8_MAX; i++) {
-> > -		ret =3D cros_ec_pwm_get_duty(ec_pwm, i);
-> > +		ret =3D cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, i);
->=20
-> Or just pass false for `use_pwm_type` because the path:
-> cros_ec_pwm_probe()
-> -> !ec_pwm->use_pwm_type
-> -> cros_ec_num_pwms()
->=20
-> `ec_pwm->use_pwm_type` is always false here.
+[01/18] mfd: ab8500-sysctrl: Convert to platform remove callback returning void
+        commit: 35cf346f9fa92ceb19c5d2edc4409a7d384da8ee
+[02/18] mfd: cros_ec_dev: Convert to platform remove callback returning void
+        commit: 981c92a1d65a7ccce2d814c66ff2deecca304672
+[03/18] mfd: exynos-lpass: Convert to platform remove callback returning void
+        commit: 2d859aa8e081884c0c02d738925cba23a8cfb1b8
+[04/18] mfd: fsl-imx25-tsadc: Convert to platform remove callback returning void
+        commit: f215b75acc85254a29404b32c871b7ff2ea8da2a
+[09/18] mfd: mxs-lradc: Convert to platform remove callback returning void
+        commit: beb1f9e6382f59339e118594c94ee6b5ac96f3ec
+[10/18] mfd: omap-usb-host: Convert to platform remove callback returning void
+        commit: 231927898ae91049aa35d237c556cc216d80e8f7
+[11/18] mfd: omap-usb-tll: Convert to platform remove callback returning void
+        commit: 83d4e355240147db7597ea1ce64624fcdaaee6ae
+[13/18] mfd: qcom-pm8xxx: Convert to platform remove callback returning void
+        commit: ae3bcd5b09e35f363aa1744d38f90fda2b40e9ca
+[15/18] mfd: stm32-timers: Convert to platform remove callback returning void
+        commit: aeebc47f8d479c363e24fba0201ef8dca417fe6e
+[18/18] mfd: twl4030-audio: Convert to platform remove callback returning void
+        commit: 3716978b584a8baaba16d64c93eb0fed0edcbc3b
 
-Good catch, that allows to simplify the patch that introduces
-devm_pwmchip_alloc() to this driver.
+--
+Lee Jones [李琼斯]
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---5dlypce4bcguj5sc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVfGk4ACgkQj4D7WH0S
-/k7slQf/aq557wJBu2oswpIdTasvF7wNME5CaX651BjLcVsyEZU7SsClYAmw+HHl
-n8SD+ZdUlCGeiEIhhO7AlNeeCNKboOLO9aX1wIuWdV8ZcL/Af/tLWjfqcooWW80Z
-/fyv6VdkHcPsxZ8Mgeu6E3kk8xzewxPzfDdvKVSd6jRpXKTY/ir44IAC7M0J1W/j
-+FJAwjKA5BPt2xk+Ler6Jh8logjpgo6sR2yQPpX3tzxolIOIL3mJ9rkhsVRkBBu8
-0yhQc2hihLPfFpIF+3eZnGlkafJpmmI8Vpn963EqSsRZ6bEk+/6CkmJqo/gvGY1r
-3QYFxBrpcEnRHM615rqFiUKZaWE3tA==
-=cSxi
------END PGP SIGNATURE-----
-
---5dlypce4bcguj5sc--

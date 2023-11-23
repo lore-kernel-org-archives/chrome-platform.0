@@ -1,8 +1,8 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA50219EF
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Nov 2023 23:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E194BA46
+	for <chrome-platform@lists.linux.dev>; Thu, 23 Nov 2023 09:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
@@ -10,28 +10,28 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5x4n-0007cb-Pd; Thu, 23 Nov 2023 00:56:13 +0100
+	id 1r65wm-0007QU-GZ; Thu, 23 Nov 2023 10:24:32 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5x4n-00Auw4-5R; Thu, 23 Nov 2023 00:56:13 +0100
+	id 1r65wl-00B0Zs-Gj; Thu, 23 Nov 2023 10:24:31 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1r5x4m-0066kb-SP; Thu, 23 Nov 2023 00:56:12 +0100
-Date: Thu, 23 Nov 2023 00:56:12 +0100
+	id 1r65wl-006W6D-7X; Thu, 23 Nov 2023 10:24:31 +0100
+Date: Thu, 23 Nov 2023 10:24:31 +0100
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
 	Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
 	Guenter Roeck <groeck@chromium.org>,
 	Benson Leung <bleung@chromium.org>
-Subject: Re: [PATCH v3 051/108] pwm: cros-ec: Make use of
- devm_pwmchip_alloc() function
-Message-ID: <20231122235612.pfpy64xwhsxnz5xn@pengutronix.de>
+Subject: Re: [PATCH v3 001/108] pwm: cros-ec: Change prototype of helper to
+ prepare further changes
+Message-ID: <20231123092431.4xcvbccjrbid7ius@pengutronix.de>
 References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
- <20231121134901.208535-52-u.kleine-koenig@pengutronix.de>
- <ZV3BXAMCBkArwIm6@google.com>
+ <20231121134901.208535-2-u.kleine-koenig@pengutronix.de>
+ <ZV3BQMalgY7WZCVR@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -39,42 +39,39 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="scgqo5g6yvb4t763"
+	protocol="application/pgp-signature"; boundary="5dlypce4bcguj5sc"
 Content-Disposition: inline
-In-Reply-To: <ZV3BXAMCBkArwIm6@google.com>
+In-Reply-To: <ZV3BQMalgY7WZCVR@google.com>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
 
---scgqo5g6yvb4t763
+--5dlypce4bcguj5sc
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On Wed, Nov 22, 2023 at 04:52:44PM +0800, Tzung-Bi Shih wrote:
-> On Tue, Nov 21, 2023 at 02:49:53PM +0100, Uwe Kleine-K=F6nig wrote:
-> > @@ -41,7 +40,7 @@ struct cros_ec_pwm {
+On Wed, Nov 22, 2023 at 04:52:16PM +0800, Tzung-Bi Shih wrote:
+> On Tue, Nov 21, 2023 at 02:49:03PM +0100, Uwe Kleine-K=F6nig wrote:
+> > @@ -233,7 +232,7 @@ static int cros_ec_num_pwms(struct cros_ec_pwm_devi=
+ce *ec_pwm)
 > > =20
-> >  static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm=
-_chip *chip)
-> >  {
-> > -	return container_of(chip, struct cros_ec_pwm_device, chip);
-> > +	return pwmchip_priv(chip);
+> >  	/* The index field is only 8 bits */
+> >  	for (i =3D 0; i <=3D U8_MAX; i++) {
+> > -		ret =3D cros_ec_pwm_get_duty(ec_pwm, i);
+> > +		ret =3D cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, i);
 >=20
-> Or just replace every `pwm_to_cros_ec_pwm` to `pwmchip_priv`.
+> Or just pass false for `use_pwm_type` because the path:
+> cros_ec_pwm_probe()
+> -> !ec_pwm->use_pwm_type
+> -> cros_ec_num_pwms()
+>=20
+> `ec_pwm->use_pwm_type` is always false here.
 
-An advantage of the pwm_to_cros_ec_pwm() wrapper is that it yields the
-right type. I'd keep it for this series to keep amount of the changes
-small (and also because I like to keep the wrapper).
-
-Feel free to propose a patch replacing pwm_to_cros_ec_pwm() by
-pwmchip_priv() when this code landed in the mainline.
-
-I'll look into the other things you pointed out. Thanks for your review.
+Good catch, that allows to simplify the patch that introduces
+devm_pwmchip_alloc() to this driver.
 
 Best regards
 Uwe
@@ -83,19 +80,19 @@ Uwe
 Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---scgqo5g6yvb4t763
+--5dlypce4bcguj5sc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVelRsACgkQj4D7WH0S
-/k7ghwgAs9QEpTKqKJDltQTPTg9m/W+7ehgr2L5GU+IbDaZWjwgq59ELt3P7Vl0U
-5Jf8mTj5B5siSeIpmILS1o87nxExzN1suryAbTe8ZNd7fhxJDYwIyIm1XIv7LDt4
-vIPhzDpSBLe/5gne8VUuHN2X0Sy6wZ3WQznOoKFzaIhcqqHZoPxXhC0vz4m4JAtK
-ssvY8gMnJ2tjlqayPnKqJBGe2y1fC99cCwW5LGGx4jfAF6HOHSQ3YBJlNqvzjbE5
-VUm9PL9ljgAxlH6nrzblH1EmT+nO03b6MlLWuqCeNZFfdfD3piMld55LbGahenXr
-hmU1CpWIBOHn7mTtbuovCyueV0P+vg==
-=uPOi
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVfGk4ACgkQj4D7WH0S
+/k7slQf/aq557wJBu2oswpIdTasvF7wNME5CaX651BjLcVsyEZU7SsClYAmw+HHl
+n8SD+ZdUlCGeiEIhhO7AlNeeCNKboOLO9aX1wIuWdV8ZcL/Af/tLWjfqcooWW80Z
+/fyv6VdkHcPsxZ8Mgeu6E3kk8xzewxPzfDdvKVSd6jRpXKTY/ir44IAC7M0J1W/j
++FJAwjKA5BPt2xk+Ler6Jh8logjpgo6sR2yQPpX3tzxolIOIL3mJ9rkhsVRkBBu8
+0yhQc2hihLPfFpIF+3eZnGlkafJpmmI8Vpn963EqSsRZ6bEk+/6CkmJqo/gvGY1r
+3QYFxBrpcEnRHM615rqFiUKZaWE3tA==
+=cSxi
 -----END PGP SIGNATURE-----
 
---scgqo5g6yvb4t763--
+--5dlypce4bcguj5sc--

@@ -1,107 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB493FE34;
-	Thu, 23 Nov 2023 17:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF210958
+	for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 19:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NOdAwhwf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82B13C433CC;
-	Thu, 23 Nov 2023 17:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700759669;
-	bh=trQue5vt4vNug0lKdIifZG1U/sc0mMPLn521Cnxbi8A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NOdAwhwfhaybbj5HEJr6Qhi+fejV93baYjH8jDhcjY3Nh2+cG5MNdp+wOq8pG0A5k
-	 ZwOATpEZ3Wy4bBea/ZwdMcxFWdtfm3LRS923s+zCT8yQtAJyYDBc+hBuUhwv3H2P8e
-	 H9UBVlNTtcfEWppuxCz1hHHrZbY350a2m94KnF/QzWsNnQdvtcoueMnqd5a3nOebPc
-	 91RDbDBj47fJdqzt1CXk3pha1EJmoujk/gcj8buNYkCmtGGiAPe+8u2NnqwHoyn+0A
-	 fsb0dLmm42ew0AnhAvgXCvL3Ir82fNE/RItduAYxSOLm3jwSTy2XC4/H2ZvnyRXlAT
-	 8RkgBnCtoX2mg==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- chrome-platform@lists.linux.dev, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, linux-samsung-soc@vger.kernel.org, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- linux-stm32@st-md-mailman.stormreply.com
-In-Reply-To: <20231123165627.492259-1-u.kleine-koenig@pengutronix.de>
-References: <20231123165627.492259-1-u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 00/18] mfd: Convert to platform remove callback
- returning void
-Message-Id: <170075966425.1458093.5482638425880756985.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 17:14:24 +0000
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="txEWXNcx"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5cece20f006so13293287b3.3
+        for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 11:22:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1701026554; x=1701631354; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qFHEWpGev7djyRHTSiSB9U+u3iCt6795tGx0PSFZ3yw=;
+        b=txEWXNcxgGY8s7gyfHq/6QK4dBDqPF4AoODomJvVVR9xbQc03emnW//CsjgD+5NbXp
+         Bqy7+RbL4ceKvqq4U6f/ngxY38/w3aj4TWx+iZC2l89icjTYA38W71Ih6Ps4YG+3BvvY
+         M9PNbDaaAjYCr75S+xZoWrAU/KKD9flhOGBSTK5w0dkpJxj07hgBlvVJJriC5f07rkgt
+         ThNV3NRkCNmELIFDuohuaQ9jjSHxdEjrbiXpwInGRC8gwUBh5U35h/7mgWyT2RrJrmIg
+         jppBS5ciKWvw5o9eGxumngPew8Ape0e2lKjKXTLIqaA3wpf+Q2HmXDy2+AqZzwU5ToVa
+         MeiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701026554; x=1701631354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qFHEWpGev7djyRHTSiSB9U+u3iCt6795tGx0PSFZ3yw=;
+        b=kGFCLhlk+9TyDHDEbA0lmVNHHc3/A73nIcFKNioVjV/mrz/Lveqb8ARLjACWtrjQ7k
+         jYcN/mz5/QtG/s9/ov5GAglW2efrrqkCWfeInv1hkTb0bj2tN5W/6VmPzum4Z2viDoIh
+         iBN2Sfn9fw3oRApCkDmSHPJHzT4eDjKNPH2dgNXZs57pfUE3TgGLwLkoIgtDRcx6Lw0c
+         uKOd31v8UCPylM0XsMIB5ak0IqIOLuzRfGp8U0hy7ELts3qDm5aGey5ESHQ95Xh16sxg
+         7GV8ufJsYQSM27X8b44MpUXlHZq0nMddWGgr5juFKfTW/C5OCsILQhL2cqXqcAscegEX
+         RlJg==
+X-Gm-Message-State: AOJu0YwQlBogrPQ2Ej4lMnU67V8iyzk+kXF5Lf0e2+0qeA8oYD/wBdpc
+	RHhxY6xbMvDvwI0ZxWwlalQOkQvX+PwISu5W6Oj8zA==
+X-Google-Smtp-Source: AGHT+IESS786Cto5+N7hxPCKDnIfdvjLY3jmdZOPiJkohNeAnpXapU+HvaclyO2qNrhwqN9Zhj91t+ZwMFyZG0xhiwM=
+X-Received: by 2002:a81:451e:0:b0:5cd:de71:f76f with SMTP id
+ s30-20020a81451e000000b005cdde71f76fmr8892493ywa.14.1701026553821; Sun, 26
+ Nov 2023 11:22:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+References: <20231005160701.19987-1-dustin@howett.net> <ZSYypHZiRXo7qK5_@google.com>
+In-Reply-To: <ZSYypHZiRXo7qK5_@google.com>
+From: Dustin Howett <dustin@howett.net>
+Date: Sun, 26 Nov 2023 13:22:23 -0600
+Message-ID: <CA+BfgNL7OeqbXPGf=hk=XrTWoe0_Wv0pi95YgWw5SJjzs8EXeQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] cros_ec: add support for newer versions of the
+ Framework Laptop
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, Kieran Levin <ktl@frame.work>, 
+	Mario Limonciello <Mario.Limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 23 Nov 2023 17:56:28 +0100, Uwe Kleine-König wrote:
-> this series converts all platform drivers below drivers/mfd to use
-> .remove_new(). Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver
-> core doesn't (and cannot) cope for errors during remove. The only effect
-> of a non-zero return value in .remove() is that the driver core emits a
-> warning. The device is removed anyhow and an early return from .remove()
-> usually yields resource leaks and/or use-after-free bugs.
-> 
-> [...]
+On Wed, Oct 11, 2023 at 12:29=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+>
+> On Thu, Oct 05, 2023 at 11:06:57AM -0500, Dustin L. Howett wrote:
+> I don't understand the description about 0x8FF.  From patches in the seri=
+es,
+> it looks like 0x8FF is unused if CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVAT=
+ION.
 
-Applied, thanks!
+You're right, this is unclear.
 
-[01/18] mfd: ab8500-sysctrl: Convert to platform remove callback returning void
-        commit: 05ce16c1303acaf2094f55ea248fd0d14119ed8f
-[02/18] mfd: cros_ec_dev: Convert to platform remove callback returning void
-        commit: c86e0818174f506e77dcb7ca0251f18269d79219
-[03/18] mfd: exynos-lpass: Convert to platform remove callback returning void
-        commit: e3468e03a63e8c24a8b2f9f84ed8443268dcccf4
-[04/18] mfd: fsl-imx25-tsadc: Convert to platform remove callback returning void
-        commit: 05d78da532ededbc11889ca5a22b302aaa8b9e1e
-[05/18] mfd: hi655x-pmic: Convert to platform remove callback returning void
-        commit: 30441c456171723d4d40ea86fdc7675a630cb5f8
-[06/18] mfd: intel-lpss-acpi: Convert to platform remove callback returning void
-        commit: 8b7ffe18eb0bf86b21d558c739279a9cb349b78d
-[07/18] mfd: kempld-core: Convert to platform remove callback returning void
-        commit: 5c9d52223920a70becbbdf67cce192917f997319
-[08/18] mfd: mcp-sa11x0: Convert to platform remove callback returning void
-        commit: 0082e145163801002a257c2cbaf2982192ab761e
-[09/18] mfd: mxs-lradc: Convert to platform remove callback returning void
-        commit: f9714ad21b8c01e6964e0638858d37f941dc19ba
-[10/18] mfd: omap-usb-host: Convert to platform remove callback returning void
-        commit: 7e5e828e1fef60673c20b47573054eaa036d1980
-[11/18] mfd: omap-usb-tll: Convert to platform remove callback returning void
-        commit: 6ee0e1844c917fb4e5f314aec2b780f1641375f0
-[12/18] mfd: pcf50633-adc: Convert to platform remove callback returning void
-        commit: 3e6eccaca6923e8d1ac4a0913b3367b5ab94f95c
-[13/18] mfd: qcom-pm8xxx: Convert to platform remove callback returning void
-        commit: 31b895f2528bda4db526dee1942f915f8f34091b
-[14/18] mfd: sm501: Convert to platform remove callback returning void
-        commit: 69fbad222c5caad34f777da33271ccdad3d9504c
-[15/18] mfd: stm32-timers: Convert to platform remove callback returning void
-        commit: 59569bc36fcec1cd62bd2f639784126c87c6fd1e
-[16/18] mfd: ti_am335x_tscadc: Convert to platform remove callback returning void
-        commit: 1dbe13baca338502bf741bbe3b199c07c7d1c5bc
-[17/18] mfd: tps65911-comparator: Convert to platform remove callback returning void
-        commit: 4aa72c8515734c2edf4c6c264aee4925efd97366
-[18/18] mfd: twl4030-audio: Convert to platform remove callback returning void
-        commit: db1e0b072da189db99f905b758676a81bb796a1a
+The ACPI node for [...]EC0 only claims to use 0x800 to 0x8FE -
+*however*, the EC does use 0x8FF!
+The bug is only in the ACPI table.
+The quirk is used so that devm_request_region doesn't fail
+because it would try to reserve up to 0x8FF.
 
---
-Lee Jones [李琼斯]
+Does that make it clearer? I have been struggling to reword this for a
+while. Hah.
+I tried to explain this better in the patch bodies.
 
+I have been considering a different form for this quirk.
+Right now, it means "do not reserve 0x8ff, but continue to USE 0x8ff".
+Perhaps "ignore devm_request_region failures" is a better quirk? It
+felt too broad.
+
+>
+> > Dustin L. Howett (4):
+> > [...]
+>
+> The series should prefix with "platform/chrome: cros_ec_lpc".
+
+Fixed. Sending an updated patch series that addresses yours and other
+folks' comments across the entire series.
+
+Thanks for the review,
+d

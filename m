@@ -1,55 +1,55 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5DE12E50
-	for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 19:25:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB70E12E60
+	for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 19:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="xlROv+AW"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b83ed78a91so2246286b6e.1
-        for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 11:25:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="A2+0EE5M"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-77d63b733e4so187106185a.2
+        for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 11:25:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1701026740; x=1701631540; darn=lists.linux.dev;
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1701026745; x=1701631545; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VPlubBmhDMl3SA/RTbic+xD857rN9gD+m4NVPEveGAY=;
-        b=xlROv+AWeLuvR7Op2xSfRTokfCjwC3UGXgjCJ5Ul3HxKsC/zHQnIgsjKHcXnKlUW6w
-         p19/qaxZMLFLDQpXM9GzcOZOYzxTQIRQbXUxnE8rYC2BoAJkkyHyUajdYpIo2CaeYqGJ
-         BxiJCtlu+UjoDUU0a67MxAYxxIWLw1D2PcRfk8S0ZpzvlnVfvElxPuXtJ5624Vrh0tEl
-         Wa4z1l9aqtnhPItJS6KjZZ7APjGfGvr7M4bRtfwYPoSPZYuc/LtK42cboOyKL8+6mPVE
-         DZxLzX57HhX889jR499vKhdrY11GCqPLd/6mVGalmYaG/MSAgyEiR5wOpU8B68xSJXmn
-         Vk4g==
+        bh=pOEfYnzVQ/0R7YLkmOSjhQ1I/vLdB55xU9yypEKMGxg=;
+        b=A2+0EE5MpAc70LGTydMO0jc0PK/w9Uc8rEQAvzBKfBknQ/wJMPSxGewvV6OD3kGLOb
+         3EQjjups7JouGPWLTWQx1xcWmrdacZFNEuAf8AhPXg3TXgN1TYAJKYFDm43gFMs9akEa
+         CQMu90ViFX/3P9AiwAiXkQXp0+nRu0scooIO60PQqhW7gqfxaoJW7VYr744vi76BdCYh
+         HisAr/6nvxvu24jL1QNb0A3FUNYYIqQpFH4ow04Fg7cDBtkaKyPg488UHNOIe3vEvc73
+         pnQrfe6/Y2ltlARn+sir8B2RR2VBZNIOZcaqaYhKwM6g9fu2I9LZoOArtLi5GNxW4y7G
+         k8og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701026740; x=1701631540;
+        d=1e100.net; s=20230601; t=1701026745; x=1701631545;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VPlubBmhDMl3SA/RTbic+xD857rN9gD+m4NVPEveGAY=;
-        b=BSbF9dL0QFTI+buLdqLWbI0IJ8OjDOVTrjJDC2wZc5LQi110Bakj7Q187fGn4DZEPT
-         iEQpIANek2Nq/Ds4FMlZWdYqUBbCwgkDMNJhJfrEA8gWo0Q+wxNbttW++QGWtAoeDxcR
-         e8tA2hGRFMyxfpCnbNQ/Wj/E4OdPemPD105wrOvnDIkAddBNNRX9TlfM9mtqQS+oT401
-         IXn0J3Z84dL3O+yZm3l8EJC7Qb3p7HZxFrheGb6FLy0FQ1JEkpS63gihrkiGwHm8y86u
-         CVb3jcUtSxaQcrvkI/9P91iMEaMI909gjDpqBB2KZJmotX5neCByOvAvVUOF21Z0fAoS
-         yfuQ==
-X-Gm-Message-State: AOJu0YyqDNkC+0okW6JBTY0ibMQ4VVIhJO70bvIERGKA/LMZUUp4W1B4
-	7GJ/TUBdqTQuVIRcOHxv8zesrg==
-X-Google-Smtp-Source: AGHT+IFplYKNm+Py5/f2W7/nlJy+JXR8IzScw8mk7gTor4oo1FkQQclQKpQyn3zn8dbMeR7sSiPtRw==
-X-Received: by 2002:a05:6871:296:b0:1fa:3b7d:1573 with SMTP id i22-20020a056871029600b001fa3b7d1573mr3396320oae.7.1701026740227;
-        Sun, 26 Nov 2023 11:25:40 -0800 (PST)
+        bh=pOEfYnzVQ/0R7YLkmOSjhQ1I/vLdB55xU9yypEKMGxg=;
+        b=I0pCzlCIKiA9j44voQqbRrC1qSaLYjPsfN0BE4eGo/Gt0OnSeXJ8lJch/P8uj1YWuv
+         CUeAn/tmPQRVZv9JcCqJnwrHZBXRy0SiTqHWZ7GRluX3FNs8PDiTyISyl/iuJwy/OMre
+         igaSSLuHlDqEjY5a/vXA25B3+wn0UpX/lF4G15cHhg81QZserJLt11MrVpZqHcAjOp/U
+         3pJXJ8IqMttIRusVV5k9VrFKv7xsWDK3sHX4ziTW3P/k8Qv5gNNV8DbgsQfY4ybvedJg
+         WD6WjeKSheC5jP1BxoKP2NHT6HMJxgLn6L1dO4XPQaN5rKdkJX34KXfSRb1huseBXAmx
+         uJtg==
+X-Gm-Message-State: AOJu0YzswdFWlJCLUMu2Mvm5IR31+xGGvAjdsCToV8y5LneJ65GvH9Hh
+	o4Bl3VAhvhFKRmI7yxzu0PsPcZ/ePDSlmgXo0aU=
+X-Google-Smtp-Source: AGHT+IErIveg1DiqJ7LTAYI7BHg6soOgsEfhgBKjH+O+8l9H03en8AOWSL0jx+BApAQX2kbyFFVzYA==
+X-Received: by 2002:a05:620a:6193:b0:777:73e8:e24d with SMTP id or19-20020a05620a619300b0077773e8e24dmr10268854qkn.21.1701026745415;
+        Sun, 26 Nov 2023 11:25:45 -0800 (PST)
 Received: from localhost.localdomain ([184.169.45.4])
-        by smtp.googlemail.com with ESMTPSA id tx10-20020a05620a3f0a00b0076f1d8b1c2dsm3099040qkn.12.2023.11.26.11.25.35
+        by smtp.googlemail.com with ESMTPSA id tx10-20020a05620a3f0a00b0076f1d8b1c2dsm3099040qkn.12.2023.11.26.11.25.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 11:25:39 -0800 (PST)
+        Sun, 26 Nov 2023 11:25:45 -0800 (PST)
 From: "Dustin L. Howett" <dustin@howett.net>
 To: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev
 Cc: "Dustin L. Howett" <dustin@howett.net>
-Subject: [PATCH v2 2/4] platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
-Date: Sun, 26 Nov 2023 13:24:50 -0600
-Message-ID: <20231126192452.97824-3-dustin@howett.net>
+Subject: [PATCH v2 3/4] platform/chrome: cros_ec_lpc: add a "quirks" system
+Date: Sun, 26 Nov 2023 13:24:51 -0600
+Message-ID: <20231126192452.97824-4-dustin@howett.net>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231126192452.97824-1-dustin@howett.net>
 References: <20231005160701.19987-1-dustin@howett.net>
@@ -62,47 +62,96 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-lpc_driver_data will be stored in drvdata until probe is complete, at
-which point it will be replaced with a cros_ec_device.
+Some devices ship a ChromeOS EC in a non-standard configuration. Quirks
+allow cros_ec_lpc to account for these non-standard configurations.
+
+It supports the following quirks:
+- CROS_EC_LPC_QUIRK_REMAP_MEMORY: use a different port I/O base for
+  MMIO to the EC's memory region
+- CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVATION: only attempt to reserve
+  0xff (rather than 0x100) I/O ports for the host command region
 
 Signed-off-by: Dustin L. Howett <dustin@howett.net>
 ---
- drivers/platform/chrome/cros_ec_lpc.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/platform/chrome/cros_ec_lpc.c | 42 ++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 9f2ea75c76b6..f1d1615d9b37 100644
+index f1d1615d9b37..a65c9a8bca5e 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -615,14 +615,16 @@ static int __init cros_ec_lpc_init(void)
- {
- 	int ret;
+@@ -34,6 +34,29 @@
+ /* True if ACPI device is present */
+ static bool cros_ec_lpc_acpi_device_found;
+ 
++/*
++ * Indicates that the driver should only reserve 0xFF I/O ports
++ * (rather than 0x100) for the host command mapped memory region.
++ */
++#define CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVATION BIT(0)
++/*
++ * Indicates that lpc_driver_data.quirk_mmio_memory_base should
++ * be used as the base port for EC mapped memory.
++ */
++#define CROS_EC_LPC_QUIRK_REMAP_MEMORY              BIT(1)
++
++/**
++ * struct lpc_driver_data - driver data attached to a DMI device ID to indicate
++ *                          hardware quirks.
++ * @quirks: a bitfield composed of quirks from CROS_EC_LPC_QUIRK_*
++ * @quirk_mmio_memory_base: The first I/O port addressing EC mapped memory (used
++ *                          when quirks (...REMAP_MEMORY) is set.
++ */
++struct lpc_driver_data {
++	u32 quirks;
++	u16 quirk_mmio_memory_base;
++};
++
+ /**
+  * struct cros_ec_lpc - LPC device-specific data
+  * @mmio_memory_base: The first I/O port addressing EC mapped memory.
+@@ -363,8 +386,11 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
  	acpi_status status;
-+	const struct dmi_system_id *dmi_match;
+ 	struct cros_ec_device *ec_dev;
+ 	struct cros_ec_lpc *ec_lpc;
++	struct lpc_driver_data *driver_data;
++	int region1_size = EC_HOST_CMD_REGION_SIZE;
+ 	u8 buf[2] = {};
+ 	int irq, ret;
++	u32 quirks = 0;
  
- 	status = acpi_get_devices(ACPI_DRV_NAME, cros_ec_lpc_parse_device,
- 				  &cros_ec_lpc_acpi_device_found, NULL);
- 	if (ACPI_FAILURE(status))
- 		pr_warn(DRV_NAME ": Looking for %s failed\n", ACPI_DRV_NAME);
+ 	ec_lpc = devm_kzalloc(dev, sizeof(*ec_lpc), GFP_KERNEL);
+ 	if (!ec_lpc)
+@@ -372,6 +398,20 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
  
--	if (!cros_ec_lpc_acpi_device_found &&
--	    !dmi_check_system(cros_ec_lpc_dmi_table)) {
-+	dmi_match = dmi_first_match(cros_ec_lpc_dmi_table);
+ 	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
+ 
++	driver_data = platform_get_drvdata(pdev);
++	if (driver_data) {
++		quirks = driver_data->quirks;
 +
-+	if (!cros_ec_lpc_acpi_device_found && !dmi_match) {
- 		pr_err(DRV_NAME ": unsupported system.\n");
- 		return -ENODEV;
- 	}
-@@ -635,6 +637,9 @@ static int __init cros_ec_lpc_init(void)
- 	}
- 
- 	if (!cros_ec_lpc_acpi_device_found) {
-+		/* Pass the DMI match's driver data down to the platform device */
-+		platform_set_drvdata(&cros_ec_lpc_device, dmi_match->driver_data);
++		if (quirks)
++			dev_info(dev, "loaded with quirks %8.08x\n", quirks);
 +
- 		/* Register the device, and it'll get hooked up automatically */
- 		ret = platform_device_register(&cros_ec_lpc_device);
- 		if (ret) {
++		if (quirks & CROS_EC_LPC_QUIRK_REMAP_MEMORY)
++			ec_lpc->mmio_memory_base = driver_data->quirk_mmio_memory_base;
++
++		if (quirks & CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVATION)
++			region1_size -= 1;
++	}
++
+ 	/*
+ 	 * The Framework Laptop (and possibly other non-ChromeOS devices)
+ 	 * only exposes the eight I/O ports that are required for the Microchip EC.
+@@ -420,7 +460,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 			return -EBUSY;
+ 		}
+ 		if (!devm_request_region(dev, EC_HOST_CMD_REGION1,
+-					 EC_HOST_CMD_REGION_SIZE, dev_name(dev))) {
++					 region1_size, dev_name(dev))) {
+ 			dev_err(dev, "couldn't reserve region1\n");
+ 			return -EBUSY;
+ 		}
 -- 
 2.42.0
 

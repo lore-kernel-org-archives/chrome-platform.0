@@ -1,98 +1,104 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF210958
-	for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 19:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53C311C93
+	for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 19:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="txEWXNcx"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5cece20f006so13293287b3.3
-        for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 11:22:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="x/Zb4LRA"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7789a4c01easo208868785a.0
+        for <chrome-platform@lists.linux.dev>; Sun, 26 Nov 2023 11:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1701026554; x=1701631354; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1701026720; x=1701631520; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qFHEWpGev7djyRHTSiSB9U+u3iCt6795tGx0PSFZ3yw=;
-        b=txEWXNcxgGY8s7gyfHq/6QK4dBDqPF4AoODomJvVVR9xbQc03emnW//CsjgD+5NbXp
-         Bqy7+RbL4ceKvqq4U6f/ngxY38/w3aj4TWx+iZC2l89icjTYA38W71Ih6Ps4YG+3BvvY
-         M9PNbDaaAjYCr75S+xZoWrAU/KKD9flhOGBSTK5w0dkpJxj07hgBlvVJJriC5f07rkgt
-         ThNV3NRkCNmELIFDuohuaQ9jjSHxdEjrbiXpwInGRC8gwUBh5U35h/7mgWyT2RrJrmIg
-         jppBS5ciKWvw5o9eGxumngPew8Ape0e2lKjKXTLIqaA3wpf+Q2HmXDy2+AqZzwU5ToVa
-         MeiA==
+        bh=PuNnWDc3vc7XjTlwIk8wpdZzwKGuqjUJefFTfPAUlco=;
+        b=x/Zb4LRAeR0BIK4ImLbRNKJ0ldMc6hMwHMSEI2NbfQVERFcmQ5w5Lpl1yqCYcUygJS
+         g8vPyayk6KspKNk8nqtdAVFOEp0e1ew4ICxAl8XJs1lY6iH+DnD2P6CCc08V1qpWmFS1
+         AUmBxOuyedt17BFORtYqVy97LcMhLXhPv+l1S0EeHhGd7U2buaZN9PuAfz3c10SzACjj
+         ylur312suw+1UAqn2IxWW0dMK+uiepuSXHifB/mlqJaP/tknCvfxwGJFtI/uKIOwZlox
+         P7+l4E/kJj6XH/ueWoFxOz4U8DYr6mjpfPjpW65SkQFgItyNRRWP2xQwJLbarD98Luo1
+         zEug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701026554; x=1701631354;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1701026720; x=1701631520;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qFHEWpGev7djyRHTSiSB9U+u3iCt6795tGx0PSFZ3yw=;
-        b=kGFCLhlk+9TyDHDEbA0lmVNHHc3/A73nIcFKNioVjV/mrz/Lveqb8ARLjACWtrjQ7k
-         jYcN/mz5/QtG/s9/ov5GAglW2efrrqkCWfeInv1hkTb0bj2tN5W/6VmPzum4Z2viDoIh
-         iBN2Sfn9fw3oRApCkDmSHPJHzT4eDjKNPH2dgNXZs57pfUE3TgGLwLkoIgtDRcx6Lw0c
-         uKOd31v8UCPylM0XsMIB5ak0IqIOLuzRfGp8U0hy7ELts3qDm5aGey5ESHQ95Xh16sxg
-         7GV8ufJsYQSM27X8b44MpUXlHZq0nMddWGgr5juFKfTW/C5OCsILQhL2cqXqcAscegEX
-         RlJg==
-X-Gm-Message-State: AOJu0YwQlBogrPQ2Ej4lMnU67V8iyzk+kXF5Lf0e2+0qeA8oYD/wBdpc
-	RHhxY6xbMvDvwI0ZxWwlalQOkQvX+PwISu5W6Oj8zA==
-X-Google-Smtp-Source: AGHT+IESS786Cto5+N7hxPCKDnIfdvjLY3jmdZOPiJkohNeAnpXapU+HvaclyO2qNrhwqN9Zhj91t+ZwMFyZG0xhiwM=
-X-Received: by 2002:a81:451e:0:b0:5cd:de71:f76f with SMTP id
- s30-20020a81451e000000b005cdde71f76fmr8892493ywa.14.1701026553821; Sun, 26
- Nov 2023 11:22:33 -0800 (PST)
+        bh=PuNnWDc3vc7XjTlwIk8wpdZzwKGuqjUJefFTfPAUlco=;
+        b=dJwjwAY5T7MKwPw8M9D697IMnY4rcuCLz11yh8m/CqTW6YSPenl43PYspHx5laTHmL
+         l/DlIwFvuGEXwNaCPkWboITLzq3qlGN3TJfDZsLkY4iHPQc0+F94OZKhMX2waj5RrVUQ
+         gHTdq0rU5jKnWd/pD13gmDquufZJM721ez5SoOUfA0LEVr2lI/RRDoXSoonI3DEg/ekh
+         rzx5QZBot4tOVEhUoCmt/jNBh8SCnS5p9/5Q6ww7+q9zvaY37x+8vRURSGEz0eUJa0fT
+         MztCan8vNbEnm8eivCzF+Hc24/LZWMcmQXQ3IpipGRj2e6erhlxvhAOCYf1olWBeDQiF
+         VjgQ==
+X-Gm-Message-State: AOJu0YzX93IO2dsCSpS5FQTb93aEF5iarMfVcOrGedmwTH0wgxOCDuNA
+	rbw7umoCvnsPULHV5cMNZo4wtQ==
+X-Google-Smtp-Source: AGHT+IExuPNkr8xuU7RfSX22JaKanMCR9ujEFxD2U79NaiFxaRdZgCDroaKhqR+Yj+NsiqG7Q4NWwg==
+X-Received: by 2002:a05:620a:8d81:b0:775:93aa:cb91 with SMTP id rc1-20020a05620a8d8100b0077593aacb91mr8774463qkn.35.1701026720742;
+        Sun, 26 Nov 2023 11:25:20 -0800 (PST)
+Received: from localhost.localdomain ([184.169.45.4])
+        by smtp.googlemail.com with ESMTPSA id tx10-20020a05620a3f0a00b0076f1d8b1c2dsm3099040qkn.12.2023.11.26.11.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 11:25:20 -0800 (PST)
+From: "Dustin L. Howett" <dustin@howett.net>
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Cc: "Dustin L. Howett" <dustin@howett.net>
+Subject: [PATCH v2 0/4] platform/chrome: cros_ec_lpc: add support for AMD Framework Laptops
+Date: Sun, 26 Nov 2023 13:24:48 -0600
+Message-ID: <20231126192452.97824-1-dustin@howett.net>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231005160701.19987-1-dustin@howett.net>
+References: <20231005160701.19987-1-dustin@howett.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231005160701.19987-1-dustin@howett.net> <ZSYypHZiRXo7qK5_@google.com>
-In-Reply-To: <ZSYypHZiRXo7qK5_@google.com>
-From: Dustin Howett <dustin@howett.net>
-Date: Sun, 26 Nov 2023 13:22:23 -0600
-Message-ID: <CA+BfgNL7OeqbXPGf=hk=XrTWoe0_Wv0pi95YgWw5SJjzs8EXeQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] cros_ec: add support for newer versions of the
- Framework Laptop
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, Kieran Levin <ktl@frame.work>, 
-	Mario Limonciello <Mario.Limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 11, 2023 at 12:29=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
- wrote:
->
-> On Thu, Oct 05, 2023 at 11:06:57AM -0500, Dustin L. Howett wrote:
-> I don't understand the description about 0x8FF.  From patches in the seri=
-es,
-> it looks like 0x8FF is unused if CROS_EC_LPC_QUIRK_SHORT_HOSTCMD_RESERVAT=
-ION.
+This patch series adds support for the AMD models of the Framework
+Laptop (both 13" and 16").
 
-You're right, this is unclear.
+These models of Framework Laptop have switched to an NPCX embedded
+controller, which uses the original Chrome EC linear memory-mapped I/O
+model.
 
-The ACPI node for [...]EC0 only claims to use 0x800 to 0x8FE -
-*however*, the EC does use 0x8FF!
-The bug is only in the ACPI table.
-The quirk is used so that devm_request_region doesn't fail
-because it would try to reserve up to 0x8FF.
+However, these devices are not configured in a way that is compatible
+with the cros_ec driver. Instead of mapping EC memory to I/O ports
+[0x900, 0x9FF], they map it to ports [0xE00, 0xEFF]. Furthermore, the
+ACPI node for the embedded controller incorrectly indicates that it does
+not use port 0x8FF for host commands. It does use port 0x8FF.
 
-Does that make it clearer? I have been struggling to reword this for a
-while. Hah.
-I tried to explain this better in the patch bodies.
+To address these issues without impacting cros_ec_lpcs' compatibility
+with Chromebook/Chromebox devices or the existing Framework Laptop
+platform, these patches add DMI match-specific driver data through
+which we can detect per-machine "quirks".
 
-I have been considering a different form for this quirk.
-Right now, it means "do not reserve 0x8ff, but continue to USE 0x8ff".
-Perhaps "ignore devm_request_region failures" is a better quirk? It
-felt too broad.
+Quirks toggle changes in cros_ec_lpcs' behavior, such as remapping the
+memory MMIO window and reserving I/O ports differently.
 
->
-> > Dustin L. Howett (4):
-> > [...]
->
-> The series should prefix with "platform/chrome: cros_ec_lpc".
+Changes in v2:
+* Separated Framework Laptop (Intel) and Framework Laptop (AMD)
+* dev_warn has been demoted to dev_info
+* Style fixes
+* Reworded the individual patch bodies for clarity and style
 
-Fixed. Sending an updated patch series that addresses yours and other
-folks' comments across the entire series.
+Dustin L. Howett (4):
+  platform/chrome: cros_ec_lpc: introduce a priv struct for the lpc
+    device
+  platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
+  platform/chrome: cros_ec_lpc: add a "quirks" system
+  platform/chrome: cros_ec_lpc: add quirks for the Framework Laptop
+    (AMD)
 
-Thanks for the review,
-d
+ drivers/platform/chrome/cros_ec_lpc.c | 94 ++++++++++++++++++++++++---
+ 1 file changed, 86 insertions(+), 8 deletions(-)
+
+-- 
+2.42.0
+

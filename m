@@ -1,147 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2250C37D00
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 16:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FFE495E9
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 17:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBeUqHGd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701188762; x=1732724762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WQHZ+PbGGa3aDyciuChblMvLCm0dgXzHSZ5ktHj28m0=;
-  b=QBeUqHGd9IIm5NGwE7LzRpVQnaqwgzfeBTh2Lis/piSqZfwXafvM96ts
-   vWJ9LAUIhE0dKA1EDX1hUw9GoYTeIjM8nXOiWqFJofMdr1UqKHQNm2fiw
-   4KGkNfY/hXCJs0aJcPzOzvARDYHBCVmhdrJd9fnHHdvbpeuKMk5ISkKLZ
-   dNJyRW60ZO6iJGznRykjg26BvH5K7Gu67LECnEkkrvShXhtfwYh4FHuCD
-   9ZdpC6z34V/vZksvbV2H+Daehr2m9wnroRyWLJWvoLqu7J3dasfxDI/BM
-   O+ftsHY9C5dg3ozzhi1qx0C3fesLxZPRvz0j3FZIJOK08oZj7BSTcIQ25
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424106461"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="424106461"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 08:26:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="768577278"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="768577278"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 08:25:51 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r80uB-00000000CyG-1z99;
-	Tue, 28 Nov 2023 18:25:47 +0200
-Date: Tue, 28 Nov 2023 18:25:47 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org,
-	broonie@kernel.org, gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	james.clark@arm.com, james@equiv.tech, keescook@chromium.org,
-	rafael@kernel.org, tglx@linutronix.de,
-	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v3 3/5] platform/chrome: Introduce device tree
- hardware prober
-Message-ID: <ZWYUi3Q5ptQXR0uQ@smile.fi.intel.com>
-References: <20231128084236.157152-1-wenst@chromium.org>
- <20231128084236.157152-4-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifHLiDek"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c9b9191722so6965831fa.1
+        for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 09:01:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701190882; x=1701795682; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/lK2p/jNe186m6MQkZUw8vYHNpY87UOhpvk6tr8/V7o=;
+        b=ifHLiDekHUlF2J1JgsuQzk1uuDLxuO3hGI/fNqm4QkmCL5qNW8lrc0fAI7Bir5HusH
+         8Wu2IxrLkMxSbTfp9WQfgokhJD7jFNLdf3Ey1q9RbtGe78zyA8dBn3OYUYnHsjG+8Bjh
+         Ek+ZLMYx2sVxul56iNUZU5WzcbyqZWh1GQar+kLmcN27tdN5uoctg/VHwtzaMVolKa/e
+         gozOQskNOJNSWI5LEP4v/ENsZtF6NV84KZhEj7L6+bADOR2ppjzEaU9eeMLWDNa41tta
+         v1N0H0f3oqzvbf3Kyg9uf7AuD5OBC+Bmj+wEP1vFlbOUrwnpSRKCfHcbVXTiR5h2+MTD
+         v3+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701190882; x=1701795682;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/lK2p/jNe186m6MQkZUw8vYHNpY87UOhpvk6tr8/V7o=;
+        b=axQUx3L/SzVilDhohGumusqy+vQQ10I+kFUqkPL4aIXLorSSvhgbdLViiYhPesYC7k
+         uwYNBaEtUgXRhFPjN3aLQhCjC75SKhmbzR3laDs3sv1uWqawjcleuZi0wnj8KJ2ijqpA
+         bC8scj1aBZfX4rE5iSTo1TUQPPmvCSBREqjkku6bjYN/JJm5HMB99hmhsKKXcABI/5vW
+         w0PN6UwkXvEjIyIpppMVaJrqhKSm8LfCb+MLFAVkWK1eXY0BKuP9OKeP5GOiqKPKq6X4
+         /lgzn1klpLpfb5Gso2LF1Kus6uXHBECLuzb2IdCbnxoECciYdgA++bO/bFyX7r7H2ttH
+         DQZg==
+X-Gm-Message-State: AOJu0YxKp13BB+pS2gzIJpIxpZGW6Eg0Ksn6LFwZ+1pA1YVtqW+qeFqW
+	+rhYp0GxyjABKANQkqHUlO8=
+X-Google-Smtp-Source: AGHT+IHUHm0IKPYOQJqLcMoENzn45m8AxBNvp1+QSlmWrXCEIuZk7di03TNpipCUVYLt57DtFkI7RQ==
+X-Received: by 2002:a2e:95d6:0:b0:2c8:874b:8f19 with SMTP id y22-20020a2e95d6000000b002c8874b8f19mr10440648ljh.51.1701190881477;
+        Tue, 28 Nov 2023 09:01:21 -0800 (PST)
+Received: from localhost (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id h9-20020a05600c314900b0040b32edf626sm12486784wmo.31.2023.11.28.09.01.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 09:01:20 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: Re: [PATCH] pwm: cros-ec: Drop unused member from driver private data
+Date: Tue, 28 Nov 2023 17:59:58 +0100
+Message-ID: <170119076359.215216.1319567862896668044.b4-ty@gmail.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231116105212.650951-1-u.kleine-koenig@pengutronix.de>
+References: <20231116105212.650951-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128084236.157152-4-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 28, 2023 at 04:42:32PM +0800, Chen-Yu Tsai wrote:
-> Some devices are designed and manufactured with some components having
-> multiple drop-in replacement options. These components are often
-> connected to the mainboard via ribbon cables, having the same signals
-> and pin assignments across all options. These may include the display
-> panel and touchscreen on laptops and tablets, and the trackpad on
-> laptops. Sometimes which component option is used in a particular device
-> can be detected by some firmware provided identifier, other times that
-> information is not available, and the kernel has to try to probe each
-> device.
+
+On Thu, 16 Nov 2023 11:52:13 +0100, Uwe Kleine-König wrote:
+> .dev is unused since the driver was introduced in commit 1f0d3bb02785
+> ("pwm: Add ChromeOS EC PWM driver"). Drop it.
 > 
-> This change attempts to make the "probe each device" case cleaner. The
-> current approach is to have all options added and enabled in the device
-> tree. The kernel would then bind each device and run each driver's probe
-> function. This works, but has been broken before due to the introduction
-> of asynchronous probing, causing multiple instances requesting "shared"
-> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
-> time, with only one instance succeeding. Work arounds for these include
-> moving the pinmux to the parent I2C controller, using GPIO hogs or
-> pinmux settings to keep the GPIO pins in some fixed configuration, and
-> requesting the interrupt line very late. Such configurations can be seen
-> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
-> Lenovo Thinkpad 13S.
 > 
-> Instead of this delicate dance between drivers and device tree quirks,
-> this change introduces a simple I2C component prober. For any given
-> class of devices on the same I2C bus, it will go through all of them,
-> doing a simple I2C read transfer and see which one of them responds.
-> It will then enable the device that responds.
-> 
-> This requires some minor modifications in the existing device tree.
-> The status for all the device nodes for the component options must be
-> set to "failed-needs-probe". This makes it clear that some mechanism is
-> needed to enable one of them, and also prevents the prober and device
-> drivers running at the same time.
 
-...
+Applied, thanks!
 
-> +#include <linux/array_size.h>
-> +#include <linux/i2c.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
+[1/1] pwm: cros-ec: Drop unused member from driver private data
+      commit: 53231af13df265cb46da99d5936ed270f22a35e1
 
-init.h for init calls.
-
-
-> +static int chromeos_of_hw_prober_probe(struct platform_device *pdev)
-> +{
-> +	for (size_t i = 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-> +		if (of_machine_is_compatible(hw_prober_platforms[i].compatible)) {
-> +			int ret;
-
-Perhaps
-
-		if (!of_machine_is_compatible(hw_prober_platforms[i].compatible))
-			continue;
-
-?
-
-> +			ret = hw_prober_platforms[i].prober(&pdev->dev,
-> +							    hw_prober_platforms[i].data);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +	return 0;
-> +}
-
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thierry Reding <thierry.reding@gmail.com>

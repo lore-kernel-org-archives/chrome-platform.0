@@ -1,44 +1,44 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9D819464
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 08:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15780199CA
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 08:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cM45ce9T"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5c18a3387f5so3162458a12.1
-        for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 00:45:16 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WlET2mcE"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1cfafe3d46bso28840345ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 28 Nov 2023 00:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701161116; x=1701765916; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1701161121; x=1701765921; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W8/TdtPK7mZHmPEMzqlWjR5HwzhRhEqW5dnoF8OBNcQ=;
-        b=cM45ce9T0aPOVYL8cHLw13SNbJOjmXft7RMF19iZ/cbg+uSq6R0HewkGuRu9Bi/Ea3
-         zBmJ3IlYx/csQOFkve9uUBhYDiFm7OMt8tHSPGfxhwpRzQghzhJOlqfKK6TTbj6hVs1I
-         QObbpadcsQEryUf8nyPZjTNLLeLpwUfoHAgj4=
+        bh=/Y9ycKtKFTX/BTOyRnkXgZtClc28FDD42zjunKgTjuA=;
+        b=WlET2mcEj9jsrC2rx6FmOlznKbM5MzhKrX6tNGYwaFU9oa7PGDDoZRsVgZ31oBGby0
+         tRLWG42OinPJ6ihS22chFHfdGyCsIyN/+up9NjM9u/xg4WdSDPBeSwbrSxACrFIBtLzu
+         gJ9P3JJn+2g3vjuqP3M7dTYS+YlBicdjinSrY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701161116; x=1701765916;
+        d=1e100.net; s=20230601; t=1701161121; x=1701765921;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W8/TdtPK7mZHmPEMzqlWjR5HwzhRhEqW5dnoF8OBNcQ=;
-        b=WwyUPBsXQnKR94U4LgaGaFVPAgD41//1B7JL/O2sK0l5274mEUC/9jxwxh+a9n28Jb
-         1P4PGxmCKJ3ZDdWePp6D52XSfFBNfrGd1hjESOF9nMpRRGE8r/X8WjcnTRNwIWpj3JXz
-         ed6pev8ZLm1TXaqMgJAygCUvvmDgB/9uZ6yYUS2earLks+DaYCCdBF+P1rvXAJjZJGcX
-         JBDT2N4j2nlRCpmHqKZW2gr1eBTPSCbPXSgBY329OT1TQKP5JhJ3wn/gyk+i+y6szALB
-         Aix9h/bHeUUIOWg+Y6oPgKuU7nLvbOmoa7c1ixApJ9RsUzWxAecLVu9sm3mmycURPPDO
-         YjNA==
-X-Gm-Message-State: AOJu0Yyd3Lunvh4Hg7LSaVv7Cuuf5T4ulhuQGaTa9cOKkW7NCgSmJ7zV
-	j0lP1st603ayacds7azQ1wrf7A==
-X-Google-Smtp-Source: AGHT+IG6UzF6jCgkNYomISFp5LxHRmJmbSt0cMuJU32MtFDCyOlf9c7ui7iv5r+wF6dwufogT4B1GQ==
-X-Received: by 2002:a05:6a20:d48d:b0:189:dc00:cf85 with SMTP id im13-20020a056a20d48d00b00189dc00cf85mr14610135pzb.36.1701161116308;
-        Tue, 28 Nov 2023 00:45:16 -0800 (PST)
+        bh=/Y9ycKtKFTX/BTOyRnkXgZtClc28FDD42zjunKgTjuA=;
+        b=kpD2r42VK6B0UCbFnKNiDi1HyIlxAWX4TPiIw6X11dMXRKT35/b7i47Ggn33/26XUK
+         /jl7C8pqYzrdKZBQJrB14unqeg8rqMkZW58OlU0R6StuZY00jiNmT4wVm38/PJEVmnsT
+         F1v1rbOnqra3cvdop0+KXLPOpOtjBTPhPtq2j2SnAMFxaqEKG6CYRTJJlTqDHL2ehsPs
+         dNeEvsx5XxOOgrZTiduvKJu0BozSd6g2hm16sBWMhwR4TekODSZ/2PjuNL/eZDI0Ip3B
+         dw/Fl8E4ctYJALyU9Of56JW9TkKm0qJsmzKy4fTPSxbZA68xHT7qDvL9oaAZoWcV6pgw
+         OqlA==
+X-Gm-Message-State: AOJu0YxHt6eiE+CiroLkCgGFn/eBoHAD8WGF1S1vx35L7NGk3ywU81Kz
+	NDROU6rPWU9W7UAO4Qw2+ZLeMw==
+X-Google-Smtp-Source: AGHT+IH69IcUw69JVhOmNdkKKnr/r6NBV02lgRCYBJhyyb9MW19+XXMSc7tXlITs3/tx986s7x1SPg==
+X-Received: by 2002:a17:902:f54d:b0:1cf:b3d2:5f18 with SMTP id h13-20020a170902f54d00b001cfb3d25f18mr13659883plf.56.1701161121540;
+        Tue, 28 Nov 2023 00:45:21 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:a990:1e95:a915:9c70])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170902c08100b001ab39cd875csm8358074pld.133.2023.11.28.00.45.11
+        by smtp.gmail.com with ESMTPSA id j1-20020a170902c08100b001ab39cd875csm8358074pld.133.2023.11.28.00.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 00:45:15 -0800 (PST)
+        Tue, 28 Nov 2023 00:45:21 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>,
 	Frank Rowand <frowand.list@gmail.com>,
@@ -73,9 +73,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-input@vger.kernel.org,
 	linux-i2c@vger.kernel.org
-Subject: [RFC PATCH v3 3/5] platform/chrome: Introduce device tree hardware prober
-Date: Tue, 28 Nov 2023 16:42:32 +0800
-Message-ID: <20231128084236.157152-4-wenst@chromium.org>
+Subject: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads as fail
+Date: Tue, 28 Nov 2023 16:42:33 +0800
+Message-ID: <20231128084236.157152-5-wenst@chromium.org>
 X-Mailer: git-send-email 2.43.0.rc1.413.gea7ed67945-goog
 In-Reply-To: <20231128084236.157152-1-wenst@chromium.org>
 References: <20231128084236.157152-1-wenst@chromium.org>
@@ -87,196 +87,57 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some devices are designed and manufactured with some components having
-multiple drop-in replacement options. These components are often
-connected to the mainboard via ribbon cables, having the same signals
-and pin assignments across all options. These may include the display
-panel and touchscreen on laptops and tablets, and the trackpad on
-laptops. Sometimes which component option is used in a particular device
-can be detected by some firmware provided identifier, other times that
-information is not available, and the kernel has to try to probe each
-device.
-
-This change attempts to make the "probe each device" case cleaner. The
-current approach is to have all options added and enabled in the device
-tree. The kernel would then bind each device and run each driver's probe
-function. This works, but has been broken before due to the introduction
-of asynchronous probing, causing multiple instances requesting "shared"
-resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
-time, with only one instance succeeding. Work arounds for these include
-moving the pinmux to the parent I2C controller, using GPIO hogs or
-pinmux settings to keep the GPIO pins in some fixed configuration, and
-requesting the interrupt line very late. Such configurations can be seen
-on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
-Lenovo Thinkpad 13S.
-
-Instead of this delicate dance between drivers and device tree quirks,
-this change introduces a simple I2C component prober. For any given
-class of devices on the same I2C bus, it will go through all of them,
-doing a simple I2C read transfer and see which one of them responds.
-It will then enable the device that responds.
-
-This requires some minor modifications in the existing device tree.
-The status for all the device nodes for the component options must be
-set to "failed-needs-probe". This makes it clear that some mechanism is
-needed to enable one of them, and also prevents the prober and device
-drivers running at the same time.
+Instead of having them all available, mark them all as "fail-needs-probe"
+and have the implementation try to probe which one is present.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
 Changes since v2:
-- Addressed Rob's comments
-  - Move remaining driver code to drivers/platform/chrome/
-  - Depend on rather than select CONFIG_I2C
-  - Copy machine check to driver init function
-- Addressed Andy's comments
-  - Explicitly mention "device tree" or OF in driver name, description
-    and Kconfig symbol
-  - Drop filename from inside the file
-  - Switch to passing "struct device *" to shorten lines
-  - Move "ret = 0" to just before for_each_child_of_node(i2c_node, node)
-  - Make loop variable size_t (instead of unsigned int as Andy asked)
-  - Use PLATFORM_DEVID_NONE instead of raw -1
-  - Use standard goto error path pattern in hw_prober_driver_init()
-
-- Changes since v1:
-  - New patch
+- Drop class from status
 ---
- drivers/platform/chrome/Kconfig               | 11 +++
- drivers/platform/chrome/Makefile              |  1 +
- .../platform/chrome/chromeos_of_hw_prober.c   | 89 +++++++++++++++++++
- 3 files changed, 101 insertions(+)
- create mode 100644 drivers/platform/chrome/chromeos_of_hw_prober.c
+ arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 7a83346bfa53..aa161f2f09e3 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -61,6 +61,17 @@ config CHROMEOS_TBMC
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called chromeos_tbmc.
+diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
+index bdcd35cecad9..1d68bc6834e4 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
+@@ -15,6 +15,7 @@ touchscreen2: touchscreen@34 {
+ 		reg = <0x34>;
+ 		interrupt-parent = <&pio>;
+ 		interrupts = <88 IRQ_TYPE_LEVEL_LOW>;
++		status = "fail-needs-probe";
+ 	};
  
-+config CHROMEOS_OF_HW_PROBER
-+	bool "ChromeOS Device Tree Hardware Prober"
-+	depends on OF
-+	depends on I2C
-+	select OF_DYNAMIC
-+	default OF
-+	help
-+	  This option enables the device tree hardware prober for ChromeOS
-+	  devices. The driver will probe the correct component variant in
-+	  devices that have multiple drop-in options for one component.
+ 	/*
+@@ -28,6 +29,7 @@ touchscreen3: touchscreen@20 {
+ 		hid-descr-addr = <0x0020>;
+ 		interrupt-parent = <&pio>;
+ 		interrupts = <88 IRQ_TYPE_LEVEL_LOW>;
++		status = "fail-needs-probe";
+ 	};
+ };
+ 
+@@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
+ 		reg = <0x2c>;
+ 		hid-descr-addr = <0x0020>;
+ 		wakeup-source;
++		status = "fail-needs-probe";
+ 	};
+ };
+ 
+@@ -68,3 +71,11 @@ pins_wp {
+ 		};
+ 	};
+ };
 +
- config CROS_EC
- 	tristate "ChromeOS Embedded Controller"
- 	select CROS_EC_PROTO
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index 2dcc6ccc2302..21a9d5047053 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_CHROMEOS_ACPI)		+= chromeos_acpi.o
- obj-$(CONFIG_CHROMEOS_LAPTOP)		+= chromeos_laptop.o
- obj-$(CONFIG_CHROMEOS_PRIVACY_SCREEN)	+= chromeos_privacy_screen.o
- obj-$(CONFIG_CHROMEOS_PSTORE)		+= chromeos_pstore.o
-+obj-$(CONFIG_CHROMEOS_OF_HW_PROBER)	+= chromeos_of_hw_prober.o
- obj-$(CONFIG_CHROMEOS_TBMC)		+= chromeos_tbmc.o
- obj-$(CONFIG_CROS_EC)			+= cros_ec.o
- obj-$(CONFIG_CROS_EC_I2C)		+= cros_ec_i2c.o
-diff --git a/drivers/platform/chrome/chromeos_of_hw_prober.c b/drivers/platform/chrome/chromeos_of_hw_prober.c
-new file mode 100644
-index 000000000000..13aaad6382aa
---- /dev/null
-+++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
-@@ -0,0 +1,89 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * ChromeOS Device Tree Hardware Prober
-+ *
-+ * Copyright (c) 2023 Google LLC
-+ */
-+
-+#include <linux/array_size.h>
-+#include <linux/i2c.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+#define DRV_NAME	"chromeos_of_hw_prober"
-+
-+/**
-+ * struct hw_prober_entry - Holds an entry for the hardware prober
-+ *
-+ * @compatible:	compatible string to match against the machine
-+ * @prober:	prober function to call when machine matches
-+ * @data:	extra data for the prober function
-+ */
-+struct hw_prober_entry {
-+	const char *compatible;
-+	int (*prober)(struct device *dev, const void *data);
-+	const void *data;
++&touchscreen {
++	status = "fail-needs-probe";
 +};
 +
-+static int chromeos_i2c_component_prober(struct device *dev, const void *data)
-+{
-+	const char *type = data;
-+
-+	return i2c_of_probe_component(dev, type);
-+}
-+
-+static const struct hw_prober_entry hw_prober_platforms[] = {
-+	{ .compatible = "google,hana", .prober = chromeos_i2c_component_prober, .data = "touchscreen" },
-+	{ .compatible = "google,hana", .prober = chromeos_i2c_component_prober, .data = "trackpad" },
++&trackpad {
++	status = "fail-needs-probe";
 +};
-+
-+static int chromeos_of_hw_prober_probe(struct platform_device *pdev)
-+{
-+	for (size_t i = 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-+		if (of_machine_is_compatible(hw_prober_platforms[i].compatible)) {
-+			int ret;
-+
-+			ret = hw_prober_platforms[i].prober(&pdev->dev,
-+							    hw_prober_platforms[i].data);
-+			if (ret)
-+				return ret;
-+		}
-+
-+	return 0;
-+}
-+
-+static struct platform_driver chromeos_of_hw_prober_driver = {
-+	.probe	= chromeos_of_hw_prober_probe,
-+	.driver	= {
-+		.name = DRV_NAME,
-+	},
-+};
-+
-+static int __init chromeos_of_hw_prober_driver_init(void)
-+{
-+	struct platform_device *pdev;
-+	size_t i;
-+	int ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-+		if (of_machine_is_compatible(hw_prober_platforms[i].compatible))
-+			break;
-+	if (i == ARRAY_SIZE(hw_prober_platforms))
-+		return 0;
-+
-+	ret = platform_driver_register(&chromeos_of_hw_prober_driver);
-+	if (ret)
-+		return ret;
-+
-+	pdev = platform_device_register_simple(DRV_NAME, PLATFORM_DEVID_NONE, NULL, 0);
-+	if (IS_ERR(pdev))
-+		goto err;
-+
-+	return 0;
-+
-+err:
-+	platform_driver_unregister(&chromeos_of_hw_prober_driver);
-+
-+	return PTR_ERR(pdev);
-+}
-+device_initcall(chromeos_of_hw_prober_driver_init);
 -- 
 2.43.0.rc1.413.gea7ed67945-goog
 

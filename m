@@ -1,159 +1,106 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BC42119
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Nov 2023 08:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90DD2D60A
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Nov 2023 08:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ixQP4kPi"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5094cb3a036so8944422e87.2
-        for <chrome-platform@lists.linux.dev>; Wed, 29 Nov 2023 00:23:54 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GMTk0pWe"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6d857f6f1c0so412448a34.0
+        for <chrome-platform@lists.linux.dev>; Thu, 30 Nov 2023 00:33:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701246232; x=1701851032; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k7+haveSoq7m2f2Pj8HBweyY+n64mswSOvsdXSe1aV8=;
-        b=ixQP4kPiA1jyraucFp2hzCtRmSD/cqlXJTE/BsFrrVWKTdJdnZmeok6y0n5yNuVThB
-         zbqLJeqhqlr8fP3uPRvx6dtM9LS6Tbntz9XXl5QhyN2ZoEV1jnOjKn28z8CwXZJHsGf7
-         8nS/IWvZpF5DFxDWoZML3xPUFS2bOJaHiFKN0=
+        d=chromium.org; s=google; t=1701333222; x=1701938022; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EyouFVwGEYxssEwFR57NReaaTx4QlR2tWMXVmiHfDAk=;
+        b=GMTk0pWeKj/noa29UJqjs7Id4aftRHQK6f+Gb6Ds1SL9axpQyiPyAQ+ECa2e/WtT/j
+         istpSq8D4mqDXlnyu0gwPglqRYB4vKJbKSiNZgayRQb1NUraIuKEazTlOowTMvQaNrFX
+         H32v5peZx16Uqb7S9Miis4uz2qrdD98C5y93o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701246232; x=1701851032;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k7+haveSoq7m2f2Pj8HBweyY+n64mswSOvsdXSe1aV8=;
-        b=XxZXmlIjVS+yYN2woPBRQ7nYWnQI2lRVI30eVb7bxU4a/hCPX860EtMSsxfiAuMR3Z
-         NzfKBWOEziAqVzpSicHOnWy813pqZrk5Vt0lKp3tj9HXfIEfywiS4CoecRuadGQxaF1D
-         zaqmbTnbHlixC9P7jygWK1ceU2xCNur0lnVi+onKtjzx3buK/H+xD75bnyvBmXNirZWI
-         h9G4VWTBJqa0fpCE4ICDsh2NiU8pnsNYCg+71iiAxmeb2JotDSMH8DTTAY3atn5fyLNi
-         RT0sCsb2Wb5YZYAeWVIRRYePt9Rt8lSS3JotcAVRBoEOiuB9B4lgxYX9bINU7smroLuK
-         cWug==
-X-Gm-Message-State: AOJu0YwHBOxPklws/NTuz2ubzeLI0BQqH4DCOW/ZfKHR6TPX82+F1XCy
-	i2pBMNGW0Z+8LIJ3ACeX6V77RARxUwgpvfu8S0qA3w==
-X-Google-Smtp-Source: AGHT+IEtWhB/1EU4Pgqrnwxww3bANfSl0NJ1NAjrSVHkHzZ34kpFTEDs7eij5sHcmcrKNah8R2KVsBjvlDihDkrrAjY=
-X-Received: by 2002:a05:6512:3081:b0:507:a1dd:5a86 with SMTP id
- z1-20020a056512308100b00507a1dd5a86mr12720343lfd.13.1701246232561; Wed, 29
- Nov 2023 00:23:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701333222; x=1701938022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EyouFVwGEYxssEwFR57NReaaTx4QlR2tWMXVmiHfDAk=;
+        b=GJIHSucVLvFHci8eEe/inlIBvdCwi0jN0g9h+0v7d9lCkRq0l0pPWKNjUSl1hArBe/
+         YG7eVahtWxuDfde2ocPJC4flTpZJOcrPTHN3IfzipSxNpX2ouB9begjn4tmk4xpGBlNa
+         nC0BLozPsG7u6DWjDXIAArB3Z9dW6C6hlWkPQJeLzZ7toNG2WSSfkCBtVOau71Q+F+sw
+         nn2m+OB2DN3dQvAf5lvZcF7F0Uz44k+S2s0PwxIlGx6xFV+iGeze5MaB8zC6YJ+bD8Mx
+         J8hEifJA/AIjp/70H6woUYCCk/iGy4lNX86kQsHNQfzKYTAZatZ07X7NO6/ROuTmm9/Q
+         g0MQ==
+X-Gm-Message-State: AOJu0Yy6cYvrCc6rgMAATjYhkMfW6Vv5PKmJN+UOnGVBZEj6rH90JGXz
+	Ce+QkaMnjKuPhaQXaZ5JzjrNgA==
+X-Google-Smtp-Source: AGHT+IGWCAAHmgXLrSSPxognNtvv4rTt1aiPoIZHEqHwPAu/XCpwkjPbK21OntZ4MLW1NQrPkMEvbA==
+X-Received: by 2002:a9d:7f0c:0:b0:6ce:37a2:a93e with SMTP id j12-20020a9d7f0c000000b006ce37a2a93emr25823140otq.3.1701333222791;
+        Thu, 30 Nov 2023 00:33:42 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:7c8f:dafd:65c3:2bcf])
+        by smtp.gmail.com with ESMTPSA id b8-20020a63cf48000000b005c2967852c5sm712015pgj.30.2023.11.30.00.33.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 00:33:42 -0800 (PST)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: mfd: cros-ec: Allow interrupts-extended property
+Date: Thu, 30 Nov 2023 16:33:31 +0800
+Message-ID: <20231130083333.932862-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-4-wenst@chromium.org>
- <ZWYUi3Q5ptQXR0uQ@smile.fi.intel.com>
-In-Reply-To: <ZWYUi3Q5ptQXR0uQ@smile.fi.intel.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 29 Nov 2023 16:23:41 +0800
-Message-ID: <CAGXv+5EG4wO2sD0f_j1VDTkOcyN46oyfTYs3nf7cP7xFPg1fYQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/5] platform/chrome: Introduce device tree
- hardware prober
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
-	Johan Hovold <johan@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, 
-	broonie@kernel.org, gregkh@linuxfoundation.org, hdegoede@redhat.com, 
-	james.clark@arm.com, james@equiv.tech, keescook@chromium.org, 
-	rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, 
-	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 29, 2023 at 12:26=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Nov 28, 2023 at 04:42:32PM +0800, Chen-Yu Tsai wrote:
-> > Some devices are designed and manufactured with some components having
-> > multiple drop-in replacement options. These components are often
-> > connected to the mainboard via ribbon cables, having the same signals
-> > and pin assignments across all options. These may include the display
-> > panel and touchscreen on laptops and tablets, and the trackpad on
-> > laptops. Sometimes which component option is used in a particular devic=
-e
-> > can be detected by some firmware provided identifier, other times that
-> > information is not available, and the kernel has to try to probe each
-> > device.
-> >
-> > This change attempts to make the "probe each device" case cleaner. The
-> > current approach is to have all options added and enabled in the device
-> > tree. The kernel would then bind each device and run each driver's prob=
-e
-> > function. This works, but has been broken before due to the introductio=
-n
-> > of asynchronous probing, causing multiple instances requesting "shared"
-> > resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
-> > time, with only one instance succeeding. Work arounds for these include
-> > moving the pinmux to the parent I2C controller, using GPIO hogs or
-> > pinmux settings to keep the GPIO pins in some fixed configuration, and
-> > requesting the interrupt line very late. Such configurations can be see=
-n
-> > on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
-> > Lenovo Thinkpad 13S.
-> >
-> > Instead of this delicate dance between drivers and device tree quirks,
-> > this change introduces a simple I2C component prober. For any given
-> > class of devices on the same I2C bus, it will go through all of them,
-> > doing a simple I2C read transfer and see which one of them responds.
-> > It will then enable the device that responds.
-> >
-> > This requires some minor modifications in the existing device tree.
-> > The status for all the device nodes for the component options must be
-> > set to "failed-needs-probe". This makes it clear that some mechanism is
-> > needed to enable one of them, and also prevents the prober and device
-> > drivers running at the same time.
->
-> ...
->
-> > +#include <linux/array_size.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
->
-> init.h for init calls.
+"interrupts-extended" provides a more concise way of describing external
+GPIO interrupts.
 
-Added to next version.
+Allow using this instead of "interrupts" plus "interrupt-parent" for
+cros-ec.
 
-> > +static int chromeos_of_hw_prober_probe(struct platform_device *pdev)
-> > +{
-> > +     for (size_t i =3D 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-> > +             if (of_machine_is_compatible(hw_prober_platforms[i].compa=
-tible)) {
-> > +                     int ret;
->
-> Perhaps
->
->                 if (!of_machine_is_compatible(hw_prober_platforms[i].comp=
-atible))
->                         continue;
->
-> ?
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ .../devicetree/bindings/mfd/google,cros-ec.yaml          | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Works for me. One less level of indentation.
+diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+index e1ca4f297c6d..e514eac9f4fc 100644
+--- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
++++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+@@ -75,6 +75,9 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
++  interrupts-extended:
++    maxItems: 1
++
+   reset-gpios:
+     maxItems: 1
+ 
+@@ -199,9 +202,13 @@ allOf:
+                 - google,cros-ec-rpmsg
+                 - google,cros-ec-uart
+     then:
++      oneOf:
++        - required:
++            - interrupts
++        - required:
++            - interrupts-extended
+       required:
+         - reg
+-        - interrupts
+ 
+   - if:
+       properties:
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
 
-Thanks
-ChenYu
-
-> > +                     ret =3D hw_prober_platforms[i].prober(&pdev->dev,
-> > +                                                         hw_prober_pla=
-tforms[i].data);
-> > +                     if (ret)
-> > +                             return ret;
-> > +             }
-> > +
-> > +     return 0;
-> > +}
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->

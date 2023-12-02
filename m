@@ -1,63 +1,63 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751B3623
-	for <chrome-platform@lists.linux.dev>; Sat,  2 Dec 2023 00:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B81623
+	for <chrome-platform@lists.linux.dev>; Sat,  2 Dec 2023 00:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Oc2YguTr"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-54c7a10f376so366264a12.2
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 16:56:28 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Gl0m24WE"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-54bf9a54fe3so3539554a12.3
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 16:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701478585; x=1702083385; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1701478682; x=1702083482; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=on0eUmIVBGIZNw/lnf6eJdI5XZ4MfrBWX3aiU7eK2L8=;
-        b=Oc2YguTrFYKM+f9LwtBbA0ZEIBlDsyxtiejpOCEIAT3SOE0nM3idVgr9mitLYvsTkz
-         tyVJPt/y7XpDY9kk+Y1NLMGqfA1TQ3sc7HOO8/FoxfbygZCNzp2SAI1PqCBZEcdrxse/
-         HV736uFJ3Ow8z2sTQzUxJ6ch2dnXL8Nyoiaok=
+        bh=vKk2QY55EMuNywXUGLdjHFZJLlzFp5Dzqbm5yWnIGpQ=;
+        b=Gl0m24WEXilD9Geo02Wcb5I+CaAzB3GSGR1xwdkZRBMdwbnhMUnz4ioROkV6zPPzrl
+         jZbUaTZCRSdQ+Vvx6A7LhM71EHdh2uUbbof9n5N4CHXC32ayrPK4hwfz9D9GnmAky1qA
+         EPxmzfRY3yTH/jvbVkl/aYS0y+6WLxraxYL18=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701478585; x=1702083385;
+        d=1e100.net; s=20230601; t=1701478682; x=1702083482;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=on0eUmIVBGIZNw/lnf6eJdI5XZ4MfrBWX3aiU7eK2L8=;
-        b=Jrrc4HeurfbPK76JESBlgx7P8KGaH/XTJJDr/NNIDyE9IdGS/BPhflt+WB7aYd3i8/
-         iCx2eynCge25Uy4Xa46PWaOcuW8MdrN1O1/zOcPUI+J+tuWk7c8lTwo5TVEH5UAHomLV
-         BoRcMpJuujZrcfUXhy3aqeeHvLpUGxnsqeiun3Or1/G6lS0urSWMQO+XESbwu7LVjhno
-         0/eXvFzTKxVdEqICNdA/hnlmuEIl2NJ4ypKnjYrHDJfMh+6XNZaHXsd6lHG6/0dHrH9A
-         2I2xd4YXbTUgg9q6DsN+irGEFsKpQ58oJcznQYyJ287BXgt6vVKypMLKz87DB6y3Ew+g
-         00Vg==
-X-Gm-Message-State: AOJu0YzbDX1/cf/6s5b01RCH1S6PeomzIPsNBq4ht51a9GCEsHokL+al
-	My3JQ66th/KY1FOxjHALCxmNgsrwGEAdaCgialw2aiiy
-X-Google-Smtp-Source: AGHT+IESznomb/4HT1RLEGuMy8TI+syvPDeungsX6BsitWBiM/+2mRk0hrOhwM65NHLanvuyNg1Y8Q==
-X-Received: by 2002:a50:cc95:0:b0:54c:7994:ac02 with SMTP id q21-20020a50cc95000000b0054c7994ac02mr236195edi.33.1701478585624;
-        Fri, 01 Dec 2023 16:56:25 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id dm4-20020a05640222c400b0054c60f02999sm936639edb.10.2023.12.01.16.56.24
+        bh=vKk2QY55EMuNywXUGLdjHFZJLlzFp5Dzqbm5yWnIGpQ=;
+        b=dzKp5Mz/wHbRbJwRVLdFrpK8EgrSrmv/yxH6jU5tIQiYTIlfY4ix+CajNBqWmjCZNU
+         7KSiW3ZIjHWCwGpXIPqOdfw72kTuhQaKljxcO/GumalY8jSPfK5GLUXU4wCu1HZmNcCb
+         0PFPOWcz8txWZ+hTgrLYSzzlrgQA2AC2z8+5c+iAHxOxcm2ySb69C6IGK08xW0JfQE2z
+         eSLlwpQlUrCMZN813Q/xxM2eapn1a6QyH46cOwXlnUf+hmydqNv2eqbeJlo/Letr6h8x
+         btGrBS/Xe+Ad8RCVvuMlWhrPwKvSPrbeghxxfdOcQt7+sXp2T0hFsgL/wBPJx8JuABfS
+         4BxA==
+X-Gm-Message-State: AOJu0YyISYcxk/cgBkwsvLD9pZ2O521yOIuttgKJLgqrqhz9f8IzbkLq
+	nJSCV79QJGPJ/GbpgU2ZKA7tURp9wO/KwIigzKzlotmw
+X-Google-Smtp-Source: AGHT+IH1yJXu7N0EIHKrflbbzPWPgZvdOESMEHrqnyxbVVJY4RXyn8HASCyVLPq92qkRWX+JZSy38A==
+X-Received: by 2002:a50:d78c:0:b0:54c:4837:9aab with SMTP id w12-20020a50d78c000000b0054c48379aabmr1237931edi.82.1701478682505;
+        Fri, 01 Dec 2023 16:58:02 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id u11-20020aa7d98b000000b0054b59096da4sm2117661eds.13.2023.12.01.16.58.02
         for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 16:56:25 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40b422a274dso28055e9.0
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 16:56:24 -0800 (PST)
-X-Received: by 2002:a1c:6a0c:0:b0:408:3727:92c5 with SMTP id
- f12-20020a1c6a0c000000b00408372792c5mr311701wmc.2.1701478584358; Fri, 01 Dec
- 2023 16:56:24 -0800 (PST)
+        Fri, 01 Dec 2023 16:58:02 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40b35199f94so27385e9.0
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 16:58:02 -0800 (PST)
+X-Received: by 2002:a7b:c4c6:0:b0:40b:3d89:ba70 with SMTP id
+ g6-20020a7bc4c6000000b0040b3d89ba70mr237078wmk.7.1701478681940; Fri, 01 Dec
+ 2023 16:58:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-2-wenst@chromium.org>
-In-Reply-To: <20231128084236.157152-2-wenst@chromium.org>
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-3-wenst@chromium.org>
+In-Reply-To: <20231128084236.157152-3-wenst@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 1 Dec 2023 16:56:08 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
-Message-ID: <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] of: dynamic: Add of_changeset_update_prop_string
+Date: Fri, 1 Dec 2023 16:57:46 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
+Message-ID: <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/5] i2c: of: Introduce component probe function
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -81,29 +81,201 @@ Hi,
 On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> =
 wrote:
 >
-> @@ -1039,3 +1039,50 @@ int of_changeset_add_prop_u32_array(struct of_chan=
-geset *ocs,
->         return ret;
->  }
->  EXPORT_SYMBOL_GPL(of_changeset_add_prop_u32_array);
+> @@ -217,4 +217,114 @@ static int of_i2c_notify(struct notifier_block *nb,=
+ unsigned long action,
+>  struct notifier_block i2c_of_notifier =3D {
+>         .notifier_call =3D of_i2c_notify,
+>  };
 > +
-> +static int of_changeset_update_prop_helper(struct of_changeset *ocs,
-> +                                          struct device_node *np,
-> +                                          const struct property *pp)
+> +/*
+> + * Some devices, such as Google Hana Chromebooks, are produced by multip=
+le
+> + * vendors each using their preferred components. Such components are al=
+l
+> + * in the device tree. Instead of having all of them enabled and having =
+each
+> + * driver separately try and probe its device while fighting over shared
+> + * resources, they can be marked as "fail-needs-probe" and have a prober
+> + * figure out which one is actually used beforehand.
+> + *
+> + * This prober assumes such drop-in parts are on the same I2C bus, have
+> + * non-conflicting addresses, and can be directly probed by seeing which
+> + * address responds.
+> + *
+> + * TODO:
+> + * - Support handling common regulators and GPIOs.
+
+IMO you should prototype how you're going to handle regulators and
+GPIOs before finalizing the design. I was going to write that you
+should just document that it was up to the caller to power things up
+before calling this function, but then I realized that the caller
+would have to duplicate much of this function in order to do so. In
+the very least they'd have to find the nodes of the relevant devices
+so that they could grab regulators and/or GPIOs. In order to avoid
+this duplication, would the design need to change? Perhaps this would
+be as simple as adding a callback function here that's called with all
+of the nodes before probing? If that's right, it would be nice to have
+that callback from the beginning so we don't need two variants of the
+function...
+
+> + * - Support I2C muxes
+> + */
+> +
+> +/**
+> + * i2c_of_probe_component() - probe for devices of "type" on the same i2=
+c bus
+> + * @dev: &struct device of the caller, only used for dev_* printk messag=
+es
+> + * @type: a string to match the device node name prefix to probe for
+> + *
+> + * Probe for possible I2C components of the same "type" on the same I2C =
+bus
+> + * that have their status marked as "fail".
+
+Should document these current limitations with the code:
+
+* Assumes that across the entire device tree the only instances of
+nodes named "type" are ones we're trying to handle second sourcing
+for. In other words if we're searching for "touchscreen" then all
+nodes named "touchscreen" are ones that need to be probed.
+
+* Assumes that there is exactly one group of each "type". In other
+words, if we're searching for "touchscreen" then exactly one
+touchscreen will be enabled across the whole tree.
+
+Obviously those could be relaxed with more code, but that's the
+current limitation and it makes the code easier to understand with
+that context.
+
+
+> + */
+> +int i2c_of_probe_component(struct device *dev, const char *type)
 > +{
-> +       struct property *new_pp;
+> +       struct device_node *node, *i2c_node;
+> +       struct i2c_adapter *i2c;
+> +       struct of_changeset *ocs =3D NULL;
 > +       int ret;
 > +
-> +       new_pp =3D __of_prop_dup(pp, GFP_KERNEL);
-> +       if (!new_pp)
-> +               return -ENOMEM;
+> +       node =3D of_find_node_by_name(NULL, type);
+> +       if (!node)
+> +               return dev_err_probe(dev, -ENODEV, "Could not find %s dev=
+ice node\n", type);
 > +
-> +       ret =3D of_changeset_update_property(ocs, np, new_pp);
-> +       if (ret) {
-> +               kfree(new_pp->name);
-> +               kfree(new_pp->value);
-> +               kfree(new_pp);
+> +       i2c_node =3D of_get_next_parent(node);
+> +       if (!of_node_name_eq(i2c_node, "i2c")) {
+> +               of_node_put(i2c_node);
+> +               return dev_err_probe(dev, -EINVAL, "%s device isn't on I2=
+C bus\n", type);
+> +       }
 
-Given that this is the 3rd copy of the freeing logic, does it make
-sense to make __of_prop_free() that's documented to free what was
-returned by __of_prop_dupe()?
+Personally I'd skip checking for the "i2c" node name. Just rely on
+of_get_i2c_adapter_by_node() returning an error.
+
+Oh, I guess you have this because you need to tell the difference
+between -EINVAL and -EPROBE_DEFER? It feels like instead you could use
+the firmware node to lookup a device more generically. If a device
+isn't associated with the node at all then you return -EPROBE_DEFER.
+Otherwise if it's associated but not an i2c device then you return
+-EINVAL. I guess maybe it doesn't make a huge difference, but it
+somehow feels less fragile than relying on the node name being "i2c".
+Maybe I just haven't had enough DT Kool-Aid.
+
+One thing this made me wonder is if of_get_i2c_adapter_by_node() is
+race free anyway. Can't that return you a device that hasn't finished
+probing yet? I see:
+
+- i2c_register_adapter()
+-- device_register()
+--- device_add()
+---- bus_add_device()
+---- bus_probe_device()
+
+As soon as bus_add_device() is called then it will be in
+"klist_devices" and I believe i2c_find_device_by_fwnode() will be able
+to find it. However, it hasn't necessarily been probed yet. I think
+that means calling i2c_smbus_xfer() on it might not work yet...
+
+
+One last thing is that you should check to make sure that the i2c
+adapter is not marked "disabled". ...otherwise I think you'd end up
+constantly trying again and again...
+
+
+> +       for_each_child_of_node(i2c_node, node) {
+> +               if (!of_node_name_prefix(node, type))
+> +                       continue;
+> +               if (of_device_is_available(node)) {
+> +                       /*
+> +                        * Device tree has component already enabled. Eit=
+her the
+> +                        * device tree isn't supported or we already prob=
+ed once.
+
+I guess the "already probed once" is somewhat expected if more than
+one type of second source component is defined and we end up deferring
+the second one? We don't undo the resolution of the first one and
+probably don't keep track of the fact that it succeeded?
+
+Probably should be added to the function comments that this is an
+expected/normal case?
+
+
+> +                        */
+> +                       of_node_put(node);
+> +                       of_node_put(i2c_node);
+> +                       return 0;
+> +               }
+> +       }
+> +
+> +       i2c =3D of_get_i2c_adapter_by_node(i2c_node);
+> +       if (!i2c) {
+> +               of_node_put(i2c_node);
+> +               return dev_err_probe(dev, -EPROBE_DEFER, "Couldn't get I2=
+C adapter\n");
+> +       }
+> +
+> +       ret =3D 0;
+
+Why init ret to 0?
+
+
+> +       for_each_child_of_node(i2c_node, node) {
+> +               union i2c_smbus_data data;
+> +               u32 addr;
+> +
+> +               if (!of_node_name_prefix(node, type))
+> +                       continue;
+> +               if (of_property_read_u32(node, "reg", &addr))
+> +                       continue;
+> +               if (i2c_smbus_xfer(i2c, addr, 0, I2C_SMBUS_READ, 0, I2C_S=
+MBUS_BYTE, &data) < 0)
+
+I'd be tempted to say that the caller should be able to pass in a
+function pointer here so they could use an alternative method to probe
+instead of i2c_smbus_xfer(), though you'd want to make it easy to
+default to i2c_smbus_xfer(). I could imagine someone might need a
+different way to probe. For instance if you had two touchscreens both
+at the same "reg" but that had different "hid-descr-addr" then this
+could be important.
+
+
+> +                       continue;
+> +
+
+Put the "break" right here. You've found the device and that was the
+point of the loop.
+
+Once you do that then the error handling makes a little more sense. It
+was weird that the error handling was jumped through from inside the
+loop...
+
+
+> +               dev_info(dev, "Enabling %pOF\n", node);
+> +
+> +               ocs =3D kzalloc(sizeof(*ocs), GFP_KERNEL);
+> +               if (!ocs) {
+> +                       ret =3D -ENOMEM;
+> +                       goto err_put_node;
+
+I think this error path (and some others) miss "i2c_put_adapter()" and
+"of_node_put(i2c_node)"

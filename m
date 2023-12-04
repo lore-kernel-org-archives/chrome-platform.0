@@ -1,65 +1,55 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9567F1385
-	for <chrome-platform@lists.linux.dev>; Sat,  2 Dec 2023 01:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664163D8
+	for <chrome-platform@lists.linux.dev>; Mon,  4 Dec 2023 06:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OM7t0ksp"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50aabfa1b75so4057719e87.3
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 17:04:41 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ddOEUT+E"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50bdec453c8so2619773e87.3
+        for <chrome-platform@lists.linux.dev>; Sun, 03 Dec 2023 22:28:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701479079; x=1702083879; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1701671311; x=1702276111; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QbR8KzXYL0ybnYKqP2A2MrIjHre31FRqYESM+8DIU+s=;
-        b=OM7t0kspnAESSUe5SniE9ujqTCIU3pb8q6Y1fprFL8150EgIVkOkNcvEsi2+tcIQHD
-         pAY57xY8NZEKDS/284/UnMKiSbE8MxPr7wMZiiuz5Yw4vXzNGg2xDjJqn1ZF0RiW4oLp
-         uH+ajQMMaz4ejbrr29r+sqxQutJA2+xsVwhfI=
+        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
+        b=ddOEUT+E984Cwc/K7dt4QkM6Eg8Xpjf2o3LgRQMcFq05C6R5rFZFEo0qunPR++P9dI
+         fgjLykatlGFaf63fX+pPKCOIgzRzWKFbQVNU0pDX/M5G00aWuv7W7X2J/PQ6tSJs1x14
+         dKcDl7eBtv/nyFWxaRmAn4YnASn7M63/U/CI0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701479079; x=1702083879;
+        d=1e100.net; s=20230601; t=1701671311; x=1702276111;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QbR8KzXYL0ybnYKqP2A2MrIjHre31FRqYESM+8DIU+s=;
-        b=HuQPLDNcnh/G/RWQX3IixUuVwzoxn4M+2Yk2DWu0vNWmyOTRw3M0XpRMIQYfI+G2WX
-         lOKr9C06V32UIEaMHxbt7Q9F3sr/zqrPcRZhKzUZEYX8uJ7nEoH+WRArDjUy4xUx9Qkq
-         ijZUsOJgQn/Np+CCxrLr7Aqp2OrKtNbWzQ3MgT7r7tY9fZ7swDFVSLQqihc85LWIRP90
-         aTFzgMzTryyV4OPZCBwKL8PmGShZkvlhS6cII0+twZgvX86khXCgEcqJCZ/blp1Se9hb
-         o+DCytB+nsbdE16hnVqprBs1KdcXjsFu5s4IHukox1OMPocz23wBB7Fg3vvMz09UFNUI
-         e17A==
-X-Gm-Message-State: AOJu0YyL2dtrzH13kZfPgQkHg8zqiCkFaD2HB5XufmHMgW3zGjkk2eSC
-	bnF+b9UBGSS/xpOY+ncI/8J6gMiMBV6LAkEHmBKaic1P
-X-Google-Smtp-Source: AGHT+IGgQBO3vmcd7LHDh1/rcHI/N+Ia1OryYvc+0vMgTRBblFotqMm6Vq34eEQNZttXyE8NgwKljw==
-X-Received: by 2002:a05:6512:33c8:b0:50b:dec0:8d0b with SMTP id d8-20020a05651233c800b0050bdec08d0bmr990887lfg.85.1701479078967;
-        Fri, 01 Dec 2023 17:04:38 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id o6-20020ac25e26000000b0050be88a108esm9355lfg.197.2023.12.01.17.04.37
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 17:04:38 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50bbf7a6029so1159e87.0
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Dec 2023 17:04:37 -0800 (PST)
-X-Received: by 2002:a7b:cb59:0:b0:40b:4221:4085 with SMTP id
- v25-20020a7bcb59000000b0040b42214085mr244275wmj.1.1701478712415; Fri, 01 Dec
- 2023 16:58:32 -0800 (PST)
+        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
+        b=NXnSw0QKUWrNiaNvj+BeoPGEAvitzE+JTWhou32jGh/hrhLIr56yOPcMJVIz1GEBLv
+         Mbrn7ViVdkHJScQxDxvA3GTZDm/wNWnpjaBvH/0C2hj2Zb2DEl/BH1iC9o4Z3IubUFAo
+         sUxx/qxNeQ9ra2yGuu52daNJ6RbWaprax0eq4BRpRAJW+Z/P8w0xA82LEElTTN7mZN/J
+         NdbTUqbRqn6FU6IaUqZn7a41bpb5hUkgHwmHsTIithviBYLOkUs1yTnWZj7h2S/hw6OL
+         NppR6KTXlbnfevGfhky+VPP+Mgq7ydaBFZo4Fv3Pdy2X5ArEVyZELeCarsDN3HOZ/7Yg
+         R0Tw==
+X-Gm-Message-State: AOJu0YzhYPB5DDbiC/5cgHl/RJLBGKm9eJewWno6zqa3SwZe/Mrgp+FN
+	YVKNTNjYvkSTtmhYjatsvoeWdCVCiW9lUqng7F2W3Q==
+X-Google-Smtp-Source: AGHT+IG95fL6ZmhFrrdBZs1yHZpwJEkMdnWR6Z3TRg/FZYz0mqiHrefYfWV2agXhFMwbCcFaJSeavkE3C7jpb9RAWYc=
+X-Received: by 2002:a05:6512:368f:b0:50b:f88a:dd63 with SMTP id
+ d15-20020a056512368f00b0050bf88add63mr334344lfs.102.1701671311129; Sun, 03
+ Dec 2023 22:28:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-4-wenst@chromium.org>
-In-Reply-To: <20231128084236.157152-4-wenst@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 1 Dec 2023 16:58:20 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XV0+G=uFBE_n6WFGVW2szGcKToZgCNTdSrNf3LVk9MOQ@mail.gmail.com>
-Message-ID: <CAD=FV=XV0+G=uFBE_n6WFGVW2szGcKToZgCNTdSrNf3LVk9MOQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/5] platform/chrome: Introduce device tree
- hardware prober
-To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-2-wenst@chromium.org>
+ <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
+In-Reply-To: <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 4 Dec 2023 14:28:20 +0800
+Message-ID: <CAGXv+5GiwgF4CJBPT7JucV8qEMY0jLAvT3TqRzvLjCKcVMZ0Mg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/5] of: dynamic: Add of_changeset_update_prop_string
+To: Doug Anderson <dianders@chromium.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -77,52 +67,42 @@ Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> =
-wrote:
+On Sat, Dec 2, 2023 at 9:01=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
 >
-> @@ -61,6 +61,17 @@ config CHROMEOS_TBMC
->           To compile this driver as a module, choose M here: the
->           module will be called chromeos_tbmc.
+> Hi,
 >
-> +config CHROMEOS_OF_HW_PROBER
-> +       bool "ChromeOS Device Tree Hardware Prober"
+> On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org=
+> wrote:
+> >
+> > @@ -1039,3 +1039,50 @@ int of_changeset_add_prop_u32_array(struct of_ch=
+angeset *ocs,
+> >         return ret;
+> >  }
+> >  EXPORT_SYMBOL_GPL(of_changeset_add_prop_u32_array);
+> > +
+> > +static int of_changeset_update_prop_helper(struct of_changeset *ocs,
+> > +                                          struct device_node *np,
+> > +                                          const struct property *pp)
+> > +{
+> > +       struct property *new_pp;
+> > +       int ret;
+> > +
+> > +       new_pp =3D __of_prop_dup(pp, GFP_KERNEL);
+> > +       if (!new_pp)
+> > +               return -ENOMEM;
+> > +
+> > +       ret =3D of_changeset_update_property(ocs, np, new_pp);
+> > +       if (ret) {
+> > +               kfree(new_pp->name);
+> > +               kfree(new_pp->value);
+> > +               kfree(new_pp);
+>
+> Given that this is the 3rd copy of the freeing logic, does it make
+> sense to make __of_prop_free() that's documented to free what was
+> returned by __of_prop_dupe()?
 
-Any reason that it can't be a module?
+Makes sense.  There's also one in property_list_free(). I'll add a patch
+for it.
 
-
-> +       depends on OF
-> +       depends on I2C
-> +       select OF_DYNAMIC
-> +       default OF
-
-You probably don't want "default OF". This means that everyone will
-automatically get this new driver enabled which is unlikely to be
-right.
-
-
-> +static int chromeos_of_hw_prober_probe(struct platform_device *pdev)
-> +{
-> +       for (size_t i =3D 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-> +               if (of_machine_is_compatible(hw_prober_platforms[i].compa=
-tible)) {
-> +                       int ret;
-> +
-> +                       ret =3D hw_prober_platforms[i].prober(&pdev->dev,
-> +                                                           hw_prober_pla=
-tforms[i].data);
-> +                       if (ret)
-
-Should it only check for -EPROBE_DEFER here? ...and then maybe warn
-for other cases and go through the loop? If there's some error
-enabling the touchscreen I'd still want the trackpad to probe...
-
-
-> +                               return ret;
-> +               }
-> +
-> +       return 0;
-
-Random thought: once we get here, the driver is useless / just wasting
-memory. Any way to have it freed? ;-)
+ChenYu

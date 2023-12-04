@@ -1,54 +1,55 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664163D8
-	for <chrome-platform@lists.linux.dev>; Mon,  4 Dec 2023 06:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEA0A21
+	for <chrome-platform@lists.linux.dev>; Mon,  4 Dec 2023 06:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ddOEUT+E"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50bdec453c8so2619773e87.3
-        for <chrome-platform@lists.linux.dev>; Sun, 03 Dec 2023 22:28:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I6sja8D+"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50bf8843a6fso445052e87.0
+        for <chrome-platform@lists.linux.dev>; Sun, 03 Dec 2023 22:59:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701671311; x=1702276111; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1701673180; x=1702277980; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
-        b=ddOEUT+E984Cwc/K7dt4QkM6Eg8Xpjf2o3LgRQMcFq05C6R5rFZFEo0qunPR++P9dI
-         fgjLykatlGFaf63fX+pPKCOIgzRzWKFbQVNU0pDX/M5G00aWuv7W7X2J/PQ6tSJs1x14
-         dKcDl7eBtv/nyFWxaRmAn4YnASn7M63/U/CI0=
+        bh=OTNkS8LTnRqCQunaTUOLLsKXlHNWnzfg0xMTKbfGJJg=;
+        b=I6sja8D+SW4m8i6ldJYeyEPNPQ71SQ7kXYYExy9dMHzEsGkbvlk4ML6MrwxdnmMj9n
+         fgeJ3O8tfihmkWenN9mUTo7O6kTgx1iiqq+bIfiIgij2nyME+Yahq/KUWuczvgACmLBV
+         Iw9NoqEeBeY7m9SEwmByu1GbxQS0x0QNmSus0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701671311; x=1702276111;
+        d=1e100.net; s=20230601; t=1701673180; x=1702277980;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
-        b=NXnSw0QKUWrNiaNvj+BeoPGEAvitzE+JTWhou32jGh/hrhLIr56yOPcMJVIz1GEBLv
-         Mbrn7ViVdkHJScQxDxvA3GTZDm/wNWnpjaBvH/0C2hj2Zb2DEl/BH1iC9o4Z3IubUFAo
-         sUxx/qxNeQ9ra2yGuu52daNJ6RbWaprax0eq4BRpRAJW+Z/P8w0xA82LEElTTN7mZN/J
-         NdbTUqbRqn6FU6IaUqZn7a41bpb5hUkgHwmHsTIithviBYLOkUs1yTnWZj7h2S/hw6OL
-         NppR6KTXlbnfevGfhky+VPP+Mgq7ydaBFZo4Fv3Pdy2X5ArEVyZELeCarsDN3HOZ/7Yg
-         R0Tw==
-X-Gm-Message-State: AOJu0YzhYPB5DDbiC/5cgHl/RJLBGKm9eJewWno6zqa3SwZe/Mrgp+FN
-	YVKNTNjYvkSTtmhYjatsvoeWdCVCiW9lUqng7F2W3Q==
-X-Google-Smtp-Source: AGHT+IG95fL6ZmhFrrdBZs1yHZpwJEkMdnWR6Z3TRg/FZYz0mqiHrefYfWV2agXhFMwbCcFaJSeavkE3C7jpb9RAWYc=
-X-Received: by 2002:a05:6512:368f:b0:50b:f88a:dd63 with SMTP id
- d15-20020a056512368f00b0050bf88add63mr334344lfs.102.1701671311129; Sun, 03
- Dec 2023 22:28:31 -0800 (PST)
+        bh=OTNkS8LTnRqCQunaTUOLLsKXlHNWnzfg0xMTKbfGJJg=;
+        b=NxuK2BhQBL6O7rGPCDsmu0ybiy6kMtE6OOPCf6ZuWJntQn2uJcx2Vy3ELotWf8x++M
+         m8iKVQQekNuMbVJjDjbumnh1Obw9/6caxB8J9X9ewWsRKHC1/vssbm3O+ahExdhTRCeK
+         3JtCpKjFY4ZM3O6RebljxUE7OGsbiVXMUqfi+X6SQtXagaX75UsMoFlcFNwq2uO1YBpu
+         JaVGTLnmASG225vSzRLQdXodzeqFV1fpEhGaDzk3pxBwRrjX1XdaFjRyyx1LhNBkqplL
+         oT7hJ21oPYcAt6LLFu0x3d1TRNhfsOh/kZT+Xo4OsFtiO7kpdFaQj72xyDENOFXTppKg
+         ln5g==
+X-Gm-Message-State: AOJu0YyTZUzrCQLljHy8L2Un09ATYYAUhK38Vk72e0XCbgc0XoaUWMG5
+	QXmpaSlapX09YTE+7UU5+uGcve3epIRfyjNAETfX3w==
+X-Google-Smtp-Source: AGHT+IHoyWO3QIHEBY5JdBrYFEV7xzgnarDfjr1JxVNq6dHU5EQ6tbsFVJqwEhCrsQ2CBaDRnPGYgwSDkHN9tbdxHX4=
+X-Received: by 2002:a05:6512:b9e:b0:50b:ed31:72a4 with SMTP id
+ b30-20020a0565120b9e00b0050bed3172a4mr1697429lfv.28.1701673180528; Sun, 03
+ Dec 2023 22:59:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-2-wenst@chromium.org>
- <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
-In-Reply-To: <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-5-wenst@chromium.org>
+ <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
+In-Reply-To: <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 4 Dec 2023 14:28:20 +0800
-Message-ID: <CAGXv+5GiwgF4CJBPT7JucV8qEMY0jLAvT3TqRzvLjCKcVMZ0Mg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] of: dynamic: Add of_changeset_update_prop_string
+Date: Mon, 4 Dec 2023 14:59:29 +0800
+Message-ID: <CAGXv+5E+R292XsOFSL-j0KJMmVJjWtxMRgCK8besP7mo6NDOWA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
+ touchscreens and trackpads as fail
 To: Doug Anderson <dianders@chromium.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -67,7 +68,7 @@ Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 2, 2023 at 9:01=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+On Sat, Dec 2, 2023 at 8:58=E2=80=AFAM Doug Anderson <dianders@chromium.org=
 > wrote:
 >
 > Hi,
@@ -75,34 +76,20 @@ On Sat, Dec 2, 2023 at 9:01=E2=80=AFAM Doug Anderson <dianders@chromium.org=
 > On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org=
 > wrote:
 > >
-> > @@ -1039,3 +1039,50 @@ int of_changeset_add_prop_u32_array(struct of_ch=
-angeset *ocs,
-> >         return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(of_changeset_add_prop_u32_array);
-> > +
-> > +static int of_changeset_update_prop_helper(struct of_changeset *ocs,
-> > +                                          struct device_node *np,
-> > +                                          const struct property *pp)
-> > +{
-> > +       struct property *new_pp;
-> > +       int ret;
-> > +
-> > +       new_pp =3D __of_prop_dup(pp, GFP_KERNEL);
-> > +       if (!new_pp)
-> > +               return -ENOMEM;
-> > +
-> > +       ret =3D of_changeset_update_property(ocs, np, new_pp);
-> > +       if (ret) {
-> > +               kfree(new_pp->name);
-> > +               kfree(new_pp->value);
-> > +               kfree(new_pp);
+> > @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
+> >                 reg =3D <0x2c>;
+> >                 hid-descr-addr =3D <0x0020>;
+> >                 wakeup-source;
+> > +               status =3D "fail-needs-probe";
 >
-> Given that this is the 3rd copy of the freeing logic, does it make
-> sense to make __of_prop_free() that's documented to free what was
-> returned by __of_prop_dupe()?
+> While doing this, you could also remove the hack where the trackpad
+> IRQ pinctrl is listed under i2c4.
 
-Makes sense.  There's also one in property_list_free(). I'll add a patch
-for it.
+Sure. I do think we can do away with it though. According to at least one
+schematic, the interrupt line has pull-ups on both sides of the voltage
+shifter.
+
+BTW, The touchscreen doesn't have pinctrl entries. This has pull-ups on
+both sides of the voltage shifter as well.
 
 ChenYu

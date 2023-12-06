@@ -1,122 +1,91 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A381DDD3
-	for <chrome-platform@lists.linux.dev>; Wed,  6 Dec 2023 10:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D22D7AF
+	for <chrome-platform@lists.linux.dev>; Wed,  6 Dec 2023 10:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QqSgwEI2"
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 73A4166072EC;
-	Wed,  6 Dec 2023 10:02:30 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701856952;
-	bh=cr+tV0XqzVvByUwmvFvRoMfvYN0mf8oLqsTQmUgIzdI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QqSgwEI2TEj20+Ep5cFRKALAPW2dGLQ+U6+O//hmeymH+I85vaA544p42v4fUIYGq
-	 kMTDOzwhdnCgN0qBdKruKDYPv5cEtZ/wsKeAU9n6p7vqnXjI0wXAidADulKD6AOpUG
-	 ++lhp2UKrtuta7g1DPvnGCIsleozW5Px79utFaF1GLkYQjuwKXpfBK+LyQauseX66+
-	 /Y2FfupnUpxOAnSQEA7GHWDWvXcJzC0hFTZzBg6ENhNKkqDhTNTlBifqMgGHYo2QKI
-	 xBmn+cRsEul8n19Mmgk7LsBm/5G5JIG0W5sBfdxuLyqMhsgDyv0h+ZHinXRZDricCI
-	 +SIkKoNwWXvew==
-Message-ID: <4b9ea82c-d1a4-47b6-ba03-346cfdedef05@collabora.com>
-Date: Wed, 6 Dec 2023 11:02:30 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XuHaHwcZ"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3333224c7b9so566467f8f.1
+        for <chrome-platform@lists.linux.dev>; Wed, 06 Dec 2023 02:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1701858858; x=1702463658; darn=lists.linux.dev;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PkqurgaRmjaLu2pCU3OGXo3U4UmjRqbubj+U5Qx3nMc=;
+        b=XuHaHwcZMyOrAX0n8qnko+chnhja/batpUu0A0sjcYBp6JGjqDkv5gMfmK0p8G12mf
+         aY+1kJADYWmV+9i0G5dq6nkPGiZgUHsuCR+FNvn9cqQ0tcGHhh9ka+csfpLSF5YjwJWu
+         7ZrsG2IJThJ1rp+AcicGX6A+mTRNMPvUa5JmY+2Kz3R6dWQpqxCM7ggHeXsyVPL2h3l9
+         Q0nqGXHu3Ype7+WPI0B/b3nbRFWDV8Jhj0OqG23+etOu7bouKpk35vQ/iEhUSM6nWg/2
+         O+6bl+B4be+RdIVplvWtuKIH83q2xWwyNByuXtcWS5zY6wX0WdFWivPHIGOv0nFVE4Jr
+         Uxlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701858858; x=1702463658;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PkqurgaRmjaLu2pCU3OGXo3U4UmjRqbubj+U5Qx3nMc=;
+        b=dCxZTakZkyF0tMSbcgYddr+RMWjqoZ75aSBcBZPFkjMINx9Mmq5HxfxQD/w9Pc6+px
+         /TTCXUlAbhYWpALUgGEWM/ZY7JU6dCkdc2aDZqZeixx2OoPcKQuOnkjzzC5+Lh1WqKeW
+         ERoqcAsSyVOM5t7GB54LBuoAH14/lXPiyA/X+scDXCAbuw86V/zciXuVdruiHwfu1N54
+         wRSFEmzhQ93qJlM97dMiEiq6oluLcSsSvG0SmQyRDZGcD/PPxuuARq1+kLMpcPEMKbTX
+         oXzZ7P0wRUOZtcfoZdi1ZMb3rHCcimrBYlNCjhcvfsgndrB4G8Z+/zhOKBJIv+Taxs4v
+         UumQ==
+X-Gm-Message-State: AOJu0YwylFJjAqlfbKU1XGi1KM4cd+z8r3AVpmklcRtRqVi+2xDPr5Rl
+	VMoGwlN/b+qQdk4bSgnkbZsS++uJpxpUdg0YmGigAA==
+X-Google-Smtp-Source: AGHT+IGydOHhQc8hj4pdsRCVfI7xupjllVV2cYAvnk9xvpQfdj1pdTOPuyTtnGm+kybSdb3zkcH1Dg==
+X-Received: by 2002:adf:e502:0:b0:333:48d7:f56 with SMTP id j2-20020adfe502000000b0033348d70f56mr346921wrm.49.1701858858376;
+        Wed, 06 Dec 2023 02:34:18 -0800 (PST)
+Received: from localhost ([193.86.92.180])
+        by smtp.gmail.com with ESMTPSA id q3-20020adff783000000b003332febec90sm14589786wrp.7.2023.12.06.02.34.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Dec 2023 02:34:18 -0800 (PST)
+From: Jiri Kosina <jkosina@suse.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Wed, 6 Dec 2023 11:34:18 +0100 (CET)
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+cc: Even Xu <even.xu@intel.com>, srinivas.pandruvada@linux.intel.com, 
+    bleung@chromium.org, groeck@chromium.org, linux-input@vger.kernel.org, 
+    chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functions
+ for connection
+In-Reply-To: <ZW_rdCJ7EdtmJYFz@google.com>
+Message-ID: <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
+References: <1701741033-26222-1-git-send-email-even.xu@intel.com> <1701741033-26222-5-git-send-email-even.xu@intel.com> <ZW_rdCJ7EdtmJYFz@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
- touchscreens and trackpads as fail
-Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
- linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org,
- hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
- keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de,
- Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
- linux-i2c@vger.kernel.org
-References: <20231128084236.157152-1-wenst@chromium.org>
- <20231128084236.157152-5-wenst@chromium.org>
- <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
- <CAGXv+5E+R292XsOFSL-j0KJMmVJjWtxMRgCK8besP7mo6NDOWA@mail.gmail.com>
- <CAD=FV=UQkAjgMuR85cPikNtCxsODWPWs7cibOcOoNGdjSSvF8Q@mail.gmail.com>
- <3700f05f-2411-4422-972f-f3df690efb84@collabora.com>
- <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Il 06/12/23 03:55, Chen-Yu Tsai ha scritto:
-> On Tue, Dec 5, 2023 at 6:22 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Il 04/12/23 17:50, Doug Anderson ha scritto:
->>> Hi,
->>>
->>> On Sun, Dec 3, 2023 at 10:59 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->>>>
->>>> On Sat, Dec 2, 2023 at 8:58 AM Doug Anderson <dianders@chromium.org> wrote:
->>>>>
->>>>> Hi,
->>>>>
->>>>> On Tue, Nov 28, 2023 at 12:45 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
->>>>>>
->>>>>> @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
->>>>>>                   reg = <0x2c>;
->>>>>>                   hid-descr-addr = <0x0020>;
->>>>>>                   wakeup-source;
->>>>>> +               status = "fail-needs-probe";
->>>>>
->>>>> While doing this, you could also remove the hack where the trackpad
->>>>> IRQ pinctrl is listed under i2c4.
->>>>
->>>> Sure. I do think we can do away with it though. According to at least one
->>>> schematic, the interrupt line has pull-ups on both sides of the voltage
->>>> shifter.
->>>>
->>>> BTW, The touchscreen doesn't have pinctrl entries. This has pull-ups on
->>>> both sides of the voltage shifter as well.
->>>
->>> I dunno if the convention is different on Mediatek boards, but at
->>> least on boards I've been involved with in the past we've always put
->>> pinctrl entries just to make things explicit. This meant that we
->>> didn't rely on the firmware/bootrom/defaults to leave pulls in any
->>> particular state. ...otherwise those external pull-ups could be
->>> fighting with internal pull-downs, right?
->>>
->>
->> MediaTek boards aren't special and there's no good reason for those to rely on
->> firmware/bootrom/defaults - so there is no good reason to avoid declaring any
->> relevant pinctrl entry.
-> 
-> I think this should be migrated to use the proper GPIO bindings: the
-> GPIO_PULL_UP / GPIO_PULL_DOWN / GPIO_BIAS_DISABLE flags.
-> 
-> But that's a different discussion.
-> 
+On Wed, 6 Dec 2023, Tzung-Bi Shih wrote:
 
-100% agreed.
+> On Tue, Dec 05, 2023 at 09:50:33AM +0800, Even Xu wrote:
+> > Use helper functions ishtp_cl_establish_connection() and
+> > ishtp_cl_destroy_connection() to establish and destroy connection
+> > respectively. These functions are used during initialization, reset and
+> > deinitialization flows.
+> > 
+> > No functional changes are expected.
+> > 
+> > Signed-off-by: Even Xu <even.xu@intel.com>
+> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> 
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Cheers,
-Angelo
+Thanks.
+
+> One minor suggestion: we usually use "platform/chrome:" instead of
+> "platform: chrome:" for the title prefix.
+
+I have changed that, and am taking it together with the rest of the series 
+through hid.git#for-6.8/intel-ish.
+
+-- 
+Jiri Kosina
+SUSE Labs
 

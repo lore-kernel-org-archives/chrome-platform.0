@@ -1,179 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5F7DDC1
-	for <chrome-platform@lists.linux.dev>; Wed,  6 Dec 2023 03:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A381DDD3
+	for <chrome-platform@lists.linux.dev>; Wed,  6 Dec 2023 10:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fse8YyuJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701834818; x=1733370818;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=WIWKonfZJFAuxILhx5W1SX+SNgv+bMLxW389qnRGY1o=;
-  b=Fse8YyuJnHmho0pAtOcCu3gGBr+zoTt7/ybuR8wHiz6DkMRi5Td1gUqd
-   uFjPYRr3y0ExxGNtLbOtsrFKeE+dadRDyo7Pv/8ndQSGKltR0LdcdZvrV
-   r96JaINS91QkTQDK6lqagPjvtvsZU3wg2qGxV9vEiVJFa9E/W9IW0M4Nj
-   JvEYxw93vEXV0MACfk23BpW7lF5plryEruLRrPcbPTLDBldomCN1qhEyh
-   /ITt9xe4DVFQBgSqa78h/QIeiwJt7aappAlkIrOLGzb70UA2wQAxDswVv
-   rCQ6Y67ebDEwXZWr3TiXSYI9izecf5USLqxvsaxSUa/5JW9Ep5nYsK7bD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="480198353"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="480198353"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 19:53:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="774857313"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="774857313"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Dec 2023 19:53:24 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Dec 2023 19:53:23 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Dec 2023 19:53:23 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 5 Dec 2023 19:53:23 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Tue, 5 Dec 2023 19:53:23 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WAaZZ9+FvGqztwA30uOhajJFPCXi5gwrKCrtIJTVQ/7P1CiSqvn3cjaBVtcX7NGxdXaOEtD7sK14Oi5Dj+Vbt7ZG7CkJu0c9io+uB17/pBoJ5NdQco3UVM4r5nfOEGzCmPUeiCFPlBf0L5Mpvtx8GyMWOl94q7p12AvqZ9CatS6H3VLaOvBzGbV6kPWx+kuKMHmnt5M7lzuSWRZ4RNEdVAb9Tbp/HZtEZV4LSzQ8DziWBc5Q2Coh+gFPLRd+MXTUMozUTqkFjrm627AGWSc/GKSh3YuwpmhtQIq4pnuIOrH3SHjNyPb5uaPgxVePqbXp0+NF48fmG5Tg+brzO5SxEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WIWKonfZJFAuxILhx5W1SX+SNgv+bMLxW389qnRGY1o=;
- b=bz4BfyrsPArz46s41/z65B4+zWlLsWnxZ5caC7OxWvDnU+2wPbAO2dpNbdv+fWVMTC0dqY2/9+obKRwC7FfuYxNcRvsJ8rUD/qpSeKcDuqFBR1ZBow7sNTIFNRNktu4t0hqW5Sxunubl12VUs4RaNRWIRbzz4+MHzmIql5/1qmrqFGaYjERDQBXZoOFquf/GSILDf5KMwYF6rImfwPQFd3UGMDxNbXcHwtvev1ryqOugPBRtTQgTJn/opP8N29OX8epStVtvWaV7QuvMdzDRuuMWXeHmzON/bZNWUL6LK1Pc79l9i2/nL2cS5l15rQIQwkzPljivNdWkjQBDBCKY1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB2618.namprd11.prod.outlook.com (2603:10b6:5:c0::30) by
- SA1PR11MB5876.namprd11.prod.outlook.com (2603:10b6:806:22a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Wed, 6 Dec
- 2023 03:53:21 +0000
-Received: from DM6PR11MB2618.namprd11.prod.outlook.com
- ([fe80::72c9:baf5:4298:34d9]) by DM6PR11MB2618.namprd11.prod.outlook.com
- ([fe80::72c9:baf5:4298:34d9%5]) with mapi id 15.20.7046.034; Wed, 6 Dec 2023
- 03:53:21 +0000
-From: "Xu, Even" <even.xu@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-CC: "jikos@kernel.org" <jikos@kernel.org>,
-	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
-	"bleung@chromium.org" <bleung@chromium.org>, "groeck@chromium.org"
-	<groeck@chromium.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "chrome-platform@lists.linux.dev"
-	<chrome-platform@lists.linux.dev>
-Subject: RE: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functions
- for connection
-Thread-Topic: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper
- functions for connection
-Thread-Index: AQHaJx2uw/KO/zzP6U+uHdhDNt8IrbCbm6AAgAAFY6A=
-Date: Wed, 6 Dec 2023 03:53:21 +0000
-Message-ID: <DM6PR11MB2618FC85A0DF5EC0016F86C2F484A@DM6PR11MB2618.namprd11.prod.outlook.com>
-References: <1701741033-26222-1-git-send-email-even.xu@intel.com>
- <1701741033-26222-5-git-send-email-even.xu@intel.com>
- <ZW_rdCJ7EdtmJYFz@google.com>
-In-Reply-To: <ZW_rdCJ7EdtmJYFz@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB2618:EE_|SA1PR11MB5876:EE_
-x-ms-office365-filtering-correlation-id: 30916182-77cb-4f13-30b0-08dbf60ee3da
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DUo51oo2p8zgiAKyktYh3PjxL2s6kyW8FUbUpcWi9LA4qcBNVGqT+GHw0c9CooR7zbktbMv1tanoMN5CWoopdqsgOzdbjh9LJGNdC/Y7jzGsqOS0Eu6CVef/FpHnGEeLFddL0mZcgMVS43wn7jaCa9PTJfNUmMyTHyC7lvSXjf4K8YgugFoCn+gpU1kkXZ4PounT4iNUIWe8NNRiCCXUsvUTmYzWID6FachxSfbJxR85Q0hp07TWm4r846DyZ4cOH8YDVK3OTsHFM1dLLn3fMT3YRx6dEZQc1GfgfJ4TiI44RDRKv2EOMBLKXNTHUC70cLynR/kVzTcICq57LK8kY4d6nRwF1NlmHXddFtLXZBhsWatG9mhzj/gt3t0ObKvEA0Md6OQX9syn3bIaF45tGCoEyotNdlt2Vn+rcOUixw09oyCuftf7E61fWHYeAJ6pI4IrH0LjmhwsfPPSp1v14XzoXP0XqDs2yTV++NQTjmVIcGUYs/+IjIrac/6q5PfvCk8TzUwViNCmSKPNPATkkSOzEHBFaS9jZJBsnlzsWr4kyrsFu4uPAQyhCfTYbd0F+DIvF/G5XkmJMOMAJ6KLA+Sw/PqqRzHNNg6a+IjBDVFUUHImLOtFqQK0YY+f5ItK
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2618.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(39860400002)(376002)(396003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(76116006)(66556008)(316002)(66946007)(66446008)(64756008)(54906003)(66476007)(38100700002)(2906002)(5660300002)(86362001)(33656002)(4744005)(41300700001)(38070700009)(4326008)(122000001)(8936002)(8676002)(82960400001)(52536014)(9686003)(53546011)(6506007)(7696005)(6916009)(26005)(83380400001)(55016003)(71200400001)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OfX/9UJG0iOjBMgFGi/y6LKyj7/6IBS51kqN+oyLWr+8qnrkx07mGZyUUzkX?=
- =?us-ascii?Q?BNBRllUStd8i/SYAYcijvaVqdglIwpxQRPaCStMbFx0fQqDeSGLu9CAQwkRu?=
- =?us-ascii?Q?NYv5eZAlBw6OSVVTf1vctWJrlyrES8HMe8NaYIgcyNy1hlf2zG90A70Nhjoh?=
- =?us-ascii?Q?0aE1aiex+zOEuTNxhaF3rHZ2Zq8tMmi0820KfK7GLVUjezY2no3WDoJ0P0+c?=
- =?us-ascii?Q?Wi9f7aFh+aanXXpSK6EsvsyFs+hNOHFNXlVXK1m0UNPrjPbO3CqBm5ptHYq0?=
- =?us-ascii?Q?LgGeKHSZLH7XreCZQV7YJ7ZEErRWx3f1c5jmiF4myZoMB7TGF8QrjKnGlkPW?=
- =?us-ascii?Q?c4qjwpEyUMXq/QO/3N4TSkxu7M3VfrAy19KTQCaBbgYP8XJ+2XfpeG8/ww9g?=
- =?us-ascii?Q?H7aasIAGSQXOouUUj8ix9VL64SAJXbIP728EguxAK5sNqh12NtznHZ9eGAkD?=
- =?us-ascii?Q?ney/XZmvcJgXVfb7+ZcCs9WZdNd+PZWs2Jzro7mDvrPcP/9jPuzBrDgXYXi5?=
- =?us-ascii?Q?kRY4DrL3PXprkXPVmgjgA2mHNBe2kIMpwGs8U7zia7DpES9kGdUBdB7BDkYE?=
- =?us-ascii?Q?oSXyOLAHe7EgP5p3ZV6FpI4B6CawttQzvyGbS6bQ7lru9Usf4cuBFLqx5opN?=
- =?us-ascii?Q?8Xx8ULl+aIlhkZZdY3Fws852qFm+8unok+klZVDMq9HNL/ic/lKD/vqeSGxV?=
- =?us-ascii?Q?qblEP2gnU/pTCUQxto5sTqgu4+fmTr6el0XlxTC9TneKQUAYDgWZsd3wGD0j?=
- =?us-ascii?Q?NhOz+3bZXHqM+wv/ZSJ8Gr/E1YkVSjZf6t7jh/skO0m0p81csOiFOFxylSrR?=
- =?us-ascii?Q?7P19puzizPZYxBNZp1TkyJtbBj0fdY1CCuF1GxmvUXSvpIIiYEQoR2ggFZRr?=
- =?us-ascii?Q?FtWARbWgj57zU4qksi4JN46dCkbnJtQvO3+qvZ1ZYWCgV0vxYcVtRPS8LH3m?=
- =?us-ascii?Q?8WXdAOJOBH2IrhjH9BrR8fhBmXP+GerrgjLU3BxHZlb+4Cfd/dGFNOwLWozb?=
- =?us-ascii?Q?l9Z9tchXZxnvvb2nmTJLd8goW1jgqpnJXAN7iwquUFf9tII2ujQIVTt3Q/tE?=
- =?us-ascii?Q?TpoMgQluA69Gn8SWLgpCPIhC/Tz2WFZSeHi4r1qM1u79h6iFPDtwhJ+PMf85?=
- =?us-ascii?Q?flcjb1Wy9+fULl49Nu0bjgf3oS/75yPohS8h9JT9ReD4uplV26Vr/G3JGBcd?=
- =?us-ascii?Q?O8hg8nrr/Q7OIzzAPM/EJkXg4LOsAIvwG4oj/8dvNHxZ79aPj+6LaIsHnC8z?=
- =?us-ascii?Q?oxpfWpomd0Gpv6ngeYsFKH8PLQP57TENOTNGkh4cbxW/HdoKRe2iiq5eLNJM?=
- =?us-ascii?Q?cKYnafP3q2JJhIgh+kfE4ynez/J/OaFJWHBG/tsTCdBLQRvi24Yi/AFHJ0Sx?=
- =?us-ascii?Q?mpyMT/ywaRRz4gETAClKfzMQNg3CNuxBw39+0YOg5zJfjn4UrkPrQgxui+P+?=
- =?us-ascii?Q?VhPDHJeiE5DMRkOi3ucpZJAPc8fwCa5QsFt8N3EGv/pnqBaibkiisfrl1LSh?=
- =?us-ascii?Q?I8Ykyh77a8OQwUxr9HXM7/LQhddcVA2wL0AWhnYi8Ts2NX698fGk+wCHnQnc?=
- =?us-ascii?Q?H9qFj1c+6kGTn3zZNns=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QqSgwEI2"
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 73A4166072EC;
+	Wed,  6 Dec 2023 10:02:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701856952;
+	bh=cr+tV0XqzVvByUwmvFvRoMfvYN0mf8oLqsTQmUgIzdI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QqSgwEI2TEj20+Ep5cFRKALAPW2dGLQ+U6+O//hmeymH+I85vaA544p42v4fUIYGq
+	 kMTDOzwhdnCgN0qBdKruKDYPv5cEtZ/wsKeAU9n6p7vqnXjI0wXAidADulKD6AOpUG
+	 ++lhp2UKrtuta7g1DPvnGCIsleozW5Px79utFaF1GLkYQjuwKXpfBK+LyQauseX66+
+	 /Y2FfupnUpxOAnSQEA7GHWDWvXcJzC0hFTZzBg6ENhNKkqDhTNTlBifqMgGHYo2QKI
+	 xBmn+cRsEul8n19Mmgk7LsBm/5G5JIG0W5sBfdxuLyqMhsgDyv0h+ZHinXRZDricCI
+	 +SIkKoNwWXvew==
+Message-ID: <4b9ea82c-d1a4-47b6-ba03-346cfdedef05@collabora.com>
+Date: Wed, 6 Dec 2023 11:02:30 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2618.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30916182-77cb-4f13-30b0-08dbf60ee3da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2023 03:53:21.5333
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W/+H72mS50LS6oUx6z+Nm3g+11qIzQ6WB/SCe3TN8/X5vT6oTz//fT+aOt47V8jXWTx+Y5AGo09W1dvdV/pN6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5876
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
+ touchscreens and trackpads as fail
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Doug Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
+ linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+ hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
+ keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de,
+ Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+ linux-i2c@vger.kernel.org
+References: <20231128084236.157152-1-wenst@chromium.org>
+ <20231128084236.157152-5-wenst@chromium.org>
+ <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
+ <CAGXv+5E+R292XsOFSL-j0KJMmVJjWtxMRgCK8besP7mo6NDOWA@mail.gmail.com>
+ <CAD=FV=UQkAjgMuR85cPikNtCxsODWPWs7cibOcOoNGdjSSvF8Q@mail.gmail.com>
+ <3700f05f-2411-4422-972f-f3df690efb84@collabora.com>
+ <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks Tzung-Bi!
+Il 06/12/23 03:55, Chen-Yu Tsai ha scritto:
+> On Tue, Dec 5, 2023 at 6:22 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Il 04/12/23 17:50, Doug Anderson ha scritto:
+>>> Hi,
+>>>
+>>> On Sun, Dec 3, 2023 at 10:59 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>>>>
+>>>> On Sat, Dec 2, 2023 at 8:58 AM Doug Anderson <dianders@chromium.org> wrote:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> On Tue, Nov 28, 2023 at 12:45 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>>>>>>
+>>>>>> @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
+>>>>>>                   reg = <0x2c>;
+>>>>>>                   hid-descr-addr = <0x0020>;
+>>>>>>                   wakeup-source;
+>>>>>> +               status = "fail-needs-probe";
+>>>>>
+>>>>> While doing this, you could also remove the hack where the trackpad
+>>>>> IRQ pinctrl is listed under i2c4.
+>>>>
+>>>> Sure. I do think we can do away with it though. According to at least one
+>>>> schematic, the interrupt line has pull-ups on both sides of the voltage
+>>>> shifter.
+>>>>
+>>>> BTW, The touchscreen doesn't have pinctrl entries. This has pull-ups on
+>>>> both sides of the voltage shifter as well.
+>>>
+>>> I dunno if the convention is different on Mediatek boards, but at
+>>> least on boards I've been involved with in the past we've always put
+>>> pinctrl entries just to make things explicit. This meant that we
+>>> didn't rely on the firmware/bootrom/defaults to leave pulls in any
+>>> particular state. ...otherwise those external pull-ups could be
+>>> fighting with internal pull-downs, right?
+>>>
+>>
+>> MediaTek boards aren't special and there's no good reason for those to rely on
+>> firmware/bootrom/defaults - so there is no good reason to avoid declaring any
+>> relevant pinctrl entry.
+> 
+> I think this should be migrated to use the proper GPIO bindings: the
+> GPIO_PULL_UP / GPIO_PULL_DOWN / GPIO_BIAS_DISABLE flags.
+> 
+> But that's a different discussion.
+> 
 
-Best Regards,
-Even Xu
+100% agreed.
 
------Original Message-----
-From: Tzung-Bi Shih <tzungbi@kernel.org>=20
-Sent: Wednesday, December 6, 2023 11:33 AM
-To: Xu, Even <even.xu@intel.com>
-Cc: jikos@kernel.org; srinivas.pandruvada@linux.intel.com; bleung@chromium.=
-org; groeck@chromium.org; linux-input@vger.kernel.org; chrome-platform@list=
-s.linux.dev
-Subject: Re: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functi=
-ons for connection
+Cheers,
+Angelo
 
-On Tue, Dec 05, 2023 at 09:50:33AM +0800, Even Xu wrote:
-> Use helper functions ishtp_cl_establish_connection() and
-> ishtp_cl_destroy_connection() to establish and destroy connection=20
-> respectively. These functions are used during initialization, reset=20
-> and deinitialization flows.
->=20
-> No functional changes are expected.
->=20
-> Signed-off-by: Even Xu <even.xu@intel.com>
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-One minor suggestion: we usually use "platform/chrome:" instead of
-"platform: chrome:" for the title prefix.

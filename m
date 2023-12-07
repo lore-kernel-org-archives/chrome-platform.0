@@ -1,44 +1,44 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449B132C7C
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Dec 2023 09:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0758232C68
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Dec 2023 09:08:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zc+ovWbX"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-5d3eafe3d17so3000337b3.1
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Dec 2023 01:08:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rIAp9/Xf"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-db54c11887aso935114276.1
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Dec 2023 01:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701940091; x=1702544891; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1701940093; x=1702544893; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOxIUa0mOiY57OqfSzMpsv9qbznTXMq+FnNhc0wRkZY=;
-        b=Zc+ovWbX8/NUmmwjQ35tDq2t+tAmFZ4Ksh9l576n5Ioz8KpPVFuIQXqrZGjOEL0csx
-         sQx4t3zUVeM5GZ07oAaBINmZ2CuPoDgA1Xf881SLNvZYMk0FLDlpqKsm7C4RW9EScsMV
-         nh6Svaz+vJUOfyMRR2KxM0hcbIfwxVBptQ7GFiN0AvTNaZe8krdoIiUnTeZ5AtlYMX1K
-         WKv2GfFFCgj/FiNrOMn37dJAWy4mhETJDYbrHRkW2PgWTliRknNjIYJIIVWg4NWv8ojY
-         Z/UTNBpeijtslbgJvNuZpEZQbMf3O0kY65poqWuaQSAQccEPew082R/sR5JWjQdBPTXP
-         AwDA==
+        bh=HcBBD4Ve+EnK0sA+7Oy5D//EjO8x9y3uJFnX5ru4dqg=;
+        b=rIAp9/XfpmlhSnX4gMdzGJzqHbvd5vM88yyuFJFBJpTN9Wy/abYCBG7fzcggM1i9zK
+         Hod8rfTKbocSFnQWSoE4PZUPa+VQyBRrTS0YNnzdkGlQDTJjgDmrLkfSOih0a9nkTP2J
+         x+TXKgaIOKDQgwkZ7g1oLDNTRXYl0dPSQOCbyh1CJu0841a8nk0/1UWevjfPfSlSalC5
+         G8IeOhq+t3bShrLWfOg6cLv+O1nFyauPBiVDxXb4LxHFhhoTk4pNOKOBGxwdQJ3O3NeJ
+         HphdQ9VFHT8SvzGFYMBPHv8nVqDh7SXZrzVKX49088S3X4cTnPYuuGc6aDRH8nkzx7g3
+         cWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701940091; x=1702544891;
+        d=1e100.net; s=20230601; t=1701940093; x=1702544893;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOxIUa0mOiY57OqfSzMpsv9qbznTXMq+FnNhc0wRkZY=;
-        b=fb7nH9bVZzykoZTWXo63fQyp+5UzF1ErZ0erphC4q6PzbkpY/Aq+/47u59/WGIixuP
-         zBxOF5rcbLSnqOlKR8lufgm8p0gD2p8ee3jD8HOLasWHEzliAoX/Fy6RztSugvVupNyC
-         7/eRBqW0nyHc+SJwXOz+4nSzbBewwbbRYInuEqopPl4AedOU/vONLXlSpi/zyMVOx2ua
-         qwouWYe3wj8fYFqy29PgJTCuUxoYsMn7SRqkrWAIyc3/x3Xi+8CdDA7bviZhmZ/8nCY+
-         tGJCYiw3lqrHg0uFhMJDz7swiEsRjMwJ1MMhDHpe7zV0sFVRgBdbldNv3tHZEeyMnzVP
-         zfJg==
-X-Gm-Message-State: AOJu0YyBsI2WAcC98nG36X2Tg6O1iPpMQPJiLr8AgGoYDcAGmBzxGrZX
-	1cbgDlkUsPRA6BXOnWFtGLa4etd1QjMzuAU=
-X-Google-Smtp-Source: AGHT+IFhZ3nR+8KirEVwsULnaxyUKLQfH88N7uw+lgRjFtxWBKXn/USasJNfSEPdIrcrjCboEILo6ZjPrWGzpVM=
+        bh=HcBBD4Ve+EnK0sA+7Oy5D//EjO8x9y3uJFnX5ru4dqg=;
+        b=fw4wX4UH3N9nA18oLlrGj1HWUtWs0zmmcqxv5D97uwG5kuIW2nFgIsRRH9j+BGTiLV
+         PbB9SX2tR5TE6jCZUZ9PCSKeJZ/fc97ZBWW9Yb8Ldl2qRr7Jm5CYwzIx7qjP/JOvWpMB
+         xYJk1ZTnGF90kGwS/YlQbrdakI5Wy6m4tOPREs7bkxGES5mONZYIhwb++e0nnHf1Olvy
+         ESaUV1VyrzqhfvxMunyNFQ+xSFIfQ+008EEWmtPUlPPzzFrpcg6lDRSW/OCIDPTb9wJH
+         CjBCWyoxHprRlHPNk1rqlyY2ClePeZvVcfuZ5x0fcJGcHDOuS7v7K0CBxbh8CRnNX9op
+         SnUA==
+X-Gm-Message-State: AOJu0YyVBekHzNm/4cKOsCoMvEBHVWLDzxr7L9MCz0gzmWlsg6xovywW
+	bjk9+qjDgxaZjZ/xGw11l3FdFqqGHIt0vig=
+X-Google-Smtp-Source: AGHT+IEqB/j07MaxmdfrGiH6cpjewMzzjxAe0aX1PjsLmlRZovJi+MS6ODabqF7RJKBqphBvuoBj2o30uU2WZ9g=
 X-Received: from rdbabiera.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:18a8])
- (user=rdbabiera job=sendgmr) by 2002:a25:bccd:0:b0:d9a:ca20:1911 with SMTP id
- l13-20020a25bccd000000b00d9aca201911mr120118ybm.4.1701940091379; Thu, 07 Dec
- 2023 01:08:11 -0800 (PST)
-Date: Thu,  7 Dec 2023 09:07:39 +0000
+ (user=rdbabiera job=sendgmr) by 2002:a25:ca92:0:b0:db5:47c1:e82d with SMTP id
+ a140-20020a25ca92000000b00db547c1e82dmr25759ybg.6.1701940093019; Thu, 07 Dec
+ 2023 01:08:13 -0800 (PST)
+Date: Thu,  7 Dec 2023 09:07:40 +0000
 In-Reply-To: <20231207090738.15721-12-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -48,14 +48,14 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20231207090738.15721-12-rdbabiera@google.com>
 X-Developer-Key: i=rdbabiera@google.com; a=openpgp; fpr=639A331F1A21D691815CE090416E17CA2BBBD5C8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=16551; i=rdbabiera@google.com;
- h=from:subject; bh=GyGKDkjvo0LOYMx9j3TE67tGed7UrJIe0wrGn8Pp3D8=;
- b=owGbwMvMwCFW0bfok0KS4TbG02pJDKmF3XE31geyvFn3ob3SR9OxSDwl/+bawLS06ocTWox2H
- 85KPCfXUcrCIMbBICumyKLrn2dw40rqljmcNcYwc1iZQIYwcHEKwESWWDD8d0g/4fA+/6laXIHv
- Zct3XfIHa5WUNbY9sBDQuD05ceNcLYb/0fcSpK+sZlNYclJpmQhLkJPBX58vOz5Z9P9sefRTzvY gBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1088; i=rdbabiera@google.com;
+ h=from:subject; bh=Go8QEr2NQzBwcUwozRZWWtLanmmY65Hze1InDnkaM4E=;
+ b=owGbwMvMwCFW0bfok0KS4TbG02pJDKmF3XGTak3qtp3775Bx7lDlfW9pvog9Gps3eD66ctWcI
+ UTu/wyLjlIWBjEOBlkxRRZd/zyDG1dSt8zhrDGGmcPKBDKEgYtTACaSbc3I8D56Tv+fy5e8F1y8
+ UHys9lNUUx1X6rJnZ1dtesd5oCVKKJPhn62M8nfGR7/9De/2LjC8UpU5w/h/+G3xeLMbPhP/rL8 XyAUA
 X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-Message-ID: <20231207090738.15721-20-rdbabiera@google.com>
-Subject: [PATCH v1 08/10] usb: typec: tcpm: add mode data message support for SOP'
+Message-ID: <20231207090738.15721-21-rdbabiera@google.com>
+Subject: [PATCH v1 09/10] usb: typec: altmodes: add typec_altmode_get_cable_svdm_version
 From: RD Babiera <rdbabiera@google.com>
 To: heikki.krogerus@linux.intel.com, linux@roeck-us.net, 
 	gregkh@linuxfoundation.org, pmalani@chromium.org, bleung@chromium.org, 
@@ -65,472 +65,35 @@ Cc: badhri@google.com, tzungbi@kernel.org, utkarsh.h.patel@intel.com,
 	andriy.shevchenko@linux.intel.com, RD Babiera <rdbabiera@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Adds Discover SVIDs and Discover Modes support for SOP' and Alt Mode
-SVDM support over SOP'. tcpm_port adds separate Alt Mode data for SOP'.
-
-svdm_consume_svids and svdm_consume_modes take the received SVDM's SOP*
-type to store svids/modes separately, and tcpm_register_plug_altmodes
-registers the active cable's alt modes.
-
-In tcpm_pd_svdm, the port will send Discover SVIDs to SOP' after Discover
-Modes on SOP if the connected cable is an active cable. Discover Modes on
-SOP' is sent following Discover SVIDs on SOP. Registering partner alt modes
-is delayed when an active cable is present until Discover Modes completes
-on SOP', or if the Discover SVIDs/Discover Modes request on SOP' encounters
-a transmission error.
-
-tcpm_queue_vdm_unlocked now takes tx_sop_type as input, and two helpers are
-implemented to convert between typec_altmode_transmit_type and
-tcpm_transmit_type. Alt Mode drivers will now receive SVDMs over SOP' and
-can send when applicable.
+Add typec_altmode_get_cable_svdm_version to return the cable's negotiated
+svdm_version.
 
 Signed-off-by: RD Babiera <rdbabiera@google.com>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 260 ++++++++++++++++++++++++++++------
- 1 file changed, 218 insertions(+), 42 deletions(-)
+ include/linux/usb/typec_altmode.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index f55bcbe6f031..b84cc4755efe 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -465,7 +465,9 @@ struct tcpm_port {
- 
- 	/* Alternate mode data */
- 	struct pd_mode_data mode_data;
-+	struct pd_mode_data mode_data_prime;
- 	struct typec_altmode *partner_altmode[ALTMODE_DISCOVERY_MAX];
-+	struct typec_altmode *plug_prime_altmode[ALTMODE_DISCOVERY_MAX];
- 	struct typec_altmode *port_altmode[ALTMODE_DISCOVERY_MAX];
- 
- 	/* Deadline in jiffies to exit src_try_wait state */
-@@ -1547,10 +1549,10 @@ static void tcpm_queue_vdm(struct tcpm_port *port, const u32 header,
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index 4d527d92457d..1ad581c5a930 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -156,6 +156,16 @@ typec_altmode_get_svdm_version(struct typec_altmode *altmode)
+ 	return typec_get_negotiated_svdm_version(typec_altmode2port(altmode));
  }
  
- static void tcpm_queue_vdm_unlocked(struct tcpm_port *port, const u32 header,
--				    const u32 *data, int cnt)
-+				    const u32 *data, int cnt, enum tcpm_transmit_type tx_sop_type)
- {
- 	mutex_lock(&port->lock);
--	tcpm_queue_vdm(port, header, data, cnt, TCPC_TX_SOP);
-+	tcpm_queue_vdm(port, header, data, cnt, tx_sop_type);
- 	mutex_unlock(&port->lock);
- }
- 
-@@ -1629,9 +1631,11 @@ static void svdm_consume_identity_sop_prime(struct tcpm_port *port, const u32 *p
- 	}
- }
- 
--static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
-+static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt,
-+			       enum tcpm_transmit_type rx_sop_type)
- {
--	struct pd_mode_data *pmdata = &port->mode_data;
-+	struct pd_mode_data *pmdata = rx_sop_type == TCPC_TX_SOP_PRIME ?
-+				      &port->mode_data_prime : &port->mode_data;
- 	int i;
- 
- 	for (i = 1; i < cnt; i++) {
-@@ -1677,14 +1681,30 @@ static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
- 	return false;
- }
- 
--static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt)
-+static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt,
-+			       enum tcpm_transmit_type rx_sop_type)
-+
- {
- 	struct pd_mode_data *pmdata = &port->mode_data;
- 	struct typec_altmode_desc *paltmode;
- 	int i;
- 
--	if (pmdata->altmodes >= ARRAY_SIZE(port->partner_altmode)) {
--		/* Already logged in svdm_consume_svids() */
-+	switch (rx_sop_type) {
-+	case TCPC_TX_SOP_PRIME:
-+		pmdata = &port->mode_data_prime;
-+		if (pmdata->altmodes >= ARRAY_SIZE(port->plug_prime_altmode)) {
-+			/* Already logged in svdm_consume_svids() */
-+			return;
-+		}
-+		break;
-+	case TCPC_TX_SOP:
-+		pmdata = &port->mode_data;
-+		if (pmdata->altmodes >= ARRAY_SIZE(port->partner_altmode)) {
-+			/* Already logged in svdm_consume_svids() */
-+			return;
-+		}
-+		break;
-+	default:
- 		return;
- 	}
- 
-@@ -1722,7 +1742,28 @@ static void tcpm_register_partner_altmodes(struct tcpm_port *port)
- 	}
- }
- 
-+static void tcpm_register_plug_altmodes(struct tcpm_port *port)
++/**
++ * typec_altmode_get__cable_svdm_version - Get negotiated SVDM version for cable plug
++ * @altmode: Handle to the alternate mode
++ */
++static inline int
++typec_altmode_get_cable_svdm_version(struct typec_altmode *altmode)
 +{
-+	struct pd_mode_data *modep = &port->mode_data_prime;
-+	struct typec_altmode *altmode;
-+	int i;
-+
-+	typec_plug_set_num_altmodes(port->plug_prime, modep->altmodes);
-+
-+	for (i = 0; i < modep->altmodes; i++) {
-+		altmode = typec_plug_register_altmode(port->plug_prime,
-+						&modep->altmode_desc[i]);
-+		if (IS_ERR(altmode)) {
-+			tcpm_log(port, "Failed to register plug SVID 0x%04x",
-+				 modep->altmode_desc[i].svid);
-+			altmode = NULL;
-+		}
-+		port->plug_prime_altmode[i] = altmode;
-+	}
++	return typec_get_cable_svdm_version(typec_altmode2port(altmode));
 +}
 +
- #define supports_modal(port)	PD_IDH_MODAL_SUPP((port)->partner_ident.id_header)
-+#define supports_modal_cable(port)	PD_IDH_MODAL_SUPP((port)->cable_ident.id_header)
- #define supports_host(port)	PD_IDH_HOST_SUPP((port->partner_ident.id_header))
- 
- /*
-@@ -1800,6 +1841,14 @@ static bool tcpm_attempt_vconn_swap_discovery(struct tcpm_port *port)
- 	return false;
- }
- 
-+static bool tcpm_cable_vdm_supported(struct tcpm_port *port)
-+{
-+	return !IS_ERR_OR_NULL(port->cable) &&
-+	       typec_cable_is_active(port->cable) &&
-+	       supports_modal_cable(port) &&
-+	       tcpm_can_communicate_sop_prime(port);
-+}
-+
- static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 			const u32 *p, int cnt, u32 *response,
- 			enum adev_actions *adev_action,
-@@ -1807,8 +1856,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 			enum tcpm_transmit_type *response_tx_sop_type)
- {
- 	struct typec_port *typec = port->typec_port;
--	struct typec_altmode *pdev;
--	struct pd_mode_data *modep;
-+	struct typec_altmode *pdev, *pdev_prime;
-+	struct pd_mode_data *modep, *modep_prime;
- 	int svdm_version;
- 	int rlen = 0;
- 	int cmd_type;
-@@ -1822,13 +1871,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 	tcpm_log(port, "Rx VDM cmd 0x%x type %d cmd %d len %d",
- 		 p[0], cmd_type, cmd, cnt);
- 
--	modep = &port->mode_data;
--
--	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
--				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
--
- 	switch (rx_sop_type) {
- 	case TCPC_TX_SOP_PRIME:
-+		modep_prime = &port->mode_data_prime;
-+		pdev_prime = typec_match_altmode(port->plug_prime_altmode,
-+						 ALTMODE_DISCOVERY_MAX,
-+						 PD_VDO_VID(p[0]),
-+						 PD_VDO_OPOS(p[0]));
- 		svdm_version = typec_get_cable_svdm_version(typec);
- 		/*
- 		 * Update SVDM version if cable was discovered before port partner.
-@@ -1839,11 +1888,21 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 		}
- 		break;
- 	case TCPC_TX_SOP:
-+		modep = &port->mode_data;
-+		pdev = typec_match_altmode(port->partner_altmode,
-+					   ALTMODE_DISCOVERY_MAX,
-+					   PD_VDO_VID(p[0]),
-+					   PD_VDO_OPOS(p[0]));
- 		svdm_version = typec_get_negotiated_svdm_version(typec);
- 		if (svdm_version < 0)
- 			return 0;
- 		break;
- 	default:
-+		modep = &port->mode_data;
-+		pdev = typec_match_altmode(port->partner_altmode,
-+					   ALTMODE_DISCOVERY_MAX,
-+					   PD_VDO_VID(p[0]),
-+					   PD_VDO_OPOS(p[0]));
- 		svdm_version = typec_get_negotiated_svdm_version(typec);
- 		if (svdm_version < 0)
- 			return 0;
-@@ -1935,6 +1994,9 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 		 * SOP'		Discover Identity
- 		 * SOP		Discover SVIDs
- 		 *		Discover Modes
-+		 * (Active Cables)
-+		 * SOP'		Discover SVIDs
-+		 *		Discover Modes
- 		 *
- 		 * Perform Discover SOP' if the port can communicate with cable
- 		 * plug.
-@@ -2010,37 +2072,92 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 			}
- 			break;
- 		case CMD_DISCOVER_SVID:
-+			*response_tx_sop_type = rx_sop_type;
- 			/* 6.4.4.3.2 */
--			if (svdm_consume_svids(port, p, cnt)) {
-+			if (svdm_consume_svids(port, p, cnt, rx_sop_type)) {
- 				response[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
- 				rlen = 1;
--			} else if (modep->nsvids && supports_modal(port)) {
--				response[0] = VDO(modep->svids[0], 1, svdm_version,
--						  CMD_DISCOVER_MODES);
--				rlen = 1;
-+			} else {
-+				if (rx_sop_type == TCPC_TX_SOP) {
-+					if (modep->nsvids && supports_modal(port)) {
-+						response[0] = VDO(modep->svids[0], 1, svdm_version,
-+								CMD_DISCOVER_MODES);
-+						rlen = 1;
-+					}
-+				} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-+					if (modep_prime->nsvids) {
-+						response[0] = VDO(modep_prime->svids[0], 1,
-+								  svdm_version, CMD_DISCOVER_MODES);
-+						rlen = 1;
-+					}
-+				}
- 			}
- 			break;
- 		case CMD_DISCOVER_MODES:
--			/* 6.4.4.3.3 */
--			svdm_consume_modes(port, p, cnt);
--			modep->svid_index++;
--			if (modep->svid_index < modep->nsvids) {
--				u16 svid = modep->svids[modep->svid_index];
--				response[0] = VDO(svid, 1, svdm_version, CMD_DISCOVER_MODES);
--				rlen = 1;
--			} else {
--				tcpm_register_partner_altmodes(port);
-+			if (rx_sop_type == TCPC_TX_SOP) {
-+				/* 6.4.4.3.3 */
-+				svdm_consume_modes(port, p, cnt, rx_sop_type);
-+				modep->svid_index++;
-+				if (modep->svid_index < modep->nsvids) {
-+					u16 svid = modep->svids[modep->svid_index];
-+					*response_tx_sop_type = TCPC_TX_SOP;
-+					response[0] = VDO(svid, 1, svdm_version,
-+							  CMD_DISCOVER_MODES);
-+					rlen = 1;
-+				} else if (tcpm_cable_vdm_supported(port)) {
-+					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
-+					response[0] = VDO(USB_SID_PD, 1,
-+							  typec_get_cable_svdm_version(typec),
-+							  CMD_DISCOVER_SVID);
-+					rlen = 1;
-+				} else {
-+					tcpm_register_partner_altmodes(port);
-+				}
-+			} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-+				/* 6.4.4.3.3 */
-+				svdm_consume_modes(port, p, cnt, rx_sop_type);
-+				modep_prime->svid_index++;
-+				if (modep_prime->svid_index < modep_prime->nsvids) {
-+					u16 svid = modep_prime->svids[modep_prime->svid_index];
-+					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
-+					response[0] = VDO(svid, 1,
-+							  typec_get_cable_svdm_version(typec),
-+							  CMD_DISCOVER_MODES);
-+					rlen = 1;
-+				} else {
-+					tcpm_register_plug_altmodes(port);
-+					tcpm_register_partner_altmodes(port);
-+				}
- 			}
- 			break;
- 		case CMD_ENTER_MODE:
--			if (adev && pdev)
--				*adev_action = ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL;
-+			if (rx_sop_type == TCPC_TX_SOP) {
-+				if (adev && pdev) {
-+					typec_altmode_update_active(pdev, true);
-+					*adev_action = ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL;
-+				}
-+			} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-+				if (adev && pdev_prime) {
-+					typec_altmode_update_active(pdev_prime, true);
-+					*adev_action = ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL;
-+				}
-+			}
- 			return 0;
- 		case CMD_EXIT_MODE:
--			if (adev && pdev) {
--				/* Back to USB Operation */
--				*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
--				return 0;
-+			if (rx_sop_type == TCPC_TX_SOP) {
-+				if (adev && pdev) {
-+					typec_altmode_update_active(pdev, false);
-+					/* Back to USB Operation */
-+					*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
-+					return 0;
-+				}
-+			} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-+				if (adev && pdev_prime) {
-+					typec_altmode_update_active(pdev_prime, false);
-+					/* Back to USB Operation */
-+					*adev_action = ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL;
-+					return 0;
-+				}
- 			}
- 			break;
- 		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
-@@ -2092,6 +2209,30 @@ static void tcpm_pd_handle_msg(struct tcpm_port *port,
- 			       enum pd_msg_request message,
- 			       enum tcpm_ams ams);
- 
-+static enum typec_altmode_transmit_type tcpm_to_altmode_tx_type(enum tcpm_transmit_type tx_type)
-+{
-+	switch (tx_type) {
-+	case TCPC_TX_SOP_PRIME:
-+		return TYPEC_ALTMODE_SOP_PRIME;
-+	case TCPC_TX_SOP:
-+		return TYPEC_ALTMODE_SOP;
-+	default:
-+		return TYPEC_ALTMODE_SOP;
-+	}
-+}
-+
-+static enum tcpm_transmit_type altmode_to_tcpm_tx_type(enum typec_altmode_transmit_type tx_type)
-+{
-+	switch (tx_type) {
-+	case TYPEC_ALTMODE_SOP_PRIME:
-+		return TCPC_TX_SOP_PRIME;
-+	case TYPEC_ALTMODE_SOP:
-+		return TCPC_TX_SOP;
-+	default:
-+		return TCPC_TX_SOP;
-+	}
-+}
-+
- static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 				    const __le32 *payload, int cnt,
- 				    enum tcpm_transmit_type rx_sop_type)
-@@ -2170,13 +2311,16 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 			break;
- 		case ADEV_NOTIFY_USB_AND_QUEUE_VDM:
- 			WARN_ON(typec_altmode_notify(adev, TYPEC_STATE_USB, NULL));
--			typec_altmode_vdm(adev, p[0], &p[1], cnt, TYPEC_ALTMODE_SOP);
-+			typec_altmode_vdm(adev, p[0], &p[1], cnt,
-+					  tcpm_to_altmode_tx_type(rx_sop_type));
- 			break;
- 		case ADEV_QUEUE_VDM:
--			typec_altmode_vdm(adev, p[0], &p[1], cnt, TYPEC_ALTMODE_SOP);
-+			typec_altmode_vdm(adev, p[0], &p[1], cnt,
-+					  tcpm_to_altmode_tx_type(rx_sop_type));
- 			break;
- 		case ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL:
--			if (typec_altmode_vdm(adev, p[0], &p[1], cnt, TYPEC_ALTMODE_SOP)) {
-+			if (typec_altmode_vdm(adev, p[0], &p[1], cnt,
-+					      tcpm_to_altmode_tx_type(rx_sop_type))) {
- 				int svdm_version = typec_get_negotiated_svdm_version(
- 									port->typec_port);
- 				if (svdm_version < 0)
-@@ -2410,6 +2554,16 @@ static void vdm_run_state_machine(struct tcpm_port *port)
- 				tcpm_queue_vdm(port, response[0], &response[1],
- 					       0, TCPC_TX_SOP);
- 				break;
-+			/*
-+			 * If Discover SVIDs or Discover Modes fail, then
-+			 * proceed with Alt Mode discovery process on SOP.
-+			 */
-+			case CMD_DISCOVER_SVID:
-+				tcpm_register_partner_altmodes(port);
-+				break;
-+			case CMD_DISCOVER_MODES:
-+				tcpm_register_partner_altmodes(port);
-+				break;
- 			default:
- 				break;
- 			}
-@@ -2605,14 +2759,20 @@ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo,
- 	int svdm_version;
- 	u32 header;
- 
--	svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
-+	if (tx_sop_type == TYPEC_ALTMODE_SOP_PRIME && !tcpm_cable_vdm_supported(port))
-+		return -EPERM;
-+
-+	svdm_version = tx_sop_type == TYPEC_ALTMODE_SOP ?
-+		       typec_get_negotiated_svdm_version(port->typec_port) :
-+		       typec_get_cable_svdm_version(port->typec_port);
- 	if (svdm_version < 0)
- 		return svdm_version;
- 
- 	header = VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTER_MODE);
- 	header |= VDO_OPOS(altmode->mode);
- 
--	tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0);
-+	tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0,
-+				altmode_to_tcpm_tx_type(tx_sop_type));
- 	return 0;
- }
- 
-@@ -2623,14 +2783,20 @@ static int tcpm_altmode_exit(struct typec_altmode *altmode,
- 	int svdm_version;
- 	u32 header;
- 
--	svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
-+	if (tx_sop_type == TYPEC_ALTMODE_SOP_PRIME && !tcpm_cable_vdm_supported(port))
-+		return -EPERM;
-+
-+	svdm_version = tx_sop_type == TYPEC_ALTMODE_SOP ?
-+		       typec_get_negotiated_svdm_version(port->typec_port) :
-+		       typec_get_cable_svdm_version(port->typec_port);
- 	if (svdm_version < 0)
- 		return svdm_version;
- 
- 	header = VDO(altmode->svid, 1, svdm_version, CMD_EXIT_MODE);
- 	header |= VDO_OPOS(altmode->mode);
- 
--	tcpm_queue_vdm_unlocked(port, header, NULL, 0);
-+	tcpm_queue_vdm_unlocked(port, header, NULL, 0,
-+				altmode_to_tcpm_tx_type(tx_sop_type));
- 	return 0;
- }
- 
-@@ -2640,7 +2806,11 @@ static int tcpm_altmode_vdm(struct typec_altmode *altmode,
- {
- 	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
- 
--	tcpm_queue_vdm_unlocked(port, header, data, count - 1);
-+	if (tx_sop_type == TYPEC_ALTMODE_SOP_PRIME && !tcpm_cable_vdm_supported(port))
-+		return -EPERM;
-+
-+	tcpm_queue_vdm_unlocked(port, header, data, count - 1,
-+				altmode_to_tcpm_tx_type(tx_sop_type));
- 
- 	return 0;
- }
-@@ -4126,14 +4296,20 @@ static void tcpm_typec_disconnect(struct tcpm_port *port)
- static void tcpm_unregister_altmodes(struct tcpm_port *port)
- {
- 	struct pd_mode_data *modep = &port->mode_data;
-+	struct pd_mode_data *modep_prime = &port->mode_data_prime;
- 	int i;
- 
- 	for (i = 0; i < modep->altmodes; i++) {
- 		typec_unregister_altmode(port->partner_altmode[i]);
- 		port->partner_altmode[i] = NULL;
- 	}
-+	for (i = 0; i < modep_prime->altmodes; i++) {
-+		typec_unregister_altmode(port->plug_prime_altmode[i]);
-+		port->plug_prime_altmode[i] = NULL;
-+	}
- 
- 	memset(modep, 0, sizeof(*modep));
-+	memset(modep_prime, 0, sizeof(*modep_prime));
- }
- 
- static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capable)
+ /**
+  * struct typec_altmode_driver - USB Type-C alternate mode device driver
+  * @id_table: Null terminated array of SVIDs
 -- 
 2.43.0.rc2.451.g8631bc7472-goog
 

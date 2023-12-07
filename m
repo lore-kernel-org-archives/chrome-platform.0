@@ -1,41 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E915027D;
-	Thu,  7 Dec 2023 20:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0AB4F8B5;
+	Thu,  7 Dec 2023 21:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCt1qvDa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvQISNyQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701981237; x=1733517237;
+  t=1701983220; x=1733519220;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SPK2zasUPN95+NP/auAttA6k+ge4mGcg7RBWFAT4m1U=;
-  b=kCt1qvDaMdXsMYqR0qzhCWCKPUUfuiAzshqVcRXmHgikn76HdK0wlGkI
-   9U7HmXo+1Bx3xakelD7zytH+1A7VPpQG9AfBUMk/yn6H6Hca4rPyTzfim
-   635cwVzfMmA9jUpo04nsII6FES1qpU46dDovJLA0ftkjhoxC6jKwpbCWa
-   O5g5WbEAsy2nAmc5O6FaMpfnjCYUQy8CiOMuH+gUndBYgjrcv8WdVglQF
-   i1Jigwt2F13MHh3hkXUqOPZQ+aVZrrWRzWk/XsMQXUxbTTYcQqZ2XZtYp
-   q8YJpXGdoTJZPO40aLv5oYD/087+V3yRQ//a4zlZN6muW14+id4VukKq7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="379306316"
+  bh=V6wLJvnYVZuqFU6wsOOkiefEh9B/YqDJrTu7OOqvU+c=;
+  b=MvQISNyQ3CxveJEH/YUsTXiCsAlO0uqLyWaICDotHYYQMx1KL+qCa/dG
+   3z0hvSoY6v6K0Y94IEkKmXcePH9/W32RE3Qz5J2w8ZCo4J5Q8Ei4GmSNU
+   MX59qBXFJUpPKz0tjt9LLKCgAT58zudeXDGNxdxaBTOQ2GugtKBBQlwdl
+   uZN89ZBr16HX14Ga20bkBE1pjmePiv5fvfKh7CdJd1OxREyZfG1jEyL/a
+   8+up/p5MumoNVPkDftgQ2t4dkXKdAcTuSdhLscXECyrU/sfde5mhShzNm
+   E48GpI++GhpRT1lidLxIKkL5n1cqGRqat1IYSnw+GUT2KQb5GetmClytP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="460789356"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="379306316"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:57 -0800
+   d="scan'208";a="460789356"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:06:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="915695873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="889871123"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="915695873"
+   d="scan'208";a="889871123"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2023 13:06:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBL4B-000Cnh-1q;
-	Thu, 07 Dec 2023 20:33:51 +0000
-Date: Fri, 8 Dec 2023 04:33:32 +0800
+	id 1rBLa8-000CpH-1e;
+	Thu, 07 Dec 2023 21:06:52 +0000
+Date: Fri, 8 Dec 2023 05:06:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
 	linux@roeck-us.net, gregkh@linuxfoundation.org,
@@ -48,7 +48,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
 	RD Babiera <rdbabiera@google.com>
 Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
  alternate mode drivers
-Message-ID: <202312080436.1iwq0THA-lkp@intel.com>
+Message-ID: <202312080453.iQ1jSiLY-lkp@intel.com>
 References: <20231207090738.15721-13-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -70,48 +70,68 @@ url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-
 base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
 patch link:    https://lore.kernel.org/r/20231207090738.15721-13-rdbabiera%40google.com
 patch subject: [PATCH v1 01/10] usb: typec: bus: provide transmit type for alternate mode drivers
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/reproduce)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231208/202312080453.iQ1jSiLY-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080453.iQ1jSiLY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080436.1iwq0THA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080453.iQ1jSiLY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/typec/ucsi/displayport.c:293:31: error: too few arguments to function call, expected 5, have 4
-                                   dp->vdo_data, dp->vdo_size);
-                                                             ^
+>> drivers/platform/chrome/cros_typec_vdm.c:89:82: error: too few arguments to function call, expected 5, have 4
+           ret = typec_altmode_vdm(amode, hdr, &resp.vdm_response[1], resp.vdm_data_objects);
+                 ~~~~~~~~~~~~~~~~~                                                         ^
    include/linux/usb/typec_altmode.h:84:5: note: 'typec_altmode_vdm' declared here
    int typec_altmode_vdm(struct typec_altmode *altmode,
        ^
    1 error generated.
 
 
-vim +293 drivers/usb/typec/ucsi/displayport.c
+vim +89 drivers/platform/chrome/cros_typec_vdm.c
 
-af8622f6a585d8 Heikki Krogerus 2019-04-23  284  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  285  static void ucsi_displayport_work(struct work_struct *work)
-af8622f6a585d8 Heikki Krogerus 2019-04-23  286  {
-af8622f6a585d8 Heikki Krogerus 2019-04-23  287  	struct ucsi_dp *dp = container_of(work, struct ucsi_dp, work);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  288  	int ret;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  289  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  290  	mutex_lock(&dp->con->lock);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  291  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  292  	ret = typec_altmode_vdm(dp->alt, dp->header,
-af8622f6a585d8 Heikki Krogerus 2019-04-23 @293  				dp->vdo_data, dp->vdo_size);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  294  	if (ret)
-af8622f6a585d8 Heikki Krogerus 2019-04-23  295  		dev_err(&dp->alt->dev, "VDM 0x%x failed\n", dp->header);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  296  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  297  	dp->vdo_data = NULL;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  298  	dp->vdo_size = 0;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  299  	dp->header = 0;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  300  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  301  	mutex_unlock(&dp->con->lock);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  302  }
-af8622f6a585d8 Heikki Krogerus 2019-04-23  303  
+f54c013e7eef29 Prashant Malani 2023-01-26  55  
+50ed638bbc47ba Prashant Malani 2022-12-28  56  /*
+50ed638bbc47ba Prashant Malani 2022-12-28  57   * Retrieves a VDM response from the EC and forwards it to the altmode driver based on SVID.
+50ed638bbc47ba Prashant Malani 2022-12-28  58   */
+50ed638bbc47ba Prashant Malani 2022-12-28  59  void cros_typec_handle_vdm_response(struct cros_typec_data *typec, int port_num)
+50ed638bbc47ba Prashant Malani 2022-12-28  60  {
+50ed638bbc47ba Prashant Malani 2022-12-28  61  	struct ec_response_typec_vdm_response resp;
+50ed638bbc47ba Prashant Malani 2022-12-28  62  	struct ec_params_typec_vdm_response req = {
+50ed638bbc47ba Prashant Malani 2022-12-28  63  		.port = port_num,
+50ed638bbc47ba Prashant Malani 2022-12-28  64  	};
+50ed638bbc47ba Prashant Malani 2022-12-28  65  	struct typec_altmode *amode;
+50ed638bbc47ba Prashant Malani 2022-12-28  66  	u16 svid;
+50ed638bbc47ba Prashant Malani 2022-12-28  67  	u32 hdr;
+50ed638bbc47ba Prashant Malani 2022-12-28  68  	int ret;
+50ed638bbc47ba Prashant Malani 2022-12-28  69  
+50ed638bbc47ba Prashant Malani 2022-12-28  70  	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_TYPEC_VDM_RESPONSE, &req,
+50ed638bbc47ba Prashant Malani 2022-12-28  71  			  sizeof(req), &resp, sizeof(resp));
+50ed638bbc47ba Prashant Malani 2022-12-28  72  	if (ret < 0) {
+50ed638bbc47ba Prashant Malani 2022-12-28  73  		dev_warn(typec->dev, "Failed VDM response fetch, port: %d\n", port_num);
+50ed638bbc47ba Prashant Malani 2022-12-28  74  		return;
+50ed638bbc47ba Prashant Malani 2022-12-28  75  	}
+50ed638bbc47ba Prashant Malani 2022-12-28  76  
+50ed638bbc47ba Prashant Malani 2022-12-28  77  	hdr = resp.vdm_response[0];
+50ed638bbc47ba Prashant Malani 2022-12-28  78  	svid = PD_VDO_VID(hdr);
+50ed638bbc47ba Prashant Malani 2022-12-28  79  	dev_dbg(typec->dev, "Received VDM header: %x, port: %d\n", hdr, port_num);
+50ed638bbc47ba Prashant Malani 2022-12-28  80  
+50ed638bbc47ba Prashant Malani 2022-12-28  81  	amode = typec_match_altmode(typec->ports[port_num]->port_altmode, CROS_EC_ALTMODE_MAX,
+50ed638bbc47ba Prashant Malani 2022-12-28  82  				    svid, PD_VDO_OPOS(hdr));
+50ed638bbc47ba Prashant Malani 2022-12-28  83  	if (!amode) {
+50ed638bbc47ba Prashant Malani 2022-12-28  84  		dev_err(typec->dev, "Received VDM for unregistered altmode (SVID:%x), port: %d\n",
+50ed638bbc47ba Prashant Malani 2022-12-28  85  			svid, port_num);
+50ed638bbc47ba Prashant Malani 2022-12-28  86  		return;
+50ed638bbc47ba Prashant Malani 2022-12-28  87  	}
+50ed638bbc47ba Prashant Malani 2022-12-28  88  
+50ed638bbc47ba Prashant Malani 2022-12-28 @89  	ret = typec_altmode_vdm(amode, hdr, &resp.vdm_response[1], resp.vdm_data_objects);
+50ed638bbc47ba Prashant Malani 2022-12-28  90  	if (ret)
+50ed638bbc47ba Prashant Malani 2022-12-28  91  		dev_err(typec->dev, "Failed to forward VDM to altmode (SVID:%x), port: %d\n",
+50ed638bbc47ba Prashant Malani 2022-12-28  92  			svid, port_num);
+50ed638bbc47ba Prashant Malani 2022-12-28  93  }
+50ed638bbc47ba Prashant Malani 2022-12-28  94  
 
 -- 
 0-DAY CI Kernel Test Service

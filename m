@@ -1,451 +1,181 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC43632C7C
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Dec 2023 09:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E946D341B9
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Dec 2023 11:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wFPiGqvM"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-5d988d69812so6848587b3.0
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Dec 2023 01:08:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701940095; x=1702544895; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+XWVfbECKkYVkmbHjWZO+h6sR43SxXC7QmqywYAISO0=;
-        b=wFPiGqvM0zkl7nmJgnjKL+1zERpkKhPFryXl3RGy3NOpoqUJtIyu7Qo2rnEo5Qjlgc
-         gUKk3ORb2WqGB8nwLp9/kXM6dtg6lz4DIEGfKXigLs2BFZlcZf1Kg9AwWMKOl7xnuyzy
-         dRvGkNepvfuT+9/9nNbM+R6NZNub8msN/mqT19uJWJSF4ROjekmqnJa473uhaYefthpu
-         nJFjAjpH+PUPGrg2jPv+4PHTXDNBM4O7fH6q+VuRj4a5noYykSEWSNytHtUOASDgwz/a
-         S44CMvWch8ECAjvxsTk1QzJSTWM9Dm1zUNilj/0Gl8ZeCJPLSpsWFO6GebL7qoyWySNe
-         /STg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701940095; x=1702544895;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+XWVfbECKkYVkmbHjWZO+h6sR43SxXC7QmqywYAISO0=;
-        b=EBy6tG1E0fV1HXGLs6EE9GdpkBbmIFUsRbcJgz5L9KMBxke/x3nKtKXLfh0x11tQcn
-         tY5b+HSmNdapyZXzUqFczn8ngi7zSKSISwlwS3v4R4CwvTB2hClleVhFqKQGbQnSv2rv
-         /jwAJMyocPjob0xbqSk2xZs//sizrnEGJT7DLDmWALJSvAh8Gc4Vfa3/j/oNTUu8fBCM
-         JJN4bZld+Fbi0z9uJhMidm6bppy8ZDPeSp5vWr6/buhM2/CqSUqmjkc+tXxLti5Fk0q2
-         Oz5woowf9c7u5pEel9VepWLuM9lHaqu1XRDEiaVCit1fzoXVh+vwiFMeNsa2OXE70woo
-         /rMw==
-X-Gm-Message-State: AOJu0Yw4UAcaUJGlZ5kpuoDfCxLpkpHiO0P6Rt/edzwTL9QPDlS0nTVh
-	sWCiT9Pz8mSxbM8ny7g3Ko5nJRtBepmWg68=
-X-Google-Smtp-Source: AGHT+IF6/n+XCgXEAd+gDT11AwSGUccx/1U0K8Jdi+mE1mBuUrtIEK2jbtHRYfxy+4WA6vTqloGig2LgrWIARtI=
-X-Received: from rdbabiera.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:18a8])
- (user=rdbabiera job=sendgmr) by 2002:a05:690c:fcd:b0:5d9:712e:202b with SMTP
- id dg13-20020a05690c0fcd00b005d9712e202bmr39599ywb.6.1701940095023; Thu, 07
- Dec 2023 01:08:15 -0800 (PST)
-Date: Thu,  7 Dec 2023 09:07:41 +0000
-In-Reply-To: <20231207090738.15721-12-rdbabiera@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E13MIFBY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701948895; x=1733484895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0e0ecIPjielu3IMg9w9+57qtFRSlZw6k9A5nrmNNudM=;
+  b=E13MIFBYMQFsL8EYCwz269U++62FbhdUIjXWg5DLTZHmYQ8cSnyIsA5G
+   eNupv8wyXNnMwBTh4vcavzWGZaUTeNUjEseq7WNjF2GrcHHANrKZ96Wj4
+   vOt2l8HkIVkSy8vXaMAxVxyeYa6m5PQfiskSCHYxU9/pJINK0eWihXoXx
+   nAICDwUJGk0WbnF5cjuGEod2cbq7fJayBQyanIMhMCIj90NW/H62dgEI/
+   8swkn9vdjO06uL7QCyN49jegE4SYMFlr41DNvBb8K1mPY0jmihMkAYYJP
+   6q+YEPQ3fRA0rMysLZxUhZYtH96Y7QsBTjrxyaQIBWtyGEznH0F+UQCeK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1098278"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="1098278"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 03:34:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="775371126"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="775371126"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga007.fm.intel.com with SMTP; 07 Dec 2023 03:34:50 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 07 Dec 2023 13:34:49 +0200
+Date: Thu, 7 Dec 2023 13:34:49 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: RD Babiera <rdbabiera@google.com>
+Cc: linux@roeck-us.net, gregkh@linuxfoundation.org, pmalani@chromium.org,
+	bleung@chromium.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	badhri@google.com, tzungbi@kernel.org, utkarsh.h.patel@intel.com,
+	andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
+ alternate mode drivers
+Message-ID: <ZXGt2drhV/K+qtTG@kuha.fi.intel.com>
+References: <20231207090738.15721-12-rdbabiera@google.com>
+ <20231207090738.15721-13-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20231207090738.15721-12-rdbabiera@google.com>
-X-Developer-Key: i=rdbabiera@google.com; a=openpgp; fpr=639A331F1A21D691815CE090416E17CA2BBBD5C8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13047; i=rdbabiera@google.com;
- h=from:subject; bh=LXtNBwuIotDleeOrfFY5zqTZHszmGVHgznxqotaxm8Q=;
- b=owGbwMvMwCFW0bfok0KS4TbG02pJDKmF3XHSjD4lRgGpK8SntNww1/8+12zHv3PtGs+Wbyxbf
- MHsguy8jlIWBjEOBlkxRRZd/zyDG1dSt8zhrDGGmcPKBDKEgYtTACaSncTwh3+1zpGz1fI1i3ee
- kLzV2uhpmNs4V/sAh3n70RU17/9X2TH8s3+wzGKLe5Rvg+EPMd/kbE92vp9POkVCExv1ezwWsdr wAwA=
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-Message-ID: <20231207090738.15721-22-rdbabiera@google.com>
-Subject: [PATCH v1 10/10] usb: typec: altmodes/displayport: add SOP' support
-From: RD Babiera <rdbabiera@google.com>
-To: heikki.krogerus@linux.intel.com, linux@roeck-us.net, 
-	gregkh@linuxfoundation.org, pmalani@chromium.org, bleung@chromium.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Cc: badhri@google.com, tzungbi@kernel.org, utkarsh.h.patel@intel.com, 
-	andriy.shevchenko@linux.intel.com, RD Babiera <rdbabiera@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207090738.15721-13-rdbabiera@google.com>
 
-Implement active cable VDM support for SOP' according to the DisplayPort
-Alt Mode 2.0 specification.
+Hi,
 
-When probing the DisplayPort driver, the state machine will transition to
-Enter Mode on SOP' if an active cable altmode is detected. The SVDM flow
-is as followed:
-    (1) Enter Mode     SOP'
-    (2) Enter Mode     SOP
-    (3) Status Update  SOP
-    (4) Configure      SOP'
-    (5) Configure      SOP
+On Thu, Dec 07, 2023 at 09:07:32AM +0000, RD Babiera wrote:
+> Add enum tcpm_altmode_transmit_type that Alternate Mode drivers can use
+> to communicate which SOP type to send a SVDM on to the tcpm, and that the
+> tcpm can use to communicate a received SVDM' SOP type to the Alternate Mode
+> drivers.
+> 
+> Update all typec_altmode_ops users to use tcpm_altmode_transmit_type, and
+> drop all messages that are not TYPEC_ALTMODE_SOP. Default all calls that
+> require sop_type as input to TYPEC_ALTMODE_SOP.
+> 
+> Signed-off-by: RD Babiera <rdbabiera@google.com>
+> ---
+>  drivers/platform/chrome/cros_typec_vdm.c | 12 +++++++++--
+>  drivers/usb/typec/altmodes/displayport.c | 15 +++++++-------
+>  drivers/usb/typec/bus.c                  | 17 ++++++++++------
+>  drivers/usb/typec/class.c                |  2 +-
+>  drivers/usb/typec/tcpm/tcpm.c            | 15 ++++++++------
+>  drivers/usb/typec/ucsi/displayport.c     | 18 +++++++++++++---
+>  include/linux/usb/typec_altmode.h        | 26 ++++++++++++++++++------
+>  7 files changed, 74 insertions(+), 31 deletions(-)
 
-Status Update on SOP' after Enter Mode is optional and not implemented for
-now. When exiting the alt mode, send Exit Mode over SOP' after SOP.
+<snip>
 
-Should an altmode vdm fail on SOP', the DisplayPort driver will drop its
-reference to the plug and attempt to continue in SOP operation.
+> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+> index 28aeef8f9e7b..4d527d92457d 100644
+> --- a/include/linux/usb/typec_altmode.h
+> +++ b/include/linux/usb/typec_altmode.h
+> @@ -34,6 +34,16 @@ struct typec_altmode {
+>  
+>  #define to_typec_altmode(d) container_of(d, struct typec_altmode, dev)
+>  
+> +/**
+> + * These are used by the Alternate Mode drivers to tell the tcpm to transmit
+> + * over the selected SOP type, and are used by the tcpm to communicate the
+> + * received VDM SOP type to the Alternate Mode drivers.
+> + */
+> +enum typec_altmode_transmit_type {
+> +	TYPEC_ALTMODE_SOP,
+> +	TYPEC_ALTMODE_SOP_PRIME,
+> +};
+> +
+>  static inline void typec_altmode_set_drvdata(struct typec_altmode *altmode,
+>  					     void *data)
+>  {
+> @@ -55,21 +65,25 @@ static inline void *typec_altmode_get_drvdata(struct typec_altmode *altmode)
+>   * @activate: User callback for Enter/Exit Mode
+>   */
+>  struct typec_altmode_ops {
+> -	int (*enter)(struct typec_altmode *altmode, u32 *vdo);
+> -	int (*exit)(struct typec_altmode *altmode);
+> +	int (*enter)(struct typec_altmode *altmode, u32 *vdo,
+> +		     enum typec_altmode_transmit_type sop_type);
+> +	int (*exit)(struct typec_altmode *altmode,
+> +		    enum typec_altmode_transmit_type sop_type);
+>  	void (*attention)(struct typec_altmode *altmode, u32 vdo);
+>  	int (*vdm)(struct typec_altmode *altmode, const u32 hdr,
+> -		   const u32 *vdo, int cnt);
+> +		   const u32 *vdo, int cnt, enum typec_altmode_transmit_type sop_type);
+>  	int (*notify)(struct typec_altmode *altmode, unsigned long conf,
+>  		      void *data);
+>  	int (*activate)(struct typec_altmode *altmode, int activate);
+>  };
+>  
+> -int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo);
+> -int typec_altmode_exit(struct typec_altmode *altmode);
+> +int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo,
+> +			enum typec_altmode_transmit_type sop_type);
+> +int typec_altmode_exit(struct typec_altmode *altmode, enum typec_altmode_transmit_type sop_type);
+>  int typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
+>  int typec_altmode_vdm(struct typec_altmode *altmode,
+> -		      const u32 header, const u32 *vdo, int count);
+> +		      const u32 header, const u32 *vdo, int count,
+> +		      enum typec_altmode_transmit_type sop_type);
+>  int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
+>  			 void *data);
+>  const struct typec_altmode *
 
-Add new dp_state enums DP_STATE_ENTER_PRIME, DP_STATE_CONFIGURE_PRIME, and
-DP_STATE_EXIT_PRIME. dp_altmode adds typec_displayport_data for the cable
-plug to store the plug configuration and adds a typec_altmode reference
-for the cable plug.
+Instead of forcing this change immediately on every existing user of
+that API, why not supply separate API for the cable alt modes?
 
-dp_altmode_configure takes the cable pin assignment capabilities into
-account when deciding on pin configuration.
+Although the SOP* communication is the same in most parts, at least
+Attention (and probable some other messages too) is not valid with
+cable plugs. So maybe it would be more clear to just separate SOP
+communication from SOP Prime/Double Prime in the API?
 
-Received Exit Mode ACKs are handled by a new dp_exit_mode_handler for line
-count restraints when accounting for SOP* transmit type.
+So it would look something like this:
 
-dp_altmode_activate now attempts to enter on SOP' if applicable, and will
-attempt to enter on SOP if that fails.
-
-Signed-off-by: RD Babiera <rdbabiera@google.com>
----
- drivers/usb/typec/altmodes/displayport.c | 166 +++++++++++++++++++----
- 1 file changed, 139 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 5ed470069c3e..583f99338710 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -50,13 +50,17 @@ enum {
- enum dp_state {
- 	DP_STATE_IDLE,
- 	DP_STATE_ENTER,
-+	DP_STATE_ENTER_PRIME,
- 	DP_STATE_UPDATE,
- 	DP_STATE_CONFIGURE,
-+	DP_STATE_CONFIGURE_PRIME,
- 	DP_STATE_EXIT,
-+	DP_STATE_EXIT_PRIME,
- };
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index bd41bc362ab0..2f7ae50585b1 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -75,6 +75,24 @@ int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
+ const struct typec_altmode *
+ typec_altmode_get_partner(struct typec_altmode *altmode);
  
- struct dp_altmode {
- 	struct typec_displayport_data data;
-+	struct typec_displayport_data data_prime;
- 
- 	enum dp_state state;
- 	bool hpd;
-@@ -67,6 +71,7 @@ struct dp_altmode {
- 	struct typec_altmode *alt;
- 	const struct typec_altmode *port;
- 	struct fwnode_handle *connector_fwnode;
-+	struct typec_altmode *plug_prime;
- };
- 
- static int dp_altmode_notify(struct dp_altmode *dp)
-@@ -99,12 +104,18 @@ static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
- 		conf |= DP_CONF_UFP_U_AS_DFP_D;
- 		pin_assign = DP_CAP_UFP_D_PIN_ASSIGN(dp->alt->vdo) &
- 			     DP_CAP_DFP_D_PIN_ASSIGN(dp->port->vdo);
-+		/* Account for active cable capabilities */
-+		if (dp->plug_prime)
-+			pin_assign &= DP_CAP_DFP_D_PIN_ASSIGN(dp->plug_prime->vdo);
- 		break;
- 	case DP_STATUS_CON_UFP_D:
- 	case DP_STATUS_CON_BOTH: /* NOTE: First acting as DP source */
- 		conf |= DP_CONF_UFP_U_AS_UFP_D;
- 		pin_assign = DP_CAP_PIN_ASSIGN_UFP_D(dp->alt->vdo) &
--				 DP_CAP_PIN_ASSIGN_DFP_D(dp->port->vdo);
-+			     DP_CAP_PIN_ASSIGN_DFP_D(dp->port->vdo);
-+		/* Account for active cable capabilities */
-+		if (dp->plug_prime)
-+			pin_assign &= DP_CAP_UFP_D_PIN_ASSIGN(dp->plug_prime->vdo);
- 		break;
- 	default:
- 		break;
-@@ -130,6 +141,8 @@ static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
- 	}
- 
- 	dp->data.conf = conf;
-+	if (dp->plug_prime)
-+		dp->data_prime.conf = conf;
- 
- 	return 0;
- }
-@@ -143,13 +156,17 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
- 
- 	if (configured && (dp->data.status & DP_STATUS_SWITCH_TO_USB)) {
- 		dp->data.conf = 0;
--		dp->state = DP_STATE_CONFIGURE;
-+		dp->data_prime.conf = 0;
-+		dp->state = dp->plug_prime ? DP_STATE_CONFIGURE_PRIME :
-+					     DP_STATE_CONFIGURE;
- 	} else if (dp->data.status & DP_STATUS_EXIT_DP_MODE) {
- 		dp->state = DP_STATE_EXIT;
-+	/* Partner is connected but not configured */
- 	} else if (!(con & DP_CONF_CURRENTLY(dp->data.conf))) {
- 		ret = dp_altmode_configure(dp, con);
- 		if (!ret) {
--			dp->state = DP_STATE_CONFIGURE;
-+			dp->state = dp->plug_prime ? DP_STATE_CONFIGURE_PRIME :
-+						     DP_STATE_CONFIGURE;
- 			if (dp->hpd != hpd) {
- 				dp->hpd = hpd;
- 				dp->pending_hpd = true;
-@@ -185,9 +202,12 @@ static int dp_altmode_configured(struct dp_altmode *dp)
- 	return dp_altmode_notify(dp);
- }
- 
--static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
-+static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf,
-+				    enum typec_altmode_transmit_type sop_type)
- {
--	int svdm_version = typec_altmode_get_svdm_version(dp->alt);
-+	int svdm_version = sop_type == TYPEC_ALTMODE_SOP_PRIME ?
-+				       typec_altmode_get_cable_svdm_version(dp->alt) :
-+				       typec_altmode_get_svdm_version(dp->alt);
- 	u32 header;
- 	int ret;
- 
-@@ -202,7 +222,7 @@ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
- 		return ret;
- 	}
- 
--	ret = typec_altmode_vdm(dp->alt, header, &conf, 2, TYPEC_ALTMODE_SOP);
-+	ret = typec_altmode_vdm(dp->alt, header, &conf, 2, sop_type);
- 	if (ret)
- 		dp_altmode_notify(dp);
- 
-@@ -223,7 +243,20 @@ static void dp_altmode_work(struct work_struct *work)
- 	case DP_STATE_ENTER:
- 		ret = typec_altmode_enter(dp->alt, NULL, TYPEC_ALTMODE_SOP);
- 		if (ret && ret != -EBUSY)
--			dev_err(&dp->alt->dev, "failed to enter mode\n");
-+			dev_err(&dp->alt->dev, "partner failed to enter mode\n");
-+		break;
-+	case DP_STATE_ENTER_PRIME:
-+		ret = typec_altmode_enter(dp->alt, NULL, TYPEC_ALTMODE_SOP_PRIME);
-+		/*
-+		 * If we fail to enter Alt Mode on SOP', then we should drop the
-+		 * plug from the driver and attempt to run the driver without
-+		 * it.
-+		 */
-+		if (ret && ret != -EBUSY) {
-+			dev_err(&dp->alt->dev, "plug failed to enter mode\n");
-+			dp->state = DP_STATE_ENTER;
-+			goto disable_prime;
-+		}
- 		break;
- 	case DP_STATE_UPDATE:
- 		svdm_version = typec_altmode_get_svdm_version(dp->alt);
-@@ -238,15 +271,30 @@ static void dp_altmode_work(struct work_struct *work)
- 				ret);
- 		break;
- 	case DP_STATE_CONFIGURE:
--		ret = dp_altmode_configure_vdm(dp, dp->data.conf);
-+		ret = dp_altmode_configure_vdm(dp, dp->data.conf, TYPEC_ALTMODE_SOP);
- 		if (ret)
- 			dev_err(&dp->alt->dev,
- 				"unable to send Configure command (%d)\n", ret);
- 		break;
-+	case DP_STATE_CONFIGURE_PRIME:
-+		ret = dp_altmode_configure_vdm(dp, dp->data_prime.conf,
-+					       TYPEC_ALTMODE_SOP_PRIME);
-+		if (ret) {
-+			dev_err(&dp->plug_prime->dev,
-+				"unable to send Configure command (%d)\n",
-+				ret);
-+			dp->state = DP_STATE_CONFIGURE;
-+			goto disable_prime;
-+		}
-+		break;
- 	case DP_STATE_EXIT:
- 		if (typec_altmode_exit(dp->alt, TYPEC_ALTMODE_SOP))
- 			dev_err(&dp->alt->dev, "Exit Mode Failed!\n");
- 		break;
-+	case DP_STATE_EXIT_PRIME:
-+		if (typec_altmode_exit(dp->alt, TYPEC_ALTMODE_SOP_PRIME))
-+			dev_err(&dp->plug_prime->dev, "Exit Mode Failed!\n");
-+		break;
- 	default:
- 		break;
- 	}
-@@ -254,6 +302,12 @@ static void dp_altmode_work(struct work_struct *work)
- 	dp->state = DP_STATE_IDLE;
- 
- 	mutex_unlock(&dp->lock);
-+	return;
++/**
++ * struct typec_cable_ops - Cable alternate mode operations vector
++ * @enter: Operations to be executed with Enter Mode Command
++ * @exit: Operations to be executed with Exit Mode Command
++ * @vdm: Callback for SVID specific commands
++ */
++struct typec_cable_ops {
++       int (*enter)(struct typec_altmode *altmode, enum typec_plug_index sop, u32 *vdo);
++       int (*exit)(struct typec_altmode *altmode, enum typec_plug_index sop);
++       int (*vdm)(struct typec_altmode *altmode, enum typec_plug_index sop,
++                  const u32 hdr, const u32 *vdo, int cnt);
++};
 +
-+disable_prime:
-+	typec_altmode_put_plug(dp->plug_prime);
-+	dp->plug_prime = NULL;
-+	schedule_work(&dp->work);
- }
- 
- static void dp_altmode_attention(struct typec_altmode *alt, const u32 vdo)
-@@ -282,6 +336,32 @@ static void dp_altmode_attention(struct typec_altmode *alt, const u32 vdo)
- 	mutex_unlock(&dp->lock);
- }
- 
-+static void dp_exit_mode_handler(struct dp_altmode *dp, enum typec_altmode_transmit_type sop_type)
-+{
-+	if (sop_type == TYPEC_ALTMODE_SOP) {
-+		dp->data.status = 0;
-+		dp->data.conf = 0;
-+		if (dp->hpd) {
-+			drm_connector_oob_hotplug_event(dp->connector_fwnode,
-+							connector_status_disconnected);
-+			dp->hpd = false;
-+			sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
-+		}
-+		/*
-+		 * Delay updating active because driver will not be allowed to send VDMs otherwise
-+		 */
-+		if (dp->plug_prime)
-+			dp->state = DP_STATE_EXIT_PRIME;
-+		else
-+			typec_altmode_update_active(dp->alt, false);
-+	} else if (sop_type == TYPEC_ALTMODE_SOP_PRIME) {
-+		dp->data_prime.status = 0;
-+		dp->data_prime.conf = 0;
-+		typec_altmode_update_active(dp->plug_prime, false);
-+		typec_altmode_update_active(dp->alt, false);
-+	}
-+}
++int typec_cable_altmode_enter(struct typec_altmode *altmode, enum typec_plug_index sop, u32 *vdo);
++int typec_cable_altmode_exit(struct typec_altmode *altmode, enum typec_plug_index sop);
++int typec_cable_altmode_vdm(struct typec_altmode *altmode, enum typec_plug_index sop,
++                           const u32 header, const u32 *vdo, int count);
 +
- static int dp_altmode_vdm(struct typec_altmode *alt,
- 			  const u32 hdr, const u32 *vdo, int count,
- 			  enum typec_altmode_transmit_type sop_type)
-@@ -302,26 +382,27 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
- 	case CMDT_RSP_ACK:
- 		switch (cmd) {
- 		case CMD_ENTER_MODE:
--			typec_altmode_update_active(alt, true);
--			dp->state = DP_STATE_UPDATE;
-+			if (sop_type == TYPEC_ALTMODE_SOP_PRIME) {
-+				if (dp->plug_prime)
-+					typec_altmode_update_active(dp->plug_prime, true);
-+				dp->state = DP_STATE_ENTER;
-+			} else {
-+				typec_altmode_update_active(alt, true);
-+				dp->state = DP_STATE_UPDATE;
-+			}
- 			break;
- 		case CMD_EXIT_MODE:
--			typec_altmode_update_active(alt, false);
--			dp->data.status = 0;
--			dp->data.conf = 0;
--			if (dp->hpd) {
--				drm_connector_oob_hotplug_event(dp->connector_fwnode,
--								connector_status_disconnected);
--				dp->hpd = false;
--				sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
--			}
-+			dp_exit_mode_handler(dp, sop_type);
- 			break;
- 		case DP_CMD_STATUS_UPDATE:
- 			dp->data.status = *vdo;
- 			ret = dp_altmode_status_update(dp);
- 			break;
- 		case DP_CMD_CONFIGURE:
--			ret = dp_altmode_configured(dp);
-+			if (sop_type == TYPEC_ALTMODE_SOP_PRIME)
-+				dp->state = DP_STATE_CONFIGURE;
-+			else
-+				ret = dp_altmode_configured(dp);
- 			break;
- 		default:
- 			break;
-@@ -330,8 +411,16 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
- 	case CMDT_RSP_NAK:
- 		switch (cmd) {
- 		case DP_CMD_CONFIGURE:
--			dp->data.conf = 0;
--			ret = dp_altmode_configured(dp);
-+			if (sop_type == TYPEC_ALTMODE_SOP_PRIME) {
-+				dp->data_prime.conf = 0;
-+				/* Attempt to configure on SOP, drop plug */
-+				typec_altmode_put_plug(dp->plug_prime);
-+				dp->plug_prime = NULL;
-+				dp->state = DP_STATE_CONFIGURE;
-+			} else {
-+				dp->data.conf = 0;
-+				ret = dp_altmode_configured(dp);
-+			}
- 			break;
- 		default:
- 			break;
-@@ -351,8 +440,23 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
- 
- static int dp_altmode_activate(struct typec_altmode *alt, int activate)
- {
--	return activate ? typec_altmode_enter(alt, NULL, TYPEC_ALTMODE_SOP) :
--			  typec_altmode_exit(alt, TYPEC_ALTMODE_SOP);
-+	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
-+	int ret;
-+
-+	if (activate) {
-+		if (dp->plug_prime) {
-+			ret = typec_altmode_enter(alt, NULL, TYPEC_ALTMODE_SOP_PRIME);
-+			if (ret < 0) {
-+				typec_altmode_put_plug(dp->plug_prime);
-+				dp->plug_prime = NULL;
-+			} else {
-+				return ret;
-+			}
-+		}
-+		return typec_altmode_enter(alt, NULL, TYPEC_ALTMODE_SOP);
-+	} else {
-+		return typec_altmode_exit(alt, TYPEC_ALTMODE_SOP);
-+	}
- }
- 
- static const struct typec_altmode_ops dp_altmode_ops = {
-@@ -400,7 +504,7 @@ configuration_store(struct device *dev, struct device_attribute *attr,
- 	conf |= con;
- 
- 	if (dp->alt->active) {
--		ret = dp_altmode_configure_vdm(dp, conf);
-+		ret = dp_altmode_configure_vdm(dp, conf, TYPEC_ALTMODE_SOP);
- 		if (ret)
- 			goto err_unlock;
- 	}
-@@ -502,7 +606,7 @@ pin_assignment_store(struct device *dev, struct device_attribute *attr,
- 
- 	/* Only send Configure command if a configuration has been set */
- 	if (dp->alt->active && DP_CONF_CURRENTLY(dp->data.conf)) {
--		ret = dp_altmode_configure_vdm(dp, conf);
-+		ret = dp_altmode_configure_vdm(dp, conf, TYPEC_ALTMODE_SOP);
- 		if (ret)
- 			goto out_unlock;
- 	}
-@@ -575,6 +679,7 @@ static const struct attribute_group dp_altmode_group = {
- int dp_altmode_probe(struct typec_altmode *alt)
- {
- 	const struct typec_altmode *port = typec_altmode_get_partner(alt);
-+	struct typec_altmode *plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
- 	struct fwnode_handle *fwnode;
- 	struct dp_altmode *dp;
- 	int ret;
-@@ -604,6 +709,11 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 	alt->desc = "DisplayPort";
- 	alt->ops = &dp_altmode_ops;
- 
-+	if (plug)
-+		plug->desc = "Displayport";
-+
-+	dp->plug_prime = plug;
-+
- 	fwnode = dev_fwnode(alt->dev.parent->parent); /* typec_port fwnode */
- 	if (fwnode_property_present(fwnode, "displayport"))
- 		dp->connector_fwnode = fwnode_find_reference(fwnode, "displayport", 0);
-@@ -614,7 +724,8 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 
- 	typec_altmode_set_drvdata(alt, dp);
- 
--	dp->state = DP_STATE_ENTER;
-+	dp->state = plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTER;
-+
- 	schedule_work(&dp->work);
- 
- 	return 0;
-@@ -627,6 +738,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
- 
- 	sysfs_remove_group(&alt->dev.kobj, &dp_altmode_group);
- 	cancel_work_sync(&dp->work);
-+	typec_altmode_put_plug(dp->plug_prime);
- 
- 	if (dp->connector_fwnode) {
- 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+ /*
+  * These are the connector states (USB, Safe and Alt Mode) defined in USB Type-C
+  * Specification. SVID specific connector states are expected to follow and
+
+
+thanks,
+
 -- 
-2.43.0.rc2.451.g8631bc7472-goog
-
+heikki

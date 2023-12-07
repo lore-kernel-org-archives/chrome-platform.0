@@ -1,50 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E946D341B9
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Dec 2023 11:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E915027D;
+	Thu,  7 Dec 2023 20:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E13MIFBY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCt1qvDa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701948895; x=1733484895;
+  t=1701981237; x=1733517237;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0e0ecIPjielu3IMg9w9+57qtFRSlZw6k9A5nrmNNudM=;
-  b=E13MIFBYMQFsL8EYCwz269U++62FbhdUIjXWg5DLTZHmYQ8cSnyIsA5G
-   eNupv8wyXNnMwBTh4vcavzWGZaUTeNUjEseq7WNjF2GrcHHANrKZ96Wj4
-   vOt2l8HkIVkSy8vXaMAxVxyeYa6m5PQfiskSCHYxU9/pJINK0eWihXoXx
-   nAICDwUJGk0WbnF5cjuGEod2cbq7fJayBQyanIMhMCIj90NW/H62dgEI/
-   8swkn9vdjO06uL7QCyN49jegE4SYMFlr41DNvBb8K1mPY0jmihMkAYYJP
-   6q+YEPQ3fRA0rMysLZxUhZYtH96Y7QsBTjrxyaQIBWtyGEznH0F+UQCeK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1098278"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1098278"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 03:34:55 -0800
+  bh=SPK2zasUPN95+NP/auAttA6k+ge4mGcg7RBWFAT4m1U=;
+  b=kCt1qvDaMdXsMYqR0qzhCWCKPUUfuiAzshqVcRXmHgikn76HdK0wlGkI
+   9U7HmXo+1Bx3xakelD7zytH+1A7VPpQG9AfBUMk/yn6H6Hca4rPyTzfim
+   635cwVzfMmA9jUpo04nsII6FES1qpU46dDovJLA0ftkjhoxC6jKwpbCWa
+   O5g5WbEAsy2nAmc5O6FaMpfnjCYUQy8CiOMuH+gUndBYgjrcv8WdVglQF
+   i1Jigwt2F13MHh3hkXUqOPZQ+aVZrrWRzWk/XsMQXUxbTTYcQqZ2XZtYp
+   q8YJpXGdoTJZPO40aLv5oYD/087+V3yRQ//a4zlZN6muW14+id4VukKq7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="379306316"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="379306316"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="775371126"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="775371126"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga007.fm.intel.com with SMTP; 07 Dec 2023 03:34:50 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 07 Dec 2023 13:34:49 +0200
-Date: Thu, 7 Dec 2023 13:34:49 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: RD Babiera <rdbabiera@google.com>
-Cc: linux@roeck-us.net, gregkh@linuxfoundation.org, pmalani@chromium.org,
-	bleung@chromium.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	badhri@google.com, tzungbi@kernel.org, utkarsh.h.patel@intel.com,
-	andriy.shevchenko@linux.intel.com
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="915695873"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="915695873"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBL4B-000Cnh-1q;
+	Thu, 07 Dec 2023 20:33:51 +0000
+Date: Fri, 8 Dec 2023 04:33:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
+	linux@roeck-us.net, gregkh@linuxfoundation.org,
+	pmalani@chromium.org, bleung@chromium.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
+	tzungbi@kernel.org, utkarsh.h.patel@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	RD Babiera <rdbabiera@google.com>
 Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
  alternate mode drivers
-Message-ID: <ZXGt2drhV/K+qtTG@kuha.fi.intel.com>
-References: <20231207090738.15721-12-rdbabiera@google.com>
- <20231207090738.15721-13-rdbabiera@google.com>
+Message-ID: <202312080436.1iwq0THA-lkp@intel.com>
+References: <20231207090738.15721-13-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -55,127 +60,59 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20231207090738.15721-13-rdbabiera@google.com>
 
-Hi,
+Hi RD,
 
-On Thu, Dec 07, 2023 at 09:07:32AM +0000, RD Babiera wrote:
-> Add enum tcpm_altmode_transmit_type that Alternate Mode drivers can use
-> to communicate which SOP type to send a SVDM on to the tcpm, and that the
-> tcpm can use to communicate a received SVDM' SOP type to the Alternate Mode
-> drivers.
-> 
-> Update all typec_altmode_ops users to use tcpm_altmode_transmit_type, and
-> drop all messages that are not TYPEC_ALTMODE_SOP. Default all calls that
-> require sop_type as input to TYPEC_ALTMODE_SOP.
-> 
-> Signed-off-by: RD Babiera <rdbabiera@google.com>
-> ---
->  drivers/platform/chrome/cros_typec_vdm.c | 12 +++++++++--
->  drivers/usb/typec/altmodes/displayport.c | 15 +++++++-------
->  drivers/usb/typec/bus.c                  | 17 ++++++++++------
->  drivers/usb/typec/class.c                |  2 +-
->  drivers/usb/typec/tcpm/tcpm.c            | 15 ++++++++------
->  drivers/usb/typec/ucsi/displayport.c     | 18 +++++++++++++---
->  include/linux/usb/typec_altmode.h        | 26 ++++++++++++++++++------
->  7 files changed, 74 insertions(+), 31 deletions(-)
+kernel test robot noticed the following build errors:
 
-<snip>
+[auto build test ERROR on 5e4c8814a431d21bfaf20b464134f40f2f81e152]
 
-> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-> index 28aeef8f9e7b..4d527d92457d 100644
-> --- a/include/linux/usb/typec_altmode.h
-> +++ b/include/linux/usb/typec_altmode.h
-> @@ -34,6 +34,16 @@ struct typec_altmode {
->  
->  #define to_typec_altmode(d) container_of(d, struct typec_altmode, dev)
->  
-> +/**
-> + * These are used by the Alternate Mode drivers to tell the tcpm to transmit
-> + * over the selected SOP type, and are used by the tcpm to communicate the
-> + * received VDM SOP type to the Alternate Mode drivers.
-> + */
-> +enum typec_altmode_transmit_type {
-> +	TYPEC_ALTMODE_SOP,
-> +	TYPEC_ALTMODE_SOP_PRIME,
-> +};
-> +
->  static inline void typec_altmode_set_drvdata(struct typec_altmode *altmode,
->  					     void *data)
->  {
-> @@ -55,21 +65,25 @@ static inline void *typec_altmode_get_drvdata(struct typec_altmode *altmode)
->   * @activate: User callback for Enter/Exit Mode
->   */
->  struct typec_altmode_ops {
-> -	int (*enter)(struct typec_altmode *altmode, u32 *vdo);
-> -	int (*exit)(struct typec_altmode *altmode);
-> +	int (*enter)(struct typec_altmode *altmode, u32 *vdo,
-> +		     enum typec_altmode_transmit_type sop_type);
-> +	int (*exit)(struct typec_altmode *altmode,
-> +		    enum typec_altmode_transmit_type sop_type);
->  	void (*attention)(struct typec_altmode *altmode, u32 vdo);
->  	int (*vdm)(struct typec_altmode *altmode, const u32 hdr,
-> -		   const u32 *vdo, int cnt);
-> +		   const u32 *vdo, int cnt, enum typec_altmode_transmit_type sop_type);
->  	int (*notify)(struct typec_altmode *altmode, unsigned long conf,
->  		      void *data);
->  	int (*activate)(struct typec_altmode *altmode, int activate);
->  };
->  
-> -int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo);
-> -int typec_altmode_exit(struct typec_altmode *altmode);
-> +int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo,
-> +			enum typec_altmode_transmit_type sop_type);
-> +int typec_altmode_exit(struct typec_altmode *altmode, enum typec_altmode_transmit_type sop_type);
->  int typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
->  int typec_altmode_vdm(struct typec_altmode *altmode,
-> -		      const u32 header, const u32 *vdo, int count);
-> +		      const u32 header, const u32 *vdo, int count,
-> +		      enum typec_altmode_transmit_type sop_type);
->  int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
->  			 void *data);
->  const struct typec_altmode *
+url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-provide-transmit-type-for-alternate-mode-drivers/20231207-171114
+base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
+patch link:    https://lore.kernel.org/r/20231207090738.15721-13-rdbabiera%40google.com
+patch subject: [PATCH v1 01/10] usb: typec: bus: provide transmit type for alternate mode drivers
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/reproduce)
 
-Instead of forcing this change immediately on every existing user of
-that API, why not supply separate API for the cable alt modes?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080436.1iwq0THA-lkp@intel.com/
 
-Although the SOP* communication is the same in most parts, at least
-Attention (and probable some other messages too) is not valid with
-cable plugs. So maybe it would be more clear to just separate SOP
-communication from SOP Prime/Double Prime in the API?
+All errors (new ones prefixed by >>):
 
-So it would look something like this:
-
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index bd41bc362ab0..2f7ae50585b1 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -75,6 +75,24 @@ int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
- const struct typec_altmode *
- typec_altmode_get_partner(struct typec_altmode *altmode);
- 
-+/**
-+ * struct typec_cable_ops - Cable alternate mode operations vector
-+ * @enter: Operations to be executed with Enter Mode Command
-+ * @exit: Operations to be executed with Exit Mode Command
-+ * @vdm: Callback for SVID specific commands
-+ */
-+struct typec_cable_ops {
-+       int (*enter)(struct typec_altmode *altmode, enum typec_plug_index sop, u32 *vdo);
-+       int (*exit)(struct typec_altmode *altmode, enum typec_plug_index sop);
-+       int (*vdm)(struct typec_altmode *altmode, enum typec_plug_index sop,
-+                  const u32 hdr, const u32 *vdo, int cnt);
-+};
-+
-+int typec_cable_altmode_enter(struct typec_altmode *altmode, enum typec_plug_index sop, u32 *vdo);
-+int typec_cable_altmode_exit(struct typec_altmode *altmode, enum typec_plug_index sop);
-+int typec_cable_altmode_vdm(struct typec_altmode *altmode, enum typec_plug_index sop,
-+                           const u32 header, const u32 *vdo, int count);
-+
- /*
-  * These are the connector states (USB, Safe and Alt Mode) defined in USB Type-C
-  * Specification. SVID specific connector states are expected to follow and
+>> drivers/usb/typec/ucsi/displayport.c:293:31: error: too few arguments to function call, expected 5, have 4
+                                   dp->vdo_data, dp->vdo_size);
+                                                             ^
+   include/linux/usb/typec_altmode.h:84:5: note: 'typec_altmode_vdm' declared here
+   int typec_altmode_vdm(struct typec_altmode *altmode,
+       ^
+   1 error generated.
 
 
-thanks,
+vim +293 drivers/usb/typec/ucsi/displayport.c
+
+af8622f6a585d8 Heikki Krogerus 2019-04-23  284  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  285  static void ucsi_displayport_work(struct work_struct *work)
+af8622f6a585d8 Heikki Krogerus 2019-04-23  286  {
+af8622f6a585d8 Heikki Krogerus 2019-04-23  287  	struct ucsi_dp *dp = container_of(work, struct ucsi_dp, work);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  288  	int ret;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  289  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  290  	mutex_lock(&dp->con->lock);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  291  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  292  	ret = typec_altmode_vdm(dp->alt, dp->header,
+af8622f6a585d8 Heikki Krogerus 2019-04-23 @293  				dp->vdo_data, dp->vdo_size);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  294  	if (ret)
+af8622f6a585d8 Heikki Krogerus 2019-04-23  295  		dev_err(&dp->alt->dev, "VDM 0x%x failed\n", dp->header);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  296  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  297  	dp->vdo_data = NULL;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  298  	dp->vdo_size = 0;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  299  	dp->header = 0;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  300  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  301  	mutex_unlock(&dp->con->lock);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  302  }
+af8622f6a585d8 Heikki Krogerus 2019-04-23  303  
 
 -- 
-heikki
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

@@ -1,168 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17108840C0;
-	Thu,  7 Dec 2023 23:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2E6366
+	for <chrome-platform@lists.linux.dev>; Fri,  8 Dec 2023 00:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZUOsi4M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JM3La8We"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701991481; x=1733527481;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xoqsFo9dnxWWy6BSu4v73RRiTtczxofsXV0GmHIT9GE=;
-  b=CZUOsi4MRyWo6dTjyx6dlzZvFQVxCzNSvyuTR7nYOeZrM6R1QHA8kyLv
-   GDpZyQYVbWscMLzKrGqfPd2xC0Wq5PNYlea1TSoa7ln1FOHRuY5L5B828
-   1COj643IiPmYYOZRr/YBvup2thxeuDNrASASSYs1ui/MKVuP3fs+pEM8k
-   sLOazRxhQh95MYbNytoqZSaSJv5ZtIV3iXsTlVnvPElosyZzjtJ8Gyh1Q
-   NX/k637d3jMgz0TBYIBRVWQrS//eNOBd7V4x6uLPrBU61+i+zgjGFF59d
-   zHQBp8yWzLIdQRnl1SmLxNkhDodYpjyP0N09I8ehI8hS3drT9aG3sY4vY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1430965"
+  t=1701995903; x=1733531903;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=G7bGzHjUVYwhx64MKWEGfxk1JCnjMsLXtoAFCpIeXuo=;
+  b=JM3La8Weivk5p+bLvUby8CUsQEHC1hbl87ORl9vX/+j00mvpgvTRNHSf
+   r6GgkK0br4GWf/vglOLyctLdiWSvR0Jq3NJuTk7SnwEnpybJmZz9BgLMX
+   gvGdMZLP/y1Aj9Sqz85txifTMSoSry7rrfuH2WfV4RASVI8jIbVZcBNCO
+   N/Zuvhv2ASk1FJYT3sTvfHEMQH888nsIYYHGrwLXCClXGdrFtSXSteZmG
+   JPucEcKptNlVp+qBd51dR7/wnl2MPWmNqV+Ef8bmB9bEuysEMRxOKO7DB
+   G2wucVSXm4c4+Zd+Nr0kIUhDfIKz7hEulsSV/1G2POKYNvajdV4+tA830
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="397121497"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="1430965"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 15:24:40 -0800
+   d="scan'208";a="397121497"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 16:38:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="771923277"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="775630134"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="771923277"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 07 Dec 2023 15:24:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBNjM-000CyZ-1m;
-	Thu, 07 Dec 2023 23:24:32 +0000
-Date: Fri, 8 Dec 2023 07:23:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
-	linux@roeck-us.net, gregkh@linuxfoundation.org,
-	pmalani@chromium.org, bleung@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
-	tzungbi@kernel.org, utkarsh.h.patel@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH v1 02/10] usb: typec: tcpci: enable reception of SOP'
- messages
-Message-ID: <202312080751.GDJHcwNz-lkp@intel.com>
-References: <20231207090738.15721-14-rdbabiera@google.com>
+   d="scan'208";a="775630134"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Dec 2023 16:38:21 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Dec 2023 16:38:21 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 7 Dec 2023 16:38:21 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 7 Dec 2023 16:38:13 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=caIKKRYtqUYe9/1+bCMVzk16TnE1SlOjIwx7tEsFz3Mt09SL15q0nrPLA3DbissLGIGl42blRsRGKe0aGx5m876Ve92pfi/rJD+nrWYODEd9uN5Q7rCzzGlU283cEid1DyQlSqGeOSTzZg5oIy08p5C7RiSwIdJutrlldp5VnkhglN0I+J0PfDWku7B9ObsnLGOyIYnPf5VxZzfTZ9sLksQxTi/uSqvQGSeTS8AQHik1rzA1S3juK/mgXnpTkjREwGdwyzOSHb+D7euyejM1wXUJdA0aV9CtEzspddQOaWja39/91wmf63kh0fqOzAxoDazladoUyhWZ/zcMZ61awQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G7bGzHjUVYwhx64MKWEGfxk1JCnjMsLXtoAFCpIeXuo=;
+ b=OLFd1+hEu8DsLU7d6fSlhyKWElCTsUcDYE9dD9itWqDPYprbVWU0ZTi0f6AJI82Ib8aJd9lFkXgO9pc0yADJfKMFWHIMTf8Ik2UFx4Q6wzLudJmzSE8QPasCXPGPoJgA3SACbUshB3B9NSjW3M9wjkVq+TWk+BKfq3kknjgBg3zlPJlchgowYsBqYwb6le1GGE93Nh+ouFEmOVzXDq+XhqDUTca9n7jrQVGl5aW7Sq5HuUdN/auin2itoPvv5Y2fb+l3qiWICFPazOaKIjq2wSPKw/jUDRjp6OXlFK9MNhqYsKMbPfUjxt1LIG6ksdA8F1Hwsk/8fBWFdigq216Z/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB2618.namprd11.prod.outlook.com (2603:10b6:5:c0::30) by
+ PH8PR11MB6612.namprd11.prod.outlook.com (2603:10b6:510:1cf::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22; Fri, 8 Dec
+ 2023 00:38:11 +0000
+Received: from DM6PR11MB2618.namprd11.prod.outlook.com
+ ([fe80::72c9:baf5:4298:34d9]) by DM6PR11MB2618.namprd11.prod.outlook.com
+ ([fe80::72c9:baf5:4298:34d9%5]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
+ 00:38:11 +0000
+From: "Xu, Even" <even.xu@intel.com>
+To: Jiri Kosina <jkosina@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>
+CC: "srinivas.pandruvada@linux.intel.com"
+	<srinivas.pandruvada@linux.intel.com>, "bleung@chromium.org"
+	<bleung@chromium.org>, "groeck@chromium.org" <groeck@chromium.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
+Subject: RE: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functions
+ for connection
+Thread-Topic: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper
+ functions for connection
+Thread-Index: AQHaJx2uw/KO/zzP6U+uHdhDNt8IrbCbm6AAgAB1rACAAn4CgA==
+Date: Fri, 8 Dec 2023 00:38:11 +0000
+Message-ID: <DM6PR11MB2618C7784CF94041F1EF0B00F48AA@DM6PR11MB2618.namprd11.prod.outlook.com>
+References: <1701741033-26222-1-git-send-email-even.xu@intel.com>
+ <1701741033-26222-5-git-send-email-even.xu@intel.com>
+ <ZW_rdCJ7EdtmJYFz@google.com>
+ <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB2618:EE_|PH8PR11MB6612:EE_
+x-ms-office365-filtering-correlation-id: bc5e030d-e5e3-4855-2767-08dbf785f527
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: J3OZ8lr9JfFZaLx93U/jooTYAHW5EhG7cXfH7jA4Qh2U664gboKg/MT47AF/h8QwHomp9Sx/BLaN3CX9UAAPozDH06A7olrSPGDnQlXOz56XdqjMuNXIEvcJlsKb7566Eo0wMTrxYre0Vn/kzEuu28HPjgeAlZ7a3J/5sbHMjG6a6fa2+vfCIvYKTsEf9KaUey/WOoyxzc/y4CY4KN5Mge9bAGs80ZZ/FznPt6UZ/3DjnJ1CLtZAfrROKruqE3sVuiIQ7zUKojn3sMplk66X0NoBUTKKTmiJw6xONA5CyW3cCtndMg420sz5LMKpADlvqo8zxaXSLr7jqPZQabkBzfU5X/uQnwl2pybZ0S5L4LmOCSYh5jBD5MvKAWbfc6YCTQ+8mFuzbuVonz3Xi3UR4pyGFSqReZFErv6Hkk5Z5CMn198EPLUyROMvwG5o6EuPZvqS9Ae8PViAWMSpyOMSmAiJdpVWjNxSMtItyFj/IgiPY3z9GZloibUtEBk1DQ4VxPvqjn9qt6w5KU9oKVOEHD9nL7+B/sUNiiCJvYqMmfwhLn6hjXE+cKQ2rsa3/RsxawlOylpiF0PVBlEW0Yhl5YPAwYJrC/lk7JNuI6peqNsJu2PQabxnxID1Tz2pFIAD
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2618.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(366004)(136003)(346002)(396003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(83380400001)(66946007)(76116006)(38070700009)(26005)(7696005)(52536014)(66556008)(5660300002)(66446008)(110136005)(53546011)(66476007)(54906003)(86362001)(4326008)(2906002)(8936002)(41300700001)(33656002)(316002)(6506007)(9686003)(71200400001)(478600001)(64756008)(8676002)(82960400001)(122000001)(38100700002)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZFARH2KhrMN9Thx1ZNvKSbLsr70jurhMf2oXIFMwOImJc79s0t7rEysv9gAA?=
+ =?us-ascii?Q?DJrjTLqAqb3M9CUusDvffHOdv1/UkWTKXnRmKUwUp7zE6nboQTu6NRbys/pt?=
+ =?us-ascii?Q?QK4nWIR4xh8CPr15ucyY4VvtKcjmMibt2IfSqPbkC7uhf9eZqrSDRaU/utBS?=
+ =?us-ascii?Q?OovqAKKhMkw91vK7XL+ngStE4EMlXlx1/xQg4ilv9LuX2kZcXjO0zBPBFzNG?=
+ =?us-ascii?Q?FG+6MvkD5x93WAqRLMXen02A1IvQ8c6+NBPzeQTQsrpbgcT2YkM/Hu79iFo8?=
+ =?us-ascii?Q?CLqyNiIk7SQdeLe2pI90phlTZCF/Tl1GDbRIPT0s/XtqfX1iMrWNlmSDFac6?=
+ =?us-ascii?Q?CV8o0in9iRQ45WPtxFrn1N3qt/v4+rr+XN7mBNrHbSO6b3WfIqZuPDOabUgg?=
+ =?us-ascii?Q?E6e6LIBd/c46XpMic5vuu1vALaR9W40TaJw62Rdj06AqTs0r225Y1NR9hNa8?=
+ =?us-ascii?Q?lr259o4GDULwDE8A8+TqEWUI1uD1z4UYN0IS92T/6Y+NvtQC9X+RDo/uX1YD?=
+ =?us-ascii?Q?gEb8FBbFu1+5yjrFbw/7PBxLLKbonHm/Sy2KqH+5yMAMV4XL2oqo2TOKz8YD?=
+ =?us-ascii?Q?0P5u2766hroH+I1FwyYDFNWBh4ecqAu0+NrUcMTKAecQ8Mc4lFRzt94u6dwm?=
+ =?us-ascii?Q?C4Ehn0DbdtSPWHqjzyvTxaZmFzmEYTB3JDUg+8vaxnQUqV8zP7GZZX00dOky?=
+ =?us-ascii?Q?huYt+2kN6f8cv1lT9PWXss3qPg5rXQ9sYfDKFkaEwspsijdMi7H5WbrD1vxS?=
+ =?us-ascii?Q?PONRhPczb/4ABqOOmlP3XXf01DX0qJJ5+Hxs867dOUEQmko2JuFMtSqGFLtY?=
+ =?us-ascii?Q?Za0anpTf2XUPrE+nHH+6YrxMCCdIqopoXanZGwdMuX5JceQzw+R9ib8wPRuT?=
+ =?us-ascii?Q?0iivYeGBOI3raYQ6HaObnoIh0T1LO/bZ0qoaOr9koZSngdr5ex3s3rnyi2JT?=
+ =?us-ascii?Q?784KnJZGWOsrFlzqmFd4ADSUwZ6GFgPg3hQAw6mE/pQJ4kc1OzDYgT+ewqe9?=
+ =?us-ascii?Q?HQZIeEKDcPRT3DEK6qGiwHEbuI2F1f1Rns/uCzsWXFmV/SgMN5U2ImH4C1+o?=
+ =?us-ascii?Q?DpjtgaIessxwu1y9aQKhnZWeuA+U2ujN86NjHUFHLyyB8xO38ZeXzgXq8Vtb?=
+ =?us-ascii?Q?2oL+Sqzd20VgKLl6DGUKzKKrmbFYa2isBqSeCO/E6iPmRPb1S8BQVhWcC6gk?=
+ =?us-ascii?Q?nC0QtIpJ2Na2S6xQNuJXZWi98ZrZn0vDvoY5lAnF0TBEqcIy96Ta9HvgE7vF?=
+ =?us-ascii?Q?u3Puv5qxAiP9EPHVJ6fla48hxUUuTkK1SYPvmR+e0DEyvUdMGTNyCcex6Wfd?=
+ =?us-ascii?Q?iy+NmRQs2vVp9brQ+2HnDeg+XPuH8rxl7sjNanIfZC0Y32Egsb8u0EnfUtDw?=
+ =?us-ascii?Q?q7bLkkdbmDwTOVRIzXTq46p0m5ala10wQHUG5AmVqIGWM9drC5pX7mRBW82M?=
+ =?us-ascii?Q?c5SM7FlhqLtsNHI5Ta6ERhkD/K3ZbbGagOkryB3OPa2WHFCXfll9cRZT2oLN?=
+ =?us-ascii?Q?pxpHfI0DoR8oKlI+2c9/fgKuTk3FtYh65eWf92jWEdrnPCXabv4zqUedclen?=
+ =?us-ascii?Q?iVv9HzHkXyGgrkt0nJg=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231207090738.15721-14-rdbabiera@google.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2618.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc5e030d-e5e3-4855-2767-08dbf785f527
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2023 00:38:11.8230
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Zb0XcVjMzJEBrkncmBkP6XOhRVcDjaHGzYDhtxhJ3XtoDs92Tj7RJKiQP24h+P9StP0CLTEK5WaGgv+zF5hN+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6612
+X-OriginatorOrg: intel.com
 
-Hi RD,
+Thanks Jiri!
 
-kernel test robot noticed the following build errors:
+Best Regards,
+Even Xu
 
-[auto build test ERROR on 5e4c8814a431d21bfaf20b464134f40f2f81e152]
+-----Original Message-----
+From: Jiri Kosina <jkosina@suse.com>=20
+Sent: Wednesday, December 6, 2023 6:34 PM
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Xu, Even <even.xu@intel.com>; srinivas.pandruvada@linux.intel.com; bleu=
+ng@chromium.org; groeck@chromium.org; linux-input@vger.kernel.org; chrome-p=
+latform@lists.linux.dev
+Subject: Re: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functi=
+ons for connection
 
-url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-provide-transmit-type-for-alternate-mode-drivers/20231207-171114
-base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
-patch link:    https://lore.kernel.org/r/20231207090738.15721-14-rdbabiera%40google.com
-patch subject: [PATCH v1 02/10] usb: typec: tcpci: enable reception of SOP' messages
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080751.GDJHcwNz-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080751.GDJHcwNz-lkp@intel.com/reproduce)
+On Wed, 6 Dec 2023, Tzung-Bi Shih wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080751.GDJHcwNz-lkp@intel.com/
+> On Tue, Dec 05, 2023 at 09:50:33AM +0800, Even Xu wrote:
+> > Use helper functions ishtp_cl_establish_connection() and
+> > ishtp_cl_destroy_connection() to establish and destroy connection=20
+> > respectively. These functions are used during initialization, reset=20
+> > and deinitialization flows.
+> >=20
+> > No functional changes are expected.
+> >=20
+> > Signed-off-by: Even Xu <even.xu@intel.com>
+> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>=20
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-All errors (new ones prefixed by >>):
+Thanks.
 
->> drivers/usb/typec/tcpm/fusb302.c:1470:39: error: too few arguments to function call, expected 3, have 2
-                   tcpm_pd_receive(chip->tcpm_port, msg);
-                   ~~~~~~~~~~~~~~~                     ^
-   include/linux/usb/tcpm.h:172:6: note: 'tcpm_pd_receive' declared here
-   void tcpm_pd_receive(struct tcpm_port *port,
-        ^
-   1 error generated.
+> One minor suggestion: we usually use "platform/chrome:" instead of
+> "platform: chrome:" for the title prefix.
+
+I have changed that, and am taking it together with the rest of the series =
+through hid.git#for-6.8/intel-ish.
+
 --
->> drivers/usb/typec/tcpm/wcove.c:538:37: error: too few arguments to function call, expected 3, have 2
-                           tcpm_pd_receive(wcove->tcpm, &msg);
-                           ~~~~~~~~~~~~~~~                  ^
-   include/linux/usb/tcpm.h:172:6: note: 'tcpm_pd_receive' declared here
-   void tcpm_pd_receive(struct tcpm_port *port,
-        ^
-   1 error generated.
---
->> drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c:302:52: error: too few arguments to function call, expected 3, have 2
-                   tcpm_pd_receive(pmic_typec_pdphy->tcpm_port, &msg);
-                   ~~~~~~~~~~~~~~~                                  ^
-   include/linux/usb/tcpm.h:172:6: note: 'tcpm_pd_receive' declared here
-   void tcpm_pd_receive(struct tcpm_port *port,
-        ^
-   1 error generated.
+Jiri Kosina
+SUSE Labs
 
-
-vim +1470 drivers/usb/typec/tcpm/fusb302.c
-
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1421  
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1422  static int fusb302_pd_read_message(struct fusb302_chip *chip,
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1423  				   struct pd_message *msg)
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1424  {
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1425  	int ret = 0;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1426  	u8 token;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1427  	u8 crc[4];
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1428  	int len;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1429  
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1430  	/* first SOP token */
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1431  	ret = fusb302_i2c_read(chip, FUSB_REG_FIFOS, &token);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1432  	if (ret < 0)
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1433  		return ret;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1434  	ret = fusb302_i2c_block_read(chip, FUSB_REG_FIFOS, 2,
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1435  				     (u8 *)&msg->header);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1436  	if (ret < 0)
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1437  		return ret;
-f03d95f59026d1 drivers/staging/typec/fusb302/fusb302.c Guru Das Srinagesh 2017-05-10  1438  	len = pd_header_cnt_le(msg->header) * 4;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1439  	/* add 4 to length to include the CRC */
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1440  	if (len > PD_MAX_PAYLOAD * 4) {
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1441  		fusb302_log(chip, "PD message too long %d", len);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1442  		return -EINVAL;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1443  	}
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1444  	if (len > 0) {
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1445  		ret = fusb302_i2c_block_read(chip, FUSB_REG_FIFOS, len,
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1446  					     (u8 *)msg->payload);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1447  		if (ret < 0)
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1448  			return ret;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1449  	}
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1450  	/* another 4 bytes to read CRC out */
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1451  	ret = fusb302_i2c_block_read(chip, FUSB_REG_FIFOS, 4, crc);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1452  	if (ret < 0)
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1453  		return ret;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1454  	fusb302_log(chip, "PD message header: %x", msg->header);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1455  	fusb302_log(chip, "PD message len: %d", len);
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1456  
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1457  	/*
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1458  	 * Check if we've read off a GoodCRC message. If so then indicate to
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1459  	 * TCPM that the previous transmission has completed. Otherwise we pass
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1460  	 * the received message over to TCPM for processing.
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1461  	 *
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1462  	 * We make this check here instead of basing the reporting decision on
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1463  	 * the IRQ event type, as it's possible for the chip to report the
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1464  	 * TX_SUCCESS and GCRCSENT events out of order on occasion, so we need
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1465  	 * to check the message type to ensure correct reporting to TCPM.
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1466  	 */
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1467  	if ((!len) && (pd_header_type_le(msg->header) == PD_CTRL_GOOD_CRC))
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1468  		tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_SUCCESS);
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1469  	else
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21 @1470  		tcpm_pd_receive(chip->tcpm_port, msg);
-ab69f61321140f drivers/usb/typec/fusb302/fusb302.c     Adam Thomson       2017-11-21  1471  
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1472  	return ret;
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1473  }
-c034a43e72dda5 drivers/staging/typec/fusb302/fusb302.c Yueyao Zhu         2017-04-27  1474  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki

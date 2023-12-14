@@ -1,52 +1,52 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6555EE94
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Dec 2023 16:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32F55CD06
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Dec 2023 16:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jQUedh15"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d04c097e34so6673865ad.0
-        for <chrome-platform@lists.linux.dev>; Thu, 14 Dec 2023 08:35:19 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aR+VqAD0"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6ceb93fb381so676889b3a.0
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Dec 2023 08:37:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702571718; x=1703176518; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1702571835; x=1703176635; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=luawVzpNb+QxL668ocEaZVPjlwFQcIxmSlMsAYgwWS4=;
-        b=jQUedh159KZWctOwwEjie8Ejvf9ACLdCNaeF1nGyzgHE/i8czq9S1rrsj0HFnL5hl0
-         369TBv+6nwdQd050p65gjoLsBkcjhnVv2NkElhVXh4zeY7kPSJPVIJVt2Bztw98hx6F1
-         LXi6w3IwKPO5/qnfETe75DTfcq5wfAG9mrK4U=
+        bh=ytGugjo0G0b+BPvqCI62+RFEO79iMDy6vjEWkwFFqNo=;
+        b=aR+VqAD0ywB+oJGxnvwDckUm98J8TgIUu3qd7EZ8lt58HDER9Vjr6IW0eD6HYsapVy
+         KG2E30EEMF1xSP+KQUuyqXmCX3jNs+1HGZcR1mVhmmhyxuKr3kl0EvvoOCnjtF04wqCY
+         QnlnIK/q99UhsAqWqslYP6hMfZ4uwHQDqAkFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702571718; x=1703176518;
+        d=1e100.net; s=20230601; t=1702571835; x=1703176635;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=luawVzpNb+QxL668ocEaZVPjlwFQcIxmSlMsAYgwWS4=;
-        b=mKFzDWyIAREf7oflSB7zqgYmURd3eXyndgRdLVqxz2bMH0Ja9PfrYOyVBsUDb8lis7
-         DVFveL+c6vNIzx1EXdzUgCUYUvvVz5pEbVFU3SPwKuZiGwDBQH7Q5cV/Ze/rzVpRTWMQ
-         xWEfO7W3dfBpX/EKAnswlhFJNNVr5/OBuoW8+Hl+nRAAJkWEamOV2yX+WhqXJ2+HyGwG
-         FazWNHYWLzPuvlUZAXiZGe87syNiyUplGFIYpsW85JjILDYEtq1rfYN9OuAh8hQWJYWZ
-         A9xsjux7B9oCwS+QYyDH1VQL1Y+yob8mb7KXCr/Q1fsHotFr9DDMZoQQjrYiPwNJOxJZ
-         BIoA==
-X-Gm-Message-State: AOJu0YyExuGIjqSZqXmomV99TBcJ6JdrJxYzl/PV9Yhj4YN9YlEDbsQ8
-	Qs/sUgaC9lBv4mahrj2S5fCmCQ==
-X-Google-Smtp-Source: AGHT+IGMWhJzEdepoAGmiKRWvixiMXZQ5VqwgLuRg6NDcnO9mPPEhzlmlU+yN2Yxf/7Q1lbZjCM1dg==
-X-Received: by 2002:a17:902:f283:b0:1d3:3676:c9d with SMTP id k3-20020a170902f28300b001d336760c9dmr4808777plc.19.1702571718563;
-        Thu, 14 Dec 2023 08:35:18 -0800 (PST)
+        bh=ytGugjo0G0b+BPvqCI62+RFEO79iMDy6vjEWkwFFqNo=;
+        b=ku5WgDNtqUvugla+/9ZG3k6eN/Uk702JcvWiiKlLxtpyD0UcDUAOR1L74ZFmks0v0v
+         Y/gI8FcyKN+YWivc3re7JJ3OdkJZI9Reav0jqjxjVDSesbdfQ4k9RqGmvqXWAp2rr/vp
+         0vmsUms0zUFHpdfZKkdegy1b7moeE9Dgmk1AAFjVvjC680ohv5bFQ27X28kQs3mJbxMy
+         yJY6V0J4Vu+RSxb6rWoSWJ8WG8fqM8rrpRiF2YaXAWxskoc0USb9m6Shp1nbPHmrbEK2
+         w31MWZjR/LBMJ9LQlD73zlGEnKPfvQaJx6a0Q+l4QqnTmG2UUpy7zFRMgBnrIL7kL9Pf
+         jsEA==
+X-Gm-Message-State: AOJu0YwhHpAfhRGNgXsKhKalyU/a+/UJC0Lv7pWyvK+6l6FkIQTHRweD
+	YNri6GrTjrHQkH2DsoFlZZjPug==
+X-Google-Smtp-Source: AGHT+IHCcgxq6RgAT4BqOXPUetDHHLYdNS0fny6BFi7+klsE9cZ2F0ubu4OKof7NjbKXCrj/xdfJ9g==
+X-Received: by 2002:a05:6a00:2d9e:b0:6cd:fda4:b57c with SMTP id fb30-20020a056a002d9e00b006cdfda4b57cmr12902654pfb.15.1702571834799;
+        Thu, 14 Dec 2023 08:37:14 -0800 (PST)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id c2-20020a170902d48200b001cfb4d36eb1sm12611665plg.215.2023.12.14.08.35.17
+        by smtp.gmail.com with ESMTPSA id gx4-20020a056a001e0400b006cbb71186f7sm11945039pfb.29.2023.12.14.08.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 08:35:17 -0800 (PST)
-Date: Thu, 14 Dec 2023 08:35:17 -0800
+        Thu, 14 Dec 2023 08:37:14 -0800 (PST)
+Date: Thu, 14 Dec 2023 08:37:13 -0800
 From: Kees Cook <keescook@chromium.org>
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
 Subject: Re: [PATCH][next] platform/chrome: Fix -Warray-bounds warnings
-Message-ID: <202312140830.953C55AC9@keescook>
+Message-ID: <202312140836.5AB528D54F@keescook>
 References: <ZCTrutoN+9TiJM8u@work>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -105,52 +105,11 @@ On Wed, Mar 29, 2023 at 07:54:02PM -0600, Gustavo A. R. Silva wrote:
 > Link: https://github.com/KSPP/linux/issues/278
 > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-This patch seems to have gotten lost? Looking at the conversation, I
-think it should land as-is rather than changing the allocation size.
+FWIW, I think this is the right change that disrupts the code the least.
 
-I can pick this up via my tree if that helps...
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -Kees
-
-> ---
->  drivers/platform/chrome/cros_ec_vbc.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
-> index c859c862d7ac..b5a584f5469a 100644
-> --- a/drivers/platform/chrome/cros_ec_vbc.c
-> +++ b/drivers/platform/chrome/cros_ec_vbc.c
-> @@ -20,10 +20,14 @@ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
->  	struct cros_ec_device *ecdev = ec->ec_dev;
-> -	struct ec_params_vbnvcontext *params;
->  	struct cros_ec_command *msg;
-> +	/*
-> +	 * This should be a pointer to the same type as op field in
-> +	 * struct ec_params_vbnvcontext.
-> +	 */
-> +	uint32_t *params_op;
->  	int err;
-> -	const size_t para_sz = sizeof(params->op);
-> +	const size_t para_sz = sizeof(*params_op);
->  	const size_t resp_sz = sizeof(struct ec_response_vbnvcontext);
->  	const size_t payload = max(para_sz, resp_sz);
->  
-> @@ -32,8 +36,8 @@ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
->  		return -ENOMEM;
->  
->  	/* NB: we only kmalloc()ated enough space for the op field */
-> -	params = (struct ec_params_vbnvcontext *)msg->data;
-> -	params->op = EC_VBNV_CONTEXT_OP_READ;
-> +	params_op = (uint32_t *)msg->data;
-> +	*params_op = EC_VBNV_CONTEXT_OP_READ;
->  
->  	msg->version = EC_VER_VBNV_CONTEXT;
->  	msg->command = EC_CMD_VBNV_CONTEXT;
-> -- 
-> 2.34.1
-> 
 
 -- 
 Kees Cook

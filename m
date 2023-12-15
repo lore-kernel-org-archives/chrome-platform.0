@@ -1,95 +1,70 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437DA3FE58
-	for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 17:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id ADB5C20640;
-	Fri, 15 Dec 2023 18:07:37 +0100 (CET)
-Date: Fri, 15 Dec 2023 18:07:33 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
-	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
- size_t
-Message-ID: <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
-References: <20231214170146.641783-1-francesco@dolcini.it>
- <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
- <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
- <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CEB4776F
+	for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 21:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H03npbNB"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5e4ecb50894so4158247b3.0
+        for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 13:02:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1702674135; x=1703278935; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MTDZCEFmSpT07ZfLz7vZkizeT1MqLax9S/t8QTl1d0Y=;
+        b=H03npbNBypk0HP/mr3V6WGDysLQYQv7yAj2QGIKu6ggJGPPKESAE+t+vPAVz1puFew
+         FltfHMPsJO+ajh+46I32vPbA6rKD9FANItD3SBcPTVTIhqSArky+ukFxYU7m7sVLKPhx
+         vCgQc54HE/8Y96waSIjojFBvArfBbiQNTX0OI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702674135; x=1703278935;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MTDZCEFmSpT07ZfLz7vZkizeT1MqLax9S/t8QTl1d0Y=;
+        b=ouKnGLfbgcdETV5WJAVYqdqLTV1f4BWyAOi8xNmqcnYnZjVLjoHlblRjmiq2SM2t+n
+         V+/NUfbuL8fKagOqQEaueE4KeylYjkhZk6WHB///5fsiTyGwyV+m1yVY+Df9RyfMSK2c
+         pvrbmNvfBHkA1dBjbQvc/OFty3KYoebIUeCYYH3IR5h9N2M+3ipfdd99GKyKaPV8JGjP
+         Alq9GJya5iLsRxiTDjGHgXHeQkQs5rW9W3eQRXsMuzv6mBSgij2cRwe+F+Vh1HdMgIN/
+         WrFZ61yj1PZ4XCbgCkXWCDjSzrSDjMJdhdVWqlkiw1l0AIw4Y3OE9se/TKgUbC8GJ5Gn
+         uLvQ==
+X-Gm-Message-State: AOJu0YzZ3zqfm9JNjemJbDUFToHajDIenRU0ghGaQg7XEXJE4OG7Sj7j
+	FhY8kMNbOJI964Iuz+E6x/uM5ow8KE8p/6CCmZLmBA==
+X-Google-Smtp-Source: AGHT+IHG2yNMC71GN34CM/K6BzT74ojShGEa/vHULoEqCZj+Bn5WMfiAAqFWcB/K1Avy+6c5B8HyegKE+eg87hEaAPQ=
+X-Received: by 2002:a0d:c482:0:b0:5d7:1941:2c3c with SMTP id
+ g124-20020a0dc482000000b005d719412c3cmr8885843ywd.105.1702674135254; Fri, 15
+ Dec 2023 13:02:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+References: <20231213110009.v1.1.Ifd0903f1c351e84376d71dbdadbd43931197f5ea@changeid>
+ <20231213110009.v1.6.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZXpx9esFooSgq11q@google.com>
+In-Reply-To: <ZXpx9esFooSgq11q@google.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Fri, 15 Dec 2023 14:02:04 -0700
+Message-ID: <CANg-bXApLtwuk+B3=F4b0M_xJ06x6kn2Owbb0RC6Rdpcma4_Ow@mail.gmail.com>
+Subject: Re: [PATCH v1 6/6] platform/chrome: cros_ec: Use PM subsystem to
+ manage wakeirq
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
+	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Johan, Greg
+> It looks to me the patch combines multiple changes.  Please separate them into
+> smaller pieces for reviewing easier.
 
-On Fri, Dec 15, 2023 at 05:18:52PM +0100, Johan Hovold wrote:
-> On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
-> > To me the change is correct, with that said probably this should have
-> > been explicitly mentioned in the commit message or a separate
-> > preparation patch.
-> 
-> It's a separate change and should not be hidden away in a tree-wide
-> change that goes through a different maintainer.
-> 
-> Please drop this change from this patch and resubmit it separately to me
-> if you want and I'll review when I have the time.
+Unfortunately, I don't see an easy way to break up this commit without
+breaking EC wake functionality along the way.
 
-Fine, I agree.
+> Another confusing about the patch subject: "6/6"?  Is it a series?  I don't
+> see the cover letter.
 
-I see those options (let me know if you see other options I have not
-mentioned):
-
-1. I add this change (taking into account also intel ice) as a separate
-   patch in this series and you may just ack it and Greg could merge
-   together with the serdev one.
-2. I prepare an independent patch for the GNSS change and only once this
-   is merged I'll send a rebased v2 of this one.
-3. I update this patch without this GNSS API change, that mean I will
-   have to cast away the signed type from a few GNSS drivers.
-
-1 is my preferred option, 2 is fine, but it seems a little bit of overdoing,
-3 I would avoid, we are doing this cleanup to be a little bit more
-strongly typed and to prevent the kind of bugs that is the original trigger
-for this patch.
-
-What would you Greg and Johan prefer?
-
-
-> And when doing tree-wide changes, please try to follow the style of the
-> driver you are changing (e.g. do not introduce inconsistencies by
-> changing to open parenthesis alignment of continuation lines in code
-> that do not use it).
-
-ack, sorry about that, looking back at the archive is seems a recent
-pain point, also Jiri fell in this trap.
-
-Francesco
-
+Sorry about that! I'll make sure to add a cover letter and CC you on
+the next series version.

@@ -1,48 +1,48 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BAE1A70E
-	for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 09:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8F9199CD
+	for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 09:55:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="CubH0RR3"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3b9f8c9307dso433530b6e.0
-        for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 01:12:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="t7pONPYS"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d38e2be167so954295ad.3
+        for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 01:55:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1702631539; x=1703236339; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1702634138; x=1703238938; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LnugKKgqhcz166yKzH23meFi0hvV/M1CDwNlnT456fY=;
-        b=CubH0RR3fQHB8glIaopT8vZNBEr7crN70zXOwGSt1mH4OfdRAGUPqgp2cmfVg68jum
-         XXDefiVr6X7OKdhre2/A+u+eJh9grkADad3oqpZqYOPvsi9nQB999weNsy88I0olqP+3
-         snq+Sxu+ZBWUHJgksIjnfo5JyFTwvLAAsntvC/cQLNbz305kgvsj5Vsf+oQjJxe2pF0s
-         mIR3O3qbdUXz1L+3mS+Cqzk+84R4ld3rgewQ9ixQX+I+Ahm38dWdsPpI0JZYf7XI960q
-         N+iQhuE3d1r0a1weQ0XUP+hC+99EqlLTrG3eg8QFfLZnz7KUz31LzJIHyhIERqCTPmj8
-         KPMQ==
+        bh=zehWTEWyOKOhoDrdHVrn9DV2gQl1zxNQYfsM3EQaThw=;
+        b=t7pONPYSzMMnLXPhhiaJPgtKpIO7DIcPyZJJMseT/Yy7McLx+Iue0//yI0LyWAlrz8
+         dv+oz6y8oy0bwMfLF77vsasTY4eKqEZaItQ3zammDeLi0Uk7tAEMfY5hwKCsmA9eQwYI
+         UDWyupuKzjBUEhuS7DZc0s1y/AQU/OFDl0qmSaVecUqQo1M5fZuiiKCPVav206blMjeU
+         432w2vF+01g5EC5tUX5rFj914htekdfmsfNxJoHfNIrvUFSkv3jXcIAwc2ba2+S6ZAVE
+         Rgw1kJda2hXgm2OiBTMp4YSU3Xr4oYtKvTP3sIhDrTIJtiPXlIsMCOMg1KKyk460m8BB
+         8psA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702631539; x=1703236339;
+        d=1e100.net; s=20230601; t=1702634138; x=1703238938;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LnugKKgqhcz166yKzH23meFi0hvV/M1CDwNlnT456fY=;
-        b=ms/jzAdPPJWHC85wEKU706YNcbSfhkwlmoCc0cOVEQTf2l+bs/2p5rCvVG14cJl4ca
-         mRWHCZsSjYq50pOWfau/uszos0S+07WDa6iQP338nkhVugu8TOBjfcAW3OadXp/VlDxF
-         bxBNj3MRHPFCANxxg4SYH1Cn7lJOKOlYgmLFViynjyjKTJ5yIKf2A/wVpRtSw+/qzwOh
-         NH+ATvMLIEn6BWw84Zc3kH0BwuChNAWrYtxkrCh8cv2SnFpK7E+o0/NoJL55Nf97cJWt
-         LazEZZ9nJPUwVOQqo51bORcemrmlVENQcjmp43xT0/ekrhrqyP/51KGtDWem8F8bPqc9
-         Wmxg==
-X-Gm-Message-State: AOJu0YwDkRWsK1KWlOhrvCbJRn8Ny5GKO3j9KY0Urtc4mX2n7GQo2b7+
-	VUYfbpXJxQjcZjuVCuyXOfCgmw==
-X-Google-Smtp-Source: AGHT+IHEk7C4jj2RbDnzXqINfreQ+Vk/vfYUJgB/pj1f90vQdas1+I/2S5DXYTAN75W8/YOnZlGpUg==
-X-Received: by 2002:a05:6808:3309:b0:3ba:231:cd4c with SMTP id ca9-20020a056808330900b003ba0231cd4cmr15545295oib.40.1702631539555;
-        Fri, 15 Dec 2023 01:12:19 -0800 (PST)
+        bh=zehWTEWyOKOhoDrdHVrn9DV2gQl1zxNQYfsM3EQaThw=;
+        b=WR0Xe0b86F8c6NR9ElMmObVCxoYCtvGxEXs1ePY8LkcDNbcJVWonFUzr8TSLt0u/UD
+         KPSffwNElT5YX5l94Gi5qrA3E5w3bigjX7uYnf3aOa48S993sChG19mCeu3lGxP7z7uD
+         WlThJg0zFQIPFLBmvHSzmaLuLykhiHA/td2ATKADyUTotKa25e+yPQSHHvpmLldEIeC4
+         WzVDJQetHj9eovuxUrh2pCxNlq7FNpjzd3NMZaSy/l/QGcQZqEQcfye0Qj26wjzHu6am
+         mXZfaORfBum5banpkm+vBw/76oZFfF5sPZYDQ29mBrpOwIXfHfCb+dMEBOLOF+Xt6q6t
+         zC1w==
+X-Gm-Message-State: AOJu0YxBlHgYaeM6+POJA+TS5Se9plOn4Q40yAbnk4d+KJIF+MOe9ftK
+	BiVvkGkESTh7ni5lnP/pWZzuEg==
+X-Google-Smtp-Source: AGHT+IFd2VPe8/fbeGfDsxnVsl3+O/Gr/LHOIUoNvwHNK8h2sk5njVfw4xDxR4lrZMhG0oghq0apSQ==
+X-Received: by 2002:a17:90b:368e:b0:28a:f2c8:e168 with SMTP id mj14-20020a17090b368e00b0028af2c8e168mr1881787pjb.98.1702634138122;
+        Fri, 15 Dec 2023 01:55:38 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id y33-20020a056a00182100b006cc02a6d18asm13116359pfa.61.2023.12.15.01.12.18
+        by smtp.gmail.com with ESMTPSA id st5-20020a17090b1fc500b0028b11757032sm2559300pjb.29.2023.12.15.01.55.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 01:12:19 -0800 (PST)
-Message-ID: <657c1873.050a0220.60e47.976c@mx.google.com>
-Date: Fri, 15 Dec 2023 01:12:19 -0800 (PST)
+        Fri, 15 Dec 2023 01:55:37 -0800 (PST)
+Message-ID: <657c2299.170a0220.22d2a.7600@mx.google.com>
+Date: Fri, 15 Dec 2023 01:55:37 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -53,60 +53,74 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Branch: for-kernelci
 X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: build
+X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v6.7-rc1-3-g59a9ccf19ee03
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.7-rc1-3-g59a9ccf19ee03)
+Subject: chrome-platform/for-kernelci baseline: 94 runs,
+ 1 regressions (v6.7-rc1-3-g59a9ccf19ee03)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.7-rc1-=
-3-g59a9ccf19ee03)
+chrome-platform/for-kernelci baseline: 94 runs, 1 regressions (v6.7-rc1-3-g=
+59a9ccf19ee03)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.7-rc1-3-g59a9ccf19ee03/
+Regressions Summary
+-------------------
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.7-rc1-3-g59a9ccf19ee03
-Git Commit: 59a9ccf19ee03179faf047822bbec76cac7467a4
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+platform                | arch  | lab           | compiler | defconfig     =
+             | regressions
+------------------------+-------+---------------+----------+---------------=
+-------------+------------
+mt8195-cherry-tomato-r2 | arm64 | lab-collabora | gcc-10   | defconfig+arm6=
+4-chromebook | 1          =
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
 
-Detailed per-defconfig build reports:
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v6.7-rc1-3-g59a9ccf19ee03/plan/baseline/
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v6.7-rc1-3-g59a9ccf19ee03
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      59a9ccf19ee03179faf047822bbec76cac7467a4 =
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
+Test Regressions
+---------------- =
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
 
----
-For more info write to <info@kernelci.org>
+
+platform                | arch  | lab           | compiler | defconfig     =
+             | regressions
+------------------------+-------+---------------+----------+---------------=
+-------------+------------
+mt8195-cherry-tomato-r2 | arm64 | lab-collabora | gcc-10   | defconfig+arm6=
+4-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/657c19480e2a81e926e134a0
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.7-rc1-3-g59a9ccf19ee03/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/baseline-mt8195-cherry-tomato-r2.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.7-rc1-3-g59a9ccf19ee03/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
+ora/baseline-mt8195-cherry-tomato-r2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/657c19480e2a81e926e13=
+4a1
+        new failure (last pass: v6.6-rc1-21-g47ea0ddb1f56) =
+
+ =20

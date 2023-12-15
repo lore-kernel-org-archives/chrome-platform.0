@@ -1,23 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02ECC30641;
-	Fri, 15 Dec 2023 14:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E853BB25;
+	Fri, 15 Dec 2023 16:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H6hwq92X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A407C433C7;
-	Fri, 15 Dec 2023 14:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1702649515;
-	bh=xcqVasPR7/6/BGkmp20d/mwFZY/qYeQV954kXhulne0=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K7dm0Ddl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FC0C433C7;
+	Fri, 15 Dec 2023 16:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702657137;
+	bh=YlcNrdt+0bdBjEoeknJhdd+iUZGMaHxrfBZN/74+PSM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H6hwq92XJhZCx8YzkUspQ2BH8/Bmyvmss0bwdDEeI685r5m21J29uMKmzEeKRlHGf
-	 gFtB8lAkg2zQd+t/qN4A5hvSsaF9WE8iyeEfKkXx0TQFMfFJwajt9rs2jMLAA5UQ2Q
-	 ttSYSzrZbXILZ1muKg4Fnpy5jIEyvmZtvtb8oCHY=
-Date: Fri, 15 Dec 2023 15:11:53 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
+	b=K7dm0Ddli65bXnpIe+H/ttDbslFE9q2kMgBadq97OkKtouXQIbEiyY2q9JXScuDsv
+	 C1TjFxiht6mfl4VICqLkzK7PUWl+CGRGnU6fYOYPcX8M4yYc9TnjF9ZXpkWsSySLmw
+	 CyyhNm54GFYsWjy2rItDi4vwFE9/ZhlLtsFlUG5+pOmeb3j63lrLaKJ7ABlRzd4YHf
+	 FIPEL5mBy+6x1p0RKnf9kDaMW13b61pXy/Df0JjpQnoeYrO6LSmIPopfjK9+e6we66
+	 XhmZW3p8qy6Nb89ngBM4O2Sk//rED3kWw0q23oLG3uetyunnmSGJbQZLPq0L+Kbm4x
+	 OaRnvmY/t7uxg==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rEAto-0000VW-1C;
+	Fri, 15 Dec 2023 17:18:52 +0100
+Date: Fri, 15 Dec 2023 17:18:52 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
@@ -33,14 +40,15 @@ Cc: Francesco Dolcini <francesco@dolcini.it>,
 	"David S. Miller" <davem@davemloft.net>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
 	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
  size_t
-Message-ID: <2023121544-hastiness-unhinge-b8d3@gregkh>
+Message-ID: <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
 References: <20231214170146.641783-1-francesco@dolcini.it>
  <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
+ <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -49,46 +57,69 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
+In-Reply-To: <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
 
-On Fri, Dec 15, 2023 at 02:36:31PM +0100, Johan Hovold wrote:
-> On Thu, Dec 14, 2023 at 06:01:46PM +0100, Francesco Dolcini wrote:
-> > From: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > 
-> > receive_buf() is called from ttyport_receive_buf() that expects values
-> > ">= 0" from serdev_controller_receive_buf(), change its return type from
-> > ssize_t to size_t.
-> > 
-> > Suggested-by: Jiri Slaby <jirislaby@kernel.org>
-> > Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@kernel.org/
-> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > ---
-> >  drivers/gnss/core.c                        |  6 +++---
-> >  drivers/gnss/serial.c                      |  4 ++--
-> >  drivers/gnss/sirf.c                        |  6 +++---
-> 
-> > diff --git a/drivers/gnss/core.c b/drivers/gnss/core.c
-> > index 48f2ee0f78c4..9b8a0605ec76 100644
-> > --- a/drivers/gnss/core.c
-> > +++ b/drivers/gnss/core.c
-> > @@ -317,10 +317,10 @@ EXPORT_SYMBOL_GPL(gnss_deregister_device);
-> >   *
-> >   * Must not be called for a closed device.
-> >   */
-> > -int gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
-> > -				size_t count)
-> > +size_t gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
-> > +		       size_t count)
-> >  {
-> > -	int ret;
-> > +	size_t ret;
-> >  
-> >  	ret = kfifo_in(&gdev->read_fifo, buf, count);
-> >  
-> 
-> Why are you changing this function? This is part of the GNSS interface
-> and has nothing to do with the rest of this patch.
-> 
-> Greg, please drop this one again until this has been resolved.
+On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
+> On Fri, Dec 15, 2023 at 02:36:31PM +0100, Johan Hovold wrote:
+> > On Thu, Dec 14, 2023 at 06:01:46PM +0100, Francesco Dolcini wrote:
+> > > From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > 
+> > > receive_buf() is called from ttyport_receive_buf() that expects values
+> > > ">= 0" from serdev_controller_receive_buf(), change its return type from
+> > > ssize_t to size_t.
 
-Now dropped, thanks.
+> > > -int gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> > > -				size_t count)
+> > > +size_t gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> > > +		       size_t count)
+> > >  {
+> > > -	int ret;
+> > > +	size_t ret;
+> > >  
+> > >  	ret = kfifo_in(&gdev->read_fifo, buf, count);
+> > >  
+> > 
+> > Why are you changing this function? This is part of the GNSS interface
+> > and has nothing to do with the rest of this patch.
+> 
+> good point, thanks for looking into that.
+> 
+> from my understanding kfifo_in() already return an unsigned, both
+> __kfifo_in and __kfifo_in_r return unsigned.
+
+Correct.
+
+> With that said this is used by 3 drivers:
+> 
+> = drivers/gnss/sirf.c:
+> = drivers/gnss/serial.c:
+> 
+> The driver just use it into the actual receive_buf callback.
+> 
+> = drivers/gnss/usb.c
+> 
+> This driver does nothing with a negative return value (that is never the
+> less not possible), it just check that the whole buffer was inserted.
+
+That driver also knows it will never be negative.
+
+And you forgot about
+
+	drivers/net/ethernet/intel/ice/ice_gnss.c
+
+> To me the change is correct, with that said probably this should have
+> been explicitly mentioned in the commit message or a separate
+> preparation patch.
+
+It's a separate change and should not be hidden away in a tree-wide
+change that goes through a different maintainer.
+
+Please drop this change from this patch and resubmit it separately to me
+if you want and I'll review when I have the time.
+
+And when doing tree-wide changes, please try to follow the style of the
+driver you are changing (e.g. do not introduce inconsistencies by
+changing to open parenthesis alignment of continuation lines in code
+that do not use it).
+
+Johan

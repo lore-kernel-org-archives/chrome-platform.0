@@ -1,70 +1,112 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CEB4776F
-	for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 21:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9F730357
+	for <chrome-platform@lists.linux.dev>; Sat, 16 Dec 2023 16:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H03npbNB"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5e4ecb50894so4158247b3.0
-        for <chrome-platform@lists.linux.dev>; Fri, 15 Dec 2023 13:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702674135; x=1703278935; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MTDZCEFmSpT07ZfLz7vZkizeT1MqLax9S/t8QTl1d0Y=;
-        b=H03npbNBypk0HP/mr3V6WGDysLQYQv7yAj2QGIKu6ggJGPPKESAE+t+vPAVz1puFew
-         FltfHMPsJO+ajh+46I32vPbA6rKD9FANItD3SBcPTVTIhqSArky+ukFxYU7m7sVLKPhx
-         vCgQc54HE/8Y96waSIjojFBvArfBbiQNTX0OI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702674135; x=1703278935;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MTDZCEFmSpT07ZfLz7vZkizeT1MqLax9S/t8QTl1d0Y=;
-        b=ouKnGLfbgcdETV5WJAVYqdqLTV1f4BWyAOi8xNmqcnYnZjVLjoHlblRjmiq2SM2t+n
-         V+/NUfbuL8fKagOqQEaueE4KeylYjkhZk6WHB///5fsiTyGwyV+m1yVY+Df9RyfMSK2c
-         pvrbmNvfBHkA1dBjbQvc/OFty3KYoebIUeCYYH3IR5h9N2M+3ipfdd99GKyKaPV8JGjP
-         Alq9GJya5iLsRxiTDjGHgXHeQkQs5rW9W3eQRXsMuzv6mBSgij2cRwe+F+Vh1HdMgIN/
-         WrFZ61yj1PZ4XCbgCkXWCDjSzrSDjMJdhdVWqlkiw1l0AIw4Y3OE9se/TKgUbC8GJ5Gn
-         uLvQ==
-X-Gm-Message-State: AOJu0YzZ3zqfm9JNjemJbDUFToHajDIenRU0ghGaQg7XEXJE4OG7Sj7j
-	FhY8kMNbOJI964Iuz+E6x/uM5ow8KE8p/6CCmZLmBA==
-X-Google-Smtp-Source: AGHT+IHG2yNMC71GN34CM/K6BzT74ojShGEa/vHULoEqCZj+Bn5WMfiAAqFWcB/K1Avy+6c5B8HyegKE+eg87hEaAPQ=
-X-Received: by 2002:a0d:c482:0:b0:5d7:1941:2c3c with SMTP id
- g124-20020a0dc482000000b005d719412c3cmr8885843ywd.105.1702674135254; Fri, 15
- Dec 2023 13:02:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="NbZWaK33"
+Received: from pop-os.home ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id EY0pryseOIOhHEY0prH1vA; Sat, 16 Dec 2023 17:59:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1702745980;
+	bh=gMk6oO0NWua7+I1geY3QhXhIuX72nIXC65+3OnaHd6U=;
+	h=From:To:Cc:Subject:Date;
+	b=NbZWaK33+MieCc2Fvs6kEZTUXhQ7Hxm7bgyD9XSl4LF2QdGjMahfX5Vy7ZnGAOY9N
+	 OSjvbaIzYsS2uoQ48s65kS6iraZrGTdQLOUVksR0YFnis5FfYr4MJhNBYY30BsZ3Cm
+	 gT/1gElgjCEUpEH8UVkmhfhA6YSdtOEeDcYYt/8ZSSFsLN+WhZApYqN3PkdansG7Ge
+	 YhKmzMm44LCp7RnDzr0N1rGqSt0NayKY3pc5eEnTwCIQEmS/62PxhZR49jspOobN/S
+	 O9WBuPi2r8c6rWALwllhDlNxlPuDA62B+wWF86TyuvNGzNgtOIFFADP9x/U2sHOb56
+	 pJNQEWzlGj8ew==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 16 Dec 2023 17:59:40 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome/wilco_ec: Remove usage of the deprecated ida_simple_xx() API
+Date: Sat, 16 Dec 2023 17:59:38 +0100
+Message-Id: <898d9aa181a84f1d17725ca047004bad532c37e9.1702745959.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231213110009.v1.1.Ifd0903f1c351e84376d71dbdadbd43931197f5ea@changeid>
- <20231213110009.v1.6.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZXpx9esFooSgq11q@google.com>
-In-Reply-To: <ZXpx9esFooSgq11q@google.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Fri, 15 Dec 2023 14:02:04 -0700
-Message-ID: <CANg-bXApLtwuk+B3=F4b0M_xJ06x6kn2Owbb0RC6Rdpcma4_Ow@mail.gmail.com>
-Subject: Re: [PATCH v1 6/6] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Raul Rangel <rrangel@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> It looks to me the patch combines multiple changes.  Please separate them into
-> smaller pieces for reviewing easier.
+ida_alloc() and ida_free() should be preferred to the deprecated
+ida_simple_get() and ida_simple_remove().
 
-Unfortunately, I don't see an easy way to break up this commit without
-breaking EC wake functionality along the way.
+This is less verbose.
 
-> Another confusing about the patch subject: "6/6"?  Is it a series?  I don't
-> see the cover letter.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/platform/chrome/wilco_ec/event.c     | 4 ++--
+ drivers/platform/chrome/wilco_ec/telemetry.c | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Sorry about that! I'll make sure to add a cover letter and CC you on
-the next series version.
+diff --git a/drivers/platform/chrome/wilco_ec/event.c b/drivers/platform/chrome/wilco_ec/event.c
+index f80a7c83cfba..13291fb4214e 100644
+--- a/drivers/platform/chrome/wilco_ec/event.c
++++ b/drivers/platform/chrome/wilco_ec/event.c
+@@ -495,7 +495,7 @@ static int event_device_add(struct acpi_device *adev)
+ free_dev_data:
+ 	hangup_device(dev_data);
+ free_minor:
+-	ida_simple_remove(&event_ida, minor);
++	ida_free(&event_ida, minor);
+ 	return error;
+ }
+ 
+@@ -504,7 +504,7 @@ static void event_device_remove(struct acpi_device *adev)
+ 	struct event_device_data *dev_data = adev->driver_data;
+ 
+ 	cdev_device_del(&dev_data->cdev, &dev_data->dev);
+-	ida_simple_remove(&event_ida, MINOR(dev_data->dev.devt));
++	ida_free(&event_ida, MINOR(dev_data->dev.devt));
+ 	hangup_device(dev_data);
+ }
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index 253098bace63..b7c616f3d179 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -372,7 +372,7 @@ static int telem_device_probe(struct platform_device *pdev)
+ 
+ 	dev_data = kzalloc(sizeof(*dev_data), GFP_KERNEL);
+ 	if (!dev_data) {
+-		ida_simple_remove(&telem_ida, minor);
++		ida_free(&telem_ida, minor);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -393,7 +393,7 @@ static int telem_device_probe(struct platform_device *pdev)
+ 	error = cdev_device_add(&dev_data->cdev, &dev_data->dev);
+ 	if (error) {
+ 		put_device(&dev_data->dev);
+-		ida_simple_remove(&telem_ida, minor);
++		ida_free(&telem_ida, minor);
+ 		return error;
+ 	}
+ 
+@@ -405,7 +405,7 @@ static void telem_device_remove(struct platform_device *pdev)
+ 	struct telem_device_data *dev_data = platform_get_drvdata(pdev);
+ 
+ 	cdev_device_del(&dev_data->cdev, &dev_data->dev);
+-	ida_simple_remove(&telem_ida, MINOR(dev_data->dev.devt));
++	ida_free(&telem_ida, MINOR(dev_data->dev.devt));
+ 	put_device(&dev_data->dev);
+ }
+ 
+-- 
+2.34.1
+

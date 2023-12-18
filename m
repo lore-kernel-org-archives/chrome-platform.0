@@ -1,166 +1,106 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBFE101C8
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Dec 2023 07:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D471101E8;
+	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="lM94l2vq"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6da5d410432so1634395a34.2
-        for <chrome-platform@lists.linux.dev>; Sun, 17 Dec 2023 23:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1702885355; x=1703490155; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwPbUuYJd8hyKYPqAAjRyOl2PjcVbCPzQgnh+jq3uS4=;
-        b=lM94l2vq7jcm34cPeHSeetLlmqt+xULxlr6029jIutMonEpiAX2xEJun06uasD9WGm
-         mWvmuDb0UJ5j1CKjF106csX947Qwa70ft3RpBf71vBP78kVgYAsIyhAWip/gbAru8AR5
-         5pNHk8K0yOO+jZx5YoFaYAs41wn1F2GgG0MY3D4L4SJsoDIJbcsX+BKBGfJgo3ern3Om
-         1E6y1tqCFAMcu7YdzUJLoEadm4NCnZzmE9Zr8C4YYDeWsgji+tfsjKduIMsbOfM0XeAY
-         IEJmM5blD6GocQjj5cfv+f9n3hEogQG4rtvXUW6C4kBt1XYVcJ8qc/Rr1MqS6FuNFD2d
-         30aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702885355; x=1703490155;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XwPbUuYJd8hyKYPqAAjRyOl2PjcVbCPzQgnh+jq3uS4=;
-        b=sxXIThAvbK5gy564QWIetgjJQmPxqmGZ4LYwvieioUioYge6AeIjcNw4wQ0XPm55oQ
-         0RzdY5+pXToNxnlTzbXHI3d1ZVNFPV8NQtCxdtk6+84A/3MQGWu1/eUc/myvjzEhgoxt
-         AAYdeWRjCP1Ck+AXKGpvolHju0LZPS7LEs9ydzj8ns3zfLNch2jxHe4KccaQSy+Qfdth
-         rEJEztvknu6JZdNhDakQwYQJ0Id/BtKzvFBO2ZAZsxzBrfaFAnhNwuVvgpq5diYEOHIg
-         hRCQ0fPZwiD7o85XX4UkUNiPQSwtOiA6eVkMAeYT6S+decAAvV9cA+KeJnbXWeogsty/
-         lU5w==
-X-Gm-Message-State: AOJu0YxEJL4eyKyQQ8nVXnjeaAzOXCrJ6+S/ht1YlKYU+7tiCnSseMPx
-	R466MAtZzJDHxVMbqrg3WmyDEw==
-X-Google-Smtp-Source: AGHT+IHv6ceOCuahWemu+EBZgevB5bXCgqDwPKgk4uQ0YlhW2FLGgw9d089jM44DMagbA0u64vu2dw==
-X-Received: by 2002:a05:6358:911:b0:172:d2c4:938f with SMTP id r17-20020a056358091100b00172d2c4938fmr1705339rwi.9.1702885355382;
-        Sun, 17 Dec 2023 23:42:35 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id h2-20020a056a00170200b006cea0054b9esm17314175pfc.213.2023.12.17.23.42.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 23:42:34 -0800 (PST)
-Message-ID: <657ff7ea.050a0220.a1c62.3e68@mx.google.com>
-Date: Sun, 17 Dec 2023 23:42:34 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqKR6jTw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14FCAC433C8;
+	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702888506;
+	bh=PvieyW9kHU+3JjdvRizTuAsBF+M7+DN21zt8QD6huP8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cqKR6jTwpmCKyTFqiDsud8Ud91Y2vl0XnJ70WkUUWsejg3N21krgNOC2hGTW6Sr//
+	 PkugwCVTKDJbZBbTAjn2pZOtgeXLfIt4KhVQdagYFnoBeWEVHdgSDchIq1/IEoOYgz
+	 UPhMPfMZofuUfwXr9yS3PhKhC0IHJypA2VlCOfPMF5X3opuQwu7Tnyq59gPlfhE2L7
+	 BMOT1Z09reyctvlBiTybBEDPjQ60FLqs31RXDW6RG7gr4O0un4ilMkg7Cgrs/fszps
+	 ppFsjdnc33uZ69wLfbVJFyRfIMVBseNo/FtnnrcNqwp53jB9iKEBeFsADcFruxnW5a
+	 /8S2G6GLNLRGw==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rF95c-0003FH-0v;
+	Mon, 18 Dec 2023 09:35:05 +0100
+Date: Mon, 18 Dec 2023 09:35:04 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
+	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
+ size_t
+Message-ID: <ZYAEOCMwZGMNvpNX@hovoldconsulting.com>
+References: <20231214170146.641783-1-francesco@dolcini.it>
+ <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
+ <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
+ <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+ <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.7-rc1-4-g57eb6dcd32cf6
-Subject: chrome-platform/for-kernelci cros-ec: 10 runs,
- 2 regressions (v6.7-rc1-4-g57eb6dcd32cf6)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
 
-chrome-platform/for-kernelci cros-ec: 10 runs, 2 regressions (v6.7-rc1-4-g5=
-7eb6dcd32cf6)
+On Fri, Dec 15, 2023 at 06:07:33PM +0100, Francesco Dolcini wrote:
 
-Regressions Summary
--------------------
+> On Fri, Dec 15, 2023 at 05:18:52PM +0100, Johan Hovold wrote:
+> > On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
+> > > To me the change is correct, with that said probably this should have
+> > > been explicitly mentioned in the commit message or a separate
+> > > preparation patch.
+> > 
+> > It's a separate change and should not be hidden away in a tree-wide
+> > change that goes through a different maintainer.
+> > 
+> > Please drop this change from this patch and resubmit it separately to me
+> > if you want and I'll review when I have the time.
+> 
+> Fine, I agree.
+> 
+> I see those options (let me know if you see other options I have not
+> mentioned):
+> 
+> 1. I add this change (taking into account also intel ice) as a separate
+>    patch in this series and you may just ack it and Greg could merge
+>    together with the serdev one.
+> 2. I prepare an independent patch for the GNSS change and only once this
+>    is merged I'll send a rebased v2 of this one.
+> 3. I update this patch without this GNSS API change, that mean I will
+>    have to cast away the signed type from a few GNSS drivers.
+> 
+> 1 is my preferred option, 2 is fine, but it seems a little bit of overdoing,
+> 3 I would avoid, we are doing this cleanup to be a little bit more
+> strongly typed and to prevent the kind of bugs that is the original trigger
+> for this patch.
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+Changing the return type of gnss_insert_raw() is going to be a bit more
+involved and should be done in a separate patch (e.g. you need to look
+at gnss_usb_rx_complete() and ice_gnss_read() to avoid introducing new
+warnings there).
 
-mt8173-elm-hana    | arm64  | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook | 1          =
+And both option 2 and 3 will introduce conversion warnings (W=3, which
+we have plenty of anyway) unless you add casts.
 
+I suggest you go with 3, unless you insist on 2.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.7-rc1-4-g57eb6dcd32cf6/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.7-rc1-4-g57eb6dcd32cf6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      57eb6dcd32cf6b49c38eff81e60e8fd471aa05a8
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/657fec30dbf221f1ece13475
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.7-rc1-4-g57eb6dcd32cf6/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.7-rc1-4-g57eb6dcd32cf6/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230623.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/657fec30dbf221f1ece134=
-76
-        new failure (last pass: v6.7-rc1-3-g59a9ccf19ee03) =
-
- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-mt8173-elm-hana    | arm64  | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/657fe4bcd06b66be23e13494
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.7-rc1-4-g57eb6dcd32cf6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.7-rc1-4-g57eb6dcd32cf6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collab=
-ora/cros-ec-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/657fe4bcd06b66be23e134=
-95
-        new failure (last pass: v6.7-rc1-3-g59a9ccf19ee03) =
-
- =20
+Johan

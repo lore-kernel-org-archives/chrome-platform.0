@@ -1,25 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3A7567F;
-	Mon, 18 Dec 2023 04:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91077462
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Dec 2023 06:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qecIDD5h"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 727EAC433CC;
-	Mon, 18 Dec 2023 04:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702875101;
-	bh=/dDUerN4rD0aWnqgxV/sYr2x4DP4FC9to8aGBw8BXX0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qecIDD5hAFPBxWC7U2YN4eMy21q9AYdwpszeI70FgNXXnQ6hHnn42U9QPNBC4ywy9
-	 CNIZzrfKDyaG8f7y/kidynZAywuy+zcS8fYq2Hza89fX+RCOJLXDJ6yColgvyDueOo
-	 70HD1i/8vmAfMbYhQj4Bkp6Mx1iLqkr3K/Yj2pgh4ZXsQB2M1+5T3fT2pMOhCl4hHS
-	 NLZj/RrgbxzajeY2XlCZ0es2+Oq52hc+M8hGYaCUCA7scpZHZYqJUAxDpNxJfRD2Zv
-	 TsyzGgcC2SYzcew1yxdCWakLnM7IPblAgWtCmeARw3NIyvLAnjVwGG84480UwKGEXn
-	 LPkn+AHcxrAqQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5B387C41677;
-	Mon, 18 Dec 2023 04:51:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="a3YDEStZ"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6d9dadc3dc0so2402882a34.1
+        for <chrome-platform@lists.linux.dev>; Sun, 17 Dec 2023 22:14:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1702880061; x=1703484861; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=E85wclCKdj+VUaM1btOhx4iuoKI1F7o+XcQR+jOqnYo=;
+        b=a3YDEStZheGFfSvLXiC8PelbhMYYE9uRb3NZ/fejzBU8XV4ZzVLKaXRhUT4ryOwebX
+         NQXdpDeeCaIrSjeplk3yXErt0/1O0R7F6EIFD8NdYHeM/umkmyMRl0aMYiVcAyU1I1mQ
+         vWrE1D2wJAuZ6th8PQ1nw2AF39NXuf099wXOCUc+cYw/0siXrSQlQMtwgQpiQ6b4FfZz
+         j9+MsWduJ00OCA9/3O/nn8G/Wob/oRp/yMuOZZo1oNhhaYldEuav3MnS3FScKPZoxIka
+         oASFda6WwmXcXFmgFodww9SizdVo1OsSrLAZ1Fb/b65mTH1zZsTLwgLbaAPnGFFmVATp
+         fIiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702880061; x=1703484861;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E85wclCKdj+VUaM1btOhx4iuoKI1F7o+XcQR+jOqnYo=;
+        b=uOQdO7xNLM+DdbSLUFt/3HY/ORaUrGf+TXcZ8CuYcvznKppVUlOc2WzWAvuw7aQOgG
+         x2NXw0AbrqqeWA0+XkjjJg0QRJIUO0OhHsKI4RH4t59fmNWVZ/lXuBic7mWyd4wnQEYT
+         euhm5pUrzqQchI7t7z7y9R0H0Its8pLBxWQR23fuiWDxydt5eZvk01bhvCnGuOAuYXKH
+         9XjXVkqeMQtrXL5FwehWuKN4ZwM23mQhUjwEpN/WQCquhrlN3OvvuKGFUbVA+CJ8Gerr
+         YCi7cq5Jxi8hz3QoWrjp33HuE5NYbmBC/52LhCBXQfcZkg9ctlDtnwoEBhyuTQddw2p1
+         yocg==
+X-Gm-Message-State: AOJu0YywFikpVfo6p79tg7JsdDWyOgijOYpP+YHDidNNTM5Vmj9mG5y2
+	bb79snGTAJDvAYb9IWbmRN6YwA==
+X-Google-Smtp-Source: AGHT+IE5wGVMMdCMgA8jaDMHaRNFOZiZ4tuVnbPLFc6HfxpREAIblKNTJY79QXdpZLdQMKWWeoJbJA==
+X-Received: by 2002:a05:6808:118c:b0:3b9:d5ae:5d53 with SMTP id j12-20020a056808118c00b003b9d5ae5d53mr19420260oil.41.1702880060845;
+        Sun, 17 Dec 2023 22:14:20 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id m18-20020a63fd52000000b005ccf10e73b8sm2604441pgj.91.2023.12.17.22.14.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 22:14:20 -0800 (PST)
+Message-ID: <657fe33c.630a0220.2a755.592b@mx.google.com>
+Date: Sun, 17 Dec 2023 22:14:20 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -27,41 +50,63 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome/wilco_ec: Remove usage of the deprecated
- ida_simple_xx() API
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <170287510137.24063.216178933105392650.git-patchwork-notify@kernel.org>
-Date: Mon, 18 Dec 2023 04:51:41 +0000
-References: <898d9aa181a84f1d17725ca047004bad532c37e9.1702745959.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <898d9aa181a84f1d17725ca047004bad532c37e9.1702745959.git.christophe.jaillet@wanadoo.fr>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: bleung@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.7-rc1-4-g57eb6dcd32cf6
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.7-rc1-4-g57eb6dcd32cf6)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.7-rc1-=
+4-g57eb6dcd32cf6)
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.7-rc1-4-g57eb6dcd32cf6/
 
-On Sat, 16 Dec 2023 17:59:38 +0100 you wrote:
-> ida_alloc() and ida_free() should be preferred to the deprecated
-> ida_simple_get() and ida_simple_remove().
-> 
-> This is less verbose.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.7-rc1-4-g57eb6dcd32cf6
+Git Commit: 57eb6dcd32cf6b49c38eff81e60e8fd471aa05a8
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Here is the summary with links:
-  - platform/chrome/wilco_ec: Remove usage of the deprecated ida_simple_xx() API
-    https://git.kernel.org/chrome-platform/c/57eb6dcd32cf
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

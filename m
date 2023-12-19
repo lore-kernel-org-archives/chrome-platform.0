@@ -1,106 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D471101E8;
-	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqKR6jTw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14FCAC433C8;
-	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702888506;
-	bh=PvieyW9kHU+3JjdvRizTuAsBF+M7+DN21zt8QD6huP8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cqKR6jTwpmCKyTFqiDsud8Ud91Y2vl0XnJ70WkUUWsejg3N21krgNOC2hGTW6Sr//
-	 PkugwCVTKDJbZBbTAjn2pZOtgeXLfIt4KhVQdagYFnoBeWEVHdgSDchIq1/IEoOYgz
-	 UPhMPfMZofuUfwXr9yS3PhKhC0IHJypA2VlCOfPMF5X3opuQwu7Tnyq59gPlfhE2L7
-	 BMOT1Z09reyctvlBiTybBEDPjQ60FLqs31RXDW6RG7gr4O0un4ilMkg7Cgrs/fszps
-	 ppFsjdnc33uZ69wLfbVJFyRfIMVBseNo/FtnnrcNqwp53jB9iKEBeFsADcFruxnW5a
-	 /8S2G6GLNLRGw==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rF95c-0003FH-0v;
-	Mon, 18 Dec 2023 09:35:05 +0100
-Date: Mon, 18 Dec 2023 09:35:04 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
-	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5D5881E
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Dec 2023 06:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rFTfP-0005fl-Uq; Tue, 19 Dec 2023 07:33:23 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rFTfO-00Gs1V-GE; Tue, 19 Dec 2023 07:33:22 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rFTfO-005o4e-6w; Tue, 19 Dec 2023 07:33:22 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-pwm@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
- size_t
-Message-ID: <ZYAEOCMwZGMNvpNX@hovoldconsulting.com>
-References: <20231214170146.641783-1-francesco@dolcini.it>
- <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
- <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
- <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
- <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
+	kernel@pengutronix.de,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] pwm: cros-ec: Drop documentation for dropped struct member
+Date: Tue, 19 Dec 2023 07:33:17 +0100
+Message-ID: <20231219063316.167905-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=998; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=hTGoLKojplScw4b1HQdC6uBR8tfhmqpbzg3xFffOUHo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlgTktN/Zg8G9Dp4CK9clG6aPtNbxFD1Ac1fySp K/0zUVbcXmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZYE5LQAKCRCPgPtYfRL+ TtczB/9vlhmYs7AoIaxRa8iU+JYZQ7TzEwfX6SAXmhi2Do04+p+3+8myg6ivYPSBR7RHeYm/+uE Obc9IW82xGBL8gO+LPz7RKU6hnsSejtdxFSN6HKCm5qkDPlTtqmc8ToUQBYU5y97+OXIPzFOQUP egiGRD8kRe6KSpBwJsQ7SMte4x1YjDsjDwmhxDQ5WSYA69wO0pmh1kXw4FkEOuz9R0vGNis9OGU 3kPXPzSumEcSe4MkyLdqR1owB9b0zg5ZaoIEmuR9FD9Siy2xxrqQnc6KqC497hslThS22wIiefJ C/PeofFpykxwBNMjWwD+O0a2H9jPqwnbCNdSaTX1P2xrydAa
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On Fri, Dec 15, 2023 at 06:07:33PM +0100, Francesco Dolcini wrote:
+Recently an unused member was removed from struct cros_ec_pwm_device,
+but the kernel doc wasn't adapted accordingly. Catch up and drop the
+documentation, too.
 
-> On Fri, Dec 15, 2023 at 05:18:52PM +0100, Johan Hovold wrote:
-> > On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
-> > > To me the change is correct, with that said probably this should have
-> > > been explicitly mentioned in the commit message or a separate
-> > > preparation patch.
-> > 
-> > It's a separate change and should not be hidden away in a tree-wide
-> > change that goes through a different maintainer.
-> > 
-> > Please drop this change from this patch and resubmit it separately to me
-> > if you want and I'll review when I have the time.
-> 
-> Fine, I agree.
-> 
-> I see those options (let me know if you see other options I have not
-> mentioned):
-> 
-> 1. I add this change (taking into account also intel ice) as a separate
->    patch in this series and you may just ack it and Greg could merge
->    together with the serdev one.
-> 2. I prepare an independent patch for the GNSS change and only once this
->    is merged I'll send a rebased v2 of this one.
-> 3. I update this patch without this GNSS API change, that mean I will
->    have to cast away the signed type from a few GNSS drivers.
-> 
-> 1 is my preferred option, 2 is fine, but it seems a little bit of overdoing,
-> 3 I would avoid, we are doing this cleanup to be a little bit more
-> strongly typed and to prevent the kind of bugs that is the original trigger
-> for this patch.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312190757.O4M9dsln-lkp@intel.com/
+Fixes: ffb150737fee ("pwm: cros-ec: Drop unused member from driver private data")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-cros-ec.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Changing the return type of gnss_insert_raw() is going to be a bit more
-involved and should be done in a separate patch (e.g. you need to look
-at gnss_usb_rx_complete() and ice_gnss_read() to avoid introducing new
-warnings there).
+diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+index 9a8f1b6a4e13..5fe303b8656d 100644
+--- a/drivers/pwm/pwm-cros-ec.c
++++ b/drivers/pwm/pwm-cros-ec.c
+@@ -18,7 +18,6 @@
+ /**
+  * struct cros_ec_pwm_device - Driver data for EC PWM
+  *
+- * @dev: Device node
+  * @ec: Pointer to EC device
+  * @chip: PWM controller chip
+  * @use_pwm_type: Use PWM types instead of generic channels
 
-And both option 2 and 3 will introduce conversion warnings (W=3, which
-we have plenty of anyway) unless you add casts.
+base-commit: aa4db8324c4d0e67aa4670356df4e9fae14b4d37
+-- 
+2.42.0
 
-I suggest you go with 3, unless you insist on 2.
-
-Johan

@@ -1,41 +1,40 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9D42EB14
-	for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 22:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D882EB07
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 22:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Irqf3Ro5"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bb945f88b4so237316b6e.3
-        for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 14:20:08 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SyXZ+xKS"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5d33574f64eso24025757b3.3
+        for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 14:21:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703283607; x=1703888407; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zh4GNA4Y05yXEeCWYCD5IWiPdQ5iIa0JnfPD6CHsXY4=;
-        b=Irqf3Ro5a6u0rSjA3YGIUmmxcMCtwXidnlNDKiZyIUNPdxT49BAbGOk5OA+AP1k/1L
-         rk5rwraO8X+aZDqgDiCjoaMvG0vHIeLABXIGDTCG/wsHbByfwSbvBL+il42Q+IGRGjvP
-         IOv3RCe8iPhfzwtLarNPbaP9rmcv58e8kAWRI=
+        d=chromium.org; s=google; t=1703283705; x=1703888505; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G4TYuyMVVFBv/5d5uEIDyQ93KWASjprBwJ7UzWDp5l4=;
+        b=SyXZ+xKSlpwqQXfeBImHH5+nxZwG8B2oKOc2C7phnKilgD2c0FOqHOI5v/bxDPxn7N
+         2z4/gznSfpN1KkmqTgPwzkHSrBlC5TTpbqbDbBHumxg2+xJmdJhzpupnW8OeAY5rmGdg
+         xTghHjgAZ2P5nwIhCt5++ZP+5SZL1CRmh1r3w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703283607; x=1703888407;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zh4GNA4Y05yXEeCWYCD5IWiPdQ5iIa0JnfPD6CHsXY4=;
-        b=UEBQvPTvgafj2pg+P0WGEeBiGi78aVzyoXFR2jzrb1BOyyjdceEzeU7HzvcwWmWr3Q
-         RUF6OTGWjLjoLgEHRJqKE4vLis4zuBSK0kqLVgubxsYpYnIFu0J+XLxHfFm1i1Onl9dO
-         BhzYqfwCd0RLZmMwr0KlgIdccn+ua20FzRsmImfyF+yhG0Dleqvc992+wv7ac19Nho8Y
-         nrjsScTlSvKV2cra+DGnDgcM6f9de0yG/aUQnchtSXsGS1bC72VJEHsTu6ZBLZQ/1c6a
-         SfJCHCCbGT6nYt+cHfMPh5qxW5dCew5lMOxKDDQCR0TNW8lUKQdDEWKckLO35l78WXnJ
-         e8Jw==
-X-Gm-Message-State: AOJu0YxAXcDYOdCJdOb/5diDcLofEn3eoI9GwD7lrg0Mbo0TtsYGda56
-	iEPl/eFZWAMHX3sc1fEHAJAnuAQCV8p1+H+j6eLqkG9zuJ0s
-X-Google-Smtp-Source: AGHT+IH1gfrcqYhXI4r48hl59zh7w2/OMXufec1y3JujW5Fx/vftezklyAWWZx0YfAU1/S92XP07ZkzsKE7TgE5mhqY=
-X-Received: by 2002:a05:6808:2014:b0:3b9:e20f:96e7 with SMTP id
- q20-20020a056808201400b003b9e20f96e7mr2217983oiw.28.1703283607328; Fri, 22
- Dec 2023 14:20:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703283705; x=1703888505;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G4TYuyMVVFBv/5d5uEIDyQ93KWASjprBwJ7UzWDp5l4=;
+        b=ZikE7eKXfLJonDdRo1wrxTaCrY69agDeoVQ6MK7Ika6aR2VQPWB4v3l1lEwIHHkxPr
+         WeRTkjc+Yyp4H6AX2EwdhQzj/YgjXViw0pFtoJpaW6Vkf4yFQmtXjNU1vTUmkNxozB4i
+         PN0Z+3lc+C6ovMBxHseTuaM8r4iAU3fMWCDkiL0Lm2SL3O83/sVMHgyq2ceQd7SW0NDC
+         qcVmjzR1/HWZ53ElsQ1KLjraOov+bWW008BLn6WYjObBDE6DEFDPk//0Tt3O2PMCJH4l
+         WoWQLNVjSQoN3fbKlyKAx45Oy5Hk81OXRQTe42z3S8zxhDVBUGHsSKBsLzXWcXJMe1nR
+         agNw==
+X-Gm-Message-State: AOJu0Ywcizc45JkzX+eNyTKdW232oMF73eE1kWHwUFwPbk1lTHf47GMl
+	x7O5ATMhZOOKjbnu1pf0wQF7CQhyamliHv2sxYNXHvYaO94w
+X-Google-Smtp-Source: AGHT+IGkjz6Odo4CLWpg8zVwNYsU50f9HSYjCqJ/gKsU7KxypayB+myzZoHbRluSbDRI6RfCfovlRKor0RUO0yKux0Y=
+X-Received: by 2002:a0d:c383:0:b0:5d8:e267:78e5 with SMTP id
+ f125-20020a0dc383000000b005d8e26778e5mr2182094ywd.61.1703283705579; Fri, 22
+ Dec 2023 14:21:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,110 +42,139 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231220235459.2965548-1-markhas@chromium.org>
- <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZYP-H27vsJvMTupH@google.com>
-In-Reply-To: <ZYP-H27vsJvMTupH@google.com>
+ <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZYRdjHVgES1odZAQ@smile.fi.intel.com>
+In-Reply-To: <ZYRdjHVgES1odZAQ@smile.fi.intel.com>
 From: Mark Hasemeyer <markhas@chromium.org>
-Date: Fri, 22 Dec 2023 15:19:56 -0700
-Message-ID: <CANg-bXAUiw-v3D6u3dzve3i65b29wqPSAnw3uuZ2mFNsVgY9Hw@mail.gmail.com>
+Date: Fri, 22 Dec 2023 15:21:34 -0700
+Message-ID: <CANg-bXAgiMB2Q_fHOc_BBm4pRXdVveu-Rs6uZrLCAjkzaBYm4w@mail.gmail.com>
 Subject: Re: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
-To: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: LKML <linux-kernel@vger.kernel.org>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Raul Rangel <rrangel@chromium.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Raul Rangel <rrangel@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
 	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
 	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
 	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
 	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
 	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 21, 2023 at 1:58=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
+> > +     irq = platform_get_irq_resource_optional(pdev, 0, &irqres);
+> > +     if (irq > 0) {
+> >               ec_dev->irq = irq;
+> > -     else if (irq != -ENXIO) {
+> > +             if (cros_ec_should_force_irq_wake_capable())
+> > +                     irq_wake = true;
+> > +             else
+> > +                     irq_wake = irqres.flags & IORESOURCE_IRQ_WAKECAPABLE;
+> > +             dev_dbg(dev, "IRQ: %i, wake_capable: %i\n", irq, irq_wake);
+> > +     } else if (irq != -ENXIO) {
+> >               dev_err(dev, "couldn't retrieve IRQ number (%d)\n", irq);
+> >               return irq;
+> >       }
 >
-> On Wed, Dec 20, 2023 at 04:54:36PM -0700, Mark Hasemeyer wrote:
-> > The IRQ wake logic was added on an interface basis (lpc, spi, uart) as
-> > opposed to adding it to cros_ec.c because the i2c subsystem already
-> > enables the wakirq (if applicable) on our behalf.
+> Yeah, this is confusing now. Which one should I trust more: irq or irqres.start?
+> What is the point to have irqres with this duplication?
+
+irqres is needed to pull the wake capability of the irq. I agree tha
+irq and irqres.start should have the same information. I chose irq
+because it's more obvious what it represents over irqres.start. It's
+also more concise.
+
 >
-> The setting flow are all the same.  I think helper functions in cros_ec.c=
- help
-> to deduplicate the code.
-
-I'll see what I can do.
-
-> > +MODULE_DEVICE_TABLE(dmi, untrusted_fw_irq_wake_capable);
+> ...
 >
-> Does it really need `MODULE_DEVICE_TABLE`?
-
-Nope. Will drop.
-
-> >       ret =3D cros_ec_register(ec_dev);
-> >       if (ret) {
 > > -             dev_err(dev, "couldn't register ec_dev (%d)\n", ret);
-> > +             dev_err_probe(dev, ret, "couldn't register ec_dev (%d)\n"=
-, ret);
+> > +             dev_err_probe(dev, ret, "couldn't register ec_dev (%d)\n", ret);
+> >               return ret;
 >
-> The change is irrelevant to the series.
-
-I'll drop the use of dev_err_probe() to stay consistent with current
-conventions. Perhaps it can be added in a follow-up patch.
-
-> > @@ -470,6 +512,8 @@ static void cros_ec_lpc_remove(struct platform_devi=
-ce *pdev)
-> >               acpi_remove_notify_handler(adev->handle, ACPI_ALL_NOTIFY,
-> >                                          cros_ec_lpc_acpi_notify);
-> >
-> > +     dev_pm_clear_wake_irq(dev);
-> > +     device_init_wakeup(dev, false);
+>                 return dev_err_probe(...);
 >
-> Is it safe to call them anyway regardless of `irq_wake` in cros_ec_lpc_pr=
-obe()?
+> ...
+>
+> > +                     dev_err_probe(dev, ret, "Failed to init device for wakeup");
+> > +                     return ret;
+>
 
-According to bench tests, it's not a problem. That said, I am
-refactoring the code to move the logic into cros_ec.c and will
-conditionally call the cleanup functions.
+Tzung-Bi pointed out there are other areas of the driver that just use
+dev_err() in the probe path. My vote is to drop the use of
+dev_err_probe() to stay consistent with what exists. A separate patch
+can be sent to modify the statements to use the
+dev_err_probe() variant.
 
+>
+> ...
+>
 > > +     if (!np)
 > > +             return;
-> > +
 >
-> The change is an improvement (or rather say it could change behavior).  B=
-ut
-> strictly speaking, the change is irrelevant to the series.
+> Why do you need this now?
 
-Will drop.
+It felt intuitive to return early from cros_ec_spi_dt_probe() if no
+device node exists. This does not fix any known bugs though. Dropping
+as irrelevant.
 
->
-> > @@ -702,6 +710,11 @@ static void cros_ec_spi_dt_probe(struct cros_ec_sp=
-i *ec_spi, struct device *dev)
-> >       ret =3D of_property_read_u32(np, "google,cros-ec-spi-msg-delay", =
-&val);
+> >       ret = of_property_read_u32(np, "google,cros-ec-spi-msg-delay", &val);
 > >       if (!ret)
-> >               ec_spi->end_of_msg_delay =3D val;
-> > +
-> > +     if (ec_dev->irq > 0 && of_property_read_bool(np, "wakeup-source")=
-) {
+> >               ec_spi->end_of_msg_delay = val;
 >
-> Or just use `spi->irq`[2].
+> > +     if (ec_dev->irq > 0 && of_property_read_bool(np, "wakeup-source")) {
+> > +             ec_spi->irq_wake = true;
+> > +             dev_dbg(&spi->dev, "IRQ: %i, wake_capable: %i\n", ec_dev->irq, ec_spi->irq_wake);
+> > +     }
 >
-> [2]: https://elixir.bootlin.com/linux/v6.6/source/drivers/platform/chrome=
-/cros_ec_spi.c#L762
+>         if (ret)
+>                 return;
 >
-> They are the same, but does of_property_present() make more sense?
+>         ec_spi->irq_wake = of_property_read_bool(np, "wakeup-source"));
 
-Yes it does. I'll use it.
+The other interface drivers only analyze irq_wake if an irq exists. I
+think that makes sense and would like to stay consistent.
+Thinking:
+ec_spi->irq_wake = spi->irq > 0 && of_property_read_bool(np, "wakeup-source"));
 
-> > @@ -768,6 +778,9 @@ static int cros_ec_spi_probe(struct spi_device *spi=
-)
-> >                          sizeof(struct ec_response_get_protocol_info);
-> >       ec_dev->dout_size =3D sizeof(struct ec_host_request);
-> >
-> > +     /* Check for any DT properties */
-> > +     cros_ec_spi_dt_probe(ec_spi, spi);
+>         dev_dbg(&spi->dev, "IRQ: %i, wake_capable: %s\n", ec_dev->irq, str_yes_no(ec_spi->irq_wake));
+
+> ...
 >
-> `spi` is possibly not needed.  See comment above.
+> > @@ -78,6 +80,7 @@ struct cros_ec_uart {
+> >       u32 baudrate;
+> >       u8 flowcontrol;
+> >       u32 irq;
+> > +     bool irq_wake;
+> >       struct response_info response;
+> >  };
+>
+> Run `pahole` and amend respectively to avoid wasting memory.
 
-Agreed.
+No savings to be had, but we can defrag the holes from sizes 3 and 3,
+to 2 and 4 by moving irq_wake above irq.
+
+pahole --reorganize -C cros_ec_uart cros_ec_uart.o
+
+struct cros_ec_uart {
+        struct serdev_device *     serdev;               /*     0     8 */
+        u32                        baudrate;             /*     8     4 */
+        u8                         flowcontrol;          /*    12     1 */
+        bool                       irq_wake;             /*    13     1 */
+
+        /* XXX 2 bytes hole, try to pack */
+
+        u32                        irq;                  /*    16     4 */
+
+        /* XXX 4 bytes hole, try to pack */
+
+        struct response_info       response;             /*    24    64 */
+
+        /* size: 88, cachelines: 2, members: 6 */
+        /* sum members: 82, holes: 2, sum holes: 6 */
+        /* last cacheline: 24 bytes */
+};
+
+> > +     dev_dbg(dev, "IRQ: %i, wake_capable: %i\n", ec_uart->irq, ec_uart->irq_wake);
+>
+> str_yes_no() from string_choices.h?
+
+SGTM

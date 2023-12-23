@@ -1,65 +1,124 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410301EB31
-	for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 22:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D01A392;
+	Sat, 23 Dec 2023 00:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iy8VSYCU"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6dbbde63b73so1022307a34.3
-        for <chrome-platform@lists.linux.dev>; Fri, 22 Dec 2023 14:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703284254; x=1703889054; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WwejgOu3CLIEy7WBg6DtMDhgjRDGncrbITb/o+9tVKM=;
-        b=iy8VSYCUjuqAWWDi7aJSwpGF/9tT2jP0Vp1lQvVyXd+RaCt2koJX/77t801sejMk4q
-         p3RB/uhTWw69IFyylhLwwhvwr0ogRZLC8Ymik1qP4LLhjuW3NbNDMru21sYBMYaTe0+g
-         RV8mbBA/i83ZrhwWC5YBCqv5YK745Yag9QTcs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703284254; x=1703889054;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WwejgOu3CLIEy7WBg6DtMDhgjRDGncrbITb/o+9tVKM=;
-        b=A4q1l0So2Y1/pZ/8yYdVxLlxmODs1XxKJ0JK3pLOFyBJkKKOBPTWalcmbTgfv4dF0S
-         oGuo9WGHrQJl+ZUtmLwjus4x1WDQdDlZSIay/SaU489TTv4xEM5Sj5WWypQN0diqLEVN
-         FbcFuOxtRwJl7QtIshCuciTkjpcARY0d2u6PXPbECj3TNuiS1Omc2/ukN7WkLLUZKCnd
-         UYeAcc83mw5/ceu1K/2oAVm4YK1uCu6tGMu8nWzO5P/nammeq3Hb+oEZSjLUvGD/ELTM
-         Xdtxp1o3S7afxJMBX/OirRvJ3Dk2SeU+r2ffKXzKGkdI9+IYVnWWiVRW4IFbRB8uPZwx
-         G8FA==
-X-Gm-Message-State: AOJu0YzBFa5VLSycZnxiMPg4aHPLiBz8lnIFJXrvOberY/IPv3AWjixr
-	ev06qh6iLUHhfVw3GduSt0jAwsqtNmM4o17G6Ew/dXVNqhRm
-X-Google-Smtp-Source: AGHT+IER1bh8jMPP1/3cXJs8YlZWz0DMEgd5cLDf4OrRRbTGp5gF9dbStw6xbzqvzSRoXTPBelayfBgYtrmw0We3VHY=
-X-Received: by 2002:a05:6830:97:b0:6db:c040:b5e9 with SMTP id
- a23-20020a056830009700b006dbc040b5e9mr1589627oto.51.1703284254400; Fri, 22
- Dec 2023 14:30:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EJdcJqqX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703291844; x=1734827844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9MvHXDEbF+7k2hyye4yydeiebgNTyADbp+pawi9WjYw=;
+  b=EJdcJqqXuBfj6oSENKOP8VwsfyIh6VwBrsy8qVspj8Ws2IEhhPGBjXas
+   JWLBSYbczQ/wtI6xWRddxEOEUmJWV7FzjW0A88gRmY114gJXqqhXw/IwZ
+   ntOTWbgQAPOuRQ1cgNVOnzNQEINRDpovmMWnkbsvUQruSuPBoeVSmSwEg
+   uqmwezMISgAlR+mSxfXTc9Ff1hOIaEfnwGqglX3pbfudc+3Z38mpZddA3
+   y28CbqPGn9kf93M/IkK9CEW7rsUdQFOEfO7a6r2fgzKNON2QZHkd/GBka
+   Wa8/imRySfXtU9I2W6DxwX3qwNU6Mv7CYy+mx3tHbTy5Kb6ryGRHxM64D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="2991270"
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
+   d="scan'208";a="2991270"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 16:37:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="950479369"
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
+   d="scan'208";a="950479369"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 22 Dec 2023 16:37:18 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGq0A-000A3P-2M;
+	Sat, 23 Dec 2023 00:36:47 +0000
+Date: Sat, 23 Dec 2023 08:32:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Hasemeyer <markhas@chromium.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Raul Rangel <rrangel@chromium.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+	Mark Hasemeyer <markhas@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Rob Barnes <robbarnes@google.com>,
+	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to
+ manage wakeirq
+Message-ID: <202312230846.9DkpFRNv-lkp@intel.com>
+References: <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231220235459.2965548-1-markhas@chromium.org> <ZYRAuY1LGdD8_u5K@smile.fi.intel.com>
-In-Reply-To: <ZYRAuY1LGdD8_u5K@smile.fi.intel.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Fri, 22 Dec 2023 15:30:43 -0700
-Message-ID: <CANg-bXDw+bYNTu-HFaNAPb4e+_oKt2ExR6PehWR_==vpboKGaw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/22] Improve IRQ wake capability reporting and update
- the cros_ec driver to use it
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev, 
-	cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
 
-> Just wondering if you used --histogram diff algo when preparing patches.
+Hi Mark,
 
-Not knowingly. I use patman which uses 'git format-patch' under the
-covers with some added options:
-https://github.com/siemens/u-boot/blob/master/tools/patman/gitutil.py#L308
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on chrome-platform/for-next chrome-platform/for-firmware-next wsa/i2c/for-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.7-rc6 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Hasemeyer/gpiolib-acpi-Modify-acpi_dev_irq_wake_get_by-to-use-resource/20231222-172104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28%40changeid
+patch subject: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to manage wakeirq
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20231223/202312230846.9DkpFRNv-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230846.9DkpFRNv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312230846.9DkpFRNv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:14,
+                    from drivers/platform/chrome/cros_ec_lpc.c:14:
+>> include/linux/module.h:244:1: error: expected ',' or ';' before 'extern'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         | ^~~~~~
+   drivers/platform/chrome/cros_ec_lpc.c:67:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+      67 | MODULE_DEVICE_TABLE(dmi, untrusted_fw_irq_wake_capable);
+         | ^~~~~~~~~~~~~~~~~~~
+
+
+vim +244 include/linux/module.h
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  240  
+cff26a51da5d20 Rusty Russell     2014-02-03  241  #ifdef MODULE
+cff26a51da5d20 Rusty Russell     2014-02-03  242  /* Creates an alias so file2alias.c can find device table. */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  243  #define MODULE_DEVICE_TABLE(type, name)					\
+0bf8bf50eddc75 Matthias Kaehlcke 2017-07-24 @244  extern typeof(name) __mod_##type##__##name##_device_table		\
+cff26a51da5d20 Rusty Russell     2014-02-03  245    __attribute__ ((unused, alias(__stringify(name))))
+cff26a51da5d20 Rusty Russell     2014-02-03  246  #else  /* !MODULE */
+cff26a51da5d20 Rusty Russell     2014-02-03  247  #define MODULE_DEVICE_TABLE(type, name)
+cff26a51da5d20 Rusty Russell     2014-02-03  248  #endif
+^1da177e4c3f41 Linus Torvalds    2005-04-16  249  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

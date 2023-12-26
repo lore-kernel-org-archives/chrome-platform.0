@@ -1,127 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FD510961;
-	Sat, 23 Dec 2023 16:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489191859
+	for <chrome-platform@lists.linux.dev>; Tue, 26 Dec 2023 19:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp5axuEG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703350179; x=1734886179;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/S5uzL9+H61s2Jns5PxqIIJyFYN0g/vKObALDuHWy6o=;
-  b=Cp5axuEG1gSI6TMoQX6XtO7Fmz8488mvaiHHxUcMoPLncQPytrDLcemC
-   JPJ4QV0x/NZlPcETo1tFQs46K80R83W8onDNMedheBGbjNWIqkeLr86So
-   kON6oXXRhsMvQJYMCa1M8LNAzzfOeNVdEjymQSyhnlc7EbRkogov9oXJs
-   ktHKktJ+9w5nTOUTjWMt/Z9EVRsqZLd3/xJaiLLKemt3FtCBJrEVYKdzR
-   FiAO5gkZ6HkTog7Ipdn8MKDXoxSktRJu+62LHJREYIiyC/vi89neOFyfT
-   lHKjNlh4eIwr8KU+b6FXWI4yTzzC9gff93ur3fUJrCcpS8Pl8poakX+8w
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="9599611"
-X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="9599611"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 08:49:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="811652591"
-X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="811652591"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 23 Dec 2023 08:49:33 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rH5BW-000BDP-2q;
-	Sat, 23 Dec 2023 16:49:17 +0000
-Date: Sun, 24 Dec 2023 00:41:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Hasemeyer <markhas@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Raul Rangel <rrangel@chromium.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k/MAmOLS"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7bb0af58134so4661939f.3
+        for <chrome-platform@lists.linux.dev>; Tue, 26 Dec 2023 11:21:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1703618518; x=1704223318; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RTMdzaXRW7qZuQbwoV3Wl84rTkfhX+SS2G9EZyVMNtM=;
+        b=k/MAmOLSiQdfguUXlx0RPUbA045/TgjALU080zN9OJ12Vnp2Y+egJLrSdS58av2aq9
+         S74ZrpXSZCrkahNl1+cZ6GdVOwLOX5OjQuVwZXehnoIKK/VB9kRO6Pcun4YXcJy6FMOp
+         yylLzLKMJYDimj5x7rBgkytV7LJBRHGKOkkIk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703618518; x=1704223318;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RTMdzaXRW7qZuQbwoV3Wl84rTkfhX+SS2G9EZyVMNtM=;
+        b=lw6xrbymQnk8N7uw0WhGOQJ0H3/NtOV7ZX1gD7BvW2DyYj0TcHl8dW2bT46AFTLH4V
+         pNaBjuI0ipuIi9YWOtI2+J3WU1ePKyvAsAHWOaxDvUJjdU9nsTMp7ZCVGgmFxiWppL+l
+         DO2wtyGOKp60VbppnOzQy0OmpOvUNJcZzUhgKtRwCP5u5anux7k/nz6KRKI2V41Fm5nk
+         RllnNsGZbcR7C06/PNivKrwu9e6RW2iSDur3mbSb2Y+g6Di6c65lhRD7WLhqTYMKWeO/
+         tci7jVKkqPRZn+X1sgeu8wbfT3n2niGStwgedKuhFMRDGVo5Klueds7mD8XUC1gzrGgG
+         3dkA==
+X-Gm-Message-State: AOJu0YxLfxGNFvR6IeQlhBH++V4PPD6EbVemz7pfcnC+PALQHRMuqsRD
+	bbAL1Dt9HOcO5VYr9KZ7OuX4CFrrzkZk
+X-Google-Smtp-Source: AGHT+IG4C2xoYudxRt+wWDCBtgSKAQTayFQAShLTQwb4dd83mgwRgc9KhsMLLL8fkL4EZvoyrMNzzQ==
+X-Received: by 2002:a6b:d90a:0:b0:7b7:b27f:351c with SMTP id r10-20020a6bd90a000000b007b7b27f351cmr12182959ioc.14.1703618518475;
+        Tue, 26 Dec 2023 11:21:58 -0800 (PST)
+Received: from markhas1.lan (71-218-50-136.hlrn.qwest.net. [71.218.50.136])
+        by smtp.gmail.com with ESMTPSA id gw3-20020a0566381ee300b0046b692e719esm3207609jab.150.2023.12.26.11.21.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Dec 2023 11:21:58 -0800 (PST)
+From: Mark Hasemeyer <markhas@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Rob Herring <robh@kernel.org>,
 	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
 	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+	Raul Rangel <rrangel@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Mark Hasemeyer <markhas@chromium.org>,
+	AKASHI Takahiro <takahiro.akashi@linaro.org>,
+	Alexandre TORGUE <alexandre.torgue@st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Baoquan He <bhe@redhat.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Benson Leung <bleung@chromium.org>,
 	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
+	Bjorn Andersson <andersson@kernel.org>,
 	Chen-Yu Tsai <wenst@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	David Gow <davidgow@google.com>,
+	Enric Balletbo i Serra <eballetbo@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
 	Prashant Malani <pmalani@chromium.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Rob Barnes <robbarnes@google.com>,
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-Message-ID: <202312240045.wiFeDc1T-lkp@intel.com>
-References: <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+	Rob Herring <robh+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Wolfram Sang <wsa@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	cros-qcom-dts-watchers@chromium.org,
+	devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v3 00/24] Improve IRQ wake capability reporting and update the cros_ec driver to use it
+Date: Tue, 26 Dec 2023 12:21:04 -0700
+Message-ID: <20231226192149.1830592-1-markhas@chromium.org>
+X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+Content-Transfer-Encoding: 8bit
 
-Hi Mark,
+Currently the cros_ec driver assumes that its associated interrupt is
+wake capable. This is an incorrect assumption as some Chromebooks use a
+separate wake pin, while others overload the interrupt for wake and IO.
+This patch train updates the driver to query the underlying ACPI/DT data
+to determine whether or not the IRQ should be enabled for wake.
 
-kernel test robot noticed the following build errors:
+Both the device tree and ACPI systems have methods for reporting IRQ
+wake capability. In device tree based systems, a node can advertise
+itself as a 'wakeup-source'. In ACPI based systems, GpioInt and
+Interrupt resource descriptors can use the 'SharedAndWake' or
+'ExclusiveAndWake' share types.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on chrome-platform/for-next chrome-platform/for-firmware-next wsa/i2c/for-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.7-rc6 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Some logic is added to the platform, ACPI, and DT subsystems to more
+easily pipe wakeirq information up to the driver.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Hasemeyer/gpiolib-acpi-Modify-acpi_dev_irq_wake_get_by-to-use-resource/20231222-172104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28%40changeid
-patch subject: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to manage wakeirq
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231224/202312240045.wiFeDc1T-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312240045.wiFeDc1T-lkp@intel.com/reproduce)
+Changes in v3:
+-Rebase on linux-next
+-See each patch for patch specific changes
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312240045.wiFeDc1T-lkp@intel.com/
+Changes in v2:
+-Rebase on linux-next
+-Add cover letter
+-See each patch for patch specific changes
 
-All errors (new ones prefixed by >>):
+Mark Hasemeyer (24):
+  resource: Add DEFINE_RES_*_NAMED_FLAGS macro
+  gpiolib: acpi: Modify acpi_dev_irq_wake_get_by() to use resource
+  i2c: acpi: Modify i2c_acpi_get_irq() to use resource
+  dt-bindings: power: Clarify wording for wakeup-source property
+  ARM: dts: tegra: Enable cros-ec-spi as wake source
+  ARM: dts: rockchip: rk3288: Enable cros-ec-spi as wake source
+  ARM: dts: samsung: exynos5420: Enable cros-ec-spi as wake source
+  ARM: dts: samsung: exynos5800: Enable cros-ec-spi as wake source
+  arm64: dts: mediatek: mt8173: Enable cros-ec-spi as wake source
+  arm64: dts: mediatek: mt8183: Enable cros-ec-spi as wake source
+  arm64: dts: mediatek: mt8192: Enable cros-ec-spi as wake source
+  arm64: dts: mediatek: mt8195: Enable cros-ec-spi as wake source
+  arm64: dts: tegra: Enable cros-ec-spi as wake source
+  arm64: dts: qcom: sc7180: Enable cros-ec-spi as wake source
+  arm64: dts: qcom: sc7280: Enable cros-ec-spi as wake source
+  arm64: dts: qcom: sdm845: Enable cros-ec-spi as wake source
+  arm64: dts: rockchip: rk3399: Enable cros-ec-spi as wake source
+  of: irq: add wake capable bit to of_irq_resource()
+  of: irq: Add default implementation for of_irq_to_resource()
+  of: irq: Remove extern from function declarations
+  device property: Modify fwnode irq_get() to use resource
+  device property: Update functions to use EXPORT_SYMBOL_GPL
+  platform: Modify platform_get_irq_optional() to use resource
+  platform/chrome: cros_ec: Use PM subsystem to manage wakeirq
 
->> drivers/platform/chrome/cros_ec_lpc.c:66:2: error: expected ';' after top level declarator
-   }
-    ^
-    ;
-   1 error generated.
-
-
-vim +66 drivers/platform/chrome/cros_ec_lpc.c
-
-    51	
-    52	static const struct dmi_system_id untrusted_fw_irq_wake_capable[] = {
-    53		{
-    54			.ident = "Brya",
-    55			.matches = {
-    56				DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Brya")
-    57			}
-    58		},
-    59		{
-    60			.ident = "Brask",
-    61			.matches = {
-    62				DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Brask")
-    63			}
-    64		},
-    65		{ }
-  > 66	}
-    67	MODULE_DEVICE_TABLE(dmi, untrusted_fw_irq_wake_capable);
-    68	
+ .../bindings/power/wakeup-source.txt          | 18 +++--
+ arch/arm/boot/dts/nvidia/tegra124-nyan.dtsi   |  1 +
+ arch/arm/boot/dts/nvidia/tegra124-venice2.dts |  1 +
+ .../rockchip/rk3288-veyron-chromebook.dtsi    |  1 +
+ .../boot/dts/samsung/exynos5420-peach-pit.dts |  1 +
+ .../boot/dts/samsung/exynos5800-peach-pi.dts  |  1 +
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  1 +
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
+ .../boot/dts/mediatek/mt8192-asurada.dtsi     |  1 +
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |  1 +
+ .../arm64/boot/dts/nvidia/tegra132-norrin.dts |  1 +
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  1 +
+ .../arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  1 +
+ .../arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi |  1 +
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi  |  1 +
+ drivers/acpi/property.c                       | 11 ++-
+ drivers/base/platform.c                       | 70 +++++++++++++------
+ drivers/base/property.c                       | 32 +++++++--
+ drivers/gpio/gpiolib-acpi.c                   | 27 ++++---
+ drivers/i2c/i2c-core-acpi.c                   | 37 +++++-----
+ drivers/i2c/i2c-core-base.c                   |  6 +-
+ drivers/i2c/i2c-core.h                        |  4 +-
+ drivers/of/irq.c                              | 39 +++++++++--
+ drivers/of/property.c                         |  8 +--
+ drivers/platform/chrome/cros_ec.c             | 48 ++++++++++---
+ drivers/platform/chrome/cros_ec_lpc.c         | 32 ++++++++-
+ drivers/platform/chrome/cros_ec_spi.c         | 15 ++--
+ drivers/platform/chrome/cros_ec_uart.c        | 22 ++++--
+ include/linux/acpi.h                          | 23 +++---
+ include/linux/fwnode.h                        |  8 ++-
+ include/linux/ioport.h                        | 20 ++++--
+ include/linux/of_irq.h                        | 41 ++++++-----
+ include/linux/platform_data/cros_ec_proto.h   |  4 +-
+ include/linux/platform_device.h               |  3 +
+ include/linux/property.h                      |  2 +
+ 36 files changed, 336 insertions(+), 149 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0.472.g3155946c3a-goog
+

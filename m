@@ -1,40 +1,40 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1490D47F64
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 20:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C984481AD
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 21:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NMS1bfnc"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5eefd0da5c0so3031587b3.2
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 12:46:07 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L80hWTmd"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5e82f502a4cso34614447b3.0
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 13:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703709967; x=1704314767; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1703712567; x=1704317367; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fVDgWJyq2vOmIjdOR8AJqO+EWu6/v9sa3TFBqXWfDD0=;
-        b=NMS1bfnciQkM+L0cpQtdArLkyVLso70fMpIhVpx4MJz3MKxhkp732rJ3QG32Mt6JVa
-         OIIuN5Oa6EPcoctba8Wd2rr09OXS4iVi3SsoLCA4LnB6/Xl4TXIH/DJbSOnpQwMQDDuy
-         Eg4RZozHuYitCOWUONyFGL0KtsPRRRzmRCR5c=
+        bh=m7oxoJfsTMUP9iwmnTMSD6RQtzTxmt4yZyVBW24Hw70=;
+        b=L80hWTmd69q0LCmVuGBvwROFXEpJlQI6M1l3Cjo2aUbz4RaG/5jEclKO/cLCKPr4QY
+         29V5cFm1BlkvnD0bBSOwK84KCaxTGIJqHIa/RJEDiaXMnVhnm8nSEdcSgYNX4d8Y33Cq
+         V9fs+K2mc6GYqpMG6s/u5IwyTcDQwH3Kfp1Uc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703709967; x=1704314767;
+        d=1e100.net; s=20230601; t=1703712567; x=1704317367;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fVDgWJyq2vOmIjdOR8AJqO+EWu6/v9sa3TFBqXWfDD0=;
-        b=C/rybeYFhYSEoQYDFclQU12xCoHZh9i4AodFdvt/ma6k6+Ss/bVZgJdy3H4did0zwZ
-         nCSk+uTKH8IV8BcPJRUW//3TJqRJwHLbfLvXhMjcoBZkC6r48wJjz2SEeBBWkNhvQWl3
-         uZ0qlKUCqVwOGjLVXBXfJGNt1FMF/9rJOudYwDOdi73QZawSpgEj+rSv4GNsrGmlkOMZ
-         AGY44FleVgLh3ETSTMcuiGo8BDe12esVL0kL/7dykTZutZjo/nFjN8SI1sVbor47bmJI
-         5NRM7HPaOZHnY47swgJ41CaotEFKEMJtetwYqSJUfmaRWfyTPw5rhAsPgwkMgcIt1x+K
-         iBFA==
-X-Gm-Message-State: AOJu0YzVyamr3iE6Kdvyl8rdVi04i/BDe/lX2YVVlEpNfok4B7muc3Fb
-	kD/q+uEd46XrjPSySxq9sDiLk/kfLuNRUQNy5CUNN0pGcPQH
-X-Google-Smtp-Source: AGHT+IEFqMT0cNiuNHYB4w/tWOWcrd94D2AcGcmnGOnqQ7+bMGPqypdIdUBb9fxsCLohmVCwiJXtBlug6m8t4Hajfgs=
-X-Received: by 2002:a0d:ca4d:0:b0:5e7:a5c4:d9db with SMTP id
- m74-20020a0dca4d000000b005e7a5c4d9dbmr5847203ywd.51.1703709967172; Wed, 27
- Dec 2023 12:46:07 -0800 (PST)
+        bh=m7oxoJfsTMUP9iwmnTMSD6RQtzTxmt4yZyVBW24Hw70=;
+        b=uq9+gnkFsSOnNktoysLGFlA4Tz0kimXQMGAwbXrVybBwSzwGwpBh7JZSbwADcUcr99
+         ubejL0hE/3rsoKib2LN/muz/f0q/GKPZXJAUNOKqHnFevagvQBCNhtRfTsah/ps2AyNl
+         4VuomtvbBfGfpL6nnGeDvk/ITM3TAYI0vEv2m8HSRNjI8qwUWMOriueJd+WUQYL6SpB/
+         LPhZRKOnZqnUbGm9EzSprkmEq6ejx+HZa0b0aNCa5NRKHLdgcO2/6MiAvjUV+joZBHk9
+         3DrsCGy2tw5TX5ie0QDzb4LEPYN3eXLgIaczM0rrKMjV6L2TLBVqR2zLIlL79q2YPEyX
+         VOhA==
+X-Gm-Message-State: AOJu0Yyl9YUNsxczECTwIvURdZDNp/mvljZc7uiyb66hNcTRFH3eDuo8
+	HFOAyg6U+cLkGmKedsePjowPaXQxAjnzz9YUvk77lrCx/xW8
+X-Google-Smtp-Source: AGHT+IHM6O2Ltk6OJKM1EuDk73I1Qwup3zWTsOzcOQ48Fb9Khu+LzhrvXXJA3vjtDJm/IZ2A1NJYfGfYQGsSn2lyOkU=
+X-Received: by 2002:a05:690c:4606:b0:5ea:5340:fb0e with SMTP id
+ gw6-20020a05690c460600b005ea5340fb0emr2233415ywb.4.1703712567158; Wed, 27 Dec
+ 2023 13:29:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,55 +42,71 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231226192149.1830592-1-markhas@chromium.org>
- <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZYvDshfJ-jnWNEY5@google.com>
-In-Reply-To: <ZYvDshfJ-jnWNEY5@google.com>
+ <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZYxgQn8L7ENkc0AJ@smile.fi.intel.com>
+In-Reply-To: <ZYxgQn8L7ENkc0AJ@smile.fi.intel.com>
 From: Mark Hasemeyer <markhas@chromium.org>
-Date: Wed, 27 Dec 2023 13:45:56 -0700
-Message-ID: <CANg-bXB0k-Z1PjAuW=vX3oR7T02g3z+d7ppdzfL-Cj7T+EQ6EA@mail.gmail.com>
+Date: Wed, 27 Dec 2023 14:29:16 -0700
+Message-ID: <CANg-bXAN-DOZNsea7NNO4bFoZ6un44_upkseynS_dg5Odg6Whg@mail.gmail.com>
 Subject: Re: [PATCH v3 24/24] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
-To: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: LKML <linux-kernel@vger.kernel.org>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh@kernel.org>, 
 	Konrad Dybcio <konrad.dybcio@linaro.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>, Raul Rangel <rrangel@chromium.org>, 
+	Raul Rangel <rrangel@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
 	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
 	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
 	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
 	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-> >       /* Retrieve GpioInt and translate it to Linux IRQ number */
-> > -     ret = acpi_dev_gpio_irq_get(adev, 0);
-> > +     ret = acpi_dev_get_gpio_irq_resource(adev, NULL, 0, &irqres);
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     ec_uart->irq = ret;
-> > -     dev_dbg(&ec_uart->serdev->dev, "IRQ number %d\n", ec_uart->irq);
-> > +     ec_uart->irq = irqres.start;
+> > -     irq = platform_get_irq_optional(pdev, 0);
+> > -     if (irq > 0)
+> > +     irq = platform_get_irq_resource_optional(pdev, 0, &irqres);
+> > +     if (irq > 0) {
+> >               ec_dev->irq = irq;
+> > -     else if (irq != -ENXIO) {
+> > +             if (should_force_irq_wake_capable())
+> > +                     ec_dev->irq_wake = true;
+> > +             else
+> > +                     ec_dev->irq_wake = irqres.flags & IORESOURCE_IRQ_WAKECAPABLE;
+> > +     } else if (irq != -ENXIO) {
+> >               dev_err(dev, "couldn't retrieve IRQ number (%d)\n", irq);
+> >               return irq;
+> >       }
 >
-> How about keep using `ret`?
-
-The return value for 'acpi_dev_get_gpio_irq_resource' is different: 0
-on success, negative errno on failure.
-
-> > @@ -301,7 +306,14 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
-> >
-> >       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
-> >
-> > -     return cros_ec_register(ec_dev);
-> > +     /* Register a new cros_ec device */
-> > +     ret = cros_ec_register(ec_dev);
-> > +     if (ret) {
-> > +             dev_err(dev, "Couldn't register ec_dev (%d)\n", ret);
-> > +             return ret;
-> > +     }
+> Still I do not like ambiguity behind irq > 0 vs. irqres.start.
 >
-> It doesn't need the change after moving device_init_wakeup() and
-> dev_pm_set_wake_irq() into cros_ec_register().
->
-> Drop it?
+> For this, and if needed others, return plain error.
+> Seems I gave the tag for the previous patch, consider
+> that tag conditional (it seems I missed this).
 
-Will do.
+What "others" do you mean? Modify platform_get_irq_resource_optional()
+to return success/err? Or do you mean to modify all irq resource based
+functions? of_irq_to_resource() already existed and returns the irq
+number on success. Modifying it would mean updating all references to
+it, in addition to modifying the fwnode abstraction layer (and its
+references). I'm open to modifying
+platform_get_irq_resource_optional(), but would like to avoid blowing
+up this patch train any further.
+
+> ...
+>
+> >       u16 proto_version;
+> >       void *priv;
+> >       int irq;
+> > +     bool irq_wake;
+> >       u8 *din;
+> >       u8 *dout;
+> >       int din_size;
+> >       int dout_size;
+> > -     bool wake_enabled;
+> >       bool suspended;
+> >       int (*cmd_xfer)(struct cros_ec_device *ec,
+> >                       struct cros_ec_command *msg);
+>
+> Have you run pahole on this (before and after)?
+
+Yes I did. The structure is not fully optimized, but this change keps
+the overall size unchanged (328 bytes).

@@ -1,45 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C109522C;
-	Wed, 27 Dec 2023 06:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCE245BFF
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 16:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L/qWPKvS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E25BC433C8;
-	Wed, 27 Dec 2023 06:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703658423;
-	bh=1aL1UjeuTN6ZyivWuNsZk/rd0snWq7SDPeGNQ5MhZWM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L/qWPKvSzoa6dDByZYJmBYGK9sPkGQ/Awk9Sb68jnWX6jkHPf/sQq71k8JRLbhw9q
-	 zgxqu9jzrEBz9Ulc2uRcXfGyraUzk92ZSkynnglqLFHwB94XRY8oJ/h65zvf1dpFwk
-	 3XAI4I8sArc+pTKRIpBrWlmA5/fvEo3ML7gA+oyT2G3MR4lbo5VEesGCRWfAOs0RU+
-	 Tt7KPhC0x8cbM8cZrQFqjcwlTXTkrJ1HakxOczAAU/g8HrtZ3hkSkLFNcy033qSIhR
-	 EsmC0xyoTl10qmcMbA5JDA4+KvXdljahO6UUOK8vdvwIi5knxpmLtvi2UebCDUUGQv
-	 sCEF8rc9sz3BA==
-Date: Wed, 27 Dec 2023 14:26:58 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foh7IH6s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703692909; x=1735228909;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qIi6/FGG1XhIsYOH+tdaJ+Cr8i/oTUD6GGfo2SnNl+w=;
+  b=foh7IH6sUAdPK/7HQUTa+ZATl0wbkaH0hNlnLWM/mrHpnUOt6y8gzDcI
+   Zvc2ZkfrjbdoTVzLSYy1ULKMpTZXwU6UqD77GCdCDa3ZRJEA9mvZoWrgK
+   2WeM28kqsVQIkJmq7iagS9g+yJ9frFFvqD3Q5zCWmjaxXizomr3BDjaRL
+   Y6a6+RLHVGzGKiW0ltbS4J3ADbIsFf7wtlubDDOo8V19Whaz/fbFHO7Cd
+   f4g37rLKVPiL18jMyG8fzS0o6K+iL63YCMnzvovtLQzqLVLnue8JAklkG
+   p8pXqV8uk55BAQUp2JgZjzK0kL4Km+tIrW1AkmihYULMfjUWb6PgwtUv4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3745326"
+X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
+   d="scan'208";a="3745326"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:01:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="951530427"
+X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
+   d="scan'208";a="951530427"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:01:43 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1rIWLk-00000009SPM-3mSN;
+	Wed, 27 Dec 2023 18:01:40 +0200
+Date: Wed, 27 Dec 2023 18:01:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Mark Hasemeyer <markhas@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Raul Rangel <rrangel@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Rob Barnes <robbarnes@google.com>,
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 24/24] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-Message-ID: <ZYvDshfJ-jnWNEY5@google.com>
-References: <20231226192149.1830592-1-markhas@chromium.org>
- <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+Cc: LKML <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev,
+	cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/22] Improve IRQ wake capability reporting and
+ update the cros_ec driver to use it
+Message-ID: <ZYxKZD4IMJH_QjQW@smile.fi.intel.com>
+References: <20231220235459.2965548-1-markhas@chromium.org>
+ <ZYRAuY1LGdD8_u5K@smile.fi.intel.com>
+ <CANg-bXDw+bYNTu-HFaNAPb4e+_oKt2ExR6PehWR_==vpboKGaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,62 +59,21 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+In-Reply-To: <CANg-bXDw+bYNTu-HFaNAPb4e+_oKt2ExR6PehWR_==vpboKGaw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Dec 26, 2023 at 12:21:28PM -0700, Mark Hasemeyer wrote:
-> The cros ec driver is manually managing the wake IRQ by calling
-> enable_irq_wake()/disable_irq_wake() during suspend/resume.
+On Fri, Dec 22, 2023 at 03:30:43PM -0700, Mark Hasemeyer wrote:
+> > Just wondering if you used --histogram diff algo when preparing patches.
 > 
-> Modify the driver to use the power management subsystem to manage the
-> wakeirq.
-> 
-> Rather than assuming that the IRQ is wake capable, use the underlying
-> firmware/device tree to determine whether or not to enable it as a wake
-> source. Some Chromebooks rely solely on the ec_sync pin to wake the AP
-> but do not specify the interrupt as wake capable in the ACPI _CRS. For
-> LPC/ACPI based systems a DMI quirk is introduced listing boards whose
-> firmware should not be trusted to provide correct wake capable values.
-> For device tree base systems, it is not an issue as the relevant device
-> tree entries have been updated and DTS is built from source for each
-> ChromeOS update.
-> 
-> Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
+> Not knowingly. I use patman which uses 'git format-patch' under the
+> covers with some added options:
+> https://github.com/siemens/u-boot/blob/master/tools/patman/gitutil.py#L308
 
-The patch overall looks good to me.
+Add a configuration into your ~/.gitconfig (or local for the project),
+it really makes the difference.
 
-With some minor comments:
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-[...]
->  static int cros_ec_uart_acpi_probe(struct cros_ec_uart *ec_uart)
->  {
-[...]
->  	/* Retrieve GpioInt and translate it to Linux IRQ number */
-> -	ret = acpi_dev_gpio_irq_get(adev, 0);
-> +	ret = acpi_dev_get_gpio_irq_resource(adev, NULL, 0, &irqres);
->  	if (ret < 0)
->  		return ret;
->  
-> -	ec_uart->irq = ret;
-> -	dev_dbg(&ec_uart->serdev->dev, "IRQ number %d\n", ec_uart->irq);
-> +	ec_uart->irq = irqres.start;
 
-How about keep using `ret`?
-
-> @@ -301,7 +306,14 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
->  
->  	serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
->  
-> -	return cros_ec_register(ec_dev);
-> +	/* Register a new cros_ec device */
-> +	ret = cros_ec_register(ec_dev);
-> +	if (ret) {
-> +		dev_err(dev, "Couldn't register ec_dev (%d)\n", ret);
-> +		return ret;
-> +	}
-
-It doesn't need the change after moving device_init_wakeup() and
-dev_pm_set_wake_irq() into cros_ec_register().
-
-Drop it?

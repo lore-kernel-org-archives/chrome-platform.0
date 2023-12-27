@@ -1,146 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B50A46521
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 17:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1490D47F64
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 20:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChGeEBvx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703698507; x=1735234507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xgw6Rx1xyiu9/c4fqxAyWEIp8q2MXXE0eNzx2fpq55Q=;
-  b=ChGeEBvxgrXzqyiRzZLFCTmhek0sRxg4jmILlzEWaJAxBBj9gXpeI8yi
-   apgHwfXuFSS38Ds89j1HldS3BMAlCr8J5IRT6bP+4c6XJVvCRT1skNSFi
-   Pt2EFvA+Ps/k7Ajs5bvd8t8zWEVj4ukRUZCvR6M/y/RDBtqPiWfJ30xBm
-   BMbmFeLBisYWgrYhulG06/kdQs9gSl14UBsY+xEHJftRV695mW/y8ki3m
-   C8VP7vbvFAIiNV7Gqklz1/y9ias5wJZREa6jXGAFW8lbFR6mspW5ZQYIu
-   dhh3QXxSOsfEwQ+vJ7fh0F2AhO7UceRrwdDYcIUeSJZz+0IVLfPRbPjL2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="399256025"
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="399256025"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:35:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="921884517"
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="921884517"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:35:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1rIXo3-00000009Tbk-0hcN;
-	Wed, 27 Dec 2023 19:34:59 +0200
-Date: Wed, 27 Dec 2023 19:34:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Raul Rangel <rrangel@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Rob Barnes <robbarnes@google.com>,
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 24/24] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-Message-ID: <ZYxgQn8L7ENkc0AJ@smile.fi.intel.com>
-References: <20231226192149.1830592-1-markhas@chromium.org>
- <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NMS1bfnc"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5eefd0da5c0so3031587b3.2
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 12:46:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1703709967; x=1704314767; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fVDgWJyq2vOmIjdOR8AJqO+EWu6/v9sa3TFBqXWfDD0=;
+        b=NMS1bfnciQkM+L0cpQtdArLkyVLso70fMpIhVpx4MJz3MKxhkp732rJ3QG32Mt6JVa
+         OIIuN5Oa6EPcoctba8Wd2rr09OXS4iVi3SsoLCA4LnB6/Xl4TXIH/DJbSOnpQwMQDDuy
+         Eg4RZozHuYitCOWUONyFGL0KtsPRRRzmRCR5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703709967; x=1704314767;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fVDgWJyq2vOmIjdOR8AJqO+EWu6/v9sa3TFBqXWfDD0=;
+        b=C/rybeYFhYSEoQYDFclQU12xCoHZh9i4AodFdvt/ma6k6+Ss/bVZgJdy3H4did0zwZ
+         nCSk+uTKH8IV8BcPJRUW//3TJqRJwHLbfLvXhMjcoBZkC6r48wJjz2SEeBBWkNhvQWl3
+         uZ0qlKUCqVwOGjLVXBXfJGNt1FMF/9rJOudYwDOdi73QZawSpgEj+rSv4GNsrGmlkOMZ
+         AGY44FleVgLh3ETSTMcuiGo8BDe12esVL0kL/7dykTZutZjo/nFjN8SI1sVbor47bmJI
+         5NRM7HPaOZHnY47swgJ41CaotEFKEMJtetwYqSJUfmaRWfyTPw5rhAsPgwkMgcIt1x+K
+         iBFA==
+X-Gm-Message-State: AOJu0YzVyamr3iE6Kdvyl8rdVi04i/BDe/lX2YVVlEpNfok4B7muc3Fb
+	kD/q+uEd46XrjPSySxq9sDiLk/kfLuNRUQNy5CUNN0pGcPQH
+X-Google-Smtp-Source: AGHT+IEFqMT0cNiuNHYB4w/tWOWcrd94D2AcGcmnGOnqQ7+bMGPqypdIdUBb9fxsCLohmVCwiJXtBlug6m8t4Hajfgs=
+X-Received: by 2002:a0d:ca4d:0:b0:5e7:a5c4:d9db with SMTP id
+ m74-20020a0dca4d000000b005e7a5c4d9dbmr5847203ywd.51.1703709967172; Wed, 27
+ Dec 2023 12:46:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231226192149.1830592-1-markhas@chromium.org>
+ <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <ZYvDshfJ-jnWNEY5@google.com>
+In-Reply-To: <ZYvDshfJ-jnWNEY5@google.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Wed, 27 Dec 2023 13:45:56 -0700
+Message-ID: <CANg-bXB0k-Z1PjAuW=vX3oR7T02g3z+d7ppdzfL-Cj7T+EQ6EA@mail.gmail.com>
+Subject: Re: [PATCH v3 24/24] platform/chrome: cros_ec: Use PM subsystem to
+ manage wakeirq
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Andy Shevchenko <andriy.shevchenko@intel.com>, Raul Rangel <rrangel@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
+	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
+	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
+	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 26, 2023 at 12:21:28PM -0700, Mark Hasemeyer wrote:
-> The cros ec driver is manually managing the wake IRQ by calling
-> enable_irq_wake()/disable_irq_wake() during suspend/resume.
-> 
-> Modify the driver to use the power management subsystem to manage the
-> wakeirq.
-> 
-> Rather than assuming that the IRQ is wake capable, use the underlying
-> firmware/device tree to determine whether or not to enable it as a wake
-> source. Some Chromebooks rely solely on the ec_sync pin to wake the AP
-> but do not specify the interrupt as wake capable in the ACPI _CRS. For
-> LPC/ACPI based systems a DMI quirk is introduced listing boards whose
-> firmware should not be trusted to provide correct wake capable values.
-> For device tree base systems, it is not an issue as the relevant device
-> tree entries have been updated and DTS is built from source for each
-> ChromeOS update.
+> >       /* Retrieve GpioInt and translate it to Linux IRQ number */
+> > -     ret = acpi_dev_gpio_irq_get(adev, 0);
+> > +     ret = acpi_dev_get_gpio_irq_resource(adev, NULL, 0, &irqres);
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > -     ec_uart->irq = ret;
+> > -     dev_dbg(&ec_uart->serdev->dev, "IRQ number %d\n", ec_uart->irq);
+> > +     ec_uart->irq = irqres.start;
+>
+> How about keep using `ret`?
 
-...
+The return value for 'acpi_dev_get_gpio_irq_resource' is different: 0
+on success, negative errno on failure.
 
->  	acpi_status status;
->  	struct cros_ec_device *ec_dev;
-> +	struct resource irqres;
+> > @@ -301,7 +306,14 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
+> >
+> >       serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
+> >
+> > -     return cros_ec_register(ec_dev);
+> > +     /* Register a new cros_ec device */
+> > +     ret = cros_ec_register(ec_dev);
+> > +     if (ret) {
+> > +             dev_err(dev, "Couldn't register ec_dev (%d)\n", ret);
+> > +             return ret;
+> > +     }
+>
+> It doesn't need the change after moving device_init_wakeup() and
+> dev_pm_set_wake_irq() into cros_ec_register().
+>
+> Drop it?
 
-	struct resource irqres = {};
-
-?
-
->  	u8 buf[2] = {};
->  	int irq, ret;
-
-...
-
-> -	irq = platform_get_irq_optional(pdev, 0);
-> -	if (irq > 0)
-> +	irq = platform_get_irq_resource_optional(pdev, 0, &irqres);
-> +	if (irq > 0) {
->  		ec_dev->irq = irq;
-> -	else if (irq != -ENXIO) {
-> +		if (should_force_irq_wake_capable())
-> +			ec_dev->irq_wake = true;
-> +		else
-> +			ec_dev->irq_wake = irqres.flags & IORESOURCE_IRQ_WAKECAPABLE;
-> +	} else if (irq != -ENXIO) {
->  		dev_err(dev, "couldn't retrieve IRQ number (%d)\n", irq);
->  		return irq;
->  	}
-
-Still I do not like ambiguity behind irq > 0 vs. irqres.start.
-
-For this, and if needed others, return plain error.
-Seems I gave the tag for the previous patch, consider
-that tag conditional (it seems I missed this).
-
-...
-
->  	u16 proto_version;
->  	void *priv;
->  	int irq;
-> +	bool irq_wake;
->  	u8 *din;
->  	u8 *dout;
->  	int din_size;
->  	int dout_size;
-> -	bool wake_enabled;
->  	bool suspended;
->  	int (*cmd_xfer)(struct cros_ec_device *ec,
->  			struct cros_ec_command *msg);
-
-Have you run pahole on this (before and after)?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Will do.

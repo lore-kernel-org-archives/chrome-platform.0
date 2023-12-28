@@ -1,92 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A992EDB;
-	Thu, 28 Dec 2023 02:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1873328F3;
+	Thu, 28 Dec 2023 03:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A17rYsN1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC27C433C7;
-	Thu, 28 Dec 2023 02:18:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1xoornL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B95C433C8;
+	Thu, 28 Dec 2023 03:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703729925;
-	bh=ICAwhWKhehGd9vTcF3nvOWXD/lnnob/w5a+Pw7RVLdM=;
+	s=k20201202; t=1703733157;
+	bh=fVTdWnjLmebCNA2sYZSqmo28sH1HWYsgYXc7oFuxyls=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A17rYsN1fPklVSK2EvGIWyMWX8PsKzd//HE+0ueCjMHwmbBTppTPXL+DEvEtCl45c
-	 yKZXqanh6uYjmLNu/nzVnbAkWJ+K6HUnpRiJpzM0XEVS1c/QnSoeTtSeAzWKkW5uLe
-	 EhKMuHm3iwHPyELp4dNTBYfmTwaSCZS2ecU7c+mxIG8pV8vQm4P9yLmDYNZP1BmNV2
-	 5wMoaPdOKDsry6/7iLtZDhVmmvSzIS0RML5Uf07i+Dh6o82Av0vU4b3jMt5uZ8lmE2
-	 GaOM6Fsy+R03nW5jlPPZBUdnPoQbRoc0ZJH02Iot86Af6S0ynA9710K+T531cDQhJJ
-	 78KHUPhKtmKUw==
-Date: Thu, 28 Dec 2023 10:18:40 +0800
+	b=e1xoornL38jDwUfawSEZ8mm0c17QXXu4qoLcCjWGe5Bbgx80x9hHqQy8MDXrBH5hr
+	 iJ8v73gHLVDzwYAz8wTmYBW4kLQiO6u88usM2BfKy2GSbGAI1bOnABoECroqusZBs7
+	 1gGMtvgsyK4tgv9tstVB1LIU+LviFnIQ9V4NS7OU7/hPhjoHa4f8hTKa/iuOFAPb5+
+	 +16pdvkdRKCYAYtmjTfrjOrsPu8rrikpZBsRDfGI13DYoNYZq2kTiGsVpP551hjeSp
+	 83FCV6E7P/SqrfF6mpou31ONg2nwHCyMtBPqICU2nj+F9tFMR3dAnIvCLC9K/bhgSU
+	 35rjt54KQyENQ==
+Date: Thu, 28 Dec 2023 11:12:34 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Mark Hasemeyer <markhas@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Raul Rangel <rrangel@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Rob Barnes <robbarnes@google.com>,
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 24/24] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-Message-ID: <ZYzbAIloJ9k28thL@google.com>
-References: <20231226192149.1830592-1-markhas@chromium.org>
- <20231226122113.v3.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
- <ZYxgQn8L7ENkc0AJ@smile.fi.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/11] firmware: coreboot_table: Convert to platform
+ remove callback returning void
+Message-ID: <ZYznogPzbFM2XTCv@google.com>
+References: <cover.1703693980.git.u.kleine-koenig@pengutronix.de>
+ <d323e4f24bfab3ac1480933deb51e7c5cb025b09.1703693980.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZYxgQn8L7ENkc0AJ@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d323e4f24bfab3ac1480933deb51e7c5cb025b09.1703693980.git.u.kleine-koenig@pengutronix.de>
 
-On Wed, Dec 27, 2023 at 07:34:58PM +0200, Andy Shevchenko wrote:
-> On Tue, Dec 26, 2023 at 12:21:28PM -0700, Mark Hasemeyer wrote:
-> > -	irq = platform_get_irq_optional(pdev, 0);
-> > -	if (irq > 0)
-> > +	irq = platform_get_irq_resource_optional(pdev, 0, &irqres);
-> > +	if (irq > 0) {
-> >  		ec_dev->irq = irq;
-> > -	else if (irq != -ENXIO) {
-> > +		if (should_force_irq_wake_capable())
-> > +			ec_dev->irq_wake = true;
-> > +		else
-> > +			ec_dev->irq_wake = irqres.flags & IORESOURCE_IRQ_WAKECAPABLE;
-> > +	} else if (irq != -ENXIO) {
-> >  		dev_err(dev, "couldn't retrieve IRQ number (%d)\n", irq);
-> >  		return irq;
-> >  	}
+On Wed, Dec 27, 2023 at 05:26:27PM +0100, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
 > 
-> Still I do not like ambiguity behind irq > 0 vs. irqres.start.
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
 > 
-> For this, and if needed others, return plain error.
-> Seems I gave the tag for the previous patch, consider
-> that tag conditional (it seems I missed this).
+> [...]
 
-On a related note, I was confusing a while because of the differences:
+Applied, thanks!
 
-platform_get_irq_optional() and platform_get_irq_resource_optional():
-Return: non-zero IRQ number on success, negative error number on failure.
-
-acpi_dev_get_gpio_irq_resource():
-Return: 0 on success, negative errno on failure.
-
-acpi_dev_gpio_irq_get():
-Return: Linux IRQ number (> %0) on success, negative errno on failure.
-
-
-How about let platform_get_irq_resource_optional():
-- Return 0 on success and negative errno on failure.
-- The callee needs to retrieve the IRQ number from irqres.start.
-?
+[03/11] firmware: coreboot: Convert to platform remove callback returning void
+        commit: 09aeaabebdafbcf4afd1c481beaff37ecbc6b023

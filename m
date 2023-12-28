@@ -1,48 +1,48 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0AD1396
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Dec 2023 04:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7797D6FAB
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Dec 2023 04:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="3bWXn9Wr"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d427518d52so26589245ad.0
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 20:11:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="l6inyS9M"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d427518d52so26727255ad.0
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 20:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1703736683; x=1704341483; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1703739374; x=1704344174; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=wQaL9wlyL5I+9sf1mYzMIOboJAEWEWjPq/PsPSn/tC8=;
-        b=3bWXn9WrgBaebfexazD9u7Ugh7Uhh5WMAInRT68OJvByKkO8dcjRZE2pAVvWmv/BIe
-         UuT/T440+5p0bY9woNTME9AznvTXcNPTGZRI6uAuJZaQTL2lrmwhnJeyloZsXXFr+Gp+
-         9zY6hfFg3NJzTfWxs6YigaT4jx/EJgSKTMzQSmj5Ylw09FL5K6SO/JwInECtYbFkzx43
-         nOMZtbd3Qybfvc/g00lF1Y1rzw3znCOiGBXO6i42yUC7RCAKABG3yIEMT3HzxL24uiB3
-         g8XS0FcHW59I2AQS6C0baJO+56kgr8lPWrMS9YPU/1S0R5QA1NhrXW8/uls/5UJ1z4to
-         VULQ==
+        bh=LDs6a8W2Xgcixzs+hGvyi+EHkDr136s6iroZJMsmCJU=;
+        b=l6inyS9MwmVjo09oWhchc4jNaZvB2aaPoKalivK3Eale12cQtaqgN+goFCzp15G2ps
+         m0NIFO9wHgx6grbWukGQ4HJ0ppBMBR6mxc3E8BCB3dCdw0ap5DuGk5bNDlcXUtL92ADd
+         C2eaG+8NQs8fbQtoHrFSSkIc1p3utwI+3SmTGHRRgo+Q8q3oVDYS7oM+EZjEHWoQGiFR
+         VROFcZrlKwJ3yUjf7FBkzgWGKJhcsiHa6Yqgz96ryuDWXZFeWxopSNFWTUmYYlLEr+wr
+         b+EgXQOzGYj7M/q5izRBjtvP2u87PVx3lFCnvV4iKeyhZDkaNgKzR3shzdHoPiNWRugi
+         dzyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703736683; x=1704341483;
+        d=1e100.net; s=20230601; t=1703739375; x=1704344175;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wQaL9wlyL5I+9sf1mYzMIOboJAEWEWjPq/PsPSn/tC8=;
-        b=n28Odguz+PExzIgGl+zR45Om5H5PJKX6Z6xvm26HloeRPRzIxMRQscbsoJzG+moRJK
-         gBPcHSug4hwn9FgJiFhf87+NnQKLnuZtI45d0+ja8e2JAUPU9LifLtIoK1cjWtiQh/RM
-         eb5K/1RwAL4GzlArv0vN/pkoHTIDHDSQHn7vTYYIwG0gk9xODF2DVcHHExnBZHqfQ/bw
-         ycYlviR1hLPdJRAMtD88DzQxO7KKxkD0riDvChIuUitgisdLGa/4dCORb5Xv7N81yI0z
-         fFY362ahZLaDSHV+jeb0fS2XpLmOEM7uIFH47Bj+hFRv67bTCuq7kvHfTpVH5DXE9C68
-         SVmg==
-X-Gm-Message-State: AOJu0Yz0K5dRwLCVJXf2MqT/deoj559jmvZ69cZ52s1uIwBTM76sSMWK
-	TyHVmEsEX0BDSnTG7pgZV4E0u3YlCsBFgQ==
-X-Google-Smtp-Source: AGHT+IEPnkWlvKd3EDuZ8KVkCFH0at2ufihgzOqml8vWSVUijtRGNKqqMqoiB41rRj8AZ9IsdinCrA==
-X-Received: by 2002:a17:902:ecc4:b0:1d4:1b96:4232 with SMTP id a4-20020a170902ecc400b001d41b964232mr12430869plh.64.1703736683514;
-        Wed, 27 Dec 2023 20:11:23 -0800 (PST)
+        bh=LDs6a8W2Xgcixzs+hGvyi+EHkDr136s6iroZJMsmCJU=;
+        b=uulr+WoFQ9yBukcMT4hh0ZBd814YouulssnXtlGQMrP2VlbKcLZg2wjpo7n7Cp//AI
+         sDOGDl9oHZcH97HVZi6XrqH8UTuZnxA4hhHxhzhCtPjyZEZkfRVeRfm0TBJu6KU/Z2PX
+         B235O3S24s9MhZz3ancNXozFcslKe7IX6zy2CkHrVh4PALGns0Ptd+2cU6pcM9EKgXYQ
+         u/y9pMEXgbOdnRlIMzReDGuxPE8jE++uiPjWNKdF6nsk0+GgqsN5RD0Y9fwSLgeoz7aA
+         f93MQWRSfKYte3K2joZUBKWLcmbKR6R5Mo4D/jhoRklQoDhGMMjOXEtZnDyaXPf4vmpT
+         ZYVw==
+X-Gm-Message-State: AOJu0YzC4tCMbS5mL11K9vj117rubKPNeVCEz6RVEuacDjfCIH+eV31p
+	AUeTMThNPTOn2U6qsasYGX2P68PxPTeBmQ==
+X-Google-Smtp-Source: AGHT+IE/Qg8wE1bVxAgN+B2hSHbjrJPUQaQ9SaMxSiHXT0Qv2a0sHF9aKdcDlPTfTmHDf1TNGYDlDA==
+X-Received: by 2002:a17:902:f802:b0:1d4:3cff:279e with SMTP id ix2-20020a170902f80200b001d43cff279emr8628484plb.32.1703739374689;
+        Wed, 27 Dec 2023 20:56:14 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id u10-20020a170902b28a00b001d3dfebc05esm12798541plr.21.2023.12.27.20.11.22
+        by smtp.gmail.com with ESMTPSA id l7-20020a170902f68700b001d39af62b1fsm12769965plg.232.2023.12.27.20.56.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 20:11:23 -0800 (PST)
-Message-ID: <658cf56b.170a0220.ce86b.e3cd@mx.google.com>
-Date: Wed, 27 Dec 2023 20:11:23 -0800 (PST)
+        Wed, 27 Dec 2023 20:56:14 -0800 (PST)
+Message-ID: <658cffee.170a0220.16c4a.e5d4@mx.google.com>
+Date: Wed, 27 Dec 2023 20:56:14 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -53,60 +53,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Branch: for-firmware-kernelci
 X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: build
+X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v6.7-rc1-2-g09aeaabebdaf
-Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.7-rc1-2-g09aeaabebdaf)
+Subject: chrome-platform/for-firmware-kernelci baseline: 89 runs,
+ 1 regressions (v6.7-rc1-2-g09aeaabebdaf)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci build: 5 builds: 0 failed, 5 passed (=
-v6.7-rc1-2-g09aeaabebdaf)
+chrome-platform/for-firmware-kernelci baseline: 89 runs, 1 regressions (v6.=
+7-rc1-2-g09aeaabebdaf)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-kernelci/kernel/v6.7-rc1-2-g09aeaabebdaf/
+Regressions Summary
+-------------------
 
-Tree: chrome-platform
-Branch: for-firmware-kernelci
-Git Describe: v6.7-rc1-2-g09aeaabebdaf
-Git Commit: 09aeaabebdafbcf4afd1c481beaff37ecbc6b023
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+platform   | arch  | lab         | compiler | defconfig | regressions
+-----------+-------+-------------+----------+-----------+------------
+imx8mp-evk | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
 
-Detailed per-defconfig build reports:
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
+re-kernelci/kernel/v6.7-rc1-2-g09aeaabebdaf/plan/baseline/
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-firmware-kernelci
+  Describe: v6.7-rc1-2-g09aeaabebdaf
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      09aeaabebdafbcf4afd1c481beaff37ecbc6b023 =
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
+Test Regressions
+---------------- =
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
 
----
-For more info write to <info@kernelci.org>
+
+platform   | arch  | lab         | compiler | defconfig | regressions
+-----------+-------+-------------+----------+-----------+------------
+imx8mp-evk | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/658cf4db98d47c3c06e134d1
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.7-rc1-2-g09aeaabebdaf/arm64/defconfig/gcc-10/lab-broonie/baselin=
+e-imx8mp-evk.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.7-rc1-2-g09aeaabebdaf/arm64/defconfig/gcc-10/lab-broonie/baselin=
+e-imx8mp-evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/658cf4db98d47c3c06e134da
+        failing since 107 days (last pass: v6.5-rc1-1-g0979e7e3cfd7, first =
+fail: v6.6-rc1)
+
+    2023-12-28T04:08:37.423573  + set<8>[   29.752899] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 395986_1.5.2.4.1>
+    2023-12-28T04:08:37.423824   +x
+    2023-12-28T04:08:37.526770  / # #
+    2023-12-28T04:08:38.686112  export SHELL=3D/bin/sh
+    2023-12-28T04:08:38.691749  #
+    2023-12-28T04:08:40.183399  / # export SHELL=3D/bin/sh. /lava-395986/en=
+vironment
+    2023-12-28T04:08:40.188904  =
+
+    2023-12-28T04:08:42.898404  / # . /lava-395986/environment/lava-395986/=
+bin/lava-test-runner /lava-395986/1
+    2023-12-28T04:08:42.904734  =
+
+    2023-12-28T04:08:42.909333  / # /lava-395986/bin/lava-test-runner /lava=
+-395986/1 =
+
+    ... (11 line(s) more)  =
+
+ =20

@@ -1,131 +1,135 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846AD5235
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Dec 2023 05:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCA55666;
+	Thu, 28 Dec 2023 07:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="iboOiszG"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d9aef87d44so868819b3a.0
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Dec 2023 21:39:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1703741974; x=1704346774; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=X5uX8TIA/Dc3cmgQArBTlbSAKqh8ucMipf3AKbo/q1k=;
-        b=iboOiszGa19PDcZyS9VR5ZuZGrlMR9CXPnv3Cz7QfjfQ9bm0zKdpElEBoLjQODfN59
-         qVDVLEPg4U5sZ9zxRW7rcsB73uy2bJkc5fIJshEgj3aprY1CwA+jjJcVjRB1MW3BYCgE
-         zXvUC/fZCOpqIzmoHSK/VEhaa+4Q6B2BDJExjMjSuiiChMLHp6zd4x8D8LwONVx4+pOC
-         38ncbsYOfdT9prmxMV/TxKRZXmxvu7qG+QmMwUZf8UwIlVPiH8TdG+lS208f6VSSYF1k
-         b8jAJ/TqEyRRbz1jgv+vw4hF6DTV7o/d9coBsrMqW1/ueF9JZIl12BHE2ED8vM5QeP5O
-         tnkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703741974; x=1704346774;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X5uX8TIA/Dc3cmgQArBTlbSAKqh8ucMipf3AKbo/q1k=;
-        b=h+Giw3NkrymOOFyivbL6jdunyviIPpuxEjLNe6VP+9oTD+iTc5R+oY5Nq0F2DzDIkX
-         Mrr21WLEVob9fLwrJ6lnI1iHRdMYEChxP7j/OOcyY38YBhEqQpaZkH5qEsZhBGK7Zstq
-         ORI03jQ46Dj+3kpbHQnRV5hmhFre7/gtVNITHALpnx7/svCekWmSndMvVlvwSWwBJl5+
-         4xZfcSlif7OIyPAyurIJbT1gfsD6YEQj9IGiJ5vcf3G3zunq3mZeD7qFAp5dh5yC/iLo
-         vrf8x3K9NyWB1mQolmqAv0gGnAVi6RuDsTEdMP1MtbVrJrEE6Pwo5PUcPkILSLUtTebe
-         JflQ==
-X-Gm-Message-State: AOJu0YzN6+deid0in4aj+UbVOqT7FkEqtdn8jw3lZAbZGvRPLL2X0FnK
-	8u3IFAKLkMAfgfYdgVoBvciUnFMC1J7/CA==
-X-Google-Smtp-Source: AGHT+IEv/oJUryVLILT3ZLHlN1d1Rtua0TuWtDZhEsZALAq+GYPbr8HmEiAg37YWt13ovqoOK58ItA==
-X-Received: by 2002:a17:902:ce81:b0:1d4:4a30:1a82 with SMTP id f1-20020a170902ce8100b001d44a301a82mr3464084plg.96.1703741974699;
-        Wed, 27 Dec 2023 21:39:34 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d5-20020a170903230500b001d3ebfb2006sm12987083plh.203.2023.12.27.21.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 21:39:34 -0800 (PST)
-Message-ID: <658d0a16.170a0220.46166.eb7c@mx.google.com>
-Date: Wed, 27 Dec 2023 21:39:34 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ptxRr5i8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1703750200; x=1704355000; i=markus.elfring@web.de;
+	bh=q8LQkX8WL0q3ovc2/HmVfjQfSvCey/AWBJG2oLVNE7I=;
+	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
+	b=ptxRr5i80CUS53R4ILu8PrPgbo46hMHfZ/sA+iaCGr9Su33ztPyQ+z4Dpn/WzIRY
+	 kvhyiQXULXMpUnKZKXr1uFq4o0eGvRip4Wd8YCuzgFL77mswS4WhsOipzIeFU2CRt
+	 2O1FWjCpO+zHzQDVvU7hrM213LBWbR858Rc/QdDas0nM0s5k47DJ5341VaCc2qHH3
+	 tVtnskOnfrwIwEagqXZXQhGPN5PYw7c52k7jna+GFpQeZ2Hr2kxd6LajbzQ65k4/y
+	 QYqh9AT8JwqGXiDoLas5rQT1IaE3pu/LbJMXmpFQbouxxTk4wapUxttHt5FoL8LdA
+	 Gs88uK2PSl4qc+2OpA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MGQGF-1rSMgn2cqT-00GzyC; Thu, 28
+ Dec 2023 08:56:40 +0100
+Message-ID: <5db36d2b-afe0-4027-b22e-ded163a409be@web.de>
+Date: Thu, 28 Dec 2023 08:56:38 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: chrome-platform@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ Benson Leung <bleung@chromium.org>, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?=
+ <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] platform/chrome: cros_ec_i2c: Less function calls in
+ cros_ec_cmd_xfer_i2c() after error detection
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-firmware-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.7-rc1-2-g09aeaabebdaf
-Subject: chrome-platform/for-firmware-kernelci cros-ec: 11 runs,
- 1 regressions (v6.7-rc1-2-g09aeaabebdaf)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+X-Provags-ID: V03:K1:i3MXYHdK2HPaWLop5uSkw24RVPcYPI6DyUco+noAgA7fgxbj0ZP
+ vPWTFh4o8cLcjZkOlDl7OmmTnwkkAhL8Oey3a5GSdD9nuEccMJFBXp7RG53Jp1m66mr8LTU
+ yvyYJda07b4I0Ooj+ZBt2OtGDK/rN6lNCPteRh2x2AgErC6u3VhSmCsJUDkm0UUhgB87wqq
+ /vzHvHZOqrtbQT9HhNZcw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mA7BOUGQ7iA=;EGuXqaI3Y1WHScJysMcyY4dztiV
+ 1x9BrZAZgJ7f6W9OqI4alz5YS4wk9bqfDCL4AEgml+vEplXy9NFNLxmrKpjc6+p9DOfwEHT5S
+ 2o7X9SaPf1neB5JX9DdOLGoNS4BnOhb1MSRm2PBLAexz4yoVgYK8HoLO7ROxYVorxGJMfXUid
+ v8H5JCSE5tNBGNeWiRryZ6zlxCvLdnmdG0VxMyf7j7pUkaGJXbADDeJRgXLAp84OnFldTnGzC
+ 7EMMAlVk8rdm4DnunYDQ23uUe7F9MybNtE713N9YoilRrb+Wvg2P3+VRMjpFyDwlkvGzJ0R8C
+ FNUl8fGTGtPvxnK/buJWtPLgTmUVfz8DItiffW7PA8ucqNVeuMEL9fRFeWF9IeJwPxvduDKLg
+ 6uPSPEQNei74EkzSSuJgnkYieTXAUy5yfQVejOFroYvIxydj/6p4727nF56IRL9njZzzqusoH
+ jmNfzbt/hHePXqhee/K9RezM6RMtyG6sdQKtl/NOHefIYSZ4pX+TrqpXlCURn+kYufyEmO6r9
+ aa+IvagxEyiYZu7NJN6m8lsPvyfyIlX0IZt5DJfUjFZ4HAwyFKup3boHZpUupuoq8WXSxAZ2p
+ gh5uMz5QjUkrkeERkGLenAR7PlOaYkVguGIKaJTd7ncCTHVYlS5jCt0uxMlC9vhJhyvah+CYM
+ HwJ12PZ5sQ/1avh1wEiKQc3FyDpGAa0SLLBGyXM4tZxGwHxcgrgPwrwTFczThCEkFIZ+iHTJQ
+ Mlc+e8oKQ1Ksk1lGAO7J9XzQvB52hu4tI+GLVbFtkq+YdXVF4KgJKE44HrU17vpUYQedDV2o0
+ mzLw4Tr+IvLUWMB3uSfm0yQ+AfQos4lKzw7UT/ogqlHfLZeKbuWA+FZ49IN1AZxJDxtAguY+7
+ 4cKz9/X1WqLE3WqZAUYYoxSV71xoHjkJNX2L2J9VpMoQ6E444P7/wG5txNlIk5RU+9BEFDfSt
+ HeaAetIoK2IJnjLXL7OcrTxzRIY=
 
-chrome-platform/for-firmware-kernelci cros-ec: 11 runs, 1 regressions (v6.7=
--rc1-2-g09aeaabebdaf)
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Thu, 28 Dec 2023 08:36:49 +0100
 
-Regressions Summary
--------------------
+The kfree() function was called in up to two cases by
+the cros_ec_cmd_xfer_i2c() function during error handling
+even if the passed variable contained a null pointer.
+This issue was detected by using the Coccinelle software.
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+* Adjust jump targets.
 
+* Delete two initialisations which became unnecessary
+  with this refactoring.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
-re-kernelci/kernel/v6.7-rc1-2-g09aeaabebdaf/plan/cros-ec/
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/platform/chrome/cros_ec_i2c.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-firmware-kernelci
-  Describe: v6.7-rc1-2-g09aeaabebdaf
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      09aeaabebdafbcf4afd1c481beaff37ecbc6b023
+diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chro=
+me/cros_ec_i2c.c
+index e29c51cbfd71..2a6ec623e352 100644
+=2D-- a/drivers/platform/chrome/cros_ec_i2c.c
++++ b/drivers/platform/chrome/cros_ec_i2c.c
+@@ -193,8 +193,7 @@ static int cros_ec_cmd_xfer_i2c(struct cros_ec_device =
+*ec_dev,
+ 	int i;
+ 	int len;
+ 	int packet_len;
+-	u8 *out_buf =3D NULL;
+-	u8 *in_buf =3D NULL;
++	u8 *in_buf, *out_buf;
+ 	u8 sum;
+ 	struct i2c_msg i2c_msg[2];
 
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
+@@ -210,7 +209,8 @@ static int cros_ec_cmd_xfer_i2c(struct cros_ec_device =
+*ec_dev,
+ 	packet_len =3D msg->insize + 3;
+ 	in_buf =3D kzalloc(packet_len, GFP_KERNEL);
+ 	if (!in_buf)
+-		goto done;
++		goto check_command;
++
+ 	i2c_msg[1].len =3D packet_len;
+ 	i2c_msg[1].buf =3D (char *)in_buf;
 
+@@ -221,7 +221,8 @@ static int cros_ec_cmd_xfer_i2c(struct cros_ec_device =
+*ec_dev,
+ 	packet_len =3D msg->outsize + 4;
+ 	out_buf =3D kzalloc(packet_len, GFP_KERNEL);
+ 	if (!out_buf)
+-		goto done;
++		goto free_in_buf;
++
+ 	i2c_msg[0].len =3D packet_len;
+ 	i2c_msg[0].buf =3D (char *)out_buf;
 
+@@ -278,8 +279,10 @@ static int cros_ec_cmd_xfer_i2c(struct cros_ec_device=
+ *ec_dev,
 
-Test Regressions
----------------- =
+ 	ret =3D len;
+ done:
+-	kfree(in_buf);
+ 	kfree(out_buf);
++free_in_buf:
++	kfree(in_buf);
++check_command:
+ 	if (msg->command =3D=3D EC_CMD_REBOOT_EC)
+ 		msleep(EC_REBOOT_DELAY_MS);
 
+=2D-
+2.43.0
 
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/658cf8ceff7bcbf167e13519
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.7-rc1-2-g09aeaabebdaf/arm64/defconfig+arm64-chromebook/gcc-10/la=
-b-collabora/cros-ec-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.7-rc1-2-g09aeaabebdaf/arm64/defconfig+arm64-chromebook/gcc-10/la=
-b-collabora/cros-ec-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/658cf8ceff7bcbf167e135=
-1a
-        new failure (last pass: v6.5-rc1-1-g0979e7e3cfd7) =
-
- =20

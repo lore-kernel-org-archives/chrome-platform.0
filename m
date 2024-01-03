@@ -1,87 +1,211 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BA9182B9;
-	Wed,  3 Jan 2024 07:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE011C2BB
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jan 2024 17:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="V6HHqHGq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1704268636; x=1704873436; i=markus.elfring@web.de;
-	bh=HVKTWztEQ+2dMi/RMBadEFDB/54G8PYPCBjeOYxfJGI=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=V6HHqHGq8/7QT207WLZdx2bQYB/oSpbSdwuhfzkWlRqQHYHhDSW3E7nM2WDUP5FM
-	 pQ4cC4gwkxCe3cdMJGaiiATvMKn7Z4vh+0IK/4JcRG+nkBD6KjY8GPi70FpzpA8DC
-	 wfXAmfHHg+QOGxvp3hOsJ90ZWrTOrwcgSiMPv+MpLIubIaIffix2ET2HvV3JNtW66
-	 indm+hQMXcl24I3LJxkIYyEyRt7RKplsVh3lPTClA94DmGCeR6WfLao5cvOWGRpnI
-	 pV+QFl5Q6CzpKdGwjirtQpqf51mqiggZE/AsKVY+jaYRKrXdM2Ef0azaBTPtr1oQV
-	 Mv3Ea+c2EmYEH40X4Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N4627-1rC6O50EJF-00zso0; Wed, 03
- Jan 2024 08:57:16 +0100
-Message-ID: <8175d102-e1ba-4956-a54a-e734f4d99ecf@web.de>
-Date: Wed, 3 Jan 2024 08:56:50 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b6IGupbu"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5f2aab1c0c5so5389357b3.0
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 09:47:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704304048; x=1704908848; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RVBLFxuGTc+CJdWVVnYhZKqmQ6RkuH4h4mf4hp3TRsc=;
+        b=b6IGupbu6JTMIlXUCtNnW4cvRW/gQVVVohAISjk0Zq7qgAsP6d/NBk4KhgD6ov3mxa
+         GLV+AV3Ku2V9BUzBgQLAdh6fiLz1h6neKVJK3iAAfqIno+6soLmKU6+ipNfMFD8dhunq
+         YGoGEBb48LHc/dkWH1+LCzzwIjCko3gPUy9Xk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704304048; x=1704908848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RVBLFxuGTc+CJdWVVnYhZKqmQ6RkuH4h4mf4hp3TRsc=;
+        b=qko6bE4N7NoiaDb9v7QL96us41580rBpJs1AfopuIfyoWOBJWNaBTcoQvcPp4IGr+N
+         iKfBPsiDQIIh/SjqgxmNLMZofnbaoyksNVdPvIV/+LR4RBOv2hi4TGSyk8CrvzcB3uXn
+         H2h8bANI2NQyb0AwScD3m+Qb0WXuyuscG6M0pgaz9gw1XwskmLvnrPyhf8WcwumP3HZL
+         HlEOLyaFhYT9dD2fdnh16Zk7I/gH5/osKABvZJqof3Km1AkhhlV4pbguY2Yh+C7AQKT7
+         Lfd8lkUJr379tr/W1nyiFlnDASxRlkIyL4tocFwWA7y+NtiwzbX3M/Aci/jhsXV47I91
+         boeA==
+X-Gm-Message-State: AOJu0YxJz7nxI0jwFaWg76lXmieXrgwbuN2m0z9vcVyODY+rGrbkvF6X
+	RFM7Og2lqbqlU9Xb/zaAkDTJLYE2MjyVEo7plaRPEi7o2abP
+X-Google-Smtp-Source: AGHT+IFRuIbKnoz7RMdbYdyxgvgzIsiQXh8vVqlgSECP6teJxilGE94r+rf+Sktx73a1K2m11pLoxUEDXJHiLml5GfY=
+X-Received: by 2002:a25:8c91:0:b0:dbd:43:3e43 with SMTP id m17-20020a258c91000000b00dbd00433e43mr848903ybl.42.1704304048063;
+ Wed, 03 Jan 2024 09:47:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: platform/chrome: cros_ec_i2c: Less function calls in
- cros_ec_cmd_xfer_i2c() after error detection
-To: Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
- kernel-janitors@vger.kernel.org
-Cc: Benson Leung <bleung@chromium.org>, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?=
- <groeck@chromium.org>, LKML <linux-kernel@vger.kernel.org>
-References: <5db36d2b-afe0-4027-b22e-ded163a409be@web.de>
- <ZZTVtOumDlR4iZPa@google.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <ZZTVtOumDlR4iZPa@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BddBvBaGpdCIVj3hrd6z5dcnD233fEmCoAnbYNSrZOvfMyDxz3S
- D+21kkjr3CBDvfqRdT6yJXO/gOotBjwN+UWbL14ktUy3JzZ1YHJVGjnYhi6Orncx6IiPQQg
- qGksaB647yILRFqYQazXMWNsAurh7ybwWLIRuKuz7ySLxlunbhCMMndE1eMhrMNekmyPOZ+
- La0JTTiVV/2FJGYeQXLKQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2PZBKHXO7tQ=;mPse9iXVcB25Amlj3jCFLbd6PCr
- 3+RyVUq21pRAsNcBGB20v2CoZvekjt1xaGQOs1SM21rGNpBilfHpmVy1KqqoHQp7K0PZ5+nAV
- Fj3JH6wwXi1iSxerUtCpOKonQ1EUXvSfuvgYkU7+rRyxkHLvdr8nM6bO9HYfKn26ekhfMphyn
- ezGTDKRxm/nEHJ5WJ/n+JPirRnolfnJrVWgGS/WyzBz4vHmyvi99y+aq6x5gZKFYVNDLuLKL5
- g6gdqL8fDSAqYEWs/9TTE6LN2mbi+JpU5HanKr93sEgMT6si5YAZds5BhxyLJ0BrVL/t8gC9r
- 5MO0aBddJ3z5IdL6kyCTl64Pp6XaA+AiLiWXMKoT56XCz/goLjyMpiYDct1FVQ4wlB7rrsJkF
- lW0KtLE/bHvakDx0tAl6+g2asnJRfz2Yh6pHtoux3hPwX00Q4HxbNhnWzt0UEurKTmY+DIQJi
- nERo3+biWBqT/iG+J/lqTcArQxnDUYWmLak+8BfrmPSndVz8sjLFUnymchMxwSrHkMfaxDHfN
- HM/QYfX0BuQtlu1EW/3zY6zHgVMqFA2lEVuaE55sjJlXyimiBKb+l9xPM3CAHcJYeVeDNf2jO
- KHuEujSkSSsb8a0X+r3cfQyToqlfb3WiyP65dUfmcssjbZoTKvlw1DHAVKZVDIhitELHca+Ge
- DWgTWA32rqRZjvUiuWOj+LwifphrSxrGm+jqQv2aTICC3DdeJalCS9Tg/V3j8M0BYAhUBSUK7
- YZfsJn1X0Au0zZAaMQZZ435c69GR45hxngmlfNqQgbZ2a1f7vaYvbK+ThpTOyTBJJfCMmdKRj
- ddFKSTVLn20kSdbrZz55y0yuM/egbD8ps7mZovBzDIhRozinuDB8iKFmiYBiqcFc5PCLjJsTX
- T2eW+ZAc07QVPO8f+gKFl4ASQA52z/UFF7nlJ/hRHQp+7utYI6bduxpmb28AA1ZxAgYkAaW1Y
- 6sgS+Q==
+References: <20240102210820.2604667-1-markhas@chromium.org>
+ <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
+In-Reply-To: <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Wed, 3 Jan 2024 10:47:17 -0700
+Message-ID: <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
+Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
+ manage wakeirq
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Raul Rangel <rrangel@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
+	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
->> The kfree() function was called in up to two cases by
->> the cros_ec_cmd_xfer_i2c() function during error handling
->> even if the passed variable contained a null pointer.
->> This issue was detected by using the Coccinelle software.
->>
->> * Adjust jump targets.
->>
->> * Delete two initialisations which became unnecessary
->>   with this refactoring.
+> The DMI quirk looks to be fixing something. Most likely that should be
+> backported to stable kernels as well? Please split the DMI match table
+> part out of this so that it isn't mixed together with migrating the
+> driver to use the pm wakeirq logic.
+
+The DMI quirk is used to list boards whose IRQ should be enabled for
+wake, regardless of what their firmware says. Currently the driver
+always enables the EC IRQ for wake anyway, so there shouldn't be a
+need to backport the DMI quirk on its own. Splitting out the DMI quirk
+into its own patch would break Brya/Brask's ability to wake if they
+were to run a kernel w/o the DMI patch. I chose not to split it out to
+keep the change atomic, and avoid introducing any regressions.
+
+> > For device tree base systems, it is not an issue as the relevant device
+> > tree entries have been updated and DTS is built from source for each
+> > ChromeOS update.
 >
-> The patch saves few instructions but makes the code less readable a bit.
+> It is still sorta an issue. It means that we can't backport this patch
+> without also backporting the DTS patch to the kernel. Furthermore, DTS
+> changes go through different maintainer trees, so having this patch in
+> the kernel without the DTS patch means the bisection hole is possibly
+> quite large.
 
-Do you find advices applicable from another information source
-also for this function implementation?
-https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+go=
-to+chain+when+leaving+a+function+on+error+when+using+and+releasing+resourc=
-es
+Correct, this patch doesn't make sense to backport on its own. It is
+dependent on the entire patch series (more than just the DTS changes).
+I'm not super familiar with how patches flow through different
+maintainer trees. But I'd imagine this patch series makes its way to
+torvalds/master in some sort of sane manner where earlier patches land
+before later (dependent) ones?
 
-Regards,
-Markus
+> Does using the pm wakeirq logic require the use of 'wakeup-source'
+> property in DT? A quick glance makes me believe it isn't needed, so
+> please split that part out of this patch as well.
+
+No, 'wakeup-source' is not required, it provides an indication to the
+driver that the IRQ should be used for wake, which then enables the pm
+subsystem accordingly. If 'wakup-source' is not used, we're back to
+square one of making assumptions. Specifically in this case, it would
+be assumed that all SPI based EC's are wake capable.
+
+> We should see a patch
+> for the DMI quirk, a patch to use wakeup-source (doubtful that we need
+> it at all though), and a patch to use the pm wakeirq logic instead of
+> hand rolling it again.
+
+I don't know if I'm convinced this should happen. I'm open to it, but
+see my previous comments.
+
+> > +static int enable_irq_for_wake(struct cros_ec_device *ec_dev)
+> > +{
+> > +       struct device *dev = ec_dev->dev;
+> > +       int ret = device_init_wakeup(dev, true);
+> > +
+> > +       if (ret) {
+> > +               dev_err(dev, "Failed to enable device for wakeup");
+>
+> Missing newline on printk message.
+
+Ack.
+
+>
+> > +               return ret;
+> > +       }
+> > +       ret = dev_pm_set_wake_irq(dev, ec_dev->irq);
+> > +       if (ret)
+> > +               device_init_wakeup(dev, false);
+> > +
+> > +       return ret;
+>
+> I'd rather see the code formatted like this:
+>
+>         int ret;
+>
+>         ret = device_init_wakeup(dev, true);
+>         if (ret) {
+>                 dev_err(...);
+>                 return ret;
+>         }
+>
+>         ret = dev_pm_set_wake_irq(...);
+>         if (ret)
+>                 device_init_wakeup(dev, false);
+>
+>         return ret;
+>
+> Mostly because the first 'if (ret)' requires me to hunt in the variable
+> declaration part of the function to figure out what it is set to instead
+> of looking at the line directly above.
+
+Sounds good :-)
+
+
+> [...]
+> > diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+> >  struct cros_ec_spi {
+> >         struct spi_device *spi;
+> > @@ -77,6 +79,7 @@ struct cros_ec_spi {
+> >         unsigned int start_of_msg_delay;
+> >         unsigned int end_of_msg_delay;
+> >         struct kthread_worker *high_pri_worker;
+> > +       bool irq_wake;
+>
+> This is only used in probe. Make it a local variable instead of another
+> struct member to save memory.
+
+Ack.
+
+>
+> >  };
+> >
+> >  typedef int (*cros_ec_xfer_fn_t) (struct cros_ec_device *ec_dev,
+> > @@ -689,9 +692,10 @@ static int cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+> >         return cros_ec_xfer_high_pri(ec_dev, ec_msg, do_cros_ec_cmd_xfer_spi);
+> >  }
+> >
+> > -static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
+> > +static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi)
+> >  {
+> > -       struct device_node *np = dev->of_node;
+> > +       struct spi_device *spi = ec_spi->spi;
+> > +       struct device_node *np = spi->dev.of_node;
+> >         u32 val;
+> >         int ret;
+> >
+> > @@ -702,6 +706,8 @@ static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
+> >         ret = of_property_read_u32(np, "google,cros-ec-spi-msg-delay", &val);
+> >         if (!ret)
+> >                 ec_spi->end_of_msg_delay = val;
+> > +
+> > +       ec_spi->irq_wake = spi->irq > 0 && of_property_present(np, "wakeup-source");
+>
+> Is there any EC SPI device that doesn't want to support wakeup?
+
+I don't know for sure. If so, the EC driver doesn't currently support
+it because it assumes wake capability.
+
+> I'd
+> prefer we introduce a new property or compatible string to indicate that
+> wakeup isn't supported and otherwise always set irq_wake to true. That
+> way DT can change in parallel with the driver instead of in lockstep.
+
+We could introduce a custom binding? IMHO, using inverted logic like
+that kind of goes against the grain with how ACPI and kernel are
+currently structured. And I don't love how it would make the SPI EC
+driver inverted from the other interfaces. I'd rather go back to just
+assuming all SPI based EC's are wake capable. But even then, why
+assume? This gives us flexibility to disable wakeirqs and drops
+unnecessary assumptions. It also lays the groundwork for new boards
+that may behave differently. For example, an ACPI based SPI EC.

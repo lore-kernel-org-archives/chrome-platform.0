@@ -1,54 +1,60 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE011C2BB
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jan 2024 17:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634411D53F
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jan 2024 20:46:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b6IGupbu"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5f2aab1c0c5so5389357b3.0
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 09:47:28 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A4Qtocqz"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50eabd1c701so102561e87.3
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 12:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704304048; x=1704908848; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RVBLFxuGTc+CJdWVVnYhZKqmQ6RkuH4h4mf4hp3TRsc=;
-        b=b6IGupbu6JTMIlXUCtNnW4cvRW/gQVVVohAISjk0Zq7qgAsP6d/NBk4KhgD6ov3mxa
-         GLV+AV3Ku2V9BUzBgQLAdh6fiLz1h6neKVJK3iAAfqIno+6soLmKU6+ipNfMFD8dhunq
-         YGoGEBb48LHc/dkWH1+LCzzwIjCko3gPUy9Xk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704304048; x=1704908848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1704314814; x=1704919614; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RVBLFxuGTc+CJdWVVnYhZKqmQ6RkuH4h4mf4hp3TRsc=;
-        b=qko6bE4N7NoiaDb9v7QL96us41580rBpJs1AfopuIfyoWOBJWNaBTcoQvcPp4IGr+N
-         iKfBPsiDQIIh/SjqgxmNLMZofnbaoyksNVdPvIV/+LR4RBOv2hi4TGSyk8CrvzcB3uXn
-         H2h8bANI2NQyb0AwScD3m+Qb0WXuyuscG6M0pgaz9gw1XwskmLvnrPyhf8WcwumP3HZL
-         HlEOLyaFhYT9dD2fdnh16Zk7I/gH5/osKABvZJqof3Km1AkhhlV4pbguY2Yh+C7AQKT7
-         Lfd8lkUJr379tr/W1nyiFlnDASxRlkIyL4tocFwWA7y+NtiwzbX3M/Aci/jhsXV47I91
-         boeA==
-X-Gm-Message-State: AOJu0YxJz7nxI0jwFaWg76lXmieXrgwbuN2m0z9vcVyODY+rGrbkvF6X
-	RFM7Og2lqbqlU9Xb/zaAkDTJLYE2MjyVEo7plaRPEi7o2abP
-X-Google-Smtp-Source: AGHT+IFRuIbKnoz7RMdbYdyxgvgzIsiQXh8vVqlgSECP6teJxilGE94r+rf+Sktx73a1K2m11pLoxUEDXJHiLml5GfY=
-X-Received: by 2002:a25:8c91:0:b0:dbd:43:3e43 with SMTP id m17-20020a258c91000000b00dbd00433e43mr848903ybl.42.1704304048063;
- Wed, 03 Jan 2024 09:47:28 -0800 (PST)
+        bh=H2SUiPUpfXbQPYtDppv003Wo/zS4sUJe1O0Ol3kkYD0=;
+        b=A4QtocqzYK7tC5UZ7RPKCvgqWI3nRoY48AdzSissdcXNzkkpdMmpz6GhR6louIMxVE
+         BrqzV2uLZB26jyghUhZSP9zv35tvSZeP6uXwLrtuqxKp2Iw+nfqjDKC8+DM46yXVoZIe
+         VwLn57bAqzq9f1YZrFESad5G9AMONn1TlOSh0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704314814; x=1704919614;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H2SUiPUpfXbQPYtDppv003Wo/zS4sUJe1O0Ol3kkYD0=;
+        b=puxmjGA/Z2gW3hFKfE7MshAuh7XnQ9sZ4Gg9ljZNbNFCNy2Qf5AaXhjciFhzvIgavo
+         0vP9uX9MBpRcOiNJ77ANvK/3fK29lIjfQGV6Cv8rHwNHKiEebW+dhZiTNwvY6UYo/grZ
+         Fzf0oAR+MeTbPha/aITu6X1L4zIMaN1lNvYcocJRQscn2kDoTCRjGMKBU27x9HX+MlpH
+         qYln5KHsam4UCdtmOT7VgnMbeJ3eD/OGUWqaJX/6ymxOzXS9jjSLd09L9qXXj37/+eLX
+         Ddky6vijfdmuFi3R4JdlkQS/+ktpQq2VP8Bc5K5gAdUgBzeuzBvXI6Jr5DK+/JZ9/T3H
+         bIbQ==
+X-Gm-Message-State: AOJu0YxEAGgOnscRqrIOfibhF2WFPJMtYMO+uZiNrucBgUO45Me6jD6l
+	9MuJwH4dNP0BiR3IQidbsSSiuOH4mJtkWNm5oblCw2Mu3AaF
+X-Google-Smtp-Source: AGHT+IEL6YpyRWxiJB56Mj1G9vUivs9gzJmo9hJG/jxYWzbu1KA4cDO7v518BLcEFVFbtTR0lx3OBDOH5vNxQKfgvOg=
+X-Received: by 2002:a05:6512:e84:b0:50e:7b2c:6818 with SMTP id
+ bi4-20020a0565120e8400b0050e7b2c6818mr9757087lfb.26.1704314814405; Wed, 03
+ Jan 2024 12:46:54 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 3 Jan 2024 12:46:53 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
 References: <20240102210820.2604667-1-markhas@chromium.org>
- <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid> <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
-In-Reply-To: <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Wed, 3 Jan 2024 10:47:17 -0700
-Message-ID: <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
+ <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
+ <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com> <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 3 Jan 2024 12:46:53 -0800
+Message-ID: <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
 Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
-To: Stephen Boyd <swboyd@chromium.org>
+To: Mark Hasemeyer <markhas@chromium.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
 	Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -60,152 +66,104 @@ Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-> The DMI quirk looks to be fixing something. Most likely that should be
-> backported to stable kernels as well? Please split the DMI match table
-> part out of this so that it isn't mixed together with migrating the
-> driver to use the pm wakeirq logic.
-
-The DMI quirk is used to list boards whose IRQ should be enabled for
-wake, regardless of what their firmware says. Currently the driver
-always enables the EC IRQ for wake anyway, so there shouldn't be a
-need to backport the DMI quirk on its own. Splitting out the DMI quirk
-into its own patch would break Brya/Brask's ability to wake if they
-were to run a kernel w/o the DMI patch. I chose not to split it out to
-keep the change atomic, and avoid introducing any regressions.
-
-> > For device tree base systems, it is not an issue as the relevant device
-> > tree entries have been updated and DTS is built from source for each
-> > ChromeOS update.
+Quoting Mark Hasemeyer (2024-01-03 09:47:17)
+> > The DMI quirk looks to be fixing something. Most likely that should be
+> > backported to stable kernels as well? Please split the DMI match table
+> > part out of this so that it isn't mixed together with migrating the
+> > driver to use the pm wakeirq logic.
 >
-> It is still sorta an issue. It means that we can't backport this patch
-> without also backporting the DTS patch to the kernel. Furthermore, DTS
-> changes go through different maintainer trees, so having this patch in
-> the kernel without the DTS patch means the bisection hole is possibly
-> quite large.
+> The DMI quirk is used to list boards whose IRQ should be enabled for
+> wake, regardless of what their firmware says. Currently the driver
+> always enables the EC IRQ for wake anyway, so there shouldn't be a
+> need to backport the DMI quirk on its own. Splitting out the DMI quirk
+> into its own patch would break Brya/Brask's ability to wake if they
+> were to run a kernel w/o the DMI patch. I chose not to split it out to
+> keep the change atomic, and avoid introducing any regressions.
 
-Correct, this patch doesn't make sense to backport on its own. It is
-dependent on the entire patch series (more than just the DTS changes).
-I'm not super familiar with how patches flow through different
-maintainer trees. But I'd imagine this patch series makes its way to
-torvalds/master in some sort of sane manner where earlier patches land
-before later (dependent) ones?
-
-> Does using the pm wakeirq logic require the use of 'wakeup-source'
-> property in DT? A quick glance makes me believe it isn't needed, so
-> please split that part out of this patch as well.
-
-No, 'wakeup-source' is not required, it provides an indication to the
-driver that the IRQ should be used for wake, which then enables the pm
-subsystem accordingly. If 'wakup-source' is not used, we're back to
-square one of making assumptions. Specifically in this case, it would
-be assumed that all SPI based EC's are wake capable.
-
-> We should see a patch
-> for the DMI quirk, a patch to use wakeup-source (doubtful that we need
-> it at all though), and a patch to use the pm wakeirq logic instead of
-> hand rolling it again.
-
-I don't know if I'm convinced this should happen. I'm open to it, but
-see my previous comments.
-
-> > +static int enable_irq_for_wake(struct cros_ec_device *ec_dev)
-> > +{
-> > +       struct device *dev = ec_dev->dev;
-> > +       int ret = device_init_wakeup(dev, true);
-> > +
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to enable device for wakeup");
->
-> Missing newline on printk message.
-
-Ack.
+Ok, thanks for clarifying. I understand now that it is to workaround the
+firmware on those boards where the driver didn't care before.
 
 >
-> > +               return ret;
-> > +       }
-> > +       ret = dev_pm_set_wake_irq(dev, ec_dev->irq);
-> > +       if (ret)
-> > +               device_init_wakeup(dev, false);
-> > +
-> > +       return ret;
->
-> I'd rather see the code formatted like this:
->
->         int ret;
->
->         ret = device_init_wakeup(dev, true);
->         if (ret) {
->                 dev_err(...);
->                 return ret;
->         }
->
->         ret = dev_pm_set_wake_irq(...);
->         if (ret)
->                 device_init_wakeup(dev, false);
->
->         return ret;
->
-> Mostly because the first 'if (ret)' requires me to hunt in the variable
-> declaration part of the function to figure out what it is set to instead
-> of looking at the line directly above.
-
-Sounds good :-)
-
-
-> [...]
-> > diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-> >  struct cros_ec_spi {
-> >         struct spi_device *spi;
-> > @@ -77,6 +79,7 @@ struct cros_ec_spi {
-> >         unsigned int start_of_msg_delay;
-> >         unsigned int end_of_msg_delay;
-> >         struct kthread_worker *high_pri_worker;
-> > +       bool irq_wake;
->
-> This is only used in probe. Make it a local variable instead of another
-> struct member to save memory.
-
-Ack.
-
->
-> >  };
+> > > For device tree base systems, it is not an issue as the relevant device
+> > > tree entries have been updated and DTS is built from source for each
+> > > ChromeOS update.
 > >
-> >  typedef int (*cros_ec_xfer_fn_t) (struct cros_ec_device *ec_dev,
-> > @@ -689,9 +692,10 @@ static int cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
-> >         return cros_ec_xfer_high_pri(ec_dev, ec_msg, do_cros_ec_cmd_xfer_spi);
-> >  }
-> >
-> > -static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
-> > +static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi)
-> >  {
-> > -       struct device_node *np = dev->of_node;
-> > +       struct spi_device *spi = ec_spi->spi;
-> > +       struct device_node *np = spi->dev.of_node;
-> >         u32 val;
-> >         int ret;
-> >
-> > @@ -702,6 +706,8 @@ static void cros_ec_spi_dt_probe(struct cros_ec_spi *ec_spi, struct device *dev)
-> >         ret = of_property_read_u32(np, "google,cros-ec-spi-msg-delay", &val);
-> >         if (!ret)
-> >                 ec_spi->end_of_msg_delay = val;
-> > +
-> > +       ec_spi->irq_wake = spi->irq > 0 && of_property_present(np, "wakeup-source");
+> > It is still sorta an issue. It means that we can't backport this patch
+> > without also backporting the DTS patch to the kernel. Furthermore, DTS
+> > changes go through different maintainer trees, so having this patch in
+> > the kernel without the DTS patch means the bisection hole is possibly
+> > quite large.
 >
-> Is there any EC SPI device that doesn't want to support wakeup?
+> Correct, this patch doesn't make sense to backport on its own. It is
+> dependent on the entire patch series (more than just the DTS changes).
+> I'm not super familiar with how patches flow through different
+> maintainer trees. But I'd imagine this patch series makes its way to
+> torvalds/master in some sort of sane manner where earlier patches land
+> before later (dependent) ones?
 
-I don't know for sure. If so, the EC driver doesn't currently support
-it because it assumes wake capability.
+The DTS patch would go through the platform maintainer tree and be
+pulled into the soc tree and sent up to mainline from there. The
+platform/chrome patch would go through chrome platform tree and then to
+mainline. The bisection hole will be real.
 
-> I'd
-> prefer we introduce a new property or compatible string to indicate that
-> wakeup isn't supported and otherwise always set irq_wake to true. That
-> way DT can change in parallel with the driver instead of in lockstep.
+>
+> > Does using the pm wakeirq logic require the use of 'wakeup-source'
+> > property in DT? A quick glance makes me believe it isn't needed, so
+> > please split that part out of this patch as well.
+>
+> No, 'wakeup-source' is not required, it provides an indication to the
+> driver that the IRQ should be used for wake, which then enables the pm
+> subsystem accordingly. If 'wakup-source' is not used, we're back to
+> square one of making assumptions. Specifically in this case, it would
+> be assumed that all SPI based EC's are wake capable.
 
-We could introduce a custom binding? IMHO, using inverted logic like
-that kind of goes against the grain with how ACPI and kernel are
-currently structured. And I don't love how it would make the SPI EC
-driver inverted from the other interfaces. I'd rather go back to just
-assuming all SPI based EC's are wake capable. But even then, why
-assume? This gives us flexibility to disable wakeirqs and drops
-unnecessary assumptions. It also lays the groundwork for new boards
-that may behave differently. For example, an ACPI based SPI EC.
+Is that the wrong assumption to make? My understanding of the DT
+property is that it is used to signal that this device should be treated
+as a wakeup source, when otherwise it isn't treated as one. In this
+case, the device has always been treated as a wakeup source so adding
+the property is redundant. Making the patch series dependent on the
+property being present makes the driver break without the DT change. We
+try to make drivers work with older DT files, sometimes by adding
+backwards compatibility code, so the presence of the wakeup-source
+property should not be required to make this work.
+
+>
+> > We should see a patch
+> > for the DMI quirk, a patch to use wakeup-source (doubtful that we need
+> > it at all though), and a patch to use the pm wakeirq logic instead of
+> > hand rolling it again.
+>
+> I don't know if I'm convinced this should happen. I'm open to it, but
+> see my previous comments.
+>
+> > >                 ec_spi->end_of_msg_delay = val;
+> > > +
+> > > +       ec_spi->irq_wake = spi->irq > 0 && of_property_present(np, "wakeup-source");
+> >
+> > Is there any EC SPI device that doesn't want to support wakeup?
+>
+> I don't know for sure. If so, the EC driver doesn't currently support
+> it because it assumes wake capability.
+>
+> > I'd
+> > prefer we introduce a new property or compatible string to indicate that
+> > wakeup isn't supported and otherwise always set irq_wake to true. That
+> > way DT can change in parallel with the driver instead of in lockstep.
+>
+> We could introduce a custom binding? IMHO, using inverted logic like
+> that kind of goes against the grain with how ACPI and kernel are
+> currently structured. And I don't love how it would make the SPI EC
+> driver inverted from the other interfaces. I'd rather go back to just
+> assuming all SPI based EC's are wake capable. But even then, why
+> assume? This gives us flexibility to disable wakeirqs and drops
+> unnecessary assumptions. It also lays the groundwork for new boards
+> that may behave differently. For example, an ACPI based SPI EC.
+
+What is the goal of this patch series? Is it to allow disabling the
+wakeup capability of the EC wake irq from userspace? I can see a
+possible problem where we want to disable wakeup for the EC dynamically
+because either it has no child devices that are wakeup sources (e.g. no
+power button, no keyboard on ARM) or userspace has disabled all the
+wakeup sources for those child devices at runtime. In that case, we
+would want to keep the EC irq from waking up the system from suspend. Is
+that what you're doing here?

@@ -1,40 +1,41 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53C0224CA
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jan 2024 22:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FAD219FF
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jan 2024 22:45:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WxQT9Fan"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5eefd0da5c0so53135717b3.2
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 14:25:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HwyL1G8X"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5e778e484dbso96411607b3.0
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 14:45:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704320737; x=1704925537; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZY6X4GxAISq2Dpjj0MYEasfTJvF/UOrjwVpalnx7z/Q=;
-        b=WxQT9FanYlVDvqSi8QSaRSAolREEBNlLjLf9GNed+Sv0YpLzAcTed2Odb0RkEhsnSK
-         HX3V4AP4qdy1ECy9ts+CfAR+l6hO9ZsOyQ2ut/s0FF1a/hsRzKGxNZ7A3q8VHVCvO/oV
-         /1YyoLmbbbiSHi01HLCguicXS7m2vjKPync88=
+        d=chromium.org; s=google; t=1704321917; x=1704926717; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DEw32uZAICaUrTJvazqtRNht7MeZaCeNqiU2wjyj0fY=;
+        b=HwyL1G8X//haHubXlpdc/4ml1HMDwlvJ3ro+QymNYkMM4fIQu3prMtKworBqn4Z7mD
+         DUN+NM+G2qbIRB3bRTexKbxiaBhZ0koLAIISPQ1AkmMmmDXPMz/4FCTjNftiOmk2A+gx
+         jbQgbswOvXAyiZOIGScL7OXwMfNc9rH7r/smo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704320737; x=1704925537;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZY6X4GxAISq2Dpjj0MYEasfTJvF/UOrjwVpalnx7z/Q=;
-        b=e9aMxIxx9N9pSIypwX0VTpn/1uhBtR9a2/L/CBaLtNlvouXUNZbW49rcK4rDH5p7Ku
-         cMf9G69LVKQk9usSIi69pBAcAm33RDgdWRX+ibv0zVcroAZVRxdGcX9W2x4QyA3FyWlN
-         QD7vaAfjySW+xd0iXbSD2mVwqJ5raQj7xCV5bvKBn4kD1YLb5SV0b4IzdYmGXL3jFqOp
-         i1Yt/wg7Hzfgsb2YsfTPwQosrXl5hbe4x8Ek2GuQg1/MXyjSkciOZS7DpdJ1cmarA+3M
-         0Da84i6NlCD3Kp7PgtvesnfVJC2Z7HPNcNlJbOhJSeE3VbiRaG1wE7Q9XrJWclptf8qq
-         kwYA==
-X-Gm-Message-State: AOJu0YzxD0FUaHyLFmoNMvr3aqLHAFJYHYL1PKln+zAC1XK8LV97NJ2L
-	ms0DVL3gw03yB5Ap/6xmtA2NEC32NCL4aGmfIKbHlIVgzNzA
-X-Google-Smtp-Source: AGHT+IEtx4f6aSVvCn+9mEm9jp2DIH/ofoWczzXhNzKvk1Ij9PoZDvM0JNFRIsRe9u0nur4ZKW3BVmUPd1TqyVo5Pqk=
-X-Received: by 2002:a0d:d346:0:b0:5e8:80d5:db79 with SMTP id
- v67-20020a0dd346000000b005e880d5db79mr16383125ywd.85.1704320736785; Wed, 03
- Jan 2024 14:25:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704321917; x=1704926717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DEw32uZAICaUrTJvazqtRNht7MeZaCeNqiU2wjyj0fY=;
+        b=aehoOiFcDZaeLwNqwbTFsIoYDU3Dcr7qZWF/LQAmQDR08xI9q4TRd9KcvBYdhLK5jk
+         xzU+LAbvIphP5R6a5vLe/FNkMPk7PZJYSSeY9pPNmUIkgUIUNUAj5Cuxcas2OfnDSDhl
+         EIIeXRjHg/Jg7PXotA4bdJQ4KX4F17kzBOSxPbqlI2ZrqiSoQsP4qfEZ1m62yny9HV33
+         Y7nrukPasZCy0klLkkMYlGJGlJGrXkppic79X8HIpRWF+rtXxTKl8Mjzm2mWZHzVUCy1
+         5yfp0DsQQ7RBUzOE2FMd3QXN+17z6XyYClLbThJZL07LoANq4I6/RELcBjkNb3BjPmTY
+         47sw==
+X-Gm-Message-State: AOJu0YwpTe/H9talZ4AYXXxwJjSkG5B2GxwQp4H0bv+G9R2vyXflVUR6
+	fUM5EZi/YYDGIvmWrzQhRJvq8rX71yTPKe0xiwWvIRseFe06
+X-Google-Smtp-Source: AGHT+IGf0ISPE4ggBpxDlD+a/3NTjJoY4OX3TD43ypJqeZcRDCerJpdy7UVWqgV7e0uQNp9+A7LwDs/bNXeb3klLnpw=
+X-Received: by 2002:a81:5483:0:b0:5d7:1940:dd83 with SMTP id
+ i125-20020a815483000000b005d71940dd83mr14754276ywb.89.1704321916927; Wed, 03
+ Jan 2024 14:45:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,11 +45,12 @@ MIME-Version: 1.0
 References: <20240102210820.2604667-1-markhas@chromium.org>
  <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
  <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
- <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com> <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
-In-Reply-To: <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
+ <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
+ <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com> <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com>
+In-Reply-To: <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com>
 From: Mark Hasemeyer <markhas@chromium.org>
-Date: Wed, 3 Jan 2024 15:25:25 -0700
-Message-ID: <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com>
+Date: Wed, 3 Jan 2024 15:45:06 -0700
+Message-ID: <CANg-bXCU0Y+GOf9w2j5suoq+F=AnE-NPuhOYjGtpoG3W4WT6-Q@mail.gmail.com>
 Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
 To: Stephen Boyd <swboyd@chromium.org>
@@ -62,67 +64,23 @@ Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
 	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The DTS patch would go through the platform maintainer tree and be
-> pulled into the soc tree and sent up to mainline from there. The
-> platform/chrome patch would go through chrome platform tree and then to
-> mainline. The bisection hole will be real.
-
-I thought it would all get merged in the next merge window. How are
-bifurcations like this normally dealt with? Does one wait for the
-first series of patches to land in mainline before submitting
-dependent patches? That could take two merge windows.
-
-> >
-> > > Does using the pm wakeirq logic require the use of 'wakeup-source'
-> > > property in DT? A quick glance makes me believe it isn't needed, so
-> > > please split that part out of this patch as well.
-> >
-> > No, 'wakeup-source' is not required, it provides an indication to the
-> > driver that the IRQ should be used for wake, which then enables the pm
-> > subsystem accordingly. If 'wakup-source' is not used, we're back to
-> > square one of making assumptions. Specifically in this case, it would
-> > be assumed that all SPI based EC's are wake capable.
+On Wed, Jan 3, 2024 at 3:25=E2=80=AFPM Mark Hasemeyer <markhas@chromium.org=
+> wrote:
 >
-> Is that the wrong assumption to make? My understanding of the DT
-> property is that it is used to signal that this device should be treated
-> as a wakeup source, when otherwise it isn't treated as one. In this
-> case, the device has always been treated as a wakeup source so adding
-> the property is redundant.
+> > The DTS patch would go through the platform maintainer tree and be
+> > pulled into the soc tree and sent up to mainline from there. The
+> > platform/chrome patch would go through chrome platform tree and then to
+> > mainline. The bisection hole will be real.
+>
+> I thought it would all get merged in the next merge window. How are
+> bifurcations like this normally dealt with? Does one wait for the
+> first series of patches to land in mainline before submitting
+> dependent patches? That could take two merge windows.
 
-For SPI, it's not the wrong assumption. I was trying to drop the
-assumption though to match ACPI/LPC behavior.
-
-> Making the patch series dependent on the
-> property being present makes the driver break without the DT change. We
-> try to make drivers work with older DT files, sometimes by adding
-> backwards compatibility code, so the presence of the wakeup-source
-> property should not be required to make this work.
-
-Do we have use cases where Chromebooks are running older DTBs? I get
-the idea in theory, but don't grasp why it's needed here. Regardless,
-I can update the SPI code to assume a wake capable IRQ. But I'd like
-to keep the prerequisite device tree patches unless there's a good
-reason to drop them. Specifying 'wake-source' certainly doesn't hurt
-anything, and there are other improvements to the OF
-subsystem/documentation.
-
-> What is the goal of this patch series? Is it to allow disabling the
-> wakeup capability of the EC wake irq from userspace? I can see a
-> possible problem where we want to disable wakeup for the EC dynamically
-> because either it has no child devices that are wakeup sources (e.g. no
-> power button, no keyboard on ARM) or userspace has disabled all the
-> wakeup sources for those child devices at runtime. In that case, we
-> would want to keep the EC irq from waking up the system from suspend. Is
-> that what you're doing here?
-
-The root of this patch series stems from a bug where spurious wakes
-are seen on Skyrim. Copying some wording from the DTS patches:
-"Some Chromebooks use a separate wake pin, while others overload the
-interrupt for wake and IO. With the current assumption, spurious wakes
-can occur on systems that use a separate wake pin. It is planned to
-update the driver to no longer assume that the EC interrupt pin should
-be enabled for wake."
-
-This patch series will allow us to disable the ec_sync pin as a wake
-source on Skyrim as it already uses a dedicated wake gpio.
+The DTS dependency problem must be an exception? How are other
+dependency problems resolved? For example, this patch relies on
+changes to 'platform_get_irq()' which is in drivers/base/platform.c,
+which I imagine is in a different subsystem and gets merged into a
+different maintainer's tree.

@@ -1,63 +1,59 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA9020F7
-	for <chrome-platform@lists.linux.dev>; Thu,  4 Jan 2024 00:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AB015AF5
+	for <chrome-platform@lists.linux.dev>; Thu,  4 Jan 2024 04:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Yg/MFmib"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e7c6f0487so7685620e87.3
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 16:38:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="g3rEt0YT"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5ec7a5a4b34so1517057b3.0
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Jan 2024 20:55:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704328712; x=1704933512; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WeSEM9FnhCQHetUK/2V8lmbOcksPqkXqmCZ/w8B3yNs=;
-        b=Yg/MFmibBtt99PD2HLPyYmdiQ5EuwdsDdydGzkooXCd/slWobYv5+vEUiRicEWUe2V
-         hzqFjalAzcieVTYWFRnV0rfHkaclubI9nVvvYowRnhoxsvvW99a0+eHtq4kxYpGsLARM
-         c0MkfnXIwm4fLXC+3EEx/iYj4DSHG2LwcOdNg=
+        d=chromium.org; s=google; t=1704344152; x=1704948952; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FSGKxtpAayAcHObQDlsqsv0BU3tFHlXJLbZKNWj+7ms=;
+        b=g3rEt0YT88WFXPAjXBQ9fZfdLd1BHJRkjZzi6MA/8AJASfSvo+d4K61r+6Odagk6PB
+         jqzSmWccuDb3qh+VsMpx9FrLun0zPsVESDG7SQQ/BF/AI5Ong2XCAnbITk4+eamKkBm/
+         03fqkkIMNLYjARp5JT+QxspgWXFCpmrjah0Ek=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704328712; x=1704933512;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WeSEM9FnhCQHetUK/2V8lmbOcksPqkXqmCZ/w8B3yNs=;
-        b=VHzzteJfMYOCTn+dZ2AUkUKdoheT2cERYukM5HHMiugKtiosWKYNVzSsCWfLxndzsV
-         WsrM+8BSGG77Sgdhzbzf6xo2guexEDBIDJUI0VUARnfpbYrGg13KLCZWyevNZjnkbjlI
-         0602CTxcy2rXB0AcLGMSjxzNFfjzkkBu8AS6vRyAEznnFph4m9RhaXJTEZ4AEe/pVgsx
-         mfivxXKeaOY+eFr7rcSDGliJowgMdt4PN8LKs8c7Y6pEDun+v0W7iz4Mok90p9Ugoybb
-         bXHecbzirPkUnB38hUXhgKm475YX73sAxtYShSO1u+bK++sOpG8kTNqtBwhDXhe7tAYI
-         H7Sg==
-X-Gm-Message-State: AOJu0Yyrtumu2WhkNgSFilwoSam1UK4ilrdLsPQH6E/EcyKeZLuaqvod
-	LJtgQRNFMicywwMRu694UNuN734ZdKdwVGOguNSr/qBekZzg
-X-Google-Smtp-Source: AGHT+IH5TiJLJAwWw1IiZgdfve2aCAaTuhmjUVYOptdj5QYk7WMPA8Q7ozG9oW8WM4Og9/cgsdtPKuNPyJe5UgTN9LY=
-X-Received: by 2002:a05:6512:3b9a:b0:50e:710b:a7bf with SMTP id
- g26-20020a0565123b9a00b0050e710ba7bfmr5628850lfv.81.1704328711790; Wed, 03
- Jan 2024 16:38:31 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 3 Jan 2024 16:38:31 -0800
+        d=1e100.net; s=20230601; t=1704344152; x=1704948952;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FSGKxtpAayAcHObQDlsqsv0BU3tFHlXJLbZKNWj+7ms=;
+        b=TgH3/W52Dh6bCNixrURw99DeAaNg4TcBul3se645rJzJZ9XfGpKXPoOAvHY2emPtPH
+         7OgCfvGm33iHQproWVTpyIj+nKlfACGc5ZIG0BmoB5X3Gwdg0LizYxyNVzWJ1O72qa70
+         XD0t7C/jOz4Ds95o2mSL4EgDd0wgTh4//bO63UMEeiZORTz/GFcqHUFsQLb3Oag9bnnH
+         wJ4S2WDzqzjltsZhSAawkgseoeSXOX04tC6DR/kyaMcZPhPwRMoPLNyQOL8gFC7fqLBq
+         aT1T8MC7ZIW0eia/zBJUNeO2cuc0xbhYWqzbl2/ennSgplyarmTswNOZqjgGJ9BjIqyR
+         FoyQ==
+X-Gm-Message-State: AOJu0Yz1GD7kUmhXAZM+TNvi2lkJexUNeplz1DJ1pzGiXUDTGu+Kl0lU
+	TC6bmA8uZcFatnO5owkP05Ejo8RHkhoS7OA5Sxty7YEepqp/
+X-Google-Smtp-Source: AGHT+IEhxXj9nei6hm7QKNjakE0j9auM+VIHYHWIPNtlJlVEeu7Ar+6WuGQqpRBguFh1aTI89xgZzRPIbWdjItkGO3Q=
+X-Received: by 2002:a81:5d43:0:b0:5f3:2c5e:462f with SMTP id
+ r64-20020a815d43000000b005f32c5e462fmr101358ywb.51.1704344152353; Wed, 03 Jan
+ 2024 20:55:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CANg-bXCU0Y+GOf9w2j5suoq+F=AnE-NPuhOYjGtpoG3W4WT6-Q@mail.gmail.com>
 References: <20240102210820.2604667-1-markhas@chromium.org>
  <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
  <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
  <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
  <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
- <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com> <CANg-bXCU0Y+GOf9w2j5suoq+F=AnE-NPuhOYjGtpoG3W4WT6-Q@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 3 Jan 2024 16:38:31 -0800
-Message-ID: <CAE-0n52ri8S6wnSkOkT7frNi+HMVXFrmuwuvBz=hgJCfpYHmOg@mail.gmail.com>
+ <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com> <CAE-0n52365_AYgjaXyV7+oB8WgaJVp5oCUzdsq7NquZsR08XXw@mail.gmail.com>
+In-Reply-To: <CAE-0n52365_AYgjaXyV7+oB8WgaJVp5oCUzdsq7NquZsR08XXw@mail.gmail.com>
+From: Mark Hasemeyer <markhas@chromium.org>
+Date: Wed, 3 Jan 2024 21:55:41 -0700
+Message-ID: <CANg-bXAVm01qoGUL2hUN9=3eK5o6c6BKtTUL82WiLL8cxFeaLA@mail.gmail.com>
 Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
-To: Mark Hasemeyer <markhas@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
 	Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -68,38 +64,121 @@ Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
 	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Quoting Mark Hasemeyer (2024-01-03 14:45:06)
-> On Wed, Jan 3, 2024 at 3:25=E2=80=AFPM Mark Hasemeyer <markhas@chromium.o=
-rg> wrote:
+> > > > > Does using the pm wakeirq logic require the use of 'wakeup-source'
+> > > > > property in DT? A quick glance makes me believe it isn't needed, so
+> > > > > please split that part out of this patch as well.
+> > > >
+> > > > No, 'wakeup-source' is not required, it provides an indication to the
+> > > > driver that the IRQ should be used for wake, which then enables the pm
+> > > > subsystem accordingly. If 'wakup-source' is not used, we're back to
+> > > > square one of making assumptions. Specifically in this case, it would
+> > > > be assumed that all SPI based EC's are wake capable.
+> > >
+> > > Is that the wrong assumption to make? My understanding of the DT
+> > > property is that it is used to signal that this device should be treated
+> > > as a wakeup source, when otherwise it isn't treated as one. In this
+> > > case, the device has always been treated as a wakeup source so adding
+> > > the property is redundant.
 > >
-> > > The DTS patch would go through the platform maintainer tree and be
-> > > pulled into the soc tree and sent up to mainline from there. The
-> > > platform/chrome patch would go through chrome platform tree and then =
-to
-> > > mainline. The bisection hole will be real.
-> >
-> > I thought it would all get merged in the next merge window. How are
-> > bifurcations like this normally dealt with? Does one wait for the
-> > first series of patches to land in mainline before submitting
-> > dependent patches? That could take two merge windows.
+> > For SPI, it's not the wrong assumption. I was trying to drop the
+> > assumption though to match ACPI/LPC behavior.
 >
-> The DTS dependency problem must be an exception? How are other
-> dependency problems resolved? For example, this patch relies on
-> changes to 'platform_get_irq()' which is in drivers/base/platform.c,
-> which I imagine is in a different subsystem and gets merged into a
-> different maintainer's tree.
+> Ok. Is the EC always a wakeup source? Not the EC irq, the EC device.
 
-Cross tree code dependencies like that are usually resolved by having a
-maintainer ack the patch and another maintainer take the code parts.
+Yes. The powerd daemon enables the EC for wake [1]. At least on ACPI systems.
+[1] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/81b23aeac510655f27e1d87b99b12c78146e7c37:src/platform2/power_manager/powerd/daemon.cc;l=611
 
-DT bindings are not supposed to be changed in a way that would break
-compatibility with existing code, hence the compatible property. It's a
-backwards incompatible change to add the wakeup-source property to the
-EC binding and make the driver rely on that property to maintain the
-previous code behavior. That's why I keep saying that if you want to add
-a wakeup-source property and make the driver act the same as before it
-must be done with a new compatible string. Because the driver has always
-set the device to wakeup, the compatible has implicitly conveyed that
-the wakeup-source property is present.
+> > Regardless,
+> > I can update the SPI code to assume a wake capable IRQ. But I'd like
+> > to keep the prerequisite device tree patches unless there's a good
+> > reason to drop them. Specifying 'wake-source' certainly doesn't hurt
+> > anything, and there are other improvements to the OF
+> > subsystem/documentation.
+>
+> I don't see any harm in having wakeup-source in the binding, but I'd
+> prefer it is behind a different compatible string as optional, and
+> introduced when we need to have an EC that doesn't wake up the system.
+
+The 'wakeup-source' property is already optional. See patch 04 in this
+version of the series which updates the documentation surrounding the
+property. Or are you suggesting a completely new string so that we can
+be forever backward compatible? If that's the case, the property would
+indeed have to have inverted logic signifying a device that is *not*
+wakeup capable. It feels wrong to have to do something like that.
+
+> Otherwise it's all future coding for a device that doesn't exist.
+
+I agree adding 'wakeup-source' is future coding for a device that
+doesn't exist. It does provide (pseudo) feature parity with ACPI
+systems though. See my comment below about ACPI GpioInt/Interrupt
+resources.
+
+> It's
+> also a potential landmine if the driver patch is backported somewhere
+> without the DTS patch (maybe the DTS is not upstream?). Someone will
+> have to debug why wakeups aren't working anymore.
+
+I can change the SPI driver so it doesn't look for the 'wakeup-source'
+property, keeping existing behavior where wakeirq is assumed. So there
+should be no issues with backporting.
+
+> > > What is the goal of this patch series? Is it to allow disabling the
+> > > wakeup capability of the EC wake irq from userspace? I can see a
+> > > possible problem where we want to disable wakeup for the EC dynamically
+> > > because either it has no child devices that are wakeup sources (e.g. no
+> > > power button, no keyboard on ARM) or userspace has disabled all the
+> > > wakeup sources for those child devices at runtime. In that case, we
+> > > would want to keep the EC irq from waking up the system from suspend. Is
+> > > that what you're doing here?
+> >
+> > The root of this patch series stems from a bug where spurious wakes
+> > are seen on Skyrim.
+>
+> Are all 24 patches needed to fix spurious wakeups? Why can't we do a DMI
+> match table for Skyrim devices and disable the wakeirq logic on that
+> platform? That would be a much more focused and targeted fix, no?
+
+It would be more focused and targeted, but I don't think it's the
+correct fix. Skyrim is not the quirk. The driver is incorrectly
+enabling the IRQ for wake even though a GPE exists for the EC to wake the AP.
+ACPI defines keywords to specify GpioInt and Interrupt
+resources as wake capable, and until recently [2], we were not
+flagging the respective resources correctly. Most ACPI Chromebooks
+have a dedicated GPE for wake, and enabling the IRQ for wake is
+unintentional IMHO.
+[2] https://review.coreboot.org/c/coreboot/+/79373
+
+> > Copying some wording from the DTS patches:
+> > "Some Chromebooks use a separate wake pin, while others overload the
+> > interrupt for wake and IO. With the current assumption, spurious wakes
+> > can occur on systems that use a separate wake pin. It is planned to
+> > update the driver to no longer assume that the EC interrupt pin should
+> > be enabled for wake."
+> >
+> > This patch series will allow us to disable the ec_sync pin as a wake
+> > source on Skyrim as it already uses a dedicated wake gpio.
+>
+> Aha! This last sentence is the detail I've been looking for. Please put
+> these details in the commit text.
+>
+> "Skyrim devices are experiencing spurious wakeups due to the EC driver
+> always enabling the irq as a wakeup source but on Skyrim devices the EC
+> wakeup signal is a dedicated gpio separate from the irq."
+>
+> Please be direct and specific instead of writing in general terms.
+
+Sure, I can update the commit text :-)
+
+In summary, there are a lot of comments that suggest different
+solutions. Here are the options I see:
+1. Skyrim DMI quirk
+2a. Update EC SPI driver to assume wake capable regardless of
+'wakeup-source' property being present
+2b. Remove 'wakeup-source' entries from DTS
+3. Leave the existing solution
+
+I'm arguing for 2a (without 2b). This keeps backward compatibility
+while adding an indication that the EC is wake capable and keeps
+closer feature parity with the ACPI/LPC interface. FWIW, others have
+already reviewed/ack'd the dts patches.

@@ -1,46 +1,50 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAD954F9B
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Jan 2024 19:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E2C55E4B
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Jan 2024 20:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iS/OjXuQ"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5f254d1a6daso19202077b3.2
-        for <chrome-platform@lists.linux.dev>; Mon, 08 Jan 2024 11:56:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AYYeTecA"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd33336b32so29282441fa.0
+        for <chrome-platform@lists.linux.dev>; Mon, 08 Jan 2024 12:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704743816; x=1705348616; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=okK8yG6yCTI1mgGltbh1CTPhrkiOhqEoi7Rr/ighIsc=;
-        b=iS/OjXuQBjiPnsDZnA1e/nxwDLY05De05lHlXQfZW8wANGgLA4pmBpOheORz4XK9+Y
-         6D0KRhuCiIRI7wQ5WagLWONyI90d/biSFWJUm3rtpWhwajYF+yN2KCU8ND7pha5m4/w6
-         jLK/SNBP7kbek19UyehYnsqc7MXLHPIvrI0R0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704743816; x=1705348616;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1704746871; x=1705351671; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=okK8yG6yCTI1mgGltbh1CTPhrkiOhqEoi7Rr/ighIsc=;
-        b=BGCWfhxcQP5PFWxh/qLFafPgfRiEDt/1kGB/n6gT5/ZVTenT+21nsi3ekBAvetlYxa
-         hVxKaHTyWs6cLvwe7KVoHbSm3ljwbDm74cmk2rRa8TujepKEp0t7w1yC77Ah2Wx6Z1M9
-         2WCtlEYs6HYK+25fl61L8c96wGQYUxuRg8iRCd3TOBwaFKBwT5m5VihiAgrE9xKTKFyK
-         FZ12OVEk5gya9NyCSGUaRv+Br11Taosu9A9AydjVFjiq08ggJ4t7wgddJzmINHLtmifT
-         axf7pg1hsqG3JJu4UbVywyzYWUbhQLXOfiyHWJbG4vNp89AzlaRVktQwRhsxLQqJa9/A
-         TXpw==
-X-Gm-Message-State: AOJu0YwN9NtiTAgkI/NRrjLqkpAferoF6JN7vJ0/y+yC2O/YmauOMI21
-	eL0DB8a3EnDQb9X+DYHH8IFeZXamNvupKPClapFh5HmNewGO
-X-Google-Smtp-Source: AGHT+IEiHU7X1aYIiaCwwovUzb8yJE+Zc0Vt4H+vGZhGKTbA71xktr7bIAC3NtNFIGAuIWxPYTVw/cg/eUGLLzk2Sds=
-X-Received: by 2002:a81:57d6:0:b0:5f6:e869:2a7 with SMTP id
- l205-20020a8157d6000000b005f6e86902a7mr2066138ywb.99.1704743815874; Mon, 08
- Jan 2024 11:56:55 -0800 (PST)
+        bh=4j2m9ttyYBnQGcELMK0PzOZL5BgPNtka95T8FKd/tY0=;
+        b=AYYeTecA2a2h5ultetOXu9g8hbhcZ4f4qVwaNOo91fjWTWToHhzIpNCM238EhX4vRM
+         8LHopQMbkU78Mc1d2YwkOwmeU1gtz68RnrnucngXcGTMCnsY3bSlR6ajTrtRnv/2mwvB
+         avk2VIE1BbjIJQ7REiwgbHUI4S2J/roDIscuQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704746871; x=1705351671;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4j2m9ttyYBnQGcELMK0PzOZL5BgPNtka95T8FKd/tY0=;
+        b=vlIsodl3dPmonQWgiBeOjgRygtmm9lcyK3aEpQeraQb9+CjX1KkU/KTCTGDbY+Qtos
+         6OVWSBXAfWwaZhHgh25wnplz6c0d29taKOzbSuK6yrC139P19teEIWu3boka3HQEL2+C
+         cucANwbgyRV64xpf5wl1IrLa+gfGhcu2tc0GBUQancPb3Rfe4EZ2EA+/N6wSH0oQhaqC
+         LalQRuhK4CCxq5ExtmyuAyGEnGGuZ3SA2/jPV8HlAHrxUCIVn6SFO74lClYHqUAleksB
+         MTQZUxKOCPieCVYl1TQ7qjB60mjqIZwCvcaIQ/m15Y7ybI3v+OjdJa5ODSKFS2qrnVUc
+         LGnA==
+X-Gm-Message-State: AOJu0YyhZ0CzkGUjSZ5d4Ufz5Mzqgsa36O5QoExTLS2kQLRdM/b5dVVP
+	gs6gcDravely0cZSEhT/F18ng4ROYewk5WttduYsZYcpGN2/
+X-Google-Smtp-Source: AGHT+IFrXNY5JCZjDG0wh8MJ115D2h3ZIcWAwz50L9LhrxlnOz44eC+kuILatHzHo0WqAX2exa7M31EX3ZCTpEK9S3I=
+X-Received: by 2002:ac2:5de1:0:b0:50e:6032:984b with SMTP id
+ z1-20020ac25de1000000b0050e6032984bmr1754251lfq.110.1704746870844; Mon, 08
+ Jan 2024 12:47:50 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 8 Jan 2024 12:47:50 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <CANg-bXAO0Pk8Lea-Ci+k56ucBDA+w-2+3L_uP6y2=-JihujXDg@mail.gmail.com>
 References: <20240102210820.2604667-1-markhas@chromium.org>
  <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
  <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
@@ -48,14 +52,15 @@ References: <20240102210820.2604667-1-markhas@chromium.org>
  <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
  <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com>
  <CAE-0n52365_AYgjaXyV7+oB8WgaJVp5oCUzdsq7NquZsR08XXw@mail.gmail.com>
- <CANg-bXAVm01qoGUL2hUN9=3eK5o6c6BKtTUL82WiLL8cxFeaLA@mail.gmail.com> <CAE-0n50nNXSybfAnOgAk4g8hOma7=yLG8+y9PpHaXXSUE-zfsw@mail.gmail.com>
-In-Reply-To: <CAE-0n50nNXSybfAnOgAk4g8hOma7=yLG8+y9PpHaXXSUE-zfsw@mail.gmail.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Mon, 8 Jan 2024 12:56:44 -0700
-Message-ID: <CANg-bXAO0Pk8Lea-Ci+k56ucBDA+w-2+3L_uP6y2=-JihujXDg@mail.gmail.com>
+ <CANg-bXAVm01qoGUL2hUN9=3eK5o6c6BKtTUL82WiLL8cxFeaLA@mail.gmail.com>
+ <CAE-0n50nNXSybfAnOgAk4g8hOma7=yLG8+y9PpHaXXSUE-zfsw@mail.gmail.com> <CANg-bXAO0Pk8Lea-Ci+k56ucBDA+w-2+3L_uP6y2=-JihujXDg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 8 Jan 2024 12:47:50 -0800
+Message-ID: <CAE-0n53N302rys6iFk0e=G2XXyew3rA_eHHgohbKyJc04e3EZg@mail.gmail.com>
 Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
  manage wakeirq
-To: Stephen Boyd <swboyd@chromium.org>
+To: Mark Hasemeyer <markhas@chromium.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
 	Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -67,71 +72,92 @@ Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-> Isn't this patch series making the wakeup-source DT property required
-> for all existing DT nodes? I'm saying that the property is implicit
-> based on the compatible string "google,cros-ec-{spi,rpmsg,uart}", so
-> we shouldn't add the property explicitly. Just rely on the compatible
-> string to convey the property's existence.
-
-The current wording in 'wakeup-source.txt' states: "Nodes that
-describe devices which has wakeup capability must contain a
-"wakeup-source" boolean property." According to that wording, the
-existing DTS does not match the expectation. This is what led me to
-add the property. However, feedback from KML mentioned the wording may
-be a little strong and it should be updated. Hence patch 04 in this
-series.
-
-I can revert the SPI driver to assume wake capability, which will no
-longer make the wakeup-source property required. At that point,
-leaving the property in the DTS simply provides an indication. Considering it
-won't be required, I can drop the DTS patches that add the property.
-
-> I'm no expert in ACPI so sorry if I'm misunderstanding. The driver
-> unconditionally enables wake on the irq.
-
-Yes.
-
-> Most other chromebooks have
-> added some other interrupt (GPE?) for wakeup purposes, which is
-> different from the irq used for IO?
-
-The GPE is used for wake and IO (It processes ACPI notify alerts).
-AFAIK, the separate IRQ was introduced for latency reasons as the GPE
-path was too slow.
-
-> And this patch series tries to
-> figure out if enable_irq_wake() is going to fail on those devices so it
-> can only enable irq wake if the irq supports it? When does calling
-> enable_irq_wake() not return an error to properly indicate that the irq
-> can't wake? On skyrim devices, where presumably it needed to be marked
-> in ACPI differently? Or does that platform really support wake on the
-> irq, but we also have a GPE so enabling wake on the irq is not failing?
-
-The patch series does two things:
-1. Determines whether the irq should be enabled for wake, as opposed
-to assuming (at least for LPC/ACPI).
-2. Moves enable_irq_wake() logic to the PM subsystem.
-
-Skyrim does _not_ support wake on irq. It uses a GPE. So the patch
-series drops the assumption that irqwake should be enabled. Instead,
-it polls the ACPI tables to determine whether or not the IRQ should be
-enabled for wake.
-
-> Having to backport 24 patches to fix a bug is not good.
-
-Some of the patches were DTS related as a result of my interpretation
-of 'wakeup-source.txt' (see above comment). Other patches are
-tangential based on KML feedback to fix things that are orthogonal to
-the bug itself.
-
-> Can the driver
-> look for both an IO interrupt and a GPE and then assume the GPE is for
-> wakeup and the interrupt is for IO?
-
-No, some boards need the IO based irq to wake, and may use both.
-
-> > 3. Leave the existing solution
+Quoting Mark Hasemeyer (2024-01-08 11:56:44)
+> > Isn't this patch series making the wakeup-source DT property required
+> > for all existing DT nodes? I'm saying that the property is implicit
+> > based on the compatible string "google,cros-ec-{spi,rpmsg,uart}", so
+> > we shouldn't add the property explicitly. Just rely on the compatible
+> > string to convey the property's existence.
 >
-> How is 3 an option? I thought this patch series was fixing a bug.
+> The current wording in 'wakeup-source.txt' states: "Nodes that
+> describe devices which has wakeup capability must contain a
+> "wakeup-source" boolean property." According to that wording, the
+> existing DTS does not match the expectation. This is what led me to
+> add the property. However, feedback from KML mentioned the wording may
+> be a little strong and it should be updated. Hence patch 04 in this
+> series.
+>
+> I can revert the SPI driver to assume wake capability, which will no
+> longer make the wakeup-source property required. At that point,
+> leaving the property in the DTS simply provides an indication. Considering it
+> won't be required, I can drop the DTS patches that add the property.
+>
+> > I'm no expert in ACPI so sorry if I'm misunderstanding. The driver
+> > unconditionally enables wake on the irq.
+>
+> Yes.
+>
+> > Most other chromebooks have
+> > added some other interrupt (GPE?) for wakeup purposes, which is
+> > different from the irq used for IO?
+>
+> The GPE is used for wake and IO (It processes ACPI notify alerts).
+> AFAIK, the separate IRQ was introduced for latency reasons as the GPE
+> path was too slow.
 
-I meant the solution in the existing patch train.
+Alright, I don't know what ACPI notify alerts are so most likely that is
+causing me confusion.
+
+>
+> > And this patch series tries to
+> > figure out if enable_irq_wake() is going to fail on those devices so it
+> > can only enable irq wake if the irq supports it? When does calling
+> > enable_irq_wake() not return an error to properly indicate that the irq
+> > can't wake? On skyrim devices, where presumably it needed to be marked
+> > in ACPI differently? Or does that platform really support wake on the
+> > irq, but we also have a GPE so enabling wake on the irq is not failing?
+>
+> The patch series does two things:
+> 1. Determines whether the irq should be enabled for wake, as opposed
+> to assuming (at least for LPC/ACPI).
+> 2. Moves enable_irq_wake() logic to the PM subsystem.
+>
+> Skyrim does _not_ support wake on irq. It uses a GPE. So the patch
+> series drops the assumption that irqwake should be enabled.
+
+Does the call to enable_irq_wake() on skyrim succeed? It seems like the
+driver considers failure to enable wake on the irq as the way to figure
+out if the irq supports wakeup or not. I'm trying to understand why
+anything needs to be changed.
+
+> Instead,
+> it polls the ACPI tables to determine whether or not the IRQ should be
+> enabled for wake.
+>
+> > Having to backport 24 patches to fix a bug is not good.
+>
+> Some of the patches were DTS related as a result of my interpretation
+> of 'wakeup-source.txt' (see above comment). Other patches are
+> tangential based on KML feedback to fix things that are orthogonal to
+> the bug itself.
+
+Fair enough. The fix should be isolated and be early in the series so
+that we don't need to backport the whole stack to fix a bug.
+
+>
+> > Can the driver
+> > look for both an IO interrupt and a GPE and then assume the GPE is for
+> > wakeup and the interrupt is for IO?
+>
+> No, some boards need the IO based irq to wake, and may use both.
+
+Ok.
+
+>
+> > > 3. Leave the existing solution
+> >
+> > How is 3 an option? I thought this patch series was fixing a bug.
+>
+> I meant the solution in the existing patch train.
+
+Got it.

@@ -1,83 +1,93 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6174A1115
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Jan 2024 03:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B376B134C3
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Jan 2024 07:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ba7B1aEe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1704683234;
-	bh=5a+m4uiBLce08WIeCid5K2za95zqkWU2/ciHOKAyf7U=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ba7B1aEesenpyizvEpCUdOXw4l5PsJGx3BEzvSkxRyNiGUjNEd96PvSh8UHMfYQQh
-	 Blq6h9I1AWaY1hs7xv0f5p7b9frJDoHPsFVqgrnjEOxrWUZIS8iO2xUsfekeSdOLCS
-	 ycTAHucXgFKjcdL7R+nI66j0YlrahdM/c4yZVisD/jFHPXI+bTTuYkr8q09euWak6j
-	 HTzoOWMVLOESeA/wx5gZ9et4LiEJoSLomaXaEzaNfeeKiPjcyeFWr3hoTKRJ/T8Jvs
-	 A7GYKwhyzD+U1RkOVmOkI5le5xd5w40ADzBDiycxmaH5kA9uzKFZDIfTfCtWcYAeE6
-	 22D4dVrPpzOsQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4T7f9t07Ykz4wch;
-	Mon,  8 Jan 2024 14:07:13 +1100 (AEDT)
-Date: Mon, 8 Jan 2024 14:07:13 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Greg KH <greg@kroah.com>, Arnd Bergmann <arnd@arndb.de>, Tzung-Bi Shih
- <tzungbi@kernel.org>
-Cc: Chrome Platform <chrome-platform@lists.linux.dev>, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: duplicate patch in the char-misc tree
-Message-ID: <20240108140713.143f27e1@canb.auug.org.au>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="OUm55Ua5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WDTFuJxv"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 20C183201115;
+	Mon,  8 Jan 2024 02:54:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 08 Jan 2024 02:54:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704700455; x=1704786855; bh=TkPBuXt9FM
+	qTeLEzSpb8ZAo+9PQKDnWspnrgC8B7/NY=; b=OUm55Ua5ZmPzmKCOT3/+dyrwOI
+	6RN4XXBU8sGvyTkRGa3iupMl0jmWfUJa0ARveU1kh/Z3/XAJ3jjACmekuj5+z3w7
+	YFW0Lwf+rirbYS3d6Sr9BgboQ/VtXFxJWDY2eKNHrEbyhVLx8IpqVAvhByanzQ3d
+	D2QCfxrIzmIZFJQXjSCq+LwqTDnkqklTl9VMLY7SaLswwSN8+Btl0hwatpnUlR/q
+	Rwaky5h85hr0uf47rlwboKIBDrlwEKZuX1sVeUYFyNgBT7ymG6XDlFyMM207EjHG
+	q+DZXbYrjHGTc2I0sYVQClu5FaAwG24usjNMUWpN+ZQ3vDSRqYewrcR0ZaSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704700455; x=1704786855; bh=TkPBuXt9FMqTeLEzSpb8ZAo+9PQK
+	DnWspnrgC8B7/NY=; b=WDTFuJxviyZQbXdEbVFXvtsw7njHgQOA0hsz+qAgOEmf
+	lhl1xqmaPDMTqe4tCnil22iUv0hWOSqkiAbySeANqHw0AWYYy6EivoiFhDsTdIU3
+	QtLVeDIum3HFeEqNW9Q7CCtXsI15soDCZXQq85hhYO+MGieD2oX8BrDIQQvWJ/+r
+	BWwkTfw2RrZNNZhDV5F24862ZpNnd+dXE/vF7mp4sZmt1/uXlOtrxtCFkpbAbNX1
+	jgYgOgk8bB5ynF/l2gvmehtIJi6NSucN97N8l/FWBWw+tU+j4Zi/NVieEaCY3X2C
+	TxnJoe5Q+xq/wIFQuBtssGP/ApC+93fgNTHLYbQT7Q==
+X-ME-Sender: <xms:J6qbZX9csPmdyjODmCTt5qFRRZmzfkJDNiwTiUgVe_azXjXWBrE6Mw>
+    <xme:J6qbZTuYO3LHhDMNYYlHveiSOVIGIMPMTRI4WwbOlpMySXIx3jfz1HJDsn4MMm-S9
+    Eg7t0bRKqG-qw>
+X-ME-Received: <xmr:J6qbZVAr6aU9wYpLiBr8D1fbPO1Y45USNVH423d78goOLfiZao7Cuyl3KFQXb5k27avlU0gx_Vo7_wFvHBobbFC0cLL3EBw0vg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehiedghedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
+    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+    hhrdgtohhm
+X-ME-Proxy: <xmx:J6qbZTe91LOCtyruswNuvBwSPWA0flDQO6P7trHzKbahGotVVaqxaw>
+    <xmx:J6qbZcO-ixAsAGa1N5HkmdVjrnHwpzWywrqdcu4FkGWFGnwC59X6Fw>
+    <xmx:J6qbZVkHjg-ELMrFhvuQV0vMiMrfvjPyWezVe4v012ctkrucgDWIrg>
+    <xmx:J6qbZdGHu2tO8LOA1hEsBKkR921tfIwu3K2ny0-lKd_8hogPv3QsUw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Jan 2024 02:54:14 -0500 (EST)
+Date: Mon, 8 Jan 2024 08:54:13 +0100
+From: Greg KH <greg@kroah.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Arnd Bergmann <arnd@arndb.de>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Chrome Platform <chrome-platform@lists.linux.dev>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: duplicate patch in the char-misc tree
+Message-ID: <2024010805-stagnant-statute-ac41@gregkh>
+References: <20240108140713.143f27e1@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BYnEZsThSNEHzOW2YdvWmzt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240108140713.143f27e1@canb.auug.org.au>
 
---Sig_/BYnEZsThSNEHzOW2YdvWmzt
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 08, 2024 at 02:07:13PM +1100, Stephen Rothwell wrote:
+> Hi all,
+> 
+> The following commit is also in the chrome-platform-firmware tree as a
+> different commit (but the same patch):
+> 
+>   f69583d32fcb ("firmware: coreboot_table: Convert to platform remove callback returning void")
+> 
+> This is commit
+> 
+>   09aeaabebdaf ("firmware: coreboot: Convert to platform remove callback returning void")
+> 
+> in the chrome-platform-firmware tree.
 
-Hi all,
+Should be fine, thanks.
 
-The following commit is also in the chrome-platform-firmware tree as a
-different commit (but the same patch):
-
-  f69583d32fcb ("firmware: coreboot_table: Convert to platform remove callb=
-ack returning void")
-
-This is commit
-
-  09aeaabebdaf ("firmware: coreboot: Convert to platform remove callback re=
-turning void")
-
-in the chrome-platform-firmware tree.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/BYnEZsThSNEHzOW2YdvWmzt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmWbZuEACgkQAVBC80lX
-0GxtpAf7B6xUxFHzDSAa0ICEtFT3C1zVbX6Rjq686Pxw9woWau3joExL6w85DngI
-r8Q8SlyeVHYq6oMYbh7BZVNMlc2cx7mjsdWa8FvGUrZ4LXnAvUbHsJbSFjUY8oI0
-igRjMoMOcYkIoWSoeevnmfj2JIE7sn3nJe5JSMUfpobZ634ijADxQZqYEpGg+QG6
-82G0zZ/lHmnJibCynMzpjVWBSU2rMogUJGN+X02uhZbSp2o8Y26aBK6vPdr4DfYM
-CgopsP/fZ9iryibLd8v0Gjer9wyHJv6lAuZqr1y6PIl8rnhWSvr+bT3B4gZG1cMC
-VVkKX5dOGZw7L98MRotXWOgV/faWsQ==
-=l3uy
------END PGP SIGNATURE-----
-
---Sig_/BYnEZsThSNEHzOW2YdvWmzt--
+greg k-h

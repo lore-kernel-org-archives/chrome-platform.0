@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2CEE57F;
-	Mon,  8 Jan 2024 09:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D89B1118C;
+	Mon,  8 Jan 2024 09:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl1X7BG+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50773C433C7;
-	Mon,  8 Jan 2024 09:00:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTS/ZfIK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99703C433C7;
+	Mon,  8 Jan 2024 09:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704704443;
-	bh=Un4+C1PQAHh+yJxBQMWKfHOGr8dofZM7PsYXif/zvIc=;
+	s=k20201202; t=1704704568;
+	bh=yuYERWoxvA9j1o8EdIPlUTS7GPEWdTAznT3MJAvA5qo=;
 	h=Date:From:To:Cc:Subject:From;
-	b=dl1X7BG+y88oW6qoetvXc6sASteSw1zH8U6ytUePjogrVDWrtTrqetqqz2Bc+7UON
-	 JV4K4ty7dNNT58hkjQ9r9+kpBOIIHYU83nhrXBiP6zEIo3Vt416PN0wCMzyfSVuSpY
-	 zSqPaUQAypE9M1B2wzAPcnujV/4lVsl/vUY4j1K0sBnBIy7GzzR56gdacviOmABPri
-	 YQXVJytoxOLbknw6X2SsHKXIH7rPUS7f6SajvbtrjqOQuBrUQD/FzsFEwK6Q9xwDmk
-	 7By4mjSIomSGSqT9F+HeFtVMnjZYG0zTSPWOWWiUQcCaWDKoqCez2TF6MMQ0olwnsW
-	 jsMR6AFssmKuw==
-Date: Mon, 8 Jan 2024 17:00:40 +0800
+	b=UTS/ZfIKbuUqBB2sLpDCbXqnASoo46S+eLmSDINojZKbIefAUfvVB8rVMpSSxiMAQ
+	 RHlvVV3iNQ40K/8aHK4AzHaKHkizAysP/q9w9fi0zmg6hsXqTjgbG9gf47e+gTgT+o
+	 /Sl73CSpDh2zLqisVsLf66g6ASf5VW6oyagFoCtkKGXN1i7372016D7I4cBI+pWxJe
+	 y6t1n8/BFn6B4UfArjUexNxT1Iw98feliIh1TsxThBfixtQG6tkPZqyCMTwStVw/LW
+	 OZlEboYNeKk1a5qJQZO83hxlXnXhMMkfrYOpv2gEl3C+pVftdUvDyBqLsNVELWnrEw
+	 aS8MjFbqmmjLw==
+Date: Mon, 8 Jan 2024 17:02:45 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: torvalds@linux-foundation.org
-Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
+Cc: briannorris@chromium.org, jwerner@chromium.org, groeck@chromium.org,
 	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform changes for v6.8
-Message-ID: <ZZu5uEwX6QgokecO@google.com>
+Subject: [GIT PULL] chrome-platform-firmware changes for v6.8
+Message-ID: <ZZu6Na7lHZj2KU0h@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -32,17 +32,18 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xCWOF06ZBaUz7hko"
+	protocol="application/pgp-signature"; boundary="J0vjuWdR142Mvqaf"
 Content-Disposition: inline
 
 
---xCWOF06ZBaUz7hko
-Content-Type: text/plain; charset=us-ascii
+--J0vjuWdR142Mvqaf
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 Hi Linus,
 
-Please pull chrome-platform updates for v6.8.
+Please pull chrome-platform-firmware updates for v6.8.
 
 Thanks,
 TzungBi
@@ -53,53 +54,45 @@ The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.8
+  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git=
+ tags/tag-chrome-platform-firmware-for-v6.8
 
-for you to fetch changes up to 57eb6dcd32cf6b49c38eff81e60e8fd471aa05a8:
+for you to fetch changes up to 09aeaabebdafbcf4afd1c481beaff37ecbc6b023:
 
-  platform/chrome/wilco_ec: Remove usage of the deprecated ida_simple_xx() API (2023-12-18 12:44:38 +0800)
+  firmware: coreboot: Convert to platform remove callback returning void (2=
+023-12-28 10:42:25 +0800)
 
 ----------------------------------------------------------------
-chrome platform changes for 6.8
-
-* Improvements
-
-  - Implement quickselect for median in cros-ec-sensorhub.
+chrome platform firmware changes for 6.8
 
 * Fixes
 
-  - Fix an out of boundary array access in cros-ec-vbc.
+  - Fix an invalid address access.
 
 * Misc
 
-  - Cleanups and fix typos.
+  - Use .remove_new() for converting the callback to return void.
 
 ----------------------------------------------------------------
-Christophe JAILLET (1):
-      platform/chrome/wilco_ec: Remove usage of the deprecated ida_simple_xx() API
+Alper Nebi Yasak (1):
+      firmware: coreboot: framebuffer: Avoid invalid zero physical address
 
-Gustavo A. R. Silva (1):
-      platform/chrome: cros_ec_vbc: Fix -Warray-bounds warnings
+Uwe Kleine-K=F6nig (1):
+      firmware: coreboot: Convert to platform remove callback returning void
 
-Kuan-Wei Chiu (2):
-      platform/chrome: sensorhub: Fix typos
-      platform/chrome: sensorhub: Implement quickselect for median calculation
+ drivers/firmware/google/coreboot_table.c       | 5 ++---
+ drivers/firmware/google/framebuffer-coreboot.c | 3 +++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
- drivers/platform/chrome/cros_ec_sensorhub_ring.c | 74 ++++++++++++++++--------
- drivers/platform/chrome/cros_ec_vbc.c            | 12 ++--
- drivers/platform/chrome/wilco_ec/event.c         |  4 +-
- drivers/platform/chrome/wilco_ec/telemetry.c     |  6 +-
- 4 files changed, 64 insertions(+), 32 deletions(-)
-
---xCWOF06ZBaUz7hko
+--J0vjuWdR142Mvqaf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZZu5twAKCRArxTEGBto8
-9N6TAQDza566l8PrprZuXM5QQ/hMA+cx60FNUc0Y2BGEYon2qQEAt5aAhn1tQNOz
-nfB/ZZa78HyHnuvatQifVG0+ksdv9AQ=
-=jp0H
+iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZZu6NQAKCRArxTEGBto8
+9EU0AQCambQ+5TGo+z9vLZmnpvmT3pYqUilERLBjBDaVR3PvzAD+OMF0MASm7VAK
+V0AsBgF2jlKy713wKBxRDCs5mjdGewo=
+=4sif
 -----END PGP SIGNATURE-----
 
---xCWOF06ZBaUz7hko--
+--J0vjuWdR142Mvqaf--

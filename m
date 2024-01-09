@@ -1,163 +1,92 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E2C55E4B
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Jan 2024 20:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AYYeTecA"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd33336b32so29282441fa.0
-        for <chrome-platform@lists.linux.dev>; Mon, 08 Jan 2024 12:47:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704746871; x=1705351671; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4j2m9ttyYBnQGcELMK0PzOZL5BgPNtka95T8FKd/tY0=;
-        b=AYYeTecA2a2h5ultetOXu9g8hbhcZ4f4qVwaNOo91fjWTWToHhzIpNCM238EhX4vRM
-         8LHopQMbkU78Mc1d2YwkOwmeU1gtz68RnrnucngXcGTMCnsY3bSlR6ajTrtRnv/2mwvB
-         avk2VIE1BbjIJQ7REiwgbHUI4S2J/roDIscuQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704746871; x=1705351671;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4j2m9ttyYBnQGcELMK0PzOZL5BgPNtka95T8FKd/tY0=;
-        b=vlIsodl3dPmonQWgiBeOjgRygtmm9lcyK3aEpQeraQb9+CjX1KkU/KTCTGDbY+Qtos
-         6OVWSBXAfWwaZhHgh25wnplz6c0d29taKOzbSuK6yrC139P19teEIWu3boka3HQEL2+C
-         cucANwbgyRV64xpf5wl1IrLa+gfGhcu2tc0GBUQancPb3Rfe4EZ2EA+/N6wSH0oQhaqC
-         LalQRuhK4CCxq5ExtmyuAyGEnGGuZ3SA2/jPV8HlAHrxUCIVn6SFO74lClYHqUAleksB
-         MTQZUxKOCPieCVYl1TQ7qjB60mjqIZwCvcaIQ/m15Y7ybI3v+OjdJa5ODSKFS2qrnVUc
-         LGnA==
-X-Gm-Message-State: AOJu0YyhZ0CzkGUjSZ5d4Ufz5Mzqgsa36O5QoExTLS2kQLRdM/b5dVVP
-	gs6gcDravely0cZSEhT/F18ng4ROYewk5WttduYsZYcpGN2/
-X-Google-Smtp-Source: AGHT+IFrXNY5JCZjDG0wh8MJ115D2h3ZIcWAwz50L9LhrxlnOz44eC+kuILatHzHo0WqAX2exa7M31EX3ZCTpEK9S3I=
-X-Received: by 2002:ac2:5de1:0:b0:50e:6032:984b with SMTP id
- z1-20020ac25de1000000b0050e6032984bmr1754251lfq.110.1704746870844; Mon, 08
- Jan 2024 12:47:50 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 8 Jan 2024 12:47:50 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACF83DB84
+	for <chrome-platform@lists.linux.dev>; Tue,  9 Jan 2024 21:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJkD-0006cn-6D; Tue, 09 Jan 2024 22:34:45 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJkA-001Z26-NU; Tue, 09 Jan 2024 22:34:42 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJkA-00667o-1u;
+	Tue, 09 Jan 2024 22:34:42 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Robert Foss <rfoss@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-pwm@vger.kernel.org,
+	kernel@pengutronix.de,
+	Douglas Anderson <dianders@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 0/5] pwm: Some improvements around .of_xlate()
+Date: Tue,  9 Jan 2024 22:34:30 +0100
+Message-ID: <cover.1704835845.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CANg-bXAO0Pk8Lea-Ci+k56ucBDA+w-2+3L_uP6y2=-JihujXDg@mail.gmail.com>
-References: <20240102210820.2604667-1-markhas@chromium.org>
- <20240102140734.v4.24.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
- <CAE-0n50zkwZ8nguUJcL1gjbuavhSU_rLxfGhanxB4YA7N34hLQ@mail.gmail.com>
- <CANg-bXByhaSngW2AAG9h6DYHpiTUvh8+yw3LPU6ZQSCb62M-wg@mail.gmail.com>
- <CAE-0n52u68wMHJGe8=jz4Y1y2=voycFEY15keebz9tPDDBgiqA@mail.gmail.com>
- <CANg-bXDzLJgWLuH8Xj4GLYG=AVfcbmi_EfrA7DaHj4F6i350DA@mail.gmail.com>
- <CAE-0n52365_AYgjaXyV7+oB8WgaJVp5oCUzdsq7NquZsR08XXw@mail.gmail.com>
- <CANg-bXAVm01qoGUL2hUN9=3eK5o6c6BKtTUL82WiLL8cxFeaLA@mail.gmail.com>
- <CAE-0n50nNXSybfAnOgAk4g8hOma7=yLG8+y9PpHaXXSUE-zfsw@mail.gmail.com> <CANg-bXAO0Pk8Lea-Ci+k56ucBDA+w-2+3L_uP6y2=-JihujXDg@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 8 Jan 2024 12:47:50 -0800
-Message-ID: <CAE-0n53N302rys6iFk0e=G2XXyew3rA_eHHgohbKyJc04e3EZg@mail.gmail.com>
-Subject: Re: [PATCH v4 24/24] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-To: Mark Hasemeyer <markhas@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Raul Rangel <rrangel@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=961; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=k1tl0KN37p2K0b7qOKWEkrmyn1QBL1dkj6B3e6BITYw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlnbvoRqc5mrbM96UdzaOUAM8/Bh4d2soUH4R0F +5CaT1CHf+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZZ276AAKCRCPgPtYfRL+ TqH1B/4m/xi6nYjDB7Gp39Jvktgrrknz/As6PcQoHQGpYZi5Co5EdfxGQZEeE7pR6e3m0KZXnMV VuWYIf6vFJyXJP+4UnLeR959pZVbzc+ASACr9/oVXbAnsYgzKL6k50bBUocf6WeHs3yBwCGq8K9 9IeoAV4hJseLCg62vusEiDP+ujUf9bwf1arXMbzGArZtv5s5bFHETtk+qK7196yxvQjIZd+QWe3 2+5ytecGvpxw49V1hm5Fv0Bcomzu1AMEIe++KRcjQda1/fW7+ofA80bMwELNEFJ6doZTWXKg2mO cXjku5eSkxvbAY2Dah/O1hNJz9D5QtFx5hnYtWSG6mE2ZHPE
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Quoting Mark Hasemeyer (2024-01-08 11:56:44)
-> > Isn't this patch series making the wakeup-source DT property required
-> > for all existing DT nodes? I'm saying that the property is implicit
-> > based on the compatible string "google,cros-ec-{spi,rpmsg,uart}", so
-> > we shouldn't add the property explicitly. Just rely on the compatible
-> > string to convey the property's existence.
->
-> The current wording in 'wakeup-source.txt' states: "Nodes that
-> describe devices which has wakeup capability must contain a
-> "wakeup-source" boolean property." According to that wording, the
-> existing DTS does not match the expectation. This is what led me to
-> add the property. However, feedback from KML mentioned the wording may
-> be a little strong and it should be updated. Hence patch 04 in this
-> series.
->
-> I can revert the SPI driver to assume wake capability, which will no
-> longer make the wakeup-source property required. At that point,
-> leaving the property in the DTS simply provides an indication. Considering it
-> won't be required, I can drop the DTS patches that add the property.
->
-> > I'm no expert in ACPI so sorry if I'm misunderstanding. The driver
-> > unconditionally enables wake on the irq.
->
-> Yes.
->
-> > Most other chromebooks have
-> > added some other interrupt (GPE?) for wakeup purposes, which is
-> > different from the irq used for IO?
->
-> The GPE is used for wake and IO (It processes ACPI notify alerts).
-> AFAIK, the separate IRQ was introduced for latency reasons as the GPE
-> path was too slow.
+Hello,
 
-Alright, I don't know what ACPI notify alerts are so most likely that is
-causing me confusion.
+the first patch is a fix for an out-of-bounds access and so should
+probably go in quickly. The other changes are merge window material.
 
->
-> > And this patch series tries to
-> > figure out if enable_irq_wake() is going to fail on those devices so it
-> > can only enable irq wake if the irq supports it? When does calling
-> > enable_irq_wake() not return an error to properly indicate that the irq
-> > can't wake? On skyrim devices, where presumably it needed to be marked
-> > in ACPI differently? Or does that platform really support wake on the
-> > irq, but we also have a GPE so enabling wake on the irq is not failing?
->
-> The patch series does two things:
-> 1. Determines whether the irq should be enabled for wake, as opposed
-> to assuming (at least for LPC/ACPI).
-> 2. Moves enable_irq_wake() logic to the PM subsystem.
->
-> Skyrim does _not_ support wake on irq. It uses a GPE. So the patch
-> series drops the assumption that irqwake should be enabled.
+Best regards
+Uwe
 
-Does the call to enable_irq_wake() on skyrim succeed? It seems like the
-driver considers failure to enable wake on the irq as the way to figure
-out if the irq supports wakeup or not. I'm trying to understand why
-anything needs to be changed.
+Uwe Kleine-König (5):
+  pwm: Fix out-of-bounds access in of_pwm_single_xlate()
+  pwm: Drop useless member .of_pwm_n_cells of struct pwm_chip
+  pwm: Let the of_xlate callbacks accept references without period
+  pwm: clps711x: Drop custom .of_xlate() callback
+  pwm: Drop duplicate check against chip->npwm in
+    of_pwm_xlate_with_flags()
 
-> Instead,
-> it polls the ACPI tables to determine whether or not the IRQ should be
-> enabled for wake.
->
-> > Having to backport 24 patches to fix a bug is not good.
->
-> Some of the patches were DTS related as a result of my interpretation
-> of 'wakeup-source.txt' (see above comment). Other patches are
-> tangential based on KML feedback to fix things that are orthogonal to
-> the bug itself.
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
+ drivers/pwm/core.c                    | 45 +++++++--------------------
+ drivers/pwm/pwm-clps711x.c            | 11 -------
+ drivers/pwm/pwm-cros-ec.c             |  1 -
+ drivers/pwm/pwm-pxa.c                 |  4 +--
+ include/linux/pwm.h                   |  2 --
+ 6 files changed, 13 insertions(+), 51 deletions(-)
 
-Fair enough. The fix should be isolated and be early in the series so
-that we don't need to backport the whole stack to fix a bug.
 
->
-> > Can the driver
-> > look for both an IO interrupt and a GPE and then assume the GPE is for
-> > wakeup and the interrupt is for IO?
->
-> No, some boards need the IO based irq to wake, and may use both.
+base-commit: d73f444d06fb8a42a5c0623453f3ea1fe9880229
+-- 
+2.43.0
 
-Ok.
-
->
-> > > 3. Leave the existing solution
-> >
-> > How is 3 an option? I thought this patch series was fixing a bug.
->
-> I meant the solution in the existing patch train.
-
-Got it.

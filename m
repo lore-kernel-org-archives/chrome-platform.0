@@ -1,55 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F72364A6;
-	Wed, 10 Jan 2024 01:31:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDBE4BAB5
+	for <chrome-platform@lists.linux.dev>; Thu, 11 Jan 2024 15:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUereXWJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C122DC43390;
-	Wed, 10 Jan 2024 01:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704850265;
-	bh=pBIcTt53KRlk1Dia/kfJlnnNUQio9EI7rDm4qnZIv9Q=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=DUereXWJ/DyA5eCL33uMe7xY/0/e7sqwpZwPQv+PkjesO7hdSXnvq6QwIb4Fo5EcA
-	 zwqKh4zqHMPMt7EnmUSdDXL4HnSgtx9bumYlaTb1roysWUOliFFZL7HUXMkVU4/4Cd
-	 1HHB2DKVvDyFu2+b8itqQvhISHov7Ss9wOJ0e8iZFO2CJ6usF68dEZ/jEAzPASG9OG
-	 kMh4Bm7iPeFDiBxyZ+sdpNv2/Gi0N1cJqnyCn/ucCfQFdk0kvkHbAQ1qzVKowb+ZC0
-	 BFUgtVxSmuT7OBaIrxRSvwmAJwMSUBWTmu2QuG/74SpyP95QLPIDsstk/pqalUbFka
-	 Iki9PWqWFhb6g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AFFD0C4166F;
-	Wed, 10 Jan 2024 01:31:05 +0000 (UTC)
-Subject: Re: [GIT PULL] chrome-platform-firmware changes for v6.8
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZZu6Na7lHZj2KU0h@google.com>
-References: <ZZu6Na7lHZj2KU0h@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZZu6Na7lHZj2KU0h@google.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-firmware-for-v6.8
-X-PR-Tracked-Commit-Id: 09aeaabebdafbcf4afd1c481beaff37ecbc6b023
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b9b56eb280451ccfd42e9e554e83c6202a2d286b
-Message-Id: <170485026571.7649.14637982180786171153.pr-tracker-bot@kernel.org>
-Date: Wed, 10 Jan 2024 01:31:05 +0000
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3im6bRcD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704986078;
+	bh=b+8qG4K5TQjYoC7fpfd4f7Sk/NAtLJcrKL8iFcCbdz4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=3im6bRcD2+PvwFdsdu72Gg227f+Rg6ZqKp5Q+zo7Rjr57AfpmO0aUczzj1dMulno4
+	 +lUlcsMDuSyNayNxUTjLTGeh1vkZ0+PPf4xWyM2rb2sLvChAm9wFxqyJiifsLVwoVV
+	 r5U86f1YHXaHPUHsm5E+nuhN6q1qVLP3lkhsw2qBE1EdzHncO62YYc97Smg2LeR6Rl
+	 AFjHwRiYuJxN9p3ZVc2fVRl9t6iRllxqtxK99oAOk5JHVrouLz7v+7rX0/6FGG8Z1O
+	 ApzbZluzOBJ39zpr56q0yfl9Ar92mlxOD+GTEMmdRVGZpvfTlL30pz0wSUO962z1Wg
+	 EbGCNab7YpbTA==
+Received: from localhost.localdomain (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 777703781492;
+	Thu, 11 Jan 2024 15:14:30 +0000 (UTC)
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: torvalds@linux-foundation.org, briannorris@chromium.org, jwerner@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Cc: kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Will Deacon <will@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Allow coreboot modules to autoload and enable cbmem in the arm64 defconfig
+Date: Thu, 11 Jan 2024 12:11:45 -0300
+Message-ID: <20240111151226.842603-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Mon, 8 Jan 2024 17:02:45 +0800:
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-firmware-for-v6.8
+This series adds the missing pieces to the coreboot bus and the module
+alias generation to allow coreboot modules to be automatically loaded
+when matching devices are detected.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b9b56eb280451ccfd42e9e554e83c6202a2d286b
+The configs for cbmem coreboot entries are then enabled in the arm64
+defconfig, as modules, to allow reading logs from coreboot on arm64
+Chromebooks, which is useful for debugging the boot process.
 
-Thank you!
+
+Nícolas F. R. A. Prado (4):
+  firmware: coreboot: Generate modalias uevent for devices
+  firmware: coreboot: Generate aliases for coreboot modules
+  firmware: google: cbmem: Add to module device table
+  arm64: defconfig: Enable support for cbmem entries in the coreboot
+    table
+
+ arch/arm64/configs/defconfig             |  3 +++
+ drivers/firmware/google/cbmem.c          |  7 +++++++
+ drivers/firmware/google/coreboot_table.c |  9 +++++++++
+ include/linux/mod_devicetable.h          |  8 ++++++++
+ scripts/mod/devicetable-offsets.c        |  3 +++
+ scripts/mod/file2alias.c                 | 10 ++++++++++
+ 6 files changed, 40 insertions(+)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+

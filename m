@@ -1,29 +1,29 @@
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4754CB3C
-	for <chrome-platform@lists.linux.dev>; Thu, 11 Jan 2024 15:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8600B4F217
+	for <chrome-platform@lists.linux.dev>; Thu, 11 Jan 2024 15:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OPbNb62l"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VFxLYHDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704986082;
-	bh=Eo8gKt5JYCXR+AsI/6kbMVWmmQfxzbA30c+2Y+wtasI=;
+	s=mail; t=1704986091;
+	bh=CHvr4PScujipymb+OTlox6s6i63JQHd4PBTYty5wiek=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OPbNb62lsPmHpn+uJjiQTn32fEbP2pUl6LEOUIj9oVJDYpu4q8a9mIICL2fmSmALk
-	 l0pjWEowxCQHL6O8TcfCS35h93qxxkljzl1oqUiuqKu+l7UjjH+/HPhxlp2aV5b8eI
-	 ge+3+VLDBvZP3UVEgwxvXYf4CIHM6bqxjKeuJZWBa8xaCC27nYMgLxnVqx3qaNO2mP
-	 oCm0d4D8G3d4mYonBDfdhv5on+J1lwjzHQr8wh2vJWA5TjzumbhJpbM7cr++uF38Xj
-	 ywKX4t7m7XtddBgcpojViv0XaovXjDeVArpi/vZd7Hu+WgkAiuonpb1rhqQuRFflRq
-	 eKtov3UjpgOfw==
+	b=VFxLYHDq8htIlCQPt2uLpfyJxCn40rH/SW4OZM4tonLsrFfzfgA/l85xIRUD9OfQp
+	 eJwDTAP0JAxdSIhq7CbAL4lQQURW9WCvW75P9434gUTV1NVDwBzsMmkk8NkKSWlsPC
+	 HOuB03bhDe7rdLPT4C1kc0oMCAcZuCKkoQMZpU+7yAPeEkODkdRb5tbP6cnbRun/Oy
+	 e65p1QuPFCjkh7pOWWeBCCqmf9Mv+Y+WoCtZ2FcXKX8C4SQjaKIEvOKwUY9nTqUBWK
+	 gjmmTRX+JXaSwFsAp7SH3T/fTFh6JOcDfQtT06IngFPgMsGoZcOmuokelAC8sxGSW8
+	 NN1iuq9uehaSw==
 Received: from localhost.localdomain (zone.collabora.co.uk [167.235.23.81])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4AC063781F80;
-	Thu, 11 Jan 2024 15:14:39 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4A7113781F80;
+	Thu, 11 Jan 2024 15:14:47 +0000 (UTC)
 From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: kernel@collabora.com,
@@ -33,9 +33,9 @@ Cc: kernel@collabora.com,
 	Julius Werner <jwerner@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] firmware: coreboot: Generate modalias uevent for devices
-Date: Thu, 11 Jan 2024 12:11:46 -0300
-Message-ID: <20240111151226.842603-2-nfraprado@collabora.com>
+Subject: [PATCH 3/4] firmware: google: cbmem: Add to module device table
+Date: Thu, 11 Jan 2024 12:11:48 -0300
+Message-ID: <20240111151226.842603-4-nfraprado@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240111151226.842603-1-nfraprado@collabora.com>
 References: <20240111151226.842603-1-nfraprado@collabora.com>
@@ -48,40 +48,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Generate a modalias uevent for devices in the coreboot bus to allow
-userspace to automatically load the corresponding modules.
+Create an id table and add it to the module device table to allow the
+cbmem driver to be automatically loaded when a matching device is found.
 
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
 
- drivers/firmware/google/coreboot_table.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/firmware/google/cbmem.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index 2a4469bf1b81..c1b9a9e8e8ed 100644
---- a/drivers/firmware/google/coreboot_table.c
-+++ b/drivers/firmware/google/coreboot_table.c
-@@ -53,11 +53,20 @@ static void coreboot_bus_remove(struct device *dev)
- 		driver->remove(device);
+diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
+index 88e587ba1e0d..ceb89b4cdbe0 100644
+--- a/drivers/firmware/google/cbmem.c
++++ b/drivers/firmware/google/cbmem.c
+@@ -13,6 +13,7 @@
+ #include <linux/kernel.h>
+ #include <linux/kobject.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/sysfs.h>
+@@ -114,6 +115,12 @@ static int cbmem_entry_probe(struct coreboot_device *dev)
+ 	return 0;
  }
  
-+static int coreboot_bus_uevent(const struct device *dev, struct kobj_uevent_env *env)
-+{
-+	struct coreboot_device *device = CB_DEV(dev);
-+	u32 tag = device->entry.tag;
++static const struct coreboot_device_id cbmem_ids[] = {
++	{ .tag = LB_TAG_CBMEM_ENTRY },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(coreboot, cbmem_ids);
 +
-+	return add_uevent_var(env, "MODALIAS=coreboot:t%08X", tag);
-+}
-+
- static struct bus_type coreboot_bus_type = {
- 	.name		= "coreboot",
- 	.match		= coreboot_bus_match,
- 	.probe		= coreboot_bus_probe,
- 	.remove		= coreboot_bus_remove,
-+	.uevent		= coreboot_bus_uevent,
- };
- 
- static void coreboot_device_release(struct device *dev)
+ static struct coreboot_driver cbmem_entry_driver = {
+ 	.probe = cbmem_entry_probe,
+ 	.drv = {
 -- 
 2.43.0
 

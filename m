@@ -1,89 +1,83 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CAA6E2D0
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Jan 2024 13:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9995662
+	for <chrome-platform@lists.linux.dev>; Sun, 14 Jan 2024 17:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="s1sYTm6l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1705065701;
-	bh=FzrVgnbK0n6uYdCumXFsahNGrfl5vwlqsMbeKRKrufA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s1sYTm6liVXdRWh8JDkAX5Lk0MZSbaArK3AfqrMebCSsN7CcXUgITWBxJWKj8IqwR
-	 pK5fBkjY3InlhtiDGaIO2AqiOUAXJ1G/cvXU9qOxd0VLoZGggKyLGBjOl3p4PQPft+
-	 Fst3Ra9KsZDEscU0bTiQyokFwwkbuWBbsQByObJLErxlGYMYDSz/4qyObiy1JJHo+I
-	 hxclylwIBqHa18mvRV4X7IwLsUvSFuE7hZqhhfCL1RdOe+DjCB79X3AWJA1lspt5XJ
-	 M0zZ+0BDygD6qUIn2x5lm68AfQqyFb/m2m3YzH5m1hbJbS66J/gU4IOXhLRySnZBE1
-	 gjO3pzpQaryWw==
-Received: from localhost.localdomain (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 661783781FE5;
-	Fri, 12 Jan 2024 13:21:36 +0000 (UTC)
-From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: kernel@collabora.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpvRF2RV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705252178; x=1736788178;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=w0C7Y42iMUvEZrazpl/+nsFsK8w/Ws2SVqeMLM7RlSw=;
+  b=DpvRF2RVcdIsKO8SNsbuW2W+jqNnryAGFZB+TL3crHEUaHTib8oMzQGE
+   YW66I36Q6RurQEbwgVF+o7fnwpw8xQ1qjxr660CBxrIgRIYqFWefmgpU4
+   vf4lBykp3m/ooW6qTYvByqNLbbfNQQOAZJWDQDK3wBC7UwY+Qm5brPzgw
+   RgJYGCVf5EkV8/Q7lisWSMA+ujUDz3yrwpavqdJ0WuXGX3VmTLTKFzIQO
+   mxJWQFU7nZbhhtZuY4As6cgA8zqdJqIxbeShVF5aNZ3X9NJp6UmdgkJvV
+   XfCotk0DM7TMIK/tb3xkS9HkIDmY4NOjGpLdCYeVIOioLr//+++fqBTBv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="396621401"
+X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
+   d="scan'208";a="396621401"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="759643084"
+X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
+   d="scan'208";a="759643084"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:32 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rP3zF-0000000DyBQ-32J1;
+	Sun, 14 Jan 2024 19:09:29 +0200
+Date: Sun, 14 Jan 2024 19:09:29 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	chrome-platform@lists.linux.dev,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] arm64: defconfig: Enable support for cbmem entries in the coreboot table
-Date: Fri, 12 Jan 2024 10:18:36 -0300
-Message-ID: <20240112131857.900734-8-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240112131857.900734-1-nfraprado@collabora.com>
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
 References: <20240112131857.900734-1-nfraprado@collabora.com>
+ <20240112131857.900734-3-nfraprado@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240112131857.900734-3-nfraprado@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Enable the cbmem driver and dependencies in order to support reading
-cbmem entries from the coreboot table, which are used to store logs from
-coreboot on arm64 Chromebooks, and provide useful information for
-debugging the boot process on those devices.
+On Fri, Jan 12, 2024 at 10:18:31AM -0300, Nícolas F. R. A. Prado wrote:
+> Generate aliases for coreboot modules to allow automatic module probing.
 
-Signed-off-by: NÃ­colas F. R. A. Prado <nfraprado@collabora.com>
+...
 
----
+> (no changes since v1)
 
-(no changes since v1)
+Same Q as per v1.
 
- arch/arm64/configs/defconfig | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 0b0ef6877a12..cd94d55b23b2 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -255,6 +255,9 @@ CONFIG_INTEL_STRATIX10_RSU=m
- CONFIG_MTK_ADSP_IPC=m
- CONFIG_QCOM_QSEECOM=y
- CONFIG_QCOM_QSEECOM_UEFISECAPP=y
-+CONFIG_GOOGLE_FIRMWARE=y
-+CONFIG_GOOGLE_CBMEM=m
-+CONFIG_GOOGLE_COREBOOT_TABLE=m
- CONFIG_EFI_CAPSULE_LOADER=y
- CONFIG_IMX_SCU=y
- CONFIG_IMX_SCU_PD=y
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 

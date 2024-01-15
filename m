@@ -1,107 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D362115BB;
-	Mon, 15 Jan 2024 02:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4uob0gd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705287291; x=1736823291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=srwuYYGom2ZS4W5k3lZVCuKq6F8VJrRPXChD69St4WQ=;
-  b=G4uob0gd7Npr7+n9f7bQy21xpww3LQKEKDKicLgQDTv+ZwwhnTiTgM0u
-   sCA9t2NGmIxPfYQKiVKn5xjtvwxGzYKk6/a/VXp1eAOehZ7qpi3JsCYmH
-   iDhLKtI0Fsq0ItM7LwMgcGUGtxpxCsXs//VXGgNguZXnm2milh5RUAj4e
-   /5eD6TgRLwVr0ZfzApDqIm5HGSB6wYFvPLymNKbin1Z0iWK/uxBja3l+Y
-   Ofk/d6FoIau3W2TsxioECjUxqlW3sQYCqIQjIDzKaNoJRwStALmEPZIAt
-   xMc59o3K9rxmUJZe5lRO1M2VoWeH0KjnlU52osXzLHGZ3X9zeXHNJnjs3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6616601"
-X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="6616601"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 18:54:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="733176597"
-X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="733176597"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Jan 2024 18:54:47 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPD7a-000C2O-0M;
-	Mon, 15 Jan 2024 02:54:42 +0000
-Date: Mon, 15 Jan 2024 10:53:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] firmware: google: cbmem: Add to module device table
-Message-ID: <202401151013.Xioj5wZo-lkp@intel.com>
-References: <20240111151226.842603-4-nfraprado@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5652E199D7
+	for <chrome-platform@lists.linux.dev>; Mon, 15 Jan 2024 20:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSG-0004ob-JC; Mon, 15 Jan 2024 21:21:08 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSG-0005gr-0y; Mon, 15 Jan 2024 21:21:08 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSF-000N85-33;
+	Mon, 15 Jan 2024 21:21:07 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-spi@vger.kernel.org,
+	kernel@pengutronix.de,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 16/33] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+Date: Mon, 15 Jan 2024 21:13:02 +0100
+Message-ID:  <8ae71cbe62a853fcb7546e79bc319556855c3800.1705348269.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1795; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=JZwbpbkMvs4lQTImHxlzDToQ730IN3XwQ44L9olrdkQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlpZHTLSauBM7HX8UqoMkcUFLs7XMX2h0z7kY0E Pilkgd0mROJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZaWR0wAKCRCPgPtYfRL+ TjXpCACy+MtD+WbJd4fqp8ge0gBhaDUaN+u6Hyvd4CpQYDUdv1NpzEMDzxk0h63IE/8PoYediV2 +3ceGcwmezj70LdDnBTQ6NXZ6oqpmQ+O7f2jYEAUT7NUpFfRzgIthYOP4Llr4hTehgs4/10Kjpb eztrWPSsZ71WvsYlvQ1RN6ViwVpnIjMKAnlbbj6jx5uxndaifHIAy1nMY0PWhDBZtFGROU3dmYe a5IDhQCki35JDOFH3Lm2M35J/Ne610H7lRRhRW5gxkeWuw7nCuuAixOL69DHkNwIk6xy2eWZaDk JFxiZzUsqMG90YD4HiyKG8lUGLmtxIpbx4je0JXwQXjPTedF
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240111151226.842603-4-nfraprado@collabora.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hi Nícolas,
+In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+some functions and struct members were renamed. To not break all drivers
+compatibility macros were provided.
 
-kernel test robot noticed the following build warnings:
+To be able to remove these compatibility macros push the renaming into
+this driver.
 
-[auto build test WARNING on next-20240111]
-[also build test WARNING on v6.7]
-[cannot apply to chrome-platform/for-next chrome-platform/for-firmware-next masahiroy-kbuild/for-next masahiroy-kbuild/fixes arm64/for-next/core linus/master v6.7 v6.7-rc8 v6.7-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
+---
+ drivers/platform/chrome/cros_ec_spi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/N-colas-F-R-A-Prado/firmware-coreboot-Generate-modalias-uevent-for-devices/20240111-231841
-base:   next-20240111
-patch link:    https://lore.kernel.org/r/20240111151226.842603-4-nfraprado%40collabora.com
-patch subject: [PATCH 3/4] firmware: google: cbmem: Add to module device table
-config: i386-randconfig-013-20240115 (https://download.01.org/0day-ci/archive/20240115/202401151013.Xioj5wZo-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151013.Xioj5wZo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401151013.Xioj5wZo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/firmware/google/cbmem.c:118:40: warning: unused variable 'cbmem_ids' [-Wunused-const-variable]
-     118 | static const struct coreboot_device_id cbmem_ids[] = {
-         |                                        ^~~~~~~~~
-   1 warning generated.
-
-
-vim +/cbmem_ids +118 drivers/firmware/google/cbmem.c
-
-   117	
- > 118	static const struct coreboot_device_id cbmem_ids[] = {
-   119		{ .tag = LB_TAG_CBMEM_ENTRY },
-   120		{ /* sentinel */ }
-   121	};
-   122	MODULE_DEVICE_TABLE(coreboot, cbmem_ids);
-   123	
-
+diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+index 3e88cc92e819..86a3d32a7763 100644
+--- a/drivers/platform/chrome/cros_ec_spi.c
++++ b/drivers/platform/chrome/cros_ec_spi.c
+@@ -409,7 +409,7 @@ static int do_cros_ec_pkt_xfer_spi(struct cros_ec_device *ec_dev,
+ 	if (!rx_buf)
+ 		return -ENOMEM;
+ 
+-	spi_bus_lock(ec_spi->spi->master);
++	spi_bus_lock(ec_spi->spi->controller);
+ 
+ 	/*
+ 	 * Leave a gap between CS assertion and clocking of data to allow the
+@@ -469,7 +469,7 @@ static int do_cros_ec_pkt_xfer_spi(struct cros_ec_device *ec_dev,
+ 
+ 	final_ret = terminate_request(ec_dev);
+ 
+-	spi_bus_unlock(ec_spi->spi->master);
++	spi_bus_unlock(ec_spi->spi->controller);
+ 
+ 	if (!ret)
+ 		ret = final_ret;
+@@ -554,7 +554,7 @@ static int do_cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+ 	if (!rx_buf)
+ 		return -ENOMEM;
+ 
+-	spi_bus_lock(ec_spi->spi->master);
++	spi_bus_lock(ec_spi->spi->controller);
+ 
+ 	/* Transmit phase - send our message */
+ 	debug_packet(ec_dev->dev, "out", ec_dev->dout, len);
+@@ -590,7 +590,7 @@ static int do_cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+ 
+ 	final_ret = terminate_request(ec_dev);
+ 
+-	spi_bus_unlock(ec_spi->spi->master);
++	spi_bus_unlock(ec_spi->spi->controller);
+ 
+ 	if (!ret)
+ 		ret = final_ret;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+

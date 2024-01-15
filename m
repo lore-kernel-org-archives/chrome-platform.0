@@ -1,60 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9995662
-	for <chrome-platform@lists.linux.dev>; Sun, 14 Jan 2024 17:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D362115BB;
+	Mon, 15 Jan 2024 02:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpvRF2RV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4uob0gd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705252178; x=1736788178;
+  t=1705287291; x=1736823291;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=w0C7Y42iMUvEZrazpl/+nsFsK8w/Ws2SVqeMLM7RlSw=;
-  b=DpvRF2RVcdIsKO8SNsbuW2W+jqNnryAGFZB+TL3crHEUaHTib8oMzQGE
-   YW66I36Q6RurQEbwgVF+o7fnwpw8xQ1qjxr660CBxrIgRIYqFWefmgpU4
-   vf4lBykp3m/ooW6qTYvByqNLbbfNQQOAZJWDQDK3wBC7UwY+Qm5brPzgw
-   RgJYGCVf5EkV8/Q7lisWSMA+ujUDz3yrwpavqdJ0WuXGX3VmTLTKFzIQO
-   mxJWQFU7nZbhhtZuY4As6cgA8zqdJqIxbeShVF5aNZ3X9NJp6UmdgkJvV
-   XfCotk0DM7TMIK/tb3xkS9HkIDmY4NOjGpLdCYeVIOioLr//+++fqBTBv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="396621401"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="396621401"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:37 -0800
+  bh=srwuYYGom2ZS4W5k3lZVCuKq6F8VJrRPXChD69St4WQ=;
+  b=G4uob0gd7Npr7+n9f7bQy21xpww3LQKEKDKicLgQDTv+ZwwhnTiTgM0u
+   sCA9t2NGmIxPfYQKiVKn5xjtvwxGzYKk6/a/VXp1eAOehZ7qpi3JsCYmH
+   iDhLKtI0Fsq0ItM7LwMgcGUGtxpxCsXs//VXGgNguZXnm2milh5RUAj4e
+   /5eD6TgRLwVr0ZfzApDqIm5HGSB6wYFvPLymNKbin1Z0iWK/uxBja3l+Y
+   Ofk/d6FoIau3W2TsxioECjUxqlW3sQYCqIQjIDzKaNoJRwStALmEPZIAt
+   xMc59o3K9rxmUJZe5lRO1M2VoWeH0KjnlU52osXzLHGZ3X9zeXHNJnjs3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6616601"
+X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
+   d="scan'208";a="6616601"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 18:54:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="759643084"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="759643084"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rP3zF-0000000DyBQ-32J1;
-	Sun, 14 Jan 2024 19:09:29 +0200
-Date: Sun, 14 Jan 2024 19:09:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="733176597"
+X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
+   d="scan'208";a="733176597"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 14 Jan 2024 18:54:47 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPD7a-000C2O-0M;
+	Mon, 15 Jan 2024 02:54:42 +0000
+Date: Mon, 15 Jan 2024 10:53:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel@collabora.com,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] firmware: google: cbmem: Add to module device table
+Message-ID: <202401151013.Xioj5wZo-lkp@intel.com>
+References: <20240111151226.842603-4-nfraprado@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,20 +58,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240112131857.900734-3-nfraprado@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240111151226.842603-4-nfraprado@collabora.com>
 
-On Fri, Jan 12, 2024 at 10:18:31AM -0300, Nícolas F. R. A. Prado wrote:
-> Generate aliases for coreboot modules to allow automatic module probing.
+Hi Nícolas,
 
-...
+kernel test robot noticed the following build warnings:
 
-> (no changes since v1)
+[auto build test WARNING on next-20240111]
+[also build test WARNING on v6.7]
+[cannot apply to chrome-platform/for-next chrome-platform/for-firmware-next masahiroy-kbuild/for-next masahiroy-kbuild/fixes arm64/for-next/core linus/master v6.7 v6.7-rc8 v6.7-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Same Q as per v1.
+url:    https://github.com/intel-lab-lkp/linux/commits/N-colas-F-R-A-Prado/firmware-coreboot-Generate-modalias-uevent-for-devices/20240111-231841
+base:   next-20240111
+patch link:    https://lore.kernel.org/r/20240111151226.842603-4-nfraprado%40collabora.com
+patch subject: [PATCH 3/4] firmware: google: cbmem: Add to module device table
+config: i386-randconfig-013-20240115 (https://download.01.org/0day-ci/archive/20240115/202401151013.Xioj5wZo-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151013.Xioj5wZo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401151013.Xioj5wZo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/firmware/google/cbmem.c:118:40: warning: unused variable 'cbmem_ids' [-Wunused-const-variable]
+     118 | static const struct coreboot_device_id cbmem_ids[] = {
+         |                                        ^~~~~~~~~
+   1 warning generated.
+
+
+vim +/cbmem_ids +118 drivers/firmware/google/cbmem.c
+
+   117	
+ > 118	static const struct coreboot_device_id cbmem_ids[] = {
+   119		{ .tag = LB_TAG_CBMEM_ENTRY },
+   120		{ /* sentinel */ }
+   121	};
+   122	MODULE_DEVICE_TABLE(coreboot, cbmem_ids);
+   123	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

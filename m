@@ -1,141 +1,118 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2007E1BF44
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Jan 2024 15:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD8-0000tu-OV; Tue, 16 Jan 2024 16:18:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD0-000Gxt-VX; Tue, 16 Jan 2024 16:18:34 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD0-0011AW-2X;
-	Tue, 16 Jan 2024 16:18:34 +0100
-Date: Tue, 16 Jan 2024 16:18:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
-	dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Ronald Wahl <ronald.wahl@raritan.com>, Stefan Schmidt <stefan@datenfreihafen.org>, 
-	libertas-dev@lists.infradead.org, Javier Martinez Canillas <javierm@redhat.com>, 
-	Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
-	kernel@pengutronix.de, linux-media@vger.kernel.org, linux-wpan@vger.kernel.org, 
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>, 
-	James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>, 
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>, chrome-platform@lists.linux.dev, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>, Wu Hao <hao.wu@intel.com>, 
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>, 
-	linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	"David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	linux-integrity@vger.kernel.org, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org, Tom Rix <trix@redhat.com>, 
-	linux-fpga@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-staging@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-input@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Yang Yingliang <yangyingliang@huawei.com>, Moritz Fischer <mdf@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Rayyan Ansari <rayyan@ansari.sh>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-mmc@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>, 
-	Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>, Jakub Kicinski <kuba@kernel.org>, 
-	Kalle Valo <kvalo@kernel.org>, Johan Hovold <johan@kernel.org>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, linux-mediatek@lists.infradead.org, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/33] spi: get rid of some legacy macros
-Message-ID: <l4azekfj7hduzi4wcyphispst46fi3m5ams65nzer2ai6upoxw@3p2uki626ytt>
-References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
- <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED931CD05
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Jan 2024 17:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705426860; cv=none; b=diaarzoocLLq3XvV1gDT5xNNLEJEbA+cQat9EkB+soSTyPTnuiRhHgaAEvVKT+7yDSwyXB1VneqWTm1Q0P+3SFZcOxUg/Xu5xnKXNCb8P2efqmPV2K18IidKLFfgeVDnTxZfsbZiiL3cGWYFRmIk0sgtVy4FubaO5htQQ7QZIQw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705426860; c=relaxed/simple;
+	bh=XvvcYoCr4zpjWC2RHZe0h/ouCH5Zo/Y79WhWx6k5mnY=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Ze0pth3s+aU9Sid/usSVkVzb3WEcCXMn0RjD/GJfm+7lpVhrlv7W5PNah2TQ7kLBWOVndIQKlwESXXOK841AAhAEsKh+AHUxdFlVZm4mtcjxB4jc63zR/baOyW8XSYoXJ57CTZaDuNB3cCnAIkm7D+c018KjV1ZXzi1XRspNymA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d3TrqOjg; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d3TrqOjg"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6db05618c1fso7378729b3a.1
+        for <chrome-platform@lists.linux.dev>; Tue, 16 Jan 2024 09:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1705426858; x=1706031658; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOlwdSwaFY4qZZ/MF2sX5IosH4JrIbBPd9daBrZxqLw=;
+        b=d3TrqOjgF6NA9oVF0Za8tNZ0JbqkMO6S3DPibKml07Yv5RsB/p3yD60b9GZvJd88Uv
+         FRx+Xdi4Z4FhK2NgqVlTDwLx8REllOil7oTJrcOQKlJCZZ4vKnfKp0J8iNoYmbNyvR07
+         ZU47jYRWLYAyAETmXZsBdzA4WTFOhqrjMxdiM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705426858; x=1706031658;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BOlwdSwaFY4qZZ/MF2sX5IosH4JrIbBPd9daBrZxqLw=;
+        b=P6N4pM/VA36ixv4eEJ0/qw5oFaRr99dkp/AtRqrYqNxGQcVwevKUZDgTQUZvSUTCOG
+         h262cBPmluhl7Lr5vV2wMLt3TW1Y4XblThXlPpWIFtoq4B3ko+sxX0XsNYyjpeL0tmDF
+         eI4tz9APGF5VKgLGmnOVPufJ4C8r/oSE4ll7zQTroo5oh25b7pQoEa2qBqiilWYnPZnC
+         PMiM2XDLZobS97ewYyY60bkTgjYB1Ri4/a5hssjAcFnSvCJ9/Y3C7BQSI2ISaLA8b1Rq
+         oez/bbQ/a/zF/R+IzKV0fXfCOrNBYCklBexvvArU3khA8B+DCTiQlcfY8nw99c2oEbAp
+         3YAA==
+X-Gm-Message-State: AOJu0YxPy2xUAUfP6RlLa+PPcrOUozSaJYCEpmrA+Av3AI0IUTWinHn0
+	HumzLg1aBPZaiS1uBVHKJo2WLstmddv3
+X-Google-Smtp-Source: AGHT+IGSq12YfeBII3I7eyQkB4trJr8EZhJyUqknHpzHjJNorjltxMMcubYS6hhtjlOeab7iuZAREg==
+X-Received: by 2002:a05:6a00:4604:b0:6db:7038:fc0f with SMTP id ko4-20020a056a00460400b006db7038fc0fmr7290950pfb.63.1705426858263;
+        Tue, 16 Jan 2024 09:40:58 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:88f1:3bea:43ea:b8b8])
+        by smtp.gmail.com with UTF8SMTPSA id x16-20020a056a000bd000b006d9b2694b0csm9640397pfu.200.2024.01.16.09.40.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jan 2024 09:40:57 -0800 (PST)
+Date: Tue, 16 Jan 2024 09:40:55 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: kernel test robot <lkp@intel.com>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] firmware: google: cbmem: Add to module device table
+Message-ID: <Zaa_pwuPOMCQV4GD@google.com>
+References: <20240111151226.842603-4-nfraprado@collabora.com>
+ <202401151013.Xioj5wZo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ojpgqs276usvjple"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <202401151013.Xioj5wZo-lkp@intel.com>
 
+Hi Nicolas,
 
---ojpgqs276usvjple
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 15, 2024 at 10:53:48AM +0800, kernel test robot wrote:
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/firmware/google/cbmem.c:118:40: warning: unused variable 'cbmem_ids' [-Wunused-const-variable]
+>      118 | static const struct coreboot_device_id cbmem_ids[] = {
+>          |                                        ^~~~~~~~~
+>    1 warning generated.
+> 
+> 
+> vim +/cbmem_ids +118 drivers/firmware/google/cbmem.c
+> 
+>    117	
+>  > 118	static const struct coreboot_device_id cbmem_ids[] = {
+>    119		{ .tag = LB_TAG_CBMEM_ENTRY },
+>    120		{ /* sentinel */ }
+>    121	};
+>    122	MODULE_DEVICE_TABLE(coreboot, cbmem_ids);
+>    123	
 
-Hello Mark,
+I was wondering why we have a seemingly unique "unused variable" failure
+mode in comparison to other similarly-structured device/bus drivers, and
+I realized that's because we're not relying on the same structure for
+both MODULE_DEVICE_TABLE (struct coreboot_device_id) and for the driver
+definition (struct coreboot_driver -> 'u32 tag'). Thus, this structure
+is only used for #define MODULE builds, and otherwise not used.
 
-On Tue, Jan 16, 2024 at 02:40:39PM +0000, Mark Brown wrote:
-> On Mon, Jan 15, 2024 at 09:12:46PM +0100, Uwe Kleine-K=F6nig wrote:
->=20
-> > In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-> > some functions were renamed. Further some compat defines were introduced
-> > to map the old names to the new ones.
->=20
-> > Patch #18 and #19 touch the same driver, otherwise the patches #1 - #31
-> > are pairwise independent and could be applied by their respective
-> > maintainers. The alternative is to let all patches go via the spi tree.
-> > Mark, what's your preference here?
->=20
-> I don't have a strong preference here, I'm happy to take all the patches
-> if the maintainers for the other subsystem are OK with that - ideally
-> I'd apply things at -rc1 but the timeline is a bit tight there.  I think
-> my plan here unless anyone objects (or I notice something myself) will
-> be to queue things at -rc3, please shout if that doesn't seem
-> reasonable.
+Rather than wrapping these definitions in "#ifdef MODULE", perhaps we
+can settle on a single field, and replace `struct coreboot_driver::tag`
+with an instance of `struct coreboot_device_id`? That would normally be
+a breaking change that would require changing all drivers at the same
+time as the bus (or else some kind of intermediate transition state),
+but considering there are only 4 driver implementations and they all
+live under the same maintainer tree, that seems like it should still be
+OK (IMO).
 
-=46rom my side there is no rush, we lived with these defines since
-4.13-rc1. Applying them during the next merge window is fine for me.
+If it makes the series more readable/incremental, perhaps the switchover
+can be the last patch in the series, and there can remain some
+duplication (and potential -Wunused-const-variable issues) for the
+middle of the series.
 
-Anyhow, I intend to resend the series for the feedback I received after
--rc1. Up to you when you want to apply it. Watching out for offending
-patches using lore shouldn't be a big thing and I can do that.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ojpgqs276usvjple
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWmnkkACgkQj4D7WH0S
-/k7Jlgf/bxg8PBfYKKX7PvDPgT3ZVpLLtWReyLQDBjEkSddRCSKzwPE5dQsE6TGF
-pkpgz7Za7CnFfHKtW25alERgnrqA9inDitGvBoBIVgSHPf6GJsGOPVLhziEMU9t1
-tBlCUkInYGMvS/Gn5tOoSjNLmapgV8tiNzeos6MHWZzdKpWIzj6SBNH72Bof8kUq
-R287GggNJ2PLZa24vL2Pct4BZIfpbD+n1o6O62edEmpGe17xuDkSNfjirG7MojjX
-vAtAlEpsLidT0eabHr4XkgyBSQZLwlh1OdReMiXhtK5GM3Oh9R4Y2XVhUq83hKSl
-5zzsBEXwEe1w3pKgGJnCD1jxAAcJ9A==
-=Sz6E
------END PGP SIGNATURE-----
-
---ojpgqs276usvjple--
+Brian

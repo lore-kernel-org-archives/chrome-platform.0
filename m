@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C04E20B03;
-	Tue, 16 Jan 2024 00:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF36D224CB;
+	Tue, 16 Jan 2024 00:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pF+M4vkM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB7E8C433F1;
-	Tue, 16 Jan 2024 00:14:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFRftZ46"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F454C433F1;
+	Tue, 16 Jan 2024 00:14:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705364063;
-	bh=8d4sgvMAdHbg0qfw6AXmRTsTDCZqPwMHouPedDX7pqg=;
+	s=k20201202; t=1705364084;
+	bh=8JjAOqsT+rradnKT/vKpkIsIY1TBqyXCE/NDj2WQiBE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pF+M4vkMlJGeQ+hs+EwwWnVf9igB7GdlxiwsPGG08f9f653yPMe7qInLzT3qoP5Ff
-	 0I4mOursLBd80QwTFNQ5bE8rEu7txZcZ92PnIK0Jn0gDrG4BZngsDiqGYIC+GIjGey
-	 z/+G6lbOnmD4xBweW3iUjYWSRxJg3TtNHK+miL8D5h55YaZpR/RxzAMfLBSyYLGQY+
-	 gobnR/G4YZvNbVNU23LmWuI7P5aZjVFFems9THHkTf+u0rtIELgYPDCZYFcAIyNH4E
-	 gSUKE+MeiHIGixZqYCIVAE06Egbpn+NpYRNz02n3ffEBqy4lxBlF2R6WN0g9U5j8yj
-	 WoHR0cPkIPBYw==
+	b=PFRftZ46OKfWF8ZGyulYJjD/5A0jgS7u8ANsw9nmU0h/OvH7rrr6ypdBTTVjGG3UV
+	 uzad+IRlaA9JpuuSx2TVXg0j0JkewdzdE4IyUaa4itr6Zvv99xJpCW3D68ZZpd+5dR
+	 HXNjiArByVjeMXEHn/SWAMLl3KxIY9Ia1IU8nvrTI8LTSQY9CWM3XHnrbCR1kpXq5g
+	 ddKpkGbmUgkiLPN49Z/vRGvAe99thxrmKB5OG4Mi8Sjj0WUvrc8NpUieH5EMvTP2Pu
+	 M7PXHDxIaDxqD1ZXMvqok79zgGaaZXqu3IJaY0zO1UZQSFsaWU+l6UArqp30lo57Q1
+	 KtQGXXgoNdqFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -28,12 +28,12 @@ Cc: Avadhut Naik <Avadhut.Naik@amd.com>,
 	bleung@chromium.org,
 	tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 3/9] platform/chrome: cros_ec_debugfs: Fix permissions for panicinfo
-Date: Mon, 15 Jan 2024 19:14:08 -0500
-Message-ID: <20240116001418.213635-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 3/8] platform/chrome: cros_ec_debugfs: Fix permissions for panicinfo
+Date: Mon, 15 Jan 2024 19:14:31 -0500
+Message-ID: <20240116001439.213839-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240116001418.213635-1-sashal@kernel.org>
-References: <20240116001418.213635-1-sashal@kernel.org>
+In-Reply-To: <20240116001439.213839-1-sashal@kernel.org>
+References: <20240116001439.213839-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.73
+X-stable-base: Linux 5.15.147
 Content-Transfer-Encoding: 8bit
 
 From: Avadhut Naik <Avadhut.Naik@amd.com>
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 4e63adf083ea..d956eef6e577 100644
+index 0dbceee87a4b..e2940d3b69c3 100644
 --- a/drivers/platform/chrome/cros_ec_debugfs.c
 +++ b/drivers/platform/chrome/cros_ec_debugfs.c
 @@ -427,7 +427,7 @@ static int cros_ec_create_panicinfo(struct cros_ec_debugfs *debug_info)

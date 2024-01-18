@@ -1,465 +1,105 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14F52C6BD
-	for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 17:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABA02D62B
+	for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 17:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705598944; cv=none; b=SR2A2zATp/J/0Y463jEdQaJis/O9yMyRpqbiyCDQPjR9EAyh5mPXp6QrS/XqY1ngB6RuZIfE/yk6djKyg8hg5wcnmODDa8cidf3rvZg94u0O21JCyaBKTsGaTaOve7xem6V7vaeVLhgo7zat7ek5VeBZNMb1FljUaGdqUe3CmAQ=
+	t=1705600543; cv=none; b=povJNUP78Xq5zDbPhHX/hH483RZGLfCrT26LEz7pV6cKHjYPuypwfA/wgYQNGnB0lfCpM8p2/qhpT65upeZPN3gpMQu474W1QNC79rGdmziYD/FdR3juM9ObI0MTyVRsDTacGCYweCpY4Y5FoEG1YEUpMjti2lCe8x/XUVhn5gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705598944; c=relaxed/simple;
-	bh=qUrX/8tzgVWIru/9cI9VQjcVMo2tb65XKY5Bbr9TC6Y=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=POnllqBKPktJEEIzBiri2x/R7jD+T/tP5ltcNbPodLBNU+/i30RK7PQYRiWECAHBHcsjvMOUSG3c2HI/L9wzhNY9H/dd4mHy6hZdWMI4M+d2nmdqLnaTAeUr1h7yfDEr71MYoyBVmNsA5clBfCB+YarIFCejsGIiYU56ooVrrKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RUuaZDFt; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1705600543; c=relaxed/simple;
+	bh=fKFKhXygl42NeFOdSVuJarNs+0BLW2bOFf769RHcpgc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=keOZVvfPZWgySMnEQgzaCQHaN9HVDLmkywNaCQVZSX5UGZM/lbq6tv8A8mahPDgE3fA4loHjmy4j+dmivBuqZSJLhmS0PqQts9RV5L9OpObYnb+2C2Dd0Sm2GgFkC5G6Cg1UwT4dBca0yyue9T+tSfb75NvsSXzxpY07RY/W2ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcBrP6Ue; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RUuaZDFt"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2cdb50d8982so60163161fa.2
-        for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 09:29:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcBrP6Ue"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d9bee259c5so7569290b3a.1
+        for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 09:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705598941; x=1706203741; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1TG8awMxnaXlYghJMwpn1QRDYilzhzTATthRsKlv51E=;
-        b=RUuaZDFtt8auvGPcmlt+5unE2RLUljjvHkg7IejqdR93PoVRJPyijRNs1NeWOLWS63
-         jKq2JVKlfnTzjTqwW+1AmMXHfF3OU6IA2SHvbSmrtPJKP7Ml2bgWm8Xxtz6H1/gBr8LJ
-         z+ZVubmb7JhCCB2Md6vD33hfbp0llt/PfkHOI=
+        d=gmail.com; s=20230601; t=1705600542; x=1706205342; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQV2inHhk6YnIPGUCD6FRidR+XFSr3X65Rn9aWPTRfs=;
+        b=lcBrP6UeduoVg/pZnfK0fs3zM6E7fl1oJGHtCK4Bew2VN6EKcGngb37HmficKnGeiq
+         QPIkPDP3E7fwj7TjBhW3Y9RGtKJUm6EXzxjxl/2a3NSihqU6gwcF0uaeHJbQ9ZwZKB8F
+         btmgRhIo8IP7/Csdp0MEFZa8J58mbPfLLBtq1wqvXjSHX2D75qqcw0VA0MXJQEuKNgCI
+         gZ/PDeuufiONfj2CrR3nPd2XtmGeaLAluL0+IXRiX0F1fNpfVyZyh86JhssqjNYm4A4s
+         UTo7ofdrsoKzxcgxv5dz9q3RtKaNDOyJEWMMco302nPh5RUfI5YSKTSLlELX4bji2TZh
+         iIXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705598941; x=1706203741;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1TG8awMxnaXlYghJMwpn1QRDYilzhzTATthRsKlv51E=;
-        b=Avz3+tb/rCwJoyV/amKaRrrQy2rYybdAErqzjeBii8ZUSuoJgab8bpi2GAdKU3Tfc9
-         fobBwxoSrb75YAWjujZWiGTDgo2+e8GXfkj0K7ZWo9j0FzNyASeOzRejFirGD80U2G5U
-         ZSKiDoi27MYUgO8yosCH8mmnwj1naCf54ZstqNc/T/c/Yecip8T2900Ob45ssKwrL3qC
-         qoVlq3BDjbNK2Iwah1Ibg3hQ+2wL9RPtLpBzQoWT0+qDs6WubKTzklPcIW6Sn6F0qK2e
-         uwGz8gWF+n+6c2h80wcf0H8DpYw4TyolWyekcQsJGXDnrButthpjfteY8SJZRtm06jPf
-         /dXg==
-X-Gm-Message-State: AOJu0YwOVNs+j/cpXeHz3MntvY5SZuTPJa5My4h1vbtS7cd+0pUKNECG
-	uVj25OP4GjQxC/sopGEane/B7Zgmj6Zs3MuGnA8ZtMbdVKDQmNy1cL9druAU2Ey2PTNI2DdPE40
-	4hsvFtuL6s4/RYnErESXB14zNW8ogh6dbc6fq
-X-Google-Smtp-Source: AGHT+IEvzuHp1w0ZzuXaRd0Ni29bKufEb4d3XxqcXGD2ndQ5YMeHo9T38nrKDU3S0dwWXT6cmP9/9R1i3E1BpnhGUUY=
-X-Received: by 2002:a2e:a583:0:b0:2cc:e766:eeec with SMTP id
- m3-20020a2ea583000000b002cce766eeecmr869046ljp.45.1705598940741; Thu, 18 Jan
- 2024 09:29:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705600542; x=1706205342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQV2inHhk6YnIPGUCD6FRidR+XFSr3X65Rn9aWPTRfs=;
+        b=ee4peQy86S4JeLwJVoOzi87x+v+UN6VjwYdSi3DzT8+Fxiy2U+MrC1GXozsEohVUXB
+         y8vWEw725u7sY0KDTQawqitK6FwRxeIcBQH+hclfLUBuQhnVwAiSbKkGvknmG+LUQ4zU
+         0DfbrHJx8hwZFkfKofxTqFMsa8JPYsPFCH7XWthKbIH0b3pJUkV81KIkw8PlQOqFNKzV
+         xe+9InMcuvDG6TCFS33JAhUc54MuW29RHyClMT9a3ruwyawVOpxMoiGmXj3rW93xj9r1
+         M+aPSlAReJR2JNPSn45B201mdPzTW5lBh7Hho/qtwoM48Xf2ZH+3kOHRxMcFBU2nWjzy
+         c+Gg==
+X-Gm-Message-State: AOJu0YzK+zdIaRVC/JyHn/9ewq/JMHUZj7MRrXR9e7Stq63dypE89+FU
+	2nucic4rEGDxzwGegM1F0VTmFUhzG5eIu222zqaLkh/RHic46G8A
+X-Google-Smtp-Source: AGHT+IELdrhwgZSXqBrT051wdOSKlOlhfFGsJhxKGC6nUuSXcUvarjBz1SucjIUHsxFlNa1NFmzVgw==
+X-Received: by 2002:a05:6a00:1791:b0:6d9:9afd:82f9 with SMTP id s17-20020a056a00179100b006d99afd82f9mr1271350pfg.51.1705600541769;
+        Thu, 18 Jan 2024 09:55:41 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
+        by smtp.gmail.com with ESMTPSA id fj2-20020a056a003a0200b006d98505dacasm3587634pfb.132.2024.01.18.09.55.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 09:55:41 -0800 (PST)
+Date: Thu, 18 Jan 2024 09:55:38 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Ting Shen <phoenixshen@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, fshao@chromium.org,
+	Ting Shen <phoenixshen@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	chrome-platform@lists.linux.dev,
+	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: cros_ec_keyb: add support for base attached event
+Message-ID: <ZalmGi_Zlm9HLoBy@google.com>
+References: <20240118085310.1139545-1-phoenixshen@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240117102450.4080839-1-lma@chromium.org> <8afd7bda-a600-4abb-95fc-ee70c6f89749@kernel.org>
-In-Reply-To: <8afd7bda-a600-4abb-95fc-ee70c6f89749@kernel.org>
-From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Date: Thu, 18 Jan 2024 18:28:49 +0100
-Message-ID: <CAE5UKNp8KYgohe4D_Esrpzi4V-Koi8r1frBedGJk1AnKvQc+Uw@mail.gmail.com>
-Subject: Re: [PATCH] drivers: watchdog: Add ChromeOS EC watchdog
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Gwendal Grignou <gwendal@chromium.org>, Lee Jones <lee@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Radoslaw Biernacki <biernacki@google.com>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240118085310.1139545-1-phoenixshen@google.com>
 
-Hi Krzysztof,
+Hi Ting,
 
-Please find the answers below.
+On Thu, Jan 18, 2024 at 04:52:43PM +0800, Ting Shen wrote:
+> This CL maps ChromeOS EC's BASE_ATTACHED event to SW_DOCK,
 
-On Wed, Jan 17, 2024 at 4:27=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 17/01/2024 11:24, Lukasz Majczak wrote:
-> > This adds EC-based watchdog support for ChromeOS
-> > based devices equipped with embedded controller (EC).
-> >
-> > Signed-off-by: Lukasz Majczak <lma@chromium.org>
-> > ---
-> >  MAINTAINERS                                   |   6 +
-> >  drivers/mfd/cros_ec_dev.c                     |   9 +
-> >  drivers/watchdog/Kconfig                      |  15 +
-> >  drivers/watchdog/Makefile                     |   3 +
-> >  drivers/watchdog/cros_ec_wdt.c                | 303 ++++++++++++++++++
-> >  .../linux/platform_data/cros_ec_commands.h    |  78 ++---
-> >  6 files changed, 370 insertions(+), 44 deletions(-)
-> >  create mode 100644 drivers/watchdog/cros_ec_wdt.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 391bbb855cbe..55cd626a525f 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4952,6 +4952,12 @@ R:     Sami Ky=C3=B6stil=C3=A4 <skyostil@chromiu=
-m.org>
-> >  S:   Maintained
-> >  F:   drivers/platform/chrome/cros_hps_i2c.c
-> >
-> > +CHROMEOS EC WATCHDOG
-> > +M:   Lukasz Majczak <lma@chromium.org>
-> > +L:   chrome-platform@lists.linux.dev
-> > +S:   Maintained
-> > +F:   drivers/watchdog/cros_ec_wdt.c
-> > +
-> >  CHRONTEL CH7322 CEC DRIVER
-> >  M:   Joe Tessler <jrt@google.com>
-> >  L:   linux-media@vger.kernel.org
-> > diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> > index 79d393b602bf..60fe831cf30a 100644
-> > --- a/drivers/mfd/cros_ec_dev.c
-> > +++ b/drivers/mfd/cros_ec_dev.c
-> > @@ -91,6 +91,10 @@ static const struct mfd_cell cros_usbpd_notify_cells=
-[] =3D {
-> >       { .name =3D "cros-usbpd-notify", },
-> >  };
-> >
-> > +static const struct mfd_cell cros_ec_wdt_cells[] =3D {
-> > +     { .name =3D "cros-ec-wdt-drv", }
-> > +};
-> > +
-> >  static const struct cros_feature_to_cells cros_subdevices[] =3D {
-> >       {
-> >               .id             =3D EC_FEATURE_CEC,
-> > @@ -107,6 +111,11 @@ static const struct cros_feature_to_cells cros_sub=
-devices[] =3D {
-> >               .mfd_cells      =3D cros_usbpd_charger_cells,
-> >               .num_cells      =3D ARRAY_SIZE(cros_usbpd_charger_cells),
-> >       },
-> > +     {
-> > +             .id             =3D EC_FEATURE_HANG_DETECT,
-> > +             .mfd_cells      =3D cros_ec_wdt_cells,
-> > +             .num_cells      =3D ARRAY_SIZE(cros_ec_wdt_cells),
-> > +     },
-> >  };
-> >
-> >  static const struct mfd_cell cros_ec_platform_cells[] =3D {
-> > diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> > index 7d22051b15a2..1da4be661be8 100644
-> > --- a/drivers/watchdog/Kconfig
-> > +++ b/drivers/watchdog/Kconfig
-> > @@ -2251,4 +2251,19 @@ config KEEMBAY_WATCHDOG
-> >         To compile this driver as a module, choose M here: the
-> >         module will be called keembay_wdt.
-> >
-> > +#
-> > +# ChromeOS EC-based Watchdog
-> > +#
->
-> Drop comment, useless, copies what's below.
+As far as I know none of the Chrome OS devices support classic docking
+station (not talking about the new USB-C/TB ones).
 
-ACK
+> to allow userspace detect that a keyboard is attached to the
+> detachable device.
 
->
-> > +
-> > +config CROS_EC_WATCHDOG
-> > +     tristate "ChromeOS EC-based watchdog driver"
-> > +     select WATCHDOG_CORE
-> > +     depends on CROS_EC
-> > +     help
-> > +       This is the watchdog driver for ChromeOS devices equipped with =
-EC.
-> > +       The EC watchdog - when enabled - expects to be kicked within a =
-given
-> > +       time (default set to 30 seconds) otherwise it will simple reboo=
-t
-> > +       the AP. Priori to that it can also send an event (configurable =
-timeout)
-> > +       about upcoming reboot.
->
-> Instead you could say what will be the name of the module.
->
+Are we planning to have detachable keyboard that is not USB?
 
-ACK
+EC_MKBP_BASE_ATTACHED is processed by hid-google-hammer driver and,
+together with the USB connector state, is used to form SW_TABLET_MODE.
+The reason just the USB state was not enough is because the keyboard
+could be attached to the lid "other way around" to be used as a stand.
+In that configuration USB connection was not active. However userspace
+still needed to know about this to activate tablet version of the UI.
 
-> > +
-> >  endif # WATCHDOG
-> > diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-> > index 7cbc34514ec1..8295c209ddb0 100644
-> > --- a/drivers/watchdog/Makefile
-> > +++ b/drivers/watchdog/Makefile
-> > @@ -234,3 +234,6 @@ obj-$(CONFIG_MENZ069_WATCHDOG) +=3D menz69_wdt.o
-> >  obj-$(CONFIG_RAVE_SP_WATCHDOG) +=3D rave-sp-wdt.o
-> >  obj-$(CONFIG_STPMIC1_WATCHDOG) +=3D stpmic1_wdt.o
-> >  obj-$(CONFIG_SL28CPLD_WATCHDOG) +=3D sl28cpld_wdt.o
-> > +
-> > +# Cros EC watchdog
->
-> Drop comment.
->
-> Also, are you sure you placed it in appropriate place, not just at the
-> end of both files?
->
+Please provide more information why you want this to be exposed via
+cros_ec_keyb driver.
 
-ACK, I will find a better place for above (both in Makefile and
-Kconfig) and will try to keep alphabetic order.
+Thanks.
 
-> > +obj-$(CONFIG_CROS_EC_WATCHDOG) +=3D cros_ec_wdt.o
-> > diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_=
-wdt.c
-> > new file mode 100644
-> > index 000000000000..b461c0613269
-> > --- /dev/null
-> > +++ b/drivers/watchdog/cros_ec_wdt.c
-> > @@ -0,0 +1,303 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +#include <linux/slab.h>
-> > +#include <linux/err.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_data/cros_ec_commands.h>
-> > +#include <linux/platform_data/cros_ec_proto.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/watchdog.h>
-> > +#include <linux/uaccess.h>
-> > +
-> > +#define CROS_EC_WATCHDOG_DEFAULT_TIME 30 /* seconds */
-> > +
-> > +#define DEV_NAME "cros-ec-wdt-dev"
->
-> Drop unused defines.
-
-ACK
-
->
-> > +#define DRV_NAME "cros-ec-wdt-drv"
-> > +
-> > +static int cros_ec_wdt_ping(struct watchdog_device *wdd);
-> > +static int cros_ec_wdt_start(struct watchdog_device *wdd);
-> > +static int cros_ec_wdt_stop(struct watchdog_device *wdd);
-> > +static int cros_ec_wdt_set_timeout(struct watchdog_device *wdd, unsign=
-ed int t);
-> > +
->
-> ...
->
-> > +
-> > +static int cros_ec_wdt_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     /* We need to get a reference to cros_ec_devices
-> > +      * (provides communication layer) which is a parent of
-> > +      * the cros-ec-dev (our parent)
-> > +      */
-> > +     struct cros_ec_device *cros_ec =3D dev_get_drvdata(dev->parent->p=
-arent);
-> > +     int ret =3D 0;
-> > +     uint32_t bootstatus;
-> > +
-> > +     if (!cros_ec) {
-> > +             ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "There is no coresponding EC devi=
-ce!");
->
-> Syntax is return dev_err_probe
->
-
-ACK
-
-> > +             return ret;
-> > +     }
-> > +
-> > +     cros_ec_wdd.parent =3D &pdev->dev;
-> > +     wd_data.cros_ec =3D cros_ec;
-> > +     wd_data.wdd =3D &cros_ec_wdd;
-> > +     wd_data.start_on_resume =3D false;
-> > +     wd_data.keepalive_on =3D false;
-> > +     wd_data.wdd->timeout =3D CROS_EC_WATCHDOG_DEFAULT_TIME;
-> > +
-> > +     watchdog_stop_on_reboot(&cros_ec_wdd);
-> > +     watchdog_stop_on_unregister(&cros_ec_wdd);
-> > +     watchdog_set_drvdata(&cros_ec_wdd, &wd_data);
-> > +     platform_set_drvdata(pdev, &wd_data);
-> > +
-> > +     /* Get current AP boot status */
-> > +     ret =3D cros_ec_wdt_send_hang_detect(&wd_data, EC_HANG_DETECT_CMD=
-_GET_STATUS, 0,
-> > +                                        &bootstatus);
-> > +     if (ret < 0) {
-> > +             dev_err_probe(dev, ret, "Couldn't get AP boot status from=
- EC");
->
-> Syntax is return dev_err_probe
-
-ACK
-
->
-> > +             return ret;
-> > +     }
-> > +
-> > +     /*
-> > +      * If bootstatus is not EC_HANG_DETECT_AP_BOOT_NORMAL
-> > +      * it mens EC has rebooted the AP due to watchdog timeout.
-> > +      * Lets translate it to watchdog core status code.
-> > +      */
-> > +     if (bootstatus !=3D EC_HANG_DETECT_AP_BOOT_NORMAL)
-> > +             wd_data.wdd->bootstatus =3D WDIOF_CARDRESET;
-> > +
-> > +     ret =3D watchdog_register_device(&cros_ec_wdd);
-> > +     if (ret < 0)
-> > +             dev_err_probe(dev, ret, "Couldn't get AP boot status from=
- EC");
->
-> Syntax is return dev_err_probe
->
-
-ACK
-
-> > +
-> > +     return ret;
->
-> return 0
->
-
-ACK
-
-> > +}
-> > +
-> > +static int cros_ec_wdt_remove(struct platform_device *pdev)
-> > +{
-> > +     struct cros_ec_wdt_data *wd_data =3D platform_get_drvdata(pdev);
-> > +
-> > +     watchdog_unregister_device(wd_data->wdd);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void cros_ec_wdt_shutdown(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct cros_ec_wdt_data *wd_data =3D platform_get_drvdata(pdev);
-> > +     int ret;
-> > +
-> > +     /*
-> > +      * Clean only bootstatus flag.
-> > +      * EC wdt is are already stopped by watchdog framework.
-> > +      */
-> > +     ret =3D cros_ec_wdt_send_hang_detect(wd_data,
-> > +                                        EC_HANG_DETECT_CMD_CLEAR_STATU=
-S, 0, NULL);
-> > +     if (ret < 0)
-> > +             dev_err(dev, "%s failed (%d)", __func__, ret);
-> > +
-> > +     watchdog_unregister_device(wd_data->wdd);
-> > +}
-> > +
-> > +static int __maybe_unused cros_ec_wdt_suspend(struct platform_device *=
-pdev, pm_message_t state)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct cros_ec_wdt_data *wd_data =3D platform_get_drvdata(pdev);
-> > +     int ret;
-> > +
-> > +     if (watchdog_active(wd_data->wdd)) {
-> > +             ret =3D cros_ec_wdt_send_hang_detect(wd_data,
-> > +                                                EC_HANG_DETECT_CMD_CAN=
-CEL, 0, NULL);
-> > +             if (ret < 0)
-> > +                     dev_err(dev, "%s failed (%d)", __func__, ret);
-> > +             wd_data->start_on_resume =3D true;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int __maybe_unused cros_ec_wdt_resume(struct platform_device *p=
-dev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct cros_ec_wdt_data *wd_data =3D platform_get_drvdata(pdev);
-> > +     int ret;
-> > +
-> > +     /* start_on_resume is only set if watchdog was active
-> > +      * when device was going to sleep
-> > +      */
-> > +     if (wd_data->start_on_resume) {
-> > +             /* On resume we just need to setup a EC watchdog the same=
- way as
->
-> Use comment style from Linux coding style.
->
-
-ACK
-
-> > +              * in cros_ec_wdt_start(). When userspace resumes from su=
-spend
-> > +              * the watchdog app should just start petting the watchdo=
-g again.
-> > +              */
-> > +             ret =3D cros_ec_wdt_start(wd_data->wdd);
-> > +             if (ret < 0)
-> > +                     dev_err(dev, "%s failed (%d)", __func__, ret);
->
-> That's not really helpful. This applies everywhere. You have all over
-> the place debugging prints with __func__. This is not useful pattern.
-> Print something useful, not function name.
->
-
-ACK, I will revisit the logs messages (both the meanings and log levels)
-
-> > +
-> > +             wd_data->start_on_resume =3D false;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static struct platform_driver cros_ec_wdt_driver =3D {
-> > +     .probe          =3D cros_ec_wdt_probe,
-> > +     .remove         =3D cros_ec_wdt_remove,
-> > +     .shutdown       =3D cros_ec_wdt_shutdown,
-> > +     .suspend        =3D pm_ptr(cros_ec_wdt_suspend),
-> > +     .resume         =3D pm_ptr(cros_ec_wdt_resume),
-> > +     .driver         =3D {
-> > +             .name   =3D DRV_NAME,
-> > +     },
-> > +};
-> > +
-> > +module_platform_driver(cros_ec_wdt_driver);
-> > +
-> > +MODULE_ALIAS("platform:" DRV_NAME);
->
-> You should not need MODULE_ALIAS() in normal cases. If you need it,
-> usually it means your device ID table is wrong (e.g. misses either
-> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-> for incomplete ID table.
->
->
-
-ACK, I will use MODULE_DEVICE_TABLE().
-
-> > +MODULE_DESCRIPTION("Cros EC Watchdog Device Driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/l=
-inux/platform_data/cros_ec_commands.h
-> > index 7dae17b62a4d..35a7a2d32819 100644
-> > --- a/include/linux/platform_data/cros_ec_commands.h
-> > +++ b/include/linux/platform_data/cros_ec_commands.h
-> > @@ -3961,60 +3961,50 @@ struct ec_response_i2c_passthru {
-> >  } __ec_align1;
-> >
-> >  /*********************************************************************=
-********/
-> > -/* Power button hang detect */
-> > -
-> > +/* AP hang detect */
->
-> I don't understand how this change is related to the new driver. This
-> entire hunk is confusing.
->
-
-Yes, that updates the API and definition for embedded controller (EC).
-It should go in the separate patch.
-
->
-> Best regards,
-> Krzysztof
->
-
-Best regards,
-Lukasz
+-- 
+Dmitry

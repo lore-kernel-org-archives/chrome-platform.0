@@ -1,53 +1,53 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABAC2E82C
-	for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 19:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23402E83C
+	for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 19:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705607617; cv=none; b=pgIQ2Rxq//aPmcUfFfpu1fUhjhW6JeLJET0eGjOtZjFxUdMbB2lE5KsnPNcPhWD8We7WG6i1wWLciZvMVOrVqU+5AwLBpc12IAHHSfGYqSU4WyZgUK6Dn38Fy+1ZAHL+43f4yVd+vETwtcBND6HdPNV801PTKdm+6zgLOZRlTqw=
+	t=1705607618; cv=none; b=jucJEozYwhNJbINk169VinJj1lhppZcgzWxJYv0bt6PQBimLeoSnhY34+rvb1nON3wF6fFRq8l9EbEZ5b6aqsCmfZoT6mT300zS4/MceE5t3Hjtup1SwyFcsp37UoNCJnDfwDMobrh/BMXg4Bs+frDjwx+VXo9rFhBkbUlqyRxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705607617; c=relaxed/simple;
-	bh=SZPHFukP2vPjARVRx6o9EqSmOJNzMlyzLKxUxHTg/6E=;
+	s=arc-20240116; t=1705607618; c=relaxed/simple;
+	bh=TJ0HS9DsmpIK3Lc89zTlK7cbKY5l8+Fb4v4FOr6pRxc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W3q/aGDmyW2J/nMzKBMFiqKx7NCXsjzKKQIkIi7diGnbZ7ntMQr+rpdKJbZnb8i7c4TnT+3/4oELFjFj/AHT8T2g6nHEvYh4WPa62VoYrtuuhGLTITecWFCbyBlDX1rap38VuUGvf50bc9e8kkgwtMfDmA8HTJh+s1T7bCauESY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CtPPScS/; arc=none smtp.client-ip=209.85.208.169
+	 MIME-Version; b=uZ/0/E5RKyuoebSEG81vHFdw8xGmvbUtko56T5eF0Q9oGKCIodqRG88O+QCp8DPlUo/W6YcfbqKmQ5cvqJyFvfRxJhbkN++KFPZ+pIK9sRsoXGUJ4jjhaVNvDMwIwgslA/tAqA04kCjwIJSW6rs5hMmuVHI3e+E+M0NyYu9NQKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kAk28TNp; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CtPPScS/"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cdeb808f28so651681fa.1
-        for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 11:53:34 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kAk28TNp"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cd1a1c5addso609311fa.1
+        for <chrome-platform@lists.linux.dev>; Thu, 18 Jan 2024 11:53:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705607613; x=1706212413; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1705607615; x=1706212415; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7DL4Xb2/mJV98z6ViovAZ4ufx02hdHfeh6ifkPAErM4=;
-        b=CtPPScS/W56idVPmBSetTmRCXzaDAMgUPghLQr6kh2a5Tb30ktVFTAV4My5VYURngx
-         hELkKXKveJ30FrTzx/NHHuKop5uKT0jA5pg/6+ROZF8XvYWfUyq3y9jgGrMo8Obmmk3r
-         OUTjajY5Q1wRwgigRiJTV281JeJSYdexvWu7A=
+        bh=oAiOdmemfs++EaElh/QkCQxHrKK1nXdTbeGxucqp/W4=;
+        b=kAk28TNpDuPPbhIZXW/7S5PVv95X7H6awTjQe2ZrN/WHUW8ne5WbQtzeydgps9bN3+
+         4P0iuji3zTdAT62Tsk80+xqAOiAGnBBYtmBD5K+6oA8YjDnokbIWfZnbOGYgh4DeyuAI
+         6ZulrikAGEiKBgUfx0aj/ZqyyE4nlBSsJFbWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705607613; x=1706212413;
+        d=1e100.net; s=20230601; t=1705607615; x=1706212415;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7DL4Xb2/mJV98z6ViovAZ4ufx02hdHfeh6ifkPAErM4=;
-        b=ZY9IjjTdJ02jc+21SNNppypNwfv3bgUfrudtgR6fNMNReNXG3O5RiVWBW4ZZZ9/rfl
-         UpnqldJr2ADoPMixzFhWR1q6L30gVARmuTdV9e1+1fSOySjkZ/kPm7A8PLpoEoxnL8i4
-         eFDGYWjxmp9rtX4lbT6+xbzSeNKv05p84mjcuG735FexdNlaUBw29uESXNkte5udq/4T
-         LHoBKdjOaYgzNIchoBUhp5yrom045Q+Wur2tsipKkRBTc6gzYRjqfU3vBC6+6yBnN17r
-         xvZyCjpUuUXBgfjHNjMcP9iiv/f0nyBtkm4taFRZzD3uL/Btid7Q8tdQN7Ywj/fjA0Px
-         +WLw==
-X-Gm-Message-State: AOJu0YzkeuyvXbFScO0+5NuZ7eqv/ldGLJR/wMw1CK4OnGhdCVN6e75k
-	a/B7Bx7VAt78Is287ehk4bVmXKqtGoG25+QoWKUdB27QhLOSF7gp1xvzBeltGw==
-X-Google-Smtp-Source: AGHT+IF4XNDOxUa6mccHuHFzuRwablf8OZq3KHR8qjMuUGwsvzt65X8VFU1m0U5drZq/eNDXlQycow==
-X-Received: by 2002:a2e:b056:0:b0:2cd:2796:8e26 with SMTP id d22-20020a2eb056000000b002cd27968e26mr1907649ljl.7.1705607613393;
-        Thu, 18 Jan 2024 11:53:33 -0800 (PST)
+        bh=oAiOdmemfs++EaElh/QkCQxHrKK1nXdTbeGxucqp/W4=;
+        b=GPeDslyGUYSsGeULANvhAPNuGbvNxeXva+TTr1FJ0Gyb+Z2YcBWZgGx5jF39Gg9AFc
+         bxMxl2xGWU9PXGjSKSGG3ArXwJ0ZSjSaTPKMCXYsUFXHFhgbuog+kyKM0tpYqjGw3p4c
+         5M1lTwcXl2tzWZf35bwp2cTLinyTJevekn8bPHlGtaKC8HrjFWxCpEw9kFXK7i8phvfj
+         jvH4eou1fL1TeRA7rTIsD7QZMlA2hWU9DhpZC+6m3q3kOc30945AqtN1E7/JisJJh7Na
+         CcRq32KYDBvoiuZ9hPagVNgRGiz7GH/3FuZl0MR0m/KYCfL1nIM81u/7bcsAiikBPZNL
+         0eXQ==
+X-Gm-Message-State: AOJu0YzqnqdyUl5vK5JwcDIsPqOZgnl6z4QmnwfnF0WsbSQvCPIZIpxn
+	clXmCpNd4hLlXUpERcSuIMArZibnp69gvwM3UdrgcqqOqfdmV54oeqcckfcVFQ==
+X-Google-Smtp-Source: AGHT+IEy33EOIoM9A41TAqaa5BgK/M3wGgbb3sgYuQYOQsgSDzkgvy6rte8dlH1jvozcsJ8pHI/OXw==
+X-Received: by 2002:a2e:b708:0:b0:2cd:2606:70e2 with SMTP id j8-20020a2eb708000000b002cd260670e2mr807557ljo.20.1705607614870;
+        Thu, 18 Jan 2024 11:53:34 -0800 (PST)
 Received: from cracow.c.googlers.com.com (138.58.228.35.bc.googleusercontent.com. [35.228.58.138])
-        by smtp.gmail.com with ESMTPSA id 2-20020a05651c00c200b002ccd3e8a59esm2333345ljr.121.2024.01.18.11.53.33
+        by smtp.gmail.com with ESMTPSA id 2-20020a05651c00c200b002ccd3e8a59esm2333345ljr.121.2024.01.18.11.53.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 11:53:33 -0800 (PST)
+        Thu, 18 Jan 2024 11:53:34 -0800 (PST)
 From: Lukasz Majczak <lma@chromium.org>
 To: Gwendal Grignou <gwendal@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
@@ -61,9 +61,9 @@ To: Gwendal Grignou <gwendal@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
 Cc: Lukasz Majczak <lma@chromium.org>
-Subject: [PATCH v2 2/3] watchdog: Add ChromeOS EC-based watchdog driver
-Date: Thu, 18 Jan 2024 19:53:23 +0000
-Message-ID: <20240118195325.2964918-3-lma@chromium.org>
+Subject: [PATCH v2 3/3] mfd: cros_ec: Register EC-based watchdog subdevice
+Date: Thu, 18 Jan 2024 19:53:24 +0000
+Message-ID: <20240118195325.2964918-4-lma@chromium.org>
 X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
 In-Reply-To: <20240118195325.2964918-1-lma@chromium.org>
 References: <20240118195325.2964918-1-lma@chromium.org>
@@ -73,281 +73,42 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Embedded Controller (EC) present on Chromebook devices
-can be used as a watchdog.
-Implement a driver to support it.
+Add ChromeOS EC-based watchdog as EC subdevice.
 
 Signed-off-by: Lukasz Majczak <lma@chromium.org>
 ---
- MAINTAINERS                    |   6 +
- drivers/watchdog/Kconfig       |  11 ++
- drivers/watchdog/Makefile      |   1 +
- drivers/watchdog/cros_ec_wdt.c | 202 +++++++++++++++++++++++++++++++++
- 4 files changed, 220 insertions(+)
- create mode 100644 drivers/watchdog/cros_ec_wdt.c
+ drivers/mfd/cros_ec_dev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef90ddc0fda6..aaae581aae70 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4981,6 +4981,12 @@ R:	Sami Kyöstilä <skyostil@chromium.org>
- S:	Maintained
- F:	drivers/platform/chrome/cros_hps_i2c.c
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index 603b1cd52785..d0140a285f69 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -91,6 +91,10 @@ static const struct mfd_cell cros_usbpd_notify_cells[] = {
+ 	{ .name = "cros-usbpd-notify", },
+ };
  
-+CHROMEOS EC WATCHDOG
-+M:	Lukasz Majczak <lma@chromium.org>
-+L:	chrome-platform@lists.linux.dev
-+S:	Maintained
-+F:	drivers/watchdog/cros_ec_wdt.c
-+
- CHRONTEL CH7322 CEC DRIVER
- M:	Joe Tessler <jrt@google.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 7d22051b15a2..4700b218340f 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -181,6 +181,17 @@ config BD957XMUF_WATCHDOG
- 	  watchdog. Alternatively say M to compile the driver as a module,
- 	  which will be called bd9576_wdt.
- 
-+config CROS_EC_WATCHDOG
-+	tristate "ChromeOS EC-based watchdog"
-+	select WATCHDOG_CORE
-+	depends on CROS_EC
-+	help
-+	  Watchdog driver for Chromebook devices equipped with embedded controller.
-+	  Trigger event is recorded in EC and checked on the subsequent boot.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called cros_ec_wdt.
-+
- config DA9052_WATCHDOG
- 	tristate "Dialog DA9052 Watchdog"
- 	depends on PMIC_DA9052 || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index 7cbc34514ec1..3710c218f05e 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -217,6 +217,7 @@ obj-$(CONFIG_XEN_WDT) += xen_wdt.o
- 
- # Architecture Independent
- obj-$(CONFIG_BD957XMUF_WATCHDOG) += bd9576_wdt.o
-+obj-$(CONFIG_CROS_EC_WATCHDOG) += cros_ec_wdt.o
- obj-$(CONFIG_DA9052_WATCHDOG) += da9052_wdt.o
- obj-$(CONFIG_DA9055_WATCHDOG) += da9055_wdt.o
- obj-$(CONFIG_DA9062_WATCHDOG) += da9062_wdt.o
-diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
-new file mode 100644
-index 000000000000..1915b8d55e45
---- /dev/null
-+++ b/drivers/watchdog/cros_ec_wdt.c
-@@ -0,0 +1,202 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2024 Google LLC.
-+ * Author: Lukasz Majczak <lma@chromium.com>
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+#include <linux/watchdog.h>
-+
-+#define CROS_EC_WATCHDOG_DEFAULT_TIME 30 /* seconds */
-+#define DRV_NAME "cros-ec-wdt-drv"
-+
-+union cros_ec_wdt_data {
-+	struct ec_params_hang_detect req;
-+	struct ec_response_hang_detect resp;
-+} __packed;
-+
-+static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
-+				union cros_ec_wdt_data *arg)
-+{
-+	int ret;
-+	struct {
-+		struct cros_ec_command msg;
-+		union cros_ec_wdt_data data;
-+	} __packed buf = {
-+		.msg = {
-+			.version = 0,
-+			.command = EC_CMD_HANG_DETECT,
-+			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
-+				   sizeof(struct ec_response_hang_detect) :
-+				   0,
-+			.outsize = sizeof(struct ec_params_hang_detect),
-+		},
-+		.data.req = arg->req
-+	};
-+
-+	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-+	if (ret < 0)
-+		return ret;
-+
-+	arg->resp = buf.data.resp;
-+
-+	return 0;
-+}
-+
-+static int cros_ec_wdt_ping(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_RELOAD;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to ping watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_start(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	/* Prepare watchdog on EC side */
-+	arg.req.command = EC_HANG_DETECT_CMD_SET_TIMEOUT;
-+	arg.req.reboot_timeout_sec = wdd->timeout;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to start watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_stop(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_CANCEL;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to stop watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_set_timeout(struct watchdog_device *wdd, unsigned int t)
-+{
-+	unsigned int old_timeout = wdd->timeout;
-+	int ret;
-+
-+	wdd->timeout = t;
-+	ret = cros_ec_wdt_start(wdd);
-+	if (ret < 0)
-+		wdd->timeout = old_timeout;
-+
-+	return ret;
-+}
-+
-+static const struct watchdog_info cros_ec_wdt_ident = {
-+	.options          = WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE,
-+	.firmware_version = 0,
-+	.identity         = DRV_NAME,
++static const struct mfd_cell cros_ec_wdt_cells[] = {
++	{ .name = "cros-ec-wdt-drv", }
 +};
 +
-+static const struct watchdog_ops cros_ec_wdt_ops = {
-+	.owner		 = THIS_MODULE,
-+	.ping		 = cros_ec_wdt_ping,
-+	.start		 = cros_ec_wdt_start,
-+	.stop		 = cros_ec_wdt_stop,
-+	.set_timeout = cros_ec_wdt_set_timeout,
-+};
-+
-+static int cros_ec_wdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-+	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-+	struct watchdog_device *wdd;
-+	union cros_ec_wdt_data arg;
-+	int ret = 0;
-+
-+	wdd = devm_kzalloc(&pdev->dev, sizeof(struct watchdog_device), GFP_KERNEL);
-+	if (!wdd)
-+		return -ENOMEM;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_GET_STATUS;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get watchdog bootstatus");
-+
-+	wdd->parent = &pdev->dev;
-+	wdd->info = &cros_ec_wdt_ident;
-+	wdd->ops = &cros_ec_wdt_ops;
-+	wdd->timeout = CROS_EC_WATCHDOG_DEFAULT_TIME;
-+	wdd->min_timeout = EC_HANG_DETECT_MIN_TIMEOUT;
-+	wdd->max_timeout = EC_HANG_DETECT_MAX_TIMEOUT;
-+	if (arg.resp.status == EC_HANG_DETECT_AP_BOOT_EC_WDT)
-+		wdd->bootstatus = WDIOF_CARDRESET;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_CLEAR_STATUS;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to clear watchdog bootstatus");
-+
-+	watchdog_stop_on_reboot(wdd);
-+	watchdog_stop_on_unregister(wdd);
-+	watchdog_set_drvdata(wdd, cros_ec);
-+	platform_set_drvdata(pdev, wdd);
-+
-+	return devm_watchdog_register_device(dev, wdd);
-+}
-+
-+static int __maybe_unused cros_ec_wdt_suspend(struct platform_device *pdev, pm_message_t state)
-+{
-+	struct watchdog_device *wdd = platform_get_drvdata(pdev);
-+	int ret = 0;
-+
-+	if (watchdog_active(wdd))
-+		ret = cros_ec_wdt_stop(wdd);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused cros_ec_wdt_resume(struct platform_device *pdev)
-+{
-+	struct watchdog_device *wdd = platform_get_drvdata(pdev);
-+	int ret = 0;
-+
-+	if (watchdog_active(wdd))
-+		ret = cros_ec_wdt_start(wdd);
-+
-+	return ret;
-+}
-+
-+static struct platform_driver cros_ec_wdt_driver = {
-+	.probe		= cros_ec_wdt_probe,
-+	.suspend	= pm_ptr(cros_ec_wdt_suspend),
-+	.resume		= pm_ptr(cros_ec_wdt_resume),
-+	.driver		= {
-+		.name	= DRV_NAME,
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -107,6 +111,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_usbpd_charger_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_HANG_DETECT,
++		.mfd_cells	= cros_ec_wdt_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
 +	},
-+};
-+
-+module_platform_driver(cros_ec_wdt_driver);
-+
-+static const struct platform_device_id cros_ec_wdt_id[] = {
-+	{ DRV_NAME, 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(platform, cros_ec_wdt_id);
-+MODULE_DESCRIPTION("Cros EC Watchdog Device Driver");
-+MODULE_LICENSE("GPL");
+ };
+ 
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 -- 
 2.43.0.429.g432eaa2c6b-goog
 

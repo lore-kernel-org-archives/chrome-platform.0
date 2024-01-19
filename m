@@ -1,146 +1,107 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEA34C3D2
-	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 12:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AD854646
+	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 14:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705668614; cv=none; b=OBQebuhg8qV9ZWsn6oJIKsYCVP87HbWpJum7f/OGIG5iTgRU8D4WzkrpggkROrRkp5MA1EYlsypZrazhzyC32iFaP88POUuWVImGfn3A6C2EKjpKfjgJijRL4ShhGwxG7rAzMg16IgXFys4vqfDnlN9FZqjfTWjXai+Xnf094Jw=
+	t=1705673437; cv=none; b=Lki9UeFK3EBjmbh4hGnGv6LFlYjDs73YbhbdbYliyqXdI2fce4QnSYlUCTQQzAPI5DfW6xQBIlljVTzwZpDdwJNHKO8MHoiWLy6vVAhE76KZcjORyDcHBG9fIzw5Bkiy3hhQNS5kVfmlQPO1wbl26ekrq0tQWf3sNbUo1g6NMhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705668614; c=relaxed/simple;
-	bh=N18tcbjt+jAmVjru1N5qmw5jvAztjh+G5p7GzgVAbSo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=a3lhP1chEyJzbay0LeMaccZvVoSFlyuiDMSxVwNdUpR7srNqNPT/Q967XvGu+B8py303aFb63dAGYRLmIl6h3I/YRbufGRrUZmarvkvuXUG56m9H7a1SmAdvC7bRqHZh/n6DaxmieAUv7u6TxCGPywfqqcZZtA/OWlkQ4hOwvpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hi1oMA8O; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705673437; c=relaxed/simple;
+	bh=nHXK0M/RJcCyXcMUGL3CX69X6MS8uSHqxCI8rFn2VmM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DBywfHaZrRYqy+AOFO3ePSG4e5fKcEwkRvoatlqbz2VxjeHd4oeqKzYWWpOx3wjMdZ3ToLUzbgsd/eiNeRvXBPHLNowHEOiYopydITtOI/KFaDKE0akCJFPi5aD7Z5EavuJAR8eN2MN2gZlyoB7Oxr/U01VtXo7MDS4NZsx8WQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QP+I1Lkz; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hi1oMA8O"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d5d736cdcdso5195405ad.1
-        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 04:50:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QP+I1Lkz"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cd880ceaf2so8882491fa.2
+        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 06:10:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705668612; x=1706273412; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNsrr+WJ2bS8iXmZ8AqwqU7pHwlr0kwVT4SnS9h2JZ4=;
-        b=hi1oMA8O9khZp8wpflmQLnLpnjg0XHYdkUiiBqTaGP/NxFTMnZuKj61vJIFOYzsPnH
-         u+CfxN0tFTaLX45tshkjGpxGv96QBLi3LK1WJZRNqtIZl/Al2p4rks4YMmoQPvhiiO5k
-         n0FALradq1LjYPkE+tNKayLCA7LI3NnMrKnK7YZHIKxK/0ZuO5gpInhSdOUlkgsi+Wum
-         Qv+8X2YleGDMLxG1343wAQESdEr0OvG7+0OO7dQUQJuOkSpsCaBtQh9cKu63jdVxXTef
-         LBPNfxf39mFZ0oednvOzQDc8ju5aJBS+2dN3QjUvcH6yvSaEWKsRDgk7ho++liiJmYCN
-         IUKA==
+        d=chromium.org; s=google; t=1705673434; x=1706278234; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nHXK0M/RJcCyXcMUGL3CX69X6MS8uSHqxCI8rFn2VmM=;
+        b=QP+I1LkzMqkha7VkUX0rtwNA5LULn40+mPuq4/YkS5cclBYaJx2ZebhAAJBdeuHH+3
+         HZS50tCEcpnzE12MojOcMlAh+PYyXsvUkjZqHVjKoGfGmXwbiRs1q18YzdDEVw2Ax+n7
+         AdXKiXfGifvOUzp3+5Lz+5he5tMz91yFAoHKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705668612; x=1706273412;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mNsrr+WJ2bS8iXmZ8AqwqU7pHwlr0kwVT4SnS9h2JZ4=;
-        b=jguzjbDwQXN8qDCecsaQS7hDxrndU40txyaCJeBIh+XDWcEbe5hQGL2UejqxvC6lcD
-         vAp2MJOwQskTHMCzi+tocROVb2poIbf1miI0viu4A9ZROaIAYL0yNISmQMAvOagNUnBN
-         ZAAKcEsHtbVxVDmOqznLy8uX90Pgd9264V9FAYgUQEBA2sf5C2T1rjFfuke7TPZEcmes
-         UQX7gyUXQi9lMR+vz7MdXZBYG5tj/pEJz3+J1BVr8XCgqoSWuPLd8EWsQe2ol1xsjLTh
-         PKlsj2MURBKZk8Zz0GQtseWp83GYPZciY0xSsyF3Xk+M0saZsMXJ1Dt+uhMAmPZaas3O
-         6PBw==
-X-Gm-Message-State: AOJu0YwMQBc07Oyn6YJ0SBLYCoVPT+8bBiKG23rXvujdaBtAsTRTuJJq
-	e87/p5bzfQTRcI7ekKbTUCRjA4fCFB3EL+rxL5BDM8GFoj8WYnRJ
-X-Google-Smtp-Source: AGHT+IG0MiBvF8Arv6AR+dEO3rmv/biOYpu5Wy2zO2qAVjJBsru/W1K/7Hl28H+TBZxdULcgNThcgQ==
-X-Received: by 2002:a17:902:9302:b0:1d4:a179:e6ac with SMTP id bc2-20020a170902930200b001d4a179e6acmr2132625plb.4.1705668611917;
-        Fri, 19 Jan 2024 04:50:11 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q23-20020a170902edd700b001d3c27e00f2sm2968810plk.284.2024.01.19.04.50.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jan 2024 04:50:11 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d2329494-2c57-41bb-a9ea-2c9903500d1e@roeck-us.net>
-Date: Fri, 19 Jan 2024 04:50:09 -0800
+        d=1e100.net; s=20230601; t=1705673434; x=1706278234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nHXK0M/RJcCyXcMUGL3CX69X6MS8uSHqxCI8rFn2VmM=;
+        b=qaZapTzUBDIkgZKRAxVsrjVvsFrIFlywSQ7jVp8bEBFK94ekMuUWZmR305p3XwZIRZ
+         Mk+r9/c90KOHNgY/JJQv6TpDmE0wE74y+c+pZWqfgmQBsCNbfSAVFhHlTsPO6RV+NQwP
+         gCPDeDZ/cOqgtvkHA38BE+AkSOUJcp7yL2fg3jZ0JS1n6zJUb3AKeoNGEJCekgefu4M9
+         gROH9kCbmtoNNCsOJ4YULw/r5sk3qtsDQjtq9Jr3td85M2IYTHawvDvtiC8YCLTCkFpb
+         oz1/VJnSsE0J+LOJovla6gf7pEV2uxOlwSc4QYgXma+nFvMHibjD9+MMu5Csbk//KMOO
+         Cr5w==
+X-Gm-Message-State: AOJu0YxcdCaUyRDV3T5buFCaQUXgLseYhqtjcAm0ZJHhKAbNIRC76IRH
+	PeaCFOcIAidCQx9QogTZSrbRQ0QtarGyvV22bULlO4GshV8qZWEIm7o7eEA9kM02jIapwQf1uis
+	PYSAyRr9z5BZRR4n5WQj9xdIV++WnhJhdPBQW
+X-Google-Smtp-Source: AGHT+IEFCjeV0kPn36vLidVc3VqzoEt8h6MuGqJE0fkj1ZsKwfkPt7HEFEvhTaN/u0H5BfClm2yPwTDCwB/jUKb8HV4=
+X-Received: by 2002:a2e:3506:0:b0:2cd:2ac6:9685 with SMTP id
+ z6-20020a2e3506000000b002cd2ac69685mr1271557ljz.92.1705673434623; Fri, 19 Jan
+ 2024 06:10:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20240119084328.3135503-1-lma@chromium.org> <d2329494-2c57-41bb-a9ea-2c9903500d1e@roeck-us.net>
+In-Reply-To: <d2329494-2c57-41bb-a9ea-2c9903500d1e@roeck-us.net>
+From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Date: Fri, 19 Jan 2024 15:10:23 +0100
+Message-ID: <CAE5UKNrU9YHoCQr8HLFf9-T4-NobQ4jWtryVqq9okFz8nVezgQ@mail.gmail.com>
 Subject: Re: [PATCH v3 0/3] Introduce EC-based watchdog
-Content-Language: en-US
-To: Lukasz Majczak <lma@chromium.org>, Gwendal Grignou
- <gwendal@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Radoslaw Biernacki <biernacki@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Lee Jones <lee@kernel.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-References: <20240119084328.3135503-1-lma@chromium.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240119084328.3135503-1-lma@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Gwendal Grignou <gwendal@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Radoslaw Biernacki <biernacki@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/19/24 00:43, Lukasz Majczak wrote:
-> Chromeos devices are equipped with the embedded controller (EC)
-> that can be used as a watchdog. The following patches
-> updates the structures and definitions required to
-> communicate with EC-based watchdog and implements the
-> driver itself.
-> 
-> The previous version of this patch was sent here:
-> https://patchwork.kernel.org/project/linux-watchdog/list/?series=817925
-> 
-> Changelog
-> V2->V3:
-> * drop "-drv" from driver name
-> * use format #define<space>NAME<tab>value
-> 
+On Fri, Jan 19, 2024 at 1:50=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On 1/19/24 00:43, Lukasz Majczak wrote:
+> > Chromeos devices are equipped with the embedded controller (EC)
+> > that can be used as a watchdog. The following patches
+> > updates the structures and definitions required to
+> > communicate with EC-based watchdog and implements the
+> > driver itself.
+> >
+> > The previous version of this patch was sent here:
+> > https://patchwork.kernel.org/project/linux-watchdog/list/?series=3D8179=
+25
+> >
+> > Changelog
+> > V2->V3:
+> > * drop "-drv" from driver name
+> > * use format #define<space>NAME<tab>value
+> >
+>
+> I am a bit lost here. You dropped my Reviewed-by: tags, even though
+> I specifically said that they applied with those changes made.
+> Also, according to the above patch 1/3 was not changed at all.
+>
+> What else did you change that warrants dropping the tags ?
+>
+> Guenter
+>
+The "-drv" change was related to patch 2 and 3, and I have used
+"format #define<space>NAME<tab>value" only in patch 3 (as
+ec_commands.h is mixing those)
+Sorry for dropping your "Reviewed-by" tag :( I've assumed (wrong) that
+I cannot take it for granted sending V3.
+Alos in such a case if there are changes in patch 2 and 3 and 1
+remains untouched shall I send only 2 and 3 in the next version ?
 
-I am a bit lost here. You dropped my Reviewed-by: tags, even though
-I specifically said that they applied with those changes made.
-Also, according to the above patch 1/3 was not changed at all.
-
-What else did you change that warrants dropping the tags ?
-
-Guenter
-
+Best regards,
+Lukasz

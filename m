@@ -1,114 +1,146 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4ED2376E
-	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 08:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEA34C3D2
+	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 12:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705653819; cv=none; b=doXLhjW2Lx2/U3CzIqobqINid6X3ieoXy6Dw+sbSgGR4tz7T7mxsst9CvBZSYMs51ihgWeBWYbOQLdCp8ZoIF28BRmzx1vurpj34lrsMGEvDYtzPUtMi9uPK1uviH7SI4cZMJRnxdiJMCGrUHwtOPUF8hKMuSGURu2cisf1KFw0=
+	t=1705668614; cv=none; b=OBQebuhg8qV9ZWsn6oJIKsYCVP87HbWpJum7f/OGIG5iTgRU8D4WzkrpggkROrRkp5MA1EYlsypZrazhzyC32iFaP88POUuWVImGfn3A6C2EKjpKfjgJijRL4ShhGwxG7rAzMg16IgXFys4vqfDnlN9FZqjfTWjXai+Xnf094Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705653819; c=relaxed/simple;
-	bh=osSLkFHxCEi9lg/snRlEZT8CPmmDwFp84neEb75c09c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eLfzWtQ/tsCgzFLPyiYijLIlGwMGdulctNy59fherJ1J3Cp0j66agizbOnK+krXCH0bAsRJZGmJeGcMaMoA/tTOd3vMyiaB/nptM6gIRnOfX2o9hLN5K+bFkemvQ7xVZjkU77Lcoq5y+xUEs7owDiZvF/VGTwKREhu/2ulz/zyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cnepBkd+; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1705668614; c=relaxed/simple;
+	bh=N18tcbjt+jAmVjru1N5qmw5jvAztjh+G5p7GzgVAbSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=a3lhP1chEyJzbay0LeMaccZvVoSFlyuiDMSxVwNdUpR7srNqNPT/Q967XvGu+B8py303aFb63dAGYRLmIl6h3I/YRbufGRrUZmarvkvuXUG56m9H7a1SmAdvC7bRqHZh/n6DaxmieAUv7u6TxCGPywfqqcZZtA/OWlkQ4hOwvpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hi1oMA8O; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cnepBkd+"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50eac018059so676378e87.0
-        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 00:43:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hi1oMA8O"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d5d736cdcdso5195405ad.1
+        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 04:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705653816; x=1706258616; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LriL7tXJHljhDBH+IF5gAskdccX7dSP4qzgOWwB59VY=;
-        b=cnepBkd+99I5uj+UGI9yft1v+hoi4LBKh1q1ulOWyVu4+H/uvrgg0Vh5ZSFtOBSt33
-         3TKKng0iN9GnytzIus3TO7XV37KhXx2DDHRQGZDM8IS0KKHIZLs0/pzpkP5QYiKJsbPN
-         X89Q/WOKFUw/rngezXVTt4Hy92+MN1Y4OBBlk=
+        d=gmail.com; s=20230601; t=1705668612; x=1706273412; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=mNsrr+WJ2bS8iXmZ8AqwqU7pHwlr0kwVT4SnS9h2JZ4=;
+        b=hi1oMA8O9khZp8wpflmQLnLpnjg0XHYdkUiiBqTaGP/NxFTMnZuKj61vJIFOYzsPnH
+         u+CfxN0tFTaLX45tshkjGpxGv96QBLi3LK1WJZRNqtIZl/Al2p4rks4YMmoQPvhiiO5k
+         n0FALradq1LjYPkE+tNKayLCA7LI3NnMrKnK7YZHIKxK/0ZuO5gpInhSdOUlkgsi+Wum
+         Qv+8X2YleGDMLxG1343wAQESdEr0OvG7+0OO7dQUQJuOkSpsCaBtQh9cKu63jdVxXTef
+         LBPNfxf39mFZ0oednvOzQDc8ju5aJBS+2dN3QjUvcH6yvSaEWKsRDgk7ho++liiJmYCN
+         IUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705653816; x=1706258616;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LriL7tXJHljhDBH+IF5gAskdccX7dSP4qzgOWwB59VY=;
-        b=MIbGPmeLrk+erSc910C1zJzbQIRcqX3I4bUt/TIzaJHH9E4MYTz3HxspQNQ6lrJgd7
-         PtqB7uPhEHYfg1vo61auBcn06RqegOIDUAdfXhe5hvLZzaP6rKLoqBgxcCfl19dB2A/A
-         7/wIvYMkejOfCDcVzrGWHulmW8/vxlan6RsZXqP8L+gL1UNeuePglOuRJguTFcj6YHmS
-         Ojupyb1k+yKbg5wVVAxK+RJgON38PtToBjgTiO5BvG74zvJNPtgspZ7P5c9SXzZOvBXA
-         bMS8OYIaj4D53o+X8DDSLDG4vYNcXC/IyHh08egK/hPULuBRYJZIACMYaNDd6o0yEpLW
-         ukmw==
-X-Gm-Message-State: AOJu0YwNY7hzei9AFQYVU7FGCAkx5SFLT+RBOMdRqkHkNHtUrWEuTjsB
-	FrW9nnCgNm/6yH5P0Pq5Hx3JKRm16yID1zN/Wne5V5FHbSIMvysdswmvLZbjtQ==
-X-Google-Smtp-Source: AGHT+IFTIsShTsLVt2WoGAE/70+F7JfM4Qy0jMxOp/f9e/N031wHAWuBBM0NHSRyhAcB1H6QiaSrng==
-X-Received: by 2002:ac2:5627:0:b0:50e:7410:d293 with SMTP id b7-20020ac25627000000b0050e7410d293mr464015lff.135.1705653816543;
-        Fri, 19 Jan 2024 00:43:36 -0800 (PST)
-Received: from cracow.c.googlers.com.com (138.58.228.35.bc.googleusercontent.com. [35.228.58.138])
-        by smtp.gmail.com with ESMTPSA id q23-20020ac246f7000000b0050e6aff6630sm905591lfo.152.2024.01.19.00.43.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 00:43:36 -0800 (PST)
-From: Lukasz Majczak <lma@chromium.org>
-To: Gwendal Grignou <gwendal@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Radoslaw Biernacki <biernacki@google.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Lukasz Majczak <lma@chromium.org>
-Subject: [PATCH v3 3/3] mfd: cros_ec: Register EC-based watchdog subdevice
-Date: Fri, 19 Jan 2024 08:43:27 +0000
-Message-ID: <20240119084328.3135503-4-lma@chromium.org>
-X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
-In-Reply-To: <20240119084328.3135503-1-lma@chromium.org>
-References: <20240119084328.3135503-1-lma@chromium.org>
+        d=1e100.net; s=20230601; t=1705668612; x=1706273412;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mNsrr+WJ2bS8iXmZ8AqwqU7pHwlr0kwVT4SnS9h2JZ4=;
+        b=jguzjbDwQXN8qDCecsaQS7hDxrndU40txyaCJeBIh+XDWcEbe5hQGL2UejqxvC6lcD
+         vAp2MJOwQskTHMCzi+tocROVb2poIbf1miI0viu4A9ZROaIAYL0yNISmQMAvOagNUnBN
+         ZAAKcEsHtbVxVDmOqznLy8uX90Pgd9264V9FAYgUQEBA2sf5C2T1rjFfuke7TPZEcmes
+         UQX7gyUXQi9lMR+vz7MdXZBYG5tj/pEJz3+J1BVr8XCgqoSWuPLd8EWsQe2ol1xsjLTh
+         PKlsj2MURBKZk8Zz0GQtseWp83GYPZciY0xSsyF3Xk+M0saZsMXJ1Dt+uhMAmPZaas3O
+         6PBw==
+X-Gm-Message-State: AOJu0YwMQBc07Oyn6YJ0SBLYCoVPT+8bBiKG23rXvujdaBtAsTRTuJJq
+	e87/p5bzfQTRcI7ekKbTUCRjA4fCFB3EL+rxL5BDM8GFoj8WYnRJ
+X-Google-Smtp-Source: AGHT+IG0MiBvF8Arv6AR+dEO3rmv/biOYpu5Wy2zO2qAVjJBsru/W1K/7Hl28H+TBZxdULcgNThcgQ==
+X-Received: by 2002:a17:902:9302:b0:1d4:a179:e6ac with SMTP id bc2-20020a170902930200b001d4a179e6acmr2132625plb.4.1705668611917;
+        Fri, 19 Jan 2024 04:50:11 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q23-20020a170902edd700b001d3c27e00f2sm2968810plk.284.2024.01.19.04.50.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jan 2024 04:50:11 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d2329494-2c57-41bb-a9ea-2c9903500d1e@roeck-us.net>
+Date: Fri, 19 Jan 2024 04:50:09 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] Introduce EC-based watchdog
+Content-Language: en-US
+To: Lukasz Majczak <lma@chromium.org>, Gwendal Grignou
+ <gwendal@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Radoslaw Biernacki <biernacki@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Lee Jones <lee@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+References: <20240119084328.3135503-1-lma@chromium.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240119084328.3135503-1-lma@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add ChromeOS EC-based watchdog as EC subdevice.
+On 1/19/24 00:43, Lukasz Majczak wrote:
+> Chromeos devices are equipped with the embedded controller (EC)
+> that can be used as a watchdog. The following patches
+> updates the structures and definitions required to
+> communicate with EC-based watchdog and implements the
+> driver itself.
+> 
+> The previous version of this patch was sent here:
+> https://patchwork.kernel.org/project/linux-watchdog/list/?series=817925
+> 
+> Changelog
+> V2->V3:
+> * drop "-drv" from driver name
+> * use format #define<space>NAME<tab>value
+> 
 
-Signed-off-by: Lukasz Majczak <lma@chromium.org>
----
- drivers/mfd/cros_ec_dev.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I am a bit lost here. You dropped my Reviewed-by: tags, even though
+I specifically said that they applied with those changes made.
+Also, according to the above patch 1/3 was not changed at all.
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 603b1cd52785..4996220ce64b 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -91,6 +91,10 @@ static const struct mfd_cell cros_usbpd_notify_cells[] = {
- 	{ .name = "cros-usbpd-notify", },
- };
- 
-+static const struct mfd_cell cros_ec_wdt_cells[] = {
-+	{ .name = "cros-ec-wdt", }
-+};
-+
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -107,6 +111,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_usbpd_charger_cells,
- 		.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_HANG_DETECT,
-+		.mfd_cells	= cros_ec_wdt_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
--- 
-2.43.0.429.g432eaa2c6b-goog
+What else did you change that warrants dropping the tags ?
+
+Guenter
 

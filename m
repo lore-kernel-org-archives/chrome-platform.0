@@ -1,88 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836A81111;
-	Fri, 19 Jan 2024 02:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFE217F5;
+	Fri, 19 Jan 2024 03:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705631967; cv=none; b=lziDE5QOftOkdLr8r798gy/5SjcTWqG5gbVgQTMdp1uAG5z+55N3I0vWh1q9H7+eQFj/B70aPzaSMUfFn5sMzxT1DxzOIGU0g7ecloZDLsCURSmu7B4CgbARoOg3cLAWDMGns1yBh36jEEc2fRR2DGf6ugRnsllJMeP4Y3/di/U=
+	t=1705635714; cv=none; b=IevBV759+3gMMJkeT9SGBd6hM0zWEeG3bXnppkJ3n0uJFq+UsnrnHwFJA1qFQmWgkSyR6402C/Af8Gp47n3WPjSEyHIZ9xN+mWOnrpz7fSsItEHp+EG1KLy5S4G4bVCqb61a+gDXGg0h7/yitLUMYVo6f8Ya+quJLE2CtHno52k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705631967; c=relaxed/simple;
-	bh=biEcbkPpXZUhi2HqIA/oV6hzC390AeosW5+NQJPUKxk=;
+	s=arc-20240116; t=1705635714; c=relaxed/simple;
+	bh=mE+18RpMxNDEldgrD0ZJ5krlhYOEQVs6xBkuGihScaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXVFzIDuDQpEunxKdX9kNR48WemZMN5x7y7yqDWw56DW5vrzhWkSVJOsngPJOvwwnmhiSILi0ko6A/wLL2cA1HoVD+hCgI1iXJu3CHp6cJ1hiZkvX1CdSSjEnS9sK0Qupk2EvAtH4AnfJXt9qi24+Xmb/4al1fmLWpLTEUM3uJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEd8/wMq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TILmOqgN0H/htfL8cQv2c1A+YaQ3O5850uwsFsjPhDrgq85fO3IlWijmjDM4mSe9LgoHWJ2BilJyLN4J6B7imlrSlVHeT6V1XfxLCevL4hdgVNjpyECpFckU//OPSbKhmnN65+zHfOKBqt8253g7x7MmZdRGw/8RaKZ16TV6k2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/odK3UZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEd8/wMq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1D9C433F1;
-	Fri, 19 Jan 2024 02:39:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/odK3UZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91A7C433F1;
+	Fri, 19 Jan 2024 03:41:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705631967;
-	bh=biEcbkPpXZUhi2HqIA/oV6hzC390AeosW5+NQJPUKxk=;
+	s=k20201202; t=1705635713;
+	bh=mE+18RpMxNDEldgrD0ZJ5krlhYOEQVs6xBkuGihScaM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VEd8/wMqCtv7LKkoS0JBoyQU/DqOevBZmAmnlKQKUzqfqOwkRg5lKpTBe51kh5Z6s
-	 Fh0pA9jNM35yTL4tZC/DtVzrfneLSSbxlwvirqaX3lRVD1I+oN5MhycbwnoTGirzKd
-	 V6x5KjWcSHRDRykgnmYk81ZIRsG857jfGehCe/UngCRRlhhLG4ccSHt7TJGEtTOdh/
-	 G64pmSGyevtSVZYlhI8KW/sTu6quqnbvf8+aYDqt6uxphEG0iKSH+5wCzOIbWuE+KK
-	 0dOQYRUpmjP/7WS4D/U4hIlSF3P06VmqOAZluTaU6X9BvCcTpxA3jNi/014PqkWZVZ
-	 eoc2qJJ0BLZsA==
-Date: Fri, 19 Jan 2024 10:39:22 +0800
+	b=o/odK3UZhAspATqM8LiRbUA7EABwH9DjMp+ceJHh5JQ1JVKYaRnUd1pPU/sSD+C+b
+	 ZMmKNEyeuw6/MPDubdth0gVEFrv0fg6nseI2ehENKkQzHZxS967z3NBsJOFssWtgTg
+	 wKQzVf6b442uqXHj3DVLPsCNJsNsJxr+Pd97qM5gZaaELPn/AQXFg9Jcprn4g4Zfxj
+	 O97TCssQKtpeWZMF97wnomxE97pi6Rd4fttLcxFWVsyjT5i+kEI5BjS8HcbraM9ClZ
+	 i3sfIZR0XRrB1R43NHOwuoP6lc9cAEi+lK0Tv6yNdEDiagsrLJ/z2hxFU7LNV/o602
+	 NUtpcd1g8JC8w==
+Date: Fri, 19 Jan 2024 11:41:49 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 0/4] Allow coreboot modules to autoload and enable
- cbmem in the arm64 defconfig
-Message-ID: <Zang2gq2wjPih792@google.com>
-References: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
+To: Lukasz Majczak <lma@chromium.org>
+Cc: Gwendal Grignou <gwendal@chromium.org>,
+	Radoslaw Biernacki <biernacki@google.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] platform/chrome: Update binary interface for
+ EC-based watchdog
+Message-ID: <ZanvffnDDoT0j2af@google.com>
+References: <20240118195325.2964918-1-lma@chromium.org>
+ <20240118195325.2964918-2-lma@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
+In-Reply-To: <20240118195325.2964918-2-lma@chromium.org>
 
-On Wed, Jan 17, 2024 at 04:03:21PM -0300, Nícolas F. R. A. Prado wrote:
-> This series adds the missing pieces to the coreboot bus and the module
-> alias generation to allow coreboot modules to be automatically loaded
-> when matching devices are detected.
-> 
-> The configs for cbmem coreboot entries are then enabled in the arm64
-> defconfig, as modules, to allow reading logs from coreboot on arm64
-> Chromebooks, which is useful for debugging the boot process.
-> 
-> Changes in v3:
-> - Merged all "add to module device table" commits into a single commit
->   which also changes the coreboot_driver struct to contain an id table
->   and avoid unused variable warnings for the id tables.
-> 
-> Changes in v2:
-> - Added commits for vpd, memconsole and framebuffer drivers to add them
->   to the module device table
-> 
-> ---
-> Nícolas F. R. A. Prado (4):
->       firmware: coreboot: Generate modalias uevent for devices
->       firmware: coreboot: Generate aliases for coreboot modules
->       firmware: coreboot: Replace tag with id table in driver struct
->       arm64: defconfig: Enable support for cbmem entries in the coreboot table
+On Thu, Jan 18, 2024 at 07:53:22PM +0000, Lukasz Majczak wrote:
+> +#define EC_HANG_DETECT_MIN_TIMEOUT 5
+> +#define EC_HANG_DETECT_MAX_TIMEOUT 65535
 
-The series overall looks good to me.
+EC_HANG_DETECT_MAX_TIMEOUT isn't in the latest ec_commands.h [1].  Could you
+either add EC_HANG_DETECT_MAX_TIMEOUT to ec_commands.h or drop the macro here?
 
-I'm happy to queue all the patches into chrome-platform-firmware for the next
-merge window (i.e. for v6.9-rc1).  Let's wait a bit for the maintainers for
-the other subsystems if they are OK with that.
+[1] https://crrev.com/5a76e67210b15fcf67d8a6f90439993598949ae4/include/ec_commands.h#4749

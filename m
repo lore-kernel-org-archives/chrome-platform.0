@@ -1,95 +1,91 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C09DDAB
-	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 08:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF535DDA5
+	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 08:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705652116; cv=none; b=Rs9w+yWua0H/LXqvXK8T6gLprXmXfCdg9ehVutRkeCDTFKKua0fyQaGyyTE6rBOLzDuoCUeoVx34vwckZBGGzIa6PhL+QE86LpdgXi6xA6WbxTT3QSF1tRUbOjhXNnoB8XDtitVKD8121SAun8ec+1wgpqp1K8l+EU6SqdM+rKw=
+	t=1705653303; cv=none; b=UhXwHEQzqGLkn2s1bBq8nZDduiA/SxFBVgUwlsieOtx5DtEOOh1ZXYtTZ2CV/UOFP/nQHlEUETkBp+NzTk92vWJS0yK4YlHOQnAvek/f/MI2ffPq3Ny1uelwJu0T9REQrgvaSkLt5VZ5kykki+ERpNT6uOY8oL/rMK1P0WgOAgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705652116; c=relaxed/simple;
-	bh=Brs4I8LeGv/nD7PSa7xlIQSgiZc+XxvPNqzYhGnyoNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P81na710lda6CRWBa4Kd4Ok967Mxg6mZbxXVWNfO8Zg8UENKXTV5967NO3s+KxP8nd61n2qpq5y6wUsgi/e6EGKmV2dpkLnT/vn+pb0k2YSIvWZJzNKQpqS/0TAsAufdJL1xIu4yCaQUZT4pDrwXy2NNylngwcFftHKCJXi1PqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c90nFHFT; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705653303; c=relaxed/simple;
+	bh=h5PiG7Y3C3wtVijqXyMQ5ULW5o06mfqMjUtDXYxPOz0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fB5tFYNQPzQlUyJYjPHXWqt1JigPIfFBqAJpYgO16gXHAKloXNCsAAqGx2gkWBtE5rTh1kB2Ma6Bi4+KehyPP+mG3MyTZI7DPnu/1jrddUlp2H21aeEY/kQ3acX45M0JMSrxNH43xneBkLyP/Y43hbefkudHhwVQfT/TQ+IYHlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oZOyWzUk; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c90nFHFT"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d3eb299e2eso3116065ad.2
-        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 00:15:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oZOyWzUk"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd0d05838fso6713491fa.1
+        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 00:35:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705652114; x=1706256914; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFiyPVIeN48MBC4wX1Z72krh/+iVgMlLmTO4HYqgbs8=;
-        b=c90nFHFTKHYmO48PNJgZvnUloumJyb3InYKFKAuD3t8M6NGp4JKL45iuLZvPDVhirB
-         goBwU3oRdoJPGxaE2pRUzmdNbZtA4NoJoEkEm1UqIDZaP+pA/Uujh4idEfu4xOU2hxyn
-         HxPPOyixv3evR0gtCaorg2H0ur1hE6Tx/LeN37kyEK3qdIEqW0nOeCeIiAUE9/MrSDwB
-         gtDG3uhp6oTNVj1BS5hE6FAnw16e6HHvLYyUwuICa3pHkMpdrOXYriM15W7v/TKGzgut
-         nPzVu8TaRgF6cGfBCgSpfCeg6+iqhUJEjEJAnoR9BZB2n8Q0WQVTZ48okedeEEYhhZqC
-         NnwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705652114; x=1706256914;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1705653299; x=1706258099; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TFiyPVIeN48MBC4wX1Z72krh/+iVgMlLmTO4HYqgbs8=;
-        b=KsQgvG6rkhK9zh6dWIxsAVldAuxYOAu+WXIKfFqOZbT9l5bDL7jUSvxlnQ3NtKoxuB
-         uempP0iRCg6u9gua9/oI7gNSqxiFvVIPiSocNDejPeEWEwNOuBfthlklzeOGLygc5RAc
-         PD6y/MEF2BVRcNYTM5HsAi4CWu7VzClyBilOgAzLL9POF6PqcUOlu//zW31B8bSPyP9f
-         x5qgpo5rKIAXMz+XVwbmAc0Btq+pc50fJ8R6yuWJ63XMUljoL8kFoperEhnRKL8UXK1L
-         hPM8UPiVwWQLr2x1hiD5972xFcZfDxTtI4N54TRspXHFJY2uUgBudIX8ONpkreroCEDn
-         f6dA==
-X-Gm-Message-State: AOJu0YyQjL/0JmVmjg9+Y8Mf6fucLU2rA4M+rUZOwxyOSeYuzNxSVJbN
-	xX1Hoj8jriNqNCQ9cl6uy75JuFcGTbNWM8XvmM2Lo5KGWj8bdMzX
-X-Google-Smtp-Source: AGHT+IF3CUyn6OpGy2SQVSG2RlMUA3LqbIze/2BkMRUySl0E6xO3DVCRPA6t/t02ovMMqlaVUobUJg==
-X-Received: by 2002:a17:902:ce90:b0:1d4:e308:d6ff with SMTP id f16-20020a170902ce9000b001d4e308d6ffmr2172134plg.113.1705652114201;
-        Fri, 19 Jan 2024 00:15:14 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
-        by smtp.gmail.com with ESMTPSA id k6-20020a170902e90600b001d720956b8esm610126pld.77.2024.01.19.00.15.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 00:15:13 -0800 (PST)
-Date: Fri, 19 Jan 2024 00:15:11 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ting Shen <phoenixshen@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, fshao@chromium.org,
-	Ting Shen <phoenixshen@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	chrome-platform@lists.linux.dev,
-	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: cros_ec_keyb: add support for base attached
- event
-Message-ID: <Zaovj86pZIZdDQiJ@google.com>
-References: <20240119074831.2979671-1-phoenixshen@google.com>
+        bh=SazaNZvt6lGiurJ58Mpk9uqodPXR3M0NpSG4gQw9/io=;
+        b=oZOyWzUkAcFZG3wiiAzR2V+dDpU9rPTfRop6BMjbTMJrV7X4NcvMzs66+ZgehHz0Zs
+         VvcA+HjSrwfQAeIyb/Cn4EtStmcQtloytbz6GGq4JN154kugNs4oNia876oCGO1D+J8K
+         /Rh+D3zk/2h8yfE8NilIcXAHKuugSdGfjzek0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705653299; x=1706258099;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SazaNZvt6lGiurJ58Mpk9uqodPXR3M0NpSG4gQw9/io=;
+        b=CciCkXGmuAMfTCZ9hxw3Cw5XWD9d/1EdIQkQRb0YQgzBaKMxnEg1ENkLCc6oOJocyw
+         mgiqpald9gC8iG4HIUI+rp8k3kRN5IGiBbp9RFLHrbWT6ugYno+bVvErGSf4+aIT7/Gb
+         NNKxGBGiWmHALNCMPqtEqFbLcG2TGTATARf4l9iPeZQVeicDHrRWh6aFaeAPh4qlN+qm
+         tQ70U2IbCMoTu3TPkDOp2qXPNi/qBwYLWG0Il3F/gU4sFzoWppJmXl1B3W/mWKEbWome
+         fph7HRvUAFhQB+qs2b6EplgFGzUPuFEYqK5nb2KODQeLGtHlpPe6jrGSi7h9/ltLOxfe
+         QajA==
+X-Gm-Message-State: AOJu0Yxpdto47Vvjq3qxaBOrx8Vckyz35pBppWJ9M7ilKaOtassVg5rJ
+	1O76JHz294RMfcM2tloc+bak1Y5LKYJgctV/MYBFw4sozQXEMngPUvbQM2Xb/hcwNXCLua9Z54H
+	mCGi65ULPOj+5hCJYPsYgl+0O9loAau6ovoHW
+X-Google-Smtp-Source: AGHT+IHumnjC8v2ZVnJ4jI370OjVCVyQIbL03dj526jJ2a1saWl50XX/H3mQqM2tG/aYTwIxewEYydTL+1hGMBgUPkM=
+X-Received: by 2002:a05:651c:1a11:b0:2cc:fd12:40ea with SMTP id
+ by17-20020a05651c1a1100b002ccfd1240eamr1651789ljb.42.1705653299491; Fri, 19
+ Jan 2024 00:34:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240119074831.2979671-1-phoenixshen@google.com>
+References: <20240118195325.2964918-1-lma@chromium.org> <20240118195325.2964918-2-lma@chromium.org>
+ <ZanvffnDDoT0j2af@google.com>
+In-Reply-To: <ZanvffnDDoT0j2af@google.com>
+From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Date: Fri, 19 Jan 2024 09:34:48 +0100
+Message-ID: <CAE5UKNqa8kbcjNmWb4=m4tLJJKStUaYYP1OMVkqr2T3Xgdz_MA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] platform/chrome: Update binary interface for
+ EC-based watchdog
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Gwendal Grignou <gwendal@chromium.org>, Radoslaw Biernacki <biernacki@google.com>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Lee Jones <lee@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 19, 2024 at 03:48:17PM +0800, Ting Shen wrote:
-> There is a new type of ChromeOS detachable keyboard that talks to
-> the host via CrOS EC host command interface, rather than the USB
-> interface.
-> 
-> To trigger the firmware update daemon (hammerd) on this keyboard, a
-> signal is required to replace the typical USB hotplug event. This patch
-> addresses this by mapping the EC's BASE_ATTACHED event to SW_DOCK.
+On Fri, Jan 19, 2024 at 4:41=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Thu, Jan 18, 2024 at 07:53:22PM +0000, Lukasz Majczak wrote:
+> > +#define EC_HANG_DETECT_MIN_TIMEOUT 5
+> > +#define EC_HANG_DETECT_MAX_TIMEOUT 65535
+>
+> EC_HANG_DETECT_MAX_TIMEOUT isn't in the latest ec_commands.h [1].  Could =
+you
+> either add EC_HANG_DETECT_MAX_TIMEOUT to ec_commands.h or drop the macro =
+here?
+>
+> [1] https://crrev.com/5a76e67210b15fcf67d8a6f90439993598949ae4/include/ec=
+_commands.h#4749
 
-I think emitting an uevent on attachment might make more sense here,
-SW_DOCK is to signal attachment of a legacy docking station.
+Yes, I will update ec_commands.h on the EC-side to match above
+definitions although it doesn't influence any logic on the EC side.
 
-Thanks.
-
--- 
-Dmitry
+Best regards
+Lukasz

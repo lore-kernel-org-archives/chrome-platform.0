@@ -1,168 +1,171 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650025466E
-	for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 15:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43E11C2E
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Jan 2024 04:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705677023; cv=none; b=r/XPL34NQ+dPQJ22+HaGhOMR9uJGnp2lu5D2D9esmFfYEMcPR8+cB9ckqLkIdqmel4fBBDp9I+fy1EGSTgNxseCTpnjKMFrxL8gxwjRCIX7UUkbzDz3XI5MBY2wvucqnO4hvEgCkjzUmhxxuCYpMi5EsnjkI32yQnB/iw4kkXDc=
+	t=1705896509; cv=none; b=Ky9ehYJfsGlJb8eJsp5TBu5Fn1qe06IXzZRxFCE5eQM5xplnthpwtc9ik/Od0W7pPrgX4xYT+0rjHY5M6dsCJFdetxIgwhvKn8839jBnqC8oUIEwneeIjI04b4ae/V6IMeRA9j2StHRn/swb6DdQHcybuAvwQMMpdDq7Cmw9NNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705677023; c=relaxed/simple;
-	bh=7MUkDZsHgwNDnmmxGzFk8wUe9pgxXX+3mpEqjtQaIu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J/o29EwVX96kJ9hcYmsB/YXeSAiAePlvtYZVAQDST9Nl4+jYOQBjyMMI/7hW0ZlC2NXU6vNqksSwcNSpFaEPJufSNj6RKBpaeVRYU7/nnHIwxOLgmgQmxo1mTyvlKX8JmyzhyS0d1ckPS3eRymQQNekBdX6EBtwpkFt4Jkgd79E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FNHs+E/8; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1705896509; c=relaxed/simple;
+	bh=ejvGKHeG0aOBMLRUabqQxhbknimdDcdlNMlEpE7aWTo=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=gSwlM7Dpbel0fQuP6m8igneAP3fytdevMsTVpLzzOgoaZhS8iJiO1nEiXHxphBc9PgiLfYGzGm40gR6g+T7ef6IUmSyCkfMb+YNg7P+CTO8N6O5jgzwW2W+1ky076q7RI+Sjrw6jpvuW4Ff7U3fi90SAl4OA+G/SwkIm70hiFeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=fzBBuhNr; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FNHs+E/8"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50f11e3ba3aso1162953e87.1
-        for <chrome-platform@lists.linux.dev>; Fri, 19 Jan 2024 07:10:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="fzBBuhNr"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-29041f26e28so1088852a91.0
+        for <chrome-platform@lists.linux.dev>; Sun, 21 Jan 2024 20:08:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705677018; x=1706281818; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7KtXKclPdzFutX/py/9VWqEzsyGEubd1dSvWraP5dpU=;
-        b=FNHs+E/8VNJlCYt9Vc9h4YmLgQaZVh/Az++MnGfEaTwdOteGKgnZhVYf30c+R/3hAk
-         OqH9u7f5bhA4VKfg1dJdi2CnpodThnLPZBy0eRyEFss1e6jkeF3dO5F9P2LYKAAVtbAO
-         Wu0SVr+moJYbOpIY+6hkbgF5xbH/iPB5XyVU0=
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1705896507; x=1706501307; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sn/Th8zp6/KUSYdvqlowFALIK6qu7vsPH5SC9MsI40U=;
+        b=fzBBuhNr9hHkVHiXrriDVhig6RU81DFkAX3o+x/UEoVqNMwAbCT8PHE1yyathkX+ao
+         uk0E6XPsRJt9hwTiWGZytvXg3Iaewv5V9KfJn69K3/g6Yk62jomeqF0V9JvFhDvGE+3a
+         t1uTOmH7Efz735BXPaGX0Zo2v+JnKnTmg2LVpWyo41SbDNFkqSrH19KQvCTGbbUTY2q0
+         AP4txJqL0mOxyXrU0m6I4/xiNxHxkCp+yslDfUOralEHYtK6yuU/4r9H0Nco9IrrJ8OP
+         xGwVazvGVseQtXtDAhYTz7T0aww4sIzlMGSq9FTyidBiOrrFAM6rcpl8f2ECFJwsQ5I8
+         GFiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705677018; x=1706281818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7KtXKclPdzFutX/py/9VWqEzsyGEubd1dSvWraP5dpU=;
-        b=bMMcIBRRjGiFsA0plLftudYZwpkwRBn648cL1tevoxPKX4+0sZWejGTYdh6QeUG9JI
-         +JOIVvMl65IgZP7g9T4Fi9lis3pp+VtNoJAwpEg1OKvj0Yya9ygahOMUcF/BQ0USzKja
-         79q8pzEEv8RbZdaL2aGSwtY446CujMp/MGXKMG+KfwyE3uvRGE1Hy+25swPgEjkNjzMC
-         H2C+J3HUDE+V/u5zmwQKANc+LJbvDR2sw39zW6f226Dcy4oLqDJsqRfs6DCPDCVSlO6N
-         OFgRwLzovWsigTiIFxcnU+q0X7MX6rr/crKhyjiXr3F9ggIvzX0o1VHSJw7f7Lj6SNL8
-         a6Hw==
-X-Gm-Message-State: AOJu0Yx9APGnDC2qpIgYIOuDuX1lHjxj8cMNGQzBFvISBwGz+lXcoFi3
-	W9wuSVacYipn4C79T7D267i/iZJmLcnIx2JrVbmp7z5/cI0/YgTXgt2V5a/fMlhuDSaq9CuptDP
-	BrG4+MoAa0MBNO/vi2FT0NTgkvpR+TJQ8rapV
-X-Google-Smtp-Source: AGHT+IGHoVueohCobselWkMQ9tajk8Uz7EDlsy1pIY4C0yIXEnIImxB/Ha4lJgDyLcxSHgiO/+wGE0IJJ8+3/YqLzNU=
-X-Received: by 2002:a05:651c:605:b0:2cd:d5a:7977 with SMTP id
- k5-20020a05651c060500b002cd0d5a7977mr1416924lje.17.1705677018434; Fri, 19 Jan
- 2024 07:10:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705896507; x=1706501307;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sn/Th8zp6/KUSYdvqlowFALIK6qu7vsPH5SC9MsI40U=;
+        b=hxjqQl1mOwLvXjyIJuPAOjc8n+ocngCOocGR1htD85z8FVYXZUan8nQrG3r5XgJ/lG
+         M8wKs7Qc1w5GdjfJv2+tVWOTXgMCr4ZJLhxMSDguiZdvJ8uKBSYjKjeCHwx2o33h15yK
+         1toGlimsmQvBPKyf4zd2+PsXe2TtGEAjJBSj4kzpBIjJ+L1JrJvHDZeFnx2yjvYzjDtR
+         aqkQ0bRVif2m1peT/Ca//N5MfknNafsXtjibJ8qERb+ox+8cH6a5xco01ISYdcJ5Vgzg
+         BNMtkE6/uoB6/av6EyT1EVIuCnGSnMCAvTJiTvyuKGsQi3bksLY+x2COoqvIz1WK7hsg
+         yyjA==
+X-Gm-Message-State: AOJu0YxXIvJV71KftxXWmgnrz67ffB/ni7tbYm5dq7aorxi26zPFo37z
+	VfLjsyEowdZg+CBVnU90Zwj8lZnD1buFgODHu4TvYawjl0YVS7Wpt1Rh3tqke/M=
+X-Google-Smtp-Source: AGHT+IFgJDHe7ZbYCBy6sEERgJzMjVaiApVTafH+2Hr8RGICHp7lQs8HIS0i3F0Dq5bDWpevkMu8Dw==
+X-Received: by 2002:a17:90a:8047:b0:28f:f829:7959 with SMTP id e7-20020a17090a804700b0028ff8297959mr791013pjw.30.1705896507138;
+        Sun, 21 Jan 2024 20:08:27 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id sb3-20020a17090b50c300b0028ffc524085sm8481146pjb.56.2024.01.21.20.08.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jan 2024 20:08:26 -0800 (PST)
+Message-ID: <65adea3a.170a0220.a69af.d431@mx.google.com>
+Date: Sun, 21 Jan 2024 20:08:26 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240119084328.3135503-1-lma@chromium.org> <d2329494-2c57-41bb-a9ea-2c9903500d1e@roeck-us.net>
- <CAE5UKNrU9YHoCQr8HLFf9-T4-NobQ4jWtryVqq9okFz8nVezgQ@mail.gmail.com>
- <b65b46a7-c65d-49bc-a5ce-5085da2fc112@roeck-us.net> <CAE5UKNqM6t+nzY-68pVBFxT-_TCjMjDUE-GwRgXp9ny3vqP-1A@mail.gmail.com>
-In-Reply-To: <CAE5UKNqM6t+nzY-68pVBFxT-_TCjMjDUE-GwRgXp9ny3vqP-1A@mail.gmail.com>
-From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Date: Fri, 19 Jan 2024 16:10:06 +0100
-Message-ID: <CAE5UKNomjYeS-GHEedfHyvAh3jAgPUaD8DkYuJ-Cv0xS6pr7pg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Introduce EC-based watchdog
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Gwendal Grignou <gwendal@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Radoslaw Biernacki <biernacki@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-firmware-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.8-rc1
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed,
+ 3 passed, 2 errors, 4 warnings (v6.8-rc1)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Ohhh, I get it now. Gunter please send reviewed-by to V3 whenever you
-feel appropriate.
+chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed, 3 passed, =
+2 errors, 4 warnings (v6.8-rc1)
 
-Best regards,
-Lukasz
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
+irmware-kernelci/kernel/v6.8-rc1/
 
-On Fri, Jan 19, 2024 at 3:50=E2=80=AFPM =C5=81ukasz Majczak <lma@chromium.o=
-rg> wrote:
->
-> Gunter,
->
-> I'm sorry for the confusion, I've just forgotten to add "received-by"
-> and there are no other changes besides mentioned in the cover letter
-> changelog.
-> Thank you for mentioning the process, now I understand why it is so impor=
-tant.
->
-> I will send V4 for the sake of following the process.
->
-> Best regards,
-> Lukasz
->
-> On Fri, Jan 19, 2024 at 3:43=E2=80=AFPM Guenter Roeck <linux@roeck-us.net=
-> wrote:
-> >
-> > On 1/19/24 06:10, =C5=81ukasz Majczak wrote:
-> > > On Fri, Jan 19, 2024 at 1:50=E2=80=AFPM Guenter Roeck <linux@roeck-us=
-.net> wrote:
-> > >>
-> > >> On 1/19/24 00:43, Lukasz Majczak wrote:
-> > >>> Chromeos devices are equipped with the embedded controller (EC)
-> > >>> that can be used as a watchdog. The following patches
-> > >>> updates the structures and definitions required to
-> > >>> communicate with EC-based watchdog and implements the
-> > >>> driver itself.
-> > >>>
-> > >>> The previous version of this patch was sent here:
-> > >>> https://patchwork.kernel.org/project/linux-watchdog/list/?series=3D=
-817925
-> > >>>
-> > >>> Changelog
-> > >>> V2->V3:
-> > >>> * drop "-drv" from driver name
-> > >>> * use format #define<space>NAME<tab>value
-> > >>>
-> > >>
-> > >> I am a bit lost here. You dropped my Reviewed-by: tags, even though
-> > >> I specifically said that they applied with those changes made.
-> > >> Also, according to the above patch 1/3 was not changed at all.
-> > >>
-> > >> What else did you change that warrants dropping the tags ?
-> > >>
-> > >> Guenter
-> > >>
-> > > The "-drv" change was related to patch 2 and 3, and I have used
-> > > "format #define<space>NAME<tab>value" only in patch 3 (as
-> > > ec_commands.h is mixing those)
-> > > Sorry for dropping your "Reviewed-by" tag :( I've assumed (wrong) tha=
-t
-> > > I cannot take it for granted sending V3.
-> >
-> >  From Documentation/process/submitting-patches.rst:
-> >
-> > Both Tested-by and Reviewed-by tags, once received on mailing list from=
- tester
-> > or reviewer, should be added by author to the applicable patches when s=
-ending
-> > next versions.  However if the patch has changed substantially in follo=
-wing
-> > version, these tags might not be applicable anymore and thus should be =
-removed.
-> > Usually removal of someone's Tested-by or Reviewed-by tags should be me=
-ntioned
-> > in the patch changelog (after the '---' separator).
-> >
-> > > Alos in such a case if there are changes in patch 2 and 3 and 1
-> > > remains untouched shall I send only 2 and 3 in the next version ?
-> > >
-> >
-> > Again, from Documentation/process/submitting-patches.rst:
-> >
-> > ... the patch (series) and its description should be self-contained.
-> > This benefits both the maintainers and reviewers.  Some reviewers
-> > probably didn't even receive earlier versions of the patch.
-> >
-> > Note that the same document also says:
-> >
-> > Wait for a minimum of one week before resubmitting or pinging reviewers
-> > - possibly longer during busy times like merge windows.
-> >
-> > I could just send another series of Reviewed-by: tags, but quite frankl=
-y
-> > by now I am wary that you might drop those again, so I guess I'll wait
-> > a while to see if there is another version of the series.
-> >
-> > Guenter
-> >
+Tree: chrome-platform
+Branch: for-firmware-kernelci
+Git Describe: v6.8-rc1
+Git Commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+Build Failures Detected:
+
+x86_64:
+    x86_64_defconfig: (gcc-10) FAIL
+    x86_64_defconfig+x86-board: (gcc-10) FAIL
+
+Errors and Warnings Detected:
+
+arm64:
+    defconfig (gcc-10): 1 warning
+    defconfig+arm64-chromebook (gcc-10): 1 warning
+
+arm:
+
+x86_64:
+    x86_64_defconfig (gcc-10): 1 error, 1 warning
+    x86_64_defconfig+x86-board (gcc-10): 1 error, 1 warning
+
+Errors summary:
+
+    2    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset =
+32 is out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings summary:
+
+    2    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offse=
+t 32 is out of the bounds [0, 0] [-Warray-bounds]
+    2    cc1: all warnings being treated as errors
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warning, 0 section mi=
+smatches
+
+Warnings:
+    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
+is out of the bounds [0, 0] [-Warray-bounds]
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warn=
+ing, 0 section mismatches
+
+Warnings:
+    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
+is out of the bounds [0, 0] [-Warray-bounds]
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warning, 0 sec=
+tion mismatches
+
+Errors:
+    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
+ out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings:
+    cc1: all warnings being treated as errors
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warn=
+ing, 0 section mismatches
+
+Errors:
+    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
+ out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings:
+    cc1: all warnings being treated as errors
+
+---
+For more info write to <info@kernelci.org>

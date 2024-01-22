@@ -1,288 +1,258 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C5D4A2D
-	for <chrome-platform@lists.linux.dev>; Mon, 22 Jan 2024 04:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8183A1A0
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Jan 2024 09:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705899129; cv=none; b=m4jKU9cYvNzYuKlp6xhdML7bqCu5wk3zZjFjbNiprRp+5ReZkzh53J7lDYv0GHArUPYm2IFnlqf7AJIcwSZXjAfRDYfXFdd7xW+mQxOS4XgxY7HdX8FWEn06XNU63h6dy9EtHrWovkexgp2wicwoRioWk6EFWS6EjYj/TtCwLXI=
+	t=1705914851; cv=none; b=KxNnW9oUYJ3Fbs9JfDSWN+I8GbOQH6TWzqIFsje2mLWl2cc9hzw4phC7zNaronYspxvJzEEqEBMMGGtN/p2KX+mByhBBWvZnhF9UGJoVYCD9Fl7Iimjv0LpzdbY7TWQLXUqK2cgz5aZxf0T7ChEYrux04Kg861msWwdZA3mW8dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705899129; c=relaxed/simple;
-	bh=iYT6owAcG/nwjtcW3wNfEyQD9CyF5+fZHymBdPBuAJc=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=hXUgC2wXR3y76vOE3um/DjlUDUljijCY7JyJ+NUIZ/6W4ZHe5KRC90iG2gJKWQ28vywYx+pMmVLXjxhi9CV6FxSpbmk81N6U5dVg+HdtSk9bnydrmY8WgKYqQfrgvs53ZSd7HgmiL9XY+do7ImZfoJhM4CPVtuYADhgp8Nb11nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=wMTsOCB5; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1705914851; c=relaxed/simple;
+	bh=Z/x2yilsMYKzRCP4UINs5eI+67p61JghJG4yQE/w6FE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pEL4vUAx19zMcjD5rcws0jZ4jbeTa/4UwmVLPLA6UvOOrxzhOHxqoivD39zVgmBxPQaYN45NuNtuVsUb7+YPJqtWwnKM5SZjE/JgbGp20RrQex55ni3ksTYy2oKI6sE9Fq8uV+XvWWXKjZ5t3VBkeVO6P2EYrv5VmUMgZV9ibQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C8hVshXV; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="wMTsOCB5"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d750660a0aso50525ad.0
-        for <chrome-platform@lists.linux.dev>; Sun, 21 Jan 2024 20:52:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C8hVshXV"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e8fec0968so38268135e9.1
+        for <chrome-platform@lists.linux.dev>; Mon, 22 Jan 2024 01:14:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1705899127; x=1706503927; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pw6Cx9vF6K6Bhy2Wa6RQmp/yS4Pavqa/lCf1iuvTAS0=;
-        b=wMTsOCB5IwhoM3iAzwoWT+LbEFsWhwhj5+JSSBEtLC1lJm3jPIIt0ArwfghgzD403r
-         4zPhJRk/ycXllqMShc4D6l9AbdrXHz5NDApHn6ztyCC+3ClOsKfJzDsFtoSmB1Y/Jg3Q
-         VgDch1KaOF9yjk6Smsv4Fef00eW4IcA+9FY4fBrDk/uTazShQ4he+raoRpv/z5YEpFzi
-         QoZBj08xaQ/dbZsSntlfpRCD3ykG97JyjXk5DiPFTI/08x4FMosC1ous2Q7cFHGmpFRl
-         3mfEBhG+AKDI5R2qnMuUAR1CQJW9Qc7RrB0gYhzeF88Tlh9kT2E3l18GL/YtHyd3Wi42
-         NXOA==
+        d=gmail.com; s=20230601; t=1705914847; x=1706519647; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oJtoHJTf8+XexIu1jE0XJRKaRM7JxcnTxF+MvONlBrE=;
+        b=C8hVshXVN11rgeKYIuv1aYSeB645D1y3SJI4CXmGp+/iDlF69hxx7O5D4Mnu45R4Ru
+         d1FvtY7EWymv5ODPX6AfQBoxRgePiZtXVMfBFsZ42LlgrFNlquZcsLjNlHBaf/CBduyr
+         SF+aZAsihroi7KWZoZvdFRV5UBpLRQ346MJGdE6Hfat+QzWUOdngsHQG2ezyVIn6//f5
+         J5EJ/Cwxy31vebKFRb9KoHPJsjcLG2aGi9gf8bC6lSXoXIeZvtuUbAHlgOlSM9QCBCD6
+         NWublS80cbqEorkHpXCDtQ6doqtNPyoHiqWb5SLkuhT7xbU49OaEnlZXqKR+K9+jVBJO
+         7bXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705899127; x=1706503927;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pw6Cx9vF6K6Bhy2Wa6RQmp/yS4Pavqa/lCf1iuvTAS0=;
-        b=Gvz80lMUAG+cY6DQqRKLFh7G1k79Mx2JYR9s4bGdhG7ErZLgXI3dVA4m1QLSFDrcdD
-         UXXrgBrBevmK0rOnyZ2nHvugvHGDaQi1ndREj0lwgYSeloTIK/hMO7qEVbqfGhrtk6Lt
-         NQU6kdiOjAPwGRmkUwJkHpny5Hx+yj/aNBmhQdMDzwZZ/z5VBpd+27yTa9vQcgDuE+sY
-         CxzJXOmVH61R8irOey71ySBeoZtMCg6wZsdwqhxDtezGSgC1Vlfb4lyh+RTskPc5DYaG
-         vj5zVjvJPEdYfbnVp+gyL5a2D7ESmNLgJnKaqnPOJpe84O6UTB+u1QGlNJ6cG6C1Swd/
-         DqDQ==
-X-Gm-Message-State: AOJu0YxhXo8Fru3StCM5FTs7QXJzGOuPTVx5TR1WQ90IKyx2MAUTiEg9
-	IuVO69H3XZuxMFYqXZem0BLHuxIQpF/czH7Q5MyMEqhFooax/t7MBn76iaFN9rTP73FxvRBM0c9
-	EMj4=
-X-Google-Smtp-Source: AGHT+IFIwQpjeNCz8Q9QYq8tl8mYeVzheJHHDm1F6J4q2l40KfZnJl6hO2cuqkTdhVtuMPxsfxrvvQ==
-X-Received: by 2002:a17:903:1ce:b0:1d7:14c8:3291 with SMTP id e14-20020a17090301ce00b001d714c83291mr1355675plh.90.1705899127363;
-        Sun, 21 Jan 2024 20:52:07 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id kv4-20020a17090328c400b001d5b93560c3sm6516384plb.167.2024.01.21.20.52.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jan 2024 20:52:06 -0800 (PST)
-Message-ID: <65adf476.170a0220.aef01.6b41@mx.google.com>
-Date: Sun, 21 Jan 2024 20:52:06 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20230601; t=1705914847; x=1706519647;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oJtoHJTf8+XexIu1jE0XJRKaRM7JxcnTxF+MvONlBrE=;
+        b=mUZhFKk0wzL4qRmQl59aRzOjv0uz46vuqUEd1LkvVAM4umZ+kz8d8y56PTpQ626mW7
+         O/hbB8AqDr04cK2052I/nSvulCEe4MbNJMDEHY7pjy6/BLABXgPAEAqkx1uzRJ9W4qrq
+         WQxUiiJBkL0qKZpUUgDQ37m6MJMsiWg/NRZz9aa5Mwmp8ue6DJt87rC5yHl2KeLJ8sai
+         423zNiu7L6XunbfEVa6q5f1b95iOrJVPGxO+v7C35laz9apt8DwuWQI2EOu2zE1FE8CJ
+         YR558Q/zDOAw+B4m254pDKsVQ/vqJLf3eLVGBlcWbXunwxzChbtPp1b0RABLkR3jj5It
+         QB+A==
+X-Gm-Message-State: AOJu0Yzb6LQAXuipQRH/mWlywyR2/OxE6Km+jYCB6kT9x1TXdC8sDyCp
+	rIcmZL2f3SNGQH1GG5ksNTo5YcnwjeBFT53aMbpSPoxnceDwahXb
+X-Google-Smtp-Source: AGHT+IHilrUOGWBhigCUyk2uI9CIxdjZPNnxB3xAR0RRJB/Ibc2npJy8kdjuDi5dIB1SbiIhxdFYrA==
+X-Received: by 2002:a05:600c:4794:b0:40e:57f2:5948 with SMTP id k20-20020a05600c479400b0040e57f25948mr2001657wmo.72.1705914846940;
+        Mon, 22 Jan 2024 01:14:06 -0800 (PST)
+Received: from [192.168.2.177] ([207.188.161.188])
+        by smtp.gmail.com with ESMTPSA id i6-20020adfb646000000b00337bc2176f6sm13310550wre.81.2024.01.22.01.14.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jan 2024 01:14:05 -0800 (PST)
+Message-ID: <d9591107-cce8-417d-a8a3-72482d939c9c@gmail.com>
+Date: Mon, 22 Jan 2024 10:14:02 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.8-rc1
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci baseline: 53 runs,
- 8 regressions (v6.8-rc1)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
-
-chrome-platform/for-kernelci baseline: 53 runs, 8 regressions (v6.8-rc1)
-
-Regressions Summary
--------------------
-
-platform                | arch  | lab           | compiler | defconfig     =
-             | regressions
-------------------------+-------+---------------+----------+---------------=
--------------+------------
-kontron-kbox-a-230-ls   | arm64 | lab-kontron   | gcc-10   | defconfig     =
-             | 5          =
-
-kontron-sl28-var3-ads2  | arm64 | lab-kontron   | gcc-10   | defconfig     =
-             | 2          =
-
-mt8195-cherry-tomato-r2 | arm64 | lab-collabora | gcc-10   | defconfig+arm6=
-4-chromebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.8-rc1/plan/baseline/
-
-  Test:     baseline
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.8-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      6613476e225e090cc9aad49be7fa504e290dd33d =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                | arch  | lab           | compiler | defconfig     =
-             | regressions
-------------------------+-------+---------------+----------+---------------=
--------------+------------
-kontron-kbox-a-230-ls   | arm64 | lab-kontron   | gcc-10   | defconfig     =
-             | 5          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65adea71923805601052a458
-
-  Results:     90 PASS, 5 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox-a-230-ls.t=
-xt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox-a-230-ls.h=
-tml
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65adea71923805601052a45f
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:04.478657  / # #
-    2024-01-22T04:09:04.580576  export SHELL=3D/bin/sh
-    2024-01-22T04:09:04.581290  #
-    2024-01-22T04:09:04.682505  / # export SHELL=3D/bin/sh. /lava-420209/en=
-vironment
-    2024-01-22T04:09:04.683052  =
-
-    2024-01-22T04:09:04.784389  / # . /lava-420209/environment/lava-420209/=
-bin/lava-test-runner /lava-420209/1
-    2024-01-22T04:09:04.785660  =
-
-    2024-01-22T04:09:04.830232  / # /lava-420209/bin/lava-test-runner /lava=
--420209/1
-    2024-01-22T04:09:04.854517  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-01-22T04:09:04.888486  + cd /lava-420209/1/tests/1_bootrr =
-
-    ... (14 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc2-probed: https://kernelci.org/test/case=
-/id/65adea71923805601052a463
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:07.105237  /lava-420209/1/../bin/lava-test-case
-    2024-01-22T04:09:07.132345  <8>[   26.070921] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc2-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/65=
-adea71923805601052a465
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:08.192585  /lava-420209/1/../bin/lava-test-case
-    2024-01-22T04:09:08.219650  <8>[   27.158717] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65adea71923805601052a46a
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:09.451747  /lava-420209/1/../bin/lava-test-case
-    2024-01-22T04:09:09.478761  <8>[   28.417581] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc1-probed: https://kernelci.org/test/case=
-/id/65adea71923805601052a46b
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:10.500677  /lava-420209/1/../bin/lava-test-case
-    2024-01-22T04:09:10.528598  <8>[   29.468049] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc1-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform                | arch  | lab           | compiler | defconfig     =
-             | regressions
-------------------------+-------+---------------+----------+---------------=
--------------+------------
-kontron-sl28-var3-ads2  | arm64 | lab-kontron   | gcc-10   | defconfig     =
-             | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65adea99111916562552a74a
-
-  Results:     101 PASS, 2 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28-var3-ads2.=
-txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28-var3-ads2.=
-html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65adea99111916562552a751
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:39.945050  / # #
-    2024-01-22T04:09:40.045925  export SHELL=3D/bin/sh
-    2024-01-22T04:09:40.046183  #
-    2024-01-22T04:09:40.146730  / # export SHELL=3D/bin/sh. /lava-420204/en=
-vironment
-    2024-01-22T04:09:40.147042  =
-
-    2024-01-22T04:09:40.247608  / # . /lava-420204/environment/lava-420204/=
-bin/lava-test-runner /lava-420204/1
-    2024-01-22T04:09:40.248014  =
-
-    2024-01-22T04:09:40.255293  / # /lava-420204/bin/lava-test-runner /lava=
--420204/1
-    2024-01-22T04:09:40.352153  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-01-22T04:09:40.352294  + cd /lava-420204/1/tests/1_bootrr =
-
-    ... (10 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65adea99111916562552a764
-        new failure (last pass: v6.7-rc1-4-g57eb6dcd32cf6)
-
-    2024-01-22T04:09:43.282197  /lava-420204/1/../bin/lava-test-case
-    2024-01-22T04:09:43.312089  <8>[   27.076370] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform                | arch  | lab           | compiler | defconfig     =
-             | regressions
-------------------------+-------+---------------+----------+---------------=
--------------+------------
-mt8195-cherry-tomato-r2 | arm64 | lab-collabora | gcc-10   | defconfig+arm6=
-4-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65adeab1111916562552aac8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-mt81=
-95-cherry-tomato-r2.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.8-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-mt81=
-95-cherry-tomato-r2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/65adeab1111916562552a=
-ac9
-        failing since 37 days (last pass: v6.6-rc1-21-g47ea0ddb1f56, first =
-fail: v6.7-rc1-3-g59a9ccf19ee03) =
-
- =20
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/24] Improve IRQ wake capability reporting and update
+ the cros_ec driver to use it
+Content-Language: en-US, ca-ES, es-ES
+To: Mark Hasemeyer <markhas@chromium.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Raul Rangel
+ <rrangel@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ AKASHI Takahiro <takahiro.akashi@linaro.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Baoquan He <bhe@redhat.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Benson Leung <bleung@chromium.org>,
+ Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
+ Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
+ David Gow <davidgow@google.com>, Frank Rowand <frowand.list@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <groeck@chromium.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Heiko Stuebner <heiko@sntech.de>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Len Brown <lenb@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Mark Brown <broonie@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Nick Hawkins <nick.hawkins@hpe.com>, Paul Barker <paul.barker@sancloud.com>,
+ Prashant Malani <pmalani@chromium.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Barnes <robbarnes@google.com>,
+ Rob Herring <robh+dt@kernel.org>, Romain Perier <romain.perier@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stephen Boyd <swboyd@chromium.org>, Takashi Iwai <tiwai@suse.de>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Wei Xu <xuwei5@hisilicon.com>, Wolfram Sang <wsa@kernel.org>,
+ chrome-platform@lists.linux.dev, cros-qcom-dts-watchers@chromium.org,
+ devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20240102210820.2604667-1-markhas@chromium.org>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Autocrypt: addr=matthias.bgg@gmail.com; keydata=
+ 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
+In-Reply-To: <20240102210820.2604667-1-markhas@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 02/01/2024 22:07, Mark Hasemeyer wrote:
+> Currently the cros_ec driver assumes that its associated interrupt is
+> wake capable. This is an incorrect assumption as some Chromebooks use a
+> separate wake pin, while others overload the interrupt for wake and IO.
+> This patch train updates the driver to query the underlying ACPI/DT data
+> to determine whether or not the IRQ should be enabled for wake.
+> 
+> Both the device tree and ACPI systems have methods for reporting IRQ
+> wake capability. In device tree based systems, a node can advertise
+> itself as a 'wakeup-source'. In ACPI based systems, GpioInt and
+> Interrupt resource descriptors can use the 'SharedAndWake' or
+> 'ExclusiveAndWake' share types.
+> 
+> Some logic is added to the platform, ACPI, and DT subsystems to more
+> easily pipe wakeirq information up to the driver.
+> 
+
+Patch 9, 10, 11 and 12 applied to the mediatek tree.
+
+Thanks!
+
+
+> Changes in v4:
+> -Rebase on linux-next
+> -See each patch for patch specific changes
+> 
+> Changes in v3:
+> -Rebase on linux-next
+> -See each patch for patch specific changes
+> 
+> Changes in v2:
+> -Rebase on linux-next
+> -Add cover letter
+> -See each patch for patch specific changes
+> 
+> Mark Hasemeyer (24):
+>    resource: Add DEFINE_RES_*_NAMED_FLAGS macro
+>    gpiolib: acpi: Modify acpi_dev_irq_wake_get_by() to use resource
+>    i2c: acpi: Modify i2c_acpi_get_irq() to use resource
+>    dt-bindings: power: Clarify wording for wakeup-source property
+>    ARM: dts: tegra: Enable cros-ec-spi as wake source
+>    ARM: dts: rockchip: rk3288: Enable cros-ec-spi as wake source
+>    ARM: dts: samsung: exynos5420: Enable cros-ec-spi as wake source
+>    ARM: dts: samsung: exynos5800: Enable cros-ec-spi as wake source
+>    arm64: dts: mediatek: mt8173: Enable cros-ec-spi as wake source
+>    arm64: dts: mediatek: mt8183: Enable cros-ec-spi as wake source
+>    arm64: dts: mediatek: mt8192: Enable cros-ec-spi as wake source
+>    arm64: dts: mediatek: mt8195: Enable cros-ec-spi as wake source
+>    arm64: dts: tegra: Enable cros-ec-spi as wake source
+>    arm64: dts: qcom: sc7180: Enable cros-ec-spi as wake source
+>    arm64: dts: qcom: sc7280: Enable cros-ec-spi as wake source
+>    arm64: dts: qcom: sdm845: Enable cros-ec-spi as wake source
+>    arm64: dts: rockchip: rk3399: Enable cros-ec-spi as wake source
+>    of: irq: add wake capable bit to of_irq_resource()
+>    of: irq: Add default implementation for of_irq_to_resource()
+>    of: irq: Remove extern from function declarations
+>    device property: Modify fwnode irq_get() to use resource
+>    device property: Update functions to use EXPORT_SYMBOL_GPL()
+>    platform: Modify platform_get_irq_optional() to use resource
+>    platform/chrome: cros_ec: Use PM subsystem to manage wakeirq
+> 
+>   .../bindings/power/wakeup-source.txt          | 18 ++--
+>   arch/arm/boot/dts/nvidia/tegra124-nyan.dtsi   |  1 +
+>   arch/arm/boot/dts/nvidia/tegra124-venice2.dts |  1 +
+>   .../rockchip/rk3288-veyron-chromebook.dtsi    |  1 +
+>   .../boot/dts/samsung/exynos5420-peach-pit.dts |  1 +
+>   .../boot/dts/samsung/exynos5800-peach-pi.dts  |  1 +
+>   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  1 +
+>   .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
+>   .../boot/dts/mediatek/mt8192-asurada.dtsi     |  1 +
+>   .../boot/dts/mediatek/mt8195-cherry.dtsi      |  1 +
+>   .../arm64/boot/dts/nvidia/tegra132-norrin.dts |  1 +
+>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  1 +
+>   .../arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  1 +
+>   .../arm64/boot/dts/qcom/sc7280-idp-ec-h1.dtsi |  1 +
+>   arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |  1 +
+>   arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi  |  1 +
+>   drivers/acpi/property.c                       | 11 ++-
+>   drivers/base/platform.c                       | 90 ++++++++++++-------
+>   drivers/base/property.c                       | 40 ++++++---
+>   drivers/gpio/gpiolib-acpi.c                   | 28 ++++--
+>   drivers/i2c/i2c-core-acpi.c                   | 43 ++++-----
+>   drivers/i2c/i2c-core-base.c                   |  6 +-
+>   drivers/i2c/i2c-core.h                        |  4 +-
+>   drivers/of/irq.c                              | 39 +++++++-
+>   drivers/of/property.c                         |  8 +-
+>   drivers/platform/chrome/cros_ec.c             | 48 ++++++++--
+>   drivers/platform/chrome/cros_ec_lpc.c         | 40 +++++++--
+>   drivers/platform/chrome/cros_ec_spi.c         | 15 ++--
+>   drivers/platform/chrome/cros_ec_uart.c        | 14 ++-
+>   include/linux/acpi.h                          | 25 +++---
+>   include/linux/fwnode.h                        |  8 +-
+>   include/linux/ioport.h                        | 20 +++--
+>   include/linux/of_irq.h                        | 41 +++++----
+>   include/linux/platform_data/cros_ec_proto.h   |  4 +-
+>   include/linux/platform_device.h               |  3 +
+>   include/linux/property.h                      |  2 +
+>   36 files changed, 350 insertions(+), 172 deletions(-)
+> 

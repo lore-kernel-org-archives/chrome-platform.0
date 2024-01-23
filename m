@@ -1,117 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7593DBA8;
-	Mon, 22 Jan 2024 19:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406F24EB39
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Jan 2024 22:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705951456; cv=none; b=aEVbdbEvWIgB0P5IdQPrpxmWMzSsTq7ACAjO2j/Cz75McxizM2qQnQv/ogaoItKnb8rW+mJJ6t8Oa4T4JWKYcQ2A9Ei4OzHn23U3FMhSj4oCvxQGfK6rzwrIwkjGudL163Psb9F0Lqlx56PDZe6CSor75y4T/rsvfHpBwnyOfHQ=
+	t=1706047578; cv=none; b=j2l0pNYsPVp2bwm2w3/ZKpuBzjE6K2uJuA8nKSmVKIzpqwOPJqyF9BDqoZvGYrfvr8k5EwBdoftxE0CNBlRjScyXzQLLNOUQYFPGQGbStg0YgySBKnUI7hZyGNspzY/S2WNswVrD3MzCx6TNtV4ZMRC+c5aYACU5EatNN1cdnhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705951456; c=relaxed/simple;
-	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ByF9IqdSPil69Mjoli42+D+gwIqFYP0nX0IAnXzNPfou4dpGCGkrz7Bk1kF4Y5NMh3kTZjLtiw06ICf1ucgjdrXg8EvY9vDhT6ATr3u8beJUzY2KeKQPBSrU+osP4oH5FyEvz5gyACdq6sSRuCYGaff3q85qQ2tYEtCfqEH75Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Om7TXwRG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706047578; c=relaxed/simple;
+	bh=meSKnuOdhgy7gcRPOlUjLkTPmz4xSbL8Ff1ES37ltmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiNOKfoB7ltHuAuqYG42Rp9ADpAGgC5+ILL4b8GCF62JiZKXMx0SpYJJwat2wakfM77HZX8pI2LIYVBXH+yXrkxVB3SkHQytlERnVpodh1zG+bV1vOXkMUr75jyv0pMNsWJam6wKdeJuYEn2YiUApOZFnS4sDh91eZwqRpF6yIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ntftxQ+m; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Om7TXwRG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FBDEC433C7;
-	Mon, 22 Jan 2024 19:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705951455;
-	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Om7TXwRG+RLb91NjkMlGtbBbQYrAGinHi8YBBuORygdejt7BZ+vQd9Bqs0sBl/BxP
-	 VCw1yjmez+FHyuigs8WrRG3xG5dxGPTpaOT2qYeFl6QHLeQijLl0kkOlguh3EaCef5
-	 +AkOU52pnihuLtq9XxoisJbYHmdBJ7MWGdIGbaT+Hqd1d3bAs/JdGsBZD+YdEjOqeP
-	 eiYtqYfgWpXt9iSL4haLcS9baDm6slcDBeeq4Pri4phWer/ACYdMdlNEE7R3pgjieo
-	 tFpdEkRwqJLtm9GAX85YeLj+l6gbxcnR7JUDJE+8uHr22Geysx+TUOYD6M7QtotXaK
-	 eSyrD1CGdOh3w==
-Date: Mon, 22 Jan 2024 19:23:43 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
- <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
- <trix@redhat.com>, linux-fpga@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
- <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
- netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
- Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Martin Tuma
- <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
- <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
- Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
- linux-mtd@lists.infradead.org, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
- Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, Thomas Zimmermann
- <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
- Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
- Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
- Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
- <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
- <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
- <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
- Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
- <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
- <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <20240122192343.148a0b6d@jic23-huawei>
-In-Reply-To: <e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ntftxQ+m"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6dd87e7c355so276167b3a.0
+        for <chrome-platform@lists.linux.dev>; Tue, 23 Jan 2024 14:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706047576; x=1706652376; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Vq5AuVtFfbnm7KmCdFym6eR8lK3cF/V0+/5wIAUspAY=;
+        b=ntftxQ+m6xP8IAvLzY60y1LRoRDKthCyMlKwvi+Bl1s24yat+w2y2eb8KXJPuvnRZ+
+         rPLZ/wFK+TKlTxLC0Js5ZeJosGuyRf7ytLLjdtOkE5LYEYctotcp9JSWEKhRM5XvIAEJ
+         SKyPhbtsY7I9tqOThP/hYeqynVBxJsFe1QYB4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706047576; x=1706652376;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vq5AuVtFfbnm7KmCdFym6eR8lK3cF/V0+/5wIAUspAY=;
+        b=joDksb1wlx2fVbc1FN9LCFvDV0Ta12n1EmkuG3OI5c2Ji86RqEoHXTnbImO2nlZMWP
+         nQNO4hZ1oRn3hy3sm53p876uYH7aG7LlLKftX3p99Un215YDvYoWcoMGPwlCt0VZpz0o
+         5hSw46BpAANMbgqkyXoH0hXXO5i6LWLJXgSDFAHjKg8NYOMYmZqUK5yPEW+R4k5y5Z7f
+         EjmBb48HBGx7GuRPH4PFjtV+hHAi5AOibAyfKCZW8BkesjKkW31symBNvBQhLMkl1BLI
+         kUxhnAvpCLRTYHyDCws2WDqdbJeVsfPW80EUyh7LFtKh3coxYmmGv7RCCFAzNJavgKUU
+         sTPw==
+X-Gm-Message-State: AOJu0YzpxVyjy+J/D3oF8DBta+/SVVGH3YRJAPo/xd6/3BkiXi1snzyr
+	/9xBYaizWASmMpkFxUDue7uVSkleHZSyysvjB9BW9w3cg0Ma0BgmEVbrEJTYLw==
+X-Google-Smtp-Source: AGHT+IEdVicNP58IhFXYtzEbHaHvo9B2Vu+JPgRZ94CmAr/MeKEbwhzMtBto0WE4UQD2qQdKhczlCw==
+X-Received: by 2002:a05:6a00:99d:b0:6db:c9d2:12de with SMTP id u29-20020a056a00099d00b006dbc9d212demr4353111pfg.49.1706047576571;
+        Tue, 23 Jan 2024 14:06:16 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:81da:d4e1:ee51:c4d6])
+        by smtp.gmail.com with UTF8SMTPSA id m6-20020a62f206000000b006dd897cd81csm95631pfh.53.2024.01.23.14.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jan 2024 14:06:16 -0800 (PST)
+Date: Tue, 23 Jan 2024 14:06:14 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	chrome-platform@lists.linux.dev,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <ZbA4VthTMPT7BSRo@google.com>
+References: <20240112131857.900734-1-nfraprado@collabora.com>
+ <20240112131857.900734-3-nfraprado@collabora.com>
+ <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
 
-On Mon, 22 Jan 2024 18:18:22 +0000
-Mark Brown <broonie@kernel.org> wrote:
+On Sun, Jan 14, 2024 at 07:09:29PM +0200, Andy Shevchenko wrote:
+> On Fri, Jan 12, 2024 at 10:18:31AM -0300, Nícolas F. R. A. Prado wrote:
+> > Generate aliases for coreboot modules to allow automatic module probing.
+> 
+> ...
+> 
+> > (no changes since v1)
+> 
+> Same Q as per v1.
 
-> On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
->=20
-> > Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> > didn't appear in a public tree though yet. I still included it here to
-> > make the kernel build bots happy. =20
->=20
-> It's also going to be needed for buildability of the end of the series.
+I don't have v1 in my inbox, and this wasn't addressed in v3 either. But
+copy/pasted off the archives:
 
-Ah.  I thought intent was to split this across all the different trees
-then do the final patch only after they were all gone?
+"Don't you want to have a driver data or so associated with this?"
 
-I'm fine with it going all in one go if people prefer that.
+These drivers are super simple, and I doubt they will end up with
+multiple tags per driver, so it seems unlikely we'd ever need it.
+Additionally, struct coreboot_device already includes the tag
+information, so anything that could be included in driver data could be
+parsed out by the driver at probe time, if absolutely needed.
 
-My tree will be out in a few mins. Was just waiting to rebase on rc1
-which I've just done.
-
-Jonathan
+Brian

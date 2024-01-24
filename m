@@ -1,122 +1,118 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6909D17BA0
-	for <chrome-platform@lists.linux.dev>; Wed, 24 Jan 2024 08:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640701AACD
+	for <chrome-platform@lists.linux.dev>; Wed, 24 Jan 2024 11:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706085855; cv=none; b=Ye41Y9FSDTUH/UK8uiPI0LEZaq/5azjbTGX7vrGL6Vyxyi0BzC9hpDUvxo+ACjdAa0giaOgnLkkFC/SnLlW6qx23mOV1bVlUCvs4STJYHgJ3yi2WwlV9ZTBSNoef/m7oRd7zpthDnJlZZvAvFy6lioc5J44choXD/u/K6ZUnqts=
+	t=1706096314; cv=none; b=VwOpSkzlnUE6Ofed28pwMe+dVIX7jbgmsBsxwfPGu9o71iRTT0b6ay2tT+EIXn37ymCQXI3Lukudb/o/KlML064Yih543gCJgI6UQy0aYuEIklBImcdP3PS8BXRIp4NosIH7lvSStr4o2kHx1yp2NukVC1zU9snbAPkY0OI/iCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706085855; c=relaxed/simple;
-	bh=s322rBPQa6bzA8+HCuSotTAk6gztBJc/8RjaCxcQ81o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7O0rKgGme3C+mXUBGipJ2dESD9Fn/ja17dYkJjCLVEIMc1Z8UzfUIph/0mH+XgGH4dcovbD6uvtMY9IlcPcmBZBLKxm4e959U8u1IsIbI0FS9C6H0Vjw1kH7fCdSRy37vMmoYw4bqfg7IkJHCQL4C8Y8Zy0TNRRx24PXJD037Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSYrU-0007b7-9M; Wed, 24 Jan 2024 09:43:56 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSYrR-00211Y-V7; Wed, 24 Jan 2024 09:43:53 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSYrR-006zr9-2i;
-	Wed, 24 Jan 2024 09:43:53 +0100
-Date: Wed, 24 Jan 2024 09:43:53 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: linux-pwm@vger.kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>, Robert Foss <rfoss@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Alexander Shiyan <shc_work@mail.ru>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Bjorn Andersson <andersson@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Douglas Anderson <dianders@chromium.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	kernel@pengutronix.de, Benson Leung <bleung@chromium.org>, 
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
-	Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 0/5] pwm: Some improvements around .of_xlate()
-Message-ID: <66laypnixxg6pvl6keu3zwyzppw4iwbvz2g32euoypymiwqcmv@2pohr23hceg7>
-References: <cover.1704835845.git.u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1706096314; c=relaxed/simple;
+	bh=4KDkITjThVdXmK+bUfn3eDscOtSdUbZiuDnwLDTI5eE=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ClBqO+kp4aUHW9SXCTY31Vs0sP8fpYH5E90nCU9g/88QPEX1+IdBs/9V5iSoTaxyu+Vqb9zUzix/ZMdRvjh66fwFqdRKJeMxhU43VPE6Q4tbDXvSmtS8UdsdkhD0vGfbVHLa67by9EAHDFBVhV2UM8kt2qA7d0UtAb7iW87ohNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5fZQnAz; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5fZQnAz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706096313; x=1737632313;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=4KDkITjThVdXmK+bUfn3eDscOtSdUbZiuDnwLDTI5eE=;
+  b=Z5fZQnAzWketCuAZfYBBqmBKmDwO2T6cxkOA78eKiE+vUvVzUiewZO5i
+   KHZrd51dqv7bNgnkdGH27VYUKVMQQ3l7jtBphJ356WfWfArc+PNwNxo5b
+   w6sBvoxNGTG2X2XCgjzG7DwY/KBn/z48xTx03l23O6M+mUV0NgY2CRM0f
+   hDdC1wsbDItGs2LH2k95XQs68rVbjgVwur/PzZVk7n6nuUTSj+hkqCHzL
+   nqufUlFiBYbow+gCZGx8YVYmZo4lpD2NX90Tms1mtbQHmcbTYj0Xgwil/
+   ZvRAFCLTjcOIKlJ4cuc1/4ieHUzQdNh1jESpvX11+hUdW3zmuXVh5oKtr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1691930"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="1691930"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 03:38:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820437647"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="820437647"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.48.46])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 03:38:23 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 24 Jan 2024 13:38:18 +0200 (EET)
+To: Francesco Dolcini <francesco@dolcini.it>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org, 
+    linux-mediatek@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
+    linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
+    chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+    linux-serial <linux-serial@vger.kernel.org>, linux-sound@vger.kernel.org, 
+    Francesco Dolcini <francesco.dolcini@toradex.com>, 
+    Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+    Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+    Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, 
+    Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+    Eric Dumazet <edumazet@google.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+    Hans de Goede <hdegoede@redhat.com>, Benson Leung <bleung@chromium.org>, 
+    Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>, 
+    Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type
+ to size_t
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
+Message-ID: <7d4309e5-fdcd-13d7-2d4a-7139779e3fdd@linux.intel.com>
+References: <20240122180551.34429-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qevj6uqvskaa6zqk"
-Content-Disposition: inline
-In-Reply-To: <cover.1704835845.git.u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Type: multipart/mixed; boundary="8323328-695447939-1706096298=:1372"
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---qevj6uqvskaa6zqk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--8323328-695447939-1706096298=:1372
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Hello,
+On Mon, 22 Jan 2024, Francesco Dolcini wrote:
 
-On Tue, Jan 09, 2024 at 10:34:30PM +0100, Uwe Kleine-K=F6nig wrote:
-> the first patch is a fix for an out-of-bounds access and so should
-> probably go in quickly. The other changes are merge window material.
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
 >=20
-> Best regards
-> Uwe
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">=3D 0" from serdev_controller_receive_buf(), change its return type fro=
+m
+> ssize_t to size_t.
 >=20
-> Uwe Kleine-K=F6nig (5):
->   pwm: Fix out-of-bounds access in of_pwm_single_xlate()
->   pwm: Drop useless member .of_pwm_n_cells of struct pwm_chip
->   pwm: Let the of_xlate callbacks accept references without period
->   pwm: clps711x: Drop custom .of_xlate() callback
->   pwm: Drop duplicate check against chip->npwm in
->     of_pwm_xlate_with_flags()
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value")=
+=2E
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
 >=20
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->  drivers/pwm/core.c                    | 45 +++++++--------------------
->  drivers/pwm/pwm-clps711x.c            | 11 -------
->  drivers/pwm/pwm-cros-ec.c             |  1 -
->  drivers/pwm/pwm-pxa.c                 |  4 +--
->  include/linux/pwm.h                   |  2 --
->  6 files changed, 13 insertions(+), 51 deletions(-)
+> GNSS drivers implementation of serdev receive_buf() callback return
+> directly the return value of gnss_insert_raw(). gnss_insert_raw()
+> returns a signed int, however this is not an issue since the value
+> returned is always positive, because of the kfifo_in() implementation.
+> gnss_insert_raw() could be changed to return also an unsigned, however
+> this is not implemented here as request by the GNSS maintainer Johan
+> Hovold.
+>=20
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@ke=
+rnel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
 
-The first patch is already contained in v6.8-rc1, I applied the
-remaining 4 patches to my repo at
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
--next
-
-Best regards
-Uwe
+Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+ i.
 
---qevj6uqvskaa6zqk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWwzcgACgkQj4D7WH0S
-/k6o0Qf/djY3orpg33cVxhojPEMtT+5dcT6rmUISLQymmg8t8lQqt4D+oSPu8m6i
-OV6XRXMgJSKWE5TaJzPWPxQp36cKBKPmFZXoZzQD09l58GdUCTFo/3tQtUd0UJfu
-BhmcfecJH+o3G8JTDqy849FCfn/fsDtbkAPjmPMJHR+aZ/H5bP3pj8O3xLRk3Qu/
-bH5P/VxDTvPTBJO8Z5DfcZzU4P0p4Ah24HDorvMyV3cxzIHrmLVsrCRmkigpnASq
-9yq5F5NDraP/Xta9KhFG3Vtl+69M7DfzvtFIFvZ6CXdqkDCVqf5dy6/Gv/a6Z7Vs
-9ppJ7q/IyMgYZ0gaEHgOOArCw7FILA==
-=xzTn
------END PGP SIGNATURE-----
-
---qevj6uqvskaa6zqk--
+--8323328-695447939-1706096298=:1372--

@@ -1,37 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF60F125D7;
-	Thu, 25 Jan 2024 07:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B3C2C68A;
+	Thu, 25 Jan 2024 10:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706168216; cv=none; b=KgKcDeZ2g1MOvs+PW7AeqovtMR+5aPKn//ASd7OmZ3kVhNcriGB5uRe/juHS45d9BLI0DkhzztD/gA+ejQOEKH+mc6BOLBsJBX+DkhRGuoPaRK5EY5QMT+Q+AGn21H71Br8cNsYoHvacmcn5QlQm05qnA6ZjYnPx05pfetw3BKY=
+	t=1706179353; cv=none; b=nw81h/hgHNL90AU6RqcHY4DE3qbLeLM72nMH5i0q3G2ydnHTAcHxPT6fY0akjC9jkrQ/fthYBs/Yd6MZ2bitnzhAl60LnKnhsqvtFbIPFmcnVtAZZtuBD++8u4EvDrquNRpv0tcc8cb3tGj6gi5uD+zX+sQRNrn9UndRwklmnzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706168216; c=relaxed/simple;
-	bh=Q0JfeFCfMgWrfWnzoium/IVe2Po+3kpp7VAaqloEz1k=;
+	s=arc-20240116; t=1706179353; c=relaxed/simple;
+	bh=1/AQZg5NNw9HG13KiYI6HfNvwqZ4xcS6GaNad1Jmb/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxam6yaYXeYmaPPKAU4FJT47p2dUEvtAWhbqDwfTUqemIyn3T0riMnG+BSEZiHjwpovZDjIFZ1slEoMezGtmX0m3T6QTzgrSV97BuOFWtCJqopF5oNOwcq0iYIXgMo7OU+ZtwH615Sr+Mxg526mxqc3saEkWLFH3aWS99qXUREM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=udGMN9yU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sObF5GHc+SYeKQleyaV+2r+GlSNgaqOv9UMB/CT6fvKecMkzEoGKYSpK3BB2T42hIfWrQEh1nGO5FatnE1Qjb5kV1i6swH9LG/iRCkV/EP8W41yg4hqtQo39QSYzSV8SMIStHSNOfCKySUcXcFAsAskPo//+zaJOP58AdfPIZC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+WC6q/p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udGMN9yU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7012AC433F1;
-	Thu, 25 Jan 2024 07:36:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+WC6q/p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25A8EC433C7;
+	Thu, 25 Jan 2024 10:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706168215;
-	bh=Q0JfeFCfMgWrfWnzoium/IVe2Po+3kpp7VAaqloEz1k=;
+	s=k20201202; t=1706179353;
+	bh=1/AQZg5NNw9HG13KiYI6HfNvwqZ4xcS6GaNad1Jmb/I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=udGMN9yUHMrxmaVOhoVNPCuuuvuWNxMNgTYMLtmrJz/NohKEw40gPBGRhBk/o8z66
-	 SunP1i24pgaoednuaG5F0URxtAEbFYmKrN7DQxL/d6lRtm2lJ73Tthj4pKgcfmHWi3
-	 AdnAQPY1/9hH3bJlR/zHWLCX+L3FVD0dNnpDdW/SYjNEMPpDH90yd7ulOM3KkkpOq6
-	 SE+jiunstsmfRYgX6YIB7AzVU0H9FoJ78OeMZwt21R/vpFuYIhv8uw988w0ER9Y5UK
-	 BP7El39bEffgeKuj8WbQKV3dMX8XgshWr87G5PEh+J/T5P1vqAWS8Qp4MJVvujaz2A
-	 fuQDuh1Cn24UA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rSuIL-000000005sx-1MRL;
-	Thu, 25 Jan 2024 08:37:05 +0100
-Date: Thu, 25 Jan 2024 08:37:05 +0100
-From: Johan Hovold <johan@kernel.org>
+	b=Z+WC6q/pwbwzH6zhMdWS153JB6VUWqmZcSDN5fViUQMl+zNnFkr+L5iCIZC4Lmv2j
+	 bS4xt+Jc+fIKPiuc/kJRIJ6TAeALxfXs7+VoI8ancJ7e9QSMZf9u8wlf8juOT449Gm
+	 dGuxdVykXP+YbuK9da+3YP4AGDYrHkdmnPt65LdsuIx8gGLD4hTB/s1rjqbkVCKiUD
+	 oli8l8eXT1ku4I2e/jROQgRMNh1cOo8JM8FSB0c1qy9mR6qP4bCyS6fEZ4sW83WE4H
+	 dvME2O/MBNNvzFmFBAQf8Pqk3H35BFWj4WMW1H3tXE6hY7SpsHA0xe4mZ94kyccwIt
+	 HEVRnGIIo3ahQ==
+Date: Thu, 25 Jan 2024 10:42:23 +0000
+From: Lee Jones <lee@kernel.org>
 To: Francesco Dolcini <francesco@dolcini.it>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
@@ -43,19 +39,20 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org,
 	Francesco Dolcini <francesco.dolcini@toradex.com>,
 	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type to
  size_t
-Message-ID: <ZbIPoW2LKXJVz3oV@hovoldconsulting.com>
+Message-ID: <20240125104223.GD74950@google.com>
 References: <20240122180551.34429-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -63,11 +60,13 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
 
-On Mon, Jan 22, 2024 at 07:05:51PM +0100, Francesco Dolcini wrote:
+On Mon, 22 Jan 2024, Francesco Dolcini wrote:
+
 > From: Francesco Dolcini <francesco.dolcini@toradex.com>
 > 
 > receive_buf() is called from ttyport_receive_buf() that expects values
@@ -101,7 +100,31 @@ On Mon, Jan 22, 2024 at 07:05:51PM +0100, Francesco Dolcini wrote:
 >  - do not change the code style of the gnss code
 >  - commit message improvements, explain the reasons for doing only minimal
 >    changes on the GNSS part
+> ---
+>  drivers/bluetooth/btmtkuart.c              |  4 ++--
+>  drivers/bluetooth/btnxpuart.c              |  4 ++--
+>  drivers/bluetooth/hci_serdev.c             |  4 ++--
+>  drivers/gnss/serial.c                      |  2 +-
+>  drivers/gnss/sirf.c                        |  2 +-
+>  drivers/greybus/gb-beagleplay.c            |  6 +++---
+>  drivers/iio/chemical/pms7003.c             |  4 ++--
+>  drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>  drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>  drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
 
-Looks good to me now:
+>  drivers/mfd/rave-sp.c                      |  4 ++--
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>  drivers/nfc/pn533/uart.c                   |  4 ++--
+>  drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>  drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>  drivers/platform/surface/aggregator/core.c |  4 ++--
+>  drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>  include/linux/serdev.h                     |  8 ++++----
+>  sound/drivers/serial-generic.c             |  4 ++--
+>  19 files changed, 40 insertions(+), 42 deletions(-)
+
+-- 
+Lee Jones [李琼斯]

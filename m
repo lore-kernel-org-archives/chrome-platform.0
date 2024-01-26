@@ -1,54 +1,53 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93F814273
-	for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 09:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3011E56B60
+	for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 09:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706263051; cv=none; b=di2Sy7+/L99t4BmcrwjatGNM/zTAw9d2MZ1gcYV6L2MAMHwlL5jOwsQgLTby8JCEcQR8T51gSITF7GOlBkS5PKabEfVaOh79LaO3bzhWXxczvOuQnquhvlxv6ktNsMZ6Hqj6yHBMvaIt+6DuNnmSmgm+oX6pGcKkYnOjD4MtZUs=
+	t=1706263053; cv=none; b=ZccKDVWpkDwoEtzVXSsOSaTdn2ntWcTkFBwQ7ZtToHXvuXWJwhau52vlOKl4lC9fDFHAEcAtt4Z3vpCk38uJH+ieSbz3TSf7GiUzeIQjvLNovedbKWondY4RAzhXHRKNtotTYMaE1pMeLhsJCol90OAtFwYAmkSiPF3VQWlDNzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706263051; c=relaxed/simple;
-	bh=PFKESGwT+52VOtSt0GyKDZV9D4/icQHM8Qc6/fiJ5to=;
+	s=arc-20240116; t=1706263053; c=relaxed/simple;
+	bh=7Fyi/QS44P8HncFn1cyKX4frA3CvgsJ21VAd9AVke0k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gT+Vcl7W8Anq6/gliy67GDxKduHQ0on50hz2BJKrm1tt6WU3yh3vmDy4Y1mDDxt58UPVCswbZzGmDYevE+CIsR73Ynn8mFN7mBptxCicLcgONbEHuaP2a08KzG/ntzzbMLbIVVTRQfYkp06F+NwynQ3Vi+16+V24YQKGIAKqCf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KYDvogTA; arc=none smtp.client-ip=209.85.167.49
+	 MIME-Version:Content-Type; b=bK55SYNfN2o0+S4jmNtVnWCVGl8bSs/mBatFdObaLH4CCKl8Zhjsbg9vRfW1aZqPwsTRbBTXqH5Z0hUxNDsTYjm3TKI0zRMBwkx2w0ZrOoZofu20wygA2BdTr1v32p+Gw+loCzNG/Z0bBecC49nLnTRfvKgqMgDsgG2Acto+WYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h4tRcM0N; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KYDvogTA"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5101cd91017so164950e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 01:57:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h4tRcM0N"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-510218ab26fso295301e87.2
+        for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 01:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706263048; x=1706867848; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706263049; x=1706867849; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V8Jw334gbtlpfyMf//A4Kl+X5QTyArqRPZ+OYE2aYXw=;
-        b=KYDvogTAkLiZDp9jFe9xZIn9/bpkxFSxCAbrZRE7fNAZgExfY7Cmtvl/yhZbOSByak
-         zfWQpj+EQUCO/t2RYTMoWU15y80QFW9XHqdt5fIBDjljqp/HFiehDV8Eb4tLMBAymf9F
-         AwwBQxt+JspALjx+u3b4H5jXN4l95vKqLXGO4=
+        bh=ADAeAiuz2kl457QW/qJtcIJbI3upkBxpKZcTk3uuIsY=;
+        b=h4tRcM0N+8EZ2oY6zcLu/gMV6eYjVFc0FbdkwTtYnXLV4BLEUVKqSXljbp74y4e75e
+         h5Co72dK7Oy0FhLODqxQO4jdZSzoI9t4RYcvEazRpFZaYXx1u2E8CvPr6TlM5vYIJ0aw
+         P+6f+TLOSq1xPW5bbeKl6H8N9BTcaAQzHeY18=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706263048; x=1706867848;
+        d=1e100.net; s=20230601; t=1706263049; x=1706867849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V8Jw334gbtlpfyMf//A4Kl+X5QTyArqRPZ+OYE2aYXw=;
-        b=GJBocSRKAGMYjBJlQNsrg6TFxXlgoYioV/pdIlpXNAHG6Wq2+Lxtegzd8N2Jf+0L52
-         BcI3fmCp7wqAAbRWr5oRNhXowhQKTOKgz3ixAB3B9qmD1amvRBPBOFV1pQcphSah3Ixk
-         1DGW3OvpCOh/CdlQVOgkpGPtyQ6OLlHAXm9xdJkx/exeM9ES+DcQTu15SxY78wa/dPZn
-         x1XqhuhF6IQy6Nu0lh6wTJBN8WbPdFGzzpAzY37Tbli0OdNGuOdNBDcyF2BQF3JyhZC3
-         OYgorScsYuHs3sDK1LWEU7YB2UjwDJau5OkeKzf+Mcfg8dJbBDZyUnHv1ZYpGVx49ZDf
-         IPcw==
-X-Gm-Message-State: AOJu0YxfoZdy7TSCWW6ZiJRvN4jo6A67/DpI3u5sHCfvoGpMVRzjvCrF
-	YSZWCQV19QC1ylYzS8rLqBPRVOrTFX5M7lPaQf/KMU6aN76mCYGd97sPRGqoLn7s8C/2cTfVC+O
-	ECg==
-X-Google-Smtp-Source: AGHT+IG/Mwiteol2JuMT9UYjIHvJwx07Sd3BR0ZabMyBJWb6CZtR3UbTL5paq6F+L/BF5pNy5JAyhA==
-X-Received: by 2002:a05:6512:36cd:b0:510:25be:d7b5 with SMTP id e13-20020a05651236cd00b0051025bed7b5mr218218lfs.9.1706263047725;
-        Fri, 26 Jan 2024 01:57:27 -0800 (PST)
+        bh=ADAeAiuz2kl457QW/qJtcIJbI3upkBxpKZcTk3uuIsY=;
+        b=DBEbxj2VI/704VV0eYz6XGv7O65G3cXIAdItCj3k7px8yPPIRm14PiIYhXu9/LEfRF
+         Q7FfZLZiNopTMuEpOIrO4r1OiTuV58XYaTxSCBOHLaX1+lFjpI0T+ty7mnbkf0W3AS3w
+         /rrHW3sQ6oD92jqsHE6xMoRfxrFdXr7z1owTdMKsu0tTgxDtphih71tITal0/+xgE3Zq
+         1FLAusOxmb37HZ4flgtZ+7sONL2u6GuwSDVgUPxDKvBcwKJRMJnL8xiTbgQnyStSW6Db
+         v//JFoa5YRLDvQoVwuYbEo1X7rzkJfo5PwzX2VVohKdHmE2mKTch1jBztxyitdaEKwa5
+         ZP6A==
+X-Gm-Message-State: AOJu0YwUgEczS/krIlSIKBTOj7NqyA7mt9oDmnznAs2kgNIlcrrJbvsG
+	FXty0Zyp6AsBTpvDUgzP3fFAlPQ/zPQ/wUGa47MWk+x5IgUmXNEebFszHS/ePw==
+X-Google-Smtp-Source: AGHT+IGD25liiUHtquJUFdXngW8rT2M65JqLwwLYOqB7TmbEngCxTWSq5QXv6OBGsy1rtJAm2MB0NA==
+X-Received: by 2002:ac2:5922:0:b0:510:272c:d011 with SMTP id v2-20020ac25922000000b00510272cd011mr639632lfi.69.1706263049244;
+        Fri, 26 Jan 2024 01:57:29 -0800 (PST)
 Received: from cracow.c.googlers.com.com (138.58.228.35.bc.googleusercontent.com. [35.228.58.138])
-        by smtp.gmail.com with ESMTPSA id b16-20020a056512071000b0050ecae41c51sm129041lfs.135.2024.01.26.01.57.26
+        by smtp.gmail.com with ESMTPSA id b16-20020a056512071000b0050ecae41c51sm129041lfs.135.2024.01.26.01.57.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 01:57:26 -0800 (PST)
+        Fri, 26 Jan 2024 01:57:28 -0800 (PST)
 From: Lukasz Majczak <lma@chromium.org>
 To: Gwendal Grignou <gwendal@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
@@ -62,9 +61,9 @@ To: Gwendal Grignou <gwendal@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
 Cc: Lukasz Majczak <lma@chromium.org>
-Subject: [PATCH v4 1/3] platform/chrome: Update binary interface for EC-based watchdog
-Date: Fri, 26 Jan 2024 09:57:19 +0000
-Message-ID: <20240126095721.782782-2-lma@chromium.org>
+Subject: [PATCH v4 2/3] watchdog: Add ChromeOS EC-based watchdog driver
+Date: Fri, 26 Jan 2024 09:57:20 +0000
+Message-ID: <20240126095721.782782-3-lma@chromium.org>
 X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
 In-Reply-To: <20240126095721.782782-1-lma@chromium.org>
 References: <20240126095721.782782-1-lma@chromium.org>
@@ -74,116 +73,283 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update structures and defines related to EC_CMD_HANG_DETECT
-to allow usage of new EC-based watchdog.
+Embedded Controller (EC) present on Chromebook devices
+can be used as a watchdog.
+Implement a driver to support it.
 
 Signed-off-by: Lukasz Majczak <lma@chromium.org>
 ---
- .../linux/platform_data/cros_ec_commands.h    | 78 +++++++++----------
- 1 file changed, 35 insertions(+), 43 deletions(-)
+ MAINTAINERS                    |   6 +
+ drivers/watchdog/Kconfig       |  11 ++
+ drivers/watchdog/Makefile      |   1 +
+ drivers/watchdog/cros_ec_wdt.c | 204 +++++++++++++++++++++++++++++++++
+ 4 files changed, 222 insertions(+)
+ create mode 100644 drivers/watchdog/cros_ec_wdt.c
 
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 7dae17b62a4d..ecc47d5fe239 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -3961,60 +3961,52 @@ struct ec_response_i2c_passthru {
- } __ec_align1;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef90ddc0fda6..aaae581aae70 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4981,6 +4981,12 @@ R:	Sami Kyöstilä <skyostil@chromium.org>
+ S:	Maintained
+ F:	drivers/platform/chrome/cros_hps_i2c.c
  
- /*****************************************************************************/
--/* Power button hang detect */
--
-+/* AP hang detect */
- #define EC_CMD_HANG_DETECT 0x009F
++CHROMEOS EC WATCHDOG
++M:	Lukasz Majczak <lma@chromium.org>
++L:	chrome-platform@lists.linux.dev
++S:	Maintained
++F:	drivers/watchdog/cros_ec_wdt.c
++
+ CHRONTEL CH7322 CEC DRIVER
+ M:	Joe Tessler <jrt@google.com>
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+index 7d22051b15a2..4700b218340f 100644
+--- a/drivers/watchdog/Kconfig
++++ b/drivers/watchdog/Kconfig
+@@ -181,6 +181,17 @@ config BD957XMUF_WATCHDOG
+ 	  watchdog. Alternatively say M to compile the driver as a module,
+ 	  which will be called bd9576_wdt.
  
--/* Reasons to start hang detection timer */
--/* Power button pressed */
--#define EC_HANG_START_ON_POWER_PRESS  BIT(0)
--
--/* Lid closed */
--#define EC_HANG_START_ON_LID_CLOSE    BIT(1)
--
-- /* Lid opened */
--#define EC_HANG_START_ON_LID_OPEN     BIT(2)
--
--/* Start of AP S3->S0 transition (booting or resuming from suspend) */
--#define EC_HANG_START_ON_RESUME       BIT(3)
--
--/* Reasons to cancel hang detection */
-+#define EC_HANG_DETECT_MIN_TIMEOUT 5
-+#define EC_HANG_DETECT_MAX_TIMEOUT 65535
++config CROS_EC_WATCHDOG
++	tristate "ChromeOS EC-based watchdog"
++	select WATCHDOG_CORE
++	depends on CROS_EC
++	help
++	  Watchdog driver for Chromebook devices equipped with embedded controller.
++	  Trigger event is recorded in EC and checked on the subsequent boot.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_wdt.
++
+ config DA9052_WATCHDOG
+ 	tristate "Dialog DA9052 Watchdog"
+ 	depends on PMIC_DA9052 || COMPILE_TEST
+diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+index 7cbc34514ec1..3710c218f05e 100644
+--- a/drivers/watchdog/Makefile
++++ b/drivers/watchdog/Makefile
+@@ -217,6 +217,7 @@ obj-$(CONFIG_XEN_WDT) += xen_wdt.o
  
--/* Power button released */
--#define EC_HANG_STOP_ON_POWER_RELEASE BIT(8)
-+/* EC hang detect commands */
-+enum ec_hang_detect_cmds {
-+	/* Reload AP hang detect timer. */
-+	EC_HANG_DETECT_CMD_RELOAD = 0x0,
- 
--/* Any host command from AP received */
--#define EC_HANG_STOP_ON_HOST_COMMAND  BIT(9)
-+	/* Stop AP hang detect timer. */
-+	EC_HANG_DETECT_CMD_CANCEL = 0x1,
- 
--/* Stop on end of AP S0->S3 transition (suspending or shutting down) */
--#define EC_HANG_STOP_ON_SUSPEND       BIT(10)
-+	/* Configure watchdog with given reboot timeout and
-+	 * cancel currently running AP hang detect timer.
-+	 */
-+	EC_HANG_DETECT_CMD_SET_TIMEOUT = 0x2,
- 
--/*
-- * If this flag is set, all the other fields are ignored, and the hang detect
-- * timer is started.  This provides the AP a way to start the hang timer
-- * without reconfiguring any of the other hang detect settings.  Note that
-- * you must previously have configured the timeouts.
-- */
--#define EC_HANG_START_NOW             BIT(30)
-+	/* Get last hang status - whether the AP boot was clear or not */
-+	EC_HANG_DETECT_CMD_GET_STATUS = 0x3,
- 
--/*
-- * If this flag is set, all the other fields are ignored (including
-- * EC_HANG_START_NOW).  This provides the AP a way to stop the hang timer
-- * without reconfiguring any of the other hang detect settings.
-- */
--#define EC_HANG_STOP_NOW              BIT(31)
-+	/* Clear last hang status. Called when AP is rebooting/shutting down
-+	 * gracefully.
-+	 */
-+	EC_HANG_DETECT_CMD_CLEAR_STATUS = 0x4
-+};
- 
- struct ec_params_hang_detect {
--	/* Flags; see EC_HANG_* */
--	uint32_t flags;
--
--	/* Timeout in msec before generating host event, if enabled */
--	uint16_t host_event_timeout_msec;
-+	uint16_t command; /* enum ec_hang_detect_cmds */
-+	/* Timeout in seconds before generating reboot */
-+	uint16_t reboot_timeout_sec;
-+} __ec_align2;
- 
--	/* Timeout in msec before generating warm reboot, if enabled */
--	uint16_t warm_reboot_timeout_msec;
--} __ec_align4;
-+/* Status codes that describe whether AP has boot normally or the hang has been
-+ * detected and EC has reset AP
+ # Architecture Independent
+ obj-$(CONFIG_BD957XMUF_WATCHDOG) += bd9576_wdt.o
++obj-$(CONFIG_CROS_EC_WATCHDOG) += cros_ec_wdt.o
+ obj-$(CONFIG_DA9052_WATCHDOG) += da9052_wdt.o
+ obj-$(CONFIG_DA9055_WATCHDOG) += da9055_wdt.o
+ obj-$(CONFIG_DA9062_WATCHDOG) += da9062_wdt.o
+diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
+new file mode 100644
+index 000000000000..ba045e29f9a5
+--- /dev/null
++++ b/drivers/watchdog/cros_ec_wdt.c
+@@ -0,0 +1,204 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2024 Google LLC.
++ * Author: Lukasz Majczak <lma@chromium.com>
 + */
-+enum ec_hang_detect_status {
-+	EC_HANG_DETECT_AP_BOOT_NORMAL = 0x0,
-+	EC_HANG_DETECT_AP_BOOT_EC_WDT = 0x1,
-+	EC_HANG_DETECT_AP_BOOT_COUNT,
++
++#include <linux/err.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
++#include <linux/watchdog.h>
++
++#define CROS_EC_WATCHDOG_DEFAULT_TIME	30 /* seconds */
++#define DRV_NAME	"cros-ec-wdt"
++
++union cros_ec_wdt_data {
++	struct ec_params_hang_detect req;
++	struct ec_response_hang_detect resp;
++} __packed;
++
++static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
++				union cros_ec_wdt_data *arg)
++{
++	int ret;
++	struct {
++		struct cros_ec_command msg;
++		union cros_ec_wdt_data data;
++	} __packed buf = {
++		.msg = {
++			.version = 0,
++			.command = EC_CMD_HANG_DETECT,
++			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
++				   sizeof(struct ec_response_hang_detect) :
++				   0,
++			.outsize = sizeof(struct ec_params_hang_detect),
++		},
++		.data.req = arg->req
++	};
++
++	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
++	if (ret < 0)
++		return ret;
++
++	arg->resp = buf.data.resp;
++
++	return 0;
++}
++
++static int cros_ec_wdt_ping(struct watchdog_device *wdd)
++{
++	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
++	union cros_ec_wdt_data arg;
++	int ret;
++
++	arg.req.command = EC_HANG_DETECT_CMD_RELOAD;
++	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
++	if (ret < 0)
++		dev_dbg(wdd->parent, "Failed to ping watchdog (%d)", ret);
++
++	return ret;
++}
++
++static int cros_ec_wdt_start(struct watchdog_device *wdd)
++{
++	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
++	union cros_ec_wdt_data arg;
++	int ret;
++
++	/* Prepare watchdog on EC side */
++	arg.req.command = EC_HANG_DETECT_CMD_SET_TIMEOUT;
++	arg.req.reboot_timeout_sec = wdd->timeout;
++	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
++	if (ret < 0)
++		dev_dbg(wdd->parent, "Failed to start watchdog (%d)", ret);
++
++	return ret;
++}
++
++static int cros_ec_wdt_stop(struct watchdog_device *wdd)
++{
++	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
++	union cros_ec_wdt_data arg;
++	int ret;
++
++	arg.req.command = EC_HANG_DETECT_CMD_CANCEL;
++	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
++	if (ret < 0)
++		dev_dbg(wdd->parent, "Failed to stop watchdog (%d)", ret);
++
++	return ret;
++}
++
++static int cros_ec_wdt_set_timeout(struct watchdog_device *wdd, unsigned int t)
++{
++	unsigned int old_timeout = wdd->timeout;
++	int ret;
++
++	wdd->timeout = t;
++	ret = cros_ec_wdt_start(wdd);
++	if (ret < 0)
++		wdd->timeout = old_timeout;
++
++	return ret;
++}
++
++static const struct watchdog_info cros_ec_wdt_ident = {
++	.options          = WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE,
++	.firmware_version = 0,
++	.identity         = DRV_NAME,
 +};
- 
-+struct ec_response_hang_detect {
-+	uint8_t status; /* enum ec_hang_detect_status */
-+} __ec_align1;
- /*****************************************************************************/
- /* Commands for battery charging */
- 
++
++static const struct watchdog_ops cros_ec_wdt_ops = {
++	.owner		 = THIS_MODULE,
++	.ping		 = cros_ec_wdt_ping,
++	.start		 = cros_ec_wdt_start,
++	.stop		 = cros_ec_wdt_stop,
++	.set_timeout = cros_ec_wdt_set_timeout,
++};
++
++static int cros_ec_wdt_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
++	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
++	struct watchdog_device *wdd;
++	union cros_ec_wdt_data arg;
++	int ret = 0;
++
++	wdd = devm_kzalloc(&pdev->dev, sizeof(*wdd), GFP_KERNEL);
++	if (!wdd)
++		return -ENOMEM;
++
++	arg.req.command = EC_HANG_DETECT_CMD_GET_STATUS;
++	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to get watchdog bootstatus");
++
++	wdd->parent = &pdev->dev;
++	wdd->info = &cros_ec_wdt_ident;
++	wdd->ops = &cros_ec_wdt_ops;
++	wdd->timeout = CROS_EC_WATCHDOG_DEFAULT_TIME;
++	wdd->min_timeout = EC_HANG_DETECT_MIN_TIMEOUT;
++	wdd->max_timeout = EC_HANG_DETECT_MAX_TIMEOUT;
++	if (arg.resp.status == EC_HANG_DETECT_AP_BOOT_EC_WDT)
++		wdd->bootstatus = WDIOF_CARDRESET;
++
++	arg.req.command = EC_HANG_DETECT_CMD_CLEAR_STATUS;
++	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to clear watchdog bootstatus");
++
++	watchdog_stop_on_reboot(wdd);
++	watchdog_stop_on_unregister(wdd);
++	watchdog_set_drvdata(wdd, cros_ec);
++	platform_set_drvdata(pdev, wdd);
++
++	return devm_watchdog_register_device(dev, wdd);
++}
++
++static int __maybe_unused cros_ec_wdt_suspend(struct platform_device *pdev, pm_message_t state)
++{
++	struct watchdog_device *wdd = platform_get_drvdata(pdev);
++	int ret = 0;
++
++	if (watchdog_active(wdd))
++		ret = cros_ec_wdt_stop(wdd);
++
++	return ret;
++}
++
++static int __maybe_unused cros_ec_wdt_resume(struct platform_device *pdev)
++{
++	struct watchdog_device *wdd = platform_get_drvdata(pdev);
++	int ret = 0;
++
++	if (watchdog_active(wdd))
++		ret = cros_ec_wdt_start(wdd);
++
++	return ret;
++}
++
++static const struct platform_device_id cros_ec_wdt_id[] = {
++	{ DRV_NAME, 0 },
++	{}
++};
++
++static struct platform_driver cros_ec_wdt_driver = {
++	.probe		= cros_ec_wdt_probe,
++	.suspend	= pm_ptr(cros_ec_wdt_suspend),
++	.resume		= pm_ptr(cros_ec_wdt_resume),
++	.driver		= {
++		.name	= DRV_NAME,
++	},
++	.id_table	= cros_ec_wdt_id,
++};
++
++module_platform_driver(cros_ec_wdt_driver);
++
++MODULE_DEVICE_TABLE(platform, cros_ec_wdt_id);
++MODULE_DESCRIPTION("Cros EC Watchdog Device Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0.429.g432eaa2c6b-goog
 

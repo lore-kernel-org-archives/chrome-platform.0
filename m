@@ -1,355 +1,254 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3011E56B60
-	for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 09:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593E91B963
+	for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 14:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706263053; cv=none; b=ZccKDVWpkDwoEtzVXSsOSaTdn2ntWcTkFBwQ7ZtToHXvuXWJwhau52vlOKl4lC9fDFHAEcAtt4Z3vpCk38uJH+ieSbz3TSf7GiUzeIQjvLNovedbKWondY4RAzhXHRKNtotTYMaE1pMeLhsJCol90OAtFwYAmkSiPF3VQWlDNzI=
+	t=1706281003; cv=none; b=fjRA68GzEKJEo+MunHSL4WZ9FspbT+LxdeAMOu9pJGoIsF0bl8WxfFusGq36K/TsCPmUAV2lwejJizzLX2Rj2jCezeMiIn1ObmnEz3PInmRvHbRMMOeaP4zXhytxyzL0URcCmykroklfOb7tasUiJPop9pFTnmmVyrxcxN1vm8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706263053; c=relaxed/simple;
-	bh=7Fyi/QS44P8HncFn1cyKX4frA3CvgsJ21VAd9AVke0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bK55SYNfN2o0+S4jmNtVnWCVGl8bSs/mBatFdObaLH4CCKl8Zhjsbg9vRfW1aZqPwsTRbBTXqH5Z0hUxNDsTYjm3TKI0zRMBwkx2w0ZrOoZofu20wygA2BdTr1v32p+Gw+loCzNG/Z0bBecC49nLnTRfvKgqMgDsgG2Acto+WYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h4tRcM0N; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1706281003; c=relaxed/simple;
+	bh=O+Et2QyBiECMjlqs36hjV1bCs0NPGQOndc6Mrtjny98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bYrfWtIJTWzRH05k29htVpbeM8sgSQWtFUkJoBn5UEnWfyOUBmnCM8q6McQ+7bb9fTcKvHx2sugefYML0RsuBhxU2qsvyRYFmKrTrsk7pgFYQt5IUDdH6nLwZgrB558uXUKdbpVI4HXVnxNPkESxszZrXlRHw2yb3LO/MSHUaU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=BMI58awe; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h4tRcM0N"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-510218ab26fso295301e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 01:57:30 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="BMI58awe"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7bedd61c587so23171839f.2
+        for <chrome-platform@lists.linux.dev>; Fri, 26 Jan 2024 06:56:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706263049; x=1706867849; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ADAeAiuz2kl457QW/qJtcIJbI3upkBxpKZcTk3uuIsY=;
-        b=h4tRcM0N+8EZ2oY6zcLu/gMV6eYjVFc0FbdkwTtYnXLV4BLEUVKqSXljbp74y4e75e
-         h5Co72dK7Oy0FhLODqxQO4jdZSzoI9t4RYcvEazRpFZaYXx1u2E8CvPr6TlM5vYIJ0aw
-         P+6f+TLOSq1xPW5bbeKl6H8N9BTcaAQzHeY18=
+        d=ieee.org; s=google; t=1706280999; x=1706885799; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=BMI58aweMOoNoDhrHd1W+ApVfemuDM9m2rlp+5IUWShsb+ZM+jpDWXwVVU97+K1k/X
+         P6cJgEAMUEuaCAjKZJ688lbUnVWegRZ6YFG7CNsWqUB2dWABSQCThOSz3oxzsspXFoJM
+         iFKswQZLs+vSeU3Vi2dFqhsir+Aqo+/m7MM7I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706263049; x=1706867849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ADAeAiuz2kl457QW/qJtcIJbI3upkBxpKZcTk3uuIsY=;
-        b=DBEbxj2VI/704VV0eYz6XGv7O65G3cXIAdItCj3k7px8yPPIRm14PiIYhXu9/LEfRF
-         Q7FfZLZiNopTMuEpOIrO4r1OiTuV58XYaTxSCBOHLaX1+lFjpI0T+ty7mnbkf0W3AS3w
-         /rrHW3sQ6oD92jqsHE6xMoRfxrFdXr7z1owTdMKsu0tTgxDtphih71tITal0/+xgE3Zq
-         1FLAusOxmb37HZ4flgtZ+7sONL2u6GuwSDVgUPxDKvBcwKJRMJnL8xiTbgQnyStSW6Db
-         v//JFoa5YRLDvQoVwuYbEo1X7rzkJfo5PwzX2VVohKdHmE2mKTch1jBztxyitdaEKwa5
-         ZP6A==
-X-Gm-Message-State: AOJu0YwUgEczS/krIlSIKBTOj7NqyA7mt9oDmnznAs2kgNIlcrrJbvsG
-	FXty0Zyp6AsBTpvDUgzP3fFAlPQ/zPQ/wUGa47MWk+x5IgUmXNEebFszHS/ePw==
-X-Google-Smtp-Source: AGHT+IGD25liiUHtquJUFdXngW8rT2M65JqLwwLYOqB7TmbEngCxTWSq5QXv6OBGsy1rtJAm2MB0NA==
-X-Received: by 2002:ac2:5922:0:b0:510:272c:d011 with SMTP id v2-20020ac25922000000b00510272cd011mr639632lfi.69.1706263049244;
-        Fri, 26 Jan 2024 01:57:29 -0800 (PST)
-Received: from cracow.c.googlers.com.com (138.58.228.35.bc.googleusercontent.com. [35.228.58.138])
-        by smtp.gmail.com with ESMTPSA id b16-20020a056512071000b0050ecae41c51sm129041lfs.135.2024.01.26.01.57.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 01:57:28 -0800 (PST)
-From: Lukasz Majczak <lma@chromium.org>
-To: Gwendal Grignou <gwendal@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Radoslaw Biernacki <biernacki@google.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Lukasz Majczak <lma@chromium.org>
-Subject: [PATCH v4 2/3] watchdog: Add ChromeOS EC-based watchdog driver
-Date: Fri, 26 Jan 2024 09:57:20 +0000
-Message-ID: <20240126095721.782782-3-lma@chromium.org>
-X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
-In-Reply-To: <20240126095721.782782-1-lma@chromium.org>
-References: <20240126095721.782782-1-lma@chromium.org>
+        d=1e100.net; s=20230601; t=1706280999; x=1706885799;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=mbR0uZcEq8L70wMTikZEc6kxoc7sWanyozt3zRm7YaNCTL/3bQyhalH6+dWfKvKWbr
+         46FKXq1iZB9qvUR/7kWmnOzh8OmkVFRn4O8ElpXW4e2sbrx2BEviq/EcrQ92P9E+sP4r
+         lb5AOzazKLPG1DNVpDnnjeU8gy1PRJUoyY3EaJC6tAh1b1Q7qA0o1S8nRj0PlC+BIjgC
+         vT4/yDgoPMZG1SwXmcotMGAksRbOuVn2KjiyJd69rYpafaIrHYxstsjRH4icT22wLptE
+         LHWeuNDuwcrWciiQigBG8hRSFsbF4XtnTCHqT6NujrC7oB0jUWT2IUnuOVJkewPltpsV
+         AWIA==
+X-Gm-Message-State: AOJu0YxzMslksvsrOcoIsFoGWEFUcmAhM7Qmh2/r+qr1EYOPqIEt1HEo
+	wPs3o2ThGOkYkFh4WcsD3/TWWUUpFmPVUl9yx+NdezARnOIPTEakqha7zrpBlg==
+X-Google-Smtp-Source: AGHT+IE7L+Lf4nGmf8jBYvWvUbBMIPYEUcZmRKhPCMfOv7qLIoTicpYxj6Q75lc9mf95xYawNxxN/g==
+X-Received: by 2002:a6b:4f13:0:b0:7bf:d2f2:3732 with SMTP id d19-20020a6b4f13000000b007bfd2f23732mr41889iob.19.1706280997488;
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id m8-20020a056638224800b00470a4791160sm46771jas.109.2024.01.26.06.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Message-ID: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
+Date: Fri, 26 Jan 2024 08:56:33 -0600
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, James Clark <james.clark@arm.com>,
+ linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Michael Walle <mwalle@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Lu Hongfei <luhongfei@vivo.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Johan Hovold <johan@kernel.org>
+Cc: linux-doc@vger.kernel.org, kernel@pengutronix.de,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Embedded Controller (EC) present on Chromebook devices
-can be used as a watchdog.
-Implement a driver to support it.
+On 1/25/24 6:09 AM, Uwe Kleine-König wrote:
+> This function allocates a struct pwm_chip and driver data. Compared to
+> the status quo the split into pwm_chip and driver data is new, otherwise
+> it doesn't change anything relevant (yet).
+> 
+> The intention is that after all drivers are switched to use this
+> allocation function, its possible to add a struct device to struct
+> pwm_chip to properly track the latter's lifetime without touching all
+> drivers again. Proper lifetime tracking is a necessary precondition to
+> introduce character device support for PWMs (that implements atomic
+> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> userspace support).
+> 
+> The new function pwmchip_priv() (obviously?) only works for chips
+> allocated with devm_pwmchip_alloc().
 
-Signed-off-by: Lukasz Majczak <lma@chromium.org>
----
- MAINTAINERS                    |   6 +
- drivers/watchdog/Kconfig       |  11 ++
- drivers/watchdog/Makefile      |   1 +
- drivers/watchdog/cros_ec_wdt.c | 204 +++++++++++++++++++++++++++++++++
- 4 files changed, 222 insertions(+)
- create mode 100644 drivers/watchdog/cros_ec_wdt.c
+I think this looks good.  Two questions:
+- Should you explicitly align the private data?  Or do you believe
+   the default alignment (currently pointer size aligned) is adequate?
+- Is there a non-devres version of the allocation function?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef90ddc0fda6..aaae581aae70 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4981,6 +4981,12 @@ R:	Sami Kyöstilä <skyostil@chromium.org>
- S:	Maintained
- F:	drivers/platform/chrome/cros_hps_i2c.c
- 
-+CHROMEOS EC WATCHDOG
-+M:	Lukasz Majczak <lma@chromium.org>
-+L:	chrome-platform@lists.linux.dev
-+S:	Maintained
-+F:	drivers/watchdog/cros_ec_wdt.c
-+
- CHRONTEL CH7322 CEC DRIVER
- M:	Joe Tessler <jrt@google.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 7d22051b15a2..4700b218340f 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -181,6 +181,17 @@ config BD957XMUF_WATCHDOG
- 	  watchdog. Alternatively say M to compile the driver as a module,
- 	  which will be called bd9576_wdt.
- 
-+config CROS_EC_WATCHDOG
-+	tristate "ChromeOS EC-based watchdog"
-+	select WATCHDOG_CORE
-+	depends on CROS_EC
-+	help
-+	  Watchdog driver for Chromebook devices equipped with embedded controller.
-+	  Trigger event is recorded in EC and checked on the subsequent boot.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called cros_ec_wdt.
-+
- config DA9052_WATCHDOG
- 	tristate "Dialog DA9052 Watchdog"
- 	depends on PMIC_DA9052 || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index 7cbc34514ec1..3710c218f05e 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -217,6 +217,7 @@ obj-$(CONFIG_XEN_WDT) += xen_wdt.o
- 
- # Architecture Independent
- obj-$(CONFIG_BD957XMUF_WATCHDOG) += bd9576_wdt.o
-+obj-$(CONFIG_CROS_EC_WATCHDOG) += cros_ec_wdt.o
- obj-$(CONFIG_DA9052_WATCHDOG) += da9052_wdt.o
- obj-$(CONFIG_DA9055_WATCHDOG) += da9055_wdt.o
- obj-$(CONFIG_DA9062_WATCHDOG) += da9062_wdt.o
-diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
-new file mode 100644
-index 000000000000..ba045e29f9a5
---- /dev/null
-+++ b/drivers/watchdog/cros_ec_wdt.c
-@@ -0,0 +1,204 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2024 Google LLC.
-+ * Author: Lukasz Majczak <lma@chromium.com>
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+#include <linux/watchdog.h>
-+
-+#define CROS_EC_WATCHDOG_DEFAULT_TIME	30 /* seconds */
-+#define DRV_NAME	"cros-ec-wdt"
-+
-+union cros_ec_wdt_data {
-+	struct ec_params_hang_detect req;
-+	struct ec_response_hang_detect resp;
-+} __packed;
-+
-+static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
-+				union cros_ec_wdt_data *arg)
-+{
-+	int ret;
-+	struct {
-+		struct cros_ec_command msg;
-+		union cros_ec_wdt_data data;
-+	} __packed buf = {
-+		.msg = {
-+			.version = 0,
-+			.command = EC_CMD_HANG_DETECT,
-+			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
-+				   sizeof(struct ec_response_hang_detect) :
-+				   0,
-+			.outsize = sizeof(struct ec_params_hang_detect),
-+		},
-+		.data.req = arg->req
-+	};
-+
-+	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-+	if (ret < 0)
-+		return ret;
-+
-+	arg->resp = buf.data.resp;
-+
-+	return 0;
-+}
-+
-+static int cros_ec_wdt_ping(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_RELOAD;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to ping watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_start(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	/* Prepare watchdog on EC side */
-+	arg.req.command = EC_HANG_DETECT_CMD_SET_TIMEOUT;
-+	arg.req.reboot_timeout_sec = wdd->timeout;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to start watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_stop(struct watchdog_device *wdd)
-+{
-+	struct cros_ec_device *cros_ec = watchdog_get_drvdata(wdd);
-+	union cros_ec_wdt_data arg;
-+	int ret;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_CANCEL;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		dev_dbg(wdd->parent, "Failed to stop watchdog (%d)", ret);
-+
-+	return ret;
-+}
-+
-+static int cros_ec_wdt_set_timeout(struct watchdog_device *wdd, unsigned int t)
-+{
-+	unsigned int old_timeout = wdd->timeout;
-+	int ret;
-+
-+	wdd->timeout = t;
-+	ret = cros_ec_wdt_start(wdd);
-+	if (ret < 0)
-+		wdd->timeout = old_timeout;
-+
-+	return ret;
-+}
-+
-+static const struct watchdog_info cros_ec_wdt_ident = {
-+	.options          = WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE,
-+	.firmware_version = 0,
-+	.identity         = DRV_NAME,
-+};
-+
-+static const struct watchdog_ops cros_ec_wdt_ops = {
-+	.owner		 = THIS_MODULE,
-+	.ping		 = cros_ec_wdt_ping,
-+	.start		 = cros_ec_wdt_start,
-+	.stop		 = cros_ec_wdt_stop,
-+	.set_timeout = cros_ec_wdt_set_timeout,
-+};
-+
-+static int cros_ec_wdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-+	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-+	struct watchdog_device *wdd;
-+	union cros_ec_wdt_data arg;
-+	int ret = 0;
-+
-+	wdd = devm_kzalloc(&pdev->dev, sizeof(*wdd), GFP_KERNEL);
-+	if (!wdd)
-+		return -ENOMEM;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_GET_STATUS;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get watchdog bootstatus");
-+
-+	wdd->parent = &pdev->dev;
-+	wdd->info = &cros_ec_wdt_ident;
-+	wdd->ops = &cros_ec_wdt_ops;
-+	wdd->timeout = CROS_EC_WATCHDOG_DEFAULT_TIME;
-+	wdd->min_timeout = EC_HANG_DETECT_MIN_TIMEOUT;
-+	wdd->max_timeout = EC_HANG_DETECT_MAX_TIMEOUT;
-+	if (arg.resp.status == EC_HANG_DETECT_AP_BOOT_EC_WDT)
-+		wdd->bootstatus = WDIOF_CARDRESET;
-+
-+	arg.req.command = EC_HANG_DETECT_CMD_CLEAR_STATUS;
-+	ret = cros_ec_wdt_send_cmd(cros_ec, &arg);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to clear watchdog bootstatus");
-+
-+	watchdog_stop_on_reboot(wdd);
-+	watchdog_stop_on_unregister(wdd);
-+	watchdog_set_drvdata(wdd, cros_ec);
-+	platform_set_drvdata(pdev, wdd);
-+
-+	return devm_watchdog_register_device(dev, wdd);
-+}
-+
-+static int __maybe_unused cros_ec_wdt_suspend(struct platform_device *pdev, pm_message_t state)
-+{
-+	struct watchdog_device *wdd = platform_get_drvdata(pdev);
-+	int ret = 0;
-+
-+	if (watchdog_active(wdd))
-+		ret = cros_ec_wdt_stop(wdd);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused cros_ec_wdt_resume(struct platform_device *pdev)
-+{
-+	struct watchdog_device *wdd = platform_get_drvdata(pdev);
-+	int ret = 0;
-+
-+	if (watchdog_active(wdd))
-+		ret = cros_ec_wdt_start(wdd);
-+
-+	return ret;
-+}
-+
-+static const struct platform_device_id cros_ec_wdt_id[] = {
-+	{ DRV_NAME, 0 },
-+	{}
-+};
-+
-+static struct platform_driver cros_ec_wdt_driver = {
-+	.probe		= cros_ec_wdt_probe,
-+	.suspend	= pm_ptr(cros_ec_wdt_suspend),
-+	.resume		= pm_ptr(cros_ec_wdt_resume),
-+	.driver		= {
-+		.name	= DRV_NAME,
-+	},
-+	.id_table	= cros_ec_wdt_id,
-+};
-+
-+module_platform_driver(cros_ec_wdt_driver);
-+
-+MODULE_DEVICE_TABLE(platform, cros_ec_wdt_id);
-+MODULE_DESCRIPTION("Cros EC Watchdog Device Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0.429.g432eaa2c6b-goog
+					-Alex
+
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>   .../driver-api/driver-model/devres.rst        |  1 +
+>   Documentation/driver-api/pwm.rst              | 10 ++++----
+>   drivers/pwm/core.c                            | 25 +++++++++++++++++++
+>   include/linux/pwm.h                           |  2 ++
+>   4 files changed, 33 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index c5f99d834ec5..e4df72c408d2 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -420,6 +420,7 @@ POWER
+>     devm_reboot_mode_unregister()
+>   
+>   PWM
+> +  devm_pwmchip_alloc()
+>     devm_pwmchip_add()
+>     devm_pwm_get()
+>     devm_fwnode_pwm_get()
+> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+> index 3c28ccc4b611..cee66c7f0335 100644
+> --- a/Documentation/driver-api/pwm.rst
+> +++ b/Documentation/driver-api/pwm.rst
+> @@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
+>   to have multiple PWM drivers in the system. For this reason it's mandatory
+>   for new drivers to use the generic PWM framework.
+>   
+> -A new PWM controller/chip can be added using pwmchip_add() and removed
+> -again with pwmchip_remove(). pwmchip_add() takes a filled in struct
+> -pwm_chip as argument which provides a description of the PWM chip, the
+> -number of PWM devices provided by the chip and the chip-specific
+> -implementation of the supported PWM operations to the framework.
+> +A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
+> +using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
+> +takes a filled in struct pwm_chip as argument which provides a description of
+> +the PWM chip, the number of PWM devices provided by the chip and the
+> +chip-specific implementation of the supported PWM operations to the framework.
+>   
+>   When implementing polarity support in a PWM driver, make sure to respect the
+>   signal conventions in the PWM framework. By definition, normal polarity
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 1b4c3d0caa82..b821a2b0b172 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
+>   }
+>   EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
+>   
+> +static void *pwmchip_priv(struct pwm_chip *chip)
+> +{
+> +	return (void *)chip + sizeof(*chip);
+> +}
+> +
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
+> +{
+> +	struct pwm_chip *chip;
+> +	size_t alloc_size;
+> +
+> +	alloc_size = size_add(sizeof(*chip), sizeof_priv);
+> +
+> +	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
+> +	if (!chip)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	chip->dev = parent;
+> +	chip->npwm = npwm;
+> +
+> +	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
+> +
+> +	return chip;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
+> +
+>   static void of_pwmchip_add(struct pwm_chip *chip)
+>   {
+>   	if (!chip->dev || !chip->dev->of_node)
+> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> index 2c49d2fe2fe7..8bc7504aa7d4 100644
+> --- a/include/linux/pwm.h
+> +++ b/include/linux/pwm.h
+> @@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
+>   int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+>   		unsigned long timeout);
+>   
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
+> +
+>   int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
+>   #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
+>   void pwmchip_remove(struct pwm_chip *chip);
 

@@ -1,160 +1,85 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF01513A249
-	for <chrome-platform@lists.linux.dev>; Thu, 25 Jan 2024 20:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A371428E;
+	Fri, 26 Jan 2024 09:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706216102; cv=none; b=njyGHpTBJB5Tf0OPqwvV1xop3mhHsIHBTkZk3iRXjYCA3FfOR6vdTWJAg41k7Adwt116mzgJwR+e8oNhldIvBqoZt5pjrJuMU/X2RaRPWHTI9YSzlUJB7bME1kGUWqd7v6cDstmbf6Zmk2mVhvg6gdnMuMp7wWh4WAdZS4jN6Ns=
+	t=1706260058; cv=none; b=e3FBPlxHgb9ICTpjMknEFrtdm7E9AUxp/EyydM0ligi7qJXd6DP6LOdZxQn1HuinyAWbXtANU33v8zsmA1nJpEQJxXRuUHfm04SmMAyiigtohSWUa4CX+ZmRe4uqMGEYafg955PB5BX8BDhPaN4V9tjuxKqkiCQmFtVE+8wahyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706216102; c=relaxed/simple;
-	bh=fO99f0ePHKbHwUdZm/bw6zGu6VRhR6QSAqZmTpdRvPA=;
+	s=arc-20240116; t=1706260058; c=relaxed/simple;
+	bh=oebNiettGESaAJQHOpi1TBvd5lz5JYV/8vgPP+Wae1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+sqSfY9ee3gKRfEpZ70ggHYDy0RaQyFSX6Av1WnSJZcI2xiHl4JwmIANmilMyw/oLBNzSupVMSA7uGTa/eqj4YrQopv0ndnBy/HOjUj6TOI8xLIY9SyECP6hXs/JOr9f0IfAaQJIQCm6m57Bh8B74pmPCIc3zIP7BjIJGk0HfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kK-0000q6-2e; Thu, 25 Jan 2024 21:54:48 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kE-002MbB-Qk; Thu, 25 Jan 2024 21:54:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kE-0088NE-2C;
-	Thu, 25 Jan 2024 21:54:42 +0100
-Date: Thu, 25 Jan 2024 21:54:42 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Douglas Anderson <dianders@chromium.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	linux-amlogic@lists.infradead.org, Guenter Roeck <groeck@chromium.org>, 
-	linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, 
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
-	Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Kevin Hilman <khilman@baylibre.com>, linux-staging@lists.linux.dev, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, greybus-dev@lists.linaro.org, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-mediatek@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Benson Leung <bleung@chromium.org>, kernel@pengutronix.de, 
-	linux-arm-kernel@lists.infradead.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Alex Elder <elder@kernel.org>, Scott Branden <sbranden@broadcom.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v5 003/111] pwm: Provide a macro to get the parent device
- of a given chip
-Message-ID: <h4l5ki3mvayfmfb73jnrokmxu3p2ewutihx4rytefmpce7bcxq@nhsyy2fw6fds>
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <1cae6f73264ab313205eaa9483251f7aaf259cb4.1706182805.git.u.kleine-koenig@pengutronix.de>
- <c89cbecf-253d-4a2c-8782-304b7b620175@broadcom.com>
- <e3xeos2rtfydqj3hz3ql7xkon3aa3aingww7q5lpb3xa4arqrs@6jgwfrgay4le>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZYiD0fJwUqNhC7gWyNhtMwwuC1D9XpifsCa3C1iyAqITCXauqtk6gEPlK/LPe2MTQFy1TeClqOzUNO05swc1/SsN2g/TnKZVa9eBnF6DxRpz+uWPKgi+WRSbTJehfxpZUlelCxt4pCykKNygB0+9k9RrgQQbWoclv4Puh1/hoJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DP4gaoBr; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DP4gaoBr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB06C433C7;
+	Fri, 26 Jan 2024 09:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706260057;
+	bh=oebNiettGESaAJQHOpi1TBvd5lz5JYV/8vgPP+Wae1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DP4gaoBruqekm9lG7/v4GzhWqKcrBslGTXHkPsfOrj5f4FZ4SZRGrvBXjPmy32L72
+	 SGbQmqMuyCeTySeVSLglKkKlwY27DCPP0csJWQgleQpFC/Zlr8LQ7ibJOhX5UfiWbi
+	 DMIOabubA1aSFLvknmwsZWqRTJKBrWi48Eoq+fjQ0g9o85pva6vZDTxxZIPc77s6UU
+	 glX9IXTcXG+CLZz/TfeXoLIrYzRavgUkfKxSwTnT66lfnzEuKmPo4R3qan79jrOaaX
+	 XlMYSqhEvnrIgtQQxKBtI3TPlO39ox0Wq2XXFQtXB6+n9O8GIcK/vIs7yI4NgliRgF
+	 NTx/BQhq9/q3A==
+Date: Fri, 26 Jan 2024 09:07:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: =?utf-8?Q?=C5=81ukasz?= Majczak <lma@chromium.org>
+Cc: Gwendal Grignou <gwendal@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Radoslaw Biernacki <biernacki@google.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: (subset) [PATCH v3 3/3] mfd: cros_ec: Register EC-based watchdog
+ subdevice
+Message-ID: <20240126090731.GP74950@google.com>
+References: <20240119084328.3135503-1-lma@chromium.org>
+ <20240119084328.3135503-4-lma@chromium.org>
+ <170618986350.1469172.17149163593213396683.b4-ty@kernel.org>
+ <CAE5UKNp5oorZMJwor=8Z_2wtCSS23Q1-25_RNoDHNi1USx5_7Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2cxtxp6sbv6wwe5j"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e3xeos2rtfydqj3hz3ql7xkon3aa3aingww7q5lpb3xa4arqrs@6jgwfrgay4le>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE5UKNp5oorZMJwor=8Z_2wtCSS23Q1-25_RNoDHNi1USx5_7Q@mail.gmail.com>
 
+On Thu, 25 Jan 2024, Łukasz Majczak wrote:
 
---2cxtxp6sbv6wwe5j
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Jan 25, 2024 at 2:37 PM Lee Jones <lee@kernel.org> wrote:
+> >
+> > On Fri, 19 Jan 2024 08:43:27 +0000, Lukasz Majczak wrote:
+> > > Add ChromeOS EC-based watchdog as EC subdevice.
+> > >
+> > >
+> >
+> > Applied, thanks!
+> >
+> > [3/3] mfd: cros_ec: Register EC-based watchdog subdevice
+> >       commit: a1958f84deb5cdba020af725fc5003a05af4819c
+> >
+> > --
+> > Lee Jones [李琼斯]
+> >
+> Hi Lee,
+> 
+> I will send V4 of the patchset to address Krzysztof suggestions, in
+> that case I should skip adding V4 of this patch and have only patches
+> 1 and 2 in the V4 patchset?
 
-On Thu, Jan 25, 2024 at 09:29:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Thu, Jan 25, 2024 at 11:32:47AM -0800, Florian Fainelli wrote:
-> > On 1/25/24 04:08, Uwe Kleine-K=F6nig wrote:
-> > > Currently a pwm_chip stores in its struct device *dev member a pointer
-> > > to the parent device. Preparing a change that embeds a full struct
-> > > device in struct pwm_chip, this accessor macro should be used in all
-> > > drivers directly accessing chip->dev now. This way struct pwm_chip and
-> > > this macro can be changed without having to touch all drivers in the
-> > > same change set.
-> > >=20
-> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> >=20
-> > Nit: this is not a macro but an inline function.
->=20
-> Oh right, it used to be a macro, but I changed that. I made the commit
-> log read:
->=20
->     pwm: Provide an inline function to get the parent device of a given c=
-hip
->=20
->     Currently a pwm_chip stores in its struct device *dev member a pointer
->     to the parent device. Preparing a change that embeds a full struct
->     device in struct pwm_chip, this accessor function should be used in a=
-ll
->     drivers directly accessing chip->dev now. This way struct pwm_chip and
->     this new function can be changed without having to touch all drivers =
-in
->     the same change set.
+Yes please.  No need to resend patches which have already been merged.
 
-While looking into further feedback, I noticed I did the same mistake in
-all the patches that convert the drivers to use this function. I did
-
-	git filter-branch --msg-filter 'sed "s/Make use of pwmchip_parent() macro/=
-Make use of pwmchip_parent() accessor/; s/commit as struct pwm_chip::dev, u=
-se the macro/commit as struct pwm_chip::dev, use the accessor/; s/provided =
-for exactly this purpose./function provided for exactly this purpose./"' li=
-nus/master..
-
-on my branch to make the typical commit log read:
-
-	pwm: atmel: Make use of pwmchip_parent() accessor
-=09
-	struct pwm_chip::dev is about to change. To not have to touch this
-	driver in the same commit as struct pwm_chip::dev, use the accessor
-	function provided for exactly this purpose.
-
-I wont resend the whole series if this is the only change to it.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---2cxtxp6sbv6wwe5j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWyypEACgkQj4D7WH0S
-/k5psggAul+UfI+G8dHEaH2KDgkBUUlYZUwuEaOFluY8XF2KWBYgzrV6GTSkw5wT
-Me32hGYPzkH5GThVge4EwflIY6st1Dpe7hApskZcERowT4iaqpLmRhMLJSfbNFFL
-TKdck+IYqa1cFxKcnCqPr5UHCx9DR2zJulclKHey+IaAQbbiSZ7PXqTliJidSqA4
-gcZdCllP/NksXCjwuu7f3ffFYfT4eD4biOf/g24aQx4AkSSB/1xPNtYnwHwe9U7Q
-NfCN0EtnmSN3qHIMZQ0v8PHGjfE/VvFR+cIRqaher18JI/FRZFfNPMhT1hniO7vh
-qGInsEnK5ClF+KhK7XpBNiDRRAyXtw==
-=6bo9
------END PGP SIGNATURE-----
-
---2cxtxp6sbv6wwe5j--
+-- 
+Lee Jones [李琼斯]

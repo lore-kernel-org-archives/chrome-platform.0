@@ -1,79 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2355E57;
-	Tue, 30 Jan 2024 21:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EE079950;
+	Tue, 30 Jan 2024 23:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706648738; cv=none; b=qsmTW3mNVXH0raYDw5UweA5wIYuQstqZfp6OTzqOdxXLMtDcxctUvp+KZ333zt2wzL6CUhkFmenokjLUkiT/EBANTO+QW9i3NNBuktRFUZcwPXVshoZ8jVL3SDIREOJRSyTCPjkUuLwAL3oJsY7mcBbhQwFyh3ebVl5xBFzSTfs=
+	t=1706658689; cv=none; b=h70VwI1Jt8G7+tiQia1cDVbUY45nK2O9bYumxxLD117kNS1EtT5HQwItk9omV6wHw63JltkdIAt/IKjek+8JQJMG7H0hPIL8xewpUALNT5BsrZ+gGecRNQ9X5Meabk46edqcjaqDQl57M6gNR//dwelzIqMGcCTFaZXN/tPQG2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706648738; c=relaxed/simple;
-	bh=ZOjytVEzrFk2XHjiQxQdUmGqDFYMmh735tgNNxhSuio=;
+	s=arc-20240116; t=1706658689; c=relaxed/simple;
+	bh=ts7jazSRVV1P9ItQ7C42uy4otKEV6Cy0/Ol4l93+dN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O2JZdKXmnynUFDegouBwu9obCYUUWHg2EObpMtUiu3O+auY6+lBGsf2OPRpfYf1HUdLRCvHU8NgOB9aDOj/+1RDwRUb4wZt+uikDWSL4mlgWkT2tdMiiUnO2Z8jKnkV/1skDXkKkAvxx1ImpZZaqWFqFH9werwrOE4mKtRAvQWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgAo6Y9+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e6hAD2OxarbEi7mK+JooaXJHdGmVdk1k/e9OnOqdAFoTeM090figcLkWhbToaYlHLfWx+WkTL5pEWHwQOcUQyW0Fsn6p1+unIYWChMwTZZ2pBldg6o1/e/NojWDVDQYRMQVigK7mGVMPuO+EorKbqlJwlFX3GJI7W9HPQkfT67w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ukjz5tBU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgAo6Y9+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A468C433F1;
-	Tue, 30 Jan 2024 21:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706648737;
-	bh=ZOjytVEzrFk2XHjiQxQdUmGqDFYMmh735tgNNxhSuio=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ukjz5tBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB432C433C7;
+	Tue, 30 Jan 2024 23:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706658688;
+	bh=ts7jazSRVV1P9ItQ7C42uy4otKEV6Cy0/Ol4l93+dN8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EgAo6Y9+sFPZbz49IZLliTD2XE69WII7s9CMV1loCchBHzoiH81ChCJi6WIPT8ck/
-	 hCn566bWXCYhpbPbqNJcyrUduS2720oJxLMDTxU3Y1f/mjGn5lrYpf6CuRygTcjOKC
-	 2R2b3iuIb+aDcn2BHTMUOvX2yBF/ncjE4TZ4uE2f/ctnn+DcqBfeRMs8M8p8+MPbxA
-	 MD7ts8l8X60CdWK5mGtQdJfjmJNJrm3unOsHtQDiPLEJlVf6AwYwYE6OTprBOnQpFb
-	 azg16I12z4ayETCtrBHWj9wbCRV6OVD6/EtH4TLWcDTMhZHY7EWTNvEA+Ql8xrQzRE
-	 PcwG3kSwUTkVQ==
-Date: Tue, 30 Jan 2024 16:05:35 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Pavel Machek <pavel@denx.de>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Avadhut Naik <Avadhut.Naik@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tony Luck <tony.luck@intel.com>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	bleung@chromium.org, tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH AUTOSEL 5.10 3/8] platform/chrome: cros_ec_debugfs: Fix
- permissions for panicinfo
-Message-ID: <Zblkn9lNZXQUQQuc@sashalap>
-References: <20240116001457.214018-1-sashal@kernel.org>
- <20240116001457.214018-3-sashal@kernel.org>
- <Zabq2PKJwsllm9zk@duo.ucw.cz>
+	b=Ukjz5tBUx7OK9rS9h6WvoALrVRg2Li3DNZBYpSyjRTHurjPue9uWo18dXT9FdtSSy
+	 ZY6hiWKwu+Fkb12/+Abm0S22rikbnncsUI0WdBNp3iqNvDJAKsU/94h6VscKONFVJO
+	 h1RX7IlFVl4y6qJWbgH4SdxZE7D8IC5KGWClOSM8=
+Date: Tue, 30 Jan 2024 15:51:25 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	chrome-platform@lists.linux.dev,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <2024013059-poison-equation-81d1@gregkh>
+References: <20240112131857.900734-1-nfraprado@collabora.com>
+ <20240112131857.900734-3-nfraprado@collabora.com>
+ <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
+ <ZbA4VthTMPT7BSRo@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Zabq2PKJwsllm9zk@duo.ucw.cz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZbA4VthTMPT7BSRo@google.com>
 
-On Tue, Jan 16, 2024 at 09:45:12PM +0100, Pavel Machek wrote:
->Hi!
->
->> From: Avadhut Naik <Avadhut.Naik@amd.com>
->>
->> [ Upstream commit 0706526ec7704dcd046239078ac175d11a88a95e ]
->>
->> The debugfs_create_blob() function has been used to create read-only binary
->> blobs in debugfs. The function filters out permissions, other than S_IRUSR,
->> S_IRGRP and S_IROTH, provided while creating the blobs.
->>
->> The very behavior though is being changed through previous patch in the
->> series (fs: debugfs: Add write functionality to debugfs blobs) which makes
->> the binary blobs writable by owners. Thus, all permissions provided while
->> creating the blobs, except S_IRUSR,S_IWUSR, S_IRGRP, S_IROTH, will be
->> filtered by debugfs_create_blob().
->
->This needs previous patch to make sense (according to changelog), and
->we don't have that. Please drop.
+On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
+> On Sun, Jan 14, 2024 at 07:09:29PM +0200, Andy Shevchenko wrote:
+> > On Fri, Jan 12, 2024 at 10:18:31AM -0300, Nícolas F. R. A. Prado wrote:
+> > > Generate aliases for coreboot modules to allow automatic module probing.
+> > 
+> > ...
+> > 
+> > > (no changes since v1)
+> > 
+> > Same Q as per v1.
+> 
+> I don't have v1 in my inbox, and this wasn't addressed in v3 either. But
+> copy/pasted off the archives:
+> 
+> "Don't you want to have a driver data or so associated with this?"
+> 
+> These drivers are super simple, and I doubt they will end up with
+> multiple tags per driver, so it seems unlikely we'd ever need it.
+> Additionally, struct coreboot_device already includes the tag
+> information, so anything that could be included in driver data could be
+> parsed out by the driver at probe time, if absolutely needed.
 
-Dropped, thanks!
+But why limit yourself to 32bits now?  Why not make it 64?  It is going
+to be sent to userspace, so you have to be very careful about it.
 
--- 
-Thanks,
-Sasha
+thanks,
+
+greg k-h

@@ -1,64 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616BAEECC;
-	Mon, 29 Jan 2024 02:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2355E57;
+	Tue, 30 Jan 2024 21:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706496166; cv=none; b=oJD32yfYe4TpGyIPaAMdWNPGQ9nTF+N+ctIsm89NZlhS57ovaJ8MSSlcYPOc8MfdBmZFa1o6E6mGaQG3Ed2TELtQmRHBSkYiuT9MIqnIaJGVpWUpHo0ZtwF1Uz6SHqOIhbUAHFwooT2tMdz7MCcN3WLlA3TZaoHdHS3HWVeL6h0=
+	t=1706648738; cv=none; b=qsmTW3mNVXH0raYDw5UweA5wIYuQstqZfp6OTzqOdxXLMtDcxctUvp+KZ333zt2wzL6CUhkFmenokjLUkiT/EBANTO+QW9i3NNBuktRFUZcwPXVshoZ8jVL3SDIREOJRSyTCPjkUuLwAL3oJsY7mcBbhQwFyh3ebVl5xBFzSTfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706496166; c=relaxed/simple;
-	bh=oSInDhdGSUJ6TpRTGQtb0omDWXuT5kvGFHgM3DqsxHo=;
+	s=arc-20240116; t=1706648738; c=relaxed/simple;
+	bh=ZOjytVEzrFk2XHjiQxQdUmGqDFYMmh735tgNNxhSuio=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bzPW+4ZVmVhGsgMvp2MUGPIM5SRtE0NauDFobMZN5qo6Y6TPy6ZwhN/KYZl0bW7UOIJuaA1S0y6sWsU9yxGYC3dJ5ALW5Tdd8+hePAc2+9BhIKcbNfmRYhnHQ2b53gWMNAWmJH7SWbN1+zDfL0spFZC7Bib7/aGXgdfuKgLu/oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qA65APc5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=O2JZdKXmnynUFDegouBwu9obCYUUWHg2EObpMtUiu3O+auY6+lBGsf2OPRpfYf1HUdLRCvHU8NgOB9aDOj/+1RDwRUb4wZt+uikDWSL4mlgWkT2tdMiiUnO2Z8jKnkV/1skDXkKkAvxx1ImpZZaqWFqFH9werwrOE4mKtRAvQWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgAo6Y9+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qA65APc5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80585C433C7;
-	Mon, 29 Jan 2024 02:42:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgAo6Y9+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A468C433F1;
+	Tue, 30 Jan 2024 21:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706496165;
-	bh=oSInDhdGSUJ6TpRTGQtb0omDWXuT5kvGFHgM3DqsxHo=;
+	s=k20201202; t=1706648737;
+	bh=ZOjytVEzrFk2XHjiQxQdUmGqDFYMmh735tgNNxhSuio=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qA65APc5TfM+yfhh2St47J2+R1gW0iKtbOpEApDSmyXoRkDSwuFynykLxY6/olvzT
-	 9SKgw1u4PjtZMf5Y3kXt4DnljNqxb0pgX13cFKRFecqXoRZFs+/j3K2C4mioXHDLY3
-	 AgpeZPAJOhpk6NvdohDoTDTsw64c2QjIVPE+N412qliKiWYU2dm6ehLHC62UqfYgqt
-	 8JParKIWu3zVwT6V+LBtWpeclMAznVSIho66PN2MO2pkxa2H+BiM22Bu0iQB/wTXsi
-	 +WIDZQGG3MrCyhetnXwgix4yqh7ybDffskKMxrT9CSgF/2+Q5u5+4FVJyWjS5Ue/9V
-	 gSDEhCQkLHBRA==
-Date: Mon, 29 Jan 2024 10:42:41 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Lukasz Majczak <lma@chromium.org>
-Cc: Gwendal Grignou <gwendal@chromium.org>,
-	Radoslaw Biernacki <biernacki@google.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+	b=EgAo6Y9+sFPZbz49IZLliTD2XE69WII7s9CMV1loCchBHzoiH81ChCJi6WIPT8ck/
+	 hCn566bWXCYhpbPbqNJcyrUduS2720oJxLMDTxU3Y1f/mjGn5lrYpf6CuRygTcjOKC
+	 2R2b3iuIb+aDcn2BHTMUOvX2yBF/ncjE4TZ4uE2f/ctnn+DcqBfeRMs8M8p8+MPbxA
+	 MD7ts8l8X60CdWK5mGtQdJfjmJNJrm3unOsHtQDiPLEJlVf6AwYwYE6OTprBOnQpFb
+	 azg16I12z4ayETCtrBHWj9wbCRV6OVD6/EtH4TLWcDTMhZHY7EWTNvEA+Ql8xrQzRE
+	 PcwG3kSwUTkVQ==
+Date: Tue, 30 Jan 2024 16:05:35 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Pavel Machek <pavel@denx.de>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Avadhut Naik <Avadhut.Naik@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tony Luck <tony.luck@intel.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	bleung@chromium.org, tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v4 1/3] platform/chrome: Update binary interface for
- EC-based watchdog
-Message-ID: <ZbcQoY7q1nuiv6Y8@google.com>
-References: <20240126095721.782782-1-lma@chromium.org>
- <20240126095721.782782-2-lma@chromium.org>
+Subject: Re: [PATCH AUTOSEL 5.10 3/8] platform/chrome: cros_ec_debugfs: Fix
+ permissions for panicinfo
+Message-ID: <Zblkn9lNZXQUQQuc@sashalap>
+References: <20240116001457.214018-1-sashal@kernel.org>
+ <20240116001457.214018-3-sashal@kernel.org>
+ <Zabq2PKJwsllm9zk@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20240126095721.782782-2-lma@chromium.org>
+In-Reply-To: <Zabq2PKJwsllm9zk@duo.ucw.cz>
 
-On Fri, Jan 26, 2024 at 09:57:19AM +0000, Lukasz Majczak wrote:
-> Update structures and defines related to EC_CMD_HANG_DETECT
-> to allow usage of new EC-based watchdog.
-> 
-> Signed-off-by: Lukasz Majczak <lma@chromium.org>
+On Tue, Jan 16, 2024 at 09:45:12PM +0100, Pavel Machek wrote:
+>Hi!
+>
+>> From: Avadhut Naik <Avadhut.Naik@amd.com>
+>>
+>> [ Upstream commit 0706526ec7704dcd046239078ac175d11a88a95e ]
+>>
+>> The debugfs_create_blob() function has been used to create read-only binary
+>> blobs in debugfs. The function filters out permissions, other than S_IRUSR,
+>> S_IRGRP and S_IROTH, provided while creating the blobs.
+>>
+>> The very behavior though is being changed through previous patch in the
+>> series (fs: debugfs: Add write functionality to debugfs blobs) which makes
+>> the binary blobs writable by owners. Thus, all permissions provided while
+>> creating the blobs, except S_IRUSR,S_IWUSR, S_IRGRP, S_IROTH, will be
+>> filtered by debugfs_create_blob().
+>
+>This needs previous patch to make sense (according to changelog), and
+>we don't have that. Please drop.
 
-If EC_HANG_DETECT_MAX_TIMEOUT has been defined in [1] (which isn't yet):
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Dropped, thanks!
 
-[1] https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/include/ec_commands.h#4749
+-- 
+Thanks,
+Sasha

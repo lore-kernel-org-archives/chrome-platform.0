@@ -1,53 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B90B4C9D;
-	Wed, 31 Jan 2024 00:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB312135B;
+	Thu,  1 Feb 2024 13:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706660584; cv=none; b=tRLvkHWrNECR72p8NGagKHUAiHQZPoUOjcrdgUburJa63PMY4bFSeWNdGwKWSPx0o5emhUUdactJ0qN4KpsHjCoR49RoDzaxlA3Q270RH3qROD7EhU8FSfk+ZQbVK4Z631fpz0qGk0Gp7obnGpA3whraIFO1US4ELlzq5pGzwb8=
+	t=1706792771; cv=none; b=tjB8Y0WClgMn6cdoRcQou2friUKroymMArOAtA1gE0ov8GnWfihZ+wAzlsYUu4yHHPPW/z6aeTFaA9AgD9in+/TdE3VumNVXsm3r+y9E/O4x6PTHj+CrxMpivyFYGVWq+IcxTFRIXXBF8oIfNde/QPAAkUldA9NQwox/PO1u1ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706660584; c=relaxed/simple;
-	bh=iO+w0RdJHmRY+dn5TzHr1cclWbvfDkfjTwE6P1yaT30=;
+	s=arc-20240116; t=1706792771; c=relaxed/simple;
+	bh=6pvTxGKjDkNH/OXfRp2ulBOrP5l6tDhn0YEhIfEMK2Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uwpdB88jKM7I43wo+yI+gpfDSGfJgzAu5ckOmYvP72YyEJU6J7VzPyQXxRchYchjDUhzL2fBCrM13YghBNqBTEvgHaohNqVpk2Gs/ucxfUtGc3bdgcOqQUUg16hUdWz/f3o4zhI2ErKS/h6W93Nuo1n2DGaoIt6HXagIh0s2Xvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AsqL/+PA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifRMWOCYFU/5WBqjENl7VUD+UMnzM14L/87nQrn6uJlXC1xd5wmCZWL6Gas5W9HMEuf/gt6FSPNwhJVfrLNf0oYB6wnUqujiwKDwbAEeoe5eedpVyV65LD3rBYvipyZECQljQB7lMc9NlxNMeYyM7RUtArEtl61leyUhkRGy2KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JcAM+fIN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AsqL/+PA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C43C433F1;
-	Wed, 31 Jan 2024 00:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706660583;
-	bh=iO+w0RdJHmRY+dn5TzHr1cclWbvfDkfjTwE6P1yaT30=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JcAM+fIN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E36C433F1;
+	Thu,  1 Feb 2024 13:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706792770;
+	bh=6pvTxGKjDkNH/OXfRp2ulBOrP5l6tDhn0YEhIfEMK2Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AsqL/+PA/zQQ9IUFUjtgRceCUPdohwOnUH/zx4Xf+kR5BRt1oGUd1c6FQc37M5ydH
-	 IqRFjv2qERUCrJbxQC+BmmCp/prbTgN/AjDD8BZymYuuqx5IUpZnzzgH7JKXfGIwMf
-	 ifEbnOzqRn2DRpWB0U9jtXQaumonHRVhYoOT5hp4=
-Date: Tue, 30 Jan 2024 16:23:02 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Brian Norris <briannorris@chromium.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <2024013012-gully-goofy-2a55@gregkh>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
- <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
- <ZbA4VthTMPT7BSRo@google.com>
- <2024013059-poison-equation-81d1@gregkh>
- <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
+	b=JcAM+fINDSL+E3SsXqnTf84QclcABIPA5RyvWas0WFWSc6W/WjhTR9WxWPaKRMa6f
+	 23FyO0qpuvQpo0ZkyQ58J3XyAnt2y0Ktq6mzaas7/qUwo7y3bgZ1aupwioZuMhFxNN
+	 r9pc5zcnGlDBoA1HXtdi/fTR26i9sqCUtAb9Z7cGCwgqnZdlgujKYnJP9KPTKLel9E
+	 80koMdTMPNV3DhHW0SnkC/7UljvvWckToEjNcba6nIRkWW0bEo9gkj8ePgoRM9XBX9
+	 1MDC5AKOqpkwrRoUPMD1qFUEZKXTpViTgWRoQAS2dddrB6/7GbFHmsalGefnnCRWQW
+	 F6KsgXefyYiGA==
+Date: Thu, 1 Feb 2024 13:06:05 +0000
+From: Lee Jones <lee@kernel.org>
+To: Lukasz Majczak <lma@chromium.org>
+Cc: Gwendal Grignou <gwendal@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Radoslaw Biernacki <biernacki@google.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [GIT PULL] Immutable branch between MFD, CROS and Watchdog due for
+ the v6.9 merge window
+Message-ID: <20240201130605.GA1379817@google.com>
+References: <20240126095721.782782-1-lma@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,32 +51,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
+In-Reply-To: <20240126095721.782782-1-lma@chromium.org>
 
-On Tue, Jan 30, 2024 at 04:01:57PM -0800, Brian Norris wrote:
-> On Tue, Jan 30, 2024 at 3:51 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
-> > > "Don't you want to have a driver data or so associated with this?"
-> ...
-> > But why limit yourself to 32bits now?  Why not make it 64?  It is going
-> > to be sent to userspace, so you have to be very careful about it.
-> 
-> Is that question related to the question I pasted/replied to, about
-> driver data? Or a new topic? Sorry if I'm misunderstanding.
+Good afternoon,
 
-Same question, driver data, you make it 32 bits.
+The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
 
-> Anyway, for the size of the tag field: I don't have a strong opinion.
-> But FWIW, they're coming from this project:
-> 
-> https://review.coreboot.org/plugins/gitiles/coreboot/+/269b23280f928510bcadd23182294e5b9dad11ec/payloads/libpayload/include/coreboot_tables.h#36
-> 
-> As you can see there, we're extremely far from exhausting 16 bits, let alone 32.
+  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
 
-We've run into running out of bits in other subsystems before, it's
-"free" now, just be safe and make it 64 like I think Andy is suggesting.
+are available in the Git repository at:
 
-thanks,
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-cros-watchdog-v6.9
 
-greg k-h
+for you to fetch changes up to 843dac4d3687f7628ba4f76e1481ee3838b27a35:
+
+  watchdog: Add ChromeOS EC-based watchdog driver (2024-02-01 11:49:30 +0000)
+
+----------------------------------------------------------------
+Immutable branch between MFD, CROS and Watchdog due for the v6.9 merge window
+
+----------------------------------------------------------------
+Lukasz Majczak (2):
+      platform/chrome: Update binary interface for EC-based watchdog
+      watchdog: Add ChromeOS EC-based watchdog driver
+
+ MAINTAINERS                                    |   6 +
+ drivers/watchdog/Kconfig                       |  11 ++
+ drivers/watchdog/Makefile                      |   1 +
+ drivers/watchdog/cros_ec_wdt.c                 | 204 +++++++++++++++++++++++++
+ include/linux/platform_data/cros_ec_commands.h |  78 +++++-----
+ 5 files changed, 257 insertions(+), 43 deletions(-)
+ create mode 100644 drivers/watchdog/cros_ec_wdt.c
+
+-- 
+Lee Jones [李琼斯]

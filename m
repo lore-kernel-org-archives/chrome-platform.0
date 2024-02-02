@@ -1,114 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8086BBA4C;
-	Fri,  2 Feb 2024 02:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D3517D2
+	for <chrome-platform@lists.linux.dev>; Fri,  2 Feb 2024 12:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706840464; cv=none; b=gM52u69wq8cvDAwlCbmSHuGxENNL9KRsmNxpJA0aF7CDvZOt32RNAIn31faTXJcF6Q+sOge4+V6E0+1f29RQUBG8ju3zCN682LhhfDW9+duDjNd0oE8jhp27hLnxpzItR67JVn+tGo1mB8JZuKx407DZeWqEJwY4dV2CdGH6dXc=
+	t=1706878061; cv=none; b=VFeWV2H4nHaopz3VuROmJBtenPCApy2fi3Lndnc2MocZboFVSS7qg7tFfFymIYIDSn14B3z1yFE9O2kj7RPu2KPqbXlc8LClzaXdda7KEi2sxD5VnrNYPxK9HR9HLuOi2SDOgWrv4pD7LKPy/FjOuUqldRc1PyVecNTaGEX50Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706840464; c=relaxed/simple;
-	bh=caSt1K8X7wTfsDubxjLdVYfUEcr45wgSDgC/mtyZAUE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cAyobS7BugA/kn/n6kX8sSErbTo5Orr1xghiplxyZZTV3ME4e52FbEZD+vpPtFX7QbE/NJT9+UUW2LTGDCzfKKGdcBJtkbEGVUVijPKIwZa6umbyYC1WTZcG/E9fl+eNjrzL5/Q0lzisJCbaOVTKS72hOvF7pCn0mym+lN88wlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oasoUsml; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706878061; c=relaxed/simple;
+	bh=1wyJXQnKtxG5KcQLBuLXfN9nPIzxAbbDUplVjEvd6Ks=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mVYGlGSw+B5oL4Crv0+cZEiXSPVY7LSBQN29sXSRCV8fqmI5OJBd20Vt+tzCwBUvJ5MRC0DHK9WlWp/xVCchmrfVXrh0G/R23+VN2ju8e85zlXEhuG+PXrejuy+7f8upc/rKhC8yEyBVGEqQlcb6XsF3YM1klWZeYG0JlGxQGDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GrVM4uGy; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oasoUsml"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDFEC433F1;
-	Fri,  2 Feb 2024 02:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706840464;
-	bh=caSt1K8X7wTfsDubxjLdVYfUEcr45wgSDgC/mtyZAUE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oasoUsml1+uLAFVUGaQaKVrDvLeAA4/u3sJZm5Xz/4sTaHALvPZdO7EBtOrR7EXLG
-	 hEYO1rPOjmVEpMfSXOpWQKsKKw8AZNbkKTu/2eVeKy8CJCt5vlZSKWrh/4XbZuSnEX
-	 iMnsZNOgmlr2vZV5PPxlHgO1PInXuK3tTQvc5/Vw=
-Date: Thu, 1 Feb 2024 18:21:03 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <2024020105-dash-antiquity-a56b@gregkh>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
- <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
- <ZbA4VthTMPT7BSRo@google.com>
- <2024013059-poison-equation-81d1@gregkh>
- <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
- <2024013012-gully-goofy-2a55@gregkh>
- <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GrVM4uGy"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d07d74be60so17395191fa.3
+        for <chrome-platform@lists.linux.dev>; Fri, 02 Feb 2024 04:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706878058; x=1707482858; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UOWIy2zvMPH1XH46d4jTRJkw9n61PEb1vxh49lVP0XQ=;
+        b=GrVM4uGyGKt6GRWYNHmzWS7+B/gl0zRKQJ4pvRPbNgTYastLq6WZ9YWpVywGn4GEDF
+         IPzeU5tQAdebHhzVHClrszkqgpOmb7qw1lTj3vbVSlP3ZCKsW4XtE2X7ihp7lIx155fR
+         HpvygC444LEr67Tk6dRosWWZjlZkdXvPOYnQY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706878058; x=1707482858;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UOWIy2zvMPH1XH46d4jTRJkw9n61PEb1vxh49lVP0XQ=;
+        b=nwOkob3vJyYVNLMk+qEcyYikA+n5N7Fwb5XuTqa/CUJn7XU6MY48kxncxHP5Z1yddR
+         zlk9ZOS/QgvYIL6A4gMXxLsDG5DdUR6Dc6Tvx1ANXCLVA6WXZZQpn2T0BbFon5Vr2B9J
+         8UnQbiYJp94KH3N2rhaWQq9OI0RgvUQfWvSQSQldW7H2bkoGbpld13qDEsh3whv+oK/3
+         htfOnTr6lKC+4WcFxebG1CXoCWnzXDUQ6hd5uwvW5bmSQZ5BxwVedgM8fJy5yi9TugyV
+         gVlQ7Nirt3bETElnpV3b43vPppTTKSgItrOgKYf56BzRZly7TS90Gh3AZTqkc2R608DN
+         yz1Q==
+X-Gm-Message-State: AOJu0YyMnHjxAoBoHGCoPCZyEUflHf24oQHjd2XcZVOL+cK1hP1cVv7g
+	B/u+m9LMH5tU5h8x9nc4tKutQpg5mkVTfdIA/0kdKy/CODCP3VVTYK5Y1HNRY4uK8LvgA9UBO6P
+	7rn3JbipjhdkkooYfiwdVY5kQ/i0P5WKTzea7
+X-Google-Smtp-Source: AGHT+IF0s/5ZKFtzhTR4j6QPvRkkJqWsYRXpAF/+v59PGjiQFmrY1yExMhIMTdn4RO+aKhe4pUPeTW5cDnEklfQlqh8=
+X-Received: by 2002:a2e:bc08:0:b0:2d0:7572:458c with SMTP id
+ b8-20020a2ebc08000000b002d07572458cmr1827253ljf.1.1706878057840; Fri, 02 Feb
+ 2024 04:47:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
+References: <20240126095721.782782-1-lma@chromium.org> <20240201130605.GA1379817@google.com>
+In-Reply-To: <20240201130605.GA1379817@google.com>
+From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Date: Fri, 2 Feb 2024 13:47:26 +0100
+Message-ID: <CAE5UKNqNR7869EqjNRdn_osnxLLtJma=eMmsYBE1fvzA0g_ybg@mail.gmail.com>
+Subject: Re: [GIT PULL] Immutable branch between MFD, CROS and Watchdog due
+ for the v6.9 merge window
+To: Lee Jones <lee@kernel.org>
+Cc: Gwendal Grignou <gwendal@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Radoslaw Biernacki <biernacki@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-watchdog@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 05:45:19PM -0500, Nícolas F. R. A. Prado wrote:
-> On Tue, Jan 30, 2024 at 04:23:02PM -0800, Greg Kroah-Hartman wrote:
-> > On Tue, Jan 30, 2024 at 04:01:57PM -0800, Brian Norris wrote:
-> > > On Tue, Jan 30, 2024 at 3:51 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > > On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
-> > > > > "Don't you want to have a driver data or so associated with this?"
-> > > ...
-> > > > But why limit yourself to 32bits now?  Why not make it 64?  It is going
-> > > > to be sent to userspace, so you have to be very careful about it.
-> > > 
-> > > Is that question related to the question I pasted/replied to, about
-> > > driver data? Or a new topic? Sorry if I'm misunderstanding.
-> > 
-> > Same question, driver data, you make it 32 bits.
-> > 
-> > > Anyway, for the size of the tag field: I don't have a strong opinion.
-> > > But FWIW, they're coming from this project:
-> > > 
-> > > https://review.coreboot.org/plugins/gitiles/coreboot/+/269b23280f928510bcadd23182294e5b9dad11ec/payloads/libpayload/include/coreboot_tables.h#36
-> > > 
-> > > As you can see there, we're extremely far from exhausting 16 bits, let alone 32.
-> > 
-> > We've run into running out of bits in other subsystems before, it's
-> > "free" now, just be safe and make it 64 like I think Andy is suggesting.
-> 
-> Either you and Andy are suggesting different things, or I still don't quite get
-> what you mean.
-> 
-> Andy was suggesting we added a driver_data field, that is:
-> 
-> struct coreboot_device_id {
-> 	__u32 tag;
-> 	kernel_ulong_t driver_data;
-> };
-> 
-> You're suggesting we make the tag 64 bits long:
-> 
-> struct coreboot_device_id {
-> 	__u64 tag;
-> };
+On Thu, Feb 1, 2024 at 2:06=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
+>
+> Good afternoon,
+>
+> The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd3=
+3d:
+>
+>   Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-cros-w=
+atchdog-v6.9
+>
+> for you to fetch changes up to 843dac4d3687f7628ba4f76e1481ee3838b27a35:
+>
+>   watchdog: Add ChromeOS EC-based watchdog driver (2024-02-01 11:49:30 +0=
+000)
+>
+> ----------------------------------------------------------------
+> Immutable branch between MFD, CROS and Watchdog due for the v6.9 merge wi=
+ndow
+>
+> ----------------------------------------------------------------
+> Lukasz Majczak (2):
+>       platform/chrome: Update binary interface for EC-based watchdog
+>       watchdog: Add ChromeOS EC-based watchdog driver
+>
+>  MAINTAINERS                                    |   6 +
+>  drivers/watchdog/Kconfig                       |  11 ++
+>  drivers/watchdog/Makefile                      |   1 +
+>  drivers/watchdog/cros_ec_wdt.c                 | 204 +++++++++++++++++++=
+++++++
+>  include/linux/platform_data/cros_ec_commands.h |  78 +++++-----
+>  5 files changed, 257 insertions(+), 43 deletions(-)
+>  create mode 100644 drivers/watchdog/cros_ec_wdt.c
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
-Yeah, I'm confused, sorry.
+Hi Lee,
 
-Yes, add some driver_data, and if you are SURE your tag will NEVER be
-larger than 32 bits, stick with that, but really, you are using the
-space in empty padding anyway, so just make it 64bits please.
+I'm about to sent V5 of patches:
+* watchdog: Add ChromeOS EC-based watchdog driver
+* platform/chrome: Update binary interface for EC-based watchdog
+but I'm not sure how I should proceed - can I base those on the master
+branch or shall I rebase on top of  ib-mfd-cros-watchdog-v6.9?
 
-thanks,
-
-greg k-h
+Best regards,
+Lukasz

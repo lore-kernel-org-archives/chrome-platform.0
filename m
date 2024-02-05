@@ -1,92 +1,55 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B5B2D022
-	for <chrome-platform@lists.linux.dev>; Mon,  5 Feb 2024 14:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB85814D447;
+	Mon,  5 Feb 2024 19:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707142439; cv=none; b=JWhcPeEsjslhLhadyrVcxNHgm7uwZYYfXeKf4L0NdPuYPrhnfL5g395rCz0fdTPcFwleZIy5FDUkT6qXma4KIrZP1xp5A7Y8B4Q3ltfPn23QqDfec2PCpRfULLK/xbvkaRzurP1GibmJAcN7aRI+yl8CDL3ic2mHOUBhufPPx+E=
+	t=1707159837; cv=none; b=tMAQEW7+MLbcmjZX1YnPC9D+Ghw8H2so9mNohTB+aD7EWJr84O0CFWrERXyIueye/5A/OhkXJdD5wHF6TX+q08NJV9whZT+JMTmANh+knHk4dsQPIQ9Jgpq5Gd3gZ8XGY0s40rRu012GeYYVrRyeVvdUfOASPXcW5IqBqKSuPQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707142439; c=relaxed/simple;
-	bh=/AH4OnHyKTveDUxBUINyS6rrfqLk5MnGENRs0ofWJ6Q=;
+	s=arc-20240116; t=1707159837; c=relaxed/simple;
+	bh=JS0rLE0gDCoPrvmO8t1oRrM76E6Y2uXxbFDJB1HChLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7wLfczrw518+GRK9A51vkXIiVJwVVdSuEVISTrL1TQk9GgJZaHKtbgMzsTwT4JaEd84WfMKIG89uoWxOKbsmyy5E5/XWHhGGgGlZ57m5uvEi4yCAdRrx9lXgdaIh17ULipPvCulwGPTd68ahc9CjY+lu4yKGWIyb2cJ5fu/hlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JEMCT+2a; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AF4dSB0jOOeC6MUK55e0yVCE9XUbGdrvgI5Z3R89ELcp1Fa6Wg98u1/i0TZuuRNx1wiOSFo8LyL0c18sfQkSscL9hj8g9fDX8u6gsQpXcGQsk7DB7HJHnYoXeHk84jxFUsk1rrUkSEwCC1SLprtyZgmdVWFR9onGJ8gGAXdH2/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wRYGX71x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JEMCT+2a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707142436;
-	bh=/AH4OnHyKTveDUxBUINyS6rrfqLk5MnGENRs0ofWJ6Q=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wRYGX71x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFD4C4166D;
+	Mon,  5 Feb 2024 19:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707159836;
+	bh=JS0rLE0gDCoPrvmO8t1oRrM76E6Y2uXxbFDJB1HChLU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEMCT+2aqsh1QA9Qn2nP/8qvretn4TMikTx9EOmrCveJIo5KSemxXUgChD6uwe8T6
-	 Lb3G8cd+eNQtaDMdFsYVPTfz99Hb2JdDPJ0HLVK0bmNJvexh85F5ELgfzoT/vet21Q
-	 DflQkkDiBJtIdaMe9TR9W4gT23Wl0jj84dqJo3oSXrtzGvYH9jVVJrmH98+Tvoxo/S
-	 E/UrRq6LfgkGT5/IIXCKQUx0KK7mKswn68zwMgd8ikgaR8ZtI6yRjrbPUwpexl+qV4
-	 lSX2+GAlRgOKtNXuTqV2dxMVqP00nj9GpgB0eaLEuAskJaeNQH36YgV8Zc41QlI+bm
-	 3nKXXUtah8yUg==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 954A6378143B;
-	Mon,  5 Feb 2024 14:13:53 +0000 (UTC)
-Date: Mon, 5 Feb 2024 09:13:51 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
+	b=wRYGX71x+SOJrlrWZUzkzjVusSLzPVtYCKv8DvOJLwZ41gLPWr/ZZWGTasYcOqdXP
+	 n26h0x6e0KdfJMcza1dggXXKBGdBAL5NzmKw5fsKGsftrNN4X/o7Yy1DbvP2OSgIvN
+	 c8DqZq3w+mcpKnt2gJaVWOuvRvzPMC+j2NOp06lM=
+Date: Mon, 5 Feb 2024 04:50:30 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Brian Norris <briannorris@chromium.org>,
 	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/4] firmware: coreboot: Generate modalias uevent for
- devices
-Message-ID: <2a2736e5-8788-4643-8d19-a79b9a9ec776@notapiano>
-References: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
- <20240117-coreboot-mod-defconfig-v3-1-049565a27bba@collabora.com>
- <ZcA72dyYd9ZR8k_J@google.com>
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] firmware: coreboot: make coreboot_bus_type const
+Message-ID: <2024020511-confound-chirping-38f7@gregkh>
+References: <20240204-bus_cleanup-firmware-v1-1-d1bff946606d@marliere.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZcA72dyYd9ZR8k_J@google.com>
+In-Reply-To: <20240204-bus_cleanup-firmware-v1-1-d1bff946606d@marliere.net>
 
-On Mon, Feb 05, 2024 at 09:37:29AM +0800, Tzung-Bi Shih wrote:
-> On Wed, Jan 17, 2024 at 04:03:22PM -0300, Nícolas F. R. A. Prado wrote:
-> > Generate a modalias uevent for devices in the coreboot bus to allow
-> > userspace to automatically load the corresponding modules.
-> >
-> > [...]
+On Sun, Feb 04, 2024 at 01:10:18PM -0300, Ricardo B. Marliere wrote:
+> Now that the driver core can properly handle constant struct bus_type,
+> move the coreboot_bus_type variable to be a constant structure as well,
+> placing it into read-only memory which can not be modified at runtime.
 > 
-> Applied, thanks!
-> 
-> [1/4] firmware: coreboot: Generate modalias uevent for devices
->       commit: c6b0a4ceb7c9d8bb014d2967c97c8c7cbf60b006
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 
-Hi Tzung-Bi,
-
-I was going to send a v4 with tag changed into 64 bit long as suggested by Greg:
-https://lore.kernel.org/all/2024020105-dash-antiquity-a56b@gregkh
-
-And that includes this commit, as the modalias field would need to be 16 hex
-long.
-
-But since you already merged this, would you prefer a change on top of this
-making it 64 bit long, or do you want to keep it 32 bits?
-
-Thanks,
-Nícolas
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>

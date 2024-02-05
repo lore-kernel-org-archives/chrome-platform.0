@@ -1,57 +1,57 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC348F49
-	for <chrome-platform@lists.linux.dev>; Mon,  5 Feb 2024 03:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60A09455
+	for <chrome-platform@lists.linux.dev>; Mon,  5 Feb 2024 03:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707102556; cv=none; b=gF6hC/sMbM9oAG4bCez7Rv98bB7tbto8NA+exs6jccJEYukBaou5AyOM1n0d1hC7X3Xlaay4raAkazJ9NPfPw3j77KNXVUeMHGqd3q8KDXuG23uTgC8+cMhwzY7xbJFB7AE2SLx8BRMdA0T1Rv74Ds3Lbe0Usj3VF2HUeBnB3DI=
+	t=1707105163; cv=none; b=Y6JQj3/fG3EhSjqJkRBaLzMufD+hg+K3FaGSL3g1GEdVC+oxoNfZdQ1Fs9xYp07GIAcGcnimeTr0iIHa6ab+LtTx6jXkTe6TlDJxXvee+OZJ9hUvy8KFnnEciGmfaorTDauzbD/ZU0O/pIEBFZwsGdY1CbIkrtIso0SsvgqVqlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707102556; c=relaxed/simple;
-	bh=aw0aDYcA99DH7FJ6n+ZjXSYZ19ljrTRLsJyAfNWHHGs=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=JfYA6dqVk8gjBKygwSxGmfkhVQ44W3Mb+YyFAm8wHw186Z37j0Azv5nEgTS3Tb1uMUKPufb83E1V2vtqToIcKlZ5JBei8Pz/Sb2cmplbhgpBBT4I7zQP690X1hQUWW00KQf9dzVHgt1Ry85j1QHmZoApECn31yoT10G4XngGZNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=V6E3Al/7; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1707105163; c=relaxed/simple;
+	bh=ehNHA+ih5ObMGBQ55RvUiSup/nvVidKjyuZi9MEaTuk=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=ZT8cOgw7KAKJQ6ND/Sy3tXPQWpj+jQH+sSMucSYHdAlDZWEtTedqwT2MVbUMqbD7gr/Nme+hGLnTqMJdRVMbN4iyfZIxeD/4dxm1rFwEyvFg3cp9/8ptqgICrQ4RT+eNQtFYZl1QB+JZTeYhPEhOh9SAP5Tq1LaIwV/W08TrsPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=T7qQeQ+d; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="V6E3Al/7"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d70b0e521eso29940925ad.1
-        for <chrome-platform@lists.linux.dev>; Sun, 04 Feb 2024 19:09:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="T7qQeQ+d"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so3549488a12.1
+        for <chrome-platform@lists.linux.dev>; Sun, 04 Feb 2024 19:52:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1707102554; x=1707707354; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1707105161; x=1707709961; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=6XenAS1Ewy0Iy/1iosXGcxG+HM9fBP999hzcgsXI3DQ=;
-        b=V6E3Al/7OkPKaApURpFwPmRKNNl54Yp2q6eyWcBhuumShxTGk6e8NBGzazBcs00WIx
-         qk8eodXv3DuqoGHrjjzWjfXMtnBbMRB8nk2KZiiN86mkHQTvAWiOiaPUYyW8j1ELxVcM
-         6eMzZbhkNV81mKKeUFLYzFOnqXtzgYE5sXX3duJm1JTwMKv7QA1T9IZ9lBLlWoeCs3XO
-         4Vuwm2+OMMSpK9p16bUSUOvhJL1hW0IpB8adCBsPE9CgiKkyexj1e6QG1laq/pcmj39a
-         gFy1QIJI4IL/TbsijC3j7Vx/7p+/u5hWPp2pRBmeDmakXOTClis+BI8Fty/tOWF+h/uP
-         zXPw==
+        bh=rAqTA1ODodviFaEYzIT2IfQSmJN2wcW+4kaARW4RAmw=;
+        b=T7qQeQ+dHebfdn6JQW4Z6C3GjZ3NKLQrIlNN4880YI1OkqqJ8tzeIRwasfP6o6+xMW
+         zwUVvjwkF918eCp97K++s3KbXKj8egYHCEyinj4T4izJoSJ3Komv8Iv7e3k6laapECwD
+         PEirDjAze0IF0OyH57e1rsfB5YBhjMXNcniF0rNpdrggvev5yT4JbiYxzizp+h6tqPdB
+         nPHHAdgc8o6Xeq5P+0EedhAfm/fRqjPaPB8IBmZhGQmN64FtPEOpTIfg0XF1VFutgc5B
+         56uhl7XzT6ruHQBs0tfLXgtK2wcNUNMemmoUoywNVS5NEdIh8q/zyXCS9mxu+2I1w9CU
+         EYQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707102554; x=1707707354;
+        d=1e100.net; s=20230601; t=1707105161; x=1707709961;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6XenAS1Ewy0Iy/1iosXGcxG+HM9fBP999hzcgsXI3DQ=;
-        b=bibVbOjJMXpdTf/yt+87eyLWwFlaH1Gg2Mb9ckgPYX2yapb1EvmdlRn60nEel4uNOs
-         ixiYQ9HGL1czVmePeO5AEjMMOjQjJJYXlutAvbq6KgPRDO9pMvK0EuMG1+qjQI5UgNJJ
-         Nvg5lq0jI1uGltO2CKc1kgEehY8eAWD3Wh468qq37sAPvbXLNPMMxajkRFuFEJ8UwtkR
-         GOKDCA3Etq+FkBU74t12ksoyKeD3AxtTNSAGfjCr6nNr+KGErG0xR8ipClQ5MRvdn7sf
-         cGS21seaZYnbm3jcAHBuHLsvHI56uARFPEPhMnd9J7kfWANIZN3s3rbECFTBJCITv9AY
-         PXwg==
-X-Gm-Message-State: AOJu0YztrwS0nhJT7QXCzGpXzdnXmBDVe6q2mKZqbZZeqy8WiWn8H2YY
-	XMxyL5oOVL3ntNT00j0lsOVZYK9mIQTbxDgoah+g7nCF0tZNIBkb/ojabq14/Pg=
-X-Google-Smtp-Source: AGHT+IGINk9Fr2wFHolF9foshja2192bk1hlpprcveHZ/P6iick0ZoZMuupJWHb6dwcnmhgWJ7YrIQ==
-X-Received: by 2002:a17:902:c404:b0:1d9:6d99:10c9 with SMTP id k4-20020a170902c40400b001d96d9910c9mr12804219plk.44.1707102554174;
-        Sun, 04 Feb 2024 19:09:14 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXlZ0IBVFResPdoDM8HLTvfk1ATPVhlMJI+oh7Ast38N9WETovTMB0tD6sYYkjUmaV49FizblH5olRSyvmS+S50mljbKOxhsixVZIBvbZ03lfL0AEPtKF+e/eG37vdPLXuWBPtxmdfBExr46LewWfe/WR3uPDVS3sjoRpJT13xfWttBSJ9i7B0vFCpzEglUgMZmGmp0xa9MrAMPFuvgr1+Mnm+74dYW5fMAm4eOBmwPIzz+sGJVpMysclJu7sD5/9o=
+        bh=rAqTA1ODodviFaEYzIT2IfQSmJN2wcW+4kaARW4RAmw=;
+        b=ni8+7/Tmq/wEtGy0wjN7i6JeETMZkSrni+9MOALnCqWC0ZM71IkMw76SCAkffzAV6W
+         GUB2mG9XFx/6GBsm2hVb6ejoBQocEMp5C8M62BT2lwpghnbsZvKHX5bznU3p5hIM4Ah1
+         l1AoZW6HYU934UI5DBnH1EVBJ1juLa9t5G0x8EZoacp6CKI05zn9DbPrv9eNqavxgNlu
+         gI9HSD8eD/jl7sxtiKwq+GNiydVjcqyGbv7ix6Dqmehi/rABmgN9ethsRrufcvQuiKrt
+         P604gHHuZOAqZgoAljwkGjS5yPyw+NDvgYyRc6iA8MQsSO4mkHdhl8T9xJltfO+1FWFl
+         qX6Q==
+X-Gm-Message-State: AOJu0Yxkh9hyg+QugclBO5UzjwgCoAGEKzPooCeUUiMrFf+PLaXfj8u9
+	vkWG2nuLM6uy15Tai/4YEH9e/mNvWsoqX5yblxhpPwy7G8heqe65kSjL+xUgWNc=
+X-Google-Smtp-Source: AGHT+IE1FdU62d7nyxJBkiPRbIWaQrD0/G9ugm04tYItKCpM+2vNIExHwL894FxvC6qfr/A7hcSv9Q==
+X-Received: by 2002:a05:6a20:6f05:b0:19c:922b:13e5 with SMTP id gt5-20020a056a206f0500b0019c922b13e5mr7328816pzb.59.1707105161113;
+        Sun, 04 Feb 2024 19:52:41 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVApoVzl3pHhIYWjMmwN3wV76oWKIYgIX/VXD8Je7xGTMCTBtrKpWb3rV6uFKMJni0K59sZ2RpwxbmgVzsauD8Etn0j7sJGWKRqeVR468R/uorwKddh50vUYrddh248sw7r64YXl31U++g3JZd2z732s62lHzcYHplnEa7wNXhbKmELPE/GXlNHqFuP90j9j03CccsjU2x38WAZfKHF1F4VjGwc1Fpx8/l0546cWFHf4nLZuyq4LxEivO9GXhkU8E4=
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id y9-20020a170902b48900b001d73228cd88sm5170660plr.255.2024.02.04.19.09.13
+        by smtp.gmail.com with ESMTPSA id dw4-20020a17090b094400b00295e392eca2sm4017907pjb.41.2024.02.04.19.52.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 19:09:13 -0800 (PST)
-Message-ID: <65c05159.170a0220.80ebd.16d4@mx.google.com>
-Date: Sun, 04 Feb 2024 19:09:13 -0800 (PST)
+        Sun, 04 Feb 2024 19:52:40 -0800 (PST)
+Message-ID: <65c05b88.170a0220.f3304.c911@mx.google.com>
+Date: Sun, 04 Feb 2024 19:52:40 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -63,110 +63,253 @@ Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Tree: chrome-platform
 X-Kernelci-Branch: for-firmware-kernelci
 X-Kernelci-Kernel: v6.8-rc1-1-gc6b0a4ceb7c9
-X-Kernelci-Report-Type: build
-Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed,
- 3 passed, 2 errors, 4 warnings (v6.8-rc1-1-gc6b0a4ceb7c9)
+X-Kernelci-Report-Type: test
+Subject: chrome-platform/for-firmware-kernelci baseline: 62 runs,
+ 8 regressions (v6.8-rc1-1-gc6b0a4ceb7c9)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed, 3 passed, =
-2 errors, 4 warnings (v6.8-rc1-1-gc6b0a4ceb7c9)
+chrome-platform/for-firmware-kernelci baseline: 62 runs, 8 regressions (v6.=
+8-rc1-1-gc6b0a4ceb7c9)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-kernelci/kernel/v6.8-rc1-1-gc6b0a4ceb7c9/
+Regressions Summary
+-------------------
 
-Tree: chrome-platform
-Branch: for-firmware-kernelci
-Git Describe: v6.8-rc1-1-gc6b0a4ceb7c9
-Git Commit: c6b0a4ceb7c9d8bb014d2967c97c8c7cbf60b006
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+platform               | arch  | lab         | compiler | defconfig | regre=
+ssions
+-----------------------+-------+-------------+----------+-----------+------=
+------
+imx8mp-evk             | arm64 | lab-broonie | gcc-10   | defconfig | 1    =
+      =
 
-Build Failures Detected:
+kontron-kbox-a-230-ls  | arm64 | lab-kontron | gcc-10   | defconfig | 5    =
+      =
 
-x86_64:
-    x86_64_defconfig: (gcc-10) FAIL
-    x86_64_defconfig+x86-board: (gcc-10) FAIL
+kontron-sl28-var3-ads2 | arm64 | lab-kontron | gcc-10   | defconfig | 2    =
+      =
 
-Errors and Warnings Detected:
 
-arm64:
-    defconfig (gcc-10): 1 warning
-    defconfig+arm64-chromebook (gcc-10): 1 warning
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
+re-kernelci/kernel/v6.8-rc1-1-gc6b0a4ceb7c9/plan/baseline/
 
-arm:
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-firmware-kernelci
+  Describe: v6.8-rc1-1-gc6b0a4ceb7c9
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      c6b0a4ceb7c9d8bb014d2967c97c8c7cbf60b006 =
 
-x86_64:
-    x86_64_defconfig (gcc-10): 1 error, 1 warning
-    x86_64_defconfig+x86-board (gcc-10): 1 error, 1 warning
 
-Errors summary:
 
-    2    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset =
-32 is out of the bounds [0, 0] [-Werror=3Darray-bounds]
+Test Regressions
+---------------- =
 
-Warnings summary:
 
-    2    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offse=
-t 32 is out of the bounds [0, 0] [-Warray-bounds]
-    2    cc1: all warnings being treated as errors
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+platform               | arch  | lab         | compiler | defconfig | regre=
+ssions
+-----------------------+-------+-------------+----------+-----------+------=
+------
+imx8mp-evk             | arm64 | lab-broonie | gcc-10   | defconfig | 1    =
+      =
 
-Detailed per-defconfig build reports:
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warning, 0 section mi=
-smatches
+  Details:     https://kernelci.org/test/plan/id/65c0502df65f547afd00a05e
 
-Warnings:
-    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
-is out of the bounds [0, 0] [-Warray-bounds]
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-broonie/baselin=
+e-imx8mp-evk.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-broonie/baselin=
+e-imx8mp-evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warn=
-ing, 0 section mismatches
 
-Warnings:
-    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
-is out of the bounds [0, 0] [-Warray-bounds]
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65c0502df65f547afd00a067
+        failing since 146 days (last pass: v6.5-rc1-1-g0979e7e3cfd7, first =
+fail: v6.6-rc1)
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warning, 0 sec=
-tion mismatches
+    2024-02-05T03:03:53.526904  + set<8>[   28.349423] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 544004_1.5.2.4.1>
+    2024-02-05T03:03:53.527089   +x
+    2024-02-05T03:03:53.643745  / # #
+    2024-02-05T03:03:54.803087  export SHELL=3D/bin/sh
+    2024-02-05T03:03:54.808594  #
+    2024-02-05T03:03:56.299441  / # export SHELL=3D/bin/sh. /lava-544004/en=
+vironment
+    2024-02-05T03:03:56.304939  =
 
-Errors:
-    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
- out of the bounds [0, 0] [-Werror=3Darray-bounds]
+    2024-02-05T03:03:59.013942  / # . /lava-544004/environment/lava-544004/=
+bin/lava-test-runner /lava-544004/1
+    2024-02-05T03:03:59.019682  =
 
-Warnings:
-    cc1: all warnings being treated as errors
+    2024-02-05T03:03:59.028924  / # /lava-544004/bin/lava-test-runner /lava=
+-544004/1 =
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warn=
-ing, 0 section mismatches
+    ... (13 line(s) more)  =
 
-Errors:
-    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
- out of the bounds [0, 0] [-Werror=3Darray-bounds]
+ =
 
-Warnings:
-    cc1: all warnings being treated as errors
 
----
-For more info write to <info@kernelci.org>
+
+platform               | arch  | lab         | compiler | defconfig | regre=
+ssions
+-----------------------+-------+-------------+----------+-----------+------=
+------
+kontron-kbox-a-230-ls  | arm64 | lab-kontron | gcc-10   | defconfig | 5    =
+      =
+
+
+  Details:     https://kernelci.org/test/plan/id/65c05010fec4296d5000a170
+
+  Results:     90 PASS, 5 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-kontron/baselin=
+e-kontron-kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-kontron/baselin=
+e-kontron-kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65c05011fec4296d5000a177
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:22.052974  / # #
+    2024-02-05T03:03:22.153602  export SHELL=3D/bin/sh
+    2024-02-05T03:03:22.153830  #
+    2024-02-05T03:03:22.254373  / # export SHELL=3D/bin/sh. /lava-426100/en=
+vironment
+    2024-02-05T03:03:22.254617  =
+
+    2024-02-05T03:03:22.355087  / # . /lava-426100/environment/lava-426100/=
+bin/lava-test-runner /lava-426100/1
+    2024-02-05T03:03:22.355389  =
+
+    2024-02-05T03:03:22.368211  / # /lava-426100/bin/lava-test-runner /lava=
+-426100/1
+    2024-02-05T03:03:22.459132  + export 'TESTRUN_ID=3D1_bootrr'
+    2024-02-05T03:03:22.459267  + cd /lava-426100/1/tests/1_bootrr =
+
+    ... (14 line(s) more)  =
+
+
+  * baseline.bootrr.fsl_enetc-enetc2-probed: https://kernelci.org/test/case=
+/id/65c05011fec4296d5000a17b
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:24.675553  /lava-426100/1/../bin/lava-test-case
+    2024-02-05T03:03:24.702528  <8>[   26.067422] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dfsl_enetc-enetc2-probed RESULT=3Dfail>   =
+
+
+  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/65=
+c05011fec4296d5000a17d
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:25.763211  /lava-426100/1/../bin/lava-test-case
+    2024-02-05T03:03:25.789836  <8>[   27.155149] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>   =
+
+
+  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
+/id/65c05011fec4296d5000a182
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:27.022257  /lava-426100/1/../bin/lava-test-case
+    2024-02-05T03:03:27.048347  <8>[   28.414303] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
+
+
+  * baseline.bootrr.fsl_enetc-enetc1-probed: https://kernelci.org/test/case=
+/id/65c05011fec4296d5000a183
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:28.073125  /lava-426100/1/../bin/lava-test-case
+    2024-02-05T03:03:28.099083  <8>[   29.464471] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dfsl_enetc-enetc1-probed RESULT=3Dfail>   =
+
+ =
+
+
+
+platform               | arch  | lab         | compiler | defconfig | regre=
+ssions
+-----------------------+-------+-------------+----------+-----------+------=
+------
+kontron-sl28-var3-ads2 | arm64 | lab-kontron | gcc-10   | defconfig | 2    =
+      =
+
+
+  Details:     https://kernelci.org/test/plan/id/65c0500ffec4296d5000a10a
+
+  Results:     101 PASS, 2 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-kontron/baselin=
+e-kontron-sl28-var3-ads2.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
+ernelci/v6.8-rc1-1-gc6b0a4ceb7c9/arm64/defconfig/gcc-10/lab-kontron/baselin=
+e-kontron-sl28-var3-ads2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65c0500ffec4296d5000a111
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:23.457644  / # #
+    2024-02-05T03:03:23.558277  export SHELL=3D/bin/sh
+    2024-02-05T03:03:23.558519  #
+    2024-02-05T03:03:23.659040  / # export SHELL=3D/bin/sh. /lava-426096/en=
+vironment
+    2024-02-05T03:03:23.659291  =
+
+    2024-02-05T03:03:23.759801  / # . /lava-426096/environment/lava-426096/=
+bin/lava-test-runner /lava-426096/1
+    2024-02-05T03:03:23.760338  =
+
+    2024-02-05T03:03:23.772381  / # /lava-426096/bin/lava-test-runner /lava=
+-426096/1
+    2024-02-05T03:03:23.865329  + export 'TESTRUN_ID=3D1_bootrr'
+    2024-02-05T03:03:23.865472  + cd /lava-426096/1/tests/1_bootrr =
+
+    ... (10 line(s) more)  =
+
+
+  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
+/id/65c0500ffec4296d5000a124
+        failing since 13 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first f=
+ail: v6.8-rc1)
+
+    2024-02-05T03:03:26.793119  /lava-426096/1/../bin/lava-test-case
+    2024-02-05T03:03:26.820255  <8>[   27.099356] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
+
+ =20

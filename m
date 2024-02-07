@@ -1,142 +1,172 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18F01B80F
-	for <chrome-platform@lists.linux.dev>; Tue,  6 Feb 2024 20:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EAADF46
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Feb 2024 01:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707252829; cv=none; b=Bz04naJjZaW8e3X6SELcsnyaEUQC9O56llxKRlFwJ3nrV3ang8nz8ydhHft4IjM7gqLles/pKj9soHUFR3tRv+e8ln15LhM8p/hbvWbjLcKLelp6LmJmYtbrAmal35UCgkQnt5OP7DUAJFDR32mva7wcWx6hBhID5NcCqjuwkTc=
+	t=1707269096; cv=none; b=UEi+TufWp0GaB1VS/5NHgFDaza/d1pMuKlzMXVbW+niYeLFs8ey8OkthzKyMAlm6gHL9JTyvDwpYnhFdV1wvB9FyVoA0t0q2PhN1/yangfnH8CptKVvKHm0lavxB2vknX/9U+DXNVC5hoTYphaVGPcWfXIiYw7ujmNHkC7IVJyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707252829; c=relaxed/simple;
-	bh=3yBNu+3PGTah2lBJDL1Nna3OuczWn2UEB53W02vWmWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JabG8V4zCvVvKIeGv1WxyXN94p/CJxe2x0g8G/iB0Wkd3d0NcNpNnFHvvgL6KUspSe4YxooccKrzr5QmswwhSTQz2OTVJU/+tDBEJvOOtXgRoXlmnczcmLvQzo0AYTVraACiJzmbrlqIn5F8QM+Ei3oPkSsaUwB+K8g1XhyH8gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pL89gkvi; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1707269096; c=relaxed/simple;
+	bh=xRX2JZkOq3BlmQx+N37SmJLeFSh5NDn2CJ2K5hhMfCs=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=PVCtnYno/+ltfjk3GpIk2Nziu8YPnGJ7RCuQpwpPK3U7wSXX1BXckKHHjtUQK7C8sV5QUJM3Pbf30imG1m+1mCCpa5NBD9U8AZACLL2Xyo1csbgw+frnkL84KUtaGIAupsZfprVfavtzgYlIjhGX2yUJ7HzOww1+B/4gfV+xlzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=EGuuGn4g; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pL89gkvi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707252826;
-	bh=3yBNu+3PGTah2lBJDL1Nna3OuczWn2UEB53W02vWmWE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pL89gkvi1w7ZkMwqatdGvmDni8qTulCApNhPHgcvl9OgTpB2LHcdysB7n/CD5kjB2
-	 Jc0quntxeyOV0kHImvsbwGhc/36vTBYnLZMsljYAymKCDvnrIlJYGb1GDrE5hjwwDS
-	 fI46EX5Lcj+y0Dg715xrmQ+hETcdAiAP18q2Pg0HVujutCKE958rO7feSSb/3l1T0G
-	 +pKWO2C9JjEFIZs7Sy1QateTaU6Z3vmwRj2NVpDrnqKKymntxKuhR545jucLGkSG8h
-	 5kw4+JfeAHhLjMbfRCwbkQgYMgp/VezsKz50OEermnL30DNqo4wGvX1ac38IuNjJcZ
-	 DniKAni/3RZRA==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5CE7A3782081;
-	Tue,  6 Feb 2024 20:53:43 +0000 (UTC)
-Date: Tue, 6 Feb 2024 15:53:41 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <4c6954a2-5142-41bf-bda2-9de76c380d09@notapiano>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
- <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
- <ZbA4VthTMPT7BSRo@google.com>
- <2024013059-poison-equation-81d1@gregkh>
- <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
- <2024013012-gully-goofy-2a55@gregkh>
- <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
- <2024020105-dash-antiquity-a56b@gregkh>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="EGuuGn4g"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-363d942478dso333575ab.2
+        for <chrome-platform@lists.linux.dev>; Tue, 06 Feb 2024 17:24:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1707269094; x=1707873894; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y2udzSDy/jsut4hqbmMI1aVaH4EboUWqjjLS35HBPHc=;
+        b=EGuuGn4gnGvo7hsTs/94h9EbZtQu+t0i2RDJVL7sWLtjjakoKA+xziYu1NoGoK5xcm
+         NBDTgzfbDgUn1BIi88Qo/F6vNxRKB3VGbKf2av1MpO8XtbGoFcg6bqyvIsCR12NPFsjX
+         b8XUP8bC/eBDGriO0SdtIRAjoZ/PBO9IaYSTwHEO5FKgI3fQgKnrg7wAYyRjEuVLcJDX
+         s7asFsYzlFRAu1frwRAAl9X+fL2L8rvOz9eYGDW/BNyYxsS87hYg34jjuUeE5QmxRSFP
+         kBOTKiS57OeOF3F4J82mjUksn72s5ji3eUvPIKBDr8d9ManXSrCvqEANTlQsfdzlMwDF
+         KDng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707269094; x=1707873894;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y2udzSDy/jsut4hqbmMI1aVaH4EboUWqjjLS35HBPHc=;
+        b=hKaS9En7pu1VNE1JgHlM70UY9JlHouid2LayPIOLVgvg9sdY8U6rt10Na7fAm44KCx
+         OFK7aRlmgKHJAO3vRy/hBjD9AOWNZWDDaMhhi3IynWt0nIBs7pgTWf4/Bx2rYIowkY0k
+         cidtB8QXagLL2p56pupNSN9kRMpBNqcyhXpa9IWhIYu9Lha2d/jkLbg+/CcGn7dg71kD
+         PGZXjYfGUOYEl0EP5SL3iSNIytBozcciXlu590FYBAsIXEQdT8wKb1v6Y9l1FBgZkhQ9
+         WrG5mW9Nitd00P8j9z1T9HJ7UrKNYy5NL/u+6sN5jSS2JtzC1ANAvZfFUEundvi9KXw2
+         2Xmw==
+X-Gm-Message-State: AOJu0YzzN56ONEmceM7+NkLhwvNrwTeG4NntX1nu3F325xZQGwheuIf8
+	Wb4yNiCfaM7Ljx47fx/YeL5ZQ98hltFnXhmDvSu/KJmcMKE8vsNb3hp78p263LM=
+X-Google-Smtp-Source: AGHT+IE148gWIBECNb1O4dv3l5Mk11/4DQlJXYOvEp/9XbknLe7+M9ueBCapFbswZF/wqYzf0m9kqw==
+X-Received: by 2002:a05:6e02:1143:b0:363:ab28:7d14 with SMTP id o3-20020a056e02114300b00363ab287d14mr4126876ill.31.1707269093840;
+        Tue, 06 Feb 2024 17:24:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5gh28Kg0s+/JHlXdPjIOprY6Q5iLwkDvfcGdOAEPXCA/v98iX9PK/TW5fsJicdRliDrkhDkoNDsvRt0fsOwctDYqeOqpfzid9yqmdHBb1aUlVp0V7Zb5+lg/Pg0fHzpYE0t9jSWHD7dDCwduldlYrMVQSJ4GSsSnnxefX6q3yr+YUJ/7tTyjhyABpSdHYHrwECr8qPM+Ho/JwpaMqzeg9zwtg7ve2XN84PrTTqthfgqlkPwpJzcWaZU8FxjfEQKA=
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id by24-20020a056a02059800b005c6617b52e6sm108086pgb.5.2024.02.06.17.24.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 17:24:53 -0800 (PST)
+Message-ID: <65c2dbe5.050a0220.803eb.061a@mx.google.com>
+Date: Tue, 06 Feb 2024 17:24:53 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2024020105-dash-antiquity-a56b@gregkh>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Branch: for-firmware-kernelci
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.8-rc1-1-ge3c5df138169
+Subject: chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed,
+ 3 passed, 2 errors, 4 warnings (v6.8-rc1-1-ge3c5df138169)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Thu, Feb 01, 2024 at 06:21:03PM -0800, Greg Kroah-Hartman wrote:
-> On Thu, Feb 01, 2024 at 05:45:19PM -0500, Nícolas F. R. A. Prado wrote:
-> > On Tue, Jan 30, 2024 at 04:23:02PM -0800, Greg Kroah-Hartman wrote:
-> > > On Tue, Jan 30, 2024 at 04:01:57PM -0800, Brian Norris wrote:
-> > > > On Tue, Jan 30, 2024 at 3:51 PM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
-> > > > > > "Don't you want to have a driver data or so associated with this?"
-> > > > ...
-> > > > > But why limit yourself to 32bits now?  Why not make it 64?  It is going
-> > > > > to be sent to userspace, so you have to be very careful about it.
-> > > > 
-> > > > Is that question related to the question I pasted/replied to, about
-> > > > driver data? Or a new topic? Sorry if I'm misunderstanding.
-> > > 
-> > > Same question, driver data, you make it 32 bits.
-> > > 
-> > > > Anyway, for the size of the tag field: I don't have a strong opinion.
-> > > > But FWIW, they're coming from this project:
-> > > > 
-> > > > https://review.coreboot.org/plugins/gitiles/coreboot/+/269b23280f928510bcadd23182294e5b9dad11ec/payloads/libpayload/include/coreboot_tables.h#36
-> > > > 
-> > > > As you can see there, we're extremely far from exhausting 16 bits, let alone 32.
-> > > 
-> > > We've run into running out of bits in other subsystems before, it's
-> > > "free" now, just be safe and make it 64 like I think Andy is suggesting.
-> > 
-> > Either you and Andy are suggesting different things, or I still don't quite get
-> > what you mean.
-> > 
-> > Andy was suggesting we added a driver_data field, that is:
-> > 
-> > struct coreboot_device_id {
-> > 	__u32 tag;
-> > 	kernel_ulong_t driver_data;
-> > };
-> > 
-> > You're suggesting we make the tag 64 bits long:
-> > 
-> > struct coreboot_device_id {
-> > 	__u64 tag;
-> > };
-> 
-> Yeah, I'm confused, sorry.
-> 
-> Yes, add some driver_data, and if you are SURE your tag will NEVER be
-> larger than 32 bits, stick with that, but really, you are using the
-> space in empty padding anyway, so just make it 64bits please.
+chrome-platform/for-firmware-kernelci build: 5 builds: 2 failed, 3 passed, =
+2 errors, 4 warnings (v6.8-rc1-1-ge3c5df138169)
 
-Ok, after giving it a closer look, I've decided we really should just stick with
-32 bits.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
+irmware-kernelci/kernel/v6.8-rc1-1-ge3c5df138169/
 
-More fundamental than the previous argument that we aren't close to exhausting
-32 bits for the tag in coreboot, is the fact that tags are literally defined as
-32 bits long for the table entries [1]. Meaning, a tag being 32 bits long is
-part of the coreboot ABI. We have to parse it as 32bits from memory.
-Representing it as 64 bits internally and exposing it as 64 bits to userspace
-would not only be unecessarily complicating things, but also misrepresenting the
-data that we're getting from the firmware.
+Tree: chrome-platform
+Branch: for-firmware-kernelci
+Git Describe: v6.8-rc1-1-ge3c5df138169
+Git Commit: e3c5df138169b5494a16b20e74db1ee14b1901ce
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-I can add driver_data for v4 no problem, as we can simply not use it while we
-don't need it, but having tags be 64 bits actively complicates things for no
-real gain, so it's a no-go.
+Build Failures Detected:
 
-Thanks,
-Nícolas
+x86_64:
+    x86_64_defconfig: (gcc-10) FAIL
+    x86_64_defconfig+x86-board: (gcc-10) FAIL
 
-[1] https://review.coreboot.org/plugins/gitiles/coreboot/+/refs/heads/main/src/commonlib/include/commonlib/coreboot_tables.h#128
+Errors and Warnings Detected:
+
+arm64:
+    defconfig (gcc-10): 1 warning
+    defconfig+arm64-chromebook (gcc-10): 1 warning
+
+arm:
+
+x86_64:
+    x86_64_defconfig (gcc-10): 1 error, 1 warning
+    x86_64_defconfig+x86-board (gcc-10): 1 error, 1 warning
+
+Errors summary:
+
+    2    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset =
+32 is out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings summary:
+
+    2    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offse=
+t 32 is out of the bounds [0, 0] [-Warray-bounds]
+    2    cc1: all warnings being treated as errors
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warning, 0 section mi=
+smatches
+
+Warnings:
+    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
+is out of the bounds [0, 0] [-Warray-bounds]
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 1 warn=
+ing, 0 section mismatches
+
+Warnings:
+    security/security.c:810:2: warning: =E2=80=98memcpy=E2=80=99 offset 32 =
+is out of the bounds [0, 0] [-Warray-bounds]
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warning, 0 sec=
+tion mismatches
+
+Errors:
+    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
+ out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings:
+    cc1: all warnings being treated as errors
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 FAIL, 1 error, 1 warn=
+ing, 0 section mismatches
+
+Errors:
+    security/security.c:810:2: error: =E2=80=98memcpy=E2=80=99 offset 32 is=
+ out of the bounds [0, 0] [-Werror=3Darray-bounds]
+
+Warnings:
+    cc1: all warnings being treated as errors
+
+---
+For more info write to <info@kernelci.org>

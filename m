@@ -1,116 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D037FBB6
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Feb 2024 14:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F431272B5
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Feb 2024 18:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707317963; cv=none; b=MXtKbVpXTvfdRK5JG6D0P1A/y/+4Ksy+gNsuW6eaOr0J2I0IRShr+ZlIoUX8hiunS4CNEcLq4/zoPd0YnAh7GxpO5L8IEaD3iFp6vgR98qwC3YXitumOGQWvArJIL2wC/Dl0TBPJryBWq3ZC9eRbdt49Vo+Du5bFxrzaZfzk7J4=
+	t=1707331404; cv=none; b=cY49CT6rMTyrcXqCRO3FDYTvWSPJTOe9u+KSKD9NGh18E+TJEj4I86HoUN+Zgdix9K37+kHsXlbsOl+uGMOhRgXkcrHpw+rTgFYh1AenMdpIKhYqtDLLxka6goup/qQ8wOAb9IkdqGvZwO31246Ml2fI4ScI8bHiW4nLCMbNGjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707317963; c=relaxed/simple;
-	bh=wJ5erar78HhMhQzSx2+rDQ9WduuYUwpvlY26tbDxq6g=;
+	s=arc-20240116; t=1707331404; c=relaxed/simple;
+	bh=82BqdfYVCWT3Ohz5KyeQLipnBnJA3+PJw9sXj8PFqAY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tkJYzoKbk8duz38gZ8dpfnmV9JeFhsAVQt59IV9+wOR7W8Q860MJmp0BBMZYMbUn/J/LMkCeCeZ0HQ/mhF7v6g3GS2CEqzJdLxYDiPdQhvPD6tupUnDLbTA0pL/F71ALoFdQzHcPVAjXUo/iuDs9mNPDge4clGUU4OWGsxNAss0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bz//pEE0; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bz//pEE0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707317962; x=1738853962;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wJ5erar78HhMhQzSx2+rDQ9WduuYUwpvlY26tbDxq6g=;
-  b=Bz//pEE0nLE17QsgMYDeMR9rasJSCe4mNDgi8NttTfImga5p1tK6LmoH
-   mbNjTsIJJmIZLStnlmLM3CYPBBkxZKafw7lzx84scLB1MO2REp29/hTaH
-   kslrY5FE3da6JixXpP/fryzXqdkutboSTID7rJtIHU/JBQMgsesFkdr/L
-   SvOqvlwjSkUBoaQ5M7ET+Marb2uNTLvZzl3lUFTZeO9flZH0BVKa1u4pz
-   fFIug7yW+Y+Vv6gz3uJ0ykkeMzwrER+zhVc8YVPQafPOtGbC1UeBuML8m
-   7qRhew1puG0ButRuV09TsJ6qloFnOfdAYkVu1lfKOWj8NsPgkkNoXeF6f
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1155045"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1155045"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 06:59:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="933799566"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="933799566"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2024 06:59:00 -0800
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Benson Leung <bleung@chromium.org>,
+	 MIME-Version:Content-Type; b=cI1pBEWxErPXpoUNHJemVgvpWiik273hFjS7MuHE3+sGMuJbaNjXNjSuxitl3GKkaM6heqMauDlBcRrU4xBKXdFUz8IyEj4LC2Mm4J+Q9JcTO/VYx7MYF7okBcszPu6v32rmVgo4UrSYxkFiAzZURiinhxZGNpsYRnpv2iP+MNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmt7-0007eW-1z; Wed, 07 Feb 2024 19:43:13 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmt6-0054Xi-7q; Wed, 07 Feb 2024 19:43:12 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmt6-00HRsk-0V;
+	Wed, 07 Feb 2024 19:43:12 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernel@pengutronix.de,
+	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Emilie Roberts <hadrosaur@google.com>,
-	"Nyman, Mathias" <mathias.nyman@intel.com>,
-	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
-	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>,
-	Samuel Jacob <samjaco@google.com>,
-	linux-usb@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Uday Bhat <uday.m.bhat@intel.com>
-Subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB role switch has PLD
-Date: Wed,  7 Feb 2024 16:58:51 +0200
-Message-ID: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v3 15/32] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+Date: Wed,  7 Feb 2024 19:40:29 +0100
+Message-ID:  <cfbafd8a581a3ca37134cb84cef4370959012d9d.1707324794.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207145851.1603237-1-heikki.krogerus@linux.intel.com>
-References: <20240207145851.1603237-1-heikki.krogerus@linux.intel.com>
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1899; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=82BqdfYVCWT3Ohz5KyeQLipnBnJA3+PJw9sXj8PFqAY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlw86nU9GnftRL96TAXX7wsHrdPDZV8of/reV7I lhz81IJPcCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcPOpwAKCRCPgPtYfRL+ TnzPB/9dGwqLUtwjxbKxr2hjwVfulj2JlwzRozoJEw1LRWZfdHqEColaRC+wCKhfTDuKxqQi11T pMUWzpekGpc/lZ6nyKmBAVkMsWblZCLeSumNRC6lV2CKO32ZuOsYyW0gi5czelg7sTjD83hUfqL mHY2Cz1TPs/zcurJRPYBiKVUrcRqItQVgmIT+Rp4xmjadVAL+1lNGHdws0zWb+/fUweCk2voMpz eq75Str5OqwdudEpGZHm+qz3n//dpjtHpwjsFfQgOjrerEfz9fJF7KC34ycUjb6UqaEYmdTF3+w TP+PPbBqPef/qtRTbjBhq63kpGnXPB3blR8wdzP03/KCtUn6
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-The USB role switch does not always have the _PLD (Physical
-Location of Device) in ACPI tables. If it's missing,
-assigning the PLD hash of the port to the switch. That
-should guarantee that the USB Type-C port mapping code is
-always able to find the connection between the two (the port
-and the switch).
+In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+some functions and struct members were renamed. To not break all drivers
+compatibility macros were provided.
 
-Tested-by: Uday Bhat <uday.m.bhat@intel.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To be able to remove these compatibility macros push the renaming into
+this driver.
+
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/platform/chrome/cros_ec_spi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 2b2f14a1b711..5c14e8db08b5 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -28,6 +28,7 @@ static int cros_typec_parse_port_props(struct typec_capability *cap,
- 				       struct fwnode_handle *fwnode,
- 				       struct device *dev)
- {
-+	struct fwnode_handle *sw_fwnode;
- 	const char *buf;
- 	int ret;
+diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+index 3e88cc92e819..86a3d32a7763 100644
+--- a/drivers/platform/chrome/cros_ec_spi.c
++++ b/drivers/platform/chrome/cros_ec_spi.c
+@@ -409,7 +409,7 @@ static int do_cros_ec_pkt_xfer_spi(struct cros_ec_device *ec_dev,
+ 	if (!rx_buf)
+ 		return -ENOMEM;
  
-@@ -66,6 +67,16 @@ static int cros_typec_parse_port_props(struct typec_capability *cap,
- 		cap->prefer_role = ret;
- 	}
+-	spi_bus_lock(ec_spi->spi->master);
++	spi_bus_lock(ec_spi->spi->controller);
  
-+	/* Assing the USB role switch the correct pld_crc if it's missing. */
-+	sw_fwnode = fwnode_find_reference(fwnode, "usb-role-switch", 0);
-+	if (!IS_ERR_OR_NULL(sw_fwnode)) {
-+		struct acpi_device *adev = to_acpi_device_node(sw_fwnode);
-+
-+		if (adev && !adev->pld_crc)
-+			adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-+		fwnode_handle_put(sw_fwnode);
-+	}
-+
- 	cap->fwnode = fwnode;
+ 	/*
+ 	 * Leave a gap between CS assertion and clocking of data to allow the
+@@ -469,7 +469,7 @@ static int do_cros_ec_pkt_xfer_spi(struct cros_ec_device *ec_dev,
  
- 	return 0;
+ 	final_ret = terminate_request(ec_dev);
+ 
+-	spi_bus_unlock(ec_spi->spi->master);
++	spi_bus_unlock(ec_spi->spi->controller);
+ 
+ 	if (!ret)
+ 		ret = final_ret;
+@@ -554,7 +554,7 @@ static int do_cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+ 	if (!rx_buf)
+ 		return -ENOMEM;
+ 
+-	spi_bus_lock(ec_spi->spi->master);
++	spi_bus_lock(ec_spi->spi->controller);
+ 
+ 	/* Transmit phase - send our message */
+ 	debug_packet(ec_dev->dev, "out", ec_dev->dout, len);
+@@ -590,7 +590,7 @@ static int do_cros_ec_cmd_xfer_spi(struct cros_ec_device *ec_dev,
+ 
+ 	final_ret = terminate_request(ec_dev);
+ 
+-	spi_bus_unlock(ec_spi->spi->master);
++	spi_bus_unlock(ec_spi->spi->controller);
+ 
+ 	if (!ret)
+ 		ret = final_ret;
 -- 
 2.43.0
 

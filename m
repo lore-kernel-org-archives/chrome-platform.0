@@ -1,113 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3806A6A35B;
-	Thu,  8 Feb 2024 09:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D596D83CAB
+	for <chrome-platform@lists.linux.dev>; Thu,  8 Feb 2024 18:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707383587; cv=none; b=U8hyLs4EW06ybMod54A5sOPHBtouawSwEcgvhBuGqWXI9U7d+NG6cbVrq+2IOpDz78pS6eUjnwv64n+wU1DKcAdYEJ3QFJOsCsyuJYgQguEZ9KeyW45a8/wTcj/+CUz9yNM+wb5hV1UpCFhlz4cYOtzs4Mbo78siralE4JIxQAA=
+	t=1707416075; cv=none; b=WArU4UorABXvJhGddcmzyINdoNyDSyogEDNdG5M6/Nn6EwT4Rawx+ydqN9ZVYzSdZFtXIYLP7vgNxedwyWdUhxE5yLSmHP+tDQ5dgzMPCtNIymbN1wqvFsVbfvmXb/spbDDEK+9oftUbCJjflqwM2Ks1xmh9+mVqIpUemgx1o3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707383587; c=relaxed/simple;
-	bh=Cmqaj8sgs7iWeMHaQKt5n5zPWvccQgeBanow+ePMb3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lmX4XYWqwh+t608x32vcmPz6NPZIclXD2hY7b8AeBkUU5hZp+qOEwAOzS2OLH9oe1n4h9/jn4oR8fce3dCbC4l30xursRmyNummgpbEvOGTukvNC2hf5myz8U164LhIJVWmGMCj4HfVvDAj2ItLgif14pNWATbYTbrP768qJOVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4KF6dyu; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707416075; c=relaxed/simple;
+	bh=raktRbRT/30YboSLtBUFxeNmuuB0czI5c0h//xAnajU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pbHNfVL6GJKUQVn/jG3YrnFWD+HSuBaaCKED79xOGCpDjw0dvRUqcquRJPTVJYkD1Y+Xf4jIGxVgZLeShhgCU2hjDgrjmHQrhB5k3cQKMqwOrmuMDNn9JqWZV8b7egXLmLwvS5bfzELztWmI6XjcbrmlNKHYdwCV7LVpKyVLI9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SfjSHWY3; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4KF6dyu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707383586; x=1738919586;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cmqaj8sgs7iWeMHaQKt5n5zPWvccQgeBanow+ePMb3Y=;
-  b=F4KF6dyuNauh0LweZ+0DfDPDsgalwXU1HdCHOVxkh9KkQ5l5bE7YzKem
-   NRZ4cjtQzVhhMW/XvRFtXts3+yt9dCft4z2u+JilLvWBOLksnPH1jOTW3
-   QjGhk6kw1aaIHaW7V0V+FSr2cxI/bz9ay5Dp2X+RzxDM6rGmXoD+SnzS+
-   ChDK3zg1upIglslv2h2ePGohBt3+3JEzPJ46M2YrT6gswK7Licdv2eBZW
-   O/PEFpHDhY0hBmhRSeCJBh76jl0YoiER10FF/3CsHtvAluyQwH0JYaV7e
-   YJAaMWu+nUKrkBWoQcAdt32Vdg7j58iZr1KDj67t38+QN4thCXFt5j6zW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1324249"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="1324249"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 01:13:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="934072190"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="934072190"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 08 Feb 2024 01:12:57 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 08 Feb 2024 11:12:56 +0200
-Date: Thu, 8 Feb 2024 11:12:56 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>,
-	Uday Bhat <uday.m.bhat@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	oe-kbuild-all@lists.linux.dev, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Emilie Roberts <hadrosaur@google.com>,
-	"Nyman, Mathias" <mathias.nyman@intel.com>,
-	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
-	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>,
-	Samuel Jacob <samjaco@google.com>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB
- role switch has PLD
-Message-ID: <ZcSbGIBt1BtFQd36@kuha.fi.intel.com>
-References: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
- <202402081136.sve0cViZ-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SfjSHWY3"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6e2bb7dc4dfso26901a34.3
+        for <chrome-platform@lists.linux.dev>; Thu, 08 Feb 2024 10:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707416073; x=1708020873; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XP2DrPejZ4y9GWeuess5B/7wBkV0f7f91rTBUzRBkq8=;
+        b=SfjSHWY34YfyjFEYmbV1eLq6l1pGkrD0Zv9+6mo4h4qR9sDt9Tswcu74PB4vX67ZLm
+         lS/KzlEnMQXfcC8wszZIQRWN3sSVAD7rsFmhsiT6TthEj0Ec8eIUkQ+RVsZO+GxKWUcZ
+         9AaIvOLuNCr3ypaD4LaijVstVc9Ffzz49fjfg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707416073; x=1708020873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XP2DrPejZ4y9GWeuess5B/7wBkV0f7f91rTBUzRBkq8=;
+        b=WsnN/VFI0vFcIfBylDP17+pAQo5A+lo5DRuGOQq+YwiY/LGvB8mUunHutvIQUUAn5l
+         CjEukF73sLCU3xeeHg5BL3JHU2rI/twcZGrL52Cz5Q7qoSJBrZ66nYYTXpb8ZrSsCagn
+         saUFczFKnZoNuGGzqjzPP3ONuhaYRj6TfMl6HBzHB3m/ht81Echskqhg0BklGtUgCrBM
+         CcZZI7npXzmbPUSNQX2m/b8Ls6BU2XuSVppD/CIfvB9d7S/IwUupCQsxt/3P3bXQ9EsM
+         qN/QxA+swk3DqyWljc8sA/5ryAf4SSrrlWwtQ5Qj06QtNX0gnef8jdjPNDOVsILYnwJg
+         UBqQ==
+X-Gm-Message-State: AOJu0YxNm772psWZmeVXhtQ7N9D1JFHyAw4DV2jvGQ8sVm4SCjUtqe0a
+	0kq7Du7n8YGUWrt02LjKz9rbUS76vjOiUYGKLwyrLN2YkTo33e6UaR70HiU583Na61sMS7H7VG+
+	W2M+1IcUigoayLQauAVJ39FraeTD9lefCsXNU
+X-Google-Smtp-Source: AGHT+IH+qDHRnUdLJutzlN4b7pMy+thkGoe7hkl8pgXZ0zfa7tKazwCMgVBQmcEjJITTaGbfbAm+SCOgcOTd2UDmzy0=
+X-Received: by 2002:a05:6830:1248:b0:6e1:d90:c429 with SMTP id
+ s8-20020a056830124800b006e10d90c429mr323749otp.7.1707416072966; Thu, 08 Feb
+ 2024 10:14:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202402081136.sve0cViZ-lkp@intel.com>
+References: <20240207145851.1603237-1-heikki.krogerus@linux.intel.com> <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 8 Feb 2024 10:14:21 -0800
+Message-ID: <CACeCKaffZBPA0Q_Bqs1hjKJB4HCj=VKrqO21dXj4AF5C5VwtVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB
+ role switch has PLD
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Emilie Roberts <hadrosaur@google.com>, "Nyman, Mathias" <mathias.nyman@intel.com>, 
+	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>, 
+	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>, Samuel Jacob <samjaco@google.com>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Uday Bhat <uday.m.bhat@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 08, 2024 at 12:07:40PM +0800, kernel test robot wrote:
-> Hi Heikki,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on usb/usb-testing]
-> [also build test ERROR on usb/usb-next usb/usb-linus chrome-platform/for-next chrome-platform/for-firmware-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.8-rc3 next-20240207]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-roles-Link-the-switch-to-its-connector/20240207-230017
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> patch link:    https://lore.kernel.org/r/20240207145851.1603237-3-heikki.krogerus%40linux.intel.com
-> patch subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB role switch has PLD
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240208/202402081136.sve0cViZ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081136.sve0cViZ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402081136.sve0cViZ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/platform/chrome/cros_ec_typec.c: In function 'cros_typec_parse_port_props':
-> >> drivers/platform/chrome/cros_ec_typec.c:75:34: error: invalid use of undefined type 'struct acpi_device'
->       75 |                 if (adev && !adev->pld_crc)
->          |                                  ^~
->    drivers/platform/chrome/cros_ec_typec.c:76:29: error: invalid use of undefined type 'struct acpi_device'
->       76 |                         adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
->          |                             ^~
->    drivers/platform/chrome/cros_ec_typec.c:76:68: error: invalid use of undefined type 'struct acpi_device'
->       76 |                         adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
->          |                                                                    ^~
+Hi Heikki,
 
-Oh, so this has to be wrapped in ifdef CONFIG_ACPI :(
+On Wed, Feb 7, 2024 at 6:59=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> The USB role switch does not always have the _PLD (Physical
+> Location of Device) in ACPI tables. If it's missing,
+> assigning the PLD hash of the port to the switch. That
+> should guarantee that the USB Type-C port mapping code is
+> always able to find the connection between the two (the port
+> and the switch).
+>
+> Tested-by: Uday Bhat <uday.m.bhat@intel.com>
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
+hrome/cros_ec_typec.c
+> index 2b2f14a1b711..5c14e8db08b5 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -28,6 +28,7 @@ static int cros_typec_parse_port_props(struct typec_cap=
+ability *cap,
+>                                        struct fwnode_handle *fwnode,
+>                                        struct device *dev)
+>  {
+> +       struct fwnode_handle *sw_fwnode;
+>         const char *buf;
+>         int ret;
+>
+> @@ -66,6 +67,16 @@ static int cros_typec_parse_port_props(struct typec_ca=
+pability *cap,
+>                 cap->prefer_role =3D ret;
+>         }
+>
+> +       /* Assing the USB role switch the correct pld_crc if it's missing=
+. */
+> +       sw_fwnode =3D fwnode_find_reference(fwnode, "usb-role-switch", 0)=
+;
+> +       if (!IS_ERR_OR_NULL(sw_fwnode)) {
+> +               struct acpi_device *adev =3D to_acpi_device_node(sw_fwnod=
+e);
+> +
+> +               if (adev && !adev->pld_crc)
+> +                       adev->pld_crc =3D to_acpi_device_node(fwnode)->pl=
+d_crc;
+> +               fwnode_handle_put(sw_fwnode);
+Can this be in common Type-C code (maybe typec_register_port())?
+It doesn't strike me as ChromeOS specific, but perhaps I am missing somethi=
+ng.
 
--- 
-heikki
+Thanks,

@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31476200D2;
-	Wed,  7 Feb 2024 22:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93FC2C1B8;
+	Thu,  8 Feb 2024 04:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707346404; cv=none; b=PeObR9UAGj2nJGwHdbLV4GFEKXf7TuWuQPrGkEV3Nos7B/GLC/zyIKuVAfePeftZayATHJq9dbF86Fjj5vr8U1rF2CXy7QY1YG8J9nKCr9UcN/y9wa71UthrF3K76h+bq/n4IiIqIcIHl3zRPJq+B5WZ1S5xRWE8Vn/szC6I12o=
+	t=1707365312; cv=none; b=sEp5lOuVevMZkaI97A1+G6HmT6+WFlT85+GPi9pON1cTYb/NhxkjJ/7ceW7iZTMn2njuf1fJf+/bzAnKr1KFdiK/4wv79vMqj0UfZTCN2s5/xgNUXeYWTcwbygYyeTuSn2Zt2FscP+z++5plOM5v2MouViYxAc5Kx0AjAE+60s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707346404; c=relaxed/simple;
-	bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
+	s=arc-20240116; t=1707365312; c=relaxed/simple;
+	bh=NkAI6H35ROaFu13zo+RHURA61NgMQ5XNqRAfgGx1xd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NS/JFQWxsk2zCAxt6XubWZepqLaZht/c6YuBXEJp6nbzfedrPLvhovpemA6pmB2WtgX1QJPok2g6TYkmjck/bVJdPiKM+CtXb5Vonqorb40Q0xjfCRb0uE/kAbOR5FSV4afj8n76bRmEjrPdptCdiIvpkj8j2EWlNe3JOREaZvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bx4B6DK9; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=T19VL8n48Aa9P++mQkRD8KETUXroFRvu93mKaMOirdshAefIdqsY8+gtV7Rli+Sj9ct55u+bSZp1cHAqSKxeWKBKS3VfdLEabTuPjm7Y6jOdAQ4UlF7bZDiPcyzkrBAf9p9vIg9NieskhA8MfmYKchlZCLtxemcMAKPUcKUefhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TF3W8wo+; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bx4B6DK9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TF3W8wo+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707346402; x=1738882402;
+  t=1707365311; x=1738901311;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
-  b=bx4B6DK9cAZW4NeoF+ZNq8KkKYJ3r2FMD0aBkRwCc2B1aWPSVjA+ZvKd
-   s3QrytosAXeEXwP2ZGQv343c2wAx+rgMqjo9C26yIUtfba+FtLwi0YIOv
-   aOg6mpKde7VbQph7Xsq/1YZURkXMOVd5muoCEn2LaPbinsFIamFGadqkg
-   lS42kimccj4seghVoD9kT7k/3aAsliinV2m1TjKOkbxe0Y5F9B7l4gr/+
-   3GMO3QFSwEjozigOcpw6k+lMLefVF4apNqF938XPDtWYC8x8VJcBUQiZR
-   3Kizc/Yr9VaEmPxobF9/Ly7rSmHInMW0dQno7FTUclPc+Xb3NhZNHiWXq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="12467559"
+  bh=NkAI6H35ROaFu13zo+RHURA61NgMQ5XNqRAfgGx1xd4=;
+  b=TF3W8wo+GIXO/AHH86IkOwD1W4HqqA+rvf3Q0OYJrbAWNsPG+WD9cdG0
+   DdpIKb0fsXBhP6P6ceuLEeeWuE7knyIKJxHtcFq/uKRd7s2uBJLcH1WuW
+   yQn54TjKRi9Mfb796nCHuE+7G52I2+WZDICJ2AW04BZRz/oEW2lQg1dFe
+   6zXL3288UqO3k1JI4ntjadUbFPV6DGOpi32RoVcrFl4YIyDKrwnfddIal
+   k3bgJLGg6+qwTzn4a/FCFh61NDVdYYh91orGIgzLmJCnQP+u0h0sELhOn
+   aXgoPRLXl7xQLqLGtBeIBQr0OCew2/pYIu9KOkGtUrLg+xH7xEoslnJgJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11775900"
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="12467559"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 14:53:21 -0800
+   d="scan'208";a="11775900"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 20:08:31 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1494186"
+   d="scan'208";a="1531966"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Feb 2024 14:53:17 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2024 20:08:24 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXqn3-000376-2u;
-	Wed, 07 Feb 2024 22:53:13 +0000
-Date: Thu, 8 Feb 2024 06:52:42 +0800
+	id 1rXvi3-0003LK-2f;
+	Thu, 08 Feb 2024 04:08:23 +0000
+Date: Thu, 8 Feb 2024 12:07:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Prashant Malani <pmalani@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Benson Leung <bleung@chromium.org>,
+Cc: oe-kbuild-all@lists.linux.dev, Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Emilie Roberts <hadrosaur@google.com>,
@@ -61,7 +60,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Uday Bhat <uday.m.bhat@intel.com>
 Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB
  role switch has PLD
-Message-ID: <202402080600.zOq5UvYq-lkp@intel.com>
+Message-ID: <202402081136.sve0cViZ-lkp@intel.com>
 References: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -87,36 +86,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-roles
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/20240207145851.1603237-3-heikki.krogerus%40linux.intel.com
 patch subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB role switch has PLD
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/reproduce)
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240208/202402081136.sve0cViZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081136.sve0cViZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402080600.zOq5UvYq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402081136.sve0cViZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/chrome/cros_ec_typec.c:75:20: error: incomplete definition of type 'struct acpi_device'
-                   if (adev && !adev->pld_crc)
-                                ~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   drivers/platform/chrome/cros_ec_typec.c:76:8: error: incomplete definition of type 'struct acpi_device'
-                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-                           ~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   drivers/platform/chrome/cros_ec_typec.c:76:47: error: incomplete definition of type 'struct acpi_device'
-                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   3 errors generated.
+   drivers/platform/chrome/cros_ec_typec.c: In function 'cros_typec_parse_port_props':
+>> drivers/platform/chrome/cros_ec_typec.c:75:34: error: invalid use of undefined type 'struct acpi_device'
+      75 |                 if (adev && !adev->pld_crc)
+         |                                  ^~
+   drivers/platform/chrome/cros_ec_typec.c:76:29: error: invalid use of undefined type 'struct acpi_device'
+      76 |                         adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
+         |                             ^~
+   drivers/platform/chrome/cros_ec_typec.c:76:68: error: invalid use of undefined type 'struct acpi_device'
+      76 |                         adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
+         |                                                                    ^~
 
 
 vim +75 drivers/platform/chrome/cros_ec_typec.c

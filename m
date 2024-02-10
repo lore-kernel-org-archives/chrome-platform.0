@@ -1,55 +1,55 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2163BB4D
-	for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 07:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D063C486
+	for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 07:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707549011; cv=none; b=HGN+FkXIA7LxeSbA09CgWvRRBdpf25/5ChVibXeykymiyDJkfTT+bdZk3OHNmA4dmZz7qhBMgjBBl76+Pqn1nX7J9lTU04FXsZaZiTYLOojXsUSh735VQODndF3qRCjKPuek3BKeJrj84jRc1PupgQutHKGoZiTVmWfxhWoooQM=
+	t=1707549013; cv=none; b=E1QvaFvtQEh/js87+ot8+yAdemacqR/naqW3x9veSd+0qiES5n5xOsJ5C7rn+tOK/e2tl2EnrS+JXzmi1ySk7u/6hSoHzo1IztE+FLZrGArsffJ98hmz10b0AX6P43i6UUEUUjC6oA7k4T8qbLy2OOGTyVV7B2egrtzkUPE5og4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707549011; c=relaxed/simple;
-	bh=7ychZbXxS1s4pMACM5Sr3Sm2rydqrFGfJ5B9SLKGry0=;
+	s=arc-20240116; t=1707549013; c=relaxed/simple;
+	bh=QWiqq/EJWFUQcAozvbWJFLlKJLTTtEoiwf9S8hzbqeo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AUNrsIFeXI1YQlm3UDZ1rmNIx1rFhwlP4fLkmW8n/gwojVcWsbekx+/WmNj0QEKtc8MM8xB5aZTXiWjEa5Y88HC7tR/dfHWYgbYoJHd0PaCL4PTodb4fAjAtq5Y9gLdUHNftz+TsuztEgxbdyyvWoCzKedWg7Tm2vv3L4pWZZpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DuopWbXr; arc=none smtp.client-ip=209.85.215.171
+	 MIME-Version; b=dweSFxwrrfiI9Y3aRneabArH+JE6AO7/Jpd7/I+8b2/DYEJXbl/ScYZvlX5xCl7ZoCC54DeZClTjsQuGA8rFGpASmkiFaZPoKCYd6VSDDo49CxDRciCOP8Su4lnx7tAJ+qoN3eLGGriEfLALSQkdYB1+ZYclRnynifhWpqCo/FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UgKDRhay; arc=none smtp.client-ip=209.85.166.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DuopWbXr"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5dc4a487b1eso1225975a12.1
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Feb 2024 23:10:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UgKDRhay"
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7c4205020c4so74260939f.1
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Feb 2024 23:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707549008; x=1708153808; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1707549010; x=1708153810; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8lS/zI9DieZO4kpyCxOx0tCwEa/sTyMFOHybhXgcQ6k=;
-        b=DuopWbXrBfNaXnXIIMBv1AtMeHeI88md5Pa9NhmE8qOQSb2mbqjDul1OUHuccEFJ7z
-         +dhcEQv1yBjXf2NyOeBotI9K0KXPVYWv2xGz+IttKe/IWzNjqr/htruCWS4ogTUjwyTe
-         IOBon8QXoFGjIJCuZQPXAwiHkaNcxDKwfxvtw=
+        bh=nDZTkmgJLWBgtbMLYvgKp9lpTe2pMS2z/gX4STfhWdw=;
+        b=UgKDRhayi1TGRqmcafUCJispz9Ne28t4S5d8EJpkH0rj2c5+B7mgvjAGQx6rCg8PDN
+         w7eg6dsRZ88Rdj+vbmEz5LzXBwhpPq6Lw54l3cgCAE8IjNwd9g9r4b3P/VV38AmWJrd9
+         SrtnxT1C/Tu6D6Wle+9+mkMSnayXvxYXbse0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707549008; x=1708153808;
+        d=1e100.net; s=20230601; t=1707549010; x=1708153810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8lS/zI9DieZO4kpyCxOx0tCwEa/sTyMFOHybhXgcQ6k=;
-        b=h4Ri4wFTNDc1IpylaR2qY9FbN4baqlfxfJXKFJYuZufuTvVFmK9xJJyvEURbgKujat
-         zIXGnXGaCxcsEtUrPvF4gjWE6ul/B3l9k0bN0bUs+eONNrdkVhzPiSQ1zsN5SNUYSWYs
-         jzy5Pr0b/2j1EgTDsCZCCmesJoFsw7KHdTjEPlE5KUIAXsinv/mXb9rWxznv1bowAuy0
-         uAF9BA2HXZyEeWnhgvGKNm9rWC/F8fzxkvUukHS4rQrdl8UEwpqnHgJ+PeTz6WSTW0m9
-         GRKmTl0251BcJvIwofVfSJLFZo7unft/TT1Ak2+LB4rGgP4KImjAYFxErvY2cWEWVrrk
-         LdPA==
-X-Gm-Message-State: AOJu0YzIZO6ler3spUsrxvqFux2ORw2d+ALvV5HJT1ow/l4/zpn1ylA7
-	0UDMvtdYqJG5UOGZQR/uIoPcQqFh93y4I8fFKFT+4WDhVS0uu7g0NAV6cc5KgNILhJKgbyfl3Hg
+        bh=nDZTkmgJLWBgtbMLYvgKp9lpTe2pMS2z/gX4STfhWdw=;
+        b=krfiQvfCcO4rQUrFqWsx7jgVElVUjTmu4HStCYyLEoN8YY6EsKigk+jumPpulPwyNj
+         kb9/Qvib8eIMDhzMW4zPg4ZZvPNyd80gVM+LPxyP5bPetFnvsqqt1MyVcMO3aXdRGtlL
+         GE5pOA+cnhf3CQnT9iPQ7/mQl/1zfh1x51Sd7z4Xx83iuYrWED7i2vcLosHSCPAzRu7o
+         n6DQNvBEmmAsRQkGlqgcg8VH4Z+2CrL70A8vHzbXC2wXNqU+behWTnrQF5t+GDmc2Dly
+         gbrnIDUHNJ7qwnx4JwigtG1EEBCP5GhFqgle1HquKZiYdap1e1QUA2VQ42jIgaqTkufB
+         nxiA==
+X-Gm-Message-State: AOJu0Yx3xIN7dLAHAf3creMUhCMcuIgkF0pzoMN1oDgUFlhDR4NIX6p8
+	ea23KtCiNEsHb0B36dJ1b0jESrfbUGMD0IknaglCokzkwXAvQZRqNGt+xG/cNaS/8bNvsDUs0iU
 	=
-X-Google-Smtp-Source: AGHT+IGsl/kRZRKlL+ejLfDG0H8w/xBbFJW8H2mG4Dnohi5PwiltDDRP/NGDaoxKd6S2A6sYjsRajA==
-X-Received: by 2002:a05:6a21:9102:b0:19c:9b38:f398 with SMTP id tn2-20020a056a21910200b0019c9b38f398mr1875117pzb.22.1707549008286;
-        Fri, 09 Feb 2024 23:10:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVxVKRsZHGdz7T51QyBOeGTngT9/I4zjnFVZlFgfTySs80AvPD+gcp8pAywzgBSXuGJkHLs8GXlERRa+/aOskm6YO+aBk0O4JsRkPbqsq/HIF9wvIkHJaJ9p3c+S9gPsySDR2YcveYC5Dud+LaWCyR8Ok9AZCpX4R4qQDDHKrCYprfr3SwLujkyt4cOv88KYpJcN21HPl/XGv8wkxYw5o4cNnubbYkfwAMkaB4LbFLguENnb8tOQXJbgBembp46EqkVRYq+iW5mZicLeQN4fDtKo+5cCtS0A4hi6MP2L+NGJIhrjifwCtjNqHHnI4stBwFFIM86Tg7SoV8cY/kVIEid1QpkF6CLTUNGPnGqsP6U+Gt1fEyjSQ==
+X-Google-Smtp-Source: AGHT+IHs/c8PKyjVEScyFRbE6bgu7Z0/4J8m591pv2LP5Byv5N2xK8dgo6/QivpRemKJGxe0uIu3Cw==
+X-Received: by 2002:a92:d68d:0:b0:363:8440:94af with SMTP id p13-20020a92d68d000000b00363844094afmr1850383iln.4.1707549009907;
+        Fri, 09 Feb 2024 23:10:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXcbuzrwhJYBRxjSeZiLO7NiAXZkROYgoL66zUbURb+mKWdFNkE6YZWqeF+fYWzC1OoLZJ7vIaJmnoX3ubJWT7jqdvCY3rb09nwzZNcZhyC6krhPIcpvVvuVMMZNAnyKp9wnSSTH4t5cCAFUNIT7kJ+WfzMIPezrdAnaANZwomwtlICT/Zr6r6RH5dlWO4ezhFtYRQ6Q6Oh3zoSRI5OqGmM7ak06KvSvc3623YX+w3HE1EN3Csld1jrH73e0N3sxhR0B0J3jsxOise0EElL18ApOgIkSprzCthwYIBL1QtBa+JJtH2NCkcO9g0jOyB9NNaWXW17EVaMe/lRlek3BOYXPVYdRj87lUF0pBXGkR6DRfMEjWr7zzTZSsxS1JPLsk6LX/BNGwzXn6f6u6mmbipoH8xhmPQ3KatEpPcQwL4MwelEQEs/zshZ39hj53M=
 Received: from localhost (175.199.125.34.bc.googleusercontent.com. [34.125.199.175])
-        by smtp.gmail.com with UTF8SMTPSA id fn7-20020a056a002fc700b006e0651ec052sm1650575pfb.32.2024.02.09.23.10.07
+        by smtp.gmail.com with UTF8SMTPSA id bx34-20020a056a02052200b005d8b69f882esm2566257pgb.38.2024.02.09.23.10.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Feb 2024 23:10:07 -0800 (PST)
+        Fri, 09 Feb 2024 23:10:09 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
@@ -59,12 +59,14 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	Douglas Anderson <dianders@chromium.org>,
 	Pin-yen Lin <treapking@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 17/22] platform/chrome: cros_typec_switch: Handle lack of HPD information
-Date: Fri,  9 Feb 2024 23:09:28 -0800
-Message-ID: <20240210070934.2549994-18-swboyd@chromium.org>
+	Guenter Roeck <groeck@chromium.org>
+Subject: [PATCH 18/22] dt-bindings: chrome: Add binding for ChromeOS Pogo pin connector
+Date: Fri,  9 Feb 2024 23:09:29 -0800
+Message-ID: <20240210070934.2549994-19-swboyd@chromium.org>
 X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
 In-Reply-To: <20240210070934.2549994-1-swboyd@chromium.org>
 References: <20240210070934.2549994-1-swboyd@chromium.org>
@@ -76,110 +78,94 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some EC firmwares on Trogdor/Strongbad boards don't properly indicate
-the state of DP HPD on a type-c port. Instead, the EC only indicates
-that DP mode is entered or exited for a type-c port. To make matters
-worse, on these firmwares the DP signal is muxed between two USB type-c
-connectors, so we can't use the HPD state to figure out which type-c
-port is actually displaying DP.
+Describe the set of pins used to connect the detachable keyboard on
+detachable ChromeOS devices. The set of pins is called the "pogo pins".
+It's basically USB 2.0 with an extra pin for base detection. We expect
+to find a keyboard on the other side of this connector with a specific
+vid/pid, so describe that as a child device at the port of the usb
+device connected upstream.
 
-Read the state of the EC's analog mux from the hpd notification callback
-to figure out which type-c port is displaying DP. This circumvents the
-entire host command/message interface, because it doesn't work all the
-time. Only do this when we have the mux-gpios property in DT, indicating
-that we have to read the EC gpio state to figure this out. For now we
-only support a single gpio "bit", so there can only be two USB type-c
-ports.
-
-Cc: Prashant Malani <pmalani@chromium.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: <devicetree@vger.kernel.org>
 Cc: <chrome-platform@lists.linux.dev>
 Cc: Pin-yen Lin <treapking@chromium.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/platform/chrome/cros_typec_switch.c | 33 ++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+ .../chrome/google,pogo-pin-connector.yaml     | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
 
-diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index c22c2531327a..edd628eab7da 100644
---- a/drivers/platform/chrome/cros_typec_switch.c
-+++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -26,6 +27,7 @@
- struct cros_typec_dp_bridge {
- 	/* TODO: Add mutex lock to protect active_port with respect to drm/typec framework calls */
- 	struct cros_typec_port *active_port;
-+	struct gpio_desc *mux_gpio;
- 	struct cros_typec_switch_data *sdata;
- 	size_t max_lanes;
- 	bool hpd_enabled;
-@@ -453,6 +455,29 @@ static void cros_typec_dp_bridge_hpd_disable(struct drm_bridge *bridge)
- 	typec_dp_bridge->hpd_enabled = false;
- }
- 
-+static void cros_typec_dp_bridge_hpd_notify(struct drm_bridge *bridge,
-+					    enum drm_connector_status status)
-+{
-+	struct cros_typec_dp_bridge *typec_dp_bridge;
-+	struct cros_typec_switch_data *sdata;
-+	struct gpio_desc *mux_gpio;
-+	int mux_val;
+diff --git a/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml b/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
+new file mode 100644
+index 000000000000..5ba68fd95fcd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/chrome/google,pogo-pin-connector.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	typec_dp_bridge = bridge_to_cros_typec_dp_bridge(bridge);
-+	mux_gpio = typec_dp_bridge->mux_gpio;
++title: Google Pogo Pin Connector
 +
-+	/*
-+	 * Some ECs don't notify AP when HPD goes high or low so we have to
-+	 * read the EC GPIO that controls the mux to figure out which type-c
-+	 * port is connected to DP.
-+	 */
-+	if (mux_gpio) {
-+		sdata = typec_dp_bridge->sdata;
-+		mux_val = gpiod_get_value_cansleep(mux_gpio);
-+		typec_dp_bridge->active_port = sdata->ports[mux_val];
-+	}
-+}
++maintainers:
++  - Stephen Boyd <swboyd@chromium.org>
 +
- static const struct drm_bridge_funcs cros_typec_dp_bridge_funcs = {
- 	.attach = cros_typec_dp_bridge_attach,
- 	.atomic_check = cros_typec_dp_bridge_atomic_check,
-@@ -461,6 +486,7 @@ static const struct drm_bridge_funcs cros_typec_dp_bridge_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.hpd_enable = cros_typec_dp_bridge_hpd_enable,
- 	.hpd_disable = cros_typec_dp_bridge_hpd_disable,
-+	.hpd_notify = cros_typec_dp_bridge_hpd_notify,
- };
- 
- static int cros_typec_register_dp_bridge(struct cros_typec_switch_data *sdata,
-@@ -478,6 +504,10 @@ static int cros_typec_register_dp_bridge(struct cros_typec_switch_data *sdata,
- 	typec_dp_bridge->sdata = sdata;
- 	sdata->typec_dp_bridge = typec_dp_bridge;
- 
-+	typec_dp_bridge->mux_gpio = devm_gpiod_get_optional(dev, "mux", 0);
-+	if (IS_ERR(typec_dp_bridge->mux_gpio))
-+		return PTR_ERR(typec_dp_bridge->mux_gpio);
++properties:
++  compatible:
++    const: google,pogo-pin-connector
 +
- 	num_lanes = fwnode_property_count_u32(fwnode, "data-lanes");
- 	if (num_lanes < 0)
- 		num_lanes = 4;
-@@ -488,7 +518,8 @@ static int cros_typec_register_dp_bridge(struct cros_typec_switch_data *sdata,
- 	bridge->funcs = &cros_typec_dp_bridge_funcs;
- 	bridge->of_node = dev->of_node;
- 	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
--	bridge->ops |= DRM_BRIDGE_OP_HPD;
-+	if (!fwnode_property_present(dev_fwnode(dev), "no-hpd"))
-+		bridge->ops |= DRM_BRIDGE_OP_HPD;
- 
- 	return devm_drm_bridge_add(dev, bridge);
- }
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description: Connection to USB2 port providing USB signals
++    required:
++      - endpoint
++
++patternProperties:
++  "^keyboard@[0-9a-f]{1,2}$":
++    description: The detachable keyboard
++    type: object
++    $ref: /schemas/usb/usb-device.yaml
++
++required:
++  - compatible
++  - '#address-cells'
++  - '#size-cells'
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    connector {
++        compatible = "google,pogo-pin-connector";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        keyboard@2 {
++          compatible = "usb18d1,504c";
++          reg = <2>;
++        };
++
++        port {
++            pogo_connector_in: endpoint {
++                remote-endpoint = <&usb_hub_dsp3_hs>;
++            };
++        };
++    };
++
++...
 -- 
 https://chromeos.dev
 

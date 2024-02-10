@@ -1,55 +1,55 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5663985A
-	for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 07:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82D83A1B9
+	for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 07:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707548999; cv=none; b=T3rWHSvFOOq59EeG/eCT0j25Xctu4h6MhEm7P/ENtHYblILd2bGe/H4u4yginj6NV5AQOAdwS/eKG79KOUvJxlB67cyhDTD7YMRaRGnFMjkkcDX6oCZaWbCOb6LuZgUT/v1lYo5eu5VAfvqPcSs2pOhf12sMM19e0Vio/6jcQ3A=
+	t=1707549001; cv=none; b=sF7SZv5Vz7DccS8pnbzph8e6l/1fUkzUFz9rJPRJ2XBtG1mdK/r9KVwMcHDv8dqwg9ieGLO2uZ25f6SCLRvJi+e5HQhP33aazAhvZnEgOsq+LWnwqfizcm6fYif43hd3k26tiI55P85eh3IkoMssuuAZp2eHoPhZvrTQgOglei4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707548999; c=relaxed/simple;
-	bh=GwUq4JCcVzOBtEc3gN3wYan172xsmr2kIqhpahEGCT0=;
+	s=arc-20240116; t=1707549001; c=relaxed/simple;
+	bh=XNvI42j+7FmHqNECdaZBEQBh8CeG71yHi4CBUyp0EFE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hRfix0PMu43cj9HBHA7tQ4NJ29bgqH5oqplZ0dAnqJnWeZC1iXPJ9Sw9Jy+7ygoVd7Ele8782TcUMyNjVZ88fcg13irdXCCICrjqAcfq4lE/aWoosf2JI61bVIHsdZ5+XTyjcFG5V1jxgiRzhBUI/z3JumdrihOzOzsrOgSZkHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oLV87Be9; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=tlVVvLM6syYufm6tiFFD7/J4ZMKj4pT29HSeIbpph4lH4WIEo8kdp764LyaiwZ6jwR9tR2+zNVXL3SuvKjwEC8PMngwmWvVRAWGQADoi+Rs6OB2B4JmDpbdpzjBPsFjRDewZpX94KsZJlKAPiq6UBWzh970dZynjM+Z995qm7Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GJgCVg/0; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oLV87Be9"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1da0cd9c0e5so13020535ad.0
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Feb 2024 23:09:57 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GJgCVg/0"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d746856d85so13476905ad.0
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Feb 2024 23:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707548997; x=1708153797; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1707548998; x=1708153798; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cLa98sn79mVMdRvO7elcd3rFtE2dKbRCTOlf+cCBAQk=;
-        b=oLV87Be9CpI4Pq3nT6G1aN2PQMKjdZU0E7UxB2p1N9/+MB/dTlmiUsAx4axnH9mwhb
-         tvh5lP203DxDL4fm3VuJUsD5GcU3nYa285UPaRnkbAc81u0jzQobP3Pby8V+v3h7JRad
-         6vOuWPFKjFXYEwdm8uC8WYv75Q4kk4SteNl+M=
+        bh=o6rwt10FSsSf9ZLI/+GmfDcWiK/rJgtd/StxIlWC43k=;
+        b=GJgCVg/0UrxfqTgwEsQ/GPubTjGP8BTWGS+3/3KTMo2ve4srktI2/iDB8J3nqXBKk0
+         rXrKFvSWSIbJ+913F9o1b71PCIn0fdNDM90XGxdtkMKVztFOhGHCqx3aaKSKJ832xOUy
+         I1IwZXhHP87pLhv53UU5Yg5upkdixPqQEyDN4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707548997; x=1708153797;
+        d=1e100.net; s=20230601; t=1707548998; x=1708153798;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cLa98sn79mVMdRvO7elcd3rFtE2dKbRCTOlf+cCBAQk=;
-        b=L22F4PdJocp22vM10JxvywuZYsr0RSD0ke7Cjxgxkq46npj1ktXwb7EzNqegHpimrw
-         lwgILGAnUygLa9qeYUal9uCd65fZk6nyVi/Opr0z4lgxY3QtlYTSzlnWBBZcs6Q9vRE6
-         QLk51fKGVrT6I+5YAn40bF/iDJnDBkHQRv7PjaXJaaKOJYTLmTg0B82D3gObf+5Ld+I4
-         7/bkq07qAwr5nQBhMtkfXbQFi2IA5rL9LIq9vkrm3jpTTcz/ogP/fvR/bGdMSdU8uIbg
-         erfbxDDQnLPXfj30TKG4FRzPGBiRE2lSc5SRktv//h0oTV8mK0w4hTPg8F5pbIAQFKYq
-         KmkA==
-X-Gm-Message-State: AOJu0Yxth6uOhvqSIwqiyIG+MwBkxrZajjALi7xAKQONH42PF3/NFLFP
-	3XnrDBx/vXCAFGqU3y0J9q0mCXyLJIatPrf1ll0EqGzE2zeuTzhsTjZyQrj+lp+1gvnlsUWdMjI
+        bh=o6rwt10FSsSf9ZLI/+GmfDcWiK/rJgtd/StxIlWC43k=;
+        b=NzDp6GLwAB0cOvDslmH+sLoZox3VSb3r61j6FUZXmgJaK7Jk8KFSZiwJuVTVOKKAqQ
+         orDBGuxVyeBTy4MtyA0nYKDhof5HCzy/wbRquiiQXGwc1x2xOFcAEDYfG7lHLW25i11v
+         YZHbO4sWQ2umNWNH1PHdm9dHwaN6REPvQaWwmpXqj0NKuIqqdb8lenxgKFw5eQeOZBSE
+         szuLc745V70fjbgshWwV2zzNJEtMpLLEkgO+PS3EiIY8OCtxoKYbib1TKH93UVhF2JdM
+         EsFUqq0nn3veItXGixAR9ld1qz5WRG5I1c7NE+4rf+qKGHX8rX0y5RV8ErlY1BY1JWUk
+         iRUw==
+X-Gm-Message-State: AOJu0YxZdF4zZ1niWQtEFjc8MuUkrdkQBP9TUvHZtEXgD6XbOTlvhKX6
+	sySF2RifJHn4Oa0gvAqIbhqwv9voqvHdU7iDc5kRzQpP2zmUaka+pvBPtzdOD3cxWG158Wu937s
 	=
-X-Google-Smtp-Source: AGHT+IF6Obhfaezt84euwognmHLhoystIjlBnFk4gq1ZlYgduARMLgwtIe7tncABPqYe8saWNFsTHA==
-X-Received: by 2002:a17:903:1d2:b0:1d9:4143:5fe1 with SMTP id e18-20020a17090301d200b001d941435fe1mr2369262plh.0.1707548996758;
-        Fri, 09 Feb 2024 23:09:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX+9S47JyY4gdCNtKq6p6Q6R+TDCHy2IVHoHTOc3nq7FC2K4H+Qinp22boBPl2v6yZ3Q4nfK7yLXXNWHe0/UTHmWNVaY/x9pnV6ASHZjzlnHxUq/8MIEm+7/wUgodRVAn/yDQml5JspzkxJ78jfbivxNH9PUZJYbHMO0JQsxmgvSDNgkoUCsh5a+HE/+D7s3CmQJalrJlAc8t8MMidr7MP8A4QvVyfbaYvDJvKdvLo32/1Gr8tkoxt77ColNbqnY/a/7yQvf+M78QElBKweLeuDALe465OoJDkDM8V/8O/PiPQQAlZWfuKn/H6RPamx7SvzoEjD3ONViFyUaucVVRZ5bniRH6uPktTYY0H9qt3tU/QN1jh9xQ==
+X-Google-Smtp-Source: AGHT+IEYMDvJ19psXILcI/rjPccRT75MfLSEUT5ycmz+0EKZhRshLPkzC+4vjEV2TS1VZWwHwwlxCA==
+X-Received: by 2002:a17:902:cec8:b0:1d7:15ea:4249 with SMTP id d8-20020a170902cec800b001d715ea4249mr1845301plg.7.1707548998453;
+        Fri, 09 Feb 2024 23:09:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWPZfxVECZHV+IGwDF6uOIynzL9NdXLQpNK0tbkQ2Mz94NuD0bNKUXlIQOfURhM40ViSH6Y1bQHXrsL8QcTVDOpfp9IhmOli0B86t20P56YmH7Rr4fAmaobUBFshZ4oU90czIyB424aoMm1H+P2EVicSoFANLiOl5FkWrmppBq5oc36Xrf4nuB7SdV1JThyyJ8z8JM5+TKC2pJ+AgoekkFkutv2sLbDR0scg1x1psNNG/JpJjSZyNS2qmYHXz0+MRY2R7QDIVzqnbQfrb+vVDMMCUdks9KrCwRtZlhhWcLOnkjyz56KiF+ALWd/V9lMy2R1pN7E8cNV2PDc0DG3Q5t8Jx8/7dBqnRYs7yLTySXvmKsPondkLQ==
 Received: from localhost (175.199.125.34.bc.googleusercontent.com. [34.125.199.175])
-        by smtp.gmail.com with UTF8SMTPSA id ko13-20020a17090307cd00b001d88d791eccsm2507677plb.160.2024.02.09.23.09.55
+        by smtp.gmail.com with UTF8SMTPSA id h9-20020a170902f2c900b001d921bcc621sm2478144plc.243.2024.02.09.23.09.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Feb 2024 23:09:56 -0800 (PST)
+        Fri, 09 Feb 2024 23:09:57 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
@@ -62,9 +62,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Prashant Malani <pmalani@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 10/22] platform/chrome: cros_typec_switch: Move port creation code to sub-function
-Date: Fri,  9 Feb 2024 23:09:21 -0800
-Message-ID: <20240210070934.2549994-11-swboyd@chromium.org>
+Subject: [PATCH 11/22] platform/chrome: cros_typec_switch: Use fwnode instead of ACPI APIs
+Date: Fri,  9 Feb 2024 23:09:22 -0800
+Message-ID: <20240210070934.2549994-12-swboyd@chromium.org>
 X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
 In-Reply-To: <20240210070934.2549994-1-swboyd@chromium.org>
 References: <20240210070934.2549994-1-swboyd@chromium.org>
@@ -76,10 +76,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver will soon support devicetree firmwares. Extract the struct
-cros_typec_port creation part of cros_typec_register_switches() into a
-sub-function so that we can extend it for DT, where a graph is used
-instead of child nodes.
+Use fwnode APIs instead of ACPI ones because this driver will soon
+support devicetree firmwares. Using fwnode APIs makes it easier to
+support either ACPI or DT.
 
 Cc: Prashant Malani <pmalani@chromium.org>
 Cc: Benson Leung <bleung@chromium.org>
@@ -88,148 +87,70 @@ Cc: <chrome-platform@lists.linux.dev>
 Cc: Pin-yen Lin <treapking@chromium.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/platform/chrome/cros_typec_switch.c | 113 +++++++++++---------
- 1 file changed, 62 insertions(+), 51 deletions(-)
+ drivers/platform/chrome/cros_typec_switch.c | 24 +++++++++++----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-index a23fe80d9d4b..1a718b661203 100644
+index 1a718b661203..373e0e86ebfc 100644
 --- a/drivers/platform/chrome/cros_typec_switch.c
 +++ b/drivers/platform/chrome/cros_typec_switch.c
-@@ -201,13 +201,69 @@ static int cros_typec_register_retimer(struct cros_typec_port *port, struct fwno
- 	return PTR_ERR_OR_ZERO(port->retimer);
- }
- 
--static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
-+static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
-+				    struct fwnode_handle *fwnode)
- {
+@@ -207,29 +207,31 @@ static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
  	struct cros_typec_port *port;
  	struct device *dev = sdata->dev;
--	struct fwnode_handle *fwnode;
  	struct acpi_device *adev;
- 	unsigned long long index;
-+	int ret;
-+
-+	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-+	if (!port)
-+		return -ENOMEM;
-+
-+	adev = to_acpi_device_node(fwnode);
-+	if (adev) {
-+		ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
-+		if (ACPI_FAILURE(ret)) {
-+			dev_err(fwnode->dev, "_ADR wasn't evaluated\n");
-+			return -ENODATA;
-+		}
-+	}
-+
-+	if (!adev) {
-+		dev_err(fwnode->dev, "Couldn't get ACPI handle\n");
-+		return -ENODEV;
-+	}
-+
-+	if (index >= EC_USB_PD_MAX_PORTS) {
-+		dev_err(fwnode->dev, "Invalid port index number: %llu\n", index);
-+		return -EINVAL;
-+	}
-+	port->sdata = sdata;
-+	port->port_num = index;
-+	sdata->ports[index] = port;
-+
-+	if (fwnode_property_present(fwnode, "retimer-switch")) {
-+		ret = cros_typec_register_retimer(port, fwnode);
-+		if (ret) {
-+			dev_err(dev, "Retimer switch register failed\n");
-+			return ret;
-+		}
-+
-+		dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
-+	}
-+
-+	if (!fwnode_property_present(fwnode, "mode-switch"))
-+		return 0;
-+
-+	ret = cros_typec_register_mode_switch(port, fwnode);
-+	if (ret) {
-+		dev_err(dev, "Mode switch register failed\n");
-+		return ret;
-+	}
-+
-+	dev_dbg(dev, "Mode switch registered for index %llu\n", index);
-+
-+	return ret;
-+}
-+
-+static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
-+{
-+	struct device *dev = sdata->dev;
-+	struct fwnode_handle *fwnode;
- 	int nports, ret;
+-	unsigned long long index;
++	u32 index;
+ 	int ret;
++	const char *prop_name;
  
- 	nports = device_get_child_node_count(dev);
-@@ -217,60 +273,15 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
- 	}
+ 	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+ 		return -ENOMEM;
  
- 	device_for_each_child_node(dev, fwnode) {
--		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
--		if (!port) {
--			ret = -ENOMEM;
--			goto err_switch;
--		}
--
--		adev = to_acpi_device_node(fwnode);
--		if (!adev) {
--			dev_err(fwnode->dev, "Couldn't get ACPI device handle\n");
--			ret = -ENODEV;
--			goto err_switch;
--		}
--
+ 	adev = to_acpi_device_node(fwnode);
+-	if (adev) {
 -		ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
 -		if (ACPI_FAILURE(ret)) {
 -			dev_err(fwnode->dev, "_ADR wasn't evaluated\n");
--			ret = -ENODATA;
--			goto err_switch;
+-			return -ENODATA;
 -		}
--
--		if (index >= EC_USB_PD_MAX_PORTS) {
--			dev_err(fwnode->dev, "Invalid port index number: %llu\n", index);
--			ret = -EINVAL;
--			goto err_switch;
--		}
--		port->sdata = sdata;
--		port->port_num = index;
--		sdata->ports[index] = port;
--
--		if (fwnode_property_present(fwnode, "retimer-switch")) {
--			ret = cros_typec_register_retimer(port, fwnode);
--			if (ret) {
--				dev_err(dev, "Retimer switch register failed\n");
--				goto err_switch;
--			}
--
--			dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
--		}
--
--		if (!fwnode_property_present(fwnode, "mode-switch"))
--			continue;
--
--		ret = cros_typec_register_mode_switch(port, fwnode);
-+		ret = cros_typec_register_port(sdata, fwnode);
- 		if (ret) {
--			dev_err(dev, "Mode switch register failed\n");
--			goto err_switch;
-+			fwnode_handle_put(fwnode);
-+			goto err;
- 		}
--
--		dev_dbg(dev, "Mode switch registered for index %llu\n", index);
+-	}
++	if (adev)
++		prop_name = "_ADR";
+ 
+ 	if (!adev) {
+ 		dev_err(fwnode->dev, "Couldn't get ACPI handle\n");
+ 		return -ENODEV;
  	}
  
- 	return 0;
--err_switch:
--	fwnode_handle_put(fwnode);
-+err:
- 	cros_typec_unregister_switches(sdata);
++	ret = fwnode_property_read_u32(fwnode, prop_name, &index);
++	if (ret) {
++		dev_err(fwnode->dev, "%s property wasn't found\n", prop_name);
++		return ret;
++	}
++
+ 	if (index >= EC_USB_PD_MAX_PORTS) {
+-		dev_err(fwnode->dev, "Invalid port index number: %llu\n", index);
++		dev_err(fwnode->dev, "Invalid port index number: %u\n", index);
+ 		return -EINVAL;
+ 	}
+ 	port->sdata = sdata;
+@@ -243,7 +245,7 @@ static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
+ 			return ret;
+ 		}
+ 
+-		dev_dbg(dev, "Retimer switch registered for index %llu\n", index);
++		dev_dbg(dev, "Retimer switch registered for index %u\n", index);
+ 	}
+ 
+ 	if (!fwnode_property_present(fwnode, "mode-switch"))
+@@ -255,7 +257,7 @@ static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
+ 		return ret;
+ 	}
+ 
+-	dev_dbg(dev, "Mode switch registered for index %llu\n", index);
++	dev_dbg(dev, "Mode switch registered for index %u\n", index);
+ 
  	return ret;
  }
 -- 

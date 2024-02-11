@@ -1,67 +1,69 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0736A53E0A
-	for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 14:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDA058ADD
+	for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 08:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707574248; cv=none; b=ZStsbH+YKQyTJOwV4Xrn5aXkKzgZ8mtssZYiiD2mXLfbEADayPGIfh4sPRU+yqGqShCJnY3rT38mg5e9R9O5IxAI3uADiR7n5paOsAe9c6ZhiJZ5YwNPwU/Lqcx2kMCsoSdFGX+N/fM0oo+Dy+96ONmMMANxSE6Xk9lUyaSHpgw=
+	t=1707641553; cv=none; b=QyuZ5hSL8QCj5kZMC1RUusI+Dl8DxyXHlWY5rP1y0J3gYLmgUWNAWpQFz0tlLe5V0xGKVeMIUcAIgyvq17o3ag67J+5a4KLfC8RnLB6mfPe9zuPD0h3k2GoHaQvodqeONbC03CwUdo2rENvr2cLsA2w5JbU6B0C2zcUaaGyYRGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707574248; c=relaxed/simple;
-	bh=JH2l/F47E+Shk45U5CPuHOdYmrRlrIxIp2DDNWAmuo8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lgS94XytJRx61oqpcJu/rOwGPdiJRUJpHs03RuLEiLHnFfXKRO+dnP6UsvfkWbtTzyqZjw2j+s9RtoFDGHZBeCH5n6zLlETGi2nUzlzJmL/TUqKXS1YIU3yCe1aNpZ6SIDpivA2cghzLkZ3sG4FvLtUYfMJAX2eyD6rtTMyDx74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SxX+c+8H; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707641553; c=relaxed/simple;
+	bh=8artP/TApEldtwBPGtbWZ5bG6juyp+Nno5U5w89q+Bw=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hwHxhCjyOxXuGn0WmwGLjUP8LF77xZJjq4nDtXT4ZZ96eZ9/qEIZS8wQt2hwVirnc5eNL6J5p9bMm3OUQ9zfRXvVJaJr10ckdDCQ6ZUdUylXdfQVH+n4xDAWqf712+Ov1rAL8uwu4R3RXZu1w2n4gz/UR87P57QZbaQmrmM+k1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V/GkRmHy; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SxX+c+8H"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6d9a8815fso1984589276.3
-        for <chrome-platform@lists.linux.dev>; Sat, 10 Feb 2024 06:10:44 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V/GkRmHy"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51167e470f7so2819822e87.2
+        for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 00:52:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707574244; x=1708179044; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x/j1nrgyUuRkpp75x3KBXMusSKHdoxymJpmPHYvTa44=;
-        b=SxX+c+8HMpZTJ8je9hr2CHdJIpoQ/JONS1zMA8Zk9XtMn36DxqFoo4AEp96dJHsbDj
-         /xT7ueqygz3fpfy56BK+N5SVqiqcne3S8aGAwM6p/CM3yDQudwlE1jFFkT2dpfmPYoLj
-         iqXboSQQFanrrDVjj1ufa6R116VKG1Wj3TIuoi9sWlySHedJ2d7YPM1H9j4NQgpYTzBb
-         ORXx67VDWhf/sYTeK4Qtp8jE4aNc06Ne/Qyn2V41iAdTLw2w/PGpdu3ysmr+p+jCXeeo
-         3cVEyoTQ5/b5Skh1UeoLLnEATebYrgrbNUDP1RXAOXU4L5wH1hYgBNMdH9pAjR06zQS2
-         iNjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707574244; x=1708179044;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1707641550; x=1708246350; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x/j1nrgyUuRkpp75x3KBXMusSKHdoxymJpmPHYvTa44=;
-        b=ZqeRHTDtkbjfDYxTyHAPfhGAb7x4mWMWvBRDJ8EmDXJ+kbrokjLFGc0pMyGAXNUlwm
-         c3W+qu4lxaClf7bsE5NIoBKtbR/fg5QKP+M4oYSdjAoGpPg/9hG2m4CHfgPM+gTwrhy3
-         PUbHMleXOeZsExTlL7Cd+SwUfQZ0YOBdnOIc9tMl/eiLzzd/8xzjW9I62mc4r1iA4k5h
-         hu0BsD+AqWVaSw9CRB8kCp0KVZ4AGkJZRU5CKgQ0ZnIesqXqEyS1BZsEPZWOXDc3dtZC
-         YrI4Us/cyIKrO4Wb84xqc804Y1WYFER1tjZRbzTxGsbp7+50s9CBL1wtWJBmW6SRRiBK
-         GkuA==
-X-Gm-Message-State: AOJu0YxysdPbls0aO+KlStQSSgmWmxij5d22jEh06+eYY0KYkYcqgShk
-	mbVzY4F5E44I6pUNRO0aVU3C9TVPP1NxepG04XbZzCa9EHAaKpi3lPNxmSNYIXormPgv8F67Ax1
-	E8fMCbQYBM8QjDsOsrGHGdhIF8HR2oCdwy+AOgw==
-X-Google-Smtp-Source: AGHT+IGUFCUpZYFmT0nhN7Y2aAsAAJ4oh/v1ASKOupC/USl3HtOdHYOhex2CdX6Rc/ro39U5yRXM1iuAbnP0BYN7PEw=
-X-Received: by 2002:a05:6902:230c:b0:dc7:483c:7e64 with SMTP id
- do12-20020a056902230c00b00dc7483c7e64mr2207839ybb.54.1707574242451; Sat, 10
- Feb 2024 06:10:42 -0800 (PST)
+        bh=CLizHpyv/f+DbolOV42ApsVVXm0Dg0xdAa06w8qDvks=;
+        b=V/GkRmHyP8cBT0CjWcNnM4t9uZxCuGme59U1s8shrj+b73B3XIQQ/USI3L89/kpxkV
+         uqJvrzlfWh44T9SWqlkcy+HirG1hFBAnomWVeYKP9VcHASjIFwpM4iqzywT5VW6VZisU
+         26lnBHP95t3K5anV7MZbE5OiH9y17aWKavecA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707641550; x=1708246350;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CLizHpyv/f+DbolOV42ApsVVXm0Dg0xdAa06w8qDvks=;
+        b=AVbq1XSc4N2c3R1EcbxjIjvAzOZ6u4UJ3kVHZcFWkkpUi3Q3gdAwhLcz4+GvogNWoG
+         qh4QEOCt6jZUPBlFwmh+igLPmb9ghIjuKzb6svgj+szJRZ/nZ6h7g9xD+f4vBnZR5iJv
+         9OFtgHzz0BehJWsfBYKfMeCRU8pI8hAVmryoWYqhHeMB2+SvUpGYPnp5fxMbBYBTNfgy
+         pwGPymGj4qbMgACyTeGdH3rWbtmvRPK844Y2i96XAADOW9Em4WwMsCLGSxcYx5cGJOyp
+         6SrvqIIFBUHWa9sj4e/aIa5Zv6/VTaiszRpUFRSWfVADc3U/IGzFwgzbTLCc6Uamqpnm
+         uPBw==
+X-Gm-Message-State: AOJu0YxEx8M1nSkDJwdGihsxjUdcI3mponFVf0lePDtTpRgjFO0FQZYQ
+	s/viPIPUEAPqDkjbTFjWDpsVgb41/zHzo7XqaTJte0OoeO2j885eIDWo2bz9zlghMLUgIRHUHt4
+	o7jioC9GAdWw2A6sLevydwgiAeoeMslZRZoAq
+X-Google-Smtp-Source: AGHT+IHu/AGsCNFvoS5rSkn2rcab3CL0eH8KJbrh21hRNc1eAtuTTEdGTiVu8+aUJynphjEZq0QVTIz4VjEp3nNrSpQ=
+X-Received: by 2002:a05:6512:21c7:b0:511:8cb2:2f80 with SMTP id
+ d7-20020a05651221c700b005118cb22f80mr267458lft.43.1707641549800; Sun, 11 Feb
+ 2024 00:52:29 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 11 Feb 2024 03:52:28 -0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <CAA8EJpo1g9QKq1skibqSj9yc3mNSfkcts9oVf_vGjVjDzVZwiA@mail.gmail.com>
 References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-15-swboyd@chromium.org>
-In-Reply-To: <20240210070934.2549994-15-swboyd@chromium.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 10 Feb 2024 16:10:31 +0200
-Message-ID: <CAA8EJpo1g9QKq1skibqSj9yc3mNSfkcts9oVf_vGjVjDzVZwiA@mail.gmail.com>
+ <CAA8EJpo1g9QKq1skibqSj9yc3mNSfkcts9oVf_vGjVjDzVZwiA@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Sun, 11 Feb 2024 03:52:28 -0500
+Message-ID: <CAE-0n50xu83yYoXoFYEDrkuMw_exS=UGqsU+EwtTOGZyNW+k=Q@mail.gmail.com>
 Subject: Re: [PATCH 14/22] platform/chrome: cros_typec_switch: Add support for
  signaling HPD to drm_bridge
-To: Stephen Boyd <swboyd@chromium.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
@@ -70,429 +72,51 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Tzung-Bi Shih <tzungbi@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 10 Feb 2024 at 09:14, Stephen Boyd <swboyd@chromium.org> wrote:
+Quoting Dmitry Baryshkov (2024-02-10 06:10:31)
+> On Sat, 10 Feb 2024 at 09:14, Stephen Boyd <swboyd@chromium.org> wrote:
+> > diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+> > index 769de2889f2f..d8fb6662cf8d 100644
+> > --- a/drivers/platform/chrome/cros_typec_switch.c
+> > +++ b/drivers/platform/chrome/cros_typec_switch.c
+> > @@ -18,6 +19,15 @@
+> >  #include <linux/usb/typec_mux.h>
+> >  #include <linux/usb/typec_retimer.h>
+> >
+> > +#include <drm/drm_bridge.h>
+> > +#include <drm/drm_print.h>
+> > +
+> > +struct cros_typec_dp_bridge {
+> > +       struct cros_typec_switch_data *sdata;
+> > +       bool hpd_enabled;
+> > +       struct drm_bridge bridge;
+> > +};
 >
-> We can imagine that logically the EC is a device that has some number of
-> DisplayPort (DP) connector inputs, some number of USB3 connector inputs,
-> and some number of USB type-c connector outputs. If you squint enough it
-> looks like a USB type-c dock. Logically there's a crossbar pin
-> assignment capability within the EC that can assign USB and DP lanes to
-> USB type-c lanes in the connector (i.e. USB type-c pin configurations).
-> In reality, the EC is a microcontroller that has some TCPCs and
-> redrivers connected to it over something like i2c and DP/USB from the AP
-> is wired directly to those ICs, not the EC.
->
-> This design allows the EC to abstract many possible USB and DP hardware
-> configurations away from the AP (kernel) so that the AP can largely deal
-> with USB and DP without thinking about USB Type-C much at all. The DP
-> and USB data originate in the AP, not the EC, so it helps to think that
-> the EC takes the DP and USB data as input to mux onto USB type-c ports
-> even if it really doesn't do that. With this split design, the EC
-> forwards the DP HPD state to the AP via a GPIO that's connected to the
-> DP phy.
->
-> Having that HPD state signaled directly to the DP phy uses precious
-> hardware resources, a GPIO or two and a wire, and it also forces the
-> TCPM to live on the EC. If we want to save costs and move more control
-> of USB type-c to the kernel it's in our interest to get rid of the HPD
-> GPIO entirely and signal HPD to the DP phy some other way. Luckily, the
-> EC already exposes information about the USB Type-C stack to the kernel
-> via the host command interface in the "google,cros-ec-typec" compatible
-> driver, which parses EC messages related to USB type-c and effectively
-> "replays" those messages to the kernel's USB typec subsystem. This
-> includes the state of HPD, which can be interrogated and acted upon by
-> registering a 'struct typec_mux_dev' with the typec subsystem.
->
-> On DT based systems, the DP display pipeline is abstracted via a 'struct
-> drm_bridge'. If we want to signal HPD state within the kernel we need to
-> hook into the drm_bridge framework somehow to call
-> drm_bridge_hpd_notify() when HPD state changes in the typec framework.
-> Make a drm_bridge in the EC that attaches onto the end of the DP bridge
-> chain and logically moves the display data onto a usb-c-connector.
-> Signal HPD when the typec HPD state changes, as long as this new
-> drm_bridge is the one that's supposed to signal HPD. Do that by
-> registering a 'struct typec_mux_dev' with the typec framework and
-> associating that struct with a usb-c-connector node and a drm_bridge.
->
-> To keep this patch minimal, just signal HPD state to the drm_bridge
-> chain. Later patches will add more features. Eventually we'll be able to
-> inform userspace about which usb-c-connector node is displaying DP and
-> what USB devices are connected to a connector. Note that this code is
-> placed in the cros_typec_switch driver because that's where mode-switch
-> devices on the EC are controlled by the AP. Logically this drm_bridge
-> sits in front of the mode-switch on the EC, and if there is anything to
-> control on the EC the 'EC_FEATURE_TYPEC_AP_MUX_SET' feature will be set.
->
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/platform/chrome/Kconfig             |   3 +-
->  drivers/platform/chrome/cros_typec_switch.c | 218 ++++++++++++++++++--
->  2 files changed, 204 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-> index 7a83346bfa53..910aa8be9c84 100644
-> --- a/drivers/platform/chrome/Kconfig
-> +++ b/drivers/platform/chrome/Kconfig
-> @@ -287,7 +287,8 @@ config CHROMEOS_PRIVACY_SCREEN
->
->  config CROS_TYPEC_SWITCH
->         tristate "ChromeOS EC Type-C Switch Control"
-> -       depends on MFD_CROS_EC_DEV && TYPEC && ACPI
-> +       depends on MFD_CROS_EC_DEV
-> +       depends on TYPEC
->         default MFD_CROS_EC_DEV
->         help
->           If you say Y here, you get support for configuring the ChromeOS EC Type-C
-> diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
-> index 769de2889f2f..d8fb6662cf8d 100644
-> --- a/drivers/platform/chrome/cros_typec_switch.c
-> +++ b/drivers/platform/chrome/cros_typec_switch.c
-> @@ -10,6 +10,7 @@
->  #include <linux/delay.h>
->  #include <linux/iopoll.h>
->  #include <linux/module.h>
-> +#include <linux/of.h>
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
-> @@ -18,6 +19,15 @@
->  #include <linux/usb/typec_mux.h>
->  #include <linux/usb/typec_retimer.h>
->
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_print.h>
-> +
-> +struct cros_typec_dp_bridge {
-> +       struct cros_typec_switch_data *sdata;
-> +       bool hpd_enabled;
-> +       struct drm_bridge bridge;
-> +};
+> Is there any chance that you can use drm_dp_hpd_bridge_register() /
+> drm_aux_hpd_bridge_notify() instead of implementing another
+> drm_bridge?
+> If something is missing from the existing implementation we can
+> probably work that out.
 
-Is there any chance that you can use drm_dp_hpd_bridge_register() /
-drm_aux_hpd_bridge_notify() instead of implementing another
-drm_bridge?
-If something is missing from the existing implementation we can
-probably work that out.
+Yeah I think that can work. I had put the drm_bridge in this driver
+because I needed a 'struct device' per DP phy, but I think that problem
+goes away with an auxiliary device, so that is nicely solved.
 
-> +
->  /* Handles and other relevant data required for each port's switches. */
->  struct cros_typec_port {
->         int port_num;
-> @@ -30,7 +40,9 @@ struct cros_typec_port {
->  struct cros_typec_switch_data {
->         struct device *dev;
->         struct cros_ec_device *ec;
-> +       bool typec_cmd_supported;
->         struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
-> +       struct cros_typec_dp_bridge *typec_dp_bridge;
->  };
->
->  static int cros_typec_cmd_mux_set(struct cros_typec_switch_data *sdata, int port_num, u8 index,
-> @@ -143,13 +155,60 @@ static int cros_typec_configure_mux(struct cros_typec_switch_data *sdata, int po
->         return 0;
->  }
->
-> +static int cros_typec_dp_port_switch_set(struct typec_mux_dev *mode_switch,
-> +                                        struct typec_mux_state *state)
-> +{
-> +       struct cros_typec_port *port;
-> +       const struct typec_displayport_data *dp_data;
-> +       struct cros_typec_dp_bridge *typec_dp_bridge;
-> +       struct drm_bridge *bridge;
-> +       bool hpd_asserted;
-> +
-> +       port = typec_mux_get_drvdata(mode_switch);
-> +       typec_dp_bridge = port->sdata->typec_dp_bridge;
-> +       if (!typec_dp_bridge)
-> +               return 0;
-> +
-> +       bridge = &typec_dp_bridge->bridge;
-> +
-> +       if (state->mode == TYPEC_STATE_SAFE || state->mode == TYPEC_STATE_USB) {
-> +               if (typec_dp_bridge->hpd_enabled)
-> +                       drm_bridge_hpd_notify(bridge, connector_status_disconnected);
-> +
-> +               return 0;
-> +       }
-> +
-> +       if (state->alt && state->alt->svid == USB_TYPEC_DP_SID) {
-> +               if (typec_dp_bridge->hpd_enabled) {
-> +                       dp_data = state->data;
-> +                       hpd_asserted = dp_data->status & DP_STATUS_HPD_STATE;
-> +
-> +                       if (hpd_asserted)
-> +                               drm_bridge_hpd_notify(bridge, connector_status_connected);
-> +                       else
-> +                               drm_bridge_hpd_notify(bridge, connector_status_disconnected);
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int cros_typec_mode_switch_set(struct typec_mux_dev *mode_switch,
->                                       struct typec_mux_state *state)
->  {
->         struct cros_typec_port *port = typec_mux_get_drvdata(mode_switch);
-> +       struct cros_typec_switch_data *sdata = port->sdata;
-> +       int ret;
-> +
-> +       ret = cros_typec_dp_port_switch_set(mode_switch, state);
-> +       if (ret)
-> +               return ret;
->
->         /* Mode switches have index 0. */
-> -       return cros_typec_configure_mux(port->sdata, port->port_num, 0, state->mode, state->alt);
-> +       if (sdata->typec_cmd_supported)
-> +               return cros_typec_configure_mux(port->sdata, port->port_num, 0, state->mode, state->alt);
-> +
-> +       return 0;
->  }
->
->  static int cros_typec_retimer_set(struct typec_retimer *retimer, struct typec_retimer_state *state)
-> @@ -201,12 +260,77 @@ static int cros_typec_register_retimer(struct cros_typec_port *port, struct fwno
->         return PTR_ERR_OR_ZERO(port->retimer);
->  }
->
-> +static int
-> +cros_typec_dp_bridge_attach(struct drm_bridge *bridge,
-> +                           enum drm_bridge_attach_flags flags)
-> +{
-> +       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> +               DRM_ERROR("Fix bridge driver to make connector optional!\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static struct cros_typec_dp_bridge *
-> +bridge_to_cros_typec_dp_bridge(struct drm_bridge *bridge)
-> +{
-> +       return container_of(bridge, struct cros_typec_dp_bridge, bridge);
-> +}
-> +
-> +static void cros_typec_dp_bridge_hpd_enable(struct drm_bridge *bridge)
-> +{
-> +       struct cros_typec_dp_bridge *typec_dp_bridge;
-> +
-> +       typec_dp_bridge = bridge_to_cros_typec_dp_bridge(bridge);
-> +       typec_dp_bridge->hpd_enabled = true;
-> +}
-> +
-> +static void cros_typec_dp_bridge_hpd_disable(struct drm_bridge *bridge)
-> +{
-> +       struct cros_typec_dp_bridge *typec_dp_bridge;
-> +
-> +       typec_dp_bridge = bridge_to_cros_typec_dp_bridge(bridge);
-> +       typec_dp_bridge->hpd_enabled = false;
-> +}
-> +
-> +static const struct drm_bridge_funcs cros_typec_dp_bridge_funcs = {
-> +       .attach = cros_typec_dp_bridge_attach,
-> +       .hpd_enable = cros_typec_dp_bridge_hpd_enable,
-> +       .hpd_disable = cros_typec_dp_bridge_hpd_disable,
-> +};
-> +
-> +static int cros_typec_register_dp_bridge(struct cros_typec_switch_data *sdata,
-> +                                        struct fwnode_handle *fwnode)
-> +{
-> +       struct cros_typec_dp_bridge *typec_dp_bridge;
-> +       struct drm_bridge *bridge;
-> +       struct device *dev = sdata->dev;
-> +
-> +       typec_dp_bridge = devm_kzalloc(dev, sizeof(*typec_dp_bridge), GFP_KERNEL);
-> +       if (!typec_dp_bridge)
-> +               return -ENOMEM;
-> +
-> +       typec_dp_bridge->sdata = sdata;
-> +       sdata->typec_dp_bridge = typec_dp_bridge;
-> +       bridge = &typec_dp_bridge->bridge;
-> +
-> +       bridge->funcs = &cros_typec_dp_bridge_funcs;
-> +       bridge->of_node = dev->of_node;
-> +       bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-> +       bridge->ops |= DRM_BRIDGE_OP_HPD;
-> +
-> +       return devm_drm_bridge_add(dev, bridge);
-> +}
-> +
->  static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
->                                     struct fwnode_handle *fwnode)
->  {
->         struct cros_typec_port *port;
->         struct device *dev = sdata->dev;
->         struct acpi_device *adev;
-> +       struct device_node *np;
-> +       struct fwnode_handle *port_node;
->         u32 index;
->         int ret;
->         const char *prop_name;
-> @@ -218,9 +342,12 @@ static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
->         adev = to_acpi_device_node(fwnode);
->         if (adev)
->                 prop_name = "_ADR";
-> +       np = to_of_node(fwnode);
-> +       if (np)
-> +               prop_name = "reg";
->
-> -       if (!adev)
-> -               return dev_err_probe(fwnode->dev, -ENODEV, "Couldn't get ACPI handle\n");
-> +       if (!adev && !np)
-> +               return dev_err_probe(fwnode->dev, -ENODEV, "Couldn't get ACPI/OF device handle\n");
->
->         ret = fwnode_property_read_u32(fwnode, prop_name, &index);
->         if (ret)
-> @@ -232,41 +359,84 @@ static int cros_typec_register_port(struct cros_typec_switch_data *sdata,
->         port->port_num = index;
->         sdata->ports[index] = port;
->
-> +       port_node = fwnode;
-> +       if (np)
-> +               fwnode = fwnode_graph_get_port_parent(fwnode);
-> +
->         if (fwnode_property_present(fwnode, "retimer-switch")) {
-> -               ret = cros_typec_register_retimer(port, fwnode);
-> -               if (ret)
-> -                       return dev_err_probe(dev, ret, "Retimer switch register failed\n");
-> +               ret = cros_typec_register_retimer(port, port_node);
-> +               if (ret) {
-> +                       dev_err_probe(dev, ret, "Retimer switch register failed\n");
-> +                       goto out;
-> +               }
->
->                 dev_dbg(dev, "Retimer switch registered for index %u\n", index);
->         }
->
-> -       if (!fwnode_property_present(fwnode, "mode-switch"))
-> -               return 0;
-> +       if (fwnode_property_present(fwnode, "mode-switch")) {
-> +               ret = cros_typec_register_mode_switch(port, port_node);
-> +               if (ret) {
-> +                       dev_err_probe(dev, ret, "Mode switch register failed\n");
-> +                       goto out;
-> +               }
->
-> -       ret = cros_typec_register_mode_switch(port, fwnode);
-> -       if (ret)
-> -               return dev_err_probe(dev, ret, "Mode switch register failed\n");
-> +               dev_dbg(dev, "Mode switch registered for index %u\n", index);
-> +       }
->
-> -       dev_dbg(dev, "Mode switch registered for index %u\n", index);
->
-> +out:
-> +       if (np)
-> +               fwnode_handle_put(fwnode);
->         return ret;
->  }
->
->  static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
->  {
->         struct device *dev = sdata->dev;
-> +       struct fwnode_handle *devnode;
->         struct fwnode_handle *fwnode;
-> +       struct fwnode_endpoint endpoint;
->         int nports, ret;
->
->         nports = device_get_child_node_count(dev);
->         if (nports == 0)
->                 return dev_err_probe(dev, -ENODEV, "No switch devices found\n");
->
-> -       device_for_each_child_node(dev, fwnode) {
-> -               ret = cros_typec_register_port(sdata, fwnode);
-> -               if (ret) {
-> +       devnode = dev_fwnode(dev);
-> +       if (fwnode_graph_get_endpoint_count(devnode, 0)) {
-> +               fwnode_graph_for_each_endpoint(devnode, fwnode) {
-> +                       ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
-> +                       if (ret) {
-> +                               fwnode_handle_put(fwnode);
-> +                               goto err;
-> +                       }
-> +                       /* Skip if not a type-c output port */
-> +                       if (endpoint.port != 2)
-> +                               continue;
-> +
-> +                       ret = cros_typec_register_port(sdata, fwnode);
-> +                       if (ret) {
-> +                               fwnode_handle_put(fwnode);
-> +                               goto err;
-> +                       }
-> +               }
-> +       } else {
-> +               device_for_each_child_node(dev, fwnode) {
-> +                       ret = cros_typec_register_port(sdata, fwnode);
-> +                       if (ret) {
-> +                               fwnode_handle_put(fwnode);
-> +                               goto err;
-> +                       }
-> +               }
-> +       }
-> +
-> +       if (fwnode_property_present(devnode, "mode-switch")) {
-> +               fwnode = fwnode_graph_get_endpoint_by_id(devnode, 0, 0, 0);
-> +               if (fwnode) {
-> +                       ret = cros_typec_register_dp_bridge(sdata, fwnode);
->                         fwnode_handle_put(fwnode);
-> -                       goto err;
-> +                       if (ret)
-> +                               goto err;
->                 }
->         }
->
-> @@ -280,6 +450,7 @@ static int cros_typec_switch_probe(struct platform_device *pdev)
->  {
->         struct device *dev = &pdev->dev;
->         struct cros_typec_switch_data *sdata;
-> +       struct cros_ec_dev *ec_dev;
->
->         sdata = devm_kzalloc(dev, sizeof(*sdata), GFP_KERNEL);
->         if (!sdata)
-> @@ -288,6 +459,12 @@ static int cros_typec_switch_probe(struct platform_device *pdev)
->         sdata->dev = dev;
->         sdata->ec = dev_get_drvdata(pdev->dev.parent);
->
-> +       ec_dev = dev_get_drvdata(&sdata->ec->ec->dev);
-> +       if (!ec_dev)
-> +               return -EPROBE_DEFER;
-> +
-> +       sdata->typec_cmd_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_AP_MUX_SET);
-> +
->         platform_set_drvdata(pdev, sdata);
->
->         return cros_typec_register_switches(sdata);
-> @@ -308,10 +485,19 @@ static const struct acpi_device_id cros_typec_switch_acpi_id[] = {
->  MODULE_DEVICE_TABLE(acpi, cros_typec_switch_acpi_id);
->  #endif
->
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id cros_typec_switch_of_match_table[] = {
-> +       { .compatible = "google,cros-ec-typec-switch" },
-> +       {}
-> +};
-> +MODULE_DEVICE_TABLE(of, cros_typec_switch_of_match_table);
-> +#endif
-> +
->  static struct platform_driver cros_typec_switch_driver = {
->         .driver = {
->                 .name = "cros-typec-switch",
->                 .acpi_match_table = ACPI_PTR(cros_typec_switch_acpi_id),
-> +               .of_match_table = of_match_ptr(cros_typec_switch_of_match_table),
->         },
->         .probe = cros_typec_switch_probe,
->         .remove_new = cros_typec_switch_remove,
-> --
-> https://chromeos.dev
->
->
+I'll have to add logic about typec ports to that auxiliary driver
+though, like mapping data-lanes and handling lane assignments. And then
+I'll move this code from the cros_typec_switch driver to the
+cros_ec_typec driver so it can be called outside of the typec mux set
+path. That's probably better because it's sort of bolted on to the
+cros_typec_switch driver. We'll need to know if the DP phy needs to
+handle orientation or if the EC is doing that somehow, so probably I'll
+need to add a DT property to the google,cros-ec-typec binding to
+indicate that orientation control is needed.
 
-
--- 
-With best wishes
-Dmitry
+It looks like I should add a new auxiliary device, like
+'dp_typec_bridge', and have some other function like
+drm_dp_typec_bridge_register() for that. I can wrap the 'struct
+drm_aux_hpd_bridge_data' with a 'struct drm_aux_typec_bridge_data' and
+then the typec port information can live there. HPD can still be
+signaled with drm_aux_hpd_bridge_notify() but other functions can be
+used to set the active typec port, e.g.
+drm_aux_typec_bridge_set_active_port(), and then get orientation with
+typec_get_orientation() in the atomic_check().

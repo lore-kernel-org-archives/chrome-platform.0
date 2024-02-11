@@ -1,59 +1,60 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE7B5B053
-	for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 13:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0042A5B200
+	for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 13:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707658472; cv=none; b=ug7ccbv2P/k5Z8SyStzsxpww+L2DX0FHYdkTES+HXsV/IfhM/VQ03/oDJSITcAWCgi+vDhAlSEatMm6HOtuk7t1MSgkfLSYcLEg+GDBvT4kf0dqkEXo4wri3ss/Tl2OcdTEKuSHwpOrurc2nGwk1qtFwGJu/c8fKl3P3F7dI2Uc=
+	t=1707658540; cv=none; b=Je7RQ7koQTRIxjWIzfJ4mOj1rOmmcP/Nyx7XuFSaG5bBhM194GVJmpRKmBQ7JWfZK9zlPgGQHEAVlTd198mSHy+ii8NeFA7Cc/W0O+TJaGiPOG6Z8fohYa2cEzt/p5dtR3QqoXND8b0Xu94JgIdHhR5SWDkQGKK979yg8Z6CUpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707658472; c=relaxed/simple;
-	bh=xvNiWukWCe+C/SyP1ywkdWgpW5FFMbX/gws1Qcs0Ftc=;
+	s=arc-20240116; t=1707658540; c=relaxed/simple;
+	bh=DJSbRDAuFmTc1MlhG1zXU51ssBuCCydk6zoiWl4dFCs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QPbXFcIpk+ODLbDyveJ1lQm8ZeJ4JblpiSekPcoqxwrUnuZD/TMlGOMXNc6Ie9U03ElOkT8h5kFB6UmKYE1LqhhvWWngzKsgiImzi6BWP/Q+UP1UiW9zztIcGZbpP8LfJvzGkr8Kwkd84CtD2WrmetdBvy1HJ+BPXoXwJ68l60c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NWBLgTsd; arc=none smtp.client-ip=209.85.128.42
+	 In-Reply-To:Content-Type; b=kwymI7XPlcKCZLGzL72igrRxfxe9oNkhQHMvRMX0q5RxT10vZuzTqHemy8bJwm2FCJehKUiFm0FQhS36Cu1yXg7qmPAb5jhRqTbJothgpBndMcijXJB3LFLFMy+fojS24e0rNsz5gCkl6XOCnJNFKmM+fffB042POv2UkcJE+SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DsHsrkwd; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NWBLgTsd"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-410a2adf878so7816165e9.1
-        for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 05:34:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DsHsrkwd"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40fd72f7125so19889545e9.1
+        for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 05:35:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707658468; x=1708263268; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1707658537; x=1708263337; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Eocj8gtmTR/cV4HIoTvUSwCUKD7UJ8ziNY39AisweBQ=;
-        b=NWBLgTsd2qwBO3BkA5rlxQML9HfNCNHeIoml7nq9Fff3AvQ8i8/0iZp5P6cxHJUv3N
-         2lna5O7q2jFxsefNKmyM7P1Zfnm54GgXtPEvHlJloDB9PkCddbveZcNM6WjWL4EFXg24
-         59+dRONC/AvOss/tir0AvamKcDRrKKp38ZRzygpy9Yok8KvwBONyd4griA8gWPnhqFZL
-         JaSMrXqh9Wz9Is0qMETvJyGRkW7kGgSeMKnDwho+F88RdsqcQzufIA53t4ioyXarWrSW
-         mHsnTA/4v3IU74TqHOtBoZzK4arxN4MAO+673R6RyMB4qtIhFok9FTuaY6ymp3WBHNOf
-         Zt0g==
+        bh=WNM7KxTxqOC6h3zLzqmshbGyQgeE0x7q4wE47o6Tv6E=;
+        b=DsHsrkwdDxzztcNLPyelSPTqDFyGdRGh+y3b6zII39KJjHlDRjoi2l5PWBC39C3Wmf
+         Lt7I9CAD/+mL23qNjKwXsAMUlAlGL3nDQh/BEJNhHax7e7FNLrhMWrbkYVy1mV6GX095
+         ss4NxUK6+HVi3WmH79EXpZjoFb5pnD7HEC+BRy3uAmL3fVAql/LTaTg49yL6mIR23UfF
+         qPkdx2mPMlnD5HQJPh/Kjq5gwgsc7SL8LkIWU4REJz1rOTi7zFuh0ee4CSVMeeV2Xj7N
+         Ni55ZZwJjQdVNz/o22Jz6dm4DUSkDWdA0S6hLQgduBAo2PILVJjchPV7V+CZiz2tqGEb
+         xOHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707658468; x=1708263268;
+        d=1e100.net; s=20230601; t=1707658537; x=1708263337;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eocj8gtmTR/cV4HIoTvUSwCUKD7UJ8ziNY39AisweBQ=;
-        b=ZPWbDVHKArRQM5QwCu/qDgkoOuFRpPbGOACAQzYUkeDnN+kqNl2zK3GdFOTAcAMa5M
-         9VsjLFr16P1C/WqNaxiJ51Xq2MflR5D5GF7oGnhsfVQFlUE6R5pnY0KichQjs9n+Uhgx
-         iLbz9N2tguX5DHmwpZcBuptVeYuGBQQobAK95rapOih5XCWWtKFd+sUK9lhcqNOyOxsy
-         UnJK4LguCf4RIbWKuObb2SPNzmgCgJK66R9oHVZM0aqoD0pGoKLU6omq2cqqgc1DulQs
-         tkYCbJrpwM3Yhc2nm0I/C8t/0xmEoVxVH5MUCnuiY48DaHsvVmOn19fG/oCt7lGnV4x+
-         uO0A==
-X-Gm-Message-State: AOJu0YzDWuPOf4eGfzHFBL6NTT1nSijqqLtFY+y8itp2smbk84m/o0Uz
-	8bvLN7SzcTOyZJa16YnQD+CwK5Id/hm+szztx2YqaqVpXDQXaVudi5O2R3APF8Q=
-X-Google-Smtp-Source: AGHT+IGZuQ9JzcvtX4xhAH3cy1BjiccK9fkywtjsXoTTzSlVq6CaDAKUVTHZM1Qcy8tT7r4p0CocsQ==
-X-Received: by 2002:a05:600c:1382:b0:410:4032:725b with SMTP id u2-20020a05600c138200b004104032725bmr3751129wmf.22.1707658468080;
-        Sun, 11 Feb 2024 05:34:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXg/jahrIkV8EPzEnTgRIb7cvYOitfsH2MGVHGQbzFsA/7nd6vWww+1F08Mr3fuuNlmeLIxLBPR3aSMtrWPdb5SWVrz3AEtPA7T6UYWndwylc24vbhGI7sasuS1cgpVzFghslV/yq7CkaH78ABEfv1QX09IVf6BUH48K9RUlVlfoQdiVJEGpTABesJdVXzyuUNftrSRpYNiCMS8sU4oIhaBZP7H8L37dUOzBd4jOMIbeg5HwLs9VEHWvlP7ZCX5LmyOZFbHfAF+xDOVb/ty0WvNo9qR8Xu4mjXZY3obEpkyT4FjjAZXzJ/tEJrlLyxKRYfFHRC7qxexB6aTT56+n7cV/Fv0a7wtjYQWXoZXIlBu5mZoMxp79YCJ0YqEibG+ktYu4HKq/KiIKcmlsPQVAZkCI1CDgXeQ1VafKAtTz0xDwPSchAZ1QY3BxT2SibOsBon4ziYDmrKbQwEQSOjapR01PMopKcxuZ/+rYRIpGZgOTbAK9InUUE26r2EcyD02ITPx7IO9dT1mh9PiVGJvLLQ0fRFwCzFdJYln8xa1k9tK12PDfoJ3SmEt
+        bh=WNM7KxTxqOC6h3zLzqmshbGyQgeE0x7q4wE47o6Tv6E=;
+        b=CAqT2oguh/DXLn9KLMneIXn+9U9AZs6+Pf2zwCwnqqKwx7I8RaL5KC1oi5DPGEZ6xx
+         +s8vg2Ohh35/HhPBWgF1+FBdjdjKkLLz7fiYUGbOJBPgWIkYwlX6YwQJhEba8trQ+ycp
+         NhNOTOXEADijwo9sRN1vdfp3lKrT69oD3MG477N/EXX8Bvg1zJvhndrL69+35sLpoJCI
+         1VMraLbH1CH7iCFT9CF1NCfm2cUE79HVnZ2cvQOFRuXe/c3nTJ3hkePuveYZnOIJ2yUP
+         gjp7KS5hcnTc5ZyIsNz/CDFOtcuEEFIQwdbb2/JuMND8iAa9bpP1HS37iANsi7qTVxCy
+         42tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3b2JXJIFr7I3u3g0VKoujS61Ddtd8UQRci9AomiC883qBnCYcyOmkPziY0yV5f3351bnQtW6Nxm+3isqFgRruYcuwgzah1gxpkj3fI9hC
+X-Gm-Message-State: AOJu0Yy+i3BSag6qTKfohNUv34qLwC8HesvD2nWHVy+berCxmwZf38tQ
+	BfjYBYuvdS6B5ICZkuHIWTcPcjEfV5ichdCeiJd0yB4Zhqx8LOVqpbGT2bcnevs=
+X-Google-Smtp-Source: AGHT+IGN75xPhnd1CMUxGBm8NtGEOaPzey9Vd2xIOm9A6AMn5Ba6uk7c43rphjVTHhlDsx1gH7DhqA==
+X-Received: by 2002:a05:600c:1d86:b0:40e:f3ee:5622 with SMTP id p6-20020a05600c1d8600b0040ef3ee5622mr3409852wms.11.1707658537250;
+        Sun, 11 Feb 2024 05:35:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUJZwKSjTN/aUWYpNKgzMj3IPbRrymCkKm8d4FOswr+DsaejnpfkIXo++Dt5cEnqf3jhHIoDE/uzsJcKc6Wsv0MNEPdWSpHIwMpqzgp7WEnqwj8kUiSof7J1HKDxpPqq6ZUxRqJ9RjQv9ZI6PC8I0J7EPVFIjvbcFMuExjL8xrfi89xlCZAEkORSbljJJPy7QZpGkEKgo4angGQAJKtauaLEmTB0cThK7+eDGYLM/I2kOYBuJ/yp5sJ8xD3zmmCQJCejoZs7v3A9tmqbRgYPaEt3+KMwimzcUHa/C88hFI4ivdSzH++SXfLpLs2mgoIhfUlCE95lYAWeRYzrVBtUoNErcKEzyYfTiQ8BaPNFVCytaFHrVtFafyIPz0uXtjfBJAU6P3WM5N5yB2mprXPyDYVL1yT4gTHPb5dAOIaYrxUHvrgroU7Z2jCi4yARA2TAvgWJnSm5hEfT6wqlf8UE0PFggTo6e2jiHFMGyA2xBbjfkbRAX3ecVM3b36RdZPDYs+CQuFWSGOKXiRGcH8LlylBBESslLe/accZVrWemKMJ7x7zZPCP+Cuj
 Received: from [192.168.1.20] ([178.197.223.6])
-        by smtp.gmail.com with ESMTPSA id r4-20020a05600c298400b0040fdc7f4fcdsm5876671wmd.4.2024.02.11.05.34.26
+        by smtp.gmail.com with ESMTPSA id r4-20020a05600c298400b0040fdc7f4fcdsm5876671wmd.4.2024.02.11.05.35.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 05:34:27 -0800 (PST)
-Message-ID: <46ac6ab8-b0a5-497d-91b6-1d2ced33184b@linaro.org>
-Date: Sun, 11 Feb 2024 14:34:25 +0100
+        Sun, 11 Feb 2024 05:35:36 -0800 (PST)
+Message-ID: <8c7e41c9-8dcb-46f4-b8e6-8da2a6391993@linaro.org>
+Date: Sun, 11 Feb 2024 14:35:35 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -150,413 +151,10 @@ On 10/02/2024 08:09, Stephen Boyd wrote:
 >  .../bindings/mfd/google,cros-ec.yaml          |   5 +
 >  2 files changed, 370 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
-> new file mode 100644
-> index 000000000000..17a0ba928f5d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
-> @@ -0,0 +1,365 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/chrome/google,cros-ec-typec-switch.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Chrome OS EC(Embedded Controller) USB Type C Switch
-> +
-> +maintainers:
-> +  - Benson Leung <bleung@chromium.org>
-> +  - Prashant Malani <pmalani@chromium.org>
-> +  - Stephen Boyd <swboyd@chromium.org>
-> +
-> +description:
-> +  Chrome OS devices have an Embedded Controller(EC) which has access to USB
-> +  Type C switching. This node is intended to allow the OS to control Type C
-> +  signal muxing for USB-C orientation and alternate modes. The node for this
-> +  device should be under a cros-ec node like google,cros-ec-spi.
-> +
 
-If this is USB Type C switch, then you miss reference to
-usb-switch.yaml, but then ports look a bit different.
-
-> +properties:
-> +  compatible:
-> +    const: google,cros-ec-typec-switch
-> +
-> +  mode-switch:
-> +    description: Indicates this device controls altmode switching
-> +    type: boolean
-> +
-> +  orientation-switch:
-> +    description: Indicates this device controls orientation switching
-> +    type: boolean
-> +
-> +  mux-gpios:
-> +    description: GPIOs indicating which way the DP mux is steered
-
-missing maxItems
-
-> +
-> +  no-hpd:
-> +    description: Indicates this device doesn't signal HPD for DisplayPort
-> +    type: boolean
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Input port to receive DisplayPort (DP) data
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: DisplayPort data
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical DP data lane indexes
-> +                  - 0 is DP ML0 lane
-> +                  - 1 is DP ML1 lane
-> +                  - 2 is DP ML2 lane
-> +                  - 3 is DP ML3 lane
-> +                oneOf:
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +                      - const: 2
-> +                      - const: 3
-> +
-> +        required:
-> +          - endpoint@0
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port to receive USB SuperSpeed (SS) data
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: USB SS data
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: USB SS data
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint@0
-> +          - required:
-> +              - endpoint@1
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Output port for USB-C data
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 1st type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@2:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 2nd type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@3:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 3rd type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@4:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 4th type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@5:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 5th type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@6:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 6th type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +          endpoint@7:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description: USB-C data for EC's 7th type-c port
-> +            unevaluatedProperties: false
-> +            properties:
-> +              data-lanes:
-> +                $ref: /schemas/types.yaml#/definitions/uint32-array
-> +                description: |
-> +                  An array of physical USB-C data lane indexes.
-> +                  - 0 is SSRX1 lane
-> +                  - 1 is SSTX1 lane
-> +                  - 2 is SSTX2 lane
-> +                  - 3 is SSRX2 lane
-> +                minItems: 4
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 3
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint@0
-
-I don't get what you want to say here. This anyOf should have no effect.
-
-> +          - required:
-> +              - endpoint@1
-> +          - required:
-> +              - endpoint@2
-> +          - required:
-> +              - endpoint@3
-> +          - required:
-> +              - endpoint@4
-> +          - required:
-> +              - endpoint@5
-> +          - required:
-> +              - endpoint@6
-> +          - required:
-> +              - endpoint@7
-> +
-> +    required:
-> +      - port@2
-> +    anyOf:
-> +      - required:
-> +          - port@0
-> +      - required:
-> +          - port@1
-
-Same problem here
-
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        no-hpd: true
-
-I don't understand this either. What is it for? Where did you see such
-syntax?
-
-
-> +      required:
-> +        - no-hpd> +    then:
-> +      properties:
-> +        ports:
-> +          required:
-> +            - port@0
-> +  - if:
-> +      properties:
-> +        mode-switch: true
-> +      required:
-> +        - mode-switch
-> +    then:
-> +      properties:
-> +        ports:
-> +          required:
-> +            - port@0
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      cros_ec: ec@0 {
-> +        compatible = "google,cros-ec-spi";
-> +        reg = <0>;
-> +        interrupts = <35 0>;
-
-Same concerns about interrupts.
-
-> +
-> +        typec-switch {
-> +          compatible = "google,cros-ec-typec-switch";
-> +          mode-switch;
-> +          orientation-switch;
-> +
-> +          ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +              reg = <0>;
-> +              #address-cells = <1>;
-> +              #size-cells = <0>;
-> +              dp_in: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&dp_phy>;
-> +                data-lanes = <0 1>;
-> +              };
-> +            };
-> +
-> +            port@1 {
-> +              reg = <1>;
-> +              #address-cells = <1>;
-> +              #size-cells = <0>;
-> +
-> +              usb_in_0: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&usb_ss_0_out>;
-> +              };
-> +
-> +              usb_in_1: endpoint@1 {
-> +                reg = <1>;
-> +                remote-endpoint = <&usb_ss_1_out>;
-> +              };
-> +            };
-> +
-> +            port@2 {
-> +              reg = <2>;
-> +              #address-cells = <1>;
-> +              #size-cells = <0>;
-> +
-> +              cros_typec_c0_ss: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&usb_c0_ss>;
-> +              };
-> +
-> +              cros_typec_c1_ss: endpoint@1 {
-> +                reg = <1>;
-> +                remote-endpoint = <&usb_c1_ss>;
-> +              };
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index ded396b28fba..563c51a4a39c 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -164,6 +164,10 @@ patternProperties:
->      type: object
->      $ref: /schemas/extcon/extcon-usbc-cros-ec.yaml#
->  
-> +  "^typec-switch[0-9]*$":
-
-Missing - after typec-switch (e.g. typec-switch-1)
-
-> +    type: object
-> +    $ref: /schemas/chrome/google,cros-ec-typec-switch.yaml#
-
+Ah, and wrong placement. There is no hardware called "chrome", please
+don't stuff things there. USB switches go to other USB switches (git
+grep usb-switch.yaml will give you hints).
 
 Best regards,
 Krzysztof

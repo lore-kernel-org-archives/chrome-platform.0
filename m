@@ -1,231 +1,112 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E62B5B1F9
-	for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 13:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F77B3B2A1
+	for <chrome-platform@lists.linux.dev>; Mon, 12 Feb 2024 14:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707658782; cv=none; b=Ukrg3Lm7Q+DuI/NTf+IEuqGHgXLDzQyA/5EenyscQn20zdmneBi2h09yEwwi/4KrmBq2UnG9eV8hAoe+8eIU8do4u0hGBQFu+5sfGcVomfpCMdAfisJWhy5Gehl3qv7jFAYYLnbRv4RaVhCZYsQdMtgcm4vmuvZD1iUK4mD8gO0=
+	t=1707749482; cv=none; b=X7HvQZXZ2fC+OSnzGqhyinxNk0CAdFeiuZywbvDsiloh0xlCvwGyYcdEgzUv3Dr/QFN9qCr/W7xrRfBF3xuitGWDhBpkXqMVCprRsDDBV5ApoQZQqMrCyb5GgiJgzQX4O8rmGgQZbyvPIzbf9Yl7/KWrfDaSswDaBAkRJH9zIUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707658782; c=relaxed/simple;
-	bh=KFXA3+R8s3SRSrnMPGr4IKA8IpENg695bBUFqWDk888=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fYJq7k51H26jmsnz24FDMrgOLIvj34VtwxKDwVmqgQlANC9IjUxL4aq3oyVqrgAkogcy0jTRN9JLPhRmcfhHpG4bhP/bklweDPU9iI9SKWzl8DwlJG7MfC88eG5UTVtAPjIUi+wBDWzEGAaJJaa3KXPnTkpN4xOqu4geIuqk+Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D/cv88Kc; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707749482; c=relaxed/simple;
+	bh=vqF5jYZNYl0NbSJPxgA2LFrHafN5yO7/CK4g758qgCI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uAEmbW1F3z3+s7kf8p52aFbvNxQ2Xz2PTFc8kg2+d7WgYE2osxSeI65P6QUGJtZ/hZ/6aj0Vl+IbOwUWax32tpvrhY+I/iECf64q8axPKYy/1irAk43sE3WqzuOPqWoEdWBtmfG9UaJOo4CbvfFPLTC44B3u4MM41I41stNhaHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=sZSBT+30; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D/cv88Kc"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41090edfeb3so7638195e9.2
-        for <chrome-platform@lists.linux.dev>; Sun, 11 Feb 2024 05:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707658778; x=1708263578; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6G9u/3Fv5PjWFy9vLWBNpDOe87eSjSZPsXbRj18KFs8=;
-        b=D/cv88Kcej9AJ9rJUWIDeXLSIxVFFJYOVF6jajazELh542OfzaUXqUW8yFztGnmtNS
-         QFTv40nUpmbjLDJezsrNViT6jjQhLxh4Dsui8DygpS/F49Iro48HMvGDMl4lT1hdB5Ri
-         nA8yYhbphbAg/CZdrTAk2ie9gXLv8wy/ri9zGiky7jNFNT3ruSHSCe0Un+3Xa5VD0vtP
-         O+wTnsNND68kzV/dF5EPLr52bt0pvV1qzztKkvgUZ5X5BwnAhIuNUsw1QQNS07LFIgNK
-         4u8vbC4HW1HgEYr7kseUGft0Nkv+CrL6SHwO7+ET3mJbX4vpLbkFkwaNcM2u5vT+a8h7
-         /TbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707658778; x=1708263578;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6G9u/3Fv5PjWFy9vLWBNpDOe87eSjSZPsXbRj18KFs8=;
-        b=Dv17hsYViVfGPFFUW3V1GIXxzunjqyytzZ34pPs1jF4b2uIPZSty6ZfibDKQsTr7U1
-         LZztfOABXIpankjHe9az7I47jT+DcVcyuzPAeFuoUDEOrhEcI9zQvGIDk+LmaRBBoUAe
-         iVz23Dw8cazsoSpzVp4MuO6QtdIeIJBVlpHsOqv06vLVoqRhymgJpsgqI9NvLg9Jy8CH
-         rSx6XQl/BvmfiHHm9YvFWAU+evS/y9YroadzZHEx+pJe2qH7ziFDDXQxaM9gqr0oAIhD
-         S/LNX/Eb1hX2dsWFiKTXeqYYlRMK5v4ofE6cH6s32d3WaarhZ26wnttWNm5JPi8nZ9qO
-         LAuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkD/dGNIwFzwqorrVQoZtcmrwsMQzvNHKEIEY47AQ7Y4EXKlSf2uGVgfF94O09nA/IN9Yrl3NElmBs10g46KADTq8yHKEBxRRUpfjIyh25
-X-Gm-Message-State: AOJu0YydC2+DCJ9OIFnmE+LsdLTQ5XeMAkxzBVHfg0887tbH+uyyJAcl
-	hff0BtSE1zmhqi8dJayLSnpLWd/DGeIVD3LSi2yu/fKR7A1cwXloaLJrT4Ls6ig=
-X-Google-Smtp-Source: AGHT+IFhKe1Ykkm1DMRUxBcpjsBg4xpnvNk23OIVIgnQlMx0Ax0hAYhxRnQLZMqoPn7GtxgmI6HcaQ==
-X-Received: by 2002:a05:600c:1548:b0:40f:d25c:41d0 with SMTP id f8-20020a05600c154800b0040fd25c41d0mr4205573wmg.29.1707658778513;
-        Sun, 11 Feb 2024 05:39:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX4punkyvwAWYEniQVwYVWbB/v6b+g/PXt7uDYTIxJstOipFWEm7iWnAZn5ShkiRbYtOlTmEL2ePa1gLfuyYDYvfke0pN0THBEMVxJADXdih1B7pKpPQm8zpDd+auAvCvNZWuDiJece1udC1Im02ybYLzd8YocKCdHcauBXN2zQlMXshLWdB44QZ0h2fCk/il8Gj2c2bmyIc5lbqiZsP/C0q3Okwgxz2Iyuk4laObqp65Kc9XBSfMmwTxWJA0rClYWk7cyuBcp5rq9wD1RsO+XTkHOtqJXvhddwSjyLtgld+2HUJmESyyz/HVm0uFNmPAAG8IfkPd7yUX60NP9dj9LcGjzOLD55oTQ9XAQW2d0u85FG+cgVjmuvi8z2t7mmhxxVpE24l+zndY0Oeooilei3HSNJs9OeNrpBXiblLydzOC4HjwhMs36D3kH309Bh0C63IZudNC3h21Z4+uZzh1qDO2DodA6oBP4aZ7vTsuI=
-Received: from [192.168.1.20] ([178.197.223.6])
-        by smtp.gmail.com with ESMTPSA id v1-20020a05600c214100b00410395dc7d1sm5828918wml.7.2024.02.11.05.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 05:39:38 -0800 (PST)
-Message-ID: <18ac05fb-a78d-4e95-a73d-461f509cdc5f@linaro.org>
-Date: Sun, 11 Feb 2024 14:39:36 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="sZSBT+30"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1707749479;
+	bh=vqF5jYZNYl0NbSJPxgA2LFrHafN5yO7/CK4g758qgCI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=sZSBT+30hs5/PAbWzzLzqCmM2iDuayDfRj/GoXrGtp4GC1VV/75p/UEwVKtOBJc3Q
+	 gIhNy5ZDlFlVWvMl5Y/pjM884z/4/7dvciBseo3PGG6wdwswsh05crvQLH47Kpcnf6
+	 i8iFLJ1K9z1ueGWWAqE7nZ4HaS0v51rolYY2v5EQm8dS6p4507xyTkV1aqIw2UQWtz
+	 umSFjAzY7LzyWauRsHoc773dbLGDlkvaWP5nzVHKXA6z+lt4hOfT/DpDAUU2xHfXtO
+	 9PS996okVK9LOkztw9zdT8+vqhqUsrSzT9WfT+8bltnM1YkHXRjOL+6Zyyxm1nV2Hz
+	 kc4JarBoC5CWQ==
+Received: from [192.168.1.30] (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 536913780C22;
+	Mon, 12 Feb 2024 14:51:15 +0000 (UTC)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v4 0/4] Allow coreboot modules to autoload and enable cbmem
+ in the arm64 defconfig
+Date: Mon, 12 Feb 2024 09:50:04 -0500
+Message-Id: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/22] dt-bindings: chrome: Add binding for ChromeOS Pogo
- pin connector
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-References: <20240210070934.2549994-1-swboyd@chromium.org>
- <20240210070934.2549994-19-swboyd@chromium.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240210070934.2549994-19-swboyd@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABwwymUC/4XOywrCMBCF4VeRrJ2Sxnpd6cq1CIKKiySdtANtR
+ ye1KNJ3t/YFXP6L83E+KqIQRrWZfJRgR5G4GSKbTpQvbVMgUD60MtpkOk2X4FnQMbdQcw45Bs9
+ NoAJWZuF0iiYz+VoN47tgoNcIX29DB+Ea2lLQjtzFHk5HfzC78+O5h4tsY00VJoESalqsEs/1T
+ ykptizv8V03+1l/j3Qz0KCz9Xwxt2bpnN16rirrWOyo3vq+/wKAYDKB9gAAAA==
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>, 
+ Julius Werner <jwerner@chromium.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@collabora.com, 
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.12.4
 
-On 10/02/2024 08:09, Stephen Boyd wrote:
-> Describe the set of pins used to connect the detachable keyboard on
-> detachable ChromeOS devices. The set of pins is called the "pogo pins".
-> It's basically USB 2.0 with an extra pin for base detection. We expect
-> to find a keyboard on the other side of this connector with a specific
-> vid/pid, so describe that as a child device at the port of the usb
-> device connected upstream.
-> 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../chrome/google,pogo-pin-connector.yaml     | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml b/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
-> new file mode 100644
-> index 000000000000..5ba68fd95fcd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/chrome/google,pogo-pin-connector.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/chrome/google,pogo-pin-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Pogo Pin Connector
-> +
-> +maintainers:
-> +  - Stephen Boyd <swboyd@chromium.org>
-> +
+This series adds the missing pieces to the coreboot bus and the module
+alias generation to allow coreboot modules to be automatically loaded
+when matching devices are detected.
 
-Missing description describing the hardware.
+The configs for cbmem coreboot entries are then enabled in the arm64
+defconfig, as modules, to allow reading logs from coreboot on arm64
+Chromebooks, which is useful for debugging the boot process.
 
-> +properties:
-> +  compatible:
-> +    const: google,pogo-pin-connector
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Connection to USB2 port providing USB signals
-> +    required:
-> +      - endpoint
+Changes in v4:
+- Added driver_data to device_id struct
+- Link to v3: https://lore.kernel.org/r/20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com
 
-Drop required.
+Changes in v3:
+- Merged all "add to module device table" commits into a single commit
+  which also changes the coreboot_driver struct to contain an id table
+  and avoid unused variable warnings for the id tables.
 
+Changes in v2:
+- Added commits for vpd, memconsole and framebuffer drivers to add them
+  to the module device table
 
-> +
-> +patternProperties:
-> +  "^keyboard@[0-9a-f]{1,2}$":
-> +    description: The detachable keyboard
+---
+Nícolas F. R. A. Prado (4):
+      firmware: coreboot: Generate modalias uevent for devices
+      firmware: coreboot: Generate aliases for coreboot modules
+      firmware: coreboot: Replace tag with id table in driver struct
+      arm64: defconfig: Enable support for cbmem entries in the coreboot table
 
-If this is detachable why do you define it in DT? Only hard-wired USB
-devices, which need some sort of special handling. are described in DT.
+ arch/arm64/configs/defconfig                   |  3 +++
+ drivers/firmware/google/cbmem.c                |  8 +++++++-
+ drivers/firmware/google/coreboot_table.c       | 20 +++++++++++++++++++-
+ drivers/firmware/google/coreboot_table.h       |  3 ++-
+ drivers/firmware/google/framebuffer-coreboot.c |  8 +++++++-
+ drivers/firmware/google/memconsole-coreboot.c  |  8 +++++++-
+ drivers/firmware/google/vpd.c                  |  8 +++++++-
+ include/linux/mod_devicetable.h                | 10 ++++++++++
+ scripts/mod/devicetable-offsets.c              |  3 +++
+ scripts/mod/file2alias.c                       | 10 ++++++++++
+ 10 files changed, 75 insertions(+), 6 deletions(-)
+---
+base-commit: 0f067394dd3b2af3263339cf7183bdb6ee0ac1f8
+change-id: 20240117-coreboot-mod-defconfig-826b01e242d9
 
-> +    type: object
-> +    $ref: /schemas/usb/usb-device.yaml
-
-On this level:
-unevaluatedProperties: false
-
-> +
-> +required:
-> +  - compatible
-> +  - '#address-cells'
-> +  - '#size-cells'
-
-Use one type of quotes, either ' or ".
-
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "google,pogo-pin-connector";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        keyboard@2 {
-> +          compatible = "usb18d1,504c";
-
-Messed indentation.
-
-> +          reg = <2>;
-> +        };
-> +
 Best regards,
-Krzysztof
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 

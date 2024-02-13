@@ -1,134 +1,153 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CAE5FDA1
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Feb 2024 16:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7593B604DB
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Feb 2024 17:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707843335; cv=none; b=RIpzEyMVM6U7snuSSDlevKUJAWReBhMBXCtiRHPtmp1WgSG/gaHlRMd6QpwUFHutDp1PS/SHAQgNCnNlyeJGzcWxSK1ddM8mTgVJWvbCh8l05CQDMARnVgRye/gmM4G82eXIatweSDOlJv3SQy/UTDEgh96M8e/LPCMSSiCT+w4=
+	t=1707847057; cv=none; b=Pf047xVFXvkVOQK2JpE9pOT+wO2du7JlJkuFvmuO6082gdeBlDLS3rjc6rbGrIbzUnSkzbY+4EjAEffVOmkdfNMirVyg4FNEMjwk/gVm3s8j3FgXVRxNq2KpifBi/+AHaviqVZjiMmtxht+VrZos+R0KX9rynrnouBIZKgmJEfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707843335; c=relaxed/simple;
-	bh=HE/20Xm9WCTyMPH/lmK4IPJtvUMDxg+CfKS4AXTMswA=;
+	s=arc-20240116; t=1707847057; c=relaxed/simple;
+	bh=vGsPH/6NepigkHWNcE1Gp/jZaGblgkAQJ/VePx7mqOY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X+Mw23eN1qbYRmw5eIVGQpJewv91xN4D6U5g+eOCM9aIZIYs9zzhWs7KgxFb/IFkCMDCA+GF7wm5Gk3y7T8YDG+dxcmtze6ZlmqALNq2kk2afDj4An/2sIPuEfmrCn85DX4VIYTmzlbSduBvjj37LiCdmaqlcJUA70vaWU/8rNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Hdr6NGqa; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=gWTkguapDyb7JmiBadnEUiowv8W5ev+aCXsi2Lg9iRI14161/Mo6JDtDGhJ7cSrhDZgrpaXzf3CM4QYo1Jyn46XB0E4sYQgGRnoUAGwhg382osjRedtOaF2l3tXyhaX+ZaYujLTMEFFkYC5Fhr1AhURlB5HyPdYL5rP1vni5RiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZRhUft3u; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Hdr6NGqa"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3bbbc6e51d0so3223064b6e.3
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Feb 2024 08:55:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZRhUft3u"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so1053825276.2
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Feb 2024 09:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707843332; x=1708448132; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1707847054; x=1708451854; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E4lPSxTY6wTzszL0a5uZSwuzQyy5laP/IX8YJFhtcMQ=;
-        b=Hdr6NGqazD9vo0wKS6ptuGXb4/jBPIoBd1EjShQVSCCXFjlYbCYmA8lOeSkdPwxXBF
-         VctMZ8zrQHDfu18KFfS2prtLu7vcmDzD3LfzyDlp87M0Gwiwi5N9kSSfrnKX2UdY8ZHM
-         Cp8NmAN4cvvEsOP1IwZiN90WD1iQgsN/28Pfo=
+        bh=ThFEwmSsic89kjVyr0919FUZo6LtjSuhDb8efYOkiGI=;
+        b=ZRhUft3uOxc5RFaO3zjVQdNU8hvkRhfbazC15YSa+2Xi7reVNVZoXPMY9AK5kIbw68
+         QRwYEwbwoxMeqDrbU0Y7MwiJQUDq7iCAVN5UnmGvIpXXU6SOUAnml7wEzItNcJ/c32m1
+         Ll21BW7dAjyrZCNtpvWgBzj6O/tmp3SoJT1X2ZjhMPX/PfgB0O5NLyN2xX+iJnfba9Y2
+         zsW5da/HsZnXbaVy0VMcmGj2rYDO5tsMPFuZbeQm042w//m6fE4EurybyNo7LJpJtBrd
+         4Ga5h9sLnvBfFEVKyJOCku0tIhZhzqiEN2jOwWDmBkkSx0PEG91gSzDeuHEuGFhq+8ql
+         3DHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707843332; x=1708448132;
+        d=1e100.net; s=20230601; t=1707847054; x=1708451854;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E4lPSxTY6wTzszL0a5uZSwuzQyy5laP/IX8YJFhtcMQ=;
-        b=cdhNBweG0JLqfdYYKFcuwg0TPz25MZjbmwd8IjxwbcjRGbFjzNaayCnGkF9QM9QLZb
-         2vqhRMzUXX9VHr/WpOuNyEfbKP/UnVYLw6lO6TPxOnG0UMU/IukvX5CieX1Kue7SC6kE
-         6OPp94mfsZ3UsvIgXYT/HSSj8aJJPVxVpKnqaP0noSePfWH5f7SgZMpB/BlmvmvEgVZR
-         0Di3NGlBRX5wEp3unHyNwKYPOs85f183e+AAieDmnoKFTi65463/cLIPkapa1biyWSdr
-         H05FH1PSMeKTnLL0Z7TQJuQ7K/vPCgQck4kDuUxzplAmT5DsVKAfCBvE4qTofye5wlTh
-         yymQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuuqeIeO0XTK4Z8ng760rPLRccuNuMqJgKS4uZaJNdTof+9pTPV9L0LxWgiqveA1OQ/uq+Be4wcXLYdHgZdGK923GCaUt9RM6YhKkYJfos
-X-Gm-Message-State: AOJu0YxCwJMtOyRpUkT1HRkk+zDs/lEFTOCdw7WPuB0b6tSVFed4zZ1J
-	AwwSGTJjgIo8LBPWagg+7/JvnyBTIVTWcdMqRH5FJkdpF7JK7Lu31HfrBka7HrSa5Wbc5SSnc2o
-	/3u51FWvpvsZNuZaHuUca12ScAG8o6SeSFr4y
-X-Google-Smtp-Source: AGHT+IF621AcZlHabo8tSWMrLrYcsvXNOTbA67xsv4QZQyYYW0BcYdZTIRHza0q2P5iytSfC6OBpB6w1KP2sxrbZPoI=
-X-Received: by 2002:a05:6808:188d:b0:3c0:4719:45ad with SMTP id
- bi13-20020a056808188d00b003c0471945admr1531810oib.40.1707843332527; Tue, 13
- Feb 2024 08:55:32 -0800 (PST)
+        bh=ThFEwmSsic89kjVyr0919FUZo6LtjSuhDb8efYOkiGI=;
+        b=FrXNvCy2vttJXvTWERZlhfxpDdvCZxAfqrNz3vRjMugshBY9Q5xm/lkmJRymLbyfKC
+         WKzx2pV9JqAfs9mGoV1+sJ+BZ1TNEVq+lOQLZdFM7nlyK89A9Dm0wbYS2Zm2obwe7qDF
+         SoPs4oyJq/JAAhxvgdOdUB6e2c2bCJhiGpQF3sS4P7e8YfG57lBHRLtg0Ad17PPc0H9z
+         NdbdPyjofI/0ln2aAsc9SAofUm+wMcYUr758laEqKFmq1VlmBg+O/rFlSDS2kJ5U/Ul7
+         zV5F5IMTyJGI223V4ppt8dGA1a7qRIql6TGBci4aRzh1EFShLeO2Rrb7OH1HAoVSV//E
+         9XrA==
+X-Gm-Message-State: AOJu0Yzbz+ITiU8dKtqAxbzPPKPajSB4eE2tCDHFr8vkPTvZPSb4mopy
+	3gFJu3M7A4UfNgK4NICdkbrFgmVgmqoB+IAqNuI0o2ieLnCuerPRPJXi0W2hEWFbwTwC6B3aIq0
+	FHQ1sqRKDVMPxcoYmwAV7Wk6O0x72iic8O+94TQ==
+X-Google-Smtp-Source: AGHT+IFRRPRaR8chVvPorzyjWv+0RJ/A9PgRqWUgzNW1aKca1HP9qDR/iO3FDMZxa24LIqZrVhfY5xeJjXYhOT7SiAk=
+X-Received: by 2002:a25:ec0c:0:b0:dc6:cd76:5ddf with SMTP id
+ j12-20020a25ec0c000000b00dc6cd765ddfmr8977451ybh.39.1707847054395; Tue, 13
+ Feb 2024 09:57:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240213130018.3029991-1-heikki.krogerus@linux.intel.com> <20240213130018.3029991-3-heikki.krogerus@linux.intel.com>
-In-Reply-To: <20240213130018.3029991-3-heikki.krogerus@linux.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 13 Feb 2024 08:55:20 -0800
-Message-ID: <CACeCKadLKg89c8s68QD6VsqiKBMms6765O7mFFihqtET30pUyQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Make sure the USB
- role switch has PLD
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	Emilie Roberts <hadrosaur@google.com>, "Nyman, Mathias" <mathias.nyman@intel.com>, 
-	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>, 
-	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>, Samuel Jacob <samjaco@google.com>, 
-	Uday Bhat <uday.m.bhat@intel.com>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-3-swboyd@chromium.org>
+In-Reply-To: <20240210070934.2549994-3-swboyd@chromium.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 13 Feb 2024 18:57:22 +0100
+Message-ID: <CACRpkdaxW+2q9=CPpkJZK7tWh5T7smnvqoEhEGezV9TvOw9wqQ@mail.gmail.com>
+Subject: Re: [PATCH 02/22] gpio: Add ChromeOS EC GPIO driver
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Heikki,
+Hi Stephen,
 
-On Tue, Feb 13, 2024 at 5:00=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
+thanks for your patch!
+
+Overall it looks good I have a few nitpicks
+
+On Sat, Feb 10, 2024 at 8:09=E2=80=AFAM Stephen Boyd <swboyd@chromium.org> =
+wrote:
+
+> The ChromeOS embedded controller (EC) supports setting the state of
+> GPIOs when the system is unlocked, and getting the state of GPIOs in all
+> cases. The GPIOs are on the EC itself, so the EC acts similar to a GPIO
+> expander. Add a driver to get and set the GPIOs on the EC through the
+> host command interface.
 >
-> The USB role switch does not always have the _PLD (Physical
-> Location of Device) in ACPI tables. If it's missing,
-> assigning the PLD hash of the port to the switch. That
-> should guarantee that the USB Type-C port mapping code is
-> always able to find the connection between the two (the port
-> and the switch).
->
-> Tested-by: Uday Bhat <uday.m.bhat@intel.com>
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index 2b2f14a1b711..4d305876ec08 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -24,6 +24,23 @@
->  #define DP_PORT_VDO    (DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BI=
-T(DP_PIN_ASSIGN_D)) | \
->                                 DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
->
-> +static void cros_typec_role_switch_quirk(struct fwnode_handle *fwnode)
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: <linux-gpio@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+(...)
+
+> +config GPIO_CROS_EC
+> +       tristate "ChromeOS EC GPIO support"
+> +       depends on CROS_EC
+> +       help
+> +         GPIO driver for exposing GPIOs on the ChromeOS Embedded
+> +         Controller.
+> +
+> +         This driver can also be built as a module. If so, the module
+> +         will be called gpio-cros-ec.
+
+Classified as "MFD Expander" but I honestly don't know anything better.
+
+> +#include <linux/bitops.h>
+> +#include <linux/errno.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/init.h>
+
+Do you need init.h?
+I guess maybe... I thought module would be enough for this.
+
+> +static int cros_ec_gpio_request(struct gpio_chip *chip, unsigned gpio_pi=
+n)
 > +{
-> +#ifdef CONFIG_ACPI
-> +       struct fwnode_handle *switch_fwnode;
+> +       if (gpio_pin < chip->ngpio)
+> +               return 0;
 > +
-> +       /* Supply the USB role switch with the correct pld_crc if it's mi=
-ssing. */
-> +       switch_fwnode =3D fwnode_find_reference(fwnode, "usb-role-switch"=
-, 0);
-> +       if (!IS_ERR_OR_NULL(switch_fwnode)) {
-> +               struct acpi_device *adev =3D to_acpi_device_node(switch_f=
-wnode);
-> +
-> +               if (adev && !adev->pld_crc)
-> +                       adev->pld_crc =3D to_acpi_device_node(fwnode)->pl=
-d_crc;
-> +               fwnode_handle_put(switch_fwnode);
-> +       }
-> +#endif
+> +       return -EINVAL;
 > +}
+
+If this check is needed, it should be in gpiolib I think?
+
+> +#ifdef CONFIG_OF
+
+This ifdef should not be needed these days.
+
+> +static const struct of_device_id cros_ec_gpio_of_match[] =3D {
+> +       { .compatible =3D "google,cros-ec-gpio" },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, cros_ec_gpio_of_match);
+> +#endif
 > +
+> +static struct platform_driver cros_ec_gpio_driver =3D {
+> +       .probe =3D cros_ec_gpio_probe,
+> +       .driver =3D {
+> +               .name =3D "cros-ec-gpio",
+> +               .of_match_table =3D of_match_ptr(cros_ec_gpio_of_match),
 
-I'll reiterate my comment[ 1] from v1: can this be in the
-common Type-C code, i.e typec_register_port() ?
+Nor the of_match_ptr() business.
 
-I don't see anything in this implementation which is Chrome OS specific.
+With these fixed/addressed:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Thanks,
-
--Prashant
-
-[1] https://lore.kernel.org/chrome-platform/CACeCKaffZBPA0Q_Bqs1hjKJB4HCj=
-=3DVKrqO21dXj4AF5C5VwtVQ@mail.gmail.com/
+Yours,
+Linus Walleij

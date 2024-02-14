@@ -1,95 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A072CC2C6;
-	Wed, 14 Feb 2024 10:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5C21AAD8
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 11:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707907171; cv=none; b=FJzoA3Ypi++EpL+TD3sT822akhVb33w450151Oe4iZHl6wBvzQoVXkGUzbY/mWncn454htSAuGBrNfEN2uHtAuGVn678YcGArMF5W3XhZrzkyjOty82/9x/9JIADWd0IXvpd8ZFZ+O2usv+mZQDsczoRrQcK/WVowfVbj7UnC/s=
+	t=1707911953; cv=none; b=LK1wsQ0unVmXvZXzLMPsR0+Q/LvPLGpkcUwLgIsMXBmBWU/kCcw6FiH4HBUOECKG2dRzfqQAIFpwy98NDYOBywocOrpRIpdPGtyUHyNge6lGTXdhMkTVlCkqjZXlrIpTAckqwakl1SLvDq+eCyZxzIztB3kCMKiczh2AYkCssEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707907171; c=relaxed/simple;
-	bh=ve+usHpPiLeGFo9qGaUdJEB8rWWmsI433I+8nLrtPWA=;
+	s=arc-20240116; t=1707911953; c=relaxed/simple;
+	bh=w4uXVUfh72WhrIt47Fr/6saEOm4ZhJrZnrpH4HCXooE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwgDrO7mEgZcYTkhevuBOIU9qYcHTA949ICFlhD+zw/IcI9mkBrteUJrE0DjgPsi3rie2Vy2rDmxI0puEyXNYcqMQSdhrg7pCtQMICs7IsZfZeGIOOA0sUqFd2fdfi6zIgcH5e5bD6mVIg0/5TxJIl5T6xD5ZbtNZNAourHFMro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mMG2JxTY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYt6Wew03yh1am8qi03ZghWUIio6r3ma/LprXB2sGdrwxCZ1HZqUqK4OpAT1oX8z7LK449VmmV6M43BFnq0iE4WLJ5PK7dAATXHQUxOO1p6kwJq8UrCjVrFkuAGepYv8+ZofGrWE+A53XKO4dqFaEpGQJo2yepv4LWypqSiO5Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDLBHJYL; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mMG2JxTY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD63EC433C7;
-	Wed, 14 Feb 2024 10:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707907171;
-	bh=ve+usHpPiLeGFo9qGaUdJEB8rWWmsI433I+8nLrtPWA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mMG2JxTY5r0JtemuhnLGxIkBv2vs9oCD8JbPETLCQD3yg2qQ4VKFDBUVSU7yIge4J
-	 4MrcD29ANaG2BIMVo3oS8op8fUmcTulSdxbxdcVYhZbgkqyOak9zrqsfNKhV+krgza
-	 xLBeJ68UbUTpFQO+ditMDCSTVbcpZujlhg7+2k6g=
-Date: Wed, 14 Feb 2024 11:39:25 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-pwm@vger.kernel.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Benson Leung <bleung@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDLBHJYL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707911952; x=1739447952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w4uXVUfh72WhrIt47Fr/6saEOm4ZhJrZnrpH4HCXooE=;
+  b=oDLBHJYL6rvCiOmK8i/V+MMJPGrg/DTgDCGvutFG15ZUN5763M1iucar
+   qB6Sut3B6Yt5XNOXGFo9bQz+cpqdBXS/+f5iFS/bXhzlCizfCXOvUG6DH
+   s5RyMlX28BeSuB7Rg4NtcluGBCndpr4jXDC+8QsIfioXQs1XJqpi77mcL
+   FUppmfHbiBFOY1QIJfEoe7Z40klnJWY6EWPr0IrpNdHr/nOLX0fHXbZi6
+   kqxFBq9iehYWMcF0vP1qX5tmqOtq6kbXAuArgRr9aE1pDSBIUHHRTQMu+
+   gmH2Yhdt6tG0MollkNyLs8NTzG3aDSP844iTAm8ZLEG698QYlHPHb2CjV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="13045265"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="13045265"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:59:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="935616225"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="935616225"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 14 Feb 2024 03:59:07 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 14 Feb 2024 13:59:06 +0200
+Date: Wed, 14 Feb 2024 13:59:06 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Emilie Roberts <hadrosaur@google.com>
+Cc: Prashant Malani <pmalani@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v6 001/164] pwm: Provide an inline function to get the
- parent device of a given chip
-Message-ID: <2024021414-sedan-banking-f6b5@gregkh>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
- <cc30090d2f9762bed9854a55612144bccc910781.1707900770.git.u.kleine-koenig@pengutronix.de>
+	"Nyman, Mathias" <mathias.nyman@intel.com>,
+	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
+	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>,
+	Samuel Jacob <samjaco@google.com>,
+	Uday Bhat <uday.m.bhat@intel.com>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Make sure the USB
+ role switch has PLD
+Message-ID: <ZcyrCosNDXxGZh9O@kuha.fi.intel.com>
+References: <20240213130018.3029991-1-heikki.krogerus@linux.intel.com>
+ <20240213130018.3029991-3-heikki.krogerus@linux.intel.com>
+ <CACeCKadLKg89c8s68QD6VsqiKBMms6765O7mFFihqtET30pUyQ@mail.gmail.com>
+ <ZcyUblecufzeso17@kuha.fi.intel.com>
+ <CAAuZZi9h=d2_CM4tU4-H9wJfhLZbw99X2dGSddiCeDFDdb+kjw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cc30090d2f9762bed9854a55612144bccc910781.1707900770.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <CAAuZZi9h=d2_CM4tU4-H9wJfhLZbw99X2dGSddiCeDFDdb+kjw@mail.gmail.com>
 
-On Wed, Feb 14, 2024 at 10:30:48AM +0100, Uwe Kleine-König wrote:
-> Currently a pwm_chip stores in its struct device *dev member a pointer
-> to the parent device. Preparing a change that embeds a full struct
-> device in struct pwm_chip, this accessor function should be used in all
-> drivers directly accessing chip->dev now. This way struct pwm_chip and
-> this new function can be changed without having to touch all drivers in
-> the same change set.
-> 
-> Make use of this function in the framework's core sources.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Hi Emilie,
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Wed, Feb 14, 2024 at 12:04:22PM +0100, Emilie Roberts wrote:
+> My understanding is that this is related to the wiring spec and not
+> ChromeOS specific. It seems possible that OEMs making non-ChromeOS devices
+> may have this same issue. Or are we certain that only Chromebooks will ever
+> see this?
+
+Non-ChromeOS platforms do not have this issue.
+
+The issue is with the ACPI tables - the USB role switch ACPI device
+nodes don't have the _PLD object on these systems. Ideally this could
+be fixed there by simply adding the _PLD to those ACPI device objects,
+but I understood that that is not an option.
+
+But maybe I misunderstood... Can the ACPI tables on these platforms
+still be updated?
+
+thanks,
+
+-- 
+heikki

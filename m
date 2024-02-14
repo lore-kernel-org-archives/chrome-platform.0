@@ -1,134 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA0112DD84;
-	Wed, 14 Feb 2024 17:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0CE5EE78
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 18:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707933487; cv=none; b=ZtO95AjOv+Nhr/qDrPuJwetnGPUA5xcNqtx+Uooc2Xwe/V39VJFfmXoOul4KLy0YGL+CkksjeLx6KRP/wQ8BG8X0Q77f5BryUV8WckNC6MJYDfibBocnGTTn4/p3oabHSqgiXJeajAWIIZncY49FueTnL0gf1chcfCSjzaWxcAk=
+	t=1707934327; cv=none; b=PjzZgAWvyc6Jdpb/ybk7lMGA0WRSvmFH9wVJd7lS2Bv8HN+r+cEKcSPYhxTOI0rGLGhFcr3xx/4KUARA6Eawh6zYjHtP7OFMy+P8w0Ht86BjiXwZjqVvNsIo5SATiyFI8muVLI8BAezaEpu6OG+CTpNbuOIepSJbyxBs/EVhnmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707933487; c=relaxed/simple;
-	bh=O6pRZuRL+P52lLJRfk2VJAJRJdaaIOt/DzPXTAga/fo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YZurkhtL9w6G2jRAd62cKWgf+DAxB9DYdGa96bxVvQNLlxsISihLLLqv2yer7zSBKYz4adOaVQFjNvXKcWbrVNVXFtT7o3o8/rvxqHwldQpyLNfNUljrVm77x7PfHMI8RFnLuDzMLVhxqzacvtY1hprQ1JXCnUw/Qu+ZglgT53E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1odWszC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707934327; c=relaxed/simple;
+	bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RS59mGXeskwdyfRFKRzPkbfQrqBEbJ2+wiS8vy1su6aiB7qOBAj6xIwXi7mcsxo2ujd+vOUao/kQQgSqP/1iu9v9+po1BTm3M5UWUelzBputFgborAjmZxDD7Q4LvmO1TERB9bC1ahMwYrBWWWD/Cz6XB8Z0KD9/JLYj+KAG394=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UnynPLhc; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1odWszC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B0BC43142;
-	Wed, 14 Feb 2024 17:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707933486;
-	bh=O6pRZuRL+P52lLJRfk2VJAJRJdaaIOt/DzPXTAga/fo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C1odWszCRzcHQNPJoWdBZCz4vsARycHIxJSZYbMEzn/dQVOlrZDiihzitCWjht4I6
-	 RltR25Y4se3uxyDWa8TQyPv/15diajOSK3DJk9YvgisQZ0tgJ8bAVi3kdDDNKhzfOp
-	 wKnHjfx2GQLzFm3QUEdVaxvauJgJbijuwtDW2GvC+DNlKT0UqSS2by/RJksOtBLB7K
-	 uZALUjCDMGmyQ0TTeb2X92j1A9whF/QakfZan/K1jUn8AT+C9MZZYPm1LSLTbDBCWE
-	 dFd3vHCrZ5ThbPpKQdqU+RpIZcmaLY3cE88p7wGVbukAgO3W1Qp73F1RtUQcMNNFmt
-	 VgtYR9rd2Dkqw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>,
-	Mark Hasemeyer <markhas@chromium.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Raul Rangel <rrangel@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	AKASHI Takahiro <takahiro.akashi@linaro.org>,
-	Alexandre TORGUE <alexandre.torgue@st.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Baoquan He <bhe@redhat.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Benson Leung <bleung@chromium.org>,
-	Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	David Gow <davidgow@google.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Len Brown <lenb@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Paul Barker <paul.barker@sancloud.com>,
-	Prashant Malani <pmalani@chromium.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Barnes <robbarnes@google.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Romain Perier <romain.perier@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	cros-qcom-dts-watchers@chromium.org,
-	devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: (subset) [PATCH v4 00/24] Improve IRQ wake capability reporting and update the cros_ec driver to use it
-Date: Wed, 14 Feb 2024 11:57:34 -0600
-Message-ID: <170793345819.27225.11284824552535043524.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240102210820.2604667-1-markhas@chromium.org>
-References: <20240102210820.2604667-1-markhas@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UnynPLhc"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-68d0bcb4a46so387776d6.1
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 10:12:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707934325; x=1708539125; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
+        b=UnynPLhcpQurDm4Yt9gRLVAC+zhXB2eN+G6RM4cJPGSSjlwfZtnMVbrqwXGZwoP9Ih
+         SJUw3Nto8rBgiBC+PEWjNzK6y8G7KXT272EobguWvKzbDB/U7P/LnF9UF3yETP2i29EF
+         tqFPXiwHvcuGYzDlfDzoIaWlcJ2YnsVRSoNHE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707934325; x=1708539125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
+        b=A7P0zmUn1ptarmpRm8blRsSS7SZNcFvT/Z+kplJwBu9YmPMlTOj2krKf6zNavc310z
+         qk6V82HHX+5X93vwHm1OB2DOEwocbe/w7FIOdno4yxpm47NGzyGV7moJCXI7a2H43axo
+         w4ESkF15pyRyfdWo88jmAj0bGxIkGcZ8GukoN5QUNUJcX0MfsA1jiJlFxmP47XxcpcIm
+         qz0Q8U9rrdf1Q2wa1mj40WI9UrQP8QCXQgB61sc4xnjqbi3M24lhYpP4xtprinpS07tS
+         6cqlLyurnfiSi0Diyeg5QrcbYbjspADGCXjIHpqn3fz9DGEgyPlsJ51k8dgRhkENh+bq
+         Ni7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUFrA53Rh6ZFLymIeW+Uth7JZ8+BhRW5mBGYGgtJrIxf9dovE/cra46VPbIefmgvRM9ywMa3Nc7spH/ci4F3Y3fHIlPl6bwxbr/5G/wB1RE
+X-Gm-Message-State: AOJu0YzLbeKRRYWGznw8D6txwA1gEZiC0j5mp/NSJGXjghjPE5OWzslN
+	Zi67029yH81qSP1RTGeTlJTEOcUCxETy/XvVxWLA1b2xqRWQgrZv/nDQ8Yf3BqrFwXjduAEKb5w
+	zZ6if3N6X+/N/ZtYlpMnOIDbfWIeWBc8Ny0hn
+X-Google-Smtp-Source: AGHT+IEgrWvxXcraQzc1baiUPwiEzauqEskx3AucYV5QX8er4b9bpYzTMRyz2B2QxRzh4QRdmPCoEcLyLXCe6Vd4YFM=
+X-Received: by 2002:a05:6214:e82:b0:68c:da0a:10ef with SMTP id
+ hf2-20020a0562140e8200b0068cda0a10efmr4022290qvb.57.1707934325206; Wed, 14
+ Feb 2024 10:12:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20240213130018.3029991-1-heikki.krogerus@linux.intel.com>
+ <20240213130018.3029991-3-heikki.krogerus@linux.intel.com>
+ <CACeCKadLKg89c8s68QD6VsqiKBMms6765O7mFFihqtET30pUyQ@mail.gmail.com>
+ <ZcyUblecufzeso17@kuha.fi.intel.com> <CAAuZZi9h=d2_CM4tU4-H9wJfhLZbw99X2dGSddiCeDFDdb+kjw@mail.gmail.com>
+ <ZcyrCosNDXxGZh9O@kuha.fi.intel.com>
+In-Reply-To: <ZcyrCosNDXxGZh9O@kuha.fi.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Wed, 14 Feb 2024 10:11:53 -0800
+Message-ID: <CACeCKacOFLKGCBTuFTVj+=W9C+rC++7DfzkG=M23i0Qh4qTOxA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Make sure the USB
+ role switch has PLD
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Emilie Roberts <hadrosaur@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, "Nyman, Mathias" <mathias.nyman@intel.com>, 
+	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>, 
+	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>, Samuel Jacob <samjaco@google.com>, 
+	Uday Bhat <uday.m.bhat@intel.com>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Heikki,
 
-On Tue, 02 Jan 2024 14:07:24 -0700, Mark Hasemeyer wrote:
-> Currently the cros_ec driver assumes that its associated interrupt is
-> wake capable. This is an incorrect assumption as some Chromebooks use a
-> separate wake pin, while others overload the interrupt for wake and IO.
-> This patch train updates the driver to query the underlying ACPI/DT data
-> to determine whether or not the IRQ should be enabled for wake.
-> 
-> Both the device tree and ACPI systems have methods for reporting IRQ
-> wake capability. In device tree based systems, a node can advertise
-> itself as a 'wakeup-source'. In ACPI based systems, GpioInt and
-> Interrupt resource descriptors can use the 'SharedAndWake' or
-> 'ExclusiveAndWake' share types.
-> 
-> [...]
+On Wed, Feb 14, 2024 at 3:59=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi Emilie,
+>
+> On Wed, Feb 14, 2024 at 12:04:22PM +0100, Emilie Roberts wrote:
+> > My understanding is that this is related to the wiring spec and not
+> > ChromeOS specific. It seems possible that OEMs making non-ChromeOS devi=
+ces
+> > may have this same issue. Or are we certain that only Chromebooks will =
+ever
+> > see this?
+>
+> Non-ChromeOS platforms do not have this issue.
+>
+> The issue is with the ACPI tables - the USB role switch ACPI device
+> nodes don't have the _PLD object on these systems. Ideally this could
+> be fixed there by simply adding the _PLD to those ACPI device objects,
+> but I understood that that is not an option.
+>
+> But maybe I misunderstood... Can the ACPI tables on these platforms
+> still be updated?
 
-Applied, thanks!
+Since it's just a _PLD update to, it should be possible to do a "light" fir=
+mware
+update on the relevant boards. Shyam/Emilie/Won, how practical is this?
 
-[14/24] arm64: dts: qcom: sc7180: Enable cros-ec-spi as wake source
-        commit: f172a341ec1f66bac2866720931594e81f02ad4d
-[15/24] arm64: dts: qcom: sc7280: Enable cros-ec-spi as wake source
-        commit: a4b28b9ecc99673da875e214b1a06f1e0f0a24fa
-[16/24] arm64: dts: qcom: sdm845: Enable cros-ec-spi as wake source
-        commit: a7baa25bfbfdcd4e76414f29ab43317ded8d3e6e
+I'd much prefer this to be fixed properly in the ACPI table than relying
+on this quirk.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+IAC, if we absolutely *have* to use this quirk:
+Acked-by: Prashant Malani <pmalani@chromium.org>
+
+Thanks,

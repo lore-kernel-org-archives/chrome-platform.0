@@ -1,113 +1,133 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0CE5EE78
-	for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 18:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A88F1420B1
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 23:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707934327; cv=none; b=PjzZgAWvyc6Jdpb/ybk7lMGA0WRSvmFH9wVJd7lS2Bv8HN+r+cEKcSPYhxTOI0rGLGhFcr3xx/4KUARA6Eawh6zYjHtP7OFMy+P8w0Ht86BjiXwZjqVvNsIo5SATiyFI8muVLI8BAezaEpu6OG+CTpNbuOIepSJbyxBs/EVhnmo=
+	t=1707954682; cv=none; b=eIJQr/Lrl63UiR7kIjdQa6K+66uQahjuU+F/WqaRuBvX5vT865pvD1v5QwzpAr83wuIy2FG6hStqA1yh6Z9wty4vv2Nxn9vh2A0eQq99lwDFP/PH1/nPatebwjLnBrD7M4NY6Gyd0dv/MX6qp7dfz1oO47X+t+8TiIDbQlEmtfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707934327; c=relaxed/simple;
-	bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RS59mGXeskwdyfRFKRzPkbfQrqBEbJ2+wiS8vy1su6aiB7qOBAj6xIwXi7mcsxo2ujd+vOUao/kQQgSqP/1iu9v9+po1BTm3M5UWUelzBputFgborAjmZxDD7Q4LvmO1TERB9bC1ahMwYrBWWWD/Cz6XB8Z0KD9/JLYj+KAG394=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UnynPLhc; arc=none smtp.client-ip=209.85.219.47
+	s=arc-20240116; t=1707954682; c=relaxed/simple;
+	bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eX/U2ih+Ln4uh21+JchetcDKxmXz57e/FPS24BjDWYYsGc6z5nRKSEJBOqddzrAYSujJd95MQFkgFlt7xOAeCP6MkmYYDItU0p/Vk9qnbL7aE6pVpAuBLsUchqkE5Gi+7OYvj9nAxc0+MlSb5V7wfuJWLQquWN6ei7J6CcjzSds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DduY15y7; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UnynPLhc"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-68d0bcb4a46so387776d6.1
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 10:12:06 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DduY15y7"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51178bbb5d9so318314e87.2
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 15:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707934325; x=1708539125; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1707954678; x=1708559478; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+         :from:references:in-reply-to:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
-        b=UnynPLhcpQurDm4Yt9gRLVAC+zhXB2eN+G6RM4cJPGSSjlwfZtnMVbrqwXGZwoP9Ih
-         SJUw3Nto8rBgiBC+PEWjNzK6y8G7KXT272EobguWvKzbDB/U7P/LnF9UF3yETP2i29EF
-         tqFPXiwHvcuGYzDlfDzoIaWlcJ2YnsVRSoNHE=
+        bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+        b=DduY15y72o05v24QJhWpmh7FC2eT2qDBeBuXBTzQ7vzDh2ncXxDV/GMUbU79Fa1fig
+         BBs6Gqx6GN1RXLMHW323zZVEQZFZXL34TRmjOHgy8TxaFcGkCUlPzrTQzNDuOg59eitS
+         nr+XrCA5OopQIo0K71y60J372D5rJn1tGA3O8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707934325; x=1708539125;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OE9ONYhRtt1RT9UxYhOGWQZAzy9csxc4vRQdMTFcZmE=;
-        b=A7P0zmUn1ptarmpRm8blRsSS7SZNcFvT/Z+kplJwBu9YmPMlTOj2krKf6zNavc310z
-         qk6V82HHX+5X93vwHm1OB2DOEwocbe/w7FIOdno4yxpm47NGzyGV7moJCXI7a2H43axo
-         w4ESkF15pyRyfdWo88jmAj0bGxIkGcZ8GukoN5QUNUJcX0MfsA1jiJlFxmP47XxcpcIm
-         qz0Q8U9rrdf1Q2wa1mj40WI9UrQP8QCXQgB61sc4xnjqbi3M24lhYpP4xtprinpS07tS
-         6cqlLyurnfiSi0Diyeg5QrcbYbjspADGCXjIHpqn3fz9DGEgyPlsJ51k8dgRhkENh+bq
-         Ni7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUFrA53Rh6ZFLymIeW+Uth7JZ8+BhRW5mBGYGgtJrIxf9dovE/cra46VPbIefmgvRM9ywMa3Nc7spH/ci4F3Y3fHIlPl6bwxbr/5G/wB1RE
-X-Gm-Message-State: AOJu0YzLbeKRRYWGznw8D6txwA1gEZiC0j5mp/NSJGXjghjPE5OWzslN
-	Zi67029yH81qSP1RTGeTlJTEOcUCxETy/XvVxWLA1b2xqRWQgrZv/nDQ8Yf3BqrFwXjduAEKb5w
-	zZ6if3N6X+/N/ZtYlpMnOIDbfWIeWBc8Ny0hn
-X-Google-Smtp-Source: AGHT+IEgrWvxXcraQzc1baiUPwiEzauqEskx3AucYV5QX8er4b9bpYzTMRyz2B2QxRzh4QRdmPCoEcLyLXCe6Vd4YFM=
-X-Received: by 2002:a05:6214:e82:b0:68c:da0a:10ef with SMTP id
- hf2-20020a0562140e8200b0068cda0a10efmr4022290qvb.57.1707934325206; Wed, 14
- Feb 2024 10:12:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707954678; x=1708559478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+         :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+        b=IqKCg7VDKImTymPATDa9/WQz7q7lYXxq6zJKz+JVi/MgH4fKoAgXPU1y4Y593IFuBx
+         IITZYFZUhcWYp7CS01tKeh/JXWo97dQmnfU0PjeRWf9Ti+Lg/1n/4gJP0kOwaPGI8Cqj
+         cESXIRf4oh6Bca6G4YhPfKl7eiZMlUr/+JzaSfcjOzrPYKLLvVkesA7wflwTyx0miYn3
+         2JTUpVHeZ/k3fDOEUGAv7bUaTSTsbU/yIQukdpB/ucDeO6VlT0ELTRsFRqT9tuWICIwo
+         NQfCsMY73Me66eX8Po38KxYz/KomfEZg9EQLvSjL2oMyrxFLGBb0rINC/23m0Mao97PQ
+         bz9Q==
+X-Gm-Message-State: AOJu0Yw+Wak6ruOnGjVnCYmEzdn87bTF6VN48S8EunXy3sB01Lpjt4gK
+	bzr/bhVrrCdJZMhA5YFeci0841OX1OY3iV9d05d8Ng74wT7uavq1ZVT6rHafOgN/SgfDjOnT/Sb
+	jvOOHyYYY14d4GPY+GYvGB7LaiXF5xUcRm26d
+X-Google-Smtp-Source: AGHT+IHY6HUhss7mHx1ExihADt6J1OI5zkXYcKo2xuLwjQ63JGNlMqWZ5oVvebM0eOWq56qXmv8DOgdu6dbCXc/ooo8=
+X-Received: by 2002:a05:6512:3ca5:b0:511:87c6:3060 with SMTP id
+ h37-20020a0565123ca500b0051187c63060mr321912lfv.12.1707954678054; Wed, 14 Feb
+ 2024 15:51:18 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 14 Feb 2024 15:51:17 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240213130018.3029991-1-heikki.krogerus@linux.intel.com>
- <20240213130018.3029991-3-heikki.krogerus@linux.intel.com>
- <CACeCKadLKg89c8s68QD6VsqiKBMms6765O7mFFihqtET30pUyQ@mail.gmail.com>
- <ZcyUblecufzeso17@kuha.fi.intel.com> <CAAuZZi9h=d2_CM4tU4-H9wJfhLZbw99X2dGSddiCeDFDdb+kjw@mail.gmail.com>
- <ZcyrCosNDXxGZh9O@kuha.fi.intel.com>
-In-Reply-To: <ZcyrCosNDXxGZh9O@kuha.fi.intel.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 14 Feb 2024 10:11:53 -0800
-Message-ID: <CACeCKacOFLKGCBTuFTVj+=W9C+rC++7DfzkG=M23i0Qh4qTOxA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Make sure the USB
- role switch has PLD
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Emilie Roberts <hadrosaur@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, "Nyman, Mathias" <mathias.nyman@intel.com>, 
-	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>, 
-	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>, Samuel Jacob <samjaco@google.com>, 
-	Uday Bhat <uday.m.bhat@intel.com>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <CAD=FV=UuunNnXJ0kAzRPVy0DX7Wv2eQOa-fMJQ-aKtaGnyQaQA@mail.gmail.com>
+References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-5-swboyd@chromium.org>
+ <CAD=FV=UuunNnXJ0kAzRPVy0DX7Wv2eQOa-fMJQ-aKtaGnyQaQA@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 14 Feb 2024 15:51:17 -0800
+Message-ID: <CAE-0n51b9=BJv6PMmsdLDT7tcgKT63qrqNknp-CQd5BOb1dhjA@mail.gmail.com>
+Subject: Re: [PATCH 04/22] usb: core: Set connect_type of ports based on DT node
+To: Doug Anderson <dianders@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Pin-yen Lin <treapking@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthias Kaehlcke <mka@chromium.org>, linux-usb@vger.kernel.org, 
+	maciek swiech <drmasquatch@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Heikki,
-
-On Wed, Feb 14, 2024 at 3:59=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
+Quoting Doug Anderson (2024-02-13 16:03:11)
+> Hi,
 >
-> Hi Emilie,
+> On Fri, Feb 9, 2024 at 11:09=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
+> wrote:
+> >
+> > When a USB hub is described in DT, such as any device that matches the
+> > onboard-hub driver, the connect_type is set to "unknown" or
+> > USB_PORT_CONNECT_TYPE_UNKNOWN. This makes any device plugged into that
+> > USB port report their 'removable' device attribute as "unknown". Improv=
+e
+> > the connect_type attribute for ports, and in turn the removable
+> > attribute for USB devices, by looking for child devices with a reg
+> > property or an OF graph when the device is described in DT.
+> >
+> > If the graph exists, endpoints that are connected to a remote node must
+> > be something like a usb-{a,b,c}-connector compatible node, or an
+> > intermediate node like a redriver, and not a hardwired USB device on th=
+e
+> > board. Set the connect_type to USB_PORT_CONNECT_TYPE_HOT_PLUG in this
+> > case because the device is going to be plugged in. Set the connect_type
+> > to USB_PORT_CONNECT_TYPE_HARD_WIRED if there's a child node for the por=
+t
+> > like 'device@2' for port2. Set the connect_type to USB_PORT_NOT_USED if
+> > there isn't an endpoint or child node corresponding to the port number.
 >
-> On Wed, Feb 14, 2024 at 12:04:22PM +0100, Emilie Roberts wrote:
-> > My understanding is that this is related to the wiring spec and not
-> > ChromeOS specific. It seems possible that OEMs making non-ChromeOS devi=
-ces
-> > may have this same issue. Or are we certain that only Chromebooks will =
-ever
-> > see this?
+> The above sounds good, but then I look at patch #18 ("dt-bindings:
+> chrome: Add binding for ChromeOS Pogo pin connector") and patch #22
+> ("arm64: dts: qcom: sc7180-trogdor: Wire up USB and DP to
+> usb-c-connectors") and it makes my Spidey Sense tingle.
 >
-> Non-ChromeOS platforms do not have this issue.
+> Specifically, I _think_ if a port is "hard wired" that can sometimes
+> tell the system that the port is a bit more trusted. In the case of
+> the "pogo" pins on detachables, though, I don't _think_ there's
+> anything that prevents someone from making a "pogo to USB A port"
+> adapter and then you could plug anything you wanted into the pogo
+> port. If there's any extra trust given to these "internal" ports a
+> nefarious attacker could presumably abuse that trust for the pogo
+> pins.
+
+The pogo pins on detachables are connected via the OF graph, so they are
+only ever going to be either "not connected" or "hotplug". They can't
+become "hard wired" because they're not a child node with a reg property
+corresponding to the USB port.
+
 >
-> The issue is with the ACPI tables - the USB role switch ACPI device
-> nodes don't have the _PLD object on these systems. Ideally this could
-> be fixed there by simply adding the _PLD to those ACPI device objects,
-> but I understood that that is not an option.
+> I have no idea if this is a realistic concern or not. I'm about 95%
+> sure that hardwired "PCIe" ports get extra trust and get "deferred
+> IOMMU flush" enabled and, in the case of PCIe, that actually is a real
+> security hole. For USB, though, I think the system is more isolated by
+> the USB host controller so I'm not sure that there is any extra trust
+> given to "hard wired" ports. ...so maybe the answer here is to just
+> ignore my rambling. ...or maybe the answer here is that everything is
+> fine but patches #18 and #22 should be modified not to cause the pogo
+> pins to be considered as "hard wired" since they really aren't...
 >
-> But maybe I misunderstood... Can the ACPI tables on these platforms
-> still be updated?
 
-Since it's just a _PLD update to, it should be possible to do a "light" fir=
-mware
-update on the relevant boards. Shyam/Emilie/Won, how practical is this?
-
-I'd much prefer this to be fixed properly in the ACPI table than relying
-on this quirk.
-
-IAC, if we absolutely *have* to use this quirk:
-Acked-by: Prashant Malani <pmalani@chromium.org>
-
-Thanks,
+Pogo pins should be considered hot plug with this patch series, but I
+will double check that I didn't mess up that logic.

@@ -1,69 +1,76 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1EA818
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 00:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1C4623
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 00:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707957320; cv=none; b=Z6vmYh3z2nfkD48j2szD6uD93HA9s8yAdaG7ZWextqBpfL9bJV4ggOIajuHZhjVWcc2gVEgQEw3xzirr2H4GO0zTBDl6JO+ilgwQ2QVLE1kMnFnOWm8si68bwIfUKsh5ZFK7ujZ/O7a3+qtKpgAb8tXW04VAFdZ92r6OLgefDw4=
+	t=1707957605; cv=none; b=FHMOLDO4ZKP4z83SgjMRyS3UWULSIsERAegA10RJZ154w4WKAnRj5LUcJ7cAq2ZzuQNohL0g5FiIWLfsDA6t/FVNJBHZqNTQdjbU+lI5/ScfSNUoNYyUXy9bwte3cryzWudrj06kuBDT87MTLAkHKIS7d9k/9TYeJqJMHuI3AoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707957320; c=relaxed/simple;
-	bh=w4WycQ34mbgOk/JR3FYy5RCHKedOUbdj9qbAJSxWePQ=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gw3j8geDcCYHBbhh5JFAkNwedZRvvlltUMtsDS6JPIComjjKsJsDMAc8KJjPSpKSVA9s9f2SHvq8DWToNqR1qigP3OWhWsOM7iI7GGr4KqriYFchlyq99Tp9+RepWXb25b4dp0aIzS/MS7gSFKWDCSSl6cOCCZjuE6ILupwke6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DTz/8pzG; arc=none smtp.client-ip=209.85.167.47
+	s=arc-20240116; t=1707957605; c=relaxed/simple;
+	bh=kYh5k8MyiysiewusV+Glc1Kt41gt5l9m2Lg4dhbhPyw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BRRVeoMuZStR8n5DM0In3T2hfPd33j82fh+zjmTvU/Zc/sXjXwbIjxbR0+QTfUJMKfAHuTW71gWDdA47oiN1rSS60mbY2AFBM8F2pw+j6o7gbgkBab+9iPwJfV3yPZ+qXrJNriqUI6lumvUPvLpRaz2JPC/O71X0IMiC8o4sEHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NxQL8pfE; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DTz/8pzG"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-51167e470f7so330657e87.2
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:35:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NxQL8pfE"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55a035669d5so445725a12.2
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707957316; x=1708562116; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1707957601; x=1708562401; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UNL4nxS/kOZUdb+wGvan9grg7BH6Hi7Yz7Ks7Xp1aQE=;
-        b=DTz/8pzGZSIyuJ5KRHMIJQzv6ybzOurvnOM+F3Re68phhIOlgJXOw9HNbzqfoEAhN6
-         T3BAnfsVaiXh9m2vdz7ZWuZlGkgCarIamwPwjeqAQ+iB5TyRHBLqZQcj3AqLGPJPfZ0j
-         8W0f8UkWnU4tvBM5Wy4O/ahXo4Tl8AEPn4gHY=
+        bh=kYh5k8MyiysiewusV+Glc1Kt41gt5l9m2Lg4dhbhPyw=;
+        b=NxQL8pfEuWWeD6nKHmOT1Sl2qbHg2Tp3dMJAhW0yeEWcXoqu+mc2HmOe50YZ39vrPf
+         +Dx/+ZP5nxdptUYXLGtkXQ6fzEPMcVusOL7AI6zbxZcreMm5j6Rpiw92+damaeiqyO3n
+         JOST+Ww8EfoDv70fcCJ1eKGb8Uxkz9QoKQHIo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707957316; x=1708562116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
-         :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UNL4nxS/kOZUdb+wGvan9grg7BH6Hi7Yz7Ks7Xp1aQE=;
-        b=jW2q1YyqvRH74p8OfvdNeE5kytwNvqOSDDIRhdac41D839pT6kbHL1w9Y8T8iP6AcU
-         ZlgBtriH+jNt9DyQDq6EdoxocCnbUpzJ9YaEjKdm7Rz3QQDrv3WT1oy6xnmZauPmt9tU
-         etrjnc3+IHB6YEkeTbUL54d3FpSWn5nS5mlNd2H3py19SS34qU+/qKTc6apdcO4RUUBU
-         xe9K87FtAVRp//sS2KaxadtAnEah9H+BPsiRuyQh5nRIUUkge9yveaa9g4jfKo0RKL5s
-         qDlxc2QyBiY9z7psPV/ONuTt9DZszdEMBG0f6gQsR3HScVxHV5m2Hr79ijJkp3bKf0vR
-         Xpuw==
-X-Gm-Message-State: AOJu0YzPVKyP4yiX1jwwkGy5Ku47+EOt1PLBvu4UWzMT2YvG3de30rTV
-	gs+MfHpn7vkw2LSlMsgzLqogV8ulRxAWhh85Oi5Di79t3iutQx6gzaEDDj2j737Ias+zJT2yxBm
-	+bUZPbZma2mkfuvggkhb5MBw/BSHhiIeWI1eZ
-X-Google-Smtp-Source: AGHT+IHXNYpsYAXuGfn6hjikUWsm1VP4Gg+Q/g46rMXkjUWx6LaJPjIh5nCyPdW7FoWi+tNkxkSyFEKZ9ECBKUMe82M=
-X-Received: by 2002:a05:6512:48d3:b0:511:9bab:d424 with SMTP id
- er19-20020a05651248d300b005119babd424mr209887lfb.39.1707957316266; Wed, 14
- Feb 2024 16:35:16 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 14 Feb 2024 16:35:15 -0800
+        d=1e100.net; s=20230601; t=1707957601; x=1708562401;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kYh5k8MyiysiewusV+Glc1Kt41gt5l9m2Lg4dhbhPyw=;
+        b=FOG0ikpMVgrkTlyGL0ajzW2HsHqWNZ67uvo47OdSe6J/sd/wz4TpKSxIZ4n1y4Zann
+         wW12tTnAPKnZLDt6fQTrOIp/AnFq6VQoIhlFZIc2soGM49NAolbdyDa+4e4SGEQ3v0TL
+         6mZzZUgvv41QUTt2wMm/GVbD3LnaN0QpEt2wvsZ5NIc6YYbLRcC0i8YcV7FSYZKwe4em
+         1jHIhlOI3TVWeZQZZCd3VovAsiu/Nn06dBEDzddjHu0SE3VVa/0vFCiGYkJFPaQBxFpK
+         2eSmCuhFLmEcPYfgGklf6C5BZBJ0cvipIdxUaaqR3MEVWfxyRHvsWNSK8Iog3vJfhttS
+         AM9g==
+X-Gm-Message-State: AOJu0YwhRM8wsF1fOn5Ib8ere8d7PuAxrLsFy62Tg9VSloiJYQu1/6vM
+	q7m2MRK1nNsXsLhdFKvf1LpLAgBOqZ5k2TS7QdkV8dSv8xYQG09+Tn7BGqkfh9gCRxhfby6hmQl
+	0ZMRh
+X-Google-Smtp-Source: AGHT+IF/5ZJ4WI7SDONbtjAQA7ovoQKqDz7lK2EaQq6o9F6BShYEvroDj0nPTseqhqYKlCswhUyW5Q==
+X-Received: by 2002:a17:906:3387:b0:a38:51c2:68a5 with SMTP id v7-20020a170906338700b00a3851c268a5mr105139eja.7.1707957601270;
+        Wed, 14 Feb 2024 16:40:01 -0800 (PST)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
+        by smtp.gmail.com with ESMTPSA id vo6-20020a170907a80600b00a3cf8cb80c1sm31773ejc.156.2024.02.14.16.40.00
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 16:40:00 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-561f0f116ecso2913a12.0
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:40:00 -0800 (PST)
+X-Received: by 2002:a50:8d13:0:b0:55f:8851:d03b with SMTP id
+ s19-20020a508d13000000b0055f8851d03bmr333252eds.5.1707957599932; Wed, 14 Feb
+ 2024 16:39:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WovmtKFiG0OMzpus9=z8UJ+Ev3TrwsVia8pSegvjwUiw@mail.gmail.com>
 References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-22-swboyd@chromium.org>
- <CAD=FV=WovmtKFiG0OMzpus9=z8UJ+Ev3TrwsVia8pSegvjwUiw@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 14 Feb 2024 16:35:15 -0800
-Message-ID: <CAE-0n52qgKrasAw1AbZ97zMk1xz6P4KkxNLi4cBpNKy5wWu+1A@mail.gmail.com>
+ <CAD=FV=WovmtKFiG0OMzpus9=z8UJ+Ev3TrwsVia8pSegvjwUiw@mail.gmail.com> <CAE-0n52qgKrasAw1AbZ97zMk1xz6P4KkxNLi4cBpNKy5wWu+1A@mail.gmail.com>
+In-Reply-To: <CAE-0n52qgKrasAw1AbZ97zMk1xz6P4KkxNLi4cBpNKy5wWu+1A@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 14 Feb 2024 16:39:45 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XAcXs1hmJB_Rd42+Q3gQDuw=2L+igCyWnnnSYtqdifPA@mail.gmail.com>
+Message-ID: <CAD=FV=XAcXs1hmJB_Rd42+Q3gQDuw=2L+igCyWnnnSYtqdifPA@mail.gmail.com>
 Subject: Re: [PATCH 21/22] arm64: dts: qcom: sc7180-trogdor: Make
  clamshell/detachable fragments
-To: Doug Anderson <dianders@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
@@ -74,45 +81,27 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Quoting Doug Anderson (2024-02-13 15:34:38)
-> Hi,
+Hi,
+
+On Wed, Feb 14, 2024 at 4:35=E2=80=AFPM Stephen Boyd <swboyd@chromium.org> =
+wrote:
 >
-> On Fri, Feb 9, 2024 at 11:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
-> wrote:
+> > > -/* This file must be included after sc7180-trogdor.dtsi */
+> > > -#include <arm/cros-ec-keyboard.dtsi>
+> > > +#include "sc7180-trogdor-clamshell.dtsi"
 > >
-> > + * Copyright 2024 Google LLC.
-> > + */
-> > +
+> > nit: Not that it was terribly consistent before, but in lazor you
+> > remove the "This file must be included after sc7180-trogdor.dtsi"
+> > because (I guess) it moved to the clamshell file. However, in other
+> > dts files you don't remove it. pazquel has the exact same comment and
+> > it's not removed. Pompom has a slight variant of the comment where it
+> > explains the reason (to modify cros_ec) and it's not removed. Could
+> > make it more consistent...
 >
-> Tiny nit: should this file have a comment like "/* This file must be
-> included after sc7180-trogdor.dtsi */" like the clamshell file?
+> Sure I can make it more consistent with the explanation. Which way to go
+> though? Remove it from the boards and put it into the fragment files?
 
-I was copying the comment for the keyboard include file, but the
-detachable doesn't have that include. I can add it here though, that's
-fine.
+I don't care too much. I guess I'd lean toward just putting it in the
+fragment files just to copy it fewer times.
 
->
->
-> > diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi b/arch/=
-arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-> > index e9f213d27711..c3fd6760de7a 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-> > @@ -5,8 +5,7 @@
-> >   * Copyright 2020 Google LLC.
-> >   */
-> >
-> > -/* This file must be included after sc7180-trogdor.dtsi */
-> > -#include <arm/cros-ec-keyboard.dtsi>
-> > +#include "sc7180-trogdor-clamshell.dtsi"
->
-> nit: Not that it was terribly consistent before, but in lazor you
-> remove the "This file must be included after sc7180-trogdor.dtsi"
-> because (I guess) it moved to the clamshell file. However, in other
-> dts files you don't remove it. pazquel has the exact same comment and
-> it's not removed. Pompom has a slight variant of the comment where it
-> explains the reason (to modify cros_ec) and it's not removed. Could
-> make it more consistent...
-
-Sure I can make it more consistent with the explanation. Which way to go
-though? Remove it from the boards and put it into the fragment files?
+-Doug

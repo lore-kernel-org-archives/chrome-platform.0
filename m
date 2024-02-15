@@ -1,105 +1,225 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5221ED9
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 00:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DEE1866
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 01:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707957897; cv=none; b=CzSMXLd9dJZbdPIvpJB07/9JTF+styrzedyQ8eEzI41QGUpS6rxcCUk4WK/y3DykJa8tB8LUnRk7r1aXC6CWphupSfUn3PBplVic6tEyNI/mBNHdXai6qYGYEVSIg7nTPZMH1r88YIIF4RdsEO5Yc3aQdxdHmlcKUHiQtPF/U1g=
+	t=1707961958; cv=none; b=cdyQ6BbN63MInPy3vhmJqBEPALjj53/o6YxqxPk3tTA9Ny+MxlkScInYl0Lyz0wJOnDbK3Anuvr0muIaMdqbMUxUZO4LloKuNK35HYtHTgFcD3bVLZWCw8HgROwpnzS4JTSpWiWRdfeFGf3Vdl+NKC4jeohI53UlR7ksBMrUg1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707957897; c=relaxed/simple;
-	bh=wP/opWg4NPPj3Q1TJjBcRMLyLYuk3vBq7WguCOVgHEk=;
+	s=arc-20240116; t=1707961958; c=relaxed/simple;
+	bh=WM4lIFwJI9aZm3EQ8zP4FUSooeEH5PxJSUNKg7XTZcc=;
 	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ADjzzsxa8UQysgsjR8pycBiAtfhjTeH95hYA+sR8SmlspWrMtZZTqUJMabJoFhpJuKnfNfttn4sB543QsWDFuu38IWFB6wXNsPbHDrCztKm7rIa+NHH/IS2BWf40FDE5AT5sY6zzzGqGe0/+/ukLOxJUEGojq4eAqNurTn6o1x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y8QHOChQ; arc=none smtp.client-ip=209.85.208.175
+	 To:Cc:Content-Type; b=eJfFXXpdC9D01TFhjG8IRI1Jwj7LW7PNJApCy+jdxA41BeJvd1t9JGjb6pkY9HvgJxtrD9RLtiLYBgssoCGyJO2oT9Zy9vcspsNtO/QZN3qoGbUf8YoCd5WmmNcZ5+S5hqzkmkwImOay+9FWkejR8jsZdqxkFuNh7rJ9pXNDX80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Imi8ohj0; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y8QHOChQ"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d204e102a9so3445401fa.0
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:44:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Imi8ohj0"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-511831801f3so358819e87.2
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 17:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707957894; x=1708562694; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1707961954; x=1708566754; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZK7IS77/W7TToczCQpY2GYKtvK4AuoqqptX1LvYKQRA=;
-        b=Y8QHOChQR/tZrshkhmnQf9JxOTP2KOfGitD4G7eSrJ9E3MuczzpmdZjrN9oJUQqaNc
-         LRhtj1SEMTCgrm8xdOmlErSAXCIq1onNw/BH71K218uIRqqg22LDHL01qZKOnrAwISC/
-         IC88xpU4UM1HL28Ri66+UkfTIy8DqFxIzrVJ0=
+        bh=lUDhpSWaktAHgDMHaIrpDrRKHGUYByMrZIOMk1w7exc=;
+        b=Imi8ohj0dL/kPFSkQ8cCbsI6nnrtMRG6ZJ0wOeS6wxWb1xYhHYXxMgLnYO+ahFA3Q0
+         8fO2HDdHFQH6MchOWK3EH9ros1iNBsQzTIHTMyaVck/RYQPXlIjPVP+9cQdpUjYNaeWv
+         l7vEo/hJaIbnpZ5IRcZ1SAWDGK8GMKj5pxLNc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707957894; x=1708562694;
+        d=1e100.net; s=20230601; t=1707961954; x=1708566754;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZK7IS77/W7TToczCQpY2GYKtvK4AuoqqptX1LvYKQRA=;
-        b=diB8tBOrVoyidiLdLyKhWuV5PV2CaV9oTC2KZfgpqt4dV6thtEaABkoUso/aHYC9WP
-         u+/xJY7x8ociYtoSmSf5gsQb5p8odLflyBetIpSptYtbbjZavwc94CLOFQaqWGzj7tjB
-         1dDezIO4Didj+/Gh/HCFL+ZNcTg+Ys4rZeV1pYVKHmxCu819IMNxnqR3AvqWxCwbSIck
-         1exN3xSh7vGKrBVDSd1r2RCiQKjYH367WokyZxyt7HpIaVka6fGGdgmcrZ6Ksz2EFenk
-         uopoOV6c1rf4YJdi/45P+GpGHOlGryRZqMUgPtp5CBeek6y7eGD712c1qoPDYrzOjjYs
-         OFoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9j/qmxTxCkd+ErulG6KFuoZFDywqn5xXQgVLglZcHTvx2HsHAXW+lYjsFn+rbQkDqdhWKTHfS7TfYCj8TUn6AribPKJQE5hZzChId7Qro
-X-Gm-Message-State: AOJu0Yz/TK7xi8uBpvS2wcUL4ACkfA9G5jVcUjOTfomrNaHmu5uu8KS1
-	yB93mmghQbKjWrjZV5LMMOFJr4zhk/EQZ6nB6DD42lmm1I9oKXBCiS1puVTp7qDaefn3Wr4TTLb
-	oqi5jR7FL/9ArgmOBCRg6uGnAaoYblNdPD25s
-X-Google-Smtp-Source: AGHT+IGKsNObiv5/sSxZv6aITBScisJn3oLmwBXS+yX42z/wkWCduLTcJnTn4E24I+pmYo583/8HG2h1y512aeNzcHg=
-X-Received: by 2002:a05:6512:3487:b0:511:5c98:acd2 with SMTP id
- v7-20020a056512348700b005115c98acd2mr193884lfr.37.1707957893979; Wed, 14 Feb
- 2024 16:44:53 -0800 (PST)
+        bh=lUDhpSWaktAHgDMHaIrpDrRKHGUYByMrZIOMk1w7exc=;
+        b=XLiDcmJpX/G8afGKXKgSl+77CQoRH7CSX8C0QPLYZp+kdnw5E0BmwvIP3KpKoMTrZA
+         0Yd11C/1wreeP63o1/wTfOjheLvPSc4sMr+xSvO1n6M/wnTdcTbSkdyNTtFSkK8lieU1
+         /d7fzKFnZcolhGNN/DjgcoNS2IRJaX8fguSx9X0Ah3QifwMJZ+QnDerxPtnOLYe7c745
+         O14ZIu4bO2vZKf9rp5Fh/iE+Vd0g/+MIKwKQqLcLAVrBiPlXunKePyK3KMNX+zE9Hu5s
+         ECb9tNxx/YGjCpo7Z7LSJ3A3dKS3GdB0QyWg82Cm0u2iaIIQ5SAAv2c7HWOgLG8RMHb5
+         sZDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUImK5ekQDUOctrFa1U2AHtF8R64NA2TbQREBYPKfGST7PSpXVSyz+QqX8TXzKGuxlNKF3pF24syyu4g956TqeUlKZFfFeaACrOMskk+aol
+X-Gm-Message-State: AOJu0YyugtS6i9LIdlqxbEFjazV7+G851D33eDPrKQRGQrKdn/yMpKM/
+	HK4PfnAHycksSfRgreFZfjOLA1IDcqqn+TQaG0tyLnT9tWkCBBunqSTd+Pdx8SeHqMOx07tFhlE
+	e9abTOsK08CBiIPzpmRIk6qXHtJN96iYHxhE5
+X-Google-Smtp-Source: AGHT+IGRTMpBbk9bxMzh6L25v7/Xsvqzk7aZ8aOwSIfCL6t8r+0G7VepodLsRuDT3PsIwVmpPB02ksb47t2sauMlvis=
+X-Received: by 2002:a05:6512:2c8f:b0:512:88a8:1520 with SMTP id
+ dw15-20020a0565122c8f00b0051288a81520mr107848lfb.18.1707961954357; Wed, 14
+ Feb 2024 17:52:34 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 14 Feb 2024 16:44:53 -0800
+ HTTPREST; Wed, 14 Feb 2024 17:52:33 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <a6ce4811-2a3d-4df6-aad3-9942a1bcfedd@linaro.org>
-References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-2-swboyd@chromium.org>
- <a6ce4811-2a3d-4df6-aad3-9942a1bcfedd@linaro.org>
+In-Reply-To: <46ac6ab8-b0a5-497d-91b6-1d2ced33184b@linaro.org>
+References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-14-swboyd@chromium.org>
+ <46ac6ab8-b0a5-497d-91b6-1d2ced33184b@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 14 Feb 2024 16:44:53 -0800
-Message-ID: <CAE-0n50Ms_QcscgGrFe55O-j5j+GA+GvvDmp=Qo60bcSD9VxUQ@mail.gmail.com>
-Subject: Re: [PATCH 01/22] dt-bindings: gpio: Add binding for ChromeOS EC GPIO controller
+Date: Wed, 14 Feb 2024 17:52:33 -0800
+Message-ID: <CAE-0n52TzOAqN8Y7EdJPjDxY2iY-6Jr-Pq8fFMFtF-cXo5+OyA@mail.gmail.com>
+Subject: Re: [PATCH 13/22] dt-bindings: chrome: Add google,cros-ec-typec-switch
+ binding
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
-	Pin-yen Lin <treapking@chromium.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh+dt@kernel.org>, 
+	Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-gpio@vger.kernel.org
+	Guenter Roeck <groeck@chromium.org>, Prashant Malani <pmalani@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Krzysztof Kozlowski (2024-02-11 05:26:33)
+Quoting Krzysztof Kozlowski (2024-02-11 05:34:25)
 > On 10/02/2024 08:09, Stephen Boyd wrote:
-> > The ChromeOS embedded controller (EC) supports setting the state of
-> > GPIOs when the system is unlocked, and getting the state of GPIOs in all
-> > cases. The GPIOs are on the EC itself, so the EC acts similar to a GPIO
-> > expander. Add a binding to describe these GPIOs in DT so that other
-> > devices described in DT can read the GPIOs on the EC.
->
-> ...
->
+> > Add a binding for the USB type-c switch controls found on some ChromeOS
+> > Embedded Controllers (ECs). When this device is a mode switch, it takes
+> > one DisplayPort (DP) port as input and some number (possibly zero) of
+> > USB SuperSpeed ports (bundles of USB SS lanes) as input, and muxes those
+> > lanes into USB type-c SuperSpeed lanes suitable for the SSTRX1/2 pins on
+> > a usb-c-connector. When this device is an orientation switch, it
+> > redirects the DP lanes to the proper USB type-c SSTRX lanes.
+> >
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> > Cc: Conor Dooley <conor+dt@kernel.org>
+> > Cc: Lee Jones <lee@kernel.org>
+> > Cc: Benson Leung <bleung@chromium.org>
+> > Cc: Guenter Roeck <groeck@chromium.org>
+> > Cc: Prashant Malani <pmalani@chromium.org>
+> > Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> > Cc: <devicetree@vger.kernel.org>
+> > Cc: <chrome-platform@lists.linux.dev>
+> > Cc: Pin-yen Lin <treapking@chromium.org>
+> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > ---
+> >  .../chrome/google,cros-ec-typec-switch.yaml   | 365 ++++++++++++++++++
+> >  .../bindings/mfd/google,cros-ec.yaml          |   5 +
+> >  2 files changed, 370 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
+> > new file mode 100644
+> > index 000000000000..17a0ba928f5d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec-switch.yaml
+> > @@ -0,0 +1,365 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/chrome/google,cros-ec-typec-switch.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +additionalProperties: false
+> > +title: Google Chrome OS EC(Embedded Controller) USB Type C Switch
 > > +
-> > +examples:
-> > +  - |
-> > +    spi {
-> > +      #address-cells = <1>;
-> > +      #size-cells = <0>;
+> > +maintainers:
+> > +  - Benson Leung <bleung@chromium.org>
+> > +  - Prashant Malani <pmalani@chromium.org>
+> > +  - Stephen Boyd <swboyd@chromium.org>
 > > +
-> > +      cros-ec@0 {
-> > +        compatible = "google,cros-ec-spi";
-> > +        reg = <0>;
-> > +        interrupts = <101 0>;
+> > +description:
+> > +  Chrome OS devices have an Embedded Controller(EC) which has access to USB
+> > +  Type C switching. This node is intended to allow the OS to control Type C
+> > +  signal muxing for USB-C orientation and alternate modes. The node for this
+> > +  device should be under a cros-ec node like google,cros-ec-spi.
+> > +
 >
-> This is should be proper define but then are you sure interrupt is type
-> NONE? Does not look right.
->
+> If this is USB Type C switch, then you miss reference to
+> usb-switch.yaml, but then ports look a bit different.
 
-I copied this from cros-ec-typec.yaml so I'll have to fix them all!
+Thanks for the pointer. I suspect that's in linux-next only? I'm going
+to move this to the cros-ec-typec.yaml file but I'll still need some
+sort of property like 'mode-switch' or 'orientation-switch' to describe
+what needs to be done in the kernel by changing lane assignments in the
+drm_bridge.
+
+One problem with those properties is that they're boolean for the whole
+device. If I have a google,cros-ec-typec node that has two input DP
+ports and two output USB-C ports then it may be that one port needs
+orientation switching and the other only needs to do mode switching.
+This needs to be expressed somehow and a top-level boolean property
+doesn't do that. It could be part of the DP endpoint node itself.
+
+Also I don't know how to indicate that mode switching can't be changed
+here directly. For example, on Trogdor the mode is switched by the EC,
+and the kernel can't change the mode. Changing DP lane assignments isn't
+going to change the situation either. The mode is still going to be
+something like DP+USB, or just DP, etc. Maybe there needs to be a
+different property, like 'dp-mode-lane-assignment = <array of ports>',
+that indicates which DP ports need to do lane assignment or
+'dp-orientation-lane-assignment = <array of ports>' for orientation
+control. Either way, I'm saying that 'mode-switch' and
+'orientation-switch' properties don't make any sense here. I was using
+them to wedge the code into the typec switch callbacks, but if I move
+this into the cros-ec-typec driver then I don't need them.
+
+>
+> > +
+> > +  no-hpd:
+> > +    description: Indicates this device doesn't signal HPD for DisplayPort
+> > +    type: boolean
+> > +
+> > +  ports:
+[...]
+> > +
+> > +          endpoint@7:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            description: USB-C data for EC's 7th type-c port
+> > +            unevaluatedProperties: false
+> > +            properties:
+> > +              data-lanes:
+> > +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +                description: |
+> > +                  An array of physical USB-C data lane indexes.
+> > +                  - 0 is SSRX1 lane
+> > +                  - 1 is SSTX1 lane
+> > +                  - 2 is SSTX2 lane
+> > +                  - 3 is SSRX2 lane
+> > +                minItems: 4
+> > +                maxItems: 4
+> > +                items:
+> > +                  maximum: 3
+> > +
+> > +        anyOf:
+> > +          - required:
+> > +              - endpoint@0
+>
+> I don't get what you want to say here. This anyOf should have no effect.
+
+I'm trying to say that there should be at least one usb-c data lane
+output endpoint if there's a port@2 (usb-c output).
+
+>
+> > +          - required:
+> > +              - endpoint@1
+> > +          - required:
+> > +              - endpoint@2
+[...]
+>
+> > +
+> > +required:
+> > +  - compatible
+> > +  - ports
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        no-hpd: true
+>
+> I don't understand this either. What is it for? Where did you see such
+> syntax?
+
+This is saying that if the no-hpd property is present then the port@0
+port (DP input port) is required. Otherwise no-hpd doesn't really make
+any sense because this device isn't muxing DP onto USB type-c connectors.
+
+I found this syntax by searching the schema website and reading this
+page[1]. The last yellow note about "country" not being a required
+property led me to this syntax.
+
+[1] https://json-schema.org/understanding-json-schema/reference/conditionals#ifthenelse

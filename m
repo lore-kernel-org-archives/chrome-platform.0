@@ -1,99 +1,118 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF35833D1
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 00:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1EA818
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Feb 2024 00:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707955840; cv=none; b=uGpHdgmraWhrQ5XNfz0sQbEmyhbmvDUgTFJsN3aA2m7S5cjCL2bfYClUZvC3zMzGZN9QHWLRRUAZ/G+eLchbnhvlvoFl5U+YClBdsry66xgpQHE5KrKP7u50WJtK1aKEPvpupOK9bCj8Ifaw0Pvdoo9HZCSvLnPETU6ohvwqhEo=
+	t=1707957320; cv=none; b=Z6vmYh3z2nfkD48j2szD6uD93HA9s8yAdaG7ZWextqBpfL9bJV4ggOIajuHZhjVWcc2gVEgQEw3xzirr2H4GO0zTBDl6JO+ilgwQ2QVLE1kMnFnOWm8si68bwIfUKsh5ZFK7ujZ/O7a3+qtKpgAb8tXW04VAFdZ92r6OLgefDw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707955840; c=relaxed/simple;
-	bh=MoY8zd5LHcnN/kn1Yc6yYVDv8A/j96P+/bHPEamCQx4=;
+	s=arc-20240116; t=1707957320; c=relaxed/simple;
+	bh=w4WycQ34mbgOk/JR3FYy5RCHKedOUbdj9qbAJSxWePQ=;
 	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jFjriB+NoYQxlFoQWwRen7FkqqIdq+8ltTzUprYBx0xf0euaTjZ63C/hHewwYWaC1YnWG2i12YC4btXjXL7dVcRJX8dCESTkMmJiycdv4pQOhoRRyGno5GUlxjywO6mjmBjQEk593bQJkj6pY/FAY1ycRA8XVDpYQaKY31h6zoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H2aojETz; arc=none smtp.client-ip=209.85.167.50
+	 To:Cc:Content-Type; b=Gw3j8geDcCYHBbhh5JFAkNwedZRvvlltUMtsDS6JPIComjjKsJsDMAc8KJjPSpKSVA9s9f2SHvq8DWToNqR1qigP3OWhWsOM7iI7GGr4KqriYFchlyq99Tp9+RepWXb25b4dp0aIzS/MS7gSFKWDCSSl6cOCCZjuE6ILupwke6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DTz/8pzG; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H2aojETz"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5114b2b3b73so362415e87.0
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:10:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DTz/8pzG"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-51167e470f7so330657e87.2
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Feb 2024 16:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707955837; x=1708560637; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1707957316; x=1708562116; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
          :from:references:in-reply-to:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MoY8zd5LHcnN/kn1Yc6yYVDv8A/j96P+/bHPEamCQx4=;
-        b=H2aojETzRj7zcwLHD4J4TQ4+uSy10BdF8hCFCyeKZV44WiiM2ziNeJ+Hhimzi2UOAw
-         1hZOx1D12tV17sHEq6fVEbAKi2tAlQO8pPSvLFtiwDgBlVRkb+p6IVrBAUcWSjjKQpA1
-         DP8ZCDEpfkk2xwYJrmS9pcLkUt5g8kn/K4NUc=
+        bh=UNL4nxS/kOZUdb+wGvan9grg7BH6Hi7Yz7Ks7Xp1aQE=;
+        b=DTz/8pzGZSIyuJ5KRHMIJQzv6ybzOurvnOM+F3Re68phhIOlgJXOw9HNbzqfoEAhN6
+         T3BAnfsVaiXh9m2vdz7ZWuZlGkgCarIamwPwjeqAQ+iB5TyRHBLqZQcj3AqLGPJPfZ0j
+         8W0f8UkWnU4tvBM5Wy4O/ahXo4Tl8AEPn4gHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707955837; x=1708560637;
+        d=1e100.net; s=20230601; t=1707957316; x=1708562116;
         h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
          :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MoY8zd5LHcnN/kn1Yc6yYVDv8A/j96P+/bHPEamCQx4=;
-        b=kQyYUwPNvREjt5E+/Hb6roAen3OxGVQ49c+x/UBbMOB3a9gnDZvb6hWuF9sLime682
-         SHij6ojOn4SD7BI9wpPj6yJUpvxmSoVdkDUErjR/6h7gbn1J1GWUVJ6lgKXFNrCK2rDH
-         I8rvboEUWoBnlHP+Pi9+RGsWosiXQ6P4P8hpcz17i8M6XRO9rhh5jclAMtOss6SZOBYI
-         gaIeH17eT40HA54fYWyyws4RBK/La06ghFCyw8BRAXXrI5ggsjDQT4vqko5lU3rtnzI7
-         dJliHJuGgIqRYpDS8U4c5rRzKTytsMVvWui7drT8JFdTX3Hvavza9udYPQUwS1tOLxtW
-         wVqQ==
-X-Gm-Message-State: AOJu0YwuIklhRkYjhnysMFpR6PcOtz8g5P0AquUPXq+ehFpYR6ih0Yc6
-	T/aE0uUOkfJIvMiJZ84yTNvhL0No6eIOqr7OJR9G0n65m7GlpWnMV4k0luaF4E4mbxNqjxA+xMM
-	ascfFGwU2tdaULLMgIFVfXs0uwspiikkBSWWB
-X-Google-Smtp-Source: AGHT+IGyK/V+b6ReG/wqHqXSPazELs/LPvoaEiaFNzPjPQahgGbt5hpPQ9anxbvIUKEHmI0AXlLFR3H6hDqkCDMBBq0=
-X-Received: by 2002:a05:6512:3584:b0:511:ab1b:1db9 with SMTP id
- m4-20020a056512358400b00511ab1b1db9mr212121lfr.33.1707955836868; Wed, 14 Feb
- 2024 16:10:36 -0800 (PST)
+        bh=UNL4nxS/kOZUdb+wGvan9grg7BH6Hi7Yz7Ks7Xp1aQE=;
+        b=jW2q1YyqvRH74p8OfvdNeE5kytwNvqOSDDIRhdac41D839pT6kbHL1w9Y8T8iP6AcU
+         ZlgBtriH+jNt9DyQDq6EdoxocCnbUpzJ9YaEjKdm7Rz3QQDrv3WT1oy6xnmZauPmt9tU
+         etrjnc3+IHB6YEkeTbUL54d3FpSWn5nS5mlNd2H3py19SS34qU+/qKTc6apdcO4RUUBU
+         xe9K87FtAVRp//sS2KaxadtAnEah9H+BPsiRuyQh5nRIUUkge9yveaa9g4jfKo0RKL5s
+         qDlxc2QyBiY9z7psPV/ONuTt9DZszdEMBG0f6gQsR3HScVxHV5m2Hr79ijJkp3bKf0vR
+         Xpuw==
+X-Gm-Message-State: AOJu0YzPVKyP4yiX1jwwkGy5Ku47+EOt1PLBvu4UWzMT2YvG3de30rTV
+	gs+MfHpn7vkw2LSlMsgzLqogV8ulRxAWhh85Oi5Di79t3iutQx6gzaEDDj2j737Ias+zJT2yxBm
+	+bUZPbZma2mkfuvggkhb5MBw/BSHhiIeWI1eZ
+X-Google-Smtp-Source: AGHT+IHXNYpsYAXuGfn6hjikUWsm1VP4Gg+Q/g46rMXkjUWx6LaJPjIh5nCyPdW7FoWi+tNkxkSyFEKZ9ECBKUMe82M=
+X-Received: by 2002:a05:6512:48d3:b0:511:9bab:d424 with SMTP id
+ er19-20020a05651248d300b005119babd424mr209887lfb.39.1707957316266; Wed, 14
+ Feb 2024 16:35:16 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 14 Feb 2024 16:10:36 -0800
+ HTTPREST; Wed, 14 Feb 2024 16:35:15 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WE4bgwTWTKjPbQR9RCt-SEVZXfQtXoaXAjvTiZiMr=wA@mail.gmail.com>
-References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-19-swboyd@chromium.org>
- <CAD=FV=WE4bgwTWTKjPbQR9RCt-SEVZXfQtXoaXAjvTiZiMr=wA@mail.gmail.com>
+In-Reply-To: <CAD=FV=WovmtKFiG0OMzpus9=z8UJ+Ev3TrwsVia8pSegvjwUiw@mail.gmail.com>
+References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-22-swboyd@chromium.org>
+ <CAD=FV=WovmtKFiG0OMzpus9=z8UJ+Ev3TrwsVia8pSegvjwUiw@mail.gmail.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 14 Feb 2024 16:10:36 -0800
-Message-ID: <CAE-0n53H-WPSr4tnmjq2Z54daKYD3PPzmxy28GsYAd29MTXiWA@mail.gmail.com>
-Subject: Re: [PATCH 18/22] dt-bindings: chrome: Add binding for ChromeOS Pogo
- pin connector
+Date: Wed, 14 Feb 2024 16:35:15 -0800
+Message-ID: <CAE-0n52qgKrasAw1AbZ97zMk1xz6P4KkxNLi4cBpNKy5wWu+1A@mail.gmail.com>
+Subject: Re: [PATCH 21/22] arm64: dts: qcom: sc7180-trogdor: Make
+ clamshell/detachable fragments
 To: Doug Anderson <dianders@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+	Pin-yen Lin <treapking@chromium.org>, cros-qcom-dts-watchers@chromium.org, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Quoting Doug Anderson (2024-02-13 17:17:34)
+Quoting Doug Anderson (2024-02-13 15:34:38)
 > Hi,
 >
 > On Fri, Feb 9, 2024 at 11:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
 > wrote:
 > >
-> > Describe the set of pins used to connect the detachable keyboard on
-> > detachable ChromeOS devices. The set of pins is called the "pogo pins".
-> > It's basically USB 2.0 with an extra pin for base detection. We expect
-> > to find a keyboard on the other side of this connector with a specific
-> > vid/pid, so describe that as a child device at the port of the usb
-> > device connected upstream.
+> > + * Copyright 2024 Google LLC.
+> > + */
+> > +
 >
-> Can you remind me what the side effects would be if a different
-> VID/PID shows up there? I know it's not an end-user scenario, but I
-> have a pre-production "coachz" keyboard that's actually programmed
-> incorrectly and shows up as the wrong PID. Presumably I could either
-> throw the old hardware away or figure out a way to re-program it and
-> it's really not a big deal, but just curious what happens...
+> Tiny nit: should this file have a comment like "/* This file must be
+> included after sc7180-trogdor.dtsi */" like the clamshell file?
 
-As far as I know nothing happens besides ChromeOS userspace treats the
-keyboard as "external" so things like smarter base detection, e.g.
-wraparound keyboard detection or kickstand mode, may not work. I think
-you get a popup box telling you the keyboard isn't the trusted one.
+I was copying the comment for the keyboard include file, but the
+detachable doesn't have that include. I can add it here though, that's
+fine.
+
+>
+>
+> > diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi b/arch/=
+arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
+> > index e9f213d27711..c3fd6760de7a 100644
+> > --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
+> > @@ -5,8 +5,7 @@
+> >   * Copyright 2020 Google LLC.
+> >   */
+> >
+> > -/* This file must be included after sc7180-trogdor.dtsi */
+> > -#include <arm/cros-ec-keyboard.dtsi>
+> > +#include "sc7180-trogdor-clamshell.dtsi"
+>
+> nit: Not that it was terribly consistent before, but in lazor you
+> remove the "This file must be included after sc7180-trogdor.dtsi"
+> because (I guess) it moved to the clamshell file. However, in other
+> dts files you don't remove it. pazquel has the exact same comment and
+> it's not removed. Pompom has a slight variant of the comment where it
+> explains the reason (to modify cros_ec) and it's not removed. Could
+> make it more consistent...
+
+Sure I can make it more consistent with the explanation. Which way to go
+though? Remove it from the boards and put it into the fragment files?

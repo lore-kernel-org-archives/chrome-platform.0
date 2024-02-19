@@ -1,52 +1,54 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94E52F68
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Feb 2024 20:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F33535DE
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Feb 2024 20:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708374211; cv=none; b=FJCH3IrVbmOdoHUO9Q0hdJIVVftwvBJxA33u0ziPEg/PZ1Hq0l4626ChAYRYTFjT/UMo004skd1+nkGrnlgYJ2VrlGvEIWREhMeJujUy6a5nz/FD66OysVMP1qCAZYxrlBEvL6+DJpgIUa/M50/6DOA2oIi/CmHn6FG+hE5MgsQ=
+	t=1708374214; cv=none; b=SA5BrH/he53kl74Wa08nCdEvjdNWsCYiVsOJdxA3Xdh+ipNG67arzBTku88OEMl0Pw3a+6kEiYZkozgGD9SLa1L/5L1YQWnfok2ivhi7UigvNG9B6fIE7iWVDADxs9r8xED34PW9J7aaZZg64/YnCspTOhRwpBpzW24ng3Ww9Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708374211; c=relaxed/simple;
-	bh=l5a7ia9IlLLgaF40+x245tcDiaLXDStmBzlkO9wsMRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lb3aIwhhyErtZJRuHa6ggpaQAKgoz5N22RP7hHfRx1BmnNwzdKna96PEgMhAyx/3W8swmf+gunVawWzEmbfTBbhrTxFqqzHaWlJS5BfXduZanxXZmrFoZinomh1iFZJspJIiEYFDHvyiLDFqw5qJtklhbNmxT32Gd54Vaj5Ley4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ieTL/+zL; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1708374214; c=relaxed/simple;
+	bh=GCN4a3XwyVGjN4FSoVSL7WZNZKmZBWlauyy+D84PGEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hAAT1JwDdcmrDNHso+olqSIPfJw3aDY4uPhl/FoF6/O7ymNO3hbd5EpDewgoo7BqrtSXe04XxEoXTyxBXrSvoPbVlyDc09KV6TbPk8x/lwHTuEWxg3DLyhJ9aPxYhVJyIwLR/06CrVsr6pB8T2ro3U5fyiSeVBXTbF17Ep+hLYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mxqaoEqh; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ieTL/+zL"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1db51e55023so25477205ad.1
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Feb 2024 12:23:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mxqaoEqh"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dbae7b8ff2so14904605ad.3
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Feb 2024 12:23:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708374209; x=1708979009; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=secGjYcmf+kGbl9y3oNWHWyDsYIjbQerI2pVhqZBL+Y=;
-        b=ieTL/+zLEKJZwxdmoYC+Nz0cooYwASfhTVLxTSQSKu3H5enJKZEyUfHI3twh/G7U+F
-         yA25emUcvc4a6EVIg1mIQAExEvdnk/7k6xya8h/zhfbrcu674hEVuUX6JxJumxsmP4SM
-         VWCgwth6ClJmoLc1ZwkLWuH5qYaVfH37bTERM=
+        d=chromium.org; s=google; t=1708374210; x=1708979010; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kUa3JH16Oe5UJV9UEwjr6pY+WpID6lK8xSe+O5n7a8M=;
+        b=mxqaoEqhUck79Z7mWhqu8ZeIeZVubplEohsUhC2/48JldFPuAkTNyUZK567kT0e6bj
+         25RhVtqrAh5jeIZdoklyuQIyqj+oev67vzK+iXOhzYoLG3AB/fD5u6FIm4O45ZxL1Wdk
+         vQtflXcS8EvelF+FWCI7NxjLeJPAGbqVBkE9w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708374209; x=1708979009;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=secGjYcmf+kGbl9y3oNWHWyDsYIjbQerI2pVhqZBL+Y=;
-        b=WHDe/JY++n+86NnA/9MldYrFTbkcxej8ERdGbzR9bYFdn3LXAJqwZXM8ExV83ihX5w
-         FTSql767mh+HYdmkqWbebKuC7jhnoA47K/cs5GCg2Izj1NgFvSULiC0NP1eAlMzs1pq3
-         qyJmT6yDfClMvWErZjrqns1JvPep0XXNFkRtxKzX3EDfruS6ZavCVk5QgXlEdeIOFkAA
-         +c6Ccz5VbU8hN89NforD0GV1gOySaitYP+J/DEPcBlFDAff5owzJtZ/PokEiGEI5QjHW
-         Ez5cSUHzhx92l5fbGa26fTfYIZoAjLKSjEKk649IY0mOc81KCB1lGEBc88Uv1qvhluPQ
-         O+AA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6NUViAborkKeSMq9wz23KoxrIWNBOyXPX3Qdy47/M5AZ6VQTcA2em70oMBmE5V+z4CjjP59ItFtZZNM3IiBdE3zLtgL+TfsY8gZOMqZGJ
-X-Gm-Message-State: AOJu0Yz1KhP154LgMvcjbOW7lZwjyRjqD2O70xQscEjV28b/wTLZLuS5
-	qZVWW07hVc0TOJif4LUSA1kufyKep8OKCiglHTMQHe+LN3omETsXT+qQvY+3fg==
-X-Google-Smtp-Source: AGHT+IEOuEc8BZ3sbq0Aa1nPkexoG1gStEF1O3PcZO88wMSU3rcw8RjvnUna2Xk+VmRtqkQ8RN/+Gw==
-X-Received: by 2002:a17:903:98c:b0:1db:be91:c5f8 with SMTP id mb12-20020a170903098c00b001dbbe91c5f8mr9235117plb.29.1708374208967;
-        Mon, 19 Feb 2024 12:23:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708374210; x=1708979010;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kUa3JH16Oe5UJV9UEwjr6pY+WpID6lK8xSe+O5n7a8M=;
+        b=GmiXcaMJVv87rcGrHjGLspsuLHcX7hqn1+jUlhNQBWsAhL0avhlwjApz3rCkr1Clmv
+         ZGzSGreSuFSMDWrS1fzS788ALpxHCtSNnsaGn6nl0HfYfxqfAekgQt3tKgoEOFVzI8Sg
+         skxFreNLEFBe8G/61H7kwJSH54RImtj0I4UdiKiNcDsh0hu+4VqjPh1kEiGAcPrXUkD3
+         SZSoHNBNrWO+qv2VFgQ/0ASVR6lQvfAZYa0bk6N+fhITq5Psvc3DbnPP+4/lRPYhxUBe
+         48rmByUItdyf0I50JvYjS+tJdVYIqKLl/TpMFnQbm0MCL1RMdh4y53J9vfpYspnJ94y1
+         Gkdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhLmaUpFF6aT8+2SrMnbLMCWOCqCHyja2h+TucqD1VavJ45jG4Lo/2+k/PBkL9nnklCjgVXubiVbRIyrFEl3FREY/yik99DbkCqKzp51Lz
+X-Gm-Message-State: AOJu0YzFjnNYTyAi00G/jS8O5HHwPO9nPANPHK9Vo5rNrB35b9tpmMGC
+	TBskkJ/I6gBBx9oHuopBuEwMBRyJqXH9Jy44yJnEtpm/J8p53hlynJbmWOIYpw==
+X-Google-Smtp-Source: AGHT+IG8LtaETDPpup4Qyvx26INSaCWovgahZdaA0zbKl+GL/t4KUJJLp2AnURqkSJ5Jxmv9EMKmoQ==
+X-Received: by 2002:a17:902:da87:b0:1d9:2158:1308 with SMTP id j7-20020a170902da8700b001d921581308mr16281281plx.28.1708374210688;
+        Mon, 19 Feb 2024 12:23:30 -0800 (PST)
 Received: from localhost (175.199.125.34.bc.googleusercontent.com. [34.125.199.175])
-        by smtp.gmail.com with UTF8SMTPSA id lc11-20020a170902fa8b00b001d8a93fa5b1sm4803195plb.131.2024.02.19.12.23.27
+        by smtp.gmail.com with UTF8SMTPSA id mf8-20020a170902fc8800b001d9fc6cb5f2sm4818207plb.203.2024.02.19.12.23.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Feb 2024 12:23:28 -0800 (PST)
+        Mon, 19 Feb 2024 12:23:30 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Lee Jones <lee@kernel.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -55,17 +57,19 @@ Cc: linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	Douglas Anderson <dianders@chromium.org>,
 	Pin-yen Lin <treapking@chromium.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Benson Leung <bleung@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 0/2] mfd: cros_ec_dev: Add gpio device and DT binding
-Date: Mon, 19 Feb 2024 12:23:22 -0800
-Message-ID: <20240219202325.4095816-1-swboyd@chromium.org>
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Subject: [PATCH 1/2] dt-bindings: cros-ec: Add properties for GPIO controller
+Date: Mon, 19 Feb 2024 12:23:23 -0800
+Message-ID: <20240219202325.4095816-2-swboyd@chromium.org>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+In-Reply-To: <20240219202325.4095816-1-swboyd@chromium.org>
+References: <20240219202325.4095816-1-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,30 +78,54 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is the mfd part of a larger series[1] that describes the USB
-topology on ARM based chromebooks. These two patches add the gpio device
-and DT bindings when the GPIO feature is present. The gpio driver will
-be sent separately.
+The ChromeOS embedded controller (EC) supports setting the state of
+GPIOs when the system is unlocked, and getting the state of GPIOs in all
+cases. The GPIOs are on the EC itself, so the EC acts similar to a GPIO
+expander. Add the #gpio-cells and gpio-controller properties to the
+cros-ec binding so that other devices described in DT can get the GPIOs
+on the EC.
 
-Stephen Boyd (2):
-  dt-bindings: cros-ec: Add properties for GPIO controller
-  mfd: cros_ec_dev: Add gpio device if feature present on EC
-
- .../devicetree/bindings/mfd/google,cros-ec.yaml          | 7 +++++++
- drivers/mfd/cros_ec_dev.c                                | 9 +++++++++
- 2 files changed, 16 insertions(+)
-
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
 Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: <devicetree@vger.kernel.org>
+Cc: <chrome-platform@lists.linux.dev>
+Cc: Pin-yen Lin <treapking@chromium.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ Documentation/devicetree/bindings/mfd/google,cros-ec.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[1] https://lore.kernel.org/r/20240210070934.2549994-1-swboyd@chromium.org
-
-base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+index e1ca4f297c6d..aac8819bd00b 100644
+--- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
++++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+@@ -93,6 +93,11 @@ properties:
+   '#size-cells':
+     const: 0
+ 
++  '#gpio-cells':
++    const: 2
++
++  gpio-controller: true
++
+   typec:
+     $ref: /schemas/chrome/google,cros-ec-typec.yaml#
+ 
+@@ -275,6 +280,8 @@ examples:
+             interrupts = <99 0>;
+             interrupt-parent = <&gpio7>;
+             spi-max-frequency = <5000000>;
++            #gpio-cells = <2>;
++            gpio-controller;
+ 
+             proximity {
+                 compatible = "google,cros-ec-mkbp-proximity";
 -- 
 https://chromeos.dev
 

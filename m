@@ -1,95 +1,69 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FEA1863C
-	for <chrome-platform@lists.linux.dev>; Sun, 25 Feb 2024 15:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131D51B7E5;
+	Mon, 26 Feb 2024 05:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708876520; cv=none; b=ApXBipcai/VIFy9M+74qQ1dPU/xfb7faV+BY+CNzf+SxkUbfk8CTdNu2g6VhyTZsSZmOHAOPLT3pO9OfCY8B5QK0M/waCYflsRHaolL7m998lkL25t6JCw+T1v9xXwq6cVoHq/bwsowPtRT+bl+KH+nFPTBxE4fvJ2A75GvjsCA=
+	t=1708926504; cv=none; b=Qq3Qt3NEa9HYGTZrzkmxZ/ah9yBIl8xsUmTGmhITuXyGBBsczNWTr+eiqnhbzZnyPiQhmlAdlpM16CmkUBBf3VK/xuHSCCF+pEZ27th+xywyRHu7hqkp5S6AVs5dDkSYPIII6onEnKJQeMMFlosv3DLuNGZpqEiWGOVDapv/WpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708876520; c=relaxed/simple;
-	bh=1JpHSpddy36EcQ6+aJdq28iICB9b0TQZtbuvPq3JZ+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CHstK9AtggoGE/jLdR6fDMUwoF23/7cqMaHabDelwOkpF+8aTHD1Pi+QKX6joFZ3/dNMBH8NllMhEF4KqImW3W4ZdoYv2QlWggOPelZ6sRmpC/PIglhXhefibcCeb92wY/s/iQgiSHs1L4X9nEtfCeGLrxskZ/7iuCe3BTrVrQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1reGqN-00006U-Rj; Sun, 25 Feb 2024 16:55:11 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1reGqM-002pK7-Hd; Sun, 25 Feb 2024 16:55:10 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1reGqM-00BKoo-1R;
-	Sun, 25 Feb 2024 16:55:10 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>
-Cc: linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	s=arc-20240116; t=1708926504; c=relaxed/simple;
+	bh=u7CLzGGgeUR5UtKNQZH1WZ/ThLdbAF6AVV2qj9OlCAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jsa3Kb5voP3nMgILulAvmr02zYehSSnV0ksS1zImabKfVDGl6iXJq+Efnnx3tzmmT/owGgJ6RpJm+VCuONC+seV+mR34KI9jPoj77elEgm/Ezzsegm+Z5wveXytAt1dksc8NIRcXRwAsHnLwY5VW6ud6xiAoVP5R3jGyb2KH1AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Re2K+9Ep; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Re2K+9Ep"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88076C433C7;
+	Mon, 26 Feb 2024 05:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708926503;
+	bh=u7CLzGGgeUR5UtKNQZH1WZ/ThLdbAF6AVV2qj9OlCAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Re2K+9EpWgBJYLju3xPpZNKzqf/DDqnINN06XzRitwLoXkyj7FE4onm70DLwHv1cl
+	 57ztG9665u7pyl8hlVYlPy27dyUexRxx8dIRsGniv1wv3ihWeyq0jEWY9Lgb0qFbWL
+	 fZtZUkGUEfavnIntohPt1a2KMqT/VrX4m1vH1hwHqfVDHBLisurebLsFZ/6ga04idt
+	 9MxQ9VORcoj+po1kiIwKczZYf9xwaq7YETjs5mvfsusAA9reNeZFAk4BBN+bXr+DC6
+	 fPZp4LMBh846PWETAef8eAQHlL5/f/yLsrEb9vuhkC3DE7IZPSdriI9jIdu5vYbwi6
+	 fUadevw3ThF3w==
+Date: Mon, 26 Feb 2024 13:48:20 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH 0/7] extcon: Convert to platform remove callback returning void
-Date: Sun, 25 Feb 2024 16:54:49 +0100
-Message-ID: <cover.1708876186.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH 7/7] extcon: usbc-cros-ec: Convert to platform remove
+ callback returning void
+Message-ID: <ZdwmJNGLJgAa5Z45@google.com>
+References: <cover.1708876186.git.u.kleine-koenig@pengutronix.de>
+ <52d0a4317d5372f1135259d4fbbd2822b86ba8f4.1708876186.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1563; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=1JpHSpddy36EcQ6+aJdq28iICB9b0TQZtbuvPq3JZ+g=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl22LJ3SQ+x2V90+4T3aiRyKJf8uPBLY+8QQ18X kMMIsX98W+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZdtiyQAKCRCPgPtYfRL+ TqBVB/9kn69bbAsltKLjjJyB0zB8C8k48RFkzSSAiaXs9ShL2josYmzWvDfyyBNCYjsfnFUy3DJ GwEDsHxDndmsjbgOFK715uxVJfZIb4u5PRg/fHOkUALjH7dnXuUnsbCtWOrrGh3eUK0on1hfHMB upxuD2fqaHqPKmmpnwbn3GQmQtycxFfnQu8mXUAS8xVwjhd4k1KIApgSETjwPy6zHekj+tY7ZSD aBilDE2LMNPEslOPU6rRqO+4csWI5gEHVnD2hbC0YBrpTpYSxFPvn9dTIbeosYhZdwmZFbrFlSz uk934IGcKsNvlXvTawQGzP6O008H2I/EUv/00UxJTqAhMFPF
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <52d0a4317d5372f1135259d4fbbd2822b86ba8f4.1708876186.git.u.kleine-koenig@pengutronix.de>
 
-Hello,
+On Sun, Feb 25, 2024 at 04:54:56PM +0100, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+> 
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+> 
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-this series converts all drivers below drivers/extcon to struct
-platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
-Provide a remove callback that returns no value") for an extended
-explanation and the eventual goal.
-
-All conversations are trivial, because their .remove() callbacks
-returned zero unconditionally.
-
-There are no interdependencies between these patches, so they could be
-picked up individually. But I'd hope that they get picked up all
-together by the extcon maintainer team.
-
-Best regards
-Uwe
-
-Uwe Kleine-KÃ¶nig (7):
-  extcon: adc-jack: Convert to platform remove callback returning void
-  extcon: intel-cht-wc: Convert to platform remove callback returning void
-  extcon: intel-mrfld: Convert to platform remove callback returning void
-  extcon: max3355: Convert to platform remove callback returning void
-  extcon: max77843: Convert to platform remove callback returning void
-  extcon: usb-gpio: Convert to platform remove callback returning void
-  extcon: usbc-cros-ec: Convert to platform remove callback returning void
-
- drivers/extcon/extcon-adc-jack.c     | 6 ++----
- drivers/extcon/extcon-intel-cht-wc.c | 6 ++----
- drivers/extcon/extcon-intel-mrfld.c  | 6 ++----
- drivers/extcon/extcon-max3355.c      | 6 ++----
- drivers/extcon/extcon-max77843.c     | 6 ++----
- drivers/extcon/extcon-usb-gpio.c     | 6 ++----
- drivers/extcon/extcon-usbc-cros-ec.c | 6 ++----
- 7 files changed, 14 insertions(+), 28 deletions(-)
-
-base-commit: 33e1d31873f87d119e5120b88cd350efa68ef276
--- 
-2.43.0
-
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

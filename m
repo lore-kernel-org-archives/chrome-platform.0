@@ -1,44 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131D51B7E5;
-	Mon, 26 Feb 2024 05:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ED63BB3A
+	for <chrome-platform@lists.linux.dev>; Mon,  4 Mar 2024 13:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708926504; cv=none; b=Qq3Qt3NEa9HYGTZrzkmxZ/ah9yBIl8xsUmTGmhITuXyGBBsczNWTr+eiqnhbzZnyPiQhmlAdlpM16CmkUBBf3VK/xuHSCCF+pEZ27th+xywyRHu7hqkp5S6AVs5dDkSYPIII6onEnKJQeMMFlosv3DLuNGZpqEiWGOVDapv/WpE=
+	t=1709560623; cv=none; b=FKX7qqNz9VrUC80aQcU18Ct2SZvU/zPibTa+76yryfdQgA8saKJfQOQ9SVDpv/ui3MRHuT7oLZXcyZ1v836sO+hk0lzl2JlXzPWt4IxDlGbbyYjLdTgOmnxW/uWdq9fOc8aOLo8vGOYEcGTGyM2KJ57ouBpHop4u5QDp7txeBl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708926504; c=relaxed/simple;
-	bh=u7CLzGGgeUR5UtKNQZH1WZ/ThLdbAF6AVV2qj9OlCAY=;
+	s=arc-20240116; t=1709560623; c=relaxed/simple;
+	bh=LD/AgASlwrxqBIDBgB4m0hmo8Hapri/eJonpkMZCy1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jsa3Kb5voP3nMgILulAvmr02zYehSSnV0ksS1zImabKfVDGl6iXJq+Efnnx3tzmmT/owGgJ6RpJm+VCuONC+seV+mR34KI9jPoj77elEgm/Ezzsegm+Z5wveXytAt1dksc8NIRcXRwAsHnLwY5VW6ud6xiAoVP5R3jGyb2KH1AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Re2K+9Ep; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZcCNF6sNfHnuaLJhvjfoIcSrW0h0EEBeiPg1g3lrpGQSXk32XUpwPRW6goxjedDnqp7uGL9DpUWHo/ZO4NnpS6kztcXQaE8N+T2CcLPDRnzmkYWEBr4XXSRv/U414I/W4SM96xmmGXrfHqDFiQ1M+Lk4U25QDjQNQjtKmutFMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Pvl5NY5U; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Re2K+9Ep"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88076C433C7;
-	Mon, 26 Feb 2024 05:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708926503;
-	bh=u7CLzGGgeUR5UtKNQZH1WZ/ThLdbAF6AVV2qj9OlCAY=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Pvl5NY5U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709560619;
+	bh=LD/AgASlwrxqBIDBgB4m0hmo8Hapri/eJonpkMZCy1E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Re2K+9EpWgBJYLju3xPpZNKzqf/DDqnINN06XzRitwLoXkyj7FE4onm70DLwHv1cl
-	 57ztG9665u7pyl8hlVYlPy27dyUexRxx8dIRsGniv1wv3ihWeyq0jEWY9Lgb0qFbWL
-	 fZtZUkGUEfavnIntohPt1a2KMqT/VrX4m1vH1hwHqfVDHBLisurebLsFZ/6ga04idt
-	 9MxQ9VORcoj+po1kiIwKczZYf9xwaq7YETjs5mvfsusAA9reNeZFAk4BBN+bXr+DC6
-	 fPZp4LMBh846PWETAef8eAQHlL5/f/yLsrEb9vuhkC3DE7IZPSdriI9jIdu5vYbwi6
-	 fUadevw3ThF3w==
-Date: Mon, 26 Feb 2024 13:48:20 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 7/7] extcon: usbc-cros-ec: Convert to platform remove
- callback returning void
-Message-ID: <ZdwmJNGLJgAa5Z45@google.com>
-References: <cover.1708876186.git.u.kleine-koenig@pengutronix.de>
- <52d0a4317d5372f1135259d4fbbd2822b86ba8f4.1708876186.git.u.kleine-koenig@pengutronix.de>
+	b=Pvl5NY5U/6KsC14RL4xbqefNMPgwztO8QUkpJqQ8yKpzZs3/Ix895cqDVNYxuhJan
+	 e24WIbNh/3XsDD6pI9gSl/dPuPUmNKtcjwBnAJiXrATu/D/37wkvSCDYOJQlZtMWkp
+	 vby9vUePcCzdLpy00bR6CizekNigfZJu6V/RsUKkyLEwyeilbiNJpVG4c+h6asqnjb
+	 WHtJ02yqLYfaEn4rqbgKTYaZuoZk567fOe/qIu0n+VmjAVrhoW/Y0oK9w76XtTa1jN
+	 Ubofr1xStvh+561IFwQU+iMnUnZdqvn1nGq+yKqiOHWwAajiIkN9co3VfZTPrDMbp5
+	 rGRQPF+i/QofQ==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6509A37820C3;
+	Mon,  4 Mar 2024 13:56:56 +0000 (UTC)
+Date: Mon, 4 Mar 2024 08:56:54 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@collabora.com, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable
+ cbmem in the arm64 defconfig
+Message-ID: <36df8535-083f-4ce3-84c7-b8f652a9085b@notapiano>
+References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,22 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <52d0a4317d5372f1135259d4fbbd2822b86ba8f4.1708876186.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 
-On Sun, Feb 25, 2024 at 04:54:56PM +0100, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
+On Mon, Feb 12, 2024 at 09:50:04AM -0500, Nícolas F. R. A. Prado wrote:
+> This series adds the missing pieces to the coreboot bus and the module
+> alias generation to allow coreboot modules to be automatically loaded
+> when matching devices are detected.
 > 
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
+> The configs for cbmem coreboot entries are then enabled in the arm64
+> defconfig, as modules, to allow reading logs from coreboot on arm64
+> Chromebooks, which is useful for debugging the boot process.
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> Changes in v4:
+> - Added driver_data to device_id struct
+> - Link to v3: https://lore.kernel.org/r/20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Changes in v3:
+> - Merged all "add to module device table" commits into a single commit
+>   which also changes the coreboot_driver struct to contain an id table
+>   and avoid unused variable warnings for the id tables.
+> 
+> Changes in v2:
+> - Added commits for vpd, memconsole and framebuffer drivers to add them
+>   to the module device table
+> 
+> ---
+> Nícolas F. R. A. Prado (4):
+>       firmware: coreboot: Generate modalias uevent for devices
+>       firmware: coreboot: Generate aliases for coreboot modules
+>       firmware: coreboot: Replace tag with id table in driver struct
+>       arm64: defconfig: Enable support for cbmem entries in the coreboot table
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Hi Arnd,
+
+is it ok for Tzung-Bi to merge this last patch for the defconfig through the
+chrome-platform-firmware tree?
+
+Thanks,
+Nícolas
+
+> 
+>  arch/arm64/configs/defconfig                   |  3 +++
+>  drivers/firmware/google/cbmem.c                |  8 +++++++-
+>  drivers/firmware/google/coreboot_table.c       | 20 +++++++++++++++++++-
+>  drivers/firmware/google/coreboot_table.h       |  3 ++-
+>  drivers/firmware/google/framebuffer-coreboot.c |  8 +++++++-
+>  drivers/firmware/google/memconsole-coreboot.c  |  8 +++++++-
+>  drivers/firmware/google/vpd.c                  |  8 +++++++-
+>  include/linux/mod_devicetable.h                | 10 ++++++++++
+>  scripts/mod/devicetable-offsets.c              |  3 +++
+>  scripts/mod/file2alias.c                       | 10 ++++++++++
+>  10 files changed, 75 insertions(+), 6 deletions(-)
+> ---
+> base-commit: 0f067394dd3b2af3263339cf7183bdb6ee0ac1f8
+> change-id: 20240117-coreboot-mod-defconfig-826b01e242d9
+> 
+> Best regards,
+> -- 
+> Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 

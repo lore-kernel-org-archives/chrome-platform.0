@@ -1,79 +1,55 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EEF8F58
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Mar 2024 05:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B875CDD0;
+	Thu, 14 Mar 2024 08:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710394127; cv=none; b=jVOz8To+pSySzxjqyxsRYny13SAuORLN2mM2KRO+eQYyQYShuV5Fkkh9WTXVSyI7S64mx2xt5gQcVTca/fAozQPI/9nD7+EG31Au/TN/UjKLnD7OsEP80COdPgo0hKvtbTEy8Fv+hGAPlKYuTF7VJfzmUHL9W+6iw8yFa4YilTY=
+	t=1710405306; cv=none; b=QBckRZy4k5lBNHtGQBk/nOG86nhhYQtYrQukwgJs5K/r2gn3rri5mvCWqLcA/ZTZ+QQ1AB5wg1oAKujJP9u8Ca3eiM+u2J/r9vyuGj46R4QgLIxtInZ2EtuV8s0C7FXzybzI+j+mivwPL9ZnJeodvb9oTaBdtZ7PpIMnFlTllaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710394127; c=relaxed/simple;
-	bh=/AefSDURd/iYE924k0hdYlGbe6MFO75hbbd6fJusvVE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SNJ3Ai3Dd2dNrfQ0fPfxujWh1FGQ53Iz1b4HgiRPBkBaQkDV1AVT4NznsR/NAB1v5Mqi60YlGJJehkf5YPYG/nTu0yKv7N807SYaZN9aDF5MEU5zn8OpIQZico7fveluDtotcDq8voxdTv+5QGn3w2CgPRrfYPj2kNX+SIeKBOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: dbd5edc51dde46b88f366b7d46b59894-20240314
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:524a0ae8-916c-4a51-bac7-58c2790c9869,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:20
-X-CID-INFO: VERSION:1.1.37,REQID:524a0ae8-916c-4a51-bac7-58c2790c9869,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:20
-X-CID-META: VersionHash:6f543d0,CLOUDID:a31b7c81-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:2403141328344WTIQMFJ,BulkQuantity:0,Recheck:0,SF:24|17|19|44|66|38|1
-	02,TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:
-	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: dbd5edc51dde46b88f366b7d46b59894-20240314
-X-User: aichao@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 792691737; Thu, 14 Mar 2024 13:28:30 +0800
-From: Ai Chao <aichao@kylinos.cn>
-To: bleung@chromium.org,
-	tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
+	s=arc-20240116; t=1710405306; c=relaxed/simple;
+	bh=BUVTvVoWhWW7I6iuppUWf5Vkh117VC2V2EAATYN1ptQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yu5o+N2573hrf3ovBdD92piBjP3Oxrwd04LzcWG1sY8A9i+jbyHSejDTf+alqe0PLk7r0NJ3dsXMK4duhAgpoDI/A+Fn6GLPLijYqkhHA0ird1qxz2OBV2gHfkQvYtRclhJsyykToOIq/Z8F2UVlj5y8Tmcu879/E2TqG0jkTHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHFVNfrF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHFVNfrF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16FBC433C7;
+	Thu, 14 Mar 2024 08:35:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710405305;
+	bh=BUVTvVoWhWW7I6iuppUWf5Vkh117VC2V2EAATYN1ptQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KHFVNfrFcomj3scl6cCSA1rHFiuGZPT3prwd9WnZUbp3hsewRtqlR7YK6yl5e030v
+	 zEGGcJJ6Dv+iXZepUhjBppIuNmKx9A+nXFfAWp05+6nhhNt+tEwDzOZJP3vQu1dC8u
+	 UaSnRjQ8vSJ0CWKlX2fzQJs1E4QZG46TK3FjJUR7oYA2APr0NXxurTAz69eQRKuO9g
+	 tA4X3u2ZHJdvuAwAaNO9P1gChTAG5D/p0uErPVZy2w7koyrrEik0t3ugACPdARHrmp
+	 b8yO7mdhD+6exc3pIp6LeIvXIpb3Ddx3iiu+4fnQXerzvFtNXqWplGNyMPAcy71rou
+	 WMvEoBzwmPO4Q==
+Date: Thu, 14 Mar 2024 16:35:02 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH v1] platform/chrome: use sysfs_emit() instead of sprintf()
-Date: Thu, 14 Mar 2024 13:28:28 +0800
-Message-Id: <20240314052828.186924-1-aichao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v1] platform/chrome: use sysfs_emit() instead of sprintf()
+Message-ID: <ZfK2tmJ3c1Td2lVR@google.com>
+References: <20240314052828.186924-1-aichao@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240314052828.186924-1-aichao@kylinos.cn>
 
-Follow the advice in Documentation/filesystems/sysfs.rst:
-show() should only use sysfs_emit() or sysfs_emit_at() when formatting
-the value to be returned to user space.
+On Thu, Mar 14, 2024 at 01:28:28PM +0800, Ai Chao wrote:
+> Follow the advice in Documentation/filesystems/sysfs.rst:
+> show() should only use sysfs_emit() or sysfs_emit_at() when formatting
+> the value to be returned to user space.
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
- drivers/platform/chrome/wilco_ec/sysfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It seems we overlooked the case when handling [1].  Will queue the patch
+after for-next rebased to next -rc1.
 
-diff --git a/drivers/platform/chrome/wilco_ec/sysfs.c b/drivers/platform/chrome/wilco_ec/sysfs.c
-index 893c59dde32a..d44c43559621 100644
---- a/drivers/platform/chrome/wilco_ec/sysfs.c
-+++ b/drivers/platform/chrome/wilco_ec/sysfs.c
-@@ -192,7 +192,7 @@ static ssize_t usb_charge_show(struct device *dev,
- 	if (ret < 0)
- 		return ret;
- 
--	return sprintf(buf, "%d\n", rs.val);
-+	return sysfs_emit(buf, "%d\n", rs.val);
- }
- 
- static ssize_t usb_charge_store(struct device *dev,
--- 
-2.25.1
-
+[1] https://patchwork.kernel.org/project/chrome-platform/patch/202212021656040995199@zte.com.cn/

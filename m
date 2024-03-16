@@ -1,66 +1,45 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1468F7580B;
-	Thu, 14 Mar 2024 20:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64561B964;
+	Sat, 16 Mar 2024 16:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710446873; cv=none; b=Bcwt0ouxy40DMchrrgiALZbLcmPE+dsC2ryN2eOZbk769OpQO/rN5FqBiic+dvnPIU9m2S97Nf4mQvGrI+HuEHFl42bxZpNCDc4PCLVvLx3WEAwlTQMYehEih9L+Hiydm4YrFgXI0Q80cucoc+9V5w13X20zpE7IkVtqCRhffDk=
+	t=1710606009; cv=none; b=uHSimcp9LlZHbKbpT26QHTEfjGhXC2DoHtQRdt6LbChJlC87fQQQvANkIQudLaFkWLfpVW26cAlVU4devfkaKOX5YWXUnfkqzJlBRivHgrnfaxSB8vgEfBpEZCoYvfZohxHJvZpNPTmoge9wPpsGcdNsjy+cPc5Z0Jf73bDHpEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710446873; c=relaxed/simple;
-	bh=9A5EOtniYKawheI5A+IPoSnXdOL1RI0PftzjkJAaAjI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MDQ2HcgLfVxRZmpmQoQ/WkntxGAWe3EZ0NK/XpSlLPj+DXLlm9nApeWERUxeJ25mflI0kNsZEw8Znf9+fUE2RF2oRD15iAjixD74qHafg4gOksvb4WNPXWeKvGkq9D7FIwNULXyOr2YC4oGi0JkN9CbAeYqQQzJze8WCuZwDBDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pD9zK5/t; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1710606009; c=relaxed/simple;
+	bh=wWfDrMxlKAAHdXQoz1wKJ6soUSFbO+NXsn6wGPuTqeg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f8W9Y9oFLpNBcaSx71bZ4YtQt1Hswt1LJpCIBrRLyrCKPSnrgxQCtlXXT88X3wM55CPUZr0+UIVysG7AnsbzzYnrKEFzoYjx47OwHu9qIYTASQzN6aAmEbxxm7pXvGAWhnttF0J3eLEic/yrWxD9UghS6HdGjSGwPFlsnltlJSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXNM6JFW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pD9zK5/t"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42E5xD6c024159;
-	Thu, 14 Mar 2024 20:07:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=3xlRjrOG++m/gTd4bJdiZ
-	w0cFNOuDJJrYtP9qeXcXVA=; b=pD9zK5/tAYzW+EnwG6WHwGKjPc6FPCpWQk//a
-	DaGqTOiXFZWZX/lipNXxm8IXqHzsBKaEHJtQswImHiCBLGmRiouns/FE8iEi0cPX
-	M7yqFADDdzgaVJYHVtCefMBFDT5nsh/LnAYxmUGB3e4ZGzpb0ZYjibDIqLp1WIUk
-	d9JljTfz3LzqF/NfKSTdDN4G1ZTOfuV1gZ/EaKVgw9BEGPnrGDfS60rR6ezPQ8RS
-	bSfrIz83Vg9+Isfh1RjTCGlF+xOJXAceSK+7gxilWQ8uGxIPQ/7+C+8RKhWjUmCR
-	n/1+yUbXbC5PcwdgL06svlPMLE1BzsOp63x2EfnowIN/YrZNA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wuujssuyq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:07:45 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42EK7imb028294
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:07:44 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Mar 2024 13:07:41 -0700
-Date: Thu, 14 Mar 2024 13:07:40 -0700
-From: Elliot Berman <quic_eberman@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXNM6JFW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5136C433F1;
+	Sat, 16 Mar 2024 16:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710606009;
+	bh=wWfDrMxlKAAHdXQoz1wKJ6soUSFbO+NXsn6wGPuTqeg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DXNM6JFWMvnjo24oeEsdu6XQL44YKNfYOZgAr/fIZzRh/Z/Yszq1ltqqeGNHx4ZUR
+	 AOsBUQ4TQf04amRNE+iFRbl118k/paSNZaMFSL+41+8zdvWSVNMcVEcDTkZ3F3lWFr
+	 po6tQKcq67y0LDRY1pWITvAISJ/AmuZmvWmPmuyB6UCdNRMVFQZBmNlOPmqmm8JfwP
+	 h8MxSegPgTf1EYKTeHgxpC/f6SaNI/ALXn9QEKadLOEw/nfBwiLI//+yitKD/IeAiN
+	 TFq8O0tN3nzdG+jF/+KahMmY3CiTyW6Gqmwr1bV2CY6vlO0Y8Jo1b0lzIi2dQa8nhL
+	 sirzoeVrGBSUQ==
+Date: Sat, 16 Mar 2024 16:20:03 +0000
+From: Conor Dooley <conor@kernel.org>
 To: Caleb Connolly <caleb.connolly@linaro.org>
-CC: Amrit Anand <quic_amrianan@quicinc.com>, <robh@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <kernel@quicinc.com>, <peter.griffin@linaro.org>,
-        <linux-riscv@lists.infradead.org>, <chrome-platform@lists.linux.dev>,
-        <linux-mediatek@lists.infradead.org>, Simon Glass <sjg@chromium.org>
-Subject: Re: Re: [PATCH v2 2/2] dt-bindings: qcom: Update DT bindings for
+Cc: Amrit Anand <quic_amrianan@quicinc.com>, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, kernel@quicinc.com,
+	peter.griffin@linaro.org, linux-riscv@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH v2 2/2] dt-bindings: qcom: Update DT bindings for
  multiple DT
-Message-ID: <20240314113908471-0700.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Caleb Connolly <caleb.connolly@linaro.org>, 
-	Amrit Anand <quic_amrianan@quicinc.com>, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, agross@kernel.org, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, kernel@quicinc.com, peter.griffin@linaro.org, 
-	linux-riscv@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, Simon Glass <sjg@chromium.org>
+Message-ID: <20240316-germinate-browsing-6865db3a44d7@spud>
 References: <1710418312-6559-1-git-send-email-quic_amrianan@quicinc.com>
  <1710418312-6559-3-git-send-email-quic_amrianan@quicinc.com>
  <f6f317d9-830d-4c38-998f-b229b3d9f95a@linaro.org>
@@ -70,80 +49,38 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tCduvHh9wXhEP0el"
 Content-Disposition: inline
 In-Reply-To: <f6f317d9-830d-4c38-998f-b229b3d9f95a@linaro.org>
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6lGfARaeuwH6HOGWh8oo9c6RWsGScCpQ
-X-Proofpoint-GUID: 6lGfARaeuwH6HOGWh8oo9c6RWsGScCpQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-14_13,2024-03-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 clxscore=1011
- impostorscore=0 lowpriorityscore=0 mlxlogscore=635 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403140155
+
+
+--tCduvHh9wXhEP0el
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 On Thu, Mar 14, 2024 at 02:20:38PM +0000, Caleb Connolly wrote:
-> Hi Amrit,
-> 
 > On 14/03/2024 12:11, Amrit Anand wrote:
-...
-> >  
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/arm/qcom,ids.h>
-> > +    / {
-> > +         model = "Qualcomm Technologies, Inc. sc7280 IDP SKU1 platform";
-> > +         compatible = "qcom,sc7280-idp", "google,senor", "qcom,sc7280";
-> > +
-> > +         #board-id-cells = <2>;
-> > +         board-id = <QCOM_SOC_ID(SC7280) QCOM_SOC_REVISION(1)>,
-> > +                    <QCOM_SOC_ID(SC7280) QCOM_SOC_REVISION(2)>,
-> > +                    <QCOM_BOARD_ID(IDP, 1, 0) QCOM_BOARD_SUBTYPE(UFS, ANY, 1)>;
-> > +         board-id-types = "qcom,soc-id",
-> > +                          "qcom,soc-id",
-> > +                          "qcom,board-id";
-> Forgive me if this is a particularly cynical view, but this seems
-> incredibly blatant, the "qcom,board-id" property is deprecated for
-> various good reasons, just using a key/value map where "qcom,board-id"
-> is a key doesn't change that. There are two main issues I have with the
-> proposal here:
-> 
-> 1. This breaks backwards compatibility, millions of production devices
-> with bootloaders that will never receive another update might be
-> compatible with the downstream "qcom,board-id" property, but they won't
-> work with this.
 > 2. A top level board-id property that isn't namespaced implies that it
 > isn't vendor specific, but the proposed implementation doesn't even
 > pretend to be vendor agnostic.
-> 
 
-I agree with the concerns you listed.
+I pointed out previously that the Chromebook guys had some similar
+issues with dtb selection when the OEM varies parts but there does not
+seem to be any of them on CC here.
+There's definitely a generic problem to be solved here but I don't see
+an effort made to involve the other people known to have the same
+problems and this is all highly vendor specific.
 
-One point I wanted to bring is that if you provide a boot image that has
-only one DTB, all production Qualcomm bootloaders I'm aware of will use
-that DTB so long as "qcom,board-id" isn't a mismatch. I believe this is
-what most everyone is doing if using the DTBs from kernel.org. We'd like
-to use an open standard for DTB selection and that would very likely be
-incompatible with existing bootloaders that don't have whatever that
-standard is.
+--tCduvHh9wXhEP0el
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> U-Boot also has some ideas around this issue, there you can pass in
-> multiple DTBs and provide some board specific "best match" function.
-> I think there's definitely some value in exposing this information, but
-> there's no good reason to define the same data as `qcom,board-id` while
-> breaking production bootloaders.
+-----BEGIN PGP SIGNATURE-----
 
-One concern we have with U-Boot's approach is that it's based on
-metadata external to the DTB and, in our experience, makes it hard to
-track which board goes to which DTB. This approach also isn't
-necessarily portable to other image types/boot flows.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfXGswAKCRB4tDGHoIJi
+0i8QAP933DDPKZ34gelBNiCnSveXI+wd4DrofTe+JiVItAGQngEA38mvngcysQke
+6ZrKo1u7YDvXAH0bmMFJAWV6LKzeWg0=
+=F4VS
+-----END PGP SIGNATURE-----
 
-Thanks,
-Elliot
-
+--tCduvHh9wXhEP0el--

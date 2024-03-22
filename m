@@ -1,146 +1,139 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2170.outbound.protection.outlook.com [40.92.62.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C2F58ADE
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Mar 2024 21:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710797785; cv=none; b=NVwcG8eZ3FOVDJuVDX+stJ8FKd4Uifa8tWIoxoxOrysZRRnMN5lm5bVJ9ea7oAQxc/SKjNt7WpAEGWMkh+/8Ldr2UGZBdxxCy6qgEKxsypACBFBUTwf1GGqXmtZjkwr9gU1ULMZIlldgNHqwzf+GSQ4/hyf5bSzygtTtPsF3ISw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710797785; c=relaxed/simple;
-	bh=oN3ajsjXsAF9HfH4yepxydlxom6CmZW2+KuqWPApvOc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RyXq8cFAllFN8mX5GnXF/8Wfv5OGG1zvYm6TGRYv9yPGRbQcWo12kjAvdrDLSwvpUYmzx9EQMJdWGSwaNWN8W9wLHGnwMISjN26amgYf5S4Qy+yBBZe4tLNnu24d8yhDa17TlpB7qReZXW3TMY3QJUw5WTPdBhLMjijfNKXwyDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IAzG7qv4; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958A817575
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Mar 2024 10:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.62.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711103638; cv=fail; b=a1Wuv74ew/m8Er973yl9ITiVTlCEUxdAz1OBv/qSbYVhvrHBkGf39RSFxI2oDj7pE0SvphsnaSusqWGvIDs4916EUc5iLC4GCTty49R1aF3eqULv5Hl5JVbOwh1yInmJoA0w1qpD+xk2qygWKgn+EGqnnRHcyE1nY7apsdAUXt0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711103638; c=relaxed/simple;
+	bh=5LdQb/DSMwqo73pj/c7IlThVCFpa5lmRXlQHwKZ7Eno=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=hAPdqxuPJXx4/4hN9WTxmHnFcWIf41lPJ3w/L4Ghp55d9/q8NwaSKc4shUbSKymdQkf9cj4TYFZOvk4PTx4w7yMY6eVRyVpsgEH4FG7Csr7/7WPM59YHnKxkAfb7MU77vzT6b82IXhOww7p5C4wVw8J9sBoLLRT6fEoiD9C2tIQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=outlook.com.au; dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b=f7HhVTd9; arc=fail smtp.client-ip=40.92.62.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IAzG7qv4"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-789e6ceaff1so290257685a.0
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Mar 2024 14:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1710797783; x=1711402583; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oN3ajsjXsAF9HfH4yepxydlxom6CmZW2+KuqWPApvOc=;
-        b=IAzG7qv4KXtG4myGvwV6DjDdQ5hN9SqJQjVST6UG1kd2zsB0R9Ol66bRhmTJnUo4E/
-         gX1D6Wm4MHhi0GN6MIAI2FCotmYiMcLu5NsVNrX3aprm/KyP+KA6PehpIgwfq5QB/W3+
-         SiJlt4Nf9brlIw/A/9PoOuzOdvZeatq5fg/o0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710797783; x=1711402583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oN3ajsjXsAF9HfH4yepxydlxom6CmZW2+KuqWPApvOc=;
-        b=qs2B8XJUJLnuyffEWc+EJe/h9JUgpkLN7AQRtIGX2MDVvQh87AOInnlDS6/T/Z2Gjs
-         gzv+xgGybCkY/Lw7mpLxLXri+BDSLlCn3kj9f7mQsYpw3QbP4PgMTcOgHji/ELITlvEX
-         QtlagOzSu5gDMsFqgWzoi8GtvTPtsAQR8IsjP/Hx7XftdFKaQxSX4mq4J6Hu2hKPfpG2
-         k7dN+zHa8VrHg30IBmyI58ilGTmSQfeBBdPIv/rb69IQzKW+bbVfAOtgkovIW0b9Iz8s
-         kz23eVrd0GUgexnWQDB4c/Px/NsRx3gTjOC+tPfIuiBMhHJ9diijMEL6zujY8/sqCOBY
-         pjpw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWW7A6NLcSeng1OdbzdTk4StMl6Qko/+eiReDPdbsZOTsqpS++S7zzi1MKudJvZ96c6tdD8F0DZkHQ6I6boal7GnZ6w3gLMYWAL+k7Jwb8
-X-Gm-Message-State: AOJu0Ywinn/H/cmkN/Ab8xpWfFZsX8uwHoDTzTZJxuAcbhMkhlsgLqr/
-	C8YOJL3uVKgDxT23pcPQxrhtJvUVt+EJT5ywUHPchpcKl3BRIzoIHyOUZbijEe2aSNEDtLQX2mY
-	=
-X-Google-Smtp-Source: AGHT+IF7c7LfepaPwGPZeOigxyuQnfAAe+yKZMyvBxG4g/l56oXYe5R5nmN9Xvxm/0EJpiiTRth8SQ==
-X-Received: by 2002:a05:620a:4101:b0:789:cb7b:89af with SMTP id j1-20020a05620a410100b00789cb7b89afmr1593868qko.24.1710797783258;
-        Mon, 18 Mar 2024 14:36:23 -0700 (PDT)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com. [209.85.160.177])
-        by smtp.gmail.com with ESMTPSA id y1-20020ae9f401000000b00789ed16d039sm2536084qkl.54.2024.03.18.14.36.22
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 14:36:23 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-428405a0205so38531cf.1
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Mar 2024 14:36:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWoij+NSFqVhfNaVycZErOmiwYh9ROdhB56Dkfse0Vo7XMfqoW6xGSS9N+I20L7CyjYSBFr7wDP7QGxOBLf9RvaIOznyECL1fu6zLsVhdoW
-X-Received: by 2002:a05:622a:50e:b0:430:b590:e88c with SMTP id
- l14-20020a05622a050e00b00430b590e88cmr111577qtx.6.1710797782513; Mon, 18 Mar
- 2024 14:36:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b="f7HhVTd9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OpmT/uRVgPdw6RT1n7Rp7I0/VoHH+38c6BCe58tMghD0R63y9LXrXNJEySatXNc6nFpaRsMC52bOfSMyTTCLLg6FyIrIGgNoRg/+VciJQ3Nzmv+ci35aInzfntcIdKmT7Rjrb2wWy22TaHsVQgQqxfaa/TpmTv3aTIrgB8ZfNJw2TEelrCkLLVetkkzUJ3YHzk/DB8QEL5E5kHtS1NqbE/90tBq99iso8WB93tJvCCZ+aCHaDZWiM2Il1CUGS+sKrOlE8uHUe5WikHXcuYz1cvgSuwMGENubJPnR8JdmmW8AX6o920+iekxG6E72rpPG5TylkG3dA8tdO89rfIsZjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cBkeWwk8seb3GdnjApRGIVH+v0cqoDoqrp3i9hgzJMY=;
+ b=RHaGSaBEu6lu1uu+8yuMfsEP6fRtlAdoEqiZ/E+cHZbo5oSK7nhO3CtsrlOWCjxlzka8XB7hH8OiwZm5NsR+uVVOdJtD28uWdbCUZJDG2AAsiyhWxXxqfuaSpdbqSXrHvARO1eRxKseWh8ojbu6V1k9huNMbyFnool1r5aYR0FIgIX5tGrZ8Q5eyvNeP240qeM03ocUOVNf/zD+p2uyjstJ6LddpvwaQiZL3qXY79xk/WZ2mhDRPtoNmBOW1crwVSfHwm+tkSm17+Re4koL0wwITxibMhLVDKnPQPbV2fCxOUP870iSBp5GF8ozjmrF7t5FjG69yGNkMtytyMcHj6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.COM.AU;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cBkeWwk8seb3GdnjApRGIVH+v0cqoDoqrp3i9hgzJMY=;
+ b=f7HhVTd9x2wUYFIy8SvVaFUXcQZFVq4xPQ0/8TvYj64RVYE7o4HgpSQEb8NlF1Di6OoQLYwY+6kPaDPERZU687/SrISphT4nRwWm4CaWLpzVVdFkOjWJKOruGuTyPLOtC3UQz3yGSxlKay5hN5yMetfq1SODoKh8yrZo7O15Qe/Yk5aA66ia+FUQeF0t0wQvtSArFDUQm5NGrqvvAHfWD4RJLoZ9fH2SJjIxSK2iWvYWkZcTTR61Y2ZYmPxLQayy48jhFwqRHrBjnY0uak9FXFkqfsEx8H8Jqiyol0VdtSFaO7wamn3pYwBoby0RtXOToMR/WhRGvsU6GMEfCXR9YQ==
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:159::9) by
+ SY8P282MB5238.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:2b5::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7386.30; Fri, 22 Mar 2024 10:33:52 +0000
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d]) by SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d%3]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
+ 10:33:52 +0000
+From: Stephen Horvath <s.horvath@outlook.com.au>
+To: Lee Jones <lee@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Stephen Horvath <s.horvath@outlook.com.au>
+Subject: [PATCH 0/2] platform/chrome: cros_kbd_led_backlight: Automatically enable keyboard backlight control if feature present in EC
+Date: Fri, 22 Mar 2024 20:27:57 +1000
+Message-ID:
+ <SY4P282MB3063CE4FBC166A68EDA40054C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:
+ [nZXZAf5mmr4F0RjJP0CGQplSw809dtN2wWVdgswvofqErzznieck3/iuFFqsgtnzrMGASh/YPb0=]
+X-ClientProxiedBy: SYCPR01CA0033.ausprd01.prod.outlook.com
+ (2603:10c6:10:e::21) To SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:159::9)
+X-Microsoft-Original-Message-ID:
+ <20240322102800.1322022-1-s.horvath@outlook.com.au>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1710418312-6559-1-git-send-email-quic_amrianan@quicinc.com>
- <1710418312-6559-3-git-send-email-quic_amrianan@quicinc.com>
- <f6f317d9-830d-4c38-998f-b229b3d9f95a@linaro.org> <20240316-germinate-browsing-6865db3a44d7@spud>
- <20240316-herring-skies-6ee1d4a9c0d2@spud>
-In-Reply-To: <20240316-herring-skies-6ee1d4a9c0d2@spud>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Mar 2024 14:36:06 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VZB9Dqsw6+2WBdWxaQVA9NgK_W2n0okBOU0haDMSogPw@mail.gmail.com>
-Message-ID: <CAD=FV=VZB9Dqsw6+2WBdWxaQVA9NgK_W2n0okBOU0haDMSogPw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: qcom: Update DT bindings for multiple DT
-To: Conor Dooley <conor@kernel.org>
-Cc: Caleb Connolly <caleb.connolly@linaro.org>, Amrit Anand <quic_amrianan@quicinc.com>, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, kernel@quicinc.com, peter.griffin@linaro.org, 
-	linux-riscv@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, Simon Glass <sjg@chromium.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>, Julius Werner <jwerner@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SY4P282MB3063:EE_|SY8P282MB5238:EE_
+X-MS-Office365-Filtering-Correlation-Id: 684cbcc6-3ba2-499a-5708-08dc4a5b9175
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	75RqNLgH6k0UCJ1+2y1RwOki3FZEcjdDDOEJISIVNaPtwAfzUuCxIV//J7BgmRbEtJs3VdE7Y4vgc5mxDHVjS9lXKuyLeitn85Ysf3F76onYvMsY/04fAN5NKAxuEDqOSNWBW5vMMg97beCsVwQn+aYRi1VHXnRwec0iWncg2lyHBmRRmUbd7xFdZp68lXj8iU/hBNxFik1560N/na7P1q3Y4NgxnHLnuM29JgZGKDrHNX8Nqs8qoSBpdbgrKwzySvZlJZfIn37uubXSPucibs2H9OxSW3/zvhajMVR0FYvK0slydg+k4inbq9yOQwSCauT4Iy8XG1ddYm58pKsgeqptw9qiNZN5GLkOD6YCwGbb+2vtqOL9Mc9mbVSOL6eTolds2i6cpsIwg67fh+dr5SZjLSDh+JsqvfNW4zpMtjdNphldqqU4CcvR01Gdkf2TKU387WC6uYtbu2L1LEaXSqFEIR8wkTC+IVGq2gRZhAZXA9/9telz1qnQ+dJ3lM4U1sQ+B+SP5wFj7BFiLaNfffpPsI9MXmJEE2q8vp39jptpy8FvkMI10hVavj4Y0KXKs3//arJsXEUccmBtlTU77vKQT2Z2nIrv5vEhPgCAt7WIyW6gnUfKJbDPh6WLOdY+
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yvdoBaflkJsW0HHWlN19fSjdwmtSgH7aSQ3FRnSvDn7drFpWOHz8Ow4aFX/E?=
+ =?us-ascii?Q?OE4t76Qb1gbaWW67Z0nwLbWgsPAqAvRhObBOE7Mf5LLrPAcEG3X+p4j1cpJm?=
+ =?us-ascii?Q?vJCvZw91rX0tbopAA2sAx8O8W3GXXHJ5J6DCdN5VsQxTqTpqdSCxEWT/PJvB?=
+ =?us-ascii?Q?1+5Sg2rkfOZ/YuYJGWmpuDy7mipE6+bBBDQFNOf1H3wgFDD2txEpbXbgHDP1?=
+ =?us-ascii?Q?jngbZUa3Rz4IwWvrIgk8l/T5eIpN6zwV7QL/jnSeK1o24N7/JKnsPzYrNWpp?=
+ =?us-ascii?Q?ogtpAeTkfJQ9ofrNaFYTQBooKOf7HRAczxcwcrVeWfhKuDNyjgB1D4Nj26Me?=
+ =?us-ascii?Q?pWVvWXdSl0SFolSsLZvlRrP5uysPlQTAsx+1sfFD93pX2kh83M13P4lBECcx?=
+ =?us-ascii?Q?hTnOmN7DOx2YwOluEnltPqWW5aWafU+VvrQLogHISzDr2aQQD5NyZGhuSNnc?=
+ =?us-ascii?Q?Y88Bet0kzdS++CfHWVZyuDgtBHA8UW1SO3wX8MM0axPShMRby7+ob/mccVfd?=
+ =?us-ascii?Q?uGQiULRlZd5sStOmR0b8E1FmhjBuxQoT1ZLrjlRoKg1+aTPkmz1JWfNNee6K?=
+ =?us-ascii?Q?C29M/v6V1Bh4/RlwQyVr8vxkTqSmz39Vs0ofSmA8d+Ch738EAE1sXqIWIzc/?=
+ =?us-ascii?Q?BdZs6VvcpgipZlnSIWODGd2k2wvLHPEFubEB6oX66EsLt/8DHM0QOl4c9Fva?=
+ =?us-ascii?Q?W6EhqgNKdDo7QF0iK6uwrH1ITTqe4eXaLJkOZPoV3n1OtxdxI04qsHuuWt/p?=
+ =?us-ascii?Q?dbf7dhDSIYoswPcsBUoOBbtT8WSk+eLwL9nD57+8obZofh2UUK+Wrpdit3cb?=
+ =?us-ascii?Q?01dvIs3lzBewBanTj90DBedPNbzWC5qVqSkEAvJ7tCYJoO9ME/74kQ6pRnb9?=
+ =?us-ascii?Q?PevAM9ljYdaOAbHbWz/sUi3jOXnlUxRUpuqsdYNzCEQMFJvmYRYxd1FA2BbW?=
+ =?us-ascii?Q?Kwc5pYkMfSxcaffy5IXxqQ8/APCEJrCjT0C1i69aYq435sMIbwtLoPXjyb/p?=
+ =?us-ascii?Q?m00IEoIT+e6CkYtCYxoLLDddQJcr1/TD3DCnquFcpGgwbq80lcXQtTguliJR?=
+ =?us-ascii?Q?VaPJmy44C4Vxht3hIA9xO2GbSb8pDF0titD84x25kihDbFUmcZkLNQ+zBCbz?=
+ =?us-ascii?Q?AV+XOVaYM24+R4nHMvXtjRhiiHBEYp0Mu7MlYf6Nwh2ppH5O+yJhfI9TuAc6?=
+ =?us-ascii?Q?PZFx95y5oKfbQC9wVDSu6bpLEdqGMax3B7aWbU3QNJbgB+qZSgESEx4/lplf?=
+ =?us-ascii?Q?1ZKjlGa03c4wYW30xd65Royr1ckQABBT6HckgfCjTZLQjPw9KP5W2MX4xHE0?=
+ =?us-ascii?Q?HifSrC775bVsvpTOojnKEATI?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 684cbcc6-3ba2-499a-5708-08dc4a5b9175
+X-MS-Exchange-CrossTenant-AuthSource: SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:33:52.4284
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY8P282MB5238
 
-Hi,
+The keyboard backlight control is not enabled by default on all devices
+with a Chromium EC, e.g. my Framework 13. This patch series enables it
+if the feature is present in the EC, instead of relying on
+`of_match_table`s or whatever.
 
-On Sat, Mar 16, 2024 at 9:51=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Sat, Mar 16, 2024 at 04:20:03PM +0000, Conor Dooley wrote:
-> > On Thu, Mar 14, 2024 at 02:20:38PM +0000, Caleb Connolly wrote:
-> > > On 14/03/2024 12:11, Amrit Anand wrote:
-> > > 2. A top level board-id property that isn't namespaced implies that i=
-t
-> > > isn't vendor specific, but the proposed implementation doesn't even
-> > > pretend to be vendor agnostic.
-> >
-> > I pointed out previously that the Chromebook guys had some similar
-> > issues with dtb selection when the OEM varies parts but there does not
-> > seem to be any of them on CC here.
->
-> That's maybe a bit harsh of me actually, I see that there's a
-> chrome-platform address on CC, but I don't know if that's gonna reach
-> the guys that work on these devices (Chen-Yu Tsai and Doug Anderson in
-> particular).
+These patches are tested and working on my Framework 13, and KDE's
+keyboard brightness slider even works. It's also gone though a couple of
+reboot & sleep cycles without issue.
 
-Thanks for the CC. Yeah, I don't watch the "chrome-platform" list
-myself, though maybe I should...
+Also this is my first time submitting a patch to the kernel, and I'm keen
+to do more, so please let me know if I've done anything wrong.
 
-The Chromebook boot flow and how we've handled this so far is
-documented in the kernel [1]. This method is what we've been using
-(with slight modifications over the years) since the earlier ARM
-Chromebooks and is, I believe, supported in both the depthcharge
-loader (used in Chromebooks) and also in U-Boot, though it's possible
-(?) that the U-Boot rules might vary ever so slightly. I haven't tried
-using U-Boot to boot a Chromebook in years.
+Thanks,
+Steve
 
-The current way things work for Chromebooks involves a heavy amount of
-duplication. We bundle an entire "DTB" for every relevant
-board/rev/sku combination even though many of those DTBs are 99% the
-same as the other ones. The DTBs have been relatively small and we
-compress them so this hasn't been a massive deal, but it's always been
-on the TODO list to come up with a scheme to use DT overlays. We've
-also talked about bundling a device tree that has the superset of
-components and then using an in-kernel driver to set the status of
-some components to okay and there is some overlap there in the
-possible way to represent board variants. I think Chen-Yu is going to
-talk about a few of these topics next month at EOSS [2].
+Stephen Horvath (2):
+  platform/chrome: cros_kbd_led_backlight: Automatically enable keyboard
+    backlight control if feature present in EC
+  platform/chrome: cros_kbd_led_backlight: Remove obsolete commands
+    (EC_CMD_PWM_*_KEYBOARD_BACKLIGHT)
 
-In terms of looking at your specific proposal, it's definitely trying
-to factor in a lot more things than the current one that Chromebooks
-use. The Chromebook model was "simple" enough that we could just
-leverage the compatible string, though the way we leverage it has
-ended up controversial over the years. Yours is definitely too
-complicated to work the same way. It seems like device tree overlays
-would be a better fit? I'm not an expert so maybe this is already
-solved somewhere, but I'd imagine the hard part is getting everyone to
-agree on how to specify stuff in the DT overlay that allows the
-bootloader to know whether to overlay it or not...
+ drivers/mfd/cros_ec_dev.c                     |  9 +++
+ .../platform/chrome/cros_kbd_led_backlight.c  | 62 ++++++++++---------
+ 2 files changed, 43 insertions(+), 28 deletions(-)
 
-[1] https://docs.kernel.org/arch/arm/google/chromebook-boot-flow.html
-[2] https://eoss24.sched.com/event/1aBGe/second-source-component-probing-on=
--device-tree-platforms-chen-yu-tsai-google-llc
+-- 
+2.43.0
+

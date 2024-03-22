@@ -1,228 +1,288 @@
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2170.outbound.protection.outlook.com [40.92.62.170])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63663D0D0
-	for <chrome-platform@lists.linux.dev>; Fri, 22 Mar 2024 10:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.62.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711103642; cv=fail; b=rK1GADFcsasen1EsgLSnuU5gOJJ/S33ir3V6CW07O1qJTtT3b22qiU/wQfq8tTi+yPTOE10Mi+j2UaPrc+Y9/OMoHLnAa0Hxezs82F+qsA7isQ6IT3vLDSv0lyUsWJgESQQFe9zXP/BdGNeI9vWzTudLal5JTwbiCv/SL8l7Sos=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711103642; c=relaxed/simple;
-	bh=q2CSOORofJAO2oPdxbMV8QGH9tynPBLZaTq9JpjMcko=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A+Ao2pLyoPXYEtcmN6E8+sWfwi0d9TYU8fH8GO8EFeRz/309giOeK86XGHjbhT4+Iy+2oTqdY+LZOnrzHyXlU3YRxjTa18h4qNLZJb5+eKTFc54RyVb35AV3oyUFVwHOM62EPX70aGZiE14KbsnftC3VBa+KoxQ7pQZBm37y2vM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=outlook.com.au; dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b=tHpe1s9y; arc=fail smtp.client-ip=40.92.62.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1464501D
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Mar 2024 13:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711113993; cv=none; b=C62aHbIizOGwzuFAzDdNVoLvXPDEJUs9I4HYBaI46HEeDmNFfdnFWxRWVKHOxuqQZuQgiiOlMTTAlGhkj1bcGiaOglUCkBLqwuWPRpIBkEXVnc/kv+AprhvqfE6yWfBU+1R2JzHd18AV+SC9rwZS+nbV9TdaDCQ2TUn+xTybJis=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711113993; c=relaxed/simple;
+	bh=dkHEK5fRN4ISlL8OBFqYbKAYt0DED3N3Yfj6qrUQoVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dkRTduvZpsx5JDyEjds+6K/jXgHHl4A/m2QiN4OGjFrR4e5XZojITBg61UEPLgP+0COKhfx04SVxxWmAzFf28ylHBZ1SpC9zG//SUueBzTfgCTaog4Zdm5uzTOAckVKnNjG7e0pOoquOtWb5dmb4LRJwMANXKLszR1zTtYO3cCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=a6wbfcte; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b="tHpe1s9y"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c5/s891G6W8OyNJlnMcR4izCIGZffCgBwIOUqHmk+ZICcKyOt8Jnf6MYabKat+HgA1T5/+75sFlVd+7oB91Qf7+5fbsXRWk18cqshZsiFwk2w4nPCvI3RZzc8ERsKBkLtanjDpdGX9Gsw9P+JLxLA17leqgV/2dohgatDR9W3+c3/R5R/wrG0J1sprJmSyd8qTi7dKPPQbJvKU1/EQn6q3KgNPwK0NL/B3UE8OpvysVVKTMHQfzvCbtggTJyPPI8T5O2QuEdjvut2KpZwXn45dmz7OyPfXssIpYoRDHweY+uBS2gG5JKrc/M1tF1GjR2ty7gklM3jIs64yfLuTD0+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fuo327e0tLMjSKRCCf6sFQ/r/yyShcRDGK5T10NabhY=;
- b=QfC4jMMpeMrA9G2oeNh1Njt2ggh72RyLGVH2DT4L1WALxLkteSFhVrL7RhDu3dbQE/j0sogm6jRKqz1dAtihf9F7XIcJRIRqACWRqArsDSOs+egTvrw5Vm2TzQnSj19fr9mrtdiRS99jTn3KpVx61+vIQu2Byg66oJ9Jhk2VwwDYvIOn4bGzRzxaiXPYH38/cgsVnIoBeLNidoiD0WcNIPX54sfqu1fW2m/D43O2F4oC0aWCsusI1gw5SAs5HHxSq+p/4b9PBhyutxL5UiPvUFxwRkh+A8hvCkeQg3dP65tjUHQg6mowCxl30yJayqkv9v901wM2+BuiJ7DocVzd2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.COM.AU;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fuo327e0tLMjSKRCCf6sFQ/r/yyShcRDGK5T10NabhY=;
- b=tHpe1s9yI/pP69oqiYL33OE+640b/TQuj1LJtrlliM9JY5j2ZtjH7ut4IlXnReAwIA0MhW75/w85ieVIUoMqyPj3BifkrfRRJBYedZH01jFz/VUdOhyFPU20gwwvP1ZL9Tw10OlIb0aTKlSJJAS+vJcbFYk0ZXPNp+WhtzMI7XjskBo8e5HqqjncXcivQl1rrF7p/AIXCBRh09A4Pmv9Zy4i1JUJfpDuEkSoRWmrxjACNp/+mcPl4G1kcQ2blhzKMYziTVhPoCog0ZE9nG+1nR2eZDEmU6rYdyUeXhbbAjYTDlpZ/W9+aqmtJ9Pl0HcYGcqLjUzuv0G7tUukibncXA==
-Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:159::9) by
- SY8P282MB5238.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:2b5::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7386.30; Fri, 22 Mar 2024 10:33:53 +0000
-Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
- ([fe80::22c8:76c8:58ad:f00d]) by SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
- ([fe80::22c8:76c8:58ad:f00d%3]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
- 10:33:53 +0000
-From: Stephen Horvath <s.horvath@outlook.com.au>
-To: Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="a6wbfcte"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=bOf4HkOrzle/Fy
+	JG8mZHPOABnHhQv51u3vi0fpeyQ5Q=; b=a6wbfcte3+iXXCHibc+JrZzTin6dRv
+	R/KSB8hp01+LD2eYy9sHlg2rk631UWOsn12Y+n+kLseFY+llqMyTkAsXsa6SiRwh
+	MWm4LoN2zRJucl7AcBuXiztmbKc/EIBM7mZDtMCuyBPr9HgJZmeZ/QrbcrtglWHS
+	XN+P7gn2zQD/Lze6LmCDGEGHL9G2ujuVTWCU21W3oIUiV/btIhr/tqNO2UzK6c7u
+	GiqtIoKlD88U2nMoYFxi6SLiCaIBiXxhRRTMJxL3pZ9O0lWnbgR868o+Ty13YBXb
+	C70pYVUa6DcFGd/ysTyvqG2U7fdTnfOcmCXLvQLbrSiCtbkj8qjVIAVA==
+Received: (qmail 3869988 invoked from network); 22 Mar 2024 14:26:20 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2024 14:26:20 +0100
+X-UD-Smtp-Session: l3s3148p1@LoLvxD8UMpNehhtF
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i2c@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	asahi@lists.linux.dev,
 	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Stephen Horvath <s.horvath@outlook.com.au>
-Subject: [PATCH 2/2] platform/chrome: cros_kbd_led_backlight: Remove obsolete commands (EC_CMD_PWM_*_KEYBOARD_BACKLIGHT)
-Date: Fri, 22 Mar 2024 20:27:59 +1000
-Message-ID:
- <SY4P282MB3063D447DA09D35F5FBD4721C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+	imx@lists.linux.dev,
+	linux-actions@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	virtualization@lists.linux.dev
+Subject: [PATCH 00/64] i2c: reword i2c_algorithm according to newest specification
+Date: Fri, 22 Mar 2024 14:24:53 +0100
+Message-ID: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240322102800.1322022-1-s.horvath@outlook.com.au>
-References: <20240322102800.1322022-1-s.horvath@outlook.com.au>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:
- [xcla9VZ8m/6GwZ6d+Io/C7rkYK4AIWt7E30yCe0/PdTm+3jaINrD1YQS69ohbGN5KfXFar0MPJw=]
-X-ClientProxiedBy: SYCPR01CA0033.ausprd01.prod.outlook.com
- (2603:10c6:10:e::21) To SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:159::9)
-X-Microsoft-Original-Message-ID:
- <20240322102800.1322022-3-s.horvath@outlook.com.au>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SY4P282MB3063:EE_|SY8P282MB5238:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a207680-89e6-4600-a1a8-08dc4a5b9240
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	wBETH778bwXOyPdlBl/m4Nk1EdI9ZtBYhfKVX6V29SvsTa0kLgMpelDRNMcNTRxGWcoirnnKdv7B3TMiCBwQnNOOEv583h5s8LjvRMiOXbXpOgk9raQEzDaPD6aLRDsQBj35dbYlOkTVCNbwhmW9XILfFm7RKbRVdZcQQzB5Q/yrfozNtPYxGlqbRwF0t/R9+yyorUymuKq+0BvjytgIQ1S/RklB2K2Di0Nm6MLqiLojj6+CLtkHPFWKLLV7HmRsDG4f9T/jpo0wCVZhBOYkuarS5eCOebsAqY+fC+BDpFM7cLMDFiW32uZFMZiXNE60kStrvKZx5nBHktVB6fnAcreuUzq9ya8H1OA4zygfi8fYxZOBiaHjJf29emPlrh4OTeEZSRBPUmVSa9cO+kyTTMbENrj41548qB5bHOhSJXopzrVpy9BHMwFhxoPvoko8N2sMgRG6YhHZbqg4w4GwUnQTGWme0+JDwrP7YSyLuIWgFNV6Po4suNplSDzmBJjkPgNF0pbux+A5TBJyhIZUARebEnp3SkMyogQFvqZesJw76I/3pBFuLR2w5WvqbglCOxTPgCpgeM/OGng/L1E235vgknvtrit1E0/o0BUJJui2LYHzEtGOoF5Cfur2hN0c
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aQyqeuQBxI4utWl9jwteQQfnT/zA81/T5GUaBLrVOqaT9W94FiH37ur5OTag?=
- =?us-ascii?Q?aAmky2+XsL9Mhb7fG/p3OKOV2tzCKkPH14Cv+MuDMCdLoLZtNAgZ1pAwaw8t?=
- =?us-ascii?Q?mrBqLp4iOB++hA8vddxDDq63Pc3eUXD7MWtXNYl6fYmdL7Q+48yhh76VLlek?=
- =?us-ascii?Q?/a7ZAlXFzMgcK8r9YVfpxXdFOS0kXF63oSd5bxECjedthormO5uunMDmXVzY?=
- =?us-ascii?Q?xlpXBFO3sO1cg3hLalStAe6GzoHo9hj3kb3Yq4OlimpRAzIZSLlq6zbT3uxo?=
- =?us-ascii?Q?2GGhmbY92uH1ZpLEcgCKUm9N0WTn4eQbdUulA4zUmt1dG+PM2bbhzE+w7a7N?=
- =?us-ascii?Q?Z9EvACim3U89esEKTg/aGwhFunIOKwGbPcC4M3LyXvMQ5MDf0TDpov2LBw5c?=
- =?us-ascii?Q?x3dcbtWILPDyXP/3DJQvs8OLpIqxrpHCNOXO/4ckUdbpW07NuXKQnbxNjyYc?=
- =?us-ascii?Q?ayFPq2m+eta6Wr+S8dEUlOICIouk5AwYiXN0qBVabNc7q8NKugDfGqjtKk9A?=
- =?us-ascii?Q?zjOTq+BuDqVGCEbWf3mTRwcZBG1kwsmheI5EtUDzV/DZLGBcwFrNvISnwS+l?=
- =?us-ascii?Q?75Gkr3BOIqCvaunwPm/TQYvBQ5HZtdUlrkynxOCUPU9KjC+2IhKWDiiyJhu3?=
- =?us-ascii?Q?tXK+74Skj9Z//fH63hPfRqI/iouUypJ8WTv7e7WAYEOCSd93TuGW0T1gpesQ?=
- =?us-ascii?Q?M3oGZHYzMfv0uU3UfwptQMEzXZpfMq38pyHYsO3uhlrXG2MQvZ7TkZjAvPpq?=
- =?us-ascii?Q?cv5A80q/v8ZYSpFC2jJzSwSN0T/Q87iINhSbcIPZWxQwPs4cNyMAAn7aCCS+?=
- =?us-ascii?Q?4Xj7+mnvMOwcX7tOuV4iYYb5EHz3U35cRQiW2qOBqQm7qqrlHghILCeZInyE?=
- =?us-ascii?Q?yH+bY7At1JsXDfd08evDfjsnhFqRiRuvoxYux6OEx+i+i34wBgc2zoQZfn4S?=
- =?us-ascii?Q?GRPqOfiApTkjRpz2s6eM32hctd9tAY8m9qScH+b+MM+3XtgXIMa1T6Nvww14?=
- =?us-ascii?Q?NVL2/iy3Gjui7d+LXOF59ecu+VvPc3aHdroG3hW8ISnRiyFsJbMbiLZJmB9p?=
- =?us-ascii?Q?LZe4gIZG0UphdQfW/y2lKK4GdsLCFxWXJ5UufyZLzG9hKAWXAY5+8PMkgfXa?=
- =?us-ascii?Q?fkCA/YjYvdDJYYVuTxPGbYrcLIw2Mb+UP9QwbUngD19drRvRJ1oGcZZAm9rA?=
- =?us-ascii?Q?ff2RqlrIVP38WxmCyJmEhWtX6LK84dH0eyL5SMnH3ItJ8RA/Rlnkk1D4OIQk?=
- =?us-ascii?Q?Ltw4bo8ANfYtiheRiD76dhBz4OzEXkXFaKg4cSB4nlZyol1nPq/p6E12KE7/?=
- =?us-ascii?Q?TLuXW7YTv1GviYs+MxYmAyRg?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a207680-89e6-4600-a1a8-08dc4a5b9240
-X-MS-Exchange-CrossTenant-AuthSource: SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:33:53.7537
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY8P282MB5238
+Content-Transfer-Encoding: 8bit
 
-EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT and EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT
-are marked as obsolete in `cros_ec_commands.h`, this patch removes the
-usage of these commands from the driver.
+Okay, we need to begin somewhere...
 
-The max brightness value is now set to `EC_PWM_MAX_DUTY` (65535) when
-running on the EC, as this is the maximum value that the EC can accept.
+Start changing the wording of the I2C main header wrt. the newest I2C
+v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
+appropriate terms. This first step renames the members of struct
+i2c_algorithm. Once all in-tree users are converted, the anonymous union
+will go away again. All this work will also pave the way for finally
+seperating the monolithic header into more fine-grained headers like
+"i2c/clients.h" etc. So, this is not a simple renaming-excercise but
+also a chance to update the I2C core to recent Linux standards.
 
-Signed-off-by: Stephen Horvath <s.horvath@outlook.com.au>
----
- .../platform/chrome/cros_kbd_led_backlight.c  | 37 +++++++++++++------
- 1 file changed, 25 insertions(+), 12 deletions(-)
+My motivation is to improve the I2C core API, in general. My motivation
+is not to clean each and every driver. I think this is impossible
+because register names based on official documentation will need to stay
+as they are. But the Linux-internal names should be updated IMO.
 
-diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
-index 06e9a57536af..bc021437e8b1 100644
---- a/drivers/platform/chrome/cros_kbd_led_backlight.c
-+++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
-@@ -47,10 +47,10 @@ struct keyboard_led_drvdata {
- 	enum led_brightness max_brightness;
- };
- 
--#define KEYBOARD_BACKLIGHT_MAX 100
--
- #ifdef CONFIG_ACPI
- 
-+#define ACPI_KEYBOARD_BACKLIGHT_MAX 100
-+
- /* Keyboard LED ACPI Device must be defined in firmware */
- #define ACPI_KEYBOARD_BACKLIGHT_DEVICE	"\\_SB.KBLT"
- #define ACPI_KEYBOARD_BACKLIGHT_READ	ACPI_KEYBOARD_BACKLIGHT_DEVICE ".KBQC"
-@@ -114,7 +114,7 @@ static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
- 	.init = keyboard_led_init_acpi,
- 	.brightness_set = keyboard_led_set_brightness_acpi,
- 	.brightness_get = keyboard_led_get_brightness_acpi,
--	.max_brightness = KEYBOARD_BACKLIGHT_MAX,
-+	.max_brightness = ACPI_KEYBOARD_BACKLIGHT_MAX,
- };
- 
- #endif /* CONFIG_ACPI */
-@@ -127,18 +127,22 @@ keyboard_led_set_brightness_ec_pwm(struct led_classdev *cdev,
- {
- 	struct {
- 		struct cros_ec_command msg;
--		struct ec_params_pwm_set_keyboard_backlight params;
-+		struct ec_params_pwm_set_duty params;
- 	} __packed buf;
--	struct ec_params_pwm_set_keyboard_backlight *params = &buf.params;
-+	struct ec_params_pwm_set_duty *params = &buf.params;
- 	struct cros_ec_command *msg = &buf.msg;
- 	struct keyboard_led *keyboard_led = container_of(cdev, struct keyboard_led, cdev);
- 
- 	memset(&buf, 0, sizeof(buf));
- 
--	msg->command = EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT;
-+	msg->version = 0;
-+	msg->command = EC_CMD_PWM_SET_DUTY;
-+	msg->insize = 0;
- 	msg->outsize = sizeof(*params);
- 
--	params->percent = brightness;
-+	params->duty = brightness;
-+	params->pwm_type = EC_PWM_TYPE_KB_LIGHT;
-+	params->index = 0;
- 
- 	return cros_ec_cmd_xfer_status(keyboard_led->ec, msg);
- }
-@@ -148,23 +152,32 @@ keyboard_led_get_brightness_ec_pwm(struct led_classdev *cdev)
- {
- 	struct {
- 		struct cros_ec_command msg;
--		struct ec_response_pwm_get_keyboard_backlight resp;
-+		union {
-+			struct ec_params_pwm_get_duty params;
-+			struct ec_response_pwm_get_duty resp;
-+		};
- 	} __packed buf;
--	struct ec_response_pwm_get_keyboard_backlight *resp = &buf.resp;
-+	struct ec_params_pwm_get_duty *params = &buf.params;
-+	struct ec_response_pwm_get_duty *resp = &buf.resp;
- 	struct cros_ec_command *msg = &buf.msg;
- 	struct keyboard_led *keyboard_led = container_of(cdev, struct keyboard_led, cdev);
- 	int ret;
- 
- 	memset(&buf, 0, sizeof(buf));
- 
--	msg->command = EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT;
-+	msg->version = 0;
-+	msg->command = EC_CMD_PWM_GET_DUTY;
- 	msg->insize = sizeof(*resp);
-+	msg->outsize = sizeof(*params);
-+
-+	params->pwm_type = EC_PWM_TYPE_KB_LIGHT;
-+	params->index = 0;
- 
- 	ret = cros_ec_cmd_xfer_status(keyboard_led->ec, msg);
- 	if (ret < 0)
- 		return ret;
- 
--	return resp->percent;
-+	return resp->duty;
- }
- 
- static int keyboard_led_init_ec_pwm(struct platform_device *pdev)
-@@ -186,7 +199,7 @@ static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_
- 	.init = keyboard_led_init_ec_pwm,
- 	.brightness_set_blocking = keyboard_led_set_brightness_ec_pwm,
- 	.brightness_get = keyboard_led_get_brightness_ec_pwm,
--	.max_brightness = KEYBOARD_BACKLIGHT_MAX,
-+	.max_brightness = EC_PWM_MAX_DUTY,
- };
- 
- #else /* IS_ENABLED(CONFIG_CROS_EC) */
+That being said, I worked on 62 drivers in this series beyond plain
+renames inside 'struct i2c_algorithm' because the fruits were so
+low-hanging. Before this series, 112 files in the 'busses/' directory
+contained 'master' and/or 'slave'. After the series, only 57. Why not?
+
+Next step is updating the drivers outside the 'i2c'-folder regarding
+'struct i2c_algorithm' so we can remove the anonymous union ASAP. To be
+able to work on this with minimal dependencies, I'd like to apply this
+series between -rc1 and -rc2.
+
+I hope this will work for you guys. The changes are really minimal. If
+you are not comfortable with changes to your driver or need more time to
+review, please NACK the patch and I will drop the patch and/or address
+the issues separeately.
+
+@Andi: are you okay with this approach? It means you'd need to merge
+-rc2 into your for-next branch. Or rebase if all fails.
+
+Speaking of Andi, thanks a lot to him taking care of the controller
+drivers these days. His work really gives me the freedom to work on I2C
+core issues again. Also, Renesas deserves a honorable mention here for
+increased support of my I2C activities. Thank you!
+
+If you have comments, hints, etc, please let me know.
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (64):
+  i2c: reword i2c_algorithm according to newest specification
+  i2c: ali15x3: reword according to newest specification
+  i2c: altera: reword according to newest specification
+  i2c: amd-mp2-pci: reword according to newest specification
+  i2c: aspeed: reword according to newest specification
+  i2c: au1550: reword according to newest specification
+  i2c: bcm-iproc: reword according to newest specification
+  i2c: bcm-kona: reword according to newest specification
+  i2c: bcm2835: reword according to newest specification
+  i2c: brcmstb: reword according to newest specification
+  i2c: cadence: reword according to newest specification
+  i2c: cht-wc: reword according to newest specification
+  i2c: cp2615: reword according to newest specification
+  i2c: cpm: reword according to newest specification
+  i2c: davinci: reword according to newest specification
+  i2c: digicolor: reword according to newest specification
+  i2c: dln2: reword according to newest specification
+  i2c: eg20t: reword according to newest specification
+  i2c: emev2: reword according to newest specification
+  i2c: fsi: reword according to newest specification
+  i2c: gpio: reword according to newest specification
+  i2c: highlander: reword according to newest specification
+  i2c: hix5hd2: reword according to newest specification
+  i2c: i801: reword according to newest specification
+  i2c: ibm_iic: reword according to newest specification
+  i2c: imx-lpi2c: reword according to newest specification
+  i2c: iop3xx: reword according to newest specification
+  i2c: isch: reword according to newest specification
+  i2c: ismt: reword according to newest specification
+  i2c: ljca: reword according to newest specification
+  i2c: lpc2k: reword according to newest specification
+  i2c: ls2x: reword according to newest specification
+  i2c: mchp-pci1xxxx: reword according to newest specification
+  i2c: microchip-corei2c: reword according to newest specification
+  i2c: mlxcpld: reword according to newest specification
+  i2c: mpc: reword according to newest specification
+  i2c: mt7621: reword according to newest specification
+  i2c: mv64xxx: reword according to newest specification
+  i2c: octeon-core: reword according to newest specification
+  i2c: owl: reword according to newest specification
+  i2c: piix4: reword according to newest specification
+  i2c: powermac: reword according to newest specification
+  i2c: pxa-pci: reword according to newest specification
+  i2c: qup: reword according to newest specification
+  i2c: rcar: reword according to newest specification
+  i2c: riic: reword according to newest specification
+  i2c: rk3x: reword according to newest specification
+  i2c: sh7760: reword according to newest specification
+  i2c: sh_mobile: reword according to newest specification
+  i2c: sis5595: reword according to newest specification
+  i2c: sis630: reword according to newest specification
+  i2c: sprd: reword according to newest specification
+  i2c: st: reword according to newest specification
+  i2c: stm32f4: reword according to newest specification
+  i2c: sun6i-p2wi: reword according to newest specification
+  i2c: synquacer: reword according to newest specification
+  i2c: taos-evm: reword according to newest specification
+  i2c: tiny-usb: reword according to newest specification
+  i2c: uniphier-f: reword according to newest specification
+  i2c: uniphier: reword according to newest specification
+  i2c: viperboard: reword according to newest specification
+  i2c: xlp9xx: reword according to newest specification
+  i2c: scx200_acb: reword according to newest specification
+  i2c: reword i2c_algorithm in drivers according to newest specification
+
+ drivers/i2c/busses/i2c-ali15x3.c           |  2 +-
+ drivers/i2c/busses/i2c-altera.c            |  4 +-
+ drivers/i2c/busses/i2c-amd-mp2-pci.c       |  8 ++--
+ drivers/i2c/busses/i2c-amd-mp2-plat.c      |  2 +-
+ drivers/i2c/busses/i2c-aspeed.c            | 26 +++++-----
+ drivers/i2c/busses/i2c-at91-master.c       |  2 +-
+ drivers/i2c/busses/i2c-at91-slave.c        |  8 ++--
+ drivers/i2c/busses/i2c-au1550.c            | 14 +++---
+ drivers/i2c/busses/i2c-axxia.c             | 10 ++--
+ drivers/i2c/busses/i2c-bcm-iproc.c         | 20 ++++----
+ drivers/i2c/busses/i2c-bcm-kona.c          | 14 +++---
+ drivers/i2c/busses/i2c-bcm2835.c           |  8 ++--
+ drivers/i2c/busses/i2c-brcmstb.c           | 12 ++---
+ drivers/i2c/busses/i2c-cadence.c           | 14 +++---
+ drivers/i2c/busses/i2c-cht-wc.c            |  8 ++--
+ drivers/i2c/busses/i2c-cp2615.c            |  6 +--
+ drivers/i2c/busses/i2c-cpm.c               |  4 +-
+ drivers/i2c/busses/i2c-cros-ec-tunnel.c    |  2 +-
+ drivers/i2c/busses/i2c-davinci.c           | 13 +++--
+ drivers/i2c/busses/i2c-designware-master.c |  2 +-
+ drivers/i2c/busses/i2c-designware-slave.c  |  8 ++--
+ drivers/i2c/busses/i2c-digicolor.c         |  4 +-
+ drivers/i2c/busses/i2c-diolan-u2c.c        |  2 +-
+ drivers/i2c/busses/i2c-dln2.c              |  4 +-
+ drivers/i2c/busses/i2c-eg20t.c             | 10 ++--
+ drivers/i2c/busses/i2c-emev2.c             | 10 ++--
+ drivers/i2c/busses/i2c-exynos5.c           |  4 +-
+ drivers/i2c/busses/i2c-fsi.c               | 56 +++++++++++-----------
+ drivers/i2c/busses/i2c-gpio.c              |  8 ++--
+ drivers/i2c/busses/i2c-gxp.c               | 12 ++---
+ drivers/i2c/busses/i2c-highlander.c        |  2 +-
+ drivers/i2c/busses/i2c-hisi.c              |  4 +-
+ drivers/i2c/busses/i2c-hix5hd2.c           |  4 +-
+ drivers/i2c/busses/i2c-i801.c              | 12 ++---
+ drivers/i2c/busses/i2c-ibm_iic.c           | 26 +++++-----
+ drivers/i2c/busses/i2c-img-scb.c           |  2 +-
+ drivers/i2c/busses/i2c-imx-lpi2c.c         | 10 ++--
+ drivers/i2c/busses/i2c-imx.c               | 12 ++---
+ drivers/i2c/busses/i2c-iop3xx.c            | 10 ++--
+ drivers/i2c/busses/i2c-isch.c              |  2 +-
+ drivers/i2c/busses/i2c-ismt.c              |  2 +-
+ drivers/i2c/busses/i2c-jz4780.c            |  2 +-
+ drivers/i2c/busses/i2c-kempld.c            |  2 +-
+ drivers/i2c/busses/i2c-ljca.c              | 20 ++++----
+ drivers/i2c/busses/i2c-lpc2k.c             |  8 ++--
+ drivers/i2c/busses/i2c-ls2x.c              |  8 ++--
+ drivers/i2c/busses/i2c-mchp-pci1xxxx.c     | 40 ++++++++--------
+ drivers/i2c/busses/i2c-meson.c             |  4 +-
+ drivers/i2c/busses/i2c-microchip-corei2c.c |  4 +-
+ drivers/i2c/busses/i2c-mlxbf.c             |  8 ++--
+ drivers/i2c/busses/i2c-mlxcpld.c           | 12 ++---
+ drivers/i2c/busses/i2c-mpc.c               |  4 +-
+ drivers/i2c/busses/i2c-mt65xx.c            |  2 +-
+ drivers/i2c/busses/i2c-mt7621.c            | 22 ++++-----
+ drivers/i2c/busses/i2c-mv64xxx.c           | 12 ++---
+ drivers/i2c/busses/i2c-mxs.c               |  2 +-
+ drivers/i2c/busses/i2c-nomadik.c           |  2 +-
+ drivers/i2c/busses/i2c-npcm7xx.c           | 12 ++---
+ drivers/i2c/busses/i2c-nvidia-gpu.c        |  4 +-
+ drivers/i2c/busses/i2c-ocores.c            |  8 ++--
+ drivers/i2c/busses/i2c-octeon-core.c       |  6 +--
+ drivers/i2c/busses/i2c-octeon-platdrv.c    |  2 +-
+ drivers/i2c/busses/i2c-omap.c              |  4 +-
+ drivers/i2c/busses/i2c-opal.c              |  4 +-
+ drivers/i2c/busses/i2c-owl.c               | 10 ++--
+ drivers/i2c/busses/i2c-pasemi-core.c       |  2 +-
+ drivers/i2c/busses/i2c-piix4.c             |  2 +-
+ drivers/i2c/busses/i2c-pnx.c               |  2 +-
+ drivers/i2c/busses/i2c-powermac.c          |  8 ++--
+ drivers/i2c/busses/i2c-pxa-pci.c           |  2 +-
+ drivers/i2c/busses/i2c-pxa.c               | 12 ++---
+ drivers/i2c/busses/i2c-qcom-cci.c          |  2 +-
+ drivers/i2c/busses/i2c-qcom-geni.c         |  2 +-
+ drivers/i2c/busses/i2c-qup.c               |  6 +--
+ drivers/i2c/busses/i2c-rcar.c              | 16 +++----
+ drivers/i2c/busses/i2c-riic.c              |  6 +--
+ drivers/i2c/busses/i2c-rk3x.c              | 18 +++----
+ drivers/i2c/busses/i2c-robotfuzz-osif.c    |  2 +-
+ drivers/i2c/busses/i2c-rzv2m.c             |  8 ++--
+ drivers/i2c/busses/i2c-s3c2410.c           |  4 +-
+ drivers/i2c/busses/i2c-sh7760.c            | 18 +++----
+ drivers/i2c/busses/i2c-sh_mobile.c         | 12 ++---
+ drivers/i2c/busses/i2c-sis5595.c           |  2 +-
+ drivers/i2c/busses/i2c-sis630.c            | 16 +++----
+ drivers/i2c/busses/i2c-sprd.c              | 14 +++---
+ drivers/i2c/busses/i2c-st.c                | 17 +++----
+ drivers/i2c/busses/i2c-stm32f4.c           |  8 ++--
+ drivers/i2c/busses/i2c-stm32f7.c           | 14 +++---
+ drivers/i2c/busses/i2c-sun6i-p2wi.c        | 20 ++++----
+ drivers/i2c/busses/i2c-synquacer.c         | 30 ++++++------
+ drivers/i2c/busses/i2c-taos-evm.c          |  2 +-
+ drivers/i2c/busses/i2c-tegra-bpmp.c        |  4 +-
+ drivers/i2c/busses/i2c-tegra.c             |  4 +-
+ drivers/i2c/busses/i2c-thunderx-pcidrv.c   |  2 +-
+ drivers/i2c/busses/i2c-tiny-usb.c          |  4 +-
+ drivers/i2c/busses/i2c-uniphier-f.c        | 22 ++++-----
+ drivers/i2c/busses/i2c-uniphier.c          | 12 ++---
+ drivers/i2c/busses/i2c-viperboard.c        |  8 ++--
+ drivers/i2c/busses/i2c-virtio.c            |  2 +-
+ drivers/i2c/busses/i2c-wmt.c               |  2 +-
+ drivers/i2c/busses/i2c-xiic.c              |  2 +-
+ drivers/i2c/busses/i2c-xlp9xx.c            |  4 +-
+ drivers/i2c/busses/scx200_acb.c            |  4 +-
+ include/linux/i2c.h                        | 24 ++++++++--
+ 104 files changed, 460 insertions(+), 464 deletions(-)
+
 -- 
 2.43.0
 

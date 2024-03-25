@@ -1,106 +1,117 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8361E534
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 18:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3B3839F6
+	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 23:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711392334; cv=none; b=RsZeE6rx8cJlB6xpTSOXohFwctoTQ2dtW4HfsypG+AwWeN3XQufEDdlSS4ifeB90CTalSdO/uNNm7YLpLMnNLoqpSyFBhDR3srASeoN4pm/VVN19TQOu4Ge44/SN6LLNY2993skG3F6XmmrT3uen6aJtvRY6wWn6VKZ7lHZUCPU=
+	t=1711410148; cv=none; b=H3MBY0f/Snvk7dgMvkXQiInWtO0tJiJRmS3A93wLnN1j5bV51S9dHQxUskK4HdZVWPLjrb7WDwTI2T3fE6mJ5igsQW/zb3wrYEfZ5QFcpGEvnExOpqwC9jTsWIAgg1unLKtrbHRXEgALaRfpgWzeT1LkCG0hUxLXKuxzQq8QoBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711392334; c=relaxed/simple;
-	bh=hqfeXNrriRE+vaPKUWSarAmC5GZL1ffLl1p6HZH7H0Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bMH9dEddos+kfmICtu55HdvgXPGpOkhOFnMyWBJIr0I8g8nEGvW1vMH2c9tLnkaZWE9u74yhwqtrVdE4ldV+rrFs/NtjT0xWyGOB/ZrGp5JnxAWOC7i1Wsc0l+y1L0u3CASOaOjzC83WJmfMlVzVhew2dsxSAv8MQ8tyKvOBDPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CU56ZVq0; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1711410148; c=relaxed/simple;
+	bh=1hd7YpQ7hQwnxXcI9b5Po9F83x/ePee1k7tMWUZlawY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=g7qN8uz3UWwRgiUFb6/D991UYtUyexuba/Rcc0IRhq0aZU8hufdJsqUVZkxBwYscs5c3NkiQftHLLAaoEfgAsh+fLep/igwWcwOzWaphFTUMly7jopP8p0pDnayRGfGY3imO7Com1ONdrRCmaSvZZg7dk2dyhZHxlnDAbBPKjIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eccsl0ND; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CU56ZVq0"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5684db9147dso5449403a12.2
-        for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 11:45:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eccsl0ND"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e704078860so3457732b3a.0
+        for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 16:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711392331; x=1711997131; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hqfeXNrriRE+vaPKUWSarAmC5GZL1ffLl1p6HZH7H0Y=;
-        b=CU56ZVq0fVbq0o8m2JsGV18e6GH77E51KTPqjkk6ewEPetaOhnUALmn1ZwyCdo0VQG
-         rh3Q1BEfaSBv3fPARblL4h9zkN21+qldVkUeH354ncuomkHwQAu5I1FlehfdpxlrdTGz
-         vNrUd2Aje+YcUb+LlFrQDA5+FznHgEex9oEf0=
+        d=chromium.org; s=google; t=1711410146; x=1712014946; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mwaCyJsz17AgoLSOr3XyXPNKuRaqFxfz3ir5v+CFYwU=;
+        b=eccsl0NDhGJENUxNlxj/8xQNYlF2KuooPb6jr4y6P2NlokGPc1mSJZFbwB5tYfyB+h
+         nK8WvJqxtLlYMClIWmqR8q/up2KTOcKR6QuG9LbEML0YsUg+2eeR71F2ydWBtgF/7dXW
+         ewFZPFXLn/Gzga48zFhhoEtfu8I3w9xJtKdFM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711392331; x=1711997131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hqfeXNrriRE+vaPKUWSarAmC5GZL1ffLl1p6HZH7H0Y=;
-        b=hOsbHj5CtRB/h+4XFJC6dBqinTtycgsfTiem6vsQtmSOIOoca0DaoH1LU9tmsmdchH
-         Nmwl4IK4nk9EKleH5aDy2bBCwjxI7Whlx1joxlyQV2I5jZg6rl6vLK4faDvV/MOUVCUs
-         Qom0Tdrr+ma1g99InGBDS3TV+3uIwYVZQEPhOfxeeqceJKcWR+AdqWfqC+sE3x7baR6o
-         5UPG0l1HtsksV0WQSpkzenP2ytJLdNmP/RuPZ9YoXmn3D1m1aotWq393VXwT1SoVpbmY
-         3FRRt/p2qnFgHA1ylB9xxzsPhCqMplad7U65rcG+3o98QxBgbCZwt6bo6KFlWNkE1W3j
-         AEeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwnWu8Vr5bFKsaUB+C91PcRcHbSc03gBQgtUXoxqOnI7cRVMl0qoz/CQaI7mKJ4vNr6deKRNsZIkax1Rrlq1fjr7+2eHQ2NXvtClvYanox
-X-Gm-Message-State: AOJu0YwoCXeo2KCYvMFBCkvBbedf/CXcgCfOz6vrbfyqmoX1JJWqLqV9
-	ILWkBCXcgJOR43EkMLglgIz69aKdzBRgXQtQu5c3rf4lwTHG7Ow+R4uQK1Mcw6qotDKr+raTSTA
-	=
-X-Google-Smtp-Source: AGHT+IEGrw70cEfyyP6GTE2jUfDWqFuScNGj9UYBiIughHMA0DV4WhGh50H881G/mpRkRznxNDKp0A==
-X-Received: by 2002:a17:906:128d:b0:a47:3796:1ef5 with SMTP id k13-20020a170906128d00b00a4737961ef5mr5294710ejb.5.1711392330780;
-        Mon, 25 Mar 2024 11:45:30 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id m23-20020a1709062ad700b00a46dd1f7dc1sm3318991eje.92.2024.03.25.11.45.29
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 11:45:29 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4148d1b4a26so665205e9.1
-        for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 11:45:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWHDwMmcj12sY8vetx8d7CsxM29tC5+qhLzhHKhR08sAlJuusY+JDF129PHHoxa32PnwkOIg0iyadJnv74sVqEhODnZOvYDIHGun8iPC8zA
-X-Received: by 2002:a7b:c4cb:0:b0:414:24b:2f4e with SMTP id
- g11-20020a7bc4cb000000b00414024b2f4emr5741343wmk.39.1711392329122; Mon, 25
- Mar 2024 11:45:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711410146; x=1712014946;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mwaCyJsz17AgoLSOr3XyXPNKuRaqFxfz3ir5v+CFYwU=;
+        b=l8K1hdEpA5Fd0dRAyPVratvnx1bFHLeeUg9ga0esptJC8IgJzRab74sMkh1x6oiTip
+         rWfcWmnVEvGrgbG5dqHAkNBsBodKLIZAo8sUmTsAxnTJ0HlMPA4/VxvHPBRk7Y70CzEd
+         mkrUj7L8zhwBJHcnLPQp//qHDB+cAhGQuYZQSw4GoDuh+kJmvccaKS3MCb7u5xJzw3Ra
+         l4aAPK4HkwqvbHctwFXJ8KJAb3paeC0bUgVsg82YWje6q0ITFikwU68J7f1W4fkh+LAX
+         9n3rGskrvFOUSOroTq8bvIP0GaUEwCc3MbpLNLsfcPKJmP4VjP5TBAD1G7vV6I2RTaL0
+         4U2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVdT5ziX6w5Pf/OHDXrb+iVfkokVAIVuEX1cxUFz7RAi8zW30JSQpYNYow1srzt3F/vd0SSlw3wf0ElKf8q8N4KCTpfbhq+tBvTo83dfDA7
+X-Gm-Message-State: AOJu0YzUco2owX1ZcqX47zIuFMn6srTUNv+Lc5Gdpk5GNLGa+/9BSOOD
+	MYwEUys0hR66NvZ2ezsoqWE5tJIsm0i034j7Qr9i68IDCzuXMxznpA8+Dns/EA==
+X-Google-Smtp-Source: AGHT+IHcXRhOkEXvObxQ0tQ+Vis8HUcWqaWZDTWLrnQuWAKccLbAZLusm/dPdM5IveoBuuJ72krrXw==
+X-Received: by 2002:a05:6a00:986:b0:6e6:5396:ce43 with SMTP id u6-20020a056a00098600b006e65396ce43mr10909343pfg.7.1711410146625;
+        Mon, 25 Mar 2024 16:42:26 -0700 (PDT)
+Received: from pholla1.c.googlers.com (210.73.125.34.bc.googleusercontent.com. [34.125.73.210])
+        by smtp.gmail.com with ESMTPSA id e12-20020aa7824c000000b006e5f754646csm4705250pfn.139.2024.03.25.16.42.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 16:42:26 -0700 (PDT)
+From: Pavan Holla <pholla@chromium.org>
+Subject: [PATCH v2 0/3] usb: typec: Implement UCSI driver for ChromeOS
+Date: Mon, 25 Mar 2024 23:42:24 +0000
+Message-Id: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240322102800.1322022-1-s.horvath@outlook.com.au> <SY4P282MB3063D447DA09D35F5FBD4721C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
-In-Reply-To: <SY4P282MB3063D447DA09D35F5FBD4721C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
-From: Brian Norris <briannorris@chromium.org>
-Date: Mon, 25 Mar 2024 11:45:13 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXM9=0jQA=MWpBOttUT7k67wmEDFGoOObQfYm=ca_HL8GQ@mail.gmail.com>
-Message-ID: <CA+ASDXM9=0jQA=MWpBOttUT7k67wmEDFGoOObQfYm=ca_HL8GQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] platform/chrome: cros_kbd_led_backlight: Remove
- obsolete commands (EC_CMD_PWM_*_KEYBOARD_BACKLIGHT)
-To: Stephen Horvath <s.horvath@outlook.com.au>
-Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOALAmYC/3XMQQ6CMBCF4auQWTumLSCNK+5hWOAw0kmEklYaD
+ eHuVvYu/5e8b4PIQTjCtdggcJIofs5hTgWQ6+eRUYbcYJSpVGlqXNb7UwhXioIOSybmSqtLX1v
+ InyXwQ96Hd+tyO4kvHz4Hn/Rv/ScljQobathaywOpviUX/CTrdPZhhG7f9y9pFmlVrQAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+ chrome-platform@lists.linux.dev, Pavan Holla <pholla@chromium.org>
+X-Mailer: b4 0.12.4
 
-On Fri, Mar 22, 2024 at 3:34=E2=80=AFAM Stephen Horvath
-<s.horvath@outlook.com.au> wrote:
->
-> EC_CMD_PWM_GET_KEYBOARD_BACKLIGHT and EC_CMD_PWM_SET_KEYBOARD_BACKLIGHT
-> are marked as obsolete in `cros_ec_commands.h`, this patch removes the
-> usage of these commands from the driver.
+We are developing a UCSI ChromeOS EC transport driver. The ChromeOS EC
+implements a UCSI PPM. This driver is being developed in
+drivers/platform/chrome since
 
-Just because the EC firmware repository marks these as obsolete (and
-yes, we copy that header mostly as-is into the kernel repository ...
-but it's still a firmware header) doesn't mean it's truly ready to be
-removed. I believe the intention is to direct *firmware* developers
-not to use them -- any new developments should be using the new
-commands.
+1) Most other drivers which depend on ChromeOS EC reside there.
 
-From a kernel perspective, we could still be supporting old firmware
-on old devices, and so we may want/need to continue to support these
-commands.
+2) Our architecture might undergo a few revisions rapidly, so
+   platform/chrome seems like a good place while we finalize our
+   design.
 
-I don't know off the top of my head which firmware branches support
-which commands, on devices that have such keyboard backlights. (The
-Chromium EC repository is open source though, with various firmware-*
-branches still around, so this information is available.) But without
-a better explanation as to why these are truly ready to be removed,
-I'll say "NAK."
+This patch series creates a public include/usb/ucsi.h that can be used
+by transport drivers outside drivers/usb/typec/ucsi. Then, we use this
+interface and ChromeOS EC host commands to send UCSI commands in
+drivers/platform/chrome/cros_ec_ucsi.c.
 
-Brian
+Signed-off-by: Pavan Holla <pholla@chromium.org>
+---
+Changes in v2:
+- No code or commit message changes.
+- Added drivers/platform/chrome maintainers for review.
+- Link to v1: https://lore.kernel.org/r/20240325-public-ucsi-h-v1-0-7c7e888edc0a@chromium.org
+
+---
+Pavan Holla (3):
+      usb: typec: ucsi: Provide interface for UCSI transport
+      usb: typec: ucsi: Import interface for UCSI transport
+      platform/chrome: cros_ec_ucsi: Implement UCSI PDC driver
+
+ MAINTAINERS                                    |   1 +
+ drivers/platform/chrome/Kconfig                |  14 ++
+ drivers/platform/chrome/Makefile               |   1 +
+ drivers/platform/chrome/cros_ec_ucsi.c         | 247 +++++++++++++++++++++++++
+ drivers/usb/typec/ucsi/ucsi.h                  |  54 +-----
+ include/linux/platform_data/cros_ec_commands.h |  19 ++
+ include/linux/usb/ucsi.h                       |  66 +++++++
+ 7 files changed, 349 insertions(+), 53 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240325-public-ucsi-h-3ecee4106a58
+
+Best regards,
+-- 
+Pavan Holla <pholla@chromium.org>
+

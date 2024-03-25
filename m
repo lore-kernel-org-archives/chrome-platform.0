@@ -1,134 +1,151 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-ME3-obe.outbound.protection.outlook.com (mail-me3aus01olkn2163.outbound.protection.outlook.com [40.92.63.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D4913957A
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 05:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711345975; cv=none; b=YApW3wwEHNCA8A0iO85gkQdA2vFQBj8AZkBY4t9bAUHbqzfcBkhtNKArOHvBQ0QgCx0jIGp6b9GBYvjbVU1tnFkf0D9dID6HRaY/GpkZyL16a4pa9RL5dHUBG3uPXB2kKReaYSSDP8iURFeFKxb1HZkw3SnxysBZqQteq3qEofo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711345975; c=relaxed/simple;
-	bh=C0W290sLCiQdnU5u4lQQ/4uUPDRZK7xiV4l8a1qZIOo=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=UGCbcGOs3740dY7899abeN9nDAesA5nTMyUyRC9HeDEmZg6yNqRBGDGrtv58AAifzFSAhXsUFoQBp4F8QVuRoGOv0sGT/A+3qY+8u44kgZ/9Q6OoFeq6Z588K+7gbLbbgBIQVV1qV/vsKycwRG8DRA2hXsfVyuVH4fs0y2OEgSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=QuatPGx4; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6161C0199
+	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 04:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.63.163
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711340882; cv=fail; b=VTUz2OedXff7WA6S+9mhOBvLdBh7lgvQ4YLLYdYG9ekLepgcMBj+cX7DQLiRD2panmWoT90QwqmpJI/AS5IvENB/SH0AF2D+dTPib7PI5xP2QdrRqvV3LH37LRBa/VFa0FoZfpTPFsQNMp8ZPvDBrs3RNgctxZBQ/1nwnjIsdvw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711340882; c=relaxed/simple;
+	bh=sBdH+zKfVHkHbA+paxIdyTnhAE+cEwLWyc+mpd/9p7Q=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Qro3DDqKh7coDNy9/mOWvCySDVX+ze9a5hErbutqdXlHid9gMdLXbHcUTQ5VXNAh0fq4L+hXzqfGVeY8akQzPwtg2E4UBU9Dvb0Kz5HBDD83jxH1snvsIzN547pRNeKNQ5VUVd4V1HeBuuWQjlVTX8BOi1BPiRq3wuMudHyKZuk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=outlook.com.au; dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b=C1JhwFkm; arc=fail smtp.client-ip=40.92.63.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="QuatPGx4"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dca3951ad9so26041345ad.3
-        for <chrome-platform@lists.linux.dev>; Sun, 24 Mar 2024 22:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1711345973; x=1711950773; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GCkopBzDUBorH62fyVM+Oy3Dsa58XzUZ0j/BtL4GPmo=;
-        b=QuatPGx4fpFJt8x1nFaKlqeDHeYvK62hRcVDi8XpgwdaP9bR+vpoG+G6AyjnwBIf0H
-         s+htqr/CJxfj5+4LPneGxTHgpJvshZfn9TvsDs1EyczhG0dkkXiMQaEJLM383RjzEiV5
-         lcS5xF4Z7bmTIyjYjn9AocbSQebM2uGGGlrnCHz8QoWqFhPVkFCB/daq0YBM6txM9z0G
-         ixJcVDp6eTfEJU0d+hx65qWd5iBknRhhHJkW4KLjVjjQYaUBh3MIENW4zRxdY9O8NRrC
-         9z/QbC+je9n5TCCvqAD4LU8GSe8MSqlPrsFYNES2IDzWvL0Xkvm4vOqCr7+MxkFbC8cl
-         SbUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711345973; x=1711950773;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GCkopBzDUBorH62fyVM+Oy3Dsa58XzUZ0j/BtL4GPmo=;
-        b=uN2ekidURMh312DMQbA7A/Y+IpQYZ0WXh5Zz0BhLWoLD8/tWnx/41/bM1cUfNdiTQ/
-         qadqNqLQvc3vjrxrb3675E8aVd6Z2kwlzqSKKv9sueVNKr7Y7DBNS9mu0MfSZpyXRvbQ
-         KW8H4R7Kbf4GaDbYWTXZuNUD5jr7xK7cqWhBNOMrmh9yd44lO94ORHNKnKbnbq9D/L4Y
-         o5F/PmuUX5T3SNASSlIHEo1WUyWNO0scI7A46QlvL3yDHERmOQsVzJdv7CG437lqeA0p
-         rSNgKOqseQgCy1h58ubEKJZlQAr0yN4buLx+9MmBl/eE/vdlM6i8ETFXfZ2pjuCKfvBh
-         ghOw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7KPC5VaTjPVBdsw4uUZ4o6SUa5yCvV7l3kFGEM/hZz09Og/b/D2eAbpIEswGPMroQIwZbJT4YfdvbLsqq2ZTxmiDiz0heMu30n+JGRF/B
-X-Gm-Message-State: AOJu0YxtbJDit84bku2vNlZHuvHvBQFOvNZFC+YpBIqoSPKruU7RBzEt
-	reVaWHntTD7ckAlUE8Nt+sa1akPyDiHEl7r6avc0kAL5Ssmdp9PyB2iVFwwJvgw=
-X-Google-Smtp-Source: AGHT+IFCjIHZAR7A2gFykCT2fV+PG+iNEIAcd8BgIbEa1E0/dxvu43HMWb3mMw4Dfd2pTR2/pX7xrA==
-X-Received: by 2002:a17:902:ecc4:b0:1e0:185d:16c3 with SMTP id a4-20020a170902ecc400b001e0185d16c3mr8727787plh.12.1711345972827;
-        Sun, 24 Mar 2024 22:52:52 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id b21-20020a170902ed1500b001dddeb10d83sm3970196pld.223.2024.03.24.22.52.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 22:52:52 -0700 (PDT)
-Message-ID: <66011134.170a0220.f43cf.921f@mx.google.com>
-Date: Sun, 24 Mar 2024 22:52:52 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b="C1JhwFkm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hv7snWpClvp0mIoofpxA0JgKFIOPxWTDJ7VkBxxYqVhASO+p6uHD+ynxN/eXyS1ZALNK7V6jzIGUo3h5O8n0ZPaSa2XX9cAm+jmr4WaCDMss+t7oVTOb6pLhJDX08Op8/gowrjrtyIhTaEM0X991bsI5qvELYiS57dXhdkew71PQ3BnGJSTa4sot1q4rVvdxh0KXM109OwCIpUXdnWDR2PBJrMKTb1imud/Lr+Rj9fTdQ0lUCDG1Ns+MiwdJCgHGiD50qUJlizZROxqjzmvqH2Gc4FxpzWQ5rPTC1J1FDb37lRv1/6/QOe66skpn+rMcCgsmj2ROHS1xFA6Bic2FvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Lpk/sA8/07SG+Tdl8LzGYjJ9zpc8O3DEhnMUBKqOVPM=;
+ b=ZaAPJ2fjgcEGGCwVBqOwVKDJbUWr8p+64LuGKPk075n8thk1CYopynkn+pe11aHIuTaQ6d2OtQxgPZA8ZLeXKY/nPwrBGmSPBYSqB+aoreu+UTIJ6ia4JnlriP9S6vq4wKwG+KimWwIG3mSW2WnHvKUPdWv7nqiZ7sXiStIeFphA9Lh7WDO7Fh57oH4VK3ZXAkEU1jOpynNXenrfR6heehfK0KOBXqFqIcKIauA0m4sgJBKH6DKZzrT4BH7KRRnL1+mD4UKxwyZP75DtD2RR8Lta8Ahe1DGXR9+qwfx1AnOliMx5xpeI0CO5GMMGA2GwxUZdaguddyNcJp3bTjID5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.COM.AU;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lpk/sA8/07SG+Tdl8LzGYjJ9zpc8O3DEhnMUBKqOVPM=;
+ b=C1JhwFkmyxCpgvw2ClPpi5+8+KbgbqZHJ4KvomFy+VHJDC9ROanOmd6X9xOZ+1B194crlopq8l5/7+sdzLsa7r8l7E/ptCtHbpdWvtg4Zrv2+rapkgi5C+/t7amK6LNlMb6cS7rYdkIALZpBn5Gf10gY5N16gpYpckmaNP7slCGTl7fydCc76jKZ54c/xyz1/+5jw6ONfpvOa+ydl+7BRc+Qm6dLtQX2JYK/dh58Y/p6jE0rhZqpQD0sNkaS7OnQwDqGohuQJIs5ggAd1jLWkoc1PM5skkv0N3RBBlIWkRcISwUL4iQ9FIHPdKspRkXPd/+qaPUflQHyNwfSqnW57Q==
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:159::9) by
+ ME3P282MB1747.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:a1::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.31; Mon, 25 Mar 2024 04:27:56 +0000
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d]) by SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d%3]) with mapi id 15.20.7409.028; Mon, 25 Mar 2024
+ 04:27:56 +0000
+Message-ID:
+ <SY4P282MB30638B59AF7677462C051518C5362@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+Date: Mon, 25 Mar 2024 14:27:54 +1000
+User-Agent: Mozilla Thunderbird
+From: Stephen Horvath <s.horvath@outlook.com.au>
+Subject: Re: [PATCH 1/2] platform/chrome: cros_kbd_led_backlight:
+ Automatically enable keyboard backlight control if feature present in EC
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240322102800.1322022-1-s.horvath@outlook.com.au>
+ <SY4P282MB306333469B31348E4A25A1A5C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+ <ZgDuiEYcgMTuZAeA@google.com>
+Content-Language: en-AU, en-US, en-GB
+In-Reply-To: <ZgDuiEYcgMTuZAeA@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN:
+ [amIU3wDL79bUWg7JZcEtbqGJp5H04I+/P2n1+OJ2qSohczgXRYdcC/1MKEpajdWQzt2f4g9FPuI=]
+X-ClientProxiedBy: SY4P282CA0010.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:a0::20) To SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:159::9)
+X-Microsoft-Original-Message-ID:
+ <a12a00a2-5874-494e-9b51-8203cfb9d82a@outlook.com.au>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc1-1-gf7496450528bf
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci sleep: 4 runs,
- 1 regressions (v6.9-rc1-1-gf7496450528bf)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SY4P282MB3063:EE_|ME3P282MB1747:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1347cb5e-d267-4cf9-603c-08dc4c83f1d1
+X-MS-Exchange-SLBlob-MailProps:
+	7qh87CJt6y28mnXrYaz3TbdiDbghv9xw0CB7WsKaKNjE19jLC1uofT5Tcsq7Li+hDHHS09RxIgZhDhlPodWk6r+ENudonLFfukQ7QeF0DDnzTtXCLHxZiO5H435q2tIhg2oUMXmzqs/RY6eYzpXsQgFzGm2CTxe+XLNjRO7W4N+LIEU2R+NUIXOVz/dG1efiIvSfIpoX6XTMVgqcUVUrSmtb6KXpi6Yg5MymgSwi6lJgLB7G7WxZXljZi/+whMM2U6BM3uuZ3ffhsHZt+KvWlvKQ2FayZN3KhOXNspWlUhIOLpAGwzIg/lAP4BDTl1S1onUUYOQ1lTXqVnVCe4bNPG0HfR0HTQyoLLxNqhyhwaIFxlR7IwaL+jS3UN5QhdUmT4ij8aV1Ceia8zmR7bWzB4zE4iCxzLJEwXpAHwyN3I9J8Z+bwc8FD28ZhMA1EkTQ9C2uUtLcv3grQsAxTblBaJEw94FGkF3r1s85LC7POXfNvAgsq57lyVcWCKPom6Z+S3YKPGPItEa3bwdDrG/LfXjs6lyMigQScNM6A9arR97Y7w71p3Q9uhvAsOpweJSXFdHo/nUgAX7x5T0Yt7Cg7CamczFxclj9NkxzEHh17TUn0W1yWyC/Feq/7ojX/nE+t/imjkl1oJY3DqnCMNICTtJkYhCqXb5EkxfVPbv54DA58ptTPmxFoXua7KsoNYPHIqHlSeeDLEbewWNigXmpT5TYmmMPsnAEi7SyqZB1wYVc7vMgXWpOXhj4QnY9LNXE
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	4aQaXrk2QPjbjpb9CVUTRgY1+vE+ilo9W0Nc1KMND2Eo+69cBe0nJwDYKJEi9EFlxUsXgvrSFSFGC9fx36WvZ10mHTAraIZI/quPlwlfTl3CBAZBY3vVJ3c1iSDPauvsYa8tBb6NUquhWpSJvWCyAmYc2sOA/ty5zHoE4KAfG39RDWQrpnVJeCk1Txz8oPKCglzdwpqxdY7apeQSxY+uz/OMbigjzd6+yjEV3XT1J8ar+CW7i73dyQy7UOuTS0geDyBl+mexmWlVcVbKYzJdvjVhCmB332idErPeFxZy/TzoVX4cqIr8Wq/JF9SfTtyJbwUqOQyK4pKW42BgXEF9M5QwUIi+hj/3KIADx5688laSzif55pPd/mlWehpf19Qb/9ceNGJA1oxBsCJvQfFlI5RVKsG2n1/nvNfrT8Q3y73NXKBCGXNTX7h87G0FVu288YTuHcG1BMoVsJa9E0uP39YBf7BIwLzSWQlpQXqCuXcUoQY4PQ3+BwJlTbqZjpVNb0IF31eMv2B8X5lAwtSXNDjSid9OaHcFVXCbbDIYmNJ1/cMIVA3fx6NiuWSqghmZ
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dm9VTjRrR0JjYlhwd3F5TzlWZ1RPNThHZjFuV2hCczZzS3JWdDdBeUh2ZjZL?=
+ =?utf-8?B?MGNwTVpGUk5FNEZvZE5Nc0dsanVkUm83VmZpMXJtMXNsVE55K0xnOHovNTlS?=
+ =?utf-8?B?Qk5QY3piZzQ0WUg4Qi9ld1E0NXBQcitLRHZUa1J5c0FmSkdId2dhT3kyaXMy?=
+ =?utf-8?B?WHh1aS8wc2lGbVlZTWNmSDlES0FKNEVkMys2V2NVbWxCWGdZQjc3elJOeGVI?=
+ =?utf-8?B?REpCMEY5ZHNYNUYyR0oycVVaK3Z6R2NuY1FONThCaS9NZ0w4TzlTaEdSTTF3?=
+ =?utf-8?B?bTZDdHNLQ0xwbkJYSTdzdjl2aHdmOW84K01VTjBhcENPSU1QWTNmNklrL1BG?=
+ =?utf-8?B?Y2J3aFE0OGM0NnBlOUJ6YytaYitBWXQyV1Zpc0F0SjBvRE1mV1pHeTBQa3Iw?=
+ =?utf-8?B?RDNyRkVmUmZIUjRWVWpwVDdNNkVDeGdGWnQyZ09EVUcrSXY3dkFDRGYydEs2?=
+ =?utf-8?B?RHlwbC9Lck9xRGh6SS9HRVFEZUdzZ2hIOFBLVmZxclcrOE1Md2lBYW9HUUdZ?=
+ =?utf-8?B?bkVvN29kTUVsWjd3YVlBTWtkV2RDTG1KRnYwNHluZTc3WXRXZGxhNUxWeWNX?=
+ =?utf-8?B?QXlPN3MwNU1pc0tDbVRNcUlaYnlpbHQxTGVkbWo2RWRaNjJQNDRDaDNXRTMy?=
+ =?utf-8?B?Y2FNNElybUJJYld2YXM3a2ZIbXFOaWpCWlVuMlRJY0RDVjVQOG9CUnZYTEt6?=
+ =?utf-8?B?c2ZXYWE1V3k4N25XWEMxajh1S0lnSkpTNlB3dDhNcVJXRThGcDkrWE1TNTFI?=
+ =?utf-8?B?WFh3S0lZOTBDRGRLNXRhUXZMZzNBTml3T2ZmSGtjajUzU29NMWpCUU5LamlP?=
+ =?utf-8?B?bnRiNWFsL0d5REdhWU1iRVphSUl3T29LN1RvcDV1UE1RVGgrK3dXU2pYeDVj?=
+ =?utf-8?B?OENGT0FKVSsrOCtveE8vWGM4cDExc0xRSXZRK1BmaEtIa0ptTmx0REZzTEUw?=
+ =?utf-8?B?R0w1RmF4VzZCaXExa0ZWbVdxb01nR2k1ZmZGbkFnZ3R3V2ZJUGczTkRNam9v?=
+ =?utf-8?B?eVl6NjBRa2hEWWlyNWQ2MHc3N0pvelhDYUNHTGJhOWJxbmVmV0l3Snc3T3hr?=
+ =?utf-8?B?VFJMUWNURmV5bC92bG1aSHNjNE1kRnBweFcxbk1xb2VDTnZYMEF4ZkJGeExl?=
+ =?utf-8?B?STJjanJkQnhQRjhWdmtnTHcrZzA5eUNhdEE1akowMVoxY1hOeHFlQWlXUnBI?=
+ =?utf-8?B?K1pHTWRhMkxPY0lxRG5tQTMxSE9JWHlIdVlvWlR1ZHRqMmpTbjNBalp2ZC9z?=
+ =?utf-8?B?Z3hMazVjMkRnMmt5R0Z6QnhiRXRsQ1NEYklJZmltdU14bEFnbTRMMDBOaVhZ?=
+ =?utf-8?B?VHZRRmhmSkNwUFlvSFlDT0tvcWxDU3htMWxtMjBuUnV6UUl5NTJQb0xxNE1D?=
+ =?utf-8?B?bnJYVHk4SzJvUHlvckNENVNzbktNWldJRysvN0cySXgwYWdTL291V3ZHazVr?=
+ =?utf-8?B?MFBPMzh4OHM4L0hSUkd5YnhSNEp5NGlLMVN2ZXcwUmdrbVp2L3hsdmJrU0Vi?=
+ =?utf-8?B?QzJaRXQySEF5anJoZUlkc3hFdzhUYnE5UFVwZmJJd1NHU0JOVnJJZFFGa2Vv?=
+ =?utf-8?B?TFRXd09sUXp3UlpRQ09sM2FuZVBxU21mQy9ZKzd4MmV4VDJsOTlOWkpJRnE3?=
+ =?utf-8?B?N2UrT1h3dXZsUS9jYmY1bU5Kcmc2MmZic2Rhd2t3M2crVnpkVWZ1THMvSUUy?=
+ =?utf-8?B?Z3BnVm5PbmVFZHhaQTMzY3h5WWw0bkR5SEdwRTdkclNsanVWZ0wxVnNGUita?=
+ =?utf-8?Q?jtTBAXk2YIUlGO1SiCeBylRXguRAVHH+ejfyPrw?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1347cb5e-d267-4cf9-603c-08dc4c83f1d1
+X-MS-Exchange-CrossTenant-AuthSource: SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 04:27:56.2801
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME3P282MB1747
 
-chrome-platform/for-kernelci sleep: 4 runs, 1 regressions (v6.9-rc1-1-gf749=
-6450528bf)
+On 25/3/24 13:24, Tzung-Bi Shih wrote:
+> If they aren't part of commit message, please put them after "---". Please
+> separate to an independent patch if they fix different things.
 
-Regressions Summary
--------------------
+Alright thanks, the separation thing did kinda occur to me after I'd 
+send it, but I will do it next time.
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+> I'm not sure if it really fixes anything.  See [1] or [2].
 
+Ahh okay, I guess it was probably a side effect of me breaking something 
+else then, since the module only seemed to crash without that change. 
+But I was also mildly confused how it seemed to work fine like that 
+elsewhere though.
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc1-1-gf7496450528bf/plan/sleep/
+> By current design, the `drvdata` should be provided by either ACPI or OF match.
 
-  Test:     sleep
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc1-1-gf7496450528bf
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      f7496450528bfe9350c5a62d180b4926b96f571b =
+Yeah sorry, I didn't really know of a simpler way to do it, since it 
+gets started from `mfd_add_hotplug_devices` in cros_ec_dev.c in this 
+patch. I'll try and find a better way if I decide to make a v2.
 
+> The patch is ruining the use cases in OF world (e.g. [3]).
 
+I was kinda worried that the module would somehow launch twice, but I 
+have a feeling that wouldn't be possible anyway.
 
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66010353baa5dd0bc44c430f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-1-gf7496450528bf/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/sleep-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-1-gf7496450528bf/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/sleep-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
-240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/66010353baa5dd0bc44c4310
-        failing since 0 day (last pass: v6.7-rc1-4-g57eb6dcd32cf6, first fa=
-il: v6.9-rc1) =
-
- =20
+Thanks for your feedback!
+Steve

@@ -1,140 +1,151 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E33D136E17
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 06:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DCC12F383
+	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 07:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711347775; cv=none; b=p5A89CfCAn1T5rEn6KnxVU84lwJe24+0vlYDEg67/3ZdOmdM9+taVtwQuK3Cnkjff9C9flAHJYqVYWwPTABIx2ATLRSgEeBVKrnouLnT1d7MolVGT7Cx54nE1wXjZf5dGHb3DRKc144yn4jcYDYj7v6I6VSKm0j0ud55A3VQJ+Q=
+	t=1711352836; cv=none; b=fZT4E3FOwby6ow8W+Ix6ZUnbswMfSsTJiwCpJ+Adq4PYvTvS0a5IPd5vFP3PVHHGqBauaN/Y8bexXXHKG4JvejCdYE1He2WkDtpnt6ZOGs9l0AU1pyF37neAhmt1VuKN7pxbg1K40WTapGFfY5hw/vGj2EwEE3UEB9svR+n+uso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711347775; c=relaxed/simple;
-	bh=YN/LZZPI80eG6Wlb6mo3RfZXqy0IJpq2YGso7Xzomq4=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=UZWeYx9cRCl+LjuzCWDPNBYL811hmjnPC88HpOOoyJ/jJoMrJMZy5C8esNoVAA7LzVDNxYBy6BFHbK8rW6VZQBgOcAhOqeH0ENBMPFjEHIkJe9k5MmyYc9RJbsE9gG1Qnt+rAhIGhoEPsXzdQAL8XUL7m2G7rh6LLFfoQGUTkpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=o7etdo7E; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="o7etdo7E"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3c3acf4b0e1so2440923b6e.0
-        for <chrome-platform@lists.linux.dev>; Sun, 24 Mar 2024 23:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1711347772; x=1711952572; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPQ0ZOqDucxuojUe+MwCmDB6iNJJcrnMwiTVvmTvLYY=;
-        b=o7etdo7EAqQl7Qzi1fcd0ZPGFT8RYXIN6O5ZgrRfjRBQbAI88axA4YF5rM/apZ5zFY
-         OiFRgl1zo0F6BPuz7RxSpnTCgiYn/oEof5zuoDbOq/a/6ola3QrJ6j7RWTG8ectqWEJS
-         5OX4SCFRLINoD9I17UACjwRspm4zoto4H31ly6VcDWYmaxPig2k5SOj3m83Sg+XurI5J
-         DTLH0iLNXruSJ7A6hGGGGYnlD8WFSyDRzQYM7oUbtrITNsW1+XzhLiVdksQyktcrbUpl
-         C6O1BsFu//6JcfTJYLjhWoptt3DJCRAcLhCJNepJ4122Hm8ujIsBsTewbztiFRvNzRCZ
-         kY1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711347772; x=1711952572;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tPQ0ZOqDucxuojUe+MwCmDB6iNJJcrnMwiTVvmTvLYY=;
-        b=wMAPy0QQek1HGrEh8YRe7DghzFLaqMIk3YYz1jk4yUlGIIHWp5DMJR7oCgUcIau/ZO
-         DashfZsxQonIc1GjdvtmgmYucvUzMcIQVhylwMXj+uzBFGwJ/YhEJWAkjk4IJnZ27VkH
-         6AYgp8EnJu03aiWNymgqCu81Y7RaPMHXklgxVCUhwUJ84m62QXEccE9P070j77yWGdKo
-         EBOvLZhYd01Y2uKjTnj1TdAhkWuLk/RMHqcGs1uLJRjWDAzKPKOKCTJS5V+N2CBLjjwL
-         l6CZfcKDgeB1eYgnqpiHKSaeyOpfyIiJTrsZ7AJ1GqLyNC8RD2WV+6u6LSxJJEXD0DVc
-         fIEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWq7vYkrpuulGubuvEWgQXWVp/Mn938Ks8VXOcdg1qP9vajF8lpKsxZPoO6avZmtyqm+C4Nqt4jssNdIxC68XTU0DXBe5HxDmVSbzg8LjqU
-X-Gm-Message-State: AOJu0YwNRR4QGYcA+5fO6AguVHZRPsluzz8vh45GQ3ZkrbLzsClO91TO
-	lCY9EN0FowSTzCFHmPDDIAIRgZp/IvdAQ+KCSQWdgNkMVVNp5Fltd2970fYIxfs=
-X-Google-Smtp-Source: AGHT+IFrhZE03LYKND1Hm7WY95a7uG/lXLS8f1LYikbheFiFDVsm37zDT9Gkc/tp4xxZlH/zT88L7Q==
-X-Received: by 2002:a05:6808:2e4e:b0:3c3:90d2:c6ed with SMTP id gp14-20020a0568082e4e00b003c390d2c6edmr10008948oib.21.1711347772407;
-        Sun, 24 Mar 2024 23:22:52 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id q18-20020a62e112000000b006e8f75d3b07sm3517799pfh.181.2024.03.24.23.22.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 23:22:51 -0700 (PDT)
-Message-ID: <6601183b.620a0220.5fd98.846b@mx.google.com>
-Date: Sun, 24 Mar 2024 23:22:51 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711352836; c=relaxed/simple;
+	bh=SwWn0CQu/X5SVnKJRgCwnQf5i60zqkGmkyhz8diQZ4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dY8o1TnmqkHeW5gOi6J3u6Oxdg2Gk8cmtOX3ikqghQfFMaCpAhNN3kAnD/QikrLhX1nN01CktB4J/gfyMzgJOG0uM4IxGXgF1N+FFQLuuhJNclBue790EtyhajX4sbvsSl8TFCqiVqc57RNyji8FFGt16D1I91nn22/Ybbax69U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rof17-0003OW-Jx; Mon, 25 Mar 2024 08:45:13 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rof0v-008NMm-2h; Mon, 25 Mar 2024 08:45:01 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rof0u-00G1gD-2q;
+	Mon, 25 Mar 2024 08:45:00 +0100
+Date: Mon, 25 Mar 2024 08:45:00 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>, Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Ajay Gupta <ajayg@nvidia.com>,
+	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
+	Robert Richter <rric@kernel.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Vignesh R <vigneshr@ti.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Conghui Chen <conghui.chen@intel.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	imx@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+	linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 64/64] i2c: reword i2c_algorithm in drivers according to
+ newest specification
+Message-ID: <ZgErfGFanetan_gP@pengutronix.de>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc1-1-gf7496450528bf
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 5 runs,
- 1 regressions (v6.9-rc1-1-gf7496450528bf)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-chrome-platform/for-kernelci cros-ec: 5 runs, 1 regressions (v6.9-rc1-1-gf7=
-496450528bf)
+On Fri, Mar 22, 2024 at 02:25:57PM +0100, Wolfram Sang wrote:
+> Match the wording in i2c_algorithm in I2C drivers wrt. the newest I2C
+> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
+> appropriate terms. For some drivers, this means no more conversions are
+> needed. For the others more work needs to be done but this will be
+> performed incrementally along with API changes/improvements. All these
+> changes here are simple search/replace results.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Regressions Summary
--------------------
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de> # for i2c-imx.c 
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc1-1-gf7496450528bf/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc1-1-gf7496450528bf
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      f7496450528bfe9350c5a62d180b4926b96f571b
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66010586341998ff2d4c42df
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-1-gf7496450528bf/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-1-gf7496450528bf/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-colla=
-bora/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66010586341998ff2d4c42=
-e0
-        failing since 97 days (last pass: v6.7-rc1-3-g59a9ccf19ee03, first =
-fail: v6.7-rc1-4-g57eb6dcd32cf6) =
-
- =20
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

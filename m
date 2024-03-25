@@ -1,108 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFED7DDC5;
-	Sat, 23 Mar 2024 09:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8BB14A606;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711185637; cv=none; b=ncOmAjFw4nEPoF0J2y/49n7YILGtVM/GZBxJPRBw7iGx8Q3CF1vxx75esN0JU+6OiKH8slJCUM7G2sYETfMhHBbpRJ7CpCBwHVf9u+7Oyej1He8OBtFzL0YYOMFdz/B17Y3BzBgzDeYdlmG37+laJae/kelDEGxseod/p95RRAM=
+	t=1711331663; cv=none; b=R2TkN1px4vuLS+vcLlOmYx8at8lOBxHIM+zVtL56H0LKjF3LknOurJFOnSZJHPJRPnMB+LsLruuk+XnMcz6befx0qOosgNgA75GP9OmZQeno+bwtlIWf+MAX//Uc3AtzuGeg4icAAfN5QbbHGxGI3HDGDgl/QJMSZLM2khN+KUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711185637; c=relaxed/simple;
-	bh=aGTQuZy7vZpxuhlc2uWM1FWO2cNVLUpXYHPr+30NYM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rh0DSAdSQVNBS1adbiZGMY4peRzHf0OTI1CLdrkJl+mE1QbOUeJ4y6uzhifAP3lPqxAJ+LIqYAI9lNkveAzkyTTykksIouPaF+eEm+Dp1DBn5jBle6zAmfSWwrlcPoHoim7asJCNSjOC4eFVZF68Wj1uh+JRYU+LavkF/Ophhpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmGkF125; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711331663; c=relaxed/simple;
+	bh=ojOvuJS5jAKIVgnuu4Wz3oDaixRKiajNf9MRBrzuQ5Q=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=mmlI5TcJvhdX7WLSgRFeDRQSuCVghi6OqZP3d+wKgTzR5Y3hRnHJn83OCzxqUjRFLjPjLsrVsMUj3tYZy3Ce2nLK8ff8JpLU75xkhi99LL56HB15A/XrsE6NhHz8EiGUGKMry5Te7IcVIGsjI6C65Mc20lCyY5j2LcQMdf732so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rL3+HMty; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmGkF125"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D51C0C433F1;
-	Sat, 23 Mar 2024 09:20:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rL3+HMty"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 854ADC433B2;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711185636;
-	bh=aGTQuZy7vZpxuhlc2uWM1FWO2cNVLUpXYHPr+30NYM4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AmGkF125xegySFWAiHvPntmZ+07s8hZQPC/0IVIftdkxYeMJTqDHDoBaq087Sl4Ry
-	 qKx2QcAVw6S410SG7j4biAqt4/h5dTjc1vKUs5R8LJBjxtJSQyMNE1PxZTAhzLwpa+
-	 ZvDOHlqhfPGo+3K1JP9tq5K11rxRL31gNRIYe4fcfJjyAcpNQmozM0AzDwGqt7aAAm
-	 vL1bo7yWAyyXHWJXICav98Il7syCI5t9aEO0HLvfyTQ7cJVQX5WfpHiaD8JmvRG1Zm
-	 VmI4taBLphr2uo/nVmCk1uj3x3TE6/IYqaCXMkAcTk/3yvQe9KoaZIneVeSaGY4Thk
-	 hCCXd6I1k2Bcg==
-Date: Sat, 23 Mar 2024 10:20:32 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
- specification
-Message-ID: <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
-References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+	s=k20201202; t=1711331662;
+	bh=ojOvuJS5jAKIVgnuu4Wz3oDaixRKiajNf9MRBrzuQ5Q=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=rL3+HMtypHYBa4J7uPg7by0dwLSvnBXl3ADMS5FAGRkhMQuz1yb7QxSprvv8h5w+O
+	 VR0SOphVx5QiK4LWWWG7g4lPmjsmWKPfbrttgecDxFjAuf4RKjN9+6L0cehPrFAVdL
+	 hgcrODZvBAkGd5q0pgFstXbhIDGDmk97mtQEmSndRxo+xBSljiPrLgdtyR7qRnXksL
+	 W5tkbEOnOhE7GiKau/9sUZ4xiMB6SonhQyE85kx9yaaow9Qet8YSMOBuZcgSlttPi6
+	 +S6iFSfIp8Y61YVa00fCb3OlaEL/5m43MOcCZbus46mVj9tarGw5AYGmr5OKaZctt0
+	 JSEYFP48at7AA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6B479D2D0E5;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable cbmem
+ in the arm64 defconfig
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171133166243.9916.3802194200601946624.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 01:54:22 +0000
+References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
+In-Reply-To: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
+To: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_=3Cnfraprado=40collabora=2Ecom?=@ci.codeaurora.org,
+	=?utf-8?q?=3E?=@ci.codeaurora.org
+Cc: tzungbi@kernel.org, arnd@arndb.de, briannorris@chromium.org,
+ jwerner@chromium.org, masahiroy@kernel.org, nathan@kernel.org,
+ nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
+ angelogioacchino.delregno@collabora.com, andriy.shevchenko@linux.intel.com,
+ gregkh@linuxfoundation.org, kernel@collabora.com,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-Hi Wolfram,
+Hello:
 
-On Fri, Mar 22, 2024 at 02:24:53PM +0100, Wolfram Sang wrote:
-> Okay, we need to begin somewhere...
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon, 12 Feb 2024 09:50:04 -0500 you wrote:
+> This series adds the missing pieces to the coreboot bus and the module
+> alias generation to allow coreboot modules to be automatically loaded
+> when matching devices are detected.
 > 
-> Start changing the wording of the I2C main header wrt. the newest I2C
-> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
-> appropriate terms. This first step renames the members of struct
-> i2c_algorithm. Once all in-tree users are converted, the anonymous union
-> will go away again. All this work will also pave the way for finally
-> seperating the monolithic header into more fine-grained headers like
-> "i2c/clients.h" etc. So, this is not a simple renaming-excercise but
-> also a chance to update the I2C core to recent Linux standards.
-
-yes, very good! It's clearly stated in all three documentations
-that Target replaces Slave and Controller replaces Master (i3c is
-at the 1.1.1 version).
-
-> My motivation is to improve the I2C core API, in general. My motivation
-> is not to clean each and every driver. I think this is impossible
-> because register names based on official documentation will need to stay
-> as they are. But the Linux-internal names should be updated IMO.
-
-Also because some drivers have been written based on previous
-specifications where master/slave was used.
-
-> That being said, I worked on 62 drivers in this series beyond plain
-> renames inside 'struct i2c_algorithm' because the fruits were so
-> low-hanging. Before this series, 112 files in the 'busses/' directory
-> contained 'master' and/or 'slave'. After the series, only 57. Why not?
+> The configs for cbmem coreboot entries are then enabled in the arm64
+> defconfig, as modules, to allow reading logs from coreboot on arm64
+> Chromebooks, which is useful for debugging the boot process.
 > 
-> Next step is updating the drivers outside the 'i2c'-folder regarding
-> 'struct i2c_algorithm' so we can remove the anonymous union ASAP. To be
-> able to work on this with minimal dependencies, I'd like to apply this
-> series between -rc1 and -rc2.
-> 
-> I hope this will work for you guys. The changes are really minimal. If
-> you are not comfortable with changes to your driver or need more time to
-> review, please NACK the patch and I will drop the patch and/or address
-> the issues separeately.
-> 
-> @Andi: are you okay with this approach? It means you'd need to merge
-> -rc2 into your for-next branch. Or rebase if all fails.
+> [...]
 
-I think it's a good plan, I'll try to support you with it.
+Here is the summary with links:
+  - [v4,1/4] firmware: coreboot: Generate modalias uevent for devices
+    https://git.kernel.org/chrome-platform/c/c2b28f6806d2
+  - [v4,2/4] firmware: coreboot: Generate aliases for coreboot modules
+    https://git.kernel.org/chrome-platform/c/f1cebae1dbf8
+  - [v4,3/4] firmware: coreboot: Replace tag with id table in driver struct
+    https://git.kernel.org/chrome-platform/c/8a0a62941a04
+  - [v4,4/4] arm64: defconfig: Enable support for cbmem entries in the coreboot table
+    (no matching commit)
 
-> Speaking of Andi, thanks a lot to him taking care of the controller
-> drivers these days. His work really gives me the freedom to work on I2C
-> core issues again.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thank you, Wolfram!
 
-Andi

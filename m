@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0E114A610;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC32149C6F;
 	Mon, 25 Mar 2024 01:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711331664; cv=none; b=gYr37ZC1XsxDdAcxzNHmCY6nk/tl40yhdYP3Z8DdXF2nDt+TW4WLO+0R9uJu8+ipE5wgl7894jV2plWO/l3aDRLjB6DdjHdPI+UhUHtxeKBiyajFJNBjXiEA5+RefNDdKMusu22Pi4L7AQdHMm2bq6nS8F3M23LLEFLXCV195RE=
+	t=1711331664; cv=none; b=GJotvEpMU2t96ExlDP3QYkgti/oue1B5/XZ2/OAaIXFHBOg1K26ltNX9kzVIaC/PnayRyFTRu4YN4f21q8FdTbC9asELWe8D6wb/XNMMmEug7fnwPJGVoT5EkY2oD+cMj3e1Xyxxr/P3JU9ZaKKy5lFZlvUtn2KgsaoMl5MvKZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711331664; c=relaxed/simple;
-	bh=dGLtw9o76VTvjUB+GuC8G2B7iCbg1wM87eRGdun2uOI=;
+	bh=6oSruhpUUM/JsOE/DmTpdI2vwwDBrgPZ0a067ebg71g=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=MBam6I4higyBM2Kr/epz7V3B1zAux0YqWiBsVrUxPqJQM21baPuV7DbJ+dprpNZIzjt/77y3/cnJd4wv3cp3s/DogVvKri+JSgulkaX8dG/uUGbuV+XDNJqqiEZh8RpdyQ4LzfiPffo/Lvwgm7sTdpLAyFfuaNlpV3OlVBYU+5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjQoFYO8; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=BXavgyVIwbI0XKt1bmIkdF8F+g0tHgU1gEza/QMi5atTyUN40Y2UP4Zw6q60v2jdLAevl79doPcqwa3mWV37MQAFut45u2PH4gdHOaD5f3a/3JCcsD95+91BVI6QTqL08yDZxgNdIsE1jv1Y6zYz+VCooluQ5p0gBwpWn7T7MgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5v5+h49; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjQoFYO8"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF215C41612;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5v5+h49"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6E65C3278A;
 	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1711331662;
-	bh=dGLtw9o76VTvjUB+GuC8G2B7iCbg1wM87eRGdun2uOI=;
+	bh=6oSruhpUUM/JsOE/DmTpdI2vwwDBrgPZ0a067ebg71g=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kjQoFYO8fKJjz7H8xbUKF/K53JEivEvIdq37UDC2aubs3ODACU3XSRfqdop2h0w9e
-	 HwI5RuI/feZ6YWtgKXQ89L6b9KdTYsfXwZJPmz+mp4Ulcv37nZQqs3Ing2JhalmGj1
-	 sSCg1nZmphjRrNHc3zmNMXQVY7cPiKZOFFRK7jkzWtHnMiyrTnuKl6SLU1aGjTisPc
-	 TZwctn0kfMqDF62Mkh/uQYmvPEEUVmwQVx0EwsvswwrS+ENEyoq+KnbsQN3nmfApLl
-	 kLlIRLvkTJg4viHnObpx0LTjqYg77X/RxwkPYCkcWW4gED/S4C07flrvcVE7/jdZia
-	 Y9RTPpjXbrXnQ==
+	b=H5v5+h49ENxYpO4Qx7Bxhx6rXvKE1uOYwWRPMuOMKAAAGjbVLOwiVpxBUGFp5tgD0
+	 bRdst26F9hDjh7YUZUwWr0x2cAfYNRnj+dxtl/ne6glopIwxX+aoKUy6CJcxbWbaUd
+	 MNr0+9gadKcBt3ZsPaHE1sxCHjuCpj1s5bpqLzxDj5YOy3Dta1gaLkaSqBQAzpz4LX
+	 MIdCzDsNSrkQbOQKie0yC9qHiPkAzdY9UedzZ5MflJ7Du/7ighdOEZfL1lo9oLnp14
+	 irlDyqzxpGP8P9NN8Jv7v8MMGYjdEJEFqvc3HShkoC9g70mAo7FfNU3xI07MtYbvbK
+	 tzSw6JGLkISEA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9F29DD2D0E2;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A9007D2D0E0;
 	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,42 +37,50 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/3] Introduce EC-based watchdog
+Subject: Re: [PATCH v2] treewide,
+ serdev: change receive_buf() return type to size_t
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171133166264.9916.12747204402586368718.git-patchwork-notify@kernel.org>
+ <171133166268.9916.3624245768126440750.git-patchwork-notify@kernel.org>
 Date: Mon, 25 Mar 2024 01:54:22 +0000
-References: <20240126095721.782782-1-lma@chromium.org>
-In-Reply-To: <20240126095721.782782-1-lma@chromium.org>
-To: =?utf-8?q?=C5=81ukasz_Majczak_=3Clma=40chromium=2Eorg=3E?=@ci.codeaurora.org
-Cc: gwendal@chromium.org, tzungbi@kernel.org, biernacki@google.com,
- wim@linux-watchdog.org, lee@kernel.org, bleung@chromium.org,
- groeck@chromium.org, krzk@kernel.org, linux-watchdog@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+References: <20240122180551.34429-1-francesco@dolcini.it>
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ greybus-dev@lists.linaro.org, linux-iio@vger.kernel.org,
+ netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-sound@vger.kernel.org, francesco.dolcini@toradex.com,
+ luiz.dentz@gmail.com, johan@kernel.org, elder@kernel.org, jic23@kernel.org,
+ lee@kernel.org, kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+ davem@davemloft.net, krzysztof.kozlowski@linaro.org, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, bleung@chromium.org, tzungbi@kernel.org,
+ robh@kernel.org, Jonathan.Cameron@huawei.com
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Lee Jones <lee@kernel.org>:
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-On Fri, 26 Jan 2024 09:57:18 +0000 you wrote:
-> Chromeos devices are equipped with the embedded controller (EC)
-> that can be used as a watchdog. The following patches
-> updates the structures and definitions required to
-> communicate with EC-based watchdog and implements the
-> driver itself.
+On Mon, 22 Jan 2024 19:05:51 +0100 you wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
 > 
-> V1:https://patchwork.kernel.org/project/linux-watchdog/patch/20240117102450.4080839-1-lma@chromium.org/
-> V2:https://patchwork.kernel.org/project/linux-watchdog/list/?series=817925
-> V3:https://patchwork.kernel.org/project/linux-watchdog/list/?series=818036
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from
+> ssize_t to size_t.
+> 
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value").
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v4,1/3] platform/chrome: Update binary interface for EC-based watchdog
-    https://git.kernel.org/chrome-platform/c/4d2ff655fb85
-  - [v4,2/3] watchdog: Add ChromeOS EC-based watchdog driver
-    https://git.kernel.org/chrome-platform/c/843dac4d3687
+  - [v2] treewide, serdev: change receive_buf() return type to size_t
+    https://git.kernel.org/chrome-platform/c/fed99212acae
 
 You are awesome, thank you!
 -- 

@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927D14A602;
-	Mon, 25 Mar 2024 01:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E5229D68;
+	Mon, 25 Mar 2024 02:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711331663; cv=none; b=s+Og1v+sz5Cu9YYB0bLFQFGIEh86DhtXeRa9mQCECeHyMoHfnjupBsbvGG/8lEezaoabwLfrMYKqyz1fbaTFw9QxOLtX2V3DT+TGupkf6fcgcP9/j8kFsKwOz3iq/lfpeTyxMLN4D0bGedNhcKMcILHaejPQXhhBVWGYX8vOS+s=
+	t=1711334429; cv=none; b=Vo1zlzb/1+sossaHMXnt0rhBjl0BnHvzO7oNh3v5loMlrND9rrQf9u4zl3E1UymnS3aQ8wvzuBjdenbpCJlJvXTZfJtugE1F7tQhiZjH9ArClfwJokfKfLfmIMnPdw8QTsDrv7A/IqJ3yvzNX00uY3gQ39JpRJtCOUUzjAIqkas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711331663; c=relaxed/simple;
-	bh=3uYZHwDwMvbZsbPB9A8Yw6hlzifQeyqRpNoGZWbsN+k=;
+	s=arc-20240116; t=1711334429; c=relaxed/simple;
+	bh=zo7xBI0RIUOEwUmjoqhSEKwU6zdd9SPVoCL14vmhqFQ=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=pE4r8+7RgNIwwOAOSnVOTmtLdX2uDbmura8OZtnoAHM2kSNPjfXpRn0wE6aVzrZe4oa04rx1pVdBKCYfOfPXJB+zUdQ1AJBxEhE0mPOfaj6ssu5vrc10LzySpsXTRhTQnVkRsTD5lF9GCAsgwrRfe5badSZ2DSJAFewOmk4+goA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9k94xcb; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=sdHAc7iQAJI3JKEvp1+4qqomX2VewbfydTy72cMo8p+d1xAST0bAvLcVIKuphojeT6NvZzk3fgEYWvQpkKYY6wLcMnPcUkHAAEBVhA6ithwAAkQTDgITuxSw2aeC4kh4TQ7V0KZvuIgMMeO8hmW3WJxtLMdYmD8c8Bicyw+WzrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+7IyK7y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9k94xcb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 92EA7C43141;
-	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+7IyK7y"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 30AEDC43390;
+	Mon, 25 Mar 2024 02:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711331662;
-	bh=3uYZHwDwMvbZsbPB9A8Yw6hlzifQeyqRpNoGZWbsN+k=;
+	s=k20201202; t=1711334428;
+	bh=zo7xBI0RIUOEwUmjoqhSEKwU6zdd9SPVoCL14vmhqFQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=h9k94xcbzJ8umZuKaQRlTjbGGULOk4jiUy+LTnqdw+5V0UeEaeG2CccGQ5FoT6wmp
-	 Bc7nwkoDuWl2JWkhsNf8c/jAhkXnsvmpwuAhNnCI7Syw0XkmEo6fiLXTkHnbtCUBpP
-	 +lCVm3kgaGGxFz0w+K3m0jDpgzeE96ybpByO+uvG+Yu8GN10by+bQJkUBtUPPc4SSA
-	 qd0I6OD9ZsUXcTvjDA+kNSOCHOwWyGVt5rxFDpNZSgmpPnfRoCL4Rm9Nt937fcnz0o
-	 WMTcuCiC5uQ7lecp/2nEZh3Cc0ZYcITDSjLAENZxAyzgMJ99vP3lJhLY6IwtsLhHc4
-	 BwNKmpQAXlfAQ==
+	b=Y+7IyK7y+e2YJezyDzZUGgaZWhvwU6/ltC0dwIpBOo24dYfEiSbpuChHGeD0yabT5
+	 5+59K44D9m2klxqpmNv54DC1FB9YPO4t+NRVz+d+qzBN6uySIlJhsfgu+NWfKOuSQX
+	 ARzc4Xyb49G72AV5H081/fGjp6FtpucXPcjInd8NVNfmWMiH/L6+XJpOe2U3ej9DwH
+	 L+PXrUnciO8fFYr4ihpvnpIxDvi2Xl5XCGRjC+C0XD5r40ls0mLdWyY0lwXYGWIC4+
+	 WG4zfHYgII63eGqre8EcKi+r+QxrSzq3Mgbksq4cxXjWHabOFH5651dlxv8XmscJkU
+	 G+vSbYb4olomA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7E659D2D0E6;
-	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 12408D2D0EB;
+	Mon, 25 Mar 2024 02:40:28 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -37,47 +37,35 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] gpio: Add ChromeOS EC GPIO driver
+Subject: Re: [PATCH v1] platform/chrome: use sysfs_emit() instead of sprintf()
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171133166251.9916.2499455576829331445.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 01:54:22 +0000
-References: <20240220045230.2852640-1-swboyd@chromium.org>
-In-Reply-To: <20240220045230.2852640-1-swboyd@chromium.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: linus.walleij@linaro.org, brgl@bgdev.pl, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, dianders@chromium.org,
- treapking@chromium.org, linux-gpio@vger.kernel.org, lee@kernel.org,
- bleung@chromium.org, groeck@chromium.org
+ <171133442807.31480.12835456312162773473.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 02:40:28 +0000
+References: <20240314052828.186924-1-aichao@kylinos.cn>
+In-Reply-To: <20240314052828.186924-1-aichao@kylinos.cn>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: bleung@chromium.org, tzungbi@kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Bartosz Golaszewski <bartosz.golaszewski@linaro.org>:
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Mon, 19 Feb 2024 20:52:27 -0800 you wrote:
-> The ChromeOS embedded controller (EC) supports setting the state of
-> GPIOs when the system is unlocked, and getting the state of GPIOs in all
-> cases. The GPIOs are on the EC itself, so the EC acts similar to a GPIO
-> expander. Add a driver to get and set the GPIOs on the EC through the
-> host command interface.
+On Thu, 14 Mar 2024 13:28:28 +0800 you wrote:
+> Follow the advice in Documentation/filesystems/sysfs.rst:
+> show() should only use sysfs_emit() or sysfs_emit_at() when formatting
+> the value to be returned to user space.
 > 
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: <linux-gpio@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> 
-> [...]
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+>  drivers/platform/chrome/wilco_ec/sysfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Here is the summary with links:
-  - [v2] gpio: Add ChromeOS EC GPIO driver
-    https://git.kernel.org/chrome-platform/c/f837fe1bffe6
+  - [v1] platform/chrome: use sysfs_emit() instead of sprintf()
+    https://git.kernel.org/chrome-platform/c/f7496450528b
 
 You are awesome, thank you!
 -- 

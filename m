@@ -1,417 +1,149 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2162.outbound.protection.outlook.com [40.92.62.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECACD84D37
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 23:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711410151; cv=none; b=Cx+UgbCGjucGo2w7K4ifZk6uArvV+tDPRHwp8wShoRlIGkO0KS3kYDGWvopwHxwWzPX/RIf9/fW2BZkSx70AhnlxQRhCSj7KeGQIEf0rv62ZkNHDlYQ1P4j3TMgldE/Jylvgmnqin2T1vC6iVY8ZrF5a1QYV0Trw4hZ1Zznyxu0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711410151; c=relaxed/simple;
-	bh=fsjkodhL8grV1QBLXNjixrtYC9NfJF+MMKlB8IzvKL4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I4St6vmEIy/fgolOcP5ZRbf+fU+xELTnFsXmGwCtTwOvdiNeM4evS95l6dzDXNpB469361z7DkRmLXIB6MIR252Jc2nEFJRTvFoQgd4ECuPYDhFQsd4XM+dHEbizat65hhfkZugglR1VFv/4NhT0n1U//XkuY7SARdX9MxRDBZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YHHPuYDc; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAA1D304
+	for <chrome-platform@lists.linux.dev>; Tue, 26 Mar 2024 00:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.62.162
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711413017; cv=fail; b=m8LdJSxrCBaosS6HENgXmZUpsekZYNFaXXel17/OTwiXZCT2FSykqKk9pWT+olRM8GEpllZWwY2fE2WoaVGEMYBbmbi+OGE/wQ0x5M/Yw50yee5onjnY/38N+U112bjsLQYy18h2XXr7mUcFk1Y8xe0MLCZ7XXCNB58YJdXtlfs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711413017; c=relaxed/simple;
+	bh=o7FQV+RnrjM3F/HZO4VnNMi1++/tPSZwE6tePYiTE8E=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=aDqXfEMzA8w6TUT5vtD8E4qP+0hgyYpIsPIsVMpGJdyI4d15XvBKvxNSI1trEEwy7GpdjATa99QzriHGHBSVD59RHdYi4GU1b57NF78kOOXJim67SOGjxuTKQbx/26ZBYWQtWwDMADsUiW5Z8uHgZqek89kTUQ+a+lK7R35HVjc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=outlook.com.au; dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b=hUrV3hIt; arc=fail smtp.client-ip=40.92.62.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YHHPuYDc"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e740fff1d8so3477252b3a.1
-        for <chrome-platform@lists.linux.dev>; Mon, 25 Mar 2024 16:42:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711410149; x=1712014949; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8ca/Lt827hCMDYh5dE02lZPJJvXokhyEjRY2l8MfDd8=;
-        b=YHHPuYDcF6GJbMxmmraYN8Bo6yhDLL7nStjkJmmE/Hz1x/EIwDbslMP6H0U1PsR0X7
-         XlEVtGfijLjqWYauB6tQYSKBJ+LqXthGaoyP18HLc/ikhZyVDrXbR8hEJNcyYU81+/ui
-         zn7rIt0fpzhvd57fN4qa60bbRf997lF9Np3HY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711410149; x=1712014949;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8ca/Lt827hCMDYh5dE02lZPJJvXokhyEjRY2l8MfDd8=;
-        b=TbqZ994xqmMZJ6qTnlrdTh3RfXvbz1xXogHh4+nWAmVRmZq1aIRunT9PgohqGqOVss
-         gYpyvfHRwBkPWcJUq46BDt4qOT9AK/Vuo2ZzoggPj/BRJIAYkneIX+1Pd6ut2UzztqhA
-         j4XUnDApnI6nYe8B23+XEZutp8a5HFzOnuRgjQNu87OdV04QmQCsoCqnUISunNlMu34J
-         AKWx9yF6HPXq/iZjO30/Mz9H2QPNfjh50dF475kQVwLiZEkTa0rJLxUKC/6Q1JaWUxQC
-         poldNTKNbPeeohjjNNWjqM17trkRhWOhm2RMpxBE1a+Q4MrTX8/IAQ8iP6ww/2dGf2ad
-         Qalw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYgtMwR1o5Xn7VNU6TI0s5tuQpuz+is6928IDHWPBPiPi7utKV6HWDLXu8UPdKUXa7H2wQrkrsz4OmrJujAIPJUHutvcwXjN4+VuqSquiZ
-X-Gm-Message-State: AOJu0YxytTnkv37ausDOwHcRMWj1gWWq4LtzE7Np1aBF4W5ohtKli4sm
-	TOzhW3dL1zSkI8NcH+p2fTuc7o/kXLNRMcK2xe0ozqCmbAVezDaR0XcETtB9aw==
-X-Google-Smtp-Source: AGHT+IFwYOye/EwjEDySLlO26UqAhGZnkSQngTI9ec0QPp9cogBBG7/AB25Te6NR1yj2dOb/oFbMxw==
-X-Received: by 2002:a05:6a00:92a8:b0:6ea:b82d:6205 with SMTP id jw40-20020a056a0092a800b006eab82d6205mr1142055pfb.16.1711410149156;
-        Mon, 25 Mar 2024 16:42:29 -0700 (PDT)
-Received: from pholla1.c.googlers.com (210.73.125.34.bc.googleusercontent.com. [34.125.73.210])
-        by smtp.gmail.com with ESMTPSA id e12-20020aa7824c000000b006e5f754646csm4705250pfn.139.2024.03.25.16.42.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 16:42:28 -0700 (PDT)
-From: Pavan Holla <pholla@chromium.org>
-Date: Mon, 25 Mar 2024 23:42:27 +0000
-Subject: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
- driver
+	dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b="hUrV3hIt"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RVm0UpghFf0WVVOHZGq0BD2Tjc+jmJuYk9PI/l77IRlg4Wl79IbA4q4r5gfu7UFi8wleFt6YbAuK+ewxYKP2pxl6R8uxo7p7GQGTGSQJGFlMvz52r8EYPuhJ/4R5uvQU2mA03eoCxi+1Nzbyc3tpC/H7l2cwErCuicNIUw3nFAW0/oYjsCqPEXRrbP86ZBwy1HhK5vjOxP7yevEZKdtzW1/EoXaF8vf5S5F5kRCEY22Yrn4bUSXfq69zdPVW5YahXxpIeSGqqZyWkGEyhBGemTjB+8fdRt1rNqr7rv2VbyYBsGNBOq5d/dOEpto5VFxl13Qvb4Ostp8KJ5QsmqBoww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=48hJERZAS4KvyY3aqkQoeNhhz653d+DqStmtzrW8pRE=;
+ b=ki6VUtruYeqTHf47uEi1VmlnvoixCgk59bVicwprSupNUW0RhFBJq5orZbXt/RgQ1gpwVIR5Erc1pWiPES+KHR9dlmVNxzRrh9a9hSMqzkCC6I9MbaAIW/gfNEz1zyXnaCYL3sFDbDqPLARSkmBABn7ll+RFI2snWOxW0j0BdmGl8fv/JytVEAGfhbmy8Jv8n9vwulDzJ7Kt/oqjmuzCFJZOuiIK0c5UIR/aH+HE55EZHch3rb+61Ov3tljTQY0awY6vzQfSVGnmLwb41o77n7JMu3W3r6amwUJWZf2GD+JWEfiuIr8yo1vSUA2rwBy5QybwmvP5XP0FdOy61Gznxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.COM.AU;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=48hJERZAS4KvyY3aqkQoeNhhz653d+DqStmtzrW8pRE=;
+ b=hUrV3hItxa7rOW3IXlJ4t+zpIzsYHA0oJwzEMj8KqM5kZHhVpigkb7fUyWdytqyXXMXHxxQ48etOETtO0SXIhsf/yr5ZpDipMq2DnJ/pK+jCKxX8XOKHuH/9UwZkqGYh8N6G6EalxrY2pfRCbGBiDdY/lsq22MKGCVtMbPIS25/KKpSi1N4GuuIb7zdrwkgDqZyeIP84/Mcz0FSRH6JHejkq8yWblDuC5ORm+FvQGVLpOAx7pZ/qIFAj6MG9EbcAzfFesMsg9pYwBfzxb1AXp0wyvEd9p6Xnxf540IO1GGS3CNgVRofVz4BklDkd0XFsNH5TgRY2lOXE7lChsq9YDQ==
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:159::9) by
+ SY8P282MB5035.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:2b9::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.32; Tue, 26 Mar 2024 00:30:10 +0000
+Received: from SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d]) by SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::22c8:76c8:58ad:f00d%3]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
+ 00:30:10 +0000
+Message-ID:
+ <SY4P282MB3063048C537120C8D3477774C5352@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+Date: Tue, 26 Mar 2024 10:30:07 +1000
+User-Agent: Mozilla Thunderbird
+From: Stephen Horvath <s.horvath@outlook.com.au>
+Subject: Re: [PATCH 2/2] platform/chrome: cros_kbd_led_backlight: Remove
+ obsolete commands (EC_CMD_PWM_*_KEYBOARD_BACKLIGHT)
+To: Brian Norris <briannorris@chromium.org>
+Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240322102800.1322022-1-s.horvath@outlook.com.au>
+ <SY4P282MB3063D447DA09D35F5FBD4721C5312@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+ <CA+ASDXM9=0jQA=MWpBOttUT7k67wmEDFGoOObQfYm=ca_HL8GQ@mail.gmail.com>
+Content-Language: en-US, en-AU, en-GB
+In-Reply-To: <CA+ASDXM9=0jQA=MWpBOttUT7k67wmEDFGoOObQfYm=ca_HL8GQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [ZIad9W2c41W9p2SajHtWw1DF0sYq/HmQ]
+X-ClientProxiedBy: SYBPR01CA0094.ausprd01.prod.outlook.com
+ (2603:10c6:10:3::34) To SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:159::9)
+X-Microsoft-Original-Message-ID:
+ <33b036d7-542c-4f5a-8ce8-d1a1035a758d@outlook.com.au>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240325-public-ucsi-h-v2-3-a6d716968bb1@chromium.org>
-References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
-In-Reply-To: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Guenter Roeck <groeck@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
- chrome-platform@lists.linux.dev, Pavan Holla <pholla@chromium.org>
-X-Mailer: b4 0.12.4
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SY4P282MB3063:EE_|SY8P282MB5035:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36b583d5-d24c-49cb-b710-08dc4d2be4e6
+X-MS-Exchange-SLBlob-MailProps:
+	AlkLxVwsndlo1+lFrDZI3pEF+l+HiLrLZstFIgrv3fimowAJMhy+41S1UlNDYOI2KcWZNqgzZxL6VrkxNBtvUEz3z9MI55XwRQU29wKmECsL59KEvIbDjPYVts/f3BF23B0HBFnEFvhVFz4vEpLyu/dhDtlV6m79/BOLcwkl26K/M/XtkwwUlFIs7Wj3SEBe2cPxwe3IyAjcIFIzITIsZYOqyyVlF5cVR+Z/EVNVy+vVi7bx3ic2tlwWW+gMIBKc/roZXcqyCc7LkpnXNbezm+vWqpMOjvMW9h1jB4a2slzPsDp7TY4XuqD5yH6h16RGmPdowA/PDGrjR0ilSMWk1SzCsD5v8F9QbZwSGiIVom+QqZYQAXy1Up0TaOIJ1uIm4ioin+edpBu3zaC06EeZrEBdF7YizweUz85dNcKylyZha2Z55AFQqUEszFAyxb4gRSimFBOcWZgpajsd6he9CzoH8UD7pv4hhIGmL5qcLdIyG5qJ+zlnjI82CB2hIyoHyIDU7lw/9vPyfKSLyDzepu189eTJ1A+3EyU6mLJ9kiKx3++tv0NbYN0bXJzO47QIc8N4Y6bwuyV8eBJQJeliFePgzHW3ROovEMBZn6Ds8hOQ1bmhMLPkyIZuwK8SMD6HX6+kz49+dMRVfQ2Ysr/EpZUV6D9ABpy1glDD6kASiHu976zBaeWU3SczsPkiBrRPuS7ky+EB6BacgqspSNE8KVLUtguhtjjsUdXAQ6ZVsY2o8fIxoUuFZJNOsU4zK2JLEF5We89fxqwZGNuUb35isrtOyMLnPdbx
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	s1ccXyS6SzdQeZglRqzhx/2p4iCvG3xjswftys3OZX8liCr/Z5oGGNeLzdXm/pVid8fXHkugEuks8ik4ZH94bjg4jjjv68TuPYunSGzcEYu7FrQqm41dgOS7Lffjrc4l+OvMtxj8bg6olfoGmAXL1GJ/LeWD5R5RLZbDeIwMNRZD0/VUDSBnbeT5qc6nTNwkGi2r/yjy4KGCYJWnDk2IKsx/iHdmZMPzIpEmRwdyLnTSkbOYCstd3keIs1MROwbRpdtZXt2aR1D51ZbCQ3ni7WZiCE/rDw4AKcQiu1TwqOzluDVDktNvBo01CsQECtej0+zOqlI8VdJww132SX3ht339afTAEJmY4Abi9CjR624W52ReKh5STWbR447EPAIwUtmhcAS0VdScI6yQYWQBz12Jm23pWYBvPT9aig9MV2K7YWlXL+hYgia9LtGO/D7an8d2U4Gk9oIVyufhwicxAH2eQDuQqS7PvJSzWNeFbzcs0dJsCc7XOW+UfFbThxihUdGgJx4yYaoSAHqO1vXKNdfvf1rUEHoi/xpdwcPg90SDdYDGzoYSsQBV/SGjjifx
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RjRrSHBsdXo2S3NNN2ZES0MyU2I4a0VyZzF3aUJYZ0laK3NUWld5NXFDT3hy?=
+ =?utf-8?B?WVNMR01MWGFTUkRCeVl0WHFOdHFWVkd3VVJvQjRLdFZrVVVjSXBLYjMwWFRE?=
+ =?utf-8?B?NTNPekJKNzFWMC9EajZVbmh6Z01JVkpweVNUUGZDRjQ2N1NkZ2JuTXhDblN4?=
+ =?utf-8?B?Z1Y3TVB1RmFEVHRmak5UdDdXMHhCUWRhbGxHYTh5TVo1TkFzVjIvOTJ0bllY?=
+ =?utf-8?B?TWJBc1VDQWFDRFBzR2ZGLzZrOTBwb2JBSDEyM2k2RU9LUUJKQ3J6Vmk1L1BJ?=
+ =?utf-8?B?ZTQ2bVpKdDJGZnJGc0ZQY1BNQlpDKzZpRXl0NVpTd3BuQTJQWXlmVHR6elJP?=
+ =?utf-8?B?Q3ZjazdxcTJPRFBTU215bzVrMDVIQnd5Rmp6M3FKaUlFQlY4anJ5SVoxcjFD?=
+ =?utf-8?B?ZVJzYkNTNU92cmdZQjcyc1pXYmVVVVk4dS9oOEUzUkVoTWh4aFJ3czVzempD?=
+ =?utf-8?B?SU9mb2tpZk0vdm5YM25xTEJMYnNFQUt0YitwOEpSNjUwK1V3SUFJeHlNSERT?=
+ =?utf-8?B?MW1GdnQvWmlJZVVpR0h5YytNVnJZSk1idzNjQ0JxVlBwOTN1VW1WMVRreXlO?=
+ =?utf-8?B?RXVNNnNGSU56K3Z2VlNSbFp0anBZQ01sK2xBdlNQcE9wUEJWTmgxRjlpajlo?=
+ =?utf-8?B?UndmTUlLRloyNXdSS3BNK1FPSlJxaFFieCtFeFdlS255SVB2a3lPR0FJZkxO?=
+ =?utf-8?B?SjRwZ013OUZZOEFYWDc1dk1rVDFPdEt1VkpSTWxUaWZaSXQvVjhIcDcvQm1i?=
+ =?utf-8?B?aTFYZGRpRHJtMFg2QlJ5QzFITURRek5oSUxySUtyM1VQZU5sSTJLaFlHWkRo?=
+ =?utf-8?B?eFhpSE82VjRtUlhJbGtKUEI4MlUyL212MitYMHNrVWNlZnVBVnhTc2IveFJM?=
+ =?utf-8?B?OVJ1blE0M2lkeHAwN0xQYkxRVElzblJGQUNzRHZRQVgwbGNoV2tadmVXaG5s?=
+ =?utf-8?B?eTJvNVVzZ1Urb1hQSHZuRHJhMzQ3dWZDdVpqN1A0eXU0dm02OU5KaVFkYWdK?=
+ =?utf-8?B?dDJMd1FTSEt3WHg3MThHYWVEbVdyQkUva1pHazZoMHhld2h0TGVnS3RDdEI5?=
+ =?utf-8?B?NHM3aU9HeG5obmd0NnFZTlFTMDRZWS9WckQxUExEL3VROVhWdjY5OThCZFlk?=
+ =?utf-8?B?cU5lM3laWkNyTUVydDRQd0VPUDFpN3lTNXhjUVk1cGloakJwWFhrZDR4akNI?=
+ =?utf-8?B?bWdWemtkQ1daRjhub210amY0OFJJdnZ5TlZreStqcExMbGxZVHdOZXdjUTFh?=
+ =?utf-8?B?Wm5JV2JZREVOTC9PMW8vTGRIc2FSeFUzTHl0bjNFYmpTeUxnSUlWSWR2QXJk?=
+ =?utf-8?B?eFhGdm1OTU1pUVpiVEJjV3ltanZmeDU1VU96Mm9uL0oxVDN6T05ReHMxZkl0?=
+ =?utf-8?B?b0hBNlpad29PWThzL3BWaWdnUk1Cd3F3SzJsQWcrUW5LczNEWk5xQkFVMC9R?=
+ =?utf-8?B?My9UdDA1aHVPbzAzWmtsMkU5bjgyUVZQNGQzY0tndGJmOUtPNzRWWDIwdGFO?=
+ =?utf-8?B?anlmbU4yNFRSMzBKa2tRQzhhbVdsKzZGd2VmbSt2cFlnMElkUjdCWFJRa1k2?=
+ =?utf-8?B?bkhhdzZoTndFMHhmeUNxREZZakM0QXRZNDVZK2lQYS9HVElZMzNOVlFIcmkr?=
+ =?utf-8?B?WGpwNnd4RkxSRlFNSFRFRGhhWDlEWVNoYVYyQTB3SHlVYUNpUlJWWktzcGZp?=
+ =?utf-8?Q?Q2fua/nqhKv/flthSqsM?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36b583d5-d24c-49cb-b710-08dc4d2be4e6
+X-MS-Exchange-CrossTenant-AuthSource: SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 00:30:10.1237
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY8P282MB5035
 
-Implementation of transport driver for UCSI. This driver will be used
-if the ChromeOS EC implements a PPM.
 
-Signed-off-by: Pavan Holla <pholla@chromium.org>
----
- drivers/platform/chrome/Kconfig                |  14 ++
- drivers/platform/chrome/Makefile               |   1 +
- drivers/platform/chrome/cros_ec_ucsi.c         | 247 +++++++++++++++++++++++++
- include/linux/platform_data/cros_ec_commands.h |  19 ++
- 4 files changed, 281 insertions(+)
+On 26/3/24 04:45, Brian Norris wrote:
+> Just because the EC firmware repository marks these as obsolete (and
+> yes, we copy that header mostly as-is into the kernel repository ...
+> but it's still a firmware header) doesn't mean it's truly ready to be
+> removed. I believe the intention is to direct *firmware* developers
+> not to use them -- any new developments should be using the new
+> commands.
+> 
+> From a kernel perspective, we could still be supporting old firmware
+> on old devices, and so we may want/need to continue to support these
+> commands.
 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 7a83346bfa53..67ab79a6815b 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -238,6 +238,20 @@ config CROS_EC_TYPEC
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called cros-ec-typec.
- 
-+config CROS_EC_UCSI
-+	tristate "UCSI Driver for ChromeOS EC"
-+	depends on MFD_CROS_EC_DEV
-+	depends on CROS_USBPD_NOTIFY
-+	depends on TYPEC_UCSI
-+	depends on !EXTCON_TCSS_CROS_EC
-+	default MFD_CROS_EC_DEV
-+	help
-+	  This driver enables UCSI support for a ChromeOS EC. The EC is
-+	  expected to implement a PPM.
-+
-+	  To compile the driver as a module, choose M here: the module
-+	  will be called cros_ec_ucsi.
-+
- config CROS_HPS_I2C
- 	tristate "ChromeOS HPS device"
- 	depends on HID && I2C && PM
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index 2dcc6ccc2302..85964e165a70 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_CROS_EC_UART)		+= cros_ec_uart.o
- cros_ec_lpcs-objs			:= cros_ec_lpc.o cros_ec_lpc_mec.o
- cros-ec-typec-objs			:= cros_ec_typec.o cros_typec_vdm.o
- obj-$(CONFIG_CROS_EC_TYPEC)		+= cros-ec-typec.o
-+obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
- obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
- obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
- obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
-diff --git a/drivers/platform/chrome/cros_ec_ucsi.c b/drivers/platform/chrome/cros_ec_ucsi.c
-new file mode 100644
-index 000000000000..9fee300a3d93
---- /dev/null
-+++ b/drivers/platform/chrome/cros_ec_ucsi.c
-@@ -0,0 +1,247 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * UCSI driver for ChromeOS EC
-+ *
-+ * Copyright 2024 Google LLC.
-+ */
-+
-+#include <linux/container_of.h>
-+#include <linux/dev_printk.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_usbpd_notify.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/usb/ucsi.h>
-+#include <linux/wait.h>
-+
-+#define DRV_NAME "cros-ec-ucsi"
-+
-+#define MAX_EC_DATA_SIZE 256
-+#define WRITE_TMO_MS 500
-+
-+#define COMMAND_PENDING 1
-+#define ACK_PENDING     2
-+
-+#define UCSI_COMMAND(_cmd_) ((_cmd_) & 0xff)
-+#define UCSI_ACK_CC_CI 0x04
-+
-+struct cros_ucsi_data {
-+	struct device *dev;
-+	struct ucsi *ucsi;
-+
-+	struct cros_ec_device *ec;
-+	struct notifier_block nb;
-+	struct work_struct work;
-+
-+	struct completion complete;
-+	unsigned long flags;
-+};
-+
-+static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
-+			  size_t val_len)
-+{
-+	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-+	struct ec_params_ucsi_ppm_get req = {
-+		.offset = offset,
-+		.size = val_len,
-+	};
-+	int ret;
-+
-+	if (val_len > MAX_EC_DATA_SIZE) {
-+		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
-+		return -EINVAL;
-+	}
-+
-+	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
-+			  &req, sizeof(req), val, val_len);
-+	if (ret < 0) {
-+		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int cros_ucsi_async_write(struct ucsi *ucsi, unsigned int offset,
-+				 const void *val, size_t val_len)
-+{
-+	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-+	uint8_t ec_buffer[MAX_EC_DATA_SIZE + sizeof(struct ec_params_ucsi_ppm_set)];
-+	struct ec_params_ucsi_ppm_set *req = (struct ec_params_ucsi_ppm_set *)ec_buffer;
-+	int ret = 0;
-+
-+	if (val_len > MAX_EC_DATA_SIZE) {
-+		dev_err(udata->dev, "Can't write %zu bytes. Too big.", val_len);
-+		return -EINVAL;
-+	}
-+
-+	memset(req, 0, sizeof(ec_buffer));
-+	req->offset = offset;
-+	memcpy(req->data, val, val_len);
-+	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
-+			  req, sizeof(struct ec_params_ucsi_ppm_set) + val_len, NULL, 0);
-+
-+	if (ret < 0) {
-+		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int cros_ucsi_sync_write(struct ucsi *ucsi, unsigned int offset,
-+				const void *val, size_t val_len)
-+{
-+	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-+	bool ack = UCSI_COMMAND(*(u64 *)val) == UCSI_ACK_CC_CI;
-+	int ret;
-+
-+	if (ack)
-+		set_bit(ACK_PENDING, &udata->flags);
-+	else
-+		set_bit(COMMAND_PENDING, &udata->flags);
-+
-+	ret = cros_ucsi_async_write(ucsi, offset, val, val_len);
-+	if (ret)
-+		goto out;
-+
-+	if (!wait_for_completion_timeout(&udata->complete, WRITE_TMO_MS))
-+		ret = -ETIMEDOUT;
-+
-+out:
-+	if (ack)
-+		clear_bit(ACK_PENDING, &udata->flags);
-+	else
-+		clear_bit(COMMAND_PENDING, &udata->flags);
-+	return ret;
-+}
-+
-+struct ucsi_operations cros_ucsi_ops = {
-+	.read = cros_ucsi_read,
-+	.async_write = cros_ucsi_async_write,
-+	.sync_write = cros_ucsi_sync_write,
-+};
-+
-+static void cros_ucsi_work(struct work_struct *work)
-+{
-+	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
-+	u32 cci;
-+	int ret;
-+
-+	ret = cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci));
-+	if (ret)
-+		return;
-+
-+	if (UCSI_CCI_CONNECTOR(cci))
-+		ucsi_connector_change(udata->ucsi, UCSI_CCI_CONNECTOR(cci));
-+
-+	if (cci & UCSI_CCI_ACK_COMPLETE && test_bit(ACK_PENDING, &udata->flags))
-+		complete(&udata->complete);
-+	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-+	    test_bit(COMMAND_PENDING, &udata->flags))
-+		complete(&udata->complete);
-+}
-+
-+static int cros_ucsi_event(struct notifier_block *nb,
-+			   unsigned long host_event, void *_notify)
-+{
-+	struct cros_ucsi_data *udata = container_of(nb, struct cros_ucsi_data, nb);
-+
-+	if (!(host_event & PD_EVENT_PPM))
-+		return NOTIFY_OK;
-+
-+	dev_dbg(udata->dev, "UCSI notification received");
-+	flush_work(&udata->work);
-+	schedule_work(&udata->work);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int cros_ucsi_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ucsi_data *udata;
-+	int ret;
-+
-+	udata = devm_kzalloc(dev, sizeof(*udata), GFP_KERNEL);
-+	if (!udata)
-+		return -ENOMEM;
-+
-+	udata->dev = dev;
-+
-+	udata->ec = ((struct cros_ec_dev *) dev_get_drvdata(pdev->dev.parent))->ec_dev;
-+	if (!udata->ec) {
-+		dev_err(dev, "couldn't find parent EC device\n");
-+		return -ENODEV;
-+	}
-+
-+	platform_set_drvdata(pdev, udata);
-+
-+	INIT_WORK(&udata->work, cros_ucsi_work);
-+	init_completion(&udata->complete);
-+
-+	udata->ucsi = ucsi_create(udata->dev, &cros_ucsi_ops);
-+	if (IS_ERR(udata->ucsi)) {
-+		dev_err(dev, "failed to allocate UCSI instance\n");
-+		return PTR_ERR(udata->ucsi);
-+	}
-+
-+	ucsi_set_drvdata(udata->ucsi, udata);
-+
-+	ret = ucsi_register(udata->ucsi);
-+	if (ret) {
-+		ucsi_destroy(udata->ucsi);
-+		udata->ucsi = NULL;
-+		return ret;
-+	}
-+
-+	udata->nb.notifier_call = cros_ucsi_event;
-+	ret = cros_usbpd_register_notify(&udata->nb);
-+	return ret;
-+}
-+
-+static int cros_ucsi_remove(struct platform_device *dev)
-+{
-+	struct cros_ucsi_data *udata = platform_get_drvdata(dev);
-+
-+	if (udata->ucsi) {
-+		ucsi_unregister(udata->ucsi);
-+		ucsi_destroy(udata->ucsi);
-+		udata->ucsi = NULL;
-+	}
-+	return 0;
-+}
-+
-+static int cros_ucsi_suspend(struct device *dev)
-+{
-+	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-+
-+	cancel_work_sync(&udata->work);
-+
-+	return 0;
-+}
-+
-+static int cros_ucsi_resume(struct device *dev)
-+{
-+	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-+
-+	return ucsi_resume(udata->ucsi);
-+}
-+
-+static SIMPLE_DEV_PM_OPS(cros_ucsi_pm_ops, cros_ucsi_suspend,
-+			 cros_ucsi_resume);
-+
-+static struct platform_driver cros_ucsi_driver = {
-+	.driver = {
-+		.name = DRV_NAME,
-+		.pm = &cros_ucsi_pm_ops,
-+	},
-+	.probe = cros_ucsi_probe,
-+	.remove = cros_ucsi_remove,
-+};
-+
-+module_platform_driver(cros_ucsi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("UCSI driver for ChromeOS EC.");
-+MODULE_ALIAS("platform:" DRV_NAME);
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index ecc47d5fe239..39f6f54bbe4c 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -4933,6 +4933,7 @@ struct ec_response_pd_status {
- #define PD_EVENT_POWER_CHANGE      BIT(1)
- #define PD_EVENT_IDENTITY_RECEIVED BIT(2)
- #define PD_EVENT_DATA_SWAP         BIT(3)
-+#define PD_EVENT_PPM               BIT(5)
- struct ec_response_host_event_status {
- 	uint32_t status;      /* PD MCU host event status */
- } __ec_align4;
-@@ -5994,6 +5995,24 @@ struct ec_response_typec_vdm_response {
- 
- #undef VDO_MAX_SIZE
- 
-+/*
-+ * Read/write interface for UCSI OPM <-> PPM communication.
-+ */
-+#define EC_CMD_UCSI_PPM_SET 0x0140
-+
-+/* The data size is stored in the host command protocol header. */
-+struct ec_params_ucsi_ppm_set {
-+	uint16_t offset;
-+	uint8_t data[];
-+} __ec_align2;
-+
-+#define EC_CMD_UCSI_PPM_GET 0x0141
-+
-+struct ec_params_ucsi_ppm_get {
-+	uint16_t offset;
-+	uint8_t size;
-+} __ec_align2;
-+
- /*****************************************************************************/
- /* The command range 0x200-0x2FF is reserved for Rotor. */
- 
+Alright that makes sense.
 
--- 
-2.44.0.396.g6e790dbe36-goog
+> I don't know off the top of my head which firmware branches support
+> which commands, on devices that have such keyboard backlights. (The
+> Chromium EC repository is open source though, with various firmware-*
+> branches still around, so this information is available.) But without
+> a better explanation as to why these are truly ready to be removed,
+> I'll say "NAK."
 
+Yeah that's fair enough, my laptop seems to support both so I'll agree 
+the older commands are probably the safer option.
+
+Thanks a lot for your feedback!
+Steve

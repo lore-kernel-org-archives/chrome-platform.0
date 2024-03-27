@@ -1,173 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345555A115
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 11:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45A013AD01;
+	Wed, 27 Mar 2024 13:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711538530; cv=none; b=q5hweWcBMaqk5bgPKGOjkUUg1VKml3U2hDNmeMNdp+82DgEHexGnid4Pl8WXKMcrgjbFJce1xV0FjPch+egYcYbYxe3XVRHiW3eAAGJPgFyTQ2dX6VvTAHB1ucMWllyQC4b6weaAURE29My+3MT9VoLlVJCqxAgikmHZ+vL+9c4=
+	t=1711545419; cv=none; b=GarV+9+b01zHtDlBs9RN87nwqwVREbhM5CuD8VJaaXCabyBGA2bLA2ZszZ7ZIvPjgr+Oc6rM/Kdg71A9sweGMC/cjynJsnIcXSEFiHEs6Mm0zGdV4q0VVDY1OLNr+FIiDrJlqIN2qTD4Dyoht9z/SS7/k3IrMeoQgWGGFuvAVvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711538530; c=relaxed/simple;
-	bh=J7zAHuGREnCdBItMrYt7Dp5Z+38Lf4Gu8Jhy9frF4P4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jcLfwrKpRPbn3QeO2hG2Eoaif1gNtDxsEoVkBEb7pc8mTm8gY0FPdGei+A3KMQZphnEukL3g+CElLfPzWCrZPpowAcSEYq1kX9AyMush3cHnRtyhlJZ2hNMTbAbYiDLYjqyironrDJFBx6JT3DtjS8faUyVl9XUgPEmzxn2UgM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtI81To/; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711545419; c=relaxed/simple;
+	bh=KB772K6yfcU4hKXW7HSRS4muGDBCrt9ntzx2TSR19P8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ltoMxUmuXKfS4vvU6hHbAb6tv+/ZN02+p6ZApiL6HMVJjM+33XjQ6yVJihXczFRlCHbERQdjt0Jcz7Y8e70N2VZkjBFz9yq7/+PM7nYgaHXfSJ28AazBtSWlUg5/6lWTDiF+atdikw9GCk4JETUDX0dBx3+uKBJFeN1sNnE2zg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzuINk43; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtI81To/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711538529; x=1743074529;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J7zAHuGREnCdBItMrYt7Dp5Z+38Lf4Gu8Jhy9frF4P4=;
-  b=jtI81To/3Js3GMJZvuBSs/taLJz/t2cRUhaI+QznGDjoiIPrRlgb/QFY
-   fPuX31iG5gU8+B6j10yPFTEeufVqsZpas92cFKZYtfhuIT1Yww2St7cwJ
-   gnxrC+Le3xpcoyyHX790j2kNYGnj68GyOeRQ97To0Q78leHGyZiAN9tBB
-   NLs8Ac++4ikUkyy0JuVjg+g48nh0l44qGNeymRjfjEbQ+nBW0n6S7+4X0
-   O7gdm0Z5nFP//RIz26QzJ+A3je8oZ2yKcK3FIR297saJxjLKRmgqK+rsv
-   x/IIyD/E/9j+k5v0HziLfD9Ud9RJ2uDa6Opz+4rog9J8HCZEQE7L3WrRB
-   g==;
-X-CSE-ConnectionGUID: 2WNd9XzxRWaiajme8Abb+w==
-X-CSE-MsgGUID: mBZ9rqmIRZOGc4tnIxaDFw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17361969"
-X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="17361969"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 04:22:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="937074467"
-X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="937074467"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 27 Mar 2024 04:22:05 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 27 Mar 2024 13:22:04 +0200
-Date: Wed, 27 Mar 2024 13:22:04 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Pavan Holla <pholla@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] usb: typec: ucsi: Import interface for UCSI
- transport
-Message-ID: <ZgQBXFzuZLJcmH4h@kuha.fi.intel.com>
-References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
- <20240325-public-ucsi-h-v2-2-a6d716968bb1@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzuINk43"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F26C43609;
+	Wed, 27 Mar 2024 13:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711545419;
+	bh=KB772K6yfcU4hKXW7HSRS4muGDBCrt9ntzx2TSR19P8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DzuINk43Tn1Mu46vGyloK0RcIZjT/o1tO37IhMTw3vGuY8iuvQbfC1d2wuhVGcsvu
+	 11L2zxwsTwcE7XYQee6vDMJHq4r9cM8rR8tK68KarEE8Ls8MlaUQuo7iFtWeq4/4cm
+	 vN7xbALw3d3LM7cP291/Wb2Iyn/8gooXL9HkTTf5SU72EIMtgU2ssAT51bz/1X0cGC
+	 l3MOS7g4HXtAMKtJKR287UtUghHwkIv48hVcpsuz5cisQC2vkKx2Jv20NpVrjH03kF
+	 /hRoBnhHkVLj/0Sx5qOGUttptO1hRrQRB0i++C/FWqVIh+128a+cZj7paJ2AKb6Fwp
+	 Xy9pZb7E7FGnA==
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5a47a3786dbso2010392eaf.0;
+        Wed, 27 Mar 2024 06:16:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCULOZZt4PU6QMduJIBtv6ouFwFkrw99sC2L8mYuB4AA6AOY/gKKcEF2uID/9ggiPdfWu5rjpcNgLiT1SXl3gvCFa3+WRQp8ilvr+sBqDjWu1IVnJ2uo/s4KDYEu41NF3QnoR3/DZxG+/zzSQons
+X-Gm-Message-State: AOJu0YzPGjkckUADiqMaY2B+bCbSknzL1mD74Z27PColJvvecrjKPZcc
+	CxL60MBGLMtS5U6tc584hNHuG2CCewUsAS25IXT+PgDfeHaAGIP8uutYSfjruJuBfG6bZmzaFii
+	mvuRTRB6kiXLnenpUyCcjWREOoFw=
+X-Google-Smtp-Source: AGHT+IHTd8oEHRAH3g6srEsbWrNzFluzIX84L1KgTi5gMkKVrAYaOe8Cp3nobmnxM/cXjJi/h1wt0g2XfJgmb7R2UWU=
+X-Received: by 2002:a05:6870:b156:b0:221:399e:959a with SMTP id
+ a22-20020a056870b15600b00221399e959amr13119078oal.0.1711545418629; Wed, 27
+ Mar 2024 06:16:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240325-public-ucsi-h-v2-2-a6d716968bb1@chromium.org>
+References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
+In-Reply-To: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 27 Mar 2024 14:16:46 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
+Message-ID: <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
+Subject: Re: [PATCH 00/19] ACPI: store owner from modules with acpi_bus_register_driver()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Robert Moore <robert.moore@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Corentin Chary <corentin.chary@gmail.com>, 
+	"Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, Daniel Oliveira Nascimento <don@syst.com.br>, 
+	=?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
+	Azael Avalos <coproscefalo@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Jeff Sipek <jsipek@vmware.com>, Ajay Kaher <akaher@vmware.com>, 
+	Alexey Makhalov <amakhalov@vmware.com>, VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
+	"Theodore Ts'o" <tytso@mit.edu>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev, 
+	linux-input@vger.kernel.org, netdev@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2024 at 11:42:26PM +0000, Pavan Holla wrote:
-> Import include/linux/usb/ucsi.h and remove any duplicate declarations.
-> 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
+On Wed, Mar 27, 2024 at 8:44=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Merging
+> =3D=3D=3D=3D=3D=3D=3D
+> All further patches depend on the first amba patch, therefore please ack
+> and this should go via one tree: ACPI?
+>
+> Description
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Modules registering driver with acpi_bus_register_driver() often forget t=
+o
+> set .owner field.
+>
+> Solve the problem by moving this task away from the drivers to the core
+> amba bus code, just like we did for platform_driver in commit
+> 9447057eaff8 ("platform_device: use a macro instead of
+> platform_driver_register").
+>
+> Best regards,
+> Krzysztof
+>
 > ---
->  drivers/usb/typec/ucsi/ucsi.h | 54 +------------------------------------------
->  1 file changed, 1 insertion(+), 53 deletions(-)
+> Krzysztof Kozlowski (19):
+>       ACPI: store owner from modules with acpi_bus_register_driver()
+>       Input: atlas: - drop owner assignment
+>       net: fjes: drop owner assignment
+>       platform: chrome: drop owner assignment
+>       platform: asus-laptop: drop owner assignment
+>       platform: classmate-laptop: drop owner assignment
+>       platform/x86/dell: drop owner assignment
+>       platform/x86/eeepc: drop owner assignment
+>       platform/x86/intel/rst: drop owner assignment
+>       platform/x86/intel/smartconnect: drop owner assignment
+>       platform/x86/lg-laptop: drop owner assignment
+>       platform/x86/sony-laptop: drop owner assignment
+>       platform/x86/toshiba_acpi: drop owner assignment
+>       platform/x86/toshiba_bluetooth: drop owner assignment
+>       platform/x86/toshiba_haps: drop owner assignment
+>       platform/x86/wireless-hotkey: drop owner assignment
+>       ptp: vmw: drop owner assignment
+>       virt: vmgenid: drop owner assignment
+>       ACPI: drop redundant owner from acpi_driver
 
-I'm pretty sure somebody already told you to merge this into 1/3, so
-why haven't you done that?
+I definitely like this, so
 
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> index 32daf5f58650..167951538030 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.h
-> +++ b/drivers/usb/typec/ucsi/ucsi.h
-> @@ -10,22 +10,13 @@
->  #include <linux/usb/typec.h>
->  #include <linux/usb/pd.h>
->  #include <linux/usb/role.h>
-> +#include <linux/usb/ucsi.h>
->  #include <asm/unaligned.h>
->  
->  /* -------------------------------------------------------------------------- */
->  
-> -struct ucsi;
-> -struct ucsi_altmode;
->  struct dentry;
->  
-> -/* UCSI offsets (Bytes) */
-> -#define UCSI_VERSION			0
-> -#define UCSI_CCI			4
-> -#define UCSI_CONTROL			8
-> -#define UCSI_MESSAGE_IN			16
-> -#define UCSI_MESSAGE_OUT		32
-> -#define UCSIv2_MESSAGE_OUT		272
-> -
->  /* UCSI versions */
->  #define UCSI_VERSION_1_2	0x0120
->  #define UCSI_VERSION_2_0	0x0200
-> @@ -42,48 +33,6 @@ struct dentry;
->   */
->  #define UCSI_SPEC_REVISION_TO_BCD(_v_)  (((_v_) + 1) << 8)
->  
-> -/* Command Status and Connector Change Indication (CCI) bits */
-> -#define UCSI_CCI_CONNECTOR(_c_)		(((_c_) & GENMASK(7, 1)) >> 1)
-> -#define UCSI_CCI_LENGTH(_c_)		(((_c_) & GENMASK(15, 8)) >> 8)
-> -#define UCSI_CCI_NOT_SUPPORTED		BIT(25)
-> -#define UCSI_CCI_CANCEL_COMPLETE	BIT(26)
-> -#define UCSI_CCI_RESET_COMPLETE		BIT(27)
-> -#define UCSI_CCI_BUSY			BIT(28)
-> -#define UCSI_CCI_ACK_COMPLETE		BIT(29)
-> -#define UCSI_CCI_ERROR			BIT(30)
-> -#define UCSI_CCI_COMMAND_COMPLETE	BIT(31)
-> -
-> -/**
-> - * struct ucsi_operations - UCSI I/O operations
-> - * @read: Read operation
-> - * @sync_write: Blocking write operation
-> - * @async_write: Non-blocking write operation
-> - * @update_altmodes: Squashes duplicate DP altmodes
-> - *
-> - * Read and write routines for UCSI interface. @sync_write must wait for the
-> - * Command Completion Event from the PPM before returning, and @async_write must
-> - * return immediately after sending the data to the PPM.
-> - */
-> -struct ucsi_operations {
-> -	int (*read)(struct ucsi *ucsi, unsigned int offset,
-> -		    void *val, size_t val_len);
-> -	int (*sync_write)(struct ucsi *ucsi, unsigned int offset,
-> -			  const void *val, size_t val_len);
-> -	int (*async_write)(struct ucsi *ucsi, unsigned int offset,
-> -			   const void *val, size_t val_len);
-> -	bool (*update_altmodes)(struct ucsi *ucsi, struct ucsi_altmode *orig,
-> -				struct ucsi_altmode *updated);
-> -};
-> -
-> -struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops);
-> -void ucsi_destroy(struct ucsi *ucsi);
-> -int ucsi_register(struct ucsi *ucsi);
-> -void ucsi_unregister(struct ucsi *ucsi);
-> -void *ucsi_get_drvdata(struct ucsi *ucsi);
-> -void ucsi_set_drvdata(struct ucsi *ucsi, void *data);
-> -
-> -void ucsi_connector_change(struct ucsi *ucsi, u8 num);
-> -
->  /* -------------------------------------------------------------------------- */
->  
->  /* Commands */
-> @@ -465,7 +414,6 @@ int ucsi_send_command(struct ucsi *ucsi, u64 command,
->  		      void *retval, size_t size);
->  
->  void ucsi_altmode_update_active(struct ucsi_connector *con);
-> -int ucsi_resume(struct ucsi *ucsi);
->  
->  #if IS_ENABLED(CONFIG_POWER_SUPPLY)
->  int ucsi_register_port_psy(struct ucsi_connector *con);
-> 
-> -- 
-> 2.44.0.396.g6e790dbe36-goog
+for the series and I can pick it up if people agree.
 
--- 
-heikki
+Thanks!

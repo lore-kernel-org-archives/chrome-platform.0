@@ -1,61 +1,60 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E68256447
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9265D56758
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711525552; cv=none; b=RmBNtlKbJ9S8jDK5qRyA9yP9YJRqInC4fev9bemX+JwMCTTAGDy1mxSDpliu1zdDYZh3D0vfHsa5q73sklcrlCOLPa8e1FaImi9YMCuYXdiJyNlalUcDeHEhe+cQIPYVjrdZvCOodg7TlxK9uA6DWkXwBCWlnUr5fuOD+Ehshp8=
+	t=1711525554; cv=none; b=bPVa1eFJworeo/cJ1OWItslomMiUYRj9gyMl8EZsoCI0JgZ9LmAv0cipVm0r2rzJbqYsaJgb4nmuvVt4Tj/v5f8qbwcfnA/GU37ompnnoWpUMUP2i9JF02y4q1a4qpuURLo9P+UDhNZh3WQQpT+IMyFBqLc9ZP51ynSE13po3V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711525552; c=relaxed/simple;
-	bh=rTr4+VR/jSpIv/sMvw3QDS+RzZvQaSAXby24seNWm5U=;
+	s=arc-20240116; t=1711525554; c=relaxed/simple;
+	bh=htKh4Jp4vM0zvCuX4KapTUnP1c1FqeWCRPv1BZ+Q/j8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iKD40dmHvjU1QY17ObGYI7mqzd1guEUijsMDZo5HPQSXlaUnllaYLSOParH8TRc6O3x0Rx51umG4CdItlUeAUKR8FckbGxEcVuZtaqjWcfi/bOP2h0amau8PMAPibyJBFLVtP0BQyDdw5QwY7LqpPn3WaWlxd1tzXhPA6qjC7h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fq3sU7WY; arc=none smtp.client-ip=209.85.167.42
+	 In-Reply-To:To:Cc; b=ZVqTScBxfBHFr4BzhhmKfxx4BQJuVLv8C9v/MLK0DvZszcuDuObGfYy/3SQA7ZcjYTBspHaLgJpSZ5gIJ1REVQQCjLkdW1nDzGtnvXeuJWdO5oWGgeJt/aBGNPiZTKZ/JN7TqdSzSPxAg3+bfTvzB3l+feRF+dOlMFWn3KQOpdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GZTgnA8m; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fq3sU7WY"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513da1c1f26so7983283e87.3
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:45:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GZTgnA8m"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4a393b699fso93592366b.0
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711525548; x=1712130348; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711525551; x=1712130351; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9UcXCFoByy8TCDpd1FKhEA3Ix0HKizwo7uUFTdX1fr8=;
-        b=fq3sU7WY+OoDKakxXFF94P35isrptSwVRIaZ5C+DLI4+06eys7QL1UqA3q5KHnerzT
-         9CHS17QRd4cAyOsR+yrKO/Bp/i5JoMHp8nm9ON+hUfMdUQhTo89c02hdq9IWU7RsSuiL
-         mHJclVlrZgkc7n5nHomL3UORxttr7PIQWogIKPIa7nAC9OjGkv0iz2CwpARJ6mVJLjpP
-         G0DWFqv8tZOyh1H92XUuki31Rx9enEOpLjhupnMD75IemkbPb6Xiw4woY2OWn1J0TFpF
-         lM5MvEsGBiufmQe8q8gwpD84NwfcpCIzzJgTNHf90mAcEH96RRSlmCiWajlc8RC+4hE2
-         ELog==
+        bh=N7K6idk2YeGVu0lxj/Ps3L084ba7NhsvfbgHIaF82R8=;
+        b=GZTgnA8m4klYkodzPNqPsT1+8ow2fZ1k7cgQ7jD1l1L3Ai++6kB+PeYf5y536BUU9n
+         0YhlZUDoR14ty/TZa6KAVcAwQ3X/j0TDvT4U+6kNI+fBFgW/DWqj5yizcvC59qI/exLd
+         EZrcfOy1JvX1vOWZFEVMKSi56TBMxtgpiSvu/4prTxR25y3O24BLLivJFTMvOSPQXf6i
+         JwWv4HBu/PAuAdbopCixCmPylbtPteXpQIJi/IFepd+MqPY89e2x9Mt1ZQiiKphGIbDH
+         bQSv1dtiAzfncoGAPcxBv8vBWn94hELoC/l9SsvHUiHzi5n35aVD+jObXZkzRrdfq3yS
+         X4Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711525548; x=1712130348;
+        d=1e100.net; s=20230601; t=1711525551; x=1712130351;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9UcXCFoByy8TCDpd1FKhEA3Ix0HKizwo7uUFTdX1fr8=;
-        b=RbcrFbXn86rkdSzGLVHMRkGyYmhjivDZBBHVpKWEVD5zW6qcXCJ3+IubObkVlXEOtO
-         72pPkeNPxB19ijv6I3LdWp2ib1N8pedEpEAFHC8j+I7PH5U68krv+zK4G1Bhz+zEIaYM
-         VsfrWI0zdfhyb/fFB/bt7x52hohjYwbBj3AYCWM739lYS+SrXg/L2QEr+bx0J6trLlds
-         AJ/I4l0/j53lhGdFtcyJeZlEEg9goLLK/z2ndvSHS60gjoxObC1dDY2Y0Q5WEg6qKF09
-         zN2Ym0wlDvZqviBNoQMRnwTzbZpqPmqcB74KLJL0667kNMAmWUbd2wgNYxcxwAV+9xrJ
-         5hLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHgv6OnL4C/rSbBD7qhC60GLRf/+mTkFbtGJ03EjpZK4NS1cRgGSRvDI0Ib7bkaqRL/FAwB2lZG0aG4twgk5wCId0hWH5kP2A1lB+ucbtN
-X-Gm-Message-State: AOJu0YyDaN5asAewTN1xn8p9EIeJUH1ao6FyQOQkAFXd1Fz1orAfpcVc
-	GDKLbEiZEja9FJMZdYDEumDfnINSCP1CtIJdWwCanDDBuPQ5XiH94VuI9wISbjJ21/eUFtV8HTe
-	0yPo=
-X-Google-Smtp-Source: AGHT+IHatzJql1atlaaaDzBZKXPbxstbJY5MbJZUna65M1tpSQYVh1MH0tU9aeh6VIRQQNo2ORsL8Q==
-X-Received: by 2002:a17:906:6897:b0:a46:6804:3542 with SMTP id n23-20020a170906689700b00a4668043542mr1956805ejr.77.1711525528210;
-        Wed, 27 Mar 2024 00:45:28 -0700 (PDT)
+        bh=N7K6idk2YeGVu0lxj/Ps3L084ba7NhsvfbgHIaF82R8=;
+        b=Pyp8Ku3cET3Nqh3omAV6bs4OVVN04AV2ThVKnogj3MiM6D7eH09eXrVLNz3ChQ8D3c
+         zH9LrLvHmcjtHo/CM3klbvT2iJ+P/6KrtYtkydgjsH9K1SVRwOFE5oJnQszxAi76IePi
+         pxyn2O9257xiPHci26qN0426/rAnAVlI5j9l+vi/1GXMd60dPBfbNpfAD8gXknRgeNr0
+         ooAuu/j43GTk+ett2ein3IM9xa8WqBoDV4oS56L79SgB8p5FDRxdIvCee1v9da4lYgW4
+         ugo7OWrutgDhy43ls1m9yN/KXXTBocbQHsPNssqqGfO46kWQ9pDO5es9dwgA1A8oAMAM
+         WP7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ3ePpYnjGA/QwwRR17LI49VJ4tikQUPWI6rksCdGgftrgF9jbogqg6atTsRjwZUhakuWeDXZYmAeixgkrYYKezvjC3CcTtcfCN/MwfF2f
+X-Gm-Message-State: AOJu0YzMFy6KAhvFEj00HsJDNbOJdATKBAE2oC68t2Af4gVtsfhyrIdH
+	q7hAXl8Gg31rA128on7N6A1j0t0fLI9b5H2pTVQeM9gIPWcOGEoSpvJWRtcx/p0=
+X-Google-Smtp-Source: AGHT+IFo1SVbUJhfk2D5dISc82f8C01XAvtK/9Ua8RHBqCpkGF1uNtl0N5fMsZ3xQ2K6OiUoagNCQg==
+X-Received: by 2002:a17:907:e8c:b0:a46:a3d1:679a with SMTP id ho12-20020a1709070e8c00b00a46a3d1679amr4106291ejc.14.1711525551050;
+        Wed, 27 Mar 2024 00:45:51 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.45.25
+        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.45.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 00:45:27 -0700 (PDT)
+        Wed, 27 Mar 2024 00:45:50 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 08:43:59 +0100
-Subject: [PATCH 12/19] platform/x86/sony-laptop: drop owner assignment
+Date: Wed, 27 Mar 2024 08:44:06 +0100
+Subject: [PATCH 19/19] ACPI: drop redundant owner from acpi_driver
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-b4-module-owner-acpi-v1-12-725241a2d224@linaro.org>
+Message-Id: <20240327-b4-module-owner-acpi-v1-19-725241a2d224@linaro.org>
 References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 In-Reply-To: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -92,51 +91,49 @@ Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
  platform-driver-x86@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=951;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=674;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=rTr4+VR/jSpIv/sMvw3QDS+RzZvQaSAXby24seNWm5U=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85VwTTtD9fxC6V3OBHEGzTpxWF87AdRz3YGM
- LXjdEBjRM2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOVQAKCRDBN2bmhouD
- 1yTAD/sH1bH8ovgnHtbSS402LCXv9pl2ngwI6WvRYTo2H1cvWaCYvGlsGJgxBT5Ezc2XBqx3MrW
- g/ccuKq6LsP/URyaw+MLQJdPUB9/0+r+Mt4RXQYm+SMoPldVnmMdC0dtd4m40SW5G1OtKd0mhwM
- veY5fF+eE4p/9QfgmjowkUxgbszM+plI1AfHja3UF3N0/azkMN5AiPPeJhHJAxsiyPy8Sfvlp8Y
- mLCWA684zJTJgCoL1kra/VRGJGmLBIdJXRjmUlHJ8AW+kGGFGwiZrtuK83ZyuvrDE809VM8nPze
- i2xNnUV6hIGvpoZN/1BoEOeHr+lLvA8/ew6Vd5gcj02u06sNbqEE3QPkRK34XM72aZfqWVCXEbZ
- 4oYHafACVNYQH8HGW5rVTuuAT3K8e2qqDxdI2KUqyEQnFvyw5U325VbILYvg4aPZlIrwbRdqidW
- W2w23HFbyFERRqqLlkIFLDgR/CZIVJyXgDJImiuVWfTINPRJ3kAwa0DgybvDcKQOy34+jtVTpx8
- bQoF3ce8SqthQtAulRD53cal1K3x/Uq0Y2ge8oFVCuslXln+J5aOnGYlyjGS/rdcxh1Oq63XdTE
- rMF98ME3bEDlFtRjNzvxvqj1aeWtNG58oZdEG5JZ5RvZ07z1+Rf23rK4fwqWR5ZbTBup8tglpCt
- hbebGvB+jzH4tDg==
+ bh=htKh4Jp4vM0zvCuX4KapTUnP1c1FqeWCRPv1BZ+Q/j8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85bDmBUKGxLiw+IE8MXLih8uNdO+fOokRWlT
+ TIm2uaEvyuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOWwAKCRDBN2bmhouD
+ 1z6cD/oCytA+t0QmfxlLxr4zYP8tlK64yfX5UfqshoxKOm8kP+7fJ49TPWNAJ/2WOuldx1L8JZP
+ GlN8xW/4GU+WN5dsD5vqU4gbr9Fuk5sFzeGpF1Wn+LAWc7Rzm6MSPsGY32bIeJfKiv6H4mha/ps
+ 6iC3ilwowIllCYO/VS+7EUinaRgOc4gLWxeG5fsWst0/vaT/ppa+J0RqUaM65oxA2SVXfaGW29Z
+ WfdVl9fZ4bIoKvmzM1u0QM8ugLZUVyqdYaaMqZb4oCV9JATh4I80NtpIfy6o4YaCRAmDwxiapUC
+ HUHnluTQsUJdqX4wyUG5eukbNSJWoevYgQkyFge+T9YteFs9tbViIAwcMKZDN/XVEY76fDZjxCh
+ V9t5i4PTRFJFOxxwQMv34S//WxQreKqDkMyo2m8nbCDEp0dHGXiYPbibrEXk286kkju9dqzQXFL
+ SwWC13gJbV5ZXZoYT9ZtKUN7IgyenZ8Emo5hTx8uQQ0hP/r2vwR8uRfZZ2tbr1CEqFdpciqLfBo
+ eWfMHiqnX05AtOftT8P6/W5u4JbGxibHOlzGY+SlIFixrIy9beGzWztoHO5v77lVosMNGQixCAH
+ Brl8aSiMZnR5rKQUT7+dBC9lBBeAk761YLH+3wjtZoA4c8m63tKEgTknXO4Ny2XJQcxUiykSJaM
+ p0b7ggN21hq0YrQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-ACPI bus core already sets the .owner, so driver does not need to.
+Once all .owner is removed from all acpi_driver instances, drop it from
+the structure.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/platform/x86/sony-laptop.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-index 40878e327afd..3e94fdd1ea52 100644
---- a/drivers/platform/x86/sony-laptop.c
-+++ b/drivers/platform/x86/sony-laptop.c
-@@ -3303,7 +3303,6 @@ static struct acpi_driver sony_nc_driver = {
- 	.name = SONY_NC_DRIVER_NAME,
- 	.class = SONY_NC_CLASS,
- 	.ids = sony_nc_device_ids,
--	.owner = THIS_MODULE,
- 	.ops = {
- 		.add = sony_nc_add,
- 		.remove = sony_nc_remove,
-@@ -4844,7 +4843,6 @@ static struct acpi_driver sony_pic_driver = {
- 	.name = SONY_PIC_DRIVER_NAME,
- 	.class = SONY_PIC_CLASS,
- 	.ids = sony_pic_device_ids,
--	.owner = THIS_MODULE,
- 	.ops = {
- 		.add = sony_pic_add,
- 		.remove = sony_pic_remove,
+---
+
+This depends on all previous patches. It could go next cycle, after
+things got merged.
+---
+ include/acpi/acpi_bus.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+index 7453be56f855..32aae3ee99ac 100644
+--- a/include/acpi/acpi_bus.h
++++ b/include/acpi/acpi_bus.h
+@@ -170,7 +170,6 @@ struct acpi_driver {
+ 	unsigned int flags;
+ 	struct acpi_device_ops ops;
+ 	struct device_driver drv;
+-	struct module *owner;
+ };
+ 
+ /*
 
 -- 
 2.34.1

@@ -1,116 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7412A4C61;
-	Wed, 27 Mar 2024 04:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C965528DA5
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711515571; cv=none; b=HwPJYsfI8e5+q62v3vji8juKwVA1An6tWECbmTE2qMfD8vjaY89Vp88kUePew9aC5vVorhdhNsE6QzK7JC7dEmA9OXAdYqsuTG6OvyaOxSy2cv3gyl+iahXDZqBY4nMNMa/DRDhf2xBONYTStNC0prQMH88/VLBn7Qwc7qzRUiI=
+	t=1711525483; cv=none; b=Pyy/RnnG8PEZ7+G3duPgii/fvqIa8VWNfkeiOGD+q0VNzqdhJOgRmMgK+wSSu7MTlFH9xZ7PGGEvGL+y6CDgXFwfuh8KLs8NmyyB9RgNBbnKnfZQh/7CI7h7rhkB9r3Ko7zqVmu41pADIShAwO8UGdEtep5sqwNZhzowrlQcV5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711515571; c=relaxed/simple;
-	bh=eSaJ+P0zeR4YINFS4ewCmBAtuOzyxpYOIev2jbmhPCQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lnu89U8imNi0XD6UIXsOykCT16WD2Fx/Mmf9yym53mt/OGxbwz94i/1YIum/Oz0TsEqbOz+HWhXaRmwyYyOOPh90m5gLOBJvoXz3yhO5m+kqY3+y7vALHz1GgwHmGO3wjOqrUL7rlJVJ0byCLfpHWwseLvbVUDvkNJ5cQXMfzYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tbi3dzl8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711525483; c=relaxed/simple;
+	bh=meBEX830gRW4HXcwRaI98fQKaU/0vg8wDYKxDADJaXA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mCNPUKpi77K8hQcb7NIyh0A8Q1Xb6uKqNKGQmUMKarp2je3uPYHEsoKey2ewB1YffqPavd6TjFjfAoGKJsyqOF95Q369d0c1hJHEvpl+4gHSteybXxbUg0rLlkgXly5zxC3g28D759RgtWOqy315fN8lqcrXxmneoI6EYKo2ZoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eesx9XV0; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tbi3dzl8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23AC9C433F1;
-	Wed, 27 Mar 2024 04:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711515570;
-	bh=eSaJ+P0zeR4YINFS4ewCmBAtuOzyxpYOIev2jbmhPCQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Tbi3dzl8AGyJphMbu8UKfUJtyxeNWv6xq+BoiiCkef1MD/HM+hjhU/sTrMtDAISCT
-	 /GGYxvTJqJOHP+0xOvXTB1qQjeZhKa4UzYN6wUpU19Z79y3aKER3EcWtvkIiL4paYs
-	 zL3V4gBYV00aul8dL21L9C2mNql56g3R9OUa1pxsCtQyh7YiOSe4yl3R/1PF3HYkEf
-	 lA6EmxWtMB4gKKU0pVVaIdLZgT5dSBUbzm+VexmaeMM5g12YD7JW9N7yxK6uIAqJfb
-	 2h6mI9erMWYSTP+PYY756Uuv5ioD8l4x/rFNLj868t/itOmbHQZSITd2jMVyhcfgvq
-	 9EiYQhGjRyE/Q==
-Message-ID: <03e1941b-0c8a-450d-9b83-76260817d303@kernel.org>
-Date: Wed, 27 Mar 2024 05:59:25 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eesx9XV0"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a4715d4c2cbso809446766b.1
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711525480; x=1712130280; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cwJgbNd9Cb1xxQGP3U28yL2PzFi4V4xZap9Ru43Q/Mw=;
+        b=Eesx9XV09NoOM3rs0ZltsMdUlFEAdy8SrRs/84UAaGzXijptatnGJEgHRRw2llIdf2
+         PY4LJKpeffUUbbVbsK+PTX1LsuG2IQRpNBbQcy2J8UZgTDoUKxamC3l5oL38qOIvWGRH
+         d4BU6QZDRqEMXPPV2QZkfsCI0xQ2Y+xHBUggriAYHH7Tt7lIN3F0Xr9oA5QpLGbAEz/c
+         5VrRkXKpDYJ0+M96ET8geW+DPHKBDt5D0QYxnKJaauVL+mpw3Dhy8x8qXv3dZMPP/kGu
+         Bhcf5hHN/Xk66Zg01PdKjSZWq92yYS05wa4vnHLxjcBw2YRK6TcMC7DRDgOVKjzVYK1V
+         B1Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711525480; x=1712130280;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cwJgbNd9Cb1xxQGP3U28yL2PzFi4V4xZap9Ru43Q/Mw=;
+        b=DL8vnXhIwbEyVwO9jiIZq07Q/anYOkqMCnLlADNMHwvZrNYP1YXKyK3YDUJ6elRsRq
+         GZZQ1Ndt1Q7VQhUxft0X7ir4IgoyQLZiXQH2eImetkma7t1YWTMLxoqJqTu4a0abmJ+e
+         DDmZvptAc+8QQfxzBMjyleQ1Qt75Ci1/8XTken8+q+fYxlXm5z9bJ+k6PS6zBmVPks9I
+         D0Fnz8oFUzBISqYCxA6tPRDte+PvuEO2S/c+yGScwRDbpJp6oTV7/so6CJZ22MsY/sk0
+         34WdeEE1RXE5WnVZDxzEAaSmLrGoFmSdnzD9JYpuUCTwCLr0+h9MPcsnybLr5OpOr+Yd
+         U/bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFLDEyi+1A1nZiMWlsa7W0ZD6Hn+/zmNH6T3SBh9oXPazAGwBFjTQW9cABUqTn9NSOXNNjj1wg9KO2afLh4cmRsGl5oyJH2HtQRqmh/ZuE
+X-Gm-Message-State: AOJu0YwDVWLF5hwe9XAUmf6i+OnF7gdSTYPYJcrw/PJQC8pHQljH4lyf
+	UqRSczOnT9KLnO38lcEaabxRc6MBF/fQCDGJdQ52TWJpnvjpw857jcPKIGHnvh8=
+X-Google-Smtp-Source: AGHT+IGlvH7IOquxCns2fE0YzmhHeEjVjLkRMbV5aqG3+Bvmapd6+zXlFoC0J4tu34KlhV5VJ7nhhQ==
+X-Received: by 2002:a17:906:4112:b0:a46:930c:b793 with SMTP id j18-20020a170906411200b00a46930cb793mr2316193ejk.9.1711525480120;
+        Wed, 27 Mar 2024 00:44:40 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.206.205])
+        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.44.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 00:44:39 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/19] ACPI: store owner from modules with
+ acpi_bus_register_driver()
+Date: Wed, 27 Mar 2024 08:43:47 +0100
+Message-Id: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
- driver
-To: Pavan Holla <pholla@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- chrome-platform@lists.linux.dev
-References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
- <20240325-public-ucsi-h-v2-3-a6d716968bb1@chromium.org>
- <62b2c29f-ca1a-4131-910b-7b9b62a5577e@kernel.org>
- <CAB2FV=7fqsdDuuxZb4dte+Nm4-Pijk20hGzbT8uvzQKsAfup3g@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAB2FV=7fqsdDuuxZb4dte+Nm4-Pijk20hGzbT8uvzQKsAfup3g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADPOA2YC/x3MSQqAMAxA0atI1gY0VhyuIi6qjRrQVlocQLy7x
+ eVb/P9AYC8coE0e8HxKEGcj8jSBcdF2ZhQTDZSRygqqcFC4OXOsjO6y7FGPu6BRjap1Q1SUOcR
+ 09zzJ/W+7/n0/4mos7mYAAAA=
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Robert Moore <robert.moore@intel.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Corentin Chary <corentin.chary@gmail.com>, 
+ "Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, 
+ Daniel Oliveira Nascimento <don@syst.com.br>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
+ Azael Avalos <coproscefalo@gmail.com>, 
+ Richard Cochran <richardcochran@gmail.com>, Jeff Sipek <jsipek@vmware.com>, 
+ Ajay Kaher <akaher@vmware.com>, Alexey Makhalov <amakhalov@vmware.com>, 
+ VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
+ Theodore Ts'o <tytso@mit.edu>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
+ netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ platform-driver-x86@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2754;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=meBEX830gRW4HXcwRaI98fQKaU/0vg8wDYKxDADJaXA=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85It2J1eYnVhuIuXN7MMCJqdE2fAF7WfeZ2j
+ n2apL2796uJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOSAAKCRDBN2bmhouD
+ 1/SnEACOwWo91bl9rH3s5QXO4O8oEUXK1eW8eqIErfBujjd0mBVo1U62GGVdqCTwbnohFmGH8uS
+ 0Hg0mT7Zeq81wweeJX6lhia/0ZXEq+ZS+N/VqqJ7A+7ylKAQBaJ/b12k4fTnfTvl8ROmcKTYwMO
+ xzDw5Zk15EIcQqY7MGSWFtkoR4IrS2/djZzKQcElvc6wPnn9pAGHCnlsuqyNNfA0qKbLEKwbCZL
+ ZHiY9SxWBdWl2HKHK8Mx9QC92FqorWxtdvlyyZbo8P3rLgNwOgKI/2iM2FL86OTTYm/I8h8K0uT
+ 4zjFkXBSfJa5ZtEMyVYWaO/zJcCvsyANCUfmn+nApiQWih+qd2Bfgz7Gha5MiT/O9rP6SsOOlUM
+ tbNEj8Cj8fPjz4pTITvXtRtmnxGIMv7j1sZ7b1tn1QCd0wj9ZTUDDh5LA2Wqr/EqqxRiP7yhmJx
+ VlCIdsMAP0QRviCJeFZ/5IZsqoWkmPw48k2Jj1hAr4Y6e7OhxXXvGltn8sh7mvh4j0J5zpBJlM2
+ fjx/dZOndwUdkjsJSP0MbGEgMKEUw3t1Q1gKfYe6exbD7qfbc0CGKaHnss5MMzmn9bJVCGnsroA
+ wySn4govEwvO62oJtu9o8OUcuu12dPLodXlbGS6LxGJSnQfhXloYUEOlIsusrAiizfR4Vy/tLG2
+ szuZE69hHAS2bhA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On 27/03/2024 04:39, Pavan Holla wrote:
-> Hi Krzysztof,
-> 
-> Thanks for the review.
-> 
-> On Tue, Mar 26, 2024 at 1:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> Nothing improved.
-> 
-> Yes. I only added maintainers of drivers/platform/chrome in v2. I am
-> still investigating why MODULE_ALIAS() is required.
+Merging
+=======
+All further patches depend on the first amba patch, therefore please ack
+and this should go via one tree: ACPI?
 
-Heh, I wrote why. You miss ID table.
+Description
+===========
+Modules registering driver with acpi_bus_register_driver() often forget to
+set .owner field.
+
+Solve the problem by moving this task away from the drivers to the core
+amba bus code, just like we did for platform_driver in commit
+9447057eaff8 ("platform_device: use a macro instead of
+platform_driver_register").
 
 Best regards,
 Krzysztof
+
+---
+Krzysztof Kozlowski (19):
+      ACPI: store owner from modules with acpi_bus_register_driver()
+      Input: atlas: - drop owner assignment
+      net: fjes: drop owner assignment
+      platform: chrome: drop owner assignment
+      platform: asus-laptop: drop owner assignment
+      platform: classmate-laptop: drop owner assignment
+      platform/x86/dell: drop owner assignment
+      platform/x86/eeepc: drop owner assignment
+      platform/x86/intel/rst: drop owner assignment
+      platform/x86/intel/smartconnect: drop owner assignment
+      platform/x86/lg-laptop: drop owner assignment
+      platform/x86/sony-laptop: drop owner assignment
+      platform/x86/toshiba_acpi: drop owner assignment
+      platform/x86/toshiba_bluetooth: drop owner assignment
+      platform/x86/toshiba_haps: drop owner assignment
+      platform/x86/wireless-hotkey: drop owner assignment
+      ptp: vmw: drop owner assignment
+      virt: vmgenid: drop owner assignment
+      ACPI: drop redundant owner from acpi_driver
+
+ drivers/acpi/bus.c                        | 9 +++++----
+ drivers/input/misc/atlas_btns.c           | 1 -
+ drivers/net/fjes/fjes_main.c              | 1 -
+ drivers/platform/chrome/wilco_ec/event.c  | 1 -
+ drivers/platform/x86/asus-laptop.c        | 1 -
+ drivers/platform/x86/classmate-laptop.c   | 5 -----
+ drivers/platform/x86/dell/dell-rbtn.c     | 1 -
+ drivers/platform/x86/eeepc-laptop.c       | 1 -
+ drivers/platform/x86/intel/rst.c          | 1 -
+ drivers/platform/x86/intel/smartconnect.c | 1 -
+ drivers/platform/x86/lg-laptop.c          | 1 -
+ drivers/platform/x86/sony-laptop.c        | 2 --
+ drivers/platform/x86/toshiba_acpi.c       | 1 -
+ drivers/platform/x86/toshiba_bluetooth.c  | 1 -
+ drivers/platform/x86/toshiba_haps.c       | 1 -
+ drivers/platform/x86/wireless-hotkey.c    | 1 -
+ drivers/ptp/ptp_vmw.c                     | 1 -
+ drivers/virt/vmgenid.c                    | 1 -
+ include/acpi/acpi_bus.h                   | 8 ++++++--
+ 19 files changed, 11 insertions(+), 28 deletions(-)
+---
+base-commit: 1fdad13606e104ff103ca19d2d660830cb36d43e
+change-id: 20240327-b4-module-owner-acpi-d4948a922351
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 

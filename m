@@ -1,140 +1,173 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9265D56758
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345555A115
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 11:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711525554; cv=none; b=bPVa1eFJworeo/cJ1OWItslomMiUYRj9gyMl8EZsoCI0JgZ9LmAv0cipVm0r2rzJbqYsaJgb4nmuvVt4Tj/v5f8qbwcfnA/GU37ompnnoWpUMUP2i9JF02y4q1a4qpuURLo9P+UDhNZh3WQQpT+IMyFBqLc9ZP51ynSE13po3V0=
+	t=1711538530; cv=none; b=q5hweWcBMaqk5bgPKGOjkUUg1VKml3U2hDNmeMNdp+82DgEHexGnid4Pl8WXKMcrgjbFJce1xV0FjPch+egYcYbYxe3XVRHiW3eAAGJPgFyTQ2dX6VvTAHB1ucMWllyQC4b6weaAURE29My+3MT9VoLlVJCqxAgikmHZ+vL+9c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711525554; c=relaxed/simple;
-	bh=htKh4Jp4vM0zvCuX4KapTUnP1c1FqeWCRPv1BZ+Q/j8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZVqTScBxfBHFr4BzhhmKfxx4BQJuVLv8C9v/MLK0DvZszcuDuObGfYy/3SQA7ZcjYTBspHaLgJpSZ5gIJ1REVQQCjLkdW1nDzGtnvXeuJWdO5oWGgeJt/aBGNPiZTKZ/JN7TqdSzSPxAg3+bfTvzB3l+feRF+dOlMFWn3KQOpdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GZTgnA8m; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711538530; c=relaxed/simple;
+	bh=J7zAHuGREnCdBItMrYt7Dp5Z+38Lf4Gu8Jhy9frF4P4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jcLfwrKpRPbn3QeO2hG2Eoaif1gNtDxsEoVkBEb7pc8mTm8gY0FPdGei+A3KMQZphnEukL3g+CElLfPzWCrZPpowAcSEYq1kX9AyMush3cHnRtyhlJZ2hNMTbAbYiDLYjqyironrDJFBx6JT3DtjS8faUyVl9XUgPEmzxn2UgM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtI81To/; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GZTgnA8m"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4a393b699fso93592366b.0
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711525551; x=1712130351; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N7K6idk2YeGVu0lxj/Ps3L084ba7NhsvfbgHIaF82R8=;
-        b=GZTgnA8m4klYkodzPNqPsT1+8ow2fZ1k7cgQ7jD1l1L3Ai++6kB+PeYf5y536BUU9n
-         0YhlZUDoR14ty/TZa6KAVcAwQ3X/j0TDvT4U+6kNI+fBFgW/DWqj5yizcvC59qI/exLd
-         EZrcfOy1JvX1vOWZFEVMKSi56TBMxtgpiSvu/4prTxR25y3O24BLLivJFTMvOSPQXf6i
-         JwWv4HBu/PAuAdbopCixCmPylbtPteXpQIJi/IFepd+MqPY89e2x9Mt1ZQiiKphGIbDH
-         bQSv1dtiAzfncoGAPcxBv8vBWn94hELoC/l9SsvHUiHzi5n35aVD+jObXZkzRrdfq3yS
-         X4Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711525551; x=1712130351;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N7K6idk2YeGVu0lxj/Ps3L084ba7NhsvfbgHIaF82R8=;
-        b=Pyp8Ku3cET3Nqh3omAV6bs4OVVN04AV2ThVKnogj3MiM6D7eH09eXrVLNz3ChQ8D3c
-         zH9LrLvHmcjtHo/CM3klbvT2iJ+P/6KrtYtkydgjsH9K1SVRwOFE5oJnQszxAi76IePi
-         pxyn2O9257xiPHci26qN0426/rAnAVlI5j9l+vi/1GXMd60dPBfbNpfAD8gXknRgeNr0
-         ooAuu/j43GTk+ett2ein3IM9xa8WqBoDV4oS56L79SgB8p5FDRxdIvCee1v9da4lYgW4
-         ugo7OWrutgDhy43ls1m9yN/KXXTBocbQHsPNssqqGfO46kWQ9pDO5es9dwgA1A8oAMAM
-         WP7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ3ePpYnjGA/QwwRR17LI49VJ4tikQUPWI6rksCdGgftrgF9jbogqg6atTsRjwZUhakuWeDXZYmAeixgkrYYKezvjC3CcTtcfCN/MwfF2f
-X-Gm-Message-State: AOJu0YzMFy6KAhvFEj00HsJDNbOJdATKBAE2oC68t2Af4gVtsfhyrIdH
-	q7hAXl8Gg31rA128on7N6A1j0t0fLI9b5H2pTVQeM9gIPWcOGEoSpvJWRtcx/p0=
-X-Google-Smtp-Source: AGHT+IFo1SVbUJhfk2D5dISc82f8C01XAvtK/9Ua8RHBqCpkGF1uNtl0N5fMsZ3xQ2K6OiUoagNCQg==
-X-Received: by 2002:a17:907:e8c:b0:a46:a3d1:679a with SMTP id ho12-20020a1709070e8c00b00a46a3d1679amr4106291ejc.14.1711525551050;
-        Wed, 27 Mar 2024 00:45:51 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.45.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 00:45:50 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 08:44:06 +0100
-Subject: [PATCH 19/19] ACPI: drop redundant owner from acpi_driver
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtI81To/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711538529; x=1743074529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J7zAHuGREnCdBItMrYt7Dp5Z+38Lf4Gu8Jhy9frF4P4=;
+  b=jtI81To/3Js3GMJZvuBSs/taLJz/t2cRUhaI+QznGDjoiIPrRlgb/QFY
+   fPuX31iG5gU8+B6j10yPFTEeufVqsZpas92cFKZYtfhuIT1Yww2St7cwJ
+   gnxrC+Le3xpcoyyHX790j2kNYGnj68GyOeRQ97To0Q78leHGyZiAN9tBB
+   NLs8Ac++4ikUkyy0JuVjg+g48nh0l44qGNeymRjfjEbQ+nBW0n6S7+4X0
+   O7gdm0Z5nFP//RIz26QzJ+A3je8oZ2yKcK3FIR297saJxjLKRmgqK+rsv
+   x/IIyD/E/9j+k5v0HziLfD9Ud9RJ2uDa6Opz+4rog9J8HCZEQE7L3WrRB
+   g==;
+X-CSE-ConnectionGUID: 2WNd9XzxRWaiajme8Abb+w==
+X-CSE-MsgGUID: mBZ9rqmIRZOGc4tnIxaDFw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17361969"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="17361969"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 04:22:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="937074467"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="937074467"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 27 Mar 2024 04:22:05 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 27 Mar 2024 13:22:04 +0200
+Date: Wed, 27 Mar 2024 13:22:04 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Pavan Holla <pholla@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] usb: typec: ucsi: Import interface for UCSI
+ transport
+Message-ID: <ZgQBXFzuZLJcmH4h@kuha.fi.intel.com>
+References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
+ <20240325-public-ucsi-h-v2-2-a6d716968bb1@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-b4-module-owner-acpi-v1-19-725241a2d224@linaro.org>
-References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
-In-Reply-To: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Robert Moore <robert.moore@intel.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Corentin Chary <corentin.chary@gmail.com>, 
- "Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, 
- Daniel Oliveira Nascimento <don@syst.com.br>, 
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
- Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
- Azael Avalos <coproscefalo@gmail.com>, 
- Richard Cochran <richardcochran@gmail.com>, Jeff Sipek <jsipek@vmware.com>, 
- Ajay Kaher <akaher@vmware.com>, Alexey Makhalov <amakhalov@vmware.com>, 
- VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
- Theodore Ts'o <tytso@mit.edu>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
- netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
- platform-driver-x86@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=674;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=htKh4Jp4vM0zvCuX4KapTUnP1c1FqeWCRPv1BZ+Q/j8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85bDmBUKGxLiw+IE8MXLih8uNdO+fOokRWlT
- TIm2uaEvyuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOWwAKCRDBN2bmhouD
- 1z6cD/oCytA+t0QmfxlLxr4zYP8tlK64yfX5UfqshoxKOm8kP+7fJ49TPWNAJ/2WOuldx1L8JZP
- GlN8xW/4GU+WN5dsD5vqU4gbr9Fuk5sFzeGpF1Wn+LAWc7Rzm6MSPsGY32bIeJfKiv6H4mha/ps
- 6iC3ilwowIllCYO/VS+7EUinaRgOc4gLWxeG5fsWst0/vaT/ppa+J0RqUaM65oxA2SVXfaGW29Z
- WfdVl9fZ4bIoKvmzM1u0QM8ugLZUVyqdYaaMqZb4oCV9JATh4I80NtpIfy6o4YaCRAmDwxiapUC
- HUHnluTQsUJdqX4wyUG5eukbNSJWoevYgQkyFge+T9YteFs9tbViIAwcMKZDN/XVEY76fDZjxCh
- V9t5i4PTRFJFOxxwQMv34S//WxQreKqDkMyo2m8nbCDEp0dHGXiYPbibrEXk286kkju9dqzQXFL
- SwWC13gJbV5ZXZoYT9ZtKUN7IgyenZ8Emo5hTx8uQQ0hP/r2vwR8uRfZZ2tbr1CEqFdpciqLfBo
- eWfMHiqnX05AtOftT8P6/W5u4JbGxibHOlzGY+SlIFixrIy9beGzWztoHO5v77lVosMNGQixCAH
- Brl8aSiMZnR5rKQUT7+dBC9lBBeAk761YLH+3wjtZoA4c8m63tKEgTknXO4Ny2XJQcxUiykSJaM
- p0b7ggN21hq0YrQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240325-public-ucsi-h-v2-2-a6d716968bb1@chromium.org>
 
-Once all .owner is removed from all acpi_driver instances, drop it from
-the structure.
+On Mon, Mar 25, 2024 at 11:42:26PM +0000, Pavan Holla wrote:
+> Import include/linux/usb/ucsi.h and remove any duplicate declarations.
+> 
+> Signed-off-by: Pavan Holla <pholla@chromium.org>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.h | 54 +------------------------------------------
+>  1 file changed, 1 insertion(+), 53 deletions(-)
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I'm pretty sure somebody already told you to merge this into 1/3, so
+why haven't you done that?
 
----
 
-This depends on all previous patches. It could go next cycle, after
-things got merged.
----
- include/acpi/acpi_bus.h | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index 7453be56f855..32aae3ee99ac 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -170,7 +170,6 @@ struct acpi_driver {
- 	unsigned int flags;
- 	struct acpi_device_ops ops;
- 	struct device_driver drv;
--	struct module *owner;
- };
- 
- /*
+> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+> index 32daf5f58650..167951538030 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.h
+> +++ b/drivers/usb/typec/ucsi/ucsi.h
+> @@ -10,22 +10,13 @@
+>  #include <linux/usb/typec.h>
+>  #include <linux/usb/pd.h>
+>  #include <linux/usb/role.h>
+> +#include <linux/usb/ucsi.h>
+>  #include <asm/unaligned.h>
+>  
+>  /* -------------------------------------------------------------------------- */
+>  
+> -struct ucsi;
+> -struct ucsi_altmode;
+>  struct dentry;
+>  
+> -/* UCSI offsets (Bytes) */
+> -#define UCSI_VERSION			0
+> -#define UCSI_CCI			4
+> -#define UCSI_CONTROL			8
+> -#define UCSI_MESSAGE_IN			16
+> -#define UCSI_MESSAGE_OUT		32
+> -#define UCSIv2_MESSAGE_OUT		272
+> -
+>  /* UCSI versions */
+>  #define UCSI_VERSION_1_2	0x0120
+>  #define UCSI_VERSION_2_0	0x0200
+> @@ -42,48 +33,6 @@ struct dentry;
+>   */
+>  #define UCSI_SPEC_REVISION_TO_BCD(_v_)  (((_v_) + 1) << 8)
+>  
+> -/* Command Status and Connector Change Indication (CCI) bits */
+> -#define UCSI_CCI_CONNECTOR(_c_)		(((_c_) & GENMASK(7, 1)) >> 1)
+> -#define UCSI_CCI_LENGTH(_c_)		(((_c_) & GENMASK(15, 8)) >> 8)
+> -#define UCSI_CCI_NOT_SUPPORTED		BIT(25)
+> -#define UCSI_CCI_CANCEL_COMPLETE	BIT(26)
+> -#define UCSI_CCI_RESET_COMPLETE		BIT(27)
+> -#define UCSI_CCI_BUSY			BIT(28)
+> -#define UCSI_CCI_ACK_COMPLETE		BIT(29)
+> -#define UCSI_CCI_ERROR			BIT(30)
+> -#define UCSI_CCI_COMMAND_COMPLETE	BIT(31)
+> -
+> -/**
+> - * struct ucsi_operations - UCSI I/O operations
+> - * @read: Read operation
+> - * @sync_write: Blocking write operation
+> - * @async_write: Non-blocking write operation
+> - * @update_altmodes: Squashes duplicate DP altmodes
+> - *
+> - * Read and write routines for UCSI interface. @sync_write must wait for the
+> - * Command Completion Event from the PPM before returning, and @async_write must
+> - * return immediately after sending the data to the PPM.
+> - */
+> -struct ucsi_operations {
+> -	int (*read)(struct ucsi *ucsi, unsigned int offset,
+> -		    void *val, size_t val_len);
+> -	int (*sync_write)(struct ucsi *ucsi, unsigned int offset,
+> -			  const void *val, size_t val_len);
+> -	int (*async_write)(struct ucsi *ucsi, unsigned int offset,
+> -			   const void *val, size_t val_len);
+> -	bool (*update_altmodes)(struct ucsi *ucsi, struct ucsi_altmode *orig,
+> -				struct ucsi_altmode *updated);
+> -};
+> -
+> -struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops);
+> -void ucsi_destroy(struct ucsi *ucsi);
+> -int ucsi_register(struct ucsi *ucsi);
+> -void ucsi_unregister(struct ucsi *ucsi);
+> -void *ucsi_get_drvdata(struct ucsi *ucsi);
+> -void ucsi_set_drvdata(struct ucsi *ucsi, void *data);
+> -
+> -void ucsi_connector_change(struct ucsi *ucsi, u8 num);
+> -
+>  /* -------------------------------------------------------------------------- */
+>  
+>  /* Commands */
+> @@ -465,7 +414,6 @@ int ucsi_send_command(struct ucsi *ucsi, u64 command,
+>  		      void *retval, size_t size);
+>  
+>  void ucsi_altmode_update_active(struct ucsi_connector *con);
+> -int ucsi_resume(struct ucsi *ucsi);
+>  
+>  #if IS_ENABLED(CONFIG_POWER_SUPPLY)
+>  int ucsi_register_port_psy(struct ucsi_connector *con);
+> 
+> -- 
+> 2.44.0.396.g6e790dbe36-goog
 
 -- 
-2.34.1
-
+heikki

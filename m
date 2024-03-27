@@ -1,81 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2D3639;
-	Wed, 27 Mar 2024 04:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7412A4C61;
+	Wed, 27 Mar 2024 04:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711514888; cv=none; b=TJHrzNOFWz4xozHGtc7YrswaJ9l/q5JRlFYXqW365w8FG2ZYi4Tg3cegKPzAVqlo7uE8m7A91563FkPKqcsBdhLX2ycPaJHULc9/z9ozmoqcGKeVJ9bhW6ESZWEieB0hIwa/53RuRfw7+tdNi8t2XvedlFTKnTkRfOYUvGgHjEo=
+	t=1711515571; cv=none; b=HwPJYsfI8e5+q62v3vji8juKwVA1An6tWECbmTE2qMfD8vjaY89Vp88kUePew9aC5vVorhdhNsE6QzK7JC7dEmA9OXAdYqsuTG6OvyaOxSy2cv3gyl+iahXDZqBY4nMNMa/DRDhf2xBONYTStNC0prQMH88/VLBn7Qwc7qzRUiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711514888; c=relaxed/simple;
-	bh=uWAuppfKIv+6QPjw6eP0ZldkO7CbP2+7dJhYWeKcAwg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=WwpujaZBM53IA1wEhsBajj6Y3VnzZdGh3aiUTXF7BRS3vJhNK8iyJKeBAav3Z4G1M8DXJG8OwIQJDubzegk9mN2vCycqDttfK073Q3oIDGcMlD30pPrPxAN/cl6lwMmy8NfQFLz6Y2s/O0en+x/47XCoG0oBBf5GblL6hF8jLIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nq+fPVfj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711515571; c=relaxed/simple;
+	bh=eSaJ+P0zeR4YINFS4ewCmBAtuOzyxpYOIev2jbmhPCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Lnu89U8imNi0XD6UIXsOykCT16WD2Fx/Mmf9yym53mt/OGxbwz94i/1YIum/Oz0TsEqbOz+HWhXaRmwyYyOOPh90m5gLOBJvoXz3yhO5m+kqY3+y7vALHz1GgwHmGO3wjOqrUL7rlJVJ0byCLfpHWwseLvbVUDvkNJ5cQXMfzYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tbi3dzl8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nq+fPVfj"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4736AC433B1;
-	Wed, 27 Mar 2024 04:48:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tbi3dzl8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23AC9C433F1;
+	Wed, 27 Mar 2024 04:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711514888;
-	bh=uWAuppfKIv+6QPjw6eP0ZldkO7CbP2+7dJhYWeKcAwg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nq+fPVfjlUx2zeMIapvrYl7TVkDJz8bJcwhxeBSr/WWIdYd9AcGXw4FkzEa0UCG+s
-	 pT/GU5Jb6XJS488ZLmcT1ZyfBVs2rI4ALg56S9EfU0hn0aEP4MOu1lRqsHT6XEYLTh
-	 W5ihMTLqxfh5FuaoujVyPk4n565x64o1NsNm2QswCKdLn7o/3kVxlz2QXEHJXrmtYu
-	 z6KZyf0YWcs1ZYT9CzeVWaLhp0q9B6F0GwMArvzcogAubuoNfXT8TI4zWCUgyQ4o5p
-	 G1TGw9WQLI5an4ekcUfi0NBgLsrIZqUPCQBcWws13gwb3dMxnRC+fzEBt+G7+2o+rQ
-	 YuLxPgncbF9og==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3D6E1D2D0EC;
-	Wed, 27 Mar 2024 04:48:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1711515570;
+	bh=eSaJ+P0zeR4YINFS4ewCmBAtuOzyxpYOIev2jbmhPCQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Tbi3dzl8AGyJphMbu8UKfUJtyxeNWv6xq+BoiiCkef1MD/HM+hjhU/sTrMtDAISCT
+	 /GGYxvTJqJOHP+0xOvXTB1qQjeZhKa4UzYN6wUpU19Z79y3aKER3EcWtvkIiL4paYs
+	 zL3V4gBYV00aul8dL21L9C2mNql56g3R9OUa1pxsCtQyh7YiOSe4yl3R/1PF3HYkEf
+	 lA6EmxWtMB4gKKU0pVVaIdLZgT5dSBUbzm+VexmaeMM5g12YD7JW9N7yxK6uIAqJfb
+	 2h6mI9erMWYSTP+PYY756Uuv5ioD8l4x/rFNLj868t/itOmbHQZSITd2jMVyhcfgvq
+	 9EiYQhGjRyE/Q==
+Message-ID: <03e1941b-0c8a-450d-9b83-76260817d303@kernel.org>
+Date: Wed, 27 Mar 2024 05:59:25 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
+ driver
+To: Pavan Holla <pholla@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+ chrome-platform@lists.linux.dev
+References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
+ <20240325-public-ucsi-h-v2-3-a6d716968bb1@chromium.org>
+ <62b2c29f-ca1a-4131-910b-7b9b62a5577e@kernel.org>
+ <CAB2FV=7fqsdDuuxZb4dte+Nm4-Pijk20hGzbT8uvzQKsAfup3g@mail.gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <CAB2FV=7fqsdDuuxZb4dte+Nm4-Pijk20hGzbT8uvzQKsAfup3g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH][next] platform/chrome: cros_ec_proto: avoid
- -Wflex-array-member-not-at-end warnings
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171151488824.812.5983218096761719498.git-patchwork-notify@kernel.org>
-Date: Wed, 27 Mar 2024 04:48:08 +0000
-References: <ZgMaDl/of8YC445S@neat>
-In-Reply-To: <ZgMaDl/of8YC445S@neat>
-To: Gustavo A. R. Silva <gustavoars@kernel.org>
-Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
 
-Hello:
-
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Tue, 26 Mar 2024 12:55:10 -0600 you wrote:
-> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-> a flexible structure where the size of the flexible-array member
-> is known at compile-time, and refactor the rest of the code,
-> accordingly.
+On 27/03/2024 04:39, Pavan Holla wrote:
+> Hi Krzysztof,
 > 
-> So, with these changes, fix the following warning:
-> drivers/platform/chrome/cros_ec_proto_test.c:1547:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> drivers/platform/chrome/cros_ec_proto_test.c:1607:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> drivers/platform/chrome/cros_ec_proto_test.c:1645:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> drivers/platform/chrome/cros_ec_proto_test.c:1668:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> Thanks for the review.
 > 
-> [...]
+> On Tue, Mar 26, 2024 at 1:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> Nothing improved.
+> 
+> Yes. I only added maintainers of drivers/platform/chrome in v2. I am
+> still investigating why MODULE_ALIAS() is required.
 
-Here is the summary with links:
-  - [next] platform/chrome: cros_ec_proto: avoid -Wflex-array-member-not-at-end warnings
-    https://git.kernel.org/chrome-platform/c/6c85a13b133f
+Heh, I wrote why. You miss ID table.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Best regards,
+Krzysztof
 

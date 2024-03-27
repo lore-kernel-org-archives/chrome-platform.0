@@ -1,60 +1,60 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB10E2C6B6
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE6D381C8
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711525508; cv=none; b=GHcISl3ma0l+oO44IgRQnBg+WbKc1x4bMyizCIhVuyS6RlQYbGrst/MOWtDX4ObmyG0sBBPCJm9Gf48HKfK3qO0bMdfhI7CjlU6rv2cHzgaAGIJPonTTSBTn4ztCJFkHQnHIuNBQwD4yINNHKFOFMRzFhC1wQREG+EHDvo4MM9k=
+	t=1711525511; cv=none; b=bNKID9zhzTQuDXeqPykXHUW2vN+mtfmR3UrxIMOSga9FON+WgCIN/5IdYplpRSdjmx65yORU/WiA8IjN/Wnbk7SAjhRR44qJgJ719ivhILZfR7MGIbemJRSx7/H/u0wTr/djdLZexVC0Wce484NqAkffUKJaAMKVEY9pvMCZg+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711525508; c=relaxed/simple;
-	bh=NlwdekirFhEN97DvAhZtYwhl4leroAl3Df+vwGpT2Nk=;
+	s=arc-20240116; t=1711525511; c=relaxed/simple;
+	bh=4icp/wvd/fjEray5B1/3YlXzzTUAdRig+Gb04+Lw4sw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fFLwPfjjQE/iiiFPq0kM5aJzHlf5CrhZaNZf1ybsQDZ7qhqx3xobTvpnxDccChemKJmrlWYXstI5z92Lar8PYF0c6TZOGbMtY0q0/y0AhWc5M++PDZA5YS71YJ+JMCRVu8ybo60or4jglHPMk/uIkRPA0KiOf5ECRKmfb/aMlvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KCtEEa7e; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:To:Cc; b=AOXvyrITjp8k02uc0s7Im8o3WImf2sM3LH+ge16nGl6Y3WSwQa8bVnb7Q4GUc7lYY3VT5ecTLtf9WOnkCjB4G9iFDqr+gHYubbOcFyLhK/rSPzQL3ouwRu/Wnpqo8sLidQF4yAxYYR6zVPGesEBcFe4tTxRa4YcCgDxIUQ/9uC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lGJTDr8g; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KCtEEa7e"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so840728966b.0
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:45:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lGJTDr8g"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a46ea03c2a5so107719366b.1
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711525504; x=1712130304; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711525508; x=1712130308; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DfQ/6ENUFYJM5krjoCLDppxsc8PEMInedWcrUE1sKcY=;
-        b=KCtEEa7e0bgFelLcs3GyRBQ83iaMYmmP8BVHzd0dxf0XD8baDM6vNc0YnAsOIukmMs
-         BPCbAmgBRqzgrsXNLQiOeTIaqNjLZnIkbyrmqo+F2DyYiu9KqrF+wRehMSxfXh1bGxyY
-         3XQ7sXDOjVpx0nkdrJ69EuwTCo17ICMTwM5L7udWSuldS6bU1JzG5TFgswv4RXNYaGjm
-         Vjb9g8U/T6aTS56LCT6K1Bh3H5CbqU1NQkzRlg8kRldVpzqKfqJMGN+LBcQPl0Mjw1bg
-         LW77JO/hcqNhlEMMNOBsDT0CrSdPtn1+lxZosx5+jQRZA01o0U/KSmXbjHgsna0d28Gf
-         k1Vw==
+        bh=2hd27sV9Cq/PUsPevWdVtGWA5/5nRhufdhobvGmInTo=;
+        b=lGJTDr8goQVq7Moq/d4K39vuuwKFtR09pRimjSr2V64jBvAuAnnRlwrFpduSI5dzas
+         +U290a5WFcybRzPGVBcaewgNmGpAi+l5MuEnGGjBMXiwV017qaFkru0ymHGgj+Dm9isz
+         PUTDn/FEKmrjVqbbyWQnicoSjamm+bW5sI0i/75apP3WVHUtnypytON+1p3GP7BMU23+
+         lGXUeTMZ++tOUU3tJrdREN5+6wjurLU/g5cagoVldXQVYOVEXPrTZpL8Iqpqiqk6bxWk
+         Cfuih1JHyd/EqB0pmRC8AUMPI3NwGvpkny3iH4LPx5rfkgAhIgr44CeAxK0HJkqN9zS8
+         aJZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711525504; x=1712130304;
+        d=1e100.net; s=20230601; t=1711525508; x=1712130308;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DfQ/6ENUFYJM5krjoCLDppxsc8PEMInedWcrUE1sKcY=;
-        b=O/B4qDsc72hzDd8L1vSP+UQZ7kDpd+f6HqRSDbn0BIANKJiozBC93BwbvRUYIge8Rh
-         XeCvLukRnUoVKD52yqVvOL2ZaqCt1zDgoR85340g7/oCPQQuDCWA7cTp2HvVnBXY0FXw
-         i47/YnDe7+FYfJJZuO3aZnGBBcvbqlvA3gewcLmSH9aPbuK7olvAHBKM7MGUpOnUuidn
-         2PpLn9JISykyR1wHmmSYWR24S/+LcHBc4KRp2Zv5XU8Ivp4ldf+FeSTItfszVSRqSnk0
-         klDVivAPSipP+TWFBB/33xUCtXuqp8ko5q1kwCxif2dBKpsU4M+pvKT76jlYXTmJ4Ny2
-         26KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCKiwUPKI8Kmhq55DwRh5HdxzFe0+8Iqm1TQWHe1D/wgxtzRHUYBVItivgJK4KAklrEQe46ukxXLlWU4sU22sxUk5J7GzTPx2A7tt3dbXm
-X-Gm-Message-State: AOJu0YxuIjgAiMWY2KJI0ywCB/bq+KtR5YX+kyBR5H31hjvY3evIcuGW
-	s62pd0bXaXsqbb9A1Jku2P1swfTFtFKzT/hqKwmkICSKD21vf6hyZ1iicJE6/2w=
-X-Google-Smtp-Source: AGHT+IGPmO1mR5K7ICS0f1Lp3U+jfd8w12HjLzszKos7oFjScLO+5cewTzANdyegGvzlnb+jKxPWkg==
-X-Received: by 2002:a17:906:2412:b0:a46:5e1b:58a3 with SMTP id z18-20020a170906241200b00a465e1b58a3mr283499eja.35.1711525504116;
-        Wed, 27 Mar 2024 00:45:04 -0700 (PDT)
+        bh=2hd27sV9Cq/PUsPevWdVtGWA5/5nRhufdhobvGmInTo=;
+        b=hlhRFZAN7m8cIt0vpHb9LItnF3++xkZcdYq3lAU7SWcz7rsikrPwES8gcOEeGJd5px
+         ZG5zWs0Kh9l7SJDGslILV/sbnSQDcqfNqshzFq7M0AQUGRPGcf9l4fkGERagt7kXtIzQ
+         2Pb2sxFlt3v3k/upUICvwppEAmA40qyvGI0Oe8DZxzv+rnHW5pKdmbbDEns95bO4Y9I5
+         lcIpnc3J+U26Rd0R9XhlBqlkWyILtZDjdam433gsqLlb7MaF2SviuYnTeMpNki+nrlkx
+         SD7dZHrwnG8Hn5fJtdxmPMlBt4N8fUfzvEFCzInQmzMPfzrmZ1ROnSR/oz/zvW1XuEd9
+         C12w==
+X-Forwarded-Encrypted: i=1; AJvYcCWYGrOqctJqKV5sp41bpkuEVFugXq+oIoFfPzi+Lx5ZKMzmCmNnrAzTMaK8VUhJlO20+DXEFJbWcAURm+TJD7Vtm4yQRglAtVIBmV83GPz2
+X-Gm-Message-State: AOJu0Yyf2ruorIP2ZUz9/QBURm9zlG+u4SRKxhR/bMZsxvXj3zIN7pb5
+	eeoCKvCXdDVj4Q8MatruITJKhmahTF6R1J7Rdjg3uaGzeIgYKxahcKaW9FAUY/0=
+X-Google-Smtp-Source: AGHT+IF5Vmj6eTyDBK1fEXaF+vjY69cFdRk1hmkzgjV+20lhxomGlD3ZVF+CyF41sRnpLluZYT0dNQ==
+X-Received: by 2002:a17:907:970a:b0:a46:d759:d531 with SMTP id jg10-20020a170907970a00b00a46d759d531mr3840452ejc.34.1711525508119;
+        Wed, 27 Mar 2024 00:45:08 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.45.01
+        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.45.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 00:45:03 -0700 (PDT)
+        Wed, 27 Mar 2024 00:45:07 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 08:43:51 +0100
-Subject: [PATCH 04/19] platform: chrome: drop owner assignment
+Date: Wed, 27 Mar 2024 08:43:52 +0100
+Subject: [PATCH 05/19] platform: asus-laptop: drop owner assignment
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-b4-module-owner-acpi-v1-4-725241a2d224@linaro.org>
+Message-Id: <20240327-b4-module-owner-acpi-v1-5-725241a2d224@linaro.org>
 References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 In-Reply-To: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -91,21 +91,21 @@ Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
  platform-driver-x86@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=732;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=768;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=NlwdekirFhEN97DvAhZtYwhl4leroAl3Df+vwGpT2Nk=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85O5xLzwqpArWXpMJDqqxc+w1oRKGtJdnp4x
- 96+fPjsasmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOTgAKCRDBN2bmhouD
- 1wyXEACW/4L3DI2OlklYU6g0kokcqn89JQ/lXF2mafD3UrLqDTTk01O0yt01OjGhQ7NdwPZ343V
- VawU8RuciYfU6jB/44HF2Z10opR7W2Jo/EEE1BEC6O9xe1c0sZbaayTZjtx7eLFaEDeAlIj1S2Y
- rPJwJI6q68pCPzgKXi3tuHjCae9EhridvmfQoyLkZm4OR0XRGmaXJipj7197KivNOKKc2BOIyBX
- YkraKhjQkHI7BoAVla3WE2Jp1t3JPcrp780M7MtGw9+4Ls8t1COPnDhqLdyy05Px9zp+UXanDwW
- KoOqDYQZehMPTu8SzxctG1KQKTpSToaw661b6cVDqNE/NHn/33zSeNXSFeU4B1CE6zLzOUVJJ1S
- 9J/euG0r3m0g0V2ZhCeNUZ/e7BOgH8qe6oHivfIjMgdgbx7JoeAgrzexxbVdvtX++gU6a3GWT5E
- QXNpoE2YeZLApzbpvZHj2TOIl++qvHChqLYSlYjAZXyxLwhuUmg1i+ES2GYmWa/IAaw2esQiE1w
- 7Oj7IQJNfEwoj7aw1LV/jTvvlivZ0RP1hfQyhdf+DxO7862/4fo40FhjAKq3Yb4FrJsuImc+xql
- r0ctlGdBKWpFQFSLxKNQg8tpMnnT85q5WQMPtV+rIe9lUU04Zv3QAIoYUyYvc/wNFJlLR8tD6ru
- fKVay/tSUDsLtPA==
+ bh=4icp/wvd/fjEray5B1/3YlXzzTUAdRig+Gb04+Lw4sw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85PAnzGtbUajfFNHmhOq2+9nktaOOh/LAtXL
+ bMT1S6F6y6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOTwAKCRDBN2bmhouD
+ 14vfD/0U+qsam3B01jMhQjU7MHwc7lkh6KqJUj8kIkPKUTlilSmzTtqi/YPPO25PNvZih7ChIV4
+ 0FUVQLtz1FzDFpbzhZC+Ff8hXstpTGbxOFmwN+uQoRl7DqDN6nBL4fwD/MwHFVg1FbHWWKuAV4h
+ wivgLsyDHVrp27oR/YeG+2jMkcUGVgD3Bcw8ugJK4Zrw5T2NoPzgO0+pvp7SJ5Wpga2HTmT+rzV
+ Z1spbCkt6iW5AkIMgOYNt3wWhDu4lntluDpmvOyAwZQmVT1/AOUGdQOJvPDOC9lY8IHENX/+man
+ 7GOciwpHpbMTtdMGri5Q+jjm33DuyZqJqQ8U5cUUzNmsRND4NqIDRIidpul/EwDFID6gcEkxlZu
+ 8/LXVcbuP3z/2vmJimjK15dCTrybmwnHZR12op0/WkEKoTjSN0SqXBAoElpNXi0tP4k6jXGf8jo
+ CAZeFps5EXzUvZiJeG24MqgyL7vuN4DLwSFqWlaOxqLPO+bX8tmOIbfoYz3yYS6Hgr7PI3vSkDZ
+ reXjPE0xC201KOokJbB0evZtiGyU70ieFbaD5xG+EJS56k97D7HkCJhfTBzv0W9MecrG3l7n0kE
+ YANG9mPwlPFO3aJ52nCjlD7oVmbR7+wYVR4oLAdZeG72QSp36DxAuch2nnTp2oGUoQk8peJbZpP
+ 7Wo0/UrvVk+xQaQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -117,21 +117,21 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Depends on the first patch.
 ---
- drivers/platform/chrome/wilco_ec/event.c | 1 -
+ drivers/platform/x86/asus-laptop.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/platform/chrome/wilco_ec/event.c b/drivers/platform/chrome/wilco_ec/event.c
-index 13291fb4214e..ae34e81c5d18 100644
---- a/drivers/platform/chrome/wilco_ec/event.c
-+++ b/drivers/platform/chrome/wilco_ec/event.c
-@@ -523,7 +523,6 @@ static struct acpi_driver event_driver = {
- 		.notify = event_device_notify,
- 		.remove = event_device_remove,
- 	},
+diff --git a/drivers/platform/x86/asus-laptop.c b/drivers/platform/x86/asus-laptop.c
+index bf03ea1b1274..78c42767295a 100644
+--- a/drivers/platform/x86/asus-laptop.c
++++ b/drivers/platform/x86/asus-laptop.c
+@@ -1925,7 +1925,6 @@ MODULE_DEVICE_TABLE(acpi, asus_device_ids);
+ static struct acpi_driver asus_acpi_driver = {
+ 	.name = ASUS_LAPTOP_NAME,
+ 	.class = ASUS_LAPTOP_CLASS,
 -	.owner = THIS_MODULE,
- };
- 
- static int __init event_module_init(void)
+ 	.ids = asus_device_ids,
+ 	.flags = ACPI_DRIVER_ALL_NOTIFY_EVENTS,
+ 	.ops = {
 
 -- 
 2.34.1

@@ -1,61 +1,60 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721CB2D054
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572BA2E630
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 07:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711525490; cv=none; b=sruiI9AsPiMzRmQ8smxAapp7JjIjnBnldwatQuXwsW/OiO89TJzBFhG1qOkcuwCtYBfGr9FGW3GE08bh/XBywL9hP0YUcn3yCmRXbl2XApdXqXe+W8+I0GvUBmd6sLD+SZf8yitHJq2uKAVu2l4RTGBJXpHdH0FniL1JQBCHxvg=
+	t=1711525494; cv=none; b=IrFX+ydF6G2/spybD+HW1veqL7a4bbbBe+nRyot9IFU+wv/P/OA0dsvIov1cvaLKM0Cgg9TlJxoVusED3TU9RIeu+EEOAf8tj2QILxSLuMccPlRSPXw/GP3sFiji+WZaudj/+Zs5V0OrfNMXHRmuz21UTRMqgQhkLx1WdL6yiuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711525490; c=relaxed/simple;
-	bh=AfH7TD93nFAaXOkK7vrlKu3Cot997gVLIL4pGflb6fs=;
+	s=arc-20240116; t=1711525494; c=relaxed/simple;
+	bh=6br28ve/FXqsWx1ZCvxz0Tu83LXxj9nH9sMbL0OwpKA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OH+M8vKfSPmDjuLBrR313b1Odn+cnqKxoQjS6QLiFY0Z16ar4qSGb+vB2mmu77ugHOJZMfK2lVUkVCcH58YblvqOT1dxBZYBaHGGd5rsnOTNN21YhRAUi1i126tJ95YAS4Yl25AIco3egDqZXNh7V3igAwrhJk5qJSN3DN3aYok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q6yCtS7n; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:To:Cc; b=Vm/Pn5KNuVw0Yzg7M1DAJOkojMADbG0THm3Zq48sFK9VAnuG7b0zYO9CWQU4Xffcg6YNajj0Y+MN++AlWye4j6o3c/aOaHChfG/fkKBUiyPZv1VzmWHqY85MMVARXJw2Ov56BPHZWz7hyaQiBp66iNXioFyMzkwSess7BoqReJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WB+WgQJ3; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q6yCtS7n"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a474c4faf5eso398244066b.2
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:44:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WB+WgQJ3"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56c3689ad2cso1251748a12.1
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 00:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711525487; x=1712130287; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711525491; x=1712130291; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S0h8HJEMkZo/orl3TA6XTaCo4nQqMYHN9Ch6FJtW6jM=;
-        b=Q6yCtS7nw9JekenDtyukKIOOdLmFaLrElx34DQEcDarEffWJGrexSkaK97o/vpS3Ej
-         ryFJeuIxNufPJrpIjYJyvC5HcHrg5lDJXSTOPRDLFQJipdOp5Z9lsi7UAmG/uQdIdSZa
-         VDV3GDdFJ7TRfA1bIB6yizhZ4EICiNaQ+W/UCY4Lc0LOElRH8uHf38yF0CSrRnjp1qsr
-         aCXihOlXu7p7NnjkbkSNH3C4Qoef2IkhCwxpecDaijl6BT+Rj85b38OGWY+J0SSU/3AK
-         M7EWWuyEiVunoSOK9x3qWkGGr6X1ung3xWz0fJbWvMfk/14uof8xnfpWSj0gbkQS2HyE
-         b+qQ==
+        bh=h9V0L1ZLhaNkMq1FhYv9Atk2X7ZenOQI6rYFcqjZS6M=;
+        b=WB+WgQJ37vrrClPCF8NcBkHCkoDxfJoN1aUkWnLoccvTAMQnlkbVOCmoIHp9W8yFK+
+         TEZWxgkviXhfv1oazEMSUMncVdw398jpBBovB3wKPc284apMpY2TDaUHMUsbrZHte6o5
+         0VG8iRBRqtxh37oWhDjp/vFRIReZ/ioGKNNifNuQc5HchEioxcF//pBhIBqnBrneEWZP
+         o2lGrCPthJX6F6Dn0ot9HoORYMtsB1m0Jt1fRVIIkc45KoogSGgOgxmU8ntqZl/cDJtH
+         dlBwDbNX6LURWy9a+0FXnulbr7A02xDZq9hCPyi5SDN15/H6+p3UJAlPzxi7y466NEIF
+         VixA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711525487; x=1712130287;
+        d=1e100.net; s=20230601; t=1711525491; x=1712130291;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S0h8HJEMkZo/orl3TA6XTaCo4nQqMYHN9Ch6FJtW6jM=;
-        b=VKXf98w0uC4ld52L8jG0h/5VC++ykGjFQXsxgLbX28AOFzjwLiK8Nxox1fBo71TLp5
-         Tkxm+eNXWy9LYLvwVZRDbEcHIA8JTwS4cue3olGXkCVsFJLd1ixZZnOGW42y5wy8mfD/
-         vx5zxJ/xIddhcIH+a1W/bsv882Ukm4wypN/RmwALo0CzT6tfTUxNu6BbslD8WDnlWEIo
-         IP1S2H+ujyHPVSVP7D9GGyCG3Ss4eEfsCNrmTa22LOFwNU+9oVx9MLjl+a6Aux8KgDdn
-         shG4XN0u/Zgb5quigNSOEMJ5orof7NyxG0OG04dhPtY+Nx3YgefnP9/fvkTN0gQOR/me
-         Ju3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVJzMmWAHQlXXByo2MQDRdnfWdNFuTwvyZOkZFsPC/cRMKh7wJm4GHE3N8TnY4Pz1GyHRpj/D373I/yxsWWG8rMKFCbglTQviYiDObMM4Za
-X-Gm-Message-State: AOJu0YyFXC1+P0Q5UB9YDy3v4N6COWJpZDsB4x2JVepv33SgPFKN8Wfi
-	82h+XSh2sqJIG+Jphj+4T2myaINyJdM9vQsmZrULaHC9Uf8B4DFrjedpSJhBeEY=
-X-Google-Smtp-Source: AGHT+IHRUaSEY2LgvM/wYcxNN2lH5xfqXQT6S4v31IsDX3dv8eFJ37Z52TqYNLsh6Z2pW/xKFizTdg==
-X-Received: by 2002:a17:906:8417:b0:a46:f869:3216 with SMTP id n23-20020a170906841700b00a46f8693216mr242827ejx.64.1711525486845;
-        Wed, 27 Mar 2024 00:44:46 -0700 (PDT)
+        bh=h9V0L1ZLhaNkMq1FhYv9Atk2X7ZenOQI6rYFcqjZS6M=;
+        b=Pbo4rbr0+XxtmM+lYMZ1TcOSvcm83jmbco8HMZ8k/WnFfxXAnts/vtYPUYQVUzwCqj
+         X1ENxlOTgKCbXMh7/lPSVr8dmcbHNxoUAcoPHf2OV0lQ9g9rgaeeOA250AquDlexvDjn
+         6H4B8GIOoncVLu44rC8IZRcXdTuvh01GYO40fXrvRxrnk8XIEywAqji8Yg0soWolbqyX
+         nc384xiesU3NBuFnvFg6XWOpJyNjIEZQl9utfb/ymyOc2rhRi09rrhVWxzZx1vTE+/YT
+         GyseIFT/2fWDjFvAfvxOAWA3237Q7r8Lyj8xHmXt7MilIVES53QBcGfQ9eBcQc42uLUt
+         VsEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVacXcDVbBegBzfrNmpVDjhTR0Xh87OC/aXZUKe0dW4QOhvdRNZ+ActtVI3dS+Sgyxe0F5n7Wvh1m9o+o8dy/OnXYSdHBDyT7WpTExTocB+
+X-Gm-Message-State: AOJu0Yw8QJI5uoLo0OWBmuxszghlJZjueH5lFlZAxFwdwiMqUIpY4/rK
+	WpCJfQTw+cb/KLjnquMV1WjCUCbTw+JdWaf1ne5MZ2sklFhIQp+sr/v9an1c0ms=
+X-Google-Smtp-Source: AGHT+IGFKbQOUtMB5KvpSaLmV6b8D0XGCUe2Bj/zrPy14ymo+p+EVPOM+Ze3N2aCDFRRCRoTYoi5BA==
+X-Received: by 2002:a17:906:3859:b0:a47:4fe1:cf99 with SMTP id w25-20020a170906385900b00a474fe1cf99mr3541736ejc.21.1711525490747;
+        Wed, 27 Mar 2024 00:44:50 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.44.40
+        by smtp.gmail.com with ESMTPSA id am11-20020a170906568b00b00a474690a946sm4671745ejc.48.2024.03.27.00.44.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 00:44:46 -0700 (PDT)
+        Wed, 27 Mar 2024 00:44:50 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 08:43:48 +0100
-Subject: [PATCH 01/19] ACPI: store owner from modules with
- acpi_bus_register_driver()
+Date: Wed, 27 Mar 2024 08:43:49 +0100
+Subject: [PATCH 02/19] Input: atlas: - drop owner assignment
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-b4-module-owner-acpi-v1-1-725241a2d224@linaro.org>
+Message-Id: <20240327-b4-module-owner-acpi-v1-2-725241a2d224@linaro.org>
 References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 In-Reply-To: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -92,93 +91,47 @@ Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
  platform-driver-x86@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2780;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=743;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=AfH7TD93nFAaXOkK7vrlKu3Cot997gVLIL4pGflb6fs=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85Ln15mHy/+MFVp10AE619hdOQmn023kKU+n
- VJlMoJVEYGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOSwAKCRDBN2bmhouD
- 1+/rD/99BcfHmnHUga4+/O9mIaAJmXx7ZQ2COoQmAL9yQSJWbDdvffVupiZB9Kb9+hnXrSQ5xIY
- ggKqajxoO7hSls5UHkq+Y+lgewh/kJV8eq99aqzFOt1phiBqqIunhaWz+2hs1XPyCcqiMjnXWMW
- y8iCNTvsKsUNKylCbYP15D4lsLnZ31rX2yZsksWvyKsA5s7+a1leMBLEjwoItHxvgsNxE0MyODU
- ntSK/7yEz7rQdmr+yCrSRFXrKjBpoQYAAdUFvtzZADe+rFviymGQ6hCdZ7lZZ9rezsGeWe97IX+
- Hz5s7T/345dgLpgx5QYu8F1uI3Nx5/NBnejp3xgBx3mVnj3qhAgD8jsPlY1nBBR79ZBHqsISBHb
- figg/7S3tvP6YCCvmC9y4JcEUbZiG9pGkjovCVwC2wCwk5hVOGGQ9iMDCLQp39FzqZTtdQiV732
- 0LE4/tZflMwZQ2dyTy8jbQeRg2J2Y44Blbx7qo0FAu7Jjz0Vual+lFq4YugV0Lw/QOLauWZALyK
- trUaRiFr6/Xqia9GutyvSvwSkDyiL9h/tho2vebH9YGd8PFaFgA9O6oGIhblIFI6k5Sic47Uq1G
- 2WYq7iVEG1TKRyccLgjMqJ0Koilm+tamc/I/DYIRQaxA7mpvOoe7WPVQOSiO7CN+llioF+uhjif
- Sep+NfVSaThEJHw==
+ bh=6br28ve/FXqsWx1ZCvxz0Tu83LXxj9nH9sMbL0OwpKA=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmA85MbO9/c8V7YBW1fVBeuTl0P+qXpTG2lnMRR
+ bIGYG/Xm36JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgPOTAAKCRDBN2bmhouD
+ 19rjD/9C/YrJEyaKFgPxEbaV0HglMD9ietYj10qKT4zl0cuRemTgRiX+JeEiFs89LSUVXmeZYa8
+ q9LTQauGW9TAfk83KaxRRxgGuoOQj8azBW+UPLWSNcUpr75WpH4pnyZeT9BD5H1DqAVPXU8jn5f
+ wiCGyXHMpD8KA8UcoV5eLhA17n4xZkkJ6W9RBvu2AYSjJy28hYENIBT0AdmSQgWnbSgMWXTG6H9
+ eDZxX0P6hX3/il3u/d+Zc5+B4/S9H0tmMvu4riiLz6IATzn9lr/CwtZmtLpfxadMF9anXuytUcG
+ 1h8wFQlWjNYIXjLqNTJ+6JQoKlqLINzIEXIPvoGSed9spBmO5X1jbuTvaiEKTBfXWHPTFHw7L5c
+ ywaP1ukunboXRf8ltoverlAl6XUAioo9JtCzrEaAkiQCV8qAhJIsMfYhlK6VkgaB7SCYDY18fxg
+ 6MOnBn9jIH7gInLSsUhQ3L1jkOYdRwRq2jya6MHpx7tNZqZ0E4Ip6893YM3l7oZc36m6a6usJqB
+ OtIzS96gFL5ksn69uU26PePp/jMQrpaLhNi5qTnSk0N3NP87ZjCYoYFKXMg5JXL6QojfkzMGhbw
+ iCZhnS/A8lMeWnLrCLtpc8p5pGyjCdqCRfQ8rtu65+pQCSkM71fR+zhpKFeeRA6VtwVPjSdlR+O
+ GsT2fQHAtcC4y1Q==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Modules registering driver with acpi_bus_register_driver() often forget to
-set .owner field.  The field is used by some of other kernel parts for
-reference counting (try_module_get()), so it is expected that drivers
-will set it.
-
-Solve the problem by moving this task away from the drivers to the core
-ACPI bus code, just like we did for platform_driver in
-commit 9447057eaff8 ("platform_device: use a macro instead of
-platform_driver_register").
+ACPI bus core already sets the .owner, so driver does not need to.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/acpi/bus.c      | 9 +++++----
- include/acpi/acpi_bus.h | 7 ++++++-
- 2 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index d9fa730416f1..eda951032f3c 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -990,25 +990,26 @@ EXPORT_SYMBOL_GPL(acpi_driver_match_device);
-    -------------------------------------------------------------------------- */
- 
- /**
-- * acpi_bus_register_driver - register a driver with the ACPI bus
-+ * __acpi_bus_register_driver - register a driver with the ACPI bus
-  * @driver: driver being registered
-+ * @owner: owning module/driver
-  *
-  * Registers a driver with the ACPI bus.  Searches the namespace for all
-  * devices that match the driver's criteria and binds.  Returns zero for
-  * success or a negative error status for failure.
-  */
--int acpi_bus_register_driver(struct acpi_driver *driver)
-+int __acpi_bus_register_driver(struct acpi_driver *driver, struct module *owner)
- {
- 	if (acpi_disabled)
- 		return -ENODEV;
- 	driver->drv.name = driver->name;
- 	driver->drv.bus = &acpi_bus_type;
--	driver->drv.owner = driver->owner;
-+	driver->drv.owner = owner;
- 
- 	return driver_register(&driver->drv);
- }
- 
--EXPORT_SYMBOL(acpi_bus_register_driver);
-+EXPORT_SYMBOL(__acpi_bus_register_driver);
- 
- /**
-  * acpi_bus_unregister_driver - unregisters a driver with the ACPI bus
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index 5de954e2b18a..7453be56f855 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -656,7 +656,12 @@ void acpi_scan_lock_release(void);
- void acpi_lock_hp_context(void);
- void acpi_unlock_hp_context(void);
- int acpi_scan_add_handler(struct acpi_scan_handler *handler);
--int acpi_bus_register_driver(struct acpi_driver *driver);
-+/*
-+ * use a macro to avoid include chaining to get THIS_MODULE
-+ */
-+#define acpi_bus_register_driver(drv) \
-+	__acpi_bus_register_driver(drv, THIS_MODULE)
-+int __acpi_bus_register_driver(struct acpi_driver *driver, struct module *owner);
- void acpi_bus_unregister_driver(struct acpi_driver *driver);
- int acpi_bus_scan(acpi_handle handle);
- void acpi_bus_trim(struct acpi_device *start);
+---
+
+Depends on the first patch.
+---
+ drivers/input/misc/atlas_btns.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/input/misc/atlas_btns.c b/drivers/input/misc/atlas_btns.c
+index 3c9bbd04e143..5b9be2957746 100644
+--- a/drivers/input/misc/atlas_btns.c
++++ b/drivers/input/misc/atlas_btns.c
+@@ -127,7 +127,6 @@ MODULE_DEVICE_TABLE(acpi, atlas_device_ids);
+ static struct acpi_driver atlas_acpi_driver = {
+ 	.name	= ACPI_ATLAS_NAME,
+ 	.class	= ACPI_ATLAS_CLASS,
+-	.owner	= THIS_MODULE,
+ 	.ids	= atlas_device_ids,
+ 	.ops	= {
+ 		.add	= atlas_acpi_button_add,
 
 -- 
 2.34.1

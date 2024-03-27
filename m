@@ -1,172 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F7913B585
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 13:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9869152E00
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 22:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711546335; cv=none; b=tYqXuXP67vbjGDKXzIcMSM4Vq1fHZ6qJ3r7QlK1uGaJZ7w4kgUSXr3GnNmYALF+dRFu1kIhirT+1Wk0DqdJ3kY6gQgewZawpNbB5DoquJrMf3kbw1syo5hIA1EIViBcGM9hyoHqTjJZzPrIMYqYejjJLHjrT5Q5Q0J5MamYSapc=
+	t=1711579287; cv=none; b=Aeofz+p5KyOaCI0+NzoOi6TaV7ZPINWRU8fpb15aBXJK4heBdNeAqGaMvLTXo9GZgSsB4XZGjvZ18cPYRhBZkUekvzOlj8cI7aF3YjQvjPuA7L0mnfoET5oUCKhHkl00QnmUtva4AfKHj/X3ddBpyAgJLuAOYJji63TY1re68LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711546335; c=relaxed/simple;
-	bh=K0UVZINUhSSLxdNU4wwBE/T+FEz46ODAQKkZL3ADYrU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GTC3M5QaeXMeQ+OtYLTrAgw4OWLHvZY0AM8tY/42oEl84rLvI9DVfUy9+9NbDUJQACKWLyXCzR7CQ3BJyB0am5AUr9vysQGr4RcHYZRzXpo/DwDcX8OvlsZxQ9rJsj/KXs1oalmjqDkocJxoQX7RRF2YxMsu9DehWIArOfQLyTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=df/7DgX4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711579287; c=relaxed/simple;
+	bh=5ThBrSQJKBnrNYoKklFaEy0vcISKtZg0KHuySC8oZ0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QjVt1Co/fbq9ZRkerfPj2/oI1n1efJFkfqE5QaSHpp8u0Seq23C7C7SUuSQlOYcWLesh9tCTPVUoNBXIva7l+WF/2lhtdY7Bbs3hCupSiFofWglBVdj67CqbL7yydK+mVUXhnlEjK3xmtMPsfAw8rbvbDY2HAxF0GZz6QXpIj1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mzZFCLlO; arc=none smtp.client-ip=209.85.217.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="df/7DgX4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711546331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jD3Utmle+bis7mmdPw9AquqAmC1o8mQyHmUQiw/WEzk=;
-	b=df/7DgX4aTiAuA+JAj2tG6lVWAV68slnmgNzVKrmQG6jhUh5Mx53DO1djxuzUqoIoJpRdZ
-	DVmQJYFXTw/OSV//gs0x/8prhF6ZiHRlt3C6ylvTQRvk+SEmlP8UhagE6HY5f5PDqyBj04
-	DKQLnAFR3HLLDoNeoNE6D0kI3MuMWrk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-97-7cpdLA1QOqWlqesSjsvQmQ-1; Wed, 27 Mar 2024 09:32:10 -0400
-X-MC-Unique: 7cpdLA1QOqWlqesSjsvQmQ-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a45acc7f07cso375503066b.2
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 06:32:10 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mzZFCLlO"
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4765c5905a8so108322137.0
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 15:41:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711579284; x=1712184084; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5ThBrSQJKBnrNYoKklFaEy0vcISKtZg0KHuySC8oZ0c=;
+        b=mzZFCLlOeqn8bkpFI1Llz+wspTR2j8wWzPI7BdVtoQCm4UrabdAimUTD/6Hx2rJTd0
+         wpAJSOLXqEKg0/maDZPojChQx/G57H4AyQ5WLvE6pUQzUxZn5iGdqhGQ4vQ8RAvwpPvJ
+         njkQbAnjiCwbCyjId4EFYleASS7yK3ZxsCSSU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711546329; x=1712151129;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jD3Utmle+bis7mmdPw9AquqAmC1o8mQyHmUQiw/WEzk=;
-        b=bBKWfGdJrPjeQtoaUBkAS0HPjcGohTO/9i936m2XIUpxleSWsSstgWvurz21Opg1G4
-         qjKWSI8mbyUM7sPm2xvwcZaxg8ofil1ZupTIWgLPbCFtBBV6wPhWAbZzzPj3f70WhLax
-         Us1Z9Rhreb0/DGV3usJsSwFZF0Tj0DUpLgOAukYCnPmgtoZATehowJ59lSkZgYWCgl6D
-         iXVdx9B0fVWMSbG6e3AsQo0E/irmmp5xV7HJI69I0e53ryk4jgS2QgVOv7CQh7UHVc0K
-         2InxcgVKuOo9DdBPHk3jeIOWxRcm8hZEjA7c7ntCeZWHobXo4UAswUV+SqvUEdAJS38H
-         xJUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWu8UHc/myQI9ENQQf+MOSSAmd3CKm0z19EPwChaOrQksXOx+088ql2HRubh8Q+8VIK7By0V/XMfr0eYtC3nqu5Yjg+RuWvjPh0Q34HOphs
-X-Gm-Message-State: AOJu0Yz1+OUqXUIkrnbcUT1SC25LpqAbyC5/NhzgTDOfW4uHWm51XOip
-	eXqusgMec1Xjw7Y9pdO3lGwViXiDqi4mKdahQL1mxAG7gGZW2LnbcbQgP40HWQFII09YqFfyCdW
-	Xj3XxQPshewvalxpAkzvjc2h7lB5UMcxHrhRZ6Z+lFGXdoCjyKpYSaQNjbzkbgqbluQ==
-X-Received: by 2002:a17:907:7206:b0:a4d:fe2f:a70b with SMTP id dr6-20020a170907720600b00a4dfe2fa70bmr2448979ejc.41.1711546329062;
-        Wed, 27 Mar 2024 06:32:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGdhqFLAf1gKN0Y/NZQvk+kIH5rUrJ00j88K5l/PrX7PEX8pYP+EIH8Lg2tXiyjUb+BEqFQQ==
-X-Received: by 2002:a17:907:7206:b0:a4d:fe2f:a70b with SMTP id dr6-20020a170907720600b00a4dfe2fa70bmr2448827ejc.41.1711546326567;
-        Wed, 27 Mar 2024 06:32:06 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id q2-20020a1709060e4200b00a4674ad8ab9sm5383406eji.211.2024.03.27.06.32.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 06:32:06 -0700 (PDT)
-Message-ID: <cbd6cf18-cdfe-409f-82f0-de46d2fe08ca@redhat.com>
-Date: Wed, 27 Mar 2024 14:32:05 +0100
+        d=1e100.net; s=20230601; t=1711579284; x=1712184084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5ThBrSQJKBnrNYoKklFaEy0vcISKtZg0KHuySC8oZ0c=;
+        b=CZyaBthNBhFRzpSEb03lDWcny8Ok52br1Ou1DZtgTHYgP7O+GSJaniWnDsYvZ6b8ct
+         oFrwHGAL7J8lRptkUJRop4tS9KDuatHFkVtBZA0SZ9ytIQ4WunX3bAG9qJdl59SpaFOz
+         KTOzf9AHxtV+ed/ehjj12HClYvuKIazKAriw0/5ne2CYkpZdlD/fGvpa/YLMFw/rYsdO
+         JfkcGOSdH10EiMhHzJx1RcSQC1im7bYo0Tq+1NQPzBlRv2aXI436KGpUdQuX7T19Ld0i
+         igMdFIhwiGcyLOwXgS6K8y5g8yZrj0YcY38FZuy+WTvA89Xv3H3EbIbjmFngLSAV5/Cw
+         XyDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuor3zCHEJ00Ll03F8y57QSQIG4FQnvtf/S9m3gFEwe3ZGhsFJppIaxaGFNKXymdbNe+CIYq8rtisDttgrRp/7YsemMUAo1aQwTkqb2pd2
+X-Gm-Message-State: AOJu0Yx3Z16aVuIIn+TiZSr4Fce6LxAu13THgFpFhyycPtChz+DpysyB
+	uBNGdwsElIItZKCd+3WfMzc1fzCaLPMbzobGdRutnnA/udQeXfPgEzCJzmFBY6trnFB0uyWlmkW
+	zMAHFX5LgS+zpB7qZms474LEt2djsnL06UoNu
+X-Google-Smtp-Source: AGHT+IHNjjYQGq2X8tle/LZvZCaDTr/ZB2zjC3mCynbSiO5UyriTzUT7hxsMKWXYIiTf3AnTUZQ8LoJQK77rfY27NGw=
+X-Received: by 2002:a67:f242:0:b0:478:2f66:f641 with SMTP id
+ y2-20020a67f242000000b004782f66f641mr1446935vsm.34.1711579284703; Wed, 27 Mar
+ 2024 15:41:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] ACPI: store owner from modules with
- acpi_bus_register_driver()
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D. Jones"
- <luke@ljones.dev>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,
- Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>,
- Daniel Oliveira Nascimento <don@syst.com.br>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Matan Ziv-Av <matan@svgalib.org>,
- Mattia Dongili <malattia@linux.it>, Azael Avalos <coproscefalo@gmail.com>,
- Richard Cochran <richardcochran@gmail.com>, Jeff Sipek <jsipek@vmware.com>,
- Ajay Kaher <akaher@vmware.com>, Alexey Makhalov <amakhalov@vmware.com>,
- VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
- Theodore Ts'o <tytso@mit.edu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-input@vger.kernel.org,
- netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
- platform-driver-x86@vger.kernel.org
-References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
- <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
+ <20240325-public-ucsi-h-v2-2-a6d716968bb1@chromium.org> <ZgQBXFzuZLJcmH4h@kuha.fi.intel.com>
+In-Reply-To: <ZgQBXFzuZLJcmH4h@kuha.fi.intel.com>
+From: Pavan Holla <pholla@chromium.org>
+Date: Wed, 27 Mar 2024 15:40:48 -0700
+Message-ID: <CAB2FV=7OnNt_-fTzUV1Rrg342jPuh5haUmy=EogVNwyGWyAy0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] usb: typec: ucsi: Import interface for UCSI transport
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Mar 27, 2024 at 4:22=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+> I'm pretty sure somebody already told you to merge this into 1/3, so
+> why haven't you done that?
 
-<sorry for the empty previous reply, my bad>
+v2 was uploaded a few minutes after v1, and only added a few
+maintainers of drivers/platform/chrome to the email chain. I was asked
+to merge commits after uploading the last version (v2). In hindsight,
+I could have waited for a review on v1, or added new email recipients
+in a reply to v1.
 
-On 3/27/24 2:16 PM, Rafael J. Wysocki wrote:
-> On Wed, Mar 27, 2024 at 8:44 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> Merging
->> =======
->> All further patches depend on the first amba patch, therefore please ack
->> and this should go via one tree: ACPI?
->>
->> Description
->> ===========
->> Modules registering driver with acpi_bus_register_driver() often forget to
->> set .owner field.
->>
->> Solve the problem by moving this task away from the drivers to the core
->> amba bus code, just like we did for platform_driver in commit
->> 9447057eaff8 ("platform_device: use a macro instead of
->> platform_driver_register").
->>
->> Best regards,
->> Krzysztof
->>
->> ---
->> Krzysztof Kozlowski (19):
->>       ACPI: store owner from modules with acpi_bus_register_driver()
->>       Input: atlas: - drop owner assignment
->>       net: fjes: drop owner assignment
->>       platform: chrome: drop owner assignment
->>       platform: asus-laptop: drop owner assignment
->>       platform: classmate-laptop: drop owner assignment
->>       platform/x86/dell: drop owner assignment
->>       platform/x86/eeepc: drop owner assignment
->>       platform/x86/intel/rst: drop owner assignment
->>       platform/x86/intel/smartconnect: drop owner assignment
->>       platform/x86/lg-laptop: drop owner assignment
->>       platform/x86/sony-laptop: drop owner assignment
->>       platform/x86/toshiba_acpi: drop owner assignment
->>       platform/x86/toshiba_bluetooth: drop owner assignment
->>       platform/x86/toshiba_haps: drop owner assignment
->>       platform/x86/wireless-hotkey: drop owner assignment
->>       ptp: vmw: drop owner assignment
->>       virt: vmgenid: drop owner assignment
->>       ACPI: drop redundant owner from acpi_driver
-> 
-> I definitely like this, so
-> 
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> for the series and I can pick it up if people agree.
+I am working on some comments from an internal review for commit 3/3,
+after which I will upload v3.
 
-Thanks all the drivers/platform/x86/* change look good
-to me:
-
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-And I'm fine with merging these through the linux-pm /
-ACPI tree.
-
-Regards,
-
-Hans
-
-
-
+Thanks,
+Pavan

@@ -1,153 +1,108 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9272950A97
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Mar 2024 08:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4872B1E861;
+	Thu, 28 Mar 2024 09:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711615822; cv=none; b=rbmhmZo0YPy9STQKZJY6CJZ06vl+V2Z8AY/x2DfF/3498RnN296HWxed61g2wuAC58QqJclvNp9086lzSDlURQtpM9lulN0fjFFHYPfTqxQSxyOapDM/PLR9A4Iq1xgM0kMIZfDHuo/cQLBKzrGPi31rxYosvvx0vO59FCIgIaw=
+	t=1711619875; cv=none; b=Dvax0G97bfo9bb6+fqCO3Jq9rrh3fHi7dcTr6eS7bP5xHuy0tTWj7eSV8FozglJO9pwc5hclY2TRojkeU7Q5jxguvBtX9sYnO9PdawSPa9Pnjbx1A+ySQl9kcIEv9GmkPoLJEycSpE2VsBgBRHcLD1+6DR8C0IypLxFPKSYEYNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711615822; c=relaxed/simple;
-	bh=A0R6lmR1m+yAfOyrg4Hmzgx1/lM9XoICSF/GiNOEEd0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d3sb0l1S0zV2J/4ENR9Eg6U47IKZ8rz29lewPbGWkRrcJzJWiHQ/zsJ58wO5ygLSOABmxHVmvfX+CfkZFa8Tl1cIcZGFa3JcwVqQfLIdN88Mo4il38JmnFBrlUxp4CI4aHvYThozNsKjxEfbm+j5Ke6j0sh/OrUPJDpFh9lTma8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XGHq2eba; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711619875; c=relaxed/simple;
+	bh=gAV+gUAqBp1S3zdGcOLRkMbsJPo5TaCr0FKPbsZ46M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyyyZbOtVSeupijBzVhmVyrWn8qL0sMTYmq1HtyRCgVjSeW0nsME/6aK8zyq+VIBjgUj4Jtjyb2JGeP7xjutUWtETpUuIE9mD7fzHCGRTFwZWXtLKnNLSRTCQEg5nRZzXw3ZkC2q0MakOkSCMvVYBkfmvOIx/bx7MggLtu8tHew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXgyvBwN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XGHq2eba"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33ed6078884so953241f8f.1
-        for <chrome-platform@lists.linux.dev>; Thu, 28 Mar 2024 01:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711615819; x=1712220619; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=oZ+YBLkNV6VEF2rUgGOJxYuEYM/uMvvAYGZ9fwfCJXw=;
-        b=XGHq2ebaFagoKSYJNxkIDW0P9nyTAWLbXh8dDSeDICIOfiJMslUhHIMAzTSe1whts/
-         QM6Misly04BdfqdHkTDWPi72/TbWAoIKRCMQaV3Vhp0+y7SraGXMDNUWsFLwdgdg4wA2
-         A/G0Svk8il0j5Fd1Gluf1K7jYCVFpxxu7X8Yv4b/DogfS/gj5I1AyPtS4/5KnB0eacwy
-         f8E2H8NQuLvrWRpFJkHAf6Rg2sIBE2mbeltGvzVtR/7JxUEsTGQjdg3CRi3CPqbA6pmI
-         ZDoMcWqwTO38hfwWfDPhamcOt2bLSxVST79g1W6lU8z6HjQt4jjblSRFdD1XEqT87Hgq
-         oqGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711615819; x=1712220619;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oZ+YBLkNV6VEF2rUgGOJxYuEYM/uMvvAYGZ9fwfCJXw=;
-        b=rRjtutgOP76Bxk8+RHJFFxBSaHUTEDOayi24qrBWfwebx40IhpZi/lCjOJwW6WkdoQ
-         AwQEwd5KitXm6OJUnqEH692/87t3TnJDBijNuyT5NJxkIlaY6N3gGphqPhUt+xiOc26T
-         gkhE8NOaYjNfQJ9gOEL0yv3d3iq+2NFy993U+DksBanngsl1IGkkgGDskPUcezo2Ncjl
-         cJkkXp1rRVot+G5HNkHtmLIeZW8LdW+pB7x/ovC5S1B5+RwXLFB2ycdfCeNng2peE4x/
-         ACCWjOOcO+0k5fdE951OL2ijENO5OMjtT8l+nxaCLM08LIkXe6UeEQh4b3SgS8EPcuie
-         eCXg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4A9VE6IMxwek100FO9jw+d0dhjo2y4Mat3ATWy+1r8gbhdTdHI+h9ifjxzTusdv6V9yTCLiMrqwSXHkOu8KChwm0+4cMy4NziyVQTp9c3
-X-Gm-Message-State: AOJu0Yw7XynSTJxy83P0hd5Ciy2aTdLF1lPyVbMo8OPjS4u+j/x2BG9/
-	aYGcJ0C2rhyRTv8SYK89ArBB3JCtvrwLkBErKiRdtd8Z7tSiZQ7clNJyMpa51kQ=
-X-Google-Smtp-Source: AGHT+IHtezabxk0LaPOL3zQ45H75rf+nCNsKrfQeSAmSXeRy5hUrXy9WJyMTcEop3ixcKCztrypIPg==
-X-Received: by 2002:a5d:540b:0:b0:341:a63c:58bc with SMTP id g11-20020a5d540b000000b00341a63c58bcmr1177900wrv.2.1711615818960;
-        Thu, 28 Mar 2024 01:50:18 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.148])
-        by smtp.gmail.com with ESMTPSA id dv10-20020a0560000d8a00b00341ce1b64f0sm1156645wrb.17.2024.03.28.01.50.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 01:50:18 -0700 (PDT)
-Message-ID: <ace20109-fc4e-43f6-b82b-2ae7c2905b99@linaro.org>
-Date: Thu, 28 Mar 2024 09:50:16 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXgyvBwN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8482DC43141;
+	Thu, 28 Mar 2024 09:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711619875;
+	bh=gAV+gUAqBp1S3zdGcOLRkMbsJPo5TaCr0FKPbsZ46M0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KXgyvBwNntZvsvohR9Dm+YUIE+XMILsRnEWVZYQ38z496oWWeT55HpERyihmNKCeL
+	 5NkIvQB1YyeF80qtVNVneOnagDmWOiNMG/Cs9SsTLsmsWBszi65yo9Nm/msBWCZCrd
+	 pxDTFHr4wiNgpnZu/Kj17LAVwK+6nvpPZgLXodjaRRHgUEUFMCb/DijwI+Bb/8WtnE
+	 C0WfyQ/LHZ8s1PL0o1axUm+p7O+LNQwA83wlEtwhxXAvTeH072vh+OMkwmGBklJrGv
+	 MXollRy5sBRX0cMQarT9x8nGbTYZyGn8mB57RGKCUD+AFkW/ooZAcBAdYJRguW5IUl
+	 ZrW2Po7qioj3w==
+Date: Thu, 28 Mar 2024 17:57:51 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Pavan Holla <pholla@chromium.org>, abhishekpandit@chromium.org,
+	bleung@chromium.org, chrome-platform@lists.linux.dev,
+	gregkh@linuxfoundation.org, groeck@chromium.org,
+	heikki.krogerus@linux.intel.com, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
+ driver
+Message-ID: <ZgU_H4zceFlQUz8f@google.com>
+References: <03e1941b-0c8a-450d-9b83-76260817d303@kernel.org>
+ <20240328023233.2568230-1-pholla@chromium.org>
+ <2357d78f-8879-41ca-b0e1-6593400252c8@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Add board-id support for multiple DT selection
-To: Amrit Anand <quic_amrianan@quicinc.com>, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, kernel@quicinc.com, peter.griffin@linaro.org,
- caleb.connolly@linaro.org, linux-riscv@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-mediatek@lists.infradead.org
-References: <1710418312-6559-1-git-send-email-quic_amrianan@quicinc.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <1710418312-6559-1-git-send-email-quic_amrianan@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2357d78f-8879-41ca-b0e1-6593400252c8@kernel.org>
 
-On 14/03/2024 13:11, Amrit Anand wrote:
-> The software packages are shipped with multiple device tree blobs supporting
-> multiple boards. For instance, suppose we have 3 SoC, each with 4 boards supported,
-> along with 2 PMIC support for each case which would lead to total of 24 DTB files.
-> Along with these configurations, OEMs may also add certain additional board variants.
-> Hence, a mechanism is required to pick the correct DTB for the board on which the
-> software package is deployed. Introduce a unique property for adding board identifiers
-> to device trees. Here, board-id property provides a mechanism for Qualcomm based
-> bootloaders to select the appropriate DTB.
+On Thu, Mar 28, 2024 at 09:36:54AM +0100, Krzysztof Kozlowski wrote:
+> On 28/03/2024 03:32, Pavan Holla wrote:
+> > On Tue, Mar 26, 2024 at 9:59 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>
+> >> On 27/03/2024 04:39, Pavan Holla wrote:
+> >>> Hi Krzysztof,
+> >>>
+> >>> Thanks for the review.
+> >>>
+> >>> On Tue, Mar 26, 2024 at 1:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>>> Nothing improved.
+> >>>
+> >>> Yes. I only added maintainers of drivers/platform/chrome in v2. I am
+> >>> still investigating why MODULE_ALIAS() is required.
+> >>
+> >> Heh, I wrote why. You miss ID table.
+> > 
+> > This driver is going to be used by the cros_ec_dev.c MFD. The UCSI device doesn’t
+> > have an ACPI or OF entry, so I am not sure how I can use MODULE_DEVICE_TABLE
+> > here. If I don’t use MODULE_ALIAS(“platform:” DRV_NAME),
+> > https://elixir.bootlin.com/linux/latest/source/drivers/mfd/cros_ec_dev.c#L206
+> > isn’t able to automatically associate the driver with the device at boot.
+> > I haven’t upstreamed the change in cros_ec_dev.c yet, but the code is similar to
+> > existing code for drivers/platform/chrome/cros_usbpd_logger.c. There are many
+> > other occurrences of the same MODULE_ALIAS pattern:
 > 
-> Isn't that what the compatible property is for?
-> -----------------------------------------------
-> The compatible property can be used for board matching, but requires
-> bootloaders and/or firmware to maintain a database of possible strings
-> to match against or have complex compatible string parsing and matching.
-> Compatible string matching becomes complicated when there are multiple
-> versions of the same board. It becomes difficult for the device tree
-> selection mechanism to recognize the right DTB to pick, with minor
-> differences in compatible strings.
+> Just open other platform drivers and look how it is done there. Or ask
+> colleagues. There is absolutely no one in entire Chromium/google who
+> ever wrote platform_driver? platform_driver has ID table for matching.
 > 
-> The solution proposed here is simpler to implement and doesn't require the need
-> to update bootloader for every new board.
+> Otherwise how do you expect this to be matched? How your driver is being
+> matched and device bound? By fallback, right? So what is the primary method?
 
-One of the concerns you got in v1 was: show us second user, so I believe
-in your interest is to Cc other platform maintainers which could support
-this idea.
+Those platform devices are adding in drivers/mfd/cros_ec_dev.c via
+mfd_add_hotplug_devices().
 
-Best regards,
-Krzysztof
+By looking other use cases of mfd_add_hotplug_devices():
+$ grep -R --files-with-matches mfd_add_hotplug_devices drivers/mfd/
+drivers/mfd/dln2.c
+drivers/mfd/cros_ec_dev.c
+drivers/mfd/viperboard.c
 
+They also have no ID tables and need MODULE_ALIAS().
+- drivers/gpio/gpio-dln2.c
+- drivers/i2c/busses/i2c-dln2.c
+- drivers/spi/spi-dln2.c
+- drivers/iio/adc/dln2-adc.c
+- drivers/gpio/gpio-viperboard.c
+- drivers/i2c/busses/i2c-viperboard.c
+- drivers/iio/adc/viperboard_adc.c
+
+I'm not sure whether using the path results in:
+- Lack of device ID table.
+- Need MODULE_ALIAS().
+in the platform device drivers.  And perhaps it relies on the fallback match?

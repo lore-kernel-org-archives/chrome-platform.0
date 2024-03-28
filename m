@@ -1,102 +1,134 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDEF42061
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Mar 2024 15:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C77040852;
+	Thu, 28 Mar 2024 17:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711639949; cv=none; b=WWSh+l0qj1VrCmwYiTXKFUWn/8hlhIWDU/s3wJ/C6xLNsVyKAUyuYwKip3Z+hM3rNtxkPIaIF6vBIEAP07IPZ9sZtt0082bGxDvSo9WIgWiyO1dk1wYwn1HagN+JWm2RWWqtlKF3hFs0CdB3DPSI2BZrr1JxgvkEXPTkfmp4Fz4=
+	t=1711648512; cv=none; b=CYTMQS/zoUyc2RZxSMYR4qelqGW5bf/x5sjQ62QTm+uRnPLf8nDDPEqioJwoyl00mxBL4fQ5rf72IZh7VuxPQI1J5Yoyj7JQjuNNKArMgXiXJRyzrAFoiIvoG/zapt7CEzpIrTWNj9wczmuP5/ZIW18a3Vgq91Ivc3tAzHD/EXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711639949; c=relaxed/simple;
-	bh=MxJfELHb/ZTHQmCUFrKhSwgtmJ0UUkjaK/hhdG86Tbg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JeUKLkSlwB3GRFVABvYrNG/nzSbojsQ+pjcMa8awfPFn7Edrnl7EK04V3U6m1IZ/Man9dG/yzOpIdUNdQpYlT74Z7P0qAYfFjLtAMZoGfFiw8dLSvZjA5TAz0Ct+f+3qguD3rL/NXkg6d1crZrDL6d5IKIL2LghjYUvIe+xe9Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ki9ZaMbb; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711648512; c=relaxed/simple;
+	bh=o/ViFlzn9DcSB6zcA7kLtK65QCPH/Ss4D4l1HH9emKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qp3gRY+mBkqKv6pmLXP6ISa1//f9MbZliapH+/irw3ssTL02eMwD/AVllUrx6yRDq6OO+holO5Y+mf5v7ScJUN7LY7TthnoWS6HbwZjgVm6yy8iXHwGW+32KpKDoBXUSxLb4d0AjiruXxcZKihacu6ewvgWSShA6rfOdnhLFeY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+m1YKOP; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ki9ZaMbb"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-515a86daf09so1395008e87.3
-        for <chrome-platform@lists.linux.dev>; Thu, 28 Mar 2024 08:32:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+m1YKOP"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5cddfe0cb64so739441a12.0;
+        Thu, 28 Mar 2024 10:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711639946; x=1712244746; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lXM/B0D5ELcLLV0Ges/OZ3bWdZ/dJWeP2NzZMjp2T8A=;
-        b=ki9ZaMbbGFvwoP4Y3WrzmpuexeIHjJjMSZ2MaBNbfrgmV0nqrhq8Qq2dzyUu3J1Urh
-         0Hht7PYafDGYMA0/xAa/lqh6yrGdGydnUp+C4DjmaYPqGrCo9hft0Z0mbV/0upF/+cxV
-         zVMXl1cpD8jNK/6cc3STW8kNH3xGqCSO2IQgNlsg7ElhO/SBTp/OSwKea29rKpeJBqE1
-         YYu3d7U6ZToIwiu64iKOcv/qxwG12uy2Pm+kqxSV6uAX9ubXU6CxvgnLoT8tNZB7tMBj
-         HX2viAzk6Ehu6db1ZqKESOMZDeRLrdHTG1JgjC/yTq3l8k1gxM8Ob5HlyWn4Juory/Md
-         oAGg==
+        d=gmail.com; s=20230601; t=1711648511; x=1712253311; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yWQ5s/MasTSk4jjQrdrW05L8Qpoj2heGIDr+tGSERBM=;
+        b=E+m1YKOPeD+ocO+LjdpZ1c0sYd44o0N0iH29BCIQpeP5uCXkl7JY+TzjvM27fhn1fr
+         1Osg6egtcCtZyhR+wTQ9k50/fuoX7eXEqNSlPm3ny50dORi87nWEdTxGdPrH4Uxgch5V
+         afRkqeP7cV2Tbf9nXGLcMegWUo5kpaBGrx7ZruTDNIaXiLT+Tr6HXxvpghw2Ui/g0vZw
+         p/9SFG5V9S5IlYycnHxVex8LRXrZFFMjngQRCK2C88OZWh/ah1t5oLWGFtzd2IBMzdzD
+         NfhxR54FM9Tr3sAFUqwAHQXtCw6GY5ywLM80AGN+EgJxWORxt+LNK2TTTZJcHJ+ZlEZJ
+         SrzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711639946; x=1712244746;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lXM/B0D5ELcLLV0Ges/OZ3bWdZ/dJWeP2NzZMjp2T8A=;
-        b=fjJk6/JGKJPjABfkVdzFajlsZgPNiqT9v8PM/T/LjLLc4Dco0sWMPShEbzqXeHI+WI
-         uyEQ4cPv5RDfbKvy3GvMjjQ65xbS/n6L2+V0NyqpmAcg6R3jnp3tuzVezOcwuxrLJdT+
-         cJ3KgkIszeZC7VPb9wI5HotZ5JtAA0+YMD2kOsW8b4ba3AhOUIvZ1ou+L9tar+vnkea2
-         H5d0z1kzqjrTCD1/8+ug29DcsK6gsoATrtfbBJNTmlV/3983u/p/X2elvfbWA0VBZSgM
-         6EWgpPrA0NnxPvBjvw2GhedP+21T8mv0qFtNluB/CTzK3vcaUjdlW6BoeKt6L+yOUpZM
-         H/aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+5aAhoUGphPLeAi8+5z5LuavejzTanQTbnEoDviXe29avPpJYrNcuh31TBJfKvwmC9o1phiAoXsRZxFLkyhP5oSYyvY7qcgbJQLlevaR+
-X-Gm-Message-State: AOJu0Yxt8H/jIEL4lXszKIKBReYaLSnWeUX45qXimmKiirE+YWl4Ukn8
-	TzfdeNYysN60xq/wyH544jvxYYY9xwwOJYOBW2G/BOYtZEwwup31ZktTM0WFzbQ=
-X-Google-Smtp-Source: AGHT+IGjkuFmHs+Dy7UnY42ArmjBqrezgKsmPQ7Wh0/do2fY1/2ILRqdBpaOiiniwgbug+NLTvlShw==
-X-Received: by 2002:a05:6512:534:b0:515:a876:68a0 with SMTP id o20-20020a056512053400b00515a87668a0mr2226473lfc.14.1711639945799;
-        Thu, 28 Mar 2024 08:32:25 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a00e:a300::227? (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
-        by smtp.gmail.com with ESMTPSA id j11-20020ac2550b000000b00515a6e4bdbdsm238086lfk.250.2024.03.28.08.32.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 08:32:25 -0700 (PDT)
-Message-ID: <1b040be3-acd7-40dc-bc9b-24ea6d4b8377@linaro.org>
-Date: Thu, 28 Mar 2024 17:32:24 +0200
+        d=1e100.net; s=20230601; t=1711648511; x=1712253311;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yWQ5s/MasTSk4jjQrdrW05L8Qpoj2heGIDr+tGSERBM=;
+        b=RHB179moB5pzMnKUPUFJp8iN+/9R6uDb0/RIBu7wMfVpj/D9nQZtTUNltXfZ4iS3+8
+         u8/Q2wbIEUW/t+QNpO1MheVcGbaVYMmyGiRuke2JMlfozk44BDm2/z+C43lcPNKD9B6p
+         +ba1HKYdQvNL4dqKbok6y3pclQT9K12rh9huBInHKPl7GPRoi2GzIe+55NgB8yhZYHKX
+         XXf+G0SYvHAV4pTQFOH5nFICWcJ4K3jmJV+R/4LoxtLdq/OT5z272pEB20VvdkknI6qz
+         xZQ1Dwjy2n9YemLEZvSPSXoPXW+WqPsWIZzwG5/N4+pkP2oIHci9Ce/ehYEsvYbwmMj6
+         pIUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0oDjgk+Eiv3hQwqiNa6rsd1ttWtPXZXny1yRAgSbh606kwtWWyVOzxAJFLRiNMC5Bt61rcvlJPRaUhxzGZjOKpZdxJs73YQCsMzOsAXk6VwWBbQHhqhfJ8HlV/TsW+JmzK/rP3/i/8GFt1oMN
+X-Gm-Message-State: AOJu0Yw4dpK6NA8QDzsvjrZAUsiKxbV481pEx2UlVIAgZyDF+ldyT6s6
+	3nfuWn0K8QkoZWBQUZWidTkqQZspkaTR+7Zlab3tjK2417rTdXDQ
+X-Google-Smtp-Source: AGHT+IEL2KsBed1zz8v9qIzuDDeEt0qqVBch3QKL5XMgY1v1rvbtZioXqmZcYbMTotvgHuw38SY6bw==
+X-Received: by 2002:a17:90a:e7c6:b0:29b:d748:fae5 with SMTP id kb6-20020a17090ae7c600b0029bd748fae5mr155051pjb.32.1711648510684;
+        Thu, 28 Mar 2024 10:55:10 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
+        by smtp.gmail.com with ESMTPSA id z2-20020a17090ab10200b0029c7963a33fsm3791215pjq.10.2024.03.28.10.55.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 10:55:10 -0700 (PDT)
+Date: Thu, 28 Mar 2024 10:55:07 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Robert Moore <robert.moore@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>,
+	Daniel Oliveira Nascimento <don@syst.com.br>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Matan Ziv-Av <matan@svgalib.org>,
+	Mattia Dongili <malattia@linux.it>,
+	Azael Avalos <coproscefalo@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jeff Sipek <jsipek@vmware.com>, Ajay Kaher <akaher@vmware.com>,
+	Alexey Makhalov <amakhalov@vmware.com>,
+	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 02/19] Input: atlas: - drop owner assignment
+Message-ID: <ZgWu-33aKyCOjRBX@google.com>
+References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
+ <20240327-b4-module-owner-acpi-v1-2-725241a2d224@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
- driver
-To: Pavan Holla <pholla@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- chrome-platform@lists.linux.dev
-References: <20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org>
- <20240325-public-ucsi-h-v2-3-a6d716968bb1@chromium.org>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20240325-public-ucsi-h-v2-3-a6d716968bb1@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327-b4-module-owner-acpi-v1-2-725241a2d224@linaro.org>
 
-On 26/03/2024 01:42, Pavan Holla wrote:
-> Implementation of transport driver for UCSI. This driver will be used
-> if the ChromeOS EC implements a PPM.
+On Wed, Mar 27, 2024 at 08:43:49AM +0100, Krzysztof Kozlowski wrote:
+> ACPI bus core already sets the .owner, so driver does not need to.
 > 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> ---
->   drivers/platform/chrome/Kconfig                |  14 ++
->   drivers/platform/chrome/Makefile               |   1 +
->   drivers/platform/chrome/cros_ec_ucsi.c         | 247 +++++++++++++++++++++++++
->   include/linux/platform_data/cros_ec_commands.h |  19 ++
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-While it's fine to use platform/chrome for platform drivers, please 
-place drivers which have a subsystem into the subsystem dir. I think we 
-don't want to hunt UCSI implementations all over the codebase. Please 
-use drivers/usb/typec/ucsi/ location for your driver. This also removes 
-a need for a global header.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+But please fix the stray colon in the subject.
+
+> 
+> ---
+> 
+> Depends on the first patch.
+> ---
+>  drivers/input/misc/atlas_btns.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/input/misc/atlas_btns.c b/drivers/input/misc/atlas_btns.c
+> index 3c9bbd04e143..5b9be2957746 100644
+> --- a/drivers/input/misc/atlas_btns.c
+> +++ b/drivers/input/misc/atlas_btns.c
+> @@ -127,7 +127,6 @@ MODULE_DEVICE_TABLE(acpi, atlas_device_ids);
+>  static struct acpi_driver atlas_acpi_driver = {
+>  	.name	= ACPI_ATLAS_NAME,
+>  	.class	= ACPI_ATLAS_CLASS,
+> -	.owner	= THIS_MODULE,
+>  	.ids	= atlas_device_ids,
+>  	.ops	= {
+>  		.add	= atlas_acpi_button_add,
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
-With best wishes
 Dmitry
-

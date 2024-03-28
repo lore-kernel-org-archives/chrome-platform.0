@@ -1,157 +1,130 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9292E4CE0E
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Mar 2024 05:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4353C0B;
+	Thu, 28 Mar 2024 08:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711604999; cv=none; b=q9HmxFJ4epbCxWS+7lS6z1LHCxeLv08tH3dbWp7SqTGfV6/NRlriHyKWhw0R/79ikrXgvvjEBpmiWsg3FAoA8k6StuxvK1ioichh183OrbA7ArLR6WHsxeY0E3gb/PORQdO6NufvkqWVo0pV34h+D3qbvQwh9AYW+kezmcYJxig=
+	t=1711615021; cv=none; b=KjSCuVBJCVKMtsVGL0xUCqskqR8uZxINX50ug+r481eaoXPEUZJiNuL7WelxD6+IoTE8hCLDKqMvbpuFRP4Za8VgDjYTgIJB1Sn4HCUd6TxpndTgoDD7wEsZXcTgXhI5vhdnBV0RVkGdiNcOGLMncbrN0ulKSvO9/ASPhNzzOZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711604999; c=relaxed/simple;
-	bh=cn31nvUNUjuzpJBbAgPyDFbqbILk+7I0RyNp0AFjRSE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n1yEjqESFZKKl3pTUyy0+HJq8dajM+4RmwKmEB8Ues57bufOnWw54vPaEZdfkPKRLeMfCjgrsnK/gdkSc2s0vNvsvkw7K9AX3dNgoxDuMfLA/9hyC8cDSIrsk+l+txjCi88Sck0dT09KX+IsuRNSV0YghD4MyBW4y1guvS1DkL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AbE3EayC; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1711615021; c=relaxed/simple;
+	bh=pQ0Z/1fvUJQAFvUUpnPSlvRpsJ3lppAr/NdE+hsgNcU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CP8vfZt8k0UOKIIkbIQqTD0EVdsEDUfiRgWYSM2lVaj9YEBtqFrYccl35iHI2iiyOJHbYTzeIZhD1Q4mbbLZjm4bgmXipV8pzbzyA663tUQ1VNB/LLkYfHsRNSGv56n9qi6RyYoVcA1RMfFvBFcC75Rq4v5Nluy56Q3LaG8smJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lupZT1Jl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AbE3EayC"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-513d247e3c4so582737e87.0
-        for <chrome-platform@lists.linux.dev>; Wed, 27 Mar 2024 22:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711604996; x=1712209796; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cn31nvUNUjuzpJBbAgPyDFbqbILk+7I0RyNp0AFjRSE=;
-        b=AbE3EayCkWM3X2gXugECV4hbTrWhFmJhonoIu7p/IfqHq+Y9CpYZAJYgCcZAAFsRaR
-         YbaFYX9dAl5kVIkQvl0BHMSw8gjNrKk/EOCH218RiBJFpe5EHxxgivUREy3+ckQY34QB
-         Ocnepr6aR4Hs+lQhReGL+fIkz4c4sWcTeJUyc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711604996; x=1712209796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cn31nvUNUjuzpJBbAgPyDFbqbILk+7I0RyNp0AFjRSE=;
-        b=oqxpmTrrTXBPDzyPENpF5gMSqR20E5CfJzb074nJZ+FaXnyEntfyQyAz6IxGsc1DUa
-         wQEe7AZbFb+Gv5kHBz77Y1N2BKnk0zshhX6G25j7BbVRcEXU5Zp3/7Xn/+IBsz2AUO8j
-         37Jii5jO9XOJVk7yJjlx/woeV67lc9rIwyCnV7h5ab6R/d/JN0mNX1xhHn9et/840LZB
-         tVD9+DDGvHq4qpIKAKh3RfUxhdJv5mXg2VHw3bIe8fLaXFu0Z9vbj+LAX53qS4djrANq
-         n6nUFLkHKhil8ZUF1Hfv+KWjAgrHX9QOeH51w/xEpI4J8vyZM+KKFcPxLEz9SPKvP3V4
-         hgVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ4lznLjqHEhfjKhuweY95ISNlO2O/XEKCDYUfr5i+NBOvPoOTKWkokhhLA0Cy5WYoSevpM0Ov7zqLp/gyFxxMlUdbOGJD5SGX8nEQQ6zG
-X-Gm-Message-State: AOJu0YyKyimsQJ/s8EK2YtXeUDDiJgpcGCyCjmxEzEQFA/qXpRGSS1LG
-	A3x+qR7D5KRFI+zFu4NRGpyjC3xwJoN5XUEIozrO0VcKu1mRStsV58KR6J3hjdJWe8s+wB++caW
-	IrPcaAAXhJGms3XlQrCAQrE93n0F79O8aloyR
-X-Google-Smtp-Source: AGHT+IE9E7br29oy9RDRD35SwQNl2vwFiBtmvYXASR4vX3jKO04LtgAi9c4oMgaAsLskFkIEeHikqvJMsXTcDn6BjM0=
-X-Received: by 2002:a05:6512:32bb:b0:513:dfac:b29e with SMTP id
- q27-20020a05651232bb00b00513dfacb29emr414742lfe.26.1711604995631; Wed, 27 Mar
- 2024 22:49:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lupZT1Jl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B2C3C433C7;
+	Thu, 28 Mar 2024 08:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711615020;
+	bh=pQ0Z/1fvUJQAFvUUpnPSlvRpsJ3lppAr/NdE+hsgNcU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lupZT1JlPuP1ilpJhosL6cl7hni63sRE+AfQnihj8wYlUIm4xdaKLUi6FesTXpeRo
+	 RNbkB51GA47aG4/FkETacEcIbj4ahPJuLzNr/OAdNCBSicwoUh7lkSqgh8PgHn2bBU
+	 G7aQzncZpDzwnxWKhoRl0LvB+ZNmQto8ayB7C5v1tIhFhu4zqtasv6NhEfeFM1tx6P
+	 1bAJfGohQk0Cl9KvpbjtchqVysWQiQeQ3seMwH1is4bczsF/hhBgCQo4rdT9+XS0tR
+	 VNE3hMIF9Snom/pYplefQ6H1oaVSKFj+WAl7IS1xG4Zw5MrYLK3f1ZV3bIworL4NmC
+	 8Mp7FCh3aivaw==
+Message-ID: <2357d78f-8879-41ca-b0e1-6593400252c8@kernel.org>
+Date: Thu, 28 Mar 2024 09:36:54 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1710418312-6559-1-git-send-email-quic_amrianan@quicinc.com>
- <1710418312-6559-3-git-send-email-quic_amrianan@quicinc.com>
- <f6f317d9-830d-4c38-998f-b229b3d9f95a@linaro.org> <20240316-germinate-browsing-6865db3a44d7@spud>
- <20240316-herring-skies-6ee1d4a9c0d2@spud> <CAD=FV=VZB9Dqsw6+2WBdWxaQVA9NgK_W2n0okBOU0haDMSogPw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VZB9Dqsw6+2WBdWxaQVA9NgK_W2n0okBOU0haDMSogPw@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 28 Mar 2024 13:49:44 +0800
-Message-ID: <CAGXv+5HchqvT=J7_qsJMB7OthX-gtGp0E64Xfk3i3=DDX6o1=g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: qcom: Update DT bindings for multiple DT
-To: Doug Anderson <dianders@chromium.org>, Amrit Anand <quic_amrianan@quicinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Caleb Connolly <caleb.connolly@linaro.org>, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, agross@kernel.org, 
-	andersson@kernel.org, konrad.dybcio@linaro.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	kernel@quicinc.com, peter.griffin@linaro.org, linux-riscv@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-mediatek@lists.infradead.org, 
-	Simon Glass <sjg@chromium.org>, Julius Werner <jwerner@chromium.org>, 
-	Elliot Berman <quic_eberman@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
+ driver
+To: Pavan Holla <pholla@chromium.org>
+Cc: abhishekpandit@chromium.org, bleung@chromium.org,
+ chrome-platform@lists.linux.dev, gregkh@linuxfoundation.org,
+ groeck@chromium.org, heikki.krogerus@linux.intel.com,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, tzungbi@kernel.org
+References: <03e1941b-0c8a-450d-9b83-76260817d303@kernel.org>
+ <20240328023233.2568230-1-pholla@chromium.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240328023233.2568230-1-pholla@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 19, 2024 at 5:36=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Sat, Mar 16, 2024 at 9:51=E2=80=AFAM Conor Dooley <conor@kernel.org> w=
-rote:
-> >
-> > On Sat, Mar 16, 2024 at 04:20:03PM +0000, Conor Dooley wrote:
-> > > On Thu, Mar 14, 2024 at 02:20:38PM +0000, Caleb Connolly wrote:
-> > > > On 14/03/2024 12:11, Amrit Anand wrote:
-> > > > 2. A top level board-id property that isn't namespaced implies that=
- it
-> > > > isn't vendor specific, but the proposed implementation doesn't even
-> > > > pretend to be vendor agnostic.
-> > >
-> > > I pointed out previously that the Chromebook guys had some similar
-> > > issues with dtb selection when the OEM varies parts but there does no=
-t
-> > > seem to be any of them on CC here.
-> >
-> > That's maybe a bit harsh of me actually, I see that there's a
-> > chrome-platform address on CC, but I don't know if that's gonna reach
-> > the guys that work on these devices (Chen-Yu Tsai and Doug Anderson in
-> > particular).
->
-> Thanks for the CC. Yeah, I don't watch the "chrome-platform" list
-> myself, though maybe I should...
->
-> The Chromebook boot flow and how we've handled this so far is
-> documented in the kernel [1]. This method is what we've been using
-> (with slight modifications over the years) since the earlier ARM
-> Chromebooks and is, I believe, supported in both the depthcharge
-> loader (used in Chromebooks) and also in U-Boot, though it's possible
-> (?) that the U-Boot rules might vary ever so slightly. I haven't tried
-> using U-Boot to boot a Chromebook in years.
->
-> The current way things work for Chromebooks involves a heavy amount of
-> duplication. We bundle an entire "DTB" for every relevant
-> board/rev/sku combination even though many of those DTBs are 99% the
-> same as the other ones. The DTBs have been relatively small and we
-> compress them so this hasn't been a massive deal, but it's always been
-> on the TODO list to come up with a scheme to use DT overlays. We've
-> also talked about bundling a device tree that has the superset of
-> components and then using an in-kernel driver to set the status of
-> some components to okay and there is some overlap there in the
-> possible way to represent board variants. I think Chen-Yu is going to
-> talk about a few of these topics next month at EOSS [2].
+On 28/03/2024 03:32, Pavan Holla wrote:
+> On Tue, Mar 26, 2024 at 9:59 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 27/03/2024 04:39, Pavan Holla wrote:
+>>> Hi Krzysztof,
+>>>
+>>> Thanks for the review.
+>>>
+>>> On Tue, Mar 26, 2024 at 1:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>> Nothing improved.
+>>>
+>>> Yes. I only added maintainers of drivers/platform/chrome in v2. I am
+>>> still investigating why MODULE_ALIAS() is required.
+>>
+>> Heh, I wrote why. You miss ID table.
+> 
+> This driver is going to be used by the cros_ec_dev.c MFD. The UCSI device doesn’t
+> have an ACPI or OF entry, so I am not sure how I can use MODULE_DEVICE_TABLE
+> here. If I don’t use MODULE_ALIAS(“platform:” DRV_NAME),
+> https://elixir.bootlin.com/linux/latest/source/drivers/mfd/cros_ec_dev.c#L206
+> isn’t able to automatically associate the driver with the device at boot.
+> I haven’t upstreamed the change in cros_ec_dev.c yet, but the code is similar to
+> existing code for drivers/platform/chrome/cros_usbpd_logger.c. There are many
+> other occurrences of the same MODULE_ALIAS pattern:
 
-That's right. It's the last talk before the closing game on the last day.
+Just open other platform drivers and look how it is done there. Or ask
+colleagues. There is absolutely no one in entire Chromium/google who
+ever wrote platform_driver? platform_driver has ID table for matching.
 
-Elliot is also presenting the board-id proposal at EOSS [3], which is the
-last talk of day 2.
+Otherwise how do you expect this to be matched? How your driver is being
+matched and device bound? By fallback, right? So what is the primary method?
 
-> In terms of looking at your specific proposal, it's definitely trying
-> to factor in a lot more things than the current one that Chromebooks
-> use. The Chromebook model was "simple" enough that we could just
-> leverage the compatible string, though the way we leverage it has
-> ended up controversial over the years. Yours is definitely too
-> complicated to work the same way. It seems like device tree overlays
-> would be a better fit? I'm not an expert so maybe this is already
-> solved somewhere, but I'd imagine the hard part is getting everyone to
-> agree on how to specify stuff in the DT overlay that allows the
-> bootloader to know whether to overlay it or not...
+Best regards,
+Krzysztof
 
-I think qcom,board-id + qcom,oem-id maps to our board name + SKU ID + revis=
-ion.
-The difference is probably because we make our device codenames public? We
-don't actually have integer identifiers for each board family, though I do
-see the appeal of it.
-
-So it looks like this proposal is more about identifying boards without
-polluting (?) the compatible namespace with all sorts of combinations
-and hacks like we have.
-
-> [1] https://docs.kernel.org/arch/arm/google/chromebook-boot-flow.html
-> [2] https://eoss24.sched.com/event/1aBGe/second-source-component-probing-=
-on-device-tree-platforms-chen-yu-tsai-google-llc
-
-[3] https://eoss24.sched.com/event/1aBFy/shipping-multiple-devicetrees-how-=
-to-identify-which-dtb-is-for-my-board-elliot-berman-qualcomm

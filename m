@@ -1,108 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4872B1E861;
-	Thu, 28 Mar 2024 09:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E0A7C090;
+	Thu, 28 Mar 2024 10:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711619875; cv=none; b=Dvax0G97bfo9bb6+fqCO3Jq9rrh3fHi7dcTr6eS7bP5xHuy0tTWj7eSV8FozglJO9pwc5hclY2TRojkeU7Q5jxguvBtX9sYnO9PdawSPa9Pnjbx1A+ySQl9kcIEv9GmkPoLJEycSpE2VsBgBRHcLD1+6DR8C0IypLxFPKSYEYNQ=
+	t=1711621241; cv=none; b=Q9m9VFHuyOnmYHyuIciFh6K0QgZ89QttzfbqG3bjFajBNbOU2dYMakmC+VIDnibrGwElsR3VFqtzX69NdZ0hmdBgkHCoU2e4k0hOGrXUCCQkpbwioViojjeuI+QQ+cVa2pOuQLuBz3sDzWzzZNvPvYSVR0EmaeTWdAi8dSHncRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711619875; c=relaxed/simple;
-	bh=gAV+gUAqBp1S3zdGcOLRkMbsJPo5TaCr0FKPbsZ46M0=;
+	s=arc-20240116; t=1711621241; c=relaxed/simple;
+	bh=fWlJ01QF5Xi33HgqI7U4KP63mnAjujPsD7CIjtecFAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dyyyZbOtVSeupijBzVhmVyrWn8qL0sMTYmq1HtyRCgVjSeW0nsME/6aK8zyq+VIBjgUj4Jtjyb2JGeP7xjutUWtETpUuIE9mD7fzHCGRTFwZWXtLKnNLSRTCQEg5nRZzXw3ZkC2q0MakOkSCMvVYBkfmvOIx/bx7MggLtu8tHew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXgyvBwN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BzafSjCcJXZEpR6OZAVkQe+z5/KbnKhu+ScQuI4t4XfOPM8amzFfatPYl1kFAKCZCUZYgT6UtJmY8Cd0/lPC668HoQ8UT6GdNMQyFsEXEeDAzTHGWdiJIdQ0ME4XvEdSJ5g0Y4fPZHhzhPbJxaOImV39tigv9Hz7moU31IxeLWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRmKzIRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXgyvBwN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8482DC43141;
-	Thu, 28 Mar 2024 09:57:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRmKzIRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE85C433C7;
+	Thu, 28 Mar 2024 10:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711619875;
-	bh=gAV+gUAqBp1S3zdGcOLRkMbsJPo5TaCr0FKPbsZ46M0=;
+	s=k20201202; t=1711621241;
+	bh=fWlJ01QF5Xi33HgqI7U4KP63mnAjujPsD7CIjtecFAU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KXgyvBwNntZvsvohR9Dm+YUIE+XMILsRnEWVZYQ38z496oWWeT55HpERyihmNKCeL
-	 5NkIvQB1YyeF80qtVNVneOnagDmWOiNMG/Cs9SsTLsmsWBszi65yo9Nm/msBWCZCrd
-	 pxDTFHr4wiNgpnZu/Kj17LAVwK+6nvpPZgLXodjaRRHgUEUFMCb/DijwI+Bb/8WtnE
-	 C0WfyQ/LHZ8s1PL0o1axUm+p7O+LNQwA83wlEtwhxXAvTeH072vh+OMkwmGBklJrGv
-	 MXollRy5sBRX0cMQarT9x8nGbTYZyGn8mB57RGKCUD+AFkW/ooZAcBAdYJRguW5IUl
-	 ZrW2Po7qioj3w==
-Date: Thu, 28 Mar 2024 17:57:51 +0800
+	b=IRmKzIRWnByfWLhp7RMlDfqPDmwN1nCrz/1T+9IJ+gYuEFyfpddAuHMKb9RZ1KJJs
+	 G7IpM0JBSDz5uenOCl5HHhPse3wfbnayY0b/EZZO4UtxrhLxkrqY/3cqHxKQdM6L3Q
+	 s5Fz5L4p6dIDOWX2yjSo+LsR15PFlIHK+D23n0IwTcn+wHINiVDkcCsmQVp/1Myz6Z
+	 R0Jmau0wn8SKIZi669ImftysH390bFxfoPmg+ojmyMti69n2l02LAVP6HePGO9Emz5
+	 uM+riMv6kkAb91uLuZgVtf0LBhUgQbasUVc98b35ji9dM/kc5k/PgRATjTyX5sz3YW
+	 4z9cJTvH9YO2Q==
+Date: Thu, 28 Mar 2024 18:20:34 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Pavan Holla <pholla@chromium.org>, abhishekpandit@chromium.org,
-	bleung@chromium.org, chrome-platform@lists.linux.dev,
-	gregkh@linuxfoundation.org, groeck@chromium.org,
-	heikki.krogerus@linux.intel.com, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] platform/chrome: cros_ec_ucsi: Implement UCSI PDC
- driver
-Message-ID: <ZgU_H4zceFlQUz8f@google.com>
-References: <03e1941b-0c8a-450d-9b83-76260817d303@kernel.org>
- <20240328023233.2568230-1-pholla@chromium.org>
- <2357d78f-8879-41ca-b0e1-6593400252c8@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Robert Moore <robert.moore@intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Benson Leung <bleung@chromium.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>,
+	Daniel Oliveira Nascimento <don@syst.com.br>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Matan Ziv-Av <matan@svgalib.org>,
+	Mattia Dongili <malattia@linux.it>,
+	Azael Avalos <coproscefalo@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jeff Sipek <jsipek@vmware.com>, Ajay Kaher <akaher@vmware.com>,
+	Alexey Makhalov <amakhalov@vmware.com>,
+	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 04/19] platform: chrome: drop owner assignment
+Message-ID: <ZgVEcnQnFUG0dVkO@google.com>
+References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
+ <20240327-b4-module-owner-acpi-v1-4-725241a2d224@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2357d78f-8879-41ca-b0e1-6593400252c8@kernel.org>
+In-Reply-To: <20240327-b4-module-owner-acpi-v1-4-725241a2d224@linaro.org>
 
-On Thu, Mar 28, 2024 at 09:36:54AM +0100, Krzysztof Kozlowski wrote:
-> On 28/03/2024 03:32, Pavan Holla wrote:
-> > On Tue, Mar 26, 2024 at 9:59 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >>
-> >> On 27/03/2024 04:39, Pavan Holla wrote:
-> >>> Hi Krzysztof,
-> >>>
-> >>> Thanks for the review.
-> >>>
-> >>> On Tue, Mar 26, 2024 at 1:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >>>> Nothing improved.
-> >>>
-> >>> Yes. I only added maintainers of drivers/platform/chrome in v2. I am
-> >>> still investigating why MODULE_ALIAS() is required.
-> >>
-> >> Heh, I wrote why. You miss ID table.
-> > 
-> > This driver is going to be used by the cros_ec_dev.c MFD. The UCSI device doesn’t
-> > have an ACPI or OF entry, so I am not sure how I can use MODULE_DEVICE_TABLE
-> > here. If I don’t use MODULE_ALIAS(“platform:” DRV_NAME),
-> > https://elixir.bootlin.com/linux/latest/source/drivers/mfd/cros_ec_dev.c#L206
-> > isn’t able to automatically associate the driver with the device at boot.
-> > I haven’t upstreamed the change in cros_ec_dev.c yet, but the code is similar to
-> > existing code for drivers/platform/chrome/cros_usbpd_logger.c. There are many
-> > other occurrences of the same MODULE_ALIAS pattern:
+On Wed, Mar 27, 2024 at 08:43:51AM +0100, Krzysztof Kozlowski wrote:
+> ACPI bus core already sets the .owner, so driver does not need to.
 > 
-> Just open other platform drivers and look how it is done there. Or ask
-> colleagues. There is absolutely no one in entire Chromium/google who
-> ever wrote platform_driver? platform_driver has ID table for matching.
-> 
-> Otherwise how do you expect this to be matched? How your driver is being
-> matched and device bound? By fallback, right? So what is the primary method?
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Those platform devices are adding in drivers/mfd/cros_ec_dev.c via
-mfd_add_hotplug_devices().
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-By looking other use cases of mfd_add_hotplug_devices():
-$ grep -R --files-with-matches mfd_add_hotplug_devices drivers/mfd/
-drivers/mfd/dln2.c
-drivers/mfd/cros_ec_dev.c
-drivers/mfd/viperboard.c
-
-They also have no ID tables and need MODULE_ALIAS().
-- drivers/gpio/gpio-dln2.c
-- drivers/i2c/busses/i2c-dln2.c
-- drivers/spi/spi-dln2.c
-- drivers/iio/adc/dln2-adc.c
-- drivers/gpio/gpio-viperboard.c
-- drivers/i2c/busses/i2c-viperboard.c
-- drivers/iio/adc/viperboard_adc.c
-
-I'm not sure whether using the path results in:
-- Lack of device ID table.
-- Need MODULE_ALIAS().
-in the platform device drivers.  And perhaps it relies on the fallback match?
+I would prefer to use "platform/chrome: wilco_ec: " prefix though.

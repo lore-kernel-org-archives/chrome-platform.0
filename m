@@ -1,57 +1,57 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D7A13B58C
-	for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 20:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727B713A89E
+	for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 20:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711743220; cv=none; b=L5fn/fijEPMf+wA7PHVFlxn8SuRDrwX28l/ah40XMSZXfbFfHWLbUw1+t1w00EyNDfBZHEcbthvZsECcFp5VD1ppMFaUjSJR4p8luol0fMkZ5WI2INWJF7hcHZw9wlEuPEYfJXt8E9PENveDjvHHB24L3wGAB84tQ5gEE1VfSiU=
+	t=1711743283; cv=none; b=ainVxBDfYGoi7icg7lUJZk/EJAgBjKbeRYdn/5qV5+8v/AV9unjrDBjjO6VFy0sizW4l1dB6LXeulcgXh0rQsN3IGjbgYtTnUzpG7gSO2zzgkAFQJzTgIssCGacg9dKIhGhPcahbNSuOiJVcCbI0FNbbfpxXUbkIj6/KXd3kwy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711743220; c=relaxed/simple;
-	bh=1CIhbiDhLdPetfy8JNPZBtZ4Bo5ffBYFYyqo2HebwIc=;
+	s=arc-20240116; t=1711743283; c=relaxed/simple;
+	bh=Ue67/aWZBFXHbks1VsfgKBe2xxXryMkq5NnPitT7UFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PE2RqEHVDd6cWppAhWtL1h5Cysq+WdhbO8mcyLGQaCnlBRKEESzykgkRB0JpPunVVUkApx2ONq7qRdmtShoQJVxg8R8Yi/lCxA7nflu5vPCS7xqbTdq4xnnEA58S7lYP+4hfxCCs9jd/01Y8sCbiywReE4ACgBOkEhpGUJvofHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZUxf74nw; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1BIGN/MwxgZrvxIJyCznzoWgiejXcTXepIVCYbo5flFWOmxwXOhlquKlStsbDLqBzQH/S4fvpObkLcqOdca4hzrjk+7WsYJ67wrox3s4AnqvtquP/sNSaXuxH+dKg/2zJgWy5yeCbLr+6EaZGqLnJhRBN49fvpkeBq5IDfG608=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vZ+Can1k; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZUxf74nw"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e21ddc1911so205555ad.0
-        for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 13:13:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vZ+Can1k"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1e062f3a47bso166265ad.1
+        for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 13:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711743218; x=1712348018; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1711743282; x=1712348082; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qWs7zN/LFor0Uf4kjH3ZAhI6dar6SefwVzRPkQY1ryU=;
-        b=ZUxf74nwx2f/fPiW6os5T2qWNXTyzSsCs7edTl4jvLR4vZIvh4ykr0Wg00t/fBsRSv
-         rQavCV3PNa54f/ijV/Po+bK8wdw5kOynbVggRPgjwYztILLiUDNinv4a9laOpmkP+6dn
-         moLPXHPVaNS6dKh/gozhoUSE4hoPRgx/sJ5DvkMmeGkstqZLSt4Mk8H4xMOT4eSStEzq
-         rdY/PV0xoBJC2UBBdjWg8OBYDOm2X+8N0inVjSmp0ho53pYeIcescisM4/YQmGXB3DLI
-         kMSYE4IMbmzDCpq0q9bYdHYw1Z2R7rQRc9dqpDHF8F7aXfFG2GZ0iCyfQTT9zee8X1OC
-         Rs/w==
+        bh=KyKDOpyo0CvUhZvmqAETcwlXYmOLuTf1osPn+ePZivQ=;
+        b=vZ+Can1knaIoPVlyGZpDxWY0cHoxkdh2Vy8yA8U5AtvihmXaEmIbbZigJfuEcycomZ
+         gmx5FoaKWGCmCetxUyQQA6EE2susZj34dZcsn9ca535lDSkZCGhMpF9/+pja0V9jL2zt
+         0+10a6sN53kh3S8RiW1vTPNpsmBYJNdeLu9oH6wDFrn6w5kP0REAXeWup5ahCy4Ount4
+         tmepOQMBLP1t6excUYCnVMC6f2QJKrCc674TxrE8zUBFGshV1LzS07TzPsO777geuT9F
+         IleTACdtDVlg+cPhu4+OUckcPYkuSsIoMhiHQTR2Q+hj7EuBYCju/3UEQD5expmUM0LA
+         v2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711743218; x=1712348018;
+        d=1e100.net; s=20230601; t=1711743282; x=1712348082;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qWs7zN/LFor0Uf4kjH3ZAhI6dar6SefwVzRPkQY1ryU=;
-        b=xDdaeh6OqD+HiALSWIUigfbLUFdiCvd9Qg/tY8JvyFq5DVqpe+H3G5kRtP8OKyiH4K
-         Q6j9fAZ6pUSBybt+TDDIeGXsiMfLXHyFpe/ScQpitMoG6VtnGvFNLTSWbcU5gkAZn+f0
-         6rac9SSJfSNX3LWGT2+cyK09sr1M1fCYZ28BTvXWzC8+WZmrx5Mo2jFtWdLebkWsdeTx
-         ByRHCV//lIU3qaM3h2XF4uIMFd8+X6QQEAv8g6Lb1xNPak8PmOmY4rXqrB4ekLQouQXS
-         EVF0iQgWF3RVMrqeWaXVHTGlX0b2cZb8lVal3hmR/qBHbwQFy9ZtV4mgPKV/tDqhZKEn
-         0JcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwVHUFI3zoGTpK2PSYXJx2nwyADnQPti+6d9ybhw69XgHVPsLqEZikdVNA5frc9tV210/yCPE9n72LiOaxO12fdcz10GyfsLwzY9lrej40
-X-Gm-Message-State: AOJu0Yy/6qOHQgt42vsRHgIwpLssnZh1d71BhuIqt4/jie6gq8idMGJb
-	0ozi6UoIjUXOYN8M4POrSNP3a+LTVGo81uDw1b+i8x6kdvdCuJNvQyv/7qiL9w==
-X-Google-Smtp-Source: AGHT+IHsexnfMRJbpIHl9fmuE3u0hPgMNGbbB4LfvtV65/D832Ij+scd+b8wqjyQ7qu7XIMJR5vcbA==
-X-Received: by 2002:a17:903:124c:b0:1e0:984b:6215 with SMTP id u12-20020a170903124c00b001e0984b6215mr270043plh.16.1711743218318;
-        Fri, 29 Mar 2024 13:13:38 -0700 (PDT)
+        bh=KyKDOpyo0CvUhZvmqAETcwlXYmOLuTf1osPn+ePZivQ=;
+        b=MtANTO1KW0dTUkt6rpar49GCj0s1B/uHc3JNmCDGxXbzUqmQn/cZBHKjBJJPakA0/V
+         c5xkqq51uoNwBs2Gp7d6rQ3P9ToahakoXekiyt+520hgrBGZkVthmfYh52uFebKJqe/t
+         FmGfiQnVgf9Y7MVa/bK3BobPVcYuOdTuwroVbJfZjeZxP1Kj6RpE+tHIfki4cniCaRcx
+         x9cFPk7rD76hZHCUGDJNG+mL9/g8O+3hn66ltI292LYCFSY+1/q+aaMTBQycLkHpYRgK
+         k5IUOQ0dBG3iWRS+kWpWq3PyWtZoTvs2i1NhKWtYC6Tff1zEqmuJ6W05kEs7bNUHtfeH
+         ouog==
+X-Forwarded-Encrypted: i=1; AJvYcCWrPGj3qJtmH/JDIZZegYYsg4310tmwK0FcQrKBwg6jtPnXghIUahwd3VNEJvDG8NZ3S641E/oQAV3ZVzGAvVV0eebWhBaV7I12G1sQ80T5
+X-Gm-Message-State: AOJu0YwVCoj3rXs5RYisAjq8ZIlbjk44n5pWbfD5P1/wGbIS2ysnPCsW
+	TPht8syxaqYh2+Ry3PCaUAujpSl287ShRzAxMWGLudhakhtweyS6zpquq6pfKg==
+X-Google-Smtp-Source: AGHT+IEs/KL53oMZZ4ceHxkkiQGhFUFfwtYFCC7gcQBKJHFph/5YpTLepHU6Fk1HitA6rVmfl4ITHA==
+X-Received: by 2002:a17:902:f689:b0:1de:fbe1:beb1 with SMTP id l9-20020a170902f68900b001defbe1beb1mr226387plg.7.1711743281527;
+        Fri, 29 Mar 2024 13:14:41 -0700 (PDT)
 Received: from google.com (236.219.125.34.bc.googleusercontent.com. [34.125.219.236])
-        by smtp.gmail.com with ESMTPSA id c21-20020aa78c15000000b006ea8c030c1esm3371937pfd.211.2024.03.29.13.13.36
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902ecc800b001e0eaf9ac5dsm3831012plh.36.2024.03.29.13.14.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 13:13:37 -0700 (PDT)
-Date: Fri, 29 Mar 2024 20:13:33 +0000
+        Fri, 29 Mar 2024 13:14:40 -0700 (PDT)
+Date: Fri, 29 Mar 2024 20:14:37 +0000
 From: Benson Leung <bleung@google.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
@@ -61,11 +61,11 @@ Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
 	linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
 	krzk@kernel.org
-Subject: Re: [PATCH 08/18] platform/chrome: cros_ec_chardev: provide ID table
+Subject: Re: [PATCH 09/18] platform/chrome: cros_ec_debugfs: provide ID table
  for avoiding fallback match
-Message-ID: <Zgcg7bAnp-tM_-oz@google.com>
+Message-ID: <ZgchLZc1jJnPiTLs@google.com>
 References: <20240329075630.2069474-1-tzungbi@kernel.org>
- <20240329075630.2069474-9-tzungbi@kernel.org>
+ <20240329075630.2069474-10-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -73,17 +73,17 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wFqlCGmJIgYSWWvX"
+	protocol="application/pgp-signature"; boundary="7y0qWvUl4tzyws91"
 Content-Disposition: inline
-In-Reply-To: <20240329075630.2069474-9-tzungbi@kernel.org>
+In-Reply-To: <20240329075630.2069474-10-tzungbi@kernel.org>
 
 
---wFqlCGmJIgYSWWvX
+--7y0qWvUl4tzyws91
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 29, 2024 at 03:56:20PM +0800, Tzung-Bi Shih wrote:
+On Fri, Mar 29, 2024 at 03:56:21PM +0800, Tzung-Bi Shih wrote:
 > Instead of using fallback driver name match, provide ID table[1] for the
 > primary match.
 >=20
@@ -95,62 +95,63 @@ On Fri, Mar 29, 2024 at 03:56:20PM +0800, Tzung-Bi Shih wrote:
 Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
->  drivers/platform/chrome/cros_ec_chardev.c | 9 ++++++++-
+>  drivers/platform/chrome/cros_ec_debugfs.c | 9 ++++++++-
 >  1 file changed, 8 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform=
-/chrome/cros_ec_chardev.c
-> index 81950bb2c6da..7f034ead7ae4 100644
-> --- a/drivers/platform/chrome/cros_ec_chardev.c
-> +++ b/drivers/platform/chrome/cros_ec_chardev.c
-> @@ -14,6 +14,7 @@
->  #include <linux/device.h>
+> diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform=
+/chrome/cros_ec_debugfs.c
+> index 6bf6f0e7b597..e1d313246beb 100644
+> --- a/drivers/platform/chrome/cros_ec_debugfs.c
+> +++ b/drivers/platform/chrome/cros_ec_debugfs.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/delay.h>
 >  #include <linux/fs.h>
->  #include <linux/miscdevice.h>
 > +#include <linux/mod_devicetable.h>
 >  #include <linux/module.h>
->  #include <linux/notifier.h>
->  #include <linux/platform_data/cros_ec_chardev.h>
-> @@ -403,17 +404,23 @@ static void cros_ec_chardev_remove(struct platform_=
-device *pdev)
->  	misc_deregister(&data->misc);
->  }
+>  #include <linux/mutex.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+> @@ -564,6 +565,12 @@ static int __maybe_unused cros_ec_debugfs_resume(str=
+uct device *dev)
+>  static SIMPLE_DEV_PM_OPS(cros_ec_debugfs_pm_ops,
+>  			 cros_ec_debugfs_suspend, cros_ec_debugfs_resume);
 > =20
-> +static const struct platform_device_id cros_ec_chardev_id[] =3D {
+> +static const struct platform_device_id cros_ec_debugfs_id[] =3D {
 > +	{ DRV_NAME, 0 },
 > +	{}
 > +};
-> +MODULE_DEVICE_TABLE(platform, cros_ec_chardev_id);
+> +MODULE_DEVICE_TABLE(platform, cros_ec_debugfs_id);
 > +
->  static struct platform_driver cros_ec_chardev_driver =3D {
+>  static struct platform_driver cros_ec_debugfs_driver =3D {
 >  	.driver =3D {
 >  		.name =3D DRV_NAME,
+> @@ -572,10 +579,10 @@ static struct platform_driver cros_ec_debugfs_drive=
+r =3D {
 >  	},
->  	.probe =3D cros_ec_chardev_probe,
->  	.remove_new =3D cros_ec_chardev_remove,
-> +	.id_table =3D cros_ec_chardev_id,
+>  	.probe =3D cros_ec_debugfs_probe,
+>  	.remove_new =3D cros_ec_debugfs_remove,
+> +	.id_table =3D cros_ec_debugfs_id,
 >  };
 > =20
->  module_platform_driver(cros_ec_chardev_driver);
+>  module_platform_driver(cros_ec_debugfs_driver);
 > =20
-> -MODULE_ALIAS("platform:" DRV_NAME);
->  MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
->  MODULE_DESCRIPTION("ChromeOS EC Miscellaneous Character Driver");
 >  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("Debug logs for ChromeOS EC");
+> -MODULE_ALIAS("platform:" DRV_NAME);
 > --=20
 > 2.44.0.478.gd926399ef9-goog
 >=20
 >=20
 
---wFqlCGmJIgYSWWvX
+--7y0qWvUl4tzyws91
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZgcg7QAKCRBzbaomhzOw
-wvrTAP9XyHBI49KZpUJOqS3U6D/DlyctZOrtzWcMGwpPYLOnSwEAn6YA3cLIsuZd
-54v611hE+7u8dPasuYmhfLU8nNUfqwc=
-=mzdp
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZgchLAAKCRBzbaomhzOw
+wtX6AP9vqoC57DVK+nXf0l+z9YktOJhv6yXw/fbq5tXbW6H4lQD+PtEfbvOmSXSb
+J9Kw8aSpHvzFt8U3I38LIhsCTGn+KgY=
+=FNvA
 -----END PGP SIGNATURE-----
 
---wFqlCGmJIgYSWWvX--
+--7y0qWvUl4tzyws91--

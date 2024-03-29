@@ -1,65 +1,65 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF8013CC63
-	for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 22:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C25E13E6D0
+	for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 23:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711749977; cv=none; b=MGwsgXAM2MwEONfa2hiyeUoG6w5OP6wzwHRZoGaHzeq00lEooinwqwV48TIdyUxBq4494BB/eCdYnCetiboHwdHsOG2LeJAWU/lTTZkZys+Qqk3UnJKy4d6N8fcLsAttDMRU+y81RaY+T0bordtWHKgMlpqpOs6HLU2RLzxhhLc=
+	t=1711753443; cv=none; b=EswWEILbYpTlkg2LgRItpYIRGz1G+EcczC7bWwgZPnezrt0MIYGgQ3ud/eljzY5QHnBXIdXpDKHAxNkg6dojD+MTmjDKw0UDzTKUWX1+nkYOcaByjIz1swu0E9/yAGgM2ZCyLp1UvlivPlc0YYWF7RXAPKkym1wSmYFj2azNCxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711749977; c=relaxed/simple;
-	bh=nV9Xa3IM7xgXhYdWwGJomDhP7UDLqK2glvaaFhOjZe8=;
+	s=arc-20240116; t=1711753443; c=relaxed/simple;
+	bh=ElBPjDIZnQxhX8OMQsnhNQHvpAXQI/SVRBZi1UXufCM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y9jo9pxseQ00KQ8JIKS5iQxjD1TnlZ7CGvkAeSxyudCrMdlcrNMMOmHDfQDmhiApzG71PyHjWCH1tw9nBI351Saiolrb8ZKRJi2Zo0iiQfJp8CiM25yOdgKX6Uo7YOAZFVkDuJsX6l9Xo5lT1Cs5dntS4HNHoEniP+USpfekCEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Nkv8EYiv; arc=none smtp.client-ip=209.85.219.46
+	 To:Cc:Content-Type; b=RUR5y3wDeAXaLQVDT+S9wiUO6RpgJ2XICyG17As/hAbsbHbJHHFCYo4cJbLcZ3wkGX5THY30+frXj8BgE6Oz9meDG80BDpoCSvC8vHyeOUYrPod+0E3iAXVisJEjfhS9KRuxKa0oQyJcVkvpjB2mPy0jdXjv9Z64MxhOka9+Jdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CkSGMDTS; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nkv8EYiv"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-69629b4ae2bso17590266d6.3
-        for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 15:06:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CkSGMDTS"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-696925248deso13950786d6.3
+        for <chrome-platform@lists.linux.dev>; Fri, 29 Mar 2024 16:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711749973; x=1712354773; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1711753440; x=1712358240; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nV9Xa3IM7xgXhYdWwGJomDhP7UDLqK2glvaaFhOjZe8=;
-        b=Nkv8EYivpSRMiNJfz5wVRac/4ApiUiPy6Zeg6En+xCiwhLH1zqBAQe1qf1hofi6+3T
-         Y4uMvuId1FbEBE0J4KiGZcBkIQF1CXEZjyKtXPvbEfQc4x8IvC0U4T5hjgTy9atTajK3
-         g3jCApK+4m3aCaU4jB40/5mSes/pQVwT7aJd4=
+        bh=ElBPjDIZnQxhX8OMQsnhNQHvpAXQI/SVRBZi1UXufCM=;
+        b=CkSGMDTSsnEkRCoz9rNFku4rtMyz132YpPWp6nEm5b2qGZIVm5H5ehncgjyH2GIz1V
+         TgbLkXhkkGyJKQiavKX6iPE9bO3Yo/m5a/rXB4pdlkC8YHugnegq6YQ/T3KDcOUI6OEO
+         qtMN6N3dKQPz+6VQpnSO+itTQxx2YoQxl2U98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711749973; x=1712354773;
+        d=1e100.net; s=20230601; t=1711753440; x=1712358240;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nV9Xa3IM7xgXhYdWwGJomDhP7UDLqK2glvaaFhOjZe8=;
-        b=URcLhYf9Qmpb/ry63coENffDMB81vG2rBbus0Ti8JqIl5QHUGk4Q2lOJZaEf0VHRnp
-         9CBPmqmpnCxp10z7Sb7wYIkbLLM5IqErRu+eBj1Gpknw426ATiJAqjwPF17EieXJDV7L
-         qwy2Evkgx2rEKobpW0cOAYppl+vQhV7bw+ZIJD/T87dhMimvUfKSJW/DwZMeeTZwSUDP
-         PrbHPQ+XgTH5JQtOYNI35O8Or7IBJOvt3wmErNDkUhb/HR2L1+Ynz1k3JxzINa+GhvGP
-         LKNHcTwzGKVgfcI+Y3Q5bbLUfBTLbg5gc38k6723gH9FV1io+YWjUNupbOSyyaa1+bgi
-         FRHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXc9INAR/5eccNPhPFHyvTqb5YNBmuxSmysToGVkrILWMGi0KNsB9vKpdImEmrpbiBgyWAIfz2VZBN3hiQGU+5fAjlfZrYWZPL5gXrz+z6q
-X-Gm-Message-State: AOJu0YwedkT0n+DI+t3eu7RahYlio58isGFIwIqUFqaldsfDdGbjDyaR
-	N4eKpTHeoIT0RmwIyj9if6HeLYWSaQZLaGg0ZYJ2Vuc9dWJwTrJsOBr+kl81devWYpfBrdc5XiM
-	CFeDRDNOvrSYNkW99Ny12umacQqF/RQ9lJaBZ
-X-Google-Smtp-Source: AGHT+IGSnhH3MvM5RwIbbS/34YE/7xYi4pOWO8e61L6VZDx1cFIdeGebuznubPkOzyANMTrrgX6Bab4sJhaJDC2rdVI=
-X-Received: by 2002:a0c:e852:0:b0:698:e87c:7d65 with SMTP id
- l18-20020a0ce852000000b00698e87c7d65mr3221235qvo.37.1711749973661; Fri, 29
- Mar 2024 15:06:13 -0700 (PDT)
+        bh=ElBPjDIZnQxhX8OMQsnhNQHvpAXQI/SVRBZi1UXufCM=;
+        b=fFRVGW+XcH5Ex3jcAacoS+BUf2K/hgxAl1mezu/0kslLil5qX22AOF6Mbm5xEDISuE
+         0/CGhurBf2lIH2gz+Llu9+ggZgSX05JxY9AFpI+e0DIrnNMFaVNh/Dq+POPCXOeHCS8Y
+         ZeRb8tfx7/w//+PNm2X1ziHsexyhzXD867J5GFP9pIRcB5nQR3MnK5s8J+5qvyxXSv9y
+         cwxheGwF0jZvW/N49UgzXVH4Z9SC59aKP0XcEjQBxLiEF4ii/DE2qwd9mLg/Xb53BBMU
+         MkY6xc4gePsVauFAf39tc8i7jtVPcH+4640XMJ53QCYHcyc+/9JD9Bn9wH2j5dNfo8T6
+         mTpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdkDwr+ItNqA9hlzjFDkI0XO92m1kEYY45/g3T/Ote+oM2ekxEAtuhoJHq+pEafWu/O10ikRH0buKW08Uw970I9IXhVNTmWw616adnLKx6
+X-Gm-Message-State: AOJu0YwzQwc+hhuAfhz+eSqTi5lExbsQ7sSlALGXjtoeAj2br/4rbY2p
+	/E5x9cdld7ujc8LCmRQwJuo6hRQW+HVcr5++Tl2Yd+jGV0RNwYKXQUTMLc8SF5lfJ4kPFR68NJl
+	MOS9QdThc3NI1Xyov31ULi+Ra2e4hIiAeegKU
+X-Google-Smtp-Source: AGHT+IF+mqQ03gYx7d0d7DYJJ7rVBmyQcQsToUoGLPiRc+Fc5LU2ayUB7rH83oD5qBV9wXHQ8tTdvtFZhUqkRt2CKmo=
+X-Received: by 2002:a05:6214:1905:b0:690:d952:f17a with SMTP id
+ er5-20020a056214190500b00690d952f17amr1755577qvb.31.1711753440726; Fri, 29
+ Mar 2024 16:04:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240329075630.2069474-1-tzungbi@kernel.org> <20240329075630.2069474-8-tzungbi@kernel.org>
-In-Reply-To: <20240329075630.2069474-8-tzungbi@kernel.org>
+References: <20240329075630.2069474-1-tzungbi@kernel.org> <20240329075630.2069474-6-tzungbi@kernel.org>
+In-Reply-To: <20240329075630.2069474-6-tzungbi@kernel.org>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Fri, 29 Mar 2024 15:06:02 -0700
-Message-ID: <CACeCKaduUSrPG7w6hi=SPLwPjdJ31-9peHtyWwkitAhkQaxQHA@mail.gmail.com>
-Subject: Re: [PATCH 07/18] platform/chrome: cros_usbpd_notify: provide ID
- table for avoiding fallback match
+Date: Fri, 29 Mar 2024 16:03:49 -0700
+Message-ID: <CACeCKadpks=55-bfi2qOX0VdB5Fc0394OBEdKBoRBCsS6MNwAQ@mail.gmail.com>
+Subject: Re: [PATCH 05/18] power: supply: cros_usbpd: provide ID table for
+ avoiding fallback match
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org, 
 	brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org, 
@@ -79,4 +79,4 @@ On Fri, Mar 29, 2024 at 12:57=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
 #L1353
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Acked-by: Prashant Malani <pmalani@chromium.org>
+Reviewed-by: Prashant Malani <pmalani@chromium.org>

@@ -1,110 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B695142A89;
-	Fri, 29 Mar 2024 07:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F73CF9E9;
+	Fri, 29 Mar 2024 12:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711699085; cv=none; b=W5z8j+YJEAGMSUziOkpEMi0WA0VbHM4Io+KFhr1f/L04CIn5hrH9DiUU+1CRW+xX7HKwmhFYqP3kYTk/YjNi6HO31DZ7W1pS8hFt7DRwbigR1myhgdqKYx0l1yEUUWduF95tHN1MsWAlqQozltP3X/Ay+XY38hR66MPkp7T2YOw=
+	t=1711714543; cv=none; b=U5WuaMWp6dO7tCriK3SDOzIwGkQtZhTe2sukum/BUhLztiULtKaQx+NoSWyrx5X3iBmc9M7UMCb6+DjNTk9UjsEXHHCN0n2tNeYNQleOJ8z3s7Tfu7EytXP2+XLHHViIImPiNUrooJaxyRMYe+FcQgT0csTIhw01RZunhmEOqcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711699085; c=relaxed/simple;
-	bh=/0ERKwQzbBcB03sGj+BkH3NQoyRfCHwh6GJ4EJSb/CY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IteTTMdtt33yvJUZ5vsr5/AqXjCAOTVjTRKiteTbqk2oC5JK2r4msrS72Xiwoai/2ltelwrGRMxH4fkzqEJsds+96QYdEimvjIlXEWu65aTO22opG5sqHAUXRqBxLoLeU2Fmzy0p1+vbPm6rusvBHS4TpsYVTdBN37zaf8FJj0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W6Ro7Iyp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711714543; c=relaxed/simple;
+	bh=siGVj/Xg2z8xpiF3maaiGkxqFhkAIVxKGp8DjoZOtVE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nGVsD/u9IcpCaxPmiW42fh/339QoOyuR+IdP2+W8tZqkD1D+Je+dX8KBdtUHtiFSbx0UqWjSvZ2hHdWDpnp7idhUq3newLwj8zqOpbh+4+EQjdr0+QLUm93O8FSE7Ofsfq+D9Q7FP/ISq0LWluZM6BLX/G1zluBO9SAZcTzr/JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6ZwJeaE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W6Ro7Iyp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88EAC433A6;
-	Fri, 29 Mar 2024 07:58:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6ZwJeaE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B571C433C7;
+	Fri, 29 Mar 2024 12:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711699085;
-	bh=/0ERKwQzbBcB03sGj+BkH3NQoyRfCHwh6GJ4EJSb/CY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W6Ro7IypfmmWT7+JB6cNSgt06PrnA0g9HQADZagCxBLlztHncSV7w6D4WThSgswst
-	 /cEg1NxBMmp/JmhYRSnp1pMsjTMEepimEnC4gLM6i5hDunE+9FThU2Nemev6020fZG
-	 FvYHgFezABxppwogbspyV0tRUzxgV6r1zb+gdyrZGGhNunruycYy4zphPgyFWdvXIv
-	 6CsMxQKPtVANGXFdlnOae7pCC0ujLvp84US4cghLp8CVfzRtFY9AIlxxgyvYHFSS+E
-	 bNgcf/igsA8CEvB2UnIv7BRu8Res/4KuF4JNjH/lw+sErxxaI0qID3tC4Vj62vxwBw
-	 lycphMMQ1P1/Q==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	hverkuil-cisco@xs4all.nl,
-	mchehab@kernel.org,
-	sre@kernel.org,
-	alexandre.belloni@bootlin.com
-Cc: tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
-	pmalani@chromium.org,
-	linux-gpio@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	krzk@kernel.org
-Subject: [PATCH 18/18] platform/chrome/wilco_ec: core: provide ID table for avoiding fallback match
-Date: Fri, 29 Mar 2024 15:56:30 +0800
-Message-ID: <20240329075630.2069474-19-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
-In-Reply-To: <20240329075630.2069474-1-tzungbi@kernel.org>
-References: <20240329075630.2069474-1-tzungbi@kernel.org>
+	s=k20201202; t=1711714542;
+	bh=siGVj/Xg2z8xpiF3maaiGkxqFhkAIVxKGp8DjoZOtVE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N6ZwJeaEDyZDDBo/ncq6WJVqtf8I+CRJIs98kEKjXk6Q+TJa3NKtvIrZKzIr71M69
+	 /tSaXoEuAW88VShb3e+vFXwznx/SH/DPEaowknnfJ5SujJdk7XAMZA55F3QQLMDRSK
+	 nUl+I9088iJcUrJG73WYA8D+ajIg3DyISRCDS5zJYNVtVhATdUBaE+jsN1netizodA
+	 uiyBgpiQi0xN92CBVc+ApxCK9E6y6EY2aC/VrEsYkBDHjOjZERTz4nH9iOlDS3Ms5B
+	 /be9PHo8Do4NuwE2dQ87io9pu1yhPisNbTxu+hqMxCnVMf0l9R0vdcUlATerH4o/T3
+	 hCaMadh8qK1bQ==
+Message-ID: <d9cfd735-05d4-4db0-9655-9108a6487a13@kernel.org>
+Date: Fri, 29 Mar 2024 13:15:33 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/18] media: platform: cros-ec: provide ID table for
+ avoiding fallback match
+To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
+ groeck@chromium.org, linus.walleij@linaro.org, brgl@bgdev.pl,
+ hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
+ alexandre.belloni@bootlin.com
+Cc: chrome-platform@lists.linux.dev, pmalani@chromium.org,
+ linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org
+References: <20240329075630.2069474-1-tzungbi@kernel.org>
+ <20240329075630.2069474-2-tzungbi@kernel.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240329075630.2069474-2-tzungbi@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Instead of using fallback driver name match, provide ID table[1] for the
-primary match.
+On 29/03/2024 08:56, Tzung-Bi Shih wrote:
+> Instead of using fallback driver name match, provide ID table[1] for the
+> primary match.
+> 
+> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
+> 
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-[1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/wilco_ec/core.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
-index 9b59a1bed286..3e6b6cd81a9b 100644
---- a/drivers/platform/chrome/wilco_ec/core.c
-+++ b/drivers/platform/chrome/wilco_ec/core.c
-@@ -10,6 +10,7 @@
- #include <linux/acpi.h>
- #include <linux/device.h>
- #include <linux/ioport.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_data/wilco-ec.h>
- #include <linux/platform_device.h>
-@@ -150,6 +151,12 @@ static const struct acpi_device_id wilco_ec_acpi_device_ids[] = {
- };
- MODULE_DEVICE_TABLE(acpi, wilco_ec_acpi_device_ids);
- 
-+static const struct platform_device_id wilco_ec_id[] = {
-+	{ DRV_NAME, 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(platform, wilco_ec_id);
-+
- static struct platform_driver wilco_ec_driver = {
- 	.driver = {
- 		.name = DRV_NAME,
-@@ -157,6 +164,7 @@ static struct platform_driver wilco_ec_driver = {
- 	},
- 	.probe = wilco_ec_probe,
- 	.remove_new = wilco_ec_remove,
-+	.id_table = wilco_ec_id,
- };
- 
- module_platform_driver(wilco_ec_driver);
-@@ -165,4 +173,3 @@ MODULE_AUTHOR("Nick Crews <ncrews@chromium.org>");
- MODULE_AUTHOR("Duncan Laurie <dlaurie@chromium.org>");
- MODULE_LICENSE("GPL v2");
- MODULE_DESCRIPTION("ChromeOS Wilco Embedded Controller driver");
--MODULE_ALIAS("platform:" DRV_NAME);
--- 
-2.44.0.478.gd926399ef9-goog
+Best regards,
+Krzysztof
 

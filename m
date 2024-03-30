@@ -1,60 +1,61 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1831441C89
-	for <chrome-platform@lists.linux.dev>; Sat, 30 Mar 2024 19:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E50742054
+	for <chrome-platform@lists.linux.dev>; Sat, 30 Mar 2024 19:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711828199; cv=none; b=H6g0bptY6X0hOuR2VdHgFsTnhNjBdw0GGc1IIx9MDdupYeFkhKJyP5KxPTFYLj8UzrLhh81s3J8bLMPvgn0Lnu0M/gxn/0Fnx9Rp7U9eOuz0EPMQcphSqZ9gRIGCtW91h1FuJi+p9/Wos3CSwIs9BmXAqSZNsjycwQp2VTdoDSU=
+	t=1711828199; cv=none; b=gTe09/gzXslnChWmUFZpE1Qjt7ZSvu4CVaBAPGuk/I6mRz0INBEzXC4l53M515BkGrm0A/VvL0BgmIxg9BYctek9GN/r3dRGZJ1m/Cc+q/0oUjr9yU7A9ZMEFwi5IgL3pCLJsX/IC8myNRrrXlwBYv0AwiaGFpHlLCS0ynJHycM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711828199; c=relaxed/simple;
-	bh=TIu+fFC9OIBUqLhyjsNVKzlA9djiX3m9wVSM8WIu9w8=;
+	bh=v3LCWHdD6COiKx5GT1EpzgxmaPTkJTQwaRwt2hz8Q4w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FIA1i9FWq/XuqoVrN5fjrWNAz9Lc0FlXwSna5i6L+aNXw3qMkev3R3sD8RAVe6YML1lvOdy72IzXdK/fjouH64f5gNyYO9JshuHQA0w1E60irTWy4GsNI6Cb9w+xWFeNOlWVUWI3jHaaReqyOa7w8NMx09VV5lVCFT11IlC/8uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DQqCjCeT; arc=none smtp.client-ip=209.85.128.45
+	 In-Reply-To:To:Cc; b=fIXL+kLtZK9diQpqComKGf+JzFIIx0Zm8XApq0WC+OcW/cexDvCart5q6lGb0RVJq8xeT2/b9bUYcMluc7bUu0oq8c/m2dpJDw6Nu/UITCXMT1pUMlexgduDHpwyVabCtt0jynK8VuyZ2pXZE13GCKNwj1wQEN1ozEFkGN+I8+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dX6mkcWf; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DQqCjCeT"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4155271cb59so9036605e9.2
-        for <chrome-platform@lists.linux.dev>; Sat, 30 Mar 2024 12:49:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dX6mkcWf"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4154d24cc77so12077715e9.3
+        for <chrome-platform@lists.linux.dev>; Sat, 30 Mar 2024 12:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711828195; x=1712432995; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711828196; x=1712432996; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nxstXRVnrMSo82l5gXcb6I01Op51WiRiTjfQdQAjDdY=;
-        b=DQqCjCeTc53F7Yh57veZ8Tze9Vf+CBj+6Tc6dxIPEStIDRa1mF2Zj8opptbeIXpRXX
-         Ja3srr7cw3ib4Y7kRhoCKWPsNcQ4e2DCyj1n7FhOG8rbo+OiVzUSgvkSQ/x4U5KZ6fZL
-         Jf5xqXQPAYbFTf/SdB/xFCvfgMf10QLgsXR+nW9DPzVpmJ1lDTe6FIVZQmKbY58PYm/l
-         Bf+XxjMcUk17r6oDsXlZqkRzsC4ua2c6KuO4uLF0INVUEZShurkZWKJ6s7HK8ssM98Hf
-         /yuCAAAW/5aHZIOusJHgaQaxC2NJUJa1qA20X4hIddHNvQXlIBy1wuE4Z0rkR76/sZvQ
-         +ygA==
+        bh=IsNJgKamHqNuLGNVWu9ddLUl1Ncqtm7rSn5kGPjfhAg=;
+        b=dX6mkcWfokJyyMIURl2+9GXyBkOoTUv+DDO8KLrPdORptWOfxCzfTT5F6xw4nrSxSV
+         IZWrnae2JUKKta7s+fNdyVuOAwNXX0rGudnJa+Tei6MgoxuDL73jIBOSyAdC8/F1xK8p
+         Kj6TeSYO/Hye/CTVfaV22OA/zzd//Zt6ckZI+hp7zbE16YSCUKPipwUUsOWND8L2IzF9
+         yXTE0m3qmp5VJdjRqv2t41pUB4TgL7U35MIVS1Bxkwn+sxkvoMTOUX2btB9GkWaEkPYJ
+         es8YnJ/utuxJdCFgnNghbXR3P+/yOG4eRNoShIdqt8TJGwWSr1OxhfqMSVPyp4Keu/tw
+         wk8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711828195; x=1712432995;
+        d=1e100.net; s=20230601; t=1711828196; x=1712432996;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nxstXRVnrMSo82l5gXcb6I01Op51WiRiTjfQdQAjDdY=;
-        b=bek68U9eDx64SUfHDnJkYGkDouro0kNsgcwsIg0NJJWUzkesTZ0f8Ap7mYhANKHQ2b
-         Gprf5TJNmbtpxB4V7u9FVOd1nYHEhTcmgfbOatwa+ydVxXOiPapCtd5HL1yIjZ6CAbt4
-         PAi/hmjjb3WxRzg9hlBN1O18EiIzt22oUAtY+1r5XaJzUUa989RTqbw4vFtqQ/oyzzK2
-         Fl9j9aEgYztN0WLlHpBm/nCawP4zsYEAD/8L9iQzyqbaUq+SnzT3Qo6k0iKsAoncZoOH
-         fdIuOnBb4DRMk1R4jc4TczrqeJBbZLI6GHWj0BX0B81ap7euMYq38X2awCOn7D5cafvS
-         Iq1g==
-X-Gm-Message-State: AOJu0Yz5opouUgrjpVlZgJQuUfQ6UJy3Tg/RqVk+5Id7BrgE61kdpPR1
-	KTwPzIPxCx/iqv+FaFz/sh98oeM9+KuhlxnA1q80gXUT65VO1J/aIuJfRV7ff44=
-X-Google-Smtp-Source: AGHT+IHQUflMqlUGv5wUfT71RkwRUapmc7b3JWOoVb5iSDbnQjiM7CiZPG8o3guLIIED2PJY+5F8mQ==
-X-Received: by 2002:a05:600c:3550:b0:414:6211:14a0 with SMTP id i16-20020a05600c355000b00414621114a0mr3854252wmq.2.1711828195407;
-        Sat, 30 Mar 2024 12:49:55 -0700 (PDT)
+        bh=IsNJgKamHqNuLGNVWu9ddLUl1Ncqtm7rSn5kGPjfhAg=;
+        b=PBPFlytAnS5sNEsEagU4baXrsb+rLaqTwVSihhJJzLEWCZJQZAQWC9RwSZbTpkjDAX
+         pNyyyanZYQrqkb20jrkBbAgpT9QMgeCSmsN8zGWtiNG0PkJnPF2zci11YBdRqHNHOedr
+         4Yh8IadnYTWFlixnJshrbqKIcd/NQApmwCu84Nfy7b65/l4T3TT+OypdXqTRnZGalVxt
+         9n8PuZKhgZLSIt5IVazNEuUZx42VPDYP3Vq7NdiOvFuXYF9iPhte4nhN1TFYCrfrHY8e
+         UqLL3pUQUr7L7FxmB0qYcTkGQtkDbm3b3dI9dytshrrMfCG6RqUMnxnl7iF4qJfAcugL
+         c/MA==
+X-Gm-Message-State: AOJu0YwMqLFESILkL9UR7Zw50gV7W0O9brKRjrzzDIzmmaJU9wiCav7g
+	e5PW8krNGcjJ73x1srMbWJEKs3f2cfC5xL6zBZM8kl71xAN1i/QGMjWgsA+4sEr4UsPMcaKlgyV
+	m
+X-Google-Smtp-Source: AGHT+IH0guaC7prUM+RXr7HbqGAqDBBwq69TcKrnmar0p1wAyp/wJrBQZNUBYBffmmIT+Wrf7xWoRg==
+X-Received: by 2002:a7b:c408:0:b0:414:66d:db7f with SMTP id k8-20020a7bc408000000b00414066ddb7fmr4569506wmi.10.1711828196656;
+        Sat, 30 Mar 2024 12:49:56 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id t14-20020a05600c450e00b004148b9272a7sm9571616wmo.0.2024.03.30.12.49.54
+        by smtp.gmail.com with ESMTPSA id t14-20020a05600c450e00b004148b9272a7sm9571616wmo.0.2024.03.30.12.49.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Mar 2024 12:49:54 -0700 (PDT)
+        Sat, 30 Mar 2024 12:49:56 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sat, 30 Mar 2024 20:49:47 +0100
-Subject: [PATCH 1/2] firmware: coreboot: store owner from modules with
- coreboot_driver_register()
+Date: Sat, 30 Mar 2024 20:49:48 +0100
+Subject: [PATCH 2/2] firmware: google: cbmem: drop driver owner
+ initialization
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,7 +64,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-module-owner-coreboot-v1-1-ddba098b6dcf@linaro.org>
+Message-Id: <20240330-module-owner-coreboot-v1-2-ddba098b6dcf@linaro.org>
 References: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
 In-Reply-To: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>, 
@@ -72,84 +73,44 @@ To: Tzung-Bi Shih <tzungbi@kernel.org>,
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2497;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=680;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=TIu+fFC9OIBUqLhyjsNVKzlA9djiX3m9wVSM8WIu9w8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCGzfCLQFtVOOBVw9RS8kjhS/ktWi9RX6tGHLH
- B1M1vrcySaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZghs3wAKCRDBN2bmhouD
- 13efD/wOaEE00AsxqMuQTxYQvvwpCS4Wl7IHVIiBVjJjzGFYdW8ZhAkEYGt3rYTwNg0rB8EsIFB
- 8xWTMiJeNEd6m72hCAO2lLnQxdSDEhZtSvU3izurHwYNEfngE55o4sBGy+cb2zVUnwzfP5iFf+V
- 5U6rGmBjv610XpHYXXwA3E8r2T9cWn04IywsvNatn7VCNx/UHWwBIXVGqqTNixJ3xLKW7J/m8VQ
- PsCkgGjbBETd4vj67u5outYTpYjrTGk8CogmrjbZr/D4XHoToQ4g2WYwWsIaQUVpDbOqNKLTVDt
- iDJspqaUheHvV9yeAGi0Y+o20bCdK0dHayrWw+1EkKquO8gGTrPBhSZyR1FZPzJ/tu70TNZA/sE
- nIxT7GHmfXdpV64tPZ+Jy6JIg9N3BG+U9uMSKlgGSzvqOndHEfPJP5SAQmVeEw/CistU6Ww4wLg
- +/qEMeQurarEOgJ+ZzBizO6HGBJZHb2886o+KAhBhVt9O1oYNxed2SGZvDrMVRoR9Jsdk5WtCWV
- meRv26AzE6FMYCObhmRk8p0NNxjMYwX2VsTIFO7NWyijV60fts7WcCP8amlH9Q2SobSiteO6BzG
- lYUfT90vr+plv+1wQVe5S4jp3fg/vStCw5NUXjbAXAQSz+LXI/SQSeZkfjjNchUIOD1T9dbf1Dv
- eaceSf2fd5NSdyg==
+ bh=v3LCWHdD6COiKx5GT1EpzgxmaPTkJTQwaRwt2hz8Q4w=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCGzfNRl5IuxePlMuY5U33wD5kTny95qVok2oN
+ 0L21+F7fUeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZghs3wAKCRDBN2bmhouD
+ 11WuD/0S022EzzJMKz4FhiEqd1VIJULYBr0mqEFtt0/IGU/WlxdkuvFrYU3zO81ZpV2lAkqDAW6
+ /lrpmMotoGu6Vng8BQJp4j6YjTjg86LRu6Ikh0WVfj1ERINztCMxCeudLqVdA5Msj9/r4iZTsuS
+ IoPyZ42ryJ8aaCsQ006ZTxrqqsV0wY5LHUihrgdNvAP95UMq5Lg368n8WkMSpg8OuK2N9xrdsPK
+ P86oqq7CBULlpmHJ5cOTjiRHVAA5oTgV/uCygrsMQDLuwmec4lLMPvEHw7ylFsZqmesz2ZXqItm
+ hiA5UpM7orfPLZUhxva0nHHThwdW5kwajm7jh1qDG1eJoXJaDsJQWdOGrNKcRSs12VayXjEo3/o
+ /FQPyeA48qigx8SiLgQo7KvUj2y1NvfCrDmtyCznNIFiMuNSr6OjMjwmal6hWD+qHA+e44SYmAT
+ yonEaUTu8AtJSdcPrS2fJLhTFKneWqGIoNS7ALi+aM2rutak+D8/VMui5MB3QGf3B5egps9HytD
+ YDYvSJfasGXmc4JYAbBncBf6R7y/xDyS1+pc23r6+ulMq8E2O9UgkTjElb4mhomxEc7hPTp+kF7
+ P/1DSYezjq6QOTTDqHLyrhL/mDx05rppzxvAPVcjFO5ejq/sO05VWkZuRtycr8pqDgdGwY8+MRg
+ +LLhsYJGTBAe3lw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Modules registering driver with coreboot_driver_register() might
-forget to set .owner field.  The field is used by some of other kernel
-parts for reference counting (try_module_get()), so it is expected that
-drivers will set it.
-
-Solve the problem by moving this task away from the drivers to the core
-code, just like we did for platform_driver in
-commit 9447057eaff8 ("platform_device: use a macro instead of
-platform_driver_register").
-
-Moving the .owner setting code to the core this effectively fixes
-missing .owner in framebuffer-coreboot, memconsole-coreboot and vpd
-drivers.
+Core in coreboot_driver_register() already sets the .owner, so driver
+does not need to.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/firmware/google/coreboot_table.c | 6 ++++--
- drivers/firmware/google/coreboot_table.h | 6 +++++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/firmware/google/cbmem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index d4b6e581a6c6..fa7752f6e89b 100644
---- a/drivers/firmware/google/coreboot_table.c
-+++ b/drivers/firmware/google/coreboot_table.c
-@@ -85,13 +85,15 @@ static void coreboot_device_release(struct device *dev)
- 	kfree(device);
- }
- 
--int coreboot_driver_register(struct coreboot_driver *driver)
-+int __coreboot_driver_register(struct coreboot_driver *driver,
-+			       struct module *owner)
- {
- 	driver->drv.bus = &coreboot_bus_type;
-+	driver->drv.owner = owner;
- 
- 	return driver_register(&driver->drv);
- }
--EXPORT_SYMBOL(coreboot_driver_register);
-+EXPORT_SYMBOL(__coreboot_driver_register);
- 
- void coreboot_driver_unregister(struct coreboot_driver *driver)
- {
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index 86427989c57f..bb6f0f7299b4 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -97,8 +97,12 @@ struct coreboot_driver {
- 	const struct coreboot_device_id *id_table;
- };
- 
-+/* use a macro to avoid include chaining to get THIS_MODULE */
-+#define coreboot_driver_register(driver) \
-+	__coreboot_driver_register(driver, THIS_MODULE)
- /* Register a driver that uses the data from a coreboot table. */
--int coreboot_driver_register(struct coreboot_driver *driver);
-+int __coreboot_driver_register(struct coreboot_driver *driver,
-+			       struct module *owner);
- 
- /* Unregister a driver that uses the data from a coreboot table. */
- void coreboot_driver_unregister(struct coreboot_driver *driver);
+diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
+index c2bffdc352a3..6f810d720f4d 100644
+--- a/drivers/firmware/google/cbmem.c
++++ b/drivers/firmware/google/cbmem.c
+@@ -124,7 +124,6 @@ static struct coreboot_driver cbmem_entry_driver = {
+ 	.probe = cbmem_entry_probe,
+ 	.drv = {
+ 		.name = "cbmem",
+-		.owner = THIS_MODULE,
+ 		.dev_groups = dev_groups,
+ 	},
+ 	.id_table = cbmem_ids,
 
 -- 
 2.34.1

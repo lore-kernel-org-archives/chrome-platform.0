@@ -1,52 +1,52 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459FD2BD00
-	for <chrome-platform@lists.linux.dev>; Tue,  2 Apr 2024 07:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4D62BD1C
+	for <chrome-platform@lists.linux.dev>; Tue,  2 Apr 2024 07:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712041882; cv=none; b=aSIEs+3Y2eOpEor6DMzDIGCvv/5+WbYoqcLdjMLxHfvQQgZN1J9+YlnL/qO9XtqVy27iapExTRblepiDDbTHL6VcMBjqO3KftgqZevd5+oF35qMbR25JM2pEU4HbiYoV+Me0lOQEQdCqalz/dOvcGSEPAS5+y8Q3WtIs/bRhlUs=
+	t=1712044448; cv=none; b=XX7/YTe/hErFy2GLA0I23HXDxmbDtcorX/DyVKmPlfZ9GZAbnbRbNno6ZH2Tb609lR33nrsftUH9N8393qtEDbNMANOGxF2AsuEf4PXJCCLDfRqgHtQHPxqNdskcuaMo/aTBy2CzzIaiPQqkzajCzI7LX/NeSbOA6u5586s8Xl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712041882; c=relaxed/simple;
-	bh=MQzXPp+oT/1/PFhqEjpGaOh1QP+W+l+TqjkB8HIEYRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cdaKqjWv+yf8EUUsgHnNAWbK/eMPuEpYSmxmM2SQJ5Hnq+ar7UVvqFahB2U4QDthSXdfS1RXir3KrNTig6+SqiSatjI4zGf0OOPdoHLVCoMOUTUfK9tgZ/zOGy8/vwT9R/oQlvB78rvUkl9j6JakKuO6Xw4Uy9qip+ZYuqQyv2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iv3hP4Ea; arc=none smtp.client-ip=209.85.218.68
+	s=arc-20240116; t=1712044448; c=relaxed/simple;
+	bh=VnvZ8USXywiPdli2AFm8g6I1VudpIc6SUGU2k0GmCJg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tPGB+es291ROSxl8j5D82M8QaGT2+QKp1KUy+F9NT3kYkN5AuIMETTKY4ptx09AIBNz91IxbuTzAQr4Zl60xUoA7kx9v0icDsEWP4SusphonNSMUmyPMa+nyv8Dj1NCgjEfvSvcos0J241dd3ddxhRP24pU7lpn02LDn8vpNPcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WBlklyTM; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iv3hP4Ea"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-a46de423039so274604166b.0
-        for <chrome-platform@lists.linux.dev>; Tue, 02 Apr 2024 00:11:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WBlklyTM"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a46cd9e7fcaso615360866b.1
+        for <chrome-platform@lists.linux.dev>; Tue, 02 Apr 2024 00:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712041879; x=1712646679; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1712044445; x=1712649245; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZnIWTbeR2GXQXE2WKV9Ap/wvI2y5jKr9SDTIrGO5fgY=;
-        b=iv3hP4Eao0JnagbxrO0U4rl2Km2QNOqQVUCl6iOsiiXXqJ6TWHZVjmvlvVKlDiWo2M
-         JpJRIzMfhkdt3Y+t0IHM+QdOUfBaMPX4Lxacc0AJn5g0kujOW1AC7b07t5c+x6dgI5wC
-         gYWDCv2eEfZMKy4nMB83Fio4Heq+CWWPqAsXc=
+        bh=S0aDPStcWplmgXtw121bO/EPEa2tJmV5qvIMipnIN9E=;
+        b=WBlklyTMSYKW4sS9VJWej8coYFp90cEiO6WXLs77TOaPl65R+6E2uW5ohlNowIrz9L
+         wGg59GK35uqQUTq681/MQVb9fT8im/79Zh3YFIFeTZc9QyOD4xfuv+Lgrpbuj/FUG1yJ
+         8+RFdQgyjGNA9PKXbwxVsSVcnmBWpDheZ0dz4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712041879; x=1712646679;
+        d=1e100.net; s=20230601; t=1712044445; x=1712649245;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZnIWTbeR2GXQXE2WKV9Ap/wvI2y5jKr9SDTIrGO5fgY=;
-        b=Cl8ehNDHVH0DYAQVs0xnxoQUzeQWFf6NJwWqMcnYwrASnq7xAdiXGlTBnDn//6wKH4
-         bdOk2+LgEl67my7u0ySd2aMtyXJB8s0zg0HIkwIda0GgjlgceTtbaS2WyWcQqogmz6wb
-         r/KKwxfUU7Ye5yydrQmMQb8oSGusxhyi5RSs7vy0aeyVGqSo8+WgUn7kLPEy8xLRPV1g
-         0wq3ueKa5/X3LOWkpuai/2Vna2Lyt8Lt6oynme3ldo9UTQAT36BlODueaUAyGwItR3vX
-         lLZlPEQTiul6ul4hPRubpW1y7Ng/+/m16l6p1eHv+5UidvMaFj1Qkc16QtPaNA3W/S+U
-         99rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+BV2No+0+M/mHImshtWaBz9h+Auh16w4h3Hh2g4fl0Nuaaf1VsIYlN9sb+okO3wV4A/8idTzlldJxiFZ5THi0qccdGpGx7T5efqjFNwnf
-X-Gm-Message-State: AOJu0Yz/BJXBZMsDhCq1XhItEXjREC9DX8OFh2rJvTUbf9MGXDc54788
-	w745L9U8payNhuCgi2LyeEVvldUl7a/exRzkzwPWEQSofJgZ9/3Reflgv8KcXw==
-X-Google-Smtp-Source: AGHT+IGUOjA6NKyVT/+ELVqwwCceZpb+FILLMln0YYk0jw8k+fwEMqxkgdfJr/x+JyjJ3SCGlsnvew==
-X-Received: by 2002:a50:f603:0:b0:56d:e947:dd52 with SMTP id c3-20020a50f603000000b0056de947dd52mr471101edn.26.1712041879594;
-        Tue, 02 Apr 2024 00:11:19 -0700 (PDT)
+        bh=S0aDPStcWplmgXtw121bO/EPEa2tJmV5qvIMipnIN9E=;
+        b=UZhb75rj6NW00TY1bb80ECUAzcA4TDCqr2vI0gogLEPagAM0FN5VDDnYfuH30Jb/qn
+         ph8of+ct7XTEnUgu6v4Nye/e2YB7haURp2XRo2p4gv+BZlmkuC3dg/++QY0bc/2DW+9b
+         5RIQGIQovm+sYracN0ixrzX0vaKLn2SDOMUJ9LXjRf0EsoIh8/RWmgkvtifIFR6y35rj
+         iZLIHHWqSFoIlZJK0Fmfgyd0UXLmxK2YAp2yMDZvyGNhkxCoqXvV9s4RBC5JSbHz554r
+         WvjV5hTQqR7IOyKlhkYEdrsd+Pkq/Lw8zB7gKWEJemztcQDFXTgvdzmilR9eGCHBYnlr
+         Awnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWX34HkfHbhQaAGzYbyRIZfKOfTSG43mx4MPsxTIiDTWcMyoe3fKAoHJ3T5cwFhbPbHzbJ9l4NoDTXRxkz38aFmRpKsilHpvPUnA7njt3qG
+X-Gm-Message-State: AOJu0Ywn05VnEAsorgBHIUlfC0ZlYowDk1jx/6OLCRu73m6eLUdLqWjq
+	wYafUWt741q1BmyRWFRcBDF+bF7IAlAX120qTIFh+vWVwXm9QzyYmo/pIgM2iw==
+X-Google-Smtp-Source: AGHT+IEO3o3WE2Q6ehT7FdVQbjibduradq+vM90LrmVRkZTLj+wI/38lnWD5V3+vj2JRKKZyNZQGQQ==
+X-Received: by 2002:a17:906:795:b0:a4e:8e54:7962 with SMTP id l21-20020a170906079500b00a4e8e547962mr403527ejc.41.1712044445152;
+        Tue, 02 Apr 2024 00:54:05 -0700 (PDT)
 Received: from orzel7.c.googlers.com.com (229.112.91.34.bc.googleusercontent.com. [34.91.112.229])
-        by smtp.gmail.com with ESMTPSA id g28-20020a056402321c00b0056c1c2b851esm6395171eda.0.2024.04.02.00.11.19
+        by smtp.gmail.com with ESMTPSA id k5-20020a170906a38500b00a4761c94a5esm6227359ejz.107.2024.04.02.00.54.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 00:11:19 -0700 (PDT)
+        Tue, 02 Apr 2024 00:54:04 -0700 (PDT)
 From: Wojciech Macek <wmacek@chromium.org>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -59,10 +59,10 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	chrome-platform@lists.linux.dev
-Cc: Wojciech Macek <wmacek@chromium.com>
-Subject: [PATCH] drm/mediatek/dp: fix mtk_dp_aux_transfer return value
-Date: Tue,  2 Apr 2024 07:11:13 +0000
-Message-ID: <20240402071113.3135903-1-wmacek@chromium.org>
+Cc: Wojciech Macek <wmacek@chromium.org>
+Subject: [PATCH] drm/mediatek: Add RENDER capability to DRM device
+Date: Tue,  2 Apr 2024 07:53:52 +0000
+Message-ID: <20240402075352.3147747-1-wmacek@chromium.org>
 X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -72,32 +72,28 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wojciech Macek <wmacek@chromium.com>
+DRM device shall create /dev/dri/renderXXX entry
+to allow ChromeOS VMs to access the OpenGL rendering
+offload.
 
-In case there is no DP device attached to the port the
-transfer function should return IO error, similar to what
-other drivers do.
-In case EAGAIN is returned then any read from /dev/drm_dp_aux
-device ends up in an infinite loop as the upper layers
-constantly repeats the transfer request.
-
-Signed-off-by: Wojciech Macek <wmacek@chromium.com>
+Signed-off-by: Wojciech Macek <wmacek@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 0ba72102636a..536366956447 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2104,7 +2104,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 74832c213092..afa4d6391b08 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -585,7 +585,8 @@ static struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
+ }
  
- 	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP &&
- 	    !mtk_dp->train_info.cable_plugged_in) {
--		ret = -EAGAIN;
-+		ret = -EIO;
- 		goto err;
- 	}
+ static const struct drm_driver mtk_drm_driver = {
+-	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
++	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC |
++			   DRIVER_RENDER,
+ 
+ 	.dumb_create = mtk_drm_gem_dumb_create,
  
 -- 
 2.44.0.478.gd926399ef9-goog

@@ -1,57 +1,57 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B91156227
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Apr 2024 23:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAF9692FC
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Apr 2024 23:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712186722; cv=none; b=uj6uTze2ZHF5R3gK4xg+jvhYMO00UuhROHmYaJCLlR6IhtEWOxc1AQwATB0L/Cg+o53FYiNgTmTKk1KRMx1uZXhKWYJdIiU++LO4dcD1gR3yptrsweX3gyd6AYyM6mWqE6rzSN7316vVhlHKG7ZwAj7vSBZePrgopEofRm+pAU4=
+	t=1712187622; cv=none; b=ZvNY+vBA3a4fF89D2KcpCW5+Ug+Vcw7s9de/6AKd5i5X1shtv9RfX2dsuP9G7ojvkzwehLT59YG8OaZ3KyG2S/fqPwdyRgF/hMFypaO8D1jKZYXM/kHFowCs3PhJTxxJPhSDhgBMpEegPBWrLmhn959ppLgtTqKddhpHIkGLhQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712186722; c=relaxed/simple;
-	bh=g6fVvKpnwOKmHBwq9HLx5kkpz97Xf9qDUJj9TG+sEww=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=mDi60u0i04ClE3XFPKh0dnuNMETEh3XHlZANYO2+05txuyzaJLGtb+oA/VFu740rCoBVKe07llM8CTWUsHjJH7eYTcdMt5K9tfaetAqKzKddTV6/q9G+OOT2nlu0dayH1EB6UYw58Bm7nSygPqrqoUioLAhs44dQ3BYUM9ec9qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=BJAPhLKP; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1712187622; c=relaxed/simple;
+	bh=8xTUu3dwxTqXsksW9NQtursV2TMUFXuwS0L7LKrQoSk=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=iliHpMiM8Bfly+ImZZBCnBNMvblWBvZFw8B8da+ywr/OXG5NbXs/YIbAstJISqAhAiLlm/goUC8Y1iwQlZsf6oSIkLoy4OEsdaGe1Fze5yirYTRqEFiGY1EhMZr7RoOXW2jC14Mua0hnzu63tH2NOuOlf+nHsAPZwHDGrOPvjLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=RWi2L+kY; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="BJAPhLKP"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2a2c85b7dc5so214831a91.0
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Apr 2024 16:25:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="RWi2L+kY"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e0d82c529fso3632075ad.2
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Apr 2024 16:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712186720; x=1712791520; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712187620; x=1712792420; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mzFSP/1ecFaTQIO5UZcAcUIDS6wwJBCwCrE1XHd8L+M=;
-        b=BJAPhLKPV9BclmmzQiQx2VOBLtnlc1UT82NGg7VrYofweg3yhKHjJoho3iOClxQR3c
-         pV30TdUvfjPt+zlr+74MI/InCCTGXrYqPJPbRQmr5MJqgMNiOnQpg+lxSFlFhocusCy8
-         3aKp2cz8xW1RzLXjm0RDTR64Blvrs5nz/vZ//I/u+PsLpQ4kqdo6FAYGg34oU3xJkHSX
-         fg/yFkqYKAVWCEs8IS6IjiZ5Ku9d617wGb+vVlVTlndP832CXfqskmMbkHdXJ2p3NKSH
-         ycmfCvu7nZXPXPpUuFOypml8mahj9d70OQ2aqaMQmzkhBjegBiB4GyohSZF2w53fPCAr
-         cdJw==
+        bh=r7AUXpjJu5R6EE3dn9PuHd2bXcH+SH57OHiAt/fdePs=;
+        b=RWi2L+kY4G39dMmaMabIr54/WA5nvNUXa/1yHp5tac+sDJmMc9EduvNi7y7EUmGfHK
+         kyqVkzoBzV2dS0mQhnAbQh/cuSOpwdcym0Ezpa7a1fTs8ABpDD7KpxrmNSYFzM/7b/LV
+         VEi8SAkg4/zEmZp04oFjSabUg06vThPZvmFbn7DEvIHUX5VRzkk+pUSD+mxSXyoJfmUx
+         A+DOfIUK4Yc+Dlp6V2WdxTZ28GlYM9j1dOF+byCfQBsifki0qLYBuv+Fs+5JShTc4FGA
+         o8ypRTxxSYQ3Wr2qkE1LaXOppLHiFs+v7JsCZ+trUj+0XwO5DBlm6pt8ZS3CO9oP0abG
+         55Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712186720; x=1712791520;
+        d=1e100.net; s=20230601; t=1712187620; x=1712792420;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mzFSP/1ecFaTQIO5UZcAcUIDS6wwJBCwCrE1XHd8L+M=;
-        b=Yeb6hggiZreHovucuZ30B8WF7GIApkI+1g8H2iW03h/oYazpwUJY3sSQDX2ctdym7b
-         PWm1fvW1u62QLetLcImz4P8K3V5E/8m6mVG629kONXu8LMGTwqtcd5cEyN2P5iFJ4XqL
-         dAfUi0X9EZYnUUQ9tPvYpgRj/xmUTMSYm5d8eU9xejUM727nSX7odlHUBm8RzDkHj6ce
-         FnRnS9GFRuTWfBwR8GDJDVxA4atHOH6AQ+GXZRb5FfRdKEbbHEm2RcN1PoLGiwMbiNMz
-         IojNgkEr4lPpbhC3yTrv+cFz2c7F0MWaoAyczGKOpIYCgI3ZTpY7SteJKVKT+EV2uG+f
-         Ny4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWGYsnAA8pPaRcGPSw5RF/P1gd3oIK/0U2c4J7JW+AkL4auS3RLWHqbQc2U3taScjjx5tvNRFt4OscuhQQQHcnklhtL0EYs12e7B7Hu5ehl
-X-Gm-Message-State: AOJu0YwEcji0ko19DZ5MoSsspQ0e9tMEaN5Dha6Qo9ES9BQ7uUfVXGRQ
-	EV3bMQGYjXCTXSoxu99Ja8QxiXC6/9CLw/OcfGdY0Shbdc8JBZgqivb+4VE3AT8=
-X-Google-Smtp-Source: AGHT+IHvEwcM0+7ezAPgKs/hpdOo6Z/YbWJEQrQjTgoyjuYB0ZQctMCZkS4oIfB7mYH/0MprsbDRsQ==
-X-Received: by 2002:a17:90b:4a88:b0:2a2:6c60:cf88 with SMTP id lp8-20020a17090b4a8800b002a26c60cf88mr1111010pjb.36.1712186720523;
-        Wed, 03 Apr 2024 16:25:20 -0700 (PDT)
+        bh=r7AUXpjJu5R6EE3dn9PuHd2bXcH+SH57OHiAt/fdePs=;
+        b=XBH+MmHbHJ+RVwCU4pb/HOs6A4wGlm3LNJe59ngdW0FXtlOutOsZXM5goRKxwman4W
+         DN7KHQonTiVEOMtXzby91LPdTNdzIF7Qoi1kfA4IfznQyP/yNzYgERd2YNLCdnOlYZ5e
+         EvNr7dAp0OdTIknCQwdVITHQPBsKobPT8Of59+dlOVSkwdqD240tucHDQ7NzpkKi13Dj
+         c7W3Qi/PLyZy6RIP5wzt1hvN9eq+QmO84f6zSBiFu24jxzi7kOdtahWvGC6sll+jsw3g
+         wwN+D82jWQ0ZQlp2Yep2i5I1q9I28hbwJutNiWg+Q3rx4YVfwHnEy2zu4LBmOr1YFI99
+         Xd6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWoqh4FQDjV9qV9jK5p8JzzcvSlFuznUyO2DsgvA7LVghjXAR6jcEIjvJpkFQgRK8jA5CGpDXf9ALvDiIPj6K0dNhup4OpJLugm8KOoPvlD
+X-Gm-Message-State: AOJu0YzdVh1I3+L1th3e41CT6ohDLh9fit1OZy+dqMlMCUCNOLACia4r
+	G5V43WoSn/s34EOSM/8KKo6qGkrSWYeweo+DMjTh6xx/cQcd/5tgw6X1VQlzioU=
+X-Google-Smtp-Source: AGHT+IE3PbiUVIih9JePxQXyUC0otNEubmId7YFOAlKKsC40mC8wZaurietFFcS0UhZQPF+x9iRakg==
+X-Received: by 2002:a17:903:204d:b0:1e0:e2c2:5712 with SMTP id q13-20020a170903204d00b001e0e2c25712mr629486pla.3.1712187620288;
+        Wed, 03 Apr 2024 16:40:20 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id t17-20020a17090b019100b002a2317c387asm252716pjs.28.2024.04.03.16.25.19
+        by smtp.gmail.com with ESMTPSA id p16-20020a170902e75000b001dd7a97a266sm13881615plf.282.2024.04.03.16.40.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 16:25:20 -0700 (PDT)
-Message-ID: <660de560.170a0220.28f03.13ca@mx.google.com>
-Date: Wed, 03 Apr 2024 16:25:20 -0700 (PDT)
+        Wed, 03 Apr 2024 16:40:19 -0700 (PDT)
+Message-ID: <660de8e3.170a0220.57fd5.76b9@mx.google.com>
+Date: Wed, 03 Apr 2024 16:40:19 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -64,37 +64,31 @@ X-Kernelci-Branch: for-firmware-kernelci
 X-Kernelci-Tree: chrome-platform
 X-Kernelci-Kernel: v6.9-rc1-2-g7f20f21c22aa2
 X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-firmware-kernelci baseline: 74 runs,
- 3 regressions (v6.9-rc1-2-g7f20f21c22aa2)
+Subject: chrome-platform/for-firmware-kernelci sleep: 4 runs,
+ 1 regressions (v6.9-rc1-2-g7f20f21c22aa2)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-kernelci baseline: 74 runs, 3 regressions (v6.=
-9-rc1-2-g7f20f21c22aa2)
+chrome-platform/for-firmware-kernelci sleep: 4 runs, 1 regressions (v6.9-rc=
+1-2-g7f20f21c22aa2)
 
 Regressions Summary
 -------------------
 
-platform             | arch   | lab           | compiler | defconfig       =
-           | regressions
----------------------+--------+---------------+----------+-----------------=
------------+------------
-acer-R721T-grunt     | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
-
-hp-11A-G6-EE-grunt   | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
-
-hp-14-db0003na-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
+platform           | arch   | lab           | compiler | defconfig         =
+         | regressions
+-------------------+--------+---------------+----------+-------------------=
+---------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
+86-board | 1          =
 
 
   Details:  https://kernelci.org/test/job/chrome-platform/branch/for-firmwa=
-re-kernelci/kernel/v6.9-rc1-2-g7f20f21c22aa2/plan/baseline/
+re-kernelci/kernel/v6.9-rc1-2-g7f20f21c22aa2/plan/sleep/
 
-  Test:     baseline
+  Test:     sleep
   Tree:     chrome-platform
   Branch:   for-firmware-kernelci
   Describe: v6.9-rc1-2-g7f20f21c22aa2
@@ -109,98 +103,31 @@ Test Regressions
 
 
 
-platform             | arch   | lab           | compiler | defconfig       =
-           | regressions
----------------------+--------+---------------+----------+-----------------=
------------+------------
-acer-R721T-grunt     | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
+platform           | arch   | lab           | compiler | defconfig         =
+         | regressions
+-------------------+--------+---------------+----------+-------------------=
+---------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
+86-board | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/660dda85226cd75c234c42e4
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-acer-R721T-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-acer-R721T-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/x86/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/660dda85226cd75c234c4=
-2e5
-        failing since 9 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first fa=
-il: v6.9-rc1) =
-
- =
-
-
-
-platform             | arch   | lab           | compiler | defconfig       =
-           | regressions
----------------------+--------+---------------+----------+-----------------=
------------+------------
-hp-11A-G6-EE-grunt   | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660ddab516c25831064c4303
+  Details:     https://kernelci.org/test/plan/id/660ddf15ca4f9171d34c42da
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-board
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
 ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-hp-11A-G6-EE-grunt.txt
+lab-collabora/sleep-hp-11A-G6-EE-grunt.txt
   HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
 ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/x86/rootfs.cpio.gz =
+lab-collabora/sleep-hp-11A-G6-EE-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/amd64/rootfs.cpio.gz =
 
 
 
-  * baseline.login: https://kernelci.org/test/case/id/660ddab516c25831064c4=
-304
-        failing since 9 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first fa=
-il: v6.9-rc1) =
-
- =
-
-
-
-platform             | arch   | lab           | compiler | defconfig       =
-           | regressions
----------------------+--------+---------------+----------+-----------------=
------------+------------
-hp-14-db0003na-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig=
-+x86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660dda87352f6a0f2b4c4424
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-hp-14-db0003na-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-firmware-k=
-ernelci/v6.9-rc1-2-g7f20f21c22aa2/x86_64/x86_64_defconfig+x86-board/gcc-10/=
-lab-collabora/baseline-hp-14-db0003na-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/x86/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/660dda87352f6a0f2b4c4=
-425
+  * sleep.login: https://kernelci.org/test/case/id/660ddf15ca4f9171d34c42db
         failing since 9 days (last pass: v6.7-rc1-2-g09aeaabebdaf, first fa=
 il: v6.9-rc1) =
 

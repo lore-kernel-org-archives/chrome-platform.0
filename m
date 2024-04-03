@@ -1,57 +1,34 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151F7524B4
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Apr 2024 07:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB34D133;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712127672; cv=none; b=DT3UqlA3ilQ/rlz44WRyZ9IUoGDbU+BDaouEGvp8jZZNi1IKOWnEbx8+aoHZlnXI3AYiPHuHey0E6SnmE01/b/SA2JnxZsFlX5dYZ5Mh127pzIyPyPPsBUbd9/oE9tO8iAFNIwXSjTjE1A8wS3yYgDweP2BtgHPstK6WhT4vhDE=
+	t=1712128827; cv=none; b=JBGhuDAR4Bx8juI4iQ+efe/z1ILTtsragkY/T8EGs87IW71saTzaMUflwTZQakXD9bOtWdF492rbYIfZ0xibWYFBhCXFakPRAZ9d0mKPSE9N2uLx6y+OpRGG8kLfGjZTpKeKqZLlfao6d7xjSyK7H37vYzMUS06wTr66W5wwv9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712127672; c=relaxed/simple;
-	bh=F1v+G1l4NuKhA4HXqYqPoqPkhQtXFqM1my7Z08hKQxc=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=hzi68VB0qfdxrNRMz9FgBAsv/SsywwCcHfsCU/rhV8r6I7P30yBJv2exI5pDG5DxgpdbKZBdsZAKMPRFE9IryBS0hhMQSZXwjEhjYfxU+ZeLUZqFtXJkMcLNHNlbxo++uTE701Z8soFw219t+xFcuK2Xi5RzuU+VhzGUJ1m4MYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=TwkYAVnv; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1712128827; c=relaxed/simple;
+	bh=+ye0ANlJ3AJBgvzVY9w5v2SVeZwz8u+XeZZr7JXa8yQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=qwf/I29g+xyF2yR0210oJSAf2vXElfm2SG5PSWyhHvmUP8XMVjCpoB5ewgyuRI2JIzuR6de7RFuLvQ7A+GuX6Ki5NeGnLINgaSCi2qQdxwKi9sfidZBJCSaHOEKYV21GrE0OgWZaEcNmoOkbSMZa6EAnQiepxV6b0SvXx8N4dWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1qg+8I9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="TwkYAVnv"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e2987e9d67so720935ad.1
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Apr 2024 00:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712127670; x=1712732470; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BCOYSGuOUPYcUcaMNZDt5R+x2Zgt7K2Iis0OGuQ+AS0=;
-        b=TwkYAVnvtI2nfCH+MUuUIemRlbzhmhF1OGTVigKcWfs2s43D7Q0YbUIVeYAlnSGkrj
-         Tneuuhdyoa5gLEhjaUjcBieuCKjeKDDLCitrm3zXPYTYh6EX32x8gp66bkmLblxvFea8
-         wUofNoF6sHLe0vZcCA9KttlcpP5PWwCyz6/Qsx3N27sJYvYD57Zuznx0H4o/spGKvoNa
-         0FJO5VecZMkkdbTd63mtQuXHCm5e7iJDSfloF9edYYyXajJUJWyN7kRQL2oKB0YmWMgJ
-         8STUXW1OiDJY+4DP2I33wFsSG7dgUo7gJ9xvUwWGoHeEjlG68jJjtEHS7EWdk+IUpCAZ
-         qDdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712127670; x=1712732470;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BCOYSGuOUPYcUcaMNZDt5R+x2Zgt7K2Iis0OGuQ+AS0=;
-        b=nXNUKDIOnebQxHZtI/gckPLOYlgcKG9hpn428TVfvWrgCEyTl6W25CncogqA+QVgp5
-         glQRbyNK4XesGCZCtiZ8+Z7gj0fbLkfyhkteUQ7Anej9D26f4ONQ2wYPMCQhNs0NZuLC
-         ZHTZn+16oUvxr6AyQ5udeucwYx7f/v00dXmBWZMcWtcXW30dD++dFt7uyFytlPLx7KA8
-         37tC7+I5ckYcrf1NsY29F/17W0Y15MHRuAOD5Y+YqFYS0aufnq0XaWKARdgSel9BKTXr
-         XnnotR+C3bAT7ALD5TpGSey/4lKvxotPiPfiCAU+WRBU2qJ06NPLr2L3K9+CYxQGl9TQ
-         vIDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvwZfVzl4qV4gGfaY+Jx1mC9a0lZ8uBMdg6QWLjY2/CDWK0cTRYKl6bDDE/T4DsMjEbrz4QpQHu33WLlydhzTPxHDqQVx+mQSWdMI9QSIv
-X-Gm-Message-State: AOJu0Yxr1dT/xOOTd+uFsPbxR3vX+HGviee6kFHWd1Os4paBylF3JLk/
-	UaIqxj5K5l4i2nGzQsj3M3fj5cpXlu15h6c9CKfiTBnyfGIF24KA/Ec/DAxYYkg=
-X-Google-Smtp-Source: AGHT+IH/eushPhVHkxd1zSctvg+zUhCyLIlFO4n4oR310R/911AgtughXwuXc+HXab5EasEIb3dmoA==
-X-Received: by 2002:a17:903:181:b0:1e0:e85c:72dc with SMTP id z1-20020a170903018100b001e0e85c72dcmr2290346plg.19.1712127670234;
-        Wed, 03 Apr 2024 00:01:10 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id w4-20020a1709029a8400b001d8f111804asm12386006plp.113.2024.04.03.00.01.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 00:01:09 -0700 (PDT)
-Message-ID: <660cfeb5.170a0220.5f784.138c@mx.google.com>
-Date: Wed, 03 Apr 2024 00:01:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1qg+8I9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D27DC433F1;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712128826;
+	bh=+ye0ANlJ3AJBgvzVY9w5v2SVeZwz8u+XeZZr7JXa8yQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=D1qg+8I9Meq1gWuzmyCbX4jtvHi/dBLn4GGYDCLGGaZs5xp4Auq/NFEyxa9Ph1o1Y
+	 qWhiXcwxf9NG6v6l07IIjI04GUqEipwFVgZEx32tIE7ukfO5Rz8brl4g1jGgb4hgRL
+	 BfdtMRJlaaVKkJcJVJ1gTiNSOI/3YheE6wOjqa8WJWHKtbKdEktsWcAn6BRvtquMVH
+	 wXOsnXakNmxTnsw9IHakAhf0Rhms220TNXHv3673cZaVCMJWRFaP0Uv48mizJD97va
+	 VLz/8a+/ebY1NU1scfuRGM8QriPQtqgMJ9iHLCQNfYjYEqIisdiiEF/P2GoHLWAY6a
+	 VYjN8k6uUcFUw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C2A0C43168;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -59,142 +36,79 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc1-14-gd8db2c6d7b0e5
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci sleep: 8 runs,
- 2 regressions (v6.9-rc1-14-gd8db2c6d7b0e5)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/18] platform/chrome: provide ID table for avoiding fallback
+ match
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171212882630.6261.5572341363969592219.git-patchwork-notify@kernel.org>
+Date: Wed, 03 Apr 2024 07:20:26 +0000
+References: <20240329075630.2069474-1-tzungbi@kernel.org>
+In-Reply-To: <20240329075630.2069474-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
+ alexandre.belloni@bootlin.com, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, linux-gpio@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, krzk@kernel.org
 
-chrome-platform/for-kernelci sleep: 8 runs, 2 regressions (v6.9-rc1-14-gd8d=
-b2c6d7b0e5)
+Hello:
 
-Regressions Summary
--------------------
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+On Fri, 29 Mar 2024 15:56:12 +0800 you wrote:
+> Inspired by [1].  Turn all MODULE_ALIAS() in ChromeOS EC platform drivers into
+> proper platform_device_id table and MODULE_DEVICE_TABLE().
+> 
+> The series is basically looking for drivers from:
+> - `struct mfd_cell` in drivers/mfd/cros_ec_dev.c.
+> - grep -R MODULE_ALIAS drivers/platform/chrome/.
+> 
+> [...]
 
-mt8173-elm-hana    | arm64  | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook | 1          =
+Here is the summary with links:
+  - [01/18] media: platform: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [02/18] gpio: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [03/18] rtc: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [04/18] platform/chrome: cros_ec_sensorhub: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [05/18] power: supply: cros_usbpd: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [06/18] platform/chrome: cros_usbpd_logger: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [07/18] platform/chrome: cros_usbpd_notify: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [08/18] platform/chrome: cros_ec_chardev: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [09/18] platform/chrome: cros_ec_debugfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [10/18] platform/chrome: cros_ec_sysfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [11/18] power: supply: cros_pchg: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [12/18] platform/chrome: cros_ec_lightbar: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [13/18] platform/chrome: cros_ec_vbc: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [14/18] platform/chrome: cros_kbd_led_backlight: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/d91ca83599cd
+  - [15/18] platform/chrome: wilco_ec: telemetry: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [16/18] platform/chrome: wilco_ec: debugfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [17/18] platform/chrome: wilco_ec: event: remove redundant MODULE_ALIAS
+    (no matching commit)
+  - [18/18] platform/chrome/wilco_ec: core: provide ID table for avoiding fallback match
+    (no matching commit)
 
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc1-14-gd8db2c6d7b0e5/plan/sleep/
-
-  Test:     sleep
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc1-14-gd8db2c6d7b0e5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      d8db2c6d7b0e5ca5e64c747236b2464d0c1661f3 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660cf25777b4ece70b4c42f1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/sleep-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/sleep-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
-240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/660cf25777b4ece70b4c42f2
-        failing since 9 days (last pass: v6.7-rc1-4-g57eb6dcd32cf6, first f=
-ail: v6.9-rc1) =
-
- =
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-mt8173-elm-hana    | arm64  | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660cf1e26d82fae0fb4c42e7
-
-  Results:     22 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/sleep-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/sleep-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
-240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-mem-1: https://kernelci.org/test/case/id/660cf1e26d82fae0=
-fb4c42fc
-        failing since 9 days (last pass: v6.8-rc1, first fail: v6.9-rc1)
-
-    2024-04-03T06:07:02.481812  rtcwake: assuming RTC uses UTC ...
-
-    2024-04-03T06:07:02.487740  rtcwake: wakeup from "mem" using rtc0 at We=
-d Apr  3 06:04:13 2024
-
-    2024-04-03T06:07:02.493905  <6>[   26.225514] PM: suspend entry (deep)
-
-    2024-04-03T06:07:02.498805  <6>[   26.229764] Filesystems sync: 0.000 s=
-econds
-
-    2024-04-03T06:07:02.503505  <6>[   26.234630] Freezing user space proce=
-sses
-
-    2024-04-03T06:07:02.535713  <6>[   26.263491] mwifiex_sdio mmc2:0001:1:=
- info: FW download over, size 717068 bytes
-
-    2024-04-03T06:07:03.295875  <6>[   27.025999] mwifiex_sdio mmc2:0001:1:=
- WLAN FW is active
-
-    2024-04-03T06:07:03.301287  <6>[   27.030060] btmrvl_sdio mmc2:0001:2: =
-wake by bt
-
-    2024-04-03T06:07:03.312149  <6>[   27.040302] Freezing user space proce=
-sses completed (elapsed 0.801 seconds)
-
-    2024-04-03T06:07:03.316439  <6>[   27.048096] OOM killer disabled.
- =
-
-    ... (13 line(s) more)  =
-
- =20

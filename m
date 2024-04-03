@@ -1,175 +1,97 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0F355C29
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Apr 2024 07:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6777317F
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Apr 2024 10:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712129471; cv=none; b=St/E0J+mbzJh4GdVJjZ8agxNEiul44XlrHfr16GECaMhu2ve/j4+6FtE4g9AXJ4OfxATOofbBGGQd+je5Re3yX7jCjoJKVrB7RlWr/Pi93gP7QBbtgfUqj6jxBWUHnxLtBdpgEHTA4q1Oe9uYUmOmyengQlXvz0dqW8j9h5ry2k=
+	t=1712141710; cv=none; b=l7e304d1JApOCbahv3In6+mb/HU55RAeNUAsaMpmdILjhu1dyE8tIxHaVXjInTIaav7DjkqggkSkRxUBZX7t7IcoQX1+pxQwn0cLUR0fKeTt5rA1kTFVVuW5XfEIiEfuXmyxNyX1QusvKV/ogi9Sbr0eYiIWi4p3Hy5xOVYMcxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712129471; c=relaxed/simple;
-	bh=3a57SLQUhKKYFXglscrRue/37hzqXjY4Gn+8J/Q97Jo=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=cpUyrl1TknUA6YuSAesKe3WE6yftu4C/djvDauDPFXXOi3rFHGxW+epJMd8eGYLqDJhBM9WTJgrTGmv5xcpsbqfhaEg2mXA1Q3wBQ984gv1cbTpnvhk5J5ni5koJp9QPnP4PZTjCFqufqynT8ZZzriYk33N2+NJuDT6KKArA52Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=rZF6vl/Q; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1712141710; c=relaxed/simple;
+	bh=+zEzKaMWhoPEdYiBNRyCWeVk2M3rTPfRQ1A8hK2rdsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kLpOEzrwSAR/hXDQyivWVAgrudhpCesQ5XroqNuhoymBfwi5wbc/sCPimlaeNpS7H6ItlhDMAIvnwC4hKO9yHe38KiQ7kCfitJ+YcH11VMarvp+sGuWw2VbL6SdT5qDa86MuD24c/EklnKzWqeClIAbaaeV4jF4mWoWzDIDf1kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djKPriSZ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="rZF6vl/Q"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1e0bec01232so48479755ad.3
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Apr 2024 00:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712129469; x=1712734269; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xtlQB6M036FR0pedBXoXk6U80iTRFuBXdfkLGO2xmlc=;
-        b=rZF6vl/Q8ha/BnNn7tOnVUr2uCjX4wzOVOi5kHx6+5fEzQmj0gjXclIv6N7nHXHccX
-         GvBnvItwSANAX8HuCCbbC4fenG53+1gbII2EmlYJDYKXw+Jal0V01xV0Ouwx2G1EC5+W
-         8ImxA1i761Sf7k5W57Xb9hVUZD6/A7dn7PTSTfTYCW2o8HapFLmjw+mhOjvrg2lqo3Z+
-         4Fl0P7k2U5qfIc+KZiaDU04cCzdoc0O8P5sbcwS1poeblS+Hzajn7CaBGExcpCF9b8AU
-         hLgyzyQZ4g5tyc3sxKVHY+mzO11q3H+Rq8LGiTdsXkYo0aNQkwRI0Q+z0BuayhR/nWYc
-         dNFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712129469; x=1712734269;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xtlQB6M036FR0pedBXoXk6U80iTRFuBXdfkLGO2xmlc=;
-        b=mOy+j55rz/nnhko/h3dFLf6Up+BTdF/3j4V6RXcw0fLuRbEDPO707soO/1EonLK/na
-         wZzY+qWGfqba7lY2A2CkzTzo7abrS8ulUnQHpZ5YYo53ATGOfFmlydYM8ClPu2e/R9U9
-         6qkiyFm1M3U5xidHJJCImL12QAzIesyXVqaz6Hfr7WGWlSeLndM3vjianFwZdxKwOFbl
-         kx37e1EN2nfFntMO2SO1qjzwxvwghjtbIhIkjbZZEldWWbehc16HnuLgKzP+Ao7C3dfh
-         HsbzEl7QEAukuGiQRiYCUwEsW54dQb2jIsh/JnvEgtVC6blsrEHVbvHciwu8R6mytFF2
-         g6dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIBWCrKzDrre/VoETNm8XmwAVE70x0LzG1lyU9htgC63Y7/ikyd+032OOCnvnKjMctP30LlL7jMB0JpnsACzD4gUBkufK7P6nt/bYwPbnm
-X-Gm-Message-State: AOJu0YyGV7xkhvo5KcOzmevH0+5WAlTiU1v9wlmyxCX5zmBYBPiUZz1q
-	h06glevf34FQTtuBJqk6ENX03Ey8klQvH+WNDV+UuEt0cK3wDUSk0GCCAsXhXjY=
-X-Google-Smtp-Source: AGHT+IGxoonVvQuQqM/HqQbbYC/suXl73be738GWwiBePiTWI10e1IQEashf33wztkkM7MTG6DBojA==
-X-Received: by 2002:a17:902:f7cf:b0:1e2:8669:74f1 with SMTP id h15-20020a170902f7cf00b001e2866974f1mr2646887plw.33.1712129469572;
-        Wed, 03 Apr 2024 00:31:09 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id l7-20020a170903244700b001e2619b7a97sm3538905pls.275.2024.04.03.00.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 00:31:09 -0700 (PDT)
-Message-ID: <660d05bd.170a0220.265f5.c575@mx.google.com>
-Date: Wed, 03 Apr 2024 00:31:09 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djKPriSZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712141709; x=1743677709;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+zEzKaMWhoPEdYiBNRyCWeVk2M3rTPfRQ1A8hK2rdsk=;
+  b=djKPriSZ85bWrtIQVgTn40q+137LZpBxNseata81QB5bdGWq+fdb4+O+
+   pUz/0eD6WNcAc4OEWdm/vUHZMxnCoBVw9+tkrjl4ahUoe2gFVGYhPxmaV
+   01x3L3gATYoZHr1belxa/8FQbYnPsh1ShmsTaq4yPuuG6RXKa8HvTK3V9
+   Rn6ZgBU45dyuOhELSrAIreitFr5FjkTE9CkphMkXunIoCMxEkFEVPUGKg
+   0wsdlitQo/uWdxvtEIZQxsAGbGWDBqKZK2NMNI88oqRfS+YMt1BgN2Mht
+   4HUb60+AWgkPMrDBHnaWtGQ3awtIm/w8PbpFvw7lXLZ78rFOAGOxClp1N
+   g==;
+X-CSE-ConnectionGUID: 348jgt4PR1mu5kRnBcJUww==
+X-CSE-MsgGUID: 0L27PwVISr2DUHd1YG7piw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="10334238"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="10334238"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 03:55:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="937084886"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="937084886"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2024 03:55:07 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 117FF3E5; Wed,  3 Apr 2024 13:55:06 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dan Callaghan <dcallagh@chromium.org>,
+	=?UTF-8?q?Sami=20Ky=C3=B6stil=C3=A4?= <skyostil@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] platform/chrome: cros_hps_i2c: Replace deprecated UNIVERSAL_DEV_PM_OPS()
+Date: Wed,  3 Apr 2024 13:55:02 +0300
+Message-ID: <20240403105502.558351-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc1-14-gd8db2c6d7b0e5
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 9 runs,
- 2 regressions (v6.9-rc1-14-gd8db2c6d7b0e5)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci cros-ec: 9 runs, 2 regressions (v6.9-rc1-14-gd=
-8db2c6d7b0e5)
+The UNIVERSAL_DEV_PM_OPS() macro is deprecated. Replace it.
 
-Regressions Summary
--------------------
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/chrome/cros_hps_i2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/chrome/cros_hps_i2c.c
+index b31313080332..dd14957ec39f 100644
+--- a/drivers/platform/chrome/cros_hps_i2c.c
++++ b/drivers/platform/chrome/cros_hps_i2c.c
+@@ -126,7 +126,7 @@ static int hps_resume(struct device *dev)
+ 	hps_set_power(hps, true);
+ 	return 0;
+ }
+-static UNIVERSAL_DEV_PM_OPS(hps_pm_ops, hps_suspend, hps_resume, NULL);
++static DEFINE_RUNTIME_DEV_PM_OPS(hps_pm_ops, hps_suspend, hps_resume, NULL);
+ 
+ static const struct i2c_device_id hps_i2c_id[] = {
+ 	{ "cros-hps", 0 },
+@@ -148,7 +148,7 @@ static struct i2c_driver hps_i2c_driver = {
+ 	.id_table = hps_i2c_id,
+ 	.driver = {
+ 		.name = "cros-hps",
+-		.pm = &hps_pm_ops,
++		.pm = pm_ptr(&hps_pm_ops),
+ 		.acpi_match_table = ACPI_PTR(hps_acpi_id),
+ 	},
+ };
+-- 
+2.43.0.rc1.1.gbec44491f096
 
-hp-x360-14-G1-sona | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc1-14-gd8db2c6d7b0e5/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc1-14-gd8db2c6d7b0e5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      d8db2c6d7b0e5ca5e64c747236b2464d0c1661f3
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660cf26b77b4ece70b4c444c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/660cf26b77b4ece70b4c44=
-4d
-        failing since 106 days (last pass: v6.7-rc1-3-g59a9ccf19ee03, first=
- fail: v6.7-rc1-4-g57eb6dcd32cf6) =
-
- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-x360-14-G1-sona | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/660cf3ae2ff80e27b84c433c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-14-G1-sona.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-14-gd8db2c6d7b0e5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/660cf3ae2ff80e27b84c43=
-3d
-        new failure (last pass: v6.9-rc1-1-gf7496450528bf) =
-
- =20

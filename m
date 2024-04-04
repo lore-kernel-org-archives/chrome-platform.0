@@ -1,90 +1,192 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724CC82D7A
-	for <chrome-platform@lists.linux.dev>; Thu,  4 Apr 2024 11:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B557376023;
+	Thu,  4 Apr 2024 13:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712230355; cv=none; b=psT7X7Qy+kCUhj510vYpXBJQJRc5LwFYtX6dR8yBjnaUWkK6BOdda1s4Al6bvcO6281U3wSIbJAZ6Ieyx5pEP3EpFEndnQgzeBMzygtBgx9x8qvA6iPirdkVEFjUETyZF+lv0LSA0Ic2N4Q+PtP9lsLEwxcBDAaI1aKisK5T548=
+	t=1712236038; cv=none; b=T6lub8yQWgHVXhEgL8uPvY1tFbwy26Bt0bIRnqVNAR+PGqlvj1hcg0RcEE2j81JdfVODJd5Rv5kU9CUjbHxzJbrnPLs1u4LQTL9i0ZXGOxTjd9cg7inojvYBpEswr5N1V5qu5gBma8scdjps9snWoVq8f2qnagjFL/bWfRiBTRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712230355; c=relaxed/simple;
-	bh=wUwTbBI6FvC+9csBIWb+K1MiF218QWtdW5pK12heMYQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l7UgYg3N45P3rtFrSmYuR0umdwCWxchm3n7jthZUNzJcHS2AJecY9jlPGGXgvF22w9bja4I5pP04VYW9lzsLwyU7+f/qKM/iEuKBFuICDW7l5CKE2kehiKTehWxMfHMnfk5xNA+xg5ZAAzDsBU9MYJ008TfgtfiPGWRcGPqnQzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=THGoHvg/; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712236038; c=relaxed/simple;
+	bh=/WxjYUxiMjvM+15e3/TPZZtRZclGhIY3WqmvhzBts6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZJ3JCPj50C+j+Q+ExVb+IeOHfAC0QNjch+YZ6rRnyC3z4rWUmxuL5XUS7aqSpeVKDAOYghWlaDjotWQtNybOmGO5eFhReBE2MNjQ99Enrxgz/HgjMeQDGWiIBjJErqlvQ2EPe5LYsvbo/YlmCGcgKKt5csTrCGYin2j1qwa4uZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LUm8zcxc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="THGoHvg/"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so987519276.1
-        for <chrome-platform@lists.linux.dev>; Thu, 04 Apr 2024 04:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712230352; x=1712835152; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6hqMPpBRPBNPrxNkvU21NJl5hteTV5S6UOoiZfBhbP8=;
-        b=THGoHvg/N+W+Koh+16P/bRLGPXsfZbYUqZMlu+zU82d+jnvVOsdYeFum1GEN6rriAL
-         +Y02ArhoTTH6DboId3nI7X4IZWkOSXMGmdauwqiZwOU19yr7dZ2li50iIMprCuFqCgHt
-         YeZ+D4PkkZ3RqdWo0hDqvoUMgtodAk3wJFj8w43VG5w35cejwfcSOytA+c3ALQwCFv9p
-         PsrKxWqlfe7P3N06huHqBHQPLOSoqx8gl/sEYMq8w0hg6kvyfITfOGIMvj1EMAF4gdce
-         kA+aKjEUfYSuCS3sPhtapBJuEY2tBm8G+OzHjYycb3Lm/iJc8F+JAVau9aoUnwyPTMJq
-         n0xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712230352; x=1712835152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6hqMPpBRPBNPrxNkvU21NJl5hteTV5S6UOoiZfBhbP8=;
-        b=Rr5xyyD2ki4OFOJP2geYr5HOfFhHQJZPruJV1BFhI8PXzyfq4jfeDkSz24LkksYFrc
-         hjjM6WMkoZuU//CDJ3wL0NNLGyu+7drQoOB5+D1vzQgkmM8p1vInVTs7aAQkAA8oH1au
-         pp+/IOOe539YQExhCgbbyeGdeQrThPZWrvSW/QUKMiHDbx7F6tCs8hrvaDF/RuhlQrvP
-         o/ZHPNYqL4BJFFchfE3XpI6BACe2/a7ujOC5Yv2o4HbyU/tHUTQx8LxNR604Wzoj26MV
-         4lafFgNH3NLIkMEdBe7+aJWAu1kQR//RXCQYmwdNMD1HNAjDbjAxgbUSArWy05fxZxfI
-         sx6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUd7i9+HG/tEOYT9ZHnusg4QM6NFyRi44B5wJys0YQ4rCp3GOb5and2xnNta3KYvAt23wRn0iC2LL8O2oeVWBX6fZFD6W6hIfJtglaghD8Z
-X-Gm-Message-State: AOJu0YzZjPE/tmNgD/SJJ6PDZTkby42SZ88Z7W9MWS24FjQs/Xu+bj2e
-	7bbfpCUKEmmy5cjmjy7im8I1XbvXa7seCmiN7zvXXhx+mHR4aRlU5dCunve1qsQDVVndq4Im5gp
-	qSu5HIhPIQzpXFk/WSOufMzgmHEbzMOUiY14RSg==
-X-Google-Smtp-Source: AGHT+IF8EfX9KQQ1p4iTi06dX8tZK+FXrkWjcL6lXHqjNaEzB+PCWJA7HAgzLCdOea5bBV2RrgagddXs06++gkV4LIw=
-X-Received: by 2002:a25:dfc4:0:b0:dc6:e4f8:7e22 with SMTP id
- w187-20020a25dfc4000000b00dc6e4f87e22mr1960662ybg.62.1712230352423; Thu, 04
- Apr 2024 04:32:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LUm8zcxc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F27C433F1;
+	Thu,  4 Apr 2024 13:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712236038;
+	bh=/WxjYUxiMjvM+15e3/TPZZtRZclGhIY3WqmvhzBts6Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LUm8zcxcIXRKrm7XbOazcjAb3bcda4GG7Zv9PMJSb8cwfMv++1zOWTAPvCiCziLtk
+	 IS+iVyT/JNbDTYpDXkhffcnF1k6/5+G4SsiuF0OMNlezjn5Clhz3r2Rso6nmP1+FHA
+	 /UmjzzZXr/OwtgHMN1fy3HfzEGlr3d0fSoozEB9g=
+Date: Thu, 4 Apr 2024 15:07:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Pavan Holla <pholla@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <2024040449-average-foyer-defa@gregkh>
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+ <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org>
+ <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240329075630.2069474-1-tzungbi@kernel.org> <20240329075630.2069474-3-tzungbi@kernel.org>
-In-Reply-To: <20240329075630.2069474-3-tzungbi@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 4 Apr 2024 13:32:21 +0200
-Message-ID: <CACRpkdYGH27Z3YKN4b1y_ZeagbtYqX1Wo7BXnyKsZ=oH-FoQmg@mail.gmail.com>
-Subject: Re: [PATCH 02/18] gpio: cros-ec: provide ID table for avoiding
- fallback match
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, brgl@bgdev.pl, 
-	hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org, 
-	alexandre.belloni@bootlin.com, chrome-platform@lists.linux.dev, 
-	pmalani@chromium.org, linux-gpio@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, krzk@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
 
-On Fri, Mar 29, 2024 at 8:57=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
+On Wed, Apr 03, 2024 at 09:58:33PM +0300, Dmitry Baryshkov wrote:
+> On Wed, Apr 03, 2024 at 06:05:22PM +0000, Pavan Holla wrote:
+> > Implementation of a UCSI transport driver for ChromeOS.
+> > This driver will be loaded if the ChromeOS EC implements a PPM.
+> > 
+> > Signed-off-by: Pavan Holla <pholla@chromium.org>
+> > ---
+> >  drivers/usb/typec/ucsi/Kconfig        |  13 ++
+> >  drivers/usb/typec/ucsi/Makefile       |   1 +
+> >  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 245 ++++++++++++++++++++++++++++++++++
+> >  3 files changed, 259 insertions(+)
+> > 
+> > diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+> > index bdcb1764cfae..4dceb14a66ee 100644
+> > --- a/drivers/usb/typec/ucsi/Kconfig
+> > +++ b/drivers/usb/typec/ucsi/Kconfig
+> > @@ -69,4 +69,17 @@ config UCSI_PMIC_GLINK
+> >  	  To compile the driver as a module, choose M here: the module will be
+> >  	  called ucsi_glink.
+> >  
+> > +config CROS_EC_UCSI
+> > +	tristate "UCSI Driver for ChromeOS EC"
+> > +	depends on MFD_CROS_EC_DEV
+> > +	depends on CROS_USBPD_NOTIFY
+> > +	depends on !EXTCON_TCSS_CROS_EC
+> > +	default MFD_CROS_EC_DEV
+> > +	help
+> > +	  This driver enables UCSI support for a ChromeOS EC. The EC is
+> > +	  expected to implement a PPM.
+> > +
+> > +	  To compile the driver as a module, choose M here: the module
+> > +	  will be called cros_ec_ucsi.
+> > +
+> >  endif
+> > diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
+> > index b4679f94696b..cb336eee055c 100644
+> > --- a/drivers/usb/typec/ucsi/Makefile
+> > +++ b/drivers/usb/typec/ucsi/Makefile
+> > @@ -21,3 +21,4 @@ obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
+> >  obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
+> >  obj-$(CONFIG_UCSI_STM32G0)		+= ucsi_stm32g0.o
+> >  obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
+> > +obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
+> > diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> > new file mode 100644
+> > index 000000000000..dd46b46d430f
+> > --- /dev/null
+> > +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> > @@ -0,0 +1,245 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * UCSI driver for ChromeOS EC
+> > + *
+> > + * Copyright 2024 Google LLC.
+> > + */
+> > +
+> > +#include <linux/container_of.h>
+> > +#include <linux/dev_printk.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_data/cros_ec_commands.h>
+> > +#include <linux/platform_data/cros_usbpd_notify.h>
+> > +#include <linux/platform_data/cros_ec_proto.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/wait.h>
+> > +
+> > +#include "ucsi.h"
+> > +
+> > +#define DRV_NAME "cros-ec-ucsi"
+> > +
+> > +#define MAX_EC_DATA_SIZE 256
+> > +#define WRITE_TMO_MS 500
+> > +
+> > +struct cros_ucsi_data {
+> > +	struct device *dev;
+> > +	struct ucsi *ucsi;
+> > +
+> > +	struct cros_ec_device *ec;
+> > +	struct notifier_block nb;
+> > +	struct work_struct work;
+> > +
+> > +	struct completion complete;
+> > +	unsigned long flags;
+> > +};
+> > +
+> > +static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
+> > +			  size_t val_len)
+> > +{
+> > +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> > +	struct ec_params_ucsi_ppm_get req = {
+> > +		.offset = offset,
+> > +		.size = val_len,
+> > +	};
+> > +	int ret;
+> > +
+> > +	if (val_len > MAX_EC_DATA_SIZE) {
+> > +		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
+> > +			  &req, sizeof(req), val, val_len);
+> > +	if (ret < 0) {
+> > +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
+> > +		return ret;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static int cros_ucsi_async_write(struct ucsi *ucsi, unsigned int offset,
+> > +				 const void *val, size_t val_len)
+> > +{
+> > +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> > +	uint8_t ec_buffer[MAX_EC_DATA_SIZE + sizeof(struct ec_params_ucsi_ppm_set)];
+> > +	struct ec_params_ucsi_ppm_set *req = (struct ec_params_ucsi_ppm_set *)ec_buffer;
+> > +	int ret = 0;
+> > +
+> > +	if (val_len > MAX_EC_DATA_SIZE) {
+> > +		dev_err(udata->dev, "Can't write %zu bytes. Too big.", val_len);
+> 
+> I think it's better be written as
+> 
+> if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
+> 	return -EINVAL;
 
-> Instead of using fallback driver name match, provide ID table[1] for the
-> primary match.  Also allow automatic module loading by adding
-> MODULE_DEVICE_TABLE().
->
-> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c=
-#L1353
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+So if you trigger this, you just rebooted all boxes that have
+panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
+systems out there.)
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+So don't do that, just handle it like this.
 
-Yours,
-Linus Walleij
+BUT, if this can be triggered by userspace, do NOT use dev_err() as that
+will just allow userspace to flood the kernel log.
+
+Pavan, who calls this?  If userspace, this needs to be fixed.  If it's
+only a kernel driver, it's fine as-is.
+
+thanks,
+
+greg k-h

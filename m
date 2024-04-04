@@ -1,207 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40C7433A8;
-	Thu,  4 Apr 2024 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA524131E33
+	for <chrome-platform@lists.linux.dev>; Thu,  4 Apr 2024 18:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712237441; cv=none; b=gB+pIMvxDrSfTuMgpmAGBQF4VwMYHHjJn6j0hZHtg15t27kvFMgc7vcH56bbv8xG1st/2mcsAIcZtWWP7cCo7X13tBQeoRNrT4dLXEFrAELmc2ANZhBQQtQ2mHhez9HJxdhj8mfQgqZJw57at5B7jIElb7E9NKafRUEjhgEizdg=
+	t=1712256801; cv=none; b=J6KzCam4H0PjA1ex/YdM9PZGU7OlPYzFKqzqNpCoNre2MndQtHt0i5bH5QFobGaHWXiSHZ5UKDViFwZd0R0mF/SVSdGNhjISuWuAyzAMA9jXV8ZvXuhYm+N5HiaXqxen6QVHhuBvwXR7ZNVmMc009xNz73lAYvseuCy/9TR3RYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712237441; c=relaxed/simple;
-	bh=2fj/i+j2Id2LJwh/zFA6uxKkNq52kXJYfChrS9zCIQM=;
+	s=arc-20240116; t=1712256801; c=relaxed/simple;
+	bh=V3RgW9G+JxkpzYSviePbvmkV3FFJfBDYWrMg62VFLGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWnGhOJuG22xz/BdLLrsAHURvbuKJoruev8p9nVJtyCAp1gh62+iGPcd9bRkBT0xNyWmhilwrsTYk3Ab0OH08f3Y5xmMBPvLCiNs4qMr4VUKO8SR7uv1QSg94pXjDi0cze5WyIYU1grI17SRyVv1OiHuc52ZQmZpvNMvs5bKkJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fXMvBXkA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AizA8M7LYMsUdH58GBmpdwVBHGvCXDNJksw1lm98u7HiZFN6+nMQGjK/IFfXl7s/4PEo6lubly6HRUZTMapOAtCYklp4B1MnB3jksNPRjJ18YcEZ29YguUND030SJ6DnIykfjHK0L42LEQ9c4KeLe0KG6tdPx6eGbAM3N5K3l4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=axfUhUDk; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fXMvBXkA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C55E0C433C7;
-	Thu,  4 Apr 2024 13:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712237441;
-	bh=2fj/i+j2Id2LJwh/zFA6uxKkNq52kXJYfChrS9zCIQM=;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="axfUhUDk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1712256788;
+	bh=V3RgW9G+JxkpzYSviePbvmkV3FFJfBDYWrMg62VFLGM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fXMvBXkA6bFap/LgpTyA5qnYFj0KB01L0y7oIfhAWKLUFzSbgEBI99xJtQTcNwJ0q
-	 FIG/raqcH3w/Yz8k3ZYz9HKsyae97jRU2hn0t7kmb5g2wWGn35qzK0jkoZoZbHTGkG
-	 N5LtCrCpcIg1lodgT647mJKWiU48qp8Mb0d14eQk=
-Date: Thu, 4 Apr 2024 15:30:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Pavan Holla <pholla@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <2024040422-ripcord-bladder-bdda@gregkh>
-References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
- <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org>
- <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
- <2024040449-average-foyer-defa@gregkh>
- <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
+	b=axfUhUDkaDTTC4F/dmtn0k7fPVejNQILBcRC2lfw9mSm2tf/iG8p2qI5SksOyu5MM
+	 qRms5Q1Z2NzZbwMUTpJqb66gLPyxheGUpw+3WdEQ+YhO8NEYWHxeIUJfhRMDKSawIG
+	 AsnwfcG5mTvg7qpVhix+Pv8CYRi90YCuEp0rgWqA=
+Date: Thu, 4 Apr 2024 20:53:08 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: "Dustin L. Howett" <dustin@howett.net>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
+ Framework Laptops
+Message-ID: <2fba7925-f22a-4ea9-9368-57e50d2bddda@t-8ch.de>
+References: <20231126192452.97824-1-dustin@howett.net>
+ <20240403004713.130365-1-dustin@howett.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240403004713.130365-1-dustin@howett.net>
 
-On Thu, Apr 04, 2024 at 04:20:30PM +0300, Dmitry Baryshkov wrote:
-> On Thu, Apr 04, 2024 at 03:07:15PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Apr 03, 2024 at 09:58:33PM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, Apr 03, 2024 at 06:05:22PM +0000, Pavan Holla wrote:
-> > > > Implementation of a UCSI transport driver for ChromeOS.
-> > > > This driver will be loaded if the ChromeOS EC implements a PPM.
-> > > > 
-> > > > Signed-off-by: Pavan Holla <pholla@chromium.org>
-> > > > ---
-> > > >  drivers/usb/typec/ucsi/Kconfig        |  13 ++
-> > > >  drivers/usb/typec/ucsi/Makefile       |   1 +
-> > > >  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 245 ++++++++++++++++++++++++++++++++++
-> > > >  3 files changed, 259 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> > > > index bdcb1764cfae..4dceb14a66ee 100644
-> > > > --- a/drivers/usb/typec/ucsi/Kconfig
-> > > > +++ b/drivers/usb/typec/ucsi/Kconfig
-> > > > @@ -69,4 +69,17 @@ config UCSI_PMIC_GLINK
-> > > >  	  To compile the driver as a module, choose M here: the module will be
-> > > >  	  called ucsi_glink.
-> > > >  
-> > > > +config CROS_EC_UCSI
-> > > > +	tristate "UCSI Driver for ChromeOS EC"
-> > > > +	depends on MFD_CROS_EC_DEV
-> > > > +	depends on CROS_USBPD_NOTIFY
-> > > > +	depends on !EXTCON_TCSS_CROS_EC
-> > > > +	default MFD_CROS_EC_DEV
-> > > > +	help
-> > > > +	  This driver enables UCSI support for a ChromeOS EC. The EC is
-> > > > +	  expected to implement a PPM.
-> > > > +
-> > > > +	  To compile the driver as a module, choose M here: the module
-> > > > +	  will be called cros_ec_ucsi.
-> > > > +
-> > > >  endif
-> > > > diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-> > > > index b4679f94696b..cb336eee055c 100644
-> > > > --- a/drivers/usb/typec/ucsi/Makefile
-> > > > +++ b/drivers/usb/typec/ucsi/Makefile
-> > > > @@ -21,3 +21,4 @@ obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
-> > > >  obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
-> > > >  obj-$(CONFIG_UCSI_STM32G0)		+= ucsi_stm32g0.o
-> > > >  obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
-> > > > +obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
-> > > > diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > > > new file mode 100644
-> > > > index 000000000000..dd46b46d430f
-> > > > --- /dev/null
-> > > > +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > > > @@ -0,0 +1,245 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +/*
-> > > > + * UCSI driver for ChromeOS EC
-> > > > + *
-> > > > + * Copyright 2024 Google LLC.
-> > > > + */
-> > > > +
-> > > > +#include <linux/container_of.h>
-> > > > +#include <linux/dev_printk.h>
-> > > > +#include <linux/mod_devicetable.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/platform_data/cros_ec_commands.h>
-> > > > +#include <linux/platform_data/cros_usbpd_notify.h>
-> > > > +#include <linux/platform_data/cros_ec_proto.h>
-> > > > +#include <linux/platform_device.h>
-> > > > +#include <linux/slab.h>
-> > > > +#include <linux/wait.h>
-> > > > +
-> > > > +#include "ucsi.h"
-> > > > +
-> > > > +#define DRV_NAME "cros-ec-ucsi"
-> > > > +
-> > > > +#define MAX_EC_DATA_SIZE 256
-> > > > +#define WRITE_TMO_MS 500
-> > > > +
-> > > > +struct cros_ucsi_data {
-> > > > +	struct device *dev;
-> > > > +	struct ucsi *ucsi;
-> > > > +
-> > > > +	struct cros_ec_device *ec;
-> > > > +	struct notifier_block nb;
-> > > > +	struct work_struct work;
-> > > > +
-> > > > +	struct completion complete;
-> > > > +	unsigned long flags;
-> > > > +};
-> > > > +
-> > > > +static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
-> > > > +			  size_t val_len)
-> > > > +{
-> > > > +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> > > > +	struct ec_params_ucsi_ppm_get req = {
-> > > > +		.offset = offset,
-> > > > +		.size = val_len,
-> > > > +	};
-> > > > +	int ret;
-> > > > +
-> > > > +	if (val_len > MAX_EC_DATA_SIZE) {
-> > > > +		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
-> > > > +			  &req, sizeof(req), val, val_len);
-> > > > +	if (ret < 0) {
-> > > > +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
-> > > > +		return ret;
-> > > > +	}
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int cros_ucsi_async_write(struct ucsi *ucsi, unsigned int offset,
-> > > > +				 const void *val, size_t val_len)
-> > > > +{
-> > > > +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> > > > +	uint8_t ec_buffer[MAX_EC_DATA_SIZE + sizeof(struct ec_params_ucsi_ppm_set)];
-> > > > +	struct ec_params_ucsi_ppm_set *req = (struct ec_params_ucsi_ppm_set *)ec_buffer;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	if (val_len > MAX_EC_DATA_SIZE) {
-> > > > +		dev_err(udata->dev, "Can't write %zu bytes. Too big.", val_len);
-> > > 
-> > > I think it's better be written as
-> > > 
-> > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
-> > > 	return -EINVAL;
-> > 
-> > So if you trigger this, you just rebooted all boxes that have
-> > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
-> > systems out there.)
-> > 
-> > So don't do that, just handle it like this.
+On 2024-04-02 19:47:09-0500, Dustin L. Howett wrote:
+> This patch series adds support for the AMD models of the Framework
+> Laptop (both 13" and 16").
 > 
-> Does that mean that we should not use WARN at all? What is the best
-> current practice for WARN usage?
+> These models of Framework Laptop have switched to an NPCX embedded
+> controller, which uses the original Chrome EC linear memory-mapped I/O
+> model.
+> 
+> However, these devices are not configured in a way that is compatible
+> with the cros_ec driver. Instead of mapping EC memory to I/O ports
+> [0x900, 0x9FF], they map it to ports [0xE00, 0xEFF].
+> 
+> To address this difference without impacting cros_ec_lpcs' compatibility
+> with Chromebook/Chromebox devices or the existing Framework Laptop
+> platform, these patches add DMI match-specific driver data through which
+> we can detect per-machine "quirks".
+> 
+> Quirks toggle changes in cros_ec_lpcs' behavior, such as remapping the
+> memory MMIO window.
+> 
+> Changes in v2:
+> * Separated Framework Laptop (Intel) and Framework Laptop (AMD)
+> * dev_warn has been demoted to dev_info
+> * Style fixes
+> * Reworded the individual patch bodies for clarity and style
+> 
+> Changes in v3:
+> * Addressed dev_warn feedback from Thomas Weissschuh
+> * Removed the host command region quirk; Framework Computer is slated to
+>   release a firmware update that addresses the I/O region issue from
+>   this series' v1 and v2. This leaves just one quirk, with the potential
+>   for future quirks (e.g. changes required to reduce EC bus contention
+>   on the Intel Framework Laptops)
 
-To never use it.  Handle the issue and recover properly.
+For me this works with todays 3.0.5 firmware.
 
-> I'm asking because for me this looks like a perfect usecase. If I were
-> at the positiion of the driver developer, I'd like to know the whole
-> path leading to the bad call, not just the fact that the function was
-> called with the buffer being too big.
+> Dustin L. Howett (4):
+>   platform/chrome: cros_ec_lpc: introduce a priv struct for the lpc
+>     device
+>   platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
+>   platform/chrome: cros_ec_lpc: add a "quirks" system
+>   platform/chrome: cros_ec_lpc: add quirks for the Framework Laptop
+>     (AMD)
+> 
+>  drivers/platform/chrome/cros_ec_lpc.c | 81 ++++++++++++++++++++++++---
+>  1 file changed, 74 insertions(+), 7 deletions(-)
 
-Then use ftrace if you are a driver developer, don't crash users boxes
-please.
+For the series:
 
-If you REALLY need a traceback, then provide that, but do NOT use WARN()
-for just normal debugging calls that you want to leave around in the
-system for users to trip over.
+Reviewed-and-tested-by: Thomas Weißschuh <linux@weissschuh.net>
 
-thanks,
 
-greg k-h
+Note:
+For new revisions it makes sense to Cc people who interacted with
+the previous ones. They are likely to have an interest and provide
+feedback.
+I only saw this by accident.

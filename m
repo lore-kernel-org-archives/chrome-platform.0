@@ -1,100 +1,97 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C57B12AAEA
-	for <chrome-platform@lists.linux.dev>; Thu,  4 Apr 2024 19:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8B213AD38
+	for <chrome-platform@lists.linux.dev>; Thu,  4 Apr 2024 20:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712260646; cv=none; b=CCywYc+DxLcQjz5F6+v/gI6l+By+vJwq9yH3DcKFlKkGKIVkDtfxg0k/HsAw8w1XErS3TIQakR1UELbwcgg166W7lCYBFCA726tIET2Is62nnneAnNW1yqsUJsBlBPAUTTYfgZyaJtpwocfTDJ7WXMu0VD0bJp1Vp6927gTubyc=
+	t=1712263508; cv=none; b=u24GSXUAHvFeBwdbGUKmnZ34Q5YalobxPMFS8J3V/1XXbqMTIULYinizZzPn9UoEnQURrWzjK5bEEXc+jbG1F3KRngKk22FnjAkwsCiTuzMd9V/xfYFpADAcfjjfmHyDH/zLsPzmJyuwbI8Oyz+QILT2FOU2rbCpUydOp9uIh4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712260646; c=relaxed/simple;
-	bh=57iUNjFTaRlaydg4psyyiYZxUToLT7xSaji7QjEAV1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KX8hL+oZ14HHS5MNM0SWsqMltRXJ74RCdl8XttT4F/e6HbRmHTyMl/Wl0mB3vpNnUKuWeMbQETqrrYrbWbqaNT5CmfbcEhJ2On0VgD/wb3mVIiunzemEiLSSSOwPreo1ejmlpsq7N2xmzUIJYdqbr8clbtkURy3CZtafESK9YoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Rp36GSyp; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1712263508; c=relaxed/simple;
+	bh=4UO1VMYWun6t0P6nH+mG+xdFydZVyE+pOaRYVYx4yog=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PRMsZlP42Et94xpdCAfFPHRd76oKxtKGjv77uLoDcUmU6bYKo9sbw5Km8K7rJdbzgxxShrz0a6S38FqKB3ZnX+0e9HB4E1BP1pQXed2CmX0klS1+AkFBGn9PDxxhZsFxmZBt6j/sSN3nB0jOP3kizcf3TY+zPsVzj5nXrHHwsRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B69+h5mn; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Rp36GSyp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1712260638;
-	bh=57iUNjFTaRlaydg4psyyiYZxUToLT7xSaji7QjEAV1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rp36GSyp2cOzqGDEsGMVALm2LB30nFEqw+KJRsE9EgoNTicyIMC85CNzXMiNQciKK
-	 6m/pzTHMNKOXa6h3HWSV8T6geFdSXDyFfX5O03yf1o8CrPJ4og9uNfvVIV1stzKtUQ
-	 V1+Mm1OONdv9PMYPoSc1nGvU9WV1pusPtyS73cno=
-Date: Thu, 4 Apr 2024 21:57:18 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Dustin Howett <dustin@howett.net>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
- Framework Laptops
-Message-ID: <63954058-34a9-43b8-8ccc-efc0b8429609@t-8ch.de>
-References: <20231126192452.97824-1-dustin@howett.net>
- <20240403004713.130365-1-dustin@howett.net>
- <2fba7925-f22a-4ea9-9368-57e50d2bddda@t-8ch.de>
- <CA+BfgNJrfP7H_10r+DLWrjwhkqd==3czhUaH8uC25971aEpMJw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B69+h5mn"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4d435a60217so512563e0c.0
+        for <chrome-platform@lists.linux.dev>; Thu, 04 Apr 2024 13:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1712263505; x=1712868305; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KF8FNJKbIf/Wqy3NgLHLUIDfVpXMUebZHQXlpWQnHwE=;
+        b=B69+h5mnNoTkDTxkoYBdRk2I3+00PTNZAeiLqxG8bxy/yVuI1MbcUqywHNOIydL2Lr
+         7+Dp2RO82ChnY4b3HHmtk38qLtb0pbEEJWnn7Dumqo1EwAkVZ9DIg+b/IcoFrF2kXb9u
+         O8yHhcNJ0Co5pT1nZcvMQ0Gtpp6dtnJBxDpfY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712263505; x=1712868305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KF8FNJKbIf/Wqy3NgLHLUIDfVpXMUebZHQXlpWQnHwE=;
+        b=WU06Dp4dQ1uEXs5dwK2hK6+Z8TfcOW0Limcy3YEyvWQ3ATIi6xFxF3BpIZefVKB0ty
+         zmZ9vIU5zZ5j80GApIsA81vtyfMUM2r4h6hb0A8qFPRIxasWggdu/GzQJxZWjoTPK6wm
+         ftUSvLAh6zRW4+TsXU+7p5S7Y1KMcDkJ5OSSVAkRlo1gCD4r8FIecB1uXNQF9T4yRZVF
+         XlFiuXEZxeaqwQZAkCVJoRccC0oyhUsBsdbyEG4RIMt+mT6vFZnMFZzMkygU2EtYFq9w
+         NImRpPCgfOqhYCt7Y0Uly2z+EdJ0tYD7kbCqYVGcRlnuxYQbQ/KfW+jkwKQBJRSfCAHV
+         HJkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfejHA/IxhlgGPaFtoPmkwSum/3dkfgD6L6clZQ10twBuhoSuLNPZdvKAj7tdrpkXI2xMCPgtef29+z70uj9TOVf/j+qbfF4aplpsK7/oc
+X-Gm-Message-State: AOJu0YwMb9Hi2BH0zh1Qy/HM519A2IG6LnegLv0qVDVMdWlVDGKUoiWP
+	Je8uzGKaZQunpVGYkCgl/BMfhQnNjnkw4F7z6TlYJYc3zKACQ9WN7mgbZ3sp5e34aIqZrrR/Riy
+	FNNy3RttrI+re+1Gqv72t7y43hlXr/OqtY9I8sWM/5Gy6r0M=
+X-Google-Smtp-Source: AGHT+IE1aT12rSJQsk49m0s1WDAmGtg1boyflA0mWV27eiMvdQWflqasXIA0kULyhEfYJsr1EVtT0Cfl08bXuJZCc+c=
+X-Received: by 2002:a1f:f2c6:0:b0:4d3:3adc:b639 with SMTP id
+ q189-20020a1ff2c6000000b004d33adcb639mr3392151vkh.6.1712263505418; Thu, 04
+ Apr 2024 13:45:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+BfgNJrfP7H_10r+DLWrjwhkqd==3czhUaH8uC25971aEpMJw@mail.gmail.com>
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+ <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org> <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
+ <2024040449-average-foyer-defa@gregkh>
+In-Reply-To: <2024040449-average-foyer-defa@gregkh>
+From: Pavan Holla <pholla@chromium.org>
+Date: Thu, 4 Apr 2024 13:44:29 -0700
+Message-ID: <CAB2FV=4TQZwM6bRSeBhieqU2H8yxt3NWsey55a5my_i1La0fJQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-04-04 13:59:53-0500, Dustin Howett wrote:
-> On Thu, Apr 4, 2024 at 1:53 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > On 2024-04-02 19:47:09-0500, Dustin L. Howett wrote:
-> > > This patch series adds support for the AMD models of the Framework
+On Thu, Apr 4, 2024 at 6:07=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Apr 03, 2024 at 09:58:33PM +0300, Dmitry Baryshkov wrote:
+> > I think it's better be written as
 > >
-> > For me this works with todays 3.0.5 firmware.
-> 
-> Thank you for testing! I've been seeing an issue where this
-> module--even with these fixes--is not being loaded with the right DMI
-> match table when it is automatically detected on boot.
-> 
-> My running theory is that it is matching the less-specific entry for
-> "Framework" + "Laptop" with no quirks.
-> I've been looking into making the matches more specific for all
-> Framework laptops, to future proof this change as well as make it work
-> properly via automatic loading.
+> > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
+> >       return -EINVAL;
+>
+> So if you trigger this, you just rebooted all boxes that have
+> panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
+> systems out there.)
+>
+> So don't do that, just handle it like this.
+>
+> BUT, if this can be triggered by userspace, do NOT use dev_err() as that
+> will just allow userspace to flood the kernel log.
+>
+> Pavan, who calls this?  If userspace, this needs to be fixed.  If it's
+> only a kernel driver, it's fine as-is.
 
-This doesn't sound correct. The code is using dmi_first_match() which
-always iterates the dmi_id table in order.
+This code is only called by a kernel driver.
 
-I'll try to reproduce this issue.
-
-FYI in the case when probing didn't work you can check the current DMI
-information in /sys/class/dmi/id/.
-
-> > For the series:
-> >
-> > Reviewed-and-tested-by: Thomas Weißschuh <linux@weissschuh.net>
-> 
-> Thanks!
-> 
-> I wouldn't land this changeset until after we can diagnose the load on
-> boot issue.
-
-Sounds reasonable.
-
-> > Note:
-> > For new revisions it makes sense to Cc people who interacted with
-> > the previous ones. They are likely to have an interest and provide
-> > feedback.
-> > I only saw this by accident.
-> 
-> I'm sorry about that. I'll keep it in mind for the future. I also
-> think I messed up by replying to the v2 thread with the v3 series, as
-> I realize I have not seen anybody else do this. :)
-
-You could use b4 which can take care of this.
-It can also read additional recipients from its cover letter, so you
-don't have to manually keep track of them for each submission.
-
-
-Thomas
+Thanks,
+Pavan

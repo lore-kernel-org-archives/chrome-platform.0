@@ -1,97 +1,94 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8B213AD38
-	for <chrome-platform@lists.linux.dev>; Thu,  4 Apr 2024 20:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88663C1
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Apr 2024 01:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712263508; cv=none; b=u24GSXUAHvFeBwdbGUKmnZ34Q5YalobxPMFS8J3V/1XXbqMTIULYinizZzPn9UoEnQURrWzjK5bEEXc+jbG1F3KRngKk22FnjAkwsCiTuzMd9V/xfYFpADAcfjjfmHyDH/zLsPzmJyuwbI8Oyz+QILT2FOU2rbCpUydOp9uIh4M=
+	t=1712278989; cv=none; b=DH7JnY2V8TflzTc0LQE17dIZUPxDuwlOicrYMMOwGhV+Ll8nU9aSpN0RRjUu8mcUNxa9Md74pPnDzOnpjsQafWWgjZawo0zmKVlKgRI36g2CAgS/XvvwOMjjQs+r88Zpo25xmpd/cflqUagF3z9f5GLXQ3rp6WD4g40r2oLXQTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712263508; c=relaxed/simple;
-	bh=4UO1VMYWun6t0P6nH+mG+xdFydZVyE+pOaRYVYx4yog=;
+	s=arc-20240116; t=1712278989; c=relaxed/simple;
+	bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PRMsZlP42Et94xpdCAfFPHRd76oKxtKGjv77uLoDcUmU6bYKo9sbw5Km8K7rJdbzgxxShrz0a6S38FqKB3ZnX+0e9HB4E1BP1pQXed2CmX0klS1+AkFBGn9PDxxhZsFxmZBt6j/sSN3nB0jOP3kizcf3TY+zPsVzj5nXrHHwsRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B69+h5mn; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=GEK0Inch7vNSiz/DO9InZG0+59h/CNfFo0U1GQk7LGaYOVAFkyHE2NDSVaOTLe/5tJQGi5sIuWbEPJLQfS5bubgIQa36HYI3KIfz45/WkyX9e14fZF20ENxtmh8l7suXGZ4y9lDe5Ghiq7KRcOpFwHLQ4wuOPdNhocaab0xwU48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net; spf=none smtp.mailfrom=howett.net; dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b=ZJ4myrzf; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B69+h5mn"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4d435a60217so512563e0c.0
-        for <chrome-platform@lists.linux.dev>; Thu, 04 Apr 2024 13:45:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="ZJ4myrzf"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dd10ebcd702so1889310276.2
+        for <chrome-platform@lists.linux.dev>; Thu, 04 Apr 2024 18:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712263505; x=1712868305; darn=lists.linux.dev;
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1712278987; x=1712883787; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KF8FNJKbIf/Wqy3NgLHLUIDfVpXMUebZHQXlpWQnHwE=;
-        b=B69+h5mnNoTkDTxkoYBdRk2I3+00PTNZAeiLqxG8bxy/yVuI1MbcUqywHNOIydL2Lr
-         7+Dp2RO82ChnY4b3HHmtk38qLtb0pbEEJWnn7Dumqo1EwAkVZ9DIg+b/IcoFrF2kXb9u
-         O8yHhcNJ0Co5pT1nZcvMQ0Gtpp6dtnJBxDpfY=
+        bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
+        b=ZJ4myrzf5dHqWveVGl2aWW+65vgo/R6y4aMm5kDUMrXjaj1Z12AqJPvxAZ5mTiUbki
+         fi+heJANoGwFWMbt/yhqju2zI0Sjg16thax49MjU6bhj3dj5vgqrns8dCUsfBVvpN9/6
+         +PrlRp/Lzasw1FRDgKlCGK+gCZ59v3XfqAR20PUT2MCbS4JjeTuzCbMetzYWOpYRZNHO
+         I9lnjb2urH4AVYxt4DQq5KKEfGdHBEIS0qvLaA10IbfVvundOohvinOB4SfhNJQ6xIgb
+         idUORSrGb4mYcWtMsXUcENPCStNIT10deaoP+M5RKVVBkqvRJ1LHDWy/xdKOjz9JXw32
+         B5mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712263505; x=1712868305;
+        d=1e100.net; s=20230601; t=1712278987; x=1712883787;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KF8FNJKbIf/Wqy3NgLHLUIDfVpXMUebZHQXlpWQnHwE=;
-        b=WU06Dp4dQ1uEXs5dwK2hK6+Z8TfcOW0Limcy3YEyvWQ3ATIi6xFxF3BpIZefVKB0ty
-         zmZ9vIU5zZ5j80GApIsA81vtyfMUM2r4h6hb0A8qFPRIxasWggdu/GzQJxZWjoTPK6wm
-         ftUSvLAh6zRW4+TsXU+7p5S7Y1KMcDkJ5OSSVAkRlo1gCD4r8FIecB1uXNQF9T4yRZVF
-         XlFiuXEZxeaqwQZAkCVJoRccC0oyhUsBsdbyEG4RIMt+mT6vFZnMFZzMkygU2EtYFq9w
-         NImRpPCgfOqhYCt7Y0Uly2z+EdJ0tYD7kbCqYVGcRlnuxYQbQ/KfW+jkwKQBJRSfCAHV
-         HJkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfejHA/IxhlgGPaFtoPmkwSum/3dkfgD6L6clZQ10twBuhoSuLNPZdvKAj7tdrpkXI2xMCPgtef29+z70uj9TOVf/j+qbfF4aplpsK7/oc
-X-Gm-Message-State: AOJu0YwMb9Hi2BH0zh1Qy/HM519A2IG6LnegLv0qVDVMdWlVDGKUoiWP
-	Je8uzGKaZQunpVGYkCgl/BMfhQnNjnkw4F7z6TlYJYc3zKACQ9WN7mgbZ3sp5e34aIqZrrR/Riy
-	FNNy3RttrI+re+1Gqv72t7y43hlXr/OqtY9I8sWM/5Gy6r0M=
-X-Google-Smtp-Source: AGHT+IE1aT12rSJQsk49m0s1WDAmGtg1boyflA0mWV27eiMvdQWflqasXIA0kULyhEfYJsr1EVtT0Cfl08bXuJZCc+c=
-X-Received: by 2002:a1f:f2c6:0:b0:4d3:3adc:b639 with SMTP id
- q189-20020a1ff2c6000000b004d33adcb639mr3392151vkh.6.1712263505418; Thu, 04
- Apr 2024 13:45:05 -0700 (PDT)
+        bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
+        b=vF9XzaP58egdklLhUFoZy7w4yT5z1pTndS8c3Tcpecm+oqeng/XZ/owZGvqWMDRseE
+         Z4SZRtjVjfOWphx594izuRyYtaHXO6+19cVm+ipt7luEgsC7UvX0HZXU+z6s7Y2Fn3Kr
+         LFC6eBEwPP/poTkSiqHdHqrHVyrESmXJGjR+oDQNlPZ++VeKfyHPbTbEE3lCRM31iysG
+         FAh71FMjQrXvogkNXajDXkqDfs8b4WroJlVd+YNCcHIMpvdCvezny9Ot24+KTaD1N9+M
+         Iiv+n5B0AfUmEDLOmDSGVsrSLT6oZk9gn7jZRea790QIhX8Z5W1bzlc5SbtovDQCwcCf
+         hu3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVkhZ4AzHO1xrbp5a1SBVVr/SWkIfX31Y5j0ObWInwFVKpW1Xy+fX3pKIk31YQCHaF3Jpph7gD1b73+Gl2ERn/3nSUzY983n6J5/iwikfyy
+X-Gm-Message-State: AOJu0Yyn56TWO7Cdk2NeqiBnHvo7kcspcm/PZorSNWdGCrSvficqmCXD
+	0Vzo8PmhE0CmBKWuibYLGOQ2pcqp6WaKMCbwlaN0j4oYFjKZBgNGXTXVZxr6Ihw3epniZm3dCFG
+	cO5KfhjcTN/tVKbDXn/kS96VImgkBHar7GVL5
+X-Google-Smtp-Source: AGHT+IHWEnseDlhQnynBjqtL1hIwi1C7QJGT108fa6G2BAVEPIWXnUQUuYQSoYJUX8TWuJ1p1WmXr6d/cMiNu8/hnMs=
+X-Received: by 2002:a25:ce4e:0:b0:dcb:ca7e:7e6f with SMTP id
+ x75-20020a25ce4e000000b00dcbca7e7e6fmr4617451ybe.55.1712278986948; Thu, 04
+ Apr 2024 18:03:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
- <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org> <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
- <2024040449-average-foyer-defa@gregkh>
-In-Reply-To: <2024040449-average-foyer-defa@gregkh>
-From: Pavan Holla <pholla@chromium.org>
-Date: Thu, 4 Apr 2024 13:44:29 -0700
-Message-ID: <CAB2FV=4TQZwM6bRSeBhieqU2H8yxt3NWsey55a5my_i1La0fJQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+References: <20231126192452.97824-1-dustin@howett.net> <20240403004713.130365-1-dustin@howett.net>
+ <2fba7925-f22a-4ea9-9368-57e50d2bddda@t-8ch.de> <CA+BfgNJrfP7H_10r+DLWrjwhkqd==3czhUaH8uC25971aEpMJw@mail.gmail.com>
+ <63954058-34a9-43b8-8ccc-efc0b8429609@t-8ch.de>
+In-Reply-To: <63954058-34a9-43b8-8ccc-efc0b8429609@t-8ch.de>
+From: Dustin Howett <dustin@howett.net>
+Date: Thu, 4 Apr 2024 20:02:55 -0500
+Message-ID: <CA+BfgNJDh-niftXp-dP2oMCRybLaaW++38CBOBZsZpbU1pW8yQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
+ Framework Laptops
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 4, 2024 at 6:07=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Thu, Apr 4, 2024 at 2:57=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisssc=
+huh.net> wrote:
 >
-> On Wed, Apr 03, 2024 at 09:58:33PM +0300, Dmitry Baryshkov wrote:
-> > I think it's better be written as
-> >
-> > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
-> >       return -EINVAL;
+> This doesn't sound correct. The code is using dmi_first_match() which
+> always iterates the dmi_id table in order.
 >
-> So if you trigger this, you just rebooted all boxes that have
-> panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
-> systems out there.)
->
-> So don't do that, just handle it like this.
->
-> BUT, if this can be triggered by userspace, do NOT use dev_err() as that
-> will just allow userspace to flood the kernel log.
->
-> Pavan, who calls this?  If userspace, this needs to be fixed.  If it's
-> only a kernel driver, it's fine as-is.
+> I'll try to reproduce this issue.
 
-This code is only called by a kernel driver.
+No need! It turns out that I was tricked by my own initramfs.
+Good tip not to let your distribution scripts pack modules you're
+actively working on. :)
 
-Thanks,
-Pavan
+In that case: This series is ready to land!
+
+> You could use b4 which can take care of this.
+> It can also read additional recipients from its cover letter, so you
+> don't have to manually keep track of them for each submission.
+
+Excellent! Excited to use it for the next salvo. Thanks.
+
+d

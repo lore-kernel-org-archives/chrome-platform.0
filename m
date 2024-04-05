@@ -1,94 +1,113 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88663C1
-	for <chrome-platform@lists.linux.dev>; Fri,  5 Apr 2024 01:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9FF15F3EF
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Apr 2024 08:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712278989; cv=none; b=DH7JnY2V8TflzTc0LQE17dIZUPxDuwlOicrYMMOwGhV+Ll8nU9aSpN0RRjUu8mcUNxa9Md74pPnDzOnpjsQafWWgjZawo0zmKVlKgRI36g2CAgS/XvvwOMjjQs+r88Zpo25xmpd/cflqUagF3z9f5GLXQ3rp6WD4g40r2oLXQTI=
+	t=1712306921; cv=none; b=Ah9jCDRMoGLYzdYc7Zxn6JUN1NAlyerWomN4cw52vE8h+z2GUHQL/TFTHoooNwi9NH07Txh2i2FNkgblYt7XHY9Tv3WqxeEu1UQKlBNNAsY1ZUb4KWKmD08lnvE4sIbo+AQ4jXtN6tWDZ6szomtaf6604sh9r8RQJTda2bsPnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712278989; c=relaxed/simple;
-	bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GEK0Inch7vNSiz/DO9InZG0+59h/CNfFo0U1GQk7LGaYOVAFkyHE2NDSVaOTLe/5tJQGi5sIuWbEPJLQfS5bubgIQa36HYI3KIfz45/WkyX9e14fZF20ENxtmh8l7suXGZ4y9lDe5Ghiq7KRcOpFwHLQ4wuOPdNhocaab0xwU48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net; spf=none smtp.mailfrom=howett.net; dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b=ZJ4myrzf; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
+	s=arc-20240116; t=1712306921; c=relaxed/simple;
+	bh=rs0vw5LW9UM/y60I9xGZqbakggiNBHyoOs4B+0ZsN6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=if/iITmOZWfT2Q0uhPswmoVue9XQ3g/SeRwqSvsuI2HQemoX2EreOj5Ub9DfPb5losXtbhfviESItdBDr9SPtkFCIBmP4e4a7mByDV4vKI4u7vK/WkKVV53R4hM5WhEpqn/FEdIxSRX4QaKg5JZFSPeTwnVCrWtmC+2KuK10gKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R8T/4zsl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="ZJ4myrzf"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dd10ebcd702so1889310276.2
-        for <chrome-platform@lists.linux.dev>; Thu, 04 Apr 2024 18:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1712278987; x=1712883787; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
-        b=ZJ4myrzf5dHqWveVGl2aWW+65vgo/R6y4aMm5kDUMrXjaj1Z12AqJPvxAZ5mTiUbki
-         fi+heJANoGwFWMbt/yhqju2zI0Sjg16thax49MjU6bhj3dj5vgqrns8dCUsfBVvpN9/6
-         +PrlRp/Lzasw1FRDgKlCGK+gCZ59v3XfqAR20PUT2MCbS4JjeTuzCbMetzYWOpYRZNHO
-         I9lnjb2urH4AVYxt4DQq5KKEfGdHBEIS0qvLaA10IbfVvundOohvinOB4SfhNJQ6xIgb
-         idUORSrGb4mYcWtMsXUcENPCStNIT10deaoP+M5RKVVBkqvRJ1LHDWy/xdKOjz9JXw32
-         B5mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712278987; x=1712883787;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PuEKPC5ntikSvB+UjVXBWWMeTDjzBeQKNE0UE+QzXAc=;
-        b=vF9XzaP58egdklLhUFoZy7w4yT5z1pTndS8c3Tcpecm+oqeng/XZ/owZGvqWMDRseE
-         Z4SZRtjVjfOWphx594izuRyYtaHXO6+19cVm+ipt7luEgsC7UvX0HZXU+z6s7Y2Fn3Kr
-         LFC6eBEwPP/poTkSiqHdHqrHVyrESmXJGjR+oDQNlPZ++VeKfyHPbTbEE3lCRM31iysG
-         FAh71FMjQrXvogkNXajDXkqDfs8b4WroJlVd+YNCcHIMpvdCvezny9Ot24+KTaD1N9+M
-         Iiv+n5B0AfUmEDLOmDSGVsrSLT6oZk9gn7jZRea790QIhX8Z5W1bzlc5SbtovDQCwcCf
-         hu3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVkhZ4AzHO1xrbp5a1SBVVr/SWkIfX31Y5j0ObWInwFVKpW1Xy+fX3pKIk31YQCHaF3Jpph7gD1b73+Gl2ERn/3nSUzY983n6J5/iwikfyy
-X-Gm-Message-State: AOJu0Yyn56TWO7Cdk2NeqiBnHvo7kcspcm/PZorSNWdGCrSvficqmCXD
-	0Vzo8PmhE0CmBKWuibYLGOQ2pcqp6WaKMCbwlaN0j4oYFjKZBgNGXTXVZxr6Ihw3epniZm3dCFG
-	cO5KfhjcTN/tVKbDXn/kS96VImgkBHar7GVL5
-X-Google-Smtp-Source: AGHT+IHWEnseDlhQnynBjqtL1hIwi1C7QJGT108fa6G2BAVEPIWXnUQUuYQSoYJUX8TWuJ1p1WmXr6d/cMiNu8/hnMs=
-X-Received: by 2002:a25:ce4e:0:b0:dcb:ca7e:7e6f with SMTP id
- x75-20020a25ce4e000000b00dcbca7e7e6fmr4617451ybe.55.1712278986948; Thu, 04
- Apr 2024 18:03:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R8T/4zsl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=D3bA
+	ysj0N+3ktsukYn/zGLisNXUDp098hBJ07HyHzKc=; b=R8T/4zsl0Zd0dNbaommC
+	kCLTauMRf6yuGZlEbnNrPo+sDuLbN4s8BfD2QtEyqFV73GtOSagiQmnkLEuHWGCQ
+	vRejlIPlKU/mYMv+6t8UkEAMEtwYdgwHTAQorcdRr9Ope6KAX7AmqTkxF537SxfY
+	hbp2DrU8wtJm0oExDm1ozx0tnjR+RM/n3EJ7Hxedj1A/sxIF9bIEt0Q6uqjDDZO6
+	DhN5dSoCZRnlewvb/Wq/ACyPQ8GtSN3yttgw0BjHvy2Oz86yt92QQcC0xPBJXssA
+	1OMpCVAZHpK9gwh4XkivjtbsyOTJWxSQAZ6QWGsn2F7XdFdDJmCqNTrRYM5kOmvv
+	nA==
+Received: (qmail 4044863 invoked from network); 5 Apr 2024 10:48:34 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2024 10:48:34 +0200
+X-UD-Smtp-Session: l3s3148p1@j8VihVUV/oogAwDPXwEGAANOsN0UmmrN
+Date: Fri, 5 Apr 2024 10:48:34 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
+ specification
+Message-ID: <kd2gnsosi5xar3mwc3zz7wqtqkfgicq3wical5ch34sbmlgegk@mb2c2hxzzoi4>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+ <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231126192452.97824-1-dustin@howett.net> <20240403004713.130365-1-dustin@howett.net>
- <2fba7925-f22a-4ea9-9368-57e50d2bddda@t-8ch.de> <CA+BfgNJrfP7H_10r+DLWrjwhkqd==3czhUaH8uC25971aEpMJw@mail.gmail.com>
- <63954058-34a9-43b8-8ccc-efc0b8429609@t-8ch.de>
-In-Reply-To: <63954058-34a9-43b8-8ccc-efc0b8429609@t-8ch.de>
-From: Dustin Howett <dustin@howett.net>
-Date: Thu, 4 Apr 2024 20:02:55 -0500
-Message-ID: <CA+BfgNJDh-niftXp-dP2oMCRybLaaW++38CBOBZsZpbU1pW8yQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
- Framework Laptops
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c5kq2kdwqrnl4eet"
+Content-Disposition: inline
+In-Reply-To: <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 
-On Thu, Apr 4, 2024 at 2:57=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisssc=
-huh.net> wrote:
->
-> This doesn't sound correct. The code is using dmi_first_match() which
-> always iterates the dmi_id table in order.
->
-> I'll try to reproduce this issue.
 
-No need! It turns out that I was tricked by my own initramfs.
-Good tip not to let your distribution scripts pack modules you're
-actively working on. :)
+--c5kq2kdwqrnl4eet
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In that case: This series is ready to land!
+Hi Andi, hi everyone,
 
-> You could use b4 which can take care of this.
-> It can also read additional recipients from its cover letter, so you
-> don't have to manually keep track of them for each submission.
+thank you for reviewing and waiting. I had a small personal hiatus over
+Easter but now I am back. This series needs another cycle, so no need to
+hurry. I will address some of the review comments but not all. The
+conversion (and API improvements) are some bigger tasks, so
+inconsistencies inbetween can't be avoided AFAICS.
 
-Excellent! Excited to use it for the next salvo. Thanks.
+I'll keep you updated.
 
-d
+Happy hacking,
+
+   Wolfram
+
+
+--c5kq2kdwqrnl4eet
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYPut4ACgkQFA3kzBSg
+KbbwnxAAtFWKOWnU/VyFFeZnqQCgQ76FzO93xERcjysHlgnZv3BnA6UpxFnrHrs4
+Cn7RTWa0i9Ct1ns2AkkjOQ5rUIqczF7M2dVS0tqODwyazGPaDHYtsa3urfkCsLT7
+Gz0y5V+oHHUNj1hypkKtQ37/7iFSYbo5oryt9MFK6eFfs878jel/4BCGJk3SEa48
+ewNnEuM8aYfzlrn7/VbkWqHkCS5J6x8/VFk3PjlxgEW45UtEI3r30K6/jT9HOdx4
+6lCofEZKn4Bl0VbfJJ7MXd1Be2/Dk6ZaY09e97iAKt2+fM1OLrBwig2V8PAdV7ei
+LlHolA153CWJAAkzXE2bJsr252IuCLpVpZobTSQRfr+u5vVV354dfo2ek11R8iff
+DSr94kqdKVvOvegpxt4vyHUxQrfy70R9vlkgVhkdvdGbi3JfLeiCK+C+IcBZlbXr
+uTaPlNvOt6p+VJNAlucnKQF3mK0FvVMK7bTwqjbKR8ZzB8J20qj5pqxqtBZDjfOl
+fpTR9f9+kHWdmBuCLBq35aes6Lxq4JtNRH+czt8F8wIAfx/xcgTf2uPThVoFPO9s
+jyO4fy773Wsfo8PGo9SqSKr7K6gQW3dIDoFTk489lp3e9Y/DYJ+ZV2ixvCQKATjO
+3K0umrWHYd25+mhripLMPzaz3h1GPtmAiQq/dq2GUviAFUPoZas=
+=RWT2
+-----END PGP SIGNATURE-----
+
+--c5kq2kdwqrnl4eet--

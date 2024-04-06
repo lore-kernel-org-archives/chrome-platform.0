@@ -1,139 +1,110 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFA217C8B
-	for <chrome-platform@lists.linux.dev>; Sat,  6 Apr 2024 18:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A460D4D9E5
+	for <chrome-platform@lists.linux.dev>; Sat,  6 Apr 2024 19:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712429292; cv=none; b=hiNIXqcc4PeVe7sEFwd+7gamLayakFJoI7diBd9GXf68vlPwIs6bY+i3zzEpt910ugwdzJ5VxtVt7BFuG3X8S/6YVkfSRfKWUIq1c0vjpbYljv4xhSLEPyKZwShpXj2nduc2ZP/+JNfzwpHJzjq6Gu9lyX+DaGhGQzbX5g6QNgc=
+	t=1712431064; cv=none; b=dGZSR+zlfZRx7DTmwJfjEaVATnptUPQz8Cn0pJV8kDwSDqOVpwRewzsS3ja3MRXwdQLPdCDbCIGVjUI5QpPhgzfOwB6gdI+5JxGraOXFIMWrIF/j0NKV+IgOFA7wmNZEgbLSOu0/JTdiwc+VfEoq/IfLwleVQlblC+2OoQXJ8MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712429292; c=relaxed/simple;
-	bh=uyyVZCRRlHE3yvXCPOkamifOc8Ep/cwbGZFMAjolR50=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=fHbCfF/qxYXpkieSwdrWYGT3TxATcCx2ixUISBpgwHgiRH+mcOy9cfr/yljiKPv/zGCohPlctKxA7s/mPlHUiNBapRFvnlRa6Qi6zUbNZfBRxmnwjXVysTloXQ9hRh5T81xuaU7ez9h+EPGk3y3WPWbXJDPat/I/QshuNJoGRk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aOLOK1pb; arc=none smtp.client-ip=209.85.167.177
+	s=arc-20240116; t=1712431064; c=relaxed/simple;
+	bh=hxjHXQSirYnMZcw6VLQSEFFq2ZmH/RXdVjyUtQzyBPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eSKx0FbzrJI0BGqvF+Cprhw9Bkqt/gKNcNK7a1/wVPLhjGDePDWzjThoocJ+VlEe5KaHKHwCk3jIo5pyplQP8Cnmm8oOH1jiUnMMGDLJCwV4iBVBDEnlLwxPK31yjb1Lu3sv4iosYoehoGN/PEzIzQvFDa1m+/rNxh2b0grnYqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CO7sjazn; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aOLOK1pb"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c3e2e0e407so2203487b6e.0
-        for <chrome-platform@lists.linux.dev>; Sat, 06 Apr 2024 11:48:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CO7sjazn"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3c38396c965so2801287b6e.1
+        for <chrome-platform@lists.linux.dev>; Sat, 06 Apr 2024 12:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712429289; x=1713034089; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9wm9Ph/3s5E3NASywLWaboSAvM58CF/JiHZRK7P0wK0=;
-        b=aOLOK1pbgFtmQ93XCXkmB696G2pJZwkirtyuehTFFzgbnZo2TjXCSvBVue6NuTpUD8
-         kPlVLajWyG6QIL7l4pOR5Pydpng+3f0R2lQxA+3Wnd0AZZcO8B9mhSygdO9fTuuxFyEw
-         Qx9C2gKCgtzTDa7Nfc4rTaQibULYrvbI85nDYttACgyOu7CMGoBKCw7hwb6gmsrqyqc0
-         PwKOjMMpR1ozfL0+oWFRhI1dtRuYjbW68+guV6HHd4XlW9IWRmK68lVDjvbKlf4+dL3t
-         QxC+RgFb1HM+Ay8wSgsxnb+r2Kbt9qD+RBKmdoHBTKPuUtbEtohhAB37MfkcrR27U/ED
-         IvzA==
+        d=gmail.com; s=20230601; t=1712431062; x=1713035862; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=74L3Kh0F38La798159Il7YMYXwftdxT955aZ6Xjyni4=;
+        b=CO7sjaznut2hcCUJdVe3SBaF0/dZ7XYcaM56OqkR91TlMQ8VoGcuebgVXx/XzvLM7M
+         0LiUs268AN572l+18DDU5g72sjhD8R+IenJWwxW9FcCKm2VnAKrS5z/wFhUnsFN0EofP
+         fitmVGyJrMTZeIAzjw42m4GY1XtLj1qs4mfhP8KdWkjkEmhYS7akRnQ6wKXadiOK3keY
+         FOT/FPxvILrIGl/JyyLrgSkBe6BhXvhQDvAP7HRRegTnuuDog1bniE830eo7ajrLlC8X
+         cXrwQkIPPDGtkiaBaaQnTUsHU4nApYESqPphRj7D/ZjbyeEsfTkAgM/QTBER6mNyZVHs
+         /07g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712429289; x=1713034089;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9wm9Ph/3s5E3NASywLWaboSAvM58CF/JiHZRK7P0wK0=;
-        b=uW7dfO6cMvsA8mfIgoP7EoRCGmoGxre8/ra2BZta+4lvCx2IPwT0AgRfPnkv1qvU//
-         YBgzl+WV8d18b4ndYyTGSPYCvid5kCPISgyEBKhPZYs4qv2BHgM/zUUEa07sZXQ+fVRn
-         7G17YYgt4yrZ+OsX9RDt0/g0CY3DF17j2mFgdVhGMUbf5j7vGrw+lARqcftfL2I95Jdr
-         o13L/o5pYOYnA6OML8EboSPpZGAtJKTcxglHkpaNdRGhZsZgTSVfcDwFzZGX7OvhbBKP
-         8mcH7BGLzqd+US7MJyI23JR2st6A96unufn51QSwDI8/cDqtWVvAW1klDC7qIoYz14CW
-         1Rfg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4JhKjlwH8a2lx/F2h1DmYeZELD+HM0ff2VEvViaff32CJOb3A6Nns1OEY4Ntsdt6+4u4HeEoPbSO9V+MM9Tw4VCi13M2luoJRXkWNg6/D
-X-Gm-Message-State: AOJu0YwStKMrtDKtqL+4zLw2ElPfKUXosy0dsxFsYBBedQIiEql+G1Xv
-	n5gny2RMcF3eyz7NbFfWnKlbdHlII+NrSpY3SAI5RVkeO3vjdC7q
-X-Google-Smtp-Source: AGHT+IFOahRer8HH/tw3qXPVwrJSvWLJbDEVykNF5GolU1BOrSv+htMv50kh1eRQMlAk26+uNUknNg==
-X-Received: by 2002:a05:6870:e80f:b0:22a:919a:dc87 with SMTP id o15-20020a056870e80f00b0022a919adc87mr3431387oan.56.1712429289538;
-        Sat, 06 Apr 2024 11:48:09 -0700 (PDT)
-Received: from [192.168.20.112] (76-251-167-31.lightspeed.austtx.sbcglobal.net. [76.251.167.31])
-        by smtp.gmail.com with ESMTPSA id wx24-20020a0568707e1800b0022e5019495esm1176794oab.25.2024.04.06.11.48.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Apr 2024 11:48:09 -0700 (PDT)
-Message-ID: <84eafee2-150e-4711-9eb9-1a013f363332@gmail.com>
-Date: Sat, 6 Apr 2024 13:48:08 -0500
+        d=1e100.net; s=20230601; t=1712431062; x=1713035862;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=74L3Kh0F38La798159Il7YMYXwftdxT955aZ6Xjyni4=;
+        b=qpUiy+936fdmxdkJSHwlvGG5dpUKCVS4ybDHMHV52Sx9WtCygRD9vM9KMCkoSuPPep
+         Q2c9Zon+X8/2YRLritfSB9c5vQsP7pt7WRCnozC0wxOw3kSqBybihsA5y9DaokMy8sTY
+         mxE9bcxQVu7IBorlNfrPWfLA59GF4cLZYvUJRhMze/WzazceUPiXuli8xjHxIr4hhPWx
+         VEYki6A0TUWc6ZmCfl/syOxodDNbdBBS6+X3n/K4bLCYsWirA4v54a+sffLsTcnleA4o
+         vGj1fi0v0/vvcagmMioMnboi2q+iH9xoOzIjaFZ+240FyWA414eHWC19qJCv1EDYN7GF
+         SqwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3qyhjNtdVECMB2F9E3u5m4FC30bw+f7cFj3NpyzhYb2EHLD0LzjIEoLj0q376btxDpY6vYRNc4xk3vADTGi8oIioiOGkwjo2YgyylVVQg
+X-Gm-Message-State: AOJu0YxJDeSPjol9t+1wvol3+cCbxJGA0BctfyKIkpW2bthj/iypYyMq
+	VCzqYbtD+vXJDkoj+rmf8cHnoHcQI8A+6jJzq4BGlsmYwbVWqF5i
+X-Google-Smtp-Source: AGHT+IGG+WwFL2S7fm6wtnkR5YXyHqvB4Vy36JpCHCzAbmBZXdr883PCOo+EVr6ms9A8AgtJrDwxbw==
+X-Received: by 2002:a05:6808:1b28:b0:3c5:ef95:16b2 with SMTP id bx40-20020a0568081b2800b003c5ef9516b2mr35052oib.19.1712431061661;
+        Sat, 06 Apr 2024 12:17:41 -0700 (PDT)
+Received: from fedora.work ([2600:1700:70:f701:902c:1d74:b5f5:5fae])
+        by smtp.gmail.com with ESMTPSA id 124-20020a4a1582000000b005a46d5bd558sm892318oon.45.2024.04.06.12.17.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Apr 2024 12:17:41 -0700 (PDT)
+From: Mario Limonciello <superm1@gmail.com>
+To: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	chrome-platform@lists.linux.dev (open list:CHROMEOS EC SUBDRIVERS),
+	linux-pm@vger.kernel.org (open list:POWER SUPPLY CLASS/SUBSYSTEM and DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	"Dustin L . Howett" <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH] power: supply: cros_usbpd: Don't show messages for no charging ports found
+Date: Sat,  6 Apr 2024 14:17:34 -0500
+Message-ID: <20240406191734.137797-1-superm1@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
- Framework Laptops
-To: "Dustin L. Howett" <dustin@howett.net>, Tzung-Bi Shih
- <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev
-References: <20231126192452.97824-1-dustin@howett.net>
- <20240403004713.130365-1-dustin@howett.net>
-Content-Language: en-US
-From: Mario Limonciello <superm1@gmail.com>
-In-Reply-To: <20240403004713.130365-1-dustin@howett.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Mario Limonciello <mario.limonciello@amd.com>
 
+Framework 13 and 16 don't use cros_usbpd but do use cros_ec. The following
+sequence of messages is totally unnecessary.
 
-On 4/2/24 19:47, Dustin L. Howett wrote:
-> This patch series adds support for the AMD models of the Framework
-> Laptop (both 13" and 16").
-> 
-> These models of Framework Laptop have switched to an NPCX embedded
-> controller, which uses the original Chrome EC linear memory-mapped I/O
-> model.
-> 
-> However, these devices are not configured in a way that is compatible
-> with the cros_ec driver. Instead of mapping EC memory to I/O ports
-> [0x900, 0x9FF], they map it to ports [0xE00, 0xEFF].
-> 
-> To address this difference without impacting cros_ec_lpcs' compatibility
-> with Chromebook/Chromebox devices or the existing Framework Laptop
-> platform, these patches add DMI match-specific driver data through which
-> we can detect per-machine "quirks".
-> 
-> Quirks toggle changes in cros_ec_lpcs' behavior, such as remapping the
-> memory MMIO window.
-> 
-> Changes in v2:
-> * Separated Framework Laptop (Intel) and Framework Laptop (AMD)
-> * dev_warn has been demoted to dev_info
-> * Style fixes
-> * Reworded the individual patch bodies for clarity and style
-> 
-> Changes in v3:
-> * Addressed dev_warn feedback from Thomas Weissschuh
-> * Removed the host command region quirk; Framework Computer is slated to
->    release a firmware update that addresses the I/O region issue from
->    this series' v1 and v2. This leaves just one quirk, with the potential
->    for future quirks (e.g. changes required to reduce EC bus contention
->    on the Intel Framework Laptops)
-> 
-> 
-> Dustin L. Howett (4):
->    platform/chrome: cros_ec_lpc: introduce a priv struct for the lpc
->      device
->    platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
->    platform/chrome: cros_ec_lpc: add a "quirks" system
->    platform/chrome: cros_ec_lpc: add quirks for the Framework Laptop
->      (AMD)
-> 
->   drivers/platform/chrome/cros_ec_lpc.c | 81 ++++++++++++++++++++++++---
->   1 file changed, 74 insertions(+), 7 deletions(-)
-> 
-
-I tested on top of a Framework 13 AMD running BIOS 03.05.
-
-I found that there are some errors shown related to charging abilities 
-for the PD controller.  Should cros-usbpd-charger support be quirked out 
-when run on a FW laptop?
-
-[    5.545352] cros-usbpd-charger cros-usbpd-charger.4.auto: No USB PD 
+[    5.545352] cros-usbpd-charger cros-usbpd-charger.4.auto: No USB PD
 charging ports found
-[    5.546722] cros-usbpd-charger cros-usbpd-charger.4.auto: Unexpected 
+[    5.546722] cros-usbpd-charger cros-usbpd-charger.4.auto: Unexpected
 number of charge port count
-[    5.546730] cros-usbpd-charger cros-usbpd-charger.4.auto: Failing 
+[    5.546730] cros-usbpd-charger cros-usbpd-charger.4.auto: Failing
 probe (err:0xffffffb9)
-[    5.546735] cros-usbpd-charger cros-usbpd-charger.4.auto: probe with 
+[    5.546735] cros-usbpd-charger cros-usbpd-charger.4.auto: probe with
 driver cros-usbpd-charger failed with error -71
+
+Link: https://lore.kernel.org/chrome-platform/20240403004713.130365-1-dustin@howett.net/
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/power/supply/cros_usbpd-charger.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+index b6c96376776a..4e69da2cce7b 100644
+--- a/drivers/power/supply/cros_usbpd-charger.c
++++ b/drivers/power/supply/cros_usbpd-charger.c
+@@ -570,7 +570,8 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
+ 		 * This can happen on a system that doesn't support USB PD.
+ 		 * Log a message, but no need to warn.
+ 		 */
+-		dev_info(dev, "No USB PD charging ports found\n");
++		dev_dbg(dev, "No USB PD charging ports found\n");
++		return -ENODEV;
+ 	}
+ 
+ 	charger->num_charger_ports = cros_usbpd_charger_get_num_ports(charger);
+-- 
+2.34.1
+

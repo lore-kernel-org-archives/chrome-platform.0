@@ -1,79 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B781610942;
-	Mon,  8 Apr 2024 06:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB0D101EC;
+	Mon,  8 Apr 2024 06:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712557227; cv=none; b=eMkNtAOfwTpfN+jF3oZO86+c6jkIzymkN1M4w54omKBuquj6pzPGx8ru+NEqfU4ZtvnKRcTMWvws7aIq77JfPwEapn2t1SBzmPCxlaz/WnXN97Oig6PkjGmh0brGeEg93qM3JqWxMrhScf+pOh0nv/XVgssFX3OBRHnmoBSZ1ak=
+	t=1712557786; cv=none; b=sIGyoQNT0cblQw3URzHtjcJHSP+a+jSHd1sh6wp8/8dHq3fTr5Sv4A7MOeJYd0soTis2bFgs8gb6dC28GKw30rGVYeu3knbrRoVnigZnsktpB0ohvpWvNJuW3oATgCFsIMD4H8wcF4Gjg8VYuXlnb6zmGFqkGQiLGo42gklN9iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712557227; c=relaxed/simple;
-	bh=ydEz4pvNadUncoDEpx5DkJX9bvAifXh1bPUwl29TKW0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=POSgeWexUFLR+jZ+Ix2XxIR4ZpvLHgfVcUpabuJpMgmr6813OxKloO/4pQ1kzrATydAf+WzN17lyQhCBtTio/izB3HiZLXuYU3ZB72erzCLHiwiX9ezINFqfQXSc/eWCq4yq3QBEnn1idS+GBe18As2CsD6JVDpfyd1ZZcpLrfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5rKsJ3Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712557786; c=relaxed/simple;
+	bh=tYGm1Wlc83AANEmNhUlaWG/yPJVBv4tT7LpQHu6j0Vk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CEUWxc46wu9eGJeMAL1ISzrN/dS5ZOhHrdwavDdZpmNMWxTRxGciSSQB9boT37F8+ybRi4a0NBcLEV5G6GG8/W/EMSSZOWxTZS8MYf0iQiQQ4npSbIdWL1X14aGo7CtgUt1Q7b+x7P+yIQinM1jxuYB0ApsyAMy8lBy89b02oRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFzNqVZX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5rKsJ3Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 23E89C43399;
-	Mon,  8 Apr 2024 06:20:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFzNqVZX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33395C433F1;
+	Mon,  8 Apr 2024 06:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712557226;
-	bh=ydEz4pvNadUncoDEpx5DkJX9bvAifXh1bPUwl29TKW0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=S5rKsJ3QZTLYYbUjJK8OHaOKN+H9lzl7guSBPWck+g3hlkfrq87SN191HcGIxWY8X
-	 6HtuDCI5qMJsC6HAwMYDDppmND0L5KGx1HGAGLDbVjvKriiMD0LC4hQ/gOM4m2Xuix
-	 fCofhz1SCA12iZjzgXN2+wLFCDFWCHYkJWoSWwnfHVKtZYNlkAHXk9equCO1+tjAML
-	 9USK/Vj35ICR3zyYMZ5del2EewTFPqpWB7xHAuDLW0OMuPsoZKJG/83OVP+BOYi8M+
-	 AaZeX9KpnUShf3KL9cMYvLU+1Z4eho7HksvJtB1Z1K/fprRcoo4zhUoAhIi51uFEdk
-	 lxD7YHrJkPITw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19110D2D0FD;
-	Mon,  8 Apr 2024 06:20:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1712557785;
+	bh=tYGm1Wlc83AANEmNhUlaWG/yPJVBv4tT7LpQHu6j0Vk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DFzNqVZXR1Wo7mNMG5ZdFcfP+tc50d3NZE64DFL9ao/r5t2nvY+pBf07cyP5AsQIl
+	 Ucr0aRthRFiE4XXEpt9omqyAu9FdGqk8JHFgdL1upMC539YHDNjT0WWb1+YzDpmVka
+	 KLo5KVgQLNl1fmhIhpaMYCDnDFYMk9zKAVz5pzUh2zmmDtoYmjxlQfrUdSqVI8QZNq
+	 wzyr6qB+Kg0gX3WSPYTmJaV8RESoBE6FdKgrrE4rwM9IDPkALh8eplSYoQGeofDObi
+	 ClJdiIfHW0pA2t6qcB0CzU/kt51/BcgbYaXn/+z7rf8N4fckleVSpFhqaT6KKHGt/Z
+	 5REdMpVPic58A==
+Date: Mon, 8 Apr 2024 14:29:42 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Mario Limonciello <superm1@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	"open list:CHROMEOS EC SUBDRIVERS" <chrome-platform@lists.linux.dev>,
+	"open list:POWER SUPPLY CLASS/SUBSYSTEM and DRIVERS" <linux-pm@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"Dustin L . Howett" <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH] power: supply: cros_usbpd: Don't show messages for no
+ charging ports found
+Message-ID: <ZhOO1hCJroxf0oHy@google.com>
+References: <20240406191734.137797-1-superm1@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/1] platform: Handle HAS_IOPORT dependencies
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171255722609.606.5030818566698111967.git-patchwork-notify@kernel.org>
-Date: Mon, 08 Apr 2024 06:20:26 +0000
-References: <20240405134151.5560-1-schnelle@linux.ibm.com>
-In-Reply-To: <20240405134151.5560-1-schnelle@linux.ibm.com>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: bleung@chromium.org, tzungbi@kernel.org, chrome-platform@lists.linux.dev,
- arnd@kernel.org, hca@linux.ibm.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240406191734.137797-1-superm1@gmail.com>
 
-Hello:
-
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Fri,  5 Apr 2024 15:41:50 +0200 you wrote:
-> Hi Benson, Tzung-Bi,
+On Sat, Apr 06, 2024 at 02:17:34PM -0500, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
 > 
-> This is a follow up in my ongoing effort of making inb()/outb() and
-> similar I/O port accessors compile-time optional. Previously I sent this
-> as a treewide series titled "treewide: Remove I/O port accessors for
-> HAS_IOPORT=n" with the latest being its 5th version[0]. With a significant
-> subset of patches merged I've changed over to per-subsystem series. These
-> series are stand alone and should be merged via the relevant tree such
-> that with all subsystems complete we can follow this up with the final
-> patch that will make the I/O port accessors compile-time optional.
-> 
-> [...]
+> Framework 13 and 16 don't use cros_usbpd but do use cros_ec. The following
+> sequence of messages is totally unnecessary.
 
-Here is the summary with links:
-  - [1/1] platform: add HAS_IOPORT dependencies
-    https://git.kernel.org/chrome-platform/c/3b89336c9ccf
+In the case, the EC firmware shouldn't report the feature.  See [1].
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+[1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/mfd/cros_ec_dev.c#L106

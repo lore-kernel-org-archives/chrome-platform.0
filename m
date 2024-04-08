@@ -1,130 +1,145 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3247F74BF5
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 13:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EAE12DD94;
+	Mon,  8 Apr 2024 14:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712581479; cv=none; b=cmuWS8o16TFGv1ov2oRD1b1sin9pw/s6b+YO9RU3nhyVaOsKNd57o9HwoD1YuP/Pe1+QX8k36OiKopwHIpesyuY/JLzufEHAG0BXcMPy6gPSudEkHjljH+PNua3dHnx1SFBzDuYcheVUY0I5iwku2zI9Mz2wrAtR88QP2OiDwOM=
+	t=1712585947; cv=none; b=jDKtG8N7eYJ+u5C9zNG4urjuveB2U1OmqjK4D8i9IKmTdarGognYIkQ5PCRPXEBxtFyVgN795KUjmw9hNsSkrb16+TgbX1jz6QJSpTakrr9YGZFZ31lO624n+AfJNrun/4IhIL6B6TZsNu6oiq5/ggrN9Rj6ypNnCadjayJn/gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712581479; c=relaxed/simple;
-	bh=7bpRSGGPDQCS7wFqBB78vDQoO6pcgett9EASBZ5btWM=;
+	s=arc-20240116; t=1712585947; c=relaxed/simple;
+	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kreP4RidDVCafM9ON+lTX0bKbHmRKGg4K8B/LbDCemu8J0gEf9f2nJbDR/Hqj0Z9R0dnNY7Gw8p6HzMqH6LIfxejjfl0HHYIj9wA14KIsswvcqvKSvebWSEde1E7uuviajZi1plsS2CSz0AbviVlJOvLg2uojKVGmYlxrb0x1mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O+pjL4yq; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=LeIP1ZqvXdyUa/hZ7Do6hmea6oYfk45uRxEGl2DzWCH6bE2/aoBcsZMqICV4PbPOIIt/zF1EcOvsAJBKL5iiDn3J2T7HweO4YOkW9Y4A03aTB3U+84vm2KXGM/Kw9GLPk1ZF9udv/SpoBV8LYikec5YsOxV2euXrkf2WKdVXLPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUGFi/YM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O+pjL4yq"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-43477091797so344161cf.1
-        for <chrome-platform@lists.linux.dev>; Mon, 08 Apr 2024 06:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712581477; x=1713186277; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TVioy9EMNQnc5SXcQapeY7Z9K+iAa8Z5L7a/jg+l4cY=;
-        b=O+pjL4yqKuxBFDVADx7BiiPxAWDe247JfUmwsRqZNjqmLm74310HIZmcJEeVzPiL6K
-         TTFk8O3rvG1LeMzKTAuZxGl6tjcavOH9Ae6VxBWclmjr3jIBZffZrTRrQXO2SqIbEoHv
-         ZUPYFR3KcyxL2a8Loq/Pk2FnG1uof6kVjKqavGdilP6TDCPEKAoMuG1rL4tK2naDqQkv
-         QvhfpgNrhDCVYmYsKfOxurLC+KyC1xmbOllDJX3lIFQ5TLI+nHNLfoKZq04MszjvZzQ4
-         QKRUB2VnbIIaMcAXOJMoI3D2+ZJcDKP3/T+9iycOU8WNM9FxzFHKe4nsKDm1G+JDwYhl
-         h5Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712581477; x=1713186277;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TVioy9EMNQnc5SXcQapeY7Z9K+iAa8Z5L7a/jg+l4cY=;
-        b=jV2eBMWbi+bM2qC1FShN0/q3bZNTmmnYFQmIGtknZgmRBeZrFXh6vfrdWVuw3Gw8v0
-         g13T9hF8pMOo1QM0yJZecqlVEpBhcbwNSZ5LR1mah+xMHHzsHF7VRnTB5VdnJeMtmiJN
-         gNDUBE2jNfa82OHtZdqODgYU4j5qSwPVVTdMW4can9nUPd7m44nOzhgV6NxtpudKc66c
-         Hri6bfH9x3n9iDAn90Ju6zDzLBuiBsOtmNXKQSVbczeGWmg53piZJa+6qy3cuHLSgEgu
-         6RGvW42aDCo6isWRIK93WoPRtIl0VZkJpp2FMFP6nlabvIm/gOubAZRBrz9pM6yrmZOl
-         cajw==
-X-Forwarded-Encrypted: i=1; AJvYcCVD+2J8UUz/9IwBHwd05iqVYJ4v9XHLFwgrCnphkbW+c88zL6e1fQiRUuciVOfxHibqWMsMNuF5Y2h4iw1tPxJfzKguC5aqFRjlf3jXGciZ
-X-Gm-Message-State: AOJu0YwOyLn5SCjA67FQeisp3Xl+Kq4JUQYQxZARi2C/lBqy4gKyb3yK
-	S1wmFirDt/Xvb95WV4IxKrIPpKSF/xIuoZVrZS0EF4ZPoZchzg3EgrURsC53cZfD0WHWEz8+Wcv
-	KL0RvHtXer2j/paQ5No2OzKVV11GEEZrW+zzj
-X-Google-Smtp-Source: AGHT+IFZaV9W1guyCiCFvlxL0Tuf2HLr1fiYCHIb/nvtokprZt499aOhX2wlCRAmDZ6qHpx8t/vS6dcU4G703dCeYVM=
-X-Received: by 2002:a05:622a:4812:b0:434:7bb9:f231 with SMTP id
- fb18-20020a05622a481200b004347bb9f231mr343464qtb.12.1712581476934; Mon, 08
- Apr 2024 06:04:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUGFi/YM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8772C433A6;
+	Mon,  8 Apr 2024 14:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712585946;
+	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TUGFi/YM8gQSXAdKgMg9uMImfJ9pFr4J1BwQGC94uJaWyxn5itekO7PKA0SOCkcEr
+	 QA1VPSa4wvslrYn9vTSnW0EVFIanPL08HsVca7vSI9husMuO9arD8ocD6EQnzFETmf
+	 ksWAANdxnCkmOLHmrI6mO1VYhzYnkCehSOhb8tgukA/HapUYG2wm9kLJdPZyWx5ziM
+	 onUQBvdhF3eA9tBBfibtluCkIRkLz1dqefrOixMYQAZ8eVa7KryggECPnAlJmn4rg4
+	 p85ddRL+1iLruCT+0p97PQPdoRaPAkKby25KaOT07INHT9Z6ZzRDm1QnLmv0B0OGn9
+	 XEvf7acmBnFRQ==
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3c3db6798f6so23751b6e.0;
+        Mon, 08 Apr 2024 07:19:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWUPTK2ZGvSY39xFcFKBnNDSxvWYsjAeiaDGaTEq2RHWu8XouiU+47Ri8m7KyZDTrdSTy+RWVTVVvDMl1oYPAzylmeWK5UWzSbfPgSfhKYG6SLXHffjrQ6BFnT68mywDEi0BTdh1Eqz82Cfykoj
+X-Gm-Message-State: AOJu0YxURO8nMX2hKGvo0GAJW51dYz5pPpG977uQki1BNYJOEpYTvTf3
+	kygTHdxwMSKkUG/j/cRVI6/V7wDs66y9J29S4hY23k1kM63UeRVRUrCa4IrphZ0r/Is3CoEGE2r
+	drFL/Sv+vFWNL+dkK7ob5CRQfCrQ=
+X-Google-Smtp-Source: AGHT+IE2cd5MIHpLilsMOefxnD7lqhVeZau5m81/yoSXqMyOs4mTHwzl+84AR6mEi+xDVYbCBwtZjPGYOY8LlCssj9M=
+X-Received: by 2002:a05:6808:138e:b0:3c5:eab3:657 with SMTP id
+ c14-20020a056808138e00b003c5eab30657mr5718403oiw.4.1712585945878; Mon, 08 Apr
+ 2024 07:19:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
- <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org> <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
- <2024040449-average-foyer-defa@gregkh> <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
- <2024040422-ripcord-bladder-bdda@gregkh>
-In-Reply-To: <2024040422-ripcord-bladder-bdda@gregkh>
-From: Guenter Roeck <groeck@google.com>
-Date: Mon, 8 Apr 2024 06:04:22 -0700
-Message-ID: <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Pavan Holla <pholla@chromium.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+References: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
+In-Reply-To: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 8 Apr 2024 16:18:54 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
+Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 00/19] ACPI: store owner from modules with acpi_bus_register_driver()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Robert Moore <robert.moore@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Corentin Chary <corentin.chary@gmail.com>, 
+	"Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
+	Azael Avalos <coproscefalo@gmail.com>, Ajay Kaher <akaher@vmware.com>, 
+	Alexey Makhalov <amakhalov@vmware.com>, VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
+	Richard Cochran <richardcochran@gmail.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+	"Jason A. Donenfeld" <Jason@zx2c4.com>, linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 4, 2024 at 6:30=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-[ ... ]
-
-> > > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
-> > > >   return -EINVAL;
-> > >
-> > > So if you trigger this, you just rebooted all boxes that have
-> > > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
-> > > systems out there.)
-> > >
-> > > So don't do that, just handle it like this.
-> >
-> > Does that mean that we should not use WARN at all? What is the best
-> > current practice for WARN usage?
+On Thu, Mar 28, 2024 at 8:49=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> To never use it.  Handle the issue and recover properly.
+> Changes in v2:
+> - Correct input and platform/chrome subjects.
+> - Add acks.
+> - Link to v1: https://lore.kernel.org/r/20240327-b4-module-owner-acpi-v1-=
+0-725241a2d224@linaro.org
 >
-> > I'm asking because for me this looks like a perfect usecase. If I were
-> > at the positiion of the driver developer, I'd like to know the whole
-> > path leading to the bad call, not just the fact that the function was
-> > called with the buffer being too big.
+> Merging
+> =3D=3D=3D=3D=3D=3D=3D
+> All further patches depend on the first amba patch, therefore one way is
+> to ack and take it via one tree, e.g. ACPI.
 >
-> Then use ftrace if you are a driver developer, don't crash users boxes
-> please.
+> Description
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Modules registering driver with acpi_bus_register_driver() often forget t=
+o
+> set .owner field.
 >
-> If you REALLY need a traceback, then provide that, but do NOT use WARN()
-> for just normal debugging calls that you want to leave around in the
-> system for users to trip over.
+> Solve the problem by moving this task away from the drivers to the core
+> amba bus code, just like we did for platform_driver in commit
+> 9447057eaff8 ("platform_device: use a macro instead of
+> platform_driver_register").
 >
+> Best regards,
+> Krzysztof
+>
+> ---
+> Krzysztof Kozlowski (19):
+>       ACPI: store owner from modules with acpi_bus_register_driver()
+>       Input: atlas - drop owner assignment
+>       net: fjes: drop owner assignment
+>       platform/chrome: wilco_ec: drop owner assignment
+>       platform: asus-laptop: drop owner assignment
+>       platform: classmate-laptop: drop owner assignment
+>       platform/x86/dell: drop owner assignment
+>       platform/x86/eeepc: drop owner assignment
+>       platform/x86/intel/rst: drop owner assignment
+>       platform/x86/intel/smartconnect: drop owner assignment
+>       platform/x86/lg-laptop: drop owner assignment
+>       platform/x86/sony-laptop: drop owner assignment
+>       platform/x86/toshiba_acpi: drop owner assignment
+>       platform/x86/toshiba_bluetooth: drop owner assignment
+>       platform/x86/toshiba_haps: drop owner assignment
+>       platform/x86/wireless-hotkey: drop owner assignment
+>       ptp: vmw: drop owner assignment
+>       virt: vmgenid: drop owner assignment
+>       ACPI: drop redundant owner from acpi_driver
+>
+>  drivers/acpi/bus.c                        | 9 +++++----
+>  drivers/input/misc/atlas_btns.c           | 1 -
+>  drivers/net/fjes/fjes_main.c              | 1 -
+>  drivers/platform/chrome/wilco_ec/event.c  | 1 -
+>  drivers/platform/x86/asus-laptop.c        | 1 -
+>  drivers/platform/x86/classmate-laptop.c   | 5 -----
+>  drivers/platform/x86/dell/dell-rbtn.c     | 1 -
+>  drivers/platform/x86/eeepc-laptop.c       | 1 -
+>  drivers/platform/x86/intel/rst.c          | 1 -
+>  drivers/platform/x86/intel/smartconnect.c | 1 -
+>  drivers/platform/x86/lg-laptop.c          | 1 -
+>  drivers/platform/x86/sony-laptop.c        | 2 --
+>  drivers/platform/x86/toshiba_acpi.c       | 1 -
+>  drivers/platform/x86/toshiba_bluetooth.c  | 1 -
+>  drivers/platform/x86/toshiba_haps.c       | 1 -
+>  drivers/platform/x86/wireless-hotkey.c    | 1 -
+>  drivers/ptp/ptp_vmw.c                     | 1 -
+>  drivers/virt/vmgenid.c                    | 1 -
+>  include/acpi/acpi_bus.h                   | 8 ++++++--
+>  19 files changed, 11 insertions(+), 28 deletions(-)
+> ---
 
-That is not common practice.
-
-$ git grep WARN_ON drivers/gpu | wc
-   3004   11999  246545
-$ git grep WARN_ON drivers/net/ | wc
-   3679   14564  308230
-$ git grep WARN_ON drivers/net/wireless | wc
-   1985    8112  166081
-
-We get hundreds of thousands of reports with warning backtraces from
-Chromebooks in the field _every single day_. Most of those are from
-drm and wireless subsystems. We even had to scale back the percentage
-of reported warning backtraces because the large volume overwhelmed
-the reporting system. When approached about it, developers usually
-respond with "this backtrace is absolutely necessary", but nothing
-ever happens to fix the reported problems. In practice, they are just
-ignored.
-
-This means that any system using drm or wireless interfaces just can
-not really enable panic-on-warn because that would crash the system
-all the time.
-
-Guenter
+Whole series applied as 6.10 material, thanks!

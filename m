@@ -1,57 +1,34 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6435810E9
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 08:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0CD45957
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 09:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712565447; cv=none; b=ND6JgM/mufS2VQlAuKlpCT8yT5mORIGsAWA2G1VIuvaFjpruQbFNh/5/qqzwuAuc5PNON4+DPCxtToSQ5r7po87UANpHkB4NrsJSHsVbXD0dNrYm4z2Mob7AcGUpBJxtVBx09A5FGh2VCQ/wC5Zi2lHiUH8svf6Kl+aasoa1UKI=
+	t=1712568628; cv=none; b=F+d2O22JibThDz2WsnVRSyZF4qhhy6PYX/AmUiW73mt2wT9nDVWl0VXpAyyfPXw4+cx9sEa0pNz516QAmdqQXLDbiji9jCM3xExG9g3nLNwB6pPGmV/kwAT8L65wGzwYbkuEgF1B7a8fBNPjFbdnUU8MOhANbmTbOHqJgYvnX8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712565447; c=relaxed/simple;
-	bh=wvlqrmhKe64ecGYKfX2SzFqAEF5k3HkC4MC9KC+PdUs=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=lKGFNTNhfdGVerTqmAVdmfp/bxXppKWlna6Na2W5r9/mKp1C1IrKTYIRR4DZrxpWm3CjmHmsxp317z3jmxKxWBLjTOI7oKnGupblGgSEwEvUF+jDGVCCrAdcUf3ILACf8JQYCQmzWz3Crli/viASY1VY5zaoiyrLGo9W4AivOrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Ct8p3f1g; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1712568628; c=relaxed/simple;
+	bh=e7jUax7PNUaTO+GrU9UjRBPfYHehRDREuQAemE+sfgU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=jJ2CXSU6hmsdCyQrHAxGIKbyY6rfCEEcPU3MpMt4IsYUDH1F3puWrWVZTO7g/IeCPq+NsAj2GS2mSWQD/J/KZzfmDGhjQLJFRR365IPFcFZIw3oPgNRilbOwn+8EFI8eihr1Qz0ibjDtJnwV7Bq+AhQ12Xm/r+0/fKaIxT7QO2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPG6NAiA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Ct8p3f1g"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2a2dd2221d3so2607753a91.0
-        for <chrome-platform@lists.linux.dev>; Mon, 08 Apr 2024 01:37:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712565445; x=1713170245; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=WhJkoVHJ7/0k8agP8XhH/T4IohXq7lSPe2rLVvoBR4c=;
-        b=Ct8p3f1g1A/L3M65a5BEmSzvxm0fbtG9aOhCRZf3OHFFiBrPOYJFgHDB2M2oOTdCen
-         MR61w9lINWH12k4yTCHema6LYSh+TC0Mce2EDP1Gz2YLaa6zIxQDihE/VY5MUm8gDzso
-         MraeJdJrlLY8/492/C4ymgQID82yBmd5G91ETOGbzfF5LKhhOENWx40yuCyN0P21Hhu5
-         fYLP9euMYuvfnMOFi/skJ1RvrgxfkXz+EnpwymOVkMi/zK/0Nuv/iurO87zXdju1XL+z
-         o6LxJDzeNmXFEZltcRftQawZPra0NONC8eazVpw2PATZqChGw1LNfyIwLXwJNuRAy7wW
-         tVRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712565445; x=1713170245;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WhJkoVHJ7/0k8agP8XhH/T4IohXq7lSPe2rLVvoBR4c=;
-        b=JbkvfkbNigIAqcVRlPMnoKXzaG5PCCKnVjWNFJVPHuGAgGJShCKLK7TdFC++nTchXM
-         gOGvGZda+Tldxh/tA9ZK4zVqGCyCK+siUrRa4r8iR7ZYpMPS3CPqtyX0yEkCXzQiuMDa
-         g68UZfRH7fvyv8aBlkkQLIJ1RtHwJfkNgqHYhG3VBfPLYHy2Je4JNBgQgd7fOK/4kIOg
-         eOUPcVJujB1BoBXmtCfq2p08e788v40ewTAl+ZxELrMG5x0BFWQ6rxGI0C+Y7i/wKnZ6
-         P34o1v7NzSSKjEyCVS4Ltylm7ThFyVQ2FM4WxYmqizPTGvXrC56jEgcgYHlfFv8Fr29g
-         6Xyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVuOSU1zUMUpOXuyHb5Ld6GcjiQ0jXqJzIxnBLefB2uvq+eWNcPF3O6xJ7Wi0smkg3st7U0k1iTnmq6AQwjHcMCqMsObdEAx6WXLx9fmGb8
-X-Gm-Message-State: AOJu0YxGH1fQAwVH9I5tdT7iwdiS8MxgsezB846FXX+5bVhGpJseSm9d
-	qsNH2mBM80yicjD/KDAs4CuwxRUz/sRnR4KeEJYiOgiov0zJjT5EXwTFy7Rtjfk=
-X-Google-Smtp-Source: AGHT+IEKIYz+iqekH9JMdCvhHgkpgroz+RhjMF3kIRpwJpOFtfYlg/PLckK3Tj0S18/RXe9To6cfyA==
-X-Received: by 2002:a17:90b:4414:b0:2a3:be59:e969 with SMTP id hx20-20020a17090b441400b002a3be59e969mr4907740pjb.47.1712565445119;
-        Mon, 08 Apr 2024 01:37:25 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id cu12-20020a17090afa8c00b002a2f6da006csm5884123pjb.52.2024.04.08.01.37.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 01:37:24 -0700 (PDT)
-Message-ID: <6613acc4.170a0220.5de16.e5bf@mx.google.com>
-Date: Mon, 08 Apr 2024 01:37:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPG6NAiA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 701D8C433F1;
+	Mon,  8 Apr 2024 09:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712568627;
+	bh=e7jUax7PNUaTO+GrU9UjRBPfYHehRDREuQAemE+sfgU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=dPG6NAiAt6hfspxnENR0SzN15OVkIBn2Lh2iPjSVnhDZe1jNwUFDmo1Pixhhi+3lX
+	 3X/slnGAiOM8ArIQCG/AcYZlCFyFfY446sv1xvh+URDnfN7TxE3XCq78V361EwwXQk
+	 fSCMwBgbukA4lwnVHzIdE+n0CPeFbr9VI3J2RyYiU+vt0vss+7LXu+64TltdiGZWGY
+	 zJryn7mrB1qmQNxOyLzxy0IIOFppd+47atoJns8bcHlxnCc6aJfbX2vttzkYo2TH8+
+	 ZTMwQvMHNrvA+D/ypI33hEAuzn30eHwYTx/cf7xdHiyFllU0G40b/fylpEzzY/1t+I
+	 B2G4eJj5TOknw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 67CF9C54BD4;
+	Mon,  8 Apr 2024 09:30:27 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -59,82 +36,46 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc1-17-g3b89336c9ccf5
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 9 runs,
- 1 regressions (v6.9-rc1-17-g3b89336c9ccf5)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
+ Framework Laptops
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171256862742.1734.16237012013316450474.git-patchwork-notify@kernel.org>
+Date: Mon, 08 Apr 2024 09:30:27 +0000
+References: <20240403004713.130365-1-dustin@howett.net>
+In-Reply-To: <20240403004713.130365-1-dustin@howett.net>
+To: Dustin Howett <dustin@howett.net>
+Cc: tzungbi@kernel.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 
-chrome-platform/for-kernelci cros-ec: 9 runs, 1 regressions (v6.9-rc1-17-g3=
-b89336c9ccf5)
+Hello:
 
-Regressions Summary
--------------------
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+On Tue,  2 Apr 2024 19:47:09 -0500 you wrote:
+> This patch series adds support for the AMD models of the Framework
+> Laptop (both 13" and 16").
+> 
+> These models of Framework Laptop have switched to an NPCX embedded
+> controller, which uses the original Chrome EC linear memory-mapped I/O
+> model.
+> 
+> [...]
 
+Here is the summary with links:
+  - [v3,1/4] platform/chrome: cros_ec_lpc: introduce a priv struct for the lpc device
+    https://git.kernel.org/chrome-platform/c/8ae8e4e694b1
+  - [v3,2/4] platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
+    https://git.kernel.org/chrome-platform/c/839720336e8c
+  - [v3,3/4] platform/chrome: cros_ec_lpc: add a "quirks" system
+    https://git.kernel.org/chrome-platform/c/6b0ab6de2d86
+  - [v3,4/4] platform/chrome: cros_ec_lpc: add quirks for the Framework Laptop (AMD)
+    https://git.kernel.org/chrome-platform/c/3e8d1b5350e0
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc1-17-g3b89336c9ccf5/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc1-17-g3b89336c9ccf5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      3b89336c9ccf5961e9ec9521868a4c48bd6dded5
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6613957252cbf612524c42da
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-17-g3b89336c9ccf5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc1-17-g3b89336c9ccf5/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/6613957252cbf612524c42=
-db
-        failing since 112 days (last pass: v6.7-rc1-3-g59a9ccf19ee03, first=
- fail: v6.7-rc1-4-g57eb6dcd32cf6) =
-
- =20

@@ -1,145 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EAE12DD94;
-	Mon,  8 Apr 2024 14:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5B86E60E
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 17:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712585947; cv=none; b=jDKtG8N7eYJ+u5C9zNG4urjuveB2U1OmqjK4D8i9IKmTdarGognYIkQ5PCRPXEBxtFyVgN795KUjmw9hNsSkrb16+TgbX1jz6QJSpTakrr9YGZFZ31lO624n+AfJNrun/4IhIL6B6TZsNu6oiq5/ggrN9Rj6ypNnCadjayJn/gI=
+	t=1712596341; cv=none; b=DeF0U3O15NbUrlPJz+vzxL9Qxrg4Aq1u5Yc7FPa9TyMg59exbPmrNNmbFXIl2Z91pjB/i1gHkDNGFRf7rBvN88CwMB1SZoDyWZ43QGrk2L3KUQqV+In4eP+GVpBizpXShK03HXfiCi30meBJXp8wsFkWgO0D3OHgFL1TgUk6XAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712585947; c=relaxed/simple;
-	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LeIP1ZqvXdyUa/hZ7Do6hmea6oYfk45uRxEGl2DzWCH6bE2/aoBcsZMqICV4PbPOIIt/zF1EcOvsAJBKL5iiDn3J2T7HweO4YOkW9Y4A03aTB3U+84vm2KXGM/Kw9GLPk1ZF9udv/SpoBV8LYikec5YsOxV2euXrkf2WKdVXLPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUGFi/YM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712596341; c=relaxed/simple;
+	bh=oJ9mT+vwINWrYV759TkgfgMbkpyg67bL62cpIdVNlF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOxEZy+ENGvSKL3mFsYfjwSxiv40L02MQw8DQoXWBdPzhUeEtSPpToWpHgNkot2H+JvBkojtxKVr9+PtZ5w39tSwGlF/9yERtnYipNCnfubEIJxEYP2bx24lU0TyWG1E34VFHcv0rOGnTDfrZsET9eqgBA0ZSc+AZ7OLiq8bq2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ruZfXEx2; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUGFi/YM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8772C433A6;
-	Mon,  8 Apr 2024 14:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712585946;
-	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TUGFi/YM8gQSXAdKgMg9uMImfJ9pFr4J1BwQGC94uJaWyxn5itekO7PKA0SOCkcEr
-	 QA1VPSa4wvslrYn9vTSnW0EVFIanPL08HsVca7vSI9husMuO9arD8ocD6EQnzFETmf
-	 ksWAANdxnCkmOLHmrI6mO1VYhzYnkCehSOhb8tgukA/HapUYG2wm9kLJdPZyWx5ziM
-	 onUQBvdhF3eA9tBBfibtluCkIRkLz1dqefrOixMYQAZ8eVa7KryggECPnAlJmn4rg4
-	 p85ddRL+1iLruCT+0p97PQPdoRaPAkKby25KaOT07INHT9Z6ZzRDm1QnLmv0B0OGn9
-	 XEvf7acmBnFRQ==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3c3db6798f6so23751b6e.0;
-        Mon, 08 Apr 2024 07:19:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWUPTK2ZGvSY39xFcFKBnNDSxvWYsjAeiaDGaTEq2RHWu8XouiU+47Ri8m7KyZDTrdSTy+RWVTVVvDMl1oYPAzylmeWK5UWzSbfPgSfhKYG6SLXHffjrQ6BFnT68mywDEi0BTdh1Eqz82Cfykoj
-X-Gm-Message-State: AOJu0YxURO8nMX2hKGvo0GAJW51dYz5pPpG977uQki1BNYJOEpYTvTf3
-	kygTHdxwMSKkUG/j/cRVI6/V7wDs66y9J29S4hY23k1kM63UeRVRUrCa4IrphZ0r/Is3CoEGE2r
-	drFL/Sv+vFWNL+dkK7ob5CRQfCrQ=
-X-Google-Smtp-Source: AGHT+IE2cd5MIHpLilsMOefxnD7lqhVeZau5m81/yoSXqMyOs4mTHwzl+84AR6mEi+xDVYbCBwtZjPGYOY8LlCssj9M=
-X-Received: by 2002:a05:6808:138e:b0:3c5:eab3:657 with SMTP id
- c14-20020a056808138e00b003c5eab30657mr5718403oiw.4.1712585945878; Mon, 08 Apr
- 2024 07:19:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ruZfXEx2"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51381021af1so7543958e87.0
+        for <chrome-platform@lists.linux.dev>; Mon, 08 Apr 2024 10:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712596338; x=1713201138; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=T8TRMrj5ggtPr7yueS0y7TsmLoLHnTwJgZ1LoVKqCBE=;
+        b=ruZfXEx2abUQnRfv1NpIhJ3LpcPkNQqCmPB50Y/m/wGT4vsLjStRD4iEKdAJgG6wuN
+         S9HV6TIHJj2kF2BDZ3JHrXt12thZ7fO4cEymOWL8uWpmaLO2SFUZtSZdZVW+szKNYtzK
+         wQb2DtXskUKu2CGn7iFxtvgd3jepeid2ckxw8vNJJOyMZYsPv4jxUHNRFnH56232kMVq
+         P4zip55dFzaApBF4HcHstKvv81r78CjD+OKvWS43CPpSMnG+2usNkw9kZRiwJJPSodIf
+         nyk8XyoBOI8lh4DHyTtRZdk8u2NrVMvw4zI2mSIHQKuZVU+xtz1SVaFT+w2PUFnmttX+
+         1IDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712596338; x=1713201138;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T8TRMrj5ggtPr7yueS0y7TsmLoLHnTwJgZ1LoVKqCBE=;
+        b=Nm5fRy3O/uGBRu2mdF5gQd92PolpTpxYL/XsuSiF8oMAmKoHBRdfXVGBv2XIIS3zZL
+         hYhaP+XIwh4fcSOL11NoLVSVTXEIMhvIHXWO1INKlJdx6DaVHJ+xl5qiaDRz/JnVetCE
+         qyQSX6rTLUkvoYoL9zZ1ml6+PvLrWh7fuvAOmWM9jjySfS7cJrtef79lCmZrG9TuMAjg
+         AWiQji4T/ykW4DP63UB4PAukthRn5F4iPyW5Onrtpc2B59alMq5l/OWqbQZIkTJGDxTY
+         gv5pyqX8nePgZsr9sqSd53E1GpN/9O2ITsK/pDJo75tRrRMZ1mZThGEtgQVGic84q2UP
+         7VwA==
+X-Forwarded-Encrypted: i=1; AJvYcCXFdcC6LxNKxKyvX94GH1wl6OzKyYWxNnzJXW2KXPpcnEn5NsFIt96FIUTMk7vuchm/Qil2lKno97JtcqSXrdMUUqiR/nmQkm1T47oUjC4D
+X-Gm-Message-State: AOJu0YwDUzXu5tf4e4y6yojzw9G4VnkANUhSh0LntCCWAjp6X66PZMOY
+	X4aP1rvtl+TLyxC1Kw9+n/4Buhjod90WPS/8yJGW3ncspMAxOSnlBdyhWZ4/Afo=
+X-Google-Smtp-Source: AGHT+IHfa69MVbZoX1KR17DtI3oUMVnY5gNXSX0c37nh4zmNkLTwhqWTjIaOwFa2GYGnzTRLv8lHXQ==
+X-Received: by 2002:a05:6512:52b:b0:516:c1b9:316b with SMTP id o11-20020a056512052b00b00516c1b9316bmr8096374lfc.15.1712596338037;
+        Mon, 08 Apr 2024 10:12:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
+        by smtp.gmail.com with ESMTPSA id k6-20020ac257c6000000b00515cfc0e324sm1231930lfo.237.2024.04.08.10.12.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 10:12:17 -0700 (PDT)
+Date: Mon, 8 Apr 2024 20:12:16 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Guenter Roeck <groeck@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Pavan Holla <pholla@chromium.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <txdq6cmnep2zokrwykdsnpho3k76pangzxbv7ydxpdnyohczxo@2jc4cyakrmez>
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+ <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org>
+ <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
+ <2024040449-average-foyer-defa@gregkh>
+ <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
+ <2024040422-ripcord-bladder-bdda@gregkh>
+ <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-In-Reply-To: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 8 Apr 2024 16:18:54 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
-Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/19] ACPI: store owner from modules with acpi_bus_register_driver()
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Corentin Chary <corentin.chary@gmail.com>, 
-	"Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
-	Azael Avalos <coproscefalo@gmail.com>, Ajay Kaher <akaher@vmware.com>, 
-	Alexey Makhalov <amakhalov@vmware.com>, VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
-	Richard Cochran <richardcochran@gmail.com>, "Theodore Ts'o" <tytso@mit.edu>, 
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
-	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
 
-On Thu, Mar 28, 2024 at 8:49=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Changes in v2:
-> - Correct input and platform/chrome subjects.
-> - Add acks.
-> - Link to v1: https://lore.kernel.org/r/20240327-b4-module-owner-acpi-v1-=
-0-725241a2d224@linaro.org
->
-> Merging
-> =3D=3D=3D=3D=3D=3D=3D
-> All further patches depend on the first amba patch, therefore one way is
-> to ack and take it via one tree, e.g. ACPI.
->
-> Description
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Modules registering driver with acpi_bus_register_driver() often forget t=
-o
-> set .owner field.
->
-> Solve the problem by moving this task away from the drivers to the core
-> amba bus code, just like we did for platform_driver in commit
-> 9447057eaff8 ("platform_device: use a macro instead of
-> platform_driver_register").
->
-> Best regards,
-> Krzysztof
->
-> ---
-> Krzysztof Kozlowski (19):
->       ACPI: store owner from modules with acpi_bus_register_driver()
->       Input: atlas - drop owner assignment
->       net: fjes: drop owner assignment
->       platform/chrome: wilco_ec: drop owner assignment
->       platform: asus-laptop: drop owner assignment
->       platform: classmate-laptop: drop owner assignment
->       platform/x86/dell: drop owner assignment
->       platform/x86/eeepc: drop owner assignment
->       platform/x86/intel/rst: drop owner assignment
->       platform/x86/intel/smartconnect: drop owner assignment
->       platform/x86/lg-laptop: drop owner assignment
->       platform/x86/sony-laptop: drop owner assignment
->       platform/x86/toshiba_acpi: drop owner assignment
->       platform/x86/toshiba_bluetooth: drop owner assignment
->       platform/x86/toshiba_haps: drop owner assignment
->       platform/x86/wireless-hotkey: drop owner assignment
->       ptp: vmw: drop owner assignment
->       virt: vmgenid: drop owner assignment
->       ACPI: drop redundant owner from acpi_driver
->
->  drivers/acpi/bus.c                        | 9 +++++----
->  drivers/input/misc/atlas_btns.c           | 1 -
->  drivers/net/fjes/fjes_main.c              | 1 -
->  drivers/platform/chrome/wilco_ec/event.c  | 1 -
->  drivers/platform/x86/asus-laptop.c        | 1 -
->  drivers/platform/x86/classmate-laptop.c   | 5 -----
->  drivers/platform/x86/dell/dell-rbtn.c     | 1 -
->  drivers/platform/x86/eeepc-laptop.c       | 1 -
->  drivers/platform/x86/intel/rst.c          | 1 -
->  drivers/platform/x86/intel/smartconnect.c | 1 -
->  drivers/platform/x86/lg-laptop.c          | 1 -
->  drivers/platform/x86/sony-laptop.c        | 2 --
->  drivers/platform/x86/toshiba_acpi.c       | 1 -
->  drivers/platform/x86/toshiba_bluetooth.c  | 1 -
->  drivers/platform/x86/toshiba_haps.c       | 1 -
->  drivers/platform/x86/wireless-hotkey.c    | 1 -
->  drivers/ptp/ptp_vmw.c                     | 1 -
->  drivers/virt/vmgenid.c                    | 1 -
->  include/acpi/acpi_bus.h                   | 8 ++++++--
->  19 files changed, 11 insertions(+), 28 deletions(-)
-> ---
+On Mon, Apr 08, 2024 at 06:04:22AM -0700, Guenter Roeck wrote:
+> On Thu, Apr 4, 2024 at 6:30 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> [ ... ]
+> 
+> > > > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
+> > > > >   return -EINVAL;
+> > > >
+> > > > So if you trigger this, you just rebooted all boxes that have
+> > > > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
+> > > > systems out there.)
+> > > >
+> > > > So don't do that, just handle it like this.
+> > >
+> > > Does that mean that we should not use WARN at all? What is the best
+> > > current practice for WARN usage?
+> >
+> > To never use it.  Handle the issue and recover properly.
+> >
+> > > I'm asking because for me this looks like a perfect usecase. If I were
+> > > at the positiion of the driver developer, I'd like to know the whole
+> > > path leading to the bad call, not just the fact that the function was
+> > > called with the buffer being too big.
+> >
+> > Then use ftrace if you are a driver developer, don't crash users boxes
+> > please.
+> >
+> > If you REALLY need a traceback, then provide that, but do NOT use WARN()
+> > for just normal debugging calls that you want to leave around in the
+> > system for users to trip over.
+> >
+> 
+> That is not common practice.
+> 
+> $ git grep WARN_ON drivers/gpu | wc
+>    3004   11999  246545
+> $ git grep WARN_ON drivers/net/ | wc
+>    3679   14564  308230
+> $ git grep WARN_ON drivers/net/wireless | wc
+>    1985    8112  166081
+> 
+> We get hundreds of thousands of reports with warning backtraces from
+> Chromebooks in the field _every single day_. Most of those are from
+> drm and wireless subsystems. We even had to scale back the percentage
+> of reported warning backtraces because the large volume overwhelmed
+> the reporting system. When approached about it, developers usually
+> respond with "this backtrace is absolutely necessary", but nothing
+> ever happens to fix the reported problems. In practice, they are just
+> ignored.
 
-Whole series applied as 6.10 material, thanks!
+That's sad.
+
+> 
+> This means that any system using drm or wireless interfaces just can
+> not really enable panic-on-warn because that would crash the system
+> all the time.
+
+And this is good from my point of view. If I remember correctly,
+initially panic-on-warn was added to simplify debugging of the warnings
+rather than to disallow using WARN_ON(). The system is not supposed to
+continue running after BUG(), so panic/reset on BUG is a safe approach.
+But the WARN is different. It means that the system was able to cope
+with it. And as such there is no need to panic. Whoever enabled
+panic-on-warn is doing a strange thing from my POV.
+
+-- 
+With best wishes
+Dmitry

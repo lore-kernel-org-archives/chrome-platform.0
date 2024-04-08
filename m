@@ -1,81 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A07145957
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 09:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3247F74BF5
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Apr 2024 13:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712568628; cv=none; b=ETh4I0jiypHt8bbZcQRIM3aTGfWp6Hi+mTT6vUKYKiZnVAkATZOUJTIr5U/ImPh12KiFSHcZmvKxZbPLNYa0QdWqwFmMdlnJpGDxJLLu0CdyJQ2yFQFo7qicBxhAb0aAbuFifk6Cypc9Ua3Sv0YD5PcuWFQHoVMf5A4fLpWvkhQ=
+	t=1712581479; cv=none; b=cmuWS8o16TFGv1ov2oRD1b1sin9pw/s6b+YO9RU3nhyVaOsKNd57o9HwoD1YuP/Pe1+QX8k36OiKopwHIpesyuY/JLzufEHAG0BXcMPy6gPSudEkHjljH+PNua3dHnx1SFBzDuYcheVUY0I5iwku2zI9Mz2wrAtR88QP2OiDwOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712568628; c=relaxed/simple;
-	bh=/l7mF/I/+k9auVy1d50Nn3rUZFyoei7woLmRpdl3fcU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=UbrAavVn8+8OkVjHtilQGHz5/ht1ChwXSQQ5aMMP7uDNX5uksoyFuySqfNzCaUgVJWpVUPmJKuuXrWXhzUPXZ2u5CPiRQZfpCd6pbBKgDVc7N32bAkmYXy5xi8b0Jl2bHynmkpyDeN9TmcKlcuyIYLv/xMEomErg9Y6B5KD/l34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpY1NnHr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712581479; c=relaxed/simple;
+	bh=7bpRSGGPDQCS7wFqBB78vDQoO6pcgett9EASBZ5btWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kreP4RidDVCafM9ON+lTX0bKbHmRKGg4K8B/LbDCemu8J0gEf9f2nJbDR/Hqj0Z9R0dnNY7Gw8p6HzMqH6LIfxejjfl0HHYIj9wA14KIsswvcqvKSvebWSEde1E7uuviajZi1plsS2CSz0AbviVlJOvLg2uojKVGmYlxrb0x1mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O+pjL4yq; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpY1NnHr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EEA96C43394;
-	Mon,  8 Apr 2024 09:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712568628;
-	bh=/l7mF/I/+k9auVy1d50Nn3rUZFyoei7woLmRpdl3fcU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XpY1NnHrD4HqUlCTYAp5olsTd6gMxzVz4b2u4VKrg5b+DiQSgSVulMnyCHictrOa7
-	 hEcQ3luBlbCdIKukNmHrLhwWNk+m6xhND4YRoepVw62xMC6BdDYr6Huxf5FYO1wfnj
-	 G8MIMRK4/nv6/M1KtHSSDA22Sq/F+O+gBbEPUXRLPOmBYk+pOO2MnSGN5gTQ7OVyKF
-	 mj/Evum9mtTV1uYI7e4T+4Cqq1C+mhlI/VtACtblKj+7O7ZfnqF9YdEunyCN1hsAeW
-	 4yCtVrfuN3r8FFcrFgXjALZDTSfF0EhrECVfoBf2N0I6dg8MH/ohzhYCnz02znZ92P
-	 lO1HXJ8t4HeTA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E68A6C54BD4;
-	Mon,  8 Apr 2024 09:30:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O+pjL4yq"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-43477091797so344161cf.1
+        for <chrome-platform@lists.linux.dev>; Mon, 08 Apr 2024 06:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712581477; x=1713186277; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TVioy9EMNQnc5SXcQapeY7Z9K+iAa8Z5L7a/jg+l4cY=;
+        b=O+pjL4yqKuxBFDVADx7BiiPxAWDe247JfUmwsRqZNjqmLm74310HIZmcJEeVzPiL6K
+         TTFk8O3rvG1LeMzKTAuZxGl6tjcavOH9Ae6VxBWclmjr3jIBZffZrTRrQXO2SqIbEoHv
+         ZUPYFR3KcyxL2a8Loq/Pk2FnG1uof6kVjKqavGdilP6TDCPEKAoMuG1rL4tK2naDqQkv
+         QvhfpgNrhDCVYmYsKfOxurLC+KyC1xmbOllDJX3lIFQ5TLI+nHNLfoKZq04MszjvZzQ4
+         QKRUB2VnbIIaMcAXOJMoI3D2+ZJcDKP3/T+9iycOU8WNM9FxzFHKe4nsKDm1G+JDwYhl
+         h5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712581477; x=1713186277;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TVioy9EMNQnc5SXcQapeY7Z9K+iAa8Z5L7a/jg+l4cY=;
+        b=jV2eBMWbi+bM2qC1FShN0/q3bZNTmmnYFQmIGtknZgmRBeZrFXh6vfrdWVuw3Gw8v0
+         g13T9hF8pMOo1QM0yJZecqlVEpBhcbwNSZ5LR1mah+xMHHzsHF7VRnTB5VdnJeMtmiJN
+         gNDUBE2jNfa82OHtZdqODgYU4j5qSwPVVTdMW4can9nUPd7m44nOzhgV6NxtpudKc66c
+         Hri6bfH9x3n9iDAn90Ju6zDzLBuiBsOtmNXKQSVbczeGWmg53piZJa+6qy3cuHLSgEgu
+         6RGvW42aDCo6isWRIK93WoPRtIl0VZkJpp2FMFP6nlabvIm/gOubAZRBrz9pM6yrmZOl
+         cajw==
+X-Forwarded-Encrypted: i=1; AJvYcCVD+2J8UUz/9IwBHwd05iqVYJ4v9XHLFwgrCnphkbW+c88zL6e1fQiRUuciVOfxHibqWMsMNuF5Y2h4iw1tPxJfzKguC5aqFRjlf3jXGciZ
+X-Gm-Message-State: AOJu0YwOyLn5SCjA67FQeisp3Xl+Kq4JUQYQxZARi2C/lBqy4gKyb3yK
+	S1wmFirDt/Xvb95WV4IxKrIPpKSF/xIuoZVrZS0EF4ZPoZchzg3EgrURsC53cZfD0WHWEz8+Wcv
+	KL0RvHtXer2j/paQ5No2OzKVV11GEEZrW+zzj
+X-Google-Smtp-Source: AGHT+IFZaV9W1guyCiCFvlxL0Tuf2HLr1fiYCHIb/nvtokprZt499aOhX2wlCRAmDZ6qHpx8t/vS6dcU4G703dCeYVM=
+X-Received: by 2002:a05:622a:4812:b0:434:7bb9:f231 with SMTP id
+ fb18-20020a05622a481200b004347bb9f231mr343464qtb.12.1712581476934; Mon, 08
+ Apr 2024 06:04:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 0/4] platform/chrome: cros_ec_lpc: add support for AMD
- Framework Laptops
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171256862794.1734.3940454654342170565.git-patchwork-notify@kernel.org>
-Date: Mon, 08 Apr 2024 09:30:27 +0000
-References: <20240403004713.130365-1-dustin@howett.net>
-In-Reply-To: <20240403004713.130365-1-dustin@howett.net>
-To: Dustin Howett <dustin@howett.net>
-Cc: tzungbi@kernel.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+ <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org> <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
+ <2024040449-average-foyer-defa@gregkh> <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
+ <2024040422-ripcord-bladder-bdda@gregkh>
+In-Reply-To: <2024040422-ripcord-bladder-bdda@gregkh>
+From: Guenter Roeck <groeck@google.com>
+Date: Mon, 8 Apr 2024 06:04:22 -0700
+Message-ID: <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Pavan Holla <pholla@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Thu, Apr 4, 2024 at 6:30=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+[ ... ]
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+> > > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
+> > > >   return -EINVAL;
+> > >
+> > > So if you trigger this, you just rebooted all boxes that have
+> > > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
+> > > systems out there.)
+> > >
+> > > So don't do that, just handle it like this.
+> >
+> > Does that mean that we should not use WARN at all? What is the best
+> > current practice for WARN usage?
+>
+> To never use it.  Handle the issue and recover properly.
+>
+> > I'm asking because for me this looks like a perfect usecase. If I were
+> > at the positiion of the driver developer, I'd like to know the whole
+> > path leading to the bad call, not just the fact that the function was
+> > called with the buffer being too big.
+>
+> Then use ftrace if you are a driver developer, don't crash users boxes
+> please.
+>
+> If you REALLY need a traceback, then provide that, but do NOT use WARN()
+> for just normal debugging calls that you want to leave around in the
+> system for users to trip over.
+>
 
-On Tue,  2 Apr 2024 19:47:09 -0500 you wrote:
-> This patch series adds support for the AMD models of the Framework
-> Laptop (both 13" and 16").
-> 
-> These models of Framework Laptop have switched to an NPCX embedded
-> controller, which uses the original Chrome EC linear memory-mapped I/O
-> model.
-> 
-> [...]
+That is not common practice.
 
-Here is the summary with links:
-  - [v3,1/4] platform/chrome: cros_ec_lpc: introduce a priv struct for the lpc device
-    https://git.kernel.org/chrome-platform/c/8ae8e4e694b1
-  - [v3,2/4] platform/chrome: cros_ec_lpc: pass driver_data from DMI to the device
-    https://git.kernel.org/chrome-platform/c/839720336e8c
-  - [v3,3/4] platform/chrome: cros_ec_lpc: add a "quirks" system
-    https://git.kernel.org/chrome-platform/c/6b0ab6de2d86
-  - [v3,4/4] platform/chrome: cros_ec_lpc: add quirks for the Framework Laptop (AMD)
-    https://git.kernel.org/chrome-platform/c/3e8d1b5350e0
+$ git grep WARN_ON drivers/gpu | wc
+   3004   11999  246545
+$ git grep WARN_ON drivers/net/ | wc
+   3679   14564  308230
+$ git grep WARN_ON drivers/net/wireless | wc
+   1985    8112  166081
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+We get hundreds of thousands of reports with warning backtraces from
+Chromebooks in the field _every single day_. Most of those are from
+drm and wireless subsystems. We even had to scale back the percentage
+of reported warning backtraces because the large volume overwhelmed
+the reporting system. When approached about it, developers usually
+respond with "this backtrace is absolutely necessary", but nothing
+ever happens to fix the reported problems. In practice, they are just
+ignored.
 
+This means that any system using drm or wireless interfaces just can
+not really enable panic-on-warn because that would crash the system
+all the time.
 
+Guenter

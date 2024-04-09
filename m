@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F0D26AEC;
-	Tue,  9 Apr 2024 10:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC46013473B;
+	Tue,  9 Apr 2024 15:16:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712659647; cv=none; b=eQFk69o9uc+OodIoJnBe2iOaRPUbsYA94FXEpubh3SJo3E1n8B3uxxVT4f7J7a2v1OSQ3T9idGMPkeY/TEMM89GXcAjTL7YeLVzxC/lc3hsvw8RkxIsC8mQaHUr0VBHl55cHrgbYt2ZIcwjTiUeNh3+8uCO4+wSLpnsVcXuIiRE=
+	t=1712675805; cv=none; b=puKyv+HOojGM5lvqirKcIN5zSL93uVxRzuIfkFccghsEUOv+MJ9twOI4Ww5HpY7fu/Cg8owPvKA+OOrr1+nXXH9kS1W7jwcOvDEk9q0aXgoG/tbf0ms8typ9VJ83sqDpsQQ/yCTfy/sAyBH1UXmeu/9Rq8VmyYedM8+D6/Jadgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712659647; c=relaxed/simple;
-	bh=GQyRhDS+e7UvbivEeGp6IgSBe+4m1AsAUSrkuomhjRI=;
+	s=arc-20240116; t=1712675805; c=relaxed/simple;
+	bh=NdYA5pDvn1gXLpGkX7ACdvJkw6wL9HAHo+IMmiRklHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtSYYnHJ0YMBPvWnUytjgLQdJsBvyr0jCVvi26WP4kbiKHJMATooDNBDgmunM6P+Mhmsu5L07324/BX1fxWcO3QsqSQ9QABvpQWHBcNgjOZPhKBY2IoysZppEabhqrVeU2T5PLyGGE+mTsZYHrxayF7VKFOjE8Tze712VOuV3Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZzlC0fUL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OCrQL2b/JXk3lr2KgswhzWFews069Y27bbPRW86GQA007UhkxioY0cC6w0NRQc4Xi4z2RZYgFL+SucwgGqwddTxjurqrEVogWFi8YE14jyW4ifo27u/PHF1i/flGS3EhCh7PRY7iR5RR5qi/kwhO8arrA7myifUSGpY4RYj1Lqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oYYc9qCT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZzlC0fUL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 838EBC433F1;
-	Tue,  9 Apr 2024 10:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712659646;
-	bh=GQyRhDS+e7UvbivEeGp6IgSBe+4m1AsAUSrkuomhjRI=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oYYc9qCT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9C5EC433F1;
+	Tue,  9 Apr 2024 15:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712675805;
+	bh=NdYA5pDvn1gXLpGkX7ACdvJkw6wL9HAHo+IMmiRklHM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZzlC0fUL7LqSHLOPipy7bACooruKGDL+skwtjj/L1kDV3ukMuEnwcg+VSkznIgB3D
-	 hi5iK4ocGcWQ7jPXB987vLJv0Lx2G6PjF9FgTgYB45mSTIjTR8z96fZyGeYd5pua36
-	 iH7LbtfzjDS/+hXpAM/2yEUnfLd2M8QS4rqmhO1QkNKnHIZcKpXPejNXfJTZdyuC1y
-	 KRzQYY0dWS1Czutvs4Onvm44+x7c7FMPNtvNUhU32ulJZsRrqxeEwwxos7SuA+OlXO
-	 YHt0bGH1TEf9cQf1Zg1E15lGUjGHKkUzc7zU/zaezgHPy4dfkEp1IyY2cZ9uPV7oSO
-	 MFiiuTCZN9GzQ==
-Date: Tue, 9 Apr 2024 18:47:23 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+	b=oYYc9qCTo+c+CfNgjYqOvbDaSEraAEyyJJt01CncHRDwpLElJHlotYfo0+ZVID6gX
+	 Oouk78RpmM3eHO7+EKriNviCMnGtvrEdRKg1ZaET7CtOT6ExV1yXWogZRP2GJtlElc
+	 Dstvn0GIg+N/j08GZwEXUll76Bgami7nm9moEjpU=
+Date: Tue, 9 Apr 2024 17:16:42 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Pavan Holla <pholla@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	chrome-platform@lists.linux.dev
 Subject: Re: [PATCH v4 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <ZhUcu1k0Cum-IMVQ@google.com>
+Message-ID: <2024040916-kleenex-machinist-4858@gregkh>
 References: <20240409-public-ucsi-h-v4-0-e770735222a2@chromium.org>
  <20240409-public-ucsi-h-v4-2-e770735222a2@chromium.org>
 Precedence: bulk
@@ -51,29 +48,69 @@ Content-Disposition: inline
 In-Reply-To: <20240409-public-ucsi-h-v4-2-e770735222a2@chromium.org>
 
 On Tue, Apr 09, 2024 at 02:27:37AM +0000, Pavan Holla wrote:
-> Implementation of a UCSI transport driver for ChromeOS.
+> +#define DRV_NAME "cros-ec-ucsi"
 
-The patch generally looks good to me just a few nits.
+KBUILD_MODNAME?
 
-> This driver will be loaded if the ChromeOS EC implements a PPM.
+> +
+> +#define MAX_EC_DATA_SIZE 256
+> +#define WRITE_TMO_MS 500
 
-Replied in v3, the patch (and the series) don't reflect the message.
+What are these and why these values?  And tabs perhaps?
 
-> diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> [...]
-> +static void cros_ucsi_work(struct work_struct *work)
+> +
+> +struct cros_ucsi_data {
+> +	struct device *dev;
+> +	struct ucsi *ucsi;
+> +
+> +	struct cros_ec_device *ec;
+> +	struct notifier_block nb;
+> +	struct work_struct work;
+> +
+> +	struct completion complete;
+> +	unsigned long flags;
+> +};
+> +
+> +static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
+> +			  size_t val_len)
 > +{
-> +	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
-> +	u32 cci;
+> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> +	struct ec_params_ucsi_ppm_get req = {
+> +		.offset = offset,
+> +		.size = val_len,
+> +	};
 > +	int ret;
 > +
-> +	ret = cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci));
-> +	if (ret)
-> +		return;
+> +	if (val_len > MAX_EC_DATA_SIZE) {
+> +		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
+> +			  &req, sizeof(req), val, val_len);
+> +	if (ret < 0) {
+> +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
+> +		return ret;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int cros_ucsi_async_write(struct ucsi *ucsi, unsigned int offset,
+> +				 const void *val, size_t val_len)
+> +{
+> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> +	uint8_t ec_buffer[MAX_EC_DATA_SIZE + sizeof(struct ec_params_ucsi_ppm_set)];
 
-`ret` can be dropped.
+That's a lot of data on the stack, are you sure you want to do that?
 
-> +static const struct platform_device_id cros_ucsi_id[] = {
-> +	{ DRV_NAME, 0},
+And are you sure you are allowed to have this data on the stack?  It
+never ends up being sent using DMA?
 
-To be neat, append an extra space after `0`.
+And please, don't use non-kernel types like "uint8_t", use "u8" like
+intended.  This isn't userspace (yes, I know a lot of kernel code uses
+these, but as you are going to change this, might as well change that
+too.)
+
+thanks,
+
+greg k-h

@@ -1,232 +1,108 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52651181335
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 19:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C5C184111
+	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 22:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712778542; cv=none; b=NBvwRfE+BMqEDbyAYRtdXMjPab/3HwkIi8DIbU++SnRc1RheE9tTInQGvyJv3k4pU9o2ly6Kf/iE1b9HUHG4lb7QIHOCfcimesGXcRnSQNLb+/PV52x37ZNTvfdIXzbG2ZiQpOBIKE7QBtQvCXENAmMsBvWSX6JUY865tJxD3so=
+	t=1712786804; cv=none; b=M0lWm9l6kuJQpnjrLqq9jtF17taEIe8qBVpf9Z/jsozcS/7QZlxZ/MWxZ9aFs8VUaWoi28awpMhoqgSPNd66xUvYSiLqYk9h453X70oAzNFMKSYo7HWy8VZFgEBpyU0hOQaB45OIFjuKPJEpLOtEyRfG8ikS/qmScYXYFN7rQNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712778542; c=relaxed/simple;
-	bh=xEoGedRNiXJoGnqajnhf1BwPxOUbcpaoDU2aUMU/6xw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QkBNW3jisTX6vqLSP4Z7yD5vxhtT/8Jl5AqWfAWghqLI2fi0bPyqlGqjdMiMECQ/bl6bmoknKCcH6Xnq0rQ3fbb+9/8tY4bKEQKQ/Pvi3mwJ45uZH9SvpH8ckRc6lzQcPRVGVZ+FCB3nVeV3JKCln4GPtYExJAmFflONNbdOLog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RFSZefPS; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712786804; c=relaxed/simple;
+	bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUCAujonwGLJBQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=gTP3nHeDu8yGhBYNbhZ3qIS2hIChfY8FjJZhlwD92YamK6R0CytYqeBjWr/HGnn7bjPJMEJKGT9xKj0WnmODV8+QTrBEi826W1kD232Ihl9YdDGEvEKABR273T0Vmq5KSLDQOvJyYz2o6g9J1TVlcL2lYNYnOeseaRfchyIrh/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com; spf=pass smtp.mailfrom=noahloomans.com; dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b=k/FASzBH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pSuCmUaH; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noahloomans.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RFSZefPS"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-43477091797so2881cf.1
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 12:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712778539; x=1713383339; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DWCShh/bRGRzeO22yeBjtZLPhJ0/AGFCyE+KkcrS+ds=;
-        b=RFSZefPSsv/st0uW2v02r18F8RGvmUxmHd9X9vhAwnij3vSmz1TMx581PB3k9kG6AF
-         WgMRZxP4TAVoxYpmxBY0QxFWVh7uj1gcsjIFnvmGUoOHV3Acdz5n/uvUAnM6eYjvPhZg
-         0GjXexdxxBh/54fzBbPrK/ZmjAilJMxr8Jw7jlPXvGwjNa5rjTGzxjfmwIn4Wubg8nlq
-         eXWoiwkEYse0aRFt8ZA/Sni5P48L1CgNI5rq8Zg117ZVWO8v0soUACOP0UsWqJvfweyv
-         1jzaftSwg6wy0Ya8HkzwX5kI4JHB+E9fz2MYeANnNCJ3UAEdTe9vHA924MccrEcw2fcP
-         C2Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712778539; x=1713383339;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DWCShh/bRGRzeO22yeBjtZLPhJ0/AGFCyE+KkcrS+ds=;
-        b=NhYHXwBJJqblRpTsTc1FuSXO0pdpgbHV4kqL6ETSCseS5/EnI/LKqhqgYad2Tqbyve
-         YGQDcSmuAZNuPATTR279DoZZAGgtuBKkj8zuflBW95MGP5L0hN4Q/AO7GmBltqAiePTh
-         G2eDofYjntjXqbYiPFKSG3JpvDU+7xjHH1wfm1I2/0cKaVAqPvGYWU3QmyIzf/D/eu53
-         3IJv4kEzGaW4PdhmE77arqPazzgCkI1VqUPWdwF2lx7EAJ1FtdaIAVU5QJEWyst1E25h
-         ol5NMu6vYTnjTWVwOMV7OlsEiCom9DwD6NzX/fM55a4SPRTLDH/uCipx7XJHFFSO87hF
-         SDew==
-X-Forwarded-Encrypted: i=1; AJvYcCUJKslTkblRkS6cI6xaDQhs00zHMZzQUg9PFyJXcRJ0S+IJSu5s2SlYMOLCpa/jTvMa/WA58Q2wmmPktp4YqHSWnRNU/TQ9rK91tuAdt0Lk
-X-Gm-Message-State: AOJu0YwqL/hB22/Mv3kT7WTAlqz2BABXfpaW6xk8h/FSyJ7Lp/ftNugq
-	mhSyIFyP2UweCvN5VVY5NHczOVZUdPN6dROvUOI5HCLR8FGSUuv32MugkPLGFgvvvs53eEGkDc/
-	/FOqrG7hwYN6DwylnsQgLSQtOitR3r6jMNPef
-X-Google-Smtp-Source: AGHT+IGa6MOnKjfghS1aRAZ4F4MxrT/E1DKiGKtukJn/QsQjBmlT/f6kggLbge9jt3UM+LRGc/z5WVALVplB0eqXhqc=
-X-Received: by 2002:a05:622a:5c13:b0:434:61ad:8c1b with SMTP id
- gd19-20020a05622a5c1300b0043461ad8c1bmr55230qtb.28.1712778539135; Wed, 10 Apr
- 2024 12:48:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b="k/FASzBH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pSuCmUaH"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 6B4AA1380059;
+	Wed, 10 Apr 2024 18:06:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Wed, 10 Apr 2024 18:06:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noahloomans.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1712786799; x=1712873199; bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUC
+	AujonwGLJBQ=; b=k/FASzBHZ+y5S2Xb4n+1dhgDrinbaAnfbBOkMOTkdHXuFhBR
+	XY9y3kQCKR985aIw8u8PLMNHmcgdppdo0poKf8zvb1x9AGjqqR9C1sBxP6eFqkGi
+	cD/lbG64yw1a5CcxkNv7R0+/UusYaQXy/JdnPCG+EkkQXD1xT84y+4mkJvycfxTz
+	a8h+LzTTJko3i8sJScUlJqz4bGTg5Q91jAQLQoKR+wb0R7X7/Wm92V4BHaDP6hzy
+	zfuDtyLFdsT5qC3nRfsxiAAMagjZUIbl8djfn6FCyv2tvogWQq7nDV5/249M4e0q
+	satODWrMc2PDYqHHS5snrEapRzJxOZxfCm/vFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1712786799; x=
+	1712873199; bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUCAujonwGLJBQ=; b=p
+	SuCmUaHe17M4eLknY80Qv61Qm+xxC3FaKf3661SLoVko4ue37UJvyPWYxqx9vBGg
+	bb+7gErJRJw7XTLZXmoIB+pNReDnPXWxU9ytakhcIV8KZYH5LLa8X5/FbrDhN9OE
+	lXWizuq8TG88xUDKgunBY7bZ+MM9N4zjBX612NrVrdY1/LA703ioKUv8pS6Dnh4P
+	5nbYbfLuIi7harRfx3iUqBODvIL5sj/UVbrXT8CF0+J770vXmt3ygBBpTUTwJDAY
+	ta8hvQl4BB5D7GjHFqpJajCwlDWQauzGv5AtiTqCNXhDOp1+JWVpTXBw5QABt0z0
+	i2EB+FwULA/EPL9YwH02Q==
+X-ME-Sender: <xms:bg0XZlrJnCOcls6IjcMw70ozNf8tEoF3Postpr-Yu22Fa6tk2sWY-g>
+    <xme:bg0XZnqzlvlmnW3bwp4tsUO9r652PaseMPer6zmAIzplEivCZcvCaAjyq8qKO47dB
+    37MJWxtzsNFS0VwD9A>
+X-ME-Received: <xmr:bg0XZiNfQuKKLGLAYZZ3apnzIHZdgBvCMR00gpnX4jFkjO9kQMfxeeX21DDtLTOkBZHTuj-wyeVAdYLz6aIhww>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehjedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepggfgtgffkffuhffvvefofhgjsehtqhertdertdejnecuhfhrohhmpedfpfho
+    rghhucfnohhomhgrnhhsfdcuoehnohgrhhesnhhorghhlhhoohhmrghnshdrtghomheqne
+    cuggftrfgrthhtvghrnhepvdeijeehteeggfefkeehleehkeevgfdvtdehgefgledtieff
+    ueeuleeffeeuhefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepnhhorghhsehnohgrhhhlohhomhgrnhhsrdgtohhm
+X-ME-Proxy: <xmx:bw0XZg5g40prx91R4lNAhgMe1gsbCC9THmEVprxNF2Yngq24lhcS_A>
+    <xmx:bw0XZk4-SBi_0pcalrQhF8F-NZzHHiFi1uoe_LzN-M98o1iIf4zszQ>
+    <xmx:bw0XZog3i9MOc0NizI0X0NQ6C3H5RNjOd9xAfNem76vJiR6BkOx1Lg>
+    <xmx:bw0XZm5mKLr8aMDUJ5NchY-8cWs7cs9juvuJqkYY-5cShdW4W2oQyQ>
+    <xmx:bw0XZlGg6K0TA8HL5HdhzDeGa9m6bSERYDe3NAy6Vw6uJbld6qM9d9Jl>
+Feedback-ID: i93394469:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 10 Apr 2024 18:06:36 -0400 (EDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20240410182618.169042-2-noah@noahloomans.com>
-In-Reply-To: <20240410182618.169042-2-noah@noahloomans.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 10 Apr 2024 12:48:46 -0700
-Message-ID: <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race condition
-To: Noah Loomans <noah@noahloomans.com>
-Cc: Bhanu Prakash Maiya <bhanumaiya@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	Robert Zieba <robertzieba@google.com>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Apr 2024 00:06:33 +0200
+Message-Id: <D0GS8UL1WKI5.1PLEUUWOD7B8@noahloomans.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race
+ condition
+From: "Noah Loomans" <noah@noahloomans.com>
+To: "Guenter Roeck" <groeck@google.com>
+Cc: "Bhanu Prakash Maiya" <bhanumaiya@chromium.org>, "Benson Leung"
+ <bleung@chromium.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>, "Guenter
+ Roeck" <groeck@chromium.org>, "Robert Zieba" <robertzieba@google.com>,
+ <chrome-platform@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240410182618.169042-2-noah@noahloomans.com>
+ <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
+In-Reply-To: <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
 
-On Wed, Apr 10, 2024 at 11:29=E2=80=AFAM Noah Loomans <noah@noahloomans.com=
-> wrote:
+On 2024-04-10 at 21:48 UTC+02, Guenter Roeck wrote:
+> On Wed, Apr 10, 2024 at 11:29=E2=80=AFAM Noah Loomans <noah@noahloomans.c=
+om> wrote:
+> > This is my first time contributing to Linux, I hope this is a good
+> > patch. Feedback on how to improve is welcome!
 >
-> The cros_ec_uart_probe() function calls devm_serdev_device_open() before
-> it calls serdev_device_set_client_ops(). This can trigger a NULL pointer
-> dereference:
->
->     BUG: kernel NULL pointer dereference, address: 0000000000000000
->     ...
->     CPU: 5 PID: 103 Comm: kworker/u16:3 Not tainted 6.8.4-zen1-1-zen #1 4=
-a88f2661038c2a3bb69aa70fb41a5735338823c
->     Hardware name: Google Morphius/Morphius, BIOS MrChromebox-4.22.2-1-g2=
-a93624aebf 01/22/2024
->     Workqueue: events_unbound flush_to_ldisc
->     RIP: 0010:ttyport_receive_buf+0x3f/0xf0
->     ...
->     Call Trace:
->      <TASK>
->      ? __die+0x10f/0x120
->      ? page_fault_oops+0x171/0x4e0
->      ? srso_return_thunk+0x5/0x5f
->      ? exc_page_fault+0x7f/0x180
->      ? asm_exc_page_fault+0x26/0x30
->      ? ttyport_receive_buf+0x3f/0xf0
->      flush_to_ldisc+0x9b/0x1c0
->      process_one_work+0x17b/0x340
->      worker_thread+0x301/0x490
->      ? __pfx_worker_thread+0x10/0x10
->      kthread+0xe8/0x120
->      ? __pfx_kthread+0x10/0x10
->      ret_from_fork+0x34/0x50
->      ? __pfx_kthread+0x10/0x10
->      ret_from_fork_asm+0x1b/0x30
->      </TASK>
->
-> A simplified version of crashing code is as follows:
->
->     static inline size_t serdev_controller_receive_buf(struct serdev_cont=
-roller *ctrl,
->                                                       const u8 *data,
->                                                       size_t count)
->     {
->             struct serdev_device *serdev =3D ctrl->serdev;
->
->             if (!serdev || !serdev->ops->receive_buf) // CRASH!
->                 return 0;
->
->             return serdev->ops->receive_buf(serdev, data, count);
->     }
->
->     static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp=
-,
->                                       const u8 *fp, size_t count)
->     {
->             struct serdev_controller *ctrl =3D port->client_data;
->             [...]
->
->             if (!test_bit(SERPORT_ACTIVE, &serport->flags))
->                     return 0;
->
->             ret =3D serdev_controller_receive_buf(ctrl, cp, count);
->
->             [...]
->             return ret;
->     }
->
-> It assumes that if SERPORT_ACTIVE is set and serdev exists, serdev->ops
-> will also exist. This conflicts with the existing cros_ec_uart_probe()
-> logic, as it first calls devm_serdev_device_open() (which sets
-> SERPORT_ACTIVE), and only later sets serdev->ops via
-> serdev_device_set_client_ops().
->
-> Commit 01f95d42b8f4 ("platform/chrome: cros_ec_uart: fix race
-> condition") attempted to fix a similar race condition, but while doing
-> so, made the window of error for this race condition to happen much
-> wider.
->
-> Attempt to fix the race condition again, making sure we fully setup
-> before calling devm_serdev_device_open().
->
-> Fixes: 01f95d42b8f4 ("platform/chrome: cros_ec_uart: fix race condition")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Noah Loomans <noah@noahloomans.com>
-> ---
->
-> This is my first time contributing to Linux, I hope this is a good
-> patch. Feedback on how to improve is welcome!
->
+> The commit message is a bit long, but the patch itself looks good to me.
 
-The commit message is a bit long, but the patch itself looks good to me.
+Hmm yeah it's a bit on a long side. I'm not sure what could be removed
+though, it all seems relevant for understanding the bug and the fix.
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+> Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-Guenter
+Thanks!
 
->  drivers/platform/chrome/cros_ec_uart.c | 28 +++++++++++++-------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/ch=
-rome/cros_ec_uart.c
-> index 8ea867c2a01a..62bc24f6dcc7 100644
-> --- a/drivers/platform/chrome/cros_ec_uart.c
-> +++ b/drivers/platform/chrome/cros_ec_uart.c
-> @@ -263,12 +263,6 @@ static int cros_ec_uart_probe(struct serdev_device *=
-serdev)
->         if (!ec_dev)
->                 return -ENOMEM;
->
-> -       ret =3D devm_serdev_device_open(dev, serdev);
-> -       if (ret) {
-> -               dev_err(dev, "Unable to open UART device");
-> -               return ret;
-> -       }
-> -
->         serdev_device_set_drvdata(serdev, ec_dev);
->         init_waitqueue_head(&ec_uart->response.wait_queue);
->
-> @@ -280,14 +274,6 @@ static int cros_ec_uart_probe(struct serdev_device *=
-serdev)
->                 return ret;
->         }
->
-> -       ret =3D serdev_device_set_baudrate(serdev, ec_uart->baudrate);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set up host baud rate (%d)", ret)=
-;
-> -               return ret;
-> -       }
-> -
-> -       serdev_device_set_flow_control(serdev, ec_uart->flowcontrol);
-> -
->         /* Initialize ec_dev for cros_ec  */
->         ec_dev->phys_name =3D dev_name(dev);
->         ec_dev->dev =3D dev;
-> @@ -301,6 +287,20 @@ static int cros_ec_uart_probe(struct serdev_device *=
-serdev)
->
->         serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
->
-> +       ret =3D devm_serdev_device_open(dev, serdev);
-> +       if (ret) {
-> +               dev_err(dev, "Unable to open UART device");
-> +               return ret;
-> +       }
-> +
-> +       ret =3D serdev_device_set_baudrate(serdev, ec_uart->baudrate);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to set up host baud rate (%d)", ret)=
-;
-> +               return ret;
-> +       }
-> +
-> +       serdev_device_set_flow_control(serdev, ec_uart->flowcontrol);
-> +
->         return cros_ec_register(ec_dev);
->  }
->
-> --
-> 2.44.0
->
+-Noah

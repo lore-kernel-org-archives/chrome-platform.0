@@ -1,108 +1,71 @@
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C5C184111
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 22:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE550168DC
+	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 22:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712786804; cv=none; b=M0lWm9l6kuJQpnjrLqq9jtF17taEIe8qBVpf9Z/jsozcS/7QZlxZ/MWxZ9aFs8VUaWoi28awpMhoqgSPNd66xUvYSiLqYk9h453X70oAzNFMKSYo7HWy8VZFgEBpyU0hOQaB45OIFjuKPJEpLOtEyRfG8ikS/qmScYXYFN7rQNQ=
+	t=1712787286; cv=none; b=ifYJNKQuDzcSVx/5rq7bGg62LcSG3RdR+D/M3+rKEC8qCIacnZ2NkL42tSDTpz4c67bfxZoyOEtWujA7p3hdYHwEXQP5u3kQ2WehARYzizo68WKW6hahp8SwTxbLJ7V7FftqKcd888rFFIlkUwqD9d/HZjRbtJQ99QuntQELij8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712786804; c=relaxed/simple;
-	bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUCAujonwGLJBQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=gTP3nHeDu8yGhBYNbhZ3qIS2hIChfY8FjJZhlwD92YamK6R0CytYqeBjWr/HGnn7bjPJMEJKGT9xKj0WnmODV8+QTrBEi826W1kD232Ihl9YdDGEvEKABR273T0Vmq5KSLDQOvJyYz2o6g9J1TVlcL2lYNYnOeseaRfchyIrh/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com; spf=pass smtp.mailfrom=noahloomans.com; dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b=k/FASzBH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pSuCmUaH; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noahloomans.com
+	s=arc-20240116; t=1712787286; c=relaxed/simple;
+	bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LJbjuaP2GbLs2O/y50oyKBuLspUODwAiK8bQnw50SOb2FJJP1Wsnq+FW7E3X217VUS3jxFp2cFXjix5mSxljsAy4ffDa/4qtThJ+8DLF4tVo3IfQVji/qmWdPR+6ZK1F6iU3qKMtr7A2M/fVY1/P4eabN7jbgckWetvGt+IItRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BrHQo1hf; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b="k/FASzBH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pSuCmUaH"
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 6B4AA1380059;
-	Wed, 10 Apr 2024 18:06:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Wed, 10 Apr 2024 18:06:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noahloomans.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1712786799; x=1712873199; bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUC
-	AujonwGLJBQ=; b=k/FASzBHZ+y5S2Xb4n+1dhgDrinbaAnfbBOkMOTkdHXuFhBR
-	XY9y3kQCKR985aIw8u8PLMNHmcgdppdo0poKf8zvb1x9AGjqqR9C1sBxP6eFqkGi
-	cD/lbG64yw1a5CcxkNv7R0+/UusYaQXy/JdnPCG+EkkQXD1xT84y+4mkJvycfxTz
-	a8h+LzTTJko3i8sJScUlJqz4bGTg5Q91jAQLQoKR+wb0R7X7/Wm92V4BHaDP6hzy
-	zfuDtyLFdsT5qC3nRfsxiAAMagjZUIbl8djfn6FCyv2tvogWQq7nDV5/249M4e0q
-	satODWrMc2PDYqHHS5snrEapRzJxOZxfCm/vFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1712786799; x=
-	1712873199; bh=hDr6Y9+XNRCuD5B6N5g7dzpvSY/j6WUCAujonwGLJBQ=; b=p
-	SuCmUaHe17M4eLknY80Qv61Qm+xxC3FaKf3661SLoVko4ue37UJvyPWYxqx9vBGg
-	bb+7gErJRJw7XTLZXmoIB+pNReDnPXWxU9ytakhcIV8KZYH5LLa8X5/FbrDhN9OE
-	lXWizuq8TG88xUDKgunBY7bZ+MM9N4zjBX612NrVrdY1/LA703ioKUv8pS6Dnh4P
-	5nbYbfLuIi7harRfx3iUqBODvIL5sj/UVbrXT8CF0+J770vXmt3ygBBpTUTwJDAY
-	ta8hvQl4BB5D7GjHFqpJajCwlDWQauzGv5AtiTqCNXhDOp1+JWVpTXBw5QABt0z0
-	i2EB+FwULA/EPL9YwH02Q==
-X-ME-Sender: <xms:bg0XZlrJnCOcls6IjcMw70ozNf8tEoF3Postpr-Yu22Fa6tk2sWY-g>
-    <xme:bg0XZnqzlvlmnW3bwp4tsUO9r652PaseMPer6zmAIzplEivCZcvCaAjyq8qKO47dB
-    37MJWxtzsNFS0VwD9A>
-X-ME-Received: <xmr:bg0XZiNfQuKKLGLAYZZ3apnzIHZdgBvCMR00gpnX4jFkjO9kQMfxeeX21DDtLTOkBZHTuj-wyeVAdYLz6aIhww>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehjedgtdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepggfgtgffkffuhffvvefofhgjsehtqhertdertdejnecuhfhrohhmpedfpfho
-    rghhucfnohhomhgrnhhsfdcuoehnohgrhhesnhhorghhlhhoohhmrghnshdrtghomheqne
-    cuggftrfgrthhtvghrnhepvdeijeehteeggfefkeehleehkeevgfdvtdehgefgledtieff
-    ueeuleeffeeuhefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepnhhorghhsehnohgrhhhlohhomhgrnhhsrdgtohhm
-X-ME-Proxy: <xmx:bw0XZg5g40prx91R4lNAhgMe1gsbCC9THmEVprxNF2Yngq24lhcS_A>
-    <xmx:bw0XZk4-SBi_0pcalrQhF8F-NZzHHiFi1uoe_LzN-M98o1iIf4zszQ>
-    <xmx:bw0XZog3i9MOc0NizI0X0NQ6C3H5RNjOd9xAfNem76vJiR6BkOx1Lg>
-    <xmx:bw0XZm5mKLr8aMDUJ5NchY-8cWs7cs9juvuJqkYY-5cShdW4W2oQyQ>
-    <xmx:bw0XZlGg6K0TA8HL5HdhzDeGa9m6bSERYDe3NAy6Vw6uJbld6qM9d9Jl>
-Feedback-ID: i93394469:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 10 Apr 2024 18:06:36 -0400 (EDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BrHQo1hf"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-479cc1791bfso2206546137.3
+        for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 15:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1712787284; x=1713392084; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
+        b=BrHQo1hf8uY7ETcFf3JQ5iO3priYnnE+Jax01o0rP+2QLSDlRSk49N8TzP9o1QxZCl
+         INrD/zywI4Oy4KoVfqIhXSQe3jxvSCHXeaRK9Hy7gBIEBa0MraWVmo1AZkrMLzQOEpwm
+         uG6q1CkFM2IuI2vY8qulCeO1x7QsnhoOW/uxE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712787284; x=1713392084;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
+        b=Yn+nN7TAt8Xx45zxh/9D2VawXpuOlJjt1s7mG4elZc99xFm3VS/kl75CtVpxcHBxBz
+         sCBe4S/4n+dFsVWnUk4CbtDA/evdDSm5pYlrpD2XJd/X4Drt2UwL7xhxwTpxeHN+hLUL
+         VRhMXoxLweTM6Opvnx8RHZEKAKvgmSTD+gP9Yhm7XlvMBFnw1QXL9MKUUFJpGBR3+deq
+         JXnSzirOOXaKp1LTUcWH0Cpjv9Hj4Nr6jQzliPmAWESvho6jXoFtkPnOi04h1KH6uevr
+         BaaOuERzP1A8wwUpKNUwvDr5QkMMiaxyGtIvE+Cyqica2jhHorq4Mq+PepIa4RfMAEjG
+         JdSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIOpQUmthZI4FjcKDslhPfXbMM/CYDPInWcPfMfyU5B54nifHdO2YEg5uj2BrJ8b3g/3NIaao3PYqcNS+kbTFo25T9S+p7TPuBFe2IrtRm
+X-Gm-Message-State: AOJu0YyotwjpXB50f1uAawV+rmV2ABlel31DZtnaUGK1smelrYQuNAAX
+	Yoogi3epiRNbX70+0ztdaLpU4NaAdO6Gu0su21HdSEwMXLGmciWvbUn0X12w6PMCgyvo/dUGHDL
+	fIuugKIljVybdaufUlWxp0I3FIrplaR6TWty5
+X-Google-Smtp-Source: AGHT+IFrChd80DZF7LJFx4Xkr2ghYzNtJ/zfR0j7guxDmH4LX1rsmKz3kvZDB9H/NExqbeD9Jxe5T1Yp+TSqQ6v4FcA=
+X-Received: by 2002:a05:6102:370a:b0:47a:26ed:8483 with SMTP id
+ s10-20020a056102370a00b0047a26ed8483mr2845023vst.14.1712787283771; Wed, 10
+ Apr 2024 15:14:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Apr 2024 00:06:33 +0200
-Message-Id: <D0GS8UL1WKI5.1PLEUUWOD7B8@noahloomans.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race
- condition
-From: "Noah Loomans" <noah@noahloomans.com>
-To: "Guenter Roeck" <groeck@google.com>
-Cc: "Bhanu Prakash Maiya" <bhanumaiya@chromium.org>, "Benson Leung"
- <bleung@chromium.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>, "Guenter
- Roeck" <groeck@chromium.org>, "Robert Zieba" <robertzieba@google.com>,
- <chrome-platform@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240410182618.169042-2-noah@noahloomans.com>
- <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
-In-Reply-To: <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
+MIME-Version: 1.0
+References: <20240409-public-ucsi-h-v4-0-e770735222a2@chromium.org>
+ <20240409-public-ucsi-h-v4-2-e770735222a2@chromium.org> <ZhUcu1k0Cum-IMVQ@google.com>
+In-Reply-To: <ZhUcu1k0Cum-IMVQ@google.com>
+From: Pavan Holla <pholla@chromium.org>
+Date: Wed, 10 Apr 2024 15:14:07 -0700
+Message-ID: <CAB2FV=7PWffxLR9yVq2MbVijEesSavKiXFT9ZKwJzDi3SnPQyQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 2024-04-10 at 21:48 UTC+02, Guenter Roeck wrote:
-> On Wed, Apr 10, 2024 at 11:29=E2=80=AFAM Noah Loomans <noah@noahloomans.c=
-om> wrote:
-> > This is my first time contributing to Linux, I hope this is a good
-> > patch. Feedback on how to improve is welcome!
->
-> The commit message is a bit long, but the patch itself looks good to me.
-
-Hmm yeah it's a bit on a long side. I'm not sure what could be removed
-though, it all seems relevant for understanding the bug and the fix.
-
-> Reviewed-by: Guenter Roeck <groeck@chromium.org>
-
-Thanks!
-
--Noah
+Ack to all comments.
+I plan to upload the next version after related EC changes land.

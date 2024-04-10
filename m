@@ -1,51 +1,52 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE550168DC
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 22:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4015184127
+	for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 22:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712787286; cv=none; b=ifYJNKQuDzcSVx/5rq7bGg62LcSG3RdR+D/M3+rKEC8qCIacnZ2NkL42tSDTpz4c67bfxZoyOEtWujA7p3hdYHwEXQP5u3kQ2WehARYzizo68WKW6hahp8SwTxbLJ7V7FftqKcd888rFFIlkUwqD9d/HZjRbtJQ99QuntQELij8=
+	t=1712788102; cv=none; b=RRqcTaH+EAQngZPEAwIXQg/Bw6Bgc0KPqQb9aiLWxzuACW1xox2CR3iQOIobRKsDCf6H4UPkdussiP7gr08qydSlBzrBmFNimRWehQIjxXJR9vC9xnSvvADxJbjRTmKFXDn/uQVXvoW3avG5nIasbhMoj4Zu4SCVoE7drAl9al0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712787286; c=relaxed/simple;
-	bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
+	s=arc-20240116; t=1712788102; c=relaxed/simple;
+	bh=YH+YCK0TtaM4xpNLgp7r4l7WLrbNv3kRu3yjDoe624s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LJbjuaP2GbLs2O/y50oyKBuLspUODwAiK8bQnw50SOb2FJJP1Wsnq+FW7E3X217VUS3jxFp2cFXjix5mSxljsAy4ffDa/4qtThJ+8DLF4tVo3IfQVji/qmWdPR+6ZK1F6iU3qKMtr7A2M/fVY1/P4eabN7jbgckWetvGt+IItRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BrHQo1hf; arc=none smtp.client-ip=209.85.217.47
+	 To:Cc:Content-Type; b=b7lQ/EwhRxBSvjOuEQwlRUcKJCXCLY31Smd07fkQbT4nDKQjS57RZzMBPaV729mSlxFEuUlHUldzAlnddrWQzEm7dm8OvPHsZdA157RWUjz7Umo1dlz6WSZ4AmuKxQ1oiKeSrWPuNrQS2jOvJ+qdwELJa5hn5Tr2teXCkR52R30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=InIOGswO; arc=none smtp.client-ip=209.85.222.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BrHQo1hf"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-479cc1791bfso2206546137.3
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 15:14:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="InIOGswO"
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7e74f4ae8fcso767598241.2
+        for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 15:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712787284; x=1713392084; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
-        b=BrHQo1hf8uY7ETcFf3JQ5iO3priYnnE+Jax01o0rP+2QLSDlRSk49N8TzP9o1QxZCl
-         INrD/zywI4Oy4KoVfqIhXSQe3jxvSCHXeaRK9Hy7gBIEBa0MraWVmo1AZkrMLzQOEpwm
-         uG6q1CkFM2IuI2vY8qulCeO1x7QsnhoOW/uxE=
+        d=chromium.org; s=google; t=1712788100; x=1713392900; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BB3ccNjO9MqZA0XBab5NYc/mwf8q7S7CIiocRg95hpo=;
+        b=InIOGswOAcyK/wInfOaYLRomQi6ZBawu1ssfjCcXK7zX+h6/QJ7TuUFTf3DgAltQvN
+         nLjihzaHdklFHhfT7Lh1wvlFXikLDFrdqbayOFO4l72Ew8VNuEh8UhUyNIk+zFOwBbr1
+         /41+XEkRcbuUvSzyWhlkJBp+f1LA/5m1RvJU4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712787284; x=1713392084;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d/PZVCXIhGvDMuyWk0WrFuAP3smrj3JCHcEtray0wQ8=;
-        b=Yn+nN7TAt8Xx45zxh/9D2VawXpuOlJjt1s7mG4elZc99xFm3VS/kl75CtVpxcHBxBz
-         sCBe4S/4n+dFsVWnUk4CbtDA/evdDSm5pYlrpD2XJd/X4Drt2UwL7xhxwTpxeHN+hLUL
-         VRhMXoxLweTM6Opvnx8RHZEKAKvgmSTD+gP9Yhm7XlvMBFnw1QXL9MKUUFJpGBR3+deq
-         JXnSzirOOXaKp1LTUcWH0Cpjv9Hj4Nr6jQzliPmAWESvho6jXoFtkPnOi04h1KH6uevr
-         BaaOuERzP1A8wwUpKNUwvDr5QkMMiaxyGtIvE+Cyqica2jhHorq4Mq+PepIa4RfMAEjG
-         JdSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIOpQUmthZI4FjcKDslhPfXbMM/CYDPInWcPfMfyU5B54nifHdO2YEg5uj2BrJ8b3g/3NIaao3PYqcNS+kbTFo25T9S+p7TPuBFe2IrtRm
-X-Gm-Message-State: AOJu0YyotwjpXB50f1uAawV+rmV2ABlel31DZtnaUGK1smelrYQuNAAX
-	Yoogi3epiRNbX70+0ztdaLpU4NaAdO6Gu0su21HdSEwMXLGmciWvbUn0X12w6PMCgyvo/dUGHDL
-	fIuugKIljVybdaufUlWxp0I3FIrplaR6TWty5
-X-Google-Smtp-Source: AGHT+IFrChd80DZF7LJFx4Xkr2ghYzNtJ/zfR0j7guxDmH4LX1rsmKz3kvZDB9H/NExqbeD9Jxe5T1Yp+TSqQ6v4FcA=
-X-Received: by 2002:a05:6102:370a:b0:47a:26ed:8483 with SMTP id
- s10-20020a056102370a00b0047a26ed8483mr2845023vst.14.1712787283771; Wed, 10
- Apr 2024 15:14:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712788100; x=1713392900;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BB3ccNjO9MqZA0XBab5NYc/mwf8q7S7CIiocRg95hpo=;
+        b=nLuJ2AO8shj4HYyk1trd5H2mVp4+rZkVIcfTjsqaWI1+ueQH757otp2w/uLkJiIqwj
+         SYMxSIJD2OSXvknRFqGcqMQQa+lysAwMNV7uPHBER7OFEhyLzeQ0RMS1fWJKhsXRAyLC
+         MLqmcq7R3wcsHs0xNqdrnIpIKQ3a39QcIBbIkWauBNr4t8LrZlMZsaB1z6G20+kCDSm3
+         8qiYdxfGitzAE6HlvBDOlpmXZAxH6Sy+bjGEczjJBS422fw9b7q6cZ/HFvU5Vp+qNYtA
+         GLg8ffgjZRkPqaJnpjdCaqd/z5OEvW/PCmfwz/CfEvfALACU+byK1eN2++ZJqFj1jQoh
+         S0rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUf8mvUdsfN2HFlRxlxdOCQVO4OYtdkM4nldtUcKl9ZEDp68aBOn5VTL20bPsNfrSx5Q8WuswKFpi5ie+4v3JNhho7wW6QxeOBNIwQ4j1ai
+X-Gm-Message-State: AOJu0YxwViSFPlSksc5SPlDtVAZjk8AxkSEwKEdzYyDCZ+lS9VRoleHi
+	UnasH6jqBBzDNIcQ5pRNGYYvSTATVjl6BEWx+ObdVCwShrjlzn+97ERJLCsIUKZlQaMWaeosCQO
+	1SdL1eBV7gamFtolkG3SJIJqGtFhXMRNTEL/V
+X-Google-Smtp-Source: AGHT+IG0DYJSZA6M/0G7T2aTS2ZJ/iILrEXt6TniERHXXkQOUOrG3LvxlW3P/tXtGQZaaYSu1vjHu2wxuT1qlaAsDFc=
+X-Received: by 2002:a05:6102:2092:b0:47a:23bb:5302 with SMTP id
+ h18-20020a056102209200b0047a23bb5302mr3103418vsr.11.1712788099606; Wed, 10
+ Apr 2024 15:28:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -53,19 +54,65 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240409-public-ucsi-h-v4-0-e770735222a2@chromium.org>
- <20240409-public-ucsi-h-v4-2-e770735222a2@chromium.org> <ZhUcu1k0Cum-IMVQ@google.com>
-In-Reply-To: <ZhUcu1k0Cum-IMVQ@google.com>
+ <20240409-public-ucsi-h-v4-2-e770735222a2@chromium.org> <2024040916-kleenex-machinist-4858@gregkh>
+In-Reply-To: <2024040916-kleenex-machinist-4858@gregkh>
 From: Pavan Holla <pholla@chromium.org>
-Date: Wed, 10 Apr 2024 15:14:07 -0700
-Message-ID: <CAB2FV=7PWffxLR9yVq2MbVijEesSavKiXFT9ZKwJzDi3SnPQyQ@mail.gmail.com>
+Date: Wed, 10 Apr 2024 15:27:43 -0700
+Message-ID: <CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com>
 Subject: Re: [PATCH v4 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
 	linux-usb@vger.kernel.org, 
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ack to all comments.
-I plan to upload the next version after related EC changes land.
+I plan to upload the next version after related EC changes land on
+ChromeOS. That might take a few weeks.
+
+On Tue, Apr 9, 2024 at 8:16=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Apr 09, 2024 at 02:27:37AM +0000, Pavan Holla wrote:
+> > +#define DRV_NAME "cros-ec-ucsi"
+>
+> KBUILD_MODNAME?
+
+Will replace DRV_NAME with KBUILD_MODNAME.
+
+> > +
+> > +#define MAX_EC_DATA_SIZE 256
+> > +#define WRITE_TMO_MS 500
+>
+> What are these and why these values?  And tabs perhaps?
+
+MAX_EC_DATA_SIZE is the number of bytes that can be read or written to in t=
+he
+UCSI data structure using a single host command to the EC.
+WRITE_TMO_MS is the time within which a cmd complete or ack notification mu=
+st
+arrive after a command is sent to the PPM.
+
+Will add comments and tabs.
+
+> > +     uint8_t ec_buffer[MAX_EC_DATA_SIZE + sizeof(struct ec_params_ucsi=
+_ppm_set)];
+>
+> That's a lot of data on the stack, are you sure you want to do that?
+>
+> And are you sure you are allowed to have this data on the stack?  It
+> never ends up being sent using DMA?
+
+I confirmed that this data isn't DMA'ed. However, I don't mind putting
+it on the heap, and will do so in the next version.
+
+> And please, don't use non-kernel types like "uint8_t", use "u8" like
+> intended.  This isn't userspace (yes, I know a lot of kernel code uses
+> these, but as you are going to change this, might as well change that
+> too.)
+
+Ack.
+
+Thanks,
+Pavan

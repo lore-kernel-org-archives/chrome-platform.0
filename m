@@ -1,101 +1,63 @@
-Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E12615253D
-	for <chrome-platform@lists.linux.dev>; Thu, 11 Apr 2024 16:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F5117BBE;
+	Thu, 11 Apr 2024 19:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712851734; cv=none; b=X97g7RY6/CYR/zK8uWDOJ3VYoE98fiFBVPxtKh7JCxiBoVdCYjVap0YbVEoZe2IVxvVLJsX6WBMbbAKI4d/ik9bDudO1+CfZFKjp/KHwr9TQkS2gvuywaLOB+cwVSxkzkr2/rUri5hZz61FMTRe1567i7JTApBGLHfW86LleZS0=
+	t=1712862560; cv=none; b=riG+h21v8ZlrMtopn2vrxfyaJy1hHi3eRypY65dYYsaMFSqXQcbZnxuyCnU6UaDTxwUBySrBBZrszdwiRB7msKFREa4YbesCMHYIatzMzAPGh5KpnVqOF2bbbcSrBiefUUUA6+wg8vPsuQ7QGrPpnBaVB159Ba/BB31tbqxSA8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712851734; c=relaxed/simple;
-	bh=w02RXuK8xBWmIvBZ8bYAhzEYz1YImFWzSs5wm9gRJi4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=A97u2sjkL7PNCtTwiH5Y97ArpHe5/+T//bJxn1kfJuTYHpGnAn8RmOtY1qI3zlrxEGXsETjqthKQx81Jm0ALM6L7izJVxK6lYHL//327fpVUgMb6GMBovpsXqX0NEnVVbNHPkqRsN8USHA9slC4lfpJ0bi2M6V6a23+NotUuK98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com; spf=pass smtp.mailfrom=noahloomans.com; dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b=TOD0wofI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h3PumdJj; arc=none smtp.client-ip=64.147.123.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noahloomans.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noahloomans.com
+	s=arc-20240116; t=1712862560; c=relaxed/simple;
+	bh=gAfs5y9SAYEpHJutQhB7NYB+Xjsh7Kv3ujDpTrxVrj4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=XlWSxAi7GTMIhzHxCN5IwVl8iV/hAgGA5GojcvpCIRBLadiFFMA9mRtRhau1X+jgk5h7tIclNiG/L+dkFU/Yjw701gPkES9/YjBG9jmxIdQwD9ozxTfZ1HIVTxYhkD9HyWVsYrqbFvd69TymvgUneiXGKREBsJDk3boIdnwMO5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efNAkB6G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=noahloomans.com header.i=@noahloomans.com header.b="TOD0wofI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h3PumdJj"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.west.internal (Postfix) with ESMTP id D4A3D1C000F0;
-	Thu, 11 Apr 2024 12:08:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 11 Apr 2024 12:08:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noahloomans.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1712851730; x=1712938130; bh=w02RXuK8xBWmIvBZ8bYAhzEYz1YImFWz
-	Ss5wm9gRJi4=; b=TOD0wofI9Tmdhtu1dVSN3JEiuOy/oOL52Jx5NrKPkRCjkSXx
-	u4gyjOjhmINXd/hM8+2vCD6BgLBj3QElI5c50AizY5pJr4AgEFkA7WGuQ9vlS9i5
-	gZkeIxGkPC/tAsEGlvM6yCNmdSCl8v2ZqMhQFkIVonf2i/NJsXoHuuF9qzmIo9wL
-	2rYOPor83kBKJFroRbyG8d/PL70laJAVzelUEJINXylCypQCcqOTZ9eQETQSdll3
-	Xk1JOJihkD9sqNmiQn4SvQcIAeQo2RgrWYj9NbCGh5g3UooqspTnBy4qTtzcs4aS
-	3OSblBE1mcn6dkfLiytiZiDpXbEtVldIoar8Ww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1712851730; x=
-	1712938130; bh=w02RXuK8xBWmIvBZ8bYAhzEYz1YImFWzSs5wm9gRJi4=; b=h
-	3PumdJj6zq5Pz3NOES9sc8X13DdW7cpYJRCsmfrQDPzAmOwXHf9N/sO8b+qWGDZh
-	P4kOBdjWJZ99CPamjuvMW2MG1nLHgSc7l9SYNE6OxkA+efnyX4h5b0okHiLvRZMg
-	R0nyuaWJNQsUHP5mFRCd6cW5s60LwiHdSdG7CZQ/g1LsGhpqIqTs/6ZUN77kO7oL
-	R7IRs7Kic0tSIdBQCVF4H43jpeg7lJspneBzHRGIrrdGE92FBb8oFvyDtBwe8JPe
-	pv91ddte/T5B87Ph4vTzbD3eS2FuR10rpUylN9de1rGgpMBApDQlLEqs8hn7DAbZ
-	tt/+wwvjFfQDauKmiugDw==
-X-ME-Sender: <xms:EgsYZm9raIUM4v5wye8GUiby6reV1O-hQajAn56E6rvhBElJ4Ki_uA>
-    <xme:EgsYZmuURTK5CLL0GVcZWxQ9n6I13362gYtxfpacUdjCRDGJYcfTgS1RV0Yu11sDP
-    zrg4XESlvtzyQnxjd0>
-X-ME-Received: <xmr:EgsYZsCr_H6EeSEmb-beDnAP8mi148uWr-Jg14AEw55m0omF-QL3LqItfor_dkJVXGtZlfJ_vW0pF5KVm4FOMQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehkedgleejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepggfgtgffkffvvefuhffofhgjsehtqhertdertdejnecuhfhrohhmpedfpfho
-    rghhucfnohhomhgrnhhsfdcuoehnohgrhhesnhhorghhlhhoohhmrghnshdrtghomheqne
-    cuggftrfgrthhtvghrnhepvdefvdehveelvefhledtveetjeejtdejteeigfehveeugeej
-    gfduuddutddtuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepnhhorghhsehnohgrhhhlohhomhgrnhhsrdgtohhm
-X-ME-Proxy: <xmx:EgsYZucMxy0alKaoGQbl5X-YUqcpMvHKWxEn9456zE4r2Ebyxu570Q>
-    <xmx:EgsYZrPMj8Yy_G-eInSNH41o9jojdxdxnSXsBLZ2xgMnKYW84V57nQ>
-    <xmx:EgsYZomWDS2dhfb23yhhWlNfAxW954l0VdTNQkHPzbeWqa9XlOrISQ>
-    <xmx:EgsYZtu_8WrCqf2JeFDAgS7OflvPFFOgINKESLKmScFp0bzWBCS27A>
-    <xmx:EgsYZmo1ZcPUF2jkLz-iVwfm1jnW-x24dHgddiBCfX2JxZNhvop6IfgO>
-Feedback-ID: i93394469:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Apr 2024 12:08:47 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efNAkB6G"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ABA0CC2BBFC;
+	Thu, 11 Apr 2024 19:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712862560;
+	bh=gAfs5y9SAYEpHJutQhB7NYB+Xjsh7Kv3ujDpTrxVrj4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=efNAkB6GbgSipAHEL0DrnoXwroqgvjiaCuWIhvz6whO1/GHnOLs6a4zfsu9FuJe5L
+	 +o6QzQsmOxyO2C5nxdsXNuAfUR32JKWUH3b6fpLBG3q4f3ro7KE/QXpF/IA5duGg9l
+	 tMRSoczp+IZZ16GCToVIO6NbO9P+Azuu/+68D1BFWkAcfLz7o4O74ouuEPT5h8E5H+
+	 UQvgkzToGYHwQp3s70WPNgtfVNSFyY1nOHLfc6yutRjBD77FyfWNRoOFR0OxZdUIph
+	 MoJQTg14q8LRvDPGPU6PcoD2ZFRaMxdunHUf3ZfjUpG4GUmO+H9Mh86lgrBFALs/zV
+	 5jzT/Knht9drw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A116FC433F2;
+	Thu, 11 Apr 2024 19:09:20 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform fixes for v6.9-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZhdKeS8lzaJLPlMM@google.com>
+References: <ZhdKeS8lzaJLPlMM@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ZhdKeS8lzaJLPlMM@google.com>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-fixes-for-v6.9-rc4
+X-PR-Tracked-Commit-Id: 5e700b384ec13f5bcac9855cb28fcc674f1d3593
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 346668f02a770f84bfcbac0c07e70569349eba08
+Message-Id: <171286256065.2172.11301167562372481094.pr-tracker-bot@kernel.org>
+Date: Thu, 11 Apr 2024 19:09:20 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Apr 2024 18:08:45 +0200
-Message-Id: <D0HF9FPTDYNC.18XQW4MJQPCGD@noahloomans.com>
-To: "Guenter Roeck" <groeck@google.com>, "Tzung-Bi Shih"
- <tzungbi@kernel.org>
-Cc: "Bhanu Prakash Maiya" <bhanumaiya@chromium.org>, "Benson Leung"
- <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>, "Robert
- Zieba" <robertzieba@google.com>, <chrome-platform@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race
- condition
-From: "Noah Loomans" <noah@noahloomans.com>
-X-Mailer: aerc 0.17.0
-References: <20240410182618.169042-2-noah@noahloomans.com>
- <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
- <D0GS8UL1WKI5.1PLEUUWOD7B8@noahloomans.com> <ZhdIc3vt3DFvT066@google.com>
- <CABXOdTetbKE_VWQsK4K6PB4Lm456BO7FfWyHtBBMhP77+QhzPw@mail.gmail.com>
-In-Reply-To: <CABXOdTetbKE_VWQsK4K6PB4Lm456BO7FfWyHtBBMhP77+QhzPw@mail.gmail.com>
 
-On 2024-04-11 at 04:26 UTC+02, Guenter Roeck wrote:
-> We might also consider applying the patch to all ChromeOS branches
-> directly (not waiting for upstream); we do see a number of crashes
-> because of it.
+The pull request you sent on Thu, 11 Apr 2024 10:27:05 +0800:
 
-Heh, I did wonder how Chromebooks running Chrome OS avoided this issue.
-I guess the answer is simple: they didn't :)
+> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-fixes-for-v6.9-rc4
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/346668f02a770f84bfcbac0c07e70569349eba08
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

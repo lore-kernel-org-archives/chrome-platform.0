@@ -1,96 +1,75 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15006320A
-	for <chrome-platform@lists.linux.dev>; Thu, 11 Apr 2024 02:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FDE64CE9;
+	Thu, 11 Apr 2024 02:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712802382; cv=none; b=IT4eiPWSjaB5SrrWrqPldMkl4Ug6UjlW7KbXyCfRoKhwrl18m9remlPb+PhP8t+HS5i6tl1UoyIjmh1Nqiq9bQ8T8w0b8ZOTsiepkqDQZK1syrbQs4gagm2ZWHqiWi1JnYCRVAujURVqLF4wjEk1lPaTF81gT+L1f2yzQ1f3jBQ=
+	t=1712802428; cv=none; b=DwXngz149gqH5WEudm/d1JRad26uNd2xPRBTomrnSfPnrv93mUNNbkAZg/ETAfvgdF5023k4BN/SyMKYefEso8L5bE67ACozyWmsDSzt//EnI44L9ul7s7VB4u4hlgbM8L9s8b2FIH49qqUmIFfeWL2No9VVywTt2QgwePzG0PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712802382; c=relaxed/simple;
-	bh=UXJSmZxNI75aHxqgtrGql6qZ0waGZlG3tYEnH0qUS7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VE57bJcRh6DAQ8Q3ajJy+XjVyF0CZmVGl8BkcusaiPICJq43BxF/9smYy7FsKITZg3HhjSXi0Zbw28qZ0VSutaMhpUyhrMRj58Tnl4nMZ/y8a4gALYBNXTw1tbGFqWXrpAptQQEPH4VMqNYG6f6gZNuoKSdSFcmSgjd4aTU2vqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YhyePxjA; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712802428; c=relaxed/simple;
+	bh=sfUwpap+R/EPllEb5TUcvasvhhCwJm6Fd9uo045tkoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ITTSFDaq7lWDhx3+8HfEBa93MsiAEQGraUvyriVRh53Vh2D0Fs+YkHc6rioEFyaya+7EtkGYMH4e1udC+IU8LyqErWzlG0UoYz6Y2pYeSj60xVRxeVQSkLk5R5xqXtqjU0LUfLGIRp46Ezz6pkST3hyrg2N2Eq7hbk0VG5bXUPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRbtp6my; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YhyePxjA"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-434b5abbb0dso103301cf.0
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Apr 2024 19:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712802380; x=1713407180; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UXJSmZxNI75aHxqgtrGql6qZ0waGZlG3tYEnH0qUS7Q=;
-        b=YhyePxjABjesH+z97vLxADMRoC+A+7mBmdSTELjrIkzjy5srek+wlhzHWi1cUfn9qq
-         VMU3+v4Rzs8QVqF1kppQr5sqWu6TdRCv0DoyYiVAKE5RPCLbocwH3ZzDOuWHNrZnd91V
-         uJcOisKepf5HNDgAUXg2/Er0kPPcCVOFGS0OPbpCGPl07IKwfTZwDLceREQqPVXTt4NP
-         ObvpHUwLn6xhMJGB58EYiRjWf1+4ybEvD1BWu9WxqkH6swS/1mAygr7MhVLrmJA/46ka
-         ecuGQitdA5cTJHxaJxsVlQf4oVZBb0yNJTx3EyhuO+6FAEM+gKabYGoa2jaskp4HlrRk
-         0zHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712802380; x=1713407180;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UXJSmZxNI75aHxqgtrGql6qZ0waGZlG3tYEnH0qUS7Q=;
-        b=IXAaHU7Yes9YwARKuGz3cYSTcjCG5lm3anUYspO0+5D1rW2yV+1ALSCVJbRMtkQHbE
-         xkFnCIknJymBh2NeAOS7kcvzCV6eTalNxqpqeNEaEKPsujWrLm9i8u+8QGhlnLab2/UA
-         fh81gDAQaxszt/maNQtLOyhZmx5q/pUIWWOYo1oHRdFKRrpOSFxgR6cK1habJU37oV38
-         F0X7cCLGr5SCnFo/CW8BQC5CHIOzMztLqvZOoRvVwOrxh/FHQfWhtTcsBkcDLs/2L1dE
-         U+bVZe9YviXQfZB+zt09sGkd61zu7Yb65Y7fnbGQ+fijvw+CAYyxm6U3pLagI8/vP2Rq
-         4YDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOeNUW+IT9YLkv0Mk7fTsueoJtuccCvV3w6fMNaUQ0rJyQTkeBN0SebwXmSvMCDI2R47CxRTxB7YyaXOXJagYRhSMlAqAaXn9BfOWosj4s
-X-Gm-Message-State: AOJu0YwrTCh3wS4Ja7qY4lB7wGBA5Oo73RA4KvJJ7/FnGci4SWKXnFfY
-	1TCxaUvxIYLagbDuR20QElpeQeXcBM6dA20C8i6fGDUiaZEMZZq4jFE8hl7GiLSf64tps3GaNHs
-	VhWJXmb3oOt0Kc2RuXtm+q3L5nemgmzcS1/VZ
-X-Google-Smtp-Source: AGHT+IFPg5vORmoeTvYI/uTQ7j/zK/tZPyZEFI/0EvsxjhZAYdby9Des1k8yuS9qmNN9z2fJqX/gxMcyeTA58eMTClQ=
-X-Received: by 2002:a05:622a:4c8d:b0:434:ec62:970c with SMTP id
- ez13-20020a05622a4c8d00b00434ec62970cmr131218qtb.12.1712802379873; Wed, 10
- Apr 2024 19:26:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRbtp6my"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10649C433F1;
+	Thu, 11 Apr 2024 02:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712802428;
+	bh=sfUwpap+R/EPllEb5TUcvasvhhCwJm6Fd9uo045tkoQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=mRbtp6myVAZzdLEuUxSCJak8eS9pj69yb0BXlvJY9RP8Xifddh6mxUP5nq+ypLoGT
+	 t5SDWNsSBcjKcn/lN6dcFBlVMifp6wrC4wI6u2sXaduxys0LvPerE1WwQ28G/x0c0z
+	 XBU24QCjUVLrjhwd3HRpdH5RbKa/Fc8HDhChY1IoHhzejEIa24rWnkvuPNVgEvICr7
+	 acG7PXidhVdTKi73hU+q2tIIjYPqMAMlJspCctKYSByfjYILNzl6AbYKkc1cLvy5tg
+	 bMTEkk6EIUh+w7YmsHub3tV8cWtTEY0uCpLOxsWdImAcxSxoGlIeAwi+fuoxNrV+vM
+	 oRZ3iY4Q74R3g==
+Date: Thu, 11 Apr 2024 10:27:05 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [GIT PULL] chrome-platform fixes for v6.9-rc4
+Message-ID: <ZhdKeS8lzaJLPlMM@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240410182618.169042-2-noah@noahloomans.com> <CABXOdTe02ALsv6sghnhWMkn7-7kidXhjvWzpDn7dGh4zKEkO8g@mail.gmail.com>
- <D0GS8UL1WKI5.1PLEUUWOD7B8@noahloomans.com> <ZhdIc3vt3DFvT066@google.com>
-In-Reply-To: <ZhdIc3vt3DFvT066@google.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Wed, 10 Apr 2024 19:26:07 -0700
-Message-ID: <CABXOdTetbKE_VWQsK4K6PB4Lm456BO7FfWyHtBBMhP77+QhzPw@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race condition
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Noah Loomans <noah@noahloomans.com>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Robert Zieba <robertzieba@google.com>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Apr 10, 2024 at 7:18=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Thu, Apr 11, 2024 at 12:06:33AM +0200, Noah Loomans wrote:
-> > On 2024-04-10 at 21:48 UTC+02, Guenter Roeck wrote:
-> > > On Wed, Apr 10, 2024 at 11:29=E2=80=AFAM Noah Loomans <noah@noahlooma=
-ns.com> wrote:
-> > > > This is my first time contributing to Linux, I hope this is a good
-> > > > patch. Feedback on how to improve is welcome!
-> > >
-> > > The commit message is a bit long, but the patch itself looks good to =
-me.
-> >
-> > Hmm yeah it's a bit on a long side. I'm not sure what could be removed
-> > though, it all seems relevant for understanding the bug and the fix.
->
-> Applied with shortening the message slightly.
+Linus,
 
-We might also consider applying the patch to all ChromeOS branches
-directly (not waiting for upstream); we do see a number of crashes
-because of it.
+Please pull chrome-platform fixes for v6.9-rc4.
 
-Guenter
+Thanks,
+TzungBi
+
+The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
+
+  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-fixes-for-v6.9-rc4
+
+for you to fetch changes up to 5e700b384ec13f5bcac9855cb28fcc674f1d3593:
+
+  platform/chrome: cros_ec_uart: properly fix race condition (2024-04-11 09:53:04 +0800)
+
+----------------------------------------------------------------
+chrome-platform fixes for v6.9-rc4
+
+Fix a NULL pointer dereference.
+
+----------------------------------------------------------------
+Noah Loomans (1):
+      platform/chrome: cros_ec_uart: properly fix race condition
+
+ drivers/platform/chrome/cros_ec_uart.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)

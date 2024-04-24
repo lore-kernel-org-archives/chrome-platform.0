@@ -1,34 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC93F157468;
-	Wed, 24 Apr 2024 08:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3315A489
+	for <chrome-platform@lists.linux.dev>; Wed, 24 Apr 2024 11:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713948770; cv=none; b=DAhDQNfTpiRXetK1WtZqEBv4P7e5E8EXCJKRMBjdj0+OyLcyqdGR6FqQKj4fPdhMHPRRZvOJxxeJG9YDb5CYp9w1K/Oov/ZUcp7V7PcrPrEPyE/ytDI3/hlKcD4v8cIsVWwpMIebETtEBJOVE/TAxf1UIC9ASHCdeJxrd/KiYTQ=
+	t=1713956493; cv=none; b=nIx+IOi7xPPtcQPyajDLD7WXtzQuN59w7hrCgyIk0SRtKe/84zZ4iX7fdepF3OrFpFZyyNCRjMu07IfwQ1ZXgAjS/kBCD7yDw25CcvPhUGkoQkuS/HN0VfY6LMAwVe7yg7yBeN5qVVduZPTqtWQn/8q4iOV9jgRk7pj4e2C6avc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713948770; c=relaxed/simple;
-	bh=xeFFermW9Sr98hlQ4VV5aZoZPPKK7kRslJqQSK7QTyQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=K1ShjykDW2s94P2GAW9ueVCDMd4o40bfpPjFYybYgbqso6K1F+Q/eZz8v40eOstgPRT2Di08P5o7bOE5+K48AQaeHIjniGZdqXq2FGrbrx39dVfcQ+bb2gfIkt7YUQkrQlJORpgCdB95wzVPDzxNzWlu+UmgnUEK+fpJpsGnPhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qru/Sys7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713956493; c=relaxed/simple;
+	bh=xA0SlX415TKuHCVwiI4JnaGdf0eAiGuelXMrgCRQ39g=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=hfznxPS+fNkdXPDNdXRyXyLMC/IEebt6qbKgTR92wZsfEp5K0u2nfH9iPxWjkOO5RoGZmzaIqwcXwBQjOPWYeoDdy2Aknlin0Gl/QIT+QjEQtbEwfkz0nc7G1G2sgvKg31dvfuIvXc5CYGr8qE1ZD+O4VljxYcqW6njKJ1uoxVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=cNS6jAps; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qru/Sys7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60587C32781;
-	Wed, 24 Apr 2024 08:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713948770;
-	bh=xeFFermW9Sr98hlQ4VV5aZoZPPKK7kRslJqQSK7QTyQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qru/Sys7v3vRJo1V9qwxutUZDfHsrufFdxuwkssyxwTQY7H2z59klkdktt6T5Lzyv
-	 inkPDKXP7VpPaT8sM8W46gVO2naJydK2Twrwp14kKKJAjGpHCHH6+RWE4g8VO7ySzY
-	 V03gXL/u0HQ3/Et1Wvy1Gu2T+DmWDk6Czg89yBx+g3fx2UPl2MB/P0u/aUtorfSJqk
-	 Oyh2lHdAvaNN5PcnSwo1heU+WxyAM9U66ayXO90wQzf1DUwhSi3Ds3f4vIL74FJBfV
-	 H4S7E34pqMIPxBvLoskml/csJuhmhQV6k+duCAQR7rQSUal4FqWALY/knJP+ZsfRls
-	 WG3ePO3Bmjbhg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 58305C4339F;
-	Wed, 24 Apr 2024 08:52:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="cNS6jAps"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e51398cc4eso59226445ad.2
+        for <chrome-platform@lists.linux.dev>; Wed, 24 Apr 2024 04:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1713956489; x=1714561289; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xA0SlX415TKuHCVwiI4JnaGdf0eAiGuelXMrgCRQ39g=;
+        b=cNS6jApsbENxsV4cQk8eI4o27NkLMeVP3Qe5hbvC976aiXhjLTIAIYrKN/D52eS2Gj
+         JGiGeNHkOwA08pFgNVT78K4nCE17HiLAgKeRlzTRhhIFHyTBXR7DlDme71vIaY+zYnD2
+         r1stkEJyMhpaiZFLFN/IKR4+ZWZe3dGUda6p9o1gyrKN+LlfRauXYAKdU5kyxhef9/f5
+         dd7s9MFp5bA80uLp/YTgRnkdddKnaC+Yk5FAJrAlsC/PFWe5OXcSp/8brKdfJxnDyIWI
+         rk9D2UMcvD1fU0s7btTGcuAxneUwwEGvAotEQ1TCoYOUcW1yXUvh42fRvhLV9i/EyoyO
+         GOFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713956489; x=1714561289;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xA0SlX415TKuHCVwiI4JnaGdf0eAiGuelXMrgCRQ39g=;
+        b=s11+ey2QBTd26eJkZF1xmEN+sJhGsYDF9MRVp0Y5ZqlmFdI7hX8zYh7PbgG90DoG+m
+         UtsbnbweAgaQf/hy7iaqKj87RmiSiDFm1pOdI8REQNsbC0FUooEtZED8KASC+QH/UtRA
+         2mKpPivFDqCMlXZsxRn/bgiU3KiwFEVV6tkgqlxkykLArutAvsuOqxAe0dmoLL1l+A6u
+         yk/L4w2v12TfZf7EQAUYfLlFzsRKezDjQi30N5GH+gzj/C+TPdCYdMoVPmL++Cisz1Mx
+         0Qkd8++ms0no6d5OV12kzAN8EzP0lD5RmygFJ9/JGtO3lCxA4ot54iICnknlGkLiwDKU
+         B1DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrcmXMKhKlwcBam5V1mGtLBxL273bdfFMyMVAG9yrhs5H8ZrolQ5YxkXp8KGJ8JbPRrx8f4MjjR4EKsf49MwWmhVVyecF4nnYVtfdFPT2w
+X-Gm-Message-State: AOJu0Yw2Cd9aZ6yqHY1G847nYPXVDzf91G6R8H31sf4dnDBhFpkoeYn/
+	vqQmJt5OpxOZ0Mtb4S7rtqfKc/lu3xBbtjJzcOXKz1fq/6ApetIkrnuVYQCV204=
+X-Google-Smtp-Source: AGHT+IGxk2pGK8NyTHcc8lgp2UO8ojOv/fnYY58+9OSA7Lu4l3v/9EuwcMMaQNpZmZLFript5QiGuA==
+X-Received: by 2002:a17:903:245:b0:1dc:7bc:d025 with SMTP id j5-20020a170903024500b001dc07bcd025mr2990309plh.4.1713956488592;
+        Wed, 24 Apr 2024 04:01:28 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id ju6-20020a170903428600b001e2b36d0c8esm11681730plb.7.2024.04.24.04.01.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Apr 2024 04:01:27 -0700 (PDT)
+Message-ID: <6628e687.170a0220.9cd8d.7b50@mx.google.com>
+Date: Wed, 24 Apr 2024 04:01:27 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -36,64 +59,58 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race condition
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171394877035.3441.2924475068794719398.git-patchwork-notify@kernel.org>
-Date: Wed, 24 Apr 2024 08:52:50 +0000
-References: <20240410182618.169042-2-noah@noahloomans.com>
-In-Reply-To: <20240410182618.169042-2-noah@noahloomans.com>
-To: Noah Loomans <noah@noahloomans.com>
-Cc: bhanumaiya@chromium.org, bleung@chromium.org, tzungbi@kernel.org,
- groeck@chromium.org, robertzieba@google.com, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+X-Kernelci-Kernel: v6.9-rc4-21-gc8f460d991df
+X-Kernelci-Report-Type: build
+Subject: chrome-platform/for-kernelci build: 4 builds: 0 failed,
+ 4 passed (v6.9-rc4-21-gc8f460d991df)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hello:
+chrome-platform/for-kernelci build: 4 builds: 0 failed, 4 passed (v6.9-rc4-=
+21-gc8f460d991df)
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.9-rc4-21-gc8f460d991df/
 
-On Wed, 10 Apr 2024 20:26:19 +0200 you wrote:
-> The cros_ec_uart_probe() function calls devm_serdev_device_open() before
-> it calls serdev_device_set_client_ops(). This can trigger a NULL pointer
-> dereference:
-> 
->     BUG: kernel NULL pointer dereference, address: 0000000000000000
->     ...
->     CPU: 5 PID: 103 Comm: kworker/u16:3 Not tainted 6.8.4-zen1-1-zen #1 4a88f2661038c2a3bb69aa70fb41a5735338823c
->     Hardware name: Google Morphius/Morphius, BIOS MrChromebox-4.22.2-1-g2a93624aebf 01/22/2024
->     Workqueue: events_unbound flush_to_ldisc
->     RIP: 0010:ttyport_receive_buf+0x3f/0xf0
->     ...
->     Call Trace:
->      <TASK>
->      ? __die+0x10f/0x120
->      ? page_fault_oops+0x171/0x4e0
->      ? srso_return_thunk+0x5/0x5f
->      ? exc_page_fault+0x7f/0x180
->      ? asm_exc_page_fault+0x26/0x30
->      ? ttyport_receive_buf+0x3f/0xf0
->      flush_to_ldisc+0x9b/0x1c0
->      process_one_work+0x17b/0x340
->      worker_thread+0x301/0x490
->      ? __pfx_worker_thread+0x10/0x10
->      kthread+0xe8/0x120
->      ? __pfx_kthread+0x10/0x10
->      ret_from_fork+0x34/0x50
->      ? __pfx_kthread+0x10/0x10
->      ret_from_fork_asm+0x1b/0x30
->      </TASK>
-> 
-> [...]
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.9-rc4-21-gc8f460d991df
+Git Commit: c8f460d991df93d87de01a96b783cad5a2da9616
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 2 unique architectures
 
-Here is the summary with links:
-  - platform/chrome: cros_ec_uart: properly fix race condition
-    https://git.kernel.org/chrome-platform/c/5e700b384ec1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Detailed per-defconfig build reports:
 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
 
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

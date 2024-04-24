@@ -1,65 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1712156C78;
-	Wed, 24 Apr 2024 08:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCF1157489;
+	Wed, 24 Apr 2024 08:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713948183; cv=none; b=Hn/WATaqw7O6OvjIGGHAyXECgr2p4tV2ssvYQd+oyTwSjN4SO4GVDN6FBhDruC2gt3GC/0lFutnfMKNkcZAaTmRnt1t31g8wNkW9YXSFK/JviIxEUqFqgqCp2fRSDhGI6DEv8IGkDG+KvPBSk3Trb/ZV3GW9otm/3T2r+RYDMJA=
+	t=1713948710; cv=none; b=Z/u5kOqEPIpzb6ojr4kJMPsowbbsvE7l7S6xUsyI+XihyD4O5Z1/cZBex+ZcaS4ARmV3q3L5I4FkVqoRb62fVJkMDtSHAhIsGcdc4UcyM4O8zNq2XZeqFg2SyITPt8yOix+PqfDokNkyF4Ss2QxkpsmD0FNCSVn5NzuadUGWJzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713948183; c=relaxed/simple;
-	bh=sFk3O4Sw8i7ZmbuTd72z0EqIh57Z+E9Gr3w3NMIS1kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGAY4G9vpMIRmfkPLWfcESqMnYYx7AszVgrKB9CsG7Tfrgy61rlvVS2Znn4mqkL0o8tEokqWmFDr4Y7kD5T/Xqxnblu4535zfZBJnses7Go3yiD/eRaz5TVaX35ishUeadVpiDQv2viLHJ545BernNhEWLux045A/HrXV7BI0hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rc5AJDXl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713948710; c=relaxed/simple;
+	bh=Rg4e9txP5oX9sV/aUZHZulZUF6DxQi+sn7vMiXtVOIY=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=DwI9zrNDYyoZQ6GP3R17PaYOxutc8VJq2D27X6x1LHtNuSMg3frCTa2058f96c5tGd18hieUh7+olRFIdXzcxX6XbSOcCx5E8PTpCPs42tYQPtwHFHxudfehJk/dGnKDI9kGRej+6bygF6kxelH1sHJNUKhjKbD6HyA3qgefeRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6SaCtae; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rc5AJDXl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BF16C3277B;
-	Wed, 24 Apr 2024 08:43:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6SaCtae"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2EF8BC32781;
+	Wed, 24 Apr 2024 08:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713948183;
-	bh=sFk3O4Sw8i7ZmbuTd72z0EqIh57Z+E9Gr3w3NMIS1kw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rc5AJDXlQpCQqfyw36aBQqTQ5vg0LE8K50ywbS07mZSb2VVqKyL4GuwfaAR0pVG2U
-	 uJDRF0wdI3SsrHoL+Y9JJ9iSY3oSqDOSUgPEO0UmuDXo9RCyLH2x7NEv+Q2lYWKi7b
-	 UaK5kFuMlhnCfH1fEyPSkWv2WL15chNcEiFs0uEZ/z5AYcne7Cc5jJKsSqtmYT96do
-	 6OT0LeZ87Ir6Stx76Bur7k00OtDWaf8NIopfk+jkQpf/iAvjkvK6OJoIYobczgjMgL
-	 vlbwoCtUUqV/8ZXzATyIdFXPuqijmhT06hU19vhOEy7+4SLz69TFtY1SZ3r5ZIKIkw
-	 QTmCaHZjTYrow==
-Date: Wed, 24 Apr 2024 16:43:00 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] firmware: coreboot: store owner from modules with
- coreboot_driver_register()
-Message-ID: <ZijGFJbqRlKykG8E@google.com>
-References: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
- <9fbf48a6-239b-4304-850d-6ca43af93a71@linaro.org>
+	s=k20201202; t=1713948710;
+	bh=Rg4e9txP5oX9sV/aUZHZulZUF6DxQi+sn7vMiXtVOIY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=b6SaCtaeUiH/y+HsEFw64JUzzAKOeS3mn22EIp2rvbeKz31/e3ZmhzLqHCVMicrFA
+	 Yw9qzh9fD+S3fdYWiWHdBmSsJ/5ACVXrYQ6IN8ctCdmn5CuP5aB0X9TJplKi6lFG1J
+	 CC3a2dozyo1x7GR7QZjhobhjfAkJDPCrJ3/v5aIuwwX6MGf+A3WEmPH7sBPckhjiZj
+	 EreN0PL5vFdgQXAKkDOurK1UAPGWAWbWWhrLQMLKt/N8ZbQ6C9NPTletzHt2ELH76O
+	 6654WmyRb0EPmnb70ejusDn1ai9k5dwMnaLiENPfLjHyIqZSc1XfsaKCnjtg7bmYZ5
+	 NUiq/5hw0QfcA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 18605C433E9;
+	Wed, 24 Apr 2024 08:51:50 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9fbf48a6-239b-4304-850d-6ca43af93a71@linaro.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_uart: properly fix race condition
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171394871009.3441.4963068263841932091.git-patchwork-notify@kernel.org>
+Date: Wed, 24 Apr 2024 08:51:50 +0000
+References: <20240410182618.169042-2-noah@noahloomans.com>
+In-Reply-To: <20240410182618.169042-2-noah@noahloomans.com>
+To: Noah Loomans <noah@noahloomans.com>
+Cc: bhanumaiya@chromium.org, bleung@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, robertzieba@google.com, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
 
-On Wed, Apr 24, 2024 at 08:40:34AM +0200, Krzysztof Kozlowski wrote:
-> On 30/03/2024 20:49, Krzysztof Kozlowski wrote:
-> > Moving the .owner setting code to the core this effectively fixes
-> > missing .owner in framebuffer-coreboot, memconsole-coreboot and vpd
-> > drivers.
-> > 
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Wed, 10 Apr 2024 20:26:19 +0200 you wrote:
+> The cros_ec_uart_probe() function calls devm_serdev_device_open() before
+> it calls serdev_device_set_client_ops(). This can trigger a NULL pointer
+> dereference:
 > 
-> It has been almost a month. Any comments on this patchset?
+>     BUG: kernel NULL pointer dereference, address: 0000000000000000
+>     ...
+>     CPU: 5 PID: 103 Comm: kworker/u16:3 Not tainted 6.8.4-zen1-1-zen #1 4a88f2661038c2a3bb69aa70fb41a5735338823c
+>     Hardware name: Google Morphius/Morphius, BIOS MrChromebox-4.22.2-1-g2a93624aebf 01/22/2024
+>     Workqueue: events_unbound flush_to_ldisc
+>     RIP: 0010:ttyport_receive_buf+0x3f/0xf0
+>     ...
+>     Call Trace:
+>      <TASK>
+>      ? __die+0x10f/0x120
+>      ? page_fault_oops+0x171/0x4e0
+>      ? srso_return_thunk+0x5/0x5f
+>      ? exc_page_fault+0x7f/0x180
+>      ? asm_exc_page_fault+0x26/0x30
+>      ? ttyport_receive_buf+0x3f/0xf0
+>      flush_to_ldisc+0x9b/0x1c0
+>      process_one_work+0x17b/0x340
+>      worker_thread+0x301/0x490
+>      ? __pfx_worker_thread+0x10/0x10
+>      kthread+0xe8/0x120
+>      ? __pfx_kthread+0x10/0x10
+>      ret_from_fork+0x34/0x50
+>      ? __pfx_kthread+0x10/0x10
+>      ret_from_fork_asm+0x1b/0x30
+>      </TASK>
+> 
+> [...]
 
-They have been applied for a while, thanks!  Just realized this email was
-forgotten.
+Here is the summary with links:
+  - platform/chrome: cros_ec_uart: properly fix race condition
+    https://git.kernel.org/chrome-platform/c/5e700b384ec1
 
-[1/2] firmware: coreboot: store owner from modules with coreboot_driver_register()
-      commit: 46c6685e7e886b7fa098465f8bfd139a253365e4
-[2/2] firmware: google: cbmem: drop driver owner initialization
-      commit: 7f20f21c22aa22e488530f66bf4fc168e427f5bd
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

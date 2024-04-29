@@ -1,87 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B7343ADC;
-	Fri, 26 Apr 2024 04:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592E4127E24
+	for <chrome-platform@lists.linux.dev>; Mon, 29 Apr 2024 18:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714106247; cv=none; b=EcBybhQTY8T2+yimx1ZNmFqyK7K8UyXkPJ/l4iwQFG+RMvdDclcwRfsf50Tjwv4w9zeI5SrCoECyPlwpBPgfAHUHxJhIwUOyWPkRTPB60bEUS2V6+BHjMmBoasCzzpMUJTPg/oomfldg/ytGH2ejw1ApskJxdLRTq+ygAHTH1JI=
+	t=1714414457; cv=none; b=XrDfVeYFPRc2F4kM6y4Ez0hWw3mz9OKG7J3zR3hzGjHDKflPFJskztKcPn+jvVJcJ57Set1oTf7dKy4xir1iKC8wPTow27j7hufBL28HoGKiF4Aqp97rcZ19/Bqq/mLEZQO6Vluq3bvBqAGoDDt8OgV/Xq+D6wg3q6X65IiY2so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714106247; c=relaxed/simple;
-	bh=HVslDCGQSbVxPzywsWFcgvSyrBbXdafmwApe57VI3ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yaq9aTFNP1K2tjYuzcczgVPLFjaaX5RM5FXOJVQosNtLwIOG4zcW5yn9XsDeP2WLy9LanQ0HUo9aN8Bpg0EVD2lpR6bMnCRGN4wYnmVOfeilgT0cN8w/DOH/KtY3EYUX6afyk1n0akF1FsoDZqPPTo294UZ/88yz6UrJrHOanfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=po0R7TXx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714414457; c=relaxed/simple;
+	bh=YCowSaEVxz5Th4+eEyP+ngkS+IVErBSdGo7rFV+gYM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N7HenN8rvAOKbvBifRTlsBiGTFR2zsnDCc/fSRtFRAoGxrNP9gZ3hY10yD8AekuS237nxa0350vjtwUn0/oTh8ZQoNs54w/glUdXeUv299bdY0KC+exmYEm69O/UhT541oWWHOXT4l8JTMdvFCOWVZOUB5sVdwYO6tWEXVrlas0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XsHs7gPq; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="po0R7TXx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26742C113CD;
-	Fri, 26 Apr 2024 04:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714106247;
-	bh=HVslDCGQSbVxPzywsWFcgvSyrBbXdafmwApe57VI3ao=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=po0R7TXxkdSTICIkaevplkiueulozFOGYC9wdnalQ6KKq1TZM4XsQCyW0GyzxtBtM
-	 kzBbF353pydHiLuXMrRoA/3VIGVIsQhdGYmZTfUUWjXqlPxCqfi9G9s277dX00+4lB
-	 SaKf2zDv5gXC6qKbc97kfO2IjLRtnCwJ/0cQ4mRvihY0y0MnzuYiFaDN+36tl1z1TG
-	 XDVdEL+sGvonJP/ZNJiiQbtyvABCu9AafdprYLokZe5V21GkG7cybmNc8cR8hhfYS9
-	 2ZdSlpTnJFvxXvNBBBAcUo+K5pqg6EP+zMRY69u9PwgcjaESFDyzxZ5W/VOOyjWs7B
-	 Mt0oEegd2ZQXQ==
-Date: Fri, 26 Apr 2024 12:37:24 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Karthikeyan Ramasubramanian <kramasub@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XsHs7gPq"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7da3ec3e044so228349939f.2
+        for <chrome-platform@lists.linux.dev>; Mon, 29 Apr 2024 11:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714414455; x=1715019255; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5U5Ovsd+M0JJ1E5zOP2YrAXuvUNDgcSQFNzhJAAl8DQ=;
+        b=XsHs7gPqHtY7v03RjjVtM9/wy7Z31ChNuv5vwPusYFMlPmkclyrvWbaWyCtsDnISdX
+         SY3peP9o/cBLuAgkx/rhLmADuhp/SiB3GHqXGS8VnbGzsnWt40oWjrAAgj+SKxLMLENr
+         SZ7Lc1LwdI7qHD/wgVME5KQTEVoZ8tGCzTayo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714414455; x=1715019255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5U5Ovsd+M0JJ1E5zOP2YrAXuvUNDgcSQFNzhJAAl8DQ=;
+        b=vIDPXGq+l+uZND9YPtN77rUVB0q+bs+8KFmsTuzAvl3Jfh+KKDGswvEQKspD8sNwCK
+         7qJ+CjSlUZJbA96iqanwdBvrxgMGW25tmv/ZzkfaaRSNkT2Y0pbPxtvKHOS+RrpPik5V
+         /WMEkWJ5MLvy2P10KA9j0g2aYGzFwK01jOSbQrkWes6DUUSOmA8t8yA0XuLK0b0EgQD9
+         ynzqcGJRdp1eDMhuhcSkmGH8+cOlg62vcqQwsEjQAItqUi5Lj5nAkoSXzkvCSdtCJ0R0
+         kq8aPeooqjmbnsAn3DzcPSw6ofxbPssTMXsUqrNJheVXOVKBVmYuAUVQzJ2z3Kn5ce2Y
+         rrhw==
+X-Forwarded-Encrypted: i=1; AJvYcCXK9b6cUsdjzlE2iUWZacZtdQ3pK9ZFwvofncMnWlGFMC3/1jxJcV1LdrfDZkmn01iQ3hMqGr1QxEG5MjTmdLF91/OfINhI4VU0rk5jJakb
+X-Gm-Message-State: AOJu0YxyUfsiNxlc2AcvepDjRUrYYV67/mwRykwiZk4y4DAu6wgyInBK
+	K0lBcq6pzxopCHgyzo3haAyIP3toxWLx1WppmoBMhIxfLmF27ULjslWMq3IZ0Q==
+X-Google-Smtp-Source: AGHT+IELaJ8zCPU56vHLqlO0m0JFHKddtNX1XApb9dDhvl4jX4rekMtYaF/Fr00J+p1noZD9iNJccw==
+X-Received: by 2002:a6b:5814:0:b0:7d5:c00a:7d30 with SMTP id m20-20020a6b5814000000b007d5c00a7d30mr768321iob.8.1714414455464;
+        Mon, 29 Apr 2024 11:14:15 -0700 (PDT)
+Received: from kramasub2.cros.corp.google.com ([100.107.108.189])
+        by smtp.gmail.com with ESMTPSA id n21-20020a6b4115000000b007d05927cb31sm6068548ioa.45.2024.04.29.11.14.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 11:14:14 -0700 (PDT)
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Karthikeyan Ramasubramanian <kramasub@chromium.org>,
+	stable@vger.kernel.org,
 	Lalith Rajendran <lalithkraj@chromium.org>,
-	chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: Re: [PATCH v1] chrome/cros_ec: Handle events during suspend after
- resume completion
-Message-ID: <ZisvhAg5Jy_IE-AV@google.com>
-References: <20240425143710.v1.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid>
+	chrome-platform@lists.linux.dev,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH v2] chrome/cros_ec: Handle events during suspend after resume completion
+Date: Mon, 29 Apr 2024 12:13:45 -0600
+Message-ID: <20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid>
+X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240425143710.v1.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 25, 2024 at 02:37:11PM -0600, Karthikeyan Ramasubramanian wrote:
-> On boards where EC IRQ is not wake capable, EC does not trigger IRQ to
-> signal any non-wake events until EC receives host resume event.
+Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable") re-ordered the resume sequence. Before that
+change, cros_ec resume sequence is:
+1) Enable IRQ
+2) Send resume event
+3) Handle events during suspend
 
-The sentence looks irrelevant to the fix.  Presumably, EC should send those
-pending non-wake events after it receives host resume event.
-
-> Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
-> command and irq disable") separated enabling IRQ and sending resume
-> event host command into early_resume and resume_complete stages
-> respectively. This separation leads to host not handling certain events
-> posted during a small time window between early_resume and
-> resume_complete stages. This change moves handling all events that
-> happened during suspend after sending host resume event.
-
-The regression you see is probably not due to the "separation" but an unwanted
-code reorder.
-
-Before 47ea0ddb1f56[1], a resume is:
-1) Enable IRQ.
-2) Send resume event.
-3) Handle pending events.
-
-
-After 47ea0ddb1f56[2], a resume is:
-1) Enable IRQ.
-2) Handle pending events.
+After commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable"), cros_ec resume sequence is:
+1) Enable IRQ
+2) Handle events during suspend
 3) Send resume event.
 
-If there are some more events pending between 2) and 3), they would be handled
-further late.
+This re-ordering leads to delayed handling of any events queued between
+items 2) and 3) with the updated sequence. Also in certain platforms, EC
+skips triggering interrupt for certain events eg. mkbp events until the
+resume event is received. Such events are stuck in the host event queue
+indefinitely. This change puts back the original order to avoid any
+delay in handling the pending events.
 
-[1]: https://elixir.bootlin.com/linux/v6.6/source/drivers/platform/chrome/cros_ec.c#L381
-[2]: https://elixir.bootlin.com/linux/v6.7/source/drivers/platform/chrome/cros_ec.c#L438
+Fixes: 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host command and irq disable")
+Cc: stable@vger.kernel.org
+Cc: Lalith Rajendran <lalithkraj@chromium.org>
+Cc: chrome-platform@lists.linux.dev
+Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+---
 
+Changes in v2:
+- Updated the commit message with the right problem description
 
-I see what the patch tries to fix but the commit message makes less sense to
-me.  Please fix accordingly.
+ drivers/platform/chrome/cros_ec.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index badc68bbae8cc..41714df053916 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -432,6 +432,12 @@ static void cros_ec_send_resume_event(struct cros_ec_device *ec_dev)
+ void cros_ec_resume_complete(struct cros_ec_device *ec_dev)
+ {
+ 	cros_ec_send_resume_event(ec_dev);
++	/*
++	 * Let the mfd devices know about events that occur during
++	 * suspend. This way the clients know what to do with them.
++	 */
++	cros_ec_report_events_during_suspend(ec_dev);
++
+ }
+ EXPORT_SYMBOL(cros_ec_resume_complete);
+ 
+@@ -442,12 +448,6 @@ static void cros_ec_enable_irq(struct cros_ec_device *ec_dev)
+ 
+ 	if (ec_dev->wake_enabled)
+ 		disable_irq_wake(ec_dev->irq);
+-
+-	/*
+-	 * Let the mfd devices know about events that occur during
+-	 * suspend. This way the clients know what to do with them.
+-	 */
+-	cros_ec_report_events_during_suspend(ec_dev);
+ }
+ 
+ /**
+@@ -475,8 +475,9 @@ EXPORT_SYMBOL(cros_ec_resume_early);
+  */
+ int cros_ec_resume(struct cros_ec_device *ec_dev)
+ {
+-	cros_ec_enable_irq(ec_dev);
+-	cros_ec_send_resume_event(ec_dev);
++	cros_ec_resume_early(ec_dev);
++	cros_ec_resume_complete(ec_dev);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL(cros_ec_resume);
+-- 
+2.44.0.769.g3c40516874-goog
+

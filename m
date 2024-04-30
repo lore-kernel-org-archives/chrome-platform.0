@@ -1,35 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC88220EB;
-	Tue, 30 Apr 2024 01:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4E0C8D7
+	for <chrome-platform@lists.linux.dev>; Tue, 30 Apr 2024 02:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714441231; cv=none; b=NheOwP7cVdiLscbJI5lNRAsgzILrcQanpBcP4dvJrc2XRqrB7LtNlLExZwiXe/1kLPO/7Kqwc23zdSak3ZpXUj7ithw0nbs+x1EvXXAvNk/fbGIlQXME0fas1vO1cpKF6UJEpqhKwnWBM0SaX7fnmMrq0QR2gxCB53Epv878OAs=
+	t=1714442977; cv=none; b=r7VhGqlrpH+xgiGWkhrwcExXk1HNFbBhv1VSCZPpLfeNGnoel04/No4E0l0dQV09J+6R3myeOVXKWZjRIFPfO+O87s5VGQSd4HZRMjIQJE1L7InwKyWbKtx06PjQjnLruqfG3EhMR1+xUTUTURbW6QNSg9ZLPnrlmW9wa5SjLmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714441231; c=relaxed/simple;
-	bh=RI8f1akC41OX4oSldZpM0iuvb7hFOkwlFixOzT4IYTI=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=SVGw6znQBAGiwYwB0G0UrYz35wyiXIm84PWDPeYFm3QMnIbkOMs0SwpjVCSiAcZpCRQ3fZK03QJLO6e/mrHwmsO5EYDje2gvFIJPiBoKWTrT6D5xp7dcVBdIJ3QfBubU43/D0OWD8J5qTa0wiIuYYDraBM8rIV0HF7PDKbQcgPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsqY/n4V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714442977; c=relaxed/simple;
+	bh=7GqHcZi67lO1xiDm6hNHeT2KHlyJC95zW0wGY0skYA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VC1IJyJRi34ZuG3/MQwUde3OHWt0yWdFSNFHNhenFNUfVox41+yARI4PUhoULUG+Ao4Myeg901u3jq5K6YLn46Z37NIu8c/FTsucrrKE8QuNhrtkOmssadvzozwpB7WkOlqh5anfYCWe/zUIu6cpV7qtDxzEtcbaT3goDglP0gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cVJlXXqo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsqY/n4V"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 46DA8C4AF18;
-	Tue, 30 Apr 2024 01:40:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cVJlXXqo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C94AC116B1;
+	Tue, 30 Apr 2024 02:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714441230;
-	bh=RI8f1akC41OX4oSldZpM0iuvb7hFOkwlFixOzT4IYTI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tsqY/n4VGOnmkxhZomkSBiIknTXO2TooUviodMdS4Rh5IAMzOdr/gyPqHynEaHhQY
-	 ODWXmimgRdMU+6/o6YH21k78+LobSoaR971xo51ktzgPVfioeYB9jADS0K/Kw4iSFt
-	 5DNEwZYYu2tacfxsjN1Yj604MqbvQyX4E7Fcn0Na+VeH7GbgSEpgmDK+xKJcMIvTCl
-	 UhAS+MNByQkv/cSh/u4y6AsFLA8N2BtN32aOLcpr28mxlCJZB6FYMe4oSmpEANUf8R
-	 r+y8sI42bAC6qnF5mA6Y7hlkCF58lolAb7tV3VMTb/L1XsyjTFHMOtAnV4C+4FtjwN
-	 OiGtJJAZCThUw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 33618E2D48A;
-	Tue, 30 Apr 2024 01:40:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1714442977;
+	bh=7GqHcZi67lO1xiDm6hNHeT2KHlyJC95zW0wGY0skYA8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cVJlXXqoaOwGIsIhebofOVA1cF2izaR5iX85iVM/RhepzzQDf9AHQHUeA5l8M+rRK
+	 MRursdRjlkBvcL585ETxPtJD8w7aJIyKzrWNZHJhvzAIAGL3QItb3h3jYnkbhLtugy
+	 nkUfoX4+aHdrjHVZVdsHIv529l6eCZkCeO/tws3zSnm3sB64DRw8CNhHNTkWQAZfdv
+	 bAbo0zboIfcmBwYTlU2d7++OQBTk7oEBkd3mztnYtaB1QM9UbaLuA37PXxSk3Bx1h9
+	 7inuW5QGkVHSQuGQXL5AJnpkOxIgL5WSw3TFZOZfVwkxGgv9eWY8lnhAX1G4WlUKBI
+	 tALUi6/D3Nxdg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: tzungbi@kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: cros_ec: let cros_ec_suspend() call cros_ec_suspend_*
+Date: Tue, 30 Apr 2024 10:09:24 +0800
+Message-ID: <20240430020924.610724-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -37,41 +41,34 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] chrome/cros_ec: Handle events during suspend after resume
- completion
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171444123020.8598.2760691048321642330.git-patchwork-notify@kernel.org>
-Date: Tue, 30 Apr 2024 01:40:30 +0000
-References: <20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid>
-In-Reply-To: <20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid>
-To: Karthikeyan Ramasubramanian <kramasub@chromium.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- lalithkraj@chromium.org, chrome-platform@lists.linux.dev,
- bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org
 
-Hello:
+After commit 2fbe479c0024 ("platform/chrome: cros_ec: Handle events
+during suspend after resume completion"), cros_ec_resume() starts to
+call cros_ec_resume_early() and cros_ec_resume_complete().
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+To be neat, let cros_ec_suspend() call cros_ec_suspend_prepare() and
+cros_ec_suspend_late().
 
-On Mon, 29 Apr 2024 12:13:45 -0600 you wrote:
-> Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
-> command and irq disable") re-ordered the resume sequence. Before that
-> change, cros_ec resume sequence is:
-> 1) Enable IRQ
-> 2) Send resume event
-> 3) Handle events during suspend
-> 
-> [...]
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/platform/chrome/cros_ec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Here is the summary with links:
-  - [v2] chrome/cros_ec: Handle events during suspend after resume completion
-    https://git.kernel.org/chrome-platform/c/2fbe479c0024
-
-You are awesome, thank you!
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index 47d19f7e295a..e821b3d39590 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -388,8 +388,8 @@ EXPORT_SYMBOL(cros_ec_suspend_late);
+  */
+ int cros_ec_suspend(struct cros_ec_device *ec_dev)
+ {
+-	cros_ec_send_suspend_event(ec_dev);
+-	cros_ec_disable_irq(ec_dev);
++	cros_ec_suspend_prepare(ec_dev);
++	cros_ec_suspend_late(ec_dev);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(cros_ec_suspend);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.44.0.769.g3c40516874-goog
 

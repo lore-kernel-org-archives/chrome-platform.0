@@ -1,140 +1,93 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from msa.smtpout.orange.fr (msa-217.smtpout.orange.fr [193.252.23.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D0474E11
-	for <chrome-platform@lists.linux.dev>; Tue, 30 Apr 2024 08:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B26C37169
+	for <chrome-platform@lists.linux.dev>; Wed,  1 May 2024 06:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714465367; cv=none; b=PX3Pw8G6sFfJ7HMec/ltc8VYMSTdBYi84iNO9+aYfy3VAfBaomBtEQX87/x9cn8u8JjPlhcSfxhf8wZ8soyz1qrqttbrhUyBiYAExBxcnP7zYst0gZTOMjupTDD05LkwdcNd1uSBfUbZr2puXO97HizC6t1f/dsSGIZYl/gFDjU=
+	t=1714546203; cv=none; b=ZowxqFZX8ek9OicOfk1dMpAyQsUYG8V7uMU2H6xcLShquwXIUUpHVdrSaDHuTYiuEtwkrIvXVcHeZhMvRQR8pcxsJ5/U6o1KoCfZ93R9W0bXfGJXvDtBou8ggcRpCp9Kj1eXatn9yUecIbHzClqYAf17ehGdo4E2nMJ0CAhStdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714465367; c=relaxed/simple;
-	bh=iTviy3ySMQgwp1J9VK+HZ/2IRmjO6p9pfmko1P5XRPM=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=uH57JSeTkdRvBhrTrgIUN3iBtDl1GKBmWzLL+oUoJBtHJy6GpcAMmiwxB+iG2B3s4+BpL3+kzDpqZ9Xpl5/6g/9UQ6eaKI5C/kKVw03GiSZGofXJd+7VeY7OI6k8VYG9UXQ1PzZ+8KuDS21Ywo2NL2qY6CODqUpbnkBuG13cmIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Jdj4ci7T; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1714546203; c=relaxed/simple;
+	bh=t23Emc2T1F1Cw/U1i0QRPENn/kEZ49dN8BCNoYSr1nE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kpi5u2kiPmTgkaJh7t6TEg0TmaQOUzMMD7lhmHChIITFlBK3+hZ4fr59u64/MorpUztE66NtBURRsOYePTSq4iyfqHirsXm8N1bSCffQN+iOEsvTk8hQwJc+sPC/6BzuS5dm2hM+QWvLWoQTNBj0BLtyRmiBVtQIFnmg89sJ0gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=PMaUfxN7; arc=none smtp.client-ip=193.252.23.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Jdj4ci7T"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ecec796323so5131668b3a.3
-        for <chrome-platform@lists.linux.dev>; Tue, 30 Apr 2024 01:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1714465365; x=1715070165; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=wnIIR6SFhlaQ59TLKk++qsPjpevh1PoAAv2U5Bx0QE0=;
-        b=Jdj4ci7TkFe6M3D0JSoHGXyguKSutZBOIuZMwaAUnV2eTF3edQwF3nyOlmi2mJjGjD
-         eqGFpgLGum8cYtUgri2/HWvXAPdOLn24mrNM21RhYubO1sNbgnnfztfnmRPAdB2sqicx
-         lrwiPIAkEoXata2lwp5okigcpq9pR3hRD3DUqesj9juW82BimTY9ZxrGeOS7aczQUhSr
-         Ii2JnuRzQbNDag2+hbC02tIRKM15/sx27QQjbvaoDDu26yyIZsvaRZyS+f7c/MLjIPRN
-         8hBkPleY6JfwAGqDnaG6FBv9GBxyVPK0rlf/yhI5RFGtHYARNHfZM6bGe3xP8hRpCvBF
-         ultA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714465365; x=1715070165;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wnIIR6SFhlaQ59TLKk++qsPjpevh1PoAAv2U5Bx0QE0=;
-        b=FkxLBrmXPkm+tEqjbxdrC3JXw4NPzj+p7mSkk/ehMRLKD/4ljm9vwpCdFfEJgOy6to
-         Txu9iQOxb2jrS6eg5v/brxF6FHrIeNvls2ir/TYuIdL6HwsDwsj5zJ60h8C1+NjQqt/Y
-         wWOhjnWUA0DzX84HbkN2Ho7mTmTTxnyA4z/FGHc3Ua5n0SV6RpllD2X2zNZNzfTThOBx
-         AJljBDz1G5r4FGd3ycP7z9zstq1FVQTIWtPn/ybvtGwuZklD5pME8494YYs6F2wc/O1d
-         4bI4xtxTtvGgvJk3peZj4ptXN4ti65WS2G69v9EvLNtH8Nbbxi19sW3w+5xOZ4UBQfF3
-         VunA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFgKMY9HexPlx2vkZGL3sFBxrQUrPkTTscUFf+72YqgWfHE3SJczvi+LpdeST3k04GVvsaRmurlKUdv2/yP1PJ5XZUTW1GZxbgVupxtE4e
-X-Gm-Message-State: AOJu0Ywcr6TaKCyy1nvu5ifrZIJ9ZBBTNA/4bZJjOJXGlozjLVpRjeLe
-	NBAzf8Fcguup+KXolfbE7Fg1Zo+/CpzBy4NyssUbRun7qiMKMdIeVRBlSpq8+rMfjB/pmry9h4Y
-	eETo=
-X-Google-Smtp-Source: AGHT+IEuqWtjhKNcWYj28MF2b4cnhGcBxI1ewfWr5zmNZmws4cDpQX5lkJ1qxrP/aYJzc9vinYtJCA==
-X-Received: by 2002:a05:6a20:244d:b0:1ad:27ca:6347 with SMTP id t13-20020a056a20244d00b001ad27ca6347mr15960890pzc.43.1714465365095;
-        Tue, 30 Apr 2024 01:22:45 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id fj32-20020a056a003a2000b006eac4297ed3sm20527123pfb.20.2024.04.30.01.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 01:22:44 -0700 (PDT)
-Message-ID: <6630aa54.050a0220.69e9.bb1c@mx.google.com>
-Date: Tue, 30 Apr 2024 01:22:44 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="PMaUfxN7"
+Received: from localhost.localdomain ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id 23mvsRdFGq0Jb23mwsJg5c; Wed, 01 May 2024 08:49:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1714546198;
+	bh=xs+ZSpS0xVgBzBgXMojspa4y526RrOlky1cQlAdEKM8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=PMaUfxN7fFAFoo7WAACYZc6MGZ1L2dp6k5zscZFxZ37GdlgxPwuq3VZMJZ3u5uWwf
+	 jCZ2X17Ixi1lVYxvQKZcTPv3Vq4lls6AzhTNjtqZbb116ABLr++XG6U2TajmkXBQLj
+	 d48fqCfUX4SLC7dCmxxi0bD+znrjFzgsNHw/+8c+Wprym5FKbY9kHRBKGUFCGsYe7s
+	 pIyun4gS31fiXkJhrVuWXt3Jk46x5NnwI2uv9H45u5a8OPa7VzI1prK28FwIR1rlos
+	 Gjs1E0wnKnL3a4wi3Aw3+ak3RTon2F4huY9tBBjUCO08JrkGMmvJDItxSmOtZMLkqJ
+	 r0jfS/jDOvQog==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 01 May 2024 08:49:58 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-input@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] Input: cros_ec_keyb - Remove an unused field in struct cros_ec_keyb
+Date: Wed,  1 May 2024 08:49:47 +0200
+Message-ID: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-X-Kernelci-Kernel: v6.9-rc4-22-g2fbe479c0024e
-X-Kernelci-Report-Type: test
-Subject: chrome-platform/for-kernelci cros-ec: 11 runs,
- 1 regressions (v6.9-rc4-22-g2fbe479c0024e)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-chrome-platform/for-kernelci cros-ec: 11 runs, 1 regressions (v6.9-rc4-22-g=
-2fbe479c0024e)
+In "struct cros_ec_keyb", the 'keymap_data' field is unused.
+Remove it.
 
-Regressions Summary
--------------------
+Found with cppcheck, unusedStructMember.
 
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested only.
 
+It was added in the initial commit 6af6dc2d2aa6 ("input: Add ChromeOS EC
+keyboard driver") but was never used.
+---
+ drivers/input/keyboard/cros_ec_keyb.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.9-rc4-22-g2fbe479c0024e/plan/cros-ec/
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index 30678a34cf64..12eb9df180ee 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -35,7 +35,6 @@
+  * @rows: Number of rows in the keypad
+  * @cols: Number of columns in the keypad
+  * @row_shift: log2 or number of rows, rounded up
+- * @keymap_data: Matrix keymap data used to convert to keyscan values
+  * @ghost_filter: true to enable the matrix key-ghosting filter
+  * @valid_keys: bitmap of existing keys for each matrix column
+  * @old_kb_state: bitmap of keys pressed last scan
+@@ -50,7 +49,6 @@ struct cros_ec_keyb {
+ 	unsigned int rows;
+ 	unsigned int cols;
+ 	int row_shift;
+-	const struct matrix_keymap_data *keymap_data;
+ 	bool ghost_filter;
+ 	uint8_t *valid_keys;
+ 	uint8_t *old_kb_state;
+-- 
+2.44.0
 
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.9-rc4-22-g2fbe479c0024e
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      2fbe479c0024e1c6b992184a799055e19932aa48
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-         | regressions
--------------------+--------+---------------+----------+-------------------=
----------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defconfig+x=
-86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/663096741cbf5850c34c4506
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc4-22-g2fbe479c0024e/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.9-rc4-22-g2fbe479c0024e/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/663096741cbf5850c34c45=
-07
-        new failure (last pass: v6.9-rc4-21-gc8f460d991df) =
-
- =20

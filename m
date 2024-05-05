@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBA86EB56;
-	Sun,  5 May 2024 21:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86173E48F;
+	Sun,  5 May 2024 22:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714943332; cv=none; b=jj91zicsK7aXcpaiCAbYRo5AP/txZd4rF3KqtdjdnmecFFNjXtX+jecTSMcZfdefi8xkfOcR25Qhut8rqwsJ7IL9KiH4qE+E9RyuWC5CkV1oAnb68AajZTMkgpXYDfz5YhvhP0dBh4HSAD1qPj6jtA+QX/6o1D8x41QW0gCrP5Y=
+	t=1714948429; cv=none; b=bfZalWY8WTwjTCpvv9wtsLAFqnG5EAfPeISNVDE6v01l1B6iXzZxBdcMHjdOCZLw6SUccOgd9zjOhn2bJuO4BSuEw56IE7e2xzBsqAbJGwjWofR/xDegFlKbDFH85R2ol/Hb7aOv3wFelMU7iw5PJ63PtmpoayCpaOtAD/K9UAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714943332; c=relaxed/simple;
-	bh=UilgOujvlJznH56cOFOGftHOPnbl7zSrjAHopgb3Wz8=;
+	s=arc-20240116; t=1714948429; c=relaxed/simple;
+	bh=NVy75iIFNvmIbmRgBWApp4Iv7pImltO4vpHqlAOGIsM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajELHo8kY3qhi/4l0W0m2fVl3xmscIMmOTLGQFtG6wJPKo/qMwQlOKHfpdCAv3u4AYAeZuxO0lqXovNFRA/i1Qs/LXdoaKRU2b+sBw0nYxwEnHV1sCf5iI8pbesrCr7u0pEG8DZ2HcAD02VRfaqcLRU/lbIYchPDEEMP9IHyChU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/UTFLit; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHlcXAAQTz2cQNH5ttCbWnbtvxWxtkP/0Ep+iusIBxoo+8N0MovOmviJgGH5SOUiy/XAQfY3DZFcOQaOTIK2xxyUnc8fLO0qlRvei2BsRzbslLYTFnf5ydicXQO6JYGWMJmNhnA9erdvDH8Gsz64kLfVmWgk77vEjl8tC0W0j7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCBuHfQ/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/UTFLit"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCBuHfQ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714943329; x=1746479329;
+  t=1714948428; x=1746484428;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UilgOujvlJznH56cOFOGftHOPnbl7zSrjAHopgb3Wz8=;
-  b=Y/UTFLitBCVQgpDFuBdLzjOkv0iOteD0MQoe2PuaoXWKiEVcIfYrTLg1
-   7KQKQ+wyQC/kNn2CRvSZB+9yF+HoPeStaGvJkKEh/FA9YiAbgkGmjY6dF
-   MN0otappnasJX+iN56nUpCc3a2Dj/3u5Mf4515NZp1+daPxFQaaUpi3IT
-   3aKTldVURckLZK+ALhvIWs5luXYuyX1VYTJaEM6QAwxuAguBUmOCEQ/ti
-   XR9De8MFOdfxM6tWHakJYah06VN2PAthDAtjH/Y5PL2swdQBtwMVxRTFC
-   DpRxF4cFWmVgReWyItIaBqJ9FlIvvzDuxFXD3R2mlWBPP0dQMZvdSx3r+
-   g==;
-X-CSE-ConnectionGUID: /hALx/VgRqGDq0OU9jSEug==
-X-CSE-MsgGUID: DnU+2lRpT6eS74b858KKEA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="14487011"
+  bh=NVy75iIFNvmIbmRgBWApp4Iv7pImltO4vpHqlAOGIsM=;
+  b=oCBuHfQ/l6zbnP8Cm9tDPS6JEhXmT0JoRNE8iuN5LTStM0VU3RK4HxCg
+   klV8c2mv52tqOUf4xWLaPv6J6H78GecMSbqxZonDNUZMtgt18F2ZNqsB/
+   3bZa0mMLMWSgzXIf7OR8p5zW5E9YCwueNSX8e3yvPC+eSYd8yEjVOKysV
+   iBWRvC8/AiL548fgwggII3av70PLqMeUcdR0bY78QToZFUJrrGm/tk017
+   BVCMXzv/weybpxsPSv0L+XQ7GrrVWPR/zkwLSx00l7WYOFSIJr/LFs7bl
+   0exoLsZyRVmT6VFAu+tBe7vnMEoF/3V8EcQjnjxPja26XIy5v0B4kMa0W
+   Q==;
+X-CSE-ConnectionGUID: g3UAcoHpRVaszoirj3u7xA==
+X-CSE-MsgGUID: k6eKbKpcR+GLtpkV1nzd0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="36069678"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="14487011"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 14:08:48 -0700
-X-CSE-ConnectionGUID: PMgjmJkATjy8GQSTNwDufg==
-X-CSE-MsgGUID: nlzVjBX9Q7mvMJc0fw9FNQ==
+   d="scan'208";a="36069678"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 15:33:47 -0700
+X-CSE-ConnectionGUID: y35fWdOCQJ2bpOe3MIKTYQ==
+X-CSE-MsgGUID: JKlQ5+UFRWiJkvIgE1caGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="58850216"
+   d="scan'208";a="59174002"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 May 2024 14:08:46 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 May 2024 15:33:44 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3j6B-0000DE-1P;
-	Sun, 05 May 2024 21:08:43 +0000
-Date: Mon, 6 May 2024 05:08:26 +0800
+	id 1s3kQQ-0000Fs-0o;
+	Sun, 05 May 2024 22:33:42 +0000
+Date: Mon, 6 May 2024 06:33:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
 	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dustin Howett <dustin@howett.net>,
 	Mario Limonciello <mario.limonciello@amd.com>,
 	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
 Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
  through EC_FEATURE_PWM_KEYB
-Message-ID: <202405060439.O5mY5RbW-lkp@intel.com>
+Message-ID: <202405060655.dD06crN0-lkp@intel.com>
 References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -81,32 +82,34 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/platform
 base:   2fbe479c0024e1c6b992184a799055e19932aa48
 patch link:    https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2%40weissschuh.net
 patch subject: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing through EC_FEATURE_PWM_KEYB
-config: x86_64-buildonly-randconfig-002-20240506 (https://download.01.org/0day-ci/archive/20240506/202405060439.O5mY5RbW-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060439.O5mY5RbW-lkp@intel.com/reproduce)
+config: x86_64-randconfig-072-20240506 (https://download.01.org/0day-ci/archive/20240506/202405060655.dD06crN0-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060655.dD06crN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405060439.O5mY5RbW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405060655.dD06crN0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/chrome/cros_kbd_led_backlight.c:218:42: error: redefinition of 'keyboard_led_drvdata_ec_pwm'
-    static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/chrome/cros_kbd_led_backlight.c:193:57: note: previous definition of 'keyboard_led_drvdata_ec_pwm' was here
-    static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
-                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/chrome/cros_kbd_led_backlight.c: In function 'keyboard_led_probe':
->> drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: error: 'keyboard_led_drvdata_ec_pwm_mfd' undeclared (first use in this function); did you mean 'keyboard_led_drvdata_ec_pwm'?
-      drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                 keyboard_led_drvdata_ec_pwm
-   drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/platform/chrome/cros_kbd_led_backlight.c:218:42: error: redefinition of 'keyboard_led_drvdata_ec_pwm'
+     218 | static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+         |                                          ^
+   drivers/platform/chrome/cros_kbd_led_backlight.c:184:57: note: previous definition is here
+     184 | static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+         |                                                         ^
+>> drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: error: use of undeclared identifier 'keyboard_led_drvdata_ec_pwm_mfd'; did you mean 'keyboard_led_drvdata_acpi'?
+     240 |                 drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            keyboard_led_drvdata_acpi
+   drivers/platform/chrome/cros_kbd_led_backlight.c:114:42: note: 'keyboard_led_drvdata_acpi' declared here
+     114 | static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
+         |                                          ^
+   2 errors generated.
 
 
-vim +/keyboard_led_drvdata_ec_pwm +218 drivers/platform/chrome/cros_kbd_led_backlight.c
+vim +240 drivers/platform/chrome/cros_kbd_led_backlight.c
 
    217	
  > 218	static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};

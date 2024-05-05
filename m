@@ -1,220 +1,168 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B438A1E531
-	for <chrome-platform@lists.linux.dev>; Sun,  5 May 2024 20:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBA86EB56;
+	Sun,  5 May 2024 21:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714942631; cv=none; b=MA2kVbEBoSXSHXzSfpOlC9UG4OwHmNqbk68Gh9enoMiVteSUvzPntxBny5/+CBFFwcNDiNFUavNO0rXc+q9LkZk3z0g+Q0OpZl9B7jAZhczrfmd2IbNHOhdhkt/Vv6llIMtHlNnDYEX4/U24fsEdmIY/kcYKad7S5NBUn0t+10M=
+	t=1714943332; cv=none; b=jj91zicsK7aXcpaiCAbYRo5AP/txZd4rF3KqtdjdnmecFFNjXtX+jecTSMcZfdefi8xkfOcR25Qhut8rqwsJ7IL9KiH4qE+E9RyuWC5CkV1oAnb68AajZTMkgpXYDfz5YhvhP0dBh4HSAD1qPj6jtA+QX/6o1D8x41QW0gCrP5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714942631; c=relaxed/simple;
-	bh=gA7s7UCZEe5kKL1FVTHg7aew7OnKObi9bZPJ9EmFYE4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YWUwhWL0hCPkPZjoP/rSwM9hXc1AadIqd/cEc1UgAZ5Iu04D/6BULXsly9vNQQHZ/aQOcvb9ORgkt9v8LSrpN6w93YWnNbmt+dv1BDOWeh1t8DWnAhx9i+2d63HcZ7dkSUBwDy0Q7sW4RQ0aKjzvFjgs4k+QtW8Ju4qZjkC4CzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=rz/9LoT8; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1714943332; c=relaxed/simple;
+	bh=UilgOujvlJznH56cOFOGftHOPnbl7zSrjAHopgb3Wz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajELHo8kY3qhi/4l0W0m2fVl3xmscIMmOTLGQFtG6wJPKo/qMwQlOKHfpdCAv3u4AYAeZuxO0lqXovNFRA/i1Qs/LXdoaKRU2b+sBw0nYxwEnHV1sCf5iI8pbesrCr7u0pEG8DZ2HcAD02VRfaqcLRU/lbIYchPDEEMP9IHyChU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/UTFLit; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="rz/9LoT8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1714942625;
-	bh=gA7s7UCZEe5kKL1FVTHg7aew7OnKObi9bZPJ9EmFYE4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rz/9LoT8OW6q0Bm+Qz8blYkgtL+NdbmB6pPFVSazyyg+uN0Rb2WXGpRz6NM3A7At/
-	 dCrqDaeJIOdz9vKf58h07++jflzrQTgsFnrtaKmTtYXfboMeQBcO7trtIfmNFYIw+n
-	 DxLfhKYEsUMnVw2Dp0eWPmy1UheuZG1YpauSz+00=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 05 May 2024 22:56:34 +0200
-Subject: [PATCH 1/2] platform/chrome: cros_ec_framework_laptop: introduce
- driver
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/UTFLit"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714943329; x=1746479329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UilgOujvlJznH56cOFOGftHOPnbl7zSrjAHopgb3Wz8=;
+  b=Y/UTFLitBCVQgpDFuBdLzjOkv0iOteD0MQoe2PuaoXWKiEVcIfYrTLg1
+   7KQKQ+wyQC/kNn2CRvSZB+9yF+HoPeStaGvJkKEh/FA9YiAbgkGmjY6dF
+   MN0otappnasJX+iN56nUpCc3a2Dj/3u5Mf4515NZp1+daPxFQaaUpi3IT
+   3aKTldVURckLZK+ALhvIWs5luXYuyX1VYTJaEM6QAwxuAguBUmOCEQ/ti
+   XR9De8MFOdfxM6tWHakJYah06VN2PAthDAtjH/Y5PL2swdQBtwMVxRTFC
+   DpRxF4cFWmVgReWyItIaBqJ9FlIvvzDuxFXD3R2mlWBPP0dQMZvdSx3r+
+   g==;
+X-CSE-ConnectionGUID: /hALx/VgRqGDq0OU9jSEug==
+X-CSE-MsgGUID: DnU+2lRpT6eS74b858KKEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="14487011"
+X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
+   d="scan'208";a="14487011"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 14:08:48 -0700
+X-CSE-ConnectionGUID: PMgjmJkATjy8GQSTNwDufg==
+X-CSE-MsgGUID: nlzVjBX9Q7mvMJc0fw9FNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
+   d="scan'208";a="58850216"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 05 May 2024 14:08:46 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3j6B-0000DE-1P;
+	Sun, 05 May 2024 21:08:43 +0000
+Date: Mon, 6 May 2024 05:08:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
+ through EC_FEATURE_PWM_KEYB
+Message-ID: <202405060439.O5mY5RbW-lkp@intel.com>
+References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240505-cros_ec-framework-v1-1-402662d6276b@weissschuh.net>
-References: <20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net>
-In-Reply-To: <20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net>
-To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- "Dustin L. Howett" <dustin@howett.net>, Sebastian Reichel <sre@kernel.org>, 
- linux-pm@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1714942624; l=5459;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=gA7s7UCZEe5kKL1FVTHg7aew7OnKObi9bZPJ9EmFYE4=;
- b=fzjK631GremBbM3R6RGdZBVXEfXJ2AnE7f8LuuDx7pEOVcD3zYDZwWfqfTe+u7DEFuOTpBCFv
- R6hVlNV14iuDJYCUC81hwSjuCHosWue/snCEppYnx8KGd3inIfkzRax
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
 
-Framework Laptops are using embedded controller firmware based on the
-ChromeOS EC project.
-In addition to the standard upstream commands, some vendor-specific
-ones are implemented.
+Hi Thomas,
 
-Add a driver for those custom EC commands.
+kernel test robot noticed the following build errors:
 
-At first, provide an empty driver that only takes care of scaffolding and
-device binding.
-Further patches will add functionality to the driver.
+[auto build test ERROR on 2fbe479c0024e1c6b992184a799055e19932aa48]
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- MAINTAINERS                                        |  5 ++
- drivers/mfd/cros_ec_dev.c                          | 13 ++++++
- drivers/platform/chrome/Kconfig                    | 11 +++++
- drivers/platform/chrome/Makefile                   |  1 +
- drivers/platform/chrome/cros_ec_framework_laptop.c | 53 ++++++++++++++++++++++
- 5 files changed, 83 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/platform-chrome-cros_kbd_led_backlight-enable-probing-through-EC_FEATURE_PWM_KEYB/20240505-174413
+base:   2fbe479c0024e1c6b992184a799055e19932aa48
+patch link:    https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2%40weissschuh.net
+patch subject: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing through EC_FEATURE_PWM_KEYB
+config: x86_64-buildonly-randconfig-002-20240506 (https://download.01.org/0day-ci/archive/20240506/202405060439.O5mY5RbW-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060439.O5mY5RbW-lkp@intel.com/reproduce)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c23fda1aa1f0..60699c289757 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4988,6 +4988,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
- F:	sound/soc/codecs/cros_ec_codec.*
- 
-+CHROMEOS EC FRAMEWORK LAPTOP EXTENSIONS
-+M:	Thomas Weißschuh <linux@weissschuh.net>
-+S:	Maintained
-+F:	drivers/platform/chrome/cros_ec_framework_laptop.c
-+
- CHROMEOS EC SUBDRIVERS
- M:	Benson Leung <bleung@chromium.org>
- R:	Guenter Roeck <groeck@chromium.org>
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index a52d59cc2b1e..0a36e77e5039 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -145,6 +145,10 @@ static const struct mfd_cell cros_ec_vbc_cells[] = {
- 	{ .name = "cros-ec-vbc", }
- };
- 
-+static const struct mfd_cell cros_ec_framework_cells[] = {
-+	{ .name = "cros-ec-framework", }
-+};
-+
- static void cros_ec_class_release(struct device *dev)
- {
- 	kfree(to_cros_ec_dev(dev));
-@@ -299,6 +303,15 @@ static int ec_device_probe(struct platform_device *pdev)
- 				 retval);
- 	}
- 
-+	 /* The EC on Framework laptops implements some nonstandard features */
-+	if (dmi_match(DMI_SYS_VENDOR, "Framework")) {
-+		retval = mfd_add_hotplug_devices(ec->dev, cros_ec_framework_cells,
-+						 ARRAY_SIZE(cros_ec_framework_cells));
-+		if (retval)
-+			dev_warn(ec->dev, "failed to add framework laptop devices: %d\n",
-+				 retval);
-+	}
-+
- 	return 0;
- 
- failed:
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 073616b5b5a0..ff69ee226606 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -239,6 +239,17 @@ config CROS_EC_TYPEC
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called cros-ec-typec.
- 
-+config CROS_EC_FRAMEWORK_LAPTOP
-+	tristate "ChromeOS EC Framework Laptop extensions"
-+	depends on MFD_CROS_EC_DEV
-+	default MFD_CROS_EC_DEV
-+	help
-+	  If you say Y here, you get support for using Framework Laptop-specific extensions
-+	  of the Chrome OS EC.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called cros_ec_framework_laptop.
-+
- config CROS_HPS_I2C
- 	tristate "ChromeOS HPS device"
- 	depends on HID && I2C && PM
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index 2dcc6ccc2302..ce6aac620086 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -10,6 +10,7 @@ obj-$(CONFIG_CHROMEOS_PRIVACY_SCREEN)	+= chromeos_privacy_screen.o
- obj-$(CONFIG_CHROMEOS_PSTORE)		+= chromeos_pstore.o
- obj-$(CONFIG_CHROMEOS_TBMC)		+= chromeos_tbmc.o
- obj-$(CONFIG_CROS_EC)			+= cros_ec.o
-+obj-$(CONFIG_CROS_EC_FRAMEWORK_LAPTOP)	+= cros_ec_framework_laptop.o
- obj-$(CONFIG_CROS_EC_I2C)		+= cros_ec_i2c.o
- obj-$(CONFIG_CROS_EC_ISHTP)		+= cros_ec_ishtp.o
- obj-$(CONFIG_CROS_TYPEC_SWITCH)		+= cros_typec_switch.o
-diff --git a/drivers/platform/chrome/cros_ec_framework_laptop.c b/drivers/platform/chrome/cros_ec_framework_laptop.c
-new file mode 100644
-index 000000000000..8a8bf039fa9c
---- /dev/null
-+++ b/drivers/platform/chrome/cros_ec_framework_laptop.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  ChromesOS EC driver for Framework laptop
-+ *
-+ *  Copyright (C) 2024 Thomas Weißschuh <linux@weissschuh.net>
-+ */
-+#include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+
-+#define DRV_NAME	"cros-ec-framework"
-+
-+struct cros_fwk_priv {
-+	struct cros_ec_device *cros_ec;
-+};
-+
-+static int cros_fwk_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-+	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-+	struct cros_fwk_priv *priv;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->cros_ec = cros_ec;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id cros_fwk_id[] = {
-+	{ DRV_NAME, 0 },
-+	{ }
-+};
-+
-+static struct platform_driver cros_fwk_driver = {
-+	.driver.name	= DRV_NAME,
-+	.probe		= cros_fwk_probe,
-+	.id_table	= cros_fwk_id,
-+};
-+
-+module_platform_driver(cros_fwk_driver);
-+
-+MODULE_DEVICE_TABLE(platform, cros_fwk_id);
-+MODULE_DESCRIPTION("ChromeOS EC Framework Laptop extensions");
-+MODULE_AUTHOR("Thomas Weißschuh <linux@weissschuh.net");
-+MODULE_LICENSE("GPL");
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405060439.O5mY5RbW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/platform/chrome/cros_kbd_led_backlight.c:218:42: error: redefinition of 'keyboard_led_drvdata_ec_pwm'
+    static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/cros_kbd_led_backlight.c:193:57: note: previous definition of 'keyboard_led_drvdata_ec_pwm' was here
+    static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/cros_kbd_led_backlight.c: In function 'keyboard_led_probe':
+>> drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: error: 'keyboard_led_drvdata_ec_pwm_mfd' undeclared (first use in this function); did you mean 'keyboard_led_drvdata_ec_pwm'?
+      drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                 keyboard_led_drvdata_ec_pwm
+   drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/keyboard_led_drvdata_ec_pwm +218 drivers/platform/chrome/cros_kbd_led_backlight.c
+
+   217	
+ > 218	static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+   219	
+   220	#endif /* IS_ENABLED(CONFIG_MFD_CROS_EC_DEV) */
+   221	
+   222	static int keyboard_led_is_mfd_device(struct platform_device *pdev)
+   223	{
+   224		if (!IS_ENABLED(CONFIG_MFD_CROS_EC_DEV))
+   225			return 0;
+   226	
+   227		if (!pdev->dev.parent)
+   228			return 0;
+   229	
+   230		return strcmp(pdev->dev.parent->driver->name, "cros-ec-dev") == 0;
+   231	}
+   232	
+   233	static int keyboard_led_probe(struct platform_device *pdev)
+   234	{
+   235		const struct keyboard_led_drvdata *drvdata;
+   236		struct keyboard_led *keyboard_led;
+   237		int error;
+   238	
+   239		if (keyboard_led_is_mfd_device(pdev))
+ > 240			drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
+   241		else
+   242			drvdata = device_get_match_data(&pdev->dev);
+   243		if (!drvdata)
+   244			return -EINVAL;
+   245	
+   246		keyboard_led = devm_kzalloc(&pdev->dev, sizeof(*keyboard_led), GFP_KERNEL);
+   247		if (!keyboard_led)
+   248			return -ENOMEM;
+   249		platform_set_drvdata(pdev, keyboard_led);
+   250	
+   251		if (drvdata->init) {
+   252			error = drvdata->init(pdev);
+   253			if (error)
+   254				return error;
+   255		}
+   256	
+   257		keyboard_led->cdev.name = "chromeos::kbd_backlight";
+   258		keyboard_led->cdev.flags |= LED_CORE_SUSPENDRESUME;
+   259		keyboard_led->cdev.max_brightness = drvdata->max_brightness;
+   260		keyboard_led->cdev.brightness_set = drvdata->brightness_set;
+   261		keyboard_led->cdev.brightness_set_blocking = drvdata->brightness_set_blocking;
+   262		keyboard_led->cdev.brightness_get = drvdata->brightness_get;
+   263	
+   264		error = devm_led_classdev_register(&pdev->dev, &keyboard_led->cdev);
+   265		if (error)
+   266			return error;
+   267	
+   268		return 0;
+   269	}
+   270	
 
 -- 
-2.45.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

@@ -1,128 +1,149 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F70D13BAEB
-	for <chrome-platform@lists.linux.dev>; Mon,  6 May 2024 17:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA6C158A1A
+	for <chrome-platform@lists.linux.dev>; Mon,  6 May 2024 18:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715017698; cv=none; b=N0b31z6BGji3E6cBF3UJXG1XKPULl2EZw9OaFuS01bQCSs/FBmvzcC5XA78xNNfMVGNFgp7ZU+QHAfP2u4AWJVwOwlnwQeQUh6UzaFEKI8hLgOoExTR1lnqciJC6mY0Qifl243S+ERZ2oWHOIBUWhTsSIMoB5WlAPq0j2gQV9GY=
+	t=1715020186; cv=none; b=Qnh3leiZL95Y3i0FRld6KJT0vxv0MI+IbNGWGzGCywJ9ghByh1h1c+nRHbQOPd0O6yVkbZB5oZnEbAAKzbxGxwXhHP6KG+HaC7mRzLMf6K8+zXI7ek8I4jNWSazZZeqo/KWF1yy3KiDi8i/rebTrOUXY0a8NX/fXHWj3ZV+WjYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715017698; c=relaxed/simple;
-	bh=MvU5sKTnLEckHFjZCqkxY/lmg1E8y33V8+9lLbUc2Ro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0HfZEmQKthhhQgP6aKwtSsY/V37wBGjasNE4m0ck0wUTE67pemRuppR1pbB/FxWC28e/BwhVMkm6zWHf4TSitLM853v6XGqHTd3lCVq86YNQYo4tzpkjHwQtB0QgvBSiHBaEe4/qEu41AQJA4HuJfaECSS/fgdaaCM0uapnYH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gXbYAIfe; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1715020186; c=relaxed/simple;
+	bh=VMEFfkoDH6PXpbghcbBsUEOgJ+i0OqrWW52443/7WsQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dzmSc4EMTRnTQbslRM2P+fONjT+C0ruiUyt/im1VnyJf3WbKDQTaNR74bydT6G71QeP6teywf0rMppivpH8FC9mUCgQORp8bm9ASvuDzBt1VlGC817IFLF0ZdwlSJHUBNhfMR8DDP82nM7btEazffPxg+zpGkpKk2M0Etldq5us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net; spf=none smtp.mailfrom=howett.net; dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b=Tpqf8kCD; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gXbYAIfe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1715017695;
-	bh=MvU5sKTnLEckHFjZCqkxY/lmg1E8y33V8+9lLbUc2Ro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gXbYAIfeiNBAdErnj8FDrF6BRufNDLS5Sy2vaGpljGRCAJ2kRHckgsEAcrqJcZEfl
-	 bt6LFheWca1yJbPM5sMNaqlAKpFN7xuoBeQZGGd+m/QDRj53JMV85P9WazbjSxkds+
-	 YbB5YliGBGgW8lRpfM36XlLtPLMqFmmmbJg0aaFo=
-Date: Mon, 6 May 2024 19:48:14 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, "Dustin L. Howett" <dustin@howett.net>, 
-	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_framework_laptop: introduce
- driver
-Message-ID: <7dab7267-a5f2-4b03-bb45-92b836e42c28@t-8ch.de>
-References: <20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net>
- <20240505-cros_ec-framework-v1-1-402662d6276b@weissschuh.net>
- <84c58078-93a4-406a-8abb-9054854e54a0@amd.com>
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="Tpqf8kCD"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so2687818276.1
+        for <chrome-platform@lists.linux.dev>; Mon, 06 May 2024 11:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1715020184; x=1715624984; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VMEFfkoDH6PXpbghcbBsUEOgJ+i0OqrWW52443/7WsQ=;
+        b=Tpqf8kCDKFXwkjdFhhkLHrgT7fKpHBxv+KxxbdbFObPxUvS7SCvBIv67tPVKuq+wjY
+         wkEYHIcSL2fghFrTSQ7eiOgAyoNjcrcjWYYq/qMfALWMKEiyuyW+XfNiyDY9Qc++k7nj
+         2AA6Wfu7lRhXfW8VsbrGNqrGnGJ9qJB1o+pADw3qvmCMqn60S6vJLw14hDw3+YQi3jsj
+         OESSq/JKX84fMTV5Hayi1dVzxlBxAwAC8AvFv9wrVK5Yji63W1cY/TSdnvacCwh3NhKG
+         axEyMIqO3tcrw6WO6TsEAFURM/+eZJH/lu3ZMZpGZxiD1j/s3YGmnIMPZ5fyZt6fDUJZ
+         FvXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715020184; x=1715624984;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VMEFfkoDH6PXpbghcbBsUEOgJ+i0OqrWW52443/7WsQ=;
+        b=IGfirFq1VQkN60CNOIq2sPzcWeheHaStluoqGw7WxqGgHs0btcRNCa733qChmf58tk
+         uSzIcYgkVgLg1SCkw7+LtfQypgzhkLeiqyy9ublx8rkFFcPoZn6kHu81TunEpnCcyL4B
+         3CgFnuiwXcN6uE2XAkXoeGdDRwGqIcKJzNl0fL9rdoqyUoxd15rVyiXP9aGbR6vPiZkJ
+         P4OwiklICSdhAOIAT80ku6xW9OjrZQJ+/nvaIrSX0+eSV5WODxGuMAXg0RXrhzCzrUAg
+         ILYDIKN5y07g1C6Yl2ncUmB2dLJwFQFoYryth6pkEMKRj9f/zYaVjMmzR9kTtvHya3rI
+         h2Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQplcLdCIFsAaglYnYve9dRsYe8pepBOfp14ApzYJcNO+zn7DKUen9foxrdJRpPY4KeOVLPhWU+y4PUSvvMRjJsGvs5Dv9a49UbyE9AP5Z
+X-Gm-Message-State: AOJu0Yz44ilXPCLuovjPPBg0IbzCnGJ4OPtMUPIWFBVz3iwR7wLpRVq8
+	a59RODi+8pMJDN7dJSLQaFqEjp8n0xpdS3L0NhIrnmukla+ExQxVQWh3hMUkACsqXvmyjhhXyuT
+	ZWwVSDI+I8RNqGGI+Y6/KKoTNBqQOmgHaD/k0
+X-Google-Smtp-Source: AGHT+IFKtH599jT66vcGOe7xK//4shoSPvp5zpfxCAxNQU5SNOKmbSq03MX2tZ7QAwB6m0gKalMMLW5mPjBsqOv89j4=
+X-Received: by 2002:a25:aea2:0:b0:de5:5693:4e96 with SMTP id
+ b34-20020a25aea2000000b00de556934e96mr11302424ybj.27.1715020183937; Mon, 06
+ May 2024 11:29:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <84c58078-93a4-406a-8abb-9054854e54a0@amd.com>
+References: <20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net>
+ <613369f9-42c5-4a59-b83f-45bd1773ffe4@t-8ch.de> <a7ae8fc0-5e53-487a-86c6-f49dc6623688@amd.com>
+ <e716716e-87fe-46f5-8ea9-5f649f1da11b@t-8ch.de>
+In-Reply-To: <e716716e-87fe-46f5-8ea9-5f649f1da11b@t-8ch.de>
+From: Dustin Howett <dustin@howett.net>
+Date: Mon, 6 May 2024 13:29:32 -0500
+Message-ID: <CA+BfgNJzazn55wUMzjX=thqZGYz0LYU4cnO1Pn8U80B5FrSvxQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] platform/chrome: cros_ec_framework_laptop: new driver
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: "Limonciello, Mario" <mario.limonciello@amd.com>, Lee Jones <lee@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-05-06 08:10:58+0000, Limonciello, Mario wrote:
-> 
-> 
-> On 5/5/2024 3:56 PM, Thomas Weißschuh wrote:
-> > Framework Laptops are using embedded controller firmware based on the
-> > ChromeOS EC project.
-> > In addition to the standard upstream commands, some vendor-specific
-> > ones are implemented.
-> > 
-> > Add a driver for those custom EC commands.
-> > 
-> > At first, provide an empty driver that only takes care of scaffolding and
-> > device binding.
-> > Further patches will add functionality to the driver.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >   MAINTAINERS                                        |  5 ++
-> >   drivers/mfd/cros_ec_dev.c                          | 13 ++++++
-> >   drivers/platform/chrome/Kconfig                    | 11 +++++
-> >   drivers/platform/chrome/Makefile                   |  1 +
-> >   drivers/platform/chrome/cros_ec_framework_laptop.c | 53 ++++++++++++++++++++++
-> >   5 files changed, 83 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index c23fda1aa1f0..60699c289757 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4988,6 +4988,11 @@ S:	Maintained
-> >   F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-> >   F:	sound/soc/codecs/cros_ec_codec.*
-> > +CHROMEOS EC FRAMEWORK LAPTOP EXTENSIONS
-> > +M:	Thomas Weißschuh <linux@weissschuh.net>
-> > +S:	Maintained
-> > +F:	drivers/platform/chrome/cros_ec_framework_laptop.c
-> > +
-> >   CHROMEOS EC SUBDRIVERS
-> >   M:	Benson Leung <bleung@chromium.org>
-> >   R:	Guenter Roeck <groeck@chromium.org>
-> > diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> > index a52d59cc2b1e..0a36e77e5039 100644
-> > --- a/drivers/mfd/cros_ec_dev.c
-> > +++ b/drivers/mfd/cros_ec_dev.c
-> > @@ -145,6 +145,10 @@ static const struct mfd_cell cros_ec_vbc_cells[] = {
-> >   	{ .name = "cros-ec-vbc", }
-> >   };
-> > +static const struct mfd_cell cros_ec_framework_cells[] = {
-> > +	{ .name = "cros-ec-framework", }
-> > +};
-> > +
-> >   static void cros_ec_class_release(struct device *dev)
-> >   {
-> >   	kfree(to_cros_ec_dev(dev));
-> > @@ -299,6 +303,15 @@ static int ec_device_probe(struct platform_device *pdev)
-> >   				 retval);
-> >   	}
-> > +	 /* The EC on Framework laptops implements some nonstandard features */
-> 
-> I don't think there is a spec really for cros_ec is there?  I think it will
-> depend upon what features you're talking about if this is the right way to
-> go.
+On Mon, May 6, 2024 at 12:43=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
+>
+> On 2024-05-06 08:09:07+0000, Limonciello, Mario wrote:
+> >
+> >
+> > On 5/6/2024 1:09 AM, Thomas Wei=C3=9Fschuh wrote:
+> > > On 2024-05-05 22:56:33+0000, Thomas Wei=C3=9Fschuh wrote:
+> > > > Framework Laptops are using embedded controller firmware based on t=
+he
+> > > > ChromeOS EC project.
+> > > > In addition to the standard upstream commands some vendor-specific
+> > > > commands are implemented.
+> > > >
+> > > > Add a driver that implements battery charge thresholds using these
+> > > > custom commands.
+> > >
+> > > It turns out that standard ChromesOS EC defines EC_CMD_CHARGE_CONTROL=
+.
+> > > The kernel headers however only define v1 of the protocol, which is v=
+ery
+> > > limited.
+> > >
+> > > But in the upstream firmware repo there is a v3 which is much better.
+> > >
+> > > The Framework laptop only implements v2 which is also fine.
+> > > Given that v3 was only introduced late last year, it seems better to
+> > > stick to v2 anyways for now.
+> > >
+> > > So please disregard Patch 2, I'll see on how to use this via a normal
+> > > cros_ec driver.
+> > >
+> > > There are some other Framework-only features that will use Patch 1,
+> > > so feedback for that would still be good.
+> >
+> > What other kinds of features do you have in mind?
+>
 
-I equate "standard" with "mainline".
+Definitely privacy switch reporting belongs in a driver like this.
 
-> The reason I say this is that maybe some of the same kinds of features will
-> make sense for chromebooks that use cros_ec in the future and thus they
-> should be "generic" cros_ec mfd cells to probe for in some way.
+Overall, I'm not sure about making it a subjugate driver under the
+cros_ec_mfd virtual "bus"... even though a lot of the features take a
+dependency on cros_ec.
+Doing so centralizes the work in the platform-chrome tree and may
+serve as a guidepost for any future laptop OEMs that derive their
+embedded controller firmware from ChromeOS's.
+If the owners of this tree sign off on that, that's awesome! I'd be
+concerned about making it all their responsibility.
 
-The commands identifiers are just numbers.
-So if multiple vendors use the same numbers there could be collisions.
-By loading the subdriver only for the correct vendors devices we avoid those.
+I may be a bit biased, as I have been working on a driver of my own[1]
+for this purpose. It currently supports battery charge limiting[3],
+reporting fan speed via hwmon, the keyboard backlight[2], and has an
+open pull request that exposes the status of the privacy switches.
 
-If other vendors or mainline CrOS EC implements the same commands we can
-revisit this and move the functionality to a generic mfd cell.
+It is destined--once I find the time to clean it up--for
+drivers\platforms\x86 instead of ...\chrome.
 
-But after the discussions on the cover letter, let's first see if a
-vendor-specific driver is needed at all.
+This may be a good place for us to combine our efforts!
+d
 
-Thomas
+[1] https://github.com/DHowett/framework-laptop-kmod
+[2] I found that the Azalea did not report its keyboard backlight
+values through the standard cros ec KBLIGHT interface like hx20/30
+did, so the driver as it stands implements a fallback that uses the
+raw PWM state. I'm sure that you'd've noticed this if it was still
+true... so I am always happy to drop an unnecessary workaround. :)
+[3] Which I believe still requires a special host command and is not
+integrated into the charge manager, at least as of Azalea/Lotus and
+_definitely_ not as of hx20/30!
+
+> [...]
+>
+> > [..]
+>
+> Thomas

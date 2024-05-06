@@ -1,39 +1,40 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF6B1F19A
-	for <chrome-platform@lists.linux.dev>; Mon,  6 May 2024 17:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96F3157470
+	for <chrome-platform@lists.linux.dev>; Mon,  6 May 2024 17:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715017101; cv=none; b=sx8MbyF4FYwooHntsfNGUkYt1UWtjOIlYai+o/bMRKXFaTSPCMN4jMHLn680UoSEjuddCavMWPbK3yxTuewmV+WuiODDMvXjHiMbwO64CjaoZQaDHwTE2mY4g3fRoZVjY7acaSQ1lwtOVTWJHzvZu+KtUsKk8fMoS1G4JDGB7lA=
+	t=1715017414; cv=none; b=ShjB850D+kS5TH96hQ/mFG/3dY7i/eKbR7uYRKLkpIq0b9FFzK8XKCMHymmS6zmxa22b9MPD1vhNkPSho500octTomuEMroGMEfQcRpeqaOIKTU2RkD2fFFwmsQSWKtINAbac8u3foDBMjPSI7m2Nvbe/qdew+Jf7i50hvcwOYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715017101; c=relaxed/simple;
-	bh=4XFC9LixjSuuTuMODWQ2jae7SIkFY3aM9gnz3hQ/Sfk=;
+	s=arc-20240116; t=1715017414; c=relaxed/simple;
+	bh=i3HUuCZX9m/2gBCCOy4OI5YZMvQOTnUrERxRlGeDnbM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdTpDHV+dzg3MQWkiGQJqvL57wh78XKR6DoDR8MpMASLx0MDBtqZ/ArAnVRFYiRNiNaZjyrdmo06mkSKq6Wd1aan552SuPm9rf/62Oi/ZrJk2nLNzp231l7UWt5MZubyq7PorwoPVVlxL3DKUesILmOsb+Lprlo8LnEuWxMuYNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=U/lKhD5X; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ow3mZj70BPeZb+6UsvhZ6nZ9AlCGuHKrv+CRGHN9y3s3TfAEYugUftb4jFskFk8IDHACSAuV0Vmko3TMu85r3rIlV+r7H3HpMbtQzrb4XuV2evNBhwFqBWlLyw0RmHMdry/DEVVKOCvaaCAVXOE0Z6V4qyZ2s9vrZdA3IR0mrho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=H2AsBzTH; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="U/lKhD5X"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="H2AsBzTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1715017089;
-	bh=4XFC9LixjSuuTuMODWQ2jae7SIkFY3aM9gnz3hQ/Sfk=;
+	s=mail; t=1715017410;
+	bh=i3HUuCZX9m/2gBCCOy4OI5YZMvQOTnUrERxRlGeDnbM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U/lKhD5XrgXw8BC4RZYX+Zbzpkz+aHyxToifuGZ+c4dFH60sdVZkO4x4ksCCEE/ni
-	 s2OCOD3gW/B5gjKkO7RSWBTtvW3EKtgrbYhBidaHLZ6NHeZ1TEkv5GYVOy8ltPxJpJ
-	 jIcuOpPYmsahVEHWALirlCZFqftaDaDAEgqu4QVg=
-Date: Mon, 6 May 2024 19:38:09 +0200
+	b=H2AsBzTHkaZcXzgt/JDQfmrsQAjTfV7J5THSVYd4VDTan9vQQlPM/Vf/aCVQHyQCz
+	 V6blYP+LSUQ3pHyp/rOhQVHCYz/5bdFQPr3XjSIkj4s5UBT3XyCk+CQKvoFce9okmQ
+	 xwqQTIzmKXuS5CQfHEOLLL9v2w5Z74eprETEX2rg=
+Date: Mon, 6 May 2024 19:43:30 +0200
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Mario Limonciello <mario.limonciello@amd.com>
+To: "Limonciello, Mario" <mario.limonciello@amd.com>
 Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
- through EC_FEATURE_PWM_KEYB
-Message-ID: <ae29f036-5e39-47ee-98d3-c023a263a3ef@t-8ch.de>
-References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
- <cd9c5b6a-0155-434a-b868-a9ea52e878c9@amd.com>
+	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, "Dustin L. Howett" <dustin@howett.net>, 
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 0/2] platform/chrome: cros_ec_framework_laptop: new driver
+Message-ID: <e716716e-87fe-46f5-8ea9-5f649f1da11b@t-8ch.de>
+References: <20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net>
+ <613369f9-42c5-4a59-b83f-45bd1773ffe4@t-8ch.de>
+ <a7ae8fc0-5e53-487a-86c6-f49dc6623688@amd.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,28 +44,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd9c5b6a-0155-434a-b868-a9ea52e878c9@amd.com>
+In-Reply-To: <a7ae8fc0-5e53-487a-86c6-f49dc6623688@amd.com>
 
-On 2024-05-05 08:42:21+0000, Mario Limonciello wrote:
-> On 5/5/2024 04:41, Thomas Weißschuh wrote:
-> > The ChromeOS EC used in Framework laptops supports the standard cros
-> > keyboard backlight protocol.
-> > However the firmware on these laptops don't implement the ACPI ID
-> > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> > don't use device tree.
+On 2024-05-06 08:09:07+0000, Limonciello, Mario wrote:
 > 
-> Something I'd wonder is if the GOOG0002 ACPI ID can go away entirely with
-> this type of change.  Presumably the Chromebooks with ChromeOS EC /also/
-> advertise EC_FEATURE_PWM_KEYB.
+> 
+> On 5/6/2024 1:09 AM, Thomas Weißschuh wrote:
+> > On 2024-05-05 22:56:33+0000, Thomas Weißschuh wrote:
+> > > Framework Laptops are using embedded controller firmware based on the
+> > > ChromeOS EC project.
+> > > In addition to the standard upstream commands some vendor-specific
+> > > commands are implemented.
+> > > 
+> > > Add a driver that implements battery charge thresholds using these
+> > > custom commands.
+> > 
+> > It turns out that standard ChromesOS EC defines EC_CMD_CHARGE_CONTROL.
+> > The kernel headers however only define v1 of the protocol, which is very
+> > limited.
+> > 
+> > But in the upstream firmware repo there is a v3 which is much better.
+> > 
+> > The Framework laptop only implements v2 which is also fine.
+> > Given that v3 was only introduced late last year, it seems better to
+> > stick to v2 anyways for now.
+> > 
+> > So please disregard Patch 2, I'll see on how to use this via a normal
+> > cros_ec driver.
+> > 
+> > There are some other Framework-only features that will use Patch 1,
+> > so feedback for that would still be good.
+> 
+> What other kinds of features do you have in mind?
 
-Sounds good to me in general. It would make the code cleaner.
+There are at least fan and privacy switch reporting in which im interested.
+But fan reporting also has a standard command which I'll try to use first.
 
-But I have no idea how CrOS kernels are set up in general.
-If they are not using CONFIG_MFD_CROS_EC_DEV for some reason that
-wouldn't work.
+And then there are many others I'm personally not interested in:
+Fingerprint LED configuration, Intrusion Detection, "Standalone mode",
+some diagnostics, etc.
 
-If the CrOS folks agree with that aproach I'll be happy to implement it.
+Especially as they can also be handled from userspace.
 
-> <snip>
+> Considering your above finding I think it's better to put patch 1 into the
+> series of "other framework only features" that will use it so it's clearer
+> if it's the best way or not.
+
+Agreed, that is what I tried to express.
+
+> [..]
 
 Thomas

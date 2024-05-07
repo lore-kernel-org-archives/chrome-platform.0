@@ -1,84 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12CF13CA9A;
-	Tue,  7 May 2024 08:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A1215E5B6
+	for <chrome-platform@lists.linux.dev>; Tue,  7 May 2024 13:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715070551; cv=none; b=IrXl597jjdt8/J0oKmT/HZNVcxCDOwKkPMcDnXApAXiHIRONeadL9nH4ywDpj1klJ/aIfDWgVpdsyd50qPjo1eMaNVPVSLP+AOPmYcf6xDQqU+jZ7AUdvh09RdALGCPw0kN8eSUqaUV44Ie8bP4duobIlN+P1swpUvEfpM8DiMc=
+	t=1715090252; cv=none; b=AfJcoiHoMdupcSjaQQy2G4/4AStbFU8VFxVu5eU/Ki8RH5/mO86D8KUK9s2p7X1Q1f4uVZJz4oPh0efEzNrAJbVcSia69ytfHn7Kx4FrQFtozWcHvBmbxfllxQ+h3ntvemTVZs3GMVMKyXg7Eorujl1jjKb53Ws/k/ieYYz6Jdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715070551; c=relaxed/simple;
-	bh=0zdeGPhU3mRbeeDOlmnBus9pw50/Ln9j0NVn9XT83/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i6/cBRqM1u/XlZwQVhMKqQnao3yUZCi7n2x+v3tUac4nsW9YUeeV7UKrA5Eaq5M09ImY49QgwBflBFpSDCvQ/fVxJjpQ5+binOYO2rG9720WWqdUnHf4HQKL7tJ3SmE9Ao8NmYPprWMC++FOzUzZoBwBJwZ8Gdm5GNyOXgwV0wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jLY8b90e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715090252; c=relaxed/simple;
+	bh=CtbVsaAWGVPtKOnSGhlvMhVfqRtNMnCw7MAcBD0skng=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BjReeDATdRuDKc4wNXaab3sngc7hYjYCELeGypqADqxGtnruyJNYR3AaJfgE66hd6ZW2lp598zLr61jtlS0cRTPX8Mhw23ZBC10HhLj9hdonBYnISTPPkBeCXOI4pemKERgFXqrXkLoVj7pRDYB6A1n3x1AsHpIBsu9Cd1QQ+/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Vz4iGHg7; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLY8b90e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4081EC2BBFC;
-	Tue,  7 May 2024 08:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715070551;
-	bh=0zdeGPhU3mRbeeDOlmnBus9pw50/Ln9j0NVn9XT83/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jLY8b90ezp9Eh9A9WQ7NBVrog04p5SnAcxA3nZB+VzJ7zi32nA5GLOZHrMiftSf+S
-	 3YFKA+fmjb/UWBHEkfBM/cYr1HcVaZzgv7EhzcAQEbphlWxG9sOYFGY4iVKuJ+UZ7B
-	 6TheLefgs8nojtQP6mnn7Ib3w3RPrc2ExovheJX8wG7yE2v08azTO/tDJrrqXK+ZpG
-	 gQXjPiDB1uYrUOu7HLKdCAf+7BZIbG3YCvdl/uGC5BnNcXajOlOvHoD/ytg7W7iFCS
-	 jVCf+rjqa+CJSJ2q6J1zSgSE9nCvx0UeoYcjofbcTULBaIcgcWc+QIkXh5zJRGa098
-	 4UTSsfsf05xFQ==
-Date: Tue, 7 May 2024 09:29:06 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
- through EC_FEATURE_PWM_KEYB
-Message-ID: <20240507082906.GU1227636@google.com>
-References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Vz4iGHg7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1715090246;
+	bh=CtbVsaAWGVPtKOnSGhlvMhVfqRtNMnCw7MAcBD0skng=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Vz4iGHg7drjKVl7d7EcyvXo83nonOFwB5y6lH/5NvWV61VrAswtaDwBI4AFC4TR5v
+	 ZvhbBJjYwepLgF7DCkA3dL+rv+ubFIbQpH9e6ztZIHLs65RIYggo/YnrvHnrlFOcy0
+	 9rVJUYuol2etOoYhsbThfGNnldad7OI8pGv2OOkk=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/2] ChromeOS Embedded controller hwmon driver
+Date: Tue, 07 May 2024 15:57:23 +0200
+Message-Id: <20240507-cros_ec-hwmon-v1-0-2c47c5ce8e85@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAEMzOmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwMz3eSi/OL41GTdjPLc/DxdIxMzY5MkA/PkNLM0JaCegqLUtMwKsHn
+ RsbW1AGFFcgNfAAAA
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Moritz Fischer <mdf@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715090246; l=1624;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=CtbVsaAWGVPtKOnSGhlvMhVfqRtNMnCw7MAcBD0skng=;
+ b=PnxbvT1dqivcDWo2rkJkvaTA8qizq977AD1ZU/4fP2zcQBn8+V8jD1fdAH4zKrH58JAvPFdId
+ tLu+/z+L7xlBu5JLMKqWeQRcHzz2qSGNUNy1+EVpPG/QQM06y4tdTwJ
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Sun, 05 May 2024, Thomas Weißschuh wrote:
+Add a hwmon driver that reports fan and temperature readings from the
+ChromeOS Embedded controller.
 
-> The ChromeOS EC used in Framework laptops supports the standard cros
-> keyboard backlight protocol.
-> However the firmware on these laptops don't implement the ACPI ID
-> GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> don't use device tree.
-> 
-> Extend the cros_ec MFD device to also load cros_kbd_led_backlight
-> when the EC reports EC_FEATURE_PWM_KEYB.
-> 
-> Tested on a Framework 13 AMD, Bios 3.05.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> This is based on
-> https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-> 
-> The helper keyboard_led_is_mfd_device is a bit iffy, but I couldn't find
-> a nicer way.
-> 
-> * driver_data from platform_device_id is overwritten by the mfd platform data
-> * Setting the driver_data in drivers/mfd/cros_ec_dev.c would expose the
->   internals of cros_kbd_led_backlight
-> ---
->  drivers/mfd/cros_ec_dev.c                        |  9 ++++++
+There was an earlier effort in 2017 to add such a driver [0], but there
+was no followup after v1.
+The new driver is complete reimplementation based on newer APIs and with
+more features (temp sensor names).
 
-Split this out please.
+It only works on LPC-connected ECs, as only those implement direct
+memory-map access.
+For other busses the data would need to be read with a command.
+Adding some helpers was discussed in the previous patchset [1].
 
->  drivers/platform/chrome/cros_kbd_led_backlight.c | 41 +++++++++++++++++++++++-
->  2 files changed, 49 insertions(+), 1 deletion(-)
+The EC protocols also support reading and writing fan curves but that is
+not implemented.
 
+Tested on a Framework 13 AMD, Firmware 3.05.
+
+[0] https://lore.kernel.org/all/1491602410-31518-1-git-send-email-moritz.fischer@ettus.com/
+[1] https://lore.kernel.org/all/ac61bfca-bfa0-143b-c9ca-365b8026ce8d@roeck-us.net/
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Thomas Weißschuh (2):
+      hwmon: add ChromeOS EC driver
+      mfd: cros_ec: Register hardware monitoring subdevice
+
+ Documentation/hwmon/cros_ec_hwmon.rst |  26 ++++
+ Documentation/hwmon/index.rst         |   1 +
+ MAINTAINERS                           |   8 +
+ drivers/hwmon/Kconfig                 |  11 ++
+ drivers/hwmon/Makefile                |   1 +
+ drivers/hwmon/cros_ec_hwmon.c         | 279 ++++++++++++++++++++++++++++++++++
+ drivers/mfd/cros_ec_dev.c             |   1 +
+ 7 files changed, 327 insertions(+)
+---
+base-commit: 2fbe479c0024e1c6b992184a799055e19932aa48
+change-id: 20240506-cros_ec-hwmon-24634b07cf6f
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Thomas Weißschuh <linux@weissschuh.net>
+

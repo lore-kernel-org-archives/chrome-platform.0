@@ -1,576 +1,112 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8318200D2
-	for <chrome-platform@lists.linux.dev>; Tue,  7 May 2024 15:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B85168AF5
+	for <chrome-platform@lists.linux.dev>; Tue,  7 May 2024 15:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715096348; cv=none; b=BQuB+mPj5MaHpdG9oF+TrIj+D2LWZoJJmpaao0IFKAdvRS9CJwy2q7g+cXBAp9ZVd7jqcmUpQkt6HdR5zSi3r9OIy2rRT6/HiKXKTzd1K7HR4vez9ZARGMtaPIzaCtsR95HISj227+axUNKzrB1tSfm3jVb9m3+vLHQwLesetZM=
+	t=1715097499; cv=none; b=sVIkWBFue6W2fiOBPD2n7JUvG7m3oL/LO8dUl8HSMm0APy7gJgcbi6rhSIzDCntDSYQs3L2vdXUBy89sG+dbvXPsMf250gtOkI0w+CA3RKznKAbA8p1F3q7q4upHY1oXL0Bd2jVWYA7iOiPi9d9zrmXrdN4TYrg0JPdh/DIAG5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715096348; c=relaxed/simple;
-	bh=EsmgGyx30DulTp8j/sFIJ03VtxTL36OG6D14+3GMP3w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bTzDwIGxhs/IVDgTVstnCfnm7qe6f2ZCWE50YXP+6TI1vxyzdvJ53h8ue+PTlgsctv8m0RRyzWrRzuUtVmv6OW2iIHgtZRjfV1CWS4Y6lhue/iUbVJge4PyOIxTe5cIwjJoNPyzLDt3w806+yDlqkGZMplK4UeC3NWgoHLxu0O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kaRCOkQM; arc=none smtp.client-ip=209.85.160.176
+	s=arc-20240116; t=1715097499; c=relaxed/simple;
+	bh=VKTs3irmcw82siGH33HOQaqkmAgNt7MrpxmtEuPMMZU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=STgSSw71lJyp4afQoG1jVzXt7W69SI1LgQiPFA91LHhlU2/kDLKpfDCCdLfd/bmITfTVZrVjUVfac7m+ghZ6gMB+qi8jQh/cYBdVGepa4VNWCioArnB53JkqGVlBs52so8msXmNeb9rgKZvDdUAa9dOcIZ5xyIIe/woK1cwgIi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=crmYIjG2; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kaRCOkQM"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-43d361a2124so399071cf.0
-        for <chrome-platform@lists.linux.dev>; Tue, 07 May 2024 08:39:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="crmYIjG2"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6b26783b4so4303032276.0
+        for <chrome-platform@lists.linux.dev>; Tue, 07 May 2024 08:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715096345; x=1715701145; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=96nVgINAPVMQWeVSHIq1zF2vYAs3MicLM3MDjuBlAtA=;
-        b=kaRCOkQMZE79v3olYCVKhU02BX7q8e84woKtu9zInkveVCU162kIIT0LO6eXzGfR2r
-         omk7EgSMh5fwWURQcP7V3iNgQ52ZeHxgAP+LMDqPf/wybQB0V7vGHH4fiy/+X+GJkfGe
-         quRIhGGN3iQ3f1dKs6HVCDXlPWUVeG1qdR80g5NxluLv7tKZJ9XY8krm0hvVvrQ/5Zc0
-         ihAgE12F4D7BZLP6KVgbo7b+aYpXGujeaWNUAu2Lb3eTUensLfBSF42HpWjeumchi9OL
-         NhaKHhaCKZuvXaOxs1w3fmxo0s0O0p8vH9FzRmzVBKp/LMKpoWaqMMDzBHnoZ3Xdl8JL
-         WhYg==
+        d=google.com; s=20230601; t=1715097493; x=1715702293; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NezDOu+L0Xs/ccnTKUGf+82Wr0VYnf4nPq+xzhwUlDg=;
+        b=crmYIjG2vdsN7ghoU551jHmCavigFQ7rrXBTvmrw/56mIcHiiLLAOqUmzcFdKXzaIv
+         OTPALAPGtwmpURbXW1yCD5nRrkIdVYd8HzW+wdRE8bGVtfTcdaaRiAcbhbeZFHCUP3GX
+         wMTmRJIRyKhsZTOeFTx8rNkuCc1X81cVH4bubIyuVxi2qMdoJEydd5e5dm6ODzfNf6dZ
+         7Qn5/7Fc2V4PQ/wrkzBYgbjEUNqX9EkkLKVOiatj3O/hzlN+ErMboBLnt65ohYpROEJb
+         G9QYIquSOEd60yuneN+cmZPqvyC9Pr5xMgcTAQS5Q43sF4roW4jp1UEtcveRSb1YG3vq
+         7VIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715096345; x=1715701145;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=96nVgINAPVMQWeVSHIq1zF2vYAs3MicLM3MDjuBlAtA=;
-        b=FuzZOfbPvwOCTTwha6NJTwAhxdEkv9jqdCQ40TxJPVYTXG08NsKWAG0TXv3GSZkyMa
-         0xIimUe2Bsc0adaM8ClpseUu9MPUtg3lEx5k7saPeW+19cHgXUCGHptkqh5s7kO8Xn2P
-         LVeT8M8bG7cQXUHSZjrF+OOGApdvze33f3X++obTw0WarWtp/WdOmaBeQv/VgxSIJ9LR
-         7dL9Ttcb3Xrx+ItmmUR7oGJzY7VqKjlVBxuhFmV89QbaAuV+AjuHzFcHtI3FdF5KCUiD
-         tzOMyffgeI1jAN0ltSw5IfFi3H0sPv6CwKQG2kEI4HPx1TGoBb1IZAifs97Vfn8wWqFC
-         xKaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsq78xHchErbOH+Vlmhol4Bnp/T2SnZt3hBbzsdfdJdfhatdPrabui56wSwNtvjDJFNooYIR4tcQIhP8uISOZtfyMZ6WLj9HSo2V+1pryc
-X-Gm-Message-State: AOJu0Yzz4z7lysBYUK1GFzLJhgVxHtETNtYzDnwDF8x+2F4gcoeEFrmV
-	7KEz6T/gXzpy09z6HKgNG6MSwkBFaJX0bxFyAp2A0+hBQn2B1HQhho1exQk17gOE1/22JnFmrY7
-	0KMWIdHS8jAzjvQ3tepBZ1yd+Yhn68L0BlwvW
-X-Google-Smtp-Source: AGHT+IEogyaCT5RPKXCpuW8hUYpDGKWzFDgD4hF95kO2C1Yn7/rttdH2B29VI0WGLZSN5plXWVdPUM0+dVOfUQsTeL8=
-X-Received: by 2002:a05:622a:a0e:b0:43a:c494:a066 with SMTP id
- d75a77b69052e-43d92ec910amr4778181cf.6.1715096345460; Tue, 07 May 2024
- 08:39:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715097493; x=1715702293;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NezDOu+L0Xs/ccnTKUGf+82Wr0VYnf4nPq+xzhwUlDg=;
+        b=UxXE6239z7cuIFPtlaOuXe4BHJfPRV2xNiFOlujUDxLpxjcM6eg4u9wuayvpV3tU66
+         63Vqb74myzxzpBAViCSe7sjcMxGVBFHS3Udbg75t9iFgVURgAZZG1mnfu428iorhTXlw
+         StQFtiRoYyjUu6ss4mvw3PvLbEYay8ZF5L/CX6dHgdetAj+TXSg6j/n+NdYSBHpmu3vb
+         x+clnq/2UqrwQiTLFFTuzZDxnd0smRZe+QD8Yk2iMdncVTnOMN8dULmKqMkIvH8ENYb+
+         PiIl8/fc93U/yO1CkOfujpEj3Xumavv+Rq8Br/dN7SIkDOj4EbayUUgFljBBF+UKuJ3v
+         gRpA==
+X-Gm-Message-State: AOJu0YzpCQ/5Iv427FQIQvMFkyiYjADhw/bYQN57nxh0UIASidXQV4O7
+	XNBsIxe5nNF6jI3s68ILGCF4XeTSGLyNeoOyAwuJotJO7/gCfYgHkriy2bA0P2pfQZQPAo3MPS5
+	YVaGkqHKVtUwk4F90PrUTRzpJSTMchIty+tL52ODUVB1AkBogr+oPn4aMGjvqsxMbaOG5jcTXOS
+	daHdIEs+SXVWPojka6V3b8AarmmXcbImAfRyqNOOtqWYe06BTGhZgUIpKZsfFl
+X-Google-Smtp-Source: AGHT+IHHQvhs6Xx6YDBgJbvwmxK536McGv8344wji+VqBx6XWkaLBUMp2bBoJC91oNBMByZr/X9gijMUkS4oke4=
+X-Received: from robbarnes3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
+ (user=robbarnes job=sendgmr) by 2002:a05:6902:1884:b0:dda:d7cf:5c2c with SMTP
+ id 3f1490d57ef6-debb9da5e17mr134276.13.1715097492168; Tue, 07 May 2024
+ 08:58:12 -0700 (PDT)
+Date: Tue,  7 May 2024 15:58:09 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20240507-cros_ec-hwmon-v1-0-2c47c5ce8e85@weissschuh.net>
- <20240507-cros_ec-hwmon-v1-1-2c47c5ce8e85@weissschuh.net> <0595e183-e724-4162-902e-298bf41b09ed@amd.com>
-In-Reply-To: <0595e183-e724-4162-902e-298bf41b09ed@amd.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 7 May 2024 09:38:52 -0600
-Message-ID: <CABXOdTeJZuhaMcm35-9nTCXDLLWft2QZKaZ3Ay=TssCdxaGLTQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hwmon: add ChromeOS EC driver
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	Dustin Howett <dustin@howett.net>, Moritz Fischer <mdf@kernel.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
+Message-ID: <20240507155809.525701-1-robbarnes@google.com>
+Subject: [PATCH] drivers/cros_ec: Make log polling period a parameter
+From: Rob Barnes <robbarnes@google.com>
+To: chrome-platform@lists.linux.dev
+Cc: tzungbi@kernel.org, gwendal@chromium.org, groweck@chromium.org, 
+	Rob Barnes <robbarnes@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 7, 2024 at 8:30=E2=80=AFAM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> On 5/7/2024 08:57, Thomas Wei=C3=9Fschuh wrote:
-> > The ChromeOS Embedded Controller exposes fan speed and temperature
-> > readings.
-> > Expose this data through the hwmon subsystem.
-> >
-> > The driver is designed to be probed via the cros_ec mfd device.
-> >
-> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > ---
-> >   Documentation/hwmon/cros_ec_hwmon.rst |  26 ++++
-> >   Documentation/hwmon/index.rst         |   1 +
-> >   MAINTAINERS                           |   8 +
-> >   drivers/hwmon/Kconfig                 |  11 ++
-> >   drivers/hwmon/Makefile                |   1 +
-> >   drivers/hwmon/cros_ec_hwmon.c         | 279 +++++++++++++++++++++++++=
-+++++++++
-> >   6 files changed, 326 insertions(+)
-> >
-> > diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmo=
-n/cros_ec_hwmon.rst
-> > new file mode 100644
-> > index 000000000000..aeb88c79d11b
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/cros_ec_hwmon.rst
-> > @@ -0,0 +1,26 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +Kernel driver cros_ec_hwmon
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > +
-> > +Supported chips:
-> > +
-> > +  * ChromeOS embedded controllers connected via LPC
-> > +
-> > +    Prefix: 'cros_ec'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +Author:
-> > +
-> > +  - Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver implements support for hardware monitoring commands expose=
-d by the
-> > +ChromeOS embedded controller used in Chromebooks and other devices.
-> > +
-> > +The channel labels exposed via hwmon are retrieved from the EC itself.
-> > +
-> > +Fan and temperature readings are supported.
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.=
-rst
-> > index 1ca7a4fe1f8f..355a83e66928 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -57,6 +57,7 @@ Hardware Monitoring Kernel Drivers
-> >      coretemp
-> >      corsair-cpro
-> >      corsair-psu
-> > +   cros_ec_hwmon
-> >      da9052
-> >      da9055
-> >      dell-smm-hwmon
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index c23fda1aa1f0..aa5689169eca 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4988,6 +4988,14 @@ S:     Maintained
-> >   F:  Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-> >   F:  sound/soc/codecs/cros_ec_codec.*
-> >
-> > +CHROMEOS EC HARDWARE MONITORING
-> > +M:   Thomas Wei=C3=9Fschuh <thomas@weissschuh.net>
-> > +L:   chrome-platform@lists.linux.dev
-> > +L:   linux-hwmon@vger.kernel.org
-> > +S:   Maintained
-> > +F:   Documentation/hwmon/chros_ec_hwmon.rst
-> > +F:   drivers/hwmon/cros_ec_hwmon.c
-> > +
-> >   CHROMEOS EC SUBDRIVERS
-> >   M:  Benson Leung <bleung@chromium.org>
-> >   R:  Guenter Roeck <groeck@chromium.org>
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 83945397b6eb..c1284d42697f 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -506,6 +506,17 @@ config SENSORS_CORSAIR_PSU
-> >         This driver can also be built as a module. If so, the module
-> >         will be called corsair-psu.
-> >
-> > +config SENSORS_CROS_EC
-> > +     tristate "ChromeOS Embedded Controller sensors"
-> > +     depends on MFD_CROS_EC_DEV
-> > +     default MFD_CROS_EC_DEV
-> > +     help
-> > +       If you say yes here you get support for ChromeOS Embedded Contr=
-oller
-> > +       sensors.
-> > +
-> > +       This driver can also be built as a module. If so, the module
-> > +       will be called cros_ec_hwmon.
-> > +
-> >   config SENSORS_DRIVETEMP
-> >       tristate "Hard disk drives with temperature sensors"
-> >       depends on SCSI && ATA
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 5c31808f6378..8519a6b36c00 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -64,6 +64,7 @@ obj-$(CONFIG_SENSORS_CHIPCAP2) +=3D chipcap2.o
-> >   obj-$(CONFIG_SENSORS_CORETEMP)      +=3D coretemp.o
-> >   obj-$(CONFIG_SENSORS_CORSAIR_CPRO) +=3D corsair-cpro.o
-> >   obj-$(CONFIG_SENSORS_CORSAIR_PSU) +=3D corsair-psu.o
-> > +obj-$(CONFIG_SENSORS_CROS_EC)        +=3D cros_ec_hwmon.o
-> >   obj-$(CONFIG_SENSORS_DA9052_ADC)+=3D da9052-hwmon.o
-> >   obj-$(CONFIG_SENSORS_DA9055)+=3D da9055-hwmon.o
-> >   obj-$(CONFIG_SENSORS_DELL_SMM)      +=3D dell-smm-hwmon.o
-> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmo=
-n.c
-> > new file mode 100644
-> > index 000000000000..9588df202a74
-> > --- /dev/null
-> > +++ b/drivers/hwmon/cros_ec_hwmon.c
-> > @@ -0,0 +1,279 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + *  ChromesOS EC driver for hwmon
-> > + *
-> > + *  Copyright (C) 2024 Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/platform_data/cros_ec_commands.h>
-> > +#include <linux/platform_data/cros_ec_proto.h>
-> > +#include <linux/units.h>
-> > +
-> > +#define DRV_NAME     "cros-ec-hwmon"
-> > +
-> > +struct cros_ec_hwmon_priv {
-> > +     struct cros_ec_device *cros_ec;
-> > +     u8 thermal_version;
-> > +     const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SE=
-NSOR_B_ENTRIES];
-> > +};
-> > +
-> > +static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec=
-, u8 index, u16 *speed)
-> > +{
-> > +     int ret;
-> > +     u16 data;
-> > +
-> > +     if (index >=3D EC_FAN_SPEED_ENTRIES)
-> > +             return -ENODEV;
->
-> I could see an argument that this should be -EINVAL as
-> EC_FAN_SPEED_ENTRIES is hardcoded in the driver and "index" was passed
-> into the function.
->
-> > +
-> > +     ret =3D cros_ec->cmd_readmem(cros_ec, EC_MEMMAP_FAN + index * 2, =
-2, &data);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     data =3D le16_to_cpu(data);
-> > +
-> > +     if (data =3D=3D EC_FAN_SPEED_NOT_PRESENT)
-> > +             return -ENODEV;
-> > +
-> > +     *speed =3D data;
->
-> For safety purposes I think you should either do
->
-> if (speed)
->         *speed =3D data;
->
+Make EC log polling period a module parameter. This allows the polling
+period to be set via the kernel command line. Keeping the default at
+the current 10 second period. The optimal polling period will differ by
+board.
 
-NACK. This is a static function. Callers are well known. If speed is
-NULL this code deserves to crash.
+Signed-off-by: Rob Barnes <robbarnes@google.com>
+---
+ drivers/platform/chrome/cros_ec_debugfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> Or have a check at the start of the function and return -EINVAL and
-> throw up a warning if speed was NULL.
->
-> > +     return 0;
-> > +}
-> > +
-> > +static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 =
-thermal_version,
-> > +                                u8 index, u8 *data)
-> > +{
-> > +     unsigned int offset;
-> > +     int ret;
-> > +
-> > +     if (thermal_version < 2 && index >=3D EC_TEMP_SENSOR_ENTRIES)
-> > +             return -ENODEV;
-> > +
-> > +     if (index >=3D EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES)
-> > +             return -ENODEV;
->
-> Like cros_ec_hwmon_read_fan_speed I have an opinion these should be -EINV=
-AL.
->
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 6bf6f0e7b597..95101b0d5227 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -25,6 +25,10 @@
+ 
+ #define CIRC_ADD(idx, size, value)	(((idx) + (value)) & ((size) - 1))
+ 
++static unsigned int log_poll_period_ms = LOG_POLL_SEC * MSEC_PER_SEC;
++module_param(log_poll_period_ms, uint, 0644);
++MODULE_PARM_DESC(log_poll_period_ms, "EC log polling period(ms)");
++
+ /* waitqueue for log readers */
+ static DECLARE_WAIT_QUEUE_HEAD(cros_ec_debugfs_log_wq);
+ 
+@@ -56,7 +60,7 @@ struct cros_ec_debugfs {
+ 
+ /*
+  * We need to make sure that the EC log buffer on the UART is large enough,
+- * so that it is unlikely enough to overlow within LOG_POLL_SEC.
++ * so that it is unlikely enough to overlow within log_poll_period_ms.
+  */
+ static void cros_ec_console_log_work(struct work_struct *__work)
+ {
+@@ -118,7 +122,7 @@ static void cros_ec_console_log_work(struct work_struct *__work)
+ 
+ resched:
+ 	schedule_delayed_work(&debug_info->log_poll_work,
+-			      msecs_to_jiffies(LOG_POLL_SEC * 1000));
++			      msecs_to_jiffies(log_poll_period_ms));
+ }
+ 
+ static int cros_ec_console_log_open(struct inode *inode, struct file *file)
+-- 
+2.45.0.rc1.225.g2a3ae87e7f-goog
 
-Again, this is a static function. The caller is in full control of the
-parameter range, and those error checks should be unnecessary to start
-with.
-
-I am not going to review the rest of the driver. Drop all unnecessary
-range checks and resubmit.
-
-Guenter
-
-> > +
-> > +     if (index < EC_TEMP_SENSOR_ENTRIES)
-> > +             offset =3D EC_MEMMAP_TEMP_SENSOR + index;
-> > +     else
-> > +             offset =3D EC_MEMMAP_TEMP_SENSOR_B + index - EC_TEMP_SENS=
-OR_ENTRIES;
-> > +
-> > +     ret =3D cros_ec->cmd_readmem(cros_ec, offset, 1, data);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
->
-> You should make sure that data isn't NULL before doing these checks:
->
-> > +     if (*data =3D=3D EC_TEMP_SENSOR_NOT_PRESENT ||
-> > +         *data =3D=3D EC_TEMP_SENSOR_ERROR ||
-> > +         *data =3D=3D EC_TEMP_SENSOR_NOT_POWERED ||
-> > +         *data =3D=3D EC_TEMP_SENSOR_NOT_CALIBRATED)
-> > +             return -ENODEV;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_ty=
-pes type,
-> > +                           u32 attr, int channel, long *val)
-> > +{
-> > +     struct cros_ec_hwmon_priv *priv =3D dev_get_drvdata(dev);
-> > +     u16 speed;
-> > +     u8 temp;
-> > +     int ret =3D -ENODATA;
->
-> I feel it is better practice to add this as a 3rd clause than initialize
-> the variable at the start of the function.
->
-> switch (type) {
-> case hwmon_fan:
->         //do stuff
->         break;
-> case hwmon_temp:
->         // dot stuff
->         break;
-> default:
->         ret =3D -ENODATA;
-> }
->
-> return ret;
->
-> > +
-> > +     if (type =3D=3D hwmon_fan) {
-> > +             ret =3D cros_ec_hwmon_read_fan_speed(priv->cros_ec, chann=
-el, &speed);
-> > +             if (ret =3D=3D 0)
-> > +                     *val =3D speed;
-> > +     } else if (type =3D=3D hwmon_temp) {
-> > +             ret =3D cros_ec_hwmon_read_temp(priv->cros_ec, priv->ther=
-mal_version, channel, &temp);
-> > +             if (ret =3D=3D 0)
-> > +                     *val =3D kelvin_to_millicelsius((((long)temp) + E=
-C_TEMP_SENSOR_OFFSET));
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int cros_ec_hwmon_get_temp_sensor_info(struct cros_ec_device *c=
-ros_ec, u8 id,
-> > +                                           struct ec_response_temp_sen=
-sor_get_info *resp)
-> > +{
-> > +     int ret;
-> > +     struct {
-> > +             struct cros_ec_command msg;
-> > +             union {
-> > +                     struct ec_params_temp_sensor_get_info req;
-> > +                     struct ec_response_temp_sensor_get_info resp;
-> > +             } __packed data;
-> > +     } __packed buf =3D {
-> > +             .msg =3D {
-> > +                     .version =3D 0,
-> > +                     .command =3D EC_CMD_TEMP_SENSOR_GET_INFO,
-> > +                     .insize  =3D sizeof(buf.data.resp),
-> > +                     .outsize =3D sizeof(buf.data.req),
-> > +             },
-> > +             .data.req.id =3D id,
-> > +     };
-> > +
-> > +     ret =3D cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     *resp =3D buf.data.resp;
->
-> Make sure that resp isn't NULL.
->
-> > +     return 0;
-> > +}
-> > +
-> > +static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_se=
-nsor_types type,
-> > +                                  u32 attr, int channel, const char **=
-str)
-> > +{
-> > +     struct cros_ec_hwmon_priv *priv =3D dev_get_drvdata(dev);
-> > +     int ret =3D -ENODATA;
->
-> How about just drop the variable and then do below two comments:
->
-> > +
-> > +     if (type =3D=3D hwmon_temp && attr =3D=3D hwmon_temp_label) {
-> > +             *str =3D priv->temp_sensor_names[channel];
-> > +             ret =3D 0;
->                 return 0;
-> > +     }
-> > +
-> > +     return ret;
->         return -ENODATA;
-> > +}
-> > +
-> > +static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_s=
-ensor_types type,
-> > +                                     u32 attr, int channel)
-> > +{
-> > +     const struct cros_ec_hwmon_priv *priv =3D data;
-> > +     u16 speed;
-> > +
-> > +     if (type =3D=3D hwmon_fan) {
-> > +             if (cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, =
-&speed) =3D=3D 0)
-> > +                     return 0444;
-> > +     } else if (type =3D=3D hwmon_temp) {
-> > +             if (priv->temp_sensor_names[channel])
-> > +                     return 0444;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct hwmon_channel_info * const cros_ec_hwmon_info[] =
-=3D {
-> > +     HWMON_CHANNEL_INFO(fan,
-> > +                        HWMON_F_INPUT,
-> > +                        HWMON_F_INPUT,
-> > +                        HWMON_F_INPUT,
-> > +                        HWMON_F_INPUT),
-> > +     HWMON_CHANNEL_INFO(temp,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                        HWMON_T_INPUT | HWMON_T_LABEL),
-> > +     NULL
-> > +};
-> > +
-> > +static const struct hwmon_ops cros_ec_hwmon_ops =3D {
-> > +     .read =3D cros_ec_hwmon_read,
-> > +     .read_string =3D cros_ec_hwmon_read_string,
-> > +     .is_visible =3D cros_ec_hwmon_is_visible,
-> > +};
-> > +
-> > +static const struct hwmon_chip_info cros_ec_hwmon_chip_info =3D {
-> > +     .ops =3D &cros_ec_hwmon_ops,
-> > +     .info =3D cros_ec_hwmon_info,
-> > +};
-> > +
-> > +static int cros_ec_hwmon_probe_temp_sensors(struct device *dev, struct=
- cros_ec_hwmon_priv *priv)
-> > +{
-> > +     struct ec_response_temp_sensor_get_info info;
-> > +     size_t i;
-> > +     u8 temp;
-> > +     int ret;
-> > +
-> > +     ret =3D priv->cros_ec->cmd_readmem(priv->cros_ec, EC_MEMMAP_THERM=
-AL_VERSION,
-> > +                                      1, &priv->thermal_version);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     if (!priv->thermal_version)
-> > +             return 0;
->
-> I'm a bit confused; why isn't this -ENODEV?  I would think that you
-> don't want to have probe succeed and make devices if there isn't thermal
-> support in the EC.
->
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(priv->temp_sensor_names); i++) {
-> > +             if (cros_ec_hwmon_read_temp(priv->cros_ec, priv->thermal_=
-version, i, &temp) !=3D 0)
-> > +                     continue;
-> > +
-> > +             ret =3D cros_ec_hwmon_get_temp_sensor_info(priv->cros_ec,=
- i, &info);
-> > +             if (ret < 0)
-> > +                     continue;
-> > +
-> > +             priv->temp_sensor_names[i] =3D devm_kasprintf(dev, GFP_KE=
-RNEL, "%*s",
-> > +                                                         (int)sizeof(i=
-nfo.sensor_name),
-> > +                                                         info.sensor_n=
-ame);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int cros_ec_hwmon_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct cros_ec_dev *ec_dev =3D dev_get_drvdata(dev->parent);
-> > +     struct cros_ec_device *cros_ec =3D ec_dev->ec_dev;
-> > +     struct cros_ec_hwmon_priv *priv;
-> > +     struct device *hwmon_dev;
-> > +     int ret;
-> > +
-> > +     BUILD_BUG_ON(ARRAY_SIZE(priv->temp_sensor_names) !=3D 24);
-> > +
-> > +     /* Not every platform supports direct reads */
-> > +     if (!cros_ec->cmd_readmem)
-> > +             return -ENOTTY;
-> > +
-> > +     priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> > +     if (!priv)
-> > +             return -ENOMEM;
-> > +
-> > +     priv->cros_ec =3D cros_ec;
-> > +
-> > +     ret =3D cros_ec_hwmon_probe_temp_sensors(dev, priv);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     hwmon_dev =3D devm_hwmon_device_register_with_info(dev, "cros_ec"=
-, priv,
-> > +                                                      &cros_ec_hwmon_c=
-hip_info, NULL);
-> > +
-> > +     return PTR_ERR_OR_ZERO(hwmon_dev);
-> > +}
-> > +
-> > +static const struct platform_device_id cros_ec_hwmon_id[] =3D {
-> > +     { DRV_NAME, 0 },
-> > +     { }
-> > +};
-> > +
-> > +static struct platform_driver cros_ec_hwmon_driver =3D {
-> > +     .driver.name    =3D DRV_NAME,
-> > +     .probe          =3D cros_ec_hwmon_probe,
-> > +     .id_table       =3D cros_ec_hwmon_id,
-> > +};
-> > +module_platform_driver(cros_ec_hwmon_driver);
-> > +
-> > +MODULE_DEVICE_TABLE(platform, cros_ec_hwmon_id);
-> > +MODULE_DESCRIPTION("ChromeOS EC Hardware Monitoring Driver");
-> > +MODULE_AUTHOR("Thomas Wei=C3=9Fschuh <linux@weissschuh.net");
-> > +MODULE_LICENSE("GPL");
-> >
->

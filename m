@@ -1,92 +1,113 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF42A13C801
-	for <chrome-platform@lists.linux.dev>; Thu,  9 May 2024 08:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07591D528;
+	Thu,  9 May 2024 09:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715242428; cv=none; b=n6Ff8qwQMm+E0gPMUPKvLxWOCkOkAjVI2E9OhX+Vb2DabRQoxrU7vx/mwU7Lrq+9TFuP3M/+woY3v2wCOB1vGIPxpUmA4Eqh850jIEMAxPCYbaf7VU1A4xJEdO0iWsWI6TNN2cdPoy/UNK++SbfaGTRE93e8s0vNWeJx8anMDAU=
+	t=1715246942; cv=none; b=pAqtuVWIPN4jvezq/5LbtPWuqcxlwEJmd5K4GrNlefPmHex/uVoBO6vrz7aXTOujOX9j613eIWRBrnqI2rU73hiSJV9EvunIryqjpqX4jHIhoFIgfuqp4SJHnkDZIOLy9+5A+ADDDaWrUZDKI4F3d6tAaLN8dwl/pTId6vlSVoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715242428; c=relaxed/simple;
-	bh=lHKi0i+Sh9dU0tv5mcRO6DSSVX4y5N1Jy0QuwxVUbw8=;
+	s=arc-20240116; t=1715246942; c=relaxed/simple;
+	bh=wZKrO8+x5D6FuMJ5ZBvR3E+b5O6QBa7DkTruok+Onyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sepUGA8pN6SK98vy0TQoXrUomZ7V0nHu45PzaA1egHZ5PpISC6nKTAsza6TTmuKshVmLYGlWineDBeNDK2crumPgehkLkQ+bUnl2Lvk/xPvUz2paiXqiGa+P7fShnFxafE1c4+WyEAmb6lVamREsmn7Ip2WYreWQ+9irzaEKRgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=h/Btutn7; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOCcp85zUd8WGGVBmnIh+HGlsOC0ZIb4Mb1jSsQqt/NM2hAh6u1W7r/YvpxHn9cE68RiPja8+aHqLwZbL/dBx8qss9FPZU358B6nMc+ykexqenWEw3EFbgvPqaAh5wOwbi6YNh2nj6o2o4VDtzHJ+uP/nNMiob0ufaQEwXvMrag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBw4nxwF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="h/Btutn7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1715242418;
-	bh=lHKi0i+Sh9dU0tv5mcRO6DSSVX4y5N1Jy0QuwxVUbw8=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBw4nxwF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECD5C116B1;
+	Thu,  9 May 2024 09:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715246941;
+	bh=wZKrO8+x5D6FuMJ5ZBvR3E+b5O6QBa7DkTruok+Onyo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h/Btutn7RgorRwF1FYvdhvD4IemNLoebxsAr3nteozWA+iTGmbeXj125qfCfW0mVW
-	 80qmmrYxTZfZmr+SPH5PpX38ROPzwd6ATsNfwykn8VKXlkvtKTRRH0hOY+Me7ZOD0f
-	 0cVa39mwR/LukIGUagygLWqOrBI5wkRrl7/zvNTE=
-Date: Thu, 9 May 2024 10:13:37 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, 
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	b=lBw4nxwFm5vXM+XYMQ269h/KD+KGBB94ZKz2nVikiFUIzg32j5yyaDN8aVcahigay
+	 im91cM6Yuj13adOrCWAIHPvolZdLGlBIZN47UW5j2KT/kz28njMS2l2FXF2d7DxVbe
+	 ky4rS3hNNLKH9DOR8Rs4ALDWDbNLWXq39nYIIkGQ8GeyDYcNHLmRF+VVO68cptDoY2
+	 OBJ7RdC9xlrAujTjW8FGMVMThKxIuAXCmQZWxPw0PtkXATDSqhA/U4s/utBpDxOXxU
+	 YqpIKsGjQ2dP4EbKSjmk6WifDuK7V4tau8b8aqwEnyr/N45Epa4QTe92iQ0g5y+JSu
+	 ZVCrXLFSFMg0g==
+Date: Thu, 9 May 2024 17:28:58 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Dustin Howett <dustin@howett.net>
 Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
  through EC_FEATURE_PWM_KEYB
-Message-ID: <9b594929-a827-4682-b4aa-98a2c85a536b@t-8ch.de>
+Message-ID: <ZjyXWrYIjE47--Hl@google.com>
 References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
  <cd9c5b6a-0155-434a-b868-a9ea52e878c9@amd.com>
  <ae29f036-5e39-47ee-98d3-c023a263a3ef@t-8ch.de>
  <ZjxQHV9FPovvm_CY@google.com>
+ <9b594929-a827-4682-b4aa-98a2c85a536b@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZjxQHV9FPovvm_CY@google.com>
+In-Reply-To: <9b594929-a827-4682-b4aa-98a2c85a536b@t-8ch.de>
 
-On 2024-05-09 12:25:01+0000, Tzung-Bi Shih wrote:
-> On Mon, May 06, 2024 at 07:38:09PM +0200, Thomas WeiÃŸschuh wrote:
-> > On 2024-05-05 08:42:21+0000, Mario Limonciello wrote:
-> > > On 5/5/2024 04:41, Thomas WeiÃŸschuh wrote:
-> > > > The ChromeOS EC used in Framework laptops supports the standard cros
-> > > > keyboard backlight protocol.
-> > > > However the firmware on these laptops don't implement the ACPI ID
-> > > > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> > > > don't use device tree.
+On Thu, May 09, 2024 at 10:13:37AM +0200, Thomas Weißschuh wrote:
+> On 2024-05-09 12:25:01+0000, Tzung-Bi Shih wrote:
+> > On Mon, May 06, 2024 at 07:38:09PM +0200, Thomas Weißschuh wrote:
+> > > On 2024-05-05 08:42:21+0000, Mario Limonciello wrote:
+> > > > On 5/5/2024 04:41, Thomas Weißschuh wrote:
+> > > > > The ChromeOS EC used in Framework laptops supports the standard cros
+> > > > > keyboard backlight protocol.
+> > > > > However the firmware on these laptops don't implement the ACPI ID
+> > > > > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
+> > > > > don't use device tree.
+> > 
+> > If implementing ACPI ID GOOG0002 is not an option, how about adding a new ACPI
+> > ID?  For the new ACPI ID, it can use EC PWM for setting the brightness.
 > 
-> If implementing ACPI ID GOOG0002 is not an option, how about adding a new ACPI
-> ID?  For the new ACPI ID, it can use EC PWM for setting the brightness.
-
-Adding a new ACPI ID would be easier than a full-blown ACPI interface.
-This would still need changes to the drivers probing setup, however.
-
-What are the advantages of the ACPI ID aproach over EC_FEATURE_PWM_KEYB?
-The EC feature also automatically works on device-tree platforms and
-without any work from system vendors.
-
-Adding ACPI ID only for signalling without using ACPI for
-communication on the other hand seems weird.
-Also with MFD the device hierarchy is much better.
-
-> > > Something I'd wonder is if the GOOG0002 ACPI ID can go away entirely with
-> > > this type of change.  Presumably the Chromebooks with ChromeOS EC /also/
-> > > advertise EC_FEATURE_PWM_KEYB.
-> > 
-> > Sounds good to me in general. It would make the code cleaner.
-> > 
-> > But I have no idea how CrOS kernels are set up in general.
-> > If they are not using CONFIG_MFD_CROS_EC_DEV for some reason that
-> > wouldn't work.
-> > 
-> > If the CrOS folks agree with that aproach I'll be happy to implement it.
+> Adding a new ACPI ID would be easier than a full-blown ACPI interface.
+> This would still need changes to the drivers probing setup, however.
 > 
-> I would say NO as some existing devices (with legacy firmware and kernel) may
-> rely on it.
+> What are the advantages of the ACPI ID aproach over EC_FEATURE_PWM_KEYB?
+> The EC feature also automatically works on device-tree platforms and
+> without any work from system vendors.
 
-Ack, makes sense.
+Perhaps no advantages but just following its original design.  The driver uses
+ACPI table for matching devices since it appears.  We shouldn't remove the
+ACPI matching anyway as some existing devices may rely on it.
 
-You mention legacy kernels, but these would not be affected.
+In addition, adding a new ACPI ID sounds more reasonable than using
+keyboard_led_is_mfd_device() to me.
+
+> Adding ACPI ID only for signalling without using ACPI for
+> communication on the other hand seems weird.
+
+I have a different view: using a new ACPI ID and another driver data fits
+current framework better.  I'm not sure if the reason is strong enough for
+applying a new ACPI ID though.
+
+We could wait to see if others in the mailing list may have more inputs.
+
+> > > > Something I'd wonder is if the GOOG0002 ACPI ID can go away entirely with
+> > > > this type of change.  Presumably the Chromebooks with ChromeOS EC /also/
+> > > > advertise EC_FEATURE_PWM_KEYB.
+> > > 
+> > > Sounds good to me in general. It would make the code cleaner.
+> > > 
+> > > But I have no idea how CrOS kernels are set up in general.
+> > > If they are not using CONFIG_MFD_CROS_EC_DEV for some reason that
+> > > wouldn't work.
+> > > 
+> > > If the CrOS folks agree with that aproach I'll be happy to implement it.
+> > 
+> > I would say NO as some existing devices (with legacy firmware and kernel) may
+> > rely on it.
+> 
+> Ack, makes sense.
+> 
+> You mention legacy kernels, but these would not be affected.
+
+We never know if a device would run legacy firmware with new kernel in some
+day.

@@ -1,113 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07591D528;
-	Thu,  9 May 2024 09:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B253384
+	for <chrome-platform@lists.linux.dev>; Sat, 11 May 2024 09:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715246942; cv=none; b=pAqtuVWIPN4jvezq/5LbtPWuqcxlwEJmd5K4GrNlefPmHex/uVoBO6vrz7aXTOujOX9j613eIWRBrnqI2rU73hiSJV9EvunIryqjpqX4jHIhoFIgfuqp4SJHnkDZIOLy9+5A+ADDDaWrUZDKI4F3d6tAaLN8dwl/pTId6vlSVoI=
+	t=1715418325; cv=none; b=LhhqFC+OMFKDEUr4ugi++tzd6am3Ffu7ptP+djTcEov1VczUj/nfv82XPrhA0aH9JDSAg7RJVSKB7Ii60lvHoGebIMsoNRQ+FRgrftgeNEAv9JeRY2IPexnIMb4avWHHzM4CHMwr2ezpfQq8CM0N9O9qFxZUW/DKryYkpGsoZeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715246942; c=relaxed/simple;
-	bh=wZKrO8+x5D6FuMJ5ZBvR3E+b5O6QBa7DkTruok+Onyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EOCcp85zUd8WGGVBmnIh+HGlsOC0ZIb4Mb1jSsQqt/NM2hAh6u1W7r/YvpxHn9cE68RiPja8+aHqLwZbL/dBx8qss9FPZU358B6nMc+ykexqenWEw3EFbgvPqaAh5wOwbi6YNh2nj6o2o4VDtzHJ+uP/nNMiob0ufaQEwXvMrag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBw4nxwF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715418325; c=relaxed/simple;
+	bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=nqS/eTqMn+mvL3FjFG+440rpEjOUVWQZS9LM4rAJUa3vLmnE9tXj6PGaHqw5/xrv/AN8GTdVXWuf3m46eUjgt1Rf8IYYemsSJknpNJjuUJ6QtCO9lwkL/5T7sCm+C6iqWQIhKfNCq9ypdpeFxXd9XZi8QKv9TtHyU/+8DNdJPsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gagA8n1H; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBw4nxwF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECD5C116B1;
-	Thu,  9 May 2024 09:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715246941;
-	bh=wZKrO8+x5D6FuMJ5ZBvR3E+b5O6QBa7DkTruok+Onyo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lBw4nxwFm5vXM+XYMQ269h/KD+KGBB94ZKz2nVikiFUIzg32j5yyaDN8aVcahigay
-	 im91cM6Yuj13adOrCWAIHPvolZdLGlBIZN47UW5j2KT/kz28njMS2l2FXF2d7DxVbe
-	 ky4rS3hNNLKH9DOR8Rs4ALDWDbNLWXq39nYIIkGQ8GeyDYcNHLmRF+VVO68cptDoY2
-	 OBJ7RdC9xlrAujTjW8FGMVMThKxIuAXCmQZWxPw0PtkXATDSqhA/U4s/utBpDxOXxU
-	 YqpIKsGjQ2dP4EbKSjmk6WifDuK7V4tau8b8aqwEnyr/N45Epa4QTe92iQ0g5y+JSu
-	 ZVCrXLFSFMg0g==
-Date: Thu, 9 May 2024 17:28:58 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dustin Howett <dustin@howett.net>
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
- through EC_FEATURE_PWM_KEYB
-Message-ID: <ZjyXWrYIjE47--Hl@google.com>
-References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
- <cd9c5b6a-0155-434a-b868-a9ea52e878c9@amd.com>
- <ae29f036-5e39-47ee-98d3-c023a263a3ef@t-8ch.de>
- <ZjxQHV9FPovvm_CY@google.com>
- <9b594929-a827-4682-b4aa-98a2c85a536b@t-8ch.de>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gagA8n1H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1715418315;
+	bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=gagA8n1HCIfZS1iLiQaqPAmBfFp+DOHZnS4wsjehj+XtlV3yUiD7H2596ju6c/fG8
+	 34TAaeWW+pA+1+bIWZY4GeJ6jrLqSjJHfc0ZGuMlYZOgqUz5MlaCZxcA7fDoalNLp+
+	 cIr7jdg6mJqucyTHBqxYIERkVJi51wSbjTGPm03M=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 11 May 2024 11:05:13 +0200
+Subject: [PATCH v2 2/2] mfd: cros_ec: Register keyboard backlight subdevice
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b594929-a827-4682-b4aa-98a2c85a536b@t-8ch.de>
+Message-Id: <20240511-cros_ec-kbd-led-framework-v2-2-b20c48109e46@weissschuh.net>
+References: <20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net>
+In-Reply-To: <20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net>
+To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715418315; l=1230;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
+ b=uoQ16y0zTQ25aqJJdsHepudgd6DT5U/u7Dv6tWhxJ4suhC5aZSvg4i9Zc64H1JawB8HmTOyng
+ h1XEAsNWP0fBYhi0HJ0kd/ABQxVp7L1uhWX2iuswSu7niVWsTqbSFCI
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Thu, May 09, 2024 at 10:13:37AM +0200, Thomas Weiﬂschuh wrote:
-> On 2024-05-09 12:25:01+0000, Tzung-Bi Shih wrote:
-> > On Mon, May 06, 2024 at 07:38:09PM +0200, Thomas Weiﬂschuh wrote:
-> > > On 2024-05-05 08:42:21+0000, Mario Limonciello wrote:
-> > > > On 5/5/2024 04:41, Thomas Weiﬂschuh wrote:
-> > > > > The ChromeOS EC used in Framework laptops supports the standard cros
-> > > > > keyboard backlight protocol.
-> > > > > However the firmware on these laptops don't implement the ACPI ID
-> > > > > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> > > > > don't use device tree.
-> > 
-> > If implementing ACPI ID GOOG0002 is not an option, how about adding a new ACPI
-> > ID?  For the new ACPI ID, it can use EC PWM for setting the brightness.
-> 
-> Adding a new ACPI ID would be easier than a full-blown ACPI interface.
-> This would still need changes to the drivers probing setup, however.
-> 
-> What are the advantages of the ACPI ID aproach over EC_FEATURE_PWM_KEYB?
-> The EC feature also automatically works on device-tree platforms and
-> without any work from system vendors.
+Load cros_kbd_led_backlight when the EC reports EC_FEATURE_PWM_KEYB.
+This makes cros_kbd_led_backlight work on machines without specific
+ACPI or OF support for the keyboard backlight.
 
-Perhaps no advantages but just following its original design.  The driver uses
-ACPI table for matching devices since it appears.  We shouldn't remove the
-ACPI matching anyway as some existing devices may rely on it.
+Signed-off-by: Thomas Wei√üschuh <linux@weissschuh.net>
+---
+ drivers/mfd/cros_ec_dev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-In addition, adding a new ACPI ID sounds more reasonable than using
-keyboard_led_is_mfd_device() to me.
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index a52d59cc2b1e..4444b361aeae 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
+ 	{ .name = "cros-ec-wdt", }
+ };
+ 
++static const struct mfd_cell cros_ec_keyboard_leds_cells[] = {
++	{ .name = "cros-keyboard-leds", },
++};
++
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_ec_wdt_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_PWM_KEYB,
++		.mfd_cells	= cros_ec_keyboard_leds_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
++	},
+ };
+ 
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 
-> Adding ACPI ID only for signalling without using ACPI for
-> communication on the other hand seems weird.
+-- 
+2.45.0
 
-I have a different view: using a new ACPI ID and another driver data fits
-current framework better.  I'm not sure if the reason is strong enough for
-applying a new ACPI ID though.
-
-We could wait to see if others in the mailing list may have more inputs.
-
-> > > > Something I'd wonder is if the GOOG0002 ACPI ID can go away entirely with
-> > > > this type of change.  Presumably the Chromebooks with ChromeOS EC /also/
-> > > > advertise EC_FEATURE_PWM_KEYB.
-> > > 
-> > > Sounds good to me in general. It would make the code cleaner.
-> > > 
-> > > But I have no idea how CrOS kernels are set up in general.
-> > > If they are not using CONFIG_MFD_CROS_EC_DEV for some reason that
-> > > wouldn't work.
-> > > 
-> > > If the CrOS folks agree with that aproach I'll be happy to implement it.
-> > 
-> > I would say NO as some existing devices (with legacy firmware and kernel) may
-> > rely on it.
-> 
-> Ack, makes sense.
-> 
-> You mention legacy kernels, but these would not be affected.
-
-We never know if a device would run legacy firmware with new kernel in some
-day.

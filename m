@@ -1,31 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B253384
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3B51078B
 	for <chrome-platform@lists.linux.dev>; Sat, 11 May 2024 09:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715418325; cv=none; b=LhhqFC+OMFKDEUr4ugi++tzd6am3Ffu7ptP+djTcEov1VczUj/nfv82XPrhA0aH9JDSAg7RJVSKB7Ii60lvHoGebIMsoNRQ+FRgrftgeNEAv9JeRY2IPexnIMb4avWHHzM4CHMwr2ezpfQq8CM0N9O9qFxZUW/DKryYkpGsoZeQ=
+	t=1715418326; cv=none; b=D03kjZ3nWltc8L8pmynQuRKxvXHmENQYRcFx4+OgKp/hseNlRjNL8uI12yuPxj4QuVLph1VwlldUtQ886W+ua+HpvIQtGuzRMAxybVz27OeTgK0EDD5pEk0o6F97moV9ZZlxJfmi68wEkVh6lOP5zGNo4qt7xWIvnoH+xz8RKQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715418325; c=relaxed/simple;
-	bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nqS/eTqMn+mvL3FjFG+440rpEjOUVWQZS9LM4rAJUa3vLmnE9tXj6PGaHqw5/xrv/AN8GTdVXWuf3m46eUjgt1Rf8IYYemsSJknpNJjuUJ6QtCO9lwkL/5T7sCm+C6iqWQIhKfNCq9ypdpeFxXd9XZi8QKv9TtHyU/+8DNdJPsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gagA8n1H; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1715418326; c=relaxed/simple;
+	bh=EUxaiApsNK6zh7PGenlNCHnyPfCDjkWN62rs+PnisIE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=j1HhgEiezfddZ/krQjjfuFAqUvY0UnTqjIsHi5TdURgk9zkMkrJvfUhJ7WCUUs9aPalQtUD/QLLjvPaRXuZGpnuJbgAye3Y4FMXvsUJG49meoWcRQp/glO1raYujj7H5nScJTW5P6PsCJPQbYlJlC7BFZMX8vr8HfU/6rEqNW44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hof7zviL; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gagA8n1H"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hof7zviL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1715418315;
-	bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gagA8n1HCIfZS1iLiQaqPAmBfFp+DOHZnS4wsjehj+XtlV3yUiD7H2596ju6c/fG8
-	 34TAaeWW+pA+1+bIWZY4GeJ6jrLqSjJHfc0ZGuMlYZOgqUz5MlaCZxcA7fDoalNLp+
-	 cIr7jdg6mJqucyTHBqxYIERkVJi51wSbjTGPm03M=
+	bh=EUxaiApsNK6zh7PGenlNCHnyPfCDjkWN62rs+PnisIE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=hof7zviL4nbxgdHC2oKynsxbyFFFtVFN1erSYAMWC0Cf5nr3mZD1s2Y9uhdLrlv5z
+	 gyko8+lLNXIj7XpKUZ9W+ZuLE2a95Dj1fkUvzp8i60Rtz1OLBg5eDL1aLDQnyHe6Sm
+	 N4+/3wR5wSpOiVcpKwgU1zWneQyQdxB0H4ucYEac=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 11 May 2024 11:05:13 +0200
-Subject: [PATCH v2 2/2] mfd: cros_ec: Register keyboard backlight subdevice
+Subject: [PATCH v2 0/2] cros_kbd_led_backlight: allow binding through
+ cros_ec mfd device
+Date: Sat, 11 May 2024 11:05:11 +0200
+Message-Id: <20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,9 +35,10 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240511-cros_ec-kbd-led-framework-v2-2-b20c48109e46@weissschuh.net>
-References: <20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net>
-In-Reply-To: <20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAMc0P2YC/42NQQ6CMBBFr0K6dkxbRNSV9zDEwHSwDUrNDIKGc
+ HcrJ3D5XvLfn5UQBxJ1ymbFNAYJsU9gN5lCX/c3guASK6vtThe6AOQoV0LoGgd3ctBy/aApcgc
+ lWTrkpsHyiCrtn0xteK/tS5XYBxkif9ar0fzsP9XRgIGmRaz3R21yZ88TBRFB//LbngZVLcvyB
+ RpcXNLHAAAA
 To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
  Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -44,51 +46,50 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Mario Limonciello <mario.limonciello@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715418315; l=1230;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715418314; l=1459;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vHYkrX0iW7pZgmP4pEnBHnWb8ZZSaQ9/psNCVVPTmWo=;
- b=uoQ16y0zTQ25aqJJdsHepudgd6DT5U/u7Dv6tWhxJ4suhC5aZSvg4i9Zc64H1JawB8HmTOyng
- h1XEAsNWP0fBYhi0HJ0kd/ABQxVp7L1uhWX2iuswSu7niVWsTqbSFCI
+ bh=EUxaiApsNK6zh7PGenlNCHnyPfCDjkWN62rs+PnisIE=;
+ b=aP8fvKaYXjODjTH2ODPYM54KB3RhOuXBAaFyF8Og/Nds6iRsZ0NqAgnu1ladY7R7WuDOKlPl5
+ sT+5Jvm9w1TB/WqOYCgdT60CisTfNS+7AwG75HNG8GXG4KgfF/wvMqU
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Load cros_kbd_led_backlight when the EC reports EC_FEATURE_PWM_KEYB.
-This makes cros_kbd_led_backlight work on machines without specific
-ACPI or OF support for the keyboard backlight.
+Extend the cros_ec MFD device to also load cros_kbd_led_backlight
+when the EC reports EC_FEATURE_PWM_KEYB.
+
+Tested on a Framework 13 AMD, Firmware 3.05.
+
+This is based on
+https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+
+The helper keyboard_led_is_mfd_device is a bit iffy, but I couldn't find
+a nicer way.
+
+* driver_data from platform_device_id is overwritten by the mfd platform data
+* Setting the driver_data in drivers/mfd/cros_ec_dev.c would expose the
+internals of cros_kbd_led_backlight
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/mfd/cros_ec_dev.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Changes in v2:
+- Fix build with CONFIG_MFD_CROS_EC_DEV=n (kernel test robot)
+- Split out mfd registration into own commit (Lee)
+- Simplify keyboard_led_is_mfd_device() with mfd_get_cell()
+- Link to v1: https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index a52d59cc2b1e..4444b361aeae 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
- 	{ .name = "cros-ec-wdt", }
- };
- 
-+static const struct mfd_cell cros_ec_keyboard_leds_cells[] = {
-+	{ .name = "cros-keyboard-leds", },
-+};
-+
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_wdt_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_PWM_KEYB,
-+		.mfd_cells	= cros_ec_keyboard_leds_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
+---
+Thomas Weißschuh (2):
+      platform/chrome: cros_kbd_led_backlight: allow binding through mfd device
+      mfd: cros_ec: Register keyboard backlight subdevice
 
+ drivers/mfd/cros_ec_dev.c                        |  9 ++++++
+ drivers/platform/chrome/cros_kbd_led_backlight.c | 36 +++++++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+---
+base-commit: 2fbe479c0024e1c6b992184a799055e19932aa48
+change-id: 20240505-cros_ec-kbd-led-framework-7e2e831bc79c
+
+Best regards,
 -- 
-2.45.0
+Thomas Weißschuh <linux@weissschuh.net>
 

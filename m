@@ -1,39 +1,39 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36453A29F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E2D3A28D
 	for <chrome-platform@lists.linux.dev>; Wed, 15 May 2024 05:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715752606; cv=none; b=RGl7zTKRmqDZ7TgpVnKchRBZ9im8WuhGMtWLpBFcOboX303fmZhkq5S2l8SvRv5nfB65DRp+p7H9I9QthkeyeCJOhdiw3q7WWtaZwsezc91+Pjd07xM/I0J01RTio9HSS71T1o5M3WS4COP4lIPJ4T/iidWFEmmMCt4h5xtL5s4=
+	t=1715752606; cv=none; b=WSHad19nrYCdJgo5esC1+KpS3eLE6WrAVtsRb/QyYhLOjnKAfDV4LjpA/nxiziOPfUQzovwx04gwsOHPiY/X7SunEgR2onEYaWT46mbc+RxQuWQ+LXI9m2rjug156b5EyQ6+7ZxMPlsNg9xIk89nalOTmxveYmCt1oFnlLxrN3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715752606; c=relaxed/simple;
-	bh=D7CpYDExM494dbCKSkQctXHhZUJA2TBjnIBvLsZaFFI=;
+	bh=cyeRO384dHW2MYT8JIo7DJOjR66vQqh8tFcczHx+8rQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WGHCg38xcY6jEhdM523vuHTUoZUb7/tSZ/RJmZwrjMR+m+T0FfPCkK0h+s3UiSen8y3nwcIpYoa+Cg1QTGInWpRp2A4eX2/gAc0SeBeESl/4m2FhdCg+ZeQK3+mVQGgk1iBlFyo5joBfrD75DA0wVmQGmQyD6gMAHJYTIpTuB4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=ZSYzLBED; arc=none smtp.client-ip=80.241.56.151
+	 MIME-Version; b=m8CwInHZVKLkAF8+3Gh9dpcUldtkLLl5zxZg90a7rGBAkBy1ZHvzFibpiJOSPCRGubqzSU4W/+wTanKhiIYmJdxlXNLGkmcvLTZjGZssUaPzOufXrxqg4nQndqxGAineMQTM/TeQUw4wS1jvQkefEaIvN/TN7t55C6F9hjqbgzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=Czn1Vf/k; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="ZSYzLBED"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="Czn1Vf/k"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4VfMtM2fZPz9t7y;
-	Wed, 15 May 2024 07:56:43 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4VfMtF1xkwz9sWh;
+	Wed, 15 May 2024 07:56:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1715752603;
+	t=1715752597;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kr18AnmiILeV8cuOnL1ySQXzyB4WeUh9qD8Jd+mlR40=;
-	b=ZSYzLBEDKKv4aI8fdfwgjyQdziES6arauQi18wrD4/No9n6nGNwyP4HxvQru+Zk4NYY7VN
-	kfAaM00KjWzBWabLyU4Hibyf/MwRLkQcKhsiHELgfkWOZvDyVZADpV8XP0Ps834AnWmuD/
-	iGbFbzbRWfKqFVHOAznwpkA54Q0RcJf2MLzxHr0pmwoGl51vNL/PGiWBRbel9gLRrVtTr0
-	CMAgFDBbkJJL0tpMQNrojjNi+wdOeOVcR1aiKpZu2dgCLgh464P36s8NvvcybFVDzxivmT
-	WhytwyxLXHllXiDm0Oq6UNHg8FBTnc34Twir1viHbfNx477RXUlEt9UAEv+YBA==
+	bh=EE0nwydxMkHzvZi0deV/PjTpG5/LcNV3P0PFZ0iKdMg=;
+	b=Czn1Vf/kNQofw9oV9gSoczcOlhh31UtC2XQV0HW7lHrke4hzdMvWQVnofFRAxaoYTI2O3t
+	p5xHadh5IwuwEBIqCZ1tzhrIZj++COSBqaxAsV5X1XzxTQ3p4SfMkFYGx4uKQ1sbjP2mmj
+	HIbLlHen3hDE/gd9YyECiURATcRjtsu9jyM0ljbw74VYDgVzducvX7nAG6F57Uyfjh4wRD
+	2PahysHJJdBMK+HJHI6uK0V8sK71eUJk5z3yW7+g4xxMwE4+SEvx8MOIQrrQ1fbmmFzVS5
+	umyNhXVEXJJ06tyi+mK8zCxyJ+4ONb+gPxTSwVEfcH60BORMTsj9dSs/ryPCkA==
 From: Ben Walsh <ben@jubnut.com>
 To: Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
@@ -45,9 +45,9 @@ To: Benson Leung <bleung@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Ben Walsh <ben@jubnut.com>
-Subject: [PATCH 4/6] platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
-Date: Wed, 15 May 2024 06:56:29 +0100
-Message-ID: <20240515055631.5775-5-ben@jubnut.com>
+Subject: [PATCH 1/6] platform/chrome: cros_ec_lpc: MEC access can return error code
+Date: Wed, 15 May 2024 06:56:26 +0100
+Message-ID: <20240515055631.5775-2-ben@jubnut.com>
 In-Reply-To: <20240515055631.5775-1-ben@jubnut.com>
 References: <20240515055631.5775-1-ben@jubnut.com>
 Precedence: bulk
@@ -57,81 +57,407 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4VfMtF1xkwz9sWh
 
-Add a new quirk "CROS_EC_LPC_QUIRK_AML_MUTEX" which provides the name
-of an AML mutex to protect MEC memory access.
+cros_ec_lpc_io_bytes_mec was returning a u8 checksum of all bytes
+read/written, which didn't leave room to indicate errors. Change this
+u8 to an int where negative values indicate an error, and non-negative
+values are the checksum as before.
 
 Signed-off-by: Ben Walsh <ben@jubnut.com>
 ---
- drivers/platform/chrome/cros_ec_lpc.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ drivers/platform/chrome/cros_ec_lpc.c      | 148 ++++++++++++++-------
+ drivers/platform/chrome/cros_ec_lpc_mec.c  |   9 +-
+ drivers/platform/chrome/cros_ec_lpc_mec.h  |   7 +-
+ drivers/platform/chrome/wilco_ec/mailbox.c |  22 +--
+ 4 files changed, 124 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index b27519fbdf58..ab7779b57a13 100644
+index ddfbfec44f4c..e638c7d82e22 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -39,6 +39,11 @@ static bool cros_ec_lpc_acpi_device_found;
-  * be used as the base port for EC mapped memory.
-  */
- #define CROS_EC_LPC_QUIRK_REMAP_MEMORY              BIT(0)
-+/*
-+ * Indicates that an AML mutex should be used to protect access to
-+ * Microchip EC.
-+ */
-+#define CROS_EC_LPC_QUIRK_AML_MUTEX                 BIT(1)
+@@ -62,14 +62,16 @@ struct cros_ec_lpc {
  
  /**
-  * struct lpc_driver_data - driver data attached to a DMI device ID to indicate
-@@ -46,10 +51,13 @@ static bool cros_ec_lpc_acpi_device_found;
-  * @quirks: a bitfield composed of quirks from CROS_EC_LPC_QUIRK_*
-  * @quirk_mmio_memory_base: The first I/O port addressing EC mapped memory (used
-  *                          when quirk ...REMAP_MEMORY is set.)
-+ * @quirk_aml_mutex_name: The name of an AML mutex to be used to protect access
-+ *                        to Microchip EC.
+  * struct lpc_driver_ops - LPC driver operations
+- * @read: Copy length bytes from EC address offset into buffer dest. Returns
+- *        the 8-bit checksum of all bytes read.
+- * @write: Copy length bytes from buffer msg into EC address offset. Returns
+- *         the 8-bit checksum of all bytes written.
++ * @read: Copy length bytes from EC address offset into buffer dest.
++ *        Returns a negative error code on error, or the 8-bit checksum
++ *        of all bytes read.
++ * @write: Copy length bytes from buffer msg into EC address offset.
++ *         Returns a negative error code on error, or the 8-bit checksum
++ *         of all bytes written.
   */
- struct lpc_driver_data {
- 	u32 quirks;
- 	u16 quirk_mmio_memory_base;
-+	const char *quirk_aml_mutex_name;
+ struct lpc_driver_ops {
+-	u8 (*read)(unsigned int offset, unsigned int length, u8 *dest);
+-	u8 (*write)(unsigned int offset, unsigned int length, const u8 *msg);
++	int (*read)(unsigned int offset, unsigned int length, u8 *dest);
++	int (*write)(unsigned int offset, unsigned int length, const u8 *msg);
  };
  
- /**
-@@ -447,6 +455,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ static struct lpc_driver_ops cros_ec_lpc_ops = { };
+@@ -78,10 +80,10 @@ static struct lpc_driver_ops cros_ec_lpc_ops = { };
+  * A generic instance of the read function of struct lpc_driver_ops, used for
+  * the LPC EC.
+  */
+-static u8 cros_ec_lpc_read_bytes(unsigned int offset, unsigned int length,
+-				 u8 *dest)
++static int cros_ec_lpc_read_bytes(unsigned int offset, unsigned int length,
++				  u8 *dest)
+ {
+-	int sum = 0;
++	u8 sum = 0;
+ 	int i;
  
- 	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
+ 	for (i = 0; i < length; ++i) {
+@@ -97,10 +99,10 @@ static u8 cros_ec_lpc_read_bytes(unsigned int offset, unsigned int length,
+  * A generic instance of the write function of struct lpc_driver_ops, used for
+  * the LPC EC.
+  */
+-static u8 cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
+-				  const u8 *msg)
++static int cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
++				   const u8 *msg)
+ {
+-	int sum = 0;
++	u8 sum = 0;
+ 	int i;
  
-+	adev = ACPI_COMPANION(dev);
-+
- 	if (cros_ec_lpc_driver_data) {
- 		quirks = cros_ec_lpc_driver_data->quirks;
+ 	for (i = 0; i < length; ++i) {
+@@ -116,14 +118,19 @@ static u8 cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
+  * An instance of the read function of struct lpc_driver_ops, used for the
+  * MEC variant of LPC EC.
+  */
+-static u8 cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+-				     u8 *dest)
++static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
++				      u8 *dest)
+ {
+-	int in_range = cros_ec_lpc_mec_in_range(offset, length);
++	int in_range;
  
-@@ -456,6 +466,18 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 		if (quirks & CROS_EC_LPC_QUIRK_REMAP_MEMORY)
- 			ec_lpc->mmio_memory_base
- 				= cros_ec_lpc_driver_data->quirk_mmio_memory_base;
+-	if (in_range < 0)
++	if (length == 0)
+ 		return 0;
+ 
++	in_range = cros_ec_lpc_mec_in_range(offset, length);
 +
-+		if (quirks & CROS_EC_LPC_QUIRK_AML_MUTEX) {
-+			const char *name
-+				= cros_ec_lpc_driver_data->quirk_aml_mutex_name;
-+			ret = cros_ec_lpc_mec_acpi_mutex(adev, name);
-+			if (ret) {
-+				dev_err(dev, "failed to get AML mutex '%s'", name);
-+				return ret;
-+			}
++	if (in_range < 0)
++		return in_range;
 +
-+			dev_info(dev, "got AML mutex '%s'", name);
-+		}
+ 	return in_range ?
+ 		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
+ 					 offset - EC_HOST_CMD_REGION0,
+@@ -135,14 +142,19 @@ static u8 cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+  * An instance of the write function of struct lpc_driver_ops, used for the
+  * MEC variant of LPC EC.
+  */
+-static u8 cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
+-				      const u8 *msg)
++static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
++				       const u8 *msg)
+ {
+-	int in_range = cros_ec_lpc_mec_in_range(offset, length);
++	int in_range;
+ 
+-	if (in_range < 0)
++	if (length == 0)
+ 		return 0;
+ 
++	in_range = cros_ec_lpc_mec_in_range(offset, length);
++
++	if (in_range < 0)
++		return in_range;
++
+ 	return in_range ?
+ 		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
+ 					 offset - EC_HOST_CMD_REGION0,
+@@ -154,11 +166,14 @@ static int ec_response_timed_out(void)
+ {
+ 	unsigned long one_second = jiffies + HZ;
+ 	u8 data;
++	int ret;
+ 
+ 	usleep_range(200, 300);
+ 	do {
+-		if (!(cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_CMD, 1, &data) &
+-		    EC_LPC_STATUS_BUSY_MASK))
++		ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_CMD, 1, &data);
++		if (ret < 0)
++			return ret;
++		if (!(data & EC_LPC_STATUS_BUSY_MASK))
+ 			return 0;
+ 		usleep_range(100, 200);
+ 	} while (time_before(jiffies, one_second));
+@@ -179,28 +194,41 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
+ 		goto done;
+ 
+ 	/* Write buffer */
+-	cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PACKET, ret, ec->dout);
++	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PACKET, ret, ec->dout);
++	if (ret < 0)
++		goto done;
+ 
+ 	/* Here we go */
+ 	sum = EC_COMMAND_PROTOCOL_3;
+-	cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
++	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
++	if (ret < 0)
++		goto done;
+ 
+-	if (ec_response_timed_out()) {
++	ret = ec_response_timed_out();
++	if (ret < 0)
++		goto done;
++	if (ret) {
+ 		dev_warn(ec->dev, "EC response timed out\n");
+ 		ret = -EIO;
+ 		goto done;
  	}
  
- 	/*
-@@ -549,7 +571,6 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 	 * Connect a notify handler to process MKBP messages if we have a
- 	 * companion ACPI device.
+ 	/* Check result */
+-	msg->result = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
++	if (ret < 0)
++		goto done;
++	msg->result = sum;
+ 	ret = cros_ec_check_result(ec, msg);
+ 	if (ret)
+ 		goto done;
+ 
+ 	/* Read back response */
+ 	dout = (u8 *)&response;
+-	sum = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET, sizeof(response),
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET, sizeof(response),
+ 				   dout);
++	if (ret < 0)
++		goto done;
++	sum = ret;
+ 
+ 	msg->result = response.result;
+ 
+@@ -213,9 +241,12 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
+ 	}
+ 
+ 	/* Read response and process checksum */
+-	sum += cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET +
+-				    sizeof(response), response.data_len,
+-				    msg->data);
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET +
++				   sizeof(response), response.data_len,
++				   msg->data);
++	if (ret < 0)
++		goto done;
++	sum += ret;
+ 
+ 	if (sum) {
+ 		dev_err(ec->dev,
+@@ -255,32 +286,47 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
+ 	sum = msg->command + args.flags + args.command_version + args.data_size;
+ 
+ 	/* Copy data and update checksum */
+-	sum += cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PARAM, msg->outsize,
+-				     msg->data);
++	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PARAM, msg->outsize,
++				    msg->data);
++	if (ret < 0)
++		goto done;
++	sum += ret;
+ 
+ 	/* Finalize checksum and write args */
+ 	args.checksum = sum;
+-	cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_ARGS, sizeof(args),
+-			      (u8 *)&args);
++	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_ARGS, sizeof(args),
++				    (u8 *)&args);
++	if (ret < 0)
++		goto done;
+ 
+ 	/* Here we go */
+ 	sum = msg->command;
+-	cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
++	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
++	if (ret < 0)
++		goto done;
+ 
+-	if (ec_response_timed_out()) {
++	ret = ec_response_timed_out();
++	if (ret < 0)
++		goto done;
++	if (ret) {
+ 		dev_warn(ec->dev, "EC response timed out\n");
+ 		ret = -EIO;
+ 		goto done;
+ 	}
+ 
+ 	/* Check result */
+-	msg->result = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
++	if (ret < 0)
++		goto done;
++	msg->result = sum;
+ 	ret = cros_ec_check_result(ec, msg);
+ 	if (ret)
+ 		goto done;
+ 
+ 	/* Read back args */
+-	cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_ARGS, sizeof(args), (u8 *)&args);
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_ARGS, sizeof(args), (u8 *)&args);
++	if (ret < 0)
++		goto done;
+ 
+ 	if (args.data_size > msg->insize) {
+ 		dev_err(ec->dev,
+@@ -294,8 +340,11 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
+ 	sum = msg->command + args.flags + args.command_version + args.data_size;
+ 
+ 	/* Read response and update checksum */
+-	sum += cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PARAM, args.data_size,
+-				    msg->data);
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PARAM, args.data_size,
++				   msg->data);
++	if (ret < 0)
++		goto done;
++	sum += ret;
+ 
+ 	/* Verify checksum */
+ 	if (args.checksum != sum) {
+@@ -320,19 +369,24 @@ static int cros_ec_lpc_readmem(struct cros_ec_device *ec, unsigned int offset,
+ 	int i = offset;
+ 	char *s = dest;
+ 	int cnt = 0;
++	int ret;
+ 
+ 	if (offset >= EC_MEMMAP_SIZE - bytes)
+ 		return -EINVAL;
+ 
+ 	/* fixed length */
+ 	if (bytes) {
+-		cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + offset, bytes, s);
++		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + offset, bytes, s);
++		if (ret < 0)
++			return ret;
+ 		return bytes;
+ 	}
+ 
+ 	/* string */
+ 	for (; i < EC_MEMMAP_SIZE; i++, s++) {
+-		cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + i, 1, s);
++		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + i, 1, s);
++		if (ret < 0)
++			return ret;
+ 		cnt++;
+ 		if (!*s)
+ 			break;
+@@ -425,8 +479,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
  	 */
--	adev = ACPI_COMPANION(dev);
- 	if (adev) {
- 		status = acpi_install_notify_handler(adev->handle,
- 						     ACPI_ALL_NOTIFY,
+ 	cros_ec_lpc_ops.read = cros_ec_lpc_mec_read_bytes;
+ 	cros_ec_lpc_ops.write = cros_ec_lpc_mec_write_bytes;
+-	cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+-	if (buf[0] != 'E' || buf[1] != 'C') {
++	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
++	if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
+ 		if (!devm_request_region(dev, ec_lpc->mmio_memory_base, EC_MEMMAP_SIZE,
+ 					 dev_name(dev))) {
+ 			dev_err(dev, "couldn't reserve memmap region\n");
+@@ -436,9 +490,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 		/* Re-assign read/write operations for the non MEC variant */
+ 		cros_ec_lpc_ops.read = cros_ec_lpc_read_bytes;
+ 		cros_ec_lpc_ops.write = cros_ec_lpc_write_bytes;
+-		cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
+-				     buf);
+-		if (buf[0] != 'E' || buf[1] != 'C') {
++		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
++					   buf);
++		if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
+ 			dev_err(dev, "EC ID not detected\n");
+ 			return -ENODEV;
+ 		}
+diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.c b/drivers/platform/chrome/cros_ec_lpc_mec.c
+index 0d9c79b270ce..395dc3a6fb5e 100644
+--- a/drivers/platform/chrome/cros_ec_lpc_mec.c
++++ b/drivers/platform/chrome/cros_ec_lpc_mec.c
+@@ -67,11 +67,12 @@ int cros_ec_lpc_mec_in_range(unsigned int offset, unsigned int length)
+  * @length:  Number of bytes to read / write
+  * @buf:     Destination / source buffer
+  *
+- * Return: 8-bit checksum of all bytes read / written
++ * @return:  A negative error code on error, or 8-bit checksum of all
++ *           bytes read / written
+  */
+-u8 cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
+-			    unsigned int offset, unsigned int length,
+-			    u8 *buf)
++int cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
++			     unsigned int offset, unsigned int length,
++			     u8 *buf)
+ {
+ 	int i = 0;
+ 	int io_addr;
+diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.h b/drivers/platform/chrome/cros_ec_lpc_mec.h
+index 9d0521b23e8a..69670832f187 100644
+--- a/drivers/platform/chrome/cros_ec_lpc_mec.h
++++ b/drivers/platform/chrome/cros_ec_lpc_mec.h
+@@ -64,9 +64,10 @@ int cros_ec_lpc_mec_in_range(unsigned int offset, unsigned int length);
+  * @length:  Number of bytes to read / write
+  * @buf:     Destination / source buffer
+  *
+- * @return 8-bit checksum of all bytes read / written
++ * @return:  A negative error code on error, or 8-bit checksum of all
++ *           bytes read / written
+  */
+-u8 cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
+-			    unsigned int offset, unsigned int length, u8 *buf);
++int cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
++			     unsigned int offset, unsigned int length, u8 *buf);
+ 
+ #endif /* __CROS_EC_LPC_MEC_H */
+diff --git a/drivers/platform/chrome/wilco_ec/mailbox.c b/drivers/platform/chrome/wilco_ec/mailbox.c
+index 0f98358ea824..4d8273b47cde 100644
+--- a/drivers/platform/chrome/wilco_ec/mailbox.c
++++ b/drivers/platform/chrome/wilco_ec/mailbox.c
+@@ -117,13 +117,17 @@ static int wilco_ec_transfer(struct wilco_ec_device *ec,
+ 			     struct wilco_ec_request *rq)
+ {
+ 	struct wilco_ec_response *rs;
+-	u8 checksum;
++	int ret;
+ 	u8 flag;
+ 
+ 	/* Write request header, then data */
+-	cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE, 0, sizeof(*rq), (u8 *)rq);
+-	cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE, sizeof(*rq), msg->request_size,
+-				 msg->request_data);
++	ret = cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE, 0, sizeof(*rq), (u8 *)rq);
++	if (ret < 0)
++		return ret;
++	ret = cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE, sizeof(*rq), msg->request_size,
++				       msg->request_data);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* Start the command */
+ 	outb(EC_MAILBOX_START_COMMAND, ec->io_command->start);
+@@ -149,10 +153,12 @@ static int wilco_ec_transfer(struct wilco_ec_device *ec,
+ 
+ 	/* Read back response */
+ 	rs = ec->data_buffer;
+-	checksum = cros_ec_lpc_io_bytes_mec(MEC_IO_READ, 0,
+-					    sizeof(*rs) + EC_MAILBOX_DATA_SIZE,
+-					    (u8 *)rs);
+-	if (checksum) {
++	ret = cros_ec_lpc_io_bytes_mec(MEC_IO_READ, 0,
++				       sizeof(*rs) + EC_MAILBOX_DATA_SIZE,
++				       (u8 *)rs);
++	if (ret < 0)
++		return ret;
++	if (ret) {
+ 		dev_dbg(ec->dev, "bad packet checksum 0x%02x\n", rs->checksum);
+ 		return -EBADMSG;
+ 	}
 -- 
 2.45.0
 

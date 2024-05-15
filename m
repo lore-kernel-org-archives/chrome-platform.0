@@ -1,78 +1,100 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39335180A9C
-	for <chrome-platform@lists.linux.dev>; Tue, 14 May 2024 19:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845B0381BE
+	for <chrome-platform@lists.linux.dev>; Wed, 15 May 2024 05:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715716072; cv=none; b=UkDTDn5LeN+dLoDF7fRkRkqAdDrHvXk26FjHQ6K4OyYIHimrM3BOgTmrydlme7TuaWFcBpUjl4TiULXqScAKpapvDQDgEaFQGZxS2enEOGO/WinAI8/nsqn0nNVX71fyM9NzQ/WuCfjZQ4FUQd/r+479ETI4gimAV3dLAvn+vC4=
+	t=1715752605; cv=none; b=dg5BbIIYOGXCcxqyenHLPd3kaYU2MH3R8aYtuGYLF2mvQstoHlnYfS8dYgiIBoChig4sQux6M2n0JASNwDagz3UJQ7KB+W036fNsDSWHjAKgY1sAV1kbMXS6TDSn8k70wJAlAQOXLKmwxF0QL8EQ4ehiNlON8xAL8iVksZEu0ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715716072; c=relaxed/simple;
-	bh=ABSmZ9mZdFQZsZl4LBMMqD/jP2GT0qD87XXVm6EOlJw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eZvyKur9SqmMYkSUKN0qEebsJ5Ug3i842/jVIxvcVcKb1FqgSUl1CuJPjOR+bEAYVmgf35HqUnROsPFET3LRLyEx2pphHgqiOSletgqm1K0GrTX9CF9EcS4uIO6XRVjRI7K9HLcj8lJFVO5k1GKXno93sA2r/8sWlKRHvh1vpqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fAFyDMMl; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1715752605; c=relaxed/simple;
+	bh=9Hl91SIEd+s34idGW5CgOFE3Rr6Y6mx8V9dIfdZbL6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GDoshn4zmMg0jv9ZLK8h7JmQsd4xFQ3zov4Cj1ckEI8azpmg4wsj5MEgq7zE9dl8myyaeBlDpnd5b2RRoIUri623mZCFnIy517JR1XyqeyAPocxXoMKYABIaD5T+0r94a4+nOytSwq54pVDHlSpquwKMkSO77vyShrRjZ19crg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=IlnHUtuN; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fAFyDMMl"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4df344eecd7so2059143e0c.3
-        for <chrome-platform@lists.linux.dev>; Tue, 14 May 2024 12:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715716070; x=1716320870; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ABSmZ9mZdFQZsZl4LBMMqD/jP2GT0qD87XXVm6EOlJw=;
-        b=fAFyDMMlGNbDOfGBTBPE086nOPmZArz1vL2dLWl8Z7GyI6Kn5ZMYGDA6XXgTpuwid6
-         hr3T7y6xIrrZuJPVB5R5V83v42zIF4mqNjYV3SttPOWelpDl/MYL+HsUC0y+x1vKG1OA
-         suQMnd/Oh6BoGbeQ1s4uKTNxfishfV3hQycCA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715716070; x=1716320870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ABSmZ9mZdFQZsZl4LBMMqD/jP2GT0qD87XXVm6EOlJw=;
-        b=HCcDmQ4cLgiFWxMS00S4rmleHPwHgDti0SsQz/Q/BlAAq6Yj8oGzL8ik8xgHTL+wpD
-         yfpGpwER93ukvxKd33pIFbFjbhIpdOjlb0E3mkBWuRbyC2jsOD9eTu7ePP3tDpG7exP8
-         FjaFPct4MJEQjJWWGhYPdHIhJOfdehRSBSxrZNqQ2FvgCSEUHra8rtWM1dzUeGvTMDnV
-         U6KqUaeCAMOrCd9XwCV0wGqiy/rq7QxgfMaJUV2AxDyl1IolWcugKWY1XvKMIuPdJnO0
-         SRhqITyogslizdftDpBrhWmCrqBNnRtD6GR1EJo9JTVn/BgUUSyi4B6DufHVHyGojA4g
-         TlaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUe0S2VIGMADwt7dy/w9bHZZQs2C4k9e3zkqT2Yh6M3U+KkrVkemO7z6cP9oKhuICY1Fw/axsUiHDImSzBrqPbC7em7X1Ve84c8dw6OCcNq
-X-Gm-Message-State: AOJu0YyeSxPUZmPenTlac+jCxRelFaw9D+h10/0mFvk5fnG7GTzLg4zV
-	FhOxuezD4wIFG1y2exYGRFPk+egRjdTQ0EX0NTQ1hgC9xQQtTW440FgLb+oHfDolBalmQgt1+iX
-	trf8oFzBKi+Qh6sVn6+n4tXO/EGPAdKdv1I8e
-X-Google-Smtp-Source: AGHT+IEz89AoI9W1XgpwukhSe7GsfilF8YUEZPTXv0ZQqrCgJjwhHVh7WaxulJ5DCjCeBMB5Ybr2gqP+z6eJw5HdV8E=
-X-Received: by 2002:a05:6122:d95:b0:4dc:d7aa:ccf9 with SMTP id
- 71dfb90a1353d-4df8834b383mr10770897e0c.12.1715716070068; Tue, 14 May 2024
- 12:47:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="IlnHUtuN"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4VfMtC24D6z9sxM;
+	Wed, 15 May 2024 07:56:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
+	t=1715752595;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SAAnJB39oETaobvjyNLVzZbiebH8e/Lpq7MQVzYIcpA=;
+	b=IlnHUtuNMpAwt104OSGNFknvLXGajo744vCksNh5dSdEyJJ5Q7qTFMyN7iWK+foRs2g3xX
+	wIWh4ikjMl8trMNoestn6Z3w8x4GPEDdsTVAhgtSTab2h1R5tsbgjmOgqXQB7yqOqRkja4
+	XwiHUFArDF3wHJQbm2UJIWOE2Pj7SgQdy89UnMyj9BPPUSfZ3FRtArVj/yQ/JBakmyMzYy
+	y/DOn/BEsWPCRr7zVREsV0bx0FTKD5TFwPFYf6P60NR00iRHZl4kRPXTm/meG5abQlSDov
+	ik4PeuTXu/9Ck+idGyMU7GSrDiYhlePZsS3m0/Tvn7BeQH1LT5CLBTQLwJ/q+Q==
+From: Ben Walsh <ben@jubnut.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Kieran Levin <ktl@frame.work>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Ben Walsh <ben@jubnut.com>
+Subject: [PATCH 0/6] Fix MEC concurrency problems for Framework Laptop
+Date: Wed, 15 May 2024 06:56:25 +0100
+Message-ID: <20240515055631.5775-1-ben@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240430020924.610724-1-tzungbi@kernel.org>
-In-Reply-To: <20240430020924.610724-1-tzungbi@kernel.org>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 14 May 2024 12:47:38 -0700
-Message-ID: <CACeCKacFmhOCzFockyWdp1KaUaQJB3PnU=bbQbUe7yN8Xiib3Q@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec: let cros_ec_suspend() call cros_ec_suspend_*
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 29, 2024 at 7:09=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> After commit 2fbe479c0024 ("platform/chrome: cros_ec: Handle events
-> during suspend after resume completion"), cros_ec_resume() starts to
-> call cros_ec_resume_early() and cros_ec_resume_complete().
->
-> To be neat, let cros_ec_suspend() call cros_ec_suspend_prepare() and
-> cros_ec_suspend_late().
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Reviewed-by: Prashant Malani <pmalani@chromium.org>
+Framework Laptops with the Microchip EC have a problem where the EC
+"stops working" after a while. Symptoms include the Fn key not
+working, and "bad packet checksum" errors appearing in the system log.
+
+The problem is caused by ACPI code which accesses the Microchip EC
+(MEC) memory using the Microchip EMI protocol. It uses an AML mutex to
+prevent concurrent access. But the cros_ec_lpc driver is not aware of
+this mutex. The ACPI code and LPC driver both attempt to talk to the
+EC at the same time, messing up communication with the EC.
+
+The solution is to have the cros_ec_lpc_mec code find and use the AML
+mutex. But to make it all work we have to do a few more things:
+
+  * Allow the cros_ec_lpc_mec code to return error codes in case it
+    can't lock the mutex.
+
+  * Have the cros_ec_lpc code find the correct ACPI device (PNP0C09)
+    and then the AML mutex itself.
+
+  * Use the quirks mechanism to specify the AML mutex name.
+
+The code has been tested on an 11th-generation Intel Framework Laptop
+(with Microchip EC) and an AMD Framework Laptop (without Microchip
+EC). It has _not_ been tested on any Chromebook devices.
+
+Ben Walsh (6):
+  platform/chrome: cros_ec_lpc: MEC access can return error code
+  platform/chrome: cros_ec_lpc: MEC access can use an AML mutex
+  platform/chrome: cros_ec_lpc: Pass driver_data in static variable
+  platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
+  platform/chrome: cros_ec_lpc: Correct ACPI name for Framework Laptop
+  platform/chrome: cros_ec_lpc: Add AML mutex for Framework Laptop
+
+ drivers/platform/chrome/cros_ec_lpc.c      | 232 ++++++++++++++-------
+ drivers/platform/chrome/cros_ec_lpc_mec.c  |  89 +++++++-
+ drivers/platform/chrome/cros_ec_lpc_mec.h  |  18 +-
+ drivers/platform/chrome/wilco_ec/mailbox.c |  22 +-
+ 4 files changed, 272 insertions(+), 89 deletions(-)
+
+
+base-commit: 2fbe479c0024e1c6b992184a799055e19932aa48
+-- 
+2.45.0
+

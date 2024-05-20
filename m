@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3284948CDD
-	for <chrome-platform@lists.linux.dev>; Mon, 20 May 2024 10:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0087851C49
+	for <chrome-platform@lists.linux.dev>; Mon, 20 May 2024 10:01:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716199278; cv=none; b=G0YkmDA0sFg7hFqjR14w/McnISUxVqYJPG6K+JDb33CXVTPWpWrv1jymvmKUnlP+W26cn4YXzXH0UxUKGc+laTPrQFOtLyDdm5+x+jaro1z73pigfQLjx+/66y/osFKHwtYZ3Ih3V3OJo4xGa7YquRPZV6JG26xld1LXG3/D0Tc=
+	t=1716199280; cv=none; b=oTBunlo81fHNda1+PUql+HNZRwiVOWY/gfT+PKXBKwWkdUxDd1lHhMj77CBZPnY+fhXlwN8oXYZrMTzIhMUi6Xhnm+EvyytU2xwGF5v4c8t9Z//N9EiWgTg03aPzBuD2XAPIIYP8qi9/Kgx2Kai0202YKZl7xSthpGlKFvHSgeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716199278; c=relaxed/simple;
-	bh=Rf0pRVyMBzjhJ6DOcgU1r/DeZA59QefuS6EJvAEoqp0=;
+	s=arc-20240116; t=1716199280; c=relaxed/simple;
+	bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XSe9Q5Yj5Dg/JLhcIlDoGkhIMqsVpEkmdU3lIXq1hVntEXaSM/r1pMdTI1NYGz3y2pWiNTSEdX44531/0uYcaViazmNcKQ94/qNOYtgGC9JN6wJ0owj+cxjYhOOIUwKKwptYSvkx0ksNQK27/wzZY5xlMxtKObu/MIgDIVX3ih8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=YSIi45ZR; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=q+JwnAeh2vMxdtue3JYLfP8OMW8LEAoDbWKsfbymwFnSNh94GE4TSflANky4R+57W67uNtvTrY9fZtaAdwr+WckznULCGFG7FBkftLCOKoBp1gY16XLC0jHsOGhmIsuJ4o7oJvzgpcoVEEbpJLESTm85cfK3TaQKwt7zcX0SqbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=oWp3MdS/; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="YSIi45ZR"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="oWp3MdS/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1716199266;
-	bh=Rf0pRVyMBzjhJ6DOcgU1r/DeZA59QefuS6EJvAEoqp0=;
+	bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YSIi45ZRwpIZD0B/wcPrKTSpy6S4qpGKAm6pyvN4VrvgZGCx8tCAOk/Yw7PB2fknP
-	 mCGTbgmCsyu9Jd6DAs87K5vQDRisNaIGcK1btfPATOwXYirgceVb++ZririOjPONoH
-	 N0YV4ze1BF0okdBKYT/JtwN1kCynmB8ZFuBqeGpE=
+	b=oWp3MdS/k7rIUXvvtZfLF2ynqzdxT6JSPr9znGuUdWuwxcCbe31+kB27sc838tEI8
+	 iRwmjVk86hSPVN6edyhFK1IiL5ChjAX9b9LzST0DZzNCHz1ySFiBofSOrNyHtph6AA
+	 5f3t6gN4TaK/NhEMwD4NzWr0H1pcDJNERZG9uLZY=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 20 May 2024 12:00:29 +0200
-Subject: [PATCH 1/5] leds: introduce led_color_name function
+Date: Mon, 20 May 2024 12:00:33 +0200
+Subject: [PATCH 5/5] mfd: cros_ec: Register LED subdevice
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240520-cros_ec-led-v1-1-4068fc5c051a@weissschuh.net>
+Message-Id: <20240520-cros_ec-led-v1-5-4068fc5c051a@weissschuh.net>
 References: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
 In-Reply-To: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -45,66 +45,48 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  Mario Limonciello <mario.limonciello@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716199265; l=1785;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716199265; l=1052;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=Rf0pRVyMBzjhJ6DOcgU1r/DeZA59QefuS6EJvAEoqp0=;
- b=y+XCEet8JP8ljO5zdUixzxW3CRR+uCsN4T+I5VQfLBmS3UCUE+iS14kKo8vvreQ19ZhrWaKul
- 3chr3drQwKWDU+r8TSFhd7oGAxR2skbY0ubJIZtm9LRUXAwrIU6Ql0K
+ bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
+ b=sSk5vFbiWCIsAMYqmI4K1JX8juFRw1qlEtHqUGfNVZYWD57IPFCEYQqO7SZb0AvW6dntOCtiZ
+ eN5WvdSlLeJDJ+vdrL9uCIu92ioNXLEvMiNX+ed+e/0h+ClmDuHp091
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-This is similar to the existing led_colors array but is safer to use and
-usable by everyone.
-Getting string representations of color ids is useful for drivers
-which are handling color ids anyways, for example for the multicolor API.
+Add ChromeOS EC-based LED control as EC subdevice.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/leds/led-core.c |  9 +++++++++
- include/linux/leds.h    | 10 ++++++++++
- 2 files changed, 19 insertions(+)
+ drivers/mfd/cros_ec_dev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index 89c9806cc97f..04a49958458e 100644
---- a/drivers/leds/led-core.c
-+++ b/drivers/leds/led-core.c
-@@ -534,6 +534,15 @@ int led_compose_name(struct device *dev, struct led_init_data *init_data,
- }
- EXPORT_SYMBOL_GPL(led_compose_name);
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index a52d59cc2b1e..d8cf1c5ce5a1 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
+ 	{ .name = "cros-ec-wdt", }
+ };
  
-+const char *led_color_name(u8 color_id)
-+{
-+	if (color_id >= ARRAY_SIZE(led_colors))
-+		return NULL;
++static const struct mfd_cell cros_ec_led_cells[] = {
++	{ .name = "cros-ec-led", }
++};
 +
-+	return led_colors[color_id];
-+}
-+EXPORT_SYMBOL_GPL(led_color_name);
-+
- enum led_default_state led_init_default_state_get(struct fwnode_handle *fwnode)
- {
- 	const char *state = NULL;
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index db6b114bb3d9..0f1b955fa3f7 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -427,6 +427,16 @@ void led_sysfs_enable(struct led_classdev *led_cdev);
- int led_compose_name(struct device *dev, struct led_init_data *init_data,
- 		     char *led_classdev_name);
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_ec_wdt_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_LED,
++		.mfd_cells	= cros_ec_led_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
++	},
+ };
  
-+/**
-+ * led_color_name - get string representation of color id
-+ * @color_id: The LED_COLOR_ID_* constant
-+ *
-+ * Get the string name of a LED_COLOR_ID_* constant.
-+ *
-+ * Returns: A string constant or NULL on an invalid ID.
-+ */
-+const char *led_color_name(u8 color_id);
-+
- /**
-  * led_sysfs_is_disabled - check if LED sysfs interface is disabled
-  * @led_cdev: the LED to query
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 
 -- 
 2.45.1

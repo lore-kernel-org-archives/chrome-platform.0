@@ -1,90 +1,131 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922134A31
-	for <chrome-platform@lists.linux.dev>; Sun, 19 May 2024 07:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ED724B5B;
+	Mon, 20 May 2024 09:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716105052; cv=none; b=Dq/d9x9j3532UwF/8pBoyB++xWMFAeGDz9oMXJZ5NHYkv99NhRQbDscWUQEtgWuctD3PAoy88QEwEVk5gy6IqmCuP/MSMrcgaI4Q5s1Uq6Im1RRjopouEkGgqDrEtK5VShx69WMvXLvj5l6ATLr78h0ZrBRjpEoedkX5drvA5w8=
+	t=1716198353; cv=none; b=OhERLr1AMAlYWIKftGYjR7me0dUG6U774EAYZH6AIRxZiyMSY2dzdFuDJPNt+fN/0RQs50zLOx/FUtSv6saB9KLai4egJEdrSl0XjgrsV2bQpdUc4etZDIB2Y3ysvxOrACxcn8iHFTjGFLwAWOxxFpGvQgN5WNUIEQlsE2xgRkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716105052; c=relaxed/simple;
-	bh=XEvMTmyejA92HfvXwRaxygi2nQZ9IXfpiRQKTfYa1uM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ROKcK0H268lfBmQ/pFcvcOeCOX6cs+Ry5g+4pnjW7JZgl0G/7KePeuIk6uYeVyKUbaUklMhkLTUE0p6gcCqikZOL7mAcDpKs4u5wnP7Etyz91ZLV7jwadGyzn1DL1DKZdnZn0pcYqDK5Pn8z04FJeMQm6KhdWWYfBCHNeJdd8/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Lz6vhAyR; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1716198353; c=relaxed/simple;
+	bh=Zdw3Q1wFX6fCgYfdSfW3vPj43L9qIOAEPDK3nk6Nlzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UXNME1jxrnOgS/DMH0Dms+ltKohvqO/SMnocP/sWlrgHnbzYjgj9syTyk6jgW7hHA7o0JJ6nL3TtBakNLvciv2+n0s1txx4QxVHVvTn+1hedkFfKEj8muySZPAQ/TR3yGE05UgXR/9kycmOAlIq0GLl0aC/UpzNjd+7EllbzolA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TF0f6pns; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Lz6vhAyR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1716105046;
-	bh=XEvMTmyejA92HfvXwRaxygi2nQZ9IXfpiRQKTfYa1uM=;
-	h=From:Subject:Date:To:Cc:From;
-	b=Lz6vhAyRZm7CuzS8wdtwgjMUo8XB/5KHpbUcsaSq+94dlgB4TDQqwOIKCObCim666
-	 cTqI4w5dS+kz8j/TyqQxZ3IMS5V3wePBgH7Fomub/ypcuDJlTSzyrAmHHp1eUFKHWJ
-	 8K2kTnOH4wDC1d413AEuGkhUQvYCy/CygfSC9jwc=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/3] ChromeOS Embedded Controller charge control driver
-Date: Sun, 19 May 2024 09:50:18 +0200
-Message-Id: <20240519-cros_ec-charge-control-v1-0-baf305dc79b8@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TF0f6pns"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68295C2BD10;
+	Mon, 20 May 2024 09:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716198352;
+	bh=Zdw3Q1wFX6fCgYfdSfW3vPj43L9qIOAEPDK3nk6Nlzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TF0f6pns3XbIdT7W5y9eXDZ5S7ibijiJQj0K399dm6EaOxSpxgpag2sU6fH1j+9lY
+	 qUOlTEaaBJo66i5j4W8x/Q1MkHw/mV6DyAcxe2BGhk1ADk5nGMhSEL98If5spJ8aT9
+	 hEp8zZx62bul4k3Pv+5YikKa3fx8VTLk69jS0fvZkiGR6jN1gUz5nnm7phNr8RX6mI
+	 pHfyIFsPjbZPCjqOqYKYy7E6jINTzEVmbf4ICXyn4jdAyaQ1YLtXjLIL6AwsKRjpfs
+	 yjBBNKjzeXUKk2eYOi8EK+Pm6gpALhyya0S8E0KZ/oVZl5yEMFi6AGcMuyqrJHYPJR
+	 sG96754ebMMRg==
+Date: Mon, 20 May 2024 17:45:49 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Ben Walsh <ben@jubnut.com>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Kieran Levin <ktl@frame.work>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] platform/chrome: cros_ec_lpc: MEC access can return
+ error code
+Message-ID: <ZksbzQeR6cDsQz0B@google.com>
+References: <20240515055631.5775-1-ben@jubnut.com>
+ <20240515055631.5775-2-ben@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIADqvSWYC/x2MWwqAMAzAriL9drCJe+BVRERm1YJs0okI4t0tf
- oaQPFCQCQt01QOMFxXKScDUFcRtSisqmoWh0U2rrXYqci4jRiWWxcacTs67csE64zHgHDxIfDA
- udP/jfnjfD0qbOMRoAAAA
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
- Dustin Howett <dustin@howett.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716105045; l=1339;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=XEvMTmyejA92HfvXwRaxygi2nQZ9IXfpiRQKTfYa1uM=;
- b=bzQAuhT2HoodDD+paM1bjPmpJqZ4jNyPrci8hFaTGj9Heh/GjTuliLL9JarHQMzpFm2NMAJj9
- EvS9NyxYVEKDABUcyKwKCh1rVS1gsdb52BLgON2Kvm8nHu0Ta2eLx2u
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240515055631.5775-2-ben@jubnut.com>
 
-Add a power supply driver that supports charge thresholds and behaviour
-configuration.
+On Wed, May 15, 2024 at 06:56:26AM +0100, Ben Walsh wrote:
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+[...]
+> @@ -116,14 +118,19 @@ static u8 cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
+>   * An instance of the read function of struct lpc_driver_ops, used for the
+>   * MEC variant of LPC EC.
+>   */
+> -static u8 cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+> -				     u8 *dest)
+> +static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+> +				      u8 *dest)
+>  {
+> -	int in_range = cros_ec_lpc_mec_in_range(offset, length);
+> +	int in_range;
+>  
+> -	if (in_range < 0)
+> +	if (length == 0)
+>  		return 0;
+>  
+> +	in_range = cros_ec_lpc_mec_in_range(offset, length);
+> +
+> +	if (in_range < 0)
+> +		return in_range;
+> +
+>  	return in_range ?
+>  		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
+>  					 offset - EC_HOST_CMD_REGION0,
 
-This is a complete rework of
-"platform/chrome: cros_ec_framework_laptop: new driver" [0], which used
-Framework specific EC commands.
+The `in_range` change looks irrelevant to the patch.  Or it should rather be
+an independent patch if it fixes something.
 
-The driver propsed in this series only uses upstream CrOS functionality.
+> @@ -135,14 +142,19 @@ static u8 cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+>   * An instance of the write function of struct lpc_driver_ops, used for the
+>   * MEC variant of LPC EC.
+>   */
+> -static u8 cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
+> -				      const u8 *msg)
+> +static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
+> +				       const u8 *msg)
+>  {
+> -	int in_range = cros_ec_lpc_mec_in_range(offset, length);
+> +	int in_range;
+>  
+> -	if (in_range < 0)
+> +	if (length == 0)
+>  		return 0;
+>  
+> +	in_range = cros_ec_lpc_mec_in_range(offset, length);
+> +
+> +	if (in_range < 0)
+> +		return in_range;
+> +
+>  	return in_range ?
+>  		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
+>  					 offset - EC_HOST_CMD_REGION0,
 
-Tested on a Framework 13 AMD, Firmware 3.05.
+Same as above.
 
-[0] https://lore.kernel.org/lkml/20240505-cros_ec-framework-v1-0-402662d6276b@weissschuh.net/
+> @@ -179,28 +194,41 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
+[...]
+>  	/* Check result */
+> -	msg->result = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
+> +	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
+> +	if (ret < 0)
+> +		goto done;
+> +	msg->result = sum;
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-Thomas Weißschuh (3):
-      platform/chrome: Update binary interface for EC-based charge control
-      power: supply: add ChromeOS EC based charge control driver
-      mfd: cros_ec: Register charge control subdevice
+Even though they are equivalent, `msg->result = ret` looks more intuitive.
 
- MAINTAINERS                                    |   6 +
- drivers/mfd/cros_ec_dev.c                      |   1 +
- drivers/power/supply/Kconfig                   |  12 ++
- drivers/power/supply/Makefile                  |   1 +
- drivers/power/supply/cros_charge-control.c     | 279 +++++++++++++++++++++++++
- include/linux/platform_data/cros_ec_commands.h |  44 +++-
- 6 files changed, 341 insertions(+), 2 deletions(-)
----
-base-commit: 0450d2083be6bdcd18c9535ac50c55266499b2df
-change-id: 20240506-cros_ec-charge-control-685617e8ed87
+> @@ -255,32 +286,47 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
+[...]
+>  	/* Check result */
+> -	msg->result = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
+> +	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
+> +	if (ret < 0)
+> +		goto done;
+> +	msg->result = sum;
 
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+Same as above.

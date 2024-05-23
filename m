@@ -1,93 +1,64 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0087851C49
-	for <chrome-platform@lists.linux.dev>; Mon, 20 May 2024 10:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851BEA29
+	for <chrome-platform@lists.linux.dev>; Thu, 23 May 2024 01:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716199280; cv=none; b=oTBunlo81fHNda1+PUql+HNZRwiVOWY/gfT+PKXBKwWkdUxDd1lHhMj77CBZPnY+fhXlwN8oXYZrMTzIhMUi6Xhnm+EvyytU2xwGF5v4c8t9Z//N9EiWgTg03aPzBuD2XAPIIYP8qi9/Kgx2Kai0202YKZl7xSthpGlKFvHSgeA=
+	t=1716427805; cv=none; b=sa7N/gOlmDe1sRngcMuYKG+GGn1DQiUhrcJ6HzDWcRLLefuyyivzhRJi6WnCAmmCAw7EvTa7yxqdoo5zwdHsYOjs4SgyEOwuZhe85DD5FFBs2eoAr5o/cr0A8opYJM6AJ/ort6kIPHj6p+YTR02iGQFBfDpu5l/KKa7CeVoac7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716199280; c=relaxed/simple;
-	bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q+JwnAeh2vMxdtue3JYLfP8OMW8LEAoDbWKsfbymwFnSNh94GE4TSflANky4R+57W67uNtvTrY9fZtaAdwr+WckznULCGFG7FBkftLCOKoBp1gY16XLC0jHsOGhmIsuJ4o7oJvzgpcoVEEbpJLESTm85cfK3TaQKwt7zcX0SqbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=oWp3MdS/; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1716427805; c=relaxed/simple;
+	bh=ImCUcNISjZFKX1UIRsmGU4T/HVNmFo/PzU3zMKXhjBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DuBfV4jxt/HklUw88BPoO/6Y5rPPHIjvkG+8xLn0uslBxQz05Bio5pJDesvnHQuCV91fg51FjEipWu/wxdKY1rqlF8StzyAfBZX61FkHbTZttAHZaJK0+ET4tz82YyT37vHwIkvnR8ptC1D0XcFeKvCrYVvU+jajeRCenyjqbcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJV3/1sB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="oWp3MdS/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1716199266;
-	bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oWp3MdS/k7rIUXvvtZfLF2ynqzdxT6JSPr9znGuUdWuwxcCbe31+kB27sc838tEI8
-	 iRwmjVk86hSPVN6edyhFK1IiL5ChjAX9b9LzST0DZzNCHz1ySFiBofSOrNyHtph6AA
-	 5f3t6gN4TaK/NhEMwD4NzWr0H1pcDJNERZG9uLZY=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 20 May 2024 12:00:33 +0200
-Subject: [PATCH 5/5] mfd: cros_ec: Register LED subdevice
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJV3/1sB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B9AC2BBFC;
+	Thu, 23 May 2024 01:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716427805;
+	bh=ImCUcNISjZFKX1UIRsmGU4T/HVNmFo/PzU3zMKXhjBM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nJV3/1sBGWk84izQk3cKONl0ZpLpxlcFFhtrBTnMC4OVxlaY0Gj/dsqr3ByCd2Kyp
+	 IQo+6dMit99sGVZpiJRR1hS+ZeXIQ2xP99Hku5kCAUMjf/VV5+2EAk0Hz1QQ4vXVwi
+	 /h+ctx5UgxmC0vQXcs6KrbtqtIMcLrsY9tUx2PrvUpNOLmrVXnIEaha2+jdagqF0CL
+	 hWuNQOT4zMoJzu3JGw06etGb77mVvKZOyWRqqpxNaf6oVpEzR9aGj5YJEEim5B4K5k
+	 GTwsSp2B3jI+KKTfa8mW5siSLKbu24EqSUJOmO7P+XGWlyEC9xEPQ1dpr3x5jJUQdy
+	 zT5u4tvW0rhVA==
+Date: Thu, 23 May 2024 09:30:02 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Rob Barnes <robbarnes@google.com>
+Cc: chrome-platform@lists.linux.dev, gwendal@chromium.org,
+	groweck@chromium.org
+Subject: Re: [PATCH] drivers/cros_ec: Make log polling period a parameter
+Message-ID: <Zk6cGhB99cktsCsy@google.com>
+References: <20240507155809.525701-1-robbarnes@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240520-cros_ec-led-v1-5-4068fc5c051a@weissschuh.net>
-References: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
-In-Reply-To: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716199265; l=1052;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=jd8wTz6WYVqVeMAVX4s7b1YWkersuhJAO102QlOQKKE=;
- b=sSk5vFbiWCIsAMYqmI4K1JX8juFRw1qlEtHqUGfNVZYWD57IPFCEYQqO7SZb0AvW6dntOCtiZ
- eN5WvdSlLeJDJ+vdrL9uCIu92ioNXLEvMiNX+ed+e/0h+ClmDuHp091
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240507155809.525701-1-robbarnes@google.com>
 
-Add ChromeOS EC-based LED control as EC subdevice.
+On Tue, May 07, 2024 at 03:58:09PM +0000, Rob Barnes wrote:
+> Make EC log polling period a module parameter. This allows the polling
+> period to be set via the kernel command line. Keeping the default at
+> the current 10 second period. The optimal polling period will differ by
+> board.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/mfd/cros_ec_dev.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+If you get chance for sending next version, please use title prefix
+"platform/chrome: cros_ec_debugfs:".
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index a52d59cc2b1e..d8cf1c5ce5a1 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
- 	{ .name = "cros-ec-wdt", }
- };
- 
-+static const struct mfd_cell cros_ec_led_cells[] = {
-+	{ .name = "cros-ec-led", }
-+};
-+
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_wdt_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_LED,
-+		.mfd_cells	= cros_ec_led_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
+> @@ -118,7 +122,7 @@ static void cros_ec_console_log_work(struct work_struct *__work)
+>  
+>  resched:
+>  	schedule_delayed_work(&debug_info->log_poll_work,
+> -			      msecs_to_jiffies(LOG_POLL_SEC * 1000));
+> +			      msecs_to_jiffies(log_poll_period_ms));
 
--- 
-2.45.1
-
+If the value is set to 0, it works like an infinite loop on
+cros_ec_console_log_work().  Is it expected?

@@ -1,91 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E43BE48;
-	Fri, 24 May 2024 02:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CF4208A1
+	for <chrome-platform@lists.linux.dev>; Fri, 24 May 2024 08:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716517602; cv=none; b=LQhQc3/66YYNuC0hPw/tdDKdpSzjfbWg80mtHuIYqpP0M4qDKsVhbSAEz8yKSadxPvK2lm3cqCrjsOHG8vagjF7HJl7jXp35Hgajuwc4pw5NL+fGzaIsWSjtJ/G0mVPsn/qhNGpOrTmH3W82/Xuq1JaHDQqQ71tYG6//f962Ro4=
+	t=1716540109; cv=none; b=NfoVMfSiFE5OA+rkuWVmfZ+0jhZuIKnM7RTGfNRm7mXeTZQ49lmDYccDUmdGqwDMIqNFOmQTIe4ACHVbmGmAA72R1zHVMX2opIB8P2xdvnklJtTXAPDUBL9BHwTqZw/vg0KEaKtP4iK9grFVZvZ57g+V96RVMSpxw3mu55ODvzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716517602; c=relaxed/simple;
-	bh=V68S0YfqASuSJwOd0Y6I2O+LhStMZE72uKYdl/eTTAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c7ZNDnAMDQ4pg8q29t9YojW9HceNoG2MjyL8OZxHs5DgJGpBM440OHMV9MDh3pPFAHWQjlr5YQ8KxhRHEYryTWJYOVEYBgr0TWGFAue+Eq9GVoD1uth4Ei2Zj1JuLw2vV/lu6DDgGCmbHq0NFbI5oOe2RAyFzUQZdnARvVLJIFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O2wQhyob; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716540109; c=relaxed/simple;
+	bh=e5+L5SBvzSbV28oQcw8gx5HYgfjLqOw6uTnbrnA+RYM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SR5ZYPkWXKUD4jN7heHPx4w8AVI3FtPu3k1P1ZIc3+YNWEDMk/cRyKw9NycoFNqMFxAmBl48K76we3s5NaGoL5J4NJ3Mck7WE3nYFQAruJeO97pKTOaS+5lFZgnacMoVJU9q/H5mK6vD1gOS/PYBs1pLqK7sNn84+JQ/a+IY0QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Mclfm2qb; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O2wQhyob"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88466C2BD10;
-	Fri, 24 May 2024 02:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716517601;
-	bh=V68S0YfqASuSJwOd0Y6I2O+LhStMZE72uKYdl/eTTAs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O2wQhyobFdhTB6x8N5tFKWgIblU+F5RC2QzfD4VQbqQg88wes4uVngfm6jmbfP6Sc
-	 X+tbywIGkqmTnhR2IxEINuesOfiPN0THXoWycvaNz2kHj22I1WeyEHx4/1FsYo6wdI
-	 1q75N/ZrziY0NyQPIzgS2c0ku2cRrS6AGhb2xI5PzRjlObaPgJzP86TG6MARu/2cZ3
-	 atP86hJ79HhcmIzYe21t5HcWPT6yJa/P6VKbABYOtk5vkg+UmwiVyJFh72M6aCjcCn
-	 YRajmZHoCNdaLDn38BNB8y0DrnmIHPGCq3eza2x2hPmeKz4dKIekY+KzHACR75WApS
-	 fNQKAvWAK4LXA==
-Date: Fri, 24 May 2024 02:26:38 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ben Walsh <ben@jubnut.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] platform/chrome: cros_ec_lpc: Correct ACPI name for
- Framework Laptop
-Message-ID: <Zk_63rrDJFhN1Y1q@google.com>
-References: <20240515055631.5775-1-ben@jubnut.com>
- <20240515055631.5775-6-ben@jubnut.com>
- <ZkscFnmHeWWma7Nb@google.com>
- <87jzjk1ibr.fsf@jubnut.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Mclfm2qb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1716539617;
+	bh=e5+L5SBvzSbV28oQcw8gx5HYgfjLqOw6uTnbrnA+RYM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Mclfm2qbw9bM2D2YTK0RJLAdzpxr4DY9pKKkgbtZ6oaIE+h0/ECxbz/7aRR2yllWg
+	 DRMvmcxPJvIvkmUV/de13hWPu59SNmsLLmI6K6foBni+FjXPSCYiHDU/TvL3Ik5idq
+	 8SHK+759ktOhzzm5tPwfJA1V9flhpi39x/C1SsvY=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/2] platform/chrome: cros_ec_proto: Trivial kdoc fixes
+Date: Fri, 24 May 2024 10:33:32 +0200
+Message-Id: <20240524-cros_ec-cmd_versions-v1-0-8a148647d051@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jzjk1ibr.fsf@jubnut.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANxQUGYC/x2MSQqAMAwAvyI5W9C6HPyKiNQkag4uJCBC8e9Wj
+ wMzE8FYhQ26LILyJSbHnqDMM8A17As7ocTgC18Xja8d6mEjo8ONxov1882Rn2iuQjtRQEjpqTz
+ L/W/74XletTrBH2YAAAA=
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716539616; l=572;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=e5+L5SBvzSbV28oQcw8gx5HYgfjLqOw6uTnbrnA+RYM=;
+ b=ujL9GC0Y9YWChyYrvGEeiFl+pf889hCJuDbpNyetWqoVCKdV6fUmd8dCYV+hU8seTyHGSvlkB
+ Bd4ClgEB9mOBNtxW00RbJ9Uku8Ieu+EOZeHheeFVdbHhM49fHWmBLju
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Thu, May 23, 2024 at 07:42:00PM +0100, Ben Walsh wrote:
-> Tzung-Bi Shih <tzungbi@kernel.org> writes:
-> 
-> > On Wed, May 15, 2024 at 06:56:30AM +0100, Ben Walsh wrote:
-> >> Framework Laptops' ACPI exposes the EC as name "PNP0C09". Use this to
-> >> find the device. This makes it easy to find the AML mutex via the
-> >> ACPI_COMPANION device.
-> >>
-> >> The name "PNP0C09" is part of the ACPI standard, not Chrome-specific,
-> >> so only recognise the device if the DMI data is recognised too.
-> >
-> > I don't quite understand the statement.  Why it needs DMI data?
-> 
-> There are lots of computers with EC chips with ACPI name "PNP0C09"
-> because it's part of the ACPI standard (for example I have an Intel NUC
-> with one of these). Most of them don't support the cros_ec protocol, so
-> the cros_ec driver should ignore these chips. The Framework EC is
-> unusual in that it's called "PNP0C09" and supports the cros_ec protocol.
-> 
-> Before these patches, the cros_ec code just ignored PNP0C09 because it
-> wasn't in the match table. The cros_ec_lpc_init logic looked like:
-> 
->   * dmi_match => ok
->   * acpi_name == "GOOG0004" => ok
->   * otherwise fail.
-> 
-> After the patch, cros_ec_lpc_init still has this behaviour. We have
-> "PNP0C09" in the match table so the driver gets hooked up correctly
-> with the right "ACPI_COMPANION" device, but we don't allow the match
-> to proceed unless we have the DMI data indicating it's a Framework EC.
+Two tiny fixes for kernel docs.
 
-From the context you provided, instead of matching "PNP0C09" in the driver,
-it makes more sense to me (for Framework EC):
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Thomas Weißschuh (2):
+      platform/chrome: cros_ec_proto: Fix cros_ec_get_host_event_wake_mask kdoc
+      platform/chrome: cros_ec_proto: Fix cros_ec_get_host_command_version_mask kdoc
 
-* Mainly use DMI match.
-* Add a quirk for looking up (acpi_get_devices()?) and binding
-  (e.g. ACPI_COMPANION_SET()) the `adev` in cros_ec_lpc_probe().
+ drivers/platform/chrome/cros_ec_proto.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+---
+base-commit: 6d69b6c12fce479fde7bc06f686212451688a102
+change-id: 20240524-cros_ec-cmd_versions-d2bdf3a6bdac
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+

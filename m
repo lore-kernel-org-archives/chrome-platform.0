@@ -1,32 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D28A12BF15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1EE12BF08
 	for <chrome-platform@lists.linux.dev>; Sun, 26 May 2024 18:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716747514; cv=none; b=GFuc7cqZnvGGmP/m6dKSUPZLQzg+mi189uaMfgew8m1cQjE0TsPrKRRzwGJzizgvSV6o3X8pTFiKPB20t21w5HYpISS0Y2TO0aOql0OKj5FK9XbzIEtbctia0IABYkPRjm4gt5is4vQ24H3cdk/cePjrKFYY4WHUfZ3rCBa+q14=
+	t=1716747514; cv=none; b=gAHS6l+0Y+TlwlKAw1e8343KKkg87NaRR02uhyyDAgKyqNbi9oOF8qg9YnMqqMcTYFdm9QQwtb0XXm72hBNCkK9QSDi+GacqvwrqyVflkAB17+g7eQoaJC9JQlybI1H4uY7R5B7g5eUMRa7IK/UNNYVYnDHUGXdS5K6TRodW29Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716747514; c=relaxed/simple;
-	bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
+	bh=RVbMZZPenvcdjoM7tM7SuacRL6z8c0aDQVo/8uG6Iis=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k1AtmACtDRvSk3lyTqgkf0GX/nKk8Vjf8gd7YMuBbQ1ce/3wk1JeiULx/BJj9uwCedgUVXndK8MygWvAUSX/cRJd0UrWoBQ29t59N/dTe3HYFuCdL3yw7m2sRNYP07xNPBfAJCH3fFE1aOJlcgcJ21fTC0crge2/DhC29fl8jsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=oG00mbCj; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=OW3alPaLNvqbh7fltCYGfttyrpzvToHdHhE2VSUkyJRShvwy3JPS1rTBqTsrR07IOZFsYhz9CU/+Dq/pe+eY8dhBFtXYOXu0Q/cJMPi5sHWUcYY3mCqvHu2Mrjp2H3e1CVulNVKbx1e3yh/5rAqeG5O8MHoGoN4pB/JhOx63KB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=VSL0TaQR; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="oG00mbCj"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="VSL0TaQR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1716747502;
-	bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
+	bh=RVbMZZPenvcdjoM7tM7SuacRL6z8c0aDQVo/8uG6Iis=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oG00mbCjZV03syE8vVMKNMGLtxiI7CFz+i/mi6lKQ4kahXFCP6wZvyrkOWOhSBAOw
-	 cuKk+ENDV3luYvDrJhBFrIDurSvZbcA6GBkXZlf6vAN7DwdYXyRotPeszjbgbhiXe3
-	 BrCp50SRfx438aTlKM6OlrdO2qRGhsrNdYP5+dR8=
+	b=VSL0TaQRhrpXHjNGPjby/pUWJmoXOPgBw+zjOdh7jX4asLTeE9bBlss9lm5MTIFh8
+	 /lUWK7YnoDkmdcUc8oFINJG5R/sRNm8ISfZ5qe78d3zdRJnnR0ubLa9bbSB3++F6RL
+	 MzTLwWVi+5y87v0hcIrmoLF+Xmh7eM3JXPhPMVIs=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 26 May 2024 20:17:16 +0200
-Subject: [PATCH v3 2/4] leds: add flag to avoid automatic renaming of led
- devices
+Date: Sun, 26 May 2024 20:17:15 +0200
+Subject: [PATCH v3 1/4] leds: class: warn about name collisions earlier
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +34,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240526-cros_ec-kbd-led-framework-v3-2-ee577415a521@weissschuh.net>
+Message-Id: <20240526-cros_ec-kbd-led-framework-v3-1-ee577415a521@weissschuh.net>
 References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
 In-Reply-To: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
 To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
@@ -47,49 +46,51 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Rajas Paranjpe <paranjperajas@gmail.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716747501; l=1355;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716747501; l=1430;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
- b=UuKtiug1UtluwOnfe1goI/vLdBWB9Kzcj4CMjbR6DCSxeESDq5Vp+XZD5i510Ppr35TMIzm9P
- rWGXRNI1GbBDXdyyEyP2JarvLHBwMgBzjeczQK5iMzhRtIQvBx70F5D
+ bh=RVbMZZPenvcdjoM7tM7SuacRL6z8c0aDQVo/8uG6Iis=;
+ b=jqYgFK1Xd+zJu9VNIlc2yIcfAB75+M4DSKRhePySUcMWt1kXjI0SS7WD0ihcqLtFsSI/HIH4M
+ dx+GeS8nWUCDVp+mmtUAjc/us7tEiQTHK1YEazMzpSjNFB7z4Csu0Wu
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Add a mechanism for drivers to opt-out of the automatic device renaming
-on conflicts.
-Those drivers will provide their own conflict resolution.
+Other warnings refer to the name after renaming, which is clearer when
+that name is mentioned first.
+It is also clearer where "ret" comes from.
+
+While at it, also add the necessary newline to the message and fix the
+parameter alignment.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/leds/led-class.c | 2 ++
- include/linux/leds.h     | 1 +
- 2 files changed, 3 insertions(+)
+ drivers/leds/led-class.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index c298355d5b7d..2f08c20702f3 100644
+index 24fcff682b24..c298355d5b7d 100644
 --- a/drivers/leds/led-class.c
 +++ b/drivers/leds/led-class.c
-@@ -503,6 +503,8 @@ int led_classdev_register_ext(struct device *parent,
+@@ -503,6 +503,9 @@ int led_classdev_register_ext(struct device *parent,
  	ret = led_classdev_next_name(proposed_name, final_name, sizeof(final_name));
  	if (ret < 0)
  		return ret;
-+	else if (ret && led_cdev->flags & LED_REJECT_NAME_CONFLICT)
-+		return -EEXIST;
- 	else if (ret)
- 		dev_warn(parent, "Led %s renamed to %s due to name collision\n",
- 			 proposed_name, final_name);
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 6300313c46b7..36663ac6c58a 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -107,6 +107,7 @@ struct led_classdev {
- #define LED_BRIGHT_HW_CHANGED	BIT(21)
- #define LED_RETAIN_AT_SHUTDOWN	BIT(22)
- #define LED_INIT_DEFAULT_TRIGGER BIT(23)
-+#define LED_REJECT_NAME_CONFLICT BIT(24)
++	else if (ret)
++		dev_warn(parent, "Led %s renamed to %s due to name collision\n",
++			 proposed_name, final_name);
  
- 	/* set_brightness_work / blink_timer flags, atomic, private. */
- 	unsigned long		work_flags;
+ 	if (led_cdev->color >= LED_COLOR_ID_MAX)
+ 		dev_warn(parent, "LED %s color identifier out of range\n", final_name);
+@@ -518,10 +521,6 @@ int led_classdev_register_ext(struct device *parent,
+ 	if (init_data && init_data->fwnode)
+ 		device_set_node(led_cdev->dev, init_data->fwnode);
+ 
+-	if (ret)
+-		dev_warn(parent, "Led %s renamed to %s due to name collision",
+-				proposed_name, dev_name(led_cdev->dev));
+-
+ 	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
+ 		ret = led_add_brightness_hw_changed(led_cdev);
+ 		if (ret) {
 
 -- 
 2.45.1

@@ -1,82 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF59387;
-	Sun, 26 May 2024 01:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF75F20B02;
+	Sun, 26 May 2024 09:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716686789; cv=none; b=CgzpcwugGc32EQi9U4oUGCPTd7rVhHEi0xetVU0cjBawKU9btiQcHUULOg4S2uxcGzxh8gUKEQGvNVuF1GSPMw8/GD8DxiRyPc7cZDClCDZkCjWMI7LUYI3J0Eoy7vH+qf7hTvb0nmZ+L64XxA6PvmFHQ6UxBEU73PKH92jqaWI=
+	t=1716716529; cv=none; b=oCphnj8DMqtg4gyY9MKUo1WKmk6El2uQjibXztoBFhpWUYh7PNwn4BI5hbqW3nCVh7/+7pI3jCoakvVXgwGhSk/ZcYDM4/gKQ7QujYv5HGFsMypM3bLLvvrr82ExCLxRoOADz5XCi5MgYCPBxQcBoTALU9vF3ltOfgwtjRZT10Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716686789; c=relaxed/simple;
-	bh=hliK7wtfdTHGdpCX/b8c2sgRKOvc0CvTg9bJ/aDLsWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mgLuo2JRyNPY/KAJtf18b1TsG9XW/ikC1Px7uxQ6XRY3OzBlp/0u+HC2eiYTaDtoAfP8M88ybvNFWJAFrPlIT9EWup8UwASqLSpjqD4gBnw7ogK8z9mGotgN56vUspO6tFrvec8xilch+S1+sP7kgyHCR8mi5uZGlgtDUxtZrFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjxfSiic; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716716529; c=relaxed/simple;
+	bh=af/ol9iL4gMIhU2wLPXuPquFvHSnfZuzbvNlF9lJ1ZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VO8YEUlKxEpOwj9FS4e5+c7rjaWX0eGCY0zR8khfeSE75thlqwBOvXa5EH6AtOXOUf9ntPkgJjZZi9Fp6QD/SVQuV1Q/U8EGIsPTqdpF6hDJ/sgQ6mEvONCltcnc78SnBpzvnZFyj1nT82GRPOh7KL292tYg89XA1WYNXy+uQAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPVcVC8L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjxfSiic"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0137CC2BD11;
-	Sun, 26 May 2024 01:26:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPVcVC8L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1298C32781;
+	Sun, 26 May 2024 09:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716686789;
-	bh=hliK7wtfdTHGdpCX/b8c2sgRKOvc0CvTg9bJ/aDLsWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NjxfSiickapoyY7GKSUZthmQ87dXNQZgqEWNvEzdt/zAoe808W7MTmVfYldr/2qOH
-	 2CF3apqhm41ZbeI7cDckO4g2O1eokvacv1ZJCzhPpjMBA10v9/mfRWy0HT55VHlYgf
-	 yJWN/TCIs1vuV6UcxXdQG4VZHvBgj0I5PkObTrKlK87+4anNbmCUSUvECv1KB4aGjv
-	 xUHKw6mLF357XqPhOZIXtHwJeJDgSgp1SpDj/ew/i9/tCxXp4o40Sa1I8rzQbRph+S
-	 L1ur/01mD5Hg4wyJAfQMxNkkqrF6/2sWRhb7UjgNhK9yIbIYDECTc6tc6zVhp38zfE
-	 EhN/EHSlOW21A==
-Date: Sun, 26 May 2024 01:26:26 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ben Walsh <ben@jubnut.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] platform/chrome: cros_ec_lpc: Correct ACPI name for
- Framework Laptop
-Message-ID: <ZlKPwlF86Oe8OPK9@google.com>
-References: <20240515055631.5775-1-ben@jubnut.com>
- <20240515055631.5775-6-ben@jubnut.com>
- <ZkscFnmHeWWma7Nb@google.com>
- <87jzjk1ibr.fsf@jubnut.com>
- <Zk_63rrDJFhN1Y1q@google.com>
- <87cypb12j9.fsf@jubnut.com>
+	s=k20201202; t=1716716528;
+	bh=af/ol9iL4gMIhU2wLPXuPquFvHSnfZuzbvNlF9lJ1ZI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OPVcVC8LtOzuK/gIEVhCldNm9mIpQRz9hSRoIpPohYGaV7q12Bo6DBxRE2V6JaFR9
+	 g4fpP+4R64JSYKfen3ls4ezI4JPDm+JH7D9fl/q2pkwUeu5G6zUUOED99y8Ly4p2De
+	 e9dxz8ry/oFs3q2fY2/imA/QmM3VLEV+SZ18Kh52M8p4Vb2C4twLmFGze5sDQWnEGe
+	 HEVluyheznLvn9b5la+KuSer9AyZRDBbiqUVBuf67KtoBBqQtqUrbQjYsfu+m2I7h0
+	 pUnVZwJes45nTG3YS6eV3J/NTmf8NF0d/cbU6QMoCU76mW01xAfSn9yBNAKmgOomQi
+	 O6URJdd+fpXfg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.9 10/15] platform/chrome: cros_usbpd_logger: provide ID table for avoiding fallback match
+Date: Sun, 26 May 2024 05:41:42 -0400
+Message-ID: <20240526094152.3412316-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240526094152.3412316-1-sashal@kernel.org>
+References: <20240526094152.3412316-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cypb12j9.fsf@jubnut.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.1
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 24, 2024 at 07:35:22PM +0100, Ben Walsh wrote:
-> Tzung-Bi Shih <tzungbi@kernel.org> writes:
-> 
-> > From the context you provided, instead of matching "PNP0C09" in the driver,
-> > it makes more sense to me (for Framework EC):
-> >
-> > * Mainly use DMI match.
-> > * Add a quirk for looking up (acpi_get_devices()?) and binding
-> >   (e.g. ACPI_COMPANION_SET()) the `adev` in cros_ec_lpc_probe().
-> 
-> Sorry, I don't think I provided enough context. There is already a
-> platform device /sys/bus/platform/devices/PNP0C09:00 with a companion
-> acpi device /sys/bus/acpi/devices/PNP0C09:00. I think it makes sense to
-> bind the driver to the existing platform device.
-> 
-> I could add a new quirk which provides an alternative ACPI match table
-> to be used instead of the default. In the default case the match_table
-> will contain only "GOOG0004" as before. But in the Framework EC case the
-> match table will be "PNP0C09".
+From: Tzung-Bi Shih <tzungbi@kernel.org>
 
-I think it doesn't work as the current quirk is handling in
-cros_ec_lpc_probe() which is after matching.
+[ Upstream commit e0e59c5335a0a038058a080474c34fe04debff33 ]
 
-My original idea: would it be possible to get the `adev` in cros_ec_lpc_probe()
-via any lookup API?  If yes, it could still use DMI match and get `adev` if
-required.
+Instead of using fallback driver name match, provide ID table[1] for the
+primary match.
+
+[1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
+
+Reviewed-by: Benson Leung <bleung@chromium.org>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Link: https://lore.kernel.org/r/20240329075630.2069474-7-tzungbi@kernel.org
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/chrome/cros_usbpd_logger.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/chrome/cros_usbpd_logger.c b/drivers/platform/chrome/cros_usbpd_logger.c
+index f618757f8b321..930c2f47269f6 100644
+--- a/drivers/platform/chrome/cros_usbpd_logger.c
++++ b/drivers/platform/chrome/cros_usbpd_logger.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/ktime.h>
+ #include <linux/math64.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+@@ -249,6 +250,12 @@ static int __maybe_unused cros_usbpd_logger_suspend(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(cros_usbpd_logger_pm_ops, cros_usbpd_logger_suspend,
+ 			 cros_usbpd_logger_resume);
+ 
++static const struct platform_device_id cros_usbpd_logger_id[] = {
++	{ DRV_NAME, 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(platform, cros_usbpd_logger_id);
++
+ static struct platform_driver cros_usbpd_logger_driver = {
+ 	.driver = {
+ 		.name = DRV_NAME,
+@@ -256,10 +263,10 @@ static struct platform_driver cros_usbpd_logger_driver = {
+ 	},
+ 	.probe = cros_usbpd_logger_probe,
+ 	.remove_new = cros_usbpd_logger_remove,
++	.id_table = cros_usbpd_logger_id,
+ };
+ 
+ module_platform_driver(cros_usbpd_logger_driver);
+ 
+ MODULE_LICENSE("GPL v2");
+ MODULE_DESCRIPTION("Logging driver for ChromeOS EC USBPD Charger.");
+-MODULE_ALIAS("platform:" DRV_NAME);
+-- 
+2.43.0
+

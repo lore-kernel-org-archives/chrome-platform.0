@@ -1,113 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D4A4EB20;
-	Sun, 26 May 2024 09:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D28A12BF15
+	for <chrome-platform@lists.linux.dev>; Sun, 26 May 2024 18:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716716561; cv=none; b=bLq3/InCuTZy1H5Tf8ppwiJdO5/n1rK0beJ9IaoIaFGoaBdYSdemsyHZClhAwC7KC1b+1BMJ1zlj4NWUoA4gq6EWMpVWDRJjmE0d8WKbgPTCz+6q5D6B+h8vmXA9Bw7UPGK/bB8KS0djSkfKu2RvjtXjmOP1TgXXMwoLtCN/1Fs=
+	t=1716747514; cv=none; b=GFuc7cqZnvGGmP/m6dKSUPZLQzg+mi189uaMfgew8m1cQjE0TsPrKRRzwGJzizgvSV6o3X8pTFiKPB20t21w5HYpISS0Y2TO0aOql0OKj5FK9XbzIEtbctia0IABYkPRjm4gt5is4vQ24H3cdk/cePjrKFYY4WHUfZ3rCBa+q14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716716561; c=relaxed/simple;
-	bh=yZCx+Ui138RWNHsw6N6p9WbGX2dhsHntqReUeJevRsg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e5f6onhXUE7aJ5re/sOTm5lDAUsSJS7vFN0LvC9cEfhNBNzZuHZpUTqndHU59uw6va4RQWNAhVNgmVomj5R5QArzG5P0rQFJ1hPr7WmZ6NgCeRY4sDNsE6CiMMXGUoeJdbxnA5U1zoju5gHnsTr2TvjzA/dIjTizHoyYS6NaqHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQwuqhfC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716747514; c=relaxed/simple;
+	bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=k1AtmACtDRvSk3lyTqgkf0GX/nKk8Vjf8gd7YMuBbQ1ce/3wk1JeiULx/BJj9uwCedgUVXndK8MygWvAUSX/cRJd0UrWoBQ29t59N/dTe3HYFuCdL3yw7m2sRNYP07xNPBfAJCH3fFE1aOJlcgcJ21fTC0crge2/DhC29fl8jsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=oG00mbCj; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQwuqhfC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC6DC32781;
-	Sun, 26 May 2024 09:42:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716716561;
-	bh=yZCx+Ui138RWNHsw6N6p9WbGX2dhsHntqReUeJevRsg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FQwuqhfCdyNrApf6+1t0Ebak75V9be+zAlfWWCzBgH/1jXZCbLpYfMCNpjXIAj6J5
-	 skDe8adFDeCtxlOS3oB5vpYjdMI5vhu63NjNe/DPDzVFG222srwiXHZC1qPpjEOreV
-	 5Eo71NHg/Bhy8+lb+9YzbjG/z/42vhtuN1RaOF/krz6o4ABvAHLXTUB8+TaPGrUknl
-	 1M8w5PIHHzgeMy0HwnVBidGdfhiGFS0na1qJBVE2uRbJ05GzF+nLSsDfNUDtDZ6+mg
-	 t+X4iXjk0w8U5APVTJSHpKboERCN0fDJUVGGh5Dpuq/KFmzzzFkiAUn/3J6Pv3Rgfz
-	 tXSw1x+cLroeg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.8 11/14] platform/chrome: cros_usbpd_notify: provide ID table for avoiding fallback match
-Date: Sun, 26 May 2024 05:42:16 -0400
-Message-ID: <20240526094224.3412675-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240526094224.3412675-1-sashal@kernel.org>
-References: <20240526094224.3412675-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="oG00mbCj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1716747502;
+	bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=oG00mbCjZV03syE8vVMKNMGLtxiI7CFz+i/mi6lKQ4kahXFCP6wZvyrkOWOhSBAOw
+	 cuKk+ENDV3luYvDrJhBFrIDurSvZbcA6GBkXZlf6vAN7DwdYXyRotPeszjbgbhiXe3
+	 BrCp50SRfx438aTlKM6OlrdO2qRGhsrNdYP5+dR8=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 26 May 2024 20:17:16 +0200
+Subject: [PATCH v3 2/4] leds: add flag to avoid automatic renaming of led
+ devices
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.10
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20240526-cros_ec-kbd-led-framework-v3-2-ee577415a521@weissschuh.net>
+References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
+In-Reply-To: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
+To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Pavel Machek <pavel@ucw.cz>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, linux-leds@vger.kernel.org, 
+ Rajas Paranjpe <paranjperajas@gmail.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716747501; l=1355;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=o5fqvb3/w5pnVYn9E3ghdcEeFk44zpjLuVu8Q1kPrU8=;
+ b=UuKtiug1UtluwOnfe1goI/vLdBWB9Kzcj4CMjbR6DCSxeESDq5Vp+XZD5i510Ppr35TMIzm9P
+ rWGXRNI1GbBDXdyyEyP2JarvLHBwMgBzjeczQK5iMzhRtIQvBx70F5D
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+Add a mechanism for drivers to opt-out of the automatic device renaming
+on conflicts.
+Those drivers will provide their own conflict resolution.
 
-[ Upstream commit 8ad3b9652ed6a115c56214a0eab06952818b3ddf ]
-
-Instead of using fallback driver name match, provide ID table[1] for the
-primary match.
-
-[1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
-
-Reviewed-by: Benson Leung <bleung@chromium.org>
-Acked-by: Prashant Malani <pmalani@chromium.org>
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-Link: https://lore.kernel.org/r/20240329075630.2069474-8-tzungbi@kernel.org
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/platform/chrome/cros_usbpd_notify.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/leds/led-class.c | 2 ++
+ include/linux/leds.h     | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
-index aacad022f21df..c83f81d86483c 100644
---- a/drivers/platform/chrome/cros_usbpd_notify.c
-+++ b/drivers/platform/chrome/cros_usbpd_notify.c
-@@ -6,6 +6,7 @@
-  */
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index c298355d5b7d..2f08c20702f3 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -503,6 +503,8 @@ int led_classdev_register_ext(struct device *parent,
+ 	ret = led_classdev_next_name(proposed_name, final_name, sizeof(final_name));
+ 	if (ret < 0)
+ 		return ret;
++	else if (ret && led_cdev->flags & LED_REJECT_NAME_CONFLICT)
++		return -EEXIST;
+ 	else if (ret)
+ 		dev_warn(parent, "Led %s renamed to %s due to name collision\n",
+ 			 proposed_name, final_name);
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 6300313c46b7..36663ac6c58a 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -107,6 +107,7 @@ struct led_classdev {
+ #define LED_BRIGHT_HW_CHANGED	BIT(21)
+ #define LED_RETAIN_AT_SHUTDOWN	BIT(22)
+ #define LED_INIT_DEFAULT_TRIGGER BIT(23)
++#define LED_REJECT_NAME_CONFLICT BIT(24)
  
- #include <linux/acpi.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_data/cros_usbpd_notify.h>
-@@ -218,12 +219,19 @@ static void cros_usbpd_notify_remove_plat(struct platform_device *pdev)
- 					   &pdnotify->nb);
- }
- 
-+static const struct platform_device_id cros_usbpd_notify_id[] = {
-+	{ DRV_NAME, 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(platform, cros_usbpd_notify_id);
-+
- static struct platform_driver cros_usbpd_notify_plat_driver = {
- 	.driver = {
- 		.name = DRV_NAME,
- 	},
- 	.probe = cros_usbpd_notify_probe_plat,
- 	.remove_new = cros_usbpd_notify_remove_plat,
-+	.id_table = cros_usbpd_notify_id,
- };
- 
- static int __init cros_usbpd_notify_init(void)
-@@ -258,4 +266,3 @@ module_exit(cros_usbpd_notify_exit);
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("ChromeOS power delivery notifier device");
- MODULE_AUTHOR("Jon Flatley <jflat@chromium.org>");
--MODULE_ALIAS("platform:" DRV_NAME);
+ 	/* set_brightness_work / blink_timer flags, atomic, private. */
+ 	unsigned long		work_flags;
+
 -- 
-2.43.0
+2.45.1
 

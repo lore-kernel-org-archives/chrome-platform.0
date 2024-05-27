@@ -1,89 +1,162 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D2361FE9
-	for <chrome-platform@lists.linux.dev>; Mon, 27 May 2024 18:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6330E15FCE9
+	for <chrome-platform@lists.linux.dev>; Mon, 27 May 2024 19:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716833208; cv=none; b=YoLlytGWtl/wHeV4IwxoePY6t9DWXyIlF9GdnSxeO0IW1XNmJ7D5Waj0pkCBOvK9Q/8JsoQ1h4ma0A/E9wEmihNyV/cgHICzyUazJzM6nUW4aL/5OY44eYX5da/V1V7D5X1RcPA44oSVfdeY/n/Uosm89jIvr62aduzXhr9tQls=
+	t=1716837855; cv=none; b=TRAT1UITF1yLqa/ogjdNwHvuhHdeXTETG6QaYcNl58nq7ZrksyCZzQWy4bhFmv4XEZLGC3dlG1FoRxCv/odXnb1uLc41J5fEsp4AP+0zQUpV+U2JDu2E+rHiAUZ4ejjNsuTMpBZDeUYSNRp2lV4OA2pLc20rLbIjGNhpgG5vh5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716833208; c=relaxed/simple;
-	bh=pzZeJfyni1NMNSarctd7XFqTYT9P+RBcOOvt+eGWGOM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=N8kKtJiZ6FAO8Mo3AX7phpQMFlxnvpzLgGn12j3L84L4bRhkNnoc6ImzkIt+W5L6o7es7BjDC4C5zvblj1sajVZ2PC1naBfzAL3yNR8xSRwif2MSsDRPOhAAAR/bzFenGNWOh1pWKTBjzbfkd9N3QZrIp9bR0WWOo9Rb0ruq14c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=m9OAgr6I; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
+	s=arc-20240116; t=1716837855; c=relaxed/simple;
+	bh=1AYlBAqGh7pyXd2PfPvcQ+zPsx8akvGVdpbKbEb3WhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPqVG7GdTIAmKN9HLdqa6PRJ7VW0o8SrW6gkURF7ejBTR89YMUd0U2w+0iifwWfXAmJOIIzJwvwLrb7Rw82xrXA5qGygeedJJqx3h0XlKixEua1oeE9kENL690sbbaoLAz/4Ktd+NF7nXDUrJlUjrqzEm8gCDrJ2h0U82CMkcSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=erhcU8xc; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="m9OAgr6I"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Vp3W71TQtz9sS4;
-	Mon, 27 May 2024 20:06:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1716833203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dRJfzl+erb4rP0hvVohvOtSHuuZdGY2XJTVv3TRXHpw=;
-	b=m9OAgr6I2btEfKm+dEm4KPEFkDsJQk3ETNE69MsZ4cXYyp4S31oODCR+g0zBWrfKx/eIDC
-	G52/WLXF575JUJH6bP8c6qz0JPCi/dxVGLyX+JVurdzsQqmUNNRPFe9f40VgyQwC0nStp8
-	Vu7gZAoezq5hGQe0XUaDkCdN4Ly+uKezDu8AltOo0QR26gJv27+Hi5pr1ldoUZK3n0l+mR
-	z3VVV38XMLmARwzDojgg8lQ9RNFC+n1sgxaF6+r9QBC6N9qal0bkucfsOmoxTbtQ1nj6Su
-	hPaf8VeYbLxnpkcVdWbzvAa8K2PkGah2nri/ValvbCP6qsyg5eZp3CIn6oxrlw==
-From: Ben Walsh <ben@jubnut.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- "Dustin L. Howett" <dustin@howett.net>, Kieran Levin <ktl@frame.work>,
- Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Mario Limonciello
- <mario.limonciello@amd.com>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] platform/chrome: cros_ec_lpc: Correct ACPI name for
- Framework Laptop
-In-Reply-To: <ZlKPwlF86Oe8OPK9@google.com>
-References: <20240515055631.5775-1-ben@jubnut.com>
- <20240515055631.5775-6-ben@jubnut.com> <ZkscFnmHeWWma7Nb@google.com>
- <87jzjk1ibr.fsf@jubnut.com> <Zk_63rrDJFhN1Y1q@google.com>
- <87cypb12j9.fsf@jubnut.com> <ZlKPwlF86Oe8OPK9@google.com>
-Date: Mon, 27 May 2024 19:06:40 +0100
-Message-ID: <877cff2kpb.fsf@jubnut.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="erhcU8xc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1716837844;
+	bh=1AYlBAqGh7pyXd2PfPvcQ+zPsx8akvGVdpbKbEb3WhU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=erhcU8xcTXBvLNHDveHYYQeXF3gXskdNyLRM8056BO0fY8Pqc64b1OofeHwV2Ua21
+	 J1sDiOvO1TELsFkRLxEUZCt1tvBcrEXFcK9Tc+oy+bTFIBu+s/9Fd6Ipuz5Ml6dJlf
+	 FNCCGr8twKdmSWywWiIbakE0EBsXqSICvlMfOgD8=
+Date: Mon, 27 May 2024 21:24:03 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Stephen Horvath <s.horvath@outlook.com.au>
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	Dustin Howett <dustin@howett.net>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Moritz Fischer <mdf@kernel.org>
+Subject: Re: [PATCH v2 1/2] hwmon: add ChromeOS EC driver
+Message-ID: <9cf224dd-51eb-4608-abcf-06f337d08178@t-8ch.de>
+References: <20240507-cros_ec-hwmon-v2-0-1222c5fca0f7@weissschuh.net>
+ <20240507-cros_ec-hwmon-v2-1-1222c5fca0f7@weissschuh.net>
+ <SY4P282MB30635BA1D4087113E79921B5C5F52@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4Vp3W71TQtz9sS4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SY4P282MB30635BA1D4087113E79921B5C5F52@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
 
-Tzung-Bi Shih <tzungbi@kernel.org> writes:
+Hi Stephen,
 
-> On Fri, May 24, 2024 at 07:35:22PM +0100, Ben Walsh wrote:
+On 2024-05-25 09:13:09+0000, Stephen Horvath wrote:
+> I was the one to implement fan monitoring/control into Dustin's driver, and
+> just had a quick comment for your driver:
+> 
+> On 8/5/24 02:29, Thomas Weißschuh wrote:
+> > The ChromeOS Embedded Controller exposes fan speed and temperature
+> > readings.
+> > Expose this data through the hwmon subsystem.
+> > 
+> > The driver is designed to be probed via the cros_ec mfd device.
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> >   Documentation/hwmon/cros_ec_hwmon.rst |  26 ++++
+> >   Documentation/hwmon/index.rst         |   1 +
+> >   MAINTAINERS                           |   8 +
+> >   drivers/hwmon/Kconfig                 |  11 ++
+> >   drivers/hwmon/Makefile                |   1 +
+> >   drivers/hwmon/cros_ec_hwmon.c         | 269 ++++++++++++++++++++++++++++++++++
+> >   6 files changed, 316 insertions(+)
+> > 
 
->> I could add a new quirk which provides an alternative ACPI match table
->> to be used instead of the default. In the default case the match_table
->> will contain only "GOOG0004" as before. But in the Framework EC case the
->> match table will be "PNP0C09".
->
-> I think it doesn't work as the current quirk is handling in
-> cros_ec_lpc_probe() which is after matching.
+<snip>
 
-I was thinking of a new quirk called CROS_EC_LPC_QUIRK_ACPI_MATCH, and
-putting it in cros_ec_lpc_init(), not cros_ec_lpc_probe(). Do we have to
-do all quirk handling in cros_ec_lpc_probe()?
+> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> > new file mode 100644
+> > index 000000000000..d59d39df2ac4
+> > --- /dev/null
+> > +++ b/drivers/hwmon/cros_ec_hwmon.c
+> > @@ -0,0 +1,269 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + *  ChromesOS EC driver for hwmon
+> > + *
+> > + *  Copyright (C) 2024 Thomas Weißschuh <linux@weissschuh.net>
+> > + */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/platform_data/cros_ec_commands.h>
+> > +#include <linux/platform_data/cros_ec_proto.h>
+> > +#include <linux/units.h>
+> > +
+> > +#define DRV_NAME	"cros-ec-hwmon"
+> > +
+> > +struct cros_ec_hwmon_priv {
+> > +	struct cros_ec_device *cros_ec;
+> > +	u8 thermal_version;
+> > +	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
+> > +};
+> > +
+> > +static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
+> > +{
+> > +	u16 data;
+> > +	int ret;
+> > +
+> > +	ret = cros_ec->cmd_readmem(cros_ec, EC_MEMMAP_FAN + index * 2, 2, &data);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	data = le16_to_cpu(data);
+> > +
+> > +	if (data == EC_FAN_SPEED_NOT_PRESENT)
+> > +		return -ENODEV;
+> > +
+> 
+> Don't forget it can also return `EC_FAN_SPEED_STALLED`.
 
-> My original idea: would it be possible to get the `adev` in cros_ec_lpc_probe()
-> via any lookup API?  If yes, it could still use DMI match and get `adev` if
-> required.
+Thanks for the hint. I'll need to think about how to handle this better.
 
-That works; I've tested it.
+> Like Guenter, I also don't like returning `-ENODEV`, but I don't have a
+> problem with checking for `EC_FAN_SPEED_NOT_PRESENT` in case it was removed
+> since init or something.
 
-In this scenario we're not using the existing PNP0C09 platform device,
-which means I can't look at
-/sys/bus/acpi/devices/PNP0C09\:00/physical_node/driver and see the
-driver. Is this OK?
+Ok.
 
-(Note that ACPI_COMPANION_SET() doesn't fix this. You can use
-acpi_bind_one() but that seems more like internal plumbing).
+> My approach was to return the speed as `0`, since the fan probably isn't
+> spinning, but set HWMON_F_FAULT for `EC_FAN_SPEED_NOT_PRESENT` and
+> HWMON_F_ALARM for `EC_FAN_SPEED_STALLED`.
+> No idea if this is correct though.
+
+I'm not a fan of returning a speed of 0 in case of errors.
+Rather -EIO which can't be mistaken.
+Maybe -EIO for both EC_FAN_SPEED_NOT_PRESENT (which should never happen)
+and also for EC_FAN_SPEED_STALLED.
+And EC_FAN_SPEED_STALLED also sets HWMON_F_FAULT.
+HWMON_F_ALARM doesn't seem right to me.
+
+But if Guenter has a preference, that will do, too.
+
+> 
+> > +	*speed = data;
+> > +	return 0;
+> > +}
+> > +
+
+<snip>
+
+> But feel free to ignore me if I'm completly wrong about this, since I really
+> don't have much experience with kernel dev.
+
+Thanks for your feedback!
+
+Would you mind if I Cc you on further revisions?
+
+
+Thomas

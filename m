@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E5379F5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5948679F6;
 	Mon, 27 May 2024 03:07:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716779226; cv=none; b=MhZS4zgcJfmQsrD2VWDrOuldlqRRcVrQ2kKeHiiTNMD1gU3VZZZsF+d51/r9SeE5lyM0FebCmnCOm1LWQP6SD7OeMKQsUxAc4hF9Ab9qEY32VHx6Go2fcrLbf+JIiBeSFuOr3PDGEMo8v6vBYmnEwa2UDKm6Z3T3kGJK2lOTscs=
+	t=1716779226; cv=none; b=sXSismyvpKqS+xx6k/OaGhdkYWSAY2IKPKQQXVPBpPdXQYUS3EC1Vcu1mvn+BfPHJPm33zhbdqthvunSW3XzKJaWY8wnZfQrjcaHOODeti8NSTATic2kGQIDjxDkyuBqWU20a8DH1FrkRhK0Hi+NuAsDiAi20oTiU27cl8hP6B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716779226; c=relaxed/simple;
-	bh=mkomIXN6pzO9hx2rumxV0LvfWlO256pCZqTQ8w4ZMdI=;
+	bh=3rVpb3BXXNkOipWnRw3qrSJpClaL41p1KwTUy2ndhEM=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=m5iE5OnWyPDkHFWuAj8Tro3cwocbPa+82mXB/uYiwCgoZVNUXK/H4DlZPC6X+PM2Fim2TxtaHDQPq/1VVEDjYSrKA6pk6z1j+95RX4GHWQ+gHozwqyNTgWduBixLsjHdEEop7HQrurOTQL8ZKzU1UigXzvbw4N0VjUxppcAa0XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s1MuILI/; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=CVIpKpwleu54EqgmQqZWBTqXyWAd0PzUQj1rsqa4Lq27JzDGxIUZkch7Cc7lxzgTk8YOZfXrKaNeNIsTWcJAC5FUNS17Z/lehJrNlktQ13xfhA3WHcZRijr2yEX8tNekIHjstCfNhG4CpQDjv69exfW1B9wn8BtfvnHllIpz39Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpvSIamX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1MuILI/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 09702C4AF0B;
-	Mon, 27 May 2024 03:07:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpvSIamX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC67CC32782;
+	Mon, 27 May 2024 03:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1716779226;
-	bh=mkomIXN6pzO9hx2rumxV0LvfWlO256pCZqTQ8w4ZMdI=;
+	bh=3rVpb3BXXNkOipWnRw3qrSJpClaL41p1KwTUy2ndhEM=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=s1MuILI/d20Z7r2wAbDepbguQer2hhl+fXrJiYW9S6ABVevaZXgV70GpB5Uw9nYIc
-	 7DtuE7pWhbvOBAOugNN9HwSCayO4A3Kt1aak+xsBhM9gd+DeQQOZUgWw+rrEsoRrQi
-	 9d2G+1vAKCI5New51Elxi/1RRsYfReHmLrVesrlmVWxSi5kIFRIzGT3/a917Ugnz9V
-	 FfqVpIjt/lvJeVRRRbwxmBWOybeykpJiN5sOUFvmsDYKgKPdjVAwNjvb5mFlKFiFR6
-	 O24k9xUlVXXvlQtEplj11v43p5mPiDoq/sK0CDDGL3WnoG3HG4AQEOOQjXw9rjO/fv
-	 1/9Xy53k8eSpg==
+	b=jpvSIamXTiGCJUyljpbsvFdJp63C1hBsbS0A+dVYueNW+U4EO+Rgj6NPg0Tv8yHRG
+	 Mh++Dil+YouKeEw/d3JPDeKzRwXYGsbRj+8iaIMtuPj588s0a02/Mc72WmAa4RCr2I
+	 OO/g6gewalxxyypUE9b3dFxsK7vsqSVuEJEZm+AeGLeECK8MTtG/QWfWT2Bf5IwwUu
+	 /3KzNooo4gaBmrBP7NiFV6Un3FesTGnxnbBiUkKAfbXgiNUgVajqEzyHwz8IdkSUVL
+	 P0xhJAwjjzs7h7/T576/jf0tzqlf/fRR6XEKJjg945qPtTDvHvNFfUecoHzW4uzbgL
+	 UTg+JvSCS0h5Q==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ECA59D4F15D;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DB4CBCF21F7;
 	Mon, 27 May 2024 03:07:05 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,37 +37,48 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Input: cros_ec_keyb - Remove an unused field in struct
- cros_ec_keyb
+Subject: Re: [PATCH v2 0/6] provide ID table for avoiding fallback match
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171677922596.1901.2861363430804951826.git-patchwork-notify@kernel.org>
+ <171677922589.1901.13930428876573381422.git-patchwork-notify@kernel.org>
 Date: Mon, 27 May 2024 03:07:05 +0000
-References: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: dmitry.torokhov@gmail.com, bleung@chromium.org, groeck@chromium.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-input@vger.kernel.org, chrome-platform@lists.linux.dev
+References: <20240401030052.2887845-1-tzungbi@kernel.org>
+In-Reply-To: <20240401030052.2887845-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
+ chrome-platform@lists.linux.dev, pmalani@chromium.org,
+ linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, krzk@kernel.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+This series was applied to chrome-platform/linux.git (for-next)
+by Sebastian Reichel <sebastian.reichel@collabora.com>:
 
-On Wed,  1 May 2024 08:49:47 +0200 you wrote:
-> In "struct cros_ec_keyb", the 'keymap_data' field is unused.
-> Remove it.
+On Mon,  1 Apr 2024 11:00:46 +0800 you wrote:
+> Inspired by [1].  Turn all MODULE_ALIAS() in ChromeOS EC platform drivers into
+> proper platform_device_id table and MODULE_DEVICE_TABLE().
 > 
-> Found with cppcheck, unusedStructMember.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> The series is basically looking for drivers from:
+> - `struct mfd_cell` in drivers/mfd/cros_ec_dev.c.
+> - grep -R MODULE_ALIAS drivers/platform/chrome/.
 > 
 > [...]
 
 Here is the summary with links:
-  - Input: cros_ec_keyb - Remove an unused field in struct cros_ec_keyb
-    https://git.kernel.org/chrome-platform/c/5128de84d8fc
+  - [v2,1/6] media: platform: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [v2,2/6] gpio: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [v2,3/6] power: supply: cros_usbpd: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/0f8678c34cbf
+  - [v2,4/6] power: supply: cros_pchg: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/d6486a13665e
+  - [v2,5/6] platform/chrome: cros_kbd_led_backlight: shrink the driver name
+    (no matching commit)
+  - [v2,6/6] platform/chrome: cros_kbd_led_backlight: provide ID table for avoiding fallback match
+    (no matching commit)
 
 You are awesome, thank you!
 -- 

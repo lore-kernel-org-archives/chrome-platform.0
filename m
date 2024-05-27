@@ -1,122 +1,78 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2BB12BF18
-	for <chrome-platform@lists.linux.dev>; Sun, 26 May 2024 18:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D701FAA;
+	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716747515; cv=none; b=gP4Na5IsphaEpeJ7PvOhtCGFvY9gOJPYnloNblfsR3KVpQhfS+vPFFJ2S3RVUldv3AY0zXiG37F9coH6+Y3CXRdUmHOJnoS25NF0qLznoYHxBMHNhCFSFNUIZrgXNR7YxgzlkIp2y5xa1sVQftXd0kOq6Vkln4ExrPnsx2kjchs=
+	t=1716778511; cv=none; b=LCWkWepT+bCPLt4Ij6HoM3mIYVyuDnxxez0rQYtVvBU43bFyYa7UaJyOze4vlQXpf1/DB6imtIGZieASiD4RomIiFuhqv2MFLTvzHdBjDsw2j00sIeUK1egePpglS+yxtYWeflkcMpO+ni96srQVnFZBHLIf/oJwNQtD9AJu8Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716747515; c=relaxed/simple;
-	bh=5oMowGkqzJsbgrsbE3KVNxytAh6f1E17OgBqP3p91cA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PU7ZqLBr+sGHqMK40d6+1bnonM3XZ2YuBBLS4EtMp4e5Q7Y/8lsvQNNpDrGOGPv4QDNI6IKEQym9GKO/B2fugnEbREzw5pNKkfSGV+Exk7DQrkU+/aH6VlTcYRaXf0Awx5szCt1FKoP+yqB8e+ZHbYCNT7RNDxSRAhDHlwd/Iig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=cHBy0WsF; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1716778511; c=relaxed/simple;
+	bh=39qO4ArV4WMkI/+MoaGYnazaqANez7q1UTHks9np4s8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=C139/x+zJJhf6iFl0BU6gu5qwlJzA9q7u9bNy1NaYxm7jVO3TBRf7bZt3HuZvt2v9E+tqbVQOnOS/b/DVFkQcyq4+QNi/P+MtRU5SfPgZfr2eAInxMTctI9KGQOYiAys7XkJnBAfh25LEASRWcrmhAVo97Q6p29A2JUhnRud2JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0dezIaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="cHBy0WsF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1716747502;
-	bh=5oMowGkqzJsbgrsbE3KVNxytAh6f1E17OgBqP3p91cA=;
-	h=From:Subject:Date:To:Cc:From;
-	b=cHBy0WsF4PLV0FrUm42Y1zonWWPhGgq+1uJDUWrxXAhHFS2nN8gIhAfiQPivqgLsW
-	 e4eptCA2uKWbRqrafdGoCarKYcHbmX2E5wUzdq2f/cHFsBQf/poq/wWer1OQHd897V
-	 WqFwBCGqS7by8gexZDh7eHEuFW98v14M/UVL7T8U=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v3 0/4] cros_kbd_led_backlight: allow binding through
- cros_ec mfd device
-Date: Sun, 26 May 2024 20:17:14 +0200
-Message-Id: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0dezIaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 297E9C32789;
+	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716778511;
+	bh=39qO4ArV4WMkI/+MoaGYnazaqANez7q1UTHks9np4s8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Q0dezIaZxlrFzGX+kwhj2Y2qgdgxgguKN499Jh6AowH8IHeJppEuw4g7xqZYAYgo4
+	 G6jUAAyLWCEVkfsD1mDJANpVjyLnmRrtZ1eU3E9kpfsI0eX1WgAGhz3mESO/wstYxW
+	 KlXPs9J3jsrQJzoXpOpH/QHieyH1dbeIGfY1v333StXkq31ugdlHGSzYvAQAkP4yg4
+	 RFj9WNzlbshlmUt3F7cb2b24HyGrIagt7+DfXiVHUgmWb5CUxpW9qjgd4L1Gb/FQo6
+	 z6/h2XYMLL8Ql4Xq45fK8WJpGmfFeZVXW/qU8OADaNbi7VhNG/thDKBeU77W2mZxyF
+	 PJefczsOXHIPQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 13421CF21F9;
+	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKp8U2YC/43NTQrCMBCG4atI1o4k6b8r7yEi7WRqQrWRpKZK6
- d1NuxIEcfl+MM9MzJMz5Nl+MzFHwXhj+xjJdsNQ1/2FwKjYTHKZ8oxngM76MyF0jYIrKWhdfaP
- Rug4KklQmosGiQhbv745a81zt4ym2Nn6w7rW+CmJZ/1GDAAFNi1jnFReJkoeRjPce9UPvehrYQ
- gf5wQnxi5PAoZEc01LwitL8i5vn+Q2N7qCMFgEAAA==
-To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Pavel Machek <pavel@ucw.cz>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, linux-leds@vger.kernel.org, 
- Rajas Paranjpe <paranjperajas@gmail.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716747501; l=2693;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=5oMowGkqzJsbgrsbE3KVNxytAh6f1E17OgBqP3p91cA=;
- b=zWV2+zpnlF/9WHtH2W0I/+gtloQmSDiZwRDdjyswEtjbkhOrbLzO4bL5bE29puRJnyvRZ9/4g
- dRCyAjTHblGBQFEyhRTLKm8kC7/HPCOVj/dkFfUR2rGme3HURAX3TFO
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Subject: Re: [PATCH v2] drm/mediatek/dp: fix mtk_dp_aux_transfer return value
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171677851107.1901.3212994325646956148.git-patchwork-notify@kernel.org>
+Date: Mon, 27 May 2024 02:55:11 +0000
+References: <20240417103819.990512-1-wmacek@chromium.org>
+In-Reply-To: <20240417103819.990512-1-wmacek@chromium.org>
+To: Wojciech Macek <wmacek@chromium.org>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
 
-Extend the cros_ec MFD device to also load cros_kbd_led_backlight
-when the EC reports EC_FEATURE_PWM_KEYB.
-As the driver can now be probed multiple times, some preparation in the
-LED core is necessary to avoid name collisions.
+Hello:
 
-Patch 1 is a general cleanup for the LED core.
-Patch 2 modifies the LED core to skip the default collision handling.
-Patch 3 adds the new probing logic to cros_kbd_led_backlight.
-Patch 4 wires up the driver to the cros_ec mfd devices.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Chun-Kuang Hu <chunkuang.hu@kernel.org>:
 
-The helper keyboard_led_is_mfd_device is a bit iffy.
-But using match data doesn't work.
+On Wed, 17 Apr 2024 10:38:19 +0000 you wrote:
+> In case there is no DP device attached to the port the
+> transfer function should return IO error, similar to what
+> other drivers do.
+> In case EAGAIN is returned then any read from /dev/drm_dp_aux
+> device ends up in an infinite loop as the upper layers
+> constantly repeats the transfer request.
+> 
+> [...]
 
-* driver_data from platform_device_id is overwritten by the mfd platform data
-* Setting the driver_data in drivers/mfd/cros_ec_dev.c would expose the
-internals of cros_kbd_led_backlight
+Here is the summary with links:
+  - [v2] drm/mediatek/dp: fix mtk_dp_aux_transfer return value
+    https://git.kernel.org/chrome-platform/c/8431fff9e0f3
 
-Tested on a Framework 13 AMD, Firmware 3.05, and a Jinlon Chromebook.
-
-To: Lee Jones <lee@kernel.org>
-To: Benson Leung <bleung@chromium.org>
-To: Guenter Roeck <groeck@chromium.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>
-Cc: chrome-platform@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Cc: Dustin Howett <dustin@howett.net>
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: linux-leds@vger.kernel.org
-Cc: Rajas Paranjpe <paranjperajas@gmail.com>
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-
-Changes in v3:
-- Avoid probing multiple times (Confirmed by Rajas)
-- Add Kconfig dependency on MFD_CROS_EC_DEV
-- Link to v2: https://lore.kernel.org/r/20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net
-
-Changes in v2:
-- Fix build with CONFIG_MFD_CROS_EC_DEV=n (kernel test robot)
-- Split out mfd registration into own commit (Lee)
-- Simplify keyboard_led_is_mfd_device() with mfd_get_cell()
-- Link to v1: https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net
-
----
-Thomas Weißschuh (4):
-      leds: class: warn about name collisions earlier
-      leds: add flag to avoid automatic renaming of led devices
-      platform/chrome: cros_kbd_led_backlight: allow binding through mfd device
-      mfd: cros_ec: Register keyboard backlight subdevice
-
- drivers/leds/led-class.c                         |  9 +++---
- drivers/mfd/cros_ec_dev.c                        |  9 ++++++
- drivers/platform/chrome/Kconfig                  |  2 +-
- drivers/platform/chrome/cros_kbd_led_backlight.c | 40 ++++++++++++++++++++++--
- include/linux/leds.h                             |  1 +
- 5 files changed, 54 insertions(+), 7 deletions(-)
----
-base-commit: 6fbf71854e2ddea7c99397772fbbb3783bfe15b5
-change-id: 20240505-cros_ec-kbd-led-framework-7e2e831bc79c
-
-Best regards,
+You are awesome, thank you!
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853DC1FBA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868F820E6;
 	Mon, 27 May 2024 02:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716778511; cv=none; b=TZ1VY2Wl4ylLO5oVbrzwpZAURhck5/OZdal4rSC7LinP7pL1ncf9zxUaXYS3Ia6tYwL5ZP48rstl4Eh8yvK/Li4q6I+OgIg0QkvDFaviBzNsaK7L6+/V3WYqcp+fpSmlewPFnk4cZ4lzLdqBGEHYcdYnbP8RZSDMgL+eQEAgHjc=
+	t=1716778511; cv=none; b=qwCzf0wVhu3MYDOeTED1mnEkNnnP/09iN6EvHnBGgMWPOmCzu0ZPA+pBwikBZViRl3uF3V2fKHYi1A1RDHgaou1CcV6YROmEjZ/l4hAAtCegjZAMHO5I2aFUMxhLSzqVIR9QJUbI67+MHw6bgipiePUd2gwmeaxoCESRjpcID4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716778511; c=relaxed/simple;
-	bh=+J2jhZqmD9tVbcp0PsnZ6RwP7Cc7iWFPNZskazlOzV4=;
+	bh=IVnqRn382nSyzKHmBGD+vnMqxsrVjaWy+z+fc70OVCQ=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=eG1ejN500QO6R7qK6EGo6OD3w/usGS9aLFRAy+MI8GAHQ/DOpAV6EG8AGyawyxx47rHFrcl7ep0wWLtccRoZijwavPIpdBhEozCnnFIkg7/HCFXHKDnkCgSn9sPFonJJrlEN1P1T7LrFnqh55FSbD4yuCUPFeIHS0Q/HriKgW2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VM7unr70; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=sMjCwD5bqz5g9BnUkdzK8pgajs/RBLfudd0DOQ5TjHxNWgLLfGDIELEtiVy4Tn/qnGVdVMfoc0AzJADMBlYptyUIAuht0ZsI9g2uyCJxjiSHNotd2IzTkc9jd9M/iAFvI/rDOvRPIGlJxVyFF0qWvFDvbPz3P8ZszZh2qQk2OlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hz7nbNA6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VM7unr70"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 13E49C4AF08;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hz7nbNA6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1BA85C4AF09;
 	Mon, 27 May 2024 02:55:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1716778511;
-	bh=+J2jhZqmD9tVbcp0PsnZ6RwP7Cc7iWFPNZskazlOzV4=;
+	bh=IVnqRn382nSyzKHmBGD+vnMqxsrVjaWy+z+fc70OVCQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=VM7unr70e21Judv5lw1k/mRk0S9DkbtwCvyx31g2BXUz5Lsik/7OY04aRdquZ29Ak
-	 cNQGU1e/NNbH4oRKsfu0RSJ6YoYsWu5nGXH70EfM2f34rQ04fGryl5aVUdbo5IieuF
-	 aW6z83kHwPh6yI57tPDfBHS+1vtqVTeUJuehnw+hC0wjPxhqCFcT2bnNk2VFNzrspd
-	 ttjdfOKf107n6HlxryzwI7bnc598Lr2dEC8eDYry37MYUHkM6tZ1bEdQJ3EkWSHKLd
-	 kxgQeGjIvvrmdLaM/71oWHIgcRABsm3zsHVNKo1Dm9EFpZXuv00F2x11yCk4FtTqXo
-	 UAEWentLzxIqw==
+	b=Hz7nbNA6xcRLqNb84tLKLDU+OIUJY/ckZOHXviqjRx0neEDOR4tQZ+wNt4PhoDd4W
+	 6iWJPsVizMXGwuN782ZpDTMVPgA6itKdNeEPfeAlhnV4xiCCm1clLWBCWJ4WrUebIt
+	 VwbeENY7KWZqJ92/MHyshIz6EVnOLceIBgLUcYsfBBr8wdx5h7+fRiILKIttW7Begk
+	 bn7AY7GcNpm2w+Hqj+52mB+wYabtFHaVeOFTkO8256gO+qYfb0xJP7455DccR/ufxT
+	 PirGvqOGnpxo/7ktYz01b5VepgqbeaNkg1spFtnn85RjvMUYmHEz7nWPrGyvR1hbi2
+	 DbvAvCVjC4sYA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 05781CF21F7;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0BBCFD4F15D;
 	Mon, 27 May 2024 02:55:11 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,38 +37,48 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/2] firmware: coreboot: store owner from modules with
- coreboot_driver_register()
+Subject: Re: [PATCH v2 0/6] provide ID table for avoiding fallback match
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171677851101.1901.12388109509867955776.git-patchwork-notify@kernel.org>
+ <171677851104.1901.10099915202413513803.git-patchwork-notify@kernel.org>
 Date: Mon, 27 May 2024 02:55:11 +0000
-References: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
-In-Reply-To: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240401030052.2887845-1-tzungbi@kernel.org>
+In-Reply-To: <20240401030052.2887845-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
+ chrome-platform@lists.linux.dev, pmalani@chromium.org,
+ linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, krzk@kernel.org
 
 Hello:
 
 This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+by Sebastian Reichel <sebastian.reichel@collabora.com>:
 
-On Sat, 30 Mar 2024 20:49:46 +0100 you wrote:
-> Moving the .owner setting code to the core this effectively fixes
-> missing .owner in framebuffer-coreboot, memconsole-coreboot and vpd
-> drivers.
+On Mon,  1 Apr 2024 11:00:46 +0800 you wrote:
+> Inspired by [1].  Turn all MODULE_ALIAS() in ChromeOS EC platform drivers into
+> proper platform_device_id table and MODULE_DEVICE_TABLE().
 > 
-> Best regards,
-> Krzysztof
+> The series is basically looking for drivers from:
+> - `struct mfd_cell` in drivers/mfd/cros_ec_dev.c.
+> - grep -R MODULE_ALIAS drivers/platform/chrome/.
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/2] firmware: coreboot: store owner from modules with coreboot_driver_register()
-    https://git.kernel.org/chrome-platform/c/46c6685e7e88
-  - [2/2] firmware: google: cbmem: drop driver owner initialization
-    https://git.kernel.org/chrome-platform/c/7f20f21c22aa
+  - [v2,1/6] media: platform: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [v2,2/6] gpio: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [v2,3/6] power: supply: cros_usbpd: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/0f8678c34cbf
+  - [v2,4/6] power: supply: cros_pchg: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/d6486a13665e
+  - [v2,5/6] platform/chrome: cros_kbd_led_backlight: shrink the driver name
+    (no matching commit)
+  - [v2,6/6] platform/chrome: cros_kbd_led_backlight: provide ID table for avoiding fallback match
+    (no matching commit)
 
 You are awesome, thank you!
 -- 

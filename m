@@ -1,78 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BF44C96;
-	Mon, 27 May 2024 03:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D2361FE9
+	for <chrome-platform@lists.linux.dev>; Mon, 27 May 2024 18:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716779431; cv=none; b=DalGTIUuLlQBR1uZKjwRJa0hmCoo0ruywegCZmLS/VTlJUideoyx+zSiJSlc338Zwvd3ag2L6Rxkiiob8iUnvgYOg128kLHlaXkI+OcGBOhuqZTTnFVOinuAeNvaS+g6+yLN+yXV6dvXxE+G55tV9ASBhju3mIYTNCR2CVHxiX0=
+	t=1716833208; cv=none; b=YoLlytGWtl/wHeV4IwxoePY6t9DWXyIlF9GdnSxeO0IW1XNmJ7D5Waj0pkCBOvK9Q/8JsoQ1h4ma0A/E9wEmihNyV/cgHICzyUazJzM6nUW4aL/5OY44eYX5da/V1V7D5X1RcPA44oSVfdeY/n/Uosm89jIvr62aduzXhr9tQls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716779431; c=relaxed/simple;
-	bh=nQ+yASZZf4ZLThVtkct1L/qj2j0Q16CyRcHYQ4Z86wg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=WwHM5QHU4y4aT8HlYXMqMO2zkDF8r9bHRqi0vm65mrk0X8Ys6ODSRh1dGVIc5RcIGbDm6bH27i+Fe4xgvSA9MOSu6pwkzKGw2/hGkDQeyfrSHSJ7/mLs5CLUOXJThMl81T1OMDWS5u0T+YWZ3ZXGOs4p4gPpisvD+8OybHaDXxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qgU9NaeB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716833208; c=relaxed/simple;
+	bh=pzZeJfyni1NMNSarctd7XFqTYT9P+RBcOOvt+eGWGOM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=N8kKtJiZ6FAO8Mo3AX7phpQMFlxnvpzLgGn12j3L84L4bRhkNnoc6ImzkIt+W5L6o7es7BjDC4C5zvblj1sajVZ2PC1naBfzAL3yNR8xSRwif2MSsDRPOhAAAR/bzFenGNWOh1pWKTBjzbfkd9N3QZrIp9bR0WWOo9Rb0ruq14c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=m9OAgr6I; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qgU9NaeB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 37055C4AF07;
-	Mon, 27 May 2024 03:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716779430;
-	bh=nQ+yASZZf4ZLThVtkct1L/qj2j0Q16CyRcHYQ4Z86wg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qgU9NaeBAbSdTky8/A6A8K/xPF+zEV6R4u+bb88ssTV8YECw/Lh7ttmQoqOpS78IP
-	 Mpx2sJTmqe17Uz/IR4AzGgi7Lq8f95AHDA2ry7p4z9iyoAJHirOUeOWdemKaybgT3I
-	 HttHA5h8HmagOLgqZNdEHA+i9iV9mBsldgi697KBnnHUEjuonICRdFhAUblWiglsSh
-	 e1VNe4V4vQEdyHr9pMp0K4L3SvK5RjUd9vtdq2Lo1b+V77E8jKyWPbBTKkhGFjTKoN
-	 Ry3BWP1sUIXZyyGMqX4xKOJ6dQpD9uUSQu9NsO2j5CGgHCx0wu8SRxbQnkxBc88eoH
-	 E4ktahHFwenxQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 28C48CF21F7;
-	Mon, 27 May 2024 03:10:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="m9OAgr6I"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Vp3W71TQtz9sS4;
+	Mon, 27 May 2024 20:06:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
+	t=1716833203;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dRJfzl+erb4rP0hvVohvOtSHuuZdGY2XJTVv3TRXHpw=;
+	b=m9OAgr6I2btEfKm+dEm4KPEFkDsJQk3ETNE69MsZ4cXYyp4S31oODCR+g0zBWrfKx/eIDC
+	G52/WLXF575JUJH6bP8c6qz0JPCi/dxVGLyX+JVurdzsQqmUNNRPFe9f40VgyQwC0nStp8
+	Vu7gZAoezq5hGQe0XUaDkCdN4Ly+uKezDu8AltOo0QR26gJv27+Hi5pr1ldoUZK3n0l+mR
+	z3VVV38XMLmARwzDojgg8lQ9RNFC+n1sgxaF6+r9QBC6N9qal0bkucfsOmoxTbtQ1nj6Su
+	hPaf8VeYbLxnpkcVdWbzvAa8K2PkGah2nri/ValvbCP6qsyg5eZp3CIn6oxrlw==
+From: Ben Walsh <ben@jubnut.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ "Dustin L. Howett" <dustin@howett.net>, Kieran Levin <ktl@frame.work>,
+ Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Mario Limonciello
+ <mario.limonciello@amd.com>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] platform/chrome: cros_ec_lpc: Correct ACPI name for
+ Framework Laptop
+In-Reply-To: <ZlKPwlF86Oe8OPK9@google.com>
+References: <20240515055631.5775-1-ben@jubnut.com>
+ <20240515055631.5775-6-ben@jubnut.com> <ZkscFnmHeWWma7Nb@google.com>
+ <87jzjk1ibr.fsf@jubnut.com> <Zk_63rrDJFhN1Y1q@google.com>
+ <87cypb12j9.fsf@jubnut.com> <ZlKPwlF86Oe8OPK9@google.com>
+Date: Mon, 27 May 2024 19:06:40 +0100
+Message-ID: <877cff2kpb.fsf@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/2] platform/chrome: cros_ec_proto: Trivial kdoc fixes
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171677943016.24851.12983091193443152313.git-patchwork-notify@kernel.org>
-Date: Mon, 27 May 2024 03:10:30 +0000
-References: <20240524-cros_ec-cmd_versions-v1-0-8a148647d051@weissschuh.net>
-In-Reply-To: <20240524-cros_ec-cmd_versions-v1-0-8a148647d051@weissschuh.net>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh_=3Clinux=40weissschuh=2Enet=3E?=@ci.codeaurora.org
-Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4Vp3W71TQtz9sS4
 
-Hello:
+Tzung-Bi Shih <tzungbi@kernel.org> writes:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+> On Fri, May 24, 2024 at 07:35:22PM +0100, Ben Walsh wrote:
 
-On Fri, 24 May 2024 10:33:32 +0200 you wrote:
-> Two tiny fixes for kernel docs.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> Thomas Weißschuh (2):
->       platform/chrome: cros_ec_proto: Fix cros_ec_get_host_event_wake_mask kdoc
->       platform/chrome: cros_ec_proto: Fix cros_ec_get_host_command_version_mask kdoc
-> 
-> [...]
+>> I could add a new quirk which provides an alternative ACPI match table
+>> to be used instead of the default. In the default case the match_table
+>> will contain only "GOOG0004" as before. But in the Framework EC case the
+>> match table will be "PNP0C09".
+>
+> I think it doesn't work as the current quirk is handling in
+> cros_ec_lpc_probe() which is after matching.
 
-Here is the summary with links:
-  - [1/2] platform/chrome: cros_ec_proto: Fix cros_ec_get_host_event_wake_mask kdoc
-    https://git.kernel.org/chrome-platform/c/d1019a74e0f5
-  - [2/2] platform/chrome: cros_ec_proto: Fix cros_ec_get_host_command_version_mask kdoc
-    https://git.kernel.org/chrome-platform/c/c48a71a88772
+I was thinking of a new quirk called CROS_EC_LPC_QUIRK_ACPI_MATCH, and
+putting it in cros_ec_lpc_init(), not cros_ec_lpc_probe(). Do we have to
+do all quirk handling in cros_ec_lpc_probe()?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> My original idea: would it be possible to get the `adev` in cros_ec_lpc_probe()
+> via any lookup API?  If yes, it could still use DMI match and get `adev` if
+> required.
 
+That works; I've tested it.
 
+In this scenario we're not using the existing PNP0C09 platform device,
+which means I can't look at
+/sys/bus/acpi/devices/PNP0C09\:00/physical_node/driver and see the
+driver. Is this OK?
+
+(Note that ACPI_COMPANION_SET() doesn't fix this. You can use
+acpi_bind_one() but that seems more like internal plumbing).

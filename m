@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721841A2C1B
-	for <chrome-platform@lists.linux.dev>; Mon, 27 May 2024 03:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B906D23D7;
+	Mon, 27 May 2024 03:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716779430; cv=none; b=piKY+Yj5QbpoumGsooTnZVgMWWThEIZ4xGfnFi4kIB7ESocrzlXAhC9bVHwq0beLsvnKn1p86k6AyLjZHT2JMp7yNT0QMJtxZfGP3a6FBUXkWdbIMP5hdPKIJ8gJ1kWHTHoHLYVNncDoQ+oBQKpzmo7pFacodiV3D2gaw5us9aA=
+	t=1716779430; cv=none; b=mNKXasUgviP5a5KHqZTA+7AlZjKbmdwl9aQARnaLSSCI7fTG/50GvDbOt3kBUfNlK/UvN6RAszlamXxnYlMG09SCzKU305L5NVO/C+YJzhcsRuEllDT6widYZKA4UOmdUbvbDztSa9XzgLRBeIkv67uuxGE9meYpCPLw7vDxLAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716779430; c=relaxed/simple;
-	bh=UNuHSPH3MyMNeLptuc2HCpUs1+lkupoTio+1Px1p2Gw=;
+	bh=H9f98sf9KBY7q0f3ExFOE5UpF03Q4X6HE5DY4K8Pv8Y=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=O9kcK42tVzxTu91EWcwgY6xD6pFFv3PHwfbbTOmhtGtPm9Sc2nc2J2ZzfJ5liw4b3wCMX7LRjmqAFThwdmhR6naIeTuxBvAHoRnM9sqQZSxQtQr36EIs8nZeU+vd58DpHccOuU7X6KZc4RxmyUf0LIiBRUb/UiaGAGkWqhFqolE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvPvsuf4; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=KnjlMdmsns06GN6PR3LklgC5E4L3EWFJXww9orNNtwJqo141r2xLkaYPuBvlFJmWLwJcD/C17Xgin9J66EzB82m7atgPaxib+pz+tThAb3Pk1PnsCdWu66j+U4otV8IsbTLMQShNTUN1Pb/xqlgTjO8jhD2C56KWDSxt3EI3kvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PkAsgTx4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvPvsuf4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 420FDC2BD10;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PkAsgTx4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96227C4AF0C;
 	Mon, 27 May 2024 03:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1716779430;
-	bh=UNuHSPH3MyMNeLptuc2HCpUs1+lkupoTio+1Px1p2Gw=;
+	bh=H9f98sf9KBY7q0f3ExFOE5UpF03Q4X6HE5DY4K8Pv8Y=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=KvPvsuf4Z2CxDPBlb9oASit5lOZNHuZsNbWjTG605cE2rHOMdORYEjD7anxNR6+xd
-	 igopvBJye2LuYolKlWW1k1yfVOa8R83k7O1SwbN3J3OEeyH5R8FXdMOCr9gpsNcOga
-	 dQY8drAishGNluvf+JqOBSEnBuqo2tTLiaZRgBJRTr55bKFnUTAaB5yztYt5KeyrbK
-	 gWqDh3VL0ruWeX623DHXhIKuc3AySjvxv9Qbzaf3X2jv6Zgg3wRfdOpQ17DdHT+Y1V
-	 GpHLSWbadQ9bua+93BV5UUIfpvcSJAl78y9UjYUuCCJxTOHZzrSqm5FrhG8D/3AQrD
-	 I9Iqn3mwGfzCw==
+	b=PkAsgTx4VwGk+piZoKNks4CeST2HutgtgoBoqFoFMGNNSWU86ifJpzKi10zBCMY8n
+	 IWf0YUXB3r2i1jaWnlxQSFNPIM9H+ibNHcQmIqmXPFvt54+ydwYy1+qY9lMz2C3IkC
+	 Wh7qyLbTiogBXg3p8BzECUjjZms5DO+MebmLxQO4TWibB/0J/B/1HMez13gAc1ho85
+	 WqumxzQk9OgBIy5bJE/gTiRUomXHb1bT0fG3tSj8KYB7pPSZNRiMETh0bkBgkqnkIp
+	 Ehy3QQlN5s4VPSJiCNepBYeCeB1T1Nf97xLS3jwoTnIzQ4A0rrYQoEmEvdELGEaS82
+	 y+S78D8yilNtA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2F6EDC54BB3;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8A199CF21F7;
 	Mon, 27 May 2024 03:10:30 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,35 +37,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec: let cros_ec_suspend() call
- cros_ec_suspend_*
+Subject: Re: [PATCH 0/2] platform/chrome: cros_ec_proto: Trivial kdoc fixes
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171677943019.24851.13008138048182860009.git-patchwork-notify@kernel.org>
+ <171677943055.24851.13069392043315072746.git-patchwork-notify@kernel.org>
 Date: Mon, 27 May 2024 03:10:30 +0000
-References: <20240430020924.610724-1-tzungbi@kernel.org>
-In-Reply-To: <20240430020924.610724-1-tzungbi@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
+References: <20240524-cros_ec-cmd_versions-v1-0-8a148647d051@weissschuh.net>
+In-Reply-To: <20240524-cros_ec-cmd_versions-v1-0-8a148647d051@weissschuh.net>
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh_=3Clinux=40weissschuh=2Enet=3E?=@ci.codeaurora.org
+Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This series was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Tue, 30 Apr 2024 10:09:24 +0800 you wrote:
-> After commit 2fbe479c0024 ("platform/chrome: cros_ec: Handle events
-> during suspend after resume completion"), cros_ec_resume() starts to
-> call cros_ec_resume_early() and cros_ec_resume_complete().
+On Fri, 24 May 2024 10:33:32 +0200 you wrote:
+> Two tiny fixes for kernel docs.
 > 
-> To be neat, let cros_ec_suspend() call cros_ec_suspend_prepare() and
-> cros_ec_suspend_late().
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+> Thomas Weißschuh (2):
+>       platform/chrome: cros_ec_proto: Fix cros_ec_get_host_event_wake_mask kdoc
+>       platform/chrome: cros_ec_proto: Fix cros_ec_get_host_command_version_mask kdoc
 > 
 > [...]
 
 Here is the summary with links:
-  - platform/chrome: cros_ec: let cros_ec_suspend() call cros_ec_suspend_*
-    https://git.kernel.org/chrome-platform/c/47ef58cdbd7f
+  - [1/2] platform/chrome: cros_ec_proto: Fix cros_ec_get_host_event_wake_mask kdoc
+    https://git.kernel.org/chrome-platform/c/d1019a74e0f5
+  - [2/2] platform/chrome: cros_ec_proto: Fix cros_ec_get_host_command_version_mask kdoc
+    https://git.kernel.org/chrome-platform/c/c48a71a88772
 
 You are awesome, thank you!
 -- 

@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF5423D7;
-	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E0379EA;
+	Mon, 27 May 2024 03:07:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716778511; cv=none; b=DFTv4k9dUBDmgPLEUeHRZ9xXTL84Oks7Id+UOKABclksy9MfDT4RzBP5yrTW17tCr8vwrtSS6mHyqvxP5WW+FIx2stjHvhMP29n1AYPHiCCcPU64dYFESGpOAD+HVeyRtxiehSsUPlwecbztgvYnKQ/m1Va369EQKGjCIv85sB0=
+	t=1716779226; cv=none; b=hyGA+8G+drV+Lwk6fokcwP9dfdywC0C9/QFcr1unT/BCY3ebdrPzuxZtftC86qs/VE2XrGhFBUcCEnHn6md8aDbgT5R+ZRTJ125XSI1c+OoKtELDxvYayI5lZM9IBlhpU7G3tMBPKW/SdTxg+DEZYeULuw1V7RsC1xhlltj5X+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716778511; c=relaxed/simple;
-	bh=aZpuLYiE4LlGL9s75mSoBU8PIw58s3XwiPcNNXEzxyU=;
+	s=arc-20240116; t=1716779226; c=relaxed/simple;
+	bh=y45Na4LBDYUvhYaEwJT8HcEr8Rv3sz8j5bWUCZh9Kxs=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=AGSyDG1rT0tOrgMgKvSr3wXdyu2v2eYjqI34nyYQHyKEfYPVg4qsLLVTjtzv27sNEDG6Wp4xrOo97MNWVHO+kbbDpxFbin1hYBOwxQhORhCYa0SqZfBJxklbJfI/lEootsimE+7sPedualWnAxbUIOPUAnSVq88grfEJWcRagKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+szD9Q+; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=ErXWTO2lefwvBJm0N8i0byE/H/BD9eJl9+BiX6IQ3sIevs/0jEd/W7ipSHveE98PAB2MmA4lIc16VNJ0d7QwyEF5IqWbUqNiNoxcEtYjVG1cUiGyCwRWb73uYlKr/D1juXh0tToWjUjoaaMEo5LnDj3gxVq6OEgmmL7xnF1To2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCIa6hWK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+szD9Q+"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 307E6C4AF0A;
-	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCIa6hWK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E51ACC32789;
+	Mon, 27 May 2024 03:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716778511;
-	bh=aZpuLYiE4LlGL9s75mSoBU8PIw58s3XwiPcNNXEzxyU=;
+	s=k20201202; t=1716779225;
+	bh=y45Na4LBDYUvhYaEwJT8HcEr8Rv3sz8j5bWUCZh9Kxs=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=H+szD9Q+LtPMLJiFIV84z6LgMroAJCfOqJxnywfmKBps5Qi6wlCeb6AR874FXbAK0
-	 xDTWZlyGYb/Xlvr55pDLNHQkyUzGhnF2uJXEDHd3Jeukt4e7Z1YRo4G/e8zFoUTcbI
-	 2vzDxeBms6pcGq8kcCo7HnmAVs/vyPg1l7xPNJCjnAfkx+eIe8CWbYsGlJAMwgqvNu
-	 1HUSxqmzhPoJ00dLKxbZuZA6wHSMKgmnH1cn7YKHhmQO5RDFSrlvUcuITIetozb1TN
-	 eQZFTgJ0rnTuo7RhTe4EeU0oju8wBJWd2+6LOjomC8NjdyYFBXWWx/sYGFD0HIe8+q
-	 12mqX4IDdhHWw==
+	b=ZCIa6hWKHlrUOMkDZUoL86dcwTXJuJo6U4UMmZFcEazw9DJsu/yFrojUodbOYo4Py
+	 0q1PnEeztBzpF1UhOMDouOCEqLXBRghTWsKivBxXSI/vybmf4daxJF3uH2djQ4/gpo
+	 wMtnXMxUmGowH49nuFSk48/jN7Re5/37uZZUxUWumvXiTYJAQ8TdnmbgpkR6h6xXBK
+	 JctDEewhwK7Az399IMHqaDowlAxE7DQNd4tVYRZVNqLKwgzaGHCL0CJGozirWpOpZb
+	 zVRh3qJ4av1GnixImMisPqVZoF/5Ai3Jz2Xjr5mAvZRbpiGWRD8lQ1GEKUQlqkyTsd
+	 9qzSozbwye/Cw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1A482DE4001;
-	Mon, 27 May 2024 02:55:11 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D52EBCF21F9;
+	Mon, 27 May 2024 03:07:05 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -37,37 +37,38 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Input: cros_ec_keyb - Remove an unused field in struct
- cros_ec_keyb
+Subject: Re: [PATCH 0/2] firmware: coreboot: store owner from modules with
+ coreboot_driver_register()
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171677851110.1901.13316641660823149535.git-patchwork-notify@kernel.org>
-Date: Mon, 27 May 2024 02:55:11 +0000
-References: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: dmitry.torokhov@gmail.com, bleung@chromium.org, groeck@chromium.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-input@vger.kernel.org, chrome-platform@lists.linux.dev
+ <171677922587.1901.3423676427961660678.git-patchwork-notify@kernel.org>
+Date: Mon, 27 May 2024 03:07:05 +0000
+References: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
+In-Reply-To: <20240330-module-owner-coreboot-v1-0-ddba098b6dcf@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+This series was applied to chrome-platform/linux.git (for-next)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-On Wed,  1 May 2024 08:49:47 +0200 you wrote:
-> In "struct cros_ec_keyb", the 'keymap_data' field is unused.
-> Remove it.
+On Sat, 30 Mar 2024 20:49:46 +0100 you wrote:
+> Moving the .owner setting code to the core this effectively fixes
+> missing .owner in framebuffer-coreboot, memconsole-coreboot and vpd
+> drivers.
 > 
-> Found with cppcheck, unusedStructMember.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Best regards,
+> Krzysztof
 > 
 > [...]
 
 Here is the summary with links:
-  - Input: cros_ec_keyb - Remove an unused field in struct cros_ec_keyb
-    https://git.kernel.org/chrome-platform/c/5128de84d8fc
+  - [1/2] firmware: coreboot: store owner from modules with coreboot_driver_register()
+    https://git.kernel.org/chrome-platform/c/46c6685e7e88
+  - [2/2] firmware: google: cbmem: drop driver owner initialization
+    https://git.kernel.org/chrome-platform/c/7f20f21c22aa
 
 You are awesome, thank you!
 -- 

@@ -1,99 +1,148 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2BA1C68E;
-	Tue, 28 May 2024 03:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05A12563;
+	Tue, 28 May 2024 05:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716865720; cv=none; b=FHwZwpCwFoCYzMeVVdMEabmep2mk9SQwXELrYZ5Mp2E/k6L8ClcHqyPTVlz3wPa1i41Rcnfz+te9UmVj0GGtcWxttylex7S9K4ICGjlXsjFXMsIoYME6hEPomOD09Zzw51HINEdtW7aLeq2ADq09oWoLPzTbKNaGMzjt15vSmW0=
+	t=1716872974; cv=none; b=ZZY1uj5NkOo2w42+oBifr/TbDMZj08lP6yRgmAWUVPbmNLHmW5laao+IAUxbJxgP9xJA74ebRTwF69hRNi+3aFcO38cvtpEvfKOtM5dF5l/pgWxvXuAMgVSxw6sroaaQJquUOrYj+T92s+iDTEw/N6rq7/BWxC9xi6KTsSO1924=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716865720; c=relaxed/simple;
-	bh=d7d5F6caD9/yJ3kRjdZS1IPLThXJka7WSNS5A4PF+fI=;
+	s=arc-20240116; t=1716872974; c=relaxed/simple;
+	bh=kpsGV9jcYDW5WH47X5uu4EzSSt+qtbgWJWijGgX7koo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZpnnAxqKmWdoeux2PNYKnKsSuBqdq3wvf9WO1jTJjPVy8A0uiQMWp4IlO+hAeF38DiSt20xh3VHG50mVCnObW15DAc8Y7HgZMknQlJak441gsfbKkVJdhaFO5BJgTEgcUvH30lJTQe3R2QFzc9HmsKN7ar463UqoUMI3OSWB2Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvHwy407; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD13TrBiJM4NlH5eUv3Sa04KAz71ZDryYjPUAZ5dkRP4RC9OMM9DzWtQTsCVkZmfZW7jnYFm1qFVD3NOTU/GWoRktMjUe+XsESykxnOa9amPfOJmUYGHtWI2HORRVA0iLu0ofofOzOvOJUhFXYD7GDhG0/aGSGcvK8qii3s/FEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jw8UdCnR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvHwy407"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 784D4C2BBFC;
-	Tue, 28 May 2024 03:08:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jw8UdCnR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5DFCC3277B;
+	Tue, 28 May 2024 05:09:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716865719;
-	bh=d7d5F6caD9/yJ3kRjdZS1IPLThXJka7WSNS5A4PF+fI=;
+	s=k20201202; t=1716872973;
+	bh=kpsGV9jcYDW5WH47X5uu4EzSSt+qtbgWJWijGgX7koo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RvHwy407wYBqxzTnTcA53k/E8zgm1pDTTfjIQXaUzK3/TpImMrDDUZB3odnqXQyhC
-	 6vPE23w45KBrQ7BtUzZMuThb1bl84dr2YscivnKnXTQsQ0ufMMW14rDEm9Tx3uh+uG
-	 Kdy+HSAyRxk4vCvBNnr5NsOtQqD8eHQeXkA/i+WQIv2z/Cmr5KTX87daCqpAep3H69
-	 18g3xUEkP/CgatryUq61t91zjQcjhHPVr4sGLQwYdGooaF8aaXXMk8dQe9yf2FCEFB
-	 weRefEEoI9zmePnNV7pachBaw4yKpdfeawo9LDU1l0PaaeKZek1vNkkzwv/Zbk+JDK
-	 ZGpzDkDUsEhfA==
-Date: Tue, 28 May 2024 03:08:36 +0000
+	b=Jw8UdCnRTpugfMOeiexIUSTXOeR+Z7O8Tyda/mjBme7P1bw6OTB4+UDom2mZMduXy
+	 Zma14INdm43UEG6aTxz1rVEKqL8pK+VMWF29pqAtnCROYNXSDL3Ycji34KzWAeFk77
+	 lqlhYnamYEy99IEa3HAcd5yFGuDdqoBnyMk1/ghvOYoy8D2HfdXG9VkmFZ+YkH3SIc
+	 DsVN8l/hDhYj2lskZaQCRvpW6+8uAzewAwb2GcqZVXBDrxVT3itmIcHozbgqxWnp0k
+	 VirsDf95IZVSaqUDVswfGziUpudIrH2Ir5q+ZiFqKrwanCJu7hBA7yefFRVW5KxYjs
+	 cVMj7jKb0ex4g==
+Date: Tue, 28 May 2024 05:09:29 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ben Walsh <ben@jubnut.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] platform/chrome: cros_ec_lpc: Correct ACPI name for
- Framework Laptop
-Message-ID: <ZlVKtL7GUHRWkFpf@google.com>
-References: <20240515055631.5775-1-ben@jubnut.com>
- <20240515055631.5775-6-ben@jubnut.com>
- <ZkscFnmHeWWma7Nb@google.com>
- <87jzjk1ibr.fsf@jubnut.com>
- <Zk_63rrDJFhN1Y1q@google.com>
- <87cypb12j9.fsf@jubnut.com>
- <ZlKPwlF86Oe8OPK9@google.com>
- <877cff2kpb.fsf@jubnut.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 4/5] leds: add ChromeOS EC driver
+Message-ID: <ZlVnCX41HdksPwUo@google.com>
+References: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
+ <20240520-cros_ec-led-v1-4-4068fc5c051a@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <877cff2kpb.fsf@jubnut.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240520-cros_ec-led-v1-4-4068fc5c051a@weissschuh.net>
 
-On Mon, May 27, 2024 at 07:06:40PM +0100, Ben Walsh wrote:
-> Tzung-Bi Shih <tzungbi@kernel.org> writes:
-> 
-> > On Fri, May 24, 2024 at 07:35:22PM +0100, Ben Walsh wrote:
-> 
-> >> I could add a new quirk which provides an alternative ACPI match table
-> >> to be used instead of the default. In the default case the match_table
-> >> will contain only "GOOG0004" as before. But in the Framework EC case the
-> >> match table will be "PNP0C09".
-> >
-> > I think it doesn't work as the current quirk is handling in
-> > cros_ec_lpc_probe() which is after matching.
-> 
-> I was thinking of a new quirk called CROS_EC_LPC_QUIRK_ACPI_MATCH, and
-> putting it in cros_ec_lpc_init(), not cros_ec_lpc_probe(). Do we have to
-> do all quirk handling in cros_ec_lpc_probe()?
+On Mon, May 20, 2024 at 12:00:32PM +0200, Thomas Weißschuh wrote:
+> diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+[...]
+> + *  ChromesOS EC LED Driver
 
-No, but there is already code in cros_ec_lpc_probe() for handling quirks and
-we would like to reuse them if we could.
+s/ChromesOS/ChromeOS/.
 
-Also a possible issue: MODULE_DEVICE_TABLE() wouldn't work if the table changes
-during runtime.
+> +static int cros_ec_led_trigger_activate(struct led_classdev *led_cdev)
+> +{
+> +	struct cros_ec_led_priv *priv = cros_ec_led_cdev_to_priv(led_cdev);
+> +	union cros_ec_led_cmd_data arg = { };
 
-> 
-> > My original idea: would it be possible to get the `adev` in cros_ec_lpc_probe()
-> > via any lookup API?  If yes, it could still use DMI match and get `adev` if
-> > required.
-> 
-> That works; I've tested it.
-> 
-> In this scenario we're not using the existing PNP0C09 platform device,
-> which means I can't look at
-> /sys/bus/acpi/devices/PNP0C09\:00/physical_node/driver and see the
-> driver. Is this OK?
-> 
-> (Note that ACPI_COMPANION_SET() doesn't fix this. You can use
-> acpi_bind_one() but that seems more like internal plumbing).
+To be neat, { } -> {}.
 
-As long as ACPI_COMPANION() in the driver can get the correct `adev`, I guess
-it's fine.  Otherwise, put the `adev` to somewhere device specific (e.g.
-struct cros_ec_lpc) should also work.
+> +static int cros_ec_led_brightness_set_blocking(struct led_classdev *led_cdev,
+> +					       enum led_brightness brightness)
+> +{
+> +	struct cros_ec_led_priv *priv = cros_ec_led_cdev_to_priv(led_cdev);
+> +	union cros_ec_led_cmd_data arg = { };
+
+Ditto.
+
+> +static int cros_ec_led_count_subleds(struct device *dev,
+> +				     struct ec_response_led_control *resp,
+> +				     unsigned int *max_brightness)
+> +{
+> +	unsigned int range, common_range = 0;
+> +	int num_subleds = 0;
+> +	size_t i;
+> +
+> +	for (i = 0; i < EC_LED_COLOR_COUNT; i++) {
+> +		range = resp->brightness_range[i];
+> +
+> +		if (!range)
+> +			continue;
+> +
+> +		num_subleds++;
+> +
+> +		if (!common_range)
+> +			common_range = range;
+> +
+> +		if (common_range != range) {
+> +			/* The multicolor LED API expects a uniform max_brightness */
+> +			dev_warn(dev, "Inconsistent LED brightness values\n");
+> +			return -EINVAL;
+> +		}
+
+What if the array is [0, 1, 1]?
+
+> +static int cros_ec_led_probe_led(struct device *dev, struct cros_ec_device *cros_ec,
+> +				 enum ec_led_id id)
+> +{
+> +	union cros_ec_led_cmd_data arg = { };
+
+Ditto.
+
+> +static int cros_ec_led_probe(struct platform_device *pdev)
+> +{
+[...]
+> +	int ret;
+> +
+> +	for (i = 0; i < EC_LED_ID_COUNT; i++) {
+> +		ret = cros_ec_led_probe_led(dev, cros_ec, i);
+> +		if (ret)
+> +			break;
+> +	}
+> +
+> +	return ret;
+
+`ret` should be initialized in case EC_LED_ID_COUNT would be somehow 0.
+
+> +static int __init cros_ec_led_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = led_trigger_register(&cros_ec_led_trigger);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = platform_driver_register(&cros_ec_led_driver);
+> +	if (ret)
+> +		led_trigger_unregister(&cros_ec_led_trigger);
+> +
+> +	return ret;
+> +};
+> +module_init(cros_ec_led_init);
+> +
+> +static void __exit cros_ec_led_exit(void)
+> +{
+> +	platform_driver_unregister(&cros_ec_led_driver);
+> +	led_trigger_unregister(&cros_ec_led_trigger);
+> +};
+> +module_exit(cros_ec_led_exit);
+
+I wonder it could use module_led_trigger() and module_platform_driver().

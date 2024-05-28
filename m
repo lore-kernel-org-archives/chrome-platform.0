@@ -1,140 +1,124 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE18F71738
-	for <chrome-platform@lists.linux.dev>; Tue, 28 May 2024 07:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EA417E907;
+	Tue, 28 May 2024 07:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716880173; cv=none; b=Ep9Vss5td3AQoZh73O7x0jLfmnK/7FYklW2zZnEiDRJ7G1g0PSmtewXYZIMznZM674D0SPHLHaTF5r47IP6RjjuANsqJnsup6WA1mc0sbKum7+jqi5c0eR03HRwSVMLt8lXoOL2pRFL4xVRiktKCrFBeHI+unknLbqJ5+nk4DDk=
+	t=1716880511; cv=none; b=CZLn2XPSCPqZR65WptkYtFuPeE0q5ra2AmktZSbeaMC2zqS3HAfooTROPZto8PxnIyDGI+pYKDLfZW2OmqcMHTnRgbhq0GwrdyqAzk7L+xLve6Y4k1iAMiBYXtWmAbcUhxkpmdlNa8cHzKERT5zgZestMzfIlXf77eqTQmPn58E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716880173; c=relaxed/simple;
-	bh=q03TPGrKREgG3I77Fj4FxDGWhUDCTQ/o2lyTrAG5Q4E=;
+	s=arc-20240116; t=1716880511; c=relaxed/simple;
+	bh=xH02X/BrGFvIYw1d94L55H3E8RigB+poWIBGO3mgTm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f/lYB1pBRL/dbMkKcYtROX9gmfs+ljoYs4gYAJLxx+d12KYgC6MlbZuIgFr3r4hr4DMEsusyrxW5zi7W11G9ywnz58bmMxe9kdmXtMtc0gaD3WcXEg7pWJlqb8M1yBMrMdKqJazAF5NwDdg3Z6l3RoIRLEZ2yYPwiNrwXLT+QGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=iz0AnPYN; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTgy9wN8hqHjIDmKrBx8I9UYn+4Nmse2MIcqCHR0V/PT7oibbpeOxnMCzCvv6RHZWTkhfpsl0yljSuufUf5rn6qSzbRQVbpywiMi6zWSWi8fZJTHiStXXWdC4ilYZ+F6DkbkGz/j13LO5Z7Ch5DSuvyVVyDFKOn7XEky8sJk1UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKDEs/kf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="iz0AnPYN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1716880169;
-	bh=q03TPGrKREgG3I77Fj4FxDGWhUDCTQ/o2lyTrAG5Q4E=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKDEs/kf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9D7C3277B;
+	Tue, 28 May 2024 07:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716880511;
+	bh=xH02X/BrGFvIYw1d94L55H3E8RigB+poWIBGO3mgTm4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iz0AnPYNL2dWrD9rl7aogfeXOc/OglvopqIlnsvuBUTA91TiQNbpmsu79hQqRdbFS
-	 QXNTHqIMAkgeLNUXmESZ7MwaMasnTX0MqKUtQTZFLiVyKh+rQOLAqQtuD0t9UVbF7C
-	 zbkuQBFnnpo4xWkX+kPCxQoQ0CcUll67RoyI9TvE=
-Date: Tue, 28 May 2024 09:09:28 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	Dustin Howett <dustin@howett.net>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Moritz Fischer <mdf@kernel.org>, Stephen Horvath <s.horvath@outlook.com.au>, 
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v3 2/3] hwmon: add ChromeOS EC driver
-Message-ID: <3025747e-658a-47fa-8799-86e9e974b796@t-8ch.de>
-References: <20240527-cros_ec-hwmon-v3-0-e5cd5ab5ba37@weissschuh.net>
- <20240527-cros_ec-hwmon-v3-2-e5cd5ab5ba37@weissschuh.net>
- <ZlV8HWlsHfoz8QMc@google.com>
+	b=RKDEs/kfGIYHggXmZmXVV57ObTHrAbxfrY55EnDPiJ20lA4ujFTu677qNe0lF45uQ
+	 Fekn8Lzq5XU6U3uz4E4a7socbZmKOqIPN0GjITv/OMUelD+7PimRPSGAtncE4RuO5t
+	 QVcG3qLEk36yD6bIWInydEYCVivwkiKN7nXxGbVXpS7GiIzRK9JvqAwnvGK9voJQLw
+	 iR6YOvhzIe0iNrsB1VdWHbrO89YTVz8zBXUBs9b0O4nAlXDsJpreQh7vrboFJsg24x
+	 kt+II6/izk+mnQK0vtuv1Fz6c2WHFykwdC535FPBaaUZguG6cWw5nUVbLjOSzjdtJD
+	 uZv4mxRdE0YVw==
+Date: Tue, 28 May 2024 07:15:07 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 4/5] leds: add ChromeOS EC driver
+Message-ID: <ZlWEeyPP57TT_FKv@google.com>
+References: <20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net>
+ <20240520-cros_ec-led-v1-4-4068fc5c051a@weissschuh.net>
+ <ZlVnCX41HdksPwUo@google.com>
+ <2d03e62c-13ad-4c6f-94e1-7dff817386a4@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZlV8HWlsHfoz8QMc@google.com>
+In-Reply-To: <2d03e62c-13ad-4c6f-94e1-7dff817386a4@t-8ch.de>
 
-On 2024-05-28 06:39:25+0000, Tzung-Bi Shih wrote:
-> On Mon, May 27, 2024 at 10:58:32PM +0200, Thomas WeiÃŸschuh wrote:
-> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> [...]
-> > + *  ChromesOS EC driver for hwmon
+On Tue, May 28, 2024 at 07:25:07AM +0200, Thomas Weißschuh wrote:
+> On 2024-05-28 05:09:29+0000, Tzung-Bi Shih wrote:
+> > On Mon, May 20, 2024 at 12:00:32PM +0200, Thomas Weißschuh wrote:
+> > > +static int cros_ec_led_count_subleds(struct device *dev,
+> > > +				     struct ec_response_led_control *resp,
+> > > +				     unsigned int *max_brightness)
+> > > +{
+> > > +	unsigned int range, common_range = 0;
+> > > +	int num_subleds = 0;
+> > > +	size_t i;
+> > > +
+> > > +	for (i = 0; i < EC_LED_COLOR_COUNT; i++) {
+> > > +		range = resp->brightness_range[i];
+> > > +
+> > > +		if (!range)
+> > > +			continue;
+> > > +
+> > > +		num_subleds++;
+> > > +
+> > > +		if (!common_range)
+> > > +			common_range = range;
+> > > +
+> > > +		if (common_range != range) {
+> > > +			/* The multicolor LED API expects a uniform max_brightness */
+> > > +			dev_warn(dev, "Inconsistent LED brightness values\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > 
+> > What if the array is [0, 1, 1]?
 > 
-> s/ChromesOS/ChromeOS/.
-
-Ack. Copy-and-paste...
-
-> > +struct cros_ec_hwmon_priv {
-> > +	struct cros_ec_device *cros_ec;
-> > +	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
-> > +	u8 usable_fans;
-> > +};
-> > +
-> > +static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
-> > +{
-> > +	u16 data;
-> > +	int ret;
-> > +
-> > +	ret = cros_ec_cmd_readmem(cros_ec, EC_MEMMAP_FAN + index * 2, 2, &data);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	data = le16_to_cpu(data);
-> > +	*speed = data;
-> > +
-> > +	if (data == EC_FAN_SPEED_NOT_PRESENT || data == EC_FAN_SPEED_STALLED)
-> > +		return -EIO;
+> The "0" will be skipped by 
 > 
-> `data` could be eliminated; use `*speed` instead.
-
-Then the le16 value would need to be written directly to the out
-parameter. The current usage relies on *speed (sometimes) being set even
-if ret != 0.
-
-(See next response block)
-
+> if (!range)
+> 	continue;
 > 
-> > +static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> > +			      u32 attr, int channel, long *val)
-> > +{
-> [...]
-> > +	u16 speed = 0;
-> > +	u8 temp = 0;
+> And the two "1" will pass the check.
+
+Ack.
+
+> > > +static int __init cros_ec_led_init(void)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	ret = led_trigger_register(&cros_ec_led_trigger);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = platform_driver_register(&cros_ec_led_driver);
+> > > +	if (ret)
+> > > +		led_trigger_unregister(&cros_ec_led_trigger);
+> > > +
+> > > +	return ret;
+> > > +};
+> > > +module_init(cros_ec_led_init);
+> > > +
+> > > +static void __exit cros_ec_led_exit(void)
+> > > +{
+> > > +	platform_driver_unregister(&cros_ec_led_driver);
+> > > +	led_trigger_unregister(&cros_ec_led_trigger);
+> > > +};
+> > > +module_exit(cros_ec_led_exit);
+> > 
+> > I wonder it could use module_led_trigger() and module_platform_driver().
 > 
-> They don't need to initialize.
-
-They need to.
-
-The logic
-
-if (ret == -EIO && speed == EC_FAN_SPEED_STALLED)
-	ret = 0;
-
-relies on -EIO and a write to speed from cros_ec_hwmon_read_fan_speed().
-
-But if cros_ec_cmd_readmem() already returns -EIO, then speed would be
-uninitialized.
-
-I'll see if I can make this clearer somehow.
-
+> This won't compile as the macros generate various duplicate symbols.
 > 
-> > +	if (type == hwmon_fan && attr == hwmon_fan_input) {
-> > +		ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-> > +		if (ret == 0)
-> > +			*val = speed;
-> > +	} else if (type == hwmon_fan && attr == hwmon_fan_fault) {
-> > +		ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-> > +		if (ret == -EIO && speed == EC_FAN_SPEED_STALLED)
-> > +			ret = 0;
-> > +		if (ret == 0)
-> > +			*val = speed == EC_FAN_SPEED_STALLED;
-> > +	} else if (type == hwmon_temp && attr == hwmon_temp_input) {
-> > +		ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-> > +		if (ret == 0)
-> > +			*val = kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-> > +	} else if (type == hwmon_temp && attr == hwmon_temp_fault) {
-> > +		ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-> > +		if (ret == -EIO && speed == EC_TEMP_SENSOR_ERROR)
-> > +			ret = 0;
-> > +		if (ret == 0)
-> > +			*val = temp == EC_TEMP_SENSOR_ERROR;
-> > +	}
-> 
-> Refactoring them by switch .. case .. may improve the readability.
+> Also the order is important, so I think the explicit logic is clearer.
 
-It would introduce another level of indentation, which I tried to avoid.
-But some vertical whitespace would be useful indeed.
+I'm not sure if it is feasible by separating the trigger part to
+drivers/leds/trigger/ and specify it in `default_trigger`.

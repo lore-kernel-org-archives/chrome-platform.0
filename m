@@ -1,121 +1,208 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7002C2F56
-	for <chrome-platform@lists.linux.dev>; Wed, 29 May 2024 06:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF462F2A
+	for <chrome-platform@lists.linux.dev>; Wed, 29 May 2024 06:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716962487; cv=none; b=UAAni5FPhbXubyXicXHHgdC7wKjncy0MpNg2YPStc9aeO8ddBeAwxvyRmGysSJ+Wnnu4C/A2r2PM9GecpC3GgZJm+csMXgetMpQ2ez+MttvMbHQDgFY7Vszs8I3M5TyTOCuuF5O2+yoLj6lwm8ZzFb/T8KiU4ut5QQxd01YwhnM=
+	t=1716963823; cv=none; b=mEQ5UEw7M+dpyJxOr7skPSJJwVty+DWYSuroMG65tuNXvbLWEySsiPUy8iVudJ46bHF7D5O/+uGQgaXPHPGMcbKTvuZ0gjQJy9HNKIU5BnG7oDCg+h7HpBULqstXU47LEqG3GFSJfgALnEJzASNzdND7iE2ZJ/trxWryRZohcqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716962487; c=relaxed/simple;
-	bh=X8ZO9rZaefTJLOfox8IwV5x+nkszn3iSo+plWio9v98=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=tMg4++rVdN2KpFXSABFVXzga57zczYl73tPq4qohYQJcXdeHawymPUsgRq6N7LEzgQvVIkRl0jjK/w9lO80mOMRb7W3jVpD4GzC+pr/7df119cf+8clxph7tnwJ9hQs6sDeCa0ivJaU545mOYkOmxjGWESfyPoQeyndPkOJJAl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=dCdJs5gu; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1716963823; c=relaxed/simple;
+	bh=3bracRjbxdYDDKFLpVEB1YVlYghO1YkC0e4RdFgdlgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ourDERhyGKjaOmQB234hXTam290Z+mlBg9F6QNaY4sV18ZBQoca148+5ZlEVa1sQTu3uCF772uQCFCWu029Rl9OEe7pYAJjcLIyH1EnT67EFCpISx+S5CpKu+/E/xa7EQWlhQqdruvo5CgytpaemL6kBdyOTELgX/GgMBSaiqMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=nuk5asU3; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="dCdJs5gu"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2bfc7471028so1331361a91.1
-        for <chrome-platform@lists.linux.dev>; Tue, 28 May 2024 23:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1716962484; x=1717567284; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=X8ZO9rZaefTJLOfox8IwV5x+nkszn3iSo+plWio9v98=;
-        b=dCdJs5gufk3rF3QvLy41UqFqmuIbquOJdYQ75shma6hSQxpBa6Mr85hTb+hmyDWDVE
-         9y8CmZ/VbLiGdIYS4w4YxF1gx0WBW+Zw+dyKU3SvmiIGPpX0YHQbmL1dAplf4j/IQLnh
-         EByq9uxZMh6GL2azICvckpPis8VnRHnOAHQavg+xK/eSwnolB7PLVVm+YcC6+SiUT7ga
-         vlV0OJKP0iMGW6pPAO61Esm4Nfu2WBtuvXZGM7YOR3iJbkktVsIhTzzq7H8T/fXIRCdR
-         dZAy8d5R7R9qy9wHf354JWCioQP3EHAw0Bzmpvvwmfm0Ky1i/Z2JEJAb6AgOVwUv5iCP
-         emTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716962484; x=1717567284;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X8ZO9rZaefTJLOfox8IwV5x+nkszn3iSo+plWio9v98=;
-        b=fKPxEJT7rdjk7djtgjFN3zLFo3WG4x0QVo7plRTy3D0yhdvrjpZ1x71qWQXoqHL5Dl
-         DZwNc3nDu27/mdsWl6RuiQmkpSbvCiqZmP9LFYNe3vub/Z4CbZ22kUoMP8YHoItEbKCY
-         AoR+Ivn9GsEzcj99YrXrJ+zKSgjk78K1GQLRJcuSfS/caDQ0TqFYdKZ0j7MW3cnkT+/7
-         HqIwt+Yjtl5rwntBsSHyniT8lsYUMSYsMrZO7NDfl0/Myp6ksiO115h+HC6MTfwKmf/D
-         /2o62vZuOEydv8T8Z+vdpquFOgJTBE0MrmPWYco7zBj6tY1dvW+bE3xlAjyKOYUNIQt9
-         rqOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUh8W1Ixv8lBRKmFlf0/hgR3SqdMmOk5NUMhB+1SxenBdhKMKhPIKFJ/JgZw1NFMVLEnDmSEq1eTHAIzvs0zXNoYvHHJv2BYEE5R5YCQ0Fn
-X-Gm-Message-State: AOJu0Yy4XbmCPDMeK3uL5QEMaBdPLihyqKozC3o8mmDKCSrT01zHFmUF
-	o+cOJS5G6HiOg8PbgkQYkd45zgw5qwnzlXCzC0bcVT9A1wAxUiFB3Pi+/BlTXTo=
-X-Google-Smtp-Source: AGHT+IH5Ze8NypgQqIdLGOD+54Xll31iwQSaboq0yQGYHbM53PAhIG1hFtkOFc61VEY2JwWbgqGnKA==
-X-Received: by 2002:a17:90a:ba8b:b0:2bf:b2a2:5cf4 with SMTP id 98e67ed59e1d1-2bfb2a25ecamr8246825a91.18.1716962484528;
-        Tue, 28 May 2024 23:01:24 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bf5f987a7esm8745759a91.35.2024.05.28.23.01.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 23:01:24 -0700 (PDT)
-Message-ID: <6656c4b4.170a0220.b389c.6bba@mx.google.com>
-Date: Tue, 28 May 2024 23:01:24 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="nuk5asU3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1716963817;
+	bh=3bracRjbxdYDDKFLpVEB1YVlYghO1YkC0e4RdFgdlgE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nuk5asU3sIeBf0jHEJVz/u9DYiH4FioJxqM5jMXUbR4u7Cbkmtueho+zV7Tn5fiV5
+	 JAMyfFMsrGjYVvKqGsH0yALrQ/tMAEnXEkZSHbfIONhrLE30EFfzKW6h5KUlyttNnX
+	 ukoVxwhaGPQzPnEFY/PnKva4N1UgLVqCQsDOWG+k=
+Date: Wed, 29 May 2024 08:23:36 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Stephen Horvath <s.horvath@outlook.com.au>, 
+	Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Benson Leung <bleung@chromium.org>, 
+	Lee Jones <lee@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	Dustin Howett <dustin@howett.net>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Moritz Fischer <mdf@kernel.org>
+Subject: Re: [PATCH v2 1/2] hwmon: add ChromeOS EC driver
+Message-ID: <22a16af6-93c4-454c-853b-5959a5c018d3@t-8ch.de>
+References: <20240507-cros_ec-hwmon-v2-0-1222c5fca0f7@weissschuh.net>
+ <20240507-cros_ec-hwmon-v2-1-1222c5fca0f7@weissschuh.net>
+ <SY4P282MB30635BA1D4087113E79921B5C5F52@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+ <9cf224dd-51eb-4608-abcf-06f337d08178@t-8ch.de>
+ <SY4P282MB306325BB023A95198F25A21DC5F12@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
+ <c9b110eb-ff0e-41f2-9492-8a5d8c3c01d0@roeck-us.net>
+ <b8072b36-688f-41b8-8b32-40fc4fa4d148@t-8ch.de>
+ <6824f030-92da-4439-af3b-8c2498f4382e@roeck-us.net>
+ <SY4P282MB30638301303268093B6D1ABFC5F22@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.10-rc1-4-g7b44d5381e541
-X-Kernelci-Report-Type: build
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.10-rc1-4-g7b44d5381e541)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SY4P282MB30638301303268093B6D1ABFC5F22@SY4P282MB3063.AUSP282.PROD.OUTLOOK.COM>
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
--4-g7b44d5381e541)
+On 2024-05-29 10:58:23+0000, Stephen Horvath wrote:
+> On 29/5/24 09:29, Guenter Roeck wrote:
+> > On 5/28/24 09:15, Thomas Weißschuh wrote:
+> > > On 2024-05-28 08:50:49+0000, Guenter Roeck wrote:
+> > > > On 5/27/24 17:15, Stephen Horvath wrote:
+> > > > > On 28/5/24 05:24, Thomas Weißschuh wrote:
+> > > > > > On 2024-05-25 09:13:09+0000, Stephen Horvath wrote:
+> > > > > > > Don't forget it can also return `EC_FAN_SPEED_STALLED`.
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.10-rc1-4-g7b44d5381e541/
+<snip>
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.10-rc1-4-g7b44d5381e541
-Git Commit: 7b44d5381e541de3da3cee2e948456b250f41f25
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+> > > > > > 
+> > > > > > Thanks for the hint. I'll need to think about how to
+> > > > > > handle this better.
+> > > > > > 
+> > > > > > > Like Guenter, I also don't like returning `-ENODEV`,
+> > > > > > > but I don't have a
+> > > > > > > problem with checking for `EC_FAN_SPEED_NOT_PRESENT`
+> > > > > > > in case it was removed
+> > > > > > > since init or something.
+> > > > > > 
+> > > > 
+> > > > That won't happen. Chromebooks are not servers, where one might
+> > > > be able to
+> > > > replace a fan tray while the system is running.
+> > > 
+> > > In one of my testruns this actually happened.
+> > > When running on battery, one specific of the CPU sensors sporadically
+> > > returned EC_FAN_SPEED_NOT_PRESENT.
+> > > 
+> > 
+> > What Chromebook was that ? I can't see the code path in the EC source
+> > that would get me there.
+> > 
+> 
+> I believe Thomas and I both have the Framework 13 AMD, the source code is
+> here:
+> https://github.com/FrameworkComputer/EmbeddedController/tree/lotus-zephyr
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+Correct.
 
-Detailed per-defconfig build reports:
+> The organisation confuses me a little, but Dustin has previous said on the
+> framework forums (https://community.frame.work/t/what-ec-is-used/38574/2):
+> 
+> "This one is based on the Zephyr port of the ChromeOS EC, and tracks
+> mainline more closely. It is in the branch lotus-zephyr.
+> All of the model-specific code lives in zephyr/program/lotus.
+> The 13"-specific code lives in a few subdirectories off the main tree named
+> azalea."
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+The EC code is at [0]:
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
+$ ectool version
+RO version:    azalea_v3.4.113353-ec:b4c1fb,os
+RW version:    azalea_v3.4.113353-ec:b4c1fb,os
+Firmware copy: RO
+Build info:    azalea_v3.4.113353-ec:b4c1fb,os:7b88e1,cmsis:4aa3ff 2024-03-26 07:10:22 lotus@ip-172-26-3-226
+Tool version:  0.0.1-isolate May  6 2024 none
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
+From the build info I gather it should be commit b4c1fb, which is the
+current HEAD of the lotus-zephyr branch.
+Lotus is the Framework 16 AMD, which is very similar to Azalea, the
+Framework 13 AMD, which I tested this against.
+Both share the same codebase.
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
+> Also I just unplugged my fan and you are definitely correct, the EC only
+> generates EC_FAN_SPEED_NOT_PRESENT for fans it does not have the capability
+> to support. Even after a reboot it just returns 0 RPM for an unplugged fan.
+> I thought about simulating a stall too, but I was mildly scared I was going
+> to break one of the tiny blades.
 
----
-For more info write to <info@kernelci.org>
+I get the error when unplugging *the charger*.
+
+To be more precise:
+
+It does not happen always.
+It does not happen instantly on unplugging.
+It goes away after a few seconds/minutes.
+During the issue, one specific sensor reads 0xffff.
+
+> > > > > > Ok.
+> > > > > > 
+> > > > > > > My approach was to return the speed as `0`, since
+> > > > > > > the fan probably isn't
+> > > > > > > spinning, but set HWMON_F_FAULT for `EC_FAN_SPEED_NOT_PRESENT` and
+> > > > > > > HWMON_F_ALARM for `EC_FAN_SPEED_STALLED`.
+> > > > > > > No idea if this is correct though.
+> > > > > > 
+> > > > > > I'm not a fan of returning a speed of 0 in case of errors.
+> > > > > > Rather -EIO which can't be mistaken.
+> > > > > > Maybe -EIO for both EC_FAN_SPEED_NOT_PRESENT (which
+> > > > > > should never happen)
+> > > > > > and also for EC_FAN_SPEED_STALLED.
+> > > > > 
+> > > > > Yeah, that's pretty reasonable.
+> > > > > 
+> > > > 
+> > > > -EIO is an i/o error. I have trouble reconciling that with
+> > > > EC_FAN_SPEED_NOT_PRESENT or EC_FAN_SPEED_STALLED.
+> > > > 
+> > > > Looking into the EC source code [1], I see:
+> > > > 
+> > > > EC_FAN_SPEED_NOT_PRESENT means that the fan is not present.
+> > > > That should return -ENODEV in the above code, but only for
+> > > > the purpose of making the attribute invisible.
+> > > > 
+> > > > EC_FAN_SPEED_STALLED means exactly that, i.e., that the fan
+> > > > is present but not turning. The EC code does not expect that
+> > > > to happen and generates a thermal event in case it does.
+> > > > Given that, it does make sense to set the fault flag.
+> > > > The actual fan speed value should then be reported as 0 or
+> > > > possibly -ENODATA. It should _not_ generate any other error
+> > > > because that would trip up the "sensors" command for no
+> > > > good reason.
+> > > 
+> > > Ack.
+> > > 
+> > > Currently I have the following logic (for both fans and temp):
+> > > 
+> > > if NOT_PRESENT during probing:
+> > >    make the attribute invisible.
+> > > 
+> > > if any error during runtime (including NOT_PRESENT):
+> > >    return -ENODATA and a FAULT
+> > > 
+> > > This should also handle the sporadic NOT_PRESENT failures.
+> > > 
+> > > What do you think?
+> > > 
+> > > Is there any other feedback to this revision or should I send the next?
+> > > 
+> > 
+> > No, except I'd really like to know which Chromebook randomly generates
+> > a EC_FAN_SPEED_NOT_PRESENT response because that really looks like a bug.
+> > Also, can you reproduce the problem with the ectool command ?
+
+Yes, the ectool command reports the same issue at the same time.
+
+The fan affected was always the sensor cpu@4c, which is
+compatible = "amd,sb-tsi".
+
+> I have a feeling it was related to the concurrency problems between ACPI and
+> the CrOS code that are being fixed in another patch by Ben Walsh, I was also
+> seeing some weird behaviour sometimes but I *believe* it was fixed by that.
+
+I don't think it's this issue.
+Ben's series at [1], is for MEC ECs which are the older Intel
+Frameworks, not the Framework 13 AMD.
+
+[0] https://github.com/FrameworkComputer/EmbeddedController
+[1] https://lore.kernel.org/lkml/20240515055631.5775-1-ben@jubnut.com/

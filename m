@@ -1,131 +1,69 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B9A5381A
-	for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 15:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDBD225DA;
+	Fri, 31 May 2024 16:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717171146; cv=none; b=M69JsG/sNOyoAdXRiOz5x4MU0Y43gaWSyGyv9LCm3aU7s0Lhliz4dfE8nB4c7uEuGz0Er1+e1zUl9OOTaIaj1piVk5Us3QSn2Km0c8KgvMwjqQuFRQT6Y2uvxozMSxN2VVri0Ie8KNXP2NvtbJfEdqg766FpXYnphkFGR9y7uww=
+	t=1717171579; cv=none; b=Lf5T+VYVFLzJI/2by1+hy2ci+WKhZQMCMiz/VWgX9Qstg7ufF10SPdPS20MYB3q2u7oQEGunXNcCMVsoHssWl+WMbA8afGqEWttK7lRw9CKssamdTNIbaeYVS+pMBZLi+lOcyPYgDZW7lTuTCJuVMZF2Od1msDD7HYhL5gZLjGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717171146; c=relaxed/simple;
-	bh=corneObQCKTlO58nm3W4zHliD7BMTd9KhdrijkvA5e4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tki/NA98nvF4mtRZOCz6mPIBB3h4vqxTpp9O0GFkZPwDYj9+BzGHjSYSTl9OI9Y4lHTbmlgLyq6WC/1kn6GPP3+SZ79vDZs+DARuZPphsZYxfb7D9yZan194xHrN15HlYJfkeLQZz1Th5tdX+Fi16YK+ejbXHbvfG/4qLhnCoJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Azd2Hv/l; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1717171579; c=relaxed/simple;
+	bh=LQCvrP06+ub0WmZb5H0EUGQ/V5k2fp3n8C159L6sKk0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Hnsx9J1LQTyyN3zgASX8i1843HvEVnts9733/3sM5OQ8a/oBJu36ABNyw5ECNjFUffgdTmiNqvfxQAEFCU/ZE37w46pw2nMKzJoT0/m/NOVU7pYQysQM6DmBOiRrslSIx1rtpLGJ+WGewW0ehIZtU4gNwmpOVrGP4SP4q1G9QrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAxhsaTk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Azd2Hv/l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717171141;
-	bh=corneObQCKTlO58nm3W4zHliD7BMTd9KhdrijkvA5e4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Azd2Hv/lW5nnT6Dr9Xt0GV/LQkxfNsanX1SRxtDqM5NDVdw9J+BA/oQo3EQhWY3B0
-	 poOVoA805PWWhg6mR1iX57tlB0CReLLx47APwMS0yyrVZfLnCP23X9/pT53ITplo/I
-	 ZKW40nEpihl5p74p2slEgSe6L1+245cfe+7UQAak=
-Date: Fri, 31 May 2024 17:59:01 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
-	Mario Limonciello <mario.limonciello@amd.com>, linux-leds@vger.kernel.org, 
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v3 0/4] cros_kbd_led_backlight: allow binding through
- cros_ec mfd device
-Message-ID: <edc637ff-d26d-4500-8ad3-23bf7a9d527e@t-8ch.de>
-References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
- <20240531153530.GP1005600@google.com>
- <0172f4a6-27da-43ca-8df3-93279d1ef903@t-8ch.de>
- <20240531155356.GR1005600@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAxhsaTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED515C116B1;
+	Fri, 31 May 2024 16:06:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717171578;
+	bh=LQCvrP06+ub0WmZb5H0EUGQ/V5k2fp3n8C159L6sKk0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=WAxhsaTkS9yWeXMhPapwzNNnByCB1HUy4EmmTmQRdlifk9fQWPYQAF05Ny1ahOdx9
+	 4Sq7deBPc78KVmzQpNpO8TlfltYrLo9yN4dFlRfa8MFWcMHa72ck/vVpQL0lAw199b
+	 G8ZV7hEyCPsiz89pFXJBq196R+CguB2UGMDfn7xqDW53ggaXTj8g2mbppsyiRTA0yX
+	 GDZZvsSLV0FhWYjtJ0Kqt3eLF2GxOCsm1yHAWpsLApB7CI9jElOLamzo5KjSNTVsxP
+	 BQfcPMXUqll9Uthd8RgA1OZQWNVHmLBnqywPBkxV8dGPQtVzrVYdhGGzlkVuu4fvMO
+	 uAeBvmibunfVA==
+From: Lee Jones <lee@kernel.org>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Moritz Fischer <mdf@kernel.org>, Stephen Horvath <s.horvath@outlook.com.au>, 
+ Rajas Paranjpe <paranjperajas@gmail.com>
+In-Reply-To: <20240529-cros_ec-hwmon-v4-3-5cdf0c5db50a@weissschuh.net>
+References: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
+ <20240529-cros_ec-hwmon-v4-3-5cdf0c5db50a@weissschuh.net>
+Subject: Re: (subset) [PATCH v4 3/3] mfd: cros_ec: Register hardware
+ monitoring subdevice
+Message-Id: <171717157570.1179352.10771084624581761418.b4-ty@kernel.org>
+Date: Fri, 31 May 2024 17:06:15 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240531155356.GR1005600@google.com>
+X-Mailer: b4 0.12.4
 
-On 2024-05-31 16:53:56+0000, Lee Jones wrote:
-> On Fri, 31 May 2024, Thomas Weißschuh wrote:
+On Wed, 29 May 2024 08:27:13 +0200, Thomas Weißschuh wrote:
+> Add ChromeOS EC-based hardware monitoring as EC subdevice.
 > 
-> > On 2024-05-31 16:35:30+0000, Lee Jones wrote:
-> > > On Sun, 26 May 2024, Thomas Weißschuh wrote:
-> > > 
-> > > > Extend the cros_ec MFD device to also load cros_kbd_led_backlight
-> > > > when the EC reports EC_FEATURE_PWM_KEYB.
-> > > > As the driver can now be probed multiple times, some preparation in the
-> > > > LED core is necessary to avoid name collisions.
-> > > > 
-> > > > Patch 1 is a general cleanup for the LED core.
-> > > > Patch 2 modifies the LED core to skip the default collision handling.
-> > > > Patch 3 adds the new probing logic to cros_kbd_led_backlight.
-> > > > Patch 4 wires up the driver to the cros_ec mfd devices.
-> > > > 
-> > > > The helper keyboard_led_is_mfd_device is a bit iffy.
-> > > > But using match data doesn't work.
-> > > > 
-> > > > * driver_data from platform_device_id is overwritten by the mfd platform data
-> > > > * Setting the driver_data in drivers/mfd/cros_ec_dev.c would expose the
-> > > > internals of cros_kbd_led_backlight
-> > > > 
-> > > > Tested on a Framework 13 AMD, Firmware 3.05, and a Jinlon Chromebook.
-> > > > 
-> > > > To: Lee Jones <lee@kernel.org>
-> > > > To: Benson Leung <bleung@chromium.org>
-> > > > To: Guenter Roeck <groeck@chromium.org>
-> > > > To: Tzung-Bi Shih <tzungbi@kernel.org>
-> > > > To: Pavel Machek <pavel@ucw.cz>
-> > > > Cc: chrome-platform@lists.linux.dev
-> > > > Cc: linux-kernel@vger.kernel.org
-> > > > Cc: Dustin Howett <dustin@howett.net>
-> > > > Cc: Mario Limonciello <mario.limonciello@amd.com>
-> > > > Cc: linux-leds@vger.kernel.org
-> > > > Cc: Rajas Paranjpe <paranjperajas@gmail.com>
-> > > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > > > 
-> > > > Changes in v3:
-> > > > - Avoid probing multiple times (Confirmed by Rajas)
-> > > > - Add Kconfig dependency on MFD_CROS_EC_DEV
-> > > > - Link to v2: https://lore.kernel.org/r/20240511-cros_ec-kbd-led-framework-v2-0-b20c48109e46@weissschuh.net
-> > > > 
-> > > > Changes in v2:
-> > > > - Fix build with CONFIG_MFD_CROS_EC_DEV=n (kernel test robot)
-> > > > - Split out mfd registration into own commit (Lee)
-> > > > - Simplify keyboard_led_is_mfd_device() with mfd_get_cell()
-> > > > - Link to v1: https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net
-> > > > 
-> > > > ---
-> > > > Thomas Weißschuh (4):
-> > > >       leds: class: warn about name collisions earlier
-> > > >       leds: add flag to avoid automatic renaming of led devices
-> > > >       platform/chrome: cros_kbd_led_backlight: allow binding through mfd device
-> > > >       mfd: cros_ec: Register keyboard backlight subdevice
-> > > > 
-> > > >  drivers/leds/led-class.c                         |  9 +++---
-> > > >  drivers/mfd/cros_ec_dev.c                        |  9 ++++++
-> > > >  drivers/platform/chrome/Kconfig                  |  2 +-
-> > > >  drivers/platform/chrome/cros_kbd_led_backlight.c | 40 ++++++++++++++++++++++--
-> > > >  include/linux/leds.h                             |  1 +
-> > > >  5 files changed, 54 insertions(+), 7 deletions(-)
-> > > 
-> > > Looks okay.
-> > 
-> > Thanks.
-> > 
-> > > Does the platform patch need to be applied with the others?
-> > 
-> > Each patch depends on all its predecessors.
-> > (but I'm not sure I understood your question)
 > 
-> Does the Platform patch have 'build-time' deps on the others?
 
-Yes.
+Applied, thanks!
 
-Patch 3 makes use of LED_REJECT_NAME_CONFLICT which was introduced in Patch 2.
+[3/3] mfd: cros_ec: Register hardware monitoring subdevice
+      commit: 27e669820cda845d6d4c505809711ef6b4cff9a1
 
-Patch 1, 2, 3 have build-time deps on their predecessors.
-Patch 4 has a run-time deps on Patch 3.
+--
+Lee Jones [李琼斯]
+

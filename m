@@ -1,61 +1,61 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCA133CA
-	for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 21:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2003B4AEF0
+	for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 21:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717191099; cv=none; b=DvLgoJ/7u+PlrsdhvZPgwudQYSW1BPlMX5iyuDoCfIee3E6NEyV94pPgBbih4D4fmw7i2WcM4HWqWC6sZqLNrenPKTExpFj6BtlBmwOxul6AMOXLgcmabwtDl3vYSwhd1ZfW0P+mPuUB80eWRuMqz6hpxY5CLiYfRLOl269vmC4=
+	t=1717191126; cv=none; b=DKNEoyESGj/4738teCx3N1hs45HFoA67/bX+HabeLb4uaI5RgLptB1oWxEeKPozOtq7eBGnQIDymcgbrcn2ahcsQLVu2Mi7fQeaJHZ+D0q32DunZST+FtbizVLgYuqwa/J56U26EXd7E3PkxzCx4MDQAed0ELLoKrffwuCTSu/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717191099; c=relaxed/simple;
-	bh=p+h+RR8Tux2ov6Q/YfGRzyN6928v4VHs7jLvp5QqIXk=;
+	s=arc-20240116; t=1717191126; c=relaxed/simple;
+	bh=8fmTdmCi8GLIo5GWFE9MCeQOetOhn91wcE1k4F9EYrM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VNQT4He82VrjvV37AF8S75ilZa2JeQNWVOyhYIQ/xXuhbbKDqxv9WIcX3j1f4IYOemGsGUe46as8VqidV70UDIhc1PIM0yTqXABZJQpaZMJfgOg0WEMLHIeZjY72DrvTs5GZrf9Rr2xX7ME0sBcCgmpCqrkDDCyOK1WW3qGQrwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVkH4aY8; arc=none smtp.client-ip=209.85.210.179
+	 In-Reply-To:Content-Type; b=kmxIguUYsNAwP3alGVyL+TxiQDg+AZzvx8HX6JR9qTXPFvs31rXEhoE+dqyFHN709dx2n9c00w1RLndHMvEuuhTEMqQQXgsa9XnD5yz0BjsM8YlDBVzJVcK3oVUrjbtTDOP03WV8r08byPIAyURmhNKpVPgZNQx+h3eXdWvi4OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHB82XBJ; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVkH4aY8"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-702447766fdso1404352b3a.1
-        for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 14:31:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHB82XBJ"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f6342c5fa8so10353455ad.1
+        for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 14:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717191098; x=1717795898; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1717191124; x=1717795924; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmTK+P0aAS88cJMG+0siFJrcs9hOJ7w3yXrh727oCsA=;
-        b=cVkH4aY8U53ObxVk/ldROh63zPVp1nzL6SkekxKlyit93Uud+XqmtCMBg8nFavuKuy
-         exssu3fm8Vrs70hH8s0NbBpG55b1leSkcS2mflPKzFggSAtWKphFhsAudSDDPbX+uNhE
-         g/O/rlfpK1XcEn4nZOzw3CCMxMco5vXo54EDCKblf+CXUbLP/6wVbI80zK/2Ta2xWzlc
-         +0iDkiQL/QcMungY/RupidMA8MVd3+jJdjW+KSCsgQfSRmk91Rw4piMrwTjwYsNTyobJ
-         C2UqfAhV6YrNXAp45eXCrv8M5YIF4n8kKTgnkPdlk7RXrJn5l35/ZSd+LlKB9DOkiY4f
-         e9KA==
+        bh=zDMzjlLdFLPBXXGKesUlymEiEQwj5Uvb0CNnQKdq+OY=;
+        b=OHB82XBJL4Wg7Bzt+9bmikUa7xGPwtJacMXFq7Ce+lQDo32K/O5vD8kDUeFEfYJFG6
+         A3G6q5Dt5pB4cL3vCFgOqXZBCgSYnb6zr2/HHPjHyPa6IxzPDOY/z6qhb/V3zzAqSFy3
+         B4dUuERI0KpGuvirCVxj60oKDdhFsFS+0AsSoEx/4OtHAF5G1qa6Zh/lXnc1+JwjX8QB
+         UEUDP4KTEmDdFlhZBjNzk1LfVreK72Gvsm+9NgihIRAOxlOZDGbv+j07Q5OiJM4p9Dok
+         Kq3loJ6EuJvbL5JezgTuf2+QYEJE7iDWmqU1xWGmRm+8KisgwYluAZta5LTEjlNr4jry
+         EEmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717191098; x=1717795898;
+        d=1e100.net; s=20230601; t=1717191124; x=1717795924;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lmTK+P0aAS88cJMG+0siFJrcs9hOJ7w3yXrh727oCsA=;
-        b=vuIkKelhXEwcdFyf7MdhBejgpDVkXVeGSB6/FP6FnOjhBSgwxhqdJQbDMscgKaluFt
-         uiFfXBAZk2LIhypl+btkxtK3Nq4fb8wX8I0c1wKS9R2SwPgffJ6D+uopvbo2xHL2lOsw
-         XFUbWvLTr7HLj5OhQQz8UaRCcLAVHBRa0KMxSMN2eHN7QEUVACJ3y6r+X+Ga3kdEtgLW
-         h9Y7FDaQUtBBDANJk8hsQoHQujbcH7fbqNIwwF6RO8gMPLUu/eY8LtjYAaL+wRWkJykp
-         FKhsmAQNceR+CbnEXGPfzKQND0bNy7EWEbaDmkstw533gLhVetWFn0JI5n8SI9seDyiq
-         uXmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVufr952heQaJXx4CIV9Q/Jr1dj2cnaH3P7QqdR03OCvPmWRT6+MQfXwAECkJ7vd1F9c+zQH7uXCjq2waetmikNGgtb8do6RVlj2tgamxfF
-X-Gm-Message-State: AOJu0YxgoFVBshBh9lgC5m+hopmjHDnFo5sxWWzE3ezWAlUQ/BzBejbo
-	MN6qGEL+0Rac0HR9Q8KTassc2YwVHAakodETtFaA+U7e5PvPs8O9
-X-Google-Smtp-Source: AGHT+IFd98ETMNBo5PLkVyZ9UtPTuKfKcJyylrYvEEoGY+8NVntQAivV9DKV0ht/8tQf4PsJYyyoLQ==
-X-Received: by 2002:a05:6a00:4a05:b0:6ea:e2d8:468 with SMTP id d2e1a72fcca58-7024789b9c4mr2442492b3a.26.1717191097697;
-        Fri, 31 May 2024 14:31:37 -0700 (PDT)
+        bh=zDMzjlLdFLPBXXGKesUlymEiEQwj5Uvb0CNnQKdq+OY=;
+        b=SCG9A5UIHMTuV3uwhSE6wrYxrzVWD3gpSZQaSpexiXLYF5u7V9sBKKmuQT9v1PRxxh
+         a1WLrtofMa8RnPgl2RIlJ6F8YdyrAx4CqYILIqdUnS5RMoseDOgzk27W0hsU90KXb6k9
+         44Ze56xXG1K+QfYOq5NRP5gjWfFm7oi14Pzh8T0fbOEW/9DD4fnKj0XAkCRQVre9CPpR
+         VaXaiV2rqClE3U0a1QxdmVl1AuyShpJQpXH93x0RsRbZVRnYLu72c7zR5yTPNcSeW5kc
+         zorMJlVlyTY4iGHsr90o0+CU72A5xJPKllrY8tMGy5iwzUZJKNBb6SJoPuDAQdmtYmow
+         LOqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSI37yLA4nUWoRmIFpbm7pDo4rLINyRfH7PwC9Ykc+KmEIwjI359b9EtAZ3SFt45EmmOL+o8M+wfH/ITydythpQ2ZsIvaVVxUrt9xD2xi4
+X-Gm-Message-State: AOJu0YywvM0keLUkidf4qtTtHD0xKOIL1lWF0/ynbUh4EEB7briAbgua
+	F0Q8uXO7GV3C+qkaq3ODuswPSRBYMBOoL/PKq61X4B4RAvs4ocD1
+X-Google-Smtp-Source: AGHT+IGHNi1zPZrGDyrudCuWQ3XiJ3GgD4foIdRjvfZ5pwvj7IUyamOLOoKfv3m5WwcwtMRR60l+5Q==
+X-Received: by 2002:a17:902:f681:b0:1f4:9c26:d036 with SMTP id d9443c01a7336-1f636fd977dmr37635535ad.14.1717191124252;
+        Fri, 31 May 2024 14:32:04 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6c353fffe55sm1425729a12.14.2024.05.31.14.31.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323dde85sm21111375ad.149.2024.05.31.14.32.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 14:31:37 -0700 (PDT)
+        Fri, 31 May 2024 14:32:03 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <294ff393-9cd5-4e81-a8c9-955dbadc612a@roeck-us.net>
-Date: Fri, 31 May 2024 14:31:35 -0700
+Message-ID: <142a8c0c-7ac8-4033-8c2a-5abb316870e7@roeck-us.net>
+Date: Fri, 31 May 2024 14:32:02 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,7 +63,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] hwmon: add ChromeOS EC driver
+Subject: Re: [PATCH v4 1/3] platform/chrome: cros_ec_proto: Introduce
+ cros_ec_cmd_readmem()
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Jean Delvare <jdelvare@suse.com>, Benson Leung <bleung@chromium.org>,
  Lee Jones <lee@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
@@ -74,7 +75,7 @@ Cc: Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
  Moritz Fischer <mdf@kernel.org>, Stephen Horvath <s.horvath@outlook.com.au>,
  Rajas Paranjpe <paranjperajas@gmail.com>
 References: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
- <20240529-cros_ec-hwmon-v4-2-5cdf0c5db50a@weissschuh.net>
+ <20240529-cros_ec-hwmon-v4-1-5cdf0c5db50a@weissschuh.net>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -120,26 +121,19 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240529-cros_ec-hwmon-v4-2-5cdf0c5db50a@weissschuh.net>
+In-Reply-To: <20240529-cros_ec-hwmon-v4-1-5cdf0c5db50a@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 5/28/24 23:27, Thomas Weißschuh wrote:
-> The ChromeOS Embedded Controller exposes fan speed and temperature
-> readings.
-> Expose this data through the hwmon subsystem.
+> To read from the EC memory different mechanism are possible.
+> ECs connected via LPC expose their memory via a ->cmd_readmem operation.
+> Other protocols require the usage of EC_CMD_READ_MEMMAP, which on the
+> other hand is not implemented by LPC ECs.
 > 
-> The driver is designed to be probed via the cros_ec mfd device.
+> Provide a helper that automatically selects the correct mechanism.
 > 
 > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-I assume this patch and first patch of the series will be applied
-through the cros-ec branch.
-
-I don't know if Tzung-Bi has additional comments; from my perspective
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
-Thanks,
-Guenter
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 

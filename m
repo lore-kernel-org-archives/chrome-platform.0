@@ -1,49 +1,31 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDBD225DA;
-	Fri, 31 May 2024 16:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE44017D379
+	for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 16:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717171579; cv=none; b=Lf5T+VYVFLzJI/2by1+hy2ci+WKhZQMCMiz/VWgX9Qstg7ufF10SPdPS20MYB3q2u7oQEGunXNcCMVsoHssWl+WMbA8afGqEWttK7lRw9CKssamdTNIbaeYVS+pMBZLi+lOcyPYgDZW7lTuTCJuVMZF2Od1msDD7HYhL5gZLjGI=
+	t=1717173223; cv=none; b=thcVm50nN9AYvqvlh8SM851OexzOMG9Hr7rQI3+phyPRxHfydcc/yq+Gnq8E1veR9RCnv8+0DDBAC+L2aVG1jjOogkajyTxJmGJeE/4/0Xn21dIx2N5B3oeoiIQGwwIUBxyjeODAqcCVpiosmM3VYF2lzGrN8YnyfRqaQMAm5ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717171579; c=relaxed/simple;
-	bh=LQCvrP06+ub0WmZb5H0EUGQ/V5k2fp3n8C159L6sKk0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Hnsx9J1LQTyyN3zgASX8i1843HvEVnts9733/3sM5OQ8a/oBJu36ABNyw5ECNjFUffgdTmiNqvfxQAEFCU/ZE37w46pw2nMKzJoT0/m/NOVU7pYQysQM6DmBOiRrslSIx1rtpLGJ+WGewW0ehIZtU4gNwmpOVrGP4SP4q1G9QrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAxhsaTk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717173223; c=relaxed/simple;
+	bh=mR6GzlkWH3qHprHn11q+4xst17qh+XBAHkTQgtLxS4o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Cv9JtLoHvNCRSZ1PuvmrBcSKFRZMvq91b3Uk+MLsqpP3jKvC3r2g9mf/7m1LQdXiXPLuWX66OTJ4WDKKQa75d/bmhaHqf3MMpYkAk2O3uOMX8YfDLj4VGGcdQ8/NMr8hespfkhPNCWCBSj1jlTP74XU7THd7wQNpXbWPc/X1Egk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TXYxNV2B; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAxhsaTk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED515C116B1;
-	Fri, 31 May 2024 16:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717171578;
-	bh=LQCvrP06+ub0WmZb5H0EUGQ/V5k2fp3n8C159L6sKk0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WAxhsaTkS9yWeXMhPapwzNNnByCB1HUy4EmmTmQRdlifk9fQWPYQAF05Ny1ahOdx9
-	 4Sq7deBPc78KVmzQpNpO8TlfltYrLo9yN4dFlRfa8MFWcMHa72ck/vVpQL0lAw199b
-	 G8ZV7hEyCPsiz89pFXJBq196R+CguB2UGMDfn7xqDW53ggaXTj8g2mbppsyiRTA0yX
-	 GDZZvsSLV0FhWYjtJ0Kqt3eLF2GxOCsm1yHAWpsLApB7CI9jElOLamzo5KjSNTVsxP
-	 BQfcPMXUqll9Uthd8RgA1OZQWNVHmLBnqywPBkxV8dGPQtVzrVYdhGGzlkVuu4fvMO
-	 uAeBvmibunfVA==
-From: Lee Jones <lee@kernel.org>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, 
- Tzung-Bi Shih <tzungbi@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Moritz Fischer <mdf@kernel.org>, Stephen Horvath <s.horvath@outlook.com.au>, 
- Rajas Paranjpe <paranjperajas@gmail.com>
-In-Reply-To: <20240529-cros_ec-hwmon-v4-3-5cdf0c5db50a@weissschuh.net>
-References: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
- <20240529-cros_ec-hwmon-v4-3-5cdf0c5db50a@weissschuh.net>
-Subject: Re: (subset) [PATCH v4 3/3] mfd: cros_ec: Register hardware
- monitoring subdevice
-Message-Id: <171717157570.1179352.10771084624581761418.b4-ty@kernel.org>
-Date: Fri, 31 May 2024 17:06:15 +0100
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TXYxNV2B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1717173219;
+	bh=mR6GzlkWH3qHprHn11q+4xst17qh+XBAHkTQgtLxS4o=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=TXYxNV2B//jK3MqoIzUgwNlLwzUfPNSFwgednrs+peOnP0kCUXd+amePHM8fFfjjK
+	 y18QbG1JpLyK5RST/1c9X6Z0nh9vDf7xB7SxEfg/MxFTUitxWhqXtHWBzFSWvE6RI6
+	 ZILZ4Z8jJZYHbVNiYAn10AlLSjyk/iitSVSYrAmQ=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Fri, 31 May 2024 18:33:32 +0200
+Subject: [PATCH v2 2/5] leds: multicolor: Use led_get_color_name() function
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -52,18 +34,50 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.4
+Message-Id: <20240531-cros_ec-led-v2-2-6cc34408b40d@weissschuh.net>
+References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+In-Reply-To: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717173219; l=942;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=mR6GzlkWH3qHprHn11q+4xst17qh+XBAHkTQgtLxS4o=;
+ b=tUA8JrwsAnM/01+XZiQJ1wK2eRlxXmLXA2mipUdTZ4tlgRS+Dhip9uCkV6wxFxR/F2ygTYpyE
+ sWVEa58x0EnAcLS2wCm6/2M6TZWjhu6DmiuEJ+7zE7fyagdhqdSSpAG
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Wed, 29 May 2024 08:27:13 +0200, Thomas Weißschuh wrote:
-> Add ChromeOS EC-based hardware monitoring as EC subdevice.
-> 
-> 
+led_get_color_name() is a safer alternative to led_colors.
 
-Applied, thanks!
+led-class-multicolor.c is the only external user of led_colors and its
+removal allows unexporting the array.
 
-[3/3] mfd: cros_ec: Register hardware monitoring subdevice
-      commit: 27e669820cda845d6d4c505809711ef6b4cff9a1
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/leds/led-class-multicolor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---
-Lee Jones [李琼斯]
+diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+index ec62a4811613..584e3786a1e7 100644
+--- a/drivers/leds/led-class-multicolor.c
++++ b/drivers/leds/led-class-multicolor.c
+@@ -101,7 +101,7 @@ static ssize_t multi_index_show(struct device *dev,
+ 
+ 	for (i = 0; i < mcled_cdev->num_colors; i++) {
+ 		index = mcled_cdev->subled_info[i].color_index;
+-		len += sprintf(buf + len, "%s", led_colors[index]);
++		len += sprintf(buf + len, "%s", led_get_color_name(index));
+ 		if (i < mcled_cdev->num_colors - 1)
+ 			len += sprintf(buf + len, " ");
+ 	}
+
+-- 
+2.45.1
 

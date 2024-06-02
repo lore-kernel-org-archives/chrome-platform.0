@@ -1,139 +1,106 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2003B4AEF0
-	for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 21:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA9253E15
+	for <chrome-platform@lists.linux.dev>; Sun,  2 Jun 2024 23:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717191126; cv=none; b=DKNEoyESGj/4738teCx3N1hs45HFoA67/bX+HabeLb4uaI5RgLptB1oWxEeKPozOtq7eBGnQIDymcgbrcn2ahcsQLVu2Mi7fQeaJHZ+D0q32DunZST+FtbizVLgYuqwa/J56U26EXd7E3PkxzCx4MDQAed0ELLoKrffwuCTSu/M=
+	t=1717371019; cv=none; b=Ql7IJutxYPZujXizfDcyBhGlD5p9nvSbpip02X3CzxGCLwLEJxWk6M8Gmg/pYph+/ulZkWxsy50nb5tfZ4iGLG8jWKwYhbhG4nfLvI/tRnPtcLEfz4LaJTr9NnGzMrZtKAB1JVDxPx9y2islPW1pEAuZFX6m+wYSqs82X1dHGeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717191126; c=relaxed/simple;
-	bh=8fmTdmCi8GLIo5GWFE9MCeQOetOhn91wcE1k4F9EYrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kmxIguUYsNAwP3alGVyL+TxiQDg+AZzvx8HX6JR9qTXPFvs31rXEhoE+dqyFHN709dx2n9c00w1RLndHMvEuuhTEMqQQXgsa9XnD5yz0BjsM8YlDBVzJVcK3oVUrjbtTDOP03WV8r08byPIAyURmhNKpVPgZNQx+h3eXdWvi4OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHB82XBJ; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717371019; c=relaxed/simple;
+	bh=pMhsyKu03RmnmNJkv3yey1MD984VPwGhQB3gl4lX4tc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PLPOs5VkUufRYKsihiBA0y0mNW1fAxqmZ1agZP84cL2JvrcC+0XE6kPR9VTDE8dcL/cZtKroq4zR6Qj/DSw+akBllmd4eYTnAwlpytKF/E4w1xKBAYp+A9/up4By5dVfXjfDggvDzBOiUYusIkC1YftWfsSDcykgoSPQwvwCFkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net; spf=none smtp.mailfrom=howett.net; dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b=zSN2GOkB; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=howett.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=howett.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHB82XBJ"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f6342c5fa8so10353455ad.1
-        for <chrome-platform@lists.linux.dev>; Fri, 31 May 2024 14:32:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=howett-net.20230601.gappssmtp.com header.i=@howett-net.20230601.gappssmtp.com header.b="zSN2GOkB"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfa5b9274feso4126774276.2
+        for <chrome-platform@lists.linux.dev>; Sun, 02 Jun 2024 16:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717191124; x=1717795924; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDMzjlLdFLPBXXGKesUlymEiEQwj5Uvb0CNnQKdq+OY=;
-        b=OHB82XBJL4Wg7Bzt+9bmikUa7xGPwtJacMXFq7Ce+lQDo32K/O5vD8kDUeFEfYJFG6
-         A3G6q5Dt5pB4cL3vCFgOqXZBCgSYnb6zr2/HHPjHyPa6IxzPDOY/z6qhb/V3zzAqSFy3
-         B4dUuERI0KpGuvirCVxj60oKDdhFsFS+0AsSoEx/4OtHAF5G1qa6Zh/lXnc1+JwjX8QB
-         UEUDP4KTEmDdFlhZBjNzk1LfVreK72Gvsm+9NgihIRAOxlOZDGbv+j07Q5OiJM4p9Dok
-         Kq3loJ6EuJvbL5JezgTuf2+QYEJE7iDWmqU1xWGmRm+8KisgwYluAZta5LTEjlNr4jry
-         EEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717191124; x=1717795924;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=howett-net.20230601.gappssmtp.com; s=20230601; t=1717371017; x=1717975817; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zDMzjlLdFLPBXXGKesUlymEiEQwj5Uvb0CNnQKdq+OY=;
-        b=SCG9A5UIHMTuV3uwhSE6wrYxrzVWD3gpSZQaSpexiXLYF5u7V9sBKKmuQT9v1PRxxh
-         a1WLrtofMa8RnPgl2RIlJ6F8YdyrAx4CqYILIqdUnS5RMoseDOgzk27W0hsU90KXb6k9
-         44Ze56xXG1K+QfYOq5NRP5gjWfFm7oi14Pzh8T0fbOEW/9DD4fnKj0XAkCRQVre9CPpR
-         VaXaiV2rqClE3U0a1QxdmVl1AuyShpJQpXH93x0RsRbZVRnYLu72c7zR5yTPNcSeW5kc
-         zorMJlVlyTY4iGHsr90o0+CU72A5xJPKllrY8tMGy5iwzUZJKNBb6SJoPuDAQdmtYmow
-         LOqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSI37yLA4nUWoRmIFpbm7pDo4rLINyRfH7PwC9Ykc+KmEIwjI359b9EtAZ3SFt45EmmOL+o8M+wfH/ITydythpQ2ZsIvaVVxUrt9xD2xi4
-X-Gm-Message-State: AOJu0YywvM0keLUkidf4qtTtHD0xKOIL1lWF0/ynbUh4EEB7briAbgua
-	F0Q8uXO7GV3C+qkaq3ODuswPSRBYMBOoL/PKq61X4B4RAvs4ocD1
-X-Google-Smtp-Source: AGHT+IGHNi1zPZrGDyrudCuWQ3XiJ3GgD4foIdRjvfZ5pwvj7IUyamOLOoKfv3m5WwcwtMRR60l+5Q==
-X-Received: by 2002:a17:902:f681:b0:1f4:9c26:d036 with SMTP id d9443c01a7336-1f636fd977dmr37635535ad.14.1717191124252;
-        Fri, 31 May 2024 14:32:04 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323dde85sm21111375ad.149.2024.05.31.14.32.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 14:32:03 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <142a8c0c-7ac8-4033-8c2a-5abb316870e7@roeck-us.net>
-Date: Fri, 31 May 2024 14:32:02 -0700
+        bh=mA62qSvfUgabP8dHNNLvavVQ1hj8KoRhl88lff9+uKA=;
+        b=zSN2GOkBdZzRJCmhFG9/IahSfDnivJHa07Kv71J1XohCJBiXKYTHOyC5SF1LK3jSd3
+         zw4fyRuR6GX+fc3SMEVZw7ZPYyjL9kIa0kFzanC+nd2zrpxG1UQMWfIBYybFtkKv5GD+
+         jNTLWODQdjAQSdJjno/xCC+T7TlsEW9MUY+A/0HLJQ1/sMz10nm+wpol+rY3/kuX4SWS
+         O5M8fm9RmCQDcfepVETZ7TpEmJG5jfUHF0FnfNdJy8s30m8zzyUECj+iw/9cxyYNbA+B
+         5faCmBxx1gSvE5VTw6CfQvkCIxrQdAkKEoDWWCbR3zxd0ZcPQ2VYPbXxhWr/VdQa2wlf
+         8k3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717371017; x=1717975817;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mA62qSvfUgabP8dHNNLvavVQ1hj8KoRhl88lff9+uKA=;
+        b=uhume9mHiVoSM/1fEzSou3IpLs2hTlYXivF3z5Z5XKLhL7vO9gsvSX+Hcjkt8vtlXp
+         DAb0D4zoWU5r89nUaSrWOerl+4dD0AUeO9Ct7j9Zx38QOeQdG26GW6xIkpxvDLmZEGAa
+         i08UwlVNPUfrQThof50dkoVOObcTUmHnZaBQDyMtBSi23Y6ux2eqT8o4QJ2b8ahuISHD
+         i0DDpvYtAA4877Cl7bpc5S1Xk4oplmju1AS5PsAJDoGtXAwnBxZPESwuxSqpwYb7BlIV
+         Z+w9r0TJAwknQG3gf/Yc/4u6xrxHG9UqMa8nhooQCqoZngOT/QO8RfOyBiNqYCD751sK
+         9Iuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWL2ANbCZ/dO4Gdy8EUir2AcnnH30OLQrmsS5TnsAgNMlBUpTxH9WlvXtargjHvjvriXQPw4hwK/r1cxNkv1Myp+ANUT/H00SkfcbRECAv3
+X-Gm-Message-State: AOJu0YyEy5MW/miqSDjY8mrct0WKE/Is9gO1NEntkbWp/PrcnipHz0QX
+	T0+rf8WDBt65fuJUotJ2XTSyUK74obhjUIADJM6c3GyUVHoGRKvMH6js4h6vDd47OzTEqLk2E3b
+	RGPJL/QW3dDg+/6Wzx8xqA1Lyx6SKm5j5KN/3
+X-Google-Smtp-Source: AGHT+IH2wwVcPgtl3GNQdMf+HzL/lgwUkqm8BGFm5dIJFA3xpzq6zxsZqPM2NhtHVxlko5L+l8gNF8Ck50mvlyjfVRI=
+X-Received: by 2002:a25:bc08:0:b0:df7:978a:73de with SMTP id
+ 3f1490d57ef6-dfa73c1da12mr7346043276.19.1717371017435; Sun, 02 Jun 2024
+ 16:30:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] platform/chrome: cros_ec_proto: Introduce
- cros_ec_cmd_readmem()
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Jean Delvare <jdelvare@suse.com>, Benson Leung <bleung@chromium.org>,
- Lee Jones <lee@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, chrome-platform@lists.linux.dev,
- Dustin Howett <dustin@howett.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Moritz Fischer <mdf@kernel.org>, Stephen Horvath <s.horvath@outlook.com.au>,
- Rajas Paranjpe <paranjperajas@gmail.com>
-References: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
- <20240529-cros_ec-hwmon-v4-1-5cdf0c5db50a@weissschuh.net>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240529-cros_ec-hwmon-v4-1-5cdf0c5db50a@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+In-Reply-To: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+From: Dustin Howett <dustin@howett.net>
+Date: Sun, 2 Jun 2024 18:30:06 -0500
+Message-ID: <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	Mario Limonciello <mario.limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/28/24 23:27, Thomas Weißschuh wrote:
-> To read from the EC memory different mechanism are possible.
-> ECs connected via LPC expose their memory via a ->cmd_readmem operation.
-> Other protocols require the usage of EC_CMD_READ_MEMMAP, which on the
-> other hand is not implemented by LPC ECs.
-> 
-> Provide a helper that automatically selects the correct mechanism.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+On Fri, May 31, 2024 at 11:33=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weiss=
+schuh.net> wrote:
+>
+> Add a LED driver that supports the LED devices exposed by the
+> ChromeOS Embedded Controller.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+I've tested this out on the Framework Laptop 13, 11th gen intel core
+and AMD Ryzen 7040 editions.
 
+It works fairly well! I found a couple minor issues in day-to-day use:
+
+- Restoring the trigger to chromeos-auto does not always put the EC
+back in control, e.g. the side lights no longer return to reporting
+charge status.
+  I believe this happens when you move from any trigger except "none"
+to chromeos-auto, without first setting "none".
+- The multicolor intensities report 6x 100 by default; if you set the
+brightness with the intensities set as such, it becomes only red. I
+would have
+  expected intensities of 100 0 0 0 0 0 if that were the case
+
+Thomas, I apologize for the duplicate message; my mail client config
+here defaults to "reply" rather than "reply all."
+
+Thanks,
+Dustin
+
+>
+> Best regards,
+> --
+> Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+>

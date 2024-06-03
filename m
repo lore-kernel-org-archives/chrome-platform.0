@@ -1,39 +1,40 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B141386D0
-	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 20:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0742A13C908
+	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 20:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717448199; cv=none; b=VmcUL1pqjt1LgoEhdLOgXrI6jFwAZX+SZyRTaLLdk4TwD4ofr/xS1XWnwPwRGomq2GWtG/ylB/j3Nt0LjSNEeSQvh06wcZfdrOyaDhFiGxCPwpZ7V6kDXUJppK3luWwb2quWthjmhIBBo2Hz1mhQWwBgCO5cOzBFmdtVgf+ycSE=
+	t=1717448396; cv=none; b=fA99S83JfJsssXX2iHgpCyb8XHm+1jEDOIqjRu95N9sEMeEe98684g+i707o8ry+WG7MzPNVzNKYLkO76j5+fOI8LKlzS642Lv6PTxpnrIJq/OPVHxoaEiXtFceauq9JPn9kfu+vo8cMhV/P3QbDUZfcEasr9TV34jAoHcAU3hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717448199; c=relaxed/simple;
-	bh=o8F6VoifI7A0oMK0yqKqCVn++NY/J+kNIIIvqg51Pio=;
+	s=arc-20240116; t=1717448396; c=relaxed/simple;
+	bh=n83K36thiF+lJBy27bSJupNp7twUTuCmlxqyf9CdgCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUGFsBXUW27Ho5CUmQm/2zbTr2mL5lWtg+Q8tnMEfEbeezhicz4BZwqP+r72En5v7zThDwlBVWhAyy9tQ0oEewSS6udzQ2hahqjgkOhwJ7m5D0FI6/Ee2MaVJ26XS7py5EYgvXuT7pE4XpwIIxaMc/N1H1uOQTXe/aqlA3IvuR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=R/a8Gh6a; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lab/jPM9+Tv6NU19J0uXAfK8/cxfHEL4RC2LDA4A3uTxvjcDk7H6t49G6eiQx04y30kfF/jWLHEIbXVhkssx1BWpiRFnoTDAHWpSgbQN049iArE7RmGZq+gn59aa6s2v188lEUd97CqXK83vHtVnyyCUFRvfFJJlAz8WL1JnGto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gUcgaZjp; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="R/a8Gh6a"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gUcgaZjp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717448187;
-	bh=o8F6VoifI7A0oMK0yqKqCVn++NY/J+kNIIIvqg51Pio=;
+	s=mail; t=1717448393;
+	bh=n83K36thiF+lJBy27bSJupNp7twUTuCmlxqyf9CdgCA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R/a8Gh6adcU4G+Fdat0sLVBLpH4mqMpmnLWoXuSeRJrYRQtEDSzU1K5Oz4GOAzScK
-	 vI0quijbumGkVHW3gUV09hAXu12jdm825r5h4rPkoYJQdo2lgIoOauUhJ2xVTYxOfc
-	 k9MEaHMbGkP+KoS4AqTzuijgcBV3dIQqdABgpW6c=
-Date: Mon, 3 Jun 2024 22:56:26 +0200
+	b=gUcgaZjpWGlbqmbB65yifUBjyhvcJt0LTk69PJK6iiq7JDLZlp3XKwjsvvWohWWrT
+	 zBnRS1nc8f8fgYp58ru9UzuJxE3uSh3mFj2XhhPLjCYW4aeEY4aHtmjCyVpzAfzCxa
+	 Yowh9W5kkjcJFD0CR26ADM9DGO4KusR8y0rNhllQ=
+Date: Mon, 3 Jun 2024 22:59:52 +0200
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 To: Dustin Howett <dustin@howett.net>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
-Message-ID: <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
-References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
- <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Mario Limonciello <mario.limonciello@amd.com>, Stephen Horvath <s.horvath@outlook.com.au>, 
+	Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: Re: [PATCH v2 0/3] ChromeOS Embedded Controller charge control driver
+Message-ID: <5baf3caf-dc09-4829-96db-2666fc902710@t-8ch.de>
+References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
+ <CA+BfgNJByawxkZukaCXYcmOo_K9aQ0W1x8B6Y+Hyg_fZaJ4axw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,41 +44,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
+In-Reply-To: <CA+BfgNJByawxkZukaCXYcmOo_K9aQ0W1x8B6Y+Hyg_fZaJ4axw@mail.gmail.com>
 
-On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
-> On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+On 2024-06-02 18:40:18+0000, Dustin Howett wrote:
+> On Tue, May 28, 2024 at 3:05 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
 > >
-> > Add a LED driver that supports the LED devices exposed by the
-> > ChromeOS Embedded Controller.
+> > Add a power supply driver that supports charge thresholds and behaviour
+> > configuration.
+> >
+> > This is a complete rework of
+> > "platform/chrome: cros_ec_framework_laptop: new driver" [0], which used
+> > Framework specific EC commands.
+> >
+> > The driver propsed in this series only uses upstream CrOS functionality.
+> >
+> > Tested on a Framework 13 AMD, Firmware 3.05.
+> >
 > 
 > I've tested this out on the Framework Laptop 13, 11th gen intel core
 > and AMD Ryzen 7040 editions.
-> 
-> It works fairly well! I found a couple minor issues in day-to-day use:
 
 Thanks!
 
-> - Restoring the trigger to chromeos-auto does not always put the EC
-> back in control, e.g. the side lights no longer return to reporting
-> charge status.
->   I believe this happens when you move from any trigger except "none"
-> to chromeos-auto, without first setting "none".
+> The problem is that the AMD framework laptop *reports* support for the
+> CrOS charge controller, but it does not truly support it.
+> As with the 11th Gen Intel Core (and by proxy the 12th, 13th) it still
+> does require the OEM-specific command.
 
-Thanks for the report, I'll investigate that.
+This is surpising, it works on my machine, which is also a AMD 7040.
 
-> - The multicolor intensities report 6x 100 by default; if you set the
-> brightness with the intensities set as such, it becomes only red. I
-> would have
->   expected intensities of 100 0 0 0 0 0 if that were the case
+> This is evinced by a mismatch between the firmware-configured value
+> and the value reported by the charge control subsystem through this
+> driver.
+> 
+> $ cat /sys/class/power_supply/BAT1/charge_control_end_threshold
+> 100
+> 
+> $ ectool raw 0x3E03 b8 # OEM command 0x3E03 with BIT(3) in the payload
+> is Framework's charge limit query host command
+> Read 2 bytes
+>  50 00                                           |P.              |
+> (in my case, 80 in decimal)
+> 
+> The charge limit is managed at [1], and it does not appear to
+> integrate with the standard charge control machinery.
+> 
+> I'll pursue getting this board not to report support for CrOS charge
+> control. This driver is still entirely fit for purpose, just not for
+> this board.
 
-The EC will always use the first nonzero intensity for the color
-channel. It isn't a real PWM color mix.
-I don't think there are possibilities in the multicolor API to enforce
-this. For the next revision I'll need to document this properly.
-Also the default intensities could be better indeed.
+Can you try disabling all of the Framework-specific charge control
+settings and test again?
+Probably the different, disparate logics in the Framework ECs are
+conflicting with each other.
 
-> Thomas, I apologize for the duplicate message; my mail client config
-> here defaults to "reply" rather than "reply all."
-
-No worries!
+Thomas

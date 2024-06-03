@@ -1,84 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E754C63;
-	Mon,  3 Jun 2024 01:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8041A15D1;
+	Mon,  3 Jun 2024 01:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717378230; cv=none; b=RITs+8foHbyRjrNAUT993WAz8yq2N5gv+C9FQPDp9+PutU9sVZZAl9ii4O6QxNRuVppkaR8JsZ6LT8Cx9vBp0FJBU9DARFklVRjGjfWTOtY3pDLaZrTByOnpY9qfY4a2WCv0VctAKlXGH+rTyhR0Vx+y4fFL5eeVVZg4AFKoEvg=
+	t=1717378690; cv=none; b=n9wisPVx5DmHGbjQy8qOrhOSHIaZJOrN3y8E4t2HShn46rkD+uWNvgJrcwNSaFqew0bnir1t0BJELs4rZf9UsrRTK898xStKPKME+6SgGSxaY8J9TGgkEt3ODbCa51z7pWflSMYTqOyZXeHoYnFz+vQENm6AcsbCOdAVFvBVULI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717378230; c=relaxed/simple;
-	bh=iTVP8HFRpDspCzQtZtfOWLoHx1WUVU/xxp/iKDtWq/c=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ITfO85vYEmTTzkjFklOxPwLHKfw6TutPsTDQxIf0aC36QQPsOVdX11yZiaVEHpINdCE7Jc8YuW9pkNBdd5AWnhXzvopKysCRe1xGxgUEkfazYk+o4QP0a2K9NEtW5bMeLASV0SZYJEe1RrNvQeyExf53rkGaGjkQD9Ot4Lpxs+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tEBAfjUt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717378690; c=relaxed/simple;
+	bh=2fLwkmNgaJCamzedXflmbfZUwM9kaGgUCxGV9+QFYFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jR1YrRLYQkbyUhkRQ2oTBKDwpmKFo75YtcnHbtHnUXhDFYqAlH8AcP8yhMozklrbjCO63TamE4DWs2v6ZkSOth3h2uaDudz2IExAW9UMG8h1NUN6g9sOf+N9obKgeA/LS24Vno/lGxSiDRZ2mI6X2/uP8kD6qaho47o7A0QmQQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNRX3tQd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tEBAfjUt"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9EDCEC2BBFC;
-	Mon,  3 Jun 2024 01:30:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNRX3tQd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED4AEC2BBFC;
+	Mon,  3 Jun 2024 01:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717378229;
-	bh=iTVP8HFRpDspCzQtZtfOWLoHx1WUVU/xxp/iKDtWq/c=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tEBAfjUtaZCd7VJLIHmu9knMz8gDVzlWrXUIfF4tmgU6XV7vOuaAPoqVG9WonQVpZ
-	 yE1ytMODwREqiuZYz6SiUKe4GrhtcRXO2MOo4xn8THO17PCWo3/kfs/ygNuPP0OxJx
-	 El9h1dz0rsFvXIXdYI5ftjAtqenktY5h4rsy0D56HA3ZlVQXr2J2ykiruyzoZ5zok2
-	 dYmY1rJWVmYE6FizqcTpyrLwDCxXZ9dFRjEebmPzOzMFKrQLW8V30ZPoyX5AC/zJRk
-	 bBXempPbLSl6SzBPbplwqIi7i8Q7rXtxVVAkGMYE1Dv8r1z5ghPSHi5gHWbJMYUkDp
-	 iHIBoBvtZK3rg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 940AAD6191F;
-	Mon,  3 Jun 2024 01:30:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1717378689;
+	bh=2fLwkmNgaJCamzedXflmbfZUwM9kaGgUCxGV9+QFYFc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DNRX3tQdbd5qpneYFPQw2f9EnmzoRmDpX0N3J4H+Wl/LV/6jyxrKT5ZePyN2wkJCp
+	 n5owcmbgIm5p2Z/uf3uJaAxdiBhmpBdERqzxfTl0/E2roFMel1hJyDqNMMsjqGolOQ
+	 VNFajhrqg/N3xFN7k0CoB3awpT3k3VK2or6cWn9kPGq9NJVGTZdkEXnzhUGCvuUxPF
+	 zGfvXPukFGbZmViU3zToxXyBqd1CGOgOqUIYOEBy7HFa32rfdZxFyQhRqLnqJqGu0W
+	 8pIS2UjZ0LwEPJZRlT4f8M2CNraH7h9QkX+UCtFZo/CTChMeoOQ+Ql0ZEkd5GxSYCv
+	 NZuPSFR5Nh9wA==
+Date: Mon, 3 Jun 2024 01:38:05 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Dustin Howett <dustin@howett.net>,
+	Stephen Horvath <s.horvath@outlook.com.au>,
+	Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: Re: [PATCH v2 1/3] platform/chrome: Update binary interface for
+ EC-based charge control
+Message-ID: <Zl0efdjskOcbM0LH@google.com>
+References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
+ <20240528-cros_ec-charge-control-v2-1-81fb27e1cff4@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/3] ChromeOS Embedded controller hwmon driver
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171737822960.30104.5438801510343944646.git-patchwork-notify@kernel.org>
-Date: Mon, 03 Jun 2024 01:30:29 +0000
-References: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
-In-Reply-To: <20240529-cros_ec-hwmon-v4-0-5cdf0c5db50a@weissschuh.net>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh_=3Clinux=40weissschuh=2Enet=3E?=@ci.codeaurora.org
-Cc: jdelvare@suse.com, linux@roeck-us.net, bleung@chromium.org,
- lee@kernel.org, tzungbi@kernel.org, groeck@chromium.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- chrome-platform@lists.linux.dev, dustin@howett.net,
- mario.limonciello@amd.com, mdf@kernel.org, s.horvath@outlook.com.au,
- paranjperajas@gmail.com
+In-Reply-To: <20240528-cros_ec-charge-control-v2-1-81fb27e1cff4@weissschuh.net>
 
-Hello:
-
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
-
-On Wed, 29 May 2024 08:27:10 +0200 you wrote:
-> Add a hwmon driver that reports fan and temperature readings from the
-> ChromeOS Embedded controller.
+On Tue, May 28, 2024 at 10:04:10PM +0200, Thomas Weiﬂschuh wrote:
+> The charge-control command v2/v3 is more featureful than v1, it
+> additionally supports charge thresholds.
 > 
-> There was an earlier effort in 2017 to add such a driver [0], but there
-> was no followup after v1.
-> The new driver is complete reimplementation based on newer APIs and with
-> more features (temp sensor names).
+> The definitions were imported from ChromeOS EC commit
+> 32870d602317 ("squirtle: modify motionsense rotation matrix")
 > 
-> [...]
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 
-Here is the summary with links:
-  - [v4,1/3] platform/chrome: cros_ec_proto: Introduce cros_ec_cmd_readmem()
-    https://git.kernel.org/chrome-platform/c/a14a569a9918
-  - [v4,2/3] hwmon: add ChromeOS EC driver
-    https://git.kernel.org/chrome-platform/c/e8665a172378
-  - [v4,3/3] mfd: cros_ec: Register hardware monitoring subdevice
-    (no matching commit)
+Checked [1], the changes matched:
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+[1]: https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/include/ec_commands.h

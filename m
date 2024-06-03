@@ -1,39 +1,39 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684E839FCE
-	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 06:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D253F9D2
+	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 06:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717396743; cv=none; b=tHlRhjk7OG52eUUhJBxRejgZaGurD0VvEcmbXP5KoZR9XIrsVcIexX6zCK/rJ9RDVXG2vFPBc0qveDV4EQTzOpIXzEEx1GxqD+Ywsi4/PLeZKA6gYQjtilQQoCn/Up9nWqfv9h+dw3qCcwTZ3PHYKCi7n4uJnwVplW+i3Mp5z7w=
+	t=1717396745; cv=none; b=RZCwz7W6H6iWJSSEyeF6dXeiGXYk7g790SoeOTg8dOVkIh5M5Y0G6WQqWTtVzsL62go7HNcPqqX8gtYqR51stS1nIHdFfyIUbBRcV15YeTFpQD40uuIQPF6+NMzI9EMY4iPDtNp+2GS/uZczMcJUP4HqBN9yq++MGi4M+Xn3rDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717396743; c=relaxed/simple;
-	bh=zyqkLT5mV7DFDlZD2cERTDZc1/oX7YWjlhRS0J33Al8=;
+	s=arc-20240116; t=1717396745; c=relaxed/simple;
+	bh=hkNs5q0Ag3u8/av4iTBEluUDEHvKgcU6hIRJDGCuqBk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qzlut8BlXYxz061u9dNWXkHdfiZk/NNyLUzwD7D+L6FMzfBBF07teAB6zuoQPINeFbwMLsDwzJvU9tgybtifMfBo5teS6gO0TqMLWrmeqjjNjCwjMDY5DfoSq9ykj/sflJru9e9uglzlQaHvIMeVows+zTvCJW0AmXtpP0cfA0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=ObEChmy1; arc=none smtp.client-ip=80.241.56.172
+	 MIME-Version; b=fGeo6xsvPC65dvuwM5Fh4FFmlenTvDtC+xeLjTODofWnbwhBLHcqG4te3sHYt/yLvlpTD/MC36yVDZH3sEBshSDfglyPlVza1dJnGcU/nGkwMLo4ldb8dwTP0OHyB4ahjncbzRJy1aOjZ2aZ+TH3sHuq4rs6M/VbzEhh9tQxaXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=vHPS4Tah; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="ObEChmy1"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="vHPS4Tah"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Vt3wM3CCxz9sQL;
-	Mon,  3 Jun 2024 08:38:59 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Vt3wJ5W4Bz9sT7;
+	Mon,  3 Jun 2024 08:38:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1717396739;
+	t=1717396736;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bqLYrR5cnnvV3FDBiknPtKPsivF9+i98Tj6Gjo1gOLQ=;
-	b=ObEChmy1qiQootQYkyfmHAkcWsmfEVzmAkNKw0W2mlPX05DIDqosANk+KQrWaLBsOFO4q9
-	F9XNjnLYnaR4kXvOAHEE9PbPEhNSpuvPO45cBZYsdR1yeGcLwkDX54yaLBFPWUmlLvJE1Z
-	zmYRWah+JJRDLEuQxb3LtHXd53bKpjGEb00FrJbUn1hJs5mv08BOH1b5y0Nn+K3jqK2VYf
-	K5xbmGAQMbAT3OJ75C+sKLz2bXjHqUNjGLYfYIACgFPn7N91oHVlFRkNtVZ7JIe9uwm4Yt
-	WZCi3v63/PbkfQA8QMCACJvoizubyagR5bGETJhjUhN8E4IRU2KLG3fxnUJlmQ==
+	bh=27yHvoqXvTKgDtibjbQpIqsEZ0fGGVbEGRHK5/yVtA0=;
+	b=vHPS4TahH1ywsnpjIC/gz2MLCRnPUnGVg8OXoyzlUWg6fQKUjnPJOOaOygoKujO1heUODL
+	UmCK8uCIPaGkevvzAG30lvFSY08XDM3QahnqNJ+JRYvRVBW72eSPlY3DzORgiXloyGat+2
+	haE39ARYb406DPPYK3FZmj0+aND9GefcnxgYMWE6h2w+K3tExVeM3mwcw1Q5cP7Qc+9P1U
+	9epBHYLFYkiKDNSZx4EdPDhlH03VAWwqYeIDtXzP+GCZ6ZI2+O6DpGpS6+bI0bUVo2VVei
+	hj+Byj8O7J531Q4wpQNcZWEiBZS/QMRKCcYC8ar+AmKMUY/zrvSbl7WUy/0q9g==
 From: Ben Walsh <ben@jubnut.com>
 To: Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
@@ -45,9 +45,9 @@ To: Benson Leung <bleung@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Ben Walsh <ben@jubnut.com>
-Subject: [PATCH v2 5/5] platform/chrome: cros_ec_lpc: Add quirks for Framework Laptop
-Date: Mon,  3 Jun 2024 07:38:34 +0100
-Message-ID: <20240603063834.5580-6-ben@jubnut.com>
+Subject: [PATCH v2 4/5] platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
+Date: Mon,  3 Jun 2024 07:38:33 +0100
+Message-ID: <20240603063834.5580-5-ben@jubnut.com>
 In-Reply-To: <20240603063834.5580-1-ben@jubnut.com>
 References: <20240603063834.5580-1-ben@jubnut.com>
 Precedence: bulk
@@ -57,42 +57,65 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4Vt3wM3CCxz9sQL
 
-For Framework Laptops with Microchip EC (MEC), use the ACPI id
-"PNP0C09" to find the ACPI device, and AML mutex "ECMT" to protect EC
-memory access.
+Add a new quirk "CROS_EC_LPC_QUIRK_AML_MUTEX" which provides the name
+of an AML mutex to protect MEC memory access.
 
 Signed-off-by: Ben Walsh <ben@jubnut.com>
 ---
- drivers/platform/chrome/cros_ec_lpc.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/platform/chrome/cros_ec_lpc.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 60627c5a596b..bebf76404512 100644
+index c1c26a7ba6d4..60627c5a596b 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -634,6 +634,12 @@ static const struct lpc_driver_data framework_laptop_amd_lpc_driver_data __initc
- 	.quirk_mmio_memory_base = 0xE00,
+@@ -44,6 +44,11 @@ static bool cros_ec_lpc_acpi_device_found;
+  * the ACPI device.
+  */
+ #define CROS_EC_LPC_QUIRK_ACPI_ID                   BIT(1)
++/*
++ * Indicates that lpc_driver_data.quirk_aml_mutex_name should be used
++ * to find an AML mutex to protect access to Microchip EC.
++ */
++#define CROS_EC_LPC_QUIRK_AML_MUTEX                 BIT(2)
+ 
+ /**
+  * struct lpc_driver_data - driver data attached to a DMI device ID to indicate
+@@ -52,11 +57,14 @@ static bool cros_ec_lpc_acpi_device_found;
+  * @quirk_mmio_memory_base: The first I/O port addressing EC mapped memory (used
+  *                          when quirk ...REMAP_MEMORY is set.)
+  * @quirk_acpi_id: An ACPI HID to be used to find the ACPI device.
++ * @quirk_aml_mutex_name: The name of an AML mutex to be used to protect access
++ *                        to Microchip EC.
+  */
+ struct lpc_driver_data {
+ 	u32 quirks;
+ 	u16 quirk_mmio_memory_base;
+ 	const char *quirk_acpi_id;
++	const char *quirk_aml_mutex_name;
  };
  
-+static const struct lpc_driver_data framework_laptop_11_lpc_driver_data __initconst = {
-+	.quirks = CROS_EC_LPC_QUIRK_ACPI_ID|CROS_EC_LPC_QUIRK_AML_MUTEX,
-+	.quirk_acpi_id = "PNP0C09",
-+	.quirk_aml_mutex_name = "ECMT",
-+};
+ /**
+@@ -484,6 +492,18 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 			}
+ 			ACPI_COMPANION_SET(dev, adev);
+ 		}
 +
- static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
- 	{
- 		/*
-@@ -702,6 +708,7 @@ static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Laptop"),
- 		},
-+		.driver_data = (void *)&framework_laptop_11_lpc_driver_data,
- 	},
- 	{ /* sentinel */ }
- };
++		if (quirks & CROS_EC_LPC_QUIRK_AML_MUTEX) {
++			const char *name
++				= driver_data->quirk_aml_mutex_name;
++			ret = cros_ec_lpc_mec_acpi_mutex(adev, name);
++			if (ret) {
++				dev_err(dev, "failed to get AML mutex '%s'", name);
++				return ret;
++			}
++
++			dev_info(dev, "got AML mutex '%s'", name);
++		}
+ 	}
+ 
+ 	/*
 -- 
 2.45.1
 

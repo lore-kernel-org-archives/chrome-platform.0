@@ -1,94 +1,83 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBD4135A53
-	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 19:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B141386D0
+	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 20:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717442789; cv=none; b=FqOVvpQE2YOVGeyiip3DUYIjoBX+qUzPMKm8yDI8LU7QcSkM2UmL+JQjwW8APwNiLDJu8oe8w2+3cYCMEDpkwdNfrMtplluewRFLUoRpXqceShfw4yYBit/KlPPssHJ6e9Da12ptACBvl9XTg+umeM/30OLe1C0EWZr9pDTJExA=
+	t=1717448199; cv=none; b=VmcUL1pqjt1LgoEhdLOgXrI6jFwAZX+SZyRTaLLdk4TwD4ofr/xS1XWnwPwRGomq2GWtG/ylB/j3Nt0LjSNEeSQvh06wcZfdrOyaDhFiGxCPwpZ7V6kDXUJppK3luWwb2quWthjmhIBBo2Hz1mhQWwBgCO5cOzBFmdtVgf+ycSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717442789; c=relaxed/simple;
-	bh=d0aIKj9hD9AEClfSD2ht6q5cfgkUkDFP5cQwyrie3II=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=btpQtYkVFIzhpqSzkmC/rAAbZStp8/yLM+2sph7ix315M4rgJQ5mXh0heijRMv9D9q9Hs56i1qdhVR3BmpFW4cdfJyp4CaZ7sMMroYKaFwn7orBIyIBLiesbGKgk1+cF+RO3vf2p2Fc/LWpL0BkhlQzKpKaoFU36EjpDJJ+RKcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=V3qgGZXR; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
+	s=arc-20240116; t=1717448199; c=relaxed/simple;
+	bh=o8F6VoifI7A0oMK0yqKqCVn++NY/J+kNIIIvqg51Pio=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hUGFsBXUW27Ho5CUmQm/2zbTr2mL5lWtg+Q8tnMEfEbeezhicz4BZwqP+r72En5v7zThDwlBVWhAyy9tQ0oEewSS6udzQ2hahqjgkOhwJ7m5D0FI6/Ee2MaVJ26XS7py5EYgvXuT7pE4XpwIIxaMc/N1H1uOQTXe/aqlA3IvuR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=R/a8Gh6a; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="V3qgGZXR"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4VtNxq0SV9z9sQb;
-	Mon,  3 Jun 2024 21:26:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1717442783;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x5XGR3aSMREVjpnJPLS8gCmXguO6yjczNgEYlWmCxUU=;
-	b=V3qgGZXR4DEpLmYZq1YGI/CFTPLNLZZZYJXrwhRn8IU/BTLoBnGQ41D8L6rQtDX6hZDm73
-	mLISi21yq0bib2XurB7v+2acJJLDzIXgRWatCuPmB9Ukz/6WUZz6uvKdlqJbfMq9nkVpz2
-	fAdFH+QmFrB6gWxtJpO8/AwiWJRqnd7MTSgzS0aZLe0A8bm3VlR0mjaPUj+KTPXho8ptv0
-	jn0pxU3dTFfPPUctlYjKs1tT9DvKyMrX7OXr6gOZUclHFG1nW6eheXHrohIcSA1pOjWMgp
-	A6GCcAiK9kQ/eDUYKfUIbF4qDylMGNH7t894kCQxmdRDwJpO9t2uiQe6Dnix4A==
-From: Ben Walsh <ben@jubnut.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- "Dustin L. Howett" <dustin@howett.net>, Kieran Levin <ktl@frame.work>,
- Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Mario Limonciello
- <mario.limonciello@amd.com>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] platform/chrome: cros_ec_lpc: MEC access can
- return error code
-In-Reply-To: <Zl2NMG3NdQHPfe7s@google.com>
-References: <20240603063834.5580-1-ben@jubnut.com>
- <20240603063834.5580-2-ben@jubnut.com> <Zl2NMG3NdQHPfe7s@google.com>
-Date: Mon, 03 Jun 2024 20:26:19 +0100
-Message-ID: <87le3l25gk.fsf@jubnut.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="R/a8Gh6a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1717448187;
+	bh=o8F6VoifI7A0oMK0yqKqCVn++NY/J+kNIIIvqg51Pio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R/a8Gh6adcU4G+Fdat0sLVBLpH4mqMpmnLWoXuSeRJrYRQtEDSzU1K5Oz4GOAzScK
+	 vI0quijbumGkVHW3gUV09hAXu12jdm825r5h4rPkoYJQdo2lgIoOauUhJ2xVTYxOfc
+	 k9MEaHMbGkP+KoS4AqTzuijgcBV3dIQqdABgpW6c=
+Date: Mon, 3 Jun 2024 22:56:26 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Dustin Howett <dustin@howett.net>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
+Message-ID: <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
+References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+ <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
 
-Tzung-Bi Shih <tzungbi@kernel.org> writes:
+On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
+> On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> >
+> > Add a LED driver that supports the LED devices exposed by the
+> > ChromeOS Embedded Controller.
+> 
+> I've tested this out on the Framework Laptop 13, 11th gen intel core
+> and AMD Ryzen 7040 editions.
+> 
+> It works fairly well! I found a couple minor issues in day-to-day use:
 
-> On Mon, Jun 03, 2024 at 07:38:30AM +0100, Ben Walsh wrote:
->> @@ -425,8 +469,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
->>  	 */
->>  	cros_ec_lpc_ops.read = cros_ec_lpc_mec_read_bytes;
->>  	cros_ec_lpc_ops.write = cros_ec_lpc_mec_write_bytes;
->> -	cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
->> -	if (buf[0] != 'E' || buf[1] != 'C') {
->> +	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
->> +	if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
->
-> Slight concern: if the read failed (-EBUSY, because of the lock contention
-> failed for example), does it still need to probe for non-MEC devices?
+Thanks!
 
-That's a very good point! Negative ret here means there's really an
-error, not just "no MEC".
+> - Restoring the trigger to chromeos-auto does not always put the EC
+> back in control, e.g. the side lights no longer return to reporting
+> charge status.
+>   I believe this happens when you move from any trigger except "none"
+> to chromeos-auto, without first setting "none".
 
-I think it's better to return early with the return code (not -ENODEV)
-in these cases.
+Thanks for the report, I'll investigate that.
 
->> @@ -436,9 +480,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
->>  		/* Re-assign read/write operations for the non MEC variant */
->>  		cros_ec_lpc_ops.read = cros_ec_lpc_read_bytes;
->>  		cros_ec_lpc_ops.write = cros_ec_lpc_write_bytes;
->> -		cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
->> -				     buf);
->> -		if (buf[0] != 'E' || buf[1] != 'C') {
->> +		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
->> +					   buf);
->> +		if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
->>  			dev_err(dev, "EC ID not detected\n");
->>  			return -ENODEV;
->
-> Similar concern here: should `ret < 0` see as a -ENODEV?
+> - The multicolor intensities report 6x 100 by default; if you set the
+> brightness with the intensities set as such, it becomes only red. I
+> would have
+>   expected intensities of 100 0 0 0 0 0 if that were the case
 
-As above, I think it should "return ret".
+The EC will always use the first nonzero intensity for the color
+channel. It isn't a real PWM color mix.
+I don't think there are possibilities in the multicolor API to enforce
+this. For the next revision I'll need to document this properly.
+Also the default intensities could be better indeed.
+
+> Thomas, I apologize for the duplicate message; my mail client config
+> here defaults to "reply" rather than "reply all."
+
+No worries!

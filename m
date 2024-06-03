@@ -1,54 +1,52 @@
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEBB13BC0E
-	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 19:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBD4135A53
+	for <chrome-platform@lists.linux.dev>; Mon,  3 Jun 2024 19:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717441839; cv=none; b=JMQjHKUe14Ym6VVIXyTnmuGyWZ8zo0Xz3BJ9K1Yh7WsuE9JdrrtBUgYfrBiNp+nxoCJmbyuzfej4Npkk+7M8bSZ2f/ppJZSku8zHSRYgUjD+yMbna5cX01oWD5NntGeHJqLTinVGxPfbfTNA2drsXMENHjzEpAchr6iCrvJo8hI=
+	t=1717442789; cv=none; b=FqOVvpQE2YOVGeyiip3DUYIjoBX+qUzPMKm8yDI8LU7QcSkM2UmL+JQjwW8APwNiLDJu8oe8w2+3cYCMEDpkwdNfrMtplluewRFLUoRpXqceShfw4yYBit/KlPPssHJ6e9Da12ptACBvl9XTg+umeM/30OLe1C0EWZr9pDTJExA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717441839; c=relaxed/simple;
-	bh=75HnoSRRAaP9hNhSzViAYmeLViPIHcEgOvBnEd0i8vQ=;
+	s=arc-20240116; t=1717442789; c=relaxed/simple;
+	bh=d0aIKj9hD9AEClfSD2ht6q5cfgkUkDFP5cQwyrie3II=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=odEDqTntzRoI0p8HYtKDEkpuDA9ay6OI9dl/utWzLpQd2Xg4S3dwDWjihEf3MMobEdstJup0kVC+UWhze9JJQoqbX2R+J2I1NqO4CNRu0atVAcKil5UB2BIX5UraCUL+uaCoQyTmyFZ+Z2fjO53eWn9IMB9XnOds8qWsHjUMN0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=fgey/92k; arc=none smtp.client-ip=80.241.56.161
+	 MIME-Version:Content-Type; b=btpQtYkVFIzhpqSzkmC/rAAbZStp8/yLM+2sph7ix315M4rgJQ5mXh0heijRMv9D9q9Hs56i1qdhVR3BmpFW4cdfJyp4CaZ7sMMroYKaFwn7orBIyIBLiesbGKgk1+cF+RO3vf2p2Fc/LWpL0BkhlQzKpKaoFU36EjpDJJ+RKcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=V3qgGZXR; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="fgey/92k"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="V3qgGZXR"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4VtNbY2mmwz9scY;
-	Mon,  3 Jun 2024 21:10:33 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4VtNxq0SV9z9sQb;
+	Mon,  3 Jun 2024 21:26:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1717441833;
+	t=1717442783;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DnmViCedjPxgt3qoNGap+8Vp612SZgwbNZr/IwMSPC4=;
-	b=fgey/92kMe5nM79jGNvmKop+tSFQBQqOtzp3FqFIm7A+pt9lpTOJuKN9CD5rAbFUkzxkA/
-	fqGXyJOC3DVv8VQiPzYZmeyKlIhGJVs1ICC0pV6xNtB4vZs8h+Ls/AVXR1spj8XvRMG67t
-	yIZ8ZxmXQdTrHay0m6J1UBR7eVlfXsT/C3MOsyufxj1zYmUGD8Lb+7C/XGhaoFbaPWVk7V
-	xRwVY/6eTdDXk1s00Gqv4aCb5zSLaS+PZmfEB5PgvMaN8PhfgtHgvpft4YbB+pipSfF3Fq
-	iXuFVjcphLVuxClsuowDhJHVZ8qB36CazcOQ15+NBZAqwVBcVvwtwshFv6Xp/g==
+	bh=x5XGR3aSMREVjpnJPLS8gCmXguO6yjczNgEYlWmCxUU=;
+	b=V3qgGZXR4DEpLmYZq1YGI/CFTPLNLZZZYJXrwhRn8IU/BTLoBnGQ41D8L6rQtDX6hZDm73
+	mLISi21yq0bib2XurB7v+2acJJLDzIXgRWatCuPmB9Ukz/6WUZz6uvKdlqJbfMq9nkVpz2
+	fAdFH+QmFrB6gWxtJpO8/AwiWJRqnd7MTSgzS0aZLe0A8bm3VlR0mjaPUj+KTPXho8ptv0
+	jn0pxU3dTFfPPUctlYjKs1tT9DvKyMrX7OXr6gOZUclHFG1nW6eheXHrohIcSA1pOjWMgp
+	A6GCcAiK9kQ/eDUYKfUIbF4qDylMGNH7t894kCQxmdRDwJpO9t2uiQe6Dnix4A==
 From: Ben Walsh <ben@jubnut.com>
-To: Mario Limonciello <mario.limonciello@amd.com>, Tzung-Bi Shih
- <tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
  "Dustin L. Howett" <dustin@howett.net>, Kieran Levin <ktl@frame.work>,
- Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- chrome-platform@lists.linux.dev,
+ Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Mario Limonciello
+ <mario.limonciello@amd.com>, chrome-platform@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] platform/chrome: cros_ec_lpc: Add a new quirk
- for ACPI id
-In-Reply-To: <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
+Subject: Re: [PATCH v2 1/5] platform/chrome: cros_ec_lpc: MEC access can
+ return error code
+In-Reply-To: <Zl2NMG3NdQHPfe7s@google.com>
 References: <20240603063834.5580-1-ben@jubnut.com>
- <20240603063834.5580-4-ben@jubnut.com> <Zl2NTbhk96dhTV2n@google.com>
- <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
-Date: Mon, 03 Jun 2024 20:10:29 +0100
-Message-ID: <87o78h266y.fsf@jubnut.com>
+ <20240603063834.5580-2-ben@jubnut.com> <Zl2NMG3NdQHPfe7s@google.com>
+Date: Mon, 03 Jun 2024 20:26:19 +0100
+Message-ID: <87le3l25gk.fsf@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,24 +55,40 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mario Limonciello <mario.limonciello@amd.com> writes:
+Tzung-Bi Shih <tzungbi@kernel.org> writes:
 
-> On 6/3/2024 04:30, Tzung-Bi Shih wrote:
->> On Mon, Jun 03, 2024 at 07:38:32AM +0100, Ben Walsh wrote:
->>> @@ -436,6 +463,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
->>>   
->>>   	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
->>>   
->>> +	adev = ACPI_COMPANION(dev);
->>> +
->> 
->> The change is irrelevant to the patch.
+> On Mon, Jun 03, 2024 at 07:38:30AM +0100, Ben Walsh wrote:
+>> @@ -425,8 +469,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+>>  	 */
+>>  	cros_ec_lpc_ops.read = cros_ec_lpc_mec_read_bytes;
+>>  	cros_ec_lpc_ops.write = cros_ec_lpc_mec_write_bytes;
+>> -	cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+>> -	if (buf[0] != 'E' || buf[1] != 'C') {
+>> +	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+>> +	if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
 >
-> It looks relevant to me.  The companion needs to get set before the 
-> quirk overwrites it.
+> Slight concern: if the read failed (-EBUSY, because of the lock contention
+> failed for example), does it still need to probe for non-MEC devices?
 
-That was my thinking. You can either update "adev" and use it to refer
-to the ACPI companion device, or (as Tzung-Bi suggests) use
-"ACPI_COMPANION" / "ACPI_COMPANION_SET" as needed.
+That's a very good point! Negative ret here means there's really an
+error, not just "no MEC".
 
-I really don't mind either way. I'm happy to change it if necessary.
+I think it's better to return early with the return code (not -ENODEV)
+in these cases.
+
+>> @@ -436,9 +480,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+>>  		/* Re-assign read/write operations for the non MEC variant */
+>>  		cros_ec_lpc_ops.read = cros_ec_lpc_read_bytes;
+>>  		cros_ec_lpc_ops.write = cros_ec_lpc_write_bytes;
+>> -		cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
+>> -				     buf);
+>> -		if (buf[0] != 'E' || buf[1] != 'C') {
+>> +		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
+>> +					   buf);
+>> +		if (ret < 0 || buf[0] != 'E' || buf[1] != 'C') {
+>>  			dev_err(dev, "EC ID not detected\n");
+>>  			return -ENODEV;
+>
+> Similar concern here: should `ret < 0` see as a -ENODEV?
+
+As above, I think it should "return ret".

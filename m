@@ -1,255 +1,69 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EBD7462
-	for <chrome-platform@lists.linux.dev>; Tue,  4 Jun 2024 00:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07DD6FD3;
+	Tue,  4 Jun 2024 02:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717462521; cv=none; b=tKeuCZE9WST3NzfeegMQdVJTP8oRJXatV9GypqTcGGZjQYsxluBfWcxbbVSKd07130lN7eP/4UNxoYZJqBODmz2YjdVLXQZPp1LnEb/sCXn8avT5Bb3S3lG8QI5YBgjfTchT6KxFLXlHFBjSd/zUZG5dtrZTvGc0ZDAy4zii5Zk=
+	t=1717468256; cv=none; b=eL+m/EZEr5YuE7YPANqWh+TLYpzBjoPdT1HPMO0xUDgdNQsc7Ks7psUxH9hPIHQsxQvlhYVv0Ku3ikSVXQEwNNV+yVa8mYB3ogG5xmP5kGjJrfz21U2mgFXTrvo+C9UEQgPwdT2LstctlUD7YBx3ge3asJ79+99ts+O10Fd3wZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717462521; c=relaxed/simple;
-	bh=y9qJaxDPtCa7TFe4kS2XEHyXNU+gJunYjHYvKMEW4a4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=by1hC/qgNhIkw61f+J3bCaAutKRIBuyXnY8dsTsG3aLm8UqDvysiLwz5k/r52tcIuLJIuuCe1fPdQG7R59TExFCtCUHh9B0ZsoFC2t2wvU5oSLz/N8b/BB1dGAH8se2qWoLkt83GybYOJ/NGw7JM10Nbnueh7fgZPHamKHKoK2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UzVIQyoj; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1717468256; c=relaxed/simple;
+	bh=To8fbG5O3C9YMOaBN3ki4SETwIhbdcKXVkxjt90NHYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIo1UcuR0UlOdk9L71fxeJUQbTdwSJN4yDruu5CBcVNaNCFqbEIvd6gfjrdUlzAK3H3b5KKP0T/W3aJBMLuDvSg+lo2h/hl8TtELDNeIS+gwgYjWkhrWnTnWto3ZNsSmAyUuWesPlcqxKUroG2puGq8K/Jy7+HbRfJzy0z0EJ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9a9pvqf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UzVIQyoj"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f6262c0a22so27636725ad.1
-        for <chrome-platform@lists.linux.dev>; Mon, 03 Jun 2024 17:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717462519; x=1718067319; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ThA1CudYSXQIP69orU4mXcGD6+uxuB5dET7rM3Aiif0=;
-        b=UzVIQyojUp4TztnP4N0feykS3wqO9HeakhcO0PZOmuBLl2EUq68ScI11b7SXP6V6Nv
-         hekTlnA/WCGL4qLzEQMmJNJ62m459/xNBTJIR37sUJqLVVT6sh9S0lZ1DBRGZlR9c/rg
-         xwKaYYxzMacTVy4asTj3sRQfSzxLIhUf/1XyU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717462519; x=1718067319;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ThA1CudYSXQIP69orU4mXcGD6+uxuB5dET7rM3Aiif0=;
-        b=CcIcgYDyz202Uu9K7vc/+TFYO2kZNoIcszgmdlISTbPgRna58D1wDDQFz3icmGt0Rq
-         EzRwtCzDwYhr/IpV7AkBK1VHzbekQ9TVhilL2QYExMiX0kGlbmDuJP1Bhlz/dO633bOR
-         9y+lw6YqloyC6pKtvMm/d0A8ryJwdBF66HWVatA3IhC0EdMrbm5R15jlOv8SvIVcxpbo
-         WR3R1iq0fuzeTkVIkBYZa636NElsmytiKd9YrpHOdm9b0q/1kTVllxRnoOlw3QTD5iWs
-         Fp8uoQoqS/7M3v0B81edmOdePYNMc6WDiLmSLcSjL9fdWWCXc1oAeWDXAIeAe2FjGjj1
-         qqmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcHodOtVoCbOn8BGtSBoSw2a51P/mU0ZwIz41moYSyFrCd9w85q1m6CbiwXZH/2AjtgryB6Dq5Wsfhp+CAY5FyDLLFY44TJNguaaC69xq5
-X-Gm-Message-State: AOJu0Yz0/J9fDm8t3aM86VMlM7fkK+wzCgkFDpYhGxjGpvYn0Kk8BsgY
-	6B3y+uq84LKmG+1ZFXjiRng4aO06O0euU4q3gXsuez+gi5LpVviegkcsxQOVhw==
-X-Google-Smtp-Source: AGHT+IGGYat42jdRQab54UsDyz/zr2+blwgDrqyNtrO3uhAg/FawQmTH/4lICBl/JltxjNTgC9+BGA==
-X-Received: by 2002:a17:902:f703:b0:1f4:8a01:285c with SMTP id d9443c01a7336-1f69390b644mr12858935ad.24.1717462518940;
-        Mon, 03 Jun 2024 17:55:18 -0700 (PDT)
-Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:6203:d1ca:c560:52f1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm70649365ad.296.2024.06.03.17.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 17:55:18 -0700 (PDT)
-From: Daisuke Nojiri <dnojiri@chromium.org>
-To: 
-Cc: Daisuke Nojiri <dnojiri@chromium.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9a9pvqf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD6EC2BD10;
+	Tue,  4 Jun 2024 02:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717468255;
+	bh=To8fbG5O3C9YMOaBN3ki4SETwIhbdcKXVkxjt90NHYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g9a9pvqfiNhkA/yXbTHAe18mKQqZDgmFunO9Hc3/jCu+nbWirZWD1u4vr2WkNoEu+
+	 KUwHyKEwTdy57naVtnxRWNpffWbqVJID5z+2XpyxYXMaIT5u8x+HjB9r8fXTJcuiir
+	 h2HcPlcRUFx/cdd2CQgTLJF4WCvwsa/wgtPjNWF9Ygsw9kuHl6lCZY1/zZKA7cYpK6
+	 y5W9pXz5gEiPvo+Y51LqI/OlYusXspl6IyPXpe4Summx74JlNmRiEsuP2QqZz1j4dU
+	 FpickXtUkU+bk0fbAJFCfRRAPVCLRd2LNjd7vEY01kfvGf5OcarrHM8TxfftCr5F+A
+	 auUPs4iBllFiA==
+Date: Tue, 4 Jun 2024 02:30:52 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Ben Walsh <ben@jubnut.com>, Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH 2/2] ARM: dts: cros-ec-keyboard: Add keyboard matrix v3.0
-Date: Mon,  3 Jun 2024 17:55:10 -0700
-Message-ID: <20240604005513.2298957-1-dnojiri@chromium.org>
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+	"Dustin L. Howett" <dustin@howett.net>,
+	Kieran Levin <ktl@frame.work>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] platform/chrome: cros_ec_lpc: Add a new quirk for
+ ACPI id
+Message-ID: <Zl58XNl8fhJU24OV@google.com>
+References: <20240603063834.5580-1-ben@jubnut.com>
+ <20240603063834.5580-4-ben@jubnut.com>
+ <Zl2NTbhk96dhTV2n@google.com>
+ <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
 
-This CL adds support for keyboard matrix version 3.0. To enable it,
-define CONFIG_CROS_KBD_V30.
+On Mon, Jun 03, 2024 at 11:00:22AM -0500, Mario Limonciello wrote:
+> On 6/3/2024 04:30, Tzung-Bi Shih wrote:
+> > On Mon, Jun 03, 2024 at 07:38:32AM +0100, Ben Walsh wrote:
+> > > @@ -436,6 +463,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+> > >   	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
+> > > +	adev = ACPI_COMPANION(dev);
+> > > +
+> > 
+> > The change is irrelevant to the patch.
+> 
+> It looks relevant to me.  The companion needs to get set before the quirk
+> overwrites it.
 
-BUG=b:331761304
-TEST=cros build-packages --board corsola sys-kernel/chromeos-kernel-5_15
-
-Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
----
- arch/arm/boot/dts/cros-ec-keyboard.dtsi      |  16 ++-
- drivers/platform/chrome/Kconfig              |   6 ++
- include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
- 3 files changed, 123 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arm/boot/dts/cros-ec-keyboard.dtsi b/arch/arm/boot/dts/cros-ec-keyboard.dtsi
-index 55c4744fa7e7..0499e254596a 100644
---- a/arch/arm/boot/dts/cros-ec-keyboard.dtsi
-+++ b/arch/arm/boot/dts/cros-ec-keyboard.dtsi
-@@ -8,16 +8,26 @@
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/input/cros-ec-keyboard.h>
- 
-+#ifdef CONFIG_CROS_KBD_V30
-+#define CROS_EC_KEYBOARD_COLUMN_SIZE 18
-+#define CROS_TOP_ROW_KEYMAP CROS_TOP_ROW_KEYMAP_V30
-+#define CROS_MAIN_KEYMAP CROS_MAIN_KEYMAP_V30
-+#else
-+#define CROS_EC_KEYBOARD_COLUMN_SIZE 13
-+#define CROS_TOP_ROW_KEYMAP CROS_STD_TOP_ROW_KEYMAP
-+#define CROS_MAIN_KEYMAP CROS_STD_MAIN_KEYMAP
-+#endif
-+
- &cros_ec {
- 	keyboard_controller: keyboard-controller {
- 		compatible = "google,cros-ec-keyb";
- 		keypad,num-rows = <8>;
--		keypad,num-columns = <13>;
-+		keypad,num-columns = <CROS_EC_KEYBOARD_COLUMN_SIZE>;
- 		google,needs-ghost-filter;
- 
- 		linux,keymap = <
--			CROS_STD_TOP_ROW_KEYMAP
--			CROS_STD_MAIN_KEYMAP
-+			CROS_TOP_ROW_KEYMAP
-+			CROS_MAIN_KEYMAP
- 		>;
- 	};
- };
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index d48f7f43f9e5..8f66beaa48ec 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -157,6 +157,12 @@ config CROS_KBD_LED_BACKLIGHT
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called cros_kbd_led_backlight.
- 
-+config CROS_KBD_V30
-+	bool "ChromeOS built-in keyboard version 3.0"
-+	default n
-+	help
-+	  If you say Y here, you get support for built-in keyboard ver 3.0.
-+
- config CROS_EC_CHARDEV
- 	tristate "ChromeOS EC miscdevice"
- 	depends on MFD_CROS_EC_DEV
-diff --git a/include/dt-bindings/input/cros-ec-keyboard.h b/include/dt-bindings/input/cros-ec-keyboard.h
-index f0ae03634a96..afc12f6aa642 100644
---- a/include/dt-bindings/input/cros-ec-keyboard.h
-+++ b/include/dt-bindings/input/cros-ec-keyboard.h
-@@ -100,4 +100,108 @@
- 	MATRIX_KEY(0x07, 0x0b, KEY_UP)		\
- 	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)
- 
-+/* No numpad */
-+#define CROS_TOP_ROW_KEYMAP_V30 \
-+	MATRIX_KEY(0x00, 0x01, KEY_F11)		/* T11 */	\
-+	MATRIX_KEY(0x00, 0x02, KEY_F1)		/* T1 */	\
-+	MATRIX_KEY(0x00, 0x04, KEY_F10)		/* T10 */	\
-+	MATRIX_KEY(0x00, 0x0b, KEY_F14)		/* T14 */	\
-+	MATRIX_KEY(0x00, 0x0c, KEY_F15)		/* T15 */	\
-+	MATRIX_KEY(0x01, 0x02, KEY_F4)		/* T4 */	\
-+	MATRIX_KEY(0x01, 0x04, KEY_F7)		/* T7 */	\
-+	MATRIX_KEY(0x01, 0x05, KEY_F12)		/* T12 */	\
-+	MATRIX_KEY(0x01, 0x09, KEY_F9)		/* T9 */	\
-+	MATRIX_KEY(0x02, 0x02, KEY_F3)		/* T3 */	\
-+	MATRIX_KEY(0x02, 0x04, KEY_F6)		/* T6 */	\
-+	MATRIX_KEY(0x02, 0x0b, KEY_F8)		/* T8 */	\
-+	MATRIX_KEY(0x03, 0x02, KEY_F2)		/* T2 */	\
-+	MATRIX_KEY(0x03, 0x05, KEY_F13)		/* T13 */	\
-+	MATRIX_KEY(0x04, 0x04, KEY_F5)		/* T5 */
-+
-+#define CROS_MAIN_KEYMAP_V30			/* Keycode */	\
-+	MATRIX_KEY(0x00, 0x03, KEY_B)		/* 50 */	\
-+	MATRIX_KEY(0x00, 0x05, KEY_N)		/* 51 */	\
-+	MATRIX_KEY(0x00, 0x06, KEY_RO)		/* 56 (JIS) */	\
-+	MATRIX_KEY(0x00, 0x08, KEY_EQUAL)	/* 13 */	\
-+	MATRIX_KEY(0x00, 0x09, KEY_HOME)	/* 80 (Numpad) */	\
-+	MATRIX_KEY(0x00, 0x0a, KEY_RIGHTALT)	/* 62 */	\
-+	MATRIX_KEY(0x00, 0x10, KEY_FN)		/* 127 */	\
-+								\
-+	MATRIX_KEY(0x01, 0x01, KEY_ESC)		/* 110 */	\
-+	MATRIX_KEY(0x01, 0x03, KEY_G)		/* 35 */	\
-+	MATRIX_KEY(0x01, 0x06, KEY_H)		/* 36 */	\
-+	MATRIX_KEY(0x01, 0x08, KEY_APOSTROPHE)	/* 41 */	\
-+	MATRIX_KEY(0x01, 0x0b, KEY_BACKSPACE)	/* 15 */	\
-+	MATRIX_KEY(0x01, 0x0c, KEY_HENKAN)	/* 65 (JIS) */	\
-+	MATRIX_KEY(0x01, 0x0e, KEY_LEFTCTRL)	/* 58 */	\
-+								\
-+	MATRIX_KEY(0x02, 0x01, KEY_TAB)		/* 16 */	\
-+	MATRIX_KEY(0x02, 0x03, KEY_T)		/* 21 */	\
-+	MATRIX_KEY(0x02, 0x05, KEY_RIGHTBRACE)	/* 28 */	\
-+	MATRIX_KEY(0x02, 0x06, KEY_Y)		/* 22 */	\
-+	MATRIX_KEY(0x02, 0x08, KEY_LEFTBRACE)	/* 27 */	\
-+	MATRIX_KEY(0x02, 0x09, KEY_DELETE)	/* 76 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x0c, KEY_PAGEUP)	/* 85 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x011, KEY_YEN)	/* 14 (JIS) */	\
-+								\
-+	MATRIX_KEY(0x03, 0x00, KEY_LEFTMETA)	/* Launcher */	\
-+	MATRIX_KEY(0x03, 0x01, KEY_GRAVE)	/* 1 */	\
-+	MATRIX_KEY(0x03, 0x03, KEY_5)		/* 6 */	\
-+	MATRIX_KEY(0x03, 0x04, KEY_S)		/* 32 */	\
-+	MATRIX_KEY(0x03, 0x06, KEY_MINUS)	/* 12 */	\
-+	MATRIX_KEY(0x03, 0x08, KEY_6)		/* 7 */		\
-+	MATRIX_KEY(0x03, 0x09, KEY_SLEEP)	/* Lock */	\
-+	MATRIX_KEY(0x03, 0x0b, KEY_BACKSLASH)	/* 29 */	\
-+	MATRIX_KEY(0x03, 0x0c, KEY_MUHENKAN)	/* 63 (JIS) */	\
-+	MATRIX_KEY(0x03, 0x0e, KEY_RIGHTCTRL)	/* 64 */	\
-+								\
-+	MATRIX_KEY(0x04, 0x01, KEY_A)		/* 31 */	\
-+	MATRIX_KEY(0x04, 0x02, KEY_D)		/* 33 */	\
-+	MATRIX_KEY(0x04, 0x03, KEY_F)		/* 34 */	\
-+	MATRIX_KEY(0x04, 0x05, KEY_K)		/* 38 */	\
-+	MATRIX_KEY(0x04, 0x06, KEY_J)		/* 37 */	\
-+	MATRIX_KEY(0x04, 0x08, KEY_SEMICOLON)	/* 40 */	\
-+	MATRIX_KEY(0x04, 0x09, KEY_L)		/* 39 */	\
-+	MATRIX_KEY(0x04, 0x0b, KEY_ENTER)	/* 43 */	\
-+	MATRIX_KEY(0x04, 0x0c, KEY_END)		/* 81 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x05, 0x01, KEY_1)		/* 2 */	\
-+	MATRIX_KEY(0x05, 0x02, KEY_COMMA)	/* 53 */	\
-+	MATRIX_KEY(0x05, 0x03, KEY_DOT)		/* 54 */	\
-+	MATRIX_KEY(0x05, 0x04, KEY_SLASH)	/* 55 */	\
-+	MATRIX_KEY(0x05, 0x05, KEY_C)		/* 48 */	\
-+	MATRIX_KEY(0x05, 0x06, KEY_SPACE)	/* 61 */	\
-+	MATRIX_KEY(0x05, 0x07, KEY_LEFTSHIFT)	/* 44 */	\
-+	MATRIX_KEY(0x05, 0x08, KEY_X)		/* 47 */	\
-+	MATRIX_KEY(0x05, 0x09, KEY_V)		/* 49 */	\
-+	MATRIX_KEY(0x05, 0x0b, KEY_M)		/* 52 */	\
-+	MATRIX_KEY(0x05, 0x0c, KEY_PAGEDOWN)	/* 86 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x06, 0x01, KEY_Z)		/* 46 */	\
-+	MATRIX_KEY(0x06, 0x02, KEY_3)		/* 4 */		\
-+	MATRIX_KEY(0x06, 0x03, KEY_4)		/* 5 */		\
-+	MATRIX_KEY(0x06, 0x04, KEY_2)		/* 3 */		\
-+	MATRIX_KEY(0x06, 0x05, KEY_8)		/* 9 */		\
-+	MATRIX_KEY(0x06, 0x06, KEY_0)		/* 11 */	\
-+	MATRIX_KEY(0x06, 0x08, KEY_7)		/* 8 */		\
-+	MATRIX_KEY(0x06, 0x09, KEY_9)		/* 10 */	\
-+	MATRIX_KEY(0x06, 0x0b, KEY_DOWN)	/* 84 */	\
-+	MATRIX_KEY(0x06, 0x0c, KEY_RIGHT)	/* 89 */	\
-+	MATRIX_KEY(0x06, 0x0d, KEY_LEFTALT)	/* 60 */	\
-+	MATRIX_KEY(0x06, 0x0f, KEY_ASSISTANT)	/* 128 */	\
-+	MATRIX_KEY(0x06, 0x11, KEY_BACKSLASH)	/* 42 (JIS, ISO) */	\
-+								\
-+	MATRIX_KEY(0x07, 0x01, KEY_U)		/* 23 */	\
-+	MATRIX_KEY(0x07, 0x02, KEY_I)		/* 24 */	\
-+	MATRIX_KEY(0x07, 0x03, KEY_O)		/* 25 */	\
-+	MATRIX_KEY(0x07, 0x04, KEY_P)		/* 26 */	\
-+	MATRIX_KEY(0x07, 0x05, KEY_Q)		/* 17 */	\
-+	MATRIX_KEY(0x07, 0x06, KEY_W)		/* 18 */	\
-+	MATRIX_KEY(0x07, 0x07, KEY_RIGHTSHIFT)	/* 57 */	\
-+	MATRIX_KEY(0x07, 0x08, KEY_E)		/* 19 */	\
-+	MATRIX_KEY(0x07, 0x09, KEY_R)		/* 20 */	\
-+	MATRIX_KEY(0x07, 0x0b, KEY_UP)		/* 83 */	\
-+	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)	/* 79 */	\
-+	MATRIX_KEY(0x07, 0x11, KEY_102ND)	/* 45 (ISO) */
-+
- #endif /* _CROS_EC_KEYBOARD_H */
--- 
-2.45.1.288.g0e0cd299f1-goog
-
+Please see code for CROS_EC_LPC_QUIRK_ACPI_ID in the patch, `adev` is going to
+be overridden soon.  I don't see why the ACPI_COMPANION() needs to move here.

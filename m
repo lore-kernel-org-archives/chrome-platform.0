@@ -1,48 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DA313D2AC;
-	Tue,  4 Jun 2024 03:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E549D148FEE
+	for <chrome-platform@lists.linux.dev>; Tue,  4 Jun 2024 17:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717470756; cv=none; b=CeFR52JmqMCrzQNE/rskDvlfvYyNGC5XysnuWf28GLnQRfJnJDIXvOC5H5mJMMOSnFgyMkb3ibX/ApvTeXQcw2iqHGZQ7ImWY0KFhv9frcfSGWhME2T/9EmpsULxbfVoiyk1uJQAeTQ9pJo4ZFYr6ly8GGhqSi7JO9TWYW3Ib7k=
+	t=1717520765; cv=none; b=PT6dXQzAAgl+uLiePpZUmgrbV5MD/31GnO/RJpjbQFY3jJdJeVoQnLqxJ1hhrb1/+j0uK5TspDjqZhUx004SfHZcb3f96FvsJV/dzQxsk1HBOkCxsJBG3UGcoDYJrqlOgiHeLizAnCIM0Tt/C/mtEYyJTNSpu+s2U2Auqs+2Mys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717470756; c=relaxed/simple;
-	bh=aqccSDAvMh0iQaXfPB6SrOeoGhQkFQLqJr2TS388jxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2HcQkC4FGIK40p7Qf0ahJnfNjBBIEE9stSxuqmrel4LzkI64W4qR0J5wp+BQiIPHO323sL8v3E65WMjvM1/sJWYCWwq4u+LXZn2p9DMm7e/t9DPSOfA+awWjMeijpU+9FTd95pbmeMjiLm7es0CKnr/mCHc6haJzTMyV+wnz5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1Je751e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717520765; c=relaxed/simple;
+	bh=rEVud8jYCenY75ArS4e4npQEZOeDDa8qDxgOauldd3U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ShuZuaheBTdwr+eBXA9yHQQUYYFwGYkvhQ0OzDat1ebJtCwInDi1js1U/i9dxs4G6lAh7JcE1dePAltFWWf1TLysKaNM+8AiOUiZ6bctIycIc2AERypnI3wwWqyF8/id7Amx0CdNOwNTwB/f7gXsI4LfmeVxv9Y5UyClAjsCdrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hj9+m1mq; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1Je751e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E66FC2BD10;
-	Tue,  4 Jun 2024 03:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717470756;
-	bh=aqccSDAvMh0iQaXfPB6SrOeoGhQkFQLqJr2TS388jxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P1Je751ep2YhUlYYEffup/AJPPcD9+z1v6Tb2TeAWZ9Jqv3XRaG8Poa+RqXg1kOuo
-	 sGODvb1+xH8J1IbGJEFSESjqLCSwtqNT0QGll5opsX4MKt60oj3ON5f3YuHcT+qFhA
-	 /UTFwBfGb4InJxyFSGErE8tmbupAzgQDd7a9OAtUNb0nHB6RXBQr3BhU4Fm09XZxKT
-	 blb009g+UkZWEoVryEHKuKefqdJ88+FPWbqyKpQ/eZw2F3daJl8NZcl3mOufgyI9Ij
-	 IFKrpWXyJzJQYoRPyIgrE7i62eX+8jM6xL5NsAjtF3J6CTUpL6cg8koybnVDQv3Jq9
-	 AEoJIiiJjnlBg==
-Date: Tue, 4 Jun 2024 03:12:32 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hj9+m1mq"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6f4603237e0so23401b3a.0
+        for <chrome-platform@lists.linux.dev>; Tue, 04 Jun 2024 10:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717520761; x=1718125561; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgJ5+iEOSgKZgq1LxXHnvCk2860Dw4BLXVAkjQni18I=;
+        b=hj9+m1mqCYy0sil7PuGEuX85jAXzZHIz0FwmsXdl6OTFC4ZbEwyK2zRJqAG8Kr12gi
+         AQTNekhD+COe+FjC4t8nJS5xLyt7nsFBeKAL7xOeWPg7EJYw3mcGcEmCtfc/gEWwoMxz
+         xNjWHBMWZw0Bk50HvAsxj8Rwlf7eWPp2CNl1Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717520761; x=1718125561;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fgJ5+iEOSgKZgq1LxXHnvCk2860Dw4BLXVAkjQni18I=;
+        b=EMZ6g2SoY9JaTJxeOzp2dTQiC4Vv/Z/FHHIseXIgtdgviiW0wD5qJr3QI7eLhVatf/
+         fPchZ7rEPAD9+gzccDdVO7hn25sYZsI94R+Apt4kFzQm4pE0Z39FPWz5xXkOrAs8kIp5
+         hQf6O9aLjR9akVNIzvRsJ5xCm5qQ9qP5fxYo8ILbBM5F0RP28pT8kwVPxtHP8a78GyAn
+         6dvA9ZF0SwCUydexk5JZtE+s4Qy51KoGyeM+Ii+WeU6/kcNmI4qxLZajdklkxlIq64+p
+         /RzRqcI3t/1O9q8C3awJgS207XC4H1mX9aMxAAiIGqy1tjM5ZzQArYUWUvrGXyJi4sLF
+         8BJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXdqfesK21qxcBArmBJldWonQj6H/SFooYTjhWQghXPemhJrlf4FJEd7cddYeRVs6wWPU++SJyMk+AXq5f+ds6zfW+p34OLCwvP2Uztu15
+X-Gm-Message-State: AOJu0YxOp4bMWmd957vIrGIJ+QXeJxndY+icf2p39ffykf1XzGsglrij
+	qooBwnz+vvTyw5MFlhpSwmka+jORUTreLBsiSaPZhNI2D2GEaN4v2Ex3GgpzgQ==
+X-Google-Smtp-Source: AGHT+IFGAiCt40jA5/yhChT2c5Qddf9o2Q57U/QnPJLBpXj9m7oYVO4h6NEpzDCXz6oyMA7cKGh7fA==
+X-Received: by 2002:a05:6a00:2d1d:b0:6f4:d5d8:e0a3 with SMTP id d2e1a72fcca58-703e4bf60cfmr331030b3a.9.1717520760886;
+        Tue, 04 Jun 2024 10:06:00 -0700 (PDT)
+Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:6203:d1ca:c560:52f1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70242b0914dsm7510672b3a.179.2024.06.04.10.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 10:06:00 -0700 (PDT)
+From: Daisuke Nojiri <dnojiri@chromium.org>
+To: 
+Cc: Daisuke Nojiri <dnojiri@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Reka Norman <rekanorman@chromium.org>,
+	Tzung-Bi Shih <tzungbi@chromium.org>,
 	Abhishek Pandit-Subedi <abhishekpandit@google.com>,
 	Gwendal Grignou <gwendal@chromium.org>,
 	Pavan Holla <pholla@chromium.org>,
 	Ching-Kang Yen <chingkang@chromium.org>,
 	Lukasz Majczak <lma@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_proto: Upgrade
- get_next_event to v3
-Message-ID: <Zl6GIDy_QT5iB8OS@google.com>
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] platform/chrome: Add struct ec_response_get_next_event_v3
+Date: Tue,  4 Jun 2024 10:01:48 -0700
+Message-ID: <20240604170552.2517189-1-dnojiri@chromium.org>
+X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+In-Reply-To: <20240604005354.2294468-1-dnojiri@chromium.org>
 References: <20240604005354.2294468-1-dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -50,23 +76,68 @@ List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240604005354.2294468-1-dnojiri@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 03, 2024 at 05:53:12PM -0700, Daisuke Nojiri wrote:
-> This CL upgrades get_next_event to version 3.
+Add struct ec_response_get_next_event_v3 to upgrade
+EC_CMD_GET_NEXT_EVENT to version 3.
 
-s/This CL upgrades/Upgrade/.
+Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+---
+ .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-> BUG=b:331761304
-> TEST=Type keys on Kyogre.
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index 070e49c5381e..fff191a8d413 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -3527,6 +3527,34 @@ union __ec_align_offset1 ec_response_get_next_data_v1 {
+ };
+ BUILD_ASSERT(sizeof(union ec_response_get_next_data_v1) == 16);
+ 
++union __ec_align_offset1 ec_response_get_next_data_v3 {
++	uint8_t key_matrix[18];
++
++	/* Unaligned */
++	uint32_t host_event;
++	uint64_t host_event64;
++
++	struct __ec_todo_unpacked {
++		/* For aligning the fifo_info */
++		uint8_t reserved[3];
++		struct ec_response_motion_sense_fifo_info info;
++	} sensor_fifo;
++
++	uint32_t buttons;
++
++	uint32_t switches;
++
++	uint32_t fp_events;
++
++	uint32_t sysrq;
++
++	/* CEC events from enum mkbp_cec_event */
++	uint32_t cec_events;
++
++	uint8_t cec_message[16];
++};
++BUILD_ASSERT(sizeof(union ec_response_get_next_data_v3) == 18);
++
+ struct ec_response_get_next_event {
+ 	uint8_t event_type;
+ 	/* Followed by event data if any */
+@@ -3539,6 +3567,12 @@ struct ec_response_get_next_event_v1 {
+ 	union ec_response_get_next_data_v1 data;
+ } __ec_align1;
+ 
++struct ec_response_get_next_event_v3 {
++	uint8_t event_type;
++	/* Followed by event data if any */
++	union ec_response_get_next_data_v3 data;
++} __ec_align1;
++
+ /* Bit indices for buttons and switches.*/
+ /* Buttons */
+ #define EC_MKBP_POWER_BUTTON	0
+-- 
+2.45.1.288.g0e0cd299f1-goog
 
-Please remove the tags as upstream doesn't use them.
-
->  .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
-
-Please separate the changes of the header into an independent patch.  Says,
-the changes in the header is a "sync" from include/ec_commands.h of EC which
-is unlikely to be reverted.  However, the rest of changes in the patch could
-be reverted if something went wrong.

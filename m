@@ -1,67 +1,71 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED60C148FEE
-	for <chrome-platform@lists.linux.dev>; Tue,  4 Jun 2024 17:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197751494BD
+	for <chrome-platform@lists.linux.dev>; Tue,  4 Jun 2024 17:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717520887; cv=none; b=Q5+pSRXYlqK0KqABY/3is6vyCYUHIpvXwid35zQtHJXtr4MEX5AIkz0ODsINxZ9L/6JHOe3dvYrWHnZ0FeVM1kNyGUjXz7lvctNi8ckcaMNakuDHoAMjHPGRDraQWoDWFWzi0152S+tJQqGxotNDn1YgZQV9RrjWzpWUVoonw9A=
+	t=1717520982; cv=none; b=mjj2jDYNX9YouBcqZDiBpPGS3149NTwAbPsJbZGGP0s8m54JSvgniOWfl06Z0ZIDJGuEj5Lbo6jKEZqFdsQi9KVkC1g5gMdZ1XnWGqXj0a/kp8Y8S7lAUhmhKW3umXdi1u5fHkw69vxjuRquuell+81foCWOT3hfh0S9QyMWYfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717520887; c=relaxed/simple;
-	bh=4XSej0FLCZ/AI/Z4e/U9mxn1uwf56jUeeM6toqEinfQ=;
+	s=arc-20240116; t=1717520982; c=relaxed/simple;
+	bh=o72VHC36VXAXqahL3bNFNFeuj1qmWPkvDEckyWe9QaA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IEdegvvef4IN6rK+TzU7qwg0Ft/jrCTjGQ7cDW0p/JlaGVmo2bmqBTDqzWrZsyDaLLwu1YWvnA088hk0wtZDf44VafD190R+uE7YCCy1SXvMwbweEA/DcvsKoPLLzzVOY/aDG598SiZc+IOccqfbfgj/7X9Aa5AZafaAPlU8Shs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JKilnAf7; arc=none smtp.client-ip=209.85.166.45
+	 MIME-Version; b=QLuPAz/wwa9q14Zp7V0GvzfUIXK8G4uJtd/S5dAYEGPoHtmnrz+eo407HhHrGUPlZi7sTBKrgQeWuknX2m08rVQC8Fuoppsf0Dk9/tFDDvE/C4z7v5mJ1d0JFcu4BP+qiRrn1D0ez3MRSNXnS8iAIjreVrs98p9BzGDFc+FY518=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pau8AxL6; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JKilnAf7"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7eb3a45674cso10125639f.2
-        for <chrome-platform@lists.linux.dev>; Tue, 04 Jun 2024 10:08:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pau8AxL6"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2c254d9bdd6so883267a91.3
+        for <chrome-platform@lists.linux.dev>; Tue, 04 Jun 2024 10:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717520885; x=1718125685; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1717520980; x=1718125780; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bKD8Y0etVVlMmtHijWaqp2Q9vJ/jXpdL2qQDhE5pUXs=;
-        b=JKilnAf71O0hcDeOUvja2hO17I6NpaPCCFJ7KPy2Y3QnQ++C+JKTL2+55TDLjS1xYd
-         +vFfdrjV3koEmoGWsVahJNecbpGXECVPUhWEti4URaqt34X5hTyFDD9fJEqdYBDenoc4
-         DAI6yZ3nJFSpuKvRK7CNGZXQWTthQMISamk8Q=
+        bh=j59MRW4AaCLc7+qyPpgnSFBskkC64o2U0cQrDH3ZUdw=;
+        b=Pau8AxL6vdn2Dd1onPBCBs3G8EUyXhbuXWSszQ5lhaJp4CNCtMDvpfaR0gJmUygIJV
+         om5OyasEY+A1sQST6VCAX6f8WD8XowSqaBlL4r+WboPHJiEgsdUliC3xKv4ObOysZliB
+         5s2ZiAj86zxuAkiDXxu8D4R+UPgXfrnKF6OcQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717520885; x=1718125685;
+        d=1e100.net; s=20230601; t=1717520980; x=1718125780;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bKD8Y0etVVlMmtHijWaqp2Q9vJ/jXpdL2qQDhE5pUXs=;
-        b=wTIGtwmqaWwjQUfMgVU1K8VPB8q+OvbVeU/wRXYfMcV3dOr6/D6ubnaucqCpvS1P7T
-         5VUeY7xgfta6M7Mt4UfUHza9rR5QvSMhBLoTXCS6T2NKUu0Gv8Dyx8+AIPAfYpj8KW5t
-         fxRCHtXX+zT3i2fO1us8kqT/xgobXVnht5YFg4OPF/aHwQc75gUWQzIgVRGLTqLu2OgG
-         zujiDOJOSnMG7eO28W5K39YGdXLS3My81P3m5U/AUXmpHoqfKZ3WuPTOMF9fkHhFWqoJ
-         Gg/qALbuWapWud5+xyUVlqs6Iqy8eg5DI8Z4ef+qHoUSArfHECCHP5LWGcE2QbIoKNeY
-         wgRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSEddPDixcahr+LR5Qyej5fWUKvbFhnsn4FLf1FxFF2vr1OB/p+2cTRSE3Moi/oEQAutNiu4JCi8sTVKj5GG/KQH8Ou/QHdHS0yNni5r0B
-X-Gm-Message-State: AOJu0YzBsrzSgXJBmC/JrRzQXfeSbjHDJiHdsc0+UWYJU6u6BudXy87c
-	6ePzrX1vJD0vKlswG70ETHGYOcpm/IHRtkRZDeGMNtp8/9Q0LUQPzE9D8KWhiA==
-X-Google-Smtp-Source: AGHT+IG6rzIdxtJQDyaOwSq3bWNdynASkOlJ8wpgF6gPDBALMjBITmL8HhIinzycWfSdb78mGae2CQ==
-X-Received: by 2002:a05:6602:6d16:b0:7ea:fd77:c28e with SMTP id ca18e2360f4ac-7eafff2b92amr1828956039f.17.1717520885067;
-        Tue, 04 Jun 2024 10:08:05 -0700 (PDT)
+        bh=j59MRW4AaCLc7+qyPpgnSFBskkC64o2U0cQrDH3ZUdw=;
+        b=Qz/5KOKRc66CgUcczCU//twdnw0IeGs7xrM1kfpoNGkMnYqKgl2ELac6nnRe4XvFvS
+         nHmfylS0fOOexOs4W3Kxzea9k2cPgoBAmG3R1+GIQMyM9wsn/2bZxlfRWS7xKETq+GlL
+         I6sysLy5AwtUvDtupoqxhAEntQU+EfC+yBGH481Kds2cmVfJ3SvNdnNy/0o0LUp38d2o
+         9W3x5ED+bP/1uub72MpzWv5Kvjo5cVbii8E6SKlKkqTawOjmXvov8nvBlMziga+1s9aB
+         aA8UeFRI1tfvX5q4LY4ourM5XFmO19QWG31f9gteInYhQ3ao2oRc7JtFQktrS02a6ONh
+         2TfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqluzoVpjWzpazrsC10/34Aj/nZfecmYqOt8ATLONB/Eg1WQPNHsYQP0LewSc8Wvq3pGFHevq6LDjzcExgwYxEGqVpY5MGYS28cWUjwauj
+X-Gm-Message-State: AOJu0YzBlGbRhlEe/IwDt88lCdBPLXZhzaaRxAivUoX6/yZWdxlspB1d
+	R6TEqUxl+9x4flSi3T9x9fx2cQwkTUAJkLNL1brlGQnoymMBsh0bw88i/BztMw==
+X-Google-Smtp-Source: AGHT+IHQToIHKeRdbF7ReYTDKWs4YXC65IdOWhuRt4bWMYdFuwfFfVpRVzadclbj0nLghWQUhad8JA==
+X-Received: by 2002:a17:90a:e289:b0:2c2:3f34:e4eb with SMTP id 98e67ed59e1d1-2c27db5a583mr59664a91.36.1717520980396;
+        Tue, 04 Jun 2024 10:09:40 -0700 (PDT)
 Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:6203:d1ca:c560:52f1])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6c354e744a0sm7257125a12.30.2024.06.04.10.08.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1c28316d0sm8354482a91.40.2024.06.04.10.09.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 10:08:04 -0700 (PDT)
+        Tue, 04 Jun 2024 10:09:40 -0700 (PDT)
 From: Daisuke Nojiri <dnojiri@chromium.org>
 To: 
 Cc: Daisuke Nojiri <dnojiri@chromium.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	devicetree@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] platform/chrome: cros_ec_proto: Upgrade get_next_event to v3
-Date: Tue,  4 Jun 2024 10:07:43 -0700
-Message-ID: <20240604170756.2518459-1-dnojiri@chromium.org>
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH 3/3] ARM: dts: cros-ec-keyboard: Add keyboard matrix v3.0
+Date: Tue,  4 Jun 2024 10:09:33 -0700
+Message-ID: <20240604170935.2518856-1-dnojiri@chromium.org>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240604005354.2294468-1-dnojiri@chromium.org>
 References: <20240604005354.2294468-1-dnojiri@chromium.org>
@@ -73,85 +77,180 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Upgrade EC_CMD_GET_NEXT_EVENT to version 3.
-
-The max supported version will be v3. So, we speak v3 even if the EC
-says it supports v4+.
+Add support for keyboard matrix version 3.0. To enable it, define
+CONFIG_CROS_KBD_V30.
 
 Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_proto.c     | 27 ++++++++++++++-------
- include/linux/platform_data/cros_ec_proto.h |  2 +-
- 2 files changed, 19 insertions(+), 10 deletions(-)
+ arch/arm/boot/dts/cros-ec-keyboard.dtsi      |  16 ++-
+ drivers/platform/chrome/Kconfig              |   6 ++
+ include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
+ 3 files changed, 123 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 945b1b15a04c..df257ab12968 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -686,7 +686,7 @@ EXPORT_SYMBOL(cros_ec_cmd_xfer_status);
+diff --git a/arch/arm/boot/dts/cros-ec-keyboard.dtsi b/arch/arm/boot/dts/cros-ec-keyboard.dtsi
+index 55c4744fa7e7..0499e254596a 100644
+--- a/arch/arm/boot/dts/cros-ec-keyboard.dtsi
++++ b/arch/arm/boot/dts/cros-ec-keyboard.dtsi
+@@ -8,16 +8,26 @@
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/input/cros-ec-keyboard.h>
  
- static int get_next_event_xfer(struct cros_ec_device *ec_dev,
- 			       struct cros_ec_command *msg,
--			       struct ec_response_get_next_event_v1 *event,
-+			       struct ec_response_get_next_event_v3 *event,
- 			       int version, uint32_t size)
- {
- 	int ret;
-@@ -709,11 +709,12 @@ static int get_next_event(struct cros_ec_device *ec_dev)
- {
- 	struct {
- 		struct cros_ec_command msg;
--		struct ec_response_get_next_event_v1 event;
-+		struct ec_response_get_next_event_v3 event;
- 	} __packed buf;
- 	struct cros_ec_command *msg = &buf.msg;
--	struct ec_response_get_next_event_v1 *event = &buf.event;
--	const int cmd_version = ec_dev->mkbp_event_supported - 1;
-+	struct ec_response_get_next_event_v3 *event = &buf.event;
-+	int cmd_version = ec_dev->mkbp_event_supported - 1;
-+	uint32_t size;
++#ifdef CONFIG_CROS_KBD_V30
++#define CROS_EC_KEYBOARD_COLUMN_SIZE 18
++#define CROS_TOP_ROW_KEYMAP CROS_TOP_ROW_KEYMAP_V30
++#define CROS_MAIN_KEYMAP CROS_MAIN_KEYMAP_V30
++#else
++#define CROS_EC_KEYBOARD_COLUMN_SIZE 13
++#define CROS_TOP_ROW_KEYMAP CROS_STD_TOP_ROW_KEYMAP
++#define CROS_MAIN_KEYMAP CROS_STD_MAIN_KEYMAP
++#endif
++
+ &cros_ec {
+ 	keyboard_controller: keyboard-controller {
+ 		compatible = "google,cros-ec-keyb";
+ 		keypad,num-rows = <8>;
+-		keypad,num-columns = <13>;
++		keypad,num-columns = <CROS_EC_KEYBOARD_COLUMN_SIZE>;
+ 		google,needs-ghost-filter;
  
- 	memset(msg, 0, sizeof(*msg));
- 	if (ec_dev->suspended) {
-@@ -721,12 +722,20 @@ static int get_next_event(struct cros_ec_device *ec_dev)
- 		return -EHOSTDOWN;
- 	}
+ 		linux,keymap = <
+-			CROS_STD_TOP_ROW_KEYMAP
+-			CROS_STD_MAIN_KEYMAP
++			CROS_TOP_ROW_KEYMAP
++			CROS_MAIN_KEYMAP
+ 		>;
+ 	};
+ };
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index d48f7f43f9e5..8f66beaa48ec 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -157,6 +157,12 @@ config CROS_KBD_LED_BACKLIGHT
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called cros_kbd_led_backlight.
  
--	if (cmd_version == 0)
--		return get_next_event_xfer(ec_dev, msg, event, 0,
--				  sizeof(struct ec_response_get_next_event));
-+	if (cmd_version == 0) {
-+		size = sizeof(struct ec_response_get_next_event);
-+	} else if (cmd_version < 3) {
-+		size = sizeof(struct ec_response_get_next_event_v1);
-+	} else {
-+		/*
-+		 * The max version we support is v3. So, we speak v3 even if the
-+		 * EC says it supports v4+.
-+		 */
-+		cmd_version = 3;
-+		size = sizeof(struct ec_response_get_next_event_v3);
-+	}
++config CROS_KBD_V30
++	bool "ChromeOS built-in keyboard version 3.0"
++	default n
++	help
++	  If you say Y here, you get support for built-in keyboard ver 3.0.
++
+ config CROS_EC_CHARDEV
+ 	tristate "ChromeOS EC miscdevice"
+ 	depends on MFD_CROS_EC_DEV
+diff --git a/include/dt-bindings/input/cros-ec-keyboard.h b/include/dt-bindings/input/cros-ec-keyboard.h
+index f0ae03634a96..afc12f6aa642 100644
+--- a/include/dt-bindings/input/cros-ec-keyboard.h
++++ b/include/dt-bindings/input/cros-ec-keyboard.h
+@@ -100,4 +100,108 @@
+ 	MATRIX_KEY(0x07, 0x0b, KEY_UP)		\
+ 	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)
  
--	return get_next_event_xfer(ec_dev, msg, event, cmd_version,
--				sizeof(struct ec_response_get_next_event_v1));
-+	return get_next_event_xfer(ec_dev, msg, event, cmd_version, size);
- }
- 
- static int get_keyboard_state_event(struct cros_ec_device *ec_dev)
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index 8865e350c12a..dbfd38b3becd 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -185,7 +185,7 @@ struct cros_ec_device {
- 	bool host_sleep_v1;
- 	struct blocking_notifier_head event_notifier;
- 
--	struct ec_response_get_next_event_v1 event_data;
-+	struct ec_response_get_next_event_v3 event_data;
- 	int event_size;
- 	u32 host_event_wake_mask;
- 	u32 last_resume_result;
++/* No numpad */
++#define CROS_TOP_ROW_KEYMAP_V30 \
++	MATRIX_KEY(0x00, 0x01, KEY_F11)		/* T11 */	\
++	MATRIX_KEY(0x00, 0x02, KEY_F1)		/* T1 */	\
++	MATRIX_KEY(0x00, 0x04, KEY_F10)		/* T10 */	\
++	MATRIX_KEY(0x00, 0x0b, KEY_F14)		/* T14 */	\
++	MATRIX_KEY(0x00, 0x0c, KEY_F15)		/* T15 */	\
++	MATRIX_KEY(0x01, 0x02, KEY_F4)		/* T4 */	\
++	MATRIX_KEY(0x01, 0x04, KEY_F7)		/* T7 */	\
++	MATRIX_KEY(0x01, 0x05, KEY_F12)		/* T12 */	\
++	MATRIX_KEY(0x01, 0x09, KEY_F9)		/* T9 */	\
++	MATRIX_KEY(0x02, 0x02, KEY_F3)		/* T3 */	\
++	MATRIX_KEY(0x02, 0x04, KEY_F6)		/* T6 */	\
++	MATRIX_KEY(0x02, 0x0b, KEY_F8)		/* T8 */	\
++	MATRIX_KEY(0x03, 0x02, KEY_F2)		/* T2 */	\
++	MATRIX_KEY(0x03, 0x05, KEY_F13)		/* T13 */	\
++	MATRIX_KEY(0x04, 0x04, KEY_F5)		/* T5 */
++
++#define CROS_MAIN_KEYMAP_V30			/* Keycode */	\
++	MATRIX_KEY(0x00, 0x03, KEY_B)		/* 50 */	\
++	MATRIX_KEY(0x00, 0x05, KEY_N)		/* 51 */	\
++	MATRIX_KEY(0x00, 0x06, KEY_RO)		/* 56 (JIS) */	\
++	MATRIX_KEY(0x00, 0x08, KEY_EQUAL)	/* 13 */	\
++	MATRIX_KEY(0x00, 0x09, KEY_HOME)	/* 80 (Numpad) */	\
++	MATRIX_KEY(0x00, 0x0a, KEY_RIGHTALT)	/* 62 */	\
++	MATRIX_KEY(0x00, 0x10, KEY_FN)		/* 127 */	\
++								\
++	MATRIX_KEY(0x01, 0x01, KEY_ESC)		/* 110 */	\
++	MATRIX_KEY(0x01, 0x03, KEY_G)		/* 35 */	\
++	MATRIX_KEY(0x01, 0x06, KEY_H)		/* 36 */	\
++	MATRIX_KEY(0x01, 0x08, KEY_APOSTROPHE)	/* 41 */	\
++	MATRIX_KEY(0x01, 0x0b, KEY_BACKSPACE)	/* 15 */	\
++	MATRIX_KEY(0x01, 0x0c, KEY_HENKAN)	/* 65 (JIS) */	\
++	MATRIX_KEY(0x01, 0x0e, KEY_LEFTCTRL)	/* 58 */	\
++								\
++	MATRIX_KEY(0x02, 0x01, KEY_TAB)		/* 16 */	\
++	MATRIX_KEY(0x02, 0x03, KEY_T)		/* 21 */	\
++	MATRIX_KEY(0x02, 0x05, KEY_RIGHTBRACE)	/* 28 */	\
++	MATRIX_KEY(0x02, 0x06, KEY_Y)		/* 22 */	\
++	MATRIX_KEY(0x02, 0x08, KEY_LEFTBRACE)	/* 27 */	\
++	MATRIX_KEY(0x02, 0x09, KEY_DELETE)	/* 76 (Numpad) */	\
++	MATRIX_KEY(0x02, 0x0c, KEY_PAGEUP)	/* 85 (Numpad) */	\
++	MATRIX_KEY(0x02, 0x011, KEY_YEN)	/* 14 (JIS) */	\
++								\
++	MATRIX_KEY(0x03, 0x00, KEY_LEFTMETA)	/* Launcher */	\
++	MATRIX_KEY(0x03, 0x01, KEY_GRAVE)	/* 1 */	\
++	MATRIX_KEY(0x03, 0x03, KEY_5)		/* 6 */	\
++	MATRIX_KEY(0x03, 0x04, KEY_S)		/* 32 */	\
++	MATRIX_KEY(0x03, 0x06, KEY_MINUS)	/* 12 */	\
++	MATRIX_KEY(0x03, 0x08, KEY_6)		/* 7 */		\
++	MATRIX_KEY(0x03, 0x09, KEY_SLEEP)	/* Lock */	\
++	MATRIX_KEY(0x03, 0x0b, KEY_BACKSLASH)	/* 29 */	\
++	MATRIX_KEY(0x03, 0x0c, KEY_MUHENKAN)	/* 63 (JIS) */	\
++	MATRIX_KEY(0x03, 0x0e, KEY_RIGHTCTRL)	/* 64 */	\
++								\
++	MATRIX_KEY(0x04, 0x01, KEY_A)		/* 31 */	\
++	MATRIX_KEY(0x04, 0x02, KEY_D)		/* 33 */	\
++	MATRIX_KEY(0x04, 0x03, KEY_F)		/* 34 */	\
++	MATRIX_KEY(0x04, 0x05, KEY_K)		/* 38 */	\
++	MATRIX_KEY(0x04, 0x06, KEY_J)		/* 37 */	\
++	MATRIX_KEY(0x04, 0x08, KEY_SEMICOLON)	/* 40 */	\
++	MATRIX_KEY(0x04, 0x09, KEY_L)		/* 39 */	\
++	MATRIX_KEY(0x04, 0x0b, KEY_ENTER)	/* 43 */	\
++	MATRIX_KEY(0x04, 0x0c, KEY_END)		/* 81 (Numpad) */	\
++								\
++	MATRIX_KEY(0x05, 0x01, KEY_1)		/* 2 */	\
++	MATRIX_KEY(0x05, 0x02, KEY_COMMA)	/* 53 */	\
++	MATRIX_KEY(0x05, 0x03, KEY_DOT)		/* 54 */	\
++	MATRIX_KEY(0x05, 0x04, KEY_SLASH)	/* 55 */	\
++	MATRIX_KEY(0x05, 0x05, KEY_C)		/* 48 */	\
++	MATRIX_KEY(0x05, 0x06, KEY_SPACE)	/* 61 */	\
++	MATRIX_KEY(0x05, 0x07, KEY_LEFTSHIFT)	/* 44 */	\
++	MATRIX_KEY(0x05, 0x08, KEY_X)		/* 47 */	\
++	MATRIX_KEY(0x05, 0x09, KEY_V)		/* 49 */	\
++	MATRIX_KEY(0x05, 0x0b, KEY_M)		/* 52 */	\
++	MATRIX_KEY(0x05, 0x0c, KEY_PAGEDOWN)	/* 86 (Numpad) */	\
++								\
++	MATRIX_KEY(0x06, 0x01, KEY_Z)		/* 46 */	\
++	MATRIX_KEY(0x06, 0x02, KEY_3)		/* 4 */		\
++	MATRIX_KEY(0x06, 0x03, KEY_4)		/* 5 */		\
++	MATRIX_KEY(0x06, 0x04, KEY_2)		/* 3 */		\
++	MATRIX_KEY(0x06, 0x05, KEY_8)		/* 9 */		\
++	MATRIX_KEY(0x06, 0x06, KEY_0)		/* 11 */	\
++	MATRIX_KEY(0x06, 0x08, KEY_7)		/* 8 */		\
++	MATRIX_KEY(0x06, 0x09, KEY_9)		/* 10 */	\
++	MATRIX_KEY(0x06, 0x0b, KEY_DOWN)	/* 84 */	\
++	MATRIX_KEY(0x06, 0x0c, KEY_RIGHT)	/* 89 */	\
++	MATRIX_KEY(0x06, 0x0d, KEY_LEFTALT)	/* 60 */	\
++	MATRIX_KEY(0x06, 0x0f, KEY_ASSISTANT)	/* 128 */	\
++	MATRIX_KEY(0x06, 0x11, KEY_BACKSLASH)	/* 42 (JIS, ISO) */	\
++								\
++	MATRIX_KEY(0x07, 0x01, KEY_U)		/* 23 */	\
++	MATRIX_KEY(0x07, 0x02, KEY_I)		/* 24 */	\
++	MATRIX_KEY(0x07, 0x03, KEY_O)		/* 25 */	\
++	MATRIX_KEY(0x07, 0x04, KEY_P)		/* 26 */	\
++	MATRIX_KEY(0x07, 0x05, KEY_Q)		/* 17 */	\
++	MATRIX_KEY(0x07, 0x06, KEY_W)		/* 18 */	\
++	MATRIX_KEY(0x07, 0x07, KEY_RIGHTSHIFT)	/* 57 */	\
++	MATRIX_KEY(0x07, 0x08, KEY_E)		/* 19 */	\
++	MATRIX_KEY(0x07, 0x09, KEY_R)		/* 20 */	\
++	MATRIX_KEY(0x07, 0x0b, KEY_UP)		/* 83 */	\
++	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)	/* 79 */	\
++	MATRIX_KEY(0x07, 0x11, KEY_102ND)	/* 45 (ISO) */
++
+ #endif /* _CROS_EC_KEYBOARD_H */
 -- 
 2.45.1.288.g0e0cd299f1-goog
 

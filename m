@@ -1,47 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07DD6FD3;
-	Tue,  4 Jun 2024 02:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DA313D2AC;
+	Tue,  4 Jun 2024 03:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717468256; cv=none; b=eL+m/EZEr5YuE7YPANqWh+TLYpzBjoPdT1HPMO0xUDgdNQsc7Ks7psUxH9hPIHQsxQvlhYVv0Ku3ikSVXQEwNNV+yVa8mYB3ogG5xmP5kGjJrfz21U2mgFXTrvo+C9UEQgPwdT2LstctlUD7YBx3ge3asJ79+99ts+O10Fd3wZ0=
+	t=1717470756; cv=none; b=CeFR52JmqMCrzQNE/rskDvlfvYyNGC5XysnuWf28GLnQRfJnJDIXvOC5H5mJMMOSnFgyMkb3ibX/ApvTeXQcw2iqHGZQ7ImWY0KFhv9frcfSGWhME2T/9EmpsULxbfVoiyk1uJQAeTQ9pJo4ZFYr6ly8GGhqSi7JO9TWYW3Ib7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717468256; c=relaxed/simple;
-	bh=To8fbG5O3C9YMOaBN3ki4SETwIhbdcKXVkxjt90NHYk=;
+	s=arc-20240116; t=1717470756; c=relaxed/simple;
+	bh=aqccSDAvMh0iQaXfPB6SrOeoGhQkFQLqJr2TS388jxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oIo1UcuR0UlOdk9L71fxeJUQbTdwSJN4yDruu5CBcVNaNCFqbEIvd6gfjrdUlzAK3H3b5KKP0T/W3aJBMLuDvSg+lo2h/hl8TtELDNeIS+gwgYjWkhrWnTnWto3ZNsSmAyUuWesPlcqxKUroG2puGq8K/Jy7+HbRfJzy0z0EJ1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9a9pvqf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e2HcQkC4FGIK40p7Qf0ahJnfNjBBIEE9stSxuqmrel4LzkI64W4qR0J5wp+BQiIPHO323sL8v3E65WMjvM1/sJWYCWwq4u+LXZn2p9DMm7e/t9DPSOfA+awWjMeijpU+9FTd95pbmeMjiLm7es0CKnr/mCHc6haJzTMyV+wnz5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1Je751e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9a9pvqf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD6EC2BD10;
-	Tue,  4 Jun 2024 02:30:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1Je751e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E66FC2BD10;
+	Tue,  4 Jun 2024 03:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717468255;
-	bh=To8fbG5O3C9YMOaBN3ki4SETwIhbdcKXVkxjt90NHYk=;
+	s=k20201202; t=1717470756;
+	bh=aqccSDAvMh0iQaXfPB6SrOeoGhQkFQLqJr2TS388jxM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g9a9pvqfiNhkA/yXbTHAe18mKQqZDgmFunO9Hc3/jCu+nbWirZWD1u4vr2WkNoEu+
-	 KUwHyKEwTdy57naVtnxRWNpffWbqVJID5z+2XpyxYXMaIT5u8x+HjB9r8fXTJcuiir
-	 h2HcPlcRUFx/cdd2CQgTLJF4WCvwsa/wgtPjNWF9Ygsw9kuHl6lCZY1/zZKA7cYpK6
-	 y5W9pXz5gEiPvo+Y51LqI/OlYusXspl6IyPXpe4Summx74JlNmRiEsuP2QqZz1j4dU
-	 FpickXtUkU+bk0fbAJFCfRRAPVCLRd2LNjd7vEY01kfvGf5OcarrHM8TxfftCr5F+A
-	 auUPs4iBllFiA==
-Date: Tue, 4 Jun 2024 02:30:52 +0000
+	b=P1Je751ep2YhUlYYEffup/AJPPcD9+z1v6Tb2TeAWZ9Jqv3XRaG8Poa+RqXg1kOuo
+	 sGODvb1+xH8J1IbGJEFSESjqLCSwtqNT0QGll5opsX4MKt60oj3ON5f3YuHcT+qFhA
+	 /UTFwBfGb4InJxyFSGErE8tmbupAzgQDd7a9OAtUNb0nHB6RXBQr3BhU4Fm09XZxKT
+	 blb009g+UkZWEoVryEHKuKefqdJ88+FPWbqyKpQ/eZw2F3daJl8NZcl3mOufgyI9Ij
+	 IFKrpWXyJzJQYoRPyIgrE7i62eX+8jM6xL5NsAjtF3J6CTUpL6cg8koybnVDQv3Jq9
+	 AEoJIiiJjnlBg==
+Date: Tue, 4 Jun 2024 03:12:32 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Ben Walsh <ben@jubnut.com>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Reka Norman <rekanorman@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@google.com>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] platform/chrome: cros_ec_lpc: Add a new quirk for
- ACPI id
-Message-ID: <Zl58XNl8fhJU24OV@google.com>
-References: <20240603063834.5580-1-ben@jubnut.com>
- <20240603063834.5580-4-ben@jubnut.com>
- <Zl2NTbhk96dhTV2n@google.com>
- <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_proto: Upgrade
+ get_next_event to v3
+Message-ID: <Zl6GIDy_QT5iB8OS@google.com>
+References: <20240604005354.2294468-1-dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -50,20 +52,21 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c8d765bc-4e45-40b3-a33d-b4cc1bbd67bd@amd.com>
+In-Reply-To: <20240604005354.2294468-1-dnojiri@chromium.org>
 
-On Mon, Jun 03, 2024 at 11:00:22AM -0500, Mario Limonciello wrote:
-> On 6/3/2024 04:30, Tzung-Bi Shih wrote:
-> > On Mon, Jun 03, 2024 at 07:38:32AM +0100, Ben Walsh wrote:
-> > > @@ -436,6 +463,8 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
-> > >   	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
-> > > +	adev = ACPI_COMPANION(dev);
-> > > +
-> > 
-> > The change is irrelevant to the patch.
-> 
-> It looks relevant to me.  The companion needs to get set before the quirk
-> overwrites it.
+On Mon, Jun 03, 2024 at 05:53:12PM -0700, Daisuke Nojiri wrote:
+> This CL upgrades get_next_event to version 3.
 
-Please see code for CROS_EC_LPC_QUIRK_ACPI_ID in the patch, `adev` is going to
-be overridden soon.  I don't see why the ACPI_COMPANION() needs to move here.
+s/This CL upgrades/Upgrade/.
+
+> BUG=b:331761304
+> TEST=Type keys on Kyogre.
+
+Please remove the tags as upstream doesn't use them.
+
+>  .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+
+Please separate the changes of the header into an independent patch.  Says,
+the changes in the header is a "sync" from include/ec_commands.h of EC which
+is unlikely to be reverted.  However, the rest of changes in the patch could
+be reverted if something went wrong.

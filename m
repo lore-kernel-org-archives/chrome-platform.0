@@ -1,188 +1,137 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C960C3BBE5;
-	Wed,  5 Jun 2024 22:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D9D15FD04
+	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 22:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717625251; cv=none; b=madIknZ78MQn0+9ysryMd+mSCH5GPGVnKVDfXIFu0cjNMx6ykGPrCfpsNZ5K4wpLEHsIr1Qc/CHNx7jNPQabDJdM/8JXCXWXCgIzCVN3PV8sumZDV8KTd/QbcWtkyrHZVkgh9XEyez+bgIA9g6eurcYp02m8fN9O7736Tyw/E24=
+	t=1717625701; cv=none; b=KsQcjOoOtkPsEBTpE/erlXLZzg6MfKalgoVrQQKowvIHqxneFiGNbRt8f3+z0HfRBLjwxaoBxcLIx0K+p8NnCX+qr54bQBmrWyNBC3mQ5rIpzCHEKKFtTKinRzhx1H6cCvnt9fexQ7Cy+3c7olT0hkFXCPNEISnT+1MnHu5uYnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717625251; c=relaxed/simple;
-	bh=ggvzqStwGSfnGyZWv2fxQrTMgMOwfOsslA05L+fu2XI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=BnyOuD5Fe+6JhpDwtWC8mK94t52KOO2ry05HJPcq0eEeZmJWsekWGgIn17BJTNWJwxRH+Mnk2FNHyx7VhMGl6rtam7gfgCDjdKDRSnu1sdxzgfjkNT7e3sdjgyjv4fYkiGm19Q9k+uGDhlxtnd70M/nNvQmxayHG7GDI56cqI5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Hv73U/3c; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1717625701; c=relaxed/simple;
+	bh=OygkjoyZ/s/fhSyNEsLEuxpSBom9wgFRfnLr2OQNNS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z5b55MwIWwyn5D6JD2sFP4SU5+Z5oX6mS/rdO+hp2f0umQ1Dg/zNU7dJSo8U/Yr2rQ01f4o6zJ/xHsIxRhWGGfkaLA58kyEQKtciBoIpwNZUHaP1E1m4U1PQupAahlDeMTkMbCOE3oWOBqNpv/y3yIu/Dsv+mpepNS3yT+vzf3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MA+prhi9; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Hv73U/3c"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455I2j9t013971;
-	Wed, 5 Jun 2024 22:07:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=AI35arAhNzTkB8zFlJZJKR
-	AtptE0x3IH3zx+M9838XY=; b=Hv73U/3cpSc0b3F6B9Rnse6gveR0exs5fY+bXe
-	y3j+lewTki+WKBtVoHUS0m3Q/6Ed56/mXoS+fE6euqdnZSltQznaHI0mPiJr7AH7
-	XsgZdVH2xR/2HbqKtEq81ZHDqID3AkpzUK4ozFc7n7PPE4GWeRLvskcU1jjv4M4X
-	eI5+BkKNTSZLDUncWuslBmOdVtdyzN6WlWWukNNWIT8KvzGnSEfvg6hjETP7GCob
-	hGlCXozQ76YVAC/l/Gt2ss8zoiErCQOyDr7VLUWiVelaAhXry0TR94NM0uaFwzX8
-	w2pV0Gn0TzVDpvJk3aWYK81WvHpFwdfNTPG4+CfoxOPHGDbQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjvxy8gna-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 22:07:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 455M7MS8004876
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 5 Jun 2024 22:07:22 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 5 Jun 2024
- 15:07:22 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 5 Jun 2024 15:07:21 -0700
-Subject: [PATCH] firmware: google: add missing MODULE_DESCRIPTION() macros
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MA+prhi9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1717625698;
+	bh=OygkjoyZ/s/fhSyNEsLEuxpSBom9wgFRfnLr2OQNNS8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MA+prhi9PA33gVVpvWbDWL7TSkaXaCNX8TRebfcjMbykXj0D5vEhyBeZU3wY3eP3E
+	 n0Us9VxBRKtWBmpuJxsR/Npdsqtgh+MTIWcJs59zZ5sxpzhXSyvWOGMQ9KlqpqER1P
+	 anppjJCt/fgvGuf7SuylOF/003VqRRbVmOUAUFg1JFn1UrNL8kuGrDZHLuRKERWk3W
+	 7c1oD9AQWxH6+1IJ+EuA+4q49goTWmvdzFF3d8ioYxZrAmKN10VECzHHfzVWGwTPNt
+	 gjrg7FsKDt2M537R3jQO0t1M0vMo9LD7ZV8zh9IJ2pN2qwh+MIdpQTF+WnuM4TYhKc
+	 yb9H6+ljN7k0g==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3927F378061A;
+	Wed,  5 Jun 2024 22:14:58 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id BE2DF1060501; Thu, 06 Jun 2024 00:14:57 +0200 (CEST)
+Date: Thu, 6 Jun 2024 00:14:57 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@weissschuh.net>, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+	Dustin Howett <dustin@howett.net>, Stephen Horvath <s.horvath@outlook.com.au>, 
+	Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: Re: [PATCH v2 2/3] power: supply: add ChromeOS EC based charge
+ control driver
+Message-ID: <ksot2xs4vecqpjrx36z3zbpoasukor2bzh7gzwtbf7in3sudjk@pdmjlr4ythve>
+References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
+ <20240528-cros_ec-charge-control-v2-2-81fb27e1cff4@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240605-md-drivers-firmware-google-v1-1-18878de97fa5@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAJjhYGYC/x3MSwrCMBAA0KuUWTuQFKvoVcRFPtN0oElkptZC6
- d2NLt/m7aAkTAr3bgehlZVrabCnDsLkSiLk2Ay96c/mYgbMEaPwSqI4suSPE8JUa5oJb+5qbbB
- 9GHyEFryERt7++ePZ7J0SenElTL9y5vLeMDtdSOA4viyGpdiLAAAA
-To: Tzung-Bi Shih <tzungbi@kernel.org>,
-        Brian Norris
-	<briannorris@chromium.org>,
-        Julius Werner <jwerner@chromium.org>
-CC: <chrome-platform@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: c38EFTHi2PLIpEjohNsuIPA2b6Pr_o2W
-X-Proofpoint-GUID: c38EFTHi2PLIpEjohNsuIPA2b6Pr_o2W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 spamscore=0
- mlxscore=0 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406050166
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ybg7jici7744px53"
+Content-Disposition: inline
+In-Reply-To: <20240528-cros_ec-charge-control-v2-2-81fb27e1cff4@weissschuh.net>
 
-make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/gsmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-x86-legacy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
 
-Add the missing invocations of the MODULE_DESCRIPTION() macro.
+--ybg7jici7744px53
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/firmware/google/cbmem.c                 | 1 +
- drivers/firmware/google/coreboot_table.c        | 1 +
- drivers/firmware/google/framebuffer-coreboot.c  | 1 +
- drivers/firmware/google/gsmi.c                  | 1 +
- drivers/firmware/google/memconsole-coreboot.c   | 1 +
- drivers/firmware/google/memconsole-x86-legacy.c | 1 +
- drivers/firmware/google/memconsole.c            | 1 +
- drivers/firmware/google/vpd.c                   | 1 +
- 8 files changed, 8 insertions(+)
+Hi,
 
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-index 6f810d720f4d..66042160b361 100644
---- a/drivers/firmware/google/cbmem.c
-+++ b/drivers/firmware/google/cbmem.c
-@@ -131,4 +131,5 @@ static struct coreboot_driver cbmem_entry_driver = {
- module_coreboot_driver(cbmem_entry_driver);
- 
- MODULE_AUTHOR("Jack Rosenthal <jrosenth@chromium.org>");
-+MODULE_DESCRIPTION("Driver for exporting CBMEM entries in sysfs");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index fa7752f6e89b..a4e3bbd556a3 100644
---- a/drivers/firmware/google/coreboot_table.c
-+++ b/drivers/firmware/google/coreboot_table.c
-@@ -255,4 +255,5 @@ module_init(coreboot_table_driver_init);
- module_exit(coreboot_table_driver_exit);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("Module providing coreboot table access");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index 07c458bf64ec..daadd71d8ddd 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -97,4 +97,5 @@ static struct coreboot_driver framebuffer_driver = {
- module_coreboot_driver(framebuffer_driver);
- 
- MODULE_AUTHOR("Samuel Holland <samuel@sholland.org>");
-+MODULE_DESCRIPTION("Memory based framebuffer accessed through coreboot table");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/gsmi.c b/drivers/firmware/google/gsmi.c
-index 96ea1fa76d35..d304913314e4 100644
---- a/drivers/firmware/google/gsmi.c
-+++ b/drivers/firmware/google/gsmi.c
-@@ -1090,4 +1090,5 @@ module_init(gsmi_init);
- module_exit(gsmi_exit);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("EFI SMI interface for Google platforms");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/memconsole-coreboot.c b/drivers/firmware/google/memconsole-coreboot.c
-index 24c97a70aa80..c5f08617aa8d 100644
---- a/drivers/firmware/google/memconsole-coreboot.c
-+++ b/drivers/firmware/google/memconsole-coreboot.c
-@@ -113,4 +113,5 @@ static struct coreboot_driver memconsole_driver = {
- module_coreboot_driver(memconsole_driver);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("Memory based BIOS console accessed through coreboot table");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/memconsole-x86-legacy.c b/drivers/firmware/google/memconsole-x86-legacy.c
-index 3d3c4f6b8194..a0974c376985 100644
---- a/drivers/firmware/google/memconsole-x86-legacy.c
-+++ b/drivers/firmware/google/memconsole-x86-legacy.c
-@@ -154,4 +154,5 @@ module_init(memconsole_x86_init);
- module_exit(memconsole_x86_exit);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("EBDA specific parts of the memory based BIOS console.");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/memconsole.c b/drivers/firmware/google/memconsole.c
-index 44d314ad69e4..b9d99fe1ff0f 100644
---- a/drivers/firmware/google/memconsole.c
-+++ b/drivers/firmware/google/memconsole.c
-@@ -50,4 +50,5 @@ void memconsole_exit(void)
- EXPORT_SYMBOL(memconsole_exit);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("Architecture-independent parts of the memory based BIOS console");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/firmware/google/vpd.c b/drivers/firmware/google/vpd.c
-index 8e4216714b29..1749529f63d4 100644
---- a/drivers/firmware/google/vpd.c
-+++ b/drivers/firmware/google/vpd.c
-@@ -323,4 +323,5 @@ static struct coreboot_driver vpd_driver = {
- module_coreboot_driver(vpd_driver);
- 
- MODULE_AUTHOR("Google, Inc.");
-+MODULE_DESCRIPTION("Driver for exporting Vital Product Data content to sysfs");
- MODULE_LICENSE("GPL");
+On Tue, May 28, 2024 at 10:04:11PM +0200, Thomas Wei=DFschuh wrote:
+> +	battery_hook_register(&priv->battery_hook);
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cros_chctl_remove(struct platform_device *pdev)
+> +{
+> +	struct cros_chctl_priv *priv =3D platform_get_drvdata(pdev);
+> +
+> +	battery_hook_unregister(&priv->battery_hook);
+> +
+> +	return 0;
+> +}
 
----
-base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
-change-id: 20240605-md-drivers-firmware-google-9a711c12c5bd
+Please use devm_add_action_or_reset() or introduce
+devm_battery_hook_register(), which could also be used by
+dell-wmi-ddv. Otherwise LGTM.
 
+-- Sebastian
+
+> +
+> +static const struct platform_device_id cros_chctl_id[] =3D {
+> +	{ DRV_NAME, 0 },
+> +	{ }
+> +};
+> +
+> +static struct platform_driver cros_chctl_driver =3D {
+> +	.driver.name	=3D DRV_NAME,
+> +	.probe		=3D cros_chctl_probe,
+> +	.remove		=3D cros_chctl_remove,
+> +	.id_table	=3D cros_chctl_id,
+> +};
+> +module_platform_driver(cros_chctl_driver);
+> +
+> +MODULE_DEVICE_TABLE(platform, cros_chctl_id);
+> +MODULE_DESCRIPTION("ChromeOS EC charge control");
+> +MODULE_AUTHOR("Thomas Wei=DFschuh <linux@weissschuh.net>");
+> +MODULE_LICENSE("GPL");
+>=20
+> --=20
+> 2.45.1
+>=20
+
+--ybg7jici7744px53
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZg41oACgkQ2O7X88g7
++ppHWg/6Akqc7xPbe8vn0c7y32Lsm9lNoiZc6+Kchd2odRljHmxUOWBSDPJaDPI7
+YZnAQbojBkkacytDImu202P4kz0DOVKtIpU7QOMM2aBEuZIPzwWXfIyDhARnvzZo
+VIfGo1tJT9KZZyMQ3kSNUJ66Sm6zKVhbAVjgro9IfSnGgbwvv5Mh0E1rEMMr54mk
+lFkeqH6uWyItHKpEc/BuhtXaDQg8Im5KorFAVfBdr8UWfvtCBRFvDV1NJw03Dt6l
+615ZZRDma0YB5cpJpeXX0xHgTCynFzEVLXTnuESVpKHvoFEWUi201wvbfg5e+wg3
+Dsye4X3+rLjh7uceXmSfccskgFQpjpMO071k3E210hfCC09cD9O2lJVGgZXFuEY3
+oRwNmiKIPEbE54phxmXBAYuBys9Q5qthQ7geZgK7Yh2GDHogvFtMMAf7epTkGZEF
+jMsn/rSuVKL7drtI2l4+IYT4cf0BSDdasbSPZHv/Rmil/TqoSEd70LkL1eZHy3Nd
+GfDhOOd1vm+HlNS2VIj5ihSoLcp4PFh0jM+ktP9vuK/CZ5Tz+h7brJ9oMHF315Fh
+7XJ3PzlVm4w5m5Rb3L9nKwRTWM+FMQi1vZabAINoyWTBK0KjPHSBLTaniPmsGcbW
+F8TJ2O86gj96uBtK+GIrqMb+d1d2oPuz3LqtZPYXJ9LEZaBDPeo=
+=AhyB
+-----END PGP SIGNATURE-----
+
+--ybg7jici7744px53--

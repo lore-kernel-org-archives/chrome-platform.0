@@ -1,120 +1,121 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09517190475
-	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 06:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DFC190463
+	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 06:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717569262; cv=none; b=JJOdUkSjzJjCCxyy8EYcXjjG8utGc5ces2cRb4ADz0BaFjVacTJIh4l7OlZ6GiraaP/exqUIxCRz2uevpW/yJaEV9CnJVubDhAcL0as9OYzXOS6DgVlHKeUDZrfRCCvWOEaEpnpNquSd+2XdmMSfPHjwcJ+anfuHGe7anbwVQDU=
+	t=1717569764; cv=none; b=Pmx2ouakFAQ4sgJMCuwMjxwu1zg+SjZtGVCtrU44Eyv+SY+YN3GwAzjgcwQK2FKYboKMyywn8E0P+ND1nSnRhJpkVqSfKgb4xBzxKRBvEIpADeJbbLFqt63+XtIsGheUEPYolBW1iYjYmVKkpfMs9SxA661g+VQidTYsqMWzkho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717569262; c=relaxed/simple;
-	bh=lhDXj1RB5ptV6uXT4ckCeg8oBkuwyd08q0QZzlPROxM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NSWWBGhETQVEoEekHNs3+Mjpiz6rdvvoFPb/QHrtc+m4BUb0zpcJ/L/32vF2llPYT/LXcA4JFxcFGyJSzCo+JHpLfvkHthv1xjcWZkHdrl6toAWWCZTuBgJz+QSQPqW4d/n7jLth0Qu2q/Freb3duOWFfYlmAyrHgmz/QiMCfSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=S36yVREk; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
+	s=arc-20240116; t=1717569764; c=relaxed/simple;
+	bh=grRNp05oLFWhezf7QgYMw8XkIU4cM4fQ2NG1fmF5jsk=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=RjDJXSs9KcrvpD5D2AlSTUbaFWVEfTmFbdv0EidqIATEGJlamPLEYo6e90Rgv50bBtlxGKYVF623CufOntPM2gTnqde4TzpDeFY3qKtmjzHMtCcOk2uylZgwZFZp2AbiJ7zN7ORoiRtaBkkhIsZ922VN5GHmPr3kmPxx9Ts9ZyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Y8/P4KGV; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="S36yVREk"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4VvHjv2k9xz9t1h;
-	Wed,  5 Jun 2024 08:34:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1717569251;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=drjap9tia8UdmkKJqnXc1ZCFCy2/bIrsAH1vVPQ//D0=;
-	b=S36yVREk5LH90meIPR5eibShC3SN6nQnRv4x2u/vwC51c3Lo9UDdb4ZIjfPrgzNV0mpevw
-	oTGBTdA1/STkOJeMoYkvB/hldoOYTBiqd38o3vunmieoTYTr1eLQ6gIhAkuGDazkSUYQWn
-	enRUQFX+E6VdURe+JRmPps+H9B6Sruk5j8+NW99xAGORbRHNX/GDrdQjKYJaVscnvqOZRL
-	Tb0jYhdQMJ1nhNkt3XNIuwVa6MPzeCRi/9xKOwtzeq4WBk3Wd1Cw2S/DYC6EpMFf6BzKeX
-	bcUMp66AgTdbRzdp3ErzcF6rijeDkYuDAIhrf2YdwO5q/6VVdxuxF8DJBJVrdg==
-From: Ben Walsh <ben@jubnut.com>
-To: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Ben Walsh <ben@jubnut.com>
-Subject: [PATCH v3 4/5] platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
-Date: Wed,  5 Jun 2024 07:33:50 +0100
-Message-ID: <20240605063351.14836-5-ben@jubnut.com>
-In-Reply-To: <20240605063351.14836-1-ben@jubnut.com>
-References: <20240605063351.14836-1-ben@jubnut.com>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Y8/P4KGV"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-702508bf0a9so3678620b3a.0
+        for <chrome-platform@lists.linux.dev>; Tue, 04 Jun 2024 23:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717569762; x=1718174562; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=grRNp05oLFWhezf7QgYMw8XkIU4cM4fQ2NG1fmF5jsk=;
+        b=Y8/P4KGVtbWx4s4YvJQvOaJoICi9Db2Imnfbmk0U1nVmgGn8P3biu6FAnUHu8aJP09
+         0SmZv7Uz+83BE3/Wy6o/bp+PpnBPyoQfdk2rjfh1F5c4hgJ1dsjWQPO/j6BaNtnfUUFC
+         QJG8pr77mWV7jH/Z4OUOjaS8DZnHBNwSpEgwQC+dod6zzHmCgA4AFdHqjYEZsYlJlX+S
+         /1ZisFxmcYIiHESk3Zjvj+YQYdzdPvBzMPd8Hox3GEN8njAxCgaQKHaPPJ42Ms1F/9yO
+         nH31Mk3W72p1H8OiWGNmyIu+74Fq07Do5WSwMAouIjmI/LFgqM2uhPhy2sVy1i9gQCmP
+         GfEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717569762; x=1718174562;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=grRNp05oLFWhezf7QgYMw8XkIU4cM4fQ2NG1fmF5jsk=;
+        b=eL//sYxHYPiYfNHDnsyPlTsh4FgtBAFtjU7n1gCS/65/G6xay3pT6wJ1enZwQ5/RSR
+         a34sUbwHvWDKqcdY8DKYUAcPeLvQmTt7JOLtiPA1COA2QWhKTzkxYwu7kYYfGOpmHgFS
+         1/PL3S4xcuYwqSNE5cYy8QO/FrOaNSc+p/vd16AqmUSIOkJ50joGJBFtYtjrNLBIo65Y
+         NatQ0vbxEY6LThBQ/JIFOWo0VjQAlHXFZsEDedH8NCgBZNlWc8/OhaaGLwDHL6qLWjPn
+         ogWuYlzLk/ZYbLAiQGSvZpA4r7oS9EazTSHtWnjiuItJS0eX1MG621dClirIZLRm533v
+         n0iw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBj61jeFNNRBQvU3WNkOKZ2H/yfiUWu62TnZx8qSmYJXaUwrUQQ5XcVP2rCezC0ILtmqS8oApZ/TkGzp5PBJxUMK3RXqsxCQ99D2O32G9w
+X-Gm-Message-State: AOJu0YypgMYk7Frby3+6+rMSLpWbyj+r18pvrzz276tL4XiO6yK0cSwS
+	WWN9yLFpEPuecJ2QbRcOsnq+kj9Y/THQFOL4lGAW3zRzy2ykKQByL8DhMZilKAI=
+X-Google-Smtp-Source: AGHT+IFeSFqEO8jlYyFODK62e1pjD85a1DByFYxYoACffmxa6COIzdf4Lydp+D3QMO2CRBL3Wiv3iw==
+X-Received: by 2002:a05:6a00:21d0:b0:6ec:faff:ec1f with SMTP id d2e1a72fcca58-703e597a6fdmr1666841b3a.11.1717569762339;
+        Tue, 04 Jun 2024 23:42:42 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70266890d94sm4754837b3a.96.2024.06.04.23.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 23:42:42 -0700 (PDT)
+Message-ID: <666008e2.050a0220.25e9e3.d18d@mx.google.com>
+Date: Tue, 04 Jun 2024 23:42:42 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.10-rc1-8-g106d673982336
+X-Kernelci-Report-Type: build
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.10-rc1-8-g106d673982336)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Add a new quirk "CROS_EC_LPC_QUIRK_AML_MUTEX" which provides the name
-of an AML mutex to protect MEC memory access.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
+-8-g106d673982336)
 
-Signed-off-by: Ben Walsh <ben@jubnut.com>
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.10-rc1-8-g106d673982336/
+
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.10-rc1-8-g106d673982336
+Git Commit: 106d6739823369c734a8fc3b13634274eee4f60e
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
 ---
- drivers/platform/chrome/cros_ec_lpc.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index fa6606da802a..5d9cc8df208b 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -44,6 +44,11 @@ static bool cros_ec_lpc_acpi_device_found;
-  * the ACPI device.
-  */
- #define CROS_EC_LPC_QUIRK_ACPI_ID                   BIT(1)
-+/*
-+ * Indicates that lpc_driver_data.quirk_aml_mutex_name should be used
-+ * to find an AML mutex to protect access to Microchip EC.
-+ */
-+#define CROS_EC_LPC_QUIRK_AML_MUTEX                 BIT(2)
- 
- /**
-  * struct lpc_driver_data - driver data attached to a DMI device ID to indicate
-@@ -52,11 +57,14 @@ static bool cros_ec_lpc_acpi_device_found;
-  * @quirk_mmio_memory_base: The first I/O port addressing EC mapped memory (used
-  *                          when quirk ...REMAP_MEMORY is set.)
-  * @quirk_acpi_id: An ACPI HID to be used to find the ACPI device.
-+ * @quirk_aml_mutex_name: The name of an AML mutex to be used to protect access
-+ *                        to Microchip EC.
-  */
- struct lpc_driver_data {
- 	u32 quirks;
- 	u16 quirk_mmio_memory_base;
- 	const char *quirk_acpi_id;
-+	const char *quirk_aml_mutex_name;
- };
- 
- /**
-@@ -482,6 +490,17 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 			}
- 			ACPI_COMPANION_SET(dev, adev);
- 		}
-+
-+		if (quirks & CROS_EC_LPC_QUIRK_AML_MUTEX) {
-+			const char *name
-+				= driver_data->quirk_aml_mutex_name;
-+			ret = cros_ec_lpc_mec_acpi_mutex(ACPI_COMPANION(dev), name);
-+			if (ret) {
-+				dev_err(dev, "failed to get AML mutex '%s'", name);
-+				return ret;
-+			}
-+			dev_info(dev, "got AML mutex '%s'", name);
-+		}
- 	}
- 
- 	/*
--- 
-2.45.1
-
+For more info write to <info@kernelci.org>

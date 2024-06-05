@@ -1,333 +1,88 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761B018F2E4
-	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 08:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A6A192B7A
+	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 09:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717575057; cv=none; b=rY/kTHpJtGrHm2rKjzgP607giA0NCGiTKP54JWVEivyLCz2i+guTVSt2GYQjsmfje6I8LO++2aKlMZGkG3BUHgl6lFiI5PRX9bIX6I6SMmOfRvvWiZNR4A0c4hu3LGKlbCSOPN8y0/qSAqJgqEy+zDoxL98TGPwXee2Qa5HHFfI=
+	t=1717580043; cv=none; b=CJcNCJYDrmllfHL6tSwynrr6igXjwN2XPlK6baLoDMGPmc9ChwFLXgNukED3LfJgFN48RirRAhPm0PNmMDBwilasccT6NCDfx3TrahBTE+juASyRn7Mx4UyoTgQFT8vZs2/p0a6T1hJvybpmLyvl09WS1/iWbOdfmFzKxajP4Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717575057; c=relaxed/simple;
-	bh=JrKZgcbiZSMuAJhAj6wbDbnzFmkKY2QOmp7iSW+T39U=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=Ogrk0cVRHSTClMkl88eDwfZf5nsJ2gDweRsjnpFvuhzpjwHUDl/7AezRZuNjGiYJlQ5NYHZl0JtHewdF/+ZLka6V88j6vCTrbbkH6LM3XCB88w6KOih3K9oVeJGSL0BylmEDOKnYeX6IvowHUeYNCwYwR1PsW8+Wp9fCnicmuWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=iNxS9DWb; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1717580043; c=relaxed/simple;
+	bh=o3s3eeCGuDiHinRfMmQ6kt6dHWRjaZ0xd0fUvfgcYWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0PnWgXPunl/HgRREFkcS5qRlLfO3I5qfIgQV7sZ1cGx3oOTEOzx1x9bJJE3Lm3d3dN1oWu7P9I0QMZgSeYGiz8uQGlOMSC1wgRPB52k8FOuZLX4L40K9xKxEQZQVIbLLYvHEsyn11fPf3JQqLKQLCbVIoHn29TxYg5qqg63KWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=VKIh4okJ; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="iNxS9DWb"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-681953ad4f2so4896692a12.2
-        for <chrome-platform@lists.linux.dev>; Wed, 05 Jun 2024 01:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717575055; x=1718179855; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=65Qwcdyw6BNbdlkMhgNJrkp18jfhJhQxGNUmi5TFic8=;
-        b=iNxS9DWb+ofGrjzDeHMKLZdE5l+JCwXfSIIIDVEuFb15+qrzJDzehOukAi4N3tSZGM
-         Exsaj6iAoAQN4tswuavWQJGbEYUIzj6QZZXB8N7DK3Lyn1TazpQUmC4FsfWxRQTOPNir
-         i2QMj5Rf0bxBOj8UMfuOI694R+JQU2PRModfC284b4sPYrqN7Cjbpi40gobdkLU+DEFg
-         lj+H0AUXroPYsOzJK6ZNmL2d5dLlqqFlIakpKnjg3pLyYYsw0sPKf1VTBhSzGx9RL8QO
-         G5QY0JhPgLDYMyZz1pX20cmorThWefDYwAFR8ZEjhrF4exlaKi2xeuLRftZhNQDNGxsZ
-         aCsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717575055; x=1718179855;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=65Qwcdyw6BNbdlkMhgNJrkp18jfhJhQxGNUmi5TFic8=;
-        b=RMfdGdAphXj9EP7r7Fw5J/0s38UeSASa6wMS9dS1IzlBLQbnNB7yQUoTE46e+N3nWA
-         4oHTl9tM0zEVOKiHdS8cx1vQHgOUmIFTOWX4naTmu7HYeFdC2OHpg2RqnsWLu5MXFk3P
-         q32HP/9p0z4byBxUE/XPzoGFOqvpVZDr9Bmjo+ZQk3lmWwt4ERRLQEa+DZiZUZfd75Nw
-         AYKs/rfEZMARE8jcRtkzhNuMhQTiTkzDEYyZRhO34BtksYp6NthLTwMT7Ku9FUvQ84Sr
-         nHMcRzdWr/Dy332uRRYR+y3xuEVZscWTbqJDMbXVFbTMafW5ArMXvh5p4RUyJW7XpgjM
-         TfLw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Qbiw3n7wPs4GCEP+M/1BGabD2cR5p+44+XDBAHMHbQzjU/2T3AWCxA4SnpdJYjB9LT8y+ToZQkHOvSbuVZ0u86MRa15hxOnEewEJ0VFV
-X-Gm-Message-State: AOJu0Yz6ojxLedCOAQ0VHjwYwvpt9PhQA9iWwcveCxe68d+BXw+qXqoC
-	REG15IuBKdLGd4APNzgH0+V2E1LE0EhjrMghkZYDS+MIx8pqKCzObOkddNeuuq8=
-X-Google-Smtp-Source: AGHT+IENbNjiRkYATDc9ndO8yERP/AkkqXIvK9D/9Pf7FLtgkzIkEtsLVXS5F4OYnRagiH4U/YN4Xw==
-X-Received: by 2002:a17:90b:128e:b0:2c2:8d2c:8292 with SMTP id 98e67ed59e1d1-2c28d2c8317mr154532a91.48.1717575054486;
-        Wed, 05 Jun 2024 01:10:54 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c254a76729sm3220594a91.0.2024.06.05.01.10.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 01:10:54 -0700 (PDT)
-Message-ID: <66601d8e.170a0220.33ae9c.85c4@mx.google.com>
-Date: Wed, 05 Jun 2024 01:10:54 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="VKIh4okJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1717580039;
+	bh=o3s3eeCGuDiHinRfMmQ6kt6dHWRjaZ0xd0fUvfgcYWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VKIh4okJIDtWmWBa7iTGOvpbQKYWknJRrrEAEZ1ZPvZ8/fUCJiClTbmuRqQV2xWlD
+	 fClu3im9eqq4vN0HSAl9XCTAaUBg4Mj/B6QLlyI0uu+WOZ8NfJUzHDt4ToePa4VEsu
+	 uGq9TycDfo/HLCuKTnPFbZsfBAUcNM2KImuxDrmo=
+Date: Wed, 5 Jun 2024 11:33:58 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Dustin Howett <dustin@howett.net>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Mario Limonciello <mario.limonciello@amd.com>, Stephen Horvath <s.horvath@outlook.com.au>, 
+	Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: Re: [PATCH v2 0/3] ChromeOS Embedded Controller charge control driver
+Message-ID: <a527a3fd-1458-43cc-aac0-0b360beeb349@t-8ch.de>
+References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
+ <CA+BfgNJByawxkZukaCXYcmOo_K9aQ0W1x8B6Y+Hyg_fZaJ4axw@mail.gmail.com>
+ <5baf3caf-dc09-4829-96db-2666fc902710@t-8ch.de>
+ <CA+BfgN+LE3YyF3te4m8sWbtH85tU+ERUDW7YR_BFecusVTAWWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.10-rc1-8-g106d673982336
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci cros-ec: 11 runs,
- 6 regressions (v6.10-rc1-8-g106d673982336)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
-
-chrome-platform/for-kernelci cros-ec: 11 runs, 6 regressions (v6.10-rc1-8-g=
-106d673982336)
-
-Regressions Summary
--------------------
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
-
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-mt8192-asurada-spherion-r0   | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.10-rc1-8-g106d673982336/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.10-rc1-8-g106d673982336
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      106d6739823369c734a8fc3b13634274eee4f60e
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66600925fc8e097ccc7e706f
-
-  Results:     2 PASS, 1 FAIL, 13 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_chardev: https://kernelci.org/test/case/id/6660092=
-5fc8e097ccc7e707d
-        failing since 2 days (last pass: v6.10-rc1-6-ge8665a1723789, first =
-fail: v6.10-rc1-6-gbc3e45258096f)
-
-    2024-06-05T06:48:26.317936  test_cros_ec_chardev (cros.tests.cros_ec_mc=
-u.TestCrosECMCU.test_cros_ec_chardev)
-
-    2024-06-05T06:48:26.324756  Checks the main Embedded controller charact=
-er device. ... FAIL
-
-    2024-06-05T06:48:26.324863  =
-
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66600a5bd0f7d84cb97e708b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66600a5bd0f7d84cb97e70=
-8c
-        new failure (last pass: v6.10-rc1-6-gbc3e45258096f) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-mt8192-asurada-spherion-r0   | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66600a190c11723eb37e7085
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8192-asurada-spherion-r0.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-mt8192-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66600a190c11723eb37e70=
-86
-        failing since 2 days (last pass: v6.10-rc1-6-ge8665a1723789, first =
-fail: v6.10-rc1-6-gbc3e45258096f) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/666009ea82e16435e17e7075
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/666009ea82e16435e17e70=
-76
-        new failure (last pass: v6.10-rc1-6-gbc3e45258096f) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66600989955744b9637e706f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-kingoftown.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-kingoftown.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66600989955744b9637e70=
-70
-        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
-fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66600afb57a062ca2d7e707d
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-lazor-limozeen.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-8-g106d673982336/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66600afb57a062ca2d7e70=
-7e
-        failing since 6 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
-fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =20
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+BfgN+LE3YyF3te4m8sWbtH85tU+ERUDW7YR_BFecusVTAWWw@mail.gmail.com>
+
+On 2024-06-04 20:27:57+0000, Dustin Howett wrote:
+> On Mon, Jun 3, 2024 at 3:59 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> >
+> > Can you try disabling all of the Framework-specific charge control
+> > settings and test again?
+> > Probably the different, disparate logics in the Framework ECs are
+> > conflicting with each other.
+> 
+> Fascinating! This board does indeed support charge limiting through
+> both interfaces. It looks like the most recently set one wins for a
+> time.
+
+If it is the most recent one, shouldn't the driver have worked?
+What does "for a time" mean?
+I'm using only the upstream EC command and that seems to work fine.
+
+> The UEFI setup utility only sets the framework-specific charge limit value.
+> 
+> We should probably find some way to converge them, for all of the
+> supported Framework Laptop programs.
+
+In the long term, Framework should align their implementation with
+upstream CrOS EC and either drop their custom command or make it a thin
+wrapper around the normal the upstream command.
+
+(As you are familiar with EC programming maybe you want to tackle this?)
+
+Until then I think we can detect at probe-time if the Framework APIs are
+available and use them to disable the Framework-specific mechanism.
+Then the CrOS EC commands should be usable.
+
+The drawback is, that userspace using the Framework APIs will break
+the driver. That userspace would need to migrate to the standard UAPI.
+
+Also the settings set in the firmware would be ignored at that point.
+
+I don't want to use the functionality of the Framework command because
+it's less featureful and I really hope it will go away at some point.

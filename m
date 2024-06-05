@@ -1,64 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0E4184E;
-	Wed,  5 Jun 2024 02:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CAE190460
+	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 06:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717555421; cv=none; b=hbyAz3mdqJ4unVygAb2fvddKLx77phHOT+CV+6tzO7JCFGcXFLmJIis9J7ImxGJezzG92QY/EpZ1FXUzrS2iWYc5rLhS8AHNx2VJuGBPzViYM5LziEopUJ+CMhS67ZzCI+0b1dRXW/k1XvChdgrDQkZ67E8Fn7QNN3DmF9FXA54=
+	t=1717569249; cv=none; b=KE+y7vkImNIwjdXrRYJMQ7gHn1Nop9ZpzvS9fDhLRbtkmyTInlT0b1I2RZVss2v2sZA8ZglGhH5sZcpbq8t6jrlHnUh6fuHdpuJVmceE8xKwWVzoCN6j3RkYU8pERSMIju1gxxpnBEU5c8FLVCosscqTLs1EFjzrGcl6VdL+l2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717555421; c=relaxed/simple;
-	bh=s1xG9VyBsAWZB8EftOt/RZNgSlV2dMJAzrcx2jd1Mu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CyZkBkaKs0VPeyhipdruC2yombJlI5BKy0vchcivCHB4ijmVhLORaQkUB1eD0JHOHX+fvBtwruNK5vyrkD7WKjZjcf/GH91i4wGaYjVGvTzJl1XQPCTkinHrv8QzCuR7N5vUPhu8OC+rWdB/uYoxcy5rl47SyFgK7fo6rcpGEYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ifI7cUBW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717569249; c=relaxed/simple;
+	bh=tUUAkLB1ldbb94XGaAXSSM0b1Tewctk5QUL4xNv1O6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MM67XCssgWLvmEVfK9BEbwo9yDpzAF6y1WviflLX3nq4Wk3Xi8HhHfXETeFLWVqFvoSH2ulYk/HIEAFboZGrRlPmWo19vRRlXmKLecl+++3L1nDqjmiFnIQDRueGhDI/wEXcSDRJ7KymrbBAozI3Sdl5OWbuzXasU7Yqp7WFqLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=vz5v9NNo; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ifI7cUBW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF4FC2BBFC;
-	Wed,  5 Jun 2024 02:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717555420;
-	bh=s1xG9VyBsAWZB8EftOt/RZNgSlV2dMJAzrcx2jd1Mu4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ifI7cUBWyIMdju/27Qxq3NuXNYMOS/6Mvw9RGFG4lQgBSPt4xExt6FSY2e0kbQc4e
-	 r1cqDBp7MGvKXh+oXKB0T61nf6GB0YED5a95096XRNa0SoklD6vtYimrtxHE0GAv7m
-	 MWYodJLVG1wDLvnLGP88qrV9ekYk5p+x+xNddex81ghI7pmkPer17ohD2HmziEH/jB
-	 emypOBEEuSTYlERFyapvqpX9+4AEUi3hPBPC5MThkCXZwFm+I+C7wRczHcTSajUWJo
-	 UOpHX32sJlrtqef95fd2iQWhZCX3AGfsfUozVYdGdl3V05Lh4ZWCC3n9fKDan/Y81e
-	 N8Vjp0OiW1Mew==
-Date: Wed, 5 Jun 2024 02:43:36 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Reka Norman <rekanorman@chromium.org>,
-	Tzung-Bi Shih <tzungbi@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@google.com>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Ching-Kang Yen <chingkang@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>, chrome-platform@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="vz5v9NNo"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4VvHjl1tgSz9spS;
+	Wed,  5 Jun 2024 08:34:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
+	t=1717569243;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=X1WFnK/LBUaFpbEctwhiFjqVA+SMpCU6sdqC32kEpzA=;
+	b=vz5v9NNoiZCRaUFcMDdhhnUVxHBwZPBHCrlArSty3faBbrXoUJqELP/qpUe+hfRH0zHZ5q
+	ktZu4kSg88K4Lhv4nWUDcz+t4y2GdIkFH3GgxPhOdR5tjWXCuxAyghTYqQwiRHJ83/4hFc
+	gCiCvGvyI4V3FJ5mPAqU+te2DxLeLadef7inpQ2wxivEhXEJNPIKSHCIotCT/dUoL+074/
+	lK94SaSpHmUagxbInGOhWiXTZkJizDQD9ylSwuxgOQmNepL9sV9+UTGeGH9RKTurkn28ov
+	J1PYO+7J4p8dXNdi4R4pFd8ePegMoKL3qTq1uHaE2IzTIKOPP6U7BVii+0vZXw==
+From: Ben Walsh <ben@jubnut.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"Dustin L. Howett" <dustin@howett.net>,
+	Kieran Levin <ktl@frame.work>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] platform/chrome: Add struct
- ec_response_get_next_event_v3
-Message-ID: <Zl_Q2OrzKlN2mI80@google.com>
-References: <20240604005354.2294468-1-dnojiri@chromium.org>
- <20240604170552.2517189-1-dnojiri@chromium.org>
+Cc: Ben Walsh <ben@jubnut.com>
+Subject: [PATCH v3 0/5] platform/chrome: Fix MEC concurrency problems for Framework Laptop
+Date: Wed,  5 Jun 2024 07:33:46 +0100
+Message-ID: <20240605063351.14836-1-ben@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240604170552.2517189-1-dnojiri@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 04, 2024 at 10:01:48AM -0700, Daisuke Nojiri wrote:
-> Add struct ec_response_get_next_event_v3 to upgrade
-> EC_CMD_GET_NEXT_EVENT to version 3.
+Framework Laptops with the Microchip EC have a problem where the EC
+"stops working" after a while. Symptoms include the Fn key not
+working, and "bad packet checksum" errors appearing in the system log.
 
-Something wrong: it should provide a cover letter for the series and also it
-should be v2...
+The problem is caused by ACPI code which accesses the Microchip EC
+(MEC) memory using the Microchip EMI protocol. It uses an AML mutex to
+prevent concurrent access. But the cros_ec_lpc driver is not aware of
+this mutex. The ACPI code and LPC driver both attempt to talk to the
+EC at the same time, messing up communication with the EC.
 
-Anyway, the patches are clear to me.  Applied.
+The solution is to have the cros_ec_lpc_mec code find and use the AML
+mutex. But to make it all work we have to do a few more things:
+
+  * Allow the cros_ec_lpc_mec code to return error codes in case it
+    can't lock the mutex.
+
+  * Have the cros_ec_lpc code find the correct ACPI device (PNP0C09)
+    and then the AML mutex itself.
+
+  * Use the quirks mechanism to specify the AML mutex name.
+
+Tested-on: link, hx20, azalea
+Tested-by: Dustin L. Howett <dustin@howett.net>
+
+Changes in v3:
+
+  * Use ACPI_COMPANION instead of adev variable.
+  * Stricter error checking in probe.
+  * Remove a few blank lines.
+  * Rebase to latest ChromeOS for-next branch.
+
+Changes in v2:
+
+  * Put ACPI id in a quirk, not the acpi_match_table.
+  * Add return code check for mutex unlock.
+  * Remove "in_range" check which belongs in a separate patch.
+  * Use "ret" not "sum" variable (same value but clearer).
+  * Remove excessive error logging.
+  * Rebase to latest ChromeOS for-next branch.
+
+Ben Walsh (5):
+  platform/chrome: cros_ec_lpc: MEC access can return error code
+  platform/chrome: cros_ec_lpc: MEC access can use an AML mutex
+  platform/chrome: cros_ec_lpc: Add a new quirk for ACPI id
+  platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
+  platform/chrome: cros_ec_lpc: Add quirks for Framework Laptop
+
+ drivers/platform/chrome/cros_ec_lpc.c      | 206 +++++++++++++++------
+ drivers/platform/chrome/cros_ec_lpc_mec.c  |  85 ++++++++-
+ drivers/platform/chrome/cros_ec_lpc_mec.h  |  18 +-
+ drivers/platform/chrome/wilco_ec/mailbox.c |  22 ++-
+ 4 files changed, 261 insertions(+), 70 deletions(-)
+
+
+base-commit: 106d6739823369c734a8fc3b13634274eee4f60e
+-- 
+2.45.1
+

@@ -1,121 +1,132 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D634503A
-	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 06:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690A617BD5
+	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 06:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717653856; cv=none; b=kC4ut4yAXknuXoHD3lIa66fAm0uFiFa+lCwi55yF/1nKeIE/H4PxuJt8NKi2+U7QZBI+y7nG1HwwdRRacuteZrjuVuwsednI2aDf5WKmWdqjol7tztwyEgDqmS3k05+N+tCIDHq9YkSj862OYcX7l9FYZG+dx9N4RZuMKUpSF6k=
+	t=1717655156; cv=none; b=uUl5Aoemt+xfkajQtvFKjMlrLc3/kyDBW9x1CU9IWTZLUxWx4UTYhHcptTcshLHa5djoHapv/rleQbPrriz5Pga71NC5Dd7woYdBsEwTm51gf6nAOG1qlBeb4LpMb79Jf7SmsVBC8by1HCz0PuIHxGgL8RtPET8Cv6krxEQ0Qag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717653856; c=relaxed/simple;
-	bh=4+8RgLUhCXXf4MbzJUdAbB+MEavuaRc1KV0XuVVugow=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=lByG4uAS5+Dsb/aSN0UdbVnrER6ACqeYzIr4ehxCj+f6Z1QvvRGeawfiWJVPv4FNNYP4z4qRKco2q/kzByovo/8DdEWXY/XU+3tiRet/gdmGBO13wa8gsW5PytuAN8YSh6sgOeL+1KEFVA1e4vmE7h7XP0U9ECUEWIY31qJngCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=t00w0XYv; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1717655156; c=relaxed/simple;
+	bh=Wfeg8GAi9GwSyPrICtL0MY874pcQ+nuX+//SQF4Q63U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R+aSEPRVkltBXQe7RYZWPI4074npWMZWrH+YrbR5eRcFnVIiaLEt4BCRsFkttawp4PcNfAcZ/sI3nVRYmNbB0WDKFQi9hCpTvLF4kIMUbE6/agC6nywhGY6iBQHt7sFKTdrIZL399M1NrQJae5ZdPGHKqJkF0xCbt+eZreHk9qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ap+aB7M7; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="t00w0XYv"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-702492172e3so507802b3a.0
-        for <chrome-platform@lists.linux.dev>; Wed, 05 Jun 2024 23:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717653853; x=1718258653; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=4+8RgLUhCXXf4MbzJUdAbB+MEavuaRc1KV0XuVVugow=;
-        b=t00w0XYvTzbuCHr2COfVO5PQOCKohN+3A8FugqVU/I2f09iQPTRWUrDR8qlJqZcz1R
-         oBHium52G10O8mqxT3vqTp4CKJuThqc8A9wnnCpWtcrAMRjVixiLnzOMlrh/2rFvzFRw
-         wdUMVnhSV2w7m05hBXalV9CF1gJN7kjlqkRN61hQ4SIcFe5pw7TrRsmlaB5EVifIpv1B
-         KbhBZYAQo/3cgEqV0irBh5uJuRAGZcIGzmsYuLVNKQmTR3OQt/9optKMbC04AO9J/Y/b
-         +3JCjzVqSUyeMMfhvawUTXWIVhR6zYUKdLAekqd8LyIUympqvMSE/dgSN/rWwkEVr33R
-         djQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717653853; x=1718258653;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4+8RgLUhCXXf4MbzJUdAbB+MEavuaRc1KV0XuVVugow=;
-        b=H5u41zW4WfKm3sbmGBoFDaOfnNTa0xhWg38w0pPmlA8cVZXfk2U4Kk3CXGFOsgKA1W
-         F0VFvpF5xZlUMu/F/hRfJ9JRDNdtdHaIwlICTRqXzf+KADmqia8DG/w9h5NKuM9AKOM6
-         Oy1ZilDvYZGWXkXZ7WxrDZ/tvhP9VR9rceWtT2s+cK8Ol4+x4wstZE9jUs8qSwKQI36z
-         Plkg8vifeWrYkeXoq0aynHoIMo3/jy6Q5qDljSRHKpf2R75AYiJnFR1Ca1mLRJ4eigOG
-         ncnlwnQnRRIllp5F+b/5+xvuTx/5bwRLsZwgju2jI1ErQGBFAIyzYb0tivLkgrdNHxZv
-         jP8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWwsqJ1p1KSDzlcgp4GBTsZ/Vzi/q5ffu87NGy7OjTWMArkhGXx55HaYckXmrIg/HPZstxoBLIBAVsYmPL/9w3xkJhf/XTP9wM9kec9f0lh
-X-Gm-Message-State: AOJu0YzRWwh7C1iIIPgcOeqL5/hTXOJxAObnP9G1KLaZ2UUiPnsVwo0e
-	S1nIHQ4n7eqF3djKtUxcntOMFScsJPYOr+IMvduUC/K2Fqq+AyA+Cgw/3DdzGdU=
-X-Google-Smtp-Source: AGHT+IGsQbb20GJ3Sq6ibk7sqexypBN46toIY8xBRDknybRxiGKSopStuRZgGsOHPnS0TpVEGF+p8Q==
-X-Received: by 2002:a05:6a20:7291:b0:1af:a5b1:2907 with SMTP id adf61e73a8af0-1b2b6e7c965mr5684835637.3.1717653853312;
-        Wed, 05 Jun 2024 23:04:13 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c29c2405a8sm663122a91.30.2024.06.05.23.04.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 23:04:13 -0700 (PDT)
-Message-ID: <6661515d.170a0220.20cfff.1ea0@mx.google.com>
-Date: Wed, 05 Jun 2024 23:04:13 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ap+aB7M7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1717655145;
+	bh=Wfeg8GAi9GwSyPrICtL0MY874pcQ+nuX+//SQF4Q63U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ap+aB7M7eNNAVWFNB2wesEkU4e+ielGbEoJAtWC2AXSaK71bYdLmrZz2sBOxDf+oy
+	 gPIdX+GOTSLEqMs4oG9uMHcRo2QJP9Zy1aPaPP12FbdZFFgKY+JOUm7Td/j/o1t+lr
+	 IoQOALg1kOo23Xw3657kI//xdH6vkp8ZqcrygMyA=
+Date: Thu, 6 Jun 2024 08:25:45 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Mario Limonciello <mario.limonciello@amd.com>, 
+	Matt Hartley <matt.hartley@gmail.com>
+Cc: Dustin Howett <dustin@howett.net>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephen Horvath <s.horvath@outlook.com.au>, Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: Re: [PATCH v2 0/3] ChromeOS Embedded Controller charge control driver
+Message-ID: <ed6e5fd4-2be1-4a72-8041-5087ebc93203@t-8ch.de>
+References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
+ <CA+BfgNJByawxkZukaCXYcmOo_K9aQ0W1x8B6Y+Hyg_fZaJ4axw@mail.gmail.com>
+ <5baf3caf-dc09-4829-96db-2666fc902710@t-8ch.de>
+ <CA+BfgN+LE3YyF3te4m8sWbtH85tU+ERUDW7YR_BFecusVTAWWw@mail.gmail.com>
+ <a527a3fd-1458-43cc-aac0-0b360beeb349@t-8ch.de>
+ <db20a640-5323-4866-9968-c57391fbb6bc@amd.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.10-rc1-13-g04ca0a51f1e6
-X-Kernelci-Report-Type: build
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
- 5 passed (v6.10-rc1-13-g04ca0a51f1e6)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <db20a640-5323-4866-9968-c57391fbb6bc@amd.com>
 
-chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
--13-g04ca0a51f1e6)
++Matt, the Linux support lead for Framework.
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
-ernelci/kernel/v6.10-rc1-13-g04ca0a51f1e6/
+Hi Matt,
 
-Tree: chrome-platform
-Branch: for-kernelci
-Git Describe: v6.10-rc1-13-g04ca0a51f1e6
-Git Commit: 04ca0a51f1e63bd553fd4af8e9af0fe094fa4f0a
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+below we are discussing on how to implement charge controls for ChromeOS
+EC devices including Framework laptops in mainline Linux.
+Some feedback would be great.
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+On 2024-06-05 15:32:33+0000, Mario Limonciello wrote:
+> On 6/5/2024 04:33, Thomas Weißschuh wrote:
+> > On 2024-06-04 20:27:57+0000, Dustin Howett wrote:
+> > > On Mon, Jun 3, 2024 at 3:59 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > > > 
+> > > > Can you try disabling all of the Framework-specific charge control
+> > > > settings and test again?
+> > > > Probably the different, disparate logics in the Framework ECs are
+> > > > conflicting with each other.
+> > > 
+> > > Fascinating! This board does indeed support charge limiting through
+> > > both interfaces. It looks like the most recently set one wins for a
+> > > time.
+> > 
+> > If it is the most recent one, shouldn't the driver have worked?
+> > What does "for a time" mean?
+> > I'm using only the upstream EC command and that seems to work fine.
+> > 
+> > > The UEFI setup utility only sets the framework-specific charge limit value.
+> > > 
+> > > We should probably find some way to converge them, for all of the
+> > > supported Framework Laptop programs.
+> > 
+> > In the long term, Framework should align their implementation with
+> > upstream CrOS EC and either drop their custom command or make it a thin
+> > wrapper around the normal the upstream command.
+> > 
+> > (As you are familiar with EC programming maybe you want to tackle this?)
+> > 
+> > Until then I think we can detect at probe-time if the Framework APIs are
+> > available and use them to disable the Framework-specific mechanism.
+> > Then the CrOS EC commands should be usable.
+> > 
+> > The drawback is, that userspace using the Framework APIs will break
+> > the driver. That userspace would need to migrate to the standard UAPI.
+> 
+> How does userspace access the Framework APIs?  Surely it needs to go through
+> the kernel?  Could you "filter" the userspace calls to block them?
+> 
+> For example this is something that currently happens in the dell-pc driver
+> to block userspace from doing thermal calls and instead guide people to the
+> proper API that the driver exports.
 
-Detailed per-defconfig build reports:
+This would work when userspace uses /dev/cros_ec.
+But the EC can also used via raw port IO which wouldn't be covered.
+Given that /dev/cros_ec wasn't usable on Framework AMD until v6.9 it's
+not unlikely users are using that.
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+And technically both aproaches would break userspace.
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
-ings, 0 section mismatches
+Another aproach would be to not load the module on Framework devices
+which implement their custom command (overwritable by module parameter).
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+Framework unifies the implementation of their command with the core
+CrOS EC logic so both commands work on the same data.
+The custom command is adapted to also implement a new command version.
+This is completely transparent as the old version will continue to work.
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
+We update the Linux driver to recognize that new command version, know
+that they are now compatible and probe the driver.
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
+Newer devices could also drop the custom command and the driver would
+start working.
 
----
-For more info write to <info@kernelci.org>
+This scheme requires some cooperation from Framework, though.
+
+> > 
+> > Also the settings set in the firmware would be ignored at that point.
+> > 
+> > I don't want to use the functionality of the Framework command because
+> > it's less featureful and I really hope it will go away at some point.
+> 

@@ -1,119 +1,282 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C0482D98;
-	Thu,  6 Jun 2024 06:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AF6446A2
+	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 06:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717655227; cv=none; b=eQYt5B5qZ91b1Rwbcd3qHGTK8xwK0+Ee3rHrPn7s+kE3FaO9B2CKPEj05PjHSgIKGeWk4ZFIgESiPfeVQM7gcS5WrhVdf9qGRtKbRkW8ez0cFNR5jzWzfaDqbKbch07GhnI7Av9/81fOQrHe90OXol8Yb7PWhFg2fSuhA1p4Oi4=
+	t=1717656450; cv=none; b=Bv422+L3fvOa8nbpCXmRRNeREgVMGM+W2X5m4+UkntFG2jE45zWXQYX4XX7GsH9B4h3/FspBo6QZ5ZFsRTgyZ1I68Zc6t9CVUJEvV4Uvi1gc7HVpGWDWsef6hNuY9SD9WjQ1hXAD30M0h/zfZGVsk6H4gkbp7ndnJLOzo1GStOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717655227; c=relaxed/simple;
-	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nmT/Q/Bua2djclIE27cXlWjKicfLYyld2AKQzgRnxAhKSIPMCzIpDfaLGdSRhmGAiiDIbI9+kVp2NlccFrSiC+TbMrfw3/BLPaAEWYL1tJWLGFk0gPak/dogqCGUi5n1XoSfA1pQ4zlwTJLLdwcH9c4fGvufygMXC5gKiC5HbAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ByycvQeZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717656450; c=relaxed/simple;
+	bh=3F4aAmaxp2m1dHXWgXMxKoekzeAZXecmyQhngcCm5Io=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=Ze5fqDotSR/l15thfZ0nY6efNQ7an2s/SB89LNllwqqS2mhNLjCnpPVeo8k5dJ8zzeuVg1TvKOqviiFHawa4P3utxRxgBJl6zqvBfmA5uTOLazVvoVi/HrkP5tH2LVZ1Pdc01rfZD7Uey2RGOPYDz5hrUZhmsS03+nVqaZ57ISM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=djuBbWw2; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ByycvQeZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A4FC2BD10;
-	Thu,  6 Jun 2024 06:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717655226;
-	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ByycvQeZlZiDJ+/tf9b4ON7Ly6IuRxFeafc5Pgy9DK9k1ivk3bFENzrgPVum/GsR1
-	 KypDx3H/S21qSb+NVm0GWvE4c91R6e6bP9JnrCsDJqGfb98A3PMyNoioS9xBalM1Zf
-	 NINO6fjcAkrS+Qv9q30l77AgJvIPLIkc7XJ+dZf4NdmBCYxeRL+TNcTwi8qyNdr4HY
-	 N+/jGmeo1YS5fAgnnOodWYPgrpWhdFZF5EPnmrOzvkAcG1WC3ubl1g1ywfaMK2YHON
-	 cNdDSLC4OtMFf6HY7HV9sWUdpbxB6TXDWGgtq5qceJdUf3XDNzvMOzRnVQYsGpJ0sF
-	 9d+VdHFTtjMDw==
-Message-ID: <8a197b98-8a7b-4675-b175-6d8ddaeb072e@kernel.org>
-Date: Thu, 6 Jun 2024 08:27:00 +0200
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="djuBbWw2"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f62a628b4cso5937895ad.1
+        for <chrome-platform@lists.linux.dev>; Wed, 05 Jun 2024 23:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717656447; x=1718261247; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sNeHwc1O6p+9b3pbCNgTMfGY+Kgl5F9BLvaWLlW7sQM=;
+        b=djuBbWw2be5PHnfzST0LcU6L99x943SWBN9saqsJGidV2LEzoxAUH6B73W7HNjspqD
+         sQTRK6aoMC/M3EYx1rMX/hu1OdwwZSBi0fH+KJB4EgCb8mNYTGkcu7P7rBVcCwihLqGr
+         IlWzX3A+YasLFzA0QqgEXmw9dX9USWYX7pIwyiFKVjxRbAsZSTTijizy1QiPLeLm4tbv
+         Rh1gnxMxF6UhABUkQbVVvH8nReVKAr7t6Jsdc6vep4V44BLl6hXhouxNJZ6gOv38Iymr
+         P5dwT+ZeQcudL8M/eFRCXZCBAb41qeArGT9xoKCyrZ06rdjKmS3ocCUkWYhABKwyewWh
+         mayQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717656447; x=1718261247;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sNeHwc1O6p+9b3pbCNgTMfGY+Kgl5F9BLvaWLlW7sQM=;
+        b=PuYJ333D6eBfYMCnZQ9O4n7Yvw1QMVCyM2MI8UG8wiHFEwwz55MqkVI6qovyt3yfMh
+         zurL6AwQ0bW09YhjFSxBSR4UyXtodItWm238DeUdGBnKc+BaIninVrC8Komc5+3YJsve
+         tZE1Hs4KxPl0z1raZ8ltj3mgfFK5D+jysLg5vuxnoyOcIHRlsKhZGqH1NlbmuiTE4zfj
+         gdOIiM4Tpa5VQaH2BOv83sQV5NYR8w9XQloQdA4hGwgFOAFRYMHT/e5P60Szwyazfz6a
+         uAkw7XodQpQakzjbO2oKxp0rqe9y+b6xYYRfBpNjHadf/CURAgfb1IuugeEp+yILQh69
+         JCWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQoWEptBvzq/GBZj/DjTazBOX41AhS6LEfYJ4gApjxc8eUm55rQkJbv/JWJXnmA4RbvP78UN6JSXyzYYu7lV6M4I9RydijwS3QylAeUdhj
+X-Gm-Message-State: AOJu0Yy8fMrx6/RAqkOsc01cbqhjvhO8KZ0lE4MdhJ7iShuPgAYIkMhR
+	pXoDSTYg37V2MMTgpvwK6TWZUb69SQ+mr+RTc1JODe9xhGnwf0nGeum4T9CxJy8=
+X-Google-Smtp-Source: AGHT+IGVmZolOeuOrzLdtAoiUXIoaHzsen8Pk1bj3yhF0nRsriJ6eh1c8rJ/VkUWHNyWrGd+2ws0aQ==
+X-Received: by 2002:a17:903:3212:b0:1f6:7f8f:65b5 with SMTP id d9443c01a7336-1f6a5a73208mr42768105ad.56.1717656447553;
+        Wed, 05 Jun 2024 23:47:27 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd7edf88sm6622645ad.253.2024.06.05.23.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 23:47:27 -0700 (PDT)
+Message-ID: <66615b7f.170a0220.e1bd2.1a7e@mx.google.com>
+Date: Wed, 05 Jun 2024 23:47:27 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] dt-bindings: cros-ec-keyboard: Add keyboard matrix
- v3.0
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240604005354.2294468-1-dnojiri@chromium.org>
- <20240606010808.27069-1-dnojiri@chromium.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240606010808.27069-1-dnojiri@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.10-rc1-13-g04ca0a51f1e6
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci baseline: 90 runs,
+ 5 regressions (v6.10-rc1-13-g04ca0a51f1e6)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On 06/06/2024 03:08, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0.
+chrome-platform/for-kernelci baseline: 90 runs, 5 regressions (v6.10-rc1-13=
+-g04ca0a51f1e6)
 
-Not much improved.
+Regressions Summary
+-------------------
 
-> 
-> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+imx8mm-innocomm-wb15-evk     | arm64 | lab-pengutronix | gcc-10   | defconf=
+ig                  | 1          =
 
-This is a friendly reminder during the review process.
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie     | gcc-10   | defconf=
+ig                  | 1          =
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
+mt8195-cherry-tomato-r2      | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+sc7180-trogdor-kingoftown    | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
 
-Best regards,
-Krzysztof
+sc7180-trogdo...zor-limozeen | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
 
+
+  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
+ci/kernel/v6.10-rc1-13-g04ca0a51f1e6/plan/baseline/
+
+  Test:     baseline
+  Tree:     chrome-platform
+  Branch:   for-kernelci
+  Describe: v6.10-rc1-13-g04ca0a51f1e6
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/linux.git
+  SHA:      04ca0a51f1e63bd553fd4af8e9af0fe094fa4f0a =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+imx8mm-innocomm-wb15-evk     | arm64 | lab-pengutronix | gcc-10   | defconf=
+ig                  | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66614dd4f1b213b9b37e7085
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig/gcc-10/lab-pengutronix/baseline-i=
+mx8mm-innocomm-wb15-evk.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig/gcc-10/lab-pengutronix/baseline-i=
+mx8mm-innocomm-wb15-evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/66614dd4f1b213b9b37e7=
+086
+        new failure (last pass: v6.10-rc1-8-g106d673982336) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie     | gcc-10   | defconf=
+ig                  | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66614e3af982e7b4657e7073
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8m=
+p-verdin-nonwifi-dahlia.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8m=
+p-verdin-nonwifi-dahlia.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/66614e3af982e7b4657e7=
+074
+        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
+fail: v6.10-rc1-4-g7b44d5381e541) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+mt8195-cherry-tomato-r2      | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66614e49f982e7b4657e7083
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-mt8195-cherry-tomato-r2.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-mt8195-cherry-tomato-r2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/66614e49f982e7b4657e7=
+084
+        new failure (last pass: v6.10-rc1-8-g106d673982336) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+sc7180-trogdor-kingoftown    | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66614f0befffcdb4da7e70a3
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-sc7180-trogdor-kingoftown.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-sc7180-trogdor-kingoftown.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/66614f0befffcdb4da7e7=
+0a4
+        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
+fail: v6.10-rc1-4-g7b44d5381e541) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                  | regressions
+-----------------------------+-------+-----------------+----------+--------=
+--------------------+------------
+sc7180-trogdo...zor-limozeen | arm64 | lab-collabora   | gcc-10   | defconf=
+ig+arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66614f22b2aee051a27e7089
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-sc7180-trogdor-lazor-limozeen.txt
+  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
+6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
+bora/baseline-sc7180-trogdor-lazor-limozeen.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/66614f22b2aee051a27e7=
+08a
+        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
+fail: v6.10-rc1-4-g7b44d5381e541) =
+
+ =20

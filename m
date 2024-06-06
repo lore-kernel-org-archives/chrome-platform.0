@@ -1,82 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63CC13C;
-	Thu,  6 Jun 2024 03:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC671DFD1;
+	Thu,  6 Jun 2024 03:30:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717643581; cv=none; b=gt53KqrJb4mfPExkxFJYeW4UpEGocmJq1p6qYOiuSjkV8k5PE+maE6b0acd4DD25h3Ut9sk9sdAoMQ8WUSjMg7SUZWdCr9WTv9v1tFGRm3b2uYgYxkJizrlSXT6zPO7x8slenliME/g09HE8ZZJSrVHkMu+bdR7uMDlPCvIYAHE=
+	t=1717644638; cv=none; b=VOJSlnjDtca2lIVaIVCPWYKcFUfZpQkGrb4zIYAV6qVVRTKJYAZfYputS/PiGorh7HbPv8S/okZ16iZ/LClCYj17VTVhrTsBHbhnrjJ9ZxEwPQHTTiatxq8XrWu2UDyvTFZU77Ak1L/eGJcAqqhEvgOZ0/cw16tVuok4NDT7Dpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717643581; c=relaxed/simple;
-	bh=A6CHI3Qk5QNcWjNxDFXqY9sSiqdoBBmohvQrhSQuAAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GXibJxO1kTjh4LfPneTFf82iqVYAdtgEStjOCSzDFOdO/UMH0C7Oncywka3axusvypgAPO7vHw7wP/loK7ixHLkT21PAWULgkqZe5xLVE2Lmm1a0+ibqXhQ0iPcr9YtwDdx/3zlegBUJa6yZJaze9l1OfiorvTYkHiq80euP+QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gCEkjqvu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717644638; c=relaxed/simple;
+	bh=yKoMqYenKsDXJSAfLOHIldm2JIof0n4lktPheAOsA7M=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Plh2iAELHCF6G6qyNmdqxPU5+aA8ro5ZctjeV04huzu7KwQoZIWAT0Q6b0Y+Xz5GgYUKE9zINoyDuTfuOpDUxB9yyzAjWulzJFDXIsNdMlrPCEucGxwI/bMmyOqg+7qtSg+75OZWTKtJVvu7grMX+fjVZUCn0fAJHyDS7XPzluI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvSEwlLY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gCEkjqvu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B96C3277B;
-	Thu,  6 Jun 2024 03:12:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvSEwlLY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F1D45C4AF12;
+	Thu,  6 Jun 2024 03:30:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717643581;
-	bh=A6CHI3Qk5QNcWjNxDFXqY9sSiqdoBBmohvQrhSQuAAc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gCEkjqvuGUzznIxy/QhFcx3h2H8X+LSku+NZPjrgaVKkvK31K/Ez5eo5R2SOgAKUw
-	 9FuGKqnzeWRHdy/ADs5mTcjV1K4fnub+7sTAOJxHVFSKtfcIFMKyfKZofkd1rM368+
-	 evPTba0++zwTbyV0o7c2RlFfY3oDUXi+C+7eM60bDEEtlyfM8n9hUNACY8Pwl+9E1+
-	 0wisKgv4zko2HEL07mKNht8ksgWShVXczHMTbG6fcfoS0eSADvNsWjE8Qi6oBBkrdK
-	 +pucy8oTZ6mtbiTX0syK2FqK9A0jt+apNYk0LmOBF8JDGvUxsgfiI7GnQ9N5cMlMY7
-	 dTa7J9NydymOg==
-Date: Thu, 6 Jun 2024 03:12:57 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ben Walsh <ben@jubnut.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	"Dustin L. Howett" <dustin@howett.net>,
-	Kieran Levin <ktl@frame.work>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] platform/chrome: cros_ec_lpc: MEC access can use
- an AML mutex
-Message-ID: <ZmEpOQmzFv7Quakq@google.com>
-References: <20240605063351.14836-1-ben@jubnut.com>
- <20240605063351.14836-3-ben@jubnut.com>
+	s=k20201202; t=1717644638;
+	bh=yKoMqYenKsDXJSAfLOHIldm2JIof0n4lktPheAOsA7M=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=FvSEwlLYmwznzU/EzKhGRvS5noM6qFPvUHhVXPOWVDp3asS0mRQ0g4MHd45weAtPn
+	 KPdN1bgzFag0gqEmz45yRzJF3Osoh6E+ucWUtL5dD///wQbiHqeJR595/mTfr5M2Jy
+	 8yRlT/1vD8xO7pnZHpKfqD1QanedznBVtpcNdE8geZogZbB65vAf8vMHyeAIoVh7SM
+	 qZ2IVszdJRQasO7c5xWgIxANe11iOq3/wDyfy5ZsjU48HVnUQffebS2aPxr2b253CZ
+	 xRDgsyy2b9bFS0gwJN0S8ThwsSNXiyHjCrbgig+yZanImFcPlm50aEiIqb5/LG/C2h
+	 UJGoQ5rPSH8Xw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E6A7AD3E996;
+	Thu,  6 Jun 2024 03:30:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240605063351.14836-3-ben@jubnut.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix MEC concurrency problems for
+ Framework Laptop
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171764463793.22288.16988875399152277741.git-patchwork-notify@kernel.org>
+Date: Thu, 06 Jun 2024 03:30:37 +0000
+References: <20240605063351.14836-1-ben@jubnut.com>
+In-Reply-To: <20240605063351.14836-1-ben@jubnut.com>
+To: Ben Walsh <ben@jubnut.com>
+Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
+ dustin@howett.net, ktl@frame.work, linux@weissschuh.net,
+ mario.limonciello@amd.com, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 
-On Wed, Jun 05, 2024 at 07:33:48AM +0100, Ben Walsh wrote:
-> @@ -93,7 +146,9 @@ int cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
->  	else
->  		access = ACCESS_TYPE_LONG_AUTO_INCREMENT;
->  
-> -	mutex_lock(&io_mutex);
-> +	ret = cros_ec_lpc_mec_lock();
-> +	if (ret)
-> +		return ret;
->  
->  	/* Initialize I/O at desired address */
->  	cros_ec_lpc_mec_emi_write_address(offset, access);
-> @@ -135,7 +190,9 @@ int cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
->  	}
->  
->  done:
-> -	mutex_unlock(&io_mutex);
-> +	ret = cros_ec_lpc_mec_unlock();
-> +	if (ret < 0)
-> +		return ret;
+Hello:
 
-A nit haven't caught in previous round review:
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-- `if (ret)` for cros_ec_lpc_mec_lock().
-- `if (ret < 0)` for cros_ec_lpc_mec_unlock().
+On Wed,  5 Jun 2024 07:33:46 +0100 you wrote:
+> Framework Laptops with the Microchip EC have a problem where the EC
+> "stops working" after a while. Symptoms include the Fn key not
+> working, and "bad packet checksum" errors appearing in the system log.
+> 
+> The problem is caused by ACPI code which accesses the Microchip EC
+> (MEC) memory using the Microchip EMI protocol. It uses an AML mutex to
+> prevent concurrent access. But the cros_ec_lpc driver is not aware of
+> this mutex. The ACPI code and LPC driver both attempt to talk to the
+> EC at the same time, messing up communication with the EC.
+> 
+> [...]
 
-If I see the inconsistency when reading the code, it would take me further
-cycles for seeking why.  We should fix it.
+Here is the summary with links:
+  - [v3,1/5] platform/chrome: cros_ec_lpc: MEC access can return error code
+    https://git.kernel.org/chrome-platform/c/68dbac0a58ef
+  - [v3,2/5] platform/chrome: cros_ec_lpc: MEC access can use an AML mutex
+    https://git.kernel.org/chrome-platform/c/60c7df66450e
+  - [v3,3/5] platform/chrome: cros_ec_lpc: Add a new quirk for ACPI id
+    https://git.kernel.org/chrome-platform/c/040159e0912c
+  - [v3,4/5] platform/chrome: cros_ec_lpc: Add a new quirk for AML mutex
+    https://git.kernel.org/chrome-platform/c/38c31b1d737b
+  - [v3,5/5] platform/chrome: cros_ec_lpc: Add quirks for Framework Laptop
+    https://git.kernel.org/chrome-platform/c/04ca0a51f1e6
 
-No need to resend for this; I will fix it for you.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

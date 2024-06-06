@@ -1,137 +1,186 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D9D15FD04
-	for <chrome-platform@lists.linux.dev>; Wed,  5 Jun 2024 22:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFDA4C7D;
+	Thu,  6 Jun 2024 00:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717625701; cv=none; b=KsQcjOoOtkPsEBTpE/erlXLZzg6MfKalgoVrQQKowvIHqxneFiGNbRt8f3+z0HfRBLjwxaoBxcLIx0K+p8NnCX+qr54bQBmrWyNBC3mQ5rIpzCHEKKFtTKinRzhx1H6cCvnt9fexQ7Cy+3c7olT0hkFXCPNEISnT+1MnHu5uYnI=
+	t=1717633449; cv=none; b=g6eL+TiDc8QMVXvfxljpwoMLFVoKPMGOt2HjFESO6o175xOfkJ+APXaO7MNOXx4I9YocAKrYKJdkw2HcEz8c5GYNSdtZuHBoNmV6UrWEcfTbpC8UU5fdXArxTmtftsYNnKkPJBNp9v6vcyZ10QGR3ZPhD+xq+udNTTmDiF4KLWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717625701; c=relaxed/simple;
-	bh=OygkjoyZ/s/fhSyNEsLEuxpSBom9wgFRfnLr2OQNNS8=;
+	s=arc-20240116; t=1717633449; c=relaxed/simple;
+	bh=zACP1JLsppCuez65YERBmhPkTyiM+safYjy0gPvN8lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5b55MwIWwyn5D6JD2sFP4SU5+Z5oX6mS/rdO+hp2f0umQ1Dg/zNU7dJSo8U/Yr2rQ01f4o6zJ/xHsIxRhWGGfkaLA58kyEQKtciBoIpwNZUHaP1E1m4U1PQupAahlDeMTkMbCOE3oWOBqNpv/y3yIu/Dsv+mpepNS3yT+vzf3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MA+prhi9; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhULOe8N/cdSiO50tSm/EWE6cEFhsVupHJ919xVDTYBpM9m0XDMwggP2zA3rmc6f/ab/Uxv+fqC0SEkY5pe2FI2TsdHWPHolyonET78eXb9A+0jbL1DW2rMxB/WMqVREbzlyOg8BAfQ5X7Ybw7cgICtL6FOHpoyr66ii8w6Tdh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceCEYX9s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MA+prhi9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717625698;
-	bh=OygkjoyZ/s/fhSyNEsLEuxpSBom9wgFRfnLr2OQNNS8=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceCEYX9s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E618C2BD11;
+	Thu,  6 Jun 2024 00:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717633449;
+	bh=zACP1JLsppCuez65YERBmhPkTyiM+safYjy0gPvN8lw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MA+prhi9PA33gVVpvWbDWL7TSkaXaCNX8TRebfcjMbykXj0D5vEhyBeZU3wY3eP3E
-	 n0Us9VxBRKtWBmpuJxsR/Npdsqtgh+MTIWcJs59zZ5sxpzhXSyvWOGMQ9KlqpqER1P
-	 anppjJCt/fgvGuf7SuylOF/003VqRRbVmOUAUFg1JFn1UrNL8kuGrDZHLuRKERWk3W
-	 7c1oD9AQWxH6+1IJ+EuA+4q49goTWmvdzFF3d8ioYxZrAmKN10VECzHHfzVWGwTPNt
-	 gjrg7FsKDt2M537R3jQO0t1M0vMo9LD7ZV8zh9IJ2pN2qwh+MIdpQTF+WnuM4TYhKc
-	 yb9H6+ljN7k0g==
-Received: from mercury (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3927F378061A;
-	Wed,  5 Jun 2024 22:14:58 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id BE2DF1060501; Thu, 06 Jun 2024 00:14:57 +0200 (CEST)
-Date: Thu, 6 Jun 2024 00:14:57 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@weissschuh.net>, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
-	Dustin Howett <dustin@howett.net>, Stephen Horvath <s.horvath@outlook.com.au>, 
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v2 2/3] power: supply: add ChromeOS EC based charge
- control driver
-Message-ID: <ksot2xs4vecqpjrx36z3zbpoasukor2bzh7gzwtbf7in3sudjk@pdmjlr4ythve>
-References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
- <20240528-cros_ec-charge-control-v2-2-81fb27e1cff4@weissschuh.net>
+	b=ceCEYX9swt6oUdD83N+Dn0TprBelZK0XyzkwqtehmDvOoXjeLtLR5/irNitMobfjC
+	 lPaBpB21ox2ddyTDI9tWyWbKAUBROmTSkbGGPAQ0Kra1tSrO1J96mCPunxbDd95mAQ
+	 aSi8DEmkrJ0+vZASlQUUmLwXjJwISyMrJKgWh/XNB90PE0KSwPaB1o15CINeZ7/lOf
+	 pKj5l/nutEqQX+8O56Nc87f6lL2yugsBnMvl99huwlFBjParNuqoa6yevsLifUouQd
+	 KURO0rE5soZExXcqnKUolB/zTvZ+7Ywu8GUQ9vsI3kAsKErG3qEMzi151LEk7Eb9SQ
+	 yZjOESCbXnQEw==
+Date: Wed, 5 Jun 2024 18:24:06 -0600
+From: Rob Herring <robh@kernel.org>
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ARM: dts: cros-ec-keyboard: Add keyboard matrix v3.0
+Message-ID: <20240606002406.GA3505320-robh@kernel.org>
+References: <20240604005354.2294468-1-dnojiri@chromium.org>
+ <20240604230909.2879006-1-dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ybg7jici7744px53"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528-cros_ec-charge-control-v2-2-81fb27e1cff4@weissschuh.net>
+In-Reply-To: <20240604230909.2879006-1-dnojiri@chromium.org>
+
+On Tue, Jun 04, 2024 at 04:09:07PM -0700, Daisuke Nojiri wrote:
+> Add support for keyboard matrix version 3.0.
+
+What's that?
+
+Subject is wrong. This is not an ARM dts. 'dt-bindings: ' is the prefix.
 
 
---ybg7jici7744px53
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 
+> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+> Change-Id: I18957556bcd01c74ded84571638de2583dccb93f
 
-Hi,
+Drop Change-Id for upstream.
 
-On Tue, May 28, 2024 at 10:04:11PM +0200, Thomas Wei=DFschuh wrote:
-> +	battery_hook_register(&priv->battery_hook);
+> ---
+>  include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+> 
+> diff --git a/include/dt-bindings/input/cros-ec-keyboard.h b/include/dt-bindings/input/cros-ec-keyboard.h
+> index f0ae03634a96..afc12f6aa642 100644
+> --- a/include/dt-bindings/input/cros-ec-keyboard.h
+> +++ b/include/dt-bindings/input/cros-ec-keyboard.h
+> @@ -100,4 +100,108 @@
+>  	MATRIX_KEY(0x07, 0x0b, KEY_UP)		\
+>  	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)
+>  
+> +/* No numpad */
+> +#define CROS_TOP_ROW_KEYMAP_V30 \
+> +	MATRIX_KEY(0x00, 0x01, KEY_F11)		/* T11 */	\
+> +	MATRIX_KEY(0x00, 0x02, KEY_F1)		/* T1 */	\
+> +	MATRIX_KEY(0x00, 0x04, KEY_F10)		/* T10 */	\
+> +	MATRIX_KEY(0x00, 0x0b, KEY_F14)		/* T14 */	\
+> +	MATRIX_KEY(0x00, 0x0c, KEY_F15)		/* T15 */	\
+> +	MATRIX_KEY(0x01, 0x02, KEY_F4)		/* T4 */	\
+> +	MATRIX_KEY(0x01, 0x04, KEY_F7)		/* T7 */	\
+> +	MATRIX_KEY(0x01, 0x05, KEY_F12)		/* T12 */	\
+> +	MATRIX_KEY(0x01, 0x09, KEY_F9)		/* T9 */	\
+> +	MATRIX_KEY(0x02, 0x02, KEY_F3)		/* T3 */	\
+> +	MATRIX_KEY(0x02, 0x04, KEY_F6)		/* T6 */	\
+> +	MATRIX_KEY(0x02, 0x0b, KEY_F8)		/* T8 */	\
+> +	MATRIX_KEY(0x03, 0x02, KEY_F2)		/* T2 */	\
+> +	MATRIX_KEY(0x03, 0x05, KEY_F13)		/* T13 */	\
+> +	MATRIX_KEY(0x04, 0x04, KEY_F5)		/* T5 */
 > +
-> +	platform_set_drvdata(pdev, priv);
+> +#define CROS_MAIN_KEYMAP_V30			/* Keycode */	\
+> +	MATRIX_KEY(0x00, 0x03, KEY_B)		/* 50 */	\
+> +	MATRIX_KEY(0x00, 0x05, KEY_N)		/* 51 */	\
+> +	MATRIX_KEY(0x00, 0x06, KEY_RO)		/* 56 (JIS) */	\
+> +	MATRIX_KEY(0x00, 0x08, KEY_EQUAL)	/* 13 */	\
+> +	MATRIX_KEY(0x00, 0x09, KEY_HOME)	/* 80 (Numpad) */	\
+> +	MATRIX_KEY(0x00, 0x0a, KEY_RIGHTALT)	/* 62 */	\
+> +	MATRIX_KEY(0x00, 0x10, KEY_FN)		/* 127 */	\
+> +								\
+> +	MATRIX_KEY(0x01, 0x01, KEY_ESC)		/* 110 */	\
+> +	MATRIX_KEY(0x01, 0x03, KEY_G)		/* 35 */	\
+> +	MATRIX_KEY(0x01, 0x06, KEY_H)		/* 36 */	\
+> +	MATRIX_KEY(0x01, 0x08, KEY_APOSTROPHE)	/* 41 */	\
+> +	MATRIX_KEY(0x01, 0x0b, KEY_BACKSPACE)	/* 15 */	\
+> +	MATRIX_KEY(0x01, 0x0c, KEY_HENKAN)	/* 65 (JIS) */	\
+> +	MATRIX_KEY(0x01, 0x0e, KEY_LEFTCTRL)	/* 58 */	\
+> +								\
+> +	MATRIX_KEY(0x02, 0x01, KEY_TAB)		/* 16 */	\
+> +	MATRIX_KEY(0x02, 0x03, KEY_T)		/* 21 */	\
+> +	MATRIX_KEY(0x02, 0x05, KEY_RIGHTBRACE)	/* 28 */	\
+> +	MATRIX_KEY(0x02, 0x06, KEY_Y)		/* 22 */	\
+> +	MATRIX_KEY(0x02, 0x08, KEY_LEFTBRACE)	/* 27 */	\
+> +	MATRIX_KEY(0x02, 0x09, KEY_DELETE)	/* 76 (Numpad) */	\
+> +	MATRIX_KEY(0x02, 0x0c, KEY_PAGEUP)	/* 85 (Numpad) */	\
+> +	MATRIX_KEY(0x02, 0x011, KEY_YEN)	/* 14 (JIS) */	\
+> +								\
+> +	MATRIX_KEY(0x03, 0x00, KEY_LEFTMETA)	/* Launcher */	\
+> +	MATRIX_KEY(0x03, 0x01, KEY_GRAVE)	/* 1 */	\
+> +	MATRIX_KEY(0x03, 0x03, KEY_5)		/* 6 */	\
+> +	MATRIX_KEY(0x03, 0x04, KEY_S)		/* 32 */	\
+> +	MATRIX_KEY(0x03, 0x06, KEY_MINUS)	/* 12 */	\
+> +	MATRIX_KEY(0x03, 0x08, KEY_6)		/* 7 */		\
+> +	MATRIX_KEY(0x03, 0x09, KEY_SLEEP)	/* Lock */	\
+> +	MATRIX_KEY(0x03, 0x0b, KEY_BACKSLASH)	/* 29 */	\
+> +	MATRIX_KEY(0x03, 0x0c, KEY_MUHENKAN)	/* 63 (JIS) */	\
+> +	MATRIX_KEY(0x03, 0x0e, KEY_RIGHTCTRL)	/* 64 */	\
+> +								\
+> +	MATRIX_KEY(0x04, 0x01, KEY_A)		/* 31 */	\
+> +	MATRIX_KEY(0x04, 0x02, KEY_D)		/* 33 */	\
+> +	MATRIX_KEY(0x04, 0x03, KEY_F)		/* 34 */	\
+> +	MATRIX_KEY(0x04, 0x05, KEY_K)		/* 38 */	\
+> +	MATRIX_KEY(0x04, 0x06, KEY_J)		/* 37 */	\
+> +	MATRIX_KEY(0x04, 0x08, KEY_SEMICOLON)	/* 40 */	\
+> +	MATRIX_KEY(0x04, 0x09, KEY_L)		/* 39 */	\
+> +	MATRIX_KEY(0x04, 0x0b, KEY_ENTER)	/* 43 */	\
+> +	MATRIX_KEY(0x04, 0x0c, KEY_END)		/* 81 (Numpad) */	\
+> +								\
+> +	MATRIX_KEY(0x05, 0x01, KEY_1)		/* 2 */	\
+> +	MATRIX_KEY(0x05, 0x02, KEY_COMMA)	/* 53 */	\
+> +	MATRIX_KEY(0x05, 0x03, KEY_DOT)		/* 54 */	\
+> +	MATRIX_KEY(0x05, 0x04, KEY_SLASH)	/* 55 */	\
+> +	MATRIX_KEY(0x05, 0x05, KEY_C)		/* 48 */	\
+> +	MATRIX_KEY(0x05, 0x06, KEY_SPACE)	/* 61 */	\
+> +	MATRIX_KEY(0x05, 0x07, KEY_LEFTSHIFT)	/* 44 */	\
+> +	MATRIX_KEY(0x05, 0x08, KEY_X)		/* 47 */	\
+> +	MATRIX_KEY(0x05, 0x09, KEY_V)		/* 49 */	\
+> +	MATRIX_KEY(0x05, 0x0b, KEY_M)		/* 52 */	\
+> +	MATRIX_KEY(0x05, 0x0c, KEY_PAGEDOWN)	/* 86 (Numpad) */	\
+> +								\
+> +	MATRIX_KEY(0x06, 0x01, KEY_Z)		/* 46 */	\
+> +	MATRIX_KEY(0x06, 0x02, KEY_3)		/* 4 */		\
+> +	MATRIX_KEY(0x06, 0x03, KEY_4)		/* 5 */		\
+> +	MATRIX_KEY(0x06, 0x04, KEY_2)		/* 3 */		\
+> +	MATRIX_KEY(0x06, 0x05, KEY_8)		/* 9 */		\
+> +	MATRIX_KEY(0x06, 0x06, KEY_0)		/* 11 */	\
+> +	MATRIX_KEY(0x06, 0x08, KEY_7)		/* 8 */		\
+> +	MATRIX_KEY(0x06, 0x09, KEY_9)		/* 10 */	\
+> +	MATRIX_KEY(0x06, 0x0b, KEY_DOWN)	/* 84 */	\
+> +	MATRIX_KEY(0x06, 0x0c, KEY_RIGHT)	/* 89 */	\
+> +	MATRIX_KEY(0x06, 0x0d, KEY_LEFTALT)	/* 60 */	\
+> +	MATRIX_KEY(0x06, 0x0f, KEY_ASSISTANT)	/* 128 */	\
+> +	MATRIX_KEY(0x06, 0x11, KEY_BACKSLASH)	/* 42 (JIS, ISO) */	\
+> +								\
+> +	MATRIX_KEY(0x07, 0x01, KEY_U)		/* 23 */	\
+> +	MATRIX_KEY(0x07, 0x02, KEY_I)		/* 24 */	\
+> +	MATRIX_KEY(0x07, 0x03, KEY_O)		/* 25 */	\
+> +	MATRIX_KEY(0x07, 0x04, KEY_P)		/* 26 */	\
+> +	MATRIX_KEY(0x07, 0x05, KEY_Q)		/* 17 */	\
+> +	MATRIX_KEY(0x07, 0x06, KEY_W)		/* 18 */	\
+> +	MATRIX_KEY(0x07, 0x07, KEY_RIGHTSHIFT)	/* 57 */	\
+> +	MATRIX_KEY(0x07, 0x08, KEY_E)		/* 19 */	\
+> +	MATRIX_KEY(0x07, 0x09, KEY_R)		/* 20 */	\
+> +	MATRIX_KEY(0x07, 0x0b, KEY_UP)		/* 83 */	\
+> +	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)	/* 79 */	\
+> +	MATRIX_KEY(0x07, 0x11, KEY_102ND)	/* 45 (ISO) */
 > +
-> +	return 0;
-> +}
-> +
-> +static int cros_chctl_remove(struct platform_device *pdev)
-> +{
-> +	struct cros_chctl_priv *priv =3D platform_get_drvdata(pdev);
-> +
-> +	battery_hook_unregister(&priv->battery_hook);
-> +
-> +	return 0;
-> +}
-
-Please use devm_add_action_or_reset() or introduce
-devm_battery_hook_register(), which could also be used by
-dell-wmi-ddv. Otherwise LGTM.
-
--- Sebastian
-
-> +
-> +static const struct platform_device_id cros_chctl_id[] =3D {
-> +	{ DRV_NAME, 0 },
-> +	{ }
-> +};
-> +
-> +static struct platform_driver cros_chctl_driver =3D {
-> +	.driver.name	=3D DRV_NAME,
-> +	.probe		=3D cros_chctl_probe,
-> +	.remove		=3D cros_chctl_remove,
-> +	.id_table	=3D cros_chctl_id,
-> +};
-> +module_platform_driver(cros_chctl_driver);
-> +
-> +MODULE_DEVICE_TABLE(platform, cros_chctl_id);
-> +MODULE_DESCRIPTION("ChromeOS EC charge control");
-> +MODULE_AUTHOR("Thomas Wei=DFschuh <linux@weissschuh.net>");
-> +MODULE_LICENSE("GPL");
->=20
-> --=20
-> 2.45.1
->=20
-
---ybg7jici7744px53
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZg41oACgkQ2O7X88g7
-+ppHWg/6Akqc7xPbe8vn0c7y32Lsm9lNoiZc6+Kchd2odRljHmxUOWBSDPJaDPI7
-YZnAQbojBkkacytDImu202P4kz0DOVKtIpU7QOMM2aBEuZIPzwWXfIyDhARnvzZo
-VIfGo1tJT9KZZyMQ3kSNUJ66Sm6zKVhbAVjgro9IfSnGgbwvv5Mh0E1rEMMr54mk
-lFkeqH6uWyItHKpEc/BuhtXaDQg8Im5KorFAVfBdr8UWfvtCBRFvDV1NJw03Dt6l
-615ZZRDma0YB5cpJpeXX0xHgTCynFzEVLXTnuESVpKHvoFEWUi201wvbfg5e+wg3
-Dsye4X3+rLjh7uceXmSfccskgFQpjpMO071k3E210hfCC09cD9O2lJVGgZXFuEY3
-oRwNmiKIPEbE54phxmXBAYuBys9Q5qthQ7geZgK7Yh2GDHogvFtMMAf7epTkGZEF
-jMsn/rSuVKL7drtI2l4+IYT4cf0BSDdasbSPZHv/Rmil/TqoSEd70LkL1eZHy3Nd
-GfDhOOd1vm+HlNS2VIj5ihSoLcp4PFh0jM+ktP9vuK/CZ5Tz+h7brJ9oMHF315Fh
-7XJ3PzlVm4w5m5Rb3L9nKwRTWM+FMQi1vZabAINoyWTBK0KjPHSBLTaniPmsGcbW
-F8TJ2O86gj96uBtK+GIrqMb+d1d2oPuz3LqtZPYXJ9LEZaBDPeo=
-=AhyB
------END PGP SIGNATURE-----
-
---ybg7jici7744px53--
+>  #endif /* _CROS_EC_KEYBOARD_H */
+> -- 
+> 2.45.1.288.g0e0cd299f1-goog
+> 

@@ -1,64 +1,144 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBE619AD60
-	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 14:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBA319645E
+	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 17:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717684232; cv=none; b=g5cv1yMimMgAj21nuO23PTXRK6XG2+1SwlLcZForNal0NYtTgSuKHUBmKQIgAQ10eSWVS1Ta60UrPJgYWazDwRreFR3Xd0Iago4w6zt2ZtaV/gaK+eyFa3CdjOBfKgKJUtYjijPtToohJZqV86JxjeNc6gS3Jlphvr1zoTzxDKY=
+	t=1717695344; cv=none; b=la0/4bN5YcJOwELcfrx+SONyZVzrXDRRSGoQmNaegor81Wss78KwSjpGmto7MdAgyR1UpCq84XF0r9jVDyVyw9oPcqDWfyHlu3h7ay9J0LpIqNCAP8fv1R3epbLGq9qnQlGWXhHvoTK2An9TCmXt7FstJ6TPMpOst2zZNYFQ5is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717684232; c=relaxed/simple;
-	bh=OvnfEQO/21Hp0O519uSBy/WK6+BMymWF8Iu1zCEidYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pruYcW6dxqVv6CCm8c+ElfMzZIS59zKjV7dUQFsqR26h2vGusdb/CqQMFWkIp2Wlmt4DuTFXzamVEOgUPirr7N/TdWzRNA3owmsh8B8xrS7Vb7mLVH8Op2uoyLzWlbDKGrw4GNjO+MdiEIUVb3twX5+OmvQNljIBZkhJplpFp8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=VcWpyeBg; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1717695344; c=relaxed/simple;
+	bh=xABQwRoV/rPfzO361kpsP71OpAjQdGoHAsuSMSpEf8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O4GVV3Px/YcBu1Q71bJ+ZUtTp9vZsEbF0/HgA21zLeOwDbhPGrtELy77EU8tltTsOrtp6g+ZihRxeM+Sd0Nj8N91ptL/+641EeOwN7CG49u23BcLRlULq67EZlSR916lYpVUpZgBoHoA77M3t1IIF5mVjlFh4IFte972Kb8WwdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I3C6U6ir; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="VcWpyeBg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717684225;
-	bh=OvnfEQO/21Hp0O519uSBy/WK6+BMymWF8Iu1zCEidYM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VcWpyeBgOqzYo+lhsjYvWrRoBs+s2FGG7fSBHO8oAWErIz93Glkzhc8QScYlhq0gB
-	 ZQ0AZgvBNHbdLqrtRPTr4UpzwlSvkT2zVYDFiohgrZukOfIw392Ex50103HHRg5par
-	 qspoKxIu9dIkPl8xmUGkCvGtpUwbI4Y701sUsPEA=
-Date: Thu, 6 Jun 2024 16:30:25 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (cros_ec) Prevent read overflow in probe()
-Message-ID: <ea14f4b3-0785-46f8-8d8c-f4398c454b1b@t-8ch.de>
-References: <42331b70-bd3c-496c-8c79-3ec4faad40b8@moroto.mountain>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I3C6U6ir"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70264bcb631so1070200b3a.2
+        for <chrome-platform@lists.linux.dev>; Thu, 06 Jun 2024 10:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717695342; x=1718300142; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FhekWzHrW9NurW+RaIOThqGP3SBDgZ6s+7MlrIOk/wY=;
+        b=I3C6U6ireXGedg63IzZH6PLqRkj9QrHa8y1fORZqcAMUFHwJ4wQDtNe+GEqEWh0izV
+         3xU6OUfChOR4eYZDjTmHqa35PgqzAqv/N0aMDXfofstp9X4Rmfm3ZrvzR2Zh8vEw6ihj
+         VOOk4ozmr0NEtzupcnbCqEQVexPwfmO6lzfJ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717695342; x=1718300142;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FhekWzHrW9NurW+RaIOThqGP3SBDgZ6s+7MlrIOk/wY=;
+        b=ldDVk5ZUj+Q1QErR44TxZpZvI3G6/LUV/gfLG6GO8q29718DxmWIaLGqTv0OI++TDQ
+         Vw/R1NIpUhql0Zz5yoFxMu14TEvn55qNVxZCxKP0IVvp9v9IuBvRK6vNxyQXpaamzUlG
+         GqmJWn6yTu4J03pGasyMtwyIl//24iGBP3yTwy3TnHY6/0zhHbBM3wxH/aaTjNqUw1tr
+         EnVrhwhwdM9bhePn7GVNuh956Nf6KIMcTkpY42sfx5R+yd0doxlNlpDg29j/+xaFwgM5
+         yDBlHd405NMBKWB2IHWlTVUJurlUyllA3HWN2fmNhMk5jK+NujWQUAjZb3nzpxhvP3yI
+         c6gA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0HIZgxqAKGz1NV3SwEHesoSZ8/rT5seZyIGlElFrP+or3XBRegQSB2KUd3bjKUOvNJ74tL9HBmVgDrj7tYQ1Qxfsr5wHccBr2Li+JUKyF
+X-Gm-Message-State: AOJu0YyqA8tlkUxvildQZGPaYXTIoTcvjVdaNBrE5X9GkJboJLvuDw7p
+	Bt1nKaf0W8wdeNDEMjrmONUR7BRqj1WSVzOOZurKKShcGMDSrU6UgBvC54MW+g==
+X-Google-Smtp-Source: AGHT+IGqky3MNy6C2rzmt/288+9Xbb/3YZaZphiKwa4B9QhEBIhCOCT7QnAC/sV7qoLsAhgL5gCPbA==
+X-Received: by 2002:a05:6a20:7f8c:b0:1af:fff9:30dd with SMTP id adf61e73a8af0-1b2f9bd93c6mr270327637.35.1717695342540;
+        Thu, 06 Jun 2024 10:35:42 -0700 (PDT)
+Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:3fe9:f321:712c:442f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703fd375503sm1334904b3a.42.2024.06.06.10.35.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jun 2024 10:35:42 -0700 (PDT)
+From: Daisuke Nojiri <dnojiri@chromium.org>
+To: 
+Cc: Daisuke Nojiri <dnojiri@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Reka Norman <rekanorman@chromium.org>,
+	Tzung-Bi Shih <tzungbi@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@google.com>,
+	Pavan Holla <pholla@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3 v4] platform/chrome: Add struct ec_response_get_next_event_v3
+Date: Thu,  6 Jun 2024 10:34:28 -0700
+Message-ID: <20240606173509.243739-2-dnojiri@chromium.org>
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+In-Reply-To: <20240606173509.243739-1-dnojiri@chromium.org>
+References: <20240604005354.2294468-1-dnojiri@chromium.org>
+ <20240606173509.243739-1-dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <42331b70-bd3c-496c-8c79-3ec4faad40b8@moroto.mountain>
 
-Thanks!
+Add struct ec_response_get_next_event_v3 to upgrade
+EC_CMD_GET_NEXT_EVENT to version 3.
 
-On 2024-06-06 16:12:11+0000, Dan Carpenter wrote:
-> The "resp.sensor_name" comes from cros_ec_cmd() and it hasn't necessarily
-> been NUL terminated.  We had not intended to read past "sensor_name_size"
-> bytes, however, there is a width vs precision bug in the format string.
-> The format needs to be precision '%.*s' instead of width '%*s'.
-> Precision prevents an out of bounds read, but width is a no-op.
-> 
-> Fixes: bc3e45258096 ("hwmon: add ChromeOS EC driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+---
+ .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index 070e49c5381e..fff191a8d413 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -3527,6 +3527,34 @@ union __ec_align_offset1 ec_response_get_next_data_v1 {
+ };
+ BUILD_ASSERT(sizeof(union ec_response_get_next_data_v1) == 16);
+ 
++union __ec_align_offset1 ec_response_get_next_data_v3 {
++	uint8_t key_matrix[18];
++
++	/* Unaligned */
++	uint32_t host_event;
++	uint64_t host_event64;
++
++	struct __ec_todo_unpacked {
++		/* For aligning the fifo_info */
++		uint8_t reserved[3];
++		struct ec_response_motion_sense_fifo_info info;
++	} sensor_fifo;
++
++	uint32_t buttons;
++
++	uint32_t switches;
++
++	uint32_t fp_events;
++
++	uint32_t sysrq;
++
++	/* CEC events from enum mkbp_cec_event */
++	uint32_t cec_events;
++
++	uint8_t cec_message[16];
++};
++BUILD_ASSERT(sizeof(union ec_response_get_next_data_v3) == 18);
++
+ struct ec_response_get_next_event {
+ 	uint8_t event_type;
+ 	/* Followed by event data if any */
+@@ -3539,6 +3567,12 @@ struct ec_response_get_next_event_v1 {
+ 	union ec_response_get_next_data_v1 data;
+ } __ec_align1;
+ 
++struct ec_response_get_next_event_v3 {
++	uint8_t event_type;
++	/* Followed by event data if any */
++	union ec_response_get_next_data_v3 data;
++} __ec_align1;
++
+ /* Bit indices for buttons and switches.*/
+ /* Buttons */
+ #define EC_MKBP_POWER_BUTTON	0
+-- 
+2.45.2.505.gda0bf45e8d-goog
 
-devm_kstrndup() would have been nice.
-
-
-Thomas

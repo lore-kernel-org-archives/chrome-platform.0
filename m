@@ -1,224 +1,102 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0601E6BFD2
-	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 07:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9019C195F0A
+	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 13:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717659149; cv=none; b=dKG3EK2OMqfUF9tj89wHbtrgwT9bV+lSqmU1dTcs+BnkQfSg+Hp6c2gJZay6pF63ZZTuXJiR0ozBeMZIpddcwFxKfewg/S585tEIhr8T5Ciz3zSpxMl4vafkbwpYXikUiTi+3GqAGmolvT8NRkxm99Nmxxkm4QrPzUKZVx4+wgA=
+	t=1717679539; cv=none; b=Du43/g+hB3f528bkWGDAad64tskAr1ZofOWY9j7WuB030PazlRnixF2knCpWZhZsLIBZiuPw1sswjfxeRMGA1KH1rJwH6hiOvJDh7Slrw0lds/XfSMlhCTvML9D9bW79s2Ybp4EWWMptNgw1D1sxY0jxs8B/UWjg/Vf+l2i2MqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717659149; c=relaxed/simple;
-	bh=6VncgpulNalxOzQ8suYvtTzH6jsLQjSj3Pk3fdGNTcQ=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=fGdsx/SKwLSh96n5yUjWHkGRVxUbEeJidpw7iWQmxv8mEScl7cGgD2Z/tcAkawjYMwBbX13i3SKpbKWwtiB9VXMsOqyMYd7qOoFDxf+BCMTIMXViNw7W56D/UyqnyNOMDfCNtueJIqCKUyLi8ihUocTzTTMBZ3u/oTuQ4BYmXwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Cs7/q00k; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1717679539; c=relaxed/simple;
+	bh=me6Ty41cRCSnMOmdHM0XNnCYCzQRzAGcL0KUR6aAOg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mNTOXHtq6bIg/1/Dd/8kMLzHpNTfRe+l+WECbfElPvwn+LluRmDfnODRbhO282rg2zai+z8cT+JYfYau8EYiU8E1UaiWoG42G6sumlrJJuBo1TBAWxnuIB4UfLaPIR4o7iUIjfSSfQ+HpKT4d7tDlKbw7dSKvSlIfUCDFP2YuQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V3oOokNh; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Cs7/q00k"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f62fae8c3cso5876455ad.3
-        for <chrome-platform@lists.linux.dev>; Thu, 06 Jun 2024 00:32:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V3oOokNh"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a68ee841138so115733066b.1
+        for <chrome-platform@lists.linux.dev>; Thu, 06 Jun 2024 06:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717659147; x=1718263947; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=uXAE+oFJ7NlIMirtqseuo8pS4WHwz8JAXvBwF1K6fgU=;
-        b=Cs7/q00kwr+ax/n2JuzkcSmLZ2W3/hqueF1Qoi3sWNapKq39IjGsZFlpOh/UCZJi0I
-         hivwx3swfgSt8FWdaTUrIoJdjnqwZ5ZzyYk9v8hTEt/uuqWOwSWym68y0uvTnAmAQ+We
-         O9fHoCbKOYeDOON/6CKkmKWhkkjt8xRRaUF6g/EbXYAH5JY/LUVsLnISRfEWA86b+o54
-         vyU/jfl1Jtn0WTlY085mqO/nGwgQ6aO9bJ2LblVzVCfdZlLDWOhFvvHtJb9QxqqsNLbi
-         1I3IUkS7U2Xei4KD84Fl+SwjG3v0lS//Fx/TTP+B+EDgCFbpb3CBCuXdTD8J2xSejaC2
-         L4kQ==
+        d=linaro.org; s=google; t=1717679536; x=1718284336; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PxE7l690bffTKUzQL4YoKYab1ziPbqqN+8E58otRGxA=;
+        b=V3oOokNh0OXd1c9DqBp6+ZWcq3K+7jU3ZcIBGGYxfdTOpqa/pbLBUYI0rXF/dChwzt
+         eQ0G9hXS/7cq7i7JIUmftNVPxLHaaXU+hDaSwx08hEEpY39KYQu+xRoCyX3Hcj09bG20
+         xyHC08G8vhsPY2eyq0rqKDKq3GTWOAnZkmJKP5AsjEoqFbvC1VIyNK6V6gFtv/WIPuiq
+         ID/8XcGbkUJmZsEujkUnf3VNva5rKU7UxOT3lvVT+TVIbwIBd9YU4Wxfja4EI26aatKe
+         OZ9025XSMO2fV0+3KWf86lFaxQV5wIrhLXLq+WSrehdBJ09V56N8qm4rHM7EFQ2/H+AD
+         9jJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717659147; x=1718263947;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uXAE+oFJ7NlIMirtqseuo8pS4WHwz8JAXvBwF1K6fgU=;
-        b=F5yEXfwzLcHZeDnALEIbwhvuCk9LzczSrpATcEC4rkfRveMwzeLJWO/3BZP3bAbR3l
-         C0LCRxm513C679kr/om4QDD6CHPZEye0cXm3FtbyQ4DedU9Y27ffV9XJc0EXc5H6R5l5
-         gBUxjZYJ7d+58lJRE2mpYCvWlcSEZ+idwHvFX4msSqbsH+Wk4ZyfKGnBX3R5e5UoTvdQ
-         KKcqtZ+mnVHt8m4Mr+tWGW34kPfaJvwIHYLGygaO7mfAjJaH3D9v/owJqciikA6yYY+X
-         q98zsUlmgBszvBhCpMhX4gdybgjyWI+fcR8NpuXtllzjyk8fAa9wf9ZTQOfC4qV/InAo
-         vFBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYA0DkzzZVT8fXsvN/Q/M1Jev9nJeyEAqtzr3vPpQ17kLSr69k34mOnVgQXnVU/cyC8NKLrk/4zn/WDzIItRXel6IZ1b5QtaeYaAP5ULMG
-X-Gm-Message-State: AOJu0Yxuq+M07gVYTdRsKqrFtAg8xfdPO7ueQGdnuYn2SfJSwCoz4IBP
-	l0L938vsC5O360I18DxoUOAT5rsJC4lwMh+hlpMC/DyfflJE73/tyb9sjJrfniU=
-X-Google-Smtp-Source: AGHT+IFQsr/FPuq4vUUYUIKfZOOSd8b1EAG8W11lZy+utjb+8qNvdN2S3wgodz0QNiZ0Y0uUuezQnA==
-X-Received: by 2002:a17:902:e84d:b0:1f6:7fee:8fda with SMTP id d9443c01a7336-1f6a5a86ac4mr57491605ad.64.1717659147262;
-        Thu, 06 Jun 2024 00:32:27 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76155csm7739455ad.43.2024.06.06.00.32.26
+        d=1e100.net; s=20230601; t=1717679536; x=1718284336;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PxE7l690bffTKUzQL4YoKYab1ziPbqqN+8E58otRGxA=;
+        b=BkCwtQQkMfIHQp3MKJzgbzPLJySF5uCQSBd1BD3xBy1kU1aw+T2TivgVb2gtt7YL8D
+         I1+13RgdjWhhWV0cqNC4lG+iVa3gMaYtk3CN5/BtfH9dHvPY9zcZoNnXzgGd1TvTEQJr
+         fmBIVHFBG4jZqLrZAK0obUmXcCdoPSZ2mEK9PKXZCJIIT6Hyia3vYW8Ekr7FbbEui4NE
+         LzEEd6UrZLp1xsgSUp/nrTdLJZNJR6V2e63SjiBUzE+IVLJusx3guOO4WWIo8lhreo47
+         k5lTkbp7z1bCQ2enROtEFRgUrHSEGcJOeZ8bkqERR9Phd8g6F8ZwNlNx+MJZK/pm25j7
+         FyUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXpqHt5J2sifeghlxwn6Z6tkyG8xwROvYRul9UlrcmJTyfNXlmk7IzoYRBKNqaFO4WNHZaB6zIczLpcmXC3FTZnn31JG4Kfm13XfuRTN/dj
+X-Gm-Message-State: AOJu0YyT6J2J6//RSV/BsM0ZYXLU2YT75HJp8we0i4DdzSi/F1tU4aFV
+	X5bz0Fevi/d9QZeE1D9FKJkKu4EwKPPjNGZlEImbgpZGJHigDkwRkXCup0Zr6sM=
+X-Google-Smtp-Source: AGHT+IEz8YfL+SCPuHJF+3F2Q+2LZ4go3JrKNs5304zCp0iKQZ2Bs1sP4ET868nj7mSwau9p+NP6xg==
+X-Received: by 2002:a17:906:390f:b0:a62:5ff6:c728 with SMTP id a640c23a62f3a-a69a025318amr374676066b.76.1717679535821;
+        Thu, 06 Jun 2024 06:12:15 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c805ccb1csm96890166b.80.2024.06.06.06.12.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 00:32:26 -0700 (PDT)
-Message-ID: <6661660a.170a0220.21f875.1c7e@mx.google.com>
-Date: Thu, 06 Jun 2024 00:32:26 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 06 Jun 2024 06:12:15 -0700 (PDT)
+Date: Thu, 6 Jun 2024 16:12:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] hwmon: (cros_ec) Prevent read overflow in probe()
+Message-ID: <42331b70-bd3c-496c-8c79-3ec4faad40b8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.10-rc1-13-g04ca0a51f1e6
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci cros-ec: 11 runs,
- 3 regressions (v6.10-rc1-13-g04ca0a51f1e6)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-chrome-platform/for-kernelci cros-ec: 11 runs, 3 regressions (v6.10-rc1-13-=
-g04ca0a51f1e6)
+The "resp.sensor_name" comes from cros_ec_cmd() and it hasn't necessarily
+been NUL terminated.  We had not intended to read past "sensor_name_size"
+bytes, however, there is a width vs precision bug in the format string.
+The format needs to be precision '%.*s' instead of width '%*s'.
+Precision prevents an out of bounds read, but width is a no-op.
 
-Regressions Summary
--------------------
+Fixes: bc3e45258096 ("hwmon: add ChromeOS EC driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/hwmon/cros_ec_hwmon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index 41f268fa8260..b3ba7247e06b 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -212,7 +212,7 @@ static void cros_ec_hwmon_probe_temp_sensors(struct device *dev, struct cros_ec_
+ 			continue;
+ 
+ 		sensor_name_size = strnlen(resp.sensor_name, sizeof(resp.sensor_name));
+-		priv->temp_sensor_names[i] = devm_kasprintf(dev, GFP_KERNEL, "%*s",
++		priv->temp_sensor_names[i] = devm_kasprintf(dev, GFP_KERNEL, "%.*s",
+ 							    (int)sensor_name_size,
+ 							    resp.sensor_name);
+ 	}
+-- 
+2.43.0
 
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.10-rc1-13-g04ca0a51f1e6/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.10-rc1-13-g04ca0a51f1e6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      04ca0a51f1e63bd553fd4af8e9af0fe094fa4f0a
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6661586d20646ac3e87e708c
-
-  Results:     2 PASS, 1 FAIL, 13 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-coll=
-abora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_chardev: https://kernelci.org/test/case/id/6661586=
-d20646ac3e87e709b
-        failing since 3 days (last pass: v6.10-rc1-6-ge8665a1723789, first =
-fail: v6.10-rc1-6-gbc3e45258096f)
-
-    2024-06-06T06:34:17.138604  test_cros_ec_chardev (cros.tests.cros_ec_mc=
-u.TestCrosECMCU.test_cros_ec_chardev)
-
-    2024-06-06T06:34:17.144819  Checks the main Embedded controller charact=
-er device. ... FAIL
-
-    2024-06-06T06:34:17.145328  =
-
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66614f1cb2aee051a27e7079
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-kingoftown.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-kingoftown.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66614f1cb2aee051a27e70=
-7a
-        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
-fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66615e32d1dd9ea4287e7099
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-lazor-limozeen.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-13-g04ca0a51f1e6/arm64/defconfig+arm64-chromebook/gcc-10/lab-colla=
-bora/cros-ec-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66615e32d1dd9ea4287e70=
-9a
-        failing since 7 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first =
-fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =20

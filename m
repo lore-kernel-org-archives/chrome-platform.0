@@ -1,132 +1,119 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690A617BD5
-	for <chrome-platform@lists.linux.dev>; Thu,  6 Jun 2024 06:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C0482D98;
+	Thu,  6 Jun 2024 06:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717655156; cv=none; b=uUl5Aoemt+xfkajQtvFKjMlrLc3/kyDBW9x1CU9IWTZLUxWx4UTYhHcptTcshLHa5djoHapv/rleQbPrriz5Pga71NC5Dd7woYdBsEwTm51gf6nAOG1qlBeb4LpMb79Jf7SmsVBC8by1HCz0PuIHxGgL8RtPET8Cv6krxEQ0Qag=
+	t=1717655227; cv=none; b=eQYt5B5qZ91b1Rwbcd3qHGTK8xwK0+Ee3rHrPn7s+kE3FaO9B2CKPEj05PjHSgIKGeWk4ZFIgESiPfeVQM7gcS5WrhVdf9qGRtKbRkW8ez0cFNR5jzWzfaDqbKbch07GhnI7Av9/81fOQrHe90OXol8Yb7PWhFg2fSuhA1p4Oi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717655156; c=relaxed/simple;
-	bh=Wfeg8GAi9GwSyPrICtL0MY874pcQ+nuX+//SQF4Q63U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+aSEPRVkltBXQe7RYZWPI4074npWMZWrH+YrbR5eRcFnVIiaLEt4BCRsFkttawp4PcNfAcZ/sI3nVRYmNbB0WDKFQi9hCpTvLF4kIMUbE6/agC6nywhGY6iBQHt7sFKTdrIZL399M1NrQJae5ZdPGHKqJkF0xCbt+eZreHk9qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ap+aB7M7; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1717655227; c=relaxed/simple;
+	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nmT/Q/Bua2djclIE27cXlWjKicfLYyld2AKQzgRnxAhKSIPMCzIpDfaLGdSRhmGAiiDIbI9+kVp2NlccFrSiC+TbMrfw3/BLPaAEWYL1tJWLGFk0gPak/dogqCGUi5n1XoSfA1pQ4zlwTJLLdwcH9c4fGvufygMXC5gKiC5HbAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ByycvQeZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ap+aB7M7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717655145;
-	bh=Wfeg8GAi9GwSyPrICtL0MY874pcQ+nuX+//SQF4Q63U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ap+aB7M7eNNAVWFNB2wesEkU4e+ielGbEoJAtWC2AXSaK71bYdLmrZz2sBOxDf+oy
-	 gPIdX+GOTSLEqMs4oG9uMHcRo2QJP9Zy1aPaPP12FbdZFFgKY+JOUm7Td/j/o1t+lr
-	 IoQOALg1kOo23Xw3657kI//xdH6vkp8ZqcrygMyA=
-Date: Thu, 6 Jun 2024 08:25:45 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Mario Limonciello <mario.limonciello@amd.com>, 
-	Matt Hartley <matt.hartley@gmail.com>
-Cc: Dustin Howett <dustin@howett.net>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephen Horvath <s.horvath@outlook.com.au>, Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v2 0/3] ChromeOS Embedded Controller charge control driver
-Message-ID: <ed6e5fd4-2be1-4a72-8041-5087ebc93203@t-8ch.de>
-References: <20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net>
- <CA+BfgNJByawxkZukaCXYcmOo_K9aQ0W1x8B6Y+Hyg_fZaJ4axw@mail.gmail.com>
- <5baf3caf-dc09-4829-96db-2666fc902710@t-8ch.de>
- <CA+BfgN+LE3YyF3te4m8sWbtH85tU+ERUDW7YR_BFecusVTAWWw@mail.gmail.com>
- <a527a3fd-1458-43cc-aac0-0b360beeb349@t-8ch.de>
- <db20a640-5323-4866-9968-c57391fbb6bc@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ByycvQeZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A4FC2BD10;
+	Thu,  6 Jun 2024 06:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717655226;
+	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ByycvQeZlZiDJ+/tf9b4ON7Ly6IuRxFeafc5Pgy9DK9k1ivk3bFENzrgPVum/GsR1
+	 KypDx3H/S21qSb+NVm0GWvE4c91R6e6bP9JnrCsDJqGfb98A3PMyNoioS9xBalM1Zf
+	 NINO6fjcAkrS+Qv9q30l77AgJvIPLIkc7XJ+dZf4NdmBCYxeRL+TNcTwi8qyNdr4HY
+	 N+/jGmeo1YS5fAgnnOodWYPgrpWhdFZF5EPnmrOzvkAcG1WC3ubl1g1ywfaMK2YHON
+	 cNdDSLC4OtMFf6HY7HV9sWUdpbxB6TXDWGgtq5qceJdUf3XDNzvMOzRnVQYsGpJ0sF
+	 9d+VdHFTtjMDw==
+Message-ID: <8a197b98-8a7b-4675-b175-6d8ddaeb072e@kernel.org>
+Date: Thu, 6 Jun 2024 08:27:00 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <db20a640-5323-4866-9968-c57391fbb6bc@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] dt-bindings: cros-ec-keyboard: Add keyboard matrix
+ v3.0
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240604005354.2294468-1-dnojiri@chromium.org>
+ <20240606010808.27069-1-dnojiri@chromium.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240606010808.27069-1-dnojiri@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-+Matt, the Linux support lead for Framework.
+On 06/06/2024 03:08, Daisuke Nojiri wrote:
+> Add support for keyboard matrix version 3.0.
 
-Hi Matt,
+Not much improved.
 
-below we are discussing on how to implement charge controls for ChromeOS
-EC devices including Framework laptops in mainline Linux.
-Some feedback would be great.
-
-On 2024-06-05 15:32:33+0000, Mario Limonciello wrote:
-> On 6/5/2024 04:33, Thomas Weißschuh wrote:
-> > On 2024-06-04 20:27:57+0000, Dustin Howett wrote:
-> > > On Mon, Jun 3, 2024 at 3:59 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > > > 
-> > > > Can you try disabling all of the Framework-specific charge control
-> > > > settings and test again?
-> > > > Probably the different, disparate logics in the Framework ECs are
-> > > > conflicting with each other.
-> > > 
-> > > Fascinating! This board does indeed support charge limiting through
-> > > both interfaces. It looks like the most recently set one wins for a
-> > > time.
-> > 
-> > If it is the most recent one, shouldn't the driver have worked?
-> > What does "for a time" mean?
-> > I'm using only the upstream EC command and that seems to work fine.
-> > 
-> > > The UEFI setup utility only sets the framework-specific charge limit value.
-> > > 
-> > > We should probably find some way to converge them, for all of the
-> > > supported Framework Laptop programs.
-> > 
-> > In the long term, Framework should align their implementation with
-> > upstream CrOS EC and either drop their custom command or make it a thin
-> > wrapper around the normal the upstream command.
-> > 
-> > (As you are familiar with EC programming maybe you want to tackle this?)
-> > 
-> > Until then I think we can detect at probe-time if the Framework APIs are
-> > available and use them to disable the Framework-specific mechanism.
-> > Then the CrOS EC commands should be usable.
-> > 
-> > The drawback is, that userspace using the Framework APIs will break
-> > the driver. That userspace would need to migrate to the standard UAPI.
 > 
-> How does userspace access the Framework APIs?  Surely it needs to go through
-> the kernel?  Could you "filter" the userspace calls to block them?
-> 
-> For example this is something that currently happens in the dell-pc driver
-> to block userspace from doing thermal calls and instead guide people to the
-> proper API that the driver exports.
+> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
 
-This would work when userspace uses /dev/cros_ec.
-But the EC can also used via raw port IO which wouldn't be covered.
-Given that /dev/cros_ec wasn't usable on Framework AMD until v6.9 it's
-not unlikely users are using that.
+This is a friendly reminder during the review process.
 
-And technically both aproaches would break userspace.
+It seems my or other reviewer's previous comments were not fully
+addressed. Maybe the feedback got lost between the quotes, maybe you
+just forgot to apply it. Please go back to the previous discussion and
+either implement all requested changes or keep discussing them.
 
-Another aproach would be to not load the module on Framework devices
-which implement their custom command (overwritable by module parameter).
+Do not attach (thread) your patchsets to some other threads (unrelated
+or older versions). This buries them deep in the mailbox and might
+interfere with applying entire sets.
 
-Framework unifies the implementation of their command with the core
-CrOS EC logic so both commands work on the same data.
-The custom command is adapted to also implement a new command version.
-This is completely transparent as the old version will continue to work.
+Best regards,
+Krzysztof
 
-We update the Linux driver to recognize that new command version, know
-that they are now compatible and probe the driver.
-
-Newer devices could also drop the custom command and the driver would
-start working.
-
-This scheme requires some cooperation from Framework, though.
-
-> > 
-> > Also the settings set in the firmware would be ignored at that point.
-> > 
-> > I don't want to use the functionality of the Framework command because
-> > it's less featureful and I really hope it will go away at some point.
-> 

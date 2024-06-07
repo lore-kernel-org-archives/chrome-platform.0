@@ -1,52 +1,54 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFBB14EC7B
-	for <chrome-platform@lists.linux.dev>; Fri,  7 Jun 2024 17:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0880C196444
+	for <chrome-platform@lists.linux.dev>; Fri,  7 Jun 2024 17:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717779815; cv=none; b=EzzJTj10PgoJmc+jm6uweLAGqJTxo87yMKOcq1+apSEZAbjFGAaamJBruQeVwUh1anBu4aEe9Hm3Ww9FIgFmONdSRxnmz95huxvpuVlglqbiFCu4ZwTnefamRYK1OElgBNGlU/wxmWjgyWQh3avjRPW1mGGlp1TdDJHLQrZdGp8=
+	t=1717779820; cv=none; b=Yz7VXyrATnb0P1YVhmN5BLoQKAk4mOmFfY/vUIMQdPWsBCnYqA89UK5Uh/1l9wab+XWTEfFtnMn0tsAck9mSY7EZ6+kiHJN57Ma7ZnoBSu19XfI9V7I5QERfjBQkrPLQF4wiVL+2/JW6jrMg+oeorTsgOyaSHmEWody8hyrPBdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717779815; c=relaxed/simple;
-	bh=i0v3Pgeq+IMesWEB6AQSP9LER2FNbxR1ZCqootTAEFA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VXVH8g+xaem6qtK7d33V5qS50MpWwisyiB1g9DWYQ9y5sSq+IvGH2ElpeG5m4o9Vm9XFktgHt0ma26O6x6XrUDF+DwyBlGfIIqqCpneYOUNOKfuw3/eTJjWDqRQfJkxyiUvGfb5k6TKxW94HZpJv4cVNHujv8l3BOqD9qFuSTdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hc1vG3J3; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1717779820; c=relaxed/simple;
+	bh=xABQwRoV/rPfzO361kpsP71OpAjQdGoHAsuSMSpEf8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eBAzcLb1QPMqRQZTMpTFqYr9JpkhK0SYgFYYe2dlGCz3Dn6cR2z4CWRojD+Qs/PfCHoHjFBWr6w5PVuA8nqHWP9mk8xmNVpoHT3q3ZgjKSj2SC5+pBUV2ZHcrDokOHjKdmrxT1LN/+OMQ8pTsXdJObcPNGH+K33IpljR/gpOH2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gK6Qi5/f; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hc1vG3J3"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7041b6b7be0so345116b3a.1
-        for <chrome-platform@lists.linux.dev>; Fri, 07 Jun 2024 10:03:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gK6Qi5/f"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-702492172e3so2041170b3a.0
+        for <chrome-platform@lists.linux.dev>; Fri, 07 Jun 2024 10:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717779813; x=1718384613; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SPh1XG7OKPHXmVBg8lSEqInQF90UPXcUP7a+mw0fwSY=;
-        b=hc1vG3J30dh7vBmDxgd3+T1ykAYYRYCUIxz2D1uyK5Yg9ppjVkC+6t+17gn/nC2f5g
-         4QDKbKGmmsDQVxqkPLryms52U6BB7wpJ6mHRvbO/USEk6J+pvYrcDHsaVRvyqyftsEB3
-         ipB3Wp/fagHAsnO8M22G2Ht/PvmhC3gu6RKOs=
+        d=chromium.org; s=google; t=1717779818; x=1718384618; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FhekWzHrW9NurW+RaIOThqGP3SBDgZ6s+7MlrIOk/wY=;
+        b=gK6Qi5/fQWRgtxwBCW0HpQiQodPTor3NTX82PeXuea1sjkerVmtqZWx4mu/SjkI9vm
+         KRtb4rtf0Eiw2vTBBYgZLfm5Ms7pMG5T8cWKokAI1fvpx2lkRD3uydJDDiue4xqLcIdk
+         aFOIEwqxCeoHSlDNRtS3d5zKmvtO4WwxUW5Fs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717779813; x=1718384613;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SPh1XG7OKPHXmVBg8lSEqInQF90UPXcUP7a+mw0fwSY=;
-        b=cbKoNVJyPfbou12B70GH3l5JEi6JlWG1ScJNkuw/YdAEuvM7PZ8Ztc4Vuu8dRzCC+h
-         zLFvUDSFF0rmW+iMz5BltJgJVTn4vL3Lt4MXkrZC4coCtyNCfQFzKlA3AAftGXl3xzrX
-         xKje+slHdJ7UcQ9ilNq20Z/ZAWSAdOQY9E36irMFRsPMrI5pUskONaDNWeiF9u6FPeLT
-         5DpADOQJO6E5mIQ75B8O50kFPyBRN4YyNp1WYCSEdVc9f5JnIozMpRXuKdZNxF8albGA
-         ybhfGmPSUt++/GGJ5Sjwwz3edpClVq+2WK3F1IvKlqwufE6nd70ca31w9PBTgaP2vfOY
-         mt7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXNBkpGC5pol4eeYUxYegO+oEj6B4DUJO4+lEeB7Qyr5IidkomuAGfnFgHfN+rpzgPibqtWj5Bw2a+KMEi1nUGdHpGY2dSpy7aJhrugeqj4
-X-Gm-Message-State: AOJu0Yx8LEgL72D0RBCQ/ZQsGpnIR7bkrtitVDfzt9XtqsMg8kklh1tr
-	1L82+IlLGgy8IA/2AZFu7uHtEaNGmtPoWbJXzlxhcVRQep/SGqhyoOduR2Xhkw==
-X-Google-Smtp-Source: AGHT+IFtw46qtyb1UN3CGT1XSYzG6p20xOQSgcqCSxXmF+1ED1932FuZSayNwtcFsfXC08B84+z8rQ==
-X-Received: by 2002:a05:6a00:18aa:b0:702:496d:d8b5 with SMTP id d2e1a72fcca58-703f8622841mr10847793b3a.6.1717779813394;
-        Fri, 07 Jun 2024 10:03:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717779818; x=1718384618;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FhekWzHrW9NurW+RaIOThqGP3SBDgZ6s+7MlrIOk/wY=;
+        b=SKlSv0V1rXZV5QuKTRGkKuEM3AuqfU9Z3CrBrYPiVVzXMzig2Q3rGf6bT8e72ga1DH
+         gl7M02Sc4jpThlyVuBZlj4pKbKSSXjk8l5vMiNYr8ZIuxH7VZqltZfCIHtPG78dhm4Ce
+         uGOhe1W6wXNJmmfz7oTXBrdhGT6Uxu0bKIY6qM40jkVwJWyUMaZQbxgoQgH/GaPOAG1s
+         l+vuIO8GqnHPh0uz2ofo7T9deFw7rIrf7KKDFaLPTyXsyy5Gzn07/OB8zm8g7aXsZzO+
+         wEN0YGwVnryWQ8M9elMuO39nIYM9yz8EOWk6MDwXY8q59G0PAALNf0x6Jdnfjhg4dy2Y
+         ts/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ8MD3oSugssmyuvuHeH8GVmHP6vvprrrO3B10WBHQLO9sZohjQNjs4sIw2WgcakM90DyG9i/+1e/EpNSkrNq8GNQKf9Zbwu/N4jod+4b2
+X-Gm-Message-State: AOJu0YxBgehSOpf8T8QWO1haxEpuUK79Ck1Ysd7J0jJYPjWDB6496SpK
+	YAkv9F+boIk6VMNHrHUszJJ8vEIvWezNaQVkc+tRTw4EzkD7k7TIokSMH9Of/A==
+X-Google-Smtp-Source: AGHT+IEpjaA/kSrwAvONF6UhQjiqu4q5K255WpGG4WFBR0CeXDxX1BUw3pzT0BEar/Zz/T7Ht5DJFA==
+X-Received: by 2002:a05:6a20:3d8b:b0:1b0:14ee:3b1c with SMTP id adf61e73a8af0-1b2f97f05a0mr3495750637.22.1717779818345;
+        Fri, 07 Jun 2024 10:03:38 -0700 (PDT)
 Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:98ef:4953:160:1c67])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e439d12cf5sm970705a12.67.2024.06.07.10.03.31
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e439d12cf5sm970705a12.67.2024.06.07.10.03.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 10:03:32 -0700 (PDT)
+        Fri, 07 Jun 2024 10:03:38 -0700 (PDT)
 From: Daisuke Nojiri <dnojiri@chromium.org>
 To: 
 Cc: Benson Leung <bleung@chromium.org>,
@@ -69,10 +71,12 @@ Cc: Benson Leung <bleung@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v4 0/3] Add cros-ec-keyboard v3.0
-Date: Fri,  7 Jun 2024 10:02:55 -0700
-Message-ID: <cover.1717779167.git.dnojiri@chromium.org>
+Subject: [PATCH v4 1/3] platform/chrome: Add struct ec_response_get_next_event_v3
+Date: Fri,  7 Jun 2024 10:02:56 -0700
+Message-ID: <979b1fdaa5b3d3165e53f5429470c42581394d14.1717779167.git.dnojiri@chromium.org>
 X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+In-Reply-To: <cover.1717779167.git.dnojiri@chromium.org>
+References: <cover.1717779167.git.dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -81,37 +85,66 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series adds a support for cros-ec-keyboard v3.0, which uses a
-reorganized and larger keyboard matrix thus also requires a protocol update.
+Add struct ec_response_get_next_event_v3 to upgrade
+EC_CMD_GET_NEXT_EVENT to version 3.
 
+Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
 ---
-Changes in v4:
- - Change subject line: ARM:... to dt-bindings:...
- - Add description about keyboard matrix v3.0.
- - Add cover letter.
+ .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
----
-Changes in v3:
- - Remove CROS_KBD_V30 in Kconfig and macros conditionally set in
-   cros-ec-keyboard.dtsi.
-
----
-Changes in v2:
- - Separate cros_ec_commands.h from cros_ec_proto.{c.h}.
- - Remove Change-Id, TEST=, BUG= lines.
-
----
-Daisuke Nojiri (3):
-  platform/chrome: Add struct ec_response_get_next_event_v3
-  platform/chrome: cros_ec_proto: Upgrade get_next_event to v3
-  dt-bindings: cros-ec-keyboard: Add keyboard matrix v3.0
-
- drivers/platform/chrome/cros_ec_proto.c       |  27 +++--
- include/dt-bindings/input/cros-ec-keyboard.h  | 104 ++++++++++++++++++
- .../linux/platform_data/cros_ec_commands.h    |  34 ++++++
- include/linux/platform_data/cros_ec_proto.h   |   2 +-
- 4 files changed, 157 insertions(+), 10 deletions(-)
-
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index 070e49c5381e..fff191a8d413 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -3527,6 +3527,34 @@ union __ec_align_offset1 ec_response_get_next_data_v1 {
+ };
+ BUILD_ASSERT(sizeof(union ec_response_get_next_data_v1) == 16);
+ 
++union __ec_align_offset1 ec_response_get_next_data_v3 {
++	uint8_t key_matrix[18];
++
++	/* Unaligned */
++	uint32_t host_event;
++	uint64_t host_event64;
++
++	struct __ec_todo_unpacked {
++		/* For aligning the fifo_info */
++		uint8_t reserved[3];
++		struct ec_response_motion_sense_fifo_info info;
++	} sensor_fifo;
++
++	uint32_t buttons;
++
++	uint32_t switches;
++
++	uint32_t fp_events;
++
++	uint32_t sysrq;
++
++	/* CEC events from enum mkbp_cec_event */
++	uint32_t cec_events;
++
++	uint8_t cec_message[16];
++};
++BUILD_ASSERT(sizeof(union ec_response_get_next_data_v3) == 18);
++
+ struct ec_response_get_next_event {
+ 	uint8_t event_type;
+ 	/* Followed by event data if any */
+@@ -3539,6 +3567,12 @@ struct ec_response_get_next_event_v1 {
+ 	union ec_response_get_next_data_v1 data;
+ } __ec_align1;
+ 
++struct ec_response_get_next_event_v3 {
++	uint8_t event_type;
++	/* Followed by event data if any */
++	union ec_response_get_next_data_v3 data;
++} __ec_align1;
++
+ /* Bit indices for buttons and switches.*/
+ /* Buttons */
+ #define EC_MKBP_POWER_BUTTON	0
 -- 
 2.45.2.505.gda0bf45e8d-goog
 

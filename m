@@ -1,57 +1,58 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7057915B137
-	for <chrome-platform@lists.linux.dev>; Fri,  7 Jun 2024 08:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0368D15B145
+	for <chrome-platform@lists.linux.dev>; Fri,  7 Jun 2024 08:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717749891; cv=none; b=HBSlLiGhi1nY1l+ZQ9cF7pogsN0PJ7/phVycl5JruSK69iJKFPzAAe9TUtS06oaKux78o80hCHj/HsuenOVsV7QWeLRhj+CdqYymlEYzE66cIG9rtJkQdzERyz0k7qpqbypMcPU8Imi4vev+pg8QuzQ3nxw0OH7KgG6fFzMldTc=
+	t=1717749892; cv=none; b=iS6nPE+SA5Z4pzpaod1VOwl/02emhthf6p/SAnGaY92s/eXGJGWXOvxGjl4xUQfWylaFYPA9Ym2CsYgn8HGoxi3MM2NvowGJGRhl8GyUOZ1BxhvSk4vl7Ak4z3tEcup5cXqybbmmuqOJtFaDcQvZ9lxK+JorVwX72x65Vs2m4xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717749891; c=relaxed/simple;
-	bh=wudYmHy3qCSrWLSreH+1TgxgneyUtA3ewiC9lXDQSKs=;
+	s=arc-20240116; t=1717749892; c=relaxed/simple;
+	bh=14XoLLXGkugteQS++IsQ79UO0X3PLB2TkFVDwv7Adjs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R1ksBUSPj9Wq1lCxaly4j0HAEQfaKPEkbIP1I+z9VrkWjlfS9SXadH4Ky9Ssp4Ft77IWLeJ3V0E3bN1P814QFrB4TfN919cg8WRklOaqL8hCbnbsqwvcvw8J2dSzL1O6jhriSdRkqfXyumKLMNXzBW6M75rM0OUn4ssE9zEQ02g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=e9WLHSVi; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version:Content-Type; b=lJVV0HfFvMBLj58ZMwCYwu1DD2F9Ix7d6+WAx3AHfx6qAW2OuomDLEzbqpjiUEkPQlMPN0Idjr+7SjLzxrqq+U81yR0UGRAReVIRj9DJyeOmY2/yLJWAGOuLiozvI87p5mURlilbHpzeax8nwPrcEwRzOfpLcM/5lMKOmpmR01o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=IZiyeRvU; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e9WLHSVi"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42121d27861so18125785e9.0
-        for <chrome-platform@lists.linux.dev>; Fri, 07 Jun 2024 01:44:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IZiyeRvU"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4214aa43a66so18851525e9.1
+        for <chrome-platform@lists.linux.dev>; Fri, 07 Jun 2024 01:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1717749888; x=1718354688; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1717749889; x=1718354689; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5FGL8cAEQ0O2enVmYyGVM2Jx+NaXP9rfnR5x0k/WELA=;
-        b=e9WLHSViow6Ei38KCV4J0wmTDMwz6ylnnFcFmn4S3Ce9b04BiwefnwXnHRs0DPiyjD
-         xgzN8OcWDU6IC8N8WJIUdnwfk/aMEA9SgMZACwf8XPIcsY21ZLwhax/FnNqthfipaGbG
-         sm594hP8fksV8ZLIZd+GAOEy88+LYzOxOx71BdHy/Kty7R/uu7/grNOSdKbTcV0eSj/T
-         J52yd2zkrSKAqCR1jwwQRN7RSwAl1e8eCB57DjLwi9IS6/EtRMb46a3bLviG0MvOgVJY
-         2cHYg1/5wFsoRX7dTX36S++nnvvpuc+V3FTg3QR9C0ZL8MahghmGKwMserF9zDvIxNav
-         vWDw==
+        bh=7q7foaTfDqbpSuC9Ibq8n6gkjkleMa3J/+6fe0Py97k=;
+        b=IZiyeRvUNv5Zi/XtmqR74DntoLtZcE/EWr/BUNizcQC4eLR40M8Ym7qQzkey3qo29i
+         YCYS4fpOaaaEEMMjQzX+1DIyI/Lm3GhM5VLaJXPPCcl3Clv3kiC/xmjTVU9hm7Huph+e
+         z7tzmb7vXXCEZbOSD3M3eUONRuC5PTQkvgeBUGvL6cMRb4DNH7MqwyqD8hnxWcoX4die
+         3qhgpkCXB9HGaqcsJg3ocFmKOD0QbbpooPH2l8EAktg8d4AYSlBvGsGY1TNCwhl0dhxp
+         623dCXz7WBU8WeA3xkpGX4fjNgtXcKZsAxIYKEGzKAEKv5PKufYGH8r8sHcvi/tgaFgo
+         Dz+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717749888; x=1718354688;
+        d=1e100.net; s=20230601; t=1717749889; x=1718354689;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5FGL8cAEQ0O2enVmYyGVM2Jx+NaXP9rfnR5x0k/WELA=;
-        b=Ip6sBEjsuDmIcsaPzxbdP+nsgV5iuPNGYT4ZXIEVjYfS/Ax8CGtx5XzBDi9Om4QV+i
-         VRQCpx00Rc3fRxZC6Nj3pJW7m9QNj2150T6xsIzePnSG1Xwn8kgbGHUY4JQSypOHaNVb
-         aoXu+fk7E4SroiQv9ifJxYOjqeSqgB1+ebqppn4wlnwqFHk/SjZqBCNb8MvuDUqqlK6z
-         1Jhft7lMBKUEWW4g15bDqgGpx72LUrsOkPbCd6zM/k2Y5wuYETKJZNwzJwTQDr/wNQH4
-         ybUr3oPqjhgXmfHL/F5mPlSQmmLH6YVYGotRbb+IadikKF9cfHTm+LoFu9e9TQFU4m1V
-         v2BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWY0jcBc4UPf34zep0Xc0IwwS9a10XBTAZy8U/sjUVQmCBnWjQjjV7fMNBogCYhndi4+NKktiwYAi5tE2JD8JAaV31maLcbgIRJshdDWO05
-X-Gm-Message-State: AOJu0Yxe6s/isUnBF6aZO5Ag5m0Of1oObbLlZieoeYhX2i++I5N7k/ct
-	wl0m/X7GWBP4/vytIO3Nlm/FeP7/dlpdEPyMB1AlyNhwR2SJy+zKHvR29Cdw6lA=
-X-Google-Smtp-Source: AGHT+IH/9XI6ce6wjpuBpjMC8y/GtYJRiFfAam5jHMBp7OViFavLuETNBz3U8/PfPmbAek4vxlG7yA==
-X-Received: by 2002:a05:600c:450e:b0:418:5ed2:5aa6 with SMTP id 5b1f17b1804b1-42164a3b0f0mr19195415e9.31.1717749887864;
-        Fri, 07 Jun 2024 01:44:47 -0700 (PDT)
+        bh=7q7foaTfDqbpSuC9Ibq8n6gkjkleMa3J/+6fe0Py97k=;
+        b=DGNjQBqIn/VrroJzwNIIZVoilL645HflW2Bn6TR+9iBEbh7aagLz58ItjOc4UdSRqI
+         qaUxebChi4jE5A/d/BM4hAIXzutT2suhe0LVEK55HtIzpHYOcQMIEIAmNkusGC2cJuYa
+         JxbCl49Vf7m9ZS8wAJOfziADh0w88SevhMu2U6MFypXam76SITR7ThQTULeUxKcrqOPX
+         oSybf1FeZpwNvgPbLAbNbFO45msgB+y3QmkmHWO+WrV8gAbqn0Yt6fWK1M7IBdqBMh7S
+         m3/+wKnYixqrWucXyIiDgqnO8RFHG6SdRZIAIcAD1J3PYrxO+cPer0i2lkw89UKO5YZa
+         02Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWxVguGyFuQiYtPD7gLCoQe8OxDHzb6wwDSbSLPHnXhL+KkeEaqVZ9iiPcqKJHx8iERGyAsYT6xzRtlKyvc9Ooxye+gnywvHgHPKhrHPR5
+X-Gm-Message-State: AOJu0YzxoecFCTqHW6nY/ovEsW2qheS+lhl0RTLFd7t3q9CnatVRVf1Y
+	I6UESEZoxcnKWE+Ip/9Frtm3gxtVAzrO7o4TJfELe6CZ2eUeh+hf5itZKjeKynCTJj6R0PpRZlU
+	unMU=
+X-Google-Smtp-Source: AGHT+IEe9+phwxQEu9tnnrIDg4Ni5d7woZbFCLHmXdNQycBCcnpUZYZxG6+gFl3WGlfM7NT25DpIMw==
+X-Received: by 2002:a05:600c:3aca:b0:41b:f788:8ca6 with SMTP id 5b1f17b1804b1-421649ea031mr16250575e9.8.1717749889331;
+        Fri, 07 Jun 2024 01:44:49 -0700 (PDT)
 Received: from localhost (p509153eb.dip0.t-ipconnect.de. [80.145.83.235])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215814e7bfsm80098415e9.40.2024.06.07.01.44.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42158f30b6fsm74942805e9.10.2024.06.07.01.44.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 01:44:47 -0700 (PDT)
+        Fri, 07 Jun 2024 01:44:48 -0700 (PDT)
 From: "=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=" <ukleinek@baylibre.com>
 X-Google-Original-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Benson Leung <bleung@chromium.org>
@@ -59,9 +60,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	linux-pwm@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in .get_state()
-Date: Fri,  7 Jun 2024 10:44:15 +0200
-Message-ID: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
+Subject: [PATCH 2/3] pwm: cros-ec: Simplify device tree xlation
+Date: Fri,  7 Jun 2024 10:44:16 +0200
+Message-ID: <20240607084416.897777-7-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240607084416.897777-5-u.kleine-koenig@baylibre.com>
 References: <20240607084416.897777-5-u.kleine-koenig@baylibre.com>
@@ -72,103 +73,86 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3061; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=wudYmHy3qCSrWLSreH+1TgxgneyUtA3ewiC9lXDQSKs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmYshl2TygktlmNS6vtWgQA7+2Bnh2F7OPpd1Z2 OFVxplP1LiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZmLIZQAKCRCPgPtYfRL+ TjbTCACR1DiLfufuRbJltZvAy1vOOWnfILZW6Txf383BpkW755Jry1cQfC4l0KE2mqgXI9FRLmk +YL7nbP+5arxci4Hq8p1PEv1B5C9BUP7z1Xq1mk0ZlpLbBm+jGk2D9gZR71WquJp1KJfonHDd0l mGksY7Bl6kwFNrhtqRdy+JuNMQLpb7yHspr+Afm08DNYqlL8ncrTPkN+X8yiuOs9z7ZsMbt8P+1 HoHxCaKPXTW1XBXckJzT6Bpt/FaiyedOk8g/cWakA2TSctd540/d3pfiQZj6X+vspclmmkde34s z/77KO/ajGmZUu9utoA/V8bGYdIurzFPY5AUGuuRXUVu4fNB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2725; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=14XoLLXGkugteQS++IsQ79UO0X3PLB2TkFVDwv7Adjs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmYshp7ZopTDwjLkhREFWcoeKD2bW+iMngzrmDw 7XS7XCoSPyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZmLIaQAKCRCPgPtYfRL+ TrqVCACZrlNisihbk7HuvKGftuT5C8DHUxuMDxsWqdZ37JAzsXeI4P21QvllL2Zu1Rs2hkrGhCs QFvS6CnGHJkmyCV9sqjx+6TXtSBR4jurcDqtRxfspMVNdrQK8PRgy0scPY/W8nsDLDamXpOjgeJ DT1x7ZVAl0Mux5twaab9SrRPt3F8lxSg6Reb9twrcRTs53C7nEA7W4rvN6VpRzL/OWttBdcxOfc RS9nHVSagx8nOB8PR0Ex+t9KyKCZ/gJ7EmVFxomvzbFQApkv6gV7C2o1YZ9jW8ih64/r4Xyyo15 q8VeUfZnwM1y4mE8l8mIcT1kGNtafUpXLfXrMq8Ve7HJsUuF
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The get_state() callback is never called (in a visible way) after there
-is a consumer for a pwm device. The core handles loosing the information
-about duty_cycle just fine.
+The cros-ec device tree binding only uses #pwm-cells = <1>, and so there
+is no period provided in the device tree. Up to now this was handled by
+hardcoding the period to the only supported value in the custom xlate
+callback. Apart from that, the default xlate callback (i.e.
+of_pwm_xlate_with_flags()) handles this just fine (and better, e.g. by
+checking args->args_count >= 1 before accessing args->args[0]).
 
-Simplify the driver accordingly.
+To simplify make use of of_pwm_xlate_with_flags(), drop the custom
+callback and provide the default period in .probe() already.
+
+Apart from simplifying the driver this also drops the last non-core user
+of pwm_request_from_chip() and so makes further simplifications
+possible.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/pwm/pwm-cros-ec.c | 33 +--------------------------------
- 1 file changed, 1 insertion(+), 32 deletions(-)
+ drivers/pwm/pwm-cros-ec.c | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-index 606ccfdaf4cc..ba4ee0b507b7 100644
+index ba4ee0b507b7..fcc33a2cb878 100644
 --- a/drivers/pwm/pwm-cros-ec.c
 +++ b/drivers/pwm/pwm-cros-ec.c
-@@ -25,15 +25,6 @@
- struct cros_ec_pwm_device {
- 	struct cros_ec_device *ec;
- 	bool use_pwm_type;
--	struct cros_ec_pwm *channel;
--};
--
--/**
-- * struct cros_ec_pwm - per-PWM driver data
-- * @duty_cycle: cached duty cycle
-- */
--struct cros_ec_pwm {
--	u16 duty_cycle;
- };
- 
- static inline struct cros_ec_pwm_device *pwm_to_cros_ec_pwm(struct pwm_chip *chip)
-@@ -135,7 +126,6 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 			     const struct pwm_state *state)
- {
- 	struct cros_ec_pwm_device *ec_pwm = pwm_to_cros_ec_pwm(chip);
--	struct cros_ec_pwm *channel = &ec_pwm->channel[pwm->hwpwm];
- 	u16 duty_cycle;
- 	int ret;
- 
-@@ -156,8 +146,6 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	if (ret < 0)
- 		return ret;
- 
--	channel->duty_cycle = state->duty_cycle;
--
+@@ -169,24 +169,6 @@ static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
  	return 0;
  }
  
-@@ -165,7 +153,6 @@ static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 				 struct pwm_state *state)
- {
- 	struct cros_ec_pwm_device *ec_pwm = pwm_to_cros_ec_pwm(chip);
--	struct cros_ec_pwm *channel = &ec_pwm->channel[pwm->hwpwm];
+-static struct pwm_device *
+-cros_ec_pwm_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
+-{
+-	struct pwm_device *pwm;
+-
+-	if (args->args[0] >= chip->npwm)
+-		return ERR_PTR(-EINVAL);
+-
+-	pwm = pwm_request_from_chip(chip, args->args[0], NULL);
+-	if (IS_ERR(pwm))
+-		return pwm;
+-
+-	/* The EC won't let us change the period */
+-	pwm->args.period = EC_PWM_MAX_DUTY;
+-
+-	return pwm;
+-}
+-
+ static const struct pwm_ops cros_ec_pwm_ops = {
+ 	.get_state	= cros_ec_pwm_get_state,
+ 	.apply		= cros_ec_pwm_apply,
+@@ -237,7 +219,7 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
+ 	struct cros_ec_pwm_device *ec_pwm;
+ 	struct pwm_chip *chip;
+ 	bool use_pwm_type = false;
+-	unsigned int npwm;
++	unsigned int i, npwm;
  	int ret;
  
- 	ret = cros_ec_pwm_get_duty(ec_pwm->ec, ec_pwm->use_pwm_type, pwm->hwpwm);
-@@ -175,23 +162,10 @@ static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 	}
+ 	if (!ec)
+@@ -263,7 +245,17 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
  
- 	state->enabled = (ret > 0);
-+	state->duty_cycle = ret;
- 	state->period = EC_PWM_MAX_DUTY;
- 	state->polarity = PWM_POLARITY_NORMAL;
- 
--	/*
--	 * Note that "disabled" and "duty cycle == 0" are treated the same. If
--	 * the cached duty cycle is not zero, used the cached duty cycle. This
--	 * ensures that the configured duty cycle is kept across a disable and
--	 * enable operation and avoids potentially confusing consumers.
--	 *
--	 * For the case of the initial hardware readout, channel->duty_cycle
--	 * will be 0 and the actual duty cycle read from the EC is used.
--	 */
--	if (ret == 0 && channel->duty_cycle > 0)
--		state->duty_cycle = channel->duty_cycle;
--	else
--		state->duty_cycle = ret;
--
- 	return 0;
- }
- 
-@@ -291,11 +265,6 @@ static int cros_ec_pwm_probe(struct platform_device *pdev)
+ 	/* PWM chip */
  	chip->ops = &cros_ec_pwm_ops;
- 	chip->of_xlate = cros_ec_pwm_xlate;
+-	chip->of_xlate = cros_ec_pwm_xlate;
++
++	/*
++	 * The device tree binding for this device is special as it only uses a
++	 * single cell (for the hwid) and so doesn't provide a default period.
++	 * This isn't a big problem though as the hardware only supports a
++	 * single period length, it's just a bit ugly to make this fit into the
++	 * pwm core abstractions. So initialize the period here, as
++	 * of_pwm_xlate_with_flags() won't do that for us.
++	 */
++	for (i = 0; i < npwm; ++i)
++		chip->pwms[i].args.period = EC_PWM_MAX_DUTY;
  
--	ec_pwm->channel = devm_kcalloc(dev, chip->npwm, sizeof(*ec_pwm->channel),
--					GFP_KERNEL);
--	if (!ec_pwm->channel)
--		return -ENOMEM;
--
  	dev_dbg(dev, "Probed %u PWMs\n", chip->npwm);
  
- 	ret = devm_pwmchip_add(dev, chip);
 -- 
 2.43.0
 

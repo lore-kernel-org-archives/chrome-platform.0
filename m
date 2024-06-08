@@ -1,236 +1,114 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9280178361
-	for <chrome-platform@lists.linux.dev>; Sat,  8 Jun 2024 08:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993AC17BBA;
+	Sat,  8 Jun 2024 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717834375; cv=none; b=X/j10cq7Xc4JjC9Sk7HGiO5SGhF5LWEjDMSZD2U1s+1Sngzn26cBSlKZy57pgvAKrGoKT+npLNbDKLhUV29vAgfEMw9T4MdtXRm2HqbSGGWewqwulJVg8PVuFecczAe7SIg5nb+ub6OxBtdDQXoTI/+chVdQ0SERf5cXj456Jlk=
+	t=1717856703; cv=none; b=WnUkgjK3q5Wy7jOkavkeGMEkWlSmnTQwS3tRcmA3I8auw9Rh8QPUUC/m5SDx0zmzeUO4cQ4VqNve9mT/WYiMLEHTfSfJAxVxTfDCpCGFtvgzk9AFZs3BmHeb44hRU8sq0PNqw3OUT9z+tO5A9osMkyEndnNCkjUbbY9vfZWGCQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717834375; c=relaxed/simple;
-	bh=nS0VirJKyYW+dk8nu7ljo2kt+g/A4F+QJmGxE892J9I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BwMfyXISnLpEPZL1iqIVrhaEneMHTlo5kOIFuxAb/XL9jS1sT2VsOqQ0ZwnBdWsgCyYwrOyDwGdsuHlx8cQtmxp4+ZE7nAgimhm5VBagAZBFAEDRh8+9bx2VSSwU/ph9jWP6HbmfbGDx1ThVVxTF0I1KWNE2NusdKfnAIIC20kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=amJRXPqB; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1717856703; c=relaxed/simple;
+	bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GU/P0fPilZnqJYSy6u03LZfAGepOFyR6oS67KbRVya/5Xx7iWywSq/Zdj2YprEPiafJSehlOdPH4PMIVcUHfzfTVSign4NfnZfLsQMiHMZCfGAedsCofH6cPNPovObCVpZXI2mInzxNBkCXwUIFgZE13Ez+lxHMx8b7b08E4wUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RryReEsD; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="amJRXPqB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717834366;
-	bh=nS0VirJKyYW+dk8nu7ljo2kt+g/A4F+QJmGxE892J9I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=amJRXPqBn4lEkEK0kaAX1c495b7B/CEZvd0SVy1YL82RQn8qo0rRHrMfRGd2dyQhB
-	 yU+vmiGcBRZgKJO8+U5eATwjzx8ILmIMx7Kt1y61Whz/D93Q7MkHsOs+BUvr4rtlcR
-	 tde2QYQPm5yDepBSIj1SKa/+D2CDWZnax/p1z0PU=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 08 Jun 2024 10:12:47 +0200
-Subject: [PATCH 5/5] hwmon: (cros_ec) Add support for temperature
- thresholds
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RryReEsD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717856699; x=1749392699;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
+  b=RryReEsDvLT4lzCCkDlBOj1ew5Dm0l+HIgaKOaiJsxDmJcyv/W+nRkuE
+   nVQ446Nr74QU4ALeP2oeK/uoMyA6nwcSTiPo530exjcgv3sMSPSByAp+7
+   1UU4HtvJ00KJ56YKKH72Sh+sjgFcD0INbw5gRoo9+x8q4+4rS0BMhf+fU
+   EjqhPlfNsFAihqi6muzLYfno41wVYxtPqqm6BqJLGJnBSw6eVFXigcAw6
+   72smYIgdFOZnJ+ZR6mh+PRT6gy2q4Se1dKooAWu7SrB6OA1h1llZDRzdD
+   zzdd3h1VCWbHQ4JC1tpxcPf2ayoJDtkGBNfpl+ZFla/GCODAVg3zT7PIY
+   w==;
+X-CSE-ConnectionGUID: 8IB1mdabSqKNDhKWbOD4hA==
+X-CSE-MsgGUID: qrlhhPDnQJyA57GTQNiSrg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="14726827"
+X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
+   d="scan'208";a="14726827"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 07:24:59 -0700
+X-CSE-ConnectionGUID: 08A8MsLfQq2uUBz6UiXTFQ==
+X-CSE-MsgGUID: 8j2cGZ7nTMC2JfPsGBkgKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
+   d="scan'208";a="38547777"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jun 2024 07:24:57 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sFx02-00001W-2M;
+	Sat, 08 Jun 2024 14:24:54 +0000
+Date: Sat, 8 Jun 2024 22:24:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@baylibre.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
+	linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in
+ .get_state()
+Message-ID: <202406082139.KG4VcZiF-lkp@intel.com>
+References: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240608-cros_ec-hwmon-pwm-v1-5-d29dfc26fbc3@weissschuh.net>
-References: <20240608-cros_ec-hwmon-pwm-v1-0-d29dfc26fbc3@weissschuh.net>
-In-Reply-To: <20240608-cros_ec-hwmon-pwm-v1-0-d29dfc26fbc3@weissschuh.net>
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Stephen Horvath <s.horvath@outlook.com.au>, chrome-platform@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717834365; l=6121;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=nS0VirJKyYW+dk8nu7ljo2kt+g/A4F+QJmGxE892J9I=;
- b=V5V/b7UZ6qurz6h+lVJBextsKc+zDESr+4BKzZqCx/SRGi4RrU7YqVnGRo32ivPUsbr34MEHs
- Ic103Au6TTsBxT6JaCsU8kxRJcn+szSC9XRcLDCmuaVvNq2zfbj6C96
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
 
-Implement reading and writing temperature thresholds through
-EC_CMD_THERMAL_GET_THRESHOLD/EC_CMD_THERMAL_SET_THRESHOLD.
+Hi Uwe,
 
-Thresholds are mapped as follows between the EC and hwmon:
+kernel test robot noticed the following build warnings:
 
-hwmon_temp_max       - EC_TEMP_THRESH_WARN
-hwmon_temp_crit      - EC_TEMP_THRESH_HIGH
-hwmon_temp_emergency - EC_TEMP_THRESH_HALT
+[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
 
-Signed-off-by: Thomas WeiÃŸschuh <linux@weissschuh.net>
----
- Documentation/hwmon/cros_ec_hwmon.rst |  1 +
- drivers/hwmon/cros_ec_hwmon.c         | 82 +++++++++++++++++++++++++++++++++--
- 2 files changed, 80 insertions(+), 3 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/pwm-cros-ec-Don-t-care-about-consumers-in-get_state/20240607-164747
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240607084416.897777-6-u.kleine-koenig%40baylibre.com
+patch subject: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in .get_state()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-index 3cc345425aac..24ff261ae232 100644
---- a/Documentation/hwmon/cros_ec_hwmon.rst
-+++ b/Documentation/hwmon/cros_ec_hwmon.rst
-@@ -29,3 +29,4 @@ Supported features:
-   - Target fan speed (for fan 1 only)
-   - PWM-based fan control
-   - Current temperature
-+  - Temperature thresholds
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 5cddf78cfe0e..009b94af6df4 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -29,6 +29,7 @@ struct cros_ec_hwmon_priv {
- 	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
- 	u8 usable_fans;
- 	bool has_fan_pwm;
-+	bool has_temp_threshold;
- 	u8 fan_pwm[EC_FAN_SPEED_ENTRIES];
- 	enum cros_ec_hwmon_fan_mode fan_mode[EC_FAN_SPEED_ENTRIES];
- };
-@@ -97,6 +98,42 @@ static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8
- 	return 0;
- }
- 
-+static int cros_ec_hwmon_read_temp_threshold(struct cros_ec_device *cros_ec, u8 index,
-+					     enum ec_temp_thresholds threshold, u32 *temp)
-+{
-+	struct ec_params_thermal_get_threshold_v1 req = {};
-+	struct ec_thermal_config resp;
-+	int ret;
-+
-+	req.sensor_num = index;
-+	ret = cros_ec_cmd(cros_ec, 1, EC_CMD_THERMAL_GET_THRESHOLD,
-+			  &req, sizeof(req), &resp, sizeof(resp));
-+	if (ret < 0)
-+		return ret;
-+
-+	*temp = resp.temp_host[threshold];
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_write_temp_threshold(struct cros_ec_device *cros_ec, u8 index,
-+					      enum ec_temp_thresholds threshold, u32 temp)
-+{
-+	struct ec_params_thermal_get_threshold_v1 get_req = {};
-+	struct ec_params_thermal_set_threshold_v1 set_req = {};
-+	int ret;
-+
-+	get_req.sensor_num = index;
-+	ret = cros_ec_cmd(cros_ec, 1, EC_CMD_THERMAL_GET_THRESHOLD,
-+			  &get_req, sizeof(get_req), &set_req.cfg, sizeof(set_req.cfg));
-+	if (ret < 0)
-+		return ret;
-+
-+	set_req.sensor_num = index;
-+	set_req.cfg.temp_host[threshold] = temp;
-+	return cros_ec_cmd(cros_ec, 1, EC_CMD_THERMAL_SET_THRESHOLD,
-+			   &set_req, sizeof(set_req), NULL, 0);
-+}
-+
- static bool cros_ec_hwmon_is_error_fan(u16 speed)
- {
- 	return speed == EC_FAN_SPEED_NOT_PRESENT || speed == EC_FAN_SPEED_STALLED;
-@@ -115,11 +152,24 @@ static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
- 	return kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
- }
- 
-+static enum ec_temp_thresholds cros_ec_hwmon_attr_to_thres(u32 attr)
-+{
-+	if (attr == hwmon_temp_max)
-+		return EC_TEMP_THRESH_WARN;
-+	else if (attr == hwmon_temp_crit)
-+		return EC_TEMP_THRESH_HIGH;
-+	else if (attr == hwmon_temp_emergency)
-+		return EC_TEMP_THRESH_HALT;
-+	else
-+		return 0;
-+}
-+
- static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
- 			      u32 attr, int channel, long *val)
- {
- 	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
- 	int ret = -EOPNOTSUPP;
-+	u32 threshold;
- 	u16 speed;
- 	u8 temp;
- 
-@@ -166,6 +216,14 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
- 			ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
- 			if (ret == 0)
- 				*val = cros_ec_hwmon_is_error_temp(temp);
-+
-+		} else if (attr == hwmon_temp_max || attr == hwmon_temp_crit ||
-+			   attr == hwmon_temp_emergency) {
-+			ret = cros_ec_hwmon_read_temp_threshold(priv->cros_ec, channel,
-+								cros_ec_hwmon_attr_to_thres(attr),
-+								&threshold);
-+			if (ret == 0)
-+				*val = kelvin_to_millicelsius(threshold);
- 		}
- 	}
- 
-@@ -235,6 +293,10 @@ static int cros_ec_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
- 
- 		else if (attr == hwmon_pwm_enable)
- 			ret = cros_ec_hwmon_write_pwm_enable(priv, channel, val);
-+	} else if (type == hwmon_temp) {
-+		ret = cros_ec_hwmon_write_temp_threshold(priv->cros_ec, channel,
-+							 cros_ec_hwmon_attr_to_thres(attr),
-+							 millicelsius_to_kelvin(val));
- 	}
- 
- 	return ret;
-@@ -259,8 +321,16 @@ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_type
- 			return 0644;
- 
- 	} else if (type == hwmon_temp) {
--		if (priv->temp_sensor_names[channel])
--			return 0444;
-+		if (priv->temp_sensor_names[channel]) {
-+			if (attr == hwmon_temp_max ||
-+			    attr == hwmon_temp_crit ||
-+			    attr == hwmon_temp_emergency) {
-+				if (priv->has_temp_threshold)
-+					return 0644;
-+			} else {
-+				return 0444;
-+			}
-+		}
- 	}
- 
- 	return 0;
-@@ -278,7 +348,8 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
- 
--#define CROS_EC_HWMON_TEMP_PARAMS (HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL)
-+#define CROS_EC_HWMON_TEMP_PARAMS (HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL | \
-+				   HWMON_T_MAX | HWMON_T_CRIT | HWMON_T_EMERGENCY)
- 	HWMON_CHANNEL_INFO(temp,
- 			   CROS_EC_HWMON_TEMP_PARAMS,
- 			   CROS_EC_HWMON_TEMP_PARAMS,
-@@ -325,9 +396,14 @@ static void cros_ec_hwmon_probe_temp_sensors(struct device *dev, struct cros_ec_
- 	struct ec_params_temp_sensor_get_info req = {};
- 	struct ec_response_temp_sensor_get_info resp;
- 	size_t candidates, i, sensor_name_size;
-+	u32 threshold;
- 	int ret;
- 	u8 temp;
- 
-+	ret = cros_ec_hwmon_read_temp_threshold(priv->cros_ec, 0, EC_TEMP_THRESH_HIGH, &threshold);
-+	if (ret == 0)
-+		priv->has_temp_threshold = 1;
-+
- 	if (thermal_version < 2)
- 		candidates = EC_TEMP_SENSOR_ENTRIES;
- 	else
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406082139.KG4VcZiF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pwm/pwm-cros-ec.c:28: warning: Excess struct member 'channel' description in 'cros_ec_pwm_device'
+
+
+vim +28 drivers/pwm/pwm-cros-ec.c
+
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  17  
+1f0d3bb02785f6 Brian Norris     2016-07-15  18  /**
+1f0d3bb02785f6 Brian Norris     2016-07-15  19   * struct cros_ec_pwm_device - Driver data for EC PWM
+1f0d3bb02785f6 Brian Norris     2016-07-15  20   *
+1f0d3bb02785f6 Brian Norris     2016-07-15  21   * @ec: Pointer to EC device
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  22   * @use_pwm_type: Use PWM types instead of generic channels
+82adc1b2688b02 Uwe Kleine-König 2023-07-05  23   * @channel: array with per-channel data
+1f0d3bb02785f6 Brian Norris     2016-07-15  24   */
+1f0d3bb02785f6 Brian Norris     2016-07-15  25  struct cros_ec_pwm_device {
+1f0d3bb02785f6 Brian Norris     2016-07-15  26  	struct cros_ec_device *ec;
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  27  	bool use_pwm_type;
+1db37f9561b2b3 Thierry Reding   2019-10-17 @28  };
+1db37f9561b2b3 Thierry Reding   2019-10-17  29  
 
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

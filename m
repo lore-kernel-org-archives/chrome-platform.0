@@ -1,32 +1,48 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFB4145354;
-	Mon, 10 Jun 2024 15:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024C06BB33;
+	Mon, 10 Jun 2024 21:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718034734; cv=none; b=SHNKCeKZC1PoMrZqKOiXkui56BzoMdeqZI99OJAw5Q8hHg1DR0XtRgytFWGUZ3JaGkaOwxbJBKybuxHfnXZvk8nzFsABidRxJEJ64fV0TpFQUilwioVVf4xVe3VukSPeAv80KDorg4ZXdJ8rVR9PFDKJuYsdeyMjYhMEID6beOI=
+	t=1718056245; cv=none; b=QZr32CZdgTLg50YVhLVTgBrhv6dDD0Jx6O+zJIgXXwkzX30demfoN8MYrr105t9uOZnTd+e+2PYwYMlH2uqwag7bnAKRb1mnosJJvJhYSHKqUK5vfZAKnSrC7KqleuZwKtFfXMvZgOYmy3nn5uBqHaqJmQ4kwx9ulC3eyLRTbu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718034734; c=relaxed/simple;
-	bh=yLPuywKxlke6NT+olphfKJbBjlPvjs/2umweIlCb7Oc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r4LdSs1DkHeYoc62U+z8YBl8OztuGIF6CYSaxhyphqrS0crWOx1cECYPR8xZZdudOywyz3SFMVgmHeDYF8Y5hmlZ3ItTLfCD4A4MO1h8+d4iB474ZHoITiBzW3KpK3BEfsFXAg5V9MaJAeczNsHZFeDQYiqMGmoLUtO//HDdXvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=lEXm9ND2; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1718056245; c=relaxed/simple;
+	bh=TFxV9viCsgGzXh/HDil6hu+fKqnzPH+C9fRoDE52ffg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=uarjn9chKaydyCClIji8lFKWIXmRDdyFsl1MeP2AHFrMaRytvELRgS9xv10GLBUvCYGvqZUOtGj34oMlPd9JzETifppiNrScbnjaFDYakInzYJte5PBQP1scuuJrGmha+bIC5fyknrOwP6kyUX0/JPHgKAFwkGmtuyH97TGDT8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IABCUkKq; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="lEXm9ND2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718034727;
-	bh=yLPuywKxlke6NT+olphfKJbBjlPvjs/2umweIlCb7Oc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lEXm9ND2/w0HRAMcQ5ZiCAtRBk3MWTlkT5d9EupLPFpf6hZImMDXTccLMKg4dTuut
-	 d0v7aTdKPpByQtbSKTIuhYLEGQU+f81/E8pOkE8QrjAlCbVUEZ3Y60u8wN5L85NfFO
-	 ILf/NIGC2Y4dpY8vnYC8ndntu12W1AIkLyZZqxo4=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 10 Jun 2024 17:51:10 +0200
-Subject: [PATCH v3 5/5] power: supply: cros_charge-control: don't probe if
- Framework control is present
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IABCUkKq"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AEm5f5006815;
+	Mon, 10 Jun 2024 21:50:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Xmr+t7hg7hJrqIQO0ea69r
+	tcJI6nRDI2vfR2R9N+DhQ=; b=IABCUkKqdHHmusndhev+/NzR8jSIa1/Wji0KUI
+	IbeNVJPm2ouMjnED3uyHr5Nb2O8cmyQ6gDJ2jMpUmJMEbyuOCwUhFYWrChmzPuxP
+	eUPHqwqbdLhkin3ixibdjXDeD/KerGa8Sq93dFkya3vO+H++Jb9O89EmOX7uIm3e
+	8AXWfKozY/MHlCXP4d66c15GVdMwN00T3ATSGjIsICh+eEXD+xrQXPmhjYLvC1Im
+	pxC3m07M/UJXYifbHM4ONZvIB31r+qq3MQ4/1Pau0DR/fn89rsKtpN2cdxmzsALn
+	S9D/Rp0zLl0hEEa8I/lUofuB9GeiGDPoAKHA+m/a4m3CkaWA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymgk8vtdk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 21:50:40 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45ALodue027898
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 21:50:39 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
+ 2024 14:50:38 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Mon, 10 Jun 2024 14:50:37 -0700
+Subject: [PATCH] platform/chrome: cros_ec_proto: add missing
+ MODULE_DESCRIPTION() macro
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,97 +50,54 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240610-cros_ec-charge-control-v3-5-135e37252094@weissschuh.net>
-References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
-In-Reply-To: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- Sebastian Reichel <sre@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Robert Moore <robert.moore@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
- Dustin Howett <dustin@howett.net>, 
- Stephen Horvath <s.horvath@outlook.com.au>, 
- Rajas Paranjpe <paranjperajas@gmail.com>, linux-acpi@vger.kernel.org, 
- acpica-devel@lists.linux.dev, Matt Hartley <matt.hartley@gmail.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240610-md-drivers-platform-chrome-v1-1-f9c75adcc1ca@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIACx1Z2YC/x3MSwqDMBAA0KvIrDuQhCDSq5Qu8hmbAZPIxIog3
+ t20y7d5JzQSpgbP4QShnRvX0qEfA4TkyoeQYzcYZawatcIcMQrvJA3XxW1zlYwhSc2EOkzWj3a
+ yJnjowSo08/HPX+9u7xqhF1dC+pULl++B2bWNBK7rBkT8reuLAAAA
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>
+CC: <chrome-platform@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718034726; l=2319;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=yLPuywKxlke6NT+olphfKJbBjlPvjs/2umweIlCb7Oc=;
- b=3wIbND3IYNvwmQXgsspa8RqWb8j8yyNshSXEsCKlvqFzB6+tqyIDudmsHo6iGQ9EoemomN9Mg
- 6E4FnVddsYAArcpQMSS0ptxqSUcOjTFzP84Yy+KHgX733nZNaEmDUsI
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rV2IW1dhTdhSKeDRxO1BybYEnDh8Pyyd
+X-Proofpoint-ORIG-GUID: rV2IW1dhTdhSKeDRxO1BybYEnDh8Pyyd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-10_06,2024-06-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406100162
 
-Framework laptops implement a custom charge control EC command.
-The upstream CrOS EC command is also present and functional but can get
-overridden by the custom one.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
 
-Until Framework make both commands compatible or remove their custom
-one, don't load the driver on those machines.
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-If the user knows they are not going to use the custom command they can
-use a module parameter to load cros_charge-control anyways.
-
-Note that the UEFI setup configuration for battery control also uses
-their custom command.
-
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 ---
- drivers/power/supply/cros_charge-control.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/platform/chrome/cros_ec_proto_test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index 056346850c6d..3688e021b4da 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -6,6 +6,7 @@
-  */
- #include <acpi/battery.h>
- #include <linux/container_of.h>
-+#include <linux/dmi.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
-@@ -259,6 +260,19 @@ static int cros_chctl_remove_battery(struct power_supply *battery, struct acpi_b
- 	return 0;
- }
+diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+index 41378c2ee6a0..3960f7c16eb0 100644
+--- a/drivers/platform/chrome/cros_ec_proto_test.c
++++ b/drivers/platform/chrome/cros_ec_proto_test.c
+@@ -2740,4 +2740,5 @@ static struct kunit_suite cros_ec_proto_test_suite = {
  
-+static bool probe_with_fwk_charge_control;
-+module_param(probe_with_fwk_charge_control, bool, 0644);
-+MODULE_PARM_DESC(probe_with_fwk_charge_control,
-+		 "Probe the driver in the presence of the custom Framework EC charge control");
-+
-+static int cros_chctl_fwk_charge_control_versions(struct cros_ec_device *cros_ec)
-+{
-+	if (!dmi_match(DMI_SYS_VENDOR, "Framework"))
-+		return 0;
-+
-+	return cros_ec_cmd_versions(cros_ec, 0x3E03 /* FW_EC_CMD_CHARGE_LIMIT */);
-+}
-+
- static int cros_chctl_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -268,6 +282,14 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 	size_t i;
- 	int ret;
+ kunit_test_suite(cros_ec_proto_test_suite);
  
-+	ret = cros_chctl_fwk_charge_control_versions(cros_ec);
-+	if (ret < 0)
-+		return ret;
-+	if (ret > 0 && !probe_with_fwk_charge_control) {
-+		dev_info(dev, "Framework charge control detected, not probing\n");
-+		return -ENODEV;
-+	}
-+
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
++MODULE_DESCRIPTION("Kunit tests for ChromeOS Embedded Controller protocol");
+ MODULE_LICENSE("GPL");
 
--- 
-2.45.2
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240610-md-drivers-platform-chrome-1c84b64842cb
 

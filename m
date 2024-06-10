@@ -1,114 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993AC17BBA;
-	Sat,  8 Jun 2024 14:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A79913F43E;
+	Mon, 10 Jun 2024 15:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717856703; cv=none; b=WnUkgjK3q5Wy7jOkavkeGMEkWlSmnTQwS3tRcmA3I8auw9Rh8QPUUC/m5SDx0zmzeUO4cQ4VqNve9mT/WYiMLEHTfSfJAxVxTfDCpCGFtvgzk9AFZs3BmHeb44hRU8sq0PNqw3OUT9z+tO5A9osMkyEndnNCkjUbbY9vfZWGCQ8=
+	t=1718034731; cv=none; b=Bs9gv8BsusX1nR7y5TOUH92Y1+VPMlaRUfUFVOZWoXZf35v+bOX+dMntOcXJkL70WcyZfWR4SuG20+8q2DgyAQfZgetdPoiVJ9KYUfOU0IX7txyHoyHGKSy0HcB88HsW2yApf7jkYyuzLmabb7Ofo8eUug1IXHvmzPlP4ljRGh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717856703; c=relaxed/simple;
-	bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GU/P0fPilZnqJYSy6u03LZfAGepOFyR6oS67KbRVya/5Xx7iWywSq/Zdj2YprEPiafJSehlOdPH4PMIVcUHfzfTVSign4NfnZfLsQMiHMZCfGAedsCofH6cPNPovObCVpZXI2mInzxNBkCXwUIFgZE13Ez+lxHMx8b7b08E4wUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RryReEsD; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718034731; c=relaxed/simple;
+	bh=YZm4xIk6nDiHtUnYqBTNSv20zxWLGRO9uBNg5Cg7bQQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=u6MZcQSGDf8Wr5SZiikhDOatrccnWocjMmzHB+gxubDWcdHPwKCwi5GpXySGHC34I0/NEzNUN+5y90alHykZoddsvlLU9ydjwSA3sEPthI/UaAHMIinIlbA79AR+2NIqJaZwOggHrLTht5HqYZcQy+JFZfYf92xAKs8lAaScpQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=XOvkVDEJ; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RryReEsD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717856699; x=1749392699;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
-  b=RryReEsDvLT4lzCCkDlBOj1ew5Dm0l+HIgaKOaiJsxDmJcyv/W+nRkuE
-   nVQ446Nr74QU4ALeP2oeK/uoMyA6nwcSTiPo530exjcgv3sMSPSByAp+7
-   1UU4HtvJ00KJ56YKKH72Sh+sjgFcD0INbw5gRoo9+x8q4+4rS0BMhf+fU
-   EjqhPlfNsFAihqi6muzLYfno41wVYxtPqqm6BqJLGJnBSw6eVFXigcAw6
-   72smYIgdFOZnJ+ZR6mh+PRT6gy2q4Se1dKooAWu7SrB6OA1h1llZDRzdD
-   zzdd3h1VCWbHQ4JC1tpxcPf2ayoJDtkGBNfpl+ZFla/GCODAVg3zT7PIY
-   w==;
-X-CSE-ConnectionGUID: 8IB1mdabSqKNDhKWbOD4hA==
-X-CSE-MsgGUID: qrlhhPDnQJyA57GTQNiSrg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="14726827"
-X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="14726827"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 07:24:59 -0700
-X-CSE-ConnectionGUID: 08A8MsLfQq2uUBz6UiXTFQ==
-X-CSE-MsgGUID: 8j2cGZ7nTMC2JfPsGBkgKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="38547777"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Jun 2024 07:24:57 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sFx02-00001W-2M;
-	Sat, 08 Jun 2024 14:24:54 +0000
-Date: Sat, 8 Jun 2024 22:24:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@baylibre.com>,
-	Benson Leung <bleung@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
-	linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in
- .get_state()
-Message-ID: <202406082139.KG4VcZiF-lkp@intel.com>
-References: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="XOvkVDEJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1718034726;
+	bh=YZm4xIk6nDiHtUnYqBTNSv20zxWLGRO9uBNg5Cg7bQQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=XOvkVDEJHfvHFbY9wdP2Vj+VokZ7VSnZU5+EApDrSMrsNss74IZP4ZdY+GajjLkdB
+	 nUWq36d5su33vDqCSc2p0sM27tW0T10G+Fs885e3InBQbndn9sOKqL6+4lQ1zU6tpV
+	 BaPSHQvmnJJjIfEJCICq5OzdoaTXxJUzlRDDK+sI=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 10 Jun 2024 17:51:06 +0200
+Subject: [PATCH v3 1/5] ACPI: battery: add devm_battery_hook_register()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
+Message-Id: <20240610-cros_ec-charge-control-v3-1-135e37252094@weissschuh.net>
+References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
+In-Reply-To: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Sebastian Reichel <sre@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Robert Moore <robert.moore@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+ Dustin Howett <dustin@howett.net>, 
+ Stephen Horvath <s.horvath@outlook.com.au>, 
+ Rajas Paranjpe <paranjperajas@gmail.com>, linux-acpi@vger.kernel.org, 
+ acpica-devel@lists.linux.dev, Matt Hartley <matt.hartley@gmail.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718034726; l=1770;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=YZm4xIk6nDiHtUnYqBTNSv20zxWLGRO9uBNg5Cg7bQQ=;
+ b=2g/GG8lqFBwdVD+9PVUjWJO48YOQ51A4lhZ4oqz9aZkY/sUylc/F86XTHLl0BJhRc3qNpKH2N
+ +bXFL/y/wKDA8d/xiSsmQeubz6EGMIRrC2FD09hwoLaV+HNcLEa1UI4
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Hi Uwe,
+Add a utility function for device-managed registration of battery hooks.
+The function makes it easier to manage the lifecycle of a hook.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Thomas WeiÃŸschuh <linux@weissschuh.net>
+---
+ drivers/acpi/battery.c | 15 +++++++++++++++
+ include/acpi/battery.h |  2 ++
+ 2 files changed, 17 insertions(+)
 
-[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/pwm-cros-ec-Don-t-care-about-consumers-in-get_state/20240607-164747
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240607084416.897777-6-u.kleine-koenig%40baylibre.com
-patch subject: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in .get_state()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406082139.KG4VcZiF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pwm/pwm-cros-ec.c:28: warning: Excess struct member 'channel' description in 'cros_ec_pwm_device'
-
-
-vim +28 drivers/pwm/pwm-cros-ec.c
-
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  17  
-1f0d3bb02785f6 Brian Norris     2016-07-15  18  /**
-1f0d3bb02785f6 Brian Norris     2016-07-15  19   * struct cros_ec_pwm_device - Driver data for EC PWM
-1f0d3bb02785f6 Brian Norris     2016-07-15  20   *
-1f0d3bb02785f6 Brian Norris     2016-07-15  21   * @ec: Pointer to EC device
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  22   * @use_pwm_type: Use PWM types instead of generic channels
-82adc1b2688b02 Uwe Kleine-König 2023-07-05  23   * @channel: array with per-channel data
-1f0d3bb02785f6 Brian Norris     2016-07-15  24   */
-1f0d3bb02785f6 Brian Norris     2016-07-15  25  struct cros_ec_pwm_device {
-1f0d3bb02785f6 Brian Norris     2016-07-15  26  	struct cros_ec_device *ec;
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  27  	bool use_pwm_type;
-1db37f9561b2b3 Thierry Reding   2019-10-17 @28  };
-1db37f9561b2b3 Thierry Reding   2019-10-17  29  
+diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
+index b379401ff1c2..6ea979f76f84 100644
+--- a/drivers/acpi/battery.c
++++ b/drivers/acpi/battery.c
+@@ -756,6 +756,21 @@ void battery_hook_register(struct acpi_battery_hook *hook)
+ }
+ EXPORT_SYMBOL_GPL(battery_hook_register);
+ 
++static void devm_battery_hook_unregister(void *data)
++{
++	struct acpi_battery_hook *hook = data;
++
++	battery_hook_unregister(hook);
++}
++
++int devm_battery_hook_register(struct device *dev, struct acpi_battery_hook *hook)
++{
++	battery_hook_register(hook);
++
++	return devm_add_action_or_reset(dev, devm_battery_hook_unregister, hook);
++}
++EXPORT_SYMBOL_GPL(devm_battery_hook_register);
++
+ /*
+  * This function gets called right after the battery sysfs
+  * attributes have been added, so that the drivers that
+diff --git a/include/acpi/battery.h b/include/acpi/battery.h
+index 611a2561a014..c93f16dfb944 100644
+--- a/include/acpi/battery.h
++++ b/include/acpi/battery.h
+@@ -2,6 +2,7 @@
+ #ifndef __ACPI_BATTERY_H
+ #define __ACPI_BATTERY_H
+ 
++#include <linux/device.h>
+ #include <linux/power_supply.h>
+ 
+ #define ACPI_BATTERY_CLASS "battery"
+@@ -19,5 +20,6 @@ struct acpi_battery_hook {
+ 
+ void battery_hook_register(struct acpi_battery_hook *hook);
+ void battery_hook_unregister(struct acpi_battery_hook *hook);
++int devm_battery_hook_register(struct device *dev, struct acpi_battery_hook *hook);
+ 
+ #endif
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+

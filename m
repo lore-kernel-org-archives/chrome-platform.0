@@ -1,141 +1,158 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55873F9FB
-	for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 16:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF946F2F0
+	for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 18:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718123990; cv=none; b=dqE9m8UoJ4+0olU07Fqot27CduxPThlSE9CIjrZIcN0lapiY/LAVEhmzNMBPgb7n0G8QywNnw5KY35HLMuB/IJppvzJcxGUO6wygdco9xiHqii+pF/i9qfHcycDFEduy4rVcSN3BULjMiecD0hiGvHyOedLdimW6cjtiVqG/MbE=
+	t=1718129466; cv=none; b=usEzLRCEDPkJAI1mf8B8bz6iooG5+nQzpU2G/qnK+1LIdwJuruIhwv0X8gpANEzKd8WbajdprELNGy9buFj40+yiB/R6J5CPym19gTwwJS0q8AJB330uJXXDyCLvkSjSDkh9RLw1JzWPde+7jamPZ8nTjZW3oWiS1YrQ94/vgKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718123990; c=relaxed/simple;
-	bh=UL9rseWM/2wJ1y912HLiN+L0RKo5rN7xbWCfczHuj8Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QvchLGk+LvGKtzqilS/IsgYk50u7w6s0BY9tcgeY0J8GZZ/A3D0MpYy9qIOmqf4ibsrKaCamVXsE1psJ8MT+Fidlpi8DMjka4TAyI921M+W0SXIsWky75+ekHTH/PqxL4FTjQ6J1FoVgMvQuoAtGZie+/3E9GlyCPxKC2LlWGIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=feqIu4pb; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718129466; c=relaxed/simple;
+	bh=/xKGhKlVtckIy/7F23998tEUprsrx5eNTrMKCF2kraE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UD8P4WRudq0qg6Ss616OJIapaxG65Q/bieHZIfhFG6VxHjgAJIPLqgUrc/8i7J0l1lT4HxPRqT9wGpB9oBeb8UWBGTlE+bkP2LN0O78OaS9dzix1bvZedgBbO6pTYpMUtmqjf9ldUaVLj44V7K6ymYaHqVrI3ZTonW0BEUpE4hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TH+mrOnH; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="feqIu4pb"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso20247a12.0
-        for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 09:39:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TH+mrOnH"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f44b441b08so10290825ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 11:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718123987; x=1718728787; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YprsCB72ySzMMOmcPzLQUUH2eaBt5uWtuMcbSZ2gItE=;
-        b=feqIu4pbsU+YqZWA+o5tVWC+LcpB/n87vbCc3NaKcaUbIvZhGwwQ1j3IUDr+4dqD4S
-         +gGSd0w/kWIoIMC3JXPp6nQONa6fT+nvJWnY5JqDCjqVstHclN7e3v33B6l7gsViHd04
-         KiVj4qsOCVm0IIJsfzjXArkZVb+BNHLrRcSlTL8SBUJKM9+Yx5w20XZS5aRd31bB8RNo
-         +NxNxNUg3Nz876xA7m8LAKoDPB+JUYrY19f/ZB+r9J9LTIUENTGLd08nnPkC7hdai52j
-         3naJRas/Lgnp0eqOV2A6PTLfBxkJWJlYc5tm1AfEkc8qGvEnpwui50m4Z9EDrjt4y62X
-         3nzQ==
+        d=gmail.com; s=20230601; t=1718129464; x=1718734264; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6yx/QSwtRUfzJxtU0mEMF/+Zp84UMg5zsjelSYKknQk=;
+        b=TH+mrOnHY4g1NH9St6GClvH8MVnpVEfUVJU8A7FD0P+TtzGkd1dScHgzEIiHj7gQys
+         Aday0+C01aFcw0S/Q7+XLQDyCWc+P/Vj8rGaDrFL7Ml037FwxPji18TUbN+IbJPvDHMQ
+         h2DEzRcg527zcyUdSqCyhoB6tI7fpVJeYbOLOGh68pAz2yd2kKefEsw0scKlHIkEKvFs
+         WIiYQGXknNCqjBteaJzXkDa7lLMEniPtUxpsiIAChqzBPfvJ3zz35M3XKtNYzFZiHMlL
+         ui+vRhGWq+AKmhS5xaDtBe5f9qiskNeSHpP/pQpQkI/7O+N6i3fncXnzdRw8/sRXPjOV
+         /vWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718123987; x=1718728787;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YprsCB72ySzMMOmcPzLQUUH2eaBt5uWtuMcbSZ2gItE=;
-        b=ndUVKbis3C3TfWj/xu9zHlAmqiKiLwnHWarbW5QhaEez8+tgml8Rwg0rfvPHQz7IX7
-         gIWeojL0zwBL6N1J5BtRoqFQAedhM7WNVMso/5IaWE/dw4Iq4qambNorqhZVH4+XKaCu
-         F50CiiKxPzp6rSPjyuNLeLyOLHYskj168dBwpzp+bTRFAJjm261V+gXwJh3bgJHK2bWg
-         kKWEEojVYWpQdJVdkrFyBQL18cgbDL2/MT+bWFrPhPsJquyozEKBrs6IEfz1iKjo9mPQ
-         ZAW5hlRyKxMCQYeuemTlgdwgx9csqW5d+T5BtKhglPkmixJTgprBny5miwDfyLptDkcO
-         OYcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmLPYxYzMq1WVA1rVFzvRIWaHNyrbe1yuXk78LPxF0/XjJrmsBQ3DgOjMOqAbChhQzNSePkQzlaD2t3UQTONbSRqIHHRtz/RgPOYoSCS4R
-X-Gm-Message-State: AOJu0YyOzehnogAdXOg8uXVvhn3/w8fYVWeu1aGqIwWF7RT2aC0xOxSN
-	0doaySBDxwtkgCt49kTwWgP/nMPlLhl24uRxeooAttsVQK7rfQi1HV3v4xCBx+qbpP57JeTUDBr
-	beSfCtRMmn5YsT2ePkMMzsHsl6G11nbr8vNJy
-X-Google-Smtp-Source: AGHT+IFnBSGNnaQYoj6jn6nRCMH5+zTSep4PVKxAM3wCnEoEeg+qdUMP5pmwCB1I60hSVoR7wwOZT85dZ61PPKla+NA=
-X-Received: by 2002:a05:6402:40c1:b0:57c:6727:4f8c with SMTP id
- 4fb4d7f45d1cf-57c935d8a0emr231767a12.1.1718123986689; Tue, 11 Jun 2024
- 09:39:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718129464; x=1718734264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yx/QSwtRUfzJxtU0mEMF/+Zp84UMg5zsjelSYKknQk=;
+        b=ojAN2XPBpBzvdNz2q80gsPSmU7gQmVbHAFtWdTgiUySLTtnf8ukO4qOKiCeV3fFV71
+         GlUFKr8q17Avppg/cyi+hAJL/wj5GbufuSyBdLeHin3plzyKJa6oY1KHdUBUZHBveDsx
+         m5R2Lr9w0nAIKO70gnBmCnw+R4F6UAOpMR+XSHV+Oz86VvH5rijwOVcK8e13JPBV/v5g
+         ngWLq5J+dyVU76avEAHr8S/lKasHiZQ7++vqtYdds1hOATuTZF35IDXqCefUdg7+E+Dy
+         1+u38iAjcXL4adrjpTEdID7otGK2Z/kTtUF9JxrUHVVybsAwyTLqbACAzclu8gv8ZGdd
+         5kMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfFk4pBWb7STKe7Rei6Ja4oY3hWfOJt8N0PnIbNELxFztMcchLhiXEvAeQJk0TOJaRqjBIjPehSmjwiIpxbKVoK8ChG9IG49LSXNQdyHe9
+X-Gm-Message-State: AOJu0Yzm6CAeJ0GSsX0YkviO2HeM9T/gwe2tBTtKZ2Zl6pWZlQoUNf1d
+	9EWYI1YKnCwBOcT+lUwKs1o1g8G9rBU2sbh2Fqyr+kdpAkYlJhDM
+X-Google-Smtp-Source: AGHT+IGCIHAzQY/mnDlVo5lnk26RTRbDcrjvObXR8MxjwovVfl11tONs9+ylnI51Lr9jyeCjcjK5IQ==
+X-Received: by 2002:a17:902:ea0e:b0:1f7:2dca:ea42 with SMTP id d9443c01a7336-1f72dcaf4acmr29493525ad.60.1718129463715;
+        Tue, 11 Jun 2024 11:11:03 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:d73f:b49c:626c:fac7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ed8ee0f1sm71482315ad.124.2024.06.11.11.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 11:11:03 -0700 (PDT)
+Date: Tue, 11 Jun 2024 11:11:00 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Reka Norman <rekanorman@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Pavan Holla <pholla@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] platform/chrome: Add struct
+ ec_response_get_next_event_v3
+Message-ID: <ZmiTNEjxE-ZCotNu@google.com>
+References: <cover.1717779167.git.dnojiri@chromium.org>
+ <979b1fdaa5b3d3165e53f5429470c42581394d14.1717779167.git.dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240611033113.4154548-1-tzungbi@kernel.org>
-In-Reply-To: <20240611033113.4154548-1-tzungbi@kernel.org>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 11 Jun 2024 09:39:12 -0700
-Message-ID: <CABXOdTefFMW2bmpybi7u_BaTKdcqyFgXfM3aayueUiaDK7QyBQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_proto: update Kunit test for get_next_data_v3
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <979b1fdaa5b3d3165e53f5429470c42581394d14.1717779167.git.dnojiri@chromium.org>
 
-On Mon, Jun 10, 2024 at 8:31=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> Since commit 106d67398233 ("platform/chrome: cros_ec_proto: Upgrade
-> get_next_event to v3"), (struct cros_ec_device *)->event_data becomes
-> struct ec_response_get_next_event_v3.
->
-> Update the Kunit test for fixing the following error:
-> > Expected mock->msg.insize =3D=3D sizeof(union ec_response_get_next_data=
-_v1), but
-> >     mock->msg.insize =3D=3D 18 (0x12)
-> >     sizeof(union ec_response_get_next_data_v1) =3D=3D 16 (0x10)
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Hi Daisuke,
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-
+On Fri, Jun 07, 2024 at 10:02:56AM -0700, Daisuke Nojiri wrote:
+> Add struct ec_response_get_next_event_v3 to upgrade
+> EC_CMD_GET_NEXT_EVENT to version 3.
+> 
+> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
 > ---
->  drivers/platform/chrome/cros_ec_proto_test.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platf=
-orm/chrome/cros_ec_proto_test.c
-> index 3960f7c16eb0..7ca9895a0065 100644
-> --- a/drivers/platform/chrome/cros_ec_proto_test.c
-> +++ b/drivers/platform/chrome/cros_ec_proto_test.c
-> @@ -2060,17 +2060,17 @@ static void cros_ec_proto_test_get_next_event_no_=
-mkbp_event(struct kunit *test)
->
->         /* For get_keyboard_state_event(). */
->         {
-> -               union ec_response_get_next_data_v1 *data;
-> +               union ec_response_get_next_data_v3 *data;
->
->                 mock =3D cros_kunit_ec_xfer_mock_add(test, sizeof(*data))=
-;
->                 KUNIT_ASSERT_PTR_NE(test, mock, NULL);
->
-> -               data =3D (union ec_response_get_next_data_v1 *)mock->o_da=
-ta;
-> +               data =3D (union ec_response_get_next_data_v3 *)mock->o_da=
-ta;
->                 data->host_event =3D 0xbeef;
->         }
->
->         ret =3D cros_ec_get_next_event(ec_dev, &wake_event, &more_events)=
-;
-> -       KUNIT_EXPECT_EQ(test, ret, sizeof(union ec_response_get_next_data=
-_v1));
-> +       KUNIT_EXPECT_EQ(test, ret, sizeof(union ec_response_get_next_data=
-_v3));
->
->         KUNIT_EXPECT_EQ(test, ec_dev->event_data.event_type, EC_MKBP_EVEN=
-T_KEY_MATRIX);
->         KUNIT_EXPECT_EQ(test, ec_dev->event_data.data.host_event, 0xbeef)=
-;
-> @@ -2085,7 +2085,7 @@ static void cros_ec_proto_test_get_next_event_no_mk=
-bp_event(struct kunit *test)
->
->                 KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
->                 KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_MKBP_STAT=
-E);
-> -               KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(union ec_r=
-esponse_get_next_data_v1));
-> +               KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(union ec_r=
-esponse_get_next_data_v3));
->                 KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
->         }
->  }
-> --
-> 2.45.2.505.gda0bf45e8d-goog
->
+>  .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+> index 070e49c5381e..fff191a8d413 100644
+> --- a/include/linux/platform_data/cros_ec_commands.h
+> +++ b/include/linux/platform_data/cros_ec_commands.h
+> @@ -3527,6 +3527,34 @@ union __ec_align_offset1 ec_response_get_next_data_v1 {
+>  };
+>  BUILD_ASSERT(sizeof(union ec_response_get_next_data_v1) == 16);
+>  
+> +union __ec_align_offset1 ec_response_get_next_data_v3 {
+> +	uint8_t key_matrix[18];
+> +
+> +	/* Unaligned */
+> +	uint32_t host_event;
+> +	uint64_t host_event64;
+> +
+> +	struct __ec_todo_unpacked {
+> +		/* For aligning the fifo_info */
+> +		uint8_t reserved[3];
+> +		struct ec_response_motion_sense_fifo_info info;
+> +	} sensor_fifo;
+> +
+> +	uint32_t buttons;
+> +
+> +	uint32_t switches;
+> +
+> +	uint32_t fp_events;
+> +
+> +	uint32_t sysrq;
+> +
+> +	/* CEC events from enum mkbp_cec_event */
+> +	uint32_t cec_events;
+> +
+> +	uint8_t cec_message[16];
+> +};
+> +BUILD_ASSERT(sizeof(union ec_response_get_next_data_v3) == 18);
+> +
+>  struct ec_response_get_next_event {
+>  	uint8_t event_type;
+>  	/* Followed by event data if any */
+> @@ -3539,6 +3567,12 @@ struct ec_response_get_next_event_v1 {
+>  	union ec_response_get_next_data_v1 data;
+>  } __ec_align1;
+>  
+> +struct ec_response_get_next_event_v3 {
+> +	uint8_t event_type;
+> +	/* Followed by event data if any */
+> +	union ec_response_get_next_data_v3 data;
+> +} __ec_align1;
+> +
+
+It is not really obvious that ec_response_get_next_event and
+ec_response_get_next_event_v3 are layout compatible. I would simply
+extend the union and add key_matrix_v3 field instead of defining
+a brand new union.
+
+And I would drop ec_response_get_next_event_v1 and added missing fields
+to the original union as well...
+
+Thanks.
+
+-- 
+Dmitry

@@ -1,72 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D612417545;
-	Tue, 11 Jun 2024 11:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF8717B4E5;
+	Tue, 11 Jun 2024 11:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718105480; cv=none; b=R6Uuz2IRd9AWX+gqPWHlinH8xgIPiB9EB7FxDFPvRY6IVNSIpSdzF13JzVJZYPS8u5/4ZYRWw8OgASGSr5kfsZpdgVODZjT7irLBuqKdwkqNwNqEUX/BJK0OAZTeeY/OTfXal6hcnDb9YAbqrj5TSdCln5XIU1SWQQjikxTgs/M=
+	t=1718105744; cv=none; b=cjg+TJpVOEUiYNK2VLgS7Mb0Zpr1qwwJriKGTAJdDERXwVfxwXmGamFmCNGX26uc7kTJnvrlEDyvaarMSjshjR0KPpKfnD76LlRNwMYkTi5JIpBFw3YfTOzsr5BBjJ59xOtn3ufZFp3RQrLDvUnx4uiVa3Jto2EqkTg9GDPkpxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718105480; c=relaxed/simple;
-	bh=tMTUMyMGzBKqGaRrsUGf3Ky/bKzEt75mPDQND0DU9KI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DOUcENrLb17fX8vRTcbyGLWxhOc83nxpKLPeWHvUmTFR4TVcVUA6pff4x/KbISC2evc4dkJRlyPmJyA+PlWBYp9iNitUr/+wt1xoWEt42BbMcHnuMYb1gri2+cY88iRnxksAGeflbZQ5KUR1Zzq0Jj14HfssBffr+xVATDRaDfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0bxs9HJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718105744; c=relaxed/simple;
+	bh=vIaLVeSYJywYPlUcMLIYwb/jAbrcLibb815/nDIAGBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SLeH7/Nq8LWZqsefIL5As4tLCMqXK8NILm93hrwlej/Lov8QRbQ4Jy3iGnzcHjfFPAl1gNtcUWdsbAIgT5bsOKVuPY76UIwWtVs+PJQnxD5nKNtqLnrngjOblbdMhdFuMlsgYgbMrx3GRwOjKv2HbuvGHMbR+gpvMhSG6b2VJNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGeAbiLO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0bxs9HJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE34C2BD10;
-	Tue, 11 Jun 2024 11:31:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGeAbiLO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F19C2BD10;
+	Tue, 11 Jun 2024 11:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718105480;
-	bh=tMTUMyMGzBKqGaRrsUGf3Ky/bKzEt75mPDQND0DU9KI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=C0bxs9HJp/w+63G4i6hHENBEOMMgmaHa4VKOBIkaNEHoRg+Vh38ZLVzJw3hMc3gXl
-	 r3XYctdpHGl8vtUHu868/7Yy/1jktyyk/dhLVYQUsJ/tswbRGQ0k9Ph95SyBXOVWc2
-	 rguHD4sZ9dP3KVJpZAGY9HF8CyPpoF2+FDGyPjFfhWDmVyxz4KHEjLARfgpDT+aeeO
-	 8AOfZ0BFI0YNxrIw5aI6W1oCicHcjOakblULQ3L9yD5o/QMdFLA8Elb9S+kExvdpLr
-	 68+EzL4ZwQFe7+9OrInEBuSkLTxcY2vTcqZY0bpUZyCfR78BGL3+djoc04YRaeGOsX
-	 h07cTEbjZryNA==
+	s=k20201202; t=1718105744;
+	bh=vIaLVeSYJywYPlUcMLIYwb/jAbrcLibb815/nDIAGBU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eGeAbiLOO3DqDwHlEs/APyA1y1dEWYbCwpzafcNR/tGNz0bvVdTtqhVi8kncr81HZ
+	 8fljverjE72HAzzi4aT9b0MUf5vh3gRejleNYPLm7LcjrpWV0PgWYxmtWScT8Z34dH
+	 wMmo+HziDKICuEUmC/GXseLNJ3IwLldp+iiwKM6WkND+++R45Lob56f/8IrwsJCFMT
+	 Jp1iWn2909ijRn81+K9hpvAOkGYwejKopGBHAND/lOT0kAci83ubIGgSyEl9gf8XiJ
+	 Tex3N45V4jv8d0EJnnsFMKkQNefyYEBpPsXJRk0XmREr/QxSTeoQQ823C17TPHU4gG
+	 P7yucmuEf+gTg==
+Date: Tue, 11 Jun 2024 11:35:39 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org,
-	groeck@chromium.org
-Cc: tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] platform/chrome: cros_ec_debugfs: fix wrong EC message version
-Date: Tue, 11 Jun 2024 11:31:10 +0000
-Message-ID: <20240611113110.16955-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Dustin Howett <dustin@howett.net>,
+	Stephen Horvath <s.horvath@outlook.com.au>,
+	Rajas Paranjpe <paranjperajas@gmail.com>,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	Matt Hartley <matt.hartley@gmail.com>
+Subject: Re: [PATCH v3 3/5] platform/chrome: cros_ec_proto: Introduce
+ cros_ec_cmd_versions()
+Message-ID: <Zmg2iwOWRZdCybxw@google.com>
+References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
+ <20240610-cros_ec-charge-control-v3-3-135e37252094@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240610-cros_ec-charge-control-v3-3-135e37252094@weissschuh.net>
 
-ec_read_version_supported() uses ec_params_get_cmd_versions_v1 but it
-wrongly uses message version 0.
+On Mon, Jun 10, 2024 at 05:51:08PM +0200, Thomas Weißschuh wrote:
+> +/**
+> + * cros_ec_cmd_versions - Get supported version mask.
 
-Fix it.
+I guess we would like to call it something like "cros_ec_get_cmd_versions".
 
-Cc: stable@vger.kernel.org
-Fixes: e86264595225 ("mfd: cros_ec: add debugfs, console log file")
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/cros_ec_debugfs.c | 1 +
- 1 file changed, 1 insertion(+)
+> + *
+> + * @ec_dev: EC device
+> + * @cmd: Command to test
+> + *
+> + * Return: version mask on success, negative error number on failure.
+> + */
+> +int cros_ec_cmd_versions(struct cros_ec_device *ec_dev, u16 cmd)
 
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index f0e9efb543df..4525ad1b59f4 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -334,6 +334,7 @@ static int ec_read_version_supported(struct cros_ec_dev *ec)
- 	if (!msg)
- 		return 0;
- 
-+	msg->version = 1;
- 	msg->command = EC_CMD_GET_CMD_VERSIONS + ec->cmd_offset;
- 	msg->outsize = sizeof(*params);
- 	msg->insize = sizeof(*response);
--- 
-2.45.2.505.gda0bf45e8d-goog
-
+Could it support a "version" parameter as existing EC_CMD_GET_CMD_VERSIONS
+usages use both versions?  An `u16 cmd` parameter and down-cast to u8 for v0
+should be fine. (ec_params_get_cmd_versions vs. ec_params_get_cmd_versions_v1)

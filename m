@@ -1,152 +1,77 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126EB63B8
-	for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 01:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AEBA2A;
+	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718068690; cv=none; b=NGZlgrRDYZnjDrpGsYz3S2QYUmdDIpTj2otESmzsQEyzPWKs5QneHdFi++JwrkH16dCpsfWWSCPXOeTnhf6WWqaoV9ceGeTdj89aeRoNzzuUUe4EUThg/afnCfVjCMSgbRS7Xwts8UvUs/6XdirfHvcFdIvvGpqrTYKUD9THoHQ=
+	t=1718074357; cv=none; b=evy8FXjqZd7EQTQ7QIKe/ZZFBCH1tuxvCa2L/VHOV+hXgBGAfvtBFUOb9Co4Lr0jQLY5hI70GeNrcJhifCHxEPwwCBqDZxJwG/nHy5JW1zdUgWUzkRH8Bzvyz0ibad7/8Vx3TFhMh+y+GbhnglZrc5j6ebYIWD2TjhT46/vJ7Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718068690; c=relaxed/simple;
-	bh=BJ7bAtRnijieePgyC4u7Z4bcQw9xBx98woFAA6aqUTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WlZAb58/shXp+tVkwNj1nbjawtytMC2VdEBgQU4s0kOaTZcX91RMSDtrMeWDmG/8ekmQ67fbg/XWz8nrRbx0tzLWaI68KHTmhix0aSlsLcyf/WGHmSKZY5C9EfLqRrTa+D0e0i6XjXSg6WPA6DFTdmvT3O5QLGpAgPAvhVN72y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hfu3H5Fv; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718074357; c=relaxed/simple;
+	bh=Lw6UaTIaPX0ZJ+bHeOIKAfy56qXGaJ9yxxI09PHjR+E=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=HxkOAfSLlNRNwG1+l3p+cMBLA0mFM1UoUxsHslsGhPF4l7tooxMbbn52D26/t54M5Qq0ZqZvlZMMYNfnycniSqfDK6MU3eLxI3jXAHjJtzX5EcocCTnHWjV068BNKpeiFa6cpk+sLLXoti7qIAKw+Ls73Qc5xDEQhOtm4FHWKLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLoSsgdU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hfu3H5Fv"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-6cdf9a16229so3781672a12.3
-        for <chrome-platform@lists.linux.dev>; Mon, 10 Jun 2024 18:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718068688; x=1718673488; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ivQcwF1+c0bQ5/SJaGZTzr/7wCvctZR1yQr8NL7B8wk=;
-        b=Hfu3H5FvFRgKFCWGboeRniB20VnbVyZkPjJby+g9anlON6OHRkvSFi4Y4TBRpPc5nT
-         weV/vNx5Zq1Ve6s2yZAh/zskTmJLFcsMcet/vYj5gxBBc5kBxBCt7gX96Uk77Gm1ZmB5
-         l1bIaBlmNxfMGXpgF9w+kc6g4RKDu7ms8vRozOqEh2paybbgc4NK9nqBoqb7zqJ/tH2f
-         f1uXR8ISvH1+i/00hSGkvsOXy9ePhR46YxumD00kYDBx7odcqMcsu65FqDwwdCb6IO3X
-         /D1WCzLb/kmZDl0qQP8qJPLoBoMWiuhj0fqIkpbEoZHy+oIYw4SvLctEdVYMk4ue6M/1
-         tXag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718068688; x=1718673488;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ivQcwF1+c0bQ5/SJaGZTzr/7wCvctZR1yQr8NL7B8wk=;
-        b=JfyGOFv2UYylhDZ7UCR1K7B5gLmTbW4U8xm6n3OyU9LIMGV4aRvYCyTQqF885asi/d
-         iuGGekp9CiCfdUlNSMs1djs2M2hoyVDSLC839Hi47Fx9f5SEoIiplcCvM8Xkyh2LdYVD
-         qBVlasVfmrwSNqyuwJf/12qH5XUCaovM9eL8De7T/wxCUn0mNNF9DTg5bUe8m8wskrjP
-         sX5TgrJZlpEOm9uza1+LKsaW965MKYdOulQfJD3hdyffu5Ho6UTa9arLcA3tKTGNxTvD
-         x7HQYeAeKiw2xeUBSHB6Cd/vkQ9gcTonRks1pVdTs1TaxFCPQu4ZY/Ilc2d/RXm8RKIF
-         KzPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWuWRXckRCYlaO9K0dERCXAl9UCF9C+AwOF1oVsos9kJE/tRAhdKfLF+hXY//qYdA8VWjWLHhga3L3Z6HrP2kXhSzJn/6nlZPh0oPSzmmuu
-X-Gm-Message-State: AOJu0Yz5nDY7qm+BT/ASqvQMR+Y1HtYuETonbybpc8bksj8XlONuLaqD
-	P2RGimNP+piGs/rRYRNNS2lp3MLjVz23xSRdqXqThmRsYI/J8A48
-X-Google-Smtp-Source: AGHT+IFJ69i2QXWbo9IXcLGTFUkxLUSxxuElGWg2VWv+bzW+GUgKEvvYy7ExZBQ7/ROJYeRwYTb4Sg==
-X-Received: by 2002:a17:90b:8c4:b0:2c3:cc6:636e with SMTP id 98e67ed59e1d1-2c30cc6698amr3581336a91.2.1718068688186;
-        Mon, 10 Jun 2024 18:18:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c31bb3c141sm1709752a91.10.2024.06.10.18.18.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 18:18:07 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <536e51a1-5968-4493-96ce-287167b89288@roeck-us.net>
-Date: Mon, 10 Jun 2024 18:18:05 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLoSsgdU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 69F54C4AF1A;
+	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718074356;
+	bh=Lw6UaTIaPX0ZJ+bHeOIKAfy56qXGaJ9yxxI09PHjR+E=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=fLoSsgdUq6pLJERsof8jOvbi7VMKSR/nbQpXHd+299yWPwqi9Ie7CyuWmFJHtRWKS
+	 2t0vpOSihwi1TKsaTHzg2PL+C2X8iAjfWHjitIMrOoqkhN0wyuyQKGX7/QR6X/WrzE
+	 79DJTZlRdEaUX03qNTAfWvZVJYVZR1nrrP/Na/bsYCrK6tWP4n3RzZIqbZJzX3twLX
+	 zqgVaHtyQQ0NQcunezYY+mxXFPwucv3nt3HVVzm1rWm4xELi3GUmZbjSaHRE/pmb9a
+	 Fzx0e2UFQjbQ8q5A/NcXaj4v+OInfBSJqueTl7b+hl/7VqoCVQQD5TVGgPX5zOugZj
+	 yr7/mVyfLi9kw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55002E7C76F;
+	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] hwmon: (cros_ec): fan target, fan pwm control and
- temperature thresholds
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <thomas@weissschuh.net>, Jean Delvare <jdelvare@suse.com>
-Cc: Dustin Howett <dustin@howett.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Stephen Horvath <s.horvath@outlook.com.au>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20240608-cros_ec-hwmon-pwm-v1-0-d29dfc26fbc3@weissschuh.net>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240608-cros_ec-hwmon-pwm-v1-0-d29dfc26fbc3@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] platform/chrome: cros_ec_proto: add missing
+ MODULE_DESCRIPTION() macro
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171807435634.18125.2033985053874197153.git-patchwork-notify@kernel.org>
+Date: Tue, 11 Jun 2024 02:52:36 +0000
+References: <20240610-md-drivers-platform-chrome-v1-1-f9c75adcc1ca@quicinc.com>
+In-Reply-To: <20240610-md-drivers-platform-chrome-v1-1-f9c75adcc1ca@quicinc.com>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
 
-On 6/8/24 01:12, Thomas Weißschuh wrote:
-> Add support to cros_ec_hwmon for
-> * fan target speed for fan 1
-> * fan pwm control for all fans
-> * fan temperature thresholds (RW) for all temp sensors
+Hello:
+
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Mon, 10 Jun 2024 14:50:37 -0700 you wrote:
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
 > 
-> The EC also supports tempY_auto_pointZ_{pwm,temp} but that does not yet
-> seem to be usable from "struct hwmon_channel_info".
-> Guenter, is this intentional, do you want me to add support for it?
+> Add the missing invocation of the MODULE_DESCRIPTION() macro.
 > 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> 
+> [...]
 
-When I wrote the _info API, I figured it was too chip specific to make
-it generic. It is also at least somewhat questionable if it makes sense
-to have all that configurable through sysfs in the first place; normally
-the ranges are device specific and should be configured through the
-thermal subsystem using devicetree properties and not be touched by
-the user. There might even be warranty implications by playing with
-thermal parameters if someone manages to overheat the system as result.
-I really don't want to help enabling that.
+Here is the summary with links:
+  - platform/chrome: cros_ec_proto: add missing MODULE_DESCRIPTION() macro
+    https://git.kernel.org/chrome-platform/c/d11c00292a31
 
-Which leads to the next question - we are going way beyond just reporting
-system operational parameters with your patches. What is the actual use
-case ?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
-Guenter
 

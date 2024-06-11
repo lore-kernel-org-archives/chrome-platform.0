@@ -1,66 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF37273FD;
-	Tue, 11 Jun 2024 04:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B23B171647;
+	Tue, 11 Jun 2024 06:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718081406; cv=none; b=K8D5nqle0sq9sU1+up7r1hpGCfQlYrYw3xF/PnFP92Gc/l6r+yDjqSz7oHrPGlzDYiF9SniEmC0/2QkOLyP+rkeKlhOBbqVVJM9Uj2ek39KFaM6GEAoR2E+lQAwsS5W87gCk+i8A+bgp5vWlpHNuB937KDH0LyOm6WguPgVzCy0=
+	t=1718087563; cv=none; b=SCLos/GoGx1uufKcWmlqNC9pl+cLnP0K92HJugBxJdyF/KZgSc74pU0j3NP8tvReYbwr4HCYpv4MqvqghiL2g1h4ypyxfCm2w1NkOGC+YjyGIOfTZ1FhFrxYSaiXhEAm5ECh5FLpLRC/dglRWOB0jBqRcISu8dOv8FwP5pdMDzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718081406; c=relaxed/simple;
-	bh=fhiqhwMweK+/4ZbARswR9y0qIPwLtuAc6LuQokfQbd0=;
+	s=arc-20240116; t=1718087563; c=relaxed/simple;
+	bh=27itxGlfcgEv3PcvLTnBGYHx7ycnbMROORcs9t+26e8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgFnVhwEk2FX9HBhLQ31PbMZI6ctVbfead2tm1IZW7EhGPBxGm9Gcb/f+azeakZH2rGZ0x3fBYanZ34uS7QfWn1C3X5KAuGEDfL3QfdwG8i8cPAQjLf+INgbLw/Bt64GSFychnHp1i7VCfzrUL8vWoUnYvHlxQ3VSEEf/1Ilc8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EVDnOIBP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ONoOcPqVy/KRxlenX+wcIzyaKtzJ9L9DwGeujdJd9sAS9TSZOqzmSdZ03kV63EkmJoKFYDiQ/ORaqVAGlV3jLwGK5EBFeFBVNX8xaV3FC8M/OpWo4T/NS0NB+IH0jl5t9OgnekBxcBViO3FJrqojTWTY/nbB6gFpywzCHHqnSAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OT+LPql6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EVDnOIBP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC387C2BD10;
-	Tue, 11 Jun 2024 04:50:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OT+LPql6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC46C2BD10;
+	Tue, 11 Jun 2024 06:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718081405;
-	bh=fhiqhwMweK+/4ZbARswR9y0qIPwLtuAc6LuQokfQbd0=;
+	s=k20201202; t=1718087563;
+	bh=27itxGlfcgEv3PcvLTnBGYHx7ycnbMROORcs9t+26e8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EVDnOIBPvdzyROc47k68wnBIflyy4I5rxC1SZq5uXTypCAf1LL+V91T+6qzZnviAB
-	 pAr+zOgw5FEo73bLbAYD92lx+rrYnTmKfnCDE1sHGg9eZLGmFOTBSEP3JjA+Zjdzf1
-	 H6oqON40Fz8ZAlQNT2EMjCOgOq18jKUeJYP6L1xi5DWC3EaOHemMtlqpaPk3zfI7Ij
-	 VhL93ssqa6WrNMElgNXcl+aB81QX26UOColiALVrmWW9v4yqElIwfE7MGb+/xcog79
-	 y9MBQ92ZzYnnbeRglzVuxehP0oFUF4KXGHeIMRO6gFd2xi8AiTq+aYZpd4OAfN8Gnv
-	 uU+5JhgSywt0Q==
-Date: Tue, 11 Jun 2024 04:50:02 +0000
+	b=OT+LPql6ztvY/rQD/i6nhXnOBYdJBmRK1RgXYIRal1yV4AJA1fyxVQ3f9iqqu8JI+
+	 Ffsl1ygNdFWNixrIwhRLVe1exWzu9bW8A2L/BK8vjdnnw20E5C6Etl0LybemHp+9dF
+	 RIh3/4SnTbBuThPc5M6PsI0jOJQsyNRqgHMyE+eqrw6kiZINZ9aGu4g8/awUHKMBn1
+	 mCxMMA5mtC0+P6kfWKJkQt/NaaA+CQHhUkavWU0TvsL/QcjJefbH/NhYqCkWdeJe/I
+	 Ho7l9OIwaGPpm3PaV87BtbfVTTYMK0Z8mJiQhISOCU4K7kAlGBGTWvZ3D3WF1rGifR
+	 44n1MHb6l1qtQ==
+Date: Tue, 11 Jun 2024 06:32:38 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] firmware: google: add missing MODULE_DESCRIPTION() macros
-Message-ID: <ZmfXeqCIt91OY1i0@google.com>
-References: <20240605-md-drivers-firmware-google-v1-1-18878de97fa5@quicinc.com>
+	linux-pm@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Dustin Howett <dustin@howett.net>,
+	Stephen Horvath <s.horvath@outlook.com.au>,
+	Rajas Paranjpe <paranjperajas@gmail.com>,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	Matt Hartley <matt.hartley@gmail.com>
+Subject: Re: [PATCH v3 3/5] platform/chrome: cros_ec_proto: Introduce
+ cros_ec_cmd_versions()
+Message-ID: <ZmfvhvcjTbjOSp4f@google.com>
+References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
+ <20240610-cros_ec-charge-control-v3-3-135e37252094@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240605-md-drivers-firmware-google-v1-1-18878de97fa5@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240610-cros_ec-charge-control-v3-3-135e37252094@weissschuh.net>
 
-On Wed, Jun 05, 2024 at 03:07:21PM -0700, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/gsmi.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-x86-legacy.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+On Mon, Jun 10, 2024 at 05:51:08PM +0200, Thomas Weißschuh wrote:
+> If the command is not supported at all the EC returns
+> -EINVAL/EC_RES_INVALID_PARAMS.
 > 
-> [...]
+> This error is translated into an empty version mask as that is easier to
+> handle for callers and they don't need to know about the error details.
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
-
-Thanks!
+I'm not sure whether the behavior is what we want or not as existing
+EC_CMD_GET_CMD_VERSIONS usages don't have it.

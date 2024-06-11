@@ -1,35 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B401581E2;
-	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E52123D2
+	for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 03:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718074357; cv=none; b=S1oAXWmwTwUbuIIi84ZK4pTvTf8WYg4YePTxoddW+CVdV7xmwfp8AA52j312vdyeEanjfh15JweGfaJMdCTNS5oIXYTiz+lpgYlHx52XMu1eWU953EAOLJVmQ1vW/Csqun6/LjAzryNWu5pIrCSpS5HXmFORIGRubw+zEgIB+IM=
+	t=1718076685; cv=none; b=QJPNgxaHI1ZeITztZEBHR3401N4JcQMIYqr/WzYH4cWuqUzmDUs8o2jieFMgJAA3/5kb0+hcJB+bViL8a9zWuQ0jBwwYKguRckh0izEX+u+TlaV4nnQRbgGldD37WR6vtxf2HcJWDpaVVJM4PvL2iu65CsIgDSXanXAG3g9BiLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718074357; c=relaxed/simple;
-	bh=5fSoCzmjHuhe5eCMweOM54coVCvd2vNpXRWVUl6Bm1c=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=m2MGRIksOLI+EGQIIVYeTe16ZaAUwZhIJLXJo5oyncucaCZMYVsl603EDiyJWrk72oF8+gEqRw9CavWzGL0evBVoOvLwkvBt+r5M3yE9YQwS2WbByzVlxhDpGiAAiTh9CqLa4rSJRAVln5piOFWsVZQFM7XUQqQNUrRPfDlxR7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFdABJRs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718076685; c=relaxed/simple;
+	bh=BVuczrcC4H9+Pyv+F4nsnkRmpwh9ouOIx7xSk+oMSws=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QTaHRZTw1AwfDvPvpJck8+Lppiq8hDhXhc/PspXd/6sB1QvG1RaUJN/ENN9F3gqklzQdYtE3tDEtsiOY2fhbAocfmqKjdbFwQ4kfeEBtHim8CqeFF2E6ANr6CtKzL2SrP7t2fmHQ2NzDrysLbHWUQIkINXcTWWPG6mI+jrrgOlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFTkH98F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFdABJRs"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 961B6C4AF50;
-	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFTkH98F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DA04C2BBFC;
+	Tue, 11 Jun 2024 03:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718074356;
-	bh=5fSoCzmjHuhe5eCMweOM54coVCvd2vNpXRWVUl6Bm1c=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FFdABJRs2KK7Axq9QiBH2vxIV5P+hv4hJVI+hkuNxCSx2/iXioKAZ4r3sCbmN05pN
-	 9Zb+c/GIbh6Q+9blvdLswur98FOAIwdgkpYwxdIErDnc3a0OhnsZoSWP/IvPuf99d8
-	 wzkKA7Wf3g41qdCbNzCJEd9wOPYU0e0TAOvr9M17L3WB/X4anuAecRqS/zl3Bw/XeP
-	 diNVHVf6gloxtdcjKEhb9kBiTSkLnFk+KRq3XdGsUPsNQ/77b+kNR7grvsH3/uXhjD
-	 NjMhzucoka0ti8zpYd6QWTdtpOhIIhvuXHOEt7x65C+8boRTiLwXxOzr/nQleXw3Xq
-	 ara1UePoBEtjg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 883FCE7C770;
-	Tue, 11 Jun 2024 02:52:36 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1718076685;
+	bh=BVuczrcC4H9+Pyv+F4nsnkRmpwh9ouOIx7xSk+oMSws=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FFTkH98FYt9meLYPVGv8Q3g7yv1wtnieUT76vHDc0nwzdAtfeQZCLVbCF5RO+f6ve
+	 +3cTz/IoH6UclOQyH+SJCN31WXZ+dhKtR/J8lJwF+/4eOEceELNOgtIStBmxJBshVp
+	 IMJJatK++vnGAaTY0TozgSs4VaPbgQVmFJ5rOJAN96pBxRGGS9Dv4sdgSK8+ZtRaHd
+	 grR8P00tI5X0Git9tl1JqhthISXVPSTwjFyxxQqYPs6bpxo6jhDeTT/i8BuDg8M+Tn
+	 NYTmn5yr3mloCxuN1sDY/hIb7RfNbTCv4cVFDaVKUqLkpjhyfVUvJkgW3o3RFRbmtF
+	 s4DWBjs4xytzA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org
+Cc: tzungbi@kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: cros_ec_proto: update Kunit test for get_next_data_v3
+Date: Tue, 11 Jun 2024 03:31:13 +0000
+Message-ID: <20240611033113.4154548-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -37,41 +41,55 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_proto: add missing
- MODULE_DESCRIPTION() macro
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171807435655.18125.5100585135586179160.git-patchwork-notify@kernel.org>
-Date: Tue, 11 Jun 2024 02:52:36 +0000
-References: <20240610-md-drivers-platform-chrome-v1-1-f9c75adcc1ca@quicinc.com>
-In-Reply-To: <20240610-md-drivers-platform-chrome-v1-1-f9c75adcc1ca@quicinc.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
 
-Hello:
+Since commit 106d67398233 ("platform/chrome: cros_ec_proto: Upgrade
+get_next_event to v3"), (struct cros_ec_device *)->event_data becomes
+struct ec_response_get_next_event_v3.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Update the Kunit test for fixing the following error:
+> Expected mock->msg.insize == sizeof(union ec_response_get_next_data_v1), but
+>     mock->msg.insize == 18 (0x12)
+>     sizeof(union ec_response_get_next_data_v1) == 16 (0x10)
 
-On Mon, 10 Jun 2024 14:50:37 -0700 you wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-> 
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
-> 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-> 
-> [...]
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_proto_test.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Here is the summary with links:
-  - platform/chrome: cros_ec_proto: add missing MODULE_DESCRIPTION() macro
-    https://git.kernel.org/chrome-platform/c/d11c00292a31
-
-You are awesome, thank you!
+diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
+index 3960f7c16eb0..7ca9895a0065 100644
+--- a/drivers/platform/chrome/cros_ec_proto_test.c
++++ b/drivers/platform/chrome/cros_ec_proto_test.c
+@@ -2060,17 +2060,17 @@ static void cros_ec_proto_test_get_next_event_no_mkbp_event(struct kunit *test)
+ 
+ 	/* For get_keyboard_state_event(). */
+ 	{
+-		union ec_response_get_next_data_v1 *data;
++		union ec_response_get_next_data_v3 *data;
+ 
+ 		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
+ 		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+ 
+-		data = (union ec_response_get_next_data_v1 *)mock->o_data;
++		data = (union ec_response_get_next_data_v3 *)mock->o_data;
+ 		data->host_event = 0xbeef;
+ 	}
+ 
+ 	ret = cros_ec_get_next_event(ec_dev, &wake_event, &more_events);
+-	KUNIT_EXPECT_EQ(test, ret, sizeof(union ec_response_get_next_data_v1));
++	KUNIT_EXPECT_EQ(test, ret, sizeof(union ec_response_get_next_data_v3));
+ 
+ 	KUNIT_EXPECT_EQ(test, ec_dev->event_data.event_type, EC_MKBP_EVENT_KEY_MATRIX);
+ 	KUNIT_EXPECT_EQ(test, ec_dev->event_data.data.host_event, 0xbeef);
+@@ -2085,7 +2085,7 @@ static void cros_ec_proto_test_get_next_event_no_mkbp_event(struct kunit *test)
+ 
+ 		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
+ 		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_MKBP_STATE);
+-		KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(union ec_response_get_next_data_v1));
++		KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(union ec_response_get_next_data_v3));
+ 		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
+ 	}
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.45.2.505.gda0bf45e8d-goog
 

@@ -1,81 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F49A34;
-	Wed, 12 Jun 2024 02:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5635CAC
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Jun 2024 02:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718159142; cv=none; b=NYXpio76fhZLmfQhS/jqXIqjCjj5r1ttVjqSjyoBJS8GtxNNHVC732t9r3g0Kf0aY+POdf8IgjUQCB6O/nyMi8oCyL2ye+oQb77o34O5u6gVdhi0uoOyVlCkr6nHdB22eBrm6fLImctm2D5FTVvq7q+NYgnDR1YbyNjARcjgoJY=
+	t=1718159431; cv=none; b=PVir7c4qkvoUGGjJ4IHSIPn/QuC9tYaeU+aXNXscqxx5VXXnj1YlKJW4QCXXmJIfIHRmask4AcejiJoSXNlf6nmITX03NVM47pTGW2X1mIvCbtCl/M39xXmPqiMTvzmcIg64mYPy+SrM8XvpzgNSpSEPMEFLrwJAAqgw/0yRnmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718159142; c=relaxed/simple;
-	bh=ge6+rdG4NL/1L70rAxfH+r2Izoc6INz7bqA0W1h52BA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nAWy2WJWz6BupZQtaTfuOmBMJOjZtZM0/6kB2GJ0ZQfhFXVl9lz74SzrzOr7aw+vTa2wWx7z++gpDchRU8NGU6F6M4fOu+AKcLpU64I2+SlR3SPn7qDoiy7/Oeg3MQA7+5I7MNTeDmHofuSPPDAd/VKMHNgRlFFrFpxeb69mukY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZFbygVd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718159431; c=relaxed/simple;
+	bh=McHKgSBdxk3VnRMnT6ls2wD8rkzUA8dGjQBsH9yDY3I=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=F+ya5pMWR2yvq6MGCI+Q1s2FHjaDtjCdT8EteBbrU41aZEu9hksGY7dJgZW+6b2YO225Qzp7Z7QsrcXqZxVkSc+6ji7S7H+05n9sWzU8ShzkWZLgEKPSQ5xhv8DLIQ/SzSGU5g5joDPdXJvbOxE78J7JGUUYcVN1Kg8T/zINvV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rW2s+klZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZFbygVd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C65A8C2BD10;
-	Wed, 12 Jun 2024 02:25:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rW2s+klZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BAFDDC4AF50;
+	Wed, 12 Jun 2024 02:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718159142;
-	bh=ge6+rdG4NL/1L70rAxfH+r2Izoc6INz7bqA0W1h52BA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YZFbygVdOyelHVyIZFVWoqPHnCs2Fc8gpVLwM15UtC294nSvYisXaKpW3siCBECZ6
-	 riO98Iz6I17HIM+Iu7lVnxRX8x//8faAFuLAX8VuX4+49S5LfEP07w7kRyQEOONXBS
-	 lQdKhIgz8HkWkE92r437LVea+h63FDEU68jRw7SlpDOSMHfyx8/vy3sqR8JzQ4EhWS
-	 H/POONZFHNqpxWgqf61O4u9lNZL+AV7D9ja8GCYbt9h//MXOffrhj5D+uu19ruM+gy
-	 PUGV/KpdTDEz2i2ltuTfBSSA2m/n1oWDzJAQw6cxDPaKFqE5qQ1zcfSsmwO2ir4T5z
-	 Rt2gTB4Rs6avQ==
-Date: Wed, 12 Jun 2024 02:25:37 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Dustin Howett <dustin@howett.net>,
-	Stephen Horvath <s.horvath@outlook.com.au>,
-	Rajas Paranjpe <paranjperajas@gmail.com>,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	Matt Hartley <matt.hartley@gmail.com>
-Subject: Re: [PATCH v3 3/5] platform/chrome: cros_ec_proto: Introduce
- cros_ec_cmd_versions()
-Message-ID: <ZmkHIeMCYpcxCC6l@google.com>
-References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net>
- <20240610-cros_ec-charge-control-v3-3-135e37252094@weissschuh.net>
- <Zmg2iwOWRZdCybxw@google.com>
- <96f0d632-7fdd-4fca-9528-449440d72f5d@t-8ch.de>
+	s=k20201202; t=1718159430;
+	bh=McHKgSBdxk3VnRMnT6ls2wD8rkzUA8dGjQBsH9yDY3I=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=rW2s+klZl+1Mjfvy4D9D6FLGayyt6lXwkYIpFHjep8FJ2ijKpZvfXbtE8Jj0nTJuN
+	 qNdsPLkirJ+6xnit+ILfbnBwOMRmaUXtibAY3WrhAaUJDEu4eRPBmeIxkOgAcjolwq
+	 cxDtlg+S14GAyh5wR7lxcChlMLxX+x6GC2BrPAm4rEmtFHKNzXjwtyby0r4iKOTSGO
+	 e/KlNQQEQOr6LBV+pM/x74WrlME26SeDolWoxDuFvG0J6uHFzoKvBJoymj7vcn7wj+
+	 XqU7gHj7ACvBSzJL5O9E3g2N98n6e53afNz+9No9Yavh9bbcXoC+ZRhHgRzalRbthP
+	 FauUCAyuf3eQw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE8C3C54BB2;
+	Wed, 12 Jun 2024 02:30:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <96f0d632-7fdd-4fca-9528-449440d72f5d@t-8ch.de>
+Subject: Re: [PATCH] platform/chrome: cros_ec_proto: update Kunit test for
+ get_next_data_v3
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171815943071.29023.7456200928151542183.git-patchwork-notify@kernel.org>
+Date: Wed, 12 Jun 2024 02:30:30 +0000
+References: <20240611033113.4154548-1-tzungbi@kernel.org>
+In-Reply-To: <20240611033113.4154548-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev
 
-On Tue, Jun 11, 2024 at 02:14:33PM +0200, Thomas Weißschuh wrote:
-> On 2024-06-11 11:35:39+0000, Tzung-Bi Shih wrote:
-> > On Mon, Jun 10, 2024 at 05:51:08PM +0200, Thomas Weißschuh wrote:
-> > > + *
-> > > + * @ec_dev: EC device
-> > > + * @cmd: Command to test
-> > > + *
-> > > + * Return: version mask on success, negative error number on failure.
-> > > + */
-> > > +int cros_ec_cmd_versions(struct cros_ec_device *ec_dev, u16 cmd)
-> > 
-> > Could it support a "version" parameter as existing EC_CMD_GET_CMD_VERSIONS
-> > usages use both versions?  An `u16 cmd` parameter and down-cast to u8 for v0
-> > should be fine. (ec_params_get_cmd_versions vs. ec_params_get_cmd_versions_v1)
-> 
-> Ack.
-> 
-> Or we could automatically use v0 if cmd <= U8_MAX?
+Hello:
 
-Ack.  Looks feasible.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Tue, 11 Jun 2024 03:31:13 +0000 you wrote:
+> Since commit 106d67398233 ("platform/chrome: cros_ec_proto: Upgrade
+> get_next_event to v3"), (struct cros_ec_device *)->event_data becomes
+> struct ec_response_get_next_event_v3.
+> 
+> Update the Kunit test for fixing the following error:
+> > Expected mock->msg.insize == sizeof(union ec_response_get_next_data_v1), but
+> >     mock->msg.insize == 18 (0x12)
+> >     sizeof(union ec_response_get_next_data_v1) == 16 (0x10)
+> 
+> [...]
+
+Here is the summary with links:
+  - platform/chrome: cros_ec_proto: update Kunit test for get_next_data_v3
+    https://git.kernel.org/chrome-platform/c/41f1242f6249
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034C918622;
-	Wed, 12 Jun 2024 15:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD28818622;
+	Wed, 12 Jun 2024 15:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718206239; cv=none; b=XbXVztnpdenxjNOT9pupUTzc4rOT/xd9Hv1R7HFwxpVUFlrYZzPrvmUonAiKX5hKi5TR85s308eyyWQ/whJbszTv8fcQ/XkmSutgEJWIbGnuPJuapbMcHAkfBv3g7w6NsCZv/aC4cJpx53kd1DqfztQtz5EkWrorlCnyc+szOKQ=
+	t=1718206288; cv=none; b=XxZ5hNWPTpLTt3OaAw0TWl5XDjin2jh/i+MJ28SnRwGegpL8PDwltIBSs0hkaEa3lslm95uzFIqqxaY6+g+lxaO4CPdtW+18/YHnjtQwSmHy029G8ZLxJ+4HM9owWdzobf1j6sTfVSvL0VXJ1tf9nRaI8Qi+0RhJnTPXFuOBazc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718206239; c=relaxed/simple;
-	bh=Jy6MXyyD7pK0pfXNAu0/4Jvn9VfEeO9G1C2eFiNCvfY=;
-	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=nQNVFrybeH0rp0gsUINEHepzequkOMrwtiMsXYkB7cfCCymbPUhWLfT5+oGpDq9eZYjQVKafDHlQEpKyGd7GI0lEjdfcZ9RvDtaVnhReuT3E0+Fa0/0vrIVo1ADWrEvf0DLlyLnx8yf3tXtvxrQugOouNi1JoNq2Q/9RtkAp7dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wAtl1pOO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718206288; c=relaxed/simple;
+	bh=nS/rtu/VOTtoZ5iuheSb6+OLZIFTKkHCvFgzg1LrYXU=;
+	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=F893ujcKRVAsqrUZ0zboMLEjeyRsF0jYXWw+OxBEuN3yH+NogXrdF8uwVMYSvK0xCCFy4P+UlRbJNfdKzceFvhswx7pR8eitVx8KXC43RUEUfiHMq6K9ncunBM9w4CvPCycJ3ewuW6IY5RlAjmGcjyiZgAYelBR/QHJHHcpQTXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DRGA3SIV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wAtl1pOO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 806ACC116B1;
-	Wed, 12 Jun 2024 15:30:38 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DRGA3SIV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F29C116B1;
+	Wed, 12 Jun 2024 15:31:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718206238;
-	bh=Jy6MXyyD7pK0pfXNAu0/4Jvn9VfEeO9G1C2eFiNCvfY=;
+	s=korg; t=1718206288;
+	bh=nS/rtu/VOTtoZ5iuheSb6+OLZIFTKkHCvFgzg1LrYXU=;
 	h=Subject:To:Cc:From:Date:From;
-	b=wAtl1pOOye7/6TGHb9yWIQN+Tk8RqsjBWHGO65pRXVahTHcJRx3h//Z4GgUGB+XrH
-	 umxW1fhDgej8g92H58moc7i3qom6p7GKVJQ2H+rhnryrsgQFKSKGx0sfFgO0hKsYha
-	 uKByiwTBid2uLsbfgrtnvbjwuE610NwwpmnJ4DQE=
-Subject: Patch "platform/chrome: cros_ec: Handle events during suspend after resume completion" has been added to the 6.6-stable tree
+	b=DRGA3SIVU5L8ziBOZQRangNpF2XYrbvHcDsICjnU2i5iMq2c9EzU1C9mlyIFMrQIb
+	 l6qcvRM6dcxvrNVvoKiQuM7rlvDecOp6fjWOVDkSNGVc1wEP5rMPJ0A49OsEFKQiMa
+	 Uca0ma4CCfD/mIcfMnD8l/y8kEHrTDH9r9FR2UbE=
+Subject: Patch "platform/chrome: cros_ec: Handle events during suspend after resume completion" has been added to the 6.9-stable tree
 To: chrome-platform@lists.linux.dev,gregkh@linuxfoundation.org,kramasub@chromium.org,lalithkraj@chromium.org,tzungbi@kernel.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 12 Jun 2024 17:29:36 +0200
-Message-ID: <2024061236-silica-carnation-e507@gregkh>
+Date: Wed, 12 Jun 2024 17:29:50 +0200
+Message-ID: <2024061250-stump-modify-7103@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,12 +44,12 @@ This is a note to let you know that I've just added the patch titled
 
     platform/chrome: cros_ec: Handle events during suspend after resume completion
 
-to the 6.6-stable tree which can be found at:
+to the 6.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      platform-chrome-cros_ec-handle-events-during-suspend-after-resume-completion.patch
-and it can be found in the queue-6.6 subdirectory.
+and it can be found in the queue-6.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -139,4 +139,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from kramasub@chromium.org are
 
-queue-6.6/platform-chrome-cros_ec-handle-events-during-suspend-after-resume-completion.patch
+queue-6.9/platform-chrome-cros_ec-handle-events-during-suspend-after-resume-completion.patch

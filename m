@@ -1,224 +1,142 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9BD16936A
-	for <chrome-platform@lists.linux.dev>; Wed, 12 Jun 2024 06:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034C918622;
+	Wed, 12 Jun 2024 15:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718173686; cv=none; b=kWyeyRrCApGiRMeO/qBfRJuf2Ye2zpjyk/uu1zQhUj7XQaZxEZRqdcx3jR2WEcE2Hc+675bbkCEEpbaIk7D10m2fw9NpIVopoWkUrIYzi9zoLZplXlmtaA9HP+Xa+OxSgN4ADc5RaUme0aKPfSw6fMeWXrSLqvAchKT+fMYCSjw=
+	t=1718206239; cv=none; b=XbXVztnpdenxjNOT9pupUTzc4rOT/xd9Hv1R7HFwxpVUFlrYZzPrvmUonAiKX5hKi5TR85s308eyyWQ/whJbszTv8fcQ/XkmSutgEJWIbGnuPJuapbMcHAkfBv3g7w6NsCZv/aC4cJpx53kd1DqfztQtz5EkWrorlCnyc+szOKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718173686; c=relaxed/simple;
-	bh=lStqaHoKo3cMSNnsQ23oc5a7650XGc/DFqmtSckFqKM=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=BvO+kpDdp1x1R5jYUkJOmufmsPEKyZl1at2hR644fbTm+yvRwgsLguVisimCx6Xk9Mm4gsdYw8hYKCKbrfUBJO7ubwQhmtWCEfY9ftsPuzRrIzABFl1Ep3fva/nLEUO64BrOCcc+xTApHEcV9W1x+HxCOd3Q7IFhf/R9HFkIQqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Ri1otjMO; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1718206239; c=relaxed/simple;
+	bh=Jy6MXyyD7pK0pfXNAu0/4Jvn9VfEeO9G1C2eFiNCvfY=;
+	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=nQNVFrybeH0rp0gsUINEHepzequkOMrwtiMsXYkB7cfCCymbPUhWLfT5+oGpDq9eZYjQVKafDHlQEpKyGd7GI0lEjdfcZ9RvDtaVnhReuT3E0+Fa0/0vrIVo1ADWrEvf0DLlyLnx8yf3tXtvxrQugOouNi1JoNq2Q/9RtkAp7dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wAtl1pOO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Ri1otjMO"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-704261a1f67so2034939b3a.3
-        for <chrome-platform@lists.linux.dev>; Tue, 11 Jun 2024 23:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1718173683; x=1718778483; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/DnmA0Ww1UpiMaZmtqUWwTL9/HV+5/uxvCvGeegvLOY=;
-        b=Ri1otjMOUomTGx46GhsgLTNVFMyb6EvtsAbT7KaI2Ur4jLeetAgSOWXoAlriBBX/Ea
-         uL4F6nijJCOVnhLJggzRDDQDSK2GgZbrYvy5zd+7fRXUeemMINfCwgBJCLaE6jCjQNcG
-         vOEvEmwGIgqhqMA+3Xs4q0CyCYWMNazd03+7iPYikfeJ8eoV14okHgHxa/UyoTqZarg1
-         F2OyxhETXCdtSeGDDl7quJw4ArZpL+IBJljrM/UnF7YphzwXgHQ6JYXtm74knUAgr6Xx
-         Y6JFqSoFSDB4Jb7QqS6EhASigW9r5gYNkL94swRUdInNHJ8IkxhIcOTonLr3GuDUsfLv
-         Ujdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718173683; x=1718778483;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/DnmA0Ww1UpiMaZmtqUWwTL9/HV+5/uxvCvGeegvLOY=;
-        b=Zt9kM53qHRHegoOVSweS7qe0lKIwmNcOM9zJdh87OzuNpO4jxDZnNy0XAp7CkQLWTL
-         mIMLp5827/gO936P3YcGSZ3oVWGFwUaogxEj+hoh2FBXSdrjvY20wRHgxFALPaaVBvaQ
-         qGYAPYuAuOgtn25eKmhgr586mQFMw09Z5F3xhY1jcTNduUDafaS2stwIRIgBrAXoPOMX
-         ZGGYBw2a9LJ4LeTmONoVIUkH+jdALMKG+2sUbZAbd+5Qi7SphlnPP594TuSael831pdY
-         ATBYNiqjJBEmvsm4Ts8iky/LocA8wM5qpyWZ6wSCJHub+zhCw1Wc46LLXEj8mpEKFP1k
-         FI6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWqKNDkkgnZPuYDfvxwcsJb02se1kzV8G28bLiJ82kM0qpbOI2gsogflS/Yg/4N6OAij9nbBolPDYrXpQnw7N+WhM2VpsYLhXIsTsux0gyz
-X-Gm-Message-State: AOJu0YxaoaQaPGizxDFc3I8ffIEYMUU7nozNTKKX96h9BtHd8dsqIRwn
-	ZXPC8ukR5Ny6Jt2NEIMPU3Y4T4O7tNSad7i/AaPv0YwP8ySCpKAJfCB3HB2Or0E=
-X-Google-Smtp-Source: AGHT+IGsdrJVlEln1p5dUygldm8FWUvk2dbvwxpTXu0z3dpNEXNOBOZo0IQWUoZU4Fyscl+pvwijFA==
-X-Received: by 2002:aa7:8893:0:b0:705:a0de:6155 with SMTP id d2e1a72fcca58-705bce99b5emr973551b3a.25.1718173683239;
-        Tue, 11 Jun 2024 23:28:03 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705bcbb6514sm661313b3a.43.2024.06.11.23.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 23:28:02 -0700 (PDT)
-Message-ID: <66693ff2.050a0220.e044c.1c2b@mx.google.com>
-Date: Tue, 11 Jun 2024 23:28:02 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wAtl1pOO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 806ACC116B1;
+	Wed, 12 Jun 2024 15:30:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718206238;
+	bh=Jy6MXyyD7pK0pfXNAu0/4Jvn9VfEeO9G1C2eFiNCvfY=;
+	h=Subject:To:Cc:From:Date:From;
+	b=wAtl1pOOye7/6TGHb9yWIQN+Tk8RqsjBWHGO65pRXVahTHcJRx3h//Z4GgUGB+XrH
+	 umxW1fhDgej8g92H58moc7i3qom6p7GKVJQ2H+rhnryrsgQFKSKGx0sfFgO0hKsYha
+	 uKByiwTBid2uLsbfgrtnvbjwuE610NwwpmnJ4DQE=
+Subject: Patch "platform/chrome: cros_ec: Handle events during suspend after resume completion" has been added to the 6.6-stable tree
+To: chrome-platform@lists.linux.dev,gregkh@linuxfoundation.org,kramasub@chromium.org,lalithkraj@chromium.org,tzungbi@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Wed, 12 Jun 2024 17:29:36 +0200
+Message-ID: <2024061236-silica-carnation-e507@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v6.10-rc1-18-gc2a28647bbb4e
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: for-kernelci
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-kernelci cros-ec: 11 runs,
- 3 regressions (v6.10-rc1-18-gc2a28647bbb4e)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
-
-chrome-platform/for-kernelci cros-ec: 11 runs, 3 regressions (v6.10-rc1-18-=
-gc2a28647bbb4e)
-
-Regressions Summary
--------------------
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
-
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 
 
-  Details:  https://kernelci.org/test/job/chrome-platform/branch/for-kernel=
-ci/kernel/v6.10-rc1-18-gc2a28647bbb4e/plan/cros-ec/
+This is a note to let you know that I've just added the patch titled
 
-  Test:     cros-ec
-  Tree:     chrome-platform
-  Branch:   for-kernelci
-  Describe: v6.10-rc1-18-gc2a28647bbb4e
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/linux.git
-  SHA:      c2a28647bbb4e0894e8824362410f72b06ac57a4
+    platform/chrome: cros_ec: Handle events during suspend after resume completion
 
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/kernelci/cros-ec-tests.git
-      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
+to the 6.6-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     platform-chrome-cros_ec-handle-events-during-suspend-after-resume-completion.patch
+and it can be found in the queue-6.6 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
+From 2fbe479c0024e1c6b992184a799055e19932aa48 Mon Sep 17 00:00:00 2001
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Date: Mon, 29 Apr 2024 12:13:45 -0600
+Subject: platform/chrome: cros_ec: Handle events during suspend after resume completion
 
-Test Regressions
----------------- =
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
 
+commit 2fbe479c0024e1c6b992184a799055e19932aa48 upstream.
 
+Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable") re-ordered the resume sequence. Before that
+change, cros_ec resume sequence is:
+1) Enable IRQ
+2) Send resume event
+3) Handle events during suspend
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efconfig+x86-board | 1          =
+After commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable"), cros_ec resume sequence is:
+1) Enable IRQ
+2) Handle events during suspend
+3) Send resume event.
 
+This re-ordering leads to delayed handling of any events queued between
+items 2) and 3) with the updated sequence. Also in certain platforms, EC
+skips triggering interrupt for certain events eg. mkbp events until the
+resume event is received. Such events are stuck in the host event queue
+indefinitely. This change puts back the original order to avoid any
+delay in handling the pending events.
 
-  Details:     https://kernelci.org/test/plan/id/666930f931c3c81fd47e706d
+Fixes: 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host command and irq disable")
+Cc: <stable@vger.kernel.org>
+Cc: Lalith Rajendran <lalithkraj@chromium.org>
+Cc: <chrome-platform@lists.linux.dev>
+Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Link: https://lore.kernel.org/r/20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/platform/chrome/cros_ec.c |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-  Results:     2 PASS, 1 FAIL, 13 SKIP
-  Full config: x86_64_defconfig+x86-board
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-col=
-labora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/x86_64/x86_64_defconfig+x86-board/gcc-10/lab-col=
-labora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_chardev: https://kernelci.org/test/case/id/666930f=
-931c3c81fd47e707c
-        failing since 9 days (last pass: v6.10-rc1-6-ge8665a1723789, first =
-fail: v6.10-rc1-6-gbc3e45258096f)
-
-    2024-06-12T05:23:59.651980  test_cros_ec_chardev (cros.tests.cros_ec_mc=
-u.TestCrosECMCU.test_cros_ec_chardev)
-
-    2024-06-12T05:23:59.657944  Checks the main Embedded controller charact=
-er device. ... FAIL
-
-    2024-06-12T05:23:59.658046  =
-
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdor-kingoftown    | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66692c452575696d7e7e708c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/cros-ec-sc7180-trogdor-kingoftown.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/cros-ec-sc7180-trogdor-kingoftown.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66692c452575696d7e7e70=
-8d
-        failing since 13 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first=
- fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                  | regressions
------------------------------+--------+---------------+----------+---------=
--------------------+------------
-sc7180-trogdo...zor-limozeen | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook | 1          =
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -432,6 +432,12 @@ static void cros_ec_send_resume_event(st
+ void cros_ec_resume_complete(struct cros_ec_device *ec_dev)
+ {
+ 	cros_ec_send_resume_event(ec_dev);
++
++	/*
++	 * Let the mfd devices know about events that occur during
++	 * suspend. This way the clients know what to do with them.
++	 */
++	cros_ec_report_events_during_suspend(ec_dev);
+ }
+ EXPORT_SYMBOL(cros_ec_resume_complete);
+ 
+@@ -442,12 +448,6 @@ static void cros_ec_enable_irq(struct cr
+ 
+ 	if (ec_dev->wake_enabled)
+ 		disable_irq_wake(ec_dev->irq);
+-
+-	/*
+-	 * Let the mfd devices know about events that occur during
+-	 * suspend. This way the clients know what to do with them.
+-	 */
+-	cros_ec_report_events_during_suspend(ec_dev);
+ }
+ 
+ /**
+@@ -475,8 +475,8 @@ EXPORT_SYMBOL(cros_ec_resume_early);
+  */
+ int cros_ec_resume(struct cros_ec_device *ec_dev)
+ {
+-	cros_ec_enable_irq(ec_dev);
+-	cros_ec_send_resume_event(ec_dev);
++	cros_ec_resume_early(ec_dev);
++	cros_ec_resume_complete(ec_dev);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(cros_ec_resume);
 
 
-  Details:     https://kernelci.org/test/plan/id/66692e9ba8906b59f97e706d
+Patches currently in stable-queue which might be from kramasub@chromium.org are
 
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/cros-ec-sc7180-trogdor-lazor-limozeen.txt
-  HTML log:    https://storage.kernelci.org//chrome-platform/for-kernelci/v=
-6.10-rc1-18-gc2a28647bbb4e/arm64/defconfig+arm64-chromebook/gcc-10/lab-coll=
-abora/cros-ec-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-cr=
-os-ec/20240313.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/66692e9ba8906b59f97e70=
-6e
-        failing since 13 days (last pass: v6.9-rc4-22-g2fbe479c0024e, first=
- fail: v6.10-rc1-4-g7b44d5381e541) =
-
- =20
+queue-6.6/platform-chrome-cros_ec-handle-events-during-suspend-after-resume-completion.patch

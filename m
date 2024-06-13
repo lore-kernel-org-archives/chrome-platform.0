@@ -1,116 +1,139 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AF314D290
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 19:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4034F2F34;
+	Thu, 13 Jun 2024 19:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718306408; cv=none; b=C75zsd4jfb31J12bQLV9sMWHjGS6kmPo/3AhWvqc/9mwaequvDLUf/TlqAJoAfejW5r+tXX6R79ueYYwmarcOUfE/v5hHfFeXA/v3C4PfO52YgEHx5kxse6ewVcizdlxo4Z1xaGUoyL+Q4ZMSA3uBfYd+2DWJWhYRZo0xLp9rRw=
+	t=1718307248; cv=none; b=XNP94k8FX/JK2Noc9v3GLTic0/WaykWmGFAJ2XGqlIBntecgdPieYYCB1yLjXP3H7EDS5pPRRfNVwpbxKcJ8KEVfnlgqzgbBXlUCIPXdOIYo4DbMSMZDsdrE8edWEDJvQZjBXRn/b25kUpyUzEWPAdp/yIoPG14FjFt+aNJIcls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718306408; c=relaxed/simple;
-	bh=EyQ3hgLz0Dnk7ppR5oBQHpeY1aBrderyGlDfH/wRJIs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=o7CFZV4iT7qh4opxF8unYWZBZo+7ctZhPyN3ZfpZCNlcpV+D823LWy8mwTWnRTHoWylHLQoPlov9v6hRxFx5+K3RIOAABBDXf3CZ9k24IzKYIyg2mk4rHoiH47qRtZ+mIEeU2S9I9jzZ5bFFSO22FlaWkgskS6e8Wo+W9QCBTSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=VQKmOphU; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
+	s=arc-20240116; t=1718307248; c=relaxed/simple;
+	bh=bbhYqO6arj3VX7+rFvR2uC0Q/DGG5UGkw2Zn5smw2UQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PAyETDcKcfQ1p53f9kc2GPmolnMDIJigLrhsPVxVrjGZHYQv+xu+hN9gO7GMDGJL4z0zuMrtomFfwXpxgvMB2QYWB5N1h17+HieKEqAfb3LOLWCo1tVCJP8HixrriW3Eyonyi23TL9OMlRCPo5YMJ+/upWDQ/d7W6Wgqw6QY6mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/jAt8L4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="VQKmOphU"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4W0XKs1C50z9sRg;
-	Thu, 13 Jun 2024 21:20:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1718306401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SzxVulY0TZcuW2PwYcIj3BXHYxEJ9lYYWUWQX+mmOOk=;
-	b=VQKmOphU5q/qHxoGuXx5eJ+VkLPGjLUcXaWxSrzkfwQfkRgSdU2LoE7zC5eiQX0uA6XO0Q
-	UOVBq3O8vvCEKVPFcbI6MyEtVlaDaQ9opyLHEPOS7FZFkG2N8Y50AIE1sMpkwxi02tD4CF
-	IEXpb/ihxt2B0vRrDrPic0GPb4M1Vdfe39AzmPJ3LE/hWpq2xxRn97AH0vEFPmXM53e7Sc
-	Lxj2omMcIE/zxGVnw/n2bZxn3b3YujgUSVfsZKw3wn5kOEReHcFN0+dX4ePNiebvOjVdkc
-	ICKKr9oOj3uB+dJKu8kMkdCguKh9J0OcQqxWxCZlkpCfoKqGUrm+93qx5zuerA==
-From: Ben Walsh <ben@jubnut.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
- cros_ec_lpc_mec_read_bytes()
-In-Reply-To: <ZmsvHBrYSpwYLyxx@google.com>
-References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
- <87sexgrdk4.fsf@jubnut.com> <ZmsvHBrYSpwYLyxx@google.com>
-Date: Thu, 13 Jun 2024 20:19:58 +0100
-Message-ID: <87jzisabvl.fsf@jubnut.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/jAt8L4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2CF7C32786;
+	Thu, 13 Jun 2024 19:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718307247;
+	bh=bbhYqO6arj3VX7+rFvR2uC0Q/DGG5UGkw2Zn5smw2UQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=J/jAt8L4oCpQ1YVxKKZ28siux+nVS6qHGx3AtTokDUVX3mw5kOcBIm611//FsrK71
+	 y6VuYeuM3vqnVbCp/cjbFh7Bq4N5XCDxAVL+Ktq9KmA/tRn4syVx7fgp9uKyJY6c7i
+	 X/SpAeUAvm20OcrAnYw7foQLMA2pp7UJX+mjcHNvkztzTahN2qftaaOvigOP0EIr/k
+	 q9H+YPRIIz/TApswNj6EVGkeaadOP3TAKfMG9DRC3/eTWQ0qe6wvngIOH/Z/iRaU7j
+	 YhzvlSgSqdZQOCiEgSxhS22a6kFCT1ZC4x2V1H3dESgMSjD6usDExgR+q7bJKI7QeC
+	 ltTAJDO0dfV2Q==
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5b99ba97d89so77890eaf.1;
+        Thu, 13 Jun 2024 12:34:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXbFkvTmeC+T1T76WN7CuQdebU4hFKyaRr5t4mOjXyHHXl90UsGRpsFN6nQTZvXoj3c0w/udZSgP5cRtscKYvmaOblkdmWdINf75+urCtZICXMiQf91pqL7RT+Y7WXKd81i4R9zWWgjnsiGQSjf
+X-Gm-Message-State: AOJu0YwHMQ1MBxlp3kOiwhFnkwSb4mzBoLr+J0XWabWjyPtkP5MT+ltz
+	O4AwZrdZixVXa1TpNI+XMRbDDZldkhCDFsegdek/zn8cMfvt+dZ7Z1oXAEWqkJ+M/JO99BbbfCn
+	HMQlw/czo4SNPH1vvHLyQvfgR1qU=
+X-Google-Smtp-Source: AGHT+IG0G9y36mr+Dlfv2THcm6PYAW/FOqGLOg/QX0txRvOhtSWL6wvDXmnU00jM0TAGeT4jIFVoyY40op2reHRrX9s=
+X-Received: by 2002:a4a:e1da:0:b0:5ba:ead2:c742 with SMTP id
+ 006d021491bc7-5bdad9f0343mr742290eaf.0.1718307247027; Thu, 13 Jun 2024
+ 12:34:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240610-cros_ec-charge-control-v3-0-135e37252094@weissschuh.net> <20240610-cros_ec-charge-control-v3-1-135e37252094@weissschuh.net>
+In-Reply-To: <20240610-cros_ec-charge-control-v3-1-135e37252094@weissschuh.net>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 13 Jun 2024 21:33:56 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iUjvrs+57_meCkK7fcokH0j8sTAG3xXai5av_n5OHJwA@mail.gmail.com>
+Message-ID: <CAJZ5v0iUjvrs+57_meCkK7fcokH0j8sTAG3xXai5av_n5OHJwA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] ACPI: battery: add devm_battery_hook_register()
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Sebastian Reichel <sre@kernel.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Robert Moore <robert.moore@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+	Dustin Howett <dustin@howett.net>, Stephen Horvath <s.horvath@outlook.com.au>, 
+	Rajas Paranjpe <paranjperajas@gmail.com>, linux-acpi@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, Matt Hartley <matt.hartley@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-Tzung-Bi Shih <tzungbi@kernel.org> writes:
-
-> Somewhere like [1] could accidentally get the -EINVAL.
+On Mon, Jun 10, 2024 at 5:52=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
 >
-> [1]: https://elixir.bootlin.com/linux/v6.9/source/drivers/platform/chrome/cros_ec_lpc.c#L232
+> Add a utility function for device-managed registration of battery hooks.
+> The function makes it easier to manage the lifecycle of a hook.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-Sorry, it happens at:
+Please feel free to add
 
-cros_ec_query_all -> cros_ec_proto_info -> ... -> cros_ec_pkt_xfer_lpc
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-        /* Read response and process checksum */
-        ret = fwk_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET +
-                                   sizeof(response), response.data_len,
-                                                     ^^^^^^^^^^^^^^^^^
-                                   msg->data);
+to this patch and route it along with the rest of the series as needed.
 
->>
->> Dan Carpenter <dan.carpenter@linaro.org> writes:
->> 
->> > We changed these functions to returning negative error codes, but this
->> > first error path was accidentally overlooked.  It leads to a Smatch
->> > warning:
->> >
->> >     drivers/platform/chrome/cros_ec_lpc.c:181 ec_response_timed_out()
->> >     error: uninitialized symbol 'data'.
->> >
->> > Fix this by returning the error code instead of success.
->> >
->> > Fixes: 68dbac0a58ef ("platform/chrome: cros_ec_lpc: MEC access can return error code")
->> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->> > ---
->> >  drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
->> >  1 file changed, 2 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
->> > index ebe9fb143840..f0470248b109 100644
->> > --- a/drivers/platform/chrome/cros_ec_lpc.c
->> > +++ b/drivers/platform/chrome/cros_ec_lpc.c
->> > @@ -139,7 +139,7 @@ static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
->> >  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
->> >  
->> >  	if (in_range < 0)
->> > -		return 0;
->> > +		return in_range;
->> >  
->> >  	return in_range ?
->> >  		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
->> > @@ -158,7 +158,7 @@ static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
->> >  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
->> >  
->> >  	if (in_range < 0)
->> > -		return 0;
->> > +		return in_range;
->> >  
->> >  	return in_range ?
->> >  		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
->> > -- 
->> > 2.43.0
->> 
+Thanks!
+
+> ---
+>  drivers/acpi/battery.c | 15 +++++++++++++++
+>  include/acpi/battery.h |  2 ++
+>  2 files changed, 17 insertions(+)
+>
+> diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
+> index b379401ff1c2..6ea979f76f84 100644
+> --- a/drivers/acpi/battery.c
+> +++ b/drivers/acpi/battery.c
+> @@ -756,6 +756,21 @@ void battery_hook_register(struct acpi_battery_hook =
+*hook)
+>  }
+>  EXPORT_SYMBOL_GPL(battery_hook_register);
+>
+> +static void devm_battery_hook_unregister(void *data)
+> +{
+> +       struct acpi_battery_hook *hook =3D data;
+> +
+> +       battery_hook_unregister(hook);
+> +}
+> +
+> +int devm_battery_hook_register(struct device *dev, struct acpi_battery_h=
+ook *hook)
+> +{
+> +       battery_hook_register(hook);
+> +
+> +       return devm_add_action_or_reset(dev, devm_battery_hook_unregister=
+, hook);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_battery_hook_register);
+> +
+>  /*
+>   * This function gets called right after the battery sysfs
+>   * attributes have been added, so that the drivers that
+> diff --git a/include/acpi/battery.h b/include/acpi/battery.h
+> index 611a2561a014..c93f16dfb944 100644
+> --- a/include/acpi/battery.h
+> +++ b/include/acpi/battery.h
+> @@ -2,6 +2,7 @@
+>  #ifndef __ACPI_BATTERY_H
+>  #define __ACPI_BATTERY_H
+>
+> +#include <linux/device.h>
+>  #include <linux/power_supply.h>
+>
+>  #define ACPI_BATTERY_CLASS "battery"
+> @@ -19,5 +20,6 @@ struct acpi_battery_hook {
+>
+>  void battery_hook_register(struct acpi_battery_hook *hook);
+>  void battery_hook_unregister(struct acpi_battery_hook *hook);
+> +int devm_battery_hook_register(struct device *dev, struct acpi_battery_h=
+ook *hook);
+>
+>  #endif
+>
+> --
+> 2.45.2
+>
+>

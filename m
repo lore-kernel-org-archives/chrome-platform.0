@@ -1,77 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3C0143759;
-	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E576146A7B
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 16:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718292030; cv=none; b=SG82+jTuFZ1jTSwTE89GfHdcp3O2xoAqwg3D2+lUlejrmu9KvHBCfQds9VNXn1LwkVVHdXxEJJKo1amGFTU1O4TMqaVY4cC2h7p9w2e1JdLh8KovskwJqlRcOaB1KRpt4My8BYybe4MdV0e6VoWbLG1sQa5+XmUMn3nuLrasSho=
+	t=1718297515; cv=none; b=F4GKxo69WLxO7zb6xGlSVZgdTpCbSlX9sS0DL5UTs0WRNYu+WehheYKhUHH47ynbIXbMYKzg9/wwvd1AdaXv9IXxZSu9/ThBv7VOmTWc6y0z3Wxy+kiV6DWcevwLkt+9pOSmqSE5EuDgqsf5jTIfOQ2gZgvOCViDmuAKZx+29o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718292030; c=relaxed/simple;
-	bh=Gh4uOL7q5FWJwHSZwLXH0gmGi2mBbI+MxDTZqV4SHus=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=bZICnqI2yDViA4kJFoDRVq9PbtFPqk+G3SxSTtcL5oqvTSfsudjWmgaG5wYCjdF2sFv/nV7EUXNkmV1W3T/OygnIr4swa0TfRcSXADqlhmAh7ZBkQs4GlxLt3i7WNatNkWcO43FefBX3mcruNtQTz+hYJHBF1qgMONMMWqu5s/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgFyyKCP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718297515; c=relaxed/simple;
+	bh=VNcJSnvqR6/3seiRGBE6M9MZOINb+wobmGnn1qcsztk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IYwzeI8/bMyB0YxoYNptOZBVx5hi0H2SFsF/yLv++IBRfT0IGH8doUNBCr+v7dtT5/lSpnpG+uyx8HF3HWvBUHhEs0tYZE9utV5PR2xFs9LKS0WjJ9MmOBeYha0iD10y/geyXy5LZLa4Zsef2aMrGlvwKYjgy8l0HyCJc2f+948=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=RD/4abPT; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgFyyKCP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BD45C4AF1D;
-	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718292029;
-	bh=Gh4uOL7q5FWJwHSZwLXH0gmGi2mBbI+MxDTZqV4SHus=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=dgFyyKCPkQ2AWAucyYxvXgGGEdjAmEahdwAzJL0hmiGVf/xOBsRTpUnuLnKerkT5K
-	 /z71z8nGBj9bc3d3yjm2p+BeM4V5FArE/p8ASSKwaq1uKKuh2cVrlqRqZlCFayKPu0
-	 HB5cGAm3W9OAXnEZAiAJVf8x3cAecwxSPU87SD8yHfvC5qRV3r2xTQswANMpFUlPf/
-	 s2T1CVFeHwgun1q09AAbkLNVppvwueqNGY0qzLO0qmUnnCJZK3buIcOTG8sGskUztV
-	 TKcCxtZoRmrKWv84iJta1HO4OntuTXWr3Z2PzFfuOOw71LEadSICaU9PNkzfY/Zyzp
-	 mfeZ1dKAEHUpA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8F9C0C43612;
-	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="RD/4abPT"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4W0T2k24TMz9stL;
+	Thu, 13 Jun 2024 18:51:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
+	t=1718297502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CHPeQUmbiayIxQb12SxfsIIYWQF+CskyfBhwRKbz8mY=;
+	b=RD/4abPTD9XsAvWgGQ1kW6r1+dvysVjmcjkwd00uhLfpT+nYTKZ6Po+oEBcGqYIR8gS9EX
+	WzapVDFCCBl94Tc+fLzZ6uHZStfzcAMAX4zdUjwqiuCrZFYn7NkZjde/NteZQjRUyNgcRE
+	ejPQlsxVHvAtBaXBa05+G6xTfix56WzW3R8ZMwsZYanTt7phip6WGPDpgkHAeQn5U5NOSh
+	FooSWp7SHybL6b40IIi1kj6nk1B3U0dVt4xBA13PtjQnJhD/I+jfXp7RLeZhGS6uNu9chS
+	t4T9EQ2dtHVUCY+ED4LWrWFLjICYz4Rq1WV0L3njOxLyY3HXjQCW/xKN5yIIhg==
+From: Ben Walsh <ben@jubnut.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
+ cros_ec_lpc_mec_read_bytes()
+In-Reply-To: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
+References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
+Date: Thu, 13 Jun 2024 17:51:39 +0100
+Message-ID: <87sexgrdk4.fsf@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
- cros_ec_lpc_mec_read_bytes()
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171829202958.32437.16739284609802669464.git-patchwork-notify@kernel.org>
-Date: Thu, 13 Jun 2024 15:20:29 +0000
-References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
-In-Reply-To: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: ben@jubnut.com, bleung@chromium.org, tzungbi@kernel.org,
- groeck@chromium.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4W0T2k24TMz9stL
 
-Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+Thanks for fixing this! Unfortunately `in_range` returns -EINVAL if
+length == 0 (see the definition of `fwk_ec_lpc_mec_in_range`). I'm sure
+this broke something in my testing, but I can't find what it was now.
 
-On Thu, 13 Jun 2024 16:55:14 +0300 you wrote:
+My original suggestion was to add a test for "length == 0" before the
+"in_range" test, then do the test as you have done. But we decided to
+defer this to a later, separate patch.
+
+There's also a similar "in_range" test in `fwk_ec_lpc_mec_write_bytes`.
+
+We could:
+
+  1. Revert this and change the `data & EC_LPC_STATUS_BUSY_MASK` to
+  `res & EC_LPC_STATUS_BUSY_MASK`. This is the same logic as before the
+  negative error code change.
+
+  or 2. Put in a check for length == 0.
+
+  or 3. Change the logic in `fwk_ec_lpc_mec_in_range`. Although I'm not
+  sure what the correct answer is to "zero length is in range?"
+
+I prefer option 2. What do you think?
+
+Dan Carpenter <dan.carpenter@linaro.org> writes:
+
 > We changed these functions to returning negative error codes, but this
 > first error path was accidentally overlooked.  It leads to a Smatch
 > warning:
-> 
+>
 >     drivers/platform/chrome/cros_ec_lpc.c:181 ec_response_timed_out()
 >     error: uninitialized symbol 'data'.
-> 
-> [...]
-
-Here is the summary with links:
-  - platform/chrome: cros_ec_lpc: Fix error code in cros_ec_lpc_mec_read_bytes()
-    https://git.kernel.org/chrome-platform/c/77a714325d09
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+>
+> Fix this by returning the error code instead of success.
+>
+> Fixes: 68dbac0a58ef ("platform/chrome: cros_ec_lpc: MEC access can return error code")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index ebe9fb143840..f0470248b109 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -139,7 +139,7 @@ static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+>  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
+>  
+>  	if (in_range < 0)
+> -		return 0;
+> +		return in_range;
+>  
+>  	return in_range ?
+>  		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
+> @@ -158,7 +158,7 @@ static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
+>  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
+>  
+>  	if (in_range < 0)
+> -		return 0;
+> +		return in_range;
+>  
+>  	return in_range ?
+>  		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
+> -- 
+> 2.43.0

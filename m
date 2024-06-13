@@ -1,127 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE31433A4;
-	Thu, 13 Jun 2024 17:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAA2266A7
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 17:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718300448; cv=none; b=Us2wHuKZUgybTulPZeAmv5hsE5KL1ldG/d8dAndFcgyUqkfc7Kv6YXOFj6O3YjA0MhqZATSVn+6OO3MA1KiYwcT2bm08ce7Fp2hjlVvIjo2V+5xl7EPy9kbyD8hsHU2BqZPOqYbgdElbxqivcAUl4oXTHYG0HwvUq64NNMD7aiA=
+	t=1718300693; cv=none; b=csHNXCHzFubTu3/c74vcsybJBZWerfcfp8TFo8zJvK4xMP+x4tZfMBAeWVKqyI3omXO9OGPFFYIRxUsGmwof1E/FqCH38CYi1AShGvPBFHlpa1PxHTgKyYBHfE+Zxgg1HllQFyqtrIPjjFj8Sa+K278ijdhnP8Sv5PJMHXoz/1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718300448; c=relaxed/simple;
-	bh=hAaUF5T3I8vPmUwK3zZqtOarg9gWX4lSB2Jkwl0QztI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r957IN5oQLQR3WlrFEBBS35pVNWlFDCU+gUBxBl8qwmuzikEfACNy+fFnu1Anr+BuKAmmbc3QlpVhCqqb0WgydJGtpb/cylwH1GdsM/NY0gWP7ir0roW0BOtDUcGW8l1l6S48bvA/KJLkimOqeT0zyo7if76T4GNWFy43ny/Cvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUDpZODq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718300693; c=relaxed/simple;
+	bh=Cob0LB2XALOsBUE0oPEqLcIwGTnhyyR3d7E6pcuJJg0=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=cK/ILhOFVDyml2b8b+iXkKGUSgb8mZu4nbHaraBKT3Tb+PZkFBFpjZ0v1WmFeVnJQqug63oSnmLwl+dmoPu+g3EJDQFWS5ilEgjGV09tj/U0xKsYimgKNmZSriRYA8BNEZAP7hM49p4ezDG+9DgOtFKFASUu4zgGNSPOvnwyM0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=ieIrzpTH; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUDpZODq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4623C2BBFC;
-	Thu, 13 Jun 2024 17:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718300448;
-	bh=hAaUF5T3I8vPmUwK3zZqtOarg9gWX4lSB2Jkwl0QztI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nUDpZODqOALDsA0WnL0MlT3i25SQ+VBoFilOYcAKYeeaW6blfDjGpuXgM08f5KSNj
-	 iQ3f4Pc4WZOP5cJGUAtSrby5Ov9f3s4yeUUbwo9QvxIsXp14xeY+Al1csaIEHk09WX
-	 5EKbaGZ03jem49NbCcXrGnTRAmRRG2hHd+Wr5oWE3rYTDQrZs7KRljUW5rsxeLeFGy
-	 eprG1yzRsgUb3P0+grLsdkz8Hq+vEbVZRThH9ZdKDgq31y3kzXJuvzFd9v2na6N7j4
-	 oI+4yzM7NLWQsVLKABUTyGWP/CULUzJYgc7gDzBjAvlmieRbloE740LhulTJ9cDF2q
-	 i336UZmTjM/8Q==
-Date: Thu, 13 Jun 2024 17:40:44 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ben Walsh <ben@jubnut.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
- cros_ec_lpc_mec_read_bytes()
-Message-ID: <ZmsvHBrYSpwYLyxx@google.com>
-References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
- <87sexgrdk4.fsf@jubnut.com>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="ieIrzpTH"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f4a5344ec7so9594825ad.1
+        for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 10:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1718300691; x=1718905491; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cob0LB2XALOsBUE0oPEqLcIwGTnhyyR3d7E6pcuJJg0=;
+        b=ieIrzpTHqRHj1C+hOPGouSaSe9tHw7fDSXeE5lKvyJC0GnhPbl9EFQx8cnQfPlnwVU
+         I3whssTt5n3Z+tNk+9Q9Ar+mNqcvARkE90gRRCd2Q1r9MHZR3II5PQuEQVscBcqoLvJu
+         zJfCm/TC3GmaoHlmzDH++HsECYZ2oPbXf3dkDFOH30GWfbYLX/jsOBAguyoP3w3IZB57
+         dYqvNpKTkGQgddd7g2IcYeDScmqZDbBYiqagYlbCTQMfm2bG3RuGcFax2WKNjVa1+K2P
+         Kzamig13XnV9ZPG5lxm6Uy8cbYbRkNz9oQh0jwiUFRghl6gP+JwzfOPfrdUctLOrkGAj
+         mkcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718300691; x=1718905491;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Cob0LB2XALOsBUE0oPEqLcIwGTnhyyR3d7E6pcuJJg0=;
+        b=JCosRcpGwFYr3eEeX3fSU+GvPrvEJg2wME/9LncvYPYFrHXubcOqLtohkgJlI3tQgI
+         LsDKm4PZWbIHqo4WWKV1BN3uMTenGKPVKFMWcKeaCMQTqiGzl8vv2DjFchM5SfB19Tns
+         Dj6MG3nT39JZbOERcSu9tgMhBPMg5xLLk1H41jii/1DfN++pr9+VHmBCF08uf5K3CKkS
+         kcHi3k9kKmr+7QMVdx0q4XPGaaam2lPPnLWI9dE6w5dkvOinY0ib+oT3SPpcTJ7MvAdO
+         yM60EhvHKazib/VOhq3MioLlytGwZ5aheruSU7S3tXuljdYNG2nwi4YljncWCnZKVy2t
+         pymQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1dLbh2ZR4N8s7DFZqtf5RuXzeY1AcSFNHoPZfQxRaJc4IWu9bQ4vBk4FzYhkf1YmwvdnPrAkAQmSsUiVj3pbAOHCRRk2sGYS9NhUXoTt2
+X-Gm-Message-State: AOJu0Ywo09SKegR6jB8CcdHJItG7vgmwrqWNWbavvGgmR3hyG/Z+WIJ6
+	e2ReltdwrkJjcmS4ELI2OqL+ZFrBEoKNlr4us+lYLPORBYiujeN7k80NbS4cxTA=
+X-Google-Smtp-Source: AGHT+IFMElTETuO/eY5ZJFSBxB/vpsTIHg4LELmtaIdkx9z8qhqfds9ObKYnFSNy3BhdIGGwWj3h4Q==
+X-Received: by 2002:a17:903:22c6:b0:1f8:62a1:b6af with SMTP id d9443c01a7336-1f862a1b85bmr5219835ad.21.1718300691279;
+        Thu, 13 Jun 2024 10:44:51 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855ee6eebsm16647275ad.158.2024.06.13.10.44.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 10:44:50 -0700 (PDT)
+Message-ID: <666b3012.170a0220.159b7.4761@mx.google.com>
+Date: Thu, 13 Jun 2024 10:44:50 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sexgrdk4.fsf@jubnut.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.10-rc1-19-g77a714325d09e
+X-Kernelci-Report-Type: build
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.10-rc1-19-g77a714325d09e)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Thu, Jun 13, 2024 at 05:51:39PM +0100, Ben Walsh wrote:
-> 
-> Thanks for fixing this! Unfortunately `in_range` returns -EINVAL if
-> length == 0 (see the definition of `fwk_ec_lpc_mec_in_range`). I'm sure
-> this broke something in my testing, but I can't find what it was now.
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
+-19-g77a714325d09e)
 
-Somewhere like [1] could accidentally get the -EINVAL.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.10-rc1-19-g77a714325d09e/
 
-[1]: https://elixir.bootlin.com/linux/v6.9/source/drivers/platform/chrome/cros_ec_lpc.c#L232
-> 
-> My original suggestion was to add a test for "length == 0" before the
-> "in_range" test, then do the test as you have done. But we decided to
-> defer this to a later, separate patch.
-> 
-> There's also a similar "in_range" test in `fwk_ec_lpc_mec_write_bytes`.
-> 
-> We could:
-> 
->   1. Revert this and change the `data & EC_LPC_STATUS_BUSY_MASK` to
->   `res & EC_LPC_STATUS_BUSY_MASK`. This is the same logic as before the
->   negative error code change.
-> 
->   or 2. Put in a check for length == 0.
-> 
->   or 3. Change the logic in `fwk_ec_lpc_mec_in_range`. Although I'm not
->   sure what the correct answer is to "zero length is in range?"
-> 
-> I prefer option 2. What do you think?
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.10-rc1-19-g77a714325d09e
+Git Commit: 77a714325d09e1527d865dc011ef91c4972ffedd
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-How about drop the length check at [2]?
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-[2]: https://elixir.bootlin.com/linux/v6.9/source/drivers/platform/chrome/cros_ec_lpc_mec.c#L44
+Detailed per-defconfig build reports:
 
-> 
-> Dan Carpenter <dan.carpenter@linaro.org> writes:
-> 
-> > We changed these functions to returning negative error codes, but this
-> > first error path was accidentally overlooked.  It leads to a Smatch
-> > warning:
-> >
-> >     drivers/platform/chrome/cros_ec_lpc.c:181 ec_response_timed_out()
-> >     error: uninitialized symbol 'data'.
-> >
-> > Fix this by returning the error code instead of success.
-> >
-> > Fixes: 68dbac0a58ef ("platform/chrome: cros_ec_lpc: MEC access can return error code")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > ---
-> >  drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-> > index ebe9fb143840..f0470248b109 100644
-> > --- a/drivers/platform/chrome/cros_ec_lpc.c
-> > +++ b/drivers/platform/chrome/cros_ec_lpc.c
-> > @@ -139,7 +139,7 @@ static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
-> >  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
-> >  
-> >  	if (in_range < 0)
-> > -		return 0;
-> > +		return in_range;
-> >  
-> >  	return in_range ?
-> >  		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
-> > @@ -158,7 +158,7 @@ static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
-> >  	int in_range = cros_ec_lpc_mec_in_range(offset, length);
-> >  
-> >  	if (in_range < 0)
-> > -		return 0;
-> > +		return in_range;
-> >  
-> >  	return in_range ?
-> >  		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
-> > -- 
-> > 2.43.0
-> 
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

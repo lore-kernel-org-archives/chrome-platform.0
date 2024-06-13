@@ -1,84 +1,94 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8572D1465BA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B53146A6E
 	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718290132; cv=none; b=h0ewzm9QdRYqCUwa2JfVSY6I4D+cSFArcabymQo9GucX0jA6zi4TjKtwf5048hOE2o2K/iC+/mtWXYzBvZ9hOwIOz+/UfqbcUEEDgL7uI8KcHep8SBzyMcNordS+C67z1+eeegRVOzRM2+pOVVpIk/4/+2IvMtVcHkX4jJuLTJw=
+	t=1718290132; cv=none; b=KmsnjyvGWsW0mpPt55OnFrm+pmsDi0ucqBOYDOHtVrOrPxfRUbl9JSrJDwOmr1+FKva67fcYF1ImissUNe8izAfYLiZroF4wqWYLM9fVbCsHM29Rg0SeZ2SGXN2qQm4zgY59I0MIHjCP6h8WTHHx3Gb0Q29wJtpTRnUbMzF4lX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718290132; c=relaxed/simple;
-	bh=MA4hVdM8atN+j9fTv+dOnzF4lW0zwLF6ZQX3fFVdEoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSE6adCd7skd/F9zzDUphPkxKem6Dx66l5wPfTps2VEDbiLjufJMlKkCOzHuVz2mEoL7ZeVYDJahWEz3Tpmxw0WffYMm0kBkiRe6cGN5XMkRc5J68HDfMHUF5WoiFOWOJL5AuuL3qlO9PU0w4QCV8Zcef0D2RoSSBx/LD88uDes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=N+i5Cizh; arc=none smtp.client-ip=159.69.126.157
+	bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=lwMesW5KLI2UVHgwjjWcRypNpFrKoWVqZv5GAvinElGbNvayT7LozZ0nh9XSswcZQZvmSJjxAeybozXcMo2WLX+M4Ru5zZyikIcO8gsbICqnIVT9B9AdjjOu6BmF1hHcYLp42EJbOGo76CzFeZk8pR9sSjLURhNwkDwZ3EwJcGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pLd4/VbA; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="N+i5Cizh"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pLd4/VbA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718290122;
-	bh=MA4hVdM8atN+j9fTv+dOnzF4lW0zwLF6ZQX3fFVdEoY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N+i5CizhFa78NONukRepZGRBPa6iITSIJLCaE6M3M9auIqYe4ceXgiNuaoGCYd7lA
-	 vSoXizT3mJiSqwvdeHv3tIZWeyaBo6I89ycdTLdGNAqZ30jEZiHyBk1kOYQYPmzWNp
-	 8kj/dJY9kj+beGlmxYvIytCy3ogUjK2c9KvRR+pc=
-Date: Thu, 13 Jun 2024 16:48:41 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Dustin Howett <dustin@howett.net>, Pavel Machek <pavel@ucw.cz>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
-Message-ID: <d0189349-8101-414c-bed7-94573f66b40d@t-8ch.de>
-References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
- <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
- <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
- <20240613144137.GG2561462@google.com>
+	s=mail; t=1718290120;
+	bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=pLd4/VbAsVstarpEzFdot13IT4mpN+rMLEk92Hldp/KOBHZrEUNlt7h3LVQZDwrDf
+	 STz3oQldRrJGpAL8HXEcJZGklrh3uTqfM1j2QC+f79i1fLLRMoX342pG1Jarg/pcOP
+	 UV4n+hl0mWNy5HTJ59M2qCBDqTG3ipn8Tgh13JeI=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Thu, 13 Jun 2024 16:48:40 +0200
+Subject: [PATCH v3 5/5] mfd: cros_ec: Register LED subdevice
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613144137.GG2561462@google.com>
+Message-Id: <20240613-cros_ec-led-v3-5-500b50f41e0f@weissschuh.net>
+References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718290119; l=1053;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
+ b=N/ZDeeBVukUv4uGrxzH8013chzUsFpC2ISJK3xoUpLuH+svvdsuJuaVl8u+lAI3vDRmc+p8As
+ a/mu6Gz3/4UB/mDhRXTvpg8sW1RvC7GWucN3XzW/7ltiWxe4AGV47YC
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On 2024-06-13 15:41:37+0000, Lee Jones wrote:
-> On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
-> 
-> > On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
-> > > On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > > >
-> > > > Add a LED driver that supports the LED devices exposed by the
-> > > > ChromeOS Embedded Controller.
-> > > 
-> > > I've tested this out on the Framework Laptop 13, 11th gen intel core
-> > > and AMD Ryzen 7040 editions.
-> > > 
-> > > It works fairly well! I found a couple minor issues in day-to-day use:
-> > 
-> > Thanks!
-> > 
-> > > - Restoring the trigger to chromeos-auto does not always put the EC
-> > > back in control, e.g. the side lights no longer return to reporting
-> > > charge status.
-> > >   I believe this happens when you move from any trigger except "none"
-> > > to chromeos-auto, without first setting "none".
-> > 
-> > Thanks for the report, I'll investigate that.
-> 
-> So am I reviewing this set or waiting for the next version?
+Add ChromeOS EC-based LED control as EC subdevice.
 
-This specific bug is fixed by [0], which should be in your inbox.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/mfd/cros_ec_dev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-I just sent v3 of the series, with only two tiny changes.
-One more cosmetic and one for the coming revert to avoid the LED
-hardware trigger deadlock.
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index a52d59cc2b1e..d8408054ba15 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
+ 	{ .name = "cros-ec-wdt", }
+ };
+ 
++static const struct mfd_cell cros_ec_led_cells[] = {
++	{ .name = "cros-ec-led", },
++};
++
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_ec_wdt_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_LED,
++		.mfd_cells	= cros_ec_led_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
++	},
+ };
+ 
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 
-Thanks for the review!
+-- 
+2.45.2
 
-[0] https://lore.kernel.org/lkml/20240603-led-trigger-flush-v1-1-c904c6e2fb34@weissschuh.net/

@@ -1,80 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B4145A02;
-	Thu, 13 Jun 2024 14:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F4E1DFE1
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 14:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718289702; cv=none; b=JMkEjKKonIvjP7WCtVFN5FviDxCCIH9WT/1LFr2MGnP8ZgRUZ73HNNCM1+6Pgk6pvHAy5foKqxJo8FDeu9OHtaFnRdWRlNoybeY1Ry/XwXJton4RGF1hzzODuDz9qDys7hacZnaKl4/NIp8Ah0OF7GZejyxQtuLa+M22gDAS7DE=
+	t=1718290128; cv=none; b=XtNUbjldervRS4jzEou60Q1IhhLFZQNDGVzGlcFs6Z18WGwW8cIVwodtMxC9RnxZY+wis1ZPLBL0CbGmuViKoaWGlcZOH5hORK5Ky8gSPI9Ga98umIf45jZClB1u6uovwSUEDIV9A6zz9Va8FVUluKTds/6IdWjqeZqxB1dB158=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718289702; c=relaxed/simple;
-	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e01pVjp+R/v17Z5wYlI+snFcB24l4qJclPelHH3t477KdUzVHexY4Zq6pQrW5KsblxDwZfh0ruKQExnAh1O9NkledCD6R4JI3jH7w0NoCQFJ66e9mZt+u8f/btbsD9WF5HqEHcjE6Ts72m9vJ6vU6zB+t8BJs4kUPByucnN2cj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6yADqQa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718290128; c=relaxed/simple;
+	bh=RYdWV51r8PcyeNbSw5etkeGipgLJ2iNvDv6KpRFCB3g=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TxaIn3hisntSsydeppEpMP86Lm/qKXsDWuDP/5l/n4L6cECLObL+3YHKVwskIRPOGv4Obu80FOg2BK58TCkIi+quny4cqZOObMUEmOhOlNcZrxJf3Vcs8qaNhREhPIbGsM4roHW4AuzPy/3VtXOmV8g28RS+GM0lzGGxRJpQwNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=XN1JFlti; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6yADqQa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D208C2BBFC;
-	Thu, 13 Jun 2024 14:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718289702;
-	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6yADqQa/bBRMUtbfHabAB0TtXRZRfVHI5RqyYkEDB3OzODghkwDfLsUXFXpkKnIJ
-	 GLu55tuDvw1qbkzaMxcpMBOnb5zr9Tq7YCYB1csGtyGQyNLJJG+bvK6X7Shqva2Tdo
-	 t4hfYXDWb2Z+IKIDC+tTSMsBV/ZVCeE04afmCxtBa39bOts6sOjG/5CPnsiVQSL1S1
-	 xJxIMEtf9sXkRvFkKmMiN2yfqD1ipHVQ+6Jd9BlZ/6dpUZDGvZZ/84INmS7fpMCU9L
-	 A7qkgE6N5OqeS8vzaiSJX3MDGJfpjLfkFOMgsNYVF54BJdfEY5UAxleSV7ROfqIJf8
-	 g+7kI28dnb0EA==
-Date: Thu, 13 Jun 2024 15:41:37 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Dustin Howett <dustin@howett.net>, Pavel Machek <pavel@ucw.cz>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
-Message-ID: <20240613144137.GG2561462@google.com>
-References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
- <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
- <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="XN1JFlti"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1718290120;
+	bh=RYdWV51r8PcyeNbSw5etkeGipgLJ2iNvDv6KpRFCB3g=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=XN1JFltiFXp2L2rqTWR4Bz22ATckDg7dp1tfm/cpV2hBrSJEvEOCSoL97+FO3IO+z
+	 85ywGoHF876rW5xjwbhMHGwN7zw3rMNyabdV8OpnQSAgk0NAQBXksKAKAK2j+e5tUS
+	 F6JedxHDukOqh/Zv8Ql0ybBwe6hROnjwyN0LtxKo=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Thu, 13 Jun 2024 16:48:37 +0200
+Subject: [PATCH v3 2/5] leds: multicolor: Use led_get_color_name() function
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
+Message-Id: <20240613-cros_ec-led-v3-2-500b50f41e0f@weissschuh.net>
+References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718290119; l=942;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=RYdWV51r8PcyeNbSw5etkeGipgLJ2iNvDv6KpRFCB3g=;
+ b=OItp3aZh/jgZ1XoXq/Awow9+PJGcoX1ucS+3ULAY1SaAQkDtBjZYWsqdkIXTJJsHIMeZ7pUsA
+ CuWDYaZXNKMDlICN14C6oy/Lv+V9npjsNFOx04X51PW3RxG0yI4/cYO
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
+led_get_color_name() is a safer alternative to led_colors.
 
-> On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
-> > On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > >
-> > > Add a LED driver that supports the LED devices exposed by the
-> > > ChromeOS Embedded Controller.
-> > 
-> > I've tested this out on the Framework Laptop 13, 11th gen intel core
-> > and AMD Ryzen 7040 editions.
-> > 
-> > It works fairly well! I found a couple minor issues in day-to-day use:
-> 
-> Thanks!
-> 
-> > - Restoring the trigger to chromeos-auto does not always put the EC
-> > back in control, e.g. the side lights no longer return to reporting
-> > charge status.
-> >   I believe this happens when you move from any trigger except "none"
-> > to chromeos-auto, without first setting "none".
-> 
-> Thanks for the report, I'll investigate that.
+led-class-multicolor.c is the only external user of led_colors and its
+removal allows unexporting the array.
 
-So am I reviewing this set or waiting for the next version?
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/leds/led-class-multicolor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+index ec62a4811613..584e3786a1e7 100644
+--- a/drivers/leds/led-class-multicolor.c
++++ b/drivers/leds/led-class-multicolor.c
+@@ -101,7 +101,7 @@ static ssize_t multi_index_show(struct device *dev,
+ 
+ 	for (i = 0; i < mcled_cdev->num_colors; i++) {
+ 		index = mcled_cdev->subled_info[i].color_index;
+-		len += sprintf(buf + len, "%s", led_colors[index]);
++		len += sprintf(buf + len, "%s", led_get_color_name(index));
+ 		if (i < mcled_cdev->num_colors - 1)
+ 			len += sprintf(buf + len, " ");
+ 	}
 
 -- 
-Lee Jones [李琼斯]
+2.45.2
+

@@ -1,94 +1,77 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B53146A6E
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 14:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF400144312;
+	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718290132; cv=none; b=KmsnjyvGWsW0mpPt55OnFrm+pmsDi0ucqBOYDOHtVrOrPxfRUbl9JSrJDwOmr1+FKva67fcYF1ImissUNe8izAfYLiZroF4wqWYLM9fVbCsHM29Rg0SeZ2SGXN2qQm4zgY59I0MIHjCP6h8WTHHx3Gb0Q29wJtpTRnUbMzF4lX0=
+	t=1718292030; cv=none; b=pWXXJjjVLbB+SAxtPlBMJV5ieZVAlL2V3TdqBLGHjWDXnitW5iMvzFr6NSDFU7bxiMkeeLjFIj1/R3DD/85c314j0KQ+rwpR3Zy20/BrtmdMiI2jU0dwv9TmE42M2opQd/aqrZOX+LxEq/mq4EuUXCppjQldRCGRjiQF2uZ+W3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718290132; c=relaxed/simple;
-	bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lwMesW5KLI2UVHgwjjWcRypNpFrKoWVqZv5GAvinElGbNvayT7LozZ0nh9XSswcZQZvmSJjxAeybozXcMo2WLX+M4Ru5zZyikIcO8gsbICqnIVT9B9AdjjOu6BmF1hHcYLp42EJbOGo76CzFeZk8pR9sSjLURhNwkDwZ3EwJcGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pLd4/VbA; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1718292030; c=relaxed/simple;
+	bh=1XT4r0mKPz5fePD/fYIIGKxk2aGH3p0jZ4pSt9Z/9ok=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=R492JdaWiDpbr2YIyIdHyRRTVPVwvR0nwvDhUP9MfeF3hTw6Qr++AUvvgBzkAz8rBLDsHHqmzAz/ORGyJdzSFj3KXIfVvtlkVkKc9uaoncLZhZ9GDpqVo7BkcElw7A6cPfrRfi3ybEZRUaAK4uIppPt8GLsAYZXMh04PSnypymY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LrCgFSlb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pLd4/VbA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718290120;
-	bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pLd4/VbAsVstarpEzFdot13IT4mpN+rMLEk92Hldp/KOBHZrEUNlt7h3LVQZDwrDf
-	 STz3oQldRrJGpAL8HXEcJZGklrh3uTqfM1j2QC+f79i1fLLRMoX342pG1Jarg/pcOP
-	 UV4n+hl0mWNy5HTJ59M2qCBDqTG3ipn8Tgh13JeI=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Thu, 13 Jun 2024 16:48:40 +0200
-Subject: [PATCH v3 5/5] mfd: cros_ec: Register LED subdevice
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrCgFSlb"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6ED86C32789;
+	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718292029;
+	bh=1XT4r0mKPz5fePD/fYIIGKxk2aGH3p0jZ4pSt9Z/9ok=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=LrCgFSlbDeqzNUG/i5nO/v1VKeH23uZ4yNItjtZQsX+tkIJN8wP7AuQjHAjx3TO0x
+	 hhkApAGwmCiQduL5+4tghi6BRppb5ov4Fa3ZPfETx4KDTZRc4/CEYzxKbR8+0PjJ7Y
+	 Fdh1PkMSRNqp9VIglTjM0KA1naO+z1w7WvrZae/WxWcU4o2ZSNr69aVbfb5+PEBmJ8
+	 5CMGBYQCmE3rvP4+HgVoYJMKoy8veGRrsYR6ZgttdvFjTvIg6+It4SH1nekTEGLuiG
+	 1+tTuJcU+cDZ1jWJLQpNg9/gKaFTi+lEVJ6VEOPLspc+Alcfb5ctRe50W9uRl2MoM0
+	 uHfVDm4e/PNHw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5D83EC43619;
+	Thu, 13 Jun 2024 15:20:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240613-cros_ec-led-v3-5-500b50f41e0f@weissschuh.net>
-References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
-In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718290119; l=1053;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=yVxyVIwMRddgUEXhVZPY0twYDEXyBd/qRw3RPwi32Eg=;
- b=N/ZDeeBVukUv4uGrxzH8013chzUsFpC2ISJK3xoUpLuH+svvdsuJuaVl8u+lAI3vDRmc+p8As
- a/mu6Gz3/4UB/mDhRXTvpg8sW1RvC7GWucN3XzW/7ltiWxe4AGV47YC
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
+ cros_ec_lpc_mec_read_bytes()
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171829202937.32437.8819458024238678415.git-patchwork-notify@kernel.org>
+Date: Thu, 13 Jun 2024 15:20:29 +0000
+References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
+In-Reply-To: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: ben@jubnut.com, bleung@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 
-Add ChromeOS EC-based LED control as EC subdevice.
+Hello:
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/mfd/cros_ec_dev.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index a52d59cc2b1e..d8408054ba15 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
- 	{ .name = "cros-ec-wdt", }
- };
- 
-+static const struct mfd_cell cros_ec_led_cells[] = {
-+	{ .name = "cros-ec-led", },
-+};
-+
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_wdt_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_LED,
-+		.mfd_cells	= cros_ec_led_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
+On Thu, 13 Jun 2024 16:55:14 +0300 you wrote:
+> We changed these functions to returning negative error codes, but this
+> first error path was accidentally overlooked.  It leads to a Smatch
+> warning:
+> 
+>     drivers/platform/chrome/cros_ec_lpc.c:181 ec_response_timed_out()
+>     error: uninitialized symbol 'data'.
+> 
+> [...]
 
+Here is the summary with links:
+  - platform/chrome: cros_ec_lpc: Fix error code in cros_ec_lpc_mec_read_bytes()
+    https://git.kernel.org/chrome-platform/c/77a714325d09
+
+You are awesome, thank you!
 -- 
-2.45.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 

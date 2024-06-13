@@ -1,180 +1,131 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4DC135A53
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 06:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C8F14430E;
+	Thu, 13 Jun 2024 11:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718258841; cv=none; b=pgRRXNQIOGv+n22XvvGiwVZEzWtsT6rjAOt36gpF7R/QSIo7kYTcOEoXwq3R9apoZJI4Jksd2FOb5zkIWjZdMOsOCxYRZF34NKhdFCBYVLfLW2odBKXGI3mIRZXHDKk5TVfHjyIIuUJRORgV3ipnPDHPnXnbMu/aEewqN37kD7M=
+	t=1718279266; cv=none; b=HQMKHUqf1SBybNw81EtAsyUbBou+4IymliDGLTndwJwMDLQtIbinRpFWKxUAc4vRyCLrF1MIAhMbBdZ85ttpbWZDAZAu/ZAfBcgdXGT2WgjtuTQps6TJ9TzaDC7E4g0TxovUhgcgClkthUKKS0LB7LRBIG9yIIT19yEl5SU+xNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718258841; c=relaxed/simple;
-	bh=DuF3s2NTbx9eNAhEvcHOmtYwWf1R8c8+PhArMhqMNRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHs8cmFSe5mlVb+icwdDgeLe6IO7EanSV2dpvZPeiQJNnbk4z6h2S8MCyM0IsHKXHRIXz9Aav4FaM96Zf4yzBo3q+UFYxyDT7bONbVjqaJsmbtIapwmFRqbuKQH3Wvpq9CMMN/EZZgFJW4X8spmMp+eKp+nvbwqOYyhjjzY7sjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0DWEB8En; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1718279266; c=relaxed/simple;
+	bh=vcQOQbXAj6MtgHf5FV0jFm9rA4KsgajSjYQ9myglI0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TjgERyofvIibb7wgnrU/jVEJQ7G5OzIMpnIPfH+5FpBsGmZLhlpkG70Lzu2sFkAGsblOS+EyiLrlx0eIunSqFqGQT5e7BZR+9U6WY1PphLcN1Gno/Wih6wY0stJLzz6qdPlY/lAAF+pk9j7Aw7MT1x3z28LVtNIbbTpxYZTwfDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SS0gMCb6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0DWEB8En"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57c778b5742so499393a12.2
-        for <chrome-platform@lists.linux.dev>; Wed, 12 Jun 2024 23:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718258837; x=1718863637; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZGw9LjxRLnO3E/KOoJkpWZFT1iYKIeZOgESfwWkEGak=;
-        b=0DWEB8EnbJP7Y/pfPq/rgRu65bSZ68srCKLgXG0WAzwZICI31loSPgWeUnyJi/3832
-         m2KmRrzok66DWAojuPhxN78vdCXzZjw2c9zK/kn4rxEJGtpu1DrpWewiICvfjiuEedsy
-         8i8aTifF7uWzJT/JqwQqr0BiFX+3Q/6DdFYrOIacMVWwUhkdBRYYhZ+vgU57YS2fnpPa
-         aBP9GSYYZ3XX6skI/ItlJuT1WeCpLXjmWgscsE2pY3B36koqpjqAIpFwIdX6dwZCDi/A
-         T1uFg8rYdkdkiLcYHR8e2X29ndZQa1PeOccTvbCWm18KhnvFL6bQ+LOfhZb8z/N/h8X1
-         itdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718258837; x=1718863637;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZGw9LjxRLnO3E/KOoJkpWZFT1iYKIeZOgESfwWkEGak=;
-        b=vr3ukHdVk2vrFm8dyWTo1dIc4nK0+mMh/uB+NJGeqp4/OgrFm3vXW9S4sqWSQpS5BE
-         IdSMjd2qZIEodQWPWh667l6eiP96e37WwyywPl8LIilUzoo/etT7lbNmUpFTlXEw1efB
-         dmL9rmDFEg4tZr7cKv2VruotN3xdFQRZXTapWxZV0w+4UhHcEIFXUOdYcMquEyT+nFAX
-         fEMj31hy16TWVJx2zSZuqbZga9dLTC2OLomVeEzQzend/a9zVxrznDPmcslTwDYfc3Gj
-         voh/SrOHJPaYk7o1hJ2Yyde3qfhdKhWEfy8lS5XgtTym7rR7LZg6WCwGAuLOWciiAXI3
-         F+rA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKq68nIlE+aCF4CB9+sVXrAiA3vn2Sh8Is/IM4la4/REyomDTAVADq1KVg8crql7NsjVsbX/8Y0xxHz+c6b6WEfNEeyk689sRBDSQCqmtV
-X-Gm-Message-State: AOJu0Yzyq69Rd19pk1DFw7V2IWn5880Ygpg5xvtGAdrPjWvnM9fJmup+
-	x1ovgLd9pwkKE7cnUim0oDZBLBnl9mom+EbmxQ/xonQqYy8YqcdrGig6aeAFRtk=
-X-Google-Smtp-Source: AGHT+IFyG97kapcpRtgBxfI28itXzYDTqJwCuhD9+V/5izctPGOD1KVGzSQPvm/H+fT80lQmOs9NDA==
-X-Received: by 2002:a17:906:517:b0:a6e:2a67:7899 with SMTP id a640c23a62f3a-a6f47f7fc60mr202929666b.35.1718258836898;
-        Wed, 12 Jun 2024 23:07:16 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:6dd9:ebe6:fd11:a860])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56da3f86sm35701566b.3.2024.06.12.23.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 23:07:16 -0700 (PDT)
-Date: Thu, 13 Jun 2024 08:07:15 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in
- .get_state()
-Message-ID: <p322xo44wkcrmaewbz6pf2jn4zxw2wzzwikc3xkdl6mh4yc7od@rnxc4qdj6vxx>
-References: <20240607084416.897777-5-u.kleine-koenig@baylibre.com>
- <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
- <ZmgP5NTPEGM0M2Li@google.com>
- <dbygoq4rzxnzforpdsvuy5jze2rxqszi6qxtx6q37yxwjo36o6@qfoc6iz2nbay>
- <Zmk_wolV5vK4JPCV@google.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SS0gMCb6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17A5C2BBFC;
+	Thu, 13 Jun 2024 11:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718279266;
+	bh=vcQOQbXAj6MtgHf5FV0jFm9rA4KsgajSjYQ9myglI0k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SS0gMCb6UUw1Hd5+qYeJjtE9vS3kFBsDE8K6VkLi9s0H+/pzjyXwbGQpG0NnMq96H
+	 GkVxMOiMFLrAj3uQDQyBCkb+nQa4y05Lo2HmIwUKdho65A0/9ogEE16YCha3m3ifN+
+	 Bby/nv/sWizeX61qE2bqM3UiBxeNLzIX1k3AR9/c=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Lalith Rajendran <lalithkraj@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Karthikeyan Ramasubramanian <kramasub@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH 6.9 018/157] platform/chrome: cros_ec: Handle events during suspend after resume completion
+Date: Thu, 13 Jun 2024 13:32:23 +0200
+Message-ID: <20240613113228.111203523@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240613113227.389465891@linuxfoundation.org>
+References: <20240613113227.389465891@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dux3ffohujxukeib"
-Content-Disposition: inline
-In-Reply-To: <Zmk_wolV5vK4JPCV@google.com>
+Content-Transfer-Encoding: 8bit
+
+6.9-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+
+commit 2fbe479c0024e1c6b992184a799055e19932aa48 upstream.
+
+Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable") re-ordered the resume sequence. Before that
+change, cros_ec resume sequence is:
+1) Enable IRQ
+2) Send resume event
+3) Handle events during suspend
+
+After commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
+command and irq disable"), cros_ec resume sequence is:
+1) Enable IRQ
+2) Handle events during suspend
+3) Send resume event.
+
+This re-ordering leads to delayed handling of any events queued between
+items 2) and 3) with the updated sequence. Also in certain platforms, EC
+skips triggering interrupt for certain events eg. mkbp events until the
+resume event is received. Such events are stuck in the host event queue
+indefinitely. This change puts back the original order to avoid any
+delay in handling the pending events.
+
+Fixes: 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host command and irq disable")
+Cc: <stable@vger.kernel.org>
+Cc: Lalith Rajendran <lalithkraj@chromium.org>
+Cc: <chrome-platform@lists.linux.dev>
+Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Link: https://lore.kernel.org/r/20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/platform/chrome/cros_ec.c |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -432,6 +432,12 @@ static void cros_ec_send_resume_event(st
+ void cros_ec_resume_complete(struct cros_ec_device *ec_dev)
+ {
+ 	cros_ec_send_resume_event(ec_dev);
++
++	/*
++	 * Let the mfd devices know about events that occur during
++	 * suspend. This way the clients know what to do with them.
++	 */
++	cros_ec_report_events_during_suspend(ec_dev);
+ }
+ EXPORT_SYMBOL(cros_ec_resume_complete);
+ 
+@@ -442,12 +448,6 @@ static void cros_ec_enable_irq(struct cr
+ 
+ 	if (ec_dev->wake_enabled)
+ 		disable_irq_wake(ec_dev->irq);
+-
+-	/*
+-	 * Let the mfd devices know about events that occur during
+-	 * suspend. This way the clients know what to do with them.
+-	 */
+-	cros_ec_report_events_during_suspend(ec_dev);
+ }
+ 
+ /**
+@@ -475,8 +475,8 @@ EXPORT_SYMBOL(cros_ec_resume_early);
+  */
+ int cros_ec_resume(struct cros_ec_device *ec_dev)
+ {
+-	cros_ec_enable_irq(ec_dev);
+-	cros_ec_send_resume_event(ec_dev);
++	cros_ec_resume_early(ec_dev);
++	cros_ec_resume_complete(ec_dev);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(cros_ec_resume);
 
 
---dux3ffohujxukeib
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Wed, Jun 12, 2024 at 06:27:14AM +0000, Tzung-Bi Shih wrote:
-> On Tue, Jun 11, 2024 at 12:39:44PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Tue, Jun 11, 2024 at 08:50:44AM +0000, Tzung-Bi Shih wrote:
-> > > On Fri, Jun 07, 2024 at 10:44:15AM +0200, Uwe Kleine-K=F6nig wrote:
-> > > > The get_state() callback is never called (in a visible way) after t=
-here
-> > > > is a consumer for a pwm device. The core handles loosing the inform=
-ation
-> > > > about duty_cycle just fine.
-> > >=20
-> > > ChromeOS EC has no separated "enabled" state, it sees `duty =3D=3D 0`=
- as
-> > > "disabled"[1].  1db37f9561b2 ("pwm: cros-ec: Cache duty cycle value")
-> > > caches the value in kernel side so that it can retrieve the original =
-duty
-> > > value even if (struct pwm_state *)->enabled is false.
-> >=20
-> > There is no need to cache, so the following would work:
->=20
-> Ack.
->=20
-> > > To make sure I understand, did you mean the original duty value could=
- be less
-> > > important because:
-> > > - We are less caring as it is in a debug context at [2]?
-> > > - At [3], the PWM device is still initializing.
-> >=20
-> > It doesn't really matter that this is about debug or initialisation. The
-> > key here is that the core can handle the PWM using duty_cycle 0 (or
-> > anything else) when it was requested to be disabled.
-> >=20
-> >=20
-> > > [1]: https://crrev.com/0e16954460a08133b2557150e0897014ea2b9672/commo=
-n/pwm.c#66
-> > > [2]: https://elixir.bootlin.com/linux/v6.10-rc3/source/drivers/pwm/co=
-re.c#L52
-> > > [3]: https://elixir.bootlin.com/linux/v6.10-rc3/source/drivers/pwm/co=
-re.c#L371
->=20
-> I was trying to understand the description in the commit message:
-> : The get_state() callback is never called (in a visible way) after there
-> : is a consumer for a pwm device.
->=20
-> I guess I understood; the core reads the duty value via get_state() when:
-> - Initializing the device for the intial value.
-
-Yes, that a consumer cannot do any assumptions about a PWM just aquired,
-so there is no danger for confusion.
-
-> - Debugging for checking if apply() really takes effect.
-
-Right, and the read pwm_state is only used in the core. The core won't
-be confused about disabled vs. duty=3D0. Consumers never see the result of
-the .get_state callback.
-
-> What 1db37f9561b2 worried about is already addressed by the core[4].
-> [4]: https://elixir.bootlin.com/linux/v6.10-rc3/source/drivers/pwm/core.c=
-#L495
-
-What 1db37f9561b2 worried about is bogus, because pwm_get_state()
-doesn't call the .get_state() callback:
-
-	$ git show 1db37f9561b2:include/linux/pwm.h | awk '/void pwm_get_state/,/^=
-$/'
-	static inline void pwm_get_state(const struct pwm_device *pwm,
-					 struct pwm_state *state)
-	{
-		*state =3D pwm->state;
-	}
-
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-
-I'll apply the patch under discussion and create a proper patch for the
-ad-hoc change from my previous mail.
-
-Thanks
-Uwe
-
---dux3ffohujxukeib
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZqjI8ACgkQj4D7WH0S
-/k5jCAgAsA5+r0pbCBGPDyie+4QAe8InHSyHZ7STwVbBOGPL5OUvhqgMzs0yBS+m
-PUSC5vbmRyXAmEvq5/iuD65ty1ggYj8bNTjjUtzooSUXzssJWUorWxOqhotFtOpn
-0M9Pd1XbMMPOuFfpvYJGoko4hA8SmSiHBmZAMiRfBws7ca7gUELwUreumcX5yJk0
-UlmfrdmHdSkPcl0GcOslvvYjS5+m8KSwrjnuVOOnBth+23L6IxpWUiqb2Hp3nem7
-TL1vumpfZV8Lqiv833fzmTjugihshRWA7H27hJS7C7ZZDGDB2Aka+WbEuuMypqFA
-05zw0QzJ0h16YYyk7D+IPAi+r/WHtg==
-=M2it
------END PGP SIGNATURE-----
-
---dux3ffohujxukeib--

@@ -1,131 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C19146D6A;
-	Thu, 13 Jun 2024 12:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BD79476
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 13:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718280356; cv=none; b=XIqacS/KpwRvyLwjTBhasKc0nj/8in+Ow1psrGd7Z6ELPmRfx+kHYq2ZmSWutPA1NmUNbF+fvhC+4URruczhEoCzkoQRsYF+8lPxA9pREMEhi3o7qz2MEjIT1wqkD91F0K4103xeka0v6IkXhRI/Cys7+ixXfR/Gm1P4aX5+vhU=
+	t=1718286922; cv=none; b=gG4bD7esfiU0tlDfOY8WwR3j/skAduO9zwy27MmBkRNv3f6y3w4Ud6Ku9k+qV5guGZzX1kdQj2CsNiprWwnMbQH7BOc4SoTA1udikx+47NQRlHxUDdDFob4cc3xHjDIO8ghn1mHkHaCvGdfsJ/ddKvj9uFCLbSnE1mSOeD+ubXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718280356; c=relaxed/simple;
-	bh=VtmehOfL3xkT3mhsRTDgSJD9zJ0CtaW03vJqhGjHCBM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XyV4PCD7SlWM2J0L43i2YWM0Xo33KXHbU7Hs65TZHgCbEVRvTxq7A8knohzSHHK7VbVWmeZVrCoXJtcemU0PO8bpW2ndBEcma+IE1SmX3zNSqON50XeA84QBYWsHwvyzP3BIYhx+VSbQ/cG34sv8sOdV8GHo09bI6HUlLlzT7Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SmBQJG/T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718286922; c=relaxed/simple;
+	bh=vVwvkMaZAYjZyqicTOx1nxvLkCMqD5e221Va8hSK8uU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pvHjldEXOhWvznJRFhvkMtVlSznYVkog70hObp4EDxd4CAn4j0OXuEFZas8m1KOIMnGTujEzF2uMoM0NTtYtrlc2wHwWjCs0blm/tWPjP7u2INeTjndKdBTXwTimM1mqP0wm8Vw5BPg0vJXhO4avg/0NRmlTwPcXHrk+Pxx0zFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QwXgShm1; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SmBQJG/T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9387C2BBFC;
-	Thu, 13 Jun 2024 12:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718280356;
-	bh=VtmehOfL3xkT3mhsRTDgSJD9zJ0CtaW03vJqhGjHCBM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SmBQJG/TGfc4yxKuFDTQecgpx04QTXdT2mxYdQHoytRT2zokeG0fHLjhxXpoPsf0/
-	 JjtWFyrENtlgI+UOFksYByFzgYkZ11TU3ShkhcfN92BGR6wQYZovWqXLnQJLlEYp3b
-	 2ZS49RRmlA0RzO2zOwQTxV2DLGfUzelqCGcFTO5A=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Lalith Rajendran <lalithkraj@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Karthikeyan Ramasubramanian <kramasub@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH 6.6 025/137] platform/chrome: cros_ec: Handle events during suspend after resume completion
-Date: Thu, 13 Jun 2024 13:33:25 +0200
-Message-ID: <20240613113224.264772362@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240613113223.281378087@linuxfoundation.org>
-References: <20240613113223.281378087@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QwXgShm1"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35f2c9e23d3so1459163f8f.0
+        for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 06:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718286918; x=1718891718; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tFttpI6mxFfYOQDKQEDFzq5Zkmvl1Km0kHopsmHSaog=;
+        b=QwXgShm1gJXYu1jGOW0AjktDJ4GKqa17DjPu18GGepDZ1q6hXNsga0XlKUNjTuxsME
+         m4MsYcro3zLp+KLsYwu+j6WWzw+8Nyj6uv1VOUR1rrA3It47NaEjpcpFuHWeLEKIqncE
+         kwXoYaQ6fE1omvgqulLsYIJdf6Y8C8X4fVqcQMXgY4e8MO8XucbaPMRtbhzKD4caNGVB
+         z4pvKjiSZ0mBH06ik6F+tI6l4AIxwVO8Za1Jb/ni8TvlOdNsdTt3zGk9UmRZ6bRoRvXs
+         FPCwWrWA0cM8uLaoLLSEm0/Yuuo1+f6VoH2jlmpjHkXysa9bOsk3epleORZNZZKnVBM2
+         X40w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718286918; x=1718891718;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tFttpI6mxFfYOQDKQEDFzq5Zkmvl1Km0kHopsmHSaog=;
+        b=UFP0zBo3B/Zb1A0o5UP+4vvnNYO3a3j1IvK8riebIQ5QT0KODIeWsrqQqSAwS7fzXw
+         m32JYoW55ZzxEKgETSfVyUMEqnj0ECPBpjBVjtbiAaGRSNy0HW5hailH7qR/cBpNg2a4
+         WBEIAZwJOkoTQ1MqdNBugEVUNrE5GaNiX9Js/8rsuk/affF/3AU4U2kvC+S19ntnL88L
+         SfGe3JB9+v6ENlYd/8DTnLfw+dC+/HP/KrIRrT8PCuRj2qSLbMc9pCbLrJySoSvyRgYu
+         qYTO1Xbz+pN5gio81sOb4lWCxyxbmEUD5Y7kAG/bq6vZ+XtT7R2mkh01ptPv6WMfQyAC
+         yvaA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEjzs6w3uJY0ux+9VCylurwaTC6XoS4UhqSbTqysXWFLMgnaYkmCZFxGKdDTbQPhZAhvmNLuNdwEMEWZl4DnfjCsVjyORsb3SDzEP9IVyu
+X-Gm-Message-State: AOJu0YyCR4cyQBs7BW2aC4om6Sjvl52J5Kq7gNhiiyCEY2SZGVE2/+3i
+	4TFMb36v5dR6S2HWgmoOFGAimAhgbwhyuFuga/5dunymtKKEJkI+SbWUtmqEKII=
+X-Google-Smtp-Source: AGHT+IHrkX+CcccVhTGNwfhUGtMYn8rDSIQG438y+DU+7wum/b95cyXAUO7wmOgn1iLVTP1LFzTVsQ==
+X-Received: by 2002:adf:e646:0:b0:35f:e890:fbe1 with SMTP id ffacd0b85a97d-360718df02amr2564058f8f.19.1718286917900;
+        Thu, 13 Jun 2024 06:55:17 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607510315csm1778848f8f.90.2024.06.13.06.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 06:55:17 -0700 (PDT)
+Date: Thu, 13 Jun 2024 16:55:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ben Walsh <ben@jubnut.com>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
+ cros_ec_lpc_mec_read_bytes()
+Message-ID: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+We changed these functions to returning negative error codes, but this
+first error path was accidentally overlooked.  It leads to a Smatch
+warning:
 
-------------------
+    drivers/platform/chrome/cros_ec_lpc.c:181 ec_response_timed_out()
+    error: uninitialized symbol 'data'.
 
-From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Fix this by returning the error code instead of success.
 
-commit 2fbe479c0024e1c6b992184a799055e19932aa48 upstream.
-
-Commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
-command and irq disable") re-ordered the resume sequence. Before that
-change, cros_ec resume sequence is:
-1) Enable IRQ
-2) Send resume event
-3) Handle events during suspend
-
-After commit 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host
-command and irq disable"), cros_ec resume sequence is:
-1) Enable IRQ
-2) Handle events during suspend
-3) Send resume event.
-
-This re-ordering leads to delayed handling of any events queued between
-items 2) and 3) with the updated sequence. Also in certain platforms, EC
-skips triggering interrupt for certain events eg. mkbp events until the
-resume event is received. Such events are stuck in the host event queue
-indefinitely. This change puts back the original order to avoid any
-delay in handling the pending events.
-
-Fixes: 47ea0ddb1f56 ("platform/chrome: cros_ec_lpc: Separate host command and irq disable")
-Cc: <stable@vger.kernel.org>
-Cc: Lalith Rajendran <lalithkraj@chromium.org>
-Cc: <chrome-platform@lists.linux.dev>
-Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
-Link: https://lore.kernel.org/r/20240429121343.v2.1.If2e0cef959f1f6df9f4d1ab53a97c54aa54208af@changeid
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fixes: 68dbac0a58ef ("platform/chrome: cros_ec_lpc: MEC access can return error code")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/platform/chrome/cros_ec.c |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -432,6 +432,12 @@ static void cros_ec_send_resume_event(st
- void cros_ec_resume_complete(struct cros_ec_device *ec_dev)
- {
- 	cros_ec_send_resume_event(ec_dev);
-+
-+	/*
-+	 * Let the mfd devices know about events that occur during
-+	 * suspend. This way the clients know what to do with them.
-+	 */
-+	cros_ec_report_events_during_suspend(ec_dev);
- }
- EXPORT_SYMBOL(cros_ec_resume_complete);
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index ebe9fb143840..f0470248b109 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -139,7 +139,7 @@ static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
+ 	int in_range = cros_ec_lpc_mec_in_range(offset, length);
  
-@@ -442,12 +448,6 @@ static void cros_ec_enable_irq(struct cr
+ 	if (in_range < 0)
+-		return 0;
++		return in_range;
  
- 	if (ec_dev->wake_enabled)
- 		disable_irq_wake(ec_dev->irq);
--
--	/*
--	 * Let the mfd devices know about events that occur during
--	 * suspend. This way the clients know what to do with them.
--	 */
--	cros_ec_report_events_during_suspend(ec_dev);
- }
+ 	return in_range ?
+ 		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
+@@ -158,7 +158,7 @@ static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
+ 	int in_range = cros_ec_lpc_mec_in_range(offset, length);
  
- /**
-@@ -475,8 +475,8 @@ EXPORT_SYMBOL(cros_ec_resume_early);
-  */
- int cros_ec_resume(struct cros_ec_device *ec_dev)
- {
--	cros_ec_enable_irq(ec_dev);
--	cros_ec_send_resume_event(ec_dev);
-+	cros_ec_resume_early(ec_dev);
-+	cros_ec_resume_complete(ec_dev);
- 	return 0;
- }
- EXPORT_SYMBOL(cros_ec_resume);
-
+ 	if (in_range < 0)
+-		return 0;
++		return in_range;
+ 
+ 	return in_range ?
+ 		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
+-- 
+2.43.0
 

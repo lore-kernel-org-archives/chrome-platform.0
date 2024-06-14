@@ -1,80 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A99138495;
-	Fri, 14 Jun 2024 02:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6281850A1;
+	Fri, 14 Jun 2024 02:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718332767; cv=none; b=fPry3wjau1PD1ZGKk2LywwztDpPbT9MdMrTzBHxFQwW1OXix3nqBfFDl9/vDfYJjWCvT71IAHPTfN1nfQ75tPKNm2rXkV20BIoU47yDB76UeMNr/WaBnbu1yge1XbN81t6C88hwEsZUYbRRnKjx5g+sRJYWcupokWX4PRJZXQEs=
+	t=1718333431; cv=none; b=DFX7s2qdZzPuhiD4A6z61aRPXI7zrQoLK7LXj4RyBoIZfz5y9J/9l5o9n5onVHAnzGHqU5fztl1maz+YJJmrc1bqieiJdTEFPPHEcZecaWttSIhd4N8VwLFviRipTB52twgEzv2xwGvkInS8p0/3cmfpsgRfz/yYKmw9FRSzV2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718332767; c=relaxed/simple;
-	bh=DbwkV7I4TDAunTvuYUKRHX/cfvaGjJuo/LOZ9F3a9iY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mK62r6Hfz+xzjN++iiGDdOATYcPFvyfDbXnpCZZz5r6AEvPLgY/Dn7E8c5Glj8UYaLtXds12E7+W1dploGMijCBJWJueeWB+RmGRqWAO8nXxIivsq6pkB30TP39D+tCPlhcrhG7lQv61KrLFNiQ2yxwpB6ZSjN/3YWgxOghZ5ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DI6wAYcG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718333431; c=relaxed/simple;
+	bh=vLeyleJXO9qZUXlgCU5ArXo1Ekwuie6IV960BGsgegg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=eU6+eYu4iKBh8iZlniGo01vzO7E+hFSakuPOH/SMIBMQJRk2I4e7cFR6/GPZUtjpRVa5/j1GCMb5tCblURfCDpWCgLm6agoVtduiUFqZuC4ZhCahCN5qJkYQDe4Ha/WFPMrIU3SR5UeOzhv7uxRIzjcL2iouYDMJMwUaDRybcEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NA7FO4n5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DI6wAYcG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3EB4C2BBFC;
-	Fri, 14 Jun 2024 02:39:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NA7FO4n5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A7A9C3277B;
+	Fri, 14 Jun 2024 02:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718332767;
-	bh=DbwkV7I4TDAunTvuYUKRHX/cfvaGjJuo/LOZ9F3a9iY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DI6wAYcGrzi/V+hkEyW5fjDAGj/DmMza4RLody8Nrzug+tSCkxEEisc23joEK1HCU
-	 Z4eahAFqY0Z5DLWFWjiYsI5yOTBt8PvttnDs8iv5xD/ZWVYWWOV1PEWDLSm5JWaPCE
-	 /xKHtT4eh4mP6TtGhn7bNSh8iIQjXYNn0gvYvDMZ+a5yzTiQzVdGKUaL07Q2JobZcC
-	 9Po/yvy20Ab3e2wrpd9HZDFi/44vKnd9GpeNipaLQ3ZLe4VKbasd7q0VYp3HgL3dF9
-	 g5VGe0NuUvbC5ds+S6OkAmGRgDvvVZocgdTeW/5NHvYrffOsQGyAX+UyP8HbaE1C7Y
-	 2J/fwuENw0XCA==
-Date: Fri, 14 Jun 2024 02:39:23 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Pavel Machek <pavel@ucw.cz>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-leds@vger.kernel.org,
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v3 3/4] platform/chrome: cros_kbd_led_backlight: allow
- binding through mfd device
-Message-ID: <ZmutW6vh7pD1HLf5@google.com>
-References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
- <20240526-cros_ec-kbd-led-framework-v3-3-ee577415a521@weissschuh.net>
- <Zl0jIZbIKV6mG12I@google.com>
- <20240613143451.GF2561462@google.com>
+	s=k20201202; t=1718333430;
+	bh=vLeyleJXO9qZUXlgCU5ArXo1Ekwuie6IV960BGsgegg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=NA7FO4n5l4UhQgNCHoQjKGuhd9Z2IWfRLR3uxqoyLe8nLwAqZio69tDmr6gy06H1C
+	 phSj/pdDEuIIRh/7mmv/0csIkaeZali2RilCqwQKQGRylCrk8MKqrlHGiKpuLFAlVU
+	 1FBD9cujRS2yb5AnqG0B6M/xbXYB9Rn3F5zE+Aj3Nz4XiD9c7Xk2MZOycI+XmRy1Jj
+	 CmQWZX42Jj45LoN6EgaKJYckGr5HqbNsi4UI5JGrVoihTVpX7WKPQJQaWFTcJRDSWV
+	 B41RhW39EJsZzpl6kYQfYK2L/lZv49KBI+AcVjBCDvorTV9h90AT8RIuzJ1V+sYj7o
+	 p824Zi4hlIFSw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 14531C43619;
+	Fri, 14 Jun 2024 02:50:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613143451.GF2561462@google.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Handle zero length read/write
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171833343007.26166.13833276204967228918.git-patchwork-notify@kernel.org>
+Date: Fri, 14 Jun 2024 02:50:30 +0000
+References: <20240613212542.403-1-ben@jubnut.com>
+In-Reply-To: <20240613212542.403-1-ben@jubnut.com>
+To: Ben Walsh <ben@jubnut.com>
+Cc: dan.carpenter@linaro.org, bleung@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 
-On Thu, Jun 13, 2024 at 03:34:51PM +0100, Lee Jones wrote:
-> On Mon, 03 Jun 2024, Tzung-Bi Shih wrote:
-> 
-> > On Sun, May 26, 2024 at 08:17:17PM +0200, Thomas Weiﬂschuh wrote:
-> > > The ChromeOS EC used in Framework laptops supports the standard CrOS EC
-> > > keyboard backlight protocol.
-> > > However the firmware on these laptops doesn't implement the ACPI ID
-> > > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> > > don't use device tree.
-> > > 
-> > > Prepare the existing cros_kbd_led_backlight driver to be probed through
-> > > the CrOS EC mfd device which works without ACPI or OF support.
-> > > 
-> > > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> > 
-> > The patch overall looks good to me but it depends on previous patch in the
-> > series (for LED_REJECT_NAME_CONFLICT).  Let's wait for review.
-> 
-> I plan to take this via MFD.
-> 
-> Is someone going to Ack this patch?
+Hello:
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
+
+On Thu, 13 Jun 2024 22:25:42 +0100 you wrote:
+> cros_ec_lpc_mec_read_bytes and cros_ec_lpc_mec_write_bytes call
+> cros_ec_lpc_mec_in_range, which checks if addresses are in the MEC
+> address range, and returns -EINVAL if the range given is not sensible.
+> 
+> However cros_ec_lpc_mec_in_range was also returning -EINVAL for a zero
+> length range.
+> 
+> [...]
+
+Here is the summary with links:
+  - platform/chrome: cros_ec_lpc: Handle zero length read/write
+    https://git.kernel.org/chrome-platform/c/b57cd5703a16
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

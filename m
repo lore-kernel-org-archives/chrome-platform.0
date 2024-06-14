@@ -1,101 +1,73 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BA15F876
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Jun 2024 21:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803862AE75;
+	Fri, 14 Jun 2024 02:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718313958; cv=none; b=UD3ZR4bgegrx+FlxgZ7CIjXfASGOuX/4KlgHhK571gO37uvBWgaaAGVOl60dSFyVojQoi4beNIfYDKl1/iA6r4UtsQuypMM3eyniSu9LRiLoAK2buwz4inxslHQ6f+Ke4kecpIEPmbrBcPGAdY4I/HcJyt6vYiUqZrbPPVOUOLE=
+	t=1718331677; cv=none; b=tqaCShxScfrXK5WgsVSoRycrmd/g4gD6oSZh/pyOfiQu4l0KXSjC8zoUzw5UiDIvOTJ5i2xbyP4NDy1xtXdN117kLima9p5IKq4fbtG10Z2k+CS+ReOpOnNTQ60Cu5ciBGg5MOdqtUeY98Yqy5P0gn9j4wuCkXWZKY52ikBCgS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718313958; c=relaxed/simple;
-	bh=6oPn3wrqX0l+t5ROEP0pwn1fL4VOz+XZFue25SmIsOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hkeIn8QnVA75+wPVlWP1fjFvuA+wVFaKbCXa+ZwObk7MZXiuEiMClF+VBL4IAhFdpX1Dn57+h5XCJ7xGrVV40XwYiQnF9JtjVJ1lNKBJKpEeTCqVuoBoUs0Fd/H7Or8JuzDDshI2Iy+XFLlU7FT55a9euuNVzJ4Sdhd3uGxObpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com; spf=pass smtp.mailfrom=jubnut.com; dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b=pCvdsCYq; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jubnut.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jubnut.com
+	s=arc-20240116; t=1718331677; c=relaxed/simple;
+	bh=BNG0nAvaHGm3HWERpezfVrO8KZGZ2JvMeFwF0CQszUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WWEiODehZ0lhMid4U5xPJzljCjE79wAv6c70wXABLbkHma7tGVgQS9St2CmjeUfNrosazo4fIRZAk0Cu4NNFZ7aNpW5gCkq7/LZi/WTCavadPhuWr7S3cu8H6oZjWnCwHyP+YHZUBFReRpOUEIR7ALw7K9/BQVIpzNvZwr8uYrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYwz+2Ok; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jubnut.com header.i=@jubnut.com header.b="pCvdsCYq"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4W0b742dHhz9sj1;
-	Thu, 13 Jun 2024 23:25:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jubnut.com; s=MBO0001;
-	t=1718313952;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=m0CctiFYHR/2FJ2WI6KLq+krPX1+1RwVnGUumUa2SXk=;
-	b=pCvdsCYqoLm3uQMGlS3Nlbpco9uXdz3Tpab+HP5FF/+a5/zNh/BuH86NrPwOlOh+4CYaeD
-	i3YDpE7zbwZD8fQUQp05FnPbhcTeUYkabQ/RZHUwA22me+/MWs8xF/po5ZhzPQn/fnxrs1
-	56TtpvIFQA2laELi0CiqYZZkZcRzhdcZ8+cowpy9TE9I0t6LUdtxLw9rEbA2AUAhpt6hmG
-	Kn4lseCyWxyn5I2/gfeHEVIAViCRp6rP0IVDqbDsDBUjqjreWe4AREzLDivkmj1tu+h5Ys
-	PF7IlyJPVRi3uDl/9r5kz4npHaHaGnD/8yF4+OU+8rylOO85LslCapAmLcgvEg==
-From: Ben Walsh <ben@jubnut.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYwz+2Ok"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA239C2BBFC;
+	Fri, 14 Jun 2024 02:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718331677;
+	bh=BNG0nAvaHGm3HWERpezfVrO8KZGZ2JvMeFwF0CQszUQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oYwz+2Okf9is4/9hlucE2Oyd1SvFV2qx7OeIcUKUFzx99mRCN/CDhihLCXgHdI2L/
+	 ekPPpDh1B/153moJ9XJGFgV8BUAQGrMGq/dxjYsESYJqkskzrv4tspk6LeXPS89AKv
+	 SccrLYtjI74cHL+yNk3k+/WYzvgNt38uGAG9eO8LX5Yv+cvygDSYWLsAWNLx9bRYvV
+	 6wggHmIeMsYSmOEXj0LD0kUmqcJAGR2tZsjDzTrK0A0a55aCkv0c6qJt1gdF5CAsB2
+	 vYUdp+wyQeH61im70SKWz7zIQB3KUEq7dJQlcjVZPTrqn8Em5NvaVytAF2F13vamkC
+	 6THrVKVaA1oug==
+Date: Fri, 14 Jun 2024 02:21:13 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Ben Walsh <ben@jubnut.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org
-Cc: Ben Walsh <ben@jubnut.com>
-Subject: [PATCH] platform/chrome: cros_ec_lpc: Handle zero length read/write
-Date: Thu, 13 Jun 2024 22:25:42 +0100
-Message-ID: <20240613212542.403-1-ben@jubnut.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Fix error code in
+ cros_ec_lpc_mec_read_bytes()
+Message-ID: <ZmupGcjkuU0bNtdl@google.com>
+References: <e0b43fb5-ecc8-4fb4-9b76-c06dea8cc4c4@moroto.mountain>
+ <87sexgrdk4.fsf@jubnut.com>
+ <ZmsvHBrYSpwYLyxx@google.com>
+ <87o784ac55.fsf@jubnut.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4W0b742dHhz9sj1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o784ac55.fsf@jubnut.com>
 
-cros_ec_lpc_mec_read_bytes and cros_ec_lpc_mec_write_bytes call
-cros_ec_lpc_mec_in_range, which checks if addresses are in the MEC
-address range, and returns -EINVAL if the range given is not sensible.
+On Thu, Jun 13, 2024 at 08:14:14PM +0100, Ben Walsh wrote:
+> Tzung-Bi Shih <tzungbi@kernel.org> writes:
+> > On Thu, Jun 13, 2024 at 05:51:39PM +0100, Ben Walsh wrote:
+> >>   or 2. Put in a check for length == 0.
+> >> 
+> >>   or 3. Change the logic in `fwk_ec_lpc_mec_in_range`. Although I'm not
+> >>   sure what the correct answer is to "zero length is in range?"
+> >> 
+> >> I prefer option 2. What do you think?
+> >
+> > How about drop the length check at [2]?
+> >
+> > [2]: https://elixir.bootlin.com/linux/v6.9/source/drivers/platform/chrome/cros_ec_lpc_mec.c#L44
+> >
+> 
+> This works, but we still end up calling cros_ec_lpc_io_bytes_mec() with
+> zero length. Although this seems to work fine, we could put a length
+> check at the top of cros_ec_lpc_read_bytes() to avoid it.
 
-However cros_ec_lpc_mec_in_range was also returning -EINVAL for a zero
-length range.
-
-A zero length range should not be an error condition.
-cros_ec_lpc_mec_in_range now returns 1 in this case.
-cros_ec_lpc_io_bytes_mec checks for zero length, and returns
-immediately without beginning a transfer.
-
-Signed-off-by: Ben Walsh <ben@jubnut.com>
----
- drivers/platform/chrome/cros_ec_lpc_mec.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_lpc_mec.c b/drivers/platform/chrome/cros_ec_lpc_mec.c
-index dfad934e65ca..a56584171168 100644
---- a/drivers/platform/chrome/cros_ec_lpc_mec.c
-+++ b/drivers/platform/chrome/cros_ec_lpc_mec.c
-@@ -93,9 +93,6 @@ static void cros_ec_lpc_mec_emi_write_address(u16 addr,
-  */
- int cros_ec_lpc_mec_in_range(unsigned int offset, unsigned int length)
- {
--	if (length == 0)
--		return -EINVAL;
--
- 	if (WARN_ON(mec_emi_base == 0 || mec_emi_end == 0))
- 		return -EINVAL;
- 
-@@ -132,6 +129,9 @@ int cros_ec_lpc_io_bytes_mec(enum cros_ec_lpc_mec_io_type io_type,
- 	enum cros_ec_lpc_mec_emi_access_mode access, new_access;
- 	int ret;
- 
-+	if (length == 0)
-+		return 0;
-+
- 	/* Return checksum of 0 if window is not initialized */
- 	WARN_ON(mec_emi_base == 0 || mec_emi_end == 0);
- 	if (mec_emi_base == 0 || mec_emi_end == 0)
-
-base-commit: 77a714325d09e1527d865dc011ef91c4972ffedd
--- 
-2.45.1
-
+I guess you mean: cros_ec_lpc_io_bytes_mec().  Ack.

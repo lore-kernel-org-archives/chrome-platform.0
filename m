@@ -1,191 +1,121 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571CE1946AA
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Jun 2024 10:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8738FBEF
+	for <chrome-platform@lists.linux.dev>; Sat, 15 Jun 2024 02:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718359480; cv=none; b=Z5df6HCpr3ojH8Sw5qFiKsOotQJefgxYDSxKx2lEdn78yB4D5Yapk5QQAFnjlyirVKFMDXOqKbUsptxBho/G/KzHoXMvyTfWtX4iryWcCr9LmBBi6Wo7k3aPJOaSaBbNa6ccCGFtOIjfI5UF7ZaLTGjpY/9hxutqH0RGCL/HZQ0=
+	t=1718417587; cv=none; b=qT1b6vYiZ2vRcG0S5/IpFm3kFuVpKW9foUvE8bhsxYCybLpSSKl0hoCSWbUXE5OlUNsPssuQQZakZ4MsGzR96+XfTUnjKaeQGXPGKmB/1IwAdSqBV1FI+I4iEI/v0BFCgE+uu+BkrANx89FnslXwmmikk1Tlfp7CQJtLP3QPJ0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718359480; c=relaxed/simple;
-	bh=G7HAy6RB0CVVPe1ouzdeSx44OWMoH2sLvWjILX5aMx4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Tn5OHkzJBKXjwrNocmoHHQLDwdjGzGzTLdbVE1aCP/dowy3W/JAdXcbo8zbT2b0FedPZizOI9sQnCDmOBJr6HK7r2gh0R8CT9GGJFPddI0A/KIqJRnUd5xbN+bFVwCb253cC5YXw2Xmuoe0H6EEua4gsbhBDG54L+WScg3kYHY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=alvdrXnc; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1718417587; c=relaxed/simple;
+	bh=f+2/CjGhnedqsMpZcUVZpeI+oMdAtJ6faLSBoWLlk/I=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=hVz7RvDxwLh4TQ4IGrwij0vXaljd+LH8GASnHthQEIJ197zbbuBudUQIslZbl534ryzpDPbz5Bdv99wG/dGxu0wnHK01mzj0kDN1TUEWxlHFxSHtNjvcQgtj8ZfipHgFF5fuqjZVLhSM6JQxI81zd/V3+G5lUM2mD9aaZmdWUNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=2fgaWT9p; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="alvdrXnc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718359476;
-	bh=G7HAy6RB0CVVPe1ouzdeSx44OWMoH2sLvWjILX5aMx4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=alvdrXncrJYx/H4SKHJ+FwREHFnwadGfM/9/k7tCPI8KM6OAKkvg1E6NjhtahnJcW
-	 dLYTa1qt8ITwUDFn7wL4CFmESI0OW9fymJhkU/SOPTJEmP/EUXsYKsbcLUPBU/Xi+2
-	 6RIf7t3FQ5WPsmN3xvR3r1vHvrploSS32H/kEwAQ=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 14 Jun 2024 12:04:29 +0200
-Subject: [PATCH] leds: cros_ec: Implement review comments from Lee
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="2fgaWT9p"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f6559668e1so24402925ad.3
+        for <chrome-platform@lists.linux.dev>; Fri, 14 Jun 2024 19:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1718417585; x=1719022385; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=f+2/CjGhnedqsMpZcUVZpeI+oMdAtJ6faLSBoWLlk/I=;
+        b=2fgaWT9p0zDrGbP+8gNMt9Hj6roVdAZi8pXAh2Ie7KFqZyQSnpXwCi5rZhvOfHKicY
+         drS8ZBRExymwDAqb/aTNQAhzKMHCmV27vSRBa9x8D3SWsJSjBM7uYTzyEoczYkRO76n+
+         fm1GBZdn80u2RUhQM3AHGI4Nzn1KoCs4hNPQMrIybHGmBx08wPKYlxwzcndhqPNFbV50
+         juJKKRg9UiIQ6hvwQzh5gMdH/HlIqNUdO+D1QMAtoBXr5lhFcZefbYOvIkkzcbkj2KE0
+         LLlzu/+dEMP9ubG2jZaATWFy90fx+KFsFlHf6vq/D1wKex+40KLJ1Um5fOjl5f8K47OP
+         ZywA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718417585; x=1719022385;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f+2/CjGhnedqsMpZcUVZpeI+oMdAtJ6faLSBoWLlk/I=;
+        b=veNyHQUF1pN3Gq7LeHj0GSHJsb73AFJd2qivz6IWMrLbREHYq8mO+7i80OaBadXXVY
+         KALOYYC0Whdr+R+NzaEV75Zdh43ngvNhGxpz7bxkTWYWQDoBkl0QECVjUyzJ5chh/9Fj
+         4ETDHuxNvfNIadtU/8XYXJpzMurIDRBpY5S0HqR4c0IMzN66XzFysMtJ+uX+3ltJrNAe
+         gUSTOhxD6dVRiBiyIgEzm3HMqDOrO8zWJIUH1chqnNgQD/dFzAKIfpzDD7Gk8dXepda2
+         +SPbEKjrJ4zzj4pLok2P/MuhsSxCWOSu1vviehLYdxrfSbOYUOeUrmv3EP6kbcKlUgVH
+         cc6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVwSmHNy3JMl7TToRMM7e0PE09ffRr3FO7k5tOA6mKsyeAJOACaq6Fd7yXEtXndwHocUWv1y8ebaiUkmdj2p4gjTCUxxgbKZww0xZnkW9+L
+X-Gm-Message-State: AOJu0YyB2nPhtv587swUqDNJPO0WmvUA+qPyJ/VEUxzH/VmH2FEePE9b
+	nNSCyCyCkE/p6ionJQ2JpFa5+nBdwy6ZPbDC0a5A+LdEzVRECZmyLmG4qPlEGgI=
+X-Google-Smtp-Source: AGHT+IGsb8ENfNX24KV/2p65+AXz8vQLOyD7rr85mLmAbYrlFeyu4iUnAUdApssW9wQIA88K4faaUQ==
+X-Received: by 2002:a17:902:e80c:b0:1f4:6f0b:9a4d with SMTP id d9443c01a7336-1f8625ce84amr47283645ad.10.1718417584825;
+        Fri, 14 Jun 2024 19:13:04 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f13562sm39311445ad.212.2024.06.14.19.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 19:13:04 -0700 (PDT)
+Message-ID: <666cf8b0.170a0220.eae89.c930@mx.google.com>
+Date: Fri, 14 Jun 2024 19:13:04 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240614-cros_ec-led-review-v1-1-946f2549fac2@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAKwVbGYC/x3M0QpAQBBG4VfRXJvCongVSWv8mBLaLZS8u+XyX
- HznJg+n8FRHNzkc6nVbQ6RxRDLbdQLrEJqyJMuTMs1Z3OY7CC8Y+AM4GVIZ20tZVMZQgLvDqNc
- /bdrneQHG9gOxZAAAAA==
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718359476; l=4274;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=G7HAy6RB0CVVPe1ouzdeSx44OWMoH2sLvWjILX5aMx4=;
- b=uiD9pGnNZpgmiwedlFEzAECWQGAArHZE2wsPQAYu6qGS7H/vXYgZO0fDn0T+g3JB6IlMH67hO
- cMAHGEqL/dgCM9YsqvSGinGeo9eDksCEclZj9obm1pG9aRzX09ZrhN7
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.10-rc1-20-gb57cd5703a16
+X-Kernelci-Report-Type: build
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.10-rc1-20-gb57cd5703a16)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Implement review comments from Lee as requested in [0] for
-"leds: Add ChromeOS EC driver".
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
+-20-gb57cd5703a16)
 
-Changes:
-* Inline DRV_NAME string constant.
-* Use dev_err() instead of dev_warn() to report errors.
-* Rename cros_ec_led_probe_led() to cros_ec_led_probe_one().
-* Make loop variable "int" where they belong.
-* Move "Unknown LED" comment to where it belongs.
-* Register trigger during _probe().
-* Use module_platform_driver() and drop all the custom boilerplate.
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.10-rc1-20-gb57cd5703a16/
 
-[0] https://lore.kernel.org/lkml/20240614093445.GF3029315@google.com/T/#m8750abdef6a968ace765645189170814196c9ce9
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.10-rc1-20-gb57cd5703a16
+Git Commit: b57cd5703a1618e87772094ac12c5ee7d6c35e2f
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/leds/leds-cros_ec.c | 50 +++++++++++++--------------------------------
- 1 file changed, 14 insertions(+), 36 deletions(-)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
-index 7bb21a587713..275522b81ea5 100644
---- a/drivers/leds/leds-cros_ec.c
-+++ b/drivers/leds/leds-cros_ec.c
-@@ -14,8 +14,6 @@
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
- 
--#define DRV_NAME	"cros-ec-led"
--
- static const char * const cros_ec_led_functions[] = {
- 	[EC_LED_ID_BATTERY_LED]            = LED_FUNCTION_CHARGING,
- 	[EC_LED_ID_POWER_LED]              = LED_FUNCTION_POWER,
-@@ -152,7 +150,7 @@ static int cros_ec_led_count_subleds(struct device *dev,
- 
- 		if (common_range != range) {
- 			/* The multicolor LED API expects a uniform max_brightness */
--			dev_warn(dev, "Inconsistent LED brightness values\n");
-+			dev_err(dev, "Inconsistent LED brightness values\n");
- 			return -EINVAL;
- 		}
- 	}
-@@ -176,22 +174,21 @@ static const char *cros_ec_led_get_color_name(struct led_classdev_mc *led_mc_cde
- 	return led_get_color_name(color);
- }
- 
--static int cros_ec_led_probe_led(struct device *dev, struct cros_ec_device *cros_ec,
-+static int cros_ec_led_probe_one(struct device *dev, struct cros_ec_device *cros_ec,
- 				 enum ec_led_id id)
- {
- 	union cros_ec_led_cmd_data arg = {};
- 	struct cros_ec_led_priv *priv;
- 	struct led_classdev *led_cdev;
- 	struct mc_subled *subleds;
--	int ret, num_subleds;
--	size_t i, subled;
-+	int i, ret, num_subleds;
-+	size_t subled;
- 
- 	arg.req.led_id = id;
- 	arg.req.flags = EC_LED_FLAGS_QUERY;
- 	ret = cros_ec_led_send_cmd(cros_ec, &arg);
--	/* Unknown LED, skip */
- 	if (ret == -EINVAL)
--		return 0;
-+		return 0; /* Unknown LED, skip */
- 	if (ret == -EOPNOTSUPP)
- 		return -ENODEV;
- 	if (ret < 0)
-@@ -247,11 +244,14 @@ static int cros_ec_led_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
- 	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
--	int ret = 0;
--	size_t i;
-+	int i, ret = 0;
-+
-+	ret = devm_led_trigger_register(dev, &cros_ec_led_trigger);
-+	if (ret)
-+		return ret;
- 
- 	for (i = 0; i < EC_LED_ID_COUNT; i++) {
--		ret = cros_ec_led_probe_led(dev, cros_ec, i);
-+		ret = cros_ec_led_probe_one(dev, cros_ec, i);
- 		if (ret)
- 			break;
- 	}
-@@ -260,38 +260,16 @@ static int cros_ec_led_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id cros_ec_led_id[] = {
--	{ DRV_NAME, 0 },
-+	{ "cros-ec-led", 0 },
- 	{}
- };
- 
- static struct platform_driver cros_ec_led_driver = {
--	.driver.name	= DRV_NAME,
-+	.driver.name	= "cros-ec-led",
- 	.probe		= cros_ec_led_probe,
- 	.id_table	= cros_ec_led_id,
- };
--
--static int __init cros_ec_led_init(void)
--{
--	int ret;
--
--	ret = led_trigger_register(&cros_ec_led_trigger);
--	if (ret)
--		return ret;
--
--	ret = platform_driver_register(&cros_ec_led_driver);
--	if (ret)
--		led_trigger_unregister(&cros_ec_led_trigger);
--
--	return ret;
--};
--module_init(cros_ec_led_init);
--
--static void __exit cros_ec_led_exit(void)
--{
--	platform_driver_unregister(&cros_ec_led_driver);
--	led_trigger_unregister(&cros_ec_led_trigger);
--};
--module_exit(cros_ec_led_exit);
-+module_platform_driver(cros_ec_led_driver);
- 
- MODULE_DEVICE_TABLE(platform, cros_ec_led_id);
- MODULE_DESCRIPTION("ChromeOS EC LED Driver");
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
 
 ---
-base-commit: b6774dd948171c478c7aa19318b1d7ae9cf6d7a4
-change-id: 20240614-cros_ec-led-review-ec93abc65933
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+For more info write to <info@kernelci.org>

@@ -1,88 +1,153 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B65819EED5
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 10:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8636A1ABCA6
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 11:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718878388; cv=none; b=UJfLTYx2FXNVOSFapsSe7qUa54LJ8Z/BYf8XXQuWLjwJHfw5Zxg+MvHnfUAgjfx445AVoooFNgjJvIJjDKuRr3VFjGKHm2Dfrmwkmu4qfXpBzVD6T53j/FmpbkYK7ntJ7DBvtgGtn/Q/O3VA0h5IPiy6Y+HzCxc7T7UQHAtO6Mw=
+	t=1718883307; cv=none; b=DE2xvBm2AMdB6a7lBfORrTC0e2D4yqzlCefnuBwIJR71WCVx1/c0RT9d0cekgiNx0dHi45YK5rRWmQWXmToIwdDqTV2EEMJoIrewdphdonMltP2fwun5O2eKMXcy284r2X8RUHMs2lZ9eHbX175B7VYAJqIm/yO56w5545fLqvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718878388; c=relaxed/simple;
-	bh=/BY01FytTrtayCSk8i5W8i0ED5sRVgxQCNoZYwJSR4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aX4pX+UFpuJZqbK7rq8/tlH4NzB4JqK/rQlp3hfbvdb2vcaLY0AUoIu/C3dxHlu3nDT4pKUcBJeeIBJHYTCLzpSP8atbi8GOsbVdNHoPVtAy5JLgmE2iBLCjVDCqeIy32OXd2qTsbVXDosBe/RiZP0WSN+ZQ/VW4lcV7ZePLC9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=EDibbRVA; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1718883307; c=relaxed/simple;
+	bh=YHKoaWAcJ+E4X2k8gwY2x6AxEmhfp7BeziwiF4EyNK8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XgkDVuEACCA38v9MbqdnS0hXyxBkf3/lVZCY8Xr/76v7qbPNQKYKa4XtpZJhaJBNSR4HgVw9Q3tMvtTj78tslmBKddIeSIurV13ZVYoHnsrn3lzBf/LOsdgMHwiJGmH31JVss81EzEG7/kTQ2teG/1AX8EeERr3GNXbCs0BQ9Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TlpMusOO; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="EDibbRVA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718878375;
-	bh=/BY01FytTrtayCSk8i5W8i0ED5sRVgxQCNoZYwJSR4A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EDibbRVApG0As5Eh3wXK3dE9Kx95CONejYNp2cpin5fqMtXUjjgl3jdcP+7Mpe+S7
-	 EqmHkKa6K2J0Nmg20qu7/FElie49yph88gi26QI4eplhr8HsBvRN4CfBsStxYESVeM
-	 3/CbxMm2gisxeGps4rKGAaT+j4UpwI7EbjwLuWXI=
-Date: Thu, 20 Jun 2024 12:12:55 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: cros_ec: Implement review comments from Lee
-Message-ID: <5708f5c6-65fe-4bf9-8d08-6dbb77e21a9d@t-8ch.de>
-References: <20240614-cros_ec-led-review-v1-1-946f2549fac2@weissschuh.net>
- <20240620093114.GH3029315@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TlpMusOO"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-421f4d1c057so8043325e9.3
+        for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 04:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718883304; x=1719488104; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Glq2tMaifuOAdzvop5Ltj2KSs2eGaTbj/dbnplQsCrE=;
+        b=TlpMusOOf7xaN55iJrXQRCxAD7EIhRImlxA2B4EMvo30xE9BMGt0BTgf25kfk7sztK
+         6MK0A3J9iFYuhKSZJpr9HCWotcVdqykL5kk1cJ/MqJSEOBuHvsyuYgvL1PoDd5O0tG6S
+         Ay1bPuMJvPkEyRbfFFKAfr4ML7ecoEHOF0zy39o+5mcd6hRFe305FQQGXySK7Ch+Qex9
+         SiujBh4tFTMl+XiXsayjCIbCSHyEKMtxBdEI5Csp3h2u/1A/mWZFfcObbbCRpzHw/MkD
+         7uSYLHBNBAN4J2mckzHiNLzAPKvSEkVoQ/Hq00aM8kRrWPUJIsXn/hHYiEw4NUGjYnQx
+         DHQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718883304; x=1719488104;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Glq2tMaifuOAdzvop5Ltj2KSs2eGaTbj/dbnplQsCrE=;
+        b=JxJI4Pk9S07fGsu/vSpvFkIhs5SD/ZZM20qtem3SMVXxIp7rw9mDdPbkolpZI/DiXR
+         iLm/dqksLF47cgOqV5zmp1OaZ0UsdNJ8Gvt1/8hkdgrvSqf7ipfbrMeiv/Zd5In1pVK6
+         X4/UTf18Oz6pmRctJ+K9sApErkIgEDfa3OFYxofDQ+ffe6Pzg/RXFzqzs7/7pr9JMemP
+         XVkmksesR9bztz7wIXDq684dqyR8eNDgR23uMyL6zoY2uLkOql/MxPAKB5VX7Z9lQR27
+         fyDJTyJE4QnhYQYjJlZoNluESFw5J5pM4rqPKMUzjkQQHsKqxngoQYmasGYMMSo96p6g
+         wrgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWIOxWvbFXlyE4cRnj3kEZJxOSekwRwdEpqR/j0Ot30WnxonTe1EqVhhRHyATIJE8G37jLbtfQjj3AFUuat6ULSzckXIAwdkPky6i97M3xp
+X-Gm-Message-State: AOJu0YxL8Sa5w79cJOLxoqCmEAGj8qRaq/kptilZMix/p0EvGwLAWid/
+	H6xOCAH8zITM8NCAivFVTrty6Uzs8A6/GqCa0xv5RS7dG68evNF0YUctCb4HN9o=
+X-Google-Smtp-Source: AGHT+IEC333EUO2VdZZgiMKDT3IOG5Ndy0ctNQWLEfPi1WjOb00373ugVPyZ9Tm+mewPfuUng+mSoQ==
+X-Received: by 2002:a05:600c:3587:b0:422:683b:df4d with SMTP id 5b1f17b1804b1-4247507831emr41097855e9.8.1718883303885;
+        Thu, 20 Jun 2024 04:35:03 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42471e6623fsm49708985e9.1.2024.06.20.04.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 04:35:03 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/7] dt-bindings: i2c: few fixes and cleanups
+Date: Thu, 20 Jun 2024 13:34:48 +0200
+Message-Id: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240620093114.GH3029315@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANgTdGYC/x3MMQqAMAxA0atIZgM1qINXEYe2iRqQKK2IIN7d4
+ viG/x/IklQyDNUDSS7NultBU1cQV2+LoHIxkKPW9eSQTwxqrLZkVIoYN/GGofMuEM8sUaC0R5J
+ Z7/87Tu/7AQPg29pnAAAA
+To: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Sergiu Moga <sergiu.moga@microchip.com>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Doug Anderson <dianders@chromium.org>, 
+ Enric Balletbo i Serra <eballetbo@kernel.org>, 
+ =?utf-8?q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Vignesh R <vigneshr@ti.com>, 
+ Kamal Dasu <kamal.dasu@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Chris Brandt <chris.brandt@renesas.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>
+Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-omap@vger.kernel.org, 
+ Kamal Dasu <kdasu.kdev@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1821;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=YHKoaWAcJ+E4X2k8gwY2x6AxEmhfp7BeziwiF4EyNK8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmdBPbcGv1s7Mfb86Y03fTN++vt3SrVwitqTmvp
+ PjKNhugL8mJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZnQT2wAKCRDBN2bmhouD
+ 1y3MD/4rvCpsB6iB+y+tU/COMJL7PG9Y86Yyz+XvNfpgy86am4K1TLbZ8Sny/9oXRnShDlLPq/H
+ WiNVGeCHtmrCa3ns9Jjbxz52NuAFSa4yTyjWIy3ibTBkbeR1Jr+y86y6Lnv8NvzK44v+XbcI5FM
+ ci6uH4KG8b1CwU/1rDDA4gWiT7JPEAQZPkeydJ9KLakahgPTbDOkifM37vjYLxJTJSjwlodAK3r
+ uKRtEQxP3pAIeHlAgV3DAi8tKwnkGOOQ3tC9iiiaYTT+CyA9Hn/NQlojUkPMhfS3ye0/HGpmyi5
+ livlJ9EPWJC2C7sTZ/4OTHny8BtNU5OE6n1gdOXk8y9ueRkfdABW66IDoOdoIpqoBMcFw+CkYh5
+ yyzUAUVllosS7j+wrPK0iy+fAhjPZyvfuss2n+Sf8P+Jx8kghLANqPkAoaLuIqSWLnbFCJoME3d
+ JHdsLZlsNq5W0y4cobEBTs6744XtWrd5KZXuYR72LcpvLkJZSJZ4DP7o1vpCTvhzHbbfPTY8Z9e
+ tMoCB76WkcZC51GzYi3x9I8y/5hjhOwDIxZr7D7fxKR0fhM+STQZ0LaLlihTtceBvZ5fH96mO5F
+ UQM2j755vk4CruBVO2fMSo9ABYwLZaXAtpTv0sWlOH8eVmDRYEKM4kamjLlpi/VHebYYg5nrVlz
+ ZconbQdG6ZzLgsA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Hi Lee,
+Few fixes for I2C controller schemas. The third patch (atmel,at91sam)
+depends on first, so I suggest not splitting this into fixes branch but
+take as is via next branch.
 
-On 2024-06-20 10:31:14+0000, Lee Jones wrote:
-> Definitely not seen a commit message like that before
+Best regards,
+Krzysztof
 
-I assumed that this patch would be squashed into the original commit.
+---
+Krzysztof Kozlowski (7):
+      dt-bindings: i2c: atmel,at91sam: correct path to i2c-controller schema
+      dt-bindings: i2c: google,cros-ec-i2c-tunnel: correct path to i2c-controller schema
+      dt-bindings: i2c: atmel,at91sam: drop unneeded address/size-cells
+      dt-bindings: i2c: nvidia,tegra20: drop unneeded address/size-cells
+      dt-bindings: i2c: samsung,s3c2410: drop unneeded address/size-cells
+      dt-bindings: i2c: ti,omap4: reference i2c-controller.yaml schema
+      dt-bindings: i2c: adjust indentation in DTS example to coding style
 
-My question in which form you wanted the changes should have included
-"incremental series".
+ .../devicetree/bindings/i2c/atmel,at91sam-i2c.yaml |  10 +-
+ .../devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml  |  28 +++---
+ .../bindings/i2c/google,cros-ec-i2c-tunnel.yaml    |   2 +-
+ .../devicetree/bindings/i2c/i2c-demux-pinctrl.yaml | 106 ++++++++++-----------
+ .../bindings/i2c/nvidia,tegra20-i2c.yaml           |   6 --
+ .../devicetree/bindings/i2c/renesas,iic-emev2.yaml |  14 +--
+ .../devicetree/bindings/i2c/renesas,rcar-i2c.yaml  |  20 ++--
+ .../devicetree/bindings/i2c/renesas,riic.yaml      |  34 +++----
+ .../bindings/i2c/renesas,rmobile-iic.yaml          |  24 ++---
+ .../bindings/i2c/samsung,s3c2410-i2c.yaml          |   6 --
+ .../devicetree/bindings/i2c/st,stm32-i2c.yaml      |  66 ++++++-------
+ .../devicetree/bindings/i2c/ti,omap4-i2c.yaml      |  64 +++++--------
+ 12 files changed, 174 insertions(+), 206 deletions(-)
+---
+base-commit: 76db4c64526c5e8ba0f56ad3d890dce8f9b00bbc
+change-id: 20240620-dt-bindings-i2c-clean-b5a0b2dfdece
 
-> > Implement review comments from Lee as requested in [0] for
-> > "leds: Add ChromeOS EC driver".
-> > 
-> > Changes:
-> > * Inline DRV_NAME string constant.
-> > * Use dev_err() instead of dev_warn() to report errors.
-> > * Rename cros_ec_led_probe_led() to cros_ec_led_probe_one().
-> > * Make loop variable "int" where they belong.
-> > * Move "Unknown LED" comment to where it belongs.
-> > * Register trigger during _probe().
-> > * Use module_platform_driver() and drop all the custom boilerplate.
-> 
-> If you're fixing many things, then I would expect to receive many
-> patches.  One patch for functional change please.  If you can reasonably
-> group fixes of similar elk, then please do.  However one patch that does
-> a bunch of different things is a no-go from me, sorry.
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Absolutely, if these changes are to end up as actual commits then they
-need to look different.
-I'll resend them as proper series.
-
-> > [0] https://lore.kernel.org/lkml/20240614093445.GF3029315@google.com/T/#m8750abdef6a968ace765645189170814196c9ce9
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >  drivers/leds/leds-cros_ec.c | 50 +++++++++++++--------------------------------
-> >  1 file changed, 14 insertions(+), 36 deletions(-)
-
-<snip>
-
-Sorry for the confusion,
-Thomas

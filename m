@@ -1,61 +1,61 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB701AC78E
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 11:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213551ACE6D
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 11:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718883321; cv=none; b=jIOW5XjtZrnJ4Gu5bWBiwFZu1Qd2dqS3vS7TGPCG/tdh8Hp/0M/gAw2HfD8wV+I9+okNRQqCYL+EZpOvoHbmZcYhkoqcLgh8NX5FRmDcs6OggXwgOP6U6PdY0Tr66as1nDSN94XydxeTyjz0hI1w0cKf7SRrcIM3WEOxDYEpUgg=
+	t=1718883323; cv=none; b=DuAy9uG4i2fCp2aJD2lMaFAaOpV+8MwFazQs8SMtvtkO/tOCJuWo836VXwnL2sNERHQ5RbMeqHWI3kHq9vsPEbodB7I5F73kW6QS0QNjtfCqsf0RCVWh3YCiSTqAudWYHhcScK5MfK6MJ3mXc5QeuiST0Vg4CnyReT4WHQ+PJfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718883321; c=relaxed/simple;
-	bh=zPPCGCpVrPzpnwGMQ8MGX8wE9ElLtDgEtXc1fM6D7sg=;
+	s=arc-20240116; t=1718883323; c=relaxed/simple;
+	bh=se0qu2ScDHev5e2u9T2lUYbcxySx/dcEaULZrF/4POM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J+xY9WsY5GF3cSFCuRwfcDyAQ4uJ+SSsMvf67W0kFJTKvX1fKkt6AKz3+cLK4F81zELSEcljWSfP9L3EEtQngtU/6H/AvDt7bxUH35cOowpPA7jzM6Lisk2OP3vBYZOf2PF6T7V0bIa20ncgiEJVExckSo0YKtGmdjlyJjEzkIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=THsCLlkM; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:To:Cc; b=aKlmafCjui+TR2ybqdhrbZ2zgs164ybZfSBSuAGMWYX7Lhj1n3zXT/NJBW0PtPCVpvdjMDErQhUPPtqBQGzqIVM06uI2bK5gsIMltedAZYZSpYosOlZb5Tr/bkkOm8EgCNEeBgE1pwEFktLhrxbhdnoCsu6OeqczhbW5axCw3PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=riWmGFuu; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="THsCLlkM"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42179dafd6bso11902715e9.0
-        for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 04:35:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="riWmGFuu"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso7371101fa.2
+        for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 04:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718883317; x=1719488117; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1718883319; x=1719488119; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fk1qcrUS7VR6uiv3rXSOo78BTaK4F+eyz6aHAa6MhHk=;
-        b=THsCLlkMoumxyGA8C1r9fpgrjvcaGuLN/wHmiyvKcRQs7wgF1y8vXUrrwp32Lr1DYJ
-         tJI4Y+SPDRlZgE3h5/TprvtAO6SgPQPvOaGkQ8ReCOodGZjms9gjPk1vmethJR/SFYZJ
-         dRklm4SsFgC4aEHNJMXA0XsZLnKO2SVz/UTjsY59461gFrNtlmj3dvs/mtI56SdbOhHV
-         rJ1GySjdJZ5Xt+jwE2OVYIlSXMpnNdlausVbONCBpG5NhGPXKSIVSuFN4STEHRhyPL/g
-         ih5ws73invDR0qVXIJUSEYeGrBQBxnSrm+apFaVhM5HW/drKX8Ikc87JsrM9ffc+fwDx
-         bD1Q==
+        bh=9RdxrQ5ek7BKyD1Q5GyGk/KJKbJ7uIbq14OZ4VVg0Iw=;
+        b=riWmGFuuLGSgfI+yET4Pc1vJmss+SstL3PBhbnVz5DmLcZ1bv2EBpGVfGnfdhZpjP4
+         suvi4dMdjmW1HiBvhApwIWZYYDfSseOtibLOp6q+jjkWWUBzCtKb9ih4GuVPSQzJISzD
+         OyYBqvpoTTY+v1GZTf/kZKTig1o1oCQS8ggTMcdaqdfh4nXtubjRHzxWErtgkV1yeagZ
+         PQE8klH7dSkz+SQ/I6m17UnXc9x2N416TtIlTCvbkGZO+VmzFLuxMtTemyVKHf4VLUIB
+         WXA83DYXoISS49IgK6hy25ZkaDoNVoIbK45ncYGByzaYIt8+LUXIYb0Hz6k4FJxcAdAk
+         aABw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718883317; x=1719488117;
+        d=1e100.net; s=20230601; t=1718883319; x=1719488119;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fk1qcrUS7VR6uiv3rXSOo78BTaK4F+eyz6aHAa6MhHk=;
-        b=YURMlVbazS55e4GYxKTWafvtT+5moBK97KkN7uqGe8UdIb+pimxiY1MiDI2P1Bl45C
-         lO+hMpCnwwXznzCwy1kCfwZxGaRlCw14hs23D+jFNH5LP9AaA6HBLTyXlDEa6tCEjAfi
-         LFUj2HuIccMh2kZEtk+ePztPr6smvC5YCTq6Da/g8rn5ZcijxY1GPdTI4PNbW9tuuVZS
-         57Wrte/1KOU4+ZjBdWTtc5x1KksQo94x1po7W55gU5Js3fVTXq7FBdjdBzRD+Om+lajm
-         HBrsl3Ozs1cO9PEbWbayzgcWtes2W5okDxc3JMhnokP+v2o5PmZ2O7FXL5EBaWHpoRfh
-         gcYA==
-X-Forwarded-Encrypted: i=1; AJvYcCWv4Bwi8PKNesdWb0NOKosy1UPPOzoqoljnZp3F7ELNcAG0hT/E7j3uKVBbiv+BST7cgrazNncAe+UjaqIJ/6C5zGKQ7h0YveSIXbK7R6Ej
-X-Gm-Message-State: AOJu0YzhQ66GBjDy6p0GMQRNyPMmd/iXtIQYBgo5nqUcyANCd38h6xgT
-	paRZxS2y7dHWZV6VHRUuZXpmpHd0k5/78SX0Hdlnm7jXg4dBvj10+alE2z9x47o=
-X-Google-Smtp-Source: AGHT+IGMJUumhVd5zXX1rZU2J+BofHfd7fe0MAIVGxolusk6jZTAFq1NMKscErXYaaG68fe04/BU0g==
-X-Received: by 2002:a05:600c:787:b0:421:8179:6127 with SMTP id 5b1f17b1804b1-42474d41065mr43498665e9.20.1718883317066;
-        Thu, 20 Jun 2024 04:35:17 -0700 (PDT)
+        bh=9RdxrQ5ek7BKyD1Q5GyGk/KJKbJ7uIbq14OZ4VVg0Iw=;
+        b=WJAUM/TL1sxd/xo/kL8Pr1cuYGHB6YgGZqaoUjReAKoJlNtDfsZQ2IvUGmpMPofqkV
+         ptQi2kQbZAHvUy+XAZK4ylPj4Z1ikUaST1ZeoQS0srSxlyMgRVvIfqK4EBcRX8Mx5aWf
+         ItNnwCvr6M0Aib/4dkh10E5bHBrr+721j4xdwd/oZHG9Ji7a7aTWuWI3vcl9mUNJ6APk
+         JbljDwOs9puHg6bN6tOL8mnL8HYZnzRUDH/eFVrnXlD3ZQMBSCIxSkerPR3y0w2VilFH
+         OycoimIJ9EQkXq/Tn79y2SkPbq9LmMC6f3Yur040GL69clncZimQ+FotwuR3JBv9DH3C
+         h/5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWUfiY82MZXJgB/IfkAfFaDATSpcgdFOJPqH2Hc7e9m4I2VCTMb8V4DPDc8cSTg+yu5GI/o5DGrkUsqUF9yVleF20LqAlhZHpYyAdcd84WL
+X-Gm-Message-State: AOJu0Yy5qUmHz7HfdXy1Ymo7d/SggkwgSTzmTngFaeR3J2P66MA5pJI8
+	WRUp5p72O7Ak3WMCrj5xioE2t/H3dcGGNDZ6/Ev4BwprrdS5B7SiBSQsAiOhPNM=
+X-Google-Smtp-Source: AGHT+IFq9QPiqdW/LV2Lp4ipmnGkGcnbeE41LGRET4efCA18VuEBGazMmSwAgyABOsGpRfVB16xuXQ==
+X-Received: by 2002:a05:6512:32b1:b0:52c:99e5:6880 with SMTP id 2adb3069b0e04-52ccaa36930mr3166877e87.33.1718883319455;
+        Thu, 20 Jun 2024 04:35:19 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42471e6623fsm49708985e9.1.2024.06.20.04.35.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42471e6623fsm49708985e9.1.2024.06.20.04.35.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 04:35:16 -0700 (PDT)
+        Thu, 20 Jun 2024 04:35:18 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Thu, 20 Jun 2024 13:34:53 +0200
-Subject: [PATCH 5/7] dt-bindings: i2c: samsung,s3c2410: drop unneeded
- address/size-cells
+Date: Thu, 20 Jun 2024 13:34:54 +0200
+Subject: [PATCH 6/7] dt-bindings: i2c: ti,omap4: reference
+ i2c-controller.yaml schema
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-dt-bindings-i2c-clean-v1-5-3a1016a95f9d@linaro.org>
+Message-Id: <20240620-dt-bindings-i2c-clean-v1-6-3a1016a95f9d@linaro.org>
 References: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
 In-Reply-To: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
 To: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -97,56 +97,112 @@ Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1074;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2120;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=zPPCGCpVrPzpnwGMQ8MGX8wE9ElLtDgEtXc1fM6D7sg=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmdBPi8sMmfgAT+DLum6aX4eAJT720TZZUkgMYw
- dBmfI6bvhyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZnQT4gAKCRDBN2bmhouD
- 1+1zD/9KzXHoic8Js9IUevJUSUE5qw0ydGDkJYZhaxsct+uBZoLdqQn/whX6ZYyfBFgZ7o8weCW
- z/uL4moE2VBBBYfuHGCyQ9b8c36gL4uV9ejRbYShlKCl/52gH52I0+TEJ4p7+94ez47mPJi7uXo
- I7mz+pEIhzb0Rp9eltBnyTfZw4CF6G6Ly+R5egovOIwM4oVYMdgsAoo9TQHlrE/y4oFzGmSpZTf
- wZ/50+rdWr/hWGodiJZSlqWWaVdAvC3SxDTY67//Hjub/2cs6ALiP4v7Xulsx1QHLr7U7s8JTq/
- uXr8Sezuzi0p91Qzipa5Nurvs5ZQncV5xL8VZgXAUeClC/+gnqxYJywGSdcCmLV3j/IdiU7y3fs
- KLcXmrlkHX317BwGXdSJUtmt8uUKXovBI92qdGwmuCR3hx7MPJlVPpA613HrEDC/mai2fYLEpKu
- aI7SzB+vmya07U34LGOSdSO6uQkuCh7xz+r1rRRzVbXG1ZcO046fMm5ORSXwzEN5mQPHQl/GDpR
- XcXClw/9IHKj6Eo1W+tfACtgWDPEqIOAFMcxgZL0LTlT8UYNU68n8drTzsA6meXAy9nHLfkUCTL
- 8B5IPOyaQppDn4T67+uRuvq7EkaQHLcnqvOWaj9tAMnsvQ/Md8kToe1yTrTWBQau2bGEO6+AMoC
- UAk2iDhLThbpVhw==
+ bh=se0qu2ScDHev5e2u9T2lUYbcxySx/dcEaULZrF/4POM=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmdBPjSq+rIwMEv+nxqFX6eolXOSM2y3OaG46ld
+ hES3qoe0I6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZnQT4wAKCRDBN2bmhouD
+ 18ktEACWRnxxzFEN5hoHHubQp9ltuAKuiTii5YSgG71yB9jinAqHGF3jmQZasCvFKp/Y+C6XSE4
+ 7HbfKJqc6iVJUTmJ9IHYa0FDAoP6myAlMkuf4z8mBw8uodhtnA4FPsPAgnKnmpN7CMUkfjsO1IB
+ RfuBQlifdmWFTp2bvqqIwWSNTjROsr8uSHUki+Ww8DgzlsWkQ7HfMzwBy4idLIeUkzNtuRb0Rfq
+ 0QuXu7sAiFPaq4i+V7Z6sDKJckvnHTx5zEpVJv8z2X/D1Z7+jEfByDjXYftdHKCOvK6lWm+qYZc
+ VEtxStj3nxMhPO232xFXoij7eu8UKvrFsDseAZkBU/Vq7GCyyhj8SGDlfTlwG9zQN82lD0W8Xlx
+ HeX/+LtGE2bjCXPKaMPWGMT9t2tdwsmqAbXgcflvypg+KmDe+kg60qizj/VNKa8JsHWPCLaHpxW
+ txJs+EQ+emVa80XM3ga3vvvcum1STbUNjVEDZjuTF3pUGqCyS3IL4fUPjZEXewYueHwtW5RZSTH
+ M4z27wsRgrMUTClUO8SVOrHJykSSLhOHYirJ6JupXaT0ju6kviSTzxtG9cYYcu2JJiB/qzGJT07
+ 3vSZBQyonxBRu0eI7T2ALDo/VeTLqrT166RyOQGK75poPywXVfTIR1nkcED+fABKAkI0znrkI8t
+ 30sKJbP5RtX6h1A==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-The reference i2c-controller.yaml already defines 'address-cells' and
-'size-cells', so drop them from list of properties.
+Reference the core I2C controller schema to properly define common
+properties.  This allows to drop several (now redundant) properties.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml | 6 ------
- 1 file changed, 6 deletions(-)
+ .../devicetree/bindings/i2c/ti,omap4-i2c.yaml      | 52 +++++++++-------------
+ 1 file changed, 20 insertions(+), 32 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml b/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
-index 1303502cf265..bbc568485627 100644
---- a/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
-@@ -26,9 +26,6 @@ properties:
-               - samsung,exynos850-i2c
-           - const: samsung,s3c2440-i2c
+diff --git a/Documentation/devicetree/bindings/i2c/ti,omap4-i2c.yaml b/Documentation/devicetree/bindings/i2c/ti,omap4-i2c.yaml
+index 781108ae1ce3..c9d1030e9857 100644
+--- a/Documentation/devicetree/bindings/i2c/ti,omap4-i2c.yaml
++++ b/Documentation/devicetree/bindings/i2c/ti,omap4-i2c.yaml
+@@ -37,16 +37,8 @@ properties:
+   clock-names:
+     const: fck
  
--  '#address-cells':
+-  clock-frequency: true
+-
+   power-domains: true
+ 
+-  "#address-cells":
 -    const: 1
 -
-   clocks:
-     maxItems: 1
- 
-@@ -73,9 +70,6 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description: Pandle to syscon used to control the system registers.
- 
--  '#size-cells':
+-  "#size-cells":
 -    const: 0
+-
+   ti,hwmods:
+     description:
+       Must be "i2c<n>", n being the instance number (1-based).
+@@ -55,38 +47,34 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/string
+     deprecated: true
+ 
+-# subnode's properties
+-patternProperties:
+-  "@[0-9a-f]+$":
+-    type: object
+-    description:
+-      Flash device uses the below defined properties in the subnode.
 -
  required:
    - compatible
    - reg
+   - interrupts
+ 
+-additionalProperties: false
++allOf:
++  - $ref: /schemas/i2c/i2c-controller.yaml#
+ 
+-if:
+-  properties:
+-    compatible:
+-      enum:
+-        - ti,omap2420-i2c
+-        - ti,omap2430-i2c
+-        - ti,omap3-i2c
+-        - ti,omap4-i2c
++  - if:
++      properties:
++        compatible:
++          enum:
++            - ti,omap2420-i2c
++            - ti,omap2430-i2c
++            - ti,omap3-i2c
++            - ti,omap4-i2c
+ 
+-then:
+-  properties:
+-    ti,hwmods:
+-      items:
+-        - pattern: "^i2c([1-9])$"
++    then:
++      properties:
++        ti,hwmods:
++          items:
++            - pattern: "^i2c([1-9])$"
+ 
+-else:
+-  properties:
+-    ti,hwmods: false
++    else:
++      properties:
++        ti,hwmods: false
++
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 
 -- 
 2.43.0

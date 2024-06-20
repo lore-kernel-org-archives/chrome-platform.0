@@ -1,42 +1,45 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6061AE878
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Jun 2024 19:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ECD22EED;
+	Thu, 20 Jun 2024 20:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718910182; cv=none; b=K4Kor9FIcVCfMe9qZsbPHzZp8CEyl0dimoTKtNxmz5jh/IiW9+z8iF0rYR7KA8GaXX0wp/RUceM7wGV1XL4Xvw37AZUmEXbaVV7/gpldy8f2i7yD+BvxW1AKgvHCOSQKHwy+61EU0TyJDVnp4nHMvYWRY0LsenOLDKbR93UQLOk=
+	t=1718915674; cv=none; b=p36Fpaywoqzw8NtxCAn0Hk2tTE5sSRFKPSzwi4kbAvtGTvVojSKOONR3TCs6oMLf+a06A2XpyvTNgMZOMSCyvWK0rFh/ug1TBgT+lvhcl9MJBaXfK0bhdf7Dcf27FVyzyGt5N9hJ78vWBFZhZrZeVUOuQt+DFRzDc5mWF6bRAEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718910182; c=relaxed/simple;
-	bh=VKPldonoEQuhkhro6FdC/3LVaAJ615Hw78cT6Lav7Vo=;
+	s=arc-20240116; t=1718915674; c=relaxed/simple;
+	bh=Qjgls1+fDHoSlp8kty5p8JufKc02nlgR5ecC7mawsk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cx+IkBKymMxqjsPRfCDEmkdiL63Qfi0z/snNOWZLEIOBMfUUk7yvTp8ZHiiqiuKe8mxuobAUqbE/m2V9EraFGxlTtt/CYVDOaCQMTfWfRnK+SHUTeYdNVwtqEUD+U/oIPecCkvR42gskzErPwNP2UgRbcD7BQeU/SCNSn0XiyTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hfj+wxqj; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fl7Lqm8QwF/NhPfZAckoyHOEQOKylt0O0SmTCCxySJViBR/BQM09OeB7pSAKWpDp9a/UgrMyuLh4ygNzjTzopc/g8vaJ9xbqCu4BhPkosTYPEZk4LbSUPbF+lDU0uFPvwR6umwanW5VBhi+djJ+eRPrr7MjuLJ2AdqIOL7OZKLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Bg8yPHsV; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hfj+wxqj"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Bg8yPHsV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718910176;
-	bh=VKPldonoEQuhkhro6FdC/3LVaAJ615Hw78cT6Lav7Vo=;
+	s=mail; t=1718915668;
+	bh=Qjgls1+fDHoSlp8kty5p8JufKc02nlgR5ecC7mawsk4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hfj+wxqjfD4NprsnZWOVDvEIL5APjUIY6LmwcdugNgYK0Ah6OYifUE/YO3GL91uni
-	 SZb8mZ2Ksm0oImcAfIlPeCmQP2IN12bKyyTykrnzry3MJBYWn4MOX4YKGzT0pfVfc4
-	 0hTjI+m5AIPWBXEVGz763Kj6yCkGlVpYF2vh5h88=
-Date: Thu, 20 Jun 2024 21:02:56 +0200
+	b=Bg8yPHsVg7YcnTXyQtCFTUNvWfpV80lMIWHE6HVlp//JgZpLevL+72yjpW16OMiea
+	 9wfF5ort/6xXLv+beVTMts562W1f+KV7s4t12JykJNG0rb2MbJ6QgowAxk1QZmCbPK
+	 BSJ178aUs5djvWTBHYV9DIwT0yqtgki9kKvNtf3E=
+Date: Thu, 20 Jun 2024 22:34:28 +0200
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: cros_ec: Implement review comments from Lee
-Message-ID: <3a164ee6-79f7-48ea-bdd2-4b8074920eda@t-8ch.de>
-References: <20240614-cros_ec-led-review-v1-1-946f2549fac2@weissschuh.net>
- <20240620093114.GH3029315@google.com>
- <5708f5c6-65fe-4bf9-8d08-6dbb77e21a9d@t-8ch.de>
- <20240620122741.GL3029315@google.com>
- <478e23df-800a-40c6-b972-2af2d535b1ae@t-8ch.de>
- <20240620171511.GX3029315@google.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+	Dustin Howett <dustin@howett.net>, Stephen Horvath <s.horvath@outlook.com.au>, 
+	Rajas Paranjpe <paranjperajas@gmail.com>, linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
+	Matt Hartley <matt.hartley@gmail.com>
+Subject: Re: [PATCH v4 4/5] power: supply: add ChromeOS EC based charge
+ control driver
+Message-ID: <933f6510-2496-4ff9-af50-dd3ff35ddffd@t-8ch.de>
+References: <20240616-cros_ec-charge-control-v4-0-74d649a9117d@weissschuh.net>
+ <20240616-cros_ec-charge-control-v4-4-74d649a9117d@weissschuh.net>
+ <syoaiwmmxuz4ai6jomu42kvwocwozpzfbnjhvndlfqi6zkio4x@vrg6hle2httr>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,50 +49,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240620171511.GX3029315@google.com>
+In-Reply-To: <syoaiwmmxuz4ai6jomu42kvwocwozpzfbnjhvndlfqi6zkio4x@vrg6hle2httr>
 
-On 2024-06-20 18:15:11+0000, Lee Jones wrote:
-> On Thu, 20 Jun 2024, Thomas Weißschuh wrote:
-> 
-> > On 2024-06-20 13:27:41+0000, Lee Jones wrote:
-> > > On Thu, 20 Jun 2024, Thomas Weißschuh wrote:
-> > > 
-> > > > Hi Lee,
-> > > > 
-> > > > On 2024-06-20 10:31:14+0000, Lee Jones wrote:
-> > > > > Definitely not seen a commit message like that before
-> > > > 
-> > > > I assumed that this patch would be squashed into the original commit.
-> > > > 
-> > > > My question in which form you wanted the changes should have included
-> > > > "incremental series".
-> > > 
-> > > Incremental means on top.
-> > > 
-> > > A lot of maintainers don't support history re-writes, but I've reserved
-> > > that right since forever, so I can squash it if you like.
+Hi Sebastian,
+
+On 2024-06-20 00:24:23+0000, Sebastian Reichel wrote:
+> On Sun, Jun 16, 2024 at 09:03:32PM GMT, Thomas Weißschuh wrote:
+> > The ChromeOS Embedded Controller implements a command to control charge
+> > thresholds and behaviour.
 > > 
-> > If it is already visible somewhere and a squash would inconvenience
-> > anybody I'll resend it.
-> > But if not I'd be happy about a squash.
+> > Use it to implement the standard Linux charge_control_start_threshold,
+> > charge_control_end_threshold and charge_behaviour sysfs UAPIs.
 > > 
-> > (I couldn't and still can't find the public tree where driver is in)
+> > The driver is designed to be probed via the cros_ec mfd device.
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
 > 
-> Odd, neither can I!  Okay applied the whole set again, squashed the
-> patch and submitted for testing.
+> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 Thanks!
 
-FYI:
+<snip>
 
-The Ack you asked for in the cros_kbd_led_backlight series [0],
-which should go through the LED tree (and has a MFD component),
-was given by Tzung-Bi in [1].
+Would you also take a look at patch 5,
+"power: supply: cros_charge-control: don't load if Framework control is present"?
 
-(In case it fell through the cracks. If not, please disregard)
+I'm still wondering what the best solution for the two different EC APIs
+would be. Maybe you have an idea?
 
+In short:
 
+Framework laptops have a downstream charge control API in their EC.
+This drivers binds to the upstream CrOS EC APIs, which does work on
+Framework laptops.
+If the downstream API is used, it overrides the functionality of the
+upstream API.
+
+Choices I see:
+* Ignore the incompatibility and just load the driver (maybe log something)
+* Detect if the downstream API is actively used during probing
+  (If enabled by UEFI) and either
+  * don't load the driver
+  * disable the current downstream API configuration, so the driver works
+  * disable the downstream API and take over its configuration into the
+    upstream driver
+* Detect if the downstream API is present at all and don't load the
+  driver (currently implemented)
+
+The problem is that the downstream API is still usable and its usage
+would break this driver.
+On the other hand, disabling the driver forces users to manually specify
+a kernel commandline, preventing most users from actually making use of it.
+
+(For the future I plan on adapting the Framework EC firmware to avoid
+this issue, but there is no telling how long it will take and if it is
+accepted at all)
+
+Thanks for any ideas,
 Thomas
-
-[0] https://lore.kernel.org/lkml/20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net/
-[1] https://lore.kernel.org/lkml/ZmutW6vh7pD1HLf5@google.com/

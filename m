@@ -1,100 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEBA1B14F6;
-	Thu, 20 Jun 2024 16:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2808E1B3F1D;
+	Thu, 20 Jun 2024 17:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718899601; cv=none; b=hXkyHnT9H8L5chZd92rn/cwQGMPCn9BJWVIptFU9Oh4bHTBgoYgcRseIfJuDvtsp+AVXMR3rS2FclwhtkH9xhFLLdeIZJ5rv+aDwy+w3/NZfN0XcUy7TdBs5b9lq0yn3Q8CRl5M1euFQfS38HYynBfcpFxjaZ9gY7t4+1K/3VLw=
+	t=1718903612; cv=none; b=NzXbZYSvOfaRCELNdl5Lpq/3OwgNGq0Ots7Ent3yVfIQSzEyMooiW/0rQEB2rxpgBd0xi7JCL/md6+679a13VpIluOZcn0+LxtDe2pvt0wj9PF4ezhAOjJ8xhclosmh0RszHm/AqEkYGf7CUhdiUm3wzM+GqiQTQuEAH93pJiyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718899601; c=relaxed/simple;
-	bh=LGtv35FvlZB5cEXYAShER66SaKuyixPdIhslDnimU3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ry+sV1YzsRBJ5S5BmqPowfbIlP2dZ3J2S59AD2FLC31eSEhvLFNLlsbEM641grXFmHeFPVXQuOeHcufg40q5XkH40BKp+l/sohs336Th93K9uIIxRIYhg1qMAdCm66Pr75yoRS4Jj1UgzQW037yZlE/57jWxz7tYR8S13H1Q1do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPz12hTE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718903612; c=relaxed/simple;
+	bh=PTTLUdzOSl/Wb9GnjZJ14W/5eKogr5nn0VBaPjKDyXk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=c6CyE1SWqKYYB7vi3f3PCQp0OhXRipFyRd7S0UJbk5d6qhHhV/b0QBebn3NJaKFpd3P7fIEtBhZ1dBfHmAJkACT/HnGeoSEjpPmLzlfzH6bhJbzMCyG3bmNVnhqjVwQbVxiUdE3t59W/61tHNYVEP+DWJlhEin616JcJfSzfK3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1MTkw5r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPz12hTE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEA2C32786;
-	Thu, 20 Jun 2024 16:06:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1MTkw5r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BCAEC4AF07;
+	Thu, 20 Jun 2024 17:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718899601;
-	bh=LGtv35FvlZB5cEXYAShER66SaKuyixPdIhslDnimU3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VPz12hTETnK/PrEGksITL4CZmnHLn1Nn60h6hvQKC6HMzxtbt8pQ398l1iyRpj946
-	 7l8qs1MckalfmTKkaRGyTS4gmPOYa72VFgY5endeozOaSxV/hTV4z2e+49OrI0nmio
-	 JTIAOuKJXI0AdLbLgiuEFYuUu/R/Mf/kVWUq5weg8cHEHj1OmNPKp5qYuO0/8bp5nV
-	 1iAwA/Tqcruvz3CbliVU0gAyN9dAhv9C8kVCearBtImJb3AFTDeN5ZrZXBZT8YjRp3
-	 iudTOQgRgLkqOEt1N5VAbhiec9NtlM5T9ThkgzrYbhwxNjJjrqpqWclf7lJSwp7mbi
-	 CHWpD/VEvHyBQ==
-Date: Thu, 20 Jun 2024 17:06:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Sergiu Moga <sergiu.moga@microchip.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Vignesh R <vigneshr@ti.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-omap@vger.kernel.org,
-	Kamal Dasu <kdasu.kdev@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org
-Subject: Re: [PATCH 0/7] dt-bindings: i2c: few fixes and cleanups
-Message-ID: <20240620-recite-deeply-ec4aa7458d45@spud>
-References: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
+	s=k20201202; t=1718903611;
+	bh=PTTLUdzOSl/Wb9GnjZJ14W/5eKogr5nn0VBaPjKDyXk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=M1MTkw5rbV+zxpFJuDF+SgOEv8UK5/62SI4sqhFR5hT35wVuEjNRBwm38cr980K0/
+	 vzSIa8sc82j2rRkws2hMigvRZ6GQhh3+JDWoyhdvNX+KO/xpJ+y0cfojKcBKOZeqvW
+	 85WW0Ff23rl/4/aX3FnPZMW1bsH23PirO0IHsLKVrr4iAlj88T3Aa+u9jvXLTwGNMA
+	 MbMB4bMpCVBXFLohqeTf6jv2psBCWOlclOk/MzWWRgo8LrAzPIoJXGunTboawJNoUu
+	 hf9lAYf4JILkfIleOARsnDWIq4y+GIrPQSDxb/ZAYPf+Lim8f98MCqrqziP5VINqy0
+	 YgTs/8fF3o20w==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+Subject: Re: [PATCH v3 0/5] ChromeOS Embedded Controller LED driver
+Message-Id: <171890360929.1308679.1495946714677532623.b4-ty@kernel.org>
+Date: Thu, 20 Jun 2024 18:13:29 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OWprGERt14zJA7P2"
-Content-Disposition: inline
-In-Reply-To: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
+On Thu, 13 Jun 2024 16:48:35 +0200, Thomas Weißschuh wrote:
+> Add a LED driver that supports the LED devices exposed by the
+> ChromeOS Embedded Controller.
+> 
+> Patch 1-3 add a utility function to the led subsystem.
+> Patch 4 introduces the actual driver.
+> Patch 5 registers the driver through the cros_ec mfd devices.
+> 
+> [...]
 
---OWprGERt14zJA7P2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied, thanks!
 
-On Thu, Jun 20, 2024 at 01:34:48PM +0200, Krzysztof Kozlowski wrote:
-> Few fixes for I2C controller schemas. The third patch (atmel,at91sam)
-> depends on first, so I suggest not splitting this into fixes branch but
-> take as is via next branch.
+[1/5] leds: core: Introduce led_get_color_name() function
+      commit: ab52674e673ae3ecf457ee6036c24b2c5e0a2cca
+[2/5] leds: multicolor: Use led_get_color_name() function
+      commit: f5e22810770af92f69d266d4a7db505679264eab
+[3/5] leds: core: Unexport led_colors[] array
+      commit: e056183d2852d6e8cfd0da2a1e3eaf9c08801963
+[4/5] leds: Add ChromeOS EC driver
+      commit: 583745b475ace58b6223aee6d174ee46f04bce95
+[5/5] mfd: cros_ec: Register LED subdevice
+      commit: 2796819735adfc3cdf388696ab20a6780effb525
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+--
+Lee Jones [李琼斯]
 
---OWprGERt14zJA7P2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnRThwAKCRB4tDGHoIJi
-0qmFAP4qVsTO5fhoHDH/KxLOQ9oIndV8aFx4pmYEmgmRLGL9OQEArGLygc2tOMFb
-gTTMxW9UouX8OISj6ZTyIyS1QKmpIgI=
-=vTRs
------END PGP SIGNATURE-----
-
---OWprGERt14zJA7P2--

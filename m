@@ -1,57 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E377112D1EB;
-	Fri, 21 Jun 2024 09:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1E4172761;
+	Fri, 21 Jun 2024 10:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718962048; cv=none; b=M7jtpBGUVhEttzMh+/N4c/HUd8hVN0k6b7fVG2TZCTx6N2i6Tp9DOJu8ZRo1GA7Ujg7nbU9eiTIsPwU6N5IU7n+VFF+ZcoP/H+KSuNd48YFCT5mf4H7CIEr1ipaJSdUatQlBCiAcSqbwM49Kvzot5qPteyVKYbA9k8QIW1oG+dA=
+	t=1718966443; cv=none; b=NwZVYlRjYsgzC4uNEHiI6fxg7m/jU648STWRJ+d7IV/YoomuE596PGOj9dZz4YAGsahImFxSMdx6dIzbBerZnGPApZzilfzTKukta2z/InFp7vOLjXMSL1fgAPE8mjvrMirM8Pgo1hNUjuHMgrTwfBHN7gxrjq3rMIxhRQdawsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718962048; c=relaxed/simple;
-	bh=uhH10vmIJUKkPbdPA4/INQpMI+q9x/UjstbjxvXrdJE=;
+	s=arc-20240116; t=1718966443; c=relaxed/simple;
+	bh=lideyFmcopJya8C9kB3HrrkDsw81oL4TPuWa8cb63zI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bp+ricdlcQ9eAFMfxPiVCrLdhN4866P4WABO2DOReaRPrfpcm+TDBGsA4mYTDk8Oq+jONWUMEtFbB2p/bb6+AbZv8h6mFnQTR9chTuctP9Yvz6y5NG1qGvFx6m/A57QdTcsCy8PY2TLTG9AFqrLh2iOIEy4GCMPNNGEacdgLdss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvDBwLWb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mn2d2KgRmNcmLV3bKtJsDVsqIrEswEmMLhslcxUZM2ztsCik50Rgx6UkTJO47vklucVsrRQjxFfMRcdw7Ya+dYlXXlTcI5K1Z2I5DzHX7gxJ1b68dXO4ljb8O5NGhHAmfPDtPmqlHGtPlqaEYyYExwTOprjyyt9FFiiOltCjjS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWZ0QKGN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvDBwLWb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE34C2BBFC;
-	Fri, 21 Jun 2024 09:27:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWZ0QKGN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D651C2BBFC;
+	Fri, 21 Jun 2024 10:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718962047;
-	bh=uhH10vmIJUKkPbdPA4/INQpMI+q9x/UjstbjxvXrdJE=;
+	s=k20201202; t=1718966443;
+	bh=lideyFmcopJya8C9kB3HrrkDsw81oL4TPuWa8cb63zI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MvDBwLWb2dv893GPCGGbeTdvIWAMyKlOsPT/1BC5DgW8PlNDKB8sb9QRzT1auO0Q2
-	 lVxKjTcfQUsdJUTUT0vdx9mBmGvm9lGgwEvm6fwUW07u92IkS0lsWDnzoTl/NqoTE6
-	 eSArKee1Bsqtdy3KpGfXRDr1E+ZsnP2Q2JHUhUYmzipoD8sgrmFJg38on8AjE+O8qG
-	 ftviQRYS9VkELyn58VdzALl2sa9TQj5ph9057h7xNzdDMRRSmVuTjfPC1OxsC9Vpxc
-	 oOFLLdUfr1c2w/qRQBlLTGDjMm8YxxDZrrXpxIqahjcSO7wR6GB0oDXFxPfLQ4p776
-	 4H9YFZxq9vsXg==
-Date: Fri, 21 Jun 2024 11:27:23 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Sergiu Moga <sergiu.moga@microchip.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Doug Anderson <dianders@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, 
-	Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Vignesh R <vigneshr@ti.com>, 
-	Kamal Dasu <kamal.dasu@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Chris Brandt <chris.brandt@renesas.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	linux-omap@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org
-Subject: Re: [PATCH 0/7] dt-bindings: i2c: few fixes and cleanups
-Message-ID: <5vbvx7qnbv7dwugmnp2sitlpvvsor4hn573spbwaklwbwvilfy@evntmrout65x>
-References: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
- <qru4aqjphjnjpo6yjxl2oznhlz774iv77u4u7u4jldnmlanps5@vpzxntuz6arp>
- <6bc864d6-11de-4762-b309-2e2a3bffaa24@linaro.org>
+	b=uWZ0QKGNhxHochU+Yna7EM+hevPMT70jXT2bcbf+tQUpBzMbo/H2cgBjwotvbFV0k
+	 sDD5x8IcPHBQqLF0m05n0OCLD8vedPVQCcqoP6fZ4mXtuNZ9CnvFF+0SQkFa268nCQ
+	 9eeGRRBFkTr9J8uQDWljmmviEgNF+pn7EkFGAPzcrohWqgO2jFfYYx66wTyeI1t3cl
+	 M4QhehJ/6mzHthokn3kaLB5+mmK/vVb2gXWnilLB099ZEStflVFYRuqGcB0tvhMXx3
+	 HYih5bDRwzLD2jRrw55/ZtvUHKH2TCPPssVcOOlhtO8z4cwN5yTWmWIvrr+2RpIFhU
+	 bro75jQF73sWg==
+Date: Fri, 21 Jun 2024 11:40:38 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Pavel Machek <pavel@ucw.cz>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: cros_ec: Implement review comments from Lee
+Message-ID: <20240621104038.GL1318296@google.com>
+References: <20240614-cros_ec-led-review-v1-1-946f2549fac2@weissschuh.net>
+ <20240620093114.GH3029315@google.com>
+ <5708f5c6-65fe-4bf9-8d08-6dbb77e21a9d@t-8ch.de>
+ <20240620122741.GL3029315@google.com>
+ <478e23df-800a-40c6-b972-2af2d535b1ae@t-8ch.de>
+ <20240620171511.GX3029315@google.com>
+ <3a164ee6-79f7-48ea-bdd2-4b8074920eda@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -61,42 +50,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6bc864d6-11de-4762-b309-2e2a3bffaa24@linaro.org>
+In-Reply-To: <3a164ee6-79f7-48ea-bdd2-4b8074920eda@t-8ch.de>
 
-On Fri, Jun 21, 2024 at 08:02:03AM GMT, Krzysztof Kozlowski wrote:
-> On 21/06/2024 01:05, Andi Shyti wrote:
-> > Cześć Krzysztof,
+On Thu, 20 Jun 2024, Thomas Weißschuh wrote:
+
+> On 2024-06-20 18:15:11+0000, Lee Jones wrote:
+> > On Thu, 20 Jun 2024, Thomas Weißschuh wrote:
 > > 
-> > On Thu, Jun 20, 2024 at 01:34:48PM GMT, Krzysztof Kozlowski wrote:
-> >> Few fixes for I2C controller schemas. The third patch (atmel,at91sam)
-> >> depends on first, so I suggest not splitting this into fixes branch but
-> >> take as is via next branch.
-> >>
-> >> Best regards,
-> >> Krzysztof
-> >>
-> >> ---
-> >> Krzysztof Kozlowski (7):
-> >>       dt-bindings: i2c: atmel,at91sam: correct path to i2c-controller schema
-> >>       dt-bindings: i2c: google,cros-ec-i2c-tunnel: correct path to i2c-controller schema
+> > > On 2024-06-20 13:27:41+0000, Lee Jones wrote:
+> > > > On Thu, 20 Jun 2024, Thomas Weißschuh wrote:
+> > > > 
+> > > > > Hi Lee,
+> > > > > 
+> > > > > On 2024-06-20 10:31:14+0000, Lee Jones wrote:
+> > > > > > Definitely not seen a commit message like that before
+> > > > > 
+> > > > > I assumed that this patch would be squashed into the original commit.
+> > > > > 
+> > > > > My question in which form you wanted the changes should have included
+> > > > > "incremental series".
+> > > > 
+> > > > Incremental means on top.
+> > > > 
+> > > > A lot of maintainers don't support history re-writes, but I've reserved
+> > > > that right since forever, so I can squash it if you like.
+> > > 
+> > > If it is already visible somewhere and a squash would inconvenience
+> > > anybody I'll resend it.
+> > > But if not I'd be happy about a squash.
+> > > 
+> > > (I couldn't and still can't find the public tree where driver is in)
 > > 
-> > merged to i2c/i2c-host-fixes
-> > 
-> >>       dt-bindings: i2c: atmel,at91sam: drop unneeded address/size-cells
-> >>       dt-bindings: i2c: nvidia,tegra20: drop unneeded address/size-cells
-> >>       dt-bindings: i2c: samsung,s3c2410: drop unneeded address/size-cells
-> >>       dt-bindings: i2c: ti,omap4: reference i2c-controller.yaml schema
-> >>       dt-bindings: i2c: adjust indentation in DTS example to coding style
-> > 
-> > merged to i2c/i2c-host
+> > Odd, neither can I!  Okay applied the whole set again, squashed the
+> > patch and submitted for testing.
 > 
-> So you broke the binding... Why openly ignoring my first sentence?
+> Thanks!
+> 
+> FYI:
+> 
+> The Ack you asked for in the cros_kbd_led_backlight series [0],
+> which should go through the LED tree (and has a MFD component),
+> was given by Tzung-Bi in [1].
+> 
+> (In case it fell through the cracks. If not, please disregard)
 
-It's not an issue. We can get the fixes first and apply the rest
-later, I can keep them in my -next branch and reapply next week.
+Now I'm really confused.
 
-Otherwise I would wait for everything at the merge window, but I
-don't want to wait so long.
+This patch not for that set though, right?
 
-Thanks,
-Andi
+You're talking about:
+
+ mfd: cros_ec: Register keyboard backlight subdevice
+ platform/chrome: cros_kbd_led_backlight: allow binding through MFD     <-- this one
+ leds: class: Add flag to avoid automatic renaming of LED devices
+ leds: class: Warn about name collisions earlier
+
+But this fix-up patch belongs in:
+
+ mfd: cros_ec: Register LED subdevice
+ leds: Add ChromeOS EC driver                                           <-- this one
+ leds: core: Unexport led_colors[] array
+ leds: multicolor: Use led_get_color_name() function
+ leds: core: Introduce led_get_color_name() function
+
+Right?
+
+> [0] https://lore.kernel.org/lkml/20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net/
+> [1] https://lore.kernel.org/lkml/ZmutW6vh7pD1HLf5@google.com/
+
+-- 
+Lee Jones [李琼斯]

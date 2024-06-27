@@ -1,61 +1,61 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9951A2FD4
-	for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 23:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538021A38F0
+	for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 23:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719532441; cv=none; b=JpYh2L0uql7kxLSnYNpPb8lMA33XBF1yAJLyXjwsgHQ5gyhXS9HGvt0H9YkpOcXmpc7TilRLyJYe/OMecqTXDDxU8eJWpIOrvzNcIYJrrueydRPgSS5BbD42LhCQ78Io3tii69luE0TyhNl7oJc6v3hx1/e17/cVHKjNuma9aTs=
+	t=1719532711; cv=none; b=MVezhKS2W/CLSZ6gYpyvC81vqEDBf21eDFLOHvERKizFK9jS3MbXa7qBR2SruTqOCE0NlSPgm7wGEyQdbi4YBJwKt9lvk4zTHoQrZzv2e5FFhVkYtNvElGrR2Zi9qBGFxnNT4cAJqVsTs4otCzagPUHDF7lZc38Fj+LqC5H/n+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719532441; c=relaxed/simple;
-	bh=em4fT6gc4FKgIY5Dn0mKLeU5n6+xY+c5SD9nUabtX7w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sbTztvpzVI5lO2EFoDqQ6iWgU0kelKqnF1ZIW/eS0dcAhPgzjWFQK6lXNW3qw7wj/Nu1JvO3uaoGiuz+Fvomu3gHXCtkxGXB3S9kOrdpDR4DzLeCKNPOqTPIEomxoUYhTYFzbB6wbxFVA87FvTRQHDzL3kBLYgWUKPubrHyXSmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UUDw36Jr; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1719532711; c=relaxed/simple;
+	bh=VvEmbALPGz/CqKOGYJCQ7qM1A373D4L/J/qlsil0cmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VAvj+sfCI5N8cXWuPlsAOV6a/RGarbuNP5cOzxQS8rGVWj4oKzzFag7Dc+uGf0QFtJ57IsOgUmZyj+ylXWfUimv7qc4yxMLDi6R7hfNSBh1uo2sObLpXYW4hiH+R9RrYg3pFvFg31aY5dTe3VNFa/G0Q5gXDoBiApt7uY4+ey6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a8G25Isq; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UUDw36Jr"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70673c32118so48467b3a.3
-        for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 16:53:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8G25Isq"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7067a2e9607so59410b3a.3
+        for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 16:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1719532439; x=1720137239; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wz8mCbvpvyvinIWniLr2yCzgz2midVzsHqb0HV25yDo=;
-        b=UUDw36Jr8aHx7aNTkv0praeFRCbdOOFMWJJtoSW1NQGn2e1rXxyTqXTUTZyJcZIDUA
-         wqe0RGVnd4g4Kjhaai0vL1ckrAg4Uv9XyiMrqf/InF3jbqC3mzGhBGG90ghXYSNGE5Iy
-         Jxno9eYmnr+Oe+ElQF/7TGzUjjY4o9JRd/+lw=
+        d=gmail.com; s=20230601; t=1719532710; x=1720137510; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SlgJ747gekZZdrBLHi0FNPvw+j4+eabf4RtOttHEcPQ=;
+        b=a8G25IsqpUYaJiwvYBIoaJz7eZDEWwoyGP/cXHWVZ3VOhgKgX84RQtAfhlJICa1Zi5
+         qImSKQ4H8T1IPGqXtkDTSlY/uOPSceYda+R6AT36/TQUK3kXlFtCwiyAttvlxRs5Fq10
+         VKZikM82kgpZLvmxwe43AGMThR+l3gT0xm977uv+JrQYkCGJV0iAn6eOpSMPSIJv9KVU
+         MnrfOdGkevoBD+BjwVN41Fd6bjHHqmeeCTOic08yFjHGx+1EYj4lJDpKUBpsIpcCQjVl
+         EFSc+ZL0w5T4NibjPFRhGu5y+k10tP4UOMwLf3L8+8soJjffelIeduZFt6JkBqrV3L0y
+         Vvsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719532439; x=1720137239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wz8mCbvpvyvinIWniLr2yCzgz2midVzsHqb0HV25yDo=;
-        b=HWqcUJNApXPQRMczduHSJCqZBoZec85VrE5oaB9lz+mbk3DbOYcdSPJZWFG6bu8cFD
-         BGpQw2NXIv9ndlxKn0Jxs/unmby2mnbESSZyLWAgTUfleZmCP6FS/N3Xy/PTVBfYiKwt
-         enojns2NP9PugA7eAaw9lqnbvao2pEXjaUFFlayBWg2GTCGgj7y0tDgvmS+/Y5WrNirk
-         EpeGlA+YUKeyBUuV1VOSJylLzS1D9PEKeN+Wlhq/wkwHA2nut44VzqJ3FMm5nyTZvik2
-         EpNRTL/nuuo+7FlyW8VSh+s0v0rK21uJmEQM1c2WK5WsR+t/QFaaN/Wdmttqhp0HBKcG
-         ynRA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjhQ1SPHfctUDaS/HEbuIfn79wVpuETWt3OBa5nzr30IHR3e7vpPf8+bIIwmVOUZbrDK9EGDam6qkeM0INpdRYXBu/mdMuevW9DZaAp9yF
-X-Gm-Message-State: AOJu0Yy4v75Kuhoz0j6KD5I6yloc92SFc1wCD4b764R1ykWNEYYsTWIu
-	ZzIcU+Am+6AQR34MPFW1Su1AoeLqM08sEIqYn6cVXg46+ShIeq+6nYiTjc2v1A==
-X-Google-Smtp-Source: AGHT+IGt6uAjd9DFIOlTtILhCIG4SNMhMufSYHw3k2LiUPAd2ggYsmIv8nZuUujU4HrY8cQoqV0l1Q==
-X-Received: by 2002:a05:6a20:4307:b0:1be:c6a5:5e88 with SMTP id adf61e73a8af0-1bec6a563a4mr6295239637.10.1719532438690;
-        Thu, 27 Jun 2024 16:53:58 -0700 (PDT)
-Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:cf5d:cb26:248e:ee00])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac11d8cd2sm3366595ad.107.2024.06.27.16.53.57
+        d=1e100.net; s=20230601; t=1719532710; x=1720137510;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SlgJ747gekZZdrBLHi0FNPvw+j4+eabf4RtOttHEcPQ=;
+        b=sqaDLsxy52MgIzvm3crUq07vJcX0KPPWdn1RV6q398yeiJr68ehuGN092iVabOpnip
+         36yAHbnJa53SkjVJEh9C41YxQgZ9opUa9ed2c3iUgQo78mQLXOOq/gbPrKO9k6PGLbdc
+         SfpsXdGkGpCqn2ywVU0u0hWeMTYjWNZUEtL7Nnhr72Y0fOBQwF6EZBJkt1S6lwBkvB+8
+         ZuUDwrpuc1cngYrSJ7rgosxZyHWfVsiOGk+l1F/I7QnWuGwtGkxkcZAyypuv8oOnURES
+         O4kcPqNECqFweN//RCgbRXBBvbqL5mthzSJ2sdAK/Recnn1/0oWJpAFmjCPX7xH+Tjhu
+         /NnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZf/GZDUw0XvLMttFkNRGj9C8Ffkw3uSYXlMA4XvwoLtTm/MtSfpkJPlfB5bwntrwIhoZFmSf2ZI7WE6OpGbsKlURddS+44xHMrfex/xbN
+X-Gm-Message-State: AOJu0YwSV/LKo1B2N7mFktK5NFL1b/DL/ljMJLIInzxbrVmoZRyo3JoP
+	QDHgbKEj+WlqhfBhTDYc/JNnmp21j6N6lQd/SJl+hFPTsNkNDp27d1IizQ==
+X-Google-Smtp-Source: AGHT+IGK9yAdSPH8/kcb7YeTj/d2kPcFUZTaSP6n+f/K5RJLPg2HXD8SzlEsAacZXWRJiB4wrV6/Zg==
+X-Received: by 2002:aa7:9dc4:0:b0:704:2a93:a6c2 with SMTP id d2e1a72fcca58-70670eead80mr13868250b3a.17.1719532709454;
+        Thu, 27 Jun 2024 16:58:29 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c929:2998:720d:a104])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708044ae395sm299712b3a.144.2024.06.27.16.58.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 16:53:58 -0700 (PDT)
-From: Daisuke Nojiri <dnojiri@chromium.org>
-To: 
-Cc: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
+        Thu, 27 Jun 2024 16:58:29 -0700 (PDT)
+Date: Thu, 27 Jun 2024 16:58:26 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Reka Norman <rekanorman@chromium.org>,
@@ -64,148 +64,46 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Pavan Holla <pholla@chromium.org>,
 	Lukasz Majczak <lma@chromium.org>,
 	Ching-Kang Yen <chingkang@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
 	Stephen Boyd <swboyd@chromium.org>,
 	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard matrix v3.0
-Date: Thu, 27 Jun 2024 16:53:08 -0700
-Message-ID: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
-X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
-In-Reply-To: <cover.1719531519.git.dnojiri@chromium.org>
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] cros_ec_proto: Consolidate
+ ec_response_get_next_event
+Message-ID: <Zn38onz6Dm4Pt4DH@google.com>
 References: <cover.1719531519.git.dnojiri@chromium.org>
+ <fc251d6935c1cfc39d7a31d3cfe735d31a0371d1.1719531519.git.dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fc251d6935c1cfc39d7a31d3cfe735d31a0371d1.1719531519.git.dnojiri@chromium.org>
 
-Add support for keyboard matrix version 3.0, which reduces keyboard
-ghosting.
+On Thu, Jun 27, 2024 at 04:53:07PM -0700, Daisuke Nojiri wrote:
+> Consolidate struct ec_response_get_next_event_v*.
+> 
+> Let X->Y indicate kernel X sending EC_CMD_GET_NEXT_EVENT to FW Y.
+> 
+> Old->New:
+>    Existing kernels send a smaller container (e.g.
+>    ec_response_get_next_data) which may or may not fit the last few
+>    bytes. The FW copies as many bytes as possible to the container. The
+>    kernel processes as many leading bytes as it can understand.
+> 
+> New->Old:
+>    New kernels send a bigger container. Existing FW copies as many bytes
+>    as it wants, leaving the last few bytes empty. The kernel knows it
+>    didn't receive full size data from the returned data length.
+> 
+> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
 
-Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
----
- include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
- 1 file changed, 104 insertions(+)
+Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-diff --git a/include/dt-bindings/input/cros-ec-keyboard.h b/include/dt-bindings/input/cros-ec-keyboard.h
-index f0ae03634a96..afc12f6aa642 100644
---- a/include/dt-bindings/input/cros-ec-keyboard.h
-+++ b/include/dt-bindings/input/cros-ec-keyboard.h
-@@ -100,4 +100,108 @@
- 	MATRIX_KEY(0x07, 0x0b, KEY_UP)		\
- 	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)
- 
-+/* No numpad */
-+#define CROS_TOP_ROW_KEYMAP_V30 \
-+	MATRIX_KEY(0x00, 0x01, KEY_F11)		/* T11 */	\
-+	MATRIX_KEY(0x00, 0x02, KEY_F1)		/* T1 */	\
-+	MATRIX_KEY(0x00, 0x04, KEY_F10)		/* T10 */	\
-+	MATRIX_KEY(0x00, 0x0b, KEY_F14)		/* T14 */	\
-+	MATRIX_KEY(0x00, 0x0c, KEY_F15)		/* T15 */	\
-+	MATRIX_KEY(0x01, 0x02, KEY_F4)		/* T4 */	\
-+	MATRIX_KEY(0x01, 0x04, KEY_F7)		/* T7 */	\
-+	MATRIX_KEY(0x01, 0x05, KEY_F12)		/* T12 */	\
-+	MATRIX_KEY(0x01, 0x09, KEY_F9)		/* T9 */	\
-+	MATRIX_KEY(0x02, 0x02, KEY_F3)		/* T3 */	\
-+	MATRIX_KEY(0x02, 0x04, KEY_F6)		/* T6 */	\
-+	MATRIX_KEY(0x02, 0x0b, KEY_F8)		/* T8 */	\
-+	MATRIX_KEY(0x03, 0x02, KEY_F2)		/* T2 */	\
-+	MATRIX_KEY(0x03, 0x05, KEY_F13)		/* T13 */	\
-+	MATRIX_KEY(0x04, 0x04, KEY_F5)		/* T5 */
-+
-+#define CROS_MAIN_KEYMAP_V30			/* Keycode */	\
-+	MATRIX_KEY(0x00, 0x03, KEY_B)		/* 50 */	\
-+	MATRIX_KEY(0x00, 0x05, KEY_N)		/* 51 */	\
-+	MATRIX_KEY(0x00, 0x06, KEY_RO)		/* 56 (JIS) */	\
-+	MATRIX_KEY(0x00, 0x08, KEY_EQUAL)	/* 13 */	\
-+	MATRIX_KEY(0x00, 0x09, KEY_HOME)	/* 80 (Numpad) */	\
-+	MATRIX_KEY(0x00, 0x0a, KEY_RIGHTALT)	/* 62 */	\
-+	MATRIX_KEY(0x00, 0x10, KEY_FN)		/* 127 */	\
-+								\
-+	MATRIX_KEY(0x01, 0x01, KEY_ESC)		/* 110 */	\
-+	MATRIX_KEY(0x01, 0x03, KEY_G)		/* 35 */	\
-+	MATRIX_KEY(0x01, 0x06, KEY_H)		/* 36 */	\
-+	MATRIX_KEY(0x01, 0x08, KEY_APOSTROPHE)	/* 41 */	\
-+	MATRIX_KEY(0x01, 0x0b, KEY_BACKSPACE)	/* 15 */	\
-+	MATRIX_KEY(0x01, 0x0c, KEY_HENKAN)	/* 65 (JIS) */	\
-+	MATRIX_KEY(0x01, 0x0e, KEY_LEFTCTRL)	/* 58 */	\
-+								\
-+	MATRIX_KEY(0x02, 0x01, KEY_TAB)		/* 16 */	\
-+	MATRIX_KEY(0x02, 0x03, KEY_T)		/* 21 */	\
-+	MATRIX_KEY(0x02, 0x05, KEY_RIGHTBRACE)	/* 28 */	\
-+	MATRIX_KEY(0x02, 0x06, KEY_Y)		/* 22 */	\
-+	MATRIX_KEY(0x02, 0x08, KEY_LEFTBRACE)	/* 27 */	\
-+	MATRIX_KEY(0x02, 0x09, KEY_DELETE)	/* 76 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x0c, KEY_PAGEUP)	/* 85 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x011, KEY_YEN)	/* 14 (JIS) */	\
-+								\
-+	MATRIX_KEY(0x03, 0x00, KEY_LEFTMETA)	/* Launcher */	\
-+	MATRIX_KEY(0x03, 0x01, KEY_GRAVE)	/* 1 */	\
-+	MATRIX_KEY(0x03, 0x03, KEY_5)		/* 6 */	\
-+	MATRIX_KEY(0x03, 0x04, KEY_S)		/* 32 */	\
-+	MATRIX_KEY(0x03, 0x06, KEY_MINUS)	/* 12 */	\
-+	MATRIX_KEY(0x03, 0x08, KEY_6)		/* 7 */		\
-+	MATRIX_KEY(0x03, 0x09, KEY_SLEEP)	/* Lock */	\
-+	MATRIX_KEY(0x03, 0x0b, KEY_BACKSLASH)	/* 29 */	\
-+	MATRIX_KEY(0x03, 0x0c, KEY_MUHENKAN)	/* 63 (JIS) */	\
-+	MATRIX_KEY(0x03, 0x0e, KEY_RIGHTCTRL)	/* 64 */	\
-+								\
-+	MATRIX_KEY(0x04, 0x01, KEY_A)		/* 31 */	\
-+	MATRIX_KEY(0x04, 0x02, KEY_D)		/* 33 */	\
-+	MATRIX_KEY(0x04, 0x03, KEY_F)		/* 34 */	\
-+	MATRIX_KEY(0x04, 0x05, KEY_K)		/* 38 */	\
-+	MATRIX_KEY(0x04, 0x06, KEY_J)		/* 37 */	\
-+	MATRIX_KEY(0x04, 0x08, KEY_SEMICOLON)	/* 40 */	\
-+	MATRIX_KEY(0x04, 0x09, KEY_L)		/* 39 */	\
-+	MATRIX_KEY(0x04, 0x0b, KEY_ENTER)	/* 43 */	\
-+	MATRIX_KEY(0x04, 0x0c, KEY_END)		/* 81 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x05, 0x01, KEY_1)		/* 2 */	\
-+	MATRIX_KEY(0x05, 0x02, KEY_COMMA)	/* 53 */	\
-+	MATRIX_KEY(0x05, 0x03, KEY_DOT)		/* 54 */	\
-+	MATRIX_KEY(0x05, 0x04, KEY_SLASH)	/* 55 */	\
-+	MATRIX_KEY(0x05, 0x05, KEY_C)		/* 48 */	\
-+	MATRIX_KEY(0x05, 0x06, KEY_SPACE)	/* 61 */	\
-+	MATRIX_KEY(0x05, 0x07, KEY_LEFTSHIFT)	/* 44 */	\
-+	MATRIX_KEY(0x05, 0x08, KEY_X)		/* 47 */	\
-+	MATRIX_KEY(0x05, 0x09, KEY_V)		/* 49 */	\
-+	MATRIX_KEY(0x05, 0x0b, KEY_M)		/* 52 */	\
-+	MATRIX_KEY(0x05, 0x0c, KEY_PAGEDOWN)	/* 86 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x06, 0x01, KEY_Z)		/* 46 */	\
-+	MATRIX_KEY(0x06, 0x02, KEY_3)		/* 4 */		\
-+	MATRIX_KEY(0x06, 0x03, KEY_4)		/* 5 */		\
-+	MATRIX_KEY(0x06, 0x04, KEY_2)		/* 3 */		\
-+	MATRIX_KEY(0x06, 0x05, KEY_8)		/* 9 */		\
-+	MATRIX_KEY(0x06, 0x06, KEY_0)		/* 11 */	\
-+	MATRIX_KEY(0x06, 0x08, KEY_7)		/* 8 */		\
-+	MATRIX_KEY(0x06, 0x09, KEY_9)		/* 10 */	\
-+	MATRIX_KEY(0x06, 0x0b, KEY_DOWN)	/* 84 */	\
-+	MATRIX_KEY(0x06, 0x0c, KEY_RIGHT)	/* 89 */	\
-+	MATRIX_KEY(0x06, 0x0d, KEY_LEFTALT)	/* 60 */	\
-+	MATRIX_KEY(0x06, 0x0f, KEY_ASSISTANT)	/* 128 */	\
-+	MATRIX_KEY(0x06, 0x11, KEY_BACKSLASH)	/* 42 (JIS, ISO) */	\
-+								\
-+	MATRIX_KEY(0x07, 0x01, KEY_U)		/* 23 */	\
-+	MATRIX_KEY(0x07, 0x02, KEY_I)		/* 24 */	\
-+	MATRIX_KEY(0x07, 0x03, KEY_O)		/* 25 */	\
-+	MATRIX_KEY(0x07, 0x04, KEY_P)		/* 26 */	\
-+	MATRIX_KEY(0x07, 0x05, KEY_Q)		/* 17 */	\
-+	MATRIX_KEY(0x07, 0x06, KEY_W)		/* 18 */	\
-+	MATRIX_KEY(0x07, 0x07, KEY_RIGHTSHIFT)	/* 57 */	\
-+	MATRIX_KEY(0x07, 0x08, KEY_E)		/* 19 */	\
-+	MATRIX_KEY(0x07, 0x09, KEY_R)		/* 20 */	\
-+	MATRIX_KEY(0x07, 0x0b, KEY_UP)		/* 83 */	\
-+	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)	/* 79 */	\
-+	MATRIX_KEY(0x07, 0x11, KEY_102ND)	/* 45 (ISO) */
-+
- #endif /* _CROS_EC_KEYBOARD_H */
+Thanks.
+
 -- 
-2.45.2.803.g4e1b14247a-goog
-
+Dmitry

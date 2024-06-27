@@ -1,93 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5273C16DEC9;
-	Fri, 21 Jun 2024 10:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3830C1A2FB7
+	for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 23:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718967033; cv=none; b=X7/LBoLKxdxIyyYjJ0DZKZFmuBfANYYLlY95hzxRpeOCEYk+WZvNzcDxIc5/MbqErh79aCFd6azBnBVd7b7vj2dO7BxLXl+8+aRAY7jQ0sC/NX1AkKg9tHwrWf224u+xXMn43DfgkQf1BOkFba+pmvq6lySeiosyDuPVDkNjZ0Y=
+	t=1719532426; cv=none; b=ZpcwCew6uwlSnc+Z7yxGE2uNOnlaqiYA8hE3eN8lIXvEfRFpVW7enogM1do8YZiogH9dcoQoqUcQPx5oFDsu4fgLJUzYIcthIO95tyH4s4lbt+4vCWXfkZH8y1QtD6Mbs5cqK4y46PAAdqnb1xMXC+mMu61jdsBXOgJEvUnLU/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718967033; c=relaxed/simple;
-	bh=Ln8MyAJWRJjptYur48wslT3ztlJphKnLLSWFVYX0roM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScXFT2SI1sVrROjr65CztiA0y52jCVyTbAReEySLi4ZjWJ+74bhDMsaijewV4s0wkNaTbdMIUAdvnI5ZKomilDqga3aescnpv3QoKGu1U3diRzjM5rYvGDp9XLjxTNC++1ybBw7dMOnKoX7EGix62i55WbhvYF5GYIkrRKNJzkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f5OohLDO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719532426; c=relaxed/simple;
+	bh=8TDzL4LG+A2ddCLi6fgg9V+G2E1PrISrQcbK/zNYedM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rcAka5z1UThvuHUCTwVxoSANszMvWyI4Cxq7YSUUdJADsZ04r2VqMBmiFT/UmsAX3wzc63CYD83uYXk7R7IhExfOsxW/XUAEqrRNFB88cQCyln/WqKb6nkcR8MGPIM53ZJVYhWWc49jxJCo4AvZ71jLI0Nq+PmBW6ub0vu3VDSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IT3qla6f; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f5OohLDO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82571C2BBFC;
-	Fri, 21 Jun 2024 10:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718967032;
-	bh=Ln8MyAJWRJjptYur48wslT3ztlJphKnLLSWFVYX0roM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f5OohLDO6TTY7DUQNYpPw0pRZN9qPTMb0x6AiYXo3c9xhrxzct72y1FDgmRRkzTom
-	 j0cg9xSYfkRwfGY1kQdG+wvoO+xWC/kU8CIZgLcfFbbEPZaf6zWQMLH9iAuPX2kZfC
-	 hX8ev6bNZOYi2rwD55wXYHeN2KKljoI4xHUG7DPVmSGknD3x9hKhFyBioONT7wawFk
-	 vpTcDrvRMnYFlnonXCAtklfWNeJTgJykhAd1QhgrEmRpacP4YkFH0B3x5zamJYKOkA
-	 Vg0bxDuvDwuSolhWkjnWRu2wXxUKf5GS5zNPFzuq7gXStbu+fusftDf3l1LFiEC14v
-	 goaVSMYqlYNlA==
-Date: Fri, 21 Jun 2024 11:50:27 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	Benson Leung <bleung@chromium.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IT3qla6f"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fa2ea1c443so88645ad.0
+        for <chrome-platform@lists.linux.dev>; Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1719532424; x=1720137224; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GvgNRfUrYC3vDPSHgELOXCgco+1ty8Hri5LXWyU0EuU=;
+        b=IT3qla6fNsqIGHBZ3wHqztJjpkDm2SeYuEYUMOtcz+WmqqY4XYX2el+1jolcz9n0/c
+         PHgllFvZXQwGELgL3b+uk26MCyzpzWJOHJPTjcrwWilsvO1wQgrDl3PizwQSfaIbdLTC
+         kd/YCgD2fHBIdpFGZiKEJfO8sc/fwAMg5d80s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719532424; x=1720137224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GvgNRfUrYC3vDPSHgELOXCgco+1ty8Hri5LXWyU0EuU=;
+        b=W/Ftz8J/gk3YUUGp+MrNjMIS21uggM9UF7kHo9+a4wAhUEyQiJVCgVFQsXPDV59mmd
+         1hfVOyXiA3XLdiqGtmDqVNHdp72Yu8a+SdGZnyz9JET5CCwPmp/lyRoxVX+kRzQ4fiRH
+         wN4BqYSsGz5Dluhi8VYOaRFGR2bXFlUbG3p1of2kB+Y0Gc5B9KLTwVKGKJJ6OjQ2joGR
+         9dfkzLKRvuFDzvpNGgVBloh6fnvLwJbf1RGyefa3Dsj9WQdvdjfHZiOHBP+V6FuXGOl7
+         Gzlj5824zSraz0lk0D3lMDSZw40Y6bpEa2v7fojaSVdxM1kTf4+CXRT7kzu03jYDbeKM
+         9QsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDmyueBcdiKxd133lSniBGXWWhTfmnatSaSz/xse6okkUbXQb8sMywsRC1UfJY3PU/jLfYm9xo1afIqs35oNzwckH0tJsJ+YAwKAFBKUT3
+X-Gm-Message-State: AOJu0Yyfj28kvHVVsmkIj/OypWbXBRzpnynsgyRlzzj+8VuahoeePIAg
+	J2O78A8aKGizQBIRKWf0xqtTh9a/mBlVl0rKjMwxGLcgFSXpK589IdE+sbuWhg==
+X-Google-Smtp-Source: AGHT+IFTGJHi0WhKn1jfdIqcqfPQxr8jYnm7Tq2RVmaHgug3fRpbKxlPiPDM9y6uifF4i205XhWnMg==
+X-Received: by 2002:a17:902:ea08:b0:1f6:5013:7842 with SMTP id d9443c01a7336-1fa23cd95edmr158375265ad.27.1719532424505;
+        Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:cf5d:cb26:248e:ee00])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac11d8cd2sm3366595ad.107.2024.06.27.16.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+From: Daisuke Nojiri <dnojiri@chromium.org>
+To: 
+Cc: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [GIT PULL] Immutable branch between LEDS and MFD due for the v6.11
- merge window
-Message-ID: <20240621105027.GM1318296@google.com>
-References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Reka Norman <rekanorman@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 0/2] Consolidate ec_response_get_next_event
+Date: Thu, 27 Jun 2024 16:53:06 -0700
+Message-ID: <cover.1719531519.git.dnojiri@chromium.org>
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
 
-Enjoy!
+---
+Changes in v5:
+ - Merged changes in cros_ec_commands.h and cros_ec_proto.c
 
-The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+Changes in v4:
+ - Change subject line: ARM:... to dt-bindings:...
+ - Add description about keyboard matrix v3.0.
+ - Add cover letter.
 
-  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+---
+Changes in v3:
+ - Remove CROS_KBD_V30 in Kconfig and macros conditionally set in
+   cros-ec-keyboard.dtsi.
 
-are available in the Git repository at:
+---
+Changes in v2:
+ - Separate cros_ec_commands.h from cros_ec_proto.{c.h}.
+ - Remove Change-Id, TEST=, BUG= lines.
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-mfd-v6.11
+---
+Daisuke Nojiri (2):
+  cros_ec_proto: Consolidate ec_response_get_next_event
+  dt-bindings: cros-ec-keyboard: Add keyboard matrix v3.0
 
-for you to fetch changes up to b107093f433c3afb83a46af43c830e578e2ba54d:
-
-  mfd: cros_ec: Register LED subdevice (2024-06-21 11:41:51 +0100)
-
-----------------------------------------------------------------
-Immutable branch between LEDS and MFD due for the v6.11 merge window
-
-----------------------------------------------------------------
-Thomas Weißschuh (5):
-      leds: core: Introduce led_get_color_name() function
-      leds: multicolor: Use led_get_color_name() function
-      leds: core: Unexport led_colors[] array
-      leds: Add ChromeOS EC driver
-      mfd: cros_ec: Register LED subdevice
-
- MAINTAINERS                         |   5 +
- drivers/leds/Kconfig                |  15 ++
- drivers/leds/Makefile               |   1 +
- drivers/leds/led-class-multicolor.c |   2 +-
- drivers/leds/led-core.c             |  12 +-
- drivers/leds/leds-cros_ec.c         | 277 ++++++++++++++++++++++++++++++++++++
- drivers/leds/leds.h                 |   1 -
- drivers/mfd/cros_ec_dev.c           |   9 ++
- include/linux/leds.h                |  10 ++
- 9 files changed, 328 insertions(+), 4 deletions(-)
- create mode 100644 drivers/leds/leds-cros_ec.c
+ drivers/platform/chrome/cros_ec_proto.c       |  16 +--
+ include/dt-bindings/input/cros-ec-keyboard.h  | 104 ++++++++++++++++++
+ .../linux/platform_data/cros_ec_commands.h    |  34 +-----
+ include/linux/platform_data/cros_ec_proto.h   |   2 +-
+ 4 files changed, 114 insertions(+), 42 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.45.2.803.g4e1b14247a-goog
+

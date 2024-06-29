@@ -1,33 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA34F1F934;
-	Fri, 28 Jun 2024 07:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976C51879;
+	Sat, 29 Jun 2024 13:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719559223; cv=none; b=Ur/uA1ha+WQOKllA5UFi+UTnU2jkTbmC5jPFQihwrSOxEBbWUNAO4D/cZC2Jd9T/OcsVwpQxLjwZTAxkwSvDbV7YCvZ7nIOzeRUaCe17m+o8TGkO9/Y5wGAMn4+PFDx9FZdXSsumZZb8WuWRd7R1GO72W5D4PMgh1mklrI+h694=
+	t=1719668027; cv=none; b=FYaR8mfVLR+NtDqbMOh6YTiw4iwYoIWXyGSq9w7jX2uh0qSEOrgUnAi3ENVGxdKC9/57nsUIpXLtzCdl6heWzY/QkUly6KFm5omUzglm4I+eQxUYDYfsYjbry6fehlZLOPTTnY4izSmpFzqlSYUBgXqsQJJNoyPEq9sjegJWBXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719559223; c=relaxed/simple;
-	bh=vTNBz/wLOTojPrgqgi2T1cbenZdK42UQ0OjDz2FOcmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LN9bvfGcl2SI5W3mIF702ZcodOs8ce9kEvImdpdIHP+08AuteNNXZ0cUpk+Z2U60eG0noy8ZUO2JnctOseuRCuMyTGvNNvrthezpmweqjvQrFmKM/wHlW3EC/AXZk3nvRrHnMoQmXJcccOi6eJYGg6FkyXdVN3qzRey5I9Qdt/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFBUuBmU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719668027; c=relaxed/simple;
+	bh=oo4jUmPrf9jedsT2pOZ0aqtdEjW9FoLur2248hOMMRs=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=RyOhAZBGhpptKxGXE2aW0w8EmyG2xaUMW5DPnOMZTq+pxqW1E5TzuRy1kzH3p0PecL7GDyUv7c7UPraKD41XCtDTSvC4Z9q7FkYnVxzP8xpW67XFKSeOkzhTnsD/V04+WEU0opJukpsdlpu3Dd8FqkJKTLqUulr4d37m8Fd4vJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tshK4bQD; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFBUuBmU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8235FC116B1;
-	Fri, 28 Jun 2024 07:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719559222;
-	bh=vTNBz/wLOTojPrgqgi2T1cbenZdK42UQ0OjDz2FOcmk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YFBUuBmUEurG6s46nzLA0voroM5LRbqkfHs/kQnfUM3+IFG9zWq41h331dcxXVyVh
-	 7BQWu0n+3BIq2XWtqpog5zTfUIYEi+VGVtH7pXjweic+7AxurJQpgImxBc4HYKwGwP
-	 rRjOLmCgbQFIST+IvUEvyqqdKcZTyJSPi+PAgWGPCutUej5yoyBJWCiLMoxQATiw62
-	 fS1hXW42nG+nBzJ3kueCGQdzbDSDh+AkHUepchDnvrpzQ0omEc37kjrTckR7GyeMP4
-	 VzDa18ECx4ebsMOp01LFu8A8x/kISwCqjrsMKbERqLVxXgOJIN2DGvKoUPZTrCRyGI
-	 y5U9qdtYWNwgg==
-Message-ID: <2bc8c87c-0e2a-482c-82ff-aae86f3a2c06@kernel.org>
-Date: Fri, 28 Jun 2024 09:20:12 +0200
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tshK4bQD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1719668002; x=1720272802; i=markus.elfring@web.de;
+	bh=Jup8QKQKJK0UGda0jM7cmsa/0c9sCTQpq+i/WNXMOao=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tshK4bQD1QALZfsFVyW/4awZwh/ORsiSslDLjqc6RYbw8PdBec8b9zKQYUAMg6H/
+	 alcSyanPfxneJCxKthGaTpCIiF237llxdjBuuqr/f3PDsE7F5sByCHknKQqoJiE+f
+	 Mjbi1B8WGs7qLQH3vfei4xIsqjnWVNstOvJOOSsbZwsEiEIxjpdlaS4TtPyOU4kxM
+	 p8L060cRGSloRd7nUDnEPYJ1hye3lNoD2BCe5uc2mAgjLU7+1QjUCKIlW+4Cob6Wu
+	 ozn/zaYVyuXZySJf/V2RAkOZdoUMnis225uGrs5esMg2hwBwoI6hDR9P4V8kR/hCX
+	 5s3SkiivsT7s2sciXw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MVaYi-1sp9EM2hFc-00Llgd; Sat, 29
+ Jun 2024 15:33:22 +0200
+Message-ID: <a9623e7e-ce3a-434c-a904-39c6934c2ff5@web.de>
+Date: Sat, 29 Jun 2024 15:33:21 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,82 +41,82 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard matrix
- v3.0
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Reka Norman <rekanorman@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Gwendal Grignou <gwendal@chromium.org>, Pavan Holla <pholla@chromium.org>,
- Lukasz Majczak <lma@chromium.org>, Ching-Kang Yen <chingkang@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Prashant Malani <pmalani@chromium.org>,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <cover.1719531519.git.dnojiri@chromium.org>
- <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+To: chrome-platform@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ Benson Leung <bleung@chromium.org>, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?=
+ <groeck@chromium.org>, Prashant Malani <pmalani@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] platform/chrome: cros_ec_typec: Use common error handling
+ code in cros_typec_init_ports()
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8GEojlSlW/ZWYYZVwoHEsxx02W5R81RIHVkpu3Caty7Yd5qzQyE
+ fsWuQFmUgY4yHRsLI7PvnUcm+PK4rRHnQTaQ/dDHe2ukv1JOOLBcoGcdEv3Vjg8ySwPzjCt
+ t7pEt5TEb8/GtJxdjbjGPtzN0xiIcwPnMEOpkfrcw+HfTe/MV8yYZyVhrvHIYyExe0DcmQ2
+ Ue13yqLbhF7XU1fsl3ldw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:lzHNyPcj72Y=;EwPosG9IEVCYx49EBR8RezqvZCh
+ KVGX77aZ3zF+tFbbgt8NAFYW0oTQUbwAyiJmgRgRG2s2y1w4PMmHF0JbsJBwGuf365huJVNPB
+ 7Wod+0wlwKT2CUnm+zBEEfK4ue9L3UEYk0TaUxMGmN6xzv2KaUxTJIaR29BPv/9dK3yCG6JLD
+ rRSbT9mPBuaAh+C7pIKOWNcQMHNo25d1HJ76+6qAj3VfqovZdjteZg2yUuzcuUStAdejwp5ue
+ YeTGhS68KKd7Di2KtK2KFMEeqd4IwOoWYAckUwza+GnKFjw3ox7ZRXkpTWBt0X3g+rVKHqnZG
+ +PzReSZKxTl1hKCjdwm+bIrtEd1wR7FH7voq7+0936H4pfaUO3KghtkeEr1DxUKJTp2iq5I5H
+ dZLhxZ3jyFdZ2QNd+ksyM9WCz1frqkDtl3kfJiXqvWwW818BnsW5JlvUiYqLCwOdiN8xNt3xS
+ 3oUXLLrGT3jEZlX/bjfmRB9LX3BCV9cNXpN7YHanKnPQHwQx2DemvNHOtxcUfbI4kWT52IlbS
+ DUh8+owUdiiquZ7No6NH4JC57q4DRq7b7q9n5/KW4JNFK4GzLOeVQHd/uKii39knh446619Z3
+ ltKZf1GLf45jujWFzvTZnqeJT2y54Gsr6+MFI2jh7ptOUP/yxlkQQGJatz2vd/OjzUsOh3U1i
+ mNUnin7dyAFzOhBfs37hxdnIvN7eoy8w84wyIUZVPIfyGSNDpSiepjDmENeXLdoMcVMMo6DSK
+ MBIBEdenZOwXwIqAoQaHKb86+fviWQjoBD3VXfYR3IjqtnuZ8W/Bn5Hgd1bQYoW7Whow+kTsO
+ uouWaOEbCtL6/89mRO8akYtEADY9v3UTC7ogaugtHcUsI=
 
-On 28/06/2024 01:53, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
-> 
-> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
-> ---
->  include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
->  1 file changed, 104 insertions(+)
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Sat, 29 Jun 2024 15:17:44 +0200
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Add a jump target so that a bit of exception handling can be better reused
+at the end of this function implementation.
 
-Best regards,
-Krzysztof
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/platform/chrome/cros_ec_typec.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/ch=
+rome/cros_ec_typec.c
+index 4d305876ec08..aff744a0b38f 100644
+=2D-- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -348,15 +348,13 @@ static int cros_typec_init_ports(struct cros_typec_d=
+ata *typec)
+ 	port_prop =3D dev->of_node ? "reg" : "port-number";
+ 	device_for_each_child_node(dev, fwnode) {
+ 		if (fwnode_property_read_u32(fwnode, port_prop, &port_num)) {
+-			ret =3D -EINVAL;
+ 			dev_err(dev, "No port-number for port, aborting.\n");
+-			goto unregister_ports;
++			goto e_inval;
+ 		}
+
+ 		if (port_num >=3D typec->num_ports) {
+ 			dev_err(dev, "Invalid port number.\n");
+-			ret =3D -EINVAL;
+-			goto unregister_ports;
++			goto e_inval;
+ 		}
+
+ 		dev_dbg(dev, "Registering port %d\n", port_num);
+@@ -408,6 +406,8 @@ static int cros_typec_init_ports(struct cros_typec_dat=
+a *typec)
+
+ 	return 0;
+
++e_inval:
++	ret =3D -EINVAL;
+ unregister_ports:
+ 	cros_unregister_ports(typec);
+ 	return ret;
+=2D-
+2.45.2
 

@@ -1,69 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D874A383A3;
-	Sun, 30 Jun 2024 12:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF98943AB4;
+	Sun, 30 Jun 2024 20:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719749885; cv=none; b=c+LtohEWXq7BOfDqtjCTaVGVLKR2crZ0DWVHJlAkboGqxWc7+iqaS4VikHm7fX49s0ksPI1vknVz9VzvNm9wRzJbllorYls92SRT+2DVcWsWxd3C9l+pVZnLMe32XQBcygHSfOwxaZYKM3WfXj0QX1LYz5VhDNXELHn0QJyOx+0=
+	t=1719781026; cv=none; b=sTrXanpcFD++6Rz5vap23QHs5qrN2u5O8FOWd91XPndsEPvAour29IsBOzF6uTSGPyKUYBRUvLVFVwCVoO/V7MoQySgl9tlQpPIeD9FidaZ5pCLDERj843khjPwYo464dXp1NZk771mc/0D8BLY9/q+wwTIP3AVanLdNUv8yVK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719749885; c=relaxed/simple;
-	bh=eKwBrzI+lzlfuBG5EPxKBhnoZMId/ejrKy4DBkhiAJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fgm5eQi5UXS6XRdxHVyysR3j1mLnxesCxTwn852kauV4Y5ttIyXG3qVuPAd6EfHsNhhCxuGi7dfAScBLX57v5/GRNWq3vcuj48S6DO4Ynirpj7yZuXmPrGAGQ/+2JXOOyIT/eWwJaTOPUJmpvThrpmf90NmkXVSHbic2JV+IBbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBUrp8YA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719781026; c=relaxed/simple;
+	bh=HfNMeLsLGK3GWeWdm8PDMkaGehstSeUbS2E/1F3j/j8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GUCKPLYDYubwz2+fL4uqoI+G1k1jnf0wEKqP7mTDHUdih6UAj0ujipyLOhZ7MMMBcMDBW7aRi8pxa2JcrP/sCCG+21BE2cxIsl2m8OkjBoDU4BpcNbuu0WdFE8PliF6I+BVBQNy2A6vv8C6dSUGD1matA7NcdTHqssXYTgXhtjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=egr/LSvP; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBUrp8YA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF39C2BD10;
-	Sun, 30 Jun 2024 12:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719749884;
-	bh=eKwBrzI+lzlfuBG5EPxKBhnoZMId/ejrKy4DBkhiAJc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBUrp8YAABDF4opVRq+DrH8ycNRd8GfrwCW6jJFNwZuNNS+2idGndOFSPmuhIqp0l
-	 F3O2cTPeu7xoIp8kPje5tzg8QQ+q5Suk0x+GjG4HgCxx5rgBDWlwLvLSApX6/pKYCg
-	 mGppQnfz1/FZ95nvbClpH4z30jvcMbvXJfgy2kkU59wezCQRhMo9QU4PrA2dT3kwjG
-	 9RIzsdAQ4CzWmeKRApMa30vn6KLMzAtrTX274RhstAt16g2wfOXSkG1nxsK6L4GVwE
-	 HTFfxSiWFgW/dPnCm6k9id0seOQB/T80eo29S0rBt4fck7lCNPSkzLXvT+hvkBTBcv
-	 Rd/PD6ZF6gU7A==
-Date: Sun, 30 Jun 2024 20:17:57 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>,
-	Ching-Kang Yen <chingkang@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard
- matrix v3.0
-Message-ID: <ZoFM9QJVp3cpf012@tzungbi-laptop>
-References: <cover.1719531519.git.dnojiri@chromium.org>
- <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="egr/LSvP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1719781013;
+	bh=HfNMeLsLGK3GWeWdm8PDMkaGehstSeUbS2E/1F3j/j8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=egr/LSvPDvA3j/9HdQ6I3CE5Q+GS1MMGkd4YcDK+BsqN7xlMhPTJatqAL9wzu4mbD
+	 DFX2Amzxstl/cLJq0+3b7ho3jDV1gKfUin7krOfBccGpSSycmIXHdXZ8P7FbZwvi7O
+	 lwULwGlHLAqi2VPQ3ev6mwYnVfaM2dRbhglrln+s=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 30 Jun 2024 22:54:10 +0200
+Subject: [PATCH v5 3/5] platform/chrome: cros_ec_proto: Introduce
+ cros_ec_get_cmd_versions()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240630-cros_ec-charge-control-v5-3-8f649d018c52@weissschuh.net>
+References: <20240630-cros_ec-charge-control-v5-0-8f649d018c52@weissschuh.net>
+In-Reply-To: <20240630-cros_ec-charge-control-v5-0-8f649d018c52@weissschuh.net>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Sebastian Reichel <sre@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Robert Moore <robert.moore@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+ Dustin Howett <dustin@howett.net>, 
+ Stephen Horvath <s.horvath@outlook.com.au>, 
+ Rajas Paranjpe <paranjperajas@gmail.com>, linux-acpi@vger.kernel.org, 
+ acpica-devel@lists.linux.dev, Matt Hartley <matt.hartley@gmail.com>, 
+ Kieran Levin <ktl@framework.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719781012; l=2821;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=HfNMeLsLGK3GWeWdm8PDMkaGehstSeUbS2E/1F3j/j8=;
+ b=8384owFHstCikEunmP6XRgZQqzrhTs9O28evm8/2oNYKdsPzZ3MAYfO27KtPXanc3hbDGG1MR
+ pKoHUW7jUyKAewTjrhCcFnGQbrbPZ8fQ8vyzkuW0WFsUwQVk+ZEKoWG
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Thu, Jun 27, 2024 at 04:53:08PM -0700, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
+Retrieving the supported versions of a command is a fairly common
+operation. Provide a helper for it.
 
-Dmitry,
+If the command is not supported at all the EC returns
+-EINVAL/EC_RES_INVALID_PARAMS.
 
-I saw your R-b tag of the patch.  Would you like to apply the patch
-through chrome-platform tree?
+This error is translated into an empty version mask as that is easier to
+handle for callers and they don't need to know about the error details.
+
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/platform/chrome/cros_ec_proto.c     | 35 +++++++++++++++++++++++++++++
+ include/linux/platform_data/cros_ec_proto.h |  2 ++
+ 2 files changed, 37 insertions(+)
+
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index fe68be66ee98..f776fd42244f 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/device.h>
++#include <linux/limits.h>
+ #include <linux/module.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+@@ -1069,3 +1070,37 @@ int cros_ec_cmd_readmem(struct cros_ec_device *ec_dev, u8 offset, u8 size, void
+ 			   &params, sizeof(params), dest, size);
+ }
+ EXPORT_SYMBOL_GPL(cros_ec_cmd_readmem);
++
++/**
++ * cros_ec_get_cmd_versions - Get supported version mask.
++ *
++ * @ec_dev: EC device
++ * @cmd: Command to test
++ *
++ * Return: version mask on success, negative error number on failure.
++ */
++int cros_ec_get_cmd_versions(struct cros_ec_device *ec_dev, u16 cmd)
++{
++	struct ec_params_get_cmd_versions req_v0;
++	struct ec_params_get_cmd_versions_v1 req_v1;
++	struct ec_response_get_cmd_versions resp;
++	int ret;
++
++	if (cmd <= U8_MAX) {
++		req_v0.cmd = cmd;
++		ret = cros_ec_cmd(ec_dev, 0, EC_CMD_GET_CMD_VERSIONS,
++				  &req_v0, sizeof(req_v0), &resp, sizeof(resp));
++	} else {
++		req_v1.cmd = cmd;
++		ret = cros_ec_cmd(ec_dev, 1, EC_CMD_GET_CMD_VERSIONS,
++				  &req_v1, sizeof(req_v1), &resp, sizeof(resp));
++	}
++
++	if (ret == -EINVAL)
++		return 0; /* Command not implemented */
++	else if (ret < 0)
++		return ret;
++	else
++		return resp.version_mask;
++}
++EXPORT_SYMBOL_GPL(cros_ec_get_cmd_versions);
+diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+index 6e9225bdf903..b34ed0cc1f8d 100644
+--- a/include/linux/platform_data/cros_ec_proto.h
++++ b/include/linux/platform_data/cros_ec_proto.h
+@@ -263,6 +263,8 @@ int cros_ec_cmd(struct cros_ec_device *ec_dev, unsigned int version, int command
+ 
+ int cros_ec_cmd_readmem(struct cros_ec_device *ec_dev, u8 offset, u8 size, void *dest);
+ 
++int cros_ec_get_cmd_versions(struct cros_ec_device *ec_dev, u16 cmd);
++
+ /**
+  * cros_ec_get_time_ns() - Return time in ns.
+  *
+
+-- 
+2.45.2
+

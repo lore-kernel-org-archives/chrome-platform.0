@@ -1,72 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E520312;
-	Mon,  1 Jul 2024 03:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA2217C61
+	for <chrome-platform@lists.linux.dev>; Mon,  1 Jul 2024 05:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719805794; cv=none; b=Wk5EYHI8tu82uU72MrBfLtERgxZ1F+UWjzEbL2wpkqBGRk3XGy+NYgm0Bw9590l002P2pIlZSPT/QECatkJqe/k4hMUqHQshXntM1n92MR5L1I/Teaz98k/ioTJ+wGWzhH1k97l9domBuMI41Oh9qKsr7BT1i41qMBzcAToGdss=
+	t=1719810437; cv=none; b=tLwiVeGBzeOM2NLlolQ5RwLAEbfNRlG721vnRurjmyfPTEwPTsEWsEnANLRvVTpSWfSfkdr5F8rGVxfbWos5n6avAyuI7L+hklBFEoEPdKfLkH5GdarmuWCPZMWELAvHf5MEPY2w9+AShDDkKFFwBtb8nBiN4oBH6YF6Fytwf2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719805794; c=relaxed/simple;
-	bh=hQkaS728q63iPXfVIWLS/QmQ1U9qUrYr8fbEHvTVAJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=miBcuF1zxrHCY9yKQSTa4MjieT1I77dzDR5UhhIb2lPDH4dU106Q+uPHtni4AAz379YRGTpKBf/yP3sucGeBjBqAcvXUEWQrXTt9rh5p2OPQ3eG/yVLYEtyCGDJcHMepCBV7sqN/j13Y/ujarIIuy7/752BfQxpa8M56Wpb740E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YbB9tdLX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719810437; c=relaxed/simple;
+	bh=+OCaqTgu0AhQ4g3jhljeBX5jkx8EAOpCSzpM8mcac6Y=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=VwCQJ3gLgdZ0ZOGjX2gYbiORb/QFpl5syPWPjYI6z0Z/qYWINqKq2UKDzoZu4EBVO5qmUDQoc4cmXcIW1hCfba7S4VCUcc2f7RoZLsh7fKm3H4tMNTMeQuA88IHMRuReos0VT0UIWLW6KKyg7RFPNCWCbOjpKVnLtoSBuBejzwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=LLmek1mk; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YbB9tdLX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC43C116B1;
-	Mon,  1 Jul 2024 03:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719805793;
-	bh=hQkaS728q63iPXfVIWLS/QmQ1U9qUrYr8fbEHvTVAJM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YbB9tdLX35gVvVqld/CDWme4U2GP0wb7+too+cvtIUHPH+nWzT1cE0DYc9fDM5fHp
-	 XXzLciai+gG0LycnbhESpiMVLne6rowoqCT40SzuERJuGsNuza9bjUHv1BUEXOVkpP
-	 zq6pWeFnm9UbeUzbSvT+D+0KrOG1aNw0+V/v+GMM5MTODNCJ5NPWsFgpxSlQ9CshQ4
-	 6dOfwm0Mf9Squj7F9g0l1Q2KWXQxaLS0ILZQrQ0PODBUCasADV2xBebppA1CImcQSn
-	 vn01tlF0RQHyUbXw/1fp+BQOev+G9UedVX+NH+O3WqPIJvxPp5oxWZ27MZfaDzM+OQ
-	 R6ElrdgBiiVhg==
-Date: Mon, 1 Jul 2024 11:49:41 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>,
-	Ching-Kang Yen <chingkang@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard
- matrix v3.0
-Message-ID: <ZoInVQL__5f4O0I5@tzungbi-laptop>
-References: <cover.1719531519.git.dnojiri@chromium.org>
- <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="LLmek1mk"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-652fd0bb5e6so1690437a12.0
+        for <chrome-platform@lists.linux.dev>; Sun, 30 Jun 2024 22:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1719810434; x=1720415234; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=+OCaqTgu0AhQ4g3jhljeBX5jkx8EAOpCSzpM8mcac6Y=;
+        b=LLmek1mkSVw+mYipR1Rg0NEmQAZnSIidKO+G4WrqokKOJnO7dcGU7KWA3lyHsTnCmn
+         zFEEe0Td60Nz10z7lE/bewXP9Q296mPePI62PW2gRIeL/hkk0MIJH3xQDWWcl2bwlhvU
+         g2HAGregRNtwZhyB5NXWupCm4HuubqHohlS6KR8VmWK6MZtGR1fihJu27BO+h8W7bvtQ
+         3qG5jzEDqQQ+kcpVWPP8jPONJuOhYmpiJJPzziHEF/Wq1KDOtDxU0eR0XJp9BIhsFYRV
+         oMte/iEIanQ3kFmgJo2Rn9e0Gq8B/xxWVlqhIwUr/RYg7NBbHJXMZv8O53GDk2WuWIK0
+         Z1nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719810434; x=1720415234;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+OCaqTgu0AhQ4g3jhljeBX5jkx8EAOpCSzpM8mcac6Y=;
+        b=geOGjmZb+ryE4iAqaug3Zo2NP7yvuGo1IV+GK9D5gfuSbfx6Gx6WKwBcU1F4bcgetG
+         PoGlnR6r2AO1YlC6rsidROcnpKDlJQ91SmRbvoNDUH3zQpC1sNYGaRiit1Shl2IugKE3
+         lYrfVYAbZWffL3pSb8qO9YMm1Qc85cZprYbGEcj9DDk1P1Ghyz4BGtMQc14E85ClBgK1
+         aKee+ch6/DJKHpErqKkj+jI9yG+wL4PADHDYvqqk+t9iXsaxFI8ZEvfN2Smml2JkcOBQ
+         ijrSD5BqwCzVHraV0eyD+Kcyfi7BuEVMBbn3K9UDfZcg/7TgAvLRMCKMUlo8ff+PXEeV
+         qscg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEdw6zr6j1x1128dWN5gwOXZd+Zp4yQyTKATS1GV/2mawnq37l+ozL90Mp9JSe5jPaO44NjLWrEjbbPzW5FtIOxH2hf4m7qRS0GRgbvyvn
+X-Gm-Message-State: AOJu0YxEyKdVpIBI19k6t5BQSap4LmJa7/jsOqBrViNnO0dxq+d7pJ2t
+	w8puCrAhmyKYvnxKLLsiR4f9Yhbo1FarnISsT8zqFE1h4tbffnaw2MA2KaJTe40=
+X-Google-Smtp-Source: AGHT+IGeZsqXnkp93lQb9idazW0aVlqm3vKuCK1C8mNpkoXZHHuaIDLSXUvrE2KVJc3rOhmi20BLoQ==
+X-Received: by 2002:a05:6a20:da9c:b0:1be:e39d:6ca1 with SMTP id adf61e73a8af0-1bef610e62emr7872014637.14.1719810433770;
+        Sun, 30 Jun 2024 22:07:13 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac1535d4dsm54808825ad.177.2024.06.30.22.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jun 2024 22:07:13 -0700 (PDT)
+Message-ID: <66823981.170a0220.b646e.fc2e@mx.google.com>
+Date: Sun, 30 Jun 2024 22:07:13 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v6.10-rc1-21-g5b8feca8dee44
+X-Kernelci-Report-Type: build
+X-Kernelci-Branch: for-kernelci
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-kernelci build: 5 builds: 0 failed,
+ 5 passed (v6.10-rc1-21-g5b8feca8dee44)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Thu, Jun 27, 2024 at 04:53:08PM -0700, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
-> 
-> [...]
+chrome-platform/for-kernelci build: 5 builds: 0 failed, 5 passed (v6.10-rc1=
+-21-g5b8feca8dee44)
 
-Applied to
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-k=
+ernelci/kernel/v6.10-rc1-21-g5b8feca8dee44/
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+Tree: chrome-platform
+Branch: for-kernelci
+Git Describe: v6.10-rc1-21-g5b8feca8dee44
+Git Commit: 5b8feca8dee443055049c8ccfdd97f64a0e1d2b4
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-Thanks!
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-10) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

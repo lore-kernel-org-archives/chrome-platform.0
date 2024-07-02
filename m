@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3C21BD008;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDBD1BD00F;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719936159; cv=none; b=SR2BRenbNLhhQVuwqgXuc2/S1kYFI3wReBmMBrwAhWyxcNlZNYnycv0qzpnT7G8dk5tvAg0247CO4sasJjEKrR95bwHpHFGNiCGes2XwIVnhdLL9hRuKGesmKccBhdHBgfWExHmNw4+iLq1FZf8xtrFUBtqDeRxYZC2tcKzVK1w=
+	t=1719936159; cv=none; b=hXB4pBouOVtoyUnnv69CErXkHASoJuvC9yvqS9pLY/PoxPDX321fOD9jMfP3E69vQ7fsLN78BeVywIl+1gGFAVx/7l44JltL4B6juga59NZbJyIgqwf7JdHema52CjCsHcAHk9IonQNYHJrEjAiCcs/I6NhRgYZ9uF8f3ec6Ak0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719936159; c=relaxed/simple;
-	bh=HiXT5JNAR/1VnVUe+f4ZpB2y/EtlWF8H9g7WziIDIOk=;
+	bh=RaueGeC+jGBMTdCacPR+kb1XmqOFJE7ZrTneACLbmpE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tPB5usl2DwmDqh/mCTM7euPwl4Q+ReIlDJGQA4nIzzm3cj3XTwXkq8s4APIoNXPjlP1tB0a5ntRwpOq0XyaCSH+MaZxzb6OuiZCVwGsRgKgIKPwGL94SmkwrEmJ2/vH5hGsAUJCckoeIU6zfhsU93FQFeB/i3S0y7KjEJDIT9lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9zkoQwc; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=lExbuTXCLB7Nv0ZWM1Y/3MLDPOzKgU2k/MgcSQ03VGg/IxYM5bt4Szp+465VvdwYMU2XeCJ8ZeSEx4Tn+Clt3Wm0frtZpOpGlDGVQsNze/EXwDPhj/valVWjYxnXSaUsIcXbG3/VUC99HMpTbHr0b847wnh/KFvlDlxFUpN1IRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HifFKV1f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9zkoQwc"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 62CE6C4AF15;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HifFKV1f"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 370B5C4AF10;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1719936159;
-	bh=HiXT5JNAR/1VnVUe+f4ZpB2y/EtlWF8H9g7WziIDIOk=;
+	bh=RaueGeC+jGBMTdCacPR+kb1XmqOFJE7ZrTneACLbmpE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=g9zkoQwcrhJCIJbGkZ2UnJ2K6vM5cQ5NT1hwVFH1T4YYHPFWPhGrxMtZgOvxipKzv
-	 B4ufyTGUezxkTuIpeBcVrkUZGo9FF1gtu9MZLH0V+wLhze+SI8uP8HyBkfEPanA5wb
-	 qayOlb/pZ+qRxMK/WGRwSqgCgY7QRfpKF5seY+ozhwqndUjCQuVO/ewSbceCQLMS/O
-	 bvAYkEuoXob1XiWpzWLKzXBBVidgSR7eOJVq9xqVx33/WuCkOsj2eDJ9raqT4iOOCb
-	 l/O2CVbYXpwqgKlnA0XHL3+PafonA+nvnnHn8FQlJQ47/QJdzPQFfv/fDwTbUOj2BS
-	 8WqN/hV0oyszg==
+	b=HifFKV1f7zIRt7LFHBSCXcJcLG+fe6E6yersqY97MhQZ6J+yYfDjvnkDyhIoSnsvX
+	 huT0ZuavwxfIjRt/sN0PZnTsV0L9Ln80VyMiz3Amw4lq6VUufCYFVqy+Mxcah9OLYd
+	 IhNpEF86n6MQhcnzPPeLgk3fPYKsfdSA+9HxrLgTtPgNfX9JgIHD/BAR1IMUGbz7kJ
+	 SHmEqbxZ6pDVp1R+kAJeC8FY8HOHr0qo4rVAe5TOdf9zshDh34k6aHIvrnQPzcUlij
+	 500wsqGBIcxhS/4IdvlwIl08Jb6WGclESK6hdbtSMIhyx4hBsR+E6/1C4AEIL8Qp4/
+	 YkBkTHm/Wc2rg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B51DC3064D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6EDC3064D;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Date: Tue, 02 Jul 2024 18:02:39 +0200
-Subject: [PATCH 07/20] iio: accel: bmc150-accel-core: make use of
- iio_for_each_active_channel()
+Date: Tue, 02 Jul 2024 18:02:36 +0200
+Subject: [PATCH 04/20] iio: accel: adxl367: make use of
+ iio_get_masklength()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-dev-iio-masklength-private-v1-7-98193bf536a6@analog.com>
+Message-Id: <20240702-dev-iio-masklength-private-v1-4-98193bf536a6@analog.com>
 References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com>
 In-Reply-To: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com>
 To: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, 
@@ -56,11 +56,11 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>, 
  Claudiu Beznea <claudiu.beznea@tuxon.dev>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719936156; l=922;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719936156; l=721;
  i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=JeCIOP4qgOR1Vu/Iu0Qe9nBtR5DIWcMVPhJ4pTpIOtQ=;
- b=/2w5q3UWgYNzczpKhdhjLtwr+/NVWDbhJ9/6z6VmYIYt6PsaG52LAInaeclbeVx47gtB/KIA7
- Fg5QC9lLSHnDagmgywq6G+tpSSB5XobU6izlnRNijyC3zDtfltQ7gVV
+ bh=f4PVshteDVZAwqATinUZmA3UwIta66xyxWFMtEAfYQg=;
+ b=1jd1tko8JTt6ombBnrwWcAZplN7C74Nu1r8Ua45+V5Zh5KiUAiJVG3T2zgTbf3ehU5XCQW62l
+ Tn8hVu93D49Apu1X0TW0t5tEspUjaokc84rDXaGMUk7V4hl1ov/rbc4
 X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
  pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
 X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
@@ -70,29 +70,27 @@ Reply-To: nuno.sa@analog.com
 
 From: Nuno Sa <nuno.sa@analog.com>
 
-Use iio_for_each_active_channel() to iterate over active channels
-accessing '.masklength' so it can be annotated as __private when there are
-no more direct users of it.
+Use iio_get_masklength() to access '.masklength' so it can be annotated
+as __private when there are no more direct users of it.
 
 Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 ---
- drivers/iio/accel/bmc150-accel-core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/iio/accel/adxl367.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/accel/bmc150-accel-core.c b/drivers/iio/accel/bmc150-accel-core.c
-index ae0cd48a3e293..03121d020470e 100644
---- a/drivers/iio/accel/bmc150-accel-core.c
-+++ b/drivers/iio/accel/bmc150-accel-core.c
-@@ -1007,8 +1007,7 @@ static int __bmc150_accel_fifo_flush(struct iio_dev *indio_dev,
- 		int j, bit;
+diff --git a/drivers/iio/accel/adxl367.c b/drivers/iio/accel/adxl367.c
+index 5cf4828a5eb5..1c046e96aef9 100644
+--- a/drivers/iio/accel/adxl367.c
++++ b/drivers/iio/accel/adxl367.c
+@@ -1220,7 +1220,7 @@ static int adxl367_update_scan_mode(struct iio_dev *indio_dev,
+ 		return ret;
  
- 		j = 0;
--		for_each_set_bit(bit, indio_dev->active_scan_mask,
--				 indio_dev->masklength)
-+		iio_for_each_active_channel(indio_dev, bit)
- 			memcpy(&data->scan.channels[j++], &buffer[i * 3 + bit],
- 			       sizeof(data->scan.channels[0]));
+ 	st->fifo_set_size = bitmap_weight(active_scan_mask,
+-					  indio_dev->masklength);
++					  iio_get_masklength(indio_dev));
  
+ 	return 0;
+ }
 
 -- 
 2.45.2

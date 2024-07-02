@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E171BD01A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6791BD024;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719936159; cv=none; b=fz+9/GlGAgTyazPxRhGtWS+vwanb8br+E0b1t/fZ06Fl3KgnyKsjxzyKfmfvULEG2uufNCSw3h1UAiEkT66MpbdgZYp7IRyaG2DQ0vgk/1sqv8OLC+hNmHBm4jQ535b8BvjH6p6+YNSDsHBXQ3ySBvPomL5+YgJ4vR5m/7VjOlQ=
+	t=1719936159; cv=none; b=EtdmPRjXYfnQOC2pa8DbmQEoUgOTSxWrCwmomgSVDRuscLrNwGuuEuWe5ySMrcM4alm5vAIdt049YccXe+OlqhUFEesY7JKPymMOecA7BEujOyMPXzWA4jRGxp6xcbZD7/sB6E17OVFujutXbL5wpe42HoDtkqHostENMhJrgiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719936159; c=relaxed/simple;
-	bh=sC6ETYZGhKeNPuj0zZiWjODno6oDUaoxrOkaAN4705Y=;
+	bh=ZCwedfbQM7Bvz4eB/mWdYfk3xL/2GllIWFfaCMXiRTc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iMjXpV6tbaFj0cgqiUOgZKrtjs02afYLwdrsJcmMLqs2UIpGuD86d7TjyNmGHCEod6oD2sOouxs/VgGEkE+xLd7wAx5m2KOhSoNuXSAqSRNks+BVCwoSJbYTlQzrr/Gw0keEBdU3IWKiJxE7cNGJxmxHGZUWrTlOAFjkKsmwpf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRqPCCHR; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=qfU8PxXvozKyLDDbN3uv7D2bP+YtKX8yjyPSw7XjdETYFML6hEQ24IWdFeU4qgxOqGnHgpAqtTNOJR1DWHG0BOvX9f5Vcw4J0J18LIZJXcrK+4rMNX1rh4YRBWuwb48fKNs4EZdnhHS1RJU01q7k5fcvb9YgIN9OnGs2e3EREAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTa+Vub0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRqPCCHR"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 92100C4AF1B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTa+Vub0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70445C4AF17;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1719936159;
-	bh=sC6ETYZGhKeNPuj0zZiWjODno6oDUaoxrOkaAN4705Y=;
+	bh=ZCwedfbQM7Bvz4eB/mWdYfk3xL/2GllIWFfaCMXiRTc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dRqPCCHRXxodNkirSyOOro7wnrfW9Cd2oxcptRRDGYzWwHZrj/GxHKtC1QYotZ13x
-	 kfCP16V1+eTE2GgppDVcvy9l4uq4O1uqsrCit3R4okjYrXLjhdbGtwSnUZF7ceU+5E
-	 wKzw5dTF80AB5JNR1FC8cYcJqyT3kcMatIIhqsWedNyKtvUEq+kDvxBJLj4A+4C3SP
-	 TVK0DH80SsHh3CznrpbHDSBCs+CtOomIx/pgrZLHDWuTLGzb9XBbWWrYX8/DlDr1qb
-	 L/hQb49CUsyDX1OkheSkpTy9LCK0xD2t/MbPfnrnm09pPApC7XHaaAnbpcelFkauhN
-	 zOgsjgGJsHhcw==
+	b=GTa+Vub03zR2Z0JlaAuGVCX8zdkoTQI1fTWcZdCMahH6ij6zkAILRy+47B8/Gb0Ei
+	 +b/W+lNoDN3QapbENksnfctH0DMKvBteZhop3lqhhVsI5aEvPSN8KW4KLPxPXoP5Ne
+	 /n4N/0Nrf5BiFx0/uet82tEJuef2tAfKSJevMbz2CtLzxXJYAgr7sfQYxdOTb95MgJ
+	 lgGX6a3+66yQXpDP8Su8JmajILcpIvgjGpfemIq4gZxiEY0Qhmiah1yz6/ZR3bxE7Q
+	 gP72YhD18aXHpI6BKFg1WdziZDsEG8kQuulAg2p59k0HU0ot/M0t6r5g1lPwuu+TEP
+	 v8+zYd9wJflMg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E21C30658;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A412C30658;
 	Tue,  2 Jul 2024 16:02:39 +0000 (UTC)
 From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Date: Tue, 02 Jul 2024 18:02:42 +0200
-Subject: [PATCH 10/20] iio: accel: msa311: make use of
- iio_for_each_active_channel()
+Date: Tue, 02 Jul 2024 18:02:40 +0200
+Subject: [PATCH 08/20] iio: accel: cros_ec_accel_legacy: make use of
+ iio_get_masklength()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-dev-iio-masklength-private-v1-10-98193bf536a6@analog.com>
+Message-Id: <20240702-dev-iio-masklength-private-v1-8-98193bf536a6@analog.com>
 References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com>
 In-Reply-To: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com>
 To: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, 
@@ -56,11 +56,11 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>, 
  Claudiu Beznea <claudiu.beznea@tuxon.dev>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719936156; l=842;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719936156; l=856;
  i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=mlp145cykZFgcq0ksMJ0dMmg1Uqt+N31aaJsB4Dxu1A=;
- b=RKVvBr9oHa9ZYzfP7hszfF91tCbZHswMxdKBVlu19N9CRk3yM7Us+aLt5RvpjWY5oylhPI2U5
- Q4H4Fy7vETTAd564DZvXYO/AfA1Si4c12ORmJ+On4w5TqjqX1htJQgN
+ bh=Yooi1Y6tJJguy67GjA7GqDAjdHAGHhdREsMY2f86Dxo=;
+ b=RBZcE+cYo3blVA2VGyLaJwUXflDQ6pPjo9mW6HflNYlGIxZLsMd2KyTAefDtDCYuqFOtd5yT7
+ dRU0tYawuD3DUTmtGjIR9BLFCxRsRdf/aghHELirnJcWyKom2CvKcEO
 X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
  pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
 X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
@@ -70,29 +70,27 @@ Reply-To: nuno.sa@analog.com
 
 From: Nuno Sa <nuno.sa@analog.com>
 
-Use iio_for_each_active_channel() to iterate over active channels
-accessing '.masklength' so it can be annotated as __private when there are
-no more direct users of it.
+Ue iio_get_masklength() to access '.masklength' so it can be annotated
+as __private when there are no more direct users of it.
 
 Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 ---
- drivers/iio/accel/msa311.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/iio/accel/cros_ec_accel_legacy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/accel/msa311.c b/drivers/iio/accel/msa311.c
-index b8ddbfd98f112..8861010256f2e 100644
---- a/drivers/iio/accel/msa311.c
-+++ b/drivers/iio/accel/msa311.c
-@@ -900,8 +900,7 @@ static irqreturn_t msa311_buffer_thread(int irq, void *p)
+diff --git a/drivers/iio/accel/cros_ec_accel_legacy.c b/drivers/iio/accel/cros_ec_accel_legacy.c
+index 0f403342b1fc..f7e4dc02b34d 100644
+--- a/drivers/iio/accel/cros_ec_accel_legacy.c
++++ b/drivers/iio/accel/cros_ec_accel_legacy.c
+@@ -62,7 +62,7 @@ static int cros_ec_accel_legacy_read_cmd(struct iio_dev *indio_dev,
+ 		return ret;
+ 	}
  
- 	mutex_lock(&msa311->lock);
- 
--	for_each_set_bit(bit, indio_dev->active_scan_mask,
--			 indio_dev->masklength) {
-+	iio_for_each_active_channel(indio_dev, bit) {
- 		chan = &msa311_channels[bit];
- 
- 		err = msa311_get_axis(msa311, chan, &axis);
+-	for_each_set_bit(i, &scan_mask, indio_dev->masklength) {
++	for_each_set_bit(i, &scan_mask, iio_get_masklength(indio_dev)) {
+ 		*data = st->resp->dump.sensor[sensor_num].data[i] *
+ 			st->sign[i];
+ 		data++;
 
 -- 
 2.45.2

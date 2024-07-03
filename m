@@ -1,67 +1,67 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1830838DE0
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jul 2024 06:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7C9130A4D
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jul 2024 06:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719988663; cv=none; b=sj2PvnwswwySlgrUZ/Cs9fu51zKSj4EsFb6SN3iVeVbq7Y7C9hrUFyC7rZaigZBt5XeGxkeeD+oJWXAXUbR5jc97FkYGFHAaTagShkMUQejuxTrksEcuWDwSSKHzuz8pgdqdCqLWqu2KgYST8IGvXgOubm5lJ1J9FQmW6vaCAOE=
+	t=1719988862; cv=none; b=FnoaZI/g+VFidsv1ZpM2g/GwNhD/8VqIgAwQMlRu8RRLMWp5R9OI+q6QB6p9q7s7B1naBAed7Fw5ZDMvBSn8syqCRKbv2apmuLrbi56AsoMwcMP+670EAf3wpdVjEBVWHhtevdNkJxn5G9KN3DEPb0KUx0lTuTpcp4dvWFC6gaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719988663; c=relaxed/simple;
-	bh=BfK2sctA4fXWt5YF8HGcx+xtorjZmDBoYhjYgwAwrro=;
+	s=arc-20240116; t=1719988862; c=relaxed/simple;
+	bh=b3Gra3xPgSzh01tKGQkwhscHUYlX2gaWUGiLZ4F8iFU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k3ULWb8UN3NUvMPUpTHqw2BRYVi79Azxpv/YtAyvoDUedLmCHEV0VgLkLg1tB45rblu2rDLLv1JreVzEFjbDfKEikTseQElrVtNxZWYdhwlZLFFiR3Zh9mv5qGr6GhFA+s6gDiosEBaaSld+AmMr26orLhCiWyiCtJG8tm2tTAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=20bWB1qE; arc=none smtp.client-ip=209.85.221.171
+	 To:Cc:Content-Type; b=HETgpUnezj2fd+AqvaGo2Ng/SPnLxHeMF9OG7M/2nZavV+csWgQLhecuFY4fMaz+wbJSmrfWriHLbw8Y2kb+N+Pf+kpgfgZShh7upOQiwldKZk2J69TfDB/rs+BCVJzBLpao6XweK8I3G2VO6sbf0wrW80QgUJKGmChe3g36co0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1On9Sifs; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="20bWB1qE"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4ef52fec1adso180942e0c.3
-        for <chrome-platform@lists.linux.dev>; Tue, 02 Jul 2024 23:37:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1On9Sifs"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4ef5aea0604so131893e0c.2
+        for <chrome-platform@lists.linux.dev>; Tue, 02 Jul 2024 23:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719988659; x=1720593459; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719988859; x=1720593659; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9IjFZvsAsiC/WDBViow/MC9bkSbwquCEh+ciUVx1+JU=;
-        b=20bWB1qEhE6PfeViR9Qo0wnOt6xsg6w5uRLiA3LDbyLnLYAswqaim/ndn86JkBmFZp
-         jJmrTklNw0iLE+lIKnCC+UbCxCP2aOtQa8WcY73O8YHIrird1bc3o4hopVrRCUfgKDjg
-         15BqrALPtVY3kfpWgJdvexrh5yswWO/UJ5ky020L6HiGuwb5ywFfV7PPGwt/ssgyoVrw
-         XT3zwDFqCAcOeAIG6iQUjxrtF7gfAIwDm12bkqOkFHjmMTGgnTNMewqK30eAFcvOLiRt
-         Uk67lBfThtT8jzkv5crwl5HrghIa4paAl6t5K5hGGOvGuyQdxzqyxdxfQQwevkdkpZDk
-         4sFw==
+        bh=iuVsBlN1Ampw/0MbAn1EX5JTwHlSMtoeNHSIezCoekE=;
+        b=1On9SifsZh0V85YmO4OzAT6hu5aEALbaGwx5aB3CZkAkZbh064adT4P6gn4PRbT+1s
+         kgTXz8eteFajwS3yuK2EzNzvyhxBE42Cwq4ShwQ40KbOJ5TtQu99SWFzIhcMWH+Lu+vq
+         U8K1e9JiCZ9zBaHUB7J20R8z7YHXK7kkem/zH08rGX03qZnxVz3WsQaYxcM9DDoK0F0J
+         Qv0NYrZpwfxc/VqmjaKvTMe1ILpMu3gZHq8fO5pSHZJJb8RDkcTVpKlctYgynx18iDfM
+         n/y3+3ScNZ4iW7b7FdiwvTMA88xtIYWitCCmDrZQnEEkxuU7yLktT7z+ed6M+Urkx/1S
+         QvJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719988659; x=1720593459;
+        d=1e100.net; s=20230601; t=1719988859; x=1720593659;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9IjFZvsAsiC/WDBViow/MC9bkSbwquCEh+ciUVx1+JU=;
-        b=JoTuRdtbYCQ7UvyugMVEXvz8v03ckcdCV7+Z4GgnRxWhH+vo4UmxVpwrPN9VMZN+Kl
-         dI4rdrD5xUSKhXZO12z8NtIqt5ZAw7XUB9p9FWqnnEwAjUBAHYnMQ5oAaNGG+YEPKHDj
-         G9YRTXhFlqTW1EEcwSNdwK9qyniwUFYiUctKNfOeLSYELrcvysONeiSeyx6OwjZYQVye
-         +zw0WTX0qaMz80wA8rZqnhAuX4PkozkTk2ZDSeTUvA/qey59uoYbXbDauqCJLTuYzCol
-         +KPdb520Pwcm09TkozWBtqJjozxwaOJWGWzqGOtqB/RdcAzS6wdFuL+bRjsnqqq5YXEk
-         eysw==
-X-Forwarded-Encrypted: i=1; AJvYcCWR9DbC8xe/C0uCT/Vtiebza6EGAiODKV0UJ5NNMLU/B9BCRQCC3+YEBawJQFZgp/jVJL9k1nbIZLc6oVGPXdRnysvfV/vQnkmCDeqqhSId
-X-Gm-Message-State: AOJu0Yxr85/qtMFNJoVZ6jeUPucLdQaaDTu4ET/eWwLi9ND56q/MH3PR
-	RSkgYMjqkyIGk9boM7u552UriX7AHekrMeKf3ZAbB2iEGZm3yEgduI1o+vwYGzPQsC8bwudViAy
-	ZiceKsE0p32H6xbp4u2yZjgkMf6HB5xS7AJNrww==
-X-Google-Smtp-Source: AGHT+IE9OriilIOAIOnvVh1+BI3Jr+CXeyRZR0cx7sw/8Ki2Nzc/UgN0Ds8lRHXMzmaV801nFcRN9n0rklzw1fG10fY=
-X-Received: by 2002:a05:6122:3224:b0:4eb:2012:f5ed with SMTP id
- 71dfb90a1353d-4f2a56e4202mr10773231e0c.1.1719988658902; Tue, 02 Jul 2024
- 23:37:38 -0700 (PDT)
+        bh=iuVsBlN1Ampw/0MbAn1EX5JTwHlSMtoeNHSIezCoekE=;
+        b=mUNeYhnr9fLOMgTkqGbYNvVjZLvzjASePL7DgX90ICub6rDISC+BX03sr31bjQrEuW
+         KYGRVDTftmGhRfGeeQaM7XLvA4MmQ+npzoNLjKG7zKak+3Dia5wthYWPMvJF4o1sQt+5
+         RMajGdfNIHIx2fpzCAi6j8Z/YtE68nj9VA9Mdhj7yWGhxbZRTT2+PiYcIzigSbMgEGNV
+         yeQQ1A499SEkUE8O7sK4jrrY6nId6qh3PH8uoTzMb9ISJNx/6smbH4qrkfSyDmUeqr5D
+         pZdbEHFtCxC8kcV9oAi0e1nNigOGb3zB96Fzumah8kU6T2PxQmZAJoYoFXx87VJ4Aw3u
+         PSSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+h54FlYOH9NWGbzRuPagOP9YBg8eUwtu1grSP2B3jd+ppxzH4FnxDD2G0usGmw4r7C8Lg4NKu7V/zxFCokDs0nVjyUHfXHPoYqbWEzp3D
+X-Gm-Message-State: AOJu0YzBxVHLofauzeba4Uo1GDEb9hTI7SoWFMbMB5invwqsFrY3af8x
+	6ZsPdtx1z33qn1+RHlvmz2W9IhacayF6YKWDmCCEKmxB5D0RRMR3WIMca6n9ocw+nnY3E4Y3alf
+	Gy+wPS6LLLHbrN4TD0cV4jWtiY3xd7S0Df9L+mg==
+X-Google-Smtp-Source: AGHT+IFmD6afXbtOVApkewoPxD88vcrnBe2vVb7JKdaC8OuHe6uJaw0g7oLJ41hraaYg8zdjI5DUtty1osY5QrryZ3g=
+X-Received: by 2002:a05:6122:698:b0:4f2:e302:4577 with SMTP id
+ 71dfb90a1353d-4f2e30248e1mr474701e0c.1.1719988859113; Tue, 02 Jul 2024
+ 23:40:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com> <20240702-dev-iio-masklength-private-v1-8-98193bf536a6@analog.com>
-In-Reply-To: <20240702-dev-iio-masklength-private-v1-8-98193bf536a6@analog.com>
+References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com> <20240702-dev-iio-masklength-private-v1-14-98193bf536a6@analog.com>
+In-Reply-To: <20240702-dev-iio-masklength-private-v1-14-98193bf536a6@analog.com>
 From: Alexandru Ardelean <aardelean@baylibre.com>
-Date: Wed, 3 Jul 2024 09:37:26 +0300
-Message-ID: <CA+GgBR-uazN8==3FHWo6Vb_Y3YEoMMnOLqJnfXtAsrS7Pc6B1g@mail.gmail.com>
-Subject: Re: [PATCH 08/20] iio: accel: cros_ec_accel_legacy: make use of iio_get_masklength()
+Date: Wed, 3 Jul 2024 09:40:46 +0300
+Message-ID: <CA+GgBR-TFpWtGGC7S=McaDOFiyCo=nJCunAMVsY8fjv03_-pzA@mail.gmail.com>
+Subject: Re: [PATCH 14/20] iio: adc: ad7266: make use of iio_get_masklength()
 To: nuno.sa@analog.com
 Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, Jonathan Cameron <jic23@kernel.org>, 
@@ -73,41 +73,38 @@ Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 2, 2024 at 7:02=E2=80=AFPM Nuno Sa via B4 Relay
+On Tue, Jul 2, 2024 at 7:03=E2=80=AFPM Nuno Sa via B4 Relay
 <devnull+nuno.sa.analog.com@kernel.org> wrote:
 >
 > From: Nuno Sa <nuno.sa@analog.com>
 >
-> Ue iio_get_masklength() to access '.masklength' so it can be annotated
+> Use iio_get_masklength() to access '.masklength' so it can be annotated
 > as __private when there are no more direct users of it.
 >
-
-I would have suggested maybe a "iio_for_each_active_channel()" here
-instead, but after looking into the driver a bit more, it looks like
-it's part of a broader rework.
 
 Reviewed-by: Alexandru Ardelean <aardelean@baylibre.com>
 
 > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 > ---
->  drivers/iio/accel/cros_ec_accel_legacy.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/iio/adc/ad7266.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/iio/accel/cros_ec_accel_legacy.c b/drivers/iio/accel=
-/cros_ec_accel_legacy.c
-> index 0f403342b1fc..f7e4dc02b34d 100644
-> --- a/drivers/iio/accel/cros_ec_accel_legacy.c
-> +++ b/drivers/iio/accel/cros_ec_accel_legacy.c
-> @@ -62,7 +62,7 @@ static int cros_ec_accel_legacy_read_cmd(struct iio_dev=
- *indio_dev,
->                 return ret;
->         }
+> diff --git a/drivers/iio/adc/ad7266.c b/drivers/iio/adc/ad7266.c
+> index 874d2dc34f928..accb78d4c3086 100644
+> --- a/drivers/iio/adc/ad7266.c
+> +++ b/drivers/iio/adc/ad7266.c
+> @@ -123,7 +123,8 @@ static int ad7266_update_scan_mode(struct iio_dev *in=
+dio_dev,
+>         const unsigned long *scan_mask)
+>  {
+>         struct ad7266_state *st =3D iio_priv(indio_dev);
+> -       unsigned int nr =3D find_first_bit(scan_mask, indio_dev->maskleng=
+th);
+> +       unsigned int nr =3D find_first_bit(scan_mask,
+> +                                        iio_get_masklength(indio_dev));
 >
-> -       for_each_set_bit(i, &scan_mask, indio_dev->masklength) {
-> +       for_each_set_bit(i, &scan_mask, iio_get_masklength(indio_dev)) {
->                 *data =3D st->resp->dump.sensor[sensor_num].data[i] *
->                         st->sign[i];
->                 data++;
+>         ad7266_select_input(st, nr);
+>
 >
 > --
 > 2.45.2

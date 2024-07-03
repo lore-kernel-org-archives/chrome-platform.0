@@ -1,67 +1,67 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D90D132116
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jul 2024 06:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B684D130A68
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jul 2024 06:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719988927; cv=none; b=MO2A0zVHlEWJPYD88HEWaDawF9Xh5qvRR9DzLW8DZQFoEX6bJbVDnvkFOy8Sb8m6tfoGK4HmrdNbOlMW5Xtdbapg9iK3FVkmXeFJVJesynEi2Ikc8uFr1oEU0Y2qu8Uq5mqXe6vSxgURTTe2iNUFyd2KWoQeLfhDXBdO0zQyNvI=
+	t=1719988972; cv=none; b=l8h0V3tCN0+IzJJIjxE6lNXcqOpplpyxnzQXQkoGoxnvEvNMLqWkVYql1vOqRoNMoNVUqFkGGIDkjcJNbwsBGdjijXg5CHI9OTf1ewjx91+ybe5XwvD3ClHa+bTylj08H/Ntp4NtPWKcWFL1lZ1Zh4j5LPah1RWDpKRmB+L2f3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719988927; c=relaxed/simple;
-	bh=drhV+l/kmhfJs7deaiqhoqZiBYjVrhtJk0lA/W3ld+A=;
+	s=arc-20240116; t=1719988972; c=relaxed/simple;
+	bh=PdwtN+Rbxelkr4Xw5fQ4J8100LEDw0GCaAdRl9JJ3GE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DJOeagCL/zOfRZf/Syz6zth4ZnvCMbLwPsXoGD+PtCrzOm6ZYabH8E4aVfcgOOWrUBW3QxCaa1xRSZXhA7P5useiGAwzR9crQKZJdE73t0m9n8VOaH1g2J/bHxaUnIe7FJ/usjLshOQD2559lL1BW48OFlDqlKlkIyJPg0G6gKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=cDVJisfm; arc=none smtp.client-ip=209.85.217.42
+	 To:Cc:Content-Type; b=Uc9hO1wqOUOQXElVhSluRKK/4BR24Au+tj9iWu8LK4mO4pAyAdhfwamPJESMmHp6EwqVL+vpIwDJ/Xn+Y6negylerw2Fnr0THsz44ZA7SPi4Xj9rDg8yGvBJvHGpzGBbbqwnB19WLxDhnJbwxVkW9rtWXBaHJUn+SK6onKjp7ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3PbTBo6L; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="cDVJisfm"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-48f6b596fdcso219700137.2
-        for <chrome-platform@lists.linux.dev>; Tue, 02 Jul 2024 23:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3PbTBo6L"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4ef63c6be17so169005e0c.0
+        for <chrome-platform@lists.linux.dev>; Tue, 02 Jul 2024 23:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719988924; x=1720593724; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719988969; x=1720593769; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yur5x8y8+Q54jThB7cQ+pODfMdCJaF6otUCUrfdMD2I=;
-        b=cDVJisfmbez8WTwRQOTiK+NtSDU+GqBfOiKo+tV5RIS81ML+JCL6ewpU3ESpPumdeW
-         OxLHBpHCbcz5Xw4gsI8sNgivOqhl4y7n0Vj3mW3MPuC2GoI+jSnm8f5/kp3swrHn/23h
-         jlOqEbN6zytAEGx7N/QyK19nIq4BIGGV8F2JgZ3N6+Um5V/KaL5opKiLkuiHGTcpUguo
-         wWHT6S8uGWT5oHlIsHI6IIQDnqqM//Csv9eaez029o/d0Er7E7t8wodPJHXFFxHj+a1Z
-         MMLF4DV6IGzgnBEPUMkjTdA0/wwraQdZwByqYruC3j0wjOehbTJ0k+AJb3brjLK5cqrH
-         7r2Q==
+        bh=/BWoe3r8T20wkxLXJ9U4Y3vjxspmRkp94Q3dB56o7kw=;
+        b=3PbTBo6L1iKDzo63LV9vg/oXIaX3wXXYjV5RNQexEPBZQSsCEz/jr7e4lL5qEKT5tw
+         7kyaWw3KQW1VVpt72p9trKrhse8YDHJRpWklH4Eage3egtR92HJLbNiyicriA3NqDz2M
+         9DGqv4z/53QsHil6/9gKqLKIVrltTNeT65G5b7TsfV1OrAIblAosMTHT7jSN0H5lI7Fs
+         Cjrz1EDCeFJakUTnctEPAKYbKhaYrn3DixmXKPs9g1BR6AuChDLctYE+6WP3fWV2sCk6
+         kQbxjQzHzVDuWYqy+42k9+geAvl5dbQSx84TAuWfTuwkq+o50i8v4A0GpAVMT54OleKL
+         1Hyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719988924; x=1720593724;
+        d=1e100.net; s=20230601; t=1719988969; x=1720593769;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yur5x8y8+Q54jThB7cQ+pODfMdCJaF6otUCUrfdMD2I=;
-        b=TZ3xWxXpFH29EFaVbNnx47Cvfu8sg1ngeRvOmsXB9ax7IIB1+vxs9p8tht51A1dOt3
-         WXfM/FfOKxN3ngOJKACeOvmZBw18EtrPwhdz9Nr23SL0by83+0S70WxNZAuKawZ5XV3C
-         XThQD7iqiKMEZwB5YsdqSaBBslvfSHTdUKYfCqjpkkjS/WDYAORpO0OwbHU1OLx4T5yo
-         bIiRLE9ijvT9Hb7eTYSc7eg13BeWlKxTUR01eOdzcE+waVuW64+H0nUqGjbLmM52kECs
-         IWjBdAccgkrR3K2nQMp8x1anzQSqyXgC0/4d3LAAqsaJdKBF8LOfrVRiiEPZDLMkq/8+
-         DMfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzxQ/JDVg7ajfvjBobTvsfdRjLJ/CBBAwkPlxnaHVDAJew9dP8RFovuf7li9dUD41cFjIqCLHZt2cTaRYgLaix6lBBOortKXkJO7vlJrjj
-X-Gm-Message-State: AOJu0YyC/kstGssBURk87R2oTJ9rX8Z4/1Y2bl9IQtT55EAbge85bUcv
-	JIIuopU6ZebF2KuzcPKVGqaL4qyp9JP3TGFa8FJYg8zPwX5UD5OPeC+vQSTpIh8YWUF3sJe5M/K
-	29WgTzQnBY6iJcbkCMwEbZZF50fwZGJmMQdq6rohyBWZzxAkX/KwDDQ==
-X-Google-Smtp-Source: AGHT+IGU4zJdFJrDIOvSRVl1gGVAB4S58FwSZgbCuX9M66AtIbG8KbGOLxeZ/4CsuVGL4OM88BGVexB1wvd6cPcHaVw=
-X-Received: by 2002:a05:6122:4b0a:b0:4eb:152e:cf92 with SMTP id
- 71dfb90a1353d-4f2a5503197mr10200692e0c.0.1719988924050; Tue, 02 Jul 2024
- 23:42:04 -0700 (PDT)
+        bh=/BWoe3r8T20wkxLXJ9U4Y3vjxspmRkp94Q3dB56o7kw=;
+        b=C0AX9K3mcYJanbBbhoLLZTyjbKtoyuvh0BxbPFO2mYNzN30XnxChdQgBkrHlQqCP1c
+         vDezdlAn+utONW0zy3bWbtdTSZq5SaQpezpYNM38vgvQ0xe4LQRn2/GMMBGnjJdvQDO+
+         oseaLnyYE+u5i4H2B0jtBSrcuN7ixt3LhetY8dimkFnk7ORsk9QpL7xceKSEOygOVgwH
+         /XbagkXE7VkwVbsxw5otVG6ezK8U5s6tbJ7/7MEnh2zO58QX1fhWJepbVLhHsJFJRoxY
+         5ihsf+DlDVqYq0UYUBENNkPhSc+kuPuRMLOLhfuu+CBY7b2Ev/2Ai8FL7bHuILmL7odY
+         W5nw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkRvdQANlWyiRxlWj0N88GkQcf6MQ+TbuRHAk60P6LUDodi8HqVZj1Qr2y9jk9sltCXrNxmX0aVYKoPYcSfats6e60l3Uquup0d+pmn6md
+X-Gm-Message-State: AOJu0YwvvfkXkWlsnV4+U1Sjwj9jRPR3h9ttl6m6grNG/DmE1awrT8rl
+	WBQNT6newn87QVfMkTuQZFUZBKklTAFZW0ORSi2qGp5XnAS0DF1gCB9Bdto/O6Ild0oplpXujrk
+	AEYpvox13k51aKOLDl5QU51uvTgKlrZ7rkJtQ5g==
+X-Google-Smtp-Source: AGHT+IHgEiNF2c/I5ttLf/dG1qkuSt8wiZrHpmF098bQrHHOFu8xkCJVjtcHyToLzuSleFqfYMgS8eGjf+ziCjEcnxI=
+X-Received: by 2002:a05:6122:3224:b0:4eb:2012:f5ed with SMTP id
+ 71dfb90a1353d-4f2a56e4202mr10781037e0c.1.1719988969594; Tue, 02 Jul 2024
+ 23:42:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com> <20240702-dev-iio-masklength-private-v1-19-98193bf536a6@analog.com>
-In-Reply-To: <20240702-dev-iio-masklength-private-v1-19-98193bf536a6@analog.com>
+References: <20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com> <20240702-dev-iio-masklength-private-v1-20-98193bf536a6@analog.com>
+In-Reply-To: <20240702-dev-iio-masklength-private-v1-20-98193bf536a6@analog.com>
 From: Alexandru Ardelean <aardelean@baylibre.com>
-Date: Wed, 3 Jul 2024 09:41:53 +0300
-Message-ID: <CA+GgBR8ERS31zCavAhwBDOga1hnYJH1QfUdQSuaP2RLrXZw-fA@mail.gmail.com>
-Subject: Re: [PATCH 19/20] iio: imu: adis16475: make use of iio_for_each_active_channel()
+Date: Wed, 3 Jul 2024 09:42:38 +0300
+Message-ID: <CA+GgBR9iiWdgihgQU+kxedhqUzMK7qYJynxCpwwkutrWevO9Jw@mail.gmail.com>
+Subject: Re: [PATCH 20/20] iio: imu: adis16480: make use of iio_for_each_active_channel()
 To: nuno.sa@analog.com
 Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, Jonathan Cameron <jic23@kernel.org>, 
@@ -88,25 +88,25 @@ Reviewed-by: Alexandru Ardelean <aardelean@baylibre.com>
 
 > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 > ---
->  drivers/iio/imu/adis16475.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/iio/imu/adis16480.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/iio/imu/adis16475.c b/drivers/iio/imu/adis16475.c
-> index cf73c6f46c79d..1cc2a66a78ff3 100644
-> --- a/drivers/iio/imu/adis16475.c
-> +++ b/drivers/iio/imu/adis16475.c
-> @@ -1608,8 +1608,7 @@ static int adis16475_push_single_sample(struct iio_=
-poll_func *pf)
->                 return -EINVAL;
+> diff --git a/drivers/iio/imu/adis16480.c b/drivers/iio/imu/adis16480.c
+> index 56ca5a09fbbfc..2f08268bd724a 100644
+> --- a/drivers/iio/imu/adis16480.c
+> +++ b/drivers/iio/imu/adis16480.c
+> @@ -1410,7 +1410,7 @@ static irqreturn_t adis16480_trigger_handler(int ir=
+q, void *p)
+>                 goto irq_done;
 >         }
 >
-> -       for_each_set_bit(bit, indio_dev->active_scan_mask,
-> -                        indio_dev->masklength) {
+> -       for_each_set_bit(bit, indio_dev->active_scan_mask, indio_dev->mas=
+klength) {
 > +       iio_for_each_active_channel(indio_dev, bit) {
 >                 /*
->                  * When burst mode is used, system flags is the first dat=
-a
->                  * channel in the sequence, but the scan index is 7.
+>                  * When burst mode is used, temperature is the first data
+>                  * channel in the sequence, but the temperature scan inde=
+x
 >
 > --
 > 2.45.2

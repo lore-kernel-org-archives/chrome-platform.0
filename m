@@ -1,114 +1,111 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EF0135414
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jul 2024 07:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304821B010F
+	for <chrome-platform@lists.linux.dev>; Thu,  4 Jul 2024 15:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719990429; cv=none; b=D8qA8ftnqBOq9IzU3cUuv39ubPhi6PUnuSrLs/9oIMwqf5iatRU6ASMr5quOER5HbBQbsYh1WF5mubWsraM7AjiLU0IGCJUaiMkkNjYoivvGHVUbeqVnTiqLWlUtBfgzzvC7v5MrpACNLtdNBz+/5z6lZvwF0zcpe6YfHm+ZvVA=
+	t=1720106408; cv=none; b=PMYzWpcXwH6vondhbr+QJzVSKySZOr+P4+L42EGB+ubXXRbZFGC7crPpG3ToSUe11BjCdfwKlGu7Zop7zEy7hWZpHaBkOt7TELMBcm2/cUM/lljPaI8kzbDtHu8CSa/T2Wy9NEHOfE2BuoB/yIx+1HFoaA+68HWlurI2pWeBW6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719990429; c=relaxed/simple;
-	bh=94/YiQevyIJ6f5oF+UZGXc3nPNCmtYJQcSbSpFNU7Ns=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Yis/bxx/dUYx7balwLK5JgmPsJGlsy85QBGBIY9pOGQg6jPzs5RkT2+klDqK8yE1Ic5DsC01vsy+IIT/cLKfd+tnaB7T9l/a63DmbRcqvjWiJ2+W4GgeOxqlDGLQZI5v5XpbVLBJJauFLN/Rh+b8ubCYu9VF9mnXjpd/1DmrKZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFrdZ/ca; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720106408; c=relaxed/simple;
+	bh=LRBnNjsH1CyBlK27vH4HjxzagefLojGK6jhHT2bCEms=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IceWCq/3gnhTYi4wIMcHoB1Q/kB2OkGps6SjuD7ZzomomhlKfC2KyBiL9ea5uU1R6ZA1be9a3E6SILea7ttlIoPdwzpsTd/q6CIgupuTeP6MyMKdeMABLMpgmn3cNuWfj1PzqBJg528W9X5zyKu/PwIvEUJK3JezwR03RgVqQ8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oNAyn/X2; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFrdZ/ca"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-36733f09305so2747973f8f.3
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Jul 2024 00:07:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oNAyn/X2"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3d5c32840efso891175b6e.0
+        for <chrome-platform@lists.linux.dev>; Thu, 04 Jul 2024 08:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719990426; x=1720595226; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=94/YiQevyIJ6f5oF+UZGXc3nPNCmtYJQcSbSpFNU7Ns=;
-        b=UFrdZ/cahv2rAA/yTsE88/JdowcWYw/U6OzDJHZmWyFlqOZxOKYWeIhWvv/+puqTzq
-         1gJagqB0aEC30Hhbda8g6aI0dPKgYHQ9r54iuWQvoir6cOosmUz/hgHqSPsHUMReRPHL
-         V9YJkLHwyCDO48+3HwhBoULFtOvcUTyAzIbe8QdhSMUIM2KSarJbnBvOcytf0LNtDEnI
-         +FS3uEh3rwoJ9eX+jF6Z+AUowKe/UIkHV5pJ+OZJp6Pi7CwX378WX4CdH/q7o4fxzNq4
-         WWrlnKUwspM10IoLwBA+GSgzkMiX/ovfry2On85o2zi1ci1Tb10Rs1KaQtG1rjsACi1n
-         wsGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719990426; x=1720595226;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=linaro.org; s=google; t=1720106406; x=1720711206; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=94/YiQevyIJ6f5oF+UZGXc3nPNCmtYJQcSbSpFNU7Ns=;
-        b=T6Ny7sDSiZo+2AE6aE88QoKGU7vFuA5w2TkEARPkfdBXVIOmuohx7mWulQT3FciQB9
-         5JzOEThJcR4w1e1xCTahpmg2RatQch5Xp5bAAbnZXgEjToGv3XdOK/8h57LAM+KtWuVH
-         mWopQcVjpVzI8QXQRth2ik1WjMmf2jFjsqEbaBH74u5j5OwuYe73y19Yv7VbrJ6Xhlgz
-         fkgW2T8wZtLiBEKYnjs3wfz+L6Pl4s5s7TEYW48ELDdI7nJjplj1OJuEj9lQxdBFpvRX
-         oRPz0eFY86xmicAJtdmHfYpE9N/tEYBQuVaSCwwH9tso2q1w0OarZaH5t0VT9Z5mZv39
-         65/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVUFrewStRLXS/hXLGRwfwawca6BYZimpiSnSOxPYL4BElH0uejZ62KOko0lq/DDIeCJWQfnPvRRSxIH3prnbfZIt07iHm0VUPrAJsh0ugf
-X-Gm-Message-State: AOJu0YzEaS5GiSYGLEk9aDPWNXn7smZdTYxrpXdcKdlZ3l0AMB5IJrzA
-	KbHyKkCJFzGs0BAtoJD2ydC4qqvOyd/Xavv0TFdqqeD7cSG5cnWc
-X-Google-Smtp-Source: AGHT+IE7bT6cMVZUlOrcczuiH3P+xPe2/ItQj4QMgGAX8UbgshHV5ACRpsWC3AW25jDa7wzoDssy3Q==
-X-Received: by 2002:adf:e782:0:b0:362:bb3e:93da with SMTP id ffacd0b85a97d-367757282c1mr6854744f8f.62.1719990425492;
-        Wed, 03 Jul 2024 00:07:05 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef1c:c500:ee59:d953:f148:40ba? (p200300f6ef1cc500ee59d953f14840ba.dip0.t-ipconnect.de. [2003:f6:ef1c:c500:ee59:d953:f148:40ba])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0d91fesm15226681f8f.40.2024.07.03.00.07.04
+        bh=3dDOkW0PAFspV1Nsbjh2zbZUyCnV1dEkHmg1HqSY2cw=;
+        b=oNAyn/X2D6xDW8avT0Zpv15/AV2yp5V//jvzj8WXsk1IHskJlesriL/zK5idGu+9cu
+         Ty7kJ4uhCh0xNpMDq6KO3UcA6M/o+flRTRuILt1pJGeNhqxju7M8AuT+w458zYuh23KQ
+         UBMVOTY+NR84wx6a2Yf3u03zxKyaUvFOkJNhdlSJ6WSuFrIDVl1AIpeo3sbJB5M6n90K
+         +/itUiylU2dV3r9WxQNmvS+08M8FGymeCHGtCCC/gcCzJuBAvTyNt9BmpJOCqju97THW
+         iRYt18jZiDeZ4vm0tO4wvVXCMlFmiF/InxKqtPKoUJQlGAZRsgCuT4U/l+TI5td9yT2X
+         FI/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720106406; x=1720711206;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3dDOkW0PAFspV1Nsbjh2zbZUyCnV1dEkHmg1HqSY2cw=;
+        b=RsOfsCe/xJeKl3rJd25Aw0xqNpY7SGtUabiKSd7OS4Tt4ykXfku/hps47Jj1KASqk+
+         8PEknlrd8cdA4tq41HicUNRZMFtdNpxUMPakmh6lem5hexzK1xM0lwWqK6IyBTYv7Czi
+         Mo7i0KYQ5iBWMfX9XKuiChlI4TC+vKEZTfXEtmH83OZhofeHVtvFqp/ZnneY9N97axDe
+         LbLXkifYGvLiChWEnJhBkXjBkWh/phMkQ5DcMScK4oFo+DFe61GwQuLXrINrJS/fsxjG
+         Dlc5WxRQzjiLry8oIt6H8f+kbsojQeyCv8lGl5q/rMOy/uUiFsbX27gf48ha66EhCZio
+         O2dg==
+X-Forwarded-Encrypted: i=1; AJvYcCXsnUdIQse/Xk7VnivAoD43tL1f9sWYV+de5utK97HaQGGkdplqiL2vOl/t2DHzLiwxczcaoiQKKPSijfk5DlcP1irWHNwEP57TbbBIjnVq
+X-Gm-Message-State: AOJu0YwGNgQsYj2QDT2TF2BLgLdw++BbHx+G1YVEmCMk8y6vdp4xI8Ba
+	zC7C7NrkQcLrG1Ijgh7j3WdWiX04axRGXh2d9/SnEaxvICzTOfvSxArIh6dhF6o=
+X-Google-Smtp-Source: AGHT+IHHk3pE4TLFr7KRVvJS5XlXRIKfpvIedOe6u7433gzwuERp8u/tr3qO5KeYVUGyta7Gx3L7RQ==
+X-Received: by 2002:a05:6808:1404:b0:3d6:2bab:16ca with SMTP id 5614622812f47-3d915b0c6b5mr771492b6e.13.1720106406264;
+        Thu, 04 Jul 2024 08:20:06 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:96a0:e6e9:112e:f4c])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d62fb41f77sm2484567b6e.51.2024.07.04.08.20.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 00:07:05 -0700 (PDT)
-Message-ID: <c13f761e08cbe3c5021be34f5da774e44037c9a8.camel@gmail.com>
-Subject: Re: [PATCH 00/20] iio: make masklength __private (round 1)
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Nuno Sa via B4 Relay
-	 <devnull+nuno.sa.analog.com@kernel.org>
-Cc: nuno.sa@analog.com, linux-iio@vger.kernel.org, 
- chrome-platform@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Lars-Peter Clausen <lars@metafoo.de>, Cosmin Tanislav
- <cosmin.tanislav@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Benson Leung <bleung@chromium.org>, Guenter
- Roeck <groeck@chromium.org>, Dmitry Rokosov <ddrokosov@sberdevices.ru>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Date: Wed, 03 Jul 2024 09:10:58 +0200
-In-Reply-To: <20240702212652.01241fc2@jic23-huawei>
-References: 
-	<20240702-dev-iio-masklength-private-v1-0-98193bf536a6@analog.com>
-	 <20240702212652.01241fc2@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 
+        Thu, 04 Jul 2024 08:20:05 -0700 (PDT)
+Date: Thu, 4 Jul 2024 10:20:03 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] power: supply: cros_charge-control: Fix signedness bug in
+ charge_behaviour_store()
+Message-ID: <ZoWKEs4mCqeLyTOB@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On Tue, 2024-07-02 at 21:26 +0100, Jonathan Cameron wrote:
-> On Tue, 02 Jul 2024 18:02:32 +0200
-> Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org> wrote:
->=20
-> > Hi Jonathan,
-> >=20
-> > Here it goes the first round of what we discussed in [1] about
-> > annotating .masklength as __private. Patches should be fairly simple so
-> > hopefully I did not messed up much...
-> >=20
-> > Note that in core, there's one place where we're still directly writing
-> > into .masklength (when it's effectively set). The plan is then to
-> > directly use ACCESS_PRIVATE() in there in the same patch where we mark
-> > .masklength as __private.
->=20
-> Makes sense. Series looks good to me, but I'll not pick it up just yet.
-> I've tagged a like second 6.11 pull request, so this is probably 6.12 mat=
-erial
-> unless things go particularly smoothly and Greg takes an additional last
-> minute one as there is one set waiting for a fix that is in char-misc
-> but not yet iio-togreg.
->=20
-> Jonathan
->=20
+The C standard is vague about the signedness of enums, but in this case
+here, they are treated as unsigned so the error handling does not work.
+Use an int type to fix this.
 
-Yeah, looks sane to me. Advantage of going in 6.12 is that (likely) we'' ge=
-t all
-the conversions done.
+Fixes: c6ed48ef5259 ("power: supply: add ChromeOS EC based charge control driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/power/supply/cros_charge-control.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-- Nuno S=C3=A1
->=20
+diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
+index 73d7f2dc0fa3..3183a13eefd0 100644
+--- a/drivers/power/supply/cros_charge-control.c
++++ b/drivers/power/supply/cros_charge-control.c
+@@ -204,14 +204,13 @@ static ssize_t charge_behaviour_store(struct device *dev, struct device_attribut
+ {
+ 	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
+ 							       CROS_CHCTL_ATTR_CHARGE_BEHAVIOUR);
+-	enum power_supply_charge_behaviour behaviour;
+ 	int ret;
+ 
+-	behaviour = power_supply_charge_behaviour_parse(EC_CHARGE_CONTROL_BEHAVIOURS, buf);
+-	if (behaviour < 0)
+-		return behaviour;
++	ret = power_supply_charge_behaviour_parse(EC_CHARGE_CONTROL_BEHAVIOURS, buf);
++	if (ret < 0)
++		return ret;
+ 
+-	priv->current_behaviour = behaviour;
++	priv->current_behaviour = ret;
+ 
+ 	ret = cros_chctl_configure_ec(priv);
+ 	if (ret < 0)
+-- 
+2.43.0
 

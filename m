@@ -1,79 +1,87 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FC013AA46
-	for <chrome-platform@lists.linux.dev>; Sat,  6 Jul 2024 11:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BD0155310;
+	Tue,  9 Jul 2024 09:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720264906; cv=none; b=bAWl3Rb9A1KT+Sxqmw8f9IwV48nVE77uUMLGdJOHfLcUjn2nofIbIa7q3euEcAZXx9bBNWMvItRlcQOT+4bHxtjOpnGHT9+7S/xwqhZTu1mDkhR3XJ16w0VCPwNJKA9ltfncfK2MbFuRAO4a++IqBsaJIodkGzTlg+Ptxnr3Ffc=
+	t=1720517153; cv=none; b=bnPqpsYnieBfGAWkwPZYF+UZ4/GuEJeez/alI8gU6qr92xuxS5pcLTTt9DDPg9v5KE/TPw5Lxin95dUEWefy5TNy106cY2mDqCUsOz1xJAGNWKSEWizSfkMGLEZ7w5+fcozzzlS5ZzjfTkMnORvayWS/lZVsz4kP26EwJfhbgVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720264906; c=relaxed/simple;
-	bh=9lVLZWRc7NAlCXEos/Ht+9OXDaJDePn7bYvBLBWeZ78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k33o95YE2lea3QTpjiJBiIXZP9taf78QB5vA8l5dUeeB6f7rn3Vz+hWeVR5zOyFc3/MvMgHEsTGxymDrGMxA2XOWbzjnGqLOhYO+0ZkE9U7SmN46tdOUCYAlqb9I3J7XRv+x+L8BUtTGHAmQlYfjQplw5k07cDj/1ul3KK32fFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KogWU+Jz; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1720517153; c=relaxed/simple;
+	bh=QBQ3Vf3AsBCxVX0Ial0oaRT12iQXKMU1CCuUwuqKGGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hOR5O2y4O8et0y0vgbUvbezlOA72sd8d+dTfFiR8lmzESDqQ5m92fdtJzwmPXkBk/rL4JxGcDbm9d9wmx/FuII1BDPel7PzFH8wX+Tv9ZQbIC4lFxRuE9e3E3ZgGMPfW2nakkLBYNzBpCpSV3T3YoCW1u+gXA+4hYeotUadbhtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWH01lHC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KogWU+Jz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=D1BuoUJ5rXFWGybNFHM62IQOacbAYA+TSmxYZ9HLfeM=; b=KogWU+
-	JzPp3w0jQi5IbflPz3B/JK/4yhnX6vdtEhOU9hNgBMdOeGMm2t9aC+3LK0RTVdNs
-	SoNr+F+M93O1jUTVgL31cAcYmpqV4dzJFtIVJJq2BKlwobytQBnrxTDFkObdWJlx
-	m77Q8pLKU5rnh6X5nfN23pFbsFTDHpVK7ml2MZGaJZxWWeGypY8RZMPkOOv62U4j
-	r+l9H6pKHWWexRwOrYwCJwhSNt2FqJB7xaDkuplHionbf0KStZOB5IkVnT1TBwBW
-	opBlcYvyM9IG9sYDcGgAOII91xICWaUsnEBxxKQoAXztrwUa3bfAu7rRwjIKYf2u
-	Qrju2kzpOxFAAQcw==
-Received: (qmail 3809660 invoked from network); 6 Jul 2024 13:21:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 13:21:29 +0200
-X-UD-Smtp-Session: l3s3148p1@SDCiYZIccpBQT+F6
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/60] i2c: cros-ec-tunnel: reword according to newest specification
-Date: Sat,  6 Jul 2024 13:20:10 +0200
-Message-ID: <20240706112116.24543-11-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
-References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWH01lHC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801C7C3277B;
+	Tue,  9 Jul 2024 09:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720517152;
+	bh=QBQ3Vf3AsBCxVX0Ial0oaRT12iQXKMU1CCuUwuqKGGM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lWH01lHC26cPJsw/X+HBenWlEpFJJfJltpYufo4Nwc+j21AG+AgSd0mO35ip/x55X
+	 1j3wMkPD4jxOL9TWXbtvtIQpK+r5OevcF9GrmWkPk6CyxPTlJhwGyvfrSQpodhNU9T
+	 Ej5H2PNhkrvX3NwrYtw2gYhZg99SIq3DOU0O7SqXa+cuujYzDd5SUzD8zYIMTnYep1
+	 cIUi8500jcB+ittL3URif7r3qBocfl1W3F80r2sNTH5NJflOYtX8H98NBCeE2cMMLB
+	 HXmWdNfbJvJ6qLoehzpkJxb2fWCkI12TVgucRPshBHD2ku/q3Q9I9YQbQNDZx50ZBE
+	 BAe9M3W+wYjVQ==
+Date: Tue, 9 Jul 2024 10:25:47 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	linux-leds@vger.kernel.org,
+	Rajas Paranjpe <paranjperajas@gmail.com>
+Subject: [GIT PULL] Immutable branch between MFD, LEDs and Platform due for
+ the v6.11 merge window[GIT PULL] Immutable branch between MFD, LEDs and
+ Platform due for the v6.11 merge window
+Message-ID: <20240709092547.GC501857@google.com>
+References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
 
-Change the wording of this driver wrt. the newest I2C v7 and SMBus 3.2
-specifications and replace "master/slave" with more appropriate terms.
+Enjoy!
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/busses/i2c-cros-ec-tunnel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
 
-diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-index 2737fd8abd32..ab2688bd4d33 100644
---- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-+++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-@@ -235,8 +235,8 @@ static u32 ec_i2c_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm ec_i2c_algorithm = {
--	.master_xfer	= ec_i2c_xfer,
--	.functionality	= ec_i2c_functionality,
-+	.xfer = ec_i2c_xfer,
-+	.functionality = ec_i2c_functionality,
- };
- 
- static int ec_i2c_probe(struct platform_device *pdev)
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-leds-platform-v6.11
+
+for you to fetch changes up to 970c3a6b7aa3c68ccdf5af2562c3d39533dd62a9:
+
+  mfd: cros_ec: Register keyboard backlight subdevice (2024-06-14 10:09:40 +0100)
+
+----------------------------------------------------------------
+Immutable branch between MFD, LEDs and Platform due for the v6.11 merge window
+
+----------------------------------------------------------------
+Thomas Weißschuh (4):
+      leds: class: Warn about name collisions earlier
+      leds: class: Add flag to avoid automatic renaming of LED devices
+      platform/chrome: cros_kbd_led_backlight: allow binding through MFD
+      mfd: cros_ec: Register keyboard backlight subdevice
+
+ drivers/leds/led-class.c                         |  9 +++---
+ drivers/mfd/cros_ec_dev.c                        |  9 ++++++
+ drivers/platform/chrome/Kconfig                  |  2 +-
+ drivers/platform/chrome/cros_kbd_led_backlight.c | 40 ++++++++++++++++++++++--
+ include/linux/leds.h                             |  1 +
+ 5 files changed, 54 insertions(+), 7 deletions(-)
+
 -- 
-2.43.0
-
+Lee Jones [李琼斯]

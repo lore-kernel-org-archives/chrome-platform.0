@@ -1,63 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15116111AA;
-	Tue, 16 Jul 2024 00:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC0E41A87;
+	Tue, 16 Jul 2024 09:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721091114; cv=none; b=jFX0JMeex66LjT7MjhiX5nvyb9klDevngoYe2PHMDpyrwIh7kSqBEJSp4pcuCa9atHSiKJ92B1LD+vhSNIdZSOSRARtlBoa1ltZ8IBgog3ROOHVhK9LfRnfN1UMiy6BJfCIg3fKi+Kp+kClQTxZ4wYs5AVo0JlD2M8T8Wr0yIOg=
+	t=1721122172; cv=none; b=O3Q14awU+HHlOkASVBbyZvIGv4F3Zd8NIBJiDQ1e0sZsbyr53/D0ELwgos7eaYVx88b45BHLe6TNasiQxZTmjwjwqa8EOv5uicOL9MHCwtcBJLgKUUohp4HAUw4t6b6k+2nJ13FRpvnQ33JC/7WfP9e1sA9GHujPXP6MBhzxgyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721091114; c=relaxed/simple;
-	bh=nPEtIbOu7thhLJFHVcq0F0Az8iig5YuFnq5JrHXFObI=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=WESskOnMG2OaqmRSHwgBIG2D59bOyaK1XMrcD142uCwMcRGe35QUlSX1Ep8EgulPf3Yv4krPYcRb4K2kl2Mp4UR3D4aArT0oJoTpfyqHC1tJ8mn7HOA7c+GDFItv356vDz8xKs3wGHk0z9Ykt5zbDiu+9SCXl56PcACrE7TLj+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LihvekB0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721122172; c=relaxed/simple;
+	bh=JxMuxlRBzE5uRQvKjxLt3Zs2WRCk/QqMJSaQV4qQONE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IzF67YnAuXsvprexW4kkiUGlqIIk+wWm1lkHYdmPjbIbN8HtiT6gnMFkdiv9CGw9H6DrJo1wWkxaSOAaJxO8zXD3xSsDxAyh5S9JAQ1vffe58FjzokBl5LGnBCuEbhP5YMJL7c7FN8VzeOGBUyfWJnCfuzhnvZAjmsp8eCg8nL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YDab9KKL; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LihvekB0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D32E0C4AF1B;
-	Tue, 16 Jul 2024 00:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721091113;
-	bh=nPEtIbOu7thhLJFHVcq0F0Az8iig5YuFnq5JrHXFObI=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=LihvekB0hqpidRCSaTpTg4ksogDxuK9rQe8ecxOcJURiA64atdsxoFeHAM5ZhO6Ki
-	 8UHa9yM9b7VtxgUv0dL90RnUILPaiqKA2nYICy735xfZMu35xLztx1mxTMI9lwLl6y
-	 sRwMlhFlgL5ND16wiQ8JaZFWldlfoRAbTh+rZW8KCJ2uJSUFMSPklPsxyANKnUtGqz
-	 VS8+++qsAVFgnGzB7ameCu+SdbWR2hI7FXTGS1LijRv7sJnyWXqdKmz59abZhMjGIG
-	 9uOrLK6IXbTbO28kSRElLRcccuMLPnwVuEBNc2oQP+JXI5wgds1boqoD2A5DC2HQz1
-	 Z/GppRRv78GFw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C3491C433E9;
-	Tue, 16 Jul 2024 00:51:53 +0000 (UTC)
-Subject: Re: [GIT PULL] chrome-platform-firmware changes for v6.11
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZpSicQDtkyR5r4vF@tzungbi-laptop>
-References: <ZpSicQDtkyR5r4vF@tzungbi-laptop>
-X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZpSicQDtkyR5r4vF@tzungbi-laptop>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-firmware-for-v6.11
-X-PR-Tracked-Commit-Id: fc2c1d716d4a879dd52c612ea19a7f994f08748d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cdf471c348c1200ca243775b4b8d6eaa6d7f3979
-Message-Id: <172109111379.26590.12857063636885974448.pr-tracker-bot@kernel.org>
-Date: Tue, 16 Jul 2024 00:51:53 +0000
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: torvalds@linux-foundation.org, briannorris@chromium.org, jwerner@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YDab9KKL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1721122169;
+	bh=JxMuxlRBzE5uRQvKjxLt3Zs2WRCk/QqMJSaQV4qQONE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YDab9KKLIXSUg6jXTsAolHHxcj6GRuZucscY6cfDZeq7ONUXi42rDBE1mpznuLsTT
+	 XB+KVnejJQBgNAceYYO3N+Z0nxMN+JqSOmpR/5Hm4YvZd2cBNS5dkUCyQ1tr1jOfij
+	 BpFd2T+e42e0ANgLAv8fYrfwjwP6g6iQkFdH3uW4NqeDzI4fCpRkPdRxVZueFXK5gs
+	 OVkQzuRPZTcmqAVK+UlJ80gk6+vF8F4dHSGy9yV3ZiB+G7A41IZdbPfGMljppf8pYt
+	 OBPqoc1n/DlSrUJ1UG7BiDxwBpqciNc8HFBKhG2qDCAN5RkUd/H3ANLEQDalYFtmEk
+	 zNbNIHIkpcYdg==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: laura.nao)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1F7103780C13;
+	Tue, 16 Jul 2024 09:29:29 +0000 (UTC)
+From: Laura Nao <laura.nao@collabora.com>
+To: laura.nao@collabora.com
+Cc: kernel@collabora.com,
+	linux-kernel@vger.kernel.org,
+	mingo@kernel.org,
+	regressions@lists.linux.dev,
+	chrome-platform@lists.linux.dev
+Subject: Re: [REGRESSION] next boot regression caused by RIP: 0010:usercopy_abort+0x74/0x76 kernel panic
+Date: Tue, 16 Jul 2024 11:29:53 +0200
+Message-Id: <20240716092953.295122-1-laura.nao@collabora.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240705142130.928396-1-laura.nao@collabora.com>
+References: <20240705142130.928396-1-laura.nao@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Mon, 15 Jul 2024 12:15:45 +0800:
+Hello,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-firmware-for-v6.11
+On 7/5/24 16:21, Laura Nao wrote:
+> On 6/7/24 17:14, Laura Nao wrote:
+>> Hello,
+>>
+>> KernelCI has detected a boot regression affecting all AMD and Intel
+>> Chromebooks in the Collabora LAVA lab, occurring between next-20240605
+>> and next-20240606.
+>>
+>> The following kernel panic has been reported in the logs. The trace
+>> provided below is from an Acer Chromebook 317, with similar traces
+>> observed on other devices:
+>>
+>> [    5.944268] RIP: 0010:usercopy_abort+0x74/0x76
+>> [    5.944276] Code: 0f 89 9f 51 48 0f 45 d6 49 c7 c3 ac c1 7c 9f 4c 89 d1 57 48 c7 c6 38 54 7b 9f 48 c7 c7 b5 c1 7c 9f 49 0f 45 f3 e8 b9 8c e4 ff <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00
+>> [    5.944278] RSP: 0000:ffffb01e8001fb90 EFLAGS: 00010246
+>> [    5.944280] RAX: 0000000000000068 RBX: 0000000000000d80 RCX: 0000000000000000
+>> [    5.944281] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+>> [    5.944282] RBP: 0000000000000000 R08: 0000000000000003 R09: 2079726f6d656d20
+>> [    5.944284] R10: 79706f6372657375 R11: 79706f6372657375 R12: ffff8e7b400a8800
+>> [    5.944285] R13: 0000000000000d80 R14: 0000000000000000 R15: 00000000ff879a40
+>> [    5.944286] FS:  0000000000000000(0003) GS:ffff8e7bc0100000(0063) knlGS:00000000eca4d440
+>> [    5.944288] CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+>> [    5.944289] CR2: 00000000080e61d0 CR3: 0000000107002000 CR4: 0000000000350ef0
+>> [    5.944290] Call Trace:
+>> [    5.944293]  <TASK>
+>> [    5.944295]  ? __die_body+0x1b/0x5d
+>> [    5.944300]  ? die+0x31/0x4b
+>> [    5.944303]  ? do_trap+0x7c/0xfe
+>> [    5.944306]  ? usercopy_abort+0x74/0x76
+>> [    5.944309]  ? usercopy_abort+0x74/0x76
+>> [    5.944312]  ? do_error_trap+0x6f/0x99
+>> [    5.944315]  ? usercopy_abort+0x74/0x76
+>> [    5.944318]  ? exc_invalid_op+0x4e/0x65
+>> [    5.944321]  ? usercopy_abort+0x74/0x76
+>> [    5.944324]  ? asm_exc_invalid_op+0x16/0x20
+>> [    5.944327]  ? usercopy_abort+0x74/0x76
+>> [    5.944330]  __check_heap_object+0xcb/0x110
+>> [    5.944334]  __check_object_size+0x181/0x26d
+>> [    5.944336]  copy_from_buffer+0x43/0x66
+>> [    5.944340]  copy_uabi_to_xstate+0x113/0x194
+>> [    5.944343]  __fpu_restore_sig+0x3a3/0x4be
+>> [    5.944347]  fpu__restore_sig+0x6c/0x83
+>> [    5.944350]  ia32_restore_sigcontext+0x14e/0x16d
+>> [    5.944354]  __do_compat_sys_sigreturn+0x7b/0xbc
+>> [    5.944357]  do_int80_emulation+0xad/0xd3
+>> [    5.944360]  ? handle_mm_fault+0x10e/0x199
+>> [    5.944363]  ? exc_page_fault+0x27b/0x42f
+>> [    5.944365]  ? fpregs_assert_state_consistent+0x22/0x47
+>> [    5.944368]  ? clear_bhb_loop+0x45/0xa0
+>> [    5.944370]  ? clear_bhb_loop+0x45/0xa0
+>> [    5.944372]  ? clear_bhb_loop+0x45/0xa0
+>> [    5.944374]  ? clear_bhb_loop+0x45/0xa0
+>> [    5.944375]  ? clear_bhb_loop+0x45/0xa0
+>> [    5.944377]  ? clear_bhb_loop+0xe/0xa0
+>> [    5.944379]  asm_int80_emulation+0x16/0x20
+>> [    5.944382] RIP: 0023:0xeca52579
+>> [    5.944384] Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+>> [    5.944386] RSP: 002b:00000000ff879cbc EFLAGS: 00000246
+>> [    5.944387] RAX: 0000000000000060 RBX: 00000000ffffffff RCX: 00000000ff879d08
+>> [    5.944389] RDX: 0000000000000000 RSI: 0000000009b111a0 RDI: 00000000ff879d08
+>> [    5.944390] RBP: 00000000080d1801 R08: 0000000000000000 R09: 0000000000000000
+>> [    5.944391] R10: 0000000000000000 R11: 0000000000000282 R12: 0000000000000000
+>> [    5.944392] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>> [    5.944393]  </TASK>
+>> [    5.944394] Modules linked in:
+>> [    5.944433] ---[ end trace 0000000000000000 ]---
+>> [    6.287986] RIP: 0010:usercopy_abort+0x74/0x76
+>> [    6.293033] Code: 0f 89 9f 51 48 0f 45 d6 49 c7 c3 ac c1 7c 9f 4c 89 d1 57 48 c7 c6 38 54 7b 9f 48 c7 c7 b5 c1 7c 9f 49 0f 45 f3 e8 b9 8c e4 ff <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00
+>> [    6.313975] RSP: 0000:ffffb01e8001fb90 EFLAGS: 00010246
+>> [    6.319810] RAX: 0000000000000068 RBX: 0000000000000d80 RCX: 0000000000000000
+>> [    6.327780] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+>> [    6.335744] RBP: 0000000000000000 R08: 0000000000000003 R09: 2079726f6d656d20
+>> [    6.343710] R10: 79706f6372657375 R11: 79706f6372657375 R12: ffff8e7b400a8800
+>> [    6.351678] R13: 0000000000000d80 R14: 0000000000000000 R15: 00000000ff879a40
+>> [    6.359646] FS:  0000000000000000(0003) GS:ffff8e7bc0000000(0063) knlGS:00000000eca4d440
+>> [    6.368680] CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+>> [    6.375098] CR2: 00000000f322e480 CR3: 0000000107002000 CR4: 0000000000350ef0
+>> [    6.383065] Kernel panic - not syncing: Fatal exception
+>> [    6.388907] Kernel Offset: 0x1ba00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+>>
+>> The full kernel log is available on [1]. The config used was the
+>> upstream x86_64 defconfig with a fragment applied on top [2].
+>>
+>> The issue is still present on next-20240607.
+>>
+>> I'm sending this report to track the regression while a fix is
+>> identified. I'll investigate the issue/run a bisection and report back
+>> with the results.
+>>
+> 
+> Reverting this series fixes the issue first observed in next-20240606
+> (CC Ingo):
+> https://lore.kernel.org/all/20240605083557.2051480-1-mingo@kernel.org/
+> 
+> The issue is no longer present as of next-20240703, where the series was
+> dropped. I'm marking this as resolved for now.
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cdf471c348c1200ca243775b4b8d6eaa6d7f3979
+The issue started happening again since next-20240712, as the series
+landed back on linux-next (see full kernel log [1] and config [2] from a 
+next-20240715 run).
 
-Thank you!
+Ingo, do you have any pointers or suggestions on how we can further debug 
+this issue?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thorsten, is there any way to mark this regression as unresolved again?
+
+Thanks,
+
+Laura Nao
+
+[1] https://pastebin.com/raw/saEHbXgY
+[2] https://pastebin.com/raw/aC1Kqi4Y
+
+#regzbot introduced: 81106b7e0b
+

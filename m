@@ -1,102 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A67CC8F6;
-	Mon, 15 Jul 2024 04:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014E3E541;
+	Tue, 16 Jul 2024 00:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721016949; cv=none; b=gBuN3PPFQAEbZaqi1Yz2XLDf7SBZnC6tzekns0hOKRiaSflHNS1Fc1fwMbQYFZU/+1u7aQiLi+cCUPHQ7C1qZ6uQrnbq+bBxhjBjUCPDkf6vSRuF082nHERNvHvDcoHttGH2Ae13y0k3zWJeIGXbHgFPLGR6ddvy1LiZjlrfDUw=
+	t=1721091114; cv=none; b=p9wmfaVXZdECeGS2Y08nCySFWcgB+muSWnqfDmpC/5P2YUjUbfJppazTN0I28kjkWuGTs4zaiKnRZQgTW50HFzA3ywQjWzvq27Q7JiNQpl+K/5tNDGgGJWhOwy3ptf4sLWU0M0vlXHcqkOQA96CnPstQgCri+WPmLERJM518CYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721016949; c=relaxed/simple;
-	bh=m7cRVEiy0w0PxLyJMh9RYlXBFq9JJo3gs5kdmHF0Bpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GwklinNoI0gfkTTdRLVoaF4nxrpfT5DR6ahQo9Ywv0HU1J6qInbnGRUnS2YNyo76OoD/l3ddOnoufsiW0DO0YqB/2xcymS0wgKbUJMCsoOc1H+HL5iqetop9mB4BguRrYyMH7EWhBvz67LubGqERVkb8s43Sfyi/Ce40iT9X9pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJpLSrFw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721091114; c=relaxed/simple;
+	bh=srxK5AQQs2Z8EAPrrBPHxO+El3AWp0v3BRodEy9gMg4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NcQMX2BwYsm0KeOWmGVZFK6ZaAdC/tAjIXe9+uVN4Eedj8j7O5P+odAzc/lHhI17e1oq9veKK8oBO3Qf7w0UJC1WTVQ4btUev0BFGGJMB7D1oaO00Zj2FScBbdIS4XmKYBsjR2KQ/mThXmkEIY52HsFKtVy0YmqDOquJKgFHSW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCbAXvxL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJpLSrFw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CD6C4AF0A;
-	Mon, 15 Jul 2024 04:15:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCbAXvxL"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B3C4AC4AF12;
+	Tue, 16 Jul 2024 00:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721016949;
-	bh=m7cRVEiy0w0PxLyJMh9RYlXBFq9JJo3gs5kdmHF0Bpo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=YJpLSrFwPsfNXMwH1MMuwIFLQIUWAOyZmLjxPNFqf6WFC/LX4edaXdTeItzN9wLVz
-	 FyQNR253uMlb9Lvo/S7pkxWOvoO7xnliTJohr9CkFMEEN2NN+HllVZGeXwtjxLIATw
-	 wnwMdnWmqkabSufq8TWcMiCRIP71+QNfUlFTN6Hj3dsAs0ID8Lcm/N9IX2u/i+8y2i
-	 POZW6cstJG2InUhQpL8uxbWcD8NxX6g3VxgmpU2YakqsTxudv3t86BGNL1DPGTNiU/
-	 MqQ7Av1TJ8XtGNoyWgMZe9HDuligaadlo+sM5b4Oiie9LToluGJPEpZDqe2MNSORAb
-	 J4hVKOAt+Andg==
-Date: Mon, 15 Jul 2024 12:15:45 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: briannorris@chromium.org, jwerner@chromium.org, groeck@chromium.org,
-	tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform-firmware changes for v6.11
-Message-ID: <ZpSicQDtkyR5r4vF@tzungbi-laptop>
+	s=k20201202; t=1721091113;
+	bh=srxK5AQQs2Z8EAPrrBPHxO+El3AWp0v3BRodEy9gMg4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=kCbAXvxLbd3kjhCIpfCHky6kw6ShGctF7N5YaLzDbzF7ni0ZCUSpK/dWbAn6tpQur
+	 rdgpjeJle1unIgVy+rLzt9/z86E+FmLoAsvEiCBJcl+S1bUzJu2cZyRLluNUUqquD7
+	 jwYRtyjtNnpnwWLkQQ8fwdrEAKgJfc5XrB9CvwGgAlIwwA+PcanI9+16OBKUMilwta
+	 EVMZ6ZoInVPm/irBLXIVQZNr+nIhSvDWeSUhpYG3bzp1nWlky0A1QeJhmuwzeLshjx
+	 sEpvqWZ3l5JTZ+S68r++2UUUz7JFe2yzeaTjrQfjxS+d2vGazT2rGUWZMQCIZ6w96m
+	 bL/S98c/WZ4kQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AB3E4C43443;
+	Tue, 16 Jul 2024 00:51:53 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.11
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZpSiUTZBAOgDYYNQ@tzungbi-laptop>
+References: <ZpSiUTZBAOgDYYNQ@tzungbi-laptop>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ZpSiUTZBAOgDYYNQ@tzungbi-laptop>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.11
+X-PR-Tracked-Commit-Id: 4baf1cc54433ff7c6e5178517bc8768001416681
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 89c491389331faea09a247da47ebd95982dae06e
+Message-Id: <172109111369.26590.13999304546468370339.pr-tracker-bot@kernel.org>
+Date: Tue, 16 Jul 2024 00:51:53 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PWpL0YzOyfPR8cB0"
-Content-Disposition: inline
 
+The pull request you sent on Mon, 15 Jul 2024 12:15:13 +0800:
 
---PWpL0YzOyfPR8cB0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-for-v6.11
 
-Hi Linus,
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/89c491389331faea09a247da47ebd95982dae06e
 
-Please pull chrome-platform-firmware changes for v6.11.
+Thank you!
 
-Thanks,
-TzungBi
-------
-
-The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
-
-  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-chrome-platform-firmware-for-v6.11
-
-for you to fetch changes up to fc2c1d716d4a879dd52c612ea19a7f994f08748d:
-
-  firmware: google: add missing MODULE_DESCRIPTION() macros (2024-06-11 03:34:05 +0000)
-
-----------------------------------------------------------------
-chrome platform firmware changes for 6.11
-
-* Minor cleanups.
-
-----------------------------------------------------------------
-Jeff Johnson (1):
-      firmware: google: add missing MODULE_DESCRIPTION() macros
-
- drivers/firmware/google/cbmem.c                 | 1 +
- drivers/firmware/google/coreboot_table.c        | 1 +
- drivers/firmware/google/framebuffer-coreboot.c  | 1 +
- drivers/firmware/google/gsmi.c                  | 1 +
- drivers/firmware/google/memconsole-coreboot.c   | 1 +
- drivers/firmware/google/memconsole-x86-legacy.c | 1 +
- drivers/firmware/google/memconsole.c            | 1 +
- drivers/firmware/google/vpd.c                   | 1 +
- 8 files changed, 8 insertions(+)
-
---PWpL0YzOyfPR8cB0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZpSicAAKCRArxTEGBto8
-9HOfAQD4Z/iQMhXUpsPTJtUB1BIfP9QDTI+k35lIC3MemOsAWQD9HYsxHH582Xsq
-pd5B4/OKoaOhVm/EQcuDDoIcap1ovA8=
-=9znZ
------END PGP SIGNATURE-----
-
---PWpL0YzOyfPR8cB0--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

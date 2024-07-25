@@ -1,174 +1,118 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC0E41A87;
-	Tue, 16 Jul 2024 09:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95CD26286
+	for <chrome-platform@lists.linux.dev>; Thu, 25 Jul 2024 17:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721122172; cv=none; b=O3Q14awU+HHlOkASVBbyZvIGv4F3Zd8NIBJiDQ1e0sZsbyr53/D0ELwgos7eaYVx88b45BHLe6TNasiQxZTmjwjwqa8EOv5uicOL9MHCwtcBJLgKUUohp4HAUw4t6b6k+2nJ13FRpvnQ33JC/7WfP9e1sA9GHujPXP6MBhzxgyk=
+	t=1721930240; cv=none; b=Hmsyykc162n3LqMf663Zf6EXP3qRKIYOyCFWLD/zPmjs3++18sK3hfuV7SeaZLwmJUmof0KqjT0rd2pcBi/mO+V57PqszhV94AAAb1t7iJDk/E4184DMjEXFeard5jDfFiEcVfP1QZ6jy5pVCERmFTV9iP4UOx0y9F4zxQ2E+28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721122172; c=relaxed/simple;
-	bh=JxMuxlRBzE5uRQvKjxLt3Zs2WRCk/QqMJSaQV4qQONE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IzF67YnAuXsvprexW4kkiUGlqIIk+wWm1lkHYdmPjbIbN8HtiT6gnMFkdiv9CGw9H6DrJo1wWkxaSOAaJxO8zXD3xSsDxAyh5S9JAQ1vffe58FjzokBl5LGnBCuEbhP5YMJL7c7FN8VzeOGBUyfWJnCfuzhnvZAjmsp8eCg8nL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YDab9KKL; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1721930240; c=relaxed/simple;
+	bh=DhAIgWDpgwVkWBBmDYSxAnHbMgCM6/NvKYHcNXQNSYg=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DWbTDB8wF60FMYa/Y10kjmIW1/jq3K5hh2A/i/YttYQm6/I2e/qr6o7d/3J1DNGq8uDAv+ejcy+r71hMquyR9AQDZ954DtlQf4VOs4WB8UGMAhSmCKYOWOIjRbUhV8yxyhVlym6tvUNvvr4SsVsbCOkZMMbxOOZAPtRvpyT65fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--patrykd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kCzh9vFN; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--patrykd.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YDab9KKL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1721122169;
-	bh=JxMuxlRBzE5uRQvKjxLt3Zs2WRCk/QqMJSaQV4qQONE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YDab9KKLIXSUg6jXTsAolHHxcj6GRuZucscY6cfDZeq7ONUXi42rDBE1mpznuLsTT
-	 XB+KVnejJQBgNAceYYO3N+Z0nxMN+JqSOmpR/5Hm4YvZd2cBNS5dkUCyQ1tr1jOfij
-	 BpFd2T+e42e0ANgLAv8fYrfwjwP6g6iQkFdH3uW4NqeDzI4fCpRkPdRxVZueFXK5gs
-	 OVkQzuRPZTcmqAVK+UlJ80gk6+vF8F4dHSGy9yV3ZiB+G7A41IZdbPfGMljppf8pYt
-	 OBPqoc1n/DlSrUJ1UG7BiDxwBpqciNc8HFBKhG2qDCAN5RkUd/H3ANLEQDalYFtmEk
-	 zNbNIHIkpcYdg==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: laura.nao)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1F7103780C13;
-	Tue, 16 Jul 2024 09:29:29 +0000 (UTC)
-From: Laura Nao <laura.nao@collabora.com>
-To: laura.nao@collabora.com
-Cc: kernel@collabora.com,
-	linux-kernel@vger.kernel.org,
-	mingo@kernel.org,
-	regressions@lists.linux.dev,
-	chrome-platform@lists.linux.dev
-Subject: Re: [REGRESSION] next boot regression caused by RIP: 0010:usercopy_abort+0x74/0x76 kernel panic
-Date: Tue, 16 Jul 2024 11:29:53 +0200
-Message-Id: <20240716092953.295122-1-laura.nao@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240705142130.928396-1-laura.nao@collabora.com>
-References: <20240705142130.928396-1-laura.nao@collabora.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kCzh9vFN"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-36863648335so758733f8f.0
+        for <chrome-platform@lists.linux.dev>; Thu, 25 Jul 2024 10:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721930236; x=1722535036; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pj8wlsiwh+dQMB6deQXUuo6LHgenGkpoXoj1IjIi9wU=;
+        b=kCzh9vFNltLB1rlJNtGeWnN2UsMqAPrq7OlR9sytQNK92DYTC26DOr9Op1dJCmYL9g
+         rN9KDBKF29PyMzKwD2ASTtWpnSgvnhkDsL5B9zw4IBN5F3538HFvHT8UFp4tr4Ehs/z9
+         MJ0WCwOy6t6jXjHG4FQeNt+tKHTVVL3ZKZWQyEQICHhuU3Fu2/L3rd5wCkF01EIMnwmU
+         vnZexmQFB/OpAEL2j0aq2Xumyoc5veQ53svjihFPaSOa9LWFBuNL+eNl1tF597YDKkwQ
+         H6XdQJwrTwzBgSzz21PKRWEbSQRbhnzJBzsSUe5DiSJTp6sBLEPrmZ7U/ClA3FPltTjU
+         YU2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721930236; x=1722535036;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pj8wlsiwh+dQMB6deQXUuo6LHgenGkpoXoj1IjIi9wU=;
+        b=f44Ovm8pSN5hKhZDt9/T7jCzyaEAgPajos6zSLvj7XRsmnASkQs4uKJzUjHDq6/jP/
+         lQcDSazxrDU197y0Fhg4OJMp/z+Wuc/gYAY2n9Qy+Juy9xv9gahgTRFKrTQzUQkI6qRw
+         YkSDV+wk3s6MA0vyN76NS+eLbI/eCOL3rDV/0F4ypt+pTRxJp4uGzJrgxuYz/Qe7RuY/
+         /Tev5MwREqfaX7rIyGACHbL6ENLMOtqkrWhsgOotXRhxCB4pQSb7BvUvoCIELy/M0R0A
+         ig7ItFDnqo27XKk9UiyAzo4hQwxFmBwKgY3C2LhWWAk6scFZUHU6weKVufRrfXHI2ly8
+         msaA==
+X-Gm-Message-State: AOJu0YxJaLJMXTP6/8ZjwPjyeZkHZlK6prCxrN4GdUYk5b7hfRxWaab+
+	hSHCxSS3ezYLe/Y9X/AM52qBknX10L53ePRP59Jf7yBr2bkxAnjP12W3TblDgRsbmN9Y2BE5iBH
+	5XDg4rQ==
+X-Google-Smtp-Source: AGHT+IGE7PmENKFcCopXZjvlj0vKRfEsY2GhFANwEWqXPK+LTdTXsK5o4971ia5IpQPiVH9ll7u1HZGHcBZT
+X-Received: from lysy.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:de4])
+ (user=patrykd job=sendgmr) by 2002:adf:f091:0:b0:368:3373:30bb with SMTP id
+ ffacd0b85a97d-36b363c2f19mr4817f8f.6.1721930236012; Thu, 25 Jul 2024 10:57:16
+ -0700 (PDT)
+Date: Thu, 25 Jul 2024 17:57:13 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
+Message-ID: <20240725175714.1769080-1-patrykd@google.com>
+Subject: [PATCH] platform/chrome: cros_ec_proto: Lock device when updating
+ MKBP version
+From: Patryk Duda <patrykd@google.com>
+To: Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Patryk Duda <patrykd@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+The cros_ec_get_host_command_version_mask() function requires that the
+caller must have ec_dev->lock mutex before calling it. This requirement
+was not met and as a result it was possible that two commands were sent
+to the device at the same time.
 
-On 7/5/24 16:21, Laura Nao wrote:
-> On 6/7/24 17:14, Laura Nao wrote:
->> Hello,
->>
->> KernelCI has detected a boot regression affecting all AMD and Intel
->> Chromebooks in the Collabora LAVA lab, occurring between next-20240605
->> and next-20240606.
->>
->> The following kernel panic has been reported in the logs. The trace
->> provided below is from an Acer Chromebook 317, with similar traces
->> observed on other devices:
->>
->> [    5.944268] RIP: 0010:usercopy_abort+0x74/0x76
->> [    5.944276] Code: 0f 89 9f 51 48 0f 45 d6 49 c7 c3 ac c1 7c 9f 4c 89 d1 57 48 c7 c6 38 54 7b 9f 48 c7 c7 b5 c1 7c 9f 49 0f 45 f3 e8 b9 8c e4 ff <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00
->> [    5.944278] RSP: 0000:ffffb01e8001fb90 EFLAGS: 00010246
->> [    5.944280] RAX: 0000000000000068 RBX: 0000000000000d80 RCX: 0000000000000000
->> [    5.944281] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
->> [    5.944282] RBP: 0000000000000000 R08: 0000000000000003 R09: 2079726f6d656d20
->> [    5.944284] R10: 79706f6372657375 R11: 79706f6372657375 R12: ffff8e7b400a8800
->> [    5.944285] R13: 0000000000000d80 R14: 0000000000000000 R15: 00000000ff879a40
->> [    5.944286] FS:  0000000000000000(0003) GS:ffff8e7bc0100000(0063) knlGS:00000000eca4d440
->> [    5.944288] CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
->> [    5.944289] CR2: 00000000080e61d0 CR3: 0000000107002000 CR4: 0000000000350ef0
->> [    5.944290] Call Trace:
->> [    5.944293]  <TASK>
->> [    5.944295]  ? __die_body+0x1b/0x5d
->> [    5.944300]  ? die+0x31/0x4b
->> [    5.944303]  ? do_trap+0x7c/0xfe
->> [    5.944306]  ? usercopy_abort+0x74/0x76
->> [    5.944309]  ? usercopy_abort+0x74/0x76
->> [    5.944312]  ? do_error_trap+0x6f/0x99
->> [    5.944315]  ? usercopy_abort+0x74/0x76
->> [    5.944318]  ? exc_invalid_op+0x4e/0x65
->> [    5.944321]  ? usercopy_abort+0x74/0x76
->> [    5.944324]  ? asm_exc_invalid_op+0x16/0x20
->> [    5.944327]  ? usercopy_abort+0x74/0x76
->> [    5.944330]  __check_heap_object+0xcb/0x110
->> [    5.944334]  __check_object_size+0x181/0x26d
->> [    5.944336]  copy_from_buffer+0x43/0x66
->> [    5.944340]  copy_uabi_to_xstate+0x113/0x194
->> [    5.944343]  __fpu_restore_sig+0x3a3/0x4be
->> [    5.944347]  fpu__restore_sig+0x6c/0x83
->> [    5.944350]  ia32_restore_sigcontext+0x14e/0x16d
->> [    5.944354]  __do_compat_sys_sigreturn+0x7b/0xbc
->> [    5.944357]  do_int80_emulation+0xad/0xd3
->> [    5.944360]  ? handle_mm_fault+0x10e/0x199
->> [    5.944363]  ? exc_page_fault+0x27b/0x42f
->> [    5.944365]  ? fpregs_assert_state_consistent+0x22/0x47
->> [    5.944368]  ? clear_bhb_loop+0x45/0xa0
->> [    5.944370]  ? clear_bhb_loop+0x45/0xa0
->> [    5.944372]  ? clear_bhb_loop+0x45/0xa0
->> [    5.944374]  ? clear_bhb_loop+0x45/0xa0
->> [    5.944375]  ? clear_bhb_loop+0x45/0xa0
->> [    5.944377]  ? clear_bhb_loop+0xe/0xa0
->> [    5.944379]  asm_int80_emulation+0x16/0x20
->> [    5.944382] RIP: 0023:0xeca52579
->> [    5.944384] Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
->> [    5.944386] RSP: 002b:00000000ff879cbc EFLAGS: 00000246
->> [    5.944387] RAX: 0000000000000060 RBX: 00000000ffffffff RCX: 00000000ff879d08
->> [    5.944389] RDX: 0000000000000000 RSI: 0000000009b111a0 RDI: 00000000ff879d08
->> [    5.944390] RBP: 00000000080d1801 R08: 0000000000000000 R09: 0000000000000000
->> [    5.944391] R10: 0000000000000000 R11: 0000000000000282 R12: 0000000000000000
->> [    5.944392] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
->> [    5.944393]  </TASK>
->> [    5.944394] Modules linked in:
->> [    5.944433] ---[ end trace 0000000000000000 ]---
->> [    6.287986] RIP: 0010:usercopy_abort+0x74/0x76
->> [    6.293033] Code: 0f 89 9f 51 48 0f 45 d6 49 c7 c3 ac c1 7c 9f 4c 89 d1 57 48 c7 c6 38 54 7b 9f 48 c7 c7 b5 c1 7c 9f 49 0f 45 f3 e8 b9 8c e4 ff <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00
->> [    6.313975] RSP: 0000:ffffb01e8001fb90 EFLAGS: 00010246
->> [    6.319810] RAX: 0000000000000068 RBX: 0000000000000d80 RCX: 0000000000000000
->> [    6.327780] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
->> [    6.335744] RBP: 0000000000000000 R08: 0000000000000003 R09: 2079726f6d656d20
->> [    6.343710] R10: 79706f6372657375 R11: 79706f6372657375 R12: ffff8e7b400a8800
->> [    6.351678] R13: 0000000000000d80 R14: 0000000000000000 R15: 00000000ff879a40
->> [    6.359646] FS:  0000000000000000(0003) GS:ffff8e7bc0000000(0063) knlGS:00000000eca4d440
->> [    6.368680] CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
->> [    6.375098] CR2: 00000000f322e480 CR3: 0000000107002000 CR4: 0000000000350ef0
->> [    6.383065] Kernel panic - not syncing: Fatal exception
->> [    6.388907] Kernel Offset: 0x1ba00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
->>
->> The full kernel log is available on [1]. The config used was the
->> upstream x86_64 defconfig with a fragment applied on top [2].
->>
->> The issue is still present on next-20240607.
->>
->> I'm sending this report to track the regression while a fix is
->> identified. I'll investigate the issue/run a bisection and report back
->> with the results.
->>
-> 
-> Reverting this series fixes the issue first observed in next-20240606
-> (CC Ingo):
-> https://lore.kernel.org/all/20240605083557.2051480-1-mingo@kernel.org/
-> 
-> The issue is no longer present as of next-20240703, where the series was
-> dropped. I'm marking this as resolved for now.
-> 
+The problem was observed while using UART backend which doesn't use any
+additional locks, unlike SPI backend which locks the controller until
+response is received.
 
-The issue started happening again since next-20240712, as the series
-landed back on linux-next (see full kernel log [1] and config [2] from a 
-next-20240715 run).
+Fixes: f74c7557ed0d ("platform/chrome: cros_ec_proto: Update version on GET_NEXT_EVENT failure")
+Cc: stable@vger.kernel.org
+Signed-off-by: Patryk Duda <patrykd@google.com>
+---
+The f74c7557ed0d patch was tested with Fingerprint MCU (FPMCU) that uses
+SPI to communicate with chipset. At that time, UART FPMCU had the same
+version of GET_NEXT_EVENT command in RO and RW, so the MKBP version was
+never updated in this case.
 
-Ingo, do you have any pointers or suggestions on how we can further debug 
-this issue?
+Version 3 of GET_NEXT_EVENT command was recently added to CrosEC. As a
+result MKBP version is also updated when UART FPMCU is used which
+exposed this problem.
 
-Thorsten, is there any way to mark this regression as unresolved again?
+Best regards,
+Patryk
 
-Thanks,
+ drivers/platform/chrome/cros_ec_proto.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Laura Nao
-
-[1] https://pastebin.com/raw/saEHbXgY
-[2] https://pastebin.com/raw/aC1Kqi4Y
-
-#regzbot introduced: 81106b7e0b
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index f776fd42244f..cf7ef5f9db84 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -813,6 +813,7 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 	if (ret == -ENOPROTOOPT) {
+ 		dev_dbg(ec_dev->dev,
+ 			"GET_NEXT_EVENT returned invalid version error.\n");
++		mutex_lock(&ec_dev->lock);
+ 		ret = cros_ec_get_host_command_version_mask(ec_dev,
+ 							EC_CMD_GET_NEXT_EVENT,
+ 							&ver_mask);
+@@ -829,6 +830,7 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 		ec_dev->mkbp_event_supported = fls(ver_mask);
+ 		dev_dbg(ec_dev->dev, "MKBP support version changed to %u\n",
+ 			ec_dev->mkbp_event_supported - 1);
++		mutex_unlock(&ec_dev->lock);
+ 
+ 		/* Try to get next event with new MKBP support version set. */
+ 		ret = get_next_event(ec_dev);
+-- 
+2.45.2.1089.g2a221341d9-goog
 

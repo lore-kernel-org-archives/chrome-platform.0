@@ -1,100 +1,179 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A552D2E633;
-	Fri, 26 Jul 2024 18:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A43A2C80;
+	Sun, 28 Jul 2024 00:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722017578; cv=none; b=pCUB/rjesTtjPbtQO0NfCTxwxS6Sx38OheEcCCunU5z35ARiszNb1I/h4NdB5OM9yujgLee11H4D4lshkDX3qziPlD1IrD/yhRBfCQcrkbPgAPGfKvuwWskvWf81eD3ukYbGgMPeFNUUQsMSo+sbKaZDg8EwFfsa5hNKrm/3nGQ=
+	t=1722127673; cv=none; b=W1+UkakLxsGoCAR2OODb1xdtd2v61SH3Nju/2F82u7OBnx2mvYP2nEqfd003IqOmQ4f8dOqvXHKqwpq3bt0yTl86Bq/2c7tVc9zHWLMVAW0LXeEOsbSN+92/DnJbK5Qsm8c5Ze33mVkcqWcIoMiF6dXk37PqvFA70deB/+osreg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722017578; c=relaxed/simple;
-	bh=nFUGd7+L7sl/3I9FtSEOYJlOLSgdubB3hGLVG47KEYs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DWgVdK/5zM2BcD7dy6MWO2L+O2hRy9bkOc/+UvwMjLFUp9EFihdRckY0hCp8Ac0bNNkhxIjbLV6b5Vq1g5TbIcw0vLc4syvsnzDdCcobZ49c1/kMvzeZmrvGCVMObBCXgcklkPEdiri8m2tmLjxLBqsmvtCSZLhHJFLnClv/KRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Q/tiFX50; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1722127673; c=relaxed/simple;
+	bh=WPtZtrMFhL/pI8aihGmlerhhr2GtDKr2gXIaZgt7oyQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m3lIYoFTHFI2jgvEzaeeu+MuDAO78BhkLHDuCVg3kNHlKGROH33EF5e9RDhRvfzmptfUVaMyp0nUrcWfRJDc7ZOUJ11+M5k7c59iylhIV3nPZhhiKKrIsVH18kx2k63nw52e3f0VeZzC3l62vnfXc1VEJWrFaVVwMqEntxN7ypQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qe+UlxsF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Q/tiFX50"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=VLtBi/dJDi2LQ/y5ivzxuNTExu4QiDsYE//pYYFE1Bg=; b=Q/tiFX50GjPQfOA1Y+1anpUHdp
-	79+GvYG7MB5/vcBXtLzC8FW+wMGjxVxey53x183MOY2B7BcuhmyoBbDjgXgwz7eFgz8vHJY5rln6+
-	5rqYSgdKNPeWRGsqyzjog/UUs8K0sG2idtwZAAgQwkNwE7Fd2uHiGuKYM4RDseiZCKF2Xu46uDQsl
-	/U1vf0XRRj9w+PI4XnP+Ag4q+KE48JCgawM9Rjo83ffNse8SsZcp7odTkjFp9oA9+h8W2n55bTe5X
-	LUozUQ/rJsESxc+IlRGfyHogSAuFXPx+OOPIsbsd6VwYhIV0jWNDldEs+tQJT08o1Gw6WnjfF0P2s
-	105NIEog==;
-Received: from 179-125-71-226-dinamico.pombonet.net.br ([179.125.71.226] helo=localhost.localdomain)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1sXPQu-002SbZ-IR; Fri, 26 Jul 2024 20:12:49 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: chrome-platform@lists.linux.dev
-Cc: Guenter Roeck <groeck@chromium.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qe+UlxsF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9133C4AF0E;
+	Sun, 28 Jul 2024 00:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722127672;
+	bh=WPtZtrMFhL/pI8aihGmlerhhr2GtDKr2gXIaZgt7oyQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Qe+UlxsFfMCjJaMcZDnotzigrSzUdm8whaAsHeGi0pYL6riyt6jbGrKzEzIwJ7tHA
+	 X1Ij7q6nQxjOhrLSssjmUqC+vtNWsIjaiof2EUdsC/bUZhYUOxYTc5zlKdDcuIKtnu
+	 mO4vI+zvhGyM5ImGoKIMiDkqHlmXcmEI9XxatF+teD+Nbwwhszu/ZVu9S5089ygy5r
+	 4EGak8oRO1AmO13YLjn6M+EGf//p240YCMwetFsZiaz+uRMdi6L4gpPM2P86KEhhQo
+	 5QKpejZkZ7bJOtuLGjq9noA6qk6ywQVgG+ITbqTi4tA3D8o0XQtjnnuDjNW67cNxS7
+	 eYfRdI3JrohHA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ben Walsh <ben@jubnut.com>,
+	"Dustin L . Howett" <dustin@howett.net>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Subject: [PATCH] platform/chrome: cros_ec_typec: add remove driver hook
-Date: Fri, 26 Jul 2024 15:12:35 -0300
-Message-Id: <20240726181235.920335-1-cascardo@igalia.com>
-X-Mailer: git-send-email 2.34.1
+	Sasha Levin <sashal@kernel.org>,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.10 06/16] platform/chrome: cros_ec_lpc: Add a new quirk for ACPI id
+Date: Sat, 27 Jul 2024 20:47:23 -0400
+Message-ID: <20240728004739.1698541-6-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240728004739.1698541-1-sashal@kernel.org>
+References: <20240728004739.1698541-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.2
 Content-Transfer-Encoding: 8bit
 
-This allows the driver to be unbound and bound again. Otherwise, when
-unbinding the driver, there will be leftover sysfs entries.
+From: Ben Walsh <ben@jubnut.com>
 
-When rebinding the driver, it also ends up touching freed memory when
-adding to the notifier chain as the old one was not removed and ends up
-being traversed.
+[ Upstream commit 040159e0912c31fe959d8671f9700bda105ab63a ]
 
-Add a remove_new driver hook, which removes the notifier from the chain and
-unregisters the typec ports.
+Framework Laptops' ACPI exposes the EC with id "PNP0C09". But
+"PNP0C09" is part of the ACPI standard; there are lots of computers
+with EC chips with this id, and most of them don't support the cros_ec
+protocol.
 
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+The driver could find the ACPI device by having "PNP0C09" in the
+acpi_match_table, but this would match devices which don't support the
+cros_ec protocol. Instead, add a new quirk "CROS_EC_LPC_QUIRK_ACPI_ID"
+which allows the id to be specified. This quirk is applied after the
+DMI check shows that the device is supported.
+
+Tested-by: Dustin L. Howett <dustin@howett.net>
+Signed-off-by: Ben Walsh <ben@jubnut.com>
+Link: https://lore.kernel.org/r/20240605063351.14836-4-ben@jubnut.com
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/platform/chrome/cros_ec_lpc.c | 50 ++++++++++++++++++++-------
+ 1 file changed, 38 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 4d305876ec08..c7781aea0b88 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -1285,6 +1285,15 @@ static int cros_typec_probe(struct platform_device *pdev)
- 	return ret;
- }
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index ddfbfec44f4cc..43e0914256a3c 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -39,6 +39,11 @@ static bool cros_ec_lpc_acpi_device_found;
+  * be used as the base port for EC mapped memory.
+  */
+ #define CROS_EC_LPC_QUIRK_REMAP_MEMORY              BIT(0)
++/*
++ * Indicates that lpc_driver_data.quirk_acpi_id should be used to find
++ * the ACPI device.
++ */
++#define CROS_EC_LPC_QUIRK_ACPI_ID                   BIT(1)
  
-+static void cros_typec_remove(struct platform_device *pdev)
-+{
-+	struct cros_typec_data *typec = platform_get_drvdata(pdev);
-+
-+	cros_usbpd_unregister_notify(&typec->nb);
-+	cancel_work_sync(&typec->port_work);
-+	cros_unregister_ports(typec);
-+}
-+
- static int __maybe_unused cros_typec_suspend(struct device *dev)
- {
- 	struct cros_typec_data *typec = dev_get_drvdata(dev);
-@@ -1316,6 +1325,7 @@ static struct platform_driver cros_typec_driver = {
- 		.pm = &cros_typec_pm_ops,
- 	},
- 	.probe = cros_typec_probe,
-+	.remove_new = cros_typec_remove,
+ /**
+  * struct lpc_driver_data - driver data attached to a DMI device ID to indicate
+@@ -46,10 +51,12 @@ static bool cros_ec_lpc_acpi_device_found;
+  * @quirks: a bitfield composed of quirks from CROS_EC_LPC_QUIRK_*
+  * @quirk_mmio_memory_base: The first I/O port addressing EC mapped memory (used
+  *                          when quirk ...REMAP_MEMORY is set.)
++ * @quirk_acpi_id: An ACPI HID to be used to find the ACPI device.
+  */
+ struct lpc_driver_data {
+ 	u32 quirks;
+ 	u16 quirk_mmio_memory_base;
++	const char *quirk_acpi_id;
  };
  
- module_platform_driver(cros_typec_driver);
+ /**
+@@ -374,6 +381,26 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+ 		pm_system_wakeup();
+ }
+ 
++static acpi_status cros_ec_lpc_parse_device(acpi_handle handle, u32 level,
++					    void *context, void **retval)
++{
++	*(struct acpi_device **)context = acpi_fetch_acpi_dev(handle);
++	return AE_CTRL_TERMINATE;
++}
++
++static struct acpi_device *cros_ec_lpc_get_device(const char *id)
++{
++	struct acpi_device *adev = NULL;
++	acpi_status status = acpi_get_devices(id, cros_ec_lpc_parse_device,
++					      &adev, NULL);
++	if (ACPI_FAILURE(status)) {
++		pr_warn(DRV_NAME ": Looking for %s failed\n", id);
++		return NULL;
++	}
++
++	return adev;
++}
++
+ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -401,6 +428,16 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 
+ 		if (quirks & CROS_EC_LPC_QUIRK_REMAP_MEMORY)
+ 			ec_lpc->mmio_memory_base = driver_data->quirk_mmio_memory_base;
++
++		if (quirks & CROS_EC_LPC_QUIRK_ACPI_ID) {
++			adev = cros_ec_lpc_get_device(driver_data->quirk_acpi_id);
++			if (!adev) {
++				dev_err(dev, "failed to get ACPI device '%s'",
++					driver_data->quirk_acpi_id);
++				return -ENODEV;
++			}
++			ACPI_COMPANION_SET(dev, adev);
++		}
+ 	}
+ 
+ 	/*
+@@ -661,23 +698,12 @@ static struct platform_device cros_ec_lpc_device = {
+ 	.name = DRV_NAME
+ };
+ 
+-static acpi_status cros_ec_lpc_parse_device(acpi_handle handle, u32 level,
+-					    void *context, void **retval)
+-{
+-	*(bool *)context = true;
+-	return AE_CTRL_TERMINATE;
+-}
+-
+ static int __init cros_ec_lpc_init(void)
+ {
+ 	int ret;
+-	acpi_status status;
+ 	const struct dmi_system_id *dmi_match;
+ 
+-	status = acpi_get_devices(ACPI_DRV_NAME, cros_ec_lpc_parse_device,
+-				  &cros_ec_lpc_acpi_device_found, NULL);
+-	if (ACPI_FAILURE(status))
+-		pr_warn(DRV_NAME ": Looking for %s failed\n", ACPI_DRV_NAME);
++	cros_ec_lpc_acpi_device_found = !!cros_ec_lpc_get_device(ACPI_DRV_NAME);
+ 
+ 	dmi_match = dmi_first_match(cros_ec_lpc_dmi_table);
+ 
 -- 
-2.34.1
+2.43.0
 

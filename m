@@ -1,68 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FEE757E0
-	for <chrome-platform@lists.linux.dev>; Mon, 29 Jul 2024 04:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC0813AA26
+	for <chrome-platform@lists.linux.dev>; Mon, 29 Jul 2024 11:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722228642; cv=none; b=TdoG74ydEaRxOqnHWt0+UXW20IGbCDWKx+qnL5wRSkNN3KXn2v09Xw1+THuTDyS6G6lKPGGTkCxo6tuB7hDS62GkpUPR1X/Ntmxk4yCymKQOrVrtP/zfe+calUUknHfGNRnelwSSRCsML/eyEn6EB/gYMut4PFKY4cNArwQ5a+Q=
+	t=1722254244; cv=none; b=PqSEN7OdP5Wf0Mfkml/JePKfJAvKONuC6/HeMpb6rYhrqRVyq0U1MjjWRqlxXSCGprcbQipiPE5AlpjKYJd7U1iQ2SSNMh22F01XcqjBCVTaP061szTIPuGjkA5pLO1bag96j5SdQdnLZKJR0KpOMkV6v3S3MUpxCUDYrCpvaOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722228642; c=relaxed/simple;
-	bh=nefRl4iejJtZdob1wxQX1au9yfsCcKm5/mXaADbXFZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KE1+SUxrYLQEvqGz0F0nGpJX1sfG8zgAotHN7iAZ3G5F3HUIFFHohMw5pLjevdsB2W2/cVl4v1LqQYXQ+OneotCuLV5xxFVK8P36RLAH8tRp17zJc1Je7LZVr4oQS68LdLZNxcOGvhNFlSOY6YAzrrxj7wOgLaoVQ2S07zyQoBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LaQBVkhM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722254244; c=relaxed/simple;
+	bh=x3XhPLsCtjDy70nhvPuPtYCSM145dpQSHE7ynV+IkpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jl1MZlfkSPkUnjnyjNyvXThH1b5e8bNQ9yLg6E3GUWJ5Iu6Yj7sjVhlf9MBJCuusUKfIWQLzhyA8FRwFZx93zEbARHe1dhf6vZxSu/UaOK6q7twMFyHLIOc/zcRIOsOKoxR6HeQeQMaq5575K6+ZmYKJllPkliq5iLmyJGYvrFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LS5T0pjM; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LaQBVkhM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D0DC32786;
-	Mon, 29 Jul 2024 04:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722228642;
-	bh=nefRl4iejJtZdob1wxQX1au9yfsCcKm5/mXaADbXFZ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LaQBVkhMhmGsB8HZ7QFslrQZynLOuAtvh+VNvPPQ9h82i3EDd/CqMSUCcrUkrd+wR
-	 a6gkfSo5ggPs3RpO3nb2d4Ug24KfDGgCcw9X6h9b5qH5lJoRwOruDX9XMO1L6r2rIs
-	 HmqRohf71w894D5pdeYJbDFslUZTRcersVkjOZWxgvgjMeYQshwa023IWCK+oD7EYQ
-	 /ayVflPglU5RbMGR+bId7rLPdWlzErRm6C/QIaxyn1m0/zcw+PKUsBl0u0Izr5PgWb
-	 b45fznuN3hAUk1Dfs1tg40AUSJR82IT++vdaVzCLMFKljMDtW0H/yq9v4DbG2y0s2Y
-	 VPdcVY5sFUAjw==
-Date: Mon, 29 Jul 2024 04:50:38 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "kernelci.org bot" <bot@kernelci.org>
-Cc: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
-	chrome-platform@lists.linux.dev, eballetbo@gmail.com,
-	bleung@chromium.org, groeck@chromium.org, pmalani@chromium.org
-Subject: Re: chrome-platform/for-next build: 5 builds: 1 failed, 4 passed
- (v6.11-rc1)
-Message-ID: <Zqcfntpk-IduyAPI@google.com>
-References: <66a71c71.170a0220.199d7a.14dc@mx.google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LS5T0pjM"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5a18a5dbb23so10819a12.1
+        for <chrome-platform@lists.linux.dev>; Mon, 29 Jul 2024 04:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722254241; x=1722859041; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+A9yn1Vu3zA/NqT+R60GqDVDjMj6eEkOom2C/kDD3s=;
+        b=LS5T0pjM74I6Wfn2PUUkvVJ92I/mH7P4xdpTg4Q3BspdhrWrORghG9auHA3m4nol5f
+         LS+cL6XroPkgyksYEwmZwIGtG7gxknbBOxmhr/nuEubZmQaRvZJt6iw6mQVR0VOsNQFR
+         7fSxIZhgaK7xL3kElr3lNVN86WjvGqCopNk2rts/Z2i7HYJoBGeihoAaQGhmG6ZHx1W/
+         iWjeIo5KeB8SxR/ZEpmc+Nku6kO7nCqhwC51IC+Qkh7srn12vFsnBdEhlws9ZwchPDZJ
+         +MOcieng7ugoghaVKbFpL4L+rDopBzVZMPMTMusktBpAtKwWyQma2Gmg+h3+f5QWND3/
+         XdBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722254241; x=1722859041;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/+A9yn1Vu3zA/NqT+R60GqDVDjMj6eEkOom2C/kDD3s=;
+        b=KtrLqoxcKYbKLOFMrb3AttDIAxbbKPqgA0dlRdg4PP0Ipk3ne57vVhe5pPLyabH9Xp
+         /ffs8HW6DdybmXNqrL6AAt7+yI8vl2krDrDS0aPiqaVlyQjk5Bzsr/V5ma+k28CO1hdu
+         sV1/oNHIBRvEnmDHlCygrR51FLDEPGRzfc/EE/juEH3e483DHJykV/pKHuj2VBDgfsY/
+         jFxGXmUBbImXdqTuUpQivOHHWPhIMugsZXnHzKhZQFp4Y+MxVPYiPVj4JJbdVEqEly12
+         x/GgCrduKOUZNm2C5M2wbNW3Jr/9F2THxNXZWbLHHhEjktcfUgLwQa99ikzojdht6WYl
+         R3ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCW+K7U2gsvZb7cwThkdTfy4woHJj7kt+lLaXkLoxm3ga46CyJyQghhUfqnQmJUOSV2SjtCOqTX5KmiewEfNIu+fgdAdTJk6XkPqHEsYrQ8o
+X-Gm-Message-State: AOJu0Yz6qxeVwjV5dIQVefzFaXEF8OIJbjaIsjpDtXnzpUiTWVj0jShb
+	waJxn2n+YmP8TBY/3kroP/pkQEm04N+BfoD7QTrifhW2c0dn1Kf8oxCkme55pSGkOkGw4kkksKf
+	HkcZdgADs2FTIRYVxqBLZTS3ThZRfvJjZ2LUv
+X-Google-Smtp-Source: AGHT+IFGfho3sbTHKT0xwhEjvTYuUpNnNy70RSsdxIvCATXOU/6B+Ko3DwMfC7CFyPef0u/zrB+lS4UagH+FLbCyDvg=
+X-Received: by 2002:a05:6402:3585:b0:5a0:d4ce:59a6 with SMTP id
+ 4fb4d7f45d1cf-5affc67d570mr338128a12.2.1722254240674; Mon, 29 Jul 2024
+ 04:57:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66a71c71.170a0220.199d7a.14dc@mx.google.com>
+References: <20240725175714.1769080-1-patrykd@google.com> <ZqcQ3rjY6Wu4lU6t@google.com>
+In-Reply-To: <ZqcQ3rjY6Wu4lU6t@google.com>
+From: Patryk Duda <patrykd@google.com>
+Date: Mon, 29 Jul 2024 13:57:09 +0200
+Message-ID: <CAMxeMi3864MhJvaH16mw5hHKzYnoRWpZWnxJJuWm9bSKiTojWQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_proto: Lock device when updating
+ MKBP version
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 28, 2024 at 09:37:05PM -0700, kernelci.org bot wrote:
-> chrome-platform/for-next build: 5 builds: 1 failed, 4 passed (v6.11-rc1)
-> 
-> Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-next/kernel/v6.11-rc1/
-> 
-> Tree: chrome-platform
-> Branch: for-next
-> Git Describe: v6.11-rc1
-> Git Commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
-> Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
-> Built: 3 unique architectures
-> 
-> Build Failure Detected:
-> 
-> arm64:
->     defconfig+arm64-chromebook: (gcc-12) FAIL
+On Mon, Jul 29, 2024 at 5:47=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Thu, Jul 25, 2024 at 05:57:13PM +0000, Patryk Duda wrote:
+> > The cros_ec_get_host_command_version_mask() function requires that the
+> > caller must have ec_dev->lock mutex before calling it. This requirement
+> > was not met and as a result it was possible that two commands were sent
+> > to the device at the same time.
+>
+> To clarify:
+> - What would happen if multiple cros_ec_get_host_command_version_mask() c=
+alls
+>   at the same time?
+In the best case, MCU will receive both commands glued together and
+will ignore them.
+It will result in a timeout in the kernel. In the worst case, request
+and/or response buffers will be
+corrupted.
 
-make[7]: *** No rule to make target '/tmp/kci/linux/build/firmware-files/mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg', needed by 'drivers/base/firmware_loader/builtin/mediatek/sof-tplg/sof-mt8195-mt6359-rt1019-rt5682-dts.tplg.gen.o'.
+> - What are the callees?  I'm trying to understand the source of paralleli=
+sm.
+This is a race between interrupt handling and ioctl call from userspace
 
-Does it need a manual update for rootfs?
+Handling interrupt path
+cros_ec_irq_thread()
+cros_ec_handle_event()
+cros_ec_get_next_event() - Queries host command version without taking
+ec_dev->lock mutex first
+cros_ec_get_host_command_version_mask()
+cros_ec_send_command()
+cros_ec_xfer_command()
+cros_ec_uart_pkt_xfer()
+
+Command from userspace
+cros_ec_chardev_ioctl()
+cros_ec_chardev_ioctl_xcmd()
+cros_ec_cmd_xfer() - Locks ec_dev->lock mutex before sending command
+cros_ec_send_command()
+cros_ec_xfer_command()
+cros_ec_uart_pkt_xfer()
+
+>
+> Also, the patch also needs an unlock at [1].
+>
+> [1]: https://elixir.bootlin.com/linux/v6.10/source/drivers/platform/chrom=
+e/cros_ec_proto.c#L819
+
+Yeah. I'll fix it in v2
+
+>
+> > The problem was observed while using UART backend which doesn't use any
+> > additional locks, unlike SPI backend which locks the controller until
+> > response is received.
+>
+> Is it a general issue if multiple commands send to EC at a time?  If yes,=
+ it
+> should serialize that in the UART transportation.
+
+Host Commands only support one command at a time. It's enforced by 'lock' m=
+utex
+from cros_ec_device structure. We just need to use it properly.

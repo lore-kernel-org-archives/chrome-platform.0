@@ -1,94 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02304199236;
-	Tue, 30 Jul 2024 12:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584AD86AEE;
+	Tue, 30 Jul 2024 12:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722341338; cv=none; b=IYaOogl2UFZnyOJdKr0KNvO1DXhkyOYJycSgDm/6gfQbqgFxJtYDDYZKYENFq7H67r9IL0LwrOsJ3eH1nwfZ+/Tleq/ObSQaCoVEPsYKjJEQx1+eQWO8vVfnO0qBUV1CmgqSlbs93JWGkMaBmgUbPVEif+reDXEMn93Vif1STGA=
+	t=1722341547; cv=none; b=G4SIQXmrVR5gg8XJIWFH/PTgIyRLWn9PS+CFa5QYdaQKK/5GFgP4c5s6zXiJ+SCdhIGrVn5llx224SIdOPQZH4AeWaXom8/OZ/4BH2SagvxiIeK7V/WeiYK8YCSgSEWBd++b7KS5aYLL3kHivQ0UPdWZF/kTl308dkyjRlR4ZMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722341338; c=relaxed/simple;
-	bh=oZgKN1ReguQocq3wV85Pte61m1OvjCGZvQp7Jwv+uVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XMQh8eOjyzUio0Oja4Z7/V4Ialf9x6J+olE6VG1WyhNmhQ7rWYy2fUFYq2PDYBUS80Rp7QZh+Gc3DVeQxBpj2qA0GW/miv2983etx/nf0wfdDOL6l4Wgs0Q8JhMuLUHMZ3CVfgP2gAJ9ndShK8y5+XeHwtngxfg0azxj9TSErDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZQKWKBf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722341547; c=relaxed/simple;
+	bh=x/kA2azEY26yQi/r+70B97uEul/VAE7ubKYeBvgSo8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EVUGoC9rByPUQ1UkQPh9FRiMJUnl6BkmkYFa1m735yr62AwPwNQ2aefHIJjXahi8WZ2LY0pwg/sWzNRH7r/ZB6pZxEjpz90rAego+sOeV9V6LZv7yaE+HdbKT+t2D055U4naqQ2QY7F170SHTxn/saE3q1f6YML9siBeoiuFZI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l6lYkDBz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZQKWKBf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83F90C4AF0B;
-	Tue, 30 Jul 2024 12:08:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l6lYkDBz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3657C32782;
+	Tue, 30 Jul 2024 12:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722341337;
-	bh=oZgKN1ReguQocq3wV85Pte61m1OvjCGZvQp7Jwv+uVA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=rZQKWKBfZCdbDDMHQrl2rAhGCsSnSaRyyZ2HX2YlCAj5+5bHw5haeZUl6DBqjqCdU
-	 +JVm0K+YK5DU9eB027EX3iE9MMU0BiS1d/X/LrOtG4E1YjOjgOAWIqTRQNFgRnJeOZ
-	 HzptvjFgXxTrv7PijBh8qRE8Bu64ZmIY4kIMvTmWSHN5rDqUhgENxJdoxRxF816Duw
-	 pI020dx+MfTk9yIdHWVf9kSi4idC3QEn/FMPa1W4oKLbe1aof34zw+U3XpG13ADftR
-	 eeiVFt2nBppzQr3uZJmKWJtVza8N7RTEbMD+QdEgWN7ea1sfWfqvZ0dazRs4kWitbL
-	 lAwKWYuQGPQOw==
-Date: Tue, 30 Jul 2024 20:08:54 +0800
+	s=k20201202; t=1722341546;
+	bh=x/kA2azEY26yQi/r+70B97uEul/VAE7ubKYeBvgSo8E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l6lYkDBzvjM4BOfSrT+9Go3zRnjUrbFeaXh+cxKv1xIZ0cy8RoAxKZiRCyGkzZ9Jl
+	 i/LGNQEJKjToDQqQW++kGBLUhEw43aZSvTiqjXYeCehPOFdwV/mmOb0FdXTwBZ24SO
+	 DWRoDlPk3GNu224WvgFy01WMg/ma+y0MxXA6DKt3nHa+fx9DETigA1xfxJVhJaasl4
+	 pYQfSEaCM0IZ6zZf8OnENW/y54CrbxxOAld+BH6RdNIeh91eeZAUpJdI48AovCuyn4
+	 3zWkk07MKGJiXie0Yk5Jv4EyNXwk/WCt5s0iXRvni9xKfCnmoKgL3KLhJAWTwZqv2d
+	 eXy7E0JVDZEVg==
+Date: Tue, 30 Jul 2024 20:12:23 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform fixes for v6.11-rc2
-Message-ID: <ZqjX1lwASMRAxAdm@tzungbi-laptop>
+To: Patryk Duda <patrykd@google.com>
+Cc: Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	chromeos-krk-upstreaming@google.com
+Subject: Re: [PATCH v3] platform/chrome: cros_ec_proto: Lock device when
+ updating MKBP version
+Message-ID: <ZqjYp-tnBUf6ealU@tzungbi-laptop>
+References: <20240730104425.607083-1-patrykd@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="adrtwPlj+pL8w0Qo"
-Content-Disposition: inline
-
-
---adrtwPlj+pL8w0Qo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240730104425.607083-1-patrykd@google.com>
 
-Hi Linus,
+On Tue, Jul 30, 2024 at 10:44:25AM +0000, Patryk Duda wrote:
+> The cros_ec_get_host_command_version_mask() function requires that the
+> caller must have ec_dev->lock mutex before calling it. This requirement
+> was not met and as a result it was possible that two commands were sent
+> to the device at the same time.
+> 
+> [...]
 
-Please pull chrome-platform fixes for v6.11-rc2.
+Applied to
 
-Thanks,
-TzungBi
-------
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git chrome-platform-6.11
 
-The following changes since commit 4baf1cc54433ff7c6e5178517bc8768001416681:
+Thanks!
 
-  power: supply: cros_charge-control: Fix signedness bug in charge_behaviour_store() (2024-07-05 01:51:33 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-fixes-for-v6.11-rc2
-
-for you to fetch changes up to df615907f1bf907260af01ccb904d0e9304b5278:
-
-  platform/chrome: cros_ec_proto: Lock device when updating MKBP version (2024-07-30 19:48:35 +0800)
-
-----------------------------------------------------------------
-chrome-platform fixes for v6.11-rc2
-
-Fix a race condition that sends multiple host commands at a time.
-
-----------------------------------------------------------------
-Patryk Duda (1):
-      platform/chrome: cros_ec_proto: Lock device when updating MKBP version
-
- drivers/platform/chrome/cros_ec_proto.c | 2 ++
- 1 file changed, 2 insertions(+)
-
---adrtwPlj+pL8w0Qo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZqjX1gAKCRArxTEGBto8
-9L8hAP97NNwfIuLMJk3apnyzlQp3JX6JFkigWRLhk1nB+WxCPwEAtvgDxY3BybnA
-R+sF7Xt/Ag1qh4qSdaRI2Soz/jmy1AI=
-=e6/i
------END PGP SIGNATURE-----
-
---adrtwPlj+pL8w0Qo--
+[1/1] platform/chrome: cros_ec_proto: Lock device when updating MKBP version
+      commit: df615907f1bf907260af01ccb904d0e9304b5278

@@ -1,122 +1,107 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C56A1993A4
-	for <chrome-platform@lists.linux.dev>; Tue, 30 Jul 2024 10:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B41053E3A
+	for <chrome-platform@lists.linux.dev>; Tue, 30 Jul 2024 10:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722336271; cv=none; b=pXyeHGteJdcz6bgs59n4/p1zoe2oNujElPVXKaU3V6RJQ14eQ9ifuyFUV28o2UntZxKbYgL4OshTaABGf8GJM7osbUOjqqqoIF6rtd3asc2k0xp6i2EWwVtMcJhhwqxY8YAlNqw4CpPpZ8W5veK7yW0gTPyZxHaI3p2X3NsLj8Q=
+	t=1722336935; cv=none; b=V7GQ8FNZbmhO8znLtiiwvgnnm77UmeDXdFGSPPr+tOB4ZjeRi7GyV4t1AdP2jEgXWIclGfFv6dJh9ZA2MENGYXSheOwn4lYC7muDDFyP8YA38afirUFnrE7bQaGTWLoLy2lruxphRxVj5iCy502XXHVgbuSYp2GUsJJptXXVWGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722336271; c=relaxed/simple;
-	bh=fK1eD6ZgZaJCFWg7plGuYvU5/18MRafwTZqCt2QDch8=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Jie/178Q616LS3qacLAEBzs7uJGdcLjvmJvXEUkHTIQ0ubQerBeuDIFB3LON/jznneEVwDQVebZ3cWwshkhSmWUDMv+Dht7tWPKe+Gt54s/HwxpNA+pvHzv7hl4tKhpeRCbgXpYLFeWjL1RgUPYL51TK6oCb74sIXW1stHCybRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--patrykd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QgRh6FVB; arc=none smtp.client-ip=209.85.219.201
+	s=arc-20240116; t=1722336935; c=relaxed/simple;
+	bh=v0tgyls8FUGT1sQokYSCsuUAU+aj8WL3aZ1cfqKSBQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gX27n/miyB1ONxgux7cer6JYee3R+S08ScKrVXmXRZ+b9jx5NuSEGSgxTFwP/mExAZAk1KLFI3wdz9Na9KAxp2XDBiAIdtuU2XFxuQW2WjeVbc7DhajQ5Y1/ip6oFEBXw1ktEmCFMjp3Pf6QZAOSrSPp2aWx/em+qg2HFtK5LQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FNlsSqRa; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--patrykd.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QgRh6FVB"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e03a694ba5aso6063179276.3
-        for <chrome-platform@lists.linux.dev>; Tue, 30 Jul 2024 03:44:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FNlsSqRa"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5a1b073d7cdso12806a12.0
+        for <chrome-platform@lists.linux.dev>; Tue, 30 Jul 2024 03:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722336269; x=1722941069; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/Ju3CEnm/75GdSSu7/W/MwAhJEZT9eFBSL3oOgUpEoo=;
-        b=QgRh6FVBDLDhUOLKuyS7MHWZLlbQxqriQRvF1EpsuXhhyPmh/diIo15yF9FqU/H7K6
-         zlW5KeC08Tr+N3VhcuXWzFfdDEvaFkgmiroFW/4tHaoavORzhTM0AANPVCjLCAOQuGD6
-         cd/Ot1isz1fnLnme0d76p0BP9fGzR7h6PhmrtX7akic6VYGxgVRmO/KxPsDk+VBYDBxd
-         eijTzhZe+tnkWKXAwx3d7wE/3EX6qsuzRjHX7c4PcpNjeFnc8ni6OilgwBSrOBsalGUg
-         KfF0EuFrlOpobPHd83MmHcofXSlTsirfBVbrbypspUdbghgoK2BGLWpI6jAasWl/k1qN
-         G/uQ==
+        d=google.com; s=20230601; t=1722336932; x=1722941732; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xr+voav8MzKq7kTcrDPxGaN0prieHV85Xow3mdChfiA=;
+        b=FNlsSqRaunekNFVybdlSoRl4kvRvn4jD/GNqaE1YPtff1XF13Ab+uU6uke+bVPSaCw
+         bGQ+L68PwN5JZ2S8xdY5hTuKtXHu5JokvFoKlRxqEIOZaP8sJ4w2T+79BPFGM/890G88
+         uKXHJsfjEZ3XQJs/B0i5pIjDjam3nkY63rZ1CUzmEcUdw8jYwulfw9FVzgK4c1iZ4PRA
+         T9V1GZjg3fIrR0q+eKCc0fkcp6aZtFrYIV2ZDJ44cmie87O1Ibxg7hsQ/sxRk/2dbjRK
+         /iIO4LeL7m5vzlaTx4z/J6rpAWTO2Bqdts//xcfIX6QFUlblpM8Gh9o6LMykhfjsa6ts
+         vqVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722336269; x=1722941069;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Ju3CEnm/75GdSSu7/W/MwAhJEZT9eFBSL3oOgUpEoo=;
-        b=UEs7/vqMFU5WlZs5BnRiOHokoP/kJwnf9Lj05ZP4fsLfU/MP40nbr7QfcvGPTyO1Qo
-         mZbQWULCFT7+8Jro9nOmmOxu6qGtAPJSvHnsH2wjIb/j7pdC2xIP35ZAWrdLnGwYlPMI
-         qvD5EWn+8o/iTEa5rW9/MQV0ViOiwdGeCY+9D49iOyV0OvvJG5ti99muTNFWlyGa7tC0
-         M4D+Wm0dgSQOUhh5ROsklvo5m5ab4XzyPwKjcMOpQa3PQqqcGkaB74aTuTyE4Qkr+hWK
-         NdkpqnzXa72tAO3Dl/EYIL4SoEFcuo2qzv9kypg0Qf8BtyYkOjZv6qF+FeEhkClJgNJF
-         Uhag==
-X-Gm-Message-State: AOJu0YyCh8ftmhcF3J74kCRDKItH8fZetMW20Z+admvHER+/QtCg6kIu
-	Msvx/A8aZCdVd/R84KJ1CF2/8qkyoEIUzDjJLU3TMVrvWxFHOHpJoFx9annJK2ZWOwda+qHF5QJ
-	x4EnotA==
-X-Google-Smtp-Source: AGHT+IHazDOvazf0vrwZ1/mMamY8v4MleZ3SzQ8ocVwM20wVxRY/0nX3NuXnnpuypD/FCNGXHB2hSQb62xSJ
-X-Received: from lysy.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:de4])
- (user=patrykd job=sendgmr) by 2002:a05:6902:2b85:b0:e0b:1407:e341 with SMTP
- id 3f1490d57ef6-e0b543c0bf3mr19416276.1.1722336268990; Tue, 30 Jul 2024
- 03:44:28 -0700 (PDT)
-Date: Tue, 30 Jul 2024 10:44:25 +0000
+        d=1e100.net; s=20230601; t=1722336932; x=1722941732;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xr+voav8MzKq7kTcrDPxGaN0prieHV85Xow3mdChfiA=;
+        b=dn2RRnF2TYgfZi9qLVGeMUleqYeI2jWxiuRN10AwCdnbsiIYcUtpYCXdpnKzxx/epc
+         132mf3zlJCGCzqBbiHznIQOZ1lRdGJih6tB6EJcMQKoF2IJ9j6rGH8oQso1CkQw1wHGP
+         8vD4L8ZMizx2GlY4mm8HAquc9EGTmwuoT5pftxLHEH61FVz1BvQAsWFTvrfuHGUei9sp
+         HKba73t9Na6LOVnjOZcmFa7LkruD7Mf1/5iBMfGoUz0rCUMMA+SZh9EwuJwsOXI7W5e7
+         9NOBVHmGOtUTY4AvkehVA/M69ANvv0EEhT1HiiVLxiSZ3NX4dCpPi7L7h3tLlCPnHd3/
+         qUOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBu3bRFiGVU2Nm1vbmZju133are6qRQATQMbYwNs6ItJabaQjIvjvlANxePCnV4yHs67REbCoQr85om2eluJvJQvUUAiX8yfvdL3Ux47gX
+X-Gm-Message-State: AOJu0YyX7TVx6WtFiULUF1PY9KXN6v7ZNcgtfK0Us6DurczZEx0jIcTc
+	QYPAiZXo7TKvwGvHwdQOg5dPeHytaOFFS41XIOTi8b2oSwaebrhjRUUuLgf9bvlHDXESkM1vZi3
+	xZ2+Qz6QchCdpLMpW6zeKzlPpSqPs3+4clZZi
+X-Google-Smtp-Source: AGHT+IFwYxS7auFszuugbSbIB4CcRIE3idrY672qfSQWgDOy/uYcOQpSYqTSP+brkdQ5/14tFQ9yTa1KNQ31s5+dWZY=
+X-Received: by 2002:a05:6402:2347:b0:57d:32ff:73ef with SMTP id
+ 4fb4d7f45d1cf-5b461564c15mr118681a12.6.1722336931423; Tue, 30 Jul 2024
+ 03:55:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
-Message-ID: <20240730104425.607083-1-patrykd@google.com>
-Subject: [PATCH v3] platform/chrome: cros_ec_proto: Lock device when updating
- MKBP version
+MIME-Version: 1.0
+References: <20240725175714.1769080-1-patrykd@google.com> <ZqcQ3rjY6Wu4lU6t@google.com>
+ <CAMxeMi3864MhJvaH16mw5hHKzYnoRWpZWnxJJuWm9bSKiTojWQ@mail.gmail.com>
+ <ZqiCV_EXnJONOdyV@google.com> <CAMxeMi3VFN91FpGb3dgobz9aXt+Ok8rEqGkidwrGxNNk43O=6g@mail.gmail.com>
+ <Zqi8_JeZJU0rGfEE@google.com>
+In-Reply-To: <Zqi8_JeZJU0rGfEE@google.com>
 From: Patryk Duda <patrykd@google.com>
-To: Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Benson Leung <bleung@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, Patryk Duda <patrykd@google.com>
+Date: Tue, 30 Jul 2024 12:55:19 +0200
+Message-ID: <CAMxeMi3AQJwpEkHaE9U+=dRjbaTfX+TRe1w8myEgSR3Z8GfnuQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_proto: Lock device when updating
+ MKBP version
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The cros_ec_get_host_command_version_mask() function requires that the
-caller must have ec_dev->lock mutex before calling it. This requirement
-was not met and as a result it was possible that two commands were sent
-to the device at the same time.
-
-The problem was observed while using UART backend which doesn't use any
-additional locks, unlike SPI backend which locks the controller until
-response is received.
-
-Fixes: f74c7557ed0d ("platform/chrome: cros_ec_proto: Update version on GET_NEXT_EVENT failure")
-Cc: stable@vger.kernel.org
-Signed-off-by: Patryk Duda <patrykd@google.com>
----
-The f74c7557ed0d patch was tested with Fingerprint MCU (FPMCU) that uses
-SPI to communicate with chipset. At that time, UART FPMCU had the same
-version of GET_NEXT_EVENT command in RO and RW, so the MKBP version was
-never updated in this case.
-
-Version 3 of GET_NEXT_EVENT command was recently added to CrosEC. As a
-result MKBP version is also updated when UART FPMCU is used which
-exposed this problem.
-
-Best regards,
-Patryk
-
-V1 -> V2
-- Added missing mutex_unlock() on
-  cros_ec_get_host_command_version_mask() failure.
-
-V2 -> V3
-- Moved call to mutex_unlock() below call to
-  cros_ec_get_host_command_version_mask().
-
- drivers/platform/chrome/cros_ec_proto.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index f776fd42244f..73f75958e15c 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -813,9 +813,11 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
- 	if (ret == -ENOPROTOOPT) {
- 		dev_dbg(ec_dev->dev,
- 			"GET_NEXT_EVENT returned invalid version error.\n");
-+		mutex_lock(&ec_dev->lock);
- 		ret = cros_ec_get_host_command_version_mask(ec_dev,
- 							EC_CMD_GET_NEXT_EVENT,
- 							&ver_mask);
-+		mutex_unlock(&ec_dev->lock);
- 		if (ret < 0 || ver_mask == 0)
- 			/*
- 			 * Do not change the MKBP supported version if we can't
--- 
-2.46.0.rc1.232.g9752f9e123-goog
-
+On Tue, Jul 30, 2024 at 12:14=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+>
+> On Tue, Jul 30, 2024 at 10:05:16AM +0200, Patryk Duda wrote:
+> > On Tue, Jul 30, 2024 at 8:04=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.o=
+rg> wrote:
+> > > On Mon, Jul 29, 2024 at 01:57:09PM +0200, Patryk Duda wrote:
+> > > > On Mon, Jul 29, 2024 at 5:47=E2=80=AFAM Tzung-Bi Shih <tzungbi@kern=
+el.org> wrote:
+> > > > > Also, the patch also needs an unlock at [1].
+> > > > >
+> > > > > [1]: https://elixir.bootlin.com/linux/v6.10/source/drivers/platfo=
+rm/chrome/cros_ec_proto.c#L819
+> > > >
+> > > > Yeah. I'll fix it in v2
+> > >
+> > > I'm wondering if it's simpler to just lock and unlock around calling
+> > > cros_ec_get_host_command_version_mask().  What do you think?
+> > >
+> > Initially, I thought it would be good to keep ec_dev->mkbp_event_suppor=
+ted
+> > update under the mutex (similar to cros_ec_query_all() which is called =
+with
+> > locked mutex), but mkbp_event_supported is also used without locked mut=
+ex.
+> >
+> > I don't see any obvious risks with updating the MKBP version outside mu=
+tex.
+> > Do you want me to change it?
+>
+> Yes.
+Fixed in v3: https://lore.kernel.org/lkml/20240730104425.607083-1-patrykd@g=
+oogle.com

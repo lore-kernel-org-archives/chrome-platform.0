@@ -1,54 +1,54 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2471B189F48
-	for <chrome-platform@lists.linux.dev>; Thu,  8 Aug 2024 09:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C442518A6C5
+	for <chrome-platform@lists.linux.dev>; Thu,  8 Aug 2024 09:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723111189; cv=none; b=gBnj7qfggTaH0gLMJcMNyaXO8D6+R3bd58Q9LGS9lOQy/UKDi6fEkAszACpnPC4K0MEw0yWr8hFVoFzlS1GFr646C7uaAC0DLfX7xpcNE+iB7mpWHmjoWxTJhBFb9K8KlgiunJYHEKkyqvgDp0MA7/66pR95ISAU9HihnlPkqXI=
+	t=1723111193; cv=none; b=axPi9IS49GjWLSuPL1GNMHSqlhqIHZsfnZNy8oLVxAccZZybP4PeqBLR8NtSK+YWopoJSZELXkGg5wsjZCzQzykOYu81OoZm0Vx7Q5kucLMk9SWmvwW7BFZ/7GCKa+avZ/SkpIg/lnei5dQg7SM9zN/bCKH8ME5n0FXwQVsRc8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723111189; c=relaxed/simple;
-	bh=H0FOBfwEBWtywgtjSA1F4rTZQ5wzYjAwhkmuhYnKTxs=;
+	s=arc-20240116; t=1723111193; c=relaxed/simple;
+	bh=/IAlJZ4lOSvaLE9tnhzTQ2epkpQjqOzpH5OlWZnuSA0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zwg1wPW1Pzck0mrTdUSc9Uu7XpkPHdFx/cIolLvjKnht24WNPmSvbt1NuKK7rSuiO2GsqHnqKpM3JPsNE1WKy9pjtWnPXZZe1237N7Nlp7S/x47gFNHip+ENvDje9g23xcDzIysaiABV52oxay+zrgm/mu2f7LVAWuyAHbHcnfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b4oflV7o; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=YKxpTlHZ4GNgwX/QHEv6CO09eIWdPqGe8/7gbo6CNdXqhq9Agqhw8xNw8qAqSUJ+9XXZrrUPDDVf6E5WjD4vmdi7KvkULJQFb54H04c9jz5Pm8Crx2RzrjD1p0B0RdUAktz5kGVWIABP2+XrsaULuZvfVeHLytBR2NOHtVnQzWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KyiONDFj; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b4oflV7o"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fc587361b6so7787465ad.2
-        for <chrome-platform@lists.linux.dev>; Thu, 08 Aug 2024 02:59:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KyiONDFj"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fee6435a34so7385755ad.0
+        for <chrome-platform@lists.linux.dev>; Thu, 08 Aug 2024 02:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723111187; x=1723715987; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1723111191; x=1723715991; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lnHNs8RGUpugUdHA2OImjbnnj6+rNsZeKGSTnE9NGbI=;
-        b=b4oflV7ouamT51Hf/VeVjqGfGFtJlvU9l1+IDupyE7NiIsogH3jFDBCMr9yAKzKjS5
-         V4FOWJxf23Yt6CcdJQcmPTak+QGDs13RTRAwZ5SPyfK87uE45beIRPteraQaraF0CXvQ
-         N/y/o6kkaZ5mpbkiGO/vSGyQEJylsfGB3Qkic=
+        bh=wR1Udf/FWl7py4H5RQqWMXM0U9PswySd1hls6tNxB7g=;
+        b=KyiONDFjbcUbeSzOz9X3yX/UcF2H6/xEBcgdLmosQB4B7v01ID8Ho/+2jfDp8jg7XE
+         kSe4dIfug/j+nI5g+gDOjkrkM00PeSIvxkM14hurjFAxOGEkpK2d/tDyqgVJuHIp3ZFi
+         bxI5phN7Q4ZoFi9TsUkKGyctWUDDgbAx7Zv94=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723111187; x=1723715987;
+        d=1e100.net; s=20230601; t=1723111191; x=1723715991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lnHNs8RGUpugUdHA2OImjbnnj6+rNsZeKGSTnE9NGbI=;
-        b=EayGEhzL8VfsFEoj+TWJeUK5nbQ2NN+pCjYTdV8kJdVZp/c3ayuOdaQd9dFXXEsRu7
-         1tVnWGMR7oTf2FucVYxSzJ+u1KgRdSD5O6T5AxDhZI/9pwd7hpP9AMgUSLIdBFvHOu7S
-         QOiZkpDeCdSxb2sk+8FVm0OBkb9EHNUmyVYRngX6iLmWwOtsoCOIPV9GLFwHyy9HXj4p
-         GmamCKylQSJIwd9ItX5t0oc+XFvt2i6/f5JlF7aKS/gEzEYdHdGMOOnxfrFZHD/hXEkU
-         h7ZH6d6MkU/QvLJbULZkkDxnKCtCFcAU8OeBXy3bN+Io2Ju73FTpD75cHe0RTdosapXT
-         pzwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNpNFdV91NjxWkQyViXCvAHfnQW7Z2AuBR6UOlvllcTAGIYaDy+NGll9B8DiXJ6sGJMvlo5Ij5IifMpcn+2OB5c9aHwNooPw7ZG/rQSPr2
-X-Gm-Message-State: AOJu0YxO0w6Y0HAN0kzle14xSery62we0/JD5Gd+cVCvjSMEC6a7ch+2
-	/wEM4LmQ6iJuCgCPD3yBXqHxaKt6OfTBkPWvWf0TebjLQ+QNzEFX4+7OjsV+uA==
-X-Google-Smtp-Source: AGHT+IFIftWwmlbWRkGBzfDMk0j7k5O8rm8KVgSziXqkMdFzRmZhlp6LCbkz+1PDSOvY9LkVZKP1dQ==
-X-Received: by 2002:a17:902:ec8c:b0:1fd:9c2d:2f27 with SMTP id d9443c01a7336-2009524a0edmr15321085ad.24.1723111187412;
-        Thu, 08 Aug 2024 02:59:47 -0700 (PDT)
+        bh=wR1Udf/FWl7py4H5RQqWMXM0U9PswySd1hls6tNxB7g=;
+        b=QYtTQ+/xP+O/WZlL0o/WU90EsJDwJfuH1qFGTuxMKiNQ1/YwUdwS8MT0E98joybWuf
+         ySz7q7exb9LgJOJR9K6960thRsWpuzL0NYNdXnZFW4S8D/PGE4/LiIjP20BjkNxK8YzV
+         YO8SIuKLTtIeHJgKqgiLQ7/3mRdRqa1b7eDI56wrxly/4sq43TS4+30cWzPoyMHrlF93
+         KzKyfJzEIt7HCv63oFS3uNwEGckSpj1/vuVvHFu70PcbStX+eMQ/KrBuZJp1O6uhpjB9
+         +QUaAM25vEDjm0tjfcYy2GG7/CDr/d39ArsyGZw4mztUi97wfTlu4loPPkE0PAxGIeP1
+         72tw==
+X-Forwarded-Encrypted: i=1; AJvYcCUy4jtXpWHleTGzr75frgPgubqTQpUUI0Fg16vkqs9ai+XNosjqo/5SBmRtwe3kaPqNW73aBWVR9Plmi+qBqApljfbTeuuTIO82Cw3RZP5J
+X-Gm-Message-State: AOJu0Yxd8vAcauwYv2iTl2B8mxaKn9A28Aqe9o7YgaXHlxGUdl1t7uw2
+	7rt6HA2pv48kMQNmW5Lm5dH1v9GscaR1u68PZYIUUtgUdVFkoju7G97e5xvnaA==
+X-Google-Smtp-Source: AGHT+IHWAl+hZjv9nSvJy1SKpxCjwWYJJknIPCWUxWfBsX+zsM0IhYTrybxxtL2FsiZEr+fCR0sgcA==
+X-Received: by 2002:a17:903:40c5:b0:1fd:d55b:df26 with SMTP id d9443c01a7336-200952e9a8bmr13508545ad.61.1723111190903;
+        Thu, 08 Aug 2024 02:59:50 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8b53:87e6:914:a00d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59297707sm120784985ad.254.2024.08.08.02.59.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59297707sm120784985ad.254.2024.08.08.02.59.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 02:59:47 -0700 (PDT)
+        Thu, 08 Aug 2024 02:59:50 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh@kernel.org>,
 	Saravana Kannan <saravanak@google.com>,
@@ -70,9 +70,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	Jiri Kosina <jikos@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-i2c@vger.kernel.org
-Subject: [PATCH v4 1/6] of: dynamic: Add of_changeset_update_prop_string
-Date: Thu,  8 Aug 2024 17:59:24 +0800
-Message-ID: <20240808095931.2649657-2-wenst@chromium.org>
+Subject: [PATCH v4 2/6] regulator: Add regulator_of_get_optional() for pure DT regulator lookup
+Date: Thu,  8 Aug 2024 17:59:25 +0800
+Message-ID: <20240808095931.2649657-3-wenst@chromium.org>
 X-Mailer: git-send-email 2.46.0.rc2.264.g509ed76dc8-goog
 In-Reply-To: <20240808095931.2649657-1-wenst@chromium.org>
 References: <20240808095931.2649657-1-wenst@chromium.org>
@@ -84,93 +84,272 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a helper function to add string property updates to an OF changeset.
-This is similar to of_changeset_add_prop_string(), but instead of adding
-the property (and failing if it exists), it will update the property.
+The to-be-introduced I2C component prober needs to enable regulator
+supplies (and toggle GPIO pins) for the various components it intends
+to probe. To support this, a new "pure DT lookup" method for getting
+regulator supplies is needed, since the device normally requesting
+the supply won't get created until after the component is probed to
+be available.
 
-This shall be used later in the DT hardware prober.
+This adds a new regulator_of_get_optional() for this purpose. The
+underlying code that support the existing regulator_get*() functions
+are extended to support this specific case.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
-
 Changes since v3:
-- Use new __of_prop_free() helper
-- Add new line before header declaration
-
-Changes since v2:
-- New patch added in v3
+- New patch
 ---
- drivers/of/dynamic.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- include/linux/of.h   |  4 ++++
- 2 files changed, 48 insertions(+)
+ drivers/regulator/core.c           | 81 ++++++++++++++++++++++--------
+ drivers/regulator/devres.c         |  2 +-
+ drivers/regulator/internal.h       |  2 +-
+ include/linux/regulator/consumer.h |  8 +++
+ 4 files changed, 69 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
-index 110104a936d9..dfd1358d59d5 100644
---- a/drivers/of/dynamic.c
-+++ b/drivers/of/dynamic.c
-@@ -1072,3 +1072,47 @@ int of_changeset_add_prop_bool(struct of_changeset *ocs, struct device_node *np,
- 	return of_changeset_add_prop_helper(ocs, np, &prop);
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index 7674b7f2df14..ba4542d76642 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -456,30 +456,29 @@ static struct device_node *of_get_child_regulator(struct device_node *parent,
+ 
+ /**
+  * of_get_regulator - get a regulator device node based on supply name
+- * @dev: Device pointer for the consumer (of regulator) device
++ * @node: Device node pointer for supply property lookup
+  * @supply: regulator supply name
+  *
+  * Extract the regulator device node corresponding to the supply name.
+  * returns the device node corresponding to the regulator if found, else
+  * returns NULL.
+  */
+-static struct device_node *of_get_regulator(struct device *dev, const char *supply)
++static struct device_node *of_get_regulator(struct device_node *node, const char *supply)
+ {
+ 	struct device_node *regnode = NULL;
+ 	char prop_name[64]; /* 64 is max size of property name */
+ 
+-	dev_dbg(dev, "Looking up %s-supply from device tree\n", supply);
++	pr_debug("%pOF: Looking up %s-supply from device tree\n", node, supply);
+ 
+ 	snprintf(prop_name, 64, "%s-supply", supply);
+-	regnode = of_parse_phandle(dev->of_node, prop_name, 0);
++	regnode = of_parse_phandle(node, prop_name, 0);
+ 
+ 	if (!regnode) {
+-		regnode = of_get_child_regulator(dev->of_node, prop_name);
++		regnode = of_get_child_regulator(node, prop_name);
+ 		if (regnode)
+ 			return regnode;
+ 
+-		dev_dbg(dev, "Looking up %s property in node %pOF failed\n",
+-				prop_name, dev->of_node);
++		pr_debug("%pOF: Looking up %s property failed\n", node, prop_name);
+ 		return NULL;
+ 	}
+ 	return regnode;
+@@ -1996,8 +1995,14 @@ static struct regulator_dev *regulator_lookup_by_name(const char *name)
+ /**
+  * regulator_dev_lookup - lookup a regulator device.
+  * @dev: device for regulator "consumer".
++ * @node: device node for regulator supply lookup.
++ *        Falls back to dev->of_node if NULL.
+  * @supply: Supply name or regulator ID.
+  *
++ * If dev is NULL and node is not NULL, a pure device tree lookup is assumed.
++ * That is, it will not use supply aliases and end after DT based lookup is
++ * done.
++ *
+  * If successful, returns a struct regulator_dev that corresponds to the name
+  * @supply and with the embedded struct device refcount incremented by one.
+  * The refcount must be dropped by calling put_device().
+@@ -2006,21 +2011,30 @@ static struct regulator_dev *regulator_lookup_by_name(const char *name)
+  * in the future.
+  */
+ static struct regulator_dev *regulator_dev_lookup(struct device *dev,
++						  struct device_node *node,
+ 						  const char *supply)
+ {
+ 	struct regulator_dev *r = NULL;
+-	struct device_node *node;
++	struct device_node *regulator_node;
+ 	struct regulator_map *map;
+ 	const char *devname = NULL;
++	bool pure_dt_lookup = false;
++
++	pure_dt_lookup = (node && !dev);
+ 
+-	regulator_supply_alias(&dev, &supply);
++	/* Pure DT lookup should use given supply name directly */
++	if (!pure_dt_lookup)
++		regulator_supply_alias(&dev, &supply);
++
++	if (!node && dev && dev->of_node)
++		node = dev->of_node;
+ 
+ 	/* first do a dt based lookup */
+-	if (dev && dev->of_node) {
+-		node = of_get_regulator(dev, supply);
+-		if (node) {
+-			r = of_find_regulator_by_node(node);
+-			of_node_put(node);
++	if (node) {
++		regulator_node = of_get_regulator(node, supply);
++		if (regulator_node) {
++			r = of_find_regulator_by_node(regulator_node);
++			of_node_put(regulator_node);
+ 			if (r)
+ 				return r;
+ 
+@@ -2032,6 +2046,10 @@ static struct regulator_dev *regulator_dev_lookup(struct device *dev,
+ 		}
+ 	}
+ 
++	/* Pure DT lookup stops here. */
++	if (pure_dt_lookup)
++		return ERR_PTR(-ENODEV);
++
+ 	/* if not found, try doing it non-dt way */
+ 	if (dev)
+ 		devname = dev_name(dev);
+@@ -2076,7 +2094,7 @@ static int regulator_resolve_supply(struct regulator_dev *rdev)
+ 	if (rdev->supply)
+ 		return 0;
+ 
+-	r = regulator_dev_lookup(dev, rdev->supply_name);
++	r = regulator_dev_lookup(dev, NULL, rdev->supply_name);
+ 	if (IS_ERR(r)) {
+ 		ret = PTR_ERR(r);
+ 
+@@ -2169,8 +2187,8 @@ static int regulator_resolve_supply(struct regulator_dev *rdev)
  }
- EXPORT_SYMBOL_GPL(of_changeset_add_prop_bool);
-+
-+static int of_changeset_update_prop_helper(struct of_changeset *ocs,
-+					   struct device_node *np,
-+					   const struct property *pp)
-+{
-+	struct property *new_pp;
-+	int ret;
-+
-+	new_pp = __of_prop_dup(pp, GFP_KERNEL);
-+	if (!new_pp)
-+		return -ENOMEM;
-+
-+	ret = of_changeset_update_property(ocs, np, new_pp);
-+	if (ret)
-+		__of_prop_free(new_pp);
-+
-+	return ret;
-+}
-+
+ 
+ /* Internal regulator request function */
+-struct regulator *_regulator_get(struct device *dev, const char *id,
+-				 enum regulator_get_type get_type)
++struct regulator *_regulator_get(struct device *dev, struct device_node *node,
++				 const char *id, enum regulator_get_type get_type)
+ {
+ 	struct regulator_dev *rdev;
+ 	struct regulator *regulator;
+@@ -2187,7 +2205,7 @@ struct regulator *_regulator_get(struct device *dev, const char *id,
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	rdev = regulator_dev_lookup(dev, id);
++	rdev = regulator_dev_lookup(dev, node, id);
+ 	if (IS_ERR(rdev)) {
+ 		ret = PTR_ERR(rdev);
+ 
+@@ -2318,7 +2336,7 @@ struct regulator *_regulator_get(struct device *dev, const char *id,
+  */
+ struct regulator *regulator_get(struct device *dev, const char *id)
+ {
+-	return _regulator_get(dev, id, NORMAL_GET);
++	return _regulator_get(dev, NULL, id, NORMAL_GET);
+ }
+ EXPORT_SYMBOL_GPL(regulator_get);
+ 
+@@ -2345,7 +2363,7 @@ EXPORT_SYMBOL_GPL(regulator_get);
+  */
+ struct regulator *regulator_get_exclusive(struct device *dev, const char *id)
+ {
+-	return _regulator_get(dev, id, EXCLUSIVE_GET);
++	return _regulator_get(dev, NULL, id, EXCLUSIVE_GET);
+ }
+ EXPORT_SYMBOL_GPL(regulator_get_exclusive);
+ 
+@@ -2371,10 +2389,29 @@ EXPORT_SYMBOL_GPL(regulator_get_exclusive);
+  */
+ struct regulator *regulator_get_optional(struct device *dev, const char *id)
+ {
+-	return _regulator_get(dev, id, OPTIONAL_GET);
++	return _regulator_get(dev, NULL, id, OPTIONAL_GET);
+ }
+ EXPORT_SYMBOL_GPL(regulator_get_optional);
+ 
 +/**
-+ * of_changeset_update_prop_string - Add a string property update to a changeset
++ * regulator_of_get_optional - get optional regulator via device tree lookup
++ * @node: device node for regulator "consumer"
++ * @id: Supply name
 + *
-+ * @ocs:	changeset pointer
-+ * @np:		device node pointer
-+ * @prop_name:	name of the property to be updated
-+ * @str:	pointer to null terminated string
++ * Returns a struct regulator corresponding to the regulator producer,
++ * or IS_ERR() condition containing errno.
 + *
-+ * Create a string property to be updated and add it to a changeset.
-+ *
-+ * Return: 0 on success, a negative error value in case of an error.
++ * This is intended for use by consumers that want to get a regulator
++ * supply directly from a device node, and can and want to deal with
++ * absence of such supplies. This will _not_ consider supply aliases.
++ * See regulator_dev_lookup().
 + */
-+int of_changeset_update_prop_string(struct of_changeset *ocs,
-+				    struct device_node *np,
-+				    const char *prop_name, const char *str)
++struct regulator *regulator_of_get_optional(struct device_node *node, const char *id)
 +{
-+	struct property prop;
-+
-+	prop.name = (char *)prop_name;
-+	prop.length = strlen(str) + 1;
-+	prop.value = (void *)str;
-+
-+	return of_changeset_update_prop_helper(ocs, np, &prop);
++	return _regulator_get(NULL, node, id, OPTIONAL_GET);
 +}
-+EXPORT_SYMBOL_GPL(of_changeset_update_prop_string);
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 85b60ac9eec5..046283be1cd3 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -1651,6 +1651,10 @@ static inline int of_changeset_add_prop_u32(struct of_changeset *ocs,
- 	return of_changeset_add_prop_u32_array(ocs, np, prop_name, &val, 1);
++EXPORT_SYMBOL_GPL(regulator_of_get_optional);
++
+ static void destroy_regulator(struct regulator *regulator)
+ {
+ 	struct regulator_dev *rdev = regulator->rdev;
+@@ -4928,7 +4965,7 @@ int _regulator_bulk_get(struct device *dev, int num_consumers,
+ 		consumers[i].consumer = NULL;
+ 
+ 	for (i = 0; i < num_consumers; i++) {
+-		consumers[i].consumer = _regulator_get(dev,
++		consumers[i].consumer = _regulator_get(dev, NULL,
+ 						       consumers[i].supply, get_type);
+ 		if (IS_ERR(consumers[i].consumer)) {
+ 			ret = dev_err_probe(dev, PTR_ERR(consumers[i].consumer),
+diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
+index 7111c46e9de1..7d9ea8232959 100644
+--- a/drivers/regulator/devres.c
++++ b/drivers/regulator/devres.c
+@@ -28,7 +28,7 @@ static struct regulator *_devm_regulator_get(struct device *dev, const char *id,
+ 	if (!ptr)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	regulator = _regulator_get(dev, id, get_type);
++	regulator = _regulator_get(dev, NULL, id, get_type);
+ 	if (!IS_ERR(regulator)) {
+ 		*ptr = regulator;
+ 		devres_add(dev, ptr);
+diff --git a/drivers/regulator/internal.h b/drivers/regulator/internal.h
+index 77a502141089..51eb552cba01 100644
+--- a/drivers/regulator/internal.h
++++ b/drivers/regulator/internal.h
+@@ -120,7 +120,7 @@ enum regulator_get_type {
+ 	MAX_GET_TYPE
+ };
+ 
+-struct regulator *_regulator_get(struct device *dev, const char *id,
++struct regulator *_regulator_get(struct device *dev, struct device_node *node, const char *id,
+ 				 enum regulator_get_type get_type);
+ int _regulator_bulk_get(struct device *dev, int num_consumers,
+ 			struct regulator_bulk_data *consumers, enum regulator_get_type get_type);
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index d986ec13092e..76826d0d99f1 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -168,6 +168,8 @@ int devm_regulator_get_enable_read_voltage(struct device *dev, const char *id);
+ void regulator_put(struct regulator *regulator);
+ void devm_regulator_put(struct regulator *regulator);
+ 
++struct regulator *__must_check regulator_of_get_optional(struct device_node *node, const char *id);
++
+ int regulator_register_supply_alias(struct device *dev, const char *id,
+ 				    struct device *alias_dev,
+ 				    const char *alias_id);
+@@ -358,6 +360,12 @@ static inline void devm_regulator_put(struct regulator *regulator)
+ {
  }
  
-+int of_changeset_update_prop_string(struct of_changeset *ocs,
-+				    struct device_node *np,
-+				    const char *prop_name, const char *str);
++static inline struct regulator *__must_check
++regulator_of_get_optional(struct device_node *node, const char *id)
++{
++	return ERR_PTR(-ENODEV);
++}
 +
- int of_changeset_add_prop_bool(struct of_changeset *ocs, struct device_node *np,
- 			       const char *prop_name);
- 
+ static inline void devm_regulator_bulk_put(struct regulator_bulk_data *consumers)
+ {
+ }
 -- 
 2.46.0.rc2.264.g509ed76dc8-goog
 

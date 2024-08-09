@@ -1,175 +1,66 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2625318B47E
-	for <chrome-platform@lists.linux.dev>; Thu,  8 Aug 2024 10:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF9A194AEF;
+	Fri,  9 Aug 2024 12:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723111207; cv=none; b=hyrq2uVpncQV2vw78pWmM6lVA1jgahRQV7GniGCPqouYGOoET1Er7+Gi2zZfyY+p2H4LpXWZGL5F/IPxy7WloboYCNUCXvRZw9J6Q44Hy5LiFdmFZURslDL0zhcdzK+I4M1JeR8Sq8yjLXwwRET+9L3gAWZp45egrq8W/K/YZJM=
+	t=1723208326; cv=none; b=Wuj2wTW0c61rXrBzYmSgRq2FYxd7GVsSVPyPjjy5rH70WMm6VvdVHCTzR3gA3OEjYHHtBV1zDbiOU+utOpMbszsGnAFM+SG+GPkq+1IG6LznciWq4j55tEcq3M+NzTHyq9o+B0kIk2+ZBemfGZph1dWuP3eyybdurIb9GYtDAIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723111207; c=relaxed/simple;
-	bh=y4je3VWsBqj5qjHQT037MyYHsD/meXwgpUrJ0PrYeP8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GR4aL6ryy353aC2uvekKGHsrduwMpruVALfSZHVd9R62lwXBw8G2ssIiJYmor9fUsWqasbQEJlTMkOUE3581D1JUPECOxVcUxEDOlpLXT/NpalwqF2lU0BliVUs1whrtxZSxwI1dPvZGUkeVbtCvLxB62wBVmp10EMyLfU/PlUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DjdUnW4y; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1723208326; c=relaxed/simple;
+	bh=cAkY3m22VNEzj6y1ANIhyRk+wG9PJM8CYwVxMMiXIgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JB07HvzOl3TaFhkLzQ5l1PlDCvFK4FzBFfhNI1yWIWkrgK3e9yEhG0TDL4Q79tNHKLl1t+qnwNg84yONya01kfSYPufxLCiNhj7s5PmN2cx9x2O/+w7nYTpVOD1jQQsXkvqVOEk05Ids4g97yn1MIVtoXTeMcbu8i3V/RMola8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GChuUNQl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DjdUnW4y"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fd6ed7688cso8194435ad.3
-        for <chrome-platform@lists.linux.dev>; Thu, 08 Aug 2024 03:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723111205; x=1723716005; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/9/QWNKXSA4i4sxpfMzvxA3Z99pgqscZPbDBz2zlFLI=;
-        b=DjdUnW4yW8+zWFCJW2M9vJS4y9Kxa/zB23V9WmFeXc7t0ijzaNEY8BCXyfM0xV2b6d
-         hSbEVERe69Gl9gl4YBoM59n/bLqw1dSM2gwYCRtBTCCdRBOoTKnAtctAcT+XXM9oQfRs
-         TDeJNEmDpgVD4Y5QS7VPFPfbk0jf/kuTJfpMY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723111205; x=1723716005;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/9/QWNKXSA4i4sxpfMzvxA3Z99pgqscZPbDBz2zlFLI=;
-        b=c7IvdkFme9ELjpTKuI8DZZOqr105XvtYMAIIV5Y+RtbQnw8JXzbyaVOLv6r3s1Tsaj
-         NHFf4frlWyXeHAEituWGVNGSdnsB9zBSIQzG1qSJLRtqVLdBLah5RnbqECrYZ3Dw99Ci
-         q2XQBLBqAGjzxHWQiOtRjGjjjkjJ/At3F0TcZcBV3sRTABnL1ikk23afnpVJZiRyPDnT
-         zzhca5eybQzGBSyPJ8QkDrshcLplzA7/BVHQsUyYpqEfaEXkS/3/KIuYbltsrkGrUNnW
-         tmTBwYbGLiroQvk15TyYXo8OifT49o18CR3L+6+9QUiSaBFm5wRtGhIzNvKSEqnUA3JX
-         iKnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXTalMZ4z/WKa1hbkP7Zdp3VLM45LvtpOcRnNJCvG5AqW99yXUyK/CLh/huRFdqvbByM9G17H161tcLIwiUF9qs4GHyY5MUQim3ecsZgyPO
-X-Gm-Message-State: AOJu0Yy8Lo/sDNE6CQ/CJlZOghQHXi9M1JgLTXZXzcow7TwDVQYESWNo
-	do6lLThlju4hs/3U+SG6kC9GChRRH7wRhbqdXPQPRHkrzhWE0P2vIWGGtuitWg==
-X-Google-Smtp-Source: AGHT+IFHYCH6ZPttGWJyX5orsjVgIQjNRW8T6hIcAdANhk3iA3ouOxz6UxT/mqu55va9bKkOzlc4Ag==
-X-Received: by 2002:a17:902:ce81:b0:1fd:7724:c783 with SMTP id d9443c01a7336-200952654a3mr16237775ad.36.1723111205352;
-        Thu, 08 Aug 2024 03:00:05 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8b53:87e6:914:a00d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59297707sm120784985ad.254.2024.08.08.03.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 03:00:04 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GChuUNQl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9477C32782;
+	Fri,  9 Aug 2024 12:58:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723208326;
+	bh=cAkY3m22VNEzj6y1ANIhyRk+wG9PJM8CYwVxMMiXIgI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GChuUNQlMCw0s31/fz2P+3VBe76BpxYbpHB7c3B8FeWHtNYX8Mkn/1/1ep2K5dnIk
+	 xyi3tf+FHvAlpGDQoYAZj5yQqc4rlbKQGUJ0fLgL8vsWwCCljUFyTjaQxkyHvXFfgT
+	 y2xpj5VSBpYAiCjEekQXM8EWAwle4Fy90vJNAQZjvAP3yOJ3qWZvCRgmGcLwtkl4C0
+	 8DUV65BzpMDiiWLQQ2kPuKCfkOzscBnfxeZvgzQSBISYEW06Lz+Pgo9u6JwsNdyoA0
+	 +sHlUyGzRU0H6WIYzshojuQynC26efJZpDsCYKUBmvjnmaLlFbYpxipMy5awlaMve+
+	 775Yg4fyfcrlA==
+Date: Fri, 9 Aug 2024 20:58:41 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH v4 6/6] arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads as fail
-Date: Thu,  8 Aug 2024 17:59:29 +0800
-Message-ID: <20240808095931.2649657-7-wenst@chromium.org>
-X-Mailer: git-send-email 2.46.0.rc2.264.g509ed76dc8-goog
-In-Reply-To: <20240808095931.2649657-1-wenst@chromium.org>
-References: <20240808095931.2649657-1-wenst@chromium.org>
+	Prashant Malani <pmalani@chromium.org>,
+	linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: add remove driver hook
+Message-ID: <ZrYSgVDwJwDpvp4u@tzungbi-laptop>
+References: <20240726181235.920335-1-cascardo@igalia.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240726181235.920335-1-cascardo@igalia.com>
 
-Instead of having them all available, mark them all as "fail-needs-probe"
-and have the implementation try to probe which one is present.
+On Fri, Jul 26, 2024 at 03:12:35PM -0300, Thadeu Lima de Souza Cascardo wrote:
+> This allows the driver to be unbound and bound again. Otherwise, when
+> unbinding the driver, there will be leftover sysfs entries.
+> 
+> When rebinding the driver, it also ends up touching freed memory when
+> adding to the notifier chain as the old one was not removed and ends up
+> being traversed.
+> 
+> [...]
 
-Also remove the shared resource workaround by moving the pinctrl entry
-for the trackpad interrupt line back into the individual trackpad nodes.
+Applied to
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v4:
-- Rebased
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-Changes since v3:
-- Also remove second source workaround, i.e. move the interrupt line
-  pinctrl entry from the i2c node back to the components.
+Thanks!
 
-Changes since v2:
-- Drop class from status
----
- arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi | 13 +++++++++++++
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi      |  4 ++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-index 8d1cbc92bce3..251e084bf7de 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-@@ -14,6 +14,7 @@ touchscreen2: touchscreen@34 {
- 		compatible = "melfas,mip4_ts";
- 		reg = <0x34>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/*
-@@ -26,6 +27,7 @@ touchscreen3: touchscreen@20 {
- 		reg = <0x20>;
- 		hid-descr-addr = <0x0020>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/* Lenovo Ideapad C330 uses G2Touch touchscreen as a 2nd source touchscreen */
-@@ -47,9 +49,12 @@ &i2c4 {
- 	trackpad2: trackpad@2c {
- 		compatible = "hid-over-i2c";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x2c>;
- 		hid-descr-addr = <0x0020>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -74,3 +79,11 @@ pins_wp {
- 		};
- 	};
- };
-+
-+&touchscreen {
-+	status = "fail-needs-probe";
-+};
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index b4d85147b77b..eee64461421f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -358,12 +358,12 @@ touchscreen: touchscreen@10 {
- &i2c4 {
- 	clock-frequency = <400000>;
- 	status = "okay";
--	pinctrl-names = "default";
--	pinctrl-0 = <&trackpad_irq>;
- 
- 	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x15>;
- 		vcc-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
--- 
-2.46.0.rc2.264.g509ed76dc8-goog
-
+[1/1] platform/chrome: cros_ec_typec: add remove driver hook
+      commit: a1927fbbf74f9f61eb5c6d1414037c97a8d942ab

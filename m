@@ -1,39 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A976A1607BA;
-	Mon, 19 Aug 2024 10:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912051DC481
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Aug 2024 22:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724063028; cv=none; b=cXrWUCs29OyemgMmrdzzEnunhoNiw5mESCnGuXEU/Ly9Djgmua/v1wmclPgZqZhPJm8d2979GAZuDunnEjnuCgP+9I8OyqPPwW8KKmeF9hha0WiWB8yhtvT4DIm5gXRRxe5CXYDgb+5YDB12lJVAmb61MxMlAnhZSgPTzJrXFbc=
+	t=1724107120; cv=none; b=BSewaLNlfApDO91CP+lTkUjBtYbtsDVzMer+7wUofRrvOiU8/tkH6pjyV2pAcfWsZ5igqNoFMbmMzi8RSGY1txd6nod8y5MaeJdVVcuMxbClXoyo3P1Hy/xhAd3nfWdH+C5CjfLwivi/kczvw/kuhyMc5mGYF7wRm8srYMlfJAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724063028; c=relaxed/simple;
-	bh=FZHQ9VvduvDn1bnce/kD7k3NQT3iI7OL+dLY5pkUEQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qhchSGbjhf5/EIv+M71IHA7E98w0jwgUstTPbCT86PKjxxBXk6/Ljk9vJeTtgx8Nppm81q4e13/FGNZgkNi5vlePFrS4kt/1BP/qcKwcafAuYNb3eP3p4KK7IVxlKrRus0hD0inG/cykHtKuradZwMbCWZTW9/eSP/26ET0H+aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ndktHXVp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724107120; c=relaxed/simple;
+	bh=QsFhJr+Mi50WviHZp89d1dhCotm3INj2CPs+HkvFqHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cA4Vl+ehDcVCoBxo6BUH2IaUzKCHLGOw7nSvHSkog+Zs0PzuT3CB47VaN16xUDA6kjv/6ITjIajq46dcbe0Oelfky79kwEjzggLE2xW+7LDrd2fSLBA3RxK8XiJXucMi4D2KT6R0vb+L0jEJzad+aSIdOMg08YntdhusPoGLzqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ixHK+KoZ; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ndktHXVp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C1EC32782;
-	Mon, 19 Aug 2024 10:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724063028;
-	bh=FZHQ9VvduvDn1bnce/kD7k3NQT3iI7OL+dLY5pkUEQU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ndktHXVpfiz+5hCu9g+Fp6L5b4WL078TvHZccuZ4aCXlRXVmP+JXIOXHWLRmOyUIp
-	 gYB3MLQxHQ3PV+HqI5vDPLvjGjEx/VSEsngxm/Kga0WR1ZcNM4VmB3/x3Hrhp+FQVZ
-	 2QDXdVEM3X4Yx2amEMzJlW9xItEg11weDbBVJojbGE2THAx8pHIDcpjKgkexbmbcbe
-	 w6WcmLKYasl9lZPHmbF0qLw5NMfe0Y2oKp4vUjsKg8Y4BpWhlX1FG7AzsGuIeWqM5/
-	 lat8ZVGhuS+Xw0p/jHt3rpwignBjY7IRGo7pKckeEDqXNbTb52aSyNsE/bJracsHz9
-	 rNyxPct6PZdPw==
-From: tzungbi@kernel.org
-To: lee@kernel.org
-Cc: tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mfd: cros_ec: update module description
-Date: Mon, 19 Aug 2024 18:23:42 +0800
-Message-ID: <20240819102342.5265-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ixHK+KoZ"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-267b7ef154aso3112162fac.0
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Aug 2024 15:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1724107117; x=1724711917; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=egAdoVbV7ERufO80VgquGHc5WhyUKfKkzhFmhTHzm2Y=;
+        b=ixHK+KoZu7s2u8YSw3idjDplcPo92XQPH37qzrDJYmNau4WaWDOI+Y0aRCbj7sRFdh
+         KywXmfVCkgdvCxyCKqkRaZrZAB3FOGqMugXghxRqZlF8HURF/YecmDQDrCHkG0+Bvh08
+         PHyBdVmmQKwGA2IB/XguGvyL3tl5uIEKYAxO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724107117; x=1724711917;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=egAdoVbV7ERufO80VgquGHc5WhyUKfKkzhFmhTHzm2Y=;
+        b=wAW/dP9pKdYk/ztGvPm/rTwuImypvmoGOwLoWYEfd/LzFJryyqTIoTgAcsSSzslTzF
+         ShNQar1xGaN29PaHOa5NkeNstJbRSMhkf/WaOw2mtpQrBWr7d8KgMYUxuRaER2mnQsQo
+         cHlDWORp9jrcL+4VbOt+IFqc6lCwb/atTL6D4dd7wXpo0ujOCY926OjWaTU9Jp5WCcqt
+         CsQoQ6EJcltQFhY7A8/gyZ23ZGAK5ygOkOfZXgAA/A+rllor+gaSOZhWeFPx+Jne+4Bd
+         pH0ud4ZnPKTYE7lrpMepsv3hz5h+5UdoaT4ZvE3ijd5B4rmcTIpGNVApvJKQxJQ5vwnK
+         F3pw==
+X-Gm-Message-State: AOJu0YwXge5//2DglG6roPMW72EZKGsoZYnaZvhaz83kgRUq4YlvaHOM
+	R1EYuNSDCTLNCS4hCYuQUbqeOcEcS05iLuIasP1+ZiNivq8NF7uq5FqwHCfrvKuedYyoNKbheV0
+	=
+X-Google-Smtp-Source: AGHT+IFAcbhHFe8aOSpI2piH+wrMiBNFMeaVyEVhtEX5wNgd3YUCRbcPot5Saf5/lMntwLHP0R5X3g==
+X-Received: by 2002:a05:6871:723:b0:25e:fb:af8c with SMTP id 586e51a60fabf-2708136ae73mr506166fac.18.1724107117189;
+        Mon, 19 Aug 2024 15:38:37 -0700 (PDT)
+Received: from localhost (210.73.125.34.bc.googleusercontent.com. [34.125.73.210])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-7cc41530bc0sm2722444a12.63.2024.08.19.15.38.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 15:38:36 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: chrome-platform@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Pin-yen Lin <treapking@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-acpi@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v3 00/17] platform/chrome: Add DT USB/DP muxing/topology support
+Date: Mon, 19 Aug 2024 15:38:14 -0700
+Message-ID: <20240819223834.2049862-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,43 +99,112 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tzung-Bi Shih <tzungbi@kernel.org>
+This series adds support for fully describing the USB/DP topology on
+ChromeOS Trogdor devices in DT. Trogdor devices have a single DP phy in
+the AP that is muxed to one of two usb type-c connectors depending on
+which port asserts HPD first to the EC. We'd like to know which port is
+connected to an external monitor to provide a better experience to the
+user about things like which type-c port is displaying DP or which
+type-c hub is acting up, etc. Describing the connection all the way from
+the source to the connector will allow us to do this.
 
-The module description can be backtracked to commit e7c256fbfb15
-("platform/chrome: Add Chrome OS EC userspace device interface").
+DRM core patches: These are used to implement lane assignment for DP
+altmode configurations through the drm_bridge code. The typec code will
+use this to tell the DP phy how many lanes of DP to drive and which
+lanes to drive out to the USB type-c connector. Adding support for lane
+assignment allows us to implement DP muxing as well, physically
+splitting the DP lanes on the DP phy so that hardware doesn't have to
+use an analog mux to steer two DP lanes to one or the other type-c port.
 
-The description became out-of-date after a bunch of changes.  E.g.:
-- 5668bfdd90cd ("platform/chrome: cros_ec_dev - Register cros-ec sensors").
-- ea01a31b9058 ("cros_ec: Split cros_ec_devs module").
-- 5e0115581bbc ("cros_ec: Move cros_ec_dev module to drivers/mfd").
+Type-c core patches: These add some devm helpers so that the next
+patches in the series can skip open-coding devres helpers for
+unregistering typec switches and muxes.
 
-Update the description.
+DRM aux hpd patches: These implement an auxiliary device for USB type-c
+DP alternate mode. I took Dmitry's suggestion and moved the code that
+does the remapping into this driver. The existing hpd bridge is wrapped
+so as to avoid changing the current users. It also registers a typec mux
+and switch (if applicable) so that the DP altmode pin assignment and
+port orientation can be passed to the switch callbacks. We'll still need
+to implement logic in the phy layer to handle configuration.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/mfd/cros_ec_dev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cros EC typec patches: This ties together everything that comes before it in
+this series. The EC typec driver registers the drm_dp_typec_bridge that
+can signal HPD from the type-c connector through the bridge chain, mux
+the DP phy in software so that we don't have to use an analog mux, and
+implement orientation control for boards like Kukui that directly
+connect the DP phy to the type-c port, necessitating lane assignment to
+flip the lanes to match the cable orientation.
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 55b30076763b..8a22bd31a707 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * cros_ec_dev - expose the Chrome OS Embedded Controller to user-space
-+ * ChromeOS Embedded Controller MFD
-  *
-  * Copyright (C) 2014 Google, Inc.
-  */
-@@ -377,6 +377,6 @@ module_init(cros_ec_dev_init);
- module_exit(cros_ec_dev_exit);
- 
- MODULE_AUTHOR("Bill Richardson <wfrichar@chromium.org>");
--MODULE_DESCRIPTION("Userspace interface to the Chrome OS Embedded Controller");
-+MODULE_DESCRIPTION("ChromeOS Embedded Controller MFD");
- MODULE_VERSION("1.0");
- MODULE_LICENSE("GPL");
+Changes from v2: https://lore.kernel.org/r/20240815003417.1175506-1-swboyd@chromium.org
+ * Move most of the binding bits to usb-switch.yaml
+ * Move google,cros-ec-typec binding to usb/
+ * Implement mode-switch and orientation-switch typec controls in
+   drm_dp_typec_bridge driver
+ * Get rid of public APIs that would be used to assign pins or
+   orientation of the port
+ * Add devm helpers for typec mux and switch registration
+ * Add a way to match fwnodes while walking the graph based on the
+   endpoint
+
+Changes from v1: https://lore.kernel.org/r/20240210070934.2549994-1-swboyd@chromium.org
+ * Too many to count!
+ * Split out the DRM bits into this series
+ * Moved the logic into dp-aux-hpd bridge driver
+ * Drive the bridge from cros_ec_typec driver instead of globbing onto
+   the ACPI centric cros-typec-switch driver
+ * During that process drop a lot of patches that aren't needed anymore
+ * Move the DT graph and other properties to the cros-ec-typec binding
+ * Skip mode-switch/orientation-switch properties because we're not
+   registering typec structs anymore
+
+Stephen Boyd (17):
+  drm/atomic-helper: Introduce lane remapping support to bridges
+  drm/bridge: Verify lane assignment is going to work during
+    atomic_check
+  usb: typec: Stub out typec_switch APIs when CONFIG_TYPEC=n
+  usb: typec: Add device managed typec_mux_register()
+  usb: typec: Add device managed typec_switch_register()
+  drm/bridge: aux-hpd: Support USB Type-C DP altmodes via DRM lane
+    assignment
+  drm/bridge: dp_typec: Support USB Type-C orientation
+  drm/bridge: dp_typec: Add "no-hpd" support
+  drm/bridge: dp_typec: Allow users to hook hpd notify path
+  device property: Add remote endpoint to devcon matcher
+  dt-bindings: usb-switch: Extract endpoints to defs
+  dt-bindings: usb-switch: Extend for DisplayPort altmode
+  dt-bindings: Move google,cros-ec-typec binding to usb
+  dt-bindings: usb: Add ports to google,cros-ec-typec for DP altmode
+  platform/chrome: cros_ec_typec: Add support for signaling DP HPD via
+    drm_bridge
+  platform/chrome: cros_ec_typec: Support DP muxing
+  platform/chrome: cros_ec_typec: Handle lack of HPD information
+
+ .../bindings/chrome/google,cros-ec-typec.yaml |  66 --
+ .../bindings/mfd/google,cros-ec.yaml          |   7 +-
+ .../bindings/usb/google,cros-ec-typec.yaml    | 295 +++++++++
+ .../devicetree/bindings/usb/usb-switch.yaml   | 164 ++++-
+ drivers/base/property.c                       |   7 +-
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c       | 564 +++++++++++++++++-
+ drivers/gpu/drm/drm_atomic_state_helper.c     |   2 +
+ drivers/gpu/drm/drm_bridge.c                  |  50 ++
+ drivers/platform/chrome/Kconfig               |   1 +
+ drivers/platform/chrome/cros_ec_typec.c       | 149 ++++-
+ drivers/platform/chrome/cros_ec_typec.h       |   3 +
+ drivers/usb/roles/class.c                     |   4 +-
+ drivers/usb/typec/mux.c                       |  72 +++
+ drivers/usb/typec/retimer.c                   |   7 +-
+ include/drm/bridge/aux-bridge.h               |  26 +
+ include/drm/drm_atomic.h                      |  31 +
+ include/drm/drm_bridge.h                      |   4 +
+ include/linux/property.h                      |   5 +-
+ include/linux/usb/typec_mux.h                 |  58 +-
+ 19 files changed, 1408 insertions(+), 107 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
+
+
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
 -- 
-2.43.0
+https://chromeos.dev
 

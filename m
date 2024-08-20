@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E69176AAE;
-	Tue, 20 Aug 2024 08:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCF618C932;
+	Tue, 20 Aug 2024 10:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724141014; cv=none; b=IFTrFej4Qfct0GaUl9juD1ut621ZdFsUYF612WaN2GSLHD+KqV7S0SF2FUe+i//Ge7SjG4qp0HHnLzMF0O+YQsH4o+ET+D5eCkbQ+HUNA5AydzkfD/jxlm8SRbE0HViWyIT0iDn07XiJRlBmR1M07/JZyN0FstOVyd84rIh3VqM=
+	t=1724148457; cv=none; b=PzT9JC1f2Sw9J0s1xGCtT/r2ZqmuZnAl0hV4/oHcXcvbuie3pcHoLfA4xLFCmvCWBWsYaPWORivTx+oy/iKQaziHk1z0FmCNP7DykY6XjHMdXKkar2fL7aUjOWgf6GQY1SNbh+PrS10ZiPvZAAWbgkqs5ScWm2fdEHeb2VeMOsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724141014; c=relaxed/simple;
-	bh=ehM0NKwiBkTIIUiFMDl0KPxkSLKa1rAvt/NK3ByI314=;
+	s=arc-20240116; t=1724148457; c=relaxed/simple;
+	bh=bf8kz5/zs+nVRfuhgFLeuqKgKIYboF3ngFXVlrv2Df8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dDqQgixOo19KKpU/2VPAdmO9UGZwXUm6019+UBvaso7/29v3z/EgGYdPmuyn7tiJyjruWuSn5CoOXm+pX8lPxCFCvuryE2ho1vEmzcbwoFSIjLSESSeI7+WIm4l9HEIOhwM499KTTCx2RDjwU4QySb2qmGliydRokFVvJok5/LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/V/bV9P; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=G+5qq99aO9e59HNs8r44kgtDt9UERCIX/HlU9D7+OZFBeb/VidzsS3ZWS9IO/feVB3utED0MzEEQCVj2QygUbxDORPGLvWRm7cH0A3v1l44MdfkT2oyT8C6ycHvJXfundp/69QRRLR6xvobHzaxPn22dZ+LtCu+6TmJbyG3LO2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJxfOzmF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/V/bV9P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJxfOzmF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724141012; x=1755677012;
+  t=1724148455; x=1755684455;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ehM0NKwiBkTIIUiFMDl0KPxkSLKa1rAvt/NK3ByI314=;
-  b=V/V/bV9Pdk6vgTDCiLw84D9dVIOajBB3fI7q/Q+yyKdt1D49tZfj/u2R
-   VYnBbf2p6ZYAYecDb6PidHGdcBZUgbaw/D9tWRqy3NLIllwDntSy0Pyr2
-   tAQLHPZoy2tvYZgGmubcKcGOIcnjnhyrO14Wv9bg7dKEQ1F/hVaTPlSDk
-   63YClY2D8LloIwFMdV5n00rY/xMVsROPUatdXy7P3HUzBI3odz55qaSkx
-   OSGqQpv2P2bHqCfJn2nh5hgPEDF9vHXy9LOelWCN5jV+EuPnLH/YTn36w
-   xKjR+52m202pnvvsSCeQE7CnV/j5FFhiVJKNe2CMNsXtA3Ckcms/MAhuj
-   Q==;
-X-CSE-ConnectionGUID: BRPugsDtSzKDfXbikSHDQA==
-X-CSE-MsgGUID: XUY3q5caR3CYq5MKapb7qA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="33845010"
+  bh=bf8kz5/zs+nVRfuhgFLeuqKgKIYboF3ngFXVlrv2Df8=;
+  b=CJxfOzmFZQNNFoKCwI/T5IOQhNEX5nA6wn6+3aR//sdwtFBR2rReFBa6
+   X5GufE6KJnppSbgeS4s3M61XOCCpp8ee2X7A7gTcAnjwcwWIZSqqbz+ko
+   qnPklIwr+YXdtSjkCwo7svYS1KnJpKwJCljgfFGwPkTrcUg0Y7w7CFeu2
+   tQE9Sw/Is4rDjyjU3JPSPYuNudKQBJUiBIFRXcQtTXlnypf36bzmGxF/A
+   DUn3Wh5Xk07cqNVbYWqULXFSWVSWg71PxeISw7E8pXYCgIuakmxU5KSgv
+   dooAQrOqrmUzOCzXp7mx+qDONNAARk+k8csEfe0nqltgNSN0kNXEjZ442
+   A==;
+X-CSE-ConnectionGUID: CZELdVG8RHK35mvSLguBxg==
+X-CSE-MsgGUID: V0HjYY+/T0CIxA7KQ3yVfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22573983"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="33845010"
+   d="scan'208";a="22573983"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 01:03:29 -0700
-X-CSE-ConnectionGUID: d4QBBVZ/Si+EYhPrzZwcng==
-X-CSE-MsgGUID: fwAHWuJaTW64gjlfkMyo/Q==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 03:07:34 -0700
+X-CSE-ConnectionGUID: 8GozAOEARt6+rmkkO6VlTg==
+X-CSE-MsgGUID: ZD0Ym3zqSZunJLBRXJd9aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="60624946"
+   d="scan'208";a="60659356"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2024 01:03:22 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2024 03:07:28 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgJpo-0009se-0L;
-	Tue, 20 Aug 2024 08:03:20 +0000
-Date: Tue, 20 Aug 2024 16:02:51 +0800
+	id 1sgLlu-000A1A-05;
+	Tue, 20 Aug 2024 10:07:26 +0000
+Date: Tue, 20 Aug 2024 18:06:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -76,10 +76,10 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Daniel Scally <djrscally@gmail.com>
-Subject: Re: [PATCH v3 07/17] drm/bridge: dp_typec: Support USB Type-C
- orientation
-Message-ID: <202408201530.jPGxBSCk-lkp@intel.com>
-References: <20240819223834.2049862-8-swboyd@chromium.org>
+Subject: Re: [PATCH v3 09/17] drm/bridge: dp_typec: Allow users to hook hpd
+ notify path
+Message-ID: <202408201747.NMpzuToG-lkp@intel.com>
+References: <20240819223834.2049862-10-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -88,7 +88,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819223834.2049862-8-swboyd@chromium.org>
+In-Reply-To: <20240819223834.2049862-10-swboyd@chromium.org>
 
 Hi Stephen,
 
@@ -98,40 +98,40 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Stephen-Boyd/drm-atomic-helper-Introduce-lane-remapping-support-to-bridges/20240820-064107
 base:   8400291e289ee6b2bf9779ff1c83a291501f017b
-patch link:    https://lore.kernel.org/r/20240819223834.2049862-8-swboyd%40chromium.org
-patch subject: [PATCH v3 07/17] drm/bridge: dp_typec: Support USB Type-C orientation
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240820/202408201530.jPGxBSCk-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20240819223834.2049862-10-swboyd%40chromium.org
+patch subject: [PATCH v3 09/17] drm/bridge: dp_typec: Allow users to hook hpd notify path
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240820/202408201747.NMpzuToG-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201530.jPGxBSCk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201747.NMpzuToG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408201530.jPGxBSCk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408201747.NMpzuToG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/bridge/aux-hpd-bridge.c:60: warning: Function parameter or struct member 'orientation_switch' not described in 'drm_dp_typec_bridge_typec_port'
+   drivers/gpu/drm/bridge/aux-hpd-bridge.c:61: warning: Function parameter or struct member 'orientation_switch' not described in 'drm_dp_typec_bridge_typec_port'
+>> drivers/gpu/drm/bridge/aux-hpd-bridge.c:336: warning: Function parameter or struct member 'typec_bridge_dev' not described in 'drm_dp_typec_bridge_add_hpd_notify'
 
 
-vim +60 drivers/gpu/drm/bridge/aux-hpd-bridge.c
+vim +336 drivers/gpu/drm/bridge/aux-hpd-bridge.c
 
-c77d47cea15ad1 Stephen Boyd 2024-08-19  46  
-c77d47cea15ad1 Stephen Boyd 2024-08-19  47  /**
-c77d47cea15ad1 Stephen Boyd 2024-08-19  48   * struct drm_dp_typec_bridge_typec_port - USB type-c port associated with DP bridge
-c77d47cea15ad1 Stephen Boyd 2024-08-19  49   * @lane_mapping: Physical (array index) to logical (array value) USB type-C lane mapping
-9edcc62024ff61 Stephen Boyd 2024-08-19  50   * @orientation: Orientation of USB type-c port
-c77d47cea15ad1 Stephen Boyd 2024-08-19  51   * @mode_switch: DP altmode switch
-c77d47cea15ad1 Stephen Boyd 2024-08-19  52   * @typec_data: Back pointer to type-c bridge data
-c77d47cea15ad1 Stephen Boyd 2024-08-19  53   */
-c77d47cea15ad1 Stephen Boyd 2024-08-19  54  struct drm_dp_typec_bridge_typec_port {
-c77d47cea15ad1 Stephen Boyd 2024-08-19  55  	u32 lane_mapping[NUM_USB_SS];
-9edcc62024ff61 Stephen Boyd 2024-08-19  56  	enum typec_orientation orientation;
-c77d47cea15ad1 Stephen Boyd 2024-08-19  57  	struct typec_mux_dev *mode_switch;
-9edcc62024ff61 Stephen Boyd 2024-08-19  58  	struct typec_switch_dev *orientation_switch;
-c77d47cea15ad1 Stephen Boyd 2024-08-19  59  	struct drm_dp_typec_bridge_data *typec_data;
-c77d47cea15ad1 Stephen Boyd 2024-08-19 @60  };
-c77d47cea15ad1 Stephen Boyd 2024-08-19  61  
+   327	
+   328	/**
+   329	 * drm_dp_typec_bridge_add_hpd_notify: Register a callback called when the
+   330	 * bridge chain hpd state changes
+   331	 * @hpd_notify: callback for bridge hot plug detect events
+   332	 * @hpd_data: data passed to @hpd_notify callback
+   333	 */
+   334	void drm_dp_typec_bridge_add_hpd_notify(struct drm_dp_typec_bridge_dev *typec_bridge_dev,
+   335						hpd_notify_fn_t hpd_notify, void *hpd_data)
+ > 336	{
+   337		typec_bridge_dev->hpd_notify = hpd_notify;
+   338		typec_bridge_dev->hpd_data = hpd_data;
+   339	}
+   340	EXPORT_SYMBOL_GPL(drm_dp_typec_bridge_add_hpd_notify);
+   341	
 
 -- 
 0-DAY CI Kernel Test Service

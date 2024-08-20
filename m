@@ -1,70 +1,67 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C081A7048
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Aug 2024 17:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112641BA87C
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Aug 2024 17:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724175197; cv=none; b=WgJC+giE6XqrkkZ82fTn06Kjn/tIj8PqLqHlijzkhB1inCV8/JngtF9SoBWpTG15DhJ9POBAfgAF/f+wPI+apg+LHhYdCXRxtA9k6UIx3/M11iygvWi3gX5SxJCOby9eMpzvL1GJsXG6q98xOziGO727LrkZFW+zV4MeXNHAh2w=
+	t=1724175257; cv=none; b=ptpIK/qA7tsVEaf4DjRQFdiztF0T1G1iNDbeCmA72wBx5/FInDTTU6qPNskVHhv2hiPXL7s6Kj8h4usCF6im+L1xk4BobFZ4BT6BLe2DxfmVOCFUXWQ2TC9qru9eEFGTXPNGzuoaT3hRiXrpWVhwkbgi8sHfZrdXAQWcGyTDRXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724175197; c=relaxed/simple;
-	bh=bzaiqpN/nM0bLlfP1/91p4RwJaZVbs9cPvkMDsEy1DY=;
+	s=arc-20240116; t=1724175257; c=relaxed/simple;
+	bh=+BGxKuXy5yuaKLKpL+P0IynbzYCeuLCHjDjm+SqrANU=;
 	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WFuYpaby/+dXD8Iqy8bE4ADf+/rXlzKFx3g3iGl5zsTpPOr10pd+lX11EVLHnAj4K9J1bUTWo7eFY6FVcSA2Bmn/OUd8RARmKNGcopTq7825ftPToKdomWY3PyItf0rvDyJBXyqow/49umIjUsJY3sxb4KUGxmI2hzFFDducU8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V+F3LTrf; arc=none smtp.client-ip=209.85.222.182
+	 To:Cc:Content-Type; b=ssrZzFjFjH7CTZWYuiBAaIzSBXi+XQankULB4iki3asGoxN8TSAcSrJSQ945yT40M7vt0Dr5yTaLplNa1ztzEG0nIfi4ChlrzK8zxmXiyCMcLYZO7kobuM0orYScWMdd4E/t6oxL+YnzLo2RWMNDBVBTGtLztTjtgbyrYfiPMSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iUnj4ltB; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V+F3LTrf"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7a1e31bc1efso368948885a.3
-        for <chrome-platform@lists.linux.dev>; Tue, 20 Aug 2024 10:33:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iUnj4ltB"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7a501dd544eso352834985a.2
+        for <chrome-platform@lists.linux.dev>; Tue, 20 Aug 2024 10:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724175195; x=1724779995; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1724175255; x=1724780055; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9vtSBBXJK5LCYoMXhK0wAXHgfrMBnfJ+I9BOwaqkeIw=;
-        b=V+F3LTrfV/QMGS466Rp1z4fkTt7Lha0gJN8xKZvHjWt+NKZGX+H6XaAaebIqlhxGx0
-         vYw6wxOw6/wFLJzrYCIkNZVStQ1iWO+VCLIf7kbwIzC7zgUIb15sezFlkgdPNkh6wqvW
-         MEtbuzcn/6dIUdnFlT4refH9lQu43ayFh7sCI=
+        bh=sT8btaeVFgKiZIC2/bVrNe0cKcp239nORrve01JKc1Q=;
+        b=iUnj4ltBRN6/zIwXXwuWub+BZZq05egzTTIfK/96iDOtYvW1vezgcR51Yvq0m9rai4
+         nStPjEl+iIo+R8EiuKv99N1SlePrA0mTmbm3mdI3DsH0fFQSa7lpzzCirgYt43GR8sas
+         0j/0+3fGsgVaNEglZUm7X1OyvDQEMZeRVC27E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724175195; x=1724779995;
+        d=1e100.net; s=20230601; t=1724175255; x=1724780055;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9vtSBBXJK5LCYoMXhK0wAXHgfrMBnfJ+I9BOwaqkeIw=;
-        b=NvwHUP2IfnUCzgdc/9hqpuFfBptr64uslO6zuXDCNwAWIGdanwNS3jepqKDjT4QC68
-         FTM9yCV1yD2dBzyzpiV7D2GTgUNRNMmWIxuhJoEynW1MkMur2THTNDLo2J7jWFD/jDgj
-         jbu8bUl5yW9hxL6rcftnqGFHcaphhy+XLakVRmGFL08VEmqgACEvLB8fFKCB7cvrw+78
-         BTp7XIjujDl9oksiMw5+EhI+qi67FTKVg29g3dFIWdyoOeOmQAN6ewWhLjOZTF5yN4TM
-         weZIIpMhGEs9tcGOnFHUtYFLtG7vE+aE9a0EgIqzsA4dXzhYJKRjsydlNTOc24/lx2Fx
-         jCCQ==
-X-Gm-Message-State: AOJu0YxliZdqlG/hLbXGzwuq6uUtt5+bjugKJKme+PZkz6jNi4tx8G1c
-	gDdYai4nGUDtQg9s/ClnWeXVNAAi61dUrWfzvUv+jWaQF2Z+BhEqq8RSruRSvf3lMW3Cpwjed/O
-	WJq9bXS4qwUlFT0yGSa3xfuHgdeHdOChZhGJp
-X-Google-Smtp-Source: AGHT+IGYOhjKEQmlHtrugQt34padsEOCiU22JleS9UeHG8yLwrBPBBWRxbXoU9frSSi4wQBqFivZBoMrIwRgXX1QdHI=
-X-Received: by 2002:a05:620a:269a:b0:7a1:d9a6:a9af with SMTP id
- af79cd13be357-7a5069f1f8dmr1864595885a.68.1724175194965; Tue, 20 Aug 2024
- 10:33:14 -0700 (PDT)
+        bh=sT8btaeVFgKiZIC2/bVrNe0cKcp239nORrve01JKc1Q=;
+        b=t/nV8CRz0YNFog3sMoSiZFhm1mO15++4+i2yylhCz8YcgSU4AaqJJhIkxv9AKzxln+
+         oRxjmdjRXqK8HdP4hBKAbKDFNyyP3H2Xi10R11VYcuw0Hl8jLIj4fpZP/HZ7FVBw7/qQ
+         pqfiayV5uq278DUW9mPJIhrJ70ZOzM8/2y8D1ZTvMASAtIjknDnrIP00OCCoEOk+q8Lh
+         aqm7LEHw+zTPMgyiBD9XEh4SU17vyQctFv0w5oAmTvXR+tr/1RnSSnpx0Jb9YT23MzyG
+         j/U0L2+YqpMG99/eGT6x4Pz7Aca7fAKH/9vUNIoSAE1Jp0MckWHG84J+GPGt/zXLY02F
+         ViLQ==
+X-Gm-Message-State: AOJu0YwWJ7d/6nNsBMgFRMgr/ZGk/KCJ2evCa1llJm+qS/u4yLNpZMVX
+	kLipcDiUYnoWNcLXYfaq2c5ltYZ9rW0BW5PfrRM9ModHPxZLq8C87CX2xrX32GMwGOWcc4i2YvN
+	Yjge/BvIiVUae9vZdCxMEeYUTpCrex+rxEZRP
+X-Google-Smtp-Source: AGHT+IGGJj/BEL1gcz7E4TOfNemZPl2ZAZ1e0Im3r9+oB7B/patnof4GuWnoFzCxo19sTL6oKp0QcBKMjKB8KkoFPP4=
+X-Received: by 2002:a05:620a:2453:b0:79f:8f3:6ad4 with SMTP id
+ af79cd13be357-7a6740028d4mr2801085a.1.1724175254910; Tue, 20 Aug 2024
+ 10:34:14 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 20 Aug 2024 10:33:14 -0700
+ HTTPREST; Tue, 20 Aug 2024 10:34:13 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZsTShZnD-NbZqGio@smile.fi.intel.com>
-References: <20240819223834.2049862-1-swboyd@chromium.org> <20240819223834.2049862-3-swboyd@chromium.org>
- <ZsRrWfoPPVGC4Dqy@smile.fi.intel.com> <CAE-0n536OWtoOoRSM=6u=wA75A+0WtBktiY=6Y6VjKKTQWPcNw@mail.gmail.com>
- <ZsTPuvoTIFVFHw6o@smile.fi.intel.com> <CAE-0n50xcj21WiPHW9ATE7BfxKpOWvdV7of97G_U5ZrMV0zUUw@mail.gmail.com>
- <ZsTShZnD-NbZqGio@smile.fi.intel.com>
+In-Reply-To: <ZsRt_I6y9MfWLawy@smile.fi.intel.com>
+References: <20240819223834.2049862-1-swboyd@chromium.org> <20240819223834.2049862-11-swboyd@chromium.org>
+ <ZsRt_I6y9MfWLawy@smile.fi.intel.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 20 Aug 2024 10:33:14 -0700
-Message-ID: <CAE-0n53JBtB0YAZxMhLVJhbsUNZo4JPyXUiHu=9EQT4Bx+tHPA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/17] drm/bridge: Verify lane assignment is going to
- work during atomic_check
+Date: Tue, 20 Aug 2024 10:34:13 -0700
+Message-ID: <CAE-0n516QBSg-ODNjaM-q52UtU17DJ45VC-pov+1oSfm2E_9Sg@mail.gmail.com>
+Subject: Re: [PATCH v3 10/17] device property: Add remote endpoint to devcon matcher
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -88,40 +85,17 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Vinod Koul <vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Andy Shevchenko (2024-08-20 10:29:41)
-> On Tue, Aug 20, 2024 at 10:24:47AM -0700, Stephen Boyd wrote:
-> > Quoting Andy Shevchenko (2024-08-20 10:17:46)
-> > > On Tue, Aug 20, 2024 at 10:12:55AM -0700, Stephen Boyd wrote:
-> > > > Quoting Andy Shevchenko (2024-08-20 03:09:29)
-> > > > > On Mon, Aug 19, 2024 at 03:38:16PM -0700, Stephen Boyd wrote:
+Quoting Andy Shevchenko (2024-08-20 03:20:44)
+> On Mon, Aug 19, 2024 at 03:38:24PM -0700, Stephen Boyd wrote:
+> >  include/linux/property.h    | 5 +++--
 >
-> ...
+> > -typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode, const char *id,
+> > -                                void *data);
+> > +typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode,
+> > +                                const struct fwnode_handle *endpoint,
+> > +                                const char *id, void *data);
 >
-> > > > > > +     /*
-> > > > > > +      * Ensure this bridge is aware that the next bridge wants to
-> > > > > > +      * reassign lanes.
-> > > > > > +      */
-> > > > > > +     for (i = 0; i < num_input_lanes; i++)
-> > > > > > +             if (i != input_lanes[i].logical && !num_output_lanes)
-> > > > > > +                     return -ENOTSUPP;
-> > > > >
-> > > > > Besides missing {} this code is internal to the Linux kernel. Is it okay?
-> > > >
-> > > > ENOTSUPP is used by select_bus_fmt_recursive() so I simply followed that
-> > > > style.
-> > >
-> > > Okay, just be aware of that side effect of that code, also checkpatch may
-> > > complain (however it might be false positive).
-> >
-> > Yes checkpatch complained but didn't enlighten me. Please tell me the
-> > side effect as I'm unaware!
->
-> I already told you above, if this code ever appears in user space it will be
-> printed as a number and very much confuse the user!
->
-> That's why usage of this code either has to be documented or be subsystem
-> _known_ practice (GPIO library comes to my mind as it uses it internally,\
-> but filters for user space).
->
+> Seems there is no explanation of the parameters here, can we add a kernel-doc
+> to this typedef (may be a separate patch)?
 
-Ok, got it. Thanks!
+Sure. I'll throw in another patch.

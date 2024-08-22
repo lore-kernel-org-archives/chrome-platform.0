@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E3B1CB14F
-	for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 13:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780041CBEB2
+	for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 13:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724334463; cv=none; b=qv6l2Q/A3CwVBaKW8QeAQ1xmA/vRFd9WmT87Z4rH559HxHloIjFu5HvofSgyb76zidTp20xzxZPEPaFeKrwsQv+JECpbm60OhUFp9j9nYIbiU4uRj+/auuuSRROKjU/2AZdp0nceJ9Yron2d2G8qP9FXW6pK2hfRNwijwCr9so8=
+	t=1724334575; cv=none; b=N9hMc4UYIKN4TwPbZDnNZ9iMWGQ8MAjds0F+cONL8cHLAb1NO9PpI3mTTVvKdTcSK+Wm6WeewuEL4Dsmd7KgRok7sam0WFfZ79ROKGj0Y50P3w/5ogyVFrEraj555x/H/bqrYRHioMKz6GUXc5Pqb+afaSt/iJBhTWASgpg2AOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724334463; c=relaxed/simple;
-	bh=gERz56/N7TCq6I811PLRHpo7iVU0CMV6axNB79Zx+8Y=;
+	s=arc-20240116; t=1724334575; c=relaxed/simple;
+	bh=LqJ7DQPFpxfgiOEVr0qSMrvDXb62+WaBmrdVtmy0cxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iowsDCD/qU4B1cUGHsdotZCLVk7lJsvXruHnD4skrvUn80qaEebOEXqsMOL9gVD/EJjpK6ola4+cMNoL5BSG6oblipXoFYKe1+h5PnMv9dnJ6Jxek/Ez1ZcfjCfsCiF+8PnzcFlDxZyfNKwbYZ8iHnXSIgYgVCvETa23dQ2aQIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd52rEkn; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcqGRwxwtA5v+g2AnA4OGU5nMs7L1EZ8SopM4qAPbgTZPl8fj5/+ecqMpt04jeLtWAtsc2XjHwd6n6EF5aW1P/dAyRJqvvTBCmmtbXFm1O+veCgKV4TXo2gZ3jvmcwuAwQ6MbsNsXbq8N2zT1blBnPl4F9saaQTKVzbYEq7SkHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z493zjMf; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd52rEkn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z493zjMf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724334462; x=1755870462;
+  t=1724334574; x=1755870574;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gERz56/N7TCq6I811PLRHpo7iVU0CMV6axNB79Zx+8Y=;
-  b=Jd52rEknT3PAHT1f1yNexkg0s7iu4JJ7AwOa/t8u/shFFOuIP/OGrfZD
-   IbS4mLXe6sSpNIJA5+MW4BBHDWOr3qqQ5e2IiabFFM7tii5U5PMmD1ZvD
-   AkqeMh1Lu+wv6biZ5iGbf/YShR8CJt1x2NfnjqDyI5M3My0OFaMiAnV82
-   4rfKOjhn+EheBuEOFPZZ1yFcYqvGeaaEdvGLxO69+4cfDa3B3dJoIzBLd
-   2t5LqI8JnoyQvcF25Fxq0Cq3V0holGrGvshhY60LET4K6tFy3MAZfp1Ml
-   iLJRgCzUg49mKbSLkfB73jG/K4nu244Kg5DtSlwXA7e21rrBl1ZXTi2A4
-   w==;
-X-CSE-ConnectionGUID: M8qgLDdAT56TcD5n1jjHgw==
-X-CSE-MsgGUID: h0FKhwqARh6opeTwlzY6fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22903152"
+  bh=LqJ7DQPFpxfgiOEVr0qSMrvDXb62+WaBmrdVtmy0cxs=;
+  b=Z493zjMfjUCOvJTkmkad3TzBX++lXdusbFjMy7dZnHP7QxRi1kybgun0
+   8TKKTSfuPq06+npJ8QXShV2ZZTIokAuDPOt18HmLVM3VOotnQBFwThwzY
+   2bgtFf1PnOWTS3BkyoI6QVt/059bhyLt3mjFBQJg8KvZqk+NF/fPac+e0
+   TsOtNJXMovvipjK7q2tCsyj45X/u6zE9omh0uSeKkckYEpf/x7ncFkZQy
+   krKbkM2EBulYsVfd1KZP7IS/Q/cSmh8+lC/43jb2bpRqm+hjH653qlctE
+   FumozTB5qhQd2kZAURj3cyLA+MmofXx8dG2bGp+u4IEP5ztolzCr9F0J/
+   Q==;
+X-CSE-ConnectionGUID: UAqZfykrQMubhAsdiCMIqQ==
+X-CSE-MsgGUID: K3OwWGrdRJejlymIMT8KNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22617696"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="22903152"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:47:42 -0700
-X-CSE-ConnectionGUID: 6BZ2mrHpTuKonItbJ9JQUw==
-X-CSE-MsgGUID: Qmx3MU8CSxO5tx3hGOy4kQ==
+   d="scan'208";a="22617696"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:49:34 -0700
+X-CSE-ConnectionGUID: rExSLsXBRvKzM/DYRndzqA==
+X-CSE-MsgGUID: d9wMAPFZQ7qycJM9TKoADw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="66132920"
+   d="scan'208";a="66342683"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:47:37 -0700
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:49:30 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sh8A2-00000000T7v-0IEx;
-	Thu, 22 Aug 2024 16:47:34 +0300
-Date: Thu, 22 Aug 2024 16:47:33 +0300
+	id 1sh8Bb-00000000T9V-0Vns;
+	Thu, 22 Aug 2024 16:49:11 +0300
+Date: Thu, 22 Aug 2024 16:49:10 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
@@ -62,11 +62,10 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
- code to of_regulator.c
-Message-ID: <ZsdBddTDuvNasHNq@smile.fi.intel.com>
+Subject: Re: [PATCH v5 03/10] regulator: Split up _regulator_get()
+Message-ID: <ZsdB1vsEe0atW88_@smile.fi.intel.com>
 References: <20240822092006.3134096-1-wenst@chromium.org>
- <20240822092006.3134096-3-wenst@chromium.org>
+ <20240822092006.3134096-4-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -75,56 +74,33 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822092006.3134096-3-wenst@chromium.org>
+In-Reply-To: <20240822092006.3134096-4-wenst@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Aug 22, 2024 at 05:19:55PM +0800, Chen-Yu Tsai wrote:
-> There's still a bit of OF-specific code in the regulator device lookup
-> function.
+On Thu, Aug 22, 2024 at 05:19:56PM +0800, Chen-Yu Tsai wrote:
+> _regulator_get() contains a lot of common code doing checks prior to the
+> regulator lookup and housekeeping work after the lookup. Almost all the
+> code could be shared with a OF-specific variant of _regulator_get().
 > 
-> Move those bits of code over to of_regulator.c, and create a new
-> function of_regulator_dev_lookup() to encapsulate the code moved out of
-> regulator_dev_lookup().
-> 
-> Also mark of_find_regulator_by_node() as static, since there are no
-> other users in other compile units.
-> 
-> There are no functional changes.
-
-...
+> Split out the common parts so that they can be reused. The OF-specific
+> version of _regulator_get() will be added in a subsequent patch.
+> No functional changes were made.
 
 > +/**
-> + * of_get_child_regulator - get a child regulator device node
-> + * based on supply name
-> + * @parent: Parent device node
-> + * @prop_name: Combination regulator supply name and "-supply"
+> + * _regulator_get_common - Common code for regulator requests
+> + * @rdev: regulator device pointer as returned by *regulator_dev_lookup()
+> + *       Its reference count is expected to have been incremented.
+> + * @dev: device used for dev_printk messages
+> + * @id: Supply name or regulator ID
+> + * @get_type: enum regulator_get_type value corresponding to type of request
 > + *
-> + * Traverse all child nodes.
-> + * Extract the child regulator device node corresponding to the supply name.
-> + * returns the device node corresponding to the regulator if found, else
-> + * returns NULL.
-
-At the same time you may fix kernel-doc warnings (no "Return" section) in these
-three (on your wish you may fix others in a separate change, but it's not
-related to this series).
-
-> + */
-
-...
-
-> +/** of_regulator_dev_lookup - lookup a regulator device with device tree only
-
-Something went wrong with the indentation.
-
-> + * @dev: Device pointer for regulator supply lookup.
-> + * @supply: Supply name or regulator ID.
+> + * Returns a struct regulator corresponding to @rdev,
+> + * or IS_ERR() condition containing errno.
 > + *
-> + * If successful, returns a struct regulator_dev that corresponds to the name
-> + * @supply and with the embedded struct device refcount incremented by one.
-> + * The refcount must be dropped by calling put_device().
-> + * On failure one of the following ERR-PTR-encoded values is returned:
-> + * -ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup could succeed
-> + * in the future.
+> + * This function should be chained with *regulator_dev_lookup() functions.
+
+kernel-doc will warn here: No "Return" section.
+
 > + */
 
 -- 

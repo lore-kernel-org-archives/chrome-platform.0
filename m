@@ -1,94 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C561CF8B;
-	Thu, 22 Aug 2024 10:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EEF2033A;
+	Thu, 22 Aug 2024 10:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724321203; cv=none; b=TMHMizs8oFjbHRKyWqjXCBz3G+3rZYEvbhMXwafstfPWGBP328x2aeGEbF5hcaIB/hn0M414nQixaeebcaDfG3M59PUHRPJivqaVx/C3A+30HqbHqqt/vUBLT8iwaOEZc7p3CU+KUSNywa/zPmbzQH/gbaBv6NICdj7NIRGH27I=
+	t=1724321497; cv=none; b=tn76WKTt1wjgM/DanelwzH5NABlpjyVvGsyQ8JOWFRmqp6R4AHIhxcrax1+ykWxee7Y2iy81jmMzRDQVss2VkIyxftDd6LHc+zGw8uW4PvHK2UNGNk6dnm2hdkQeIawZtG0xefYFm40bQ2VWUjYzN9BA1jX19wtuJN+Umo6c+VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724321203; c=relaxed/simple;
-	bh=JPyQgjPOezZM4QKJsyK1eSVg8qC0xtG6RWC6q8JuiKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mq5SP9oArlMRphM81o2kBCQ/vYx8KvLULdX/dubEFQu47cj1BRMYbbK8LKJ0JLM1l+V5xrUq7VP+OXp9L+E0XTYtyAPpFMhhKhacYEbsNEZmKlTdAijtLcJvQW2R8VTzKppXhNFxaRSnbMssRsJwgJC22JjwNIPxTq9GDsANVSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzbZxvz5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724321497; c=relaxed/simple;
+	bh=bgYDPzutrzDAr5YMb+PdbaWy4xjt/hdjmclU/iDKrUE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OAMfOHFfmMIhRaZ33cBFTeOSajHakvPSOY9vglKeWHKM0Uk0oXxnd87Ch4XOJOsDKuA9oBirrNVemLgwEIz2RVHtJM05u/ZtUNnCcBV7m3RL9/ggUM0sNzxFVIUm0PZZvPc50AZfJ6ElI3s9L9gzCPvam3D37ZrrOom8fJ8hEBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceWcxheo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzbZxvz5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D42C32782;
-	Thu, 22 Aug 2024 10:06:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceWcxheo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A11C4AF0B;
+	Thu, 22 Aug 2024 10:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724321202;
-	bh=JPyQgjPOezZM4QKJsyK1eSVg8qC0xtG6RWC6q8JuiKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HzbZxvz5lzvZZ9MtyLrSq6YAxdXbej+YZVbnqtR/4Gd26zybBU8Pg21e1rf7nsLYL
-	 MeynED6M8P85fiLjANuBsGDNhh7CgrAfraCM0fOyAtAq9cvTA50KLELEuzDwXHUN4o
-	 zqV2BVq6G8PzksvoINqXoqLFnG7iqw7PDufjL5eAhxI7G3oin8XNs+8+V1KsWYzipa
-	 AdDQ2e/Z3auJHDNskoen5mH1tZV/iFWDKxIZhRo2zSWoWbZxLOtYn2AM0XANRVNNNn
-	 n7H6FX7zvLzN+zPl7WvsQL9iTKZqxXYB9IMKVscT6fL2/NgyA9taSvfHdRk6348iaA
-	 v+RrJ8jeMcBrg==
-Date: Thu, 22 Aug 2024 11:06:39 +0100
+	s=k20201202; t=1724321496;
+	bh=bgYDPzutrzDAr5YMb+PdbaWy4xjt/hdjmclU/iDKrUE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ceWcxheoWDtnYgg985x45KYHmTV5oTZOhKwraHXxGsy7HTP/LFIFjnC+DwVniTqn8
+	 H9NLuDZQpjh7YacHZqImBYeAZnE+rF0cfYudqz8zJqoSrpRhX8WmarquHOz2Py4QLj
+	 zQr5vl8E/qDbXcfIX9QO3tbOBRlEKYXcWIwNoOeXWow7xY7Y+qlnXCDUsAuTAYGU+p
+	 K7KyFiW9gpb8deb7VLWaLfyUA2HoCeihoZFeYgskdcVZZqgA7TSshA/cRJj6VdQxeo
+	 t5qcNJQ/64y2HlAwdHZdSXDcBv8VqXqZSHcPOs3JsJ+pj5mGYq7r19JxSqh43KsZWh
+	 ukcVCqbEnRwBA==
 From: Lee Jones <lee@kernel.org>
-To: tzungbi@kernel.org
+To: lee@kernel.org, tzungbi@kernel.org
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mfd: cros_ec: update module description
-Message-ID: <20240822100639.GF6858@google.com>
-References: <20240819102342.5265-1-tzungbi@kernel.org>
+In-Reply-To: <20240819102326.5235-1-tzungbi@kernel.org>
+References: <20240819102326.5235-1-tzungbi@kernel.org>
+Subject: Re: (subset) [PATCH] mfd: cros_ec: simplify cros_ec_dev_init()
+Message-Id: <172432149544.1248859.6275161639600844545.b4-ty@kernel.org>
+Date: Thu, 22 Aug 2024 11:11:35 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240819102342.5265-1-tzungbi@kernel.org>
+X-Mailer: b4 0.13.0
 
-On Mon, 19 Aug 2024, tzungbi@kernel.org wrote:
-
-> From: Tzung-Bi Shih <tzungbi@kernel.org>
+On Mon, 19 Aug 2024 18:23:26 +0800, tzungbi@kernel.org wrote:
+> Simplify cros_ec_dev_init() by the following changes:
+> - Get rid of label `failed_devreg`.
+> - Remove a redundant space and comment.
+> - Use `if (ret)` instead of `if (ret < 0)`.
 > 
-> The module description can be backtracked to commit e7c256fbfb15
-> ("platform/chrome: Add Chrome OS EC userspace device interface").
-> 
-> The description became out-of-date after a bunch of changes.  E.g.:
-> - 5668bfdd90cd ("platform/chrome: cros_ec_dev - Register cros-ec sensors").
-> - ea01a31b9058 ("cros_ec: Split cros_ec_devs module").
-> - 5e0115581bbc ("cros_ec: Move cros_ec_dev module to drivers/mfd").
-> 
-> Update the description.
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
->  drivers/mfd/cros_ec_dev.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index 55b30076763b..8a22bd31a707 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * cros_ec_dev - expose the Chrome OS Embedded Controller to user-space
-> + * ChromeOS Embedded Controller MFD
->   *
->   * Copyright (C) 2014 Google, Inc.
->   */
-> @@ -377,6 +377,6 @@ module_init(cros_ec_dev_init);
->  module_exit(cros_ec_dev_exit);
->  
->  MODULE_AUTHOR("Bill Richardson <wfrichar@chromium.org>");
-> -MODULE_DESCRIPTION("Userspace interface to the Chrome OS Embedded Controller");
-> +MODULE_DESCRIPTION("ChromeOS Embedded Controller MFD");
-
-Please drop the term MFD - there is no such thing.
-
->  MODULE_VERSION("1.0");
->  MODULE_LICENSE("GPL");
-> -- 
-> 2.43.0
 > 
 
--- 
+Applied, thanks!
+
+[1/1] mfd: cros_ec: simplify cros_ec_dev_init()
+      commit: 70596c588adb5344e7002086d78ab5792d7d1069
+
+--
 Lee Jones [李琼斯]
+

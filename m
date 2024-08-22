@@ -1,175 +1,94 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89441865EB
-	for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 09:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C561CF8B;
+	Thu, 22 Aug 2024 10:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724318460; cv=none; b=LousnrJncNRIfsEAqONHJ9rvHQW7SMNt2LtHNQdVxd20+WO1pCHZ9VTJ5PjRBSxXbwxqarIOzTl6rAeO9j+ZdckgPONSnt2RpiF8HYDVjUm5sVllgdCJLBOJYEe7Vn0CXyvabIuzQGx14Hk23unXhIt3UiMQpPwiadByUGRfQo4=
+	t=1724321203; cv=none; b=TMHMizs8oFjbHRKyWqjXCBz3G+3rZYEvbhMXwafstfPWGBP328x2aeGEbF5hcaIB/hn0M414nQixaeebcaDfG3M59PUHRPJivqaVx/C3A+30HqbHqqt/vUBLT8iwaOEZc7p3CU+KUSNywa/zPmbzQH/gbaBv6NICdj7NIRGH27I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724318460; c=relaxed/simple;
-	bh=KPKZx+o2UwLiNaiDemeY/MCCfCJXoZ6VeunQ3tP7UxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BzRXL62V1rB2iORVLvjw+h96WaywegXniRe65onhiMr0DSr1zeIjaaJY8ReMWXq7Qc58YjF3b3V3HafW7QvXuLkSLbybObJJrjwbE8Edaz+FWB6x3pKs7dlEZTT9Z7DrkSnU3ceGmBcI2sipJjDBYhHI6Ext7NNjWWdD/uC9OTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JFUkGO2f; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1724321203; c=relaxed/simple;
+	bh=JPyQgjPOezZM4QKJsyK1eSVg8qC0xtG6RWC6q8JuiKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mq5SP9oArlMRphM81o2kBCQ/vYx8KvLULdX/dubEFQu47cj1BRMYbbK8LKJ0JLM1l+V5xrUq7VP+OXp9L+E0XTYtyAPpFMhhKhacYEbsNEZmKlTdAijtLcJvQW2R8VTzKppXhNFxaRSnbMssRsJwgJC22JjwNIPxTq9GDsANVSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzbZxvz5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JFUkGO2f"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-714226888dfso520037b3a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 02:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724318457; x=1724923257; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b0ZXsCUO90vlD45ZJO1I+QT/1oidv8iaRsna2l2Dubk=;
-        b=JFUkGO2fLLv39+8WmOR+51eja6ugfnXxKTyFoCrzEVJljnw/XPpf4aZLf7bBVLkkAG
-         gM40hlEg93NfXG/nfLJZoIBLGE5SQPGWkudXAUd89utDf9HaIqKqlQoo6FVXMXb/4RYR
-         31KbKiRK0xrX1KPXWobC/g9Z1+qeM5a9QUIu0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724318457; x=1724923257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b0ZXsCUO90vlD45ZJO1I+QT/1oidv8iaRsna2l2Dubk=;
-        b=qz92BwAdWI3/MytgAiOBvU3SsQvzPEQWFd0iJCTvVBfM8M4wuXVUh7r4EH+ZD7K84y
-         paT05K+93J4Xp13HQOKUJhaLZ1JDbD9qStT6XJbYw+dMoHfAErux53pJEbi/IqndOrXe
-         QpLXKfFx8rf308t+kSIwvulbnA/T2oCrYaIxi4KOxLw516cSAcZSJLbCECdtX2RHFG4m
-         QRzlmRGs9XKUgTVuB88pMWqIOFOiMRgBIaNSbE/Iz6Wlm6IwkXDjk4Cc+cwKkUUe6x0R
-         GFe/GVYmxUO95nHfH47RHBX+ULcUTdvJ6E+sMDbHlcgLU4LOIax+8sQy0TxtF5IoE2Uh
-         GUpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhvSHiGETLU8cSwJH/hTvn5FsnShSBL5SK1JtcW+NPqvABhbBqChIJ8oq0aTzSXb0UTIbJ3E938mS7Lysrs7g=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyq6LqIEdFrMy1Aq0Uown5zoA7Kde1hb/psXqxAsZCw5K/S9MPb
-	dnWulVaDmk3pPvxRR6NjU+wHjGlz+aieDOMdxd2FTEjLeAxetlZjC77q+BAIog==
-X-Google-Smtp-Source: AGHT+IGopbbojtmE4fS/IUOg0cpO0JEZHF2VnB3L6eDK3aI3tJHchVj0lRN1Md7MFI5PPKTGcEf3AQ==
-X-Received: by 2002:a05:6a20:2d26:b0:1c6:fb07:381e with SMTP id adf61e73a8af0-1cad8180a2amr6660606637.44.1724318456919;
-        Thu, 22 Aug 2024 02:20:56 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8470:6a67:8877:ce2c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71434335e69sm951398b3a.194.2024.08.22.02.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 02:20:56 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH v5 10/10] arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads as fail
-Date: Thu, 22 Aug 2024 17:20:03 +0800
-Message-ID: <20240822092006.3134096-11-wenst@chromium.org>
-X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-In-Reply-To: <20240822092006.3134096-1-wenst@chromium.org>
-References: <20240822092006.3134096-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzbZxvz5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D42C32782;
+	Thu, 22 Aug 2024 10:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724321202;
+	bh=JPyQgjPOezZM4QKJsyK1eSVg8qC0xtG6RWC6q8JuiKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HzbZxvz5lzvZZ9MtyLrSq6YAxdXbej+YZVbnqtR/4Gd26zybBU8Pg21e1rf7nsLYL
+	 MeynED6M8P85fiLjANuBsGDNhh7CgrAfraCM0fOyAtAq9cvTA50KLELEuzDwXHUN4o
+	 zqV2BVq6G8PzksvoINqXoqLFnG7iqw7PDufjL5eAhxI7G3oin8XNs+8+V1KsWYzipa
+	 AdDQ2e/Z3auJHDNskoen5mH1tZV/iFWDKxIZhRo2zSWoWbZxLOtYn2AM0XANRVNNNn
+	 n7H6FX7zvLzN+zPl7WvsQL9iTKZqxXYB9IMKVscT6fL2/NgyA9taSvfHdRk6348iaA
+	 v+RrJ8jeMcBrg==
+Date: Thu, 22 Aug 2024 11:06:39 +0100
+From: Lee Jones <lee@kernel.org>
+To: tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: cros_ec: update module description
+Message-ID: <20240822100639.GF6858@google.com>
+References: <20240819102342.5265-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240819102342.5265-1-tzungbi@kernel.org>
 
-Instead of having them all available, mark them all as "fail-needs-probe"
-and have the implementation try to probe which one is present.
+On Mon, 19 Aug 2024, tzungbi@kernel.org wrote:
 
-Also remove the shared resource workaround by moving the pinctrl entry
-for the trackpad interrupt line back into the individual trackpad nodes.
+> From: Tzung-Bi Shih <tzungbi@kernel.org>
+> 
+> The module description can be backtracked to commit e7c256fbfb15
+> ("platform/chrome: Add Chrome OS EC userspace device interface").
+> 
+> The description became out-of-date after a bunch of changes.  E.g.:
+> - 5668bfdd90cd ("platform/chrome: cros_ec_dev - Register cros-ec sensors").
+> - ea01a31b9058 ("cros_ec: Split cros_ec_devs module").
+> - 5e0115581bbc ("cros_ec: Move cros_ec_dev module to drivers/mfd").
+> 
+> Update the description.
+> 
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  drivers/mfd/cros_ec_dev.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+> index 55b30076763b..8a22bd31a707 100644
+> --- a/drivers/mfd/cros_ec_dev.c
+> +++ b/drivers/mfd/cros_ec_dev.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * cros_ec_dev - expose the Chrome OS Embedded Controller to user-space
+> + * ChromeOS Embedded Controller MFD
+>   *
+>   * Copyright (C) 2014 Google, Inc.
+>   */
+> @@ -377,6 +377,6 @@ module_init(cros_ec_dev_init);
+>  module_exit(cros_ec_dev_exit);
+>  
+>  MODULE_AUTHOR("Bill Richardson <wfrichar@chromium.org>");
+> -MODULE_DESCRIPTION("Userspace interface to the Chrome OS Embedded Controller");
+> +MODULE_DESCRIPTION("ChromeOS Embedded Controller MFD");
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v4:
-- Rebased
+Please drop the term MFD - there is no such thing.
 
-Changes since v3:
-- Also remove second source workaround, i.e. move the interrupt line
-  pinctrl entry from the i2c node back to the components.
+>  MODULE_VERSION("1.0");
+>  MODULE_LICENSE("GPL");
+> -- 
+> 2.43.0
+> 
 
-Changes since v2:
-- Drop class from status
----
- arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi | 13 +++++++++++++
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi      |  4 ++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-index 8d1cbc92bce3..251e084bf7de 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-@@ -14,6 +14,7 @@ touchscreen2: touchscreen@34 {
- 		compatible = "melfas,mip4_ts";
- 		reg = <0x34>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/*
-@@ -26,6 +27,7 @@ touchscreen3: touchscreen@20 {
- 		reg = <0x20>;
- 		hid-descr-addr = <0x0020>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/* Lenovo Ideapad C330 uses G2Touch touchscreen as a 2nd source touchscreen */
-@@ -47,9 +49,12 @@ &i2c4 {
- 	trackpad2: trackpad@2c {
- 		compatible = "hid-over-i2c";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x2c>;
- 		hid-descr-addr = <0x0020>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -74,3 +79,11 @@ pins_wp {
- 		};
- 	};
- };
-+
-+&touchscreen {
-+	status = "fail-needs-probe";
-+};
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index b4d85147b77b..eee64461421f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -358,12 +358,12 @@ touchscreen: touchscreen@10 {
- &i2c4 {
- 	clock-frequency = <400000>;
- 	status = "okay";
--	pinctrl-names = "default";
--	pinctrl-0 = <&trackpad_irq>;
- 
- 	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x15>;
- 		vcc-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
 -- 
-2.46.0.184.g6999bdac58-goog
-
+Lee Jones [李琼斯]

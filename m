@@ -1,58 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FD826AF6;
-	Thu, 22 Aug 2024 12:26:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96F81E50B
+	for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 12:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724329585; cv=none; b=mfl8ZkTOwDn0fwgPVpuSuoLYPVg5RthzavknT9pD5vahfSW46UWn8UzzPlgQpv1YLf+QPOFe/Sw6mtekQcRD4HnuCMN6Bx/yfRdsz9CsO/3GT1phI0gyTDYbMvFhITpYIoHe29AmVgXc694ukRaafRbH0vP2lFN0AxI4vNQ2ZqY=
+	t=1724329940; cv=none; b=GXZR0++DXhbiWRPuiZLNvZBKXR0q5U2fEO9zGG0lJci2yUj4VPT5BOZO6waaWm2NA8RpfzT+XZvBbYagxphDaqBa6DiGou8Q+wR8j6otRMP9xv8IdMDRpAqVVOCQ9HYnci4nK+TF9D0ccGaoebJHt+0kz8WsOCkUE7tTgBFTHGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724329585; c=relaxed/simple;
-	bh=xKewytoaNbxzrYC5ydNIknW0CHpuyLOsrNB7vES9oHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Worib0Dw/vuLOSOls/KYkaLcchEgy8FTqkiEmzP7FdewtHuMBbgvFkcaWlhWER8DbDegBlehFlX6+jaR8GvCnPU7cIzzuavhpXX/AmbFk0R8nLrHjtfprWnX/lcfShLhJ2RRQyQxUy73Le9WiXFg8r8fZNhT1mKuLMAs4l2ZluU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TU0IkuLa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724329940; c=relaxed/simple;
+	bh=3af2BVUg7wf877z1PfuGs3wFXkF2Hf6gkN6iUlwzOPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rUDhnp4rB9b4gAW+yo+9wXT3m+MXKVxy8ftD+tn42H9xSU013jVliiuNJ/DR5r2UAB9gAJEIjGpK3kWTcQl2YCkDjLRWajeDANZTtoWmyIaAZPR6wKPQmjErNj2Dq7G61X4Emp5UZH8VHsNQChZwg3ltuF/w8+hZOH6ugTeRH7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STdO9ocB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TU0IkuLa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088D4C32782;
-	Thu, 22 Aug 2024 12:26:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STdO9ocB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A251EC4AF0B
+	for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 12:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724329585;
-	bh=xKewytoaNbxzrYC5ydNIknW0CHpuyLOsrNB7vES9oHg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TU0IkuLalCUGx0ARPmIOrCr7Go72JDLJgRqhSCS0kBII899b5g0aBBjRxY1VOjTxo
-	 AV5IT01IAhM7NN0znyDhDkvCz2uk63qVT00dcAZ01p+LcgQTgBcBBmwBaKa91pQxnp
-	 TLgh+tA2vLIwGumjJWkouux1k30VovzZnZYLZDvrboyLpM0aDcBfc6Wj3aVWINF8lk
-	 oyUqBml+gn361V5wZuhb3+0pRjbdoQEwmuB/ORQKa/pdTMR1hUloAsRZ52OQu2MJsd
-	 bJAh0OgXaC4rWgY86rM8Inr2CN4xL651Xb354DFPNqsESjr42SFcvIi0lbNVcQpqq7
-	 heh8w1o7u/3Kw==
-Date: Thu, 22 Aug 2024 20:26:21 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Yu Jiaoliang <yujiaoliang@vivo.com>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Subject: Re: [PATCH v2] platform/chrome: chromeos_laptop: Use kmemdup_array
- instead of kmemdup for multiple allocation
-Message-ID: <Zscubf28qLgzsUuz@tzungbi-laptop>
-References: <20240821112629.596298-1-yujiaoliang@vivo.com>
+	s=k20201202; t=1724329939;
+	bh=3af2BVUg7wf877z1PfuGs3wFXkF2Hf6gkN6iUlwzOPg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=STdO9ocBpTjzpKc8UC4eKGeTy6TjNmDSlWh9cjUoEzDxaESh2iNtis8wfxPGAkMVZ
+	 76wEdNXGmhRcmra25HKud7KEnicPW4ToYN0YAxLTd2dL/3KQAUUeDwvwIykOZWnxuI
+	 JbcPxtTSYjcQNngj7VufVPWLMY23zng8VmBY2tK5PX3unKNDXIoe48couPBQl97QEL
+	 UWxSuEX+KkiLzxErvdzvaPx8CjgzFqIVdv6PPflokB87v+RqjmFWf3tRwfjdQdwm6Q
+	 0TVKKjREqlhDcDFqtgcVtBf+qvz5vMByRv7lGQtt/IHV1A3xilmueBLcDZiEMtbIwT
+	 IOQhypjKqhXPA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52efef496ccso675183e87.1
+        for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 05:32:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWC/Dh0N+VKO8LK5gg4pXT0v5qmn8jBhuo3ZFNHbRFsrUMFYuF6V6tUJPqBRvO42zJssgxoOOIvstaElVo+Npc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOk8L3tGBIfLpFPNqtVS2W1CQQt0c4XKY0PDSXWjUNo7g4EDsv
+	nYf0vhmn7YUue4ot5qouCtKhG5RHC+x9G8NILIFggkLndtjlE4/fztIvG+jHZdVhIc2hWFKa8fi
+	ZDtWURodrtvRphig8d4P8I7x5Nw==
+X-Google-Smtp-Source: AGHT+IELJMuJDkhpPsO12MEEDtrpTV6xfsgInNXMN2DkC/1JY0q8qFL3c0BlEZIxWu6oS9dghQSXPb+CLV+6LMPxZ6c=
+X-Received: by 2002:a05:6512:1095:b0:533:4517:5363 with SMTP id
+ 2adb3069b0e04-5334cab22d9mr1028392e87.21.1724329937988; Thu, 22 Aug 2024
+ 05:32:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240821112629.596298-1-yujiaoliang@vivo.com>
+References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-2-wenst@chromium.org>
+In-Reply-To: <20240822092006.3134096-2-wenst@chromium.org>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 22 Aug 2024 07:32:05 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJuiB8+PdH9SVum4CTNb8uM7Kzt3r2Y33yNE2yMGFVbug@mail.gmail.com>
+Message-ID: <CAL_JsqJuiB8+PdH9SVum4CTNb8uM7Kzt3r2Y33yNE2yMGFVbug@mail.gmail.com>
+Subject: Re: [PATCH v5 01/10] of: dynamic: Add of_changeset_update_prop_string
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Saravana Kannan <saravanak@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 21, 2024 at 07:26:29PM +0800, Yu Jiaoliang wrote:
-> v2:
-> -Use sizeof(*i2c_peripherals) instead of sizeof(*src->i2c_peripherals)
-> -Format code
+On Thu, Aug 22, 2024 at 4:20=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> Add a helper function to add string property updates to an OF changeset.
+> This is similar to of_changeset_add_prop_string(), but instead of adding
+> the property (and failing if it exists), it will update the property.
+>
+> This shall be used later in the DT hardware prober.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v4:
+> - Use modern designated initializer for |prop|
+>
+> Changes since v3:
+> - Use new __of_prop_free() helper
+> - Add new line before header declaration
+>
+> Changes since v2:
+> - New patch added in v3
+> ---
+>  drivers/of/dynamic.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/of.h   |  4 ++++
+>  2 files changed, 48 insertions(+)
 
-Please move the changelogs after "---" next time so that they won't be part of
-commit message.
-
-> Reviewed-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-I didn't see the tag was provided in the mailing list.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>

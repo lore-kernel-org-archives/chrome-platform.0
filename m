@@ -1,171 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1A5188901
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 14:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161B21925B9
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 20:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724421703; cv=none; b=kXPp4pfXYj71ijgkaLNK6YGDXehjTKAJ/D8AldABbptRocFBW/xJkcpUxtLag9yu+2dhvFQIXSQOrIOz3K1JnCEjJPGSi+T15t6v4eWqECw0cItv5tltzqNCmSVr5thxBppHfrQLt44NdPJQTlycQW925N0qZnI6LyHHywMEuq0=
+	t=1724445885; cv=none; b=gtcycNASYohmBr2mBdHNlOAmpFkA27idgslQuJ57/iBkqSnmRFV3UPoh9X2gLxIy6+cZbUGSz6PJ4KQbN68RTz/7QpmjfhmA3WorPdIW6x0Zj6l+wmRKop4hQWKJHue6JJ6oEXdrOSGAdoDOPBj8d6XaLoATxc8t3XMYW2uOpys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724421703; c=relaxed/simple;
-	bh=3yHP9wBn0SJcAbqYl8E8vpjlCd39wZV+iP+REGMWKgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1iO6FT7NesuGde+Kw5pHSjPUmFW51XMjEuCZsflxo+wCh2lWKtYwRfCmSvOCKDi/awrer7VBZzRJu4hOhd5nBZKrbebDxgaPS3MVyL2XSGn+l/w8TSEBPJayhEMnwBUYD3BmhevaCP3xHfeFBy9EMeWN2W6MXmyTbWDFv4Pqec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kfw37oXP; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724445885; c=relaxed/simple;
+	bh=ZwiuRkNlvL5/cpgehJtrZvPOsmmD7YzQQKxEkRl2Hew=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=olePJ1RIbIesgoZUkISQgq3om5z0idrHhT4mqiMpaPjc20GECLICL4iwaMcaq2H8JgdW0qnP6GjwmnjV3mFdxIrJg0B+vJmFX6GORZc1ymk7W5ELrn+UJkSHpX8gH6d/JWzdVm9YvkX4bZH3hgUpWGRZ2hNHwmYTHZX8BxhdxqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WN5SnOq+; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kfw37oXP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724421702; x=1755957702;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3yHP9wBn0SJcAbqYl8E8vpjlCd39wZV+iP+REGMWKgE=;
-  b=Kfw37oXPUywYLPIzQ53EfH1++vjO4jqaH3MpjrWgDhzz0UHaoWlQDrna
-   Zgb7hdYtsI2jpljtZHk6nf7xeR7Y6xcD+lZVRSCsw+buZYNi81UHHI3AR
-   YNuwYMhFgEBJw1636TM1+mAWO9ArLTGjM/1KznHsvPqNBp5Pxd2gxHzNV
-   181odqVXf69L6NBnHmdh1Iv4cGhV6DnNpzSCusZv9NJptHyglCBvQR5zW
-   JvX3em/GAUjksXIwEg0IA+h9xViy54iopQlTzGz8VI2miG51fRuqrioCF
-   mefUYzuYPivXTjRs8jL86UchOqYmgUDft+UbYgQBcL+hkPJ73toiW+CzP
-   w==;
-X-CSE-ConnectionGUID: 9uVQx86WQWmZcTnLhSzVJg==
-X-CSE-MsgGUID: 4pR6Hfs+Sra2uoK2QbH0ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22412168"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="22412168"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 07:01:41 -0700
-X-CSE-ConnectionGUID: gY6ksg/lRlC/GHXXERowJA==
-X-CSE-MsgGUID: DSzI+E0EQtK7ef5AaKdSkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="66726448"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 07:01:36 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1shUqs-00000000oRR-3UOF;
-	Fri, 23 Aug 2024 17:01:18 +0300
-Date: Fri, 23 Aug 2024 17:00:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v5 08/10] i2c: of-prober: Add GPIO support
-Message-ID: <ZsiWALpt1IpTHsKg@smile.fi.intel.com>
-References: <20240822092006.3134096-1-wenst@chromium.org>
- <20240822092006.3134096-9-wenst@chromium.org>
- <ZsdJOUe44hiGur-s@smile.fi.intel.com>
- <CAGXv+5G7h08Pvd24_6LoUB_8w_Cd0RntRSjNdn_FjrRH1ZF5oQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WN5SnOq+"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7a1d3e93cceso316935285a.1
+        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1724445882; x=1725050682; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qHJoSIvn3TQXsP4HGj1BbikslhYUk1pFvCcRMop1S9M=;
+        b=WN5SnOq+mKVCq/periohrDz725KReNeOS6/HjaPG8ciXo+de1KBKfzDQonUWl6AqxT
+         C83/05KENzUCeNGMcRkP9sPs65o6uZ7wMe9f886I7uETAlkLmDONCd/EM1QlGgAVb4ns
+         M2gmoq2kBB3YoCwcBGZzqPFuwXjQFu8qQJZbA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724445882; x=1725050682;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qHJoSIvn3TQXsP4HGj1BbikslhYUk1pFvCcRMop1S9M=;
+        b=eKhXZ2aZfuh4SoT+J80Oc6Mq+pxQm5USG6uw9moJnXkJ29yD6zcoLubft+dG+sbsjx
+         /nthBo8r5n+c6t8Xys63tuj5WQ/EoK/jJI3yQt9WEMJUFqgQ48MFzc6HerUXkbUS8xB2
+         crY7xBlBNTfAH4vB5T5HfNZTAHPp7JX+Z16OxF7gxqPOwodHvA0+B5bpXf0BkwvJ4vE6
+         1A50jcZG3ncUaM4KkDCOwkyBkD78neAVVk7IKLLDRQbG3u48+scd10hnGrke1xmHYQ1y
+         E41P1w1i5wNkrUrVnC44VVMNf8BnXv4JE5gj3BESORPIiMD1Ps1aByRX4yqU3sUyCTKu
+         CAOg==
+X-Gm-Message-State: AOJu0YyhNPauI8f1I8n55gpM3WG9wygoSA1kZDzDN6eOQlMMa0DSLFDo
+	gc0zLhBwkLTt5HebKbJnMSQIhGAn3utupxkhDfHBUoEreQJ/YHnY38gJgukoU5gZGGv9gukvOgI
+	rYwE6astKcqsp3uOsjKdxbtnX+txu90yz2WPf
+X-Google-Smtp-Source: AGHT+IER+vkUNoi1LrSh0oKYCE+8iNRAFkc0O4BKptBtu1VAQywG251TPcXwcoPrrjWuSke5xL1qPKa71h4z9pa/Llc=
+X-Received: by 2002:a05:620a:1aaa:b0:795:e9cd:f5b8 with SMTP id
+ af79cd13be357-7a67d497dd3mr1281397585a.23.1724445881936; Fri, 23 Aug 2024
+ 13:44:41 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 23 Aug 2024 13:44:41 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5G7h08Pvd24_6LoUB_8w_Cd0RntRSjNdn_FjrRH1ZF5oQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ZsdNEWX-eeLiokZl@tzungbi-laptop>
+References: <20240819223834.2049862-1-swboyd@chromium.org> <20240819223834.2049862-17-swboyd@chromium.org>
+ <ZsdNEWX-eeLiokZl@tzungbi-laptop>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 23 Aug 2024 13:44:41 -0700
+Message-ID: <CAE-0n50Tuxp0WjFoTx+_i1L4cSOajSNHWPh32PPoXvskJByJJg@mail.gmail.com>
+Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP muxing
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
+	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 23, 2024 at 06:32:16PM +0800, Chen-Yu Tsai wrote:
-> On Thu, Aug 22, 2024 at 10:20 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Aug 22, 2024 at 05:20:01PM +0800, Chen-Yu Tsai wrote:
-
-...
-
-> > > +     if (!data->gpiods)
-> > > +             return 0;
+Quoting Tzung-Bi Shih (2024-08-22 07:37:05)
+> On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
+> > @@ -671,6 +674,20 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+> >       if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
+> >               return 0;
 > >
-> > If it comes a new code (something else besides GPIOs and regulators) this
-> > will be a (small) impediment. Better to have a helper for each case and do
-> >
-> >         ret = ..._gpiods();
-> >         if (ret)
-> >                 ...
-> >
-> > Same for regulators and anything else in the future, if any.
-> 
-> I'm not sure I follow. Do you mean wrap each individual type in a wrapper
-> and call those here, like the following?
-> 
->     i2c_of_probe_enable_res(...)
->     {
->         ret = i2c_of_probe_enable_regulators(...)
->         if (ret)
->               return ret;
-> 
->         ret = i2c_of_probe_enable_gpios(...)
->         if (ret)
->               goto error_disable_regulators;
-> 
->         ...
->     }
+> > +     dp_enabled = resp.flags & USB_PD_MUX_DP_ENABLED;
+> > +     hpd_asserted = resp.flags & USB_PD_MUX_HPD_LVL;
+> > +     /*
+> > +      * Assume the first port to have HPD asserted is the one muxed to DP
+> > +      * (i.e. active_port). When there's only one port this delays setting
+> > +      * the active_port until HPD is asserted, but before that the
+> > +      * drm_connector looks disconnected so active_port doesn't need to be
+> > +      * set.
+> > +      */
+> > +     if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
+> > +             dp_bridge->active_port = port;
+> > +
+> > +     is_active_port = !dp_bridge || dp_bridge->active_port == port;
+>
+> Why `!dp_bridge`?  When will `dp_bridge` be NULL?
 
-Yes.
+I'll add a comment.
 
-...
-
-> > > +             /*
-> > > +              * reset GPIOs normally have opposite polarity compared to
-> >
-> > "reset"
-> >
-> > > +              * enable GPIOs. Instead of parsing the flags again, simply
-> >
-> > "enable"
-> >
-> > > +              * set the raw value to high.
-> >
-> > This is quite a fragile assumption. Yes, it would work in 98% cases, but will
-> > break if it's not true somewhere else.
-> 
-> Well, this seems to be the de facto standard. Or it would have to remember
-> what each GPIO descriptor's name is, and try to classify those into either
-> "enable" or "reset", and set their respective logical values to 1 or 0.
-> And then you run into a peripheral with a broken binding that has its
-> "reset" GPIO inverted, i.e. it's driver behavior needs to follow the
-> "enable" GPIO style. The class of devices this prober targets are
-> consumer electronics (laptops, tablets, phones) that at least have gone
-> through some component selection where the options won't have conflicting
-> requirements.
-
-I'm talking from real life example(s) :-)
-
-Recently I looked at the OV7251 sensor driver that expects "enable" GPIO while
-all users supply "reset"-as-"enable" with the exact trouble I described.
-Yet it's pure software / ABI issue in that case, but who knows what PCB
-engineers may come up with.
-
-> And if the polarities of the possible components don't line up, then this
-> probe structure can't really do anything. One would need something that
-> power sequences each component separately and probes it. I would really
-> like to avoid that if possible, as it makes the boot time (to peripheral
-> available) dependent on which component you have and how far down the
-> list it is. We have Chromebooks that have 4 touchscreen components
-> introduced over the years. In that case something more like Doug's
-> original proposal would work better: something that forces mutual
-> exclusivity among a class of devices.
-
-Maybe. I just pointed out the potential problem.
-
-> > > +              */
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+'dp_bridge' is NULL when this driver is running on non-DT platforms,
+i.e. ACPI, or there isn't a graph/ports node for this device. The latter
+could happen if there's some AP controlled piece of hardware that is a
+typec switch, connected directly to a usb-c-connector. This is the case
+on Kukui where we send the DP lanes directly to the usb-c-connector.

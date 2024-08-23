@@ -1,174 +1,149 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2041.outbound.protection.outlook.com [40.107.255.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4A91CD06
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 02:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724380879; cv=fail; b=du4IuVTMukDAeFeh2iAmVP+jXM3T4M7vZyxsILgUS3QQcG616KmrGhSRcewfgbeVlzY+o+05n8GSWS4KawtzPPrF3OZchgxOp5ei9bf5PDRsWVREHM+9+BEsIc5M/mXIB17sD74sOPRDwrAAyNacUiwMkY1cMiJF906K4PI/bz0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724380879; c=relaxed/simple;
-	bh=k/VHlbpsF6oNMfvIfv+LQ72LFhn/q+3KovvHW1Jlw/k=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Tuzg6O76JVJ0Xo51/BmhXiwDWQXy4w7+qzbdtZqZZNqB0B+gJkY0J40itv1HBltTo//yDfJUDyLSuX7szbnRl3op7L1qLxko+FLYW2gjmaEIic+Ace9vBuEMb72D06gUermER8kgbrkuQ4EU9i40w4HsxONybHvgKkrAvZBVn6A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=ZvD0YAH9; arc=fail smtp.client-ip=40.107.255.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F0E8BEF
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 06:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724395814; cv=none; b=mGKvJVkP4KYkfso02c3fOZJYV5BqR+hi2xRrpLSCMTIJgVlN6RQ6eBN7BcBPj/EHhHrAvKzBU776PZzcLm2XYn8opVVLJeoQUsP53YnGnv6EhPTh6J49DnIM1/+3qAx1XRnHyyvcSmeqC67cYOPuph10BhN1zrRMknLBZR8zSlQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724395814; c=relaxed/simple;
+	bh=TB2ZVz2m724zZx6Ujp8dGDELTqfijkJibPZvF/Zp9rA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UK11+lSD/f8y5k43gE6Y7ZPyNkWEBPzsOqlzunDAmt+6d2Lvn6/gMXNT/lAcDgXBiOfPZyrK309AngkU+zvIv24None+Y4AJYT5gmZNhzcWGvFd/boAh6a7Q75mnHW75LKetvBSgp69HTkeXbGMZGpOXOVNL0ACPbUtIhdyhVbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Nux5hs60; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="ZvD0YAH9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fgenum2up/9DK3NYrV3bg5qskQDYpkNIp0zziLKGSamCOD1plU9pSCd7D5Aa0KX4SBS++JYTxSXEfSuRUELBfo4SHRYaSMZFOdFOOnK1S7ClZf3/hAKdlRtkGL4PqogWJxIYxh2IXPizuVhu4/f01+1KaO1BAxrGWpQdbfLOFa+qHe5rOIgLiOs3iFHoeWLnREatz8vIkpQI+ZQWQTKP1gqZSP1xlIxaCcQTn42P5iR30waiOK3xcffiDcGNjdHDfv5G9W8NHdwD98CHk3S/sf29sZn1LNsGGamWm5U+zDBLJCNSz5QQ7YrZdpNnv18zrMVO919F7cKORroTuwQsfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X2B5Bbr51NeVvgRep9n1XX0/Ib9L+WSW1zbDuzGVwL8=;
- b=PEMCQeej3lKotDsL8l2csGC8siNoM71rPJlDzVMbiXsswpGUHdIeHamLVHFpB8i9q74as723wNI1JutJDJUKFwDmveS7SDThPTxr+/giZcNFB8EvrMyCgmtA1FP6SxF8TZb1y9ReSZ3BDCVWGnKMeJYVJ9LHsBxWtTfg9YkCJ01Ay9VZJyUHY4h7fBuLyrStHwZDCpDuF1twFYzFY6OTRLj2jDxcDDnfQirPJaoCzkzp4vKTxNqbA41hSNen/qMkIfyQrDZnWcfDiGfPx298z5oO6jyrfneaSqQUrOhIJF8oK7JdW6bE3J6lGeWik52+umKHN5dMgKav8yw36yFGgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X2B5Bbr51NeVvgRep9n1XX0/Ib9L+WSW1zbDuzGVwL8=;
- b=ZvD0YAH9YgpD1bdKcmoWmbl6StNXfzvVEEdw+SHmfIbPl9qo2vxozNbBDSnIW/VBdrfMuQUMO4X9WhLnpsnkQoy7AO+SBCiFIul7MSFt0Pnn8dO41mBrEQ9a5lk3ADocYqL9OYCSWtP6FL3B2pIFbSdp4TC4VpOoZ4hFs7mrKz9ZYvjf1KXckWyF87auqwuQeIRttp8F0GmHwGtcrXwOLv8dLIwYhuUBR19oG/LqhBPhKRYkgW8E79fDi15FoZTps/jBTgpSeTNzZYbj03curoJCTB6sftyecnpAqDDsMAhvkWHVhpJv8B0EZXQv0JLv+AeTBVqQB/r+Dv0MozZnCg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com (2603:1096:400:82::8)
- by SEZPR06MB5095.apcprd06.prod.outlook.com (2603:1096:101:38::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 02:41:11 +0000
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70]) by TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70%7]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 02:41:10 +0000
-From: Yu Jiaoliang <yujiaoliang@vivo.com>
-To: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Subject: [PATCH v3] platform/chrome: chromeos_laptop: Use kmemdup_array instead of kmemdup for multiple allocation
-Date: Fri, 23 Aug 2024 10:40:56 +0800
-Message-Id: <20240823024056.3031644-1-yujiaoliang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0125.apcprd02.prod.outlook.com
- (2603:1096:4:188::13) To TYZPR06MB4461.apcprd06.prod.outlook.com
- (2603:1096:400:82::8)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nux5hs60"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52fcc56c882so1915403e87.0
+        for <chrome-platform@lists.linux.dev>; Thu, 22 Aug 2024 23:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1724395811; x=1725000611; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TB2ZVz2m724zZx6Ujp8dGDELTqfijkJibPZvF/Zp9rA=;
+        b=Nux5hs60x4Mq1Y568iVo7j70d09F2yV4Q9JvI6BscqoilaY4qsCK2IB2OvkOgiF6oj
+         hNLE+pHko3aNeC8qeW59yP3WeeG3Y4xuCivbBrcRXeKgqx2DoN78o7UrNzzYbhdvmHHH
+         LufVn4hb1MVAkPt5yh0jU5q8t6T6/8tsqTMv4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724395811; x=1725000611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TB2ZVz2m724zZx6Ujp8dGDELTqfijkJibPZvF/Zp9rA=;
+        b=JuJK/y06uSBWvcYqmPSM4uCVi3DFTUPmbdxAsIOQ2dvdLpdwSh5hq73WP4oteE04oV
+         tNnA1XfJqYwP6k+2GxxuDOvjNttnPPA1TQq4kIRDC8CrUDK7ZRJwAl+hNDllCqv6f0H8
+         moAg1ApT4TSOlmC0xv0flNN493SK+QRfmHA9fJmvt4dyqLd+cbKxCqAYpsKLXogTLe2B
+         0xDeoZdlET0iWiZ2bC0xhrV9y5ge0ALH6OvRe3e8Tts7LdoEAFnCXRIyugYnhSV1PQES
+         XWs/dLDfSKlCXpM0+85w8voMxCAb+Ae3b1MFhZ5RutHHKWLWnPBftlA6TUVuopxlDXwp
+         Jp1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUS6h1r8so7QqIid5lPL6Z/7nWhkT7UUxjfxWB5vsu0KIYBcJjoHiletck5pUREm/z2VegDFXH/XGywdU7rcl0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhKfI8gLZHMqqJW6Vm5KbqZ3PSke2FfFq9N/fNh//X6+VSzYTT
+	jFfZR7jfdmtQt47wTN+1khBOWvlusE3fjT1M1KODrxY9LO6hROY4c1qhuyZ2fzJpLWVdbRUvUd3
+	N3axFkp6vu/kUxRgfQET8m1aiimV2fFZFPima
+X-Google-Smtp-Source: AGHT+IGa3g4OYj5kLrZwDfDw6Q/Usbiq0edBIdEx656twbCcRzHHZoU+PFE0vnmEsF1p09zxCx1iToHq1XRcOx6R0cA=
+X-Received: by 2002:a05:6512:3052:b0:533:4613:21be with SMTP id
+ 2adb3069b0e04-5334ca861e8mr1890209e87.18.1724395810568; Thu, 22 Aug 2024
+ 23:50:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4461:EE_|SEZPR06MB5095:EE_
-X-MS-Office365-Filtering-Correlation-Id: 758dc9ce-8a0b-425e-fd9d-08dcc31d0c44
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vz4bTyCqTNU5wP1w/tKaUsr4B9ITCr4TYoZuH1f0icrQCTDgReFehjTDCDuf?=
- =?us-ascii?Q?It/2/bdJxynrtUmA9hVOJyeOMRbqjZGPzYdWZ5niqZMhm5K4UYaroftNH0YI?=
- =?us-ascii?Q?dc8V59lut9PN53ao3ubVClhN+JpBEcz615Rp78OPgc0bkmDh5K6P7eB3aUN3?=
- =?us-ascii?Q?fKnnTyPvhPDCBOKtE768zqdnUSvKw6w7DLAnocnQvHeHRuNiOB63nV+vwIuf?=
- =?us-ascii?Q?GzCAgq49qHbvahiPdNhI34TRB/IQoqGmSDTz4JNCmnQI59zM0bvO93efUFgG?=
- =?us-ascii?Q?WQTZWsPK9OqP01B6S9Ta+QuDOE/LyASoqdgkJ9dvGFfM3jxPl5VRwm86jlLt?=
- =?us-ascii?Q?meK1dKkDnTvPClIGkwgntchIL6nkLjpaKS/xZXMNqzokk7LA2UT1QbThonxu?=
- =?us-ascii?Q?YdAHHZBLzTCFw808B3S4mUlvAUPnaEhO4Paj/NLpa0FodB385XlH52uzu2y3?=
- =?us-ascii?Q?pT1tGwmxKvKuYsbpuv9mFlxtX/9iTXsl02NS35uahmbqWjar9fcdlZMEF+0c?=
- =?us-ascii?Q?A2KGWlvQyOa1NTI30BWKIxmmJROv4MU1KBswG2ijSP2OSIIJ2YpiPuyNIhFg?=
- =?us-ascii?Q?4kuuXD4qkgUxOef3ujcOdMOWTpAhGUqMF5jwPsVqdCKTwq/89t+caaUZpmmj?=
- =?us-ascii?Q?v3JDWKq0vpOG/obTP6IqiL8mt8cfowtR8LKQ8Sg50iG0BZTnBhjraJ47PY5C?=
- =?us-ascii?Q?QLfuTVFK9D+1WdmfjZt9vzKCtmmqAiOloPeTRuDgZh4Qmj0WRJYWWttQmJva?=
- =?us-ascii?Q?iFg0PigNOjNN6+3/oNvUI0oygkV9Y3GJdVic+dzMC0KfF9NOGs2tIwyRnqiB?=
- =?us-ascii?Q?WAlhN80f6EfyKxI7t0/+rQEerllPYHVzEknwUvDBuaQrlxwvjYZMAvlPJw4V?=
- =?us-ascii?Q?c0Pf4KIU8mVyYvFLDMHQ++3kAjTKDyKewChEAwNBZcR+NGxOmNTs8LXmy1HH?=
- =?us-ascii?Q?E08FiE5yUid+B2+Wd12wR0y5UzJH7hq2+5x2Lf0eC5aqVEZaZ7eP7a1XM1fW?=
- =?us-ascii?Q?wELeRFYEfrN3W/+W8b1Nro9Ds+86QkbwteyZXOHsoufV/k0FemUJeyVjJyrC?=
- =?us-ascii?Q?9LLo1vVx1itBfD9hrzUT7Aq4RTr2oJAioADbxsou4gQP8vtj0vpE81OxCha8?=
- =?us-ascii?Q?BlX6GPh+2naGezR1ngoatj4kUcWBGnOoqeH1acp4yn4xCPp/HXsZTcN+Urtw?=
- =?us-ascii?Q?wPzXXWjtB7dp9V3vQXbb4OQy+JO/Uhy5AaLGm2QnEJ5vKbSn50lJwkBVrkh1?=
- =?us-ascii?Q?3exDM1UydKQ15ytFIiwrpIbvwEBFikowNZQZZH4v9GhmqUGr9CP2OctymyTU?=
- =?us-ascii?Q?3GsNDCWAXH3sfZpODwoNLT74Zv6IRwwRerZY72vGmdTIkkvnrVktq2JJ74KN?=
- =?us-ascii?Q?uDk+EixZzjcn0SgaipEWXbrM6nerURDZzrKyhy+xh6Wc7KXuPw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4461.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?21UsbUtPup9QpLhmbXu3BCqaVWwvKnA1buY1mRPxJsreW3n0rBxPztwX2NH9?=
- =?us-ascii?Q?N/LNntkwdwEGohTv84cX/kPCIFXKZJXU4dDsXY9stCQTY9sUkKzMqKjhZLh8?=
- =?us-ascii?Q?OZFu4S7nAeoJWdKzxlnJ1Cd6pfmvDyTz3p2xJvYrCgRRNg9uhggQbySiMyby?=
- =?us-ascii?Q?k6ClO5YNg6Ty1hcgOqajGRUd8vOz5wjJPaXXI/46FGNtKKOKnK3f/we8SmyL?=
- =?us-ascii?Q?Q9kCnLdsz9udOFBI5U/OxYf5bGHEjImQcjahQbn8AqUcNm9403Nf6O/pyLC/?=
- =?us-ascii?Q?NrLaE/r9/XrWxNk++77Zd2gAJepD2TEjrresDhW9RvJzc0aVwPURmeDCZHAn?=
- =?us-ascii?Q?DSBm90vp4MzA8y0KcX/1JhFGV82jjFXTMVxOH2QCMKiAg8g+uGFBiJUgWf/n?=
- =?us-ascii?Q?Zsuo7N++Cdys51bdf+cBm1bSutonDLIEJvgjrFpXpAzFmOV0X7RtBP1tzONz?=
- =?us-ascii?Q?+DbXGi7Jdzrt5BIkZzXMvu5+w0Tnw18Q0SgTNO1cyM7WoRxcPH+LAS+TaZtf?=
- =?us-ascii?Q?bS6SMFvlmmW3dQImOID7FmmOZpLVqLZtGAJqk8xkebV7q4wVuDPpSfqjRTBF?=
- =?us-ascii?Q?HrjWLkLffaCrz/gGud8orydxxu9QhL0FIBsKzC0MpK5UDVG0fr5VgLgtZjWM?=
- =?us-ascii?Q?LerR2qEQXGVySXiQkn8+M788dZYyw/fiAdNwkRXy5q5pMJMAx+quRuE7YZ7W?=
- =?us-ascii?Q?wrTmKjcFjTg+i8+nKafwQ/dkQhp+t2GADEq6dnKTayEJEzINzGk8pr8JCxzH?=
- =?us-ascii?Q?pTprjsqfV8jhw5eeu2exsOsvhTRNdSUN5RpNBqcBo1EoTARLNR0vk+EsWTPq?=
- =?us-ascii?Q?AuTUa77bUDSRSpyYVuxEUe0JMGNJgV4yZ/DPYx8121BUQOq679JLXvpzth8w?=
- =?us-ascii?Q?w++GkUwbnUpFCEIvvBqg5fmCME/jsursBHQXhL79ZueRmTCDdNI/grJktZdG?=
- =?us-ascii?Q?a4BaPxk867etlf2ddZhPpQCXs66g81qvrAJXgQrtvsyp4Hf7amjZT4RiEYCN?=
- =?us-ascii?Q?SCQ46VdR7VRInMtPfOHVGwQ1V43xlNXDUEN0hUGZpbx8YFJJnu0wDCwMPp63?=
- =?us-ascii?Q?Lq2MEjv1lYYcQdot80A4V5OQ+gtcQKjTRCypUnhbs4fpwIq5HhO1lOucwBI8?=
- =?us-ascii?Q?WW4L6C+lYPwwwUG8duptwNvUg8S1S7Zl4bBVjRiVWW5wD2M2STrckYby3Uub?=
- =?us-ascii?Q?tbe4/I8TXhoDsE0WPARkcjhIMlH3gtT8aYQ7KMMSury/Zci2lnq46m76GzMN?=
- =?us-ascii?Q?9nBA8U+LoIbGGpvh0ZbmKX2NMPqBccjvztPBraprYt0C1+UpA4HdxkFaucZg?=
- =?us-ascii?Q?SpgwZbxOuak1BvLOTo5yH8sn9uJ5tKcalzwpOywzTSWPbjtcWpXnetAuBUQr?=
- =?us-ascii?Q?qQPcNGC9XlwdRozib/dKFqIoLfXIeepny30ivJfulV46WRFOyJotUcCuM27w?=
- =?us-ascii?Q?Co6Lkc4X7ttujCIS5mHMR7BxRY+B6UlM11S1qyyxWHP7kO9FaeK+TgjbuT6y?=
- =?us-ascii?Q?dXl0SEQlPDVBebrS7/9oX3a6TDiZXUaul2MdSKEa/KI6ErS79vmwPbVcFoQA?=
- =?us-ascii?Q?OZqNLzTpD8L/rgY3tAauiW3uGOU3cIq3BV7+gtJj?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 758dc9ce-8a0b-425e-fd9d-08dcc31d0c44
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4461.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 02:41:10.8717
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Woasy7vRDu1daAAz02K+9xrpJFB+GmWPkZ3sUMJbGjQvhayqEq7qy2NeW/Mo0hNNGC8eK9Y7zN8Yn3Aa1Gpykw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5095
+References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-3-wenst@chromium.org>
+ <ZsdBddTDuvNasHNq@smile.fi.intel.com>
+In-Reply-To: <ZsdBddTDuvNasHNq@smile.fi.intel.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 23 Aug 2024 14:49:59 +0800
+Message-ID: <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
+Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
+ code to of_regulator.c
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Let the kememdup_array() take care about multiplication and possible
-overflows.
+On Thu, Aug 22, 2024 at 9:47=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Aug 22, 2024 at 05:19:55PM +0800, Chen-Yu Tsai wrote:
+> > There's still a bit of OF-specific code in the regulator device lookup
+> > function.
+> >
+> > Move those bits of code over to of_regulator.c, and create a new
+> > function of_regulator_dev_lookup() to encapsulate the code moved out of
+> > regulator_dev_lookup().
+> >
+> > Also mark of_find_regulator_by_node() as static, since there are no
+> > other users in other compile units.
+> >
+> > There are no functional changes.
+>
+> ...
+>
+> > +/**
+> > + * of_get_child_regulator - get a child regulator device node
+> > + * based on supply name
+> > + * @parent: Parent device node
+> > + * @prop_name: Combination regulator supply name and "-supply"
+> > + *
+> > + * Traverse all child nodes.
+> > + * Extract the child regulator device node corresponding to the supply=
+ name.
+> > + * returns the device node corresponding to the regulator if found, el=
+se
+> > + * returns NULL.
+>
+> At the same time you may fix kernel-doc warnings (no "Return" section) in=
+ these
+> three (on your wish you may fix others in a separate change, but it's not
+> related to this series).
 
-Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
----
-v2:
-- Use sizeof(*i2c_peripherals) instead of sizeof(*src->i2c_peripherals)
-- Format code
-v3:
-- Fix R-b tag
-- Move this information below ---
----
- drivers/platform/chrome/chromeos_laptop.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+As you said some other functions are missing it as well, so I'll do a
+patch separate from this series to fix them all.
 
-diff --git a/drivers/platform/chrome/chromeos_laptop.c b/drivers/platform/chrome/chromeos_laptop.c
-index a2cdbfbaeae6..3ab668764383 100644
---- a/drivers/platform/chrome/chromeos_laptop.c
-+++ b/drivers/platform/chrome/chromeos_laptop.c
-@@ -749,10 +749,9 @@ chromeos_laptop_prepare_i2c_peripherals(struct chromeos_laptop *cros_laptop,
- 	if (!src->num_i2c_peripherals)
- 		return 0;
- 
--	i2c_peripherals = kmemdup(src->i2c_peripherals,
--					      src->num_i2c_peripherals *
--					  sizeof(*src->i2c_peripherals),
--					  GFP_KERNEL);
-+	i2c_peripherals = kmemdup_array(src->i2c_peripherals,
-+					src->num_i2c_peripherals,
-+					sizeof(*i2c_peripherals), GFP_KERNEL);
- 	if (!i2c_peripherals)
- 		return -ENOMEM;
- 
--- 
-2.34.1
+> > + */
+>
+> ...
+>
+> > +/** of_regulator_dev_lookup - lookup a regulator device with device tr=
+ee only
+>
+> Something went wrong with the indentation.
 
+Will fix, and also add a "Return" section.
+
+
+Thanks
+ChenYu
+
+> > + * @dev: Device pointer for regulator supply lookup.
+> > + * @supply: Supply name or regulator ID.
+> > + *
+> > + * If successful, returns a struct regulator_dev that corresponds to t=
+he name
+> > + * @supply and with the embedded struct device refcount incremented by=
+ one.
+> > + * The refcount must be dropped by calling put_device().
+> > + * On failure one of the following ERR-PTR-encoded values is returned:
+> > + * -ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup could =
+succeed
+> > + * in the future.
+> > + */
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>

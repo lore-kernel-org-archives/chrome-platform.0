@@ -1,255 +1,141 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971D18308E
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 10:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDF94430
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724409151; cv=none; b=kfLqUqRXUuyT1JVEsA7ngrnwEq3nzJoOk7xd5Ze2Kd0dfV0G9oBvuThPuApxUpmRJkcTno12Q3eZYtTGm6zqUoLfSNCXg8+YSIKKOL/tWnZEQPXHwFe+RHe5qMMgEQNt8WPK85wSrHZ8Dg7YdRW8xOIIJmOjCB4gN50mWH3w5Gs=
+	t=1724420611; cv=none; b=EHq9k2aOUfJiN7wUa7gP6G58+kU0Fg0yWimbMThrrantpkSlUeh5egBYAnahIr27Xaz/Jiyzdn7Wydo7d+Mw1sJvOh8XEslRs53ospnvj+ZvMpDR3zR9Gkyn2x8qc1zu3aFSvE5sNc1KGC/xmgDE4Xta3Q6FFJGXliRElkg/nMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724409151; c=relaxed/simple;
-	bh=IIacz7qfDLLOfGIR7Qsfd8HV7WiOO9Y8+iUqvYoBVfY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JlHwWRTxoDtTNnQOJny0sM/c34zHRjdMQXu3wPerhIC/L90F5oZ/+GFALEpWzMDkzvUNKesY7L4/Zx8yxiZxWpVrPE9GWsrg2M+nmTYPdJfozBbkQBkS8wnzHkld9HA+usZWN3t9lj4AEX1x+PPar4B5yzdYOlm2WC2rKtsvnog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Xj4Sh1Zw; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1724420611; c=relaxed/simple;
+	bh=ib4sJFch59+GHVbbNODHxykPpCp6swAnQhqC1AHvoNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m1+wSPbP5aMX5YgZLh3hNkT2ayhivwKi7zH3WEjXRhB8qjsWCyC5NprWuHHmnA6deJy4He8tB4e0xIYSV1jd4MjUNgpFEOtTx4WXFNhEB3zgzYc9gZCtXZlccpfuYLgi5z8inwB7meTkmCeBNclwHLDvYh0MKJ2X9xLfHRTXkjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvKoed14; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xj4Sh1Zw"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5343617fdddso2048963e87.0
-        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 03:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724409148; x=1725013948; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=msee6vptApu2Z/Zxm5KrwvjqOV+8m1GWJRTDYPaGTQ0=;
-        b=Xj4Sh1ZwWUx+ZPKyki1rDSq3Ag+EGFdFUxXG5k/URgLspWYpVFrCzClXpHPXKAnnbF
-         SafQ56GfAOUknLKbpBvlbyh+y0t8nXHLHf5AhHstqkPrz3+N0Z0d6SXpyToU5/nzGzOD
-         vig1HpvhnjBoNeN2Z92M/9QHzEvlQd8XL+ccs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724409148; x=1725013948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=msee6vptApu2Z/Zxm5KrwvjqOV+8m1GWJRTDYPaGTQ0=;
-        b=hA7dqQoKTBE/N8MiF3EV/IJwdD97mVYfF6j0PfCmjAQd7jv9Ag8ch/jUflK/cniBNi
-         etz76DKnGaMGqWxnF3tOOsbkSnMN4WmAdDkxtfAR5ERUPVDswg3vos1RK5oMagVTrQzB
-         3JUwEX44oKVxOyXOGFvRtgO/dQNHhBkqNviuTu7hSvBxViS0EedH6obDBLdZC4h1tDCJ
-         59FP0bcrNFpEosrOCVYFnnSYBGZjstBkEr/0qM7C/DAM2uJGtycDCHCG8oj9Lxlhff3w
-         8mSt1YYMBTVkm5YxEF0Jx2RveDqO/Oz8+KOO8JvSX16Cu4ZeuIHeyMHx6XBtPoPIvHLS
-         KFfA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6aJw10OLZE5gkC4ZbrnHzpXgUei2P1Z+Z55zO8pr8iMg3wW/Dznv/DOLtrF64MA8O5MjSsplMKMA1jms+fM8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMGlXRK2WDQiqTL5/TRdlDPk53exrO9fER4VBdckUXq7KtuE2L
-	Q+dHtfiRQSYZSw8pKxYmHCWPYMzVUaS4Wpo9rXaBfxQ+ZWQVaSUss5qbJlvZ4juBekbLG0WK1dx
-	RiI56xI8yJ0pj3FnWJ4s/JBtNK1aXH5jURuGE
-X-Google-Smtp-Source: AGHT+IHeN+Mw9mA2FjlysvQEEAUELAjuWivKbkYmYOUv0QR8Nac49Wn18na13i/jZffEieHV1XNO2MlM81/zZrEAaDU=
-X-Received: by 2002:a05:6512:1111:b0:530:e0fd:4a97 with SMTP id
- 2adb3069b0e04-534387e89d7mr1529511e87.0.1724409147414; Fri, 23 Aug 2024
- 03:32:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvKoed14"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724420610; x=1755956610;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ib4sJFch59+GHVbbNODHxykPpCp6swAnQhqC1AHvoNM=;
+  b=RvKoed14wIVS7WWbe2RILh/yRicWZ0WL0A0AW+JtRxsAgrgaGMyF9dl4
+   vzwOcfjh1GHgL65wPAffcZDDaZpeUCNol5EOiq0FVE9ISLml8wEtaTrBR
+   CcriEG7eMwWEiI7WR8QIUeYmN0XY4PMFMQMLj+HPvFZYn3QcH9mhRtnvz
+   aKdtqZ1A5Q7I8OmwUaz25InCGlCDFTtmUbxRhdLSSseujcf6yNlOF5U32
+   h2AHepGNGEj5ze+lj/WtaaxyhOGlAymFzbm3FzH2F05QozLXGSoNCraMZ
+   Z3dS9f3AveHvYs6Xx/nUadlBZKP+V/Y7o/eFNUmMblU3VfkGXBzMoAGlw
+   A==;
+X-CSE-ConnectionGUID: hkZuLi1JTaqsm9grLZaXzA==
+X-CSE-MsgGUID: cODHEz93Sj64N5MqQR/YCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="40352807"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="40352807"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:43:29 -0700
+X-CSE-ConnectionGUID: S+vBFfveTkGCT/5A9bwGUw==
+X-CSE-MsgGUID: IoLQjP50Q9K73aFOWBIlnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="84980367"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:43:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1shUZW-00000000oAz-2JFe;
+	Fri, 23 Aug 2024 16:43:22 +0300
+Date: Fri, 23 Aug 2024 16:43:22 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
+ code to of_regulator.c
+Message-ID: <ZsiR-kizxnvZufgR@smile.fi.intel.com>
+References: <20240822092006.3134096-1-wenst@chromium.org>
+ <20240822092006.3134096-3-wenst@chromium.org>
+ <ZsdBddTDuvNasHNq@smile.fi.intel.com>
+ <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-9-wenst@chromium.org>
- <ZsdJOUe44hiGur-s@smile.fi.intel.com>
-In-Reply-To: <ZsdJOUe44hiGur-s@smile.fi.intel.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 23 Aug 2024 18:32:16 +0800
-Message-ID: <CAGXv+5G7h08Pvd24_6LoUB_8w_Cd0RntRSjNdn_FjrRH1ZF5oQ@mail.gmail.com>
-Subject: Re: [PATCH v5 08/10] i2c: of-prober: Add GPIO support
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Aug 22, 2024 at 10:20=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Aug 22, 2024 at 05:20:01PM +0800, Chen-Yu Tsai wrote:
-> > This adds GPIO management to the I2C OF component prober.
-> > Components that the prober intends to probe likely require their
-> > regulator supplies be enabled, and GPIOs be toggled to enable them or
-> > bring them out of reset before they will respond to probe attempts.
-> > regulator support was added in the previous patch.
+On Fri, Aug 23, 2024 at 02:49:59PM +0800, Chen-Yu Tsai wrote:
+> On Thu, Aug 22, 2024 at 9:47 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Aug 22, 2024 at 05:19:55PM +0800, Chen-Yu Tsai wrote:
+
+...
+
+> > > +/**
+> > > + * of_get_child_regulator - get a child regulator device node
+> > > + * based on supply name
+> > > + * @parent: Parent device node
+> > > + * @prop_name: Combination regulator supply name and "-supply"
+> > > + *
+> > > + * Traverse all child nodes.
+> > > + * Extract the child regulator device node corresponding to the supply name.
+> > > + * returns the device node corresponding to the regulator if found, else
+> > > + * returns NULL.
 > >
-> > Without specific knowledge of each component's resource names or
-> > power sequencing requirements, the prober can only enable the
-> > regulator supplies all at once, and toggle the GPIOs all at once.
-> > Luckily, reset pins tend to be active low, while enable pins tend to
-> > be active high, so setting the raw status of all GPIO pins to high
-> > should work. The wait time before and after resources are enabled
-> > are collected from existing drivers and device trees.
+> > At the same time you may fix kernel-doc warnings (no "Return" section) in these
+> > three (on your wish you may fix others in a separate change, but it's not
+> > related to this series).
+> 
+> As you said some other functions are missing it as well, so I'll do a
+> patch separate from this series to fix them all.
+
+But you need to fix them in this patch series. We do not add patches with known
+issues, which are really easy to fix beforehand.
+
+(And below seems you indirectly agrees on that)
+
+> > > + */
+
+...
+
+> > > +/** of_regulator_dev_lookup - lookup a regulator device with device tree only
 > >
-> > The prober collects resources from all possible components and enables
-> > them together, instead of enabling resources and probing each component
-> > one by one. The latter approach does not provide any boot time benefits
-> > over simply enabling each component and letting each driver probe
-> > sequentially.
-> >
-> > The prober will also deduplicate the resources, since on a component
-> > swap out or co-layout design, the resources are always the same.
-> > While duplicate regulator supplies won't cause much issue, shared
-> > GPIOs don't work reliably, especially with other drivers. For the
-> > same reason, the prober will release the GPIOs before the successfully
-> > probed component is actually enabled.
->
-> ...
->
-> > +     struct fwnode_handle *fwnode =3D of_fwnode_handle(node);
-> > +     struct gpio_descs *gpiods;
-> > +     struct gpio_desc *gpiod;
-> > +     char con[32]; /* 32 is max size of property name */
->
-> Use 'propname' to be aligned with GPIO library usages.
+> > Something went wrong with the indentation.
+> 
+> Will fix, and also add a "Return" section.
 
-Ack.
+Thank you!
 
-> > +     char *con_id =3D NULL;
-> > +     size_t new_size;
-> > +     int len;
->
-> ...
->
-> > +     if (len >=3D sizeof(con) - 1) {
->
-> This can be transformed to check the returned value from strscpy().
+> > > + * @dev: Device pointer for regulator supply lookup.
+> > > + * @supply: Supply name or regulator ID.
+> > > + *
+> > > + * If successful, returns a struct regulator_dev that corresponds to the name
+> > > + * @supply and with the embedded struct device refcount incremented by one.
+> > > + * The refcount must be dropped by calling put_device().
+> > > + * On failure one of the following ERR-PTR-encoded values is returned:
+> > > + * -ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup could succeed
+> > > + * in the future.
+> > > + */
 
-Ack.
-
-> > +             pr_err("%pOF: length of GPIO name \"%s\" exceeds current =
-limit\n",
-> > +                    node, prop->name);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     if (len > 0) {
-> > +             strscpy(con, prop->name, len + 1);
->
-> The correct (robust) call is with destination size. Which means here that=
- you
-> may use 2-argument strscpy().
-
-Ack.
-
-> > +             con_id =3D con;
-> > +     }
->
-> ...
->
-> > +     if (!data->gpiods)
-> > +             return 0;
->
-> If it comes a new code (something else besides GPIOs and regulators) this=
- will be a (small) impediment. Better to have a helper for each case and do
->
->         ret =3D ..._gpiods();
->         if (ret)
->                 ...
->
-> Same for regulators and anything else in the future, if any.
-
-I'm not sure I follow. Do you mean wrap each individual type in a wrapper
-and call those here, like the following?
-
-    i2c_of_probe_enable_res(...)
-    {
-        ret =3D i2c_of_probe_enable_regulators(...)
-        if (ret)
-              return ret;
-
-        ret =3D i2c_of_probe_enable_gpios(...)
-        if (ret)
-              goto error_disable_regulators;
-
-        ...
-    }
-
-> > +             /*
-> > +              * reset GPIOs normally have opposite polarity compared t=
-o
->
-> "reset"
->
-> > +              * enable GPIOs. Instead of parsing the flags again, simp=
-ly
->
-> "enable"
->
-> > +              * set the raw value to high.
->
-> This is quite a fragile assumption. Yes, it would work in 98% cases, but =
-will
-> break if it's not true somewhere else.
-
-Well, this seems to be the de facto standard. Or it would have to remember
-what each GPIO descriptor's name is, and try to classify those into either
-"enable" or "reset", and set their respective logical values to 1 or 0.
-And then you run into a peripheral with a broken binding that has its
-"reset" GPIO inverted, i.e. it's driver behavior needs to follow the
-"enable" GPIO style. The class of devices this prober targets are
-consumer electronics (laptops, tablets, phones) that at least have gone
-through some component selection where the options won't have conflicting
-requirements.
-
-And if the polarities of the possible components don't line up, then this
-probe structure can't really do anything. One would need something that
-power sequences each component separately and probes it. I would really
-like to avoid that if possible, as it makes the boot time (to peripheral
-available) dependent on which component you have and how far down the
-list it is. We have Chromebooks that have 4 touchscreen components
-introduced over the years. In that case something more like Doug's
-original proposal would work better: something that forces mutual
-exclusivity among a class of devices.
-
-> > +              */
->
-> ...
->
-> > +     /* largest post-reset-deassert delay seen in tree for Elan I2C HI=
-D */
-> > +     msleep(300);
->
-> Same Q, how do you monitor _all_ the drivers?
-
-Discussion in the previous patch.
-
-> ...
->
-> > +disable_gpios:
-> > +     for (gpio_i--; gpio_i >=3D 0; gpio_i--)
-> > +             gpiod_set_raw_value_cansleep(data->gpiods->desc[gpio_i], =
-0);
->
-> Can't you call the _array() variant here?
-
-I thought that without |struct gpio_array| the _array() variant wouldn't
-help, i.e. it would still be a loop internally. Looks like I was wrong.
-
-> ...
->
-> > -     dev_dbg(dev, "Resources: # of regulator supplies =3D %d\n", probe=
-_data.regulators_num);
-> > +     dev_dbg(dev, "Resources: # of GPIOs =3D %d, # of regulator suppli=
-es =3D %d\n",
-> > +             probe_data.gpiods ? probe_data.gpiods->ndescs : 0,
-> > +             probe_data.regulators_num);
->
-> I would issue one message per class of the devices (GPIOs, regulators, ..=
-.)
-
-Ack.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Thank you for the review.
-ChenYu

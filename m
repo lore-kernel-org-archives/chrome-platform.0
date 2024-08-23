@@ -1,65 +1,65 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5685414A092
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 09:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971D18308E
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 10:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724405774; cv=none; b=MHfyYapb3nsdf29+g/fd3DoeEA6hWhGWbw7hE54GJa+ZASLECwP92ylVMhnP1ssdMMOO48EwoO8FpMguHHcByn/ExNYE7/J64x90mSEgazQp1rG08VgMwN5wR7pYmlnbf/VtGcvcv0Qh7IP0TZryA2VKw53KkI6JCxP2wDGEO1I=
+	t=1724409151; cv=none; b=kfLqUqRXUuyT1JVEsA7ngrnwEq3nzJoOk7xd5Ze2Kd0dfV0G9oBvuThPuApxUpmRJkcTno12Q3eZYtTGm6zqUoLfSNCXg8+YSIKKOL/tWnZEQPXHwFe+RHe5qMMgEQNt8WPK85wSrHZ8Dg7YdRW8xOIIJmOjCB4gN50mWH3w5Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724405774; c=relaxed/simple;
-	bh=shF/qqqOiqstk81XmXkkiNOvhN8dscyG9qUExLpBsDQ=;
+	s=arc-20240116; t=1724409151; c=relaxed/simple;
+	bh=IIacz7qfDLLOfGIR7Qsfd8HV7WiOO9Y8+iUqvYoBVfY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H0KhrHwpWBis/qaqREAMnAKO1siEk8i71eb9+zZCCYYmrmelauxpQSznWofYo9oaR3JgP0w4k61QAnHbaKyXCs/NmFX9SCxo+bC21waSllrmTzkZkz2y+opMwIv5Pa8iqLgli8cErq91otPIbvZTkwahyZqBPjUxoA7Xr1bz33g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GtwwrqYX; arc=none smtp.client-ip=209.85.167.43
+	 To:Cc:Content-Type; b=JlHwWRTxoDtTNnQOJny0sM/c34zHRjdMQXu3wPerhIC/L90F5oZ/+GFALEpWzMDkzvUNKesY7L4/Zx8yxiZxWpVrPE9GWsrg2M+nmTYPdJfozBbkQBkS8wnzHkld9HA+usZWN3t9lj4AEX1x+PPar4B5yzdYOlm2WC2rKtsvnog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Xj4Sh1Zw; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GtwwrqYX"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-533488ffaf7so2344798e87.0
-        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 02:36:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xj4Sh1Zw"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5343617fdddso2048963e87.0
+        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 03:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724405770; x=1725010570; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1724409148; x=1725013948; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M99BvE0ak8pOlurdL9IHAiYs0yZwQ7ZlfzDedMoUuTo=;
-        b=GtwwrqYXS+lSxs7ERWVMGmkYgYNZgZFYPvD6Y0PkXHOrgK6D5rTMKLj7c2SUrigmj1
-         x7QQ/8jHtcoNRGDz7N5094GMCP7FubVFLQoPmfvacVfc5D5xYx0occqfXPTpDRt9fhvb
-         fye7jyBwUi6jS87mwojgGNsvyT+0zdXMQ+sXg=
+        bh=msee6vptApu2Z/Zxm5KrwvjqOV+8m1GWJRTDYPaGTQ0=;
+        b=Xj4Sh1ZwWUx+ZPKyki1rDSq3Ag+EGFdFUxXG5k/URgLspWYpVFrCzClXpHPXKAnnbF
+         SafQ56GfAOUknLKbpBvlbyh+y0t8nXHLHf5AhHstqkPrz3+N0Z0d6SXpyToU5/nzGzOD
+         vig1HpvhnjBoNeN2Z92M/9QHzEvlQd8XL+ccs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724405770; x=1725010570;
+        d=1e100.net; s=20230601; t=1724409148; x=1725013948;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M99BvE0ak8pOlurdL9IHAiYs0yZwQ7ZlfzDedMoUuTo=;
-        b=FxHmIuzkVGgYtS4nuOTlcotxfY2V60+019X/DBh07OaHGyx1k41GZWWw0QcrjFIxG2
-         QX/Gjjexxp8WybGWZOD00La2+r/XCn/OaQ5mccdQAfbBlzQfWjb7eChgmuHKehM8MCKT
-         /1NOCqe7QjyBeH89ER4y8/tC6taMmySEaMq+RECxG7MRD9T5EXqhkWUDh2nIsXZ7UJlc
-         foPdb8TrdN+GLsYrlT1Ozbczl5kYX7Nc6qLcq5xZHOtwadmC/xHH16Q2AAUUd8WkluKC
-         liURhmlzMVt0woZmh5Duqo5fMBmu3jpDpncjoBv/0Vet8OAoBrpMuhO3dklt33XU+0WX
-         I4SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJn2gr32B9YT8qKTuBUjQI6KOhvFl9fKuHJn7+4HGtVrPIw10zJKz0MFXDCg2cy39t8Gc42xw9/40Ljng0Pog=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLDQzQZTiBJ34dC64DVrrzJa4gNoRvTDipEHcZq5Lpk9/rblwY
-	CALgy7mJ+e7HhBI35v5y/TR4TxDRSDq3a0rQtHCYWCGrp72y5tK3qnxfBoTsBTEQsRV4GG+40oo
-	eala30BxTuqMr8mQnp7fp34LUg2SbWzzZeShr
-X-Google-Smtp-Source: AGHT+IF8+5/bPoCsCz59rChJbumZ9VHK/EHdKiSLptyL22YMjMEjXODaeoJvtP8nB6l8BDKCdUWw053JwFUxmGAyPbY=
-X-Received: by 2002:a05:6512:ba0:b0:52e:91ff:4709 with SMTP id
- 2adb3069b0e04-53438772179mr1273014e87.21.1724405770181; Fri, 23 Aug 2024
- 02:36:10 -0700 (PDT)
+        bh=msee6vptApu2Z/Zxm5KrwvjqOV+8m1GWJRTDYPaGTQ0=;
+        b=hA7dqQoKTBE/N8MiF3EV/IJwdD97mVYfF6j0PfCmjAQd7jv9Ag8ch/jUflK/cniBNi
+         etz76DKnGaMGqWxnF3tOOsbkSnMN4WmAdDkxtfAR5ERUPVDswg3vos1RK5oMagVTrQzB
+         3JUwEX44oKVxOyXOGFvRtgO/dQNHhBkqNviuTu7hSvBxViS0EedH6obDBLdZC4h1tDCJ
+         59FP0bcrNFpEosrOCVYFnnSYBGZjstBkEr/0qM7C/DAM2uJGtycDCHCG8oj9Lxlhff3w
+         8mSt1YYMBTVkm5YxEF0Jx2RveDqO/Oz8+KOO8JvSX16Cu4ZeuIHeyMHx6XBtPoPIvHLS
+         KFfA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6aJw10OLZE5gkC4ZbrnHzpXgUei2P1Z+Z55zO8pr8iMg3wW/Dznv/DOLtrF64MA8O5MjSsplMKMA1jms+fM8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMGlXRK2WDQiqTL5/TRdlDPk53exrO9fER4VBdckUXq7KtuE2L
+	Q+dHtfiRQSYZSw8pKxYmHCWPYMzVUaS4Wpo9rXaBfxQ+ZWQVaSUss5qbJlvZ4juBekbLG0WK1dx
+	RiI56xI8yJ0pj3FnWJ4s/JBtNK1aXH5jURuGE
+X-Google-Smtp-Source: AGHT+IHeN+Mw9mA2FjlysvQEEAUELAjuWivKbkYmYOUv0QR8Nac49Wn18na13i/jZffEieHV1XNO2MlM81/zZrEAaDU=
+X-Received: by 2002:a05:6512:1111:b0:530:e0fd:4a97 with SMTP id
+ 2adb3069b0e04-534387e89d7mr1529511e87.0.1724409147414; Fri, 23 Aug 2024
+ 03:32:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-8-wenst@chromium.org>
- <ZsdGlMyq4pwWAOk4@smile.fi.intel.com>
-In-Reply-To: <ZsdGlMyq4pwWAOk4@smile.fi.intel.com>
+References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-9-wenst@chromium.org>
+ <ZsdJOUe44hiGur-s@smile.fi.intel.com>
+In-Reply-To: <ZsdJOUe44hiGur-s@smile.fi.intel.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 23 Aug 2024 17:35:59 +0800
-Message-ID: <CAGXv+5FWaN4gGksCF7k3emuDyCmAtx7+DBwHHbFhf_FLpP+=aw@mail.gmail.com>
-Subject: Re: [PATCH v5 07/10] i2c: of-prober: Add regulator support
+Date: Fri, 23 Aug 2024 18:32:16 +0800
+Message-ID: <CAGXv+5G7h08Pvd24_6LoUB_8w_Cd0RntRSjNdn_FjrRH1ZF5oQ@mail.gmail.com>
+Subject: Re: [PATCH v5 08/10] i2c: of-prober: Add GPIO support
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -73,15 +73,15 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 10:09=E2=80=AFPM Andy Shevchenko
+On Thu, Aug 22, 2024 at 10:20=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Thu, Aug 22, 2024 at 05:20:00PM +0800, Chen-Yu Tsai wrote:
-> > This adds regulator management to the I2C OF component prober.
+> On Thu, Aug 22, 2024 at 05:20:01PM +0800, Chen-Yu Tsai wrote:
+> > This adds GPIO management to the I2C OF component prober.
 > > Components that the prober intends to probe likely require their
 > > regulator supplies be enabled, and GPIOs be toggled to enable them or
 > > bring them out of reset before they will respond to probe attempts.
-> > GPIOs will be handled in the next patch.
+> > regulator support was added in the previous patch.
 > >
 > > Without specific knowledge of each component's resource names or
 > > power sequencing requirements, the prober can only enable the
@@ -106,205 +106,150 @@ On Thu, Aug 22, 2024 at 10:09=E2=80=AFPM Andy Shevchenko
 >
 > ...
 >
-> >  /*
+> > +     struct fwnode_handle *fwnode =3D of_fwnode_handle(node);
+> > +     struct gpio_descs *gpiods;
+> > +     struct gpio_desc *gpiod;
+> > +     char con[32]; /* 32 is max size of property name */
 >
-> >   * address responds.
-> >   *
-> >   * TODO:
-> > - * - Support handling common regulators and GPIOs.
-> > + * - Support handling common GPIOs.
->
-> You can split this to two lines in the first place and have less churn in=
- this
-> patch and the other one.
+> Use 'propname' to be aligned with GPIO library usages.
 
 Ack.
 
-> >   * - Support I2C muxes
-> >   */
+> > +     char *con_id =3D NULL;
+> > +     size_t new_size;
+> > +     int len;
 >
-> ..
+> ...
 >
-> > +/* Returns number of regulator supplies found for node, or error. */
-> > +static int i2c_of_probe_get_regulator(struct device *dev, struct devic=
-e_node *node,
-> > +                                   struct i2c_of_probe_data *data)
-> > +{
-> > +     struct regulator_bulk_data *tmp, *new_regulators;
-> > +     int ret;
-> > +
-> > +     ret =3D of_regulator_bulk_get_all(dev, node, &tmp);
-> > +     if (ret <=3D 0)
-> > +             return ret;
+> > +     if (len >=3D sizeof(con) - 1) {
 >
-> I would split this and explain 0 case.
+> This can be transformed to check the returned value from strscpy().
 
 Ack.
 
-> > +     if (!data->regulators) {
-> > +             data->regulators =3D tmp;
-> > +             data->regulators_num =3D ret;
-> > +             return ret;
-> > +     };
-> > +
-> > +     new_regulators =3D krealloc(data->regulators,
-> > +                               sizeof(*tmp) * (data->regulators_num + =
-ret),
->
-> krealloc_array()
-
-Ack. Somehow I didn't find this function while I was rewriting the code.
-
-> > +                               GFP_KERNEL);
-> > +     if (!new_regulators) {
-> > +             regulator_bulk_free(ret, tmp);
-> > +             return -ENOMEM;
+> > +             pr_err("%pOF: length of GPIO name \"%s\" exceeds current =
+limit\n",
+> > +                    node, prop->name);
+> > +             return -EINVAL;
 > > +     }
 > > +
-> > +     data->regulators =3D new_regulators;
+> > +     if (len > 0) {
+> > +             strscpy(con, prop->name, len + 1);
 >
-> > +     for (unsigned int i =3D 0; i < ret; i++)
-> > +             memcpy(&data->regulators[data->regulators_num++], &tmp[i]=
-, sizeof(*tmp));
->
-> Seems like copying array to array, no? If so, can't be done in a single m=
-emcpy() call?
+> The correct (robust) call is with destination size. Which means here that=
+ you
+> may use 2-argument strscpy().
 
 Ack.
 
-> > +     return ret;
-> > +}
->
-> ...
->
-> > +static int i2c_of_probe_get_res(struct device *dev, struct device_node=
- *node,
-> > +                             struct i2c_of_probe_data *data)
-> > +{
-> > +     struct property *prop;
-> > +     int ret;
-> > +
-> > +     ret =3D i2c_of_probe_get_regulator(dev, node, data);
-> > +     if (ret < 0) {
-> > +             dev_err_probe(dev, ret, "Failed to get regulator supplies=
- from %pOF\n", node);
-> > +             goto err_cleanup;
+> > +             con_id =3D con;
 > > +     }
-> > +
-> > +     return 0;
-> > +
-> > +err_cleanup:
-> > +     i2c_of_probe_free_res(data);
-> > +     return ret;
-> > +}
->
-> Hmm... why not
->
-> static int i2c_of_probe_get_res(struct device *dev, struct device_node *n=
-ode,
->                                 struct i2c_of_probe_data *data)
-> {
->         struct property *prop;
->         int ret;
->
->         ret =3D i2c_of_probe_get_regulator(dev, node, data);
->         if (ret < 0) {
->                 i2c_of_probe_free_res(data);
->                 return dev_err_probe(dev, ret, "Failed to get regulator s=
-upplies from %pOF\n", node);
->         }
->
->         return 0;
-> }
->
-> ...
-
-That would be more churn in the next patch, which introduces another
-error condition requiring the same cleanup.
-
-> > +static int i2c_of_probe_enable_res(struct device *dev, struct i2c_of_p=
-robe_data *data)
-> > +{
-> > +     int ret =3D 0;
->
-> Redundant assignment.
-
-Ack.
-
-> > +     dev_dbg(dev, "Enabling regulator supplies\n");
-> > +
-> > +     ret =3D regulator_bulk_enable(data->regulators_num, data->regulat=
-ors);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     /* largest post-power-on pre-reset-deassert delay seen among driv=
-ers */
-> > +     msleep(500);
->
-> How would we monitor if any [new] driver wants to use bigger timeout?
-
-The assumption is that the person doing the integration should test for
-this. This prober doesn't get called everywhere. It needs a driver to
-call it, and that driver is written by someone for some specific platform.
-Maybe I should explicitly spell that out in the function description?
-Or even make it a parameter?
-
-Also, having an arbitrarily large number here doesn't help platforms that
-want to minimize boot time. On that front I'm also thinking about whether
-it is possible to do a handover to the actual driver so that the latter
-doesn't have to go through the whole power sequence again.
-
-> > +     return 0;
-> > +}
 >
 > ...
 >
-> >       struct i2c_adapter *i2c;
-> > +     struct i2c_of_probe_data probe_data =3D {0};
+> > +     if (!data->gpiods)
+> > +             return 0;
 >
-> Reversed xmas tree order?
+> If it comes a new code (something else besides GPIOs and regulators) this=
+ will be a (small) impediment. Better to have a helper for each case and do
+>
+>         ret =3D ..._gpiods();
+>         if (ret)
+>                 ...
+>
+> Same for regulators and anything else in the future, if any.
 
-OK...
+I'm not sure I follow. Do you mean wrap each individual type in a wrapper
+and call those here, like the following?
 
-> '0' is not needed.
+    i2c_of_probe_enable_res(...)
+    {
+        ret =3D i2c_of_probe_enable_regulators(...)
+        if (ret)
+              return ret;
 
-Ack.
+        ret =3D i2c_of_probe_enable_gpios(...)
+        if (ret)
+              goto error_disable_regulators;
+
+        ...
+    }
+
+> > +             /*
+> > +              * reset GPIOs normally have opposite polarity compared t=
+o
+>
+> "reset"
+>
+> > +              * enable GPIOs. Instead of parsing the flags again, simp=
+ly
+>
+> "enable"
+>
+> > +              * set the raw value to high.
+>
+> This is quite a fragile assumption. Yes, it would work in 98% cases, but =
+will
+> break if it's not true somewhere else.
+
+Well, this seems to be the de facto standard. Or it would have to remember
+what each GPIO descriptor's name is, and try to classify those into either
+"enable" or "reset", and set their respective logical values to 1 or 0.
+And then you run into a peripheral with a broken binding that has its
+"reset" GPIO inverted, i.e. it's driver behavior needs to follow the
+"enable" GPIO style. The class of devices this prober targets are
+consumer electronics (laptops, tablets, phones) that at least have gone
+through some component selection where the options won't have conflicting
+requirements.
+
+And if the polarities of the possible components don't line up, then this
+probe structure can't really do anything. One would need something that
+power sequences each component separately and probes it. I would really
+like to avoid that if possible, as it makes the boot time (to peripheral
+available) dependent on which component you have and how far down the
+list it is. We have Chromebooks that have 4 touchscreen components
+introduced over the years. In that case something more like Doug's
+original proposal would work better: something that forces mutual
+exclusivity among a class of devices.
+
+> > +              */
+>
+> ...
+>
+> > +     /* largest post-reset-deassert delay seen in tree for Elan I2C HI=
+D */
+> > +     msleep(300);
+>
+> Same Q, how do you monitor _all_ the drivers?
+
+Discussion in the previous patch.
 
 > ...
 >
-> > +     /* Grab resources */
-> > +     for_each_child_of_node_scoped(i2c_node, node) {
-> > +             u32 addr;
-> > +
-> > +             if (!of_node_name_prefix(node, type))
-> > +                     continue;
+> > +disable_gpios:
+> > +     for (gpio_i--; gpio_i >=3D 0; gpio_i--)
+> > +             gpiod_set_raw_value_cansleep(data->gpiods->desc[gpio_i], =
+0);
 >
-> Is it third or fourth copy of this code? At some point you probably want
+> Can't you call the _array() variant here?
+
+I thought that without |struct gpio_array| the _array() variant wouldn't
+help, i.e. it would still be a loop internally. Looks like I was wrong.
+
+> ...
 >
-> #define for_each_child_of_node_with_prefix_scoped()
->         for_each_if(...)
+> > -     dev_dbg(dev, "Resources: # of regulator supplies =3D %d\n", probe=
+_data.regulators_num);
+> > +     dev_dbg(dev, "Resources: # of GPIOs =3D %d, # of regulator suppli=
+es =3D %d\n",
+> > +             probe_data.gpiods ? probe_data.gpiods->ndescs : 0,
+> > +             probe_data.regulators_num);
 >
-> (or equivalent)
+> I would issue one message per class of the devices (GPIOs, regulators, ..=
+.)
 
 Ack.
 
 
 Thank you for the review.
-
 ChenYu
-
-> > +             if (of_property_read_u32(node, "reg", &addr))
-> > +                     continue;
-> > +
-> > +             dev_dbg(dev, "Requesting resources for %pOF\n", node);
-> > +             ret =3D i2c_of_probe_get_res(dev, node, &probe_data);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->

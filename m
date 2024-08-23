@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDF94430
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261031DFE8
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420611; cv=none; b=EHq9k2aOUfJiN7wUa7gP6G58+kU0Fg0yWimbMThrrantpkSlUeh5egBYAnahIr27Xaz/Jiyzdn7Wydo7d+Mw1sJvOh8XEslRs53ospnvj+ZvMpDR3zR9Gkyn2x8qc1zu3aFSvE5sNc1KGC/xmgDE4Xta3Q6FFJGXliRElkg/nMQ=
+	t=1724420796; cv=none; b=LtJ4X6R2wV2C6VZRLe6+Bkf/OqTH0ycsWEfbbyFxjp/2Lp6u27uVGY79LNTxvwVfMWXvEkFjgF7wI4OKBwlzWlG4nhFTSo48CfgJ/pMGyLSI34ugncG1plkzdvTYFMejtZb0bChb+3Ov32P4m9czIBYRKR+60hYw9rziyvcQlDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420611; c=relaxed/simple;
-	bh=ib4sJFch59+GHVbbNODHxykPpCp6swAnQhqC1AHvoNM=;
+	s=arc-20240116; t=1724420796; c=relaxed/simple;
+	bh=oj4nyYMV4gB+mypoya7w5RGqytEUERznSMy5TvYxR6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m1+wSPbP5aMX5YgZLh3hNkT2ayhivwKi7zH3WEjXRhB8qjsWCyC5NprWuHHmnA6deJy4He8tB4e0xIYSV1jd4MjUNgpFEOtTx4WXFNhEB3zgzYc9gZCtXZlccpfuYLgi5z8inwB7meTkmCeBNclwHLDvYh0MKJ2X9xLfHRTXkjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvKoed14; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=rALshZsp2SDhpmr5K1Hle4xpWbsdr0XYaOStbih2uhLBN9QLj8ia5RKRTvnNhS++PAXdjjPzgstcsvmUcKitRx91vj2wmzzGh4TYLpHvElbRfgxeyl1/novGNHsvN4Hv0p/ct94oq/xYGZRVAKnPHtOsLao0ycBY2DeP87DkIzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeVtSMUN; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvKoed14"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeVtSMUN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724420610; x=1755956610;
+  t=1724420795; x=1755956795;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=ib4sJFch59+GHVbbNODHxykPpCp6swAnQhqC1AHvoNM=;
-  b=RvKoed14wIVS7WWbe2RILh/yRicWZ0WL0A0AW+JtRxsAgrgaGMyF9dl4
-   vzwOcfjh1GHgL65wPAffcZDDaZpeUCNol5EOiq0FVE9ISLml8wEtaTrBR
-   CcriEG7eMwWEiI7WR8QIUeYmN0XY4PMFMQMLj+HPvFZYn3QcH9mhRtnvz
-   aKdtqZ1A5Q7I8OmwUaz25InCGlCDFTtmUbxRhdLSSseujcf6yNlOF5U32
-   h2AHepGNGEj5ze+lj/WtaaxyhOGlAymFzbm3FzH2F05QozLXGSoNCraMZ
-   Z3dS9f3AveHvYs6Xx/nUadlBZKP+V/Y7o/eFNUmMblU3VfkGXBzMoAGlw
-   A==;
-X-CSE-ConnectionGUID: hkZuLi1JTaqsm9grLZaXzA==
-X-CSE-MsgGUID: cODHEz93Sj64N5MqQR/YCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="40352807"
+  bh=oj4nyYMV4gB+mypoya7w5RGqytEUERznSMy5TvYxR6Y=;
+  b=HeVtSMUNgveKSRtG1UIa0YX8ECUoUU1synEkhOMgpPi+Cce43Fzaddux
+   OUT66GJiGP2QDO4bvTsebq51rpIpd7yBt5hQGUoSmdZ7cnsYRbHp+1Kdf
+   gvX1wPV/8682yzQolWgIdCQjs8m9Zp4fGWp2wcJenorFwRhs3QLJ6AlX7
+   CNa/pNyvnQuRdGlHmbRN1Qj5VQ//qoZkgEyrv3D63FFizTMZj/flad/zi
+   miSYkkLS06Vx01Ah9mAwTLWXKYhyntkn5Sk15VsBSWytk5tFaXa/+6xmJ
+   k5LoQQykhjkcBvtKsiVeKtsxKvdwb/ubZ9QOeINgp5i3fgyxh7ZLPwwoS
+   Q==;
+X-CSE-ConnectionGUID: RCryiytkTQSVMSwgGN9wQw==
+X-CSE-MsgGUID: Z6nSaZgXRZ+x/GYqPW33pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33456387"
 X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="40352807"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:43:29 -0700
-X-CSE-ConnectionGUID: S+vBFfveTkGCT/5A9bwGUw==
-X-CSE-MsgGUID: IoLQjP50Q9K73aFOWBIlnw==
+   d="scan'208";a="33456387"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:46:34 -0700
+X-CSE-ConnectionGUID: WWhL323KQ3WR5KbQYnhSwA==
+X-CSE-MsgGUID: rYcEtennSpqHFKRmjZnPvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="84980367"
+   d="scan'208";a="66729372"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:43:25 -0700
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:46:30 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1shUZW-00000000oAz-2JFe;
-	Fri, 23 Aug 2024 16:43:22 +0300
-Date: Fri, 23 Aug 2024 16:43:22 +0300
+	id 1shUcV-00000000oDe-2JZj;
+	Fri, 23 Aug 2024 16:46:27 +0300
+Date: Fri, 23 Aug 2024 16:46:27 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
@@ -62,13 +62,12 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
- code to of_regulator.c
-Message-ID: <ZsiR-kizxnvZufgR@smile.fi.intel.com>
+Subject: Re: [PATCH v5 05/10] gpiolib: Add gpio_property_name_length()
+Message-ID: <ZsiSs-OrZRrDBplk@smile.fi.intel.com>
 References: <20240822092006.3134096-1-wenst@chromium.org>
- <20240822092006.3134096-3-wenst@chromium.org>
- <ZsdBddTDuvNasHNq@smile.fi.intel.com>
- <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
+ <20240822092006.3134096-6-wenst@chromium.org>
+ <ZsdNA2b9CDRrtno2@smile.fi.intel.com>
+ <CAGXv+5H0eGEjQU8qbKjua5qfbL2FaX2bMSyQg0PMVQrFfaiR8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -78,61 +77,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
+In-Reply-To: <CAGXv+5H0eGEjQU8qbKjua5qfbL2FaX2bMSyQg0PMVQrFfaiR8g@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Aug 23, 2024 at 02:49:59PM +0800, Chen-Yu Tsai wrote:
-> On Thu, Aug 22, 2024 at 9:47 PM Andy Shevchenko
+On Fri, Aug 23, 2024 at 03:50:55PM +0800, Chen-Yu Tsai wrote:
+> On Thu, Aug 22, 2024 at 10:37 PM Andy Shevchenko
 > <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Aug 22, 2024 at 05:19:55PM +0800, Chen-Yu Tsai wrote:
+> > On Thu, Aug 22, 2024 at 05:19:58PM +0800, Chen-Yu Tsai wrote:
 
 ...
 
-> > > +/**
-> > > + * of_get_child_regulator - get a child regulator device node
-> > > + * based on supply name
-> > > + * @parent: Parent device node
-> > > + * @prop_name: Combination regulator supply name and "-supply"
-> > > + *
-> > > + * Traverse all child nodes.
-> > > + * Extract the child regulator device node corresponding to the supply name.
-> > > + * returns the device node corresponding to the regulator if found, else
-> > > + * returns NULL.
+> > > +     len = strlen(str);
 > >
-> > At the same time you may fix kernel-doc warnings (no "Return" section) in these
-> > three (on your wish you may fix others in a separate change, but it's not
-> > related to this series).
+> > If it has a thousands characters...?
 > 
-> As you said some other functions are missing it as well, so I'll do a
-> patch separate from this series to fix them all.
+> Shouldn't matter much? I suppose using strrchr() as you suggested
+> requires one less pass.
 
-But you need to fix them in this patch series. We do not add patches with known
-issues, which are really easy to fix beforehand.
-
-(And below seems you indirectly agrees on that)
-
-> > > + */
+Yes, this is the point.
 
 ...
 
-> > > +/** of_regulator_dev_lookup - lookup a regulator device with device tree only
+> > This can be combined with the above
 > >
-> > Something went wrong with the indentation.
+> >         for (const char *const *p = gpio_suffixes; *p; p++) {
+> >                 /*
+> >                  * Find right-most '-' and check if remainder matches suffix.
+> >                  * If no separator found, check for no-name cases.
+> >                  */
+> >                 dash = strrchr(propname, '-');
 > 
-> Will fix, and also add a "Return" section.
+> I believe this line could be moved out of the for-loop. Otherwise it
+> looks much more concise compared to my version. I'll omit the comment
+> though, as it is just rehashing the kerneldoc description, and now
+> that the function is so short, it shouldn't be hard to read.
 
-Thank you!
+Agree. And I put comment inside the loop, while it should be outside. But then,
+as you said, the function becomes so little that kernel-doc above does the job,
+hence no comment in the code needed.
 
-> > > + * @dev: Device pointer for regulator supply lookup.
-> > > + * @supply: Supply name or regulator ID.
-> > > + *
-> > > + * If successful, returns a struct regulator_dev that corresponds to the name
-> > > + * @supply and with the embedded struct device refcount incremented by one.
-> > > + * The refcount must be dropped by calling put_device().
-> > > + * On failure one of the following ERR-PTR-encoded values is returned:
-> > > + * -ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup could succeed
-> > > + * in the future.
-> > > + */
+> I'll add you as "Suggested-by".
+
+Fine with me.
+
+> >                 if (!strcmp(dash ? dash + 1 : propname, *p))
+> >                         return i;
+> >         }
 
 -- 
 With Best Regards,

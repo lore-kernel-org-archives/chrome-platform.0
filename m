@@ -1,68 +1,68 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7485C1922E4
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 20:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02AF1C6F77
+	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 20:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724446047; cv=none; b=mQDjcD7J2XXnxXpOev3l0i4d6s9IyQh79KfOodhqdiLBGNb+P6h7VKPhdb1+g/EIwB8dgrWVmH+CbbAg/+uiDxOysW6HLZN6FNchUS2oe+EazaK7AynSUv3EsA9qmPTkkqiwoBLshwACq8QwpMP7tt7WJE1RzQgSAiCRvR+vNdo=
+	t=1724446078; cv=none; b=fs6726hz/7frRiWVvgPVIyVk+WaMULAs2tSiM/IZvbHQFL6LwwkLPu8/d/Tq8gM2RtrQDvONvVP1GchLsK2d2bhCRYWHg3wdIJmuD7hsIVoZiIqfxfQt7VYZoVg+1QMyoZmoI+bgXSLNU7CAHGKSmL0Lz+SdM2x1JbouhiI96wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724446047; c=relaxed/simple;
-	bh=0/5plbUShzyN0Lwayk1yBVoG0xyAy2FiSidykukxaik=;
+	s=arc-20240116; t=1724446078; c=relaxed/simple;
+	bh=id4PXH6g6b5ygcEfz+3/ImyFmiTcss8b3qGEx/u76XI=;
 	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IXxhiae7Cr2rhGXMCorMudE6Dnre0qwi8/h39Eh3089GfTlLAYyP2dsDRDonRAqOXOnI94pDsZ6WO8OfXqV5KcN62x80Kil2XOIqYOTwvHmbthNXF01Tb3FsgmO9ZuNL6i3VQDKUB+pEdOXV4ECVuA4cvqwiUnpfvq7PB4ZJKyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jezZBnet; arc=none smtp.client-ip=209.85.160.54
+	 To:Cc:Content-Type; b=S9GHDgj6lmhF5JxoO/a4yvniZCEkbci9x6PIagAavgNCvjvE48EecGJFcLm/Qk1Bf9kx9asxAGyp/Z/lGKjNmRMWuvXPajAzO4S1OzNIONBMhqRwdrplhOPSSV7aBvnuWI8B4vQzpSe4bQp24frpthKFH6+KMXRXj1d0HUzzww8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=igIf95L6; arc=none smtp.client-ip=209.85.160.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jezZBnet"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-27045e54272so1784723fac.0
-        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:47:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="igIf95L6"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-26ff21d82e4so1706204fac.2
+        for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:47:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724446044; x=1725050844; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1724446076; x=1725050876; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qZiKFaKcOy5uMCUP9iI4bnV8rWlMx58uhQ+Bp65JxBY=;
-        b=jezZBnetKX+qYzYoiv8U9AiKJQOTB2izcRKveNZKC6yrPju/c7AhQiuVZKLpHuuLo4
-         GSb18QpfJ9zrliC3UoR55AyRS53HZXRVzAOzI9Rey4YVzAjVsDSoFEzCv4XBKsPNeFRX
-         EX6GPNeuumdoMAvZGB8ZD/XNlbLu+C1eAIsCc=
+        bh=id4PXH6g6b5ygcEfz+3/ImyFmiTcss8b3qGEx/u76XI=;
+        b=igIf95L6Q0RqkeCjPoaTwCHD8rmvbB9sHs0BpME1k7jm70e2k5a8xjILb7E61HwNZs
+         4b3S6/gaPtSs3jA7iG0JkfJDvom4hFgoZ7ALlRVYf2fpp37Lry8/sJag7aNfhdVQM63T
+         lNQ2B+WqMIabqofxATSkOSj81xI0FCvEGsGgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724446044; x=1725050844;
+        d=1e100.net; s=20230601; t=1724446076; x=1725050876;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qZiKFaKcOy5uMCUP9iI4bnV8rWlMx58uhQ+Bp65JxBY=;
-        b=xKp9p5nyNiFm1i/db5Wj3RHCvpMWrM8U2cwddNRywV2inAWXBUaSRpA+mtNSzWDfes
-         PBgsv5+BaClocXLEJCBr4D/QwLYhixtzqax+2opTQ23p1Qhof0kO++dA7tWVmIbSIek9
-         zBe4BImxZ/QP2ADDlhhAAtqJMVrPKRNAoE6YzVXEfU6D/2eGDSyVnbZAE3G51Es0SBpG
-         /hRfDQTEClHxly8S0U756aNXGt7XnZOswbpO76kIcuL3+Wrt4toXn+Pt/lgd50IyRv3g
-         FpW6R12l5jbsC8Dk+nYHyuZlcdFW5P6fXep+7kSSI3WLvgqT2VZv128PXHdZVXUpo/O1
-         53qQ==
-X-Gm-Message-State: AOJu0YzOEeiFD8NUoMHfHWL5qDdSB8Lqq71uTeD0BrOxvCFcY8ZV3en1
-	lhW4TZxJbfV5CaQrJ4kmHoTatGGY2lK995lf990IoLuBrbB1KRcEg3EINqr3Sd5EbmOJ0I9UWE5
-	7O3x0WiJZvf82qGIYo15wNlmEA4wv4c1fZK28
-X-Google-Smtp-Source: AGHT+IGtmJ+gyuELHaRH+RZ4qvsU8Rp6JLHoxTqxGD2FO8wzaNQZtxGnVU0BhE1HT6iEWRSosj9gW6Yp+4g8GcNpGbY=
-X-Received: by 2002:a05:6358:248b:b0:1b1:aca7:dad6 with SMTP id
- e5c5f4694b2df-1b5c3a4e8abmr336937055d.11.1724446044234; Fri, 23 Aug 2024
- 13:47:24 -0700 (PDT)
+        bh=id4PXH6g6b5ygcEfz+3/ImyFmiTcss8b3qGEx/u76XI=;
+        b=eJQ3HnLGhKJAgh3/4LMCbBdH9aMp96g8ghdp5PZdGMxmlBDbuXPOlpTWn3FkjOPnpq
+         ucqNC0vupVPNJithk2fZqt+06EGRftDr2a7Mu257QbYPOd9tCn9j09O5irKN8t+HGntx
+         6miZ9ozYJqHdU2GqUEoElYagAgVa4Wkyt4QwzKbidyjKjLNiRHhyS6Xwls/YEv+tia0t
+         EUIGqDylqtaNlGPDQX1k06aeFfZMZu+PtphXkSTpcNA5r6JDCxy2XuWb5sThZ1x1N6HX
+         76dI9s5jdFdvfLFR5btlw/bbyvAh9n85L14vnHHyMhmhF93BCecF+1KF3dx+7txaXeFx
+         JX5w==
+X-Gm-Message-State: AOJu0YwqqnCerS4kv+HcwTtAvvLq2OJ6yBA4fdCC3rx8RRBE5ZvkuE1U
+	ZfzNhhti0DamflfOHuOcf4t6zew2YfFkbd+o2JQN3oqTAl3O2bwK5nmhJYAoYwVpPqucIQBNnLu
+	92XeYtBM8rNPskjp5A6mmBRfM0e8ML5FK4+/B
+X-Google-Smtp-Source: AGHT+IFTlK1vgqPsQn2j9voF5J39I5gTTTzWpu4wouRlEDJLxZNqlw4ZgBfIqTn3IqcZNBM8n7tlqF0zt3kueWkW4Ac=
+X-Received: by 2002:a05:687c:2be9:b0:265:b32b:c45f with SMTP id
+ 586e51a60fabf-273e60835d0mr3142337fac.0.1724446075865; Fri, 23 Aug 2024
+ 13:47:55 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 23 Aug 2024 13:47:23 -0700
+ HTTPREST; Fri, 23 Aug 2024 13:47:55 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZsdMoRpwv5twOwqx@tzungbi-laptop>
-References: <20240819223834.2049862-1-swboyd@chromium.org> <20240819223834.2049862-16-swboyd@chromium.org>
- <ZsdMoRpwv5twOwqx@tzungbi-laptop>
+In-Reply-To: <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
+References: <20240819223834.2049862-1-swboyd@chromium.org> <20240819223834.2049862-14-swboyd@chromium.org>
+ <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 23 Aug 2024 13:47:23 -0700
-Message-ID: <CAE-0n50MVaU2dmRLdLVFWT9KWPO_BK-L7eEqGRSb8TKm1KtPNQ@mail.gmail.com>
-Subject: Re: [PATCH v3 15/17] platform/chrome: cros_ec_typec: Add support for
- signaling DP HPD via drm_bridge
+Date: Fri, 23 Aug 2024 13:47:55 -0700
+Message-ID: <CAE-0n53zPV8QHf7DxSDO8E4-kvsP=unFvevjo7i1ZjE1v6UgAA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/17] dt-bindings: Move google,cros-ec-typec binding
+ to usb
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -83,35 +83,14 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
 	Mika Westerberg <mika.westerberg@linux.intel.com>, 
 	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>
+	Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Tzung-Bi Shih (2024-08-22 07:35:13)
-> On Mon, Aug 19, 2024 at 03:38:29PM -0700, Stephen Boyd wrote:
-> > +struct cros_typec_dp_bridge {
-> > +     struct cros_typec_data *typec_data;
-> > +     struct drm_dp_typec_bridge_dev *dev;
-> > +};
+Quoting Tzung-Bi Shih (2024-08-22 07:34:31)
+> On Mon, Aug 19, 2024 at 03:38:27PM -0700, Stephen Boyd wrote:
+> > -title: Google Chrome OS EC(Embedded Controller) Type C port driver.
+> > +title: Google Chrome OS Embedded Controller (EC) USB type-c port driver
 >
-> It looks like structs are all defined in cros_ec_typec.h.  I think this struct
-> definition can be also moved there.
+> Given that it gets chance to modify, how about s/Chrome OS/ChromeOS/?
 
-I put it here because it wasn't used by any other driver. Maybe I can
-skip the entire struct though and add what I need directly to 'struct
-cros_typec_data'.
-
->
-> > diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-> > index deda180a646f..73d300427140 100644
-> > --- a/drivers/platform/chrome/cros_ec_typec.h
-> > +++ b/drivers/platform/chrome/cros_ec_typec.h
-> > @@ -27,6 +27,8 @@ struct cros_typec_altmode_node {
-> >       struct list_head list;
-> >  };
-> >
-> > +struct cros_typec_dp_bridge;
->
-> If the struct definition moves here, it doesn't need to declare forward.
-
-But then we have to forward declare 'struct cros_typec_data'? There's no
-escape.
+Sure!

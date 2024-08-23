@@ -1,131 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261031DFE8
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Aug 2024 13:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609981865E3;
+	Fri, 23 Aug 2024 13:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420796; cv=none; b=LtJ4X6R2wV2C6VZRLe6+Bkf/OqTH0ycsWEfbbyFxjp/2Lp6u27uVGY79LNTxvwVfMWXvEkFjgF7wI4OKBwlzWlG4nhFTSo48CfgJ/pMGyLSI34ugncG1plkzdvTYFMejtZb0bChb+3Ov32P4m9czIBYRKR+60hYw9rziyvcQlDs=
+	t=1724421129; cv=none; b=oJLQ+i+T1JoA8VgGXGH7fQ1qUJLImcemuEgzcZCkDgy5q+YAsFqotV8n+CEPwpJgNdqSkJWlgeFyNGjircBqI+wDximV5NHqfmeNRZwaHeSb6j6/TgaxMH8pXb1u8tBAzvFq+A6vCYLNRcXCehQTzx94qTDfZ+uEHu+1VewXvHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420796; c=relaxed/simple;
-	bh=oj4nyYMV4gB+mypoya7w5RGqytEUERznSMy5TvYxR6Y=;
+	s=arc-20240116; t=1724421129; c=relaxed/simple;
+	bh=RhwP9QW3XeOmnTE3QXqVNb4kMs9BiSJ5QGLJwHe3o+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rALshZsp2SDhpmr5K1Hle4xpWbsdr0XYaOStbih2uhLBN9QLj8ia5RKRTvnNhS++PAXdjjPzgstcsvmUcKitRx91vj2wmzzGh4TYLpHvElbRfgxeyl1/novGNHsvN4Hv0p/ct94oq/xYGZRVAKnPHtOsLao0ycBY2DeP87DkIzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeVtSMUN; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=pOTldboXcFTcLFApZbkjpIBgBEzjDr/Us7b+odpTgGQfqdYuTXWIOpOtHZlrTfUef7r8aGE8YF5BMAfQqPhwjlLwkUgKqRhxDNC+Jx9XCnuy+GfiFQz2zkwPZnPJYtmnKTsrm0LTpDocifnSIpQGgsZypOhcjxJBWGv8JZ5ousc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N80b6+Ya; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeVtSMUN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724420795; x=1755956795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oj4nyYMV4gB+mypoya7w5RGqytEUERznSMy5TvYxR6Y=;
-  b=HeVtSMUNgveKSRtG1UIa0YX8ECUoUU1synEkhOMgpPi+Cce43Fzaddux
-   OUT66GJiGP2QDO4bvTsebq51rpIpd7yBt5hQGUoSmdZ7cnsYRbHp+1Kdf
-   gvX1wPV/8682yzQolWgIdCQjs8m9Zp4fGWp2wcJenorFwRhs3QLJ6AlX7
-   CNa/pNyvnQuRdGlHmbRN1Qj5VQ//qoZkgEyrv3D63FFizTMZj/flad/zi
-   miSYkkLS06Vx01Ah9mAwTLWXKYhyntkn5Sk15VsBSWytk5tFaXa/+6xmJ
-   k5LoQQykhjkcBvtKsiVeKtsxKvdwb/ubZ9QOeINgp5i3fgyxh7ZLPwwoS
-   Q==;
-X-CSE-ConnectionGUID: RCryiytkTQSVMSwgGN9wQw==
-X-CSE-MsgGUID: Z6nSaZgXRZ+x/GYqPW33pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33456387"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="33456387"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:46:34 -0700
-X-CSE-ConnectionGUID: WWhL323KQ3WR5KbQYnhSwA==
-X-CSE-MsgGUID: rYcEtennSpqHFKRmjZnPvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="66729372"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 06:46:30 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1shUcV-00000000oDe-2JZj;
-	Fri, 23 Aug 2024 16:46:27 +0300
-Date: Fri, 23 Aug 2024 16:46:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v5 05/10] gpiolib: Add gpio_property_name_length()
-Message-ID: <ZsiSs-OrZRrDBplk@smile.fi.intel.com>
-References: <20240822092006.3134096-1-wenst@chromium.org>
- <20240822092006.3134096-6-wenst@chromium.org>
- <ZsdNA2b9CDRrtno2@smile.fi.intel.com>
- <CAGXv+5H0eGEjQU8qbKjua5qfbL2FaX2bMSyQg0PMVQrFfaiR8g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N80b6+Ya"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC3A3C32786;
+	Fri, 23 Aug 2024 13:52:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724421128;
+	bh=RhwP9QW3XeOmnTE3QXqVNb4kMs9BiSJ5QGLJwHe3o+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N80b6+YaVq0kDPuBqtxRLwLnDNPgfdSFJRPY81xbqXm95zg6+8R6mcKT99jHn2z39
+	 1V3JoS2QZOniH1NsLPXNKFVzuywM0JDUjocqoPJKnLp0HW1otNOLmX+yGqHUgeTaDK
+	 UDEMrahQRkVR2EWa0YjsIo7sIfrdTsQ3RsmLg7VPn13MM24hldTX0edmeeDlVPBX4q
+	 Q43zJhw2zZwatTSblhz9tyGOjKO8TWQ9Y23LEqKaG3Kr0cAHiWUOArZ7AdUciXiDO8
+	 ZteDEfKFjx0eOVmEhg//OYVvwMwf9qB5aKYsYZt/z/DBo/mvVGfxvLzEuTJ9S4AN4j
+	 5r7Ksa6WsIKcA==
+Date: Fri, 23 Aug 2024 21:52:04 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Yu Jiaoliang <yujiaoliang@vivo.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Subject: Re: [PATCH v3] platform/chrome: chromeos_laptop: Use kmemdup_array
+ instead of kmemdup for multiple allocation
+Message-ID: <ZsiUBGz5Y4931iP5@tzungbi-laptop>
+References: <20240823024056.3031644-1-yujiaoliang@vivo.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5H0eGEjQU8qbKjua5qfbL2FaX2bMSyQg0PMVQrFfaiR8g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240823024056.3031644-1-yujiaoliang@vivo.com>
 
-On Fri, Aug 23, 2024 at 03:50:55PM +0800, Chen-Yu Tsai wrote:
-> On Thu, Aug 22, 2024 at 10:37 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Aug 22, 2024 at 05:19:58PM +0800, Chen-Yu Tsai wrote:
-
-...
-
-> > > +     len = strlen(str);
-> >
-> > If it has a thousands characters...?
+On Fri, Aug 23, 2024 at 10:40:56AM +0800, Yu Jiaoliang wrote:
+> Let the kememdup_array() take care about multiplication and possible
+> overflows.
 > 
-> Shouldn't matter much? I suppose using strrchr() as you suggested
-> requires one less pass.
+> [...]
 
-Yes, this is the point.
+Applied to
 
-...
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-> > This can be combined with the above
-> >
-> >         for (const char *const *p = gpio_suffixes; *p; p++) {
-> >                 /*
-> >                  * Find right-most '-' and check if remainder matches suffix.
-> >                  * If no separator found, check for no-name cases.
-> >                  */
-> >                 dash = strrchr(propname, '-');
-> 
-> I believe this line could be moved out of the for-loop. Otherwise it
-> looks much more concise compared to my version. I'll omit the comment
-> though, as it is just rehashing the kerneldoc description, and now
-> that the function is so short, it shouldn't be hard to read.
+Thanks!
 
-Agree. And I put comment inside the loop, while it should be outside. But then,
-as you said, the function becomes so little that kernel-doc above does the job,
-hence no comment in the code needed.
-
-> I'll add you as "Suggested-by".
-
-Fine with me.
-
-> >                 if (!strcmp(dash ? dash + 1 : propname, *p))
-> >                         return i;
-> >         }
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1/1] platform/chrome: chromeos_laptop: Use kmemdup_array
+      commit: d1b35e6d34e9b46fbf98444dd7aa114c032e9ac0

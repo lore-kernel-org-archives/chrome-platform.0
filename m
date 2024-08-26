@@ -1,95 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A427146593;
-	Mon, 26 Aug 2024 09:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019D816F0D2;
+	Mon, 26 Aug 2024 12:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724666325; cv=none; b=ZUu1G9Z0zF/3cVI0jme6uciJMhwU+LpTEEWiqUPC/QtvO4l1qGN35AdWRJPEnFdTFRjwTSwuytM8svc/utQELTYdvpQcUWM2bf7DIXfdz6TH5+NLWzOu3yDIOyf+5kD2g4z6sYgA1nNzzFdINuQzQOBHgcVTMoD0KoEVokcvBZ0=
+	t=1724674043; cv=none; b=CnVGzdcRTA9fJUXgl/1LkiXmpDgZUz0CdgW1fX4a8tSev+OS8Z4tR0FEpobnvqen35w5x9oq34d4ZSMZEjRkMq2a7vZIfd8ESGgen+9K2rzn6rgMcUUHbyfnbiMjdiF5NcougtXeAFWxqgf4aZ/as4tjwE00yPST3NVYhyo8GGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724666325; c=relaxed/simple;
-	bh=cfs1NTC0kOCerLyAMnm5595shMi+Z7RzTsRvt3/2wYY=;
+	s=arc-20240116; t=1724674043; c=relaxed/simple;
+	bh=mwEtZJB0/hwPWU7zAWoSj7zbloELyiZsdOdbKj+WPu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVItPb5nqvgMjyY9kyevOtt8AgKTnWUjmyOzAQFW3NJhpyxvoutdM1Fc1qnN5EVRAPyo+hTbyc/WHwbQiX8SMBKl9V58PRuSz6Ur/uGLrYsHW/3cCVOeVR4vIkkILO78CLXp0a+4kNnCDnGg/jc59DoeOuKvo6FYYqXErcoRk+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZ42Okhc; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ParQDJg49YxpPnmQfgxP9p8bvJmqj4tycqdyj5GyThMdS05lNkAgqgGrJJ/wZ7Za5OhHG258/eLvhKMY+UsOdoKbkVFVOsHKQ9LzfuXYorvy/TqYX+jKHpRE+ATx93G0aDIjHRFjc9KxVKvvpDJngwvjU9Yo7lyOhL0uZKNLzrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEgxzM4X; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZ42Okhc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEgxzM4X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724666323; x=1756202323;
+  t=1724674042; x=1756210042;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cfs1NTC0kOCerLyAMnm5595shMi+Z7RzTsRvt3/2wYY=;
-  b=TZ42OkhcMpIo1MgpbOTIz+2QKJ566T6VlnYn8I1KLJHVgphH6daJHGZu
-   z62ARhxXCl4vm+rMq/jZ76Fga379fq7jV9ShKzEcVtMe+wW8FhQc6ePpX
-   UDcxv5fryvsQwVdy39ba9gKTnU9/BbpXUOuIYOmWiNxqbu7NacILDzAgs
-   qRdoX4/PC5LEoOoxPzHShB3m7puQO0PKfvZDV/rrUZ1wRGB5qN+08HTsn
-   +jjIHjmyCBZheSZB5rlpZil0F9TMIp5XNGdZ15NOf3Y59tBPKCbK9wo60
-   aQZ0E0ftXaQuxIdPuCgaasVWHe/qZgiLIC13vDImG0ohrWjnrGTRlSVDy
-   g==;
-X-CSE-ConnectionGUID: tjEsg58pR1OAIwFWn4fQog==
-X-CSE-MsgGUID: tVzGyDKBRrC70EOtK0hTDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33644761"
+  bh=mwEtZJB0/hwPWU7zAWoSj7zbloELyiZsdOdbKj+WPu4=;
+  b=jEgxzM4Xxo4VTtG/e+yfJdrSPT44BqprNhMmPgcAXJ2VY+FQT2VEoyCX
+   107e4avRV1qCADfeHvsGDML4ZsxuDWHmtXQGJZZ98gWi7PsQPH4g2igrA
+   6D/21nZ+Ie6XNTFKUKPEJZJqV+iXoqTyg6qA9Y4IFnVIwriu5Ro5NCu4L
+   27nUEG7rF3oIcJNps5yk8hMUMgyCY31P+XTPdmldOTY0Uxtg3XBMBR22a
+   2Y5uP41OdTs8/HWOgjWRch3riqivY9k02WyFvsN4WzC9/lYfH+zDYzlHR
+   qbLEQGwb3NQ2EuZOoLPq+5tGbK2U6KPMBMQGiobnJmjoKl2iEm3y/C1G+
+   A==;
+X-CSE-ConnectionGUID: mEUVYLCdSEWd3D7/IBi5UA==
+X-CSE-MsgGUID: 3DtZWee0Q5qjMZ6xqS4ohA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33754866"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="33644761"
+   d="scan'208";a="33754866"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:58:43 -0700
-X-CSE-ConnectionGUID: 7CMsBR3YQ3+eOksdL8fgFw==
-X-CSE-MsgGUID: c0vrIWrCTyecNL9XlIOepg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 05:07:05 -0700
+X-CSE-ConnectionGUID: ckZdX9P5RgCXpckOG7uxZg==
+X-CSE-MsgGUID: O99tV9lITNWVQNIBeo6yJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62979148"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:58:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1siWUY-00000001p9k-3ljv;
-	Mon, 26 Aug 2024 12:58:30 +0300
-Date: Mon, 26 Aug 2024 12:58:30 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Pin-yen Lin <treapking@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
+   d="scan'208";a="63010403"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 26 Aug 2024 05:07:01 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1siYUs-000H11-0v;
+	Mon, 26 Aug 2024 12:06:58 +0000
+Date: Mon, 26 Aug 2024 20:06:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
 	Benson Leung <bleung@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Lee Jones <lee@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP
- muxing
-Message-ID: <ZsxRxpyqsslvQFO2@smile.fi.intel.com>
-References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-17-swboyd@chromium.org>
- <ZsdNEWX-eeLiokZl@tzungbi-laptop>
- <CAE-0n50Tuxp0WjFoTx+_i1L4cSOajSNHWPh32PPoXvskJByJJg@mail.gmail.com>
+	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
+ code to of_regulator.c
+Message-ID: <202408261940.R6VmGtGO-lkp@intel.com>
+References: <20240822092006.3134096-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -98,41 +77,51 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE-0n50Tuxp0WjFoTx+_i1L4cSOajSNHWPh32PPoXvskJByJJg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240822092006.3134096-3-wenst@chromium.org>
 
-On Fri, Aug 23, 2024 at 01:44:41PM -0700, Stephen Boyd wrote:
-> Quoting Tzung-Bi Shih (2024-08-22 07:37:05)
-> > On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
+Hi Chen-Yu,
 
-...
+kernel test robot noticed the following build warnings:
 
-> > > +     /*
-> > > +      * Assume the first port to have HPD asserted is the one muxed to DP
-> > > +      * (i.e. active_port). When there's only one port this delays setting
-> > > +      * the active_port until HPD is asserted, but before that the
-> > > +      * drm_connector looks disconnected so active_port doesn't need to be
-> > > +      * set.
-> > > +      */
-> > > +     if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
-> > > +             dp_bridge->active_port = port;
-> > > +
-> > > +     is_active_port = !dp_bridge || dp_bridge->active_port == port;
-> >
-> > Why `!dp_bridge`?  When will `dp_bridge` be NULL?
-> 
-> I'll add a comment.
-> 
-> 'dp_bridge' is NULL when this driver is running on non-DT platforms,
-> i.e. ACPI, or there isn't a graph/ports node for this device. The latter
-> could happen if there's some AP controlled piece of hardware that is a
-> typec switch, connected directly to a usb-c-connector. This is the case
-> on Kukui where we send the DP lanes directly to the usb-c-connector.
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on robh/for-next wsa/i2c/for-next linus/master v6.11-rc5 next-20240823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/of-dynamic-Add-of_changeset_update_prop_string/20240826-105737
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20240822092006.3134096-3-wenst%40chromium.org
+patch subject: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup code to of_regulator.c
+config: i386-randconfig-005-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261940.R6VmGtGO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261940.R6VmGtGO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261940.R6VmGtGO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/regulator/helpers.c:17:
+   drivers/regulator/internal.h: In function 'of_regulator_dev_lookup':
+>> drivers/regulator/internal.h:87:16: warning: returning 'int' from a function with return type 'struct regulator_dev *' makes pointer from integer without a cast [-Wint-conversion]
+      87 |         return -ENODEV;
+         |                ^
+
+
+vim +87 drivers/regulator/internal.h
+
+    82	
+    83	#else
+    84	static inline struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
+    85								    const char *supply)
+    86	{
+  > 87		return -ENODEV;
+    88	}
+    89	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

@@ -1,67 +1,66 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615F780BEC
-	for <chrome-platform@lists.linux.dev>; Mon, 26 Aug 2024 06:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56E385260
+	for <chrome-platform@lists.linux.dev>; Mon, 26 Aug 2024 07:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724654806; cv=none; b=YBMktKEOatfMXdeH4oCSFhRpEyvIAO7Maso+Em3xPzCvHTTH8BEGLZeRV6G5VITUvNNmPKRZj8ErSBMYKMsYzTQEGsHD1MYiQ+wf3R6z+LIHqLbvtooJciHnLArySsNA+3tC0LD24Ysi4ktJpE4CtTQbPRr0txnwYlAfNV/pO3Q=
+	t=1724656878; cv=none; b=S7oQ6iidXUGe4IRF8TigLzVpcDhNCAqeKw/ZrZUvIAUwDBLgWSrzd7g9eZRZrGsDIvpSApkPEYbqsVHUCiXsg1uT2zYkp3oiK71v4HI2H1oQOi83uZXRorsIh3Y7LRXgDjoVcASkvot3jg79JFifPzmSRMjqx8o8/J5xDIplSbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724654806; c=relaxed/simple;
-	bh=Pb5HMPckE7rab17yr39tAC0kkeNgAa+55ZzvCXR8H9k=;
+	s=arc-20240116; t=1724656878; c=relaxed/simple;
+	bh=82WFEoh8dI6a0Rbl//ansxOC9mSUsYdhkWeiRVQn/Bo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A44WCL9V/eGSkZPckveEKf4htReb/ZMagdUNl2lTW2kgteExGOJN93fQzGLHhc0BD6rVNpY3houQprsJXr7gBR6aEePZNEj4Xaxa5zVFkJW4r9+b0FfuNRrF05+WU0hyupCqV11amjJph5kwGl4h35jVw8WeRSaQQHVEiXkLi4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YQoMgoUq; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=Fn0jYRxL0OMpMvWKeA8k0HJcXz+ciPqh5k3M6qJ0nSJ1QhzEbKTkNk4A1Sz+UnaFCM+zFLVlqI2NpjBebQLRnBgcWUAyXF8BZkgomul1BRpaBtsfE4G8Wwhh/UAuNAQ0b4splnil1+lS9FhjDjvulG26JaYVPtE1zrefdr3Kx0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fAWCiSDL; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YQoMgoUq"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-533488ffaf7so5356841e87.0
-        for <chrome-platform@lists.linux.dev>; Sun, 25 Aug 2024 23:46:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fAWCiSDL"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-534366c1aa2so3214456e87.1
+        for <chrome-platform@lists.linux.dev>; Mon, 26 Aug 2024 00:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724654802; x=1725259602; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1724656875; x=1725261675; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pb5HMPckE7rab17yr39tAC0kkeNgAa+55ZzvCXR8H9k=;
-        b=YQoMgoUqHgmoaZCGFcqHd6GqjR4KqfAqiP/qI5IUcgVIFKjPkRcFxea2tgTqCupsXb
-         o1Ivuh/7s0jZkZnKvTXZ7jaqkf4QHNvo2Ih1B3C9F2ovIi0mmRXuNhYj2+D9SIIkOJrI
-         QXw9e5FuAejUl8WkIWB5z3qXKscQfyJ24fvqg=
+        bh=t9s80hAoba+vF/YE3Nvr8fKfluCQHu+8VdHsPUZS9vM=;
+        b=fAWCiSDLyuHxFzGB2mr2nvFQJYMzLOn/70t9f2Pf7nb75BQDXWtQD4HH9m1iBr5YD6
+         5TJ3tFK8Rk1Oe4nC5EleWTttncJZdGy6WWbFUh4+7+GfLgDWV+PVcXoayfFtEaFJizln
+         TMZiVPyqkGcp4IAN5w49Y9sGr9ooGTviSCu5o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724654802; x=1725259602;
+        d=1e100.net; s=20230601; t=1724656875; x=1725261675;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pb5HMPckE7rab17yr39tAC0kkeNgAa+55ZzvCXR8H9k=;
-        b=l9LWZpwVjxv2dtWq8jn42qt2stiv2ss21x7N8jf/HZoP0pjI1rHy+1E7jaWd3SFK38
-         PuZXGAyJzMcs/OT7aIqnoBx6t56h0fz4moGGYSgSwZ4zvlJcOzxCI31H4Yn2vE8MKm04
-         d+oCOxwHfziRM7ZhmcMFSx/PW8P4b+++6+Yu7JOlKu9Vg3Fw8LioB9qV8VjYGlUJ7CSh
-         tLf6cT5PqfSF8cVBlc5W2JMHHYohu72+aBRN55p1D69cnJWh3fcPyqALKi4iW6+WimC2
-         Vama8iZJPjUvl5BlEReYWalNs/TwBl+Kz2f/t/BboQy0Y5qJmKv9ymcFy3Atxpqs4Fhe
-         FQJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVy3yWzCMbhniOoxzrxRzL3bpD+aq5LOER5k/6IIZwNEQmwyPk65cHLBQXqmE95p82Xyq99DB1kHr8zA0RlYjY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDdNMAOCGkCTZ5tFgaa/TleuDO256UNdG/DhHUKI80P9gKKHbq
-	62m3cU9j2gTnXZGsFDfUrEdUIgSpdzoXiELnCZyJQVKLQlEY8v0uNVr1q4GVrSFZz7QB+YMprls
-	l452QGtgS5NVvo16uXmJoleNejDctit3PU4KblfmxQrOyTdA=
-X-Google-Smtp-Source: AGHT+IH4DcAdsdETmFTlhuJdrATVXH7fDL01UNUX4b9VbFz9hg6UqEkKKO/I+KkXGBZXYBevq6GR/cInwzl+FyACB/c=
-X-Received: by 2002:a05:6512:3b98:b0:533:4785:82a7 with SMTP id
- 2adb3069b0e04-53438783b14mr7187223e87.28.1724654802231; Sun, 25 Aug 2024
- 23:46:42 -0700 (PDT)
+        bh=t9s80hAoba+vF/YE3Nvr8fKfluCQHu+8VdHsPUZS9vM=;
+        b=cUmXc9gue42ras1DWReHoPi2zQq8H8EOTEw3F6EWFvB4mZkPKznUIj/AMNeDca5rTm
+         US7AvaK5dr/elnEOGjD6rKynI7xbg+0Ltj43ZfjOXujQMpq77YKZCwj36Y2SWJY026iC
+         1XZpG2m7BLI9utAP4go/xnqE5FMsx0bZhxQ96RpWOB4ar8tsiecGaWO2BTa1ciXb0BZ1
+         K7rYIn8muQu7KiKmrdRcoiiMObiFdiAjnx5N/zFsgKR8uh1Q5nj4ZpSjkRqsnoQmxqgw
+         NouJhaDK2MvlDhzUJdn+jPwhJeEQhSAQ0TGENLNnwtZm7U5vz8rFaY9vjj79m/MfiV1a
+         sX/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW4X5rdXWl5vg8wktdVxPBbxUSqBySDPcA2NU8Lg9b7GuuwMzAfwcQsmX2ScEtAoT+0VpaRVkuIfiF7i0a7ZOM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXBGEe/8BzvL8VYK3ehDXrWYoNMtkALlN9MGBo9XEBGmt7JTNJ
+	424a3/Cnn9wtD0JsEYEodqF78MjtQWB93bSfu9duQ82w2vR/RCULbYV5mVYVzNXMGWkLzG5CIJx
+	YwM07ux44DrJbPyczKApDN7VtTZMKGr5QyUUG
+X-Google-Smtp-Source: AGHT+IGihttkaipApdxajdI+u8zonSwerG1x9HLpL1VsK/H7AuQIzQB7NEiNyk7f9sK11N97AVeIrS8sEeRsiAeiSOI=
+X-Received: by 2002:a05:6512:3087:b0:52c:dc25:d706 with SMTP id
+ 2adb3069b0e04-53438868deemr6871597e87.52.1724656874411; Mon, 26 Aug 2024
+ 00:21:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-3-wenst@chromium.org>
- <ZsdBddTDuvNasHNq@smile.fi.intel.com> <CAGXv+5FjwxGQgV6SdLfTeNRYbpcgwkEnCWvaZiWh4rs3bhs-2A@mail.gmail.com>
- <ZsiR-kizxnvZufgR@smile.fi.intel.com>
-In-Reply-To: <ZsiR-kizxnvZufgR@smile.fi.intel.com>
+References: <20240822092006.3134096-1-wenst@chromium.org> <20240822092006.3134096-9-wenst@chromium.org>
+ <ZsdJOUe44hiGur-s@smile.fi.intel.com> <CAGXv+5G7h08Pvd24_6LoUB_8w_Cd0RntRSjNdn_FjrRH1ZF5oQ@mail.gmail.com>
+ <ZsiWALpt1IpTHsKg@smile.fi.intel.com>
+In-Reply-To: <ZsiWALpt1IpTHsKg@smile.fi.intel.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 26 Aug 2024 14:46:30 +0800
-Message-ID: <CAGXv+5G1OsrPSwFs64-MPSQgp28=Jk7zKs1WDDjVNrmPfSd0sw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
- code to of_regulator.c
+Date: Mon, 26 Aug 2024 15:21:03 +0800
+Message-ID: <CAGXv+5FzMb3fERnUwd5DF_=TqXr2_6h+n_UPpfvJc_-eu7pNYg@mail.gmail.com>
+Subject: Re: [PATCH v5 08/10] i2c: of-prober: Add GPIO support
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -75,77 +74,125 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2024 at 9:43=E2=80=AFPM Andy Shevchenko
+On Fri, Aug 23, 2024 at 10:01=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Fri, Aug 23, 2024 at 02:49:59PM +0800, Chen-Yu Tsai wrote:
-> > On Thu, Aug 22, 2024 at 9:47=E2=80=AFPM Andy Shevchenko
+> On Fri, Aug 23, 2024 at 06:32:16PM +0800, Chen-Yu Tsai wrote:
+> > On Thu, Aug 22, 2024 at 10:20=E2=80=AFPM Andy Shevchenko
 > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Thu, Aug 22, 2024 at 05:19:55PM +0800, Chen-Yu Tsai wrote:
+> > > On Thu, Aug 22, 2024 at 05:20:01PM +0800, Chen-Yu Tsai wrote:
 >
 > ...
 >
-> > > > +/**
-> > > > + * of_get_child_regulator - get a child regulator device node
-> > > > + * based on supply name
-> > > > + * @parent: Parent device node
-> > > > + * @prop_name: Combination regulator supply name and "-supply"
-> > > > + *
-> > > > + * Traverse all child nodes.
-> > > > + * Extract the child regulator device node corresponding to the su=
-pply name.
-> > > > + * returns the device node corresponding to the regulator if found=
-, else
-> > > > + * returns NULL.
+> > > > +     if (!data->gpiods)
+> > > > +             return 0;
 > > >
-> > > At the same time you may fix kernel-doc warnings (no "Return" section=
-) in these
-> > > three (on your wish you may fix others in a separate change, but it's=
- not
-> > > related to this series).
+> > > If it comes a new code (something else besides GPIOs and regulators) =
+this
+> > > will be a (small) impediment. Better to have a helper for each case a=
+nd do
+> > >
+> > >         ret =3D ..._gpiods();
+> > >         if (ret)
+> > >                 ...
+> > >
+> > > Same for regulators and anything else in the future, if any.
 > >
-> > As you said some other functions are missing it as well, so I'll do a
-> > patch separate from this series to fix them all.
+> > I'm not sure I follow. Do you mean wrap each individual type in a wrapp=
+er
+> > and call those here, like the following?
+> >
+> >     i2c_of_probe_enable_res(...)
+> >     {
+> >         ret =3D i2c_of_probe_enable_regulators(...)
+> >         if (ret)
+> >               return ret;
+> >
+> >         ret =3D i2c_of_probe_enable_gpios(...)
+> >         if (ret)
+> >               goto error_disable_regulators;
+> >
+> >         ...
+> >     }
 >
-> But you need to fix them in this patch series. We do not add patches with=
- known
-> issues, which are really easy to fix beforehand.
+> Yes.
+>
+> ...
+>
+> > > > +             /*
+> > > > +              * reset GPIOs normally have opposite polarity compar=
+ed to
+> > >
+> > > "reset"
+> > >
+> > > > +              * enable GPIOs. Instead of parsing the flags again, =
+simply
+> > >
+> > > "enable"
+> > >
+> > > > +              * set the raw value to high.
+> > >
+> > > This is quite a fragile assumption. Yes, it would work in 98% cases, =
+but will
+> > > break if it's not true somewhere else.
+> >
+> > Well, this seems to be the de facto standard. Or it would have to remem=
+ber
+> > what each GPIO descriptor's name is, and try to classify those into eit=
+her
+> > "enable" or "reset", and set their respective logical values to 1 or 0.
+> > And then you run into a peripheral with a broken binding that has its
+> > "reset" GPIO inverted, i.e. it's driver behavior needs to follow the
+> > "enable" GPIO style. The class of devices this prober targets are
+> > consumer electronics (laptops, tablets, phones) that at least have gone
+> > through some component selection where the options won't have conflicti=
+ng
+> > requirements.
+>
+> I'm talking from real life example(s) :-)
+>
+> Recently I looked at the OV7251 sensor driver that expects "enable" GPIO =
+while
+> all users supply "reset"-as-"enable" with the exact trouble I described.
+> Yet it's pure software / ABI issue in that case, but who knows what PCB
+> engineers may come up with.
 
-I'd say that's a preexisting thing, and code movement shouldn't change it.
-But, yeah, I can send another patch fixing up all the kerneldoc issues
-in both files.
+For the OV7251 case specifically, the current approach works fine, as the
+polarity is the same: high electric level for a working chip.
+
+But now that you mention it, camera sensors are exactly the case I had
+in mind, though not the same chip. Some of the OmniVision and GalaxyCore
+sensors have a "shutdown" pin that is active high, i.e. high electric
+level shuts down the chip.
+
+So I guess the alternative would be to remember each GPIO's name, and
+do the appropriate thing based on the name, and also set the logical
+value, not the raw value. If it says "shutdown" or "reset", set the
+logical value to 0; if it says "enable", set it to 1. And hopefully
+we don't run into a binding which has "shutdown" but is actually
+"enable" ...
+
+I don't have this case and I kind of want to leave it as a TODO though.
+I feel like the scope of the series is expanding ever so slightly.
+
 
 ChenYu
 
-> (And below seems you indirectly agrees on that)
+> > And if the polarities of the possible components don't line up, then th=
+is
+> > probe structure can't really do anything. One would need something that
+> > power sequences each component separately and probes it. I would really
+> > like to avoid that if possible, as it makes the boot time (to periphera=
+l
+> > available) dependent on which component you have and how far down the
+> > list it is. We have Chromebooks that have 4 touchscreen components
+> > introduced over the years. In that case something more like Doug's
+> > original proposal would work better: something that forces mutual
+> > exclusivity among a class of devices.
 >
-> > > > + */
+> Maybe. I just pointed out the potential problem.
 >
-> ...
->
-> > > > +/** of_regulator_dev_lookup - lookup a regulator device with devic=
-e tree only
-> > >
-> > > Something went wrong with the indentation.
-> >
-> > Will fix, and also add a "Return" section.
->
-> Thank you!
->
-> > > > + * @dev: Device pointer for regulator supply lookup.
-> > > > + * @supply: Supply name or regulator ID.
-> > > > + *
-> > > > + * If successful, returns a struct regulator_dev that corresponds =
-to the name
-> > > > + * @supply and with the embedded struct device refcount incremente=
-d by one.
-> > > > + * The refcount must be dropped by calling put_device().
-> > > > + * On failure one of the following ERR-PTR-encoded values is retur=
-ned:
-> > > > + * -ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup co=
-uld succeed
-> > > > + * in the future.
-> > > > + */
+> > > > +              */
 >
 > --
 > With Best Regards,

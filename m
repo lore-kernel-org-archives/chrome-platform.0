@@ -1,74 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1479E186608;
-	Mon, 26 Aug 2024 13:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F9517D2;
+	Tue, 27 Aug 2024 03:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724678415; cv=none; b=ILw891GF4nXFPm6BueM79qLWGYnX52AANllh/yV10ugLWysXx30yFroTTxuwZUG7H1j4/GEep7LvwhB84DxgOs8Pvt18QjJfbTBOpn1KN0bGmxg7T3V1AMvK3/zPibOWHI2aJVHpcnMvRj3nBkriSGoG1/9LG4uZO9dGnTAcV98=
+	t=1724729166; cv=none; b=qrAys8ux8SnSqxPfv4GU5SzORiNzh/k2wCQsdu6K7YUSl8QncdTcn0y33YGDNqZ1k0XJi9FY+C47U/9QWwtQ63z3QK7sWu2bfDxUj4IuHvKuAy0D2+9T664cUDBKXfXTcQMQjV9wCnn1gk/UfO69v1t66PMNW4CkBQMJtQLPu9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724678415; c=relaxed/simple;
-	bh=E3jqWk0quNbd2DIIwzH2hsPPy6kfLMiKIT4k5BaQN9I=;
+	s=arc-20240116; t=1724729166; c=relaxed/simple;
+	bh=P3O3alY1dOWsnBgRxMhJRgQyWOYsqQUpM59bPHtbPjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/Ol0067uEkS37y1/Foah8hrqEip04OXNCMypRwD2lP8q5ngHue2xN9DO7YTI9S+8MUmeRvSRFFl6sVEvMn45XIm5qo+2v4HsVEYFMeqfTTBzRIffQc3rZNsLCj6XQyZ3NNfCWTnuUgiO/htFmhRhR3cqb3+XLNM4AYuaJrn4DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDdlMTYS; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7+Ytuv4yUWsvlgLUBH6PP5wXyzoOkr2KpzQGctpT8UlX3OMBppUxD9PejkgQutE15G4zOHhw+OJs4TX9yBWIgGQb2P1VTL6js+XFdNu1+w44uDXWPgBOcie9uBnCz2SvCNZwJ5ofjSzRMrlcfqL/fZyVYWqswEpS7pSgroRuF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOn1wGVY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDdlMTYS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724678411; x=1756214411;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E3jqWk0quNbd2DIIwzH2hsPPy6kfLMiKIT4k5BaQN9I=;
-  b=BDdlMTYSrbAdSIAZbPrLYbKe29DYXKM7yhNL1zqzak1+yKQ6f55caLU0
-   1wDrLtdtjDFJ8QX18QDd6RLzUvFsaoSqWwMjXgaLoTnIlAEGxJvEkBJGh
-   ZhllLEdFeyzvmI9aoJd3Ct2A7Tgdwa4QOZo8Qj7IiLHWYxY02NrPn0LT1
-   1giLXaksqM3ry4trM202DlxxIIWomMtEMT94ID7I186Toa3MJHOXOVrLW
-   wuaIf0CuMz8SFSUNDBAAV8j9Bg9KuajdSSnaZtcyw+aQiJ3Qg55Ks+Rsz
-   6sBp1D/tddxeV4uReZOQVS7/NKpzKlGPXlQAKWpL6bh13i0wk4HGv51kJ
-   A==;
-X-CSE-ConnectionGUID: pdDAW9ypRL6asV3fgoLg0w==
-X-CSE-MsgGUID: kzJ/mhosQg+6wOzTwt32mA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23266505"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="23266505"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 06:20:10 -0700
-X-CSE-ConnectionGUID: pEF2z3PSSqO4UPPXQmj/yQ==
-X-CSE-MsgGUID: J7nWDYN7R/mm5vWIQnhyiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="93233605"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 06:20:05 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1siZdb-000H6x-0H;
-	Mon, 26 Aug 2024 13:20:03 +0000
-Date: Mon, 26 Aug 2024 21:19:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOn1wGVY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C1BC8B7A9;
+	Tue, 27 Aug 2024 03:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724729166;
+	bh=P3O3alY1dOWsnBgRxMhJRgQyWOYsqQUpM59bPHtbPjc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VOn1wGVYWxDe/+cBrO7rnjlhZ4SckN/0/Weo/9m7YtiJc5WIsv8XnimZjLrwczA0R
+	 J9JjajHqHP56SId9uRHq/KwbOfwaSH1+mFuyZXWdiM9mJk+GtX1CG58p3y+cvwO+0w
+	 GLCiZypGUmm9XNayBpWahGBM7w6O1e7KjOS0AucLr3RZZJpugZfv+BkhCM/uXJUtSL
+	 rdW/+sSUU6jh6/PLJ3TyTvebP6A6AtXe4Ek4lLpDZMG2R/uGRWM+L+iuWnj69TmX2X
+	 v9SQriQJbAK8qNWcEYag6uH5urWlzesH3Iy5oaqHZ1mltRXDd4UH2+TEqcO0iv6SGi
+	 bMfz8sUI7D5HA==
+Date: Tue, 27 Aug 2024 03:25:58 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, devicetree@vger.kernel.org,
 	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Pin-yen Lin <treapking@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
- code to of_regulator.c
-Message-ID: <202408262013.YYc4obi2-lkp@intel.com>
-References: <20240822092006.3134096-3-wenst@chromium.org>
+	Daniel Scally <djrscally@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v3 15/17] platform/chrome: cros_ec_typec: Add support for
+ signaling DP HPD via drm_bridge
+Message-ID: <Zs1HRtTWlxFdSNdJ@google.com>
+References: <20240819223834.2049862-1-swboyd@chromium.org>
+ <20240819223834.2049862-16-swboyd@chromium.org>
+ <ZsdMoRpwv5twOwqx@tzungbi-laptop>
+ <CAE-0n50MVaU2dmRLdLVFWT9KWPO_BK-L7eEqGRSb8TKm1KtPNQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -77,51 +77,50 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822092006.3134096-3-wenst@chromium.org>
+In-Reply-To: <CAE-0n50MVaU2dmRLdLVFWT9KWPO_BK-L7eEqGRSb8TKm1KtPNQ@mail.gmail.com>
 
-Hi Chen-Yu,
+On Fri, Aug 23, 2024 at 01:47:23PM -0700, Stephen Boyd wrote:
+> Quoting Tzung-Bi Shih (2024-08-22 07:35:13)
+> > On Mon, Aug 19, 2024 at 03:38:29PM -0700, Stephen Boyd wrote:
+> > > +struct cros_typec_dp_bridge {
+> > > +     struct cros_typec_data *typec_data;
+> > > +     struct drm_dp_typec_bridge_dev *dev;
+> > > +};
+> >
+> > It looks like structs are all defined in cros_ec_typec.h.  I think this struct
+> > definition can be also moved there.
+> 
+> I put it here because it wasn't used by any other driver. Maybe I can
+> skip the entire struct though and add what I need directly to 'struct
+> cros_typec_data'.
 
-kernel test robot noticed the following build errors:
+I see.
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on robh/for-next wsa/i2c/for-next linus/master v6.11-rc5 next-20240826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+* struct cros_typec_altmode_node, used by cros_ec_typec.c.
+* struct cros_typec_data, used by cros_ec_typec.c and cros_typec_vdm.c.
+* struct cros_typec_port, used by cros_ec_typec.c and cros_typec_vdm.c.
+  cros_typec_switch.c has another struct cros_typec_port.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/of-dynamic-Add-of_changeset_update_prop_string/20240826-105737
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20240822092006.3134096-3-wenst%40chromium.org
-patch subject: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup code to of_regulator.c
-config: i386-buildonly-randconfig-003-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262013.YYc4obi2-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262013.YYc4obi2-lkp@intel.com/reproduce)
+To simplify, I'm not sure whether we should merge cros_ec_typec.h,
+cros_typec_vdm.c, and cros_typec_vdm.h into cros_ec_typec.c.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262013.YYc4obi2-lkp@intel.com/
+Back to struct cros_typec_dp_bridge, I think it's fine to keep it as is.
 
-All errors (new ones prefixed by >>):
+> 
+> >
+> > > diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
+> > > index deda180a646f..73d300427140 100644
+> > > --- a/drivers/platform/chrome/cros_ec_typec.h
+> > > +++ b/drivers/platform/chrome/cros_ec_typec.h
+> > > @@ -27,6 +27,8 @@ struct cros_typec_altmode_node {
+> > >       struct list_head list;
+> > >  };
+> > >
+> > > +struct cros_typec_dp_bridge;
+> >
+> > If the struct definition moves here, it doesn't need to declare forward.
+> 
+> But then we have to forward declare 'struct cros_typec_data'? There's no
+> escape.
 
-   In file included from drivers/regulator/devres.c:15:
->> drivers/regulator/internal.h:87:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct regulator_dev *' [-Wint-conversion]
-      87 |         return -ENODEV;
-         |                ^~~~~~~
-   1 error generated.
-
-
-vim +87 drivers/regulator/internal.h
-
-    82	
-    83	#else
-    84	static inline struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
-    85								    const char *supply)
-    86	{
-  > 87		return -ENODEV;
-    88	}
-    89	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I see.

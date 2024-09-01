@@ -1,54 +1,54 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97CB3B784
-	for <chrome-platform@lists.linux.dev>; Sun,  1 Sep 2024 04:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42A23B784
+	for <chrome-platform@lists.linux.dev>; Sun,  1 Sep 2024 04:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725163629; cv=none; b=HRyvFfIVFlviufGuc9XQUsBPleCgCrnyrZ0sX9fnDjAztMzYPZ8grv650SLVuoD+kb5nYB/4MssRpfDA/0cEuCa7UP2/qnDtTn3+mEMMtVZcuuDj9i4qtFxK0UMcNHI182wi3+bQHRnBj+u7o+Y9gN7QG4J+2w5K8OHsxnQHGcE=
+	t=1725163631; cv=none; b=QOjV8xQq3bEak3PSk9nOJZUQ9AqdTEUTJpnOY+ZHw/jNCE5txT3kOiYJxkMkQZnp1SsIt3buevIwxhfEb1u97K9gRvbZVLKSDlpBivkWHKFFIEB8G04coQAa42Hbopw5MZSbNewYVEhb1Sobex/057vlCrWTpUxRwDZW1ZDmHIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725163629; c=relaxed/simple;
-	bh=pZ7ktacniNaKMda1L3Z6XilrG7hHXha97/67GYjaAzo=;
+	s=arc-20240116; t=1725163631; c=relaxed/simple;
+	bh=aDCeN3nN9nRcFYme+ATD3OdKxYtiWgyuQ3zp7dza4rA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uu0FTUxeO8k5j0lHtEroXcGukQooYAHfQ/8JlgHXpEJDcaaqvABYfsEKpI1WbHR7Rm7Qwv2GIYoyvncbyQ85xtRH3BOI/ZMreNc22gPhjFTWi11EE1CguJMZPBhicPyOVQPev/1JBHN35OaXhkLs3fCzttJNjvza/bAtXDp6xMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mVKYBK9B; arc=none smtp.client-ip=209.85.161.52
+	 MIME-Version; b=clvUq1q9qZoN4IGWtkWHEJvplszknhZBFFN9KbRDQjLP3GZfCfs/u3h+BN/vutcM1Ol6LlLEk/jWYDdJvJblEvm0OgNzT4Vy2AkrAU7k8hCUHHX/H3sCiZHMPAkRmb+b9U2nPuZmW0AJI+eySm1Jj7hbpaltX/byj56DdOqjK2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kYpP68F6; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mVKYBK9B"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5df9c34c890so2005143eaf.1
-        for <chrome-platform@lists.linux.dev>; Sat, 31 Aug 2024 21:07:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kYpP68F6"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-714187df604so2471281b3a.1
+        for <chrome-platform@lists.linux.dev>; Sat, 31 Aug 2024 21:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725163626; x=1725768426; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1725163629; x=1725768429; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bsT6Pyy4WdREZdfc6RLc4+Jmxiv/uouJ028bXKINCs8=;
-        b=mVKYBK9BXNcR8iKP4WzkBOCW95/GiB4H0NsgJ80Vti414bEpo1tYiIjFzlZh0+UKCe
-         U4LsqyLG0LBtPqLZLd77qj+rvD9sGOE6Mi05PZFBFOJXtclAuOGDLcfQnfBB50FM3iSc
-         BGs+hzjZaTujHtHiV0QDC4eqVXq3WL/QT/Afk=
+        bh=q5JhzkdOpb5d78Mk6klz+de8MRC1bwTsy8AL/60ewZg=;
+        b=kYpP68F6/+qkGITNDwttH6G4I41UMY+kUy2WHiBcaKPd0ridYwsb3N+8JGjOr4n2fq
+         TTKl4i00i4w1WHtbdP7597YtWbPxRiMz1O7g8xU21lKjp79sEPRy6LQKbSEg+04I68Ep
+         bKZCsVWlaSuTqVaho6LaMfKF0//thteuh6yLM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725163626; x=1725768426;
+        d=1e100.net; s=20230601; t=1725163629; x=1725768429;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bsT6Pyy4WdREZdfc6RLc4+Jmxiv/uouJ028bXKINCs8=;
-        b=Dkx0bXIot4GQfocnEqRJRw5ucR6p5FhnTV+54Ihq4sJdK+T/J68sAnHcmRnWFB3MyB
-         bp3K7G+/Qc9qAmTbA+fs3Tma5D2wbMD4fK+PWUHxBvobMZV7F8goneSpn9VrjbJSEJJH
-         hz9QLtMaHdAtT+Tq+iW184OCPPxgvWhhqFBeTCdIKFC3KEryaglybEXLY67p/1Yi1xkp
-         4DWoG09F7pqjn/mj5+lDP4apcqEMIYpfoynsXmkd9uIm+mt3t9O/aIw/aK6+g1kaGksU
-         sMfbkH9yl0TTsdUweiytoFkAp1hwUYeB17ENQHhiNxChVsFNeSJMJl8G7BmvhhOn76oQ
-         T7UA==
-X-Gm-Message-State: AOJu0Yzi56ty/kgKypyzXVTX6U8Du/WqZxcW5o1jHXEQLQmsNQ+WlUYJ
-	yJMS0efQqOmc4Fj7Npa097D9C58k53wrZ+VN/W752btJJEK+lS5lEl68aB9nnp53rj2td1ZTPJk
+        bh=q5JhzkdOpb5d78Mk6klz+de8MRC1bwTsy8AL/60ewZg=;
+        b=IIatZVmGeKEZmPU9vO4aVQT1Sij+uq5mLdSkOmF7HwrRtmcVrsK6T+ZdenpWSRzurW
+         a03j9ONG2V6qIsTFCRAv2rnIa7wXYYzvLZcRYgkttZlztrvx5aYa7KA/2+AC+b15Rsha
+         FvsyYvgozaaI/RI2351nqd4rHRYGnTddaHpyi11z8P2OpwpZY8GT7HlMisgHER4KsR+R
+         JmWVL5uLNHKMG0oTUjCU1PmuoDXpAPRp8OZ2JFD26XLv5WQy5NlyZOIQP4qsPpfrlu95
+         Pju5ZRLL4iTI21py//8gHsFFKHkzmKkv1aPsLmJJ0iCr2Y30TDSOd3CW8XqlmroQme/2
+         CDWg==
+X-Gm-Message-State: AOJu0Yw8PRR6Sxtos6Ja8cyIaVYXe4E3sdx//8DxTOYYY19/HmKKNQM7
+	M6mD7EV1WE/ygllKZA0fDJmMOr4XMDnPYrXLF+19/hNIJejVW7D/qStlWRsKvStjxlKPvh06aow
 	=
-X-Google-Smtp-Source: AGHT+IHtz1LVfFf3gG+hTwV6UQ2tt7nrnC8wrXqjk3Bxp7NafXmwM2C1wRlTdUffnPNfcbRmXcHwSg==
-X-Received: by 2002:a05:6358:24aa:b0:1ac:65e7:919b with SMTP id e5c5f4694b2df-1b603beb8afmr1222369855d.6.1725163626398;
-        Sat, 31 Aug 2024 21:07:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH443VeMjk4kx1Ih8MoClHHt+0Hz48LB1+P16Pb5YXD9rscHzWsBcV2jb1oYKBn+g57FtSFdA==
+X-Received: by 2002:a05:6a21:9211:b0:1cc:e0de:c75a with SMTP id adf61e73a8af0-1cce1613874mr11265457637.8.1725163628444;
+        Sat, 31 Aug 2024 21:07:08 -0700 (PDT)
 Received: from localhost (210.73.125.34.bc.googleusercontent.com. [34.125.73.210])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-715e56d78e4sm4847550b3a.163.2024.08.31.21.07.04
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-7d22e9d4b77sm4590630a12.79.2024.08.31.21.07.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 Aug 2024 21:07:06 -0700 (PDT)
+        Sat, 31 Aug 2024 21:07:08 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 02/18] drm/bridge: Verify lane assignment is going to work during atomic_check
-Date: Sat, 31 Aug 2024 21:06:40 -0700
-Message-ID: <20240901040658.157425-3-swboyd@chromium.org>
+Subject: [PATCH v4 03/18] usb: typec: Stub out typec_switch APIs when CONFIG_TYPEC=n
+Date: Sat, 31 Aug 2024 21:06:41 -0700
+Message-ID: <20240901040658.157425-4-swboyd@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240901040658.157425-1-swboyd@chromium.org>
 References: <20240901040658.157425-1-swboyd@chromium.org>
@@ -103,73 +103,92 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Verify during drm_atomic_bridge_check() that the lane assignment set in
-a bridge's atomic_check() callback is going to be satisfied by the
-previous bridge. If the next bridge is requiring something besides the
-default 1:1 lane assignment on its input then there must be an output
-lane assignment on the previous bridge's output. Otherwise the next
-bridge won't get the lanes assigned that it needs.
+Ease driver development by adding stubs for the typec_switch APIs when
+CONFIG_TYPEC=n. Copy the same method used for the typec_mux APIs to be
+consistent.
 
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: <dri-devel@lists.freedesktop.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: <linux-usb@vger.kernel.org>
 Cc: Pin-yen Lin <treapking@chromium.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ include/linux/usb/typec_mux.h | 43 +++++++++++++++++++++++++++++++----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index bd18c1e91dee..e350248ba5c2 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -860,6 +860,10 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
- 				   struct drm_crtc_state *crtc_state,
- 				   struct drm_connector_state *conn_state)
- {
-+	u8 num_input_lanes, num_output_lanes = 0;
-+	const struct drm_lane_cfg *input_lanes;
-+	unsigned int i;
-+
- 	if (bridge->funcs->atomic_check) {
- 		struct drm_bridge_state *bridge_state;
- 		int ret;
-@@ -873,12 +877,25 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
- 						  crtc_state, conn_state);
- 		if (ret)
- 			return ret;
-+		num_output_lanes = bridge_state->output_bus_cfg.num_lanes;
- 	} else if (bridge->funcs->mode_fixup) {
- 		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
- 					       &crtc_state->adjusted_mode))
- 			return -EINVAL;
- 	}
+diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
+index 2489a7857d8e..efb5ed32b813 100644
+--- a/include/linux/usb/typec_mux.h
++++ b/include/linux/usb/typec_mux.h
+@@ -3,6 +3,7 @@
+ #ifndef __USB_TYPEC_MUX
+ #define __USB_TYPEC_MUX
  
-+	input_lanes = drm_bridge_next_bridge_lane_cfg(bridge,
-+						      crtc_state->state,
-+						      &num_input_lanes);
-+	/*
-+	 * Ensure this bridge is aware that the next bridge wants to
-+	 * reassign lanes.
-+	 */
-+	for (i = 0; i < num_input_lanes; i++) {
-+		if (i != input_lanes[i].logical && !num_output_lanes)
-+			return -ENOTSUPP;
-+	}
-+
- 	return 0;
- }
++#include <linux/err.h>
+ #include <linux/property.h>
+ #include <linux/usb/typec.h>
  
+@@ -24,16 +25,13 @@ struct typec_switch_desc {
+ 	void *drvdata;
+ };
+ 
++#if IS_ENABLED(CONFIG_TYPEC)
++
+ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode);
+ void typec_switch_put(struct typec_switch *sw);
+ int typec_switch_set(struct typec_switch *sw,
+ 		     enum typec_orientation orientation);
+ 
+-static inline struct typec_switch *typec_switch_get(struct device *dev)
+-{
+-	return fwnode_typec_switch_get(dev_fwnode(dev));
+-}
+-
+ struct typec_switch_dev *
+ typec_switch_register(struct device *parent,
+ 		      const struct typec_switch_desc *desc);
+@@ -42,6 +40,41 @@ void typec_switch_unregister(struct typec_switch_dev *sw);
+ void typec_switch_set_drvdata(struct typec_switch_dev *sw, void *data);
+ void *typec_switch_get_drvdata(struct typec_switch_dev *sw);
+ 
++#else
++
++static inline struct typec_switch *
++fwnode_typec_switch_get(struct fwnode_handle *fwnode)
++{
++	return NULL;
++}
++static inline void typec_switch_put(struct typec_switch *sw) {}
++static inline int typec_switch_set(struct typec_switch *sw,
++		     enum typec_orientation orientation)
++{
++	return 0;
++}
++
++static inline struct typec_switch_dev *
++typec_switch_register(struct device *parent,
++		      const struct typec_switch_desc *desc)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++static inline void typec_switch_unregister(struct typec_switch_dev *sw) {}
++
++static inline void typec_switch_set_drvdata(struct typec_switch_dev *sw, void *data) {}
++static inline void *typec_switch_get_drvdata(struct typec_switch_dev *sw)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
++#endif /* CONFIG_TYPEC */
++
++static inline struct typec_switch *typec_switch_get(struct device *dev)
++{
++	return fwnode_typec_switch_get(dev_fwnode(dev));
++}
++
+ struct typec_mux_state {
+ 	struct typec_altmode *alt;
+ 	unsigned long mode;
 -- 
 https://chromeos.dev
 

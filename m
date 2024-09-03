@@ -1,67 +1,67 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03B719F42D
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 22:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7150F192B68
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 22:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725402951; cv=none; b=hgZue7WCsnXO7Pqp0NypWoRl/u13KrF3JCYKq2gqaBm9kPnH3M8ebnP+dF5iz105PoxcqFwGI92q7LEgctfCqXYfUsHgYPjnJLrH8Zj5Jeqh3mmPCuKFDbCkUm/D2zxyAVY1AooOVvQwzfX+jf/RD68zby9/tLuJkx6qLWOvaGo=
+	t=1725403767; cv=none; b=EmZJG9+Pwzl0EhjA1pyknCcYOXSr85WdqIkr9QmymorDBC+4nhNF9Wp8Ws71h4gG6ahUVIBPcrX8jkBuZXCdm8Eq3hOeDzEjynx2fPzVZS0M+vzi/zbQTv8Gn1cK7FqySEmw3vHA+cD5nvIkv40l6oj/rriBfpAx88Cfl2nBdjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725402951; c=relaxed/simple;
-	bh=Np+Q0wHOCgirMFjVPl8Z6i7/K3O+RkvC3vKi9xQ+BOA=;
+	s=arc-20240116; t=1725403767; c=relaxed/simple;
+	bh=TtyX2gK5m3nn23OtYeDlMe0JllQ4/PmVqk0mkdxmM0g=;
 	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bjE89h1QSvNx5291oqYP5ke+zvK8NU26lsuVA7IcnfgiQt2+2WlSOcucIK5XHuCfIn4GSzFonAGTtjp/YQYnCTzbCGzUbBIM4fM0LjB1vepvCcCiwwRznyvo0f1DBFhLjL5kSgpCqI1jNrwjbLMN2XDGGGy8AbUqDWSybNQtedk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H+32Mf4w; arc=none smtp.client-ip=209.85.222.172
+	 To:Cc:Content-Type; b=cGUSrxWC9T573PG4QMK7w5R8bouIhv2tln7RalQxXMSpqU05g7GiezqftmobNZMF/j1x5qahKrI+C8tYJHu8xa135qx8DmoBELvjqcXxOOYEAA/5i84RxWgNqRkf1WzSJbFep7T9ccAHlyI3LxWzFIQX6biJLrk7TX+FFTz6TrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZYsyiMhx; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H+32Mf4w"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7a8125458e4so299596385a.3
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 15:35:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZYsyiMhx"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6c3552ce7faso1227136d6.1
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 15:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725402944; x=1726007744; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1725403763; x=1726008563; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Np+Q0wHOCgirMFjVPl8Z6i7/K3O+RkvC3vKi9xQ+BOA=;
-        b=H+32Mf4w85KbDUW+1lL7W/wLdCSraLJ5zOxfqfFYR+AyBqLdrdUGbt32l+DWU6F8aw
-         ch7cA6rgsJHIuZxTz123dTaSqDqIYW6QWu4tdYLTN3jgVxpoA8B0c0BYXMsemIyh32bN
-         YO5Qb0JPYd5Q78Kx/FKnHSMp+gKb6ChH08o/c=
+        bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
+        b=ZYsyiMhxPvxGyB+0LYR9cwcY18qM+DbdjCfPJWLK6m3o72nDfMtsYvCE1ykoJmPo7f
+         ZInGb83YpyfY0yJEg5dTlEq9tkTyrJ7fIj36rQ/wgXT6RTbrOySeS/dbDbNu7MZmHiRd
+         NKbNx4apnnPVRENrAGh+QLWVx8scAG1cOkSMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725402944; x=1726007744;
+        d=1e100.net; s=20230601; t=1725403763; x=1726008563;
         h=cc:to:subject:message-id:date:user-agent:from:references
          :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Np+Q0wHOCgirMFjVPl8Z6i7/K3O+RkvC3vKi9xQ+BOA=;
-        b=vhVFQuBkfkt1Kpv3w37lf43WnUY4MEXb4OVn+oWjaJJfZXey2+joZndfU0BZkfuArP
-         Tt2tHZm94nXDs4cc+Oki74V1mLE4KngymKIC+1Cn+9Hb4D7yKJ8GT/VMP0Q6o9+EvPTX
-         EG2wHyFdlQO24xhJNTIgfcMZTzN8mGStzQcfQX7Ks7uRdSnOk1s+siT/zSYUp5Ck1muF
-         Q+ii8lJnQE3AiaE32kdOY0oig/f3byJAPKc5BcbXl8U2Tutb3ZF8/u1fOsgQ6s7IfMuY
-         2MStw//2WCSlVdovXw2BbbHulxY8Qwl2wbIg81+6jSnLapuwYGT+/5fy+FSiCJui01da
-         +oWQ==
-X-Gm-Message-State: AOJu0YytafstPFSXBC4SKL7VqD5/ivoAC1spZsrESSck4eCquwcL9ZqB
-	8gUle7x5NQogoLYzvFvVl0NhvKDqx5YdDGvmmjJBd/fAi9Gpv/zMGL+ndhwoPSBrawTYKdeBriT
-	GlypXUrIeE5elfsZp2gUKkVm6TselE70+LLop
-X-Google-Smtp-Source: AGHT+IHROkfnEqJwyKjhAgQRGsJgxkFB29+Yc6u1MFfoALprduJBtTl2Q7hk3LAUymLuEO32wO/aAKlH5269r5m9+pM=
-X-Received: by 2002:a05:620a:28c8:b0:7a6:6fd6:9d6a with SMTP id
- af79cd13be357-7a8f6b767cemr1583962985a.5.1725402944498; Tue, 03 Sep 2024
- 15:35:44 -0700 (PDT)
+        bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
+        b=KTnDg9/GCVCtEaW16NFX2KEPr3G/JoryZ6Dtt0rJ0Cyjdu95N+taouA4QIr91drSIj
+         Gg9gSlq0mzaGH2BZOipUDTAwEgL6pWWDPYd7t57djtWVcTF0bK7EbYwZYgiL2a/fuvJn
+         vWfyf3NreHyyeaiP35mXzPyxqcBQ0bqe1JP2D3YHy+spVo4mTSwxA9K9T6YL3KSn2S0P
+         3CALYhkBvs6AJNNjzM7f2DwsuvXZEu+/VUmHxtRumy0b/9KTTCaT0uwYoLP1G8kmgUxh
+         AOkEoUkULpiWUVz1Zfkb0ZFVMG9J2GOso3fSxyu8GtwhMvvYyA7B3a8Noykd79STYcLR
+         i+bw==
+X-Gm-Message-State: AOJu0YyO7Dm1/6EX4I1RU9gKUV2rjjv78zs+wYpm0X3OFL5WcUlgnPLi
+	oof01zyuTzjhJcC3Cqq4PSenb6Dv246XTJODDi3O4H7u+IYn2gvckdjbqRgyABWmhaxoXeHNDI7
+	THvyHMqAc0/q6pG//nHpzJS1HbwFuwryY2vqi
+X-Google-Smtp-Source: AGHT+IF34ocTupB91QqHAUN7muZ3pQu7SJrIS8QiPpHwQnzTFwdvCLem6xytcCmScWzLqSwtal0se6zIR4RyUsc0prs=
+X-Received: by 2002:a05:6214:1c44:b0:6c4:d2f9:644e with SMTP id
+ 6a1803df08f44-6c518e03025mr2177666d6.12.1725403763196; Tue, 03 Sep 2024
+ 15:49:23 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Sep 2024 15:35:44 -0700
+ HTTPREST; Tue, 3 Sep 2024 18:49:22 -0400
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZtWeuFUEgnF9e2S4@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-11-swboyd@chromium.org>
- <ZtWeuFUEgnF9e2S4@smile.fi.intel.com>
+In-Reply-To: <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
+References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-12-swboyd@chromium.org>
+ <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 3 Sep 2024 15:35:44 -0700
-Message-ID: <CAE-0n51nLCNJxhxMr3EmqoWz=3dLU-ckfSwgEUtrhBRZchLu_w@mail.gmail.com>
-Subject: Re: [PATCH v4 10/18] devcon property: Document devcon_match_fn_t
+Date: Tue, 3 Sep 2024 18:49:22 -0400
+Message-ID: <CAE-0n52Hupp-ANE2ggeGCRZSM+xmrJt-Q5+5Cb7=C-mxykbz0g@mail.gmail.com>
+Subject: Re: [PATCH v4 11/18] device property: Add remote endpoint to devcon matcher
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -85,45 +85,47 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Vinod Koul <vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Andy Shevchenko (2024-09-02 04:17:12)
-> On Sat, Aug 31, 2024 at 09:06:48PM -0700, Stephen Boyd wrote:
-> > The usage of this match function is hard to understand at a glance.
-> > Document the arguments and the return value so it is clear how to
-> > implement the function.
+Quoting Andy Shevchenko (2024-09-02 04:12:49)
+> On Sat, Aug 31, 2024 at 09:06:49PM -0700, Stephen Boyd wrote:
 >
-> Thank you for the patch!
->
-> ...
->
-> I believe we still use "device property:" in the subject for this header file changes.
-> $ git log --oneline --no-merges -- include/linux/property.h
->
+> Is it possible to move these Cc:s after --- line below?
 
 Ok.
 
 >
-> > +/**
-> > + * devcon_match_fn_t - device connection match function
-> > + * @fwnode: Remote connection's device node
-> > + * @con_id: Identifier for the connection
-> > + * @data: Match function caller specific data
-> > + *
-> > + * Implement a callback with this function signature to search a fwnode's
-> > + * connections for a match with a function like device_connection_find_match().
-> > + * This function will be called possibly multiple times, once for each
-> > + * connection. The match function should inspect the @fwnode to look for a
-> > + * match. The @con_id and @data provided are the same as the @con_id and @data
-> > + * arguments passed to the functions that take a devcon_match_fn_t argument.
+> >  /**
+> >   * devcon_match_fn_t - device connection match function
+> >   * @fwnode: Remote connection's device node
+> > + * @endpoint: Remote connection's endpoint node
+> >   * @con_id: Identifier for the connection
+> >   * @data: Match function caller specific data
+> >   *
+> >   * Implement a callback with this function signature to search a fwnode's
+> >   * connections for a match with a function like device_connection_find_match().
+> >   * This function will be called possibly multiple times, once for each
+> > - * connection. The match function should inspect the @fwnode to look for a
+> > - * match. The @con_id and @data provided are the same as the @con_id and @data
+> > - * arguments passed to the functions that take a devcon_match_fn_t argument.
+> > + * connection. The match function should inspect the connection's @fwnode
+> > + * and/or @endpoint to look for a match. The @con_id and @data provided are the
+> > + * same as the @con_id and @data arguments passed to the functions that take a
+> > + * devcon_match_fn_t argument.
 >
-> > + * Note: This function can be called multiple times.
+> So, struct fwnode_handle is a single-linked list. Can we utilise that instead
+> of adding a new parameter? I.o.w. do those objects (@fwnode and @endpoint) have
+> anything in common and can be chained?
+
+No, we can't use that. We need to know which endpoint in the remote
+fwnode is connected to the fwnode we're searching from. This is how we
+know which typec mux structure is associated with which type-c port so
+we can drive DP there. We might have two endpoints connected to the same
+fwnode and then we wouldn't be able to differentiate the endpoint and
+the typec mux to configure.
+
 >
-> As noted in the next patch, this would be nice to elaborate (at least to me
-> this sounds like declaration of idempotency which is unlikely what is
-> meant, or am I mistaken?).
+> >   * Note: This function can be called multiple times.
+>
+> What does this mean? Is it idempotent? Or what is the effect of being called
+> multiple times?
 
-I based this on something that I've already forgotten! :)
-
-It's saying that the function you implement shouldn't have side-effects
-because it will be called many times. I actually wrote above that it
-will be called "possibly multiple times, once for each connection". Let
-me try to remove "multiple times".
+I've removed this note now.

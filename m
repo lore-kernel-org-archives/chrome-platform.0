@@ -1,135 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91E812B94;
-	Tue,  3 Sep 2024 15:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170C11420DD
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 16:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725377736; cv=none; b=syeMUOL912vhaKs8yqH0nOW8Nu9daVCTcp7Vm0+RJ9sHBdYvjbELSieWJnWW7XUVAgBN7fKBA75OxGzlPAYAoIFZPwryR6Y7ojx3e6zNKC601vUdkIsUI7cRstpLeDN/lu6rc3BqdjMlO2Mct1xtvJb90Ku7H+b8c6Jz6H2A8jQ=
+	t=1725381040; cv=none; b=oKQvW5UyfdlT78GEHboKKWLvAAztvLNFcFWmaSumAZG7avvHZ1gQc+kNWF3rDZWMtZzhgXaxrpHRaGaej/u2NDFwQsxwWLTdIdlOCIIbI6NU4jxEVDcC1WddBIHDSRbzzYpEEpJ/nvCuz4Dsbtc1HMm13NgQ/sNnBvpIHg4ZgT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725377736; c=relaxed/simple;
-	bh=t6e3G7q3f5emkzw8EoVbd6PITMUf/pOi2Q6k8ITflpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fj7JKTm5J7K1mabqGV48GIYryvM9t+rCfnnHFWpd4LXG7LWoBN9uVLBJs5n4dcd/zqhuGqaW2vYOirbfDIXwfjcFYS//1QbvfZmiHN8g3S8rWUJXqQAuIZvnKArEkmTNQsR2iuACr7e43weOR9SHMAYT4TO0v7UnCvBhbmVcuaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYQ0vpG7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725381040; c=relaxed/simple;
+	bh=aFs9NPS8WCqwFZ1JxE68lfWCZWeMKzBWN/teIrkNEHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ERyfkrueAu/DcOV3cXGxx8vTcfosamagyDq4ISicWlr5NvSgjWfoO+t5xIR1q8IbUL0ur+dJNgWbhHePDLNJ3euCxrF6i8uDpimCHYfXCEiBaH5FnR5Ps7jANBJxK/+yx7bXEdjvEgIk8IOkCnzxjX2nUrwB3ceT7DOjWLOFkAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EnUB15Np; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYQ0vpG7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE50C4CEC4;
-	Tue,  3 Sep 2024 15:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725377736;
-	bh=t6e3G7q3f5emkzw8EoVbd6PITMUf/pOi2Q6k8ITflpc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RYQ0vpG7jRDFlWoikaPdbcFzrRbCnv2PbH5rQHxFbvKcnOxhBNAK+rOPKKXtezdwQ
-	 I5WqCJChbeZx3fc+P5yoEjoGJMBiNfup4Uqw1l3P9hvrjV7BrAZff5OChcp9LiPs+6
-	 Fpz8EULJGifu7rnmXsGZi1T33dZr85Nx8+Rb/bHiVxVZ/TH07rDFT4szi2Y5CSYS/C
-	 38E75nDJu1TFYB+7jxKYcgB/NwU1XJeUwV/rpTQqjeiwm2iYNTEQG7NK4YDbOaVLbx
-	 DAhQ20gAcW2E2kQI2EDS86aHnGrHLV7lLI/oxosVRXuSuFwcaKvaVG/OrweDLwecOx
-	 ncvVjHAoa76Bw==
-Date: Tue, 3 Sep 2024 16:35:26 +0100
-From: Lee Jones <lee@kernel.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev, devicetree@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Pin-yen Lin <treapking@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EnUB15Np"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5bf009cf4c0so5681202a12.1
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 09:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725381037; x=1725985837; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jQdB3z5uEVHYQyhOM9/l8a+1Ce1iJPI+CxBf8lACdy8=;
+        b=EnUB15NpcLNuGs49c4XWQkDUZjgOKnPikbolA3M7n3yURpBszFaome489zM99UqmOh
+         0XkKEMiWG1DA5vF+CN6ScSdSqTQbGxavHg8C7xPUDnCWz70t2olwiZyJE2LrsMO13Xoo
+         HTmHaaDg7uhOMWHzU2vgTJM/JJo6OaxqP+6ls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725381037; x=1725985837;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jQdB3z5uEVHYQyhOM9/l8a+1Ce1iJPI+CxBf8lACdy8=;
+        b=SsCvbhox+kpnDLeKi/Bo8h1wy40bNSA+MnAvZV83u8TW7D+V9fIx814gwT7R+yjZoD
+         JN+xjhBh1t1ifV/mMUOBH0nTs8BNiSIKb8SJOWLMVCR7gCR+W9OzX6UjKyBbVXohnRI3
+         WxX3v8hv3u7YMotest8n+GU54wEXcd8xt9zZvs43htTImXxwDK4XcOjZI4zFKIN23Wbv
+         sLu+e0IW9xGhruTJbuab2Z0HkqKOu0e5V/NnWWKgYVxr7ukyP4tqar2bRk2HBYOKJzwt
+         nilDoB2xYr0VnXLLyj5zFNRgPLPTTGuRFj6u8l20lje+n6miFPw7f5yIgUlylYQVCCGf
+         LnTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU585huTmbguzPEAA2ByE7yxFclVomuG3PCIRlDKHFX7bzHFoplA/YBru5s9QirILFVlQRGZKTKXI/WMlg2XNE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy44/Kr712Mugycy6Qg6k/QnpVmuf1P5d93U7N8gF7huJY+Y+pV
+	UIR550wTBg+AGPWhKd6/S0azt/6gLrq5x7FR1HcjQ7t1O7Tqa3m/cRmOBIfe
+X-Google-Smtp-Source: AGHT+IFxMW+43lrpAPVQhSBnzxQQCxffpIliq+fv8lcta5kGrjCZiV+i9JKs91BkiAzgF+OD67RyCA==
+X-Received: by 2002:a17:907:2d24:b0:a8a:1b59:59bc with SMTP id a640c23a62f3a-a8a32ed4f2cmr99476166b.31.1725381036746;
+        Tue, 03 Sep 2024 09:30:36 -0700 (PDT)
+Received: from ukaszb-ng.c.googlers.com.com (140.20.91.34.bc.googleusercontent.com. [34.91.20.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989196bc4sm700685866b.125.2024.09.03.09.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 09:30:36 -0700 (PDT)
+From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	linux-usb@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-Message-ID: <20240903153526.GA6858@google.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-16-swboyd@chromium.org>
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v5 0/8] usb: typec: Implement UCSI driver for ChromeOS
+Date: Tue,  3 Sep 2024 16:30:25 +0000
+Message-ID: <20240903163033.3170815-1-ukaszb@chromium.org>
+X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240901040658.157425-16-swboyd@chromium.org>
 
-On Sat, 31 Aug 2024, Stephen Boyd wrote:
+This series implements a UCSI ChromeOS EC transport driver. 
+The ChromeOS EC is expected to implement UCSI Platform Policy
+Manager (PPM).
 
-> Add a DT graph binding to google,cros-ec-typec so that it can combine
-> DisplayPort (DP) and USB SuperSpeed (SS) data into a USB type-c endpoint
-> that is connected to the usb-c-connector node's SS endpoint. This also
-> allows us to connect the DP and USB nodes in the graph to the USB type-c
-> connectors, providing the full picture of the USB type-c data flows in
-> the system.
-> 
-> Allow there to be multiple typec nodes underneath the EC node so that
-> one DT graph exists per DP bridge. The EC is actually controlling TCPCs
-> and redrivers that combine the DP and USB signals together so this more
-> accurately reflects the hardware design without introducing yet another
-> DT node underneath the EC for USB type-c.
-> 
-> If the type-c ports are being shared between a single DP controller then
-> the ports need to know about each other and determine a policy to drive
-> DP to one type-c port. If the type-c ports each have their own dedicated
-> DP controller then they're able to operate independently and enter/exit
-> DP altmode independently as well. We can't connect the DP controller's
-> endpoint to one usb-c-connector port@1 endpoint and the USB controller's
-> endpoint to another usb-c-connector port@1 endpoint either because the
-> DP muxing case would have DP connected to two usb-c-connector endpoints
-> which the graph binding doesn't support.
-> 
-> Therefore, one typec node is required per the capabilities of the type-c
-> port(s) being managed. This also lets us indicate which type-c ports the
-> DP controller is wired to. For example, if DP was connected to ports 0
-> and 2, while port 1 was connected to another DP controller we wouldn't
-> be able to implement that without having some other DT property to
-> indicate which output ports are connected to the DP endpoint.
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../bindings/mfd/google,cros-ec.yaml          |   7 +-
+---
+Changes in v5:
+- Increased WRITE_TMO_MS to 5000.
+- Replaced DRV_NAME with KBUILD_MODNAME.
+- Added comments for WRITE_TMO_MS and MAX_EC_DATA_SIZE defines.
+- Refactored cros_ucsi_async_control() to dynamically allocate memory
+for a message to EC instead of allocating the message on stack.
+- Replaced type names uint*_t with u*.
+- Removed ret variable in cros_ucsi_work().
+- Updated ucsi_operations interface to align with changes introduced in
+  v6.11.
+- Replaced test_bit() with test_and_clear_bit() in cros_ucsi_work().
+- Added trace events in commit "usb: typec: cros_ec_ucsi: Add trace
+  events".
+- Added netlink in commit "usb: typec: cros_ec_ucsi: Add netlink"
+for debugging and testing puropses. 
+- Link to v4: https://lore.kernel.org/all/CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com/T/
 
-Acked-by: Lee Jones <lee@kernel.org>
+Changes in v4:
+- Setup notifications before calling ucsi_register.
+- Cancel work before destroying driver data.
+- Link to v3: https://lore.kernel.org/r/20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org
 
->  .../bindings/usb/google,cros-ec-typec.yaml    | 229 ++++++++++++++++++
->  2 files changed, 233 insertions(+), 3 deletions(-)
+Changes in v3:
+- Moved driver from platform/chrome to usb/typec/ucsi.
+- Used id_table instead of MODULE_ALIAS.
+- Split EC header changes into seperate commit.
+- Fixes from additional internal reviews and kernel bot warnings.
+- Link to v2: https://lore.kernel.org/r/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org
+
+Changes in v2:
+- No code or commit message changes.
+- Added drivers/platform/chrome maintainers for review.
+- Link to v1: https://lore.kernel.org/r/20240325-public-ucsi-h-v1-0-7c7e888edc0a@chromium.org
+
+Abhishek Pandit-Subedi (2):
+  usb: typec: cros_ec_ucsi: Use complete instead of resume
+  mfd: cros_ec: Don't load charger with UCSI
+
+Pavan Holla (4):
+  platform/chrome: Update ChromeOS EC header for UCSI
+  platform/chrome: Update EC feature flags
+  usb: typec: ucsi: Implement ChromeOS UCSI driver
+  mfd: cros_ec: Load cros_ec_ucsi on supported ECs
+
+Łukasz Bartosik (2):
+  usb: typec: cros_ec_ucsi: Add trace events
+  usb: typec: cros_ec_ucsi: Add netlink
+
+ MAINTAINERS                                   |  10 +
+ drivers/mfd/cros_ec_dev.c                     |  25 +-
+ drivers/usb/typec/ucsi/Kconfig                |  13 +
+ drivers/usb/typec/ucsi/Makefile               |   3 +
+ drivers/usb/typec/ucsi/cros_ec_ucsi_main.c    | 351 ++++++++++++++++++
+ drivers/usb/typec/ucsi/cros_ec_ucsi_nl.c      |  87 +++++
+ drivers/usb/typec/ucsi/cros_ec_ucsi_nl.h      |  52 +++
+ drivers/usb/typec/ucsi/cros_ec_ucsi_trace.h   |  92 +++++
+ .../linux/platform_data/cros_ec_commands.h    |  54 ++-
+ 9 files changed, 683 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi_main.c
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi_nl.c
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi_nl.h
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi_trace.h
 
 -- 
-Lee Jones [李琼斯]
+2.46.0.469.g59c65b2a67-goog
+

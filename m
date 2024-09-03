@@ -1,128 +1,278 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B74B18BBAD
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 16:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37DC19CC2F
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 22:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725381048; cv=none; b=CKl6/blGUYOEcyALRQkXb3w8x0Yos+jlB4DzKrwBNdxYJR5rfX7WJkIyNRi9fYc2gsQYNch3TQRzEK3mGUI1+CjJwMMJrO2UQ2Msg6lB7Ws3T/UXsJeXf15KRt2jINX4wTwRXWXLSYUFylCkghZB7twx2YJ/KqseWurM6Y5TKaM=
+	t=1725402018; cv=none; b=nFoJp/b6Wz2ZBdPBZeBZc8/o/tjTAfh2eIsCML3Ls4E1eNkDOPxQTpqdKYPXu24aMYKRauVqSqIDusMZrusTPR7hVNOySPJKYGREpj4j1wH0fL/czuf3vfGZQ1LwhSTkaTXPQ3VW0wZ2ir1JkZ6VCQvLRU4rdIqhyGdCbkExXCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725381048; c=relaxed/simple;
-	bh=+SIfP7UISjPZqy3MROtCCerdpwFBvqDPS8zBDXoCQ6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VFvs48mRl6qC/1B9R8Kizkpoc3MRmnuUcVQXAxMHhkbWRiBAcn8NtQ3Z2JTjR5p0wJmeXiCPvcCzeN88SJKPc1XnAz9Dzk3SyC4EbkxUxEGjSTHJ2m5rf7KjwO7gqIejEG5cmLfNwVOY4VJHPDmIqA2BNLChQ/1sSWb1Wxe4tJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QeYU4NPp; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1725402018; c=relaxed/simple;
+	bh=VgukLIdAqyeSxA2DG9cLyohXbxxYr/YDX0u8EHAwkCo=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XzwmHJDziKcocTUKe2dS+9UN6IlvFMpc3sTD8O3LlOrT1mwosT0v07rYU+SbMkKsyo35yGyjc17AckbSMx9nZFH2zC8DRhdaSjeba5IDxtfT2ANv4F2lFdd7jUVvQ1fJFdERa12kAPRO0/yrZOjWBIg3eXn463DUGHg2nptKI8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jKviTMFM; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QeYU4NPp"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8695cc91c8so552033766b.3
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 09:30:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jKviTMFM"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6d49cec2a5dso39759527b3.3
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 15:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725381046; x=1725985846; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=abnaghlK+pw02PpQ8vIksrIw0Rsf4nvWXUu7Ofg0f3k=;
-        b=QeYU4NPp3ooSL/eN8X5JswBPBSt5zUq1ZvgwaAeHEddJq7nG/CwiMCd2QIbNdzxMx0
-         CKODED/99EKwvJqjq38OF1uqKlwjDr2Ak5MjwFZxp53PskgeJQtQzXHtcc4CQWkwwlTb
-         gNQ7EZtEO+I3Fw/ozWYHBbFppb4/8Io8YetJs=
+        d=chromium.org; s=google; t=1725402015; x=1726006815; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/+hY8C/Csnv3M/LgsDuLYd+cu/lwq52aGSpQU/ytorc=;
+        b=jKviTMFMH9Zs2jFtyEtmIpih1Q1Anj1/OGdjcdaGOjMoW3mrx/44quVA9298Nhd+jF
+         8dPtoAsCULuOXBlw1NIcHCVqDPpOBM9YHjOnjmtgZsRdNebJ/ut9pgr5cbXxxezgR239
+         pbVvP5D3aSuE9s44v3bsTUJAN40Ke97IrI4aI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725381046; x=1725985846;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=abnaghlK+pw02PpQ8vIksrIw0Rsf4nvWXUu7Ofg0f3k=;
-        b=NEBgpftYFM8l0EOthjwdaZ96GEqcAzoG8LSeLUXaS0HYONF8vcczlLTG8uppCWOMSV
-         wQ2XajXAw2bdlruh2au6Ko4Fq2YGbvMSiJysK28y0Dlg0rd38NBtU95PPDtaGwla00qW
-         KUQywdIipyumwpWw2lBXdjmqU5l7kX+33OnlCIsdY/ApykL75O/gZNn4gUpd2+kcIDyw
-         0Leic2G9P9IuORXvkUJlVkEdHQFLuIdi5Pxqz8QQC4nLaaL7WEpIx30UpDks2CkEL4BZ
-         fpzi0g6tS6KtzdJg4t3n2bPJgeN7ISJbI7IxpPsIW2OkAdlRu9BuAYj8kmMIIo0C0zgY
-         0YcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViphVWAahPxBe4EkwBvdFwd/iZowXXaJCK/ycyR2kKi8K5OZ6Hpx9FYDBSCdFr0FgugQakIZI6kGyoNF8I4fU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwW/30jmYy8YtBQhay9WaW6KGfwYz96OqGowzWVIA2Uds2vzJ4l
-	31s2WOTkQOGffUS9Y5sc/Jy1tkfHoyuA2frIPLossTYT8HWHD+NUHYMFaUQr
-X-Google-Smtp-Source: AGHT+IGyA2BXvcyBi9Eat2Zpbm/KcDxn+TOMa7RYJ393x/0cWxbrH8YSipKSJQZfPaSIpsa1AvtybA==
-X-Received: by 2002:a17:907:1c0a:b0:a7a:ab8a:380 with SMTP id a640c23a62f3a-a897fad872amr1435845166b.69.1725381045331;
-        Tue, 03 Sep 2024 09:30:45 -0700 (PDT)
-Received: from ukaszb-ng.c.googlers.com.com (140.20.91.34.bc.googleusercontent.com. [34.91.20.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989196bc4sm700685866b.125.2024.09.03.09.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 09:30:44 -0700 (PDT)
-From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH v5 8/8] mfd: cros_ec: Don't load charger with UCSI
-Date: Tue,  3 Sep 2024 16:30:33 +0000
-Message-ID: <20240903163033.3170815-9-ukaszb@chromium.org>
-X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
-In-Reply-To: <20240903163033.3170815-1-ukaszb@chromium.org>
-References: <20240903163033.3170815-1-ukaszb@chromium.org>
+        d=1e100.net; s=20230601; t=1725402015; x=1726006815;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+hY8C/Csnv3M/LgsDuLYd+cu/lwq52aGSpQU/ytorc=;
+        b=QJm87QFJKfU9SYtpg4Ur0sm2i+VvhGpwT9X0Nztnp7k/MvEifR/6NuP0wU3L2jRhV4
+         cyVwK9yYyy3yVAlh61nBaXHIHNGxrry3rx/IwgpVjm8S1785zCQ37ZQTHhOaOZHvnD3a
+         M7lpmdvQHmlXDu7kyuqVexLtL2RgttxcT/jG6OUb23qXcLnc3qj0aCSeZz6UfG0b5WSb
+         C6sorFTZLTYG6egzWA2WiBVufmXaLV8pp7cJqCjr6GTTKCzPyTFrn9wNRIkbr/2n1jgr
+         UfP6q8K7YwVTk3aFLL67tAX33DkCyHEWtH1yZuxpbOQiVPjvPrr3lkgoyoF1cLWDn6FY
+         3vrA==
+X-Gm-Message-State: AOJu0YyYJ1vqJq93/Ok0df/ktxZp42tXbEGPukWa3ZzlzNlv+DiwHsaX
+	0f860+vGc6U58bAOHxcfFnfz8Er1/KF+a2D05l11s4J8B5tMxcnkBVDXn0yYUl7p3F2dLGEMhNF
+	h2NmYRIK8E3H86+EUhiMxAPUZJkOu/FQtxJxD
+X-Google-Smtp-Source: AGHT+IFwXAJ53tzp721XKIBWOOUK4nFlwB+WIRkuEoAHaKs0HLbFhY0QtOfcaSBF6O58JI106A7GqiGJo71sW3vWmWA=
+X-Received: by 2002:a05:690c:fca:b0:6af:8662:ff37 with SMTP id
+ 00721157ae682-6d40f82a5e9mr204127277b3.21.1725402015390; Tue, 03 Sep 2024
+ 15:20:15 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 3 Sep 2024 18:20:14 -0400
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZtWjEudmlR51zkU9@smile.fi.intel.com>
+References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-7-swboyd@chromium.org>
+ <ZtWjEudmlR51zkU9@smile.fi.intel.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 3 Sep 2024 18:20:14 -0400
+Message-ID: <CAE-0n51eSxxvnJXwnfPrXx1=rei=8OGGEtCAgw6nhCktZ0iQDw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/18] drm/bridge: aux-hpd: Support USB Type-C DP
+ altmodes via DRM lane assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
+	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Quoting Andy Shevchenko (2024-09-02 04:35:46)
+> On Sat, Aug 31, 2024 at 09:06:44PM -0700, Stephen Boyd wrote:
+> > Extend the aux-hpd bridge driver to support assigning DP lanes to USB
+> > type-c pins based on typec mux state entry. Existing users of this
+> > driver only need the HPD signaling support, so leave that in place and
+> > wrap the code with a variant that supports more features of USB type-c
+>
+> Isn't the proper spelling "USB Type-C"?
 
-When UCSI is enabled, don't load cros_usbpd_charger and cros_usbpd_logger
-drivers. Charger functionality is provided by the UCSI driver already and
-logging will need to be added.
+Perhaps in a title?
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
----
- drivers/mfd/cros_ec_dev.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+>
+> > DP altmode, i.e. pin configurations. Prefix that code with
+> > 'drm_dp_typec_bridge' to differentiate it from the existing
+> > 'drm_aux_hpd_bridge' code.
+> >
+> > Parse the struct typec_mux_state members to determine if DP altmode has
+> > been entered and if HPD is asserted or not. Signal HPD to the drm bridge
+> > chain when HPD is asserted. Similarly, parse the pin assignment and map
+> > the DP lanes to the usb-c output lanes, taking into account any lane
+> > remapping from the data-lanes endpoint property. Pass that lane mapping
+> > to the previous drm_bridge in the bridge chain during the atomic check
+> > phase.
+>
+> ...
+>
+> > +static inline struct drm_dp_typec_bridge_data *
+> > +hpd_bridge_to_typec_bridge_data(struct drm_aux_hpd_bridge_data *hpd_data)
+> > +{
+> > +     return container_of(hpd_data, struct drm_dp_typec_bridge_data, hpd_bridge);
+>
+> + container_of.h ?
+>
+> With that said, can the argument be const here?
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index d5d63df7fcbd..bc083c7b21de 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -133,11 +133,6 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_ucsi_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_ucsi_cells),
- 	},
--	{
--		.id		= EC_FEATURE_USB_PD,
--		.mfd_cells	= cros_usbpd_charger_cells,
--		.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
--	},
- 	{
- 		.id		= EC_FEATURE_HANG_DETECT,
- 		.mfd_cells	= cros_ec_wdt_cells,
-@@ -261,6 +256,21 @@ static int ec_device_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	/*
-+	 * UCSI provides power supply information so we don't need to separately
-+	 * load the cros_usbpd_charger driver.
-+	 */
-+	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
-+	    !cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
-+		retval = mfd_add_hotplug_devices(ec->dev,
-+						 cros_usbpd_charger_cells,
-+						 ARRAY_SIZE(cros_usbpd_charger_cells));
-+
-+		if (retval)
-+			dev_warn(ec->dev, "failed to add usbpd-charger: %d\n",
-+				 retval);
-+	}
-+
- 	/*
- 	 * Lightbar is a special case. Newer devices support autodetection,
- 	 * but older ones do not.
--- 
-2.46.0.469.g59c65b2a67-goog
+You mean 'hpd_data'? Don't think so because then we would want
+container_of_const(), and to return a const pointer from this function
+when drm_dp_typec_bridge_assign_pins() wants to modify struct
+drm_dp_typec_bridge_data::num_lanes.
 
+>
+> > +}
+>
+> ...
+>
+> Ditto for the two more helpers, added in this change.
+
+Ditto.
+
+>
+> ...
+>
+> > +static void drm_dp_typec_bridge_release(struct device *dev)
+> > +{
+> > +     struct drm_dp_typec_bridge_dev *typec_bridge_dev;
+> > +     struct auxiliary_device *adev;
+> > +
+> > +     typec_bridge_dev = to_drm_dp_typec_bridge_dev(dev);
+> > +     adev = &typec_bridge_dev->adev;
+> > +
+> > +     ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+>
+> > +     of_node_put(adev->dev.platform_data);
+> > +     of_node_put(adev->dev.of_node);
+>
+> I'm wondering why it's not made fwnode to begin with...
+> From the file / function names it's not obvious that it's OF-only code. Neither
+> there is no explanations why this must be OF-only code (among all fwnode types
+> supported).
+
+When in Rome? The drm_bridge code doesn't work with fwnode today, and
+making it support fwnode is a much larger change. I'm not going to make
+drm_bridge work with fwnode. Maybe when ACPI describes elements in the
+display chain we can convert drm_bridge to use fwnode.
+
+>
+> > +     kfree(typec_bridge_dev);
+> > +}
+>
+> ...
+>
+> > +             return ERR_PTR(dev_err_probe(parent, -ENODEV, "Missing typec endpoint(s) port@0\n"));
+>
+> We have a new helper for such cases.
+
+Thanks!
+
+>
+> ...
+>
+> > +     adev->dev.of_node = of_node_get(parent->of_node);
+>
+> device_set_node() ?
+
+Or device_set_of_node_from_dev()?
+
+>
+> ...
+>
+> > +     ret = auxiliary_device_init(adev);
+> > +     if (ret) {
+> > +             of_node_put(adev->dev.platform_data);
+> > +             of_node_put(adev->dev.of_node);
+> > +             ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+> > +             kfree(adev);
+> > +             return ERR_PTR(ret);
+>
+> Can cleanup.h be utilised here and in other error paths in this function?
+
+It looks like we can set these later and save on the of_node_put()s
+until after the auxiliary_device_init() is called. Doing that allows
+them to be in one place, the release function.
+
+> > +static int dp_lane_to_typec_lane(enum dp_lane lane)
+> > +{
+> > +     switch (lane) {
+> > +     case DP_ML0:
+> > +             return USB_SSTX2;
+> > +     case DP_ML1:
+> > +             return USB_SSRX2;
+> > +     case DP_ML2:
+> > +             return USB_SSTX1;
+> > +     case DP_ML3:
+> > +             return USB_SSRX1;
+> > +     }
+>
+> > +     return -EINVAL;
+>
+> Hmm... This can be simply made as default case.
+
+And then the enum is always "covered" and the compiler doesn't complain
+about missing cases (I don't think we have -Wswitch-enum)? Seems worse.
+
+>
+> > +}
+>
+> ...
+>
+> > +     for (i = 0; i < num_lanes; i++) {
+> > +             /* Get physical type-c lane for DP lane */
+> > +             typec_lane = dp_lane_to_typec_lane(i);
+> > +             if (typec_lane < 0) {
+> > +                     dev_err(&adev->dev, "Invalid type-c lane configuration at DP_ML%d\n", i);
+> > +                     return -EINVAL;
+>
+> Most likely typec_lane contains an error code here. If yes, it would be rather
+>
+>                         return typec_lane;
+>
+> If no, why not make that happen?
+
+Sure.
+
+>
+> > +static int drm_dp_typec_bridge_atomic_check(struct drm_bridge *bridge,
+> > +                                        struct drm_bridge_state *bridge_state,
+> > +                                        struct drm_crtc_state *crtc_state,
+> > +                                        struct drm_connector_state *conn_state)
+> > +{
+> > +     struct drm_dp_typec_bridge_data *data;
+> > +     struct drm_lane_cfg *in_lanes;
+> > +     u8 *dp_lanes;
+> > +     size_t num_lanes;
+>
+> > +     int i;
+>
+> Does it need to be signed? Can it theoretically overflow as num_lanes defined
+> as size_t?
+
+I guess it could but seems highly unlikely. Using unsigned is fine.
+
+>
+> > +             port->typec_data = typec_data;
+> > +             if (of_property_read_u32_array(ep.local_node, "data-lanes",
+> > +                                            port->lane_mapping,
+> > +                                            ARRAY_SIZE(port->lane_mapping))) {
+>
+> > +                     memcpy(port->lane_mapping, mapping, sizeof(mapping));
+>
+> Hmm... I'm wondering if direct assignment will save a few .text bytes
+>
+>                 port->lane_mapping = ...;
+>                 of_property_read_u32_array(ep.local_node, "data-lanes",
+>                                            port->lane_mapping,
+>                                            ARRAY_SIZE(port->lane_mapping));
+>
+> Also note that conditional is not needed in this case.
+>
+
+Ok. I'm fine with either way here. Maybe Dmitry has an opinion.

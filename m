@@ -1,173 +1,185 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98C4155A4F
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 21:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C7E383A3
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 22:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725486340; cv=none; b=hRnPsdUappxcFefamX83kU460iRCZKwpPknE31P8ltBunWBFbiatnS3cNBHQZJklnFU4BntzK0/zjiFWfKMxJbIuL0WJsuz9m8DYhSjZalR0vkCh7Rr20VCaHfZhgetlrPURVXog+S5u9KIHQJzbJ51tmZ/Ji0rB8/RaC7eN6I8=
+	t=1725490659; cv=none; b=qRU/yGy1/3fFXwQ9bIxkzB5E9I8ewAT7ZifHXCyeaJtE7UoaPytST9/t7svSTU3zZm09pAfQCAdHQQKJc6Whp+H5KHoRAb/46OfyfUZIwT9bFU9zS37SmZUYIJ4FanmJ7oNLDzstombAtDavloERrQ0jjNhzNsFDzVtd31nOCqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725486340; c=relaxed/simple;
-	bh=R6UUe3TKwZrNrftTEihL/R7hIMY02P3GHWSniiD2wQk=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t9nh5oZsZbC9T0i5BDS3Ed//GEZMk4JVvKxa31yAA53Tl6zidCNrkTzlaYHZsp1EfjTglYOePU9REh/ubdS+Z12ITRZpiNEJDHVKJV01iZEf3fRqonFRtscmOkfb7amyA0zx4RxpLy4GxEoHO1ay+e7311YqwVW//twl90rWotI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=g1DQjHIY; arc=none smtp.client-ip=209.85.222.177
+	s=arc-20240116; t=1725490659; c=relaxed/simple;
+	bh=9+gChnP5+JN/xcDHFnljOqSBOGQpXqxh0GSV4CRi4i4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XF4z6D/3ogi8rxwvdiuKU5b7WgQmSAMA4tPQAnYv5lDvijRXylfpRpwhCbWB3g9lek/y4U21SkomSVFAJ9VrakHeep/cJzO8cyoxAaTFbIomOw6b/31qG5xzc81ZKQPuYeyCBBbqi8mXNAOUZklwjJlPQaYjFrYaz0BRgrMKOyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=N7+kOM1H; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="g1DQjHIY"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7a802deea39so5919485a.2
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 14:45:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N7+kOM1H"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4567edb7dceso985891cf.1
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 15:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725486338; x=1726091138; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
-        b=g1DQjHIY1FiLtx83uVQ/joLeeLgnFRFQNWsQz8sUu+bnFdKVVW0II0Lp5yRgT3BI95
-         3xI302aJdc+EOBjp/wvFUlkdadociAgAsoFxTSFwZtsz0JIedHeQNnsicRtcZyZ5WqL7
-         rsuFt1IXQQGC6r/cH3hVdBtXN9JzZ4ZF0auvE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725486338; x=1726091138;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1725490655; x=1726095455; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
-        b=Hfnu9WoLpkj1fU1pyKEf9mVTNtH0y1D8FTjKBVosWmFYLyA/M/IwcasjPWek7AiNy2
-         PUrKpQCQifQepvaboOuhJDDSn7fzunOdzVLtA6tAGbRLzi8rfAWvRnNRjubBcOWGPioI
-         Ojoa+YNbEBj58iKJsaPEfUEc3b09K+siFaRKiuqzYW2HZ8pgg2DpkdymEPgoKg5kbDlc
-         ERKFbE9Swu8qzgOxaSC9kxO+rYax8AAq3Q0ZtRxAouUo0AW0gg/6KTONIOEGdeDYyBSu
-         3LDB41QcfqTwWS0rps5Jfqmo2H3ODTcdA7K7mWjJuMXqiBoeHcDIL71DG4AWXcU9WinV
-         PmcQ==
-X-Gm-Message-State: AOJu0YxRm8Tij8msr3Kfrdpe+TKd86mc8ATy9Z1mPObn5Oz6C9e6tT30
-	jN7gKvCIAWpWNbt7QAciAao67kjrGhl6hWY/g4RwesugG6wKmfqBBFjU5hA4AaXNCGY80GeCPgC
-	OtjLWj6Y8BaTjaIrEimc5Zi2W0Jus+earS+7a
-X-Google-Smtp-Source: AGHT+IE3j/hFyhOgq6UHD/BuDzpg0SIVGw+m/kAN1oVv8xhNaZUR6LUlzSWku14uLG7tUpAnX8c5Trg6ijcjDc3jYq8=
-X-Received: by 2002:a05:620a:19a6:b0:79d:569a:699f with SMTP id
- af79cd13be357-7a8041da30cmr2373807985a.39.1725486337639; Wed, 04 Sep 2024
- 14:45:37 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Sep 2024 14:45:36 -0700
+        bh=k696Bg6R54WASMTi+pz+LZlGCRBSQtRYcr6+VwRcm/8=;
+        b=N7+kOM1HWThtJTF+R5tjijfIb4cHaj6oPuEz5HvMXs8lxUDX/ex7ueOlnShYFyCYAx
+         Y/eJv2oEZnI8somxCREPcXMYM1MhTl38nKx9kSLYhKKS/bFyz8jVvCh2pfLhLiUDmi4g
+         gwhIF+Yuj+s2FnjdmEhTVFDK9wzkRnR/aVvyI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725490655; x=1726095455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k696Bg6R54WASMTi+pz+LZlGCRBSQtRYcr6+VwRcm/8=;
+        b=YLL6myNjApdw7j6NWpiVYu4RUDu8sBCh1d3MTthXda/S7d9wfyd+7m/kbu/jn1Tf9g
+         vR3wdLcyVMgWMQ2u5Op/w544f6qwitZzgU8HrUX/2rYuTi3uwdu/O1kK+59/h7ylbBLD
+         Mi2cHvIYnGJQ2C6GL798pFrN+oqTu7CQzfyc7Oy2z+7faTRA/dYlHXamVQ1kxOKFivQL
+         yTrURLTkuVmKiofcD7DLyu3FShDpPDqqLkDf4ky81rHPm/m6pJFF5BhtS7YmQTfH/cyS
+         4+VfcqJ+hkYcf96AeCAyqD0aKqeVLI0l3P0REvtEcU2+ES9kAslBcLTA0Ym6NCY/PM2S
+         K6Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCXnsWG/bmBV7ROQSVcC2qScC5l/1VZEZj/XXN01YTB6+V+iSqO/spW3EGrs0vqRR88GBaiiUBy3ayLXzMnJUUU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUv8EUZfawXlhUiP+IQzguHQgYg3aQd1e2Ko5y2sBhpUOqKXXH
+	UyXD0M33NPI/Q3nwfrGspwemTbNt9cftznUP8E7fMLsX6OGVoYQjKf62c93xHaN3sTDAQt3Pp3w
+	=
+X-Google-Smtp-Source: AGHT+IHFGTKWtftEml+BRsZoBe3lV9/SHTApznwLNG9eQLL2+JkK87HibkkeInNd8b8VaUjgA6NI7A==
+X-Received: by 2002:a05:622a:993:b0:447:e48d:f067 with SMTP id d75a77b69052e-4570eb0dcfbmr197767831cf.14.1725490655088;
+        Wed, 04 Sep 2024 15:57:35 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com. [209.85.160.180])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45801a1556csm2579731cf.7.2024.09.04.15.57.34
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 15:57:34 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-456954d0396so843611cf.3
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 15:57:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURWJUiTYYecHklOPrI2mYFHaev/vD91nkkkeMPeOX8M5LmsMMKK7dz1/vYY1kd/P4Ys9Cc2Z7KipjeWqBy6NM=@lists.linux.dev
+X-Received: by 2002:a05:6214:3da0:b0:6b7:b277:dd12 with SMTP id
+ 6a1803df08f44-6c3558475afmr184722756d6.49.1725490653502; Wed, 04 Sep 2024
+ 15:57:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZtgqLZXbJbpG65vD@google.com>
-References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-19-swboyd@chromium.org>
- <ZtgqLZXbJbpG65vD@google.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 4 Sep 2024 14:45:36 -0700
-Message-ID: <CAE-0n51w3AAtLPq5M-i8F6z2jSOT3xFw3g8HM1h48xXBSeoZnA@mail.gmail.com>
-Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
- HPD information
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>
+References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-10-wenst@chromium.org>
+In-Reply-To: <20240904090016.2841572-10-wenst@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 4 Sep 2024 15:57:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UGOz3Xzg7reJKP=tA1LqTxszv5w-CL9krmoXQtXdJLaQ@mail.gmail.com>
+Message-ID: <CAD=FV=UGOz3Xzg7reJKP=tA1LqTxszv5w-CL9krmoXQtXdJLaQ@mail.gmail.com>
+Subject: Re: [PATCH v6 09/12] i2c: of-prober: Add regulator support
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Quoting Tzung-Bi Shih (2024-09-04 02:36:45)
-> On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
-> > +static void cros_typec_inject_hpd(struct cros_typec_data *typec,
-> > +                               struct ec_response_usb_pd_mux_info *resp,
-> > +                               struct cros_typec_port *port)
-> > +{
-> [...]
-> > +     /*
-> > +      * Only read the mux GPIO setting if we need to change the active port.
-> > +      * Otherwise, an active port is already set and HPD going high or low
-> > +      * doesn't change the muxed port until DP mode is exited.
-> > +      */
-> > +     if (!typec->active_dp_port) {
+Hi,
+
+On Wed, Sep 4, 2024 at 2:01=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> wr=
+ote:
 >
-> Given that cros_typec_inject_hpd() is called before `typec->active_dp_port`
-> would be set (from previous patch "platform/chrome: ...  Support DP muxing"),
-> would it possibly wrongly fall into here at the beginning?  (E.g.:
-> cros_typec_probe() -> cros_typec_port_update() -> cros_typec_configure_mux()
-> -> cros_typec_inject_hpd().)
-
-We wouldn't get here if 'hpd_asserted' is false though. We want to fall
-into this case in the beginning, i.e. 'active_dp_port' is NULL, so that
-we can read the mux and figure out which port is actually selected.
-
-If we don't have a mux gpio we assume that we aren't muxing and that
-there's only one port to begin with. I'll add a comment after the if
-(mux_gpio) condition with this info.
-
+> This adds regulator management to the I2C OF component prober.
+> Components that the prober intends to probe likely require their
+> regulator supplies be enabled, and GPIOs be toggled to enable them or
+> bring them out of reset before they will respond to probe attempts.
+> GPIOs will be handled in the next patch.
 >
-> > [...]
-> > +     /* Inject HPD from the GPIO state if EC firmware is broken. */
-> > +     if (typec->hpd_asserted)
-> > +             resp->flags |= USB_PD_MUX_HPD_LVL;
+> Without specific knowledge of each component's resource names or
+> power sequencing requirements, the prober can only enable the
+> regulator supplies all at once, and toggle the GPIOs all at once.
+> Luckily, reset pins tend to be active low, while enable pins tend to
+> be active high, so setting the raw status of all GPIO pins to high
+> should work. The wait time before and after resources are enabled
+> are collected from existing drivers and device trees.
 >
-> `typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
-> possible that a HPD is asserted for another port but not current `port`?
-> E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
-> gets called due to port 1 at the same time?
+> The prober collects resources from all possible components and enables
+> them together, instead of enabling resources and probing each component
+> one by one. The latter approach does not provide any boot time benefits
+> over simply enabling each component and letting each driver probe
+> sequentially.
+>
+> The prober will also deduplicate the resources, since on a component
+> swap out or co-layout design, the resources are always the same.
+> While duplicate regulator supplies won't cause much issue, shared
+> GPIOs don't work reliably, especially with other drivers. For the
+> same reason, the prober will release the GPIOs before the successfully
+> probed component is actually enabled.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v5:
+> - Split of_regulator_bulk_get_all() return value check and explain
+>   "ret =3D=3D 0" case
+> - Switched to of_get_next_child_with_prefix_scoped() where applicable
+> - Used krealloc_array() instead of directly calculating size
+> - copy whole regulator array in one memcpy() call
+> - Drop "0" from struct zeroing initializer
+> - Split out regulator helper from i2c_of_probe_enable_res() to keep
+>   code cleaner when combined with the next patch
+> - Added options for customizing power sequencing delay
+> - Rename i2c_of_probe_get_regulator() to i2c_of_probe_get_regulators()
+> - Add i2c_of_probe_free_regulator() helper
+>
+> Changes since v4:
+> - Split out GPIO handling to separate patch
+> - Rewrote using of_regulator_bulk_get_all()
+> - Replaced "regulators" with "regulator supplies" in debug messages
+>
+> Changes since v3:
+> - New patch
+>
+> This change is kept as a separate patch for now since the changes are
+> quite numerous.
+> ---
+>  drivers/i2c/i2c-core-of-prober.c | 154 +++++++++++++++++++++++++++++--
+>  include/linux/i2c.h              |  10 +-
+>  2 files changed, 155 insertions(+), 9 deletions(-)
 
-I'd like to avoid synchronizing the hpd notify and this injection code,
-if that's what you're asking. Thinking about this though, I've realized
-that it's broken even when HPD is working on the EC. Consider this
-scenario with two type-c ports C0 and C1:
+I never jumped back into looking at this since you started sending new
+versions last month (sorry), but I finally did...
 
-	Plug in C1
-	EC notifies AP
-	AP queues cros_typec_port_work()
-	HPD asserted
-	EC picks C1 for DP // First to have hpd asserted
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	Plug in C0
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	HPD asserted
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	Finally cros_typec_port_work() runs!
-	 for (i = 0; i < typec->num_ports; i++) // typec->num_ports = 2
-	  cros_typec_port_update(port_num=0)
-	   cros_ec_cmd(EC_CMD_USB_PD_CONTROL.port=0) // In DP mode
-	   cros_typec_configure_mux(port_num=0)
-	    cros_ec_cmd(EC_CMD_USB_PD_MUX_INFO.port=0) // hpd asserted
-	    if (!active_dp_port)
-	     active_dp_port = port0
+At a high level, I have to say I'm not really a fan of the "reach into
+all of the devices, jam their regulators on, force their GPIOs high,
+and hope for the best" approach. It just feels like it's going to
+break at the first bit of slightly different hardware and cause power
+sequence violations left and right. If nothing else, regulators often
+need delays between when one regulator is enabled and the next. There
+may also be complex relationships between regulators and GPIOs, GPIOs,
+GPIOs that need to be low, or even GPIO "toggle sequences" (power on
+rail 1, wait 1 ms, assert reset, wait 10 ms, deassert reset, power on
+rail 2).
 
-This is bad. The worker could be significantly delayed, although it's
-really unlikely in practice. It would be better if the EC pushed a
-message to AP about what happened, instead of having to query the EC
-about the state of USB. Or the EC could have a sequence number or
-something so AP could ask for the history of events. We can't fix all
-the EC firmwares though, so we get what we get.
+IMO the only way to make this reliable is to have this stuff be much
+less automatic and much more driven by the board.
 
-I think one solution would be to read the mux all the time and ignore
-tracking the active port based on hpd state. If we do that then we don't
-get tripped up by a delayed work iterating over both typec ports. The
-logic will be a bit more complicated though, because we'll have to
-consider all the ports when entering and exiting DP mode on one port so
-that we don't assign DP to the wrong port.
+I think that, in general, before the board prober checks i2c address
+then the prober should be in charge of setting up pinctrl and turning
+on regulators / GPIOs. Given that the same regulator(s) and GPIO(s)
+may be specified by different children, the prober will just have to
+pick one child to find those resources. It should have enough
+board-specific knowledge to make this choice. Then the prober should
+turn them on via a board-specific power-on sequence that's known to
+work for all the children. Then it should start probing.
 
-Also, when hpd is broken on the EC I see an error message when I unplug
-the DP cable. It's the "No valid DP mode provided." error from
-cros_typec_enable_dp(). When I inject hpd that error goes away. I'll
-need to look closer to understand why, but I suspect I'll need to keep
-injecting hpd to avoid it.
+I think there can still be plenty of common helper functions that the
+board-specific prober can leverage, but overall I'd expect the actual
+power-on and power-off code to be board-specific.
+
+If many boards have in common that we need to turn on exactly one
+regulator + one GPIO, or just one regulator, or whatever then having a
+helper function that handles these cases is fine. ...but it should be
+one of many choices that a board proper could use and not the only
+one.
+
+-Doug

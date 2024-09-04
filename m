@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B38D1D9D96
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 13:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284221DA627
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 13:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725457233; cv=none; b=H1Ec0IZNDpbt0ik01TlEjdd1JyO/i43UYeD85zcru/XmBLoPHXHBu64aPBkrQv8csGV6elEeMSpwRuO+5wREUFtkyuN5+Fz7ibe4defiEdfdEFmrcDGkKszLdv82C+iRZpaGsrMuh+UUUZwJB/qynszkRkDFrmpxTwaBVFkJO58=
+	t=1725457334; cv=none; b=svYUkAdOHtPp5ZVZikexOjobLGe2s2DO7dFeSZBPGtZ9kMfwkabUBq5bDFDB07fASPP9/VxXXJWCoIJ45T5q0fN6rgxLcaPT7bj5YN5K6lrwR+sC3nNo06QXFW7EvwFsCXJe4lQczAccDDuLfJlkuvthqcrR3itGOmpcMfKxHoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725457233; c=relaxed/simple;
-	bh=L+X9BbS+Ny+x3K1rDq6+5DqeLuJotN8s3i83EQ+4fy8=;
+	s=arc-20240116; t=1725457334; c=relaxed/simple;
+	bh=NINj+1oq4hrfppG9fWwkMRuDXoIUekzuXgqNElLQs0M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kPyr22Tn97Mmy+vuKG5ZnfNf5M8fsGUDhFxTql4lLlC/ugRoeyCcYfYNCvGIGfHwUpDDw379hpqeaPlJxTiSW1M1aDqPReVQ0bKkxv2UW2sfh7YfnoEAfbCA2JG+9hBxOAizrdppf5C7g6nc5YGQTRgVHzL1yeySSZMU3/w33aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/nY2qyn; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=a7RzAJpDtFCJigVpYYlth4MFtjrltyBjYZTnXDq1ZJZmtf/ts3ks3UIZQGMg5k6f52PGS/pmjkQYc1Cu+IWwOWTQ6mdSMFxwzk3gzguw/Bin9K9YZ095X8scYuhYdtnHrTW2XkkUnOd1OuOZzzocoYnCp34bUywVCoGrPkGk6g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExMSmYtE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/nY2qyn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExMSmYtE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725457233; x=1756993233;
+  t=1725457333; x=1756993333;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=L+X9BbS+Ny+x3K1rDq6+5DqeLuJotN8s3i83EQ+4fy8=;
-  b=K/nY2qynikhGMakakBE5nOSBBJCIFmMMxDQDCcnlajTwdI1yt2k6VSsX
-   Es0gozuJpQ4sTB33f0R+KCzIGZufDs4ACbjs7cE4cYD/A2/rFwCcQEPyL
-   J8K0dwFUI4C0BndZCiWmvGnyQ2uHDbKfvehfVKSOUe+qez+5r3MZyNnnC
-   8khpTZ2N4kTOq8aTAUey/CtpuMr1lxyB0tX3uXdw7ACHPqL1Qy9Xls2WJ
-   fJFUFGKCtAFKN8B5KKqhKX9Cg+s5NnKngvRk/kpHw9QUnZAyv3ryULm3f
-   VOU6mSUJjT6fM/SUA493XsDZ4Z1SvsgbwsEXJb+3QLGCf+5pYCExsBtd6
+  bh=NINj+1oq4hrfppG9fWwkMRuDXoIUekzuXgqNElLQs0M=;
+  b=ExMSmYtEjiTuTRLZRzTjdiRp1iqMaRKxxr+CZJBn9TOMALh7LjWIqB3i
+   UWbAqTpTf+CTWIuwPWOQlAGujo0xYqfCOk1IOjxKABX+z5bZt1s7xbwQX
+   um1ZDH6Tcb+5267BZC1dUD92ovPe1m3kjWdv8vm0VkkhtJfrZguYJqzME
+   bl3bGiesMXzGGIqpWJr8wkhHocaWdg69r5cw8N3LglnUpxxjU3LYDN5ip
+   rK5UiWdy9iNZrug4ZARsnVbXj69E5kRVnAI64qOgSYB3uziWYSm1CLpAZ
+   X8sj2UIfHRmfbSogYe/UZOuNU75mbwdTh1tt1HN/YEnaj6MiykraymEhd
    g==;
-X-CSE-ConnectionGUID: mcHUkcb2QE2ZJ5QPZl4DaQ==
-X-CSE-MsgGUID: BiB1GOpOTiuhvPuGfq4z6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24273800"
+X-CSE-ConnectionGUID: YbMQ/8mbT+extv8uG02yGQ==
+X-CSE-MsgGUID: i1GezGvIQ6ucH9l72YLDFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24070507"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="24273800"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:40:32 -0700
-X-CSE-ConnectionGUID: Y21Wb7DAQuuM4Kja5IT+hw==
-X-CSE-MsgGUID: FZl6wWkYTIasBVxJwoLAlQ==
+   d="scan'208";a="24070507"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:42:12 -0700
+X-CSE-ConnectionGUID: 9OjySTKyQw6NDxzamnIErA==
+X-CSE-MsgGUID: 0+LQUU0fQKa5kG2MyEgvgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="69692115"
+   d="scan'208";a="65618042"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:40:27 -0700
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:42:08 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1slqFF-000000054n4-0TIS;
-	Wed, 04 Sep 2024 16:40:25 +0300
-Date: Wed, 4 Sep 2024 16:40:24 +0300
+	id 1slqGq-000000054o4-3OEs;
+	Wed, 04 Sep 2024 16:42:04 +0300
+Date: Wed, 4 Sep 2024 16:41:36 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
@@ -62,10 +62,10 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 06/12] gpiolib: Add gpio_get_property_name_length()
-Message-ID: <ZthjSK9N9z11YXi2@smile.fi.intel.com>
+Subject: Re: [PATCH v6 07/12] i2c: core: Remove extra space in Makefile
+Message-ID: <ZthjkJwtpz9gU9hI@smile.fi.intel.com>
 References: <20240904090016.2841572-1-wenst@chromium.org>
- <20240904090016.2841572-7-wenst@chromium.org>
+ <20240904090016.2841572-8-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,47 +74,13 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904090016.2841572-7-wenst@chromium.org>
+In-Reply-To: <20240904090016.2841572-8-wenst@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Sep 04, 2024 at 05:00:08PM +0800, Chen-Yu Tsai wrote:
-> The I2C device tree component prober needs to get and toggle GPIO lines
-> for the components it intends to probe. These components may not use the
-> same name for their GPIO lines, so the prober must go through the device
-> tree, check each property to see it is a GPIO property, and get the GPIO
-> line.
-> 
-> Instead of duplicating the GPIO suffixes, or exporting them to the
-> prober to do pattern matching, simply add and export a new function that
-> does the pattern matching and returns the length of the GPIO name. The
-> caller can then use that to copy out the name if it needs to.
+On Wed, Sep 04, 2024 at 05:00:09PM +0800, Chen-Yu Tsai wrote:
+> Some lines in the Makefile have a space before tabs. Remove those.
 
-> Andy suggested a much shorter implementation.
-
-No need to have this sentence in the commit message, changelog area is fine.
-But if you wish... :-)
-
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-
-...
-
-> +/**
-> + * gpio_get_property_name_length - Returns the GPIO name length from a property name
-> + * @propname:	name of the property to check
-> + *
-> + * This function checks if the given property name matches the GPIO property
-> + * patterns, and returns the length of the name of the GPIO. The pattern is
-> + * "*-<GPIO suffix>" or just "<GPIO suffix>".
-> + *
-> + * Returns:
-> + * The length of the string before '-<GPIO suffix>' if it matches
-> + * "*-<GPIO suffix>", or 0 if no name part, just the suffix, or
-> + * -EINVAL if the string doesn't match the pattern.
-
-Should be %-EINVAL as we agreed with Bart when I updated GPIOLIB kernel-doc.
-
-> + */
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
 With Best Regards,

@@ -1,131 +1,271 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7150F192B68
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Sep 2024 22:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D261CC88F
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 09:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725403767; cv=none; b=EmZJG9+Pwzl0EhjA1pyknCcYOXSr85WdqIkr9QmymorDBC+4nhNF9Wp8Ws71h4gG6ahUVIBPcrX8jkBuZXCdm8Eq3hOeDzEjynx2fPzVZS0M+vzi/zbQTv8Gn1cK7FqySEmw3vHA+cD5nvIkv40l6oj/rriBfpAx88Cfl2nBdjM=
+	t=1725440426; cv=none; b=e0slEOCoFOrpt46AQm7XIHQoGKVRgN0LRqUmHGtmDy5j8goJF3gfiz8sGpCnG4Seuj58tDQCYx1RxD4gZBIG68Ctx7IhrZdsETi6AgoZjXN6ZYd5/ugOLvzYFLWm2zltj8VxRFE0l4tIcd9s4DXBzYNhQV52IopVsn4teVDx5ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725403767; c=relaxed/simple;
-	bh=TtyX2gK5m3nn23OtYeDlMe0JllQ4/PmVqk0mkdxmM0g=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cGUSrxWC9T573PG4QMK7w5R8bouIhv2tln7RalQxXMSpqU05g7GiezqftmobNZMF/j1x5qahKrI+C8tYJHu8xa135qx8DmoBELvjqcXxOOYEAA/5i84RxWgNqRkf1WzSJbFep7T9ccAHlyI3LxWzFIQX6biJLrk7TX+FFTz6TrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZYsyiMhx; arc=none smtp.client-ip=209.85.219.54
+	s=arc-20240116; t=1725440426; c=relaxed/simple;
+	bh=P4Wr/f/5SkVZvW9NUsf+YBtiN5dcczXRMCa9Md2Qtbs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0moLvNAU+w5FSmObrRIx9DmAHx3r1wNT9D3ZyYXXj1Ct+YkIUVJMeI2ukdxaaQ9ROTA+bkkSypKrWPKtXEqO+eVPrBW5H3MYAjW5oOZYJvE3koJiKBFvdrJmxdnf5Z4wtm2g/5PxjqzagWkLgx0X8xKtqF+mO2qoPx9I+QWvqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nztSknpP; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZYsyiMhx"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6c3552ce7faso1227136d6.1
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Sep 2024 15:49:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nztSknpP"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-71774dcd09aso1096876b3a.0
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 02:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725403763; x=1726008563; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
-        b=ZYsyiMhxPvxGyB+0LYR9cwcY18qM+DbdjCfPJWLK6m3o72nDfMtsYvCE1ykoJmPo7f
-         ZInGb83YpyfY0yJEg5dTlEq9tkTyrJ7fIj36rQ/wgXT6RTbrOySeS/dbDbNu7MZmHiRd
-         NKbNx4apnnPVRENrAGh+QLWVx8scAG1cOkSMg=
+        d=chromium.org; s=google; t=1725440424; x=1726045224; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TkLFLqsEdsmYmf3sAL7UqkC0jq7ST20utTjR7yYKmzw=;
+        b=nztSknpPqNNmG95Ruju9qgYdkQaxrFhGDKHsNWtSMGTm6uqRM7MMC4zwU71Fni5idF
+         bQaoSK0Owfwgbg8hsv+VwskNK+jBz0v7rObsEpdZM5mqgIeUIN8UCmLj5jz1cfqJDNM0
+         9840YSkm5mnR0P2cmpipjgGgKpa9i9Tydmmgw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725403763; x=1726008563;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
-        b=KTnDg9/GCVCtEaW16NFX2KEPr3G/JoryZ6Dtt0rJ0Cyjdu95N+taouA4QIr91drSIj
-         Gg9gSlq0mzaGH2BZOipUDTAwEgL6pWWDPYd7t57djtWVcTF0bK7EbYwZYgiL2a/fuvJn
-         vWfyf3NreHyyeaiP35mXzPyxqcBQ0bqe1JP2D3YHy+spVo4mTSwxA9K9T6YL3KSn2S0P
-         3CALYhkBvs6AJNNjzM7f2DwsuvXZEu+/VUmHxtRumy0b/9KTTCaT0uwYoLP1G8kmgUxh
-         AOkEoUkULpiWUVz1Zfkb0ZFVMG9J2GOso3fSxyu8GtwhMvvYyA7B3a8Noykd79STYcLR
-         i+bw==
-X-Gm-Message-State: AOJu0YyO7Dm1/6EX4I1RU9gKUV2rjjv78zs+wYpm0X3OFL5WcUlgnPLi
-	oof01zyuTzjhJcC3Cqq4PSenb6Dv246XTJODDi3O4H7u+IYn2gvckdjbqRgyABWmhaxoXeHNDI7
-	THvyHMqAc0/q6pG//nHpzJS1HbwFuwryY2vqi
-X-Google-Smtp-Source: AGHT+IF34ocTupB91QqHAUN7muZ3pQu7SJrIS8QiPpHwQnzTFwdvCLem6xytcCmScWzLqSwtal0se6zIR4RyUsc0prs=
-X-Received: by 2002:a05:6214:1c44:b0:6c4:d2f9:644e with SMTP id
- 6a1803df08f44-6c518e03025mr2177666d6.12.1725403763196; Tue, 03 Sep 2024
- 15:49:23 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Sep 2024 18:49:22 -0400
+        d=1e100.net; s=20230601; t=1725440424; x=1726045224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TkLFLqsEdsmYmf3sAL7UqkC0jq7ST20utTjR7yYKmzw=;
+        b=aqMUNpoGTHOoylIE+Zb+04Tfvq53LLw9kCZSGj++F8aFXCwUj0eXzWVhTdfmX+VgMD
+         dE1wZcjzsvDQoDL+2Dn/CgOz3imGxne2vE+xtC/ZU1UxfrTx8JF+J8brs+22HlOWHdPM
+         dhmW9IK/6Vys+5lBfTWbgmdB5HP5Wfvna8gaRURm9ynPslQyjGYfBiIZiC5uH2oD5cKO
+         L2wmmB8A0w4XQMSE3Bw6GikB2MMeaJRr3WTcrv7wiY65gezOTATXz8VscfPGfVoqMNZV
+         HQJwtyJY1FsyXu6Y4ezqfSuJXlyIjuFOpZ6TCHHE/BaCt9sih4A4gLRRCQx757l1ashS
+         8w8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVC3FoYuvoWKzHK2qbw73XTiLJTK9DYbG3nwFrJfjK8y6LJ/gDvbsoThWDVOy5qlm4dQ5QyAV2WW7p7TEbSBrg=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2Mf/P5TqYnoMk3eKIBdrEjZDLCw4aJUnjlLcR/qkxYd8ogGjy
+	4AvFFy0ocFrMIQy5xxQLpeXFv7TIc3PP/cdiTf/asooibe5pu78RpmuuYiuRvQ==
+X-Google-Smtp-Source: AGHT+IEOgCmMlFrOYx5PNCDDiVmMHWi/D2TYrCdsWo5mO6CccZzPqPQakiLPygjjRXQz1VochBkBDA==
+X-Received: by 2002:a05:6a00:2d05:b0:714:21cb:8486 with SMTP id d2e1a72fcca58-7173fa0af6bmr13308971b3a.3.1725440423485;
+        Wed, 04 Sep 2024 02:00:23 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:83fc:5c8e:13bd:d165])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-717785b5183sm1153279b3a.197.2024.09.04.02.00.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 02:00:23 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH v6 00/12] platform/chrome: Introduce DT hardware prober
+Date: Wed,  4 Sep 2024 17:00:02 +0800
+Message-ID: <20240904090016.2841572-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-12-swboyd@chromium.org>
- <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 3 Sep 2024 18:49:22 -0400
-Message-ID: <CAE-0n52Hupp-ANE2ggeGCRZSM+xmrJt-Q5+5Cb7=C-mxykbz0g@mail.gmail.com>
-Subject: Re: [PATCH v4 11/18] device property: Add remote endpoint to devcon matcher
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Quoting Andy Shevchenko (2024-09-02 04:12:49)
-> On Sat, Aug 31, 2024 at 09:06:49PM -0700, Stephen Boyd wrote:
->
-> Is it possible to move these Cc:s after --- line below?
+Hi everyone,
 
-Ok.
+This is v6 of my "of: Introduce hardware prober driver" [1] series.
+v6 mainly addresses comments from Andy.
 
->
-> >  /**
-> >   * devcon_match_fn_t - device connection match function
-> >   * @fwnode: Remote connection's device node
-> > + * @endpoint: Remote connection's endpoint node
-> >   * @con_id: Identifier for the connection
-> >   * @data: Match function caller specific data
-> >   *
-> >   * Implement a callback with this function signature to search a fwnode's
-> >   * connections for a match with a function like device_connection_find_match().
-> >   * This function will be called possibly multiple times, once for each
-> > - * connection. The match function should inspect the @fwnode to look for a
-> > - * match. The @con_id and @data provided are the same as the @con_id and @data
-> > - * arguments passed to the functions that take a devcon_match_fn_t argument.
-> > + * connection. The match function should inspect the connection's @fwnode
-> > + * and/or @endpoint to look for a match. The @con_id and @data provided are the
-> > + * same as the @con_id and @data arguments passed to the functions that take a
-> > + * devcon_match_fn_t argument.
->
-> So, struct fwnode_handle is a single-linked list. Can we utilise that instead
-> of adding a new parameter? I.o.w. do those objects (@fwnode and @endpoint) have
-> anything in common and can be chained?
+v2 continued Doug's "of: device: Support 2nd sources of probeable but
+undiscoverable devices" [2] series, but follows the scheme suggested by
+Rob, marking all second source component device nodes as "fail-needs-probe",
+and having a hardware prober driver enable the one of them.
 
-No, we can't use that. We need to know which endpoint in the remote
-fwnode is connected to the fwnode we're searching from. This is how we
-know which typec mux structure is associated with which type-c port so
-we can drive DP there. We might have two endpoints connected to the same
-fwnode and then we wouldn't be able to differentiate the endpoint and
-the typec mux to configure.
 
->
-> >   * Note: This function can be called multiple times.
->
-> What does this mean? Is it idempotent? Or what is the effect of being called
-> multiple times?
+Changes since v5:
+- Link to v5:
+  https://lore.kernel.org/all/20240822092006.3134096-1-wenst@chromium.org/
+- Patch 1 "of: dynamic: Add of_changeset_update_prop_string"
+  - Collected Rob's reviewed-by
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix_scoped()"
+  - New patch
+- Patch 3 "regulator: Move OF-specific regulator lookup code to of_regulator.c"
+  - Fix kerneldoc format of of_regulator_dev_lookup()
+  - Fix stub compile error for !CONFIG_OF in drivers/regulator/internal.h
+- Patch 4 "regulator: Split up _regulator_get()"
+  - Fixed kerneldoc "Return" section format for _regulator_get_common()
+  - Slightly reworded return value description
+- Patch 5 "regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()"
+  - Used "dev_of_node(dev)" instead of "dev->of_node"
+  - Replaced "dev_printk" with "dev_printk()" in kerneldoc mentions
+  - Fixed kerneldoc "Return" section format for of_regulator_get_optional()
+  - Fix @np parameter name in of_regulator_dev_lookup() kerneldoc
+- Patch 6 "gpiolib: Add gpio_property_name_length()"
+  - Changed function name to "gpio_get_property_name_length()"
+  - Changed argument name to "propname"
+  - Clarified return value for "*-<GPIO suffix>" case
+  - Reworked according to Andy's suggestion
+  - Added stub function
+- Patch 7 "i2c: core: Remove extra space in Makefile"
+  - New patch
+- Patch 8 "i2c: Introduce OF component probe function"
+  - Fixed indent in Makefile
+  - Split regulator and GPIO TODO items
+  - Reversed final conditional in i2c_of_probe_enable_node()
+- Patch 9 "i2c: of-prober: Add regulator support"
+  - Split of_regulator_bulk_get_all() return value check and explain
+    "ret == 0" case
+  - Switched to of_get_next_child_with_prefix_scoped() where applicable
+  - Used krealloc_array() instead of directly calculating size
+  - copy whole regulator array in one memcpy() call
+  - Drop "0" from struct zeroing initializer
+  - Split out regulator helper from i2c_of_probe_enable_res() to keep
+    code cleaner when combined with the next patch
+  - Added options for customizing power sequencing delay
+  - Rename i2c_of_probe_get_regulator() to i2c_of_probe_get_regulators()
+  - Add i2c_of_probe_free_regulator() helper
+- Patch 10 "i2c: of-prober: Add GPIO support"
+  - Renamed "con" to "propname" in i2c_of_probe_get_gpiod()
+  - Copy string first and check return value of strscpy() for overflow in
+    i2c_of_probe_get_gpiod()
+  - Add parenthesis around "enable" and "reset" GPIO names in comments
+  - Split resource count debug message into two separate lines
+  - Split out GPIO helper from i2c_of_probe_enable_res() to keep code
+    cleaner following the previous patch
+  - Adopted options for customizing power sequencing delay following
+    previous patch
+- Patch 11 "platform/chrome: Introduce device tree hardware prober"
+  - Adapt to new i2c_of_probe_component() parameters
+- Patch 12 "arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and
+	    trackpads as fail"
+  - None
 
-I've removed this note now.
+See v5 cover letter for previous change logs.
+
+For the I2C component (touchscreens and trackpads) case from the
+original series, the hardware prober driver finds the particular
+class of device in the device tree, gets its parent I2C adapter,
+and tries to initiate a simple I2C read for each device under that
+I2C bus. When it finds one that responds, it considers that one
+present, marks it as "okay", and returns, letting the driver core
+actually probe the device.
+
+This works fine in most cases since these components are connected
+via a ribbon cable and always have the same resources. The prober
+will also grab these resources and enable them.
+
+The other case, selecting a display panel to use based on the SKU ID
+from the firmware, hit a bit of an issue with fixing the OF graph.
+It has been left out since v3.
+
+Patch 1 adds of_changeset_update_prop_string(), as requested by Rob.
+
+Patch 2 adds for_each_child_of_node_with_prefix_scoped(), as suggested
+by Andy.
+
+Patches 3 through 5 reorganize the OF-specific regulator core code and
+reworks the existing of_regulator_bulk_get_all() function to look up
+regulator supplies solely using device tree nodes.
+
+Patch 6 adds a function to the GPIO library that checks whether a
+given string (property name) matches the GPIO property pattern, and
+if it does, returns the length of the GPIO name.
+
+Patch 7 cleans up some extra spaces in the i2c core Makefile
+
+Patch 8 implements probing the I2C bus for presence of components as
+a helper function in the I2C core.
+
+Patch 9 implements regulator supply support for the I2C component
+prober.
+
+Patch 10 implements GPIO support for the I2C component prober.
+
+Patch 11 adds a ChromeOS specific DT hardware prober. This initial
+version targets the Hana Chromebooks, probing its I2C trackpads and
+touchscreens.
+
+Patch 12 modifies the Hana device tree and marks the touchscreens
+and trackpads as "fail-needs-probe", ready for the driver to probe.
+
+
+The patch and build time dependencies for this series is now quite
+complicated:
+
+  of_regulator.c cleanups [1] -> regulator patches here ----
+							   |
+							   v
+  gpio patch in -next [2] -> gpiolib patch here  -----> i2c of-prober --
+								       |
+                      platform/chrome device tree hardware prober <----- 
+ 
+The regulator patches in this series depend on other cleanup patches [1]
+I sent earlier. The gpiolib patch depends on a commit in -next [2]
+changing the GPIO suffixes array. Patches 7 through 10 introducting i2c
+of-prober depend on the first 5 patches. Patch 11, The chrome prober,
+depends on patches 7 through 10.
+
+I think it might be easier if the respective maintainers take the first
+six patches for -rc1. Patches 7 through 11 can go through either the i2c
+or chrome trees either very late in the merge window or right after it.
+Patch 12 can go in only after everything else is in. This should be
+better than having an immutable branch on top of some commit in -next
+for three other trees to consume.
+
+Wolfram, would you be able to handle the late PR? Assuming you get a
+chance to look at the patches that is.
+
+
+Thanks
+ChenYu
+
+[1] https://lore.kernel.org/all/20240822072047.3097740-1-wenst@chromium.org/
+[2] commit 4b91188dced8 ("gpiolib: Replace gpio_suffix_count with NULL-terminated array")
+
+Chen-Yu Tsai (12):
+  of: dynamic: Add of_changeset_update_prop_string
+  of: base: Add for_each_child_of_node_with_prefix_scoped()
+  regulator: Move OF-specific regulator lookup code to of_regulator.c
+  regulator: Split up _regulator_get()
+  regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()
+  gpiolib: Add gpio_get_property_name_length()
+  i2c: core: Remove extra space in Makefile
+  i2c: Introduce OF component probe function
+  i2c: of-prober: Add regulator support
+  i2c: of-prober: Add GPIO support
+  platform/chrome: Introduce device tree hardware prober
+  arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+    as fail
+
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  13 +
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |   4 +-
+ drivers/gpio/gpiolib.c                        |  25 +
+ drivers/i2c/Makefile                          |   7 +-
+ drivers/i2c/i2c-core-of-prober.c              | 437 ++++++++++++++++++
+ drivers/of/base.c                             |  35 ++
+ drivers/of/dynamic.c                          |  44 ++
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ .../platform/chrome/chromeos_of_hw_prober.c   | 104 +++++
+ drivers/regulator/core.c                      | 143 ++----
+ drivers/regulator/internal.h                  |  15 +-
+ drivers/regulator/of_regulator.c              | 150 +++++-
+ include/linux/gpio/consumer.h                 |   7 +
+ include/linux/i2c.h                           |  14 +
+ include/linux/of.h                            |  13 +
+ 16 files changed, 918 insertions(+), 105 deletions(-)
+ create mode 100644 drivers/i2c/i2c-core-of-prober.c
+ create mode 100644 drivers/platform/chrome/chromeos_of_hw_prober.c
+
+-- 
+2.46.0.469.g59c65b2a67-goog
+

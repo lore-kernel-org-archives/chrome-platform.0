@@ -1,54 +1,54 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0621CEE83
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 09:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547EC1CEEB7
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 09:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725440434; cv=none; b=ae7IxGpcAA0oVDs44gft3boreMGokceYPVwtFOoazTQUiq/RR5ERSpukDM9W/I0ib1S93vCKZG5Ey0V+3xqhWMA4OQd4HTOEXsxESNQXwBSlbmkh2AJgtoV89IJNQtl4rRazykygUPy9kBYycRsVFbjqUEZvIJKCdXDB0Iu4eQ4=
+	t=1725440438; cv=none; b=aha3avhcVP017x4Qz6fcSAEtM/H06oKSdVuSbyUlV1zV+lrKIIa3WFoVcyOKVt4ip8ZnYHhBhOeWJFiCsBDVtYaEfi4NPyHKaYztVylrtdIKtryvK6vvOaM5Qco3cTkyL90AZ8pTZd8MPhoE8RZbpGYdF/uTN1UWKeMa8o1ZN30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725440434; c=relaxed/simple;
-	bh=GK2iV7hMvsjSokJ5lrwH0JIQORr559M1Qg4L1f7m7ec=;
+	s=arc-20240116; t=1725440438; c=relaxed/simple;
+	bh=Kq99wCwKnrmROs7j2F9SwrXOEeU8PJm4BQ0fEyd7tr8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hVXhFR9Gshs2B6g4fyDr+jSJbbDVrarmMCxDnzudxEND39vhnLox0vFPKGY4Udic098Yxn31jnayxMSycbLPTb18TJABJaINHXIc5ekv1E1d3nw4RaoZoO3LkjEoH2fD+axmwHGq16qjmZeB19Hq4y3UWdnJ23rCVj/y3/oObOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=odsJcCN3; arc=none smtp.client-ip=209.85.210.181
+	 MIME-Version; b=anHDWJ1GLppCbY8eH2vIx6wa08Cho5MPamb1MQS/HcCZSXEcLT+U9A+ZwnrQIfR0o4P6rbA399GF3dQC4jjGRK/ypGJHB4wNyxgAfgEd7aVUbZU+658WTkqIrH8FLUKwuq2QTwZnPa7aPpcRhBf/5RvMOU3BMMRq/q23Um1Q9n0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MO9CRMAw; arc=none smtp.client-ip=209.85.210.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="odsJcCN3"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7141285db14so5348095b3a.1
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 02:00:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MO9CRMAw"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-70f657cc420so2840689a34.0
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 02:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725440432; x=1726045232; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1725440434; x=1726045234; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2M921d4gJ85snm6ehV18l9ZU1Po4pieq34BYMUnhsNU=;
-        b=odsJcCN3vh9CTXTKSID/Vp8zr7/cSSf/LCFP0/76EUSvqVgv42U5NW0DWNkiHAce5g
-         AhZfXXB+VQsSgnOn1K6Yjp2fzABv8mQAsxBVEecZLUdC6f4YCYQA7sdX0LwodtzZhDMC
-         FCQ1BFAH3U6G+tBZyiXuruj2w5F5Wulz+bAZU=
+        bh=il2QfOTiET8rjOcFBiZisnVGS1vYYZiPRBoWVegvz3I=;
+        b=MO9CRMAwBzyDJws62q+U0zp6Ow+Ouaw7RlmFicvQwGNmGuKYelexaYBwE7Evju8X/e
+         0kmDvcLOfgPbLmNp+97Qz5KJmBZBI1KDVkBNzXMOPJTMLLIADRLHfCpqELncibrysqNH
+         h0PSniUVGT4iIoydQmvfHpj8cAueJ6jgCYVyw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725440432; x=1726045232;
+        d=1e100.net; s=20230601; t=1725440434; x=1726045234;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2M921d4gJ85snm6ehV18l9ZU1Po4pieq34BYMUnhsNU=;
-        b=ayisGbWJK4vMr197nS6i2BgT/b2ii10ccBtt7OcVUtPebMmDFmXwMV0isShNThIFbl
-         CVcjgfENIuMegT5LPZsri45EggtZF8cd/tKac7xCYFyBFK4LASZ2NMTmdRAqoJ2BIZSa
-         gDI+uHtH9S6E2BcfmebJyWgerBJpcjRu7uk6Wv7pHFH1WvVEvrBy2MH+f1OOk1fTRoVG
-         CZRicOcrR4QkROqOn71uaGGdSaY6h2XwXiUj8hAgDlXiviA3GeylcLIPGzIqR1i8Y5kK
-         OSYNiFRQOUPSyD24DgVlKXG8tAJaxn7GAJd81jnmCWyZVTGJPl8IXd6IVNPH01tSFVlK
-         5fVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJUgZPW+BXxsIh8JuYuqcu+PZxpvgELF0tKyR9icO+yE7Vy7huJunzQXgU/KBQdZLNbXp3pmV8ghXxd+ayKfo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywoq5YUNFoIjLq41gCGh/bh9V6MFgAcfT9c4RVftxGQgHAfl4ji
-	shvRvya9zvAzfei47/B6HrQVY/5/raBG1dravhT6mGhQOdWgmZ4fSx3OJfWuUw==
-X-Google-Smtp-Source: AGHT+IF/MVW4wrOQrl8cYkGW2jFbuYY69p3WFoLB5FjxApHmcb1+fCtPnl3w/uoQeTGzo0ajB2S9PQ==
-X-Received: by 2002:a05:6a00:66d9:b0:710:e4db:a6fc with SMTP id d2e1a72fcca58-7173b6b63demr14365184b3a.27.1725440430497;
-        Wed, 04 Sep 2024 02:00:30 -0700 (PDT)
+        bh=il2QfOTiET8rjOcFBiZisnVGS1vYYZiPRBoWVegvz3I=;
+        b=s4o0Dpjo36gRpFaPh0NxbEL7pbqOWZs05j40NvDQ88G4KuqjW8MplLO8Ewl+UceMA4
+         HetsrA3HBOa64n+H7mzNV4zqtsVHyHv8ZbjjhdXi55nn+31qAu+UUkWcVJ4XzzdDVWNY
+         NqJHoPSpm+GqGeuhFgBB3bCiIziJYJussb4zmrZsURRBKA19bB2mwfrpnxbV11SIT2WU
+         YLjRD6wCqcQgYmFEwd2wr1lLSfamACpYfQRg+fPcVZsLv1QT5OU1+1yiVtrfqAAfoYjZ
+         EYqGzATOQQUAnbkebbES0W2+xZfBlQypsqHLszFVSe3m2KsTX2TvHRsY8hjiXeZr7lcg
+         MKrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbcC8CWofo75QQTYkvE3OWeOPtoPOiNIpbOSu4K0xXsMeg5/fz6FNHHGg+J1w+a+UnfeoFEU00C2cUQXpMW54=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywzvwfs0FQILYTa2P5OH8uaP1r7DSx39R+CeZw5EDM3I8mV7dbS
+	PrXEYKGlppaZegwyhc82f5o7XpkOfUacg7HV2sLq5fCad83+SA3dGycf95DW+Q==
+X-Google-Smtp-Source: AGHT+IFjPAH4gu4wNsG/hc91RRvJC5dzdd5l+iIjQEyefCsJA13TtrMy0WEpFbhOCDltsCruxjjIJA==
+X-Received: by 2002:a05:6358:5e1b:b0:1b1:ac2e:af69 with SMTP id e5c5f4694b2df-1b603c48228mr2349782555d.17.1725440434102;
+        Wed, 04 Sep 2024 02:00:34 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:83fc:5c8e:13bd:d165])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-717785b5183sm1153279b3a.197.2024.09.04.02.00.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-717785b5183sm1153279b3a.197.2024.09.04.02.00.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 02:00:30 -0700 (PDT)
+        Wed, 04 Sep 2024 02:00:33 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh@kernel.org>,
 	Saravana Kannan <saravanak@google.com>,
@@ -70,9 +70,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	Jiri Kosina <jikos@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-i2c@vger.kernel.org
-Subject: [PATCH v6 02/12] of: base: Add for_each_child_of_node_with_prefix_scoped()
-Date: Wed,  4 Sep 2024 17:00:04 +0800
-Message-ID: <20240904090016.2841572-3-wenst@chromium.org>
+Subject: [PATCH v6 03/12] regulator: Move OF-specific regulator lookup code to of_regulator.c
+Date: Wed,  4 Sep 2024 17:00:05 +0800
+Message-ID: <20240904090016.2841572-4-wenst@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904090016.2841572-1-wenst@chromium.org>
 References: <20240904090016.2841572-1-wenst@chromium.org>
@@ -84,95 +84,300 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are cases where drivers would go through child device nodes and
-operate on only the ones whose node name starts with a given prefix.
+There's still a bit of OF-specific code in the regulator device lookup
+function.
 
-Provide a helper for these users. This will mainly be used in a
-subsequent patch that implements a hardware component prober for I2C
-busses.
+Move those bits of code over to of_regulator.c, and create a new
+function of_regulator_dev_lookup() to encapsulate the code moved out of
+regulator_dev_lookup().
+
+Also mark of_find_regulator_by_node() as static, since there are no
+other users in other compile units.
+
+There are no functional changes. A line alignment was also fixed.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
 Changes since v5:
+- Fix kerneldoc format of of_regulator_dev_lookup()
+- Fix stub compile error for !CONFIG_OF in drivers/regulator/internal.h
+
+Changes since v4:
 - New patch
 ---
- drivers/of/base.c  | 35 +++++++++++++++++++++++++++++++++++
- include/linux/of.h |  9 +++++++++
- 2 files changed, 44 insertions(+)
+ drivers/regulator/core.c         |  87 ++----------------------
+ drivers/regulator/internal.h     |   9 +--
+ drivers/regulator/of_regulator.c | 110 ++++++++++++++++++++++++++++++-
+ 3 files changed, 119 insertions(+), 87 deletions(-)
 
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 20603d3c9931..d3c123b3261a 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -628,6 +628,41 @@ struct device_node *of_get_next_child(const struct device_node *node,
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index c1d11924d892..835a5531d045 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -421,74 +421,6 @@ static void regulator_lock_dependent(struct regulator_dev *rdev,
+ 	mutex_unlock(&regulator_list_mutex);
  }
- EXPORT_SYMBOL(of_get_next_child);
+ 
+-/**
+- * of_get_child_regulator - get a child regulator device node
+- * based on supply name
+- * @parent: Parent device node
+- * @prop_name: Combination regulator supply name and "-supply"
+- *
+- * Traverse all child nodes.
+- * Extract the child regulator device node corresponding to the supply name.
+- *
+- * Return: Pointer to the &struct device_node corresponding to the regulator
+- *	   if found, or %NULL if not found.
+- */
+-static struct device_node *of_get_child_regulator(struct device_node *parent,
+-						  const char *prop_name)
+-{
+-	struct device_node *regnode = NULL;
+-	struct device_node *child = NULL;
+-
+-	for_each_child_of_node(parent, child) {
+-		regnode = of_parse_phandle(child, prop_name, 0);
+-
+-		if (!regnode) {
+-			regnode = of_get_child_regulator(child, prop_name);
+-			if (regnode)
+-				goto err_node_put;
+-		} else {
+-			goto err_node_put;
+-		}
+-	}
+-	return NULL;
+-
+-err_node_put:
+-	of_node_put(child);
+-	return regnode;
+-}
+-
+-/**
+- * of_get_regulator - get a regulator device node based on supply name
+- * @dev: Device pointer for the consumer (of regulator) device
+- * @supply: regulator supply name
+- *
+- * Extract the regulator device node corresponding to the supply name.
+- *
+- * Return: Pointer to the &struct device_node corresponding to the regulator
+- *	   if found, or %NULL if not found.
+- */
+-static struct device_node *of_get_regulator(struct device *dev, const char *supply)
+-{
+-	struct device_node *regnode = NULL;
+-	char prop_name[64]; /* 64 is max size of property name */
+-
+-	dev_dbg(dev, "Looking up %s-supply from device tree\n", supply);
+-
+-	snprintf(prop_name, 64, "%s-supply", supply);
+-	regnode = of_parse_phandle(dev->of_node, prop_name, 0);
+-
+-	if (!regnode) {
+-		regnode = of_get_child_regulator(dev->of_node, prop_name);
+-		if (regnode)
+-			return regnode;
+-
+-		dev_dbg(dev, "Looking up %s property in node %pOF failed\n",
+-				prop_name, dev->of_node);
+-		return NULL;
+-	}
+-	return regnode;
+-}
+-
+ /* Platform voltage constraint check */
+ int regulator_check_voltage(struct regulator_dev *rdev,
+ 			    int *min_uV, int *max_uV)
+@@ -2021,7 +1953,6 @@ static struct regulator_dev *regulator_dev_lookup(struct device *dev,
+ 						  const char *supply)
+ {
+ 	struct regulator_dev *r = NULL;
+-	struct device_node *node;
+ 	struct regulator_map *map;
+ 	const char *devname = NULL;
+ 
+@@ -2029,19 +1960,11 @@ static struct regulator_dev *regulator_dev_lookup(struct device *dev,
+ 
+ 	/* first do a dt based lookup */
+ 	if (dev && dev->of_node) {
+-		node = of_get_regulator(dev, supply);
+-		if (node) {
+-			r = of_find_regulator_by_node(node);
+-			of_node_put(node);
+-			if (r)
+-				return r;
+-
+-			/*
+-			 * We have a node, but there is no device.
+-			 * assume it has not registered yet.
+-			 */
+-			return ERR_PTR(-EPROBE_DEFER);
+-		}
++		r = of_regulator_dev_lookup(dev, supply);
++		if (!IS_ERR(r))
++			return r;
++		if (PTR_ERR(r) == -EPROBE_DEFER)
++			return r;
+ 	}
+ 
+ 	/* if not found, try doing it non-dt way */
+diff --git a/drivers/regulator/internal.h b/drivers/regulator/internal.h
+index 77a502141089..8e5506c5ee94 100644
+--- a/drivers/regulator/internal.h
++++ b/drivers/regulator/internal.h
+@@ -66,7 +66,8 @@ static inline struct regulator_dev *dev_to_rdev(struct device *dev)
+ }
+ 
+ #ifdef CONFIG_OF
+-struct regulator_dev *of_find_regulator_by_node(struct device_node *np);
++struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++					      const char *supply);
+ struct regulator_init_data *regulator_of_get_init_data(struct device *dev,
+ 			         const struct regulator_desc *desc,
+ 				 struct regulator_config *config,
+@@ -80,10 +81,10 @@ int of_get_n_coupled(struct regulator_dev *rdev);
+ bool of_check_coupling_data(struct regulator_dev *rdev);
+ 
+ #else
+-static inline struct regulator_dev *
+-of_find_regulator_by_node(struct device_node *np)
++static inline struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++							    const char *supply)
+ {
+-	return NULL;
++	return ERR_PTR(-ENODEV);
+ }
+ 
+ static inline struct regulator_init_data *
+diff --git a/drivers/regulator/of_regulator.c b/drivers/regulator/of_regulator.c
+index cec8c3647a00..d5dd7a9e577b 100644
+--- a/drivers/regulator/of_regulator.c
++++ b/drivers/regulator/of_regulator.c
+@@ -552,7 +552,75 @@ struct regulator_init_data *regulator_of_get_init_data(struct device *dev,
+ 	return NULL;
+ }
+ 
+-struct regulator_dev *of_find_regulator_by_node(struct device_node *np)
++/**
++ * of_get_child_regulator - get a child regulator device node
++ * based on supply name
++ * @parent: Parent device node
++ * @prop_name: Combination regulator supply name and "-supply"
++ *
++ * Traverse all child nodes.
++ * Extract the child regulator device node corresponding to the supply name.
++ *
++ * Return: Pointer to the &struct device_node corresponding to the regulator
++ *	   if found, or %NULL if not found.
++ */
++static struct device_node *of_get_child_regulator(struct device_node *parent,
++						  const char *prop_name)
++{
++	struct device_node *regnode = NULL;
++	struct device_node *child = NULL;
++
++	for_each_child_of_node(parent, child) {
++		regnode = of_parse_phandle(child, prop_name, 0);
++
++		if (!regnode) {
++			regnode = of_get_child_regulator(child, prop_name);
++			if (regnode)
++				goto err_node_put;
++		} else {
++			goto err_node_put;
++		}
++	}
++	return NULL;
++
++err_node_put:
++	of_node_put(child);
++	return regnode;
++}
++
++/**
++ * of_get_regulator - get a regulator device node based on supply name
++ * @dev: Device pointer for the consumer (of regulator) device
++ * @supply: regulator supply name
++ *
++ * Extract the regulator device node corresponding to the supply name.
++ *
++ * Return: Pointer to the &struct device_node corresponding to the regulator
++ *	   if found, or %NULL if not found.
++ */
++static struct device_node *of_get_regulator(struct device *dev, const char *supply)
++{
++	struct device_node *regnode = NULL;
++	char prop_name[64]; /* 64 is max size of property name */
++
++	dev_dbg(dev, "Looking up %s-supply from device tree\n", supply);
++
++	snprintf(prop_name, 64, "%s-supply", supply);
++	regnode = of_parse_phandle(dev->of_node, prop_name, 0);
++
++	if (!regnode) {
++		regnode = of_get_child_regulator(dev->of_node, prop_name);
++		if (regnode)
++			return regnode;
++
++		dev_dbg(dev, "Looking up %s property in node %pOF failed\n",
++			prop_name, dev->of_node);
++		return NULL;
++	}
++	return regnode;
++}
++
++static struct regulator_dev *of_find_regulator_by_node(struct device_node *np)
+ {
+ 	struct device *dev;
+ 
+@@ -561,6 +629,46 @@ struct regulator_dev *of_find_regulator_by_node(struct device_node *np)
+ 	return dev ? dev_to_rdev(dev) : NULL;
+ }
  
 +/**
-+ * of_get_next_child_with_prefix - Find the next child node with prefix
-+ * @node:	parent node
-+ * @prev:	previous child of the parent node, or NULL to get first
++ * of_regulator_dev_lookup - lookup a regulator device with device tree only
++ * @dev: Device pointer for regulator supply lookup.
++ * @supply: Supply name or regulator ID.
 + *
-+ * This function is like of_get_next_child(), except that it automatically
-+ * skips any nodes whose name doesn't have the given prefix.
++ * Return: Pointer to the &struct regulator_dev on success, or ERR_PTR()
++ *	   encoded value on error.
 + *
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
++ * If successful, returns a pointer to the &struct regulator_dev that
++ * corresponds to the name @supply and with the embedded &struct device
++ * refcount incremented by one. The refcount must be dropped by calling
++ * put_device().
++ *
++ * On failure one of the following ERR_PTR() encoded values is returned:
++ * * -%ENODEV if lookup fails permanently.
++ * * -%EPROBE_DEFER if lookup could succeed in the future.
 + */
-+struct device_node *of_get_next_child_with_prefix(const struct device_node *node,
-+						  struct device_node *prev,
-+						  const char *prefix)
++struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++					      const char *supply)
 +{
-+	struct device_node *next;
-+	unsigned long flags;
++	struct regulator_dev *r;
++	struct device_node *node;
 +
-+	if (!node)
-+		return NULL;
++	node = of_get_regulator(dev, supply);
++	if (node) {
++		r = of_find_regulator_by_node(node);
++		of_node_put(node);
++		if (r)
++			return r;
 +
-+	raw_spin_lock_irqsave(&devtree_lock, flags);
-+	next = prev ? prev->sibling : node->child;
-+	for (; next; next = next->sibling) {
-+		if (!of_node_name_prefix(next, prefix))
-+			continue;
-+		if (of_node_get(next))
-+			break;
++		/*
++		 * We have a node, but there is no device.
++		 * assume it has not registered yet.
++		 */
++		return ERR_PTR(-EPROBE_DEFER);
 +	}
-+	of_node_put(prev);
-+	raw_spin_unlock_irqrestore(&devtree_lock, flags);
-+	return next;
++
++	return ERR_PTR(-ENODEV);
 +}
-+EXPORT_SYMBOL(of_get_next_child_with_prefix);
 +
- static struct device_node *of_get_next_status_child(const struct device_node *node,
- 						    struct device_node *prev,
- 						    bool (*checker)(const struct device_node *))
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 046283be1cd3..acc0d5b98417 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -289,6 +289,9 @@ extern struct device_node *of_get_parent(const struct device_node *node);
- extern struct device_node *of_get_next_parent(struct device_node *node);
- extern struct device_node *of_get_next_child(const struct device_node *node,
- 					     struct device_node *prev);
-+extern struct device_node *of_get_next_child_with_prefix(const struct device_node *node,
-+							 struct device_node *prev,
-+							 const char *prefix);
- extern struct device_node *of_get_next_available_child(
- 	const struct device_node *node, struct device_node *prev);
- extern struct device_node *of_get_next_reserved_child(
-@@ -1468,6 +1471,12 @@ static inline int of_property_read_s32(const struct device_node *np,
- 	     child != NULL;						\
- 	     child = of_get_next_child(parent, child))
- 
-+#define for_each_child_of_node_with_prefix_scoped(parent, child, prefix) \
-+	for (struct device_node *child __free(device_node) =		\
-+	     of_get_next_child_with_prefix(parent, NULL, prefix);	\
-+	     child != NULL;						\
-+	     child = of_get_next_child_with_prefix(parent, child, prefix))
-+
- #define for_each_available_child_of_node(parent, child) \
- 	for (child = of_get_next_available_child(parent, NULL); child != NULL; \
- 	     child = of_get_next_available_child(parent, child))
+ /*
+  * Returns number of regulators coupled with rdev.
+  */
 -- 
 2.46.0.469.g59c65b2a67-goog
 

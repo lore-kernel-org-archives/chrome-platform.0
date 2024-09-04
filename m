@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4591CF7C4
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 13:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70D11DB53F
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 13:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725457651; cv=none; b=PaEc8OvAK9Bz6vEE9CCbI1smMrms4g+XcGn4JIIzqAcqKha4kSRE1DJrpAJU5o7KtpHW5VRuI2RYJgV4zxzUuiI18jxMD4ToPnH0eA/ILYqoXftkKLnsuBOaZNudXJCtHEAJJxAAc33RgAUyZwOJPOEfhslG9Tp0cIGjQIJFCys=
+	t=1725458019; cv=none; b=GsB/uGL2OjoA0Q/Tl4pO6NXJjCXYRewkN9egJAek6k7ORy2Wyw2uF/jTRu6t/l8HuMJA+qdHYLLqKXrjtwMacAG5I8A5MxEVyVtXvqCO6u+sK7t1gD2jx7+YDBhHwuEeN1Jv3ETd2NNy88MmavEkcYK8U9w+kYaKx8bl5A73hn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725457651; c=relaxed/simple;
-	bh=1Cm5WztYIpFnLS6eIgGjNr9ik/LNax1LhuKH3YtfC70=;
+	s=arc-20240116; t=1725458019; c=relaxed/simple;
+	bh=IrZ7cqUQ/rV3TjzeCgtYwOAMGS511YXRIN78hNIahso=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RCbEp7kAoSEIvGSW8b34o/IYvVYXOfmhGIbaxPM4XQo/vw7lkvuDgvBegBcqde0JNEuDN8Q/yDveGyl0TWg44Yta+6l7uKb+W3V8hwfUb6+mKwhh8y9Emyfy+Z1NkTuA4dmPZZN6qyQx2vhefiy0/FumnUe5UwFJg/LdxxI8lp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4OmrQLu; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ukShECSEDRrvuhfVRJUrHc3fw/9TRPaZNjQBCKZ7bjFdkp5PcqwcueOLCZ0BuchdSfF15W/XxhrhLajF2w/7YE7N41R8iaqmotJMOPzXUmKeRzF6zbsCr89WGSTdbTb/F/htqs1xp35GdaPWuYVEKpiTvbmasLKrxNsR8uxWgsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DFJhzSTn; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4OmrQLu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DFJhzSTn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725457650; x=1756993650;
+  t=1725458018; x=1756994018;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1Cm5WztYIpFnLS6eIgGjNr9ik/LNax1LhuKH3YtfC70=;
-  b=U4OmrQLunMQPdJUrIVIBuWRzuEmNi711aUf8vXENF6oHGhlf+pcsmbYc
-   85CfI8qdqrWfbGbfxcoDng5XgwxTs4kmmaMgEiVh8uDKG6f3WcjDycOKx
-   Lmcp3sSJ8ttab6JDhH6U8ZhKDCCefuEKVJzVFXkjvQWHAwa2EqiCAbFJv
-   BoR9Rx3Ro5tUlOHIKkNzhjiUzm3gEyjMSu11vzIEaeEbZakISf35qCEjd
-   WFn3vByCzMnK3mdwrNs2TGxqWuUxK22LNZ/nS/HR6EaVYQEjRDHbUV+dB
-   1ubKK22C7JHddcy6O5J3BEDL+ZhJ94+8YvhEgTND96qDq7mlrf//++huL
+  bh=IrZ7cqUQ/rV3TjzeCgtYwOAMGS511YXRIN78hNIahso=;
+  b=DFJhzSTnXoE3J1z0d4G7alNGusuJfCpN+ZGWmu8ODsKbwMjCJRg6GASd
+   M2AoIk322Guhhcqjl8aMsBXd5jABOqclj38kUgdSczb5dbx/qgUdVFpCF
+   mUWntFMxhDztFARdhGN5U7hUS+2sogEPR6Ww0X1x3EWSSPiRZPQZtD8xd
+   PwPWX87ZUOlbEKlqkITgXqfoD9OuMY1lH/d/QEEalJXA1KRhWItLMuzgt
+   xXvwFpLm636xwZRDnAdF9v8CE/DZkNmFkA/nXa4H3Opf0hF7gofVdLleX
+   mdtzpVE3KMCrsltoBBaNc++1XZJtJfFmaMnaQsR7AHOh08Zlur3CgRMGW
    Q==;
-X-CSE-ConnectionGUID: abTvL5V+RXuudUjlzAtMhg==
-X-CSE-MsgGUID: rDI7NE03RneHtbehbRTOdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="27908237"
+X-CSE-ConnectionGUID: IsKmZDjLSlWGt1edc6z5NQ==
+X-CSE-MsgGUID: ljj6XtFqRdGLCSJ+u3DYYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="41619642"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="27908237"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:47:29 -0700
-X-CSE-ConnectionGUID: AnPe26GcRkKYzlcvhNgOPA==
-X-CSE-MsgGUID: p869J8LsREyJ55Rt1L9mqA==
+   d="scan'208";a="41619642"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:53:37 -0700
+X-CSE-ConnectionGUID: j610Y+0US6q4B+XEa1zMhw==
+X-CSE-MsgGUID: bvEv6kCCSCmYTMkuy16joQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="65315322"
+   d="scan'208";a="64946038"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:47:25 -0700
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 06:53:33 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1slqLy-000000054xO-11w6;
-	Wed, 04 Sep 2024 16:47:22 +0300
-Date: Wed, 4 Sep 2024 16:47:07 +0300
+	id 1slqRu-0000000553f-1ICw;
+	Wed, 04 Sep 2024 16:53:30 +0300
+Date: Wed, 4 Sep 2024 16:53:30 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
@@ -62,10 +62,10 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 08/12] i2c: Introduce OF component probe function
-Message-ID: <Zthk25W0zXcHWRdt@smile.fi.intel.com>
+Subject: Re: [PATCH v6 09/12] i2c: of-prober: Add regulator support
+Message-ID: <ZthmWoJbjrEmzOzu@smile.fi.intel.com>
 References: <20240904090016.2841572-1-wenst@chromium.org>
- <20240904090016.2841572-9-wenst@chromium.org>
+ <20240904090016.2841572-10-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,106 +74,101 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904090016.2841572-9-wenst@chromium.org>
+In-Reply-To: <20240904090016.2841572-10-wenst@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Sep 04, 2024 at 05:00:10PM +0800, Chen-Yu Tsai wrote:
-> Some devices are designed and manufactured with some components having
-> multiple drop-in replacement options. These components are often
-> connected to the mainboard via ribbon cables, having the same signals
-> and pin assignments across all options. These may include the display
-> panel and touchscreen on laptops and tablets, and the trackpad on
-> laptops. Sometimes which component option is used in a particular device
-> can be detected by some firmware provided identifier, other times that
-> information is not available, and the kernel has to try to probe each
-> device.
+On Wed, Sep 04, 2024 at 05:00:11PM +0800, Chen-Yu Tsai wrote:
+> This adds regulator management to the I2C OF component prober.
+> Components that the prober intends to probe likely require their
+> regulator supplies be enabled, and GPIOs be toggled to enable them or
+> bring them out of reset before they will respond to probe attempts.
+> GPIOs will be handled in the next patch.
 > 
-> This change attempts to make the "probe each device" case cleaner. The
-> current approach is to have all options added and enabled in the device
-> tree. The kernel would then bind each device and run each driver's probe
-> function. This works, but has been broken before due to the introduction
-> of asynchronous probing, causing multiple instances requesting "shared"
-> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
-> time, with only one instance succeeding. Work arounds for these include
-> moving the pinmux to the parent I2C controller, using GPIO hogs or
-> pinmux settings to keep the GPIO pins in some fixed configuration, and
-> requesting the interrupt line very late. Such configurations can be seen
-> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
-> Lenovo Thinkpad 13S.
+> Without specific knowledge of each component's resource names or
+> power sequencing requirements, the prober can only enable the
+> regulator supplies all at once, and toggle the GPIOs all at once.
+> Luckily, reset pins tend to be active low, while enable pins tend to
+> be active high, so setting the raw status of all GPIO pins to high
+> should work. The wait time before and after resources are enabled
+> are collected from existing drivers and device trees.
 > 
-> Instead of this delicate dance between drivers and device tree quirks,
-> this change introduces a simple I2C component probe. function For a
-> given class of devices on the same I2C bus, it will go through all of
-> them, doing a simple I2C read transfer and see which one of them responds.
-> It will then enable the device that responds.
+> The prober collects resources from all possible components and enables
+> them together, instead of enabling resources and probing each component
+> one by one. The latter approach does not provide any boot time benefits
+> over simply enabling each component and letting each driver probe
+> sequentially.
 > 
-> This requires some minor modifications in the existing device tree. The
-> status for all the device nodes for the component options must be set
-> to "failed-needs-probe". This makes it clear that some mechanism is
-> needed to enable one of them, and also prevents the prober and device
-> drivers running at the same time.
+> The prober will also deduplicate the resources, since on a component
+> swap out or co-layout design, the resources are always the same.
+> While duplicate regulator supplies won't cause much issue, shared
+> GPIOs don't work reliably, especially with other drivers. For the
+> same reason, the prober will release the GPIOs before the successfully
+> probed component is actually enabled.
 
 ...
 
-> +int i2c_of_probe_component(struct device *dev, const char *type)
+> +static int i2c_of_probe_get_regulators(struct device *dev, struct device_node *node,
+> +				       struct i2c_of_probe_data *data)
 > +{
-> +	struct i2c_adapter *i2c;
+> +	struct regulator_bulk_data *tmp, *new_regulators;
 > +	int ret;
 > +
-> +	struct device_node *i2c_node __free(device_node) = i2c_of_probe_get_i2c_node(dev, type);
-> +	if (IS_ERR(i2c_node))
-> +		return PTR_ERR(i2c_node);
-
-> +	for_each_child_of_node_scoped(i2c_node, node) {
-
-Hmm, but can it be for_each_child_of_node_with_prefix_scoped() now?
-
-> +		if (!of_node_name_prefix(node, type))
-> +			continue;
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
+> +	ret = of_regulator_bulk_get_all(dev, node, &tmp);
+> +	if (ret < 0) {
+> +		return ret;
+> +	} else if (ret == 0) {
 > +		/*
-> +		 * Device tree has component already enabled. Either the
-> +		 * device tree isn't supported or we already probed once.
+> +		 * It's entirely possible for a device node to not have
+> +		 * regulator supplies. While it doesn't make sense from
+> +		 * a hardware perspective, the supplies could be always
+> +		 * on or otherwise not modeled in the device tree, but
+> +		 * the device would still work.
 > +		 */
-> +		return 0;
+> +		return ret;
+> +	}
+
+	if (ret < 0)
+		return ret;
+
+	/*
+	 * It's entirely possible for a device node to not have regulator
+	 * supplies. While it doesn't make sense from a hardware perspective,
+	 * the supplies could be always on or otherwise not modeled in
+	 * the device tree, but the device would still work.
+	 */
+	if (ret == 0)
+		return ret;
+
+> +	if (!data->regulators) {
+> +		data->regulators = tmp;
+> +		data->regulators_num = ret;
+> +		return ret;
+> +	};
+> +
+> +	new_regulators = krealloc_array(data->regulators, (data->regulators_num + ret),
+
+Redundant parentheses.
+
+> +					sizeof(*tmp), GFP_KERNEL);
+> +	if (!new_regulators) {
+> +		regulator_bulk_free(ret, tmp);
+> +		return -ENOMEM;
 > +	}
 > +
-> +	i2c = of_get_i2c_adapter_by_node(i2c_node);
-> +	if (!i2c)
-> +		return dev_err_probe(dev, -EPROBE_DEFER, "Couldn't get I2C adapter\n");
-> +
-> +	ret = 0;
-> +	for_each_child_of_node_scoped(i2c_node, node) {
+> +	data->regulators = new_regulators;
+> +	memcpy(&data->regulators[data->regulators_num], tmp, sizeof(*tmp) * ret);
 
-Ditto.
+Shouldn't be the size calculated based on the size of the destination?
 
-> +		union i2c_smbus_data data;
-> +		u32 addr;
-> +
-> +		if (!of_node_name_prefix(node, type))
-> +			continue;
-> +		if (of_property_read_u32(node, "reg", &addr))
-> +			continue;
-> +		if (i2c_smbus_xfer(i2c, addr, 0, I2C_SMBUS_READ, 0, I2C_SMBUS_BYTE, &data) < 0)
-> +			continue;
-> +
-> +		/* Found a device that is responding */
-> +		ret = i2c_of_probe_enable_node(dev, node);
-> +		break;
-> +	}
-> +
-> +	i2c_put_adapter(i2c);
+> +	data->regulators_num += ret;
 > +
 > +	return ret;
 > +}
 
 ...
 
-> +EXPORT_SYMBOL_GPL(i2c_of_probe_component);
-
-Wonder if we may already use namespaced export from day 1.
+As I said earlier my main concern is that timeout heuristic which seems fragile.
+But I have no ideas to propose, leave this to others to comment on / think about.
 
 -- 
 With Best Regards,

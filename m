@@ -1,132 +1,96 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30057E563
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 17:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3401C4778C;
+	Wed,  4 Sep 2024 17:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725470239; cv=none; b=exYhfb9O6e2PRa7EDlUmD5bRVOHtegMNaA9kaYiukVXza2fxgKbBaHtOyYBgKhjKhH5Qhsj4F6PqVDponBIxqNbUUucSp9guXxfPcHPrZflpOg4IBKT/GrhMtLKoTOHL9CoTBPpsCrUroUwyPKWmxv9oTX0We8aijlxodeM+2fA=
+	t=1725470386; cv=none; b=CCLh3VZ8oadn6lvnpKxqCMnvmzf0GzCTbJW3v165gXl5PI+M2GdDrqrHx1ET/Gcw4fjM6QffaJLHzW8Q/r9E6kp3+HJbcikH4W5qzoGSNwInprpuk2zw1Rnf8S0WieHtCd0/UhPcGSPnxzxU7vXayrXJXIHa9Ee/lf6+Q6B/Bvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725470239; c=relaxed/simple;
-	bh=t65s4nNcRGc9mCe7+o0bYGJaz4sl89r+MRqyyhR0kno=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WFm++diabmzULjaJGWCOc+gzXNQfPwxYFm3NMCYTjBPT2R9w3a6UdTQC8F44h7Mh3cvKsBTL3ckDfOOgAl4KRzJXmFS80eVCai5P43niJO6yQ3W0PMk4WmFS0BBBwmpSWqbmve/jUPWLMbCC7JGGVaeWkLW/da++InFvt12DCw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iGsGa3zf; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1725470386; c=relaxed/simple;
+	bh=7nt55skf5MkG+zn3hZ1jtUoFubnt7KYqSZXWSb3JOBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SZktgk0z1Xn3FtIGrKsSbDjvyC7HZ+ihSqAjTd8fgcFZJoDLISWlOBPH9UCIo/jHXR+EMc3ey5BAhcI2K9K7RmqMey/2o4KW5UQzn4yqgBXhR/OKAa4oJ3OJDTcDBl9K/CF3MhYaYWiBMVtlJDfoAsNkTjRMjKalvc1zGPugqN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCcOIJJ4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iGsGa3zf"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6c3f12d3930so13323256d6.3
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 10:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725470236; x=1726075036; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
-        b=iGsGa3zfqRVQcSk/l6hc69cmEvhVyRSXRXh3Mgi9V9Qjh4E29akaQE113kMO2UNJ6+
-         a9hqvkjDtg1cS00ZXeo0pmPhWiIUwjpGNDUiOPjCyTNZ+kU0OOz9+BsHWjezG3wVLLGm
-         khQxumlzSRjg1ZKIz2Nwb+3TmuqKB1lo6aZJk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725470236; x=1726075036;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
-        b=OOB9AaLb/grjxvzyia6V+D716OsFlVGqN0uFb+nMHEZY+zsgrizvzi+zJbGiWywAf9
-         dzLniPnJJ4cWB2U5VQz5jG/tazuITAHmx/O5YgRXAZlXlS2KPvT3Y+lpJIpG0wnbSl+6
-         SSQJenl1FSvrhTDv5W+xlZV3osW1hRuh44d4TzCZVLiTB8t4AJltxG0ihw+bkRM/A7oL
-         GC6wQUJDD04JGw6gYHvpa4loVb9E1QsBvwwXmVxJSMsnLTgNSER2lMcf2mknVJzq3waN
-         eoTvIZoyZwYE00UCN1xQKvNTLEYahiA47WNj5SChSwXJvT42SMsW0ngSV3BWEvHcY7L1
-         /9Jw==
-X-Gm-Message-State: AOJu0YyXXM9z1wP8HPtH/B2HPjkdcGQa7d4TVzQmIRavZdXJAS+e+OV1
-	P6YYD5cFzaEdzKBhlXx2QdTWd74T/y5IzOX/ppRlDvhC95y2QnlTL/fKOp2VBPAMQ/AwSO2Ltyz
-	8O0ZAMVz+Kf7XaiZlMcn/vETonSbVtU0nvaqJ
-X-Google-Smtp-Source: AGHT+IEVE/zja0Ta9Tz96mzKz/L550YBB+VoIesNmcQXcpg7Z7ieAwebVwSfXt2IZeQcblS1lNC8BSuXnTTjD/SJFRM=
-X-Received: by 2002:a05:6214:3104:b0:6c3:5f8f:2745 with SMTP id
- 6a1803df08f44-6c510a93bc4mr62896466d6.27.1725470236496; Wed, 04 Sep 2024
- 10:17:16 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Sep 2024 13:17:15 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCcOIJJ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9C5C4CEC2;
+	Wed,  4 Sep 2024 17:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725470385;
+	bh=7nt55skf5MkG+zn3hZ1jtUoFubnt7KYqSZXWSb3JOBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=vCcOIJJ4KxgpPQAZGfnIzSSSWzE5M5l45tKNYeGP02oYvr5QSyk7ynT74CPgrJXN8
+	 VHt5yWMgLdnNCjnFKfNeXitJqjdsBUxD4r3TLo0gDk4JC0asko3RJbtJLtJ7ATulMJ
+	 cIJVYZFYdtWgswn6/GxmHkNYUxvDyAaSnUR8wq1knAw8shughKHPVjgnGuJD671PXM
+	 n9WmSiYlUWdR/nhOLgGR4TyWzUM9BGBr18sUJGrvkrLMhhur/WvOf7uX51Dmctsqrg
+	 reUMJ/cB4bWNGlaYhjwhFzD3o+wgwMdxGey/yEvDxOwCdNtzBPgW27bmMyS5KKvDlt
+	 wRShNRiUxwlVQ==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+ Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ linux-i2c@vger.kernel.org
+In-Reply-To: <20240904090016.2841572-1-wenst@chromium.org>
+References: <20240904090016.2841572-1-wenst@chromium.org>
+Subject: Re: (subset) [PATCH v6 00/12] platform/chrome: Introduce DT
+ hardware prober
+Message-Id: <172547038191.87336.8695106953397068225.b4-ty@kernel.org>
+Date: Wed, 04 Sep 2024 18:19:41 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZthaCQel2aHhyIu4@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-7-swboyd@chromium.org>
- <ZtWjEudmlR51zkU9@smile.fi.intel.com> <CAE-0n51eSxxvnJXwnfPrXx1=rei=8OGGEtCAgw6nhCktZ0iQDw@mail.gmail.com>
- <ZthaCQel2aHhyIu4@smile.fi.intel.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 4 Sep 2024 13:17:15 -0400
-Message-ID: <CAE-0n52PxnSMGn3TVt3iiq_3Bimnd4JPoeZ1F6XB1o4itiykUQ@mail.gmail.com>
-Subject: Re: [PATCH v4 06/18] drm/bridge: aux-hpd: Support USB Type-C DP
- altmodes via DRM lane assignment
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Quoting Andy Shevchenko (2024-09-04 06:00:57)
-> On Tue, Sep 03, 2024 at 06:20:14PM -0400, Stephen Boyd wrote:
-> > Quoting Andy Shevchenko (2024-09-02 04:35:46)
-> > > On Sat, Aug 31, 2024 at 09:06:44PM -0700, Stephen Boyd wrote:
->
-> > > > +     adev->dev.of_node = of_node_get(parent->of_node);
-> > >
-> > > device_set_node() ?
-> >
-> > Or device_set_of_node_from_dev()?
->
-> This is quite unclear to me. The second one bumps the reference count IIRC
-> for no reason (in usual cases). Also only few drivers use that, I would hear
-> what OF people can tell about this API and its usage scope.
+On Wed, 04 Sep 2024 17:00:02 +0800, Chen-Yu Tsai wrote:
+> This is v6 of my "of: Introduce hardware prober driver" [1] series.
+> v6 mainly addresses comments from Andy.
+> 
+> v2 continued Doug's "of: device: Support 2nd sources of probeable but
+> undiscoverable devices" [2] series, but follows the scheme suggested by
+> Rob, marking all second source component device nodes as "fail-needs-probe",
+> and having a hardware prober driver enable the one of them.
+> 
+> [...]
 
-Sure, but to be equivalent to the existing code from which this has been
-copied it should use device_set_of_node_from_dev(). Seems fine to just
-use that.
+Applied to
 
-> > > > +static int dp_lane_to_typec_lane(enum dp_lane lane)
-> > > > +{
-> > > > +     switch (lane) {
-> > > > +     case DP_ML0:
-> > > > +             return USB_SSTX2;
-> > > > +     case DP_ML1:
-> > > > +             return USB_SSRX2;
-> > > > +     case DP_ML2:
-> > > > +             return USB_SSTX1;
-> > > > +     case DP_ML3:
-> > > > +             return USB_SSRX1;
-> > > > +     }
-> > >
-> > > > +     return -EINVAL;
-> > >
-> > > Hmm... This can be simply made as default case.
-> >
-> > And then the enum is always "covered" and the compiler doesn't complain
-> > about missing cases (I don't think we have -Wswitch-enum)? Seems worse.
->
-> Hmm... You mean if I remove one of the above cases I will get the warning?
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-Yes.
+Thanks!
+
+[03/12] regulator: Move OF-specific regulator lookup code to of_regulator.c
+        commit: b8c3255457147162cd713a319a8e2274335449b9
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+

@@ -1,292 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF5F39FFE;
-	Wed,  4 Sep 2024 15:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30057E563
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Sep 2024 17:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725464268; cv=none; b=BnX3x/jnP1LQdcJusqN+ZTuoMD+iJ7A6oftT7hcQebXSOAfMA1ONxZG9Y/oD2FQVxPhDBit+vxAQCU+9CXu8swI6yGI2U6lcSOYf7z2fIYDHaDeWZrncOZune+VS7etofqa9NQ2+vfPMLdiw1v/fqk8UqjseJcqhWDuDRecWeSA=
+	t=1725470239; cv=none; b=exYhfb9O6e2PRa7EDlUmD5bRVOHtegMNaA9kaYiukVXza2fxgKbBaHtOyYBgKhjKhH5Qhsj4F6PqVDponBIxqNbUUucSp9guXxfPcHPrZflpOg4IBKT/GrhMtLKoTOHL9CoTBPpsCrUroUwyPKWmxv9oTX0We8aijlxodeM+2fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725464268; c=relaxed/simple;
-	bh=1N29JHgehPKySQHCkVwdmFmA/1Fxv0X3tVIdFmrsfcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IEtp72csESs5ImcMk29txTmKB/HMwELypVwQxx/0kMGac3BSiMxtnhhBkjbnJRaoCE+OguW7olowOWRONtR9AUgJmW3Bk8YC1LQOzMWuPHWXpJSJxhrO0LHQPnUAopWACBG1tVgK57gkPn+7359nC3Po1tmYGxFSFmtLoG4I61M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtUbiqX6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725470239; c=relaxed/simple;
+	bh=t65s4nNcRGc9mCe7+o0bYGJaz4sl89r+MRqyyhR0kno=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WFm++diabmzULjaJGWCOc+gzXNQfPwxYFm3NMCYTjBPT2R9w3a6UdTQC8F44h7Mh3cvKsBTL3ckDfOOgAl4KRzJXmFS80eVCai5P43niJO6yQ3W0PMk4WmFS0BBBwmpSWqbmve/jUPWLMbCC7JGGVaeWkLW/da++InFvt12DCw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iGsGa3zf; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtUbiqX6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB18AC4CEC3;
-	Wed,  4 Sep 2024 15:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725464267;
-	bh=1N29JHgehPKySQHCkVwdmFmA/1Fxv0X3tVIdFmrsfcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EtUbiqX6an7G80pPKJmlYPyUCc1V5X8EndGTyQlPWEWF9UOtKk4sOov8u9PSguFJi
-	 yNTgOo2bcabI86fKz9vITyYotHiU4TQboz2WXEXLwGsqW2SocThtObGF0Ysvo9iN1o
-	 64oCw5UJDbpsKkRDRfKCuRHBfXeDJs5r84QC7H/bAWy5PZtoWAPN1hmDHjHwOcD7Ft
-	 c9LeKzuNq9FPYfpF5uc5VIW5T5tGybTbBkXeYciA07SQGyRw9182AgZYZ5PoGUfXZ+
-	 rDKe0UdKqlv77NQCJBAc0+5tfcScUHyRfOvviUfsmpbcovUxU31VsFP+V+iTLo7Msd
-	 P81icHIWTc7yA==
-Date: Wed, 4 Sep 2024 10:37:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 08/12] i2c: Introduce OF component probe function
-Message-ID: <20240904153746.GA2610341-robh@kernel.org>
-References: <20240904090016.2841572-1-wenst@chromium.org>
- <20240904090016.2841572-9-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iGsGa3zf"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6c3f12d3930so13323256d6.3
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Sep 2024 10:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725470236; x=1726075036; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
+        b=iGsGa3zfqRVQcSk/l6hc69cmEvhVyRSXRXh3Mgi9V9Qjh4E29akaQE113kMO2UNJ6+
+         a9hqvkjDtg1cS00ZXeo0pmPhWiIUwjpGNDUiOPjCyTNZ+kU0OOz9+BsHWjezG3wVLLGm
+         khQxumlzSRjg1ZKIz2Nwb+3TmuqKB1lo6aZJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725470236; x=1726075036;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
+        b=OOB9AaLb/grjxvzyia6V+D716OsFlVGqN0uFb+nMHEZY+zsgrizvzi+zJbGiWywAf9
+         dzLniPnJJ4cWB2U5VQz5jG/tazuITAHmx/O5YgRXAZlXlS2KPvT3Y+lpJIpG0wnbSl+6
+         SSQJenl1FSvrhTDv5W+xlZV3osW1hRuh44d4TzCZVLiTB8t4AJltxG0ihw+bkRM/A7oL
+         GC6wQUJDD04JGw6gYHvpa4loVb9E1QsBvwwXmVxJSMsnLTgNSER2lMcf2mknVJzq3waN
+         eoTvIZoyZwYE00UCN1xQKvNTLEYahiA47WNj5SChSwXJvT42SMsW0ngSV3BWEvHcY7L1
+         /9Jw==
+X-Gm-Message-State: AOJu0YyXXM9z1wP8HPtH/B2HPjkdcGQa7d4TVzQmIRavZdXJAS+e+OV1
+	P6YYD5cFzaEdzKBhlXx2QdTWd74T/y5IzOX/ppRlDvhC95y2QnlTL/fKOp2VBPAMQ/AwSO2Ltyz
+	8O0ZAMVz+Kf7XaiZlMcn/vETonSbVtU0nvaqJ
+X-Google-Smtp-Source: AGHT+IEVE/zja0Ta9Tz96mzKz/L550YBB+VoIesNmcQXcpg7Z7ieAwebVwSfXt2IZeQcblS1lNC8BSuXnTTjD/SJFRM=
+X-Received: by 2002:a05:6214:3104:b0:6c3:5f8f:2745 with SMTP id
+ 6a1803df08f44-6c510a93bc4mr62896466d6.27.1725470236496; Wed, 04 Sep 2024
+ 10:17:16 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Sep 2024 13:17:15 -0400
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904090016.2841572-9-wenst@chromium.org>
+In-Reply-To: <ZthaCQel2aHhyIu4@smile.fi.intel.com>
+References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-7-swboyd@chromium.org>
+ <ZtWjEudmlR51zkU9@smile.fi.intel.com> <CAE-0n51eSxxvnJXwnfPrXx1=rei=8OGGEtCAgw6nhCktZ0iQDw@mail.gmail.com>
+ <ZthaCQel2aHhyIu4@smile.fi.intel.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 4 Sep 2024 13:17:15 -0400
+Message-ID: <CAE-0n52PxnSMGn3TVt3iiq_3Bimnd4JPoeZ1F6XB1o4itiykUQ@mail.gmail.com>
+Subject: Re: [PATCH v4 06/18] drm/bridge: aux-hpd: Support USB Type-C DP
+ altmodes via DRM lane assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
+	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 04, 2024 at 05:00:10PM +0800, Chen-Yu Tsai wrote:
-> Some devices are designed and manufactured with some components having
-> multiple drop-in replacement options. These components are often
-> connected to the mainboard via ribbon cables, having the same signals
-> and pin assignments across all options. These may include the display
-> panel and touchscreen on laptops and tablets, and the trackpad on
-> laptops. Sometimes which component option is used in a particular device
-> can be detected by some firmware provided identifier, other times that
-> information is not available, and the kernel has to try to probe each
-> device.
-> 
-> This change attempts to make the "probe each device" case cleaner. The
-> current approach is to have all options added and enabled in the device
-> tree. The kernel would then bind each device and run each driver's probe
-> function. This works, but has been broken before due to the introduction
-> of asynchronous probing, causing multiple instances requesting "shared"
-> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
-> time, with only one instance succeeding. Work arounds for these include
-> moving the pinmux to the parent I2C controller, using GPIO hogs or
-> pinmux settings to keep the GPIO pins in some fixed configuration, and
-> requesting the interrupt line very late. Such configurations can be seen
-> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
-> Lenovo Thinkpad 13S.
-> 
-> Instead of this delicate dance between drivers and device tree quirks,
-> this change introduces a simple I2C component probe. function For a
-> given class of devices on the same I2C bus, it will go through all of
-> them, doing a simple I2C read transfer and see which one of them responds.
-> It will then enable the device that responds.
-> 
-> This requires some minor modifications in the existing device tree. The
-> status for all the device nodes for the component options must be set
-> to "failed-needs-probe". This makes it clear that some mechanism is
-> needed to enable one of them, and also prevents the prober and device
-> drivers running at the same time.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v5:
-> - Fixed indent in Makefile
-> - Split regulator and GPIO TODO items
-> - Reversed final conditional in i2c_of_probe_enable_node()
-> 
-> Changes since v4:
-> - Split code into helper functions
-> - Use scoped helpers and __free() to reduce error path
-> 
-> Changes since v3:
-> - Complete kernel-doc
-> - Return different error if I2C controller is disabled
-> - Expand comment to explain assumptions and constraints
-> - Split for-loop finding target node and operations on target node
-> - Add missing i2c_put_adapter()
-> - Move prober code to separate file
-> 
-> Rob also asked why there was a limitation of "exactly one touchscreen
-> will be enabled across the whole tree".
-> 
-> The use case this prober currently targets is a component on consumer
-> electronics (tablet or laptop) being swapped out due to cost or supply
-> reasons. Designs with multiple components of the same type are pretty
-> rare. The way the next patch is written also assumes this for efficiency
-> reasons.
-> 
-> Changes since v2:
-> - New patch split out from "of: Introduce hardware prober driver"
-> - Addressed Rob's comments
->   - Move i2c prober to i2c subsystem
->   - Use of_node_is_available() to check if node is enabled.
->   - Use OF changeset API to update status property
-> - Addressed Andy's comments
->   - Probe function now accepts "struct device *dev" instead to reduce
->     line length and dereferences
->   - Move "ret = 0" to just before for_each_child_of_node(i2c_node, node)
-> ---
->  drivers/i2c/Makefile             |   1 +
->  drivers/i2c/i2c-core-of-prober.c | 158 +++++++++++++++++++++++++++++++
->  include/linux/i2c.h              |   4 +
->  3 files changed, 163 insertions(+)
->  create mode 100644 drivers/i2c/i2c-core-of-prober.c
-> 
-> diff --git a/drivers/i2c/Makefile b/drivers/i2c/Makefile
-> index f12d6b10a85e..c539cdc1e305 100644
-> --- a/drivers/i2c/Makefile
-> +++ b/drivers/i2c/Makefile
-> @@ -9,6 +9,7 @@ i2c-core-objs			:= i2c-core-base.o i2c-core-smbus.o
->  i2c-core-$(CONFIG_ACPI)		+= i2c-core-acpi.o
->  i2c-core-$(CONFIG_I2C_SLAVE)	+= i2c-core-slave.o
->  i2c-core-$(CONFIG_OF)		+= i2c-core-of.o
-> +i2c-core-$(CONFIG_OF_DYNAMIC)	+= i2c-core-of-prober.o
->  
->  obj-$(CONFIG_I2C_SMBUS)		+= i2c-smbus.o
->  obj-$(CONFIG_I2C_CHARDEV)	+= i2c-dev.o
-> diff --git a/drivers/i2c/i2c-core-of-prober.c b/drivers/i2c/i2c-core-of-prober.c
-> new file mode 100644
-> index 000000000000..64d7631f4885
-> --- /dev/null
-> +++ b/drivers/i2c/i2c-core-of-prober.c
-> @@ -0,0 +1,158 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Linux I2C core OF component prober code
-> + *
-> + * Copyright (C) 2024 Google LLC
-> + */
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/device.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/slab.h>
-> +
-> +/*
-> + * Some devices, such as Google Hana Chromebooks, are produced by multiple
-> + * vendors each using their preferred components. Such components are all
-> + * in the device tree. Instead of having all of them enabled and having each
-> + * driver separately try and probe its device while fighting over shared
-> + * resources, they can be marked as "fail-needs-probe" and have a prober
-> + * figure out which one is actually used beforehand.
-> + *
-> + * This prober assumes such drop-in parts are on the same I2C bus, have
-> + * non-conflicting addresses, and can be directly probed by seeing which
-> + * address responds.
-> + *
-> + * TODO:
-> + * - Support handling common regulators.
-> + * - Support handling common GPIOs.
-> + * - Support I2C muxes
-> + */
-> +
-> +static struct device_node *i2c_of_probe_get_i2c_node(struct device *dev, const char *type)
-> +{
-> +	struct device_node *node __free(device_node) = of_find_node_by_name(NULL, type);
-> +	if (!node)
-> +		return dev_err_ptr_probe(dev, -ENODEV, "Could not find %s device node\n", type);
-> +
-> +	struct device_node *i2c_node __free(device_node) = of_get_parent(node);
-> +	if (!of_node_name_eq(i2c_node, "i2c"))
-> +		return dev_err_ptr_probe(dev, -EINVAL, "%s device isn't on I2C bus\n", type);
-> +
-> +	if (!of_device_is_available(i2c_node))
-> +		return dev_err_ptr_probe(dev, -ENODEV, "I2C controller not available\n");
-> +
-> +	return no_free_ptr(i2c_node);
-> +}
-> +
-> +static int i2c_of_probe_enable_node(struct device *dev, struct device_node *node)
-> +{
-> +	int ret;
-> +
-> +	dev_info(dev, "Enabling %pOF\n", node);
-> +
-> +	struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
-> +	if (!ocs)
-> +		return -ENOMEM;
-> +
-> +	of_changeset_init(ocs);
-> +	ret = of_changeset_update_prop_string(ocs, node, "status", "okay");
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = of_changeset_apply(ocs);
-> +	if (ret) {
-> +		/* ocs needs to be explicitly cleaned up before being freed. */
-> +		of_changeset_destroy(ocs);
-> +	} else {
-> +		/*
-> +		 * ocs is intentionally kept around as it needs to
-> +		 * exist as long as the change is applied.
-> +		 */
-> +		void *ptr __always_unused = no_free_ptr(ocs);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * i2c_of_probe_component() - probe for devices of "type" on the same i2c bus
-> + * @dev: &struct device of the caller, only used for dev_* printk messages
-> + * @type: a string to match the device node name prefix to probe for
-> + *
-> + * Probe for possible I2C components of the same "type" on the same I2C bus
-> + * that have their status marked as "fail".
-> + *
-> + * Assumes that across the entire device tree the only instances of nodes
-> + * prefixed with "type" are the ones that need handling for second source
-> + * components. In other words, if type is "touchscreen", then all device
-> + * nodes named "touchscreen*" are the ones that need probing. There cannot
-> + * be another "touchscreen" node that is already enabled.
-> + *
-> + * Assumes that for each "type" of component, only one actually exists. In
-> + * other words, only one matching and existing device will be enabled.
-> + *
-> + * Context: Process context only. Does non-atomic I2C transfers.
-> + *          Should only be used from a driver probe function, as the function
-> + *          can return -EPROBE_DEFER if the I2C adapter is unavailable.
-> + * Return: 0 on success or no-op, error code otherwise.
-> + *         A no-op can happen when it seems like the device tree already
-> + *         has components of the type to be probed already enabled. This
-> + *         can happen when the device tree had not been updated to mark
-> + *         the status of the to-be-probed components as "fail". Or this
-> + *         function was already run with the same parameters and succeeded
-> + *         in enabling a component. The latter could happen if the user
-> + *         had multiple types of components to probe, and one of them down
-> + *         the list caused a deferred probe. This is expected behavior.
-> + */
-> +int i2c_of_probe_component(struct device *dev, const char *type)
-> +{
-> +	struct i2c_adapter *i2c;
-> +	int ret;
-> +
-> +	struct device_node *i2c_node __free(device_node) = i2c_of_probe_get_i2c_node(dev, type);
-> +	if (IS_ERR(i2c_node))
-> +		return PTR_ERR(i2c_node);
-> +
-> +	for_each_child_of_node_scoped(i2c_node, node) {
+Quoting Andy Shevchenko (2024-09-04 06:00:57)
+> On Tue, Sep 03, 2024 at 06:20:14PM -0400, Stephen Boyd wrote:
+> > Quoting Andy Shevchenko (2024-09-02 04:35:46)
+> > > On Sat, Aug 31, 2024 at 09:06:44PM -0700, Stephen Boyd wrote:
+>
+> > > > +     adev->dev.of_node = of_node_get(parent->of_node);
+> > >
+> > > device_set_node() ?
+> >
+> > Or device_set_of_node_from_dev()?
+>
+> This is quite unclear to me. The second one bumps the reference count IIRC
+> for no reason (in usual cases). Also only few drivers use that, I would hear
+> what OF people can tell about this API and its usage scope.
 
-for_each_available_child_of_node_scoped()
+Sure, but to be equivalent to the existing code from which this has been
+copied it should use device_set_of_node_from_dev(). Seems fine to just
+use that.
 
+> > > > +static int dp_lane_to_typec_lane(enum dp_lane lane)
+> > > > +{
+> > > > +     switch (lane) {
+> > > > +     case DP_ML0:
+> > > > +             return USB_SSTX2;
+> > > > +     case DP_ML1:
+> > > > +             return USB_SSRX2;
+> > > > +     case DP_ML2:
+> > > > +             return USB_SSTX1;
+> > > > +     case DP_ML3:
+> > > > +             return USB_SSRX1;
+> > > > +     }
+> > >
+> > > > +     return -EINVAL;
+> > >
+> > > Hmm... This can be simply made as default case.
+> >
+> > And then the enum is always "covered" and the compiler doesn't complain
+> > about missing cases (I don't think we have -Wswitch-enum)? Seems worse.
+>
+> Hmm... You mean if I remove one of the above cases I will get the warning?
+>
 
-> +		if (!of_node_name_prefix(node, type))
-> +			continue;
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
-> +		/*
-> +		 * Device tree has component already enabled. Either the
-> +		 * device tree isn't supported or we already probed once.
-> +		 */
-> +		return 0;
-> +	}
+Yes.

@@ -1,432 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DDE155730
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Sep 2024 11:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9994219D06D
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Sep 2024 15:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725535405; cv=none; b=nb+dEg8eqbaAxcH4tF8p91qKT3i2P7quW3de+Bgmtk51NirM5EFMTSfqQR/WMbpQouuCrWX2r5wiAF83xjtt3JzsDSsV3BYfZaknjCfMrIdob31YEu79EfvpD0qLM+20L6JA6DiJR9m+Pq96S9paJdy9+MpHpbVMWpR29vaiafY=
+	t=1725549050; cv=none; b=bUKJ50WO4IfWm6ecG+4YTAOLzs7ecZh5XwaQn8KTsMvDcVEa6NE4cCsCqkSB+7r+WyXi5vWy884lnxa7QJe+pvCeA+b3kli40KZVlsM83DQ3b8XpAQuFX9gW5aS1Jg03kuZPquX3mdfSu/iajt7brluYwIF03M31DJkD3g14Bt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725535405; c=relaxed/simple;
-	bh=uzVm63Qqt3Tui1IbbhruevLE5CI9ytwBhLtMm8qzhag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4Di2G5SCoM0vr0g5IPC9Rzoxwq4DqvTn4j69jGM4xJxOAhPr6m9tcA2kYnUgAYZgzJ9sCDk4s3nwqqnOFObsyxa0+xftnnpBjhoaI9HzSTw49nKDzvuomSQKog/6eZlX7ldzvOGWW8jlAOgNxC9uxINMMgfqSgwfmffpb7DYvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rysf8soX; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725549050; c=relaxed/simple;
+	bh=Jg419JiaVpr39nxDzhXqFqCEex8GnrqdC99ZhI00XOI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DqsYMUgKpVazqsJHkYPa8tQD9jPTALMmkOJ5PHsiPrut+27reT7izN+gLnNQ6SxEIaVQ8gMyynSn25ZEOmhHtHi3/NNbVgJ18AbBV2wbIPPRDjRimevJq1dafJKCZp1tO5Kq+UA0MqxlF66Yd+JJZ5EKkVwSLbRSzes/vW+bxm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I5oUQIs5; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rysf8soX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725535404; x=1757071404;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uzVm63Qqt3Tui1IbbhruevLE5CI9ytwBhLtMm8qzhag=;
-  b=Rysf8soXuuv9GrQMwlWtWpvY5qeiYqcPt10/FvClmEheAMOyYK1G4AEC
-   TYVoPmyyQnYw9kkS0/69G1eTX783O/hp6zZHL8wdbzIJHhU8uRMX6ssYW
-   D1t40oD3AsNTxnIA0n2mgQ39S11LqhgNdkDuFCt944r1at88JzKZASLGg
-   P7SSov6R+9klsFQjPNgAUflVykkKXHEeDU6cQ6upZXe7NfOyqQTiLEn0W
-   3wbXJQmHTI535NzP8mD7oWVq6TyzGJ6AZca/cEF/6NQ519q/NkQ7/F3+9
-   wLZA9HTFrg9Zqz6Yy1UltX/Wb4XjaxKHuPvhlVKLpxElA0W2rFrHjm8sT
-   Q==;
-X-CSE-ConnectionGUID: Sh0mAVZQQPKTGUTr9jHOwQ==
-X-CSE-MsgGUID: 71fhxM/gSeG2Fj5IMiFrWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34816130"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="34816130"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 04:23:23 -0700
-X-CSE-ConnectionGUID: oASWpxPsTRWZgEa/hPgv4w==
-X-CSE-MsgGUID: 2L/stiQhSL2bBChkSJaD2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="70388810"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by orviesa005.jf.intel.com with SMTP; 05 Sep 2024 04:23:19 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 05 Sep 2024 14:23:18 +0300
-Date: Thu, 5 Sep 2024 14:23:18 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v5 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <ZtmUptrsOvcRxiVa@kuha.fi.intel.com>
-References: <20240903163033.3170815-1-ukaszb@chromium.org>
- <20240903163033.3170815-4-ukaszb@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I5oUQIs5"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f504652853so10909211fa.0
+        for <chrome-platform@lists.linux.dev>; Thu, 05 Sep 2024 08:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725549047; x=1726153847; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lbZG96yCjg3dP1dRLPb67mYWLsYBymVv/aX2fCRRjEc=;
+        b=I5oUQIs5lJEeH34rioVBHRVN4MT5c6gSRrs//cS2LpDUO0CjCKkxuSVzkKzi1YSJzR
+         ztqnmPQmbRKnIVWUWhkdpB5LK5GWx6NEPixxMRArZ5+O+/vd/oZlRXQ2Noie6QhpW7EU
+         EpG8ii0d5ry4JfENGDqpEjQQw43sYUDzjVJAM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725549047; x=1726153847;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lbZG96yCjg3dP1dRLPb67mYWLsYBymVv/aX2fCRRjEc=;
+        b=wLm+dBUxznOZDFQD5O+tfV8yvnJfsQxhjdt3dnabuQoHFlw5kBTkNX0Vxf4JNjU2co
+         Cm4MBls13ftCng4SJDtpG9pgV50glnOHw3ZvggknX+04IXFwQC226c6xT1OXLS9t+FLZ
+         D/0N9YyFhX9I38sxer3iBYVHHlPotMDcu/Z8XqhHAPAX+WaVVv6OcK2KjKWVGS1z7TvH
+         RXurx0ZJYCCID8J8yXvhu+OHtEpREmXbvPST9ESrRh1WU+ZjA4XvvHjWGK2tWvoCLgnd
+         A+kfWf9bTMXa8L0kMp2Lvam3qTraRFATrtUa6WSLN929bC2kYXhZn8tAs/q1kRaodnYC
+         XgIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXdWaKUAVmzm1IhJjy5t2xFqdNKIgAKFuviVtyo2rPaOexZyOtsBAnPiNhH5V1dUQ1nOtQ1dmf1SkC37PWVvFk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKDZj3tK7KCkrotvDNGYdUswPgPVqxp4em5Y2rrqRtgFgpsFYC
+	ZpHmf4rIp4VyBH+JVKJmYpApkR2kKXk4papQpFtNiafAUzBJ4XcYyRQpzC3wECBNtemuC+0FhF7
+	Vrxe+0tcXJ0HooI5MIVBR+K93gKV1IO1p+iK4
+X-Google-Smtp-Source: AGHT+IEoyY9FAQCs2QvyohjteVuKx8qEJUbTxgD4g5/TL4wAkdAbEbByYe9g569nCl27ndm/hY5F+Ctp+XibXgbNBjM=
+X-Received: by 2002:a2e:f1a:0:b0:2f6:5f7b:e5e0 with SMTP id
+ 38308e7fff4ca-2f65f7be680mr30625541fa.21.1725549046375; Thu, 05 Sep 2024
+ 08:10:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240903163033.3170815-4-ukaszb@chromium.org>
+References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-10-wenst@chromium.org>
+ <CAD=FV=UGOz3Xzg7reJKP=tA1LqTxszv5w-CL9krmoXQtXdJLaQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=UGOz3Xzg7reJKP=tA1LqTxszv5w-CL9krmoXQtXdJLaQ@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 5 Sep 2024 23:10:34 +0800
+Message-ID: <CAGXv+5F27K76t=ht5v75jKsNF-J+C0r5+m=czHz6PtV3t5DxcQ@mail.gmail.com>
+Subject: Re: [PATCH v6 09/12] i2c: of-prober: Add regulator support
+To: Doug Anderson <dianders@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 03, 2024 at 04:30:28PM +0000, Łukasz Bartosik wrote:
-> From: Pavan Holla <pholla@chromium.org>
-> 
-> Implementation of a UCSI transport driver for ChromeOS.
-> This driver will be loaded if the ChromeOS EC implements a PPM.
-> 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
-> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+On Thu, Sep 5, 2024 at 6:57=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> Hi,
+>
+> On Wed, Sep 4, 2024 at 2:01=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> =
+wrote:
+> >
+> > This adds regulator management to the I2C OF component prober.
+> > Components that the prober intends to probe likely require their
+> > regulator supplies be enabled, and GPIOs be toggled to enable them or
+> > bring them out of reset before they will respond to probe attempts.
+> > GPIOs will be handled in the next patch.
+> >
+> > Without specific knowledge of each component's resource names or
+> > power sequencing requirements, the prober can only enable the
+> > regulator supplies all at once, and toggle the GPIOs all at once.
+> > Luckily, reset pins tend to be active low, while enable pins tend to
+> > be active high, so setting the raw status of all GPIO pins to high
+> > should work. The wait time before and after resources are enabled
+> > are collected from existing drivers and device trees.
+> >
+> > The prober collects resources from all possible components and enables
+> > them together, instead of enabling resources and probing each component
+> > one by one. The latter approach does not provide any boot time benefits
+> > over simply enabling each component and letting each driver probe
+> > sequentially.
+> >
+> > The prober will also deduplicate the resources, since on a component
+> > swap out or co-layout design, the resources are always the same.
+> > While duplicate regulator supplies won't cause much issue, shared
+> > GPIOs don't work reliably, especially with other drivers. For the
+> > same reason, the prober will release the GPIOs before the successfully
+> > probed component is actually enabled.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > Changes since v5:
+> > - Split of_regulator_bulk_get_all() return value check and explain
+> >   "ret =3D=3D 0" case
+> > - Switched to of_get_next_child_with_prefix_scoped() where applicable
+> > - Used krealloc_array() instead of directly calculating size
+> > - copy whole regulator array in one memcpy() call
+> > - Drop "0" from struct zeroing initializer
+> > - Split out regulator helper from i2c_of_probe_enable_res() to keep
+> >   code cleaner when combined with the next patch
+> > - Added options for customizing power sequencing delay
+> > - Rename i2c_of_probe_get_regulator() to i2c_of_probe_get_regulators()
+> > - Add i2c_of_probe_free_regulator() helper
+> >
+> > Changes since v4:
+> > - Split out GPIO handling to separate patch
+> > - Rewrote using of_regulator_bulk_get_all()
+> > - Replaced "regulators" with "regulator supplies" in debug messages
+> >
+> > Changes since v3:
+> > - New patch
+> >
+> > This change is kept as a separate patch for now since the changes are
+> > quite numerous.
+> > ---
+> >  drivers/i2c/i2c-core-of-prober.c | 154 +++++++++++++++++++++++++++++--
+> >  include/linux/i2c.h              |  10 +-
+> >  2 files changed, 155 insertions(+), 9 deletions(-)
+>
+> I never jumped back into looking at this since you started sending new
+> versions last month (sorry), but I finally did...
+>
+> At a high level, I have to say I'm not really a fan of the "reach into
+> all of the devices, jam their regulators on, force their GPIOs high,
+> and hope for the best" approach. It just feels like it's going to
+> break at the first bit of slightly different hardware and cause power
+> sequence violations left and right. If nothing else, regulators often
+> need delays between when one regulator is enabled and the next. There
+> may also be complex relationships between regulators and GPIOs, GPIOs,
+> GPIOs that need to be low, or even GPIO "toggle sequences" (power on
+> rail 1, wait 1 ms, assert reset, wait 10 ms, deassert reset, power on
+> rail 2).
+>
+> IMO the only way to make this reliable is to have this stuff be much
+> less automatic and much more driven by the board.
+>
+> I think that, in general, before the board prober checks i2c address
+> then the prober should be in charge of setting up pinctrl and turning
+> on regulators / GPIOs. Given that the same regulator(s) and GPIO(s)
+> may be specified by different children, the prober will just have to
+> pick one child to find those resources. It should have enough
+> board-specific knowledge to make this choice. Then the prober should
+> turn them on via a board-specific power-on sequence that's known to
+> work for all the children. Then it should start probing.
+>
+> I think there can still be plenty of common helper functions that the
+> board-specific prober can leverage, but overall I'd expect the actual
+> power-on and power-off code to be board-specific.
+>
+> If many boards have in common that we need to turn on exactly one
+> regulator + one GPIO, or just one regulator, or whatever then having a
+> helper function that handles these cases is fine. ...but it should be
+> one of many choices that a board proper could use and not the only
+> one.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+IIUC we could have the "options" data structure have much more board
+specific information:
 
-> ---
->  MAINTAINERS                           |   7 +
->  drivers/usb/typec/ucsi/Kconfig        |  13 ++
->  drivers/usb/typec/ucsi/Makefile       |   1 +
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 278 ++++++++++++++++++++++++++
->  4 files changed, 299 insertions(+)
->  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe83ba7194ea..8c030ea0b503 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5300,6 +5300,13 @@ L:	chrome-platform@lists.linux.dev
->  S:	Maintained
->  F:	drivers/watchdog/cros_ec_wdt.c
->  
-> +CHROMEOS UCSI DRIVER
-> +M:	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> +M:	Łukasz Bartosik <ukaszb@chromium.org>
-> +L:	chrome-platform@lists.linux.dev
-> +S:	Maintained
-> +F:	drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> +
->  CHRONTEL CH7322 CEC DRIVER
->  M:	Joe Tessler <jrt@google.com>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> index 680e1b87b152..75559601fe8f 100644
-> --- a/drivers/usb/typec/ucsi/Kconfig
-> +++ b/drivers/usb/typec/ucsi/Kconfig
-> @@ -69,6 +69,19 @@ config UCSI_PMIC_GLINK
->  	  To compile the driver as a module, choose M here: the module will be
->  	  called ucsi_glink.
->  
-> +config CROS_EC_UCSI
-> +	tristate "UCSI Driver for ChromeOS EC"
-> +	depends on MFD_CROS_EC_DEV
-> +	depends on CROS_USBPD_NOTIFY
-> +	depends on !EXTCON_TCSS_CROS_EC
-> +	default MFD_CROS_EC_DEV
-> +	help
-> +	  This driver enables UCSI support for a ChromeOS EC. The EC is
-> +	  expected to implement a PPM.
-> +
-> +	  To compile the driver as a module, choose M here: the module
-> +	  will be called cros_ec_ucsi.
-> +
->  config UCSI_LENOVO_YOGA_C630
->  	tristate "UCSI Interface Driver for Lenovo Yoga C630"
->  	depends on EC_LENOVO_YOGA_C630
-> diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-> index aed41d23887b..be98a879104d 100644
-> --- a/drivers/usb/typec/ucsi/Makefile
-> +++ b/drivers/usb/typec/ucsi/Makefile
-> @@ -21,4 +21,5 @@ obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
->  obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
->  obj-$(CONFIG_UCSI_STM32G0)		+= ucsi_stm32g0.o
->  obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
-> +obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
->  obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
-> diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> new file mode 100644
-> index 000000000000..6b9dc05a4960
-> --- /dev/null
-> +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> @@ -0,0 +1,278 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * UCSI driver for ChromeOS EC
-> + *
-> + * Copyright 2024 Google LLC.
-> + */
-> +
-> +#include <linux/container_of.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_usbpd_notify.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/wait.h>
-> +
-> +#include "ucsi.h"
-> +
-> +/*
-> + * Maximum size in bytes of a UCSI message between AP and EC
-> + */
-> +#define MAX_EC_DATA_SIZE	256
-> +
-> +/*
-> + * Maximum time in miliseconds the cros_ec_ucsi driver
-> + * will wait for a response to a command or and ack.
-> + */
-> +#define WRITE_TMO_MS		5000
-> +
-> +struct cros_ucsi_data {
-> +	struct device *dev;
-> +	struct ucsi *ucsi;
-> +
-> +	struct cros_ec_device *ec;
-> +	struct notifier_block nb;
-> +	struct work_struct work;
-> +
-> +	struct completion complete;
-> +	unsigned long flags;
-> +};
-> +
-> +static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
-> +			  size_t val_len)
-> +{
-> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> +	struct ec_params_ucsi_ppm_get req = {
-> +		.offset = offset,
-> +		.size = val_len,
-> +	};
-> +	int ret;
-> +
-> +	if (val_len > MAX_EC_DATA_SIZE) {
-> +		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
-> +			  &req, sizeof(req), val, val_len);
-> +	if (ret < 0) {
-> +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
-> +		return ret;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int cros_ucsi_read_version(struct ucsi *ucsi, u16 *version)
-> +{
-> +	return cros_ucsi_read(ucsi, UCSI_VERSION, version, sizeof(*version));
-> +}
-> +
-> +static int cros_ucsi_read_cci(struct ucsi *ucsi, u32 *cci)
-> +{
-> +	return cros_ucsi_read(ucsi, UCSI_CCI, cci, sizeof(*cci));
-> +}
-> +
-> +static int cros_ucsi_read_message_in(struct ucsi *ucsi, void *val,
-> +				     size_t val_len)
-> +{
-> +	return cros_ucsi_read(ucsi, UCSI_MESSAGE_IN, val, val_len);
-> +}
-> +
-> +static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
-> +{
-> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> +	struct ec_params_ucsi_ppm_set *req;
-> +	size_t req_len;
-> +	int ret;
-> +
-> +	req_len = sizeof(struct ec_params_ucsi_ppm_set) + sizeof(cmd);
-> +	req = kzalloc(req_len, GFP_KERNEL);
-> +	if (!req)
-> +		return -ENOMEM;
-> +
-> +	req->offset = UCSI_CONTROL;
-> +	memcpy(req->data, &cmd, sizeof(cmd));
-> +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
-> +			  req, req_len, NULL, 0);
-> +	if (ret < 0) {
-> +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
-> +		return ret;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-> +{
-> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> +	bool ack = UCSI_COMMAND(cmd) == UCSI_ACK_CC_CI;
-> +	int ret;
-> +
-> +	if (ack)
-> +		set_bit(ACK_PENDING, &udata->flags);
-> +	else
-> +		set_bit(COMMAND_PENDING, &udata->flags);
-> +
-> +	ret = cros_ucsi_async_control(ucsi, cmd);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (!wait_for_completion_timeout(&udata->complete, WRITE_TMO_MS))
-> +		ret = -ETIMEDOUT;
-> +
-> +out:
-> +	if (ack)
-> +		clear_bit(ACK_PENDING, &udata->flags);
-> +	else
-> +		clear_bit(COMMAND_PENDING, &udata->flags);
-> +	return ret;
-> +}
-> +
-> +struct ucsi_operations cros_ucsi_ops = {
-> +	.read_version = cros_ucsi_read_version,
-> +	.read_cci = cros_ucsi_read_cci,
-> +	.read_message_in = cros_ucsi_read_message_in,
-> +	.async_control = cros_ucsi_async_control,
-> +	.sync_control = cros_ucsi_sync_control,
-> +};
-> +
-> +static void cros_ucsi_work(struct work_struct *work)
-> +{
-> +	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
-> +	u32 cci;
-> +
-> +	if (cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci)))
-> +		return;
-> +
-> +	if (UCSI_CCI_CONNECTOR(cci))
-> +		ucsi_connector_change(udata->ucsi, UCSI_CCI_CONNECTOR(cci));
-> +
-> +	if (cci & UCSI_CCI_ACK_COMPLETE &&
-> +	    test_and_clear_bit(ACK_PENDING, &udata->flags))
-> +		complete(&udata->complete);
-> +	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-> +	    test_and_clear_bit(COMMAND_PENDING, &udata->flags))
-> +		complete(&udata->complete);
-> +}
-> +
-> +static int cros_ucsi_event(struct notifier_block *nb,
-> +			   unsigned long host_event, void *_notify)
-> +{
-> +	struct cros_ucsi_data *udata = container_of(nb, struct cros_ucsi_data, nb);
-> +
-> +	if (!(host_event & PD_EVENT_PPM))
-> +		return NOTIFY_OK;
-> +
-> +	dev_dbg(udata->dev, "UCSI notification received");
-> +	flush_work(&udata->work);
-> +	schedule_work(&udata->work);
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
-> +static void cros_ucsi_destroy(struct cros_ucsi_data *udata)
-> +{
-> +	cros_usbpd_unregister_notify(&udata->nb);
-> +	cancel_work_sync(&udata->work);
-> +	ucsi_destroy(udata->ucsi);
-> +}
-> +
-> +static int cros_ucsi_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cros_ec_dev *ec_data = dev_get_drvdata(dev->parent);
-> +	struct cros_ucsi_data *udata;
-> +	int ret;
-> +
-> +	udata = devm_kzalloc(dev, sizeof(*udata), GFP_KERNEL);
-> +	if (!udata)
-> +		return -ENOMEM;
-> +
-> +	udata->dev = dev;
-> +
-> +	udata->ec = ec_data->ec_dev;
-> +	if (!udata->ec) {
-> +		dev_err(dev, "couldn't find parent EC device");
-> +		return -ENODEV;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, udata);
-> +
-> +	INIT_WORK(&udata->work, cros_ucsi_work);
-> +	init_completion(&udata->complete);
-> +
-> +	udata->ucsi = ucsi_create(dev, &cros_ucsi_ops);
-> +	if (IS_ERR(udata->ucsi)) {
-> +		dev_err(dev, "failed to allocate UCSI instance");
-> +		return PTR_ERR(udata->ucsi);
-> +	}
-> +
-> +	ucsi_set_drvdata(udata->ucsi, udata);
-> +
-> +	udata->nb.notifier_call = cros_ucsi_event;
-> +	ret = cros_usbpd_register_notify(&udata->nb);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register notifier: error=%d", ret);
-> +		ucsi_destroy(udata->ucsi);
-> +		return ret;
-> +	}
-> +
-> +	ret = ucsi_register(udata->ucsi);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register UCSI: error=%d", ret);
-> +		cros_ucsi_destroy(udata);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void cros_ucsi_remove(struct platform_device *dev)
-> +{
-> +	struct cros_ucsi_data *udata = platform_get_drvdata(dev);
-> +
-> +	ucsi_unregister(udata->ucsi);
-> +	cros_ucsi_destroy(udata);
-> +}
-> +
-> +static int __maybe_unused cros_ucsi_suspend(struct device *dev)
-> +{
-> +	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-> +
-> +	cancel_work_sync(&udata->work);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused cros_ucsi_resume(struct device *dev)
-> +{
-> +	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-> +
-> +	return ucsi_resume(udata->ucsi);
-> +}
-> +
-> +static SIMPLE_DEV_PM_OPS(cros_ucsi_pm_ops, cros_ucsi_suspend,
-> +			 cros_ucsi_resume);
-> +
-> +static const struct platform_device_id cros_ucsi_id[] = {
-> +	{ KBUILD_MODNAME, 0 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(platform, cros_ucsi_id);
-> +
-> +static struct platform_driver cros_ucsi_driver = {
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-> +		.pm = &cros_ucsi_pm_ops,
-> +	},
-> +	.id_table = cros_ucsi_id,
-> +	.probe = cros_ucsi_probe,
-> +	.remove = cros_ucsi_remove,
-> +};
-> +
-> +module_platform_driver(cros_ucsi_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("UCSI driver for ChromeOS EC");
-> -- 
-> 2.46.0.469.g59c65b2a67-goog
+  - name of node to fetch resources (regulator supplies and GPIOs) from
+  - names of the resources for the node given from the previous item
+  - delay time after each resource is toggled
+  - polarity in the case of GPIOs
+  - prober callback to do power sequencing
 
--- 
-heikki
+The "resource collection" step would use the first two items to retrieve
+the regulator supplies and GPIOS instead of the bulk APIs used right now.
+
+The power sequencing callback would use the resources combined with the
+given delays to enable the supplies and toggle the GPIOs.
+
+For now I would probably only implement a generic one regulator supply
+plus one GPIO helper. That is the common case for touchscreens and
+trackpads connected over a ribbon cable.
+
+Does that sound like what you have in mind?
+
+
+This next item would be a later enhancement (which isn't implemented in
+this series anyway):
+
+  - optional prober callback that does actual probing
+
+In our case it would only be used for cases where an HID-over-I2C
+component shares the same address as a non-HID one, and some extra
+work is needed to determine which type it is. I still need to think
+about the structure of this.
+
+
+Thanks
+ChenYu

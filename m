@@ -1,44 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133E51C9EC2;
-	Fri,  6 Sep 2024 14:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30FE1CCB31
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725631670; cv=none; b=pynvn4/GlV/HIA9F+iL2il3IugBpNHpoBUabR64wul9TeFJxT32kEpLBdsNDOP8TKU/paGq3foAYderzsdTzI+YLMhQotOye5Wt/Yyws8A3GNXcIsOF7TwBkhsdgMXfNpR3fVdBvCY8O2ypYzss2XQon6YcG1+40HHxV77Pl7ts=
+	t=1725632401; cv=none; b=HPhVnOpPOJ98JyftMZBa1qGGMPITnnW8AxnL+WvoVTEKiI5XvCyhgvhZVLp1yfhc3i6LCnU3IJhBdqrmW0FXHg3Ate9xZKYI3I0aW8W5SVIoIJgdxA00kbHlv4b75t07pSDk5/TDXZPcKDV6ZF8bVynOdGpFG/fv+qzoAx0xaQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725631670; c=relaxed/simple;
-	bh=vFAeDpoM03vRLQqYKnz2VReDhp3uNM7Kd+uE52jpC08=;
+	s=arc-20240116; t=1725632401; c=relaxed/simple;
+	bh=vId2srKe0fbdlIdvOiJAT3wMG2yLGyRD/YQjTpUDQMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H7TPxYGS2Pqy01uY7u5qRpzHUFZZUF3NK9GW0KsDM832Fg67uWRv40XVfFsPYpX9KIf/0A/jqetjRaJ7BjHv4EWyVsR8QFyLW6WKqlB+k8N3fvzr1FzdCpLPqWa8CYTZlrup4ePBzFU62WSOxTSIwABPR3tcOHzg386du34p9+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=x0GE7CEv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mOn2ARLLTCyBCzlt+w9vUVUSf2IBkyOKsGir/qKNorrEnRMDn87+qC7tlO+WjxDvXOkGyYtdkClDmUGEAlZfKVKnccs9pQvZmUoRSf9+bttJUYXqIuuv8iObTjm57Ps+RMlnJHdQ0KIiUnzclSZob0YQV2YyTqsU7qX+/aKEwWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHPooccS; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="x0GE7CEv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198C6C4CEC4;
-	Fri,  6 Sep 2024 14:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1725631669;
-	bh=vFAeDpoM03vRLQqYKnz2VReDhp3uNM7Kd+uE52jpC08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=x0GE7CEvMnv1geiiFw21TdT72GjqqB+khQiXjr3OZjou3SLxWUJ6Zn2uQt2sXeOsu
-	 nVFUf0hZ0dDdZMeLar1OD8543u0HUU+5hqhmN5GCx7f5LbhA9ZA0rak93uLgcIjDsn
-	 Oer2Xc1s4yWaZi3hthI+HxH3hMfzN8NGwJ8HtLXw=
-Date: Fri, 6 Sep 2024 16:07:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHPooccS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725632400; x=1757168400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vId2srKe0fbdlIdvOiJAT3wMG2yLGyRD/YQjTpUDQMY=;
+  b=iHPooccS9dsVjydli8SlQzRwsDzHf1ENNZjbEygwHf+WMxfA0Sx7sbWF
+   o5hGDFWUBVpDwoDb0LiPPs1fmmaPSQm3Sacfziw5YYq7th82zcs4HCkXF
+   pWfBmZsgTpxZMAOoirSQ4K+4b5ZO6RlUHrQIIFqK9G9X187fBWnWVIg7L
+   fTxLsL61BjQjbyfG4pnsBScEby8u0/nuQ2k0iBvcsHJC4aT6zxg3bh1Ds
+   /qd7m22woqu4Q0aytbV2rBsrMGct0zoj98XC92BhSAsbvpZrNTo7QzjYO
+   ALdL4SL3Dxss7VWQhYDNy/aX8fZAL2TTj2MSkActqPnA9nJ2bW1yHZolS
+   Q==;
+X-CSE-ConnectionGUID: EP1uHdg6QOuQPELnKK/Nqw==
+X-CSE-MsgGUID: N9oEQX/DTzW7oR09Vs5M+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24501391"
+X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
+   d="scan'208";a="24501391"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 07:19:38 -0700
+X-CSE-ConnectionGUID: xMhbKBW6SvKhdEFXgs1ogw==
+X-CSE-MsgGUID: WGKnkTF8TWi57Mq7zahTNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
+   d="scan'208";a="65656795"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmviesa007.fm.intel.com with SMTP; 06 Sep 2024 07:19:34 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Sep 2024 17:19:33 +0300
+Date: Fri, 6 Sep 2024 17:19:33 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>, linux-usb@vger.kernel.org,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v5 2/8] platform/chrome: Update EC feature flags
-Message-ID: <2024090608-slick-shaft-1c8b@gregkh>
+Subject: Re: [PATCH v5 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <ZtsPdWRHkHWufsVh@kuha.fi.intel.com>
 References: <20240903163033.3170815-1-ukaszb@chromium.org>
- <20240903163033.3170815-3-ukaszb@chromium.org>
- <ZtrA8y0266RTm5Z3@google.com>
- <CALwA+NbiW+Gt9fi6Y+_xJFUEQWZFp5cvB5kqw_LVd4Mcf03Xtw@mail.gmail.com>
+ <20240903163033.3170815-4-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,31 +67,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALwA+NbiW+Gt9fi6Y+_xJFUEQWZFp5cvB5kqw_LVd4Mcf03Xtw@mail.gmail.com>
+In-Reply-To: <20240903163033.3170815-4-ukaszb@chromium.org>
 
-On Fri, Sep 06, 2024 at 03:53:06PM +0200, Łukasz Bartosik wrote:
-> On Fri, Sep 6, 2024 at 10:44 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > On Tue, Sep 03, 2024 at 04:30:27PM +0000, Łukasz Bartosik wrote:
-> > > From: Pavan Holla <pholla@chromium.org>
-> > >
-> > > Define EC_FEATURE_UCSI_PPM to enable usage of the cros_ec_ucsi
-> > > driver. Also, add any feature flags that are implemented by the EC
-> > > but are missing in the kernel header.
-> > >
-> > > Signed-off-by: Pavan Holla <pholla@chromium.org>
-> >
-> > Same as previous patch, it needs your S-o-b tag at the end.  See [1].
-> >
-> > [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
-> 
-> I have not added any modifications to this patch. I understand that my
-> S-o-b tag is not needed in such a case. Is that not correct ?
+Hi,
 
-If you are forwarding on patches from someone else, yes, you HAVE TO
-sign off on it as well saying that you are allowed to do the forwarding.
+Sorry to go back on this, but I noticed something..
+
+On Tue, Sep 03, 2024 at 04:30:28PM +0000, Łukasz Bartosik wrote:
+> +static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
+> +{
+> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> +	struct ec_params_ucsi_ppm_set *req;
+> +	size_t req_len;
+> +	int ret;
+> +
+> +	req_len = sizeof(struct ec_params_ucsi_ppm_set) + sizeof(cmd);
+> +	req = kzalloc(req_len, GFP_KERNEL);
+> +	if (!req)
+> +		return -ENOMEM;
+
+Where is the memory for req released?
+
+First I though that cros_ec_cmd() does it, but it's actually
+allocating it's own cros_ec_command, and then releasing that in the
+end, so I just got confused about it.
+
+Is this a memory leak, or am I missing something?
+
+> +
+> +	req->offset = UCSI_CONTROL;
+> +	memcpy(req->data, &cmd, sizeof(cmd));
+> +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
+> +			  req, req_len, NULL, 0);
+> +	if (ret < 0) {
+> +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
+> +		return ret;
+> +	}
+> +	return 0;
+> +}
 
 thanks,
 
-greg k-h
-
+-- 
+heikki

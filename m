@@ -1,112 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30FE1CCB31
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 14:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918C61CCB2C
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 15:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725632401; cv=none; b=HPhVnOpPOJ98JyftMZBa1qGGMPITnnW8AxnL+WvoVTEKiI5XvCyhgvhZVLp1yfhc3i6LCnU3IJhBdqrmW0FXHg3Ate9xZKYI3I0aW8W5SVIoIJgdxA00kbHlv4b75t07pSDk5/TDXZPcKDV6ZF8bVynOdGpFG/fv+qzoAx0xaQM=
+	t=1725635477; cv=none; b=IuFOx+gAnUgB7TQeaGhhaL4pkzgFD80BtFdN8GqnVV64Tbdf3OHiVYDrUOqAPO2qlmzE5LHHqn3fXjRxIYr/HHT8CzqwFNx+JvnsMq8YsadEhjHFe3RDjtZT8b5gfkKEOWjjsuiMK9P9rxNlpW148WfwR38rScI+3lVpohk64OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725632401; c=relaxed/simple;
-	bh=vId2srKe0fbdlIdvOiJAT3wMG2yLGyRD/YQjTpUDQMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOn2ARLLTCyBCzlt+w9vUVUSf2IBkyOKsGir/qKNorrEnRMDn87+qC7tlO+WjxDvXOkGyYtdkClDmUGEAlZfKVKnccs9pQvZmUoRSf9+bttJUYXqIuuv8iObTjm57Ps+RMlnJHdQ0KIiUnzclSZob0YQV2YyTqsU7qX+/aKEwWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHPooccS; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725635477; c=relaxed/simple;
+	bh=rf4UTRwtuX4PsvIkw4m23QYyCQdn7lNWAwtBCUtCyww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=by6H50v5pHuMvrq4OQX3zkma5AB1ZYHRat7qChjVeKcIRtDBY01Rc+8LeAlQoj4GG8pkYkbreDkCyvGFFRiHOuf1yd6Sqdveyi1kg/w2kHhiVG+YRBIvtHggXIQvmwEFwNX8DgLlkA2c8EXn9NmBWXtQQhP7/2Q0z7qaoq6kspI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LL6ATbHy; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHPooccS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725632400; x=1757168400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vId2srKe0fbdlIdvOiJAT3wMG2yLGyRD/YQjTpUDQMY=;
-  b=iHPooccS9dsVjydli8SlQzRwsDzHf1ENNZjbEygwHf+WMxfA0Sx7sbWF
-   o5hGDFWUBVpDwoDb0LiPPs1fmmaPSQm3Sacfziw5YYq7th82zcs4HCkXF
-   pWfBmZsgTpxZMAOoirSQ4K+4b5ZO6RlUHrQIIFqK9G9X187fBWnWVIg7L
-   fTxLsL61BjQjbyfG4pnsBScEby8u0/nuQ2k0iBvcsHJC4aT6zxg3bh1Ds
-   /qd7m22woqu4Q0aytbV2rBsrMGct0zoj98XC92BhSAsbvpZrNTo7QzjYO
-   ALdL4SL3Dxss7VWQhYDNy/aX8fZAL2TTj2MSkActqPnA9nJ2bW1yHZolS
-   Q==;
-X-CSE-ConnectionGUID: EP1uHdg6QOuQPELnKK/Nqw==
-X-CSE-MsgGUID: N9oEQX/DTzW7oR09Vs5M+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24501391"
-X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="24501391"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 07:19:38 -0700
-X-CSE-ConnectionGUID: xMhbKBW6SvKhdEFXgs1ogw==
-X-CSE-MsgGUID: WGKnkTF8TWi57Mq7zahTNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="65656795"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmviesa007.fm.intel.com with SMTP; 06 Sep 2024 07:19:34 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Sep 2024 17:19:33 +0300
-Date: Fri, 6 Sep 2024 17:19:33 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v5 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <ZtsPdWRHkHWufsVh@kuha.fi.intel.com>
-References: <20240903163033.3170815-1-ukaszb@chromium.org>
- <20240903163033.3170815-4-ukaszb@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LL6ATbHy"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53653682246so2494137e87.1
+        for <chrome-platform@lists.linux.dev>; Fri, 06 Sep 2024 08:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725635473; x=1726240273; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tui8ro7/0J4XAAKxms9MBaVs88CJKZbuhtKePx9SuEI=;
+        b=LL6ATbHyK1S9JwE7sn6EUs5hhGXnFweW6KtIPP3VtaY9fT7D5WfakEBrMr4BRpqhCs
+         xmpGn0EHTCuC/hWqF/SYbYiyKaUUFkEw/kaq9Fg7+us9j6nJDw04Y/aBXxwR1wrVIDto
+         +k4ybiyT9MzqMfiTrAsGDt7s3L72N/ZC0V1/k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725635473; x=1726240273;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tui8ro7/0J4XAAKxms9MBaVs88CJKZbuhtKePx9SuEI=;
+        b=JV3fdB3vtAltqg7DwwVR1VdWCojx33BE5OqbfM1Zk5vlzciUF5v1o7djpjwqyiWm/r
+         vzIg5fjQgCIHOO7fEzua/HmdCwb9v8Bn1GuFVgldGMrKR6lHNOaLF5EckXJLkyD4EC6+
+         XE/1m3+AFoB8No/cMpX/rbGLfG3GeM3sR0gMec0PVCc5fNtnkQotqI5a0Nvn5YcIX10p
+         ddfaoi0FokbsA0t6UORyN4MxomVH+l9kHTCiKsjCaPxvo57twOUdAQJQqAORyAp5eJPL
+         t7HPSu1GH2ezytdDQ8LhYNFkodw12UpyOHOPwRNZYvzLs87NDC0DOeCR7i7nxiJQclzS
+         OPyA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ylX8fMx1ipAD3y2DdJOrNgYOeySXt5Fp5a+fT786KXwcKOv1GZl8FL6Dv7fWZZ+wB5ktQeub0ISmBCLYdXc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvFxadzkEwXEhFTg/+8hDj+IrDE8sjF12Qn1aWqqWm2Pr7sXoh
+	HBwvk2DGgidk4YwQ9eDiaN6KKFyMU3uP6k9R6e1ZMAjP3si/vgP/umzLe6dwqtxgZd1H6MVch45
+	7gyhynwqoQ9JrZoWJoYw0J/8/uPnt/ox+CYM=
+X-Google-Smtp-Source: AGHT+IH4P9eM8i2IIHGd9L4brJirB7x2Q+j1nT07a975rHbXmAf4GceRUszC0hwV7Z2cieMb0UOlUX93hGD/hXWsKak=
+X-Received: by 2002:a05:6512:3d86:b0:52e:74f5:d13 with SMTP id
+ 2adb3069b0e04-536587b3f46mr1927825e87.30.1725635472796; Fri, 06 Sep 2024
+ 08:11:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240903163033.3170815-4-ukaszb@chromium.org>
+References: <20240903163033.3170815-1-ukaszb@chromium.org> <20240903163033.3170815-3-ukaszb@chromium.org>
+ <ZtrA8y0266RTm5Z3@google.com> <CALwA+NbiW+Gt9fi6Y+_xJFUEQWZFp5cvB5kqw_LVd4Mcf03Xtw@mail.gmail.com>
+ <2024090608-slick-shaft-1c8b@gregkh>
+In-Reply-To: <2024090608-slick-shaft-1c8b@gregkh>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Fri, 6 Sep 2024 17:11:01 +0200
+Message-ID: <CALwA+NapBsJH68S50N62etimstUg6QUrMqUJ2wDJWKyvxHF6SQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] platform/chrome: Update EC feature flags
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+	Pavan Holla <pholla@chromium.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Sep 6, 2024 at 4:07=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Sep 06, 2024 at 03:53:06PM +0200, =C5=81ukasz Bartosik wrote:
+> > On Fri, Sep 6, 2024 at 10:44=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.o=
+rg> wrote:
+> > >
+> > > On Tue, Sep 03, 2024 at 04:30:27PM +0000, =C5=81ukasz Bartosik wrote:
+> > > > From: Pavan Holla <pholla@chromium.org>
+> > > >
+> > > > Define EC_FEATURE_UCSI_PPM to enable usage of the cros_ec_ucsi
+> > > > driver. Also, add any feature flags that are implemented by the EC
+> > > > but are missing in the kernel header.
+> > > >
+> > > > Signed-off-by: Pavan Holla <pholla@chromium.org>
+> > >
+> > > Same as previous patch, it needs your S-o-b tag at the end.  See [1].
+> > >
+> > > [1]: https://www.kernel.org/doc/html/latest/process/submitting-patche=
+s.html#when-to-use-acked-by-cc-and-co-developed-by
+> >
+> > I have not added any modifications to this patch. I understand that my
+> > S-o-b tag is not needed in such a case. Is that not correct ?
+>
+> If you are forwarding on patches from someone else, yes, you HAVE TO
+> sign off on it as well saying that you are allowed to do the forwarding.
+>
 
-Sorry to go back on this, but I noticed something..
+Thanks for the clarification Greg.
+I will add S-o-b then.
 
-On Tue, Sep 03, 2024 at 04:30:28PM +0000, Łukasz Bartosik wrote:
-> +static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
-> +{
-> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> +	struct ec_params_ucsi_ppm_set *req;
-> +	size_t req_len;
-> +	int ret;
-> +
-> +	req_len = sizeof(struct ec_params_ucsi_ppm_set) + sizeof(cmd);
-> +	req = kzalloc(req_len, GFP_KERNEL);
-> +	if (!req)
-> +		return -ENOMEM;
+Thanks,
+Lukasz
 
-Where is the memory for req released?
-
-First I though that cros_ec_cmd() does it, but it's actually
-allocating it's own cros_ec_command, and then releasing that in the
-end, so I just got confused about it.
-
-Is this a memory leak, or am I missing something?
-
-> +
-> +	req->offset = UCSI_CONTROL;
-> +	memcpy(req->data, &cmd, sizeof(cmd));
-> +	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
-> +			  req, req_len, NULL, 0);
-> +	if (ret < 0) {
-> +		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
-> +		return ret;
-> +	}
-> +	return 0;
-> +}
-
-thanks,
-
--- 
-heikki
+> thanks,
+>
+> greg k-h
+>

@@ -1,123 +1,152 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6151C86E4
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 15:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E9315990E
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 23:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725635968; cv=none; b=fh5KteP1hunzJeniXT90+QK7Unk2tu3GRyDdXEL/tpEXPvg/gZgcbHyNi4hsd7b/3yf4fl45/x4oLL0ruNm8tLBGiJDporjTjsrr6sNPJ2ZxIBpILGQMDKPe2rHyEA/+OP94IumpqxqfgZZIAiNbFjWxfR6SyfVrY8naZAblu0A=
+	t=1725664974; cv=none; b=fzjUHmvJNFELTRONYOd90SFvyz8A02SONJYyypB9+BBN+SmV3IZ6kcb0igNMsZnxGyIqCZjYsRAstRf4KmbvuHiCXtjJgJI9OWlHSvInXcIkEyr8eEgN5KwkKRsUJfraAY/rFpMWvhIxl1Pmo68Vcz6DV0Ju63BLrQbB2JKd/oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725635968; c=relaxed/simple;
-	bh=OSOuZkL/X/mNYuXEJFd7gBdX1eJI67yAbSVWtX/fPfM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UAp3yVvkqog109kiXy1RxDeEkhDIkNGqCvKFqpFamrCll7de5axnP+bTH8DeGU+Jl3mZNPoRxkuAC9H11n62mMiPjIM55uIbcC7aImfFIWd4rIUXN6kLMwMzNgZEUfaZVgz8eYdkxWB99M8w+EAi1R0MywpJAzqb7T69Yv+t824=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RAZBXAjU; arc=none smtp.client-ip=209.85.167.54
+	s=arc-20240116; t=1725664974; c=relaxed/simple;
+	bh=v9w2LTcgz/Jme+L6Qh9HHukhqTUREf69GMrFK2MCiXk=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QruRw8YkqiB3WfKos28/3I0SJc7G59raRk6JLbP1sHklHVneCscrfa9I9fa63rU0A5T1gZZ+O7FxPGo8dpmhdmst/F9KrVIgDOb1utjsi+Zi5a3/BVNlz5+gThJ2+yrDySIqAPHnTPqCDhabQCk7yIcHMyY3y5hYUkVAsu5vZm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jKQpbWeP; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RAZBXAjU"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53653ee23adso2055506e87.3
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Sep 2024 08:19:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jKQpbWeP"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7a4df9dc885so212284585a.0
+        for <chrome-platform@lists.linux.dev>; Fri, 06 Sep 2024 16:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725635965; x=1726240765; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=noleaBBmcHPsgizwxXud/rVIz/5Px6kF4LobwcN7U0c=;
-        b=RAZBXAjUvYyGrBigdGCXWx6MF/4RmcAAIlX+mWPZGZNNR2vO9yRvzz9SA7MpKYDlu6
-         yBcAJ6Dsrbwk4fD45bdZFVUQXa9bvOCEQkRlstE9l8cGlpXd6dxmwpfdxoaJXbB8WaB7
-         gdLUBH6jgOPKykzWgVe5VVq7AV01YyG0IFx7o=
+        d=chromium.org; s=google; t=1725664972; x=1726269772; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qy+mSIGNeS58++DzntcZUAiMsB2v+aaTI4VFNn3s3Og=;
+        b=jKQpbWePyA/SK9lNiF8+e3kMm086uerPBe42A8Dr6hX/QnkuaSx48Z+bMsd4wJ312R
+         g2BjfMrkVavkcVLiDgHD4M1pRG5HJjADAPjb9UPlLp1NJ7EIJrAZaOKYXqXTKgoJr9uU
+         OzaB2DdcYayLbr/VtD2Ij80sEno3ZiFCnBiJc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725635965; x=1726240765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=noleaBBmcHPsgizwxXud/rVIz/5Px6kF4LobwcN7U0c=;
-        b=crskgFgZP9n+p0CGJQH5QWrgmpi7Sz9GeC/6nWi2hFSdVDII4YiIbnnSOMi3nxu2Eb
-         oopChdXWpcNtCKvQAj9tRo9Iz5x9Pnqu7rebMOIuXcs8/azmEvhNw5AoDHpF3lYSxcK2
-         COwTwOavTvUjoLWhs2g3vHOPigvrX2/UffG4O3sqI/f0S3dS3JjLGtXVUqDhEnx6d/SM
-         E2Ro/Jakxm6LRDAUUJt3z4jUn/VvRD65wqE9i83LpEZD8oUPz3Q86+UAMsRLw6OaANX5
-         A4E6McBIMpVF9rrQdCFZMhLqqzFi4OKJxFlPODVgs27eRftSgm6EsD24dBEhiCxxGqT1
-         aO/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXrd8hSASunuqHyT7bxOelOITqMbUkSvgy5EazmdYLNhngMg66eOBNS+LRHREL74PSmJ+cPNnFRHnDugAVlSMM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxlpdW4nGuxPaSkJ75NxSmkYEoNj+RvDQ7BYCF09qkw2855bJS
-	n807XzFsHAXwjYfJH8ShNFTr4P/y/D+siJnmXZDSOp00Uzj+i6HemydY/uBYEbALQSfkkcQM1I2
-	J9nJWnprWgowd5x+pLevxNR7TTtCvDp1j0uA=
-X-Google-Smtp-Source: AGHT+IFVAM63Bs3VAvkqUDPEevU3qk7fsjHoPUg2mzp90Yr8MmCSObJgVxVt+3ywvZD2kgDj118t+VIs4MviiAaHop8=
-X-Received: by 2002:a05:6512:110f:b0:530:daaa:271c with SMTP id
- 2adb3069b0e04-536587b3427mr2273671e87.16.1725635964384; Fri, 06 Sep 2024
- 08:19:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725664972; x=1726269772;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qy+mSIGNeS58++DzntcZUAiMsB2v+aaTI4VFNn3s3Og=;
+        b=kr6hvSp8zPY5sdodsGrQu2RvT43F+i2xazpStCZ0OPP82IdpIR0s6zuEz6NBy2QiYE
+         08h04+yUpBM16maqAd+xicdrviVJ2JTfHxlhwQCnhWz6bK5uysKq0YNsoqTAKuwUf9bi
+         6wYKf6JhpPa62rluhY7yPuErvIduVTWKnTQW4cNQhkoG8cK/rg5FX/WgoFZZj2Qs7CoG
+         HzOskGZJnqN3r0wxafI/Yy24ajLZXyBr8XTqBs51460mB1Se7hTnlbIvjJ4O9BCLBCar
+         WnoCIhnOYSoLhgR+D4XP3zxIGjYOk1JkfGjmxMvWQKUXmRG7aTzdqU/oazPhl4FtP7jS
+         Fo1A==
+X-Gm-Message-State: AOJu0YyZ0ZDhyNE/rkuLfMDTw+7QwK8AhuC2aE0fsXCXJ0kxtn6MXULJ
+	x9/y+g2lMPUBpVY83C/6BJdxFHDgBjNk1kx7GRwp/gGFClSauf8v4m6nT9E7FOh5c+aKzlxaKd5
+	wtMJMh1c7GArx2zJc8oVvr1z1r+Wme4sFxoMv
+X-Google-Smtp-Source: AGHT+IGdJ1Cu7WnFiLbpujMlY7s5pDdgGf67TdTERXFuJ3iEOOQRoyH/H06YxaP9An0lzToQtnM4yN/MAX8bQLOzGCM=
+X-Received: by 2002:a05:620a:4512:b0:79e:f878:7ffb with SMTP id
+ af79cd13be357-7a996bb9ccdmr757628285a.9.1725664971979; Fri, 06 Sep 2024
+ 16:22:51 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 6 Sep 2024 18:22:51 -0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240903163033.3170815-1-ukaszb@chromium.org> <20240903163033.3170815-4-ukaszb@chromium.org>
- <ZtsPdWRHkHWufsVh@kuha.fi.intel.com>
-In-Reply-To: <ZtsPdWRHkHWufsVh@kuha.fi.intel.com>
-From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Date: Fri, 6 Sep 2024 17:19:13 +0200
-Message-ID: <CALwA+NY0LOhCNHidMfr4x0=4VOgGUODE1EU8up4BddretwLLxA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pavan Holla <pholla@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
+In-Reply-To: <Ztq6zf8n09ZcJNjT@google.com>
+References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-19-swboyd@chromium.org>
+ <ZtgqLZXbJbpG65vD@google.com> <CAE-0n51w3AAtLPq5M-i8F6z2jSOT3xFw3g8HM1h48xXBSeoZnA@mail.gmail.com>
+ <Ztq6zf8n09ZcJNjT@google.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 6 Sep 2024 18:22:51 -0500
+Message-ID: <CAE-0n52mqK+by7O84fPMsNTfWSYzCwHpRZGi2Epfq0-iM7ysDg@mail.gmail.com>
+Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
+ HPD information
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org, 
+	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Vinod Koul <vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 6, 2024 at 4:20=E2=80=AFPM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
+Quoting Tzung-Bi Shih (2024-09-06 01:18:21)
+> On Wed, Sep 04, 2024 at 02:45:36PM -0700, Stephen Boyd wrote:
+> > Quoting Tzung-Bi Shih (2024-09-04 02:36:45)
+> > > On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
+> > > > +     /* Inject HPD from the GPIO state if EC firmware is broken. */
+> > > > +     if (typec->hpd_asserted)
+> > > > +             resp->flags |= USB_PD_MUX_HPD_LVL;
+> > >
+> > > `typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
+> > > possible that a HPD is asserted for another port but not current `port`?
+> > > E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
+> > > gets called due to port 1 at the same time?
+> >
+> > I'd like to avoid synchronizing the hpd notify and this injection code,
+> > if that's what you're asking. Thinking about this though, I've realized
+> > that it's broken even when HPD is working on the EC. Consider this
+> > scenario with two type-c ports C0 and C1:
+> >
+> > [...]
 >
-> Hi,
+> I understood it more: originally, I was wondering if it needs an array
+> `typec->hpd_asserted[...]` for storing HPD for each port.  But, no.
 >
-> Sorry to go back on this, but I noticed something..
->
-> On Tue, Sep 03, 2024 at 04:30:28PM +0000, =C5=81ukasz Bartosik wrote:
-> > +static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
-> > +{
-> > +     struct cros_ucsi_data *udata =3D ucsi_get_drvdata(ucsi);
-> > +     struct ec_params_ucsi_ppm_set *req;
-> > +     size_t req_len;
-> > +     int ret;
-> > +
-> > +     req_len =3D sizeof(struct ec_params_ucsi_ppm_set) + sizeof(cmd);
-> > +     req =3D kzalloc(req_len, GFP_KERNEL);
-> > +     if (!req)
-> > +             return -ENOMEM;
->
-> Where is the memory for req released?
->
-> First I though that cros_ec_cmd() does it, but it's actually
-> allocating it's own cros_ec_command, and then releasing that in the
-> end, so I just got confused about it.
->
-> Is this a memory leak, or am I missing something?
->
+> What cros_typec_dp_bridge_hpd_notify() get is just a connected/disconnected
+> signal.  It kicks off cros_typec_port_work() for finding which port is
+> supposed to trigger the event (with some logic with `active_dp_port`,
+> `mux_gpio`, and `hpd_asserted`).
 
-Yes, you are right this is a memory leak.
-Thanks for catching this. I will fix it in the next version.
+Ok, cool. I intend to split this device into multiple devices, one per
+DP bridge. I haven't done that though because I don't have any device
+that has two independent DP controllers.
 
-Regards,
-Lukasz
+>
+>
+> Curious about one more scenario, is it possible:
+>
+> Initially, no DP port and no mux is using:
+>   active_dp_port = NULL
+>   hpd_asserted = false
+>   mux_gpio = NULL
+>
+> CPU A                                        CPU B
+> ------------------------------------------------------------------------------
+> cros_typec_port_work()
+>   cros_typec_port_update(port_num=0)
+>                                              [C0 connected]
+>                                              cros_typec_dp_bridge_hpd_notify()
+>                                                hpd_asserted = true
 
-> > +
-> > +     req->offset =3D UCSI_CONTROL;
-> > +     memcpy(req->data, &cmd, sizeof(cmd));
-> > +     ret =3D cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
-> > +                       req, req_len, NULL, 0);
-> > +     if (ret < 0) {
-> > +             dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_=
-SET: error=3D%d", ret);
-> > +             return ret;
-> > +     }
-> > +     return 0;
-> > +}
->
-> thanks,
->
-> --
-> heikki
+The work is queued again here because it's already running.
+
+>   cros_typec_port_update(port_num=1)
+>     cros_typec_configure_mux(port_num=1)
+>       cros_typec_inject_hpd()
+>       active_dp_port = C1
+
+Yeah it's a problem because we need to read the mux_gpio to figure out
+which way it's steering. We can't recreate the "first to assert HPD"
+logic that the EC has because we can't control when the worker runs. At
+least we can skip reading the mux if only one port has entered DP mode.
+I'm hoping that the scenario where both ports are in DP mode almost
+never happens, but if it does then we'll have to read the mux when hpd
+is asserted to figure out which port DP is muxed to.

@@ -1,67 +1,68 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A841E885
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 13:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAB71CEAB5
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Sep 2024 13:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725627715; cv=none; b=iDI2anQ2D8HPPQYhWhdMpUqgouaKyE8lLJ5icyfZTJ5vNIQ5aj+Ro4XeDFCsxpsw+KALaJdXNe1uFDEmZ0WgikK0b+VLqxsRs1S5ebbA26PUvW1tL26hPZZtEs8CdeT5aSeqdxV4mzTpmpHpbtCYjze7UMuDer5NexZrPtO/dww=
+	t=1725630801; cv=none; b=O4WCBuZ6wOJyN1HehcYO+qXLOFy9Xj3t7Zr/5ah9nk/XKUqWalpBEK90ovDzOUmUEThhlZWp8OO/Ebouc7cX/hPsFMqc9hV3tHvFCTbu2raBFlmxBb8CWItRb34Zw65UW3GXDI7H1u7KS8oes+QCRZ9Hw2mdjnKDZdWJH1Yh7H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725627715; c=relaxed/simple;
-	bh=a36nfuHe6Dl2uvLqBUCT5/YEPTuh96aYfsSQlya8Mo4=;
+	s=arc-20240116; t=1725630801; c=relaxed/simple;
+	bh=Em8bvn/f2H5KfpZ0ThOOeCWybP6uMU6Mon9pWOSdXgU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ds/ipfyNQ6rl/ioIZnMEAiCh+P1ntJbjXrf6jyvs9bQsQ+g6268/oFmN7HPorL2i/RFnA71ligxi5wUsc7ZqVXSC+yJqFdquThG3gpt+TTZV/Qr+kOIZVJUtPPtcQWFX/Cl7evDCy94KWlhbCNcYWh9gG5QNDuRfoi/VU913KwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QFzx5Pgm; arc=none smtp.client-ip=209.85.167.46
+	 To:Cc:Content-Type; b=fjGTYeWAWN9+NPv85hCODULgEjRIOgD4+RUlyQj+lXGCUQ9HDTxg0EeB9Zezl6d5wLY+rwanFwjBO/vkNk+F6J+jjy2wbUPOuisWUixdWs7CwACl8gCTyISNCVWnodZ7ePPoQrX5kvolv7vl/dHdmmE0JePHgcYNXpi5g99UX8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ogya3Lch; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QFzx5Pgm"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5343e75c642so2345541e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Sep 2024 06:01:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ogya3Lch"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5333b2fbedaso3582462e87.0
+        for <chrome-platform@lists.linux.dev>; Fri, 06 Sep 2024 06:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725627712; x=1726232512; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1725630798; x=1726235598; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ebm7CEtOskf5reMpVf4B+fPAj2BHCamh5NPhK4/w3Iw=;
-        b=QFzx5PgmUyzKn46640MxCvQlImO3S54VGeEk0pzRXzE6CLYGAcrclcV8vldSj7adsQ
-         RtQ7NrD3uLsU+yrwKiqCZOWwvX8oBUHcimq8ab+3pPqvWTT8U3NWFuISToz4vBtuyUxA
-         iQ2J0Hgl5K6hxZe+A6GSe+uAz2QDNvpM4/DRM=
+        bh=oiDpLiwQWRQKgEUyDLSR0/UKgRFrC686Eaq4LU0p0Rs=;
+        b=ogya3LchoPxWlGU36NCk4I3ywOFFNMV1PHAtXwUaJKLzeqWYcvUluDqloyRxh48IK+
+         fcQHHKPQRqi9TzsPMqweFlJCbEDLZ7NgPcNFUl1T5rDyJkwhL+0Arg9xviHrS6lbAwYd
+         fq+0VivBPUu67CWfavxow9GBc4tMgB7bXFAGc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725627712; x=1726232512;
+        d=1e100.net; s=20230601; t=1725630798; x=1726235598;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ebm7CEtOskf5reMpVf4B+fPAj2BHCamh5NPhK4/w3Iw=;
-        b=iytmGxPvOCRHb1RItDZ1GIEyTyypEucObI2qS0DdSHuDSAlgTl6Lo+HoBmbW+IQSiL
-         G717BGfe5Wg+OWVkLSulo3EkxoE2LCW4ZVAwBHWRD7HAiovLptZCXHTMfSg2IFRt0Svb
-         7amCT31p4TiHCp/suCFEU5yuuHtIlIdulw7tm/uH4YDewgmiKuNwhuroYetYrLq/F4MX
-         vhqLoeSOnFsed59aODV15jXUdJCBxBjN7cslk2OfrZS8cukuaklGoS86Jzoh+WCgRjvD
-         4Nimz/3iyiq8fH7Lzwwr55riyc6ers/WT95fGG1NI4tMHwCyltKqCvQAlF3MgfOQOmDB
-         o3zw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWwJi9s6OXK6Eg0JK1mb4zDiSYUbQGLOCRFHGk+7WkI6RAGxr0Glrsj7vON9B2k7SeYuGD+HKQ4joOcb0fN88=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqDt62RMvu/0y/OsFfJHn6YdyBawrug4nYwDscYbvvUnJkKwLF
-	ruXXA153roLWtaPagifQRURSe96lRUYfc5gLDFvRtMHyQeQUUwBetny6K5iJqphC3eIBURMotm/
-	buJzuo26oGI8ZmYZCl5/+ZSvvCx0BZwPfv/4=
-X-Google-Smtp-Source: AGHT+IFbsnq2ddYPgTx5GqK9vGZE+Uqpb6HVg5+nuD/YEPznUEqrqZwrmZj8wm1A1nPL7HFG4fXZPv01bjW3R3SEHY0=
-X-Received: by 2002:a05:6512:318d:b0:533:d28:b9d9 with SMTP id
- 2adb3069b0e04-5365881a387mr1497792e87.58.1725627709465; Fri, 06 Sep 2024
- 06:01:49 -0700 (PDT)
+        bh=oiDpLiwQWRQKgEUyDLSR0/UKgRFrC686Eaq4LU0p0Rs=;
+        b=U4xnrmGTNgsZ3qVYyuphlfX17Y0axk70CTyN62nFFV/fjZytQTPQFip0PBbUoGTgGX
+         6D9BZBkuqFB4LngplxBOqibbplOFHsVPsHO5diIhbUbq8HWcnwspoA3zi8gRaAi5GMKL
+         ftOVytU3xAy2S4/v+5cSAYHbiwlr4mGI8NveV32OSEMAttwx8/KIlDnLKS7w09F4sNgo
+         aJH1MEuZg+g1sS48c5Bk97QmFd3w1+YBaQX4BqQ/CPWC/tL5v7ES37B88sP+RND8dmOp
+         7uQdTCwE2SvFUkAQO1ndvFOjH4aqBMLJ08jz9WFp9u/ElAyvMRQM1KTp3Y+b3+N8gnEH
+         cWEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVru/cuXY+y4QvV6/iHlVvs2uNMGwpYqlrYEpMrCvCJYyQn3JVBauvScfB7xcIDXqPPrZw2jmbqkJC7J3fNDWk=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1NvoNA5LtNKiE5tTW+nQJ/NzXkdTkoLD3LB3r+/ukCZmHa4s8
+	oxyW5epOi0DShNjgBjTweTrGPlcUEErEdfiiv8zWvIOSVojK8HdO2Q2WnHwMF47vYUuPIwBJWF8
+	IPH76CMDjD/sO0t9Ueoe2JES5lu9/STjOnkQ=
+X-Google-Smtp-Source: AGHT+IEw61CvBBoRPiccYSMUEy0oGgYCG2GgCkWOPBK65MyPZmUJ6aZypgSS1/nrR6LwN9Rq/SX47iUq960J99ro+zE=
+X-Received: by 2002:a05:6512:a92:b0:52f:d15f:d46b with SMTP id
+ 2adb3069b0e04-536587abfa0mr1738029e87.14.1725630798085; Fri, 06 Sep 2024
+ 06:53:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240903163033.3170815-1-ukaszb@chromium.org> <20240903163033.3170815-2-ukaszb@chromium.org>
- <ZtrA3FAKgXOm-FzE@google.com>
-In-Reply-To: <ZtrA3FAKgXOm-FzE@google.com>
+References: <20240903163033.3170815-1-ukaszb@chromium.org> <20240903163033.3170815-3-ukaszb@chromium.org>
+ <ZtrA8y0266RTm5Z3@google.com>
+In-Reply-To: <ZtrA8y0266RTm5Z3@google.com>
 From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Date: Fri, 6 Sep 2024 15:01:38 +0200
-Message-ID: <CALwA+NbWvomutA_BZ54ZbFX0+_2kzrmj3WaMQ=AtpeBLgoua9w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/8] platform/chrome: Update ChromeOS EC header for UCSI
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Lee Jones <lee@kernel.org>, 
+Date: Fri, 6 Sep 2024 15:53:06 +0200
+Message-ID: <CALwA+NbiW+Gt9fi6Y+_xJFUEQWZFp5cvB5kqw_LVd4Mcf03Xtw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] platform/chrome: Update EC feature flags
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
 	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pavan Holla <pholla@chromium.org>, 
 	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
@@ -71,68 +72,22 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Sep 6, 2024 at 10:44=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
 wrote:
 >
-> On Tue, Sep 03, 2024 at 04:30:26PM +0000, =C5=81ukasz Bartosik wrote:
+> On Tue, Sep 03, 2024 at 04:30:27PM +0000, =C5=81ukasz Bartosik wrote:
 > > From: Pavan Holla <pholla@chromium.org>
 > >
-> > Add EC host commands for reading and writing UCSI structures
-> > in the EC. The corresponding kernel driver is cros-ec-ucsi.
-> >
-> > Also update PD events supported by the EC.
+> > Define EC_FEATURE_UCSI_PPM to enable usage of the cros_ec_ucsi
+> > driver. Also, add any feature flags that are implemented by the EC
+> > but are missing in the kernel header.
 > >
 > > Signed-off-by: Pavan Holla <pholla@chromium.org>
 >
-> It needs your S-o-b tag at the end.  See [1].
+> Same as previous patch, it needs your S-o-b tag at the end.  See [1].
 >
 > [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.ht=
 ml#when-to-use-acked-by-cc-and-co-developed-by
->
-> > --- a/include/linux/platform_data/cros_ec_commands.h
-> > +++ b/include/linux/platform_data/cros_ec_commands.h
-> > @@ -5012,8 +5012,10 @@ struct ec_response_pd_status {
-> [...]
-> >  struct ec_response_host_event_status {
-> > -     uint32_t status;      /* PD MCU host event status */
-> > +     u32 status;      /* PD MCU host event status */
->
-> Even though ./scripts/checkpatch.pl dislikes it, but please don't do that=
-.
-> The header is a re-import from EC's repo.  We should try not to be diverg=
-ent
-> from the origin too much.
->
-> > +/*
-> > + * Read/write interface for UCSI OPM <-> PPM communication.
-> > + */
->
-> Same reason: it'd be better if it can align to [2].
->
-> [2]: https://crrev.com/1454f2e8dac20ca37428744345c1bb4fdec30255/include/e=
-c_commands.h#8055
->
 
-I will do.
-
-> > +#define EC_CMD_UCSI_PPM_SET 0x0140
-> > +
-> > +/* The data size is stored in the host command protocol header. */
-> > +struct ec_params_ucsi_ppm_set {
-> > +     u16 offset;
-> > +     u8 data[];
->
-> Same for the u16 and u8.
->
-> > +struct ec_params_ucsi_ppm_get {
-> > +     u16 offset;
-> > +     u8 size;
->
-> Same here.
-
-It was a comment from Greg no to use uint*_t types but I agree the
-changes I made are inconsistent with the rest of cros_ec_commands.h
-file.
-
-Greg would you be ok to stay with uint*_t types in cros_ec_commands.h
-to be consistent with the rest of the file ?
+I have not added any modifications to this patch. I understand that my
+S-o-b tag is not needed in such a case. Is that not correct ?
 
 Thanks,
 Lukasz

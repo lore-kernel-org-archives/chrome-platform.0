@@ -1,138 +1,111 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E063F16086C
-	for <chrome-platform@lists.linux.dev>; Sat,  7 Sep 2024 16:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37F616D4EF
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Sep 2024 02:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725728300; cv=none; b=Pz2qt1dBnmvJvdjSfBiG07MpPt4ulWYGIg7bRvwC00OqZ97xMZmky6XNfm241AZhdbKhKC/wAe44wEgokYoP0p5gPGpgK/iQJ4aH17MFzeSvP7UmxdJgVQ1JPKTqBMB+DG4rvUw9DQOpsGsDe0hgTBvcumu88xOgqjvDJAi5tfI=
+	t=1725849598; cv=none; b=QBksxUBIwLc4geHkYaYz5Gy1/G27Hld68Y/r9qXnNg1E03wKosv+tNKJa9UiucoCXpdfIWt35NYL8oxJ1YomTLMCoV8Bj1xM955kcc+Y3cd8AamXCahhW0fco8nMeZDjSRZ6bJkE7pIkDAfvIotzXQfzfTnggL8fmvw7dI4swJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725728300; c=relaxed/simple;
-	bh=rZlQ4eSQ8swmZpuHQzbJ+s4RoxjeI79wQiFcfVLF3bY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecxBIr/Jz50NVuYnFJsnIex3WC3qGNu6jzlvIfjTY+u0rwhX2saqZMk7V4ArcO/tqKWp5sIrYGicu9PYMjZY4VLe5pBEQheF3Zwnt0XqCi8nlaAPYy5ILn2FwtCgULSdO4hXVX5Ab3iT4Y4k52ImcXUHQHR5455r8bk0QYKOOuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cm7gNj8Z; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1725849598; c=relaxed/simple;
+	bh=CXncZPiQ0Stl5rweg8akghGFSW67+FTjXiBapm0vHJY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c05ciIIwOIRMbTLIjarLVxpFmvFr9AdvV9nElMnl3j2wWeQBIMU2RLdezR6Xli9Jw8ff49WPv/99i2BqRMUUNQKC4w01O4PKBBWMQVTMpulo/VF2Ja8cc6UFI6oVycCdr+WUpLlvNERXJGL7eoqN9OhPAo1ru/8yr0gTTvkxmQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bQAxHIwc; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cm7gNj8Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=HHve
-	sUp7I8h9dKLlXZOIZSXZgiKXJCbSqYnBNuMGYvw=; b=cm7gNj8Z9XxUitNfvIZy
-	ri2HP2iF6A/uQRQTNoYWrMuSEu8BbFvacyitQuMJMPkvr7TV1YWJ7NQqO+IUwe1i
-	13PDyrbpopP+IRqbC8uUqpByKXs0fa0DZrO5jP2u40/UQQO+J11j0LYupWLT1A/l
-	Kbim+oKA1wCRym1VrkPdgzON1+r/403OBWO3S9yrggmzc3uUg1xWkchoU3zrgeSu
-	aSlp95CsfbxAC96M58+X/l/4xcQisS2DIzqXaN3Bo/SVLfM2sfI61nRQtqk7FMTM
-	3a6yEnLuNJNBArwsDd6XPcl+RpML6jKBC6UYFQrUhH6ghG/9Xhs/FmlovyZupsFe
-	Uw==
-Received: (qmail 1571321 invoked from network); 7 Sep 2024 18:58:15 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Sep 2024 18:58:15 +0200
-X-UD-Smtp-Session: l3s3148p1@6m3+bYohJtoujnvu
-Date: Sat, 7 Sep 2024 18:58:14 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 00/12] platform/chrome: Introduce DT hardware prober
-Message-ID: <ZtyGJhm-0GEEFfYf@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-References: <20240904090016.2841572-1-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bQAxHIwc"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365cf5de24so1812170e87.1
+        for <chrome-platform@lists.linux.dev>; Sun, 08 Sep 2024 19:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725849594; x=1726454394; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7cFi5jfefYj2+h0zGqYNyKUh3On9Em31F3FUiHDsAPI=;
+        b=bQAxHIwcTiVZEualoRUEDkurLloxWcH6VDFq0ujUGKAiCx7bKnXjKKkFh90ZiegwEk
+         /DVetw5TKbG41rnjiowJRt7AqcdPO9pNkdnWt5oG5416jEJ+VacFouDN506kKdQCEmOJ
+         b7sgWF0WDJ9MppcdMIfvY/tecdZk+Ttk6EHY8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725849594; x=1726454394;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7cFi5jfefYj2+h0zGqYNyKUh3On9Em31F3FUiHDsAPI=;
+        b=af9l1GrSmivPG0p8msk074rxBi/Ja0IyBaOziM0G5kGiKIafLEL0JLoURPxE0PGnuL
+         nyeZGyGaeU6uUPElwjg2urEFXMgiOoWUTQlw64BtjMV195ISClMFotRUHIv0o3htKTmA
+         MYWeUwtt6FpCd21eesFW43BVy/2gQ6IFE+skAPim7WAtB4v9GRv+qRD2GulvtQHM2FW9
+         plZP8gsxLRacrV6mORBFLkbTcuyxHdWWKSYelQzY2Oy3iZWNJCcEOPPf9pNXMR0Aw/5A
+         Yh8f4LCkNOOwQEWGtI6JQ3mNRDcQ8Bz0ef4UrEd028CqD5bPgUMrLkIu5vTYkd+Smawe
+         rYbw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2jelTmvl5VeB58Jb/okrt3+GBFZnItz7UZiMlpdKCiO8gn2l4UWfJFgZqco2CEZXr1oJBdiPWw7d9rVeTEtE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkhgC/kAd7DPJh5q4fO7nr3cfZC2mbW/KUIofs92Q24B+ZPy4F
+	bKpwpOZH5cMNNxO8pudZN0Sl2RYY3ooE83vNxLwCZTssnQXpOYvOXfDf6X8CFh2kyBwZRNnp3zi
+	poOJO1himoXvxMx/dEnPf6/pCCW7IXIIMW2N7
+X-Google-Smtp-Source: AGHT+IHlN5GLZpAnPwP9Nfh6dJDXv4dqOvMPNVAV72HrfVF/EPodSu+G81D645T++W4Kv1SPpVAmGlS4gT+SnusBNKU=
+X-Received: by 2002:a05:6512:1384:b0:52f:413:7e8c with SMTP id
+ 2adb3069b0e04-536587abe8amr5156459e87.14.1725849593704; Sun, 08 Sep 2024
+ 19:39:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ytjyaEn513BUTabA"
-Content-Disposition: inline
-In-Reply-To: <20240904090016.2841572-1-wenst@chromium.org>
+References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-6-wenst@chromium.org>
+ <Zthc8r62z2eaR8k0@smile.fi.intel.com>
+In-Reply-To: <Zthc8r62z2eaR8k0@smile.fi.intel.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 9 Sep 2024 10:39:42 +0800
+Message-ID: <CAGXv+5FCctBG5uOSvH_-0z2Jgi36zRs-Cg0_P+q8aikxLcwmbw@mail.gmail.com>
+Subject: Re: [PATCH v6 05/12] regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 4, 2024 at 9:13=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Sep 04, 2024 at 05:00:07PM +0800, Chen-Yu Tsai wrote:
+> > The to-be-introduced I2C component prober needs to enable regulator
+> > supplies (and toggle GPIO pins) for the various components it intends
+> > to probe. To support this, a new "pure DT lookup" method for getting
+> > regulator supplies is needed, since the device normally requesting
+> > the supply won't get created until after the component is probed to
+> > be available.
+> >
+> > Convert the existing of_regulator_bulk_get_all() for this purpose.
+> > This function has no in-tree users, as the original patch [1] that
+> > used it was never landed. This patch changes the function ABI, but
+> > it is straightforward to convert users.
+> >
+> > The underlying code that supports the existing regulator_get*()
+> > functions has been reworked in previous patches to support this
+> > specific case. An internal OF-specific version of regulator_get(),
+> > of_regulator_get_optional(), is added for this.
+> >
+> > Also convert an existing usage of "dev && dev->of_node" to
+> > "dev_of_node(dev)".
+>
+> > [1] https://lore.kernel.org/all/20231220203537.83479-2-jernej.skrabec@g=
+mail.com/
+> >
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>
+> Make it Link tag.
+>
+>   Link: https://lore.kernel.org/all/20231220203537.83479-2-jernej.skrabec=
+@gmail.com/ [1]
+>   Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
---ytjyaEn513BUTabA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-this series gets quite some review from people I trust. This is awesome.
-So, I will keep to some high level questions:
-
-> undiscoverable devices" [2] series, but follows the scheme suggested by
-> Rob, marking all second source component device nodes as "fail-needs-probe",
-> and having a hardware prober driver enable the one of them.
-
-Where is this "fail-needs-probe" documented? I neither see it here nor
-in the dt-schema repo.
-
-> The other case, selecting a display panel to use based on the SKU ID
-> from the firmware, hit a bit of an issue with fixing the OF graph.
-> It has been left out since v3.
-
-Does it make sense then to add touchscreens only? Will the panels be
-worked on once this is upstream? Or what is the way forward?
-
-> Wolfram, would you be able to handle the late PR? Assuming you get a
-> chance to look at the patches that is.
-
-Yes, I can do this, but...
-
->  drivers/i2c/Makefile                          |   7 +-
->  drivers/i2c/i2c-core-of-prober.c              | 437 ++++++++++++++++++
-
-... this is quite some code. Would you be willing to maintain it (i.e.
-please add a MAINTAINERS entry then). Kudos for not touching other parts
-of the I2C core!
-
-All the best,
-
-   Wolfram
-
-
---ytjyaEn513BUTabA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbchiYACgkQFA3kzBSg
-KbZ3bg//ag3oKXvBj1cYBQuG/BsTqEZ+kivhmPcabfoL4S2E30DicIxES4SOZjRP
-HO6WDpilY/a3dnTbBnl293WZZFFpq4zrvycJmBaN14cUBtevuDunF0LwPnNfOdc6
-WmX23w4zrt4q2rfS4Nv3X3DCU+fFtUF0kb6vmPs1eCAEAoYnpOFR1d/6nCT6mcvV
-jPpyov9kg2P+XHmQkGSn+Rh5yyvvUUnCdK9ZCHIY0kMkYGyZ1x9jbSqWeNgqv7Ro
-Zo4o3NjCV+PyjRB0+C9OpM+efioytSJEdeJeOn5vwPbGuXLGfBd3KRxCPa0CpAII
-7YvUJQwWhsgcp5y3fADIiYJyqPDH3MMwNbet1rJFZsY2wu651QsfEoqtOqjpWZWh
-EUzqZr+BhAAOCZFl9TyTnBcd6lW4oKscerYELF1Gs2Hn+Kp4jWNK77gncj1dwb3y
-SU+hihFExiPWyWGQVqYufDGTfIIYBNI0D73zBv8xPaUzbEjMArHONAwaX52SyJ9W
-O8lK9EnjPy9Du15OOHbnuNfv0cXpSnrig9R/CGdZAE3eOrwvIb3L+TopGYsHt6Qs
-6dHq9diNp7IvYUK1I/VIm4FKqCoE0To6TwRaUfiTa/1H+hwVtdmq0EsyZciqPFCE
-IfS82fC3QxAhq1EQV3/D2is4luXlbwW2OqQvbJcVAOleQFHPI8s=
-=Amek
------END PGP SIGNATURE-----
-
---ytjyaEn513BUTabA--
+Ack.

@@ -1,65 +1,65 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37F616D4EF
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Sep 2024 02:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8974C191F8C
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Sep 2024 02:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725849598; cv=none; b=QBksxUBIwLc4geHkYaYz5Gy1/G27Hld68Y/r9qXnNg1E03wKosv+tNKJa9UiucoCXpdfIWt35NYL8oxJ1YomTLMCoV8Bj1xM955kcc+Y3cd8AamXCahhW0fco8nMeZDjSRZ6bJkE7pIkDAfvIotzXQfzfTnggL8fmvw7dI4swJA=
+	t=1725849945; cv=none; b=ec+ADpNUlDdSRr37wlPLNvCObaDA2PHMOKssP0ySljKDy8/6hkObhUln4dMI1OZecFw4/7CPJ6L9uXiBpy62k3gvzxDea8IigF2J/AUg8xbREWgpcHOAWVArU7EDH2JMhUdBnTpRDfMG2YueByD1MNJynaKb4In5C+7WThHDHe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725849598; c=relaxed/simple;
-	bh=CXncZPiQ0Stl5rweg8akghGFSW67+FTjXiBapm0vHJY=;
+	s=arc-20240116; t=1725849945; c=relaxed/simple;
+	bh=EKTLMNEi50l4j4FQxR8tby9uBgIDSSWcDTHy3KnbFhQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c05ciIIwOIRMbTLIjarLVxpFmvFr9AdvV9nElMnl3j2wWeQBIMU2RLdezR6Xli9Jw8ff49WPv/99i2BqRMUUNQKC4w01O4PKBBWMQVTMpulo/VF2Ja8cc6UFI6oVycCdr+WUpLlvNERXJGL7eoqN9OhPAo1ru/8yr0gTTvkxmQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bQAxHIwc; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=O5ScKmoN8UNLEHo7B6e2aTmjjc5QPmms8hUhntMbNWggVpT2ZIPJKqyJyNDjJFgRBUq9b/Q8rk8fyA3/bX7jSGidmPsHiSIviXDbLOhp95d3zGmuqqM5XdE6eMDQutegVnHwQPgtmGux6NjwreVZgSfXui23LX4sRleLsM0tn5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I3nhwoEf; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bQAxHIwc"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365cf5de24so1812170e87.1
-        for <chrome-platform@lists.linux.dev>; Sun, 08 Sep 2024 19:39:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I3nhwoEf"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f74e468baeso44242921fa.2
+        for <chrome-platform@lists.linux.dev>; Sun, 08 Sep 2024 19:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725849594; x=1726454394; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1725849941; x=1726454741; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7cFi5jfefYj2+h0zGqYNyKUh3On9Em31F3FUiHDsAPI=;
-        b=bQAxHIwcTiVZEualoRUEDkurLloxWcH6VDFq0ujUGKAiCx7bKnXjKKkFh90ZiegwEk
-         /DVetw5TKbG41rnjiowJRt7AqcdPO9pNkdnWt5oG5416jEJ+VacFouDN506kKdQCEmOJ
-         b7sgWF0WDJ9MppcdMIfvY/tecdZk+Ttk6EHY8=
+        bh=nMqW2/x+fk7uF1c9DEdkk0ZnLtGrl9rFz+k1/Bb5Q1k=;
+        b=I3nhwoEfwdBRU7jO17VVScGUr1hnGr5r7BjidDbxUuwoKN+wzbEeNkmIE4qStuitdx
+         5NtY74/Oz80tso2NWNSNVMGdD0cASvaM+Q36KEC8f2G2DVF/yT5KegWLQysuRO3B2wLt
+         l6K0YDZqliAsqM+uwem5qO7WWcRT0xYEeQHrg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725849594; x=1726454394;
+        d=1e100.net; s=20230601; t=1725849941; x=1726454741;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7cFi5jfefYj2+h0zGqYNyKUh3On9Em31F3FUiHDsAPI=;
-        b=af9l1GrSmivPG0p8msk074rxBi/Ja0IyBaOziM0G5kGiKIafLEL0JLoURPxE0PGnuL
-         nyeZGyGaeU6uUPElwjg2urEFXMgiOoWUTQlw64BtjMV195ISClMFotRUHIv0o3htKTmA
-         MYWeUwtt6FpCd21eesFW43BVy/2gQ6IFE+skAPim7WAtB4v9GRv+qRD2GulvtQHM2FW9
-         plZP8gsxLRacrV6mORBFLkbTcuyxHdWWKSYelQzY2Oy3iZWNJCcEOPPf9pNXMR0Aw/5A
-         Yh8f4LCkNOOwQEWGtI6JQ3mNRDcQ8Bz0ef4UrEd028CqD5bPgUMrLkIu5vTYkd+Smawe
-         rYbw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2jelTmvl5VeB58Jb/okrt3+GBFZnItz7UZiMlpdKCiO8gn2l4UWfJFgZqco2CEZXr1oJBdiPWw7d9rVeTEtE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkhgC/kAd7DPJh5q4fO7nr3cfZC2mbW/KUIofs92Q24B+ZPy4F
-	bKpwpOZH5cMNNxO8pudZN0Sl2RYY3ooE83vNxLwCZTssnQXpOYvOXfDf6X8CFh2kyBwZRNnp3zi
-	poOJO1himoXvxMx/dEnPf6/pCCW7IXIIMW2N7
-X-Google-Smtp-Source: AGHT+IHlN5GLZpAnPwP9Nfh6dJDXv4dqOvMPNVAV72HrfVF/EPodSu+G81D645T++W4Kv1SPpVAmGlS4gT+SnusBNKU=
-X-Received: by 2002:a05:6512:1384:b0:52f:413:7e8c with SMTP id
- 2adb3069b0e04-536587abe8amr5156459e87.14.1725849593704; Sun, 08 Sep 2024
- 19:39:53 -0700 (PDT)
+        bh=nMqW2/x+fk7uF1c9DEdkk0ZnLtGrl9rFz+k1/Bb5Q1k=;
+        b=mD++x8RjQHkJTgk5sAZjcmLw4n9veZ0krXyWc0s1B8IBBzqKCU9EnSB5ixDaFi0bt0
+         NqTX0h1dD31FHa8PXPITtyfSveZ+tK7BO98C+TRWEVRU/n136t8PJlAFEwkKq1j2otXW
+         5TsBfuBgmKMUidPIPpjZBpJUHmTRMj7dwGm+R9x3Lyl7Xrk6M3KKs1hn9vHClN+8+xxe
+         eU5zO07Aa1okCs0zLwMhdzBWKeChHdt3qTk951fanTRi3ZZizcoCwKlc3a8qjw93zef8
+         e+v/92dzKwu0aOlXISCxl7yrJ0nrdbywcgBGpahvpdkp5xaGzly7x7YnzUdMwiEqhLsb
+         w5fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUXfdKg5C8zU6TisZk0JqPoDsNxBp3DcvnmhZRFbzpcz9Yurqh4/rIYdRC0nHCAwH8aTpftB21ueMdDTbcC9Ik=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEmVbiY57pMrzN3ljKWpVCkgPhj1w0cEVtBRJcEow9lP3h24rG
+	wu0KoN6e5eBBufgwGFe3fwE9A32EO6QPVzS84Snoa3n/Zp7Y4p1wHHvfuk5dd58OE/wAArYKUHD
+	/LcW7uuB59T3SEKZA5zlhutM111/7SvPHXr9k
+X-Google-Smtp-Source: AGHT+IHKcGbtZMLF5gC+Rr5ltwNIMAF/guOu0Im7D+JgNL7Cng1B+SOmWwSxiNMZsp714FjogNvrNqttyc4V2OI3P10=
+X-Received: by 2002:a05:6512:6c4:b0:533:4620:ebfb with SMTP id
+ 2adb3069b0e04-536587ae621mr6193097e87.21.1725849940576; Sun, 08 Sep 2024
+ 19:45:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-6-wenst@chromium.org>
- <Zthc8r62z2eaR8k0@smile.fi.intel.com>
-In-Reply-To: <Zthc8r62z2eaR8k0@smile.fi.intel.com>
+References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-7-wenst@chromium.org>
+ <ZthjSK9N9z11YXi2@smile.fi.intel.com>
+In-Reply-To: <ZthjSK9N9z11YXi2@smile.fi.intel.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 9 Sep 2024 10:39:42 +0800
-Message-ID: <CAGXv+5FCctBG5uOSvH_-0z2Jgi36zRs-Cg0_P+q8aikxLcwmbw@mail.gmail.com>
-Subject: Re: [PATCH v6 05/12] regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()
+Date: Mon, 9 Sep 2024 10:45:29 +0800
+Message-ID: <CAGXv+5GrW0EZZw6HVY7ALvm0dBj5Wwrvp02vtTPZYwqxxiZQyg@mail.gmail.com>
+Subject: Re: [PATCH v6 06/12] gpiolib: Add gpio_get_property_name_length()
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -73,39 +73,63 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 4, 2024 at 9:13=E2=80=AFPM Andy Shevchenko
+On Wed, Sep 4, 2024 at 9:40=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Wed, Sep 04, 2024 at 05:00:07PM +0800, Chen-Yu Tsai wrote:
-> > The to-be-introduced I2C component prober needs to enable regulator
-> > supplies (and toggle GPIO pins) for the various components it intends
-> > to probe. To support this, a new "pure DT lookup" method for getting
-> > regulator supplies is needed, since the device normally requesting
-> > the supply won't get created until after the component is probed to
-> > be available.
+> On Wed, Sep 04, 2024 at 05:00:08PM +0800, Chen-Yu Tsai wrote:
+> > The I2C device tree component prober needs to get and toggle GPIO lines
+> > for the components it intends to probe. These components may not use th=
+e
+> > same name for their GPIO lines, so the prober must go through the devic=
+e
+> > tree, check each property to see it is a GPIO property, and get the GPI=
+O
+> > line.
 > >
-> > Convert the existing of_regulator_bulk_get_all() for this purpose.
-> > This function has no in-tree users, as the original patch [1] that
-> > used it was never landed. This patch changes the function ABI, but
-> > it is straightforward to convert users.
-> >
-> > The underlying code that supports the existing regulator_get*()
-> > functions has been reworked in previous patches to support this
-> > specific case. An internal OF-specific version of regulator_get(),
-> > of_regulator_get_optional(), is added for this.
-> >
-> > Also convert an existing usage of "dev && dev->of_node" to
-> > "dev_of_node(dev)".
+> > Instead of duplicating the GPIO suffixes, or exporting them to the
+> > prober to do pattern matching, simply add and export a new function tha=
+t
+> > does the pattern matching and returns the length of the GPIO name. The
+> > caller can then use that to copy out the name if it needs to.
 >
-> > [1] https://lore.kernel.org/all/20231220203537.83479-2-jernej.skrabec@g=
-mail.com/
-> >
+> > Andy suggested a much shorter implementation.
+>
+> No need to have this sentence in the commit message, changelog area is fi=
+ne.
+> But if you wish... :-)
+
+It does seem out of place without any context. I'll move it to the
+changelog area. :D
+
+> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 >
-> Make it Link tag.
+> ...
 >
->   Link: https://lore.kernel.org/all/20231220203537.83479-2-jernej.skrabec=
-@gmail.com/ [1]
->   Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > +/**
+> > + * gpio_get_property_name_length - Returns the GPIO name length from a=
+ property name
+> > + * @propname:        name of the property to check
+> > + *
+> > + * This function checks if the given property name matches the GPIO pr=
+operty
+> > + * patterns, and returns the length of the name of the GPIO. The patte=
+rn is
+> > + * "*-<GPIO suffix>" or just "<GPIO suffix>".
+> > + *
+> > + * Returns:
+> > + * The length of the string before '-<GPIO suffix>' if it matches
+> > + * "*-<GPIO suffix>", or 0 if no name part, just the suffix, or
+> > + * -EINVAL if the string doesn't match the pattern.
+>
+> Should be %-EINVAL as we agreed with Bart when I updated GPIOLIB kernel-d=
+oc.
 
 Ack.
+
+In the regulator cleanups I did, I used -%EINVAL instead. But then I
+realized that constants aren't really cross-referenced. I probably
+have to go through all of them to fix those up.
+
+
+ChenYu

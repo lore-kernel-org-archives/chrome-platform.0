@@ -1,285 +1,311 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D009D1B1417;
-	Mon,  9 Sep 2024 08:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310CC1B251C;
+	Mon,  9 Sep 2024 09:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725868957; cv=none; b=Uf5ktHjPodBRtbBSQeCxYLIzqKtP1OVVD8lS3s5xstqFpJb7nTCID0w4iqFJWpakpzu0w4vBTVgOQ5uguYUoWVAsO3fLyySN91g2cmCKVMiFjgrsDeqJHN82K0L4lasRgoSC9MQIpkv6QLn95r8J2iP662kHF3gl9ozWBU6worM=
+	t=1725875357; cv=none; b=oKE1ELL9DFlxl2CGDGdDegU0LqT6hemSqWofHU0nvWxukliwXnyYNZC4NRc6DEW2/Oq6W6Z9I7ukq45l47nKzsaHuYmngKrHdvIzWKilsDyS3k7LjnReEWwHUs6XZ/sO1jYnXTGhAigKKVzg6LYddd7FHmILV6P2H3TloPUPlas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725868957; c=relaxed/simple;
-	bh=ytRkeTlmX47xgE5z+ryf8DfSbFZAeaxEumWqDo97RlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Grr71RvmbdKYDWhEEWjuh4wBVQ6fm2mgvy0WeJicVdriw6SjZyeWGdclFeYJcm4f5899dLc5y5vpfvePfxjHPDl98qc/87Sb0Fvr7Kn3h3zL2vqJwSiSBvdYwKlGkuMhdEcTE7jl2FBPf8492q21HN9VIhdlI//z24Bsg8sJr7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jkMqUL2p; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1725875357; c=relaxed/simple;
+	bh=iq0k+4FXljaFhQ+ErzpXOczbkq5LYNq1P7G1F4lhUMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XBOR98VCDJHQoRUnph7utWanLRxqr77wASvyS8f2xVbLv9lRIhKzcMHUEZm9/XBlY52Amer3zGu/Vs33aTZsvHX0h0xdWmYWLlLjWtZCzntSgasIQBSKMgc2ftne8ycD6BBuLQPooZvwPmX6qw7xqBcyH8FQG1HKOb+CiISbrz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=11Qbcmzr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t/Xgoo6V; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=11Qbcmzr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t/Xgoo6V; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jkMqUL2p"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D4C8240E0284;
-	Mon,  9 Sep 2024 08:02:30 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id BubQY1UG0zYB; Mon,  9 Sep 2024 08:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1725868944; bh=z3avvgf0RPSwKTwCWWF/4sM2ZNrDEy7cyjOWOIK1NG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jkMqUL2pn4sM+04ZqI3ZX+K3H4IbKgDImk8IaBVMxdfs1ph0JbWJjmMf+yJD+yVkY
-	 l7D5eR9HZ7shm5PvrcEYD6B4IAOytj0Pj0P185GbFKZ2hZTCu0+bQfrO23Y6rbtVKl
-	 u08GNg4Svn5rvW+aYu0YaCpfAdyouCjrhswZVdVXfTRrHvdczKZFxnNuvGXssW0mDs
-	 5g9yncujn+Jc0lMStaSszMnJhost3vk8JTDz3sLgh2JFJMOfoGv4EtsIk5U6LinwoN
-	 LhuOKXQ/dswn2JJDj74FSRMpn0hJiEJqYjiZ/0S02GvADaMVFWtWgnV7jVxWpvAsyD
-	 3+2POqtkrNrZbFD8URiG4rmQup37zReSD+X76JagfDh9Xj7UayKPK24rHqPK8mERvB
-	 54bA16wXWuuHiF0KFgbco8sH1eR4Olrizzs7fM1rCKdI28U57NdMfCCEy9Lorwdh7Y
-	 P1UHdZEE0WcAVK5NkPpyQQvbzWgjiDuyqWPnbsfl2BVOrtZPtfAaNLY9DzOwbj3R1n
-	 0R7BKj1k+HPQoePR/XQk7iwjHV0wK2pjKz+VZQxnvbMuVWQDEKXt2A01x/lZlL1YL7
-	 QPMiqH0wFcw2t7bT0/Pb2dw6LIB0zDXl/ntNDGkKl1dks217ueT6KarHPxI/ROGK6i
-	 +1XN6NhXhT7RLo3NxaFQtmgM=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="11Qbcmzr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t/Xgoo6V";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="11Qbcmzr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t/Xgoo6V"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9D80F40E0198;
-	Mon,  9 Sep 2024 08:02:07 +0000 (UTC)
-Date: Mon, 9 Sep 2024 10:02:00 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Hugues Bruant <hugues.bruant@gmail.com>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Tony Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [REGRESSION] soft lockup on boot starting with kernel 6.10 /
- commit 5186ba33234c9a90833f7c93ce7de80e25fac6f5
-Message-ID: <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
-References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4AA9A21BD9;
+	Mon,  9 Sep 2024 09:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725875353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=iq0k+4FXljaFhQ+ErzpXOczbkq5LYNq1P7G1F4lhUMI=;
+	b=11QbcmzrQPRcqhteOwfy0PjGuRTlpKDcN1dIProQsWSlhp2DllT1UnHb0wA9WfVTAMI3Jn
+	VBhYF9sohOUJPEV3KuX/CrMJiQJ0jwEPZD+03KkpeQhWacBPrbYns9wsTAC2pkyGZGbV/4
+	BbbT8VYkGhDlxWDEsDZpEC/UCFIehZo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725875353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=iq0k+4FXljaFhQ+ErzpXOczbkq5LYNq1P7G1F4lhUMI=;
+	b=t/Xgoo6VLIrvgpY0//dquGyzkR31wzBH+HGj4VK5ZaER+QAeL3o3lWsBAkcWLmN/igrHi4
+	jfeLiSh7LhpoV8CQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=11Qbcmzr;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="t/Xgoo6V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725875353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=iq0k+4FXljaFhQ+ErzpXOczbkq5LYNq1P7G1F4lhUMI=;
+	b=11QbcmzrQPRcqhteOwfy0PjGuRTlpKDcN1dIProQsWSlhp2DllT1UnHb0wA9WfVTAMI3Jn
+	VBhYF9sohOUJPEV3KuX/CrMJiQJ0jwEPZD+03KkpeQhWacBPrbYns9wsTAC2pkyGZGbV/4
+	BbbT8VYkGhDlxWDEsDZpEC/UCFIehZo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725875353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=iq0k+4FXljaFhQ+ErzpXOczbkq5LYNq1P7G1F4lhUMI=;
+	b=t/Xgoo6VLIrvgpY0//dquGyzkR31wzBH+HGj4VK5ZaER+QAeL3o3lWsBAkcWLmN/igrHi4
+	jfeLiSh7LhpoV8CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAB3713312;
+	Mon,  9 Sep 2024 09:49:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VlG+L5jE3mY4CwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 09 Sep 2024 09:49:12 +0000
+Message-ID: <fe2ac80d-3a52-4b99-b187-8e15286fc647@suse.de>
+Date: Mon, 9 Sep 2024 11:49:11 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] soft lockup on boot starting with kernel 6.10 /
+ commit 5186ba33234c9a90833f7c93ce7de80e25fac6f5
+To: Borislav Petkov <bp@alien8.de>, Hugues Bruant <hugues.bruant@gmail.com>
+Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Tony Luck
+ <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Brian Norris <briannorris@chromium.org>, Julius Werner
+ <jwerner@chromium.org>, chrome-platform@lists.linux.dev,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Rspamd-Queue-Id: 4AA9A21BD9
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.91 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_BASE64_TEXT(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[alien8.de,gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.91
+X-Spam-Flag: NO
 
-On Sun, Sep 08, 2024 at 11:53:56PM -0700, Hugues Bruant wrote:
-> Hi,
->=20
-> I have discovered a 100% reliable soft lockup on boot on my laptop:
-> Purism Librem 14, Intel Core i7-10710U, 48Gb RAM, Samsung Evo Plus 970
-> SSD, CoreBoot BIOS, grub bootloader, Arch Linux.
->=20
-> The last working release is kernel 6.9.10, every release from 6.10
-> onwards reliably exhibit the issue, which, based on journalctl logs,
-> seems to be triggered somewhere in systemd-udev:
-> https://gitlab.archlinux.org/-/project/42594/uploads/04583baf22189a0a8bb2=
-f8773096e013/lockup.log
->=20
-> Bisect points to commit 5186ba33234c9a90833f7c93ce7de80e25fac6f5
-
-That's a merge commit. Meaning, the bisection likely went into the wrong
-direction.
-
-Looking at your log, the first warn is in framebuffer_coreboot. Some mess in
-the sysfs platform devices registration.
-
-Adding the relevant people for that:
-
-Aug 20 20:29:36 luna kernel: sysfs: cannot create duplicate filename '/bus/=
-platform/devices/simple-framebuffer.0'
-Aug 20 20:29:36 luna kernel: CPU: 5 PID: 571 Comm: (udev-worker) Tainted: G=
-           OE      6.10.6-arch1-1 #1 703d152c24f1971e36f16e505405e456fc9e23=
-f8
-Aug 20 20:29:36 luna kernel: Hardware name: Purism Librem 14/Librem 14, BIO=
-S 4.14-Purism-1 06/18/2021
-Aug 20 20:29:36 luna kernel: Call Trace:
-Aug 20 20:29:36 luna kernel:  <TASK>
-Aug 20 20:29:36 luna kernel:  dump_stack_lvl+0x5d/0x80
-Aug 20 20:29:36 luna kernel:  sysfs_warn_dup.cold+0x17/0x23
-Aug 20 20:29:36 luna kernel:  sysfs_do_create_link_sd+0xcf/0xe0
-Aug 20 20:29:36 luna kernel:  bus_add_device+0x6b/0x130
-Aug 20 20:29:36 luna kernel:  device_add+0x3b3/0x870
-Aug 20 20:29:36 luna kernel:  platform_device_add+0xed/0x250
-Aug 20 20:29:36 luna kernel:  platform_device_register_full+0xbb/0x140
-Aug 20 20:29:36 luna kernel:  platform_device_register_resndata.constprop.0=
-+0x54/0x80 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
-Aug 20 20:29:36 luna kernel:  framebuffer_probe+0x165/0x1b0 [framebuffer_co=
-reboot a587d2fc243ebaa0205c3badd33442a004d284e0]
-Aug 20 20:29:36 luna kernel:  really_probe+0xdb/0x340
-Aug 20 20:29:36 luna kernel:  ? pm_runtime_barrier+0x54/0x90
-Aug 20 20:29:36 luna kernel:  ? __pfx___driver_attach+0x10/0x10
-Aug 20 20:29:36 luna kernel:  __driver_probe_device+0x78/0x110
-Aug 20 20:29:36 luna kernel:  driver_probe_device+0x1f/0xa0
-Aug 20 20:29:36 luna kernel:  __driver_attach+0xba/0x1c0
-Aug 20 20:29:36 luna kernel:  bus_for_each_dev+0x8c/0xe0
-Aug 20 20:29:36 luna kernel:  bus_add_driver+0x112/0x1f0
-Aug 20 20:29:36 luna kernel:  driver_register+0x72/0xd0
-Aug 20 20:29:36 luna kernel:  ? __pfx_framebuffer_driver_init+0x10/0x10 [fr=
-amebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
-Aug 20 20:29:36 luna kernel:  do_one_initcall+0x58/0x310
-Aug 20 20:29:36 luna kernel:  do_init_module+0x60/0x220
-Aug 20 20:29:36 luna kernel:  init_module_from_file+0x89/0xe0
-Aug 20 20:29:36 luna kernel:  idempotent_init_module+0x121/0x320
-Aug 20 20:29:36 luna kernel:  __x64_sys_finit_module+0x5e/0xb0
-Aug 20 20:29:36 luna kernel:  do_syscall_64+0x82/0x190
-Aug 20 20:29:36 luna kernel:  ? __do_sys_newfstatat+0x3c/0x80
-Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
-Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
-Aug 20 20:29:36 luna kernel:  ? do_sys_openat2+0x9c/0xe0
-Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
-Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
-Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:36 luna kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 20 20:29:36 luna kernel: RIP: 0033:0x7b1bee2f81fd
-
-The real issue is in i915 however.
-
-However, you have out-of-tree modules. Try reproducing it without them.
-
-Adding i915 people too.
-
-Aug 20 20:29:37 luna kernel: resource: Trying to free nonexistent resource =
-<0x00000000a0000000-0x00000000a0257fff>
-Aug 20 20:29:37 luna kernel: BUG: unable to handle page fault for address: =
-0000000300000031
-Aug 20 20:29:37 luna kernel: #PF: supervisor read access in kernel mode
-Aug 20 20:29:37 luna kernel: #PF: error_code(0x0000) - not-present page
-Aug 20 20:29:37 luna kernel: PGD 0 P4D 0=20
-Aug 20 20:29:37 luna kernel: Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
-Aug 20 20:29:37 luna kernel: CPU: 9 PID: 552 Comm: (udev-worker) Tainted: G=
-           OE      6.10.6-arch1-1 #1 703d152c24f1971e36f16e505405e456fc9e23=
-f8
-Aug 20 20:29:37 luna kernel: Hardware name: Purism Librem 14/Librem 14, BIO=
-S 4.14-Purism-1 06/18/2021
-Aug 20 20:29:37 luna kernel: RIP: 0010:__release_resource+0x34/0xb0
-Aug 20 20:29:37 luna kernel: Code: 8d 50 38 48 8b 40 38 48 85 c0 75 27 eb 6=
-a 66 66 2e 0f 1f 84 00 00 00 00 00 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 4=
-8 8d 50 30 <48> 8b 40 30 48 85 c0 74 45 48 39 c7 75 ee 40 84 f6 75 45 48 8b=
- 4f
-Aug 20 20:29:37 luna kernel: RSP: 0018:ffffb30dc207f930 EFLAGS: 00010296
-Aug 20 20:29:37 luna kernel: RAX: 0000000300000001 RBX: ffff8fa34616e900 RC=
-X: ffff8fa3424aac50
-Aug 20 20:29:37 luna kernel: RDX: 0000000300000031 RSI: 0000000000000001 RD=
-I: ffff8fa34616e900
-Aug 20 20:29:37 luna kernel: RBP: ffff8fa3460e1400 R08: ffff8fa3424a97b8 R0=
-9: 0000000000000000
-Aug 20 20:29:37 luna kernel: R10: 0000000000000000 R11: 0000000000000000 R1=
-2: ffff8fa341671000
-Aug 20 20:29:37 luna kernel: R13: 0000000000000000 R14: ffff8fa3416710c8 R1=
-5: ffff8fa341671000
-Aug 20 20:29:37 luna kernel: FS:  00007b1bee0eb880(0000) GS:ffff8fae6e48000=
-0(0000) knlGS:0000000000000000
-Aug 20 20:29:37 luna kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
-033
-Aug 20 20:29:37 luna kernel: CR2: 0000000300000031 CR3: 0000000103924002 CR=
-4: 00000000003706f0
-Aug 20 20:29:37 luna kernel: Call Trace:
-Aug 20 20:29:37 luna kernel:  <TASK>
-Aug 20 20:29:37 luna kernel:  ? __die_body.cold+0x19/0x27
-Aug 20 20:29:37 luna kernel:  ? page_fault_oops+0x15a/0x2d0
-Aug 20 20:29:37 luna kernel:  ? exc_page_fault+0x81/0x190
-Aug 20 20:29:37 luna kernel:  ? asm_exc_page_fault+0x26/0x30
-Aug 20 20:29:37 luna kernel:  ? __release_resource+0x34/0xb0
-Aug 20 20:29:37 luna kernel:  release_resource+0x26/0x40
-Aug 20 20:29:37 luna kernel:  platform_device_del+0x51/0x90
-Aug 20 20:29:37 luna kernel:  platform_device_unregister+0x12/0x30
-Aug 20 20:29:37 luna kernel:  sysfb_disable+0x2f/0x80
-Aug 20 20:29:37 luna kernel:  aperture_remove_conflicting_pci_devices+0x8c/=
-0xa0
-Aug 20 20:29:37 luna kernel:  i915_driver_probe+0x7c8/0xac0 [i915 6caac5d02=
-e3122d822ca0c852e7e5ed826a3aaea]
-Aug 20 20:29:37 luna kernel:  local_pci_probe+0x42/0x90
-Aug 20 20:29:37 luna kernel:  pci_device_probe+0xbd/0x290
-Aug 20 20:29:37 luna kernel:  ? sysfs_do_create_link_sd+0x6e/0xe0
-Aug 20 20:29:37 luna kernel:  really_probe+0xdb/0x340
-Aug 20 20:29:37 luna kernel:  ? pm_runtime_barrier+0x54/0x90
-Aug 20 20:29:37 luna kernel:  ? __pfx___driver_attach+0x10/0x10
-Aug 20 20:29:37 luna kernel:  __driver_probe_device+0x78/0x110
-Aug 20 20:29:37 luna kernel:  driver_probe_device+0x1f/0xa0
-Aug 20 20:29:37 luna kernel:  __driver_attach+0xba/0x1c0
-Aug 20 20:29:37 luna kernel:  bus_for_each_dev+0x8c/0xe0
-Aug 20 20:29:37 luna kernel:  bus_add_driver+0x112/0x1f0
-Aug 20 20:29:37 luna kernel:  driver_register+0x72/0xd0
-Aug 20 20:29:37 luna kernel:  i915_init+0x23/0x90 [i915 6caac5d02e3122d822c=
-a0c852e7e5ed826a3aaea]
-Aug 20 20:29:37 luna kernel:  ? __pfx_i915_init+0x10/0x10 [i915 6caac5d02e3=
-122d822ca0c852e7e5ed826a3aaea]
-Aug 20 20:29:37 luna kernel:  do_one_initcall+0x58/0x310
-Aug 20 20:29:37 luna kernel:  do_init_module+0x60/0x220
-Aug 20 20:29:37 luna kernel:  init_module_from_file+0x89/0xe0
-Aug 20 20:29:37 luna kernel:  idempotent_init_module+0x121/0x320
-Aug 20 20:29:37 luna kernel:  __x64_sys_finit_module+0x5e/0xb0
-Aug 20 20:29:37 luna kernel:  do_syscall_64+0x82/0x190
-Aug 20 20:29:37 luna kernel:  ? switch_fpu_return+0x4e/0xd0
-Aug 20 20:29:37 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
-Aug 20 20:29:37 luna kernel:  ? do_syscall_64+0x8e/0x190
-Aug 20 20:29:37 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
-Aug 20 20:29:37 luna kernel:  ? do_syscall_64+0x8e/0x190
-Aug 20 20:29:37 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:37 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:37 luna kernel:  ? clear_bhb_loop+0x25/0x80
-Aug 20 20:29:37 luna kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 20 20:29:37 luna kernel: RIP: 0033:0x7b1bee2f81fd
-Aug 20 20:29:37 luna kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f=
-3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 2=
-4 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e3 fa 0c 00 f7 d8 64 89 01=
- 48
-Aug 20 20:29:37 luna kernel: RSP: 002b:00007ffe062c2ac8 EFLAGS: 00000246 OR=
-IG_RAX: 0000000000000139
-Aug 20 20:29:37 luna kernel: RAX: ffffffffffffffda RBX: 000056171c8d0a00 RC=
-X: 00007b1bee2f81fd
-Aug 20 20:29:37 luna kernel: RDX: 0000000000000004 RSI: 00007b1bee0e5061 RD=
-I: 0000000000000026
-Aug 20 20:29:37 luna kernel: RBP: 00007ffe062c2b80 R08: 0000000000000001 R0=
-9: 00007ffe062c2b10
-Aug 20 20:29:37 luna kernel: R10: 0000000000000040 R11: 0000000000000246 R1=
-2: 00007b1bee0e5061
-Aug 20 20:29:37 luna kernel: R13: 0000000000020000 R14: 000056171c8d18c0 R1=
-5: 000056171c8d31e0
-Aug 20 20:29:37 luna kernel:  </TASK>
-Aug 20 20:29:37 luna kernel: Modules linked in: intel_powerclamp ath9k(+) s=
-nd_compress coretemp ac97_bus ath9k_common snd_pcm_dmaengine kvm_intel snd_=
-hda_intel ath9k_hw joydev snd_intel_dspcfg mousedev ath snd_intel_sdw_acpi =
-i915(+) kvm snd_hda_codec iTCO_wdt mac80211 snd_hda_core processor_thermal_=
-device_pci_legacy intel_pmc_bxt snd_hwdep processor_thermal_device hid_mult=
-itouch ee1004 iTCO_vendor_support processor_thermal_wt_hint drm_buddy snd_p=
-cm rapl processor_thermal_rfim hid_generic spi_nor r8169 i2c_i801 i2c_algo_=
-bit libarc4 memconsole_coreboot processor_thermal_rapl snd_timer intel_csta=
-te intel_rapl_msr framebuffer_coreboot memconsole cbmem intel_uncore snd in=
-tel_rapl_common realtek ttm i2c_smbus cfg80211 mtd processor_thermal_wt_req=
- psmouse mdio_devres pcspkr soundcore i2c_mux processor_thermal_power_floor=
- drm_display_helper intel_lpss_pci libphy processor_thermal_mbox intel_lpss=
- cec rfkill int340x_thermal_zone intel_pmc_core i2c_hid_acpi idma64 intel_g=
-tt intel_soc_dts_iosf intel_pch_thermal i2c_hid intel_vsec intel_hid video
-Aug 20 20:29:37 luna kernel:  pmt_telemetry pmt_class pinctrl_cannonlake wm=
-i sparse_keymap coreboot_table mac_hid pkcs8_key_parser crypto_user loop ac=
-pi_call(OE) nfnetlink ip_tables x_tables ext4 crc32c_generic crc16 mbcache =
-jbd2 uas usb_storage dm_crypt cbc encrypted_keys trusted asn1_encoder tee d=
-m_mod crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni polyval_ge=
-neric gf128mul ghash_clmulni_intel serio_raw sha512_ssse3 atkbd sha256_ssse=
-3 sha1_ssse3 libps2 aesni_intel vivaldi_fmap nvme crypto_simd nvme_core spi=
-_intel_pci cryptd xhci_pci spi_intel i8042 nvme_auth xhci_pci_renesas serio=
- librem_ec_acpi(OE)
-Aug 20 20:29:37 luna kernel: CR2: 0000000300000031
-Aug 20 20:29:37 luna kernel: ---[ end trace 0000000000000000 ]---
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+SGkNCg0KQW0gMDkuMDkuMjQgdW0gMTA6MDIgc2NocmllYiBCb3Jpc2xhdiBQZXRrb3Y6DQo+
+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogcmVzb3VyY2U6IFRyeWluZyB0byBmcmVl
+IG5vbmV4aXN0ZW50IHJlc291cmNlIDwweDAwMDAwMDAwYTAwMDAwMDAtMHgwMDAwMDAwMGEw
+MjU3ZmZmPg0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6IEJVRzogdW5hYmxlIHRv
+IGhhbmRsZSBwYWdlIGZhdWx0IGZvciBhZGRyZXNzOiAwMDAwMDAwMzAwMDAwMDMxDQo+IEF1
+ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogI1BGOiBzdXBlcnZpc29yIHJlYWQgYWNjZXNz
+IGluIGtlcm5lbCBtb2RlDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogI1BGOiBl
+cnJvcl9jb2RlKDB4MDAwMCkgLSBub3QtcHJlc2VudCBwYWdlDQo+IEF1ZyAyMCAyMDoyOToz
+NyBsdW5hIGtlcm5lbDogUEdEIDAgUDREIDANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2Vy
+bmVsOiBPb3BzOiBPb3BzOiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgTk9QVEkNCj4gQXVnIDIw
+IDIwOjI5OjM3IGx1bmEga2VybmVsOiBDUFU6IDkgUElEOiA1NTIgQ29tbTogKHVkZXYtd29y
+a2VyKSBUYWludGVkOiBHICAgICAgICAgICBPRSAgICAgIDYuMTAuNi1hcmNoMS0xICMxIDcw
+M2QxNTJjMjRmMTk3MWUzNmYxNmU1MDU0MDVlNDU2ZmM5ZTIzZjgNCj4gQXVnIDIwIDIwOjI5
+OjM3IGx1bmEga2VybmVsOiBIYXJkd2FyZSBuYW1lOiBQdXJpc20gTGlicmVtIDE0L0xpYnJl
+bSAxNCwgQklPUyA0LjE0LVB1cmlzbS0xIDA2LzE4LzIwMjENCj4gQXVnIDIwIDIwOjI5OjM3
+IGx1bmEga2VybmVsOiBSSVA6IDAwMTA6X19yZWxlYXNlX3Jlc291cmNlKzB4MzQvMHhiMA0K
+PiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6IENvZGU6IDhkIDUwIDM4IDQ4IDhiIDQw
+IDM4IDQ4IDg1IGMwIDc1IDI3IGViIDZhIDY2IDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAw
+IDAwIDY2IDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIDY2IDkwIDQ4IDhkIDUwIDMw
+IDw0OD4gOGIgNDAgMzAgNDggODUgYzAgNzQgNDUgNDggMzkgYzcgNzUgZWUgNDAgODQgZjYg
+NzUgNDUgNDggOGIgNGYNCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiBSU1A6IDAw
+MTg6ZmZmZmIzMGRjMjA3ZjkzMCBFRkxBR1M6IDAwMDEwMjk2DQo+IEF1ZyAyMCAyMDoyOToz
+NyBsdW5hIGtlcm5lbDogUkFYOiAwMDAwMDAwMzAwMDAwMDAxIFJCWDogZmZmZjhmYTM0NjE2
+ZTkwMCBSQ1g6IGZmZmY4ZmEzNDI0YWFjNTANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2Vy
+bmVsOiBSRFg6IDAwMDAwMDAzMDAwMDAwMzEgUlNJOiAwMDAwMDAwMDAwMDAwMDAxIFJESTog
+ZmZmZjhmYTM0NjE2ZTkwMA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6IFJCUDog
+ZmZmZjhmYTM0NjBlMTQwMCBSMDg6IGZmZmY4ZmEzNDI0YTk3YjggUjA5OiAwMDAwMDAwMDAw
+MDAwMDAwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogUjEwOiAwMDAwMDAwMDAw
+MDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDAwMCBSMTI6IGZmZmY4ZmEzNDE2NzEwMDANCj4g
+QXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiBSMTM6IDAwMDAwMDAwMDAwMDAwMDAgUjE0
+OiBmZmZmOGZhMzQxNjcxMGM4IFIxNTogZmZmZjhmYTM0MTY3MTAwMA0KPiBBdWcgMjAgMjA6
+Mjk6MzcgbHVuYSBrZXJuZWw6IEZTOiAgMDAwMDdiMWJlZTBlYjg4MCgwMDAwKSBHUzpmZmZm
+OGZhZTZlNDgwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDANCj4gQXVnIDIwIDIw
+OjI5OjM3IGx1bmEga2VybmVsOiBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAw
+MDAwMDAwMDgwMDUwMDMzDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogQ1IyOiAw
+MDAwMDAwMzAwMDAwMDMxIENSMzogMDAwMDAwMDEwMzkyNDAwMiBDUjQ6IDAwMDAwMDAwMDAz
+NzA2ZjANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiBDYWxsIFRyYWNlOg0KPiBB
+dWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICA8VEFTSz4NCj4gQXVnIDIwIDIwOjI5OjM3
+IGx1bmEga2VybmVsOiAgPyBfX2RpZV9ib2R5LmNvbGQrMHgxOS8weDI3DQo+IEF1ZyAyMCAy
+MDoyOTozNyBsdW5hIGtlcm5lbDogID8gcGFnZV9mYXVsdF9vb3BzKzB4MTVhLzB4MmQwDQo+
+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogID8gZXhjX3BhZ2VfZmF1bHQrMHg4MS8w
+eDE5MA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICA/IGFzbV9leGNfcGFnZV9m
+YXVsdCsweDI2LzB4MzANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiAgPyBfX3Jl
+bGVhc2VfcmVzb3VyY2UrMHgzNC8weGIwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5l
+bDogIHJlbGVhc2VfcmVzb3VyY2UrMHgyNi8weDQwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5h
+IGtlcm5lbDogIHBsYXRmb3JtX2RldmljZV9kZWwrMHg1MS8weDkwDQo+IEF1ZyAyMCAyMDoy
+OTozNyBsdW5hIGtlcm5lbDogIHBsYXRmb3JtX2RldmljZV91bnJlZ2lzdGVyKzB4MTIvMHgz
+MA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBzeXNmYl9kaXNhYmxlKzB4MmYv
+MHg4MA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBhcGVydHVyZV9yZW1vdmVf
+Y29uZmxpY3RpbmdfcGNpX2RldmljZXMrMHg4Yy8weGEwDQoNCkl0J3MgbG9va3MgbGlrZSBh
+bm90aGVyIHJlcG9ydCBvZiBhIGtub3duIHByb2JsZW0uIFBsZWFzZSB0cnkgdGhlIHBhdGNo
+IGF0DQoNCiDCoGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC82MTAx
+NzEvP3Nlcmllcz0xMzc1ODcmcmV2PTENCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiBB
+dWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBpOTE1X2RyaXZlcl9wcm9iZSsweDdjOC8w
+eGFjMCBbaTkxNSA2Y2FhYzVkMDJlMzEyMmQ4MjJjYTBjODUyZTdlNWVkODI2YTNhYWVhXQ0K
+PiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBsb2NhbF9wY2lfcHJvYmUrMHg0Mi8w
+eDkwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIHBjaV9kZXZpY2VfcHJvYmUr
+MHhiZC8weDI5MA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICA/IHN5c2ZzX2Rv
+X2NyZWF0ZV9saW5rX3NkKzB4NmUvMHhlMA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJu
+ZWw6ICByZWFsbHlfcHJvYmUrMHhkYi8weDM0MA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBr
+ZXJuZWw6ICA/IHBtX3J1bnRpbWVfYmFycmllcisweDU0LzB4OTANCj4gQXVnIDIwIDIwOjI5
+OjM3IGx1bmEga2VybmVsOiAgPyBfX3BmeF9fX2RyaXZlcl9hdHRhY2grMHgxMC8weDEwDQo+
+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIF9fZHJpdmVyX3Byb2JlX2RldmljZSsw
+eDc4LzB4MTEwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIGRyaXZlcl9wcm9i
+ZV9kZXZpY2UrMHgxZi8weGEwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIF9f
+ZHJpdmVyX2F0dGFjaCsweGJhLzB4MWMwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5l
+bDogIGJ1c19mb3JfZWFjaF9kZXYrMHg4Yy8weGUwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5h
+IGtlcm5lbDogIGJ1c19hZGRfZHJpdmVyKzB4MTEyLzB4MWYwDQo+IEF1ZyAyMCAyMDoyOToz
+NyBsdW5hIGtlcm5lbDogIGRyaXZlcl9yZWdpc3RlcisweDcyLzB4ZDANCj4gQXVnIDIwIDIw
+OjI5OjM3IGx1bmEga2VybmVsOiAgaTkxNV9pbml0KzB4MjMvMHg5MCBbaTkxNSA2Y2FhYzVk
+MDJlMzEyMmQ4MjJjYTBjODUyZTdlNWVkODI2YTNhYWVhXQ0KPiBBdWcgMjAgMjA6Mjk6Mzcg
+bHVuYSBrZXJuZWw6ICA/IF9fcGZ4X2k5MTVfaW5pdCsweDEwLzB4MTAgW2k5MTUgNmNhYWM1
+ZDAyZTMxMjJkODIyY2EwYzg1MmU3ZTVlZDgyNmEzYWFlYV0NCj4gQXVnIDIwIDIwOjI5OjM3
+IGx1bmEga2VybmVsOiAgZG9fb25lX2luaXRjYWxsKzB4NTgvMHgzMTANCj4gQXVnIDIwIDIw
+OjI5OjM3IGx1bmEga2VybmVsOiAgZG9faW5pdF9tb2R1bGUrMHg2MC8weDIyMA0KPiBBdWcg
+MjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBpbml0X21vZHVsZV9mcm9tX2ZpbGUrMHg4OS8w
+eGUwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIGlkZW1wb3RlbnRfaW5pdF9t
+b2R1bGUrMHgxMjEvMHgzMjANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiAgX194
+NjRfc3lzX2Zpbml0X21vZHVsZSsweDVlLzB4YjANCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEg
+a2VybmVsOiAgZG9fc3lzY2FsbF82NCsweDgyLzB4MTkwDQo+IEF1ZyAyMCAyMDoyOTozNyBs
+dW5hIGtlcm5lbDogID8gc3dpdGNoX2ZwdV9yZXR1cm4rMHg0ZS8weGQwDQo+IEF1ZyAyMCAy
+MDoyOTozNyBsdW5hIGtlcm5lbDogID8gc3lzY2FsbF9leGl0X3RvX3VzZXJfbW9kZSsweDcy
+LzB4MjAwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogID8gZG9fc3lzY2FsbF82
+NCsweDhlLzB4MTkwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogID8gc3lzY2Fs
+bF9leGl0X3RvX3VzZXJfbW9kZSsweDcyLzB4MjAwDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5h
+IGtlcm5lbDogID8gZG9fc3lzY2FsbF82NCsweDhlLzB4MTkwDQo+IEF1ZyAyMCAyMDoyOToz
+NyBsdW5hIGtlcm5lbDogID8gY2xlYXJfYmhiX2xvb3ArMHgyNS8weDgwDQo+IEF1ZyAyMCAy
+MDoyOTozNyBsdW5hIGtlcm5lbDogID8gY2xlYXJfYmhiX2xvb3ArMHgyNS8weDgwDQo+IEF1
+ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogID8gY2xlYXJfYmhiX2xvb3ArMHgyNS8weDgw
+DQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogIGVudHJ5X1NZU0NBTExfNjRfYWZ0
+ZXJfaHdmcmFtZSsweDc2LzB4N2UNCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiBS
+SVA6IDAwMzM6MHg3YjFiZWUyZjgxZmQNCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVs
+OiBDb2RlOiBmZiBjMyA2NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCA5MCBmMyAwZiAx
+ZSBmYSA0OCA4OSBmOCA0OCA4OSBmNyA0OCA4OSBkNiA0OCA4OSBjYSA0ZCA4OSBjMiA0ZCA4
+OSBjOCA0YyA4YiA0YyAyNCAwOCAwZiAwNSA8NDg+IDNkIDAxIGYwIGZmIGZmIDczIDAxIGMz
+IDQ4IDhiIDBkIGUzIGZhIDBjIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4DQo+IEF1ZyAyMCAyMDoy
+OTozNyBsdW5hIGtlcm5lbDogUlNQOiAwMDJiOjAwMDA3ZmZlMDYyYzJhYzggRUZMQUdTOiAw
+MDAwMDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDEzOQ0KPiBBdWcgMjAgMjA6Mjk6Mzcg
+bHVuYSBrZXJuZWw6IFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA1NjE3MWM4ZDBh
+MDAgUkNYOiAwMDAwN2IxYmVlMmY4MWZkDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5l
+bDogUkRYOiAwMDAwMDAwMDAwMDAwMDA0IFJTSTogMDAwMDdiMWJlZTBlNTA2MSBSREk6IDAw
+MDAwMDAwMDAwMDAwMjYNCj4gQXVnIDIwIDIwOjI5OjM3IGx1bmEga2VybmVsOiBSQlA6IDAw
+MDA3ZmZlMDYyYzJiODAgUjA4OiAwMDAwMDAwMDAwMDAwMDAxIFIwOTogMDAwMDdmZmUwNjJj
+MmIxMA0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6IFIxMDogMDAwMDAwMDAwMDAw
+MDA0MCBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgUjEyOiAwMDAwN2IxYmVlMGU1MDYxDQo+IEF1
+ZyAyMCAyMDoyOTozNyBsdW5hIGtlcm5lbDogUjEzOiAwMDAwMDAwMDAwMDIwMDAwIFIxNDog
+MDAwMDU2MTcxYzhkMThjMCBSMTU6IDAwMDA1NjE3MWM4ZDMxZTANCj4gQXVnIDIwIDIwOjI5
+OjM3IGx1bmEga2VybmVsOiAgPC9UQVNLPg0KPiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJu
+ZWw6IE1vZHVsZXMgbGlua2VkIGluOiBpbnRlbF9wb3dlcmNsYW1wIGF0aDlrKCspIHNuZF9j
+b21wcmVzcyBjb3JldGVtcCBhYzk3X2J1cyBhdGg5a19jb21tb24gc25kX3BjbV9kbWFlbmdp
+bmUga3ZtX2ludGVsIHNuZF9oZGFfaW50ZWwgYXRoOWtfaHcgam95ZGV2IHNuZF9pbnRlbF9k
+c3BjZmcgbW91c2VkZXYgYXRoIHNuZF9pbnRlbF9zZHdfYWNwaSBpOTE1KCspIGt2bSBzbmRf
+aGRhX2NvZGVjIGlUQ09fd2R0IG1hYzgwMjExIHNuZF9oZGFfY29yZSBwcm9jZXNzb3JfdGhl
+cm1hbF9kZXZpY2VfcGNpX2xlZ2FjeSBpbnRlbF9wbWNfYnh0IHNuZF9od2RlcCBwcm9jZXNz
+b3JfdGhlcm1hbF9kZXZpY2UgaGlkX211bHRpdG91Y2ggZWUxMDA0IGlUQ09fdmVuZG9yX3N1
+cHBvcnQgcHJvY2Vzc29yX3RoZXJtYWxfd3RfaGludCBkcm1fYnVkZHkgc25kX3BjbSByYXBs
+IHByb2Nlc3Nvcl90aGVybWFsX3JmaW0gaGlkX2dlbmVyaWMgc3BpX25vciByODE2OSBpMmNf
+aTgwMSBpMmNfYWxnb19iaXQgbGliYXJjNCBtZW1jb25zb2xlX2NvcmVib290IHByb2Nlc3Nv
+cl90aGVybWFsX3JhcGwgc25kX3RpbWVyIGludGVsX2NzdGF0ZSBpbnRlbF9yYXBsX21zciBm
+cmFtZWJ1ZmZlcl9jb3JlYm9vdCBtZW1jb25zb2xlIGNibWVtIGludGVsX3VuY29yZSBzbmQg
+aW50ZWxfcmFwbF9jb21tb24gcmVhbHRlayB0dG0gaTJjX3NtYnVzIGNmZzgwMjExIG10ZCBw
+cm9jZXNzb3JfdGhlcm1hbF93dF9yZXEgcHNtb3VzZSBtZGlvX2RldnJlcyBwY3Nwa3Igc291
+bmRjb3JlIGkyY19tdXggcHJvY2Vzc29yX3RoZXJtYWxfcG93ZXJfZmxvb3IgZHJtX2Rpc3Bs
+YXlfaGVscGVyIGludGVsX2xwc3NfcGNpIGxpYnBoeSBwcm9jZXNzb3JfdGhlcm1hbF9tYm94
+IGludGVsX2xwc3MgY2VjIHJma2lsbCBpbnQzNDB4X3RoZXJtYWxfem9uZSBpbnRlbF9wbWNf
+Y29yZSBpMmNfaGlkX2FjcGkgaWRtYTY0IGludGVsX2d0dCBpbnRlbF9zb2NfZHRzX2lvc2Yg
+aW50ZWxfcGNoX3RoZXJtYWwgaTJjX2hpZCBpbnRlbF92c2VjIGludGVsX2hpZCB2aWRlbw0K
+PiBBdWcgMjAgMjA6Mjk6MzcgbHVuYSBrZXJuZWw6ICBwbXRfdGVsZW1ldHJ5IHBtdF9jbGFz
+cyBwaW5jdHJsX2Nhbm5vbmxha2Ugd21pIHNwYXJzZV9rZXltYXAgY29yZWJvb3RfdGFibGUg
+bWFjX2hpZCBwa2NzOF9rZXlfcGFyc2VyIGNyeXB0b191c2VyIGxvb3AgYWNwaV9jYWxsKE9F
+KSBuZm5ldGxpbmsgaXBfdGFibGVzIHhfdGFibGVzIGV4dDQgY3JjMzJjX2dlbmVyaWMgY3Jj
+MTYgbWJjYWNoZSBqYmQyIHVhcyB1c2Jfc3RvcmFnZSBkbV9jcnlwdCBjYmMgZW5jcnlwdGVk
+X2tleXMgdHJ1c3RlZCBhc24xX2VuY29kZXIgdGVlIGRtX21vZCBjcmN0MTBkaWZfcGNsbXVs
+IGNyYzMyX3BjbG11bCBjcmMzMmNfaW50ZWwgcG9seXZhbF9jbG11bG5pIHBvbHl2YWxfZ2Vu
+ZXJpYyBnZjEyOG11bCBnaGFzaF9jbG11bG5pX2ludGVsIHNlcmlvX3JhdyBzaGE1MTJfc3Nz
+ZTMgYXRrYmQgc2hhMjU2X3Nzc2UzIHNoYTFfc3NzZTMgbGlicHMyIGFlc25pX2ludGVsIHZp
+dmFsZGlfZm1hcCBudm1lIGNyeXB0b19zaW1kIG52bWVfY29yZSBzcGlfaW50ZWxfcGNpIGNy
+eXB0ZCB4aGNpX3BjaSBzcGlfaW50ZWwgaTgwNDIgbnZtZV9hdXRoIHhoY2lfcGNpX3JlbmVz
+YXMgc2VyaW8gbGlicmVtX2VjX2FjcGkoT0UpDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtl
+cm5lbDogQ1IyOiAwMDAwMDAwMzAwMDAwMDMxDQo+IEF1ZyAyMCAyMDoyOTozNyBsdW5hIGtl
+cm5lbDogLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+DQoNCi0tIA0K
+LS0NClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0Niwg
+OTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMs
+IEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJu
+YmVyZykNCg0K

@@ -1,130 +1,159 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA9619AD81
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Sep 2024 10:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6134195FEF
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Sep 2024 17:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725963349; cv=none; b=U5wYfkfM+h1l47NPSftynfy+I7rtXI20/1+4e5Ov8F/RLB/3kl8PhxwUvtzVpl8mpPx6ZxFDwrBJnP+XK3A7aSwH5NSzqetazl1scb0xPXo3bQgXY92LtAizTmwRdJBQrwwpaQAtY10YNrP2gfcERJxuoGIKTGCuYnpbiIKYW1w=
+	t=1725990551; cv=none; b=NZJsIKwqUGRWSZoXCsiieziQn7HwLBT0iYcpxuo/E6r7MVv5u9coxxAZu51nxZVPzo326ulZW9wvbs5u40NYt4IeeVZ+uvX26RkbAlSxisbpbS31u0B/2BD7VCP6Hu0p88YGvBkS9AelNRPt1D29TvFkxRBs8+MyG0v8SFdhj3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725963349; c=relaxed/simple;
-	bh=tSQJHbj2LLXTeUHGgMMfJ5BWAL/nLVLLEk1C+o3nHws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BmDVnHvjO43bC8g+W02UlK43lf2gHiQHm9t+ZvGqp1E/1mWrEH0J+Cw4Rov7Khv8+uISxeE96NV/OEJxg04UND5H4Ih+wB41LBykRMglxdqBFD/I/z1enkqzzr9x1AQNrYjTXyq0jf5wmsRFZ3XFTrLqoXVK7RtRmluKAfX5DPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=krsaad2a; arc=none smtp.client-ip=209.85.208.179
+	s=arc-20240116; t=1725990551; c=relaxed/simple;
+	bh=8r6/Z7cYCZt0C2pPNRt5red4H6C/cN0pEDVkXGwQVxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dydmhvpFvj2giy7daUKkbjmo9rYOdJ7/5fQr05Tl/Qe9WwtbNCXaDqB/SSpj00X7un+RYCZe7qwe/XibKp5HqFjhhEctiTFHBhs0NSdDyUKhQ3+zkTrSrPkaT8DKEVtdc+qGLG6ibzxWPW6j5LvrNQhd7BRL9mRoPZvQS53IW/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DXWRsVZl; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="krsaad2a"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f754d4a6e4so44062931fa.3
-        for <chrome-platform@lists.linux.dev>; Tue, 10 Sep 2024 03:15:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DXWRsVZl"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-718d8d6af8fso3758615b3a.3
+        for <chrome-platform@lists.linux.dev>; Tue, 10 Sep 2024 10:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725963346; x=1726568146; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e6E5yTq083nuSzrDbz7WTLj5zuoz2JOMDpjBBNEDmzQ=;
-        b=krsaad2aAqmL+JbWkWMUHqx5iQkFj7dXxwuX3ASlvqQO731f3gLQ62XneW8wl45BUc
-         cYj0yBdamktfyuMB5GIsojBQGkryVEKYWA6E0IOoFoe84FaKm9AX7NU4g8lv7bMhEGrl
-         im1Ag95QBC1uHEsIBFmqbGshqHHPTTz/sDjVk=
+        d=chromium.org; s=google; t=1725990549; x=1726595349; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XjTGqVxL/lXZ4Xq5oA9wMyb/w66vC8I8vd+hq2N9dLc=;
+        b=DXWRsVZli6jZTn3l79l/HpUKxdRsBltvT7iAnEWsxA675Aztl6Ewciv+JcdfhPyOhd
+         GCyeWi4goX71ylMzV98sqqZCbBkL9fHD68z0rA4XCfGCv7lMTVKb3Sf3Gdn2hB65wpzH
+         JsGLmZy8AAH8AYvirrWzj9/q7yd0R2WxKYk80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725963346; x=1726568146;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e6E5yTq083nuSzrDbz7WTLj5zuoz2JOMDpjBBNEDmzQ=;
-        b=kbuQq5KdhpASeusBl29g5lxlgb8z7roxfZzVvCnfY734wlIM6C0L0ryYV+eQ6CP/KA
-         WpL+cPyQHaN0b0aWVhekS53a7eCVma/BQXf1xaKFj8Swgr+GGforN1jxERR9FXeUYp6d
-         +CyxkwYICHqkkW3GZYyez9YuxdD4uEBctBdmtzrCc+769QtV0HTBCk9rV9PiNZMEUNaa
-         DoxdEi1y7ne5g+Nfa12pvy5vtaW6fHNQZ5Qha63ohICj2Gt3cd8BE6luSd6FibQSR1lL
-         oyMUNS4DUqaEtn+XKT7SCPlXYJpgPvF9DhZ4I7ZYGQGgS8ZvuwljPGkuwzFI4g9jJ69S
-         Z2cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW63ywWhyvu/C6zWLHvZojgkNyNjDnNGF3bCDocgRuxYT/dvnitTvaSjtHG6myB0gZsSxlK1rGoqB8hPahWlRg=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5osP1KSvjdEmeDZXghTY4+KsFbxWxq+CnHnXt+4m65dn0RUP7
-	awkaR4S9qh6EiASjcR2Sl52mz2KQFGbXfIhp5msq6VI0hygHNp532yQhDCwt
-X-Google-Smtp-Source: AGHT+IHaKe6rWjU3xH9ycsM7F8BdbXD7rsT077HrnyCJDew/oIYr2SQOxzYhjp9tGDoTKY9rIz0ULg==
-X-Received: by 2002:a2e:5109:0:b0:2f5:806:5cee with SMTP id 38308e7fff4ca-2f751ec7daamr64177571fa.11.1725963345513;
-        Tue, 10 Sep 2024 03:15:45 -0700 (PDT)
-Received: from ukaszb-ng.c.googlers.com.com (140.20.91.34.bc.googleusercontent.com. [34.91.20.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd424f0sm4075401a12.7.2024.09.10.03.15.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 03:15:43 -0700 (PDT)
-From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH v6 8/8] mfd: cros_ec: Don't load charger with UCSI
-Date: Tue, 10 Sep 2024 10:15:27 +0000
-Message-ID: <20240910101527.603452-9-ukaszb@chromium.org>
-X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
-In-Reply-To: <20240910101527.603452-1-ukaszb@chromium.org>
-References: <20240910101527.603452-1-ukaszb@chromium.org>
+        d=1e100.net; s=20230601; t=1725990549; x=1726595349;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XjTGqVxL/lXZ4Xq5oA9wMyb/w66vC8I8vd+hq2N9dLc=;
+        b=QoEaluYGPggNoD+L69q1baruDk9p++EUaxmF8hleTn/sXuRKjkqi9aRYD33gs+zY7l
+         RtCl3jeDFuF2FUtk9OoSeDK0LONBd+AVGJ9MLhQ0Kr8l7xzgAwehu5yOadyYJPG7A1zN
+         YIHee9MeyETZH+vJ3x9+ff1WYHIUV5LZK66qdDjcZ0Afp9yqp9lXq9hHLJXaV9B+tuek
+         orFWep/e3QrfhkH5vI+GGNtJQ/MtSce1554skJcfxg2NOXcUtt1Mspooibn9IM9NjI1k
+         sHdu1PHcBRJsyj1exnGZPLJMWwS7g1+uHUU27bo2c4oyMMo4iqS1K02W6xabDMwuKr+K
+         xv/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVMwpZVLsm66kev0c3/8cbYTXFJrWdgSbawTSHfU4Mnn44s/JPt2e4Dq4pkhFEajDkx2x6sZ1zWpsAdLnjCaFI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyfx+XjCqx1JIgr+8i3njNeo1UyjCYib0Mvk6k+pmKlKmQ216GU
+	Kb05y4H3Oo1lmNvtLUvmVHrLpcGaPkrIdApma8q3EncaO0a32PawaL2XPNzrfw==
+X-Google-Smtp-Source: AGHT+IH7ewLbjt6vpK16Q9MSvs4t2UHHLsqVCiuJv68f8tihw1AECgjvOqgbtRKJbxklGND7j0FnJg==
+X-Received: by 2002:a05:6a21:6481:b0:1cf:37bd:b553 with SMTP id adf61e73a8af0-1cf5e1ab920mr1717836637.46.1725990549167;
+        Tue, 10 Sep 2024 10:49:09 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e14:7:a9f8:b780:a61c:6acb])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-20710f3229esm51179035ad.268.2024.09.10.10.49.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Sep 2024 10:49:08 -0700 (PDT)
+Date: Tue, 10 Sep 2024 10:49:06 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
+	regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Tony Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate device
+ name "simple-framebuffer.0"
+Message-ID: <ZuCGkjoxKxpnhEh6@google.com>
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
 
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+(Tweaking subject; this indeed isn't related to the regression at all)
 
-When UCSI is enabled, don't load cros_usbpd_charger and cros_usbpd_logger
-drivers. Charger functionality is provided by the UCSI driver already and
-logging will need to be added.
+Hi,
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
----
- drivers/mfd/cros_ec_dev.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+On Mon, Sep 09, 2024 at 10:02:00AM +0200, Borislav Petkov wrote:
+> Looking at your log, the first warn is in framebuffer_coreboot. Some mess in
+> the sysfs platform devices registration.
+> 
+> Adding the relevant people for that:
+> 
+> Aug 20 20:29:36 luna kernel: sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
+> Aug 20 20:29:36 luna kernel: CPU: 5 PID: 571 Comm: (udev-worker) Tainted: G           OE      6.10.6-arch1-1 #1 703d152c24f1971e36f16e505405e456fc9e23f8
+> Aug 20 20:29:36 luna kernel: Hardware name: Purism Librem 14/Librem 14, BIOS 4.14-Purism-1 06/18/2021
+> Aug 20 20:29:36 luna kernel: Call Trace:
+> Aug 20 20:29:36 luna kernel:  <TASK>
+> Aug 20 20:29:36 luna kernel:  dump_stack_lvl+0x5d/0x80
+> Aug 20 20:29:36 luna kernel:  sysfs_warn_dup.cold+0x17/0x23
+> Aug 20 20:29:36 luna kernel:  sysfs_do_create_link_sd+0xcf/0xe0
+> Aug 20 20:29:36 luna kernel:  bus_add_device+0x6b/0x130
+> Aug 20 20:29:36 luna kernel:  device_add+0x3b3/0x870
+> Aug 20 20:29:36 luna kernel:  platform_device_add+0xed/0x250
+> Aug 20 20:29:36 luna kernel:  platform_device_register_full+0xbb/0x140
+> Aug 20 20:29:36 luna kernel:  platform_device_register_resndata.constprop.0+0x54/0x80 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  framebuffer_probe+0x165/0x1b0 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  really_probe+0xdb/0x340
+> Aug 20 20:29:36 luna kernel:  ? pm_runtime_barrier+0x54/0x90
+> Aug 20 20:29:36 luna kernel:  ? __pfx___driver_attach+0x10/0x10
+> Aug 20 20:29:36 luna kernel:  __driver_probe_device+0x78/0x110
+> Aug 20 20:29:36 luna kernel:  driver_probe_device+0x1f/0xa0
+> Aug 20 20:29:36 luna kernel:  __driver_attach+0xba/0x1c0
+> Aug 20 20:29:36 luna kernel:  bus_for_each_dev+0x8c/0xe0
+> Aug 20 20:29:36 luna kernel:  bus_add_driver+0x112/0x1f0
+> Aug 20 20:29:36 luna kernel:  driver_register+0x72/0xd0
+> Aug 20 20:29:36 luna kernel:  ? __pfx_framebuffer_driver_init+0x10/0x10 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  do_one_initcall+0x58/0x310
+> Aug 20 20:29:36 luna kernel:  do_init_module+0x60/0x220
+> Aug 20 20:29:36 luna kernel:  init_module_from_file+0x89/0xe0
+> Aug 20 20:29:36 luna kernel:  idempotent_init_module+0x121/0x320
+> Aug 20 20:29:36 luna kernel:  __x64_sys_finit_module+0x5e/0xb0
+> Aug 20 20:29:36 luna kernel:  do_syscall_64+0x82/0x190
+> Aug 20 20:29:36 luna kernel:  ? __do_sys_newfstatat+0x3c/0x80
+> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
+> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
+> Aug 20 20:29:36 luna kernel:  ? do_sys_openat2+0x9c/0xe0
+> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
+> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> Aug 20 20:29:36 luna kernel: RIP: 0033:0x7b1bee2f81fd
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index d5d63df7fcbd..bc083c7b21de 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -133,11 +133,6 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_ucsi_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_ucsi_cells),
- 	},
--	{
--		.id		= EC_FEATURE_USB_PD,
--		.mfd_cells	= cros_usbpd_charger_cells,
--		.num_cells	= ARRAY_SIZE(cros_usbpd_charger_cells),
--	},
- 	{
- 		.id		= EC_FEATURE_HANG_DETECT,
- 		.mfd_cells	= cros_ec_wdt_cells,
-@@ -261,6 +256,21 @@ static int ec_device_probe(struct platform_device *pdev)
- 		}
- 	}
+Looks like it might be a conflict with
+drivers/firmware/sysfb_simplefb.c, which also uses the
+"simple-framebuffer" name with a constant ID of 0. It's possible both
+drivers should be switched to use PLATFORM_DEVID_AUTO? Or at least one
+of them. Or they should use different base names.
+
+I'm not really sure what the best option is (does anyone rely on or care
+about the device naming?), and I don't actually use this driver. But
+here's an untested diff to try if you'd really like. If you test it,
+feel free to submit as a proper patch with my:
+
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+
+diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+index daadd71d8ddd..3f1b8f664c3f 100644
+--- a/drivers/firmware/google/framebuffer-coreboot.c
++++ b/drivers/firmware/google/framebuffer-coreboot.c
+@@ -62,7 +62,8 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 		return -EINVAL;
  
-+	/*
-+	 * UCSI provides power supply information so we don't need to separately
-+	 * load the cros_usbpd_charger driver.
-+	 */
-+	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
-+	    !cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
-+		retval = mfd_add_hotplug_devices(ec->dev,
-+						 cros_usbpd_charger_cells,
-+						 ARRAY_SIZE(cros_usbpd_charger_cells));
-+
-+		if (retval)
-+			dev_warn(ec->dev, "failed to add usbpd-charger: %d\n",
-+				 retval);
-+	}
-+
- 	/*
- 	 * Lightbar is a special case. Newer devices support autodetection,
- 	 * but older ones do not.
--- 
-2.46.0.598.g6f2099f65c-goog
-
+ 	pdev = platform_device_register_resndata(&dev->dev,
+-						 "simple-framebuffer", 0,
++						 "simple-framebuffer",
++						 PLATFORM_DEVID_AUTO,
+ 						 &res, 1, &pdata,
+ 						 sizeof(pdata));
+ 	if (IS_ERR(pdev))

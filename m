@@ -1,54 +1,54 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2CB144D15
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 07:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F452149002
+	for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 07:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726039711; cv=none; b=KdP/WAXJU3MFtND6HoMbpY+P91fSmGGTeAQDDQYmFBhsqsn5hwpLS6zt/Y6NCGH+2ENScMYSSHRnK9vHxmhWnfAGkYb+9WykodoU770jWOvd17OQkEAdOr8lCJPynP7fTCkFQhxw+cNihwfqhcx7yShNANCxODTIv086WLlkGYU=
+	t=1726039715; cv=none; b=ar6+9vo5suoyutSnlfj76wSYIvWmLtWTsPuHu35zE5jS19N109bS7WRnBmBEtLhxrmW1pUua/wQWtAg5VTUZ6Kh8dakmQHEvKOKBvJeyUiSzeTSt1wMw+vWfulnk5wEJyLj6cOUbfzdjrxgIYbs4j6jEXJj5lfkUmJr0jG87KVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726039711; c=relaxed/simple;
-	bh=GcyKgQsfjkBKNwaAizHmmILs0FYR28hHW2QvCF0Pxwg=;
+	s=arc-20240116; t=1726039715; c=relaxed/simple;
+	bh=WxMROr7huCM27GHQ6nDzxDb5JW0IZzdP8pMTdaNq6Rs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rs7dp2lo/CNCO+nAi2qXZ0r77jEI+P2MtDgczSdKeg28IT57p2nRHWTq97MThnzdPtlvoqGkRMU7n/crqIgOh2frI2HScZZNw5TWTBcvpsD5Pzj5MQBwrAgQxF6osGBhARfjKIMxgLPs19XL3LTbsTMq67NoAxsJJbB8lkk1Z9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YRRKggbq; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version; b=qyqYOfwp2nfoHvVb58FmsapN5am+JeheH0vbswiaLb3wzBMGJl7gTvwJxVWVplBssF8Rx4mPX69yeNeFolfPeC44X/pRAIGINVFo2aL1LB5vJhCaoUomZrVaBtTRqmVXaLxyPVsDDV9YBOa3t3d/DmLcjV9cOvB6SzK/bg3Px+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SOOIhE9K; arc=none smtp.client-ip=209.85.161.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YRRKggbq"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71798661a52so466122b3a.0
-        for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 00:28:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SOOIhE9K"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5e1c65eb5bbso2060329eaf.1
+        for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 00:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726039709; x=1726644509; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1726039713; x=1726644513; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Uo9H3mi08AzEIcyFPjnP71nK8rUWm/O6uNXtiPTxfPw=;
-        b=YRRKggbq1rqA5vVjNnevit34Zl1XEYadeqkLLR59Ja9te8+xRXFKSCK+LRi5rfIXyu
-         ADPjNhwR7YR0QFakG19haElC8G5CuFrCCpxXTtjO69lhPvVOqWficBQm3JaPXmwxALYH
-         fWiNhPHaMe953Vhf2KujNavq+K9rbrS2Qmu9A=
+        bh=usCLS2gw9idy/3IwRZ6LuORHWtJja/i6x5Lk0clI0uw=;
+        b=SOOIhE9K9bCSA08avvf38/5MXuuC7uXsFeFHWOa3BfYkKK1sSItt3X1owaUUgD7oWV
+         pXzOzYX23nd4TfsBZyTSoIVY/39HOMR9wryzCbNI5T9YjSySRQfE+5NTcOY3qsaCBc8R
+         tarlitCqKJEykCvs73LDj0+18+v9kpKWoXmLA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726039709; x=1726644509;
+        d=1e100.net; s=20230601; t=1726039713; x=1726644513;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Uo9H3mi08AzEIcyFPjnP71nK8rUWm/O6uNXtiPTxfPw=;
-        b=oTJt3myzn574pXSXxrJH+QGLudgV9ZY4tdy0USrsTBE64NFAIfPxAwxAdX0VihQD0w
-         qOp7+5KQ/xggMCmR1Pvwr2julgK3B7m572NftDGWbrZIiPw+1/x4c2N2izKl1jJgQWf3
-         o0VRo59VO/UdxFjcnnts/9e15+rdYdA5CgTTRka9gGGInP4ffExTGy0JN/cmGlMdlhbJ
-         O2p/8cUhrupNdBdOvRBiCCzAdGzF9mT+M9XWy/ejSWDCEZJDyREOutSRmKs6zt9W+sDp
-         b7nMaC1+r5y+jO4S7fdh+VNVhxvNDdVYZv4IaR/FdIgXc16E+UsMQeawu7cg0arDwS8c
-         YqlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/gCMdGg7kNfMbltaOYdmh+t7Vf9Oc9Metqn6/bAg0pKGn+NiektzUsZZkhd0AUHk7oTW02vFEkkevqA2A4UU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1RwuxIrTAhmN5RJ3q/Cd11vSVwUOJTgseUfV+LvGAEdbIAGY9
-	NEPtwAZGMAmTLxOVhV+vsBU2CNkBBrQBpY7HOxce4856bBR3J9L5aDTiWnMuxA==
-X-Google-Smtp-Source: AGHT+IH8y/5qgaRg14jmmESJlTP33GJD1mpI9XyvqpkYm264oWkGo2r0XR7RzXDvrRycmczgHdwVfQ==
-X-Received: by 2002:a05:6a00:6f0c:b0:70d:26cd:9741 with SMTP id d2e1a72fcca58-71907f29d40mr7749073b3a.12.1726039709427;
-        Wed, 11 Sep 2024 00:28:29 -0700 (PDT)
+        bh=usCLS2gw9idy/3IwRZ6LuORHWtJja/i6x5Lk0clI0uw=;
+        b=Nz3EGwqdZUH3Evv+H+n3nzu7z0OWexI0tw5QU3O+h6BnG6yAc0FMJIZe5tTzDk2Fpv
+         SHWRkVSKUiibOkz7wUE9xKIFj7UQxftSDBWKHbLJb4MGipqAwzMc9LEg8ooqxDT3ogPh
+         PBTeg15pjRydcC+AbR2UOiRexDyk4GNHz9Fdw2qWhv66u/rjHxuwdeSplAWnmdGYC0Lu
+         3M6XtSsmNhkU7YenlsIGfzu0yf87LVoiXRtO/TYcfG8SnoaIxFg5RksHrbIlzYvD1MFh
+         FdCuKuQyWkKSI0nCPSOKLsilf7yAhcU1GHkqH+B6WDXZmnli4BbUUjUI4Om5bq/NrR79
+         AXtw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4AWgku7pz5I6qvQDYkeDwUPPqZUkC8W53FCUAe/b5kcwNG57PbRP4YDLx2Yj7R6Grh8fkzfoS6J35BOm8wjY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfQcZTuMrTOiybme6UZBbtoAQjnhqJFQo7YHwVt9Ok5zlHF3r/
+	/ZIqMMccI5v7i05WIID6UjUuan5m0754WyrZLqiZWXMzFG8c6L2n152iljoBnQ==
+X-Google-Smtp-Source: AGHT+IFNM7b4JkSSxOxl6LIFw91t1hLIJvdgyEh6OE43L+BvV2ny7clTTpH+bkJj2RTSowhSQE6gdw==
+X-Received: by 2002:a05:6870:1702:b0:24f:dd11:4486 with SMTP id 586e51a60fabf-27b9dd8110fmr8247849fac.36.1726039712931;
+        Wed, 11 Sep 2024 00:28:32 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8398:fe34:eba2:f301])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe4e7esm2399415b3a.80.2024.09.11.00.28.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe4e7esm2399415b3a.80.2024.09.11.00.28.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 00:28:29 -0700 (PDT)
+        Wed, 11 Sep 2024 00:28:32 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh@kernel.org>,
 	Saravana Kannan <saravanak@google.com>,
@@ -70,9 +70,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	Jiri Kosina <jikos@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-i2c@vger.kernel.org
-Subject: [PATCH v7 03/10] regulator: Split up _regulator_get()
-Date: Wed, 11 Sep 2024 15:27:41 +0800
-Message-ID: <20240911072751.365361-4-wenst@chromium.org>
+Subject: [PATCH v7 04/10] regulator: Add of_regulator_get_optional() for pure DT regulator lookup
+Date: Wed, 11 Sep 2024 15:27:42 +0800
+Message-ID: <20240911072751.365361-5-wenst@chromium.org>
 X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
 In-Reply-To: <20240911072751.365361-1-wenst@chromium.org>
 References: <20240911072751.365361-1-wenst@chromium.org>
@@ -84,126 +84,209 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-_regulator_get() contains a lot of common code doing checks prior to the
-regulator lookup and housekeeping work after the lookup. Almost all the
-code could be shared with a OF-specific variant of _regulator_get().
+The to-be-introduced I2C component prober needs to enable regulator
+supplies (and toggle GPIO pins) for the various components it intends
+to probe. To support this, a new "pure DT lookup" method for getting
+regulator supplies is needed, since the device normally requesting
+the supply won't get created until after the component is probed to
+be available.
 
-Split out the common parts so that they can be reused. The OF-specific
-version of _regulator_get() will be added in a subsequent patch.
-No functional changes were made.
+Add a new of_regulator_get_optional() function for this. This mirrors
+the existing regulator_get_optional() function, but is OF-specific.
+The underlying code that supports the existing regulator_get*()
+functions has been reworked in previous patches to support this
+specific case.
 
+Also convert an existing usage of "dev && dev->of_node" to
+"dev_of_node(dev)".
+
+Link: https://lore.kernel.org/all/20231220203537.83479-2-jernej.skrabec@gmail.com/ [1]
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
 Changes since v6:
-None.
+- Changed reference [1] to Link: tag
+- Rebased on top of commit 401d078eaf2e ("regulator: of: Refactor
+  of_get_*regulator() to decrease indentation")
+- Exported of_regulator_get_optional()
+- Changed commit message to focus on "of_regulator_get_optional()"
+- Dropped change to of_regulator_bulk_get_all()
 
 Changes since v5:
-- Fixed kerneldoc "Return" section format for _regulator_get_common()
-- Slightly reworded return value description
+- Used "dev_of_node(dev)" instead of "dev->of_node"
+- Replaced "dev_printk" with "dev_printk()" in kerneldoc mentions
+- Fixed kerneldoc "Return" section format for of_regulator_get_optional()
+- Fix @np parameter name in of_regulator_dev_lookup() kerneldoc
 
 Changes since v4:
+- Restore platform-agnostic regulator consumer code to original state
+- Move OF-specific regulator code to of_regulator.c (separate patch)
+- Split _regulator_get() into three parts for reuse (separate patch)
+- Add OF-specific _of_regulator_get() function
+- Rename regulator_of_get_optional() to of_regulator_get_optional() for
+  consistency
+- Make of_regulator_get_optional static, as it is only used internally
+- Convert of_regulator_bulk_get_all()
+
+Changes since v3:
 - New patch
 ---
- drivers/regulator/core.c     | 54 ++++++++++++++++++++++++++++--------
- drivers/regulator/internal.h |  4 +++
- 2 files changed, 47 insertions(+), 11 deletions(-)
+ drivers/regulator/core.c           |  4 +--
+ drivers/regulator/internal.h       |  2 ++
+ drivers/regulator/of_regulator.c   | 51 ++++++++++++++++++++++++++----
+ include/linux/regulator/consumer.h |  4 +++
+ 4 files changed, 53 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 835a5531d045..d60c86477ac2 100644
+index d60c86477ac2..f94a06ac2109 100644
 --- a/drivers/regulator/core.c
 +++ b/drivers/regulator/core.c
-@@ -2103,26 +2103,43 @@ static int regulator_resolve_supply(struct regulator_dev *rdev)
- 	return ret;
- }
+@@ -1959,8 +1959,8 @@ static struct regulator_dev *regulator_dev_lookup(struct device *dev,
+ 	regulator_supply_alias(&dev, &supply);
  
--/* Internal regulator request function */
--struct regulator *_regulator_get(struct device *dev, const char *id,
--				 enum regulator_get_type get_type)
-+/* common pre-checks for regulator requests */
-+int _regulator_get_common_check(struct device *dev, const char *id,
-+				enum regulator_get_type get_type)
+ 	/* first do a dt based lookup */
+-	if (dev && dev->of_node) {
+-		r = of_regulator_dev_lookup(dev, supply);
++	if (dev_of_node(dev)) {
++		r = of_regulator_dev_lookup(dev, dev_of_node(dev), supply);
+ 		if (!IS_ERR(r))
+ 			return r;
+ 		if (PTR_ERR(r) == -EPROBE_DEFER)
+diff --git a/drivers/regulator/internal.h b/drivers/regulator/internal.h
+index 5b43f802468d..f62cacbbc729 100644
+--- a/drivers/regulator/internal.h
++++ b/drivers/regulator/internal.h
+@@ -67,6 +67,7 @@ static inline struct regulator_dev *dev_to_rdev(struct device *dev)
+ 
+ #ifdef CONFIG_OF
+ struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++					      struct device_node *np,
+ 					      const char *supply);
+ struct regulator_init_data *regulator_of_get_init_data(struct device *dev,
+ 			         const struct regulator_desc *desc,
+@@ -82,6 +83,7 @@ bool of_check_coupling_data(struct regulator_dev *rdev);
+ 
+ #else
+ static inline struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++							    struct device_node *np,
+ 							    const char *supply)
  {
--	struct regulator_dev *rdev;
--	struct regulator *regulator;
--	struct device_link *link;
--	int ret;
--
- 	if (get_type >= MAX_GET_TYPE) {
- 		dev_err(dev, "invalid type %d in %s\n", get_type, __func__);
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 	}
+ 	return ERR_PTR(-ENODEV);
+diff --git a/drivers/regulator/of_regulator.c b/drivers/regulator/of_regulator.c
+index 3f490d81abc2..358c3ed791db 100644
+--- a/drivers/regulator/of_regulator.c
++++ b/drivers/regulator/of_regulator.c
+@@ -588,7 +588,8 @@ static struct device_node *of_get_child_regulator(struct device_node *parent,
  
- 	if (id == NULL) {
- 		dev_err(dev, "regulator request with no identifier\n");
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 	}
+ /**
+  * of_get_regulator - get a regulator device node based on supply name
+- * @dev: Device pointer for the consumer (of regulator) device
++ * @dev: Device pointer for dev_printk() messages
++ * @node: Device node pointer for supply property lookup
+  * @supply: regulator supply name
+  *
+  * Extract the regulator device node corresponding to the supply name.
+@@ -596,15 +597,16 @@ static struct device_node *of_get_child_regulator(struct device_node *parent,
+  * Return: Pointer to the &struct device_node corresponding to the regulator
+  *	   if found, or %NULL if not found.
+  */
+-static struct device_node *of_get_regulator(struct device *dev, const char *supply)
++static struct device_node *of_get_regulator(struct device *dev, struct device_node *node,
++					    const char *supply)
+ {
+ 	struct device_node *regnode = NULL;
+ 	char prop_name[64]; /* 64 is max size of property name */
  
--	rdev = regulator_dev_lookup(dev, id);
-+	return 0;
-+}
-+
-+/**
-+ * _regulator_get_common - Common code for regulator requests
-+ * @rdev: regulator device pointer as returned by *regulator_dev_lookup()
-+ *       Its reference count is expected to have been incremented.
-+ * @dev: device used for dev_printk messages
-+ * @id: Supply name or regulator ID
-+ * @get_type: enum regulator_get_type value corresponding to type of request
-+ *
-+ * Returns: pointer to struct regulator corresponding to @rdev, or ERR_PTR()
-+ *	    encoded error.
-+ *
-+ * This function should be chained with *regulator_dev_lookup() functions.
-+ */
-+struct regulator *_regulator_get_common(struct regulator_dev *rdev, struct device *dev,
-+					const char *id, enum regulator_get_type get_type)
-+{
-+	struct regulator *regulator;
-+	struct device_link *link;
-+	int ret;
-+
- 	if (IS_ERR(rdev)) {
- 		ret = PTR_ERR(rdev);
+-	dev_dbg(dev, "Looking up %s-supply from device tree\n", supply);
++	dev_dbg(dev, "Looking up %s-supply from device node %pOF\n", supply, node);
  
-@@ -2238,6 +2255,21 @@ struct regulator *_regulator_get(struct device *dev, const char *id,
- 	return regulator;
+ 	snprintf(prop_name, 64, "%s-supply", supply);
+-	regnode = of_parse_phandle(dev->of_node, prop_name, 0);
++	regnode = of_parse_phandle(node, prop_name, 0);
+ 	if (regnode)
+ 		return regnode;
+ 
+@@ -628,6 +630,7 @@ static struct regulator_dev *of_find_regulator_by_node(struct device_node *np)
+ /**
+  * of_regulator_dev_lookup - lookup a regulator device with device tree only
+  * @dev: Device pointer for regulator supply lookup.
++ * @np: Device node pointer for regulator supply lookup.
+  * @supply: Supply name or regulator ID.
+  *
+  * Return: Pointer to the &struct regulator_dev on success, or ERR_PTR()
+@@ -642,13 +645,13 @@ static struct regulator_dev *of_find_regulator_by_node(struct device_node *np)
+  * * -%ENODEV if lookup fails permanently.
+  * * -%EPROBE_DEFER if lookup could succeed in the future.
+  */
+-struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
++struct regulator_dev *of_regulator_dev_lookup(struct device *dev, struct device_node *np,
+ 					      const char *supply)
+ {
+ 	struct regulator_dev *r;
+ 	struct device_node *node;
+ 
+-	node = of_get_regulator(dev, supply);
++	node = of_get_regulator(dev, np, supply);
+ 	if (node) {
+ 		r = of_find_regulator_by_node(node);
+ 		of_node_put(node);
+@@ -665,6 +668,42 @@ struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
+ 	return ERR_PTR(-ENODEV);
  }
  
-+/* Internal regulator request function */
-+struct regulator *_regulator_get(struct device *dev, const char *id,
-+				 enum regulator_get_type get_type)
++static struct regulator *_of_regulator_get(struct device *dev, struct device_node *node,
++					   const char *id, enum regulator_get_type get_type)
 +{
-+	struct regulator_dev *rdev;
++	struct regulator_dev *r;
 +	int ret;
 +
 +	ret = _regulator_get_common_check(dev, id, get_type);
 +	if (ret)
 +		return ERR_PTR(ret);
 +
-+	rdev = regulator_dev_lookup(dev, id);
-+	return _regulator_get_common(rdev, dev, id, get_type);
++	r = of_regulator_dev_lookup(dev, node, id);
++	return _regulator_get_common(r, dev, id, get_type);
 +}
 +
- /**
-  * regulator_get - lookup and obtain a reference to a regulator.
-  * @dev: device for regulator "consumer"
-diff --git a/drivers/regulator/internal.h b/drivers/regulator/internal.h
-index 8e5506c5ee94..5b43f802468d 100644
---- a/drivers/regulator/internal.h
-+++ b/drivers/regulator/internal.h
-@@ -121,6 +121,10 @@ enum regulator_get_type {
- 	MAX_GET_TYPE
- };
++/**
++ * of_regulator_get_optional - get optional regulator via device tree lookup
++ * @dev: device used for dev_printk() messages
++ * @node: device node for regulator "consumer"
++ * @id: Supply name
++ *
++ * Return: pointer to struct regulator corresponding to the regulator producer,
++ *	   or PTR_ERR() encoded error number.
++ *
++ * This is intended for use by consumers that want to get a regulator
++ * supply directly from a device node, and can and want to deal with
++ * absence of such supplies. This will _not_ consider supply aliases.
++ * See regulator_dev_lookup().
++ */
++struct regulator *of_regulator_get_optional(struct device *dev,
++					    struct device_node *node,
++					    const char *id)
++{
++	return _of_regulator_get(dev, node, id, OPTIONAL_GET);
++}
++EXPORT_SYMBOL_GPL(of_regulator_get_optional);
++
+ /*
+  * Returns number of regulators coupled with rdev.
+  */
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index b9ce521910a0..d7325e27a1ce 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -168,6 +168,10 @@ int devm_regulator_get_enable_read_voltage(struct device *dev, const char *id);
+ void regulator_put(struct regulator *regulator);
+ void devm_regulator_put(struct regulator *regulator);
  
-+int _regulator_get_common_check(struct device *dev, const char *id,
-+				enum regulator_get_type get_type);
-+struct regulator *_regulator_get_common(struct regulator_dev *rdev, struct device *dev,
-+					const char *id, enum regulator_get_type get_type);
- struct regulator *_regulator_get(struct device *dev, const char *id,
- 				 enum regulator_get_type get_type);
- int _regulator_bulk_get(struct device *dev, int num_consumers,
++struct regulator *__must_check of_regulator_get_optional(struct device *dev,
++							 struct device_node *node,
++							 const char *id);
++
+ int regulator_register_supply_alias(struct device *dev, const char *id,
+ 				    struct device *alias_dev,
+ 				    const char *alias_id);
 -- 
 2.46.0.598.g6f2099f65c-goog
 

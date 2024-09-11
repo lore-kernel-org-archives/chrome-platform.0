@@ -1,264 +1,314 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B909378C9D
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 06:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9510F13A26F
+	for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 07:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726035175; cv=none; b=TqzSYmKlTpTFL7SHv5LCFMJ5WNQQDTRwcDQvaEkoN9k8c9f6bdegmQQ/DzcHIzAkXG/8h3eySELh6Onb4DGjCbmxSZUR4VohA2SCLRJh91HgSrVMsJqUZ949XZN47segl/sp3MweeaDcFT/01EeoDuMtOGbITSBuUhiGRmrNDSo=
+	t=1726039701; cv=none; b=Xha6SLQE94eMoNO08P1jZDKur1B254q2VpMBCIqVEriQkLZWUD7kI8hHaSLg+Ul28fuQbsLKTO8pWpyXiPRY1UiG1fuQ0VaCXMVOkwhUtZvsdCoetGLVhhyGkgvvdHl0yIIwS9yToN+kUd+WrfEvx0rwcBStVuNmZ4MqqPGJk4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726035175; c=relaxed/simple;
-	bh=lWel3D6GMiP9Rfq6kYs4mMzndOOkGErK+hNpBxYCXh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jU2cTB4arfnCk+9jdBU7oRKkMCKbhjjtdr49ZVdAYQYH80YuGVsaXxoHACdrA2399FUHFQ4QUUCg3cHA4Jp9hRFsboDiUyXs7YfDg64wX0BzgoPj3SPY5vPFNBybxZsgoYkAAn0lHww6xjsImBM1Xthq9Jndz+Ll3FH0JUHaRAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OFhnOAlz; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1726039701; c=relaxed/simple;
+	bh=vMhuC8PNZN3+G8Jw50ke9CsdZzsyUD/t8c7FpFFbaPs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R4qJWbFd7is3Q5nasdmhj44egcskJF65Si8HONLno9loKiAFUAS9OSEFSPr4G6UyAW6ebeMFd5GGl/Ey8K6qSyPY8qIevJ8OMjaedFN1nGeTClEzDNmIbeoL2i5xx396KNAqI3It5RKjwtHgefNSjjViNfmFdhg3c2EM4Lm2474=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LiSl4XRp; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OFhnOAlz"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-535be093a43so2158233e87.3
-        for <chrome-platform@lists.linux.dev>; Tue, 10 Sep 2024 23:12:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LiSl4XRp"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-656d8b346d2so4118351a12.2
+        for <chrome-platform@lists.linux.dev>; Wed, 11 Sep 2024 00:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726035172; x=1726639972; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4XNFzyMI6KqMDwE1IO9Ek2dtaONrpE2artFV7jstPIM=;
-        b=OFhnOAlzkdMnJpnAgYylKFo/uhINwvFrnVRDMOWRf6Z/XfRMXmNOOH4v6OjXQyChSh
-         YggOWQ/or5kq58pX6VN88+C97VGKCHqqWuel8ARBVkwY6yBXCrEBCJ6y4ZC65ezARLFu
-         5/Fdfs5GDNOQvOoTi+oDy3hbk/Ru3mP86Bdak=
+        d=chromium.org; s=google; t=1726039698; x=1726644498; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTKgkUpPxMjt6Wkjy0VL4B+YQKQwbZqLJmtteD1Fqgg=;
+        b=LiSl4XRpn0L9UPxlPBCH8nXHvvsjZ0XbCK3JZ34nbDlp/aNa/zjMB5OkwOKRFr3oIg
+         oqidu5gj3EonNQaTqkpRNFlxB8mDdfhqTlHhg6zKQJs19bD+rxZk9YwWH+7p0LqHpZR0
+         Qcp/qKN9/y562JThYz8L05Dgb5lEzlV6ok1W8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726035172; x=1726639972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4XNFzyMI6KqMDwE1IO9Ek2dtaONrpE2artFV7jstPIM=;
-        b=HN9KzJDEGW3rFAAmtSLfw8QfG91DWzuD1wnjimfPhb64msxlYbrkcMbdOp/MKbIw1n
-         wsgpONpLO9R7S68gvfvYQ5dQ1swS5r3X4bRIjFa3uMBW6Oa2l+OsLzkCp0rOt091HM6b
-         DfyicvmTdYj4GFmjIOJT3pXm2ToS+oOYccusGfVmUDPKUKAWQRWoC66Dy32wT0mLMC7k
-         6RfXUrtNML8vvtbqJ5dqJBog3dJnx+K6iZRwtDkrPzmpAh1r5ftaRb/IL4G1Tn7+O2YL
-         UUtVoEOqXYZaT7dg7gktWoZTqs8TNxw290DCSytgvMcAUBCykKi+Muiiv8ZUz/TE6f7W
-         je8g==
-X-Forwarded-Encrypted: i=1; AJvYcCU9biIdNjxd7TPF/53SZqI9bHvnpWgpieSF0b8xriIALbHA8CyRvB+duYbCIIBbOztY8jLkHAJ6nPES1UuTWm4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzWd1hETuzHFhKU0W5wdw63MVPheYc7j4DJbzAV3Pw7wE+six8
-	4WfGbmGzWqn94ilqqIMtekyRPy1a4K2vPJuihr06K4Wpde+K7KtyeLVw+MB/XnVC0M//Y3OdVzv
-	5+Jj0ChTAtbU8dLkm1Aexp6+QG2Fy/WYEeCnp
-X-Google-Smtp-Source: AGHT+IESpl9e5qogMXjCi+PCfTVtTiD2A76c7HZC3GBajms5nyfib2OnEjFoW3h6xIM0cWiUrvCKreVPmCVCrosR47U=
-X-Received: by 2002:a05:6512:e85:b0:536:53f0:2f8e with SMTP id
- 2adb3069b0e04-53673c96a8fmr856177e87.37.1726035171499; Tue, 10 Sep 2024
- 23:12:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726039698; x=1726644498;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hTKgkUpPxMjt6Wkjy0VL4B+YQKQwbZqLJmtteD1Fqgg=;
+        b=Lm0sK01A6WxWK5CjAphriyeMmnaIwkAmjish3ll3poCMVx2fCLXZGeleJEbSeZ9r2f
+         AHFiiu7idvdeO7iNr0rc2dCcpGKH+2+jfZw8FPLgEesuLbwqmRpc11c3AhSbrypER6tm
+         WEDQojm23C6CBB6G52TWZBiNE024ivykB1+LF2thGnWWshQdsP+qH+eVp+uBZeB4hy9D
+         DLCVySHeg6wVsxe78RPsmRtxwaHQWL+RjMITKcfUiWg1vHc7HbPc27iKxnMAJzm+mjlw
+         zeAgki7MdjiZz+iuk/lqyLZTzaot3kxR0As56Y0u6SGojyHARSSJKbXZj1wP9uy3OQo2
+         UgeA==
+X-Forwarded-Encrypted: i=1; AJvYcCX4ooQaHRvVm2h6TEvfTeNTYlG03UHK3D376pcvSRKsDSFxaKbx4+pGp6GqYa3xLaYzyG2AEbZ8KdLHN5R+z4c=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+nyiWwZyJwy8N7U4qbYfRLHXc+FOggYg2SVRP8mHFVkqZAStD
+	/G/hvCUPv07ifEt0UTlMnaJ73CduMFf75yOlnLoiiNJ13n7EI7ZP4BiAsMyKsA==
+X-Google-Smtp-Source: AGHT+IEfFgxwFodCBOOV4Mey4FyzVGvUwL6y+0sWBJDlwOxvwP6rBYJkox3CrjRNGWdE04s4ZrrqPA==
+X-Received: by 2002:a05:6a20:d521:b0:1cf:2aaf:60d9 with SMTP id adf61e73a8af0-1cf5e157915mr4469402637.33.1726039698517;
+        Wed, 11 Sep 2024 00:28:18 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8398:fe34:eba2:f301])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe4e7esm2399415b3a.80.2024.09.11.00.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 00:28:18 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH v7 00/10] platform/chrome: Introduce DT hardware prober
+Date: Wed, 11 Sep 2024 15:27:38 +0800
+Message-ID: <20240911072751.365361-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240904090016.2841572-1-wenst@chromium.org> <20240904090016.2841572-10-wenst@chromium.org>
- <CAD=FV=UGOz3Xzg7reJKP=tA1LqTxszv5w-CL9krmoXQtXdJLaQ@mail.gmail.com>
- <CAGXv+5F27K76t=ht5v75jKsNF-J+C0r5+m=czHz6PtV3t5DxcQ@mail.gmail.com>
- <CAD=FV=XVrAdQN8p9QJtt3Ah_YQAG7Y-D4wDx8_+qb1EGN7+Uig@mail.gmail.com>
- <CAGXv+5HO=POHNL_tQHCsy+8=a0gPLMDVHcWMguferahVU+BnZA@mail.gmail.com> <CAD=FV=U2yDGv74GQWRQuHN9sjdY5iThqpH-br-jYXMkV1cujEg@mail.gmail.com>
-In-Reply-To: <CAD=FV=U2yDGv74GQWRQuHN9sjdY5iThqpH-br-jYXMkV1cujEg@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 11 Sep 2024 14:12:40 +0800
-Message-ID: <CAGXv+5G9pMOU+SZpNH=Rk31wnhADQc3MTm4TjykmdGb=WXdVDw@mail.gmail.com>
-Subject: Re: [PATCH v6 09/12] i2c: of-prober: Add regulator support
-To: Doug Anderson <dianders@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 11, 2024 at 8:30=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Thu, Sep 5, 2024 at 8:45=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
-wrote:
-> >
-> > > > IIUC we could have the "options" data structure have much more boar=
-d
-> > > > specific information:
-> > > >
-> > > >   - name of node to fetch resources (regulator supplies and GPIOs) =
-from
-> > > >   - names of the resources for the node given from the previous ite=
-m
-> > > >   - delay time after each resource is toggled
-> > > >   - polarity in the case of GPIOs
-> > > >   - prober callback to do power sequencing
-> > > >
-> > > > The "resource collection" step would use the first two items to ret=
-rieve
-> > > > the regulator supplies and GPIOS instead of the bulk APIs used righ=
-t now.
-> > > >
-> > > > The power sequencing callback would use the resources combined with=
- the
-> > > > given delays to enable the supplies and toggle the GPIOs.
-> > > >
-> > > > For now I would probably only implement a generic one regulator sup=
-ply
-> > > > plus one GPIO helper. That is the common case for touchscreens and
-> > > > trackpads connected over a ribbon cable.
-> > > >
-> > > > Does that sound like what you have in mind?
-> > >
-> > > I guess I'd have to see how the code looks to know for sure, but if I
-> > > understand it sounds a little awkward. Specifically, the "options"
-> > > sound like they might become complicated enough that you're inventing
-> > > your own little programming language (with delays, abilities to drive
-> > > pins low and high, abilities to turn on/off clocks, and abilities to
-> > > turn off/on regulators) and then probers need to code up their
-> > > programs in this language. You also need to handle undoing things
-> > > properly if there is a failure in the middle. Like your "program"
-> > > would look like this (obviously you'd have to play with enums more,
-> > > but you get the idea):
-> > >
-> > > {
-> > >    { OPCODE_TURN_REGULATOR_ON, "vdd" },
-> > >    { OPCODE_DELAY, 10 },
-> > >    { OPCODE_GPIO_ASSERT, "reset" },
-> > >    { OPCODE_DELAY, 5 },
-> > >    { OPCODE_GPIO_DEASSERT "reset" },
-> > >    { OPCODE_DELAY, 100 },
-> > >    { OPCODE_TURN_REGULATOR_ON, "vddIO" },
-> > > }
-> > >
-> > > Why not just expect the board probers to write C code to turn things
-> > > on before looking for i2c devices, then provide helpers to the C code=
-?
-> > >
-> > > So there wouldn't be some generic "resource collection" API, but you'=
-d
-> > > provide a helper to make it easy to grab regulators from one of the
-> > > nodes by name. If you think bulk enabling regulators is common then
-> > > you could make a helper that grabs all of the regulators from a node
-> > > in a way that is consistent with the bulk APIs, but I wouldn't expect
-> > > every driver to use that since devices I've seen expect regulators to
-> > > be enabled in a very specific order even if they don't need a delay
-> > > between them.
-> > >
-> > > I wouldn't expect a "collect all GPIOs" API because it seems really
-> > > weird to me that we'd ever want to jam multiple GPIOs in a state
-> > > without knowing exactly which GPIO was what and asserting them in the
-> > > right sequence.
-> >
-> > So I'm slightly confused, as it sounds like at this point the i2c probe=
-r
-> > would be litter more than just a framework, and the heavy lifting is to
-> > be all done by callbacks provided by the board-specific driver?
-> >
-> > So the framework becomes something like:
-> >
-> > 1. find i2c bus node
-> > 2. call provided callback with i2c bus node to gather resources;
-> >    let callback handle specifics
-> > 3. call provided callback to enable resources
-> > 4. for each i2c component, call provided callback to probe
->
-> I don't think I'd do it as callbacks but just have the HW prober call
-> the functions directly. AKA, instead of doing:
->
->   i2c_of_probe_component(dev, "touchscreen", ts_opts, ts_callbacks);
->
-> Do:
->
->   grab_touchscreen_resources(...);
->   power_on_touchscreens(...);
->   i2c_of_probe_component(...);
->   power_off_touchscreen(...);
->   release_touchscreen_resources(...);
->
-> Obviously I'm spitballing here, though. Without writing the code it's
-> hard for me to know that my proposal would be better, but my gut tells
-> me that trying to write something overly generic with lots of options
-> / callbacks would be more confusing.
+Hi everyone,
 
-The helpers would be exported along with the framework, so there's nothing
-preventing others from using the helpers directly. The framework provides
-boilerplate so that scenarios fitting it won't have to duplicate the code.
-Obviously I'm basing it on my scenario here, but I think it works out for
-the simpler cases.
+This is v7 of my "of: Introduce hardware prober driver" [1] series.
+v7 mainly refactors the code into a series of helpers. The scope of
+supported components is also reduced to those with at most one regulator
+supply and one GPIO pin. Also the helpers expect these to be named and
+so the "bulk get" API changes have been dropped.
 
-I'll send out what I have reworked, and we can continue the discussion
-either on the mailing list or in person at ELCE and Plumbers.
+Also, a pull request to document the "fail-needs-probe" status has been
+sent: https://github.com/devicetree-org/dt-schema/pull/141
 
-> >   If the probe succeeded:
-> >
-> >     5. call provided callback for early release of resources (GPIOs)
-> >     6. set "status" to "okay"
-> >     7. call provided callback for late release of resources (regulators=
-)
-> >
-> >   Otherwise at the end of the loop
-> >
-> > 8. release resources
-> >
-> > The current code can be reworked into helpers for steps 2, 3, 5, 7 for
-> > the single regulator single GPIO case.
-> >
-> > > > This next item would be a later enhancement (which isn't implemente=
-d in
-> > > > this series anyway):
-> > > >
-> > > >   - optional prober callback that does actual probing
-> > > >
-> > > > In our case it would only be used for cases where an HID-over-I2C
-> > > > component shares the same address as a non-HID one, and some extra
-> > > > work is needed to determine which type it is. I still need to think
-> > > > about the structure of this.
-> > >
-> > > IMO _that_ would be a great option to the i2c prober. It feels like
-> > > you could have an optional register read that needs to match to have
-> > > the i2c prober succeed. Most people would leave it blank (just the i2=
-c
-> > > device existing is enough) but probably a single register read would
-> > > be enough to confirm you got the right device. Most i2c devices have
-> > > some sort of "version" / "vendor" / "id" type register somewhere.
-> >
-> > At least for the stuff that we have (touchscreens and trackpads) such
-> > registers typically don't exist, unless it's an HID-over-I2C device,
-> > in which case there's the standard HID descriptor at some address.
-> > But, yeah, reading the HID descriptor was the use case I had in mind.
-> >
-> > At least for one Chromebooks it's a bit more tricky because that one
-> > HID-over-I2C component shares the same address as a non-HID one. We
-> > currently have different SKU IDs and thus different device trees for
-> > them, but we could make the prober work with this. It just has be able
-> > to tell if the component it's currently probing needs the special
-> > prober and is it responding correctly. This bit I need to think about.
->
-> I guess Mark Brown also thought that there wouldn't be some magic
-> register, but my gut still tells me that most i2c devices have some
-> way to confirm that they are what you expect even if it's not an
-> official "vendor" or "version" register. Some type of predictable
-> register at a predictable location that you could use, at least if you
-> knew all of the options that someone might stuff.
->
-> For instance, in elan trackpads you can see elan_i2c_get_product_id().
-> That just reads a location (ETP_I2C_UNIQUEID_CMD =3D 0x0101) that could
-> theoretically be used to figure out (maybe in conjunction with other
-> registers) that it's an elan trackpad instead of an i2c-hid one. You'd
-> have to (of course) confirm that an i2c-hid device wouldn't somehow
-> return back data from this read that made it look like an elan
-> trackpad, but it feels like there ought to be some way to figure it
-> out with a few i2c register reads.
->
-> ...that being said, I guess my original assertion that you might be
-> able to figure out with a simple register read was naive and you'd
-> actually need a function (maybe as a callback) to figure this out.
+v2 continued Doug's "of: device: Support 2nd sources of probeable but
+undiscoverable devices" [2] series, but follows the scheme suggested by
+Rob, marking all second source component device nodes as "fail-needs-probe",
+and having a hardware prober driver enable the one of them.
 
-Yeah, that's my plan for a follow-up series, likely after the SKU ID
-based prober work is done. The actual probe function would likely only
-target the known cases of I2C address conflicts we have on ChromeOS
-devices.
+
+Changes since v6:
+- Link to v6:
+  https://lore.kernel.org/all/20240904090016.2841572-1-wenst@chromium.org/
+- Dropped patch "gpiolib: Add gpio_property_name_length()"
+  No longer needed
+- Dropped patch "regulator: Move OF-specific regulator lookup code to of_regulator.c"
+  Already merged
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix()"
+  - Changed helper name to "for_each_child_of_node_with_prefix()"
+- Patch 4 "regulator: Add of_regulator_get_optional() for pure DT regulator lookup"
+  - Was "regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()"
+  - Changed reference [1] to Link: tag
+  - Rebased on top of commit 401d078eaf2e ("regulator: of: Refactor
+    of_get_*regulator() to decrease indentation")
+  - Exported of_regulator_get_optional()
+  - Changed commit message to focus on "of_regulator_get_optional()"
+  - Dropped change to of_regulator_bulk_get_all()
+- Patch 5 "i2c: core: Remove extra space in Makefile"
+  - Collected Andy's Reviewed-by
+- Patch 6 "i2c: Introduce OF component probe function"
+  - Correctly replaced for_each_child_of_node_scoped() with
+    for_each_child_of_node_with_prefix()
+  - Added namespace for exported symbols
+  - Made the probe function a framework with hooks
+  - Split out a new header file
+  - Added MAINTAINERS entry
+  - Reworded kernel-doc
+  - Dropped usage of __free from i2c_of_probe_component() since error
+    path cleanup is needed anyway
+- Patch 7 "i2c: of-prober: Add simple helpers for regulator support"
+  - Moved change of of_get_next_child_scoped() to
+    of_get_next_child_with_prefix() to previous patch
+  - Restructured into helpers for the I2C OF component prober
+  - Reduced to only handle one regulator
+  - Commit message updated
+- Patch 8 "i2c: of-prober: Add GPIO support to simple helpers"
+  - Restructured into helpers for the I2C OF component prober
+  - Reduced to only handle one GPIO
+  - Set GPIO to input on (failure) cleanup
+  - Updated commit message
+- Patch 9 "platform/chrome: Introduce device tree hardware prober"
+  - Adapted to new I2C OF prober interface
+  - Collected Acked-by tag
+
+Changes since v5:
+- Link to v5:
+  https://lore.kernel.org/all/20240822092006.3134096-1-wenst@chromium.org/
+- Patch 1 "of: dynamic: Add of_changeset_update_prop_string"
+  - Collected Rob's reviewed-by
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix_scoped()"
+  - New patch
+- Patch 3 "regulator: Move OF-specific regulator lookup code to of_regulator.c"
+  - Fix kerneldoc format of of_regulator_dev_lookup()
+  - Fix stub compile error for !CONFIG_OF in drivers/regulator/internal.h
+- Patch 4 "regulator: Split up _regulator_get()"
+  - Fixed kerneldoc "Return" section format for _regulator_get_common()
+  - Slightly reworded return value description
+- Patch 5 "regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()"
+  - Used "dev_of_node(dev)" instead of "dev->of_node"
+  - Replaced "dev_printk" with "dev_printk()" in kerneldoc mentions
+  - Fixed kerneldoc "Return" section format for of_regulator_get_optional()
+  - Fix @np parameter name in of_regulator_dev_lookup() kerneldoc
+- Patch 6 "gpiolib: Add gpio_property_name_length()"
+  - Changed function name to "gpio_get_property_name_length()"
+  - Changed argument name to "propname"
+  - Clarified return value for "*-<GPIO suffix>" case
+  - Reworked according to Andy's suggestion
+  - Added stub function
+- Patch 7 "i2c: core: Remove extra space in Makefile"
+  - New patch
+- Patch 8 "i2c: Introduce OF component probe function"
+  - Fixed indent in Makefile
+  - Split regulator and GPIO TODO items
+  - Reversed final conditional in i2c_of_probe_enable_node()
+- Patch 9 "i2c: of-prober: Add regulator support"
+  - Split of_regulator_bulk_get_all() return value check and explain
+    "ret == 0" case
+  - Switched to of_get_next_child_with_prefix_scoped() where applicable
+  - Used krealloc_array() instead of directly calculating size
+  - copy whole regulator array in one memcpy() call
+  - Drop "0" from struct zeroing initializer
+  - Split out regulator helper from i2c_of_probe_enable_res() to keep
+    code cleaner when combined with the next patch
+  - Added options for customizing power sequencing delay
+  - Rename i2c_of_probe_get_regulator() to i2c_of_probe_get_regulators()
+  - Add i2c_of_probe_free_regulator() helper
+- Patch 10 "i2c: of-prober: Add GPIO support"
+  - Renamed "con" to "propname" in i2c_of_probe_get_gpiod()
+  - Copy string first and check return value of strscpy() for overflow in
+    i2c_of_probe_get_gpiod()
+  - Add parenthesis around "enable" and "reset" GPIO names in comments
+  - Split resource count debug message into two separate lines
+  - Split out GPIO helper from i2c_of_probe_enable_res() to keep code
+    cleaner following the previous patch
+  - Adopted options for customizing power sequencing delay following
+    previous patch
+- Patch 11 "platform/chrome: Introduce device tree hardware prober"
+  - Adapt to new i2c_of_probe_component() parameters
+- Patch 12 "arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and
+	    trackpads as fail"
+  - None
+
+See v5 cover letter for previous change logs.
+
+For the I2C component (touchscreens and trackpads) case from the
+original series, the hardware prober driver finds the particular
+class of device in the device tree, gets its parent I2C adapter,
+and tries to initiate a simple I2C read for each device under that
+I2C bus. When it finds one that responds, it considers that one
+present, marks it as "okay", and returns, letting the driver core
+actually probe the device.
+
+This works fine in most cases since these components are connected
+via a ribbon cable and always have the same resources. The prober
+will also grab these resources and enable them.
+
+The other case, selecting a display panel to use based on the SKU ID
+from the firmware, hit a bit of an issue with fixing the OF graph.
+It has been left out since v3.
+
+Patch 1 adds of_changeset_update_prop_string(), as requested by Rob.
+
+Patch 2 adds for_each_child_of_node_with_prefix(), as suggested by Andy.
+
+Patches 3 through 4 reorganize the OF-specific regulator core code and
+adds a new of_regulator_get_optional() function to look up regulator
+supplies solely using device tree nodes.
+
+Patch 5 cleans up some extra spaces in the i2c core Makefile
+
+Patch 6 implements probing the I2C bus for presence of components as
+a hookable helper function in the I2C core.
+
+Patch 7 implements regulator supply support as a set of simple helpers
+for the I2C component prober.
+
+Patch 8 implements GPIO support for the I2C component prober simple
+helpers.
+
+Patch 9 adds a ChromeOS specific DT hardware prober. This initial
+version targets the Hana Chromebooks, probing its I2C trackpads and
+touchscreens.
+
+Patch 10 modifies the Hana device tree and marks the touchscreens
+and trackpads as "fail-needs-probe", ready for the driver to probe.
+
+
+The patch and build time dependencies for this series is now quite
+complicated:
+
+  regulator cleanups in -next -> regulator patches here ----
+							   |
+							   v
+  platform/chrome device tree hardware prober <--- i2c of-prober
+ 
+The regulator patches in this series depend on other cleanup patches [1]
+that are already in -next. Patches 6 through 8 introducting i2c of-prober
+depend on the first 5 patches. Patch 11, The chrome prober, depends on
+patch 6 for now.
+
+I think it would be easier if the respective maintainers take the first
+four patches for -rc1. Wolfram has agreed to take the remaining i2c and
+chrome patches through the i2c tree once the other bits have landed,
+Patch 12 can go in only after everything else is in. This should be
+better than having an immutable branch on top of some commit in -next
+for other trees to consume.
+
+This might be the last revision I send out before ELCE / Plumbers, as
+I'm traveling to Austria a few day earlier. If there are more concerns
+about the design, maybe we could discuss it in person then if all
+concerned parties are present.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (10):
+  of: dynamic: Add of_changeset_update_prop_string
+  of: base: Add for_each_child_of_node_with_prefix()
+  regulator: Split up _regulator_get()
+  regulator: Add of_regulator_get_optional() for pure DT regulator
+    lookup
+  i2c: core: Remove extra space in Makefile
+  i2c: Introduce OF component probe function
+  i2c: of-prober: Add simple helpers for regulator support
+  i2c: of-prober: Add GPIO support to simple helpers
+  platform/chrome: Introduce device tree hardware prober
+  arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+    as fail
+
+ MAINTAINERS                                   |   8 +
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  13 +
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |   4 +-
+ drivers/i2c/Makefile                          |   7 +-
+ drivers/i2c/i2c-core-of-prober.c              | 455 ++++++++++++++++++
+ drivers/of/base.c                             |  35 ++
+ drivers/of/dynamic.c                          |  44 ++
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ .../platform/chrome/chromeos_of_hw_prober.c   | 125 +++++
+ drivers/regulator/core.c                      |  58 ++-
+ drivers/regulator/internal.h                  |   6 +
+ drivers/regulator/of_regulator.c              |  51 +-
+ include/linux/i2c-of-prober.h                 | 131 +++++
+ include/linux/of.h                            |  13 +
+ include/linux/regulator/consumer.h            |   4 +
+ 16 files changed, 942 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/i2c/i2c-core-of-prober.c
+ create mode 100644 drivers/platform/chrome/chromeos_of_hw_prober.c
+ create mode 100644 include/linux/i2c-of-prober.h
+
+-- 
+2.46.0.598.g6f2099f65c-goog
+

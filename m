@@ -1,158 +1,100 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB0B1A704B
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 12:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104924AEF4
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 16:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726145899; cv=none; b=rgI0lljScHon50pwARUWWAcg3FsTkuzcyGrGeDP8Hym62zvgI0bbaDduNKhSCogmHkxh7EfjFSTFID6W4CITz9wJHd/cDGDUNKXAzzqGoaoeTsMmD0cIog3eiuNkD6k0bLymPd3gjODIeeqs986s74Lp5T5nvEBlHEf0R9UBGYQ=
+	t=1726157033; cv=none; b=eTT9It873N3Soli6RH5PNyJ5pSnZy21rwNbvUl3uHPLpdvQJkOs0MhNW913OoLMKx65bs0R6Y+Vqw9KPveZ2U24cDxKnuutM5INptMVJ3DXIkQ/Z8WKMySH3nFHuP+75ZtZZokvgkkj5LEUC2QAPjWufonAkkpS69QU8wGs6oC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726145899; c=relaxed/simple;
-	bh=JMytHvw3cW5fuz7PGFt/aVbf6j+BbuGj2j5K/qPJfLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7GwhYZHLed4rA/kSu+ck4tP1ctJ09EnY+fG8Q/6hQ22A0Qx7yxQjR/WdkEwMpucEQ8v5xp0QsIawzP8w/+afbMGFHCC6+cXo2AeFtfOvIIgFeNkEkjt4G0gpJZx+V4I9PTwik5PGSQbYZ1fA084kvUJFfGkJ1y/TkG64Ba6HHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UDLmgX9B; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726157033; c=relaxed/simple;
+	bh=CrCjW0ic6Db+J3kjsTPKwgfDJbBARSVIXo7Ekp4qkxU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iuM85qdyqTWjgR3oRWPF9qpio25phP5dUPaMnm0Te2E9+1wJ3/8Wh1Skf39fT6PdrGnDOhK/Qhd79iX0d7sPM5hbh3iWg3VeGD7idkag9yDWLfBqvHhwQvb8Ycnj+ec14t5hgLlnZebPa+uOXIeRiwaY8BwozWAlpdkhH8P/Bzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H+sKgj8u; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UDLmgX9B"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5365b6bd901so1052583e87.2
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 05:58:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H+sKgj8u"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4582b71df40so273691cf.1
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 09:03:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726145895; x=1726750695; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sPNASrfr2JDJuTNCjZzvsAqKcoboxa5LJqI+TTVNr50=;
-        b=UDLmgX9BXU1KdHqgVZupkKyqMLVgbYOR0SxVtn/52IuY/cZ4hOU7ezgEsS1f/QrOZn
-         48ajvhNYF+0kc0vLnhrxBz086jaPJN9X9F6z1CWk3jD0sl0/edOonue5QL0J0p2ThhH2
-         DNJW2MBu9p+MfXqmgT/5V6lL4+zot/8a3OaaCuy07gfdVS0MVHVDTLtxUNxD/bwtlOro
-         skgG//BQ6DTw4A5ib/DXtKtBQ3V6T2r5JPqH5NTFuUv1PR7TT2lQO7tGGycGroTWTDAz
-         eqaagigdmj0FLNVMvhl7thjaVIF6KbNoa02g3PHF1cPCFNYlr2T7dMyg1I8qsGh+ZwIU
-         uNPg==
+        d=chromium.org; s=google; t=1726157031; x=1726761831; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CrCjW0ic6Db+J3kjsTPKwgfDJbBARSVIXo7Ekp4qkxU=;
+        b=H+sKgj8unx4DlM1gnvxPLIrlUH0T/L6j9dHDmlS8aVORU2N7QkwvjgfvyYZ+CLih5W
+         n4n1feWCEDeSgs0f2JXPtQIFQrlM9iCMhsDoueetXMB3ZSKD0nVyFID9fUi6da0Q9T8/
+         QabOjRSKYqEqhoccwmiNn+rP45TdxjI1imSE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726145895; x=1726750695;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sPNASrfr2JDJuTNCjZzvsAqKcoboxa5LJqI+TTVNr50=;
-        b=T3m3HjVxihuWS8XlXEAJAqAz6Sttwl87/oTAwiM9/gViEqnM/VMllYjG+mGZgd6+fZ
-         GMajmUm1Oy6ZKCLNd42rZZunpbZ2VGeJ4GfjVD7ndMUPStIq9g9NiNxtmTeI/Gp6sCEx
-         rsd4l8mINr4cr68FBumYmeJu5GlbO6esLz+SOdvYGVTACgcMxl9iEmn0FTIDMntRCLCv
-         4W6/zIZ6DaED9Iioua1LLtRW+ZPWBJAH/JkfmLd3kRI8LE1EfabuITs2fcAMzrTtBBC6
-         uujb35Cjlv4Ws8RD54VUNNMrSW2CR6XrrFnuSZJzmfWIq68qazJc0jvviGLm8LpmdmMC
-         Hmjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXDOEmBsnlmZlfz6MyoBCbMyQYi/NWFO8pHTntcZY5ZmkZjKgzZ5bsGsJ00MHVHz8Yf2twxUFdaSIrbmlGvOK8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhYxsbDcjwirWo7F0JA8mXqpyoXxu7jIcq3hqTfbOIKn5ft1g2
-	6TkoDoDLjqZbSFbO+h2a4+lMJmITi1v9iRzXueBJTp/pcD5311j3p/Gld3r7NyI=
-X-Google-Smtp-Source: AGHT+IF9RM7FJT3xEMac/N766Zoy/DqJgTLXUwbeVf2ff03TgVWgKHdv4rG6j7goNdi57Bh5Mx7ulA==
-X-Received: by 2002:a05:6512:1250:b0:533:4c73:a244 with SMTP id 2adb3069b0e04-53678ff8a49mr1446551e87.61.1726145894937;
-        Thu, 12 Sep 2024 05:58:14 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f90da18sm1940012e87.293.2024.09.12.05.58.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 05:58:13 -0700 (PDT)
-Date: Thu, 12 Sep 2024 15:58:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
-	Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <lqs2y5gvsaij5rg4o4krruseuijinqgzky6kiorjegham4aumq@fx2doq5j7wkq>
-References: <20240910101527.603452-1-ukaszb@chromium.org>
- <20240910101527.603452-4-ukaszb@chromium.org>
+        d=1e100.net; s=20230601; t=1726157031; x=1726761831;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CrCjW0ic6Db+J3kjsTPKwgfDJbBARSVIXo7Ekp4qkxU=;
+        b=s5TNX9Jsl2OJzPz+6oeW9l/I9Xh6yBbBWf+26U6YF2gNl3stXIVeMmnJ5uViVVz/nc
+         /d5zrep2YKzZgPSX83IPlRUG/LmmZDl68NlYKgE0Q/SF1IstyWEdXVz8dn60165lgoLi
+         BufyftMRz7HqQoAhTHuohDkvmLiQLryYJCI/wCSmEqW+RCFbS18VG8nasxugT1pKNlQw
+         po4VvOsiMlygVTmpTLQH0x398gtz3i4hseUaCcufSC9N+fe5O9sDQWBWouKOkgyk4+LY
+         pENJc0OI+6RBZ4JzTxi7V3WwmXB3GywOAWwL7U968Orv0+caoL+URc9yOSXap1gv/uSI
+         ngjA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7k82GihxTog79rdBH4v/oejH1UUHryvqiRctBudB2Jcb3KwUEA6e0YFWHguiCe8pOXUkI90ridE1SjXzogUY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw54fC/zJenGa6ogucn2+HPzABnHGRoOcTGAtXgpHCEBs7vnZI4
+	Jpe15Q7ZvXyIpRSr9cKhWDm8F0INsKab/Te2Vb8H6lHMV6FPtX7npblFrO26p9dk7t+Qna09kbg
+	wIXFrFKQpRgqDf0lLHYZ/tpASnB6HL0KVTirM
+X-Google-Smtp-Source: AGHT+IFQu3yAL5DEk7oQCeXw0JvR4PFs6pcDDf5vf1OMase0DRLjYTPZIp+SdT/fDhzrb2YiYvR+LjfvMad1ROIciKA=
+X-Received: by 2002:ac8:5845:0:b0:453:5f2f:d5d2 with SMTP id
+ d75a77b69052e-45864403792mr2236481cf.1.1726157030402; Thu, 12 Sep 2024
+ 09:03:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240910101527.603452-4-ukaszb@chromium.org>
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local> <ZuCGkjoxKxpnhEh6@google.com>
+ <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+From: Julius Werner <jwerner@chromium.org>
+Date: Thu, 12 Sep 2024 09:03:34 -0700
+Message-ID: <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
+Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
+ device name "simple-framebuffer.0"
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>, 
+	Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org, 
+	regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Tony Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 10, 2024 at 10:15:22AM GMT, Łukasz Bartosik wrote:
-> From: Pavan Holla <pholla@chromium.org>
-> 
-> Implementation of a UCSI transport driver for ChromeOS.
-> This driver will be loaded if the ChromeOS EC implements a PPM.
-> 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
-> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
-> ---
->  MAINTAINERS                           |   7 +
->  drivers/usb/typec/ucsi/Kconfig        |  13 ++
->  drivers/usb/typec/ucsi/Makefile       |   1 +
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 273 ++++++++++++++++++++++++++
->  4 files changed, 294 insertions(+)
->  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> 
+> On Coreboot platforms, a system framebuffer may be provided to the Linux
+> kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
+> it seems SeaBIOS payload can also provide a VGA mode in the boot params.
+>
+> [...]
+>
+> To prevent the issue, make the framebuffer_core driver to disable sysfb
+> if there is system framebuffer data in the Coreboot table. That way only
+> this driver will register a device and sysfb would not attempt to do it
+> (or remove its registered device if was already executed before).
 
-[...]
-
-> +
-> +static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-> +{
-> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-> +	bool ack = UCSI_COMMAND(cmd) == UCSI_ACK_CC_CI;
-> +	int ret;
-> +
-> +	if (ack)
-> +		set_bit(ACK_PENDING, &udata->flags);
-> +	else
-> +		set_bit(COMMAND_PENDING, &udata->flags);
-> +
-> +	ret = cros_ucsi_async_control(ucsi, cmd);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (!wait_for_completion_timeout(&udata->complete, WRITE_TMO_MS))
-> +		ret = -ETIMEDOUT;
-> +
-> +out:
-> +	if (ack)
-> +		clear_bit(ACK_PENDING, &udata->flags);
-> +	else
-> +		clear_bit(COMMAND_PENDING, &udata->flags);
-> +	return ret;
-> +}
-> +
-> +struct ucsi_operations cros_ucsi_ops = {
-> +	.read_version = cros_ucsi_read_version,
-> +	.read_cci = cros_ucsi_read_cci,
-> +	.read_message_in = cros_ucsi_read_message_in,
-> +	.async_control = cros_ucsi_async_control,
-> +	.sync_control = cros_ucsi_sync_control,
-
-Please use ucsi_sync_control_common instead.
-
-> +};
-> +
-> +static void cros_ucsi_work(struct work_struct *work)
-> +{
-> +	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
-> +	u32 cci;
-> +
-> +	if (cros_ucsi_read_cci(udata->ucsi, &cci))
-> +		return;
-> +
-> +	if (UCSI_CCI_CONNECTOR(cci))
-> +		ucsi_connector_change(udata->ucsi, UCSI_CCI_CONNECTOR(cci));
-> +
-> +	if (cci & UCSI_CCI_ACK_COMPLETE &&
-> +	    test_and_clear_bit(ACK_PENDING, &udata->flags))
-> +		complete(&udata->complete);
-> +	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-> +	    test_and_clear_bit(COMMAND_PENDING, &udata->flags))
-> +		complete(&udata->complete);
-
-ucsi_notify_common(). Why are you ignoring these functions?
-
--- 
-With best wishes
-Dmitry
+I wonder if the priority should be the other way around? coreboot's
+framebuffer is generally only valid when coreboot exits to the payload
+(e.g. SeaBIOS). Only if the payload doesn't touch the display
+controller or if there is no payload and coreboot directly hands off
+to a kernel does the kernel driver for LB_TAG_FRAMEBUFFER make sense.
+But if there is some other framebuffer information passed to the
+kernel from a firmware component running after coreboot, most likely
+that one is more up to date and the framebuffer described by the
+coreboot table doesn't work anymore (because the payload usually
+doesn't modify the coreboot tables again, even if it changes hardware
+state). So if there are two drivers fighting over which firmware
+framebuffer description is the correct one, the coreboot driver should
+probably give way.

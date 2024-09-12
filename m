@@ -1,244 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E518E043
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 11:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB0B1A704B
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 12:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726140954; cv=none; b=hEq2hrZjavppFPwMXqZiDq3b28VLiCg2wguXaXbtmYX84wIIhaZhzfYUTsBxk3qQ0DB4eFNciWiXRIOhS8ImY9v7lGv3hdxXTp9Nk0vOoI109vlUbw7ltEvEaAwZdg2BhNmdZeDKIWc1S4rgpXQhbKoNaH3q+lSCUOUvUB4ow0Y=
+	t=1726145899; cv=none; b=rgI0lljScHon50pwARUWWAcg3FsTkuzcyGrGeDP8Hym62zvgI0bbaDduNKhSCogmHkxh7EfjFSTFID6W4CITz9wJHd/cDGDUNKXAzzqGoaoeTsMmD0cIog3eiuNkD6k0bLymPd3gjODIeeqs986s74Lp5T5nvEBlHEf0R9UBGYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726140954; c=relaxed/simple;
-	bh=Mh1k1rMwpZPEn8mwNjSNmhWqLkYKVzI0gnLuz0Jfu6U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Nxd7Gz3+zerJk6SaJK1S/Wh6HhkGVoh2ELEILcOUbhURoEjD39ot+HZlUloSwDqFqkagFRkfsRwD+bwDQw7oGQ7pchABr1IdBc6i4i/Yp2TB7UHQw7BhM7xJpb6Uq0Y0EG/pDyhPlhkjQdJ1rem+NFMFolNfEaHICzMhj7YuejQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RbV6sVf+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726145899; c=relaxed/simple;
+	bh=JMytHvw3cW5fuz7PGFt/aVbf6j+BbuGj2j5K/qPJfLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7GwhYZHLed4rA/kSu+ck4tP1ctJ09EnY+fG8Q/6hQ22A0Qx7yxQjR/WdkEwMpucEQ8v5xp0QsIawzP8w/+afbMGFHCC6+cXo2AeFtfOvIIgFeNkEkjt4G0gpJZx+V4I9PTwik5PGSQbYZ1fA084kvUJFfGkJ1y/TkG64Ba6HHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UDLmgX9B; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RbV6sVf+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726140951;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IYaaq+dX0/7DEojW1l9AFpFIChJdEY2bBK1F9k5BgD0=;
-	b=RbV6sVf+4F8Jb9xKXS6d/m0T6SHPJdHYQdrCtvekXILAZl1B70+DB6QY6CjOBYeUxb715C
-	EOE8xgStkUjCl0Dk+Z1M4GR7AnhpwdKZDAecashU64gi1ocQtUoEflCbTaeQL97vezv8SM
-	5ZkY465XuG1j4Pf+l47A5q2rSRe986c=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-CvUnE3iAMKapyf25rOhS-g-1; Thu, 12 Sep 2024 07:35:50 -0400
-X-MC-Unique: CvUnE3iAMKapyf25rOhS-g-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-53660eb17b8so779259e87.0
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 04:35:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UDLmgX9B"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5365b6bd901so1052583e87.2
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 05:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726145895; x=1726750695; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sPNASrfr2JDJuTNCjZzvsAqKcoboxa5LJqI+TTVNr50=;
+        b=UDLmgX9BXU1KdHqgVZupkKyqMLVgbYOR0SxVtn/52IuY/cZ4hOU7ezgEsS1f/QrOZn
+         48ajvhNYF+0kc0vLnhrxBz086jaPJN9X9F6z1CWk3jD0sl0/edOonue5QL0J0p2ThhH2
+         DNJW2MBu9p+MfXqmgT/5V6lL4+zot/8a3OaaCuy07gfdVS0MVHVDTLtxUNxD/bwtlOro
+         skgG//BQ6DTw4A5ib/DXtKtBQ3V6T2r5JPqH5NTFuUv1PR7TT2lQO7tGGycGroTWTDAz
+         eqaagigdmj0FLNVMvhl7thjaVIF6KbNoa02g3PHF1cPCFNYlr2T7dMyg1I8qsGh+ZwIU
+         uNPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726140949; x=1726745749;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYaaq+dX0/7DEojW1l9AFpFIChJdEY2bBK1F9k5BgD0=;
-        b=jVLbD5F9yE8fmEJ2p1ZlA2x4RVOTkuTbEBqvbU2OVwT9kkGqCmhNUEnOLtPJm1m7Dz
-         Np/abmxY0fhmXjr6V7ooIDUt2kjgFH1R42VMBuRB1g8xcw7XtJ8HWBYsmKk/500gIqLp
-         VCG5KbLCknMAzIsGtCKM6n4TkHWbV/FxjThSwE1Ux7+bpSWp4ct+HuQFzkL/O27I7s7b
-         cnYJZU7Yk3ZqrSMjHjAG4XhL78SW3Wt47MmBNMLFld292e0radEwS0cJuimaw+9J3fiT
-         3PlhkziEJCp1gSRJ/nGKzEWgpwHq6qoxfOZW4ZcBMb1NxrMUVIRk+QFmj6n3WHVXgVBN
-         +I2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWIEm9K4NaLc7EkbBrD1Fyjxmj3p5umRjIytynCvI7XKCjIrSdvtvVmEx9tjDUgEU7n1OX2/YYF2CtE445eIL4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJAkmjABy7gw4HIIt9n8hmSV/OtCP5tS9eHP8Xiv2P30QziFzq
-	WouCzAxkT+fC4IpuN7Mzp80PWHC+oZ9CTlIJnESU9k6JPpYHPQfGvesuhl4CqkA7i+Rd52kP5QF
-	V1wtTaaTbmyREJJTlMYdT4SrzME67agGCB2COZEdDOp3TKrHRugBwcpg0aZY8elazEQ==
-X-Received: by 2002:a05:6512:4017:b0:533:4785:82a7 with SMTP id 2adb3069b0e04-53678fc8586mr1605070e87.28.1726140948559;
-        Thu, 12 Sep 2024 04:35:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBna+5EinCwR/Lij9CpfGsghHsYmmA3HZg2qxflQ5JJykqP5bH1I+Yy9IcXwnu0/KGf+lDXw==
-X-Received: by 2002:a05:6512:4017:b0:533:4785:82a7 with SMTP id 2adb3069b0e04-53678fc8586mr1605032e87.28.1726140947816;
-        Thu, 12 Sep 2024 04:35:47 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42cb179f8e3sm162451165e9.43.2024.09.12.04.35.47
+        d=1e100.net; s=20230601; t=1726145895; x=1726750695;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sPNASrfr2JDJuTNCjZzvsAqKcoboxa5LJqI+TTVNr50=;
+        b=T3m3HjVxihuWS8XlXEAJAqAz6Sttwl87/oTAwiM9/gViEqnM/VMllYjG+mGZgd6+fZ
+         GMajmUm1Oy6ZKCLNd42rZZunpbZ2VGeJ4GfjVD7ndMUPStIq9g9NiNxtmTeI/Gp6sCEx
+         rsd4l8mINr4cr68FBumYmeJu5GlbO6esLz+SOdvYGVTACgcMxl9iEmn0FTIDMntRCLCv
+         4W6/zIZ6DaED9Iioua1LLtRW+ZPWBJAH/JkfmLd3kRI8LE1EfabuITs2fcAMzrTtBBC6
+         uujb35Cjlv4Ws8RD54VUNNMrSW2CR6XrrFnuSZJzmfWIq68qazJc0jvviGLm8LpmdmMC
+         Hmjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXDOEmBsnlmZlfz6MyoBCbMyQYi/NWFO8pHTntcZY5ZmkZjKgzZ5bsGsJ00MHVHz8Yf2twxUFdaSIrbmlGvOK8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhYxsbDcjwirWo7F0JA8mXqpyoXxu7jIcq3hqTfbOIKn5ft1g2
+	6TkoDoDLjqZbSFbO+h2a4+lMJmITi1v9iRzXueBJTp/pcD5311j3p/Gld3r7NyI=
+X-Google-Smtp-Source: AGHT+IF9RM7FJT3xEMac/N766Zoy/DqJgTLXUwbeVf2ff03TgVWgKHdv4rG6j7goNdi57Bh5Mx7ulA==
+X-Received: by 2002:a05:6512:1250:b0:533:4c73:a244 with SMTP id 2adb3069b0e04-53678ff8a49mr1446551e87.61.1726145894937;
+        Thu, 12 Sep 2024 05:58:14 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f90da18sm1940012e87.293.2024.09.12.05.58.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 04:35:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>
-Cc: Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org, Fenghua Yu
- <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Tony
- Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>, Julius
- Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
- device name "simple-framebuffer.0"
-In-Reply-To: <ZuCGkjoxKxpnhEh6@google.com>
-References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
- <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
- <ZuCGkjoxKxpnhEh6@google.com>
-Date: Thu, 12 Sep 2024 13:35:46 +0200
-Message-ID: <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+        Thu, 12 Sep 2024 05:58:13 -0700 (PDT)
+Date: Thu, 12 Sep 2024 15:58:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+	Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <lqs2y5gvsaij5rg4o4krruseuijinqgzky6kiorjegham4aumq@fx2doq5j7wkq>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+ <20240910101527.603452-4-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240910101527.603452-4-ukaszb@chromium.org>
 
-Brian Norris <briannorris@chromium.org> writes:
+On Tue, Sep 10, 2024 at 10:15:22AM GMT, Łukasz Bartosik wrote:
+> From: Pavan Holla <pholla@chromium.org>
+> 
+> Implementation of a UCSI transport driver for ChromeOS.
+> This driver will be loaded if the ChromeOS EC implements a PPM.
+> 
+> Signed-off-by: Pavan Holla <pholla@chromium.org>
+> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
+> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+> ---
+>  MAINTAINERS                           |   7 +
+>  drivers/usb/typec/ucsi/Kconfig        |  13 ++
+>  drivers/usb/typec/ucsi/Makefile       |   1 +
+>  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 273 ++++++++++++++++++++++++++
+>  4 files changed, 294 insertions(+)
+>  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> 
 
-Hello Brian,
+[...]
 
-> (Tweaking subject; this indeed isn't related to the regression at all)
->
-> Hi,
->
-> On Mon, Sep 09, 2024 at 10:02:00AM +0200, Borislav Petkov wrote:
->> Looking at your log, the first warn is in framebuffer_coreboot. Some mess in
->> the sysfs platform devices registration.
->> 
->> Adding the relevant people for that:
->> 
->> Aug 20 20:29:36 luna kernel: sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
->> Aug 20 20:29:36 luna kernel: CPU: 5 PID: 571 Comm: (udev-worker) Tainted: G           OE      6.10.6-arch1-1 #1 703d152c24f1971e36f16e505405e456fc9e23f8
->> Aug 20 20:29:36 luna kernel: Hardware name: Purism Librem 14/Librem 14, BIOS 4.14-Purism-1 06/18/2021
->> Aug 20 20:29:36 luna kernel: Call Trace:
->> Aug 20 20:29:36 luna kernel:  <TASK>
->> Aug 20 20:29:36 luna kernel:  dump_stack_lvl+0x5d/0x80
->> Aug 20 20:29:36 luna kernel:  sysfs_warn_dup.cold+0x17/0x23
->> Aug 20 20:29:36 luna kernel:  sysfs_do_create_link_sd+0xcf/0xe0
->> Aug 20 20:29:36 luna kernel:  bus_add_device+0x6b/0x130
->> Aug 20 20:29:36 luna kernel:  device_add+0x3b3/0x870
->> Aug 20 20:29:36 luna kernel:  platform_device_add+0xed/0x250
->> Aug 20 20:29:36 luna kernel:  platform_device_register_full+0xbb/0x140
->> Aug 20 20:29:36 luna kernel:  platform_device_register_resndata.constprop.0+0x54/0x80 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
->> Aug 20 20:29:36 luna kernel:  framebuffer_probe+0x165/0x1b0 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
->> Aug 20 20:29:36 luna kernel:  really_probe+0xdb/0x340
->> Aug 20 20:29:36 luna kernel:  ? pm_runtime_barrier+0x54/0x90
->> Aug 20 20:29:36 luna kernel:  ? __pfx___driver_attach+0x10/0x10
->> Aug 20 20:29:36 luna kernel:  __driver_probe_device+0x78/0x110
->> Aug 20 20:29:36 luna kernel:  driver_probe_device+0x1f/0xa0
->> Aug 20 20:29:36 luna kernel:  __driver_attach+0xba/0x1c0
->> Aug 20 20:29:36 luna kernel:  bus_for_each_dev+0x8c/0xe0
->> Aug 20 20:29:36 luna kernel:  bus_add_driver+0x112/0x1f0
->> Aug 20 20:29:36 luna kernel:  driver_register+0x72/0xd0
->> Aug 20 20:29:36 luna kernel:  ? __pfx_framebuffer_driver_init+0x10/0x10 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
->> Aug 20 20:29:36 luna kernel:  do_one_initcall+0x58/0x310
->> Aug 20 20:29:36 luna kernel:  do_init_module+0x60/0x220
->> Aug 20 20:29:36 luna kernel:  init_module_from_file+0x89/0xe0
->> Aug 20 20:29:36 luna kernel:  idempotent_init_module+0x121/0x320
->> Aug 20 20:29:36 luna kernel:  __x64_sys_finit_module+0x5e/0xb0
->> Aug 20 20:29:36 luna kernel:  do_syscall_64+0x82/0x190
->> Aug 20 20:29:36 luna kernel:  ? __do_sys_newfstatat+0x3c/0x80
->> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
->> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
->> Aug 20 20:29:36 luna kernel:  ? do_sys_openat2+0x9c/0xe0
->> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
->> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
->> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
->> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
->> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
->> Aug 20 20:29:36 luna kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> Aug 20 20:29:36 luna kernel: RIP: 0033:0x7b1bee2f81fd
->
-> Looks like it might be a conflict with
-> drivers/firmware/sysfb_simplefb.c, which also uses the
-> "simple-framebuffer" name with a constant ID of 0. It's possible both
-> drivers should be switched to use PLATFORM_DEVID_AUTO? Or at least one
-> of them. Or they should use different base names.
->
+> +
+> +static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
+> +{
+> +	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
+> +	bool ack = UCSI_COMMAND(cmd) == UCSI_ACK_CC_CI;
+> +	int ret;
+> +
+> +	if (ack)
+> +		set_bit(ACK_PENDING, &udata->flags);
+> +	else
+> +		set_bit(COMMAND_PENDING, &udata->flags);
+> +
+> +	ret = cros_ucsi_async_control(ucsi, cmd);
+> +	if (ret)
+> +		goto out;
+> +
+> +	if (!wait_for_completion_timeout(&udata->complete, WRITE_TMO_MS))
+> +		ret = -ETIMEDOUT;
+> +
+> +out:
+> +	if (ack)
+> +		clear_bit(ACK_PENDING, &udata->flags);
+> +	else
+> +		clear_bit(COMMAND_PENDING, &udata->flags);
+> +	return ret;
+> +}
+> +
+> +struct ucsi_operations cros_ucsi_ops = {
+> +	.read_version = cros_ucsi_read_version,
+> +	.read_cci = cros_ucsi_read_cci,
+> +	.read_message_in = cros_ucsi_read_message_in,
+> +	.async_control = cros_ucsi_async_control,
+> +	.sync_control = cros_ucsi_sync_control,
 
-I'm unsure about PLATFORM_DEVID_AUTO because I don't know if there are
-user-space programs that assume this to always be "simple-framebuffer.0".
+Please use ucsi_sync_control_common instead.
 
-> I'm not really sure what the best option is (does anyone rely on or care
-> about the device naming?), and I don't actually use this driver. But
-> here's an untested diff to try if you'd really like. If you test it,
-> feel free to submit as a proper patch with my:
->
+> +};
+> +
+> +static void cros_ucsi_work(struct work_struct *work)
+> +{
+> +	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
+> +	u32 cci;
+> +
+> +	if (cros_ucsi_read_cci(udata->ucsi, &cci))
+> +		return;
+> +
+> +	if (UCSI_CCI_CONNECTOR(cci))
+> +		ucsi_connector_change(udata->ucsi, UCSI_CCI_CONNECTOR(cci));
+> +
+> +	if (cci & UCSI_CCI_ACK_COMPLETE &&
+> +	    test_and_clear_bit(ACK_PENDING, &udata->flags))
+> +		complete(&udata->complete);
+> +	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
+> +	    test_and_clear_bit(COMMAND_PENDING, &udata->flags))
+> +		complete(&udata->complete);
 
+ucsi_notify_common(). Why are you ignoring these functions?
 
-I've discussed this with Thomas Zimmermann (simpledrm maintainer) and
-he suggests that the problem is the system framebuffer information to
-be provided in both Coreboot table entry (AFAIU is LB_TAG_FRAMEBUFFER)
-and in the boot_params, which leads to struct screen_info to be filled.
-
-We had the same problem for EFI systems that passed DTB to the kernel
-instead of ACPI, in those cases both a "simple-framebuffer" DT node and
-an EFI-GOP table could be provided.
-
-Commit 3310288f6135 "(of/platform: Disable sysfb if a simple-framebuffer
-node is found") solved that issue. I've typed the same for Coreboot to
-handle in the same way. Please let me know what you think:
-
-From 6955149fb13af1c0cba2e5c1fbb1ac9367a09ae2 Mon Sep 17 00:00:00 2001
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Thu, 12 Sep 2024 12:55:29 +0200
-Subject: [RFC PATCH] firmware: coreboot: Disable sysfb if Coreboot already
- provides a FB
-
-On Coreboot platforms, a system framebuffer may be provided to the Linux
-kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
-it seems SeaBIOS payload can also provide a VGA mode in the boot params.
-
-If that the case, early arch x86 boot code will fill the global struct
-screen_info data.
-
-The data is used by the Generic System Framebuffers (sysfb) framework to
-add a platform device with platform data about the system framebuffer.
-
-But if there is information about the system framebuffer in the Coreboot
-table as well, the framebuffer_coreboot driver will also try to do the
-same and add another device for the system framebuffer. This will fail
-though because there's already a simple-framebuffer.0 device registered:
-
-    sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
-    ...
-    coreboot: could not register framebuffer
-    framebuffer coreboot8: probe with driver framebuffer failed with error -17
-
-To prevent the issue, make the framebuffer_core driver to disable sysfb
-if there is system framebuffer data in the Coreboot table. That way only
-this driver will register a device and sysfb would not attempt to do it
-(or remove its registered device if was already executed before).
-
-Reported-by: Brian Norris <briannorris@chromium.org>
-Link: https://lore.kernel.org/all/ZuCG-DggNThuF4pj@b20ea791c01f/T/#ma7fb65acbc1a56042258adac910992bb225a20d2
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/firmware/google/framebuffer-coreboot.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index daadd71d8ddd..0a28aa5b17dc 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -61,6 +61,19 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 	if (res.end <= res.start)
- 		return -EINVAL;
- 
-+	/*
-+	 * Since a "simple-framebuffer" device is already added
-+	 * here, disable the Generic System Framebuffers (sysfb)
-+	 * to prevent it from registering another device for the
-+	 * system framebuffer later (e.g: using the screen_info
-+	 * data that may had been filled as well).
-+	 *
-+	 * This can happen for example on Coreboot systems, that
-+	 * advertise a LB_TAG_FRAMEBUFFER entry in their Coreboot
-+	 * table and also a VESA mode by the BIOS used as payload.
-+	 */
-+	sysfb_disable();
-+
- 	pdev = platform_device_register_resndata(&dev->dev,
- 						 "simple-framebuffer", 0,
- 						 &res, 1, &pdata,
 -- 
- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+With best wishes
+Dmitry

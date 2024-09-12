@@ -1,210 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66381850AF
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 16:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7091013CFB7;
+	Thu, 12 Sep 2024 20:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726158845; cv=none; b=OcK2r2vhRahvphpnfir7GGmjTrBt0HNn43lR9RuXvWH/f/0kyoLmqPlwAiIXNOipA90C2DhzQIgl4IrVSlTAKrlgTL85h/ZUcWfpCrGkA0XOJK9V00UXFhHKdGwVPfBPHNWjt5SWdliXkl+CMvFjM1r7p5JS8ttbos19b1HvYbA=
+	t=1726173094; cv=none; b=Dcx7tw7bUKAjcLsghpqypgv+ErysInJco+JNkQkYPywkKmEuv7CAPGU9LTy4b9rINaVRux8H2Qf2YiRgdEqYCaAVYaOBUeunO/c7AdBJAgVkZsEUnXJRRjngi9k/PkOKXkW23SbgsD3yb73+J40YC8s5tDIih1eLPq5P5pyuEto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726158845; c=relaxed/simple;
-	bh=XQG7wonhC6R1YdTQNDlE3VJtJ10vFf+cAJlA/RvoZf0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JZIlGY4tGBM4c/KbDd95ALtDj+vOggRhfcsfR7CwvfB1RuqBMZolR2RC5D++ClRKs97d+wEdvBvSMiRYKZgi7w2Yb9sLnfqXEx7WZYIULYt7+wT+bZwje9mTwuVM9laJmFx4Zqr00gZdqjxrMAy28u56os2QAOH5Lz5CsS8hpAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TceoDpSi; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726173094; c=relaxed/simple;
+	bh=T8U1b6wp7ibIw+njMfMHoCAqw5G8qqefpz2hppJxRUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KNzCurUdSwp+thqo1NdN2Rgbh3B5m3JYQzSPWZGk4RXIs6fKGk1OYjeOad0zKgXsee8i0rtF5Mq0rBIpMmtlqbZylPc4q0omexbyrGEaIC+72r29+cHjmMgyxDZrrvy7uuo0hQ4Zfr/Bvh/Bf8iaLCUmar5gBuCwiNtR2EWbipg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOiDMmpI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TceoDpSi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726158842;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EOmdO+b7gYLR4VAcBUs89Ub1sXD9TFu8fmoSrmDCcEU=;
-	b=TceoDpSiGASN80LPe4ID8lJoqlTaIyQjlLcfs7VOp3MuUJp+PsfV/kLj6QS1O4zDot4o5m
-	WYfuZ42oKEBxazpp90c0/AHprNGGZ2+DjxDfcgqdqSIK9ATlcD/xZqIjviEvwqHFqRI5xo
-	3/sn3T3YsayXh6yuMuYvGGp4o9E2oT8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-146-_Y_0CVJKM9e3MkhNrSIgwg-1; Thu, 12 Sep 2024 12:34:01 -0400
-X-MC-Unique: _Y_0CVJKM9e3MkhNrSIgwg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-374c960ee7aso438f8f.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Sep 2024 09:34:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726158840; x=1726763640;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EOmdO+b7gYLR4VAcBUs89Ub1sXD9TFu8fmoSrmDCcEU=;
-        b=m8XLMvzAGY7Wwr7S8fhnDkZbt8HOlQnMoVcKFBN8Atw9vS+lzIU0HxDcsq1SzX/7wz
-         MQWqgxe9axoO9zEKmHuUb1eI+2VrAPBxEPga2IR+EUmxiGKTm9apw6t/A6a7l659ib85
-         x4m0ON+bpezBmilLDOYO28jEeuRcHhs/ftaC3GxpcApavOy4GY1ynSn2JoG47HwXY6kj
-         dQ05N3fZCNWoNIr1uThg6Mxps7dG5+G2T18kP5K7LfjTh+WqCPmgm5cHLd7pnSYMr5dY
-         yjDNpJKtAfb6Z3nIX75shRvvdBjQ42W2nqXm6B3pRfLrtWDqEHPCk5GVjCGYcTl8Vj5R
-         +c1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUs9pifjQCUcor63VNcG6GJ3/b6uuHFRSiVWiOLqCeN1OdNFwsgcAAIPs6r+/WrMieCgYyzJhqPtJk9Z8UDDus=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx46OYxxmmSutfFhU4JbxlwNsWNNC6I3cf5ewo9bViEV+bTr27s
-	Uf19Ge6KvfMQRaXf+QzsLXGEEyzmFYwkue3HopmO+EBeruc9VtrkuyHzGo2lKKBp57AveHgXe/h
-	ThWsrU0ffNGRZHr9HXTQLCaYkwynbrNuhUL7N1C94EhXhk4qukiA/C1IQn7kGRf5WYg==
-X-Received: by 2002:a05:6000:c81:b0:374:bde8:66af with SMTP id ffacd0b85a97d-378c2d581camr2869438f8f.57.1726158840267;
-        Thu, 12 Sep 2024 09:34:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHykV9DHzv3qV6R6EuPD0pzt9S/Yjo+tEE1Jd7G9+MiD3zDj61TCo7+RJHhLaEraT38VncGGg==
-X-Received: by 2002:a05:6000:c81:b0:374:bde8:66af with SMTP id ffacd0b85a97d-378c2d581camr2869405f8f.57.1726158839736;
-        Thu, 12 Sep 2024 09:33:59 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956653f9sm14798656f8f.31.2024.09.12.09.33.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 09:33:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Julius Werner <jwerner@chromium.org>
-Cc: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>,
- Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org, Fenghua Yu
- <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Tony
- Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>, Julius
- Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
- device name "simple-framebuffer.0"
-In-Reply-To: <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
-References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
- <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
- <ZuCGkjoxKxpnhEh6@google.com>
- <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
- <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
-Date: Thu, 12 Sep 2024 18:33:58 +0200
-Message-ID: <87mskczv9l.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOiDMmpI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA2B3C4CEC3;
+	Thu, 12 Sep 2024 20:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726173094;
+	bh=T8U1b6wp7ibIw+njMfMHoCAqw5G8qqefpz2hppJxRUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kOiDMmpINwcXPW7ctic3yrgfkP+q6JH3vrPATY9CW5RefBK+soiEQrZ4Vd+aSmUzp
+	 QiafSnqo0RF8HWEua4j+AOXHEYs4oQ299wU1ekXduP8xlyWNAYn6B8WdTkSV+35MtQ
+	 uOc2eK+vs6ohAw1912wpw/NQUzCUASwL1nyu2q8lLqGBhr6VRNxa61dBHqFCrmvj/C
+	 vcEiXeU6Mde9PU9gGXwIITxght+cKiELqyGn1yKUKM5sUDA5UoZq9zwzWi2H+vrsnb
+	 YLkub8mMsQK2+GWxCTrzDCot4roQOjoYjXpYyuS0WpDSuWKt+mmGKInh4k2PTaZji1
+	 3N4rNUn6ZMPig==
+Date: Thu, 12 Sep 2024 15:31:32 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Saravana Kannan <saravanak@google.com>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Johan Hovold <johan@kernel.org>, devicetree@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, Wolfram Sang <wsa@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v7 02/10] of: base: Add
+ for_each_child_of_node_with_prefix()
+Message-ID: <172617309153.737512.5462269215203973657.robh@kernel.org>
+References: <20240911072751.365361-1-wenst@chromium.org>
+ <20240911072751.365361-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911072751.365361-3-wenst@chromium.org>
 
-Julius Werner <jwerner@chromium.org> writes:
 
-Hello Julius,
+On Wed, 11 Sep 2024 15:27:40 +0800, Chen-Yu Tsai wrote:
+> There are cases where drivers would go through child device nodes and
+> operate on only the ones whose node name starts with a given prefix.
+> 
+> Provide a helper for these users. This will mainly be used in a
+> subsequent patch that implements a hardware component prober for I2C
+> busses.
+> 
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v6:
+> - Changed helper name to "for_each_child_of_node_with_prefix()"
+> Changes since v5:
+> - New patch
+> ---
+>  drivers/of/base.c  | 35 +++++++++++++++++++++++++++++++++++
+>  include/linux/of.h |  9 +++++++++
+>  2 files changed, 44 insertions(+)
+> 
 
->> On Coreboot platforms, a system framebuffer may be provided to the Linux
->> kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
->> it seems SeaBIOS payload can also provide a VGA mode in the boot params.
->>
->> [...]
->>
->> To prevent the issue, make the framebuffer_core driver to disable sysfb
->> if there is system framebuffer data in the Coreboot table. That way only
->> this driver will register a device and sysfb would not attempt to do it
->> (or remove its registered device if was already executed before).
->
-> I wonder if the priority should be the other way around? coreboot's
-> framebuffer is generally only valid when coreboot exits to the payload
-> (e.g. SeaBIOS). Only if the payload doesn't touch the display
-> controller or if there is no payload and coreboot directly hands off
-> to a kernel does the kernel driver for LB_TAG_FRAMEBUFFER make sense.
-> But if there is some other framebuffer information passed to the
-> kernel from a firmware component running after coreboot, most likely
-> that one is more up to date and the framebuffer described by the
-> coreboot table doesn't work anymore (because the payload usually
-> doesn't modify the coreboot tables again, even if it changes hardware
-> state). So if there are two drivers fighting over which firmware
-> framebuffer description is the correct one, the coreboot driver should
-> probably give way.
->
-
-That's a very good point. I'm actually not familiar with Coreboot and I
-used an educated guess (in the case of DT for example, that's the main
-source of truth and I didn't know if a Core table was in a similar vein).
-
-Maybe something like the following (untested) patch then?
-
-From de1c32017006f4671d91b695f4d6b4e99c073ab2 Mon Sep 17 00:00:00 2001
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Thu, 12 Sep 2024 18:31:55 +0200
-Subject: [PATCH] firmware: coreboot: Don't register a pdev if screen_info data
- is available
-
-On Coreboot platforms, a system framebuffer may be provided to the Linux
-kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
-a Coreboot payload (e.g: SeaBIOS) could also provide this information to
-the Linux kernel.
-
-If that the case, early arch x86 boot code will fill the global struct
-screen_info data and that data used by the Generic System Framebuffers
-(sysfb) framework to add a platform device with platform data about the
-system framebuffer.
-
-But later then the framebuffer_coreboot driver will try to do the same
-framebuffer (using the information from the Coreboot table), which will
-lead to an error due a simple-framebuffer.0 device already registered:
-
-    sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
-    ...
-    coreboot: could not register framebuffer
-    framebuffer coreboot8: probe with driver framebuffer failed with error -17
-
-To prevent the issue, make the framebuffer_core driver to not register a
-platform device if the global struct screen_info data has been filled.
-
-Reported-by: Brian Norris <briannorris@chromium.org>
-Link: https://lore.kernel.org/all/ZuCG-DggNThuF4pj@b20ea791c01f/T/#ma7fb65acbc1a56042258adac910992bb225a20d2
-Suggested-by: Julius Werner <jwerner@chromium.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/firmware/google/framebuffer-coreboot.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index daadd71d8ddd..4e50da17cd7e 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -15,6 +15,7 @@
- #include <linux/module.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
-+#include <linux/screen_info.h>
- 
- #include "coreboot_table.h"
- 
-@@ -27,6 +28,7 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 	int i;
- 	u32 length;
- 	struct lb_framebuffer *fb = &dev->framebuffer;
-+	struct screen_info *si = &screen_info;
- 	struct platform_device *pdev;
- 	struct resource res;
- 	struct simplefb_platform_data pdata = {
-@@ -36,6 +38,20 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 		.format = NULL,
- 	};
- 
-+	/*
-+	 * If the global screen_info data has been filled, the Generic
-+	 * System Framebuffers (sysfb) will already register a platform
-+	 * and pass the screen_info as platform_data to a driver that
-+	 * could scan-out using the system provided framebuffer.
-+	 *
-+	 * On Coreboot systems, the advertise LB_TAG_FRAMEBUFFER entry
-+	 * in the Coreboot table should only be used if the payload did
-+	 * not set video mode info and passed it to the Linux kernel.
-+	 */
-+	if (si->orig_video_isVGA == VIDEO_TYPE_VLFB ||
-+            si->orig_video_isVGA == VIDEO_TYPE_EFI)
-+		return -EINVAL;
-+
- 	if (!fb->physical_address)
- 		return -ENODEV;
- 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 

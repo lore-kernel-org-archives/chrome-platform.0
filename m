@@ -1,72 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1581D58A8
-	for <chrome-platform@lists.linux.dev>; Fri, 13 Sep 2024 10:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3155711187;
+	Fri, 13 Sep 2024 14:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726224775; cv=none; b=cuv287MSLCwqlxdr7xt4O0pYxi3kZzLTUxuqnRM17OZRW3HtZtHBTRsI7OGLbcjmo8qkDz2UdVHA0STY/vYcMNoRTWxJojAYWEOBycGKGSaCAs0P2jTr8R8ZFuwhIqxio25rFbB0AeCzK7sYhJ3V+hLz1vUcI8e/asC4FuE4ww8=
+	t=1726239586; cv=none; b=ZMWhiT/6vIWoRlAhmKCI5pEl88iXvdlDkonHFG0n/3jytfYlRZrqjuIe8AFLcwid1Tuw34yf9iFUIf3DhqdCCspCHk3Pg476nc4XnSA6hc+drpzv1nj+S8QADwtftx5QCK7T3iiejysQAVJaZDSdnrKjrpaFV5VvAPwTBmVqcjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726224775; c=relaxed/simple;
-	bh=vfmDCSc14mOA4j2yfWDNkchC1g26e9g7RDxQlrvfJnI=;
+	s=arc-20240116; t=1726239586; c=relaxed/simple;
+	bh=GBR/ylUWELEf4Nvt0HwsmeixlCJh0DahxVeDrnHTK4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJGFzS1krq3XL4Vs2dOuSUJtr1BP5kiQYz+SfMtr40wypfUwKHsFyj4nF2zfo44arhF7YeDjAu7qrXL4M6jrMg/TOyu5Rwg+SXCkvGKbJ3sYJozLdsFt2nSdPw/qnecVkADFrr/stsMOnTnguKnAvQEpxvLt2oXhSBF/LDIp50w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DS0g2vZk; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5BYc/ULbXY4+ndbSIWdzw+Gh7V8Iy3mwXJ5bSzw6bsyIhYUQZq+xzbzFq3n39RxmA4lKp76DPmIVKLGRM8HXzTgd/GLqUT0uf2e8li1lUcic+1SjbNd1RRGtjyz4EY6CSFSaEd384omHdnCWnskv8/jkzzA0ChHvfZ9UUHA9b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWxOMY17; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DS0g2vZk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726224774; x=1757760774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vfmDCSc14mOA4j2yfWDNkchC1g26e9g7RDxQlrvfJnI=;
-  b=DS0g2vZkQ/zqWYJZ9edZ33/IC7ex4hnYXMqNOalLnNIMCMSKfH3uVhVi
-   bx+oWdsmbqMLHPfrpAjRZp7ivj9/35g+iXUqOoejHAkOnh5fZJvmcaMlr
-   rRd7Irfe3l1vlY8t0+IHS36pbiuddV4CPNRwb9MP95uNmsNAUIWiTZl+7
-   m2Y1OCfsv7mBn8Slm0LAI2RfGMx7SuEQd4mi2I8BNTbMbLwH8ljHZ/1gX
-   r3Qm3ZU4G+6MuFwBUe+Jj0U7t1W49mdXSq2xOUec8iKBpVuSVuKg3mhUj
-   iJhZitARPNPGmfwIxcN0qFNZgLV/ke4ssiFn2Fc17x9uxlg/4uzJiYZyd
-   A==;
-X-CSE-ConnectionGUID: qludTrYJRPyY1uNjap6jPA==
-X-CSE-MsgGUID: RPPl58CUSSyslQeMIgrz8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24989410"
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="24989410"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 03:52:54 -0700
-X-CSE-ConnectionGUID: cSOVMhO3SjG5+iiaEOC6lw==
-X-CSE-MsgGUID: Bcldi3p3QBCw2CtSci/RBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="68331128"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 03:52:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sp3uw-00000008Gdo-2uie;
-	Fri, 13 Sep 2024 13:52:46 +0300
-Date: Fri, 13 Sep 2024 13:52:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWxOMY17"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F454C4CEC0;
+	Fri, 13 Sep 2024 14:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726239586;
+	bh=GBR/ylUWELEf4Nvt0HwsmeixlCJh0DahxVeDrnHTK4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nWxOMY176ksBiwhKWCrUFM7eTN7vl/Fdu2uY9KOP3YrBH58M7EsYQsOAgxsPceD4E
+	 zVv5xb6v5CkMxp9oA8Yl8KbjgiXIqPuCvrps5Zo/7TOgPyFRm2LfoiT+F6qx7WCJpA
+	 8V9kLoCD+9NtLISQFVtnqYbMgJ9yeQptoEV7Cb9P/7eTdre2lz9oPh7VrbFXtpdOjQ
+	 X8fnGTbqnqJ2y0mgoQ9qyraTMFVhLkxsPFVaNFJj8Pym5H8vQfbbChevZnz2WNCV2k
+	 8ZcxwYVTh+m4iXePzpQvqRrQU3B/yz1jRe+haxn6Y+EMElAJeNDmmaNPWWDUSD+7MN
+	 YN/u8jkKDhlVw==
+Date: Fri, 13 Sep 2024 16:59:42 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
 To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v7 08/10] i2c: of-prober: Add GPIO support to simple
- helpers
-Message-ID: <ZuQZfvqGii9fcH-j@smile.fi.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v7 05/10] i2c: core: Remove extra space in Makefile
+Message-ID: <q5g4lus3fifwtaypqvljtmw754px473mpx66b2vtemyivqfpm2@4q3mnojbfp66>
 References: <20240911072751.365361-1-wenst@chromium.org>
- <20240911072751.365361-9-wenst@chromium.org>
+ <20240911072751.365361-6-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -75,88 +50,19 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911072751.365361-9-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240911072751.365361-6-wenst@chromium.org>
 
-On Wed, Sep 11, 2024 at 03:27:46PM +0800, Chen-Yu Tsai wrote:
-> Add GPIO support to the simple helpers for the I2C OF component prober.
-> Components that the prober intends to probe likely require their
-> regulator supplies be enabled, and GPIOs be toggled to enable them or
-> bring them out of reset before they will respond to probe attempts.
-> Regulator supplies were handled in the previous patch.
+Hi Chen-Yu,
+
+On Wed, Sep 11, 2024 at 03:27:43PM GMT, Chen-Yu Tsai wrote:
+> Some lines in the Makefile have a space before tabs. Remove those.
 > 
-> The assumption is that the same class of components to be probed are
-> always connected in the same fashion with the same regulator supply
-> and GPIO. The names may vary due to binding differences, but the
-> physical layout does not change.
-> 
-> This supports at most one GPIO pin. The user must specify the GPIO name,
-> the polarity, and the amount of time to wait after the GPIO is toggled.
-> Devices with more than one GPIO pin likely require specific power
-> sequencing beyond what generic code can easily support.
+> Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Closes: https://lore.kernel.org/all/ZsdE0PxKnGRjzChl@smile.fi.intel.com/
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-...
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
-> +static int i2c_of_probe_simple_get_gpiod(struct device *dev, struct device_node *node,
-> +					 struct i2c_of_probe_simple_ctx *ctx)
-> +{
-> +	struct fwnode_handle *fwnode = of_fwnode_handle(node);
-> +	struct gpio_desc *gpiod;
-> +	const char *con_id = NULL;
-> +
-> +	/* NULL signals no GPIO needed */
-> +	if (!ctx->opts->gpio_name)
-> +		return 0;
-> +
-> +	/* An empty string signals an unnamed GPIO */
-> +	if (strlen(ctx->opts->gpio_name))
-
-You run for entire string in order to check the first byte only?
-
-	if (ctx->opts->gpio_name[0] == '\0')
-		con_id = NULL;
-	else
-
-> +		con_id = ctx->opts->gpio_name;
-
-Also note, that comment is given in inverted condition to what you actually do
-in the code. With my suggestion it looks better.
-
-> +	gpiod = fwnode_gpiod_get_index(fwnode, con_id, 0, GPIOD_ASIS, "i2c-of-prober");
-> +	if (IS_ERR(gpiod))
-> +		return PTR_ERR(gpiod);
-> +
-> +	ctx->gpiod = gpiod;
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int i2c_of_probe_simple_set_gpio(struct device *dev, struct i2c_of_probe_simple_ctx *ctx)
-> +{
-> +	int ret;
-> +
-> +	if (!ctx->gpiod)
-> +		return 0;
-
-> +	dev_dbg(dev, "Setting GPIO\n");
-
-> +	ret = gpiod_direction_output_raw(ctx->gpiod, ctx->opts->gpio_high_to_enable ? 1 : 0);
-
-Hmm... _raw() in use... Perhaps it's on a territory of Bart and Linus to review
-and comment on this.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	msleep(ctx->opts->post_reset_deassert_delay_ms);
-> +
-> +	return 0;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Andi

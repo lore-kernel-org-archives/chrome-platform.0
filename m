@@ -1,198 +1,111 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88711754B
-	for <chrome-platform@lists.linux.dev>; Sat, 14 Sep 2024 23:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D922CA6;
+	Sun, 15 Sep 2024 02:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726357432; cv=none; b=ka9I0q43Y8yuB2VSqvlj+LdDFB5t2mffmTqEUiaABGDPSGCqFIjjjQ9yC6DWkIGIWKQEudY3+XqgkAQa23zAI6oxTiUt4eAcA2NQv5kt92UkedheRfTnKrmR5FZFTqsn6GiPxKWLElgPgQPbnjp9FY8mKqU23M/28oQzNML8N44=
+	t=1726366053; cv=none; b=C4P4/pfJAsHoUPE08LNvUx4GH7JuyWPZoNlHAJZjKy+PGK0GFOZxw6XIdcOyGqHuzpolIn2+Lf9JSUOP1I+MeQaq1dCjOGLfnD1sfTv/01HysYFqeLjoAm+9u0iIW1xNrZOS2RBohjhg0sU7eIIDhopwIik53qFlSBg2SUEJYY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726357432; c=relaxed/simple;
-	bh=t1aExyFjz98/zA5xARPP+uj1Od5zhESbswgoCwcbbZU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R2Vu+avy792WXeCoZGOAAkLCeQ6rSU1zkyVWcwDpvVLOk3wVUH1X3UKfeHGpUHGW47/oCVrTmAWjoc2u+MGOMtyXcm0bfa8vjGodl3MUnD1O28rsEXsj+RGdB7jO4ZaEcuu5tCSos3BMEYSh9xC/9vpmcosUgZV8WjhwDdMqkNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jmqAmLId; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1726366053; c=relaxed/simple;
+	bh=KpbGciaXOmeOh3W92Etpe7+xu4k9td+wCnPCoZABsd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q70GVJm1tHRcXGavZo3VSa3/noe6+n8Y/57gHr4n5ZF6WCqRR0W0AwRgCIe6ScEJAF60dIthv4pN7AOCUABtMRwGk8QQvPkBmUR9W2Jai7Gw27z7rT0QT6hFshuuSC2G7iif8FwR0V8vQjivEk+Vsj9InIXbJo/bvdlMhRxMeks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gIe422QJ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jmqAmLId"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f74e468baeso24419121fa.2
-        for <chrome-platform@lists.linux.dev>; Sat, 14 Sep 2024 16:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726357429; x=1726962229; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xGYWLlguSdnKQtisEXngNTszohi1t3W+x1ViuQ9Aq3c=;
-        b=jmqAmLIdqHP/iHSVSJTwfK0oMJE+it7xqbJ4xb//CDfuiO6VdByLmclqbuVcCQhV6J
-         gjT6yvNTPA/eUos8nrQI1L34azzmtxqfE29Uha/UZNEfinBuiT4OoYDLseM+EaZ/xsjS
-         P25ckZTBGLW0JKugeyO6dbPw/kUdloqHSm7Zo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726357429; x=1726962229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xGYWLlguSdnKQtisEXngNTszohi1t3W+x1ViuQ9Aq3c=;
-        b=AsY8+GKDjYGPVkLOmDo9j4vIsr2F4O2qgi3xk+8wb9M97zkw72FbFJDq/n85W/aH4o
-         o4tfKuZ8jHgUGqiKxy3ZKnVJx/PpUQSH/uIDWath8GVGt6G+b2mYhK+D8PB2tPF5BVXO
-         g7H6gX4/KkfYla7PleTr+Pymp7s29LSgoEhR3gsgX6SmddziE5Y26vllNEN6Pnt45rfh
-         WQc9Pr/dBvj3vLQRuRmF9xGEtgaZDfOtdKxCF1QrZrf/RDttA+ll1fggdN3UwUXsCI4T
-         eGewqkbKpuVLYYCvF99doqxNuO4A78cGFIdjDFQNhet9fZa+DrNpfjeXwvkQtyuaiAV/
-         f3Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCVVWcpd1+A+euakuxPl3jkf3YlkAJPclP1nvSLXOoMSN+61IFJXTaw1dBwA1oMKpYeSiV7DTJDsM/zA9RM9DTQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFGjXEdUWvxFOhpSdxaE+Kxem17YCZi8T3h84OhqB+74FViJI2
-	Zf4uDNBfIAlEed/GEaCmuBXxQ1oEdjW7GDsa/BHkdpQMVDt+WYQONqq9a9Wx6x3m846L/gsHaRf
-	s/J++/qAhSC5B5pibTVsBH1JT4wGFK6eYilw=
-X-Google-Smtp-Source: AGHT+IE/h8etWleI1971X/m56jcmQZ1SGmNJF4Yoxv61MOhR7T+Z3qSUcd4rmrhLXNVUkw0nSqhkEbXct45s8k02zBQ=
-X-Received: by 2002:a05:6512:138a:b0:533:4477:28a2 with SMTP id
- 2adb3069b0e04-5367fecbf90mr3951036e87.16.1726357428129; Sat, 14 Sep 2024
- 16:43:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gIe422QJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726366050; x=1757902050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KpbGciaXOmeOh3W92Etpe7+xu4k9td+wCnPCoZABsd0=;
+  b=gIe422QJjosIq2QW9sp3bRjTDazoQ6nP30DVxvzo/2lieMdjnRweWkBg
+   uLUb/r7gHarLcKPOR1M//YwOT21PYtuzNsa8fMGTHe2DMrEV8Zj2CvI6X
+   jKfpt7TBvpLI4bBkM2Ru9X8k2mTha70o0vTnlxsxCw4TqJ92H+OO4ccRr
+   IKQkVSZdQ2rWuz3D54pB3uJYiUAvXXvfKtWwPDf4iOyRR/06isPp1WYsY
+   sziVEVPG4uJ0iM7QDGaXZhWCY2AKGQMSH9iUFglz5rsG/+mcJcln9NnL/
+   xnHJr3pRM3Ajexl3gKBh94xWir2z12lsD3VuL1Wx9bNR0IGIvXuUeeXNf
+   g==;
+X-CSE-ConnectionGUID: xJkENPSwRByhhkJWshkeMw==
+X-CSE-MsgGUID: ZegdxeNnRDa2dFuAyBTX0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="42748814"
+X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
+   d="scan'208";a="42748814"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 19:07:30 -0700
+X-CSE-ConnectionGUID: EX0/+ZlBRsKH6sW4r3Agow==
+X-CSE-MsgGUID: cpHkERcyRuWhtwOrmfJ5+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
+   d="scan'208";a="73274066"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Sep 2024 19:07:27 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spefc-0008KI-1t;
+	Sun, 15 Sep 2024 02:07:24 +0000
+Date: Sun, 15 Sep 2024 10:06:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Julius Werner <jwerner@chromium.org>,
+	Hugues Bruant <hugues.bruant@gmail.com>,
+	intel-gfx@lists.freedesktop.org,
+	Brian Norris <briannorris@chromium.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+	chrome-platform@lists.linux.dev,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
+ screen_info data is present
+Message-ID: <202409150915.n7egvNYa-lkp@intel.com>
+References: <20240913213246.1549213-1-javierm@redhat.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240910101527.603452-1-ukaszb@chromium.org> <20240910101527.603452-4-ukaszb@chromium.org>
- <lqs2y5gvsaij5rg4o4krruseuijinqgzky6kiorjegham4aumq@fx2doq5j7wkq>
- <CALwA+NYC82pJHGmZXnOsWJvg0yJb3aKjLi7V32Kgb9QPtZQTyg@mail.gmail.com> <CAA8EJppnpu86PzwrsLmjA-3gR-ybaaX49d9uZe4iCUeVnTuCfA@mail.gmail.com>
-In-Reply-To: <CAA8EJppnpu86PzwrsLmjA-3gR-ybaaX49d9uZe4iCUeVnTuCfA@mail.gmail.com>
-From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Date: Sun, 15 Sep 2024 01:43:34 +0200
-Message-ID: <CALwA+NbwMigbV+WQV=Jm4JVApWQO6XOh0Yx-QdVsnf8L9Qrh=g@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] usb: typec: ucsi: Implement ChromeOS UCSI driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pavan Holla <pholla@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240913213246.1549213-1-javierm@redhat.com>
 
-On Sun, Sep 15, 2024 at 1:03=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Sun, 15 Sept 2024 at 01:50, =C5=81ukasz Bartosik <ukaszb@chromium.org>=
- wrote:
-> >
-> > On Thu, Sep 12, 2024 at 2:58=E2=80=AFPM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Tue, Sep 10, 2024 at 10:15:22AM GMT, =C5=81ukasz Bartosik wrote:
-> > > > From: Pavan Holla <pholla@chromium.org>
-> > > >
-> > > > Implementation of a UCSI transport driver for ChromeOS.
-> > > > This driver will be loaded if the ChromeOS EC implements a PPM.
-> > > >
-> > > > Signed-off-by: Pavan Holla <pholla@chromium.org>
-> > > > Co-developed-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
-> > > > Signed-off-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
-> > > > ---
-> > > >  MAINTAINERS                           |   7 +
-> > > >  drivers/usb/typec/ucsi/Kconfig        |  13 ++
-> > > >  drivers/usb/typec/ucsi/Makefile       |   1 +
-> > > >  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 273 ++++++++++++++++++++++=
-++++
-> > > >  4 files changed, 294 insertions(+)
-> > > >  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > > >
-> > >
-> > > [...]
-> > >
-> > > > +
-> > > > +static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-> > > > +{
-> > > > +     struct cros_ucsi_data *udata =3D ucsi_get_drvdata(ucsi);
-> > > > +     bool ack =3D UCSI_COMMAND(cmd) =3D=3D UCSI_ACK_CC_CI;
-> > > > +     int ret;
-> > > > +
-> > > > +     if (ack)
-> > > > +             set_bit(ACK_PENDING, &udata->flags);
-> > > > +     else
-> > > > +             set_bit(COMMAND_PENDING, &udata->flags);
-> > > > +
-> > > > +     ret =3D cros_ucsi_async_control(ucsi, cmd);
-> > > > +     if (ret)
-> > > > +             goto out;
-> > > > +
-> > > > +     if (!wait_for_completion_timeout(&udata->complete, WRITE_TMO_=
-MS))
-> > > > +             ret =3D -ETIMEDOUT;
-> > > > +
-> > > > +out:
-> > > > +     if (ack)
-> > > > +             clear_bit(ACK_PENDING, &udata->flags);
-> > > > +     else
-> > > > +             clear_bit(COMMAND_PENDING, &udata->flags);
-> > > > +     return ret;
-> > > > +}
-> > > > +
-> > > > +struct ucsi_operations cros_ucsi_ops =3D {
-> > > > +     .read_version =3D cros_ucsi_read_version,
-> > > > +     .read_cci =3D cros_ucsi_read_cci,
-> > > > +     .read_message_in =3D cros_ucsi_read_message_in,
-> > > > +     .async_control =3D cros_ucsi_async_control,
-> > > > +     .sync_control =3D cros_ucsi_sync_control,
-> > >
-> > > Please use ucsi_sync_control_common instead.
-> > >
-> >
-> > I will use ucsi_sync_control_common. Thanks for pointing it out.
-> >
-> > > > +};
-> > > > +
-> > > > +static void cros_ucsi_work(struct work_struct *work)
-> > > > +{
-> > > > +     struct cros_ucsi_data *udata =3D container_of(work, struct cr=
-os_ucsi_data, work);
-> > > > +     u32 cci;
-> > > > +
-> > > > +     if (cros_ucsi_read_cci(udata->ucsi, &cci))
-> > > > +             return;
-> > > > +
-> > > > +     if (UCSI_CCI_CONNECTOR(cci))
-> > > > +             ucsi_connector_change(udata->ucsi, UCSI_CCI_CONNECTOR=
-(cci));
-> > > > +
-> > > > +     if (cci & UCSI_CCI_ACK_COMPLETE &&
-> > > > +         test_and_clear_bit(ACK_PENDING, &udata->flags))
-> > > > +             complete(&udata->complete);
-> > > > +     if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-> > > > +         test_and_clear_bit(COMMAND_PENDING, &udata->flags))
-> > > > +             complete(&udata->complete);
-> > >
-> > > ucsi_notify_common(). Why are you ignoring these functions?
-> > >
-> >
-> > I have missed these common functions mainly because our baseline is on
-> > the v6.6 kernel.
->
-> Please, don't send patches based on the old kernels. The development
-> should be done on the tip of the maintainer's tree.
->
+Hi Javier,
 
-I should have been more specific. I always rebase to the latest
-upstream kernel and fix any
-conflicts and compilation errors before sending patches to upstream
-review. But living on a daily
-basis on the v6.6 kernel caused me to miss the common function you pointed =
-out.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Lukasz
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on chrome-platform/for-firmware-next linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-present/20240914-053323
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javierm%40redhat.com
+patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if screen_info data is present
+config: csky-randconfig-002-20240915 (https://download.01.org/0day-ci/archive/20240915/202409150915.n7egvNYa-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150915.n7egvNYa-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409150915.n7egvNYa-lkp@intel.com/
 
-> > I will use ucsi_notify_common() however I noticed one
-> > major difference. The ucsi_notify_common() uses test_bit while above
-> > we use test_and_clear_bit. I will send a separate commit to change
-> > test_bit->test_and_clear_bit in the ucsi_notify_common() because usage
-> > of test_and_clear_bit fixes possible race condition.
->
-> Ack, thanks!
->
-> --
-> With best wishes
-> Dmitry
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+>> ERROR: modpost: "screen_info" [drivers/firmware/google/framebuffer-coreboot.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

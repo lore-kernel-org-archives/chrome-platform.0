@@ -1,87 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700C01CF93;
-	Sun, 15 Sep 2024 12:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB99DF53;
+	Mon, 16 Sep 2024 06:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726404832; cv=none; b=F1NWDLBtUlruQEy72h737VLFyYQeQWg0A4NclPLKaadsig24BlpifOf451C6Xc8ZnX73E8smMPam++ocYbqgMXR235XJruMInWRFueMgDFo8y7pZPj0Lv6fz860dw+3aoywkMttAXbhNeXrke/JKaUmD7sRXPufzJHRdtZJMEVY=
+	t=1726467876; cv=none; b=siAwZfbA/iQIeJeUqVxJqFDn6O3qK5LDuU16oizxqlM1cCJDVIlNgbUreZ8ysUURJLkl4BUwNlgjqnWUFZGHRtYNEJvQzg27Nb1xOsCFsWeEP93uUE6xVmzQchAaMJ+URaFFQvziHxt7OtAxZ15qv0NtZI/9uRnrs8S1Og94z9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726404832; c=relaxed/simple;
-	bh=LPJ5SATag2i0d8UFpP+hkORo0mZC23PbErfvFGCVqJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o9nUJ7JZaMvSS0EyIW3JZfAZoQu0r8PLPy81KkZuSdMa1UaUbwF3cltRZgVuBm77ePQcrwdf/2mraX3boY+7n+kAkSSdENSN2Fcg/ecE2oTB9QOagwa7aj00r8B+de2mdmupSz1dY+xOGQAMIWleA/3pWGAsyl9/zUr9PlAwhzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMxf6mYI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726467876; c=relaxed/simple;
+	bh=iDDKOGf6TedYz9KPIByHfASRpOCfY7y7j1XCS11Pzjc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OC20Q7hx1NmtT7EmA1Trn3xtrm8e7a6Vlg6DGUxxmOwCFl4Nd8tyWlQ0km4hT/uN/9LTsibjDkcMnWyk5MPU738kHFJQ/+RrWPLgrsZ4k6rzxiZkdjDeATqxNOzhJ+tj9EtTWJOCzLGXDJ4JpuXbx4WVxxHTxa3xk0Yy4z0Mndc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TeT4bSS/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/Pr3pY4M; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TeT4bSS/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/Pr3pY4M; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMxf6mYI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717F5C4CEC3;
-	Sun, 15 Sep 2024 12:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726404832;
-	bh=LPJ5SATag2i0d8UFpP+hkORo0mZC23PbErfvFGCVqJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hMxf6mYI3/Svo9TsCtzjNWE1vej95mXh2wk9matrrdRv3nG7QqtYJPKpEKeRjhEmI
-	 oKgfYRkJcVVCg9cZrDz6rgbKMdpfLkpcu3mSPBDaU3kdAgjHs+917hso7w3eRDHsye
-	 BJxcjCQk1n7xj8TApOhO+OXve7noX8QgmxAw02nfpX3i7n09SV9hvmqbayEu3xcW+4
-	 NzMugVQ3ji3NOemBG3qibn9zG0CliflB9sTx/nyRY9cZAmENsjRfeD1QD6LOq38Rf5
-	 BszHw+9SaApfNT6NDik/aTV5dCJji76rZ5K5e9WD+0fy9x+mP6hXVa+x0h7VkmaMvp
-	 0IXuKrkctidCQ==
-Date: Sun, 15 Sep 2024 12:53:48 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Julius Werner <jwerner@chromium.org>,
-	Hugues Bruant <hugues.bruant@gmail.com>,
-	intel-gfx@lists.freedesktop.org,
-	Brian Norris <briannorris@chromium.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
- screen_info data is present
-Message-ID: <ZubY3NtRJWWTS1ON@google.com>
-References: <20240913213246.1549213-1-javierm@redhat.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TeT4bSS/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Pr3pY4M";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TeT4bSS/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Pr3pY4M"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 47A2B21B81;
+	Mon, 16 Sep 2024 06:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726467872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L4g5cruqrqLQWR5w/6wAbgDivSZv0wvOPKF6a/G3LMU=;
+	b=TeT4bSS/FwFf77VzOZ+QJTOltaJWMmeRPi7v9UdEauetXp7M6KKIPVjWQ9iI2p9gOkAQWx
+	uWW4UDKyCSeFvpeAC4HAC5+9qcBEpBI+CcHDBV4Doc6t7BNKqNjsiauk+PVbqkFHcVmxE5
+	eTuVmBBgXNFx55TJuozjkZBX/o0bOe4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726467872;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L4g5cruqrqLQWR5w/6wAbgDivSZv0wvOPKF6a/G3LMU=;
+	b=/Pr3pY4MIq3ZxgCH5I4TB1UtZNL3m+djNRbTRYMC4CXAfOOZr8MF/2XMkadfoKGkMi1OaQ
+	W51F5hdYqAP3uZDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726467872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L4g5cruqrqLQWR5w/6wAbgDivSZv0wvOPKF6a/G3LMU=;
+	b=TeT4bSS/FwFf77VzOZ+QJTOltaJWMmeRPi7v9UdEauetXp7M6KKIPVjWQ9iI2p9gOkAQWx
+	uWW4UDKyCSeFvpeAC4HAC5+9qcBEpBI+CcHDBV4Doc6t7BNKqNjsiauk+PVbqkFHcVmxE5
+	eTuVmBBgXNFx55TJuozjkZBX/o0bOe4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726467872;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L4g5cruqrqLQWR5w/6wAbgDivSZv0wvOPKF6a/G3LMU=;
+	b=/Pr3pY4MIq3ZxgCH5I4TB1UtZNL3m+djNRbTRYMC4CXAfOOZr8MF/2XMkadfoKGkMi1OaQ
+	W51F5hdYqAP3uZDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAB4E139CE;
+	Mon, 16 Sep 2024 06:24:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kZgTNB/P52YGGgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Sep 2024 06:24:31 +0000
+Message-ID: <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
+Date: Mon, 16 Sep 2024 08:24:31 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240913213246.1549213-1-javierm@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
+ screen_info data is present
+To: kernel test robot <lkp@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Julius Werner <jwerner@chromium.org>, Hugues Bruant
+ <hugues.bruant@gmail.com>, intel-gfx@lists.freedesktop.org,
+ Brian Norris <briannorris@chromium.org>, dri-devel@lists.freedesktop.org,
+ Borislav Petkov <bp@alien8.de>, chrome-platform@lists.linux.dev,
+ Tzung-Bi Shih <tzungbi@kernel.org>
+References: <20240913213246.1549213-1-javierm@redhat.com>
+ <202409151528.CIWZRPBq-lkp@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <202409151528.CIWZRPBq-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.linux.dev,chromium.org,gmail.com,lists.freedesktop.org,alien8.de,kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Fri, Sep 13, 2024 at 11:32:29PM +0200, Javier Martinez Canillas wrote:
-> @@ -27,8 +28,10 @@ static int framebuffer_probe(struct coreboot_device *dev)
->  	int i;
->  	u32 length;
->  	struct lb_framebuffer *fb = &dev->framebuffer;
-> +	const struct screen_info *si = &screen_info;
->  	struct platform_device *pdev;
->  	struct resource res;
-> +	unsigned int type;
->  	struct simplefb_platform_data pdata = {
->  		.width = fb->x_resolution,
->  		.height = fb->y_resolution,
-> @@ -36,6 +39,20 @@ static int framebuffer_probe(struct coreboot_device *dev)
->  		.format = NULL,
->  	};
->  
-> +	/*
-> +	 * On coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
-> +	 * in the coreboot table should only be used if the payload did
-> +	 * not pass a framebuffer information to the Linux kernel.
-> +	 *
-> +	 * If the global screen_info data has been filled, the Generic
-> +	 * System Framebuffers (sysfb) will already register a platform
-> +	 * device and pass that screen_info as platform_data to a driver
-> +	 * that can scan-out using the system provided framebuffer.
-> +	 */
-> +	type = screen_info_video_type(si);
-> +	if (type)
-> +		return -ENODEV;
+Hi
 
-Given that `type` and `si` aren't used in otherwhere, the local variables can
-be dropped.
+Am 15.09.24 um 09:44 schrieb kernel test robot:
+> Hi Javier,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on chrome-platform/for-next]
+> [also build test ERROR on chrome-platform/for-firmware-next linus/master v6.11-rc7 next-20240913]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-present/20240914-053323
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javierm%40redhat.com
+> patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if screen_info data is present
+> config: riscv-randconfig-001-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151528.CIWZRPBq-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> ld.lld: error: undefined symbol: screen_info
+>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
+>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
+>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
+>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
 
-I haven't had chance to see how to fix the 0-day build errors properly.  If you
-have chance to send the next versions, please drop the local variables.
+Not all platforms define screen_info. Maybe fix this by following 
+Tzung-Bi's advice of removing the local variables and then guard the 
+test by CONFIG_SYSFB. If SYSFB has been defined, screen_info has to be 
+there. It's not a super pretty solution, though.
+
+Best regards
+Thomas
+
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+

@@ -1,201 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05654AEF2
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 09:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7E114AD23
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 10:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726478276; cv=none; b=laY7wC3i4PQObxATMy/Cp4FVdKpURIrsEXc/qJkMEROswYTh1GZHn3h0IBxmWeRws/hJzCBFGhowUvtedESSjULFzFWC452f7hUg3PjknvzT9Fllv5XkosGGCN07W5O6nCmRE8xJtVrTZT5VL96auImXp1VrdJXnvWiIkMpBMB4=
+	t=1726481620; cv=none; b=E50RjU8Ea2GEsaK/2qr3xSPY9Gd+DQQSNkpmSGiaMnkk1909FSGDdmyDyPlaGSZd4wHHPm8wh0iyMA7SG8AJNnKIYanSUUPAkqEBLrhzNgpavByDwcUEt5VoT+31fidGWEFyorxU8pCKKYbrENiS9A02Ym2UGLSiDK/1jS15KJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726478276; c=relaxed/simple;
-	bh=ajmRpK7Nvpx8Du6U5exs5Hd7Za4uy/AQUFmTiV5ajXA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tKUUjeuWvTQ9x6gY8wF5op4VWylzJeHzW13Lz53nlvJeK/uThWPhpOGoI2zJRq96Fkn9LV6v2AFpn2U9V6v3QZB2kDWH2nfy2Mh+le8KMERNLsC90Kd58fMRSnCD2lkIxEEpOB56eAIkYG1bwY55QiLBYvKe2BOFV9o6zg2KRjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JpPs063m; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726481620; c=relaxed/simple;
+	bh=AJClUZHkcOc0nIkFKgtMeGqAt/Ij2O5DgRNhQvRHDw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkLaseQ4YHy4xkPRuo9Oi+lks8TRGpEQ3voQkXnHf+yhBUKKEx8MXHfluQLko3gIhhPDj2iTA5tYJdf1MtEDPx0tjPS2BlTCDrKHnxNqN4RNNL4oISn9wdMNUzUkM8KbIAbngOMWiLyo43crOPNKxXm2LKmZGm+1iwP3GCdW1NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOuRtlLU; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JpPs063m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726478274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u4y4nz5Nv7wOUIE0PuGjkvUmulAldY5WgyA0UlbnwHA=;
-	b=JpPs063mWMpAQ2Jg1tFq/sVJeDeIcosmCxEWhJWUAI1MWWF2j9W/KxwQJ5XJtFXkGvfyYF
-	nVrPYmbCcS5w5/8aEQ7JbGCU5d+WowFZypN0bOiAUEtfnyOztmiOvmWTLPvYknVJt3iK8s
-	x7cDTaOccMi16DnVQ2t+CxU+CKvxQqU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-cG_nZz2NPJqiNr5dbxxeoA-1; Mon, 16 Sep 2024 05:17:52 -0400
-X-MC-Unique: cG_nZz2NPJqiNr5dbxxeoA-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-374cd315c68so1269667f8f.0
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 02:17:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726478271; x=1727083071;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CZlUpJD1u2D4y829v0MZ+38o7vNfH4MDWrJrr43iAOo=;
-        b=mP+Xjk+VTRHVXVM88WkeR8aGo/TosudApPScat7i6HtphcpRawwd1ZLxgHbu73SMEF
-         E7spF2zISkbv/WiIlEvWlhJ/UC94kTlzSULiEOU+xDKT8zcyKkvxzMate0Jb+cdBdR6F
-         qtJOlcVpf6oSD0uZaACOLr37wvu+fKqnuIoNCPx0Rta1xmFx5J/b5wHzgJgBt8Yw8ypK
-         BErXVAMmlkxAvUhq2LgLS+bhTy6t9yU7VH4TtvLDSdHI2ro0q/wGSgKvXDtoYfdyz9qq
-         OOFDpWmXuBDtcU0SRQkgkAP7GXKS9eAC/bH1IAypO0LhyQOanVR0TTCK2QpJ8cowb1ae
-         hsrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKSjsWtoKhlqRSxgzIjQry4ddmqWCSvTc4fc1hMcXcKSSIMhiApdiEpasnMiOD/cd9zwWpc2h7CpnsGHCACtg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbinweuqeM667dgFiT5X787jVyRbiIfa6z+3Rab94FWXbBsujI
-	8l7E1Jv24h4O1HBmtr2rudDxTvCDPOmgo6cCq0JLyD4+IXcLcg4c1zOkozQ5q97T1WHSZjfHKMr
-	cGzjI04hvvktUBrOHUSo9h08HfiRDiZZabE5YroL/5X2wxJ8SsGKaRi+yeGGjgQr9EA==
-X-Received: by 2002:a05:6000:459a:b0:374:c87c:6653 with SMTP id ffacd0b85a97d-378d625d1bcmr5180008f8f.59.1726478271526;
-        Mon, 16 Sep 2024 02:17:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFr/amHL1g9g9bIGYoMJCQHZMKTHGf7MVVMg5YL/dVBytjGa9ZBq7SHyvot4r13prMJmLQeqg==
-X-Received: by 2002:a05:6000:459a:b0:374:c87c:6653 with SMTP id ffacd0b85a97d-378d625d1bcmr5179986f8f.59.1726478270844;
-        Mon, 16 Sep 2024 02:17:50 -0700 (PDT)
-Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net. [159.63.51.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e71ed08esm6763307f8f.4.2024.09.16.02.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 02:17:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot
- <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Julius Werner
- <jwerner@chromium.org>, Hugues Bruant <hugues.bruant@gmail.com>,
- intel-gfx@lists.freedesktop.org, Brian Norris <briannorris@chromium.org>,
- dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- chrome-platform@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
- screen_info data is present
-In-Reply-To: <a6a994b0-5021-49e5-b853-a1b2abe3af2f@suse.de>
-References: <20240913213246.1549213-1-javierm@redhat.com>
- <202409151528.CIWZRPBq-lkp@intel.com>
- <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
- <8734m0atbu.fsf@minerva.mail-host-address-is-not-set>
- <a6a994b0-5021-49e5-b853-a1b2abe3af2f@suse.de>
-Date: Mon, 16 Sep 2024 11:17:49 +0200
-Message-ID: <875xqwufcy.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOuRtlLU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726481619; x=1758017619;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AJClUZHkcOc0nIkFKgtMeGqAt/Ij2O5DgRNhQvRHDw4=;
+  b=bOuRtlLUsg7H7Ys2pM0yG01NHRH6cFKKxaDVBWkVIurdUk53CenG1sbp
+   dRuZCKyACY8x1LEi/xLbGM+dxIS1xwRpW1Vh3SifXPcPyKViCQBZ11KfK
+   nONWkQdgORIR1TanGzPTl1D8bfnwMGlDiP1siALLjrCT6q+CbFYZv1RjG
+   RPn+FmaoU6vZdtL9Do9txA2GgAN99JRrCN7CdZ5/mW117V5OpBNQXCLHN
+   torSDAkAgSTblIQPNZi3279luKgagWvpOI64qOYkXHXc23h/hkrqe+EHn
+   cMqxHXE+6hhoZcgQAeKZUYCDBcHX1ZcooM1T/IprBpOAu0mz8QebmLkL/
+   w==;
+X-CSE-ConnectionGUID: 5fFiMx5TRYO3WR1qFvZ6Yg==
+X-CSE-MsgGUID: iN+5sn0jR4mSRKHXE6ZjcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="42815761"
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="42815761"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 03:13:38 -0700
+X-CSE-ConnectionGUID: 6/QFDO/ZT/CAOga95eN+gA==
+X-CSE-MsgGUID: 9nXYsiyvTTC1+eAvvYp/Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="73419425"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 03:13:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sq8jb-00000009Pyj-0z7J;
+	Mon, 16 Sep 2024 13:13:31 +0300
+Date: Mon, 16 Sep 2024 13:13:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v7 06/10] i2c: Introduce OF component probe function
+Message-ID: <ZugEyqg-2ZL2VVEd@smile.fi.intel.com>
+References: <20240911072751.365361-1-wenst@chromium.org>
+ <20240911072751.365361-7-wenst@chromium.org>
+ <CAD=FV=Udc9aP7bSzTWP82zsaztRD2YnVNpSDA54FC0dKQ-Nz2A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=Udc9aP7bSzTWP82zsaztRD2YnVNpSDA54FC0dKQ-Nz2A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Fri, Sep 13, 2024 at 04:43:04PM -0700, Doug Anderson wrote:
+> On Wed, Sep 11, 2024 at 12:28 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
 
-Hello Thomas,
+...
 
-> Hi Javier
->
-> Am 16.09.24 um 10:36 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->>
->> Hello Thomas and Tzung-Bi,
->>
->>> Hi
->>>
->>> Am 15.09.24 um 09:44 schrieb kernel test robot:
->>>> Hi Javier,
->>>>
->>>> kernel test robot noticed the following build errors:
->>>>
->>>> [auto build test ERROR on chrome-platform/for-next]
->>>> [also build test ERROR on chrome-platform/for-firmware-next linus/mast=
-er v6.11-rc7 next-20240913]
->>>> [If your patch is applied to the wrong git tree, kindly drop us a note=
-.
->>>> And when submitting patch, we suggest to use '--base' as documented in
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez=
--Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-pr=
-esent/20240914-053323
->>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platfor=
-m/linux.git for-next
->>>> patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javi=
-erm%40redhat.com
->>>> patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if=
- screen_info data is present
->>>> config: riscv-randconfig-001-20240915 (https://download.01.org/0day-ci=
-/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/config)
->>>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8=
-dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->>>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
-chive/20240915/202409151528.CIWZRPBq-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151528.CIWZRPBq-=
-lkp@intel.com/
->>>>
->>>> All errors (new ones prefixed by >>):
->>>>
->>>>>> ld.lld: error: undefined symbol: screen_info
->>>>      >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/goo=
-gle/framebuffer-coreboot.c:27)
->>>>      >>>               drivers/firmware/google/framebuffer-coreboot.o:=
-(framebuffer_probe) in archive vmlinux.a
->>>>      >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/goo=
-gle/framebuffer-coreboot.c:27)
->>>>      >>>               drivers/firmware/google/framebuffer-coreboot.o:=
-(framebuffer_probe) in archive vmlinux.a
->>> Not all platforms define screen_info. Maybe fix this by following
->> Yes, after reading the build errors reported by the robot I remembered
->> that we had similar issues with sysfb, for example commit 1260b9a7020
->> ("drivers/firmware: fix SYSFB depends to prevent build failures") fixed
->> one of those.
->>
->>> Tzung-Bi's advice of removing the local variables and then guard the
->>> test by CONFIG_SYSFB. If SYSFB has been defined, screen_info has to be
->>> there. It's not a super pretty solution, though.
->>>
->> If possible I would prefer to avoid the ifdefery in the driver. I also
->> believe that the local variables makes the code easier to read. But if
->> you folks think that's better to drop them, I can do it in the next rev.
->>
->> Another option is to restrict the architectures where this driver could
->> be build. As far as I understand it is mainly for x86 and ARM64 arches.
->>
->> These two have a screen_info defined so the driver will build correctly.
->> I can include a preparatory patch that adds a "depends on x86 || ARM64".
->
-> That feels arbitrary, as the dependency is not really in coreboot, but=20
-> in sysbf. What you'd want is a HAVE_SCREEN_INFO define on the=20
-> architectures that provide it. IIRC earlier attempts to add this have=20
-> failed. :/
->
-> If you don't want the ifdef-ery in coreboot.c, you could add a helper to=
-=20
-> sysfb. Let's say
->
->  =C2=A0 bool sysfb_handles_screen_info(void)
->
-> returns the result of the test. If you put it next to sysfb_disable(),=20
-> you could add an empty wrapper into the sysfb.h header as well. [1]
->
-> (There's still the possibility that screen_info is available, but sysfb=
-=20
-> has been disabled. But that's not different from how it currently works.)
->
+> > +static int i2c_of_probe_enable_node(struct device *dev, struct device_node *node)
+> > +{
+> > +       int ret;
+> > +
+> > +       dev_info(dev, "Enabling %pOF\n", node);
+> > +
+> > +       struct of_changeset *ocs __free(kfree) = kzalloc(sizeof(*ocs), GFP_KERNEL);
+> > +       if (!ocs)
+> > +               return -ENOMEM;
+> 
+> I guess the kernel lets you mix code and declarations now? I'm still
+> used to all declarations being together but maybe I'm old school... I
+> would have put the "dev_info" below the allocation...
 
-I like that. And when SYSFB is not enabled, sysfb_handles_screen_info()
-could just be defined as "return false;" which will indicate to drivers
-that would have to handle the system frambuffer themselves.
+In general yes, but we don't allow it everywhere for everything,
+we have two exceptions:
+1) for-loops;
+2) __free() RAII.
 
-I'll try to type the patches later today.
 
---=20
-Best regards,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 

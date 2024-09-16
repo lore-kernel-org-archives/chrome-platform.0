@@ -1,202 +1,143 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA3B34CC4
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 10:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2CB4962E
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 11:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726484131; cv=none; b=WhtCQTCNkntSrI8XUDczz6wGN/vwQOHeiniWB3ojz3i8dv4QchexoJcDid9eZ5oVul8jIpOm/KQKNP/wTbJ5pLbqaEc72IhbixJRUw+O40zTVKBJETZ4tZjXEzcZJqCdHjwvlooLbL2I9LZIFNV054/gIV9nKhColSj4E1ArK0M=
+	t=1726484460; cv=none; b=qpAaxkJgU97HfTgoL8KB9dVfN+6WAzkfKKct1JXhoSZpidzyj6Yjb9nkUfNjt1PbT4KRZovcc3HVoARrp20z6dpAbMJyCgSjUZRQYjTjGVcULQ1ZOEhAnVZOdR7DJEz5W+P5qN9K0ozMQuDer3SvJXPO1nm4nMzG0E1kQIsLFTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726484131; c=relaxed/simple;
-	bh=zdVQq5K8PIZNGz15V1HeyVqfSmTTbaI0Lk4mbOZxYPI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lGojVPYXLuAyWoGkEZvB3PRpnLHDHJtIFYY6ldokB5CWK0pXfzdBUEiktE0SJH2iXGnK5R+jinXZNqNZhZGGYT6iJsfLa4aUHl7kq5wXZl+ZUxmW1gsQel6Cuiyixn8harh5XSpz1twSdG5Dd1Vqz8b9s6OM5NZpNA6JSE7RKxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4X6hY03zmLz6K5lT;
-	Mon, 16 Sep 2024 18:51:16 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id E3D721400CB;
-	Mon, 16 Sep 2024 18:55:27 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 16 Sep
- 2024 12:55:27 +0200
-Date: Mon, 16 Sep 2024 11:55:25 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>, Saravana
- Kannan <saravanak@google.com>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram
- Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>, Tzung-Bi Shih
-	<tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, <chrome-platform@lists.linux.dev>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Douglas
- Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>, Jiri
- Kosina <jikos@kernel.org>, <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v7 06/10] i2c: Introduce OF component probe function
-Message-ID: <20240916115525.000078a3@Huawei.com>
-In-Reply-To: <ZugKHrzs5BWoDr1c@smile.fi.intel.com>
-References: <20240911072751.365361-1-wenst@chromium.org>
-	<20240911072751.365361-7-wenst@chromium.org>
-	<ZuQTFTNTBLCziD05@smile.fi.intel.com>
-	<CAGXv+5HgkCZ=vdHGgvCW1U-nid=cQrVaxC+V+H2Gknf2pnTbYA@mail.gmail.com>
-	<ZugKHrzs5BWoDr1c@smile.fi.intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1726484460; c=relaxed/simple;
+	bh=uPAoAp3jdhLurNPHVpZWvvplChtReKJvXxSCc+SLpr0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UBkm+FVg/DadmPkyiWfE3DQx0RoaMw64hj+njS3xM2KJTZvx4GiOsqUNVBMHK2/gAN73whePOHCh65dEpncLvSHj7L7njVriqN18WZorlM9+02qa3iMtCigdG0G314o2VFBI6zjn1UycuwNq3YVjnetDPbtXCtt8oxHYeC59Yzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NA9c8Nyz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NA9c8Nyz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726484456;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6WU8wjEM5waBEtcNYw4l2YQcbb7TE6+vCphAyrZI7KM=;
+	b=NA9c8NyzgZ29VrCooOFlbgfpwj75okR2bpowrxuLbrHmHIov/FuBr9+TR2aviz/+wX6e48
+	IAag+zSrVk9NeMFEWNXVeCvAcnI/0IVvRVKw9VR0u/YL2a4MuzyF4ItOSn+6j3w3WslmR1
+	ZE2yKSEErJGC5CpqPA2Kh6tLVzRT/NM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-264-ipHbBA4WMMyiWt02zKwo2Q-1; Mon, 16 Sep 2024 07:00:55 -0400
+X-MC-Unique: ipHbBA4WMMyiWt02zKwo2Q-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-42cb5f6708aso19004935e9.2
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Sep 2024 04:00:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726484454; x=1727089254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6WU8wjEM5waBEtcNYw4l2YQcbb7TE6+vCphAyrZI7KM=;
+        b=XI0rcnn0a57wpw7GQyQwcequkEb2Cc61hTHQPpWw51c4S2FPHIzQpMD/GjLmbmDZG7
+         e++soVzsS6nFjCjP+ZQ1rYVxvrOalth1s1rRfUGkMm3Aua3TUBzr1VEN/G9lNClNplBR
+         F31uxA4c1SwnAYksRT4IapaHvRtVNMNsSzUyk31/RJwY1qzWQsLDveLxO7eA6lcWORGf
+         bEr5QciLAkTlB4MW0Voe/7V+/3QMpZTr0P4M0TYdmE3Y3CwK/4sl64dbcffTrBGjYjOA
+         o5Q6gDzS4R/28qVp1aIZHM78t3PeApt9+o3ybRgdQ1ZEqK4uSrJwrsmLYEqDLOoQHWoc
+         adFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnvQkUNbXnLNHjCD9fJXDz0OvysO7E0wsnPxWV9FW7XlGXg5oj3Ck4eil0wA3cSYc3O7G/cx/o6VA2ir1ke74=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLwewUN69MRlrt+ruPLsOa0lQ54MFQgGY4EuuUFivwdqt1vJRP
+	+ifEoy0CSIvdfa8rVuxo1hAMnDqJI/qShQN/Fmr+So8Zzv933j/LvupAyhUpJft7AanKN5pU3ww
+	wPWlzzad2w4LI3bDP5kgVOiPTPN0dyDyoZg3HqxD8zhKzpkUb7SlYiiTfGBSX5pGfaQ==
+X-Received: by 2002:a5d:5f56:0:b0:374:ca16:e09b with SMTP id ffacd0b85a97d-378d61d5073mr7098338f8f.9.1726484454302;
+        Mon, 16 Sep 2024 04:00:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHL0bDYkRLWR54cWHoQ6srXlo7gK64jJb064BDuwwm746fvy1r250h1Ko4v03+pz4HMLbwFTg==
+X-Received: by 2002:a5d:5f56:0:b0:374:ca16:e09b with SMTP id ffacd0b85a97d-378d61d5073mr7098298f8f.9.1726484453789;
+        Mon, 16 Sep 2024 04:00:53 -0700 (PDT)
+Received: from localhost ([195.166.127.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42da24274dfsm74035955e9.45.2024.09.16.04.00.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 04:00:53 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Brian Norris <briannorris@chromium.org>,
+	dri-devel@lists.freedesktop.org,
+	Borislav Petkov <bp@alien8.de>,
+	Julius Werner <jwerner@chromium.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	chrome-platform@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org,
+	Hugues Bruant <hugues.bruant@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Helge Deller <deller@gmx.de>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH v4 0/2] firmware: Avoid coreboot and sysfb to register a pdev for same framebuffer
+Date: Mon, 16 Sep 2024 13:00:24 +0200
+Message-ID: <20240916110040.1688511-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- frapeml500008.china.huawei.com (7.182.85.71)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Mon, 16 Sep 2024 13:36:14 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Hello,
 
-> On Sun, Sep 15, 2024 at 12:44:13PM +0200, Chen-Yu Tsai wrote:
-> > On Fri, Sep 13, 2024 at 12:25=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote: =20
-> > > On Wed, Sep 11, 2024 at 03:27:44PM +0800, Chen-Yu Tsai wrote: =20
->=20
-> ...
->=20
-> > > > +int i2c_of_probe_component(struct device *dev, const struct i2c_of=
-_probe_cfg *cfg, void *ctx)
-> > > > +{
-> > > > +     const struct i2c_of_probe_ops *ops;
-> > > > +     const char *type;
-> > > > +     struct device_node *i2c_node;
-> > > > +     struct i2c_adapter *i2c;
-> > > > +     int ret;
-> > > > +
-> > > > +     if (!cfg)
-> > > > +             return -EINVAL;
-> > > > +
-> > > > +     ops =3D cfg->ops ?: &i2c_of_probe_dummy_ops;
-> > > > +     type =3D cfg->type;
-> > > > +
-> > > > +     i2c_node =3D i2c_of_probe_get_i2c_node(dev, type); =20
-> > >
-> > >
-> > >         struct device_node *i2c_node __free(of_node_put) =3D
-> > >                 i2c_...; =20
-> >=20
-> > cleanup.h says to not mix the two styles (scoped vs goto). I was trying
-> > to follow that, though I realize now that with the scoped loops it
-> > probably doesn't help.
+This is v4 of a fix to prevent both coreboot and sysfb drivers to register
+a platform device to setup a system framebuffer. It has been converted to
+a series since contains changes for both drivers, to prevent build issues
+on architectures that don't define a global struct screen_info.
 
-The problem pattern is (IIUC)
+Patch #1 adds a sysfb_handles_screen_info() helper that can be used by
+drivers to check whether sysfb can use the data set in screen_info or not.
 
-	if (x)
-		goto bob;
+Patch #2 makes the framebuffer_coreboot driver to use that helper to know
+if has to setup the system framebuffer or delegate that action to sysfb.
 
-	struct device_node *i2c_node __free(of_node_put) =3D i2c_....
+I haven't dropped the collected tags from patch #2 due the logic being
+basically the same than in v3.
 
+The patches have only been compiled tested because I don't have access to
+a coreboot machine. Please let me know if you plan to merge both patches
+through the chrome-platforms tree or if you prefer to get merged through
+the drm-misc tree.
 
-bob:
-	return ret;
+Best regards,
+Javier
 
+Changes in v4:
+- New patch to add sysfb_handles_screen_info() helper (Thomas Zimmermann).
+- Use a sysfb_handles_screen_info() helper instead of screen_info_video_type()
+  to fix build errors on platforms that don't define a struct screen_info
+  (Thomas Zimmermann).
 
-So a goto that jumps over registration of a cleanup function.
+Changes in v3:
+- Fix coreboot spelling to be all in lowercase (Julius Werner).
 
-Jonathan
+Changes in v2:
+- Declare the struct screen_info as constant variable (Thomas Zimmermann).
+- Use screen_info_video_type() instead of checking the screen_info video
+  types directly (Thomas Zimmermann).
+- Fix missing "device" word in a comment (Brian Norris).
+- Fix some mispellings in a comment (Brian Norris).
+- Change error code returned from -EINVAL to -ENODEV (Brian Norris).
 
-> >=20
-> > I'll revert back to having __free().
-> >  =20
-> > > > +     if (IS_ERR(i2c_node))
-> > > > +             return PTR_ERR(i2c_node);
-> > > > +
-> > > > +     for_each_child_of_node_with_prefix(i2c_node, node, type) {
-> > > > +             if (!of_device_is_available(node))
-> > > > +                     continue;
-> > > > +
-> > > > +             /*
-> > > > +              * Device tree has component already enabled. Either =
-the
-> > > > +              * device tree isn't supported or we already probed o=
-nce.
-> > > > +              */
-> > > > +             ret =3D 0; =20
-> > >
-> > > Shouldn't you drop reference count for "node"? (See also below) =20
-> >=20
-> > This for-each loop the "scoped". It just doesn't have the prefix anymor=
-e.
-> > I believe you asked if the prefix could be dropped and then Rob agreed.=
- =20
->=20
-> Hmm... I have looked into the implementation and I haven't found the evid=
-ence
-> that this is anyhow scoped. Can you point out what I have missed?
->=20
-> > > > +             goto out_put_i2c_node;
-> > > > +     }
-> > > > +
-> > > > +     i2c =3D of_get_i2c_adapter_by_node(i2c_node);
-> > > > +     if (!i2c) {
-> > > > +             ret =3D dev_err_probe(dev, -EPROBE_DEFER, "Couldn't g=
-et I2C adapter\n");
-> > > > +             goto out_put_i2c_node;
-> > > > +     }
-> > > > +
-> > > > +     /* Grab resources */
-> > > > +     ret =3D 0;
-> > > > +     if (ops->get_resources)
-> > > > +             ret =3D ops->get_resources(dev, i2c_node, ctx);
-> > > > +     if (ret)
-> > > > +             goto out_put_i2c_adapter;
-> > > > +
-> > > > +     /* Enable resources */
-> > > > +     if (ops->enable)
-> > > > +             ret =3D ops->enable(dev, ctx);
-> > > > +     if (ret)
-> > > > +             goto out_release_resources;
-> > > > +
-> > > > +     ret =3D 0;
-> > > > +     for_each_child_of_node_with_prefix(i2c_node, node, type) {
-> > > > +             union i2c_smbus_data data;
-> > > > +             u32 addr;
-> > > > +
-> > > > +             if (of_property_read_u32(node, "reg", &addr))
-> > > > +                     continue;
-> > > > +             if (i2c_smbus_xfer(i2c, addr, 0, I2C_SMBUS_READ, 0, I=
-2C_SMBUS_BYTE, &data) < 0)
-> > > > +                     continue;
-> > > > +
-> > > > +             /* Found a device that is responding */
-> > > > +             if (ops->free_resources_early)
-> > > > +                     ops->free_resources_early(ctx);
-> > > > +             ret =3D i2c_of_probe_enable_node(dev, node); =20
-> > >
-> > > Hmm... Is "node" reference count left bumped up for a reason? =20
-> >=20
-> > Same as above. =20
->=20
-> Same as above.
->=20
-> > > > +             break;
-> > > > +     }
-> > > > +
-> > > > +     if (ops->cleanup)
-> > > > +             ops->cleanup(dev, ctx);
-> > > > +out_release_resources:
-> > > > +     if (ops->free_resources_late)
-> > > > +             ops->free_resources_late(ctx);
-> > > > +out_put_i2c_adapter:
-> > > > +     i2c_put_adapter(i2c);
-> > > > +out_put_i2c_node:
-> > > > +     of_node_put(i2c_node);
-> > > > +
-> > > > +     return ret;
-> > > > +} =20
->=20
+Javier Martinez Canillas (2):
+  firmware: sysfb: Add a sysfb_handles_screen_info() helper function
+  firmware: coreboot: Don't register a pdev if screen_info data is
+    present
+
+ .../firmware/google/framebuffer-coreboot.c    | 14 ++++++++++++++
+ drivers/firmware/sysfb.c                      | 19 +++++++++++++++++++
+ include/linux/sysfb.h                         |  7 +++++++
+ 3 files changed, 40 insertions(+)
+
+-- 
+2.46.0
 

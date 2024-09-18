@@ -1,64 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7465156250;
-	Wed, 18 Sep 2024 06:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90E5188CD1;
+	Wed, 18 Sep 2024 11:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726641178; cv=none; b=jwnsPZSKJ7H1QVeM2X573PmAAKRzisycWlfr8rHSRhghYTyM2uDpK9pxv1xGKR+KzGdGitpGKIQ9oQ04pU2AO4SFtCX6MNZZrB1WYrV2NLmoTxoIA5aE1mujRLfC+NNEKzrmB9uyh1h1qHOFayC/aa1Vyvk9X0nRHddt7SU5AFo=
+	t=1726657808; cv=none; b=e4qO+8A4AmuCkfxRmCC6fK0b+e3qtdRsvKrclj9kEYYmINsnZkhtRlj9r0zC0o8ShNLx1n6HaYYdjrEySCZyJvbZg1voHrT3qB/tChTzeHAHO3tAZywf7PtTKlwJoOWUYJ46cS0F5/APXEBQT1nh81+aEEYtajxXynq4dbCFxtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726641178; c=relaxed/simple;
-	bh=bdY2oRbFUsJMSfydNZV+udNA/uUfcDC0GM+JSVjxcnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULV6hEnXYxuNumSlf9vkMW51CXcbnqQqifCvqjH2mYzWw3JOI7VP3hRLVsdtWwfei3U3+/ZpA6ulRU9+wx6sKW0H4k+LqjjbUaf/C0AAbPITtHv3zL75uEqkvbaCPLnRZE96PJCT058i6FRnvmSNukLbl2i2Ctb845G3wOgOCzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WS++DJSH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726657808; c=relaxed/simple;
+	bh=rtPRlkdGorwDPZzWdgarBSx3bWJ59nx3suyVU27QaGo=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=pD2Bydqv4bQnNKyTMa9A64xpy4+rjsk9jB8B91a2cTyOPmChQy0kSxJwvUunjsnLHMdCtidX2yqh1dlQOkQOq7+VxJ3sdJdkRkTMOyN+pdjtz8e8rw3B8ZNEEl/5z6ljwrE48X5fcteVnHBFvV884dMhBR2E7oJAiHSuv/VqrTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IuUIHQ3t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WS++DJSH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E5BC4CEC3;
-	Wed, 18 Sep 2024 06:32:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IuUIHQ3t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8375C4CECE;
+	Wed, 18 Sep 2024 11:10:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726641178;
-	bh=bdY2oRbFUsJMSfydNZV+udNA/uUfcDC0GM+JSVjxcnw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WS++DJSHcCPY/UlAXdKaANI/57tz5LIXgWwP58koFUD6Fa1zRYCt5cuA072Q8cPne
-	 VGoZrkn576PWCFkqM9VBsWQEUGAMdZ1rZY2lrOMO/fukB1keWNe2whv4bZw3gXzd9D
-	 LOnxrxOqvq42ckOOMD9dCL6CFkp9lLDS48xDAebO7sIm28ATigrHzPc9C8LVRD2Wbh
-	 oeqZzPchBLRY9q7XcEDEy65lm45pT5OAvY+UjxkOT9CAj7jIYn3HHAmeZx796w1XqS
-	 7Hm5BCWoZdXREiQPjPvm4Cnq7rL7ZUANf5lbWPcZMOh4WiYNzfumbuFMRvSqd1DirT
-	 H7nD4gj/5zKeg==
-Date: Wed, 18 Sep 2024 06:32:54 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 2/8] platform/chrome: Update EC feature flags
-Message-ID: <Zup0FgL8-J1-S1co@google.com>
-References: <20240910101527.603452-1-ukaszb@chromium.org>
- <20240910101527.603452-3-ukaszb@chromium.org>
+	s=k20201202; t=1726657808;
+	bh=rtPRlkdGorwDPZzWdgarBSx3bWJ59nx3suyVU27QaGo=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=IuUIHQ3ttj3V5Q+h2d4BlYzWPMSGMemFIkR0g07YXKzELtEZT5IkRtt4GJzw24gMg
+	 FcBlQngAxlyTKU78Ba3sWovSnCYQk6FUXcCmXUfPCTMc+xHqtYpYuLydXh0x7KttJn
+	 kQFlA1IiT93Fq/HySaCIYw2BL+Yoxt42a7whKYEq3Wz3llcRpPHbhQcf7EI1GwDqj4
+	 xSOylgKbDruZMLR44+k7o0xqFi7D/uD9W/ObDgM++RldS55QOsNfXveTzXCxF6aORL
+	 MncIwAZbD3DKuGn4wvhL57Jj6D0ALR+nuNwj59J18JjsulZkggAQCSfFKTSlFqXxPM
+	 vhvLcig310J/A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AFC343806655;
+	Wed, 18 Sep 2024 11:10:11 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.12
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZugbipY0rOAd-y4D@google.com>
+References: <ZugbipY0rOAd-y4D@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZugbipY0rOAd-y4D@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-for-6.12
+X-PR-Tracked-Commit-Id: d1b35e6d34e9b46fbf98444dd7aa114c032e9ac0
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9f39757957c11677ceb4600c81888db12b2fef5d
+Message-Id: <172665781064.783948.5077859419862391817.pr-tracker-bot@kernel.org>
+Date: Wed, 18 Sep 2024 11:10:10 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240910101527.603452-3-ukaszb@chromium.org>
 
-On Tue, Sep 10, 2024 at 10:15:21AM +0000, Łukasz Bartosik wrote:
-> From: Pavan Holla <pholla@chromium.org>
-> 
-> Define EC_FEATURE_UCSI_PPM to enable usage of the cros_ec_ucsi
-> driver. Also, add any feature flags that are implemented by the EC
-> but are missing in the kernel header.
-> 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+The pull request you sent on Mon, 16 Sep 2024 11:50:34 +0000:
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-for-6.12
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9f39757957c11677ceb4600c81888db12b2fef5d
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

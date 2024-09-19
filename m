@@ -1,113 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28568198A02
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 08:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5153919B3DA
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 09:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726734459; cv=none; b=tV8ZW+FvWSjvcp6XRFuxVwRSSNXaHVK6WtnAhCJ4XjjbMZGdT0UAlgAYIvCBpyMQsEVWVYeeIM1dxsWcFc5khCz2bwDpbBymkiHg99qeCipsNS1ISTkV3ZGE+kJWLxm9lG+zqI3Se5MRXKw+XExmSJYT8Qkl/HNwbsSJZwRbONc=
+	t=1726738707; cv=none; b=KpENT7XA9v9BRWuSNR1Ry8yr+ggiSTkveQ1ODH6bVrDmO/sER6B2LQX2eQymS+SJMNLNYJSKgfkLW2BIY5z5mWlBx8UWCEJd15pVdZod2yJjoB6r/A8hHpUbeqQx3E3/RUgCgYLQ2Uba43r70IylMq+5jPAVVmN7KTIvMVHHyGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726734459; c=relaxed/simple;
-	bh=QcDrd0Bom5f8U4n+mF62zsdk2ksV99gv9Jp1224bNKA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Nw1y2b86ASTOowG671pnysMiA6fRjYM5B6dMh85N2lBefkCjslGRbuE+t5eWfG28QYIUnbRcaUQ7pSo4wWzWXg4AAI0EZfVwH6QWnQlmq1b+OM0m3UsRimsLGh58dq2OqZKXjJI6fTqJL7fCZOF1zOx6sM5OOoNU4s6kY3YytRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YvwJvwUs; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726738707; c=relaxed/simple;
+	bh=6zgIlf2g4FasRB9SZXjDti0mnh5q9PH51K4Miuw73eA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uksAr3tv+cjqSTqomyl4QExjFbFfJ0ECHlFqao2CJwvTu4dzJHx4cIBkazsAVxwVogvQl2redH+h5Xin6XxgAcFzBFNc806k3ehmCRSZDQJPfF5EUql3Q5iT2PmpTQoXfGMoWkAL6oMHabhZaXrmHstsrqtG8BIVV3I0hmZ1/X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4HshIq3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YvwJvwUs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726734457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lArsEJUM9CVWI7GJs9U6NCil92cWLLEKF6YZxDN2YT0=;
-	b=YvwJvwUspxT2qCy3dB1yESS6IVJJpz4dXrrVkaQZxKpZFBVJuwVVqZSVLqlduguPAeQ/9C
-	XqTzcckSiKOTn52cDZ+YcKuEWmYK/FuGOlqeQ8u7wcinqDLgoq+OwHAiRQsgnVUPhs+Gd8
-	N9Ju3tzodkZ4I4Cd5SIuGs8rR+DuJBw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-220-R8Q3XljvPT-RV9gP3odPag-1; Thu, 19 Sep 2024 04:27:36 -0400
-X-MC-Unique: R8Q3XljvPT-RV9gP3odPag-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-374c294d841so382121f8f.1
-        for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 01:27:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726734455; x=1727339255;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lArsEJUM9CVWI7GJs9U6NCil92cWLLEKF6YZxDN2YT0=;
-        b=i0rwIQ5yx6XoeDn1tUcM9nylDOQxkU6WQ9WMOYll1JWlNiwkyRzlUM2y9y35rxABJw
-         N4D/3gfYS37ed0xCafLqB+2Pl6H+P+UQaLOnqpSc0Q69eOE5MIT0CxgCXwkHGi6wXYfg
-         ow3xKhnX41MUYp/0uL3C8ZYm4ShjOrVi52huUeUe738Z6EbGuZqrk0zV47jStUzd9bgJ
-         afqfP1g4kKyaf8jByD905hHwkYL3Kf8FZJY7Txj7jKZFKzLDRCoc6B+29SxMWkaaQUPe
-         Da2GwOyRjpTRcxqjMjzq5zhov23s2wOFt/WCIygtp9lEw48vtlaNYFRaqoZdFXQKtnNf
-         UNeA==
-X-Forwarded-Encrypted: i=1; AJvYcCXmzhzj/qrajtvJ13Pk0is/aQzL8t4nwkEClwqfwvULzBR0e4YeEUuN9kdP0ny8q8CcgkCg9VyZI4D8EYUjvk4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzs22e9cqRXpcUZ94jl0crlxZkqC0KxyY1XiCJ9S7XOlI4YbYJi
-	QArYROZ/3LV1vKvOS105YuOfTm8XyeQQpZtBZSRlRv2LqcAipZ5x54g21gPXNfXgtHNtxIZcyqz
-	Sfw07ZRd2kN9v3zXsOjkn+PUlPZlDpjnRY4qEWvu+GcFrUvvkoUSE834xDIWQP1UI9w==
-X-Received: by 2002:a5d:6348:0:b0:374:c6b8:50b5 with SMTP id ffacd0b85a97d-378d61e26bemr15418159f8f.17.1726734454758;
-        Thu, 19 Sep 2024 01:27:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEmvESs/4+ZH+exTPNQkONx+oj5rCX6nhIeWJM9Ry/Lu9oxFoPa8CRU7XyqEcFx+oZrT/mAWw==
-X-Received: by 2002:a5d:6348:0:b0:374:c6b8:50b5 with SMTP id ffacd0b85a97d-378d61e26bemr15418133f8f.17.1726734454291;
-        Thu, 19 Sep 2024 01:27:34 -0700 (PDT)
-Received: from localhost ([90.167.95.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e780578csm14623798f8f.109.2024.09.19.01.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 01:27:33 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Brian Norris <briannorris@chromium.org>,
- dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>, Julius
- Werner <jwerner@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- chrome-platform@lists.linux.dev, intel-gfx@lists.freedesktop.org, Hugues
- Bruant <hugues.bruant@gmail.com>, Alex Deucher
- <alexander.deucher@amd.com>, Dan Carpenter <dan.carpenter@linaro.org>,
- Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v4 0/2] firmware: Avoid coreboot and sysfb to register a
- pdev for same framebuffer
-In-Reply-To: <ZuvVf5XRMqjD8G9T@google.com>
-References: <20240916110040.1688511-1-javierm@redhat.com>
- <ZuvVf5XRMqjD8G9T@google.com>
-Date: Thu, 19 Sep 2024 10:27:32 +0200
-Message-ID: <878qvojbez.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4HshIq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726738695; x=1758274695;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=6zgIlf2g4FasRB9SZXjDti0mnh5q9PH51K4Miuw73eA=;
+  b=l4HshIq3ENTAALapfannG6xUsw3KhWk+p1ggfnVv2ASZRwA7BXnA4kOG
+   CEmrraYFNvcssSG4WbiWrp1v6uxdG3tJYh35UnKv8qkwE8Ektkpgu5x5g
+   QOEUYezMZE6Ht9s6K3KFD3Lo7+OOe8n83xrgfi4+98G+LfQ1+jYl+z1v4
+   HL2uXf8DI7rolCnNgDRpAaDZ3zMt7LyA6hRYXgGjvBBbp2E4v1KsO8EHk
+   AC9ORLOGArMOSExDQ7UB0Nu6PR+O/myIUbjmgt+cGsMdljomY1EjcLLIt
+   2r1Uh2TtEeeQbhBflwiOhGDwAx18117fqdS7tGFp8V3VY/6gGg4SCvbnP
+   w==;
+X-CSE-ConnectionGUID: Cu+8Qpb3SuKcoWMZGj8w/Q==
+X-CSE-MsgGUID: huZB0qJDTJS7tCeenWJyDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36819147"
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="36819147"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 02:38:14 -0700
+X-CSE-ConnectionGUID: ldBceI2yT+upVN9vD1az3A==
+X-CSE-MsgGUID: u8/7oFQkSsutQR0x0zrhGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="74855169"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by orviesa004.jf.intel.com with SMTP; 19 Sep 2024 02:38:11 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 19 Sep 2024 12:38:09 +0300
+Date: Thu, 19 Sep 2024 12:38:09 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+Message-ID: <ZuvxAQmMsnIYZMTP@kuha.fi.intel.com>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+ <20240910101527.603452-7-ukaszb@chromium.org>
+ <ZuGkMiE3sHOpo/Ci@kuha.fi.intel.com>
+ <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
 
-Tzung-Bi Shih <tzungbi@kernel.org> writes:
+On Sun, Sep 15, 2024 at 12:08:45AM +0200, Łukasz Bartosik wrote:
+> On Wed, Sep 11, 2024 at 4:09 PM Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Sep 10, 2024 at 10:15:25AM +0000, Łukasz Bartosik wrote:
+> > > Add netlink to ChromeOS UCSI driver to allow forwarding
+> > > of UCSI messages to userspace for debugging and testing
+> > > purposes.
+> >
+> > Why does this need to be cros_ec specific?
+> >
+> 
+> You're right. Netlink does not have to be cros_ec_ucsi specific.
+> Would you like to have netlink in typec_ucsi ?
 
-Hello Tzung-Bi,
+Does it need to be netlink? We would then have tracepoints, the
+custom debugfs interface, and this netlink interface.
 
-> On Mon, Sep 16, 2024 at 01:00:24PM +0200, Javier Martinez Canillas wrote:
->> The patches have only been compiled tested because I don't have access to
->> a coreboot machine. Please let me know if you plan to merge both patches
->> through the chrome-platforms tree or if you prefer to get merged through
->> the drm-misc tree.
->> 
->> [...]
->> Javier Martinez Canillas (2):
->>   firmware: sysfb: Add a sysfb_handles_screen_info() helper function
->>   firmware: coreboot: Don't register a pdev if screen_info data is
->>     present
->
-> I'll queue both patches through the chrome-platform tree for v6.13 if there is
-> no objections.
->
+I think this information could be exposed via trancepoints (unless I'm
+missing something).
 
-That works for me. Thanks a lot.
+Br,
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+heikki

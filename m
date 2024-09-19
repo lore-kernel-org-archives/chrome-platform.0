@@ -1,96 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1804419D09A
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 12:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BB819D8BB;
+	Thu, 19 Sep 2024 13:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726750382; cv=none; b=S+vF7Xojnhdo5JvrPm+/pQBcY+Lw8TctqHnvwnJ/7pF9XC1j8zuigh0GFy0TGPqhs0XyzKVHs7mIniTMTt2Ortn/4bzkRXC+38smu+Om9GKOULJPWsr63CbWqCJo1sQWrjivKr2jNHUmYyfHV9lGbmhspQt3cp5kYxDvPD6SOA4=
+	t=1726753330; cv=none; b=ppYnwo15xCtm+NYVoecZkWB8L/iUanqhzk3IK6+wkjcZOShx1cQ5+AybiaAXwRuNhuMy2/RYY0TpPiRdZmkkSOj3lrk/V+5OChY6sPWeLlIQOsF1QEhQM1y3EQuR4HKhxr7S6vofmp/nn2oIyOlyPs4tztQx/cnNYp7XP4AdljM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726750382; c=relaxed/simple;
-	bh=Mf3pefzGUAWAc/sUj2Gsaf/ptQNmoyfhxcs6dEi8p70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3NmX/a+zlvnEaSq6Kw4dC+b9LYYZrhWoqcCU2IBIUGiOiUvJMHGEypjMQTfPS8I8+0cmDXbGo/H2nC5XaMB8JYDMdelb0iVE+cxXmXGpgzs4jWa5V6j4m4veRmcB46uhfkoUodJpClc03bds54I5tDmDAJqcWXP9zUs5t0+qdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S078Sdpt; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726753330; c=relaxed/simple;
+	bh=Ddg68ZWVidcqPqMiyOPkT4CJlaowbdtqhlHc9z5kbD8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=hldlZdlfiej/Fn/c+DPGUQwz7QJWoGMd/M+7Pi9kbXsER3Aqlgpf8FoMcMBSKFIioTgiDP+5Q/O9M+HYHeSocm56sjA7qoFnX3tR+eEI4UqW1HaBW/XmWqnPWnAwwtOD89nQ4FQoJBWOoEfqmJgoki6syy+43eawtfdg27rXLqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbhM8SH1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S078Sdpt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726750381; x=1758286381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Mf3pefzGUAWAc/sUj2Gsaf/ptQNmoyfhxcs6dEi8p70=;
-  b=S078SdptJ03bdc9414c7nx6w+jQ7JW+EVnGOtcCoCozyWI11rmZnmwHl
-   t4Evmn57ULZPriGUsnzKVXX1YC67xjlmB2Bf+kdi7anzb/Rte9EXdtHz0
-   UhwJpJNbs1fy9TdCjveeW72BZ99mGnW5NIs1wyX3CwulcXDCw8cFkIPzf
-   p2YiIXpFHF+AUS74lO6YDfFstalfS4M9N1lVmgr65Vb82XjRVpkT3/DTX
-   30X/RKeU1gHyybWFw3IP5U8ZMEzuqOe5uHHHicJZe9TY3ep8GmjnxDpbE
-   y8HjR60KB9xMmsO/iDg7H/MCy8CFCbwiFJxZLnktc7jImY1xtsaAWiHma
-   A==;
-X-CSE-ConnectionGUID: IdeZYUssTa2lWW5v4UvIjg==
-X-CSE-MsgGUID: FAeqwo6xTD6dmhWagiv+fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="43226432"
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="43226432"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 05:53:00 -0700
-X-CSE-ConnectionGUID: LDZeXBs+QLGhru/FuHC+gA==
-X-CSE-MsgGUID: cpR+mQ7SR/y0A2HEB6O3NA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
-   d="scan'208";a="70048703"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmviesa008.fm.intel.com with SMTP; 19 Sep 2024 05:52:57 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 19 Sep 2024 15:52:56 +0300
-Date: Thu, 19 Sep 2024 15:52:56 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 5/8] usb: typec: cros_ec_ucsi: Add trace events
-Message-ID: <ZuweqBOt_53n3HPA@kuha.fi.intel.com>
-References: <20240910101527.603452-1-ukaszb@chromium.org>
- <20240910101527.603452-6-ukaszb@chromium.org>
- <ZuGcw9y0hIiuIXvK@kuha.fi.intel.com>
- <CALwA+NbY1qbV_01NcOSN=C=9hiE3UV3aYvrKzaGKm95Q2EQ8EA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbhM8SH1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76145C4CEC6;
+	Thu, 19 Sep 2024 13:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726753329;
+	bh=Ddg68ZWVidcqPqMiyOPkT4CJlaowbdtqhlHc9z5kbD8=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=FbhM8SH10VlPVNRQcY/DjuP42fECdCKIJGh5BhrPQxfHrOOUipi6XofvcQcU5A7y5
+	 9PqgtmvblaM/DOaH39C4LiTKllBWSS6i2qLvP9ZTtGXKH8PhF4kqOZ64IueKaHz/nN
+	 0P4mqhfyWVQFZqNIs5Uo2KAQ8kZpoTGJ6al6E8xoiKQ/W7YTr9u+ZOpM8b9Ic4Cx+1
+	 /zEC9vvX//Z2/AMDy8eNRSWw6AE1+inMEuAEXzSLH7hODPuxK+fJLXrIQFzdZVEKi4
+	 KG5E3lOOo1koM9q1R2wupKs/7GxCtf7n3LRyfQ1aoA7M+BJxxhKxDCb1J7TfkeNXye
+	 BXK3rCMbuS2SA==
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALwA+NbY1qbV_01NcOSN=C=9hiE3UV3aYvrKzaGKm95Q2EQ8EA@mail.gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Sep 2024 16:42:05 +0300
+Message-Id: <D4AAYUVJV9D1.J8XJ05EIL9ZL@kernel.org>
+Cc: <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
+ <apronin@chromium.org>, <jettrink@chromium.org>, <gwendal@chromium.org>,
+ <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH] MAINTAINERS: Add Google Security Chip entry
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: <tzungbi@kernel.org>, <peterhuewe@gmx.de>
+X-Mailer: aerc 0.18.2
+References: <20240919055754.2036555-1-tzungbi@kernel.org>
+In-Reply-To: <20240919055754.2036555-1-tzungbi@kernel.org>
 
-Hi Łukasz,
+On Thu Sep 19, 2024 at 8:57 AM EEST, tzungbi wrote:
+> From: Tzung-Bi Shih <tzungbi@kernel.org>
+>
+> These are Google Security Chip drivers and are mostly used for ChromeOS
+> platforms.  Add a new entry for them.
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8a76c256229c..07dc83e01216 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9593,6 +9593,15 @@ S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
+ux.git
+>  F:	drivers/firmware/google/
+> =20
+> +GOOGLE SECURITY CHIP DRIVERS
+> +M:	Tzung-Bi Shih <tzungbi@kernel.org>
+> +R:	Andrey Pronin <apronin@chromium.org>
+> +L:	chrome-platform@lists.linux.dev
+> +S:	Maintained
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
+ux.git
+> +F:	Documentation/devicetree/bindings/tpm/google,cr50.yaml
+> +F:	drivers/char/tpm/*cr50*
+> +
+>  GOOGLE TENSOR SoC SUPPORT
+>  M:	Peter Griffin <peter.griffin@linaro.org>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
 
-> > This does not look cros_ec specific. Could you check if this could be
-> > made part of the ucsi core tracepoints?
-> >
-> 
-> Good point. I will look into it.
-> 
-> > I can also look into this more carefully, and throw ideas if you like.
-> > Let me know.
-> >
-> 
-> I would definitely like to hear your ideas on the topic :).
+1. From now I expect either give reviewed-by. That helps also with my
+   decision so I welcome that of course.
+2. In the end I pick drivers/char/tpm changes. This not because I would
+   want to cr50 specific changes but because I want to make sure that
+   they fit to the context.
 
-This information is more or less the same that you would like to get
-from that netlink interface, right? If that's the case, then is there
-some reason why you want to get the same information from two
-different interfaces? Sorry if I'm missing something obvious.
+With those constraints:
 
-thanks,
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
--- 
-heikki
+BR, Jarkko

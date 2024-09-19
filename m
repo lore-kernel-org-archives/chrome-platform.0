@@ -1,93 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BB819D8BB;
-	Thu, 19 Sep 2024 13:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C423714A96
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 18:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726753330; cv=none; b=ppYnwo15xCtm+NYVoecZkWB8L/iUanqhzk3IK6+wkjcZOShx1cQ5+AybiaAXwRuNhuMy2/RYY0TpPiRdZmkkSOj3lrk/V+5OChY6sPWeLlIQOsF1QEhQM1y3EQuR4HKhxr7S6vofmp/nn2oIyOlyPs4tztQx/cnNYp7XP4AdljM=
+	t=1726769032; cv=none; b=iqk4rGCh7NElC/kmUi246ozSilJOBeQykq7QBMVlFlxjCXqx6oJSxPsuxyCWp3unidAvymS/YtrtNfbThejEGC4ieBArm4rhVwMNd1BDsBEwLitr7Cf+/dOHzH7TRfB2Gghd7OlFefwnXGFZVeK3RPwSDDS+Lp8p+tseUIWkiOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726753330; c=relaxed/simple;
-	bh=Ddg68ZWVidcqPqMiyOPkT4CJlaowbdtqhlHc9z5kbD8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=hldlZdlfiej/Fn/c+DPGUQwz7QJWoGMd/M+7Pi9kbXsER3Aqlgpf8FoMcMBSKFIioTgiDP+5Q/O9M+HYHeSocm56sjA7qoFnX3tR+eEI4UqW1HaBW/XmWqnPWnAwwtOD89nQ4FQoJBWOoEfqmJgoki6syy+43eawtfdg27rXLqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbhM8SH1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726769032; c=relaxed/simple;
+	bh=Q+WUh7HOz489PHwGkH+G04XUdi/ognfyKOKhgp2Paxo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FN2WwZnrSMmXX+qcQCXRwnV0G7Sm5W7VFiqhyV2033JnfDFd48QDi7NOcaHmc4fjdKpk+c9PLSpIw6my8aA+oeFGL84HHQxCAW/67JPlm8Ej6witSway5qZZThs075g+P9g4osqVdGtFjee0fPueyop85NAGkMg9ziTbsBrcqjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AzpltY1x; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbhM8SH1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76145C4CEC6;
-	Thu, 19 Sep 2024 13:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726753329;
-	bh=Ddg68ZWVidcqPqMiyOPkT4CJlaowbdtqhlHc9z5kbD8=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=FbhM8SH10VlPVNRQcY/DjuP42fECdCKIJGh5BhrPQxfHrOOUipi6XofvcQcU5A7y5
-	 9PqgtmvblaM/DOaH39C4LiTKllBWSS6i2qLvP9ZTtGXKH8PhF4kqOZ64IueKaHz/nN
-	 0P4mqhfyWVQFZqNIs5Uo2KAQ8kZpoTGJ6al6E8xoiKQ/W7YTr9u+ZOpM8b9Ic4Cx+1
-	 /zEC9vvX//Z2/AMDy8eNRSWw6AE1+inMEuAEXzSLH7hODPuxK+fJLXrIQFzdZVEKi4
-	 KG5E3lOOo1koM9q1R2wupKs/7GxCtf7n3LRyfQ1aoA7M+BJxxhKxDCb1J7TfkeNXye
-	 BXK3rCMbuS2SA==
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AzpltY1x"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5356aa9a0afso2014154e87.2
+        for <chrome-platform@lists.linux.dev>; Thu, 19 Sep 2024 11:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1726769029; x=1727373829; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q+WUh7HOz489PHwGkH+G04XUdi/ognfyKOKhgp2Paxo=;
+        b=AzpltY1xioWv1Z+Jz6ISKFCmu7hM6/uTYKE/AG688SCM2j9D/IXeK4yAxaXvQrnaec
+         6rKjKeU8Pz3OQZJxJQxLAF/sngP1Yy752dlToSkmPTdML9Ofl3iKgcGHKoKB5we7FPtJ
+         7PJyOtPxK08Yt0y586xuD5klYWJ6eStnOy1rM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726769029; x=1727373829;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q+WUh7HOz489PHwGkH+G04XUdi/ognfyKOKhgp2Paxo=;
+        b=ChB6ZHagr4lIxJ/qcSh9t/xBcP+mEni78yl1kIlxfGyLzUkndIvgpPECNk1Gn5GqM/
+         AyRjMvHL40SdoC7tufIGVCN4QToJM9NGZ9hydq1CRsQXwEl2kdID0uwi/FqyH7JsBQ3F
+         2HquzqyiDkTh3eYZPCDCv4boVZnH/JpnjFF+1tvG1/mDZGIlXcTHZgKVkuMTDirTtMx/
+         7vaYgsUkEmRxkIRlxAjm3p7xJbU4Ug+Uqd0+Pedc21EdWfoGVeylQuw0fcbv3yLzWt8P
+         7buuHI8yebcKB1mx2WTq1qxgrz6fbPOBKsqefIF1o/slf6+spIAWMqH5AY4WmGH2W835
+         xjJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVT6pgD/vxcomm/Rr6U7JbxU/Ls3NgmFuEJ8JyEkKUChOcyTmgNvKtP/YzyvWenXFJHPmiZNZ66SX7gmqnWQwc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yze4Ls/j5QhzhfYGCo3X6hQ9LEBRk3pdoEZm2sbmSTpiY6xgJUs
+	HvAYeV3CUhJDcppQqIdzQWKbfAfZ2/1S0XDzLfK9w5MEDz/cUaffskc/82oqMAUF5cCJTYfEBzt
+	jVQNuziGccwHWyYMCyUYNjVvOOukj/1NROkU=
+X-Google-Smtp-Source: AGHT+IEynQGkNP4WbeFQP6jpDWrH9yOKb6T8S/4juXfQlmxAEKATqQezRqfjbwE27+/f/DlyTlM6/xaGwqhTrbpg+a8=
+X-Received: by 2002:a05:6512:3ca6:b0:530:ab68:25c5 with SMTP id
+ 2adb3069b0e04-536ac2d6aa1mr173978e87.2.1726769028765; Thu, 19 Sep 2024
+ 11:03:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20240910101527.603452-1-ukaszb@chromium.org> <20240910101527.603452-7-ukaszb@chromium.org>
+ <ZuGkMiE3sHOpo/Ci@kuha.fi.intel.com> <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
+ <ZuvxAQmMsnIYZMTP@kuha.fi.intel.com>
+In-Reply-To: <ZuvxAQmMsnIYZMTP@kuha.fi.intel.com>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Thu, 19 Sep 2024 20:03:37 +0200
+Message-ID: <CALwA+NYmKm0sVT=NPfJU7Ena__P5ec451nhViXFhK9BYu87jxg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pavan Holla <pholla@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Sep 2024 16:42:05 +0300
-Message-Id: <D4AAYUVJV9D1.J8XJ05EIL9ZL@kernel.org>
-Cc: <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
- <apronin@chromium.org>, <jettrink@chromium.org>, <gwendal@chromium.org>,
- <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH] MAINTAINERS: Add Google Security Chip entry
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: <tzungbi@kernel.org>, <peterhuewe@gmx.de>
-X-Mailer: aerc 0.18.2
-References: <20240919055754.2036555-1-tzungbi@kernel.org>
-In-Reply-To: <20240919055754.2036555-1-tzungbi@kernel.org>
 
-On Thu Sep 19, 2024 at 8:57 AM EEST, tzungbi wrote:
-> From: Tzung-Bi Shih <tzungbi@kernel.org>
+On Thu, Sep 19, 2024 at 11:38=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
-> These are Google Security Chip drivers and are mostly used for ChromeOS
-> platforms.  Add a new entry for them.
+> On Sun, Sep 15, 2024 at 12:08:45AM +0200, =C5=81ukasz Bartosik wrote:
+> > On Wed, Sep 11, 2024 at 4:09=E2=80=AFPM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Sep 10, 2024 at 10:15:25AM +0000, =C5=81ukasz Bartosik wrote:
+> > > > Add netlink to ChromeOS UCSI driver to allow forwarding
+> > > > of UCSI messages to userspace for debugging and testing
+> > > > purposes.
+> > >
+> > > Why does this need to be cros_ec specific?
+> > >
+> >
+> > You're right. Netlink does not have to be cros_ec_ucsi specific.
+> > Would you like to have netlink in typec_ucsi ?
 >
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Does it need to be netlink? We would then have tracepoints, the
+> custom debugfs interface, and this netlink interface.
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a76c256229c..07dc83e01216 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9593,6 +9593,15 @@ S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
-ux.git
->  F:	drivers/firmware/google/
-> =20
-> +GOOGLE SECURITY CHIP DRIVERS
-> +M:	Tzung-Bi Shih <tzungbi@kernel.org>
-> +R:	Andrey Pronin <apronin@chromium.org>
-> +L:	chrome-platform@lists.linux.dev
-> +S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
-ux.git
-> +F:	Documentation/devicetree/bindings/tpm/google,cr50.yaml
-> +F:	drivers/char/tpm/*cr50*
-> +
->  GOOGLE TENSOR SoC SUPPORT
->  M:	Peter Griffin <peter.griffin@linaro.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> I think this information could be exposed via trancepoints (unless I'm
+> missing something).
+>
 
-1. From now I expect either give reviewed-by. That helps also with my
-   decision so I welcome that of course.
-2. In the end I pick drivers/char/tpm changes. This not because I would
-   want to cr50 specific changes but because I want to make sure that
-   they fit to the context.
+Hi Heikki,
 
-With those constraints:
+I agree that there is a common area which is covered by both trace
+events and netlink.
+However netlink also has advantages which IMHO trace events lack. One
+of our cases is that
+from userspace it is easy to forward the UCSI messages to a Wireshark
+with a plugin
+which can decode it. Another case is to use UCSI forwarded messages
+through netlink
+for testing and validation of chromebooks.
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+How about leaving netlink specific to cros_ec_ucsi driver ? Would you
+consent to that ?
 
-BR, Jarkko
+Thanks,
+Lukasz
+
+> Br,
+
+>
+> --
+> heikki

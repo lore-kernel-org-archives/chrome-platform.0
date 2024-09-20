@@ -1,152 +1,116 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5A717B50A
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Sep 2024 13:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2FF22EEF
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Sep 2024 15:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726839696; cv=none; b=KtNdnKT+CaFh/RksZ8jTVCDfI7Z//NXX7nI7eG7vfjNg2BVFwYkkaD16oDBnu66BIRB7f0dUjZ1uzJw23AyqR9HUZ7S6HuyEpBG8Im+4hJjX3n6iTZGMwXRBtJ6v+kjl0swS88LyX91rWF5WxG24yrICv7jSkTRDApqqbgSRk3c=
+	t=1726845303; cv=none; b=Fz841FfRFRTvNQvDbohXPWzwOTXf0fRiD884cyYgXpzLhSJBIXjx45gY13TBG6m3uPanC/RBqbHbIxK3f3/UWk/YvoXmvhgkMsj11ROu8qzGZrRNlbqwqEjjZWpjiAlmYa+qvGRqyujXGRGh3VrbMu0wYvJleGTvjjMAhruT/2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726839696; c=relaxed/simple;
-	bh=F6XBYwiicyA+nj26vjDbYS6rMplMwRTiMlA0bkAHKZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/7WLZtaBxfdOgCllzIJI8s1a/y8u2i+7oV+Or/GVmTJOCmH6SwHJzCQin+YK5GNV2AE9TqWUs+/hbRebGR0f9WErGGXSwR+SkJYVGRR3563F5lO5LQGRC9RXMhjcdGChLmg54gX0IdVCv7S/XXXD0/fMyWdcHhFp/lP7e7WX+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mc9VGbk4; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726845303; c=relaxed/simple;
+	bh=cFsBr3StkDCeC1vkQ3JDhtM2ONKt/sit8zF6d+bX2hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BOBmyhLkAZMMrVOJzJx9agMl6y+IMR8G3kiY9gCePveXWUTo7U3KjL8P3d/vl8KN9FIDfumXvANUlhEfM7nMNZYabEpWj+dZSWqlAT966bpAIJgH/1xBZwiixe6Sse26UR617XbSKEeKGr9hB9Nd/JNxtRzyzJ3fg5eC+dnJNkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=SqA8bPB9; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mc9VGbk4"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53661ac5ba1so2166200e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 20 Sep 2024 06:41:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SqA8bPB9"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42ca6ba750eso13838605e9.0
+        for <chrome-platform@lists.linux.dev>; Fri, 20 Sep 2024 08:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726839692; x=1727444492; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cy8eJSiB/nOK0MNLeFOudgQDV58ne9sCKlAuyt+d5bs=;
-        b=Mc9VGbk4lhmc3tWkojjhvyj/H55ZBCaGG5xdYeZ3/UHs8gTs/3D4SvgQJZHvoDf5Lx
-         KEq8EN6NxtOvljA3oKnR/Qh0WwUn3hbpsy0OxE4DoqK81RvIkUYyPDlI1w5CF7Hgl6zZ
-         jVnVbAkFlF1bt5YVX8rowgEz6jdEQsmqg5eLryIPQPGn4jtRJSy6qrlT1uE1VfxKiOX3
-         KJtEaSaC0Zk5JYDtNRJodVMmfbIu1LUuOeGrCwZimOxwU1H/45s+B5Ac2oC9MYrVao/Q
-         cNsK8bAgrdQeW1TiECsONpdBOz4mxNAMXaSz02Vj1dm8ki8tdqWiD+9f+WwGtTSC4evy
-         Nb8g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726845299; x=1727450099; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pHiGHAJi4ckF5J23vXeAUFRDau76ehm8ei3Xr3mR6yA=;
+        b=SqA8bPB9MxZZiBTOxjd1OU61N3rZGBFgeDo/OM/e2SKgs+em+0GvovOn5fZDrGiOiY
+         GWzqBdEj4x9pKyTo7ccbYBpra6DK/xAGVB2j+xtcxgz1VK0A5GKAFczwZY2kyuHp6xhX
+         OVrI7bIQFXLaz5Mxeg+Gev4UoYT1SS2esGmHz2fagisVIateoF7kptuFxk/1e4hWuewB
+         aqoYr8kV8V7lgyRwhqcHo0I/vmJtEU9Z570OGhixmirLEkHYQAtESlMqYHm0yee65Dk8
+         WqSJzb0wp4Wknu+v9XpdcWJq80ynFjfcFSEhNqVetWt27whVm+ZMOG4pPib4aFfkI9+8
+         DELQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726839692; x=1727444492;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cy8eJSiB/nOK0MNLeFOudgQDV58ne9sCKlAuyt+d5bs=;
-        b=tjq7ALt2OUv1Sqqu6F/E8yWet+Tf+laq/cLEeFB65Td+VMktsT4lBmTBDgkJyyWWUE
-         5VIpPj9NgM7AR+3fOl7vj9pqfeSkIu+WI7MKrYahyA3iBt6nNITrCiopuXE6tgVa4tkC
-         TuKg/oUEzsmM3nZsdWCkrYMFGPG0XzFxyHnBHMXZkUMapOEVoU8sxqVLGp/r+6ONlDq7
-         0KYZyXAqDT8bWAjpXLPcaFeofXUuPKw/NBkcnbAy9xu/jBVAMFN8VUt+Wr4Dm9agKIkn
-         037eTOf4cWyYyT4j6vig11slGdPDFbfE/pSep95TddwPWUc382HjgBUR9/AuAbF/dvEw
-         a6qQ==
-X-Gm-Message-State: AOJu0Yzuhrrje5nm0PZkUMZvkOS6EGIkwJezVDjVCebaTXYGvUbXxUQQ
-	3rl0SjHuoV3OFzanCUL2FTMGcRCcHHvFOJzFWU/4zaVAGslKzEsvWXUbBA6Yylc=
-X-Google-Smtp-Source: AGHT+IE3spKxFlKow+XZEn/pdnVcnC7xAb2KymB9nWls7Ajtm+SQAP7jVkeioCLRLwIL4VXLIlrZbQ==
-X-Received: by 2002:a05:6512:3192:b0:52e:7656:a0f4 with SMTP id 2adb3069b0e04-536ac32012emr1856875e87.41.1726839692396;
-        Fri, 20 Sep 2024 06:41:32 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5368704dbc8sm2166041e87.101.2024.09.20.06.41.31
+        d=1e100.net; s=20230601; t=1726845299; x=1727450099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pHiGHAJi4ckF5J23vXeAUFRDau76ehm8ei3Xr3mR6yA=;
+        b=R14Ji4SoRRByeQ21ylETggTY7NuyZlIjs6dTMgEcsq6g9S0cVfq4ZweGrgE1QlzzaU
+         NU68UhnPa3BiCpaWJOJgxVJNSmBwNzry1Wuw0LjkSNTf8QnaJ3wJYSvCkjYPBq03sRrJ
+         I0f//IPEqfpdCGDxIBQ337b1f4OhDdiJhP/7xKDiKoZCHV+ddG+D+zqSCKpJ9zT8s2ZZ
+         byd039sZUJiGPyKCOsPMkt05TgK4a2zDnxZe0nOgCb24bjlR2xpnnLSyC+RmZkiD5EVd
+         DrYjEJB0nydKd+p5XcFFWE0i7qJMVe+Liw3mghEzUJpy6af4//xT3a4LoRTzEuITqZO0
+         5BdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdBRNK8Vk/UR+BLc0rRf5uG9yr9IKEedbr4Ey3TaVEmK+sKTp0e+hx8k3rNrYQysijADrITPBjiu8mGckoCeQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8dDJeNDI/Zj/xV3dktNtQ4oIpEO8dbggyzHDbemOxnoi2RwTq
+	Kejm6kxKmtH+fDjRgc23E5u2K9KDITNEJtJLj/LlU/WLHfgplCwv8t1beIzo1mU=
+X-Google-Smtp-Source: AGHT+IEmi5EtcdfwL5XnbjPphIYjmpZZkHKmQgWgsYHclKsuRdZIQwwOgpkhSEDE92EmXRp8B2C+5A==
+X-Received: by 2002:a05:600c:1d27:b0:42c:baf1:4c7 with SMTP id 5b1f17b1804b1-42e743f27ecmr43466235e9.4.1726845299028;
+        Fri, 20 Sep 2024 08:14:59 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7afd598dsm25665665e9.25.2024.09.20.08.14.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 06:41:31 -0700 (PDT)
-Date: Fri, 20 Sep 2024 16:41:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v4 01/18] drm/atomic-helper: Introduce lane remapping
- support to bridges
-Message-ID: <vbb7uo3xszign2mjkciclrsbajf53btfguwhixueohqpvfiouu@mmk4qdskqjoa>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-2-swboyd@chromium.org>
+        Fri, 20 Sep 2024 08:14:58 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Dan Callaghan <dcallagh@chromium.org>,
+	=?utf-8?b?U2FtaSBLecO2c3RpbMOk?= <skyostil@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+Date: Fri, 20 Sep 2024 17:14:44 +0200
+Message-ID: <20240920151445.499933-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240901040658.157425-2-swboyd@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1497; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=cFsBr3StkDCeC1vkQ3JDhtM2ONKt/sit8zF6d+bX2hc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBm7ZFlgf26I5dAawsn4RZ9fX2tal4VEBijJ3FT4 VEQ0Cr3ZUqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZu2RZQAKCRCPgPtYfRL+ TgGSB/45xgw5EO8yrFcaxAcvoj/2cJFpixTA2fxFWjCHON1qm9YWR97EBmAr28iuvdlMLa5Nr4N /5Kxz11G7FBo3AelAHMJ39OTLQWyTudFi29tnTFGaKzn/pBi0hzuHBQqb8SJkvWDge6KYkk0ffH xmWU7RoNhAv8FOAb73vaoBI+bCfLiLijWf2iPhoF6seGBFwK1sVWWzaaBZ9qjnk0W4rLTgDSGYl SFLE1m9M2Bsyfg2TiABk5GcG1w+L/jUUQT6XTFB6ZUsBfzae4FvRb8/jSH5fFjTorvlQbJFVMpx LN5OCWcGp9JVvt7eBmuFun9Oj3O7NfRsyZ6+gaS4gywAVRXv
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 31, 2024 at 09:06:39PM GMT, Stephen Boyd wrote:
-> Add support to the DRM atomic logic to support lane remapping between
-> bridges, encoders and connectors. Typically lane mapping is handled
-> statically in firmware, e.g. on DT we use the data-lanes property to
-> assign lanes when connecting display bridges. Lane assignment is dynamic
-> with USB-C DisplayPort altmodes, e.g. pin conf D assigns 2 lanes of DP
-> to pins on the USB-C connector while pin conf C assigns 4 lanes of DP to
-> pins on the USB-C connector. The lane assignment can't be set statically
-> because the DP altmode repurposes USB-C pins for the DP lanes while also
-> limiting the number of DP lanes or their pin assignment at runtime.
-> 
-> Bridge drivers should point their 'struct drm_bus_cfg::lanes' pointer to
-> an allocated array of 'struct drm_lane_cfg' structures and indicate the
-> size of this allocated array with 'struct drm_bus_cfg::num_lanes' in
-> their atomic_check() callback. The previous bridge in the bridge chain
-> can look at this information by calling
-> drm_bridge_next_bridge_lane_cfg() in their atomic_check() callback to
-> figure out what lanes need to be logically assigned to the physical
-> output lanes to satisfy the next bridge's lane assignment.
-> 
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c |  2 ++
->  drivers/gpu/drm/drm_bridge.c              | 34 +++++++++++++++++++++++
->  include/drm/drm_atomic.h                  | 31 +++++++++++++++++++++
->  include/drm/drm_bridge.h                  |  4 +++
->  4 files changed, 71 insertions(+)
+These drivers don't use the driver_data member of struct i2c_device_id,
+so don't explicitly initialize this member.
 
-I have given this a lot of thought in the last several days, thanks for
-the interesting problem.
+This prepares putting driver_data in an anonymous union which requires
+either no initialization or named designators. But it's also a nice
+cleanup on its own.
 
-Basically, as I said during LPC, I feel that this is an overkill to be
-handled in the drm_bridge layer. In most other usecases the lane
-configuration is static and doesn't change. MIPI DSI standard, for
-example, explicitly disallows that: "The number of Lanes used shall be a
-static parameter.  It shall be fixed at the time of system design or
-initial configuration and may not change dynamically." (MIPI DSI 1.3,
-section 6.1).
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/platform/chrome/cros_ec_i2c.c  | 2 +-
+ drivers/platform/chrome/cros_hps_i2c.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Following the struct drm_connector_hdmi introduction I think we are
-getting closer and closer to the struct drm_connector_dp, which should
-record all DP-related data to be used by DisplayPort connectors. An
-example of a field in this struct-to-be might be `u8 num_lanes`. In the
-normal DP / uDP cases it will be static, in case of USB-C AltMode it
-will be dynamic and change depending on pinconf being configured.
-
+diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
+index e29c51cbfd71..62662ba5bf6e 100644
+--- a/drivers/platform/chrome/cros_ec_i2c.c
++++ b/drivers/platform/chrome/cros_ec_i2c.c
+@@ -352,7 +352,7 @@ MODULE_DEVICE_TABLE(of, cros_ec_i2c_of_match);
+ #endif
+ 
+ static const struct i2c_device_id cros_ec_i2c_id[] = {
+-	{ "cros-ec-i2c", 0 },
++	{ "cros-ec-i2c" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, cros_ec_i2c_id);
+diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/chrome/cros_hps_i2c.c
+index dd14957ec39f..6b479cfe3f73 100644
+--- a/drivers/platform/chrome/cros_hps_i2c.c
++++ b/drivers/platform/chrome/cros_hps_i2c.c
+@@ -129,7 +129,7 @@ static int hps_resume(struct device *dev)
+ static DEFINE_RUNTIME_DEV_PM_OPS(hps_pm_ops, hps_suspend, hps_resume, NULL);
+ 
+ static const struct i2c_device_id hps_i2c_id[] = {
+-	{ "cros-hps", 0 },
++	{ "cros-hps" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, hps_i2c_id);
 -- 
-With best wishes
-Dmitry
+2.45.2
+

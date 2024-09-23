@@ -1,117 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D2813D51C;
-	Sat, 21 Sep 2024 07:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE9C1991D5
+	for <chrome-platform@lists.linux.dev>; Mon, 23 Sep 2024 14:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726902697; cv=none; b=dKzBV8BjM53z8wXgJTJ+5U5v6nDnTEWlozF1scgR+8tLBFob4TEQapYnA0acs6ZK/bi8a16Bwa+6YndUHe1r9BGXyLWNGQX8UP6sCjsRCePB2Q79moV1/0+lxAXVrjyJp/E+1JwFsbeWiIRhMLXI46GyRTBaYwW+X+5fXS8/HPc=
+	t=1727102545; cv=none; b=YB/8io0KU01KGcvallp2y8o9JJ3oGzfTZddnP/B3gMYOgqCUqIUPsCKj+Rfk1L97FA2JYjfn3boThN+tuTZfxcWU9LqiAtP39pLHgsVpRWBjgNyQsMb8/tapVxZPHHc/5tXjAMn1VlpX2PZDYbaLsDjKdePQO5QqIFQNsDbYvzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726902697; c=relaxed/simple;
-	bh=hH41RHYKw4lqHr7XX6POAThxUbZ8bCohv68dNVoXk5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bW4bLRfYcP+wEeHrt+krG833xvOR6H/9FpsucdLxEFCxy0jFq2P/cXCsjg52kwft14c7k0wHeG88lLmPaRe63GHX6ZeyrkWhwEkR7yDshQSuR0QTXCbVaQFO65M74vIKzLEpSUiXREIvpJQR/VPxTmk716rldG4ZgvpKxabi/Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2AEDzg7; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727102545; c=relaxed/simple;
+	bh=vU8ioi5N7K5XbEkcwYbIT4dyO2PigjG7Ya9snrOWYUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qRX0HKmVE7807M0SsFH4qdQxw8kga1oxIjxmYhhXUvl3L1SrnEUCi062R03iW+7/1xxrYrxTW+yFexJkIes3kC182hGfzhMBkjQ0o0Oekpauu6vmjfTMNUTD5XPIv3M3w74hwzRbALaXxa4Rj0alleEnVQO4+JZktNb5/cvTVjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nKyjJt/8; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2AEDzg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726902695; x=1758438695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hH41RHYKw4lqHr7XX6POAThxUbZ8bCohv68dNVoXk5I=;
-  b=k2AEDzg7Hm7JvZtAfqeFlNhVDMl2FKXbk889soEJfmA+HNoN6/uFPunV
-   0fjw3X98c2tkhGlt+Tk455nM7Y4xYAszZRo+u4LWEysDQkBeFG8n1/InE
-   2nmBjnqrvPTgB1pLcLKFSqg6qxrOU4JndwMjnwaVqYGNzV6t55bBzh9vH
-   RyyD8nRwMkHgc72/xMHwzZn7lYHaHDoYF5DPqJcuRP7FObwe+78vOWmko
-   Hi0SfIHkRlKZhXUllPKPZQbk6KVOJb6Jqqj6hI+FaYDeuQ+4cpgFeC6M2
-   UVm5WlSznm5+MCKGaKTzfPUG/GqCa/d6uNL+Ep2T6pDCXwcv2vth7leWP
-   w==;
-X-CSE-ConnectionGUID: GlDu/6CcS1OC59bqN08WgQ==
-X-CSE-MsgGUID: QrHplAV3Tq2Cc0Z/pQh4Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="37048613"
-X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="37048613"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 00:11:34 -0700
-X-CSE-ConnectionGUID: LW2f+v8+QbK2TXDTZwLecw==
-X-CSE-MsgGUID: 0cus1x7xSPqo0v/a888WbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="70682292"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Sep 2024 00:11:31 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sruHA-000FBb-2d;
-	Sat, 21 Sep 2024 07:11:28 +0000
-Date: Sat, 21 Sep 2024 15:11:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
-Message-ID: <202409211431.LpvxyX25-lkp@intel.com>
-References: <20240910101527.603452-7-ukaszb@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nKyjJt/8"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365392cfafso4538001e87.0
+        for <chrome-platform@lists.linux.dev>; Mon, 23 Sep 2024 07:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1727102542; x=1727707342; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vU8ioi5N7K5XbEkcwYbIT4dyO2PigjG7Ya9snrOWYUY=;
+        b=nKyjJt/86J9hAhWQLERlfDBVB3NKmvuqcUzv851Pe7l/uUtg65IQNvBk9hgvSVJiK1
+         XR/vVF5S1Q/vullVCrFfoZrfJYvvJbJLQ1nAYnLQsIx/uxzcmW4J/UjknfEoJ1cMdAVa
+         l3J0A8bw5wxwqg4fwNOjqUzAeKq7V9a1IHUiM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727102542; x=1727707342;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vU8ioi5N7K5XbEkcwYbIT4dyO2PigjG7Ya9snrOWYUY=;
+        b=EZgxUD32RSskG/ELZyhiGlbeJJRVLYl/4RC1XDO5M9wImgNMOtFnLQoWF2E3NM5xC1
+         8+ghMou7XjtnIchnIh1CwrMXbAXn6ocM5fMwXdmqjEMuD8zY2W7W1aZOpIxDVHUay1Pj
+         XJ1KnSzOORRbMs6kqVJaaX2B19H0zQc81ACFt6NNy4UXa6OSc4FrXp0POBgmjZvEQ0dG
+         SZ6eHSUSeAFemlcxAERB98q7fj9RDwlMHSF8D1FS8P/USbJg9hlpj82Wd97Euo6wBxwl
+         F2QLBQFqYxkYDtm+DWK5x4claynlKqdYLEmiwiPE7lqXHZQEdNeT+mIXFMx4EwVgV5Sf
+         qO/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWn8bGCNUD2TztItLqVVYV9BhIz+96lwnE/7tYUUk6PQm2YsRht+5v02o6SSZkyn1GgwaZNwGK7nbo1nNk7qZc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFLmnRQWnwNZg9cCz8BpeCZbei7zZZaNoh7O8semS9gTpKMgFZ
+	2le8RT69CDX3Q7SPr5G4zwLsk7jLuil0QrGCjC/Shrw7b52b2FeJgW0gVTCf+KYsFYD4fnH1ttt
+	VFo1Y0n0UQC90Dsf+pfWaco3jyCon/sFMYf4=
+X-Google-Smtp-Source: AGHT+IEyzRp+m5fX0Jn/4p0AtI5S98zIO8YX46Tb3tM2f55jAtIo+osTIQ0rtGntwdrcI8jdgzFRH/Fq5s75pk0IuUU=
+X-Received: by 2002:a05:6512:12ca:b0:535:3cdc:8755 with SMTP id
+ 2adb3069b0e04-536ac2e5b93mr6116785e87.20.1727102541860; Mon, 23 Sep 2024
+ 07:42:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240910101527.603452-7-ukaszb@chromium.org>
+References: <20240910101527.603452-1-ukaszb@chromium.org> <20240910101527.603452-7-ukaszb@chromium.org>
+ <ZuGkMiE3sHOpo/Ci@kuha.fi.intel.com> <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
+ <ZuvxAQmMsnIYZMTP@kuha.fi.intel.com> <CALwA+NYmKm0sVT=NPfJU7Ena__P5ec451nhViXFhK9BYu87jxg@mail.gmail.com>
+ <rpdbzy5ldlsq2ahvuyrzx6tprgtgxpftd4xbos7cd3wwnhapvu@2hstbs5qg65h>
+In-Reply-To: <rpdbzy5ldlsq2ahvuyrzx6tprgtgxpftd4xbos7cd3wwnhapvu@2hstbs5qg65h>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Mon, 23 Sep 2024 16:42:10 +0200
+Message-ID: <CALwA+NZoA4myUcYNMb6d-sN=YAp8njWDBW9RwgXiPTyTPtv=4g@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pavan Holla <pholla@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Łukasz,
+On Thu, Sep 19, 2024 at 10:00=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, Sep 19, 2024 at 08:03:37PM GMT, =C5=81ukasz Bartosik wrote:
+> > On Thu, Sep 19, 2024 at 11:38=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Sun, Sep 15, 2024 at 12:08:45AM +0200, =C5=81ukasz Bartosik wrote:
+> > > > On Wed, Sep 11, 2024 at 4:09=E2=80=AFPM Heikki Krogerus
+> > > > <heikki.krogerus@linux.intel.com> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Tue, Sep 10, 2024 at 10:15:25AM +0000, =C5=81ukasz Bartosik wr=
+ote:
+> > > > > > Add netlink to ChromeOS UCSI driver to allow forwarding
+> > > > > > of UCSI messages to userspace for debugging and testing
+> > > > > > purposes.
+> > > > >
+> > > > > Why does this need to be cros_ec specific?
+> > > > >
+> > > >
+> > > > You're right. Netlink does not have to be cros_ec_ucsi specific.
+> > > > Would you like to have netlink in typec_ucsi ?
+> > >
+> > > Does it need to be netlink? We would then have tracepoints, the
+> > > custom debugfs interface, and this netlink interface.
+> > >
+> > > I think this information could be exposed via trancepoints (unless I'=
+m
+> > > missing something).
+> > >
+> >
+> > Hi Heikki,
+> >
+> > I agree that there is a common area which is covered by both trace
+> > events and netlink.
+> > However netlink also has advantages which IMHO trace events lack. One
+> > of our cases is that
+> > from userspace it is easy to forward the UCSI messages to a Wireshark
+> > with a plugin
+> > which can decode it. Another case is to use UCSI forwarded messages
+> > through netlink
+> > for testing and validation of chromebooks.
+> >
+> > How about leaving netlink specific to cros_ec_ucsi driver ? Would you
+> > consent to that ?
+>
+> I think having it specific to cros_ec_ucsi is the worst option out of
+> three. It should either be generified to work with all UCSI drivers or
+> go away and be replaced by tracepoints (against, generic to all UCSI
+> drivers) or some other mechanism (e.g. TCPM has rolling log of
+> messages).
+>
 
-kernel test robot noticed the following build errors:
+I will come up with a proposal to make netlink generic to all UCSI
+drivers.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus lee-mfd/for-mfd-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.11 next-20240920]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Lukasz
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/platform-chrome-Update-ChromeOS-EC-header-for-UCSI/20240910-182729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240910101527.603452-7-ukaszb%40chromium.org
-patch subject: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
-config: x86_64-buildonly-randconfig-005-20240921 (https://download.01.org/0day-ci/archive/20240921/202409211431.LpvxyX25-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409211431.LpvxyX25-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409211431.LpvxyX25-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->> ERROR: modpost: "genl_register_family" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "genl_unregister_family" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "__alloc_skb" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "genlmsg_put" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "nla_put" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "skb_trim" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "sk_skb_reason_drop" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "init_net" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "netlink_broadcast_filtered" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> --
+> With best wishes
+> Dmitry

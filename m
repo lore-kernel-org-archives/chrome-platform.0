@@ -1,52 +1,52 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C997F145B0C
-	for <chrome-platform@lists.linux.dev>; Wed, 25 Sep 2024 21:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E9B145B0C
+	for <chrome-platform@lists.linux.dev>; Wed, 25 Sep 2024 21:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727300129; cv=none; b=YaElCdpX4K+7lovjzbDwYNM0C+nBiDFFL2GM4cdYHE8W6FoX/hRr0DYIgdYKn9+J80fhOAEjNwjfDpFifNOkUanP+hkoc5QA7zc6mVih42QZcqLN0VQ/Le7PRojrGzmgsDtTc9Quv7gk0aCyRdK/nqxXJsGwNpovgtSurn6xNWk=
+	t=1727300161; cv=none; b=R01gOW0lcgwnzbVxykHRTgklXkxh3IxTifDcejmWksc1WJZzj3+O5vkyG/vW7e69QdpZloHzCCZo6f/04bHbHip8imTVNNEwjtNEk9ICZSczKydA2zP6AmaYXNS6aCN5VFZWzZLQGPDJpqEh9QDiEytzSDi0ociFcSOaC/TVVOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727300129; c=relaxed/simple;
-	bh=q2EhClv7uowqfWc+yJkUHR0IftpzijEAuyD/le/y+tk=;
+	s=arc-20240116; t=1727300161; c=relaxed/simple;
+	bh=w/U41aehYYnar9eXC2LNfUFdr0vims1gK3y46aaFPfE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FhNbUb8GV4Rrb5xp3qKK6DdWUQVf8MqnCvC8RXefD1TKYAGlAhvAO4KgHSfUEhAalLzinSz6Oa9gWUO1x8LGY09ZUfOhQkziZTrj/do+uz0XAvM3M+dvsAVv+kjnirQjt7gpxoQNB3Fnf2fmLupzid9GvALYRLtpSPiWU2AU+uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SVthWN6k; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=g5BwzjKbZNgBDrTHeQ1n29NMRUaei2lqZAJLwIG6MtyRKcpcSOsGbUT5NDG7Zyd7UZDVNnb7Bmcuf4BgcmThN0Ox0h4SEirDXHgWCQveBXrxn6dxv35IdvlsRofZwzW4/mjEl6Jov24revhwIIdWIprdRx2KZfcjKznzsqR4Tug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DyFgmheM; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SVthWN6k"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6db67400db4so4427177b3.1
-        for <chrome-platform@lists.linux.dev>; Wed, 25 Sep 2024 14:35:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DyFgmheM"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6ddfdeed0c9so3285357b3.2
+        for <chrome-platform@lists.linux.dev>; Wed, 25 Sep 2024 14:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727300126; x=1727904926; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727300159; x=1727904959; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qTn08FN5vLzO9rVd5RQtGmIp0o3LUoCpyHjARrWMfnY=;
-        b=SVthWN6kmh9yNNZuD5UHC1IHUyK19bQNVDb6P8c9cAEr6u4TxI23SOy5T69TH54ftq
-         oeg7zvbx5A46WvRKGSXRJvJdg8ZDnWBMcSwP9L/KmFYASxm9sZnkY1PVSNCayxpB7n2V
-         LlLd6tBi6/UvFeCF34MBHJPOc0RcwogHHV8Uo=
+        bh=mJc7BnAHTydvAlhM4HvU3wD0ZiOQy5pouzF9fx22KGs=;
+        b=DyFgmheMsTAPpqDVW09Uc11H2ocMJ+lKSxr87+zHLVHOrxn4u1DBm5ImSNbG3A+rTS
+         OWUx+RA1GjJbkqAKtoCI+dC7bIvSD4it1uaMuzZ3kTkOmQiPuLxMzjj8bgNLbCkCv0/9
+         6CMrgqJfz3m/sEVkVc1ECM/rMt7PvuMLlhk+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727300126; x=1727904926;
+        d=1e100.net; s=20230601; t=1727300159; x=1727904959;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qTn08FN5vLzO9rVd5RQtGmIp0o3LUoCpyHjARrWMfnY=;
-        b=fLOn/nnHMLEPMEzQv1TIye9uf0PLgvwMkEsRqLJgXahMWo6JX3eNmfdJi4mOmDDCdH
-         bexI8kPvE4Cx9GWiYTsXIGgi4GAkwMxnUQZoY4dVwx261te3MIFzbAwy5zwYPZzUD7qi
-         6FNhAU7LHe8pXDJTcQ13WoTHj11esvxYipJT4ZFraiSos8pvjiszrfvpVbkbxNqnIORj
-         9GzA6YlGqu8kHmiLabnL1cgKNWaXbk8RlO1WuJzHXQOVaAG7XRZgvBbVQC1Vjc1+LJfW
-         OTiwAUafAkSbYSUncsh0t05UqoWL6ujs/C84wWh/Jbib6XfnZCmiDsuO3SyrjcvDJf2z
-         keow==
-X-Forwarded-Encrypted: i=1; AJvYcCWe3OVK8bjM7Il2jJn2TfM+DDPWS1x6J8RpPTEdzpXRB013Fx2chY7rvWi69rjEM4E+KXh5YR8+ud7PPTvw3s8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPlXulY+Vpmmtk/aufegRMawEMT61YE86bHYTkuMkZARljd2Y5
-	iCmPckvAcRj4qqcLcv6Zj6hFYNMG0cPydsnlP56uvreObW1IUCLOwrXBVpk+METIq5JLGuU1jkQ
-	TrDFPzoD1EAiznc1HkYuvgnpzLCaCD/JLU4Rh
-X-Google-Smtp-Source: AGHT+IHziupVypVEkVK/CbCaXWpRCK8FetXKM/KwR70lVH1JtZYCUnM6U7a9e0A0MI4BpovvwHjM1uW6+KjC3yrr2O0=
-X-Received: by 2002:a05:690c:7183:b0:6d4:b774:e503 with SMTP id
- 00721157ae682-6e21d9fdd43mr29525877b3.41.1727300126618; Wed, 25 Sep 2024
- 14:35:26 -0700 (PDT)
+        bh=mJc7BnAHTydvAlhM4HvU3wD0ZiOQy5pouzF9fx22KGs=;
+        b=VAnE/jLjZNxBPuLu4rEAwQEWKpXI0e+iOuOax0+LAfYNbxMoF97bgpAdb0/qjWbu7M
+         obIIHvH93dpZT9WK34hSa3/AbPfhh5oc+6HowNA6J3FtBdcK5M/kbjyYDKUYXFqXOOiP
+         6a+f0WVh+Mn+90wjwAkAc6IKFs6jLB5vDh4/fiVSvY4e0xKOpX7E18/28BYv0SjHOwx7
+         lJsMc5FqMt+JdmtYRK1ah8dF4P3n4lQF/ByVGg/cJnaJhcpMyKmhOtP6lsLejXRpnoUF
+         plmtxNH/nk7m8Cv8f9mzVleFNNwpZVTyCVL8q12UpqbI12BvfVUBUxHYzPvxGZK88zfK
+         6ACw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/q6GNXJ3YPTXuJFVJkwxZ8Po8FAl6VaE5XzTKcebUNTvT07xmcfRRfysozu3DJ4CSqLwnSAun4JcP5tw+WeY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YybugecnAvprKUw4ue8cKC4gleGOpKTRzp6Y+wy7CgBZkFqCBJ/
+	AP1bGcnzG5bcClGQqtZp9UIsVUu9cdo7iFM94sYR0MW882leYzob62lnwFsU/3AFg6ADHqcSyf+
+	V9S1HiZ8/AZOuWf3W9KhWjfGZcGcBGL0IucxQ
+X-Google-Smtp-Source: AGHT+IF7tBArJoHHU070qGz87COGywmcI/kS65A/iHw5CHlxa2ujH5d4trQNVpP2YnkhwuVcJEoP/bJTmwpZL/PBo3w=
+X-Received: by 2002:a05:690c:95:b0:6d5:7b2f:60a0 with SMTP id
+ 00721157ae682-6e21da543admr43301537b3.34.1727300158817; Wed, 25 Sep 2024
+ 14:35:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,14 +54,14 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240925162513.435177-1-abhishekpandit@chromium.org>
- <20240925092505.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid>
- <vnemjw6uo3sydriabdrzwinbnam2xitrezrw3ztcymi63zakep@2rruplyjzuol>
- <CANFp7mVir-XEuVBd+kbQq0+5Si0CBo8TNxcdNpG6X+PDR-J1Zw@mail.gmail.com> <25dcuu7bli47etvyijpi4winx4t42jwjq5ld2de3vmzkucic5j@h3wejwqyo7p2>
-In-Reply-To: <25dcuu7bli47etvyijpi4winx4t42jwjq5ld2de3vmzkucic5j@h3wejwqyo7p2>
+ <20240925092505.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
+ <gqceveqpbvmiv3mg5cs3k3qd4rr6fpb3xksvxvdhkugr52paoj@olks6bqjc436>
+ <CANFp7mX0=9qHb8_UotKjDo8rGemA7L+NGp3J+qSzBg_9Pp2CTw@mail.gmail.com> <pl6xv55ohx3jprgc67umftjrwzlvass75d2pqzzdnktvt3njxh@gbujd5qf3tpz>
+In-Reply-To: <pl6xv55ohx3jprgc67umftjrwzlvass75d2pqzzdnktvt3njxh@gbujd5qf3tpz>
 From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Wed, 25 Sep 2024 14:35:14 -0700
-Message-ID: <CANFp7mUAeqekz57yOB8oF67wZ9=f9b8decmr-maia0DYVUQ89A@mail.gmail.com>
-Subject: Re: [PATCH 8/8] platform/chrome: cros_ec_typec: Disable auto_enter
+Date: Wed, 25 Sep 2024 14:35:47 -0700
+Message-ID: <CANFp7mUexd=2u2ndjXsere8D0ek1hEqcttTvdf91M7R4PGJ_Jw@mail.gmail.com>
+Subject: Re: [PATCH 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org, jthies@google.com, 
 	pmalani@chromium.org, akuchynski@google.com, 
@@ -70,95 +70,54 @@ Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org, jthies@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 25, 2024 at 2:24=E2=80=AFPM Dmitry Baryshkov
+On Wed, Sep 25, 2024 at 2:20=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> On Wed, Sep 25, 2024 at 10:39:00AM GMT, Abhishek Pandit-Subedi wrote:
-> > On Wed, Sep 25, 2024 at 10:03=E2=80=AFAM Dmitry Baryshkov
+> On Wed, Sep 25, 2024 at 11:42:46AM GMT, Abhishek Pandit-Subedi wrote:
+> > On Wed, Sep 25, 2024 at 10:13=E2=80=AFAM Dmitry Baryshkov
 > > <dmitry.baryshkov@linaro.org> wrote:
 > > >
-> > > On Wed, Sep 25, 2024 at 09:25:09AM GMT, Abhishek Pandit-Subedi wrote:
-> > > > Altmodes with cros_ec are either automatically entered by the EC or
-> > > > entered by typecd in userspace so we should not auto enter from the
-> > > > kernel.
-> > >
-> > > This makes policy decision for the whole platform. Consider somebody
-> > > running normal Linux distro on chromebooks. Can this be configured by
-> > > the userspace itself?
-> >
-> > This is just the default for when the driver registers. You will then
-> > find that there is now a sysfs entry for auto_enter that you can
-> > control from userspace to allow you to auto-enter the mode on partner
-> > attach (which you could probably write a udev rule for).
->
-> I think, a usual policy is to handle everything automatically, unless
-> userspace configures it in a different way. Otherwise it might be really
-> surprising to users, if the kernel expects an action from the
-> non-existing userspace agent.
-
-
-
->
-> > I still need to send a follow-up for how to handle auto-enter when
-> > there are multiple modes available on the partner that are all
-> > enabled. This first patch series is mostly about supporting existing
-> > use-case for ChromeOS.
->
-> Doesn't EC decide that, which AltMode to select?
-
-On ChromeOS systems with only DisplayPort supported, ChromeOS EC
-automatically enters DP altmode.
-
-However, systems with Thunderbolt + USB4 have the AP_DRIVEN_MODE
-feature enabled which expects the AP to enter/exit modes (due to the
-security implication of TBT PCIE tunnels). ChromeOS has a userspace
-daemon, typecd (https://chromium.googlesource.com/chromiumos/platform2/+/HE=
-AD/typecd),
-which handles the mode entry policy for ChromeOS. Currently, it talks
-to the EC directly (via ectool) and this patch series is moving this
-support to the kernel so we can use sysfs instead.
-
-Currently, if you put a normal Linux distro on a ChromeOS device with
-AP_DRIVEN_MODE enabled from the EC, it will not automatically enter
-any alternate modes and there's no mechanism to do so via sysfs
-either. You will need to either port typecd or compile + deploy ectool
-to make the mode requests directly.
-
->
+> > > On Wed, Sep 25, 2024 at 09:25:08AM GMT, Abhishek Pandit-Subedi wrote:
+> > > > Add support for entering and exiting Thunderbolt alt-mode using AP
+> > > > driven alt-mode.
+> > > >
 > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 > > > > ---
 > > > >
-> > > >  drivers/platform/chrome/cros_ec_typec.c | 2 ++
-> > > >  1 file changed, 2 insertions(+)
-> > > >
-> > > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/plat=
-form/chrome/cros_ec_typec.c
-> > > > index ec13d84d11b8..e06a0f2712ce 100644
-> > > > --- a/drivers/platform/chrome/cros_ec_typec.c
-> > > > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> > > > @@ -294,6 +294,7 @@ static int cros_typec_register_port_altmodes(st=
-ruct cros_typec_data *typec,
-> > > >       desc.svid =3D USB_TYPEC_DP_SID;
-> > > >       desc.mode =3D USB_TYPEC_DP_MODE;
-> > > >       desc.vdo =3D DP_PORT_VDO;
-> > > > +     desc.no_auto_enter =3D true;
-> > > >       amode =3D cros_typec_register_displayport(port, &desc,
-> > > >                                               typec->ap_driven_altm=
-ode);
-> > > >       if (IS_ERR(amode))
-> > > > @@ -314,6 +315,7 @@ static int cros_typec_register_port_altmodes(st=
-ruct cros_typec_data *typec,
-> > > >               memset(&desc, 0, sizeof(desc));
-> > > >               desc.svid =3D USB_TYPEC_TBT_SID;
-> > > >               desc.mode =3D TYPEC_ANY_MODE;
-> > > > +             desc.no_auto_enter =3D true;
-> > > >               amode =3D cros_typec_register_thunderbolt(port, &desc=
-);
-> > > >               if (IS_ERR(amode))
-> > > >                       return PTR_ERR(amode);
-> > > > --
-> > > > 2.46.0.792.g87dc391469-goog
-> > > >
+> > > >  drivers/platform/chrome/Makefile              |   1 +
+> > > >  drivers/platform/chrome/cros_ec_typec.c       |  29 +--
+> > > >  drivers/platform/chrome/cros_typec_altmode.h  |  14 ++
+> > > >  .../platform/chrome/cros_typec_thunderbolt.c  | 184 ++++++++++++++=
+++++
+> > > >  4 files changed, 216 insertions(+), 12 deletions(-)
+> > > >  create mode 100644 drivers/platform/chrome/cros_typec_thunderbolt.=
+c
+> > >
+> > > This patch looks like nearly exact 1:1 copy of the previous one. Plea=
+se
+> > > merge both altmode implementations in the same way as tcpm.c does.
+> >
+> > It's easier for tcpm.c to have a merged implementation because it
+> > simply forwards VDMs to the internal state machine to handle without
+> > doing anything with them. Our implementation is closer to
+> > ucsi/displayport.c which needs to maintain an internal state machine
+> > for DP and TBT VDMs and respond differently.
+> >
+> > I can merge the two but I'd like to understand intent (reduce code
+> > duplication? reduce the number of files?). As it is, keeping the files
+> > separate makes it easier to understand how each alt-mode operates in
+> > my opinion.
+>
+> Separate common code and AltMode-specific code. This way we reduce a
+> risk of errors fixed in only one of two drivers and at the same time the
+> driver clearly separates common vs specific code paths (e.g. VDM
+> handling is mode-specific, while the rest of the code is common).
+
+Ack -- I'll provide a merged solution in the next version of this patch ser=
+ies.
+
+>
+> >
 > > >
 > > > --
 > > > With best wishes

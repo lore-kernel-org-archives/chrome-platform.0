@@ -1,57 +1,57 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054979EA
-	for <chrome-platform@lists.linux.dev>; Mon, 30 Sep 2024 03:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A061D545
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Sep 2024 03:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727665454; cv=none; b=gtcN6asiOHTFVMz5w8+xg3u9LnlnW3c2mrmvnkYufBGQpTKKWTyosERJ3KQb7Vp5Nj831oW07b/xRKu/hrITR8OjJ8pfbT+BKpzzomfkCeUZGna1sux+vUMKRv48FJvGSWJtpwLd3CSdfFayVlMY/BOGvYEy3ewMUfeULQRb1Dc=
+	t=1727665716; cv=none; b=Daac8pC3NlBFkKYze+HRuv6iLRFZQzYi8HUYWjkmnO27t7Zc0ZdXU0gBpgSPcWwgaw+dZqgfSYluaKxQe+3n3icL5Cib71+ctQyRx0fXtAS2g+gCYjrk3DS7Z28gH5XE5JARkxOfPIRkwa5WwAwC4n69oTzbZiBum8L12YExkQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727665454; c=relaxed/simple;
-	bh=qtUOE0jK2c4lkPMskLv4BV/1nYhI0KNW90bNKDu/qcc=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=T09GdpMUZcLjnPScj5VuX0lnybafUi0W0Qwuz0jvv7uRfWbyhyAoaj6TrJEyAvP6Rp2FKfDH03pghsJ1rH4D7vdb65Fpx12fWGHchvN7HHaRU98E/whYB/Xy8w1VDwoZmVWAiEHz09XdZL6J679BAwSDovbtEFZyN31Ef3Su4wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=iI7ibA6l; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1727665716; c=relaxed/simple;
+	bh=b6mBsREyjPn76u0w6MzapoKhbBwnT1zsNtbG8zjbqys=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=eI/0KcVh1YPekWwjJAvsFIoNd0Y2eN+lROBH901IlroPKIPHwEyjQSfebB9a8w/xBi+jOAj9TR5hfpcwSYbcTCd6usNddjKDW5xIz9qNHGps1niTzAZzY+BMwF1TNtMuW9m3KCMAtjStB51n+1we2eVapWVTYlnV2qwlvNK4LiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=mV259JWS; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="iI7ibA6l"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7d4fa972cbeso2766214a12.2
-        for <chrome-platform@lists.linux.dev>; Sun, 29 Sep 2024 20:04:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="mV259JWS"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20b8bdea19aso2640675ad.0
+        for <chrome-platform@lists.linux.dev>; Sun, 29 Sep 2024 20:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1727665452; x=1728270252; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1727665714; x=1728270514; darn=lists.linux.dev;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/TaVg1yM1JGK/S04xCZKqbpMM8he1NmFSPwCxrGfhQ=;
-        b=iI7ibA6l5gbuwj/MwqWRd4obfZ9+AXh3E1v72r//mKs02J+XbzYgvmu0Gr5GPSuJ/J
-         Mq8DNQyIjWcx9golk7rLlsH0mo6GE2efMDIi3s6FZbeCJCFuZaxA2fbkFx6xmoJzRwFv
-         VyQkcma2s0fS05fF5kESeDLPocX19IoEngxEgzbtZ46NxgNCTXwkJWcxYVZliOOF+zdD
-         r9gjyE5hioaQmuolgZXh2TVier8tGpJzWmkKZWpzgffblK+ZyLjYsDBZU6Y2RyfLHLKe
-         zmn4Y+PMwkn9gVhCzSf79tdBxjK9SpIs3YS3ClKBpbPKmVl4N5Gp8hQ6KqtMMLJ9Cl3A
-         7bzg==
+        bh=osZ81/q0wveNEDXK73rsrxjsQ36wo7SvmoPKE7XxLMo=;
+        b=mV259JWSITkMPMmOjqkgG6IQ2NbCE2geTf6tL9J/03Yl3fvmajOMyOg4uHg+lCICgJ
+         V5KSWAHsyxNOTWd6a/wyHNRdX2cAhShcjKfdG1oQbjVneH9biOCXrxkU5v7/ryc9lxuK
+         PSFZ/4IUxf4pwEFje412AmQG30pbhl+GOYIlgIAHLgTMi3J2B2tMgU7dSIrywPGcUrMn
+         NdtQ1JI/620TtyQElRtV85CUzwJ9DEU8kDtrOk2rAESGQ+2ZydcTOsAbLi7IOlNaNNxt
+         fztphZZiMTFG0RucX1rgl5wfio9TPum4K8Swhz8EHDo1AKxUfsYd27d1ctPPa2IK773p
+         zUuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727665452; x=1728270252;
+        d=1e100.net; s=20230601; t=1727665714; x=1728270514;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O/TaVg1yM1JGK/S04xCZKqbpMM8he1NmFSPwCxrGfhQ=;
-        b=X7SrYljyNXZQyoVFzmInI02PuLjrKelRV6ICyLWkkjG7LNHswI+wDL8d4vSgh74ULx
-         6xqsIBp6Hk69Bie1V2mqMoVnhIUurrb4pAvVNJ81nceZVgwI9Ivk2rpN3+YEtNCzqa5o
-         TN4r3Ic9DOVjgMlDLsyu7fzobcDvmn3FEqRokuQxjg5kuFx9TN1QUOfeyYrMrgzu/gn5
-         2bhqHbO96edzph71xfWOXXT+xlNvbqW3KxHXhORW2z0PDCHpm2q44g4hnJSWD32cQ5Rd
-         PWVI4Gr8TTZ8TOria/Wt3UKVob36VH10txXC7SfT06+INYqfhbP8xyFlNzHiUuD48clq
-         1Z7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUNxgpvqv8637wdhzZrzwpS1n6w4a0pJhIPwS9me3wH2TuaJAmeLTKSPvKsINfNmSbMGDPtyELP4Egj+g2JbIk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWndmNxNnXVejq5CuTcFm5Pzu2u3FojACldfSuzDgsBDfH7tCH
-	wLA073vhzedh6tO0l1GlbPUQQjQL1/NNRfX7u+H+MohAKji2Kknfn5uS+AOvZ3w=
-X-Google-Smtp-Source: AGHT+IHd1MbPzlkR7C/5CfKwbCrCaPhaFw0omDfvRIJNzEPDrwrTbr2ngzNtewUZ2xr6dyJbl1zh6A==
-X-Received: by 2002:a05:6a21:9209:b0:1cf:44bb:1cc4 with SMTP id adf61e73a8af0-1d4fa7ae07emr15803026637.40.1727665452058;
-        Sun, 29 Sep 2024 20:04:12 -0700 (PDT)
+        bh=osZ81/q0wveNEDXK73rsrxjsQ36wo7SvmoPKE7XxLMo=;
+        b=X5RK4AOK4sNKTop3BCKfdr2rvcNv2qVSEROAvX1+APbr/eDlOTk7BbpDi5HCSJ92hM
+         ue38vlTthMJieStwPVkxQ6eWwiyabnkD7KR+iNYp4jUaTPjGe7Rl5xE+S5vKtuDvBp+A
+         rFVtj29oMcDNIIOvjFqQo6+6fin745kZmLf6T6hVZolhVB1CAS1fcuJ32HRnD47cc9R5
+         z+Q7YiojruYImwgXCo7rsQBn9it8p+H4+Q6MfUXON+En68FRvJyWc0XaAJS6oSLZ1t5v
+         3rrLFbr9BM9BFmeHZNh+q1uVAXA1uWUjJI6OXq7nBK3DLVS1xTrd7odByAKIdpmTp0Gm
+         Usjg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvZ9R/0cEDoiRpR4+YQlWCbwPTS78UsnJHxKCT6IOxt/LYbMYdwi0QuGAwPNNm5YD0Sy46YYqg+8UmyJhgD2g=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPxJZVHifRSvTO+jPNRa7FsbgK6PwWvCD6ZjMr4SAr3mdLhCwX
+	fA6lHEropnQ/uviuWVG0L3/bnT258xsf4xwE4ARbrCJcoqgmnTXPykEhpxmnkNU=
+X-Google-Smtp-Source: AGHT+IHnynwqB4JF6S+o0F49+TClD86nskVD75IMLa/awhF4U3VzF/14XvaIPelMdnnR9qji4eJcxQ==
+X-Received: by 2002:a17:903:41c5:b0:203:a0ea:63c5 with SMTP id d9443c01a7336-20b3670582cmr150637255ad.0.1727665714315;
+        Sun, 29 Sep 2024 20:08:34 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264c2560sm5204647b3a.87.2024.09.29.20.04.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e075873b6fsm9936431a91.57.2024.09.29.20.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Sep 2024 20:04:11 -0700 (PDT)
-Message-ID: <66fa152b.050a0220.2d7539.2f62@mx.google.com>
-Date: Sun, 29 Sep 2024 20:04:11 -0700 (PDT)
+        Sun, 29 Sep 2024 20:08:33 -0700 (PDT)
+Message-ID: <66fa1631.170a0220.17a483.46a1@mx.google.com>
+Date: Sun, 29 Sep 2024 20:08:33 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -61,26 +61,26 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Report-Type: build
-X-Kernelci-Kernel: v6.12-rc1-2-g67f488dff17e5
-X-Kernelci-Branch: for-firmware-next
+X-Kernelci-Kernel: v6.12-rc1-1-g7cbf28998d73
+X-Kernelci-Branch: for-next
 X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-firmware-next build: 5 builds: 1 failed,
- 4 passed (v6.12-rc1-2-g67f488dff17e5)
+Subject: chrome-platform/for-next build: 5 builds: 1 failed,
+ 4 passed (v6.12-rc1-1-g7cbf28998d73)
 To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
  chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
  groeck@chromium.org, pmalani@chromium.org
 From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-next build: 5 builds: 1 failed, 4 passed (v6.1=
-2-rc1-2-g67f488dff17e5)
+chrome-platform/for-next build: 5 builds: 1 failed, 4 passed (v6.12-rc1-1-g=
+7cbf28998d73)
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-next/kernel/v6.12-rc1-2-g67f488dff17e5/
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-n=
+ext/kernel/v6.12-rc1-1-g7cbf28998d73/
 
 Tree: chrome-platform
-Branch: for-firmware-next
-Git Describe: v6.12-rc1-2-g67f488dff17e5
-Git Commit: 67f488dff17e535ac3a8a52b47ff1363d8134983
+Branch: for-next
+Git Describe: v6.12-rc1-1-g7cbf28998d73
+Git Commit: 7cbf28998d737e04c4872cfeedd1a546d22cfb44
 Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
 nux.git
 Built: 3 unique architectures

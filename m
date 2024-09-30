@@ -1,75 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5736D15C3;
-	Mon, 30 Sep 2024 01:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054979EA
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Sep 2024 03:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727660698; cv=none; b=ZoFQF3N88gxe1QVz+6bKeXuJJILhd1LyRS5Og4XeabF2ilSefeTzORvs8NHRDaUjjiI9Og03XDD1poB9P8UEelAz9oHKWNs2HQtt9S/H37M7wTnZfYDSUK1xze2KN8ZfGjZJswdCDaVkNjQIusEpBffjRvdaIXH5aEOyVz0KOjY=
+	t=1727665454; cv=none; b=gtcN6asiOHTFVMz5w8+xg3u9LnlnW3c2mrmvnkYufBGQpTKKWTyosERJ3KQb7Vp5Nj831oW07b/xRKu/hrITR8OjJ8pfbT+BKpzzomfkCeUZGna1sux+vUMKRv48FJvGSWJtpwLd3CSdfFayVlMY/BOGvYEy3ewMUfeULQRb1Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727660698; c=relaxed/simple;
-	bh=+ywpN1hDCN9fASlkN+6O9aIiu5Jb04ujXzcqkNzfXQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s4lg4ivGLW6FCM11SavEZAbI0Q36I8WoL0zUykVv5bWLOcAEsy+zlFdQ4u9xbIReDOGY5A63eqNDTcVEykz+OgdYSsbjVKnYUI8jFt7BgL2sTTMpalEXLlHZN/wdaVGvTq+wFCXcmjaCVUoELVI4hIWYtwknTNldR4kBEtyvlmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJvM3ifZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727665454; c=relaxed/simple;
+	bh=qtUOE0jK2c4lkPMskLv4BV/1nYhI0KNW90bNKDu/qcc=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=T09GdpMUZcLjnPScj5VuX0lnybafUi0W0Qwuz0jvv7uRfWbyhyAoaj6TrJEyAvP6Rp2FKfDH03pghsJ1rH4D7vdb65Fpx12fWGHchvN7HHaRU98E/whYB/Xy8w1VDwoZmVWAiEHz09XdZL6J679BAwSDovbtEFZyN31Ef3Su4wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=iI7ibA6l; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJvM3ifZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E7BC4CEC5;
-	Mon, 30 Sep 2024 01:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727660696;
-	bh=+ywpN1hDCN9fASlkN+6O9aIiu5Jb04ujXzcqkNzfXQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AJvM3ifZvu8grGOPE3vToZa70kman3X3CFEA9tUl3xLAJXGvT6tmoRAUgJNfnISoW
-	 RAEM8Ml7IwLQ+7A7a5c0OMl+rRbZ7xePfqmnQ5+XTrk2w/xc2qU5Ky5EyoGVgiGjGn
-	 QN85zLrzDSJTqqnfV3yR4agplLQbvw3Bb87erA43PJsaSJVVFKquC8y6TBAwIU16Iz
-	 0lPoYqQ6ISCzPyU40SF+XpqAGmODIs0IA3uWUORyTrFnBh7KakzoBuckjGI0kFFAzV
-	 /2ygWUXfcD9Di23b6zHDKd/817C8S95VsYOiTmyoQ85fwO00xlCszKWMS1mo1b9ZCx
-	 CruDd3erULKYw==
-Date: Mon, 30 Sep 2024 01:44:52 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Brian Norris <briannorris@chromium.org>,
-	dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
-	Julius Werner <jwerner@chromium.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	chrome-platform@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	Hugues Bruant <hugues.bruant@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v4 0/2] firmware: Avoid coreboot and sysfb to register a
- pdev for same framebuffer
-Message-ID: <ZvoClJ8lqwH0Bdbj@google.com>
-References: <20240916110040.1688511-1-javierm@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="iI7ibA6l"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7d4fa972cbeso2766214a12.2
+        for <chrome-platform@lists.linux.dev>; Sun, 29 Sep 2024 20:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1727665452; x=1728270252; darn=lists.linux.dev;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/TaVg1yM1JGK/S04xCZKqbpMM8he1NmFSPwCxrGfhQ=;
+        b=iI7ibA6l5gbuwj/MwqWRd4obfZ9+AXh3E1v72r//mKs02J+XbzYgvmu0Gr5GPSuJ/J
+         Mq8DNQyIjWcx9golk7rLlsH0mo6GE2efMDIi3s6FZbeCJCFuZaxA2fbkFx6xmoJzRwFv
+         VyQkcma2s0fS05fF5kESeDLPocX19IoEngxEgzbtZ46NxgNCTXwkJWcxYVZliOOF+zdD
+         r9gjyE5hioaQmuolgZXh2TVier8tGpJzWmkKZWpzgffblK+ZyLjYsDBZU6Y2RyfLHLKe
+         zmn4Y+PMwkn9gVhCzSf79tdBxjK9SpIs3YS3ClKBpbPKmVl4N5Gp8hQ6KqtMMLJ9Cl3A
+         7bzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727665452; x=1728270252;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O/TaVg1yM1JGK/S04xCZKqbpMM8he1NmFSPwCxrGfhQ=;
+        b=X7SrYljyNXZQyoVFzmInI02PuLjrKelRV6ICyLWkkjG7LNHswI+wDL8d4vSgh74ULx
+         6xqsIBp6Hk69Bie1V2mqMoVnhIUurrb4pAvVNJ81nceZVgwI9Ivk2rpN3+YEtNCzqa5o
+         TN4r3Ic9DOVjgMlDLsyu7fzobcDvmn3FEqRokuQxjg5kuFx9TN1QUOfeyYrMrgzu/gn5
+         2bhqHbO96edzph71xfWOXXT+xlNvbqW3KxHXhORW2z0PDCHpm2q44g4hnJSWD32cQ5Rd
+         PWVI4Gr8TTZ8TOria/Wt3UKVob36VH10txXC7SfT06+INYqfhbP8xyFlNzHiUuD48clq
+         1Z7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUNxgpvqv8637wdhzZrzwpS1n6w4a0pJhIPwS9me3wH2TuaJAmeLTKSPvKsINfNmSbMGDPtyELP4Egj+g2JbIk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWndmNxNnXVejq5CuTcFm5Pzu2u3FojACldfSuzDgsBDfH7tCH
+	wLA073vhzedh6tO0l1GlbPUQQjQL1/NNRfX7u+H+MohAKji2Kknfn5uS+AOvZ3w=
+X-Google-Smtp-Source: AGHT+IHd1MbPzlkR7C/5CfKwbCrCaPhaFw0omDfvRIJNzEPDrwrTbr2ngzNtewUZ2xr6dyJbl1zh6A==
+X-Received: by 2002:a05:6a21:9209:b0:1cf:44bb:1cc4 with SMTP id adf61e73a8af0-1d4fa7ae07emr15803026637.40.1727665452058;
+        Sun, 29 Sep 2024 20:04:12 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264c2560sm5204647b3a.87.2024.09.29.20.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2024 20:04:11 -0700 (PDT)
+Message-ID: <66fa152b.050a0220.2d7539.2f62@mx.google.com>
+Date: Sun, 29 Sep 2024 20:04:11 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240916110040.1688511-1-javierm@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: build
+X-Kernelci-Kernel: v6.12-rc1-2-g67f488dff17e5
+X-Kernelci-Branch: for-firmware-next
+X-Kernelci-Tree: chrome-platform
+Subject: chrome-platform/for-firmware-next build: 5 builds: 1 failed,
+ 4 passed (v6.12-rc1-2-g67f488dff17e5)
+To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
+ chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
+ groeck@chromium.org, pmalani@chromium.org
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Mon, Sep 16, 2024 at 01:00:24PM +0200, Javier Martinez Canillas wrote:
-> This is v4 of a fix to prevent both coreboot and sysfb drivers to register
-> a platform device to setup a system framebuffer. It has been converted to
-> a series since contains changes for both drivers, to prevent build issues
-> on architectures that don't define a global struct screen_info.
-> 
-> Patch #1 adds a sysfb_handles_screen_info() helper that can be used by
-> drivers to check whether sysfb can use the data set in screen_info or not.
-> 
-> [...]
+chrome-platform/for-firmware-next build: 5 builds: 1 failed, 4 passed (v6.1=
+2-rc1-2-g67f488dff17e5)
 
-Applied to
+Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
+irmware-next/kernel/v6.12-rc1-2-g67f488dff17e5/
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
+Tree: chrome-platform
+Branch: for-firmware-next
+Git Describe: v6.12-rc1-2-g67f488dff17e5
+Git Commit: 67f488dff17e535ac3a8a52b47ff1363d8134983
+Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
+nux.git
+Built: 3 unique architectures
 
-[1/2] firmware: sysfb: Add a sysfb_handles_screen_info() helper function
-      commit: 6074e905023d09f64f2c896f475820a5623deb2c
-[2/2] firmware: coreboot: Don't register a pdev if screen_info data is present
-      commit: 67f488dff17e535ac3a8a52b47ff1363d8134983
+Build Failure Detected:
 
-Thanks!
+arm64:
+    defconfig+arm64-chromebook: (gcc-12) FAIL
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+Detailed per-defconfig build reports:
+
+---------------------------------------------------------------------------=
+-----
+defconfig (arm64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
+ismatches
+
+---------------------------------------------------------------------------=
+-----
+defconfig+arm64-chromebook (arm64, gcc-12) =E2=80=94 FAIL, 0 errors, 0 warn=
+ings, 0 section mismatches
+
+---------------------------------------------------------------------------=
+-----
+multi_v7_defconfig (arm, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
+ction mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
+ection mismatches
+
+---------------------------------------------------------------------------=
+-----
+x86_64_defconfig+x86-board (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 war=
+nings, 0 section mismatches
+
+---
+For more info write to <info@kernelci.org>

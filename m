@@ -1,176 +1,130 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5DC1A4F3A
-	for <chrome-platform@lists.linux.dev>; Thu,  3 Oct 2024 16:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9AC824BD
+	for <chrome-platform@lists.linux.dev>; Thu,  3 Oct 2024 22:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727971691; cv=none; b=gg71juygRKZiSXbwQUqtq3xduaBoicqriMR0UPnyf/3D0sSr2+oHHj+14WHrqgmLRpWvy6jx+Xa3GjEBBfP4r/P0+T8hRKJ3dA/dJHWnSul78YrvFGJmSdgcmLvlA210L1DvR/xjm+QivyyIxI4LqHy78W7mIlGomSGVf3wpCPg=
+	t=1727994478; cv=none; b=qzBSWsmO62oz3ic7R/BY6MJD44BNxSEFQ2CGtc1arLaxWCBDZQ7tmaMPhPqetJNUPbUn3jfWHLO74doGZgXj7TTYSwCWZCKgF/aZPv5Vf59vjm+1rlqf5I3KyzfBy6NZTSgACdndnZlcAEWhE9PMJgB2HiRmZ2QMg6Zh5hu1WCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727971691; c=relaxed/simple;
-	bh=PuxGYKkgO89wMpd84+jo7uDfhXlwBQz2azp6oxMgkfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gIRCHR9tistkFd7Cj0U0iQ8ncVBldcH3LP1x9FUlwOU+qmVAQQI0EaT1ulEqbsfjmC5gyml8ZrAYH2z97Xt5nci7H7rksf/9HR6FXAXF5LaR1rbTMkm9Q0W9VDViQuT2GOx2tYPdePxVM864mPs7e9iad0mDdVOaHsIcvxQmU54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HXNRVvxh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1727994478; c=relaxed/simple;
+	bh=uu2x9TKpC908OMI4yRbTHNSyl2uAgyko3/e+XWCSaxU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oItK2W0S2a5QblR5vB8I3w5+iMYcBg6GRBTUfw5+eduRogGbUJLqlVaXhwkbtwmtnMREF+EfMSxV2mJ8JK67vpFJNrJv6MCYSMhW0sXaUFvfJpke3DJEBAFj/eyHIEnMbSZScAwMtgRmBMknx7792eo5EW4KNviHJGd8/35uzas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mkDxeLKr; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HXNRVvxh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727971686;
-	bh=PuxGYKkgO89wMpd84+jo7uDfhXlwBQz2azp6oxMgkfA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HXNRVvxhkf69StUkFUdq3YT3bbby40eacs9Rp2afZBkucUBEszAtpkzaUdYXBF5Qh
-	 k9715amVaUim9usnO43x3gtaMiU3IzLWqoiRKxvBV5zrmZH+ikvz/Ai4DAWayB+Ic9
-	 D/ppX8EgSu8wf1B0T3LXFj6ZgQT0FmvkdmUGQ5NEqSay4C6Jn7vUTQKsw39Y+stAwu
-	 NzG4bbelCFyy1UWvRNdixNn8noWGx+xIRvLH1C+YRVXXNxGDYYechstYO9cUc5a7y7
-	 IWiUcXEUoKYlOXFyowkSkdW5Z7VqXrpU46qB7ixChWmsSoXn7tBIGVUbtuVe99urzB
-	 LKdJhaYsdvdmQ==
-Received: from notapiano (pool-100-2-116-133.nycmny.fios.verizon.net [100.2.116.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3412F17E3611;
-	Thu,  3 Oct 2024 18:08:05 +0200 (CEST)
-Date: Thu, 3 Oct 2024 12:08:03 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Alper Nebi Yasak <alpernebiyasak@gmail.com>
-Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Pin-yen Lin <treapking@chromium.org>,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: Erroneous sbs-battery sysfs info a MT8173 Chromebook
-Message-ID: <a83e80f7-2bb8-423d-b24e-e793ce5da988@notapiano>
-References: <6e341522-70f6-413c-b9ba-8ac86a19b5f3@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mkDxeLKr"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42cc8782869so14424085e9.2
+        for <chrome-platform@lists.linux.dev>; Thu, 03 Oct 2024 15:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727994475; x=1728599275; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sP5+xFCwvIfgdPuM2uoWieb2IVBCdlsyGhb48u2injk=;
+        b=mkDxeLKrEttD27V+fVMOR5YYtuCtTCseh0AWWjXuLdXBLotJmW4LiOuHNFn61ug/hC
+         x8lOscgEb8LTftJt8qtuh40vY8XgaAfat6r+uC/li6ol+tciJO7ZmiqVhB3BhqL90a/I
+         TL2wRIwqwOu9f4Vq1bCACjGwc2xAyJWDxm7TWWE9sj8edJMxD/Kfhh+vCfhchGp1XBJv
+         wwVfSB3do9rIIE2JVc4a/OvHmqiYS2Z4f1pLkh4Wm4jfPNT1mKUMMXuSkkJke/1Qq0Pl
+         Fx3gKEGO8Uimle5rhByalAzepYAdIgzC0gK8hdB2qXdz7amTMp3t/9wfLg2lOd2zHEPQ
+         TvnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727994475; x=1728599275;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sP5+xFCwvIfgdPuM2uoWieb2IVBCdlsyGhb48u2injk=;
+        b=qwbdHQpsI9c3eZ+mwWqzsfwBmf5+V5iVrCEOZfiXzEBfHBr0OQYKy1tniiHWBxjVN3
+         OYu/3IpQKlVFXicQiwEebQt8pV6oW4wpL/hZACnamygeaLmQQSjlAhhT8gq614pPy3lX
+         1/fJYYGz9uvguj3SWwoyU7CB8rdMKYSe9uaqDfLGoX4hcahie6gLLkyQAB9+vQpWHtr1
+         vN/XRSC/1oGk0GXOlZmAbojmiXo85S/T/+gqgFU3Ru0/ojUpQNrQ69qqANqUlk0ijxDl
+         pCP+6XzXp90jZZQKgYfFE4aad8aKv9j+VrBbl/urAP+4FZFo948PP3qCHQkiyIDPfigX
+         HQWg==
+X-Gm-Message-State: AOJu0YzpyzddXtes0FwxFdeVJmdlx1Ra0FtMj9qZuHqPwTVdEexszPDL
+	E4gVWFy1Kzw3lDTMi41Qw6l+LIfXNuhhhiw81HOsiN/nPhE517Sg
+X-Google-Smtp-Source: AGHT+IHDKi8be1luFvFObKCgtE8dWUy8+2N6ax404drWFKWhO05Bsyimgoa7KQJsvRhzNjmZfQyg/w==
+X-Received: by 2002:a05:600c:3b8a:b0:42c:b95c:65ba with SMTP id 5b1f17b1804b1-42f85a6ca96mr3117955e9.6.1727994474417;
+        Thu, 03 Oct 2024 15:27:54 -0700 (PDT)
+Received: from [192.168.0.10] ([178.233.24.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86a1f6b4sm355535e9.6.2024.10.03.15.27.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Oct 2024 15:27:53 -0700 (PDT)
+Message-ID: <ae30adc7-8bcf-4daa-923a-d4a12e2404ea@gmail.com>
+Date: Fri, 4 Oct 2024 01:27:50 +0300
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: Erroneous sbs-battery sysfs info a MT8173 Chromebook
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Pin-yen Lin <treapking@chromium.org>, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <6e341522-70f6-413c-b9ba-8ac86a19b5f3@gmail.com>
+ <a83e80f7-2bb8-423d-b24e-e793ce5da988@notapiano>
+Content-Language: en-US, tr, en-GB
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+In-Reply-To: <a83e80f7-2bb8-423d-b24e-e793ce5da988@notapiano>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6e341522-70f6-413c-b9ba-8ac86a19b5f3@gmail.com>
 
-On Thu, Oct 03, 2024 at 06:15:49PM +0300, Alper Nebi Yasak wrote:
-> Hello,
-> 
-> I have a MT8173 Chromebook ("Lenovo 300e") where I'm getting a lot of 
-> battery-related errors:
-> 
-> [   34.678473] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> [   34.702079] power_supply_show_property: 5 callbacks suppressed
-> [   34.702096] power_supply sbs-6-000b: driver failed to report `technology' property: -22
-> [   34.754401] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> [   34.782568] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> [   34.806020] power_supply sbs-6-000b: driver failed to report `manufacturer' property: -22
-> [   34.826135] power_supply sbs-6-000b: driver failed to report `technology' property: -22
-> [   34.844078] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> [   34.864128] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> [   34.889015] power_supply sbs-6-000b: driver failed to report `model_name' property: -22
-> [   34.895486] power_supply sbs-6-000b: driver failed to report `technology' property: -22
-> [   34.945035] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
-> 
-> These infinitely repeat because upower keeps trying to read them. I also 
-> see this which might be important:
-> 
-> [   18.111500] cros-usbpd-charger cros-usbpd-charger.7.auto: Could not get charger port count
-> [   18.197166] sbs-battery 6-000b: sbs-battery: battery gas gauge device registered
-> [   18.248105] sbs-battery 6-000b: I2C adapter does not support I2C_FUNC_SMBUS_READ_BLOCK_DATA.
->                Fallback method does not support PEC.
-> 
-> Properties seem to be stuck to weird values (0xffff ?):
-> 
->   $ for f in /sys/class/power_supply/sbs-6-000b/*; do
->       printf "$(basename "$f"):  "
->       cat "$f" 2>/dev/null || echo
->     done
->   capacity:  100
->   capacity_error_margin:  0
->   capacity_level:  Full
->   charge_full:  65535000
->   charge_full_design:  65535000
->   charge_now:  65535000
->   constant_charge_current_max:  65535000
->   constant_charge_voltage_max:  65535000
->   current_avg:  -1000
->   current_now:  -1000
->   cycle_count:  65535
->   device:
->   energy_full:  655350000
->   energy_full_design:  655350000
->   energy_now:  655350000
->   health:  Calibration required
->   hwmon2:
->   manufacture_day:  31
->   manufacture_month:  15
->   manufacturer:  
->   manufacture_year:  2107
->   model_name:
->   of_node:
->   power:
->   present:  1
->   serial_number:  ffff
->   status:  Discharging
->   subsystem:
->   technology:  Unknown
->   temp:  62804
->   time_to_empty_avg:  3932100
->   time_to_empty_now:  3932100
->   time_to_full_avg:  3932100
->   type:  Battery
->   uevent:
->   voltage_max_design:  65535000
->   voltage_min_design:  65535000
->   voltage_now:  65535000
->   wakeup10:
-> 
-> I suspected a hardware issue, but I can get battery info from the EC 
-> just fine with the same kernel:
-> 
->   $ sudo ectool battery
->   Battery info:
->     OEM name:               LGC
->     Model number:           L15L3PB
->     Chemistry   :           LiP
->     Serial number:          0E0C
->     Design capacity:        4050 mAh
->     Last full charge:       3341 mAh
->     Design output voltage   11100 mV
->     Cycle count             115
->     Present voltage         11671 mV
->     Present current         344 mA
->     Remaining capacity      2734 mAh
->     Flags                   0x06 BATT_PRESENT DISCHARGING
->   
->   $ sudo ectool version
->   RO version:    hana_v1.1.4824-d58e50539
->   RW version:    hana_v1.1.4825-1473136d99
->   Firmware copy: RW
->   Build info:    hana_v1.1.4825-1473136d99 2021-09-11 00:11:48 @chromeos-ci-firmware-us-central2-d-x32-0-jx9e
-> 
-> I have _another_ MT8173 Chromebook ("ASUS C202X") where things work 
-> fine. But I couldn't find a good mainline kernel version for this one.
-> Anyone have any idea what is going on?
+Hi,
 
-FWIW, I have also experienced issues reading properties from the SBS batteries
-before on chromebooks:
+On 2024-10-03 19:08 +03:00, NÃ­colas F. R. A. Prado wrote:
+> On Thu, Oct 03, 2024 at 06:15:49PM +0300, Alper Nebi Yasak wrote:
+>> Hello,
+>>
+>> I have a MT8173 Chromebook ("Lenovo 300e") where I'm getting a lot of 
+>> battery-related errors:
+>>
+>> [   34.678473] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
+>> [   34.702079] power_supply_show_property: 5 callbacks suppressed
+>> [   34.702096] power_supply sbs-6-000b: driver failed to report `technology' property: -22
+>> 
+>> [...]
+>>
+>> I have _another_ MT8173 Chromebook ("ASUS C202X") where things work 
+>> fine. But I couldn't find a good mainline kernel version for this one.
+>> Anyone have any idea what is going on?
+> 
+> FWIW, I have also experienced issues reading properties from the SBS batteries
+> before on chromebooks:
+> 
+> https://lore.kernel.org/all/924db470-8163-4454-8f59-f7372a132186@notapiano/
+> 
+> In those cases it was due to the EC firmware not implementing the SBS commands,
+> but that had already been fixed in the latest EC firmware release, so simply
+> updating the firmware fixed it.
 
-https://lore.kernel.org/all/924db470-8163-4454-8f59-f7372a132186@notapiano/
+(Replied there as well for a different board: cozmo)
 
-In those cases it was due to the EC firmware not implementing the SBS commands,
-but that had already been fixed in the latest EC firmware release, so simply
-updating the firmware fixed it.
+> I don't know how ectool works, but it might be fetching the battery properties
+> through a different mechanism (ie not SBS commands), so this might also be a bug
+> in the EC FW despite ectool working.
 
-I don't know how ectool works, but it might be fetching the battery properties
-through a different mechanism (ie not SBS commands), so this might also be a bug
-in the EC FW despite ectool working.
+AFAICT, ectool talks to /dev/cros_ec with EC commands, which makes EC 
+send SBS commands to the battery on its own; whereas in the kernel 
+driver case it passes kernel's SBS commands through the i2c tunnel.
 
-Thanks,
-Nícolas
+But never mind all that, I should've looked into ChromeOS kernel 
+sources. There's a limited i2c passthrough [1] that's implemented there. 
+And this specific battery is failing to recognize a read command due to 
+a stop bit or something, so they use this limited passthrough [2]. I've 
+managed to apply those on top of linux-next and it makes things work, 
+but I have no idea how I'd go about upstreaming it (comments on [1] 
+point out it's quite hacky and not used in later boards).
+
+[1] CHROMIUM: i2c: wire a limited smart battery passthrough
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2230594
+
+[2] CHROMIUM: arm64: dts: mt8173-hana: Add google,limited-passthrough property
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/422609
+

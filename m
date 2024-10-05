@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB5D145FFF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E521465BA
 	for <chrome-platform@lists.linux.dev>; Sat,  5 Oct 2024 10:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728122730; cv=none; b=dYhO0VVyLQUXcnt0c08CMZ9b04d4HFwlE0kcNnSNfinAajCW+kJzVy7ZxMF3Pemj5O1ge7B+Pmp/LW5n2YkLKvrUv4jlNQaC5xL4RxpM/nCvAYkCwcjBS5MO94eyBOkSehVmeNMYhWYaasAgaB/hNwYTbnDCfkMzOcij1LD2ppM=
+	t=1728122732; cv=none; b=i8OHUD6hXitjXBAzKThb45V63FYAI+UHVmrupJacXXp9r9k9mZZXCm6wxjQN4II4Me/eyUEyOcZlFVXxGddvXC0tuOI7fDtlYIK9Vh/EXdAu4XuqqtHxqB96H0K+wtRXGwCbOIzNkfEqwFCDVZ27HDdaACdauYG8NriL9FMsjEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728122730; c=relaxed/simple;
-	bh=r6VqPKJndOSTJfo57apH3Pg1CyWBmiP5JsMt4rLFKFU=;
+	s=arc-20240116; t=1728122732; c=relaxed/simple;
+	bh=iVn9zkMkqlm7S5h5JRqhUrYnlB6s71UZJiFr3ZeXgCk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VVhaS0OYZUc0tW6muRdXMj22WScPThdJib+zl2nHw6HTemMYbYM2Wm0GbmXWAfEYSh6JWo4J8M+fyzVWz0923L+XejwWx/xSGEbu9r8HVH7KWfB57U8cBTuWu5+n6DHWDm6lDzDhLedJROtO7/5SXNeeBv4f4f3xihSxf7rQj5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=WQyDcrB8; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=k6HdibzyKSSYcRiseF6qpjfuA+lRtxZvqhbAYE9ViviSAoUnF09in5XSub1KAq8l58A5h5gwzGeuNTSmeaJb+UPWAXC6nQKyRaPwBzo4qd+N7uTOrnac9PIVnarhkbZ6NPxdtRLxB7S4/fUpDBxpsLw8Arn485daZuIM1+rNEj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DQo7haTZ; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="WQyDcrB8"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DQo7haTZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1728122726;
-	bh=r6VqPKJndOSTJfo57apH3Pg1CyWBmiP5JsMt4rLFKFU=;
+	s=mail; t=1728122727;
+	bh=iVn9zkMkqlm7S5h5JRqhUrYnlB6s71UZJiFr3ZeXgCk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WQyDcrB8RLAqjTGnlBsySLN+Egn0GPkwyi+XgeITucgfHmA6u+odPPBKtYZq2EOA4
-	 KV4+4jPfzuKwaofux/k+Zn6qPiJHXMCHn9LJRF1KG8vN+BlVVnY3xRNqQKwZY2axkz
-	 Yj3A6lYKUHFV3Eo/1wabvvc2zaqXcv+Nr7TQGB4g=
+	b=DQo7haTZNrDFyCZdNEQ2m9cbXikgBe1NkRRveOdLqxB0AYoQSNdbsSQMyr2bTfaNd
+	 /INj6TS5swooVTBrDDQqXmo9+QFE9EUdFPd/CyX3W5dRq4ONwzDwMgikUg3jrUPOvr
+	 29QOEVxXcmFQUfLWfcUW8jeK86Xdpi+Omj27BFLo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 05 Oct 2024 12:05:04 +0200
-Subject: [PATCH 2/8] ACPI: battery: Register power supply with
- power_supply_register()
+Date: Sat, 05 Oct 2024 12:05:10 +0200
+Subject: [PATCH 8/8] power: supply: core: remove
+ {,devm_}power_supply_register_no_ws()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241005-power-supply-no-wakeup-source-v1-2-1d62bf9bcb1d@weissschuh.net>
+Message-Id: <20241005-power-supply-no-wakeup-source-v1-8-1d62bf9bcb1d@weissschuh.net>
 References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
 In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -47,43 +47,162 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728122726; l=1138;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728122726; l=5742;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=r6VqPKJndOSTJfo57apH3Pg1CyWBmiP5JsMt4rLFKFU=;
- b=J59RzEPdQuB35y2GIKegik92KvMQTF53sRsbhC0YelLPfOGPNUtJ15nzYc4xjr5xAFnRX2a/7
- K+wF8HXrdhjAEIuaR+Yw/jp49NNtmrRE9ZRRF1AYwlcBJkgZR4/1oXm
+ bh=iVn9zkMkqlm7S5h5JRqhUrYnlB6s71UZJiFr3ZeXgCk=;
+ b=zG7LJNwygoALWccpB6SUz7CPwxNuIRXMEyaMZBFMz6fMCuifyaCI+ppfL2i98I7Sh2N52k9vi
+ Q9gofR2fQ8PCJ+Ok9kf8CCS/m898xzK9M/YdBUrIOW+WQ6qi4C2kYBU
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-power_supply_register_no_ws() is going to be removed.
-Switch to the general registration API.
+The same functionality is available through
+power_supply_config::no_wakeup_source, which is more idiomatic.
+All users of the old API have been converted.
+
+Also remove the argument "ws" from __power_supply_register(),
+as it is now always "true".
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/acpi/battery.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/power/supply/power_supply_core.c | 71 ++------------------------------
+ include/linux/power_supply.h             |  8 ----
+ 2 files changed, 4 insertions(+), 75 deletions(-)
 
-diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
-index 65fa3444367a13ac83644444076a11f08152c382..9a3a475f8ad334bb365e6a0273084034b8baa3bd 100644
---- a/drivers/acpi/battery.c
-+++ b/drivers/acpi/battery.c
-@@ -853,6 +853,7 @@ static int sysfs_add_battery(struct acpi_battery *battery)
- 	struct power_supply_config psy_cfg = {
- 		.drv_data = battery,
- 		.attr_grp = acpi_battery_groups,
-+		.no_wakeup_source = true,
- 	};
- 	bool full_cap_broken = false;
+diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+index 5b5a3abca0b554d809054026f8cf32b2d18a3362..650da0d1331f87a9682f92084b937ed879105b39 100644
+--- a/drivers/power/supply/power_supply_core.c
++++ b/drivers/power/supply/power_supply_core.c
+@@ -1342,8 +1342,7 @@ static void psy_unregister_thermal(struct power_supply *psy)
+ static struct power_supply *__must_check
+ __power_supply_register(struct device *parent,
+ 				   const struct power_supply_desc *desc,
+-				   const struct power_supply_config *cfg,
+-				   bool ws)
++				   const struct power_supply_config *cfg)
+ {
+ 	struct device *dev;
+ 	struct power_supply *psy;
+@@ -1410,10 +1409,7 @@ __power_supply_register(struct device *parent,
+ 	if (rc)
+ 		goto device_add_failed;
  
-@@ -888,7 +889,7 @@ static int sysfs_add_battery(struct acpi_battery *battery)
- 	battery->bat_desc.type = POWER_SUPPLY_TYPE_BATTERY;
- 	battery->bat_desc.get_property = acpi_battery_get_property;
+-	if (cfg && cfg->no_wakeup_source)
+-		ws = false;
+-
+-	rc = device_init_wakeup(dev, ws);
++	rc = device_init_wakeup(dev, cfg ? !cfg->no_wakeup_source : true);
+ 	if (rc)
+ 		goto wakeup_init_failed;
  
--	battery->bat = power_supply_register_no_ws(&battery->device->dev,
-+	battery->bat = power_supply_register(&battery->device->dev,
- 				&battery->bat_desc, &psy_cfg);
+@@ -1479,33 +1475,10 @@ struct power_supply *__must_check power_supply_register(struct device *parent,
+ 		const struct power_supply_desc *desc,
+ 		const struct power_supply_config *cfg)
+ {
+-	return __power_supply_register(parent, desc, cfg, true);
++	return __power_supply_register(parent, desc, cfg);
+ }
+ EXPORT_SYMBOL_GPL(power_supply_register);
  
- 	if (IS_ERR(battery->bat)) {
+-/**
+- * power_supply_register_no_ws() - Register new non-waking-source power supply
+- * @parent:	Device to be a parent of power supply's device, usually
+- *		the device which probe function calls this
+- * @desc:	Description of power supply, must be valid through whole
+- *		lifetime of this power supply
+- * @cfg:	Run-time specific configuration accessed during registering,
+- *		may be NULL
+- *
+- * Return: A pointer to newly allocated power_supply on success
+- * or ERR_PTR otherwise.
+- * Use power_supply_unregister() on returned power_supply pointer to release
+- * resources.
+- */
+-struct power_supply *__must_check
+-power_supply_register_no_ws(struct device *parent,
+-		const struct power_supply_desc *desc,
+-		const struct power_supply_config *cfg)
+-{
+-	return __power_supply_register(parent, desc, cfg, false);
+-}
+-EXPORT_SYMBOL_GPL(power_supply_register_no_ws);
+-
+ static void devm_power_supply_release(struct device *dev, void *res)
+ {
+ 	struct power_supply **psy = res;
+@@ -1538,7 +1511,7 @@ devm_power_supply_register(struct device *parent,
+ 
+ 	if (!ptr)
+ 		return ERR_PTR(-ENOMEM);
+-	psy = __power_supply_register(parent, desc, cfg, true);
++	psy = __power_supply_register(parent, desc, cfg);
+ 	if (IS_ERR(psy)) {
+ 		devres_free(ptr);
+ 	} else {
+@@ -1549,42 +1522,6 @@ devm_power_supply_register(struct device *parent,
+ }
+ EXPORT_SYMBOL_GPL(devm_power_supply_register);
+ 
+-/**
+- * devm_power_supply_register_no_ws() - Register managed non-waking-source power supply
+- * @parent:	Device to be a parent of power supply's device, usually
+- *		the device which probe function calls this
+- * @desc:	Description of power supply, must be valid through whole
+- *		lifetime of this power supply
+- * @cfg:	Run-time specific configuration accessed during registering,
+- *		may be NULL
+- *
+- * Return: A pointer to newly allocated power_supply on success
+- * or ERR_PTR otherwise.
+- * The returned power_supply pointer will be automatically unregistered
+- * on driver detach.
+- */
+-struct power_supply *__must_check
+-devm_power_supply_register_no_ws(struct device *parent,
+-		const struct power_supply_desc *desc,
+-		const struct power_supply_config *cfg)
+-{
+-	struct power_supply **ptr, *psy;
+-
+-	ptr = devres_alloc(devm_power_supply_release, sizeof(*ptr), GFP_KERNEL);
+-
+-	if (!ptr)
+-		return ERR_PTR(-ENOMEM);
+-	psy = __power_supply_register(parent, desc, cfg, false);
+-	if (IS_ERR(psy)) {
+-		devres_free(ptr);
+-	} else {
+-		*ptr = psy;
+-		devres_add(parent, ptr);
+-	}
+-	return psy;
+-}
+-EXPORT_SYMBOL_GPL(devm_power_supply_register_no_ws);
+-
+ /**
+  * power_supply_unregister() - Remove this power supply from system
+  * @psy:	Pointer to power supply to unregister
+diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+index 412646e055d79ff23346a99c4485e594363857ed..6562d52151f62fadfefa718483b954067d088875 100644
+--- a/include/linux/power_supply.h
++++ b/include/linux/power_supply.h
+@@ -874,17 +874,9 @@ power_supply_register(struct device *parent,
+ 				 const struct power_supply_desc *desc,
+ 				 const struct power_supply_config *cfg);
+ extern struct power_supply *__must_check
+-power_supply_register_no_ws(struct device *parent,
+-				 const struct power_supply_desc *desc,
+-				 const struct power_supply_config *cfg);
+-extern struct power_supply *__must_check
+ devm_power_supply_register(struct device *parent,
+ 				 const struct power_supply_desc *desc,
+ 				 const struct power_supply_config *cfg);
+-extern struct power_supply *__must_check
+-devm_power_supply_register_no_ws(struct device *parent,
+-				 const struct power_supply_desc *desc,
+-				 const struct power_supply_config *cfg);
+ extern void power_supply_unregister(struct power_supply *psy);
+ extern int power_supply_powers(struct power_supply *psy, struct device *dev);
+ 
 
 -- 
 2.46.2

@@ -1,130 +1,92 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9AC824BD
-	for <chrome-platform@lists.linux.dev>; Thu,  3 Oct 2024 22:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE461459F6
+	for <chrome-platform@lists.linux.dev>; Sat,  5 Oct 2024 10:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727994478; cv=none; b=qzBSWsmO62oz3ic7R/BY6MJD44BNxSEFQ2CGtc1arLaxWCBDZQ7tmaMPhPqetJNUPbUn3jfWHLO74doGZgXj7TTYSwCWZCKgF/aZPv5Vf59vjm+1rlqf5I3KyzfBy6NZTSgACdndnZlcAEWhE9PMJgB2HiRmZ2QMg6Zh5hu1WCQ=
+	t=1728122730; cv=none; b=pUA3bsXeZXb5LBCw5LQINSYdmLvVIjYifKRj09BGHZbpAnjPb/ER6GrEBJZpjkh/2nzgK4mKZ6PZAAz/lNiAHRyHdtQ1f59J9WHULi5WGAMhBT5D/QN0WJgBokcnC3Cvr8dj7zXjh6WNTqgMyYFLhKC/kVHj4HRzcpHBiRIyKkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727994478; c=relaxed/simple;
-	bh=uu2x9TKpC908OMI4yRbTHNSyl2uAgyko3/e+XWCSaxU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oItK2W0S2a5QblR5vB8I3w5+iMYcBg6GRBTUfw5+eduRogGbUJLqlVaXhwkbtwmtnMREF+EfMSxV2mJ8JK67vpFJNrJv6MCYSMhW0sXaUFvfJpke3DJEBAFj/eyHIEnMbSZScAwMtgRmBMknx7792eo5EW4KNviHJGd8/35uzas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mkDxeLKr; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728122730; c=relaxed/simple;
+	bh=WQKSkjSktZCriiwkdWIUgiePB+EnguIBlEAzjDlXbT8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BUs8kCqI/ZOnWbEFOdBu12dF/lqPcPyEqNsisUK44PCaM/roPiYOqN9x6euqCRd0LJrpzLjiIIBV+nFurquo8d1/Z3jUtR/ryWqc2EObKCjy8JbcielQ9KilHT0rp7fWxDqRFBS7gdbd9uO2KmEUc83ydqUf7+ooM1preM2JHLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NHfnLLUb; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mkDxeLKr"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42cc8782869so14424085e9.2
-        for <chrome-platform@lists.linux.dev>; Thu, 03 Oct 2024 15:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727994475; x=1728599275; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sP5+xFCwvIfgdPuM2uoWieb2IVBCdlsyGhb48u2injk=;
-        b=mkDxeLKrEttD27V+fVMOR5YYtuCtTCseh0AWWjXuLdXBLotJmW4LiOuHNFn61ug/hC
-         x8lOscgEb8LTftJt8qtuh40vY8XgaAfat6r+uC/li6ol+tciJO7ZmiqVhB3BhqL90a/I
-         TL2wRIwqwOu9f4Vq1bCACjGwc2xAyJWDxm7TWWE9sj8edJMxD/Kfhh+vCfhchGp1XBJv
-         wwVfSB3do9rIIE2JVc4a/OvHmqiYS2Z4f1pLkh4Wm4jfPNT1mKUMMXuSkkJke/1Qq0Pl
-         Fx3gKEGO8Uimle5rhByalAzepYAdIgzC0gK8hdB2qXdz7amTMp3t/9wfLg2lOd2zHEPQ
-         TvnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727994475; x=1728599275;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sP5+xFCwvIfgdPuM2uoWieb2IVBCdlsyGhb48u2injk=;
-        b=qwbdHQpsI9c3eZ+mwWqzsfwBmf5+V5iVrCEOZfiXzEBfHBr0OQYKy1tniiHWBxjVN3
-         OYu/3IpQKlVFXicQiwEebQt8pV6oW4wpL/hZACnamygeaLmQQSjlAhhT8gq614pPy3lX
-         1/fJYYGz9uvguj3SWwoyU7CB8rdMKYSe9uaqDfLGoX4hcahie6gLLkyQAB9+vQpWHtr1
-         vN/XRSC/1oGk0GXOlZmAbojmiXo85S/T/+gqgFU3Ru0/ojUpQNrQ69qqANqUlk0ijxDl
-         pCP+6XzXp90jZZQKgYfFE4aad8aKv9j+VrBbl/urAP+4FZFo948PP3qCHQkiyIDPfigX
-         HQWg==
-X-Gm-Message-State: AOJu0YzpyzddXtes0FwxFdeVJmdlx1Ra0FtMj9qZuHqPwTVdEexszPDL
-	E4gVWFy1Kzw3lDTMi41Qw6l+LIfXNuhhhiw81HOsiN/nPhE517Sg
-X-Google-Smtp-Source: AGHT+IHDKi8be1luFvFObKCgtE8dWUy8+2N6ax404drWFKWhO05Bsyimgoa7KQJsvRhzNjmZfQyg/w==
-X-Received: by 2002:a05:600c:3b8a:b0:42c:b95c:65ba with SMTP id 5b1f17b1804b1-42f85a6ca96mr3117955e9.6.1727994474417;
-        Thu, 03 Oct 2024 15:27:54 -0700 (PDT)
-Received: from [192.168.0.10] ([178.233.24.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86a1f6b4sm355535e9.6.2024.10.03.15.27.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 15:27:53 -0700 (PDT)
-Message-ID: <ae30adc7-8bcf-4daa-923a-d4a12e2404ea@gmail.com>
-Date: Fri, 4 Oct 2024 01:27:50 +0300
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NHfnLLUb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1728122726;
+	bh=WQKSkjSktZCriiwkdWIUgiePB+EnguIBlEAzjDlXbT8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=NHfnLLUbldI/L+kjukmJjkdP/ksheXaJsmwm0+R7zyiiftDHfCQH4kZqPeGKRxCLs
+	 1AMSBIy/5PbmfOBsl3dCKHjGT5zY+LphyrmNMRtfxHyTI/cudjqtiZDbBvdJ0WIn9a
+	 +7amOUZFxqm8aHObS6IS2MyiGDQFl8fIWmcpR+HY=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 05 Oct 2024 12:05:05 +0200
+Subject: [PATCH 3/8] power: supply: acer_a500_battery: register power
+ supply with devm_power_supply_register()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Erroneous sbs-battery sysfs info a MT8173 Chromebook
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Pin-yen Lin <treapking@chromium.org>, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <6e341522-70f6-413c-b9ba-8ac86a19b5f3@gmail.com>
- <a83e80f7-2bb8-423d-b24e-e793ce5da988@notapiano>
-Content-Language: en-US, tr, en-GB
-From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
-In-Reply-To: <a83e80f7-2bb8-423d-b24e-e793ce5da988@notapiano>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20241005-power-supply-no-wakeup-source-v1-3-1d62bf9bcb1d@weissschuh.net>
+References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
+In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
+To: Sebastian Reichel <sre@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728122726; l=1231;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=WQKSkjSktZCriiwkdWIUgiePB+EnguIBlEAzjDlXbT8=;
+ b=kJ4kyvm3rSkSK9d7BH2dX6xc6AmzbCJi+3MyyQvRFk32eAI889qmopc+SG6KbmeFgfZDBI3UT
+ auXgsi7YK6XAIZl+9+aizcn6z38bUCsYnnT6CeSaRqIWJX1fUNhKgZi
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Hi,
+devm_power_supply_register_no_ws() is going to be removed.
+Switch to the general registration API.
 
-On 2024-10-03 19:08 +03:00, Nícolas F. R. A. Prado wrote:
-> On Thu, Oct 03, 2024 at 06:15:49PM +0300, Alper Nebi Yasak wrote:
->> Hello,
->>
->> I have a MT8173 Chromebook ("Lenovo 300e") where I'm getting a lot of 
->> battery-related errors:
->>
->> [   34.678473] sbs-battery 6-000b: sbs_read_string_data_fallback: Returned block_length is longer than 0x20
->> [   34.702079] power_supply_show_property: 5 callbacks suppressed
->> [   34.702096] power_supply sbs-6-000b: driver failed to report `technology' property: -22
->> 
->> [...]
->>
->> I have _another_ MT8173 Chromebook ("ASUS C202X") where things work 
->> fine. But I couldn't find a good mainline kernel version for this one.
->> Anyone have any idea what is going on?
-> 
-> FWIW, I have also experienced issues reading properties from the SBS batteries
-> before on chromebooks:
-> 
-> https://lore.kernel.org/all/924db470-8163-4454-8f59-f7372a132186@notapiano/
-> 
-> In those cases it was due to the EC firmware not implementing the SBS commands,
-> but that had already been fixed in the latest EC firmware release, so simply
-> updating the firmware fixed it.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/power/supply/acer_a500_battery.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-(Replied there as well for a different board: cozmo)
+diff --git a/drivers/power/supply/acer_a500_battery.c b/drivers/power/supply/acer_a500_battery.c
+index ef5c419b1b7f20744b48e1648c38289f4d546cf9..58e7b2eac68f9745f5a2c48ba27951f65e681d2f 100644
+--- a/drivers/power/supply/acer_a500_battery.c
++++ b/drivers/power/supply/acer_a500_battery.c
+@@ -233,14 +233,15 @@ static int a500_battery_probe(struct platform_device *pdev)
+ 
+ 	psy_cfg.of_node = pdev->dev.parent->of_node;
+ 	psy_cfg.drv_data = bat;
++	psy_cfg.no_wakeup_source = true;
+ 
+ 	bat->regmap = dev_get_regmap(pdev->dev.parent, "KB930");
+ 	if (!bat->regmap)
+ 		return -EINVAL;
+ 
+-	bat->psy = devm_power_supply_register_no_ws(&pdev->dev,
+-						    &a500_battery_desc,
+-						    &psy_cfg);
++	bat->psy = devm_power_supply_register(&pdev->dev,
++					      &a500_battery_desc,
++					      &psy_cfg);
+ 	if (IS_ERR(bat->psy))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(bat->psy),
+ 				     "failed to register battery\n");
 
-> I don't know how ectool works, but it might be fetching the battery properties
-> through a different mechanism (ie not SBS commands), so this might also be a bug
-> in the EC FW despite ectool working.
-
-AFAICT, ectool talks to /dev/cros_ec with EC commands, which makes EC 
-send SBS commands to the battery on its own; whereas in the kernel 
-driver case it passes kernel's SBS commands through the i2c tunnel.
-
-But never mind all that, I should've looked into ChromeOS kernel 
-sources. There's a limited i2c passthrough [1] that's implemented there. 
-And this specific battery is failing to recognize a read command due to 
-a stop bit or something, so they use this limited passthrough [2]. I've 
-managed to apply those on top of linux-next and it makes things work, 
-but I have no idea how I'd go about upstreaming it (comments on [1] 
-point out it's quite hacky and not used in later boards).
-
-[1] CHROMIUM: i2c: wire a limited smart battery passthrough
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2230594
-
-[2] CHROMIUM: arm64: dts: mt8173-hana: Add google,limited-passthrough property
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/422609
+-- 
+2.46.2
 

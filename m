@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E675C156883
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D548B14B94B
 	for <chrome-platform@lists.linux.dev>; Sat,  5 Oct 2024 10:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728122734; cv=none; b=SnBoeNwNspgJqFJIAqwsbw/8LKuPh3wUjTmhB8XURTvL+11vQgSpy27uH6rx+wmGhjI+d6LifuCxngRTvbIBK0vnLCuT31O1WwzZxAm7lGaZJwBgUUGjVg1CV02FL8PqCecM6H2NJ0gtSsT9rv5VgMfx26GxJJ0DSwutEoP6nI8=
+	t=1728122735; cv=none; b=QXnBQ6pvil0J2C/geHn4tQ+RYd2Fi29McX4KbN4ovAt1nH6YtgG24KSuzLKhS61yXPiLBoamw9T20lF8qUQpM6VX5jPbkmHCGSnQWp3jW4hx4bOwnAXSuMWsEgLJBRDZ3x3ReUpT2nFzqTk491RgfisnBzKEi/Gkvrv4VPfvvoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728122734; c=relaxed/simple;
-	bh=3snWepe9T3lSQIhIsMzHnhIEWoE3d7gmIqXXaoMOHIQ=;
+	s=arc-20240116; t=1728122735; c=relaxed/simple;
+	bh=YXJ4Fir9eqOqi0FqoCYgm/ICDLFYsW7/A4um6dWTZJ4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PptfnXjEYahQO2KK+JuBkfXWyf/he3dKcn02ZY4/sgcMBHVzx3ZsigWquDaCtiRpA9+7Tl1I4uPtP3y3N9zL1H5VhxdnA6SBI14FyboLvC5AAjLIB2FTEBWhQ0o8/oOxp134RVkJB/E1AePkbG0r/nTxN67RaRfHZFHpOaUPhFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=BVgqe0Kh; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=auMLWRxgxSwv8cHF+Q3jamZVZ3ZXfSm5707cYo+XuC7SITgEtCeOAdchAWWbTUdD61PJYsP7B6F8vIrXBvQcW25tjucFQirrW9w3XbMJvQ0RxWQQvWwRTV3VIh8Bhvm8ucCuJQyl1TTufjShuu/38Rjj8lOzKQJTgYX4/yS8PGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=i86JFv2d; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="BVgqe0Kh"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="i86JFv2d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1728122727;
-	bh=3snWepe9T3lSQIhIsMzHnhIEWoE3d7gmIqXXaoMOHIQ=;
+	bh=YXJ4Fir9eqOqi0FqoCYgm/ICDLFYsW7/A4um6dWTZJ4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BVgqe0KhMmiPeizZjTssaawplS6rO+dMYTHMeJRyW5QX2STc/OvJBesdWia2vsnpJ
-	 gBjtwV+L7+g3gKrW8IZJ5Us1ChmS1zbqQBhzHLRyJJf5mWrTLo1C/HXvGsqn1AYb10
-	 c/x+cLLgGBJ8bw9LitAcgjbnudXMk1YbaI4fxa0k=
+	b=i86JFv2dtl8WLc/GYrYsC/nn7BuANhfkG/ee9pPJaP0qRWjr82/UD67taXHeuYy2C
+	 a1/sbMGGJJrULHcpmsTMjVZZB5xlznKgXgKEq/tN9qulLcSdiSjhZ0kT77nmkf0qLl
+	 /fP86hrlttKmlamPnyo9xkqwOXL6XzRHyVeO2QBY=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 05 Oct 2024 12:05:09 +0200
-Subject: [PATCH 7/8] power: supply: max77976_charger: register power supply
- with devm_power_supply_register()
+Date: Sat, 05 Oct 2024 12:05:07 +0200
+Subject: [PATCH 5/8] power: supply: cros_usbpd-charger: register power
+ supply with devm_power_supply_register()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241005-power-supply-no-wakeup-source-v1-7-1d62bf9bcb1d@weissschuh.net>
+Message-Id: <20241005-power-supply-no-wakeup-source-v1-5-1d62bf9bcb1d@weissschuh.net>
 References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
 In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -47,11 +47,11 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-acpi@vger.kernel.org, chrome-platform@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728122726; l=1188;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728122726; l=1287;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=3snWepe9T3lSQIhIsMzHnhIEWoE3d7gmIqXXaoMOHIQ=;
- b=3UsHP+aMkWRD1r9zQMg7Af2LSY8LFcimqVICArhDMt7Esm+h5fI1iBx0vrkAM2Ck0VoEiFvpV
- sDO+rIQxEu0DlDtmK9jJqDhQNSdqJVmO0ioWVXIezvndn4hMi9J37pr
+ bh=YXJ4Fir9eqOqi0FqoCYgm/ICDLFYsW7/A4um6dWTZJ4=;
+ b=zMABkNI/yH/mHTfFBL90ELge7YlPIZ79Fq2gURl8pwSUdznUygzgIu6i1GNlNbX6WWihS54dJ
+ FB2MJCjrplWCgdd1/BKXLFWj45aBa6+0Vph+uuFUEB4cegtHallZcOX
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -60,30 +60,31 @@ Switch to the general registration API.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/power/supply/max77976_charger.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/power/supply/cros_usbpd-charger.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/power/supply/max77976_charger.c b/drivers/power/supply/max77976_charger.c
-index d7e520da768864f7f7e5177195ec0a16a51724f5..e6fe68cebc32b6fa39df71616ca293ce20098150 100644
---- a/drivers/power/supply/max77976_charger.c
-+++ b/drivers/power/supply/max77976_charger.c
-@@ -452,6 +452,7 @@ static int max77976_probe(struct i2c_client *client)
+diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+index bed3e2e9bfea971142f10956ed499b1ac2d834dd..47d3f58aa15ceb792b3c3dc2468e770890d76b7e 100644
+--- a/drivers/power/supply/cros_usbpd-charger.c
++++ b/drivers/power/supply/cros_usbpd-charger.c
+@@ -618,6 +618,7 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
+ 		psy_desc->external_power_changed =
+ 					cros_usbpd_charger_power_changed;
+ 		psy_cfg.drv_data = port;
++		psy_cfg.no_wakeup_source = true;
  
- 	i2c_set_clientdata(client, chg);
- 	psy_cfg.drv_data = chg;
-+	psy_cfg.no_wakeup_source = true;
- 	chg->client = client;
+ 		if (cros_usbpd_charger_port_is_dedicated(port)) {
+ 			sprintf(port->name, CHARGER_DEDICATED_DIR_NAME);
+@@ -644,8 +645,7 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
  
- 	chg->regmap = devm_regmap_init_i2c(client, &max77976_regmap_config);
-@@ -475,7 +476,7 @@ static int max77976_probe(struct i2c_client *client)
- 	if (err)
- 		return err;
+ 		psy_desc->name = port->name;
  
--	psy = devm_power_supply_register_no_ws(dev, &max77976_psy_desc, &psy_cfg);
-+	psy = devm_power_supply_register(dev, &max77976_psy_desc, &psy_cfg);
- 	if (IS_ERR(psy))
- 		return dev_err_probe(dev, PTR_ERR(psy), "cannot register\n");
- 
+-		psy = devm_power_supply_register_no_ws(dev, psy_desc,
+-						       &psy_cfg);
++		psy = devm_power_supply_register(dev, psy_desc, &psy_cfg);
+ 		if (IS_ERR(psy)) {
+ 			dev_err(dev, "Failed to register power supply\n");
+ 			continue;
 
 -- 
 2.46.2

@@ -1,107 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADE01DBB3A
-	for <chrome-platform@lists.linux.dev>; Mon,  7 Oct 2024 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A11D2B3C
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Oct 2024 07:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728319917; cv=none; b=pcgZdVTMk+EIdF+B2qD6s/Rz7L+W9bsDkCveV68/GKR9uWNJMLVGqh56i6wuxE4JhkitwhAgrGeoA+kpHUwcoijbcbtYwB6/bz8ooJZmBrumDDkNkTEWDrsUedE2QGAjPNETmLH0fsS1OWhIeFA6wZIAS62WzodZvEahzYHrjjI=
+	t=1728371648; cv=none; b=KhHjYDdAeMsaSUVbAbs7HJArRgZ27QHcmNxedIyA5+mKaTfowPhk4zO1OBN8eu0xvBRYBV7M4WT4HXbLEWq3NaXvlyvLB1ibLVGO1DQIjNyKgnhJTDkEgVXSjtLxckgGkoVjwE3z8mIIVv8HrWOOQtJW/+41U1poc1HRZ+qAc10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728319917; c=relaxed/simple;
-	bh=mQ692TNlccdh3ekLUIq5Y+tz2OVkv0kzgv7FGWTnYH8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=apIPFFiQl7m7qG/+Y+fRozG2lFRdcV+8HfJ6QHt+fUZP3DQ4qcpGxu0qXC7R1ITc86cOpE+Y1WJ1dVqiaouR3bxms6l/UI86wPkaCHYTxWYfMAPdBa8Wb5nShDszMk+wHoaL1kGDI52hZKk5mVI550vLiHsppx2NB04kAlrB1SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jf/5GY9/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728371648; c=relaxed/simple;
+	bh=CsqVV7FCFnCCc38K2TRxiXii5YTrPDW2heYK16W9kmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=diHQST1gXDb0kWPnZC4HVFGdrJH0Db4Ia4zeKNj9FOxLlmOc77lhHlPSHm0HJ16xDOxB714mairf+GMA0ZT1po3LPi64sYIkDOSwTAlx+v6zs4EcGbZp8KCmVxQFq1PbU2tIXWFWKa6wYp9r2KBoKrBQtqVQPT/q+UlZkBIkX04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kXVDyrNK; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jf/5GY9/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCA2C4AF0B
-	for <chrome-platform@lists.linux.dev>; Mon,  7 Oct 2024 16:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728319917;
-	bh=mQ692TNlccdh3ekLUIq5Y+tz2OVkv0kzgv7FGWTnYH8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jf/5GY9/+s9+S/fNqb6a9j4iizFNkCCIFLgf0GS1WuymVUkh6OqgLRuOPyb1sga88
-	 ksuposVNbs+QCJ6FQn2JLB0OvqumFQijkGIPrUCYVNiG4byQk2mqO5OrcUAQbJMqnd
-	 U23+OSc+zBnnVMaTQUTYKPalZwLKTiufDGxgS5tPKvLkxLeUe8Zm2rv4suoVYi7tDj
-	 43ovlqLX06AGJhn3FunQfxRIAZTOHoImAbytxffp+Q3SQYa5RODHGBDoBrC1nZGn+l
-	 4rwJux+Ap6V8/is9wMOZn1Tu8kh+51Sjrb2bD+SiRGRD2DGxpUWQfukTgr0UeXYgwj
-	 x+Oif5/pv9uJg==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3e037a7d2c3so2361161b6e.0
-        for <chrome-platform@lists.linux.dev>; Mon, 07 Oct 2024 09:51:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW4B5jsA+DH0QpBwCjRZOB1mrXAtOEV4zLQAVt+2m2/9AxxdnDes7+R2Lo7fuY01/VbDJNtD/oW5+elMkiDB1M=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxo+IQ/8oye+yAw2/r4lsFJsiSTQYfL58KZq2N8/GD1SFVIQSIG
-	/aGPGfT1Xi6BYn/b6e95zAJfZsVvNQRQhx+0gs7Xp5esLvHBsJLzzSNU2o95rr6HsAUN9fVJR2O
-	yOZqBqI8O2KHzMGnwG4eXEZWgDCM=
-X-Google-Smtp-Source: AGHT+IFiOIOqw/qc4ZTHJxfoSzE6KMoRDbdjxV+x8/xIF8IxxUPacNXZKL7rCHi5nnkzXzSbE7rIDVx1ilQP30xw0C0=
-X-Received: by 2002:a05:6808:228d:b0:3df:a2f:4ad3 with SMTP id
- 5614622812f47-3e3db5cc315mr123616b6e.11.1728319916851; Mon, 07 Oct 2024
- 09:51:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kXVDyrNK"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 022C320004;
+	Tue,  8 Oct 2024 07:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728371644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CsqVV7FCFnCCc38K2TRxiXii5YTrPDW2heYK16W9kmE=;
+	b=kXVDyrNKQ56rC4pEv6m5/NjopeFfIoQ6Dyunw8W1vM/hCSv3FtLrpFQtR5iF7cvwQgubYZ
+	m5pb6MUlVXq+yTYnfq1XK3x56/9LVtLOpIO5TfQfCX7YcottVCsP3dDK3lI8MVxfbcZeI7
+	boM4Tv5EzDrl+qC8JY5/5KsLPEU7yQYLRItNb/otd4USEd2vz39yxPrBwjDEU46Zdt6bmx
+	7/YEsSj9THPZuS26SNGqxdLsB1ywta03c3e4rzhMyZHaouyCDGpAn68PfqYQ7a3MmxJpmR
+	jv+fTRjVuVHlac9l56vAnGXahxmUha8hEoSlnJl0ulbRHM2VNqOjDdW6Zoalkw==
+Date: Tue, 8 Oct 2024 09:14:01 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Thomas =?UTF-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Sebastian Reichel <sre@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pali =?UTF-8?Q?Roh?=
+ =?UTF-8?Q?=C3=A1r?= <pali@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 7/8] power: supply: max77976_charger: register power
+ supply with devm_power_supply_register()
+Message-ID: <20241008091401.4bc3f0eb@booty>
+In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-7-1d62bf9bcb1d@weissschuh.net>
+References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
+	<20241005-power-supply-no-wakeup-source-v1-7-1d62bf9bcb1d@weissschuh.net>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
- <20241005-power-supply-no-wakeup-source-v1-2-1d62bf9bcb1d@weissschuh.net>
-In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-2-1d62bf9bcb1d@weissschuh.net>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 7 Oct 2024 18:51:45 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
-Message-ID: <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
-Subject: Re: [PATCH 2/8] ACPI: battery: Register power supply with power_supply_register()
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Sebastian Reichel <sre@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	=?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Sat, Oct 5, 2024 at 12:05=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
-chuh.net> wrote:
->
-> power_supply_register_no_ws() is going to be removed.
+Hello Thomas,
+
+On Sat, 05 Oct 2024 12:05:09 +0200
+Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
+
+> devm_power_supply_register_no_ws() is going to be removed.
 > Switch to the general registration API.
->
+>=20
 > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@inte;.com>
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-and I'm assuming this to be handled along with the rest of the series.
-
-> ---
->  drivers/acpi/battery.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
-> index 65fa3444367a13ac83644444076a11f08152c382..9a3a475f8ad334bb365e6a027=
-3084034b8baa3bd 100644
-> --- a/drivers/acpi/battery.c
-> +++ b/drivers/acpi/battery.c
-> @@ -853,6 +853,7 @@ static int sysfs_add_battery(struct acpi_battery *bat=
-tery)
->         struct power_supply_config psy_cfg =3D {
->                 .drv_data =3D battery,
->                 .attr_grp =3D acpi_battery_groups,
-> +               .no_wakeup_source =3D true,
->         };
->         bool full_cap_broken =3D false;
->
-> @@ -888,7 +889,7 @@ static int sysfs_add_battery(struct acpi_battery *bat=
-tery)
->         battery->bat_desc.type =3D POWER_SUPPLY_TYPE_BATTERY;
->         battery->bat_desc.get_property =3D acpi_battery_get_property;
->
-> -       battery->bat =3D power_supply_register_no_ws(&battery->device->de=
-v,
-> +       battery->bat =3D power_supply_register(&battery->device->dev,
->                                 &battery->bat_desc, &psy_cfg);
->
->         if (IS_ERR(battery->bat)) {
->
-> --
-> 2.46.2
->
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

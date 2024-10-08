@@ -1,113 +1,65 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F771E201E
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Oct 2024 08:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91F51DF98E
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Oct 2024 14:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728376496; cv=none; b=Mguh54PZvlMCl1jg3Vpgcm084W2cntRev+tCENNxN4tWfXukWU0JBjPQJuAn98Yvklk6i2M2cBGq1ju9+MfepSHv0X2i8Lty7fiZEzN1fb9L9l3DmsetbXKgNMBvAieItzeBp3G4rgLjGkhSkH7Nne04qXN3YA0TfdxRkaXgFXo=
+	t=1728396835; cv=none; b=QeMFr8QIQ5eJw+fbGVPa6R0WFOf9lx2b89dSYpCvKfpLrdY1zj4NRUS8oZ40xnxbxBGyhC85nWtpKmbSYfHq2urwpYqoZxwAPSlbTtxHq3GgaxadVradiSMj4m+fuDpkG/tAU3YNe+COAI9L44bRs5RwLi56iFmWi+Mzw0ank1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728376496; c=relaxed/simple;
-	bh=yi4Ed56vIcvtnLM7JqyGr/ImxZkDc5h+XhLmAzx4MIw=;
+	s=arc-20240116; t=1728396835; c=relaxed/simple;
+	bh=obUSSrHg+qjtItpprV9oF08oTUaPUC4j6ZzFlRqtIKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OmNVgsrsFeecb3H1B5O9I+GBTOTz2KIm9ev6i+69JoPEl13FI1avQQG5Krg7a8vNhvnFgr/K+XO0FDLwmS3ohgRsClkLXqaOj9axXpt3YnzpaU7besDfuf9nowKpc49wopk2NghWdWhgF4dTHv6RWRe81OykvnLvkh7/uVhG6wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WhE/G/Db; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gh+qXpSTxxT7UFFMuDPUPDn4J3W5cRPODJSNlQhiEYZxzDwDbed9y3YHNuVN5TWoDOyTetEOSFaG/40tYaBAyufWwkBceStdk6z+pzYCXiATEIBwAZ5gX3TtWIwKCjBMESiWY+NbUhUVKZyDZSlKF7MGVC8EhBCPifKSHKIzkh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=mJUX75xA; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WhE/G/Db"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=yi4E
-	d56vIcvtnLM7JqyGr/ImxZkDc5h+XhLmAzx4MIw=; b=WhE/G/DbgeUftYkCEnQi
-	TKiNmL4O8mJXVZGvVaiuxr2/Uuf+VnqQxjkFrl83lLwFQxOgpMaPVihqQQP9EnjQ
-	dIvEhlY3XzytQGlC7HUjB+rJPNUUaVNqNEAFMmu3RCbIHBGS/aJikbNqKuoYncTa
-	HWKmjBS7QXILHji8waVqo4Gfameve/bjUR8OZjfJ61xt5qQilme9R9mntWnpmVE6
-	vI/DbcOiNyMYzTxRGso7HQtTPALxrXPSxb0LKFjJIGSMhdCJ3OEBcf6SjBEfzx0q
-	xleKrYav5uunbP1dwomEPHueCWbUnYk2Hq3ZkmDA5X/S0ZeqJIqe1B8hi3Maegtt
-	FQ==
-Received: (qmail 402745 invoked from network); 8 Oct 2024 10:34:50 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Oct 2024 10:34:50 +0200
-X-UD-Smtp-Session: l3s3148p1@1sW4AvMjXyttKPHJ
-Date: Tue, 8 Oct 2024 10:34:49 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v8 3/8] i2c: core: Remove extra space in Makefile
-Message-ID: <ZwTuqX301BqAltze@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>
-References: <20241008073430.3992087-1-wenst@chromium.org>
- <20241008073430.3992087-4-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="mJUX75xA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1728396822;
+	bh=obUSSrHg+qjtItpprV9oF08oTUaPUC4j6ZzFlRqtIKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mJUX75xA23KtE0aabG0RNnvK4Axbl6UCcDzmj28c3j4iKcIug3EDQmOc6EoqHy6Id
+	 w8MPUhDHovUma8OfFdF8DjJQZu7LkyDWZOA+6bI8aGMGCOm1XJ7s0ZvWXZ1oSMcsLG
+	 RZlXfcb+Yq5fnffA+hfy+aMaHVEbToaF1Yxx2fTI=
+Date: Tue, 8 Oct 2024 16:13:42 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 2/8] ACPI: battery: Register power supply with
+ power_supply_register()
+Message-ID: <806cc80d-4c60-40cb-8bf8-68ba29ca9399@t-8ch.de>
+References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
+ <20241005-power-supply-no-wakeup-source-v1-2-1d62bf9bcb1d@weissschuh.net>
+ <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gFj6OJQYOOPFj8BE"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241008073430.3992087-4-wenst@chromium.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
 
+On 2024-10-07 18:51:45+0200, Rafael J. Wysocki wrote:
+> On Sat, Oct 5, 2024 at 12:05 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> >
+> > power_supply_register_no_ws() is going to be removed.
+> > Switch to the general registration API.
+> >
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> 
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@inte;.com>
 
---gFj6OJQYOOPFj8BE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 08, 2024 at 03:34:22PM +0800, Chen-Yu Tsai wrote:
-> Some lines in the Makefile have a space before tabs. Remove those.
->=20
-> Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Closes: https://lore.kernel.org/all/ZsdE0PxKnGRjzChl@smile.fi.intel.com/
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
-
-Applied to for-next, so you don't need to carry this patch anymore.
 Thanks!
 
+> and I'm assuming this to be handled along with the rest of the series.
 
---gFj6OJQYOOPFj8BE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcE7qkACgkQFA3kzBSg
-KbYVTBAAnj3lYy0aHno8B+L4r4eegNvIoB88vkx4UB6TEssgEW4AB2kf+uAlTXfW
-2cFXhFaPicKEc/DDqmhTTW430UIG27jxpQD6BC1tyapPQ6dChS9t6gCcElhWNTvb
-sjCDblb1zor2vGYN+2f+BJPlaFDO20ZnMi9sbP5mlkkEEsTgJIwr2+DFmpWuMY5w
-NCUbXbtEkPUBn5u49YJH0RgVsBW1hsiezALs1AxEQ26G7/cXVm6u6IvH7zbgnWE9
-0DZKs3DdDxO9mV+ilW43Rm/Lx3s9n5Yy1aOZnkWVX0ddLfZZMR4iKbU5By4w+2uM
-5i5uGSIialjycmGSthXpTNawcJfB89rClHpaKYsZCuursUxf5EQtc2MYDOud/bZN
-rDz47+boX/yUhMV4FnlVsh+rfJaq5WmcbEd33ICh6CT/fc7T8uKIHF+vIsToTg+s
-nx4IqNZ4VJc/6B/er9RLADWJKL2BrKYluECw6jlX1yZHWEka+UvVPlSQmcRxPt7N
-fla7gKTB1jZj6vhS1GW5mtSJbQByt+AUbt1dtu9rWFvpsR/gda2MEqbzp62nAV8b
-gy4teVjjlJAqKZ5zeQs7MDDszKlCXgv3k1YxsKBSOj6R7/WytM1TpO46BKUCXSZv
-//MT9B3Mt7LFR+wFkv+5F4mazO1jkhGdS7wjUz9nk0QGqetl7HM=
-=Xawz
------END PGP SIGNATURE-----
-
---gFj6OJQYOOPFj8BE--
+Yes, this should go through the power supply tree.

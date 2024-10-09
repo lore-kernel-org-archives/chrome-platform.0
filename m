@@ -1,65 +1,68 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91F51DF98E
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Oct 2024 14:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD9817E003;
+	Wed,  9 Oct 2024 10:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728396835; cv=none; b=QeMFr8QIQ5eJw+fbGVPa6R0WFOf9lx2b89dSYpCvKfpLrdY1zj4NRUS8oZ40xnxbxBGyhC85nWtpKmbSYfHq2urwpYqoZxwAPSlbTtxHq3GgaxadVradiSMj4m+fuDpkG/tAU3YNe+COAI9L44bRs5RwLi56iFmWi+Mzw0ank1g=
+	t=1728468663; cv=none; b=SOZi8QYwT2jqi5cB3gKUHv/Vwyd4TcQGb6jFxzWrgwzQ0LDsrCCUAu99StBNfzJR/kyczY9XyFm6VyBwhIweKLmiJh2hd7ILrUzj1BWKGHG+w4OpOkToL5bhKo9yxbWWyQIo2AxHqn22ZJe2mUMam+4UL6J3Zs0biASWrB/5QgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728396835; c=relaxed/simple;
-	bh=obUSSrHg+qjtItpprV9oF08oTUaPUC4j6ZzFlRqtIKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gh+qXpSTxxT7UFFMuDPUPDn4J3W5cRPODJSNlQhiEYZxzDwDbed9y3YHNuVN5TWoDOyTetEOSFaG/40tYaBAyufWwkBceStdk6z+pzYCXiATEIBwAZ5gX3TtWIwKCjBMESiWY+NbUhUVKZyDZSlKF7MGVC8EhBCPifKSHKIzkh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=mJUX75xA; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1728468663; c=relaxed/simple;
+	bh=BlkXYf2D/PB18UvCmeu9Pysc7X67MO5amcLXTWx/E7s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KaLcd19v6pIIPbTnu3ImeTkOdHgP13pL1VoK0GtAyLSunad5BpbrXyI+YhPCo4ZGP4B+BkwX13Z1SG0CRu6Ukgfp2fggzsxaIfUL10xsZm5bZdd6QK1tsi4cPuLYF34GR91Qlid2YINgP1qp6cXuiiukQ7bXEGLxMqJAyD0OHNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nv7EkPMz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="mJUX75xA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1728396822;
-	bh=obUSSrHg+qjtItpprV9oF08oTUaPUC4j6ZzFlRqtIKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mJUX75xA23KtE0aabG0RNnvK4Axbl6UCcDzmj28c3j4iKcIug3EDQmOc6EoqHy6Id
-	 w8MPUhDHovUma8OfFdF8DjJQZu7LkyDWZOA+6bI8aGMGCOm1XJ7s0ZvWXZ1oSMcsLG
-	 RZlXfcb+Yq5fnffA+hfy+aMaHVEbToaF1Yxx2fTI=
-Date: Tue, 8 Oct 2024 16:13:42 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 2/8] ACPI: battery: Register power supply with
- power_supply_register()
-Message-ID: <806cc80d-4c60-40cb-8bf8-68ba29ca9399@t-8ch.de>
-References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
- <20241005-power-supply-no-wakeup-source-v1-2-1d62bf9bcb1d@weissschuh.net>
- <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nv7EkPMz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1965C4CEC5;
+	Wed,  9 Oct 2024 10:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728468663;
+	bh=BlkXYf2D/PB18UvCmeu9Pysc7X67MO5amcLXTWx/E7s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nv7EkPMzfbzTk74yvCNqKLZjSkYAcGDKg9djV1l6Oy/N8KXbQHj3bTmTK8avKNVRu
+	 k1MRX01LFl0W2b0e1aTK+/iu9defdzUhxhMz6TwwCdIpjzknYq3EVITAA4mAEz3ayd
+	 Jqxn/f06sODpQbZyStNuA/aeDdPKRFt/0YyJBFpNfa53TgoG6ND7V99wnDGlOyONu1
+	 q8qFBvrjKXewX3hhnj6HshZAZo4IhU4pR5siqB1p9CxqpTkma6UTSBMclwVQBQhrJ8
+	 eeBWnpIRHKIIlw2wkC3xQj+sOiO0JrcSKOZnY4C0tG+rwQSyfZVA5Ea11m2861nk0M
+	 trn2H2wD50TWA==
+From: Lee Jones <lee@kernel.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+ Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
+In-Reply-To: <20240910101527.603452-9-ukaszb@chromium.org>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+ <20240910101527.603452-9-ukaszb@chromium.org>
+Subject: Re: (subset) [PATCH v6 8/8] mfd: cros_ec: Don't load charger with
+ UCSI
+Message-Id: <172846866071.473980.2423881892387297339.b4-ty@kernel.org>
+Date: Wed, 09 Oct 2024 11:11:00 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0j=P9orUe9k0bsUfxE0YA8stsbAi=k+ge4_XBeuHVnyrw@mail.gmail.com>
+X-Mailer: b4 0.13.0
 
-On 2024-10-07 18:51:45+0200, Rafael J. Wysocki wrote:
-> On Sat, Oct 5, 2024 at 12:05 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> >
-> > power_supply_register_no_ws() is going to be removed.
-> > Switch to the general registration API.
-> >
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+On Tue, 10 Sep 2024 10:15:27 +0000, Łukasz Bartosik wrote:
+> When UCSI is enabled, don't load cros_usbpd_charger and cros_usbpd_logger
+> drivers. Charger functionality is provided by the UCSI driver already and
+> logging will need to be added.
 > 
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@inte;.com>
+> 
 
-Thanks!
+Applied, thanks!
 
-> and I'm assuming this to be handled along with the rest of the series.
+[8/8] mfd: cros_ec: Don't load charger with UCSI
+      commit: 1b11529097cebae663b36b45886600a14f04eaa1
 
-Yes, this should go through the power supply tree.
+--
+Lee Jones [李琼斯]
+

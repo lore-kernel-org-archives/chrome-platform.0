@@ -1,67 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368AF12E5B;
-	Fri, 11 Oct 2024 03:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDD3209F50;
+	Fri, 11 Oct 2024 07:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728616657; cv=none; b=n0jJ4sarolc32ydc+5pB9GAF+RKZHucdDt/MHrimL7JrQFSPSOMlE8XaNs15tZsjdb3Ge+ZG21RhwKuyWGmQj3pR9N+CR68QlLwYn+8RNELpIucrPLzU1Tc8n7uxSxS5IYanxUeKmarVpcHUBbepKkZbZI7QG/67cq1e93D2ZIE=
+	t=1728631677; cv=none; b=fNC9JTJYgKZGH4n01oisDlbrRmL4oTLZzyCzbhub2t19BRFbImcC0QGiDVEL83Q2//I2lZjRvDBx+lPwizaKspKCYp6hcB3lzx4et+Fq3JrVpYMtNKPFDusAg0fJRCZwigteWOwOfnEjBfau5CmZQPaXiw445UThNmN7eZOTvIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728616657; c=relaxed/simple;
-	bh=Ahf7hOb4kthw840y6W9cnC0lmdkLkCWjbEtMzFw/BqY=;
+	s=arc-20240116; t=1728631677; c=relaxed/simple;
+	bh=OOFO4lSn3+gCwkhG8/pmHr3TXdyLzifBQVHNU+fKaOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s0v6rEfoFVO3fQTfEXGe2mQRva6sB1qMkaqPQX2/JWLCmgjGn3Jtynbcih2GE013DqDLZPQDVmlWHV0KQl7D9k2YwqjKj4MTkodYo8/mi8ksnA8265Rzt1oiaXibM6w3rOkOUThCye0wR/xpbI32x5MBoRgHM1rv45bqZu0iCGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNuQ9DRQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iAuiMCNNcr6D7ot46iH3Ulb5QHO3L3KKH9WJu2t+DGyGNqmMh/3ICrv3t4pmwm5lwbj2Gs5P7MXVem0WH0M2lexo80+67yoyBEivPWpyV/NudUUE0uNlviP5kU0lsV1BInOGbUVj7HRjj7rdIUbZ/Tr99Cx3yru9nc7gfNmoLN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DELn5gXv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNuQ9DRQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2808C4CEC3;
-	Fri, 11 Oct 2024 03:17:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DELn5gXv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51DADC4CEC3;
+	Fri, 11 Oct 2024 07:27:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728616656;
-	bh=Ahf7hOb4kthw840y6W9cnC0lmdkLkCWjbEtMzFw/BqY=;
+	s=k20201202; t=1728631677;
+	bh=OOFO4lSn3+gCwkhG8/pmHr3TXdyLzifBQVHNU+fKaOY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DNuQ9DRQyGh4e2O4nLpqsfB/JoaaWPHswYwgzRUqKCsX6otObXTir8Nm4RTcFoZux
-	 TaKGx+NDftvJ77xYb/BUQENjYmRJjQCOPWixuA9A0U30WZ0E0KKPXG/OIdQMKUSDTd
-	 fFYal4c5d3GklNm+ebmRzup9XdXKp9FycJNksTSF6oPGWO/npuQLcDXsEqZOro4RB8
-	 IsiF+le0HNzcaFI4uATnf88/I5GXILT69e9T0B4F/Yy/ypw34pNmuEExJYViDU7oJ5
-	 l6v030GbgHOy0Ldx89CZZ+THSDiwpnn+PxBaIzVIHgwt5Mw/u3VoKBkqazQ27655Nh
-	 WdOhlvIc9OlLw==
-Date: Fri, 11 Oct 2024 11:17:32 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Prashant Malani <pmalani@chromium.org>,
+	b=DELn5gXvvLGtUQiRs9e9pHKXRmAJMFjMlOGw2guBRMyFGMmhlXQ3HMDofeqFOspCN
+	 l2WIOpdvTlJghmuydQpGWPfcz7PmYx57mqpyOXK38h2FTgxy+Nih/gOlUpIOgACFLB
+	 fhVZcA9D7fNw1vGOKsSg2BhIi/47Fn8hhXJTPb3/euO/M4DlrK9Ntp6KAj1IcbJqVj
+	 JieId+fklEy68mgnbAuljyUMt7QBtx9CmTnLlSyFskqfa66dmbRNZyIYnF9OTGGBqT
+	 UamHk1F2LW3kC8O67tfCz81iaJR8phHj3elzgWfJOZDdYhDSQ3YIyuL3HulIMtdVRo
+	 PQ4NfDhp9FQ6A==
+Date: Fri, 11 Oct 2024 08:27:52 +0100
+From: Lee Jones <lee@kernel.org>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cross_ec_type: fix missing fwnode
- reference decrement
-Message-ID: <ZwiYzGzbfK4rmOxq@tzungbi-laptop>
-References: <20241009-cross_ec_typec_fwnode_handle_put-v1-1-f17bdb48d780@gmail.com>
- <7767afd2-0ada-4cca-8861-ccdc874d555b@gmail.com>
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 2/8] platform/chrome: Update EC feature flags
+Message-ID: <20241011072752.GL661995@google.com>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+ <20240910101527.603452-3-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7767afd2-0ada-4cca-8861-ccdc874d555b@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240910101527.603452-3-ukaszb@chromium.org>
 
-On Wed, Oct 09, 2024 at 09:00:41PM +0200, Javier Carrasco wrote:
-> On 09/10/2024 20:55, Javier Carrasco wrote:
-> > By the way, I wonder why all error paths are redirected to the same
-> > label to unregister ports, even before registering them (which seems to
-> > be harmless because unregistered ports are ignored, but still). With this
+On Tue, 10 Sep 2024, Łukasz Bartosik wrote:
 
-I don't know the context a lot.  But it looks like just a way to unregister
-the registered ones in the error path.
+> From: Pavan Holla <pholla@chromium.org>
+> 
+> Define EC_FEATURE_UCSI_PPM to enable usage of the cros_ec_ucsi
+> driver. Also, add any feature flags that are implemented by the EC
+> but are missing in the kernel header.
+> 
+> Signed-off-by: Pavan Holla <pholla@chromium.org>
+> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+> ---
+>  .../linux/platform_data/cros_ec_commands.h    | 32 +++++++++++++++++++
+>  1 file changed, 32 insertions(+)
 
-> Small typo in the description, should be cross_ec_typec (last c is
-> missing). I will fix that for v2, but I will wait for feedback and
-> reviews to this first version.
+Looks as though this is only used in the MFD patches which breaks
+without them.  Can I take it without sending out a PR please?
 
-Also cross -> cros.  Otherwise, the fix looks good to me.
+-- 
+Lee Jones [李琼斯]

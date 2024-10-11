@@ -1,67 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0081F470B;
-	Fri, 11 Oct 2024 02:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368AF12E5B;
+	Fri, 11 Oct 2024 03:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728614234; cv=none; b=tuST3B/aPjSRGEtP1m6qp3+c3+Ffsf3RCFcrSWnEiGWVCrx37y3KhNc4AqXMW8RSXrbxkDpG7k6KnmF/XxmS+nz2OOVOugzJydhEsvLFWAkB/z5RiIf8UX3P/LWpjSMxpyx7LcDFIZB79FjwV8GuGqT17z+7tE7ZXSWy8R1Z5zw=
+	t=1728616657; cv=none; b=n0jJ4sarolc32ydc+5pB9GAF+RKZHucdDt/MHrimL7JrQFSPSOMlE8XaNs15tZsjdb3Ge+ZG21RhwKuyWGmQj3pR9N+CR68QlLwYn+8RNELpIucrPLzU1Tc8n7uxSxS5IYanxUeKmarVpcHUBbepKkZbZI7QG/67cq1e93D2ZIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728614234; c=relaxed/simple;
-	bh=3/YK9VneKwzLLkknXmO5LCgRY+gNWGyfFD/4EJWpkwE=;
+	s=arc-20240116; t=1728616657; c=relaxed/simple;
+	bh=Ahf7hOb4kthw840y6W9cnC0lmdkLkCWjbEtMzFw/BqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hFHcDdQIqUNaFLKMMrzftFtqJtLfbXSZWw9V6F4fND54X3k8lNxcfnPAZG0PCOPIvV68mzIiXRBMgQ9ynJBbN9jFEPatn/zqymjiyN5QiGCnu6vcgQ8KkO3ryJmSiQizpmAl9ORZY80rol0r3Te+JOB3J/jygc5XOmKp8q9LNcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mLDimSEL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=s0v6rEfoFVO3fQTfEXGe2mQRva6sB1qMkaqPQX2/JWLCmgjGn3Jtynbcih2GE013DqDLZPQDVmlWHV0KQl7D9k2YwqjKj4MTkodYo8/mi8ksnA8265Rzt1oiaXibM6w3rOkOUThCye0wR/xpbI32x5MBoRgHM1rv45bqZu0iCGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNuQ9DRQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mLDimSEL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4F5C4CEC5;
-	Fri, 11 Oct 2024 02:37:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNuQ9DRQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2808C4CEC3;
+	Fri, 11 Oct 2024 03:17:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728614234;
-	bh=3/YK9VneKwzLLkknXmO5LCgRY+gNWGyfFD/4EJWpkwE=;
+	s=k20201202; t=1728616656;
+	bh=Ahf7hOb4kthw840y6W9cnC0lmdkLkCWjbEtMzFw/BqY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mLDimSELeM5m2N62MRDwwYVh2mk2ZprWfZHOvNU7plClTRAHTx2/64fK319yOHB+7
-	 qdsX9YAGBlofEYWUeMeDVF3JwT65JP8YJB1Fo/NxQPeBG/eL6z1WBwPTO61NSQD/+F
-	 vXJdS3j0D7eZJXu0f5Zi61iTqDL5Gq9wXBT9+/MYb+Ad/ShqgZwXpRxh7Bng6B1S6a
-	 6FeLhhm3Ro+e9qmFu5pEQ0IlMW6JfLEVjbEancE/uuYk1l40a/qzaPJ1VtiZznMXdb
-	 RMDUHZdAMkBkfiLy4ODLhssoRag+uLsbbbrZ+xC/OUDe5NmTuYLr93DVpK2l8ccK3V
-	 fVu8RNRfLOOnA==
-Date: Fri, 11 Oct 2024 10:37:09 +0800
+	b=DNuQ9DRQyGh4e2O4nLpqsfB/JoaaWPHswYwgzRUqKCsX6otObXTir8Nm4RTcFoZux
+	 TaKGx+NDftvJ77xYb/BUQENjYmRJjQCOPWixuA9A0U30WZ0E0KKPXG/OIdQMKUSDTd
+	 fFYal4c5d3GklNm+ebmRzup9XdXKp9FycJNksTSF6oPGWO/npuQLcDXsEqZOro4RB8
+	 IsiF+le0HNzcaFI4uATnf88/I5GXILT69e9T0B4F/Yy/ypw34pNmuEExJYViDU7oJ5
+	 l6v030GbgHOy0Ldx89CZZ+THSDiwpnn+PxBaIzVIHgwt5Mw/u3VoKBkqazQ27655Nh
+	 WdOhlvIc9OlLw==
+Date: Fri, 11 Oct 2024 11:17:32 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Sebastian Reichel <sre@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Prashant Malani <pmalani@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 8/8] power: supply: core: remove
- {,devm_}power_supply_register_no_ws()
-Message-ID: <ZwiPVZjIZVC8ojLt@tzungbi-laptop>
-References: <20241005-power-supply-no-wakeup-source-v1-0-1d62bf9bcb1d@weissschuh.net>
- <20241005-power-supply-no-wakeup-source-v1-8-1d62bf9bcb1d@weissschuh.net>
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] platform/chrome: cross_ec_type: fix missing fwnode
+ reference decrement
+Message-ID: <ZwiYzGzbfK4rmOxq@tzungbi-laptop>
+References: <20241009-cross_ec_typec_fwnode_handle_put-v1-1-f17bdb48d780@gmail.com>
+ <7767afd2-0ada-4cca-8861-ccdc874d555b@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241005-power-supply-no-wakeup-source-v1-8-1d62bf9bcb1d@weissschuh.net>
+In-Reply-To: <7767afd2-0ada-4cca-8861-ccdc874d555b@gmail.com>
 
-On Sat, Oct 05, 2024 at 12:05:10PM +0200, Thomas Weiﬂschuh wrote:
-> The same functionality is available through
-> power_supply_config::no_wakeup_source, which is more idiomatic.
-> All users of the old API have been converted.
-> 
-> Also remove the argument "ws" from __power_supply_register(),
-> as it is now always "true".
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+On Wed, Oct 09, 2024 at 09:00:41PM +0200, Javier Carrasco wrote:
+> On 09/10/2024 20:55, Javier Carrasco wrote:
+> > By the way, I wonder why all error paths are redirected to the same
+> > label to unregister ports, even before registering them (which seems to
+> > be harmless because unregistered ports are ignored, but still). With this
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+I don't know the context a lot.  But it looks like just a way to unregister
+the registered ones in the error path.
+
+> Small typo in the description, should be cross_ec_typec (last c is
+> missing). I will fix that for v2, but I will wait for feedback and
+> reviews to this first version.
+
+Also cross -> cros.  Otherwise, the fix looks good to me.

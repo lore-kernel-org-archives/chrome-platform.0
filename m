@@ -1,52 +1,52 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF501741E8
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 05:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2947A1684A1
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 05:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728970315; cv=none; b=jf5JetiQqWDjcIri5rnko53dNA21uF0k/KbHuQ5ykyWYHDwme43P2vCha5qNYkusU5YOK9J1lDOuW2reB8FnTGlVi59+FNBoaRBxLW1jUyF3tHb+9M+vs3NHk0qqHOgj4oqtuP+QZlI2l7h3fuyj86wCdEAOLiX2rxKi438VSpk=
+	t=1728970506; cv=none; b=cJTzyAIor7CiI3r5iNSu6zbg7Nl79/eycLKvzR41LJ3OJya6YHzdLOaODfJHBrsu7GzO6L4IdmMVZSgxsr65H6JKkK05GH9BEyNFfFNo2lf7OW7GYbz+HvSbu0kcm4RqwlzAMnRdPNXpgxY7IJgQJsOJ33UVKGIi0mqT8t9S4wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728970315; c=relaxed/simple;
-	bh=EfzX5krpuywmG5h0oUk6AHF+dbPj3jlM5kdV7Gl8Lu8=;
+	s=arc-20240116; t=1728970506; c=relaxed/simple;
+	bh=JR6gZ2MYyBQRhGGMVIzq353IT1yqvpAlneMgFsqBvhU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vC/LzqSeFEWUy+POkBek/uynlMegPBWwSdKUmmQVzx62wPBopsAhHfHEK/2K48kDZhw1GZfPtTWRe/MQPCS7m2jR2VNfgljc2AhnaTcrC3C/QnGMBIzCq+3UuMusnNehy2u0qks5Q/L5v0OFheteSNvCGPP2dJeLCCpxSam/iT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ITl3FTmN; arc=none smtp.client-ip=209.85.167.52
+	 To:Cc:Content-Type; b=a/k1E0ClwDtrXstYe9BPsQxEhJX0ihRdZ6m0TQNOFc72eHiEpwtOZnpskNRQsBsuIUAl0SWKsgnZej5l3Q2vqUp7NxZmc+1b/377svEoTQBn88yAnVmrT3dRkdXoxWjGyvLPDtKd5rwthc/0XFEuDSTjTtfK4/emtgoUL/WfhhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PuCSqJv4; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ITl3FTmN"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e13375d3so3650794e87.3
-        for <chrome-platform@lists.linux.dev>; Mon, 14 Oct 2024 22:31:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PuCSqJv4"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539fe76e802so507877e87.1
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Oct 2024 22:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728970312; x=1729575112; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1728970503; x=1729575303; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6I9X4HeUOqY4U0CtpRUmEBHzfHV0sdEz17jGz7AVasM=;
-        b=ITl3FTmNhlYSXgujQ90wCJVc17GQhWC4M/Ff64Nhg+AnQe+skB8Tmf1vBMfPl7g6BL
-         Fopfh+52dwByHbMOo5VBFYo9cebDPO9cBVWbDJJgzTdedPel6yIsKMQFbtf/G/8GjAI3
-         ayyqmI/6/+Yo1OKWJFXpTcEisKaRa2/A42PTw=
+        bh=2HWrH+K7cTgTjTPYZ+dL7fGmCBNocSiDK/Hn2JY2vEs=;
+        b=PuCSqJv4ubvlZ8icg4fhCON/ABOlqhlmXWgsyrXm3rqBViu6SzzODyw0NSOkPE/lg6
+         BSL9aMtAYl3ckaiazUOs1+L0YfC68OJR5OuykY+kthDncN1NnHruVcETzqZdMvq9+Jbm
+         eb4eZjpii0OHC2cA53R4Vmyfp0K7k/COZGDsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728970312; x=1729575112;
+        d=1e100.net; s=20230601; t=1728970503; x=1729575303;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6I9X4HeUOqY4U0CtpRUmEBHzfHV0sdEz17jGz7AVasM=;
-        b=hmkMl5fOCR5YEii3iLZWAPHeCzj27WHEnwXeblTfd3BtOcbKFRv0u31b84j6sTeSjQ
-         PM448tT6OH9OHaQzubkK8enm1Dzt1UpHGFWYgi4svccY62fp7DndmaMan4/0n68VNFs5
-         dhw3B6efI4qLMGfqboZo2RH1E0laMk3F8/z1k1QqWLOk2caL6zvWZnc3bp36KVcQboTD
-         ipwnuImeCW3CALN5r5An9gzI6Ylyjb9U+QmAgV9ZPg3UU8GRqSvk0irCCtcDwRPPiWrw
-         u/iwiBaLt3ZPDylAoRUvDNQ/p1XFM/Gizd8WcB5hpHk6Fvss/snv9wB1Y6W8cGuI5j3q
-         NsXg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Yh1sQPq57W3ehCT5QbDY/IaL8r68NfVbtLbmz/NyM1DW4KpeGBlta++9Fl6jD32Ur6fnjxvyGH/RVAnxLxU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+6wysI+K7bjcto04fJ9MXt4YR+J4DQ/rGjslXXXFllapB/J/L
-	yjAKHaVgBUGoxRkRCzvFkTT2esuxBvTYUB4JlOdySEOuBhJobmbY0EU2QhPbcPNLba4CMcjyYzy
-	a7tUza4jX+cVAZ2xMHE2WIwgYCRyWSyuI9GI/
-X-Google-Smtp-Source: AGHT+IFnv6XcJ0IaPSidwG2NAv6IbIwCRYACAiR+zoSqxUioN+OKGyLgyzBfN8IaMOcvrXfdKkawj5iYaHp4/g0qQYA=
-X-Received: by 2002:a05:6512:2811:b0:539:f4ab:5638 with SMTP id
- 2adb3069b0e04-539f4ab57c9mr2610100e87.60.1728970311498; Mon, 14 Oct 2024
- 22:31:51 -0700 (PDT)
+        bh=2HWrH+K7cTgTjTPYZ+dL7fGmCBNocSiDK/Hn2JY2vEs=;
+        b=udotoB+/7wu4MEfPhkmO/ZMsxLX6BR02WccZS1oFXdnQRyO7vmDKc9GHvq/PUYNNg3
+         KQ4UumMBvd/dQk5pTMzs9C4miqx1XFtUOgkpr23bqukk0cff5ZnnuxTX1WXYO8jb01EV
+         YIK2HIcIEXmE2p1BRbk5dWXqZ4Czc9MKcqQi04TSJ0/VjB4+OiG05BU37J1uig4wzaMI
+         wwDJiUr6vr1PbihlAKszVTavFr9Vihd1ljCnniuoJdmwaD1C3KWcc0phItilMrFYR1fc
+         paCXD9xSbEa2wwdRlL9vn6TVtQkxYnKMrJCfEPoim5dEEoN2ckyMNihsebSPOuj11Fzt
+         DjqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBqDZrvgOAPVhOQ7n1AT2pcJOunwCfqoaw838RONXESsunSQN3603WJHGPjdzHuWgV+SVczlif8nnxVkFk5o8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyw3aXbpwhYdwAwzeUL1qBEVtCH8VCqGLVcf1q8lTn/b1U8f+ed
+	VFUNmbkqHyfheCbUknoNbJnJhSGjiSsTH4vOqse2nwTuHTJBlzyjwndAaCf8L1+9p5xxiT9quQH
+	jercCLh07emr0yQ7gJb426TZ1MEaw24U1eOx8Sq2zTaXnjr0=
+X-Google-Smtp-Source: AGHT+IE/CwxLRzqmXVYjkMDrcTm2+DQg9NcGd7Zyw9exDfJ8teYEZF+svaLAA8rUa5571DxzVoiZK6455ROycmYsGCQ=
+X-Received: by 2002:a05:6512:1598:b0:539:9155:e8d4 with SMTP id
+ 2adb3069b0e04-539e54d77ecmr4621333e87.8.1728970503111; Mon, 14 Oct 2024
+ 22:35:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -58,8 +58,8 @@ References: <20241008073430.3992087-1-wenst@chromium.org> <20241008073430.399208
  <Zwz-benEP4PHbRb2@smile.fi.intel.com>
 In-Reply-To: <Zwz-benEP4PHbRb2@smile.fi.intel.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 15 Oct 2024 13:31:40 +0800
-Message-ID: <CAGXv+5EwSZFoE-Uzb5x1QfknkVfd64Z_uzR0YcvZ_pR9ktGUBA@mail.gmail.com>
+Date: Tue, 15 Oct 2024 13:34:52 +0800
+Message-ID: <CAGXv+5HtDqf9MbGc53axP276fFA6riM85+Sa7nXHPvZcCb5-Pg@mail.gmail.com>
 Subject: Re: [PATCH v8 6/8] i2c: of-prober: Add GPIO support to simple helpers
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
@@ -119,9 +119,7 @@ led.
 > > You suggested writing it this way in your reply to v7. Please pick one.
 >
 > Oh, whatever you will finish with then, sorry for the noise.
-
-Thank you.
-
+>
 > ...
 >
 > > > > +static void i2c_of_probe_simple_disable_gpio(struct device *dev, s=
@@ -140,9 +138,7 @@ truct i2c_of_probe_simple_ctx *ctx)
 > Do you have a known race condition then? This is bad. You shouldn't rely =
 on
 > the sequence of events here, or the serialisation has to be added.
-
-No there isn't. Explanation below.
-
+>
 > > The helpers for the release side are quite short, but the ones on the
 > > request side wrap some conditional and error handling. I think it's
 > > better to keep it symmetric?
@@ -153,44 +149,9 @@ No there isn't. Explanation below.
 bility
 > that it becomes not NULL even with the current code.
 
-There are two codes paths, either
-
-    a) successfully finding a device and enabling it, or
-    b) exhausting all options and not finding a device, because it was
-       optional or it is malfunctioning.
-
-After either code path, this cleanup function is called.
-
-In path (a), the GPIO descriptor is released prior to enabling the device,
-because the descriptor is an exclusive resource, and as soon as the device
-is enabled, its corresponding driver may probe and request the same GPIO,
-and would fail if it was not released.
-
-In path (b), nothing was enabled, and the GPIO descriptor was not released
-early.
-
-The cleanup function here accounts for both cases, hence the check.
-
-A step-by-step description might be clearer:
-
-1. i2c_of_probe_simple_enable()
-   ...
-   1a. i2c_of_probe_simple_get_supply()
-   1b. i2c_of_probe_simple_get_gpiod()
-   1c. i2c_of_probe_simple_enable_regulator()
-   1d. i2c_of_probe_simple_set_gpio()
-
-2. Loop through potential component options and probe; if one is found:
-   2a. i2c_of_probe_simple_cleanup_early()
-       2a-i. i2c_of_probe_simple_put_gpiod
-   2b. Enable device and driver's probe() gets called
-
-3. i2c_of_probe_simple_cleanup()
-   3a. i2c_of_probe_simple_disable_gpio()
-   3b. i2c_of_probe_simple_put_gpiod()
-   3c. i2c_of_probe_simple_disable_regulator()
-   3d. i2c_of_probe_simple_put_supply()
-
+The opposite actually. Either it is always NULL, or it was initially valid,
+but the early cleanup function released it and thus it became NULL by the
+time this function gets called.
 
 ChenYu
 

@@ -1,180 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D058F1C07DC
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 12:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7771C4A12
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 13:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728996892; cv=none; b=AC8W0gswn6E7Ehckjq37akiDfnHf+4qtJwCJd5mq4/65LB4QyK0vyTtwizbaShxhfKMqceh5OWhsa+unbX4mzaJyMl5kDv7DQ2aSgaNblBXX1m4uz6NeuFUEvXBtPq1IahujDunVpwNtUMxiAV1NBWudgK4yaFZrDZNrTqMzVMk=
+	t=1728998302; cv=none; b=LEsD4V5ivlTuBhtE7JAH4c4DTfXyCmSBjzldCkACLrGUdSuQWd0WI8xdF/khq1R9IH0tItYgsKdCPNzTL60b+8D/aqz9Rt9iKoBs0AHEX+tFNf/U5BFjbl17KiGGm8EHE3IAHAB5xMwALqJEL6QaCi+3f/o+TGLkjBl4mtbfUxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728996892; c=relaxed/simple;
-	bh=IpUeFHHJn0wswPXOIvJ6ugRddbx0dZyA2d3iKLKDp/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKhRw4MnJHob8KJHmprmnojOihj+oMxPn2u2YdB+wpfj02RV8FTkaa/5qQDqf6IdEGyscPeR3L3EoAD5kk46p1j4uqEWPjAE9YW3GYPFPn7zRrgAZOLq1hZ9HZbuMJBfKzg8eaDzMTcjsbGAmf22W9sXHRpkBWpnnBul90siWY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nM8K+qa0; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nM8K+qa0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728996891; x=1760532891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=IpUeFHHJn0wswPXOIvJ6ugRddbx0dZyA2d3iKLKDp/k=;
-  b=nM8K+qa0WCr0vg9lCDaNzzNO/5EWpSvnxS19en9D3PFrKVE14xRwNgKc
-   zgIth3BvAzIhQr+qj1FNpdWQGWVKzaXMEbyMdNQzmj+sGW6sN1lVRjA8r
-   8DPQsgYN7vrfGyELaW97zIvP1/1nyR6a9vlYFYiTF6mqf15lyBY4Nsmga
-   pAbzrhBXcTI6OmDWI7aNLRLfHnhF1sFqOB06ACwHPOBlX0otFD59rrtRi
-   hXg2mO0PxvxKn4prT0RkefkDfoYwEj4Y0yPNA4WtvPOAV6grMSJuT6wsa
-   /MjBhGhxfdYMpDQoJ/D9TmDbZikBq0xUBg3O2yqlyxMb37HadeFVlrEY9
-   w==;
-X-CSE-ConnectionGUID: TzdvFbhxTdWv5SF8nHeZ6w==
-X-CSE-MsgGUID: x+0AO4h6Q+ewKcBTaUv1pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="27831877"
-X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="27831877"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 05:54:50 -0700
-X-CSE-ConnectionGUID: 21gC6auxR7iXSugTgjheEQ==
-X-CSE-MsgGUID: lVgSUNSMRReLO0GG2lM24A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="78333817"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 05:54:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t0h4U-00000003GzT-49q1;
-	Tue, 15 Oct 2024 15:54:42 +0300
-Date: Tue, 15 Oct 2024 15:54:42 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v8 7/8] platform/chrome: Introduce device tree hardware
- prober
-Message-ID: <Zw5mEv_cnZzPUqII@smile.fi.intel.com>
-References: <20241008073430.3992087-1-wenst@chromium.org>
- <20241008073430.3992087-8-wenst@chromium.org>
- <Zwfy6ER6sbr_QxsY@smile.fi.intel.com>
- <ZwfzhsvlPrxMi61j@smile.fi.intel.com>
- <CAGXv+5ED7j49ndT7BaESW8ZL7_mjVUJLM_FWma8Lwkg+Uh3saw@mail.gmail.com>
- <Zwz_Kl7SwfL0ZaAZ@smile.fi.intel.com>
- <CAGXv+5H0Yvt1cwPOim-quT3C+=s9NapnryJhNxs_QW=DAyAycQ@mail.gmail.com>
- <Zw5QzP-5hnHW--F-@smile.fi.intel.com>
- <CAGXv+5FuMjSaUJ+qDrx7Vmr9o5vJ9VW=tss1ezvdJyaZZouHKw@mail.gmail.com>
+	s=arc-20240116; t=1728998302; c=relaxed/simple;
+	bh=WvHJKJwG2l8bjr++lb+b8bO//CPnnSNN1iQBeIAJ5oc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d95RQh+Rlu4lREcSbiPqGVK+iyHkXyI9atIBCgIg9KfBecNm4zKI2Kj4Lt/Kbn1PsxPdrp7ev1tiO5QWGYvCpPJCXUYiV7JWcY9IWD4XGAPRHoiCsv3H3LBiRjqZM7ikH56dXoZTdS6n0sXrhyZzLkmRnuc/SbQm3V96gsMqX0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4XSZRH4c6qz1yn4g;
+	Tue, 15 Oct 2024 21:18:19 +0800 (CST)
+Received: from dggpeml500024.china.huawei.com (unknown [7.185.36.10])
+	by mail.maildlp.com (Postfix) with ESMTPS id ED643140134;
+	Tue, 15 Oct 2024 21:18:13 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 15 Oct
+ 2024 21:18:13 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <tzungbi@kernel.org>, <briannorris@chromium.org>, <jwerner@chromium.org>,
+	<adurbin@chromium.org>, <furquan@chromium.org>, <gregkh@linuxfoundation.org>,
+	<rajatja@chromium.org>, <groeck@chromium.org>,
+	<chrome-platform@lists.linux.dev>
+CC: <yuancan@huawei.com>
+Subject: [PATCH] firmware: google: Unregister driver_info on failure
+Date: Tue, 15 Oct 2024 21:13:44 +0800
+Message-ID: <20241015131344.20272-1-yuancan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5FuMjSaUJ+qDrx7Vmr9o5vJ9VW=tss1ezvdJyaZZouHKw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
 
-On Tue, Oct 15, 2024 at 08:18:50PM +0800, Chen-Yu Tsai wrote:
-> On Tue, Oct 15, 2024 at 7:24 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Tue, Oct 15, 2024 at 02:32:54PM +0800, Chen-Yu Tsai wrote:
-> > > On Mon, Oct 14, 2024 at 7:23 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Mon, Oct 14, 2024 at 12:56:20PM +0800, Chen-Yu Tsai wrote:
-> > > > > On Thu, Oct 10, 2024 at 11:32 PM Andy Shevchenko
-> > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > On Thu, Oct 10, 2024 at 06:29:44PM +0300, Andy Shevchenko wrote:
-> > > > > > > On Tue, Oct 08, 2024 at 03:34:26PM +0800, Chen-Yu Tsai wrote:
+When platform_device_register_full() returns error, the gsmi_init() returns
+without unregister gsmi_driver_info, fix by add missing
+platform_driver_unregister() when platform_device_register_full() failed.
 
-...
+Fixes: 8942b2d5094b ("gsmi: Add GSMI commands to log S0ix info")
+Signed-off-by: Yuan Can <yuancan@huawei.com>
+---
+ drivers/firmware/google/gsmi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> > > > > > > > +   .cfg = &chromeos_i2c_probe_simple_trackpad_cfg,
-> > > > > > >
-> > > > > > >       .cfg = DEFINE_I2C_OF_PROBE_CFG(trackpad, i2c_of_probe_simple_ops),
-> > > > > > >
-> > > > > > > Or even
-> > > > > > >
-> > > > > > > #define DEFINE_I2C_OF_PROBE_CFG_SIMPLE(_type_)                        \
-> > > > > > >       DEFINE_I2C_OF_PROBE_CFG(type, &i2c_of_probe_simple_ops)
-> > > > >
-> > > > > I'm not inclined on using compound literals here. "simple X cfg" will
-> > > > > likely get shared between multiple |chromeos_i2c_probe_data| entries,
-> > > > > and AFAIK the toolchain can't merge them. So we would end up with one
-> > > > > compound literal per entry, even if their contents are the same.
-> > > >
-> > > > I'm not sure I follow, you are using compound literal _already_.
-> > > > How does my proposal change that?
-> > >
-> > > I'm using it where it makes sense, i.e. where the embedded variable
-> > > is not going to be shared with other instances.
-> > >
-> > > For the dumb probers, there's only going to be one instance per "type".
-> > >
-> > > For the simple probers, the config part is still one instance per "type",
-> > > but the parameters are board and component specific. There will be
-> > > multiple instances. Hence the config part can be shared, while the
-> > > parameters likely won't be.
-> > >
-> > > > > > With that also looking at the above
-> > > > > >
-> > > > > > #define DEFINE_I2C_OF_PROBE_CFG_NONE(_type_)                            \
-> > > > > >         DEFINE_I2C_OF_PROBE_CFG(type, NULL)
-> > > > >
-> > > > > For the "dumb" case it makes sense though, since it would be one instance
-> > > > > per type. But we could go further and just wrap the whole
-> > > > > |chromeos_i2c_probe_data| declaration.
-> > > >
-> > > > Maybe it's too far from now...
-> > >
-> > > This is what I have:
-> > >
-> > > #define DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB(_type)
-> > >                         \
-> > >        static const struct chromeos_i2c_probe_data
-> > > chromeos_i2c_probe_dumb_ ## _type = {       \
-> >
-> > >                .cfg = &(const struct i2c_of_probe_cfg) {
-> >
-> > But the below is static initializer, why do you need a compound literal here?
-> 
-> Because .cfg takes a pointer to a struct. It's not an embedded struct.
-> The compound literal creates the internal struct, and then its address
-> is taken and assigned to the .cfg field.
-> 
-> Does that make sense?
-
-Okay, I see now. Yeah, I have no preferences here, I saw the code like in split
-version or like in yours. I _slightly_ bend to non-compound literal variant,
-but again here it might be not worth doing a such.
-
-> > >                         \
-> > >                        .type = #_type,
-> > >                         \
-> > >                },
-> > >                         \
-> > > };
-> > >
-> > > DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB(touchscreen);
-> >
-> > s/dumb/simple/g
-> 
-> "simple" is taken. This is "dumb" as in it does not need any helpers.
-> Maybe "no-op" if you don't like the negative connotation?
-
-_BY_TYPE ?
-
+diff --git a/drivers/firmware/google/gsmi.c b/drivers/firmware/google/gsmi.c
+index d304913314e4..24e666d5c3d1 100644
+--- a/drivers/firmware/google/gsmi.c
++++ b/drivers/firmware/google/gsmi.c
+@@ -918,7 +918,8 @@ static __init int gsmi_init(void)
+ 	gsmi_dev.pdev = platform_device_register_full(&gsmi_dev_info);
+ 	if (IS_ERR(gsmi_dev.pdev)) {
+ 		printk(KERN_ERR "gsmi: unable to register platform device\n");
+-		return PTR_ERR(gsmi_dev.pdev);
++		ret = PTR_ERR(gsmi_dev.pdev);
++		goto out_unregister;
+ 	}
+ 
+ 	/* SMI access needs to be serialized */
+@@ -1056,10 +1057,11 @@ static __init int gsmi_init(void)
+ 	gsmi_buf_free(gsmi_dev.name_buf);
+ 	kmem_cache_destroy(gsmi_dev.mem_pool);
+ 	platform_device_unregister(gsmi_dev.pdev);
+-	pr_info("gsmi: failed to load: %d\n", ret);
++out_unregister:
+ #ifdef CONFIG_PM
+ 	platform_driver_unregister(&gsmi_driver_info);
+ #endif
++	pr_info("gsmi: failed to load: %d\n", ret);
+ 	return ret;
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 

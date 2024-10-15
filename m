@@ -1,176 +1,70 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9F8189BBF
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 07:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4031DD54B;
+	Tue, 15 Oct 2024 09:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728978689; cv=none; b=PCa0hF2WKYF+CVJySR9toPuJnUZzrxAIzQaQnxGRCh2kGC/k6Y3VVbxjnOKsX3MLJ5BmD1P9+Rf5THEu2ZuL/NALIs99OxZxE2CkMj1J1tAbuvdDY4CSknqgSzbC2XF/H8cQ9dkhHKoWHsdUTmWlwaP44O71FbgvkT7oRdcHkvI=
+	t=1728983452; cv=none; b=Y7F2ZdtvYppZgacy0wcnTfud32+BEkrpARAcl4jJbQTifVY61MhuRRBD1eu6bviiVUofgT0OUbpuwoG0Fn8tur6QNOtbBsndo8IvRGf4Z/kDYFjETAq9Srctv8PQVHjZ0cA3pUujgUlnc3U6p8Mp3AEOa2m4CMdiKTT4w3E6qWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728978689; c=relaxed/simple;
-	bh=hfK2U/GrNYgsYtl8NtSXyFYbjdCtuYMGCNrIn/wLtiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avi/quSzBSW8uPLye7IMhN88PozyPFlGZqE1NEqjE7cYEY4ctWV73hzHI0gUwfU/QYlLb4Am/i432+O6tUk9kH4oXLb/ys5tAoORVMa/TxiE9vPQopBzA9bNAx36D2apLIZDVZIzo8dNMAGbZ4cAaSn8XD+C6Oh+LbR1bb7wqDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BRj3/nbQ; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1728983452; c=relaxed/simple;
+	bh=k1LiA3BCF5wyeMAvTq/3y+Ybip1M2IRvg3kDHzr0Vys=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HZ3PPlUfOXTAjPY9SOVNP1/DTjwNxeQ+2nT/3ruu8Y64NQu+j6XgKjrFxlUEoyLD1rxHj//mUg37UVvoqTecrbvyOU4a2wJeNALUM4bC7UAJ/OYE7jQt5xfi32ga6B8B9pQutj8AXWNEVGrGBYr/Qd/H7027GFi8nLgQbpZPgxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dxi78ZIp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BRj3/nbQ"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7093997dffdso1390575a34.2
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 00:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728978686; x=1729583486; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aaW2sa/1ZxtztZoldWmZYhD7VcMhjqCGkrdW4rioaxc=;
-        b=BRj3/nbQwUAOMJdM67SnwAcAEFzZOp/+X8+zwTk6abGX1ktXnDHD6qi+UwlL7rsRS2
-         27FY+wkw+0/bFcBWdcM+SBFgDQeOJ4Hi6BJPSy9lyqiuS6hOZ5p6PdZIw7J1t9CcEmJ8
-         W8wJcr7K4JYXzEQ75OqT3AfQ7+SEhIzfHuVE4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728978686; x=1729583486;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aaW2sa/1ZxtztZoldWmZYhD7VcMhjqCGkrdW4rioaxc=;
-        b=L7B/n73pfdgUR5Gzqjdw3Z3ai0gdqP/9KXLwYcnQ7r/HaMZJFxF/coF+BpJP8ZId+y
-         aSOyhZQGZQu5aizqhSvzf+XzHcMNR8lkyPN86ka2nH3hm/5QgTueqgZ2CbMMoTKLQUYV
-         IG4Kmpe2ggK2RcDHBlRqHTjdOl0zOOaA+cmsQBWhef0VVvTLxm/ur+xUY0yVCfz7YHDs
-         EcMgbYUTTgNk/vXmE0fCMBKpaqgwcSiGT77C4ShccUtNMLMaLtdxEINDzfsoAD3CROgV
-         wWOzZ4U+G2GGGFzYV9s05zac4dmZyPK0wDvjqYAsTfGAve1NNHb0Oqi+YkUcMz2L2tgA
-         RHww==
-X-Forwarded-Encrypted: i=1; AJvYcCVeTZXP5BeqY+4DpqK80YFxxn8g/gpFtmPFsIOKX/g/iHPDrBEc6Lb+M+Fg1FccbGsB6m8xhSQjdWzRZ12vUiE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxebi7p9Ie0ulv01n1lPcBPmM3Xjf2pVsZ34i6A6b8Ff7vw/AfN
-	v1J875yDuHPDr3J7yvnz3Xxbrfvi0mqu0/Kqchc8VPv80BWHvnLDtG/xZ7cKDg==
-X-Google-Smtp-Source: AGHT+IEfvWKZ1jcEyU30hF3ZW6BxaiMzf1hjuhVYl88Vngg8HNiMsojaXq2qzSwNVqU01VmSdulBrA==
-X-Received: by 2002:a05:6358:52c5:b0:1b5:a38c:11d1 with SMTP id e5c5f4694b2df-1c32bc8c0f9mr537792955d.26.1728978685952;
-        Tue, 15 Oct 2024 00:51:25 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:f99b:9883:3b88:182a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ea9c713432sm730557a12.83.2024.10.15.00.51.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 00:51:25 -0700 (PDT)
-Date: Tue, 15 Oct 2024 15:51:21 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v8 7/8] platform/chrome: Introduce device tree hardware
- prober
-Message-ID: <20241015075121.GA292890@google.com>
-References: <20241008073430.3992087-1-wenst@chromium.org>
- <20241008073430.3992087-8-wenst@chromium.org>
- <Zwfy6ER6sbr_QxsY@smile.fi.intel.com>
- <CAGXv+5FAhZQR+Tah_6Qxp4O7=x2RawfWuMh29_FT4mGQGQF84w@mail.gmail.com>
- <Zwz_p3o1PJF6sl2Y@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxi78ZIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CEDC4CEC6;
+	Tue, 15 Oct 2024 09:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728983451;
+	bh=k1LiA3BCF5wyeMAvTq/3y+Ybip1M2IRvg3kDHzr0Vys=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dxi78ZIpgAhC2Rx65cRI1JQIYb0Kb3X1iIC3pZXFK2zHxRjM06MwNOSvLhSpDfmcr
+	 He0Q5k1unakGn1q9STpNCoIUsWNenQrlYXk9XJ49o2gBZPJtovonC6hvvqYx1n3nua
+	 /vMmZtLEjJdDva9Wj8fdTXQOEKPoGYIXWp2dzaqUA/qZbZ5xWE8eKxHwWcA6x2xDJC
+	 /muXzQSFoUZmfqtr+wSa+LLVxaYoJyaZKkvZt6zL7wfYE2Yfkcb+wxJA+kGEW4oP5x
+	 GXZWvjx93I8jmMaUNtTFUwG9OjE4D49FD7m7nXaZC1fo7OhVg//teL60aYXP8DSJ+M
+	 zWIKn07efsn/g==
+From: Lee Jones <lee@kernel.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+ Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
+In-Reply-To: <20240910101527.603452-1-ukaszb@chromium.org>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+Subject: Re: (subset) [PATCH v6 0/8] usb: typec: Implement UCSI driver for
+ ChromeOS
+Message-Id: <172898344882.410225.1061336270757807613.b4-ty@kernel.org>
+Date: Tue, 15 Oct 2024 10:10:48 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zwz_p3o1PJF6sl2Y@smile.fi.intel.com>
+X-Mailer: b4 0.13.0
 
-On Mon, Oct 14, 2024 at 02:25:27PM +0300, Andy Shevchenko wrote:
-> On Mon, Oct 14, 2024 at 03:04:44PM +0800, Chen-Yu Tsai wrote:
-> > On Thu, Oct 10, 2024 at 11:29 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Tue, Oct 08, 2024 at 03:34:26PM +0800, Chen-Yu Tsai wrote:
+On Tue, 10 Sep 2024 10:15:19 +0000, Łukasz Bartosik wrote:
+> This series implements a UCSI ChromeOS EC transport driver.
+> The ChromeOS EC is expected to implement UCSI Platform Policy
+> Manager (PPM).
 > 
-> ...
-> 
-> > > > +static const struct chromeos_i2c_probe_data chromeos_i2c_probe_hana_trackpad = {
-> > > > +     .cfg = &chromeos_i2c_probe_simple_trackpad_cfg,
-> > >
-> > >         .cfg = DEFINE_I2C_OF_PROBE_CFG(trackpad, i2c_of_probe_simple_ops),
-> > >
-> > > Or even
-> > >
-> > > #define DEFINE_I2C_OF_PROBE_CFG_SIMPLE(_type_)                  \
-> > >         DEFINE_I2C_OF_PROBE_CFG(type, &i2c_of_probe_simple_ops)
-> > >
-> > > > +     .opts = &(const struct i2c_of_probe_simple_opts) {
-> > >
-> > > Perhaps also DEFINE_xxx for this compound literal?
-> > 
-> > I think it's better to leave this one as is.
-> 
-> Using a compound literal like this questions the entire approach.
 
-I don't follow. It's a valid use.
+Applied, thanks!
 
-> Why you can't you drop it and use the static initializers?
+[2/8] platform/chrome: Update EC feature flags
+      commit: 04a6116a36dfb86c80c930aaa03c66c2deb8e434
+[7/8] mfd: cros_ec: Load cros_ec_ucsi on supported ECs
+      (no commit info)
+[8/8] mfd: cros_ec: Don't load charger with UCSI
+      (no commit info)
 
-Did you mean split that part out as a separate variable:
+--
+Lee Jones [李琼斯]
 
-	static const struct i2c_of_probe_simple_opts
-	chromeos_i2c_probe_voltorb_tch_opts = {
-		.res_node_compatible = "elan,ekth6915",
-		.supply_name = "vcc33",
-		.gpio_name = "reset",
-		.post_power_on_delay_ms = 1,
-		.post_gpio_config_delay_ms = 300,
-		.gpio_assert_to_enable = true,
-	};
-
-	static const struct chromeos_i2c_probe_data
-	chromeos_i2c_probe_voltorb_touchscreen = {
-		.cfg = &chromeos_i2c_probe_simple_touchscreen_cfg,
-		.opts = &chromeos_i2c_probe_voltorb_tch_opts,
-	};
-
-Instead of the following, which is slightly shorter, and gets rid of one
-explicit symbol name:
-
-	static const struct chromeos_i2c_probe_data
-	chromeos_i2c_probe_voltorb_touchscreen = {
-		.cfg = &chromeos_i2c_probe_simple_touchscreen_cfg,
-		.opts = &(const struct i2c_of_probe_simple_opts) {
-			.res_node_compatible = "elan,ekth6915",
-			.supply_name = "vcc33",
-			.gpio_name = "reset",
-			.post_power_on_delay_ms = 1,
-			.post_gpio_config_delay_ms = 300,
-			.gpio_assert_to_enable = true,
-		},
-	};
-
-
-
-ChenYu
-
-> > Not every entry will
-> > use the same combination of parameters. And having the entry spelled
-> > out like this makes it easier to read which value is for what
-> > parameter, instead of having to go up to the macro definition.
-> > 
-> > For comparison, this entry uses just two of the parameters, while for
-> > another platform I'm working on the full set of parameters is needed.
-> > 
-> > > > +             .res_node_compatible = "elan,ekth3000",
-> > > > +             .supply_name = "vcc",
-> > > > +             /*
-> > > > +              * ELAN trackpad needs 2 ms for H/W init and 100 ms for F/W init.
-> > > > +              * Synaptics trackpad needs 100 ms.
-> > > > +              * However, the regulator is set to "always-on", presumably to
-> > > > +              * avoid this delay. The ELAN driver is also missing delays.
-> > > > +              */
-> > > > +             .post_power_on_delay_ms = 0,
-> > > > +     }
-> > > > +};
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 

@@ -1,126 +1,198 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8921CEAB0
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Oct 2024 19:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A79175D3E
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 05:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728934969; cv=none; b=GSQVylPlgVexa9K6Uc3Iomqry8ebKyR72/9W2kfIzhsHHGxMYPI/3JYDHGokFPaqdw0xm+ZrD3X6CUtaPknRJrLPXyNUaOOBrSDQHtYPvrqBsXlVk474mg9+esRXyeRrQU/wC9rGWu5xH633/DIqQOga8ombaQ+qh3eYBFCOBmo=
+	t=1728969750; cv=none; b=OyCyHoe+0di8UYU0SFKA3E9WlRnLt+EU5Vf0OtCRfzwUEFGJORVD3ohx7TFNbFjFqwqEBF7BNUeTph2BVy6qoyt2rdVMDG8aT/TfyvZ7UX16pUD6AfryG08DrfAopm0TZXIAkR/SVy4MgaenhZza8/yYeCBuJscgFlVmAJ5vVYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728934969; c=relaxed/simple;
-	bh=rqFgCXceD+qNov+dhRkbM/NdVUo6yEm+GuGSvw03exw=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=nSWuieC4Rj2uewIqqQcBAOGOPO2xT4mnQkIBgI/U3SI+JZyOOiTE3I25UZubK1Xmi460+uyGjVsasEUdTEf5Gy8bYJDqxTEj+eE91DymyhlFcmQeuCg1rRpuoyR6OPJ/5/Iu+rNwBcf/k2+3/cHpY1/A1CQ97paO51ppyPDVwMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=oITS8aRK; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1728969750; c=relaxed/simple;
+	bh=QroOQcxlNuix6nORrJFaZjYUpe/qnnT7RocqztaVH6g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PSKs7U/MzKK6WH09fkuEzq5ExSM+Is8MRhencDHnJo7hnfo9GGC9ixKzGts+ibc1bmZyXKN+kgtslw2LQ4xAJL+cUqfXefa7lXRiXzst40ipel3mow7IBSCR43+mdUi/MN2c7H+sfkXwDPIE1CzHjQtJMcUBtZnHRshQS8zTvQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JD++y4Le; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="oITS8aRK"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7c1324be8easo3831688a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 14 Oct 2024 12:42:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JD++y4Le"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539e4b7409fso2719914e87.0
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Oct 2024 22:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1728934967; x=1729539767; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ulL+PFsbXLFRyq0/XGk+F9UCFLwFoIFFKVFoQGde7ko=;
-        b=oITS8aRKjU7he+dUZfwGNZ2rtvnuZS5L8T5m72nbP8OdDXXcJNRGf7Wur1VtdDNrtM
-         O+xYWMCrFZr//u+Jn1aJDKlOVdnZGWBXHRZhjn2+feswrJ8uGettRR3LGGLwn+wAMPtu
-         aJIXPWj0QlcKAfrD7YeKCbQZ54Dqzdy48R37H6pNhwZ7rhZU7mCjCQ9vkN69G7w6CIz1
-         fwNP7ion0Bo3zlMfbWZv0vuKq7c4NFnJtLW7n8FuNOixrdcEpqWM8xHX9Q1ay0E4bqGQ
-         Qfyydha+74MQBftMtB+0GCXNrpaXTEneDfLZSR6+az2SL3dazj3bLoG9s/8u1lAL/UKZ
-         NkQg==
+        d=chromium.org; s=google; t=1728969745; x=1729574545; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2amfIbZSfwwrInuc60WPLo9Bq9qEZCLpcMAyCEJ6kmU=;
+        b=JD++y4LeLy+cUER99jmmFS83GkQnQjPbhUuaZvsl0vkh5tW/BunErmbUFeguyvA0Qv
+         KLP4AZ+SyMhF+hvc+URpdDvlxJh1UONPnpxREYMDFWDBPndgzKoMpU/ZwNchshMG/+2z
+         uFFp3UL3ePukyiaIjUYOjeI3ls7CfJl2bFUB8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728934967; x=1729539767;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ulL+PFsbXLFRyq0/XGk+F9UCFLwFoIFFKVFoQGde7ko=;
-        b=RGcFsT/U7qR7BaBLPfJRIiw5W+LOOWMz6sDXtY/prJF1iR2nXq6ev7kBgjw7mIG1RV
-         HIy/DjQDeXS3VS0nXtfIgjWgCD/am58eO7t9r8qisrUfA2TbvGT6TkvRXks71B3wppZ1
-         qrVUjFfqaY6efd4XgvPf2ZswZKuRZs0JDHgbQpLoL759LBhLOSKQls1RMHF45C9HRcyr
-         dyhmAeRTVGEWFPLqKxJVzlpoc+hPE48c+JfUxpngN0sk38Y4rTbkwFFipclFV7YtFxHc
-         mIqAez9w7UZs/zbcWJGMH9pVbzkvX1fXzLOn5SPk+5CFQo9jxIcYx41QMZBD+ND/ezs9
-         uU5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUxwDzNEau9KDYnsjDYkFjTo43YcJGTlluXu5xMkb8MxKT2MxztCqaAjUfC4vwMUiFAeUpuS/zKkE4AsnVIOPQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzpmlr2hoHvFtK97VKinUUU3SUSnVJAYXFlQ5ibuxf5RdlAMIaR
-	4PZ0sDa3lFDElb+VhbtTQlhHpt60LXGMa8ZadLYP9p/MXAW88CVvM7zaCutY19Q=
-X-Google-Smtp-Source: AGHT+IGCZTWrRigoO0b/evZwJ9kXp00b0NdIkaGOibp6dZSsl9ER8FMK5vH6+evtmbXbVfKchw1BWQ==
-X-Received: by 2002:a17:90b:3844:b0:2da:88b3:cff8 with SMTP id 98e67ed59e1d1-2e2f0aa5610mr19549493a91.6.1728934967298;
-        Mon, 14 Oct 2024 12:42:47 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e31d9fbba1sm5713151a91.46.2024.10.14.12.42.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 12:42:47 -0700 (PDT)
-Message-ID: <670d7437.170a0220.253345.b64e@mx.google.com>
-Date: Mon, 14 Oct 2024 12:42:47 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20230601; t=1728969745; x=1729574545;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2amfIbZSfwwrInuc60WPLo9Bq9qEZCLpcMAyCEJ6kmU=;
+        b=bueKSFTzUhnAy1FVxsq2PRnI2JOmWgN05Boc5hHZRvTuHjRdWAoKs5afQ+oF+BeoOA
+         JxtINkff5BiszQhSR0AMuaGai/2rrjkDaZ66RUzsKI+koaF+Cg1p97cb+TtK1VW1Vei1
+         5VAlaV9mfE4WZX6l9+2tSRo+WgzZdw1F5afG2Ctvf/+dwSwMClURNCSJaiKKQ2HYgmUC
+         kytzfvcFLP/IY+fwq/OVHLSDCX5BL4jXy0SYZ/WO8sAj9M4k+eAwCIzKHnqYOPC7ziQs
+         vePJxDj+JTbr4C4NlPc4kKd1L1D6GDp1ZJBosNWXk7jf5veUFA20MoBXvrU09xEnoO54
+         bwFg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4soBikXXEY5A8lZ+9d8K187q0lgP8cwsqFTp9OCLuVDQblWmKb/MA2gf39i26zo4fH098PfWJOT5k4BlraSI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyl2UXbBXu27fZtR/NacvVCLnWLXqlh2+0jxmfR/vsw3KSqgmDw
+	ho0612bmHBuMkSKW6zo6TJA+8suEh1+i9jbSy9+Rbg+j1Hn1TjWH4G4ZQslTe0IMPu0Hzr71NxU
+	ZJ3fFIdVus80HBYc4okMhweLiVDx2T4sudKHw
+X-Google-Smtp-Source: AGHT+IGnCYIKC4fxrTKf7KXrK4wtSw6kzD/gty96rpQnFBMMz91hHJcgXAFaBjG2JNXIFl/CWbfvb9I+Di9bhTdNMZc=
+X-Received: by 2002:ac2:4f0a:0:b0:539:e263:331c with SMTP id
+ 2adb3069b0e04-539e26334a7mr4023423e87.17.1728969744956; Mon, 14 Oct 2024
+ 22:22:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20241008073430.3992087-1-wenst@chromium.org> <20241008073430.3992087-5-wenst@chromium.org>
+ <ZwfvuA2WhD_0P3gL@smile.fi.intel.com> <CAGXv+5Hm62hFsF27B-cEWTJ_AKrhcfCPaqR7BxmpwnjABzwHTQ@mail.gmail.com>
+ <Zwz9djqb0Q6Ujmo_@smile.fi.intel.com>
+In-Reply-To: <Zwz9djqb0Q6Ujmo_@smile.fi.intel.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Oct 2024 13:22:13 +0800
+Message-ID: <CAGXv+5EGq=OAymON-wj0OzQjK1VxRzdvgJgbHxaYPKP_pmTN2A@mail.gmail.com>
+Subject: Re: [PATCH v8 4/8] i2c: Introduce OF component probe function
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: build
-X-Kernelci-Kernel: v6.12-rc1-2-g9c41f371457bd
-X-Kernelci-Branch: for-next
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-next build: 5 builds: 1 failed,
- 4 passed (v6.12-rc1-2-g9c41f371457bd)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-next build: 5 builds: 1 failed, 4 passed (v6.12-rc1-2-g=
-9c41f371457bd)
+On Mon, Oct 14, 2024 at 7:16=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Oct 14, 2024 at 11:53:47AM +0800, Chen-Yu Tsai wrote:
+> > On Thu, Oct 10, 2024 at 11:16=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Tue, Oct 08, 2024 at 03:34:23PM +0800, Chen-Yu Tsai wrote:
+>
+> ...
+>
+> > > Fresh reading of the commit message make me think why the firmware or
+> > > bootloader on such a device can't form a dynamic OF (overlay?) to ful=
+fill
+> > > the need?
+> >
+> > The firmware / bootloader on existing devices are practically not upgra=
+dable.
+> > On the other hand, the kernel is very easy to upgrade or swap out.
+> >
+> > For said shipped devices, there is also nothing to key the detection
+> > off of besides actually powering things up and doing I2C transfers,
+> > which takes time that the firmware has little to spare. We (ChromeOS)
+> > require that the bootloader jump into the kernel within 1 second of
+> > power on. That includes DRAM calibration, whatever essential hardware
+> > initialization, and loading and uncompressing the kernel. Anything
+> > non-essential that can be done in the kernel is going to get deferred
+> > to the kernel.
+> >
+> > Also, due to project timelines oftentimes the devices are shipped with =
+a
+> > downstream kernel with downstream device trees. We don't want to tie th=
+e
+> > firmware too tightly to the device tree in case the downstream stuff ge=
+ts
+> > reworked when upstreamed.
+>
+> Okay, I was always under impression that DT has at least one nice feature=
+ in
+> comparison with ACPI that it can be replaced / updated in much quicker /
+> independent manner. What you are telling seems like the same issue that
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-n=
-ext/kernel/v6.12-rc1-2-g9c41f371457bd/
+That depends on which camp one is in. Some folks advocate for shipping the
+DT with the firmware. In that case you are limited by how easy the firmware
+is to upgrade. Or they would leave an option for the firmware to load a
+newer DT from disk.
 
-Tree: chrome-platform
-Branch: for-next
-Git Describe: v6.12-rc1-2-g9c41f371457bd
-Git Commit: 9c41f371457bd9a24874e3c7934d9745e87fbc58
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+The other camp is shipping the DT with the kernel image, which ChromeOS and
+some Linux distros do.  Then the DT is as easy to upgrade as the kernel.
+Opponents would argue that the DT is a hardware description and should
+be separate from the kernel. However as with all hardware bringup
+development, one can't really describe something that hasn't been
+developed and gone through review.
 
-Build Failure Detected:
+However here I am specifically talking about the firmware _code_ being tied
+to the DT. To implement the probing feature in firmware, one needs to eithe=
+r
+add a lot more code about what devices the system might have, or implement
+the equivalent of this series in firmware, or something in between. This
+is a lot of code that depends on the structure of the DT it was developed
+against, which most likely was downstream at that point.
 
-arm64:
-    defconfig+arm64-chromebook: (gcc-12) FAIL
+Say someone screwed up some DT structure downstream at the time of release,
+such as the node name or address prefix, and that was fixed upstream. The
+new upstream DT no longer has the structure the firmware is expecting, and
+the firmware might not be able to handle it anymore, resulting in some
+peripheral no longer getting probed or enabled. And you don't have a way
+to upgrade the firmware to fix this.
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+> ACPI-based platforms have. However, there they usually put all possible d=
+evices
+> into DSDT and firmware enables them via run-time (ACPI) variables. Are yo=
+u
+> trying to implement something similar here?
 
-Detailed per-defconfig build reports:
+Yes, that sounds similar. However for us the DT is tied to the kernel, not
+the firmware, i.e. not provided by the firmware. There's also no UEFI in
+our case.
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
+> ...
+>
+> > > Another question is that we have the autoprobing mechanism for I2C fo=
+r ages,
+> > > why that one can't be (re-)used / extended to cover these cases?
+> >
+> > I haven't looked into it very much, but a quick read of
+> > Documentation/i2c/instantiating-devices.rst suggests that it's solving
+> > a different problem?
+> >
+> > In our case, we know that it is just one of a handful of possible
+> > devices that we already described in the device tree. We don't need
+> > to probe the full address range nor the full range of drivers. We
+> > already have a hacky workaround in place, but that mangles the
+> > device tree in a way that doesn't really match the hardware.
+> >
+> > The components that we are handling don't seem to have any hardware
+> > ID register, nor do their drivers implement the .detect() callback.
+> > There's also power sequencing (regulator and GPIO lines) and interrupt
+> > lines from the device tree that need to be handled, something that is
+> > missing in the autoprobe path.
+> >
+> > Based on the above I don't think the existing autoprobe is a good fit.
+> > Trying to shoehorn it in is likely going to be a mess.
+> >
+> > Doug's original cover letter describes the problem in more detail,
+> > including why we think this should be done in the kernel, not the
+> > firmware:
+> > https://lore.kernel.org/all/20230921102420.RFC.1.I9dddd99ccdca175e3ceb1=
+b9fa1827df0928c5101@changeid/
+>
+> Perhaps it needs to be summarised to cover at least this question along w=
+ith
+> the above?
 
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-12) =E2=80=94 FAIL, 0 errors, 0 warn=
-ings, 0 section mismatches
+For the first question, it boils down to we think that the firmware should
+be simple and do as little as possible. It also should not be tied to a
+specific DT, so editing or fixing up the DT in firmware is something we
+avoid. The firmware can do overlays if they are provided, however in this
+particular case, the identifiers used by the bootloader don't cover the
+variations of the I2C-based second source components.
 
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
+For why autoprobing isn't a good fit, I believe my answer above covers it.
 
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
-
----
-For more info write to <info@kernelci.org>
+ChenYu

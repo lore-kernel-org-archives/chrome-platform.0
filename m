@@ -1,62 +1,40 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F811FBF60
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 21:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E9F1B0F0D
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 22:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729027690; cv=none; b=cR66uJY595k74ar4pf8ZYoKG0dlkk+NduC3cSe7P3ZbRELly6o/8Ed9oVVJF4a5mw9Y2zWGPm7srLFg0PEFO38BY8nFs2EKEuF5Mefqaq87MHsSVqn2TefNCsCJIvtBrGY7z+RmECRwZeQbBo48fPLrocDJsfifyyueVpV2xPHE=
+	t=1729032903; cv=none; b=YIFElR2SMf4xz5WuHGghzwVJfyAv+9lwshzVK54l48cRQOtUX57DB0JGoZrs0JI1qynLV5jaCvmlkJ07hX+MriwMpgUaYZkgxCE5txjzChU5/Ipbzcc1+dyzFLG6jFzd+DyZIdIs+PRbzQalHaYMuNpxIXUP6TihnTDjNY86UnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729027690; c=relaxed/simple;
-	bh=PN1uaw1Buta/ss6rKDkb3NM7yfqsOKT/gJWdf6hECMI=;
+	s=arc-20240116; t=1729032903; c=relaxed/simple;
+	bh=dRXjZfVKQdyCTzo6xOCy0tUroKEEG+AxQHT9LS2Cin4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nHS1aYeVM50Fwx/sZA0qh0NFPNOjCkFFJFB+WpqypgaNDQClPE424opaNvB/KsrHsyi0s+kw7eKExux/AvMORDUAzsRiW6W0hr32ESr618hM4m6dPTf+Cg8qShgtfGC/ejXutd+OWQHtdUEz5VcRHNBXvrdLsZttqVhMR81bKXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AGuVgOeY; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=myk4THdJzzohjIW0ben5Y1d0L5FLfw/rAGhGqEOcC6U7VgL2q78n8rroxg3qIx92qUGTjKEn6JwQGYrY2RVOqzCwq/bG94U+fEMDJ/hZ65i8xvaN//nhfqrhJyUQ90ivIG/mSAVXfuGzzKW0L1qG3nPS6sokTHjCExtTlxMAn7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mdXbMlo9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AGuVgOeY"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e2eba31d3aso3286038a91.2
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 14:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729027686; x=1729632486; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=x/FuWBioRshAGcnxMHj1vI0C//58jkztWOligVGqpoE=;
-        b=AGuVgOeYUNHQwZL43ZioqrR+UMZMKYI5lzFHbLd7Trg/EyH9JsOReo9yhBdz+BkZIt
-         0Lmqko9J7CfvdfZCX+UvgZ73BPFlacdkzarMKOT8I6k1W5Wl+hoXgMCG5upma1bIXdbP
-         SO2R8N48RiZNB2qpmxgIMUAGpKI8kehxT7lJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729027686; x=1729632486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/FuWBioRshAGcnxMHj1vI0C//58jkztWOligVGqpoE=;
-        b=KCU3wI0dXmHP1Q5aFWdrVBGG2sCnJE+Iqbf3p9blXQ58G+qMkTpc+qRH4DCUQPZeKy
-         /y1ncbZP+jadgZhiGwpuVg5bEjh4UotugbNaazFkwMwRJ+o1mNzdMH2bxHAD0GcJzbC8
-         6YZd3XY2G5FwAJRR82MkhNr/zTUeNWeefAO+AKDPUByyTyfJlf7b0RrDbb77oGnj139x
-         Zwe8KLzpPJE8AGJs6BjhePCO0zpZMl+kUbNQLafhHM7Z8rPwvIC29ziAjJMljUtIPDO2
-         BGrxvYXyu/zykiukdhcuCSUGNIa5BhKq2BOvIPZmZ+J7JV1aNzY7DMfa+++dPKsfKgt+
-         zxBA==
-X-Forwarded-Encrypted: i=1; AJvYcCUs48FCVe8W6+Wzo+yvtucdFnYW7Mg6YKpaMlP4cPXuKfel4LKkvFf9hC4ZpOC47miLjysRGM+UseK8bdbhGU8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqPN0UzhakEzqAcZ5iGZoNz9PyDr/bAm5xPjVQBXBvUkHlcIY/
-	mq0I/KL0JutryLdVahf5wk7SO2eJnYuOISlCADETdzffMQk4aC63bqon12BvVQ==
-X-Google-Smtp-Source: AGHT+IEC5aB06Y9FCs9djswuF6vFc/rQqbSHVZz+GYb9BipyDuIy52J6UOq05rW1pYsLqDgReWWYRw==
-X-Received: by 2002:a17:90a:e7cb:b0:2e2:d3a0:4716 with SMTP id 98e67ed59e1d1-2e3ab821db9mr1766034a91.18.1729027686307;
-        Tue, 15 Oct 2024 14:28:06 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e14:7:eef3:dbf8:fbe3:ab12])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2e392ed13besm2419257a91.17.2024.10.15.14.28.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Oct 2024 14:28:06 -0700 (PDT)
-Date: Tue, 15 Oct 2024 14:28:04 -0700
-From: Brian Norris <briannorris@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mdXbMlo9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54E9C4CEC6;
+	Tue, 15 Oct 2024 22:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729032903;
+	bh=dRXjZfVKQdyCTzo6xOCy0tUroKEEG+AxQHT9LS2Cin4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mdXbMlo92B5C7jRl8HOZGSXXiqvvqyqozw1pFSKTCNFMOQP4rhZ30Yjm54Act3MsS
+	 vOpm+4tf6kIbeOglejIBesn7qaRHCBmnSQMBQ0Twj0UlPH5Lb1MmbSiODjiix5TRDN
+	 gqyHzOSF7mMuSr3Ql4qifkiWIODlMEF0y56rT5pyBQeiA1AF/Sx4CvZ9pnOsEKbdHO
+	 lTSUOZ3Cu+PwVgndcznhwWZmGxiknW1SjpxwsGPcfuHFevEb4lC8mS8K+YIpT8s40w
+	 AkooIFqvEjzTpyzw07GQZQoGujZQm12mg9wCmFolagyuw4j83PfAtVdiU/Pgvgeekf
+	 u+b5ypy/rM/ew==
+Date: Tue, 15 Oct 2024 22:54:59 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Yuan Can <yuancan@huawei.com>
-Cc: tzungbi@kernel.org, jwerner@chromium.org, adurbin@chromium.org,
+Cc: briannorris@chromium.org, jwerner@chromium.org, adurbin@chromium.org,
 	furquan@chromium.org, gregkh@linuxfoundation.org,
 	rajatja@chromium.org, groeck@chromium.org,
 	chrome-platform@lists.linux.dev
 Subject: Re: [PATCH] firmware: google: Unregister driver_info on failure
-Message-ID: <Zw7eZG8hx9JRN2HH@google.com>
+Message-ID: <Zw7yw3nuaFew2AZu@google.com>
 References: <20241015131344.20272-1-yuancan@huawei.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -73,7 +51,13 @@ On Tue, Oct 15, 2024 at 09:13:44PM +0800, Yuan Can wrote:
 > without unregister gsmi_driver_info, fix by add missing
 > platform_driver_unregister() when platform_device_register_full() failed.
 > 
-> Fixes: 8942b2d5094b ("gsmi: Add GSMI commands to log S0ix info")
-> Signed-off-by: Yuan Can <yuancan@huawei.com>
+> [...]
 
-Acked-by: Brian Norris <briannorris@chromium.org>
+Applied to
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
+
+[1/1] firmware: google: Unregister driver_info on failure
+      commit: 32b0901e141f6d4cf49d820b53eb09b88b1f72f7
+
+Thanks!

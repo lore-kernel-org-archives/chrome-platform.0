@@ -1,160 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324DB1D9350
-	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 11:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925341EB9E8
+	for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 12:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728991445; cv=none; b=W2c0e1Dw8wEtZcxFuAGG456XPnNehE6ic2FuFAQzxIvymrxO9F7AMKhh/tTgVNOCpRmEkiUMDfRBlx11cb1QANki7IbMwXQbx8o8tAyR+v2/Rdmdo3GojSPJz806mHKCDkHr26P0CBdJ4tOpdk+s0T96jMlGwr1irW56NgWrrn0=
+	t=1728993953; cv=none; b=EFgypOSwqx75WvCe05dfM2+Ope2DcowBHY7mFhTVVravVIgWS/7Q9Gh1+khpjXaf6BB548PRhXAsiyVw7VqSC2cu2E8bCuypTEeN7XSLXn7g5ppJXZIJzUFtKiZ12g3hYRyn4stcZgf/H4Q0LqQHzLSRj4Bqx90oll6/ZHBkQ6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728991445; c=relaxed/simple;
-	bh=Rdzp13zaH99entWKg0lm1Wx8wDdv6n9NqLsTT0PIeco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DMRZx5DGgrilpjK+MSaMsMAWyu3TsSy+NTdRIbUBHF8dt2LH8Bfq7KWUxia7q6vMa8UTGOyzCbE7ZMUyuQdzBdKKEpfnsoMXiJxSYacqcydiyC7NfIVBA2I89XMCA7ygHKfDrC727Eyg2ZEmhwZzaIiI4KpRwEP9PxtIIhdAUEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afe5MrKh; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728993953; c=relaxed/simple;
+	bh=TkH6GmEo4c9tnguqpqU/PvDipqNVka108zrquojRkfU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FmnEZmApBZGbF7lE+jUkJUIsFacr/ZltrIF6MHdcYNZEfe9SVuvcjxcg5pC6H+yHYrl0eMbIkXwg9s7KsA8tZoLyEK+6G+0nmiDvhh9ZKvd22FIRLdaIs6QansQ/6CialRki9hXQJlzN4QxN5vwncYrS62+nOHagKnmrk2hb9qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Hj3E+IoO; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afe5MrKh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728991445; x=1760527445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Rdzp13zaH99entWKg0lm1Wx8wDdv6n9NqLsTT0PIeco=;
-  b=afe5MrKhsF3tcd4ecrIBfNbikkr/VgOgdaIc7bAa4UAaxcAABxIhhZvT
-   FPUretu47bESzoJJyVfQxhOW9vHGU7pcObXPvALcqTfdLqpLBfkrs5GvO
-   OZe4OK7CqSh0s7zRl4rRPKkxP9sYIVF/5+XJ7rJMhYUcn9avCghWsQGkj
-   xT8FIdKGzeloyyan3ovR4kkXeqCJtv976ex/UWf+aamGB1tGPd7yFwfoe
-   asg0Kdv111P3qudwltFRZCCQ5EWAxQ3oIG0Foy+n3Iz4P/Jf/ciAtVbLY
-   2CxWMtvHlUoJvm2w7BBljqfPZfYSeKNz+tFTBvZmRe8vNtWVAKi/4pIfS
-   Q==;
-X-CSE-ConnectionGUID: FIzV2VQqQBSv73hhN7T3Fw==
-X-CSE-MsgGUID: RiRDguwbQQSJTC6A+E1sNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45850673"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45850673"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:24:04 -0700
-X-CSE-ConnectionGUID: XjzeGirsRkyt2NS4hd72oA==
-X-CSE-MsgGUID: UxyCuKF0TkCwvW1mvnN1dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77948538"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:24:00 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t0fef-00000003FQr-0uQa;
-	Tue, 15 Oct 2024 14:23:57 +0300
-Date: Tue, 15 Oct 2024 14:23:56 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v8 7/8] platform/chrome: Introduce device tree hardware
- prober
-Message-ID: <Zw5QzP-5hnHW--F-@smile.fi.intel.com>
-References: <20241008073430.3992087-1-wenst@chromium.org>
- <20241008073430.3992087-8-wenst@chromium.org>
- <Zwfy6ER6sbr_QxsY@smile.fi.intel.com>
- <ZwfzhsvlPrxMi61j@smile.fi.intel.com>
- <CAGXv+5ED7j49ndT7BaESW8ZL7_mjVUJLM_FWma8Lwkg+Uh3saw@mail.gmail.com>
- <Zwz_Kl7SwfL0ZaAZ@smile.fi.intel.com>
- <CAGXv+5H0Yvt1cwPOim-quT3C+=s9NapnryJhNxs_QW=DAyAycQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Hj3E+IoO"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539ee1acb86so2888309e87.0
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 05:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728993950; x=1729598750; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3pkU2eRjeKvSY6f0pSdTbycrkRgeCmqTec03rjYKyF8=;
+        b=Hj3E+IoOJgZi7pAEfkZn30h1Gyda62DF5Wo6/CgREybXzS+lqhCQ0Ey/6ZCQ1JAR85
+         72ilsEGQ2YKb7ZpNsxS7mBFUftIjFPkNxxz0IjaeoKub6UfhY1NJumKBjESrJQbHAUUm
+         AyUDVsroImOzAWTzf79T7mRB+/mODg19VCqnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728993950; x=1729598750;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3pkU2eRjeKvSY6f0pSdTbycrkRgeCmqTec03rjYKyF8=;
+        b=fUn26YFUihqTr2a8lRh+QIQMFDYixBtoXBWt5mYFCHMkhLD/RPEdKzwYTMb52nA+w3
+         S8f4A4fX3xRKxnEPxqb/Ch9sN2Qht87qH+v6Z85QGm7jcZAG8CBfL7HfhgVJw+pNXPqc
+         Ca5jbb6ucC/peBV0uAqxQ2cDNFSUC2whDOOHG4GIsclXgfdHPLZv9sGgbtGtqM39Av2h
+         eY5k+0BgGffXoGmp6PXJgvqS778jkVDcE7u/wyBS2xyttG1bqaHDYCyEJzcz/cEpbeX5
+         oD/IgGvolZ2ino6sz2AtWs7AmHyFX8o/6ClbHt+MxSFZFHjr7zEd7Frs61G/Ed4UhoXx
+         gqAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy5AiODRQ45JrlXrE/LOERI0xjY+AS1ff5H9tWhw8jeVq+SZXDvn/8XydrqngwqekVFANgldxNMphoieYyhjU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNFLvxRVUXI4WBFBIrVrBkzuc6bL+hu1aG4HXu5UjLFgoSUy5C
+	HC3PZQvBAUvyaXeFx9miCMxx78GS02TeeUmwn1Qh4hAvUkOWJTjn414219UoqWAfckFAoSbENJ0
+	yoq3LtgB1SNDFPIZiDJydpzpnryJZUcdVrid9
+X-Google-Smtp-Source: AGHT+IEQXdmQdNm+HUimDjCPdKjEChhYuf8aN9wLvl2NObC3Ky9RVqgYEBecyoCudKfI+sGJ8TfqR02sf0yymk/NXVk=
+X-Received: by 2002:a05:6512:3da6:b0:536:a275:9d61 with SMTP id
+ 2adb3069b0e04-539e551624bmr5918785e87.21.1728993949587; Tue, 15 Oct 2024
+ 05:05:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5H0Yvt1cwPOim-quT3C+=s9NapnryJhNxs_QW=DAyAycQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241008073430.3992087-1-wenst@chromium.org> <20241008073430.3992087-7-wenst@chromium.org>
+ <Zwfwv-O9ln-PVMdc@smile.fi.intel.com> <CAGXv+5F=5f4R5AExANxOwgTL6_VbpHdNKKhHnzy_PDcxtcFoEQ@mail.gmail.com>
+ <Zwz-benEP4PHbRb2@smile.fi.intel.com> <CAGXv+5EwSZFoE-Uzb5x1QfknkVfd64Z_uzR0YcvZ_pR9ktGUBA@mail.gmail.com>
+ <Zw5PxMOrF8Ape3if@smile.fi.intel.com>
+In-Reply-To: <Zw5PxMOrF8Ape3if@smile.fi.intel.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Oct 2024 20:05:38 +0800
+Message-ID: <CAGXv+5GXVdLg8+gHTAY2ur1u35HLFqq33DLfef_P3geDr3XrMQ@mail.gmail.com>
+Subject: Re: [PATCH v8 6/8] i2c: of-prober: Add GPIO support to simple helpers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 15, 2024 at 02:32:54PM +0800, Chen-Yu Tsai wrote:
-> On Mon, Oct 14, 2024 at 7:23 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Mon, Oct 14, 2024 at 12:56:20PM +0800, Chen-Yu Tsai wrote:
-> > > On Thu, Oct 10, 2024 at 11:32 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Thu, Oct 10, 2024 at 06:29:44PM +0300, Andy Shevchenko wrote:
-> > > > > On Tue, Oct 08, 2024 at 03:34:26PM +0800, Chen-Yu Tsai wrote:
-
-...
-
-> > > > > > +   .cfg = &chromeos_i2c_probe_simple_trackpad_cfg,
+On Tue, Oct 15, 2024 at 7:19=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Tue, Oct 15, 2024 at 01:31:40PM +0800, Chen-Yu Tsai wrote:
+> > On Mon, Oct 14, 2024 at 7:20=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Mon, Oct 14, 2024 at 12:06:16PM +0800, Chen-Yu Tsai wrote:
+> > > > On Thu, Oct 10, 2024 at 11:20=E2=80=AFPM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > On Tue, Oct 08, 2024 at 03:34:25PM +0800, Chen-Yu Tsai wrote:
+>
+> ...
+>
+> > > > > > +static void i2c_of_probe_simple_disable_gpio(struct device *de=
+v, struct i2c_of_probe_simple_ctx *ctx)
+> > > > > > +{
+> > > > > > +     if (!ctx->gpiod)
+> > > > > > +             return;
 > > > > >
-> > > > >       .cfg = DEFINE_I2C_OF_PROBE_CFG(trackpad, i2c_of_probe_simple_ops),
-> > > > >
-> > > > > Or even
-> > > > >
-> > > > > #define DEFINE_I2C_OF_PROBE_CFG_SIMPLE(_type_)                        \
-> > > > >       DEFINE_I2C_OF_PROBE_CFG(type, &i2c_of_probe_simple_ops)
-> > >
-> > > I'm not inclined on using compound literals here. "simple X cfg" will
-> > > likely get shared between multiple |chromeos_i2c_probe_data| entries,
-> > > and AFAIK the toolchain can't merge them. So we would end up with one
-> > > compound literal per entry, even if their contents are the same.
-> >
-> > I'm not sure I follow, you are using compound literal _already_.
-> > How does my proposal change that?
-> 
-> I'm using it where it makes sense, i.e. where the embedded variable
-> is not going to be shared with other instances.
-> 
-> For the dumb probers, there's only going to be one instance per "type".
-> 
-> For the simple probers, the config part is still one instance per "type",
-> but the parameters are board and component specific. There will be
-> multiple instances. Hence the config part can be shared, while the
-> parameters likely won't be.
-> 
-> > > > With that also looking at the above
+> > > > > Do you need this check for the future patches?
 > > > >
-> > > > #define DEFINE_I2C_OF_PROBE_CFG_NONE(_type_)                            \
-> > > >         DEFINE_I2C_OF_PROBE_CFG(type, NULL)
+> > > > Not sure I follow. The check is needed because this function is cal=
+led
+> > > > in i2c_of_probe_simple_cleanup(), but the GPIO could have been rele=
+ased
+> > > > earlier in i2c_of_probe_simple_cleanup_early(), and that makes this
+> > > > function a no-op.
 > > >
-> > > For the "dumb" case it makes sense though, since it would be one instance
-> > > per type. But we could go further and just wrap the whole
-> > > |chromeos_i2c_probe_data| declaration.
+> > > Do you have a known race condition then? This is bad. You shouldn't r=
+ely on
+> > > the sequence of events here, or the serialisation has to be added.
 > >
-> > Maybe it's too far from now...
-> 
-> This is what I have:
-> 
-> #define DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB(_type)
->                         \
->        static const struct chromeos_i2c_probe_data
-> chromeos_i2c_probe_dumb_ ## _type = {       \
+> > No there isn't. Explanation below.
+> >
+> > > > The helpers for the release side are quite short, but the ones on t=
+he
+> > > > request side wrap some conditional and error handling. I think it's
+> > > > better to keep it symmetric?
+> > >
+> > > Yes, but why do you need the above check, I didn't still get...
+> > > I.o.w. you think that there is a gap in time that (if no check) the G=
+PIO
+> > > descriptor might be changed? But then how does it affect anyway the p=
+ossibility
+> > > that it becomes not NULL even with the current code.
+> >
+> > There are two codes paths, either
+> >
+> >     a) successfully finding a device and enabling it, or
+> >     b) exhausting all options and not finding a device, because it was
+> >        optional or it is malfunctioning.
+> >
+> > After either code path, this cleanup function is called.
+> >
+> > In path (a), the GPIO descriptor is released prior to enabling the devi=
+ce,
+> > because the descriptor is an exclusive resource, and as soon as the dev=
+ice
+> > is enabled, its corresponding driver may probe and request the same GPI=
+O,
+> > and would fail if it was not released.
+> >
+> > In path (b), nothing was enabled, and the GPIO descriptor was not relea=
+sed
+> > early.
+> >
+> > The cleanup function here accounts for both cases, hence the check.
+>
+> Yes, but the very same check is inside gpiod_set_value(). I'm still puzzl=
+ed
+> about the duplication. Maybe I'm missing something...
 
->                .cfg = &(const struct i2c_of_probe_cfg) {
-
-But the below is static initializer, why do you need a compound literal here?
-
->                         \
->                        .type = #_type,
->                         \
->                },
->                         \
-> };
-> 
-> DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB(touchscreen);
-
-s/dumb/simple/g
-
--- 
-With Best Regards,
-Andy Shevchenko
+My bad. I did not check if the GPIO descriptor API had these checks.
+In that case I will drop the check in this patch.
 
 
+Thanks
+ChenYu
+
+> > A step-by-step description might be clearer:
+> >
+> > 1. i2c_of_probe_simple_enable()
+> >    ...
+> >    1a. i2c_of_probe_simple_get_supply()
+> >    1b. i2c_of_probe_simple_get_gpiod()
+> >    1c. i2c_of_probe_simple_enable_regulator()
+> >    1d. i2c_of_probe_simple_set_gpio()
+> >
+> > 2. Loop through potential component options and probe; if one is found:
+> >    2a. i2c_of_probe_simple_cleanup_early()
+> >        2a-i. i2c_of_probe_simple_put_gpiod
+> >    2b. Enable device and driver's probe() gets called
+> >
+> > 3. i2c_of_probe_simple_cleanup()
+> >    3a. i2c_of_probe_simple_disable_gpio()
+> >    3b. i2c_of_probe_simple_put_gpiod()
+> >    3c. i2c_of_probe_simple_disable_regulator()
+> >    3d. i2c_of_probe_simple_put_supply()
+> >
+> > > > > > +     /* Ignore error if GPIO is not in output direction */
+> > > > > > +     gpiod_set_value(ctx->gpiod, !ctx->opts->gpio_assert_to_en=
+able);
+> > > > > > +}
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>

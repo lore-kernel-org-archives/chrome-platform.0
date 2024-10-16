@@ -1,126 +1,146 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A3521E3BA
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Oct 2024 04:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D2418C331
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Oct 2024 07:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729054093; cv=none; b=qHg9gM7kU2Mgg9AOSN/0CN6Ub9t0noEIiJdOCbuqsGmRupWomrePb+QvvMPB4CQHAS5b0uG9qaT5PYYnZY2VeCBEeiKs4qO42/FvbVf2USaLu1pHGF84fe2AtUCsZsfdAbX1lEzjU+s2ZVdREpJmw4wsOefyPjahgH/EfUyw9VI=
+	t=1729062092; cv=none; b=NhrXnHYJeF0jt/9B8cCuqnvqGNGdUSs8J0bzNXVZHUkra0972l+8A1a1sGQr8mZbfxCVJKBBLyUgAziX1PeKF9Z+pLN105MOk+uLDm0zq9COZyIoylYcPO2eUbX1OWH0Ttqzl07W+Rg3bkIB7DW9tHmuwIijNiSDPuoneZhc3kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729054093; c=relaxed/simple;
-	bh=QoOXD83MifxITQuCHbwG2wQq3V6tth+YkURMrtocFx4=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=XuGz+Ms0I6Eh4Evv15vp4Z5tQQA85Sj+9VuP3r4cEaNWoNurOzZ2nMel2t/vERBLBfw+IStY4Tuxyo+W9cc22esOXwRqhysDJy6DZbiBOGWHmVdzDtY/kb2GBFB0sP2L2lh3R9eKITHHJFSLtjxz9PDLJ/ZDBljlEFjvaeNDVTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=RjFUiGm9; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1729062092; c=relaxed/simple;
+	bh=/Hzo2SkzwwDLKXCO8ZcuSqtq5C1ljEdpc4/rzPIw/Ws=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PaxM9AejOsYstZuIq8BUiR+uMglz3KOkEq08GbasiY6khg7IuNEYP82dJrB6vPkdX5qnFBtRFoe1K7UZ7bMiGgFGVqZL2TqqhMDdNzxXs+2mSvJJpNtyHiMhL0fIwPwVwBO6/VwTeDyBPM8tQbmY+9GV43CHcQHBDpJh89MOCm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WvTYfQ0X; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="RjFUiGm9"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e7086c231so1615278b3a.0
-        for <chrome-platform@lists.linux.dev>; Tue, 15 Oct 2024 21:48:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WvTYfQ0X"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f2b95775so3958392e87.1
+        for <chrome-platform@lists.linux.dev>; Wed, 16 Oct 2024 00:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1729054091; x=1729658891; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=UuMiUApMKqsOWc8DJHbb+3pdCLGeo1+w1hOp6XKF2sE=;
-        b=RjFUiGm9w0Jc1Jri3/YT9ZqB0Yx7wiJMyjL2yB3pVxOO/OgejJSmN6WITezg24PWG2
-         3CuS9hblrEFLylRr911L9KPEqSGZklwvHcvUaCeorki1L7KGrO7AuMJlAMjSLvyYesDp
-         9/6C8F4k0ApuPlsUY8pRPnwCFbazGgFKTgK/7HUIziELqWajFnimFtb9sIjqKR0tvcb9
-         BPNsSbeL9+37j83pltfG+z+uTEYph8rpwIzV4i8/ORDOiDytB8etmKs8VncgjsMFmAFd
-         xG1EV0pPw5+55X19OmlW8npUmjARADO6VoWl9B9XTZgRB6h3tVO+mE5w8b7piSPq2zs+
-         J42Q==
+        d=chromium.org; s=google; t=1729062089; x=1729666889; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aPSA6U2IhZgMRSFXZK5Yj7RxoQjZFaD6SSlWNz1Yb8o=;
+        b=WvTYfQ0X84vQA96JUFZIe1iA80f7RgvGx+PgR2ENHliRBCQ5S3rL/N/+L1ynpeDtD3
+         oog4vyzGY8NEcCLbQgM/m7J03XOxp/4UKG9kamKWLrwzx9CKCVVMOqbzCi6u99wA37Pm
+         1MHg6MmvCupxc98OcChFlVpe80QEWyHqBtgOg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729054091; x=1729658891;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UuMiUApMKqsOWc8DJHbb+3pdCLGeo1+w1hOp6XKF2sE=;
-        b=uoX2ievwxhlHNEmD++QL/o66nFCzn69gHC2YptKIxVcCyXS/YrxN3oyAc9wMWKr946
-         78yTYmERIG6QOUiMg4d2B8UbM7GZ2i6UGkBb8c4kwhDStm9pgTBWzonE5BcRwtFh7Svn
-         Ca/lz0eKoYKNtPE3eMC1uUYTd67JIXO43BVolMCAbNCL6t6mRONobqU2y2fFNQRvAX89
-         HJ8xE1LOELVAd/zxg37rBtNPikuizQyFzx+gznN3WIaeZYJDmZ59t6MlwU1pajw8k3IH
-         pC+EVSahVPLWxatCYUK7OQ3BJU55IQsc9jSJMU3+OYQO0YbqnzpvmkFp/ZMEaSU/3Ls9
-         B3Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgvYnOKagozy1UlBkNQpXCkRtidp7q1tbz/fGcjcDPVK2YNkjBQ3odBsDf/W+l77HTesUqeEIKXMlqJyzP7yM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpLKCeSzbE3L9+yXL8DxHfVO+8PrrMaJfmkwovs/w/V3zkh5DL
-	s0Tpsf738S9ELxJmXIauRB/le5FH2ZofE5W5Bdavpkiw+2vwpKypiu7Ec1Jyy6I=
-X-Google-Smtp-Source: AGHT+IGPrFsdyF208PbeCZnz7FTjnbwNczfh9NzYD8vbif2P8Gg2aX6Q68LV2wCGvzWpE7+UO03eTw==
-X-Received: by 2002:a05:6a00:18a3:b0:71e:780e:9c1 with SMTP id d2e1a72fcca58-71e7dad896cmr3916905b3a.18.1729054090938;
-        Tue, 15 Oct 2024 21:48:10 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773a2fafsm2204216b3a.61.2024.10.15.21.48.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 21:48:10 -0700 (PDT)
-Message-ID: <670f458a.050a0220.e0b41.8975@mx.google.com>
-Date: Tue, 15 Oct 2024 21:48:10 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20230601; t=1729062089; x=1729666889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aPSA6U2IhZgMRSFXZK5Yj7RxoQjZFaD6SSlWNz1Yb8o=;
+        b=oxD3i0cf4V/uKJpo8aijh6NzaK4Dn24Lxi5IVMMznfgo7/jEqWE+R4Ia1xvs3axZX9
+         Krirm//kU5fHrtlTT5bV5IeLR3RLfvBrv+07rcIQ3ipnqaU3AsRMcPNQ34UV8T7KcxHx
+         8DZ1CtO0vkZ1Akijx5vt0N7Lxj3dZ2VHx++smrJWVPSvjEX/6LWMu++SFjZO84cg7Vjg
+         pyohPnO0mZm/7sK82nvrNT0Mm6W7tze0n2Pq50RQF9CxjRYZE4KYOjWJKyX5ZweLKaFm
+         aQr7c/6pppLIWCGWkUay7PeaSnQOn9Nc/MsA9jvOLYxHDP4WFTBtHbfjXTuaUsHJtjcb
+         NC+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVSz/873RWArvWVats/KTuAqCUuGkAJttv9/aNGJSvB2zq87GUlNy6ZsyaoUIzfEorYqZFT2EALvMsCxpnTQtE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YymqDwsACzrR+Qe5GCp612rNydz9E2+9OcDNaebmwLvIdUhIT3d
+	ONuBrL6YTg+AKl8BsfBinuaKVtvnPLNWdwkfGi297qaj+dgympCCcq32VJ/p4vdCZ1z6a5hrl7n
+	3rn+XhocJ2tWM1aj0xLWX87bsUrTGdX3tbQ5w
+X-Google-Smtp-Source: AGHT+IF9nGtCldCGOeLQrTN0Aa5+OFXxu1e3xzkOPVJhXANUIs3qmwtgnQsHFXF0n+2Y3Vn8cKEwmSavH38AfXohfvY=
+X-Received: by 2002:a05:6512:2398:b0:536:741a:6bc5 with SMTP id
+ 2adb3069b0e04-539e54d6122mr10014310e87.12.1729062089143; Wed, 16 Oct 2024
+ 00:01:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20241008073430.3992087-1-wenst@chromium.org> <20241008073430.3992087-5-wenst@chromium.org>
+ <CAD=FV=WRSjk3U9Kau0wqkgv3KB=9jM6wCM9Gs-WxWai35sfxTg@mail.gmail.com>
+In-Reply-To: <CAD=FV=WRSjk3U9Kau0wqkgv3KB=9jM6wCM9Gs-WxWai35sfxTg@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 16 Oct 2024 15:01:17 +0800
+Message-ID: <CAGXv+5FW0UTjR_ZiqZ8VEOQkBemt54omtJe_aTj3jvScC-LuMw@mail.gmail.com>
+Subject: Re: [PATCH v8 4/8] i2c: Introduce OF component probe function
+To: Doug Anderson <dianders@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: build
-X-Kernelci-Kernel: v6.12-rc1-3-g32b0901e141f
-X-Kernelci-Branch: for-firmware-next
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-firmware-next build: 5 builds: 1 failed,
- 4 passed (v6.12-rc1-3-g32b0901e141f)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-firmware-next build: 5 builds: 1 failed, 4 passed (v6.1=
-2-rc1-3-g32b0901e141f)
+On Wed, Oct 16, 2024 at 1:58=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org>=
+ wrote:
+> >
+> > +int i2c_of_probe_component(struct device *dev, const struct i2c_of_pro=
+be_cfg *cfg, void *ctx)
+> > +{
+> > +       const struct i2c_of_probe_ops *ops;
+> > +       const char *type;
+> > +       struct i2c_adapter *i2c;
+> > +       int ret;
+> > +
+> > +       ops =3D cfg->ops ?: &i2c_of_probe_dummy_ops;
+> > +       type =3D cfg->type;
+> > +
+> > +       struct device_node *i2c_node __free(device_node) =3D i2c_of_pro=
+be_get_i2c_node(dev, type);
+> > +       if (IS_ERR(i2c_node))
+> > +               return PTR_ERR(i2c_node);
+>
+> I'm still getting comfortable with the __free() syntax so sorry if I'm
+> wrong, but I _think_ the above is buggy. I believe that the definition
+> of the free function for "device_node" is from:
+>
+> DEFINE_FREE(device_node, struct device_node *, if (_T) of_node_put(_T))
+>
+> ...which means it'll call of_node_put() to free "i2c_node" when it
+> goes out of scope. of_node_put() handles NULL pointers but _not_ ERR
+> pointers. So I think that if you get an error back and then return via
+> the PTR_ERR(i2c_node) then it'll crash because it will try to free an
+> ERR pointer. Did I get that right? Presumably you need to instead do:
+>
+>   return PTR_ERR(no_free_ptr(i2c_node));
+>
+> ...or change of_node_put() to be a noop for error pointers?
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-f=
-irmware-next/kernel/v6.12-rc1-3-g32b0901e141f/
+Good catch! As Andy suggested, it should be updated to handle both.
+I'll add a patch for this.
 
-Tree: chrome-platform
-Branch: for-firmware-next
-Git Describe: v6.12-rc1-3-g32b0901e141f
-Git Commit: 32b0901e141f6d4cf49d820b53eb09b88b1f72f7
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
+> > +struct i2c_of_probe_ops {
+> > +       /**
+> > +        * @enable: Retrieve and enable resources so that the component=
+s respond to probes.
+> > +        *
+> > +        * Resources should be reverted to their initial state before r=
+eturning if this fails.
+>
+> nit: might be worth explicitly noting that returning -EPROBE_DEFER is
+> OK here because this both retrieves resources and enables.
 
-Build Failure Detected:
+Makes sense. Will do.
 
-arm64:
-    defconfig+arm64-chromebook: (gcc-12) FAIL
+> > +        */
+> > +       int (*enable)(struct device *dev, struct device_node *bus_node,=
+ void *data);
+> > +
+> > +       /**
+> > +        * @cleanup_early: Release exclusive resources prior to enablin=
+g component.
+>
+> nit: change the word "enabling" to "calling probe() on a detected"
+> since otherwise it could be confused with the "enable" function above.
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+Makes sense. Will do.
 
-Detailed per-defconfig build reports:
 
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
-
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-12) =E2=80=94 FAIL, 0 errors, 0 warn=
-ings, 0 section mismatches
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
-
----
-For more info write to <info@kernelci.org>
+ChenYu

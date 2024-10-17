@@ -1,194 +1,132 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8151DACAA
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 09:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D43762E0
+	for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 09:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729158179; cv=none; b=jKQMLMyhGR7t5qmRT7H3bq8i+PcrXuAId5u8T68Y9F84++yPv2BOT5FoxqPo6QJ/FP9UFy8PwlYt4Udc/V79gfliulFWl8UXLlkLQI6seS2iRaL9eMI86cbONVCK0AsWT9+cjGtCjC06CurG1bA0GP3WKmWaSYsqPo3j8L9enN4=
+	t=1729158730; cv=none; b=rmB/hGvZ5QSTY86h7a8hboUw79CqPOskz17/Qp06zDv5PJB1kfkyDBY+XKENlDFZK+MGD9RpqmfqRiCHGQ0Q91u1yOoM/sXMKH8veCKngWnvzHVgkENG2nHTszVOiMBwbcC3Fm8R5klZaKnyLY3NcSKKhC7bJDt5b5oVi8MgMX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729158179; c=relaxed/simple;
-	bh=V9z/vaLUXaKLZjuP3iq+CpCGEU1lqT/fL6h6m6KfjHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hLbxsJNab1RTV7MS2JDWxzXVm1kL9DI5Yt1rUnK3UaTOonWdrgUcK2/NJXgutGNN78kaBuoaGrA0XRgm0vpkmaDJdYChGuwgX7m1wjQFACfqRbSVEDii1TiPIAvBchLQPGsFsoq9xMPTws+CNQZDwWYXn935gjDV4GwuMz4QNvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GGiCzcCw; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1729158730; c=relaxed/simple;
+	bh=qOkRZ7dA9PBpum+aq1ZRnwF90KyGgZL2XumS6gLtwOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BriFxHnhuxnVF+pk1z/xlGErBJWGXKgsp7opbopMsYGgvHBAdRDHd/rdVcbEfNsnZQ+P9w5LkjxgQMBRicEt0TmuaQUiYqL9h4gN1o8T2Z85j0FkDsvQIxQ4yR3LH6o+utB97bJxI3qt/4ElLWTtgIKTWvC/oV8OnUu0EiTSD7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKzyx59z; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GGiCzcCw"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20cbcd71012so7012395ad.3
-        for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 02:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729158175; x=1729762975; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bgdGGrdxh1yrmxMi7ELq+GCDozx5PI/JXUv/P9EgGw8=;
-        b=GGiCzcCwQzQHS1VbHiUzqi0x3eAKrz6zwVErKklqRGoZuPHEZNJlnaDMgPVxC3TQZt
-         k2gGm0zvtbYxhVHlEDAtR7WaBAFOlELIUDv4TN9jHXIswV4yQbTcHAN4B0H5N6IBHElS
-         hhNj9aWIh9OFoB5lpO7cU095XZiP6XKX5T5H4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729158175; x=1729762975;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bgdGGrdxh1yrmxMi7ELq+GCDozx5PI/JXUv/P9EgGw8=;
-        b=vXdpjW6ZcmyQE/XJNBSiJPRusNqEbCRjlD50239dWQhkD51oLDSyC/A7QpLj0t3tpm
-         9y92kh3YsrUWhUBAgWhkHj2X1ejsK8CmZjdXpyetkm0aoky+koF8MfqXKeIorGmT2RFx
-         2nk7rMmCefMf85/8Ex3kOepikXRYKV3E/j5JmqjyHp1Z853IP3YrZiycMuOw59qv/Xf8
-         UkOzARCXMJzg4Sq2y0/HfXzc2uLrZZxWVF4I994oEN3cMhh0A6jFDtlRo4uOcA5pP4vW
-         sJbJHJHoIOPZ0vIZjdUlfvWCytgCd2YwA93dSISXjZv0IIpOq4gKQz11uQh3ByJVoQO7
-         MeXA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1e+MP3Cw46TXKPTr9OpxhfVCiROUhqiPlhu9L+6IKRU+788QIA6OY7H4VIx4/i2mxFouiRwiFxpkYjnGElEU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6IR/67GdRsk2woRe4pI4YzGt5qbDSqbxOoywmTNJazTD3P1sy
-	4BcBG+bbguFAdSI6nJ9S5JLRUAGDa75W2M1iZdhBAXCSMrzDwiLGrqwF8YDuVg==
-X-Google-Smtp-Source: AGHT+IHVU8qRS0FvlAaYy1P680aH2xlYaVBdegJzFVdyqHN/XTuDFiVaYaam7IEGx7XhiQ/wL2kUcA==
-X-Received: by 2002:a17:902:e80d:b0:206:c486:4c4c with SMTP id d9443c01a7336-20cbb2abe0dmr282504325ad.57.1729158174895;
-        Thu, 17 Oct 2024 02:42:54 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:fabb:a7ab:3d7:9aaa])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d17f87ccasm40638655ad.62.2024.10.17.02.42.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 02:42:54 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKzyx59z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729158729; x=1760694729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qOkRZ7dA9PBpum+aq1ZRnwF90KyGgZL2XumS6gLtwOI=;
+  b=oKzyx59zjxLRimDT1NUjNmATowc81BP6hxtIaVmVLbKgT7B1BxlCvSkv
+   ANzN+IVd3ncKyTGizNn8IO+u+ifUhdh61OZ/xYt0s9bq3KZoNehnWVRZj
+   jyIm+g9x63u/VJCV8+klt4eG3ec1RqryxgtrjI3kr5ebJo8RLUJLyjc6i
+   YIirX+ivb7LRFFJ50tqZL2Y8NxHYmtJxfIg4ltvfrAglT430Q1Swszr6t
+   RIChZBuQ6xx+jkwaH4KwcZtWKkZjwcMMMM0mTgs7aXgpoVW3uqvCrop3B
+   cSphtAp9MxeWTp2CCvU3wzqoPvfG5aM2w15R9m9zRmkSvrlL9JL50/o9s
+   A==;
+X-CSE-ConnectionGUID: vi1xK8GfScSDiMy74oJXCg==
+X-CSE-MsgGUID: 2slu5hxsQ9WoYD/jk9cjbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="16254565"
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
+   d="scan'208";a="16254565"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 02:52:08 -0700
+X-CSE-ConnectionGUID: PFFFUSpWQdyCQtOZxuGdoA==
+X-CSE-MsgGUID: 2P9XLtXyRTCx1SyNHhTWHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
+   d="scan'208";a="83567930"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 02:52:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1t1NAn-000000044du-1N8X;
+	Thu, 17 Oct 2024 12:52:01 +0300
+Date: Thu, 17 Oct 2024 12:52:01 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
 	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	linux-i2c@vger.kernel.org
-Subject: [PATCH v9 7/7] arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads as fail
-Date: Thu, 17 Oct 2024 17:34:42 +0800
-Message-ID: <20241017094222.1014936-8-wenst@chromium.org>
-X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
-In-Reply-To: <20241017094222.1014936-1-wenst@chromium.org>
+Subject: Re: [PATCH v9 3/7] i2c: Introduce OF component probe function
+Message-ID: <ZxDeQcLVR1LK24Zr@smile.fi.intel.com>
 References: <20241017094222.1014936-1-wenst@chromium.org>
+ <20241017094222.1014936-4-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017094222.1014936-4-wenst@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Instead of having them all available, mark them all as "fail-needs-probe"
-and have the implementation try to probe which one is present.
+On Thu, Oct 17, 2024 at 05:34:38PM +0800, Chen-Yu Tsai wrote:
+> Some devices are designed and manufactured with some components having
+> multiple drop-in replacement options. These components are often
+> connected to the mainboard via ribbon cables, having the same signals
+> and pin assignments across all options. These may include the display
+> panel and touchscreen on laptops and tablets, and the trackpad on
+> laptops. Sometimes which component option is used in a particular device
+> can be detected by some firmware provided identifier, other times that
+> information is not available, and the kernel has to try to probe each
+> device.
+> 
+> This change attempts to make the "probe each device" case cleaner. The
+> current approach is to have all options added and enabled in the device
+> tree. The kernel would then bind each device and run each driver's probe
+> function. This works, but has been broken before due to the introduction
+> of asynchronous probing, causing multiple instances requesting "shared"
+> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
+> time, with only one instance succeeding. Work arounds for these include
+> moving the pinmux to the parent I2C controller, using GPIO hogs or
+> pinmux settings to keep the GPIO pins in some fixed configuration, and
+> requesting the interrupt line very late. Such configurations can be seen
+> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
+> Lenovo Thinkpad 13S.
+> 
+> Instead of this delicate dance between drivers and device tree quirks,
+> this change introduces a simple I2C component probe function. For a
+> given class of devices on the same I2C bus, it will go through all of
+> them, doing a simple I2C read transfer and see which one of them responds.
+> It will then enable the device that responds.
+> 
+> This requires some minor modifications in the existing device tree. The
+> status for all the device nodes for the component options must be set
+> to "fail-needs-probe". This makes it clear that some mechanism is
+> needed to enable one of them, and also prevents the prober and device
+> drivers running at the same time.
 
-Also remove the shared resource workaround by moving the pinctrl entry
-for the trackpad interrupt line back into the individual trackpad nodes.
+...
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v7:
-- Mark touchscreen@40 as "fail-needs-probe" as well
+> +#include <linux/cleanup.h>
+> +#include <linux/device.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/i2c-of-prober.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/slab.h>
 
-Changes since v6:
-none
+In case you need a new version, also add stddef.h for NULL definition.
 
-Changes since v5:
-none
-
-Changes since v4:
-- Rebased
-
-Changes since v3:
-- Also remove second source workaround, i.e. move the interrupt line
-  pinctrl entry from the i2c node back to the components.
-
-Changes since v2:
-- Drop class from status
----
- arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi | 14 ++++++++++++++
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi      |  4 ++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-index e03474702cad..d9abd68da369 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-@@ -14,6 +14,7 @@ touchscreen2: touchscreen@34 {
- 		compatible = "melfas,mip4_ts";
- 		reg = <0x34>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/*
-@@ -26,6 +27,7 @@ touchscreen3: touchscreen@20 {
- 		reg = <0x20>;
- 		hid-descr-addr = <0x0020>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/* Lenovo Ideapad C330 uses G2Touch touchscreen as a 2nd source touchscreen */
-@@ -35,6 +37,7 @@ touchscreen@40 {
- 		hid-descr-addr = <0x0001>;
- 		interrupt-parent = <&pio>;
- 		interrupts = <88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -47,6 +50,8 @@ &i2c4 {
- 	trackpad2: trackpad@2c {
- 		compatible = "hid-over-i2c";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x2c>;
- 		hid-descr-addr = <0x0020>;
- 		/*
-@@ -56,6 +61,7 @@ trackpad2: trackpad@2c {
- 		/* post-power-on-delay-ms = <100>; */
- 		vdd-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -80,3 +86,11 @@ pins_wp {
- 		};
- 	};
- };
-+
-+&touchscreen {
-+	status = "fail-needs-probe";
-+};
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index b4d85147b77b..eee64461421f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -358,12 +358,12 @@ touchscreen: touchscreen@10 {
- &i2c4 {
- 	clock-frequency = <400000>;
- 	status = "okay";
--	pinctrl-names = "default";
--	pinctrl-0 = <&trackpad_irq>;
- 
- 	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x15>;
- 		vcc-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
 -- 
-2.47.0.rc1.288.g06298d1525-goog
+With Best Regards,
+Andy Shevchenko
+
 

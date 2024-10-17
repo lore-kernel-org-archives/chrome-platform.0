@@ -1,127 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EDE3398B
-	for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 10:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AA81D1E96
+	for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 21:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729159242; cv=none; b=PlkntX2KidbBTlJkICw7B08FQ49nWTve2kRRxRRpebAzKhJ8Vm/Ibynm94PshaRSdiydREf6q/46ZjM9y4zHsVj91KfXZXPPa2wF4zTcBlQlI5Uu/QtGQdtOQGmOmI8Q/oGbS1a0YUcl6/EGwS/lt/xsEpXdjaiU4E34JWxWX8E=
+	t=1729198976; cv=none; b=uWdjqcLycs/PSe/7L0qIwTaLWQkvwvRAnoW/NY0uokscY0T9E/RHAfMmp12ZuGoTOxGbz6GVFjRrgv9yaFhYh7wkp41L25uoNhwA3bc/adhamejW+URgHNW9ji9NBdbfP3mWXZ2oEG506gpBjxkfcgptBT6t/jSvyGk2OIUmbkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729159242; c=relaxed/simple;
-	bh=j6dtf+1nsGntL6BOPrfU67/30TxswPd84Ugr4PzJXJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=edjYyIPON6r2eetShEqn/otpoxx6QOrKsjC/EW90G4iS0ea8rkux8LTYg1OUC6JRu9PulMgb8FCSmulQ4sUWMon7KjVssmNPYWni53ANgmQIOrIj5RfkIpn7N7h6UmQM8HtoM4PUJ7+0gRxjd5bvMiQUcha8bYTcY6l8Xc9DAWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9z1zxcR; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1729198976; c=relaxed/simple;
+	bh=qwfWpxeyhpiPKYSudRqo5jr8XsgShlrd1VLDFv5fJFc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hIKE/L/y6mIUNj9rK1tTIwvxs1TEU4qtqAU4pAU/H6z2bw4Bl7jQQ6ifNLk//c16WVKAiyoAYtTCJpyS3FiQ7U/9hQAhqwXo2IbPxfRFtXdGS63AZ8SZnlUQ01El7zwYDmm8we9OJ1nYU/IxEkHXFGc2cxXXZI+KgXMw7tDzyn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IVGcEbbn; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9z1zxcR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729159240; x=1760695240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j6dtf+1nsGntL6BOPrfU67/30TxswPd84Ugr4PzJXJU=;
-  b=M9z1zxcRY7dhIoPI2MlZ2ffFJpmZ/GGXyAuoqpE3taxzWprC6PEEmZtD
-   BzCtZUlmk55RxGOr0hkKb47gwLa7C8b4CaYatdbNUrF9IvCyfsL7MNs+j
-   gL5n3THdElHld/V2Z2lkymvmjxgF5hXcR88fRjJOyLL3+BcqmF+mMgtgT
-   JrU28Ay9dJQowEbdYUbmwhgUNqxRgExdsb6Cuj0E8Fz2R8UCN7uQPXXpn
-   UpYSBKmheywqX72ExY3dHf4PAenIu8bYufSy87coMsZFnBKQOcgc6DypN
-   EhebX6Z0hzH2Z0LcDx3W0uJh3bhPc4m2SP2/2xbQNCSR7FuwvU0lBMfUi
-   Q==;
-X-CSE-ConnectionGUID: MuAGwCgwSHSvYAXWeDj+tQ==
-X-CSE-MsgGUID: DnPZR1CVQC2Wzqnz966NFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28845181"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28845181"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 03:00:39 -0700
-X-CSE-ConnectionGUID: Vd/xbfNLREKHhrzvo/Ki8A==
-X-CSE-MsgGUID: pH7o0+e9SXWfNTmMB00Ypw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="109247908"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 03:00:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t1NJ2-000000044ml-3TYc;
-	Thu, 17 Oct 2024 13:00:32 +0300
-Date: Thu, 17 Oct 2024 13:00:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v9 0/7] platform/chrome: Introduce DT hardware prober
-Message-ID: <ZxDgQISmr_gn_aDF@smile.fi.intel.com>
-References: <20241017094222.1014936-1-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IVGcEbbn"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a99cc265e0aso185981766b.3
+        for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 14:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729198970; x=1729803770; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PplG7VVviuXhuSv+Ud3YH+rqp5m5boGul+BQVv7DV/Q=;
+        b=IVGcEbbncLZmcoV9Wkvvj07SqYazqfKcqBTHcmslq6imEMPtJpZvb1EmRBhGmha1q/
+         6oyfxeBowVo70UNOsBWfm9SHek/TUMHSzl/+uDAcO3EI7cqTX1ng3mSkg0bSPfo/mgdP
+         +NJB+IejABpnFrtjDUUuUAACz76dS9VwKVhs8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729198970; x=1729803770;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PplG7VVviuXhuSv+Ud3YH+rqp5m5boGul+BQVv7DV/Q=;
+        b=mdCCwzbYlsHVHgmQ3rOj8kDjsgRKbMrpE0QrgGNqMDuqXCMDM8jveOmLJwyjfotGzJ
+         ppjQeaV1mWTx/3mCynONC54jIPhvRezCmaPrlCmpd+9ucNWe/T6Ft68E2+m6m/pGCGk/
+         zJihh0jP8rFNL/dOFc5+uKAZXlVsy5hqyh/z7Z7bGtSbR/BUuT2IBZARL8i8294UrpjO
+         qh2JhYwJf33GFi88+4b66C1lAaR/J+Dngdtoqi9YldnNHlryk0LM6SwfzfgzV57BEBz2
+         UpmuD43sagv+Qy6mDyq3ZdV4QlBtPAzyq/YFLNGZOqyQO3zyAi9MLlgCYeh8UDG/nz7x
+         JyKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3O3s88r3sQk/0xRN21tTYFLvXoIdpUPcIXQP4i3/xBvqI5NkP+TJGr6VmfLo/+Dh1whw2VvRX8i6AyLcAYPM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQ/F9aZVtun8vdkZTi2KT+NcfyU14m4H291REjo+0DjTKgSTcZ
+	nM0m9T9TkGs/TDC/IkKZTMfwyAr0lpbGQK6KkUlRT9Gvbx6V4RTcMn7C0pP7WO7v32kM8xgAmi4
+	tdQ==
+X-Google-Smtp-Source: AGHT+IEu46H5Z+gWpIUeJw1KwdsK5v72fMJlBNiad4SPFcMy2mFBq1uUQFhCBIJafi/KkFqpG9qGgA==
+X-Received: by 2002:a17:907:1c24:b0:a9a:55dd:bc23 with SMTP id a640c23a62f3a-a9a6995d035mr8745166b.8.1729198970438;
+        Thu, 17 Oct 2024 14:02:50 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a68bc4b82sm12728766b.140.2024.10.17.14.02.49
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2024 14:02:49 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d4821e6b4so894122f8f.3
+        for <chrome-platform@lists.linux.dev>; Thu, 17 Oct 2024 14:02:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUfQRyQCXPT5I+vJzJlak8tpYeIsKcJx1pQa+avP2uYyC1t8QN563nTJnuDrWnAoEEx4E9zD2ydupcFgyepcu8=@lists.linux.dev
+X-Received: by 2002:a5d:45cd:0:b0:37d:39c1:4d3 with SMTP id
+ ffacd0b85a97d-37ea21de065mr215420f8f.6.1729198968725; Thu, 17 Oct 2024
+ 14:02:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241017094222.1014936-1-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241017094222.1014936-1-wenst@chromium.org> <20241017094222.1014936-4-wenst@chromium.org>
+In-Reply-To: <20241017094222.1014936-4-wenst@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 17 Oct 2024 14:02:36 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vy6q-nPZ99k7t8-G_osefg=0jxPUWm8F1uhtVw0xDvxg@mail.gmail.com>
+Message-ID: <CAD=FV=Vy6q-nPZ99k7t8-G_osefg=0jxPUWm8F1uhtVw0xDvxg@mail.gmail.com>
+Subject: Re: [PATCH v9 3/7] i2c: Introduce OF component probe function
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 17, 2024 at 05:34:35PM +0800, Chen-Yu Tsai wrote:
+Hi,
 
-> For the I2C component (touchscreens and trackpads) case from the
-> original series, the hardware prober driver finds the particular
-> class of device in the device tree, gets its parent I2C adapter,
-> and tries to initiate a simple I2C read for each device under that
-> I2C bus. When it finds one that responds, it considers that one
-> present, marks it as "okay", and returns, letting the driver core
-> actually probe the device.
-> 
-> This works fine in most cases since these components are connected
-> via a ribbon cable and always have the same resources. The prober
-> will also grab these resources and enable them.
-> 
-> The other case, selecting a display panel to use based on the SKU ID
-> from the firmware, hit a bit of an issue with fixing the OF graph.
-> It has been left out since v3.
-> 
-> Patch 1 adds of_changeset_update_prop_string(), as requested by Rob.
-> 
-> Patch 2 adds for_each_child_of_node_with_prefix(), as suggested by Andy.
+On Thu, Oct 17, 2024 at 2:42=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> Some devices are designed and manufactured with some components having
+> multiple drop-in replacement options. These components are often
+> connected to the mainboard via ribbon cables, having the same signals
+> and pin assignments across all options. These may include the display
+> panel and touchscreen on laptops and tablets, and the trackpad on
+> laptops. Sometimes which component option is used in a particular device
+> can be detected by some firmware provided identifier, other times that
+> information is not available, and the kernel has to try to probe each
+> device.
+>
+> This change attempts to make the "probe each device" case cleaner. The
+> current approach is to have all options added and enabled in the device
+> tree. The kernel would then bind each device and run each driver's probe
+> function. This works, but has been broken before due to the introduction
+> of asynchronous probing, causing multiple instances requesting "shared"
+> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
+> time, with only one instance succeeding. Work arounds for these include
+> moving the pinmux to the parent I2C controller, using GPIO hogs or
+> pinmux settings to keep the GPIO pins in some fixed configuration, and
+> requesting the interrupt line very late. Such configurations can be seen
+> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
+> Lenovo Thinkpad 13S.
+>
+> Instead of this delicate dance between drivers and device tree quirks,
+> this change introduces a simple I2C component probe function. For a
+> given class of devices on the same I2C bus, it will go through all of
+> them, doing a simple I2C read transfer and see which one of them responds=
+.
+> It will then enable the device that responds.
+>
+> This requires some minor modifications in the existing device tree. The
+> status for all the device nodes for the component options must be set
+> to "fail-needs-probe". This makes it clear that some mechanism is
+> needed to enable one of them, and also prevents the prober and device
+> drivers running at the same time.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v8:
+> - Added missing include of <linux/kconfig.h> to i2c-of-prober.h
+> - Expanded description of i2c_of_probe_ops::enable to mention that
+>   returning -EPROBE_DEFER is valid (Doug)
+> - Reworded descrption of i2c_of_probe_ops::cleanup_early to avoid
+>   confusion with i2c_of_probe_ops::enable (Doug)
+> - Reworked i2c_of_probe_get_i2c_node() to return NULL on failure,
+>   matching most functions that return |struct device_node *|.
+>
+> Changes since v7:
+> - Dropped log level of "enabling component" to debug
+> - Dropped file name from header file
+> - Reverted to __free() cleanup for i2c bus node
+> - Corrected "failed-needs-probe" to "fail-needs-probe" in commit message
+> - Fixed incorrectly positioned period ('.') in commit message
+> - Expanded description of i2c_of_probe_component()
+> - Expanded comment explaining check for "available" devices to note that
+>   if such a device is found then the i2c probe function becomes a no-op
+> - Simplified check for "available" devices for-each loop
+> - Expanded description of @free_resources_early callback to explicitly
+>   state that it is not called if no working components are found
+> - Dropped !cfg check
+> - Replaced "fail" with "fail-needs-probe" in i2c_of_probe_component()
+>   kernel doc
+> - Combined callbacks (.get_resources with .enable; .cleanup with
+>   .free_resources_late); .free_resources_early renamed to .cleanup_early
+>
+> Changes since v6:
+> - Correctly replaced for_each_child_of_node_scoped() with
+>   for_each_child_of_node_with_prefix()
+> - Added namespace for exported symbol
+> - Made the probe function a framework with hooks
+> - Split out a new header file
+> - Added MAINTAINERS entry
+> - Reworded kernel-doc
+> - Dropped usage of __free from i2c_of_probe_component() since error
+>   path cleanup is needed anyway
+>
+> Changes since v5:
+> - Fixed indent in Makefile
+> - Split regulator and GPIO TODO items
+> - Reversed final conditional in i2c_of_probe_enable_node()
+>
+> Changes since v4:
+> - Split code into helper functions
+> - Use scoped helpers and __free() to reduce error path
+>
+> Changes since v3:
+> - Complete kernel-doc
+> - Return different error if I2C controller is disabled
+> - Expand comment to explain assumptions and constraints
+> - Split for-loop finding target node and operations on target node
+> - Add missing i2c_put_adapter()
+> - Move prober code to separate file
+>
+> Rob also asked why there was a limitation of "exactly one touchscreen
+> will be enabled across the whole tree".
+>
+> The use case this prober currently targets is a component on consumer
+> electronics (tablet or laptop) being swapped out due to cost or supply
+> reasons. Designs with multiple components of the same type are pretty
+> rare. The way the next patch is written also assumes this for efficiency
+> reasons.
+>
+> Changes since v2:
+> - New patch split out from "of: Introduce hardware prober driver"
+> - Addressed Rob's comments
+>   - Move i2c prober to i2c subsystem
+>   - Use of_node_is_available() to check if node is enabled.
+>   - Use OF changeset API to update status property
+> - Addressed Andy's comments
+>   - Probe function now accepts "struct device *dev" instead to reduce
+>     line length and dereferences
+>   - Move "ret =3D 0" to just before for_each_child_of_node(i2c_node, node=
+)
+> ---
+>  MAINTAINERS                      |   8 ++
+>  drivers/i2c/Makefile             |   1 +
+>  drivers/i2c/i2c-core-of-prober.c | 182 +++++++++++++++++++++++++++++++
+>  include/linux/i2c-of-prober.h    |  75 +++++++++++++
+>  4 files changed, 266 insertions(+)
 
-> Patch 3 implements probing the I2C bus for presence of components as
-> a hookable helper function in the I2C core.
-> 
-> Patch 4 implements regulator supply support as a set of simple helpers
-> for the I2C component prober.
-> 
-> Patch 5 implements GPIO support for the I2C component prober simple
-> helpers.
-
-Not that I am really a fan of the idea, but I have nothing to counter propose.
-Also my big concern about random msleep() calls seems to be addressed in a way
-that it's now a caller's problem to supply the (correct) one.
-
-Hence FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-for patches 3,4, and 5.
-
-> Patch 6 adds a ChromeOS specific DT hardware prober. This initial
-> version targets the Hana Chromebooks, probing its I2C trackpads and
-> touchscreens.
-> 
-> Patch 7 modifies the Hana device tree and marks the touchscreens
-> and trackpads as "fail-needs-probe", ready for the driver to probe.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>

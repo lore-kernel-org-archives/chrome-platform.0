@@ -1,60 +1,60 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8863C1B6D1A
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Oct 2024 09:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2756A1B85EB
+	for <chrome-platform@lists.linux.dev>; Thu, 24 Oct 2024 09:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729761176; cv=none; b=sPwzRoGhNxunltENLz5DQuxzAhNLhIBXJJt0F/LAkUEDTRkjFSU3FRoDWdwT1EuzfYvw9mH+vznXguchK0VxPQqodXUCsbGM+aO0+mSCtU5YZrv7z8CSt2vw3GZQvdACVK+uPznGVSM9JkxfmOHOL+4mDnP7KQhkrNrlGrrt4zc=
+	t=1729761177; cv=none; b=BQlIr8A9/7SxdwE0jC20XDGxDcUEDtgJDTrwotuIjL1kRNTacRrtYPoKG5/DE7kZUDD0m5rxvn79RFFENSYIBtDPonqQqnfbuQOcW98R0leZAcPYRr1ocOjGKU519OG/kQOVAu/RIQx62TWirx1nlbmBDAlntmha122aLlc+COE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729761176; c=relaxed/simple;
-	bh=n6B+DjS2nlSaMuuYUonULXAepr11BX8wK2roVoPsJ3o=;
+	s=arc-20240116; t=1729761177; c=relaxed/simple;
+	bh=EvZTfjPuH+Sw2tva9CA/YuYYsffYBvbQ9xRBfy4MGH4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IfHFarzw6sN0SKsZvatCydIXHxOnd/B4pLYQsJwNNRGgU1NC9Jbi+Fblc6x5IiLB+SL25w68d/ymUIoHlM4YVDHxEr7cRMEO3QG+HDX3NbPXe44ZJmtPQ2B15b2Ip0tmJ+KdwKOmKMZRaNrHMscbs/VDmXJ3+rBEXD7Av+hXqko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=2wg07y27; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:To:Cc; b=C3DKxZpaXa15JxCfi9t/UAizDHNI5iwVNISXoYdMEbMDwhf6iFWUEPk60UtD7cZXW01TRa5PhN9W/QTRgPiNaOZKGW2XA0NM7bXOknzh8UD4qURUUqt4+k4NGczzB2SlFAid5525lFg6Q7p9RJN7UT9rBRVyC6jcmkcL2lD/zp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=osA/s7qE; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2wg07y27"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d4ac91d97so556053f8f.2
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Oct 2024 02:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="osA/s7qE"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e690479cso696712e87.3
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Oct 2024 02:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729761172; x=1730365972; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729761173; x=1730365973; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xPO7uddPmJGeRvDQ4DDNm675wgeGPQg+TX6wZtIY7Fc=;
-        b=2wg07y27xLbJHts7XwAUcU5I2RhnNs2DrH3RXLJfkCpkOznhh82/ewKsrxX4BaNub1
-         8kK3obYmfLPeNfnNRTAKs0sqOTt8fhfNJmfGA3E/hBB5FPdRqp4XDDEbcDgcKUb8eSpU
-         Dcdv9I4ZyWwingjvpdXlHrXB69jIaLoRbZE2TP5gHTjpop/US9WMb/tCMYNKUYSEbS1o
-         wzCiKHoBU97+exFJiEbkxNGGGU2bQVXcJPEmEyJYrdcEUbL3mSlJh8A4h9ej4AJma41d
-         SaoLcseCcFyxnRJJsxZpc4CcQ3jRi+GgwBIC9hgX+/LmQWXkfwdKeiDdn8+9woSoBPfO
-         Uh4Q==
+        bh=HpXwrqa5mh4an1VW52USOlgjMJ2X4POeKu7/qnEQ85Y=;
+        b=osA/s7qERAAxi+cFFAg3C1ue9I8ZyYim1svuwuCRCOMVkuvIbEHQ9Y/JYj3xlwRrnc
+         J3VPXlbnunscf1YIfrh8apUscIG3QRb3qmgc4zOWb+hDxg/FuhEvlP2XAggdf0FblVwt
+         MR8HH/opv+eRTjnow0ZhRSHSv3mfzbk9j3St1wiu8tVnA8e3IoSF7iO9nqo0zs+1Nr2o
+         1yhqyT/ZwHwvKnQzKXBLRP+qQqT/CotzVesyexDe+rpSRtECpLy2ionPwQasg2Nis3zv
+         9jW5bgYXnGHoQoKBfkD1oq+AdRhA+XnYyW0mxEYFJ3LpKZQ9D3coST2MRXAWa9XD8Z4o
+         Rvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729761172; x=1730365972;
+        d=1e100.net; s=20230601; t=1729761173; x=1730365973;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xPO7uddPmJGeRvDQ4DDNm675wgeGPQg+TX6wZtIY7Fc=;
-        b=ITB1WYq0+TS85jR6gDnZhroZTEKMhUF+0tNg7fD7UnCxrENeJb43c/IixQCkKD2moO
-         naZjWyWjXfElrUvUVhdVVpF/32y+J2YZnPXIxd3H59WWdxxhqodiHbqJD6XSTF3gCjlo
-         ASgeAT9KSSHSS1D2saffLMSUiJLIKCneLPxD8ajYOqXC0oeAoXZFXftPpsmFCrLA5Kqk
-         XEmtmSeH1HM56bm8PnB/i4JPBb5Ohh8BdSXIeX0yRhiZTZuHkd2PIr1p9+npUF9g9MGZ
-         zuWnR3kMI3HZSKjEFk+kv19noU/PqZjLxtdnH2UmH1JJxSK0GaPSwzbdGOMHmm5ppvXL
-         xS5A==
-X-Forwarded-Encrypted: i=1; AJvYcCV3duvyVVFxJ6vP+5tuZWHRfrxNES37vUncedQfq1yWifPS6viBcAZ+jnB/pP5dFCvPE6FrvMTBZEdH7zJcVh8=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5pRdIhAOQAUJt21ujHl9o5RUoiv8FRaBdTeSCQrzRi7G3aCqh
-	CUPmtnrlaCp5KmUv/Kom8TVx++3vhajy9iMXG/b/v+FX9wLAxZSn41z4LiH+iPk=
-X-Google-Smtp-Source: AGHT+IGaN73d/bgLeVCGlsGNxd+TOv2AHPR97BWrXwTr3MwJBwZ4zF+VJDI71VQ8iFHk0s2jf5QZwA==
-X-Received: by 2002:a5d:438d:0:b0:37d:5042:c8de with SMTP id ffacd0b85a97d-37efcf06011mr4293964f8f.22.1729761171775;
-        Thu, 24 Oct 2024 02:12:51 -0700 (PDT)
+        bh=HpXwrqa5mh4an1VW52USOlgjMJ2X4POeKu7/qnEQ85Y=;
+        b=k8HvQydcDh39Hn+FVLTvor1Qx4vaitgiEWYT9K/U+pk8OLTocIPTf0A4u0Ubxa1nUv
+         LrgOWTVDdXGKLrQB7fEOAO/aWxZavuTKrBa+kWr/DloF3aCkR4yjGTRzB3U66OssJ425
+         49fVfQJy0rwI8iOugZLu3fGlQf+q0QGA3Ec6dsJWumv6q/SWb6xd5poof/RbXACeyW0P
+         /gGN29VodVrFJiMbLE9FarTntAf3BUBdOtFi6eFSEYgluFovf8QFs2H6qynZRQIOqe3i
+         lA0EkM/7dh00FS0KHRpIPOiJi9/MC0cQRFdIeFkMFXAio6tIwkWl/dOCCjLbI8+4uLZ3
+         XFJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGIA8LkXrLQeDZMZQRityE6+oZdkWzcKseajRgvPyNbuo59/pGq2AuE9yIVSF1IpLjGrjBkwl/cQfSu8CY9Xg=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxnj2kJZ5UiCbGztKaEwikOFSb5K8zRwdK3XZULMGQJu+FBS6C4
+	6iiL4ojzHveL0fqo0brqN5oayCMCheEhIVza5L8ajeto2WU/Isk1UCTX6l+A2aA=
+X-Google-Smtp-Source: AGHT+IHjMTzdOejYpXdaJTcSXe71t6xMLTv/MupAWuwwaYamFeQSYvZEYBgJNNUbqbvWU86WqzOMBw==
+X-Received: by 2002:a05:6512:3a82:b0:539:8b02:8f1d with SMTP id 2adb3069b0e04-53b1a3392bcmr2894072e87.30.1729761173024;
+        Thu, 24 Oct 2024 02:12:53 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b94071sm10843701f8f.89.2024.10.24.02.12.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b94071sm10843701f8f.89.2024.10.24.02.12.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 02:12:51 -0700 (PDT)
+        Thu, 24 Oct 2024 02:12:52 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 24 Oct 2024 11:11:26 +0200
-Subject: [PATCH 4/7] iio: light: veml6030: simplify code in
+Date: Thu, 24 Oct 2024 11:11:27 +0200
+Subject: [PATCH 5/7] iio: imu: inv_mpu6050: simplify code in
  write_event_config callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241024-iio-fix-write-event-config-signature-v1-4-7d29e5a31b00@baylibre.com>
+Message-Id: <20241024-iio-fix-write-event-config-signature-v1-5-7d29e5a31b00@baylibre.com>
 References: <20241024-iio-fix-write-event-config-signature-v1-0-7d29e5a31b00@baylibre.com>
 In-Reply-To: <20241024-iio-fix-write-event-config-signature-v1-0-7d29e5a31b00@baylibre.com>
 To: Mudit Sharma <muditsharma.info@gmail.com>, 
@@ -101,23 +101,51 @@ Remove useless code in write_event_config callback.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/light/veml6030.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/iio/imu/inv_mpu6050/inv_mpu_core.c | 7 ++-----
+ drivers/iio/light/apds9960.c               | 2 --
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/iio/light/veml6030.c b/drivers/iio/light/veml6030.c
-index d6f3b104b0e6be8e095a1ad9f20acb81ce492630..95751c1015909cd80543a559673f435d1a168f68 100644
---- a/drivers/iio/light/veml6030.c
-+++ b/drivers/iio/light/veml6030.c
-@@ -826,9 +826,6 @@ static int veml6030_write_interrupt_config(struct iio_dev *indio_dev,
- 	int ret;
- 	struct veml6030_data *data = iio_priv(indio_dev);
+diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
+index 5680be153127711777b6074da18a7a0f86211d6c..21ebf0f7e28fec302cbf8ab890fc53a3de6f36cd 100644
+--- a/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
++++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
+@@ -1176,21 +1176,18 @@ static int inv_mpu6050_write_event_config(struct iio_dev *indio_dev,
+ 					  int state)
+ {
+ 	struct inv_mpu6050_state *st = iio_priv(indio_dev);
+-	int enable;
  
--	if (state < 0 || state > 1)
--		return -EINVAL;
+ 	/* support only WoM (accel roc rising) event */
+ 	if (chan->type != IIO_ACCEL || type != IIO_EV_TYPE_ROC ||
+ 	    dir != IIO_EV_DIR_RISING)
+ 		return -EINVAL;
+ 
+-	enable = !!state;
 -
- 	ret = veml6030_als_shut_down(data);
- 	if (ret < 0) {
- 		dev_err(&data->client->dev,
+ 	guard(mutex)(&st->lock);
+ 
+-	if (st->chip_config.wom_en == enable)
++	if (st->chip_config.wom_en == state)
+ 		return 0;
+ 
+-	return inv_mpu6050_enable_wom(st, enable);
++	return inv_mpu6050_enable_wom(st, state);
+ }
+ 
+ static int inv_mpu6050_read_event_value(struct iio_dev *indio_dev,
+diff --git a/drivers/iio/light/apds9960.c b/drivers/iio/light/apds9960.c
+index 3c14e4c30805e1b596ef2380f94e6aa3e92082b1..3a56eaae5a68f2891d061871c7013f0b5447bb47 100644
+--- a/drivers/iio/light/apds9960.c
++++ b/drivers/iio/light/apds9960.c
+@@ -762,8 +762,6 @@ static int apds9960_write_event_config(struct iio_dev *indio_dev,
+ 	struct apds9960_data *data = iio_priv(indio_dev);
+ 	int ret;
+ 
+-	state = !!state;
+-
+ 	switch (chan->type) {
+ 	case IIO_PROXIMITY:
+ 		if (data->pxs_int == state)
 
 -- 
 2.47.0

@@ -1,365 +1,302 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9231D362B;
-	Sat, 26 Oct 2024 13:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5060918C92D
+	for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 08:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729947606; cv=none; b=IhsWBlQGRpG288IMIyma9avIipaK4GfutEOYY2j8lvNBkwOiuGyJLQO3wNUsb/U049yqr0MVQrgHgxcZFLbUXRPcGN7RAg15tnzDFGey60iGfD5F0LWpFXPa2c3AXn1oYE1JxiExPZH8VrqZlxqFPDQRsQUAL74aJBpGVzwwILM=
+	t=1730103996; cv=none; b=l35GzSN3jpmAac788z7MoxUDrPc1lDlvhhjP0k8QbPwcgNuaEcKbQsmz0VOnK3nw613hCG8v3I36CaWhEYArEVv96nho3OlD0FDvKZlb3Tp0hxieus+83pgeqDmBx3oWARwhl9+tDHnSrop6r7uOSCiI1ttgOB1CLcflCbMStDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729947606; c=relaxed/simple;
-	bh=AKe3BO5YIIiqIgoXshZ0dnLuyG4anBM5h4hKomPr3ZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qM5pSi/xl1kX0leSRjA/vE70uZoVrOor+zT72BhvChpgpjLUb9qZhY6WF0kkdVjn6+mBUhsC/1M590S2R/korvq6bCblch5/6BDbzNgDAOWl3Gz1qd8lpAKWzTTOKsE/o8xS1ILrrdiw1+EVJQLjdvafW5IdDnXw+tyf+LH3cVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZsRTfaQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730103996; c=relaxed/simple;
+	bh=2RROZOcH+oga+LkTQCQ3HKoR/p0c6zp5n24zcxYyRyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MlHayzOrdPp/UoZB948F7Ia0K0B7+tGdR25cQ7DuJqaOiJpKUgCkzyX/JBvNsAYZjWKIxSmK5j3VwlSIKqO0wZlit3eil7fzFlVxl9HN2G3Ds1ESf0RFljQfE1C271IQx/9OiI36VA9x+6xMFSAWHj9x1Ha4snRsoPz+rnJ13Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=S++V2ld0; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZsRTfaQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABEF5C4CEC6;
-	Sat, 26 Oct 2024 12:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729947606;
-	bh=AKe3BO5YIIiqIgoXshZ0dnLuyG4anBM5h4hKomPr3ZA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eZsRTfaQy0QEOptCpJbvD7bNT06ZGWWc5yS/hsKJU16O1pY51oRrg0HW8Hi5uam6W
-	 +xuC4+VZpCu5px7ZfavBBuAwldCR61BHzgEs/lNJs2nAHdjESQxoIkoxYkYI80W5aj
-	 FM89u0FY0f9duLGBe+5z2ajHcRifZm5WaRvi31EfvPMQq/aWCTyUroeu51IB/y49/r
-	 BjlgYiT4QQPVns5WGal3vv1pd34lXQwkq8QHvwq8W96i6vxqx+dfgh/MDRX8l/3ipc
-	 eWIHiMiu8zaOKf+h65OlT1qZV7AqLl0hIr9CoqZsMakQ4Qk8c01/Jkg7IP+b9ghVkz
-	 Sv3qwmcfq5vWg==
-Date: Sat, 26 Oct 2024 13:59:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Anshul Dalal <anshulusr@gmail.com>, Javier Carrasco
- <javier.carrasco.cruz@gmail.com>, Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Cosmin Tanislav
- <cosmin.tanislav@analog.com>, Ramona Gradinariu
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Dan Robertson <dan@dlrobertson.com>, Marcelo
- Schmitt <marcelo.schmitt@analog.com>, Matteo Martelli
- <matteomartelli3@gmail.com>, Anand Ashok Dumbre
- <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J
- <jagathjog1996@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit
- Ghosh <subhajit.ghosh@tweaklogic.com>, Kevin Tsai <ktsai@capellamicro.com>,
- Linus Walleij <linus.walleij@linaro.org>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH 7/7] iio: fix write_event_config signature
-Message-ID: <20241026135908.092c2736@jic23-huawei>
-In-Reply-To: <20241024-iio-fix-write-event-config-signature-v1-7-7d29e5a31b00@baylibre.com>
-References: <20241024-iio-fix-write-event-config-signature-v1-0-7d29e5a31b00@baylibre.com>
-	<20241024-iio-fix-write-event-config-signature-v1-7-7d29e5a31b00@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="S++V2ld0"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f7606199so4344937e87.0
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 01:26:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730103990; x=1730708790; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j4lUb1leR//RH9HeSKC0++QvL2bwzenRxNlIlRUSSGA=;
+        b=S++V2ld0eGNWeNfg0a1des39yRSlB7+3v36JRTrBzHfGEuzQ0pRcdoHBUnSDi2xjh0
+         04sBxWAeeQ6Zg8P/S9F2lMoObwf+G1FuoCjzlbAxUYvTM3M/Kft5a1SjUV2AfM4eETfN
+         wkb6Redk6kvB+I/WjDILjC/MaiR3QMod7VbIJRfXbCJZcPq/BSMXq7nEBL7d7ox8cCw4
+         3qhGsD1+hMs4Rxm8bGWYWGRZVPlsYueGfFXEHjDBNoT+bgaO+7G6+bc+CtHkT119MngV
+         Cli6N7cD/SJAhs/yMdVEc100r9GCb+nAGui0CPLB580j9GHUw+QajsHwObQ0OwZ0F8z9
+         pRDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730103990; x=1730708790;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j4lUb1leR//RH9HeSKC0++QvL2bwzenRxNlIlRUSSGA=;
+        b=ohyDI8+QxczNlj+TGlB7RWk8MbitFd2s+is0EOaZHPI9F/4fOBVGRuUZ7cvZhPXEBU
+         FV7Y6wh3icrEoikrz62PEe3ljFyY1FzY/p+ninsogcpG8gRZy11uzGsu5mHCeW2EQhv6
+         FeWxU5RwoL5IJaD6GKZtYwnobqg/ZsBPJD/NyqdzypWlYzWWsVMM+lARjshibdjDKhzf
+         C07TqX2Uhoeyuxd/W/fESKrxjfdizMyF/HPZ/39e97la88zHYV5HziOQprAFVkkaeqxy
+         4h+c6GLrKT+mWpOzj7ePLpvtfl8hTmGWQnV9Fm+EMS9G2ZEqhm4HIJvYq0pRTH3CzSoy
+         M5wg==
+X-Forwarded-Encrypted: i=1; AJvYcCXDzsDh9jnpnz97ZIznCVQZt/GkAE3jsX+jqtCpmZfEn0/KKPBqvtHa+lfH6abzYfr09XOXLnni4in1BKzBHLE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvBNkaRVBxCl6Kc/GQiFioLwI/3kkDoTQmNnB1UlYEVGtwKN0z
+	QiuBynbW66tAcB61heomgVGA+hQ5ZBNVtYl0/wzBOJIgmDJ2n5Ye81mZRmWFgoM=
+X-Google-Smtp-Source: AGHT+IGsx6b7R19/shmolSABawjSU1DLfRoeRAdMYcjKqH8zZId/xh3T0FxtiqljvTjayLaCaauwtQ==
+X-Received: by 2002:a05:6512:1386:b0:539:f699:4954 with SMTP id 2adb3069b0e04-53b34c36247mr2181986e87.58.1730103990357;
+        Mon, 28 Oct 2024 01:26:30 -0700 (PDT)
+Received: from localhost (p50915d2d.dip0.t-ipconnect.de. [80.145.93.45])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317d03ea4asm108693965e9.0.2024.10.28.01.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 01:26:29 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/chrome: Switch back to struct platform_driver::remove()
+Date: Mon, 28 Oct 2024 09:26:11 +0100
+Message-ID: <20241028082611.431723-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8955; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=2RROZOcH+oga+LkTQCQ3HKoR/p0c6zp5n24zcxYyRyw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnH0qkMUSO5Fz/R5dHF7h+xrROdaiCMDlI4oIHX iBN8ITSMPmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZx9KpAAKCRCPgPtYfRL+ Tk02B/0U9Xz9cdoNPwJj9Ib7XsJIZzjlVD353ChiFsftx4MXJon3RyGSzG7OKOGNrIFnhRAucqJ kjFgam2FdKYpLZEATWXOYH6lpYsF6xMJCK9ZQI38I0ryrhfMmEoS4v5e0Svi133F5FDm2iBMtWU mOoPPv26PjtOl4UEzCLpi+X9VYE6qcknKt9L3gZU1hQDc9qr20AAw+bLFgVdTtmLAlb7cb0Vd0r bTTD0oXoZSXYcbQwxrz2cSwn/HvbMRr0ZuIuHQA9l1UHiqmZB/YpUCnrg2xMkxkhAvdVMm1KKag AF1rQm1rdMFuwCbeatcrXFIAVv+5cnIQTslnUWcvyJEQk3mi
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Thu, 24 Oct 2024 11:11:29 +0200
-Julien Stephan <jstephan@baylibre.com> wrote:
+After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+return void") .remove() is (again) the right callback to implement for
+platform drivers.
 
-> write_event_config callback use an int for state, but it is actually a
-> boolean. iio_ev_state_store is actually using kstrtobool to check user
-> input, then gives the converted boolean value to write_event_config.
-> 
-> Fix signature and update all iio drivers to use the new signature.
-> 
-> This patch has been partially written using coccinelle with the
-> following script:
-> 
-> $ cat iio-bool.cocci
-> // Options: --all-includes
-> 
-> virtual patch
-> 
-> @c1@
-> identifier iioinfo;
-> identifier wecfunc;
-> @@
->  static const struct iio_info iioinfo = {
->         ...,
->         .write_event_config =
-> (
->  wecfunc
-> |
->  &wecfunc
-> ),
->         ...,
->  };
-> 
-> @@
-> identifier c1.wecfunc;
-> identifier indio_dev, chan, type, dir, state;
-> @@
->  int wecfunc(struct iio_dev *indio_dev, const struct iio_chan_spec *chan, enum iio_event_type type, enum iio_event_direction dir,
-> -int
-> +bool
->  state) {
->   ...
->  }
-> 
-> make coccicheck MODE=patch COCCI=iio-bool.cocci M=drivers/iio
-> 
-> Unfortunately, this script didn't match all files:
-> * all write_event_config callbacks using iio_device_claim_direct_scoped
->   were not detected and not patched.
-> * all files that do not assign and declare the write_event_config
->   callback in the same file.
-> 
-> iio.h was also manually updated.
-> 
-> The patch was build tested using allmodconfig config.
-> 
-> cc: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Convert all platform drivers below drivers/platform/chrome to use
+.remove(), with the eventual goal to drop struct
+platform_driver::remove_new(). As .remove() and .remove_new() have the
+same prototypes, conversion is done by just changing the structure
+member name in the driver initializer.
 
-Hi Julien,
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello,
 
-It's a nice cleanup, but the challenge of this sort of change is the odd ways
-various drivers use what you are changing.
+I did a single patch for all of drivers/platform/chrome. While I usually
+prefer to do one logical change per patch, this seems to be
+overengineering here as the individual changes are really trivial and
+shouldn't be much in the way for stable backports. But I'll happily
+split the patch if you prefer it split.
 
-So ever single case needs close inspection.  I took a fairly broad look at it and there
-is at least one case that I think is broken by the change :(
-+ a bunch of others where the result needs tidying up to not end up confusing.
+This is based on Friday's next, if conflicts arise when you apply it at
+some later time and don't want to resolve them, feel free to just drop
+the changes to the conflicting files. I'll notice and followup at a
+later time then. Or ask me for a fixed resend.
 
+Best regards
+Uwe
+ drivers/platform/chrome/cros_ec_chardev.c    | 2 +-
+ drivers/platform/chrome/cros_ec_debugfs.c    | 2 +-
+ drivers/platform/chrome/cros_ec_lightbar.c   | 2 +-
+ drivers/platform/chrome/cros_ec_lpc.c        | 2 +-
+ drivers/platform/chrome/cros_ec_sysfs.c      | 2 +-
+ drivers/platform/chrome/cros_ec_typec.c      | 2 +-
+ drivers/platform/chrome/cros_ec_vbc.c        | 2 +-
+ drivers/platform/chrome/cros_typec_switch.c  | 2 +-
+ drivers/platform/chrome/cros_usbpd_logger.c  | 2 +-
+ drivers/platform/chrome/cros_usbpd_notify.c  | 4 ++--
+ drivers/platform/chrome/wilco_ec/core.c      | 2 +-
+ drivers/platform/chrome/wilco_ec/debugfs.c   | 2 +-
+ drivers/platform/chrome/wilco_ec/telemetry.c | 2 +-
+ 13 files changed, 14 insertions(+), 14 deletions(-)
 
-Jonathan
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+index 7f034ead7ae4..21a484385fc5 100644
+--- a/drivers/platform/chrome/cros_ec_chardev.c
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -415,7 +415,7 @@ static struct platform_driver cros_ec_chardev_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = cros_ec_chardev_probe,
+-	.remove_new = cros_ec_chardev_remove,
++	.remove = cros_ec_chardev_remove,
+ 	.id_table = cros_ec_chardev_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 839154c46e46..92ac9a2f9c88 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -582,7 +582,7 @@ static struct platform_driver cros_ec_debugfs_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+ 	.probe = cros_ec_debugfs_probe,
+-	.remove_new = cros_ec_debugfs_remove,
++	.remove = cros_ec_debugfs_remove,
+ 	.id_table = cros_ec_debugfs_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+index 1e69f61115a4..87634f6921b7 100644
+--- a/drivers/platform/chrome/cros_ec_lightbar.c
++++ b/drivers/platform/chrome/cros_ec_lightbar.c
+@@ -608,7 +608,7 @@ static struct platform_driver cros_ec_lightbar_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+ 	.probe = cros_ec_lightbar_probe,
+-	.remove_new = cros_ec_lightbar_remove,
++	.remove = cros_ec_lightbar_remove,
+ 	.id_table = cros_ec_lightbar_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index c784119ab5dc..924bf4d3cc77 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -783,7 +783,7 @@ static struct platform_driver cros_ec_lpc_driver = {
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	},
+ 	.probe = cros_ec_lpc_probe,
+-	.remove_new = cros_ec_lpc_remove,
++	.remove = cros_ec_lpc_remove,
+ };
+ 
+ static struct platform_device cros_ec_lpc_device = {
+diff --git a/drivers/platform/chrome/cros_ec_sysfs.c b/drivers/platform/chrome/cros_ec_sysfs.c
+index 9c944146ee50..bc1a5ba09528 100644
+--- a/drivers/platform/chrome/cros_ec_sysfs.c
++++ b/drivers/platform/chrome/cros_ec_sysfs.c
+@@ -359,7 +359,7 @@ static struct platform_driver cros_ec_sysfs_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = cros_ec_sysfs_probe,
+-	.remove_new = cros_ec_sysfs_remove,
++	.remove = cros_ec_sysfs_remove,
+ 	.id_table = cros_ec_sysfs_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index f1324466efac..ae2f86296954 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1326,7 +1326,7 @@ static struct platform_driver cros_typec_driver = {
+ 		.pm = &cros_typec_pm_ops,
+ 	},
+ 	.probe = cros_typec_probe,
+-	.remove_new = cros_typec_remove,
++	.remove = cros_typec_remove,
+ };
+ 
+ module_platform_driver(cros_typec_driver);
+diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
+index 787a19db4911..7bdb489354c5 100644
+--- a/drivers/platform/chrome/cros_ec_vbc.c
++++ b/drivers/platform/chrome/cros_ec_vbc.c
+@@ -145,7 +145,7 @@ static struct platform_driver cros_ec_vbc_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = cros_ec_vbc_probe,
+-	.remove_new = cros_ec_vbc_remove,
++	.remove = cros_ec_vbc_remove,
+ 	.id_table = cros_ec_vbc_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+index 07a19386dc4e..8d7c34abb0a1 100644
+--- a/drivers/platform/chrome/cros_typec_switch.c
++++ b/drivers/platform/chrome/cros_typec_switch.c
+@@ -318,7 +318,7 @@ static struct platform_driver cros_typec_switch_driver = {
+ 		.acpi_match_table = ACPI_PTR(cros_typec_switch_acpi_id),
+ 	},
+ 	.probe = cros_typec_switch_probe,
+-	.remove_new = cros_typec_switch_remove,
++	.remove = cros_typec_switch_remove,
+ };
+ 
+ module_platform_driver(cros_typec_switch_driver);
+diff --git a/drivers/platform/chrome/cros_usbpd_logger.c b/drivers/platform/chrome/cros_usbpd_logger.c
+index 930c2f47269f..cd71f1caea81 100644
+--- a/drivers/platform/chrome/cros_usbpd_logger.c
++++ b/drivers/platform/chrome/cros_usbpd_logger.c
+@@ -262,7 +262,7 @@ static struct platform_driver cros_usbpd_logger_driver = {
+ 		.pm = &cros_usbpd_logger_pm_ops,
+ 	},
+ 	.probe = cros_usbpd_logger_probe,
+-	.remove_new = cros_usbpd_logger_remove,
++	.remove = cros_usbpd_logger_remove,
+ 	.id_table = cros_usbpd_logger_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
+index c83f81d86483..313d2bcd577b 100644
+--- a/drivers/platform/chrome/cros_usbpd_notify.c
++++ b/drivers/platform/chrome/cros_usbpd_notify.c
+@@ -156,7 +156,7 @@ static struct platform_driver cros_usbpd_notify_acpi_driver = {
+ 		.acpi_match_table = cros_usbpd_notify_acpi_device_ids,
+ 	},
+ 	.probe = cros_usbpd_notify_probe_acpi,
+-	.remove_new = cros_usbpd_notify_remove_acpi,
++	.remove = cros_usbpd_notify_remove_acpi,
+ };
+ 
+ #endif /* CONFIG_ACPI */
+@@ -230,7 +230,7 @@ static struct platform_driver cros_usbpd_notify_plat_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = cros_usbpd_notify_probe_plat,
+-	.remove_new = cros_usbpd_notify_remove_plat,
++	.remove = cros_usbpd_notify_remove_plat,
+ 	.id_table = cros_usbpd_notify_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
+index 3e6b6cd81a9b..9f978e531e1f 100644
+--- a/drivers/platform/chrome/wilco_ec/core.c
++++ b/drivers/platform/chrome/wilco_ec/core.c
+@@ -163,7 +163,7 @@ static struct platform_driver wilco_ec_driver = {
+ 		.acpi_match_table = wilco_ec_acpi_device_ids,
+ 	},
+ 	.probe = wilco_ec_probe,
+-	.remove_new = wilco_ec_remove,
++	.remove = wilco_ec_remove,
+ 	.id_table = wilco_ec_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/debugfs.c b/drivers/platform/chrome/wilco_ec/debugfs.c
+index 99486086af6a..0617292b5cd7 100644
+--- a/drivers/platform/chrome/wilco_ec/debugfs.c
++++ b/drivers/platform/chrome/wilco_ec/debugfs.c
+@@ -276,7 +276,7 @@ static struct platform_driver wilco_ec_debugfs_driver = {
+ 		.name = DRV_NAME,
+ 	},
+ 	.probe = wilco_ec_debugfs_probe,
+-	.remove_new = wilco_ec_debugfs_remove,
++	.remove = wilco_ec_debugfs_remove,
+ 	.id_table = wilco_ec_debugfs_id,
+ };
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index a87877e4300a..7d8ae2cbf72f 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -417,7 +417,7 @@ MODULE_DEVICE_TABLE(platform, telem_id);
+ 
+ static struct platform_driver telem_driver = {
+ 	.probe = telem_device_probe,
+-	.remove_new = telem_device_remove,
++	.remove = telem_device_remove,
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 	},
 
-> diff --git a/drivers/iio/accel/adxl380.c b/drivers/iio/accel/adxl380.c
-> index 9f6f0a45efce7981736c3a8f005f4fef83f05cfd..5d2bda1a6a783c3f5bf6dfa6830bc80cc7055e01 100644
-> --- a/drivers/iio/accel/adxl380.c
-> +++ b/drivers/iio/accel/adxl380.c
-> @@ -1386,7 +1386,7 @@ static int adxl380_write_event_config(struct iio_dev *indio_dev,
->  				      const struct iio_chan_spec *chan,
->  				      enum iio_event_type type,
->  				      enum iio_event_direction dir,
-> -				      int state)
-> +				      bool state)
->  {
->  	struct adxl380_state *st = iio_priv(indio_dev);
->  	enum adxl380_axis axis;
+base-commit: a39230ecf6b3057f5897bc4744a790070cfbe7a8
+-- 
+2.45.2
 
-
-
-
-> diff --git a/drivers/iio/accel/mma9551.c b/drivers/iio/accel/mma9551.c
-> index fa1799b0b0dff35ccd811c4abee3883249c184da..0656e35a1c4e5c1268a4bbf7011fd9282053dbbf 100644
-> --- a/drivers/iio/accel/mma9551.c
-> +++ b/drivers/iio/accel/mma9551.c
-> @@ -225,7 +225,7 @@ static int mma9551_write_event_config(struct iio_dev *indio_dev,
->  				      const struct iio_chan_spec *chan,
->  				      enum iio_event_type type,
->  				      enum iio_event_direction dir,
-> -				      int state)
-> +				      bool state)
->  {
->  	struct mma9551_data *data = iio_priv(indio_dev);
->  	int ret;
-
-Good to push down into functions called.
-
-> diff --git a/drivers/iio/accel/sca3000.c b/drivers/iio/accel/sca3000.c
-> index 87c54e41f6ccd2f9311653b757b2d794df1dd5d4..36cbfcbba04d6920ba68bebd70d21bc3898a044d 100644
-> --- a/drivers/iio/accel/sca3000.c
-> +++ b/drivers/iio/accel/sca3000.c
-> @@ -1253,7 +1253,7 @@ static int sca3000_write_event_config(struct iio_dev *indio_dev,
->  				      const struct iio_chan_spec *chan,
->  				      enum iio_event_type type,
->  				      enum iio_event_direction dir,
-> -				      int state)
-> +				      bool state)
->  {
->  	struct sca3000_state *st = iio_priv(indio_dev);
->  	int ret;
-Good to push down the state into the functions called.
-
-> diff --git a/drivers/iio/imu/bmi323/bmi323_core.c b/drivers/iio/imu/bmi323/bmi323_core.c
-> index 1e6c083ea5c1bbddb878f08cd4f4be725c0e319f..76a88e1ccc1d89988eb52d6b1be8da0f5005f0e6 100644
-> --- a/drivers/iio/imu/bmi323/bmi323_core.c
-> +++ b/drivers/iio/imu/bmi323/bmi323_core.c
-> @@ -785,7 +785,7 @@ static const struct attribute_group bmi323_event_attribute_group = {
->  static int bmi323_write_event_config(struct iio_dev *indio_dev,
->  				     const struct iio_chan_spec *chan,
->  				     enum iio_event_type type,
-> -				     enum iio_event_direction dir, int state)
-> +				     enum iio_event_direction dir, bool state)
->  {
->  	struct bmi323_data *data = iio_priv(indio_dev);
->  
-Mix of types used to store state. Would be good to chase the boolean though. But no
-need to do that for this series.
-
-
-
-> diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> index fb4c6c39ff2e157593f02513cc8e01cd7eea9bdf..caefa15e559b8808051ff1c7f82c3f36c947933c 100644
-> --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> @@ -1959,7 +1959,7 @@ static int
->  st_lsm6dsx_write_event_config(struct iio_dev *iio_dev,
->  			      const struct iio_chan_spec *chan,
->  			      enum iio_event_type type,
-> -			      enum iio_event_direction dir, int state)
-> +			      enum iio_event_direction dir, bool state)
->  {
->  	struct st_lsm6dsx_sensor *sensor = iio_priv(iio_dev);
->  	struct st_lsm6dsx_hw *hw = sensor->hw;
-state is stored in a mix of bool and int in this driver. Might be a nice to cleanup
-thing but not strictly part of what you are doing here.
-
-> diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.c
-> index 2e0170be077aef9aa194fab51afbb33aec02e513..a36cdad113f774ef8733eb1aaef0f87d5d2532f1 100644
-> --- a/drivers/iio/light/adux1020.c
-> +++ b/drivers/iio/light/adux1020.c
-> @@ -502,7 +502,8 @@ static int adux1020_write_raw(struct iio_dev *indio_dev,
->  static int adux1020_write_event_config(struct iio_dev *indio_dev,
->  				       const struct iio_chan_spec *chan,
->  				       enum iio_event_type type,
-> -				       enum iio_event_direction dir, int state)
-> +				       enum iio_event_direction dir,
-> +				       bool state)
-
-This one is a bug, because state is used as an intermediate for other stuff.
-Bad code, but needs fixing before you can do this.
-
->  {
->  	struct adux1020_data *data = iio_priv(indio_dev);
->  	int ret, mask;
-> diff --git a/drivers/iio/light/apds9300.c b/drivers/iio/light/apds9300.c
-> index 11f2ab4ca261813aff04b8c25d4595a531fb43cb..95861b2a5b2d94011d894959289c5c4f06cc1efe 100644
-> --- a/drivers/iio/light/apds9300.c
-> +++ b/drivers/iio/light/apds9300.c
-> @@ -321,7 +321,7 @@ static int apds9300_read_interrupt_config(struct iio_dev *indio_dev,
->  
->  static int apds9300_write_interrupt_config(struct iio_dev *indio_dev,
->  		const struct iio_chan_spec *chan, enum iio_event_type type,
-> -		enum iio_event_direction dir, int state)
-> +		enum iio_event_direction dir, bool state)
->  {
->  	struct apds9300_data *data = iio_priv(indio_dev);
->  	int ret;
-Tidying up the interrupt state to all be tracked with a bool in here would make this better, but
-not strictly related to what you have here.
-
-> diff --git a/drivers/iio/light/apds9306.c b/drivers/iio/light/apds9306.c
-> index 079e02be1005210ddd30b384ffa1ff7feeb098d7..8adc74040db2bddf93fbb773e3519abcc726b9a6 100644
-> --- a/drivers/iio/light/apds9306.c
-> +++ b/drivers/iio/light/apds9306.c
-> @@ -1071,7 +1071,7 @@ static int apds9306_write_event_config(struct iio_dev *indio_dev,
->  				       const struct iio_chan_spec *chan,
->  				       enum iio_event_type type,
->  				       enum iio_event_direction dir,
-> -				       int state)
-> +				       bool state)
->  {
->  	struct apds9306_data *data = iio_priv(indio_dev);
->  	struct apds9306_regfields *rf = &data->rf;
-This has a rather silly regmap_field_write() related if statement you could clean up but
-that's an optional extra.
-
-> diff --git a/drivers/iio/light/apds9960.c b/drivers/iio/light/apds9960.c
-> index 3a56eaae5a68f2891d061871c7013f0b5447bb47..a7f0cc99f236685900f89fbc48de3be0e9a40704 100644
-> --- a/drivers/iio/light/apds9960.c
-> +++ b/drivers/iio/light/apds9960.c
-> @@ -757,7 +757,7 @@ static int apds9960_write_event_config(struct iio_dev *indio_dev,
->  				       const struct iio_chan_spec *chan,
->  				       enum iio_event_type type,
->  				       enum iio_event_direction dir,
-> -				       int state)
-> +				       bool state)
->  {
->  	struct apds9960_data *data = iio_priv(indio_dev);
->  	int ret;
-Should change type of pxs_int etc to bool.
-
-
-
-> diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
-> index ff6b5d8b582b33eba60b769dff529caa00fb7244..b67c811cdf54af8de3dec3e1713a41312fb238d4 100644
-> --- a/drivers/iio/light/ltr390.c
-> +++ b/drivers/iio/light/ltr390.c
-> @@ -553,7 +553,7 @@ static int ltr390_write_event_config(struct iio_dev *indio_dev,
->  				const struct iio_chan_spec *chan,
->  				enum iio_event_type type,
->  				enum iio_event_direction dir,
-> -				int state)
-> +				bool state)
->  {
->  	struct ltr390_data *data = iio_priv(indio_dev);
->  	int ret;
-
-See review of patch 2.
-
-
-
-> diff --git a/drivers/iio/light/tsl2772.c b/drivers/iio/light/tsl2772.c
-> index cab468a82b616a23394977da1d8822d29d8941d3..13086048ee5ffae77c26db8cbd3cb7002e1a72e2 100644
-> --- a/drivers/iio/light/tsl2772.c
-> +++ b/drivers/iio/light/tsl2772.c
-> @@ -1081,7 +1081,7 @@ static int tsl2772_write_interrupt_config(struct iio_dev *indio_dev,
->  					  const struct iio_chan_spec *chan,
->  					  enum iio_event_type type,
->  					  enum iio_event_direction dir,
-> -					  int val)
-> +					  bool val)
->  {
->  	struct tsl2772_chip *chip = iio_priv(indio_dev);
->  
-
-val ? true : false
-in here should go.
-
-> diff --git a/drivers/iio/proximity/hx9023s.c b/drivers/iio/proximity/hx9023s.c
-> index d8fb34060d3db88a3ba5ecdc209b14be8e42e8b9..8c2f1cf062033dd8580f8f75649543289fbf9fb7 100644
-> --- a/drivers/iio/proximity/hx9023s.c
-> +++ b/drivers/iio/proximity/hx9023s.c
-> @@ -874,7 +874,7 @@ static int hx9023s_write_event_config(struct iio_dev *indio_dev,
->  				      const struct iio_chan_spec *chan,
->  				      enum iio_event_type type,
->  				      enum iio_event_direction dir,
-> -				      int state)
-> +				      bool state)
->  {
->  	struct hx9023s_data *data = iio_priv(indio_dev);
-Has a !!state that should go. 
->  
-> diff --git a/drivers/iio/proximity/irsd200.c b/drivers/iio/proximity/irsd200.c
-> index 6e96b764fed8b577d71c3146210679b0b61d4c38..eded45a778737a699f8b69ad86a9909594e04b32 100644
-> --- a/drivers/iio/proximity/irsd200.c
-> +++ b/drivers/iio/proximity/irsd200.c
-> @@ -648,7 +648,8 @@ static int irsd200_read_event_config(struct iio_dev *indio_dev,
-
-This has a !!state that should go.
-
->  static int irsd200_write_event_config(struct iio_dev *indio_dev,
->  				      const struct iio_chan_spec *chan,
->  				      enum iio_event_type type,
-> -				      enum iio_event_direction dir, int state)
-> +				      enum iio_event_direction dir,
-> +				      bool state)
->  {
->  	struct irsd200_data *data = iio_priv(indio_dev);
->  	unsigned int tmp;
-> diff --git a/drivers/iio/proximity/sx9500.c b/drivers/iio/proximity/sx9500.c
-> index 3f4eace05cfc6a4679fe82854dc059aa4a710d6d..e7da02c59b753158c30c7473bdeea8886a2977a3 100644
-> --- a/drivers/iio/proximity/sx9500.c
-> +++ b/drivers/iio/proximity/sx9500.c
-> @@ -540,7 +540,7 @@ static int sx9500_write_event_config(struct iio_dev *indio_dev,
->  				     const struct iio_chan_spec *chan,
->  				     enum iio_event_type type,
->  				     enum iio_event_direction dir,
-> -				     int state)
-> +				     bool state)
->  {
-This one treats state as an integer.  We should change that before applying this patch.
-
->  	struct sx9500_data *data = iio_priv(indio_dev);
->  	int ret;

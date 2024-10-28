@@ -1,126 +1,116 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8706A1D5CC6
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 10:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4851DD54F
+	for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 15:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112352; cv=none; b=GTX4Z3PPZGAn7ejveNd7GH7hzdEqledhZ0xMJKYKXqwAN4v0UCspFsjzzsKSXEmxzkiYStt0Vd6th2qPOa3ioCWweqHC/JShATTMBDEX4pffz+RHoAFEwHuTmz5ix5H2B3jnI6YiLsgGkEeb0jGYxvCsfMqSSm4hnR6vq+C7V2Q=
+	t=1730130191; cv=none; b=Vw2r8v6alF421rIknK6PqcPraFghga1PrKa8bUAkDmS+Hb7Bp7FMlsF6G6jG0VH3ZPgiwZMp0b5xHLyn3I60u+MQ28xrwMlwYUTzdfBRrbNZwHUxssC5Q8SKqpys8o918AnYFs9VwrWHEc8MU5Ydbz1No9MLp8ssUUPiTb8d9iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112352; c=relaxed/simple;
-	bh=6b50ePtAdtOkQkt9tuPEdfSEndFpdv2MHsY6mUVAccs=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=W+N11L9g8t3zSRDcvQFBQEcuVYPFQee3piIfRllpc8kJjHN6R4DLAwViAxniFKv59nLUxL7QcrlpQwkOV4CVlwQoWcv/VzEAQbPMLoXgDUybBzdob2YevevYdTDyqhhxw/bryElrndidPHAFA1kpJtewZzWGaPSvxwG6gOPJVl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=R4VCJlCW; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1730130191; c=relaxed/simple;
+	bh=XVo/3bwi+PIOaKUXsNSyar2v36pwhDUCgR7r4pY4lo0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XCSqdpCgkbJzsc5rZIUtcHMLl3KDbsDf58q/DcESJ8xcjqYFaDbfN25Dz5f8RtLGftbb6C3kpODaddZjLz4963aNWHv7dvc2GhTKwuBOjPYQDwkRo3iyHA3s7DoaRgQGcomrAxiN1RrFKscTTqBx3cy3plWruFU09L0C4cOVkac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gGIIUXN1; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="R4VCJlCW"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-72070d341e5so1051023b3a.1
-        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 03:45:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gGIIUXN1"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e63c8678so4470176e87.0
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 08:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1730112350; x=1730717150; darn=lists.linux.dev;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cKGZa90YFBOlmvMhqPl1BNLlI9LdcCLLxhvWLREfk7E=;
-        b=R4VCJlCW0qUD7Jc7Xmi+2XrY6X1CLIA5D5BhLYojDzy8lgPH4fjf/GYqlOvnhcTowV
-         6KJK6rrPTKHoVmMxb81hkwJkAre2RTl9U552CP5tGz6hLw/D3HWEcB5f+oveKQeOzZjB
-         dvVx3FWuivXnBKMrKvfbCH3niKxVFDWk2o6uXcj/BErl/tOU/tjjvt4Kz5qghLIpUiPb
-         qKWcYtBSEu460YR+H2bLx+zaZJ2PP1FM6xJmzf4WXWbKSxL1Y3DJRbg7WRvieUr+ZteI
-         fslWOXEZ8Nw+QbJtQ0mVLsibPfFOo2nBpG/m9ZIVGM2r0nzBbHtnxD1NT3zg5no0VGea
-         K+iA==
+        d=chromium.org; s=google; t=1730130187; x=1730734987; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p/+Fm3T4pn4crwgwgU+f7W2PGkdCB3Gmk2ieoRtXcSM=;
+        b=gGIIUXN1b6EtBtbLJN3TmHsJ5KZfzcwHYIAtnhnQJmxKsYYLncJYTVZYbsJQc7VIQH
+         U3nml2zyXKL8uFLZMIokiyb8hgccJWnVKeD4sfkb3B1t0y5FoYOesWoDJfIkW6grmVyk
+         Or/0At/NF0QWNlfWWoC3DIveY7d3xz32xhZZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730112350; x=1730717150;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cKGZa90YFBOlmvMhqPl1BNLlI9LdcCLLxhvWLREfk7E=;
-        b=sfFnoCaj2JqkiCGvC99T1ORQhsGUogxk+1QTZJv5j8pEs1wBQp4hKE1kqEPB8aQrTz
-         O4Jn+iwLTj2u4vGuiRes2JoE8ttRFC1zJqTD5x6btHwQr+54+cHLKw7I//x8li/MCIWk
-         enMivgcteuk3zGdTAjM6iXgJVK1ZRN3CIaoqeNySFwMrVM1fKEIUKa1Pc6fwywA9mF4d
-         l4z72LcgOyOfKDCsGbHTH7hDnluC+7xSq7Dk9HD6tIUlNh1pmVjeZ+LeukIY7qC0Gc96
-         Q5+B9Fe+fyWnvQ0otpgcoLDomfnMpHvOFmjf5/xXvLXkCIJoFWRGj5VjZ8J98hOY5nzL
-         0UcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXhEmvRdzVtuaFPCPpVE2GmCIaTBiwCAFGoA1waY9Mysk/QJ2aHDF+Sn3Srrl3ptay039P5dsFrcpgMsnSGvEc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2ZMs0mGMPylIis5yEA57oIp3aSxuWfadRVXRgtfRl8ZcUW/Sj
-	jghJFUOPZYfiuaa6IevMT/Y/9HcLszMq6rXZ2rVLte9bkLIgF6IaOUlSD7W+mMM=
-X-Google-Smtp-Source: AGHT+IHZGcUTizybsutlzrAfNM7NwhEDDPMuQ2bVNDmwRMbAlrmHyGKGVWoEMxaBrn6TARCdotW46g==
-X-Received: by 2002:a05:6a21:6b0c:b0:1d9:1334:27e1 with SMTP id adf61e73a8af0-1d9a83ca04dmr11814759637.13.1730112349787;
-        Mon, 28 Oct 2024 03:45:49 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0b707sm5406185b3a.128.2024.10.28.03.45.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 03:45:49 -0700 (PDT)
-Message-ID: <671f6b5d.050a0220.10298f.142a@mx.google.com>
-Date: Mon, 28 Oct 2024 03:45:49 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20230601; t=1730130187; x=1730734987;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p/+Fm3T4pn4crwgwgU+f7W2PGkdCB3Gmk2ieoRtXcSM=;
+        b=nMZ6ArAwERtQCJg9Tggrf6NBDhVQ8IKdKcrtY1/tnAiZbUo6kOJkHve3rM3Jjg0LNu
+         0j3KaSteoLb8XcXG3AHcFN8kYWZfNchJJ/SMeX2TSqHF+rT6Gh5QSQQau9hxJeZYsoHB
+         e0Xds11COG6YXrWSzVZTxbJqFb6xQOxEjSseSP679ibZ0MUhdWL77sKaxADdMxfhk+4A
+         QWtWsswzEM/KM6RTw3Vozi34LuoZJKNLMthQwlGXLyzX+lUGV5YweRaHs4raITYlZ3Lj
+         szvUgAHo9QFij8fYHqirV7DxHuTvk7c5CINdRevAMz3GIClEfKS3EFc+scsH1rIFEEYF
+         KdOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZjFR/k1HWUetP+n80dynenX4Ag3/nTHnQjHjIZbzr6DCT/y+mx2uY1PRUmm97x6WE/bRWwX9emEuS5t8xUIA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLLAQpFjeL9JQxcGaV/UWvqQxoCklb98+Vv2doNkJayhGLmZH8
+	vLlVJ4l5FJVlqYtHDIi7eqc2+J+PyIYeGmX1kO9ZLJ7NFmpHI4FaT4cjb9LVBK8HgwMTO7bR9+u
+	jRA==
+X-Google-Smtp-Source: AGHT+IEbaFuJrgg9H/tbLfcRccgoQM9f0n/8k5IHlTBNih+jL9oBBA6vkooMYtBSlPjCtYt4HO00lQ==
+X-Received: by 2002:a05:6512:a95:b0:539:94aa:d512 with SMTP id 2adb3069b0e04-53b34a34618mr3573431e87.53.1730130186763;
+        Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e1f40a7sm1112797e87.292.2024.10.28.08.43.06
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb5014e2daso41951601fa.0
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWekgipftGIae78m3ffzg9H5brwPXlPCBM7Q5QymuGqQVfqIF8eG2jng/rVcrqlqgC5e+2HCK7FTbvl8ALHORc=@lists.linux.dev
+X-Received: by 2002:a2e:bc0d:0:b0:2fa:d9db:7bac with SMTP id
+ 38308e7fff4ca-2fcbdf6250cmr34338691fa.3.1730130185979; Mon, 28 Oct 2024
+ 08:43:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20241017094222.1014936-1-wenst@chromium.org> <20241017094222.1014936-8-wenst@chromium.org>
+ <CAD=FV=X-YzEGEc+tp-uB6vdPMEC-V9M=Gb60H69=_XY9w4R8nw@mail.gmail.com> <CAGXv+5H8kxrr=JJsMMY5Y+HC5JqMN-bMkm7hztOzQgrbew6-rw@mail.gmail.com>
+In-Reply-To: <CAGXv+5H8kxrr=JJsMMY5Y+HC5JqMN-bMkm7hztOzQgrbew6-rw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 28 Oct 2024 08:42:51 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VbTMLr8ybCvKwm4aau+UkwCewuj2mqFX_+9hdCALLBRA@mail.gmail.com>
+Message-ID: <CAD=FV=VbTMLr8ybCvKwm4aau+UkwCewuj2mqFX_+9hdCALLBRA@mail.gmail.com>
+Subject: Re: [PATCH v9 7/7] arm64: dts: mediatek: mt8173-elm-hana: Mark
+ touchscreens and trackpads as fail
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: build
-X-Kernelci-Kernel: v6.12-rc1-3-gea45f3f46734
-X-Kernelci-Branch: for-next
-X-Kernelci-Tree: chrome-platform
-Subject: chrome-platform/for-next build: 5 builds: 1 failed,
- 4 passed (v6.12-rc1-3-gea45f3f46734)
-To: kernel-build-reports@lists.linaro.org, kernelci-results@groups.io,
- chrome-platform@lists.linux.dev, eballetbo@gmail.com, bleung@chromium.org,
- groeck@chromium.org, pmalani@chromium.org
-From: "kernelci.org bot" <bot@kernelci.org>
 
-chrome-platform/for-next build: 5 builds: 1 failed, 4 passed (v6.12-rc1-3-g=
-ea45f3f46734)
+Hi,
 
-Full Build Summary: https://kernelci.org/build/chrome-platform/branch/for-n=
-ext/kernel/v6.12-rc1-3-gea45f3f46734/
+On Mon, Oct 28, 2024 at 2:14=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> > > @@ -35,6 +37,7 @@ touchscreen@40 {
+> > >                 hid-descr-addr =3D <0x0001>;
+> > >                 interrupt-parent =3D <&pio>;
+> > >                 interrupts =3D <88 IRQ_TYPE_LEVEL_LOW>;
+> > > +               status =3D "fail-needs-probe";
+> >
+> > It's a little weird that there's no pinctrl definition for the
+> > touchscreens but there is one for the trackpad, but that predates your
+> > patch and is unlikely to be a big deal.
+>
+> To be honest I'm in favor of getting rid of pinctrl settings that
+> do nothing more than mux in a GPIO, as mentioned in my talk at ELCE.
+> Such settings are already implied by the interrupts or gpios properties.
+> The fact that the OS doesn't enforce exclusiveness between the
+> subsystems is not something the DT should deal with.
 
-Tree: chrome-platform
-Branch: for-next
-Git Describe: v6.12-rc1-3-gea45f3f46734
-Git Commit: ea45f3f46734a47bdbcfb31f41748484219d2ea6
-Git URL: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/li=
-nux.git
-Built: 3 unique architectures
-
-Build Failure Detected:
-
-arm64:
-    defconfig+arm64-chromebook: (gcc-12) FAIL
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Detailed per-defconfig build reports:
-
----------------------------------------------------------------------------=
------
-defconfig (arm64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 section m=
-ismatches
-
----------------------------------------------------------------------------=
------
-defconfig+arm64-chromebook (arm64, gcc-12) =E2=80=94 FAIL, 0 errors, 0 warn=
-ings, 0 section mismatches
-
----------------------------------------------------------------------------=
------
-multi_v7_defconfig (arm, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 se=
-ction mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 warnings, 0 s=
-ection mismatches
-
----------------------------------------------------------------------------=
------
-x86_64_defconfig+x86-board (x86_64, gcc-12) =E2=80=94 PASS, 0 errors, 0 war=
-nings, 0 section mismatches
-
----
-For more info write to <info@kernelci.org>
+One could also argue that the fact that the Linux kernel happens to
+auto-mux pins to GPIO is not something that the device tree should
+assume. Personally I have never liked the "auto-mux" behavior of Linux
+and I've found that it can get in the way when you need to do more
+advanced pinmuxing, like when a driver needs to sometimes use a pin in
+"special function" mode and sometimes in GPIO mode. The auto-muxing
+happens behind the back of the driver which then needs to account for
+this fact and work around it. Just sayin. :-P

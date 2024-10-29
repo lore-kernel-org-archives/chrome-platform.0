@@ -1,116 +1,454 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4851DD54F
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 15:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393541DB95D
+	for <chrome-platform@lists.linux.dev>; Tue, 29 Oct 2024 20:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730130191; cv=none; b=Vw2r8v6alF421rIknK6PqcPraFghga1PrKa8bUAkDmS+Hb7Bp7FMlsF6G6jG0VH3ZPgiwZMp0b5xHLyn3I60u+MQ28xrwMlwYUTzdfBRrbNZwHUxssC5Q8SKqpys8o918AnYFs9VwrWHEc8MU5Ydbz1No9MLp8ssUUPiTb8d9iU=
+	t=1730232956; cv=none; b=FBVamhEtiHYnrvxggFcSztBjHT9zaEsg65erVtLsUcXzZERehgSNxaN+DuP9TOmoe8XSCZTRYcb0fFg3R1mkpwNSVq7N4yks9lxPeKCVRDD1YC96z4RegI21KW57G/DCfpHHrYSrCHU0lfITcNZh8egzlP66/+7kKTb181n7/rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730130191; c=relaxed/simple;
-	bh=XVo/3bwi+PIOaKUXsNSyar2v36pwhDUCgR7r4pY4lo0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XCSqdpCgkbJzsc5rZIUtcHMLl3KDbsDf58q/DcESJ8xcjqYFaDbfN25Dz5f8RtLGftbb6C3kpODaddZjLz4963aNWHv7dvc2GhTKwuBOjPYQDwkRo3iyHA3s7DoaRgQGcomrAxiN1RrFKscTTqBx3cy3plWruFU09L0C4cOVkac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gGIIUXN1; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1730232956; c=relaxed/simple;
+	bh=p2q3CmSHX9eWKUp6uO+aazZAtxPSV3aT24xCH7eTJuE=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T/gbL6sbDba5o7QsBs5XgMDV4GTzSZL7+zz9xRxjw8W+uxSbZcHmp6L+bAhe8951qCICZQj4rlzrbkck02ZXuO2C14jxbjFHlWuQHl6AdgukoXSnKqiGxE+J6tJSMmjKmB1mjEsseKHkUMg2qHf4u1yBoMOKyFL/MhDQ89hl7yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eXUgoDu6; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gGIIUXN1"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e63c8678so4470176e87.0
-        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 08:43:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eXUgoDu6"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e35f08e23eso53313837b3.2
+        for <chrome-platform@lists.linux.dev>; Tue, 29 Oct 2024 13:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730130187; x=1730734987; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p/+Fm3T4pn4crwgwgU+f7W2PGkdCB3Gmk2ieoRtXcSM=;
-        b=gGIIUXN1b6EtBtbLJN3TmHsJ5KZfzcwHYIAtnhnQJmxKsYYLncJYTVZYbsJQc7VIQH
-         U3nml2zyXKL8uFLZMIokiyb8hgccJWnVKeD4sfkb3B1t0y5FoYOesWoDJfIkW6grmVyk
-         Or/0At/NF0QWNlfWWoC3DIveY7d3xz32xhZZU=
+        d=chromium.org; s=google; t=1730232952; x=1730837752; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=17J8IGvHqY3jfkh+HrxHOL56E85HwWRmn8ZfYdfPDaI=;
+        b=eXUgoDu63UBlvxSF2THgd+oRsuaRo/DPswvDod14i6jkgucpyGRw9SB0NsbkU6wWrs
+         vLno54d3/upn14FNjICFDRxSAlth37Gx+KhMiqWDXKYI9P06KZO+WR/qkWfk1E06UqyY
+         nUoXCu1Cgk2r7h/h+7zbbrOCuwyczqbn+8Hm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730130187; x=1730734987;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p/+Fm3T4pn4crwgwgU+f7W2PGkdCB3Gmk2ieoRtXcSM=;
-        b=nMZ6ArAwERtQCJg9Tggrf6NBDhVQ8IKdKcrtY1/tnAiZbUo6kOJkHve3rM3Jjg0LNu
-         0j3KaSteoLb8XcXG3AHcFN8kYWZfNchJJ/SMeX2TSqHF+rT6Gh5QSQQau9hxJeZYsoHB
-         e0Xds11COG6YXrWSzVZTxbJqFb6xQOxEjSseSP679ibZ0MUhdWL77sKaxADdMxfhk+4A
-         QWtWsswzEM/KM6RTw3Vozi34LuoZJKNLMthQwlGXLyzX+lUGV5YweRaHs4raITYlZ3Lj
-         szvUgAHo9QFij8fYHqirV7DxHuTvk7c5CINdRevAMz3GIClEfKS3EFc+scsH1rIFEEYF
-         KdOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZjFR/k1HWUetP+n80dynenX4Ag3/nTHnQjHjIZbzr6DCT/y+mx2uY1PRUmm97x6WE/bRWwX9emEuS5t8xUIA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLLAQpFjeL9JQxcGaV/UWvqQxoCklb98+Vv2doNkJayhGLmZH8
-	vLlVJ4l5FJVlqYtHDIi7eqc2+J+PyIYeGmX1kO9ZLJ7NFmpHI4FaT4cjb9LVBK8HgwMTO7bR9+u
-	jRA==
-X-Google-Smtp-Source: AGHT+IEbaFuJrgg9H/tbLfcRccgoQM9f0n/8k5IHlTBNih+jL9oBBA6vkooMYtBSlPjCtYt4HO00lQ==
-X-Received: by 2002:a05:6512:a95:b0:539:94aa:d512 with SMTP id 2adb3069b0e04-53b34a34618mr3573431e87.53.1730130186763;
-        Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e1f40a7sm1112797e87.292.2024.10.28.08.43.06
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb5014e2daso41951601fa.0
-        for <chrome-platform@lists.linux.dev>; Mon, 28 Oct 2024 08:43:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWekgipftGIae78m3ffzg9H5brwPXlPCBM7Q5QymuGqQVfqIF8eG2jng/rVcrqlqgC5e+2HCK7FTbvl8ALHORc=@lists.linux.dev
-X-Received: by 2002:a2e:bc0d:0:b0:2fa:d9db:7bac with SMTP id
- 38308e7fff4ca-2fcbdf6250cmr34338691fa.3.1730130185979; Mon, 28 Oct 2024
- 08:43:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730232952; x=1730837752;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=17J8IGvHqY3jfkh+HrxHOL56E85HwWRmn8ZfYdfPDaI=;
+        b=Aemh7Q8KznsB+WkD2/H774hPyZZyLtxQRBiqQ+1cuzihFFrK4EzqAJR2AmkA+5Next
+         r/Sa8K+/Cv/5EUd4qsXytq/aej5c8Pr6hxKJJKreWjwS+TqqcgpzZnGoR5u6xz2+hxGr
+         uuv8vFpu97Q0rn5Vwo+F0641n78LMjqPSYOD/QrKiSkoGquZlQhSn6iDnGmO4gUHWDZB
+         HxOo6A3lPYFSNuB7InHux/PV1nUmjaLO2ws2JJaReD6AWXNPgaoxJXVjlbpqRUG/UXYG
+         CBw5AcPYTXmOIxRmzSH+zm2yVaGD0WcPHgxrvxS6m6u2CH3R9rDZx2ZoJ1WWKv+8hyag
+         +aHw==
+X-Gm-Message-State: AOJu0Yxmsz9iQW3mhaRi2Y4t3DC9JMxIR87m+MJw3NF/y3JyF9ETALjG
+	67J/jGXksHHz9KC+S81DzUT+ib/umD9FmolKLYQS9M9qVjaMGAbABOIXd7OEnRdlosPagib8arp
+	PMZcifrh8fLA4jwJD135KU7sY5e26CjYg9xBI
+X-Google-Smtp-Source: AGHT+IEMjC38XOmCugV3WBwPmaFFgGQnEcKkb/ILj+IwdYe2pYXJXvIJHeT/gECFay1Ki726FJyLKH4jgjuzCxzyYI8=
+X-Received: by 2002:a05:690c:5:b0:6e3:29ae:a3a5 with SMTP id
+ 00721157ae682-6e9d8b001eamr136117397b3.34.1730232952121; Tue, 29 Oct 2024
+ 13:15:52 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 29 Oct 2024 13:15:51 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241017094222.1014936-1-wenst@chromium.org> <20241017094222.1014936-8-wenst@chromium.org>
- <CAD=FV=X-YzEGEc+tp-uB6vdPMEC-V9M=Gb60H69=_XY9w4R8nw@mail.gmail.com> <CAGXv+5H8kxrr=JJsMMY5Y+HC5JqMN-bMkm7hztOzQgrbew6-rw@mail.gmail.com>
-In-Reply-To: <CAGXv+5H8kxrr=JJsMMY5Y+HC5JqMN-bMkm7hztOzQgrbew6-rw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Oct 2024 08:42:51 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VbTMLr8ybCvKwm4aau+UkwCewuj2mqFX_+9hdCALLBRA@mail.gmail.com>
-Message-ID: <CAD=FV=VbTMLr8ybCvKwm4aau+UkwCewuj2mqFX_+9hdCALLBRA@mail.gmail.com>
-Subject: Re: [PATCH v9 7/7] arm64: dts: mediatek: mt8173-elm-hana: Mark
- touchscreens and trackpads as fail
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	linux-i2c@vger.kernel.org
+In-Reply-To: <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
+References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-16-swboyd@chromium.org>
+ <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
+ <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com> <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 29 Oct 2024 13:15:51 -0700
+Message-ID: <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org, 
+	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+	dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, Oct 28, 2024 at 2:14=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
+Quoting Dmitry Baryshkov (2024-10-25 03:49:36)
+> On Tue, Oct 22, 2024 at 06:15:47PM -0700, Stephen Boyd wrote:
+> > Quoting Dmitry Baryshkov (2024-09-20 02:38:53)
+> > > On Sat, Aug 31, 2024 at 09:06:53PM GMT, Stephen Boyd wrote:
 >
-> > > @@ -35,6 +37,7 @@ touchscreen@40 {
-> > >                 hid-descr-addr =3D <0x0001>;
-> > >                 interrupt-parent =3D <&pio>;
-> > >                 interrupts =3D <88 IRQ_TYPE_LEVEL_LOW>;
-> > > +               status =3D "fail-needs-probe";
 > >
-> > It's a little weird that there's no pinctrl definition for the
-> > touchscreens but there is one for the trackpad, but that predates your
-> > patch and is unlikely to be a big deal.
+> > Either way the problem seems to be that I need to associate one
+> > drm_bridge with two displayport altmode drivers and pass some fwnode
+> > handle to drm_connector_oob_hotplug_event() in a way that we can map
+> > that back to the right output endpoint in the DP bridge graph. That
+> > seems to imply that we need to pass the fwnode for the usb-c-connector
+> > in addition to the fwnode for the drm_bridge, so that the drm_bridge
+> > code can look at its DT graph and find the remote node connected.
+> > Basically something like this:
+> >
+> >   void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> >                                        struct fwnode_handle
+> > *usb_connector_fwnode,
+> >                                        enum drm_connector_status status)
+> >
+> > (We might as well also pass the number of lanes here)
 >
-> To be honest I'm in favor of getting rid of pinctrl settings that
-> do nothing more than mux in a GPIO, as mentioned in my talk at ELCE.
-> Such settings are already implied by the interrupts or gpios properties.
-> The fact that the OS doesn't enforce exclusiveness between the
-> subsystems is not something the DT should deal with.
+> I think this is a bit of an overkill.
+>
+> The drm_connector_oob_hotplug_event() is fine as it is, it gets
+> "fwnode_handle to report the event on".
 
-One could also argue that the fact that the Linux kernel happens to
-auto-mux pins to GPIO is not something that the device tree should
-assume. Personally I have never liked the "auto-mux" behavior of Linux
-and I've found that it can get in the way when you need to do more
-advanced pinmuxing, like when a driver needs to sometimes use a pin in
-"special function" mode and sometimes in GPIO mode. The auto-muxing
-happens behind the back of the driver which then needs to account for
-this fact and work around it. Just sayin. :-P
+Ok. I understand that drm_*() shouldn't know about USB or type-c in
+general.
+
+>
+> What needs to be changed (in my humble opinion) is the
+> drm_connector_find_by_fwnode() function (or likely a new function is to
+> be added): if it can not find drm_connector for the passed fwnode, it
+> should look it up on the parent, then on parent's parent, etc, until we
+> actually find the drm_connector (good) or we reach the root (sad).
+>
+> And finally after getting the drm_connector, the oob_hotplug_event()
+> callback should also receive the fwnode argument. This way the connector
+> (or the bridge) can identify the fwnode (aka usb-c-connector in our
+> case) that caused the event.
+>
+> WDYT?
+
+Ok I think I'm following along. The dp->connector_fwnode in
+displayport.c will always be the usb-c-connector node in your example?
+And that will search for the connector or bridge associated with that
+usb-c-connector node. Then when it comes time to call
+drm_connector_oob_hotplug_event() it will take the usb-c-connector
+fwnode as 'connector_fwnode' and in that function we'll make
+drm_connector_find_by_fwnode() implement the parent walk? The
+cros-ec-typec compatible node will register a drm_bridge in all cases,
+and that is the parent of the usb-c-connector node, so the walk will end
+there.
+
+Then you want to pass the usb-c-connector fwnode to
+connector->funcs->oob_hotplug_event()? So
+drm_bridge_connector_oob_hotplug_event() changes to also get the
+usb-c-connector fwnode. This plan should work.
+
+At this point we need to tell the DP bridge, like IT6505, that it's one
+or the other output endpoints that it should use, but we haven't
+directly connected the usb-c-connector to the output ports of IT6505
+because drm_of_find_panel_or_bridge() can't find the parent of the
+usb-c-connector if we connect the DP bridge to the usb-c-connector
+graphs. We'll need a way for the bridge to know which output port is
+connected to a usb-c-connector fwnode. Some sort of API like
+
+ fwnode_graph_get_endpoint_connected_to_fwnode(bridge_fwnode, usb_c_fwnode)
+
+that takes the bridge fwnode and traverses the graph to find the
+endpoint in that's connected to 'usb_c_fwnode'. That traversal API will
+need help from the intermediate node, cros-ec-typec, so maybe it is
+better as a drm_bridge API that uses some new drm_bridge_funcs callback.
+This way IT6505 can ask the bridge chain which output DP endpoint is
+actually associated with the connector fwnode it gets from the
+oob_hotplug_event() callback.
+
+Here's the two DT snippets that I've ended up with:
+
+typec {
+        compatible = "google,cros-ec-typec";
+
+        ports {
+                port@0 {
+                        reg = <0>;
+                        typec_dp_in: endpoint {
+                                 remote-endpoint = <&usb_1_qmp_phy_out_dp>;
+                        };
+                };
+
+                port@1 {
+                        reg = <1>;
+                        typec_usb0_in: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&usb_hub_dfp1_ss>;
+                        };
+                        typec_usb1_in: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&usb_hub_dfp2_ss>;
+                        };
+                }
+
+                // This port is not really needed because we know the
+		// mapping from input ports to usb-c-connectors
+                port@2 {
+                        reg = <2>;
+                        typec0_out: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&usb_c0_ss_in>;
+                        };
+                        typec1_out: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&usb_c1_ss_in>;
+                        };
+                }
+        };
+
+        usb_c0: connector@0 {
+                compatible = "usb-c-connector";
+                reg = <0>;
+
+                ports {
+                        port@0 {
+                                reg = <0>;
+                                usb_c0_hs_in: endpoint {
+                                        remote-endpoint = <&usb_hub_dfp1_hs>;
+                                };
+                        };
+
+                        port@1 {
+                                reg = <1>;
+                                usb_c0_ss_in: endpoint {
+                                        remote-endpoint = <&typec0_out>;
+                                };
+                        };
+                };
+        };
+
+        usb_c1: connector@1 {
+                compatible = "usb-c-connector";
+                reg = <1>;
+
+                ports {
+                        port@0 {
+                                reg = <0>;
+                                usb_c1_hs_in: endpoint {
+                                        remote-endpoint = <&usb_hub_dfp2_hs>;
+                                };
+                        };
+
+                        port@1 {
+                                reg = <1>;
+                                usb_c1_ss_in: endpoint {
+                                        remote-endpoint = <&typec1_out>;
+                                };
+                        };
+                };
+        };
+};
+
+&usb_1_qmpphy {
+        ports {
+                port@0 {
+                        endpoint@0 {
+                                data-lanes = <0 1>;
+                                // this might go to USB-3 hub
+                        };
+
+                        usb_1_qmp_phy_out_dp: endpoint@1 {
+                                remote-endpoint = <&typec_dp_in>;
+                                data-lanes = <2 3>;
+                        };
+                }
+        };
+};
+
+-------
+
+typec {
+        ports {
+                port@0 {
+                        reg = <0>;
+                        typec_dp0_in: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&dp_bridge_out_0>;
+                        };
+                        typec_dp1_in: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&dp_bridge_out_1>;
+                        };
+                };
+
+                port@1 {
+                        reg = <1>;
+                        typec_usb0_in: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&usb_hub_0_ss>;
+                        };
+                        typec_usb1_in: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&usb_hub_1_ss>;
+                        };
+                }
+        };
+
+        connector@0 {
+                port@1 {
+                        endpoint@0 {
+                                remote-endpoint = <&usb_hub_0_hs>;
+                        };
+                };
+        };
+
+        connector@1 {
+                port@1 {
+                        endpoint@0 {
+                                remote-endpoint = <&usb_hub_1_hs>;
+                        };
+                };
+        };
+};
+
+dp_bridge {
+        ports {
+                port@1 {
+                        dp_bridge_out_0: endpoint@0 {
+                                remote-endpoint = <&typec_dp0_in>;
+                                data-lanes = <0 1>;
+                        };
+
+                        dp_bridge_out_1: endpoint@1 {
+                                remote-endpoint = <&typec_dp1_in>;
+                                data-lanes = <2 3>;
+                        };
+                };
+        };
+};
+
+-------
+
+I wonder about a case where we may take two lanes and connect them to a
+usb-c-connector and then take the other two lanes and send them through
+a mux to two more usb-c-connectors. I think we'll need another property
+in that case that indicates which input DP endpoints correspond to the
+usb-c-connector nodes.
+
+typec {
+        ports {
+                port@0 {
+                        reg = <0>;
+                        typec_dp0_in: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&dp_bridge_out_0>;
+                        };
+                        typec_dp1_in: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&dp_bridge_out_1>;
+                        };
+                };
+
+                port@1 {
+                        reg = <1>;
+                        typec_usb0_in: endpoint@0 {
+                                 reg = <0>;
+                                 remote-endpoint = <&usb_hub_0_ss>;
+                        };
+                        typec_usb1_in: endpoint@1 {
+                                 reg = <1>;
+                                 remote-endpoint = <&usb_hub_1_ss>;
+                        };
+                        typec_usb2_in: endpoint@2 {
+                                 reg = <2>;
+                                 remote-endpoint = <&usb_hub_2_ss>;
+                        };
+                }
+        };
+
+	dp-2-usb-mapping = <0 0>, <1 1>, <1 2>;
+};
+
+This property would indicate dp endpoint 0 goes to usb-c-connector 0
+while dp endpoint 1 goes to usb-c-connector 1 and 2. I don't have this
+hardware but I could see how someone might do this by adding another mux
+that the EC controls. I don't want to design a binding and have to
+rework it in the future to handle this new case. I hope adding a new
+property, or getting more information from the EC firmware, will be
+sufficient to describe the linkage between the DP endpoint and the
+connectors managed by the cros-ec-typec device.
+
+>
+> > Corsola could work with this design, but we'll need to teach
+> > dp_altmode_probe() to look for the drm_bridge elsewhere besides as the
+> > parent of the usb-c-connector node. That implies using the 'displayport'
+> > property in the cros-ec-typec node or teaching dp_altmode_probe() to
+> > look for the port@1/endpoint@1 remote-endpoint handle in the
+> > usb-c-connector graph.
+> >
+> > Assuming the bindings you've presented here are fine and good and I got
+> > over the differences between Trogdor and Corsola, then I can make mostly
+> > everything work with the drm_connector_oob_hotplug_event() signature
+> > change from above and some tweaks to dp_altmode_probe() to look for
+> > port@1/endpoint@1 first because that's the "logical" DP input endpoint
+> > in the usb-c-connector binding's graph. Great! The final roadblock I'm
+> > at is that HPD doesn't work on Trogdor, so I can't signal HPD through
+> > the typec framework.
+>
+> Hmm, I thought that a normal DP's HPD GPIO works on the trogdor. Was I
+> misunderstanding it? But then we don't know, which USB-C connector
+> triggered the HPD...
+
+By HPD not working on Trogdor I mean that the EC doesn't tell the kernel
+about the state of HPD for a usb-c-connector in software. Instead, HPD
+is signaled directly to the DP controller in hardware via a GPIO. It is
+as you suspect, we don't know which USB-C connector has HPD unless we
+read the mux controlled by the EC and combine that with what the DP
+driver knows about the state of the HPD pin.
+
+>
+> > This series fixes that problem by "capturing" HPD state from the
+> > upstream drm_bridge, e.g. msm_dp, by hooking the struct
+> > drm_bridge_funcs::hpd_notify() path and injecting HPD into the typec
+> > messages received from the EC. That's a workaround to make the typec
+> > framework see HPD state changes that are otherwise invisible to the
+> > kernel. Newer firmwares actually tell us the state of HPD properly, but
+> > even then we have to read a gpio mux controlled by the EC to figure out
+> > which usb-c-connector is actually muxing DP when HPD changes on either
+> > typec_port. Having a drm_bridge in cros-ec-typec helped here because we
+> > could hook this path and signal HPD if we knew the firmware was fixed.
+> > If we don't have the drm_bridge anymore, I'm lost how to do this.
+>
+> It's probably okay to add one, but let me think if we can work without
+> it. Can we make EC driver listen for that single HPD GPIO (by making it
+> an actual GPIO rather than "dp_hot") and then react to it?
+
+I don't know how we handle the attention message, HPD_IRQ, because
+that's a short pulse that the kernel may miss when this is a GPIO that
+has to be triggered when both falling and rising. When the pin goes
+directly to the DP controller this is fine because the hardware can
+detect that. Similarly, when the EC sends the message about an HPD_IRQ
+we can replay that into the type-c framework and signal attention
+through drm_connector_oob_hotplug_event()/hpd_notify() paths.
+
+>
+> >
+> > Maybe the right answer here is to introduce a drm_connector_dp_typec
+> > structure that is created by the TCPM (cros-ec-typec) that sets a new
+> > DRM_BRIDGE_OP_DP_TYPEC bridge op flag? And then teach
+> > drm_bridge_connector about this new flag, similar to the HDMI one. The
+> > drm_bridge could implement some function that maps the typec_port
+> > (usb-c-connector) to the upstream drm_bridge (ANX7625) graph port,
+> > possibly all in drm_bridge_connector_oob_hotplug_event() so that nothing
+> > else really changes. It could also let us keep hooking the hpd_notify()
+> > path for the workaround needed on Trogdor. And finally it may let us
+> > harmonize the two DT bindings so that we only have one port@1/endpoint
+> > node in the usb-c-connector.
+>
+> I think we have lightly discussed adding drm_connector_displayport, so
+> that part is okay. But my gut feeling is that there should be no _typec
+> part in thart picture. The DRM framework shouldn't need to know all the
+> Type-C details.
+>
+
+Alright, got it.

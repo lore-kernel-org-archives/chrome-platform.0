@@ -1,454 +1,370 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393541DB95D
-	for <chrome-platform@lists.linux.dev>; Tue, 29 Oct 2024 20:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BB385931
+	for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 07:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730232956; cv=none; b=FBVamhEtiHYnrvxggFcSztBjHT9zaEsg65erVtLsUcXzZERehgSNxaN+DuP9TOmoe8XSCZTRYcb0fFg3R1mkpwNSVq7N4yks9lxPeKCVRDD1YC96z4RegI21KW57G/DCfpHHrYSrCHU0lfITcNZh8egzlP66/+7kKTb181n7/rY=
+	t=1730272960; cv=none; b=DBUtz2euNUPAWY8OMpvKE0jGBgps+C0PQcxuULH5P7+YgJhiOiBWd6ugPUjkziT1i/gpnOZHTt6stZUePGfWxUwoK4/2nZsWCBdDluxoxpAblzzFfjLvDokpYJfYy5BLA6Lkja1dSwLUpais41YSx7MMHXdenHA/oxb3cQcDfRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730232956; c=relaxed/simple;
-	bh=p2q3CmSHX9eWKUp6uO+aazZAtxPSV3aT24xCH7eTJuE=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T/gbL6sbDba5o7QsBs5XgMDV4GTzSZL7+zz9xRxjw8W+uxSbZcHmp6L+bAhe8951qCICZQj4rlzrbkck02ZXuO2C14jxbjFHlWuQHl6AdgukoXSnKqiGxE+J6tJSMmjKmB1mjEsseKHkUMg2qHf4u1yBoMOKyFL/MhDQ89hl7yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eXUgoDu6; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1730272960; c=relaxed/simple;
+	bh=VhwYloUpOtg0kRDixacowc8RURun7HvVK6K0CAVx6lw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QktTYwhVYbBCOflAdQw8tDjIrlFUKmSHlaA2r/faS51CbH2bTEfvp0tjktSR3ssKn8/ykUvbpGrY8pPamiXKfNf+XAp5ReEe/aviFtuxRHCn1or8dGKyOLys2nsfnvzdo5qkp5xDj/IIcLuXUwAYsTsYGLUrnJIZKkSXW1/fEuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kQU8euek; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eXUgoDu6"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e35f08e23eso53313837b3.2
-        for <chrome-platform@lists.linux.dev>; Tue, 29 Oct 2024 13:15:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kQU8euek"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20cdbe608b3so51791485ad.1
+        for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 00:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730232952; x=1730837752; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=17J8IGvHqY3jfkh+HrxHOL56E85HwWRmn8ZfYdfPDaI=;
-        b=eXUgoDu63UBlvxSF2THgd+oRsuaRo/DPswvDod14i6jkgucpyGRw9SB0NsbkU6wWrs
-         vLno54d3/upn14FNjICFDRxSAlth37Gx+KhMiqWDXKYI9P06KZO+WR/qkWfk1E06UqyY
-         nUoXCu1Cgk2r7h/h+7zbbrOCuwyczqbn+8Hm0=
+        d=chromium.org; s=google; t=1730272956; x=1730877756; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E3we43hNmwOl1hOhkNiYrBJthHKLVTDr13Z2OiwdxVQ=;
+        b=kQU8euek0dSDVazPN8Lds4O6QbEEKBLovEWdmw0cbW3Tkqx+nZEtxiC5ASMRdzARmY
+         LigRoR4lqFtN0CXNHQRxYK696BgeBTDSAPbR5HTdNi7RTzyUIkmIqIaM0faReq/xFSOz
+         aJ+N6ebsRq0p0SJ8jdZIHvjaoBhoa7vBpE2gM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730232952; x=1730837752;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=17J8IGvHqY3jfkh+HrxHOL56E85HwWRmn8ZfYdfPDaI=;
-        b=Aemh7Q8KznsB+WkD2/H774hPyZZyLtxQRBiqQ+1cuzihFFrK4EzqAJR2AmkA+5Next
-         r/Sa8K+/Cv/5EUd4qsXytq/aej5c8Pr6hxKJJKreWjwS+TqqcgpzZnGoR5u6xz2+hxGr
-         uuv8vFpu97Q0rn5Vwo+F0641n78LMjqPSYOD/QrKiSkoGquZlQhSn6iDnGmO4gUHWDZB
-         HxOo6A3lPYFSNuB7InHux/PV1nUmjaLO2ws2JJaReD6AWXNPgaoxJXVjlbpqRUG/UXYG
-         CBw5AcPYTXmOIxRmzSH+zm2yVaGD0WcPHgxrvxS6m6u2CH3R9rDZx2ZoJ1WWKv+8hyag
-         +aHw==
-X-Gm-Message-State: AOJu0Yxmsz9iQW3mhaRi2Y4t3DC9JMxIR87m+MJw3NF/y3JyF9ETALjG
-	67J/jGXksHHz9KC+S81DzUT+ib/umD9FmolKLYQS9M9qVjaMGAbABOIXd7OEnRdlosPagib8arp
-	PMZcifrh8fLA4jwJD135KU7sY5e26CjYg9xBI
-X-Google-Smtp-Source: AGHT+IEMjC38XOmCugV3WBwPmaFFgGQnEcKkb/ILj+IwdYe2pYXJXvIJHeT/gECFay1Ki726FJyLKH4jgjuzCxzyYI8=
-X-Received: by 2002:a05:690c:5:b0:6e3:29ae:a3a5 with SMTP id
- 00721157ae682-6e9d8b001eamr136117397b3.34.1730232952121; Tue, 29 Oct 2024
- 13:15:52 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 29 Oct 2024 13:15:51 -0700
+        d=1e100.net; s=20230601; t=1730272956; x=1730877756;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E3we43hNmwOl1hOhkNiYrBJthHKLVTDr13Z2OiwdxVQ=;
+        b=Q3x6ruINBvEhLO+IMWlYDAx99jO4SkNtgEJ4Ni1Ymi7IzezeNPD9anL+uPW6m5lNhT
+         l9riwa9sjoej6aWDsfH+9RETo9e8VEiXUfyddZmUb20OfrgafQyL37kLzEnzxBBoGS2g
+         POgbz/t+m9S5jotRd8FpmcodmYW6w5zKrzCKC3VAJxWfqwX0UKm1cXqOVQRyccxuo/ce
+         3ok/PdLzosGgkK8nqejjccGTU5MyIcfR9kmWGlMXycBFa3Umbcnd29vpkJvjzxwKGLzn
+         CGSTwY0qJfYKGXE+0uDoYWseG6jcOqPc4jNpe+h4q1cqD0HK78C3f9KoAPSyNhb/aCnJ
+         TATw==
+X-Forwarded-Encrypted: i=1; AJvYcCWG7IVply8/P+aWLFTE4FN8b21XpJyfp5s8jMkLlvyE1yCuEoXG6OdhSLc5lUpywjzQa6LcTeUIdkgnNnV9vkI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNSqc+yF6VjI1fqmd2SPjuU5nNAzkollYJqo+X8Ni9nc3YgYdc
+	algPswgc6EWjUVFSPa3H8MJmIlR4rPCIBEAnFc6XWbS+HBaSj4kqtyiZ0tggxg==
+X-Google-Smtp-Source: AGHT+IE8+N2LQapzXbtPvfJbXXrnA1f2QQbTEIYRzNcM3BS/Sw0ICbOtvKyia6D/94qlYASh1cpD4w==
+X-Received: by 2002:a17:902:f60c:b0:20b:6a57:bf3a with SMTP id d9443c01a7336-210f74f48d9mr24993145ad.1.1730272955991;
+        Wed, 30 Oct 2024 00:22:35 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:d1f3:aa64:657f:d8a8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc02e67esm76641445ad.186.2024.10.30.00.22.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 00:22:35 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH v10 0/7] platform/chrome: Introduce DT hardware prober
+Date: Wed, 30 Oct 2024 15:22:21 +0800
+Message-ID: <20241030072229.1013235-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
-References: <20240901040658.157425-1-swboyd@chromium.org> <20240901040658.157425-16-swboyd@chromium.org>
- <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
- <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com> <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 29 Oct 2024 13:15:51 -0700
-Message-ID: <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Quoting Dmitry Baryshkov (2024-10-25 03:49:36)
-> On Tue, Oct 22, 2024 at 06:15:47PM -0700, Stephen Boyd wrote:
-> > Quoting Dmitry Baryshkov (2024-09-20 02:38:53)
-> > > On Sat, Aug 31, 2024 at 09:06:53PM GMT, Stephen Boyd wrote:
->
-> >
-> > Either way the problem seems to be that I need to associate one
-> > drm_bridge with two displayport altmode drivers and pass some fwnode
-> > handle to drm_connector_oob_hotplug_event() in a way that we can map
-> > that back to the right output endpoint in the DP bridge graph. That
-> > seems to imply that we need to pass the fwnode for the usb-c-connector
-> > in addition to the fwnode for the drm_bridge, so that the drm_bridge
-> > code can look at its DT graph and find the remote node connected.
-> > Basically something like this:
-> >
-> >   void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-> >                                        struct fwnode_handle
-> > *usb_connector_fwnode,
-> >                                        enum drm_connector_status status)
-> >
-> > (We might as well also pass the number of lanes here)
->
-> I think this is a bit of an overkill.
->
-> The drm_connector_oob_hotplug_event() is fine as it is, it gets
-> "fwnode_handle to report the event on".
+Hi everyone,
 
-Ok. I understand that drm_*() shouldn't know about USB or type-c in
-general.
+This is v10 of my "of: Introduce hardware prober driver" series.
+v10 includes some minor changes pointed out by Andy and Doug. Everything
+is fully reviewed and ready to be merged.
 
->
-> What needs to be changed (in my humble opinion) is the
-> drm_connector_find_by_fwnode() function (or likely a new function is to
-> be added): if it can not find drm_connector for the passed fwnode, it
-> should look it up on the parent, then on parent's parent, etc, until we
-> actually find the drm_connector (good) or we reach the root (sad).
->
-> And finally after getting the drm_connector, the oob_hotplug_event()
-> callback should also receive the fwnode argument. This way the connector
-> (or the bridge) can identify the fwnode (aka usb-c-connector in our
-> case) that caused the event.
->
-> WDYT?
+The older changelog entries have been moved to the bottom of the cover
+letter.
 
-Ok I think I'm following along. The dp->connector_fwnode in
-displayport.c will always be the usb-c-connector node in your example?
-And that will search for the connector or bridge associated with that
-usb-c-connector node. Then when it comes time to call
-drm_connector_oob_hotplug_event() it will take the usb-c-connector
-fwnode as 'connector_fwnode' and in that function we'll make
-drm_connector_find_by_fwnode() implement the parent walk? The
-cros-ec-typec compatible node will register a drm_bridge in all cases,
-and that is the parent of the usb-c-connector node, so the walk will end
-there.
+Changes since v9:
+- Picked up review-bys
+- Added inclusion of stddef.h for NULL
+- Added "noautosel" stable tag to the device tree patch
 
-Then you want to pass the usb-c-connector fwnode to
-connector->funcs->oob_hotplug_event()? So
-drm_bridge_connector_oob_hotplug_event() changes to also get the
-usb-c-connector fwnode. This plan should work.
+For the I2C component (touchscreens and trackpads) case from the
+original series, the hardware prober driver finds the particular
+class of device in the device tree, gets its parent I2C adapter,
+and tries to initiate a simple I2C read for each device under that
+I2C bus. When it finds one that responds, it considers that one
+present, marks it as "okay", and returns, letting the driver core
+actually probe the device.
 
-At this point we need to tell the DP bridge, like IT6505, that it's one
-or the other output endpoints that it should use, but we haven't
-directly connected the usb-c-connector to the output ports of IT6505
-because drm_of_find_panel_or_bridge() can't find the parent of the
-usb-c-connector if we connect the DP bridge to the usb-c-connector
-graphs. We'll need a way for the bridge to know which output port is
-connected to a usb-c-connector fwnode. Some sort of API like
+This works fine in most cases since these components are connected
+via a ribbon cable and always have the same resources. The prober
+will also grab these resources and enable them.
 
- fwnode_graph_get_endpoint_connected_to_fwnode(bridge_fwnode, usb_c_fwnode)
+The other case, selecting a display panel to use based on the SKU ID
+from the firmware, hit a bit of an issue with fixing the OF graph.
+It has been left out since v3.
 
-that takes the bridge fwnode and traverses the graph to find the
-endpoint in that's connected to 'usb_c_fwnode'. That traversal API will
-need help from the intermediate node, cros-ec-typec, so maybe it is
-better as a drm_bridge API that uses some new drm_bridge_funcs callback.
-This way IT6505 can ask the bridge chain which output DP endpoint is
-actually associated with the connector fwnode it gets from the
-oob_hotplug_event() callback.
+Patch 1 adds of_changeset_update_prop_string(), as requested by Rob.
 
-Here's the two DT snippets that I've ended up with:
+Patch 2 adds for_each_child_of_node_with_prefix(), as suggested by Andy.
 
-typec {
-        compatible = "google,cros-ec-typec";
+Patch 3 implements probing the I2C bus for presence of components as
+a hookable helper function in the I2C core.
 
-        ports {
-                port@0 {
-                        reg = <0>;
-                        typec_dp_in: endpoint {
-                                 remote-endpoint = <&usb_1_qmp_phy_out_dp>;
-                        };
-                };
+Patch 4 implements regulator supply support as a set of simple helpers
+for the I2C component prober.
 
-                port@1 {
-                        reg = <1>;
-                        typec_usb0_in: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&usb_hub_dfp1_ss>;
-                        };
-                        typec_usb1_in: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&usb_hub_dfp2_ss>;
-                        };
-                }
+Patch 5 implements GPIO support for the I2C component prober simple
+helpers.
 
-                // This port is not really needed because we know the
-		// mapping from input ports to usb-c-connectors
-                port@2 {
-                        reg = <2>;
-                        typec0_out: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&usb_c0_ss_in>;
-                        };
-                        typec1_out: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&usb_c1_ss_in>;
-                        };
-                }
-        };
+Patch 6 adds a ChromeOS specific DT hardware prober. This initial
+version targets the Hana Chromebooks, probing its I2C trackpads and
+touchscreens.
 
-        usb_c0: connector@0 {
-                compatible = "usb-c-connector";
-                reg = <0>;
+Patch 7 modifies the Hana device tree and marks the touchscreens
+and trackpads as "fail-needs-probe", ready for the driver to probe.
 
-                ports {
-                        port@0 {
-                                reg = <0>;
-                                usb_c0_hs_in: endpoint {
-                                        remote-endpoint = <&usb_hub_dfp1_hs>;
-                                };
-                        };
 
-                        port@1 {
-                                reg = <1>;
-                                usb_c0_ss_in: endpoint {
-                                        remote-endpoint = <&typec0_out>;
-                                };
-                        };
-                };
-        };
+The regulator parts were merged separately with an immutable tag [1]. Rob
+already gave his Reviewed-by for the OF bits, and I assume he is OK with
+them going through a different branch. So I believe it is fine for
+Wolfram to take all the patch except the last one through the I2C tree.
+The last DTS patch can be merged through the MediaTek tree once the
+driver bits land.
 
-        usb_c1: connector@1 {
-                compatible = "usb-c-connector";
-                reg = <1>;
 
-                ports {
-                        port@0 {
-                                reg = <0>;
-                                usb_c1_hs_in: endpoint {
-                                        remote-endpoint = <&usb_hub_dfp2_hs>;
-                                };
-                        };
+Thanks
+ChenYu
 
-                        port@1 {
-                                reg = <1>;
-                                usb_c1_ss_in: endpoint {
-                                        remote-endpoint = <&typec1_out>;
-                                };
-                        };
-                };
-        };
-};
 
-&usb_1_qmpphy {
-        ports {
-                port@0 {
-                        endpoint@0 {
-                                data-lanes = <0 1>;
-                                // this might go to USB-3 hub
-                        };
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git/tag/?h=regulator-of-get-optional
 
-                        usb_1_qmp_phy_out_dp: endpoint@1 {
-                                remote-endpoint = <&typec_dp_in>;
-                                data-lanes = <2 3>;
-                        };
-                }
-        };
-};
+Changes since v8:
+- Link to v8:
+  https://lore.kernel.org/all/20241008073430.3992087-1-wenst@chromium.org/
+- Patch "i2c: core: Remove extra space in Makefile" was merged and
+  dropped from this version
+- Patch 3 "i2c: Introduce OF component probe function"
+  - Added missing include of <linux/kconfig.h> to i2c-of-prober.h
+  - Expanded description of i2c_of_probe_ops::enable to mention that
+    returning -EPROBE_DEFER is valid (Doug)
+  - Reworded descrption of i2c_of_probe_ops::cleanup_early to avoid
+    confusion with i2c_of_probe_ops::enable (Doug)
+  - Reworked i2c_of_probe_get_i2c_node() to return NULL on failure,
+    matching most functions that return |struct device_node *|.
+- Patch 4 "i2c: of-prober: Add simple helpers for regulator support"
+  - Picked up Doug's reviewed-by
+- Patch 5 "i2c: of-prober: Add GPIO support to simple helpers"
+  - Moved |struct gpio_desc| forward declaration before |struct regulator|
+    (Andy)
+  - Dropped GPIO descriptor validity check from
+    i2c_of_probe_simple_disable_gpio(); GPIO functions check it (Andy)
+  - Dropped comment from i2c_of_probe_simple_disable_gpio() (Doug)
+  - Reworded comment in i2c_of_probe_simple_cleanup() (Doug)
+  - Picked up Doug's reviewed-by
+- Patch 6 "platform/chrome: Introduce device tree hardware prober"
+  - Added trailing commas on last field in struct variable declarations
+    (Andy)
+  - Added macros wrapping chromeos_i2c_probe_dumb_* and
+    chromeos_i2c_probe_simple_*_cfg variable declarations (Andy)
+  - Split up hw_prober_platforms into one field per line (Andy)
+  - Picked up Doug's reviewed-by
+- Patch 7 "arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and
+	   trackpads as fail"
 
--------
+Changes since v7:
+- Link to v7:
+  https://lore.kernel.org/all/20240911072751.365361-1-wenst@chromium.org/
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix()"
+  - Collected Rob's Reviewed-by
+- Patch 3 "i2c: core: Remove extra space in Makefile"
+  - Collected Andi's Reviewed-by
+- Patch 4 "i2c: Introduce OF component probe function"
+  - Dropped log level of "enabling component" to debug
+  - Dropped file name from header file
+  - Reverted to __free() cleanup for i2c bus node
+  - Corrected "failed-needs-probe" to "fail-needs-probe" in commit message
+  - Fixed incorrectly positioned period ('.') in commit message
+  - Expanded description of i2c_of_probe_component()
+  - Expanded comment explaining check for "available" devices to note that
+    if such a device is found then the i2c probe function becomes a no-op
+  - Simplified check for "available" devices for-each loop
+  - Expanded description of @free_resources_early callback to explicitly
+    state that it is not called if no working components are found
+  - Dropped !cfg check
+  - Replaced "fail" with "fail-needs-probe" in i2c_of_probe_component()
+    kernel doc
+  - Combined callbacks (.get_resources with .enable; .cleanup with
+    .free_resources_late); .free_resources_early renamed to .cleanup_early
+- Patch 5 "i2c: of-prober: Add simple helpers for regulator support"
+  - Reworded comment in i2c_of_probe_simple_get_supply() as suggested
+    (Andy)
+  - Dropped mention of time unit in struct i2c_of_probe_simple_opts
+    kernel doc (Andy)
+  - Added mention of common GPIO line usages ("enable" or "reset") in I2C
+    OF component prober kernel doc (Doug)
+  - Added check for non-zero delay before msleep() (Doug)
+  - Combined callback helpers (.get_resources with .enable; .cleanup with
+    .free_resources_late)
+- Patch 6 "i2c: of-prober: Add GPIO support to simple helpers"
+  - Dropped mention of time unit in struct i2c_of_probe_simple_opts
+    kernel doc (Andy)
+  - Added check for non-zero delay before msleep() (Doug)
+  - Simplified GPIO name check and reverse conditional branches (Andy)
+  - Added description about the supported power sequence
+  - Switched GPIO usage to logical levels (Doug)
+    - Changed some variable names and comments to fit
+  - Added description of power sequence to struct i2c_of_probe_simple_opts
+    (Doug)
+  - Added comment saying i2c_of_probe_simple_put_gpiod() might be no-op
+    (Doug)
+  - Combined callbacks (.get_resources with .enable; .cleanup with
+    .free_resources_late); renamed i2c_of_probe_simple_free_res_early() to
+    i2c_of_probe_simple_cleanup_early()
+- Patch 7 "platform/chrome: Introduce device tree hardware prober"
+  - Corrected Makefile item order
+  - Replaced "failed-needs-probe" with "fail-needs-probe" in commit message
+  - Added include of "linux/of.h" for of_machine_is_compatible()
+  - Switched to simple probe helpers for trackpads on Hana
+- Patch 8 "arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and
+	   trackpads as fail"
+  - Mark touchscreen@40 as "fail-needs-probe" as well
 
-typec {
-        ports {
-                port@0 {
-                        reg = <0>;
-                        typec_dp0_in: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&dp_bridge_out_0>;
-                        };
-                        typec_dp1_in: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&dp_bridge_out_1>;
-                        };
-                };
+Changes since v6:
+- Link to v6:
+  https://lore.kernel.org/all/20240904090016.2841572-1-wenst@chromium.org/
+- Dropped patch "gpiolib: Add gpio_property_name_length()"
+  No longer needed
+- Dropped patch "regulator: Move OF-specific regulator lookup code to of_regulator.c"
+  Already merged
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix()"
+  - Changed helper name to "for_each_child_of_node_with_prefix()"
+- Patch 4 "regulator: Add of_regulator_get_optional() for pure DT regulator lookup"
+  - Was "regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()"
+  - Changed reference [1] to Link: tag
+  - Rebased on top of commit 401d078eaf2e ("regulator: of: Refactor
+    of_get_*regulator() to decrease indentation")
+  - Exported of_regulator_get_optional()
+  - Changed commit message to focus on "of_regulator_get_optional()"
+  - Dropped change to of_regulator_bulk_get_all()
+- Patch 5 "i2c: core: Remove extra space in Makefile"
+  - Collected Andy's Reviewed-by
+- Patch 6 "i2c: Introduce OF component probe function"
+  - Correctly replaced for_each_child_of_node_scoped() with
+    for_each_child_of_node_with_prefix()
+  - Added namespace for exported symbols
+  - Made the probe function a framework with hooks
+  - Split out a new header file
+  - Added MAINTAINERS entry
+  - Reworded kernel-doc
+  - Dropped usage of __free from i2c_of_probe_component() since error
+    path cleanup is needed anyway
+- Patch 7 "i2c: of-prober: Add simple helpers for regulator support"
+  - Moved change of of_get_next_child_scoped() to
+    of_get_next_child_with_prefix() to previous patch
+  - Restructured into helpers for the I2C OF component prober
+  - Reduced to only handle one regulator
+  - Commit message updated
+- Patch 8 "i2c: of-prober: Add GPIO support to simple helpers"
+  - Restructured into helpers for the I2C OF component prober
+  - Reduced to only handle one GPIO
+  - Set GPIO to input on (failure) cleanup
+  - Updated commit message
+- Patch 9 "platform/chrome: Introduce device tree hardware prober"
+  - Adapted to new I2C OF prober interface
+  - Collected Acked-by tag
 
-                port@1 {
-                        reg = <1>;
-                        typec_usb0_in: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&usb_hub_0_ss>;
-                        };
-                        typec_usb1_in: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&usb_hub_1_ss>;
-                        };
-                }
-        };
+Changes since v5:
+- Link to v5:
+  https://lore.kernel.org/all/20240822092006.3134096-1-wenst@chromium.org/
+- Patch 1 "of: dynamic: Add of_changeset_update_prop_string"
+  - Collected Rob's reviewed-by
+- Patch 2 "of: base: Add for_each_child_of_node_with_prefix_scoped()"
+  - New patch
+- Patch 3 "regulator: Move OF-specific regulator lookup code to of_regulator.c"
+  - Fix kerneldoc format of of_regulator_dev_lookup()
+  - Fix stub compile error for !CONFIG_OF in drivers/regulator/internal.h
+- Patch 4 "regulator: Split up _regulator_get()"
+  - Fixed kerneldoc "Return" section format for _regulator_get_common()
+  - Slightly reworded return value description
+- Patch 5 "regulator: Do pure DT regulator lookup in of_regulator_bulk_get_all()"
+  - Used "dev_of_node(dev)" instead of "dev->of_node"
+  - Replaced "dev_printk" with "dev_printk()" in kerneldoc mentions
+  - Fixed kerneldoc "Return" section format for of_regulator_get_optional()
+  - Fix @np parameter name in of_regulator_dev_lookup() kerneldoc
+- Patch 6 "gpiolib: Add gpio_property_name_length()"
+  - Changed function name to "gpio_get_property_name_length()"
+  - Changed argument name to "propname"
+  - Clarified return value for "*-<GPIO suffix>" case
+  - Reworked according to Andy's suggestion
+  - Added stub function
+- Patch 7 "i2c: core: Remove extra space in Makefile"
+  - New patch
+- Patch 8 "i2c: Introduce OF component probe function"
+  - Fixed indent in Makefile
+  - Split regulator and GPIO TODO items
+  - Reversed final conditional in i2c_of_probe_enable_node()
+- Patch 9 "i2c: of-prober: Add regulator support"
+  - Split of_regulator_bulk_get_all() return value check and explain
+    "ret == 0" case
+  - Switched to of_get_next_child_with_prefix_scoped() where applicable
+  - Used krealloc_array() instead of directly calculating size
+  - copy whole regulator array in one memcpy() call
+  - Drop "0" from struct zeroing initializer
+  - Split out regulator helper from i2c_of_probe_enable_res() to keep
+    code cleaner when combined with the next patch
+  - Added options for customizing power sequencing delay
+  - Rename i2c_of_probe_get_regulator() to i2c_of_probe_get_regulators()
+  - Add i2c_of_probe_free_regulator() helper
+- Patch 10 "i2c: of-prober: Add GPIO support"
+  - Renamed "con" to "propname" in i2c_of_probe_get_gpiod()
+  - Copy string first and check return value of strscpy() for overflow in
+    i2c_of_probe_get_gpiod()
+  - Add parenthesis around "enable" and "reset" GPIO names in comments
+  - Split resource count debug message into two separate lines
+  - Split out GPIO helper from i2c_of_probe_enable_res() to keep code
+    cleaner following the previous patch
+  - Adopted options for customizing power sequencing delay following
+    previous patch
+- Patch 11 "platform/chrome: Introduce device tree hardware prober"
+  - Adapt to new i2c_of_probe_component() parameters
+- Patch 12 "arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and
+	    trackpads as fail"
+  - None
 
-        connector@0 {
-                port@1 {
-                        endpoint@0 {
-                                remote-endpoint = <&usb_hub_0_hs>;
-                        };
-                };
-        };
+See v5 cover letter for previous change logs.
 
-        connector@1 {
-                port@1 {
-                        endpoint@0 {
-                                remote-endpoint = <&usb_hub_1_hs>;
-                        };
-                };
-        };
-};
+Chen-Yu Tsai (7):
+  of: dynamic: Add of_changeset_update_prop_string
+  of: base: Add for_each_child_of_node_with_prefix()
+  i2c: Introduce OF component probe function
+  i2c: of-prober: Add simple helpers for regulator support
+  i2c: of-prober: Add GPIO support to simple helpers
+  platform/chrome: Introduce device tree hardware prober
+  arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+    as fail
 
-dp_bridge {
-        ports {
-                port@1 {
-                        dp_bridge_out_0: endpoint@0 {
-                                remote-endpoint = <&typec_dp0_in>;
-                                data-lanes = <0 1>;
-                        };
+ MAINTAINERS                                   |   8 +
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  14 +
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |   4 +-
+ drivers/i2c/Makefile                          |   1 +
+ drivers/i2c/i2c-core-of-prober.c              | 415 ++++++++++++++++++
+ drivers/of/base.c                             |  35 ++
+ drivers/of/dynamic.c                          |  44 ++
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ .../platform/chrome/chromeos_of_hw_prober.c   | 154 +++++++
+ include/linux/i2c-of-prober.h                 | 139 ++++++
+ include/linux/of.h                            |  13 +
+ 12 files changed, 837 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/i2c/i2c-core-of-prober.c
+ create mode 100644 drivers/platform/chrome/chromeos_of_hw_prober.c
+ create mode 100644 include/linux/i2c-of-prober.h
 
-                        dp_bridge_out_1: endpoint@1 {
-                                remote-endpoint = <&typec_dp1_in>;
-                                data-lanes = <2 3>;
-                        };
-                };
-        };
-};
+-- 
+2.47.0.163.g1226f6d8fa-goog
 
--------
-
-I wonder about a case where we may take two lanes and connect them to a
-usb-c-connector and then take the other two lanes and send them through
-a mux to two more usb-c-connectors. I think we'll need another property
-in that case that indicates which input DP endpoints correspond to the
-usb-c-connector nodes.
-
-typec {
-        ports {
-                port@0 {
-                        reg = <0>;
-                        typec_dp0_in: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&dp_bridge_out_0>;
-                        };
-                        typec_dp1_in: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&dp_bridge_out_1>;
-                        };
-                };
-
-                port@1 {
-                        reg = <1>;
-                        typec_usb0_in: endpoint@0 {
-                                 reg = <0>;
-                                 remote-endpoint = <&usb_hub_0_ss>;
-                        };
-                        typec_usb1_in: endpoint@1 {
-                                 reg = <1>;
-                                 remote-endpoint = <&usb_hub_1_ss>;
-                        };
-                        typec_usb2_in: endpoint@2 {
-                                 reg = <2>;
-                                 remote-endpoint = <&usb_hub_2_ss>;
-                        };
-                }
-        };
-
-	dp-2-usb-mapping = <0 0>, <1 1>, <1 2>;
-};
-
-This property would indicate dp endpoint 0 goes to usb-c-connector 0
-while dp endpoint 1 goes to usb-c-connector 1 and 2. I don't have this
-hardware but I could see how someone might do this by adding another mux
-that the EC controls. I don't want to design a binding and have to
-rework it in the future to handle this new case. I hope adding a new
-property, or getting more information from the EC firmware, will be
-sufficient to describe the linkage between the DP endpoint and the
-connectors managed by the cros-ec-typec device.
-
->
-> > Corsola could work with this design, but we'll need to teach
-> > dp_altmode_probe() to look for the drm_bridge elsewhere besides as the
-> > parent of the usb-c-connector node. That implies using the 'displayport'
-> > property in the cros-ec-typec node or teaching dp_altmode_probe() to
-> > look for the port@1/endpoint@1 remote-endpoint handle in the
-> > usb-c-connector graph.
-> >
-> > Assuming the bindings you've presented here are fine and good and I got
-> > over the differences between Trogdor and Corsola, then I can make mostly
-> > everything work with the drm_connector_oob_hotplug_event() signature
-> > change from above and some tweaks to dp_altmode_probe() to look for
-> > port@1/endpoint@1 first because that's the "logical" DP input endpoint
-> > in the usb-c-connector binding's graph. Great! The final roadblock I'm
-> > at is that HPD doesn't work on Trogdor, so I can't signal HPD through
-> > the typec framework.
->
-> Hmm, I thought that a normal DP's HPD GPIO works on the trogdor. Was I
-> misunderstanding it? But then we don't know, which USB-C connector
-> triggered the HPD...
-
-By HPD not working on Trogdor I mean that the EC doesn't tell the kernel
-about the state of HPD for a usb-c-connector in software. Instead, HPD
-is signaled directly to the DP controller in hardware via a GPIO. It is
-as you suspect, we don't know which USB-C connector has HPD unless we
-read the mux controlled by the EC and combine that with what the DP
-driver knows about the state of the HPD pin.
-
->
-> > This series fixes that problem by "capturing" HPD state from the
-> > upstream drm_bridge, e.g. msm_dp, by hooking the struct
-> > drm_bridge_funcs::hpd_notify() path and injecting HPD into the typec
-> > messages received from the EC. That's a workaround to make the typec
-> > framework see HPD state changes that are otherwise invisible to the
-> > kernel. Newer firmwares actually tell us the state of HPD properly, but
-> > even then we have to read a gpio mux controlled by the EC to figure out
-> > which usb-c-connector is actually muxing DP when HPD changes on either
-> > typec_port. Having a drm_bridge in cros-ec-typec helped here because we
-> > could hook this path and signal HPD if we knew the firmware was fixed.
-> > If we don't have the drm_bridge anymore, I'm lost how to do this.
->
-> It's probably okay to add one, but let me think if we can work without
-> it. Can we make EC driver listen for that single HPD GPIO (by making it
-> an actual GPIO rather than "dp_hot") and then react to it?
-
-I don't know how we handle the attention message, HPD_IRQ, because
-that's a short pulse that the kernel may miss when this is a GPIO that
-has to be triggered when both falling and rising. When the pin goes
-directly to the DP controller this is fine because the hardware can
-detect that. Similarly, when the EC sends the message about an HPD_IRQ
-we can replay that into the type-c framework and signal attention
-through drm_connector_oob_hotplug_event()/hpd_notify() paths.
-
->
-> >
-> > Maybe the right answer here is to introduce a drm_connector_dp_typec
-> > structure that is created by the TCPM (cros-ec-typec) that sets a new
-> > DRM_BRIDGE_OP_DP_TYPEC bridge op flag? And then teach
-> > drm_bridge_connector about this new flag, similar to the HDMI one. The
-> > drm_bridge could implement some function that maps the typec_port
-> > (usb-c-connector) to the upstream drm_bridge (ANX7625) graph port,
-> > possibly all in drm_bridge_connector_oob_hotplug_event() so that nothing
-> > else really changes. It could also let us keep hooking the hpd_notify()
-> > path for the workaround needed on Trogdor. And finally it may let us
-> > harmonize the two DT bindings so that we only have one port@1/endpoint
-> > node in the usb-c-connector.
->
-> I think we have lightly discussed adding drm_connector_displayport, so
-> that part is okay. But my gut feeling is that there should be no _typec
-> part in thart picture. The DRM framework shouldn't need to know all the
-> Type-C details.
->
-
-Alright, got it.

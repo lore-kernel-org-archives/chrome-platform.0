@@ -1,448 +1,153 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EBE1EBFEA
-	for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 14:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35DD1DD9A8
+	for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 21:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730297252; cv=none; b=PziuXdwZLXDn996iwJEFVTIw/lOTB24c35xsV5XQBv2PLhYVQFbOVrcLSsPGobnF0MXnKBNpcjPujBC0LXkI3ZoiZDWGijLsHxepveNrDUySVdTE04+/UOdqxxqJV+/vHjDogTR79uTKJLvFnMjF/WsDUbZjs72RXcpMKOHuPrQ=
+	t=1730323744; cv=none; b=XPv7edYzxp04Hc2CTBdVjCaOy6hvZuhdu4Q81Fit0CRWp4WpFvWqGSLgll10yHqINkiJ4lz9N6q1oylOuRnRpvr/p5fFaCPuY/tSqwqBFxYqq5KdTh5IT8T77T07vS9Q+6YI4QFCUTbIz0x8sDai7RToraqapvM/fNwCag1sTIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730297252; c=relaxed/simple;
-	bh=tS9gZVMo0DMHq5x6JKzaSMafr+QNr2Vf29qkkZ3T8kk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IODrHPRQDS69VtDz8m62K5kGNsOkIG8l8AwHz1uKRlCC5+x9EmV4fZSXgP/CMuMWRFB1N7wE1XInmFj/C/2F25iqPzAYfNo0aVdV5+PWPvIEz59awJ4eF1OM+g2xYStyshsCDJb4q3di5EhoRMMewm7lYWTu/fj5XCjkYGnesxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=SlwVGews; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730323744; c=relaxed/simple;
+	bh=wxnxBHu4Ed5Na+Ptb3g/4nCkQ+VCViGFxWYmFZgvbUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VfkjeSB/El2fCM2lD2XJH4OA6mdZjPUXZTEduKr6ABv7ehAuM5WTFKCC8AvTvxEzKa05xctuw74lBnjsgvfC9qImhKY3yQxi3hajQBgSI5u0HJfT2iKxckwWc/stpIVXr4ZhAN8eXk2NOzm4ZtgiRWdhj8G6zSbL3PUieew3TRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KrzTneCC; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SlwVGews"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9a6acac4c3so1054751966b.0
-        for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 07:07:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KrzTneCC"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2e87153a3so198959a91.3
+        for <chrome-platform@lists.linux.dev>; Wed, 30 Oct 2024 14:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730297244; x=1730902044; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d3cxArx0OrYLp8UXgKhkwUpA9R9yIJJmrM3fLHGs6bM=;
-        b=SlwVGewsQBv4Xq2yZLKm4gjdR33ox9P/Vk7Svc3mlNRd6ghUWqhVc+80qQ+cQ8cdB5
-         J8Nj3g5xZtlspEskLye+W1Vz1IKpto0uTnZ6802Ug/eshGfPlFO2nV3sTp0PQhvCF1pe
-         vKeVmVpcq4Fh0QqYPDVmeEalKq24REyNlVjO5C+gQMQ5EVxF3TqpNp2pj4dOwVK74v1f
-         RmB3tX1qRWkUXzYPh8eIFk2AlFGdbCQ8xqDrNisugx90Cty5emVbE5hJktIIQDAfmltd
-         cmzOTZiraAeTn6Emui/qW1toIuc2QAAaRvROnXogErh0bvzk2wI5iiFn22aFBklkRvr8
-         v+4w==
+        d=chromium.org; s=google; t=1730323742; x=1730928542; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n6BztmXiZQ2WeYemOXUBT7pafeMZTwAZ58FA85PlJ1c=;
+        b=KrzTneCC/arF+GUt9vLjm3KujOpqtdqwi50mC+415rPTspUwo05XE6MjoMpuHRsV1j
+         UhnEbymxAyf/V/H78f5WFI62dybIP5hY7Q0YepoCpVZNgJhOSaO4UdsOEcpOEH4xob2P
+         J8NnFTBZQM4xK5TdbLkfRfQ0ltixLa3p4Jirs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730297244; x=1730902044;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d3cxArx0OrYLp8UXgKhkwUpA9R9yIJJmrM3fLHGs6bM=;
-        b=kZP0EGKEVLb8gygSSn1jPQaODAJNJ9oiGu5tGKJ3hALPyn850yHdc+DhEjHeVegg/9
-         3tAKQeMJ678RpH6zr9E8cl4nD2mY/jKpTYlmmSsBeJT+KH3tQ+3fzmTOZ9xMkfnGFMDD
-         D10v+YFSlHnz0DCiXi4i2vln6qWkfV+SAW/evhmUmu+RkQnp/br9FWckkcNwlZAKCeu6
-         +1i7QIrUtR8ZjLatORKQKq4CAK8DcCtMwaXJKOtEdOWpsMhRQjpfgKW+PjuKSY6G9hSV
-         HWOKxn7TbSuhS/dI/6J3MoAVHEgBrjffZ5Ip9iTQY1DpyH4lzRDZSqtvFsFbxUko61yN
-         Qpvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVA+Pfd1Q3M0Dl8469eJSyXRs8QVfMaH4ktCF+yVre+CcXnKsFN018rMAHXiPHLJtPe2tNazlZR4cMvsd3A9gc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiWOVWtlXneR8k6LKGo4tJHHMOtumBI4ihc8NsvzeMN9pRB2J4
-	DcOXL+8xJn6q1dbcVdQL1UwbNZqnSWVV9lbeldTk/ApIVIWTABXkQBAKzrgGOaUeG6gM8Qb0Tw4
-	rbURgPIJblJ9IHKRHy4mtMhNivRlLFxrBqpULOBWLPo/S2vATGzVD/7tR
-X-Google-Smtp-Source: AGHT+IGV3u/UuhQ7qYwfUMIB7Wlnz7uX1Jfu/zhOoV3oQPhJwcNFJod1TNlqJ635hL/TxLX6CXdp6RLsHBf2SusB9ns=
-X-Received: by 2002:a17:907:7289:b0:a99:fa4e:ba97 with SMTP id
- a640c23a62f3a-a9de5ff9192mr1466264066b.39.1730297244074; Wed, 30 Oct 2024
- 07:07:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730323742; x=1730928542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n6BztmXiZQ2WeYemOXUBT7pafeMZTwAZ58FA85PlJ1c=;
+        b=SIiEYIVJ70gbj7/l+IJUdSc+tnT2YYcw0rSiBWO/QKZDb2r0N9mm3A3d9dmUXa4q7o
+         L5SoT3Cr25HKQ9J8O+LTZGsnu7mUeG3yJ9sPrhkexW6Dry9+R12sIkCFoJ01V8fv5iL+
+         0bj0Uv8CsSKIONxpjZm6Wc8/ZCNvk2iPN1j4ByAQlLcLFcCgoaHHuJv/Z86xMBvS/9jj
+         1m6G/DeXUOFBcX8FgGfLGciok91rBNarTpUWSYbi39p+VQGdbiuUIqXZVJu2h+TjMTRf
+         F00Nzm9v0ntkrXqazcrvRMoNVkEFrIJFs+eQzFpe8NnOYh2olKpZUdAvSahP+j+VfFCd
+         Ujyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUyRSDg1PD64LF5DM+XmYNOGkM5Ua7fpZQCQNlIDt8yDOIwOkLPXFulCNCSVWJLeWtm8y3gyByyRBtbVxv1Y2o=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqLMlZfPlgObUNDyeV+qUfmG/2xNqP8K04WIumMD06R2czFFro
+	4QXqLqhmWuxGk64R5waZI+YXDdGcu5F1zf5aUTDjfQ5H34kfp+63t87R2kONKA==
+X-Google-Smtp-Source: AGHT+IG7EblohsImkgjfBUwOMph15MUH5Nmg3VYhDviXXVfX5hHMHxIMh6cMmhfuonlZYFXq5qcMxw==
+X-Received: by 2002:a17:90a:ac10:b0:2e5:5ff9:bee1 with SMTP id 98e67ed59e1d1-2e8f10a8920mr17943216a91.29.1730323742381;
+        Wed, 30 Oct 2024 14:29:02 -0700 (PDT)
+Received: from localhost (198.103.247.35.bc.googleusercontent.com. [35.247.103.198])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2e92fc008b5sm2353937a91.52.2024.10.30.14.29.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 14:29:01 -0700 (PDT)
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+To: heikki.krogerus@linux.intel.com,
+	tzungbi@kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: dmitry.baryshkov@linaro.org,
+	jthies@google.com,
+	akuchynski@google.com,
+	pmalani@chromium.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] Thunderbolt and DP altmode support for cros-ec-typec
+Date: Wed, 30 Oct 2024 14:28:31 -0700
+Message-ID: <20241030212854.998318-1-abhishekpandit@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241024-iio-fix-write-event-config-signature-v1-0-7d29e5a31b00@baylibre.com>
- <20241024-iio-fix-write-event-config-signature-v1-7-7d29e5a31b00@baylibre.com>
- <20241026135908.092c2736@jic23-huawei>
-In-Reply-To: <20241026135908.092c2736@jic23-huawei>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 30 Oct 2024 15:07:02 +0100
-Message-ID: <CAEHHSvb9syR27k2b9vqm464tTtQqJ+tRZ6A-qYswq4WLfwG2Mg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] iio: fix write_event_config signature
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Anshul Dalal <anshulusr@gmail.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
-	Ramona Gradinariu <ramona.gradinariu@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Dan Robertson <dan@dlrobertson.com>, Marcelo Schmitt <marcelo.schmitt@analog.com>, 
-	Matteo Martelli <matteomartelli3@gmail.com>, 
-	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>, 
-	Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J <jagathjog1996@gmail.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
-	Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Le sam. 26 oct. 2024 =C3=A0 15:00, Jonathan Cameron <jic23@kernel.org> a =
-=C3=A9crit :
->
-> On Thu, 24 Oct 2024 11:11:29 +0200
-> Julien Stephan <jstephan@baylibre.com> wrote:
->
-> > write_event_config callback use an int for state, but it is actually a
-> > boolean. iio_ev_state_store is actually using kstrtobool to check user
-> > input, then gives the converted boolean value to write_event_config.
-> >
-> > Fix signature and update all iio drivers to use the new signature.
-> >
-> > This patch has been partially written using coccinelle with the
-> > following script:
-> >
-> > $ cat iio-bool.cocci
-> > // Options: --all-includes
-> >
-> > virtual patch
-> >
-> > @c1@
-> > identifier iioinfo;
-> > identifier wecfunc;
-> > @@
-> >  static const struct iio_info iioinfo =3D {
-> >         ...,
-> >         .write_event_config =3D
-> > (
-> >  wecfunc
-> > |
-> >  &wecfunc
-> > ),
-> >         ...,
-> >  };
-> >
-> > @@
-> > identifier c1.wecfunc;
-> > identifier indio_dev, chan, type, dir, state;
-> > @@
-> >  int wecfunc(struct iio_dev *indio_dev, const struct iio_chan_spec *cha=
-n, enum iio_event_type type, enum iio_event_direction dir,
-> > -int
-> > +bool
-> >  state) {
-> >   ...
-> >  }
-> >
-> > make coccicheck MODE=3Dpatch COCCI=3Diio-bool.cocci M=3Ddrivers/iio
-> >
-> > Unfortunately, this script didn't match all files:
-> > * all write_event_config callbacks using iio_device_claim_direct_scoped
-> >   were not detected and not patched.
-> > * all files that do not assign and declare the write_event_config
-> >   callback in the same file.
-> >
-> > iio.h was also manually updated.
-> >
-> > The patch was build tested using allmodconfig config.
-> >
-> > cc: Julia Lawall <julia.lawall@inria.fr>
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
->
-> Hi Julien,
->
-> It's a nice cleanup, but the challenge of this sort of change is the odd =
-ways
-> various drivers use what you are changing.
->
-> So ever single case needs close inspection.  I took a fairly broad look a=
-t it and there
-> is at least one case that I think is broken by the change :(
-> + a bunch of others where the result needs tidying up to not end up confu=
-sing.
->
->
 
-Hi Jonathan,
+Hi Heikki, Tzung-Bi et al,
 
-I apologize for missing some cleanup in a few callbacks. Thank you for
-pointing it out. I=E2=80=99ll send a v2 with these updates.
+This patch series adds support for alternate mode entry for the
+cros-ec-typec driver for Displayport and Thunderbolt.
 
-Cheers
-Julien
+Thunderbolt support is added by adapting an RFC Heikki had posted
+previously:
 
-> Jonathan
->
-> > diff --git a/drivers/iio/accel/adxl380.c b/drivers/iio/accel/adxl380.c
-> > index 9f6f0a45efce7981736c3a8f005f4fef83f05cfd..5d2bda1a6a783c3f5bf6dfa=
-6830bc80cc7055e01 100644
-> > --- a/drivers/iio/accel/adxl380.c
-> > +++ b/drivers/iio/accel/adxl380.c
-> > @@ -1386,7 +1386,7 @@ static int adxl380_write_event_config(struct iio_=
-dev *indio_dev,
-> >                                     const struct iio_chan_spec *chan,
-> >                                     enum iio_event_type type,
-> >                                     enum iio_event_direction dir,
-> > -                                   int state)
-> > +                                   bool state)
-> >  {
-> >       struct adxl380_state *st =3D iio_priv(indio_dev);
-> >       enum adxl380_axis axis;
->
->
->
->
-> > diff --git a/drivers/iio/accel/mma9551.c b/drivers/iio/accel/mma9551.c
-> > index fa1799b0b0dff35ccd811c4abee3883249c184da..0656e35a1c4e5c1268a4bbf=
-7011fd9282053dbbf 100644
-> > --- a/drivers/iio/accel/mma9551.c
-> > +++ b/drivers/iio/accel/mma9551.c
-> > @@ -225,7 +225,7 @@ static int mma9551_write_event_config(struct iio_de=
-v *indio_dev,
-> >                                     const struct iio_chan_spec *chan,
-> >                                     enum iio_event_type type,
-> >                                     enum iio_event_direction dir,
-> > -                                   int state)
-> > +                                   bool state)
-> >  {
-> >       struct mma9551_data *data =3D iio_priv(indio_dev);
-> >       int ret;
->
-> Good to push down into functions called.
->
-> > diff --git a/drivers/iio/accel/sca3000.c b/drivers/iio/accel/sca3000.c
-> > index 87c54e41f6ccd2f9311653b757b2d794df1dd5d4..36cbfcbba04d6920ba68beb=
-d70d21bc3898a044d 100644
-> > --- a/drivers/iio/accel/sca3000.c
-> > +++ b/drivers/iio/accel/sca3000.c
-> > @@ -1253,7 +1253,7 @@ static int sca3000_write_event_config(struct iio_=
-dev *indio_dev,
-> >                                     const struct iio_chan_spec *chan,
-> >                                     enum iio_event_type type,
-> >                                     enum iio_event_direction dir,
-> > -                                   int state)
-> > +                                   bool state)
-> >  {
-> >       struct sca3000_state *st =3D iio_priv(indio_dev);
-> >       int ret;
-> Good to push down the state into the functions called.
->
-> > diff --git a/drivers/iio/imu/bmi323/bmi323_core.c b/drivers/iio/imu/bmi=
-323/bmi323_core.c
-> > index 1e6c083ea5c1bbddb878f08cd4f4be725c0e319f..76a88e1ccc1d89988eb52d6=
-b1be8da0f5005f0e6 100644
-> > --- a/drivers/iio/imu/bmi323/bmi323_core.c
-> > +++ b/drivers/iio/imu/bmi323/bmi323_core.c
-> > @@ -785,7 +785,7 @@ static const struct attribute_group bmi323_event_at=
-tribute_group =3D {
-> >  static int bmi323_write_event_config(struct iio_dev *indio_dev,
-> >                                    const struct iio_chan_spec *chan,
-> >                                    enum iio_event_type type,
-> > -                                  enum iio_event_direction dir, int st=
-ate)
-> > +                                  enum iio_event_direction dir, bool s=
-tate)
-> >  {
-> >       struct bmi323_data *data =3D iio_priv(indio_dev);
-> >
-> Mix of types used to store state. Would be good to chase the boolean thou=
-gh. But no
-> need to do that for this series.
->
->
->
-> > diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio=
-/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > index fb4c6c39ff2e157593f02513cc8e01cd7eea9bdf..caefa15e559b8808051ff1c=
-7f82c3f36c947933c 100644
-> > --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > @@ -1959,7 +1959,7 @@ static int
-> >  st_lsm6dsx_write_event_config(struct iio_dev *iio_dev,
-> >                             const struct iio_chan_spec *chan,
-> >                             enum iio_event_type type,
-> > -                           enum iio_event_direction dir, int state)
-> > +                           enum iio_event_direction dir, bool state)
-> >  {
-> >       struct st_lsm6dsx_sensor *sensor =3D iio_priv(iio_dev);
-> >       struct st_lsm6dsx_hw *hw =3D sensor->hw;
-> state is stored in a mix of bool and int in this driver. Might be a nice =
-to cleanup
-> thing but not strictly part of what you are doing here.
->
-> > diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.=
-c
-> > index 2e0170be077aef9aa194fab51afbb33aec02e513..a36cdad113f774ef8733eb1=
-aaef0f87d5d2532f1 100644
-> > --- a/drivers/iio/light/adux1020.c
-> > +++ b/drivers/iio/light/adux1020.c
-> > @@ -502,7 +502,8 @@ static int adux1020_write_raw(struct iio_dev *indio=
-_dev,
-> >  static int adux1020_write_event_config(struct iio_dev *indio_dev,
-> >                                      const struct iio_chan_spec *chan,
-> >                                      enum iio_event_type type,
-> > -                                    enum iio_event_direction dir, int =
-state)
-> > +                                    enum iio_event_direction dir,
-> > +                                    bool state)
->
-> This one is a bug, because state is used as an intermediate for other stu=
-ff.
-> Bad code, but needs fixing before you can do this.
->
-> >  {
-> >       struct adux1020_data *data =3D iio_priv(indio_dev);
-> >       int ret, mask;
-> > diff --git a/drivers/iio/light/apds9300.c b/drivers/iio/light/apds9300.=
-c
-> > index 11f2ab4ca261813aff04b8c25d4595a531fb43cb..95861b2a5b2d94011d89495=
-9289c5c4f06cc1efe 100644
-> > --- a/drivers/iio/light/apds9300.c
-> > +++ b/drivers/iio/light/apds9300.c
-> > @@ -321,7 +321,7 @@ static int apds9300_read_interrupt_config(struct ii=
-o_dev *indio_dev,
-> >
-> >  static int apds9300_write_interrupt_config(struct iio_dev *indio_dev,
-> >               const struct iio_chan_spec *chan, enum iio_event_type typ=
-e,
-> > -             enum iio_event_direction dir, int state)
-> > +             enum iio_event_direction dir, bool state)
-> >  {
-> >       struct apds9300_data *data =3D iio_priv(indio_dev);
-> >       int ret;
-> Tidying up the interrupt state to all be tracked with a bool in here woul=
-d make this better, but
-> not strictly related to what you have here.
->
-> > diff --git a/drivers/iio/light/apds9306.c b/drivers/iio/light/apds9306.=
-c
-> > index 079e02be1005210ddd30b384ffa1ff7feeb098d7..8adc74040db2bddf93fbb77=
-3e3519abcc726b9a6 100644
-> > --- a/drivers/iio/light/apds9306.c
-> > +++ b/drivers/iio/light/apds9306.c
-> > @@ -1071,7 +1071,7 @@ static int apds9306_write_event_config(struct iio=
-_dev *indio_dev,
-> >                                      const struct iio_chan_spec *chan,
-> >                                      enum iio_event_type type,
-> >                                      enum iio_event_direction dir,
-> > -                                    int state)
-> > +                                    bool state)
-> >  {
-> >       struct apds9306_data *data =3D iio_priv(indio_dev);
-> >       struct apds9306_regfields *rf =3D &data->rf;
-> This has a rather silly regmap_field_write() related if statement you cou=
-ld clean up but
-> that's an optional extra.
->
-> > diff --git a/drivers/iio/light/apds9960.c b/drivers/iio/light/apds9960.=
-c
-> > index 3a56eaae5a68f2891d061871c7013f0b5447bb47..a7f0cc99f236685900f89fb=
-c48de3be0e9a40704 100644
-> > --- a/drivers/iio/light/apds9960.c
-> > +++ b/drivers/iio/light/apds9960.c
-> > @@ -757,7 +757,7 @@ static int apds9960_write_event_config(struct iio_d=
-ev *indio_dev,
-> >                                      const struct iio_chan_spec *chan,
-> >                                      enum iio_event_type type,
-> >                                      enum iio_event_direction dir,
-> > -                                    int state)
-> > +                                    bool state)
-> >  {
-> >       struct apds9960_data *data =3D iio_priv(indio_dev);
-> >       int ret;
-> Should change type of pxs_int etc to bool.
->
->
->
-> > diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
-> > index ff6b5d8b582b33eba60b769dff529caa00fb7244..b67c811cdf54af8de3dec3e=
-1713a41312fb238d4 100644
-> > --- a/drivers/iio/light/ltr390.c
-> > +++ b/drivers/iio/light/ltr390.c
-> > @@ -553,7 +553,7 @@ static int ltr390_write_event_config(struct iio_dev=
- *indio_dev,
-> >                               const struct iio_chan_spec *chan,
-> >                               enum iio_event_type type,
-> >                               enum iio_event_direction dir,
-> > -                             int state)
-> > +                             bool state)
-> >  {
-> >       struct ltr390_data *data =3D iio_priv(indio_dev);
-> >       int ret;
->
-> See review of patch 2.
->
->
->
-> > diff --git a/drivers/iio/light/tsl2772.c b/drivers/iio/light/tsl2772.c
-> > index cab468a82b616a23394977da1d8822d29d8941d3..13086048ee5ffae77c26db8=
-cbd3cb7002e1a72e2 100644
-> > --- a/drivers/iio/light/tsl2772.c
-> > +++ b/drivers/iio/light/tsl2772.c
-> > @@ -1081,7 +1081,7 @@ static int tsl2772_write_interrupt_config(struct =
-iio_dev *indio_dev,
-> >                                         const struct iio_chan_spec *cha=
-n,
-> >                                         enum iio_event_type type,
-> >                                         enum iio_event_direction dir,
-> > -                                       int val)
-> > +                                       bool val)
-> >  {
-> >       struct tsl2772_chip *chip =3D iio_priv(indio_dev);
-> >
->
-> val ? true : false
-> in here should go.
->
-> > diff --git a/drivers/iio/proximity/hx9023s.c b/drivers/iio/proximity/hx=
-9023s.c
-> > index d8fb34060d3db88a3ba5ecdc209b14be8e42e8b9..8c2f1cf062033dd8580f8f7=
-5649543289fbf9fb7 100644
-> > --- a/drivers/iio/proximity/hx9023s.c
-> > +++ b/drivers/iio/proximity/hx9023s.c
-> > @@ -874,7 +874,7 @@ static int hx9023s_write_event_config(struct iio_de=
-v *indio_dev,
-> >                                     const struct iio_chan_spec *chan,
-> >                                     enum iio_event_type type,
-> >                                     enum iio_event_direction dir,
-> > -                                   int state)
-> > +                                   bool state)
-> >  {
-> >       struct hx9023s_data *data =3D iio_priv(indio_dev);
-> Has a !!state that should go.
-> >
-> > diff --git a/drivers/iio/proximity/irsd200.c b/drivers/iio/proximity/ir=
-sd200.c
-> > index 6e96b764fed8b577d71c3146210679b0b61d4c38..eded45a778737a699f8b69a=
-d86a9909594e04b32 100644
-> > --- a/drivers/iio/proximity/irsd200.c
-> > +++ b/drivers/iio/proximity/irsd200.c
-> > @@ -648,7 +648,8 @@ static int irsd200_read_event_config(struct iio_dev=
- *indio_dev,
->
-> This has a !!state that should go.
->
-> >  static int irsd200_write_event_config(struct iio_dev *indio_dev,
-> >                                     const struct iio_chan_spec *chan,
-> >                                     enum iio_event_type type,
-> > -                                   enum iio_event_direction dir, int s=
-tate)
-> > +                                   enum iio_event_direction dir,
-> > +                                   bool state)
-> >  {
-> >       struct irsd200_data *data =3D iio_priv(indio_dev);
-> >       unsigned int tmp;
-> > diff --git a/drivers/iio/proximity/sx9500.c b/drivers/iio/proximity/sx9=
-500.c
-> > index 3f4eace05cfc6a4679fe82854dc059aa4a710d6d..e7da02c59b753158c30c747=
-3bdeea8886a2977a3 100644
-> > --- a/drivers/iio/proximity/sx9500.c
-> > +++ b/drivers/iio/proximity/sx9500.c
-> > @@ -540,7 +540,7 @@ static int sx9500_write_event_config(struct iio_dev=
- *indio_dev,
-> >                                    const struct iio_chan_spec *chan,
-> >                                    enum iio_event_type type,
-> >                                    enum iio_event_direction dir,
-> > -                                  int state)
-> > +                                  bool state)
-> >  {
-> This one treats state as an integer.  We should change that before applyi=
-ng this patch.
->
-> >       struct sx9500_data *data =3D iio_priv(indio_dev);
-> >       int ret;
+https://lore.kernel.org/linux-usb/20191230152857.43917-1-heikki.krogerus@linux.intel.com/
+
+A few comments on the series:
+
+* The cros-ec interface will not accept any VDOs/VDMs so we simply
+  ignore any configurations we are passed (i.e. DPConfigure). This means
+  the sysfs control of DP lanes won't work.
+* ChromeOS has two modes of operation for alt-modes: entirely EC driven
+  or AP-driven from userspace (via the typec daemon). Thus, we don't
+  expect the kernel alt-mode drivers to auto-enter modes in all cases.
+  This series allows auto-enter for displayport but disables it for TBT
+  for this reason.
+
+This was tested with a ChromeOS Brya device using kernel 6.6 and built
+with allmodconfig for linux-usb.
+
+Thanks,
+Abhishek
+
+Changes in v2:
+- Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+- Pass struct typec_thunderbolt_data to typec_altmode_notify
+- Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+- Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+- Change module license to GPL due to checkpatch warning
+- Update altmode_match to ignore mode entirely
+- Also apply the same behavior to typec_match
+- Refactored displayport into cros_typec_altmode.c to extract common
+  implementation between altmodes
+- Refactored thunderbolt support into cros_typec_altmode.c
+- Only disable auto-enter for Thunderbolt
+- Update commit message to clearly indicate the need for userspace
+  intervention to enter TBT mode
+
+Abhishek Pandit-Subedi (6):
+  usb: typec: Only use SVID for matching altmodes
+  usb: typec: Auto enter control for alternate modes
+  platform/chrome: cros_ec_typec: Update partner altmode active
+  platform/chrome: cros_ec_typec: Displayport support
+  platform/chrome: cros_ec_typec: Thunderbolt support
+  platform/chrome: cros_ec_typec: Disable tbt auto_enter
+
+Heikki Krogerus (1):
+  usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+
+ Documentation/ABI/testing/sysfs-bus-typec    |   9 +
+ MAINTAINERS                                  |   3 +
+ drivers/platform/chrome/Makefile             |   3 +-
+ drivers/platform/chrome/cros_ec_typec.c      |  56 ++-
+ drivers/platform/chrome/cros_ec_typec.h      |   1 +
+ drivers/platform/chrome/cros_typec_altmode.c | 362 +++++++++++++++++++
+ drivers/platform/chrome/cros_typec_altmode.h |  48 +++
+ drivers/usb/typec/altmodes/Kconfig           |   9 +
+ drivers/usb/typec/altmodes/Makefile          |   2 +
+ drivers/usb/typec/altmodes/displayport.c     |   6 +-
+ drivers/usb/typec/altmodes/thunderbolt.c     | 309 ++++++++++++++++
+ drivers/usb/typec/bus.c                      |   3 +-
+ drivers/usb/typec/class.c                    |  33 +-
+ include/linux/usb/typec.h                    |   2 +
+ include/linux/usb/typec_altmode.h            |   2 +
+ include/linux/usb/typec_tbt.h                |   3 +-
+ 16 files changed, 830 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
+ create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+
+-- 
+2.47.0.163.g1226f6d8fa-goog
+

@@ -1,113 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F5C49641
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 14:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A6819F108
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730385192; cv=none; b=ihwhHeCc20TED5jyfxjC5atrSkCCe8o7xcMaqS2r1nlDkQj/Ii/4Yh61f6ZJEoo8u9yXW3A0J5RlKrPFS1n5EtAT4bmFhKb5IV4ocQI9faXD1g5FkEmxHfujPCrlJQofQ/8D9wZ6TU3rx1WwFVMpZ43ilzKbaebDq5TVBiIeRrI=
+	t=1730388432; cv=none; b=oJiZZFTqm9PFScJka27oJA9PdtUgvwHfTG0yI0G+guqCMTLDQC0ULFVP44cV6KDO50Fw94guJ0e9NBwV8WX1PrgcFByUh3YQRMEuOfGnVFtlKN/2viC7p1Fc5axwdU8eOmnUKwv1kKEWBdNpw6p66W9bBwNANb+1VqttnYxcpC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730385192; c=relaxed/simple;
-	bh=ynPJoLvXglmyEg/wsGynZevUE2X2f/JoNLwfJ1zvlCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6am7neuXrpaBr9YWm4fd6R6fIIMh7yfVE4OIUkvSBuKhBQlzhZsZc84ZOxCipxX06BYhOPUDakO30orJIdP0fIHpLGTOC6zFqw2kwrNrvS7QUGERZ977lfnVLc3+46qj++BdIDa2MoXxbQQ270AlNkCMpppAQgGGGM6i7PDxEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUxE6R6l; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730388432; c=relaxed/simple;
+	bh=9Vut/pZkI5+AeeMHTIj9VcCeQDmGl/kfwkk4LjEpZe0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=M62nkUSb1bUllkEmw1fJYVmAhK9mP+EUb2JL2y9ytaiP52zczrVThmEgpL+d9OpWCWgHKRWSOu4ufX4pfofjL689Ivi9CK91irmrNBnac2mD+5UKCeMEur7vxXmC3Sn59dySNow//gVGLtczNWrzHBqxzSn+L01sWJZ1gYSp+mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=anE6MkJz; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUxE6R6l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730385190; x=1761921190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ynPJoLvXglmyEg/wsGynZevUE2X2f/JoNLwfJ1zvlCg=;
-  b=mUxE6R6lPriGl2JQ0aUchsY6TMWsqKFBieWgJFb0fkdM3r42F5kdxHdj
-   GRIj6IE8MKsONkdRNcxK/aGSkTFGBPsKloj/AOgQ8IVYH7WqTVWYpfriE
-   zp0WqLoYdOEVPXDY7YiPcCrTd4UP5X+dwZhr03exzhLCQsiGH3YkkU1xR
-   RZSLpm+wgDUrCf6220zAJAExxKahd2Kqmfu37MK316SBV+3KFZWk3mjXZ
-   ww9G2h2cG8CF76THY3QVBVNX8Ezb3eWVqCKctSj0ybIjnWzc7sMYJmobC
-   C3T5PRzcQt0kzc8mXTe1AaD8a0UMJUdlFmUOM3qiSFkaS0rC7LIslVLJg
-   A==;
-X-CSE-ConnectionGUID: 7gj6fb1kTDGSn9/1mJ0a2Q==
-X-CSE-MsgGUID: /A6ZNwnXR3qZj4nfvEzg/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41492946"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="41492946"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 07:33:09 -0700
-X-CSE-ConnectionGUID: 7RIA3JY0S6ih93TR62tj0Q==
-X-CSE-MsgGUID: axgnRfM8SoyjurbkOhcMdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="87778818"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa004.jf.intel.com with SMTP; 31 Oct 2024 07:33:05 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 31 Oct 2024 16:33:04 +0200
-Date: Thu, 31 Oct 2024 16:33:04 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org,
-	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
-Message-ID: <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com>
-References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="anE6MkJz"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d49a7207cso770161f8f.0
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388429; x=1730993229; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5q6n3vif9yRqdpFEirWIbpqWZyq5PPsTaLuK/TXVuwM=;
+        b=anE6MkJzTqLg8RnJfafdV5UXdCwnblyutUtkHTc8Dq1aWsNUcxTCb9LDTWzQMhx940
+         go499SQqsdNKe0oFubdokf6PaeuH8OiK3mDNQ2s+t8EUNqo1btREjtu9gLIkM73+SfpK
+         eDvGAbtZ2Z2j0qJdmE/TKgYYvh4MsfHDxTb54sR3vJpauhe5nr8tIx3FHTJ1lPR/L2yD
+         Q7DMstN0A6NOwYbAwHadZeszYh8a5FMcX50AISCYBLaBSRrCNOtyseqwBC9YclWHT2Py
+         lvJr2Yij3CH429I2e+W485UG2DUHhK9eoA+qtGbXYHWu3kQ+KtaGaNLrKq7PZnHKQXyg
+         MGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730388429; x=1730993229;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5q6n3vif9yRqdpFEirWIbpqWZyq5PPsTaLuK/TXVuwM=;
+        b=g06cQNz1fktdxtdNcRW293ZbJmCOI4GyTC6nkMt6Q4UJWjh+8PFzApYpc8xR9FeIkd
+         wQg3loI1FUqfG3Asl6sa1MuAn1Q74KPG2niatpzctK/PqPAcYknRVHQ/XCrp+xHH1Wt/
+         5QxbBvx4cBOGZQqhdt/CqIzSPyt00rvQ0FmRa3dPc/kxHnhVbOFMqjInUXAx51OtYgE/
+         KFdgENBGWeSf1Wa8jl+2uWVlkSz69Nu9nxL2kfLOqEoclLPIITBtyRTwEYVawDhYvvPl
+         KIci3KvyZql5GXLA7uombga3ZBkx4Wz/SUP8g0E0zTBrjIX0B0r3ceJBtViqj0VK9ufu
+         kuCA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2GRSfYxb0d4DwxNmuCH+RgHdUQPzFWLixN1eoCD0LmZEXgD/YlM+aKxkaoc9mrL4PBe9dvFnPQPHb+KAVV80=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnQdZMmLeNmL2qQO9+5J2HFzmvJLr2jzpGEDMy6idbEM0LedWB
+	i+WPh1ldBdRc7MjrFpGM+0oHvTNfhourqGx60fJrDkqZqy1vv99IBvh5xr6Sdxw=
+X-Google-Smtp-Source: AGHT+IGaw7tHL795rWp+9Pukkty49eWxvccjSs+5mhazyr072wPwTV8LiZfSVUziuIlxxgcHMJ0lWw==
+X-Received: by 2002:a05:6000:1569:b0:37d:5103:8894 with SMTP id ffacd0b85a97d-381c7aa4a56mr334756f8f.42.1730388428718;
+        Thu, 31 Oct 2024 08:27:08 -0700 (PDT)
+Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 08:27:08 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Thu, 31 Oct 2024 16:26:56 +0100
+Subject: [PATCH v2 01/15] iio: light: ltr390: simplify code in
+ write_event_config callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241031-iio-fix-write-event-config-signature-v2-1-2bcacbb517a2@baylibre.com>
+References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+To: Mudit Sharma <muditsharma.info@gmail.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Anshul Dalal <anshulusr@gmail.com>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
+ Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+ Ramona Gradinariu <ramona.gradinariu@analog.com>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Dan Robertson <dan@dlrobertson.com>, 
+ Marcelo Schmitt <marcelo.schmitt@analog.com>, 
+ Matteo Martelli <matteomartelli3@gmail.com>, 
+ Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, 
+ Michal Simek <michal.simek@amd.com>, 
+ Mariel Tinaco <Mariel.Tinaco@analog.com>, 
+ Jagath Jog J <jagathjog1996@gmail.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
+ Kevin Tsai <ktsai@capellamicro.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
+ Julien Stephan <jstephan@baylibre.com>
+X-Mailer: b4 0.14.2
 
-On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrote:
-> Add controls for whether an alternate mode is automatically entered when
-> a partner connects. The auto_enter control is only available on ports
-> and applies immediately after a partner connects. The default behavior
-> is to enable auto enter and drivers must explicitly disable it.
-> 
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> ---
-> 
-> (no changes since v1)
-> 
->  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
->  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
->  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
->  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++++++
->  include/linux/usb/typec.h                 |  2 ++
->  include/linux/usb/typec_altmode.h         |  2 ++
->  6 files changed, 50 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentation/ABI/testing/sysfs-bus-typec
-> index 205d9c91e2e1..f09d05727b82 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-typec
-> +++ b/Documentation/ABI/testing/sysfs-bus-typec
-> @@ -12,6 +12,15 @@ Description:
->  
->  		Valid values are boolean.
->  
-> +What:		/sys/bus/typec/devices/.../auto_enter
-> +Date:		September 2024
-> +Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> +Description:
-> +		Controls whether a mode will be automatically entered when a partner is
-> +		connected.
-> +
-> +		This field is only valid and displayed on a port. Valid values are boolean.
+iio_ev_state_store is actually using kstrtobool to check user
+input, then gives the converted boolean value to the write_event_config
+callback.
 
-So, why can't this be controlled with the "active" property of the
-port altmode instead? That's why it's there.
+Remove useless code in write_event_config callback.
 
-Sorry if I missed something in v1 related to this question.
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ drivers/iio/light/ltr390.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-thanks,
+diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
+index 8e0a3fc3d923a6f65d2a629c87e7bfd35d82a507..3bdffb6360bcbaab4df1a2d39c8ea3813b5d6bd3 100644
+--- a/drivers/iio/light/ltr390.c
++++ b/drivers/iio/light/ltr390.c
+@@ -558,10 +558,7 @@ static int ltr390_write_event_config(struct iio_dev *indio_dev,
+ 	struct ltr390_data *data = iio_priv(indio_dev);
+ 	int ret;
+ 
+-	if (state != 1  && state != 0)
+-		return -EINVAL;
+-
+-	if (state == 0)
++	if (!state)
+ 		return regmap_clear_bits(data->regmap, LTR390_INT_CFG, LTR390_LS_INT_EN);
+ 
+ 	guard(mutex)(&data->lock);
 
 -- 
-heikki
+2.47.0
+

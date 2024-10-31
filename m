@@ -1,60 +1,61 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07D9127B56
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2121A2554
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730388433; cv=none; b=pmDOooHd/lXp8hHju8CjpcMh0/Pz0V8rYzj5Ah7sAgJIX7NUumPv69Mb5xcOO+mR6dalPtv8n3j94j9QD+bwJzMPTA4kuLcnn1+tkG/+AlilCfPihR7HByBfpnO8MPcZOMKqfdW9mvWKl63kOrfpM4s2QxANR5zTfem68oROupU=
+	t=1730388434; cv=none; b=i0fVUgrr9Fuck/iRdZmN4IoRqI/22UXGepOcSirinAdUtDJp6dGiyo9hiVrqdtd7qdvo3vub4wHKI/RzFdznu6wDVJkdF0EAbHM6DSVp1WjMUL0tzf8sygOkCQKhSHxTO7hgzCKsgmR6llJAKsFE1rMKLvsiqQrivDETMWlSjBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730388433; c=relaxed/simple;
-	bh=f1d8I7fA7sw+sUfmK05uH6O9ujVnIEfnleGw3Ox4pGs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tUiYR5dYXA43j84kMQ5OaGGWnUBc+iCr+hE6Co7d1kr8oLGiGhG8WxMUqbn/yhiHZYrds1Auf9OK1gF4iZYqBeFWR6waFGu/lpqEd4r7iH8wxV/DIn7hAUDFa2FlTB5hadA5V5TARK73NjA75pEz7JcjY+KyqZVkocGXJ24iX9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ucNDb6bi; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1730388434; c=relaxed/simple;
+	bh=mCLydiA0KKmrbPKui9elDYVWFMJ0Mv3IrFxNpz1HNfo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=S8NpF/ChjuJwN8Sx1ICLSfbr0YAEPQlC8O4ONU7kb3Wel6JurFw1EEBlrM96z3d2lWdwe+BAl0QKS8FSCtUU1plRBwr0r6wErsH5rZTO+a1tX3kVA3/dS1SVZu87uX2fo4ynN/XFQ6OWgx6zWfV6eDpaltiH4V1CrYBpchCyZTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZN6J+OUu; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ucNDb6bi"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-37d63a79bb6so733110f8f.0
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZN6J+OUu"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so1256733e87.1
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388428; x=1730993228; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0WwNTu1vlvbHuN9HbKDO0xkQz2gUitr+1C+jlofiLKI=;
-        b=ucNDb6bij/vmxW1BZzuanzPzCXHRLzPplLu5CYRY3j32LQnlaYLnBQY6wts6wMnent
-         bnUsofBwKeJo8QfVRvWGrR4FLzeptK2nppLXgC1+/lPTZa+pPqw45wsuXCfZ4PVu/0Uy
-         C3o1d4a7kOJ8LMM1yakcHT9mxeYNaO7A/QI9q0c5BwHef2wVHzpFO5qV/hiQR3UC0B/K
-         kO3Tk72pEhu7BaV9Qr+NFgueeOlT5X8E4LTRn5S0Ac8WKk9nd8CATQdrVua/zonOM9Cn
-         rZOnoHqXuLXF2jcki4kUI523/VYYyUyPFsL6hID6J8mogPZZupjthsaNiFKzeITmwiGU
-         gJJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730388428; x=1730993228;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388430; x=1730993230; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0WwNTu1vlvbHuN9HbKDO0xkQz2gUitr+1C+jlofiLKI=;
-        b=iKlj7g8DyftE02bAdQ6ptgzejGyP4N7YM+Zmyzi4i1Oi5FCEnbd6UsDt+YyB259GnC
-         T1aTrg/xwPg9XBXPiZoqgSJ4SmFaY7MVmtLxWu4HVtkFjOTOvVlLPIWpMpBbB2IIWMki
-         Ngote6iY1AiCObR9+8lB/GqMS0qYaRkDK5ioua2EmUzEjL6jJxiwA5BQSJM3PA93N4VJ
-         WupyANKho7cglDK0+oXbIIu90Jrt2shcm8Hj/Isfjsndz3Ye8XhpP5UsWjijlfqn0Afw
-         j1w+9KaoZdES2nIDDel5gPAIB/xybvBo/+AE5GSZImEW8YAIGIXJDUDWj3RM92rI6ak0
-         cppg==
-X-Forwarded-Encrypted: i=1; AJvYcCXeZemp5L4Wquaahzagaez4SiY+nfKnzZ/euSZKQasmpnFungxNhBj6FrrqYWr+h6zEG1wj3Sv8r5cMvcoP9Es=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUoV89Y1Kz+AbDYKzD4RZy9euc00lYwLDLYMiYzWTV6LDK8GFF
-	oC5biXBS5uDiS2aSB7j8P7TfeqytE+KL3tCfzqiBXWEWKESqHx7TMCy7Rx9A7sKuKwL6ZxTSaaR
-	BG7pdag==
-X-Google-Smtp-Source: AGHT+IFb1d7/9RTsGMROhFf+wqRTbx7hjNdlDFSlqM1RaxGhrI/oNHTEKXbi327qzy4zNRL3SmwMYg==
-X-Received: by 2002:a05:6000:1888:b0:37d:50e1:a2c1 with SMTP id ffacd0b85a97d-381bea1bf05mr3054559f8f.46.1730388427847;
-        Thu, 31 Oct 2024 08:27:07 -0700 (PDT)
+        bh=6eDKpTruMZP+IxXjbPpb2d8Qn7H2+5jIQszhP7gdxmg=;
+        b=ZN6J+OUuV9O1c4aNudJ7qkra4m8aNM0zq9OyQVmbfTWFNmhiatXUpGsV6euw2SuPHv
+         VMqr9dV47b6MEcxh2NhZdbvIiQ/P3ynGnnuCLq8T4m4tjYdKzupt3CEWmi3rn5bDWzq4
+         xsM/Uuy2OSLwTW4X0qlDTTN7x96RAaniUIYnubbbt9Xq63gZ2PCUFAvO9RKKA6t5tCR3
+         fx1OvH4w5UBqz4neQJjtEJi3Mt5PkqKEHnsGbTbnzJsmfV+g1FWyOym+2c8LCcjEjYlE
+         MtJZGPvA80iew/wtjbOaCpYjpqKzjlo11A3t+36mRLreMReegb1IKZf1C1eW6i5PsWdW
+         2aJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730388430; x=1730993230;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6eDKpTruMZP+IxXjbPpb2d8Qn7H2+5jIQszhP7gdxmg=;
+        b=BTwZ5nxqeO1DmUReAoPa/UKFKinxtw06lIkkEUxIYOw7c3AKC36iIZLbtNcHGebBp6
+         G4xSy51YYRGtBe8atUU64yGC8l+d2wFQs06jt3CBGlOtZmAwcEHfVsYPemMOKvSE0d0l
+         K0BjiqOl8F/SIgZtOEhoSFddX8Qo6vbb7tI3vcQDivK6krQCO08x7O5vRbSUXkVnxDFM
+         pASRaSop/QlhI/SkXoQg+TyipWQ/eQ9hpTV0ekXzOQRiHTlOh0dHK49V5J8OZPiIT6L4
+         yTZWwqKOalayb5uRrvxGrWCZKohae0glpQ36kPN+LBJyn3RVxyByN1WGE+viWPvU2bYS
+         8Z/A==
+X-Forwarded-Encrypted: i=1; AJvYcCWVxj3zBJBOR1SRYHcxnevZPHdJmceOuQl1nnDveol/IimVGxZtthGJbe8sAJFHkFYSMvizisMJyXG3a58GkXI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxM2dDr2WUkOEhdLaRYp5w+XG5laIUBsPXPXage0YAY01S/mhdW
+	TXNyuR1ixB91MqeU5NVEQ2FNDJE7zf9RGSkJp3/O05K+qY/GckO/j0vXrDemgpk=
+X-Google-Smtp-Source: AGHT+IGjr93P1e7lz+9DxAcqNxw0ZM4hWmcWRfsYdyiLlzZAFmm8L5DUz7on0ZrmWR0iZ8h9Nc8dCg==
+X-Received: by 2002:a05:6512:3ca2:b0:539:f699:bb29 with SMTP id 2adb3069b0e04-53b348c8d6fmr8574506e87.15.1730388429624;
+        Thu, 31 Oct 2024 08:27:09 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 08:27:07 -0700 (PDT)
+        Thu, 31 Oct 2024 08:27:09 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 00/15] iio: fix write_event_config signature
-Date: Thu, 31 Oct 2024 16:26:55 +0100
-Message-Id: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+Date: Thu, 31 Oct 2024 16:26:57 +0100
+Subject: [PATCH v2 02/15] iio: proximity: hx9023s: simplify code in
+ write_event_config callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,11 +64,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL+hI2cC/43PwQ7CIAyA4VcxnK0BtsXoyfcwOwwoWxMFBYYuy
- 95dnHr3+Ddpv3RmEQNhZMfNzAJmiuRdCbndMD10rkcgU5pJLmvBZQVEHiw94REoIWBGl0B7Z6m
- HSL3r0hgQhNLCNtIaNJaVU7eAZWdlzm3pgWLyYVrVLN7TH1D/B2QBHPZGHrDpKqE4P6luupAKu
- NP+ytrlgwa8j+Wl9JWX5QVpKE728AAAAA==
-X-Change-ID: 20241023-iio-fix-write-event-config-signature-1bc1f52fdedf
+Message-Id: <20241031-iio-fix-write-event-config-signature-v2-2-2bcacbb517a2@baylibre.com>
+References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 To: Mudit Sharma <muditsharma.info@gmail.com>, 
  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
  Anshul Dalal <anshulusr@gmail.com>, 
@@ -91,166 +90,34 @@ To: Mudit Sharma <muditsharma.info@gmail.com>,
  Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
 Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
- Julien Stephan <jstephan@baylibre.com>, 
- Julia Lawall <julia.lawall@inria.fr>
+ Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Hello,
+iio_ev_state_store is actually using kstrtobool to check user
+input, then gives the converted boolean value to the write_event_config
+callback.
 
-This series update the write_event_config callback signature to use
-a boolean instead of an int for state variable. iio_ev_state_store
-is actually using kstrtobool to check user input, then gives the
-converted boolean value to write_event_config.
-
-First, fix the write_event_config callbacks from iio drivers that are
-checking state input, or that are converting state to bool. This is
-useless code, then update signature.
-
-This patch has been partially written using coccinelle with the
-following script:
-
-$ cat iio-bool.cocci
-// Options: --all-includes
-
-virtual patch
-
-@c1@
-identifier iioinfo;
-identifier wecfunc;
-@@
- static const struct iio_info iioinfo = {
-        ...,
-        .write_event_config =
-(
- wecfunc
-|
- &wecfunc
-),
-        ...,
- };
-
-@@
-identifier c1.wecfunc;
-identifier indio_dev, chan, type, dir, state;
-@@
- int wecfunc(struct iio_dev *indio_dev, const struct iio_chan_spec *chan, enum iio_event_type type, enum iio_event_direction dir,
--int
-+bool
- state) {
-  ...
- }
-
-make coccicheck MODE=patch COCCI=iio-bool.cocci M=drivers/iio
-
-Unfortunately, this script didn't match all files:
-* all write_event_config callbacks using iio_device_claim_direct_scoped
-  were not detected and not patched.
-* all files that do not assign and declare the write_event_config
-  callback in the same file.
-
-iio.h was also manually updated.
-
-The patch was build tested using allmodconfig config.
+Remove useless code in write_event_config callback.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Changes in v2:
-- removed commits that were already applied
-- added new commits to fix comments from Jonathan Cameron: cleanup code
-  in few callbacks to update driver internal function signature to also use
-  bool for state and update the driver internal state variable to bool.
-- few minor fixes along the way on different driver
-- Link to v1: https://lore.kernel.org/r/20241024-iio-fix-write-event-config-signature-v1-0-7d29e5a31b00@baylibre.com
+ drivers/iio/proximity/hx9023s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
----
-Julien Stephan (15):
-      iio: light: ltr390: simplify code in write_event_config callback
-      iio: proximity: hx9023s: simplify code in write_event_config callback
-      iio: light: tsl2772: simplify code in write_event_config callback
-      iio: proximity: irsd200: simplify code in write_event_config callback
-      iio: proximity: sx9500: simplify code in write_event_config callback
-      iio: light: adux1020: write_event_config: use local variable for interrupt value
-      iio: fix write_event_config signature
-      iio: accel: mma9551: use bool for event state
-      iio: accel: sca3000: use bool for event state
-      iio: imu: bmi323: use bool for event state
-      iio: imu: st_lsm6dsx: use bool for event state
-      iio: light: apds9300: use bool for event state
-      iio: light: apds9306: simplifies if branch in apds9306_write_event_config
-      iio: light: apds9960: convert als_int and pxs_int to bool
-      iio: light: apds9960: remove useless return
+diff --git a/drivers/iio/proximity/hx9023s.c b/drivers/iio/proximity/hx9023s.c
+index d8fb34060d3db88a3ba5ecdc209b14be8e42e8b9..38441b1ee040c7c26047b0cb2ac443ecb8396df3 100644
+--- a/drivers/iio/proximity/hx9023s.c
++++ b/drivers/iio/proximity/hx9023s.c
+@@ -879,7 +879,7 @@ static int hx9023s_write_event_config(struct iio_dev *indio_dev,
+ 	struct hx9023s_data *data = iio_priv(indio_dev);
+ 
+ 	if (test_bit(chan->channel, &data->chan_in_use)) {
+-		hx9023s_ch_en(data, chan->channel, !!state);
++		hx9023s_ch_en(data, chan->channel, state);
+ 		__assign_bit(chan->channel, &data->chan_event,
+ 			     data->ch_data[chan->channel].enable);
+ 	}
 
- drivers/iio/accel/adxl367.c                    |  2 +-
- drivers/iio/accel/adxl372.c                    |  2 +-
- drivers/iio/accel/adxl380.c                    |  2 +-
- drivers/iio/accel/bma400_core.c                |  2 +-
- drivers/iio/accel/bmc150-accel-core.c          |  2 +-
- drivers/iio/accel/fxls8962af-core.c            |  2 +-
- drivers/iio/accel/kxcjk-1013.c                 |  2 +-
- drivers/iio/accel/mma8452.c                    |  2 +-
- drivers/iio/accel/mma9551.c                    |  8 ++++----
- drivers/iio/accel/mma9553.c                    |  3 ++-
- drivers/iio/accel/sca3000.c                    |  6 +++---
- drivers/iio/adc/ad7091r-base.c                 |  3 ++-
- drivers/iio/adc/ad7291.c                       |  2 +-
- drivers/iio/adc/ad799x.c                       |  2 +-
- drivers/iio/adc/hi8435.c                       |  2 +-
- drivers/iio/adc/max1363.c                      |  2 +-
- drivers/iio/adc/pac1921.c                      |  3 ++-
- drivers/iio/adc/palmas_gpadc.c                 |  2 +-
- drivers/iio/adc/ti-ads1015.c                   |  2 +-
- drivers/iio/adc/xilinx-ams.c                   |  2 +-
- drivers/iio/adc/xilinx-xadc-events.c           |  2 +-
- drivers/iio/adc/xilinx-xadc.h                  |  2 +-
- drivers/iio/cdc/ad7150.c                       |  2 +-
- drivers/iio/dac/ad5421.c                       |  2 +-
- drivers/iio/dac/ad8460.c                       |  2 +-
- drivers/iio/dummy/iio_simple_dummy.h           |  2 +-
- drivers/iio/dummy/iio_simple_dummy_events.c    |  2 +-
- drivers/iio/gyro/bmg160_core.c                 |  2 +-
- drivers/iio/imu/bmi323/bmi323_core.c           | 10 +++++-----
- drivers/iio/imu/inv_mpu6050/inv_mpu_core.c     |  2 +-
- drivers/iio/imu/kmx61.c                        |  2 +-
- drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c   |  4 ++--
- drivers/iio/light/adux1020.c                   | 11 ++++++-----
- drivers/iio/light/apds9300.c                   | 10 +++++-----
- drivers/iio/light/apds9306.c                   |  7 ++-----
- drivers/iio/light/apds9960.c                   |  8 +++-----
- drivers/iio/light/bh1745.c                     |  2 +-
- drivers/iio/light/cm36651.c                    |  2 +-
- drivers/iio/light/gp2ap002.c                   |  2 +-
- drivers/iio/light/gp2ap020a00f.c               |  2 +-
- drivers/iio/light/iqs621-als.c                 |  2 +-
- drivers/iio/light/ltr390.c                     |  7 ++-----
- drivers/iio/light/ltr501.c                     |  2 +-
- drivers/iio/light/max44009.c                   |  2 +-
- drivers/iio/light/opt3001.c                    |  2 +-
- drivers/iio/light/stk3310.c                    |  2 +-
- drivers/iio/light/tcs3472.c                    |  2 +-
- drivers/iio/light/tsl2563.c                    |  2 +-
- drivers/iio/light/tsl2591.c                    |  2 +-
- drivers/iio/light/tsl2772.c                    |  6 +++---
- drivers/iio/light/us5182d.c                    |  2 +-
- drivers/iio/light/vcnl4000.c                   |  5 +++--
- drivers/iio/light/veml6030.c                   |  2 +-
- drivers/iio/position/iqs624-pos.c              |  2 +-
- drivers/iio/proximity/aw96103.c                |  2 +-
- drivers/iio/proximity/cros_ec_mkbp_proximity.c |  2 +-
- drivers/iio/proximity/hx9023s.c                |  4 ++--
- drivers/iio/proximity/irsd200.c                |  5 +++--
- drivers/iio/proximity/sx9500.c                 |  6 +++---
- drivers/iio/proximity/sx_common.c              |  2 +-
- drivers/iio/proximity/sx_common.h              |  2 +-
- drivers/iio/proximity/vcnl3020.c               |  2 +-
- drivers/iio/temperature/mcp9600.c              |  2 +-
- drivers/iio/temperature/tmp007.c               |  2 +-
- include/linux/iio/iio.h                        |  2 +-
- 65 files changed, 100 insertions(+), 102 deletions(-)
----
-base-commit: ce2785a44e784240e3dbb142942c9d88c2cac3d0
-change-id: 20241023-iio-fix-write-event-config-signature-1bc1f52fdedf
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.47.0
 

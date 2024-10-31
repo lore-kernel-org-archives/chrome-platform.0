@@ -1,67 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D0F12A14C;
-	Thu, 31 Oct 2024 05:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60F313D899
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 14:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730351401; cv=none; b=P2/jvNaL6VYBO45Iq3F+fiUR2DjMa6G2DuaoCZrnneSGdxIJraGcNYbOUR0tWLmodSZgVENtX4DBr3pshogRDCzA1GZifn/WF+arRPDWL1BkyVzwjDUl9Je6dbyshqP+oXoI8M6ZRPyK/AOy3/wkIapQxMr4QgDvEgblSygXlEY=
+	t=1730383917; cv=none; b=uAK58yoLeS4hr0QCbFhN0evHvP/DIgJtZUg9xGIufvQ/jq+1Sge42FfgiOcaxeF1LkhKezFCCpR05rr68SXBF2snSX93AKH1rHCs7SAt7TeWbWE5fZVDzSYJYgoTHWbaiN02s9LOtsCFsZy7UHNzmtidG26CvGpZuEW3n0wR01I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730351401; c=relaxed/simple;
-	bh=iAXyY8h3wSBHZqgx4EtdRqu7TyDAlhH22WfxpajjMZY=;
+	s=arc-20240116; t=1730383917; c=relaxed/simple;
+	bh=mRUUykKXPxpnmAir/PAmc6d7yy4KP2FC3UqvBuwfs28=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3fzarWoxzvgMx01CRnSTA5shJTBDJeQR/pJX3d0sq2lyRliy+Z89/ARIiVWgAu4Dbe9qanU5r1YwoR+wSl8nLq/Dvn+Dz7r7/bJokycYpQ4p/NtgAAljjlH5Gd/+Msi+o8xJrT+OlNgpyNooM4gTumabl3wlwMNJTwlz2M370o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B63QYUox; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PR7Bp5HvLghJUJkHx7VYmKG+SnsewiS8xx5DTAPONbGfttCV0VTbh1c21wA626kdZAdndQVG07hsp5dVQj9s1+ObjOX01fEJ8f69fAET1j4AnGAQwDHdAsrX9ydbGG89sf0W9McjQNlg1LDTCYQm85PszJl2gz16BEMbr8lfDzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=diwR6ibr; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B63QYUox"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="diwR6ibr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730351399; x=1761887399;
+  t=1730383916; x=1761919916;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iAXyY8h3wSBHZqgx4EtdRqu7TyDAlhH22WfxpajjMZY=;
-  b=B63QYUoxjMo4DocC4qDe3RZIoSTNOchBOvQROh9Rfyitz3UyGfhvUF8J
-   bfq940SO40uSRlEHDsm/W2q/oGrfqeKfT/N433fIrA4DcmMywQI/OYi+b
-   VaEgy2oRpRISuCeeOaFe/1L/Q5/ivz7PavhwMity0tt6HYwA1s6DLd/dt
-   T9xBKAGuZedXRENz3hObwnG7V4tXpgWUIpjdOskIPxa3d8Wquds9gRwQz
-   5Pgi+CKQgSDNZ829ZVw8ML/76azUiL+zt0X91ivJAeWwRMajlXPxHSP92
-   0vYix7gTBYuQNcAu7cQ0MNo268rF5QJDmSnk3V5ChufyEJue0F/JfDQ2a
-   A==;
-X-CSE-ConnectionGUID: Zv8tUhYXQkSChjSx7LmKrg==
-X-CSE-MsgGUID: ICE5p0RJTB6J35S3yDV3Mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30235289"
+  bh=mRUUykKXPxpnmAir/PAmc6d7yy4KP2FC3UqvBuwfs28=;
+  b=diwR6ibr6XmBAIS0twOy2TtzkQfPrggNCBy7jSKur794ydPR+HQOsa+T
+   Z4uZqRafOLl9V8n/cPoiipKmlSn0G3+kmP3y75D7MwY/J13debd8qS0bk
+   UFTTMVfB6WmIQGEnDdlUJTs4tK6Ucj1Zblofa5HnsTrWgSljsUY7Cgh2Y
+   y1rxMMopVBqQMc8kJCXN11SBLjuRca8cXBv26bWKmKNLc1izJvfBDuU0i
+   mccQou5SvMc9qoiX8sqH7vtjPEyhTjaZbvCyfXw8yjlQsEdZutLgsdo/U
+   N6PADAA1eaZNbOWn3SY8M9HvJ6OKrH3t+hG6FB9jmbiYsHWJ+NoTMLrgF
+   w==;
+X-CSE-ConnectionGUID: 5w6CawPATredhhR+eq6UEQ==
+X-CSE-MsgGUID: Hb+c9ehDRBed79aSMAFCSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30288673"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30235289"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 22:09:59 -0700
-X-CSE-ConnectionGUID: LioMlFWLRwy/tZL5lLltNQ==
-X-CSE-MsgGUID: Fvn15uk0RsGaCSxdhO1tug==
+   d="scan'208";a="30288673"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 07:11:56 -0700
+X-CSE-ConnectionGUID: xszmimeHTseK41POLTOL5w==
+X-CSE-MsgGUID: aIIqy4AJTl+pI+hD84fylA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87311616"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Oct 2024 22:09:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6NRQ-000fgU-2J;
-	Thu, 31 Oct 2024 05:09:52 +0000
-Date: Thu, 31 Oct 2024 13:09:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
-	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="82545181"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by orviesa009.jf.intel.com with SMTP; 31 Oct 2024 07:11:51 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 31 Oct 2024 16:11:50 +0200
+Date: Thu, 31 Oct 2024 16:11:50 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org,
 	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3
  Alternate Mode
-Message-ID: <202410311250.ALKPLCqo-lkp@intel.com>
-References: <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+Message-ID: <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com>
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,52 +70,112 @@ In-Reply-To: <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@chan
 
 Hi Abhishek,
 
-kernel test robot noticed the following build warnings:
+On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi wrote:
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
+> Thunderbolt 3 Alternate Mode entry flow is described in
+> USB Type-C Specification Release 2.0.
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> ---
+> 
+> Changes:
+> * Delay cable + plug checks so that the module doesn't fail to probe
+>   if cable + plug information isn't available by the time the partner
+>   altmode is registered.
+> * Remove unncessary brace after if (IS_ERR(plug))
+> 
+> The rest of this patch should be the same as Heikki's original RFC.
+> 
+> 
+> Changes in v2:
+> - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+> - Pass struct typec_thunderbolt_data to typec_altmode_notify
+> - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+> - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+> - Change module license to GPL due to checkpatch warning
+> 
+>  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
+>  drivers/usb/typec/altmodes/Kconfig       |   9 +
+>  drivers/usb/typec/altmodes/Makefile      |   2 +
+>  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++++++
+>  include/linux/usb/typec_tbt.h            |   3 +-
+>  5 files changed, 322 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index c7781aea0b88..53d93baa36a8 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+>  	}
+>  
+>  	port->state.data = &data;
+> -	port->state.mode = TYPEC_TBT_MODE;
+> +	port->state.mode = USB_TYPEC_TBT_MODE;
+>  
+>  	return typec_mux_set(port->mux, &port->state);
+>  }
 
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.12-rc5 next-20241030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The definition should be changed in a separate patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20241031-053304
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549%40changeid
-patch subject: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241031/202410311250.ALKPLCqo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311250.ALKPLCqo-lkp@intel.com/reproduce)
+> +static const struct typec_device_id tbt_typec_id[] = {
+> +	{ USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410311250.ALKPLCqo-lkp@intel.com/
+Now the mode would be the same thing as connector state, which is not
+true. The connector state is supposed to reflect the pin assignment,
+and the mode is the mode index used with the actual VDMs. For example,
+DP alt mode has several different states, but only one mode.
 
-All warnings (new ones prefixed by >>):
+The TBT3 altmode driver will not work with this patch alone, it will
+never bind to the partner TBT3 alt mode because the mode does not
+match.
 
->> drivers/usb/typec/altmodes/thunderbolt.c:16: warning: cannot understand function prototype: 'enum tbt_state '
+Can you reorganise this series so that the patch 2/7 comes before this
+one? Then I think you can just use the SVID unless I'm mistaken:
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+        static const struct typec_device_id tbt_typec_id[] = {
+		{ USB_TYPEC_TBT_SID },
+		{ }
+        };
+        MODULE_DEVICE_TABLE(typec, tbt_typec_id);
 
+Alternatively, just leave it to TYPEC_ANY_MODE for now.
 
-vim +16 drivers/usb/typec/altmodes/thunderbolt.c
+> +static struct typec_altmode_driver tbt_altmode_driver = {
+> +	.id_table = tbt_typec_id,
+> +	.probe = tbt_altmode_probe,
+> +	.remove = tbt_altmode_remove,
+> +	.driver = {
+> +		.name = "typec-thunderbolt",
+> +		.owner = THIS_MODULE,
+> +	}
+> +};
+> +module_typec_altmode_driver(tbt_altmode_driver);
+> +
+> +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
+> diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
+> index fa97d7e00f5c..3ff82641f6a0 100644
+> --- a/include/linux/usb/typec_tbt.h
+> +++ b/include/linux/usb/typec_tbt.h
+> @@ -10,7 +10,7 @@
+>  #define USB_TYPEC_TBT_SID		USB_TYPEC_VENDOR_INTEL
+>  
+>  /* Connector state for Thunderbolt3 */
+> -#define TYPEC_TBT_MODE			TYPEC_STATE_MODAL
+> +#define USB_TYPEC_TBT_MODE		TYPEC_STATE_MODAL
 
-    15	
-  > 16	enum tbt_state {
-    17		TBT_STATE_IDLE,
-    18		TBT_STATE_SOP_P_ENTER,
-    19		TBT_STATE_SOP_PP_ENTER,
-    20		TBT_STATE_ENTER,
-    21		TBT_STATE_EXIT,
-    22		TBT_STATE_SOP_PP_EXIT,
-    23		TBT_STATE_SOP_P_EXIT
-    24	};
-    25	
+I think USB_TYPEC_STATE_TBT would be better. But please change this in
+a separate patch in any case.
+
+thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+heikki

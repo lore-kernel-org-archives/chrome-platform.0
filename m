@@ -1,60 +1,60 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A001A2C0B
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABB127B56
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730388435; cv=none; b=hWMdryCKPsWw8wvcF89gu4CG23l9GjFisibrOlY5gB/EZJGCPgUfQvgtnIH8ed8rL3/+5G2WuaqW2i557BVGm0YzXXfNMiHGjG51GK0UWaQ0MW6yQx118fVMB1gdbhzDbopS29Fs2T6rJjDlJVPPjXu2LlRAeG7K8WNvvysknhA=
+	t=1730388435; cv=none; b=dyBMUDbxFnFP7ee4Dx//VVSM/S4CGu7xnQ3wbV4//HT0lvuLNdos+9D2imm3d+ZLB9iZCAWw6qWHrHnN4B/+B5BKP3HMnRBf53N8gNPwPlDFAMKIGSegEjubIZkWKgiITNWkr4Xrb+9Go1YjxQJM2/Z45nNDv6raUooUsEGQAqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730388435; c=relaxed/simple;
-	bh=kZPeAfwjTX0nVtcMBAGwS+F+aIcqAWknmwxu7TyCEZA=;
+	bh=KUAQJafYnMcVigPRpZorye0fOSrdIPLW2FGLlfOeXrI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BUFwBixh36obIi+kVRcQpQNDWJW59k1h7aifEgu0whLF4yACOYfyrPV454pNGvEv50O5AvfdEXQyJ5C8V9IW7nqXVpbhz4aC0kmd6N3QfopdA2uarr4FTM9KydklmYj2EMSpRpn9UMHgDfcNUHTILAnL7I2KqbUwP1Iuz3rT7wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=E79hRNut; arc=none smtp.client-ip=209.85.167.47
+	 In-Reply-To:To:Cc; b=SWGKiGHyY2ALsVqb0qtDe+bVi75SdwY+50OO3azScGDV1UAspKlQY0OMJUUWHtYZCVhfWBzjOhF4y8O2eqFG83g1rPXD/ytIewRsDvIS/Cmx+7myrUbG70soih5SJtQktNk9WPrMCo7WEQXA5IM+sZKiPhHIebykxVt3t5zxmF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LuAkKNbN; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="E79hRNut"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e8607c2aso1153209e87.3
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LuAkKNbN"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539f7606199so1164194e87.0
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388431; x=1730993231; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388432; x=1730993232; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nfayXnl3KgVE68uldd/53FtSQhtptu319uaFu0iSbt8=;
-        b=E79hRNut8ymB91zrMsh9Uxn4moPAWgtDbKVf2FBxomCxt0C+O8SISOp58tI02tY2yj
-         MGM5ZJ0Acjfkyr5BfO0ydqd0fgZKEsfHK08aI91t6OW/VUM0HBk2XZtXo87P1LDOprNM
-         Faq+ZqHbtQMlN5IaBgrVHo+fGRE75BEI/wtD348hxBuA/D+ZIS4i03UoVO6lJMNbJTrM
-         nDu8/Ilv4XtrCgYNbEcInjX7B2b2qVUmKcAzXH4zcK7bv786xrrBtMwRo2GdUzFhnBty
-         FJXTKKf2u11XjUgBI6Hx8XMQ37WghUiOeYi+Xbp1rx1jyAs1Pv7i/9tTkaad/NMAsbiZ
-         qCVg==
+        bh=iARvgNUgpGuJeduLUMchLuVPcb6x0a/MDX16DJ8FtYc=;
+        b=LuAkKNbNk92UliWZZcP/NLdlbvmQK36NYbilO+WeuiUZbSKYJ19e3I9oNcnzAvvv1g
+         YGx5CUoqNXzUVJ7j9G1x0fMIeVHVJL9YkJQPS2UfKxyijXgtRw0lLo8S9BQvJWhRFOef
+         VjcqQ/uXW7dl8PulDtxzaXd6DVrFGi9/TRk2raDxgqInfmNLktWOACFljNgLsxAODuGY
+         zqwcfm826aiPHU2/T1f3O48ak6e1HUY5tJg6Hu/9sCDFXzb4RqQ/lGMdKucsWFlU9lN7
+         E16buHvNjYRZkC82Qltfl0yitVmivyiflZQTQZRGB4Ajp6ddEZhLnSZxx7rZV+x31vJP
+         uYBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730388431; x=1730993231;
+        d=1e100.net; s=20230601; t=1730388432; x=1730993232;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nfayXnl3KgVE68uldd/53FtSQhtptu319uaFu0iSbt8=;
-        b=B31QfTuo+rcgX14avseUHZS7lo/bSiOLyAXhHh/W4EcpuA3kdQ0JO9K79CFfdf+UrD
-         HubUD+csZ4GbMnQvJhDD6hGV+A8Sm1fT3pC8sbF8V5eO+JTOEPq/NOMivT01jQRT+Nyy
-         8J75ti0XFDVWNMXVlrlep0PbdAxJOBvdi0o80mx3VO2Yh3c7MSn2OrsTqIERVxiU9Beu
-         ELqmzuwQYVdd7gKM7wQcnQf63VWKWeODWh7dobNYeD/r0qNosH9ur/NpZmjN8TXMcavj
-         xQid3rhZJVh3Yj/QsVomDORjSpuUtjQyOaa67fYvVfuMf1HhTOnr9iHgBel1GZDPLslg
-         Q48Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVaArGaTgTKtiHsIu/ASu6HkPBbDSv9hTDDZnttBU60jWzPLSkSDrrskgI6raraeDhsOuUGJjcZ1xbEDtmjdlU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdCoBHLHmEK+0M4NF49f8gSaKASnFVUfC9rB2FZXN9Q/MXUVH9
-	o6GQ9LVA5dqbNPHKDGFtrNEEw3cAGVNRkAnJmQOdu/+AQ5SWF6skU8PiGwsvl8E=
-X-Google-Smtp-Source: AGHT+IGh99tSGgSkk7UO/iFz05CAdTlnzxIFxRiRB1z7ObMWAVrMO/9RIhKBJVpF/cTnncS5M8FTQA==
-X-Received: by 2002:a05:6512:2341:b0:536:554a:24c2 with SMTP id 2adb3069b0e04-53b348c8978mr10449686e87.13.1730388430582;
-        Thu, 31 Oct 2024 08:27:10 -0700 (PDT)
+        bh=iARvgNUgpGuJeduLUMchLuVPcb6x0a/MDX16DJ8FtYc=;
+        b=G5IYTfNqpginQmRgFZZ9v3Is0pazmI1Oy5qMd5psm38y72fFsKICQ4Q8TJEkLriYuh
+         6gci1qwQ68K4ZMp79xm/9YenU8WCRXpZCl7frihtH9iKkkju6Fj0CGVLcm5CbmdMhtsj
+         gDHsiSu57QNnXcm4NTuF16ZsMgUsEjSvQI1D4rNxKyxPnUYKlczQEmlUDpg/UA6vOXwj
+         npparcKwSYt41XSPA3y8f2/wsUalxdZ1uRmSaa0lXnAenJokdBCA03QpBa/o0WGOVQp2
+         NfxMEnckbqtHNscOi3f2gM3gPTIkE46z1rbls4I2pN84niiH/wx9gT0zGY3HfW42fipu
+         t/aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWriVTHI0e8H1YZR0dkBhA5l20IwGtqmoGl4lHe94I+myEPyQJc0hy6uVtuj9Mdr9RxTIC8/wIl0YNGOUWG6Ic=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLo3AvaWdVXD0gdEMU0j8iSJOcVhNP4xTzkwgS7KeH/NSfHGQB
+	6rvX/PnNKiBZXHTO7O22pC0lXTaPiEzgaZDGpq4qB1LXznAd3L4L1ZItcoCH+PU=
+X-Google-Smtp-Source: AGHT+IEWcF0+R0QL/6lFuKjPVZ78UfoWB02cUsI4xL/9k/ULH8MPxNidSuG6r6GPzz/NlzRHmcmBRQ==
+X-Received: by 2002:a05:6512:ba1:b0:539:fdee:fe04 with SMTP id 2adb3069b0e04-53b7ecd57d5mr3831450e87.11.1730388431614;
+        Thu, 31 Oct 2024 08:27:11 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 08:27:10 -0700 (PDT)
+        Thu, 31 Oct 2024 08:27:11 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 31 Oct 2024 16:26:58 +0100
-Subject: [PATCH v2 03/15] iio: light: tsl2772: simplify code in
+Date: Thu, 31 Oct 2024 16:26:59 +0100
+Subject: [PATCH v2 04/15] iio: proximity: irsd200: simplify code in
  write_event_config callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-iio-fix-write-event-config-signature-v2-3-2bcacbb517a2@baylibre.com>
+Message-Id: <20241031-iio-fix-write-event-config-signature-v2-4-2bcacbb517a2@baylibre.com>
 References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 To: Mudit Sharma <muditsharma.info@gmail.com>, 
@@ -101,25 +101,22 @@ Remove useless code in write_event_config callback.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/light/tsl2772.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/iio/proximity/irsd200.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/light/tsl2772.c b/drivers/iio/light/tsl2772.c
-index cab468a82b616a23394977da1d8822d29d8941d3..26082f239c4c3aeabfe73ed100d6e885f5266329 100644
---- a/drivers/iio/light/tsl2772.c
-+++ b/drivers/iio/light/tsl2772.c
-@@ -1086,9 +1086,9 @@ static int tsl2772_write_interrupt_config(struct iio_dev *indio_dev,
- 	struct tsl2772_chip *chip = iio_priv(indio_dev);
+diff --git a/drivers/iio/proximity/irsd200.c b/drivers/iio/proximity/irsd200.c
+index 6e96b764fed8b577d71c3146210679b0b61d4c38..fb0691da99ee621e19013a64d122f097e793efd9 100644
+--- a/drivers/iio/proximity/irsd200.c
++++ b/drivers/iio/proximity/irsd200.c
+@@ -662,7 +662,7 @@ static int irsd200_write_event_config(struct iio_dev *indio_dev,
+ 			return ret;
  
- 	if (chan->type == IIO_INTENSITY)
--		chip->settings.als_interrupt_en = val ? true : false;
-+		chip->settings.als_interrupt_en = val;
- 	else
--		chip->settings.prox_interrupt_en = val ? true : false;
-+		chip->settings.prox_interrupt_en = val;
- 
- 	return tsl2772_invoke_change(indio_dev);
- }
+ 		return regmap_field_write(
+-			data->regfields[IRS_REGF_INTR_COUNT_THR_OR], !!state);
++			data->regfields[IRS_REGF_INTR_COUNT_THR_OR], state);
+ 	default:
+ 		return -EINVAL;
+ 	}
 
 -- 
 2.47.0

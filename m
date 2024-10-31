@@ -1,149 +1,127 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A351C9EC6
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 16:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C201BD03C;
+	Thu, 31 Oct 2024 17:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730392072; cv=none; b=srqvZiwGkdkpvpZjKDwMM3lO2/IHhIvpn5D4kHsTuVcHi5kyIEXlioyToBYD4nIJAXxeJnKJwcPnTHKIrixMxREAKxtoNB+zXbyZQ3mQqGF/g1EGGlY4jQPrGMlpVXcEhhkIolLCnWn6/1LZIEaoHvpha14PaIRZXh/o86QohF4=
+	t=1730394465; cv=none; b=TSlHjTZjQOdzEqcWmW/waV1OLIv0CYD8bj8hgd2IUGNBfZiPCSzhEfVgg99xUAi3rksBSFSYKKibnyJ2NZguqtr07VCS0q6arYerw+V3W2HooyL5ZpL/+bYS0R+LfEmzIJAOOOmG3/hVj5WBWc0Yno0SMEvr/mh8Ebq3zcJBoHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730392072; c=relaxed/simple;
-	bh=NXkq/qyOqhp8iiSocyYd5F4iMl9dEpzBnig3MAjD1ws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jTb4TbSaDZXmB9zPUKtdRe70vkp4IvTKjmaLizeoAWYthwYBUGnNEJdwrYvkZbZzxHtEVaEZiZsEtIQUHO1A41NGwWGaJFKgqjfuIWxLLR05QRS7yZ0kJCUXa8rqYkx/E7QUU5jw558D/Isp9uzxAiT8ECVWLPnis7Z3fHnWGUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lUQFBTpi; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730394465; c=relaxed/simple;
+	bh=NuwRVX8byKFf/BtgzAUxRh+eHUfVzR4snXY14ZFx9cA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ceO/kkcQih53hogJlnfFXOOqjN/V3es1dHkIKyNTfIWUDCt5cUFbZxvg96sRESyP4V8ozioxGKFPIgKUUqEOx9XLicli5zIw0w09zklR8Bq7kCf8sJWcgvBtJ0WckFE/O0qjrMhsnsLbqd+NNQgJmtSq3ZZ0pAdFZKlItTThr9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUV91E/n; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lUQFBTpi"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-71806621d42so565024a34.3
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 09:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730392068; x=1730996868; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8zkuoswXbu0x76VZ9dkSgVo5XUz825DeoWuELNa3+zU=;
-        b=lUQFBTpiDsSDPy8bdekkggbtbVbRLwrZQD+pQgfLHga+zG6yWwD5qJeb2Q8aEhQBIi
-         W2EHkk8eTISgY+o9yV7KTqo9UtPhcIxNPFwHdREpQEnYEgrK7DFhHmNbAOvwc3b4iAYt
-         MjVQN2kfrMJmIfHj2UfAlO++PFSkKCltgD4pUtvBzBjY3hBylZcCjr9d3DL2MSLyx99u
-         NstwVn0OCgUMpu9PLLD56jxu3PwMHNyZXIkPwIB996GBITNi6fFVtj8qv5dBACy6IZ7l
-         82RnsY61tdg9k/1sAxew3tbjSVk7gBF5rA4re+TgANDGD22yc9QSW/GI4KkvwELDgIxR
-         In8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730392068; x=1730996868;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8zkuoswXbu0x76VZ9dkSgVo5XUz825DeoWuELNa3+zU=;
-        b=AO7yZ4krETOBjtveAPMNY6xRf4eeXvepq4KpIe4MHxlkm8EcqYzkGXlEEgVFLlN3Jy
-         ZqGOmDgznupZzLzUWzxpBdTMQzqixtO7qhHFPBd7KLAB2g6yly416VheTGw6baG8XOoI
-         7g9BTlbWVseFGI8XFMnano1eHtFj7IKjFryI5cDSTIIUNWzyXPqL8Ds0O9No9qckH3pF
-         rVeCtE4PG6qWB1SfGXM1iRtJiXzflODEaZM851xcBx5RbxILXu2GHqfm9cxjn/VfD7t2
-         1B4bt+9VLSVzXWWg6eYHFNmz4UmBzb9Ar6rPXX5JzLH8PRVlGzOeNrItQUtPbaXWtTc0
-         Ud9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWLJHHLmQ9qEOSYUultJsMM14YBAM3vsZD9AQHUqQ18zlX8/o+J8TggO/GNI7Xk9rRdYBBuzGXb4QTOQF0MHcc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOMdEuoWuq9dUolfS6V83qEtewG0CVqFfvQrx8D05ivYlgsye8
-	kJaRZl1wvEE80IsTsLGv0/kI5VN+lKkgJDHcw51TGU39mzp/0AULMOBruVveta4=
-X-Google-Smtp-Source: AGHT+IGn3VcXN2vRbd8Rr0640Qt+w79Jerb9SkZNzmKhPFUbewiTnVqw/wQKsRc9oFeGGtT+FubdUQ==
-X-Received: by 2002:a05:6830:4123:b0:718:43b6:b0a0 with SMTP id 46e09a7af769-7189b4b76edmr3540707a34.4.1730392067759;
-        Thu, 31 Oct 2024 09:27:47 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7189cc69b1dsm402044a34.18.2024.10.31.09.27.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 09:27:47 -0700 (PDT)
-Message-ID: <ef4fe230-b7fb-4f7e-9173-ae85d305e9ae@baylibre.com>
-Date: Thu, 31 Oct 2024 11:27:45 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUV91E/n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730394464; x=1761930464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NuwRVX8byKFf/BtgzAUxRh+eHUfVzR4snXY14ZFx9cA=;
+  b=fUV91E/nC6O7AyPtOcWJEvU0XrPyWaJLadlUthlk3k4mBa8RfB0St/f9
+   RBJZRRJETulK2gTp1omsnZ5HL1QtNKLDGes5QgzecsBmpEwQBhjGHKzWu
+   Uoa1naLWHMp9BvKAWVDYKvwLAHjFvuS+ZnSNCPGVdlPM5iDCnyXWQCEZV
+   IPpocc1sNI4iQV7oQb3N1JEETrQjQI/CiFPMrC2hvNkzVLJt3HnteOS9n
+   LhWb9fYyy6ICWpTfLqHGhDGa0l7T4jI3k9FZ2tYDBVt3YYmXMtixkI2Ls
+   hp+W3cRuNE8jm42t12aKJyrx+gbGw7PgQxmJ1qkIIqGDfv/Ai1y18B9i5
+   A==;
+X-CSE-ConnectionGUID: phOTE8gKS5eU1TQhBViQ1A==
+X-CSE-MsgGUID: LtOXWFKYSZyFN7G4YtaQng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30315696"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30315696"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:07:44 -0700
+X-CSE-ConnectionGUID: ZAHTMA9MQQGK68AVz5GzkA==
+X-CSE-MsgGUID: +KhB7CocR5C3rBgQFtpkHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="83493726"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2024 10:07:40 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6Ye1-000gYG-1E;
+	Thu, 31 Oct 2024 17:07:37 +0000
+Date: Fri, 1 Nov 2024 01:07:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] platform/chrome: cros_ec_typec: Thunderbolt
+ support
+Message-ID: <202411010039.QHl0lhBw-lkp@intel.com>
+References: <20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/15] iio: light: adux1020: write_event_config: use
- local variable for interrupt value
-To: Julien Stephan <jstephan@baylibre.com>,
- Mudit Sharma <muditsharma.info@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Anshul Dalal <anshulusr@gmail.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>,
- Ramona Gradinariu <ramona.gradinariu@analog.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Dan Robertson <dan@dlrobertson.com>,
- Marcelo Schmitt <marcelo.schmitt@analog.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
- Michal Simek <michal.simek@amd.com>, Mariel Tinaco
- <Mariel.Tinaco@analog.com>, Jagath Jog J <jagathjog1996@gmail.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
- Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij
- <linus.walleij@linaro.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
-References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
- <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 
-On 10/31/24 10:27 AM, Julien Stephan wrote:
-> state parameter is currently an int, but it is actually a boolean.
-> iio_ev_state_store is actually using kstrtobool to check user input,
-> then gives the converted boolean value to write_event_config.  The code
-> in adux1020_write_event_config re-uses state parameter to store an
-> integer value. To prepare for updating the write_event_config signature
-> to use a boolean for state, introduce a new local int variable.
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  drivers/iio/light/adux1020.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.c
-> index 2e0170be077aef9aa194fab51afbb33aec02e513..db57d84da616b91add8c5d1aba08a73ce18c367e 100644
-> --- a/drivers/iio/light/adux1020.c
-> +++ b/drivers/iio/light/adux1020.c
-> @@ -505,7 +505,7 @@ static int adux1020_write_event_config(struct iio_dev *indio_dev,
->  				       enum iio_event_direction dir, int state)
->  {
->  	struct adux1020_data *data = iio_priv(indio_dev);
-> -	int ret, mask;
-> +	int ret, mask, val;
->  
->  	mutex_lock(&data->lock);
->  
-> @@ -526,12 +526,12 @@ static int adux1020_write_event_config(struct iio_dev *indio_dev,
->  			mask = ADUX1020_PROX_OFF1_INT;
->  
->  		if (state)
-> -			state = 0;
-> +			val = 0;
->  		else
-> -			state = mask;
-> +			val = mask;
->  
->  		ret = regmap_update_bits(data->regmap, ADUX1020_REG_INT_MASK,
-> -					 mask, state);
-> +					 mask, val);
->  		if (ret < 0)
->  			goto fail;
->  
-> 
+Hi Abhishek,
 
-Instead of introducing `val`, I would rewrite this as:
+kernel test robot noticed the following build errors:
 
-	if (state)
-		ret = regmap_clear_bits(...);
-	else
-		ret = regmap_set_bits(...);
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.12-rc5 next-20241031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20241031-053304
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829%40changeid
+patch subject: [PATCH v2 6/7] platform/chrome: cros_ec_typec: Thunderbolt support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241101/202411010039.QHl0lhBw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010039.QHl0lhBw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010039.QHl0lhBw-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/platform/chrome/cros_ec_typec.c:21:
+>> drivers/platform/chrome/cros_typec_altmode.h:41:1: warning: no previous prototype for 'cros_typec_register_thunderbolt' [-Wmissing-prototypes]
+      41 | cros_typec_register_thunderbolt(struct cros_typec_port *port,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   aarch64-linux-ld: drivers/platform/chrome/cros_typec_altmode.o: in function `cros_typec_register_thunderbolt':
+>> drivers/platform/chrome/cros_typec_altmode.h:43: multiple definition of `cros_typec_register_thunderbolt'; drivers/platform/chrome/cros_ec_typec.o:drivers/platform/chrome/cros_typec_altmode.h:43: first defined here
 
 
+vim +43 drivers/platform/chrome/cros_typec_altmode.h
 
+    34	
+    35	#if IS_ENABLED(CONFIG_TYPEC_TBT_ALTMODE)
+    36	struct typec_altmode *
+    37	cros_typec_register_thunderbolt(struct cros_typec_port *port,
+    38					struct typec_altmode_desc *desc);
+    39	#else
+    40	struct typec_altmode *
+  > 41	cros_typec_register_thunderbolt(struct cros_typec_port *port,
+    42					struct typec_altmode_desc *desc)
+  > 43	{
+    44		return typec_port_register_altmode(port->port, desc);
+    45	}
+    46	#endif
+    47	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

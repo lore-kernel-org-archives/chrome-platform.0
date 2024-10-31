@@ -1,480 +1,207 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ED81CC8B7
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 22:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB8A19F430
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 23:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730415300; cv=none; b=stL2H2PCbV/TrfxSOeodqUYoq9+a2X3yprMdGwe5inPDTx00B2zDWs3VGnOqSNdxvJVe+Wo54IYP/iSqFYghV9W8b5SFSDGBZ11AG4blEqPHXQUXfUV562sfQxOIzmPJkvTG9teVSw6po4DeqkkFSEc1eio/n6USPh3IgaEQtT0=
+	t=1730415761; cv=none; b=t5mXXz0YxbH7CMG2ruES3s7UI22ZnIHzpHyI88tzE87U5oVL+5mSUaXz8pmJO6uMJ1X1QaZYxs+WcapqpeB72jGdIEm4pmOVyNTtgnYoq0jbXW+AlI04mGggdOFPAuBqleOtUUJcgBO+XcLWvYs79Tz1Ig3+IKJaqjd9WnUJm04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730415300; c=relaxed/simple;
-	bh=0XtiuL8HzPVUIcbQmp4W/ObpOQuqBuHvLMZmD4Hqmmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVH+9UXcxMksC93FsyvSOMPxAsbJa24i28B+JRQ0vYQ0o5qDR8d9cLYWvmYLFHjxe0R/zcQyiG/j2hNWeP0FiT58xl3ZXDGvahm7UuxJsp1VyVkaRSARK5A05veO8A/DDZTl9AIsdox7u2qC100alpT7Fv+G7TlKOFAmfy8WdCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DGxv8JF4; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730415761; c=relaxed/simple;
+	bh=YJMoiuITKx4kZZN1MyOo8IM7Zsk4Dh12KYf4/TXSdCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RADWzJEufuXRS28L9BEetlPK7SteuEH3v9xeWpzspUNu05QMPggpzTmbiWtp81GME9KbKQxzzhBxF+IeSwTRfNAmKc6am0YFQa5jKgYaxYGlxJjTAlKlv1bnr7kHvmkFF9bVw2ac0SnRfe2aCK8mXglE+8Iy4ep3mN9x1lWjW+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XIC/gBFD; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DGxv8JF4"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e3f35268so1870952e87.3
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:54:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XIC/gBFD"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e38ebcc0abso17012107b3.2
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 16:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730415291; x=1731020091; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2xfjHXyb5eaHTGVlXfFi968g4q6zA2j3OKWo/NXVyLM=;
-        b=DGxv8JF4a62ObG9tVDUOkwq9ynCo0VAyk8neJCVJ9Aa/sttRypK178Rk0iQG/Qelay
-         25/5RmUMZR03GBjjciwkfj+ncjQp/fMLbBqeER9p5cGGumFEhh8jE7XrIRynTOYdYLC2
-         iF4gLkprKceuX1+8S5UZFLdH/y4B8EAsNH3x83GMjgwlSWRtPJs0ULiudKi5WqsnPjRN
-         57MEu5CebZO6TW/3p+zAbtpkbjV8YwEix0eR3oiRCDOtZ9/qeXoHyXXUKqxgLEs1spNW
-         WgEX/6220/PszGmYxB+PMuEW3CRfUkMOeM5wBTtxbX3slSxEKTQNUxYbDkhev4hPQ2Yp
-         FIgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730415291; x=1731020091;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1730415755; x=1731020555; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2xfjHXyb5eaHTGVlXfFi968g4q6zA2j3OKWo/NXVyLM=;
-        b=rGhkiIuY8nvVZQzWipsGUpDPvIqGwBwqpSCbDkaC1hltyxNZNXZthB/FpBeIJc0GsJ
-         XQh3e4mM9v1i6h7PHJ0LP9/V7mrSriLvpAU3gMvsYBFfnE4KkEYI0ZPBI+/WFwhTgBPP
-         mZj3OzbtFjzCh++IQec9OTrqjs6THAy3I12+C2kbdqRnuoAYqD7PNZ5644KenSscd1dm
-         d+gQHGPprVvCgIyz3P+sY5AyVcFGjnuOnCwkopwMPJP75YIqpPGXQ2RRcHdPdRWnbJ3M
-         fJj6k1lX547nn7kAvZAGn4mxUYYWPZD4gmOaJVO1nS9foPo5r8Iu14w1TP/cMSaXXPIy
-         5Y9A==
-X-Gm-Message-State: AOJu0YzKeHgSVmjm1wSNlVkwZlAof4hIG3bVNce0UcVBpIMYA2+QNL4l
-	5ur4bvR3YLNPuj8MBn3KEtRq5W3stAG2uBigCiDsbd2KBNndVNXi7VAzzxjvvvk=
-X-Google-Smtp-Source: AGHT+IFPpRVk+mVtirKf0Jlz98/n7f35BC4uMgBDb7CL//fsMETaxYe+5vZzwJgBgkvRqyECZwvNrA==
-X-Received: by 2002:ac2:4c46:0:b0:52b:de5b:1b30 with SMTP id 2adb3069b0e04-53d65e1a5e7mr872060e87.44.1730415291364;
-        Thu, 31 Oct 2024 15:54:51 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bc9bee0sm354438e87.79.2024.10.31.15.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 15:54:50 -0700 (PDT)
-Date: Fri, 1 Nov 2024 00:54:49 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-Message-ID: <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-16-swboyd@chromium.org>
- <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
- <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
- <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
- <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
- <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
+        bh=yMYC7exWmTyJhpPm7xOmYaN+skzwwWUWdttUcxWnw/4=;
+        b=XIC/gBFD7/Z4oRYzIYBSMK2tDkIi2mKiDNwLe3Ct98bFd0UeTjo88nXNtHm1Fo5UAC
+         lh1rpXHyjr5cLuXnGVlTqe7eHRQ3FGaLRcGb2gsHgYCFzyGE1pwHgY9HacAKH7zJonre
+         d+1YpuG+enyERJxlT+X7L9BB/UOtk2sbe1rd0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730415755; x=1731020555;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yMYC7exWmTyJhpPm7xOmYaN+skzwwWUWdttUcxWnw/4=;
+        b=aW9OMk9UcXpdNojvTe9cg/S7Mr4hwliagpr30dVvq42DRm9Mtia1mmlQW1uToJDP7L
+         GFWO5ajyj7J18r9o4pMAyKlG7xdQ7ct7WEZtgs/9YzLb1S945uNFWnNxBIG6WAkcR2Jf
+         kXv3Hf2GgzZzylPEaFJzRgxlHNsf6x3P9EKT6HVziwQ4sWW7mgwbw12ghAryk2Lv0zSP
+         itAyDxCv2irsqapUo7q1OubKwTZifArZ3MSosbzDDBWC4Zs/WZcgRi03veVbvdfhw7YA
+         nSZSVI9PI/jIEZWa9C5jWh3URz/Ae5cPlhGKeZG5bT1jFACM8Yb5fJyhOCQpYbHpOreD
+         hqIw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3i2U0ttprl8tsLieOwHL36Ls82NlsXs4EyGqG/cGvUwpSiYbPss0GIf2zs7GlN7kg/es2GrmVbSrSYM3NeN8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGD9OYNjZAHhXRQAm5K3zvABHJ0dzr4r4b1C4pTzmaCIO2OtOU
+	nlSlQgrUUkZJkWZI4dF8IJHuDncDCNFUOLUl0cB7yKBQb/7Fm39H/GtjnmzLSNYxwsx07b9GG1S
+	a/N1LzvWkFpqUPVpkto16jd4yDz5mtVaMrfO9
+X-Google-Smtp-Source: AGHT+IG4YM8LKOjO55nzQrrLjyMEG7REdzSOaLfCCy8MD7xqt0nU0GVr7mIlsQYiOsMxcXUO3Jcav2dA5hqHsKPIKSU=
+X-Received: by 2002:a05:690c:6e01:b0:6e3:a7b:49b3 with SMTP id
+ 00721157ae682-6e9d8ad571bmr236603137b3.41.1730415754723; Thu, 31 Oct 2024
+ 16:02:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid> <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com>
+In-Reply-To: <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Thu, 31 Oct 2024 16:02:22 -0700
+Message-ID: <CANFp7mXhwMMwyqbKqxe=SgCRPUyXVhKnsJwf0xgJ2LefOvrtjg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
+	Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2024 at 02:45:29PM -0700, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2024-10-31 11:42:36)
-> > On Tue, Oct 29, 2024 at 01:15:51PM -0700, Stephen Boyd wrote:
-> > > At this point we need to tell the DP bridge, like IT6505, that it's one
-> > > or the other output endpoints that it should use, but we haven't
-> > > directly connected the usb-c-connector to the output ports of IT6505
-> > > because drm_of_find_panel_or_bridge() can't find the parent of the
-> > > usb-c-connector if we connect the DP bridge to the usb-c-connector
-> > > graphs. We'll need a way for the bridge to know which output port is
-> > > connected to a usb-c-connector fwnode. Some sort of API like
+On Thu, Oct 31, 2024 at 7:11=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi Abhishek,
+>
+> On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi wrote:
+> > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > >
-> > I think that the final bridge should be the IT6505. It can save you from
-> > some troubles, like the inter-bridge lane negotiation. Please remember
-> > that using lanes 2-3 as primary lanes doesn't seem to fall into the
-> > standard DisplayPort usage. It is documented by USB-C and only because
-> > of the orientation switching.
-> 
-> If the final bridge is IT6505 then drm_of_find_panel_or_bridge() isn't
-> called and I think we're OK. But then we have to traverse the
-> remote-endpoint of the usb-c-connector to IT6505 in displayport.c in the
-> Corsola case while knowing to look at the parent of the usb-c-connector
-> node and traversing the remote-endpoint to the QMP phy in the Trogdor
-> case. The logic in dp_altmode_probe() is like
-> 
->   if (port@1/endpoint@1 exists in usb-c-connector)
->     connector_fwnode = port@1/endpoint@1/remote-endpoint
->   else if (cros-ec-typec/port exists)
->     connector_fwnode = cros-ec-typec/port@0/endpoint/remote-endpoint
->   else
->     original stuff
-
-I'd say, definitely ugh. Maybe we can add the swnode with the
-"displayport" property pointing back to the DP bridge / endpoint.
-
-But... read below.
-
-> If we have the crazy three usb-c-connector design it can still work
-> because we'd have something like
-> 
->   cros-ec-typec {
->     port {
->       dp_endpoint: endpoint {
->         remote-endpoint = <&dp_ml0_ml1>;
->       };
->     };
-> 
->     usb-c-connector@0 {
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss0>;
->        };
->        // Implicitly dp_ml0_ml1
->       };
->     };
->     usb-c-connector@1 {
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss1>;
->         };
->         endpoint@1 {
->           remote-endpoint = <&dp_ml2_ml3>;
->         };
->       };
->     };
->     usb-c-connector@2 {
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss2>;
->         };
->        // Implicitly dp_ml0_ml1
->       };
->     };
->   };
-> 
-> (I like thinking about this 3 connector case because it combines both
-> Trogdor and Corsola designs so I can talk about both cases at the same
-> time)
-> 
-> I don't know what happens when we have 4 connectors though, with 2 going
-> to one pair of lanes and 2 going to the other 2 lanes. Maybe it's better
-> to always have a DP input port in cros-ec-typec to avoid this problem
-> and map back to the endpoint explicitly.
-> 
->   cros-ec-typec {
->     port {
->       dp_endpoint0: endpoint@0 {
->         remote-endpoint = <&dp_ml0_ml1>;
->       };
->       dp_endpoint1: endpoint@1 {
->         remote-endpoint = <&dp_ml2_ml3>;
->       };
->     };
-> 
->     usb-c-connector@0 {
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss0>;
->        };
->        endpoint@1 {
->          remote-endpoint = <&dp_endpoint0>;
->        };
->       };
->     };
->     usb-c-connector@1 {
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss1>;
->         };
->         endpoint@1 {
->           remote-endpoint = <&dp_endpoint1>;
->         };
->       };
->     };
->     usb-c-connector@2 {
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss2>;
->         };
->         endpoint@1 {
->           remote-endpoint = <&dp_endpoint1>;
->         };
->       };
->     };
->   };
-> 
-> Or use a displayport property that goes to connector node itself so that
-> we don't extend the graph binding of the usb-c-connector.
-> 
->   cros-ec-typec {
->     usb-c-connector@0 {
->       altmodes {
->         displayport {
->           connector = <&dp_ml0_ml1>;
-
-I think this has been frowned upon. Not exactly this, but adding the
-displayport = <&foo>.
-
-Thus it can only go to the swnode that is generated in software by the
-cros-ec driver.
-
->         };
->       };
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss0>;
->        };
->       };
->     };
->     usb-c-connector@1 {
->       altmodes {
->         displayport {
->           connector = <&dp_ml2_ml3>;
->         };
->       };
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss1>;
->         };
->       };
->     };
->     usb-c-connector@2 {
->       altmodes {
->         displayport {
->           connector = <&dp_ml2_ml3>;
->         };
->       };
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss2>;
->         };
->       };
->     };
->   };
-> 
->   it6505 {
->     ports {
->       port@1 {
->         dp_ml0_ml1: endpoint@0 {
->           remote-endpoint = <??>;
->         };
->         dp_ml2_ml3: endpoint@1 {
->           remote-endpoint = <??>;
->         };
->       };
->     };
->   };
-> 
-> The logic could look at a node like usb-c-connector@2, find
-> altmodes/display node, and look for a 'connector' property that points
-> at the endpoint of the last bridge. If we don't use the OF graph binding
-> it makes it easier to point at the same endpoint in the QMP phy or the
-> IT6505 graph from more than one usb-c-connector. This also makes it very
-> clear that we intend to pass that fwnode as the 'connector_fwnode' to
-> oob_hotplug_event().
-> 
-> If we want to actually populate the 'remote-endpoint' property of IT6505
-> we will need to make a graph in cros-ec-typec.
-> 
->   cros-ec-typec {
->     port {
->       dp_endpoint0: endpoint@0 {
->         remote-endpoint = <&dp_ml0_ml1>;
->       };
->       dp_endpoint1: endpoint@1 {
->         remote-endpoint = <&dp_ml2_ml3>;
->       };
->     };
->     usb-c-connector@0 {
->       altmodes {
->         displayport {
->           connector = <&dp_endpoint0>;
->         };
->       };
->       port@1 {
->         endpoint@0 {
->           remote-endpoint = <&hub_ss0>;
->        };
->       };
->     };
->     usb-c-connector@1 {
->       altmodes {
->         displayport {
->           connector = <&dp_endpoint1>;
->         };
->       };
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss1>;
->         };
->       };
->     };
->     usb-c-connector@2 {
->       altmodes {
->         displayport {
->           connector = <&dp_endpoint1>;
->         };
->       };
->       port@1 {
->         endpoint {
->           remote-endpoint = <&hub_ss2>;
->         };
->       };
->     };
->   };
-> 
->   it6505 {
->     ports {
->       port@1 {
->         dp_ml0_ml1: endpoint@0 {
->           remote-endpoint = <dp_endpoint0>;
->         };
->         dp_ml2_ml3: endpoint@1 {
->           remote-endpoint = <dp_endpoint1>;
->         };
->       };
->     };
->   };
-> 
-> and then the logic in displayport.c will have to check if the
-> 'connector' property points at a graph endpoint, traverse that to the
-> remote-endpoint, and consider that the connector_fwnode.
-> 
+> > Thunderbolt 3 Alternate Mode entry flow is described in
+> > USB Type-C Specification Release 2.0.
 > >
-> > Maybe that's just it? Register DP_bridge (or QMP PHY) as
-> > orientation-switch? Then you don't need any extra API for the lane
-> > mapping? The cross-ec-typec can provide orientation information and the
-> > USB-C-aware controller will follow the lane mapping.
-> 
-> I'm not really following but I don't think the DT binding discussed here
-> prevents that.
-
-I'm thinking about:
-
-it6505 {
-  orientation-switch;
-
-  ports {
-    port@1 {
-      it6505_dp_out: remote-endpoint = <&cros_ec_dp>;
-      data-lanes = <0 1>;
-    };
-  };
-};
-
-cros-ec {
-  port {
-    cross_ec_dp: remote-endpoint = <&it6505_dp_out>;
-  };
-
-  connector@0 {
-    reg = <0>;
-    cros,dp-orientation = "normal";
-
-    ports {
-      // all USB HS and SS ports as usual;
-    };
-  };
-
-  connector@1 {
-    reg = <1>;
-    cros,dp-orientation = "reverse";
-
-    ports {
-      // all USB HS and SS ports as usual;
-    };
-  };
-
-  connector@2 {
-    reg = <2>;
-    cros,dp-orientation = "reverse";
-
-    ports {
-      // all USB HS and SS ports as usual;
-    };
-  };
-
-  connector@3 {
-    reg = <3>;
-    cros,dp-orientation = "normal";
-
-    ports {
-      // all USB HS and SS ports as usual;
-    };
-  };
-};
-
-The cros-ec registers single drm bridge which will generate HPD events
-except on Trogdor, etc. At the same time, cros-ec requests the
-typec_switch_get(). When the cros-ec detects that the connector@N it
-being used for DP, it just generates corresponding typec_switch_set()
-call, setting the orientation of the it6505 (or QMP PHY). The rest can
-be handled either by EC's HPD code or by DP's HPD handler, the
-orientation should already be a correct one.
-
-So, yes. It requires adding the typec_switch_desc implementation _in_
-the it6505 (or in any other component which handles the 0-1 or 2-3
-selection). On the other hand as I wrote previously, the 0-1 / 2-3 is
-the USB-C functionality, not the DP one.
-
-[...]
-
-> 
+> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > ---
 > >
-> > > > > Corsola could work with this design, but we'll need to teach
-> > > > > dp_altmode_probe() to look for the drm_bridge elsewhere besides as the
-> > > > > parent of the usb-c-connector node. That implies using the 'displayport'
-> > > > > property in the cros-ec-typec node or teaching dp_altmode_probe() to
-> > > > > look for the port@1/endpoint@1 remote-endpoint handle in the
-> > > > > usb-c-connector graph.
-> > > > >
-> > > > > Assuming the bindings you've presented here are fine and good and I got
-> > > > > over the differences between Trogdor and Corsola, then I can make mostly
-> > > > > everything work with the drm_connector_oob_hotplug_event() signature
-> > > > > change from above and some tweaks to dp_altmode_probe() to look for
-> > > > > port@1/endpoint@1 first because that's the "logical" DP input endpoint
-> > > > > in the usb-c-connector binding's graph. Great! The final roadblock I'm
-> > > > > at is that HPD doesn't work on Trogdor, so I can't signal HPD through
-> > > > > the typec framework.
-> > > >
-> > > > Hmm, I thought that a normal DP's HPD GPIO works on the trogdor. Was I
-> > > > misunderstanding it? But then we don't know, which USB-C connector
-> > > > triggered the HPD...
-> > >
-> > > By HPD not working on Trogdor I mean that the EC doesn't tell the kernel
-> > > about the state of HPD for a usb-c-connector in software. Instead, HPD
-> > > is signaled directly to the DP controller in hardware via a GPIO. It is
-> > > as you suspect, we don't know which USB-C connector has HPD unless we
-> > > read the mux controlled by the EC and combine that with what the DP
-> > > driver knows about the state of the HPD pin.
+> > Changes:
+> > * Delay cable + plug checks so that the module doesn't fail to probe
+> >   if cable + plug information isn't available by the time the partner
+> >   altmode is registered.
+> > * Remove unncessary brace after if (IS_ERR(plug))
 > >
-> > I see. So the HPD event gets delivered to the DP controller, but we
-> > really need some API to read the port? If it's not the
-> > orientation-switch, of course.
-> 
-> Yes. This is needed to understand what USB type-c connector the DP
-> signals should go to. In the case of Corsola/IT6505 it's needed to know
-> which two lanes should be sent if both type-c connectors/ports are
-> capable of DP altmode. On Corsola, the EC could tell the kernel that
-> both ports are in DP altmode but the EC is also controlling the AUX
-> channel mux that decides which usb-c-connector type-c port is actually
-> displaying DP.
+> > The rest of this patch should be the same as Heikki's original RFC.
+> >
+> >
+> > Changes in v2:
+> > - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+> > - Pass struct typec_thunderbolt_data to typec_altmode_notify
+> > - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+> > - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+> > - Change module license to GPL due to checkpatch warning
+> >
+> >  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
+> >  drivers/usb/typec/altmodes/Kconfig       |   9 +
+> >  drivers/usb/typec/altmodes/Makefile      |   2 +
+> >  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++++++
+> >  include/linux/usb/typec_tbt.h            |   3 +-
+> >  5 files changed, 322 insertions(+), 2 deletions(-)
+> >  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+> >
+> > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform=
+/chrome/cros_ec_typec.c
+> > index c7781aea0b88..53d93baa36a8 100644
+> > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cros_typec_=
+data *typec,
+> >       }
+> >
+> >       port->state.data =3D &data;
+> > -     port->state.mode =3D TYPEC_TBT_MODE;
+> > +     port->state.mode =3D USB_TYPEC_TBT_MODE;
+> >
+> >       return typec_mux_set(port->mux, &port->state);
+> >  }
+>
+> The definition should be changed in a separate patch.
 
--- 
-With best wishes
-Dmitry
+Ack -- will pull the rename out into its own patch.
+
+>
+> > +static const struct typec_device_id tbt_typec_id[] =3D {
+> > +     { USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
+> > +     { }
+> > +};
+> > +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+>
+> Now the mode would be the same thing as connector state, which is not
+> true. The connector state is supposed to reflect the pin assignment,
+> and the mode is the mode index used with the actual VDMs. For example,
+> DP alt mode has several different states, but only one mode.
+>
+> The TBT3 altmode driver will not work with this patch alone, it will
+> never bind to the partner TBT3 alt mode because the mode does not
+> match.
+>
+> Can you reorganise this series so that the patch 2/7 comes before this
+> one? Then I think you can just use the SVID unless I'm mistaken:
+>
+>         static const struct typec_device_id tbt_typec_id[] =3D {
+>                 { USB_TYPEC_TBT_SID },
+>                 { }
+>         };
+>         MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+>
+> Alternatively, just leave it to TYPEC_ANY_MODE for now.
+>
+
+Sure, I'll re-order the patches and get rid of the mode. I'm actually
+a bit confused as to how mode is supposed to be used since typec_dp.h
+defines USB_TYPEC_DP_MODE=3D1, typec_tbt.h defines
+USB_TYPEC_TBT_MODE=3DTYPEC_STATE_MODAL and it looks like USB state also
+starts from TYPEC_STATE_MODAL and continues.
+
+Is this documented in the spec somewhere? How should this mode value
+be used and shared between USB and various alt-modes? At least the DP
+case seems clear because as you said it describes different pin
+assignments. However, the term "mode" seems to be overloaded since
+it's used in other areas.
+
+> > +static struct typec_altmode_driver tbt_altmode_driver =3D {
+> > +     .id_table =3D tbt_typec_id,
+> > +     .probe =3D tbt_altmode_probe,
+> > +     .remove =3D tbt_altmode_remove,
+> > +     .driver =3D {
+> > +             .name =3D "typec-thunderbolt",
+> > +             .owner =3D THIS_MODULE,
+> > +     }
+> > +};
+> > +module_typec_altmode_driver(tbt_altmode_driver);
+> > +
+> > +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
+> > diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tb=
+t.h
+> > index fa97d7e00f5c..3ff82641f6a0 100644
+> > --- a/include/linux/usb/typec_tbt.h
+> > +++ b/include/linux/usb/typec_tbt.h
+> > @@ -10,7 +10,7 @@
+> >  #define USB_TYPEC_TBT_SID            USB_TYPEC_VENDOR_INTEL
+> >
+> >  /* Connector state for Thunderbolt3 */
+> > -#define TYPEC_TBT_MODE                       TYPEC_STATE_MODAL
+> > +#define USB_TYPEC_TBT_MODE           TYPEC_STATE_MODAL
+>
+> I think USB_TYPEC_STATE_TBT would be better. But please change this in
+> a separate patch in any case.
+
+Same question as above about mode vs state :)
+
+>
+> thanks,
+>
+> --
+> heikki

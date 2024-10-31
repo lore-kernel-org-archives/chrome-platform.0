@@ -1,60 +1,60 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D591BCA0F
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FF41BD4FB
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730388442; cv=none; b=kpdj7zqdx81j+xHMloolL9ZipoqL4kE2qPem7C6Rqipz7dt5MlwlwBLZjcWVMyQ29clO3fELWQmO0UHVS/NomiXQFnYWZN1tby59cZNX8+bZBMPPPrh8+O86vJjPtbAELzo1rFBkaoymNPWnLw5eQBjXKMA2edvVleB+Yv3gYA0=
+	t=1730388443; cv=none; b=ihcnUfZSm5RsfoULWZsIOd78LVENUgnnWhDFjxq26SLk48ufQhaZT6rRWRh/MM/5yWrV3SYrtBUnmAKRUvgo/9rPpkZotFaj0bVoxBkztgwbjdMU4HMXGRIuT0F9AFyA/kSGBurUT3DXvVxusy3BlqokNljW2HCPnr3tranHCdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730388442; c=relaxed/simple;
-	bh=lNWa0KqaStuVBH6MPmyCH56JtdUmYjodW8Uzx50cst8=;
+	s=arc-20240116; t=1730388443; c=relaxed/simple;
+	bh=PmGalM7Ef6Ks5hbegfAqXArWEMF8OjNxmIq7YA4FlKk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MsqJRFRF0+uCgK5UXO0Q1r02rcK5msVttimaF0oIB/qdep6j/Zx7VSbWh+lPHh2QkVwcWpnpXBQen+6NgI7yceIhOd9kE6SUXg5tj3HEhrdSI6mwkBzsuro+Jg/5EoG1Po+ktxINaBXkF5wtT9C7SlEi7YtPyST99SKVp7xXoiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ixmw7N4W; arc=none smtp.client-ip=209.85.167.53
+	 In-Reply-To:To:Cc; b=DHlf0kX+SLuIfbbSxB8vg7a6C+gyZZMDfazlD/NRHBhyoGiVMZoUUoWfKBt7pXEcmSn4yASb/OuDvdLQpn4AuA11o9LILS4kxXUuLUE3iALaoQEnTgSSUMlsdWeWCScsfyNKy6KLoBlll2Cyyaoubxrhw8WCIxEWXMuvBXFHuvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yGOZ2Ghj; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ixmw7N4W"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so1256917e87.1
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yGOZ2Ghj"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43155abaf0bso8935065e9.0
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388438; x=1730993238; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388439; x=1730993239; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YFsb0303PjNI48V2V72P3jKH8c+L4bxDvzzJkb075Z8=;
-        b=ixmw7N4WMRqea6PkRLnUs0ee3R5S5J1Z+8BojG9gUzZn6rB8WUO0J7cqu+lhSVfUI6
-         nfXICCZmpt7mthPyuIYbNFXoBd5MzJjojds67+/lbCPdg5zXU6jiJ1pW3jK/AkwOjv/v
-         AADYIrTY1U0sZ9tXQ/mKUhgoE3UmGeaHyyqvQQqHZZHAW3leplibpwilmzISNOYNlrJf
-         NL5RQiYSuBdNegOERrZge+66tvgbmsP/KaLesK7oKeZNPj5KamDsmNRNDepv1Xvgg7PJ
-         BOz7JteFHVEZHUvggEuHHC32utknwczb4WC/jEPDoX1ogsEfyuEsplZ8lwF+GPmmBxP9
-         BAFQ==
+        bh=E+Wt5gEXGTTMFhAf0TDuO7kCimt1FNZkZpqrNk88/+4=;
+        b=yGOZ2GhjgiPs+9fZaBteIjdBzhPTej2vhQmgPh9znel00vBxU46CX9hp8BYKwEDpzU
+         D4PV6ASi2QHwd+O8BeOImNhyAqWYJxVsvn3vILMsIOWgeOsBRyB33QjvgFD0uX88itpH
+         Fx5Yg61qCBCbsf8UzFWGD125ewy7ae0F0tol/mdMdxqjrIJhNwwc/6hAXJXRNpDEoOuY
+         6UY5pgjAKseE3ikdVDCPUmXqFH6OdGdx0DZaeeo25Vjaa1CefYnhAzD5FguJm7ERmelG
+         54g8dMVu7IRUXezEnpU+7tmyJ/KWMUXu7lXGO24EZg6kS4Zf/cFZuOkaIHgwN52rD66Z
+         xBYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730388438; x=1730993238;
+        d=1e100.net; s=20230601; t=1730388439; x=1730993239;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YFsb0303PjNI48V2V72P3jKH8c+L4bxDvzzJkb075Z8=;
-        b=OKDKYwgOGd5Gswd48gopwIgysfyrtW7aw8yEXGg1fzyUPs7zqyjFPD+IYVqmY1D6Oz
-         cinlcVgGJtGnP6WcF/bHfgY59bGoJDU6nUn/YAJCQDJeST1oq/kqgH21J/6gfjkqXOrU
-         il6pDQ75soAdol6Q2kW7B/YtEfdU88uVAJ6FqZqLL0j7N+rBV4xdnE1nKDvk0Kx0ZcnZ
-         SVwfJ8MHHfdTq8OkoWwI+9YoqpCHI0mdQHob+2jK8KzMKVX7upE6TqOMAOZHhQZGOLdU
-         LLCnM8tSX2U5aAXjqFUn6jw+i50LFrNYD6kvtDghTh9+HynF2Ndene0rz+fDdVSll+4J
-         Vrdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlpnO8G0b2Ae5EKtEmmG2m1rR42N+NTbZYyC3gFsvTPo/Kit4VxsBdvAuSNw1YbSVXoiv5X2M94eD4cDeurKg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJqK6Wm4GU+iY6aNx68BTMj8ZJTC4mn0azdoKk+RUqtFo/Ftuh
-	wERAXiDflynZZCexQnNmIphyxP0khmjQq5UAGhPK3KlUH8UiOyA8CcmpqdE3USk=
-X-Google-Smtp-Source: AGHT+IGZJyt5pS0YUa3i9kFlv6G7+rYaLlulmcGcSn6EUiy6VmRiBhyhHkSniuvcZZRqwpxExeJiyg==
-X-Received: by 2002:a05:6512:1255:b0:539:dca9:19a2 with SMTP id 2adb3069b0e04-53b3491c152mr9322585e87.39.1730388437575;
-        Thu, 31 Oct 2024 08:27:17 -0700 (PDT)
+        bh=E+Wt5gEXGTTMFhAf0TDuO7kCimt1FNZkZpqrNk88/+4=;
+        b=ZU8JjJR200dCQDf3t4oLJG/oTfCN2u2Fwl+eXNWoDKFVMHTq6OcsXWVtmjh4JR4p3/
+         zwy3i8apJM9glkQcvuE5gn+I2YErgajD2cgRgcVAnElYYodmtiAqfkLEjWtrxkhkSnc0
+         UUzfm238k5UX1k8vCr2SqZ0AyMBrJrg3eIHxZgxBvJRkyW/RwN8Qqb/SJOunJu0mM66z
+         hIIqRvPGoXmfNfQQZB0u+ColJrFjm09pfidYaYpajSGOEUn3v5/QG52IZnIRReAZTUao
+         5zUmjSCN5Dl6j1PO5NuCRuYWTFywElUiCAKlSQBK3AYetRA7DuIPEcOEELCrYj/mV7Hv
+         AkJg==
+X-Forwarded-Encrypted: i=1; AJvYcCW62dN2Dla6xuxpjivA9+rxe+7HeSdsHI9Z/jCXvpHPIj5RNfY3fRxpfg4OGXhyfkx3e+ApZKbtLwtbpJ0BJQ4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8VfxXpVDDlrgbkBhcmxHg8yKDpodAkLscZaqHEJfFJfwHWwsp
+	8AGc6lKD4/k8+Cpawqc7mfF8VPp8qJlDYiRCInnalKgwavqGN0UXd3ausdajKRg=
+X-Google-Smtp-Source: AGHT+IEyu6FJS8+aBQtlI/2iMWr0qg8SLYMIc2U9veyCeAFrXBtLbW2/W+xR+K+a9Ow41bs7++cXAQ==
+X-Received: by 2002:a05:600c:3ca1:b0:425:80d5:b8b2 with SMTP id 5b1f17b1804b1-43283255489mr2254255e9.16.1730388438884;
+        Thu, 31 Oct 2024 08:27:18 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 08:27:17 -0700 (PDT)
+        Thu, 31 Oct 2024 08:27:18 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 31 Oct 2024 16:27:05 +0100
-Subject: [PATCH v2 10/15] iio: imu: bmi323: use bool for event state
+Date: Thu, 31 Oct 2024 16:27:06 +0100
+Subject: [PATCH v2 11/15] iio: imu: st_lsm6dsx: use bool for event state
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-iio-fix-write-event-config-signature-v2-10-2bcacbb517a2@baylibre.com>
+Message-Id: <20241031-iio-fix-write-event-config-signature-v2-11-2bcacbb517a2@baylibre.com>
 References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 To: Mudit Sharma <muditsharma.info@gmail.com>, 
@@ -93,53 +93,26 @@ Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
 X-Mailer: b4 0.14.2
 
 Since the write_event_config callback now uses a bool for the state
-parameter, update the signatures of the functions it calls accordingly.
+parameter, update the signature of the function it calls accordingly.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/imu/bmi323/bmi323_core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/imu/bmi323/bmi323_core.c b/drivers/iio/imu/bmi323/bmi323_core.c
-index 76a88e1ccc1d89988eb52d6b1be8da0f5005f0e6..161bb1d2e761688dd740635f8a2830e9562d1b59 100644
---- a/drivers/iio/imu/bmi323/bmi323_core.c
-+++ b/drivers/iio/imu/bmi323/bmi323_core.c
-@@ -467,7 +467,7 @@ static int bmi323_feature_engine_events(struct bmi323_data *data,
- 			    BMI323_FEAT_IO_STATUS_MSK);
+diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+index caefa15e559b8808051ff1c7f82c3f36c947933c..509e0169dcd54e773540c4e3f1b56e5b737f80c3 100644
+--- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
++++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+@@ -1865,7 +1865,7 @@ static int st_lsm6dsx_write_raw(struct iio_dev *iio_dev,
+ 	return err;
  }
  
--static int bmi323_step_wtrmrk_en(struct bmi323_data *data, int state)
-+static int bmi323_step_wtrmrk_en(struct bmi323_data *data, bool state)
+-static int st_lsm6dsx_event_setup(struct st_lsm6dsx_hw *hw, int state)
++static int st_lsm6dsx_event_setup(struct st_lsm6dsx_hw *hw, bool state)
  {
- 	enum bmi323_irq_pin step_irq;
- 	int ret;
-@@ -484,7 +484,7 @@ static int bmi323_step_wtrmrk_en(struct bmi323_data *data, int state)
- 	ret = bmi323_update_ext_reg(data, BMI323_STEP_SC1_REG,
- 				    BMI323_STEP_SC1_WTRMRK_MSK,
- 				    FIELD_PREP(BMI323_STEP_SC1_WTRMRK_MSK,
--					       state ? 1 : 0));
-+					       state));
- 	if (ret)
- 		return ret;
- 
-@@ -506,7 +506,7 @@ static int bmi323_motion_config_reg(enum iio_event_direction dir)
- }
- 
- static int bmi323_motion_event_en(struct bmi323_data *data,
--				  enum iio_event_direction dir, int state)
-+				  enum iio_event_direction dir, bool state)
- {
- 	unsigned int state_value = state ? BMI323_FEAT_XYZ_MSK : 0;
- 	int config, ret, msk, raw, field_value;
-@@ -570,7 +570,7 @@ static int bmi323_motion_event_en(struct bmi323_data *data,
- }
- 
- static int bmi323_tap_event_en(struct bmi323_data *data,
--			       enum iio_event_direction dir, int state)
-+			       enum iio_event_direction dir, bool state)
- {
- 	enum bmi323_irq_pin tap_irq;
- 	int ret, tap_enabled;
+ 	const struct st_lsm6dsx_reg *reg;
+ 	unsigned int data;
 
 -- 
 2.47.0

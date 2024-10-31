@@ -1,60 +1,60 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABB127B56
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9BD1A4F01
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730388435; cv=none; b=dyBMUDbxFnFP7ee4Dx//VVSM/S4CGu7xnQ3wbV4//HT0lvuLNdos+9D2imm3d+ZLB9iZCAWw6qWHrHnN4B/+B5BKP3HMnRBf53N8gNPwPlDFAMKIGSegEjubIZkWKgiITNWkr4Xrb+9Go1YjxQJM2/Z45nNDv6raUooUsEGQAqQ=
+	t=1730388436; cv=none; b=q13DCAKWZRb1RAKu7/kD8rbsN5BkBqZwoWbsdi9gKqDOdtdoZrH98tRnn7QOi4uVT3xZu+tK3pezihIEiV5JEQwMT2D3h7u1W62XyvT2q5H+xD2mi8D62wQFeB5DU/lkSN1u29dOBzRolkHYrupTcw8kTSNq8tHZc88b2ViVVEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730388435; c=relaxed/simple;
-	bh=KUAQJafYnMcVigPRpZorye0fOSrdIPLW2FGLlfOeXrI=;
+	s=arc-20240116; t=1730388436; c=relaxed/simple;
+	bh=yJ57w0VUTH3q0i2oLjf3xWbfCP6jGNPoSNnROEqxxw8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SWGKiGHyY2ALsVqb0qtDe+bVi75SdwY+50OO3azScGDV1UAspKlQY0OMJUUWHtYZCVhfWBzjOhF4y8O2eqFG83g1rPXD/ytIewRsDvIS/Cmx+7myrUbG70soih5SJtQktNk9WPrMCo7WEQXA5IM+sZKiPhHIebykxVt3t5zxmF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LuAkKNbN; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:To:Cc; b=rS4/xWFCFCBb/FrD2MowQKwL8X+mZ9ouFHPHqhkEE/H6m5iypJGNqAdSjnf8qy704BZ1W2fWqpScF86MZXXJlDNkYM+yoeyTnoU1cUX5D6X0enTD2pBmyT28qFFeR3A1Ldr/B334r6GEklZVgICZWBvNA6YKYBP9HC7CHOQXwx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Vhzghjpr; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LuAkKNbN"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539f7606199so1164194e87.0
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Vhzghjpr"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so9452735e9.2
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388432; x=1730993232; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388433; x=1730993233; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iARvgNUgpGuJeduLUMchLuVPcb6x0a/MDX16DJ8FtYc=;
-        b=LuAkKNbNk92UliWZZcP/NLdlbvmQK36NYbilO+WeuiUZbSKYJ19e3I9oNcnzAvvv1g
-         YGx5CUoqNXzUVJ7j9G1x0fMIeVHVJL9YkJQPS2UfKxyijXgtRw0lLo8S9BQvJWhRFOef
-         VjcqQ/uXW7dl8PulDtxzaXd6DVrFGi9/TRk2raDxgqInfmNLktWOACFljNgLsxAODuGY
-         zqwcfm826aiPHU2/T1f3O48ak6e1HUY5tJg6Hu/9sCDFXzb4RqQ/lGMdKucsWFlU9lN7
-         E16buHvNjYRZkC82Qltfl0yitVmivyiflZQTQZRGB4Ajp6ddEZhLnSZxx7rZV+x31vJP
-         uYBg==
+        bh=ynbTz0mAIREWX9DSd8GtfjNx2HTiawNK3KErRQuBlPE=;
+        b=Vhzghjpr4oILQohJRsn3PoPbW7NHg6baO7dRlB+zcShP2nMub+EvWvHGBhnNeEPgys
+         r4xRedqDqOxLUn5Y3GM8ueKFcPz9ZD4k/K1P01GURJHp9bzKu8f8ij4K6Bp2oHYN729n
+         zxI9BFi8/Z/TGaVaxua3pQ60hd9N/YIkfA4iFRNpZbylNeWjwQUWSvw9mc3pf5OJlIjs
+         +R7nFJ9nhUHXKNCjv0rYi0DpBUT0vIwoOmRcRoufkMaTWNk1PJzxtAp6mfPeY4pOBfLg
+         dz2U4NNCbEyD8+C9ijNULEgw5+KdRxXHP0tA1ySRPZLz+3lylBM1pLpMR5qjG3NrC3QM
+         D/OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730388432; x=1730993232;
+        d=1e100.net; s=20230601; t=1730388433; x=1730993233;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iARvgNUgpGuJeduLUMchLuVPcb6x0a/MDX16DJ8FtYc=;
-        b=G5IYTfNqpginQmRgFZZ9v3Is0pazmI1Oy5qMd5psm38y72fFsKICQ4Q8TJEkLriYuh
-         6gci1qwQ68K4ZMp79xm/9YenU8WCRXpZCl7frihtH9iKkkju6Fj0CGVLcm5CbmdMhtsj
-         gDHsiSu57QNnXcm4NTuF16ZsMgUsEjSvQI1D4rNxKyxPnUYKlczQEmlUDpg/UA6vOXwj
-         npparcKwSYt41XSPA3y8f2/wsUalxdZ1uRmSaa0lXnAenJokdBCA03QpBa/o0WGOVQp2
-         NfxMEnckbqtHNscOi3f2gM3gPTIkE46z1rbls4I2pN84niiH/wx9gT0zGY3HfW42fipu
-         t/aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWriVTHI0e8H1YZR0dkBhA5l20IwGtqmoGl4lHe94I+myEPyQJc0hy6uVtuj9Mdr9RxTIC8/wIl0YNGOUWG6Ic=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLo3AvaWdVXD0gdEMU0j8iSJOcVhNP4xTzkwgS7KeH/NSfHGQB
-	6rvX/PnNKiBZXHTO7O22pC0lXTaPiEzgaZDGpq4qB1LXznAd3L4L1ZItcoCH+PU=
-X-Google-Smtp-Source: AGHT+IEWcF0+R0QL/6lFuKjPVZ78UfoWB02cUsI4xL/9k/ULH8MPxNidSuG6r6GPzz/NlzRHmcmBRQ==
-X-Received: by 2002:a05:6512:ba1:b0:539:fdee:fe04 with SMTP id 2adb3069b0e04-53b7ecd57d5mr3831450e87.11.1730388431614;
-        Thu, 31 Oct 2024 08:27:11 -0700 (PDT)
+        bh=ynbTz0mAIREWX9DSd8GtfjNx2HTiawNK3KErRQuBlPE=;
+        b=aET4gaHsrx9peNPLlAdOQyMEEEqG9ZHq/ltDmTDpxiizF9wfdTCBvNLEshlU+Py9LY
+         +Ur/83JqHIRmN1uArCAGkBOIc6yjja/HyOAdGv5mSC49l9iutpPeFn2p1YaTKovxXOnc
+         KMhsIdfsYs+D6vzwrvE8EZrxa/KU9/1esvFJrMrZ1qKfwuzeYJXwWFEcksdwNgk0iaXD
+         k5h6KXcom7WbMwYMHtT/u9j3obIdyY361AMzeQGsMdDY4El86UjRgUXJP8b9r6nERJyo
+         22fKhgKIwWgsnt3coACeWpCjDNX0Zvh+XUE9cpYfL2cNYZvAEtHyTehifKQF7NQMWHau
+         VX6A==
+X-Forwarded-Encrypted: i=1; AJvYcCX9NcKjzv/MhmPdteTs2zlcX/NuMyFKUgHwvlXb/5V4GzwIO9AEDpEJjVLQ132Vl7vZ9Jck4I7u3ZLYqCTqX4o=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXBrvOe0qhtBuWyPxE72olzLypnh0YXATwLielAdU17K8ZZJYa
+	ZTcxA5Z0C8WaQJER3O8Z4csVWNi4XcFOJZVgoWgOsSyM6NDHGz7tC6t7Te/L+Ck=
+X-Google-Smtp-Source: AGHT+IFcDhwM/WUu2euAD7a6xckHNF1ZKNFT/G1Ed5VwyVng6DCbMufZzTDi7LNt16ADIplrfYs/Hg==
+X-Received: by 2002:a05:600c:4f04:b0:42c:acb0:dda5 with SMTP id 5b1f17b1804b1-4327b6f9574mr33906995e9.1.1730388432612;
+        Thu, 31 Oct 2024 08:27:12 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 08:27:11 -0700 (PDT)
+        Thu, 31 Oct 2024 08:27:12 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 31 Oct 2024 16:26:59 +0100
-Subject: [PATCH v2 04/15] iio: proximity: irsd200: simplify code in
+Date: Thu, 31 Oct 2024 16:27:00 +0100
+Subject: [PATCH v2 05/15] iio: proximity: sx9500: simplify code in
  write_event_config callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-iio-fix-write-event-config-signature-v2-4-2bcacbb517a2@baylibre.com>
+Message-Id: <20241031-iio-fix-write-event-config-signature-v2-5-2bcacbb517a2@baylibre.com>
 References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
 To: Mudit Sharma <muditsharma.info@gmail.com>, 
@@ -101,22 +101,31 @@ Remove useless code in write_event_config callback.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/proximity/irsd200.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iio/proximity/sx9500.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/proximity/irsd200.c b/drivers/iio/proximity/irsd200.c
-index 6e96b764fed8b577d71c3146210679b0b61d4c38..fb0691da99ee621e19013a64d122f097e793efd9 100644
---- a/drivers/iio/proximity/irsd200.c
-+++ b/drivers/iio/proximity/irsd200.c
-@@ -662,7 +662,7 @@ static int irsd200_write_event_config(struct iio_dev *indio_dev,
- 			return ret;
+diff --git a/drivers/iio/proximity/sx9500.c b/drivers/iio/proximity/sx9500.c
+index 3f4eace05cfc6a4679fe82854dc059aa4a710d6d..e3da709424d5b2bd4e746df7adc4a4969e62f2a6 100644
+--- a/drivers/iio/proximity/sx9500.c
++++ b/drivers/iio/proximity/sx9500.c
+@@ -551,7 +551,7 @@ static int sx9500_write_event_config(struct iio_dev *indio_dev,
  
- 		return regmap_field_write(
--			data->regfields[IRS_REGF_INTR_COUNT_THR_OR], !!state);
-+			data->regfields[IRS_REGF_INTR_COUNT_THR_OR], state);
- 	default:
- 		return -EINVAL;
- 	}
+ 	mutex_lock(&data->mutex);
+ 
+-	if (state == 1) {
++	if (state) {
+ 		ret = sx9500_inc_chan_users(data, chan->channel);
+ 		if (ret < 0)
+ 			goto out_unlock;
+@@ -571,7 +571,7 @@ static int sx9500_write_event_config(struct iio_dev *indio_dev,
+ 	goto out_unlock;
+ 
+ out_undo_chan:
+-	if (state == 1)
++	if (state)
+ 		sx9500_dec_chan_users(data, chan->channel);
+ 	else
+ 		sx9500_inc_chan_users(data, chan->channel);
 
 -- 
 2.47.0

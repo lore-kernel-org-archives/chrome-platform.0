@@ -1,120 +1,149 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0E21C461C
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 15:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A351C9EC6
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 16:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730388447; cv=none; b=I1VwzhSzap62RG+Dux3xAOHyuczFvsWfgIf9mO+eixnpK0fDKIEDxkAoFSnxg1Y1hVMQ6Z43n0tG0hW1bMfAaOSxMs/jb8ZPKKUmMQpKa8xX8x4O/R/3ePKNebwRATnB0AMIjnv4xQyTvM7y+i5d4ztxiBuRQZEmPgK9phdcnz4=
+	t=1730392072; cv=none; b=srqvZiwGkdkpvpZjKDwMM3lO2/IHhIvpn5D4kHsTuVcHi5kyIEXlioyToBYD4nIJAXxeJnKJwcPnTHKIrixMxREAKxtoNB+zXbyZQ3mQqGF/g1EGGlY4jQPrGMlpVXcEhhkIolLCnWn6/1LZIEaoHvpha14PaIRZXh/o86QohF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730388447; c=relaxed/simple;
-	bh=eZtGUx42EcD+JSWC+NT0I8Ira/ZgQWDva53H8CbTnwE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RUIe609JPYPI26KjA/4Q9g8Tk/hzO3hWQfH/oYngG53u3evvUIbVeXSmlDljXrxCEB1D0Kw2guLG6jpOy01pdKDKe7O4tM9W04PeF4EyZ0l4dT67olJmKyj4BN2d0fsOwt1QbnJ+/fl6P+N4PHbPb6b1hfLrn/HCs9zi80af3II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=EWJ6qJs7; arc=none smtp.client-ip=209.85.167.50
+	s=arc-20240116; t=1730392072; c=relaxed/simple;
+	bh=NXkq/qyOqhp8iiSocyYd5F4iMl9dEpzBnig3MAjD1ws=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jTb4TbSaDZXmB9zPUKtdRe70vkp4IvTKjmaLizeoAWYthwYBUGnNEJdwrYvkZbZzxHtEVaEZiZsEtIQUHO1A41NGwWGaJFKgqjfuIWxLLR05QRS7yZ0kJCUXa8rqYkx/E7QUU5jw558D/Isp9uzxAiT8ECVWLPnis7Z3fHnWGUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lUQFBTpi; arc=none smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="EWJ6qJs7"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so1257037e87.1
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 08:27:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lUQFBTpi"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-71806621d42so565024a34.3
+        for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 09:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730388443; x=1730993243; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+eFpuHm2y8IhduDZB/M513Whn86C6+1mG/A5c4wAVb0=;
-        b=EWJ6qJs7ZxRqXM9X1nvSQwV1zxV2pQdRp5Yx4B4HW98+S1lOSdNDxK2yjrlgQXVp8i
-         yfv91LIS6KKGDJ649EkzNLquYKh0gWdjDt2NcwLU489tfPFehiwhnNQCpPME4QRPsWb7
-         61wzBEZkGkxUuO2aqp2MsifQdxWNQw2Ga/446usNCU7rj4Clxy6E2zRXCF0tCHCTV2P/
-         0gyHzF2A9ZNPstj9Rel9DOVuDptgDPEz/wBgVAkjtOWClfBpV3RN89LGr3nS32+FO/O4
-         +HMK+AjWNmJzyQoF/b1rBij3BIBFTIRKUrOSYb6RISziJ3VaGxP2FA3i4+Wi5Z0oF92l
-         3+SQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730392068; x=1730996868; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8zkuoswXbu0x76VZ9dkSgVo5XUz825DeoWuELNa3+zU=;
+        b=lUQFBTpiDsSDPy8bdekkggbtbVbRLwrZQD+pQgfLHga+zG6yWwD5qJeb2Q8aEhQBIi
+         W2EHkk8eTISgY+o9yV7KTqo9UtPhcIxNPFwHdREpQEnYEgrK7DFhHmNbAOvwc3b4iAYt
+         MjVQN2kfrMJmIfHj2UfAlO++PFSkKCltgD4pUtvBzBjY3hBylZcCjr9d3DL2MSLyx99u
+         NstwVn0OCgUMpu9PLLD56jxu3PwMHNyZXIkPwIB996GBITNi6fFVtj8qv5dBACy6IZ7l
+         82RnsY61tdg9k/1sAxew3tbjSVk7gBF5rA4re+TgANDGD22yc9QSW/GI4KkvwELDgIxR
+         In8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730388443; x=1730993243;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+eFpuHm2y8IhduDZB/M513Whn86C6+1mG/A5c4wAVb0=;
-        b=QufxR2khS3MXfKRv3f1WMjZWq4PDsUf+ZJaYlxDs1LMouucDg7yhYJtmp8cCwI1/Cl
-         TrPfxMyX9AQl6X988LPEoT0vQPjseOXgm/1cNzuWrQn+uWQH7EpEat7IszKWd6MuFP6X
-         lRH5PeVjd2brl/E3IsHH2fNjM8f6JsUi6tOKfXCF+8ftrOjSGV088njQaShaB7QbV9g+
-         jfUsAEucCaJ6saEcqy5F2x0ZtZPGTBR61DX5foSM48hTrxX5lKCyHcrwp3SFZT677O7g
-         kBDi8k+/ZcFwIP7mHaE4BjUXXNGV23PvgxC1g5GbsVnWne9EihzYUGnncJN566iAfjL8
-         B4lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpQ0Mn42jM9/EB2JvK2RCxdPsxbu5MkZA72zmG3Fz2Tdy/6FfKsWEBXC+WiKFAQgrws6zjTIjVXcpIcK4SDeA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3tib6CtcxaENaQCp05LWb6KhvYhD36010OLSyqIC+XXpQwtNY
-	4dU8Z49Aw36j8fHoFugjQR0MZgHfDa90uLybytHx97ENITyOAb74W1jEn40DZQC8LQ6u0n+4cNm
-	H65ItOA==
-X-Google-Smtp-Source: AGHT+IH9GtPIDfEpLZ8dUQUUPpUuX42GuH32Iyi1Pg0JcJazEapLSrEjVmA9nEmKnKLQDMdChJoKlg==
-X-Received: by 2002:a05:6512:2341:b0:536:554a:24c2 with SMTP id 2adb3069b0e04-53b348c8978mr10450230e87.13.1730388442599;
-        Thu, 31 Oct 2024 08:27:22 -0700 (PDT)
-Received: from [192.168.1.64] (2a02-8428-e55b-1101-1e41-304e-170b-482f.rev.sfr.net. [2a02:8428:e55b:1101:1e41:304e:170b:482f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf429sm29399475e9.12.2024.10.31.08.27.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 08:27:22 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 31 Oct 2024 16:27:10 +0100
-Subject: [PATCH v2 15/15] iio: light: apds9960: remove useless return
+        d=1e100.net; s=20230601; t=1730392068; x=1730996868;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8zkuoswXbu0x76VZ9dkSgVo5XUz825DeoWuELNa3+zU=;
+        b=AO7yZ4krETOBjtveAPMNY6xRf4eeXvepq4KpIe4MHxlkm8EcqYzkGXlEEgVFLlN3Jy
+         ZqGOmDgznupZzLzUWzxpBdTMQzqixtO7qhHFPBd7KLAB2g6yly416VheTGw6baG8XOoI
+         7g9BTlbWVseFGI8XFMnano1eHtFj7IKjFryI5cDSTIIUNWzyXPqL8Ds0O9No9qckH3pF
+         rVeCtE4PG6qWB1SfGXM1iRtJiXzflODEaZM851xcBx5RbxILXu2GHqfm9cxjn/VfD7t2
+         1B4bt+9VLSVzXWWg6eYHFNmz4UmBzb9Ar6rPXX5JzLH8PRVlGzOeNrItQUtPbaXWtTc0
+         Ud9w==
+X-Forwarded-Encrypted: i=1; AJvYcCWLJHHLmQ9qEOSYUultJsMM14YBAM3vsZD9AQHUqQ18zlX8/o+J8TggO/GNI7Xk9rRdYBBuzGXb4QTOQF0MHcc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOMdEuoWuq9dUolfS6V83qEtewG0CVqFfvQrx8D05ivYlgsye8
+	kJaRZl1wvEE80IsTsLGv0/kI5VN+lKkgJDHcw51TGU39mzp/0AULMOBruVveta4=
+X-Google-Smtp-Source: AGHT+IGn3VcXN2vRbd8Rr0640Qt+w79Jerb9SkZNzmKhPFUbewiTnVqw/wQKsRc9oFeGGtT+FubdUQ==
+X-Received: by 2002:a05:6830:4123:b0:718:43b6:b0a0 with SMTP id 46e09a7af769-7189b4b76edmr3540707a34.4.1730392067759;
+        Thu, 31 Oct 2024 09:27:47 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7189cc69b1dsm402044a34.18.2024.10.31.09.27.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Oct 2024 09:27:47 -0700 (PDT)
+Message-ID: <ef4fe230-b7fb-4f7e-9173-ae85d305e9ae@baylibre.com>
+Date: Thu, 31 Oct 2024 11:27:45 -0500
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-iio-fix-write-event-config-signature-v2-15-2bcacbb517a2@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/15] iio: light: adux1020: write_event_config: use
+ local variable for interrupt value
+To: Julien Stephan <jstephan@baylibre.com>,
+ Mudit Sharma <muditsharma.info@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Anshul Dalal <anshulusr@gmail.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>,
+ Ramona Gradinariu <ramona.gradinariu@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Dan Robertson <dan@dlrobertson.com>,
+ Marcelo Schmitt <marcelo.schmitt@analog.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+ Michal Simek <michal.simek@amd.com>, Mariel Tinaco
+ <Mariel.Tinaco@analog.com>, Jagath Jog J <jagathjog1996@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
+ Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
 References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
-In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
-To: Mudit Sharma <muditsharma.info@gmail.com>, 
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
- Anshul Dalal <anshulusr@gmail.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
- Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>, 
- Ramona Gradinariu <ramona.gradinariu@analog.com>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Dan Robertson <dan@dlrobertson.com>, 
- Marcelo Schmitt <marcelo.schmitt@analog.com>, 
- Matteo Martelli <matteomartelli3@gmail.com>, 
- Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, 
- Michal Simek <michal.simek@amd.com>, 
- Mariel Tinaco <Mariel.Tinaco@analog.com>, 
- Jagath Jog J <jagathjog1996@gmail.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, 
- Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
- Kevin Tsai <ktsai@capellamicro.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+ <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-return 0 statement at the end of apds9960_read_event_config is useless.
-Remove it.
+On 10/31/24 10:27 AM, Julien Stephan wrote:
+> state parameter is currently an int, but it is actually a boolean.
+> iio_ev_state_store is actually using kstrtobool to check user input,
+> then gives the converted boolean value to write_event_config.  The code
+> in adux1020_write_event_config re-uses state parameter to store an
+> integer value. To prepare for updating the write_event_config signature
+> to use a boolean for state, introduce a new local int variable.
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  drivers/iio/light/adux1020.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.c
+> index 2e0170be077aef9aa194fab51afbb33aec02e513..db57d84da616b91add8c5d1aba08a73ce18c367e 100644
+> --- a/drivers/iio/light/adux1020.c
+> +++ b/drivers/iio/light/adux1020.c
+> @@ -505,7 +505,7 @@ static int adux1020_write_event_config(struct iio_dev *indio_dev,
+>  				       enum iio_event_direction dir, int state)
+>  {
+>  	struct adux1020_data *data = iio_priv(indio_dev);
+> -	int ret, mask;
+> +	int ret, mask, val;
+>  
+>  	mutex_lock(&data->lock);
+>  
+> @@ -526,12 +526,12 @@ static int adux1020_write_event_config(struct iio_dev *indio_dev,
+>  			mask = ADUX1020_PROX_OFF1_INT;
+>  
+>  		if (state)
+> -			state = 0;
+> +			val = 0;
+>  		else
+> -			state = mask;
+> +			val = mask;
+>  
+>  		ret = regmap_update_bits(data->regmap, ADUX1020_REG_INT_MASK,
+> -					 mask, state);
+> +					 mask, val);
+>  		if (ret < 0)
+>  			goto fail;
+>  
+> 
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- drivers/iio/light/apds9960.c | 2 --
- 1 file changed, 2 deletions(-)
+Instead of introducing `val`, I would rewrite this as:
 
-diff --git a/drivers/iio/light/apds9960.c b/drivers/iio/light/apds9960.c
-index 7b3da88885693c488807da459ceaa1cbb3881bcd..d30441d3370309fce9d6c717d42b829ff1db3174 100644
---- a/drivers/iio/light/apds9960.c
-+++ b/drivers/iio/light/apds9960.c
-@@ -749,8 +749,6 @@ static int apds9960_read_event_config(struct iio_dev *indio_dev,
- 	default:
- 		return -EINVAL;
- 	}
--
--	return 0;
- }
- 
- static int apds9960_write_event_config(struct iio_dev *indio_dev,
+	if (state)
+		ret = regmap_clear_bits(...);
+	else
+		ret = regmap_set_bits(...);
 
--- 
-2.47.0
+
 

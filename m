@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E930C1A08CA
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 14:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F5C49641
+	for <chrome-platform@lists.linux.dev>; Thu, 31 Oct 2024 14:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730384031; cv=none; b=Yje/4TpI8Shy8lNGeAnnDAxQejvYyeu9WrR0xrQst2IYz9UIefI5hSBZ6F+1lCvKpXAaxhp/pOGv6coC87BNF7BTpTu+PRL1MpqxSVPUe4Rzo7EmNABd/1fEwY+/QU9lJODavn+gBe0pH9W6hAt0iLR0skkJdCz7V4WWT8wIljg=
+	t=1730385192; cv=none; b=ihwhHeCc20TED5jyfxjC5atrSkCCe8o7xcMaqS2r1nlDkQj/Ii/4Yh61f6ZJEoo8u9yXW3A0J5RlKrPFS1n5EtAT4bmFhKb5IV4ocQI9faXD1g5FkEmxHfujPCrlJQofQ/8D9wZ6TU3rx1WwFVMpZ43ilzKbaebDq5TVBiIeRrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730384031; c=relaxed/simple;
-	bh=JywwJxQVAHChhIAg5z61taueze37SO4nmFgRUU7ZM20=;
+	s=arc-20240116; t=1730385192; c=relaxed/simple;
+	bh=ynPJoLvXglmyEg/wsGynZevUE2X2f/JoNLwfJ1zvlCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJX/hkv79fKZXI0qaXFaiEge+Ou+4uA1XrEIFKjo6L0wdCdPekZGnpk7Rh+4Z4atP9S2lJtIPyMJDpRspDy0W9CyEN6vHLNZCkhEALKSkQGtUrzYT6zhBfFCIgz/OZFPdkQJnC/3hzEJRIwH28y3aIif0yXHt57SnGC3KhvO1Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elJlNLAm; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6am7neuXrpaBr9YWm4fd6R6fIIMh7yfVE4OIUkvSBuKhBQlzhZsZc84ZOxCipxX06BYhOPUDakO30orJIdP0fIHpLGTOC6zFqw2kwrNrvS7QUGERZ977lfnVLc3+46qj++BdIDa2MoXxbQQ270AlNkCMpppAQgGGGM6i7PDxEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUxE6R6l; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elJlNLAm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUxE6R6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730384030; x=1761920030;
+  t=1730385190; x=1761921190;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JywwJxQVAHChhIAg5z61taueze37SO4nmFgRUU7ZM20=;
-  b=elJlNLAmiUonYGSr7YlNn/zpwFt6lG0/8EynGYNlFuyPKGBq4JReRz3j
-   xB5E1MU3m2Skfg6pQj08xA/6C1PDH/gGL6aQ5LBeN3kkdSQ5IHOA7Uvvm
-   s+Os0oy678kRn187NmHm7YQCeAkFyCAMVz9EY14oFwpAit02Soa8tj8mG
-   kBwRF0ynDWEGgDD0DEor4pbmIffBQqsb5Qc9b4dcxa8AMqH5u0Zv93+wg
-   rCATBT2rAZbRVzz2Sjf6YM+V2wOqUmOsR9KSIm6s8LQ0OjU0ECj8bQ0AT
-   nKNOdOhTOl/jFVtbG4alMEvuWMCIy6lU2+8QiY/6g0+tNz1tQEis9BipN
-   w==;
-X-CSE-ConnectionGUID: 0XxAavNsSpquVNRR+Ujt4A==
-X-CSE-MsgGUID: XE2SBWkMSgOie8hneEivzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29893708"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29893708"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 07:13:50 -0700
-X-CSE-ConnectionGUID: cokTh+xrRbCvzQMsWs9UBQ==
-X-CSE-MsgGUID: 4IscBYx1TneV2nt/7HIgbA==
+  bh=ynPJoLvXglmyEg/wsGynZevUE2X2f/JoNLwfJ1zvlCg=;
+  b=mUxE6R6lPriGl2JQ0aUchsY6TMWsqKFBieWgJFb0fkdM3r42F5kdxHdj
+   GRIj6IE8MKsONkdRNcxK/aGSkTFGBPsKloj/AOgQ8IVYH7WqTVWYpfriE
+   zp0WqLoYdOEVPXDY7YiPcCrTd4UP5X+dwZhr03exzhLCQsiGH3YkkU1xR
+   RZSLpm+wgDUrCf6220zAJAExxKahd2Kqmfu37MK316SBV+3KFZWk3mjXZ
+   ww9G2h2cG8CF76THY3QVBVNX8Ezb3eWVqCKctSj0ybIjnWzc7sMYJmobC
+   C3T5PRzcQt0kzc8mXTe1AaD8a0UMJUdlFmUOM3qiSFkaS0rC7LIslVLJg
+   A==;
+X-CSE-ConnectionGUID: 7gj6fb1kTDGSn9/1mJ0a2Q==
+X-CSE-MsgGUID: /A6ZNwnXR3qZj4nfvEzg/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41492946"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="41492946"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 07:33:09 -0700
+X-CSE-ConnectionGUID: 7RIA3JY0S6ih93TR62tj0Q==
+X-CSE-MsgGUID: axgnRfM8SoyjurbkOhcMdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="113425607"
+   d="scan'208";a="87778818"
 Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa002.jf.intel.com with SMTP; 31 Oct 2024 07:13:45 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 31 Oct 2024 16:13:44 +0200
-Date: Thu, 31 Oct 2024 16:13:44 +0200
+  by orviesa004.jf.intel.com with SMTP; 31 Oct 2024 07:33:05 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 31 Oct 2024 16:33:04 +0200
+Date: Thu, 31 Oct 2024 16:33:04 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
@@ -52,10 +52,10 @@ Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
 	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] usb: typec: Only use SVID for matching altmodes
-Message-ID: <ZyOQmEBubO1WG8a1@kuha.fi.intel.com>
+Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
+Message-ID: <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com>
 References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.2.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
+ <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -64,57 +64,50 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030142833.v2.2.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
+In-Reply-To: <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
 
-On Wed, Oct 30, 2024 at 02:28:33PM -0700, Abhishek Pandit-Subedi wrote:
-> Mode in struct typec_altmode is used to indicate the index of the
-> altmode on a port, partner or plug. When searching for altmodes, it
-> doesn't make sense to use the mode as a criteria since it could be any
-> value depending on the enumeration order of the driver.
+On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrote:
+> Add controls for whether an alternate mode is automatically entered when
+> a partner connects. The auto_enter control is only available on ports
+> and applies immediately after a partner connects. The default behavior
+> is to enable auto enter and drivers must explicitly disable it.
 > 
 > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
 > ---
 > 
-> Changes in v2:
-> - Update altmode_match to ignore mode entirely
-> - Also apply the same behavior to typec_match
+> (no changes since v1)
 > 
->  drivers/usb/typec/bus.c   | 3 +--
->  drivers/usb/typec/class.c | 2 +-
->  2 files changed, 2 insertions(+), 3 deletions(-)
+>  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
+>  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
+>  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
+>  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++++++
+>  include/linux/usb/typec.h                 |  2 ++
+>  include/linux/usb/typec_altmode.h         |  2 ++
+>  6 files changed, 50 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-> index aa879253d3b8..a5cb4bbb877d 100644
-> --- a/drivers/usb/typec/bus.c
-> +++ b/drivers/usb/typec/bus.c
-> @@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
->  	const struct typec_device_id *id;
+> diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentation/ABI/testing/sysfs-bus-typec
+> index 205d9c91e2e1..f09d05727b82 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-typec
+> +++ b/Documentation/ABI/testing/sysfs-bus-typec
+> @@ -12,6 +12,15 @@ Description:
 >  
->  	for (id = drv->id_table; id->svid; id++)
-> -		if (id->svid == altmode->svid &&
-> -		    (id->mode == TYPEC_ANY_MODE || id->mode == altmode->mode))
-> +		if (id->svid == altmode->svid)
->  			return 1;
->  	return 0;
->  }
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index bd41abceb050..85494b9f7502 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -237,7 +237,7 @@ static int altmode_match(struct device *dev, void *data)
->  	if (!is_typec_altmode(dev))
->  		return 0;
+>  		Valid values are boolean.
 >  
-> -	return ((adev->svid == id->svid) && (adev->mode == id->mode));
-> +	return (adev->svid == id->svid);
->  }
->  
->  static void typec_altmode_set_partner(struct altmode *altmode)
-> -- 
-> 2.47.0.163.g1226f6d8fa-goog
+> +What:		/sys/bus/typec/devices/.../auto_enter
+> +Date:		September 2024
+> +Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> +Description:
+> +		Controls whether a mode will be automatically entered when a partner is
+> +		connected.
+> +
+> +		This field is only valid and displayed on a port. Valid values are boolean.
+
+So, why can't this be controlled with the "active" property of the
+port altmode instead? That's why it's there.
+
+Sorry if I missed something in v1 related to this question.
+
+thanks,
 
 -- 
 heikki

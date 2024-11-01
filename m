@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8367482;
-	Fri,  1 Nov 2024 15:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8AD82C7E;
+	Fri,  1 Nov 2024 15:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730475173; cv=none; b=Nl8i1u4g0C1wgMdHNqz4bhUzlThArb3aEaoCBDTQLTwMukIIPf01N9xWGP1nUbd3TR7LIGzcX70uNQde1inA5Cir0ikjfbI76DmVKZnbpKN66N1U4euYlT/KKCQvhsmQ2ltLsu5wFLUYP5RQqAKPO4ZA31Sqh3BQ2rqxPDro0zM=
+	t=1730475287; cv=none; b=m9tACw2QJnXCDDmgb/JGg1dyVoYyE5hGQ6UcmcMnxtTdIP4r1oRW19AGxczOfxZj1e8n4XlFsJUWEkRTcrxmK31gIWbkcB40npyZa0NY9lMJ90wX29mDcidBDaR/33t1d3XsPWk+gdCVqXyvwX+ZLtAxjn8p9oRyFNlVh/kLi3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730475173; c=relaxed/simple;
-	bh=eA6sS7IrYwjajIXFNQUoLe6SENHwun0qV7uEqwc+0NQ=;
+	s=arc-20240116; t=1730475287; c=relaxed/simple;
+	bh=3gF4dUs4I0hbZEB/vl2nNOfNJfrWUy9SgixJZc2ZpYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rGuZ7Ij2pgWU5YSNh9XZN5HFFKGE517/X8whfhzt5cvrQAEXx7xu2WyknJQQzvd3vmQbArnm26CPHQUf9VK/Dm5RTcBfLZ8i2qgYjEFBrySLBPa4+XRUk5IC1anbS/Jtqxhv1Y+UqCZEQPnQ5i0NV9WTPkovjUdYV6LCSURmffk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1uOO8A9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=E4tlZMAJrxUlPOTeOtenP8LhDeTSmJIhsmx9vUdjdnei8RWGKv/U6pq1HhepEgeAP1UFenPp2hV2/PRe9G+6Igd62Aqgzp6wkjqsJUNCY5g/vB5Y5O5A7gvA64Nb1aXwpOF6tq0+pM94a7zeN1S3hJKgnFQkuRVg+ZW7zHf5NVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ExR7YdMP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1uOO8A9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AB1BC4CECD;
-	Fri,  1 Nov 2024 15:32:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExR7YdMP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50629C4CECD;
+	Fri,  1 Nov 2024 15:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730475172;
-	bh=eA6sS7IrYwjajIXFNQUoLe6SENHwun0qV7uEqwc+0NQ=;
+	s=k20201202; t=1730475286;
+	bh=3gF4dUs4I0hbZEB/vl2nNOfNJfrWUy9SgixJZc2ZpYg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=a1uOO8A9pfM8WLPoRG18XrKF5+1d2xT6jefKmyNwGStSAA0rRVPyClCMwQDVlfo6b
-	 CDjhRIsoP4G+xNsWGL3JHgccSZszyX1hnFFvEAN1FO8gaQ42f/eGb8j25LmNcvvLyO
-	 kB85rKqEj/WKRrEOb4YhPSluUMA3GsCXeKRiXZXuQ+4psGlZoYwIHHtYahkQXmEm7p
-	 z5MTPLZFt0GdZM/I2VvZmUSqfNkidvpUKYIe+iyV0xmk7RR0BfLpo73LO+UecHnuuq
-	 +yrG59A8512fb+Tdxz9+RmU245U+91mCbX3NzCWd8VsdjI3gc+911PQWC5NpzRcyDe
-	 bKPCA6CZb8l8Q==
-Date: Fri, 1 Nov 2024 15:32:40 +0000
+	b=ExR7YdMPH4ej6K7ujfnj4MwHuH/ToU0rvxAgB76QLIOBPcjQVQwD0RnU/KhoWucTr
+	 7THMxdiDKds6yE9+xL6TTZTncVEfFMjP1V2Ik4AXfTlGUGzhUoxA7r7Ck89HCCh+QZ
+	 Z0zaqgT4DcM9JJeSsr6hY4ZY/+XjCozJb5jzEAj0Aut+XaN+deDpesWtuh0olIVhEF
+	 vU7bmW6UR4yxJdX1o3mSNkSR4399Uek5adBzhXoudUfhmcUtwvicAJFd+mlNwpNFA5
+	 zM4ooysvKCmWA0G1nhHe6buqZl6LjmNTjOeTmxBMUtOxyXgNUDa5DWgJiBmKf/D0wH
+	 BUZ+itl6SwQJQ==
+Date: Fri, 1 Nov 2024 15:34:34 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: Julien Stephan <jstephan@baylibre.com>
 Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen
@@ -47,12 +47,12 @@ Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen
  <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
  linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 01/15] iio: light: ltr390: simplify code in
+Subject: Re: [PATCH v2 02/15] iio: proximity: hx9023s: simplify code in
  write_event_config callback
-Message-ID: <20241101153240.26c6c5ea@jic23-huawei>
-In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-1-2bcacbb517a2@baylibre.com>
+Message-ID: <20241101153434.11d85f8b@jic23-huawei>
+In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-2-2bcacbb517a2@baylibre.com>
 References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
-	<20241031-iio-fix-write-event-config-signature-v2-1-2bcacbb517a2@baylibre.com>
+	<20241031-iio-fix-write-event-config-signature-v2-2-2bcacbb517a2@baylibre.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -63,7 +63,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 31 Oct 2024 16:26:56 +0100
+On Thu, 31 Oct 2024 16:26:57 +0100
 Julien Stephan <jstephan@baylibre.com> wrote:
 
 > iio_ev_state_store is actually using kstrtobool to check user
@@ -73,34 +73,30 @@ Julien Stephan <jstephan@baylibre.com> wrote:
 > Remove useless code in write_event_config callback.
 > 
 > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-Given these are good cleanup even without the final patches I'm going to
-pick them up as I go. Maybe I'll end up taking the lot though!
+Applied to the togreg branch of iio.git and pushed out as testing.
+Note if anyone else has time to review, I can still add tags for now.
 
-Applied this one.
-
-Thanks
+I'll probably push it out as an (in theory) not rebasing tree early
+next week to give a bit of time in next before a pull request.
 
 Jonathan
 
 > ---
->  drivers/iio/light/ltr390.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/iio/proximity/hx9023s.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
-> index 8e0a3fc3d923a6f65d2a629c87e7bfd35d82a507..3bdffb6360bcbaab4df1a2d39c8ea3813b5d6bd3 100644
-> --- a/drivers/iio/light/ltr390.c
-> +++ b/drivers/iio/light/ltr390.c
-> @@ -558,10 +558,7 @@ static int ltr390_write_event_config(struct iio_dev *indio_dev,
->  	struct ltr390_data *data = iio_priv(indio_dev);
->  	int ret;
+> diff --git a/drivers/iio/proximity/hx9023s.c b/drivers/iio/proximity/hx9023s.c
+> index d8fb34060d3db88a3ba5ecdc209b14be8e42e8b9..38441b1ee040c7c26047b0cb2ac443ecb8396df3 100644
+> --- a/drivers/iio/proximity/hx9023s.c
+> +++ b/drivers/iio/proximity/hx9023s.c
+> @@ -879,7 +879,7 @@ static int hx9023s_write_event_config(struct iio_dev *indio_dev,
+>  	struct hx9023s_data *data = iio_priv(indio_dev);
 >  
-> -	if (state != 1  && state != 0)
-> -		return -EINVAL;
-> -
-> -	if (state == 0)
-> +	if (!state)
->  		return regmap_clear_bits(data->regmap, LTR390_INT_CFG, LTR390_LS_INT_EN);
->  
->  	guard(mutex)(&data->lock);
+>  	if (test_bit(chan->channel, &data->chan_in_use)) {
+> -		hx9023s_ch_en(data, chan->channel, !!state);
+> +		hx9023s_ch_en(data, chan->channel, state);
+>  		__assign_bit(chan->channel, &data->chan_event,
+>  			     data->ch_data[chan->channel].enable);
+>  	}
 > 
 

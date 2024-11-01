@@ -1,150 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9F31A0AFE
-	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 13:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8367482;
+	Fri,  1 Nov 2024 15:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730469561; cv=none; b=gpMOKfSOX8WVDCq0+A0zPvGdK5xz8tBfpEgT5C/w1/mNWemu6XrKpW/H0xhFS1NMRzRVjiRQQ6Blvmf9ThdUN2z+jp0oWBg4tx0KjDODgEy7NXvQz6LoPDPiJpjDDx6ZG4H1LhBjyOj8MOnrYpKsXwrfXIW6BtnWseEWVpaRQ98=
+	t=1730475173; cv=none; b=Nl8i1u4g0C1wgMdHNqz4bhUzlThArb3aEaoCBDTQLTwMukIIPf01N9xWGP1nUbd3TR7LIGzcX70uNQde1inA5Cir0ikjfbI76DmVKZnbpKN66N1U4euYlT/KKCQvhsmQ2ltLsu5wFLUYP5RQqAKPO4ZA31Sqh3BQ2rqxPDro0zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730469561; c=relaxed/simple;
-	bh=9u3rAh++RTJxOlt4gOXF3ETryUU4PzcwAPKxwur0mI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+cgSpyrwCVl7yD1pXXAzO8ESHSQlTH8Hu1yXvoeswhA/2wD2mx4a1ntWWGLi4DyUx/yj++/jUmuSc0KxmKiJzC0e5rbgmjSy3rep4IHr9u90OeHDWHbXVkSeWbPh1KSujBiBIcbdf2LPhYhWmt+R3vixslWFkraokjejjD8ylg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flxxEX1f; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730475173; c=relaxed/simple;
+	bh=eA6sS7IrYwjajIXFNQUoLe6SENHwun0qV7uEqwc+0NQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rGuZ7Ij2pgWU5YSNh9XZN5HFFKGE517/X8whfhzt5cvrQAEXx7xu2WyknJQQzvd3vmQbArnm26CPHQUf9VK/Dm5RTcBfLZ8i2qgYjEFBrySLBPa4+XRUk5IC1anbS/Jtqxhv1Y+UqCZEQPnQ5i0NV9WTPkovjUdYV6LCSURmffk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1uOO8A9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flxxEX1f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730469559; x=1762005559;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=9u3rAh++RTJxOlt4gOXF3ETryUU4PzcwAPKxwur0mI8=;
-  b=flxxEX1fp9vcCj+ejSHKcFUzia6KqvZ/619PH1e2s6Hr0XG6usbfS8jK
-   xJpH6eHcnL8As227QlsOpF9uBpk3zBhMX+FKUKe5vFYq1Z4kZsXcbnV8C
-   3DR5gXWyW/mpuUgjcA5N1AGTdiTv8FvDqzewM71Xdr+Q/ksQUsZ77bboz
-   yyl1Yp8OrHQPishGReyTa+9yZScUk7TDwE4mupSPCB0Ljst4hmfRCzhGN
-   5SoaDhCeKr28hShJ/uNVeGIAkLghKOYZB4pWBqH5A2fUKN3Hiv7mMqHnh
-   7LBPh4INMEziBifHWs4MNakx0d+GSGbdSD2CmPeboWSkTGcYzT4i6Bb6/
-   g==;
-X-CSE-ConnectionGUID: WFlsQlESSfSP6RdHOG+vnA==
-X-CSE-MsgGUID: 7Y39FGJUSk6l/Mu5KI3qFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="33074762"
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="33074762"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 06:59:18 -0700
-X-CSE-ConnectionGUID: N5rVIHOASCa3MB8ZuM2Rag==
-X-CSE-MsgGUID: T2fKK2dWQgqKIoy/kYGyfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87765957"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa003.jf.intel.com with SMTP; 01 Nov 2024 06:59:15 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 01 Nov 2024 15:59:13 +0200
-Date: Fri, 1 Nov 2024 15:59:13 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org,
-	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
-Message-ID: <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
-References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
- <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com>
- <CANFp7mX-DkyFqwoaq_4V1XEDBqK7bj6-nz2aJi7idM=Q2TT49w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1uOO8A9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AB1BC4CECD;
+	Fri,  1 Nov 2024 15:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730475172;
+	bh=eA6sS7IrYwjajIXFNQUoLe6SENHwun0qV7uEqwc+0NQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=a1uOO8A9pfM8WLPoRG18XrKF5+1d2xT6jefKmyNwGStSAA0rRVPyClCMwQDVlfo6b
+	 CDjhRIsoP4G+xNsWGL3JHgccSZszyX1hnFFvEAN1FO8gaQ42f/eGb8j25LmNcvvLyO
+	 kB85rKqEj/WKRrEOb4YhPSluUMA3GsCXeKRiXZXuQ+4psGlZoYwIHHtYahkQXmEm7p
+	 z5MTPLZFt0GdZM/I2VvZmUSqfNkidvpUKYIe+iyV0xmk7RR0BfLpo73LO+UecHnuuq
+	 +yrG59A8512fb+Tdxz9+RmU245U+91mCbX3NzCWd8VsdjI3gc+911PQWC5NpzRcyDe
+	 bKPCA6CZb8l8Q==
+Date: Fri, 1 Nov 2024 15:32:40 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Anshul Dalal <anshulusr@gmail.com>, Javier Carrasco
+ <javier.carrasco.cruz@gmail.com>, Jean-Baptiste Maneyrol
+ <jean-baptiste.maneyrol@tdk.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Cosmin Tanislav
+ <cosmin.tanislav@analog.com>, Ramona Gradinariu
+ <ramona.gradinariu@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Dan Robertson <dan@dlrobertson.com>, Marcelo
+ Schmitt <marcelo.schmitt@analog.com>, Matteo Martelli
+ <matteomartelli3@gmail.com>, Anand Ashok Dumbre
+ <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>,
+ Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J
+ <jagathjog1996@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit
+ Ghosh <subhajit.ghosh@tweaklogic.com>, Kevin Tsai <ktsai@capellamicro.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Benson Leung
+ <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 01/15] iio: light: ltr390: simplify code in
+ write_event_config callback
+Message-ID: <20241101153240.26c6c5ea@jic23-huawei>
+In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-1-2bcacbb517a2@baylibre.com>
+References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+	<20241031-iio-fix-write-event-config-signature-v2-1-2bcacbb517a2@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mX-DkyFqwoaq_4V1XEDBqK7bj6-nz2aJi7idM=Q2TT49w@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 31, 2024 at 03:48:45PM -0700, Abhishek Pandit-Subedi wrote:
-> On Thu, Oct 31, 2024 at 7:33 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrote:
-> > > Add controls for whether an alternate mode is automatically entered when
-> > > a partner connects. The auto_enter control is only available on ports
-> > > and applies immediately after a partner connects. The default behavior
-> > > is to enable auto enter and drivers must explicitly disable it.
-> > >
-> > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > ---
-> > >
-> > > (no changes since v1)
-> > >
-> > >  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
-> > >  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
-> > >  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
-> > >  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++++++
-> > >  include/linux/usb/typec.h                 |  2 ++
-> > >  include/linux/usb/typec_altmode.h         |  2 ++
-> > >  6 files changed, 50 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentation/ABI/testing/sysfs-bus-typec
-> > > index 205d9c91e2e1..f09d05727b82 100644
-> > > --- a/Documentation/ABI/testing/sysfs-bus-typec
-> > > +++ b/Documentation/ABI/testing/sysfs-bus-typec
-> > > @@ -12,6 +12,15 @@ Description:
-> > >
-> > >               Valid values are boolean.
-> > >
-> > > +What:                /sys/bus/typec/devices/.../auto_enter
-> > > +Date:                September 2024
-> > > +Contact:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > +Description:
-> > > +             Controls whether a mode will be automatically entered when a partner is
-> > > +             connected.
-> > > +
-> > > +             This field is only valid and displayed on a port. Valid values are boolean.
-> >
-> > So, why can't this be controlled with the "active" property of the
-> > port altmode instead? That's why it's there.
-> >
-> > Sorry if I missed something in v1 related to this question.
+On Thu, 31 Oct 2024 16:26:56 +0100
+Julien Stephan <jstephan@baylibre.com> wrote:
+
+> iio_ev_state_store is actually using kstrtobool to check user
+> input, then gives the converted boolean value to the write_event_config
+> callback.
 > 
-> There was a bit of discussion around this in another patch in v1:
-> https://patchwork.kernel.org/project/chrome-platform/patch/20240925092505.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid/
-> And this patch is probably a good place to continue that discussion.
+> Remove useless code in write_event_config callback.
 > 
-> With the way altmodes drivers currently work, they will auto-enter
-> when probed. So if you have a partner that supports both displayport
-> and thunderbolt, they will both attempt to auto-enter on probe. I
-> think I could use the `active` field instead so that the port altmode
-> blocks entry until userspace enables it -- this would avoid the need
-> to add one more sysfs ABI. I'll actually go ahead and do this for the
-> next patch series I send up.
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Given these are good cleanup even without the final patches I'm going to
+pick them up as I go. Maybe I'll end up taking the lot though!
+
+Applied this one.
+
+Thanks
+
+Jonathan
+
+> ---
+>  drivers/iio/light/ltr390.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> However, the underlying problem I'm trying to solve still exists: how
-> do you choose a specific altmode to enter if there are multiple to
-> choose from? I tried to implement a method that first tries USB4 and
-> then Thunderbolt and then DP but I realized that the altmode drivers
-> don't necessarily bind immediately after a partner altmode is
-> registered so I can't just call `activate` (since no ops are attached
-> to the partner altmode yet). Do you have any thoughts about how to
-> handle multiple modes as well as how to handle fallback mode entry
-> (i.e. thunderbolt fails so you try DPAM next)?
+> diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
+> index 8e0a3fc3d923a6f65d2a629c87e7bfd35d82a507..3bdffb6360bcbaab4df1a2d39c8ea3813b5d6bd3 100644
+> --- a/drivers/iio/light/ltr390.c
+> +++ b/drivers/iio/light/ltr390.c
+> @@ -558,10 +558,7 @@ static int ltr390_write_event_config(struct iio_dev *indio_dev,
+>  	struct ltr390_data *data = iio_priv(indio_dev);
+>  	int ret;
+>  
+> -	if (state != 1  && state != 0)
+> -		return -EINVAL;
+> -
+> -	if (state == 0)
+> +	if (!state)
+>  		return regmap_clear_bits(data->regmap, LTR390_INT_CFG, LTR390_LS_INT_EN);
+>  
+>  	guard(mutex)(&data->lock);
+> 
 
-If the user space needs to take over control of the entry order, then
-can't it just de-activate all port alt modes by default, and then
-activate the one that needs to enter? The port driver probable needs
-to implent the "activate" callback for this.
-
-The user space can see when the driver is bound to a device by
-monitoring the uevents, no?
-
-thanks,
-
--- 
-heikki

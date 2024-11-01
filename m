@@ -1,99 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B11CDA02;
-	Fri,  1 Nov 2024 16:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595BE19D089
+	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 16:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730479468; cv=none; b=MWEs7I89E0TuSFuMh0wB1SCHRpahf767n4sRZCgf9SzrIKOllG7tWBeUvmln6UuFKtyqTbSx2ECydCOWGedj2z6AkMqUiZrTwa1W8QaQiNk02vtpEt2UOTFt1UP5xw3rBV2YM48K9lg9Mv0EcVtrlnMZva+upqsO0KT+cwUr70k=
+	t=1730480012; cv=none; b=QTA+g9/XAZkAFTiyGR0TxldLNdmG4BYhmh2xZvE4nxKcMVNx4wh0TqSo3+EwRfw3SIdErrhnIWLeyFnugTPxAbyQiXjFORbxff4QoPUmfJCrmwG7rLqmcxgDtFm2nkuAUaX/ZWsdG6bggrzKZbainX0jMj+VzAHzS3mZL1X6lm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730479468; c=relaxed/simple;
-	bh=1CfY2+o4mRhy02U7CFSYwo0qVuQU+kj4WkP+HlKqRn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TPJCfb+o81Ks5tEgAPd9EPaCModKB1emBk+2qPbN9S6Nf+ROfCWikB1LZVzmNTlwvOQttfSXVe+JzkXTo0Vgx0wqXJwF5pfXMQtz/xriePIdDEOPNxedwEPLlWihgEsHjUJnHdzYQAg0+emWwyY6dBOvAQXqub/XuKRCxxHv1JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUwoG//T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730480012; c=relaxed/simple;
+	bh=Ufi+EirpxHF3TSrm2RDFRetSaCHdlTKAwnj01Jl20Xk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nPCiwjYtmkqGxmf0uL01q6nDh/DOr7tSiwsH36NQ6S8LI7vm7hQThCa59Wlz1ttB0FSm9o3QUvMoAZjksLmZzgu247E45zPU0kXIolCWoYkSfJkb8wEd4SdqtFihknEmon6r2sYnCzsgqUf+cf3zzZxkelBWAyw2t2+xZAcv1pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gj826MIN; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUwoG//T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1145FC4CED3;
-	Fri,  1 Nov 2024 16:44:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730479468;
-	bh=1CfY2+o4mRhy02U7CFSYwo0qVuQU+kj4WkP+HlKqRn0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RUwoG//TVOvFq/Z1QHtZYQirIJMBlS/ZHXo9vBPUi0Cy17F9j38/a/zHCwtOEm+A+
-	 jdAI7FoQWJ3E7573lT0saQ+1WwkRsUr30AomYt07P6Jm+HAD55oXdbAlh5JgFHBBcg
-	 /TivdakH0u8CYOnH1xagXujZ4e7+vg4FIIUfiQC9/kUkDKREYlEuTHucOjUyKDNV43
-	 16tmfjxwvKsDTI1rAC/Y7BUc/mC+Me2Nl1FXZcv/bTXZocBCLFYBI0Pu2XZyW91u7I
-	 ZuYJZdvuiJJ9W/q5PRmAmH9rXDbLOLxB4bwEnwBWVn+TDgr9N6e/CSZG/uMhTF5l0s
-	 2FGA5tFv/zEXA==
-Date: Fri, 1 Nov 2024 16:44:14 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Mudit Sharma <muditsharma.info@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Anshul Dalal <anshulusr@gmail.com>, Javier Carrasco
- <javier.carrasco.cruz@gmail.com>, Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Cosmin Tanislav
- <cosmin.tanislav@analog.com>, Ramona Gradinariu
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Dan Robertson <dan@dlrobertson.com>, Marcelo
- Schmitt <marcelo.schmitt@analog.com>, Matteo Martelli
- <matteomartelli3@gmail.com>, Anand Ashok Dumbre
- <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J
- <jagathjog1996@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit
- Ghosh <subhajit.ghosh@tweaklogic.com>, Kevin Tsai <ktsai@capellamicro.com>,
- Linus Walleij <linus.walleij@linaro.org>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 15/15] iio: light: apds9960: remove useless return
-Message-ID: <20241101164414.4f14c75f@jic23-huawei>
-In-Reply-To: <20241031-iio-fix-write-event-config-signature-v2-15-2bcacbb517a2@baylibre.com>
-References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
-	<20241031-iio-fix-write-event-config-signature-v2-15-2bcacbb517a2@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gj826MIN"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e5a5a59094so20463557b3.3
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Nov 2024 09:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730480006; x=1731084806; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
+        b=gj826MINdr3tqSlMW7jRib2SwhrAELYwQ7PEXbcunuHnKclRQAtt7u+Y7dfnUIpZtK
+         FkvSEeZ6baIY1yWeJqAd2znQQv3sJjR34XnH4W3XYPmdWwtY+nGZ0Q97X2nJWNnY77NG
+         wtdvt/3SVG7cAV+lFkAXFJnDndDQUc5VYACtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730480006; x=1731084806;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
+        b=ueoSoJkaw3hHUMym6VJxgXAqo9yakszqbM+Wo8E127l1vMF7ub7ro6gyTHD51Wd7W+
+         J/GyySNMfUq13tG/8dMZ1pQzdfkmu2q8Zu7Y7IIij5Ycc9bI3e0cgIL2+bTscaZquD1p
+         GWCbW2W0QAMf/kBymYTYnmH+0+nOTjUnu3bLAudANmIE/+ovT7ZZxpSNwy7qeVbM6Zql
+         tyBGUBlxOn34VQC2MB4NsC2FmXdzVeiyNwMU/FM0edxmZInvaxScw0LCjBkjYNCvkW2p
+         jo6+oXG4e8K4S0n/fKfjXccjwFcLjCizTgLoQP2yZcBiRPqmEDiK1OeXt4VPciWppb5K
+         TQuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwRNoTVfjTK1rojbGhJ7xxG6GxTzvx0MGIvVg3/7buEeSkiUrWtJkSBsdFs61DOc+cQojdTPf/XBt++gqcLCc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXERZ/g3y1KxJaNTSEkFoxyZ7/vdpKxa8BSffj263RwwgEVvhG
+	Bt/clCInx8Ep/W6sQySJfFYYmfnNAZ9c98XTvSW7HrO/HDgL8Qxir4zU1k+lpQWBe7IuEN7h/Gv
+	8MB+Edh6Nle/GJNzlosymcn3gYAH+f0/moOBQ
+X-Google-Smtp-Source: AGHT+IFzApWOAHaMRLiMX928VZb3EEaKQZhz/P+VrQMbvxUftOjxTrNpjkGV033um8Yqj9SuXcwKZI0UTOlzqnKQDdw=
+X-Received: by 2002:a05:690c:4b13:b0:6e2:446f:422c with SMTP id
+ 00721157ae682-6ea64b0f91fmr50088847b3.21.1730480006237; Fri, 01 Nov 2024
+ 09:53:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
+ <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com> <CANFp7mX-DkyFqwoaq_4V1XEDBqK7bj6-nz2aJi7idM=Q2TT49w@mail.gmail.com>
+ <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
+In-Reply-To: <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Fri, 1 Nov 2024 09:53:14 -0700
+Message-ID: <CANFp7mWim9VH+KLH3A+RJ5YFuvrVwDUgU2q8_qvDM3=jzYd6xg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 31 Oct 2024 16:27:10 +0100
-Julien Stephan <jstephan@baylibre.com> wrote:
+On Fri, Nov 1, 2024 at 6:59=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Thu, Oct 31, 2024 at 03:48:45PM -0700, Abhishek Pandit-Subedi wrote:
+> > On Thu, Oct 31, 2024 at 7:33=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrot=
+e:
+> > > > Add controls for whether an alternate mode is automatically entered=
+ when
+> > > > a partner connects. The auto_enter control is only available on por=
+ts
+> > > > and applies immediately after a partner connects. The default behav=
+ior
+> > > > is to enable auto enter and drivers must explicitly disable it.
+> > > >
+> > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > > > ---
+> > > >
+> > > > (no changes since v1)
+> > > >
+> > > >  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
+> > > >  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
+> > > >  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
+> > > >  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++=
+++++
+> > > >  include/linux/usb/typec.h                 |  2 ++
+> > > >  include/linux/usb/typec_altmode.h         |  2 ++
+> > > >  6 files changed, 50 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentat=
+ion/ABI/testing/sysfs-bus-typec
+> > > > index 205d9c91e2e1..f09d05727b82 100644
+> > > > --- a/Documentation/ABI/testing/sysfs-bus-typec
+> > > > +++ b/Documentation/ABI/testing/sysfs-bus-typec
+> > > > @@ -12,6 +12,15 @@ Description:
+> > > >
+> > > >               Valid values are boolean.
+> > > >
+> > > > +What:                /sys/bus/typec/devices/.../auto_enter
+> > > > +Date:                September 2024
+> > > > +Contact:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > +Description:
+> > > > +             Controls whether a mode will be automatically entered=
+ when a partner is
+> > > > +             connected.
+> > > > +
+> > > > +             This field is only valid and displayed on a port. Val=
+id values are boolean.
+> > >
+> > > So, why can't this be controlled with the "active" property of the
+> > > port altmode instead? That's why it's there.
+> > >
+> > > Sorry if I missed something in v1 related to this question.
+> >
+> > There was a bit of discussion around this in another patch in v1:
+> > https://patchwork.kernel.org/project/chrome-platform/patch/202409250925=
+05.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid/
+> > And this patch is probably a good place to continue that discussion.
+> >
+> > With the way altmodes drivers currently work, they will auto-enter
+> > when probed. So if you have a partner that supports both displayport
+> > and thunderbolt, they will both attempt to auto-enter on probe. I
+> > think I could use the `active` field instead so that the port altmode
+> > blocks entry until userspace enables it -- this would avoid the need
+> > to add one more sysfs ABI. I'll actually go ahead and do this for the
+> > next patch series I send up.
+> >
+> > However, the underlying problem I'm trying to solve still exists: how
+> > do you choose a specific altmode to enter if there are multiple to
+> > choose from? I tried to implement a method that first tries USB4 and
+> > then Thunderbolt and then DP but I realized that the altmode drivers
+> > don't necessarily bind immediately after a partner altmode is
+> > registered so I can't just call `activate` (since no ops are attached
+> > to the partner altmode yet). Do you have any thoughts about how to
+> > handle multiple modes as well as how to handle fallback mode entry
+> > (i.e. thunderbolt fails so you try DPAM next)?
+>
+> If the user space needs to take over control of the entry order, then
+> can't it just de-activate all port alt modes by default, and then
+> activate the one that needs to enter? The port driver probable needs
+> to implent the "activate" callback for this.
+>
+> The user space can see when the driver is bound to a device by
+> monitoring the uevents, no?
 
-> return 0 statement at the end of apds9960_read_event_config is useless.
-> Remove it.
-Strange that never triggered a build warning that I noticed.
+This requires userspace intervention to do the correct thing. Let's
+take a real world example:
 
-Anyhow applied.  
+I have a TBT4 dock that supports DPAM (svid 0xff01), TBT (svid 0x8087)
+and also USB4.
 
-So I did end up more or less (i.e. with tweaks) applying the whole series.
-If you have time to follow up on the few cases I spotted where passing the
-bool value into functions instead of an int may make for better
-readability.
+* When I plug in the dock, it enumerates and registers the partner
+altmodes. The altmode bus matches typec_displayport and
+typec_thunderbolt and loads the drivers for them. By default, both
+drivers will try to activate their altmode on probe(). Having a
+userspace daemon disable the altmode on the ports and enable them on
+connection will probably work here.
+* If I boot with the dock connected, the same thing happens but my
+userspace daemon may not be running yet. What should the default
+kernel behavior be to enter alt-modes then? When you throw USB4 into
+the mix, this becomes another can of worms since you probably don't
+want to downgrade from USB4 to DPAM.
 
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  drivers/iio/light/apds9960.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/iio/light/apds9960.c b/drivers/iio/light/apds9960.c
-> index 7b3da88885693c488807da459ceaa1cbb3881bcd..d30441d3370309fce9d6c717d42b829ff1db3174 100644
-> --- a/drivers/iio/light/apds9960.c
-> +++ b/drivers/iio/light/apds9960.c
-> @@ -749,8 +749,6 @@ static int apds9960_read_event_config(struct iio_dev *indio_dev,
->  	default:
->  		return -EINVAL;
->  	}
-> -
-> -	return 0;
->  }
->  
->  static int apds9960_write_event_config(struct iio_dev *indio_dev,
-> 
+On ChromeOS, prior to this patch series, our userspace daemon (typecd)
+could handle all of this in userspace since it could just wait for
+`num_alt_modes` to be filled on partner-attach before trying to enter
+the right mode (via a side-band channel to the EC). After this change,
+typecd will be in a similar bind -- it will have to wait until all
+attached partner SVIDs have drivers attached (if available).
 
+Underlying all this, I guess the real need here is for some sort of
+signal that says: All partner modes are registered, any necessary
+drivers for these modes are bound and you are ready to make a decision
+on which mode to enter. Then, we could iteratively try to enter the
+best mode (USB4 > TBT > DP) and report failure conditions on why it
+couldn't be entered (i.e. Cable speed, partner problem / link
+training, etc). This could be done in kernel or userspace depending on
+the system.
+
+>
+> thanks,
+>
+> --
+> heikki

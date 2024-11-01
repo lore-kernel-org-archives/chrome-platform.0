@@ -1,198 +1,219 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595BE19D089
-	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 16:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93821C7287
+	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 18:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730480012; cv=none; b=QTA+g9/XAZkAFTiyGR0TxldLNdmG4BYhmh2xZvE4nxKcMVNx4wh0TqSo3+EwRfw3SIdErrhnIWLeyFnugTPxAbyQiXjFORbxff4QoPUmfJCrmwG7rLqmcxgDtFm2nkuAUaX/ZWsdG6bggrzKZbainX0jMj+VzAHzS3mZL1X6lm0=
+	t=1730485153; cv=none; b=G2f1VWB9Nj/1+j4BW80ULHSOulWy0hYl3FilRbz9CExjpmv7TdIdDiMQWPiCe2CJ5VslhtF7HBOe2v2JGLmcos6IsKh+f7xFNdJyzO0AWu3Bk9gX8s1ysqf6RlRhZVrZkVakRR3T1knpwdhuGVMMBUKr4P1QIt8xnfQZgzh3Y14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730480012; c=relaxed/simple;
-	bh=Ufi+EirpxHF3TSrm2RDFRetSaCHdlTKAwnj01Jl20Xk=;
+	s=arc-20240116; t=1730485153; c=relaxed/simple;
+	bh=jOGNatYKO7LyfoMaEY3D4pl3e46xv0D7qv7HJZZbDO8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nPCiwjYtmkqGxmf0uL01q6nDh/DOr7tSiwsH36NQ6S8LI7vm7hQThCa59Wlz1ttB0FSm9o3QUvMoAZjksLmZzgu247E45zPU0kXIolCWoYkSfJkb8wEd4SdqtFihknEmon6r2sYnCzsgqUf+cf3zzZxkelBWAyw2t2+xZAcv1pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gj826MIN; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=mNdp4EM6EPsKtEC+knE3nUGr/kMhcAoKdAoIW8emEpnQVidJm4RNb/40KWJnwSJ+Z2bWK4Rm5CH7VJ7XIvJjT4s1g2pi1tzEDTl8cVuxpven24ymG9Jdd+mn95wpu0UteGAd+BSEYzS+xCQqu9XGaROJ9c/BRxPj1ecxf5zOUTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=xYS/WFnw; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gj826MIN"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e5a5a59094so20463557b3.3
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Nov 2024 09:53:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xYS/WFnw"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a9a2cdc6f0cso308640366b.2
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Nov 2024 11:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730480006; x=1731084806; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730485148; x=1731089948; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
-        b=gj826MINdr3tqSlMW7jRib2SwhrAELYwQ7PEXbcunuHnKclRQAtt7u+Y7dfnUIpZtK
-         FkvSEeZ6baIY1yWeJqAd2znQQv3sJjR34XnH4W3XYPmdWwtY+nGZ0Q97X2nJWNnY77NG
-         wtdvt/3SVG7cAV+lFkAXFJnDndDQUc5VYACtE=
+        bh=WCb0avfMfhqFRdPMe3Ycp6E7ngzUGoHw4RlfxTUvmP4=;
+        b=xYS/WFnwAlSPTgHQ/r5UXqpXUsnNURYxfh8EwRBBCEHtzljzRZb03wScL3iU0v3AEI
+         x3QwkPl0fPzEgu/df8TssusXH5g+bTZxgsjLBSpQq5/VPAonXz69V9rr2JS17xTDrrpt
+         LCL0gVjnPSzWM8u9EE4gYEIam5GvmICW41Xnw+COlXoCzZENMwhtCgdBnEynBTm87+AD
+         Pdx6JeCgaAU3kEP/E4ckc7nzCfowplZcX9M3ipY3nfhapkSy48be4oHry2+/1IMH1N1V
+         wwu21Ak+b5NesfT6eN9XVhN5yv4VzuEETu6Tj7QZvxSzcOiiMzpLrKV/r3E9AS3VLOMY
+         YWvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730480006; x=1731084806;
+        d=1e100.net; s=20230601; t=1730485148; x=1731089948;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
-        b=ueoSoJkaw3hHUMym6VJxgXAqo9yakszqbM+Wo8E127l1vMF7ub7ro6gyTHD51Wd7W+
-         J/GyySNMfUq13tG/8dMZ1pQzdfkmu2q8Zu7Y7IIij5Ycc9bI3e0cgIL2+bTscaZquD1p
-         GWCbW2W0QAMf/kBymYTYnmH+0+nOTjUnu3bLAudANmIE/+ovT7ZZxpSNwy7qeVbM6Zql
-         tyBGUBlxOn34VQC2MB4NsC2FmXdzVeiyNwMU/FM0edxmZInvaxScw0LCjBkjYNCvkW2p
-         jo6+oXG4e8K4S0n/fKfjXccjwFcLjCizTgLoQP2yZcBiRPqmEDiK1OeXt4VPciWppb5K
-         TQuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwRNoTVfjTK1rojbGhJ7xxG6GxTzvx0MGIvVg3/7buEeSkiUrWtJkSBsdFs61DOc+cQojdTPf/XBt++gqcLCc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXERZ/g3y1KxJaNTSEkFoxyZ7/vdpKxa8BSffj263RwwgEVvhG
-	Bt/clCInx8Ep/W6sQySJfFYYmfnNAZ9c98XTvSW7HrO/HDgL8Qxir4zU1k+lpQWBe7IuEN7h/Gv
-	8MB+Edh6Nle/GJNzlosymcn3gYAH+f0/moOBQ
-X-Google-Smtp-Source: AGHT+IFzApWOAHaMRLiMX928VZb3EEaKQZhz/P+VrQMbvxUftOjxTrNpjkGV033um8Yqj9SuXcwKZI0UTOlzqnKQDdw=
-X-Received: by 2002:a05:690c:4b13:b0:6e2:446f:422c with SMTP id
- 00721157ae682-6ea64b0f91fmr50088847b3.21.1730480006237; Fri, 01 Nov 2024
- 09:53:26 -0700 (PDT)
+        bh=WCb0avfMfhqFRdPMe3Ycp6E7ngzUGoHw4RlfxTUvmP4=;
+        b=vx99tBWx0sCJc0b0Bowg74RtUjDDyg7Ib8umBu342f8uARN9mhCTrLHzAPm4dpjY3+
+         gTb/YGD+tCVy5LwkfRv9BUgkfOOGGCGXxYMbKtbkLI/0MIPvPDfbowrqr2bqpIpnDlmh
+         oB77Gb3ivdsHhYA0JQvFcTElFxLKRfdiv7FWoEfXkriFwP+4EoUmgzLVTnTyxfjgh/k2
+         WiSTRUrsn4Pi7GwalNyPUUNlnOofZvwoM/4jzWSreRWNcI8HrHMJ8gPjKudmx//c2e90
+         gmw3pmSxaujRK3HP0uRnJj6nMWe/B/BYTKkKRoJBRkoiNR/8aTOZtheNuNPpE0JGtye0
+         EKTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqWRmu8aIix3LBJPTdqLJVlAk4n0U09GBD+K58+C+UiHAjJ75eHl/TSMpVLOPg3hS6nVGK7JI5/CNJxLLD9h0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2p0PSbbVhiQDanr7lTBnzp6u1xtkUSnBvC0qP/I1ZatY5gSLw
+	F/+NAEaQbLE2x8lcdIT6/F1/ZMPzWpeFrH4tdrZmWwGPa6LwO6VunYmL041Xz7bmPa68QHOyeDW
+	dHUxkpSqOFNF7inXqrlhO+LuXqSIrulVBfy1HdA==
+X-Google-Smtp-Source: AGHT+IFcq0AMZn+pZ24DpM6HGZ4OavdIPRNi8d8rMXlbIsaq2gBK6JoQrQewB37SFhHsyDDEtF8jHre0Mg6mo5VxsRA=
+X-Received: by 2002:a17:907:3da9:b0:a99:e98f:e73d with SMTP id
+ a640c23a62f3a-a9e5097d255mr759902366b.37.1730485148179; Fri, 01 Nov 2024
+ 11:19:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
- <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com> <CANFp7mX-DkyFqwoaq_4V1XEDBqK7bj6-nz2aJi7idM=Q2TT49w@mail.gmail.com>
- <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
-In-Reply-To: <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Fri, 1 Nov 2024 09:53:14 -0700
-Message-ID: <CANFp7mWim9VH+KLH3A+RJ5YFuvrVwDUgU2q8_qvDM3=jzYd6xg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
-	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
+ <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
+ <ef4fe230-b7fb-4f7e-9173-ae85d305e9ae@baylibre.com> <20241101154451.227defba@jic23-huawei>
+In-Reply-To: <20241101154451.227defba@jic23-huawei>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Fri, 1 Nov 2024 19:18:48 +0100
+Message-ID: <CAEHHSvZxgREMpA-kC7zarRZAp=bU6dcc2-3qjZU8o01BP3bSzA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/15] iio: light: adux1020: write_event_config: use
+ local variable for interrupt value
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, Mudit Sharma <muditsharma.info@gmail.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Anshul Dalal <anshulusr@gmail.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
+	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+	Ramona Gradinariu <ramona.gradinariu@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+	Dan Robertson <dan@dlrobertson.com>, Marcelo Schmitt <marcelo.schmitt@analog.com>, 
+	Matteo Martelli <matteomartelli3@gmail.com>, 
+	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>, 
+	Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J <jagathjog1996@gmail.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
+	Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 1, 2024 at 6:59=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
+Le ven. 1 nov. 2024 =C3=A0 16:45, Jonathan Cameron <jic23@kernel.org> a =C3=
+=A9crit :
 >
-> On Thu, Oct 31, 2024 at 03:48:45PM -0700, Abhishek Pandit-Subedi wrote:
-> > On Thu, Oct 31, 2024 at 7:33=E2=80=AFAM Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com> wrote:
+> On Thu, 31 Oct 2024 11:27:45 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+>
+> > On 10/31/24 10:27 AM, Julien Stephan wrote:
+> > > state parameter is currently an int, but it is actually a boolean.
+> > > iio_ev_state_store is actually using kstrtobool to check user input,
+> > > then gives the converted boolean value to write_event_config.  The co=
+de
+> > > in adux1020_write_event_config re-uses state parameter to store an
+> > > integer value. To prepare for updating the write_event_config signatu=
+re
+> > > to use a boolean for state, introduce a new local int variable.
 > > >
-> > > On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrot=
-e:
-> > > > Add controls for whether an alternate mode is automatically entered=
- when
-> > > > a partner connects. The auto_enter control is only available on por=
-ts
-> > > > and applies immediately after a partner connects. The default behav=
-ior
-> > > > is to enable auto enter and drivers must explicitly disable it.
-> > > >
-> > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > ---
-> > > >
-> > > > (no changes since v1)
-> > > >
-> > > >  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
-> > > >  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
-> > > >  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
-> > > >  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++=
-++++
-> > > >  include/linux/usb/typec.h                 |  2 ++
-> > > >  include/linux/usb/typec_altmode.h         |  2 ++
-> > > >  6 files changed, 50 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentat=
-ion/ABI/testing/sysfs-bus-typec
-> > > > index 205d9c91e2e1..f09d05727b82 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-bus-typec
-> > > > +++ b/Documentation/ABI/testing/sysfs-bus-typec
-> > > > @@ -12,6 +12,15 @@ Description:
-> > > >
-> > > >               Valid values are boolean.
-> > > >
-> > > > +What:                /sys/bus/typec/devices/.../auto_enter
-> > > > +Date:                September 2024
-> > > > +Contact:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > > +Description:
-> > > > +             Controls whether a mode will be automatically entered=
- when a partner is
-> > > > +             connected.
-> > > > +
-> > > > +             This field is only valid and displayed on a port. Val=
-id values are boolean.
+> > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > > ---
+> > >  drivers/iio/light/adux1020.c | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
 > > >
-> > > So, why can't this be controlled with the "active" property of the
-> > > port altmode instead? That's why it's there.
+> > > diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux102=
+0.c
+> > > index 2e0170be077aef9aa194fab51afbb33aec02e513..db57d84da616b91add8c5=
+d1aba08a73ce18c367e 100644
+> > > --- a/drivers/iio/light/adux1020.c
+> > > +++ b/drivers/iio/light/adux1020.c
+> > > @@ -505,7 +505,7 @@ static int adux1020_write_event_config(struct iio=
+_dev *indio_dev,
+> > >                                    enum iio_event_direction dir, int =
+state)
+> > >  {
+> > >     struct adux1020_data *data =3D iio_priv(indio_dev);
+> > > -   int ret, mask;
+> > > +   int ret, mask, val;
 > > >
-> > > Sorry if I missed something in v1 related to this question.
+> > >     mutex_lock(&data->lock);
+> > >
+> > > @@ -526,12 +526,12 @@ static int adux1020_write_event_config(struct i=
+io_dev *indio_dev,
+> > >                     mask =3D ADUX1020_PROX_OFF1_INT;
+> > >
+> > >             if (state)
+> > > -                   state =3D 0;
+> > > +                   val =3D 0;
+> > >             else
+> > > -                   state =3D mask;
+> > > +                   val =3D mask;
+> > >
+> > >             ret =3D regmap_update_bits(data->regmap, ADUX1020_REG_INT=
+_MASK,
+> > > -                                    mask, state);
+> > > +                                    mask, val);
+> > >             if (ret < 0)
+> > >                     goto fail;
+> > >
+> > >
 > >
-> > There was a bit of discussion around this in another patch in v1:
-> > https://patchwork.kernel.org/project/chrome-platform/patch/202409250925=
-05.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid/
-> > And this patch is probably a good place to continue that discussion.
+> > Instead of introducing `val`, I would rewrite this as:
 > >
-> > With the way altmodes drivers currently work, they will auto-enter
-> > when probed. So if you have a partner that supports both displayport
-> > and thunderbolt, they will both attempt to auto-enter on probe. I
-> > think I could use the `active` field instead so that the port altmode
-> > blocks entry until userspace enables it -- this would avoid the need
-> > to add one more sysfs ABI. I'll actually go ahead and do this for the
-> > next patch series I send up.
+> >       if (state)
+> >               ret =3D regmap_clear_bits(...);
+> >       else
+> >               ret =3D regmap_set_bits(...);
 > >
-> > However, the underlying problem I'm trying to solve still exists: how
-> > do you choose a specific altmode to enter if there are multiple to
-> > choose from? I tried to implement a method that first tries USB4 and
-> > then Thunderbolt and then DP but I realized that the altmode drivers
-> > don't necessarily bind immediately after a partner altmode is
-> > registered so I can't just call `activate` (since no ops are attached
-> > to the partner altmode yet). Do you have any thoughts about how to
-> > handle multiple modes as well as how to handle fallback mode entry
-> > (i.e. thunderbolt fails so you try DPAM next)?
+> Good idea.  Rather than go around again and potentially stall the end of =
+this series.
+> I made that change whilst applying.  Shout if either of you doesn't
+> like the result. Diff doesn't do a perfect job on readability (it does
+> if I add a line break but then the code looks worse in the end!)
 >
-> If the user space needs to take over control of the entry order, then
-> can't it just de-activate all port alt modes by default, and then
-> activate the one that needs to enter? The port driver probable needs
-> to implent the "activate" callback for this.
+
+Hello Jonathan,
+
+Looks fine to me. Thank you for doing the change yourself.
+
+Cheers
+Julien
+> From 06a1ca816450d1b5524f6010581a83ab9935d51b Mon Sep 17 00:00:00 2001
+> From: Julien Stephan <jstephan@baylibre.com>
+> Date: Thu, 31 Oct 2024 16:27:01 +0100
+> Subject: [PATCH] iio: light: adux1020: write_event_config: use local vari=
+able
+>  for interrupt value
 >
-> The user space can see when the driver is bound to a device by
-> monitoring the uevents, no?
-
-This requires userspace intervention to do the correct thing. Let's
-take a real world example:
-
-I have a TBT4 dock that supports DPAM (svid 0xff01), TBT (svid 0x8087)
-and also USB4.
-
-* When I plug in the dock, it enumerates and registers the partner
-altmodes. The altmode bus matches typec_displayport and
-typec_thunderbolt and loads the drivers for them. By default, both
-drivers will try to activate their altmode on probe(). Having a
-userspace daemon disable the altmode on the ports and enable them on
-connection will probably work here.
-* If I boot with the dock connected, the same thing happens but my
-userspace daemon may not be running yet. What should the default
-kernel behavior be to enter alt-modes then? When you throw USB4 into
-the mix, this becomes another can of worms since you probably don't
-want to downgrade from USB4 to DPAM.
-
-On ChromeOS, prior to this patch series, our userspace daemon (typecd)
-could handle all of this in userspace since it could just wait for
-`num_alt_modes` to be filled on partner-attach before trying to enter
-the right mode (via a side-band channel to the EC). After this change,
-typecd will be in a similar bind -- it will have to wait until all
-attached partner SVIDs have drivers attached (if available).
-
-Underlying all this, I guess the real need here is for some sort of
-signal that says: All partner modes are registered, any necessary
-drivers for these modes are bound and you are ready to make a decision
-on which mode to enter. Then, we could iteratively try to enter the
-best mode (USB4 > TBT > DP) and report failure conditions on why it
-couldn't be entered (i.e. Cable speed, partner problem / link
-training, etc). This could be done in kernel or userspace depending on
-the system.
-
+> state parameter is currently an int, but it is actually a boolean.
+> iio_ev_state_store is actually using kstrtobool to check user input,
+> then gives the converted boolean value to write_event_config.  The code
+> in adux1020_write_event_config re-uses state parameter to store an
+> integer value. To prepare for updating the write_event_config signature
+> to use a boolean for state, introduce a new local int variable.
 >
-> thanks,
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> Link: https://patch.msgid.link/20241031-iio-fix-write-event-config-signat=
+ure-v2-6-2bcacbb517a2@baylibre.com
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  drivers/iio/light/adux1020.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.c
+> index 2e0170be077a..06d5bc1d246c 100644
+> --- a/drivers/iio/light/adux1020.c
+> +++ b/drivers/iio/light/adux1020.c
+> @@ -526,12 +526,11 @@ static int adux1020_write_event_config(struct iio_d=
+ev *indio_dev,
+>                         mask =3D ADUX1020_PROX_OFF1_INT;
+>
+>                 if (state)
+> -                       state =3D 0;
+> +                       ret =3D regmap_clear_bits(data->regmap,
+> +                                               ADUX1020_REG_INT_MASK, ma=
+sk);
+>                 else
+> -                       state =3D mask;
+> -
+> -               ret =3D regmap_update_bits(data->regmap, ADUX1020_REG_INT=
+_MASK,
+> -                                        mask, state);
+> +                       ret =3D regmap_set_bits(data->regmap,
+> +                                             ADUX1020_REG_INT_MASK, mask=
+);
+>                 if (ret < 0)
+>                         goto fail;
 >
 > --
-> heikki
+> 2.46.2
+>
+>
+>
+> >
+> >
+>

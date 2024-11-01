@@ -1,219 +1,291 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93821C7287
-	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 18:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29A01A2658
+	for <chrome-platform@lists.linux.dev>; Fri,  1 Nov 2024 18:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730485153; cv=none; b=G2f1VWB9Nj/1+j4BW80ULHSOulWy0hYl3FilRbz9CExjpmv7TdIdDiMQWPiCe2CJ5VslhtF7HBOe2v2JGLmcos6IsKh+f7xFNdJyzO0AWu3Bk9gX8s1ysqf6RlRhZVrZkVakRR3T1knpwdhuGVMMBUKr4P1QIt8xnfQZgzh3Y14=
+	t=1730486903; cv=none; b=DtCitprdwpEcCe8+vwd/AeYHS6PZbdBEVhQtc668w7CLPk8V0nSi+pv4vTIukWyZ41EaHk1dIh/s+wgfxQVy0gYKoJMN0xaGDoAV7uNTp242V8em0Qon714oKxVhAqCUVwhBuZBpJGnwaoPqKQpjTM8NVzfArQcWED5BGXiQ0iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730485153; c=relaxed/simple;
-	bh=jOGNatYKO7LyfoMaEY3D4pl3e46xv0D7qv7HJZZbDO8=;
+	s=arc-20240116; t=1730486903; c=relaxed/simple;
+	bh=pyi9QpZiK5IS2oc9TWE6Zr8eiHo4wp+YcZ8sjnnrhCY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mNdp4EM6EPsKtEC+knE3nUGr/kMhcAoKdAoIW8emEpnQVidJm4RNb/40KWJnwSJ+Z2bWK4Rm5CH7VJ7XIvJjT4s1g2pi1tzEDTl8cVuxpven24ymG9Jdd+mn95wpu0UteGAd+BSEYzS+xCQqu9XGaROJ9c/BRxPj1ecxf5zOUTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=xYS/WFnw; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 To:Cc:Content-Type; b=Il3PappsCFg98pOVo/D0OkR09ya2UsXBbJPbcGSjtvyE1teOYoVSYP0QvkrCDvgq5E8FO2ohkmWachal6kqskIzQqRikjgPO2ols0wzL6dUfFCLJ9YjzyAreBO0ZAFG/R0DpaZ/mfvAFlDq7zxu9/WPhcBvDTW5BGFeY4madh6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OVVX6WD0; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xYS/WFnw"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a9a2cdc6f0cso308640366b.2
-        for <chrome-platform@lists.linux.dev>; Fri, 01 Nov 2024 11:19:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OVVX6WD0"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6e5cec98cceso19343237b3.2
+        for <chrome-platform@lists.linux.dev>; Fri, 01 Nov 2024 11:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730485148; x=1731089948; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1730486900; x=1731091700; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WCb0avfMfhqFRdPMe3Ycp6E7ngzUGoHw4RlfxTUvmP4=;
-        b=xYS/WFnwAlSPTgHQ/r5UXqpXUsnNURYxfh8EwRBBCEHtzljzRZb03wScL3iU0v3AEI
-         x3QwkPl0fPzEgu/df8TssusXH5g+bTZxgsjLBSpQq5/VPAonXz69V9rr2JS17xTDrrpt
-         LCL0gVjnPSzWM8u9EE4gYEIam5GvmICW41Xnw+COlXoCzZENMwhtCgdBnEynBTm87+AD
-         Pdx6JeCgaAU3kEP/E4ckc7nzCfowplZcX9M3ipY3nfhapkSy48be4oHry2+/1IMH1N1V
-         wwu21Ak+b5NesfT6eN9XVhN5yv4VzuEETu6Tj7QZvxSzcOiiMzpLrKV/r3E9AS3VLOMY
-         YWvg==
+        bh=s2WG2arvja/5OtR3j0Ql2Ai05SO92ltHmuVlmZ7nHwI=;
+        b=OVVX6WD0YngUFWWlvZLbWPrvYfdYEB3WfSQLBoL+ax8ETuah15t+Av8/B1zZJ91QPr
+         bZCunhRQvOXk3fc0K2w4fn5SfEIPqGF2cBxSIMktovnMGmdoz9mlBJ4d9pt++texVFrH
+         MPqVtUOLtG525EyvNLjhxW0HBsLodRcUj9gXw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730485148; x=1731089948;
+        d=1e100.net; s=20230601; t=1730486900; x=1731091700;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WCb0avfMfhqFRdPMe3Ycp6E7ngzUGoHw4RlfxTUvmP4=;
-        b=vx99tBWx0sCJc0b0Bowg74RtUjDDyg7Ib8umBu342f8uARN9mhCTrLHzAPm4dpjY3+
-         gTb/YGD+tCVy5LwkfRv9BUgkfOOGGCGXxYMbKtbkLI/0MIPvPDfbowrqr2bqpIpnDlmh
-         oB77Gb3ivdsHhYA0JQvFcTElFxLKRfdiv7FWoEfXkriFwP+4EoUmgzLVTnTyxfjgh/k2
-         WiSTRUrsn4Pi7GwalNyPUUNlnOofZvwoM/4jzWSreRWNcI8HrHMJ8gPjKudmx//c2e90
-         gmw3pmSxaujRK3HP0uRnJj6nMWe/B/BYTKkKRoJBRkoiNR/8aTOZtheNuNPpE0JGtye0
-         EKTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqWRmu8aIix3LBJPTdqLJVlAk4n0U09GBD+K58+C+UiHAjJ75eHl/TSMpVLOPg3hS6nVGK7JI5/CNJxLLD9h0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2p0PSbbVhiQDanr7lTBnzp6u1xtkUSnBvC0qP/I1ZatY5gSLw
-	F/+NAEaQbLE2x8lcdIT6/F1/ZMPzWpeFrH4tdrZmWwGPa6LwO6VunYmL041Xz7bmPa68QHOyeDW
-	dHUxkpSqOFNF7inXqrlhO+LuXqSIrulVBfy1HdA==
-X-Google-Smtp-Source: AGHT+IFcq0AMZn+pZ24DpM6HGZ4OavdIPRNi8d8rMXlbIsaq2gBK6JoQrQewB37SFhHsyDDEtF8jHre0Mg6mo5VxsRA=
-X-Received: by 2002:a17:907:3da9:b0:a99:e98f:e73d with SMTP id
- a640c23a62f3a-a9e5097d255mr759902366b.37.1730485148179; Fri, 01 Nov 2024
- 11:19:08 -0700 (PDT)
+        bh=s2WG2arvja/5OtR3j0Ql2Ai05SO92ltHmuVlmZ7nHwI=;
+        b=nQbut+/ysjnlHpfpyMgj1xRugDioMoS+UqWRnbR9kxU4037sB1LU0i12giSbS1GgQx
+         4OUKDh++oT8Z9xFwn9RMKHYVOQC8W9tD5Et8ct+eXNUpv4r+VLYIrKS1eCRFdax0eFol
+         09uUNMwAEzUz5y8H81hbCN5eCT8aa7OLiptpb+/bNq9Ybmfb30Gh+D3hmcv46snRt6p3
+         FVlTz3JRWpOFOJv2VR/5V+M32HdgeRAE+XUtdOu7JnWV0Vv7MhveDFQMNR77rPND1W9/
+         G1bpMoWVDNgMVde6lg9TGsaeo298myYQvf0m28nFj0ArzEMRNn2qyfQcAfUV0g8X1537
+         1qww==
+X-Forwarded-Encrypted: i=1; AJvYcCV+LRd+rAaFfiSwuIxsY+h63c9xqJM7HalmHJ4S1EB7jMmkWdMqcoNJhmMqkujLEnmEYKJ5qfTkLGoIO/8JS4E=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyd35ZYNWeQIjitFaoQ1GCIEkY4RoScGSg+bJxR7mq9WuzOZMvM
+	lhTkEJYC2nqao2Abrf0qpAXOB1Z34gn0kTqZSQ3TESgTdDqbatRMUbF1TBYjsCN4IDbtuvUHn/c
+	BMB652mkUDEoBUJi3sT9RIa9iJ9X2s3zPE+01
+X-Google-Smtp-Source: AGHT+IGZykLyDDusTf2p10kUkd81BwLJb5PLt+lso8Am/U6tNAKMIlDSU/zo5JWa/mMuc2OH4bfaSh5aFUXrsgUnbPU=
+X-Received: by 2002:a05:690c:6289:b0:6ea:7afd:d8f2 with SMTP id
+ 00721157ae682-6ea7afddd75mr8978097b3.15.1730486899641; Fri, 01 Nov 2024
+ 11:48:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241031-iio-fix-write-event-config-signature-v2-0-2bcacbb517a2@baylibre.com>
- <20241031-iio-fix-write-event-config-signature-v2-6-2bcacbb517a2@baylibre.com>
- <ef4fe230-b7fb-4f7e-9173-ae85d305e9ae@baylibre.com> <20241101154451.227defba@jic23-huawei>
-In-Reply-To: <20241101154451.227defba@jic23-huawei>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 1 Nov 2024 19:18:48 +0100
-Message-ID: <CAEHHSvZxgREMpA-kC7zarRZAp=bU6dcc2-3qjZU8o01BP3bSzA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/15] iio: light: adux1020: write_event_config: use
- local variable for interrupt value
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Mudit Sharma <muditsharma.info@gmail.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Anshul Dalal <anshulusr@gmail.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
-	Ramona Gradinariu <ramona.gradinariu@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Dan Robertson <dan@dlrobertson.com>, Marcelo Schmitt <marcelo.schmitt@analog.com>, 
-	Matteo Martelli <matteomartelli3@gmail.com>, 
-	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, Michal Simek <michal.simek@amd.com>, 
-	Mariel Tinaco <Mariel.Tinaco@analog.com>, Jagath Jog J <jagathjog1996@gmail.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
-	Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+ <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com> <CANFp7mXhwMMwyqbKqxe=SgCRPUyXVhKnsJwf0xgJ2LefOvrtjg@mail.gmail.com>
+ <ZyTUsOg7cd6xSDhn@kuha.fi.intel.com>
+In-Reply-To: <ZyTUsOg7cd6xSDhn@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Fri, 1 Nov 2024 11:48:07 -0700
+Message-ID: <CANFp7mVC1RVLF=OPD-jiv5cQeYaA8uqNA0xB5os3iAKo2DFWoA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
+	Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 1 nov. 2024 =C3=A0 16:45, Jonathan Cameron <jic23@kernel.org> a =C3=
-=A9crit :
+On Fri, Nov 1, 2024 at 6:16=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
-> On Thu, 31 Oct 2024 11:27:45 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->
-> > On 10/31/24 10:27 AM, Julien Stephan wrote:
-> > > state parameter is currently an int, but it is actually a boolean.
-> > > iio_ev_state_store is actually using kstrtobool to check user input,
-> > > then gives the converted boolean value to write_event_config.  The co=
-de
-> > > in adux1020_write_event_config re-uses state parameter to store an
-> > > integer value. To prepare for updating the write_event_config signatu=
-re
-> > > to use a boolean for state, introduce a new local int variable.
+> On Thu, Oct 31, 2024 at 04:02:22PM -0700, Abhishek Pandit-Subedi wrote:
+> > On Thu, Oct 31, 2024 at 7:11=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
 > > >
-> > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > > ---
-> > >  drivers/iio/light/adux1020.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > Hi Abhishek,
 > > >
-> > > diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux102=
-0.c
-> > > index 2e0170be077aef9aa194fab51afbb33aec02e513..db57d84da616b91add8c5=
-d1aba08a73ce18c367e 100644
-> > > --- a/drivers/iio/light/adux1020.c
-> > > +++ b/drivers/iio/light/adux1020.c
-> > > @@ -505,7 +505,7 @@ static int adux1020_write_event_config(struct iio=
-_dev *indio_dev,
-> > >                                    enum iio_event_direction dir, int =
-state)
-> > >  {
-> > >     struct adux1020_data *data =3D iio_priv(indio_dev);
-> > > -   int ret, mask;
-> > > +   int ret, mask, val;
+> > > On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi wrot=
+e:
+> > > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > >
+> > > > Thunderbolt 3 Alternate Mode entry flow is described in
+> > > > USB Type-C Specification Release 2.0.
+> > > >
+> > > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.or=
+g>
+> > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > > > ---
+> > > >
+> > > > Changes:
+> > > > * Delay cable + plug checks so that the module doesn't fail to prob=
+e
+> > > >   if cable + plug information isn't available by the time the partn=
+er
+> > > >   altmode is registered.
+> > > > * Remove unncessary brace after if (IS_ERR(plug))
+> > > >
+> > > > The rest of this patch should be the same as Heikki's original RFC.
+> > > >
+> > > >
+> > > > Changes in v2:
+> > > > - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+> > > > - Pass struct typec_thunderbolt_data to typec_altmode_notify
+> > > > - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+> > > > - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+> > > > - Change module license to GPL due to checkpatch warning
+> > > >
+> > > >  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
+> > > >  drivers/usb/typec/altmodes/Kconfig       |   9 +
+> > > >  drivers/usb/typec/altmodes/Makefile      |   2 +
+> > > >  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++=
+++++
+> > > >  include/linux/usb/typec_tbt.h            |   3 +-
+> > > >  5 files changed, 322 insertions(+), 2 deletions(-)
+> > > >  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+> > > >
+> > > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/plat=
+form/chrome/cros_ec_typec.c
+> > > > index c7781aea0b88..53d93baa36a8 100644
+> > > > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > > > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > > > @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cros_ty=
+pec_data *typec,
+> > > >       }
+> > > >
+> > > >       port->state.data =3D &data;
+> > > > -     port->state.mode =3D TYPEC_TBT_MODE;
+> > > > +     port->state.mode =3D USB_TYPEC_TBT_MODE;
+> > > >
+> > > >       return typec_mux_set(port->mux, &port->state);
+> > > >  }
 > > >
-> > >     mutex_lock(&data->lock);
+> > > The definition should be changed in a separate patch.
+> >
+> > Ack -- will pull the rename out into its own patch.
+> >
 > > >
-> > > @@ -526,12 +526,12 @@ static int adux1020_write_event_config(struct i=
-io_dev *indio_dev,
-> > >                     mask =3D ADUX1020_PROX_OFF1_INT;
+> > > > +static const struct typec_device_id tbt_typec_id[] =3D {
+> > > > +     { USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
+> > > > +     { }
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
 > > >
-> > >             if (state)
-> > > -                   state =3D 0;
-> > > +                   val =3D 0;
-> > >             else
-> > > -                   state =3D mask;
-> > > +                   val =3D mask;
+> > > Now the mode would be the same thing as connector state, which is not
+> > > true. The connector state is supposed to reflect the pin assignment,
+> > > and the mode is the mode index used with the actual VDMs. For example=
+,
+> > > DP alt mode has several different states, but only one mode.
 > > >
-> > >             ret =3D regmap_update_bits(data->regmap, ADUX1020_REG_INT=
-_MASK,
-> > > -                                    mask, state);
-> > > +                                    mask, val);
-> > >             if (ret < 0)
-> > >                     goto fail;
+> > > The TBT3 altmode driver will not work with this patch alone, it will
+> > > never bind to the partner TBT3 alt mode because the mode does not
+> > > match.
 > > >
+> > > Can you reorganise this series so that the patch 2/7 comes before thi=
+s
+> > > one? Then I think you can just use the SVID unless I'm mistaken:
+> > >
+> > >         static const struct typec_device_id tbt_typec_id[] =3D {
+> > >                 { USB_TYPEC_TBT_SID },
+> > >                 { }
+> > >         };
+> > >         MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+> > >
+> > > Alternatively, just leave it to TYPEC_ANY_MODE for now.
 > > >
 > >
-> > Instead of introducing `val`, I would rewrite this as:
+> > Sure, I'll re-order the patches and get rid of the mode. I'm actually
+> > a bit confused as to how mode is supposed to be used since typec_dp.h
+> > defines USB_TYPEC_DP_MODE=3D1, typec_tbt.h defines
+> > USB_TYPEC_TBT_MODE=3DTYPEC_STATE_MODAL and it looks like USB state also
+> > starts from TYPEC_STATE_MODAL and continues.
 > >
-> >       if (state)
-> >               ret =3D regmap_clear_bits(...);
-> >       else
-> >               ret =3D regmap_set_bits(...);
+> > Is this documented in the spec somewhere? How should this mode value
+> > be used and shared between USB and various alt-modes? At least the DP
+> > case seems clear because as you said it describes different pin
+> > assignments. However, the term "mode" seems to be overloaded since
+> > it's used in other areas.
+>
+> Well, this is confusing, I admit. One problem is that the term "mode"
+> really means different things depending on the spec. In DP alt mode
+> specification for example, "mode" basically means the same as pin
+> assignment, so not the object position like it does in USB PD and
+> Type-C specifications.
+>
+> But the alt modes are in any case meant to be differentiated from the
+> common USB and accessory modes simply by checking if there is struct
+> altmode or not.
+>
+> So the mux drivers for example can use the "alt" member in struct
+> typec_mux_state to check is the connector meant to enter alt mode, or
+> USB or accessory mode.
+>
+> I.e. if the "alt" member is there, then it's alt mode, and the "mode"
+> member value matches whatever is defined for that specific alt mode.
+>
+> If "alt" is NULL, then connector is in USB mode or accessory mode, and
+> the "mode" member is one of the common modes:
+>
+> enum {
+>         TYPEC_MODE_USB2 =3D TYPEC_STATE_MODAL,    /* USB 2.0 mode */
+>         TYPEC_MODE_USB3,                        /* USB 3.2 mode */
+>         TYPEC_MODE_USB4,                        /* USB4 mode */
+>         TYPEC_MODE_AUDIO,                       /* Audio Accessory */
+>         TYPEC_MODE_DEBUG,                       /* Debug Accessory */
+> }
+>
+> I hope this answers your question. Maybe this needs to be clarified in
+> this document:
+> https://docs.kernel.org/driver-api/usb/typec.html#multiplexer-demultiplex=
+er-switches
+>
+> ..and the code obviously. Maybe the "mode" member struct
+> typec_mux_state should be renamed to "state"? Though, I'm not sure
+> that improves the situation.
+>
+
+This does make things clearer -- thank you. Based on the various
+meanings of mode vs state, I think the following will make things
+clearer:
+
+Let's change |mode| to |mode_index| in `struct typec_altmode_desc`.
+Looking at the Discover SVIDs and Discover Modes response in PD 3.2
+spec, the value we are passing here is actually the mode_index since
+that's what's necessary in the VDM to identify which mode we are
+trying to enter.
+
+|USB_TYPEC_DP_MODE| needs to change to |USB_TYPEC_DP_MODE_INDEX| in typec_d=
+p.h
+|USB_TYPEC_TBT_MODE| should also be |USB_TYPEC_TBT_MODE_INDEX| with a
+value of 1 and we should define a new |TYPEC_TBT_STATE| as an enum
+with base value of TYPEC_STATE_MODAL.
+
+Getting rid of the mode index for altmode matching makes sense for DP
+and TBT (since both have spec defined standard values) but for
+non-standard modes which might return >1 modes in Discover Modes the
+driver will match for all modes and not just the specific mode like it
+was prior to patch 2 in this series. Do we want to retain that and
+change the TBT driver to only match on mode_index =3D 1 instead. I have
+no examples of non-standard mode behavior to decide which is the
+better option here.
+
+> > > > +static struct typec_altmode_driver tbt_altmode_driver =3D {
+> > > > +     .id_table =3D tbt_typec_id,
+> > > > +     .probe =3D tbt_altmode_probe,
+> > > > +     .remove =3D tbt_altmode_remove,
+> > > > +     .driver =3D {
+> > > > +             .name =3D "typec-thunderbolt",
+> > > > +             .owner =3D THIS_MODULE,
+> > > > +     }
+> > > > +};
+> > > > +module_typec_altmode_driver(tbt_altmode_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>")=
+;
+> > > > +MODULE_LICENSE("GPL");
+> > > > +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
+> > > > diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/type=
+c_tbt.h
+> > > > index fa97d7e00f5c..3ff82641f6a0 100644
+> > > > --- a/include/linux/usb/typec_tbt.h
+> > > > +++ b/include/linux/usb/typec_tbt.h
+> > > > @@ -10,7 +10,7 @@
+> > > >  #define USB_TYPEC_TBT_SID            USB_TYPEC_VENDOR_INTEL
+> > > >
+> > > >  /* Connector state for Thunderbolt3 */
+> > > > -#define TYPEC_TBT_MODE                       TYPEC_STATE_MODAL
+> > > > +#define USB_TYPEC_TBT_MODE           TYPEC_STATE_MODAL
+> > >
+> > > I think USB_TYPEC_STATE_TBT would be better. But please change this i=
+n
+> > > a separate patch in any case.
 > >
-> Good idea.  Rather than go around again and potentially stall the end of =
-this series.
-> I made that change whilst applying.  Shout if either of you doesn't
-> like the result. Diff doesn't do a perfect job on readability (it does
-> if I add a line break but then the code looks worse in the end!)
+> > Same question as above about mode vs state :)
 >
-
-Hello Jonathan,
-
-Looks fine to me. Thank you for doing the change yourself.
-
-Cheers
-Julien
-> From 06a1ca816450d1b5524f6010581a83ab9935d51b Mon Sep 17 00:00:00 2001
-> From: Julien Stephan <jstephan@baylibre.com>
-> Date: Thu, 31 Oct 2024 16:27:01 +0100
-> Subject: [PATCH] iio: light: adux1020: write_event_config: use local vari=
-able
->  for interrupt value
+> Well, I was thinking that maybe we should use the term "state" here
+> with the idea that "state" would be something purely kernel specific,
+> and "mode" would then be something defined in a specification... But
+> now I'm not so sure (I don't think it's always clear).
 >
-> state parameter is currently an int, but it is actually a boolean.
-> iio_ev_state_store is actually using kstrtobool to check user input,
-> then gives the converted boolean value to write_event_config.  The code
-> in adux1020_write_event_config re-uses state parameter to store an
-> integer value. To prepare for updating the write_event_config signature
-> to use a boolean for state, introduce a new local int variable.
+> Maybe USB_TYPEC_TBT_MODE after all. I'll leave the decision to you.
 >
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> Link: https://patch.msgid.link/20241031-iio-fix-write-event-config-signat=
-ure-v2-6-2bcacbb517a2@baylibre.com
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  drivers/iio/light/adux1020.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/iio/light/adux1020.c b/drivers/iio/light/adux1020.c
-> index 2e0170be077a..06d5bc1d246c 100644
-> --- a/drivers/iio/light/adux1020.c
-> +++ b/drivers/iio/light/adux1020.c
-> @@ -526,12 +526,11 @@ static int adux1020_write_event_config(struct iio_d=
-ev *indio_dev,
->                         mask =3D ADUX1020_PROX_OFF1_INT;
->
->                 if (state)
-> -                       state =3D 0;
-> +                       ret =3D regmap_clear_bits(data->regmap,
-> +                                               ADUX1020_REG_INT_MASK, ma=
-sk);
->                 else
-> -                       state =3D mask;
-> -
-> -               ret =3D regmap_update_bits(data->regmap, ADUX1020_REG_INT=
-_MASK,
-> -                                        mask, state);
-> +                       ret =3D regmap_set_bits(data->regmap,
-> +                                             ADUX1020_REG_INT_MASK, mask=
-);
->                 if (ret < 0)
->                         goto fail;
+> cheers,
 >
 > --
-> 2.46.2
->
->
->
-> >
-> >
->
+> heikki

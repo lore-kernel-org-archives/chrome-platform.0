@@ -1,67 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E315025776
-	for <chrome-platform@lists.linux.dev>; Mon,  4 Nov 2024 14:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37141741D1
+	for <chrome-platform@lists.linux.dev>; Tue,  5 Nov 2024 16:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730730749; cv=none; b=AWPuBAwG5ex1oEKijLsJRgam2PW2vcrp8yXJm0GfGLxQ+seQUODqffGgZEE5wxpe25s8hvWkueJ0TlXpCE/dd0rz9EwTxGDAPLRpxY7v1nC8R1At+yIqrgoCeLV+rk+AqepYaaBcs9j1XGs/EbIw/awtwESno/DwEmhYlYqfT6Q=
+	t=1730823244; cv=none; b=myI3rLL4vmpqJgQUb7O1rviFMyJn9IbZt5qFolH/gxBvNUEvHuGDs+bz/P+OUiw1yyUjy7UevuixMU+iMyANm7/6z/G9EONDnlbRlIG83nkIAEjavb7Me3F9vfpOBHa2CB0y6tSG2XF9UisPVZsTx2UEwKzY8UYqDc7oGobNN0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730730749; c=relaxed/simple;
-	bh=nwR9aONzVYrPtaCPM/rCOoBU/juFbUwDxewR2+ECA4U=;
+	s=arc-20240116; t=1730823244; c=relaxed/simple;
+	bh=zM8rDeIgAwEMP+1FUdZD8AQYFImhDuF0iIzBR9ZWdYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmbcEbfS97ADmAA8oGX6prSzHq1V233cOFu0/0GiZaGwh8m12+3GjyjdOY2KxIlPKzXrPvMX6S7iCetqgkOnOoeFN7xxV1kW8gApuz8eRKQUV1ekyZWPEQWdDHAI8cO9b9Smc504KyDrRaftumVAzIUnU6mS0sy7lUr5HyCYPls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOyMxrmL; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZqDboVsUrEBot2GFB+khjZSmsTLqLKRoKS/jb9ptHm6i7yUugoSn9+XUqwZwPFbli/2KunWbpITGasDv8XQ5JYk3+W4ilZILrizdGP3PopcbEe3C/chWNwAwQm0MB7tMYjZd4g6abH+uql4kJdiHnNznTN/T49+vSsCArIuaPps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FnMvvJUJ; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOyMxrmL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730730748; x=1762266748;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nwR9aONzVYrPtaCPM/rCOoBU/juFbUwDxewR2+ECA4U=;
-  b=TOyMxrmLkq8ruBr4S1hkOLfjljKS7pCTKFWujh+ylsWkQtdohTJ2nLr5
-   D93oTKaMEGyJ5mPeNCrVWgmHTBxzlue/sqmB3gkfI7gw8G1UySalfmgwb
-   vDPcF/5xdCwHB2WOjvFBb9w/oERgK5E6QXCxTRyj82YLqjLe2JIBbMNzi
-   MpmDsRO9GSY1ySz2e42IlYCHiIKCEBwzqhCEvOvuAH3d66K2u2GBQTJea
-   BcHsKyY0BlpEIBGuacvT89txWGsXut2e2IuiHOO7uHjYumXci4/YYWU/K
-   rGDsWa0SNyq0suFWz4Vlc96IG3l8yuuaze6y2ERM8YjhUJ7Ckdm3OcwEn
-   w==;
-X-CSE-ConnectionGUID: w3pN+pSiSOu+6TboNvV15Q==
-X-CSE-MsgGUID: /bFLMbyCTMatS1rPFreYjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="55829950"
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="55829950"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:32:27 -0800
-X-CSE-ConnectionGUID: FSB9NkaeQmGj5FxJ0bo+7A==
-X-CSE-MsgGUID: 6hQy1VRTT1+GCJSPUFSNQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="88434652"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa003.jf.intel.com with SMTP; 04 Nov 2024 06:32:22 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 04 Nov 2024 16:32:21 +0200
-Date: Mon, 4 Nov 2024 16:32:21 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org,
-	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
-	Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3
- Alternate Mode
-Message-ID: <Zyja9b2Xt-BEc-mx@kuha.fi.intel.com>
-References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
- <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com>
- <CANFp7mXhwMMwyqbKqxe=SgCRPUyXVhKnsJwf0xgJ2LefOvrtjg@mail.gmail.com>
- <ZyTUsOg7cd6xSDhn@kuha.fi.intel.com>
- <CANFp7mVC1RVLF=OPD-jiv5cQeYaA8uqNA0xB5os3iAKo2DFWoA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FnMvvJUJ"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a097aa3daso5231061e87.1
+        for <chrome-platform@lists.linux.dev>; Tue, 05 Nov 2024 08:14:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730823241; x=1731428041; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OsgC3GUt52fG7g3FJ6lyd/7Hq8DIyDZOCFrlqdAN2z8=;
+        b=FnMvvJUJTlqRIXtnaMoIMOE+p1VK11f61/sQNeWqevkEdh34cmz2u75VhKL8+SNlWY
+         MM8m2KXVOxa/XdgPMV9W3X/rwaFEepBeOqj+D0IoPeuJUnJgze5K9FwHSoFuPPW90bGa
+         oKmd75OUv2Up546im2rpTufCnmZTW1vqiFAaQXkBVeyC0v/4KhGyohk61E26Rx6Jn8N8
+         Qj9ngglrButmfls9GBzNFjU7zXxY5EaM/4xMlUc6UdAesZvZ9gCn5gCCdUoRhhqj9Yte
+         8dIytAsA6W9rdXkJ+MgV7NZHfIZ+mRHq/mNQbQPoC4K5akZ2OOhRwM63dYZ3k4CxQGdb
+         M5Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730823241; x=1731428041;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OsgC3GUt52fG7g3FJ6lyd/7Hq8DIyDZOCFrlqdAN2z8=;
+        b=gibnD5dwXXuC6QdDfhrMfne2YScm/xjh2kZZe32mfH6Ab2dKhMIKz8uOPwhwhVxs2t
+         6e3Qv2DawhUlp/LkpyrKpuXQUy4N6kmiJ+1rIh0u3zvLbpKkQcYar09kwWYY/KjYCYg/
+         8xw3GUg7Eskd4SBTVzBKRXnf8ne6CEPdP7cBmrEuaX3JsSg/mLvSyxFemNkSct1ugURI
+         G8LI/gHGihCgVnVVmiPRJuBZP+X6SdOdOYugKrrhxH3HI1ZkjB6MWXonv9Hd1aiNjyQQ
+         3y56GmpAKYTn1lQ3P+/gc2RWI900nh8QUbuF4c/xcdoy+TMejxQZ+3fdi0cycPVu7pzo
+         p7eA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpqV6HKz3ivJ4tF1i0mzN9inpXcJeExsku1dGUzA2mnQX/xQAz6YBc93NfI2za0AikXP84i7bGA3ekcWe7bBQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzJCkk3LfMmaZfaAjZgBj9VZUz02MeTjDknAWRQU+G2Npu52VX
+	M6pOstpO2s206dgGA4evOMEh1rDcCklAXKYteFocZ9APEmFQi5Id
+X-Google-Smtp-Source: AGHT+IF8BLVkWOaws14kIJqjSIzF39hKa71k2p8OWLa7ITtzulUErFMEpSbUuonylZ3cZrDAMvQP+w==
+X-Received: by 2002:a05:6512:3a95:b0:53b:1fe4:3fb9 with SMTP id 2adb3069b0e04-53d65e2474fmr7828089e87.49.1730823240757;
+        Tue, 05 Nov 2024 08:14:00 -0800 (PST)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bdcc073sm2168565e87.212.2024.11.05.08.13.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 08:14:00 -0800 (PST)
+Date: Tue, 5 Nov 2024 19:13:59 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v10 5/7] i2c: of-prober: Add GPIO support to simple
+ helpers
+Message-ID: <ZypER5bqLAlH7VxK@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+References: <20241030072229.1013235-1-wenst@chromium.org>
+ <20241030072229.1013235-6-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -71,219 +94,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mVC1RVLF=OPD-jiv5cQeYaA8uqNA0xB5os3iAKo2DFWoA@mail.gmail.com>
+In-Reply-To: <20241030072229.1013235-6-wenst@chromium.org>
 
-On Fri, Nov 01, 2024 at 11:48:07AM -0700, Abhishek Pandit-Subedi wrote:
-> On Fri, Nov 1, 2024 at 6:16 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > On Thu, Oct 31, 2024 at 04:02:22PM -0700, Abhishek Pandit-Subedi wrote:
-> > > On Thu, Oct 31, 2024 at 7:11 AM Heikki Krogerus
-> > > <heikki.krogerus@linux.intel.com> wrote:
-> > > >
-> > > > Hi Abhishek,
-> > > >
-> > > > On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi wrote:
-> > > > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > > >
-> > > > > Thunderbolt 3 Alternate Mode entry flow is described in
-> > > > > USB Type-C Specification Release 2.0.
-> > > > >
-> > > > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > > > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > > ---
-> > > > >
-> > > > > Changes:
-> > > > > * Delay cable + plug checks so that the module doesn't fail to probe
-> > > > >   if cable + plug information isn't available by the time the partner
-> > > > >   altmode is registered.
-> > > > > * Remove unncessary brace after if (IS_ERR(plug))
-> > > > >
-> > > > > The rest of this patch should be the same as Heikki's original RFC.
-> > > > >
-> > > > >
-> > > > > Changes in v2:
-> > > > > - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
-> > > > > - Pass struct typec_thunderbolt_data to typec_altmode_notify
-> > > > > - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
-> > > > > - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
-> > > > > - Change module license to GPL due to checkpatch warning
-> > > > >
-> > > > >  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
-> > > > >  drivers/usb/typec/altmodes/Kconfig       |   9 +
-> > > > >  drivers/usb/typec/altmodes/Makefile      |   2 +
-> > > > >  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++++++
-> > > > >  include/linux/usb/typec_tbt.h            |   3 +-
-> > > > >  5 files changed, 322 insertions(+), 2 deletions(-)
-> > > > >  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
-> > > > >
-> > > > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> > > > > index c7781aea0b88..53d93baa36a8 100644
-> > > > > --- a/drivers/platform/chrome/cros_ec_typec.c
-> > > > > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> > > > > @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
-> > > > >       }
-> > > > >
-> > > > >       port->state.data = &data;
-> > > > > -     port->state.mode = TYPEC_TBT_MODE;
-> > > > > +     port->state.mode = USB_TYPEC_TBT_MODE;
-> > > > >
-> > > > >       return typec_mux_set(port->mux, &port->state);
-> > > > >  }
-> > > >
-> > > > The definition should be changed in a separate patch.
-> > >
-> > > Ack -- will pull the rename out into its own patch.
-> > >
-> > > >
-> > > > > +static const struct typec_device_id tbt_typec_id[] = {
-> > > > > +     { USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
-> > > > > +     { }
-> > > > > +};
-> > > > > +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
-> > > >
-> > > > Now the mode would be the same thing as connector state, which is not
-> > > > true. The connector state is supposed to reflect the pin assignment,
-> > > > and the mode is the mode index used with the actual VDMs. For example,
-> > > > DP alt mode has several different states, but only one mode.
-> > > >
-> > > > The TBT3 altmode driver will not work with this patch alone, it will
-> > > > never bind to the partner TBT3 alt mode because the mode does not
-> > > > match.
-> > > >
-> > > > Can you reorganise this series so that the patch 2/7 comes before this
-> > > > one? Then I think you can just use the SVID unless I'm mistaken:
-> > > >
-> > > >         static const struct typec_device_id tbt_typec_id[] = {
-> > > >                 { USB_TYPEC_TBT_SID },
-> > > >                 { }
-> > > >         };
-> > > >         MODULE_DEVICE_TABLE(typec, tbt_typec_id);
-> > > >
-> > > > Alternatively, just leave it to TYPEC_ANY_MODE for now.
-> > > >
-> > >
-> > > Sure, I'll re-order the patches and get rid of the mode. I'm actually
-> > > a bit confused as to how mode is supposed to be used since typec_dp.h
-> > > defines USB_TYPEC_DP_MODE=1, typec_tbt.h defines
-> > > USB_TYPEC_TBT_MODE=TYPEC_STATE_MODAL and it looks like USB state also
-> > > starts from TYPEC_STATE_MODAL and continues.
-> > >
-> > > Is this documented in the spec somewhere? How should this mode value
-> > > be used and shared between USB and various alt-modes? At least the DP
-> > > case seems clear because as you said it describes different pin
-> > > assignments. However, the term "mode" seems to be overloaded since
-> > > it's used in other areas.
-> >
-> > Well, this is confusing, I admit. One problem is that the term "mode"
-> > really means different things depending on the spec. In DP alt mode
-> > specification for example, "mode" basically means the same as pin
-> > assignment, so not the object position like it does in USB PD and
-> > Type-C specifications.
-> >
-> > But the alt modes are in any case meant to be differentiated from the
-> > common USB and accessory modes simply by checking if there is struct
-> > altmode or not.
-> >
-> > So the mux drivers for example can use the "alt" member in struct
-> > typec_mux_state to check is the connector meant to enter alt mode, or
-> > USB or accessory mode.
-> >
-> > I.e. if the "alt" member is there, then it's alt mode, and the "mode"
-> > member value matches whatever is defined for that specific alt mode.
-> >
-> > If "alt" is NULL, then connector is in USB mode or accessory mode, and
-> > the "mode" member is one of the common modes:
-> >
-> > enum {
-> >         TYPEC_MODE_USB2 = TYPEC_STATE_MODAL,    /* USB 2.0 mode */
-> >         TYPEC_MODE_USB3,                        /* USB 3.2 mode */
-> >         TYPEC_MODE_USB4,                        /* USB4 mode */
-> >         TYPEC_MODE_AUDIO,                       /* Audio Accessory */
-> >         TYPEC_MODE_DEBUG,                       /* Debug Accessory */
-> > }
-> >
-> > I hope this answers your question. Maybe this needs to be clarified in
-> > this document:
-> > https://docs.kernel.org/driver-api/usb/typec.html#multiplexer-demultiplexer-switches
-> >
-> > ..and the code obviously. Maybe the "mode" member struct
-> > typec_mux_state should be renamed to "state"? Though, I'm not sure
-> > that improves the situation.
-> >
+On 24-10-30 15:22, Chen-Yu Tsai wrote:
+> Add GPIO support to the simple helpers for the I2C OF component prober.
+> Components that the prober intends to probe likely require their
+> regulator supplies be enabled, and GPIOs be toggled to enable them or
+> bring them out of reset before they will respond to probe attempts.
+> Regulator supplies were handled in the previous patch.
 > 
-> This does make things clearer -- thank you. Based on the various
-> meanings of mode vs state, I think the following will make things
-> clearer:
+> The assumption is that the same class of components to be probed are
+> always connected in the same fashion with the same regulator supply
+> and GPIO. The names may vary due to binding differences, but the
+> physical layout does not change.
 > 
-> Let's change |mode| to |mode_index| in `struct typec_altmode_desc`.
-> Looking at the Discover SVIDs and Discover Modes response in PD 3.2
-> spec, the value we are passing here is actually the mode_index since
-> that's what's necessary in the VDM to identify which mode we are
-> trying to enter.
-
-Yes, mode_index sounds better.
-
-> |USB_TYPEC_DP_MODE| needs to change to |USB_TYPEC_DP_MODE_INDEX| in typec_dp.h
-> |USB_TYPEC_TBT_MODE| should also be |USB_TYPEC_TBT_MODE_INDEX| with a
-> value of 1 and we should define a new |TYPEC_TBT_STATE| as an enum
-> with base value of TYPEC_STATE_MODAL.
+> This supports at most one GPIO pin. The user must specify the GPIO name,
+> the polarity, and the amount of time to wait after the GPIO is toggled.
+> Devices with more than one GPIO pin likely require specific power
+> sequencing beyond what generic code can easily support.
 > 
-> Getting rid of the mode index for altmode matching makes sense for DP
-> and TBT (since both have spec defined standard values) but for
-> non-standard modes which might return >1 modes in Discover Modes the
-> driver will match for all modes and not just the specific mode like it
-> was prior to patch 2 in this series. Do we want to retain that and
-> change the TBT driver to only match on mode_index = 1 instead. I have
-> no examples of non-standard mode behavior to decide which is the
-> better option here.
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-Let's drop it for now. We can always add it back.
+> diff --git a/include/linux/i2c-of-prober.h b/include/linux/i2c-of-prober.h
+> index df95aa6ad90e..a232f3cbb252 100644
+> --- a/include/linux/i2c-of-prober.h
+> +++ b/include/linux/i2c-of-prober.h
+> @@ -85,6 +85,7 @@ int i2c_of_probe_component(struct device *dev, const struct i2c_of_probe_cfg *cf
+>   *
+>   * The following helpers are provided:
+>   * * i2c_of_probe_simple_enable()
+> + * * i2c_of_probe_simple_cleanup_early()
+>   * * i2c_of_probe_simple_cleanup()
+>   */
+>  
+> @@ -92,14 +93,31 @@ int i2c_of_probe_component(struct device *dev, const struct i2c_of_probe_cfg *cf
+>   * struct i2c_of_probe_simple_opts - Options for simple I2C component prober callbacks
+>   * @res_node_compatible: Compatible string of device node to retrieve resources from.
+>   * @supply_name: Name of regulator supply.
+> + * @gpio_name: Name of GPIO. NULL if no GPIO line is used. Empty string ("") if GPIO
+> + *	       line is unnamed.
+>   * @post_power_on_delay_ms: Delay after regulators are powered on. Passed to msleep().
+> + * @post_gpio_config_delay_ms: Delay after GPIO is configured. Passed to msleep().
+> + * @gpio_assert_to_enable: %true if GPIO should be asserted, i.e. set to logical high,
+> + *			   to enable the component.
+> + *
+> + * This describes power sequences common for the class of components supported by the
+> + * simple component prober:
+> + * * @gpio_name is configured to the non-active setting according to @gpio_assert_to_enable.
+> + * * @supply_name regulator supply is enabled.
+> + * * Wait for @post_power_on_delay_ms to pass.
+> + * * @gpio_name is configured to the active setting according to @gpio_assert_to_enable.
+> + * * Wait for @post_gpio_config_delay_ms to pass.
+>   */
+>  struct i2c_of_probe_simple_opts {
+>  	const char *res_node_compatible;
+>  	const char *supply_name;
+> +	const char *gpio_name;
+>  	unsigned int post_power_on_delay_ms;
+> +	unsigned int post_gpio_config_delay_ms;
+> +	bool gpio_assert_to_enable;
 
-thanks,
+This header is missing '#include <linux/types.h>' for bool
+type. Otherwise compilation may fail with following error:
 
-> > > > > +static struct typec_altmode_driver tbt_altmode_driver = {
-> > > > > +     .id_table = tbt_typec_id,
-> > > > > +     .probe = tbt_altmode_probe,
-> > > > > +     .remove = tbt_altmode_remove,
-> > > > > +     .driver = {
-> > > > > +             .name = "typec-thunderbolt",
-> > > > > +             .owner = THIS_MODULE,
-> > > > > +     }
-> > > > > +};
-> > > > > +module_typec_altmode_driver(tbt_altmode_driver);
-> > > > > +
-> > > > > +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
-> > > > > +MODULE_LICENSE("GPL");
-> > > > > +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
-> > > > > diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-> > > > > index fa97d7e00f5c..3ff82641f6a0 100644
-> > > > > --- a/include/linux/usb/typec_tbt.h
-> > > > > +++ b/include/linux/usb/typec_tbt.h
-> > > > > @@ -10,7 +10,7 @@
-> > > > >  #define USB_TYPEC_TBT_SID            USB_TYPEC_VENDOR_INTEL
-> > > > >
-> > > > >  /* Connector state for Thunderbolt3 */
-> > > > > -#define TYPEC_TBT_MODE                       TYPEC_STATE_MODAL
-> > > > > +#define USB_TYPEC_TBT_MODE           TYPEC_STATE_MODAL
-> > > >
-> > > > I think USB_TYPEC_STATE_TBT would be better. But please change this in
-> > > > a separate patch in any case.
-> > >
-> > > Same question as above about mode vs state :)
-> >
-> > Well, I was thinking that maybe we should use the term "state" here
-> > with the idea that "state" would be something purely kernel specific,
-> > and "mode" would then be something defined in a specification... But
-> > now I'm not so sure (I don't think it's always clear).
-> >
-> > Maybe USB_TYPEC_TBT_MODE after all. I'll leave the decision to you.
-> >
-> > cheers,
-> >
-> > --
-> > heikki
+```
+./include/linux/i2c-of-prober.h:117:9: error: unknown type name ‘bool’
+  117 |         bool gpio_assert_to_enable;
+      |         ^~~~
+./include/linux/i2c-of-prober.h:12:1: note: ‘bool’ is defined in header ‘<stdbool.h>’; this is probably fixable by adding ‘#include <stdbool.h>’
+   11 | #include <linux/kconfig.h>
+  +++ |+#include <stdbool.h>
+   12 |
+```
+
+>  };
+>  
+> +struct gpio_desc;
+>  struct regulator;
+>  
+>  struct i2c_of_probe_simple_ctx {
+> @@ -107,9 +125,11 @@ struct i2c_of_probe_simple_ctx {
+>  	const struct i2c_of_probe_simple_opts *opts;
+>  	/* private: internal fields for helpers. */
+>  	struct regulator *supply;
+> +	struct gpio_desc *gpiod;
+>  };
+>  
+>  int i2c_of_probe_simple_enable(struct device *dev, struct device_node *bus_node, void *data);
+> +void i2c_of_probe_simple_cleanup_early(struct device *dev, void *data);
+>  void i2c_of_probe_simple_cleanup(struct device *dev, void *data);
+>  
+>  extern struct i2c_of_probe_ops i2c_of_probe_simple_ops;
+> -- 
+> 2.47.0.163.g1226f6d8fa-goog
+> 
 
 -- 
-heikki
+Best regards,
+Andrey Skvortsov

@@ -1,81 +1,50 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D15F1DE2B1
-	for <chrome-platform@lists.linux.dev>; Wed,  6 Nov 2024 09:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730885671; cv=none; b=ILFs5tX9kZU1graWcdTlchmPktQ6OjsUNgVR4UaXjUUN8TOhOz3mveW1DRXFMW5QgUv9Q//VPrCHNXKkmgevMug8MEsFlVx+ZN89i5zGbP4KttMbYBRCGkFu0OV5N3iYvQzpYX2wA1Rr5Wk4N+jV5k4Um1eKTKVy8liLVcEJF6s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730885671; c=relaxed/simple;
-	bh=fbfS5+0BG4rw0gOZBk/i1Plr3VDHJVhinZJf5GjxUnQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HBAQx47RiHlA450189gRMqtB2FeEYCxnjaTgHx1VDBQMSJU4SHFr/e6xxt/KXF9lFx47mCR8/MLv5Sqp8VGOhXuFylDLK/Vxx2Vos97WejP2xSThHCoFQupBDiQt+c0usMVUEPuCsgEhgr7EdI9eRLk15iz+FlHaNFhBfb69boA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LID4rZEN; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D479204F6A;
+	Wed,  6 Nov 2024 16:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730909287; cv=pass; b=inTTNKksjfo0R+izgczVnRILTwI8UEtE6pKSq3dKIqx5EcgezbCUjtPsVManzNCEMcKqEBWAQ1td1c2iMwaPk8z4v3rwd0pB50XOnmC2sSusQ9P48XApVImFEEU3VhMHmGLl18GlVques7JRPvx88DySBXUfk7LcmJrLh/UEJqY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730909287; c=relaxed/simple;
+	bh=e8ncEEuW7cFbLsRNpBTLTILlUQ0m+ULp/aJ3ntDFyTM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sc4aZ4AWp6bKyGxXnwTAN3uZc4jSAvwlSS08VBnJfNR1wHSvkj81YX3R2COxizhBnci4BMFKYOwY8cguDDmoygLRKcHV4wXXYOIke9eoSk4A3FWfTfv8tuemvgWHMsNkxN2NSERqkmDl8OZqHnkwgus/Cpjx8sp/5yOeRyxDf20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b=fkPvdCYb; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LID4rZEN"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c77459558so54642435ad.0
-        for <chrome-platform@lists.linux.dev>; Wed, 06 Nov 2024 01:34:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730885669; x=1731490469; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O/GF/Qtpn6msAtbROl5IORl4ZiQde9+aAMX19fZKFEE=;
-        b=LID4rZENeoi7WwixSqcgAdM5SJV5nAY0nAt7+Ed/O3nl3vMhXDdaM5dAMwbAtx/K8U
-         OE6zLFhAnkBDEETiZtE/D6Hi25/8tlZXPf26k2etH7t2yUGFUUazR52Us3fDK539GpPC
-         RJPRzd/p25eT5WmeWWX9RgC31Rol4AOp67jLI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730885669; x=1731490469;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O/GF/Qtpn6msAtbROl5IORl4ZiQde9+aAMX19fZKFEE=;
-        b=pvdVpffBTqChzEKNNE38SD/sTrI0IBdwmVivW71uvzG63FOzxDzOr+iKtVi15QxsLE
-         TrwBCE+YGs4kO7k34rvl4DTBOrX4T8/cPvb2U2+tQ/k7aVMTNMOK71RZJsEChyH4zUXw
-         JXNtReRy3rqniB9T9K2nK4oOeXo89DvmHvwFIy0SeeVX0byi9waSC8IcI61fbkPCo3IT
-         mFY+5htHZ7S6MLv2f+J7Pj+t2IxibQMPz4qbtUjjs81Err/cG0my5rmoqAK5rmf0uUL1
-         5Q76CO9Wwug3Bp13HlOdmY6qbxR2k8a6aPUp6oHxPaspt5HGB1hkiroq0wVNkEdrpccO
-         5aww==
-X-Forwarded-Encrypted: i=1; AJvYcCXaNblJDFVEbaHBWkdgaLX6zG7T63drwda61BQt/Qo2ZGtKbe1ueRfQ685FV8affIUsWGjiyeiLMIo9RALEQso=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwO7Tw7MrUla4xADVSHhy4VLhi7XSJwLp4LijOc5N+NDFPhwfza
-	cav140z/wYu1AQvF+fuFn4bQt6azf0Bss+FlcY5WXROHpbqgR2a0CImzqA/fgg==
-X-Google-Smtp-Source: AGHT+IEFJaxMs5mAqrxaj0N0qXwA3k96U3FQh8ZQNA88MZaxh/utNb59Xt8KT+qflVg8MQLvbAXTtQ==
-X-Received: by 2002:a17:902:d481:b0:20c:5d78:4d8f with SMTP id d9443c01a7336-210f76f2d29mr381797155ad.52.1730885669470;
-        Wed, 06 Nov 2024 01:34:29 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:93fe:1d68:b50:3213])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057062b8sm91478665ad.63.2024.11.06.01.34.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 01:34:29 -0800 (PST)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org,
-	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	stable+noautosel@kernel.org
-Subject: [PATCH v11 7/7] arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads as fail
-Date: Wed,  6 Nov 2024 17:33:34 +0800
-Message-ID: <20241106093335.1582205-8-wenst@chromium.org>
-X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
-In-Reply-To: <20241106093335.1582205-1-wenst@chromium.org>
-References: <20241106093335.1582205-1-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b="fkPvdCYb"
+ARC-Seal: i=1; a=rsa-sha256; t=1730909280; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=EYaNphjKrf1ONSpkisQ1saF8xG7z3ivaqKEAKMptWBeUcRtlQ9mT1sK9JRT3ssrjlSkzhtfVuSprQ/gGY0VzoZ8udlpIqUPnu9lo6SL64EqVRyTWM1Cio3cZp86t8Ub/rtL8AzCalELmLpnOIJnaP4ky2veMcoa5luMx269AL8c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1730909280; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ej7PlNROi5y6rJY01LVfYSZ2mQDOu9Gm4uuZ4iC9/7k=; 
+	b=PX9JtJNoFt5/Eol3PKh1/rQ6j5dwhOM/HusW2krj8VUWDxnC0AJ1C6mBZ9GEewrF5MWTtCVojriHCcslUC1K/hPO9HijxxxX+H2VSv+4IjlF54dOF7Zk6Txj5SUqMmWnaiMnzNLbF/1Zc2ETXsF0TW8+ej2qua3tYvJo0Rmk/UE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=laura.nao@collabora.com;
+	dmarc=pass header.from=<laura.nao@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1730909280;
+	s=zohomail; d=collabora.com; i=laura.nao@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=ej7PlNROi5y6rJY01LVfYSZ2mQDOu9Gm4uuZ4iC9/7k=;
+	b=fkPvdCYbLBXCOuPAgBTdLokBGQLdjpPaqRWnAJjGlDi5ymo4UKDWfkyO+VpNGLdm
+	bB4P8Lm8i51f38GHTB4pPd1cE3+Pc0uSTJOVvwNsmO33uugS3Zei+5EI/kXq//Gl+aT
+	gw58eG9n7uewHWoF7tmMy0pedislf4Hik5RmfK9c=
+Received: by mx.zohomail.com with SMTPS id 1730909259613680.21413674386;
+	Wed, 6 Nov 2024 08:07:39 -0800 (PST)
+From: Laura Nao <laura.nao@collabora.com>
+To: regressions@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	kernel@collabora.com,
+	bpf@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [REGRESSION] module BTF validation failure (Error -22) on next
+Date: Wed,  6 Nov 2024 17:08:20 +0100
+Message-Id: <20241106160820.259829-1-laura.nao@collabora.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -83,122 +52,74 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Instead of having them all available, mark them all as "fail-needs-probe"
-and have the implementation try to probe which one is present.
+Hello,
 
-Also remove the shared resource workaround by moving the pinctrl entry
-for the trackpad interrupt line back into the individual trackpad nodes.
+KernelCI has detected a module loading regression affecting all AMD and 
+Intel Chromebooks in the Collabora LAVA lab, occurring between 
+next-20241024 and next-20241025.
 
-Cc: <stable+noautosel@kernel.org> # Needs accompanying new driver to work
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
----
-Changes since v9:
-- Picked up Doug's reviewed-by
+The logs indicate a failure in BTF module validation, preventing all 
+modules from loading correctly (with CONFIG_MODULE_ALLOW_BTF_MISMATCH 
+unset). The example below is from an AMD Chromebook (HP 14b na0052xx), 
+with similar errors observed on other AMD and Intel devices:
 
-Changes since v8:
-none
+[    5.284373] failed to validate module [cros_kbd_led_backlight] BTF: -22
+[    5.291392] failed to validate module [i2c_hid] BTF: -22
+[    5.293958] failed to validate module [chromeos_pstore] BTF: -22
+[    5.302832] failed to validate module [coreboot_table] BTF: -22
+[    5.309175] failed to validate module [raydium_i2c_ts] BTF: -22
+[    5.309264] failed to validate module [i2c_cros_ec_tunnel] BTF: -22
+[    5.322158] failed to validate module [typec] BTF: -22
+[    5.327554] failed to validate module [snd_timer] BTF: -22
+[    5.327573] failed to validate module [cros_usbpd_notify] BTF: -22
+[    5.339272] failed to validate module [elan_i2c] BTF: -22
+[    5.345821] failed to validate module [industrialio] BTF: -22
+[    5.423113] failed to validate module [cfg80211] BTF: -22
+[    5.443074] failed to validate module [cros_ec_dev] BTF: -22
+[    5.448857] failed to validate module [snd_pci_acp3x] BTF: -22
+[    5.454736] failed to validate module [cros_kbd_led_backlight] BTF: -22
+[    5.461458] failed to validate module [regmap_i2c] BTF: -22
+[    5.470228] failed to validate module [i2c_piix4] BTF: -22
+[    5.491123] failed to validate module [i2c_hid] BTF: -22
+[    5.491226] failed to validate module [chromeos_pstore] BTF: -22
+[    5.496519] failed to validate module [coreboot_table] BTF: -22
+[    5.502632] failed to validate module [snd_timer] BTF: -22
+[    5.538916] failed to validate module [gsmi] BTF: -22
+[    5.604971] failed to validate module [mii] BTF: -22
+[    5.604971] failed to validate module [videobuf2_common] BTF: -22
+[    5.604972] failed to validate module [sp5100_tco] BTF: -22
+[    5.616068] failed to validate module [snd_soc_acpi] BTF: -22
+[    5.680553] failed to validate module [bluetooth] BTF: -22
+[    5.749320] failed to validate module [chromeos_pstore] BTF: -22
+[    5.755440] failed to validate module [mii] BTF: -22
+[    5.760522] failed to validate module [snd_timer] BTF: -22
+[    5.783549] failed to validate module [bluetooth] BTF: -22
+[    5.841561] failed to validate module [mii] BTF: -22
+[    5.846699] failed to validate module [snd_timer] BTF: -22
+[    5.892444] failed to validate module [mii] BTF: -22
+[    5.897708] failed to validate module [snd_timer] BTF: -22
+[    5.945507] failed to validate module [snd_timer] BTF: -22
 
-Changes since v7:
-- Mark touchscreen@40 as "fail-needs-probe" as well
+The full kernel log is available on [1]. The config used is available on
+[2] and the kernel/modules have been built using gcc-12.
 
-Changes since v6:
-none
+The issue is still present on next-20241105.
 
-Changes since v5:
-none
+I'm sending this report to track the regression while a fix is
+identified. The culprit commit hasn't been pinpointed yet, I'll report
+back once it's identified.
 
-Changes since v4:
-- Rebased
+Any feedback or suggestion for additional debugging steps would be greatly 
+appreciated.
 
-Changes since v3:
-- Also remove second source workaround, i.e. move the interrupt line
-  pinctrl entry from the i2c node back to the components.
+Best,
 
-Changes since v2:
-- Drop class from status
----
- arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi | 14 ++++++++++++++
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi      |  4 ++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
+Laura
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-index ae0379fd42a9..dfc5c2f0ddef 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-@@ -14,6 +14,7 @@ touchscreen2: touchscreen@34 {
- 		compatible = "melfas,mip4_ts";
- 		reg = <0x34>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/*
-@@ -26,6 +27,7 @@ touchscreen3: touchscreen@20 {
- 		reg = <0x20>;
- 		hid-descr-addr = <0x0020>;
- 		interrupts-extended = <&pio 88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- 
- 	/* Lenovo Ideapad C330 uses G2Touch touchscreen as a 2nd source touchscreen */
-@@ -35,6 +37,7 @@ touchscreen@40 {
- 		hid-descr-addr = <0x0001>;
- 		interrupt-parent = <&pio>;
- 		interrupts = <88 IRQ_TYPE_LEVEL_LOW>;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -47,6 +50,8 @@ &i2c4 {
- 	trackpad2: trackpad@2c {
- 		compatible = "hid-over-i2c";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x2c>;
- 		hid-descr-addr = <0x0020>;
- 		/*
-@@ -58,6 +63,7 @@ trackpad2: trackpad@2c {
- 		 */
- 		vdd-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
- };
- 
-@@ -82,3 +88,11 @@ pins_wp {
- 		};
- 	};
- };
-+
-+&touchscreen {
-+	status = "fail-needs-probe";
-+};
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index b4d85147b77b..eee64461421f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -358,12 +358,12 @@ touchscreen: touchscreen@10 {
- &i2c4 {
- 	clock-frequency = <400000>;
- 	status = "okay";
--	pinctrl-names = "default";
--	pinctrl-0 = <&trackpad_irq>;
- 
- 	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		interrupts-extended = <&pio 117 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_irq>;
- 		reg = <0x15>;
- 		vcc-supply = <&mt6397_vgp6_reg>;
- 		wakeup-source;
--- 
-2.47.0.199.ga7371fff76-goog
+[1] https://pastebin.com/raw/dtvzBkxh
+[2] https://pastebin.com/raw/a1MGi3wH
+
+#regzbot introduced: next-20241024..next-20241025
 

@@ -1,54 +1,54 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9201DA31D
-	for <chrome-platform@lists.linux.dev>; Wed,  6 Nov 2024 09:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE341DB546
+	for <chrome-platform@lists.linux.dev>; Wed,  6 Nov 2024 09:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730885651; cv=none; b=nwGDE7pcGU7YYlNU0nKbCIF7TSQIairXdI3/lO5jCkof6nsinKrqCIqSnpcWY163UE7CPVxTnuVbyOCLz7WoSG1DyJEzfIPxTHODEi0B31OJ82OLMOsPjXsgpvDDZhSsFf9Jc9XVflfN4w/KMucX+yFCWLfZvpeECnoXugKEhAs=
+	t=1730885655; cv=none; b=YHOBgDtIRM+uk+13sHhR3C+HVjUK6UAsBJ1RBc6WonFa7r3ZC2atfe/DKpf7HdoiZu9QOWcL7AVO1Ps1l4qSY/QaWcWSfv8PAtMetFkjoKSH9xP6eKlulZtZ55cX65QfTDB+tml07lEK/4M1em9OI9r3Mgrs4+DHE23+zn41lqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730885651; c=relaxed/simple;
-	bh=Zz2M0sneWoPuGkYkdOhI3CuKEUZZTQY3lZ2/MbU5e84=;
+	s=arc-20240116; t=1730885655; c=relaxed/simple;
+	bh=F5ArjWom+MQi62Ghn0rbbhm+sqeF3wwa6gc09F6PrqE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hdwtI9m5mYojQPhlc+bcSYtUBTvnEubpLk9JeW0gD/HHPDKEx2GeHyk9KBcgW5Iy52qWIw8OIyFyhLCO+OR/j5tMzHqy1iS7Rtxbuu4U1IwgCuRbMS0zltHoE8dRF/FABAn9X+XDqQP85BCFAVveTvgNQd4Ab5SqJHfJaYU6AHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NBzpWekj; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=gcLML7N1CJvhRpbkgy39ySYlgys8H2poSX6gC7wPw709DIYLej3Czj/HEDum5GLZUpb8rJIlZ3b3IWzg0S6I/yUeWmN3ck06xRXfZ0OxlSkYObEO2wywydyAtACPnfLCe0vKs8Oh7WP0Zzq5PSnVMv2SoHe2BjMCkIrmKf4VTiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XIMjsiaG; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NBzpWekj"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cd76c513cso50953115ad.3
-        for <chrome-platform@lists.linux.dev>; Wed, 06 Nov 2024 01:34:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XIMjsiaG"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-20c9978a221so65978265ad.1
+        for <chrome-platform@lists.linux.dev>; Wed, 06 Nov 2024 01:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730885649; x=1731490449; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1730885652; x=1731490452; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=llYngkqgiFGTwpRX3D7wCxxqCsKOgB9wOxApc/ic0J8=;
-        b=NBzpWekjx2JhBeqOtRlNX3gzY/qubE50yjnWF8zdM2ZRZmXSk8JNGwwkVa6sFdowP9
-         locie4OCX1BwCLHdY/cVcSwuCRFv6sFifbOmqIHdjWDjpXniA1MWKX7hN8QXFs8Rx5wd
-         4uPPH6O1Bhh5n0sUWJJnBGOYFTL1kVZT0j9LI=
+        bh=tbfB757zoogv3EY5nGOvTyWU1LRL3RJGksVkmiyRShA=;
+        b=XIMjsiaGs7WzzXNp1V8qtlaaYwynjafyfYEDaOyhKFLVOdPaxoy62+WyWMy7ecd3MD
+         cZ7yAutUxheRki3JL8llpSlq9d64blUQN3A48d/+9xrgEE3EQQvaZpj4/55RX4/pDVI6
+         MlHOQWOAPLfRsfB6HEHzrT5G0BhpGr3p9wut0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730885649; x=1731490449;
+        d=1e100.net; s=20230601; t=1730885652; x=1731490452;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=llYngkqgiFGTwpRX3D7wCxxqCsKOgB9wOxApc/ic0J8=;
-        b=WV0ZfrgDteb2gMPDbTuSxKPtR6qH9kirUPBC235UbLe1tJ5QWDcR5660y/eXjR3/Sf
-         DVXzYmyy3f7iX9XB9igNoa9+C/rji18coyMFzHVZFKTkuc8+cm79TTRpXJOjwryJKahX
-         M0sVh/PZa23YVGXvlJvXIXowHS2k8Bc6Cs4w8b7KdseBXGBBqyJFyRTOVu/bis3/LJTT
-         qL5tYoljnQJZVADF5pNTnZh27jYHTG4J09t2mjO/0Iz0aGUCeJ6mZ2mR8QjFaWsBw/+J
-         ZtbO4zjoegGp0mLQpXEzr1/ezvh11otIl35GpZrL4TNv3bZHkNj2sfcy1SDDiH5Z09bu
-         5lBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdcDDoVguXog4zL2WKvlAuguykXrb8HP6m31MgsSVRH0257OSjas5gIxJ8w0CPOD23ZmoN51nIDM/17ySP0j4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGFUPGH9oRmVAjInKaJp81DbEttghj6V++jT/fSaWSps6/7aca
-	GMmw/KxbkR/Y1PxREG1S7yMCtq/hHQWPWl80OnxOqxMgq61YatciXjBI9jecFg==
-X-Google-Smtp-Source: AGHT+IHKOHXdDAUgO9QjYpvJtulYfjKvmKS2PsJrrTevb2UOA/ICT/NZEufa/1uemsVqPCJNroTu4g==
-X-Received: by 2002:a17:903:230d:b0:20b:7731:e3df with SMTP id d9443c01a7336-210f76d6780mr400638435ad.43.1730885649028;
-        Wed, 06 Nov 2024 01:34:09 -0800 (PST)
+        bh=tbfB757zoogv3EY5nGOvTyWU1LRL3RJGksVkmiyRShA=;
+        b=XXx8W3Ax32QYlzCfpS16V3AUGYdKz8Hp1PHzQxeY/og7NGa+/UxFSET8X6v3DX3G/b
+         cSU81Iplee1KBs3lkSSOZrhX6I23RpuVBVjGiVQEJe5/Kr6aSPTzvPWox9YFhk5xmaNM
+         /fPQxOpc7+60uY+Oumg6+dZ92UIs1TSazqe+hYKNdsaRB9vydpwYEN5/ophkMfGiYCYp
+         QPN6+LSrVQxnkHtOF7jDeZF55DGMWKEoLa8VxTuh++PkUpg2ZW/WgVUNsB7NN8eQrHiQ
+         pHmZJKt4QAL0+d0aIWxKFToUEF2onjBYlOh9lio91LX2MJWshyVyNoKbWrn76ceg928n
+         EmJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWmU4ilXxSwJ0fnUN3pkit91Id4aii1TCry2uVp29e53syEgrFtYUiF+JDQlxuMExIrWr8znmThWdc+RdHvIQA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMbzmjSW3avUl/laOJO4M4z52C9Xi6xTCmiLQzrZqLgoozaaWU
+	P9+3pdgVaBTFcXac8RfYgkaOSdCzJjVa/XbOkcpQJMleM+l2mbgvjEfMkio/jw==
+X-Google-Smtp-Source: AGHT+IGsqJnP2c29fT7ec18QitUEURWR4HKremiykkNa1vQPN87ztDDGEmp/BT6g/9KjaXSGkYd/CA==
+X-Received: by 2002:a17:903:234c:b0:20c:5b80:930f with SMTP id d9443c01a7336-210c68a9c02mr560445915ad.12.1730885652382;
+        Wed, 06 Nov 2024 01:34:12 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:93fe:1d68:b50:3213])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057062b8sm91478665ad.63.2024.11.06.01.34.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057062b8sm91478665ad.63.2024.11.06.01.34.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 01:34:08 -0800 (PST)
+        Wed, 06 Nov 2024 01:34:12 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -69,9 +69,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-i2c@vger.kernel.org,
 	Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH v11 1/7] of: dynamic: Add of_changeset_update_prop_string
-Date: Wed,  6 Nov 2024 17:33:28 +0800
-Message-ID: <20241106093335.1582205-2-wenst@chromium.org>
+Subject: [PATCH v11 2/7] of: base: Add for_each_child_of_node_with_prefix()
+Date: Wed,  6 Nov 2024 17:33:29 +0800
+Message-ID: <20241106093335.1582205-3-wenst@chromium.org>
 X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
 In-Reply-To: <20241106093335.1582205-1-wenst@chromium.org>
 References: <20241106093335.1582205-1-wenst@chromium.org>
@@ -83,105 +83,100 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a helper function to add string property updates to an OF changeset.
-This is similar to of_changeset_add_prop_string(), but instead of adding
-the property (and failing if it exists), it will update the property.
+There are cases where drivers would go through child device nodes and
+operate on only the ones whose node name starts with a given prefix.
 
-This shall be used later in the DT hardware prober.
+Provide a helper for these users. This will mainly be used in a
+subsequent patch that implements a hardware component prober for I2C
+busses.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
 Changes since v7:
-none
-
+- Collected Rob's Reviewed-by
 Changes since v6:
-none
-
+- Changed helper name to "for_each_child_of_node_with_prefix()"
 Changes since v5:
-- Collected Rob's tag
-
-Changes since v4:
-- Use modern designated initializer for |prop|
-
-Changes since v3:
-- Use new __of_prop_free() helper
-- Add new line before header declaration
-
-Changes since v2:
-- New patch added in v3
+- New patch
 ---
- drivers/of/dynamic.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- include/linux/of.h   |  4 ++++
- 2 files changed, 48 insertions(+)
+ drivers/of/base.c  | 35 +++++++++++++++++++++++++++++++++++
+ include/linux/of.h |  9 +++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
-index d45a8df61380..0aba760f7577 100644
---- a/drivers/of/dynamic.c
-+++ b/drivers/of/dynamic.c
-@@ -1072,3 +1072,47 @@ int of_changeset_add_prop_bool(struct of_changeset *ocs, struct device_node *np,
- 	return of_changeset_add_prop_helper(ocs, np, &prop);
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index d94efee4a7fc..a01e5534c2fd 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -628,6 +628,41 @@ struct device_node *of_get_next_child(const struct device_node *node,
  }
- EXPORT_SYMBOL_GPL(of_changeset_add_prop_bool);
-+
-+static int of_changeset_update_prop_helper(struct of_changeset *ocs,
-+					   struct device_node *np,
-+					   const struct property *pp)
-+{
-+	struct property *new_pp;
-+	int ret;
-+
-+	new_pp = __of_prop_dup(pp, GFP_KERNEL);
-+	if (!new_pp)
-+		return -ENOMEM;
-+
-+	ret = of_changeset_update_property(ocs, np, new_pp);
-+	if (ret)
-+		__of_prop_free(new_pp);
-+
-+	return ret;
-+}
-+
+ EXPORT_SYMBOL(of_get_next_child);
+ 
 +/**
-+ * of_changeset_update_prop_string - Add a string property update to a changeset
++ * of_get_next_child_with_prefix - Find the next child node with prefix
++ * @node:	parent node
++ * @prev:	previous child of the parent node, or NULL to get first
 + *
-+ * @ocs:	changeset pointer
-+ * @np:		device node pointer
-+ * @prop_name:	name of the property to be updated
-+ * @str:	pointer to null terminated string
++ * This function is like of_get_next_child(), except that it automatically
++ * skips any nodes whose name doesn't have the given prefix.
 + *
-+ * Create a string property to be updated and add it to a changeset.
-+ *
-+ * Return: 0 on success, a negative error value in case of an error.
++ * Return: A node pointer with refcount incremented, use
++ * of_node_put() on it when done.
 + */
-+int of_changeset_update_prop_string(struct of_changeset *ocs,
-+				    struct device_node *np,
-+				    const char *prop_name, const char *str)
++struct device_node *of_get_next_child_with_prefix(const struct device_node *node,
++						  struct device_node *prev,
++						  const char *prefix)
 +{
-+	struct property prop = {
-+		.name = (char *)prop_name,
-+		.length = strlen(str) + 1,
-+		.value = (void *)str,
-+	};
++	struct device_node *next;
++	unsigned long flags;
 +
-+	return of_changeset_update_prop_helper(ocs, np, &prop);
++	if (!node)
++		return NULL;
++
++	raw_spin_lock_irqsave(&devtree_lock, flags);
++	next = prev ? prev->sibling : node->child;
++	for (; next; next = next->sibling) {
++		if (!of_node_name_prefix(next, prefix))
++			continue;
++		if (of_node_get(next))
++			break;
++	}
++	of_node_put(prev);
++	raw_spin_unlock_irqrestore(&devtree_lock, flags);
++	return next;
 +}
-+EXPORT_SYMBOL_GPL(of_changeset_update_prop_string);
++EXPORT_SYMBOL(of_get_next_child_with_prefix);
++
+ static struct device_node *of_get_next_status_child(const struct device_node *node,
+ 						    struct device_node *prev,
+ 						    bool (*checker)(const struct device_node *))
 diff --git a/include/linux/of.h b/include/linux/of.h
-index 086a60f3b8a6..d0307e3b093d 100644
+index d0307e3b093d..f921786cb8ac 100644
 --- a/include/linux/of.h
 +++ b/include/linux/of.h
-@@ -1651,6 +1651,10 @@ static inline int of_changeset_add_prop_u32(struct of_changeset *ocs,
- 	return of_changeset_add_prop_u32_array(ocs, np, prop_name, &val, 1);
- }
+@@ -289,6 +289,9 @@ extern struct device_node *of_get_parent(const struct device_node *node);
+ extern struct device_node *of_get_next_parent(struct device_node *node);
+ extern struct device_node *of_get_next_child(const struct device_node *node,
+ 					     struct device_node *prev);
++extern struct device_node *of_get_next_child_with_prefix(const struct device_node *node,
++							 struct device_node *prev,
++							 const char *prefix);
+ extern struct device_node *of_get_next_available_child(
+ 	const struct device_node *node, struct device_node *prev);
+ extern struct device_node *of_get_next_reserved_child(
+@@ -1468,6 +1471,12 @@ static inline int of_property_read_s32(const struct device_node *np,
+ 	     child != NULL;						\
+ 	     child = of_get_next_child(parent, child))
  
-+int of_changeset_update_prop_string(struct of_changeset *ocs,
-+				    struct device_node *np,
-+				    const char *prop_name, const char *str);
++#define for_each_child_of_node_with_prefix(parent, child, prefix)	\
++	for (struct device_node *child __free(device_node) =		\
++	     of_get_next_child_with_prefix(parent, NULL, prefix);	\
++	     child != NULL;						\
++	     child = of_get_next_child_with_prefix(parent, child, prefix))
 +
- int of_changeset_add_prop_bool(struct of_changeset *ocs, struct device_node *np,
- 			       const char *prop_name);
- 
+ #define for_each_available_child_of_node(parent, child) \
+ 	for (child = of_get_next_available_child(parent, NULL); child != NULL; \
+ 	     child = of_get_next_available_child(parent, child))
 -- 
 2.47.0.199.ga7371fff76-goog
 

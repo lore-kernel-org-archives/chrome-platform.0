@@ -1,326 +1,174 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2B192D83
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Nov 2024 19:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67F1215C43
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Nov 2024 19:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731007329; cv=none; b=E+s35sbC4v+AY2QM9QeZeiLZmAy4PtRN+NOs/VzFDKCF/C7DGa/U8ovlXiwIclKoliU4nmiE0S45f3k5Z0U93Ib6/J9r/6/7Hv2cq+py+P1bgbZwt9EFvq1LPlQ8ID1Qh0/cLWq+5TOEOKLqYk97LbpVv5FRhAd+xidHkw4mQd8=
+	t=1731007895; cv=none; b=EUkRK2O6PYdYmXJBA8LrwrZbOExL2C/gHvtyWYIWtmsd8k5s2v4UiHK1RW3gtIK2O82VVu4iC2tUhkGWWhgJWiLS50ZOzd5YTdgqDahIqtX9peSlCQsYyCW3+B2N+RYLOIsLLTrGxGQWm3ESEhWsWVgTtIcenXRds+uth6CnsDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731007329; c=relaxed/simple;
-	bh=lHllXdnMTaRiEQuwv0VmM+6qNhl5A6FpLrqtN0PMpc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ETl4OlZnUbsgvTqkWIhnDfaFRqHeIEonE9nhKo8xbex04QEOFxIi9C/PeFcphOsu7Xa+UVEUtNZRFQYTdclkX82GxnHfwUe9Ocx0/7zSrkRWOUdoLfftmMs8dmO8GQURkcW/58XEulo5RJHuJwQ8+TY/hcaMc7/M407AwyVBB6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mg5JLh6i; arc=none smtp.client-ip=209.85.219.180
+	s=arc-20240116; t=1731007895; c=relaxed/simple;
+	bh=FhVtDKAHLNobaF3Xr7MJKIpcbXekOH7CtAljMKvTH6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=liropENwASLAFJyhgQO1HUIRJCBC2MUGrhlSXU3uZCWHcsrKMS+aWhhU8DOcZax6eUcRw0N4qVWiCPn5NB28tEe2esSq8iPfj//jufNP/2ABxJbYN1LikctzRaStW8LSV9V84xu0TP3zecodh0W9I2orKTkX5gD5Z34OnlwqW0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UAScp+5M; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mg5JLh6i"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e2bd7d8aaf8so1384133276.3
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Nov 2024 11:22:07 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UAScp+5M"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7ae3d7222d4so998482a12.3
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Nov 2024 11:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731007327; x=1731612127; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S+faqShlI7kynJRtgKZVj8EqnOs4Ii6V9/l+ThTPZ1Q=;
-        b=mg5JLh6iMtXYdY1PxPLxcX4LNsUtPoByckLwzfqDBFNr1+jkRyx9MTEiGWfOyMgn3B
-         XWmFdcvvDd9aPeJnZQS3rNQKZB/pfLshuSqFqjhEy5FDR1K4mV3HF653ycWGzytL2M/M
-         JZGur9PiO1wFMTCVSRvTU37g8QySiRqp+gJWc=
+        d=chromium.org; s=google; t=1731007893; x=1731612693; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hbvSClt+dAXUM1kgWg8I5q9vyT6fSjbN1Ij//6r0NEI=;
+        b=UAScp+5MID8dQtbunXyVsqCxbwVYZwWJSI6roJNWQ+qCMXb7sIpKmfw4YL0wq9EJFF
+         /Uyt8tnAFHaOf7i5mQpRq5x333cYYX8nTtFc2rWyWNsGUWBtz/1qpmjm8A/6suTNEbSD
+         dP8xJteRTD06iHH/7H8y06tM/ppIFTq960V+g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731007327; x=1731612127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S+faqShlI7kynJRtgKZVj8EqnOs4Ii6V9/l+ThTPZ1Q=;
-        b=OVwmRFZE8I3GnATiDUiC+ivV1YP1zJOxPCFoju6l8birlKe8Ywzi72culMwhMJ0sj0
-         f+ttU7X4STDsEgRXraKMozc/hZYFj8IdOpmeRr5G5mCAKZWufBw6kWt+FCRAiCfCUqTY
-         dVyuHPevesU+E6sWqTwiIBXEoKIklOmNs9YgDDmjVo42r7BzHPop9VP+h56vkfZpjD2O
-         Dj65KqUUP8ENZDjqzNzo3M1ZWJ20pWIieXqqiCbCwrti0u9H8+RT2tfpofUu/KPF2rld
-         u7BaQf0kDumP43umz3oRgYR9uorCmiRam0KNE5+AA+BFF3VRC6V7Tym4QJZrDXMcRjJ9
-         ejSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyNDJIbLSxri+bgzgElg2P6b08mIyR8SMEH5SfmrXVYn5j4GC7mLfuNWpv6xpX1iRkKjHrSKAPrPvK40MOCgw=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzj3PzP94jKR84eOV43jb448YvxO3YxmOwiEPoScOfY54u3dBql
-	yC5ALPR6YVUxO82C/9su5UM2N9u5xejaWIlozLKvfI2UcVtBOvdqpgnTHHSbRzw8nzo7fJ4eXUW
-	nFbPCCaO02328HviS6uDVWZovg0VCWnwrYr8X
-X-Google-Smtp-Source: AGHT+IH6DUGa1COYHKkwF5Xj6YnLZS0q+LTwcv8vJ0RLcI7oiHZJGYbBbtbQ83R8Z0KMAAEGMkbo1zsUxvFC+RXTDeA=
-X-Received: by 2002:a05:690c:650a:b0:6ea:84e9:1612 with SMTP id
- 00721157ae682-6eadde44efbmr839947b3.29.1731007327035; Thu, 07 Nov 2024
- 11:22:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731007893; x=1731612693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hbvSClt+dAXUM1kgWg8I5q9vyT6fSjbN1Ij//6r0NEI=;
+        b=SVCknir6OcDvvdS4esTVYyf+5zidPysWVDb4uz6Mye9XVaIdKdnvsiRscd8l/9ZEQN
+         0x6KaeYRqM6QVgYr6bdw2LHMmLnyExyf/1Fr4EDCUl0ChfisBoAmKjpWzO49QezGVVAE
+         74zQu4L2fltijaSxHi1wN46Cmu2sQJ5PIFUy10C5a4Wbuw0bgy5sW2d3I8sliko6mSdk
+         3DzxdRiKSP3lHWz0z1fv2V+WbrJ015y0JGyQ37Y9WGGW0F8CQnUFMZi36zROmCNH4McE
+         y2VkV21qoO61U/hgCEOngcbj2D+ZY57WcLAJ7yJK2wUEJXUaKrehPG8//m4rRV+bF/oH
+         6Qiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBvmhmB0FJRkgA6NVKPWbuRSp/pcGxEsyZXIURgQS2/KACjM1aS3hA1uOr8Osl+OMkl3JOKOJWxtKklubB5Do=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBN8MtB/VyrUTn0D02BrPSIGYWGoPBVNZYo2OsgkTfvHvP0zg5
+	qRJqFoFqyYOUA3H2tZGx5+cF6j9Y41zTG3B5TR/zvI9M9uXLsIOoW2jcEhjumA==
+X-Google-Smtp-Source: AGHT+IEbLiBW3PaYgjufhiOm00mstGi5fV/4ArJUPxEYJmyYx8kjZqmIWOQFXW/GQR4cVKjQcYgHcw==
+X-Received: by 2002:a17:90a:e7cb:b0:2e2:e8fc:e0dd with SMTP id 98e67ed59e1d1-2e9b1748ba3mr394578a91.35.1731007892871;
+        Thu, 07 Nov 2024 11:31:32 -0800 (PST)
+Received: from localhost (198.103.247.35.bc.googleusercontent.com. [35.247.103.198])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2e9a5f8f4e2sm2071802a91.26.2024.11.07.11.31.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 11:31:32 -0800 (PST)
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+To: heikki.krogerus@linux.intel.com,
+	tzungbi@kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: jthies@google.com,
+	akuchynski@google.com,
+	pmalani@chromium.org,
+	dmitry.baryshkov@linaro.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] Thunderbolt and DP altmode support for cros-ec-typec
+Date: Thu,  7 Nov 2024 11:29:53 -0800
+Message-ID: <20241107193021.2690050-1-abhishekpandit@chromium.org>
+X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030212854.998318-1-abhishekpandit@chromium.org>
- <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
- <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com> <CANFp7mXhwMMwyqbKqxe=SgCRPUyXVhKnsJwf0xgJ2LefOvrtjg@mail.gmail.com>
- <ZyTUsOg7cd6xSDhn@kuha.fi.intel.com> <CANFp7mVC1RVLF=OPD-jiv5cQeYaA8uqNA0xB5os3iAKo2DFWoA@mail.gmail.com>
- <Zyja9b2Xt-BEc-mx@kuha.fi.intel.com>
-In-Reply-To: <Zyja9b2Xt-BEc-mx@kuha.fi.intel.com>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Thu, 7 Nov 2024 11:21:54 -0800
-Message-ID: <CANFp7mVexEta5fecZ5LaM_Pr6xMigTcuDySz1+65BL_-cY2SOA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
-	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
-	Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 4, 2024 at 6:32=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Fri, Nov 01, 2024 at 11:48:07AM -0700, Abhishek Pandit-Subedi wrote:
-> > On Fri, Nov 1, 2024 at 6:16=E2=80=AFAM Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com> wrote:
-> > >
-> > > On Thu, Oct 31, 2024 at 04:02:22PM -0700, Abhishek Pandit-Subedi wrot=
-e:
-> > > > On Thu, Oct 31, 2024 at 7:11=E2=80=AFAM Heikki Krogerus
-> > > > <heikki.krogerus@linux.intel.com> wrote:
-> > > > >
-> > > > > Hi Abhishek,
-> > > > >
-> > > > > On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi =
-wrote:
-> > > > > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > > > >
-> > > > > > Thunderbolt 3 Alternate Mode entry flow is described in
-> > > > > > USB Type-C Specification Release 2.0.
-> > > > > >
-> > > > > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com=
->
-> > > > > > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromiu=
-m.org>
-> > > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.=
-org>
-> > > > > > ---
-> > > > > >
-> > > > > > Changes:
-> > > > > > * Delay cable + plug checks so that the module doesn't fail to =
-probe
-> > > > > >   if cable + plug information isn't available by the time the p=
-artner
-> > > > > >   altmode is registered.
-> > > > > > * Remove unncessary brace after if (IS_ERR(plug))
-> > > > > >
-> > > > > > The rest of this patch should be the same as Heikki's original =
-RFC.
-> > > > > >
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > > - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
-> > > > > > - Pass struct typec_thunderbolt_data to typec_altmode_notify
-> > > > > > - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
-> > > > > > - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
-> > > > > > - Change module license to GPL due to checkpatch warning
-> > > > > >
-> > > > > >  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
-> > > > > >  drivers/usb/typec/altmodes/Kconfig       |   9 +
-> > > > > >  drivers/usb/typec/altmodes/Makefile      |   2 +
-> > > > > >  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++=
-++++++++
-> > > > > >  include/linux/usb/typec_tbt.h            |   3 +-
-> > > > > >  5 files changed, 322 insertions(+), 2 deletions(-)
-> > > > > >  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
-> > > > > >
-> > > > > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/=
-platform/chrome/cros_ec_typec.c
-> > > > > > index c7781aea0b88..53d93baa36a8 100644
-> > > > > > --- a/drivers/platform/chrome/cros_ec_typec.c
-> > > > > > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> > > > > > @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cro=
-s_typec_data *typec,
-> > > > > >       }
-> > > > > >
-> > > > > >       port->state.data =3D &data;
-> > > > > > -     port->state.mode =3D TYPEC_TBT_MODE;
-> > > > > > +     port->state.mode =3D USB_TYPEC_TBT_MODE;
-> > > > > >
-> > > > > >       return typec_mux_set(port->mux, &port->state);
-> > > > > >  }
-> > > > >
-> > > > > The definition should be changed in a separate patch.
-> > > >
-> > > > Ack -- will pull the rename out into its own patch.
-> > > >
-> > > > >
-> > > > > > +static const struct typec_device_id tbt_typec_id[] =3D {
-> > > > > > +     { USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
-> > > > > > +     { }
-> > > > > > +};
-> > > > > > +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
-> > > > >
-> > > > > Now the mode would be the same thing as connector state, which is=
- not
-> > > > > true. The connector state is supposed to reflect the pin assignme=
-nt,
-> > > > > and the mode is the mode index used with the actual VDMs. For exa=
-mple,
-> > > > > DP alt mode has several different states, but only one mode.
-> > > > >
-> > > > > The TBT3 altmode driver will not work with this patch alone, it w=
-ill
-> > > > > never bind to the partner TBT3 alt mode because the mode does not
-> > > > > match.
-> > > > >
-> > > > > Can you reorganise this series so that the patch 2/7 comes before=
- this
-> > > > > one? Then I think you can just use the SVID unless I'm mistaken:
-> > > > >
-> > > > >         static const struct typec_device_id tbt_typec_id[] =3D {
-> > > > >                 { USB_TYPEC_TBT_SID },
-> > > > >                 { }
-> > > > >         };
-> > > > >         MODULE_DEVICE_TABLE(typec, tbt_typec_id);
-> > > > >
-> > > > > Alternatively, just leave it to TYPEC_ANY_MODE for now.
-> > > > >
-> > > >
-> > > > Sure, I'll re-order the patches and get rid of the mode. I'm actual=
-ly
-> > > > a bit confused as to how mode is supposed to be used since typec_dp=
-.h
-> > > > defines USB_TYPEC_DP_MODE=3D1, typec_tbt.h defines
-> > > > USB_TYPEC_TBT_MODE=3DTYPEC_STATE_MODAL and it looks like USB state =
-also
-> > > > starts from TYPEC_STATE_MODAL and continues.
-> > > >
-> > > > Is this documented in the spec somewhere? How should this mode valu=
-e
-> > > > be used and shared between USB and various alt-modes? At least the =
-DP
-> > > > case seems clear because as you said it describes different pin
-> > > > assignments. However, the term "mode" seems to be overloaded since
-> > > > it's used in other areas.
-> > >
-> > > Well, this is confusing, I admit. One problem is that the term "mode"
-> > > really means different things depending on the spec. In DP alt mode
-> > > specification for example, "mode" basically means the same as pin
-> > > assignment, so not the object position like it does in USB PD and
-> > > Type-C specifications.
-> > >
-> > > But the alt modes are in any case meant to be differentiated from the
-> > > common USB and accessory modes simply by checking if there is struct
-> > > altmode or not.
-> > >
-> > > So the mux drivers for example can use the "alt" member in struct
-> > > typec_mux_state to check is the connector meant to enter alt mode, or
-> > > USB or accessory mode.
-> > >
-> > > I.e. if the "alt" member is there, then it's alt mode, and the "mode"
-> > > member value matches whatever is defined for that specific alt mode.
-> > >
-> > > If "alt" is NULL, then connector is in USB mode or accessory mode, an=
-d
-> > > the "mode" member is one of the common modes:
-> > >
-> > > enum {
-> > >         TYPEC_MODE_USB2 =3D TYPEC_STATE_MODAL,    /* USB 2.0 mode */
-> > >         TYPEC_MODE_USB3,                        /* USB 3.2 mode */
-> > >         TYPEC_MODE_USB4,                        /* USB4 mode */
-> > >         TYPEC_MODE_AUDIO,                       /* Audio Accessory */
-> > >         TYPEC_MODE_DEBUG,                       /* Debug Accessory */
-> > > }
-> > >
-> > > I hope this answers your question. Maybe this needs to be clarified i=
-n
-> > > this document:
-> > > https://docs.kernel.org/driver-api/usb/typec.html#multiplexer-demulti=
-plexer-switches
-> > >
-> > > ..and the code obviously. Maybe the "mode" member struct
-> > > typec_mux_state should be renamed to "state"? Though, I'm not sure
-> > > that improves the situation.
-> > >
-> >
-> > This does make things clearer -- thank you. Based on the various
-> > meanings of mode vs state, I think the following will make things
-> > clearer:
-> >
-> > Let's change |mode| to |mode_index| in `struct typec_altmode_desc`.
-> > Looking at the Discover SVIDs and Discover Modes response in PD 3.2
-> > spec, the value we are passing here is actually the mode_index since
-> > that's what's necessary in the VDM to identify which mode we are
-> > trying to enter.
->
-> Yes, mode_index sounds better.
 
-Opting not to do this rename for this series -- I tried and it was
-touching a lot of drivers so I want to do it in a separate series.
+Hi Heikki, Tzung-Bi et al,
 
-TBT already defined the mode index as |TBT_MODE| in <typec_tbt.h> so I
-opted to use that for now.
+This patch series adds support for alternate mode entry for the
+cros-ec-typec driver for Displayport and Thunderbolt.
 
->
-> > |USB_TYPEC_DP_MODE| needs to change to |USB_TYPEC_DP_MODE_INDEX| in typ=
-ec_dp.h
-> > |USB_TYPEC_TBT_MODE| should also be |USB_TYPEC_TBT_MODE_INDEX| with a
-> > value of 1 and we should define a new |TYPEC_TBT_STATE| as an enum
-> > with base value of TYPEC_STATE_MODAL.
-> >
-> > Getting rid of the mode index for altmode matching makes sense for DP
-> > and TBT (since both have spec defined standard values) but for
-> > non-standard modes which might return >1 modes in Discover Modes the
-> > driver will match for all modes and not just the specific mode like it
-> > was prior to patch 2 in this series. Do we want to retain that and
-> > change the TBT driver to only match on mode_index =3D 1 instead. I have
-> > no examples of non-standard mode behavior to decide which is the
-> > better option here.
->
-> Let's drop it for now. We can always add it back.
->
-> thanks,
->
-> > > > > > +static struct typec_altmode_driver tbt_altmode_driver =3D {
-> > > > > > +     .id_table =3D tbt_typec_id,
-> > > > > > +     .probe =3D tbt_altmode_probe,
-> > > > > > +     .remove =3D tbt_altmode_remove,
-> > > > > > +     .driver =3D {
-> > > > > > +             .name =3D "typec-thunderbolt",
-> > > > > > +             .owner =3D THIS_MODULE,
-> > > > > > +     }
-> > > > > > +};
-> > > > > > +module_typec_altmode_driver(tbt_altmode_driver);
-> > > > > > +
-> > > > > > +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.co=
-m>");
-> > > > > > +MODULE_LICENSE("GPL");
-> > > > > > +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
-> > > > > > diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/=
-typec_tbt.h
-> > > > > > index fa97d7e00f5c..3ff82641f6a0 100644
-> > > > > > --- a/include/linux/usb/typec_tbt.h
-> > > > > > +++ b/include/linux/usb/typec_tbt.h
-> > > > > > @@ -10,7 +10,7 @@
-> > > > > >  #define USB_TYPEC_TBT_SID            USB_TYPEC_VENDOR_INTEL
-> > > > > >
-> > > > > >  /* Connector state for Thunderbolt3 */
-> > > > > > -#define TYPEC_TBT_MODE                       TYPEC_STATE_MODAL
-> > > > > > +#define USB_TYPEC_TBT_MODE           TYPEC_STATE_MODAL
-> > > > >
-> > > > > I think USB_TYPEC_STATE_TBT would be better. But please change th=
-is in
-> > > > > a separate patch in any case.
-> > > >
-> > > > Same question as above about mode vs state :)
-> > >
-> > > Well, I was thinking that maybe we should use the term "state" here
-> > > with the idea that "state" would be something purely kernel specific,
-> > > and "mode" would then be something defined in a specification... But
-> > > now I'm not so sure (I don't think it's always clear).
-> > >
-> > > Maybe USB_TYPEC_TBT_MODE after all. I'll leave the decision to you.
-> > >
-> > > cheers,
-> > >
-> > > --
-> > > heikki
->
-> --
-> heikki
+Thunderbolt support is added by adapting an RFC Heikki had posted
+previously:
+
+https://lore.kernel.org/linux-usb/20191230152857.43917-1-heikki.krogerus@linux.intel.com/
+
+A few comments on the series:
+
+* The cros-ec interface will not accept any VDOs/VDMs so we simply
+  ignore any configurations we are passed (i.e. DPConfigure). This means
+  the sysfs control of DP lanes won't work.
+* ChromeOS has two modes of operation for alt-modes: entirely EC driven
+  or AP-driven from userspace (via the typec daemon). Thus, we don't
+  expect the kernel alt-mode drivers to auto-enter modes in all cases.
+  This series allows auto-enter for displayport but disables it for TBT
+  for this reason.
+
+This was tested with a ChromeOS Brya device using kernel 6.6 and built
+with allmodconfig for linux-usb.
+
+Thanks,
+Abhishek
+
+Changes in v3:
+- Removed mode from altmode device ids
+- Updated modalias for typecd bus to remove mode
+- Re-ordered to start of series
+- Revert rename of TYPEC_TBT_MODE
+- Remove mode from typec_device_id
+- Use port.active instead of introducing auto-enter field
+- Introduce inactive field to typec_altmode_desc to set default value
+  for active.
+- Always make port 'active' field writable
+- Refactored typec_altmode_dp_data per review request
+- Removed unused vdm operations during altmode registration
+- Fix usage of TBT sid and mode.
+- Removed unused vdm operations during altmode registration
+- Set port.inactive = true instead of auto-enter.
+
+Changes in v2:
+- Update altmode_match to ignore mode entirely
+- Also apply the same behavior to typec_match
+- Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+- Pass struct typec_thunderbolt_data to typec_altmode_notify
+- Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+- Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+- Change module license to GPL due to checkpatch warning
+- Refactored displayport into cros_typec_altmode.c to extract common
+  implementation between altmodes
+- Refactored thunderbolt support into cros_typec_altmode.c
+- Only disable auto-enter for Thunderbolt
+- Update commit message to clearly indicate the need for userspace
+  intervention to enter TBT mode
+
+Abhishek Pandit-Subedi (6):
+  usb: typec: Only use SVID for matching altmodes
+  usb: typec: Check port is active before enter mode on probe
+  platform/chrome: cros_ec_typec: Update partner altmode active
+  platform/chrome: cros_ec_typec: Displayport support
+  platform/chrome: cros_ec_typec: Thunderbolt support
+  platform/chrome: cros_ec_typec: Disable tbt on port
+
+Heikki Krogerus (1):
+  usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+
+ MAINTAINERS                                  |   3 +
+ drivers/platform/chrome/Makefile             |   7 +
+ drivers/platform/chrome/cros_ec_typec.c      |  47 ++-
+ drivers/platform/chrome/cros_ec_typec.h      |   1 +
+ drivers/platform/chrome/cros_typec_altmode.c | 360 +++++++++++++++++++
+ drivers/platform/chrome/cros_typec_altmode.h |  48 +++
+ drivers/usb/typec/altmodes/Kconfig           |   9 +
+ drivers/usb/typec/altmodes/Makefile          |   2 +
+ drivers/usb/typec/altmodes/displayport.c     |   9 +-
+ drivers/usb/typec/altmodes/nvidia.c          |   2 +-
+ drivers/usb/typec/altmodes/thunderbolt.c     | 312 ++++++++++++++++
+ drivers/usb/typec/bus.c                      |   6 +-
+ drivers/usb/typec/class.c                    |   9 +-
+ include/linux/usb/typec.h                    |   2 +
+ include/linux/usb/typec_tbt.h                |   1 +
+ scripts/mod/devicetable-offsets.c            |   1 -
+ scripts/mod/file2alias.c                     |   4 +-
+ 17 files changed, 793 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
+ create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+
+-- 
+2.47.0.277.g8800431eea-goog
+

@@ -1,54 +1,54 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B461217F36
-	for <chrome-platform@lists.linux.dev>; Thu,  7 Nov 2024 19:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DB217F49
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Nov 2024 19:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731007905; cv=none; b=JCmXZ6L3mqAegR+QcNcUtrBNi8vwEuAyHqMpIvDWaSnyVzF3XXVJiQWguZB/jHj1L8UnJP+vLs4lT9VipJDbAV3r4WjpyTf9QPqnfsOqge4uJP3RKyeWq7XutLAY2bO3kpPzf3JIukMJEj8TaD53QVaraMGhRv0utKHMOyixQWQ=
+	t=1731007907; cv=none; b=r/+MGuoSuZdTp3GuDKQtPelEhRtORq/Kgxhd/scVTSc+RJPWRSf4gKIzSNE7C2VT0AK911jpL0NCtiW1Q2csHtsYLhtOKGReq0OcCd/gd52pzXMV55UWn5CS1nQcG4c0gLXi5Bz/PTZAoyblNBeDfcNWiKiYQbJ5z1sMM7w531k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731007905; c=relaxed/simple;
-	bh=xKZEM3BEB1RuTSN4Uueuml1p0DgkTsbm8rJMvKSFMCk=;
+	s=arc-20240116; t=1731007907; c=relaxed/simple;
+	bh=Wg/zBVFa4tGz8VOCaxh6a+i+WqdrvN3SJxMoDY3tJdA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AjBDp7vNNOvq7jR/N2iG0/sAmCOnQGjdLhMy0QpAaPuZi8/etj2LOCW6/DZQ7mdDratwgRMeYoRV3QZWIyqJfG0w1OLnlzo/CY3ASdgLCXvhAk6L4xK61pX5+1ZUBmUBQb9DJl7qU0unltqDTSm2s9h8gIPJoInOxce2I3thoEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B2VFUC32; arc=none smtp.client-ip=209.85.210.177
+	 MIME-Version; b=DzSDGVNo8EsMkGbIwVxYborc3D//TCSIPuk7Dvoe/t38SA2G8IBN2IF+PGl4ON2xIoFxzZZxhGbQ3DhcswWt5hoAXhOCnYZ66LqMQjx/oo2E94J9O0u/7Y+lRt9v0Daly1zKQdP/W3CtY8212ODWrW4cdl3vEau/TYlBZqItmMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Kgv7x5kb; arc=none smtp.client-ip=209.85.167.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B2VFUC32"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-720be27db74so1108794b3a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 07 Nov 2024 11:31:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Kgv7x5kb"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3e602994635so1038310b6e.0
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Nov 2024 11:31:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731007903; x=1731612703; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1731007905; x=1731612705; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=83Suh2wjIyKRrMNGwMzdQsYr0nqcWo4eqvxd8u8DH7w=;
-        b=B2VFUC325izet/DUZSw5jnrUuWTjHzsHjieedlCuNlTSMCZY4tT1PMHfSXXtnPAEfA
-         I0h9UnzTqkcY6povjCdTpv765UrBlt87szzUs6poqeckO5RJYc51OOXk2CN3iJ15K3TN
-         tGfDP4UEfyMFnqj02WEXFZ5WyZtM8wcmTmCaA=
+        bh=Q0CqREGwh6IVDq65gpD5flYOXg4XbjfkPAiJB5bPZJk=;
+        b=Kgv7x5kbg1Dx5QSEv1A/TY1VDeMkNFXwqhrReovt8DP+C0pTlFpmIMZU6TSL0aS6s1
+         w4ZoftIa0pAq1qFKb+y9KbCnfSrZQw7cqQyOqkEyCV0ImB3I0CgnOKTYrAWSQ9t1BSrc
+         Uy/OEQnc6hmYJ9IwodFqqQTTrrBOff9XOt8Hg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731007903; x=1731612703;
+        d=1e100.net; s=20230601; t=1731007905; x=1731612705;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=83Suh2wjIyKRrMNGwMzdQsYr0nqcWo4eqvxd8u8DH7w=;
-        b=R1qnJI/C27T5/BqPtjFlcMMedkCXF/dnkJji/1oz/gyH5tVCNZ9RewznHJusgAYptj
-         Zvty3krrHPKV9JQaGjteZRxTQ0Bl8S+zlJI3a+R8w2FSDpBwHFeZZPatSJ/Koz0IDa8a
-         FSxb7u/DupcYBVinTTyFfUwWwAN4RSOYAtDGBd2WzWDJcvZ4r+Hv5758MyivdqlBNImL
-         gRdl1onbcU2IpncC6KSGI19q/MHhxu2c/hwibk0kPdTX1Sm9XRu2ntnW2ju74dKozgZV
-         N3VMOsFI5AqNc44HYTfmA6Xk6c690Hb4a9+ax8m9SCD/FydQIHl0YHvbzBeCeC7Ej9yA
-         wRgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ5O1XqfxhwfgmlInOXC9ApsxgBfoEcucjWQJ27rLTZ3haE1VMhL5oMzE4Ob7Xaa0qX3uitqVv8ZAHG2EZgw4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhExBh44lihpM/MOR5wnbZhD7P0k3u+Tc5rQHeLDX+jAx5+Da9
-	bfE6zgoQVm6hmkdJkQki7m6EsKnHfjWPOrN2Ac1KV6jE7MmePVffVXqFqysrdg==
-X-Google-Smtp-Source: AGHT+IHowZtPGb5/tcFnUmur6kDpXYtUcCT3psAEQ+OeTjw995kJie6fup9tOg4xNTXfF4EEHk+p9Q==
-X-Received: by 2002:a05:6a00:21c4:b0:71e:7f08:492c with SMTP id d2e1a72fcca58-72413f4c526mr51975b3a.1.1731007902821;
-        Thu, 07 Nov 2024 11:31:42 -0800 (PST)
+        bh=Q0CqREGwh6IVDq65gpD5flYOXg4XbjfkPAiJB5bPZJk=;
+        b=BPKmi1fu7dPmOcREEygcGWae2MwiPAnYsQZd65uf8vpIUMxJLEebPXbkagmBkRNvIV
+         8FecC+y8FHsw8gJZYzekjI5b7G4M1OPVDF8ujMwLK3XcvqeeIFFZaSsQbGuvQaUNfCfq
+         t4FqjdbC46JCrcy5yECP6cOY5YIiPM0Q5tGFdtJCrDrskm55zykGvB8asw+XSqgapoZU
+         2ElEEvJRRwYWTGe8koUV9fRwp9mHkP7BBYY7btCp+pGRU2eBOzLxzX9ryyoCuY2dinb6
+         3T3RIqw+y8EZ3foZ2SNBtGPSdKJifPogmGq6zErQJAq4TCwEjQmCknU+eFt2N/5toSdx
+         6E7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCULbjXgwpNagz+4KbWSWkb1xk70Xf7BdvbYZhDucqfJz3+dlgGdhRw0XLRIYomeGMwMYNrhqPCNKs4RVeMCgO4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YysYyzdNUOBHJDgBGJ+UVzvUGADJbqJU8CV8T1YbEEaGyhvUY88
+	MwJcZmhqUMmNZCLiYWbrmJYvD7+UjV8rxK3qYq2q/EKN8CTpIYTbNzGnv+C6dg==
+X-Google-Smtp-Source: AGHT+IFgcTmVRvr38xnLKX/v1C7i4XoxmAx6AzKMJtRI0ZbWE+Lp0wJnd9PeKHKFSh9kgaJYd9NuNA==
+X-Received: by 2002:a05:6808:1791:b0:3e6:2471:4d10 with SMTP id 5614622812f47-3e794675446mr451938b6e.11.1731007904802;
+        Thu, 07 Nov 2024 11:31:44 -0800 (PST)
 Received: from localhost (198.103.247.35.bc.googleusercontent.com. [35.247.103.198])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-724078cd28asm2002020b3a.85.2024.11.07.11.31.42
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-7f41f65bf87sm1827097a12.70.2024.11.07.11.31.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Nov 2024 11:31:42 -0800 (PST)
+        Thu, 07 Nov 2024 11:31:44 -0800 (PST)
 From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 To: heikki.krogerus@linux.intel.com,
 	tzungbi@kernel.org,
@@ -61,9 +61,9 @@ Cc: jthies@google.com,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
-Date: Thu,  7 Nov 2024 11:29:55 -0800
-Message-ID: <20241107112955.v3.2.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+Subject: [PATCH v3 3/7] usb: typec: Check port is active before enter mode on probe
+Date: Thu,  7 Nov 2024 11:29:56 -0800
+Message-ID: <20241107112955.v3.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
 X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
 In-Reply-To: <20241107193021.2690050-1-abhishekpandit@chromium.org>
 References: <20241107193021.2690050-1-abhishekpandit@chromium.org>
@@ -75,397 +75,111 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Enforce the same requirement as when we attempt to activate altmode via
+sysfs (do not enter partner mode if port mode is not active). In order
+to set a default value for this field, also introduce the inactive field
+in struct typec_altmode_desc.
 
-Thunderbolt 3 Alternate Mode entry flow is described in
-USB Type-C Specification Release 2.0.
-
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 ---
 
-Changes:
-* Delay cable + plug checks so that the module doesn't fail to probe
-  if cable + plug information isn't available by the time the partner
-  altmode is registered.
-* Remove unncessary brace after if (IS_ERR(plug))
-
-The rest of this patch should be the same as Heikki's original RFC.
-
-
 Changes in v3:
-- Revert rename of TYPEC_TBT_MODE
-- Remove mode from typec_device_id
+- Use port.active instead of introducing auto-enter field
+- Introduce inactive field to typec_altmode_desc to set default value
+  for active.
+- Always make port 'active' field writable
 
-Changes in v2:
-- Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
-- Pass struct typec_thunderbolt_data to typec_altmode_notify
-- Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
-- Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
-- Change module license to GPL due to checkpatch warning
+ drivers/usb/typec/altmodes/displayport.c | 7 +++++--
+ drivers/usb/typec/altmodes/thunderbolt.c | 6 +++++-
+ drivers/usb/typec/class.c                | 5 +++--
+ include/linux/usb/typec.h                | 2 ++
+ 4 files changed, 15 insertions(+), 5 deletions(-)
 
- drivers/usb/typec/altmodes/Kconfig       |   9 +
- drivers/usb/typec/altmodes/Makefile      |   2 +
- drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++++++
- include/linux/usb/typec_tbt.h            |   1 +
- 4 files changed, 320 insertions(+)
- create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
-
-diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-index 1a6b5e872b0d..7867fa7c405d 100644
---- a/drivers/usb/typec/altmodes/Kconfig
-+++ b/drivers/usb/typec/altmodes/Kconfig
-@@ -23,4 +23,13 @@ config TYPEC_NVIDIA_ALTMODE
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called typec_nvidia.
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 3245e03d59e6..f4116e96f6a1 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -767,8 +767,11 @@ int dp_altmode_probe(struct typec_altmode *alt)
+ 	if (plug)
+ 		typec_altmode_set_drvdata(plug, dp);
  
-+config TYPEC_TBT_ALTMODE
-+	tristate "Thunderbolt3 Alternate Mode driver"
-+	help
-+	  Select this option if you have Thunderbolt3 hardware on your
-+	  system.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called typec_thunderbolt.
-+
- endmenu
-diff --git a/drivers/usb/typec/altmodes/Makefile b/drivers/usb/typec/altmodes/Makefile
-index 45717548b396..508a68351bd2 100644
---- a/drivers/usb/typec/altmodes/Makefile
-+++ b/drivers/usb/typec/altmodes/Makefile
-@@ -4,3 +4,5 @@ obj-$(CONFIG_TYPEC_DP_ALTMODE)		+= typec_displayport.o
- typec_displayport-y			:= displayport.o
- obj-$(CONFIG_TYPEC_NVIDIA_ALTMODE)	+= typec_nvidia.o
- typec_nvidia-y				:= nvidia.o
-+obj-$(CONFIG_TYPEC_TBT_ALTMODE)		+= typec_thunderbolt.o
-+typec_thunderbolt-y			:= thunderbolt.o
+-	dp->state = plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTER;
+-	schedule_work(&dp->work);
++	/* Only attempt to enter altmode if port is active. */
++	if (port->active) {
++		dp->state = plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTER;
++		schedule_work(&dp->work);
++	}
+ 
+ 	return 0;
+ }
 diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
-new file mode 100644
-index 000000000000..a945b9d35a1d
---- /dev/null
+index a945b9d35a1d..45567abc3bb8 100644
+--- a/drivers/usb/typec/altmodes/thunderbolt.c
 +++ b/drivers/usb/typec/altmodes/thunderbolt.c
-@@ -0,0 +1,308 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/**
-+ * USB Typec-C Thuderbolt3 Alternate Mode driver
-+ *
-+ * Copyright (C) 2019 Intel Corporation
-+ * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/mutex.h>
-+#include <linux/module.h>
-+#include <linux/usb/pd_vdo.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_tbt.h>
-+
-+enum tbt_state {
-+	TBT_STATE_IDLE,
-+	TBT_STATE_SOP_P_ENTER,
-+	TBT_STATE_SOP_PP_ENTER,
-+	TBT_STATE_ENTER,
-+	TBT_STATE_EXIT,
-+	TBT_STATE_SOP_PP_EXIT,
-+	TBT_STATE_SOP_P_EXIT
-+};
-+
-+struct tbt_altmode {
-+	enum tbt_state state;
-+	struct typec_cable *cable;
-+	struct typec_altmode *alt;
-+	struct typec_altmode *plug[2];
-+	u32 enter_vdo;
-+
-+	struct work_struct work;
-+	struct mutex lock; /* device lock */
-+};
-+
-+static bool tbt_ready(struct typec_altmode *alt);
-+
-+static int tbt_enter_mode(struct tbt_altmode *tbt)
-+{
-+	struct typec_altmode *plug = tbt->plug[TYPEC_PLUG_SOP_P];
-+	u32 vdo;
-+
-+	vdo = tbt->alt->vdo & (TBT_VENDOR_SPECIFIC_B0 | TBT_VENDOR_SPECIFIC_B1);
-+	vdo |= tbt->alt->vdo & TBT_INTEL_SPECIFIC_B0;
-+	vdo |= TBT_MODE;
-+
-+	if (plug) {
-+		if (typec_cable_is_active(tbt->cable))
-+			vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
-+
-+		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_SPEED(plug->vdo));
-+		vdo |= plug->vdo & TBT_CABLE_ROUNDED;
-+		vdo |= plug->vdo & TBT_CABLE_OPTICAL;
-+		vdo |= plug->vdo & TBT_CABLE_RETIMER;
-+		vdo |= plug->vdo & TBT_CABLE_LINK_TRAINING;
-+	} else {
-+		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_USB3_PASSIVE);
-+	}
-+
-+	tbt->enter_vdo = vdo;
-+	return typec_altmode_enter(tbt->alt, &vdo);
-+}
-+
-+static void tbt_altmode_work(struct work_struct *work)
-+{
-+	struct tbt_altmode *tbt = container_of(work, struct tbt_altmode, work);
-+	int ret;
-+
-+	mutex_lock(&tbt->lock);
-+
-+	switch (tbt->state) {
-+	case TBT_STATE_SOP_P_ENTER:
-+		ret = typec_altmode_enter(tbt->plug[TYPEC_PLUG_SOP_P], NULL);
-+		if (ret)
-+			dev_dbg(&tbt->plug[TYPEC_PLUG_SOP_P]->dev,
-+				"failed to enter mode (%d)\n", ret);
-+		break;
-+	case TBT_STATE_SOP_PP_ENTER:
-+		ret = typec_altmode_enter(tbt->plug[TYPEC_PLUG_SOP_PP], NULL);
-+		if (ret)
-+			dev_dbg(&tbt->plug[TYPEC_PLUG_SOP_PP]->dev,
-+				"failed to enter mode (%d)\n", ret);
-+		break;
-+	case TBT_STATE_ENTER:
-+		ret = tbt_enter_mode(tbt);
-+		if (ret)
-+			dev_dbg(&tbt->alt->dev, "failed to enter mode (%d)\n",
-+				ret);
-+		break;
-+	case TBT_STATE_EXIT:
-+		typec_altmode_exit(tbt->alt);
-+		break;
-+	case TBT_STATE_SOP_PP_EXIT:
-+		typec_altmode_exit(tbt->plug[TYPEC_PLUG_SOP_PP]);
-+		break;
-+	case TBT_STATE_SOP_P_EXIT:
-+		typec_altmode_exit(tbt->plug[TYPEC_PLUG_SOP_P]);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	tbt->state = TBT_STATE_IDLE;
-+
-+	mutex_unlock(&tbt->lock);
-+}
-+
-+static int tbt_altmode_vdm(struct typec_altmode *alt,
-+			   const u32 hdr, const u32 *vdo, int count)
-+{
-+	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
-+	int cmd_type = PD_VDO_CMDT(hdr);
-+	int cmd = PD_VDO_CMD(hdr);
-+
-+	mutex_lock(&tbt->lock);
-+
-+	if (tbt->state != TBT_STATE_IDLE) {
-+		mutex_unlock(&tbt->lock);
-+		return -EBUSY;
-+	}
-+
-+	switch (cmd_type) {
-+	case CMDT_RSP_ACK:
-+		switch (cmd) {
-+		case CMD_ENTER_MODE:
-+			/*
-+			 * Following the order describeded in USB Type-C Spec
-+			 * R2.0 Section 6.7.3.
-+			 */
-+			if (alt == tbt->plug[TYPEC_PLUG_SOP_P]) {
-+				if (tbt->plug[TYPEC_PLUG_SOP_PP])
-+					tbt->state = TBT_STATE_SOP_PP_ENTER;
-+				else
-+					tbt->state = TBT_STATE_ENTER;
-+			} else if (alt == tbt->plug[TYPEC_PLUG_SOP_PP]) {
-+				tbt->state = TBT_STATE_ENTER;
-+			} else {
-+				struct typec_thunderbolt_data data;
-+
-+				data.device_mode = tbt->alt->vdo;
-+				data.cable_mode =
-+					tbt->plug[TYPEC_PLUG_SOP_P] ?
-+						tbt->plug[TYPEC_PLUG_SOP_P]
-+							->vdo :
-+						0;
-+				data.enter_vdo = tbt->enter_vdo;
-+
-+				typec_altmode_notify(alt, TYPEC_STATE_MODAL, &data);
-+			}
-+			break;
-+		case CMD_EXIT_MODE:
-+			if (alt == tbt->alt) {
-+				if (tbt->plug[TYPEC_PLUG_SOP_PP])
-+					tbt->state = TBT_STATE_SOP_PP_EXIT;
-+				else if (tbt->plug[TYPEC_PLUG_SOP_P])
-+					tbt->state = TBT_STATE_SOP_P_EXIT;
-+			} else if (alt == tbt->plug[TYPEC_PLUG_SOP_PP]) {
-+				tbt->state = TBT_STATE_SOP_P_EXIT;
-+			}
-+			break;
-+		}
-+		break;
-+	case CMDT_RSP_NAK:
-+		switch (cmd) {
-+		case CMD_ENTER_MODE:
-+			dev_warn(&alt->dev, "Enter Mode refused\n");
-+			break;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	if (tbt->state != TBT_STATE_IDLE)
-+		schedule_work(&tbt->work);
-+
-+	mutex_unlock(&tbt->lock);
-+
-+	return 0;
-+}
-+
-+static int tbt_altmode_activate(struct typec_altmode *alt, int activate)
-+{
-+	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
-+	int ret;
-+
-+	mutex_lock(&tbt->lock);
-+
-+	if (!tbt_ready(alt))
-+		return -ENODEV;
-+
-+	/* Preventing the user space from entering/exiting the cable alt mode */
-+	if (alt != tbt->alt)
-+		ret = -EPERM;
-+	else if (activate)
-+		ret = tbt_enter_mode(tbt);
-+	else
-+		ret = typec_altmode_exit(alt);
-+
-+	mutex_unlock(&tbt->lock);
-+
-+	return ret;
-+}
-+
-+static const struct typec_altmode_ops tbt_altmode_ops = {
-+	.vdm		= tbt_altmode_vdm,
-+	.activate	= tbt_altmode_activate
-+};
-+
-+static int tbt_altmode_probe(struct typec_altmode *alt)
-+{
-+	struct tbt_altmode *tbt;
-+
-+	tbt = devm_kzalloc(&alt->dev, sizeof(*tbt), GFP_KERNEL);
-+	if (!tbt)
-+		return -ENOMEM;
-+
-+	INIT_WORK(&tbt->work, tbt_altmode_work);
-+	mutex_init(&tbt->lock);
-+	tbt->alt = alt;
-+
-+	alt->desc = "Thunderbolt3";
-+	typec_altmode_set_drvdata(alt, tbt);
-+	typec_altmode_set_ops(alt, &tbt_altmode_ops);
-+
-+	if (tbt_ready(alt)) {
-+		if (tbt->plug[TYPEC_PLUG_SOP_PP])
-+			tbt->state = TBT_STATE_SOP_PP_ENTER;
-+		else if (tbt->plug[TYPEC_PLUG_SOP_P])
-+			tbt->state = TBT_STATE_SOP_P_ENTER;
-+		else
-+			tbt->state = TBT_STATE_ENTER;
-+		schedule_work(&tbt->work);
-+	}
-+
-+	return 0;
-+}
-+
-+static void tbt_altmode_remove(struct typec_altmode *alt)
-+{
-+	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
-+
-+	for (int i = TYPEC_PLUG_SOP_PP; i > 0; --i) {
-+		if (tbt->plug[i])
-+			typec_altmode_put_plug(tbt->plug[i]);
-+	}
-+
-+	if (tbt->cable)
-+		typec_cable_put(tbt->cable);
-+}
-+
-+static bool tbt_ready(struct typec_altmode *alt)
-+{
-+	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
-+	struct typec_altmode *plug;
-+
-+	if (tbt->cable)
-+		return true;
-+
-+	/* Thundebolt 3 requires a cable with eMarker */
-+	tbt->cable = typec_cable_get(typec_altmode2port(tbt->alt));
-+	if (!tbt->cable)
-+		return false;
-+
-+	/* We accept systems without SOP' or SOP''. This means the port altmode
-+	 * driver will be responsible for properly ordering entry/exit.
-+	 */
-+	for (int i = 0; i < TYPEC_PLUG_SOP_PP + 1; i++) {
-+		plug = typec_altmode_get_plug(tbt->alt, i);
-+		if (IS_ERR(plug))
-+			continue;
-+
-+		if (!plug || plug->svid != USB_TYPEC_VENDOR_INTEL)
-+			break;
-+
-+		plug->desc = "Thunderbolt3";
-+		plug->ops = &tbt_altmode_ops;
-+		typec_altmode_set_drvdata(plug, tbt);
-+
-+		tbt->plug[i] = plug;
-+	}
-+
-+	return true;
-+}
-+
-+static const struct typec_device_id tbt_typec_id[] = {
-+	{ USB_TYPEC_TBT_SID },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(typec, tbt_typec_id);
-+
-+static struct typec_altmode_driver tbt_altmode_driver = {
-+	.id_table = tbt_typec_id,
-+	.probe = tbt_altmode_probe,
-+	.remove = tbt_altmode_remove,
-+	.driver = {
-+		.name = "typec-thunderbolt",
-+		.owner = THIS_MODULE,
-+	}
-+};
-+module_typec_altmode_driver(tbt_altmode_driver);
-+
-+MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
-diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-index fa97d7e00f5c..55dcea12082c 100644
---- a/include/linux/usb/typec_tbt.h
-+++ b/include/linux/usb/typec_tbt.h
-@@ -44,6 +44,7 @@ struct typec_thunderbolt_data {
+@@ -212,6 +212,7 @@ static const struct typec_altmode_ops tbt_altmode_ops = {
  
- #define   TBT_GEN3_NON_ROUNDED                 0
- #define   TBT_GEN3_GEN4_ROUNDED_NON_ROUNDED    1
-+#define TBT_CABLE_ROUNDED		BIT(19)
- #define TBT_CABLE_OPTICAL		BIT(21)
- #define TBT_CABLE_RETIMER		BIT(22)
- #define TBT_CABLE_LINK_TRAINING		BIT(23)
+ static int tbt_altmode_probe(struct typec_altmode *alt)
+ {
++	const struct typec_altmode *port = typec_altmode_get_partner(alt);
+ 	struct tbt_altmode *tbt;
+ 
+ 	tbt = devm_kzalloc(&alt->dev, sizeof(*tbt), GFP_KERNEL);
+@@ -226,7 +227,10 @@ static int tbt_altmode_probe(struct typec_altmode *alt)
+ 	typec_altmode_set_drvdata(alt, tbt);
+ 	typec_altmode_set_ops(alt, &tbt_altmode_ops);
+ 
+-	if (tbt_ready(alt)) {
++	/* Only attempt to enter altmode if port is active and cable/plug
++	 * information is ready.
++	 */
++	if (port->active && tbt_ready(alt)) {
+ 		if (tbt->plug[TYPEC_PLUG_SOP_PP])
+ 			tbt->state = TBT_STATE_SOP_PP_ENTER;
+ 		else if (tbt->plug[TYPEC_PLUG_SOP_P])
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index febe453b96be..b5e67a57762c 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -458,7 +458,8 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
+ 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
+ 
+ 	if (attr == &dev_attr_active.attr)
+-		if (!adev->ops || !adev->ops->activate)
++		if (!is_typec_port(adev->dev.parent) &&
++		    (!adev->ops || !adev->ops->activate))
+ 			return 0444;
+ 
+ 	return attr->mode;
+@@ -563,7 +564,7 @@ typec_register_altmode(struct device *parent,
+ 
+ 	if (is_port) {
+ 		alt->attrs[3] = &dev_attr_supported_roles.attr;
+-		alt->adev.active = true; /* Enabled by default */
++		alt->adev.active = !desc->inactive; /* Enabled by default */
+ 	}
+ 
+ 	sprintf(alt->group_name, "mode%d", desc->mode);
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index d616b8807000..56c01771c190 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -140,6 +140,7 @@ int typec_cable_set_identity(struct typec_cable *cable);
+  * @mode: Index of the Mode
+  * @vdo: VDO returned by Discover Modes USB PD command
+  * @roles: Only for ports. DRP if the mode is available in both roles
++ * @inactive: Only for ports. Make this port inactive (default is active).
+  *
+  * Description of an Alternate Mode which a connector, cable plug or partner
+  * supports.
+@@ -150,6 +151,7 @@ struct typec_altmode_desc {
+ 	u32			vdo;
+ 	/* Only used with ports */
+ 	enum typec_port_data	roles;
++	bool			inactive : 1;
+ };
+ 
+ void typec_partner_set_pd_revision(struct typec_partner *partner, u16 pd_revision);
 -- 
 2.47.0.277.g8800431eea-goog
 

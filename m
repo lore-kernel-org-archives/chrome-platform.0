@@ -1,288 +1,326 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518332940D;
-	Thu,  7 Nov 2024 15:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730991978; cv=fail; b=PCaq8TlPaqjb5888+IZYNdl99SRHs7KfAOZlwxxTyYh0heRtmD+PPwpxtcuvzR8gX6rpMBRzlPiZOcrwIm67xgwM6rqsLl+PkSr6X4jdc9aUx9Wzu08E3MGojE3kTQzqbWwQVx2HbAA9Q5Dev3kjmn1zNAzRlVa+RZqETNmewi4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730991978; c=relaxed/simple;
-	bh=OHiS5KU59hbBbNQgtXxci0LcQSxEqbHtU7uk6joM4aQ=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=m+eylNmDEACA66NjIVSkGiIOrSoG9/axpRa/87aJKN2yjjtZok7wp0/rBOLqj+sSsjq6HIm87A1Reouaba06HREZh92X1EKEGqaiYMNcZorOvnAVsP0Hg4Q+cY6si/4hDdbROl1crPAtTubC3qfAlNQL4FEJoAOBiMjb1/cqmGg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=U49qGbvK; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Q/FpE7oj; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2B192D83
+	for <chrome-platform@lists.linux.dev>; Thu,  7 Nov 2024 19:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731007329; cv=none; b=E+s35sbC4v+AY2QM9QeZeiLZmAy4PtRN+NOs/VzFDKCF/C7DGa/U8ovlXiwIclKoliU4nmiE0S45f3k5Z0U93Ib6/J9r/6/7Hv2cq+py+P1bgbZwt9EFvq1LPlQ8ID1Qh0/cLWq+5TOEOKLqYk97LbpVv5FRhAd+xidHkw4mQd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731007329; c=relaxed/simple;
+	bh=lHllXdnMTaRiEQuwv0VmM+6qNhl5A6FpLrqtN0PMpc0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ETl4OlZnUbsgvTqkWIhnDfaFRqHeIEonE9nhKo8xbex04QEOFxIi9C/PeFcphOsu7Xa+UVEUtNZRFQYTdclkX82GxnHfwUe9Ocx0/7zSrkRWOUdoLfftmMs8dmO8GQURkcW/58XEulo5RJHuJwQ8+TY/hcaMc7/M407AwyVBB6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mg5JLh6i; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="U49qGbvK";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Q/FpE7oj"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7D2EoJ031344;
-	Thu, 7 Nov 2024 15:06:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=q9WZJNNR19qe1VrMHP2EoShhEQOyuAhTg6eeH5vWZfw=; b=
-	U49qGbvK6ittwgUnGJWew97qsYbS6m1LbvkQrurDuag6GuYwBiZf1X1LzcuKkRaI
-	WUhun+fw/8HGn9yIXM/73lmbOz2YElQxrXuP1xPvfrSJs2/bjpaepH9C7B+LIFDz
-	nGFp7pOMdCD9UIquDaEUm0AtNVnZZ35hoD+osN0YtotCDU3IHY1KapkrNroKk9+R
-	s+NLdwzYXlOMPf7XubUoyfnZ0qmrdexGymIVcc8KHyg5vK2jN8PcLvRw9LG5rT1x
-	q1Z5fwoHmBNEgWydxWFTVJBQ8ZeENLvPDwwToQtT8emSGVih96v2tQohQeWzbHtU
-	H9aX6rxoTG97FxRz78ahOQ==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nb0cjqs4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 07 Nov 2024 15:06:13 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7E5oht031449;
-	Thu, 7 Nov 2024 15:06:13 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2049.outbound.protection.outlook.com [104.47.70.49])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42nah9ur1g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 07 Nov 2024 15:06:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IoMJHGXjIiYbHJDMdGHYGwQK8FhDKH+7AEne3oU11DiNe/3eL3+S6/70nK7JBk4TIksuaqu3G4tLtS58zQ0AKRVgLbonl1cVajuY5/QOd34RSM60xKGi7USPQzfu33tfaerFC8gdB2fzZ4yNQtE7ZZLblvhzbElusNv6zsk96Dzs5hVNJNreIHYR9WdyWbi9ftwmz7UUnipyHXXoIi3wtJBldFEn6WMSOV7rCjFIV1XoN9S3H34W+KMF50Ajet6DL3uod0M1N4A9GagtZNsR8EHdhEhpl2kgTWL8jGpGClK0cpH0N3rbUHImfhoA3QAtlFLUKelWqQPReTltSK6H5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q9WZJNNR19qe1VrMHP2EoShhEQOyuAhTg6eeH5vWZfw=;
- b=VGex3K2z6KG5tl6dHnN3EN3yJG/lvjsBPJBsbcd+NuMd5QSYHBlKGT2JO+XlG/orVpAPjQ8bK0upynN+4xB4R3hzFvZ6wOfypS1AjZv+AYhKlsHxsfy5v8wBvv2prrF1EtT2ZGXTrrwsfD/sb/yY5wNEwWJcrFvsyuYKxEwnN1eh4rV+vg/r3mCdP82rbqng3jTQhmGcr965Dm+zcVdaOzW+a0CEA5QhiqJynC65dCrbivuLAezt2dXSxQCQys/rPuQQHrlvJsKaVxsDjS1RBfN8oDdeyK9Rd8/19jzahUHADBtGhsrc4BHFVvux1+RZCNAhhMJldlIAKu7v6Wd09w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mg5JLh6i"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e2bd7d8aaf8so1384133276.3
+        for <chrome-platform@lists.linux.dev>; Thu, 07 Nov 2024 11:22:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q9WZJNNR19qe1VrMHP2EoShhEQOyuAhTg6eeH5vWZfw=;
- b=Q/FpE7ojmvoPZ9sV+8RiTMF/f/AoCPWZfln5jOx+VUqarkzmYPggdXo2/bl2SpQKLu9cRV68kQ8ub3V9jMYK8LiAIZJ0QZINpb3VlH3KuAYruKLt3mSn9KHrEdde6Mr2B6KW+784VIiJVRRn70rwahQUBBw6DQ1S2vepR30HEiY=
-Received: from BLAPR10MB5267.namprd10.prod.outlook.com (2603:10b6:208:30e::22)
- by IA0PR10MB7546.namprd10.prod.outlook.com (2603:10b6:208:483::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Thu, 7 Nov
- 2024 15:06:07 +0000
-Received: from BLAPR10MB5267.namprd10.prod.outlook.com
- ([fe80::682b:c879:9f97:a34f]) by BLAPR10MB5267.namprd10.prod.outlook.com
- ([fe80::682b:c879:9f97:a34f%3]) with mapi id 15.20.8137.018; Thu, 7 Nov 2024
- 15:06:07 +0000
-Message-ID: <90b3b613-8665-425b-8132-5b9ac86ab616@oracle.com>
-Date: Thu, 7 Nov 2024 15:05:56 +0000
-User-Agent: Mozilla Thunderbird
-From: Alan Maguire <alan.maguire@oracle.com>
-Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
-To: Laura Nao <laura.nao@collabora.com>, regressions@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, kernel@collabora.com, bpf@vger.kernel.org,
-        chrome-platform@lists.linux.dev
-References: <20241106160820.259829-1-laura.nao@collabora.com>
-Content-Language: en-GB
-In-Reply-To: <20241106160820.259829-1-laura.nao@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0025.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::12) To BLAPR10MB5267.namprd10.prod.outlook.com
- (2603:10b6:208:30e::22)
+        d=chromium.org; s=google; t=1731007327; x=1731612127; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S+faqShlI7kynJRtgKZVj8EqnOs4Ii6V9/l+ThTPZ1Q=;
+        b=mg5JLh6iMtXYdY1PxPLxcX4LNsUtPoByckLwzfqDBFNr1+jkRyx9MTEiGWfOyMgn3B
+         XWmFdcvvDd9aPeJnZQS3rNQKZB/pfLshuSqFqjhEy5FDR1K4mV3HF653ycWGzytL2M/M
+         JZGur9PiO1wFMTCVSRvTU37g8QySiRqp+gJWc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731007327; x=1731612127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S+faqShlI7kynJRtgKZVj8EqnOs4Ii6V9/l+ThTPZ1Q=;
+        b=OVwmRFZE8I3GnATiDUiC+ivV1YP1zJOxPCFoju6l8birlKe8Ywzi72culMwhMJ0sj0
+         f+ttU7X4STDsEgRXraKMozc/hZYFj8IdOpmeRr5G5mCAKZWufBw6kWt+FCRAiCfCUqTY
+         dVyuHPevesU+E6sWqTwiIBXEoKIklOmNs9YgDDmjVo42r7BzHPop9VP+h56vkfZpjD2O
+         Dj65KqUUP8ENZDjqzNzo3M1ZWJ20pWIieXqqiCbCwrti0u9H8+RT2tfpofUu/KPF2rld
+         u7BaQf0kDumP43umz3oRgYR9uorCmiRam0KNE5+AA+BFF3VRC6V7Tym4QJZrDXMcRjJ9
+         ejSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVyNDJIbLSxri+bgzgElg2P6b08mIyR8SMEH5SfmrXVYn5j4GC7mLfuNWpv6xpX1iRkKjHrSKAPrPvK40MOCgw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzj3PzP94jKR84eOV43jb448YvxO3YxmOwiEPoScOfY54u3dBql
+	yC5ALPR6YVUxO82C/9su5UM2N9u5xejaWIlozLKvfI2UcVtBOvdqpgnTHHSbRzw8nzo7fJ4eXUW
+	nFbPCCaO02328HviS6uDVWZovg0VCWnwrYr8X
+X-Google-Smtp-Source: AGHT+IH6DUGa1COYHKkwF5Xj6YnLZS0q+LTwcv8vJ0RLcI7oiHZJGYbBbtbQ83R8Z0KMAAEGMkbo1zsUxvFC+RXTDeA=
+X-Received: by 2002:a05:690c:650a:b0:6ea:84e9:1612 with SMTP id
+ 00721157ae682-6eadde44efbmr839947b3.29.1731007327035; Thu, 07 Nov 2024
+ 11:22:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5267:EE_|IA0PR10MB7546:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4966a2a3-afcb-4415-deaa-08dcff3db4ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|10070799003|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Q1kwYlNMUXhrNjYxMStSWTJpb2tUNCtKVTk2bEpZWGtlUWdmVnF4L0JFREtX?=
- =?utf-8?B?MVNmV1AzUEdOQXJtWDQvZDNvaG44UnFUL3ZNNHdKK2FyUGxYcm1nY1VNMkdR?=
- =?utf-8?B?R1NoQnNsc2k1anRuRzk0NW44NlZ6U1lkZHh1OHFHWktGU3V0RVhhUlJ1Mll6?=
- =?utf-8?B?NFpUSnlTWWhLVWpqZDFYOFJjOEdEaVAxN3U1cTI5WklRaEtlWDJpSW8wVDVF?=
- =?utf-8?B?MVAyN0RONkNLZTR1Z3BISXdwSldCM2M2bk5adnMrbkdvVDRUTHFiK1hSc00x?=
- =?utf-8?B?VWxWZW82Y1Z4by9CbVZsZk5YbmNPMnVwY0hRL3BpTW4xUUoxN1JIcmptV0J1?=
- =?utf-8?B?NUpmM0gvVjhnbTl3a2Z6M0FOcXNUejVzQ1lnNnRsZkdYbUc2eHNubTdvTWhI?=
- =?utf-8?B?VVpvM2EzRDRHaW9vcmlVbUc3V0RNREh1TWZQcVlHbjJEZ2dHRTRtZVVLWjM5?=
- =?utf-8?B?WUlGUVgwZW1vTmZmWHFHZWtmS2JFMnMzY2UweUx6WURZRldQeC9MQUtvVnV1?=
- =?utf-8?B?T1RpYmlXWlNxa3JFb1BHM0NNWDFJczNiOWVVYTVSM0kxSU5Vc0lSTENYMW12?=
- =?utf-8?B?eldFcVZhRTh2d1VEbjdGUVdrS1B3dXpMV2c0bEd0cHVweWJwQzdXWTFiU3BZ?=
- =?utf-8?B?ejBoVmZzcnlDOTZ0RHlCNHI4bERmeHN2VW12Y0s3ZFFyLzNMZm5Tb0QxMDFa?=
- =?utf-8?B?TWtkSGVNRXRrVFY5bjRoWWxXa2tVZ1k3bVAza2lGVWRBc0RacHVPYlJnTytZ?=
- =?utf-8?B?SVpYaFE2TTVneTFQeEtEcFZSYXROWGk0TWdJMXdWR0x6MkMwMVlVNkZMZ2RU?=
- =?utf-8?B?SkhwQ0QxeUZBbDhXaURJcTlQeCtWNDY1V2ZOc2tFMDNXSXFaVHlLbkxvTVB6?=
- =?utf-8?B?bGNHQUlabTF1VGZnN2FvMFVtMk95NVRrYU9ZQTZjcWJxdWFiRXc2cjJPK3dm?=
- =?utf-8?B?WC9JR3poWGUzeEZwRWpsUE93YTRUeGp4S3BnSlN5L2xvVHptWjh3Mi9vK1h6?=
- =?utf-8?B?aFprNUM2QkpuUWxPbUJJWWtZYXQzUHhvUXNzaUU0SFBWR3orcFNkem9iUkVB?=
- =?utf-8?B?MlN6cmFMWlRYU3NjSjNybnExTEV4RVdZV2p0VHFscnZxR1V6THhuYzNWSmg2?=
- =?utf-8?B?NWdxODloWUpsS1ZEdkZpSkU2ZU5RN3RxSUhuVUw5b25jMVRTdE5NSVM3SE1C?=
- =?utf-8?B?NUxVREgxMDhBMGVUN0VvMUVhL2hBT3pFMXVtQzEvall2UlNIZHpqbzNMSURM?=
- =?utf-8?B?MXVzVnFPVTB0ekd3Vnc3NVd4c3FOM3lVSkpRaldjT2RmQVNWejBGWklsNzlR?=
- =?utf-8?B?UUs5amVZUW9reER4ZnlYNCtWSDllYkxOalpTSzhhN1ZocmtGSGU3YjZRWSth?=
- =?utf-8?B?ZWRxV1orTHJKb3ROU2Z0VzdoNFc3ai85ZTUwRCtNMlEyZHFKWnFLWUpQcmRQ?=
- =?utf-8?B?bytOZm9MM2h3cS9TOTdKUEpraHFZdlJhTWJDZDdVSmExUGt5TzZJQTJjZUp4?=
- =?utf-8?B?ZEZjT2pwSGNhZWRpOWlydXVwNlJ5NmlaYjdxM1pVUngwRnp3aW4vTFV4QmRs?=
- =?utf-8?B?OGZURUpYRmlzWmJib3VGbnhIQ2lkbVFlKzBVTGRkZ0Rma0ZVaGxGLzV6Qktj?=
- =?utf-8?B?K0Y1VWE4cmUyZStmck92dTBLb3ZMRll3bzgrZTNkWFpHZkI0TWFoTkh3S1Nw?=
- =?utf-8?B?VGtUb3B5YnAySERtcXYxNnpjUkF6SEhPd1JDeGxVY3pQamtoNzBEanJoZXJO?=
- =?utf-8?Q?DliW9p2UppXXdoV3yp0AKKdS9ZWgEEQbCYxqBNJ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5267.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TktBdnJKdElhWm1iNUlhRThCc09uZUhlTDVuZjZBRzFTZjAwTForbXh2R2NX?=
- =?utf-8?B?OXYyOTh3M0FzOEtJV1JYcVdoSzVhTllsMlVyZFNBWEpIWXdlTWhSZS8zTm5o?=
- =?utf-8?B?cWhhOUxBRnB0M3hwQ2hHQkc4ZThDSkNtSERwOVBCMmwrMGppZWF2QzJ0Z3Qx?=
- =?utf-8?B?SlBmWEZjUEFOS25IUjR2bkQrWjJSMldzM1BEOFJzaXVLRm1yZlp2bVVCL21D?=
- =?utf-8?B?MGJUc3J0eXhqVHByL3dCOU1NTUFOZVZpMnJ6MmVHRmZVYnh6K2Vvbjh1V0Zq?=
- =?utf-8?B?RDd3ODZuMUh3eTVaZkp6aVNhenJWcWZ5R0pNVDFlS0tmNGVkbVI5REZFZTN5?=
- =?utf-8?B?UlZtSHVUaWhHV1Q4ZTJWc2V0SzR3VlRGZEVDbElFYXhjOWtzQzB1ZHkzSWQ0?=
- =?utf-8?B?Ly9wMFJZMW92cC9hNVJTS2hiWHJUNE5Vc05QUWJIejFxUEFpcmVzV2FhVEt5?=
- =?utf-8?B?VGpKRHFWbys5QmNFNzhSS2tHRmwvL29WcGdBNlhTSDFXRVRMOHBlSmwxWnZi?=
- =?utf-8?B?Qzh4SXAyUmxEUE5zVW5mUGJUQ1BhVVhlSEl2WUtmVTU1MVdUVjhKbDNqSGJ5?=
- =?utf-8?B?OVB3UlBxOHduTUFuc3BTeGVPMWorem9GQSs4U01LL0YvMXRNWWlRU0RCZmxJ?=
- =?utf-8?B?R3lFaXdiSFB2aE0wM0JEU05wMXc3YTBORkxTUmdSakZVKzJoL2JLSVYvNlc4?=
- =?utf-8?B?bTJiZjRVTko2bmkzNXZzWVFqazBxSFRxVEhKU0xzUGZiTHlHMklwS3NmSlE5?=
- =?utf-8?B?ME1mNTRDM0pXa3h3dGNuWTAwWUlsNjVGYlJpaG5ObksyVVhPNUxNUVRZTENq?=
- =?utf-8?B?NkVOU0N2UzJtUkNmdDg3bGxOS2EzNVN1UkJHOUpJUDRLNUIvTGJLRTJ3VEkv?=
- =?utf-8?B?UnRSUUxldjJwdmVzTTdWOWN6SkEvRTk0M0tpZFVXSHBwK3p2TVRCK3NPNWlV?=
- =?utf-8?B?Q1k0QWZJNGsvODVnazZTTzBzZG9aK2RvU2R1ZWVIdGdIcnUvQW5hWDdCRWw0?=
- =?utf-8?B?V2pJZnVWVU1EeUdzUW1xUnRlREsxL0hUQXA4RXhLa1VabWVNSnFkVUttWjZV?=
- =?utf-8?B?T016U0R5TU54bExseTlOM0YvTTJUdlZEaFJMMnM4SUtRckZnNThySmNUVnRz?=
- =?utf-8?B?aUpYM0NBTTNOQ2RneTlaYXVRdGsxOW1vTjI3cCtCdGRZSWJGQi9kempYMVpz?=
- =?utf-8?B?NzlkSWV1eGxEV1dGOHpHcytYTlJWcmFwOU9aeDlUd2o2ODIvQXhMV0NPR2pU?=
- =?utf-8?B?ZnkzdnpTa2krelFlMlpDMzVabzNkZTVTQ1h1UzNRZ29Xa0hNSlE1VTN0QWZT?=
- =?utf-8?B?U2MrWEdKVDdxUzloOVdHZE5TZkFtVFBjM05mU29ZNlFMdGppUGVhUlV4bU1Q?=
- =?utf-8?B?M3ZGNW0rMWZlM1ZMTEVRazUyNFpoNmdnVTV6U2xNK2lFZGpRSzN1KzJiWnNQ?=
- =?utf-8?B?RFpMenppZGM0TkpDQTByRCtiRDZ0L0NLY005M1FTZVNiZDFJS0Y2Z0FuQjJS?=
- =?utf-8?B?em1QT0hwci9lM2VreHZaemRoT3VwbloxRlJUU2VxOEwvd0psUS93UGZlRm94?=
- =?utf-8?B?aC85TFhRSURzeWhNbHBzT1RjaDlrSlFQR2NORno5aHlSeldZaWpHVThrREdS?=
- =?utf-8?B?bHM4MGVaZ0NuSExtRktjcmxzMWMyUzBSN215UWMyYjA0WTc5SHpCYVh5OTJn?=
- =?utf-8?B?azdFNlkzMHRsb3Y4ZkdsckVLOW83S3RDY0RJclNYTCtCQVN0djhzbU1QcHNy?=
- =?utf-8?B?NnVEQ3A5N1pINUtCSTBueDhSWUp5cXhMeHJnMk56Mm5tSUFRWWREZmQzd1lL?=
- =?utf-8?B?RklGbGZkRDh1Y3ExeWw5VEZ2ekdBNVVPYjJOVkpEYlhPVm0vRzVFNzNZVE1S?=
- =?utf-8?B?SU1lcnlSN2J4OEJQV1ZmT3FZRW8vSThVVmx4UGVxOUVxeU95YXA4RUVEN1Ez?=
- =?utf-8?B?NGRlampZelVNZHplT290N0FJZ1E5bW10YjF3NGFwdjhjeEV1SE9zZjdSdCtK?=
- =?utf-8?B?Sit6NnpOSnBLV2g2WURkZHU3NHBDQnhTbUhwNC9WTDdnVWU1TUpsTHlwS3p4?=
- =?utf-8?B?bFhydk5tbHdtdWlKRHhjNGdoeWoxemwxQlFzY1J3bG9wV2w4aXM5WTlrSkVm?=
- =?utf-8?B?MDgreFZSSklRSDFiWXdQclNjYXpOOXc5bmI3WEVGZTZlbCtZeGU0c0JaSWY1?=
- =?utf-8?Q?3/KEpfNFnD1HLDGxMa1pdNE=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	0I7kYJNZYzpWKrmIT0Wz619jKjmP71T+UhU8uH4ycPse2wh9B5ZDPaHdFPEysWxVTUYaSgo/s9f3o2YpYgwjwW/HrKwuGB5J7lby+/yqdH+qzwladjKW6ab/klQzlyGlsEUsYZuL0gveRXb0qahp2UStDOo3AOm+ETDYImzg+CbWsGjibBlDBA2/O/qBTmA5+52umimgBi3QrZKyzGADAsXhBr0c4P1DoeLn9oFDXsH5B3PVMkKlZCe+Pf/WmFeINqkzbgsEJ1RAzBzzaRizVCZ3KAFlqqLLQI5QxQ5A5fmYhzj7RhrQrGoX6O9/AM4QmnMA4VYt4OHbOr2DEMKPSjYZBqLaNoY/8YGfhPR2Lwq8DaAzPvzubHbHt3aLU/16Kr8OYUS541pirPPgmWafVb6PDnGMB/fwOGZpGRv2d/8WD1xm1YemzZmylmchjtbYYhQ1rVmjZh7yxQi1luNJQtsrHtdjGn9E4AxY4HJPeYcIMis/H9zl3XBiwgeu2MWf7Ax2zlJPLMK4mUFH5sdXmiylm+zkL6ddexX3Gd5WjtAPkLlyMwHSq4WkrM3k69UbtVE0mHhQFSTtHYgA9Dj2hbuaArlKVWptEXcIMJYarkA=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4966a2a3-afcb-4415-deaa-08dcff3db4ca
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5267.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2024 15:06:07.4637
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7HfflWXqfmTioF7y6xZvADoT9/nf0vVHKHbMEndW9cz+/9tR8iYPyASu2BE8re7Yl6SnAFBgkFISCGXB3t8tPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7546
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-07_06,2024-11-07_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 spamscore=0
- phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411070117
-X-Proofpoint-ORIG-GUID: WqDI15_Ux7rb5yctW71LZseHGQxzDIjZ
-X-Proofpoint-GUID: WqDI15_Ux7rb5yctW71LZseHGQxzDIjZ
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.1.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+ <ZyOQJmF-PcFHgmeq@kuha.fi.intel.com> <CANFp7mXhwMMwyqbKqxe=SgCRPUyXVhKnsJwf0xgJ2LefOvrtjg@mail.gmail.com>
+ <ZyTUsOg7cd6xSDhn@kuha.fi.intel.com> <CANFp7mVC1RVLF=OPD-jiv5cQeYaA8uqNA0xB5os3iAKo2DFWoA@mail.gmail.com>
+ <Zyja9b2Xt-BEc-mx@kuha.fi.intel.com>
+In-Reply-To: <Zyja9b2Xt-BEc-mx@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Thu, 7 Nov 2024 11:21:54 -0800
+Message-ID: <CANFp7mVexEta5fecZ5LaM_Pr6xMigTcuDySz1+65BL_-cY2SOA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
+	Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/11/2024 16:08, Laura Nao wrote:
-> Hello,
-> 
-> KernelCI has detected a module loading regression affecting all AMD and 
-> Intel Chromebooks in the Collabora LAVA lab, occurring between 
-> next-20241024 and next-20241025.
-> 
-> The logs indicate a failure in BTF module validation, preventing all 
-> modules from loading correctly (with CONFIG_MODULE_ALLOW_BTF_MISMATCH 
-> unset). The example below is from an AMD Chromebook (HP 14b na0052xx), 
-> with similar errors observed on other AMD and Intel devices:
-> 
-> [    5.284373] failed to validate module [cros_kbd_led_backlight] BTF: -22
-> [    5.291392] failed to validate module [i2c_hid] BTF: -22
-> [    5.293958] failed to validate module [chromeos_pstore] BTF: -22
-> [    5.302832] failed to validate module [coreboot_table] BTF: -22
-> [    5.309175] failed to validate module [raydium_i2c_ts] BTF: -22
-> [    5.309264] failed to validate module [i2c_cros_ec_tunnel] BTF: -22
-> [    5.322158] failed to validate module [typec] BTF: -22
-> [    5.327554] failed to validate module [snd_timer] BTF: -22
-> [    5.327573] failed to validate module [cros_usbpd_notify] BTF: -22
-> [    5.339272] failed to validate module [elan_i2c] BTF: -22
-> [    5.345821] failed to validate module [industrialio] BTF: -22
-> [    5.423113] failed to validate module [cfg80211] BTF: -22
-> [    5.443074] failed to validate module [cros_ec_dev] BTF: -22
-> [    5.448857] failed to validate module [snd_pci_acp3x] BTF: -22
-> [    5.454736] failed to validate module [cros_kbd_led_backlight] BTF: -22
-> [    5.461458] failed to validate module [regmap_i2c] BTF: -22
-> [    5.470228] failed to validate module [i2c_piix4] BTF: -22
-> [    5.491123] failed to validate module [i2c_hid] BTF: -22
-> [    5.491226] failed to validate module [chromeos_pstore] BTF: -22
-> [    5.496519] failed to validate module [coreboot_table] BTF: -22
-> [    5.502632] failed to validate module [snd_timer] BTF: -22
-> [    5.538916] failed to validate module [gsmi] BTF: -22
-> [    5.604971] failed to validate module [mii] BTF: -22
-> [    5.604971] failed to validate module [videobuf2_common] BTF: -22
-> [    5.604972] failed to validate module [sp5100_tco] BTF: -22
-> [    5.616068] failed to validate module [snd_soc_acpi] BTF: -22
-> [    5.680553] failed to validate module [bluetooth] BTF: -22
-> [    5.749320] failed to validate module [chromeos_pstore] BTF: -22
-> [    5.755440] failed to validate module [mii] BTF: -22
-> [    5.760522] failed to validate module [snd_timer] BTF: -22
-> [    5.783549] failed to validate module [bluetooth] BTF: -22
-> [    5.841561] failed to validate module [mii] BTF: -22
-> [    5.846699] failed to validate module [snd_timer] BTF: -22
-> [    5.892444] failed to validate module [mii] BTF: -22
-> [    5.897708] failed to validate module [snd_timer] BTF: -22
-> [    5.945507] failed to validate module [snd_timer] BTF: -22
-> 
-> The full kernel log is available on [1]. The config used is available on
-> [2] and the kernel/modules have been built using gcc-12.
-> 
-> The issue is still present on next-20241105.
-> 
-> I'm sending this report to track the regression while a fix is
-> identified. The culprit commit hasn't been pinpointed yet, I'll report
-> back once it's identified.
-> 
-> Any feedback or suggestion for additional debugging steps would be greatly 
-> appreciated.
-> 
-> Best,
+On Mon, Nov 4, 2024 at 6:32=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
+> On Fri, Nov 01, 2024 at 11:48:07AM -0700, Abhishek Pandit-Subedi wrote:
+> > On Fri, Nov 1, 2024 at 6:16=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Thu, Oct 31, 2024 at 04:02:22PM -0700, Abhishek Pandit-Subedi wrot=
+e:
+> > > > On Thu, Oct 31, 2024 at 7:11=E2=80=AFAM Heikki Krogerus
+> > > > <heikki.krogerus@linux.intel.com> wrote:
+> > > > >
+> > > > > Hi Abhishek,
+> > > > >
+> > > > > On Wed, Oct 30, 2024 at 02:28:32PM -0700, Abhishek Pandit-Subedi =
+wrote:
+> > > > > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > > >
+> > > > > > Thunderbolt 3 Alternate Mode entry flow is described in
+> > > > > > USB Type-C Specification Release 2.0.
+> > > > > >
+> > > > > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com=
+>
+> > > > > > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromiu=
+m.org>
+> > > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.=
+org>
+> > > > > > ---
+> > > > > >
+> > > > > > Changes:
+> > > > > > * Delay cable + plug checks so that the module doesn't fail to =
+probe
+> > > > > >   if cable + plug information isn't available by the time the p=
+artner
+> > > > > >   altmode is registered.
+> > > > > > * Remove unncessary brace after if (IS_ERR(plug))
+> > > > > >
+> > > > > > The rest of this patch should be the same as Heikki's original =
+RFC.
+> > > > > >
+> > > > > >
+> > > > > > Changes in v2:
+> > > > > > - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+> > > > > > - Pass struct typec_thunderbolt_data to typec_altmode_notify
+> > > > > > - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+> > > > > > - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+> > > > > > - Change module license to GPL due to checkpatch warning
+> > > > > >
+> > > > > >  drivers/platform/chrome/cros_ec_typec.c  |   2 +-
+> > > > > >  drivers/usb/typec/altmodes/Kconfig       |   9 +
+> > > > > >  drivers/usb/typec/altmodes/Makefile      |   2 +
+> > > > > >  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++=
+++++++++
+> > > > > >  include/linux/usb/typec_tbt.h            |   3 +-
+> > > > > >  5 files changed, 322 insertions(+), 2 deletions(-)
+> > > > > >  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+> > > > > >
+> > > > > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/=
+platform/chrome/cros_ec_typec.c
+> > > > > > index c7781aea0b88..53d93baa36a8 100644
+> > > > > > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > > > > > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > > > > > @@ -499,7 +499,7 @@ static int cros_typec_enable_tbt(struct cro=
+s_typec_data *typec,
+> > > > > >       }
+> > > > > >
+> > > > > >       port->state.data =3D &data;
+> > > > > > -     port->state.mode =3D TYPEC_TBT_MODE;
+> > > > > > +     port->state.mode =3D USB_TYPEC_TBT_MODE;
+> > > > > >
+> > > > > >       return typec_mux_set(port->mux, &port->state);
+> > > > > >  }
+> > > > >
+> > > > > The definition should be changed in a separate patch.
+> > > >
+> > > > Ack -- will pull the rename out into its own patch.
+> > > >
+> > > > >
+> > > > > > +static const struct typec_device_id tbt_typec_id[] =3D {
+> > > > > > +     { USB_TYPEC_TBT_SID, USB_TYPEC_TBT_MODE },
+> > > > > > +     { }
+> > > > > > +};
+> > > > > > +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+> > > > >
+> > > > > Now the mode would be the same thing as connector state, which is=
+ not
+> > > > > true. The connector state is supposed to reflect the pin assignme=
+nt,
+> > > > > and the mode is the mode index used with the actual VDMs. For exa=
+mple,
+> > > > > DP alt mode has several different states, but only one mode.
+> > > > >
+> > > > > The TBT3 altmode driver will not work with this patch alone, it w=
+ill
+> > > > > never bind to the partner TBT3 alt mode because the mode does not
+> > > > > match.
+> > > > >
+> > > > > Can you reorganise this series so that the patch 2/7 comes before=
+ this
+> > > > > one? Then I think you can just use the SVID unless I'm mistaken:
+> > > > >
+> > > > >         static const struct typec_device_id tbt_typec_id[] =3D {
+> > > > >                 { USB_TYPEC_TBT_SID },
+> > > > >                 { }
+> > > > >         };
+> > > > >         MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+> > > > >
+> > > > > Alternatively, just leave it to TYPEC_ANY_MODE for now.
+> > > > >
+> > > >
+> > > > Sure, I'll re-order the patches and get rid of the mode. I'm actual=
+ly
+> > > > a bit confused as to how mode is supposed to be used since typec_dp=
+.h
+> > > > defines USB_TYPEC_DP_MODE=3D1, typec_tbt.h defines
+> > > > USB_TYPEC_TBT_MODE=3DTYPEC_STATE_MODAL and it looks like USB state =
+also
+> > > > starts from TYPEC_STATE_MODAL and continues.
+> > > >
+> > > > Is this documented in the spec somewhere? How should this mode valu=
+e
+> > > > be used and shared between USB and various alt-modes? At least the =
+DP
+> > > > case seems clear because as you said it describes different pin
+> > > > assignments. However, the term "mode" seems to be overloaded since
+> > > > it's used in other areas.
+> > >
+> > > Well, this is confusing, I admit. One problem is that the term "mode"
+> > > really means different things depending on the spec. In DP alt mode
+> > > specification for example, "mode" basically means the same as pin
+> > > assignment, so not the object position like it does in USB PD and
+> > > Type-C specifications.
+> > >
+> > > But the alt modes are in any case meant to be differentiated from the
+> > > common USB and accessory modes simply by checking if there is struct
+> > > altmode or not.
+> > >
+> > > So the mux drivers for example can use the "alt" member in struct
+> > > typec_mux_state to check is the connector meant to enter alt mode, or
+> > > USB or accessory mode.
+> > >
+> > > I.e. if the "alt" member is there, then it's alt mode, and the "mode"
+> > > member value matches whatever is defined for that specific alt mode.
+> > >
+> > > If "alt" is NULL, then connector is in USB mode or accessory mode, an=
+d
+> > > the "mode" member is one of the common modes:
+> > >
+> > > enum {
+> > >         TYPEC_MODE_USB2 =3D TYPEC_STATE_MODAL,    /* USB 2.0 mode */
+> > >         TYPEC_MODE_USB3,                        /* USB 3.2 mode */
+> > >         TYPEC_MODE_USB4,                        /* USB4 mode */
+> > >         TYPEC_MODE_AUDIO,                       /* Audio Accessory */
+> > >         TYPEC_MODE_DEBUG,                       /* Debug Accessory */
+> > > }
+> > >
+> > > I hope this answers your question. Maybe this needs to be clarified i=
+n
+> > > this document:
+> > > https://docs.kernel.org/driver-api/usb/typec.html#multiplexer-demulti=
+plexer-switches
+> > >
+> > > ..and the code obviously. Maybe the "mode" member struct
+> > > typec_mux_state should be renamed to "state"? Though, I'm not sure
+> > > that improves the situation.
+> > >
+> >
+> > This does make things clearer -- thank you. Based on the various
+> > meanings of mode vs state, I think the following will make things
+> > clearer:
+> >
+> > Let's change |mode| to |mode_index| in `struct typec_altmode_desc`.
+> > Looking at the Discover SVIDs and Discover Modes response in PD 3.2
+> > spec, the value we are passing here is actually the mode_index since
+> > that's what's necessary in the VDM to identify which mode we are
+> > trying to enter.
+>
+> Yes, mode_index sounds better.
 
-Thanks for the report! Judging from the config, you're seeing this with
-pahole v1.24. I have seen issues like this in the past where during a
-kernel build, module BTF has been built against vmlinux BTF, and then
-something later re-triggers vmlinux BTF generation. If that re-triggered
-vmlinux BTF does not use the same type ids for types, this can result in
-mismatch errors as above since modules are referring to out-of-date type
-ids in vmlinux. That's just a preliminary guess though, we'll
-need more info to help get to the bottom of this.
+Opting not to do this rename for this series -- I tried and it was
+touching a lot of drivers so I want to do it in a separate series.
 
-A few suggestions to help debug this:
+TBT already defined the mode index as |TBT_MODE| in <typec_tbt.h> so I
+opted to use that for now.
 
-- if you have build logs, check BTF generation of vmlinux. Did it in
-fact happen twice perhaps? Even better if, if kernel CI saves logs, feel
-free to send a pointer and I'll take a look.
-- can you post the vmlinux (stripped of DWARF data if possible to limit
-size) and one of the failing modules somewhere so we can analyze?
-- Failing that,
-bpftool btf dump file /path/2/vmlinux_from_build > vmlinux.raw
-and upload of the vmlinux.raw and one of the failing module .kos would help.
-
-I've tried to reproduce this; no luck so far at my end.
-
-Alan
-
-> Laura
-> 
-> [1] https://pastebin.com/raw/dtvzBkxh
-> [2] https://pastebin.com/raw/a1MGi3wH
-> 
-> #regzbot introduced: next-20241024..next-20241025
-> 
-> 
-
+>
+> > |USB_TYPEC_DP_MODE| needs to change to |USB_TYPEC_DP_MODE_INDEX| in typ=
+ec_dp.h
+> > |USB_TYPEC_TBT_MODE| should also be |USB_TYPEC_TBT_MODE_INDEX| with a
+> > value of 1 and we should define a new |TYPEC_TBT_STATE| as an enum
+> > with base value of TYPEC_STATE_MODAL.
+> >
+> > Getting rid of the mode index for altmode matching makes sense for DP
+> > and TBT (since both have spec defined standard values) but for
+> > non-standard modes which might return >1 modes in Discover Modes the
+> > driver will match for all modes and not just the specific mode like it
+> > was prior to patch 2 in this series. Do we want to retain that and
+> > change the TBT driver to only match on mode_index =3D 1 instead. I have
+> > no examples of non-standard mode behavior to decide which is the
+> > better option here.
+>
+> Let's drop it for now. We can always add it back.
+>
+> thanks,
+>
+> > > > > > +static struct typec_altmode_driver tbt_altmode_driver =3D {
+> > > > > > +     .id_table =3D tbt_typec_id,
+> > > > > > +     .probe =3D tbt_altmode_probe,
+> > > > > > +     .remove =3D tbt_altmode_remove,
+> > > > > > +     .driver =3D {
+> > > > > > +             .name =3D "typec-thunderbolt",
+> > > > > > +             .owner =3D THIS_MODULE,
+> > > > > > +     }
+> > > > > > +};
+> > > > > > +module_typec_altmode_driver(tbt_altmode_driver);
+> > > > > > +
+> > > > > > +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.co=
+m>");
+> > > > > > +MODULE_LICENSE("GPL");
+> > > > > > +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
+> > > > > > diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/=
+typec_tbt.h
+> > > > > > index fa97d7e00f5c..3ff82641f6a0 100644
+> > > > > > --- a/include/linux/usb/typec_tbt.h
+> > > > > > +++ b/include/linux/usb/typec_tbt.h
+> > > > > > @@ -10,7 +10,7 @@
+> > > > > >  #define USB_TYPEC_TBT_SID            USB_TYPEC_VENDOR_INTEL
+> > > > > >
+> > > > > >  /* Connector state for Thunderbolt3 */
+> > > > > > -#define TYPEC_TBT_MODE                       TYPEC_STATE_MODAL
+> > > > > > +#define USB_TYPEC_TBT_MODE           TYPEC_STATE_MODAL
+> > > > >
+> > > > > I think USB_TYPEC_STATE_TBT would be better. But please change th=
+is in
+> > > > > a separate patch in any case.
+> > > >
+> > > > Same question as above about mode vs state :)
+> > >
+> > > Well, I was thinking that maybe we should use the term "state" here
+> > > with the idea that "state" would be something purely kernel specific,
+> > > and "mode" would then be something defined in a specification... But
+> > > now I'm not so sure (I don't think it's always clear).
+> > >
+> > > Maybe USB_TYPEC_TBT_MODE after all. I'll leave the decision to you.
+> > >
+> > > cheers,
+> > >
+> > > --
+> > > heikki
+>
+> --
+> heikki

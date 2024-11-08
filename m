@@ -1,133 +1,142 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E779921A6EF
-	for <chrome-platform@lists.linux.dev>; Fri,  8 Nov 2024 15:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8AA193418
+	for <chrome-platform@lists.linux.dev>; Fri,  8 Nov 2024 18:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731080025; cv=none; b=jnMI7yQG930Y8KpHs03VaTq7fof6JztAyP6q12fMI/RP6pwlrmqF33TCYeGYYUFjrLeZadd3+33uGvFLWW4tiKjU424wjoYYUCbAroZWuhBRGPZAJvUlloeswyUlGZMzqeUsqDZrwaq7W1r1vUHYseGl86U9qeAeXH1ZVhn9FbY=
+	t=1731090546; cv=none; b=jXKbtjecHSswATCpg3WqVmVhIPoQgnWyq57jyelzabXEjiQF2aqt4xQ2aTB9623OSLSe/WsRcfU6Uqn8UYhDbFJKkWQhak5sQbNI1KaA2CEqaoQt7nRYCBYNhwKG68/hygU7X45TiicoexlrCHVB1tfdclVx8hA1xlTfdwTLrHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731080025; c=relaxed/simple;
-	bh=jFmMnUeuC+ny2eEdkRs99LX3eAoH4643Yv0UWsCgWwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CK7f8Yah0FdkwEjjybaFijcAIXkZmlh30iCKe1UOg507viPtUNLxwW4F6HqGm+EzzzLNXyUdgXIrYC9w+TL5K6JczkOqmr2nY0qg/+r3l163Ug7+6eJmgljPM4EphD6Hjzldcq+fHscMaDc6nKvvUI60CWJMYzT2I57F0VfBmHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YB5ENZMd; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731090546; c=relaxed/simple;
+	bh=02QQS4FNdXeeDmAaZnAYT1g9MLTNG9MtUURxZt8MuQg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SDwKgPXBp3kj9GkdyGsRCmJc3pUCbGRuw5WUNC0SQs8+XqBq96l75sv0VT9Wf7UJAWHO+hF0ZMKZfX+sv2DYEn0S+HOTvoSL0wYXYa5ESOcbXAhwKIcUUZLK0nvVK5/Ka+GjKPt/cFG7a76mM/ibP1Pb7Vax3nDIUpCdJFIaACc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hbyTik7c; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YB5ENZMd"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53b13ea6b78so3958690e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 08 Nov 2024 07:33:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hbyTik7c"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e5b7cd1ef5so21504287b3.1
+        for <chrome-platform@lists.linux.dev>; Fri, 08 Nov 2024 10:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731080021; x=1731684821; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3tUwRMCHHdqZVRtxZCk5aPJdbR5inXLEUzSQYIspWM0=;
-        b=YB5ENZMdXNYCXy/NfjnXrlI6rlD84Xe+2C7L2cN/H1HC+lQeHAcXR4LQNIvl3PJwTh
-         24cRQVwaMWG4puWtHfaGFVeZ/X/+FqIx3pQLrdq6WMbqneCxs8NbMcxJIqyxgJ8izF1M
-         uKlEDl39MgPF8U16mLGmL6KJrhnpNmkN4SrTV8Ym/RISOlwlcGiacPQc/3xygxNwDDPN
-         8qrv8xe1d9goVUljYneuj39X/6FM1gmvUBZ0bN+ULnLeOmd4to0yed5j1XnMVOcASqOf
-         0jNPBpOmtyB1GCa6qDjh3i7bC+7uf8mk8vIQXtUWspeC2uTyIR8rjBrhiR6nb6VWSlnA
-         pEGA==
+        d=chromium.org; s=google; t=1731090543; x=1731695343; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XXU0VBJGl3bTzKZlhr2VmDp9XP+CtZacH9WA2Oh4T1A=;
+        b=hbyTik7cdtvbJk3AygPoMWi+pooCdfu4w14yptiDxnBHYxy4AimBTDMBvE63L9sD4G
+         tU8SiiGXHO5D23x9QJ4P1BJz1RbwEfBv7rx2gKDjIxjaUObDpFaZxKR6WiZ3MC3hrVyy
+         ACblcALu/lj3gtbgqDtt8RbQYnbRAJYtSWAEM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731080021; x=1731684821;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3tUwRMCHHdqZVRtxZCk5aPJdbR5inXLEUzSQYIspWM0=;
-        b=IboisiY7Dr4r/ko5NjHPtRpGpvFfan1wdi0zldQt7wUZ8nmhNQZrDSPyUDxiZAzSIo
-         PIepkX3iTy6TmOcCqjZVomij+fS2D54CQvRYqKJ8ARZ9+PiD0X3xp5+RHAj+M1GRK34I
-         XH5+IhXYM9bhXT0IIEa3yoN42s5afuq9+ItOKAMR7VYa+NUKPS9xqhKnvh0BYyXgcyh5
-         qA+We9BZfP/5RRMZHZDSgrtu5K2zGf6l0yQanGdssis3hDusEZzWD885aLnK39jPgPRk
-         NPY6GFmnMllCQ/B1E1/px7qweydcosoUaD11Ma8UlbGlFvi1VwzEsGc34p0VJ28/LtUM
-         oJQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSZLgxE742LlnXJNdpmuX2k87/IvdJA5lmduPCXSJiD7VsjC78jNpEpGXxMOrPVBhxEWyH5/Z46gwMZYyaRYk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMgEdtSWXEIUduheVbqC4xrfYNiMOvIv/uFfiVfEmxMFnTm/rX
-	cDdMm6bzLb0Kz4qvBlrbTg7qHJmKQCLSSe220f6VArdgA+HdXHd3
-X-Google-Smtp-Source: AGHT+IH6QlPf0c6ztccp5zye1I+rJwIhnxrhIVUrE/U2zUAMlS2cVf9rlvp4D1Xd2iX5jOQ4HGOkBw==
-X-Received: by 2002:a05:6512:3084:b0:539:8a50:6ee8 with SMTP id 2adb3069b0e04-53d862f84cdmr2869650e87.57.1731080020655;
-        Fri, 08 Nov 2024 07:33:40 -0800 (PST)
-Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d82678474sm662970e87.42.2024.11.08.07.33.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 07:33:40 -0800 (PST)
-Date: Fri, 8 Nov 2024 18:33:37 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v11 5/7] i2c: of-prober: Add GPIO support to simple
- helpers
-Message-ID: <Zy4vUQj26-rkXrgk@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wolfram Sang <wsa@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-i2c@vger.kernel.org
-References: <20241106093335.1582205-1-wenst@chromium.org>
- <20241106093335.1582205-6-wenst@chromium.org>
+        d=1e100.net; s=20230601; t=1731090543; x=1731695343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XXU0VBJGl3bTzKZlhr2VmDp9XP+CtZacH9WA2Oh4T1A=;
+        b=pOjG8D2wZUCrhOo5E8IGA2+hTArzNWzJhPHqZi+1b1VMxjFZx+riu3NmX6AY4Ozw3L
+         lhy132UGf8hl1jW380XbBqRvdJOvuUVllgroWTfWKL9A6PziF1SBJwxmY+Kwv37u0E/w
+         /l64oAoCS/+tFh8M+vZaqlji4hdATMKFn/+3o97WZdBov1wZF/pfGWK+7C7FyPEHaVcA
+         Aq8gUJ+t9jUo8yfPzh7pUHIXD+g2jYw7mT7dO7ZU4PLlRnAXZJKzKrWjzTpQQJ/MtDBk
+         2nE8qNVxOu5Mw2iEjjuyWhA64ItKGqve8Qa+ABHJl4vsA3abb1cOujpMyePwbewuts4F
+         gRPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLDNdNZxlSzqw/UnU0GuyV8M6TtzBllhgK3TPoTSkOdhNPJO7TwiE8nwb6ssQgg3+X8s9t8Vl68P4MrV+zwas=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUe8chyQ0zUogZFPeEIy+jGMMOVywK7OAs18Bb7AOiXvcjk6DD
+	8TbB3OKr99shp55V2WC8CbZRJjl9+ZuYh84geVUzgneQmz22gQvWlVV41sxtVDLiqLWjZhQ9g5W
+	jGWRiHmg6lvYhqmOpXvZmvZlYKy4ch2vqrent
+X-Google-Smtp-Source: AGHT+IFVH2rH/3J3+EfLqdmi06+2WK6Q7MhT8hFjbr9Dp+zaWTVq58fsnki1FEj5p7N6Y4mQH7jaBBjr/gCjs3pLBvA=
+X-Received: by 2002:a05:690c:60c4:b0:6e7:e3a9:f30d with SMTP id
+ 00721157ae682-6eaddda335emr46720207b3.15.1731090543616; Fri, 08 Nov 2024
+ 10:29:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241106093335.1582205-6-wenst@chromium.org>
+References: <20241107193021.2690050-1-abhishekpandit@chromium.org>
+ <20241107112955.v3.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid> <2024110849-bonded-flatten-5f5e@gregkh>
+In-Reply-To: <2024110849-bonded-flatten-5f5e@gregkh>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Fri, 8 Nov 2024 10:28:52 -0800
+Message-ID: <CANFp7mU0h0=UimV_tCDw=YuQcdPZsSZ0sJEMv1kNJKiDjs1KHg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] usb: typec: Check port is active before enter mode
+ on probe
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org, 
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev, jthies@google.com, 
+	akuchynski@google.com, pmalani@chromium.org, dmitry.baryshkov@linaro.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 24-11-06 17:33, Chen-Yu Tsai wrote:
-> Add GPIO support to the simple helpers for the I2C OF component prober.
-> Components that the prober intends to probe likely require their
-> regulator supplies be enabled, and GPIOs be toggled to enable them or
-> bring them out of reset before they will respond to probe attempts.
-> Regulator supplies were handled in the previous patch.
-> 
-> The assumption is that the same class of components to be probed are
-> always connected in the same fashion with the same regulator supply
-> and GPIO. The names may vary due to binding differences, but the
-> physical layout does not change.
-> 
-> This supports at most one GPIO pin. The user must specify the GPIO name,
-> the polarity, and the amount of time to wait after the GPIO is toggled.
-> Devices with more than one GPIO pin likely require specific power
-> sequencing beyond what generic code can easily support.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Fri, Nov 8, 2024 at 5:17=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Nov 07, 2024 at 11:29:56AM -0800, Abhishek Pandit-Subedi wrote:
+> > Enforce the same requirement as when we attempt to activate altmode via
+> > sysfs (do not enter partner mode if port mode is not active). In order
+> > to set a default value for this field, also introduce the inactive fiel=
+d
+> > in struct typec_altmode_desc.
+> >
+> > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > ---
+> >
+> > Changes in v3:
+> > - Use port.active instead of introducing auto-enter field
+> > - Introduce inactive field to typec_altmode_desc to set default value
+> >   for active.
+> > - Always make port 'active' field writable
+> >
+> >  drivers/usb/typec/altmodes/displayport.c | 7 +++++--
+> >  drivers/usb/typec/altmodes/thunderbolt.c | 6 +++++-
+> >  drivers/usb/typec/class.c                | 5 +++--
+> >  include/linux/usb/typec.h                | 2 ++
+> >  4 files changed, 15 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typ=
+ec/altmodes/displayport.c
+> > index 3245e03d59e6..f4116e96f6a1 100644
+> > --- a/drivers/usb/typec/altmodes/displayport.c
+> > +++ b/drivers/usb/typec/altmodes/displayport.c
+> > @@ -767,8 +767,11 @@ int dp_altmode_probe(struct typec_altmode *alt)
+> >       if (plug)
+> >               typec_altmode_set_drvdata(plug, dp);
+> >
+> > -     dp->state =3D plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTER;
+> > -     schedule_work(&dp->work);
+> > +     /* Only attempt to enter altmode if port is active. */
+> > +     if (port->active) {
+> > +             dp->state =3D plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTE=
+R;
+> > +             schedule_work(&dp->work);
+> > +     }
+>
+> What prevents active from changing right after you checked it?
 
-> ---
-> Changes since v10:
-> - Added include of linux/types.h for |bool|
+There's another check in `typec_altmode_enter` for the port itself:
+https://github.com/torvalds/linux/blob/master/drivers/usb/typec/bus.c#L138
 
-Tested-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+If I leave this out, it will just fail in `dp_altmode_work` when it
+calls `typec_altmode_enter` and will leave a dev_err("failed to enter
+mode"). This might be more user friendly since it's visible to the
+user that the partner supports the mode but the port blocked entry.
+I'll update the message on mode entry to also print the return value
+(-EPERM) in the next patch.
 
-Patches 1-5 from this patchset were successfully tested with hardware
-prober for i2c magnetometer on PinePhone on next-20241107. [1]
+>
+> > @@ -150,6 +151,7 @@ struct typec_altmode_desc {
+> >       u32                     vdo;
+> >       /* Only used with ports */
+> >       enum typec_port_data    roles;
+> > +     bool                    inactive : 1;
+>
+> A boolean bitfield?  That's not needed, please just do this properly.
 
-1. https://github.com/AndreySV/linux-stable/commits/in-kernel-i2c-hwprober-magnetometer/
+Ack - will remove the bitfield. `struct typec_altmode` also does this
+-- I'll remove that in a cleanup patch too.
 
--- 
-Best regards,
-Andrey Skvortsov
+>
+> thanks,
+>
+> greg k-h

@@ -1,68 +1,68 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F09CA6B
-	for <chrome-platform@lists.linux.dev>; Sat,  9 Nov 2024 06:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371DBC8FF
+	for <chrome-platform@lists.linux.dev>; Sat,  9 Nov 2024 06:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731134332; cv=none; b=C5mZfGb6Mt5eUYq0bmnOR4SdKdYoev/rsjjH8EvxSzoddenslwvtPwV6GSqjlRKXWQJH989ay01xsQsRq70VUSa1Inol14f9mBVrQwEd97Z5UEtYSIZzOiqJBnbZhJIPmbfJ7SXOaVGH2mLvGjuX0Mq+zkR05VB2hNVaqNP+XeA=
+	t=1731134479; cv=none; b=AndJz01qLWaztWmUueFz3etAJuandH6aBbgUmhasXcUB4gqBmrBITBgNQZVomrr+ipM26JpepTSuAA0V+/Y4oCq/4+XLu5rxoWZCDXgXr74CT5woZZU/fGvF2IAqnNFMTe9M2jIfEvRK4SiUfA4A7X7pkecutIJwg2SNFV4NyUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731134332; c=relaxed/simple;
-	bh=v0/PZn7/vhzZk56k4u46j7LDg+Sd+2lEcZRRyVVzm0w=;
+	s=arc-20240116; t=1731134479; c=relaxed/simple;
+	bh=b/pYJB7ff1VOHxnQqKgR1eAwihT9fLrrs3wRLF85ocg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oh/a71tTdnr/pWmJ7nUYb5cyI3GDYCPcAp+X72trDZmlMuKOYOC9N/9sd8+di/mptBIFnIinkooRA3MhZMgxT7xY1jcbVBVbMr9TFGDuTargjoum1M+hcRJVQ+thXLYRrGxpd12gj//Q18ukZSDqA8DXfWhzb7Vzdfv7yXOscfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cxRW1txi; arc=none smtp.client-ip=209.85.167.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=QZNRe6ZWvsmBDMNXJBZRbX1K3ikMIr6nimcpJalYJFgft50FD9bJVWJsuwYhyKdli03IaV9z8naCKC7adoSDeSZrKAcsNAJa8glc7RlgJNcdCg2XpFsF+7gBiIPlL0hFq1eqfKI7eL1pG8vyuoqg0qgHtRAYC9XIHVlxGaWoepI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=agVe5jqD; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cxRW1txi"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e8607c2aso3427175e87.3
-        for <chrome-platform@lists.linux.dev>; Fri, 08 Nov 2024 22:38:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="agVe5jqD"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb561f273eso22406471fa.2
+        for <chrome-platform@lists.linux.dev>; Fri, 08 Nov 2024 22:41:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731134327; x=1731739127; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1731134475; x=1731739275; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yJPildrl79X/dY1wzHR/XLOgThRjDNFrGbCPgoPK+jY=;
-        b=cxRW1txiR6d99zTY86fq4pjXxpyTwzrf/FmYvnSEO88LirRGva+kKvsEs/FhXhvxA9
-         MwUc75ivdjzEKACXGc2q5YwUIdaq9Pw5tR0uJYUgkfhsRZvs0sDv38gIm2zqrzVxDmvH
-         3TJwYzyGviT2muiEwtHiichTcCRWnNRavDL9DWdWX3sGUDKbFQ2bOcfZNVVtd9ikWvKj
-         asa+MAN/rQW0cPtwPGaoo7lfTQKGOX9WVzOce3hzUg8CJa4XfbZHh/SFr0av3QbM7drG
-         8E6Mdw/ahXNftOvrg/euXfyP3AP4qGdckJ6707HvXi2dVl6AIHbZFg2YJ5jfLZ9AFrKm
-         f8YA==
+        bh=CWQ5mBVFWFsy+kB+NSDCfBo5RSCH1U3/SXkD0DVPa5w=;
+        b=agVe5jqDVzaruzJuRRcvyzbn8GdGiKo9QaCTUXTB89K0+5WcbmoNEWWHLRkVbQu8jR
+         50mLQgkJTlrbv8/ja+LihQKfwR+j9x33x4TlOM0EuwZ7mwSGOhwO84lyttQsfGfStiCC
+         QOoVc7qWXmjLrTh30YnlQEKcuS8z9BKf0s05lZnb/dtU1wAkZ3Vgc/C5OYCzul3KTbh5
+         QdAEdzdMG2yYbWmQF+iD1eoXPhjeOURpFhh5EFA6l1wqJG9BOoRdK37jPRXh6JGf4i7y
+         No79lrcIsA/ynQoSj1TEVLiEYXykGfU1twARkYyIFvjXBqk6Aiex8puPsh7KnHQExIfn
+         NKNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731134327; x=1731739127;
+        d=1e100.net; s=20230601; t=1731134475; x=1731739275;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yJPildrl79X/dY1wzHR/XLOgThRjDNFrGbCPgoPK+jY=;
-        b=CCktat6hVIeDzk2fxjoPRNWAS6XSZ+i7eiZ+LKDEmRhRcR80nb0mFhLrRdahsuaX2h
-         GPh2cqzKrH6hMgCrKZGIUq42B13Hb1XroNTF5LKNtB/SCb+oE+Q3My9WLurMhfiYp1Fz
-         d8SA+W+hF9YUd56ymjRCIqIVrE3W4sknjKI3REAAbMd+FwOHhSmtDnVNkJ6QcixcfnWO
-         DQPjwATiwtAKfnbCVAZQSf5adSDsRJm1Zme8Edh5WEIF2FWYo3YABCK/E3xLFVte4Wa3
-         ZjMVlmH4o0eUkiy69+GZX8ey6qDNU6ZO751fecXkEwjrrYKuDWHEAoxHAGeCs4xNrCfv
-         GXeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfIMX/5PYgXLokIybjOtvEUtjp7mS/n1o/oSvlAVyRBVQ3SQLqU6PcX9oREgBx3wjlmcVGiNuNUkDAgkp2rE4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxnmmfb8GfUbA1P5LjrOB98MJdie8C3ZVVoLQsEgmK67OPiMtGj
-	PMBlHafUj1F8tz0f3TK+1vb05hJKTnbIRmshK53fxS8+rcDYuodftlYwmdOLSR0=
-X-Google-Smtp-Source: AGHT+IGk0puRnw6F1xlZnG6azX7t54iRV3Upey0j7BuRvMTQzMaS1/T+K18wxFzPsS/Eabwb7SePAw==
-X-Received: by 2002:a05:6512:3d09:b0:52e:f2a6:8e1a with SMTP id 2adb3069b0e04-53d862c5991mr2841871e87.29.1731134327326;
-        Fri, 08 Nov 2024 22:38:47 -0800 (PST)
+        bh=CWQ5mBVFWFsy+kB+NSDCfBo5RSCH1U3/SXkD0DVPa5w=;
+        b=e2ahk7FP3cuzFnglHuQIOEHHk85UDQIxD9pRmueW5jZQOCSm8FQG6ui6ndaInzgvOo
+         ZcT1X31WH4819LAfEW/ZK7HxbWl+cTtg2ec6woPDi7t+lA8a132eUjVmOA2oQlOqwSg9
+         cSBCUs0OY1w5vsa4Q95WLLXg8BiW3rTBijRz11heeIl/ZwrvdzLeOmieMeWaFwrvG7Rh
+         VOSD5gjYQ/Ug1ogrk35rfrG5d4NCjjdJxKemzOiBxMVHgoLEOkU8+nGruZdZxaOJExxC
+         A8zCwpsmulFgCS+FJnl6nb7Q+vASSyIeI+b8ixfoJQZOJU9t7LNDqleFwsbfC2lTWB24
+         /+6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXrJeaYqJVSvv2rIgvE4GEx82kEoDZPd9xHqW9ENu3ZSSp+THCxUC/YwVp6+FafEwA66vxuNVsUynsmsOIv+as=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yycwy5uwem/Ctqobftl1aRgTN4eZnGuFqMV0LmwHQHBBEY8v4oa
+	rP5zftv2TU0fL2bLaf8ogsuUaz37S9/QaTjTKBi9lh2GAEJHPfKnfwkmnPlsJg8=
+X-Google-Smtp-Source: AGHT+IFpqQudCAMbUbKCGbMohOnVCQLlVCh7IkfcMv+rur4EeV0Icisq02nGodSZId4auTEzLub3qQ==
+X-Received: by 2002:a2e:9fc9:0:b0:2fb:5c20:43e0 with SMTP id 38308e7fff4ca-2ff2024449fmr28510501fa.15.1731134475209;
+        Fri, 08 Nov 2024 22:41:15 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826af0c6sm852041e87.277.2024.11.08.22.38.44
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff179a5f72sm9426311fa.93.2024.11.08.22.41.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 22:38:45 -0800 (PST)
-Date: Sat, 9 Nov 2024 08:38:43 +0200
+        Fri, 08 Nov 2024 22:41:14 -0800 (PST)
+Date: Sat, 9 Nov 2024 08:41:12 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org, 
 	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev, jthies@google.com, 
 	akuchynski@google.com, pmalani@chromium.org, Benson Leung <bleung@chromium.org>, 
 	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] platform/chrome: cros_ec_typec: Displayport
+Subject: Re: [PATCH v3 6/7] platform/chrome: cros_ec_typec: Thunderbolt
  support
-Message-ID: <7qqbf6hgonsk7zusbljdgamneqkec5yxpr6bewr4aeyhpxcjao@yevfpcsg6r52>
+Message-ID: <zbtwtfywopvuh5b6skzxf53if7s7lxf53x6uxqnenpe3mipsdg@zdk7wfp7mqbg>
 References: <20241107193021.2690050-1-abhishekpandit@chromium.org>
- <20241107112955.v3.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+ <20241107112955.v3.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -71,295 +71,118 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107112955.v3.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+In-Reply-To: <20241107112955.v3.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 
-On Thu, Nov 07, 2024 at 11:29:58AM -0800, Abhishek Pandit-Subedi wrote:
-> Add support for entering and exiting displayport alt-mode on systems
-> using AP driven alt-mode.
+On Thu, Nov 07, 2024 at 11:29:59AM -0800, Abhishek Pandit-Subedi wrote:
+> Add support for entering and exiting Thunderbolt alt-mode using AP
+> driven alt-mode.
 > 
 > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 > ---
 > 
 > Changes in v3:
-> - Refactored typec_altmode_dp_data per review request
+> - Fix usage of TBT sid and mode.
 > - Removed unused vdm operations during altmode registration
 > 
 > Changes in v2:
-> - Refactored displayport into cros_typec_altmode.c to extract common
->   implementation between altmodes
+> - Refactored thunderbolt support into cros_typec_altmode.c
 > 
->  MAINTAINERS                                  |   3 +
->  drivers/platform/chrome/Makefile             |   4 +
->  drivers/platform/chrome/cros_ec_typec.c      |  12 +-
->  drivers/platform/chrome/cros_ec_typec.h      |   1 +
->  drivers/platform/chrome/cros_typec_altmode.c | 275 +++++++++++++++++++
->  drivers/platform/chrome/cros_typec_altmode.h |  34 +++
->  6 files changed, 326 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
->  create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
+>  drivers/platform/chrome/Makefile             |  3 +
+>  drivers/platform/chrome/cros_ec_typec.c      | 23 +++---
+>  drivers/platform/chrome/cros_typec_altmode.c | 85 ++++++++++++++++++++
+>  drivers/platform/chrome/cros_typec_altmode.h | 14 ++++
+>  4 files changed, 114 insertions(+), 11 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cd6aa609deba..5f9d8b8f1cb3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5369,9 +5369,12 @@ F:	include/linux/platform_data/cros_usbpd_notify.h
->  
->  CHROMEOS EC USB TYPE-C DRIVER
->  M:	Prashant Malani <pmalani@chromium.org>
-> +M:	Benson Leung <bleung@chromium.org>
-> +M:	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
->  L:	chrome-platform@lists.linux.dev
->  S:	Maintained
->  F:	drivers/platform/chrome/cros_ec_typec.*
-> +F:	drivers/platform/chrome/cros_typec_altmode.*
->  F:	drivers/platform/chrome/cros_typec_switch.c
->  F:	drivers/platform/chrome/cros_typec_vdm.*
->  
 > diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-> index 2dcc6ccc2302..2f90d4db8099 100644
+> index 2f90d4db8099..b9b1281de063 100644
 > --- a/drivers/platform/chrome/Makefile
 > +++ b/drivers/platform/chrome/Makefile
-> @@ -18,7 +18,11 @@ obj-$(CONFIG_CROS_EC_SPI)		+= cros_ec_spi.o
->  obj-$(CONFIG_CROS_EC_UART)		+= cros_ec_uart.o
->  cros_ec_lpcs-objs			:= cros_ec_lpc.o cros_ec_lpc_mec.o
->  cros-ec-typec-objs			:= cros_ec_typec.o cros_typec_vdm.o
-> +ifneq ($(CONFIG_TYPEC_DP_ALTMODE),)
+> @@ -21,6 +21,9 @@ cros-ec-typec-objs			:= cros_ec_typec.o cros_typec_vdm.o
+>  ifneq ($(CONFIG_TYPEC_DP_ALTMODE),)
+>  	cros-ec-typec-objs		+= cros_typec_altmode.o
+>  endif
+> +ifneq ($(CONFIG_TYPEC_TBT_ALTMODE),)
 > +	cros-ec-typec-objs		+= cros_typec_altmode.o
 > +endif
+
+Doesn't this also result in the object file being included twice and
+thus in a duplicate symbols declaration?
+
 >  obj-$(CONFIG_CROS_EC_TYPEC)		+= cros-ec-typec.o
-> +
+>  
 >  obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
->  obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
->  obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
 > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index e3eabe5e42ac..3a6f5f2717b9 100644
+> index 3a6f5f2717b9..558b618df63c 100644
 > --- a/drivers/platform/chrome/cros_ec_typec.c
 > +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -18,6 +18,7 @@
->  
->  #include "cros_ec_typec.h"
->  #include "cros_typec_vdm.h"
-> +#include "cros_typec_altmode.h"
->  
->  #define DRV_NAME "cros-ec-typec"
->  
-> @@ -293,12 +294,11 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
->  	desc.svid = USB_TYPEC_DP_SID;
->  	desc.mode = USB_TYPEC_DP_MODE;
->  	desc.vdo = DP_PORT_VDO;
-> -	amode = typec_port_register_altmode(port->port, &desc);
-> +	amode = cros_typec_register_displayport(port, &desc,
-> +						typec->ap_driven_altmode);
->  	if (IS_ERR(amode))
->  		return PTR_ERR(amode);
->  	port->port_altmode[CROS_EC_ALTMODE_DP] = amode;
-> -	typec_altmode_set_drvdata(amode, port);
-> -	amode->ops = &port_amode_ops;
+> @@ -302,18 +302,19 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
 >  
 >  	/*
 >  	 * Register TBT compatibility alt mode. The EC will not enter the mode
-> @@ -575,6 +575,10 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
->  	if (!ret)
->  		ret = typec_mux_set(port->mux, &port->state);
+> -	 * if it doesn't support it, so it's safe to register it unconditionally
+> -	 * here for now.
+> +	 * if it doesn't support it and it will not enter automatically by
+> +	 * design so we can use the |ap_driven_altmode| feature to check if we
+> +	 * should register it.
+>  	 */
+> -	memset(&desc, 0, sizeof(desc));
+> -	desc.svid = USB_TYPEC_TBT_SID;
+> -	desc.mode = TYPEC_ANY_MODE;
+> -	amode = typec_port_register_altmode(port->port, &desc);
+> -	if (IS_ERR(amode))
+> -		return PTR_ERR(amode);
+> -	port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
+> -	typec_altmode_set_drvdata(amode, port);
+> -	amode->ops = &port_amode_ops;
+> +	if (typec->ap_driven_altmode) {
+> +		memset(&desc, 0, sizeof(desc));
+> +		desc.svid = USB_TYPEC_TBT_SID;
+> +		desc.mode = TBT_MODE;
+> +		amode = cros_typec_register_thunderbolt(port, &desc);
+> +		if (IS_ERR(amode))
+> +			return PTR_ERR(amode);
+> +		port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
+> +	}
 >  
-> +	if (!ret)
-> +		cros_typec_displayport_status_update(port->state.alt,
-> +						     port->state.data);
-> +
->  	return ret;
+>  	port->state.alt = NULL;
+>  	port->state.mode = TYPEC_STATE_USB;
+> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
+> index 3598b8a6ceee..9cf2cef6c277 100644
+> --- a/drivers/platform/chrome/cros_typec_altmode.c
+> +++ b/drivers/platform/chrome/cros_typec_altmode.c
+> @@ -8,6 +8,7 @@
+>  #include "cros_ec_typec.h"
+>  
+>  #include <linux/usb/typec_dp.h>
+> +#include <linux/usb/typec_tbt.h>
+>  #include <linux/usb/pd_vdo.h>
+>  
+>  #include "cros_typec_altmode.h"
+> @@ -67,6 +68,8 @@ static int cros_typec_altmode_enter(struct typec_altmode *alt, u32 *vdo)
+>  
+>  	if (data->sid == USB_TYPEC_DP_SID)
+>  		req.mode_to_enter = CROS_EC_ALTMODE_DP;
+> +	else if (data->sid == USB_TYPEC_TBT_SID)
+> +		req.mode_to_enter = CROS_EC_ALTMODE_TBT;
+>  	else
+>  		return -EOPNOTSUPP;
+>  
+> @@ -196,6 +199,53 @@ static int cros_typec_displayport_vdm(struct typec_altmode *alt, u32 header,
+>  	return 0;
 >  }
 >  
-> @@ -1254,6 +1258,8 @@ static int cros_typec_probe(struct platform_device *pdev)
->  
->  	typec->typec_cmd_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_CMD);
->  	typec->needs_mux_ack = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK);
-> +	typec->ap_driven_altmode = cros_ec_check_features(
-> +		ec_dev, EC_FEATURE_TYPEC_REQUIRE_AP_MODE_ENTRY);
->  
->  	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_USB_PD_PORTS, NULL, 0,
->  			  &resp, sizeof(resp));
-> diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-> index deda180a646f..9fd5342bb0ad 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.h
-> +++ b/drivers/platform/chrome/cros_ec_typec.h
-> @@ -39,6 +39,7 @@ struct cros_typec_data {
->  	struct work_struct port_work;
->  	bool typec_cmd_supported;
->  	bool needs_mux_ack;
-> +	bool ap_driven_altmode;
->  };
->  
->  /* Per port data. */
-> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-> new file mode 100644
-> index 000000000000..3598b8a6ceee
-> --- /dev/null
-> +++ b/drivers/platform/chrome/cros_typec_altmode.c
-> @@ -0,0 +1,275 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Alt-mode implementation on ChromeOS EC.
-> + *
-> + * Copyright 2024 Google LLC
-> + * Author: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> + */
-> +#include "cros_ec_typec.h"
-> +
-> +#include <linux/usb/typec_dp.h>
-> +#include <linux/usb/pd_vdo.h>
-> +
-> +#include "cros_typec_altmode.h"
-> +
-> +struct cros_typec_altmode_data {
-> +	struct work_struct work;
-> +	struct cros_typec_port *port;
-> +	struct typec_altmode *alt;
-> +	bool ap_mode_entry;
-> +
-> +	u32 header;
-> +	u32 *vdo_data;
-> +	u8 vdo_size;
-> +
-> +	u16 sid;
-> +	u8 mode;
-> +};
-> +
-> +struct cros_typec_dp_data {
-> +	struct cros_typec_altmode_data adata;
-> +	struct typec_displayport_data data;
-> +	bool configured;
-> +	bool pending_status_update;
-> +};
-> +
-> +static void cros_typec_altmode_work(struct work_struct *work)
-> +{
-> +	struct cros_typec_altmode_data *data =
-> +		container_of(work, struct cros_typec_altmode_data, work);
-> +
-> +	if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
-> +			      data->vdo_size))
-> +		dev_err(&data->alt->dev, "VDM 0x%x failed", data->header);
-> +
-> +	data->header = 0;
-> +	data->vdo_data = NULL;
-> +	data->vdo_size = 0;
-
-What protects data->header / vdo_data / vdo_size from concurrent
-modification?
-
-> +}
-> +
-> +static int cros_typec_altmode_enter(struct typec_altmode *alt, u32 *vdo)
-> +{
-> +	struct cros_typec_altmode_data *data = typec_altmode_get_drvdata(alt);
-> +	struct ec_params_typec_control req = {
-> +		.port = data->port->port_num,
-> +		.command = TYPEC_CONTROL_COMMAND_ENTER_MODE,
-> +	};
-> +	int svdm_version;
-> +	int ret;
-> +
-> +	if (!data->ap_mode_entry) {
-> +		const struct typec_altmode *partner =
-> +			typec_altmode_get_partner(alt);
-> +		dev_warn(&partner->dev,
-> +			 "EC does not support ap driven mode entry\n");
-
-Nit: AP, not ap
-
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (data->sid == USB_TYPEC_DP_SID)
-> +		req.mode_to_enter = CROS_EC_ALTMODE_DP;
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
-> +			  &req, sizeof(req), NULL, 0);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	svdm_version = typec_altmode_get_svdm_version(alt);
-> +	if (svdm_version < 0)
-> +		return svdm_version;
-> +
-> +	data->header = VDO(data->sid, 1, svdm_version, CMD_ENTER_MODE);
-> +	data->header |= VDO_OPOS(data->mode);
-> +	data->header |= VDO_CMDT(CMDT_RSP_ACK);
-> +
-> +	data->vdo_data = NULL;
-> +	data->vdo_size = 1;
-> +
-> +	schedule_work(&data->work);
-> +
-> +	return ret;
-> +}
-> +
-> +static int cros_typec_altmode_exit(struct typec_altmode *alt)
-> +{
-> +	struct cros_typec_altmode_data *data = typec_altmode_get_drvdata(alt);
-> +	struct ec_params_typec_control req = {
-> +		.port = data->port->port_num,
-> +		.command = TYPEC_CONTROL_COMMAND_EXIT_MODES,
-> +	};
-> +	int svdm_version;
-> +	int ret;
-> +
-> +	if (!data->ap_mode_entry) {
-> +		const struct typec_altmode *partner =
-> +			typec_altmode_get_partner(alt);
-> +		dev_warn(&partner->dev,
-> +			 "EC does not support ap driven mode entry\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	ret = cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
-> +			  &req, sizeof(req), NULL, 0);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	svdm_version = typec_altmode_get_svdm_version(alt);
-> +	if (svdm_version < 0)
-> +		return svdm_version;
-> +
-> +	data->header = VDO(data->sid, 1, svdm_version, CMD_EXIT_MODE);
-> +	data->header |= VDO_OPOS(data->mode);
-> +	data->header |= VDO_CMDT(CMDT_RSP_ACK);
-> +
-> +	data->vdo_data = NULL;
-> +	data->vdo_size = 1;
-> +
-> +	schedule_work(&data->work);
-> +
-> +	return ret;
-> +}
-> +
-> +static int cros_typec_displayport_vdm(struct typec_altmode *alt, u32 header,
+> +static int cros_typec_thunderbolt_vdm(struct typec_altmode *alt, u32 header,
 > +				      const u32 *data, int count)
 > +{
-> +	struct cros_typec_dp_data *dp_data = typec_altmode_get_drvdata(alt);
-> +	struct cros_typec_altmode_data *adata = &dp_data->adata;
-> +
+> +	struct cros_typec_altmode_data *adata = typec_altmode_get_drvdata(alt);
 > +
 > +	int cmd_type = PD_VDO_CMDT(header);
 > +	int cmd = PD_VDO_CMD(header);
 > +	int svdm_version;
-> +
-> +	if (!adata->ap_mode_entry) {
-> +		const struct typec_altmode *partner =
-> +			typec_altmode_get_partner(alt);
-> +		dev_warn(&partner->dev,
-> +			 "EC does not support ap driven mode entry\n");
-> +		return -EOPNOTSUPP;
-> +	}
 
-Move the ckeck to cros_typec_altmode_vdm() ?
-
-But this makes me wonder, should the driver use different ops in such a
-case? Can't we just use a stubbed version of ops if
-cros_typec_register_displayport() gets ap_mode_entry = false ?
+I suppose that with the current approach this misses the ap_mode_entry
+check. If it gets moved to cros_typec_altmode_vdm(), then it should be
+okay.
 
 > +
 > +	svdm_version = typec_altmode_get_svdm_version(alt);
@@ -377,22 +200,13 @@ cros_typec_register_displayport() gets ap_mode_entry = false ?
 > +		adata->header = VDO(adata->sid, 1, svdm_version, cmd);
 > +		adata->header |= VDO_OPOS(adata->mode);
 > +
-> +		/*
-> +		 * DP_CMD_CONFIGURE: We can't actually do anything with the
-> +		 * provided VDO yet so just send back an ACK.
-> +		 *
-> +		 * DP_CMD_STATUS_UPDATE: We wait for Mux changes to send
-> +		 * DPStatus Acks.
-> +		 */
 > +		switch (cmd) {
-> +		case DP_CMD_CONFIGURE:
-> +			dp_data->data.conf = *data;
-> +			adata->header |= VDO_CMDT(CMDT_RSP_ACK);
-> +			dp_data->configured = true;
-> +			schedule_work(&adata->work);
-> +			break;
-> +		case DP_CMD_STATUS_UPDATE:
-> +			dp_data->pending_status_update = true;
+> +		case CMD_ENTER_MODE:
+> +			/* Don't respond to the enter mode vdm because it
+> +			 * triggers mux configuration. This is handled directly
+> +			 * by the cros_ec_typec driver so the Thunderbolt driver
+> +			 * doesn't need to be involved.
+> +			 */
 > +			break;
 > +		default:
 > +			adata->header |= VDO_CMDT(CMDT_RSP_ACK);
@@ -408,56 +222,29 @@ cros_typec_register_displayport() gets ap_mode_entry = false ?
 > +	return 0;
 > +}
 > +
-> +static int cros_typec_altmode_vdm(struct typec_altmode *alt, u32 header,
-> +				      const u32 *data, int count)
-> +{
-> +	struct cros_typec_altmode_data *adata = typec_altmode_get_drvdata(alt);
 > +
-> +	if (adata->sid == USB_TYPEC_DP_SID)
-> +		return cros_typec_displayport_vdm(alt, header, data, count);
+>  static int cros_typec_altmode_vdm(struct typec_altmode *alt, u32 header,
+>  				      const u32 *data, int count)
+>  {
+> @@ -204,6 +254,9 @@ static int cros_typec_altmode_vdm(struct typec_altmode *alt, u32 header,
+>  	if (adata->sid == USB_TYPEC_DP_SID)
+>  		return cros_typec_displayport_vdm(alt, header, data, count);
+>  
+> +	if (adata->sid == USB_TYPEC_TBT_SID)
+> +		return cros_typec_thunderbolt_vdm(alt, header, data, count);
 > +
-> +	return -EINVAL;
-> +}
+>  	return -EINVAL;
+>  }
+>  
+> @@ -273,3 +326,35 @@ cros_typec_register_displayport(struct cros_typec_port *port,
+>  	return alt;
+>  }
+>  #endif
 > +
-> +static const struct typec_altmode_ops cros_typec_altmode_ops = {
-> +	.enter = cros_typec_altmode_enter,
-> +	.exit = cros_typec_altmode_exit,
-> +	.vdm = cros_typec_altmode_vdm,
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
-> +int cros_typec_displayport_status_update(struct typec_altmode *altmode,
-> +					 struct typec_displayport_data *data)
-> +{
-> +	struct cros_typec_dp_data *dp_data =
-> +		typec_altmode_get_drvdata(altmode);
-> +	struct cros_typec_altmode_data *adata = &dp_data->adata;
-> +
-> +	if (!dp_data->pending_status_update) {
-> +		dev_dbg(&altmode->dev,
-> +			"Got DPStatus without a pending request");
-> +		return 0;
-> +	}
-> +
-> +	if (dp_data->configured && dp_data->data.conf != data->conf)
-> +		dev_dbg(&altmode->dev,
-> +			"DP Conf doesn't match. Requested 0x%04x, Actual 0x%04x",
-> +			dp_data->data.conf, data->conf);
-> +
-> +	dp_data->data = *data;
-> +	dp_data->pending_status_update = false;
-> +	adata->header |= VDO_CMDT(CMDT_RSP_ACK);
-> +	adata->vdo_data = &dp_data->data.status;
-> +	adata->vdo_size = 2;
-> +
-> +	schedule_work(&adata->work);
-> +	return 0;
-> +}
-> +
+> +#if IS_ENABLED(CONFIG_TYPEC_TBT_ALTMODE)
 > +struct typec_altmode *
-> +cros_typec_register_displayport(struct cros_typec_port *port,
-> +				struct typec_altmode_desc *desc,
-> +				bool ap_mode_entry)
+> +cros_typec_register_thunderbolt(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc)
 > +{
 > +	struct typec_altmode *alt;
 > +	struct cros_typec_altmode_data *data;
@@ -475,7 +262,7 @@ cros_typec_register_displayport() gets ap_mode_entry = false ?
 > +	INIT_WORK(&data->work, cros_typec_altmode_work);
 > +	data->alt = alt;
 > +	data->port = port;
-> +	data->ap_mode_entry = ap_mode_entry;
+> +	data->ap_mode_entry = true;
 > +	data->sid = desc->svid;
 > +	data->mode = desc->mode;
 > +
@@ -486,45 +273,28 @@ cros_typec_register_displayport() gets ap_mode_entry = false ?
 > +}
 > +#endif
 > diff --git a/drivers/platform/chrome/cros_typec_altmode.h b/drivers/platform/chrome/cros_typec_altmode.h
-> new file mode 100644
-> index 000000000000..c6f8fb02c99c
-> --- /dev/null
+> index c6f8fb02c99c..810b553ddcd8 100644
+> --- a/drivers/platform/chrome/cros_typec_altmode.h
 > +++ b/drivers/platform/chrome/cros_typec_altmode.h
-> @@ -0,0 +1,34 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
+> @@ -31,4 +31,18 @@ static inline int cros_typec_displayport_status_update(struct typec_altmode *alt
+>  	return 0;
+>  }
+>  #endif
 > +
-> +#ifndef __CROS_TYPEC_ALTMODE_H__
-> +#define __CROS_TYPEC_ALTMODE_H__
-> +
-> +struct cros_typec_port;
-> +struct typec_altmode;
-> +struct typec_altmode_desc;
-> +struct typec_displayport_data;
-> +
-> +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
+> +#if IS_ENABLED(CONFIG_TYPEC_TBT_ALTMODE)
 > +struct typec_altmode *
-> +cros_typec_register_displayport(struct cros_typec_port *port,
-> +				struct typec_altmode_desc *desc,
-> +				bool ap_mode_entry);
-> +
-> +int cros_typec_displayport_status_update(struct typec_altmode *altmode,
-> +					 struct typec_displayport_data *data);
+> +cros_typec_register_thunderbolt(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc);
 > +#else
 > +static inline struct typec_altmode *
-> +cros_typec_register_displayport(struct cros_typec_port *port,
-> +				struct typec_altmode_desc *desc,
-> +				bool ap_mode_entry)
+> +cros_typec_register_thunderbolt(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc)
 > +{
 > +	return typec_port_register_altmode(port->port, desc);
 > +}
-> +
-> +static inline int cros_typec_displayport_status_update(struct typec_altmode *altmode,
-> +					 struct typec_displayport_data *data)
-> +{
-> +	return 0;
-> +}
 > +#endif
-> +#endif /* __CROS_TYPEC_ALTMODE_H__ */
+> +
+>  #endif /* __CROS_TYPEC_ALTMODE_H__ */
 > -- 
 > 2.47.0.277.g8800431eea-goog
 > 

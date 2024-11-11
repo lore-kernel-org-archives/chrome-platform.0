@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004E1B85CF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F71AB52B
 	for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 21:40:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731361213; cv=none; b=rbu2utFiqKE3dY256v9pzfQXg2MnCKhsk3oSL2T0sE8PcK+qryxrl8L+h/ePTPFq//Llwit+FwUG+oaJBw44uL7djmftRCB0P1LvojHkGgvRChCTQzC85hxRUKpUrBV9+kKEZN8MjuaTGoQpz4FpRGDen21z9plwlSiqO9jBq8I=
+	t=1731361213; cv=none; b=ebjFNFQjMaSZxyQ7ITdl28aqMoVni/NLJXrF+fUfrZUFb/0WhpnY/zfdWHLD5z+R5noCncszp/KSRT/Eb+Z6KStIjrklVr5GbY3kAQ2DJfNW1Rvbp0G+qbumUD5QuhQHRg88U6v/jtZsXNiXTUL1BdHXv2Gs26dvak1OuEC1V8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731361213; c=relaxed/simple;
-	bh=nhEr3viuDM9KKMmstDUchZ6pQ7Ygl+kyihGIUWgSr5M=;
+	bh=PEMBij3nSwWEOtYjjW03xhQPeVizCPnNovZ+ZQe+NxQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YibaJavdsNSiGczbFAaCIIJYLbsw9uTYLi+g4esfAf1QWbPYOQBcBm94GFvKBemqkHkBZabkTGp0QgxTI5lOLewR4Ag15FiSs+vt+R4W33CCT9NEjkcl2663aTdF8xURLfRw9/4g6OLVcGu1yO3IBXJVRvk8uSvMNO7iA1jWs8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pGBoSBFJ; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=p8jAcwtR3SqlyDZ9z7q21ylycHLSClnWcynRFeTMpiWrWJ4UMfxn0gRDJaQIj0L2ME8uHW8De+47YV6N5q4oi7GQKuvjJmLg6mdB82Wz7b7McDJ8ZEQ/Ne0piHpalgPIOBr1+wqynxnRk4Bw+d6IMGllxTrOsS1u7xHHwRHPdq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=PeeEgWAm; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pGBoSBFJ"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="PeeEgWAm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1731361208;
-	bh=nhEr3viuDM9KKMmstDUchZ6pQ7Ygl+kyihGIUWgSr5M=;
+	bh=PEMBij3nSwWEOtYjjW03xhQPeVizCPnNovZ+ZQe+NxQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pGBoSBFJcbvwpZqwX8NEtzz7MOGCJq5GK6Jsyh8qD9R/1tKdOPeZhIxrJPZC98C33
-	 wDx/kDBDLe6F2f/qawpuAhOcNyfGIqx3UTfrRN8fk0xEahKl7HOmvk17WGRwVBdWmg
-	 drNiL/CurHq9wTNi8qLpqhs0s+fe4uZUB8/1m08E=
+	b=PeeEgWAmAMNrUf2LkZ+/uFIYCfd4p5+KyqdBttRJ1VZPkETctNyx5SDZeLPd2eySF
+	 SV6o4dnhs80AGyl7dS4oR1I1QDX+clHqJDH4N+DDaoYhtpZjDe922tUiLXmhYq3eaR
+	 Gk5bPo5IeX/Kcl/Q3zI8fieLiyNI9xTKyw2FGoXY=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 11 Nov 2024 22:40:05 +0100
-Subject: [PATCH v4 3/9] power: supply: core: introduce
- power_supply_has_property()
+Date: Mon, 11 Nov 2024 22:40:03 +0100
+Subject: [PATCH v4 1/9] power: supply: sysfs: print single value in uevent
+ for POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241111-power-supply-extensions-v4-3-7240144daa8e@weissschuh.net>
+Message-Id: <20241111-power-supply-extensions-v4-1-7240144daa8e@weissschuh.net>
 References: <20241111-power-supply-extensions-v4-0-7240144daa8e@weissschuh.net>
 In-Reply-To: <20241111-power-supply-extensions-v4-0-7240144daa8e@weissschuh.net>
 To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
@@ -44,66 +44,91 @@ To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>,
  Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
 Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  chrome-platform@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731361208; l=1978;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731361208; l=3176;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=nhEr3viuDM9KKMmstDUchZ6pQ7Ygl+kyihGIUWgSr5M=;
- b=brMj9YXiKAD7Hm3c8wzeZH583aS8Oc/YZpIwPgS49fFSQ9wXJzuWKilB2qtnOu3g+19feJdqh
- wo6RHvE2HoRC7w38kaPcEIHBzN40BVQEOOZcBKn3UPqfI/OjabX9R70
+ bh=PEMBij3nSwWEOtYjjW03xhQPeVizCPnNovZ+ZQe+NxQ=;
+ b=Q0CcjGh9IdrsTiwuhtc26fH7x92TZy2MTu1xePbsdRs43G6WJlMcUSsh/YBC1bINihvWhQxRv
+ m+tlLz4gNsCDY5NbLfmDqs6uCZi47wRDJkvTlat5pqGU1sXpE6Z+uPc
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Introduce a helper to check if a power supply implements a certain
-property. It will be used by the sysfs and hwmon code to remove similar
-open-coded checks.
-It also paves the way for the extension API to hook into.
+Currently an uevent contains the same string representation of a
+property as sysfs. However for POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR this
+is specially formatted to indicate all possible values.
+This doesn't make sense for uevents and complicates parsing.
+Instead only include the currently active value in uevents.
+
+As currently no in-tree driver uses POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR
+this change is not a problem.
+Soon the property will actually be used so fix the formatting before
+that happens.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/power/supply/power_supply.h      |  2 ++
- drivers/power/supply/power_supply_core.c | 12 ++++++++++++
- 2 files changed, 14 insertions(+)
+ drivers/power/supply/power_supply_sysfs.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
-index 7434a6f2477504ee6c0a3c7420e1444387b41180..5dabbd895538003096b62d03fdd0201b82b090e6 100644
---- a/drivers/power/supply/power_supply.h
-+++ b/drivers/power/supply/power_supply.h
-@@ -15,6 +15,8 @@ struct power_supply;
- 
- extern int power_supply_property_is_writeable(struct power_supply *psy,
- 					      enum power_supply_property psp);
-+extern bool power_supply_has_property(struct power_supply *psy,
-+				      enum power_supply_property psp);
- 
- #ifdef CONFIG_SYSFS
- 
-diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
-index 2f61f6b90b99f40ee04a6d63ebc20036f0447102..502b07468b93dfb7f5a6c2092588d931a7d015f2 100644
---- a/drivers/power/supply/power_supply_core.c
-+++ b/drivers/power/supply/power_supply_core.c
-@@ -1196,6 +1196,18 @@ static bool psy_desc_has_property(const struct power_supply_desc *psy_desc,
- 	return found;
+diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+index 571de43fcca9827cf0fe3023e453defbf1eaec7d..a7351b9c8fe34a464a4e69b1a1a4a4179c1a4b4f 100644
+--- a/drivers/power/supply/power_supply_sysfs.c
++++ b/drivers/power/supply/power_supply_sysfs.c
+@@ -268,9 +268,11 @@ static ssize_t power_supply_show_enum_with_available(
+ 	return count;
  }
  
-+bool power_supply_has_property(struct power_supply *psy,
-+			       enum power_supply_property psp)
+-static ssize_t power_supply_show_property(struct device *dev,
+-					  struct device_attribute *attr,
+-					  char *buf) {
++static ssize_t power_supply_format_property(struct device *dev,
++					    bool uevent,
++					    struct device_attribute *attr,
++					    char *buf)
 +{
-+	if (psy_desc_has_property(psy->desc, psp))
-+		return true;
-+
-+	if (power_supply_battery_info_has_prop(psy->battery_info, psp))
-+		return true;
-+
-+	return false;
+ 	ssize_t ret;
+ 	struct power_supply *psy = dev_get_drvdata(dev);
+ 	const struct power_supply_attr *ps_attr = to_ps_attr(attr);
+@@ -303,6 +305,8 @@ static ssize_t power_supply_show_property(struct device *dev,
+ 				psy->desc->usb_types, value.intval, buf);
+ 		break;
+ 	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
++		if (uevent) /* no possible values in uevents */
++			goto default_format;
+ 		ret = power_supply_charge_behaviour_show(dev, psy->desc->charge_behaviours,
+ 							 value.intval, buf);
+ 		break;
+@@ -310,6 +314,7 @@ static ssize_t power_supply_show_property(struct device *dev,
+ 		ret = sysfs_emit(buf, "%s\n", value.strval);
+ 		break;
+ 	default:
++default_format:
+ 		if (ps_attr->text_values_len > 0 &&
+ 				value.intval < ps_attr->text_values_len && value.intval >= 0) {
+ 			ret = sysfs_emit(buf, "%s\n", ps_attr->text_values[value.intval]);
+@@ -321,6 +326,13 @@ static ssize_t power_supply_show_property(struct device *dev,
+ 	return ret;
+ }
+ 
++static ssize_t power_supply_show_property(struct device *dev,
++					  struct device_attribute *attr,
++					  char *buf)
++{
++	return power_supply_format_property(dev, false, attr, buf);
 +}
 +
- int power_supply_get_property(struct power_supply *psy,
- 			    enum power_supply_property psp,
- 			    union power_supply_propval *val)
+ static ssize_t power_supply_store_property(struct device *dev,
+ 					   struct device_attribute *attr,
+ 					   const char *buf, size_t count) {
+@@ -437,7 +449,7 @@ static int add_prop_uevent(const struct device *dev, struct kobj_uevent_env *env
+ 	pwr_attr = &power_supply_attrs[prop];
+ 	dev_attr = &pwr_attr->dev_attr;
+ 
+-	ret = power_supply_show_property((struct device *)dev, dev_attr, prop_buf);
++	ret = power_supply_format_property((struct device *)dev, true, dev_attr, prop_buf);
+ 	if (ret == -ENODEV || ret == -ENODATA) {
+ 		/*
+ 		 * When a battery is absent, we expect -ENODEV. Don't abort;
 
 -- 
 2.47.0
